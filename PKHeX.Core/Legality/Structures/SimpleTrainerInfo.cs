@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class SimpleTrainerInfo : ITrainerInfo
+    public sealed class SimpleTrainerInfo : ITrainerInfo
     {
         public string OT { get; set; } = "PKHeX";
         public int TID { get; set; } = 12345;

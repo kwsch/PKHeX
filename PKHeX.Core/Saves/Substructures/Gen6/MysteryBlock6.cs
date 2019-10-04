@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class MysteryBlock6 : SaveBlock
+    public sealed class MysteryBlock6 : SaveBlock
     {
         private const int FlagStart = 0;
         private const int MaxReceivedFlag = 2048;

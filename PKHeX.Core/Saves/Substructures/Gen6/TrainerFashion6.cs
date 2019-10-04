@@ -69,7 +69,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class Fashion6Male : TrainerFashion6
+    public sealed class Fashion6Male : TrainerFashion6
     {
         public Fashion6Male(byte[] data, int offset)
             : base(data, offset) { }
@@ -269,7 +269,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class Fashion6Female : TrainerFashion6
+    public sealed class Fashion6Female : TrainerFashion6
     {
         public Fashion6Female(byte[] data, int offset)
             : base(data, offset) { }

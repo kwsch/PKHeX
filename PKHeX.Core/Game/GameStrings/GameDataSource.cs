@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Bundles raw string inputs into lists that can be used in data binding.
     /// </summary>
-    public class GameDataSource
+    public sealed class GameDataSource
     {
         public static readonly IReadOnlyList<ComboItem> Regions = Util.GetCSVUnsortedCBList("regions3ds");
         public static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetCSVUnsortedCBList("languages");

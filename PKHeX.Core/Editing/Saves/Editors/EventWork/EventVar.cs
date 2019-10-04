@@ -3,7 +3,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Event variable used to determine game events.
     /// </summary>
-    public class EventVar
+    public abstract class EventVar
     {
         /// <summary>
         /// Name of event variable

@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class FestaFacility
+    public sealed class FestaFacility
     {
         private const int SIZE = 0x48;
         private readonly byte[] Data;

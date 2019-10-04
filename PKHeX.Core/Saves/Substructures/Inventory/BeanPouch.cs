@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Reads the bean pouch data from a <see cref="SAV7"/>.
     /// </summary>
-    public class BeanPouch
+    public sealed class BeanPouch
     {
         public const int Count = 15;
         public static readonly string[] BeanIndexNames = GetBeanList();

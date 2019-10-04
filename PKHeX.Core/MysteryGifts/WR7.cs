@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// A full <see cref="WB7"/> is not stored in the <see cref="SAV7b"/> structure, as it is immediately converted to <see cref="PKM"/> upon receiving from server.
     /// The save file just stores a summary of the received data for the user to look back at.
     /// </remarks>
-    public class WR7 : MysteryGift
+    public sealed class WR7 : MysteryGift
     {
         public const int Size = 0x140;
 

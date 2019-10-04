@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public class GP1
+    public sealed class GP1
     {
         public const int SIZE = 0x1B0;
         public byte[] Data { get; }

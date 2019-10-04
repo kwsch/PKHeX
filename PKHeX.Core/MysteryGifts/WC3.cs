@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// This is fabricated data built to emulate the future generation Mystery Gift objects.
     /// Data here is not stored in any save file and cannot be naturally exported.
     /// </remarks>
-    public class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
+    public sealed class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
     {
         /// <summary>
         /// Matched <see cref="PIDIV"/> Type

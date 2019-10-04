@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace PKHeX.WinForms.Controls
 {
-    public class DragManager
+    public sealed class DragManager
     {
         public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; }
         public event DragEventHandler RequestExternalDragDrop;

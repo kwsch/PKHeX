@@ -5,7 +5,7 @@ using PKHeX.Drawing;
 
 namespace PKHeX.WinForms.Controls
 {
-    public class CryPlayer
+    public sealed class CryPlayer
     {
         private readonly SoundPlayer Sounds = new SoundPlayer();
 

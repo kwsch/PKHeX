@@ -3,7 +3,7 @@
 
 namespace PKHeX.Core
 {
-    public class G1OverworldSpawner
+    public sealed class G1OverworldSpawner
     {
         private readonly SAV1 SAV;
         private readonly bool[] EventFlags;
@@ -73,7 +73,7 @@ namespace PKHeX.Core
         private FlagPair FlagSquirtle { get; }
         private FlagPair FlagCharmander { get; }
 
-        public class FlagPair
+        public sealed class FlagPair
         {
             public string Name { get; internal set; }
 

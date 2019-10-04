@@ -2,7 +2,7 @@
 
 namespace PKHeX.WinForms.Controls
 {
-    public class SlotTrackerImage
+    public sealed class SlotTrackerImage
     {
         public Image OriginalBackground { get; set; }
         public Image CurrentBackground { get; set; }

@@ -4,7 +4,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class CGearBackground
+    /// <summary>
+    /// Generation 5 C-Gear Background Image
+    /// </summary>
+    public sealed class CGearBackground
     {
         public const string Extension = "cgb";
         public const string Filter = "C-Gear Background|*.cgb";

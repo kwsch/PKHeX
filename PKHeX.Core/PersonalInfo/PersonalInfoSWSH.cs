@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the <see cref="GameVersion.SWSH"/> games.
     /// </summary>
-    public class PersonalInfoSWSH : PersonalInfoSM
+    public sealed class PersonalInfoSWSH : PersonalInfoSM
     {
         public new const int SIZE = PersonalInfoSM.SIZE;
 

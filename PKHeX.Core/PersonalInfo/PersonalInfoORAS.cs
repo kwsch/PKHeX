@@ -3,7 +3,7 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the OR &amp; AS games.
     /// </summary>
-    public class PersonalInfoORAS : PersonalInfoXY
+    public sealed class PersonalInfoORAS : PersonalInfoXY
     {
         public new const int SIZE = 0x50;
 

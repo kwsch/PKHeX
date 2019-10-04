@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
         }
     }
 
-    public class TranslationContext
+    public sealed class TranslationContext
     {
         public bool AddNew { private get; set; }
         public bool RemoveUsedKeys { private get; set; }

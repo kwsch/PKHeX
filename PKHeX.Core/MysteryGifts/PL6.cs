@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// This Template object is very similar to the <see cref="PCD"/> structure in that it stores more data than just the gift.
     /// This template object is only present in Generation 6 save files.
     /// </remarks>
-    public class PL6
+    public sealed class PL6
     {
         public const int Size = 0xA47;
         public const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
@@ -131,7 +131,7 @@ namespace PKHeX.Core
     /// This Template object is very similar to the <see cref="WC6"/> structure and similar objects, in that the structure offsets are ordered the same.
     /// This template object is only present in Generation 6 save files.
     /// </remarks>
-    public class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4
+    public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4
     {
         internal const int Size = 0xA0;
 

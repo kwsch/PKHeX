@@ -7,7 +7,7 @@ namespace PKHeX.Core.Searching
     /// <summary>
     /// <see cref="PKM"/> search settings &amp; searcher
     /// </summary>
-    public class SearchSettings
+    public sealed class SearchSettings
     {
         public int Format { private get; set; }
         public int Generation { private get; set; }

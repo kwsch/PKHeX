@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core
 {
-    public class Mail4 : Mail
+    public sealed class Mail4 : Mail
     {
         private const int SIZE = 0x38;
 

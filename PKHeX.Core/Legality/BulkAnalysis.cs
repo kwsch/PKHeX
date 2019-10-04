@@ -8,7 +8,7 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core
 {
-    public class BulkAnalysis
+    public sealed class BulkAnalysis
     {
         public readonly IReadOnlyList<PKM> AllData;
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;

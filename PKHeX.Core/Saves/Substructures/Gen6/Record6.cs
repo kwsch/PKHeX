@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public class Record6 : RecordBlock
+    public sealed class Record6 : RecordBlock
     {
         public const int RecordCount = 200;
         protected override IReadOnlyList<byte> RecordMax { get; }

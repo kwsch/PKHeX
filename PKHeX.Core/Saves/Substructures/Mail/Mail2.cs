@@ -2,7 +2,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class Mail2 : Mail
+    public sealed class Mail2 : Mail
     {
         private readonly bool US;
 

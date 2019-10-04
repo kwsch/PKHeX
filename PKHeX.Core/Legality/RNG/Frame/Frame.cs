@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class Frame
+    public sealed class Frame
     {
         /// <summary>
         /// Ending seed value for the frame (prior to nature call).

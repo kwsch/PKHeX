@@ -1,6 +1,6 @@
 namespace PKHeX.Core
 {
-    public class PokeBlock3Case
+    public sealed class PokeBlock3Case
     {
         private const int Count = 40;
         public readonly PokeBlock3[] Blocks;

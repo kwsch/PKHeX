@@ -4,7 +4,7 @@ using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
-    public class SummaryPreviewer
+    public sealed class SummaryPreviewer
     {
         private readonly ToolTip ShowSet = new ToolTip { InitialDelay = 200, IsBalloon = false };
 

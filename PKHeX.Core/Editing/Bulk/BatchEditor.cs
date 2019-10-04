@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Carries out a batch edit and contains information summarizing the results.
     /// </summary>
-    public class BatchEditor
+    public sealed class BatchEditor
     {
         private int Modified { get; set; }
         private int Iterated { get; set; }

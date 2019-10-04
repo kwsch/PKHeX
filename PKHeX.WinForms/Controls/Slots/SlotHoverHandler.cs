@@ -10,7 +10,7 @@ namespace PKHeX.WinForms.Controls
     /// <summary>
     /// Handles Hovering operations for an editor, where only one (1) slot can be animated at a given time when hovering over it.
     /// </summary>
-    public class SlotHoverHandler : IDisposable
+    public sealed class SlotHoverHandler : IDisposable
     {
         public DrawConfig Draw { private get; set; }
         public bool GlowHover { private get; set; } = true;

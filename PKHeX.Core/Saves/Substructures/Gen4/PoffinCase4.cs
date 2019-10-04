@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Storage for all <see cref="Poffin4"/> the trainer has.
     /// </summary>
-    public class PoffinCase4
+    public sealed class PoffinCase4
     {
         private readonly SAV4Sinnoh SAV;
         private readonly int Offset;

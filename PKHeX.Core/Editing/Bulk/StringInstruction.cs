@@ -14,7 +14,7 @@ namespace PKHeX.Core
     /// <see cref="Exclude"/>
     /// <see cref="Require"/>
     /// <see cref="Apply"/>
-    public class StringInstruction
+    public sealed class StringInstruction
     {
         public string PropertyName { get; private set; }
         public string PropertyValue { get; private set; }

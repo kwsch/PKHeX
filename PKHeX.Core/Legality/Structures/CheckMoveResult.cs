@@ -23,7 +23,7 @@
     /// <summary>
     /// Move specific <see cref="CheckResult"/> to contain in which Generation it was learned &amp; source.
     /// </summary>
-    public class CheckMoveResult : CheckResult
+    public sealed class CheckMoveResult : CheckResult
     {
         public readonly MoveSource Source;
         public readonly int Generation;

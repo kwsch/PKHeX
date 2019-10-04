@@ -3,7 +3,7 @@
     /// <summary>
     /// Structure containing the Mystery Gift Data
     /// </summary>
-    public class MysteryGiftAlbum
+    public sealed class MysteryGiftAlbum
     {
         /// <summary>
         /// Mystery Gift data received

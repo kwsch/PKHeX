@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Event Flag that toggles certain features / entities on and off.
     /// </summary>
-    public class EventFlag : EventVar
+    public sealed class EventFlag : EventVar
     {
         public bool Flag;
 

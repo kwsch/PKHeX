@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class Daycare7 : SaveBlock
+    public sealed class Daycare7 : SaveBlock
     {
         public const int DaycareSeedSize = 32; // 128 bits
 

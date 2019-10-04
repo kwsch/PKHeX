@@ -3,7 +3,7 @@
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.SWSH"/> games.
     /// </summary>
-    public class SAV8SWSH : SAV8
+    public sealed class SAV8SWSH : SAV8
     {
         public SAV8SWSH(byte[] data) : base(data, BlocksSWSH, boSWSH) => Initialize();
         public SAV8SWSH() : base(SaveUtil.SIZE_G8SWSH, BlocksSWSH, boSWSH) => Initialize();

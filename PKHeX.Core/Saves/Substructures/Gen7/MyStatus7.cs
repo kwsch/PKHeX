@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class MyStatus7 : SaveBlock
+    public sealed class MyStatus7 : SaveBlock
     {
         public const int GameSyncIDSize = 16; // 64 bits
         public const int NexUniqueIDSize = 32; // 128 bits

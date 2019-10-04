@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SAV7SM : SAV7
+    public sealed class SAV7SM : SAV7
     {
         public SAV7SM(byte[] data) : base(data, BlocksSM, boSM) => Initialize();
         public SAV7SM() : base(SaveUtil.SIZE_G7SM, BlocksSM, boSM) => Initialize();

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class BoxLayout6 : SaveBlock
+    public sealed class BoxLayout6 : SaveBlock
     {
         // gfstr5[31] boxNames;
         // byte[31] wallpapers;

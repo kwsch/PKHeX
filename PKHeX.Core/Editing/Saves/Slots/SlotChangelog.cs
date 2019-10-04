@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Tracks <see cref="PKM"/> slot changes and provides the ability to revert a change.
     /// </summary>
-    public class SlotChangelog
+    public sealed class SlotChangelog
     {
         private readonly SaveFile SAV;
         private readonly Stack<SlotReversion> UndoStack = new Stack<SlotReversion>();

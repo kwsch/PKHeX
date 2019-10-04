@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for exporting and importing <see cref="PKM"/> data in Pokémon Showdown's text format.
     /// </summary>
-    public class ShowdownSet
+    public sealed class ShowdownSet
     {
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};

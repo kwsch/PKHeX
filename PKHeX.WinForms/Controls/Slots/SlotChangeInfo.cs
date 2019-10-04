@@ -2,7 +2,7 @@
 
 namespace PKHeX.WinForms.Controls
 {
-    public class SlotChangeInfo<TCursor, TImageSource>
+    public sealed class SlotChangeInfo<TCursor, TImageSource>
     {
         public bool LeftMouseIsDown { get; set; }
         public bool DragDropInProgress { get; set; }

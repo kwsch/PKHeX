@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace PKHeX.Core
 {
-    public class Poffin4
+    public sealed class Poffin4
     {
         public const int SIZE = 8;
         public readonly byte[] Data;

@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class FieldMoveModelSave7 : SaveBlock
+    public sealed class FieldMoveModelSave7 : SaveBlock
     {
         public FieldMoveModelSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 

@@ -898,7 +898,7 @@ namespace PKHeX.Core
         #endregion
 
         // RTC
-        public class RTC3
+        public sealed class RTC3
         {
             public readonly byte[] Data;
             private const int Size = 8;

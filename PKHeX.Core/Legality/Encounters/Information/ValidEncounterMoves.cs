@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Object which stores information useful for analyzing a moveset relative to the encounter data.
     /// </summary>
-    public class ValidEncounterMoves
+    public sealed class ValidEncounterMoves
     {
         public List<int>[] LevelUpMoves { get; } = Empty;
         public List<int>[] TMHMMoves { get; } = Empty;
@@ -30,7 +30,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class LevelUpRestriction
+    public sealed class LevelUpRestriction
     {
         public readonly IReadOnlyList<EvoCriteria>[] EvolutionChains;
         public readonly int MinimumLevelGen1;

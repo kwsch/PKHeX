@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Editor object that unpacks <see cref="EventWork{T}"/> into flags & work groups, and handles value get/set operations.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class SplitEventEditor<T>
+    public sealed class SplitEventEditor<T>
     {
         public readonly IList<EventVarGroup> Work;
         public readonly IList<EventVarGroup> Flag;

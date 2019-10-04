@@ -3,7 +3,7 @@ using static PKHeX.Core.OPower6Type;
 
 namespace PKHeX.Core
 {
-    public class OPower6 : SaveBlock
+    public sealed class OPower6 : SaveBlock
     {
         private static readonly OPowerFlagSet[] Mapping =
         {

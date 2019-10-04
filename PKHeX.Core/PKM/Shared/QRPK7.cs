@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class QRPK7
+    public sealed class QRPK7
     {
         private readonly byte[] Data;
 

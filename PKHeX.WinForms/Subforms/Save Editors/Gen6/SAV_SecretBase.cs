@@ -555,7 +555,7 @@ namespace PKHeX.WinForms
     }
 
 
-    public class SecretBase6
+    public sealed class SecretBase6
     {
         private readonly byte[] Data;
         private readonly int Offset;

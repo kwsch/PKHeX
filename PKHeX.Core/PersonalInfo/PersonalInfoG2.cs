@@ -3,9 +3,8 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
     /// </summary>
-    public class PersonalInfoG2 : PersonalInfo
+    public sealed class PersonalInfoG2 : PersonalInfo
     {
-        protected PersonalInfoG2() { }
         public const int SIZE = 0x20;
 
         public PersonalInfoG2(byte[] data)

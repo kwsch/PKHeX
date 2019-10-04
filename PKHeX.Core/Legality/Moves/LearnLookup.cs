@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// LevelUp Lookup object
     /// </summary>
-    public class LearnLookup
+    public sealed class LearnLookup
     {
         private readonly GameVersion Version;
         private readonly PersonalTable Table;

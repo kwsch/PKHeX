@@ -3,9 +3,8 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 1 games.
     /// </summary>
-    public class PersonalInfoG1 : PersonalInfo
+    public sealed class PersonalInfoG1 : PersonalInfo
     {
-        protected PersonalInfoG1() { }
         public const int SIZE = 0x1C;
 
         public PersonalInfoG1(byte[] data)

@@ -3,7 +3,7 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the Black 2 &amp; White 2 games.
     /// </summary>
-    public class PersonalInfoB2W2 : PersonalInfoBW
+    public sealed class PersonalInfoB2W2 : PersonalInfoBW
     {
         public new const int SIZE = 0x4C;
 

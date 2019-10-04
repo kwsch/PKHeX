@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class Zukan5 : Zukan
+    public sealed class Zukan5 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
         protected override int OFS_CAUGHT => 0x8;

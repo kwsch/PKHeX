@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="SaveFile"/> sensitive provider for <see cref="ComboItem"/> data sources.
     /// </summary>
-    public class FilteredGameDataSource
+    public sealed class FilteredGameDataSource
     {
         public FilteredGameDataSource(SaveFile sav, GameDataSource source, bool HaX = false)
         {

@@ -1,6 +1,6 @@
 namespace PKHeX.Core
 {
-    public class TeamLock
+    public sealed class TeamLock
     {
         public int Species;
         public string Comment;

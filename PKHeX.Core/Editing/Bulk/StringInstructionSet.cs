@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Processes input of strings into a list of valid Filters and Instructions.
     /// </summary>
-    public class StringInstructionSet
+    public sealed class StringInstructionSet
     {
         public IList<StringInstruction> Filters { get; private set; }
         public IList<StringInstruction> Instructions { get; private set; }

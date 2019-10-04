@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core
 {
-    public class PokeBlock3
+    public sealed class PokeBlock3
     {
         public const int SIZE = 7;
         private readonly byte[] Data;

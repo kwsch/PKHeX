@@ -3,7 +3,7 @@
     /// <summary>
     /// Object that can be fed to a <see cref="IEncounterable"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
     /// </summary>
-    public class EncounterCriteria
+    public sealed class EncounterCriteria
     {
         public static readonly EncounterCriteria Unrestricted = new EncounterCriteria();
 

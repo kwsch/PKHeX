@@ -168,7 +168,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class Zukan6AO : Zukan6
+    public sealed class Zukan6AO : Zukan6
     {
         public Zukan6AO(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {
@@ -197,7 +197,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class Zukan6XY : Zukan6
+    public sealed class Zukan6XY : Zukan6
     {
         public Zukan6XY(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
         {

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class SAV5B2W2 : SAV5
+    public sealed class SAV5B2W2 : SAV5
     {
         public SAV5B2W2() : base(SaveUtil.SIZE_G5RAW) => Initialize();
         public SAV5B2W2(byte[] data) : base(data) => Initialize();

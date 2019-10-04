@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Bindable summary object that can fetch strings that summarize a <see cref="PKM"/>.
     /// </summary>
-    public class PKMSummary
+    public class PKMSummary // do NOT seal, allow inheritance
     {
         private static readonly IReadOnlyList<string> GenderSymbols = GameInfo.GenderSymbolASCII;
 

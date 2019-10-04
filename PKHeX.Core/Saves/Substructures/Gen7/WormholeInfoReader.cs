@@ -1,6 +1,6 @@
 namespace PKHeX.Core
 {
-    public class WormholeInfoReader
+    public sealed class WormholeInfoReader
     {
         public readonly SAV7 SAV;
         public WormholeInfoReader(SAV7 sav) => SAV = sav;

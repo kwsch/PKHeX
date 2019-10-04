@@ -4,7 +4,7 @@ using PKHeX.Drawing.Properties;
 
 namespace PKHeX.Drawing
 {
-    public class SpriteBuilder : ISpriteBuilder<Image>
+    public sealed class SpriteBuilder : ISpriteBuilder<Image>
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
 

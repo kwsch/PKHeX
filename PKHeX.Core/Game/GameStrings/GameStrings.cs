@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Repository of localized game strings for a given <see cref="LanguageID"/>.
     /// </summary>
-    public class GameStrings : IBasicStrings
+    public sealed class GameStrings : IBasicStrings
     {
         // PKM Info
         public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,

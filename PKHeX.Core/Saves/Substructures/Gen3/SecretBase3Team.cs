@@ -2,7 +2,7 @@ using System;
 
 namespace PKHeX.Core
 {
-    public class SecretBase3Team
+    public sealed class SecretBase3Team
     {
         private const int O_PID = 0;
         private const int O_Moves = 0x18;

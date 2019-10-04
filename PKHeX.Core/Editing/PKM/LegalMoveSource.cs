@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Legal Move information for a single <see cref="PKM"/>, for indicating if a move is legal or not.
     /// </summary>
-    public class LegalMoveSource
+    public sealed class LegalMoveSource
     {
         public readonly IList<bool> IsMoveBoxOrdered = new bool[4];
         public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();

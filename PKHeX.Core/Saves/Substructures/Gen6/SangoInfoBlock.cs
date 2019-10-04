@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SangoInfoBlock : SaveBlock
+    public sealed class SangoInfoBlock : SaveBlock
     {
         public SangoInfoBlock(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 

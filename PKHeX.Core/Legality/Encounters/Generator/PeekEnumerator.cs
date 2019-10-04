@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Iterates a generic collection with the ability to peek into the collection to see if the next element exists.
     /// </summary>
     /// <typeparam name="T">Generic Collection Element Type</typeparam>
-    public class PeekEnumerator<T> : IEnumerator<T>
+    public sealed class PeekEnumerator<T> : IEnumerator<T>
     {
         private readonly IEnumerator<T> Enumerator;
         private T peek;

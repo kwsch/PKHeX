@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class Puff6 : SaveBlock
+    public sealed class Puff6 : SaveBlock
     {
         private const int MaxPuffID = 26; // Supreme Winter Poké Puff
         private const int PuffSlots = 100;
@@ -58,7 +58,7 @@ namespace PKHeX.Core
     }
 
 
-    public class BattleBox6 : SaveBlock
+    public sealed class BattleBox6 : SaveBlock
     {
         public BattleBox6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 

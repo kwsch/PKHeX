@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class Daycare5 : SaveBlock
+    public sealed class Daycare5 : SaveBlock
     {
         // struct daycareSlot 
         // bool32 occupied

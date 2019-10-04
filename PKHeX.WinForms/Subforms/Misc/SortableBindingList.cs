@@ -4,7 +4,7 @@ using System.ComponentModel;
 
 namespace PKHeX.WinForms
 {
-    public class SortableBindingList<T> : BindingList<T>
+    public abstract class SortableBindingList<T> : BindingList<T>
     {
         private readonly Dictionary<Type, PropertyComparer<T>> comparers;
         private bool isSorted;

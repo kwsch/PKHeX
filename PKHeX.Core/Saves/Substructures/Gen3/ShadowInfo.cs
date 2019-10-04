@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class ShadowInfoTableXD
+    public sealed class ShadowInfoTableXD
     {
         private readonly List<ShadowInfoEntryXD> Entries;
         private readonly int MaxLength;
@@ -56,7 +56,7 @@ namespace PKHeX.Core
         public int Count => Entries.Count;
     }
 
-    public class ShadowInfoEntryXD
+    public sealed class ShadowInfoEntryXD
     {
         public readonly byte[] Data;
         internal const int SIZE_ENTRY = 72;
@@ -74,7 +74,7 @@ namespace PKHeX.Core
         public bool IsEmpty => Species == 0;
     }
 
-    public class ShadowInfoEntryColo
+    public sealed class ShadowInfoEntryColo
     {
         public readonly byte[] Data;
         private const int SIZE_ENTRY = 12;

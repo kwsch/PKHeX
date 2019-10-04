@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class BattleTree7 : SaveBlock
+    public sealed class BattleTree7 : SaveBlock
     {
         public BattleTree7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class SAV7USUM : SAV7
+    public sealed class SAV7USUM : SAV7
     {
         public SAV7USUM(byte[] data) : base(data, BlocksUSUM, boUU)
         {

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public class BV7 : BattleVideo
+    public sealed class BV7 : BattleVideo
     {
         internal const int SIZE = 0x2BC0;
 

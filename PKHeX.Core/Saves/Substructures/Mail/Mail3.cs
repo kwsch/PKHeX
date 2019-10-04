@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class Mail3 : Mail
+    public sealed class Mail3 : Mail
     {
         private const int SIZE = 0x24;
         private readonly bool JP;

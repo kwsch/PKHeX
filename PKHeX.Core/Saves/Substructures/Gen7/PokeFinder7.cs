@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class PokeFinder7 : SaveBlock
+    public sealed class PokeFinder7 : SaveBlock
     {
         public PokeFinder7(SAV7 sav, int offset) : base(sav) => Offset = offset;
 

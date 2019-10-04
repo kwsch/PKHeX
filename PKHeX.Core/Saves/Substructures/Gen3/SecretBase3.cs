@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class SecretBase3
+    public sealed class SecretBase3
     {
         private readonly byte[] Data;
         private readonly int Offset;

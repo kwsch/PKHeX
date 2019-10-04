@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class StrategyMemo
+    public sealed class StrategyMemo
     {
         private readonly bool XD;
         private const int SIZE_ENTRY = 12;
@@ -51,7 +51,7 @@ namespace PKHeX.Core
                 Entries.Add(entry);
         }
 
-        public class StrategyMemoEntry
+        public sealed class StrategyMemoEntry
         {
             public readonly byte[] Data;
             private readonly bool XD;

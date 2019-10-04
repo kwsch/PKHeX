@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class FrameGenerator
+    public sealed class FrameGenerator
     {
         public uint Nature;
         public readonly bool Gendered;

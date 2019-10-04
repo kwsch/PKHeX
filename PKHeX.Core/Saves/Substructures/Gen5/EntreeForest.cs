@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class EntreeForest
+    /// <summary>
+    /// Generation 5 Entree Forest
+    /// </summary>
+    public sealed class EntreeForest
     {
         /// <summary>
         /// Areas 1 thru 8 have 20 slots.

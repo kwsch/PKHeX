@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class MemoryStrings
+    public sealed class MemoryStrings
     {
         private readonly GameStrings s;
 

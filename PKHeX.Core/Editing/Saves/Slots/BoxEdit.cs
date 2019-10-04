@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Represents a Box Editor that loads the contents for easy manipulation.
     /// </summary>
-    public class BoxEdit
+    public sealed class BoxEdit
     {
         private readonly SaveFile SAV;
         private readonly PKM[] CurrentContents;
