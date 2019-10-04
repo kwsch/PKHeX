@@ -196,7 +196,7 @@ namespace PKHeX.WinForms.Controls
                 var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
-                File.WriteAllBytes(sfd.FileName, SAV.PCBinary);
+                File.WriteAllBytes(sfd.FileName, SAV.GetPCBinary());
                 return true;
             }
             if (dr == DialogResult.No)

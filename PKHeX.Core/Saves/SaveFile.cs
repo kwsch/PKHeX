@@ -890,7 +890,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Box Binaries
-        public byte[] PCBinary => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
+        public byte[] GetPCBinary() => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
         public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(pk => pk.EncryptedBoxData).ToArray();
 
         public bool SetPCBinary(byte[] data)

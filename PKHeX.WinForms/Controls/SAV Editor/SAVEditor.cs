@@ -756,7 +756,7 @@ namespace PKHeX.WinForms.Controls
 
         public bool OpenPCBoxBin(byte[] input, out string c)
         {
-            if (SAV.PCBinary.Length == input.Length)
+            if (SAV.GetPCBinary().Length == input.Length)
             {
                 if (SAV.IsAnySlotLockedInBox(0, SAV.BoxCount - 1))
                 { c = MsgSaveBoxImportPCFailBattle; return false; }
