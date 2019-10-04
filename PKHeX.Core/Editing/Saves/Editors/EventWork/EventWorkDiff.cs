@@ -80,7 +80,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class EventWorkDiff7b : EventBlockDiff
+    public sealed class EventWorkDiff7b : EventBlockDiff
     {
         public readonly List<int> WorkChanged = new List<int>();
         private SaveFile S1;

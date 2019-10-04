@@ -3,9 +3,9 @@
     internal class EncounterStaticPID : EncounterStatic
     {
         public uint PID { get; set; }
-        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
+        public sealed override Shiny Shiny { get; set; } = Shiny.FixedValue;
 
-        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pk.PersonalInfo);
             int nature = (int)(PID % 25);
