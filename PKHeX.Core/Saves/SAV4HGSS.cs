@@ -79,11 +79,11 @@ namespace PKHeX.Core
         private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
         protected override int GetBoxWallpaperOffset(int box) => BOX_WP + box;
 
-        // 8 bytes current & (stored count?)
+        // 8 bytes current box (align 32) & (stored count?)
         public override int CurrentBox
         {
-            get => BitConverter.ToInt32(Storage, BOX_END);
-            set => SetData(Storage, BitConverter.GetBytes(value), BOX_END);
+            get => Storage[BOX_END];
+            set => Storage[BOX_END] = (byte)value;
         }
 
         public int Counter

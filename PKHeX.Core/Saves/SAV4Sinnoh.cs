@@ -31,10 +31,10 @@ namespace PKHeX.Core
         private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
         protected override int GetBoxWallpaperOffset(int box) => BOX_WP + box;
 
-        public override int CurrentBox
+        public override int CurrentBox // (align 32)
         {
-            get => BitConverter.ToInt32(Storage, 0);
-            set => SetData(Storage, BitConverter.GetBytes(value), 0);
+            get => Storage[0];
+            set => Storage[0] = (byte)value;
         }
 
         public int Unknown
