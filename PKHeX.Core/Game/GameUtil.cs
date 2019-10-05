@@ -101,19 +101,18 @@ namespace PKHeX.Core
         /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
         public static GameVersion GetVersion(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return RBY;
-                case 2: return C;
-                case 3: return E;
-                case 4: return SS;
-                case 5: return W2;
-                case 6: return AS;
-                case 7: return UM;
-                case 8: return SH;
-                default:
-                    return Invalid;
-            }
+                1 => RBY,
+                2 => C,
+                3 => E,
+                4 => SS,
+                5 => W2,
+                6 => AS,
+                7 => UM,
+                8 => SH,
+                _ => Invalid
+            };
         }
 
         /// <summary>

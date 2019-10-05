@@ -34,13 +34,12 @@ namespace PKHeX.Core.Searching
 
         public static IEnumerable<PKM> FilterByGeneration(IEnumerable<PKM> res, int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                case 2: return res.Where(pk => pk.VC || pk.Format < 3);
-                default:
-                    return res.Where(pk => pk.GenNumber == generation);
-            }
+                1 => res.Where(pk => pk.VC || pk.Format < 3),
+                2 => res.Where(pk => pk.VC || pk.Format < 3),
+                _ => res.Where(pk => pk.GenNumber == generation)
+            };
         }
 
         public static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, SearchComparison option, int level)
@@ -48,18 +47,13 @@ namespace PKHeX.Core.Searching
             if (level > 100)
                 return res;
 
-            switch (option)
+            return option switch
             {
-                case SearchComparison.LessThanEquals:
-                    return res.Where(pk => pk.Stat_Level <= level);
-                case SearchComparison.Equals:
-                    return res.Where(pk => pk.Stat_Level == level);
-                case SearchComparison.GreaterThanEquals:
-                    return res.Where(pk => pk.Stat_Level >= level);
-
-                default:
-                    return res; // Any (Do nothing)
-            }
+                SearchComparison.LessThanEquals =>    res.Where(pk => pk.Stat_Level <= level),
+                SearchComparison.Equals =>            res.Where(pk => pk.Stat_Level == level),
+                SearchComparison.GreaterThanEquals => res.Where(pk => pk.Stat_Level >= level),
+                _ => res
+            };
         }
 
         public static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
@@ -133,22 +127,22 @@ namespace PKHeX.Core.Searching
 
         public static string HashByDetails(PKM pk)
         {
-            switch (pk.Format)
+            return pk.Format switch
             {
-                case 1: return $"{pk.Species:000}{((PK1)pk).DV16:X4}";
-                case 2: return $"{pk.Species:000}{((PK2)pk).DV16:X4}";
-                default: return $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.AltForm:00}";
-            }
+                1 => $"{pk.Species:000}{((PK1) pk).DV16:X4}",
+                2 => $"{pk.Species:000}{((PK2) pk).DV16:X4}",
+                _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.AltForm:00}"
+            };
         }
 
         public static string HashByPID(PKM pk)
         {
-            switch (pk.Format)
+            return pk.Format switch
             {
-                case 1: return $"{((PK1)pk).DV16:X4}";
-                case 2: return $"{((PK2)pk).DV16:X4}";
-                default: return $"{pk.PID:X8}";
-            }
+                1 => $"{((PK1) pk).DV16:X4}",
+                2 => $"{((PK2) pk).DV16:X4}",
+                _ => $"{pk.PID:X8}"
+            };
         }
 
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, CloneDetectionMethod type = CloneDetectionMethod.HashDetails)

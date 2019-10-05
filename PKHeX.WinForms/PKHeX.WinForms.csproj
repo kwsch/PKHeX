@@ -13,6 +13,7 @@
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
     <AssemblyName>PKHeX</AssemblyName>
     <Version>19.09.19</Version>
+    <LangVersion>8</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

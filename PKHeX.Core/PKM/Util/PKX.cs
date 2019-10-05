@@ -445,13 +445,13 @@ namespace PKHeX.Core
 
         public static int GetGenderFromPIDAndRatio(uint PID, int gr)
         {
-            switch (gr)
+            return gr switch
             {
-                case 255: return 2;
-                case 254: return 1;
-                case 0: return 0;
-                default: return (PID & 0xFF) < gr ? 1 : 0;
-            }
+                255 => 2,
+                254 => 1,
+                0 => 0,
+                _ => ((PID & 0xFF) < gr ? 1 : 0)
+            };
         }
 
         /// <summary>

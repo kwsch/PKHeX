@@ -57,7 +57,6 @@ namespace PKHeX.Core
         }
     }
 
-
     public sealed class BattleBox6 : SaveBlock
     {
         public BattleBox6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;

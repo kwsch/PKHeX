@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
 
         private void PB_QR_Click(object sender, EventArgs e)
         {
-            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage)) 
+            if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage))
                 return;
             try { Clipboard.SetImage(PB_QR.BackgroundImage); }
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }

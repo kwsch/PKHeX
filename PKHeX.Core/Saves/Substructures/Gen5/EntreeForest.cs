@@ -113,13 +113,13 @@ namespace PKHeX.Core
 
         private static EntreeForestArea GetSlotPosition(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return EntreeForestArea.Center;
-                case 1: return EntreeForestArea.Left;
-                case 2: return EntreeForestArea.Right;
-                default: throw new ArgumentOutOfRangeException();
-            }
+                0 => EntreeForestArea.Center,
+                1 => EntreeForestArea.Left,
+                2 => EntreeForestArea.Right,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

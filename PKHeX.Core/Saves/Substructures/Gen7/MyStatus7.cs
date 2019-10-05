@@ -118,7 +118,6 @@ namespace PKHeX.Core
             set => Data[Offset + 0x58] = (byte)value;
         }
 
-
         public bool MegaUnlocked
         {
             get => (Data[Offset + 0x78] & 0x01) != 0;

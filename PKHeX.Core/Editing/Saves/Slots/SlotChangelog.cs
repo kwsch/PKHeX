@@ -59,13 +59,11 @@ namespace PKHeX.Core
 
         private static SlotReversion GetReversion(ISlotInfo info, SaveFile sav)
         {
-            switch (info)
+            return info switch
             {
-                case SlotInfoParty p:
-                    return new PartyReversion(p, sav);
-                default:
-                    return new SingleSlotReversion(info, sav);
-            }
+                SlotInfoParty p => (SlotReversion) new PartyReversion(p, sav),
+                _ => new SingleSlotReversion(info, sav)
+            };
         }
 
         private abstract class SlotReversion

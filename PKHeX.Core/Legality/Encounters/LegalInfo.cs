@@ -44,7 +44,7 @@ namespace PKHeX.Core
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
 
         public ValidEncounterMoves EncounterMoves { get; internal set; }
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ?? (_evochains = EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch));
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
         private IReadOnlyList<EvoCriteria>[] _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
@@ -75,7 +75,7 @@ namespace PKHeX.Core
 
         internal void Reject(CheckResult c)
         {
-            (InvalidMatches ?? (InvalidMatches = new List<EncounterRejected>())).Add(new EncounterRejected(EncounterMatch, c));
+            (InvalidMatches ??= new List<EncounterRejected>()).Add(new EncounterRejected(EncounterMatch, c));
         }
     }
 }

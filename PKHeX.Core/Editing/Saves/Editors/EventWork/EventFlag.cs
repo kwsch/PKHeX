@@ -11,7 +11,6 @@ namespace PKHeX.Core
 
         public EventFlag(int index, EventVarType t, IReadOnlyList<string> pieces) : base(index, t, pieces[1])
         {
-
         }
     }
 }

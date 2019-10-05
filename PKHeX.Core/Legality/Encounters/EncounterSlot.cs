@@ -196,13 +196,9 @@ namespace PKHeX.Core
         {
             if (form < 30) // specified form
             {
-                switch (pk.Species)
-                {
-                    case (int)Core.Species.Minior:
-                        return Util.Rand.Next(7, 14);
-                    default:
-                        return form;
-                }
+                if (pk.Species == (int) Core.Species.Minior)
+                    return Util.Rand.Next(7, 14);
+                return form;
             }
             if (form == 31) // flagged as totally random
                 return Util.Rand.Next(pk.PersonalInfo.FormeCount);

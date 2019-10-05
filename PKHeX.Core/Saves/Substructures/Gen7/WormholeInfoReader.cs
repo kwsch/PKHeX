@@ -132,14 +132,14 @@ namespace PKHeX.Core
             if (slot < 1 || slot > WormholeSlotMax)
                 return -1;
 
-            switch (mapid)
+            return mapid switch
             {
-                case 256: return WormholeSlotsRed[slot];
-                case 257: return WormholeSlotsGreen[slot];
-                case 258: return WormholeSlotsYellow[slot];
-                case 259: return WormholeSlotsBlue[slot];
-                default: return -1;
-            }
+                256 => WormholeSlotsRed[slot],
+                257 => WormholeSlotsGreen[slot],
+                258 => WormholeSlotsYellow[slot],
+                259 => WormholeSlotsBlue[slot],
+                _ => -1
+            };
         }
     }
 }

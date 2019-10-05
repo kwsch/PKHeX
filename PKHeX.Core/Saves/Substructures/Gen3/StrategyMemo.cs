@@ -105,7 +105,7 @@ namespace PKHeX.Core
                 get
                 {
                     if (XD) return false;
-                    return Flag0 | !Flag1;
+                    return Flag0 || !Flag1;
                 }
                 set
                 {

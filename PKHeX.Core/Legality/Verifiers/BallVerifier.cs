@@ -44,19 +44,14 @@ namespace PKHeX.Core
             if (pkm.Ball == (int)Heavy && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
                 return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
 
-            switch (EncounterMatch)
+            return EncounterMatch switch
             {
-                case EncounterStatic e:
-                    return VerifyBallStatic(data, e);
-                case EncounterSlot w:
-                    return VerifyBallWild(data, w);
-                case EncounterEgg _:
-                    return VerifyBallEgg(data);
-                case EncounterInvalid _:
-                    return VerifyBallEquals(data, pkm.Ball); // ignore me
-                default:
-                    return VerifyBallEquals(data, (int)Poke); // Pokeball
-            }
+                EncounterStatic e => VerifyBallStatic(data, e),
+                EncounterSlot w => VerifyBallWild(data, w),
+                EncounterEgg _ => VerifyBallEgg(data),
+                EncounterInvalid _ => VerifyBallEquals(data, pkm.Ball), // ignore ball, pass whatever
+                _ => VerifyBallEquals(data, (int)Poke)
+            };
         }
 
         private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
@@ -96,24 +91,24 @@ namespace PKHeX.Core
             if (data.Info.Generation < 6) // No inheriting Balls
                 return VerifyBallEquals(data, (int)Poke); // Must be Pokéball -- no ball inheritance.
 
-            switch ((Ball)pkm.Ball)
+            return pkm.Ball switch
             {
-                case Poke: return GetValid(LBallEnc); // Poké Ball
-                case Master: return GetInvalid(LBallEggMaster); // Master Ball
-                case Cherish: return GetInvalid(LBallEggCherish); // Cherish Ball
-                default: return VerifyBallInherited(data);
-            }
+                (int)Poke => GetValid(LBallEnc), // Poké Ball
+                (int)Master => GetInvalid(LBallEggMaster), // Master Ball
+                (int)Cherish => GetInvalid(LBallEggCherish), // Cherish Ball
+                _ => VerifyBallInherited(data)
+            };
         }
 
         private CheckResult VerifyBallInherited(LegalityAnalysis data)
         {
-            switch (data.Info.Generation)
+            return data.Info.Generation switch
             {
-                case 6: return VerifyBallEggGen6(data); // Gen6 Inheritance Rules
-                case 7: return VerifyBallEggGen7(data); // Gen7 Inheritance Rules
-                case 8: return VerifyBallEggGen8(data);
-                default: return NONE;
-            }
+                6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
+                7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
+                8 => VerifyBallEggGen8(data),
+                _ => NONE
+            };
         }
 
         private CheckResult VerifyBallEggGen6(LegalityAnalysis data)

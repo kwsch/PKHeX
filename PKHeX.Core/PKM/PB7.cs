@@ -397,12 +397,12 @@ namespace PKHeX.Core
 
         private static int AmplifyStat(int nature, int index, int initial)
         {
-            switch (GetNatureAmp(nature, index))
+            return GetNatureAmp(nature, index) switch
             {
-                case 1: return 110 * initial / 100; // 110%
-                case -1: return 90 * initial / 100; // 90%
-                default: return initial;            // 100%
-            }
+                 1 => (110 * initial / 100), // 110%
+                -1 => (90 * initial / 100), // 90%
+                _ => initial
+            };
         }
 
         private static sbyte GetNatureAmp(int nature, int index)

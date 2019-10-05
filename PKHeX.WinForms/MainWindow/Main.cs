@@ -1058,7 +1058,7 @@ namespace PKHeX.WinForms
 
         private void GetPreview(PictureBox pb, PKM pk = null)
         {
-            pk = pk ?? PreparePKM(false); // don't perform control loss click
+            pk ??= PreparePKM(false); // don't perform control loss click
 
             dragout.ContextMenuStrip.Enabled = pk.Species != 0 || HaX; // Species
 

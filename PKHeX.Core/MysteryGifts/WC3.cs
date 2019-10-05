@@ -169,15 +169,12 @@ namespace PKHeX.Core
 
         private uint GetSaneSeed(uint seed)
         {
-            switch (Method)
+            return Method switch
             {
-                case PIDType.BACD_R:
-                    return seed & 0x0000FFFF;
-                case PIDType.BACD_R_S:
-                    return seed & 0x000000FF;
-                default:
-                    return seed; // unmodified
-            }
+                PIDType.BACD_R => (seed & 0x0000FFFF),
+                PIDType.BACD_R_S => (seed & 0x000000FF),
+                _ => seed
+            };
         }
 
         private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)

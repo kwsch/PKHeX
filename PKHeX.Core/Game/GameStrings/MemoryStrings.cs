@@ -66,21 +66,15 @@ namespace PKHeX.Core
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
         {
-            switch (memIndex)
+            return memIndex switch
             {
-                default:
-                    return None;
-                case MemoryArgType.Species:
-                    return Species;
-                case MemoryArgType.GeneralLocation:
-                    return GeneralLocations;
-                case MemoryArgType.Item:
-                    return Items;
-                case MemoryArgType.Move:
-                    return Moves;
-                case MemoryArgType.SpecificLocation:
-                    return SpecificLocations;
-            }
+                MemoryArgType.Species => Species,
+                MemoryArgType.GeneralLocation => GeneralLocations,
+                MemoryArgType.Item => Items,
+                MemoryArgType.Move => Moves,
+                MemoryArgType.SpecificLocation => SpecificLocations,
+                _ => None
+            };
         }
     }
 }
