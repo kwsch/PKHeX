@@ -47,6 +47,7 @@
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
+            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -96,7 +97,6 @@
             this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuDelete = new System.Windows.Forms.ToolStripMenuItem();
             this.hover = new System.Windows.Forms.ToolTip(this.components);
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.FLP_Egg.SuspendLayout();
@@ -276,6 +276,15 @@
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
+            // 
+            // pokeGrid1
+            // 
+            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
+            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
+            this.pokeGrid1.Name = "pokeGrid1";
+            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
+            this.pokeGrid1.TabIndex = 2;
             // 
             // CB_Ability
             // 
@@ -928,24 +937,18 @@
             // 
             // mnuView
             // 
+            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
             this.mnuView.Name = "mnuView";
             this.mnuView.Size = new System.Drawing.Size(107, 22);
             this.mnuView.Text = "View";
             // 
             // mnuDelete
             // 
+            this.mnuDelete.Image = global::PKHeX.WinForms.Properties.Resources.nocheck;
             this.mnuDelete.Name = "mnuDelete";
             this.mnuDelete.Size = new System.Drawing.Size(107, 22);
             this.mnuDelete.Text = "Delete";
             this.mnuDelete.Click += new System.EventHandler(this.ClickDelete);
-            // 
-            // pokeGrid1
-            // 
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
             // 
             // SAV_Database
             // 

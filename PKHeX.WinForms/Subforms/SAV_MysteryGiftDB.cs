@@ -24,9 +24,9 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View" };
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift" };
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM" };
+            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View", Image = Resources.other };
+            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift", Image = Resources.gift };
+            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM", Image = Resources.savePKM };
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             ContextMenuStrip mnu = new ContextMenuStrip();
