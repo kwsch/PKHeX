@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Inventory));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -88,6 +89,23 @@
             this.tabControl1.Size = new System.Drawing.Size(291, 336);
             this.tabControl1.TabIndex = 17;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.SwitchBag);
+            // 
+            // IL_Pouch
+            // 
+            this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("IL_Pouch.ImageStream")));
+            this.IL_Pouch.TransparentColor = System.Drawing.Color.Transparent;
+            this.IL_Pouch.Images.SetKeyName(0, "Bag_Items.png");
+            this.IL_Pouch.Images.SetKeyName(1, "Bag_Key.png");
+            this.IL_Pouch.Images.SetKeyName(2, "Bag_TMHM.png");
+            this.IL_Pouch.Images.SetKeyName(3, "Bag_Medicine.png");
+            this.IL_Pouch.Images.SetKeyName(4, "Bag_Berries.png");
+            this.IL_Pouch.Images.SetKeyName(5, "Bag_Balls.png");
+            this.IL_Pouch.Images.SetKeyName(6, "Bag_Battle.png");
+            this.IL_Pouch.Images.SetKeyName(7, "Bag_Mail.png");
+            this.IL_Pouch.Images.SetKeyName(8, "Bag_PCItems.png");
+            this.IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
+            this.IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
+            this.IL_Pouch.Images.SetKeyName(11, "Bag_Candy.png");
             // 
             // B_GiveAll
             // 
