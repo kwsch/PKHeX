@@ -56,10 +56,61 @@ namespace PKHeX.Core
         }
         #endregion
 
-        public int CurrentPoketchApp { get => (sbyte)General[_currentPoketchApp]; set => General[_currentPoketchApp] = (byte)Math.Min(24, value); /* Alarm Clock */ }
-        protected int _currentPoketchApp;
+        #region Poketch
+        public int PoketchStart { get; protected set; }
+        private byte PoketchPacked { get => General[PoketchStart]; set => General[PoketchStart] = value; }
 
-        // Honey Trees
+        public bool PoketchEnabled { get => (PoketchPacked & 1) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 1) : (PoketchPacked & ~1)); }
+        public bool PoketchFlag1 { get => (PoketchPacked & 2) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 2) : (PoketchPacked & ~2)); }
+        public bool PoketchFlag2 { get => (PoketchPacked & 4) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 4) : (PoketchPacked & ~4)); }
+
+        public PoketchColor PoketchColor
+        {
+            get => (PoketchColor) ((PoketchPacked >> 3) & 7);
+            set => PoketchPacked = (byte) ((PoketchPacked & 0xC7) | ((int) value << 3));
+        }
+
+        public bool PoketchFlag6 { get => (PoketchPacked & 0x40) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 0x40) : (PoketchPacked & ~0x40)); }
+        public bool PoketchFlag7 { get => (PoketchPacked & 0x80) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 0x80) : (PoketchPacked & ~0x80)); }
+        private byte Poketch1 { get => General[PoketchStart + 1]; set => General[PoketchStart + 1] = value; }
+        public sbyte CurrentPoketchApp { get => (sbyte)General[PoketchStart + 2]; set => General[PoketchStart + 2] = (byte)Math.Min((sbyte)PoketchApp.Alarm_Clock, value); }
+
+        public bool GetPoketchAppUnlocked(PoketchApp index)
+        {
+            if (index > PoketchApp.Alarm_Clock)
+                throw new ArgumentException(nameof(index));
+            return General[PoketchStart + 3 + (int) index] != 0;
+        }
+
+        public void SetPoketchAppUnlocked(PoketchApp index, bool value = true)
+        {
+            if (index > PoketchApp.Alarm_Clock)
+                throw new ArgumentException(nameof(index));
+            var b = value ? 1 : 0;
+            General[PoketchStart + 3 + (int)index] = (byte)b;
+        }
+        
+        // 8 bytes unk
+
+        public uint PoketchStepCounter
+        {
+            get => BitConverter.ToUInt32(General, PoketchStart + 0x24);
+            set => SetData(General, BitConverter.GetBytes(value), PoketchStart + 0x24);
+        }
+
+        // 2 bytes for alarm clock time setting
+
+        public byte[] PoketchDotArtistData
+        {
+            get => General.Slice(PoketchStart + 0x2A, 120);
+            set => SetData(General, value, PoketchStart + 0x2A);
+        }
+
+        // map marking stuff is at the end, unimportant
+
+        #endregion
+
+        #region Honey Trees
         protected int OFS_HONEY;
         protected const int HONEY_SIZE = 8;
 
@@ -95,6 +146,7 @@ namespace PKHeX.Core
                 return new[] { A, B, C, D };
             }
         }
+        #endregion
 
         public int OFS_PoffinCase { get; protected set; }
 
@@ -107,5 +159,46 @@ namespace PKHeX.Core
         public int UG_TrapsAvoided { get => BitConverter.ToInt32(General, OFS_UG_Stats + 0x18); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x18); }
         public int UG_TrapsTriggered { get => BitConverter.ToInt32(General, OFS_UG_Stats + 0x1C); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
         public int UG_Flags { get => BitConverter.ToInt32(General, OFS_UG_Stats + 0x34); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
+    }
+
+    public enum PoketchColor
+    {
+        Green = 0,
+        Yellow = 1,
+        Orange = 2,
+        Red = 3,
+        Purple = 4,
+        Blue = 5,
+        Turquoise = 6,
+        White = 7,
+    }
+
+    public enum PoketchApp
+    {
+        Digital_Watch,
+        Calculator,
+        Memo_Pad,
+        Pedometer,
+        Party,
+        Friendship_Checker,
+        Dowsing_Machine,
+        Berry_Searcher,
+        Daycare,
+        History,
+        Counter,
+        Analog_Watch,
+        Marking_Map,
+        Link_Searcher,
+        Coin_Toss,
+        Move_Tester,
+        Calendar,
+        Dot_Artist,
+        Roulette,
+        Trainer_Counter,
+        Kitchen_Timer,
+        Color_Changer,
+        Matchup_Checker,
+        Stopwatch,
+        Alarm_Clock,
     }
 }

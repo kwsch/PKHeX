@@ -29,7 +29,6 @@ namespace PKHeX.WinForms
                     ofsFlag = 0xFDC;
                     ofsBP = 0x65F8;
                     ofsUGFlagCount = 0x3A60;
-                    ofsPoketch = 0x114E;
                     L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     GB_Prints.Visible = GB_Prints.Enabled = GB_Hall.Visible = GB_Hall.Enabled = GB_Castle.Visible = GB_Castle.Enabled = false;
                     BFF = new[] { new[] { 0, 1, 0x5FCA, 0x04, 0x6601 }, };
@@ -38,7 +37,6 @@ namespace PKHeX.WinForms
                     ofsFlag = 0xFEC;
                     ofsBP = 0x7234;
                     ofsUGFlagCount = 0x3CE8;
-                    ofsPoketch = 0x1162;
                     L_CurrentMap.Visible = CB_UpgradeMap.Visible = false;
                     ofsPrints = 0xE4A;
                     BFF = new[] {
@@ -109,7 +107,6 @@ namespace PKHeX.WinForms
         private readonly int ofsBP;
         private readonly int ofsMap = -1;
         private readonly int ofsUGFlagCount = -1;
-        private readonly int ofsPoketch = -1;
         private int[] FlyDestC;
 
         private void ReadMain()
@@ -139,7 +136,9 @@ namespace PKHeX.WinForms
             uint valBP = BitConverter.ToUInt16(SAV.General, ofsBP);
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
-            if (ofsPoketch > 0) ReadPoketch();
+            if (SAV is SAV4Sinnoh)
+                ReadPoketch();
+
             if (ofsUGFlagCount > 0)
             {
                 uint fc = BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & 0xFFFFF;
@@ -147,7 +146,7 @@ namespace PKHeX.WinForms
             }
             if (ofsMap > 0)
             {
-                string[] items = new[] { "Map Johto", "Map Johto+", "Map Johto & Kanto" };
+                string[] items = { "Map Johto", "Map Johto+", "Map Johto & Kanto" };
                 int index = SAV.General[ofsMap] >> 3 & 3;
                 if (index > 2) index = 2;
                 CB_UpgradeMap.Items.AddRange(items);
@@ -177,7 +176,9 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(valFly).CopyTo(SAV.General, ofsFly);
             BitConverter.GetBytes((ushort)NUD_BP.Value).CopyTo(SAV.General, ofsBP);
 
-            if (ofsPoketch > 0) SavePoketch();
+            if (SAV is SAV4Sinnoh)
+                SavePoketch();
+
             if (ofsUGFlagCount > 0)
                 BitConverter.GetBytes((BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.General, ofsUGFlagCount);
             if (ofsMap > 0)
@@ -197,29 +198,24 @@ namespace PKHeX.WinForms
         #region Poketch
         private byte[] DotArtistByte;
         private byte[] ColorTable;
-        private bool[] oldPoketchVal;
         private readonly ToolTip tip1 = new ToolTip();
 
         private void ReadPoketch()
         {
-            string[] PoketchTitle = new[] {
-                "Unavailable", "01 - Digital Watch", "02 - Calculator", "03 - Memo Pad", "04 - Pedometer", "05 - Pokémon List",
-                "06 - Friendship Checker", "07 - Dowsing Machine", "08 - Berry Searcher", "09 - Day Care Checker", "10 - Pokémon History",
-                "11 - Counter", "12 - Analog Watch", "13 - Marking Map", "14 - Link Searcher", "15 - Coin Toss",
-                "16 - Move Tester", "17 - Calendar", "18 - Dot Artist", "19 - Roulette", "20 - Trainer Counter",
-                "21 - Kitchen Timer", "22 - Color Changer", "23 - Matchup Checker", "24 - Stopwatch", "25 - Alarm Clock"
-            };
+            string[] PoketchTitle = Enum.GetNames(typeof(PoketchApp));
+            var s = (SAV4Sinnoh) SAV;
+
             CB_CurrentApp.Items.AddRange(PoketchTitle);
-            CB_CurrentApp.SelectedIndex = ((SAV4Sinnoh)SAV).CurrentPoketchApp + 1;
-            oldPoketchVal = new bool[PoketchTitle.Length];
+            CB_CurrentApp.SelectedIndex = s.CurrentPoketchApp;
             CLB_Poketch.Items.Clear();
-            for (int i = 1; i < PoketchTitle.Length; i++)
+            for (int i = 0; i < PoketchTitle.Length; i++)
             {
-                oldPoketchVal[i] = SAV.General[ofsPoketch + i] != 0;
-                CLB_Poketch.Items.Add(PoketchTitle[i], oldPoketchVal[i]);
+                var title = $"{i:00} - {PoketchTitle[i]}";
+                var val = s.GetPoketchAppUnlocked((PoketchApp)i);
+                CLB_Poketch.Items.Add(title, val);
             }
 
-            DotArtistByte = SAV.General.Skip(ofsPoketch + 0x27).Take(120).ToArray();
+            DotArtistByte = s.PoketchDotArtistData;
             ColorTable = new byte[] { 248, 168, 88, 8 };
             SetPictureBoxFromFlags(DotArtistByte);
             string tip = "Guide about D&D ImageFile Format";
@@ -233,27 +229,14 @@ namespace PKHeX.WinForms
 
         private void SavePoketch()
         {
-            byte count = 0;
-            for (int i = 1; i <= CLB_Poketch.Items.Count; i++)
+            var s = (SAV4Sinnoh)SAV;
+            s.CurrentPoketchApp = (sbyte)CB_CurrentApp.SelectedIndex;
+            for (int i = 0; i < CLB_Poketch.Items.Count; i++)
             {
-                if (CLB_Poketch.GetItemChecked(i - 1))
-                {
-                    count++;
-                    if (!oldPoketchVal[i])
-                        SAV.General[ofsPoketch + i] = 1;
-                }
-                else if (oldPoketchVal[i])
-                {
-                    SAV.General[ofsPoketch + i] = 0;
-                }
+                var b = CLB_Poketch.GetItemChecked(i);
+                s.SetPoketchAppUnlocked((PoketchApp)i, b);
             }
-            SAV.General[ofsPoketch - 2] = count;
-            byte current = SAV.General[ofsPoketch - 1];
-            if (current >= CLB_Poketch.Items.Count || !CLB_Poketch.GetItemChecked(current))
-                SAV.General[ofsPoketch - 1] = 0;
-            DotArtistByte.CopyTo(SAV.General, ofsPoketch + 0x27);
-            SAV.General[ofsPoketch - 3] |= 0x04; // "Touch!"
-            ((SAV4Sinnoh)SAV).CurrentPoketchApp = CB_CurrentApp.SelectedIndex - 1;
+            s.PoketchDotArtistData = DotArtistByte;
         }
 
         private void SetPictureBoxFromFlags(byte[] inp)
@@ -403,6 +386,7 @@ namespace PKHeX.WinForms
             // foreach (CheckBox c in Apps) c.Checked = true;
             for (int i = 0; i < CLB_Poketch.Items.Count; i++)
                 CLB_Poketch.SetItemChecked(i, true);
+            System.Media.SystemSounds.Asterisk.Play();
         }
 
         private void TAB_Poketch_DragEnter(object sender, DragEventArgs e)

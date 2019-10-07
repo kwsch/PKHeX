@@ -55,7 +55,7 @@ namespace PKHeX.Core
 
             OFS_UG_Stats = 0x3A2C;
 
-            _currentPoketchApp = 0x114E;
+            PoketchStart = 0x114C;
             Seal = 0x6178;
 
             OFS_PoffinCase = 0x5050;

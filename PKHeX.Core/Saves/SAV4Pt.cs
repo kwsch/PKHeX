@@ -53,7 +53,7 @@
 
             OFS_UG_Stats = 0x3CB4;
 
-            _currentPoketchApp = 0x1162;
+            PoketchStart = 0x1160;
 
             OFS_PoffinCase = 0x52E8;
             Seal = 0x6494;
