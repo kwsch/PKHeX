@@ -30,13 +30,12 @@
     {
         public static bool IsValid(this Shiny s, PKM pkm)
         {
-            switch (s)
+            return s switch
             {
-                case Shiny.Always: return pkm.IsShiny;
-                case Shiny.Never:  return !pkm.IsShiny;
-                default:
-                    return true;
-            }
+                Shiny.Always => pkm.IsShiny,
+                Shiny.Never => !pkm.IsShiny,
+                _ => true
+            };
         }
     }
 }

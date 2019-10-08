@@ -68,8 +68,8 @@ namespace PKHeX.Core
                 if (HasFlag(RibbonValue) || HasCount(RibbonValue))
                     return true;
 
-                bool HasFlag(object o) => o is bool z && z;
-                bool HasCount(object o) => o is int z && z > 0;
+                static bool HasFlag(object o) => o is bool z && z;
+                static bool HasCount(object o) => o is int z && z > 0;
             }
             return false;
         }
@@ -116,7 +116,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < 5; ++i)
                     artist |= c3[3 | i << 2]; // any master rank ribbon
 
-                IEnumerable<RibbonResult> getMissingContestRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
+                static IEnumerable<RibbonResult> getMissingContestRibbons(IReadOnlyList<bool> bits, IReadOnlyList<string> names)
                 {
                     for (int i = 0; i < bits.Count; i += 4)
                     {

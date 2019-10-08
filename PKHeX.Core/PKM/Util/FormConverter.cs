@@ -121,16 +121,12 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return species switch
             {
-                default:
-                    return EMPTY;
-
-                case Pichu:
-                    return GetFormsPichu(generation, types, forms);
-                case Unown:
-                    return GetFormsUnown(generation);
-            }
+                (int)Pichu => GetFormsPichu(generation, types, forms),
+                (int)Unown => GetFormsUnown(generation),
+                _ => EMPTY
+            };
         }
 
         private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)

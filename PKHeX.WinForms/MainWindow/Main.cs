@@ -58,7 +58,7 @@ namespace PKHeX.WinForms
             }
             else if (showChangelog)
             {
-                new About(1).ShowDialog();
+                ShowAboutDialog(1);
             }
 
             if (BAKprompt && !Directory.Exists(BackupPath))
@@ -346,23 +346,18 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void MainMenuAbout(object sender, EventArgs e) => new About().ShowDialog();
+        private void MainMenuAbout(object sender, EventArgs e) => ShowAboutDialog(0);
 
-        private bool OpenWindowExists<T>() where T : Form
+        private static void ShowAboutDialog(int index = 0)
         {
-            var form = WinFormsUtil.FirstFormOfType<T>();
-            if (form == null)
-                return false;
-
-            form.CenterToForm(this);
-            form.BringToFront();
-            return true;
+            using var form = new About(index);
+            form.ShowDialog();
         }
 
         // Sub Menu Options
         private void MainMenuBoxReport(object sender, EventArgs e)
         {
-            if (OpenWindowExists<ReportGrid>())
+            if (this.OpenWindowExists<ReportGrid>())
                 return;
 
             var report = new ReportGrid();
@@ -374,7 +369,7 @@ namespace PKHeX.WinForms
         {
             if (ModifierKeys == Keys.Shift)
             {
-                if (!OpenWindowExists<KChart>())
+                if (!this.OpenWindowExists<KChart>())
                     new KChart(C_SAV.SAV).Show();
                 return;
             }
@@ -385,19 +380,19 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            if (!OpenWindowExists<SAV_Database>())
+            if (!this.OpenWindowExists<SAV_Database>())
                 new SAV_Database(PKME_Tabs, C_SAV).Show();
         }
 
         private void Menu_EncDatabase_Click(object sender, EventArgs e)
         {
-            if (!OpenWindowExists<SAV_Encounters>())
+            if (!this.OpenWindowExists<SAV_Encounters>())
                 new SAV_Encounters(PKME_Tabs).Show();
         }
 
         private void MainMenuMysteryDB(object sender, EventArgs e)
         {
-            if (!OpenWindowExists<SAV_MysteryGiftDB>())
+            if (!this.OpenWindowExists<SAV_MysteryGiftDB>())
                 new SAV_MysteryGiftDB(PKME_Tabs, C_SAV).Show();
         }
 
@@ -405,7 +400,8 @@ namespace PKHeX.WinForms
         {
             var settings = Settings.Default;
             var ver = settings.DefaultSaveVersion; // check if it changes
-            new SettingsEditor(settings, nameof(settings.BAKPrompt), nameof(settings.ForceHaXOnLaunch)).ShowDialog();
+            using var form = new SettingsEditor(settings, nameof(settings.BAKPrompt), nameof(settings.ForceHaXOnLaunch));
+            form.ShowDialog();
 
             // Reload text (if OT details hidden)
             Text = GetProgramTitle(C_SAV.SAV);
@@ -475,14 +471,15 @@ namespace PKHeX.WinForms
 
         private void MainMenuBatchEditor(object sender, EventArgs e)
         {
-            new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV).ShowDialog();
+            using var form = new BatchEditor(PKME_Tabs.PreparePKM(), C_SAV.SAV);
+            form.ShowDialog();
             C_SAV.SetPKMBoxes(); // refresh
             C_SAV.UpdateBoxViewers();
         }
 
         private void MainMenuFolder(object sender, EventArgs e)
         {
-            if (!OpenWindowExists<SAV_FolderList>())
+            if (!this.OpenWindowExists<SAV_FolderList>())
                 new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath), s.FilePath)).Show();
         }
 
@@ -848,7 +845,7 @@ namespace PKHeX.WinForms
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                     var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
-                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
+                    using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
@@ -869,7 +866,7 @@ namespace PKHeX.WinForms
                     var g = new[] { GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
                     var msg = string.Format(dual, "3", fr, lg);
-                    var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
+                    using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
                     bool result = s3.ResetPersonal(dialog.Result);
                     if (!result)
@@ -1009,7 +1006,8 @@ namespace PKHeX.WinForms
 
             string[] r = pk.GetQRLines();
             string refer = GetProgramTitle();
-            new QR(qr, sprite, pk, r[0], r[1], r[2], $"{refer} ({pk.GetType().Name})").ShowDialog();
+            using var form = new QR(qr, sprite, pk, r[0], r[1], r[2], $"{refer} ({pk.GetType().Name})");
+            form.ShowDialog();
         }
 
         private void ClickLegality(object sender, EventArgs e)

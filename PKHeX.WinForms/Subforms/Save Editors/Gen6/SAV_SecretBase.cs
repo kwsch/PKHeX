@@ -163,6 +163,11 @@ namespace PKHeX.WinForms
 
             var bdata = new SecretBase6(SAV.Data, offset);
 
+            int baseloc = (int)NUD_FBaseLocation.Value;
+            if (baseloc < 3)
+                baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
+            bdata.BaseLocation = baseloc;
+
             bdata.TrainerName = TB_FOT.Text;
             bdata.FlavorText1 = TB_FT1.Text;
             bdata.FlavorText2 = TB_FT2.Text;
@@ -171,11 +176,6 @@ namespace PKHeX.WinForms
             bdata.Saying2 = TB_FSay2.Text;
             bdata.Saying3 = TB_FSay3.Text;
             bdata.Saying4 = TB_FSay4.Text;
-
-            int baseloc = (int)NUD_FBaseLocation.Value;
-            if (baseloc < 3)
-                baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
-            bdata.BaseLocation = baseloc;
 
             // Copy back Objects
             for (int i = 0; i < 25; i++)
@@ -521,7 +521,7 @@ namespace PKHeX.WinForms
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog();
+            using var ofd = new OpenFileDialog();
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
             var path = ofd.FileName;
@@ -544,7 +544,7 @@ namespace PKHeX.WinForms
             var tr = sb.TrainerName;
             if (string.IsNullOrWhiteSpace(tr))
                 tr = "Trainer";
-            var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
+            using var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -552,70 +552,5 @@ namespace PKHeX.WinForms
             var data = SAV.GetData(ofs, SecretBase6.SIZE);
             File.WriteAllBytes(path, data);
         }
-    }
-
-
-    public sealed class SecretBase6
-    {
-        private readonly byte[] Data;
-        private readonly int Offset;
-        public const int SIZE = 0x3E0;
-
-        public int BaseLocation
-        {
-            get => BitConverter.ToInt16(Data, Offset);
-            set => BitConverter.GetBytes((short)value).CopyTo(Data, Offset);
-        }
-
-        public SecretBase6(byte[] data, int offset = 0)
-        {
-            Data = data;
-            Offset = offset;
-        }
-
-        public string TrainerName
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x218, 0x1A);
-            set => StringConverter.SetString6(TrainerName, 0x1A / 2).CopyTo(Data, Offset + 0x218);
-        }
-
-        public string FlavorText1
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 0), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 0));
-        }
-
-        public string FlavorText2
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 1), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 1));
-        }
-
-        public string Saying1
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 0), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 0));
-        }
-
-        public string Saying2
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 1), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 1));
-        }
-
-        public string Saying3
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 2), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 2));
-        }
-
-        public string Saying4
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 3), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 3));
-        }
-
-        public bool IsDummiedBaseLocation => !IsEmpty && BaseLocation < 3;
-        public bool IsEmpty => BaseLocation == 0;
     }
 }

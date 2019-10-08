@@ -58,12 +58,12 @@ namespace PKHeX.Core
                 case (int)Species.Pikachu when Info.Generation == 7: // Cap
                     bool IsValidPikachuCap()
                     {
-                        switch (EncounterMatch)
+                        return EncounterMatch switch
                         {
-                            default: return pkm.AltForm == 0;
-                            case WC7 wc7: return wc7.Form == pkm.AltForm;
-                            case EncounterStatic s: return s.Form == pkm.AltForm;
-                        }
+                            WC7 wc7 => (wc7.Form == pkm.AltForm),
+                            EncounterStatic s => (s.Form == pkm.AltForm),
+                            _ => (pkm.AltForm == 0)
+                        };
                     }
 
                     if (!IsValidPikachuCap())

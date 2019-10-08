@@ -289,13 +289,8 @@ namespace PKHeX.WinForms
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBCreateReportPrompt, MsgDBCreateReportWarning) != DialogResult.Yes)
                 return;
 
-
-            var form = WinFormsUtil.FirstFormOfType<ReportGrid>();
-            if (form != null)
-            {
-                form.BringToFront();
-                form.CenterToForm(this);
-            }
+            if (this.OpenWindowExists<ReportGrid>())
+                return;
 
             ReportGrid reportGrid = new ReportGrid();
             reportGrid.Show();
@@ -330,7 +325,7 @@ namespace PKHeX.WinForms
 
             if (SaveUtil.GetSavesFromFolder(savdb, false, out IEnumerable<string> result))
                 Parallel.ForEach(result, file => TryAddPKMsFromSaveFilePath(dbTemp, file, EXTERNAL_SAV));
-      
+
             // Fetch from save file
             var savpkm = SAV.BoxData.Where(pk => pk.Species != 0);
 
@@ -402,7 +397,7 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (DialogResult.OK != fbd.ShowDialog())
                 return;
 
@@ -494,15 +489,11 @@ namespace PKHeX.WinForms
 
             if (Menu_SearchClones.Checked)
             {
-                switch (ModifierKeys)
+                settings.SearchClones = ModifierKeys switch
                 {
-                    case Keys.Control:
-                        settings.SearchClones = CloneDetectionMethod.HashPID;
-                        break;
-                    default:
-                        settings.SearchClones = CloneDetectionMethod.HashDetails;
-                        break;
-                }
+                    Keys.Control => CloneDetectionMethod.HashPID,
+                    _ => CloneDetectionMethod.HashDetails
+                };
             }
 
             return settings;

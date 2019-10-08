@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
             if (!hasRecord)
                 return;
 
-            int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
+            static int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
 
             Dex.SetSizeData(DexSizeType.MinHeight, index, get(NUD_RHeightMin, CHK_RMinHeight), get(NUD_RHeightMinWeight, CHK_RMinHeight));
             Dex.SetSizeData(DexSizeType.MaxHeight, index, get(NUD_RHeightMax, CHK_RMaxHeight), get(NUD_RHeightMaxWeight, CHK_RMaxHeight));

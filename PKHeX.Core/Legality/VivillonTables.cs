@@ -303,23 +303,16 @@ namespace PKHeX.Core
         /// <returns>Country is within Console Region</returns>
         public static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
         {
-            switch (consoleRegion)
+            return consoleRegion switch
             {
-                case 0: // Japan
-                    return country == 1;
-                case 1: // Americas
-                    return (8 <= country && country <= 52) || ExtendedAmericas.Contains(country);
-                case 2: // Europe
-                    return (64 <= country && country <= 127) || ExtendedEurope.Contains(country);
-                case 4: // China
-                    return country == 144 || country == 160;
-                case 5: // Korea
-                    return country == 136;
-                case 6: // Taiwan
-                    return country == 144 || country == 128;
-                default:
-                    return false;
-            }
+                0 => (country == 1), // Japan
+                1 => ((8 <= country && country <= 52) || ExtendedAmericas.Contains(country)), // Americas
+                2 => ((64 <= country && country <= 127) || ExtendedEurope.Contains(country)), // Europe
+                4 => (country == 144 || country == 160), // China
+                5 => (country == 136), // Korea
+                6 => (country == 144 || country == 128), // Taiwan
+                _ => false
+            };
         }
 
         private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> {153, 156, 168, 174, 186};

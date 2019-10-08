@@ -58,38 +58,28 @@ namespace PKHeX.Core.Searching
 
         public static IEnumerable<PKM> FilterByEVs(IEnumerable<PKM> res, int option)
         {
-            switch (option)
+            return option switch
             {
-                default: return res; // Any (Do nothing)
-                case 1: // None (0)
-                    return res.Where(pk => pk.EVTotal == 0);
-                case 2: // Some (127-0)
-                    return res.Where(pk => pk.EVTotal < 128);
-                case 3: // Half (128-507)
-                    return res.Where(pk => pk.EVTotal >= 128 && pk.EVTotal < 508);
-                case 4: // Full (508+)
-                    return res.Where(pk => pk.EVTotal >= 508);
-            }
+                1 => res.Where(pk => pk.EVTotal == 0), // None (0)
+                2 => res.Where(pk => pk.EVTotal < 128), // Some (127-0)
+                3 => res.Where(pk => pk.EVTotal >= 128 && pk.EVTotal < 508), // Half (128-507)
+                4 => res.Where(pk => pk.EVTotal >= 508), // Full (508+)
+                _ => res
+            };
         }
 
         public static IEnumerable<PKM> FilterByIVs(IEnumerable<PKM> res, int option)
         {
-            switch (option)
+            return option switch
             {
-                default: return res; // Do nothing
-                case 1: // <= 90
-                    return res.Where(pk => pk.IVTotal <= 90);
-                case 2: // 91-120
-                    return res.Where(pk => pk.IVTotal > 90 && pk.IVTotal <= 120);
-                case 3: // 121-150
-                    return res.Where(pk => pk.IVTotal > 120 && pk.IVTotal <= 150);
-                case 4: // 151-179
-                    return res.Where(pk => pk.IVTotal > 150 && pk.IVTotal < 180);
-                case 5: // 180+
-                    return res.Where(pk => pk.IVTotal >= 180);
-                case 6: // == 186
-                    return res.Where(pk => pk.IVTotal == 186);
-            }
+                1 => res.Where(pk => pk.IVTotal <= 90), // <= 90
+                2 => res.Where(pk => pk.IVTotal > 90 && pk.IVTotal <= 120), // 91-120
+                3 => res.Where(pk => pk.IVTotal > 120 && pk.IVTotal <= 150), // 121-150
+                4 => res.Where(pk => pk.IVTotal > 150 && pk.IVTotal < 180), // 151-179
+                5 => res.Where(pk => pk.IVTotal >= 180), // 180+
+                6 => res.Where(pk => pk.IVTotal == 186), // == 186
+                _ => res
+            };
         }
 
         public static IEnumerable<PKM> FilterByMoves(IEnumerable<PKM> res, IEnumerable<int> Moves)
@@ -115,14 +105,12 @@ namespace PKHeX.Core.Searching
 
         public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod Clones)
         {
-            switch (Clones)
+            return Clones switch
             {
-                default: return null;
-                case CloneDetectionMethod.HashDetails:
-                    return HashByDetails;
-                case CloneDetectionMethod.HashPID:
-                    return HashByPID;
-            }
+                CloneDetectionMethod.HashDetails => HashByDetails,
+                CloneDetectionMethod.HashPID => HashByPID,
+                _ => (Func<PKM, string>)null
+            };
         }
 
         public static string HashByDetails(PKM pk)

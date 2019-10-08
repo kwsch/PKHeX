@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
         private static int FindIndexIgnoreCase(string[] arr, string val)
         {
-            bool Match(string item, string find)
+            static bool Match(string item, string find)
             {
                 if (item.Length != find.Length)
                     return false;

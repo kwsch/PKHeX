@@ -18,18 +18,14 @@ namespace PKHeX.Core
             if (info.Generation < 6)
                 return VerifyRelearnNone(pkm, info);
 
-            switch (info.EncounterMatch)
+            return info.EncounterMatch switch
             {
-                case MysteryGift g:
-                    return VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves);
-                case EncounterStatic s when s.Relearn.Length > 0:
-                    return VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn);
-                case EncounterEgg e:
-                    return VerifyRelearnEggBase(pkm, info, e);
-                case EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterSlotGenerator.IsDexNavValid(pkm):
-                    return VerifyRelearnDexNav(pkm, info);
-            }
-            return VerifyRelearnNone(pkm, info);
+                MysteryGift g => VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves),
+                EncounterStatic s when s.Relearn.Length > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
+                EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
+                EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterSlotGenerator.IsDexNavValid(pkm) => VerifyRelearnDexNav(pkm, info),
+                _ => VerifyRelearnNone(pkm, info)
+            };
         }
 
         private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, int[] moves)

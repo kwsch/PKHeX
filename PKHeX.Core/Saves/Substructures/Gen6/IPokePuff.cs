@@ -4,6 +4,7 @@ namespace PKHeX.Core
     {
         Puff6 PuffBlock { get; }
     }
+
     public interface IOPower
     {
         OPower6 OPowerBlock { get; }

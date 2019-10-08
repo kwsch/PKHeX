@@ -72,6 +72,17 @@ namespace PKHeX.WinForms
             }
         }
 
+        public static bool OpenWindowExists<T>(this Form parent) where T : Form
+        {
+            var form = FirstFormOfType<T>();
+            if (form == null)
+                return false;
+
+            form.CenterToForm(parent);
+            form.BringToFront();
+            return true;
+        }
+
         #region Message Displays
         /// <summary>
         /// Displays a dialog showing the details of an error.
@@ -133,8 +144,10 @@ namespace PKHeX.WinForms
                 case ScrollOrientation.VerticalScroll:
                     p.VerticalScroll.Value = Clamp(e.NewValue, p.VerticalScroll);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
-            int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
+            static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
         }
 
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
@@ -211,7 +224,7 @@ namespace PKHeX.WinForms
         public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string path)
         {
             string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
-            var ofd = new OpenFileDialog
+            using var ofd = new OpenFileDialog
             {
                 Filter = "All Files|*.*" +
                          $"|Supported Files (*.*)|main;*.bin;{supported};*.bak" + ExtraSaveExtensions +
@@ -255,7 +268,7 @@ namespace PKHeX.WinForms
                          (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : string.Empty) +
                          "|Binary File|*.bin" +
                          "|All Files|*.*";
-            var sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 Filter = genericFilter,
                 DefaultExt = pkx,
@@ -295,7 +308,7 @@ namespace PKHeX.WinForms
         /// <returns>Result of whether or not the file was saved.</returns>
         public static bool ExportSAVDialog(SaveFile sav, int currentBox = 0)
         {
-            var sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 Filter = sav.Filter,
                 FileName = sav.FileName,
@@ -350,7 +363,7 @@ namespace PKHeX.WinForms
         /// <returns>Result of whether or not the file was saved.</returns>
         public static bool ExportMGDialog(MysteryGift gift, GameVersion origin)
         {
-            var sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 Filter = GetMysterGiftFilter(gift.Format, origin),
                 FileName = Util.CleanFileName(gift.FileName)
@@ -373,17 +386,16 @@ namespace PKHeX.WinForms
         public static string GetMysterGiftFilter(int format, GameVersion origin)
         {
             const string all = "|All Files|*.*";
-            switch (format)
+            return format switch
             {
-                case 4: return "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all;
-                case 5: return "Gen5 Mystery Gift|*.pgf" + all;
-                case 6: return "Gen6 Mystery Gift|*.wc6;*.wc6full" + all;
-                case 7:
-                    return GameVersion.GG.Contains(origin)
-                        ? "Beluga Gift Record|*.wr7" + all
-                        : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all;
-                default: return string.Empty;
-            }
+                4 => ("Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all),
+                5 => ("Gen5 Mystery Gift|*.pgf" + all),
+                6 => ("Gen6 Mystery Gift|*.wc6;*.wc6full" + all),
+                7 => (GameVersion.GG.Contains(origin)
+                    ? "Beluga Gift Record|*.wr7" + all
+                    : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all),
+                _ => string.Empty
+            };
         }
     }
 }

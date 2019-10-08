@@ -222,19 +222,12 @@ namespace PKHeX.Core
 
         public static MemoryVariableSet Read(PKM pkm, int handler)
         {
-            switch (handler)
+            return handler switch
             {
-                case 0: // OT
-                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT,
-                        pkm.OT_Memory, pkm.OT_TextVar,
-                        pkm.OT_Intensity, pkm.OT_Feeling);
-                case 1: // HT
-                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT,
-                        pkm.HT_Memory, pkm.HT_TextVar,
-                        pkm.HT_Intensity, pkm.HT_Feeling);
-                default:
-                    return new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0);
-            }
+                0 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.OT_Memory, pkm.OT_TextVar, pkm.OT_Intensity, pkm.OT_Feeling), // OT
+                1 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.HT_Memory, pkm.HT_TextVar, pkm.HT_Intensity, pkm.HT_Feeling), // HT
+                _ => new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0)
+            };
         }
     }
 }

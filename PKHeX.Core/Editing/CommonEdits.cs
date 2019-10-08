@@ -193,7 +193,7 @@ namespace PKHeX.Core
             pk.Move4_PPUps = GetPPUpCount(Moves[3]);
 
             pk.SetMaximumPPCurrent(Moves);
-            int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
+            static int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
         }
 
         /// <summary>
@@ -419,8 +419,8 @@ namespace PKHeX.Core
                 return GetSimpleMarking;
             return GetComplexMarking;
 
-            int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
-            int GetComplexMarking(int val, int _)
+            static int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
+            static int GetComplexMarking(int val, int _)
             {
                 if (val == 31 || val == 1)
                     return 1;

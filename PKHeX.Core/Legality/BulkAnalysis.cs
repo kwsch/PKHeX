@@ -55,7 +55,7 @@ namespace PKHeX.Core
 
         private void AddLine(PKM first, PKM second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
         {
-            string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
+            static string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
 
             var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}";
             var chk = new CheckResult(s, c, i);

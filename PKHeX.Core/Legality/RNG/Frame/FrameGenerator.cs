@@ -93,12 +93,12 @@
         {
             if (ratio == 0 || ratio == 0xFE || ratio == 0xFF)
                 gender = 2;
-            switch (gender)
+            return gender switch
             {
-                case 0: return max ? 255 : ratio; // male
-                case 1: return max ? ratio - 1 : 0; // female
-                default: return max ? 255 : 0; // fixed/genderless
-            }
+                0 => (max ? 255 : ratio), // male
+                1 => (max ? ratio - 1 : 0), // female
+                _ => (max ? 255 : 0),
+            };
         }
     }
 }

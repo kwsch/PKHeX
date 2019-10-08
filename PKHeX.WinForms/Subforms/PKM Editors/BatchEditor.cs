@@ -41,7 +41,7 @@ namespace PKHeX.WinForms
         private void B_Open_Click(object sender, EventArgs e)
         {
             if (!B_Go.Enabled) return;
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -143,7 +143,7 @@ namespace PKHeX.WinForms
             if (RB_Path.Checked)
             {
                 WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
-                var fbd = new FolderBrowserDialog();
+                using var fbd = new FolderBrowserDialog();
                 var dr = fbd.ShowDialog();
                 if (dr != DialogResult.OK)
                     return;

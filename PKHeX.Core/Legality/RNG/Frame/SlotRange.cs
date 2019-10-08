@@ -17,44 +17,33 @@ namespace PKHeX.Core
 
         public static int GetSlot(SlotType type, uint rand, FrameType t)
         {
-            switch (t)
+            return t switch
             {
-                case FrameType.MethodH:
-                    return HSlot(type, rand);
-                case FrameType.MethodJ:
-                    return JSlot(type, rand);
-                case FrameType.MethodK:
-                    return KSlot(type, rand);
-            }
-            return -1;
+                FrameType.MethodH => HSlot(type, rand),
+                FrameType.MethodJ => JSlot(type, rand),
+                FrameType.MethodK => KSlot(type, rand),
+                _ => -1
+            };
         }
 
         private static int HSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
-            switch (type)
+            return type switch
             {
-                case SlotType.Old_Rod:
-                case SlotType.Old_Rod_Safari:
-                    return CalcSlot(ESV, H_OldRod);
-                case SlotType.Good_Rod:
-                case SlotType.Good_Rod_Safari:
-                    return CalcSlot(ESV, H_GoodRod);
-                case SlotType.Super_Rod:
-                case SlotType.Super_Rod_Safari:
-                    return CalcSlot(ESV, H_SuperRod);
-
-                case SlotType.Rock_Smash:
-                case SlotType.Rock_Smash_Safari:
-                case SlotType.Surf:
-                case SlotType.Surf_Safari:
-                    return CalcSlot(ESV, H_Surf);
-
-                case SlotType.Swarm:
-                    return ESV < 50 ? 0 : -1;
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Old_Rod =>        CalcSlot(ESV, H_OldRod),
+                SlotType.Old_Rod_Safari => CalcSlot(ESV, H_OldRod),
+                SlotType.Good_Rod =>        CalcSlot(ESV, H_GoodRod),
+                SlotType.Good_Rod_Safari => CalcSlot(ESV, H_GoodRod),
+                SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
+                SlotType.Super_Rod_Safari => CalcSlot(ESV, H_SuperRod),
+                SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
+                SlotType.Rock_Smash_Safari => CalcSlot(ESV, H_Surf),
+                SlotType.Surf =>        CalcSlot(ESV, H_Surf),
+                SlotType.Surf_Safari => CalcSlot(ESV, H_Surf),
+                SlotType.Swarm => (ESV < 50 ? 0 : -1),
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
 
         private static int KSlot(SlotType type, uint rand)

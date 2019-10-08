@@ -61,7 +61,6 @@ namespace PKHeX.Core
         internal static readonly EggMoves[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
         internal static readonly Learnset[] LevelUpSWSH = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
 
-
         // Setup Help
         static Legal()
         {
@@ -346,35 +345,34 @@ namespace PKHeX.Core
 
         public static IReadOnlyList<byte> GetPPTable(int format)
         {
-            switch (format)
+            return format switch
             {
-                case 1: return MovePP_RBY;
-                case 2: return MovePP_GSC;
-                case 3: return MovePP_RS;
-                case 4: return MovePP_DP;
-                case 5: return MovePP_BW;
-                case 6: return MovePP_XY;
-                case 7: return MovePP_SM;
-                case 8: return MovePP_SWSH;
-                default: return Array.Empty<byte>();
-            }
+                1 => MovePP_RBY,
+                2 => MovePP_GSC,
+                3 => MovePP_RS,
+                4 => MovePP_DP,
+                5 => MovePP_BW,
+                6 => MovePP_XY,
+                7 => MovePP_SM,
+                8 => MovePP_SWSH,
+                _ => Array.Empty<byte>()
+            };
         }
 
         internal static ICollection<int> GetWildBalls(PKM pkm)
         {
-            switch (pkm.GenNumber)
+            return pkm.GenNumber switch
             {
-                case 1: return WildPokeBalls1;
-                case 2: return WildPokeBalls2;
-                case 3: return WildPokeBalls3;
-                case 4: return pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt;
-                case 5: return WildPokeBalls5;
-                case 6: return WildPokeballs6;
-                case 7: return pkm.GG ? WildPokeballs7b : WildPokeballs7;
-                case 8: return WildPokeballs8;
-
-                default: return Array.Empty<int>();
-            }
+                1 => WildPokeBalls1,
+                2 => WildPokeBalls2,
+                3 => WildPokeBalls3,
+                4 => (pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt),
+                5 => WildPokeBalls5,
+                6 => WildPokeballs6,
+                7 => (pkm.GG ? WildPokeballs7b : WildPokeballs7),
+                8 => WildPokeballs8,
+                _ => (ICollection<int>)Array.Empty<int>()
+            };
         }
 
         internal static int GetEggHatchLevel(PKM pkm) => GetEggHatchLevel(pkm.Format);
@@ -408,31 +406,31 @@ namespace PKHeX.Core
 
         internal static int GetMaxSpeciesOrigin(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return MaxSpeciesID_1;
-                case 2: return MaxSpeciesID_2;
-                case 3: return MaxSpeciesID_3;
-                case 4: return MaxSpeciesID_4;
-                case 5: return MaxSpeciesID_5;
-                case 6: return MaxSpeciesID_6;
-                case 7: return MaxSpeciesID_7b;
-                case 8: return MaxSpeciesID_8;
-                default: return -1;
-            }
+                1 => MaxSpeciesID_1,
+                2 => MaxSpeciesID_2,
+                3 => MaxSpeciesID_3,
+                4 => MaxSpeciesID_4,
+                5 => MaxSpeciesID_5,
+                6 => MaxSpeciesID_6,
+                7 => MaxSpeciesID_7b,
+                8 => MaxSpeciesID_8,
+                _ => -1
+            };
         }
 
         internal static ICollection<int> GetFutureGenEvolutions(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return FutureEvolutionsGen1;
-                case 2: return FutureEvolutionsGen2;
-                case 3: return FutureEvolutionsGen3;
-                case 4: return FutureEvolutionsGen4;
-                case 5: return FutureEvolutionsGen5;
-                default: return Array.Empty<int>();
-            }
+                1 => FutureEvolutionsGen1,
+                2 => FutureEvolutionsGen2,
+                3 => FutureEvolutionsGen3,
+                4 => FutureEvolutionsGen4,
+                5 => FutureEvolutionsGen5,
+                _ => (ICollection<int>)Array.Empty<int>()
+            };
         }
 
         internal static int GetDebutGeneration(int species)
@@ -458,36 +456,33 @@ namespace PKHeX.Core
 
         internal static int GetMaxLanguageID(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                case 3:
-                    return (int)LanguageID.Spanish; // 1-7 except 6
-                case 2:
-                case 4:
-                case 5:
-                case 6:
-                    return (int)LanguageID.Korean;
-                case 7:
-                case 8:
-                    return (int)LanguageID.ChineseT;
-            }
-            return -1;
+                1 => (int) LanguageID.Spanish, // 1-7 except 6
+                3 => (int) LanguageID.Spanish, // 1-7 except 6
+                2 => (int) LanguageID.Korean,
+                4 => (int) LanguageID.Korean,
+                5 => (int) LanguageID.Korean,
+                6 => (int) LanguageID.Korean,
+                7 => (int) LanguageID.ChineseT,
+                8 => (int) LanguageID.ChineseT,
+                _ => -1
+            };
         }
 
         private static bool[] GetReleasedHeldItems(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 2: return ReleasedHeldItems_2;
-                case 3: return ReleasedHeldItems_3;
-                case 4: return ReleasedHeldItems_4;
-                case 5: return ReleasedHeldItems_5;
-                case 6: return ReleasedHeldItems_6;
-                case 7: return ReleasedHeldItems_7;
-                case 8: return ReleasedHeldItems_8;
-                default: return Array.Empty<bool>();
-            }
+                2 => ReleasedHeldItems_2,
+                3 => ReleasedHeldItems_3,
+                4 => ReleasedHeldItems_4,
+                5 => ReleasedHeldItems_5,
+                6 => ReleasedHeldItems_6,
+                7 => ReleasedHeldItems_7,
+                8 => ReleasedHeldItems_8,
+                _ => Array.Empty<bool>()
+            };
         }
 
         internal static bool IsHeldItemAllowed(PKM pkm)

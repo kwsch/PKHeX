@@ -74,12 +74,12 @@ namespace PKHeX.WinForms
 
         public Color GetGenderColor(int gender)
         {
-            switch (gender)
+            return gender switch
             {
-                case 0: return Male;
-                case 1: return Female;
-                default: return TextColor;
-            }
+                0 => Male,
+                1 => Female,
+                _ => TextColor
+            };
         }
 
         public bool GetMarkingColor(int markval, out Color c)

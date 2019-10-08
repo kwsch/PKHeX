@@ -135,16 +135,15 @@ namespace PKHeX.Core
 
         private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type)
         {
-            switch (type)
+            return type switch
             {
-                case EncounterOrder.Egg: return GetEggs(pk, needs, version);
-                case EncounterOrder.Mystery: return GetGifts(pk, needs);
-                case EncounterOrder.Static: return GetStatic(pk, needs);
-                case EncounterOrder.Trade: return GetTrades(pk, needs);
-                case EncounterOrder.Slot: return GetSlots(pk, needs);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                EncounterOrder.Egg => (IEnumerable<IEncounterable>)GetEggs(pk, needs, version),
+                EncounterOrder.Mystery => GetGifts(pk, needs),
+                EncounterOrder.Static => GetStatic(pk, needs),
+                EncounterOrder.Trade => GetTrades(pk, needs),
+                EncounterOrder.Slot => GetSlots(pk, needs),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
         /// <summary>

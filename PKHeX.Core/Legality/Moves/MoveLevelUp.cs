@@ -229,15 +229,14 @@ namespace PKHeX.Core
 
         private static GameVersion GetDeoxysGameVersion3(int form)
         {
-            switch (form)
+            return form switch
             {
-                case 0: return RS;
-                case 1: return FR;
-                case 2: return LG;
-                case 3: return E;
-                default:
-                    return Invalid;
-            }
+                0 => RS,
+                1 => FR,
+                2 => LG,
+                3 => E,
+                _ => Invalid
+            };
         }
 
         private static Learnset GetDeoxysLearn3(int form, GameVersion ver = Any)
@@ -245,14 +244,14 @@ namespace PKHeX.Core
             const int index = (int)Species.Deoxys;
             if (ver == Any)
             {
-                switch (form)
+                return form switch
                 {
-                    case 0: return LevelUpRS[index]; // Normal
-                    case 1: return LevelUpFR[index]; // Attack
-                    case 2: return LevelUpLG[index]; // Defense
-                    case 3: return LevelUpE[index]; // Speed
-                    default: return null;
-                }
+                    0 => LevelUpRS[index], // Normal
+                    1 => LevelUpFR[index], // Attack
+                    2 => LevelUpLG[index], // Defense
+                    3 => LevelUpE[index], // Speed
+                    _ => null,
+                };
             }
 
             var gen = ver.GetGeneration();
@@ -265,18 +264,18 @@ namespace PKHeX.Core
         {
             if (pkm.IsMovesetRestricted())
                 version = (GameVersion)pkm.Version;
-            switch (Generation)
+            return Generation switch
             {
-                case 1: return GetMovesLevelUp1(species, form, lvl, minlvlG1, version);
-                case 2: return GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version);
-                case 3: return GetMovesLevelUp3(species, form, lvl, version);
-                case 4: return GetMovesLevelUp4(species, form, lvl, version);
-                case 5: return GetMovesLevelUp5(species, form, lvl, version);
-                case 6: return GetMovesLevelUp6(species, form, lvl, version);
-                case 7: return GetMovesLevelUp7(species, form, lvl, MoveReminder, version);
-                case 8: return GetMovesLevelUp8(species, form, lvl, MoveReminder, version);
-            }
-            return Array.Empty<int>();
+                1 => (IEnumerable<int>) GetMovesLevelUp1(species, form, lvl, minlvlG1, version),
+                2 => GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version),
+                3 => GetMovesLevelUp3(species, form, lvl, version),
+                4 => GetMovesLevelUp4(species, form, lvl, version),
+                5 => GetMovesLevelUp5(species, form, lvl, version),
+                6 => GetMovesLevelUp6(species, form, lvl, version),
+                7 => GetMovesLevelUp7(species, form, lvl, MoveReminder, version),
+                8 => GetMovesLevelUp8(species, form, lvl, MoveReminder, version),
+                _ => Array.Empty<int>()
+            };
         }
 
         private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC);

@@ -423,7 +423,7 @@ namespace PKHeX.Core
                 default:
                     return ModifyResult.Error;
             }
-            byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
+            static byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
         }
 
         /// <summary>
@@ -434,7 +434,7 @@ namespace PKHeX.Core
         /// <returns>True if modified, false if no modifications done.</returns>
         private static bool SetComplexProperty(PKM pk, StringInstruction cmd)
         {
-            DateTime parseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            static DateTime parseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
             if (cmd.PropertyName == nameof(PKM.MetDate))
                 pk.MetDate = parseDate(cmd.PropertyValue);

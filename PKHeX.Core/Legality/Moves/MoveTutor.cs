@@ -9,19 +9,18 @@ namespace PKHeX.Core
     {
         public static GameVersion GetIsTutorMove(PKM pkm, int species, int form, int generation, int move, bool specialTutors = true)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return GetIsTutor1(pkm, species, move);
-                case 2: return GetIsTutor2(pkm, species, move);
-                case 3: return GetIsTutor3(species, move);
-                case 4: return GetIsTutor4(species, form, move);
-                case 5: return GetIsTutor5(pkm, species, form, specialTutors, move);
-                case 6: return GetIsTutor6(pkm, species, form, specialTutors, move);
-                case 7: return GetIsTutor7(pkm, species, form, specialTutors, move);
-                case 8: return GetIsTutor8(pkm, species, form, specialTutors, move);
-                default:
-                    return NONE;
-            }
+                1 => GetIsTutor1(pkm, species, move),
+                2 => GetIsTutor2(pkm, species, move),
+                3 => GetIsTutor3(species, move),
+                4 => GetIsTutor4(species, form, move),
+                5 => GetIsTutor5(pkm, species, form, specialTutors, move),
+                6 => GetIsTutor6(pkm, species, form, specialTutors, move),
+                7 => GetIsTutor7(pkm, species, form, specialTutors, move),
+                8 => GetIsTutor8(pkm, species, form, specialTutors, move),
+                _ => NONE
+            };
         }
 
         private static GameVersion GetIsTutor1(PKM pkm, int species, int move)

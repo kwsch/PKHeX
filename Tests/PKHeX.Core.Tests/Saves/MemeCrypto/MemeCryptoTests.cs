@@ -80,7 +80,6 @@ namespace PKHeX.Tests.Saves
 
             Assert.True(MemeCrypto.VerifyMemePOKE(vector, out var _));
             Assert.True(MemeCrypto.VerifyMemePOKE(vector2, out var _));
-
         }
 
         public static IEnumerable<object[]> KnownKeys()

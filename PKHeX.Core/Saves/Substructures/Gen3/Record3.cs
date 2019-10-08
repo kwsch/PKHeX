@@ -23,17 +23,13 @@ namespace PKHeX.Core
 
         public static int GetOffset(GameVersion ver)
         {
-            switch (ver)
+            return ver switch
             {
-                case GameVersion.RS:
-                    return 0x1540;
-                case GameVersion.FRLG:
-                    return 0x1200;
-                case GameVersion.E:
-                    return 0x159C;
-                default:
-                    throw new ArgumentException(nameof(ver));
-            }
+                GameVersion.RS => 0x1540,
+                GameVersion.FRLG => 0x1200,
+                GameVersion.E => 0x159C,
+                _ => throw new ArgumentException(nameof(ver))
+            };
         }
 
         public static uint GetKey(SAV3 sav)
@@ -43,35 +39,19 @@ namespace PKHeX.Core
             return sav.SecurityKey;
         }
 
-        public static int[] GetEnumValues(GameVersion ver)
+        private static Type GetEnumType(GameVersion ver)
         {
-            switch (ver)
+            return ver switch
             {
-                case GameVersion.RS:
-                    return (int[])Enum.GetValues(typeof(RecID3RuSa));
-                case GameVersion.FRLG:
-                    return (int[])Enum.GetValues(typeof(RecID3FRLG));
-                case GameVersion.E:
-                    return (int[])Enum.GetValues(typeof(RecID3Emerald));
-                default:
-                    throw new ArgumentException(nameof(ver));
-            }
+                GameVersion.RS => typeof(RecID3RuSa),
+                GameVersion.FRLG => typeof(RecID3FRLG),
+                GameVersion.E => typeof(RecID3Emerald),
+                _ => throw new ArgumentException(nameof(ver))
+            };
         }
 
-        public static string[] GetEnumNames(GameVersion ver)
-        {
-            switch (ver)
-            {
-                case GameVersion.RS:
-                    return Enum.GetNames(typeof(RecID3RuSa));
-                case GameVersion.FRLG:
-                    return Enum.GetNames(typeof(RecID3FRLG));
-                case GameVersion.E:
-                    return Enum.GetNames(typeof(RecID3Emerald));
-                default:
-                    throw new ArgumentException(nameof(ver));
-            }
-        }
+        public static int[] GetEnumValues(GameVersion ver) => (int[])Enum.GetValues(GetEnumType(ver));
+        public static string[] GetEnumNames(GameVersion ver) => Enum.GetNames(GetEnumType(ver));
 
         public static IList<ComboItem> GetItems(SAV3 sav)
         {

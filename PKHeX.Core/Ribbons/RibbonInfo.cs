@@ -28,15 +28,12 @@ namespace PKHeX.Core
             {
                 if (RibbonCount < 0)
                     return -1;
-                switch (Name)
+                return Name switch
                 {
-                    case nameof(IRibbonSetCommon6.RibbonCountMemoryContest):
-                        return 40;
-                    case nameof(IRibbonSetCommon6.RibbonCountMemoryBattle):
-                        return 8;
-                    default:
-                        return 4; // g3 contest ribbons
-                }
+                    nameof(IRibbonSetCommon6.RibbonCountMemoryContest) => 40,
+                    nameof(IRibbonSetCommon6.RibbonCountMemoryBattle) => 8,
+                    _ => 4
+                };
             }
         }
 

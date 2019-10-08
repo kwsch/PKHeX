@@ -528,16 +528,16 @@ namespace PKHeX.Core
             get
             {
                 int loc = Egg_Location;
-                switch (GenNumber)
+                return GenNumber switch
                 {
-                    case 4: return Legal.EggLocations4.Contains(loc) || (Species == (int)Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS); // faraway
-                    case 5: return Legal.EggLocations5.Contains(loc);
-                    case 6: return Legal.EggLocations6.Contains(loc);
-                    case 7: return Legal.EggLocations7.Contains(loc);
-                    case 8: return Legal.EggLocations8.Contains(loc);
-                }
-                // Gen 1/2 and pal park Gen 3
-                return false;
+                    4 => (Legal.EggLocations4.Contains(loc) || (Species == (int) Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS)), // faraway
+                    5 => Legal.EggLocations5.Contains(loc),
+                    6 => Legal.EggLocations6.Contains(loc),
+                    7 => Legal.EggLocations7.Contains(loc),
+                    8 => Legal.EggLocations8.Contains(loc),
+                    // Gen 1/2 and pal park Gen 3
+                    _ => false
+                };
             }
         }
 
@@ -636,19 +636,18 @@ namespace PKHeX.Core
                 return false; // Future
 
             int gen = GenNumber;
-            switch (Generation)
+            return Generation switch
             {
-                case 1: return Format == 1 || VC; // species compat checked via sanity above
-                case 2: return Format == 2 || VC;
-                case 3: return Gen3;
-                case 4: return 3 <= gen && gen <= 4;
-                case 5: return 3 <= gen && gen <= 5;
-                case 6: return 3 <= gen && gen <= 6;
-                case 7: return (3 <= gen && gen <= 7) || VC;
-                case 8: return (3 <= gen && gen <= 8) || VC;
-                default:
-                    return false;
-            }
+                1 => (Format == 1 || VC), // species compat checked via sanity above
+                2 => (Format == 2 || VC),
+                3 => Gen3,
+                4 => (3 <= gen && gen <= 4),
+                5 => (3 <= gen && gen <= 5),
+                6 => (3 <= gen && gen <= 6),
+                7 => ((3 <= gen && gen <= 7) || VC),
+                8 => ((3 <= gen && gen <= 8) || VC),
+                _ => false
+            };
         }
 
         /// <summary>
@@ -1104,17 +1103,16 @@ namespace PKHeX.Core
         /// <param name="index">Index to get</param>
         public int GetEV(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return EV_HP;
-                case 1: return EV_ATK;
-                case 2: return EV_DEF;
-                case 3: return EV_SPE;
-                case 4: return EV_SPA;
-                case 5: return EV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => EV_HP,
+                1 => EV_ATK,
+                2 => EV_DEF,
+                3 => EV_SPE,
+                4 => EV_SPA,
+                5 => EV_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         /// <summary>
@@ -1123,17 +1121,16 @@ namespace PKHeX.Core
         /// <param name="index">Index to get</param>
         public int GetIV(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return IV_HP;
-                case 1: return IV_ATK;
-                case 2: return IV_DEF;
-                case 3: return IV_SPE;
-                case 4: return IV_SPA;
-                case 5: return IV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => IV_HP,
+                1 => IV_ATK,
+                2 => IV_DEF,
+                3 => IV_SPE,
+                4 => IV_SPA,
+                5 => IV_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
     }
 }

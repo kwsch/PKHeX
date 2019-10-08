@@ -193,7 +193,7 @@ namespace PKHeX.WinForms.Controls
 
             if (dr == DialogResult.Yes)
             {
-                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
+                using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
                 File.WriteAllBytes(sfd.FileName, SAV.GetPCBinary());
@@ -201,7 +201,7 @@ namespace PKHeX.WinForms.Controls
             }
             if (dr == DialogResult.No)
             {
-                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
+                using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
                 File.WriteAllBytes(sfd.FileName, SAV.GetBoxBinary(CurrentBox));

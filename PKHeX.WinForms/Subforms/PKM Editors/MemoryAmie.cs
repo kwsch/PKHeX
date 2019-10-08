@@ -347,15 +347,15 @@ namespace PKHeX.WinForms
 
             public string GetMemoryCategory(MemoryArgType type)
             {
-                switch (type)
+                return type switch
                 {
-                    default: return string.Empty;
-                    case MemoryArgType.GeneralLocation: return Area;
-                    case MemoryArgType.SpecificLocation: return Location;
-                    case MemoryArgType.Species: return Species;
-                    case MemoryArgType.Move: return Move;
-                    case MemoryArgType.Item: return Item;
-                }
+                    MemoryArgType.GeneralLocation => Area,
+                    MemoryArgType.SpecificLocation => Location,
+                    MemoryArgType.Species => Species,
+                    MemoryArgType.Move => Move,
+                    MemoryArgType.Item => Item,
+                    _ => string.Empty
+                };
             }
         }
     }

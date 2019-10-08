@@ -810,19 +810,14 @@ namespace PKHeX.Core
 
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
-            switch (species)
+            return species switch
             {
-                case (int)Species.Rotom: // Rotom
-                    return GetDexFormValues(BitConverter.ToUInt32(General, FormOffset2), 3, 6);
-                case (int)Species.Shaymin: // Shaymin
-                    return GetDexFormValues(General[FormOffset2 + 4], 1, 2);
-                case (int)Species.Giratina: // Giratina
-                    return GetDexFormValues(General[FormOffset2 + 5], 1, 2);
-                case (int)Species.Pichu when HGSS: // Pichu
-                    return GetDexFormValues(General[FormOffset2 + 6], 2, 3);
-            }
-
-            return Array.Empty<int>();
+                (int)Species.Rotom => GetDexFormValues(BitConverter.ToUInt32(General, FormOffset2), 3, 6),
+                (int)Species.Shaymin => GetDexFormValues(General[FormOffset2 + 4], 1, 2),
+                (int)Species.Giratina => GetDexFormValues(General[FormOffset2 + 5], 1, 2),
+                (int)Species.Pichu when HGSS => GetDexFormValues(General[FormOffset2 + 6], 2, 3),
+                _ => Array.Empty<int>()
+            };
         }
 
         public void SetForms(int spec, int[] forms)

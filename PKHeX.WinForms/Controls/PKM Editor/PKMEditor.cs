@@ -434,8 +434,8 @@ namespace PKHeX.WinForms.Controls
 
         private void SetMarkings()
         {
-            double getOpacity(bool b) => b ? 1 : 0.175;
-            Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
+            static double getOpacity(bool b) => b ? 1 : 0.175;
+            static Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
                 : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
 
             var pba = Markings;
@@ -471,7 +471,7 @@ namespace PKHeX.WinForms.Controls
             Label_Gender.ForeColor = Draw.GetGenderColor(Gender);
         }
 
-        private void SetCountrySubRegion(ComboBox CB, string type)
+        private static void SetCountrySubRegion(ComboBox CB, string type)
         {
             int index = CB.SelectedIndex;
             CB.DataSource = Util.GetCountryRegionList(type, GameInfo.CurrentLanguage);
@@ -528,7 +528,7 @@ namespace PKHeX.WinForms.Controls
         private void ClickPPUps(object sender, EventArgs e)
         {
             bool min = ModifierKeys.HasFlag(Keys.Control);
-            int getValue(ComboBox cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
+            static int getValue(ComboBox cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
             CB_PPu1.SelectedIndex = getValue(CB_Move1, min);
             CB_PPu2.SelectedIndex = getValue(CB_Move2, min);
             CB_PPu3.SelectedIndex = getValue(CB_Move3, min);
@@ -578,13 +578,11 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            using (var frm = new BallBrowser())
-            {
-                frm.LoadBalls(pkm);
-                frm.ShowDialog();
-                if (frm.BallChoice >= 0)
-                    CB_Ball.SelectedValue = frm.BallChoice;
-            }
+            using var frm = new BallBrowser();
+            frm.LoadBalls(pkm);
+            frm.ShowDialog();
+            if (frm.BallChoice >= 0)
+                CB_Ball.SelectedValue = frm.BallChoice;
         }
 
         private void ClickShinyLeaf(object sender, EventArgs e) => ShinyLeaf.CheckAll(ModifierKeys != Keys.Control);
@@ -1561,7 +1559,8 @@ namespace PKHeX.WinForms.Controls
             pkm.OT_Name = TB_OT.Text;
             pkm.IsEgg = CHK_IsEgg.Checked;
             pkm.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
-            new MemoryAmie(pkm).ShowDialog();
+            using var form = new MemoryAmie(pkm);
+            form.ShowDialog();
             TB_Friendship.Text = pkm.CurrentFriendship.ToString();
         }
 

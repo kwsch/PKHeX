@@ -95,11 +95,12 @@ namespace PKHeX.Core
                     var PL2 = new PokeList2(data);
                     return PL2[0];
                 case 3:
-                    switch (data.Length) {
-                        case PKX.SIZE_3CSTORED: return new CK3(data);
-                        case PKX.SIZE_3XSTORED: return new XK3(data);
-                        default: return new PK3(data);
-                    }
+                    return data.Length switch
+                    {
+                        PKX.SIZE_3CSTORED => new CK3(data),
+                        PKX.SIZE_3XSTORED => new XK3(data),
+                        _ => (PKM)new PK3(data)
+                    };
                 case 4:
                     var pk = new PK4(data);
                     if (!pk.Valid || pk.Sanity != 0)

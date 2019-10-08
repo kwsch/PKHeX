@@ -51,7 +51,7 @@ namespace PKHeX.Core
         public int SlotNumber { get; set; }
         public int Generation { get; set; } = -1;
         internal EncounterSlotPermissions _perm;
-        public EncounterSlotPermissions Permissions => _perm ?? (_perm = new EncounterSlotPermissions());
+        public EncounterSlotPermissions Permissions => _perm ??= new EncounterSlotPermissions();
         public GameVersion Version { get; set; }
 
         internal EncounterArea Area { private get; set; }

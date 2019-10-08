@@ -133,122 +133,122 @@ namespace PKHeX.Core
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
-            switch (species)
+            return species switch
             {
-                case 201: return 000; // 28 Unown
-                case 386: return 028; // 4 Deoxys
-                case 492: return 032; // 2 Shaymin
-                case 487: return 034; // 2 Giratina
-                case 479: return 036; // 6 Rotom
-                case 422: return 042; // 2 Shellos
-                case 423: return 044; // 2 Gastrodon
-                case 412: return 046; // 3 Burmy
-                case 413: return 049; // 3 Wormadam
-                case 351: return 052; // 4 Castform
-                case 421: return 056; // 2 Cherrim
-                case 585: return 058; // 4 Deerling
-                case 586: return 062; // 4 Sawsbuck
-                case 648: return 066; // 2 Meloetta
-                case 555: return 068; // 2 Darmanitan
-                case 550: return 070; // 2 Basculin
-                default: return -1;
-            }
+                201 => 000, // 28 Unown
+                386 => 028, // 4 Deoxys
+                492 => 032, // 2 Shaymin
+                487 => 034, // 2 Giratina
+                479 => 036, // 6 Rotom
+                422 => 042, // 2 Shellos
+                423 => 044, // 2 Gastrodon
+                412 => 046, // 3 Burmy
+                413 => 049, // 3 Wormadam
+                351 => 052, // 4 Castform
+                421 => 056, // 2 Cherrim
+                585 => 058, // 4 Deerling
+                586 => 062, // 4 Sawsbuck
+                648 => 066, // 2 Meloetta
+                555 => 068, // 2 Darmanitan
+                550 => 070, // 2 Basculin
+                _ => -1
+            };
         }
 
         public static int GetDexFormIndexB2W2(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
-            switch (species)
+            return species switch
             {
-                case 646: return 072; // 3 Kyurem
-                case 647: return 075; // 2 Keldeo
-                case 642: return 077; // 2 Thundurus
-                case 641: return 079; // 2 Tornadus
-                case 645: return 081; // 2 Landorus
-                default: return GetDexFormIndexBW(species, formct);
-            }
+                646 => 072, // 3 Kyurem
+                647 => 075, // 2 Keldeo
+                642 => 077, // 2 Thundurus
+                641 => 079, // 2 Tornadus
+                645 => 081, // 2 Landorus
+                _ => GetDexFormIndexBW(species, formct)
+            };
         }
 
         public static int GetDexFormIndexXY(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
-            switch (species)
+            return species switch
             {
-                case 666: return 083; // 20 Vivillion
-                case 669: return 103; // 5 Flabébé
-                case 670: return 108; // 6 Floette
-                case 671: return 114; // 5 Florges
-                case 710: return 119; // 4 Pumpkaboo
-                case 711: return 123; // 4 Gourgeist
-                case 681: return 127; // 2 Aegislash
-                case 716: return 129; // 2 Xerneas
-                case 003: return 131; // 2 Venusaur
-                case 006: return 133; // 3 Charizard
-                case 009: return 136; // 2 Blastoise
-                case 065: return 138; // 2 Alakazam
-                case 094: return 140; // 2 Gengar
-                case 115: return 142; // 2 Kangaskhan
-                case 127: return 144; // 2 Pinsir
-                case 130: return 146; // 2 Gyarados
-                case 142: return 148; // 2 Aerodactyl
-                case 150: return 150; // 3 Mewtwo
-                case 181: return 153; // 2 Ampharos
-                case 212: return 155; // 2 Scizor
-                case 214: return 157; // 2 Heracros
-                case 229: return 159; // 2 Houndoom
-                case 248: return 161; // 2 Tyranitar
-                case 257: return 163; // 2 Blaziken
-                case 282: return 165; // 2 Gardevoir
-                case 303: return 167; // 2 Mawile
-                case 306: return 169; // 2 Aggron
-                case 308: return 171; // 2 Medicham
-                case 310: return 173; // 2 Manetric
-                case 354: return 175; // 2 Banette
-                case 359: return 177; // 2 Absol
-                case 380: return 179; // 2 Latias
-                case 381: return 181; // 2 Latios
-                case 445: return 183; // 2 Garchomp
-                case 448: return 185; // 2 Lucario
-                case 460: return 187; // 2 Abomasnow
-                default: return GetDexFormIndexB2W2(species, formct);
-            }
+                666 => 083, // 20 Vivillion
+                669 => 103, // 5 Flabébé
+                670 => 108, // 6 Floette
+                671 => 114, // 5 Florges
+                710 => 119, // 4 Pumpkaboo
+                711 => 123, // 4 Gourgeist
+                681 => 127, // 2 Aegislash
+                716 => 129, // 2 Xerneas
+                003 => 131, // 2 Venusaur
+                006 => 133, // 3 Charizard
+                009 => 136, // 2 Blastoise
+                065 => 138, // 2 Alakazam
+                094 => 140, // 2 Gengar
+                115 => 142, // 2 Kangaskhan
+                127 => 144, // 2 Pinsir
+                130 => 146, // 2 Gyarados
+                142 => 148, // 2 Aerodactyl
+                150 => 150, // 3 Mewtwo
+                181 => 153, // 2 Ampharos
+                212 => 155, // 2 Scizor
+                214 => 157, // 2 Heracros
+                229 => 159, // 2 Houndoom
+                248 => 161, // 2 Tyranitar
+                257 => 163, // 2 Blaziken
+                282 => 165, // 2 Gardevoir
+                303 => 167, // 2 Mawile
+                306 => 169, // 2 Aggron
+                308 => 171, // 2 Medicham
+                310 => 173, // 2 Manetric
+                354 => 175, // 2 Banette
+                359 => 177, // 2 Absol
+                380 => 179, // 2 Latias
+                381 => 181, // 2 Latios
+                445 => 183, // 2 Garchomp
+                448 => 185, // 2 Lucario
+                460 => 187, // 2 Abomasnow
+                _ => GetDexFormIndexB2W2(species, formct)
+            };
         }
 
         public static int GetDexFormIndexORAS(int species, int formct)
         {
             if (formct < 1 || species < 0)
                 return -1; // invalid
-            switch (species)
+            return species switch
             {
-                case 025: return 189; // 7 Pikachu
-                case 720: return 196; // 2 Hoopa
-                case 015: return 198; // 2 Beedrill
-                case 018: return 200; // 2 Pidgeot
-                case 080: return 202; // 2 Slowbro
-                case 208: return 204; // 2 Steelix
-                case 254: return 206; // 2 Sceptile
-                case 260: return 208; // 2 Swampert
-                case 302: return 210; // 2 Sableye
-                case 319: return 212; // 2 Sharpedo
-                case 323: return 214; // 2 Camerupt
-                case 334: return 216; // 2 Altaria
-                case 362: return 218; // 2 Glalie
-                case 373: return 220; // 2 Salamence
-                case 376: return 222; // 2 Metagross
-                case 384: return 224; // 2 Rayquaza
-                case 428: return 226; // 2 Lopunny
-                case 475: return 228; // 2 Gallade
-                case 531: return 230; // 2 Audino
-                case 719: return 232; // 2 Diancie
-                case 382: return 234; // 2 Kyogre
-                case 383: return 236; // 2 Groudon
-                case 493: return 238; // 18 Arceus
-                case 649: return 256; // 5 Genesect
-                case 676: return 261; // 10 Furfrou
-                default: return GetDexFormIndexXY(species, formct);
-            }
+                025 => 189, // 7 Pikachu
+                720 => 196, // 2 Hoopa
+                015 => 198, // 2 Beedrill
+                018 => 200, // 2 Pidgeot
+                080 => 202, // 2 Slowbro
+                208 => 204, // 2 Steelix
+                254 => 206, // 2 Sceptile
+                260 => 208, // 2 Swampert
+                302 => 210, // 2 Sableye
+                319 => 212, // 2 Sharpedo
+                323 => 214, // 2 Camerupt
+                334 => 216, // 2 Altaria
+                362 => 218, // 2 Glalie
+                373 => 220, // 2 Salamence
+                376 => 222, // 2 Metagross
+                384 => 224, // 2 Rayquaza
+                428 => 226, // 2 Lopunny
+                475 => 228, // 2 Gallade
+                531 => 230, // 2 Audino
+                719 => 232, // 2 Diancie
+                382 => 234, // 2 Kyogre
+                383 => 236, // 2 Groudon
+                493 => 238, // 18 Arceus
+                649 => 256, // 5 Genesect
+                676 => 261, // 10 Furfrou
+                _ => GetDexFormIndexXY(species, formct)
+            };
         }
     }
 }

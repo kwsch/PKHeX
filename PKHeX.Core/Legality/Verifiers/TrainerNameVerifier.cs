@@ -166,7 +166,7 @@ namespace PKHeX.Core
 
         private static int GetNumberCount(string str)
         {
-            bool IsNumber(char c)
+            static bool IsNumber(char c)
             {
                 if ('０' <= c)
                     return c <= '９';

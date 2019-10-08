@@ -104,9 +104,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the Region string for a specified country ID.
         /// </summary>
+        /// <param name="language">Language ID</param>
         /// <param name="country">Country ID</param>
         /// <param name="region">Region ID</param>
-        /// <param name="language">Language ID</param>
         /// <returns>Region ID string</returns>
         public static string GetRegionName(LanguageID language, int country, int region) => GetRegionName(country, region, GetLanguageIndex(language));
 

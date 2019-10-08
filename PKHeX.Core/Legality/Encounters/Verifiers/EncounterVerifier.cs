@@ -26,16 +26,15 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
         {
-            switch (info.EncounterMatch)
+            return info.EncounterMatch switch
             {
-                case EncounterEgg _:    return VerifyEncounterEgg(pkm);
-                case EncounterTrade t:  return VerifyEncounterTrade(pkm, t);
-                case EncounterSlot w:   return VerifyEncounterWild(pkm, w);
-                case EncounterStatic s: return VerifyEncounterStatic(pkm, s);
-                case MysteryGift g:     return VerifyEncounterEvent(pkm, g);
-                default:
-                    return new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter);
-            }
+                EncounterEgg _ => VerifyEncounterEgg(pkm),
+                EncounterTrade t => VerifyEncounterTrade(pkm, t),
+                EncounterSlot w => VerifyEncounterWild(pkm, w),
+                EncounterStatic s => VerifyEncounterStatic(pkm, s),
+                MysteryGift g => VerifyEncounterEvent(pkm, g),
+                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+            };
         }
 
         private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
@@ -104,15 +103,12 @@ namespace PKHeX.Core
         private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot encounter)
         {
             var tree = Encounters2.GetGSCHeadbuttAvailability(encounter, tr.TID);
-            switch (tree)
+            return tree switch
             {
-                case TreeEncounterAvailable.ValidTree:
-                    return new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter);
-                case TreeEncounterAvailable.InvalidTree:
-                    return new CheckResult(Severity.Invalid, LG2InvalidTileTreeID, CheckIdentifier.Encounter);
-                default: // Impossible
-                    return new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
-            }
+                TreeEncounterAvailable.ValidTree => new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter),
+                TreeEncounterAvailable.InvalidTree => new CheckResult(Severity.Invalid, LG2InvalidTileTreeID, CheckIdentifier.Encounter),
+                _ => new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter)
+            };
         }
 
         // Eggs

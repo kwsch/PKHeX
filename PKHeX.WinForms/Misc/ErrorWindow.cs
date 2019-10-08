@@ -9,7 +9,7 @@ namespace PKHeX.WinForms
         public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
             var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-            var dialog = new ErrorWindow(lang)
+            using var dialog = new ErrorWindow(lang)
             {
                 ShowContinue = allowContinue,
                 Message = friendlyMessage,

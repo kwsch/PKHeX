@@ -153,7 +153,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");
                 return;
             }
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -165,7 +165,7 @@ namespace PKHeX.WinForms
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            var sfd = new OpenFileDialog
+            using var sfd = new OpenFileDialog
             {
                 Filter = GoFilter,
                 FilterIndex = 0,
@@ -209,7 +209,7 @@ namespace PKHeX.WinForms
             index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
             var data = Park[index];
 
-            var sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 FileName = data.FileName,
                 Filter = GoFilter,
@@ -225,7 +225,7 @@ namespace PKHeX.WinForms
 
         private void B_ImportGoFiles_Click(object sender, EventArgs e)
         {
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 

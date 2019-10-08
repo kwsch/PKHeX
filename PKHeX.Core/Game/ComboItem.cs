@@ -33,6 +33,9 @@ namespace PKHeX.Core
                 return ((Text?.GetHashCode() ?? 0) * 397) ^ Value;
             }
         }
+
+        public static bool operator ==(ComboItem left, ComboItem right) => left.Equals(right);
+        public static bool operator !=(ComboItem left, ComboItem right) => !(left == right);
     }
 
     public static class ComboItemExtensions

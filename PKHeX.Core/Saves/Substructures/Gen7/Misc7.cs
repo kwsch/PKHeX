@@ -38,6 +38,7 @@ namespace PKHeX.Core
                 SAV.SetData(BitConverter.GetBytes(value), Offset + 0x11C);
             }
         }
+
         public int Vivillon
         {
             get => Data[Offset + 0x130] & 0x1F;

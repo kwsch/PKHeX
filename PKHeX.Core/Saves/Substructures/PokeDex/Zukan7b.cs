@@ -106,7 +106,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int GetDexSizeOffset(DexSizeType group, int index) => 0x3978 + (index * 6) + ((int)group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
+        private static int GetDexSizeOffset(DexSizeType group, int index) => 0x3978 + (index * 6) + ((int)group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
 
         private void SetSizeData(PB7 pkm, DexSizeType group)
         {

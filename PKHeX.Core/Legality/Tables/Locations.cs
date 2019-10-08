@@ -73,25 +73,25 @@
 
         public static int TradedEggLocationNPC(int gen)
         {
-            switch (gen)
+            return gen switch
             {
-                case 1:
-                case 2: return LinkTrade2NPC;
-                case 3: return LinkTrade3NPC;
-                case 4: return LinkTrade4NPC;
-                case 5: return LinkTrade5NPC;
-                default: return LinkTrade6NPC;
-            }
+                1 => LinkTrade2NPC,
+                2 => LinkTrade2NPC,
+                3 => LinkTrade3NPC,
+                4 => LinkTrade4NPC,
+                5 => LinkTrade5NPC,
+                _ => LinkTrade6NPC
+            };
         }
 
         public static int TradedEggLocation(int gen)
         {
-            switch (gen)
+            return gen switch
             {
-                case 4: return LinkTrade4;
-                case 5: return LinkTrade5;
-                default: return LinkTrade6;
-            }
+                4 => LinkTrade4,
+                5 => LinkTrade5,
+                _ => LinkTrade6
+            };
         }
 
         public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;

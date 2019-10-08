@@ -66,13 +66,11 @@ namespace PKHeX.WinForms
         private static int GetFrameworkVersion()
         {
             const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
-            {
-                if (ndpKey == null)
-                    return 0;
-                int releaseKey = (int)ndpKey.GetValue("Release");
-                return releaseKey;
-            }
+            using RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey);
+            if (ndpKey == null)
+                return 0;
+            int releaseKey = (int)ndpKey.GetValue("Release");
+            return releaseKey;
         }
 
         private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);

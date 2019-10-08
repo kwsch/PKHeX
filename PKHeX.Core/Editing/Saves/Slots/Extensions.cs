@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
         public static PKM[] GetExtraPKM(this SaveFile sav, IList<SlotInfoMisc> slots)
         {
-            slots = slots ?? sav.GetExtraSlots();
+            slots ??= sav.GetExtraSlots();
             var arr = new PKM[slots.Count];
             for (int i = 0; i < slots.Count; i++)
                 arr[i] = slots[i].Read(sav);
@@ -48,17 +48,17 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all)
         {
-            switch (sav)
+            return sav switch
             {
-                default: return None;
-                case SAV2 sav2: return GetExtraSlots2(sav2);
-                case SAV3 sav3: return GetExtraSlots3(sav3);
-                case SAV4 sav4: return GetExtraSlots4(sav4);
-                case SAV5 sav5: return GetExtraSlots5(sav5);
-                case SAV6XY xy: return GetExtraSlots6XY(xy);
-                case SAV6AO xy: return GetExtraSlots6AO(xy);
-                case SAV7 sav7: return GetExtraSlots7(sav7, all);
-            }
+                SAV2 sav2 => GetExtraSlots2(sav2),
+                SAV3 sav3 => GetExtraSlots3(sav3),
+                SAV4 sav4 => GetExtraSlots4(sav4),
+                SAV5 sav5 => GetExtraSlots5(sav5),
+                SAV6XY xy => GetExtraSlots6XY(xy),
+                SAV6AO xy => GetExtraSlots6AO(xy),
+                SAV7 sav7 => GetExtraSlots7(sav7, all),
+                _ => None
+            };
         }
 
         private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)

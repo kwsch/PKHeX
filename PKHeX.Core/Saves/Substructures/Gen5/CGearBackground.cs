@@ -218,9 +218,9 @@ namespace PKHeX.Core
                 if (rotFlip == 0)
                     return PixelData;
                 if ((rotFlip & 4) > 0)
-                    return PixelDataX ?? (PixelDataX = FlipX(PixelData, TileWidth));
+                    return PixelDataX ??= FlipX(PixelData, TileWidth);
                 if ((rotFlip & 8) > 0)
-                    return PixelDataY ?? (PixelDataY = FlipY(PixelData, TileHeight));
+                    return PixelDataY ??= FlipY(PixelData, TileHeight);
                 return PixelData;
             }
 

@@ -81,14 +81,12 @@ namespace PKHeX.Core
         private static void AddLinesItem(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
             result.Add($"Item: {strings.Item[gift.ItemID]} (Quantity: {gift.Quantity})");
-            if (gift is WC7 wc7)
+            if (!(gift is WC7 wc7))
+                return;
+
+            for (var ind = 1; wc7.GetItem(ind) != 0; ind++)
             {
-                var ind = 1;
-                while (wc7.GetItem(ind) != 0)
-                {
-                    result.Add($"Item: {strings.Item[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
-                    ind++;
-                }
+                result.Add($"Item: {strings.Item[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
             }
         }
 

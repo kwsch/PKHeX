@@ -70,17 +70,16 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
         {
-            switch (pkm.GenNumber)
+            return pkm.GenNumber switch
             {
-                case 3: return pkm.FRLG ? Encounters3.TradeGift_FRLG : Encounters3.TradeGift_RSE;
-                case 4: return pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt;
-                case 5: return pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW;
-                case 6: return pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO;
-                case 7: return pkm.GG ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM;
-                case 8: return Encounters8.TradeGift_SWSH;
-                default:
-                    return null;
-            }
+                3 => (pkm.FRLG ? Encounters3.TradeGift_FRLG : Encounters3.TradeGift_RSE),
+                4 => (pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt),
+                5 => (pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW),
+                6 => (pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO),
+                7 => (pkm.GG ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM),
+                8 => Encounters8.TradeGift_SWSH,
+                _ => null,
+            };
         }
 
         private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> p, GameVersion gameSource)

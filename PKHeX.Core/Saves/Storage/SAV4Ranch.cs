@@ -77,11 +77,9 @@ namespace PKHeX.Core
             Array.Clear(Data, goodlen, Data.Length - goodlen);
 
             // 20 byte SHA checksum at the top of the file, which covers all data that follows.
-            using (var hash = SHA1.Create())
-            {
-                var result = hash.ComputeHash(Data, 20, Data.Length - 20);
-                SetData(result, 0);
-            }
+            using var hash = SHA1.Create();
+            var result = hash.ComputeHash(Data, 20, Data.Length - 20);
+            SetData(result, 0);
         }
 
         public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));

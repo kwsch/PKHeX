@@ -64,15 +64,14 @@ namespace PKHeX.Core
             }
 
             var gen = data.Info.Generation;
-            switch (gen)
+            return gen switch
             {
-                case 5: return VerifyAbility5(data, abilities);
-                case 6: return VerifyAbility6(data);
-                case 7: return VerifyAbility7(data);
-                case 8: return VerifyAbility8(data);
-            }
-
-            return CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch);
+                5 => VerifyAbility5(data, abilities),
+                6 => VerifyAbility6(data),
+                7 => VerifyAbility7(data),
+                8 => VerifyAbility8(data),
+                _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch)
+            };
         }
 
         private CheckResult VerifyAbility345(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
@@ -344,12 +343,12 @@ namespace PKHeX.Core
 
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
         {
-            switch (enc)
+            return enc switch
             {
-                case EncounterStatic s: return s.Ability;
-                case EncounterTrade t: return t.Ability;
-                default: return -1;
-            }
+                EncounterStatic s => s.Ability,
+                EncounterTrade t => t.Ability,
+                _ => -1
+            };
         }
     }
 }

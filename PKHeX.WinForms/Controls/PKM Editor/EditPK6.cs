@@ -21,6 +21,7 @@ namespace PKHeX.WinForms.Controls
             LoadPartyStats(pk6);
             UpdateStats();
         }
+
         private PKM PreparePK6()
         {
             if (!(pkm is PK6 pk6))

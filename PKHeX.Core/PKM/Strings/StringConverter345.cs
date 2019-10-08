@@ -26,7 +26,7 @@ namespace PKHeX.Core
 
         public static string TransferGlyphs56(string str)
         {
-            char translate(char c) => Glyph56.TryGetValue(c, out var result) ? result : c;
+            static char translate(char c) => Glyph56.TryGetValue(c, out var result) ? result : c;
             return string.Concat(str.Select(translate));
         }
 

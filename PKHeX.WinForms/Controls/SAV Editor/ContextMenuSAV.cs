@@ -70,7 +70,7 @@ namespace PKHeX.WinForms.Controls
             var info = GetSenderInfo(ref sender);
             if ((sender as PictureBox)?.Image == null)
             { System.Media.SystemSounds.Asterisk.Play(); return; }
-            
+
             var sav = info.View.SAV;
             var pk = sav.BlankPKM;
             if (!CheckDest(info, sav, pk))

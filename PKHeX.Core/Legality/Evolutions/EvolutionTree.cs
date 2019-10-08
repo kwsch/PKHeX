@@ -24,8 +24,8 @@ namespace PKHeX.Core
         static EvolutionTree()
         {
             // Evolution tables need Personal Tables initialized beforehand, hence why the EvolutionTree data is initialized here.
-            byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-            byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
+            static byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
+            static byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
 
             Evolves1 = new EvolutionTree(new[] { get("rby") }, GameVersion.Gen1, PersonalTable.Y, Legal.MaxSpeciesID_1);
             Evolves2 = new EvolutionTree(new[] { get("gsc") }, GameVersion.Gen2, PersonalTable.C, Legal.MaxSpeciesID_2);
@@ -43,38 +43,32 @@ namespace PKHeX.Core
 
         internal static EvolutionTree GetEvolutionTree(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return Evolves1;
-                case 2: return Evolves2;
-                case 3: return Evolves3;
-                case 4: return Evolves4;
-                case 5: return Evolves5;
-                case 6: return Evolves6;
-                case 7: return Evolves7;
-                default:
-                    return Evolves8;
-            }
+                1 => Evolves1,
+                2 => Evolves2,
+                3 => Evolves3,
+                4 => Evolves4,
+                5 => Evolves5,
+                6 => Evolves6,
+                7 => Evolves7,
+                _ => Evolves8
+            };
         }
 
         internal static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1: return Evolves1;
-                case 2: return Evolves2;
-                case 3: return Evolves3;
-                case 4: return Evolves4;
-                case 5: return Evolves5;
-                case 6: return Evolves6;
-                case 7:
-                    if (pkm.GG)
-                        return Evolves7b;
-                    return Evolves7;
-
-                default:
-                    return Evolves8;
-            }
+                1 => Evolves1,
+                2 => Evolves2,
+                3 => Evolves3,
+                4 => Evolves4,
+                5 => Evolves5,
+                6 => Evolves6,
+                7 => (pkm.GG ? Evolves7b : Evolves7),
+                _ => Evolves8
+            };
         }
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
@@ -94,18 +88,18 @@ namespace PKHeX.Core
 
         private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data)
         {
-            switch (Game)
+            return Game switch
             {
-                case GameVersion.Gen1:
-                case GameVersion.Gen2: return EvolutionSet1.GetArray(data[0], MaxSpeciesTree);
-                case GameVersion.Gen3: return EvolutionSet3.GetArray(data[0]);
-                case GameVersion.Gen4: return EvolutionSet4.GetArray(data[0]);
-                case GameVersion.Gen5: return EvolutionSet5.GetArray(data[0]);
-                case GameVersion.Gen6: return EvolutionSet6.GetArray(data);
-                case GameVersion.Gen7: return EvolutionSet7.GetArray(data);
-                case GameVersion.Gen8: return EvolutionSet7.GetArray(data);
-                default: throw new Exception();
-            }
+                GameVersion.Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+                GameVersion.Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+                GameVersion.Gen3 => EvolutionSet3.GetArray(data[0]),
+                GameVersion.Gen4 => EvolutionSet4.GetArray(data[0]),
+                GameVersion.Gen5 => EvolutionSet5.GetArray(data[0]),
+                GameVersion.Gen6 => EvolutionSet6.GetArray(data),
+                GameVersion.Gen7 => EvolutionSet7.GetArray(data),
+                GameVersion.Gen8 => EvolutionSet7.GetArray(data),
+                _ => throw new Exception()
+            };
         }
 
         private EvolutionLineage[] CreateTree()

@@ -159,53 +159,51 @@ namespace PKHeX.Core
             FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
         }
 
+        private const int MaxMoveCount = 4;
+
         private void ParseLines(IEnumerable<string> lines)
         {
-            using (var e = lines.GetEnumerator())
+            using var e = lines.GetEnumerator();
+            if (!e.MoveNext())
+                return;
+
+            ParseFirstLine(e.Current);
+            int movectr = 0;
+            while (e.MoveNext())
             {
-                if (!e.MoveNext())
-                    return;
+                var line = e.Current;
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
 
-                ParseFirstLine(e.Current);
-                int movectr = 0;
-                while (e.MoveNext())
+                if (line[0] == '-')
                 {
-                    var line = e.Current;
-                    if (line.Length == 0)
-                        continue;
+                    string moveString = ParseLineMove(line);
+                    int move = Array.IndexOf(Strings.movelist, moveString);
+                    if (move < 0)
+                        InvalidLines.Add($"Unknown Move: {moveString}");
+                    else
+                        Moves[movectr++] = move;
 
-                    if (line[0] == '-')
-                    {
-                        string moveString = ParseLineMove(line);
-                        int move = Array.IndexOf(Strings.movelist, moveString);
-                        if (move < 0)
-                            InvalidLines.Add($"Unknown Move: {moveString}");
-                        else
-                            Moves[movectr++] = move;
-
-                        if (movectr == 4)
-                            return; // End of moves, end of set data
-                        continue;
-                    }
-
-                    var split = line.Split(LineSplit, StringSplitOptions.None);
-                    var valid = split.Length == 1
-                        ? ParseSingle(line) // Nature
-                        : ParseEntry(split[0].Trim(), split[1].Trim());
-                    if (!valid)
-                        InvalidLines.Add(line);
+                    if (movectr == MaxMoveCount)
+                        return; // End of moves, end of set data
+                    continue;
                 }
+
+                var split = line.Split(LineSplit, StringSplitOptions.None);
+                var valid = split.Length == 1
+                    ? ParseSingle(line) // Nature
+                    : ParseEntry(split[0].Trim(), split[1].Trim());
+                if (!valid)
+                    InvalidLines.Add(line);
             }
         }
 
         private bool ParseSingle(string identifier)
         {
-            if (identifier.EndsWith("Nature")) // XXX Nature
-            {
-                var naturestr = identifier.Split(' ')[0].Trim();
-                return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
-            }
-            return false;
+            if (!identifier.EndsWith("Nature"))
+                return false;
+            var naturestr = identifier.Split(' ')[0].Trim();
+            return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
         }
 
         private bool ParseEntry(string identifier, string value)
@@ -602,13 +600,17 @@ namespace PKHeX.Core
             IVs = IVsSpeedFirst;
         }
 
+        private const string Minior = "Meteor";
+
         private static string ConvertFormToShowdown(string form, int spec)
         {
             if (form.Length == 0)
             {
-                if (spec == 774) // Minior
-                    form = "Meteor";
-                return form;
+                return spec switch
+                {
+                    (int)Core.Species.Minior => Minior,
+                    _ => form
+                };
             }
 
             switch (spec)
@@ -622,7 +624,7 @@ namespace PKHeX.Core
                     return form.Replace("50%", string.Empty);
                 case (int)Core.Species.Minior:
                     if (form.StartsWith("M-"))
-                        return "Meteor";
+                        return Minior;
                     return form.Replace("C-", string.Empty);
                 case (int)Core.Species.Necrozma when form == "Dusk":
                     return $"{form}-Mane";
@@ -666,7 +668,7 @@ namespace PKHeX.Core
                     return "Dusk";
 
                 // Minior
-                case (int)Core.Species.Minior when form.Length != 0 && form != "Meteor":
+                case (int)Core.Species.Minior when form.Length != 0 && form != Minior:
                     return $"C-{form}";
 
                 // Necrozma

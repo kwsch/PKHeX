@@ -39,14 +39,14 @@ namespace PKHeX.Core
 
         public int GetMessage(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return MessageMeet;
-                case 1: return MessagePart;
-                case 2: return MessageMoved;
-                case 3: return MessageDisappointed;
-                default: return 0;
-            }
+                0 => MessageMeet,
+                1 => MessagePart,
+                2 => MessageMoved,
+                3 => MessageDisappointed,
+                _ => 0
+            };
         }
 
         public void SetMessage(int index, ushort value)

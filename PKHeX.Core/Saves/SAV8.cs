@@ -196,12 +196,12 @@ namespace PKHeX.Core
         {
             if (!isParty || pkm.AltForm == 0)
                 return 0;
-            switch (pkm.Species)
+            return pkm.Species switch
             {
-                case 676: return 5; // Furfrou
-                case 720: return 3; // Hoopa
-                default: return 0;
-            }
+                (int)Species.Furfrou => 5u, // Furfrou
+                (int)Species.Hoopa => 3u, // Hoopa
+                _ => 0u
+            };
         }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);

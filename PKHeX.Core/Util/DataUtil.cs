@@ -154,13 +154,10 @@ namespace PKHeX.Core
 
         public static byte[] GetBinaryResource(string name)
         {
-            using (var resource = thisAssembly.GetManifestResourceStream(
-                $"PKHeX.Core.Resources.byte.{name}"))
-            {
-                var buffer = new byte[resource.Length];
-                resource.Read(buffer, 0, (int)resource.Length);
-                return buffer;
-            }
+            using var resource = thisAssembly.GetManifestResourceStream($"PKHeX.Core.Resources.byte.{name}");
+            var buffer = new byte[resource.Length];
+            resource.Read(buffer, 0, (int)resource.Length);
+            return buffer;
         }
 
         public static string GetStringResource(string name)
@@ -174,9 +171,9 @@ namespace PKHeX.Core
                 resourceNameMap.Add(name, resname);
             }
 
-            using (var resource = thisAssembly.GetManifestResourceStream(resname))
-            using (var reader = new StreamReader(resource))
-                return reader.ReadToEnd();
+            using var resource = thisAssembly.GetManifestResourceStream(resname);
+            using var reader = new StreamReader(resource);
+            return reader.ReadToEnd();
         }
 
         #region Non-Form Translation

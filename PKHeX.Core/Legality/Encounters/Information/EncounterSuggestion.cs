@@ -101,15 +101,12 @@ namespace PKHeX.Core
                 case GameVersion.E:
                 case GameVersion.FR:
                 case GameVersion.LG:
-                    switch (pkm.Format)
+                    return pkm.Format switch
                     {
-                        case 3:
-                            return pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
-                        case 4:
-                            return Locations.Transfer3; // Pal Park
-                        default:
-                            return Locations.Transfer4; // Transporter
-                    }
+                        3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
+                        4 => Locations.Transfer3, // Pal Park
+                        _ => Locations.Transfer4,
+                    };
 
                 case GameVersion.D:
                 case GameVersion.P:

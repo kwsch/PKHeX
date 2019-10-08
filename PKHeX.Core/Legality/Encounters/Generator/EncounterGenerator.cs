@@ -225,8 +225,8 @@ namespace PKHeX.Core
             // iterate over both games, consuming from one list at a time until the other list has higher priority encounters
             var get1 = GenerateRawEncounters1(pkm, crystal);
             var get2 = GenerateRawEncounters2(pkm, crystal);
-            var g1i = new PeekEnumerator<IEncounterable>(get1);
-            var g2i = new PeekEnumerator<IEncounterable>(get2);
+            using var g1i = new PeekEnumerator<IEncounterable>(get1);
+            using var g2i = new PeekEnumerator<IEncounterable>(get2);
 
             var deferred = new List<IEncounterable>();
             while (g2i.PeekIsNext() || g1i.PeekIsNext())
@@ -478,15 +478,12 @@ namespace PKHeX.Core
         // Utility
         private static bool IsEncounterTypeMatch(IEncounterable e, int type)
         {
-            switch (e)
+            return e switch
             {
-                case EncounterStaticTyped t:
-                    return t.TypeEncounter.Contains(type);
-                case EncounterSlot w:
-                    return w.TypeEncounter.Contains(type);
-                default:
-                    return type == 0;
-            }
+                EncounterStaticTyped t => t.TypeEncounter.Contains(type),
+                EncounterSlot w => w.TypeEncounter.Contains(type),
+                _ => (type == 0)
+            };
         }
 
         internal static bool IsEncounterTrade1Valid(PKM pkm, EncounterTrade t)

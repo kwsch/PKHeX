@@ -183,12 +183,12 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Game)
+                return Game switch
                 {
-                    case (int)GameVersion.GP: return GameVersion.GP;
-                    case (int)GameVersion.GE: return GameVersion.GE;
-                    default: return GameVersion.Invalid;
-                }
+                    (int)GameVersion.GP => GameVersion.GP,
+                    (int)GameVersion.GE => GameVersion.GE,
+                    _ => GameVersion.Invalid
+                };
             }
         }
 

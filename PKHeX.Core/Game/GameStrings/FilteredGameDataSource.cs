@@ -41,15 +41,12 @@ namespace PKHeX.Core
                 return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
 
             // Some games cannot acquire every Species that exists. Some can only acquire a subset.
-            switch (sav)
+            return sav switch
             {
-                case SAV7b _: // LGPE: Kanto 151, Meltan/Melmetal
-                    return source.SpeciesDataSource.Where(s => s.Value <= (int)Core.Species.Mew
-                                                            || s.Value == (int)Core.Species.Meltan
-                                                            || s.Value == (int)Core.Species.Melmetal);
-                default:
-                    return source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID);
-            }
+                SAV7b _ => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
+                    .Where(s => s.Value <= (int)Core.Species.Mew || s.Value == (int)Core.Species.Meltan || s.Value == (int)Core.Species.Melmetal),
+                _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID)
+            };
         }
 
         private static IEnumerable<ComboItem> GetFilteredMoves(IGameValueLimit sav, GameDataSource source, bool HaX = false)
@@ -58,14 +55,11 @@ namespace PKHeX.Core
                 return source.HaXMoveDataSource.Where(m => m.Value <= sav.MaxMoveID);
 
             var legal = source.LegalMoveDataSource;
-            switch (sav)
+            return sav switch
             {
-                case SAV7b _: // LGPE: Not all moves are available
-                    return legal.Where(s => Legal.AllowedMovesGG.Contains((short)s.Value));
-
-                default:
-                    return legal.Where(m => m.Value <= sav.MaxMoveID);
-            }
+                SAV7b _ => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
+                _ => legal.Where(m => m.Value <= sav.MaxMoveID)
+            };
         }
 
         public readonly GameDataSource Source;

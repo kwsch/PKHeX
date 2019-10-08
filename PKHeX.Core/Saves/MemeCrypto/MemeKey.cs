@@ -65,11 +65,9 @@ namespace PKHeX.Core
             Array.Copy(DER, 0, buffer, 0, DER.Length);
             Array.Copy(data, 0, buffer, DER.Length, buffer.Length - DER.Length);
 
-            using (var sha1 = SHA1.Create())
-            {
-                Array.Copy(sha1.ComputeHash(buffer), 0, key, 0, 0x10);
-                return key;
-            }
+            using var sha1 = SHA1.Create();
+            Array.Copy(sha1.ComputeHash(buffer), 0, key, 0, 0x10);
+            return key;
         }
 
         /// <summary>
@@ -236,63 +234,54 @@ namespace PKHeX.Core
 
         private static byte[] GetMemeData(MemeKeyIndex key)
         {
-            switch (key)
+            return key switch
             {
-                case MemeKeyIndex.LocalWireless: return DER_LW;
-                case MemeKeyIndex.FriendlyCompetition: return DER_0;
-                case MemeKeyIndex.LiveCompetition: return DER_1;
-                case MemeKeyIndex.RentalTeam: return DER_2;
-                case MemeKeyIndex.PokedexAndSaveFile: return DER_3;
-                case MemeKeyIndex.GaOle: return DER_4;
-                case MemeKeyIndex.MagearnaEvent: return DER_5;
-                case MemeKeyIndex.MoncolleGet: return DER_6;
-                case MemeKeyIndex.IslandScanEventSpecial: return DER_7;
-                case MemeKeyIndex.TvTokyoDataBroadcasting: return DER_8;
-                case MemeKeyIndex.CapPikachuEvent: return DER_9;
-                case MemeKeyIndex.Unknown10: return DER_A;
-                case MemeKeyIndex.Unknown11: return DER_B;
-                case MemeKeyIndex.Unknown12: return DER_C;
-                case MemeKeyIndex.Unknown13: return DER_D;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(key), key, null);
-            }
+                MemeKeyIndex.LocalWireless => DER_LW,
+                MemeKeyIndex.FriendlyCompetition => DER_0,
+                MemeKeyIndex.LiveCompetition => DER_1,
+                MemeKeyIndex.RentalTeam => DER_2,
+                MemeKeyIndex.PokedexAndSaveFile => DER_3,
+                MemeKeyIndex.GaOle => DER_4,
+                MemeKeyIndex.MagearnaEvent => DER_5,
+                MemeKeyIndex.MoncolleGet => DER_6,
+                MemeKeyIndex.IslandScanEventSpecial => DER_7,
+                MemeKeyIndex.TvTokyoDataBroadcasting => DER_8,
+                MemeKeyIndex.CapPikachuEvent => DER_9,
+                MemeKeyIndex.Unknown10 => DER_A,
+                MemeKeyIndex.Unknown11 => DER_B,
+                MemeKeyIndex.Unknown12 => DER_C,
+                MemeKeyIndex.Unknown13 => DER_D,
+                _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+            };
         }
 
         // Helper Method to perform AES ECB Encryption
         private static byte[] AesEcbEncrypt(byte[] key, byte[] data)
         {
-            using (var ms = new MemoryStream())
-            using (var aes = Aes.Create())
-            {
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.None;
+            using var ms = new MemoryStream();
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.None;
 
-                using (var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                {
-                    cs.Write(data, 0, data.Length);
-                    cs.FlushFinalBlock();
+            using var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
 
-                    return ms.ToArray();
-                }
-            }
+            return ms.ToArray();
         }
         // Helper Method to perform AES ECB Decryption
         private static byte[] AesEcbDecrypt(byte[] key, byte[] data)
         {
-            using (var ms = new MemoryStream())
-            using (var aes = Aes.Create())
-            {
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.None;
+            using var ms = new MemoryStream();
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.None;
 
-                using (var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                {
-                    cs.Write(data, 0, data.Length);
-                    cs.FlushFinalBlock();
+            using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
 
-                    return ms.ToArray();
-                }
-            }
+            return ms.ToArray();
         }
 
         public static bool IsValidPokeKeyIndex(int index)

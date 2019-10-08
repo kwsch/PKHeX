@@ -224,7 +224,7 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (DialogResult.OK != fbd.ShowDialog())
                 return;
 

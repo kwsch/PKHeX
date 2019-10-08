@@ -15,14 +15,12 @@ namespace PKHeX.Core
             Count = (data.Length / 4) - 1;
             Moves = new int[Count];
             Levels = new int[Count];
-            using (var ms = new MemoryStream(data))
-            using (var br = new BinaryReader(ms))
+            using var ms = new MemoryStream(data);
+            using var br = new BinaryReader(ms);
+            for (int i = 0; i < Count; i++)
             {
-                for (int i = 0; i < Count; i++)
-                {
-                    Moves[i] = br.ReadInt16();
-                    Levels[i] = br.ReadInt16();
-                }
+                Moves[i] = br.ReadInt16();
+                Levels[i] = br.ReadInt16();
             }
         }
 

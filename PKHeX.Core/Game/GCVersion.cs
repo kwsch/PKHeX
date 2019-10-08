@@ -23,16 +23,16 @@
         /// <returns>Version ID while present in the GameCube games</returns>
         public static GCVersion GetCXDVersionID(this GameVersion gbaVersion)
         {
-            switch (gbaVersion)
+            return gbaVersion switch
             {
-                case GameVersion.S:   return GCVersion.S;
-                case GameVersion.R:   return GCVersion.R;
-                case GameVersion.E:   return GCVersion.E;
-                case GameVersion.FR:  return GCVersion.FR;
-                case GameVersion.LG:  return GCVersion.LG;
-                case GameVersion.CXD: return GCVersion.CXD;
-                default: return 0;
-            }
+                GameVersion.S => GCVersion.S,
+                GameVersion.R => GCVersion.R,
+                GameVersion.E => GCVersion.E,
+                GameVersion.FR => GCVersion.FR,
+                GameVersion.LG => GCVersion.LG,
+                GameVersion.CXD => GCVersion.CXD,
+                _ => GCVersion.None,
+            };
         }
 
         /// <summary>
@@ -42,16 +42,16 @@
         /// <returns>Version ID while present in the main-series games</returns>
         public static GameVersion GetG3VersionID(this GCVersion gcVersion)
         {
-            switch (gcVersion)
+            return gcVersion switch
             {
-                case GCVersion.S:   return GameVersion.S;
-                case GCVersion.R:   return GameVersion.R;
-                case GCVersion.E:   return GameVersion.E;
-                case GCVersion.FR:  return GameVersion.FR;
-                case GCVersion.LG:  return GameVersion.LG;
-                case GCVersion.CXD: return GameVersion.CXD;
-                default: return 0;
-            }
+                GCVersion.S => GameVersion.S,
+                GCVersion.R => GameVersion.R,
+                GCVersion.E => GameVersion.E,
+                GCVersion.FR => GameVersion.FR,
+                GCVersion.LG => GameVersion.LG,
+                GCVersion.CXD => GameVersion.CXD,
+                _ => GameVersion.Unknown
+            };
         }
     }
 }

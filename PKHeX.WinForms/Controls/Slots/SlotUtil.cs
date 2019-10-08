@@ -17,16 +17,15 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         public static Image GetTouchTypeBackground(SlotTouchType type)
         {
-            switch (type)
+            return type switch
             {
-                case SlotTouchType.None: return Resources.slotTrans;
-                case SlotTouchType.Get: return Resources.slotView;
-                case SlotTouchType.Set: return Resources.slotSet;
-                case SlotTouchType.Delete: return Resources.slotDel;
-                case SlotTouchType.Swap: return Resources.slotSet;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                SlotTouchType.None => Resources.slotTrans,
+                SlotTouchType.Get => Resources.slotView,
+                SlotTouchType.Set => Resources.slotSet,
+                SlotTouchType.Delete => Resources.slotDel,
+                SlotTouchType.Swap => Resources.slotSet,
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+            };
         }
 
         /// <summary>
@@ -34,12 +33,12 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         public static DropModifier GetDropModifier()
         {
-            switch (Control.ModifierKeys)
+            return Control.ModifierKeys switch
             {
-                case Keys.Shift: return DropModifier.Clone;
-                case Keys.Alt: return DropModifier.Overwrite;
-                default: return DropModifier.None;
-            }
+                Keys.Shift => DropModifier.Clone,
+                Keys.Alt => DropModifier.Overwrite,
+                _ => DropModifier.None
+            };
         }
 
         /// <summary>

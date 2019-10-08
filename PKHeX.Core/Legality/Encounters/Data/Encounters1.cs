@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters1
     {
-        internal static readonly EncounterArea[] SlotsRBY;
+        internal static readonly EncounterArea1[] SlotsRBY;
         internal static readonly EncounterStatic[] StaticRBY;
 
         static Encounters1()

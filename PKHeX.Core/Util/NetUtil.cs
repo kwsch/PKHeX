@@ -13,8 +13,8 @@ namespace PKHeX.Core
             try
             {
                 var stream = GetStreamFromURL(webURL);
-                using (var reader = new StreamReader(stream))
-                    return reader.ReadToEnd();
+                using var reader = new StreamReader(stream);
+                return reader.ReadToEnd();
             }
             catch (Exception e)
             {

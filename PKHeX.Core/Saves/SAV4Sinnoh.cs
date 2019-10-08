@@ -89,7 +89,7 @@ namespace PKHeX.Core
             var b = value ? 1 : 0;
             General[PoketchStart + 3 + (int)index] = (byte)b;
         }
-        
+
         // 8 bytes unk
 
         public uint PoketchStepCounter

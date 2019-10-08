@@ -302,15 +302,14 @@ namespace PKHeX.WinForms
 
         private static int GetForm(IEncounterable enc)
         {
-            switch (enc)
+            return enc switch
             {
-                case EncounterSlot s: return s.Form;
-                case EncounterStatic s: return s.Form;
-                case MysteryGift m: return m.Form;
-                case EncounterTrade t: return t.Form;
-                default:
-                    return 0;
-            }
+                EncounterSlot s => s.Form,
+                EncounterStatic s => s.Form,
+                MysteryGift m => m.Form,
+                EncounterTrade t => t.Form,
+                _ => 0
+            };
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)

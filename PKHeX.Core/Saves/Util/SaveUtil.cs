@@ -683,7 +683,7 @@ namespace PKHeX.Core
                 // force evaluation so that an invalid path will throw before we return true/false.
                 // EnumerateFiles throws an exception while iterating, which won't be caught by the trycatch here.
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                int safelen(string file)
+                static int safelen(string file)
                 {
                     try { return (int) new FileInfo(file).Length; }
                     catch { return -1; } // Bad File / Locked
@@ -720,8 +720,8 @@ namespace PKHeX.Core
             {
                 if (input.Length == 0x800A4) // Action Replay
                 {
-                    header = GetSubsection(input, 0, 0xA4);
-                    input = GetSubsection(input, 0xA4);
+                    header = input.Slice(0, 0xA4);
+                    input = input.SliceEnd(0xA4);
                     return;
                 }
                 int start = input.Length - FOOTER_DSV.Length;
@@ -731,40 +731,31 @@ namespace PKHeX.Core
                         return;
                 }
 
-                footer = GetSubsection(input, SIZE_G4RAW);
-                input = GetSubsection(input, 0, SIZE_G4RAW);
+                footer = input.SliceEnd(SIZE_G4RAW);
+                input = input.Slice(0, SIZE_G4RAW);
             }
             else if (input.Length == SIZE_G3BOXGCI)
             {
                 if (!IsGameMatchHeader(HEADER_RSBOX, input))
                     return; // not gci
-                header = GetSubsection(input, 0, SIZE_G3BOXGCI - SIZE_G3BOX);
-                input = GetSubsection(input, header.Length);
+                header = input.Slice(0, SIZE_G3BOXGCI - SIZE_G3BOX);
+                input = input.SliceEnd(header.Length);
             }
             else if (input.Length == SIZE_G3COLOGCI)
             {
                 if (!IsGameMatchHeader(HEADER_COLO, input))
                     return; // not gci
-                header = GetSubsection(input, 0, SIZE_G3COLOGCI - SIZE_G3COLO);
-                input = GetSubsection(input, header.Length);
+                header = input.Slice(0, SIZE_G3COLOGCI - SIZE_G3COLO);
+                input = input.SliceEnd(header.Length);
             }
             else if (input.Length == SIZE_G3XDGCI)
             {
                 if (!IsGameMatchHeader(HEADER_XD, input))
                     return; // not gci
-                header = GetSubsection(input, 0, SIZE_G3XDGCI - SIZE_G3XD);
-                input = GetSubsection(input, header.Length);
+                header = input.Slice(0, SIZE_G3XDGCI - SIZE_G3XD);
+                input = input.SliceEnd(header.Length);
             }
-
-            byte[] GetSubsection(byte[] data, int start, int length = -1)
-            {
-                if (length < 0)
-                    length = data.Length - start;
-                byte[] result = new byte[length];
-                Buffer.BlockCopy(data, start, result, 0, length);
-                return result;
-            }
-            bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
+            static bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
 
         /// <summary>

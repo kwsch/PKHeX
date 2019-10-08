@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
         // Mystery Gift IO (.file<->window)
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog import = new OpenFileDialog {Filter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version) };
+            using var import = new OpenFileDialog {Filter = WinFormsUtil.GetMysterGiftFilter(SAV.Generation, SAV.Version) };
             if (import.ShowDialog() != DialogResult.OK) return;
 
             string path = import.FileName;
@@ -322,7 +322,8 @@ namespace PKHeX.WinForms
 
             string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 
-            new QR(qr, PB_Preview.Image, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org").ShowDialog();
+            using var form = new QR(qr, PB_Preview.Image, desc + Environment.NewLine + "PKHeX Wonder Card @ ProjectPokemon.org");
+            form.ShowDialog();
         }
 
         private void ImportQRToView(string url)

@@ -24,7 +24,7 @@ namespace PKHeX.Core
             StaticHG = GetStaticEncounters(staticHGSS, GameVersion.HG);
             StaticSS = GetStaticEncounters(staticHGSS, GameVersion.SS);
 
-            byte[][] get(string resource, string ident)
+            static byte[][] get(string resource, string ident)
                 => Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
             var D_Slots = EncounterArea4DPPt.GetArray4DPPt(get("d", "da"));

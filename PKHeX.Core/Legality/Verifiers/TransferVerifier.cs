@@ -47,17 +47,16 @@ namespace PKHeX.Core
         private static bool VerifyVCNature(int growth, int nature)
         {
             // exp % 25 with a limited amount of EXP does not allow for every nature
-            switch (growth)
+            return growth switch
             {
-                case 0: // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-                    return nature < (int)Nature.Brave || nature > (int)Nature.Relaxed;
-                case 4: // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-                    return nature < (int)Nature.Gentle && nature > (int)Nature.Bold;
-                case 5: // Slow -- Can't be Impish or Lax
-                    return nature != (int)Nature.Impish && nature != (int)Nature.Lax;
-                default:
-                    return true;
-            }
+                0 => // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+                (nature < (int) Nature.Brave || nature > (int) Nature.Relaxed),
+                4 => // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+                (nature < (int) Nature.Gentle && nature > (int) Nature.Bold),
+                5 => // Slow -- Can't be Impish or Lax
+                (nature != (int) Nature.Impish && nature != (int) Nature.Lax),
+                _ => true
+            };
         }
 
         public void VerifyTransferLegalityG3(LegalityAnalysis data)

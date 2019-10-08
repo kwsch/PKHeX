@@ -195,13 +195,13 @@ namespace PKHeX.Core
                     return 0;
             }
 
-            switch (destFormat)
+            return destFormat switch
             {
-                case 1: return 0;
-                case 2: return (byte)item;
-                case 3: return GetG3Item((ushort)item);
-                default: return item;
-            }
+                1 => 0,
+                2 => (byte) item,
+                3 => GetG3Item((ushort) item),
+                _ => item
+            };
         }
 
         /// <summary>
@@ -212,17 +212,13 @@ namespace PKHeX.Core
         /// <returns>True if is an HM</returns>
         internal static bool IsItemHM(ushort item, int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                    return 196 <= item && item <= 200; // HMs
-                case 2:
-                    return item >= 243; // HMs
-                case 3:
-                    return 339 <= item && item <= 346;
-                default: // 4+
-                    return (420 <= item && item <= 427) || item == 737;
-            }
+                1 => (196 <= item && item <= 200), // HMs
+                2 => (item >= 243), // HMs
+                3 => (339 <= item && item <= 346),
+                _ => ((420 <= item && item <= 427) || item == 737)
+            };
         }
     }
 }

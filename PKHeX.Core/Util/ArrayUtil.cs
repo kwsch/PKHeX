@@ -28,6 +28,14 @@ namespace PKHeX.Core
             return data;
         }
 
+        public static byte[] SliceEnd(this byte[] src, int offset)
+        {
+            int length = src.Length - offset;
+            byte[] data = new byte[length];
+            Buffer.BlockCopy(src, offset, data, 0, data.Length);
+            return data;
+        }
+
         public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
         public static byte[][] Split(this byte[] data, int size)

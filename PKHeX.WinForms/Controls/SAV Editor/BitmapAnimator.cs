@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
         public Color GlowToColor { get; set; } = Color.LightSkyBlue;
         public Color GlowFromColor { get; set; } = Color.White;
 
-        public new void Start() => throw new ArgumentException();
+        public new static void Start() => throw new ArgumentException();
 
         public new void Stop()
         {

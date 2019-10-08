@@ -55,7 +55,7 @@ namespace PKHeX.WinForms
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog {Filter = PL6.Filter};
+            using var ofd = new OpenFileDialog {Filter = PL6.Filter};
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -73,7 +73,7 @@ namespace PKHeX.WinForms
             if (LinkInfo.Data == null)
                 return;
 
-            SaveFileDialog sfd = new SaveFileDialog {Filter = PL6.Filter};
+            using var sfd = new SaveFileDialog {Filter = PL6.Filter};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 

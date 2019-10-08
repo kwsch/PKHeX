@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
             // note: it's probably possible to determine a reduced DexNav boost based on the flawless IV count (no flawless = not chained)
             // if someone wants to implement that logic to have the below method return a calculated max DexNavBoost, send a pull request :)
-            int getMaxLevelBoost(EncounterSlot s) => s.Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax; // DexNav encounters most likely
+            static int getMaxLevelBoost(EncounterSlot s) => s.Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax; // DexNav encounters most likely
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel, minLevel, FluteBoostMin, getMaxLevelBoost(s)));

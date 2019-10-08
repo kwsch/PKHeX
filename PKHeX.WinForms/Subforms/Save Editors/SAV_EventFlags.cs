@@ -406,7 +406,7 @@ namespace PKHeX.WinForms
 
         private void OpenSAV(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            using var ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
                 LoadSAV(sender, ofd.FileName);
         }

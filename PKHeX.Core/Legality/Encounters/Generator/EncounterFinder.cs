@@ -25,34 +25,32 @@ namespace PKHeX.Core
             LegalInfo info = new LegalInfo(pkm);
             var encounters = EncounterGenerator.GetEncounters(pkm, info);
 
-            using (var encounter = new PeekEnumerator<IEncounterable>(encounters))
+            using var encounter = new PeekEnumerator<IEncounterable>(encounters);
+            if (!encounter.PeekIsNext())
+                return VerifyWithoutEncounter(pkm, info);
+
+            var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(pkm);
+            while (encounter.MoveNext())
             {
-                if (!encounter.PeekIsNext())
-                    return VerifyWithoutEncounter(pkm, info);
-
-                var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(pkm);
-                while (encounter.MoveNext())
+                info.EncounterMatch = encounter.Current;
+                var e = EncounterValidator(pkm, info);
+                if (!e.Valid && encounter.PeekIsNext())
                 {
-                    info.EncounterMatch = encounter.Current;
-                    var e = EncounterValidator(pkm, info);
-                    if (!e.Valid && encounter.PeekIsNext())
-                    {
-                        info.Reject(e);
-                        continue;
-                    }
-                    info.Parse.Add(e);
-
-                    if (VerifySecondaryChecks(pkm, info, encounter))
-                        break; // passes
+                    info.Reject(e);
+                    continue;
                 }
+                info.Parse.Add(e);
 
-                if (!info.FrameMatches && info.EncounterMatch is EncounterSlot && pkm.Version != (int)GameVersion.CXD) // if false, all valid RNG frame matches have already been consumed
-                    info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
-                if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
-                    info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
-
-                return info;
+                if (VerifySecondaryChecks(pkm, info, encounter))
+                    break; // passes
             }
+
+            if (!info.FrameMatches && info.EncounterMatch is EncounterSlot && pkm.Version != (int)GameVersion.CXD) // if false, all valid RNG frame matches have already been consumed
+                info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
+            if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
+                info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
+
+            return info;
         }
 
         /// <summary>
