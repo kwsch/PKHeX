@@ -11,7 +11,7 @@ namespace PKHeX.Drawing
         public static Image GetBallSprite(int ball)
         {
             string resource = SpriteName.GetResourceStringBall(ball);
-            return (Image)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
+            return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
         }
 
         public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false)
@@ -19,16 +19,16 @@ namespace PKHeX.Drawing
             return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed);
         }
 
-        public static Image GetRibbonSprite(string name)
+        public static Image? GetRibbonSprite(string name)
         {
             var resource = name.Replace("CountG3", "G3").ToLower();
-            return (Bitmap)Resources.ResourceManager.GetObject(resource);
+            return (Bitmap?)Resources.ResourceManager.GetObject(resource);
         }
 
-        public static Image GetRibbonSprite(string name, int max, int value)
+        public static Image? GetRibbonSprite(string name, int max, int value)
         {
             var resource = GetRibbonSpriteName(name, max, value);
-            return (Bitmap)Resources.ResourceManager.GetObject(resource);
+            return (Bitmap?)Resources.ResourceManager.GetObject(resource);
         }
 
         private static string GetRibbonSpriteName(string name, int max, int value)
@@ -52,17 +52,17 @@ namespace PKHeX.Drawing
             };
         }
 
-        public static Image GetTypeSprite(int type, int generation = PKX.Generation)
+        public static Image? GetTypeSprite(int type, int generation = PKX.Generation)
         {
             if (generation <= 2)
                 type = (int)((MoveType)type).GetMoveTypeGeneration(generation);
-            return (Bitmap)Resources.ResourceManager.GetObject($"type_icon_{type:00}");
+            return (Bitmap?)Resources.ResourceManager.GetObject($"type_icon_{type:00}");
         }
 
         private static Image GetSprite(MysteryGift gift)
         {
             if (gift.Empty)
-                return null;
+                return Resources._0;
 
             var img = GetBaseImage(gift);
             if (gift.GiftUsed)
@@ -101,7 +101,7 @@ namespace PKHeX.Drawing
             return img;
         }
 
-        private static Image GetSprite(SaveFile sav)
+        private static Image? GetSprite(SaveFile sav)
         {
             string file = "tr_00";
             if (sav is SAV6AO)
@@ -112,17 +112,17 @@ namespace PKHeX.Drawing
         private static Image GetWallpaper(SaveFile sav, int box)
         {
             string s = BoxWallpaper.GetWallpaperResourceName(sav.Version, sav.GetBoxWallpaper(box));
-            return (Bitmap)Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy;
+            return (Bitmap?)Resources.ResourceManager.GetObject(s) ?? Resources.box_wp16xy;
         }
 
         private static Image GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
         {
             if (!pk.Valid)
-                return null;
+                return Resources._0;
 
             bool inBox = (uint)slot < MaxSlotCount;
             bool empty = pk.Species == 0;
-            var sprite = empty ? null : pk.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box)));
+            var sprite = empty ? Resources._0 : pk.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box)));
 
             if (!empty && flagIllegal)
             {
@@ -198,7 +198,7 @@ namespace PKHeX.Drawing
         // Extension Methods
         public static Image WallpaperImage(this SaveFile sav, int box) => GetWallpaper(sav, box);
         public static Image Sprite(this MysteryGift gift) => GetSprite(gift);
-        public static Image Sprite(this SaveFile sav) => GetSprite(sav);
+        public static Image? Sprite(this SaveFile sav) => GetSprite(sav);
         public static Image Sprite(this PKM pk, bool isBoxBGRed = false) => GetSprite(pk, isBoxBGRed);
 
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)

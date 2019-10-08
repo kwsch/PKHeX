@@ -289,7 +289,8 @@ namespace PKHeX.WinForms.Controls
                 else
                 {
                     L_SlotOccupied[i].Text = $"{i + 1}: ✘";
-                    pb.Image = ImageUtil.ChangeOpacity(pb.Image, 0.6);
+                    if (pb.Image != null)
+                        pb.Image = ImageUtil.ChangeOpacity(pb.Image, 0.6);
                 }
             }
 

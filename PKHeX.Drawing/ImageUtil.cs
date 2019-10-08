@@ -12,16 +12,14 @@ namespace PKHeX.Drawing
     {
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y, double transparency)
         {
-            if (baseLayer == null)
-                return overLayer as Bitmap;
             overLayer = ChangeOpacity(overLayer, transparency);
             return LayerImage(baseLayer, overLayer, x, y);
         }
 
-        public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y)
+        public static Bitmap LayerImage(Image? baseLayer, Image overLayer, int x, int y)
         {
-            if (baseLayer == null)
-                return overLayer as Bitmap;
+            if (baseLayer is null)
+                return (Bitmap)overLayer;
             Bitmap img = new Bitmap(baseLayer);
             using (Graphics gr = Graphics.FromImage(img))
                 gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
@@ -30,8 +28,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ChangeOpacity(Image img, double trans)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
@@ -48,8 +44,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ChangeAllColorTo(Image img, Color c)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 
@@ -66,8 +60,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ToGrayscale(Image img)
         {
-            if (img == null)
-                return null;
             if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
                 return (Bitmap)img;
 

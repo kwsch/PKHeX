@@ -49,7 +49,6 @@ namespace PKHeX.Drawing
                 form = GetDeoxysForm(Game);
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, generation);
-
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed);
         }
 
@@ -72,17 +71,19 @@ namespace PKHeX.Drawing
             return img ?? GetBaseImageFallback(species, form, gender, shiny, generation);
         }
 
-        private static Image GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
+        private static Image? GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
             var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, generation);
+            if (baseImage == null)
+                return null;
             return ImageUtil.ToGrayscale(baseImage);
         }
 
-        private static Image GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
+        private static Image? GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
         {
             var file = SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
-            return (Image)Resources.ResourceManager.GetObject(file);
+            return (Image?)Resources.ResourceManager.GetObject(file);
         }
 
         private static Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
@@ -95,7 +96,7 @@ namespace PKHeX.Drawing
             }
 
             // try again without form
-            var baseImage = (Image)Resources.ResourceManager.GetObject($"_{species}");
+            var baseImage = (Image?)Resources.ResourceManager.GetObject($"_{species}");
             if (baseImage == null) // failed again
                 return Resources.unknown;
             return ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, UnknownFormTransparency);
@@ -103,7 +104,7 @@ namespace PKHeX.Drawing
 
         private static Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
+            Image itemimg = (Image?)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
             if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.item_tm;
 
