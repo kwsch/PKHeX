@@ -25,6 +25,12 @@ namespace PKHeX.Core
 
         protected SaveFile(byte[] data) : this(data, (byte[])data.Clone()) { }
 
+        protected SaveFile()
+        {
+            Data = BAK = Array.Empty<byte>();
+            Exportable = false;
+        }
+
         protected SaveFile(int size)
         {
             Data = new byte[size];

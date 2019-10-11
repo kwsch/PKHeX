@@ -32,13 +32,6 @@ namespace PKHeX.Core
         private StrategyMemo StrategyMemo;
         public int MaxShadowID => 0x80; // 128
         private int Memo;
-        private ushort[] LegalItems;
-        private ushort[] LegalKeyItems;
-        private ushort[] LegalBalls;
-        private ushort[] LegalTMHMs;
-        private ushort[] LegalBerries;
-        private ushort[] LegalCologne;
-        private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
         public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }
 
@@ -60,24 +53,11 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_COLO;
             Trainer1 = 0x00078;
             Party = 0x000A8;
-            OFS_PouchHeldItem = 0x007F8;
-            OFS_PouchKeyItem = 0x00848;
-            OFS_PouchBalls = 0x008F4;
-            OFS_PouchTMHM = 0x00934;
-            OFS_PouchBerry = 0x00A34;
-            OFS_PouchCologne = 0x00AEC; // Cologne
 
             Box = 0x00B90;
             Daycare = 0x08170;
             Memo = 0x082B0;
             StrategyMemo = new StrategyMemo(Data, Memo, xd: false);
-
-            LegalItems = Legal.Pouch_Items_COLO;
-            LegalKeyItems = Legal.Pouch_Key_COLO;
-            LegalBalls = Legal.Pouch_Ball_RS;
-            LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
-            LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_COLO;
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
@@ -392,12 +372,12 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch3GC(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 20), // 20 COLO, 30 XD
-                    new InventoryPouch3GC(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch3GC(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
-                    new InventoryPouch3GC(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
-                    new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
-                    new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
+                    new InventoryPouch3GC(InventoryType.Items, Legal.Pouch_Items_COLO, 999, 0x007F8, 20), // 20 COLO, 30 XD
+                    new InventoryPouch3GC(InventoryType.KeyItems, Legal.Pouch_Key_COLO, 1, 0x00848, 43),
+                    new InventoryPouch3GC(InventoryType.Balls, Legal.Pouch_Ball_RS, 999, 0x008F4, 16),
+                    new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 999, 0x00934, 64), // no HMs
+                    new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, 0x00A34, 46),
+                    new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_COLO, 999, 0x00AEC, 3), // Cologne
                 };
                 return pouch.LoadAll(Data);
             }

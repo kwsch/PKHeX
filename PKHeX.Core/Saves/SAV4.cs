@@ -41,7 +41,7 @@ namespace PKHeX.Core
         protected override void WriteStoredSlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedBoxData, offset);
         protected override void WriteBoxSlot(PKM pkm, int offset) => SetData(Storage, pkm.EncryptedBoxData, offset);
 
-        protected SAV4() : base(Array.Empty<byte>(), Array.Empty<byte>())
+        protected SAV4()
         {
             Storage = new byte[StorageSize];
             General = new byte[GeneralSize];
@@ -187,31 +187,7 @@ namespace PKHeX.Core
         protected int AdventureInfo = int.MinValue;
         protected int Seal = int.MinValue;
         public int GTS { get; protected set; } = int.MinValue;
-
-        // Inventory
-        protected int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchTMHM, OFS_MailItems, OFS_PouchMedicine, OFS_PouchBerry, OFS_PouchBalls, OFS_BattleItems;
-        protected ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries, LegalBalls, LegalBattleItems, LegalMailItems;
-
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                InventoryPouch[] pouch =
-                {
-                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 99, OFS_PouchTMHM),
-                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
-                    new InventoryPouch4(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls),
-                    new InventoryPouch4(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
-                    new InventoryPouch4(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
-                };
-                return pouch.LoadAll(General);
-            }
-            set => value.SaveAll(General);
-        }
-
+        
         // Storage
         public override int PartyCount
         {
