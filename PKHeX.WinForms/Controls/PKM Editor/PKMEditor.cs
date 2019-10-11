@@ -221,8 +221,8 @@ namespace PKHeX.WinForms.Controls
 
         private void SetPKMFormatExtraBytes(PKM pk)
         {
-            byte[] extraBytes = pk.ExtraBytes;
-            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
+            var extraBytes = pk.ExtraBytes;
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Count != 0;
             CB_ExtraBytes.Items.Clear();
             foreach (byte b in extraBytes)
                 CB_ExtraBytes.Items.Add($"0x{b:X2}");

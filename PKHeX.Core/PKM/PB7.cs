@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -19,7 +20,7 @@ namespace PKHeX.Core
             0xC8, 0xC9, // OT Terminator
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => SIZE;
         public override int SIZE_STORED => SIZE;

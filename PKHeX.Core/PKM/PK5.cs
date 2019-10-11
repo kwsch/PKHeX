@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -17,7 +18,7 @@ namespace PKHeX.Core
             0x86, // unused
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override int SIZE_STORED => PKX.SIZE_5STORED;

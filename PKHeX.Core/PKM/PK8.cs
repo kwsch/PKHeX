@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
         {
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
         public override int Format => 8;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
