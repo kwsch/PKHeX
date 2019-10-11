@@ -5,7 +5,7 @@ namespace PKHeX.Core
     public interface IBoxManip
     {
         BoxManipType Type { get; }
-        Func<SaveFile, bool>? Usable { get; set; }
+        Func<SaveFile, bool> Usable { get; }
 
         string GetPrompt(bool all);
         string GetFail(bool all);

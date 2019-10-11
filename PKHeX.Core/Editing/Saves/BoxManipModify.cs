@@ -1,52 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public sealed class BoxManipModify : IBoxManip
+    public sealed class BoxManipModify : BoxManipBase
     {
-        public BoxManipType Type { get; }
-        public Func<SaveFile, bool>? Usable { get; set; }
+        private readonly Action<PKM> Action;
+        public BoxManipModify(BoxManipType type, Action<PKM> action) : this(type, action, _ => true) { }
+        public BoxManipModify(BoxManipType type, Action<PKM> action, Func<SaveFile, bool> usable) : base(type, usable) => Action = action;
 
-        public string GetPrompt(bool all) => string.Empty;
-        public string GetFail(bool all) => string.Empty;
-        public string GetSuccess(bool all) => string.Empty;
+        public override string GetPrompt(bool all) => string.Empty;
+        public override string GetFail(bool all) => string.Empty;
+        public override string GetSuccess(bool all) => string.Empty;
 
-        private readonly Action<PKM>? Action;
-        private readonly Action<PKM, SaveFile>? ActionComplex;
-
-        public int Execute(SaveFile SAV, BoxManipParam param)
-        {
-            var method = Action ?? (px => ActionComplex(px, SAV));
-            return SAV.ModifyBoxes(method, param.Start, param.Stop);
-        }
-
-        private BoxManipModify(BoxManipType type, Action<PKM> action, Func<SaveFile, bool>? usable = null)
-        {
-            Type = type;
-            Action = action;
-            Usable = usable;
-            ActionComplex = null;
-        }
-
-        private BoxManipModify(BoxManipType type, Action<PKM, SaveFile> action, Func<SaveFile, bool>? usable = null)
-        {
-            Type = type;
-            ActionComplex = action;
-            Usable = usable;
-            Action = null;
-        }
-
-        public static readonly IReadOnlyList<BoxManipModify> Common = new List<BoxManipModify>
-        {
-            new BoxManipModify(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2),
-            new BoxManipModify(BoxManipType.ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
-            new BoxManipModify(BoxManipType.ModifyMaxLevel, pk => pk.MaximizeLevel()),
-            new BoxManipModify(BoxManipType.ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
-            new BoxManipModify(BoxManipType.ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
-            new BoxManipModify(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7),
-            new BoxManipModify(BoxManipType.ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
-            new BoxManipModify(BoxManipType.ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
-        };
+        public override int Execute(SaveFile SAV, BoxManipParam param) => SAV.ModifyBoxes(Action, param.Start, param.Stop);
     }
 }

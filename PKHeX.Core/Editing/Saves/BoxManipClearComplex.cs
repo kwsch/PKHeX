@@ -2,11 +2,11 @@
 
 namespace PKHeX.Core
 {
-    public sealed class BoxManipClear : BoxManipBase
+    public sealed class BoxManipClearComplex : BoxManipBase
     {
-        private readonly Func<PKM, bool> Criteria;
-        public BoxManipClear(BoxManipType type, Func<PKM, bool> criteria) : this(type, criteria, _ => true) { }
-        public BoxManipClear(BoxManipType type, Func<PKM, bool> criteria, Func<SaveFile, bool> usable) : base(type, usable) => Criteria = criteria;
+        private readonly Func<PKM, SaveFile, bool> Criteria;
+        public BoxManipClearComplex(BoxManipType type, Func<PKM, SaveFile, bool> criteria) : this(type, criteria, _ => true) { }
+        public BoxManipClearComplex(BoxManipType type, Func<PKM, SaveFile, bool> criteria, Func<SaveFile, bool> usable) : base(type, usable) => Criteria = criteria;
 
         public override string GetPrompt(bool all) => all ? MessageStrings.MsgSaveBoxClearAll : MessageStrings.MsgSaveBoxClearCurrent;
         public override string GetFail(bool all) => all ? MessageStrings.MsgSaveBoxClearAllFailBattle : MessageStrings.MsgSaveBoxClearCurrentFailBattle;
@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public override int Execute(SaveFile SAV, BoxManipParam param)
         {
-            bool Method(PKM p) => param.Reverse ^ Criteria(p);
+            bool Method(PKM p) => param.Reverse ^ Criteria(p, SAV);
             return SAV.ClearBoxes(param.Start, param.Stop, Method);
         }
     }

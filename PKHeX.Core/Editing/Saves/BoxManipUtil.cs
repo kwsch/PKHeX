@@ -10,10 +10,10 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly IReadOnlyList<IBoxManip>[] ManipCategories =
         {
-            BoxManipClear.Common,
-            BoxManipSort.Common,
-            BoxManipSort.Advanced,
-            BoxManipModify.Common,
+            BoxManipBase.ClearCommon,
+            BoxManipBase.SortCommon,
+            BoxManipBase.SortAdvanced,
+            BoxManipBase.ModifyCommon,
         };
 
         public static readonly string[] ManipCategoryNames =
