@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
 
-        public SAV_Wondercard(SaveFile sav, MysteryGift g = null)
+        public SAV_Wondercard(SaveFile sav, DataMysteryGift g = null)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly MysteryGiftAlbum mga;
-        private MysteryGift mg;
+        private DataMysteryGift mg;
         private readonly PictureBox[] pba;
 
         // Repopulation Functions
@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void ViewGiftData(MysteryGift g)
+        private void ViewGiftData(DataMysteryGift g)
         {
             try
             {
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
             if (import.ShowDialog() != DialogResult.OK) return;
 
             string path = import.FileName;
-            MysteryGift g = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
+            var g = MysteryGift.GetMysteryGift(File.ReadAllBytes(path), Path.GetExtension(path));
             if (g == null)
             {
                 WinFormsUtil.Error(MsgMysteryGiftInvalid, path);
@@ -191,7 +191,7 @@ namespace PKHeX.WinForms
                 return;
             }
             SetBackground(index, Properties.Resources.slotSet);
-            mga.Gifts[index] = mg.Clone();
+            mga.Gifts[index] = (DataMysteryGift)mg.Clone();
             SetGiftBoxes();
             SetCardID(mg.CardID);
         }
@@ -201,7 +201,8 @@ namespace PKHeX.WinForms
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
             int index = Array.IndexOf(pba, pb);
 
-            mga.Gifts[index].Data = new byte[mga.Gifts[index].Data.Length];
+            var arr = mga.Gifts[index].Data;
+            Array.Clear(arr, 0, arr.Length);
 
             // Shuffle blank card down
             int i = index;
@@ -305,7 +306,7 @@ namespace PKHeX.WinForms
 
         private void ExportQRFromView()
         {
-            if (mg.Data.All(z => z == 0))
+            if (mg.Empty)
             {
                 WinFormsUtil.Alert(MsgMysteryGiftSlotNone);
                 return;
@@ -339,7 +340,7 @@ namespace PKHeX.WinForms
                 return;
 
             string[] types = mga.Gifts.Select(g => g.Type).Distinct().ToArray();
-            MysteryGift gift = MysteryGift.GetMysteryGift(data);
+            var gift = MysteryGift.GetMysteryGift(data);
             string giftType = gift.Type;
 
             if (mga.Gifts.All(card => card.Data.Length != data.Length))
@@ -416,15 +417,15 @@ namespace PKHeX.WinForms
                     return;
                 }
                 SetBackground(index, Properties.Resources.slotSet);
-                mga.Gifts[index] = gift.Clone();
+                mga.Gifts[index] = (DataMysteryGift)gift.Clone();
 
                 SetCardID(mga.Gifts[index].CardID);
                 ViewGiftData(mga.Gifts[index]);
             }
             else // Swap Data
             {
-                MysteryGift s1 = mga.Gifts[index];
-                MysteryGift s2 = mga.Gifts[wc_slot];
+                DataMysteryGift s1 = mga.Gifts[index];
+                DataMysteryGift s2 = mga.Gifts[wc_slot];
 
                 if (s2 is PCD && s1 is PGT)
                 {

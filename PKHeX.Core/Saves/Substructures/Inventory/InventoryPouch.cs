@@ -19,6 +19,7 @@ namespace PKHeX.Core
 
         protected InventoryPouch(InventoryType type, ushort[] legal, int maxcount, int offset, int size = -1)
         {
+            Items = Array.Empty<InventoryItem>();
             Type = type;
             LegalItems = legal;
             MaxCount = maxcount;

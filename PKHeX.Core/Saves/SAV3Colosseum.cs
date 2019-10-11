@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
+        private readonly SAV3GCMemoryCard? MC;
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -122,7 +122,7 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC) : new SAV3Colosseum(data);
+            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC!) : new SAV3Colosseum(data);
             sav.Header = (byte[])Header.Clone();
             return sav;
         }
@@ -179,7 +179,7 @@ namespace PKHeX.Core
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
-                return null;
+                throw new ArgumentException(nameof(input));
 
             byte[] d = (byte[])input.Clone();
             byte[] k = (byte[])digest.Clone(); // digest
@@ -200,7 +200,7 @@ namespace PKHeX.Core
         private byte[] DecryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
-                return null;
+                throw new ArgumentException(nameof(input));
 
             byte[] d = (byte[])input.Clone();
             byte[] k = (byte[])digest.Clone();

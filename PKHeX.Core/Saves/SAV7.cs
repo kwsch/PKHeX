@@ -366,6 +366,6 @@ namespace PKHeX.Core
         public override void SetDaycareHasEgg(int loc, bool hasEgg) => DaycareBlock.HasEgg = hasEgg;
 
         protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
-        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
     }
 }

@@ -18,6 +18,8 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly Dictionary<string, string> Lookup = new Dictionary<string, string>(INIT_COUNT);
 
+        private const string NoMatch = "";
+
         /// <summary>
         /// Checks to see if a phrase contains filtered content.
         /// </summary>
@@ -28,7 +30,7 @@ namespace PKHeX.Core
         {
             if (string.IsNullOrWhiteSpace(message) || message.Length <= 1)
             {
-                regMatch = null;
+                regMatch = NoMatch;
                 return false;
             }
 
@@ -37,7 +39,7 @@ namespace PKHeX.Core
             lock (dictLock)
             {
                 if (Lookup.TryGetValue(msg, out regMatch))
-                    return regMatch != null;
+                    return !ReferenceEquals(regMatch, NoMatch);
             }
 
             // not in dictionary, check patterns
@@ -58,7 +60,7 @@ namespace PKHeX.Core
             {
                 if ((Lookup.Count & ~MAX_COUNT) != 0)
                     Lookup.Clear(); // reset
-                Lookup.Add(msg, regMatch = null);
+                Lookup.Add(msg, regMatch = NoMatch);
             }
             return false;
         }

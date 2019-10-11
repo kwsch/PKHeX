@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 Mystery Gift Template File
     /// </summary>
-    public sealed class PGF : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
+    public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
     {
         public const int Size = 0xCC;
         public override int Format => 5;
 
-        public PGF() => Data = new byte[Size];
-        public PGF(byte[] data) => Data = data;
+        public PGF() : this(new byte[Size]) { }
+        public PGF(byte[] data) : base(data) { }
 
         public override int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public override int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
@@ -148,7 +148,7 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
@@ -165,7 +165,7 @@ namespace PKHeX.Core
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             var dt = DateTime.Now;
             if (Day == 0)

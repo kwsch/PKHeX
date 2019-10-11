@@ -211,33 +211,24 @@ namespace PKHeX.Core
         public override int GetDaycareSlotOffset(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs < 0)
-                return -1;
             return ofs + 8 + (slot * (SIZE_STORED + 8));
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
-            return null;
+            return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
         }
 
         public override bool? IsDaycareOccupied(int loc, int slot)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
-            return null;
+            return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
         }
 
         public override string GetDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs <= 0)
-                return null;
-
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
@@ -245,23 +236,19 @@ namespace PKHeX.Core
         public override bool? IsDaycareHasEgg(int loc)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                return Data[ofs + 0x1E0] == 1;
-            return null;
+            return Data[ofs + 0x1E0] == 1;
         }
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
+            BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+            Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
         }
 
         public override void SetDaycareRNGSeed(int loc, string seed)
@@ -281,8 +268,7 @@ namespace PKHeX.Core
         public override void SetDaycareHasEgg(int loc, bool hasEgg)
         {
             int ofs = loc == 0 ? Daycare : Daycare2;
-            if (ofs > -1)
-                Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+            Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
         public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));
@@ -291,7 +277,7 @@ namespace PKHeX.Core
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
         protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
-        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
 
         // Gym History
         public ushort[][] GymTeams

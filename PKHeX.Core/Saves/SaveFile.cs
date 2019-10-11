@@ -29,7 +29,7 @@ namespace PKHeX.Core
             BAK = Data;
         }
 
-        public string FileName, FilePath, FileFolder;
+        public string? FileName, FilePath, FileFolder;
         public string BAKName => $"{FileName} [{BAKText}].bak";
         protected abstract string BAKText { get; }
         public abstract SaveFile Clone();
@@ -47,6 +47,7 @@ namespace PKHeX.Core
 
         protected SaveFile()
         {
+            BAK = Array.Empty<byte>();
             Exportable = false;
         }
 
@@ -244,7 +245,7 @@ namespace PKHeX.Core
         protected int WondercardData { get; set; } = int.MinValue;
         public bool HasWondercards => WondercardData > -1;
         protected virtual bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
-        protected virtual MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
+        protected virtual DataMysteryGift[] MysteryGiftCards { get => Array.Empty<DataMysteryGift>(); set { } }
 
         public virtual MysteryGiftAlbum GiftAlbum
         {
@@ -350,7 +351,7 @@ namespace PKHeX.Core
         // Varied Methods
         protected abstract void SetChecksums();
         public virtual int GameSyncIDSize { get; } = 8;
-        public virtual string GameSyncID { get => null; set { } }
+        public virtual string GameSyncID { get => string.Empty; set { } }
 
         #region Daycare
         public bool HasDaycare => Daycare > -1;
@@ -360,7 +361,7 @@ namespace PKHeX.Core
         public virtual bool HasTwoDaycares => false;
         public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
         public virtual uint? GetDaycareEXP(int loc, int slot) => null;
-        public virtual string GetDaycareRNGSeed(int loc) => null;
+        public virtual string GetDaycareRNGSeed(int loc) => string.Empty;
         public virtual bool? IsDaycareHasEgg(int loc) => null;
         public virtual bool? IsDaycareOccupied(int loc, int slot) => null;
 
@@ -753,7 +754,7 @@ namespace PKHeX.Core
         /// <param name="sortMethod">Sorting logic required to order a <see cref="PKM"/> with respect to its peers; if not provided, will use a default sorting method.</param>
         /// <param name="reverse">Reverse the sorting order</param>
         /// <returns>Count of repositioned <see cref="PKM"/> slots.</returns>
-        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
+        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>>? sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
@@ -797,7 +798,7 @@ namespace PKHeX.Core
         /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
         /// <param name="deleteCriteria">Criteria required to be satisfied for a <see cref="PKM"/> to be deleted; if not provided, will clear if possible.</param>
         /// <returns>Count of deleted <see cref="PKM"/> slots.</returns>
-        public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
+        public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool>? deleteCriteria = null)
         {
             var storage = StorageData;
 

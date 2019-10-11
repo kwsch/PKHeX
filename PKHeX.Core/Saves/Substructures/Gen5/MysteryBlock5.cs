@@ -39,7 +39,7 @@ namespace PKHeX.Core
             PKX.CryptArray(wcData, seed);
 
             Info.Flags = new bool[MaxReceivedFlag];
-            Info.Gifts = new MysteryGift[MaxCardsPresent];
+            Info.Gifts = new DataMysteryGift[MaxCardsPresent];
             // 0x100 Bytes for Used Flags
             for (int i = 0; i < Info.Flags.Length; i++)
                 Info.Flags[i] = (wcData[i / 8] >> i % 8 & 0x1) == 1;

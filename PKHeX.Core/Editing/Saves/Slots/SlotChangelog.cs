@@ -24,9 +24,6 @@ namespace PKHeX.Core
 
         public ISlotInfo Undo()
         {
-            if (!CanUndo)
-                return null;
-
             var change = UndoStack.Pop();
             var revert = GetReversion(change.Info, SAV);
             AddRedo(revert);
@@ -36,9 +33,6 @@ namespace PKHeX.Core
 
         public ISlotInfo Redo()
         {
-            if (!CanRedo)
-                return null;
-
             var change = RedoStack.Pop();
             var revert = GetReversion(change.Info, SAV);
             AddUndo(revert);

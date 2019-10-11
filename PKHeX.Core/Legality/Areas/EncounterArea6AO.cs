@@ -27,7 +27,7 @@ namespace PKHeX.Core
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
         {
-            EncounterSlot slotMax = null;
+            EncounterSlot? slotMax = null;
             foreach (EncounterSlot s in slots)
             {
                 if (Legal.WildForms.Contains(pkm.Species) && s.Form != pkm.AltForm)

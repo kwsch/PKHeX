@@ -79,7 +79,7 @@ namespace PKHeX.Core
         /// <param name="propertyName">Property Name to fetch the type for</param>
         /// <param name="typeIndex">Type index (within <see cref="Types"/>. Leave empty (0) for a nonspecific format.</param>
         /// <returns>Short name of the property's type.</returns>
-        public static string GetPropertyType(string propertyName, int typeIndex = 0)
+        public static string? GetPropertyType(string propertyName, int typeIndex = 0)
         {
             if (CustomProperties.Contains(propertyName))
                 return "Custom";
@@ -248,7 +248,7 @@ namespace PKHeX.Core
             if (cmd.PropertyValue == CONST_SUGGEST)
                 return SetSuggestedPKMProperty(cmd.PropertyName, info);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
-                return SetMoves(pk, pk.GetMoveSet(true, info.Legality));
+                return SetMoves(pk, pk.GetMoveSet(info.Legality, true));
 
             if (SetComplexProperty(pk, cmd))
                 return ModifyResult.Modified;

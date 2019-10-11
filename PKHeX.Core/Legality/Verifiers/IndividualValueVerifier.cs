@@ -47,7 +47,7 @@ namespace PKHeX.Core
 
         private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
         {
-            int[] IVs = g.IVs;
+            var IVs = g.IVs;
             if (IVs == null)
                 return;
 

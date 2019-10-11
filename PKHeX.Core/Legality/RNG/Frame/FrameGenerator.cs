@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     public sealed class FrameGenerator
     {
@@ -79,6 +81,8 @@
                     FrameType = FrameType.MethodK;
                     RNG = pidiv.RNG;
                     return;
+                default:
+                    throw new ArgumentException(nameof(ver));
             }
         }
 

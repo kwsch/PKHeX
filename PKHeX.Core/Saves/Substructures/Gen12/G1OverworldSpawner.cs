@@ -69,9 +69,9 @@ namespace PKHeX.Core
         private FlagPair FlagKabuto { get; }
         private FlagPair FlagOmanyte { get; }
         private FlagPair FlagAerodactyl { get; }
-        private FlagPair FlagBulbasaur { get; }
-        private FlagPair FlagSquirtle { get; }
-        private FlagPair FlagCharmander { get; }
+        private FlagPair? FlagBulbasaur { get; }
+        private FlagPair? FlagSquirtle { get; }
+        private FlagPair? FlagCharmander { get; }
 
         public sealed class FlagPair
         {

@@ -221,7 +221,7 @@ namespace PKHeX.Core
         public override void SetEventFlag(int flagNumber, bool value) => EventWork.SetFlag(flagNumber, value);
 
         protected override bool[] MysteryGiftReceivedFlags { get => GiftRecords.Flags; set => GiftRecords.Flags = value; }
-        protected override MysteryGift[] MysteryGiftCards { get => GiftRecords.Records; set => GiftRecords.Records = (WR7[])value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => GiftRecords.Records; set => GiftRecords.Records = (WR7[])value; }
 
         public override int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
         public override string GameSyncID { get => Status.GameSyncID; set => Status.GameSyncID = value; }

@@ -97,7 +97,7 @@ namespace PKHeX.Core
         public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.IsOccupied(slot);
         public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetPKMOffset(slot);
         public override uint? GetDaycareEXP(int loc, int slot) => DaycareBlock.GetEXP(slot);
-        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.GetSeed()?.ToString("X16");
+        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.GetSeed()?.ToString("X16") ?? string.Empty;
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => DaycareBlock.SetEXP(slot, EXP);
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
         public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.SetSeed(seed);

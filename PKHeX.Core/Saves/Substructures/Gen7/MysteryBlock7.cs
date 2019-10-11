@@ -25,11 +25,11 @@ namespace PKHeX.Core
             }
         }
 
-        public MysteryGift[] MysteryGiftCards
+        public DataMysteryGift[] MysteryGiftCards
         {
             get
             {
-                var cards = new MysteryGift[MaxCardsPresent];
+                var cards = new DataMysteryGift[MaxCardsPresent];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetGift(i);
                 return cards;
@@ -38,25 +38,25 @@ namespace PKHeX.Core
             {
                 int count = Math.Min(MaxCardsPresent, value.Length);
                 for (int i = 0; i < count; i++)
-                    SetGift(value[i], i);
+                    SetGift((WC7)value[i], i);
                 for (int i = value.Length; i < MaxCardsPresent; i++)
                     SetGift(new WC7(), i);
             }
         }
 
-        private MysteryGift GetGift(int index)
+        private WC7 GetGift(int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
 
             var offset = GetGiftOffset(index);
-            var data = SAV.GetData(offset, WC6.Size);
+            var data = SAV.GetData(offset, WC7.Size);
             return new WC7(data);
         }
 
         private int GetGiftOffset(int index) => Offset + CardStart + (index * WC7.Size);
 
-        private void SetGift(MysteryGift wc7, int index)
+        private void SetGift(WC7 wc7, int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));

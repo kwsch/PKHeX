@@ -56,7 +56,9 @@ namespace PKHeX.Core
             public readonly byte[] Data;
             private readonly bool XD;
 
-            public StrategyMemoEntry(bool xd, byte[] data = null)
+            public StrategyMemoEntry(bool xd) : this(xd, new byte[SIZE_ENTRY]) { }
+
+            public StrategyMemoEntry(bool xd, byte[] data)
             {
                 Data = data ?? new byte[SIZE_ENTRY];
                 XD = xd;

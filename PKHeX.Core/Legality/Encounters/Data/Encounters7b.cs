@@ -60,14 +60,14 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 059, Level = 16, Location = 33, Gift = true, IVs = new[] {25,30,25,31,30,25}, Version = GameVersion.GE }, // Arcanine @ Vermillion City (Outside Fan Club)
         };
 
-        private static readonly string[] T1 = { null, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", null, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
-        private static readonly string[] T2 = { null, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", null, "Gelasio", "보아이스", "露冰冰", "露冰冰", };
-        private static readonly string[] T3 = { null, "レディダグ", "Diggette", "Taupilady", "Lady Glett", "Digga", null, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
-        private static readonly string[] T4 = { null, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", null, "Sinesio", "나뻐기", "达怀丹", "达怀丹", };
-        private static readonly string[] T5 = { null, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", null, "Menchu", "엘리츄", "晶莹丘", "晶莹丘", };
-        private static readonly string[] T6 = { null, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", null, "Mario", "젠구리", "申史加拉", "申史加拉", };
-        private static readonly string[] T7 = { null, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", null, "Gunter", "마니시", "艾浩舒", "艾浩舒", };
-        private static readonly string[] T8 = { null, "コツブ", "Higeo", "Montagnou", "George", "Karstein", null, "Georgie", "산돌", "科布", "科布", };
+        private static readonly string[] T1 = { string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
+        private static readonly string[] T2 = { string.Empty, "ボーアイス", "Nicholice", "Iceman-4L0L4", "Goffreddo", "Eisper", string.Empty, "Gelasio", "보아이스", "露冰冰", "露冰冰", };
+        private static readonly string[] T3 = { string.Empty, "レディダグ", "Diggette", "Taupilady", "Lady Glett", "Digga", string.Empty, "Glenda", "레이디그다", "蒂淑", "蒂淑", };
+        private static readonly string[] T4 = { string.Empty, "ワルモン", "Darko", "AlolaZeDark", "Mattetro", "Bösbert", string.Empty, "Sinesio", "나뻐기", "达怀丹", "达怀丹", };
+        private static readonly string[] T5 = { string.Empty, "エリッチ", "Psytrice", "TopDeTonCœur", "Chulia", "Assana", string.Empty, "Menchu", "엘리츄", "晶莹丘", "晶莹丘", };
+        private static readonly string[] T6 = { string.Empty, "ジェンガラ", "Genmar", "OSS-Dandy7", "Mr. Owak", "Knoggelius", string.Empty, "Mario", "젠구리", "申史加拉", "申史加拉", };
+        private static readonly string[] T7 = { string.Empty, "マニシ", "Exemann", "Koko-fan", "Exechiele", "Einrich", string.Empty, "Gunter", "마니시", "艾浩舒", "艾浩舒", };
+        private static readonly string[] T8 = { string.Empty, "コツブ", "Higeo", "Montagnou", "George", "Karstein", string.Empty, "Georgie", "산돌", "科布", "科布", };
 
         internal static readonly EncounterTrade[] TradeGift_GG =
         {
@@ -145,33 +145,39 @@ namespace PKHeX.Core
 
         private class RareSpawn
         {
-            public int Species;
-            public int[] Locations;
+            public readonly int Species;
+            public readonly byte[] Locations;
+
+            protected internal RareSpawn(int species, params byte[] locations)
+            {
+                Species = species;
+                Locations = locations;
+            }
         }
 
-        private static readonly int[] Sky = {003, 004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
+        private static readonly byte[] Sky = {003, 004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
 
         private static readonly RareSpawn[] Rare =
         {
             // Normal
-            new RareSpawn {Species = 001, Locations = new[] {039}},
-            new RareSpawn {Species = 004, Locations = new[] {005, 006, 041}},
-            new RareSpawn {Species = 007, Locations = new[] {026, 027, 044}},
-            new RareSpawn {Species = 106, Locations = new[] {045}},
-            new RareSpawn {Species = 107, Locations = new[] {045}},
-            new RareSpawn {Species = 113, Locations = new[] {007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051}},
-            new RareSpawn {Species = 137, Locations = new[] {009}},
-            new RareSpawn {Species = 143, Locations = new[] {046}},
+            new RareSpawn(001, 039),
+            new RareSpawn(004, 005, 006, 041),
+            new RareSpawn(007, 026, 027, 044),
+            new RareSpawn(106, 045),
+            new RareSpawn(107, 045),
+            new RareSpawn(113, 007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051),
+            new RareSpawn(137, 009),
+            new RareSpawn(143, 046),
 
             // Water
-            new RareSpawn {Species = 131, Locations = new[] {021, 022}},
+            new RareSpawn(131, 021, 022),
 
             // Fly
-            new RareSpawn {Species = 006, Locations = Sky,},
-            new RareSpawn {Species = 144, Locations = Sky,},
-            new RareSpawn {Species = 145, Locations = Sky,},
-            new RareSpawn {Species = 146, Locations = Sky,},
-            new RareSpawn {Species = 149, Locations = Sky,},
+            new RareSpawn(006, Sky),
+            new RareSpawn(144, Sky),
+            new RareSpawn(145, Sky),
+            new RareSpawn(146, Sky),
+            new RareSpawn(149, Sky),
         };
 
         private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea> areas)
@@ -179,7 +185,7 @@ namespace PKHeX.Core
             foreach (var table in areas)
             {
                 var loc = table.Location;
-                var species = Rare.Where(z => z.Locations.Contains(loc)).Select(z => z.Species).ToArray();
+                var species = Rare.Where(z => z.Locations.Contains((byte)loc)).Select(z => z.Species).ToArray();
                 if (species.Length == 0)
                     continue;
                 var slots = table.Slots;

@@ -5,7 +5,7 @@
         public abstract PKM[] BattlePKMs { get; }
         public abstract int Generation { get; }
 
-        public static BattleVideo GetVariantBattleVideo(byte[] data)
+        public static BattleVideo? GetVariantBattleVideo(byte[] data)
         {
             if (BV6.IsValid(data))
                 return new BV6(data);

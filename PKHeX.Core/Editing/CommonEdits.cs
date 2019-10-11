@@ -24,7 +24,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
-        public static void SetNickname(this PKM pk, string nick)
+        public static void SetNickname(this PKM pk, string? nick)
         {
             if (string.IsNullOrWhiteSpace(nick))
             {
@@ -602,12 +602,22 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">PKM to generate for</param>
         /// <param name="random">Full movepool &amp; shuffling</param>
+        /// <returns>4 moves</returns>
+        public static int[] GetMoveSet(this PKM pkm, bool random = false)
+        {
+            var la = new LegalityAnalysis(pkm);
+            return pkm.GetMoveSet(la, random);
+        }
+
+        /// <summary>
+        /// Gets a moveset for the provided <see cref="PKM"/> data.
+        /// </summary>
+        /// <param name="pkm">PKM to generate for</param>
+        /// <param name="random">Full movepool &amp; shuffling</param>
         /// <param name="la">Precomputed optional</param>
         /// <returns>4 moves</returns>
-        public static int[] GetMoveSet(this PKM pkm, bool random = false, LegalityAnalysis la = null)
+        public static int[] GetMoveSet(this PKM pkm, LegalityAnalysis la, bool random = false)
         {
-            if (la == null)
-                la = new LegalityAnalysis(pkm);
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
             if (m == null)
                 return pkm.Moves;

@@ -107,9 +107,8 @@ namespace PKHeX.Core.Searching
         {
             return Clones switch
             {
-                CloneDetectionMethod.HashDetails => HashByDetails,
                 CloneDetectionMethod.HashPID => HashByPID,
-                _ => (Func<PKM, string>)null
+                _ => (Func<PKM, string>)HashByDetails,
             };
         }
 

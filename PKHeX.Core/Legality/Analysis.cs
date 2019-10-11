@@ -22,7 +22,7 @@ namespace PKHeX.Core
         /// </summary>
         public IReadOnlyList<CheckResult> Results => Parse;
 
-        private IEncounterable EncounterOriginalGB;
+        private IEncounterable? EncounterOriginalGB;
 
         /// <summary>
         /// Matched encounter data for the <see cref="pkm"/>.
@@ -85,7 +85,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
+        private int[]? _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
 
         private string EncounterName
@@ -97,7 +97,7 @@ namespace PKHeX.Core
             }
         }
 
-        private string EncounterLocation
+        private string? EncounterLocation
         {
             get
             {
@@ -111,7 +111,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable table = null)
+        public LegalityAnalysis(PKM pk, PersonalTable? table = null)
         {
             pkm = pk;
 #if SUPPRESS
@@ -456,6 +456,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets an object containing met data properties that might be legal.
         /// </summary>
-        public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
+        public EncounterStatic? GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

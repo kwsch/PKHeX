@@ -104,7 +104,7 @@ namespace PKHeX
             return new[] { moves1, moves2 };
         }
 
-        internal static void GetIncompatibleEvolutionMoves(PKM pkm, int[] moves, List<int> tmhm, out int previousspecies, out IList<int> incompatible_previous, out IList<int> incompatible_current)
+        internal static void GetIncompatibleEvolutionMoves(PKM pkm, IReadOnlyList<int> moves, IReadOnlyList<int> tmhm, out int previousspecies, out IList<int> incompatible_previous, out IList<int> incompatible_current)
         {
             switch (pkm.Species)
             {
@@ -154,7 +154,7 @@ namespace PKHeX
             previousspecies = 0;
         }
 
-        internal static int GetRequiredMoveCount(PKM pk, int[] moves, LegalInfo info, int[] initialmoves)
+        internal static int GetRequiredMoveCount(PKM pk, IReadOnlyList<int> moves, LegalInfo info, IReadOnlyList<int> initialmoves)
         {
             if (!pk.Gen1_NotTradeback) // No Move Deleter in Gen 1
                 return 1; // Move Deleter exits, slots from 2 onwards can always be empty
@@ -174,7 +174,7 @@ namespace PKHeX
             return Math.Min(4, required);
         }
 
-        private static int GetRequiredMoveCount(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveCount(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
         {
             if (SpecialMinMoveSlots.Contains(pk.Species))
                 return GetRequiredMoveCountSpecial(pk, moves, learn);
@@ -185,7 +185,7 @@ namespace PKHeX
             return required != 0 ? required : GetRequiredMoveCountDecrement(pk, moves, learn, initialmoves);
         }
 
-        private static int GetRequiredMoveSlotsRegular(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveSlotsRegular(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
         {
             int species = pk.Species;
             int catch_rate = ((PK1)pk).Catch_Rate;
@@ -209,7 +209,7 @@ namespace PKHeX
             return IsMoveCountRequired3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
         }
 
-        private static bool IsMoveCountRequired3(int species, int level, int[] moves)
+        private static bool IsMoveCountRequired3(int species, int level, IReadOnlyList<int> moves)
         {
             // Species that evolve and learn the 4th move as evolved species at a greather level than base species
             // The 4th move is included in the level up table set as a preevolution move,
@@ -228,7 +228,7 @@ namespace PKHeX
             }
         }
 
-        private static int GetRequiredMoveCountDecrement(PKM pk, int[] moves, List<int>[] learn, int[] initialmoves)
+        private static int GetRequiredMoveCountDecrement(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
         {
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
             switch (pk.Species)
@@ -272,7 +272,7 @@ namespace PKHeX
             return usedslots;
         }
 
-        private static int GetRequiredMoveCountSpecial(PKM pk, int[] moves, List<int>[] learn)
+        private static int GetRequiredMoveCountSpecial(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn)
         {
             // Species with few mandatory slots, species with stone evolutions that could evolve at lower level and do not learn any more moves
             // and Pikachu and Nidoran family, those only have mandatory the initial moves and a few have one level up moves,

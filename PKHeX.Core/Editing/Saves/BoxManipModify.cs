@@ -6,14 +6,14 @@ namespace PKHeX.Core
     public sealed class BoxManipModify : IBoxManip
     {
         public BoxManipType Type { get; }
-        public Func<SaveFile, bool> Usable { get; set; }
+        public Func<SaveFile, bool>? Usable { get; set; }
 
-        public string GetPrompt(bool all) => null;
-        public string GetFail(bool all) => null;
-        public string GetSuccess(bool all) => null;
+        public string GetPrompt(bool all) => string.Empty;
+        public string GetFail(bool all) => string.Empty;
+        public string GetSuccess(bool all) => string.Empty;
 
-        private readonly Action<PKM> Action;
-        private readonly Action<PKM, SaveFile> ActionComplex;
+        private readonly Action<PKM>? Action;
+        private readonly Action<PKM, SaveFile>? ActionComplex;
 
         public int Execute(SaveFile SAV, BoxManipParam param)
         {
@@ -21,18 +21,20 @@ namespace PKHeX.Core
             return SAV.ModifyBoxes(method, param.Start, param.Stop);
         }
 
-        private BoxManipModify(BoxManipType type, Action<PKM> action, Func<SaveFile, bool> usable = null)
+        private BoxManipModify(BoxManipType type, Action<PKM> action, Func<SaveFile, bool>? usable = null)
         {
             Type = type;
             Action = action;
             Usable = usable;
+            ActionComplex = null;
         }
 
-        private BoxManipModify(BoxManipType type, Action<PKM, SaveFile> action, Func<SaveFile, bool> usable = null)
+        private BoxManipModify(BoxManipType type, Action<PKM, SaveFile> action, Func<SaveFile, bool>? usable = null)
         {
             Type = type;
             ActionComplex = action;
             Usable = usable;
+            Action = null;
         }
 
         public static readonly IReadOnlyList<BoxManipModify> Common = new List<BoxManipModify>

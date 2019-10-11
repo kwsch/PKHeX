@@ -7,7 +7,7 @@ namespace PKHeX.Core
         public virtual void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
         public virtual void CopyTo(PK4 pk4) { }
         public virtual void CopyTo(PK5 pk5) { }
-        public virtual string GetMessage(bool isLastLine) => null;
+        public virtual string GetMessage(bool isLastLine) => string.Empty;
         public virtual ushort GetMessage(int index1, int index2) => 0;
         public virtual void SetMessage(string line1, string line2) { }
         public virtual void SetMessage(int index1, int index2, ushort value) { }

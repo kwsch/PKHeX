@@ -13,7 +13,7 @@ namespace PKHeX.Core
     /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
     /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
     /// </remarks>
-    public sealed class PCD : MysteryGift
+    public sealed class PCD : DataMysteryGift
     {
         public const int Size = 0x358; // 856
         public override int Format => 4;
@@ -30,33 +30,21 @@ namespace PKHeX.Core
             set => Gift.Ball = value;
         }
 
-        public PCD() => Data = new byte[Size];
-        public PCD(byte[] data) => Data = data;
+        public PCD() : this(new byte[Size]) { }
+        public PCD(byte[] data) : base(data) { }
 
         public PGT Gift
         {
-            get
-            {
-                if (_gift != null)
-                    return _gift;
-                byte[] giftData = new byte[PGT.Size];
-                Array.Copy(Data, 0, giftData, 0, PGT.Size);
-                return _gift = new PGT(giftData);
-            }
-            set => (_gift = value)?.Data.CopyTo(Data, 0);
+            get => _gift ??= new PGT(Data.Slice(0, PGT.Size));
+            set => (_gift = value).Data.CopyTo(Data, 0);
         }
 
-        private PGT _gift;
+        private PGT? _gift;
 
         public byte[] Information
         {
-            get
-            {
-                var data = new byte[Data.Length - PGT.Size];
-                Array.Copy(Data, PGT.Size, data, 0, data.Length);
-                return data;
-            }
-            set => value?.CopyTo(Data, Data.Length - PGT.Size);
+            get => Data.SliceEnd(PGT.Size);
+            set => value.CopyTo(Data, Data.Length - PGT.Size);
         }
 
         public override object Content => Gift.PK;

@@ -6,7 +6,7 @@ namespace PKHeX.Drawing
 {
     public static class QREncode
     {
-        public static Image GenerateQRCode(MysteryGift mg) => GenerateQRCode(QRMessageUtil.GetMessage(mg));
+        public static Image GenerateQRCode(DataMysteryGift mg) => GenerateQRCode(QRMessageUtil.GetMessage(mg));
         public static Image GenerateQRCode(PKM pkm) => GenerateQRCode(QRMessageUtil.GetMessage(pkm));
 
         public static Image GenerateQRCode7(PK7 pk7, int box = 0, int slot = 0, int num_copies = 1)

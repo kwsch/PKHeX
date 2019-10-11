@@ -44,7 +44,7 @@ namespace PKHeX.Core
             var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
             foreach (var name in names)
             {
-                object RibbonValue = ReflectUtil.GetValue(pkm, name);
+                object? RibbonValue = ReflectUtil.GetValue(pkm, name);
                 if (RibbonValue is int x)
                     riblist.Add(new RibbonInfo(name, x));
                 if (RibbonValue is bool b)

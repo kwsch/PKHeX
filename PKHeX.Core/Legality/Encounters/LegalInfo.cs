@@ -29,7 +29,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEncounterable _match;
+        private IEncounterable? _match;
 
         /// <summary>Indicates whether or not the <see cref="PKM"/> originated from <see cref="GameVersion.XD"/>.</summary>
         public bool WasXD => pkm?.Version == 15 && EncounterMatch is IVersion v && v.Version == GameVersion.XD;
@@ -45,10 +45,10 @@ namespace PKHeX.Core
 
         public ValidEncounterMoves EncounterMoves { get; internal set; }
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
-        private IReadOnlyList<EvoCriteria>[] _evochains;
+        private IReadOnlyList<EvoCriteria>[]? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
-        public PIDIV PIDIV { get; internal set; }
+        public PIDIV? PIDIV { get; internal set; }
 
         /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/>.</summary>
         /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, after which it is false.</remarks>
@@ -71,7 +71,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>List of all near-matches that were rejected for a given reason.</summary>
-        public List<EncounterRejected> InvalidMatches;
+        public List<EncounterRejected>? InvalidMatches;
 
         internal void Reject(CheckResult c)
         {

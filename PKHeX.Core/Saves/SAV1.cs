@@ -32,12 +32,12 @@ namespace PKHeX.Core
 
         public SAV1(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
         {
+            Japanese = SaveUtil.GetIsG1SAVJ(Data);
+            Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
+
             Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
             if (Version == GameVersion.Invalid)
                 return;
-
-            Japanese = SaveUtil.GetIsG1SAVJ(Data);
-            Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
             Initialize(versionOverride);
         }

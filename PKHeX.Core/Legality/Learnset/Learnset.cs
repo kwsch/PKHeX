@@ -147,7 +147,7 @@ namespace PKHeX.Core
             return Math.Max(end - 4, 1);
         }
 
-        private Dictionary<int, int> Learn;
+        private Dictionary<int, int>? Learn;
 
         private Dictionary<int, int> GetDictionary()
         {
@@ -165,7 +165,7 @@ namespace PKHeX.Core
         /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
         public int GetLevelLearnMove(int move)
         {
-            return (Learn ?? (Learn = GetDictionary())).TryGetValue(move, out var level) ? level : -1;
+            return (Learn ??= GetDictionary()).TryGetValue(move, out var level) ? level : -1;
         }
 
         /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>

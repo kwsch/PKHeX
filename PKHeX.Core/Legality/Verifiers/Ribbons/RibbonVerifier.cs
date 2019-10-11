@@ -63,8 +63,10 @@ namespace PKHeX.Core
             if (encounterContent is IRibbonSetEvent4 event4)
                 RibbonNames = RibbonNames.Except(event4.RibbonNames());
 
-            foreach (object RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
+            foreach (var RibbonValue in RibbonNames.Select(RibbonName => ReflectUtil.GetValue(pkm, RibbonName)))
             {
+                if (RibbonValue is null)
+                    continue;
                 if (HasFlag(RibbonValue) || HasCount(RibbonValue))
                     return true;
 

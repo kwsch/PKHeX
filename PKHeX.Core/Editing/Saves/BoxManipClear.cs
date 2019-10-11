@@ -7,14 +7,14 @@ namespace PKHeX.Core
     public class BoxManipClear : IBoxManip
     {
         public BoxManipType Type { get; protected set; }
-        public Func<SaveFile, bool> Usable { get; set; }
+        public Func<SaveFile, bool>? Usable { get; set; }
 
         public string GetPrompt(bool all) => all ? MessageStrings.MsgSaveBoxClearAll : MessageStrings.MsgSaveBoxClearCurrent;
         public string GetFail(bool all) => all ? MessageStrings.MsgSaveBoxClearAllFailBattle : MessageStrings.MsgSaveBoxClearCurrentFailBattle;
         public string GetSuccess(bool all) => all ? MessageStrings.MsgSaveBoxClearAllSuccess : MessageStrings.MsgSaveBoxClearCurrentSuccess;
 
-        protected Func<PKM, bool> CriteriaSimple { private get; set; }
-        protected Func<PKM, SaveFile, bool> CriteriaSAV { private get; set; }
+        protected Func<PKM, bool>? CriteriaSimple { private get; set; }
+        protected Func<PKM, SaveFile, bool>? CriteriaSAV { private get; set; }
 
         public virtual int Execute(SaveFile SAV, BoxManipParam param)
         {
@@ -24,17 +24,19 @@ namespace PKHeX.Core
 
         protected BoxManipClear() { }
 
-        private BoxManipClear(BoxManipType type, Func<PKM, bool> criteria, Func<SaveFile, bool> usable = null)
+        private BoxManipClear(BoxManipType type, Func<PKM, bool> criteria, Func<SaveFile, bool>? usable = null)
         {
             Type = type;
             CriteriaSimple = criteria;
+            CriteriaSAV = null;
             Usable = usable;
         }
 
-        private BoxManipClear(BoxManipType type, Func<PKM, SaveFile, bool> criteria, Func<SaveFile, bool> usable = null)
+        private BoxManipClear(BoxManipType type, Func<PKM, SaveFile, bool> criteria, Func<SaveFile, bool>? usable = null)
         {
             Type = type;
             CriteriaSAV = criteria;
+            CriteriaSimple = null;
             Usable = usable;
         }
 
@@ -61,7 +63,7 @@ namespace PKHeX.Core
             return base.Execute(SAV, param);
         }
 
-        public BoxManipClearDuplicate(BoxManipType type, Func<PKM, T> criteria, Func<SaveFile, bool> usable = null)
+        public BoxManipClearDuplicate(BoxManipType type, Func<PKM, T> criteria, Func<SaveFile, bool>? usable = null)
         {
             Type = type;
             Usable = usable;

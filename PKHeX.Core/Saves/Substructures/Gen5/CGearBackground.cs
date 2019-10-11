@@ -42,7 +42,7 @@ namespace PKHeX.Core
         public CGearBackground(byte[] data)
         {
             if (data.Length != SIZE_CGB)
-                return;
+                throw new ArgumentException(nameof(data));
 
             // decode for easy handling
             if (!IsCGB(data))
@@ -76,8 +76,8 @@ namespace PKHeX.Core
             Map = new TileMap(Region2);
         }
 
-        private readonly byte[] _cgb;
-        private readonly byte[] _psk;
+        private readonly byte[]? _cgb;
+        private readonly byte[]? _psk;
         private byte[] GetCGB() => _cgb ?? Write();
         private byte[] GetPSK() => _psk ?? CGBtoPSK(Write());
         public byte[] GetSkin(bool B2W2) => B2W2 ? GetCGB() : GetPSK();
@@ -163,23 +163,24 @@ namespace PKHeX.Core
             private const int TileHeight = 8;
             internal readonly int[] ColorChoices;
             private byte[] PixelData;
-            private byte[] PixelDataX;
-            private byte[] PixelDataY;
+            private byte[]? PixelDataX;
+            private byte[]? PixelDataY;
 
-            internal Tile(byte[] data = null)
+            internal Tile() : this(new byte[SIZE_TILE]) { }
+
+            internal Tile(byte[] data)
             {
-                if (data == null)
-                    data = new byte[SIZE_TILE];
                 if (data.Length != SIZE_TILE)
-                    return;
+                    throw new ArgumentException(nameof(data));
 
-                ColorChoices = new int[TileWidth*TileHeight];
+                ColorChoices = new int[TileWidth * TileHeight];
                 for (int i = 0; i < data.Length; i++)
                 {
                     var ofs = i * 2;
                     ColorChoices[ofs + 0] = data[i] & 0xF;
                     ColorChoices[ofs + 1] = data[i] >> 4;
                 }
+                PixelData = Array.Empty<byte>();
             }
 
             internal void SetTile(int[] Palette) => PixelData = GetTileData(Palette);

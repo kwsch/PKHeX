@@ -56,7 +56,7 @@ namespace PKHeX.Core
         private IReadOnlyList<ComboItem> MetGen7GG { get; set; }
         private IReadOnlyList<ComboItem> MetGen8 { get; set; }
 
-        private IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
+        private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
             var list = s.gamelist;
             var ver = Util.GetCBList(list,
@@ -157,10 +157,11 @@ namespace PKHeX.Core
             }
         }
 
-        public IReadOnlyList<ComboItem> GetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort> allowed = null, bool HaX = false)
+        public IReadOnlyList<ComboItem> GetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort>? allowed = null, bool HaX = false)
         {
             var items = Source.GetItemStrings(generation, game);
-            return Util.GetCBList(items, (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int)i)).ToArray());
+            var range = (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int) i)).ToArray();
+            return Util.GetCBList(items, range);
         }
 
         /// <summary>

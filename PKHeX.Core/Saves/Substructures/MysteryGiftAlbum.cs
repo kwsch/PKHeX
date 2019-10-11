@@ -8,7 +8,7 @@
         /// <summary>
         /// Mystery Gift data received
         /// </summary>
-        public MysteryGift[] Gifts;
+        public DataMysteryGift[] Gifts;
 
         /// <summary>
         /// Received Flag list

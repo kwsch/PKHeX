@@ -32,7 +32,7 @@ namespace PKHeX.Core
                     return true;
             }
 
-            output = null;
+            output = input;
             return false;
         }
 
@@ -43,37 +43,37 @@ namespace PKHeX.Core
                 if (VerifyMemeData(input, out output, keyIndex))
                     return true;
             }
-            output = null;
+            output = input;
             return false;
         }
 
         public static bool VerifyMemeData(byte[] input, out byte[] output, MemeKeyIndex keyIndex)
         {
-            output = null;
             if (input.Length < 0x60)
+            {
+                output = input;
                 return false;
+            }
             var memekey = new MemeKey(keyIndex);
             output = (byte[])input.Clone();
 
             var sigBuffer = new byte[0x60];
             Array.Copy(input, input.Length - 0x60, sigBuffer, 0, 0x60);
             sigBuffer = memekey.RsaPublic(sigBuffer);
-            using (var sha1 = SHA1.Create())
+            using var sha1 = SHA1.Create();
+            foreach (var orVal in new byte[] { 0, 0x80 })
             {
-                foreach (var orVal in new byte[] { 0, 0x80 })
-                {
-                    sigBuffer[0x0] |= orVal;
-                    sigBuffer.CopyTo(output, output.Length - 0x60);
-                    memekey.AesDecrypt(output).CopyTo(output, 0);
-                    // Check for 8-byte equality.
-                    var computed = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
-                    var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
-                    if (computed == existing)
-                        return true;
-                }
+                sigBuffer[0x0] |= orVal;
+                sigBuffer.CopyTo(output, output.Length - 0x60);
+                memekey.AesDecrypt(output).CopyTo(output, 0);
+                // Check for 8-byte equality.
+                var computed = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
+                var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
+                if (computed == existing)
+                    return true;
             }
 
-            output = null;
+            output = input;
             return false;
         }
 
@@ -88,7 +88,7 @@ namespace PKHeX.Core
                 output = newOutput;
                 return true;
             }
-            output = null;
+            output = input;
             return false;
         }
 
@@ -103,7 +103,7 @@ namespace PKHeX.Core
                 output = newOutput;
                 return true;
             }
-            output = null;
+            output = input;
             return false;
         }
 

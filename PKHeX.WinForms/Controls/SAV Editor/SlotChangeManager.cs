@@ -91,7 +91,7 @@ namespace PKHeX.WinForms.Controls
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
             var src = view.GetSlotData(pb);
-            return new SlotViewInfo<T> { Slot = src, View = view };
+            return new SlotViewInfo<T>(src, view);
         }
 
         public void MouseMove(object sender, MouseEventArgs e)

@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
+        private readonly SAV3GCMemoryCard? MC;
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -119,7 +119,7 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
@@ -146,7 +146,7 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3XD(data, MC) : new SAV3XD(data);
+            var sav = IsMemoryCardSave ? new SAV3XD(data, MC!) : new SAV3XD(data);
             sav.Header = (byte[]) Header.Clone();
             return sav;
         }

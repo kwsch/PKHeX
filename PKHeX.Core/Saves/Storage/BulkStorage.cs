@@ -32,7 +32,7 @@ namespace PKHeX.Core
         public override Type PKMType => blank.GetType();
         public override PKM BlankPKM => blank.Clone();
 
-        protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation);
+        protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation) ?? blank;
         protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data;
 
         public override int SIZE_STORED => blank.SIZE_STORED;

@@ -167,11 +167,16 @@ namespace PKHeX.Core
 
         public static IEnumerable<PKM> GetPKMsFromPaths(IEnumerable<string> filepaths, int generation)
         {
-            return filepaths
+            var result = filepaths
                 .Where(file => PKX.IsPKM(new FileInfo(file).Length))
                 .Select(File.ReadAllBytes)
-                .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation))
-                .Where(temp => temp != null);
+                .Select(data => PKMConverter.GetPKMfromBytes(data, prefer: generation));
+
+            foreach (var pkm in result)
+            {
+                if (pkm != null)
+                    yield return pkm;
+            }
         }
 
         private static IEnumerable<PKM> GetPossiblePKMsFromPaths(SaveFile sav, IEnumerable<string> filepaths)

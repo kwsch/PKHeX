@@ -43,15 +43,17 @@ namespace PKHeX.Core
             var restrict = new LevelUpRestriction(pkm, info);
             info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
 
-            List<int> defaultG1LevelMoves = null;
-            List<int> defaultG2LevelMoves = null;
+            IReadOnlyList<int> defaultG1LevelMoves = Array.Empty<int>();
+            IReadOnlyList<int> defaultG2LevelMoves = Array.Empty<int>();
             var defaultTradeback = pkm.TradebackStatus;
             bool gb = false;
             if (info.EncounterMatch is IGeneration g && g.Generation <= 2)
             {
                 gb = true;
                 defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
-                defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
+                if (pkm.InhabitedGeneration(2))
+                    defaultG2LevelMoves = info.EncounterMoves.LevelUpMoves[2];
+
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, g.Generation, info);
 
@@ -258,7 +260,7 @@ namespace PKHeX.Core
                 return res;
 
             // Encapsulate arguments to simplify method calls
-            var moveInfo = new LearnInfo(pkm) { Source = source };
+            var moveInfo = new LearnInfo(pkm, source);
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
             int[] generations = GetGenMovesCheckOrder(pkm);
             if (pkm.Format <= 2)
@@ -549,7 +551,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)
+        private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, IReadOnlyList<int> moves, IReadOnlyList<int> tmhm)
         {
             GBRestrictions.GetIncompatibleEvolutionMoves(pkm, moves, tmhm,
                 out var prevSpeciesID,

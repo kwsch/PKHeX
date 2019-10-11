@@ -612,11 +612,11 @@ namespace PKHeX.Core
             }
         }
 
-        protected override MysteryGift[] MysteryGiftCards
+        protected override DataMysteryGift[] MysteryGiftCards
         {
             get
             {
-                MysteryGift[] cards = new MysteryGift[8 + 3];
+                DataMysteryGift[] cards = new DataMysteryGift[8 + 3];
                 for (int i = 0; i < 8; i++) // 8 PGT
                     cards[i] = new PGT(General.Slice(WondercardData + (i * PGT.Size), PGT.Size));
                 for (int i = 8; i < 11; i++) // 3 PCD

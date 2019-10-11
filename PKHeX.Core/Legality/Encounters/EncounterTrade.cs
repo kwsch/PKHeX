@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
-        public int[] Moves { get; set; }
+        public int[]? Moves { get; set; }
         public int Level { get; set; }
         public int LevelMin => Level;
         public int LevelMax => 100;
@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public int TID { get; set; }
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[] IVs { get; set; }
+        public int[]? IVs { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
@@ -58,10 +58,10 @@ namespace PKHeX.Core
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
-        public string[] Nicknames { get; internal set; }
-        public string[] TrainerNames { get; internal set; }
-        public string GetNickname(int language) => Nicknames?.Length > language ? Nicknames[language] : null;
-        public string GetOT(int language) => TrainerNames?.Length > language ? TrainerNames[language] : null;
+        public string[]? Nicknames { get; internal set; }
+        public string[]? TrainerNames { get; internal set; }
+        public string GetNickname(int language) => Nicknames?.Length > language ? Nicknames[language] : string.Empty;
+        public string GetOT(int language) => TrainerNames?.Length > language ? TrainerNames[language] : string.Empty;
         public bool HasNickname => Nicknames != null;
 
         public static readonly int[] DefaultMetLocation =

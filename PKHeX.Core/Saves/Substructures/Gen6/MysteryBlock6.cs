@@ -24,11 +24,11 @@ namespace PKHeX.Core
             }
         }
 
-        public MysteryGift[] MysteryGiftCards
+        public DataMysteryGift[] MysteryGiftCards
         {
             get
             {
-                var cards = new MysteryGift[MaxCardsPresent];
+                var cards = new DataMysteryGift[MaxCardsPresent];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetGift(i);
                 return cards;
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             }
         }
 
-        public MysteryGift GetGift(int index)
+        public DataMysteryGift GetGift(int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -55,7 +55,7 @@ namespace PKHeX.Core
 
         private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
 
-        public void SetGift(MysteryGift wc6, int index)
+        public void SetGift(DataMysteryGift wc6, int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));

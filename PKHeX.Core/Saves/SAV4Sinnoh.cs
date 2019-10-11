@@ -117,7 +117,7 @@ namespace PKHeX.Core
         public HoneyTree GetHoneyTree(int index)
         {
             if ((uint)index > 21)
-                return null;
+                throw new ArgumentException(nameof(index));
             return new HoneyTree(General.Slice(OFS_HONEY + (HONEY_SIZE * index), HONEY_SIZE));
         }
 

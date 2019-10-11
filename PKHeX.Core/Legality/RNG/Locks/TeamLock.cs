@@ -3,7 +3,7 @@ namespace PKHeX.Core
     public sealed class TeamLock
     {
         public int Species;
-        public string Comment;
+        public string? Comment;
         public NPCLock[] Locks;
 
         internal TeamLock Clone()

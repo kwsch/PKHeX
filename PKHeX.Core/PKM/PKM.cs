@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         // Internal Attributes set on creation
         public byte[] Data; // Raw Storage
-        public string Identifier; // User or Form Custom Attribute
+        public string? Identifier; // User or Form Custom Attribute
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 

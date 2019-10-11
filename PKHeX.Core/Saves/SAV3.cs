@@ -159,6 +159,8 @@ namespace PKHeX.Core
                     EventConst = BlockOfs[2] + 0x80;
                     Daycare = BlockOfs[4] + 0x100;
                     break;
+                default:
+                    throw new ArgumentException(nameof(Version));
             }
 
             LoadEReaderBerryData();
@@ -169,7 +171,7 @@ namespace PKHeX.Core
             HeldItems = Legal.HeldItems_RS;
 
             // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
-            SeenFlagOffsets = SeenFlagOffsets?.Where(z => z >= 0).ToArray();
+            SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
         }
 
         private void LoadBlocks()
@@ -899,12 +901,7 @@ namespace PKHeX.Core
             public readonly byte[] Data;
             private const int Size = 8;
 
-            public RTC3(byte[] data = null)
-            {
-                if (data == null || data.Length != Size)
-                    data = new byte[8];
-                Data = data;
-            }
+            public RTC3(byte[] data) => Data = data;
 
             public int Day { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
             public int Hour { get => Data[2]; set => Data[2] = (byte)value; }
@@ -917,7 +914,7 @@ namespace PKHeX.Core
             get
             {
                 if (FRLG)
-                    return null;
+                    throw new ArgumentException(nameof(ClockInitial));
                 int block0 = GetBlockOffset(0);
                 return new RTC3(GetData(block0 + 0x98, 8));
             }
@@ -935,7 +932,7 @@ namespace PKHeX.Core
             get
             {
                 if (FRLG)
-                    return null;
+                    throw new ArgumentException(nameof(ClockElapsed));
                 int block0 = GetBlockOffset(0);
                 return new RTC3(GetData(block0 + 0xA0, 8));
             }

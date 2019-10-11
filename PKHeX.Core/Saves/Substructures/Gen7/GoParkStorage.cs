@@ -41,7 +41,7 @@ namespace PKHeX.Core
             }
             set
             {
-                Debug.Assert(value?.Length == Count);
+                Debug.Assert(value.Length == Count);
                 for (int i = 0; i < value.Length; i++)
                     this[i] = value[i];
             }

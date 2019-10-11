@@ -36,7 +36,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="type">Manipulation type.</param>
         /// <returns>Category Name</returns>
-        public static string GetManipCategoryName(this BoxManipType type)
+        public static string? GetManipCategoryName(this BoxManipType type)
         {
             for (int i = 0; i < ManipCategories.Length; i++)
             {
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="manip">Manipulation type.</param>
         /// <returns>Category Name</returns>
-        public static string GetManipCategoryName(this IBoxManip manip)
+        public static string? GetManipCategoryName(this IBoxManip manip)
         {
             for (int i = 0; i < ManipCategories.Length; i++)
             {

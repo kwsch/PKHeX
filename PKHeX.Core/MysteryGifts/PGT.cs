@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
     /// </summary>
-    public sealed class PGT : MysteryGift
+    public sealed class PGT : DataMysteryGift
     {
         public const int Size = 0x104; // 260
         public override int Format => 4;
@@ -46,8 +46,8 @@ namespace PKHeX.Core
         public override bool GiftUsed { get => false; set { } }
         public override object Content => PK;
 
-        public PGT() => Data = new byte[Size];
-        public PGT(byte[] data) => Data = data;
+        public PGT() : this(new byte[Size]) { }
+        public PGT(byte[] data) : base(data) { }
 
         public byte CardType { get => Data[0]; set => Data[0] = value; }
         // Unused 0x01
@@ -77,7 +77,7 @@ namespace PKHeX.Core
             }
         }
 
-        private PK4 _pk;
+        private PK4? _pk;
 
         /// <summary>
         /// Double checks the encryption of the gift data for Pokemon data.
@@ -122,7 +122,7 @@ namespace PKHeX.Core
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             // template is already filled out, only minor mutations required
             PK4 pk4 = new PK4((byte[])PK.Data.Clone()) { Sanity = 0 };

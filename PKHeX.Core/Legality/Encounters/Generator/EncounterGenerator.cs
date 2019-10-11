@@ -371,6 +371,8 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
+            if (info.PIDIV == null) // should be assigned before reaching here
+                throw new ArgumentNullException(nameof(info.PIDIV));
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters34(pkm))
             {
