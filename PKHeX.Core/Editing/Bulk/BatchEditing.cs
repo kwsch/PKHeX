@@ -164,6 +164,8 @@ namespace PKHeX.Core
                     return false;
                 try
                 {
+                    if (pi == null)
+                        continue;
                     if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
                         continue;
                 }
