@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public virtual ushort GetMessage(int index1, int index2) => 0;
         public virtual void SetMessage(string line1, string line2) { }
         public virtual void SetMessage(int index1, int index2, ushort value) { }
-        public virtual string AuthorName { get; set; }
+        public virtual string AuthorName { get; set; } = string.Empty;
         public virtual ushort AuthorTID { get; set; }
         public virtual ushort AuthorSID { get; set; }
         public virtual byte AuthorVersion { get; set; }

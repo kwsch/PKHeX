@@ -114,11 +114,11 @@ namespace PKHeX.Core
         public LegalityAnalysis(PKM pk, PersonalTable? table = null)
         {
             pkm = pk;
+            PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
 #if SUPPRESS
             try
 #endif
             {
-                PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
                 ParseLegality();
 
                 if (Parse.Count == 0)

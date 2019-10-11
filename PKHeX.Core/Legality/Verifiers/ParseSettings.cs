@@ -58,8 +58,8 @@
             ActiveTrainer = sav;
             if (sav.Generation >= 3)
                 return AllowGBCartEra = false;
-            string path = sav.FileName;
-            bool vc = path.EndsWith("dat");
+            var path = sav.FileName;
+            bool vc = path?.EndsWith("dat") ?? false;
             return AllowGBCartEra = !vc; // physical cart selected
         }
     }

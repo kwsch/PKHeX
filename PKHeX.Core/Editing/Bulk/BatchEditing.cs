@@ -321,7 +321,7 @@ namespace PKHeX.Core
             if (cmd.PropertyName != IdentifierContains)
                 return false;
 
-            bool result = pk.Identifier.Contains(cmd.PropertyValue);
+            bool result = pk.Identifier?.Contains(cmd.PropertyValue) ?? false;
             return result == cmd.Evaluator;
         }
 

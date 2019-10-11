@@ -24,7 +24,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="nick"><see cref="PKM.Nickname"/> to set. If no nickname is provided, the <see cref="PKM.Nickname"/> is set to the default value for its current language and format.</param>
-        public static void SetNickname(this PKM pk, string? nick)
+        public static void SetNickname(this PKM pk, string nick)
         {
             if (string.IsNullOrWhiteSpace(nick))
             {
