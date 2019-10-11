@@ -14,19 +14,22 @@ namespace PKHeX.Core
         public byte[] Data;
         public bool Edited;
         public readonly bool Exportable;
-        public byte[] BAK { get; protected set; }
+        public readonly byte[] BAK;
 
-        protected SaveFile(byte[] data)
+        protected SaveFile(byte[] data, byte[] bak)
         {
             Data = data;
-            BAK = (byte[])Data.Clone();
+            BAK = bak;
             Exportable = true;
         }
 
-        protected SaveFile(int size) : this()
+        protected SaveFile(byte[] data) : this(data, (byte[])data.Clone()) { }
+
+        protected SaveFile(int size)
         {
             Data = new byte[size];
             BAK = Data;
+            Exportable = false;
         }
 
         public string? FileName, FilePath, FileFolder;
@@ -44,12 +47,6 @@ namespace PKHeX.Core
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;
         }).ToArray();
-
-        protected SaveFile()
-        {
-            BAK = Array.Empty<byte>();
-            Exportable = false;
-        }
 
         // General SAV Properties
         public byte[] Write(ExportFlags flags = ExportFlags.None)

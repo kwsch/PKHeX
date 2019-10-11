@@ -27,7 +27,8 @@ namespace PKHeX.Core
         public int MaxShadowID => ShadowInfo.Count;
         private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3XD(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
@@ -35,7 +36,7 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        public SAV3XD(byte[] data) : base(data)
+        private SAV3XD(byte[] data, byte[] bak) : base(data, bak)
         {
             InitializeData();
             Initialize();

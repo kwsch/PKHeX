@@ -41,9 +41,8 @@ namespace PKHeX.Core
         protected override void WriteStoredSlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedBoxData, offset);
         protected override void WriteBoxSlot(PKM pkm, int offset) => SetData(Storage, pkm.EncryptedBoxData, offset);
 
-        protected SAV4()
+        protected SAV4() : base(Array.Empty<byte>(), Array.Empty<byte>())
         {
-            Data = BAK = Array.Empty<byte>();
             Storage = new byte[StorageSize];
             General = new byte[GeneralSize];
             ClearBoxes();

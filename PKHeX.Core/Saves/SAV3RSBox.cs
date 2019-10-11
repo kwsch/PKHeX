@@ -15,7 +15,8 @@ namespace PKHeX.Core
         private readonly SAV3GCMemoryCard? MC;
         public readonly bool Japanese = false; // todo?
 
-        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3RSBox(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
         {
@@ -25,7 +26,7 @@ namespace PKHeX.Core
             Initialize();
         }
 
-        public SAV3RSBox(byte[] data) : base(data)
+        private SAV3RSBox(byte[] data, byte[] bak) : base(data, bak)
         {
             Blocks = ReadBlocks(data);
             InitializeData();

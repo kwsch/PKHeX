@@ -39,7 +39,8 @@ namespace PKHeX.Core
         private ushort[] LegalBerries;
         private ushort[] LegalCologne;
         private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne;
-        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
         {
@@ -47,7 +48,7 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        public SAV3Colosseum(byte[] data) : base(data)
+        private SAV3Colosseum(byte[] data, byte[] bak) : base(data, bak)
         {
             InitializeData();
             Initialize();
