@@ -36,7 +36,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3, }, // Mewtwo @ Cerulean Cave
             new EncounterStatic { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3, }, // Snorlax @ Route 12
             new EncounterStatic { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3, }, // Snorlax @ Route 16
-            new EncounterStatic { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Voltorb @ Power Plant
+            // unused new EncounterStatic { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Voltorb @ Power Plant
             new EncounterStatic { Species = 101, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Electrode @ Power Plant
 
             // gifts
