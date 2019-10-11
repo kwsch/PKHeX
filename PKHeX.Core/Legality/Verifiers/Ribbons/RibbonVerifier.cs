@@ -336,7 +336,7 @@ namespace PKHeX.Core
                 yield break;
             var names = set1.RibbonNames();
             var sb = set1.RibbonBits();
-            var eb = (encounterContent as IRibbonSetEvent3).RibbonBits();
+            var eb = encounterContent is IRibbonSetEvent3 e3 ? e3.RibbonBits() : new bool[sb.Length];
 
             if (pkm.Gen3)
             {
@@ -362,7 +362,7 @@ namespace PKHeX.Core
                 yield break;
             var names = set2.RibbonNames();
             var sb = set2.RibbonBits();
-            var eb = (encounterContent as IRibbonSetEvent4).RibbonBits();
+            var eb = encounterContent is IRibbonSetEvent4 e4 ? e4.RibbonBits() : new bool[sb.Length];
 
             if (encounterContent is EncounterStatic s && s.RibbonWishing)
                 eb[1] = true; // require Wishing Ribbon
