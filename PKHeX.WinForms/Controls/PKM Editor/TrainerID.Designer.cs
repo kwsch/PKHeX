@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.FLP = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_TID = new System.Windows.Forms.Label();
             this.TB_TID = new System.Windows.Forms.MaskedTextBox();
@@ -35,6 +36,7 @@
             this.Label_SID = new System.Windows.Forms.Label();
             this.TB_SID = new System.Windows.Forms.MaskedTextBox();
             this.TB_SID7 = new System.Windows.Forms.MaskedTextBox();
+            this.TSVTooltip = new System.Windows.Forms.ToolTip(this.components);
             this.FLP.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -152,5 +154,6 @@
         private System.Windows.Forms.Label Label_TID;
         private System.Windows.Forms.MaskedTextBox TB_TID7;
         private System.Windows.Forms.MaskedTextBox TB_SID7;
+        private System.Windows.Forms.ToolTip TSVTooltip;
     }
 }

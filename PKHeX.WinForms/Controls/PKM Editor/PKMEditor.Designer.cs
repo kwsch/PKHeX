@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabMain = new System.Windows.Forms.TabControl();
             this.Tab_Main = new System.Windows.Forms.TabPage();
             this.FLP_Main = new System.Windows.Forms.FlowLayoutPanel();
@@ -217,6 +218,9 @@
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
             this.Label_EncryptionConstant = new System.Windows.Forms.Label();
+            this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
+            this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
+            this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -2208,7 +2212,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2915,5 +2919,8 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_SizeCP;
         private SizeCP SizeCP;
         private System.Windows.Forms.PictureBox PB_Favorite;
+        private System.Windows.Forms.ToolTip SpeciesIDTip;
+        private System.Windows.Forms.ToolTip NatureTip;
+        private System.Windows.Forms.ToolTip Tip3;
     }
 }

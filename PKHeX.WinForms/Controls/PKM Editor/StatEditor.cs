@@ -50,7 +50,6 @@ namespace PKHeX.WinForms.Controls
 
         private readonly Label[] L_Stats;
         private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_AVs, MT_Stats, MT_Base;
-        private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
 
         private bool ChangingFields
