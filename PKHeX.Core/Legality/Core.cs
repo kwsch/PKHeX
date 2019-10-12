@@ -16,50 +16,50 @@ namespace PKHeX.Core
         public static string EReaderBerryDisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
 
         // Gen 1
-        internal static readonly Learnset[] LevelUpRB = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
-        internal static readonly Learnset[] LevelUpY = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
+        internal static readonly Learnset[] LevelUpRB = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
+        internal static readonly Learnset[] LevelUpY = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
 
         // Gen 2
         internal static readonly EggMoves[] EggMovesGS = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_gs.pkl"), MaxSpeciesID_2);
-        internal static readonly Learnset[] LevelUpGS = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
+        internal static readonly Learnset[] LevelUpGS = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_gs.pkl"), MaxSpeciesID_2);
         internal static readonly EggMoves[] EggMovesC = EggMoves2.GetArray(Util.GetBinaryResource("eggmove_c.pkl"), MaxSpeciesID_2);
-        internal static readonly Learnset[] LevelUpC = Learnset1.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
+        internal static readonly Learnset[] LevelUpC = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_c.pkl"), MaxSpeciesID_2);
 
         // Gen 3
-        internal static readonly Learnset[] LevelUpE = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
-        internal static readonly Learnset[] LevelUpRS = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
-        internal static readonly Learnset[] LevelUpFR = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
-        internal static readonly Learnset[] LevelUpLG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
+        internal static readonly Learnset[] LevelUpE = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_e.pkl"), "em"));
+        internal static readonly Learnset[] LevelUpRS = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_rs.pkl"), "rs"));
+        internal static readonly Learnset[] LevelUpFR = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_fr.pkl"), "fr"));
+        internal static readonly Learnset[] LevelUpLG = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_lg.pkl"), "lg"));
         internal static readonly EggMoves[] EggMovesRS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_rs.pkl"), "rs"));
 
         // Gen 4
-        internal static readonly Learnset[] LevelUpDP = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
-        internal static readonly Learnset[] LevelUpPt = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
-        internal static readonly Learnset[] LevelUpHGSS = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
+        internal static readonly Learnset[] LevelUpDP = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_dp.pkl"), "dp"));
+        internal static readonly Learnset[] LevelUpPt = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_pt.pkl"), "pt"));
+        internal static readonly Learnset[] LevelUpHGSS = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_hgss.pkl"), "hs"));
         internal static readonly EggMoves[] EggMovesDPPt = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_dppt.pkl"), "dp"));
         internal static readonly EggMoves[] EggMovesHGSS = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_hgss.pkl"), "hs"));
 
         // Gen 5
-        internal static readonly Learnset[] LevelUpBW = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
-        internal static readonly Learnset[] LevelUpB2W2 = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
+        internal static readonly Learnset[] LevelUpBW = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_bw.pkl"), "51"));
+        internal static readonly Learnset[] LevelUpB2W2 = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_b2w2.pkl"), "52"));
         internal static readonly EggMoves[] EggMovesBW = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_bw.pkl"), "bw"));
 
         // Gen 6
         internal static readonly EggMoves[] EggMovesXY = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_xy.pkl"), "xy"));
-        internal static readonly Learnset[] LevelUpXY = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
+        internal static readonly Learnset[] LevelUpXY = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_xy.pkl"), "xy"));
         internal static readonly EggMoves[] EggMovesAO = EggMoves6.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_ao.pkl"), "ao"));
-        internal static readonly Learnset[] LevelUpAO = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
+        internal static readonly Learnset[] LevelUpAO = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_ao.pkl"), "ao"));
 
         // Gen 7
         internal static readonly EggMoves[] EggMovesSM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-        internal static readonly Learnset[] LevelUpSM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        internal static readonly Learnset[] LevelUpSM = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
         internal static readonly EggMoves[] EggMovesUSUM = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_uu.pkl"), "uu"));
-        internal static readonly Learnset[] LevelUpUSUM = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
-        internal static readonly Learnset[] LevelUpGG = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
+        internal static readonly Learnset[] LevelUpUSUM = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_uu.pkl"), "uu"));
+        internal static readonly Learnset[] LevelUpGG = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
 
         // Gen 8
         internal static readonly EggMoves[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-        internal static readonly Learnset[] LevelUpSWSH = Learnset6.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
 
         // Setup Help
         static Legal()

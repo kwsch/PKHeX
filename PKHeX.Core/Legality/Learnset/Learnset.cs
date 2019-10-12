@@ -6,22 +6,23 @@ namespace PKHeX.Core
     /// <summary>
     /// Level Up Learn Movepool Information
     /// </summary>
-    public abstract class Learnset
+    public sealed class Learnset
     {
-        /// <summary>
-        /// Amount of moves present.
-        /// </summary>
-        protected int Count;
-
         /// <summary>
         /// Moves that can be learned.
         /// </summary>
-        protected int[] Moves;
+        private readonly int[] Moves;
 
         /// <summary>
         /// Levels at which a move at a given index can be learned.
         /// </summary>
-        protected int[] Levels;
+        private readonly int[] Levels;
+
+        public Learnset(int[] moves, int[] levels)
+        {
+            Moves = moves;
+            Levels = levels;
+        }
 
         /// <summary>
         /// Returns the moves a Pokémon can learn between the specified level range.
