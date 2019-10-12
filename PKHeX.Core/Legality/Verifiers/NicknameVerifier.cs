@@ -1,5 +1,6 @@
 ﻿using System;
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LanguageID;
 
 namespace PKHeX.Core
 {
@@ -57,9 +58,9 @@ namespace PKHeX.Core
             if (ParseSettings.CheckWordFilter && pkm.IsNicknamed)
             {
                 if (WordFilter.IsFiltered(nickname, out string bad))
-                    data.AddLine(GetInvalid($"Wordfilter: {bad}"));
+                    data.AddLine(GetInvalid($"Word Filter: {bad}"));
                 if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
-                    data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
+                    data.AddLine(GetInvalid("Word Filter: Too many numbers."));
             }
         }
 
@@ -82,7 +83,7 @@ namespace PKHeX.Core
                 }
                 if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    var severe = data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, LanguageID.English)
+                    var severe = data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, English)
                             ? Severity.Fishy
                             : Severity.Invalid;
                     data.AddLine(Get(LNickLengthLong, severe));
@@ -105,7 +106,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        private bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
+        private static bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
         {
             if (SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname)
                 return true;
@@ -205,7 +206,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyTrade12(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyTrade12(LegalityAnalysis data, EncounterTrade t)
         {
             if (t.TID != 0) // Gen2 Trade
                 return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
@@ -214,7 +215,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
         }
 
-        private void VerifyTrade3(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyTrade3(LegalityAnalysis data, EncounterTrade t)
         {
             var pkm = data.pkm;
             int lang = pkm.Language;
@@ -223,7 +224,7 @@ namespace PKHeX.Core
             VerifyTrade(data, t, lang);
         }
 
-        private void VerifyTrade4(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyTrade4(LegalityAnalysis data, EncounterTrade t)
         {
             var pkm = data.pkm;
             if (pkm.TID == 1000)
@@ -259,9 +260,9 @@ namespace PKHeX.Core
 
         private static void FlagKoreanIncompatibleSameGenTrade(LegalityAnalysis data, PKM pkm, int lang)
         {
-            if (pkm.Format != 4 || lang != (int)LanguageID.Korean)
+            if (pkm.Format != 4 || lang != (int)Korean)
                 return; // transferred or not appropriate
-            if (ParseSettings.ActiveTrainer.Language != (int)LanguageID.Korean && ParseSettings.ActiveTrainer.Language >= 0)
+            if (ParseSettings.ActiveTrainer.Language != (int)Korean && ParseSettings.ActiveTrainer.Language >= 0)
                 data.AddLine(GetInvalid(string.Format(LTransferOriginFInvalid0_1, L_XKorean, L_XKoreanNon), CheckIdentifier.Language));
         }
 
@@ -279,36 +280,36 @@ namespace PKHeX.Core
 
         private static int DetectTradeLanguageG3DANTAEJynx(PKM pk, int currentLanguageID)
         {
-            if (currentLanguageID != (int)LanguageID.Italian)
+            if (currentLanguageID != (int)Italian)
                 return currentLanguageID;
 
             if (pk.Version == (int)GameVersion.LG)
-                currentLanguageID = (int)LanguageID.English; // translation error; OT was not localized => same as English
+                currentLanguageID = (int)English; // translation error; OT was not localized => same as English
             return currentLanguageID;
         }
 
         private static int DetectTradeLanguageG4MeisterMagikarp(PKM pkm, EncounterTrade t, int currentLanguageID)
         {
-            if (currentLanguageID == (int)LanguageID.English)
-                return (int)LanguageID.German;
+            if (currentLanguageID == (int)English)
+                return (int)German;
 
             // All have German, regardless of origin version.
             var lang = DetectTradeLanguage(pkm.OT_Name, t, currentLanguageID);
-            if (lang == (int)LanguageID.English) // possible collision with FR/ES/DE. Check nickname
-                return pkm.Nickname == t.Nicknames[(int)LanguageID.French] ? (int)LanguageID.French : (int)LanguageID.Spanish; // Spanish is same as English
+            if (lang == (int)English) // possible collision with FR/ES/DE. Check nickname
+                return pkm.Nickname == t.Nicknames[(int)French] ? (int)French : (int)Spanish; // Spanish is same as English
 
             return lang;
         }
 
         private static int DetectTradeLanguageG4SurgePikachu(PKM pkm, EncounterTrade t, int currentLanguageID)
         {
-            if (currentLanguageID == (int)LanguageID.French)
-                return (int)LanguageID.English;
+            if (currentLanguageID == (int)French)
+                return (int)English;
 
             // All have English, regardless of origin version.
             var lang = DetectTradeLanguage(pkm.OT_Name, t, currentLanguageID);
             if (lang == 2) // possible collision with ES/IT. Check nickname
-                return pkm.Nickname == t.Nicknames[(int)LanguageID.Italian] ? (int)LanguageID.Italian : (int)LanguageID.Spanish;
+                return pkm.Nickname == t.Nicknames[(int)Italian] ? (int)Italian : (int)Spanish;
 
             return lang;
         }
@@ -320,8 +321,8 @@ namespace PKHeX.Core
             // Trades for JPN games have language ID of 0, not 1.
             if (pkm.BW)
             {
-                if (pkm.Format == 5 && lang == (int)LanguageID.Japanese)
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, 0, LanguageID.Japanese), CheckIdentifier.Language));
+                if (pkm.Format == 5 && lang == (int)Japanese)
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, 0, Japanese), CheckIdentifier.Language));
 
                 lang = Math.Max(lang, 1);
                 VerifyTrade(data, t, lang);
