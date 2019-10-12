@@ -29,7 +29,6 @@ namespace PKHeX.WinForms
 
         private readonly IReadOnlyList<RibbonInfo> riblist;
         private readonly PKM pkm;
-        private readonly ToolTip tipName = new ToolTip();
 
         private const string PrefixNUD = "NUD_";
         private const string PrefixLabel = "L_";

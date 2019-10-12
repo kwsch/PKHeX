@@ -287,7 +287,6 @@ namespace PKHeX.WinForms
 
         private bool editing;
         private const int ofsFM = 0x25900;
-        private readonly ToolTip TipExpB = new ToolTip(), TipExpW = new ToolTip();
         private NumericUpDown[] nudaE, nudaF;
         private ComboBox[] cba;
         private ToolTip[] ta;

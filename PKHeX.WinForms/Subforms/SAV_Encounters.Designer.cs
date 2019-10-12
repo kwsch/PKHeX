@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SCR_Box = new System.Windows.Forms.VScrollBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_Close = new System.Windows.Forms.ToolStripMenuItem();
@@ -36,6 +37,7 @@
             this.Menu_SearchSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
+            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
             this.CB_Move3 = new System.Windows.Forms.ComboBox();
@@ -56,8 +58,9 @@
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.CB_GameOrigin = new System.Windows.Forms.ComboBox();
             this.L_Version = new System.Windows.Forms.Label();
+            this.TypeFilters = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.hover = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.TLP_Filters.SuspendLayout();
@@ -141,6 +144,15 @@
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
+            // 
+            // pokeGrid1
+            // 
+            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
+            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
+            this.pokeGrid1.Name = "pokeGrid1";
+            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
+            this.pokeGrid1.TabIndex = 2;
             // 
             // CB_Species
             // 
@@ -353,6 +365,7 @@
             this.TLP_Filters.Controls.Add(this.CB_GameOrigin, 1, 16);
             this.TLP_Filters.Controls.Add(this.FLP_Egg, 0, 0);
             this.TLP_Filters.Controls.Add(this.L_Version, 0, 16);
+            this.TLP_Filters.Controls.Add(this.TypeFilters, 1, 17);
             this.TLP_Filters.Location = new System.Drawing.Point(304, 16);
             this.TLP_Filters.Name = "TLP_Filters";
             this.TLP_Filters.RowCount = 18;
@@ -410,6 +423,14 @@
             this.L_Version.Text = "OT Version:";
             this.L_Version.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // TypeFilters
+            // 
+            this.TypeFilters.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TypeFilters.Location = new System.Drawing.Point(72, 146);
+            this.TypeFilters.Name = "TypeFilters";
+            this.TypeFilters.Size = new System.Drawing.Size(153, 210);
+            this.TypeFilters.TabIndex = 123;
+            // 
             // RTB_Instructions
             // 
             this.RTB_Instructions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -419,15 +440,6 @@
             this.RTB_Instructions.Size = new System.Drawing.Size(235, 352);
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
-            // 
-            // pokeGrid1
-            // 
-            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
             // 
             // SAV_Encounters
             // 
@@ -493,5 +505,7 @@
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.Label L_Version;
         private Controls.PokeGrid pokeGrid1;
+        private System.Windows.Forms.FlowLayoutPanel TypeFilters;
+        private System.Windows.Forms.ToolTip hover;
     }
 }

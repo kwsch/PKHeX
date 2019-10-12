@@ -69,7 +69,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly bool editing;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
         private bool MapUpdated;
