@@ -527,11 +527,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var album = new MysteryGiftAlbum
-                {
-                    Flags = MysteryGiftReceivedFlags,
-                    Gifts = MysteryGiftCards,
-                };
+                var album = new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
                 album.Flags[2047] = false;
                 return album;
             }

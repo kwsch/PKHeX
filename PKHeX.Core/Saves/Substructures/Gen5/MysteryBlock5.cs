@@ -16,7 +16,7 @@ namespace PKHeX.Core
         // Everything is stored encrypted, and only decrypted on demand. Only crypt on object fetch...
         public MysteryBlock5(SAV5 sav, int offset) : base(sav) => Offset = offset;
 
-        public MysteryGiftAlbum GiftAlbum
+        public EncryptedMysteryGiftAlbum GiftAlbum
         {
             get
             {
@@ -33,13 +33,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static MysteryGiftAlbum GetAlbum(uint seed, byte[] wcData)
+        private static EncryptedMysteryGiftAlbum GetAlbum(uint seed, byte[] wcData)
         {
-            MysteryGiftAlbum Info = new MysteryGiftAlbum { Seed = seed };
             PKX.CryptArray(wcData, seed);
 
-            Info.Flags = new bool[MaxReceivedFlag];
-            Info.Gifts = new DataMysteryGift[MaxCardsPresent];
+            var flags = new bool[MaxReceivedFlag];
+            var gifts = new DataMysteryGift[MaxCardsPresent];
+            var Info = new EncryptedMysteryGiftAlbum(gifts, flags, seed);
+
             // 0x100 Bytes for Used Flags
             for (int i = 0; i < Info.Flags.Length; i++)
                 Info.Flags[i] = (wcData[i / 8] >> i % 8 & 0x1) == 1;
@@ -54,7 +55,7 @@ namespace PKHeX.Core
             return Info;
         }
 
-        private static byte[] SetAlbum(MysteryGiftAlbum value)
+        private static byte[] SetAlbum(EncryptedMysteryGiftAlbum value)
         {
             byte[] wcData = new byte[0xA90];
 

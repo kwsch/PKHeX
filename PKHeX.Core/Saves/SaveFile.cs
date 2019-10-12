@@ -252,11 +252,7 @@ namespace PKHeX.Core
 
         public virtual MysteryGiftAlbum GiftAlbum
         {
-            get => new MysteryGiftAlbum
-            {
-                Flags = MysteryGiftReceivedFlags,
-                Gifts = MysteryGiftCards
-            };
+            get => new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
             set
             {
                 MysteryGiftReceivedFlags = value.Flags;
