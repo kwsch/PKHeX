@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public byte Count { get => Data[0]; private set => Data[0] = value > Capacity ? Capacity : value; }
 
-        protected PokeListGB(byte[] d, PokeListType c = PokeListType.Single, bool jp = false)
+        protected PokeListGB(byte[]? d, PokeListType c = PokeListType.Single, bool jp = false)
         {
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
