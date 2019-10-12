@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
@@ -30,8 +31,14 @@ namespace PKHeX.WinForms
 
         public static Font GetPKXFont(float size)
         {
+            if (GeneratedFonts.TryGetValue(size, out var f))
+                return f;
             var family = CustomFonts.Families.Length == 0 ? FontFamily.GenericSansSerif : CustomFonts.Families[0];
-            return new Font(family, size);
+            var font = new Font(family, size);
+            GeneratedFonts.Add(size, font);
+            return font;
         }
+
+        private static readonly Dictionary<float, Font> GeneratedFonts = new Dictionary<float, Font>();
     }
 }
