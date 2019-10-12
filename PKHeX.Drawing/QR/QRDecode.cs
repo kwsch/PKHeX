@@ -26,7 +26,7 @@ namespace PKHeX.Drawing
             try
             {
                 var str = NetUtil.GetStringFromURL(webURL);
-                if (string.IsNullOrEmpty(str))
+                if (str is null)
                     return QRDecodeMsg.BadConnection;
 
                 data = str;

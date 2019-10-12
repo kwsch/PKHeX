@@ -238,7 +238,7 @@ namespace PKHeX.WinForms
             foreach (var o in LB_Received.Items)
                 flags[Util.ToUInt32(o.ToString())] = true;
 
-            mga.Flags = flags;
+            flags.CopyTo(mga.Flags, 0);
             SAV.GiftAlbum = mga;
 
             Origin.CopyChangesFrom(SAV);
