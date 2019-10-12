@@ -13,9 +13,7 @@ namespace PKHeX.Core
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
-            if (pidiv.RNG == null)
-                return Enumerable.Empty<Frame>();
-            FrameGenerator info = new FrameGenerator(pidiv, pk);
+            FrameGenerator info = new FrameGenerator(pk);
             if (info.FrameType == FrameType.None)
                 return Enumerable.Empty<Frame>();
 
@@ -280,12 +278,12 @@ namespace PKHeX.Core
                 if (!sync && !reg) // doesn't generate nature frame
                     continue;
 
-                uint prev = pidiv.RNG.Prev(s);
+                uint prev = RNG.LCRNG.Prev(s);
                 if (info.AllowLeads && reg) // check for failed sync
                 {
                     var failsync = (info.DPPt ? prev >> 31 : (prev >> 16) & 1) != 1;
                     if (failsync)
-                        yield return info.GetFrame(pidiv.RNG.Prev(prev), LeadRequired.SynchronizeFail);
+                        yield return info.GetFrame(RNG.LCRNG.Prev(prev), LeadRequired.SynchronizeFail);
                 }
                 if (sync)
                     yield return info.GetFrame(prev, LeadRequired.Synchronize);
@@ -298,7 +296,7 @@ namespace PKHeX.Core
                     else
                     {
                         if (info.Safari3)
-                            prev = pidiv.RNG.Prev(prev); // wasted RNG call
+                            prev = RNG.LCRNG.Prev(prev); // wasted RNG call
                         yield return info.GetFrame(prev, LeadRequired.None);
                     }
                 }
@@ -382,7 +380,7 @@ namespace PKHeX.Core
                 if (nature != info.Nature)
                     continue;
 
-                var prev = pidiv.RNG.Prev(s);
+                var prev = RNG.LCRNG.Prev(s);
                 var proc = prev >> 16;
                 bool charmProc = (info.DPPt ? proc / 0x5556 : proc % 3) != 0; // 2/3 odds
                 if (!charmProc)

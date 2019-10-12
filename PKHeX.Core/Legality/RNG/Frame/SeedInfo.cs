@@ -21,7 +21,7 @@ namespace PKHeX.Core
             yield return new SeedInfo { Seed = seed };
 
             var s1 = seed;
-            var s2 = pidiv.RNG.Prev(s1);
+            var s2 = RNG.LCRNG.Prev(s1);
             while (true)
             {
                 var a = s2 >> 16;
@@ -39,8 +39,8 @@ namespace PKHeX.Core
                         break;
                 }
 
-                s1 = pidiv.RNG.Prev(s2);
-                s2 = pidiv.RNG.Prev(s1);
+                s1 = RNG.LCRNG.Prev(s2);
+                s2 = RNG.LCRNG.Prev(s1);
 
                 yield return new SeedInfo { Seed = s1, Charm3 = charm3 };
             }
@@ -59,7 +59,7 @@ namespace PKHeX.Core
             yield return new SeedInfo { Seed = seed };
 
             var s1 = seed;
-            var s2 = pidiv.RNG.Prev(s1);
+            var s2 = RNG.LCRNG.Prev(s1);
             while (true)
             {
                 var a = s2 >> 16;
@@ -77,8 +77,8 @@ namespace PKHeX.Core
                     }
                 }
 
-                s1 = pidiv.RNG.Prev(s2);
-                s2 = pidiv.RNG.Prev(s1);
+                s1 = RNG.LCRNG.Prev(s2);
+                s2 = RNG.LCRNG.Prev(s1);
 
                 yield return new SeedInfo { Seed = s1 };
             }

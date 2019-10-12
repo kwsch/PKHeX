@@ -25,13 +25,13 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects.
+        /// Gets the Search Criteria parameters necessary for generating <see cref="SeedInfo"/> and <see cref="Frame"/> objects for Gen3/4 mainline games.
         /// </summary>
-        /// <param name="pidiv">Info used to determine the <see cref="FrameType"/>.</param>
         /// <param name="pk"><see cref="PKM"/> object containing various accessible information required for the encounter.</param>
         /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
-        public FrameGenerator(PIDIV pidiv, PKM pk)
+        public FrameGenerator(PKM pk)
         {
+            RNG = RNG.LCRNG;
             var ver = (GameVersion)pk.Version;
             switch (ver)
             {
@@ -43,7 +43,6 @@ namespace PKHeX.Core
                 case GameVersion.E:
                     DPPt = false;
                     FrameType = FrameType.MethodH;
-                    RNG = pidiv.RNG;
                     Safari3 = pk.Ball == 5 && !pk.FRLG;
 
                     if (ver != GameVersion.E)
@@ -70,7 +69,7 @@ namespace PKHeX.Core
                     DPPt = true;
                     AllowLeads = true;
                     FrameType = FrameType.MethodJ;
-                    RNG = pidiv.RNG;
+                    RNG = RNG.LCRNG;
                     return;
 
                 // Method K
@@ -79,7 +78,7 @@ namespace PKHeX.Core
                     DPPt = false;
                     AllowLeads = true;
                     FrameType = FrameType.MethodK;
-                    RNG = pidiv.RNG;
+                    RNG = RNG.LCRNG;
                     return;
                 default:
                     throw new ArgumentException(nameof(ver));
