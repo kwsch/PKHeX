@@ -30,12 +30,6 @@ namespace PKHeX.Core
             set => Gift.Ball = value;
         }
 
-        public override int[] IVs
-        {
-            get => Gift.IVs;
-            set => Gift.IVs = value;
-        }
-
         public PCD() : this(new byte[Size]) { }
         public PCD(byte[] data) : base(data) { }
 

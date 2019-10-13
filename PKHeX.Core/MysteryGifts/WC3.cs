@@ -39,13 +39,6 @@ namespace PKHeX.Core
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
-
-        public override int[] IVs
-        {
-            get => Array.Empty<int>();
-            set => throw new Exception();
-        }
-
         public bool RibbonEarth { get; set; }
         public bool RibbonNational { get; set; }
         public bool RibbonCountry { get; set; }
