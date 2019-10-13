@@ -23,8 +23,8 @@ namespace PKHeX.Core
         private int SaveIndex = -1;
         private int Memo;
         private int Shadow;
-        private StrategyMemo StrategyMemo;
-        private ShadowInfoTableXD ShadowInfo;
+        private readonly StrategyMemo StrategyMemo;
+        private readonly ShadowInfoTableXD ShadowInfo;
         public int MaxShadowID => ShadowInfo.Count;
         private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
@@ -33,20 +33,23 @@ namespace PKHeX.Core
 
         public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
+            // create fake objects
+            StrategyMemo = new StrategyMemo();
+            ShadowInfo = new ShadowInfoTableXD();
             Initialize();
             ClearBoxes();
         }
 
         private SAV3XD(byte[] data, byte[] bak) : base(data, bak)
         {
-            InitializeData();
+            InitializeData(out StrategyMemo, out ShadowInfo);
             Initialize();
         }
 
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
 
-        private void InitializeData()
+        private void InitializeData(out StrategyMemo memo, out ShadowInfoTableXD info)
         {
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -91,8 +94,8 @@ namespace PKHeX.Core
             Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
-            StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
-            ShadowInfo = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
+            memo = new StrategyMemo(Data, Memo, xd: true);
+            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
         }
 
         private void Initialize()

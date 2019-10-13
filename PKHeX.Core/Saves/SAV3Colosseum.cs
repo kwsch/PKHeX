@@ -32,7 +32,7 @@ namespace PKHeX.Core
 
         private int SaveCount = -1;
         private int SaveIndex = -1;
-        private StrategyMemo StrategyMemo;
+        private readonly StrategyMemo StrategyMemo;
         public int MaxShadowID => 0x80; // 128
         private int Memo;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
@@ -40,17 +40,17 @@ namespace PKHeX.Core
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
         {
-            Initialize();
+            StrategyMemo = Initialize();
             ClearBoxes();
         }
 
         private SAV3Colosseum(byte[] data, byte[] bak) : base(data, bak)
         {
             InitializeData();
-            Initialize();
+            StrategyMemo = Initialize();
         }
 
-        private void Initialize()
+        private StrategyMemo Initialize()
         {
             Trainer1 = 0x00078;
             Party = 0x000A8;
@@ -58,7 +58,6 @@ namespace PKHeX.Core
             Box = 0x00B90;
             Daycare = 0x08170;
             Memo = 0x082B0;
-            StrategyMemo = new StrategyMemo(Data, Memo, xd: false);
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
@@ -67,6 +66,9 @@ namespace PKHeX.Core
                 if (GetPartySlot(GetPartyOffset(i)).Species != 0)
                     PartyCount++;
             }
+
+            var memo = new StrategyMemo(Data, Memo, xd: false);
+            return memo;
         }
 
         private void InitializeData()

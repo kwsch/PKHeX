@@ -23,6 +23,8 @@ namespace PKHeX.Core
             }
         }
 
+        public ShadowInfoTableXD() : this(new byte[SIZE_ENTRY * 200]) { }
+
         private static ShadowInfoEntryXD GetEntry(byte[] data, int i)
         {
             var d = new byte[SIZE_ENTRY];

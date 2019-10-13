@@ -9,15 +9,19 @@ namespace PKHeX.Core
         private readonly bool XD;
         private const int SIZE_ENTRY = 12;
         private readonly List<StrategyMemoEntry> Entries = new List<StrategyMemoEntry>();
+        public const int MAX_COUNT = 500;
+        public const int MAX_SIZE = MAX_COUNT * SIZE_ENTRY;
         private StrategyMemoEntry this[int Species] => Entries.Find(e => e.Species == Species);
         private readonly byte[] _unk;
+
+        public StrategyMemo(bool xd = true) : this(new byte[MAX_SIZE], 0, xd) { }
 
         public StrategyMemo(byte[] input, int offset, bool xd)
         {
             XD = xd;
             int count = BigEndian.ToInt16(input, offset);
-            if (count > 500)
-                count = 500;
+            if (count > MAX_COUNT)
+                count = MAX_COUNT;
             _unk = input.Slice(offset + 2, 2);
             for (int i = 0; i < count; i++)
             {
