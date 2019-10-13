@@ -24,6 +24,12 @@ namespace PKHeX.Core
             set { if (IsPokémon) PK.Ball = value; }
         }
 
+        public override int[] IVs
+        {
+            get => IsPokémon ? PK.IVs : Array.Empty<int>();
+            set { if (IsPokémon) PK.IVs = value; }
+        }
+
         private enum GiftType
         {
             Pokémon = 1,

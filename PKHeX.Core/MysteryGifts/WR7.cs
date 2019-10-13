@@ -126,6 +126,8 @@ namespace PKHeX.Core
             }
         }
 
+        public override int[] IVs { get => Array.Empty<int>(); set { } }
+
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             // this method shouldn't really be called, use the WB7 data not the WR7 data.
