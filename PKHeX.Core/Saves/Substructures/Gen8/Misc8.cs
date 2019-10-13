@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class Misc8 : SaveBlock
     {
-        public Misc8(SAV8 sav, int offset) : base(sav) => Offset = offset;
+        public Misc8(SAV8SWSH sav, int offset) : base(sav) => Offset = offset;
 
         public uint Money
         {

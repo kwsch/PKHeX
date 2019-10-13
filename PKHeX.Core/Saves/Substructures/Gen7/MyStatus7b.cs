@@ -5,10 +5,7 @@ namespace PKHeX.Core
 {
     public sealed class MyStatus7b : SaveBlock
     {
-        public MyStatus7b(SaveFile sav) : base(sav)
-        {
-            Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.MyStatus);
-        }
+        public MyStatus7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         // Player Information
 

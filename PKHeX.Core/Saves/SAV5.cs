@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 5 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV5 : SaveFile
+    public abstract class SAV5 : SaveFile, ISaveBlock5BW
     {
         protected override PKM GetPKM(byte[] data) => new PK5(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
@@ -15,6 +15,7 @@ namespace PKHeX.Core
         public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
         public override int SIZE_STORED => PKX.SIZE_5STORED;
         protected override int SIZE_PARTY => PKX.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
@@ -52,43 +53,20 @@ namespace PKHeX.Core
 
         private void Initialize()
         {
-            // First blocks are always the same position/size
-            PCLayout = 0x0;
             Box = 0x400;
             Party = 0x18E00;
-            Trainer1 = 0x19400;
-            WondercardData = 0x1C800;
             AdventureInfo = 0x1D900;
-
-            HeldItems = Legal.HeldItems_BW;
-            BoxLayout = new BoxLayout5(this, PCLayout);
-            MysteryBlock = new MysteryBlock5(this, WondercardData);
-            PlayerData = new PlayerData5(this, Trainer1);
         }
 
         // Blocks & Offsets
-        protected IReadOnlyList<BlockInfoNDS> Blocks;
-        protected override void SetChecksums() => Blocks.SetChecksums(Data);
-        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
-        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
-
-        protected MyItem Items { get; set; }
-        public Zukan Zukan { get; protected set; }
-        public Misc5 MiscBlock { get; protected set; }
-        private MysteryBlock5 MysteryBlock { get; set; }
-        protected Daycare5 DaycareBlock { get; set; }
-        public BoxLayout5 BoxLayout { get; private set; }
-        public PlayerData5 PlayerData { get; private set; }
-        public BattleSubway5 BattleSubwayBlock { get; protected set; }
+        protected override void SetChecksums() => AllBlocks.SetChecksums(Data);
+        public override bool ChecksumsValid => AllBlocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => AllBlocks.GetChecksumInfo(Data);
 
         protected int CGearInfoOffset;
         protected int CGearDataOffset;
         protected int EntreeForestOffset;
-        protected int Trainer2;
         private int AdventureInfo;
-        protected int BattleSubway;
-        protected int PokeDexLanguageFlags;
-        private int PCLayout;
         public int GTS { get; protected set; } = int.MinValue;
         public int Fused { get; protected set; } = int.MinValue;
 
@@ -216,5 +194,15 @@ namespace PKHeX.Core
             get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
             set => SetData(value.Write(), EntreeForestOffset);
         }
+
+        public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
+        public abstract MyItem Items { get; }
+        public abstract Zukan5 Zukan { get; }
+        public abstract Misc5 MiscBlock { get; }
+        public abstract MysteryBlock5 MysteryBlock { get; }
+        public abstract Daycare5 DaycareBlock { get; }
+        public abstract BoxLayout5 BoxLayout { get; }
+        public abstract PlayerData5 PlayerData { get; }
+        public abstract BattleSubway5 BattleSubwayBlock { get; }
     }
 }

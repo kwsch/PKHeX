@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -14,6 +15,9 @@ namespace PKHeX.Core
         public bool Japanese { get; }
         public bool Korean => false;
 
+        public override PersonalTable Personal { get; }
+        public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
+
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
@@ -25,7 +29,7 @@ namespace PKHeX.Core
             Version = version;
             Japanese = japanese;
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-
+            Personal = version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
             Initialize(version);
             ClearBoxes();
         }
@@ -36,6 +40,7 @@ namespace PKHeX.Core
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
 
             Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
+            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
             if (Version == GameVersion.Invalid)
                 return;
 
@@ -51,8 +56,6 @@ namespace PKHeX.Core
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
-
-            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
 
             // Stash boxes after the save file's end.
             int stored = SIZE_STOREDBOX;

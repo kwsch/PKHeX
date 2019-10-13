@@ -9,14 +9,16 @@
         // byte UnlockedCount;
         // byte CurrentBox;
 
-        private const int strlen = SAV6.LongStringLength / 2;
+        private const int strbytecount = SAV6XY.LongStringLength; // same for both games
+        private const int strlen = strbytecount / 2;
         private const int BoxCount = 31;
-        private const int PCBackgrounds = BoxCount * (strlen * 2); // 0x41E;
+        private const int PCBackgrounds = BoxCount * strbytecount; // 0x41E;
         private const int PCFlags = PCBackgrounds + BoxCount;      // 0x43D;
         private const int Unlocked = PCFlags + 1;                  // 0x43E;
         private const int LastViewedBoxOffset = Unlocked + 1;      // 0x43F;
 
-        public BoxLayout6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public  int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 
@@ -34,14 +36,14 @@
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
 
-        private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
+        private int GetBoxNameOffset(int box) => Offset + (strbytecount * box);
 
-        public string GetBoxName(int box) => SAV.GetString(Data, GetBoxNameOffset(box), SAV6.LongStringLength);
+        public string GetBoxName(int box) => SAV.GetString(Data, GetBoxNameOffset(box), strbytecount);
 
         public void SetBoxName(int box, string value)
         {
             var data = SAV.SetString(value, strlen, strlen, 0);
-            var offset = GetBoxNameOffset(box) + (SAV6.LongStringLength * box);
+            var offset = GetBoxNameOffset(box) + (strbytecount * box);
             SAV.SetData(data, offset);
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -10,6 +11,8 @@ namespace PKHeX.Core
         public SAV4DP() => Initialize();
         public SAV4DP(byte[] data) : base(data) => Initialize();
         protected override SAV4 CloneInternal() => Exportable ? new SAV4DP(Data) : new SAV4DP();
+        public override PersonalTable Personal => PersonalTable.DP;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 
         protected override int GeneralSize => 0xC100;
         protected override int StorageSize => 0x121E0; // Start 0xC100, +4 starts box data
@@ -17,8 +20,6 @@ namespace PKHeX.Core
         private void Initialize()
         {
             Version = GameVersion.DP;
-            Personal = PersonalTable.DP;
-            HeldItems = Legal.HeldItems_DP;
             GetSAVOffsets();
         }
 

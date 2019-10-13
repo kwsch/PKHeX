@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -5,13 +7,11 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class Bank3 : BulkStorage
     {
-        public Bank3(byte[] data) : base(data, typeof(PK3), 0)
-        {
-            Personal = PersonalTable.RS;
-            Version = GameVersion.RS;
-            HeldItems = Legal.HeldItems_RS;
-        }
+        public Bank3(byte[] data) : base(data, typeof(PK3), 0) => Version = GameVersion.RS;
 
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
+        public override SaveFile Clone() => new Bank3((byte[])Data.Clone());
         public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
         protected override string BAKText => PlayTimeString;
         public override string Extension => ".gst";

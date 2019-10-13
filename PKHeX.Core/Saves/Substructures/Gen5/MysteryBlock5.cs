@@ -14,7 +14,8 @@ namespace PKHeX.Core
         private int SeedOffset => Offset + DataSize;
 
         // Everything is stored encrypted, and only decrypted on demand. Only crypt on object fetch...
-        public MysteryBlock5(SAV5 sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
         public EncryptedMysteryGiftAlbum GiftAlbum
         {

@@ -4,9 +4,9 @@ namespace PKHeX.Core
 {
     public sealed class EventWork8 : SaveBlock, IEventWork<int>
     {
-        public EventWork8(SAV8 sav) : base(sav)
+        public EventWork8(SAV8SWSH sav) : base(sav)
         {
-            Offset = sav.GetBlockOffset(SAV8BlockIndex.EventWork);
+            Offset = sav.Blocks.GetBlockOffset(SAV8BlockIndex.EventWork);
         }
 
         // Overall Layout

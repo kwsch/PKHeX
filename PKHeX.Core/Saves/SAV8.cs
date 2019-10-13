@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV8 : SAV_BEEF, ITrainerStatRecord
+    public abstract class SAV8 : SAV_BEEF, ITrainerStatRecord, ISaveBlock8Main
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -19,37 +19,13 @@ namespace PKHeX.Core
             return gen == 8; // future: change to <= when HOME released
         }).ToArray();
 
-        protected SAV8(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset)
+        protected SAV8(byte[] data, int biOffset) : base(data, biOffset)
         {
-            Initialize();
         }
 
-        protected SAV8(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset)
+        protected SAV8(int size, int biOffset) : base(size, biOffset)
         {
-            Initialize();
             ClearBoxes();
-        }
-
-        private void Initialize()
-        {
-            BoxLayout = new BoxLayout8(this, GetBlockOffset(SAV8BlockIndex.BOX));
-
-            Box = GetBlockOffset(SAV8BlockIndex.BoxPokemon);
-            Party = GetBlockOffset(SAV8BlockIndex.PokePartySave);
-            EventFlag = GetBlockOffset(SAV8BlockIndex.EventWork);
-            PokeDex = GetBlockOffset(SAV8BlockIndex.ZukanData);
-
-            const int langFlagStart = 0x550; // todo
-            Zukan = new Zukan8(this, PokeDex, langFlagStart);
-            Items = new MyItem8(this);
-            MyStatus = new MyStatus8(this, GetBlockOffset(SAV8BlockIndex.MyStatus));
-            Played = new PlayTime8(this, GetBlockOffset(SAV8BlockIndex.PlayTime));
-            MiscBlock = new Misc8(this, GetBlockOffset(SAV8BlockIndex.Misc));
-            GameTime = new GameTime8(this, GetBlockOffset(SAV8BlockIndex.GameTime));
-            OverworldBlock = new FieldMoveModelSave8(this, GetBlockOffset(SAV8BlockIndex.FieldMoveModelSave));
-            Records = new Record8(this, GetBlockOffset(SAV8BlockIndex.Records), Core.Records.MaxType_SWSH);
-            Situation = new Situation8(this, GetBlockOffset(SAV8BlockIndex.Situation));
-            EventWork = new EventWork8(this);
         }
 
         // Configuration
@@ -69,33 +45,27 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK8(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray8(data);
 
-        // Feature Overrides
-        protected override void SetChecksums()
-        {
-            Blocks.SetChecksums(Data);
-        }
+        #region Blocks
+        public abstract MyItem Items { get; }
+        public abstract Record8 Records { get; }
+        public abstract PlayTime8 Played { get; }
+        public abstract MyStatus8 MyStatus { get; }
+        public abstract ConfigSave8 Config { get; }
+        public abstract GameTime8 GameTime { get; }
+        public abstract Misc8 MiscBlock { get; }
+        public abstract Zukan8 Zukan { get; }
+        public abstract EventWork8 EventWork { get; }
+        public abstract BoxLayout8 BoxLayout { get; }
+        public abstract Situation8 Situation { get; }
+        public abstract FieldMoveModelSave8 OverworldBlock { get; }
+        #endregion
 
+        // Feature Overrides
         protected override byte[] GetFinalData()
         {
             SetChecksums();
             return Data;
         }
-
-        protected MyItem Items { private get; set; }
-        protected Record8 Records { get; private set; }
-        public PlayTime8 Played { get; private set; }
-        public MyStatus8 MyStatus { get; protected set; }
-        public ConfigSave8 Config { get; protected set; }
-        public GameTime8 GameTime { get; private set; }
-        public Misc8 MiscBlock { get; private set; }
-        public Zukan8 Zukan { get; protected set; }
-        public EventWork8 EventWork { get; protected set; }
-        private BoxLayout8 BoxLayout { get; set; }
-        public Situation8 Situation { get; private set; }
-        public FieldMoveModelSave8 OverworldBlock { get; private set; }
-
-        public BlockInfo GetBlock(SAV8BlockIndex index) => Blocks[(int)index];
-        public int GetBlockOffset(SAV8BlockIndex index) => GetBlock(index).Offset;
 
         public override GameVersion Version
         {
@@ -108,7 +78,6 @@ namespace PKHeX.Core
             }
         }
 
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)

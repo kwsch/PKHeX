@@ -10,7 +10,8 @@ namespace PKHeX.Core
         // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
         private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-        public MysteryBlock6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public bool[] MysteryGiftReceivedFlags
         {
@@ -67,7 +68,7 @@ namespace PKHeX.Core
                 if (!(SAV is SAV6AO ao))
                     return;
                 // Set the special received data
-                var info = ao.Sango;
+                var info = ao.Blocks.Sango;
                 info.ReceiveEon();
                 info.EnableSendEon();
             }

@@ -10,7 +10,7 @@ namespace PKHeX.Core
         private const int Battle   = 0x08E0; // 5
         private const int Key      = 0x0B38; // 6
 
-        public MyItem7b(SaveFile SAV) : base(SAV) { }
+        public MyItem7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         public override InventoryPouch[] Inventory
         {

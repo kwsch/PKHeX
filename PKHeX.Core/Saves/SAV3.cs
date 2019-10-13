@@ -69,6 +69,10 @@ namespace PKHeX.Core
             return chunkOffset;
         }
 
+        private PersonalTable _personal { get; set; }
+        public override PersonalTable Personal => _personal;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
+
         public SAV3(GameVersion version = GameVersion.FRLG, bool japanese = false) : base(SaveUtil.SIZE_G3RAW)
         {
             if (version == GameVersion.FR || version == GameVersion.LG)
@@ -77,7 +81,7 @@ namespace PKHeX.Core
                 Version = GameVersion.RS;
             else
                 Version = version;
-            Personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+            _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
             Japanese = japanese;
 
             LoadBlocks();
@@ -92,7 +96,7 @@ namespace PKHeX.Core
         {
             LoadBlocks();
             Version = versionOverride != GameVersion.Any ? versionOverride : GetVersion(Data, BlockOfs[0]);
-            Personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+            _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
 
             // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
@@ -168,7 +172,6 @@ namespace PKHeX.Core
             LegalBalls = Legal.Pouch_Ball_RS;
             LegalTMHMs = Legal.Pouch_TMHM_RS;
             LegalBerries = Legal.Pouch_Berries_RS;
-            HeldItems = Legal.HeldItems_RS;
 
             // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
             SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
@@ -984,7 +987,7 @@ namespace PKHeX.Core
             var pt = SaveUtil.GetG3Personal(g);
             if (pt == null)
                 return false;
-            Personal = pt;
+            _personal = pt;
             return true;
         }
     }

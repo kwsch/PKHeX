@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,6 +12,8 @@ namespace PKHeX.Core
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
         public bool IsMemoryCardSave => MC != null;
         private readonly SAV3GCMemoryCard? MC;
         public readonly bool Japanese = false; // todo?
@@ -23,20 +26,12 @@ namespace PKHeX.Core
             Box = 0;
             Blocks = Array.Empty<BlockInfoRSBOX>();
             ClearBoxes();
-            Initialize();
         }
 
         private SAV3RSBox(byte[] data, byte[] bak) : base(data, bak)
         {
             Blocks = ReadBlocks(data);
             InitializeData();
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_RS;
         }
 
         private void InitializeData()

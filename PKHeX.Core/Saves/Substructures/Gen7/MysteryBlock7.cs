@@ -10,7 +10,8 @@ namespace PKHeX.Core
         // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
         private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-        public MysteryBlock7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         // Mystery Gift
         public bool[] MysteryGiftReceivedFlags

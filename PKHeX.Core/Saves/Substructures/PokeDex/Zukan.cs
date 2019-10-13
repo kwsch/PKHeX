@@ -6,7 +6,7 @@ namespace PKHeX.Core
     public abstract class Zukan
     {
         protected SaveFile SAV { get; set; }
-        protected int PokeDex { get; set; }
+        public int PokeDex { get; private set; }
         protected int PokeDexLanguageFlags { get; set; }
 
         protected Zukan(SaveFile sav, int dex, int langflag)

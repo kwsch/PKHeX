@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,6 +16,9 @@ namespace PKHeX.Core
         public override int BoxCount { get; }
         public override int SlotCount { get; }
 
+        public override PersonalTable Personal => PersonalTable.Pt;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
+        public override SaveFile Clone() => new SAV4Ranch((byte[])Data.Clone());
         public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
         protected override string BAKText => $"{OT} {PlayTimeString}";
         public override string Extension => ".bin";
@@ -27,9 +31,7 @@ namespace PKHeX.Core
 
         public SAV4Ranch(byte[] data) : base(data, typeof(PK4), 0)
         {
-            Personal = PersonalTable.Pt;
             Version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
-            HeldItems = Legal.HeldItems_Pt;
 
             OT = GetString(0x770, 0x12);
 

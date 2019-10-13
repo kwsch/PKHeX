@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
@@ -12,6 +13,8 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
         public bool IsMemoryCardSave => MC != null;
         private readonly SAV3GCMemoryCard? MC;
 
@@ -49,8 +52,6 @@ namespace PKHeX.Core
 
         private void Initialize()
         {
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_COLO;
             Trainer1 = 0x00078;
             Party = 0x000A8;
 

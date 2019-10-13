@@ -8,15 +8,15 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_PokedexSWSH : Form
     {
-        private readonly SaveFile Origin;
-        private readonly SAV8 SAV;
+        private readonly SAV8SWSH Origin;
+        private readonly SAV8SWSH SAV;
 
-        public SAV_PokedexSWSH(SaveFile sav)
+        public SAV_PokedexSWSH(SAV8SWSH sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV8)(Origin = sav).Clone();
-            Dex = SAV.Zukan;
+            SAV = (SAV8SWSH)(Origin = sav).Clone();
+            Dex = SAV.Blocks.Zukan;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9, };
 

@@ -100,7 +100,7 @@ namespace PKHeX.Core
         protected int Trainer1 { get; set; } = int.MinValue;
 
         #region Stored PKM Limits
-        public PersonalTable Personal { get; protected set; }
+        public abstract PersonalTable Personal { get; }
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
         public abstract int MaxMoveID { get; }
@@ -240,7 +240,7 @@ namespace PKHeX.Core
         public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
         #endregion
 
-        public virtual InventoryPouch[] Inventory { get; set; }
+        public virtual InventoryPouch[] Inventory { get; set; } = Array.Empty<InventoryPouch>();
 
         #region Mystery Gift
         protected virtual int GiftCountMax { get; } = int.MinValue;
@@ -449,7 +449,7 @@ namespace PKHeX.Core
         protected abstract int SIZE_PARTY { get; }
         public abstract int MaxEV { get; }
         public virtual int MaxIV => 31;
-        public ushort[] HeldItems { get; protected set; }
+        public abstract IReadOnlyList<ushort> HeldItems { get; }
         public virtual bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresent(data, offset);
         public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public virtual PKM GetPartySlot(int offset) => GetDecryptedPKM(GetData(offset, SIZE_PARTY));

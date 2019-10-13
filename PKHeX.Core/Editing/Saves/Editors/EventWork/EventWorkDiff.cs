@@ -101,14 +101,14 @@ namespace PKHeX.Core
             if (!SanityCheckSaveInfo(s1, s2))
                 return;
 
-            EventWorkUtil.DiffSavesFlag(((SAV7b)s1).EventWork, ((SAV7b)s2).EventWork, SetFlags, ClearedFlags);
-            EventWorkUtil.DiffSavesWork(((SAV7b)s1).EventWork, ((SAV7b)s2).EventWork, WorkChanged, WorkDiff);
+            EventWorkUtil.DiffSavesFlag(((SAV7b)s1).Blocks.EventWork, ((SAV7b)s2).Blocks.EventWork, SetFlags, ClearedFlags);
+            EventWorkUtil.DiffSavesWork(((SAV7b)s1).Blocks.EventWork, ((SAV7b)s2).Blocks.EventWork, WorkChanged, WorkDiff);
             S1 = s1;
         }
 
         public List<string> Summarize()
         {
-            var ew = ((SAV7b)S1).EventWork;
+            var ew = ((SAV7b)S1).Blocks.EventWork;
 
             var fOn = SetFlags.Select(z => new { Type = ew.GetFlagType(z, out var subIndex), Index = subIndex, Raw = z })
                 .Select(z => $"{z.Raw:0000}\t{true }\t{z.Index:0000}\t{z.Type}").ToArray();

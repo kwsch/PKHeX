@@ -863,7 +863,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(IList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
+        public virtual bool CanHoldItem(IReadOnlyList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.

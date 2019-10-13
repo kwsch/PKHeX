@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -41,6 +42,9 @@ namespace PKHeX.Core
             InitializeData();
             Initialize();
         }
+
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
 
         private void InitializeData()
         {
@@ -100,8 +104,6 @@ namespace PKHeX.Core
             OFS_PouchBerry = Trainer1 + 0x72C;
             OFS_PouchCologne = Trainer1 + 0x7E4;
             OFS_PouchDisc = Trainer1 + 0x7F0;
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_XD;
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
