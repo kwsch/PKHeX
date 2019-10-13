@@ -72,7 +72,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static int[] GetFormEggMoves(int species, int formnum, EggMoves[] table)
+        private static int[] GetFormEggMoves(int species, int formnum, IReadOnlyList<EggMoves7> table)
         {
             var entry = table[species];
             if (formnum > 0 && AlolanOriginForms.Contains(species))
