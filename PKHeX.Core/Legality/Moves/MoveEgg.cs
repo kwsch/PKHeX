@@ -30,42 +30,35 @@ namespace PKHeX.Core
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.HG:
-                        case GameVersion.SS:
-                            return EggMovesHGSS[species].Moves;
-                        default:
-                            return EggMovesDPPt[species].Moves;
-                    }
+                        GameVersion.HG => EggMovesHGSS[species].Moves,
+                        GameVersion.SS => EggMovesHGSS[species].Moves,
+                        _ => EggMovesDPPt[species].Moves
+                    };
                 case 5:
                     return EggMovesBW[species].Moves;
                 case 6: // entries per species
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.OR:
-                        case GameVersion.AS:
-                            return EggMovesAO[species].Moves;
-                        default:
-                            return EggMovesXY[species].Moves;
-                    }
+                        GameVersion.OR => EggMovesAO[species].Moves,
+                        GameVersion.AS => EggMovesAO[species].Moves,
+                        _ => EggMovesXY[species].Moves
+                    };
 
                 case 7: // entries per form if required
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.US:
-                        case GameVersion.UM:
-                            return GetFormEggMoves(species, formnum, EggMovesUSUM);
-                        default:
-                            return GetFormEggMoves(species, formnum, EggMovesSM);
-                    }
+                        GameVersion.US => GetFormEggMoves(species, formnum, EggMovesUSUM),
+                        GameVersion.UM => GetFormEggMoves(species, formnum, EggMovesUSUM),
+                        _ => GetFormEggMoves(species, formnum, EggMovesSM)
+                    };
 
                 case 8:
-                    switch (version)
+                    return version switch
                     {
-                        default:
-                            return GetFormEggMoves(species, formnum, EggMovesSWSH);
-                    }
+                        _ => GetFormEggMoves(species, formnum, EggMovesSWSH)
+                    };
 
                 default:
                     return Array.Empty<int>();
