@@ -7,15 +7,10 @@ namespace PKHeX.Core
     /// </summary>
     public class PersonalInfoBW : PersonalInfo
     {
-        protected PersonalInfoBW() { }
         public const int SIZE = 0x3C;
 
-        public PersonalInfoBW(byte[] data)
+        public PersonalInfoBW(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);

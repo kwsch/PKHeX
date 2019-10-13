@@ -7,12 +7,8 @@
     {
         public const int SIZE = 0x20;
 
-        public PersonalInfoG2(byte[] data)
+        public PersonalInfoG2(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-
-            Data = data;
             TMHM = GetBits(Data, 0x18, 0x8);
         }
 

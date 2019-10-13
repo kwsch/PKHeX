@@ -5,15 +5,10 @@
     /// </summary>
     public class PersonalInfoXY : PersonalInfoBW
     {
-        protected PersonalInfoXY() { } // For ORAS
         public new const int SIZE = 0x40;
 
-        public PersonalInfoXY(byte[] data)
+        public PersonalInfoXY(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);
