@@ -28,6 +28,8 @@ namespace PKHeX.Core
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
+        public Func<int, int, int, int> DexFormIndexFetcher { get; }
+
         protected void LoadDexList() => FormBaseSpecies = GetFormIndexBaseSpeciesList();
 
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)

@@ -21,8 +21,6 @@ namespace PKHeX.Core
 
         public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexGG;
-            LoadDexList();
         }
 
         public override void SetDex(PKM pkm)

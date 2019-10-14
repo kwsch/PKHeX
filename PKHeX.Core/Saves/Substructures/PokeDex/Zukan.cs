@@ -25,8 +25,6 @@ namespace PKHeX.Core
         protected abstract int DexLangIDCount { get; }
         protected abstract int GetDexLangFlag(int lang);
 
-        public Func<int, int, int, int> DexFormIndexFetcher { get; protected set; }
-
         protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
         protected virtual void SetSpindaDexData(PKM pkm, bool alreadySeen) { }
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
