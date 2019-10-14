@@ -2,8 +2,15 @@ namespace PKHeX.Core
 {
     public abstract class Mail
     {
-        protected byte[] Data;
-        protected int DataOffset;
+        protected readonly byte[] Data;
+        protected readonly int DataOffset;
+
+        protected Mail(byte[] data, int offset = 0)
+        {
+            Data = data;
+            DataOffset = offset;
+        }
+
         public virtual void CopyTo(SaveFile sav) => sav.SetData(Data, DataOffset);
         public virtual void CopyTo(PK4 pk4) { }
         public virtual void CopyTo(PK5 pk5) { }

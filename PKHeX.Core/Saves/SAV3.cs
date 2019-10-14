@@ -972,6 +972,38 @@ namespace PKHeX.Core
             }
         }
 
+        public int GetMailOffset(int index)
+        {
+            GetMailBlockOffset(Version, ref index, out int block, out int offset);
+            return (index * Mail3.SIZE) + GetBlockOffset(block) + offset;
+        }
+
+        private static void GetMailBlockOffset(GameVersion game, ref int index, out int block, out int offset)
+        {
+            block = 3;
+            if (game == GameVersion.E)
+            {
+                offset = 0xCE0;
+            }
+            else if (GameVersion.RS.Contains(game))
+            {
+                offset = 0xC4C;
+            }
+            else // FRLG
+            {
+                if (index >= 12)
+                {
+                    block = 4;
+                    offset = 0;
+                    index -= 12;
+                }
+                else
+                {
+                    offset = 0xDD0;
+                }
+            }
+        }
+
         public bool HasReceivedWishmkrJirachi
         {
             get => GameVersion.RS.Contains(Version) && GetFlag(BlockOfs[4] + 0x2B1, 0);

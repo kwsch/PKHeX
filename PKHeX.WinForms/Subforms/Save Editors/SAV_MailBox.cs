@@ -69,7 +69,11 @@ namespace PKHeX.WinForms
                 case SAV3 sav3:
                     m = new Mail3[6 + 10];
                     for (int i = 0; i < m.Length; i++)
-                        m[i] = new Mail3(sav3, i);
+                    {
+                        var ofs = sav3.GetMailOffset(i); 
+                        var data = sav.GetData(ofs, Mail3.SIZE);
+                        m[i] = new Mail3(data, ofs, sav3.Japanese);
+                    }
 
                     MailItemID = Enumerable.Range(0x79, 12).ToArray();
                     PartyBoxCount = 6;
@@ -79,8 +83,11 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail4(((PK4)p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                        m[i] = new Mail4(sav4, j);
-                    var l4 = m.Last() as Mail4;
+                    {
+                        int ofs = sav4.GetMailOffset(j);
+                        m[i] = new Mail4(sav4.GetMailData(ofs), ofs);
+                    }
+                    var l4 = (Mail4)m.Last();
                     ResetVer = l4.AuthorVersion;
                     ResetLang = l4.AuthorLanguage;
                     MailItemID = Enumerable.Range(0x89, 12).ToArray();
@@ -91,8 +98,12 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail5(((PK5)p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                        m[i] = new Mail5(sav5, j);
-                    var l5 = m.Last() as Mail5;
+                    {
+                        int ofs = sav5.GetMailOffset(j);
+                        var data = sav5.GetMailData(ofs);
+                        m[i] = new Mail5(data, ofs);
+                    }
+                    var l5 = (Mail5)m.Last();
                     ResetVer = l5.AuthorVersion;
                     ResetLang = l5.AuthorLanguage;
                     MailItemID = Enumerable.Range(0x89, 12).ToArray();

@@ -974,5 +974,18 @@ namespace PKHeX.Core
             for (int i = 0; i < sealIndexCount; i++)
                 General[Seal + i] = val;
         }
+
+        public int GetMailOffset(int index)
+        {
+            int ofs = (index * Mail4.SIZE);
+            return Version switch
+            {
+                GameVersion.DP => (ofs + 0x4BEC),
+                GameVersion.Pt => (ofs + 0x4E80),
+                _ => (ofs + 0x3FA8)
+            };
+        }
+
+        public byte[] GetMailData(int ofs) => General.Slice(ofs, Mail4.SIZE);
     }
 }
