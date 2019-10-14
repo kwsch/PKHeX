@@ -69,7 +69,7 @@ namespace PKHeX.Core
                     else if (z is EncounterStaticShadow s)
                     {
                         bool valid = false;
-                        if (s.IVs == null) // not ereader
+                        if (s.IVs.Length == 0) // not ereader
                         {
                             valid = LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
                         }
@@ -434,6 +434,8 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
+            if (info.PIDIV == null)
+                throw new ArgumentException("should be set by now", nameof(info.PIDIV));
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
             foreach (var z in GetValidWildEncounters34(pkm))
             {

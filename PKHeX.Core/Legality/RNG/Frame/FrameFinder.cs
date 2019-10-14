@@ -13,11 +13,10 @@ namespace PKHeX.Core
         /// <returns><see cref="IEnumerable{Frame}"/> to yield possible encounter details for further filtering</returns>
         public static IEnumerable<Frame> GetFrames(PIDIV pidiv, PKM pk)
         {
-            FrameGenerator info = new FrameGenerator(pk);
-            if (info.FrameType == FrameType.None)
+            if (pk.Version == (int)GameVersion.CXD)
                 return Enumerable.Empty<Frame>();
 
-            info.Nature = pk.EncryptionConstant % 25;
+            var info = new FrameGenerator(pk) {Nature = pk.EncryptionConstant % 25};
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
             var seeds = pk.Species == 201 && pk.FRLG // reversed await case

@@ -196,7 +196,7 @@ namespace PKHeX.Core
 
         protected void SetIVs(PKM pk)
         {
-            if (IVs != null)
+            if (IVs.Length != 0)
                 pk.SetRandomIVs(IVs, FlawlessIVCount);
             else if (FlawlessIVCount > 0)
                 pk.SetRandomIVs(flawless: FlawlessIVCount);
@@ -353,7 +353,7 @@ namespace PKHeX.Core
             if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
-            if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            if (IVs.Length != 0 && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             {
                 if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
                     return false;

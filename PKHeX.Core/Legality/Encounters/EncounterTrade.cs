@@ -161,7 +161,7 @@ namespace PKHeX.Core
 
         protected void SetIVs(PKM pk)
         {
-            if (IVs != null)
+            if (IVs.Length != 0)
                 pk.SetRandomIVs(IVs, 0);
             else
                 pk.SetRandomIVs(flawless: 3);
@@ -231,7 +231,7 @@ namespace PKHeX.Core
 
         public bool IsMatch(PKM pkm, int lvl)
         {
-            if (IVs != null)
+            if (IVs.Length != 0)
             {
                 if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
                     return false;
@@ -333,7 +333,7 @@ namespace PKHeX.Core
             {
                 if (Gender >= 0 && Gender != pkm.Gender)
                     return false;
-                if (IVs != null && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                if (IVs.Length != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
                     return false;
             }
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
