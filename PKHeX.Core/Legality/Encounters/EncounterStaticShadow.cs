@@ -10,7 +10,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.
         /// </summary>
-        public TeamLock[] Locks { get; internal set; } = Array.Empty<TeamLock>();
+        public readonly TeamLock[] Locks;
 
         /// <summary>
         /// Initial Shadow Gauge value.
@@ -22,17 +22,7 @@ namespace PKHeX.Core
         /// </summary>
         public bool EReader { get; internal set; }
 
-        internal override EncounterStatic Clone()
-        {
-            var result = (EncounterStaticShadow)base.Clone();
-
-            if (Locks.Length == 0)
-                return result;
-
-            result.Locks = new TeamLock[Locks.Length];
-            for (int i = 0; i < Locks.Length; i++)
-                result.Locks[i] = Locks[i].Clone();
-            return result;
-        }
+        public EncounterStaticShadow(TeamLock[] locks) => Locks = locks;
+        public EncounterStaticShadow() => Locks = Array.Empty<TeamLock>();
     }
 }
