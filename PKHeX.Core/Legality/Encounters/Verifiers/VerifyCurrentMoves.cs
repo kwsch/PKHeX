@@ -214,7 +214,7 @@ namespace PKHeX.Core
 
         private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
         {
-            if (EncounterMatch is IMoveset mg && mg.Moves != null)
+            if (EncounterMatch is IMoveset mg)
                 return mg.Moves;
             return Array.Empty<int>();
         }

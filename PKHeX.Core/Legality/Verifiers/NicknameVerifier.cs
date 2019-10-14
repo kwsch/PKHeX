@@ -250,7 +250,7 @@ namespace PKHeX.Core
                     if (lang == 1 && (pkm.Version == (int)GameVersion.D || pkm.Version == (int)GameVersion.P))
                     {
                         // DP English origin are Japanese lang
-                        if (pkm.OT_Name != t.TrainerNames[1]) // not japanese
+                        if (pkm.OT_Name != t.GetOT(1)) // not japanese
                             lang = 2; // English
                     }
                     break;
@@ -314,7 +314,7 @@ namespace PKHeX.Core
             return lang;
         }
 
-        private void VerifyTrade5(LegalityAnalysis data, EncounterTrade t)
+        private static void VerifyTrade5(LegalityAnalysis data, EncounterTrade t)
         {
             var pkm = data.pkm;
             int lang = pkm.Language;

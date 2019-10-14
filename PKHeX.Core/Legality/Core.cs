@@ -566,7 +566,7 @@ namespace PKHeX.Core
 
             // Check also if the current encounter include the evolve move as an special move
             // That means the pokemon have the move from the encounter level
-            if (info.EncounterMatch is IMoveset s && s.Moves?.Any(m => moves.Contains(m)) == true)
+            if (info.EncounterMatch is IMoveset s && s.Moves.Any(m => moves.Contains(m)))
                 LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
 
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move

@@ -54,7 +54,7 @@ namespace PKHeX.Core
         public EncounterSlotPermissions Permissions => _perm ??= new EncounterSlotPermissions();
         public GameVersion Version { get; set; }
 
-        internal EncounterArea Area { private get; set; }
+        internal EncounterArea? Area { private get; set; }
         public int Location { get => Area.Location; set { } }
         public bool EggEncounter => false;
         public int EggLocation { get => 0; set { } }

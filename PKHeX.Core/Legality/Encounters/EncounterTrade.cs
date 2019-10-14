@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
-        public int[]? Moves { get; set; }
+        public int[] Moves { get; set; } = Array.Empty<int>();
         public int Level { get; set; }
         public int LevelMin => Level;
         public int LevelMax => 100;
@@ -24,7 +24,7 @@ namespace PKHeX.Core
         public int TID { get; set; }
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[]? IVs { get; set; }
+        public int[] IVs { get; set; } = Array.Empty<int>();
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
@@ -58,11 +58,12 @@ namespace PKHeX.Core
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
-        public string[]? Nicknames { get; internal set; }
-        public string[]? TrainerNames { get; internal set; }
-        public string GetNickname(int language) => Nicknames?.Length > language ? Nicknames[language] : string.Empty;
-        public string GetOT(int language) => TrainerNames?.Length > language ? TrainerNames[language] : string.Empty;
-        public bool HasNickname => Nicknames != null;
+        public string[] Nicknames { get; internal set; } = Array.Empty<string>();
+        public string[] TrainerNames { get; internal set; } = Array.Empty<string>();
+        public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : string.Empty;
+        public string GetOT(int language) => (uint)language < TrainerNames.Length ? TrainerNames[language] : string.Empty;
+        public bool HasNickname => Nicknames.Length != 0;
+        public bool HasTrainerName => TrainerNames.Length != 0;
 
         public static readonly int[] DefaultMetLocation =
         {
@@ -168,7 +169,7 @@ namespace PKHeX.Core
 
         private void SetMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = Moves ?? MoveLevelUp.GetEncounterMoves(pk, level, version);
+            var moves = Moves.Length != 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             if (pk.Format == 1 && moves.All(z => z == 0))
                 moves = ((PersonalInfoG1)PersonalTable.RB[Species]).Moves;
             pk.Moves = moves;

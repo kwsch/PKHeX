@@ -100,7 +100,7 @@ namespace PKHeX.Core
             var list = new List<EncounterStatic>();
             foreach (EncounterStatic s in t)
             {
-                if (s.Moves == null || s.Moves.Length <= 1) // no special moves
+                if (s.Moves.Length <= 1) // no special moves
                 {
                     list.Add(s);
                     continue;
