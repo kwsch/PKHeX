@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Originates from the EReader scans (Japanese Only)
         /// </summary>
-        public bool EReader { get; set; }
+        public bool EReader { get; internal set; }
 
         internal override EncounterStatic Clone()
         {
