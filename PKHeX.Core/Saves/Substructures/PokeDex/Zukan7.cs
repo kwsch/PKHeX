@@ -21,30 +21,18 @@ namespace PKHeX.Core
 
         private readonly IList<int> FormBaseSpecies;
 
-        public Zukan7(SAV7SM sav, int dex, int langflag) : base(sav, dex, langflag)
-        {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexSM;
-            FormBaseSpecies = LoadDexList();
-            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
-        }
+        public Zukan7(SAV7SM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexSM) { }
+        public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
+        protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
 
-        public Zukan7(SAV7USUM sav, int dex, int langflag) : base(sav, dex, langflag)
+        private Zukan7(SaveFile sav, int dex, int langflag, Func<int, int, int, int> form) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexUSUM;
-            FormBaseSpecies = LoadDexList();
-            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
-        }
-
-        protected Zukan7(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
-        {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexGG;
-            FormBaseSpecies = LoadDexList();
+            DexFormIndexFetcher = form;
+            FormBaseSpecies = GetFormIndexBaseSpeciesList();
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }
-
-        protected IList<int> LoadDexList() => GetFormIndexBaseSpeciesList();
 
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
