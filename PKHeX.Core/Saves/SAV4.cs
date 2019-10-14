@@ -469,11 +469,8 @@ namespace PKHeX.Core
         // Mystery Gift
         private bool MysteryGiftActive { get => (General[72] & 1) == 1; set => General[72] = (byte)((General[72] & 0xFE) | (value ? 1 : 0)); }
 
-        private static bool IsMysteryGiftAvailable(MysteryGift[] value)
+        private static bool IsMysteryGiftAvailable(DataMysteryGift[] value)
         {
-            if (value == null)
-                return false;
-
             for (int i = 0; i < 8; i++) // 8 PGT
             {
                 if (value[i] is PGT g && g.CardType != 0)
@@ -487,11 +484,8 @@ namespace PKHeX.Core
             return false;
         }
 
-        private int[] MatchMysteryGifts(MysteryGift[] value)
+        private int[] MatchMysteryGifts(DataMysteryGift[] value)
         {
-            if (value == null)
-                return Array.Empty<int>();
-
             int[] cardMatch = new int[8];
             for (int i = 0; i < 8; i++)
             {
@@ -596,9 +590,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    return;
-
                 var Matches = MatchMysteryGifts(value); // automatically applied
                 if (Matches.Length == 0)
                     return;

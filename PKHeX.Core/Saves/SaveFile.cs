@@ -838,12 +838,10 @@ namespace PKHeX.Core
         /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
         public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
-            var storage = StorageData;
-
-            if (action == null)
-                throw new ArgumentException(nameof(action));
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
+
+            var storage = StorageData;
             int modified = 0;
             for (int b = BoxStart; b <= BoxEnd; b++)
             {

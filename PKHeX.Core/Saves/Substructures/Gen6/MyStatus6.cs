@@ -49,10 +49,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x08, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x08);

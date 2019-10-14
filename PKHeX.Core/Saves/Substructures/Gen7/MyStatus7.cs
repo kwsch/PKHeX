@@ -40,10 +40,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x10);
@@ -55,10 +53,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x18, NexUniqueIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != NexUniqueIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x18);

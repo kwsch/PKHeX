@@ -185,8 +185,8 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LEggPP, Egg));
 
             var EncounterMatch = data.EncounterOriginal;
-            var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
-            if (HatchCycles == 0 || HatchCycles == null)
+            var HatchCycles = EncounterMatch is EncounterStatic s ? s.EggCycles : 0;
+            if (HatchCycles == 0) // no value set
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
             if (pkm.CurrentFriendship > HatchCycles)
                 data.AddLine(GetInvalid(LEggHatchCycles, Egg));

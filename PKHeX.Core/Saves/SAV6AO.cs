@@ -165,8 +165,6 @@ namespace PKHeX.Core
                 return;
             if (Daycare < 0)
                 return;
-            if (seed == null)
-                return;
             if (seed.Length > DaycareSeedSize)
                 return;
 

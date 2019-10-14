@@ -135,7 +135,7 @@ namespace PKHeX.Core.Searching
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, CloneDetectionMethod type = CloneDetectionMethod.HashDetails)
         {
             var method = GetCloneDetectMethod(type);
-            return method == null ? res : GetClones(res, method);
+            return GetClones(res, method);
         }
 
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, Func<PKM, string> method)

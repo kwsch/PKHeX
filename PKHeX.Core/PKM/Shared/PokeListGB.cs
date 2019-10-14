@@ -75,7 +75,8 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null) return;
+                if (value == null)
+                    return;
                 Pokemon[i] = (T)value.Clone();
             }
         }

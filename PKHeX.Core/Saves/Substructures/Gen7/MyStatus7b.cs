@@ -46,10 +46,8 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length > 16)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 Enumerable.Range(0, value.Length)
                     .Where(x => x % 2 == 0)

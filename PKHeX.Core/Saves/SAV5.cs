@@ -161,8 +161,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    return; // no clearing
                 byte[] dlcfooter = { 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x14, 0x27, 0x00, 0x00, 0x27, 0x35, 0x05, 0x31, 0x00, 0x00 };
 
                 byte[] bgdata = value;

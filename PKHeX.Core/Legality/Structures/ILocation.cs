@@ -10,8 +10,6 @@
     {
         public static int GetLocation(this ILocation encounter)
         {
-            if (encounter == null)
-                return -1;
             return encounter.Location != 0
                 ? encounter.Location
                 : encounter.EggLocation;

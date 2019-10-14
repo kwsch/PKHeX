@@ -923,7 +923,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Data == null || FRLG)
+                if (FRLG)
                     return;
                 int block0 = GetBlockOffset(0);
                 SetData(value.Data, block0 + 0x98);
@@ -941,7 +941,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Data == null || FRLG)
+                if (FRLG)
                     return;
                 int block0 = GetBlockOffset(0);
                 SetData(value.Data, block0 + 0xA0);
