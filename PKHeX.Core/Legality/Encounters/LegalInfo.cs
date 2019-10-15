@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -22,20 +23,17 @@ namespace PKHeX.Core
             get => _match;
             set
             {
-                if (_match != null && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+                if (_match != EncounterInvalid.Default && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
                     _evochains = null; // clear if evo chain has the potential to be different
                 _match = value;
                 Parse.Clear();
             }
         }
 
-        private IEncounterable? _match;
-
-        /// <summary>Indicates whether or not the <see cref="PKM"/> originated from <see cref="GameVersion.XD"/>.</summary>
-        public bool WasXD => pkm?.Version == 15 && EncounterMatch is IVersion v && v.Version == GameVersion.XD;
+        private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Base Relearn Moves for the <see cref="EncounterMatch"/>.</summary>
-        public IReadOnlyList<int> RelearnBase { get; internal set; }
+        public IReadOnlyList<int> RelearnBase { get; internal set; } = Array.Empty<int>();
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
         public readonly List<CheckResult> Parse = new List<CheckResult>();
@@ -43,12 +41,24 @@ namespace PKHeX.Core
         public CheckResult[] Relearn { get; internal set; } = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
 
-        public ValidEncounterMoves EncounterMoves { get; internal set; }
+        private static readonly ValidEncounterMoves NONE = new ValidEncounterMoves();
+        public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
         private IReadOnlyList<EvoCriteria>[]? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>
-        public PIDIV? PIDIV { get; internal set; }
+        public PIDIV PIDIV
+        {
+            get => _pidiv;
+            internal set
+            {
+                _pidiv = value;
+                PIDParsed = true;
+            }
+        }
+
+        public bool PIDParsed { get; private set; }
+        private PIDIV _pidiv = PIDIV.None;
 
         /// <summary>Indicates whether or not the <see cref="PIDIV"/> can originate from the <see cref="EncounterMatch"/>.</summary>
         /// <remarks>This boolean is true until all valid <see cref="PIDIV"/> encounters are tested, after which it is false.</remarks>
@@ -58,12 +68,9 @@ namespace PKHeX.Core
         /// <remarks>This boolean is true until all valid <see cref="Frame"/> entries are tested for all possible <see cref="EncounterSlot"/> matches, after which it is false.</remarks>
         public bool FrameMatches { get; internal set; } = true;
 
-        public readonly bool Korean;
-
         public LegalInfo(PKM pk)
         {
             pkm = pk;
-            Korean = pk.Korean;
 
             // Store repeatedly accessed values
             Game = (GameVersion)pkm.Version;

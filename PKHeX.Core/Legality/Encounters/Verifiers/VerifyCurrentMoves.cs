@@ -181,7 +181,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info);
+            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);
             foreach (var ver in games)
             {
                 var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);

@@ -25,9 +25,6 @@ namespace PKHeX.Core
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
         {
             var pidiv = data.Info.PIDIV;
-            if (pidiv == null)
-                throw new ArgumentNullException(nameof(pidiv)); // should be initialized on this path
-
             if (pidiv.Type != PIDType.CXD)
                 return;
 

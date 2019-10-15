@@ -28,6 +28,10 @@ namespace PKHeX.Core
         {
             LevelUpMoves = levelup;
         }
+        public ValidEncounterMoves()
+        {
+            LevelUpMoves = Array.Empty<int[]>();
+        }
     }
 
     public sealed class LevelUpRestriction

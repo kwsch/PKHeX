@@ -322,9 +322,9 @@ namespace PKHeX
             return MoveLevelUp.GetMovesLevelUp1(basespecies, 0, maxlevel, minlevel);
         }
 
-        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info)
+        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info, bool korean)
         {
-            if (ParseSettings.AllowGen2Crystal(Info.Korean) && Info.Game.Contains(GameVersion.C))
+            if (ParseSettings.AllowGen2Crystal(korean) && Info.Game.Contains(GameVersion.C))
                 yield return GameVersion.C;
             yield return GameVersion.GS;
         }
