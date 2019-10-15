@@ -55,7 +55,7 @@ namespace PKHeX.Core
         public GameVersion Version { get; set; }
 
         internal EncounterArea? Area { private get; set; }
-        public int Location { get => Area.Location; set { } }
+        public int Location { get => Area?.Location ?? 0; set { } }
         public bool EggEncounter => false;
         public int EggLocation { get => 0; set { } }
 

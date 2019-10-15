@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public abstract class EncounterArea
     {
         public int Location;
-        public EncounterSlot[] Slots;
+        public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
 
         /// <summary>
         /// Gets the encounter areas for species with same level range and same slot type at same location

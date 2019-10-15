@@ -153,7 +153,6 @@ namespace PKHeX.Core
 
         private Action GetParseMethod()
         {
-
             if (pkm.Format <= 2) // prior to storing GameVersion
                 return ParsePK1;
 
