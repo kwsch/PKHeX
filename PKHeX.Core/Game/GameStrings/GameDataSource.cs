@@ -30,7 +30,17 @@ namespace PKHeX.Core
             LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
 
             VersionDataSource = GetVersionList(s);
-            InitializeMetSources();
+
+            MetGen2 = CreateGen2(s);
+            MetGen3 = CreateGen3(s);
+            MetGen3CXD = CreateGen3CXD(s);
+            MetGen4 = CreateGen4(s);
+            MetGen5 = CreateGen5(s);
+            MetGen6 = CreateGen6(s);
+            MetGen7 = CreateGen7(s);
+            MetGen7GG = CreateGen7GG(s);
+            MetGen8 = CreateGen8(s);
+
             Memories = new MemoryStrings(s);
         }
 
@@ -46,15 +56,15 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<ComboItem> HaXMoveDataSource;
         public readonly IReadOnlyList<ComboItem> EncounterTypeDataSource;
 
-        private IReadOnlyList<ComboItem> MetGen2 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen3 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen3CXD { get; set; }
-        private IReadOnlyList<ComboItem> MetGen4 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen5 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen6 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen7 { get; set; }
-        private IReadOnlyList<ComboItem> MetGen7GG { get; set; }
-        private IReadOnlyList<ComboItem> MetGen8 { get; set; }
+        private readonly IReadOnlyList<ComboItem> MetGen2;
+        private readonly IReadOnlyList<ComboItem> MetGen3;
+        private readonly IReadOnlyList<ComboItem> MetGen3CXD;
+        private readonly IReadOnlyList<ComboItem> MetGen4;
+        private readonly IReadOnlyList<ComboItem> MetGen5;
+        private readonly IReadOnlyList<ComboItem> MetGen6;
+        private readonly IReadOnlyList<ComboItem> MetGen7;
+        private readonly IReadOnlyList<ComboItem> MetGen7GG;
+        private readonly IReadOnlyList<ComboItem> MetGen8;
 
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
@@ -72,89 +82,95 @@ namespace PKHeX.Core
             return ver;
         }
 
-        private void InitializeMetSources()
+        private List<ComboItem> CreateGen2(GameStrings s)
         {
-            var s = Source;
-            // Gen 2
-            {
-                var met_list = Util.GetCBList(s.metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
-                Util.AddCBWithOffset(met_list, s.metGSC_00000, 00000, 0x7E, 0x7F);
-                MetGen2 = met_list;
-            }
-            // Gen 3
-            {
-                var met_list = Util.GetCBList(s.metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-                Util.AddCBWithOffset(met_list, s.metRSEFRLG_00000, 00000, 253, 254, 255);
-                MetGen3 = met_list;
+            var met_list = Util.GetCBList(s.metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
+            Util.AddCBWithOffset(met_list, s.metGSC_00000, 00000, 0x7E, 0x7F);
+            return met_list;
+        }
 
-                MetGen3CXD = Util.GetCBList(s.metCXD_00000, Enumerable.Range(0, s.metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
-            }
-            // Gen 4
-            {
-                var met_list = Util.GetCBList(s.metHGSS_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Locations.Daycare4);
-                Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Locations.LinkTrade4);
-                Util.AddCBWithOffset(met_list, s.metHGSS_03000, 3000, Locations.Ranger4);
-                Util.AddCBWithOffset(met_list, s.metHGSS_00000, 0000, Legal.Met_HGSS_0);
-                Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Legal.Met_HGSS_2);
-                Util.AddCBWithOffset(met_list, s.metHGSS_03000, 3000, Legal.Met_HGSS_3);
-                MetGen4 = met_list;
-            }
-            // Gen 5
-            {
-                var met_list = Util.GetCBList(s.metBW2_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metBW2_60000, 60001, Locations.Daycare5);
-                Util.AddCBWithOffset(met_list, s.metBW2_30000, 30001, Locations.LinkTrade5);
-                Util.AddCBWithOffset(met_list, s.metBW2_00000, 00000, Legal.Met_BW2_0);
-                Util.AddCBWithOffset(met_list, s.metBW2_30000, 30001, Legal.Met_BW2_3);
-                Util.AddCBWithOffset(met_list, s.metBW2_40000, 40001, Legal.Met_BW2_4);
-                Util.AddCBWithOffset(met_list, s.metBW2_60000, 60001, Legal.Met_BW2_6);
-                MetGen5 = met_list;
-            }
-            // Gen 6
-            {
-                var met_list = Util.GetCBList(s.metXY_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metXY_60000, 60001, Locations.Daycare5);
-                Util.AddCBWithOffset(met_list, s.metXY_30000, 30001, Locations.LinkTrade6);
-                Util.AddCBWithOffset(met_list, s.metXY_00000, 00000, Legal.Met_XY_0);
-                Util.AddCBWithOffset(met_list, s.metXY_30000, 30001, Legal.Met_XY_3);
-                Util.AddCBWithOffset(met_list, s.metXY_40000, 40001, Legal.Met_XY_4);
-                Util.AddCBWithOffset(met_list, s.metXY_60000, 60001, Legal.Met_XY_6);
-                MetGen6 = met_list;
-            }
-            // Gen 7
-            {
-                var met_list = Util.GetCBList(s.metSM_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metSM_60000, 60001, Locations.Daycare5);
-                Util.AddCBWithOffset(met_list, s.metSM_30000, 30001, Locations.LinkTrade6);
-                Util.AddCBWithOffset(met_list, s.metSM_00000, 00000, Legal.Met_SM_0);
-                Util.AddCBWithOffset(met_list, s.metSM_30000, 30001, Legal.Met_SM_3);
-                Util.AddCBWithOffset(met_list, s.metSM_40000, 40001, Legal.Met_SM_4);
-                Util.AddCBWithOffset(met_list, s.metSM_60000, 60001, Legal.Met_SM_6);
-                MetGen7 = met_list;
-            }
-            // Gen 7 GG
-            {
-                var met_list = Util.GetCBList(s.metGG_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metGG_60000, 60001, 60002);
-                Util.AddCBWithOffset(met_list, s.metGG_30000, 30001, Locations.LinkTrade6);
-                Util.AddCBWithOffset(met_list, s.metGG_00000, 00000, Legal.Met_GG_0);
-                Util.AddCBWithOffset(met_list, s.metGG_30000, 30001, Legal.Met_GG_3);
-                Util.AddCBWithOffset(met_list, s.metGG_40000, 40001, Legal.Met_GG_4);
-                Util.AddCBWithOffset(met_list, s.metGG_60000, 60001, Legal.Met_GG_6);
-                MetGen7GG = met_list;
-            }
-            // Gen 8
-            {
-                var met_list = Util.GetCBList(s.metSWSH_00000, 0);
-                Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, 60002);
-                Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Locations.LinkTrade6);
-                Util.AddCBWithOffset(met_list, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
-                Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Legal.Met_SWSH_3);
-                Util.AddCBWithOffset(met_list, s.metSWSH_40000, 40001, Legal.Met_SWSH_4);
-                Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, Legal.Met_SWSH_6);
-                MetGen8 = met_list;
-            }
+        private List<ComboItem> CreateGen3(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
+            Util.AddCBWithOffset(met_list, s.metRSEFRLG_00000, 00000, 253, 254, 255);
+            return met_list;
+        }
+
+
+        private static List<ComboItem> CreateGen3CXD(GameStrings s)
+        {
+            return Util.GetCBList(s.metCXD_00000, Enumerable.Range(0, s.metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
+        }
+
+        private static List<ComboItem> CreateGen4(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metHGSS_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Locations.Daycare4);
+            Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Locations.LinkTrade4);
+            Util.AddCBWithOffset(met_list, s.metHGSS_03000, 3000, Locations.Ranger4);
+            Util.AddCBWithOffset(met_list, s.metHGSS_00000, 0000, Legal.Met_HGSS_0);
+            Util.AddCBWithOffset(met_list, s.metHGSS_02000, 2000, Legal.Met_HGSS_2);
+            Util.AddCBWithOffset(met_list, s.metHGSS_03000, 3000, Legal.Met_HGSS_3);
+            return met_list;
+        }
+        private static List<ComboItem> CreateGen5(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metBW2_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metBW2_60000, 60001, Locations.Daycare5);
+            Util.AddCBWithOffset(met_list, s.metBW2_30000, 30001, Locations.LinkTrade5);
+            Util.AddCBWithOffset(met_list, s.metBW2_00000, 00000, Legal.Met_BW2_0);
+            Util.AddCBWithOffset(met_list, s.metBW2_30000, 30001, Legal.Met_BW2_3);
+            Util.AddCBWithOffset(met_list, s.metBW2_40000, 40001, Legal.Met_BW2_4);
+            Util.AddCBWithOffset(met_list, s.metBW2_60000, 60001, Legal.Met_BW2_6);
+            return met_list;
+        }
+
+        private static List<ComboItem> CreateGen6(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metXY_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metXY_60000, 60001, Locations.Daycare5);
+            Util.AddCBWithOffset(met_list, s.metXY_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(met_list, s.metXY_00000, 00000, Legal.Met_XY_0);
+            Util.AddCBWithOffset(met_list, s.metXY_30000, 30001, Legal.Met_XY_3);
+            Util.AddCBWithOffset(met_list, s.metXY_40000, 40001, Legal.Met_XY_4);
+            Util.AddCBWithOffset(met_list, s.metXY_60000, 60001, Legal.Met_XY_6);
+            return met_list;
+        }
+
+        private static List<ComboItem> CreateGen7(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metSM_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metSM_60000, 60001, Locations.Daycare5);
+            Util.AddCBWithOffset(met_list, s.metSM_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(met_list, s.metSM_00000, 00000, Legal.Met_SM_0);
+            Util.AddCBWithOffset(met_list, s.metSM_30000, 30001, Legal.Met_SM_3);
+            Util.AddCBWithOffset(met_list, s.metSM_40000, 40001, Legal.Met_SM_4);
+            Util.AddCBWithOffset(met_list, s.metSM_60000, 60001, Legal.Met_SM_6);
+            return met_list;
+        }
+
+        private static List<ComboItem> CreateGen7GG(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metGG_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metGG_60000, 60001, 60002);
+            Util.AddCBWithOffset(met_list, s.metGG_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(met_list, s.metGG_00000, 00000, Legal.Met_GG_0);
+            Util.AddCBWithOffset(met_list, s.metGG_30000, 30001, Legal.Met_GG_3);
+            Util.AddCBWithOffset(met_list, s.metGG_40000, 40001, Legal.Met_GG_4);
+            Util.AddCBWithOffset(met_list, s.metGG_60000, 60001, Legal.Met_GG_6);
+            return met_list;
+        }
+
+        private static List<ComboItem> CreateGen8(GameStrings s)
+        {
+            var met_list = Util.GetCBList(s.metSWSH_00000, 0);
+            Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, 60002);
+            Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Locations.LinkTrade6);
+            Util.AddCBWithOffset(met_list, s.metSWSH_00000, 00000, Legal.Met_SWSH_0);
+            Util.AddCBWithOffset(met_list, s.metSWSH_30000, 30001, Legal.Met_SWSH_3);
+            Util.AddCBWithOffset(met_list, s.metSWSH_40000, 40001, Legal.Met_SWSH_4);
+            Util.AddCBWithOffset(met_list, s.metSWSH_60000, 60001, Legal.Met_SWSH_6);
+            return met_list;
         }
 
         public IReadOnlyList<ComboItem> GetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort>? allowed = null, bool HaX = false)

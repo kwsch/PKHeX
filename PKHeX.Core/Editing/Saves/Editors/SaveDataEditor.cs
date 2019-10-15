@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public readonly SlotEditor<T> Slots;
         public readonly IPKMView PKMEditor;
 
-        public SaveDataEditor() : this(new FakeSaveFile()) { }
+        public SaveDataEditor() : this(FakeSaveFile.Default) { }
 
         public SaveDataEditor(SaveFile sav)
         {
@@ -49,6 +49,7 @@ namespace PKHeX.Core
 
     public sealed class FakeSaveFile : SaveFile
     {
+        public static readonly FakeSaveFile Default = new FakeSaveFile();
         protected override string BAKText => "Fake Save File";
         public override SaveFile Clone() => this;
         public override string Filter => string.Empty;

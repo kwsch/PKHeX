@@ -22,22 +22,17 @@ namespace PKHeX.Core
 
         public static GameStrings GetStrings(int index)
         {
-            return Languages[index] ?? (Languages[index] = new GameStrings(GameLanguage.Language2Char(index)));
+            return Languages[index] ??= new GameStrings(GameLanguage.Language2Char(index));
         }
 
         public static GameStrings Strings
         {
             get => _strings;
-            set
-            {
-                _strings = value;
-                Sources = new GameDataSource(_strings);
-                FilteredSources = null;
-            }
+            set => Sources = new GameDataSource(_strings = value);
         }
 
-        public static GameDataSource Sources { get; set; }
-        public static FilteredGameDataSource FilteredSources { get; set; }
+        public static GameDataSource Sources { get; private set; } = new GameDataSource(_strings);
+        public static FilteredGameDataSource FilteredSources { get; set; } = new FilteredGameDataSource(FakeSaveFile.Default, Sources, false);
 
         public static string GetVersionName(GameVersion version)
         {
