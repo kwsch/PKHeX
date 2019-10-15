@@ -84,9 +84,17 @@ namespace PKHeX.Core
             _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
             Japanese = japanese;
 
-            LoadBlocks();
+            LoadBlocks(out BlockOrder, out BlockOfs);
             // spoof block offsets
             BlockOfs = Enumerable.Range(0, BLOCK_COUNT).ToArray();
+
+            LegalKeyItems = Version switch
+            {
+                GameVersion.RS => Legal.Pouch_Key_RS,
+                GameVersion.E => Legal.Pouch_Key_E,
+                _ => Legal.Pouch_Key_RS
+            };
+            SeenFlagOffsets = Array.Empty<int>();
 
             Initialize();
             ClearBoxes();
@@ -94,7 +102,7 @@ namespace PKHeX.Core
 
         public SAV3(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
         {
-            LoadBlocks();
+            LoadBlocks(out BlockOrder, out BlockOfs);
             Version = versionOverride != GameVersion.Any ? versionOverride : GetVersion(Data, BlockOfs[0]);
             _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
 
@@ -102,6 +110,21 @@ namespace PKHeX.Core
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
             // OT name is stored at the top of the first block.
             Japanese = BitConverter.ToInt16(Data, BlockOfs[0] + 0x6) == 0;
+
+            LegalKeyItems = Version switch
+            {
+                GameVersion.RS => Legal.Pouch_Key_RS,
+                GameVersion.E => Legal.Pouch_Key_E,
+                _ => Legal.Pouch_Key_RS
+            };
+
+            PokeDex = BlockOfs[0] + 0x18;
+            SeenFlagOffsets = Version switch
+            {
+                GameVersion.RS => new[] { PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C },
+                GameVersion.E => new[] { PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4 },
+                _ => new[] { PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98 }
+            };
 
             Initialize();
         }
@@ -121,44 +144,37 @@ namespace PKHeX.Core
                 Array.Copy(Data, (blockIndex * SIZE_BLOCK) + ABO, Data, Box + ((i - 5) * 0xF80), chunkLength[i]);
             }
 
-            PokeDex = BlockOfs[0] + 0x18;
             switch (Version)
             {
                 case GameVersion.RS:
-                    LegalKeyItems = Legal.Pouch_Key_RS;
                     OFS_PCItem = BlockOfs[1] + 0x0498;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x05B0;
                     OFS_PouchBalls = BlockOfs[1] + 0x0600;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0640;
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
-                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x938, BlockOfs[4] + 0xC0C};
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + (EventFlagMax / 8);
                     Daycare = BlockOfs[4] + 0x11C;
                     break;
                 case GameVersion.E:
-                    LegalKeyItems = Legal.Pouch_Key_E;
                     OFS_PCItem = BlockOfs[1] + 0x0498;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0560;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x05D8;
                     OFS_PouchBalls = BlockOfs[1] + 0x0650;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0690;
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
-                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x988, BlockOfs[4] + 0xCA4};
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + (EventFlagMax / 8);
                     Daycare = BlockOfs[4] + 0x1B0;
                     break;
                 case GameVersion.FRLG:
-                    LegalKeyItems = Legal.Pouch_Key_FRLG;
                     OFS_PCItem = BlockOfs[1] + 0x0298;
                     OFS_PouchHeldItem = BlockOfs[1] + 0x0310;
                     OFS_PouchKeyItem = BlockOfs[1] + 0x03B8;
                     OFS_PouchBalls = BlockOfs[1] + 0x0430;
                     OFS_PouchTMHM = BlockOfs[1] + 0x0464;
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
-                    SeenFlagOffsets = new[] {PokeDex + 0x44, BlockOfs[1] + 0x5F8, BlockOfs[4] + 0xB98};
                     EventFlag = BlockOfs[1] + 0xEE0;
                     EventConst = BlockOfs[2] + 0x80;
                     Daycare = BlockOfs[4] + 0x100;
@@ -168,35 +184,31 @@ namespace PKHeX.Core
             }
 
             LoadEReaderBerryData();
-            LegalItems = Legal.Pouch_Items_RS;
-            LegalBalls = Legal.Pouch_Ball_RS;
-            LegalTMHMs = Legal.Pouch_TMHM_RS;
-            LegalBerries = Legal.Pouch_Berries_RS;
 
             // Sanity Check SeenFlagOffsets -- early saves may not have block 4 initialized yet
             SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
         }
 
-        private void LoadBlocks()
+        private void LoadBlocks(out int[] blockOrder, out int[] blockOfs)
         {
-            int[] BlockOrder1 = GetBlockOrder(0);
+            int[] o1 = GetBlockOrder(0);
             if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
-                int[] BlockOrder2 = GetBlockOrder(0xE000);
-                ActiveSAV = GetActiveSaveIndex(BlockOrder1, BlockOrder2);
-                BlockOrder = ActiveSAV == 0 ? BlockOrder1 : BlockOrder2;
+                int[] o2 = GetBlockOrder(0xE000);
+                ActiveSAV = GetActiveSaveIndex(o1, o2);
+                blockOrder = ActiveSAV == 0 ? o1 : o2;
             }
             else
             {
                 ActiveSAV = 0;
-                BlockOrder = BlockOrder1;
+                blockOrder = o1;
             }
 
-            BlockOfs = new int[BLOCK_COUNT];
+            blockOfs = new int[BLOCK_COUNT];
             for (int i = 0; i < BLOCK_COUNT; i++)
             {
-                int index = Array.IndexOf(BlockOrder, i);
-                BlockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
+                int index = Array.IndexOf(blockOrder, i);
+                blockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
             }
         }
 
@@ -599,7 +611,12 @@ namespace PKHeX.Core
             }
         }
 
-        private ushort[] LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries;
+        private readonly ushort[] LegalKeyItems;
+        private static ushort[] LegalItems => Legal.Pouch_Items_RS;
+        private static ushort[] LegalBalls => Legal.Pouch_Ball_RS;
+        private static ushort[] LegalTMHMs => Legal.Pouch_TMHM_RS;
+        private static ushort[] LegalBerries => Legal.Pouch_Berries_RS;
+
         private int OFS_PCItem, OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry;
 
         public override InventoryPouch[] Inventory
