@@ -23,9 +23,11 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public BK4(byte[] decryptedData)
+        public override byte[] Data { get; }
+
+        public BK4(byte[] data)
         {
-            Data = decryptedData;
+            Data = data;
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
             Data = PKX.ShuffleArray(Data, sv, PKX.SIZE_4BLOCK);
             if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope

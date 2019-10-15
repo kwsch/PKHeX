@@ -18,12 +18,14 @@ namespace PKHeX.Core
 
         public PK6() => Data = new byte[PKX.SIZE_6PARTY];
 
-        public PK6(byte[] decryptedData)
+        public override byte[] Data { get; }
+
+        public PK6(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_6PARTY)
+                Array.Resize(ref data, PKX.SIZE_6PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK6((byte[])Data.Clone()){Identifier = Identifier};

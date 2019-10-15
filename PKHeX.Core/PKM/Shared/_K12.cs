@@ -30,13 +30,13 @@ namespace PKHeX.Core
 
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Japanese => otname.Length == STRLEN_J;
-
-        protected _K12(byte[] decryptedData, bool jp = false)
+        public override byte[] Data { get; }
+        protected _K12(byte[] data, bool jp = false)
         {
             int partySize = SIZE_PARTY;
-            Data = decryptedData;
-            if (Data.Length != partySize)
-                Array.Resize(ref Data, partySize);
+            if (data.Length != partySize)
+                Array.Resize(ref data, partySize);
+            Data = data;
             int strLen = jp ? STRLEN_J : STRLEN_U;
 
             // initialize string buffers

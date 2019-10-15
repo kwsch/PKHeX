@@ -27,15 +27,15 @@ namespace PKHeX.Core
         private const int SIZE = 260;
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormeEntry(Species, AltForm);
-
+        public override byte[] Data { get; }
         public PB7() => Data = new byte[SIZE];
 
-        public PB7(byte[] decryptedData)
+        public PB7(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, 7);
-            if (Data.Length != SIZE)
-                Array.Resize(ref Data, SIZE);
+            PKX.CheckEncrypted(ref data, 7);
+            if (data.Length != SIZE)
+                Array.Resize(ref data, SIZE);
+            Data = data;
         }
 
         public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};

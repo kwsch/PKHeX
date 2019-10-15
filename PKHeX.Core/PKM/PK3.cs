@@ -18,14 +18,15 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<byte> ExtraBytes => Unused;
 
+        public override byte[] Data { get; }
         public PK3() => Data = new byte[PKX.SIZE_3PARTY];
 
-        public PK3(byte[] decryptedData)
+        public PK3(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_3PARTY)
+                Array.Resize(ref data, PKX.SIZE_3PARTY);
+            Data = data;
         }
 
         public override PKM Clone()

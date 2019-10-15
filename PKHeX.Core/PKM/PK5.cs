@@ -25,14 +25,15 @@ namespace PKHeX.Core
         public override int Format => 5;
         public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
 
+        public override byte[] Data { get; }
         public PK5() => Data = new byte[PKX.SIZE_5PARTY];
 
-        public PK5(byte[] decryptedData)
+        public PK5(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_5PARTY)
+                Array.Resize(ref data, PKX.SIZE_5PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};

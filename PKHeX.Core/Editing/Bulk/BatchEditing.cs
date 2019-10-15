@@ -453,7 +453,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
                 pk.SetShiny();
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                pk.Data = new byte[pk.Data.Length];
+                Array.Clear(pk.Data, 0, pk.Data.Length);
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
                 SetRandomIVs(pk, cmd);
             else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))

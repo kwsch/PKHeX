@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public abstract IReadOnlyList<byte> ExtraBytes { get; }
 
         // Internal Attributes set on creation
-        public byte[] Data; // Raw Storage
+        public abstract byte[] Data { get; } // Raw Storage
         public string? Identifier; // User or Form Custom Attribute
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
@@ -39,7 +39,7 @@ namespace PKHeX.Core
         // Trash Bytes
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
-        public virtual byte[] HT_Trash { get; set; }
+        public virtual byte[] HT_Trash { get; set; } = Array.Empty<byte>();
 
         protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
 
@@ -150,7 +150,7 @@ namespace PKHeX.Core
         public virtual int Met_Year { get => 0; set { } }
         public virtual int Met_Month { get => 0; set { } }
         public virtual int Met_Day { get => 0; set { } }
-        public virtual string HT_Name { get; set; }
+        public virtual string HT_Name { get; set; } = string.Empty;
         public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
         public virtual int HT_Friendship { get; set; }

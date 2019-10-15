@@ -17,14 +17,16 @@ namespace PKHeX.Core
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
+        public override byte[] Data { get; }
+
         public PK7() => Data = new byte[PKX.SIZE_6PARTY];
 
-        public PK7(byte[] decryptedData)
+        public PK7(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_6PARTY)
+                Array.Resize(ref data, PKX.SIZE_6PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK7((byte[])Data.Clone()){Identifier = Identifier};
