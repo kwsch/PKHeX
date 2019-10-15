@@ -62,7 +62,7 @@ namespace PKHeX.Core
 
         public override bool IsNicknamed
         {
-            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname(GuessedLanguage()))));
+            get => _isnicknamed ??= !nick.SequenceEqual(GetNonNickname(GuessedLanguage()));
             set
             {
                 _isnicknamed = value;

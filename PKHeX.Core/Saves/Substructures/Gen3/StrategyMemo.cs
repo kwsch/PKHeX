@@ -64,7 +64,7 @@ namespace PKHeX.Core
 
             public StrategyMemoEntry(bool xd, byte[] data)
             {
-                Data = data ?? new byte[SIZE_ENTRY];
+                Data = data;
                 XD = xd;
             }
 

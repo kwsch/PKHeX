@@ -831,7 +831,7 @@ namespace PKHeX.Core
         {
             if (generation >= 3)
                 return;
-            var lvlG1 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            var lvlG1 = info.EncounterMatch.LevelMin + 1;
             if (lvlG1 == defaultLvlG1)
                 return;
             EncounterMoves.LevelUpMoves[1] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
@@ -841,7 +841,7 @@ namespace PKHeX.Core
         {
             if (generation >= 3)
                 return;
-            var lvlG2 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            var lvlG2 = info.EncounterMatch.LevelMin + 1;
             if (lvlG2 == defaultLvlG2)
                 return;
             EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
