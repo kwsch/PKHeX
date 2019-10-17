@@ -12,7 +12,7 @@ namespace PKHeX.Core
         private const int Unlocked            = 0x5E1;
         private const int LastViewedBoxOffset = 0x5E3;
 
-        private const int strlen = SAV6XY.LongStringLength / 2;
+        private const int strlen = SAV6.LongStringLength / 2;
 
         private const int TeamCount = 6;
         private const int NONE_SELECTED = -1;
@@ -37,17 +37,17 @@ namespace PKHeX.Core
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }
 
-        private int GetBoxNameOffset(int box) => Offset + (SAV6XY.LongStringLength * box);
+        private int GetBoxNameOffset(int box) => Offset + (SAV6.LongStringLength * box);
 
         public string GetBoxName(int box)
         {
-            return SAV.GetString(Data, GetBoxNameOffset(box), SAV6XY.LongStringLength);
+            return SAV.GetString(Data, GetBoxNameOffset(box), SAV6.LongStringLength);
         }
 
         public void SetBoxName(int box, string value)
         {
             var data = SAV.SetString(value, strlen, strlen, 0);
-            var offset = GetBoxNameOffset(box) + (SAV6XY.LongStringLength * box);
+            var offset = GetBoxNameOffset(box) + (SAV6.LongStringLength * box);
             SAV.SetData(data, offset);
         }
 

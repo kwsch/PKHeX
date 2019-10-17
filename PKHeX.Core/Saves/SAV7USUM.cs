@@ -21,7 +21,10 @@ namespace PKHeX.Core
             EventConst = Blocks.BlockInfo[05].Offset;
             EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
             HoF = EventFlag + (EventFlagMax / 8); // After Event Flags (1b)*(1u8/8b)*n
+
+            Blocks.BoxLayout.LoadBattleTeams();
             TeamSlots = Blocks.BoxLayout.TeamSlots;
+            Box = Blocks.BlockInfo[14].Offset;
         }
 
         public override PersonalTable Personal => PersonalTable.USUM;

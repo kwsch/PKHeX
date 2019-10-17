@@ -9,7 +9,7 @@
         // byte UnlockedCount;
         // byte CurrentBox;
 
-        private const int strbytecount = SAV6XY.LongStringLength; // same for both games
+        private const int strbytecount = SAV6.LongStringLength; // same for both games
         private const int strlen = strbytecount / 2;
         private const int BoxCount = 31;
         private const int PCBackgrounds = BoxCount * strbytecount; // 0x41E;
