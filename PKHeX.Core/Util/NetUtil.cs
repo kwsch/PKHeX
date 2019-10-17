@@ -8,7 +8,7 @@ namespace PKHeX.Core
 {
     public static class NetUtil
     {
-        public static string GetStringFromURL(string webURL)
+        public static string? GetStringFromURL(string webURL)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace PKHeX.Core
         /// Gets the latest version of PKHeX according to the Github API
         /// </summary>
         /// <returns>A version representing the latest available version of PKHeX, or null if the latest version could not be determined</returns>
-        public static Version GetLatestPKHeXVersion()
+        public static Version? GetLatestPKHeXVersion()
         {
             const string apiEndpoint = "https://api.github.com/repos/kwsch/pkhex/releases/latest";
             var responseJson = GetStringFromURL(apiEndpoint);

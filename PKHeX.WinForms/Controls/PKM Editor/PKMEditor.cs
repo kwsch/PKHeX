@@ -118,7 +118,6 @@ namespace PKHeX.WinForms.Controls
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        private readonly ToolTip Tip3 = new ToolTip(), NatureTip = new ToolTip(), SpeciesIDTip = new ToolTip();
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
         public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
@@ -221,8 +220,8 @@ namespace PKHeX.WinForms.Controls
 
         private void SetPKMFormatExtraBytes(PKM pk)
         {
-            byte[] extraBytes = pk.ExtraBytes;
-            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Length != 0;
+            var extraBytes = pk.ExtraBytes;
+            GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Count != 0;
             CB_ExtraBytes.Items.Clear();
             foreach (byte b in extraBytes)
                 CB_ExtraBytes.Items.Add($"0x{b:X2}");

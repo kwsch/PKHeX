@@ -4,9 +4,9 @@ namespace PKHeX.Core
 {
     public sealed class EventWork7b : SaveBlock, IEventWork<int>
     {
-        public EventWork7b(SAV7b sav) : base(sav)
+        public EventWork7b(SAV7b sav, int offset) : base(sav)
         {
-            Offset = sav.GetBlockOffset(BelugaBlockIndex.EventWork);
+            Offset = offset;
             // Zone @ 0x21A0 - 0x21AF (128 flags)
             // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
             // Vanish @ 0x21F0 - 0x22AF (1536 flags)
@@ -14,7 +14,6 @@ namespace PKHeX.Core
 
             // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
             // trainer flags (???) = 0x22F6 - end?
-
         }
 
         // Overall Layout

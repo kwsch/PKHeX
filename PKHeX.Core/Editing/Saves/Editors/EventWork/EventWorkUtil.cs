@@ -103,7 +103,7 @@ namespace PKHeX.Core
             {
                 var b = before.GetWork(i);
                 var a = after.GetWork(i);
-                if (b.Equals(a))
+                if (b is null || b.Equals(a))
                     continue;
 
                 changed.Add(i);

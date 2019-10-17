@@ -13,25 +13,19 @@ namespace PKHeX.Core
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => "PbrSaveData|*";
         public override string Extension => string.Empty;
+        public override PersonalTable Personal => PersonalTable.DP;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 
         private const int SAVE_COUNT = 4;
 
         public SAV4BR() : base(SaveUtil.SIZE_G4BR)
         {
             ClearBoxes();
-            Initialize();
         }
 
         public SAV4BR(byte[] data) : base(data)
         {
             InitializeData(data);
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Personal = PersonalTable.DP;
-            HeldItems = Legal.HeldItems_DP;
         }
 
         private void InitializeData(byte[] data)

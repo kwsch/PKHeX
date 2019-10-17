@@ -115,8 +115,6 @@
 
         internal static bool[] RibbonBitsAbility(this IRibbonSetUnique4 set)
         {
-            if (set == null)
-                return new bool[6];
             return new[]
             {
                 set.RibbonAbility,
@@ -130,9 +128,6 @@
 
         internal static bool[] RibbonBitsContest3(this IRibbonSetUnique4 set)
         {
-            if (set == null)
-                return new bool[20];
-
             return new[]
             {
                 set.RibbonG3Cool,
@@ -164,9 +159,6 @@
 
         internal static bool[] RibbonBitsContest4(this IRibbonSetUnique4 set)
         {
-            if (set == null)
-                return new bool[20];
-
             return new[]
             {
                 set.RibbonG4Cool,

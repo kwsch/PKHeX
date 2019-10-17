@@ -14,7 +14,8 @@ namespace PKHeX.Core
          * everything else: unknown
          */
 
-        public ConfigSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int ConfigValue
         {

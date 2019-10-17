@@ -107,9 +107,8 @@ namespace PKHeX.Core.Searching
         {
             return Clones switch
             {
-                CloneDetectionMethod.HashDetails => HashByDetails,
                 CloneDetectionMethod.HashPID => HashByPID,
-                _ => (Func<PKM, string>)null
+                _ => (Func<PKM, string>)HashByDetails,
             };
         }
 
@@ -136,7 +135,7 @@ namespace PKHeX.Core.Searching
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, CloneDetectionMethod type = CloneDetectionMethod.HashDetails)
         {
             var method = GetCloneDetectMethod(type);
-            return method == null ? res : GetClones(res, method);
+            return GetClones(res, method);
         }
 
         public static IEnumerable<PKM> GetClones(IEnumerable<PKM> res, Func<PKM, string> method)

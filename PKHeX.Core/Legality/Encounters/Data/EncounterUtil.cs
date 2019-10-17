@@ -243,13 +243,13 @@ namespace PKHeX.Core
         internal static void MarkEncounterTradeStrings(EncounterTrade[] table, string[][] strings)
         {
             int half = strings[1].Length / 2;
-            for (var i = 0; i < half; i++)
+            for (int i = 0; i < half; i++)
             {
                 var t = table[i];
                 t.Nicknames = getNames(i, strings);
                 t.TrainerNames = getNames(i + half, strings);
             }
-            string[] getNames(int i, IEnumerable<string[]> names) => names?.Select(z => z?.Length > i ? z[i] : null).ToArray();
+            string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
         }
 
         internal static void MarkEncounterGame(IEnumerable<IVersion> table, GameVersion version)

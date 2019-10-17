@@ -239,7 +239,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static Learnset GetDeoxysLearn3(int form, GameVersion ver = Any)
+        private static Learnset? GetDeoxysLearn3(int form, GameVersion ver = Any)
         {
             const int index = (int)Species.Deoxys;
             if (ver == Any)
@@ -266,7 +266,7 @@ namespace PKHeX.Core
                 version = (GameVersion)pkm.Version;
             return Generation switch
             {
-                1 => (IEnumerable<int>) GetMovesLevelUp1(species, form, lvl, minlvlG1, version),
+                1 => GetMovesLevelUp1(species, form, lvl, minlvlG1, version),
                 2 => GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version),
                 3 => GetMovesLevelUp3(species, form, lvl, version),
                 4 => GetMovesLevelUp4(species, form, lvl, version),
@@ -274,7 +274,7 @@ namespace PKHeX.Core
                 6 => GetMovesLevelUp6(species, form, lvl, version),
                 7 => GetMovesLevelUp7(species, form, lvl, MoveReminder, version),
                 8 => GetMovesLevelUp8(species, form, lvl, MoveReminder, version),
-                _ => Array.Empty<int>()
+                _ => (IEnumerable<int>)Array.Empty<int>()
             };
         }
 

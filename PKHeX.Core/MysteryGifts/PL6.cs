@@ -137,10 +137,8 @@ namespace PKHeX.Core
 
         public readonly byte[] Data;
 
-        public PL6_PKM(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PL6_PKM() : this(new byte[Size]) { }
+        public PL6_PKM(byte[] data) => Data = data;
 
         public int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }

@@ -6,15 +6,15 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord
+    public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        protected SAV6(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset) { }
-        protected SAV6(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset) { }
+        protected SAV6(byte[] data, int biOffset) : base(data, biOffset) { }
+        protected SAV6(int size, int biOffset) : base(size, biOffset) { }
 
         // Configuration
         public override int SIZE_STORED => PKX.SIZE_6STORED;
@@ -39,23 +39,11 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK6(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray6(data);
 
-        public MyItem Items { get; protected set; }
-        public ItemInfo6 ItemInfo { get; protected set; }
-        public GameTime6 GameTime { get; protected set; }
-        public Situation6 Situation { get; protected set; }
-        public PlayTime6 Played { get; protected set; }
-        public MyStatus6 Status { get; protected set; }
-        public Record6 Records { get; set; }
 
-        protected int Trainer2 { get; set; }
-
-        // XY/AO
         protected int WondercardFlags { get; set; } = int.MinValue;
-        protected int LinkInfo { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
         public int SuperTrain { get; protected set; } = int.MinValue;
         public int MaisonStats { get; protected set; } = int.MinValue;
-        public int Accessories { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int SUBE { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
@@ -78,54 +66,14 @@ namespace PKHeX.Core
         public override int SubRegion { get => Status.SubRegion; set => Status.SubRegion = value; }
         public override int Country { get => Status.Country; set => Status.Country = value; }
         public override int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
-
-        public override uint Money
-        {
-            get => BitConverter.ToUInt32(Data, Trainer2 + 0x8);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Trainer2 + 0x8);
-        }
-
-        public int Badges
-        {
-            get => Data[Trainer2 + 0xC];
-            set => Data[Trainer2 + 0xC] = (byte)value;
-        }
-
-        public int BP
-        {
-            get
-            {
-                int offset = Trainer2 + 0x3C;
-                if (this is SAV6AO) offset -= 0xC; // 0x30
-                return BitConverter.ToUInt16(Data, offset);
-            }
-            set
-            {
-                int offset = Trainer2 + 0x3C;
-                if (this is SAV6AO) offset -= 0xC; // 0x30
-                BitConverter.GetBytes((ushort)value).CopyTo(Data, offset);
-            }
-        }
-
-        public int Vivillon
-        {
-            get
-            {
-                int offset = Trainer2 + 0x50;
-                if (this is SAV6AO) offset -= 0xC; // 0x44
-                return Data[offset];
-            }
-            set
-            {
-                int offset = Trainer2 + 0x50;
-                if (this is SAV6AO) offset -= 0xC; // 0x44
-                Data[offset] = (byte)value;
-            }
-        }
-
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
+
+        public abstract int Badges { get; set; }
+        public abstract int Vivillon { get; set; }
+        public abstract int BP { get; set; }
+        // Money
 
         public override uint SecondsToStart { get => GameTime.SecondsToStart; set => GameTime.SecondsToStart = value; }
         public override uint SecondsToFame { get => GameTime.SecondsToFame; set => GameTime.SecondsToFame = value; }
@@ -223,5 +171,12 @@ namespace PKHeX.Core
         public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
         public int RecordCount => Record6.RecordCount;
+        public abstract MyItem Items { get; }
+        public abstract ItemInfo6 ItemInfo { get; }
+        public abstract GameTime6 GameTime { get; }
+        public abstract Situation6 Situation { get; }
+        public abstract PlayTime6 Played { get; }
+        public abstract MyStatus6 Status { get; }
+        public abstract Record6 Records { get; }
     }
 }

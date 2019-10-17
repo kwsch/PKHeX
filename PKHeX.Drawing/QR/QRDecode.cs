@@ -25,7 +25,11 @@ namespace PKHeX.Drawing
             string data;
             try
             {
-                data = NetUtil.GetStringFromURL(webURL);
+                var str = NetUtil.GetStringFromURL(webURL);
+                if (str is null)
+                    return QRDecodeMsg.BadConnection;
+
+                data = str;
                 if (data.Contains("could not find"))
                     return QRDecodeMsg.BadImage;
 

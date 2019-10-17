@@ -50,12 +50,12 @@ namespace PKHeX.Core
         public EncounterType TypeEncounter { get; set; } = EncounterType.None;
         public int SlotNumber { get; set; }
         public int Generation { get; set; } = -1;
-        internal EncounterSlotPermissions _perm;
+        private EncounterSlotPermissions? _perm;
         public EncounterSlotPermissions Permissions => _perm ??= new EncounterSlotPermissions();
         public GameVersion Version { get; set; }
 
-        internal EncounterArea Area { private get; set; }
-        public int Location { get => Area.Location; set { } }
+        internal EncounterArea? Area { private get; set; }
+        public int Location { get => Area?.Location ?? 0; set { } }
         public bool EggEncounter => false;
         public int EggLocation { get => 0; set { } }
 
@@ -122,7 +122,7 @@ namespace PKHeX.Core
 
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = this is EncounterSlotMoves m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            var moves = this is IMoveset m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
         }
@@ -205,7 +205,7 @@ namespace PKHeX.Core
 
             int spec = pk.Species;
             if (spec == (int)Core.Species.Scatterbug || spec == (int)Core.Species.Spewpa || spec == (int)Core.Species.Vivillon)
-                return Legal.GetVivillonPattern(SAV.Country, SAV.SubRegion);
+                return Legal.GetVivillonPattern((byte)SAV.Country, (byte)SAV.SubRegion);
             return 0;
         }
 

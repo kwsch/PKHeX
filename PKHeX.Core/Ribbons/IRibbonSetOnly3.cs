@@ -30,8 +30,6 @@
 
         internal static int[] RibbonCounts(this IRibbonSetOnly3 set)
         {
-            if (set == null)
-                return new int[5];
             return new[]
             {
                 set.RibbonCountG3Cool,

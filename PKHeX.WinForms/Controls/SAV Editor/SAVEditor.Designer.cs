@@ -18,6 +18,8 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+            SortMenu?.Dispose();
+            menu?.Dispose();
         }
 
         #region Component Designer generated code

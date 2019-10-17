@@ -10,12 +10,8 @@ namespace PKHeX.Core
         public new const int SIZE = PersonalInfoSM.SIZE;
 
         // todo: this is a copy of lgpe class
-        public PersonalInfoSWSH(byte[] data)
+        public PersonalInfoSWSH(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             TMHM = GetBits(Data, 0x28, 8); // only 60 TMs used
             TypeTutors = GetBits(Data, 0x38, 1); // at most 8 flags used
         }

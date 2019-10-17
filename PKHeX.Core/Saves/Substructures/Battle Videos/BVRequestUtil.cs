@@ -11,7 +11,7 @@ namespace PKHeX.Core
             Debug.Assert(code.Length == 16);
             var video_id = StrToU64(code, out bool valid);
             if (!valid)
-                return null;
+                return string.Empty;
             return $"https://ctr-bnda-live.s3.amazonaws.com/10.CTR_BNDA_datastore/ds/1/data/{video_id:D11}-00001"; // Sun datastore
         }
 

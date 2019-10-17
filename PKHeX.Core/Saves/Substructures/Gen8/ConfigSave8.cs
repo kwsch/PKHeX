@@ -14,7 +14,7 @@ namespace PKHeX.Core
          * everything else: unknown
          */
 
-        public ConfigSave8(SAV8 sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave8(SAV8SWSH sav, int offset) : base(sav) => Offset = offset;
 
         public int ConfigValue
         {

@@ -4,7 +4,8 @@ namespace PKHeX.Core
 {
     public sealed class ResortSave7 : SaveBlock
     {
-        public ResortSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public ResortSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public ResortSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public const int ResortCount = 93;
         public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * PKX.SIZE_6STORED);

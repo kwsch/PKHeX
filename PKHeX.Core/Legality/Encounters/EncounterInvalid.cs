@@ -7,6 +7,8 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterInvalid : IEncounterable
     {
+        public static readonly EncounterInvalid Default = new EncounterInvalid();
+
         public int Species { get; }
         public int LevelMin { get; }
         public int LevelMax { get; }
@@ -14,6 +16,8 @@ namespace PKHeX.Core
 
         public string Name => "Invalid";
         public string LongName => "Invalid";
+
+        private EncounterInvalid() { }
 
         public EncounterInvalid(PKM pkm)
         {

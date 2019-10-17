@@ -22,7 +22,7 @@ namespace PKHeX.Core
         /// </summary>
         public IReadOnlyList<CheckResult> Results => Parse;
 
-        private IEncounterable EncounterOriginalGB;
+        private IEncounterable? EncounterOriginalGB;
 
         /// <summary>
         /// Matched encounter data for the <see cref="pkm"/>.
@@ -52,7 +52,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Contains various data reused for multiple checks.
         /// </summary>
-        public LegalInfo Info { get; private set; }
+        public readonly LegalInfo Info;
 
         /// <summary>
         /// Creates a report message with optional verbosity for in-depth analysis.
@@ -85,7 +85,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int[] _allSuggestedMoves, _allSuggestedRelearnMoves;
+        private int[]? _allSuggestedMoves, _allSuggestedRelearnMoves;
         public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
 
         private string EncounterName
@@ -97,7 +97,7 @@ namespace PKHeX.Core
             }
         }
 
-        private string EncounterLocation
+        private string? EncounterLocation
         {
             get
             {
@@ -111,15 +111,22 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable table = null)
+        public LegalityAnalysis(PKM pk, PersonalTable? table = null)
         {
             pkm = pk;
+            PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
+
+            if (pkm.Format <= 2) // prior to storing GameVersion
+                pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
+
 #if SUPPRESS
             try
 #endif
             {
-                PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
-                ParseLegality();
+                Info = EncounterFinder.FindVerifiedEncounter(pkm);
+                if (!pkm.IsOriginValid)
+                    AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
+                GetParseMethod()();
 
                 if (Parse.Count == 0)
                     return;
@@ -134,6 +141,7 @@ namespace PKHeX.Core
 #if SUPPRESS
             catch (Exception e)
             {
+                Info = new LegalInfo(pkm);
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Valid = false;
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
@@ -143,33 +151,33 @@ namespace PKHeX.Core
             Parsed = true;
         }
 
-        private void ParseLegality()
+        private Action GetParseMethod()
         {
-            if (!pkm.IsOriginValid)
-                AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
-
             if (pkm.Format <= 2) // prior to storing GameVersion
-            {
-                ParsePK1();
-                return;
-            }
-            switch (pkm.GenNumber)
-            {
-                case 3: ParsePK3(); return;
-                case 4: ParsePK4(); return;
-                case 5: ParsePK5(); return;
-                case 6: ParsePK6(); return;
+                return ParsePK1;
 
-                case 1: case 2:
-                case 7: ParsePK7(); return;
+            int gen = pkm.GenNumber;
+            if (gen <= 0)
+                gen = pkm.Format;
+            return gen switch
+            {
+                3 => ParsePK3,
+                4 => ParsePK4,
+                5 => ParsePK5,
+                6 => ParsePK6,
 
-                case 8: ParsePK8(); return;
-            }
+                1 => ParsePK7,
+                2 => ParsePK7,
+                7 => ParsePK7,
+
+                8 => (Action)ParsePK8,
+
+                _ => throw new Exception()
+            };
         }
 
         private void ParsePK1()
         {
-            pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
             UpdateInfo();
             if (pkm.TradebackStatus == TradebackType.Any && Info.Generation != pkm.Format)
                 pkm.TradebackStatus = TradebackType.WasTradeback; // Example: GSC Pokemon with only possible encounters in RBY, like the legendary birds
@@ -267,7 +275,6 @@ namespace PKHeX.Core
 
         private void UpdateInfo()
         {
-            Info = EncounterFinder.FindVerifiedEncounter(pkm);
             Parse.AddRange(Info.Parse);
         }
 
@@ -385,7 +392,11 @@ namespace PKHeX.Core
                 lines.Add(string.Format(L_F0_1, "Location", loc));
             if (pkm.VC)
                 lines.Add(string.Format(L_F0_1, nameof(GameVersion), Info.Game));
-            var pidiv = Info.PIDIV ?? MethodFinder.Analyze(pkm);
+
+            if (!Info.PIDParsed)
+                Info.PIDIV = MethodFinder.Analyze(pkm);
+
+            var pidiv = Info.PIDIV;
             if (pidiv != null)
             {
                 if (!pidiv.NoSeed)
@@ -456,6 +467,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets an object containing met data properties that might be legal.
         /// </summary>
-        public EncounterStatic GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
+        public EncounterStatic? GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

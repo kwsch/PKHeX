@@ -14,7 +14,7 @@ namespace PKHeX.Core
         }
 
         public bool SetNew { get; set; }
-        private InventoryItem[] OriginalItems;
+        private InventoryItem[] OriginalItems = Array.Empty<InventoryItem>();
 
         public override void GetPouch(byte[] Data)
         {

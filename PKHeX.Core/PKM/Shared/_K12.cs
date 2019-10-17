@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public override int OTLength => Japanese ? 5 : 7;
         public override int NickLength => Japanese ? 5 : 10;
 
-        public override byte[] ExtraBytes => Array.Empty<byte>();
+        public override IReadOnlyList<byte> ExtraBytes => Array.Empty<byte>();
 
         public override string FileNameWithoutExtension
         {
@@ -30,13 +30,13 @@ namespace PKHeX.Core
 
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Japanese => otname.Length == STRLEN_J;
-
-        protected _K12(byte[] decryptedData, bool jp = false)
+        public override byte[] Data { get; }
+        protected _K12(byte[] data, bool jp = false)
         {
             int partySize = SIZE_PARTY;
-            Data = decryptedData;
-            if (Data.Length != partySize)
-                Array.Resize(ref Data, partySize);
+            if (data.Length != partySize)
+                Array.Resize(ref data, partySize);
+            Data = data;
             int strLen = jp ? STRLEN_J : STRLEN_U;
 
             // initialize string buffers
@@ -62,7 +62,7 @@ namespace PKHeX.Core
 
         public override bool IsNicknamed
         {
-            get => (bool)(_isnicknamed ?? (_isnicknamed = !nick.SequenceEqual(GetNonNickname(GuessedLanguage()))));
+            get => _isnicknamed ??= !nick.SequenceEqual(GetNonNickname(GuessedLanguage()));
             set
             {
                 _isnicknamed = value;

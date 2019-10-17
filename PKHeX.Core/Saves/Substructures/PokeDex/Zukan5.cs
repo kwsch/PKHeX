@@ -10,11 +10,17 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
 
-        public Zukan5(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan5(SAV5B2W2 sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            var wrap = SAV is SAV5BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
-            DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexB2W2;
         }
+
+        public Zukan5(SAV5BW sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexBW;
+        }
+
+        public readonly Func<int, int, int> DexFormIndexFetcher;
 
         protected override int GetDexLangFlag(int lang)
         {
@@ -106,7 +112,7 @@ namespace PKHeX.Core
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
             int fc = SAV.Personal[species].FormeCount;
-            int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+            int f = DexFormIndexFetcher(species, fc);
             if (f < 0)
                 return;
 

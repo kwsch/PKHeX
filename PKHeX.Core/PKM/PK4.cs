@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,21 +12,22 @@ namespace PKHeX.Core
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_4PARTY;
         public override int SIZE_STORED => PKX.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
+        public override byte[] Data { get; }
         public PK4() => Data = new byte[PKX.SIZE_4PARTY];
 
-        public PK4(byte[] decryptedData)
+        public PK4(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_4PARTY)
+                Array.Resize(ref data, PKX.SIZE_4PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};

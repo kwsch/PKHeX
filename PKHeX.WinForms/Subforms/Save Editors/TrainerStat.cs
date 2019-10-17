@@ -9,7 +9,6 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
     public partial class TrainerStat : UserControl
     {
         public TrainerStat() => InitializeComponent();
-        private readonly ToolTip Tip = new ToolTip();
         private bool Editing;
         private ITrainerStatRecord SAV;
         private Dictionary<int, string> RecordList; // index, description

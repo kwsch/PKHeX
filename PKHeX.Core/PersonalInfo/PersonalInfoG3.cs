@@ -7,15 +7,10 @@ namespace PKHeX.Core
     /// </summary>
     public class PersonalInfoG3 : PersonalInfo
     {
-        protected PersonalInfoG3() { }
         public const int SIZE = 0x1C;
 
-        public PersonalInfoG3(byte[] data)
+        public PersonalInfoG3(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-
-            Data = data;
         }
 
         public override byte[] Write() => Data;

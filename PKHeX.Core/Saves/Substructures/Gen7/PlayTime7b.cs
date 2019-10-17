@@ -4,10 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class PlayTime7b : SaveBlock
     {
-        public PlayTime7b(SaveFile sav) : base(sav)
-        {
-            Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.PlayTime);
-        }
+        public PlayTime7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         public int PlayedHours
         {

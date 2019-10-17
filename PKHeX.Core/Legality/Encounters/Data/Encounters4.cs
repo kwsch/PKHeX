@@ -996,7 +996,7 @@ namespace PKHeX.Core
             Encounter_HGSS_Regular);
         #endregion
         #region Trade Tables
-        private static readonly string[] RanchOTNames = { null, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", null, "Eulalia" };
+        private static readonly string[] RanchOTNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };
 
         private static readonly EncounterTrade[] RanchGifts =
         {

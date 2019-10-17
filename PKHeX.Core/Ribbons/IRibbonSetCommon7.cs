@@ -19,8 +19,6 @@
 
         internal static bool[] RibbonBits(this IRibbonSetCommon7 set)
         {
-            if (set == null)
-                return new bool[4];
             return new[]
             {
                 set.RibbonChampionAlola,

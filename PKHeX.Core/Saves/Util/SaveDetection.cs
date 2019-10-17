@@ -77,7 +77,7 @@ namespace PKHeX.Core
         /// <param name="error">If this function does not return a save file, this parameter will be set to the error message.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Reference to a valid save file, if any.</returns>
-        public static SaveFile DetectSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
+        public static SaveFile? DetectSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
         {
             var foldersToCheck = GetFoldersToCheck(drives, extra);
             var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
@@ -114,10 +114,15 @@ namespace PKHeX.Core
             var paths = detect ? GetFoldersToCheck(drives, extra) : extra;
             var result = GetSaveFilePathsFromFolders(paths, out var possiblePaths);
             if (!result)
-                return Enumerable.Empty<SaveFile>();
+                yield break;
 
             var byMostRecent = possiblePaths.OrderByDescending(File.GetLastWriteTimeUtc);
-            return byMostRecent.Select(SaveUtil.GetVariantSAV);
+            foreach (var s in byMostRecent)
+            {
+                var sav = SaveUtil.GetVariantSAV(s);
+                if (sav != null)
+                    yield return sav;
+            }
         }
 
         public static IEnumerable<string> GetFoldersToCheck(IReadOnlyList<string> drives, IEnumerable<string> extra)
@@ -142,9 +147,11 @@ namespace PKHeX.Core
             {
                 if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files))
                 {
-                    if (files == null)
+                    if (!(files is string[] msg)) // should always return string[]
                         continue;
-                    possible = files;
+                    if (msg.Length == 0) // folder doesn't exist
+                        continue;
+                    possible = msg;
                     return false;
                 }
                 if (files != null)

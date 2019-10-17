@@ -83,7 +83,7 @@ namespace PKHeX.Core
         /// <param name="data">Raw data of the Pokemon file.</param>
         /// <param name="prefer">Optional identifier for the preferred generation.  Usually the generation of the destination save file.</param>
         /// <returns>An instance of <see cref="PKM"/> created from the given <paramref name="data"/>, or null if <paramref name="data"/> is invalid.</returns>
-        public static PKM GetPKMfromBytes(byte[] data, int prefer = 7)
+        public static PKM? GetPKMfromBytes(byte[] data, int prefer = 7)
         {
             int format = GetPKMDataFormat(data);
             switch (format)
@@ -209,7 +209,7 @@ namespace PKHeX.Core
         /// <param name="PKMType">Format/Type to convert to</param>
         /// <param name="comment">Comments regarding the transfer's success/failure</param>
         /// <returns>Converted PKM</returns>
-        public static PKM ConvertToType(PKM pk, Type PKMType, out string comment)
+        public static PKM? ConvertToType(PKM pk, Type PKMType, out string comment)
         {
             if (pk == null)
             {
@@ -237,7 +237,7 @@ namespace PKHeX.Core
             return pkm;
         }
 
-        private static PKM ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
+        private static PKM? ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
         {
             if (IsNotTransferable(pk, out comment))
                 return null;
@@ -254,9 +254,9 @@ namespace PKHeX.Core
             return pkm;
         }
 
-        private static PKM ConvertPKM(PKM pk, Type PKMType, int toFormat, ref string comment)
+        private static PKM? ConvertPKM(PKM pk, Type PKMType, int toFormat, ref string comment)
         {
-            PKM pkm = pk.Clone();
+            PKM? pkm = pk.Clone();
             if (pkm.IsEgg)
                 pkm.ForceHatchPKM();
             while (true)
@@ -269,7 +269,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static PKM IntermediaryConvert(PKM pk, Type PKMType, int toFormat, ref string comment)
+        private static PKM? IntermediaryConvert(PKM pk, Type PKMType, int toFormat, ref string comment)
         {
             switch (pk)
             {
@@ -318,7 +318,7 @@ namespace PKHeX.Core
             switch (pk.Species)
             {
                 default:
-                    comment = null;
+                    comment = string.Empty;
                     return false;
 
                 case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
@@ -377,20 +377,27 @@ namespace PKHeX.Core
         {
             if (!IsConvertibleToFormat(pk, target.Format))
             {
-                pkm = null;
+                pkm = target;
                 c = string.Format(MsgPKMConvertFailBackwards, pk.GetType().Name, target.Format);
                 if (!AllowIncompatibleConversion)
                     return false;
             }
             if (IsIncompatibleGB(target.Format, target.Japanese, pk.Japanese))
             {
-                pkm = null;
+                pkm = target;
                 c = GetIncompatibleGBMessage(pk, target.Japanese);
                 return false;
             }
-            pkm = ConvertToType(pk, target.GetType(), out c);
+            var convert = ConvertToType(pk, target.GetType(), out c);
+            if (convert == null)
+            {
+                pkm = target;
+                return false;
+            }
+
+            pkm = convert;
             Debug.WriteLine(c);
-            return pkm != null;
+            return true;
         }
 
         public static string GetIncompatibleGBMessage(PKM pk, bool destJP)

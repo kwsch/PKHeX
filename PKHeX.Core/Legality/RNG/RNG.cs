@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
@@ -217,6 +218,28 @@ namespace PKHeX.Core
                 if (remainder >> 16 == 0)
                     yield return Prev(first | (uint) fix);
             }
+        }
+    }
+
+    public enum RNGType
+    {
+        None,
+        LCRNG,
+        XDRNG,
+        ARNG,
+    }
+
+    public static class RNGTypeUtil
+    {
+        public static RNG GetRNG(this RNGType type)
+        {
+            return type switch
+            {
+                RNGType.LCRNG => RNG.LCRNG,
+                RNGType.XDRNG => RNG.XDRNG,
+                RNGType.ARNG => RNG.ARNG,
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
     }
 }

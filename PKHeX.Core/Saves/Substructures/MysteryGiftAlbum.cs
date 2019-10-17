@@ -3,12 +3,12 @@
     /// <summary>
     /// Structure containing the Mystery Gift Data
     /// </summary>
-    public sealed class MysteryGiftAlbum
+    public class MysteryGiftAlbum
     {
         /// <summary>
         /// Mystery Gift data received
         /// </summary>
-        public MysteryGift[] Gifts;
+        public readonly DataMysteryGift[] Gifts;
 
         /// <summary>
         /// Received Flag list
@@ -16,11 +16,22 @@
         /// <remarks>
         /// this[index] == true iff index=<see cref="MysteryGift.CardID"/> has been received already.
         /// </remarks>
-        public bool[] Flags;
+        public readonly bool[] Flags;
 
+        public MysteryGiftAlbum(DataMysteryGift[] gifts, bool[] flags)
+        {
+            Flags = flags;
+            Gifts = gifts;
+        }
+    }
+
+    public class EncryptedMysteryGiftAlbum : MysteryGiftAlbum
+    {
         /// <summary>
-        /// Encryption Seed (only used in Generation 4 to encrypt the stored data)
+        /// Encryption Seed (only used in Generation 5 to encrypt the stored data)
         /// </summary>
-        public uint Seed;
+        public readonly uint Seed;
+
+        public EncryptedMysteryGiftAlbum(DataMysteryGift[] gifts, bool[] flags, uint seed) : base(gifts, flags) => Seed = seed;
     }
 }

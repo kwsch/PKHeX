@@ -19,6 +19,7 @@ namespace PKHeX.Core
 
         protected InventoryPouch(InventoryType type, ushort[] legal, int maxcount, int offset, int size = -1)
         {
+            Items = Array.Empty<InventoryItem>();
             Type = type;
             LegalItems = legal;
             MaxCount = maxcount;
@@ -88,16 +89,12 @@ namespace PKHeX.Core
 
         public void RemoveAll(Func<InventoryItem, bool> deleteCriteria)
         {
-            if (deleteCriteria == null)
-                throw new ArgumentNullException(nameof(deleteCriteria));
             foreach (var item in Items.Where(deleteCriteria))
                 item.Clear();
         }
 
         public void RemoveAll(Func<InventoryItem, int, bool> deleteCriteria)
         {
-            if (deleteCriteria == null)
-                throw new ArgumentNullException(nameof(deleteCriteria));
             foreach (var item in Items.Where(deleteCriteria))
                 item.Clear();
         }
@@ -110,16 +107,12 @@ namespace PKHeX.Core
 
         public void ModifyAllCount(int value, Func<InventoryItem, bool> modifyCriteria)
         {
-            if (modifyCriteria == null)
-                throw new ArgumentNullException(nameof(modifyCriteria));
             foreach (var item in Items.Where(z => z.Count != 0).Where(modifyCriteria))
                 item.Count = value;
         }
 
         public void ModifyAllCount(int value, Func<InventoryItem, int, bool> modifyCriteria)
         {
-            if (modifyCriteria == null)
-                throw new ArgumentNullException(nameof(modifyCriteria));
             foreach (var item in Items.Where(z => z.Count != 0).Where(modifyCriteria))
                 item.Count = value;
         }
@@ -134,17 +127,12 @@ namespace PKHeX.Core
 
         public void ModifyAllCount(Func<InventoryItem, int> modification)
         {
-            if (modification == null)
-                throw new ArgumentNullException(nameof(modification));
             foreach (var item in Items.Where(z => z.Count != 0))
                 item.Count = modification(item);
         }
 
         public void GiveAllItems(IReadOnlyList<ushort> newItems, Func<InventoryItem, int> getSuggestedItemCount, int count = -1)
         {
-            if (getSuggestedItemCount == null)
-                throw new ArgumentNullException(nameof(getSuggestedItemCount));
-
             GiveAllItems(newItems, count);
             ModifyAllCount(getSuggestedItemCount);
         }

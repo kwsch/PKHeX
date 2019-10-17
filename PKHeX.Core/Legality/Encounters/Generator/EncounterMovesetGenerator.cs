@@ -15,10 +15,11 @@ namespace PKHeX.Core
         /// Order in which <see cref="IEncounterable"/> objects are yielded from the <see cref="GenerateVersionEncounters"/> generator.
         /// </summary>
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-        public static IReadOnlyCollection<EncounterOrder> PriorityList { get; set; }
+        public static IReadOnlyCollection<EncounterOrder> PriorityList { get; set; } = PriorityList = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
 
-        static EncounterMovesetGenerator() => ResetFilters();
-
+        /// <summary>
+        /// Resets the <see cref="PriorityList"/> to the default values.
+        /// </summary>
         public static void ResetFilters() => PriorityList = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace PKHeX.Core
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
         /// <returns>A consumable <see cref="PKM"/> list of possible results.</returns>
-        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int[] moves = null, params GameVersion[] versions)
+        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int[]? moves = null, params GameVersion[] versions)
         {
             pk.TID = info.TID;
             var m = moves ?? pk.Moves;
@@ -57,7 +58,7 @@ namespace PKHeX.Core
         /// <param name="info">Trainer information of the receiver.</param>
         /// <param name="generation">Specific generation to iterate versions for.</param>
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
-        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[] moves = null)
+        public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int generation, int[]? moves = null)
         {
             var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GeneratePKMs(pk, info, moves, vers);
@@ -70,7 +71,7 @@ namespace PKHeX.Core
         /// <param name="generation">Specific generation to iterate versions for.</param>
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[] moves = null)
+        public static IEnumerable<IEncounterable> GenerateEncounter(PKM pk, int generation, int[]? moves = null)
         {
             var vers = GameUtil.GetVersionsInGeneration(generation, pk.Version);
             return GenerateEncounters(pk, moves, vers);
@@ -83,14 +84,14 @@ namespace PKHeX.Core
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves = null, params GameVersion[] versions)
+        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[]? moves = null, params GameVersion[] versions)
         {
-            var m = moves ?? pk.Moves;
+            moves ??= pk.Moves;
             if (versions.Length > 0)
                 return GenerateEncounters(pk, moves, (IReadOnlyList<GameVersion>)versions);
 
             var vers = GameUtil.GetVersionsWithinRange(pk, pk.Format);
-            return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
+            return vers.SelectMany(ver => GenerateVersionEncounters(pk, moves, ver));
         }
 
         /// <summary>
@@ -100,10 +101,10 @@ namespace PKHeX.Core
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="vers">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[] moves, IReadOnlyList<GameVersion> vers)
+        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, int[]? moves, IReadOnlyList<GameVersion> vers)
         {
-            var m = moves ?? pk.Moves;
-            return vers.SelectMany(ver => GenerateVersionEncounters(pk, m, ver));
+            moves ??= pk.Moves;
+            return vers.SelectMany(ver => GenerateVersionEncounters(pk, moves, ver));
         }
 
         /// <summary>

@@ -11,13 +11,14 @@ namespace PKHeX.Core
         public List<int> LevelUpEggMoves { get; } = new List<int>();
         public List<int> EventEggMoves { get; } = new List<int>();
         public List<int> IncenseMoves { get; } = new List<int>();
-        public MoveParseSource Source { get; set; }
 
+        public readonly MoveParseSource Source;
         public readonly bool IsGen2Pkm;
 
-        public LearnInfo(PKM pkm)
+        public LearnInfo(PKM pkm, MoveParseSource source)
         {
             IsGen2Pkm = pkm.Format == 2 || pkm.VC2;
+            Source = source;
         }
     }
 

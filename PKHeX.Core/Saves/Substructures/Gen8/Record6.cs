@@ -9,7 +9,7 @@ namespace PKHeX.Core
         public const int RecordCount = 200;
         protected override IReadOnlyList<byte> RecordMax { get; }
 
-        public Record8(SAV8 sav, int offset, IReadOnlyList<byte> maxes) : base(sav)
+        public Record8(SAV8SWSH sav, int offset, IReadOnlyList<byte> maxes) : base(sav)
         {
             Offset = offset;
             RecordMax = maxes;

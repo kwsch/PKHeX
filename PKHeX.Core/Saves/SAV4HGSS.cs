@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -11,6 +12,8 @@ namespace PKHeX.Core
         public SAV4HGSS(byte[] data) : base(data) => Initialize();
         protected override SAV4 CloneInternal() => Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
 
+        public override PersonalTable Personal => PersonalTable.HGSS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
         protected override int GeneralSize => 0xF628;
         protected override int StorageSize => 0x12310; // Start 0xF700, +0 starts box data
         protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?
@@ -19,7 +22,6 @@ namespace PKHeX.Core
         private void Initialize()
         {
             Version = GameVersion.HGSS;
-            Personal = PersonalTable.HGSS;
             GetSAVOffsets();
         }
 
@@ -32,24 +34,6 @@ namespace PKHeX.Core
             WondercardFlags = 0x9D3C;
             WondercardData = 0x9E3C;
 
-            OFS_PouchHeldItem = 0x644; // 0x644-0x8D7 (0x8CB)
-            OFS_PouchKeyItem = 0x8D8; // 0x8D8-0x99F (0x979)
-            OFS_PouchTMHM = 0x9A0; // 0x9A0-0xB33 (0xB2F)
-            OFS_MailItems = 0xB34; // 0xB34-0xB63 (0xB63)
-            OFS_PouchMedicine = 0xB64; // 0xB64-0xC03 (0xBFB)
-            OFS_PouchBerry = 0xC04; // 0xC04-0xD03
-            OFS_PouchBalls = 0xD04; // 0xD04-0xD63
-            OFS_BattleItems = 0xD64; // 0xD64-0xD97
-            LegalItems = Legal.Pouch_Items_HGSS;
-            LegalKeyItems = Legal.Pouch_Key_HGSS;
-            LegalTMHMs = Legal.Pouch_TMHM_HGSS;
-            LegalMedicine = Legal.Pouch_Medicine_HGSS;
-            LegalBerries = Legal.Pouch_Berries_HGSS;
-            LegalBalls = Legal.Pouch_Ball_HGSS;
-            LegalBattleItems = Legal.Pouch_Battle_HGSS;
-            LegalMailItems = Legal.Pouch_Mail_HGSS;
-
-            HeldItems = Legal.HeldItems_HGSS;
             EventConst = 0xDE4;
             EventFlag = 0x10C4;
             Daycare = 0x15FC;
@@ -126,6 +110,26 @@ namespace PKHeX.Core
             Storage[GetBoxWallpaperOffset(box)] = (byte)value;
         }
         #endregion
+
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_HGSS, 999, 0x644), // 0x644-0x8D7 (0x8CB)
+                    new InventoryPouch4(InventoryType.KeyItems, Legal.Pouch_Key_HGSS, 1, 0x8D8), // 0x8D8-0x99F (0x979)
+                    new InventoryPouch4(InventoryType.TMHMs, Legal.Pouch_TMHM_HGSS, 99, 0x9A0), // 0x9A0-0xB33 (0xB2F)
+                    new InventoryPouch4(InventoryType.MailItems, Legal.Pouch_Mail_HGSS, 999, 0xB34), // 0xB34-0xB63 (0xB63)
+                    new InventoryPouch4(InventoryType.Medicine, Legal.Pouch_Medicine_HGSS, 999, 0xB64), // 0xB64-0xC03 (0xBFB)
+                    new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berries_HGSS, 999, 0xC04), // 0xC04-0xD03
+                    new InventoryPouch4(InventoryType.Balls, Legal.Pouch_Ball_HGSS, 999, 0xD04), // 0xD04-0xD63
+                    new InventoryPouch4(InventoryType.BattleItems, Legal.Pouch_Battle_HGSS, 999, 0xD64), // 0xD64-0xD97
+                };
+                return pouch.LoadAll(General);
+            }
+            set => value.SaveAll(General);
+        }
 
         public int Badges16
         {

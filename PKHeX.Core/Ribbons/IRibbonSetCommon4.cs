@@ -28,8 +28,6 @@
 
         internal static bool[] RibbonBitsCosmetic(this IRibbonSetCommon4 set)
         {
-            if (set == null)
-                return new bool[3];
             return new[]
             {
                 set.RibbonGorgeous,
@@ -47,8 +45,6 @@
 
         internal static bool[] RibbonBitsOnly(this IRibbonSetCommon4 set)
         {
-            if (set == null)
-                return new bool[3];
             return new[]
             {
                 set.RibbonRecord,
@@ -68,8 +64,6 @@
 
         internal static bool[] RibbonBitsDaily(this IRibbonSetCommon4 set)
         {
-            if (set == null)
-                return new bool[7];
             return new[]
             {
                 set.RibbonAlert,

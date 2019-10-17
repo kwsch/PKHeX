@@ -21,7 +21,7 @@ namespace PKHeX.Core
                     yield break;
             }
 
-            EncounterSlot slotMax = null;
+            EncounterSlot? slotMax = null;
             void CachePressureSlot(EncounterSlot s)
             {
                 if (slotMax != null && s.LevelMax > slotMax.LevelMax)

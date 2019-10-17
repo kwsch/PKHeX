@@ -8,31 +8,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 Mystery Gift Template File
     /// </summary>
-    public sealed class WC7 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
+    public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
     {
         public const int Size = 0x108;
-        public const int SizeFull = 0x310;
         public override int Format => 7;
 
-        public WC7() => Data = new byte[Size];
-
-        public WC7(byte[] data)
-        {
-            Data = data;
-            if (Data.Length != SizeFull)
-                return;
-
-            // Load Restrictions
-            RestrictVersion = Data[0x000];
-            RestrictLanguage = Data[0x1FF];
-
-            byte[] wcx = new byte[Size];
-            Array.Copy(Data, SizeFull - Size, wcx, 0, wcx.Length);
-            Data = wcx;
-
-            DateTime now = DateTime.Now;
-            RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
-        }
+        public WC7() : this(new byte[Size]) { }
+        public WC7(byte[] data) : base(data) { }
 
         public int RestrictLanguage { get; set; } // None
         public byte RestrictVersion { get; set; } // Permit All
@@ -62,7 +44,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(36, '\0')).CopyTo(Data, 2);
         }
 
-        private uint RawDate
+        internal uint RawDate
         {
             get => BitConverter.ToUInt32(Data, 0x4C);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C);
@@ -86,7 +68,7 @@ namespace PKHeX.Core
             set => RawDate = SetDate(Year, Month, value);
         }
 
-        private static uint SetDate(uint year, uint month, uint day) => (Math.Max(0, year - 2000) * 10000) + (month * 100) + day;
+        public static uint SetDate(uint year, uint month, uint day) => (Math.Max(0, year - 2000) * 10000) + (month * 100) + day;
 
         /// <summary>
         /// Gets or sets the date of the card.
@@ -282,7 +264,7 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
@@ -293,7 +275,7 @@ namespace PKHeX.Core
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
@@ -329,7 +311,7 @@ namespace PKHeX.Core
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;

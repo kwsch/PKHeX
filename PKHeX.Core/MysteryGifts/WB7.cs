@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 Mystery Gift Template File
     /// </summary>
-    public sealed class WB7 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IAwakened
+    public sealed class WB7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IAwakened
     {
         public const int Size = 0x108;
         public const int SizeFull = 0x310;
@@ -16,8 +16,8 @@ namespace PKHeX.Core
 
         public override int Format => 7;
 
-        public WB7() => Data = new byte[SizeFull];
-        public WB7(byte[] data) => Data = data;
+        public WB7() : this(new byte[SizeFull]) { }
+        public WB7(byte[] data) : base(data) { }
 
         public byte RestrictVersion { get => Data[0]; set => Data[0] = value; }
 
@@ -247,7 +247,7 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
@@ -315,7 +315,7 @@ namespace PKHeX.Core
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;

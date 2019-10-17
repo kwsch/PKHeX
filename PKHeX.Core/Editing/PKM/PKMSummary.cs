@@ -13,7 +13,7 @@ namespace PKHeX.Core
         private readonly ushort[] Stats;
         protected readonly PKM pkm; // protected for children generating extra properties
 
-        public string Position => pkm.Identifier;
+        public string? Position => pkm.Identifier;
         public string Nickname => pkm.Nickname;
         public string Species => Get(Strings.specieslist, pkm.Species);
         public string Nature => Get(Strings.natures, pkm.Nature);
@@ -124,6 +124,6 @@ namespace PKHeX.Core
         /// <param name="arr">Array of strings</param>
         /// <param name="val">Index to fetch</param>
         /// <returns>Null if array is null</returns>
-        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr?.Count ? arr[val] : null;
+        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr?.Count ? arr[val] : string.Empty;
     }
 }

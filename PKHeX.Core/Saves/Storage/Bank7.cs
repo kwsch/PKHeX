@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -7,13 +8,11 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class Bank7 : BulkStorage
     {
-        public Bank7(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox)
-        {
-            Personal = PersonalTable.USUM;
-            Version = GameVersion.USUM;
-            HeldItems = Legal.HeldItems_USUM;
-        }
+        public Bank7(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data, t, start, slotsPerBox) => Version = GameVersion.USUM;
 
+        public override PersonalTable Personal => PersonalTable.USUM;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
+        public override SaveFile Clone() => new Bank7((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
         public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
         protected override string BAKText => PlayTimeString;
         private const int GroupNameSize = 0x20;

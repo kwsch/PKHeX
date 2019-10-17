@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -10,6 +11,8 @@ namespace PKHeX.Core
         public SAV4DP() => Initialize();
         public SAV4DP(byte[] data) : base(data) => Initialize();
         protected override SAV4 CloneInternal() => Exportable ? new SAV4DP(Data) : new SAV4DP();
+        public override PersonalTable Personal => PersonalTable.DP;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 
         protected override int GeneralSize => 0xC100;
         protected override int StorageSize => 0x121E0; // Start 0xC100, +4 starts box data
@@ -17,7 +20,6 @@ namespace PKHeX.Core
         private void Initialize()
         {
             Version = GameVersion.DP;
-            Personal = PersonalTable.DP;
             GetSAVOffsets();
         }
 
@@ -30,24 +32,6 @@ namespace PKHeX.Core
             WondercardFlags = 0xA6D0;
             WondercardData = 0xA7fC;
 
-            OFS_PouchHeldItem = 0x624;
-            OFS_PouchKeyItem = 0x8B8;
-            OFS_PouchTMHM = 0x980;
-            OFS_MailItems = 0xB10;
-            OFS_PouchMedicine = 0xB40;
-            OFS_PouchBerry = 0xBE0;
-            OFS_PouchBalls = 0xCE0;
-            OFS_BattleItems = 0xD1C;
-            LegalItems = Legal.Pouch_Items_DP;
-            LegalKeyItems = Legal.Pouch_Key_DP;
-            LegalTMHMs = Legal.Pouch_TMHM_DP;
-            LegalMedicine = Legal.Pouch_Medicine_DP;
-            LegalBerries = Legal.Pouch_Berries_DP;
-            LegalBalls = Legal.Pouch_Ball_DP;
-            LegalBattleItems = Legal.Pouch_Battle_DP;
-            LegalMailItems = Legal.Pouch_Mail_DP;
-
-            HeldItems = Legal.HeldItems_DP;
             EventConst = 0xD9C;
             EventFlag = 0xFDC;
             Daycare = 0x141C;
@@ -78,6 +62,26 @@ namespace PKHeX.Core
             Storage[GetBoxWallpaperOffset(box)] = (byte)value;
         }
         #endregion
+
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_DP, 999, 0x624),
+                    new InventoryPouch4(InventoryType.KeyItems, Legal.Pouch_Key_DP, 1, 0x8B8),
+                    new InventoryPouch4(InventoryType.TMHMs, Legal.Pouch_TMHM_DP, 99, 0x980),
+                    new InventoryPouch4(InventoryType.MailItems, Legal.Pouch_Mail_DP, 999, 0xB10),
+                    new InventoryPouch4(InventoryType.Medicine, Legal.Pouch_Medicine_DP, 999, 0xB40),
+                    new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berries_DP, 999, 0xBE0),
+                    new InventoryPouch4(InventoryType.Balls, Legal.Pouch_Ball_DP, 999, 0xCE0),
+                    new InventoryPouch4(InventoryType.BattleItems, Legal.Pouch_Battle_DP, 999, 0xD1C),
+                };
+                return pouch.LoadAll(General);
+            }
+            set => value.SaveAll(General);
+        }
 
         private const uint MysteryGiftDPSlotActive = 0xEDB88320;
 

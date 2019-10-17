@@ -15,7 +15,7 @@ namespace PKHeX.Core
             int species = BitConverter.ToUInt16(data, offset + 4);
 
             if (method == 0)
-                return null;
+                throw new ArgumentException(nameof(data));
 
             var evo = new EvolutionMethod
             {

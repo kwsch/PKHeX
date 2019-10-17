@@ -2,7 +2,8 @@
 {
     public sealed class BoxLayout5 : SaveBlock
     {
-        public BoxLayout5(SAV5 sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
         public int CurrentBox { get => Data[Offset]; set => Data[Offset] = (byte)value; }
         public int GetBoxNameOffset(int box) => Offset + (0x28 * box) + 4;

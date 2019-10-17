@@ -31,7 +31,7 @@ namespace PKHeX.Core.Searching
         public int EVType { private get; set; }
 
         public CloneDetectionMethod SearchClones { private get; set; }
-        public IList<string> BatchInstructions { private get; set; }
+        public IList<string> BatchInstructions { private get; set; } = Array.Empty<string>();
 
         public readonly List<int> Moves = new List<int>();
 

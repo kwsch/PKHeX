@@ -49,10 +49,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x08, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x08);
@@ -101,9 +99,9 @@ namespace PKHeX.Core
             set => SAV.SetData(SAV.SetString(value, SAV.OTLength), Offset + 0x48);
         }
 
-        private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6.LongStringLength * say);
-        private string GetSaying(int say) => SAV.GetString(GetSayingOffset(say), SAV6.LongStringLength);
-        private void SetSaying(int say, string value) => SAV.SetData(SAV.SetString(value, SAV6.LongStringLength / 2), GetSayingOffset(say));
+        private int GetSayingOffset(int say) => Offset + 0x7C + (SAV6XY.LongStringLength * say);
+        private string GetSaying(int say) => SAV.GetString(GetSayingOffset(say), SAV6XY.LongStringLength);
+        private void SetSaying(int say, string value) => SAV.SetData(SAV.SetString(value, SAV6XY.LongStringLength / 2), GetSayingOffset(say));
 
         public string Saying1 { get => GetSaying(0); set => SetSaying(0, value); }
         public string Saying2 { get => GetSaying(1); set => SetSaying(1, value); }

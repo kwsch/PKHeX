@@ -534,13 +534,13 @@ namespace PKHeX.WinForms
                     byte[] data1 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    SAV.SetData(data1, SAV.Fashion);
+                    SAV.SetData(data1, SAV.FashionBlock.Offset);
                     break;
                 case 2: // Everything
                     byte[] data2 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    SAV.SetData(data2, SAV.Fashion);
+                    SAV.SetData(data2, SAV.FashionBlock.Offset);
                     break;
                 default:
                     return;

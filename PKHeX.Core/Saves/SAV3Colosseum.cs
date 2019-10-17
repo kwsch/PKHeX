@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 
@@ -12,8 +13,10 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
+        private readonly SAV3GCMemoryCard? MC;
 
         // 3 Save files are stored
         // 0x0000-0x6000 contains memory card data
@@ -29,54 +32,32 @@ namespace PKHeX.Core
 
         private int SaveCount = -1;
         private int SaveIndex = -1;
-        private StrategyMemo StrategyMemo;
+        private readonly StrategyMemo StrategyMemo;
         public int MaxShadowID => 0x80; // 128
         private int Memo;
-        private ushort[] LegalItems;
-        private ushort[] LegalKeyItems;
-        private ushort[] LegalBalls;
-        private ushort[] LegalTMHMs;
-        private ushort[] LegalBerries;
-        private ushort[] LegalCologne;
-        private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne;
-        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3Colosseum() : base(SaveUtil.SIZE_G3COLO)
         {
-            Initialize();
+            StrategyMemo = Initialize();
             ClearBoxes();
         }
 
-        public SAV3Colosseum(byte[] data) : base(data)
+        private SAV3Colosseum(byte[] data, byte[] bak) : base(data, bak)
         {
             InitializeData();
-            Initialize();
+            StrategyMemo = Initialize();
         }
 
-        private void Initialize()
+        private StrategyMemo Initialize()
         {
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_COLO;
             Trainer1 = 0x00078;
             Party = 0x000A8;
-            OFS_PouchHeldItem = 0x007F8;
-            OFS_PouchKeyItem = 0x00848;
-            OFS_PouchBalls = 0x008F4;
-            OFS_PouchTMHM = 0x00934;
-            OFS_PouchBerry = 0x00A34;
-            OFS_PouchCologne = 0x00AEC; // Cologne
 
             Box = 0x00B90;
             Daycare = 0x08170;
             Memo = 0x082B0;
-            StrategyMemo = new StrategyMemo(Data, Memo, xd: false);
-
-            LegalItems = Legal.Pouch_Items_COLO;
-            LegalKeyItems = Legal.Pouch_Key_COLO;
-            LegalBalls = Legal.Pouch_Ball_RS;
-            LegalTMHMs = Legal.Pouch_TM_RS; // not HMs
-            LegalBerries = Legal.Pouch_Berries_RS;
-            LegalCologne = Legal.Pouch_Cologne_COLO;
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
@@ -85,6 +66,9 @@ namespace PKHeX.Core
                 if (GetPartySlot(GetPartyOffset(i)).Species != 0)
                     PartyCount++;
             }
+
+            var memo = new StrategyMemo(Data, Memo, xd: false);
+            return memo;
         }
 
         private void InitializeData()
@@ -122,7 +106,7 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
@@ -145,7 +129,7 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC) : new SAV3Colosseum(data);
+            var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC!) : new SAV3Colosseum(data);
             sav.Header = (byte[])Header.Clone();
             return sav;
         }
@@ -179,7 +163,7 @@ namespace PKHeX.Core
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
-                return null;
+                throw new ArgumentException(nameof(input));
 
             byte[] d = (byte[])input.Clone();
             byte[] k = (byte[])digest.Clone(); // digest
@@ -200,7 +184,7 @@ namespace PKHeX.Core
         private byte[] DecryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
-                return null;
+                throw new ArgumentException(nameof(input));
 
             byte[] d = (byte[])input.Clone();
             byte[] k = (byte[])digest.Clone();
@@ -391,12 +375,12 @@ namespace PKHeX.Core
             {
                 InventoryPouch[] pouch =
                 {
-                    new InventoryPouch3GC(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem, 20), // 20 COLO, 30 XD
-                    new InventoryPouch3GC(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem, 43),
-                    new InventoryPouch3GC(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls, 16),
-                    new InventoryPouch3GC(InventoryType.TMHMs, LegalTMHMs, 999, OFS_PouchTMHM, 64),
-                    new InventoryPouch3GC(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry, 46),
-                    new InventoryPouch3GC(InventoryType.Medicine, LegalCologne, 999, OFS_PouchCologne, 3), // Cologne
+                    new InventoryPouch3GC(InventoryType.Items, Legal.Pouch_Items_COLO, 999, 0x007F8, 20), // 20 COLO, 30 XD
+                    new InventoryPouch3GC(InventoryType.KeyItems, Legal.Pouch_Key_COLO, 1, 0x00848, 43),
+                    new InventoryPouch3GC(InventoryType.Balls, Legal.Pouch_Ball_RS, 999, 0x008F4, 16),
+                    new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 999, 0x00934, 64), // no HMs
+                    new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, 0x00A34, 46),
+                    new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_COLO, 999, 0x00AEC, 3), // Cologne
                 };
                 return pouch.LoadAll(Data);
             }

@@ -1,9 +1,23 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
-    public sealed class SAV5B2W2 : SAV5
+    public sealed class SAV5B2W2 : SAV5, ISaveBlock5B2W2
     {
-        public SAV5B2W2() : base(SaveUtil.SIZE_G5RAW) => Initialize();
-        public SAV5B2W2(byte[] data) : base(data) => Initialize();
+        public SAV5B2W2() : base(SaveUtil.SIZE_G5RAW)
+        {
+            Blocks = new SaveBlockAccessor5B2W2(this);
+            Initialize();
+        }
+
+        public SAV5B2W2(byte[] data) : base(data)
+        {
+            Blocks = new SaveBlockAccessor5B2W2(this);
+            Initialize();
+        }
+
+        public override PersonalTable Personal => PersonalTable.B2W2;
+        public SaveBlockAccessor5B2W2 Blocks { get; }
         public override SaveFile Clone() => new SAV5B2W2((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
         protected override int EventConstMax => 0x1AF; // this doesn't seem right?
         protected override int EventFlagMax => 0xBF8;
@@ -11,30 +25,24 @@
 
         private void Initialize()
         {
-            Blocks = BlockInfoNDS.BlocksB2W2;
-            Personal = PersonalTable.B2W2;
-
-            Items = new MyItem5B2W2(this, 0x18400);
             BattleBox = 0x20900;
-            Trainer2 = 0x21100;
             EventConst = 0x1FF00;
             EventFlag = EventConst + 0x35E;
-            Daycare = 0x20D00;
-            PokeDex = 0x21400;
-            PokeDexLanguageFlags = 0x328; // forme flags size is + 8 from bw with new formes (therians)
-            BattleSubway = 0x21B00;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52800;
             EntreeForestOffset = 0x22A00;
-            Zukan = new Zukan5(this, PokeDex, PokeDexLanguageFlags);
-            DaycareBlock = new Daycare5(this, Daycare);
-
-            MiscBlock = new Misc5(this, Trainer2);
-            PWTBlock = new PWTBlock5(this, 0x23700);
-            DaycareBlock = new Daycare5(this, Daycare);
-            BattleSubwayBlock = new BattleSubway5(this, BattleSubway);
+            PokeDex = Blocks.Zukan.PokeDex;
         }
 
-        public PWTBlock5 PWTBlock { get; private set; }
+        public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
+        public override MyItem Items => Blocks.Items;
+        public override Zukan5 Zukan => Blocks.Zukan;
+        public override Misc5 MiscBlock => Blocks.MiscBlock;
+        public override MysteryBlock5 MysteryBlock => Blocks.MysteryBlock;
+        public override Daycare5 DaycareBlock => Blocks.DaycareBlock;
+        public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
+        public override PlayerData5 PlayerData => Blocks.PlayerData;
+        public override BattleSubway5 BattleSubwayBlock => Blocks.BattleSubwayBlock;
+        public PWTBlock5 PWTBlock => Blocks.PWTBlock;
     }
 }

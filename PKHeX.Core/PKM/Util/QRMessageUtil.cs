@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <param name="message">QR Message</param>
         /// <param name="format">Preferred <see cref="PKM.Format"/> to expect.</param>
         /// <returns>Decoded <see cref="PKM"/> object, null if invalid.</returns>
-        public static PKM GetPKM(string message, int format)
+        public static PKM? GetPKM(string message, int format)
         {
             var pkdata = DecodeMessagePKM(message);
             if (pkdata == null)
@@ -58,7 +58,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="mg">Gift data to encode</param>
         /// <returns>QR Message</returns>
-        public static string GetMessage(MysteryGift mg)
+        public static string GetMessage(DataMysteryGift mg)
         {
             var server = GetExploitURLPrefixWC(mg.Format);
             var data = mg.Data;
@@ -71,7 +71,7 @@ namespace PKHeX.Core
             return server + qrdata;
         }
 
-        private static byte[] DecodeMessagePKM(string message)
+        private static byte[]? DecodeMessagePKM(string message)
         {
             if (message.Length < 32) // arbitrary length check; everything should be greater than this
                 return null;
@@ -84,7 +84,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        private static byte[] DecodeMessageDataBase64(string url)
+        private static byte[]? DecodeMessageDataBase64(string url)
         {
             try
             {

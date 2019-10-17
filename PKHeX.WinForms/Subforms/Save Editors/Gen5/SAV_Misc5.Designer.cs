@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
@@ -96,6 +97,8 @@
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Areas = new System.Windows.Forms.ComboBox();
             this.LB_Slots = new System.Windows.Forms.ListBox();
+            this.TipExpB = new System.Windows.Forms.ToolTip(this.components);
+            this.TipExpW = new System.Windows.Forms.ToolTip(this.components);
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             this.GB_KeySystem.SuspendLayout();
@@ -1089,5 +1092,7 @@
         private System.Windows.Forms.Label L_Area18;
         private System.Windows.Forms.NumericUpDown NUD_Unlocked;
         private System.Windows.Forms.Button B_RandForest;
+        private System.Windows.Forms.ToolTip TipExpB;
+        private System.Windows.Forms.ToolTip TipExpW;
     }
 }

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     public abstract class Zukan
     {
         protected SaveFile SAV { get; set; }
-        protected int PokeDex { get; set; }
+        public int PokeDex { get; private set; }
         protected int PokeDexLanguageFlags { get; set; }
 
         protected Zukan(SaveFile sav, int dex, int langflag)
@@ -24,8 +24,6 @@ namespace PKHeX.Core
         protected abstract int DexLangFlagByteCount { get; }
         protected abstract int DexLangIDCount { get; }
         protected abstract int GetDexLangFlag(int lang);
-
-        public Func<int, int, int, int> DexFormIndexFetcher { get; protected set; }
 
         protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
         protected virtual void SetSpindaDexData(PKM pkm, bool alreadySeen) { }

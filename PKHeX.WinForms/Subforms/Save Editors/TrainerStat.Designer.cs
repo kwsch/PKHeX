@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.NUD_Stat = new System.Windows.Forms.NumericUpDown();
             this.L_Offset = new System.Windows.Forms.Label();
             this.L_Value = new System.Windows.Forms.Label();
             this.CB_Stats = new System.Windows.Forms.ComboBox();
+            this.Tip = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Stat)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,5 +102,6 @@
         private System.Windows.Forms.Label L_Offset;
         private System.Windows.Forms.Label L_Value;
         private System.Windows.Forms.ComboBox CB_Stats;
+        private System.Windows.Forms.ToolTip Tip;
     }
 }

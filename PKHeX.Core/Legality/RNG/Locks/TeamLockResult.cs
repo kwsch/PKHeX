@@ -76,7 +76,7 @@ namespace PKHeX.Core
         /// <param name="frame">Frame at which the search starts/continues at.</param>
         /// <param name="prior">Prior <see cref="NPCLock"/> data. If this is the last lock in the CPU Team, this is null.</param>
         /// <returns>True if the <see cref="Specifications"/> are valid.</returns>
-        private bool FindLockSeed(int frame = 0, NPCLock prior = null)
+        private bool FindLockSeed(int frame = 0, NPCLock? prior = null)
         {
             if (Locks.Count == 0) // full team reverse-generated
                 return VerifyNPC(frame);
@@ -102,7 +102,7 @@ namespace PKHeX.Core
         /// <param name="current">Current lock criteria to satisfy. Used to find valid <see cref="SeedFrame"/> results to yield.</param>
         /// <param name="prior">Prior lock criteria. Used for determining when the traversal stops.</param>
         /// <returns>List of possible locks for the provided input.</returns>
-        private IEnumerable<SeedFrame> GetPossibleLocks(int ctr, NPCLock current, NPCLock prior)
+        private IEnumerable<SeedFrame> GetPossibleLocks(int ctr, NPCLock current, NPCLock? prior)
         {
             if (prior?.Shadow != false)
                 return GetSingleLock(ctr, current);

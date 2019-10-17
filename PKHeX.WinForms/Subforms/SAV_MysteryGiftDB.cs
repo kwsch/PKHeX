@@ -124,12 +124,12 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             var gift = Results[index];
-            if (gift.Data == null) // WC3
+            if (!(gift is DataMysteryGift g)) // e.g. WC3
             {
                 WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;
             }
-            WinFormsUtil.ExportMGDialog(gift, SAV.Version);
+            WinFormsUtil.ExportMGDialog(g, SAV.Version);
         }
 
         private int GetSenderIndex(object sender)
@@ -231,7 +231,7 @@ namespace PKHeX.WinForms
             string path = fbd.SelectedPath;
             Directory.CreateDirectory(path);
 
-            foreach (var gift in Results.Where(g => g.Data != null)) // WC3 have no data
+            foreach (var gift in Results.OfType<DataMysteryGift>()) // WC3 have no data
                 File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);
         }
 

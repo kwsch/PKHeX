@@ -1,8 +1,5 @@
-﻿using System;
-using System.ComponentModel;
-using System.Drawing;
+﻿using System.ComponentModel;
 using System.Windows.Forms;
-using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
@@ -24,6 +21,7 @@ namespace PKHeX.WinForms
                 components.Dispose();
             }
             base.Dispose(disposing);
+            qr?.Dispose();
         }
 
         #region Windows Form Designer generated code
