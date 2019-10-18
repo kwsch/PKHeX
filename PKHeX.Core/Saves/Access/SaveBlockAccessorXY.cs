@@ -92,6 +92,7 @@ namespace PKHeX.Core
             OPowerBlock = new OPower6(sav, 0x16A00);
             MysteryBlock = new MysteryBlock6(sav, 0x1BC00);
             Records = new Record6(sav, 0x1E400);
+            SuperTrain = new SuperTrainBlock(sav, 0x1F200);
             LinkBlock = new Link6(sav, 0x1FE00);
         }
 
@@ -101,6 +102,7 @@ namespace PKHeX.Core
         public OPower6 OPowerBlock { get; }
         public MysteryBlock6 MysteryBlock { get; }
         public Link6 LinkBlock { get; }
+        public SuperTrainBlock SuperTrain { get; }
 
         public Misc6XY Misc { get; }
         public Zukan6XY Zukan { get; }

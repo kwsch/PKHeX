@@ -49,7 +49,6 @@ namespace PKHeX.Core
             Daycare = 0x1BC00;
             BerryField = 0x1C400;
             WondercardFlags = 0x1CC00;
-            SuperTrain = 0x20200;
             Contest = 0x23600;
             SecretBase = 0x23A00;
             EonTicket = 0x319B8;
@@ -83,6 +82,7 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout => Blocks.BoxLayout;
         public BattleBox6 BattleBoxBlock => Blocks.BattleBoxBlock;
         public MysteryBlock6 MysteryBlock => Blocks.MysteryBlock;
+        public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;

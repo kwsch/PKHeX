@@ -5,5 +5,6 @@
         BoxLayout6 BoxLayout { get; }
         BattleBox6 BattleBoxBlock { get; }
         MysteryBlock6 MysteryBlock { get; }
+        SuperTrainBlock SuperTrain { get; }
     }
 }

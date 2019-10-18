@@ -45,7 +45,6 @@ namespace PKHeX.Core
             Daycare = 0x1B200;
             BerryField = 0x1B800;
             WondercardFlags = 0x1BC00;
-            SuperTrain = 0x1F200;
             Box = 0x22600;
             JPEG = 0x57200;
 
@@ -76,6 +75,7 @@ namespace PKHeX.Core
         public BoxLayout6 BoxLayout => Blocks.BoxLayout;
         public BattleBox6 BattleBoxBlock => Blocks.BattleBoxBlock;
         public MysteryBlock6 MysteryBlock => Blocks.MysteryBlock;
+        public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
         #endregion
 
         protected override void SetDex(PKM pkm) => Blocks.Zukan.SetDex(pkm);

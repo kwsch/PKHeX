@@ -42,7 +42,6 @@ namespace PKHeX.Core
 
         protected int WondercardFlags { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
-        public int SuperTrain { get; protected set; } = int.MinValue;
         public int MaisonStats { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int SUBE { get; protected set; } = int.MinValue;

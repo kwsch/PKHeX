@@ -86,6 +86,7 @@ namespace PKHeX.Core
         public SangoInfoBlock Sango { get; }
         public Link6 LinkBlock { get; }
         public Misc6AO Misc { get; }
+        public SuperTrainBlock SuperTrain { get; }
 
         public SaveBlockAccessorAO(SAV6AO sav)
         {
@@ -103,8 +104,9 @@ namespace PKHeX.Core
             OPowerBlock = new OPower6(sav, 0x17400);
             MysteryBlock = new MysteryBlock6(sav, 0x1CC00);
             Records = new Record6(sav, 0x1F400);
-            Sango = new SangoInfoBlock(sav, 0x2B600);
+            SuperTrain = new SuperTrainBlock(sav, 0x20200);
             LinkBlock = new Link6(sav, 0x20E00);
+            Sango = new SangoInfoBlock(sav, 0x2B600);
         }
     }
 }
