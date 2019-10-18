@@ -119,7 +119,6 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Copy Bags
-            byte[] bagarray = new byte[12];
             int emptyslots = 0;
             for (int i = 0; i < 12; i++)
             {
@@ -129,14 +128,15 @@ namespace PKHeX.WinForms
                     emptyslots++;
                     continue;
                 }
-                bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
+                STB.SetBag(i - emptyslots, (byte)Array.IndexOf(trba, bag));
             }
+
             if (float.TryParse(TB_Time1.Text, out var t1))
                 SAV.SetData(BitConverter.GetBytes(t1), offsetTime + (4 * 30));
             if (float.TryParse(TB_Time2.Text, out var t2))
                 SAV.SetData(BitConverter.GetBytes(t2), offsetTime + (4 * 31));
             SAV.SetData(BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)), offsetSpec + (4 * 30));
-            STB.Bags = bagarray;
+
             Origin.CopyChangesFrom(SAV);
             Close();
         }
