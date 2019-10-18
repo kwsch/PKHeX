@@ -4,15 +4,16 @@ namespace PKHeX.Core
 {
     public sealed class Misc7 : SaveBlock
     {
-        public Misc7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public Misc7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public Misc7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public uint Money
         {
             get => BitConverter.ToUInt32(Data, Offset + 0x4);
             set
             {
-                if (value > 9999999)
-                    value = 9999999;
+                if (value > 9_999_999)
+                    value = 9_999_999;
                 SAV.SetData(BitConverter.GetBytes(value), Offset + 0x4);
             }
         }

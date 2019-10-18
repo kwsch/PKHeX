@@ -4,24 +4,12 @@ namespace PKHeX.Core
 {
     public sealed class Mail5 : Mail
     {
-        private const int SIZE = 0x38;
+        public const int SIZE = 0x38;
 
-        public Mail5(SAV5 sav, int index)
-        {
-            DataOffset = (index * SIZE) + 0x1DD00;
-            Data = sav.GetData(DataOffset, SIZE);
-        }
+        public Mail5(byte[] data, int ofs = -1) : base(data, ofs) { }
 
-        public Mail5(byte[] data)
+        public Mail5(byte? lang, byte? ver) : base(new byte[SIZE])
         {
-            Data = data;
-            DataOffset = -1;
-        }
-
-        public Mail5(byte? lang = null, byte? ver = null)
-        {
-            Data = new byte[SIZE];
-            DataOffset = -1;
             if (lang != null) AuthorLanguage = (byte)lang;
             if (ver != null) AuthorVersion = (byte)ver;
             ResetData();

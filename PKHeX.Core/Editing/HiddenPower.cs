@@ -85,7 +85,7 @@ namespace PKHeX.Core
                 return true; // no mods necessary
 
             // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
-            int[] best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
+            int[]? best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
             if (best == null)
                 return false; // can't force hidden power?
 
@@ -95,12 +95,12 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static int[] GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
+        private static int[]? GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
         {
             var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
             var permutations = GetPermutations(flawless, flawless.Length);
             int flawedCount = 0;
-            int[] best = null;
+            int[]? best = null;
             foreach (var permute in permutations)
             {
                 var ivs = (int[])IVs.Clone();

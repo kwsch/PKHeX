@@ -47,7 +47,6 @@ namespace PKHeX.WinForms
 
             Counter = L_Count.Text;
             L_Viewed.Text = string.Empty; // invis for now
-            var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
             PopulateComboBoxes();
 
@@ -61,8 +60,7 @@ namespace PKHeX.WinForms
                 p.ContextMenuStrip = mnu;
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-
-            TLP_Filters.Controls.Add(TypeFilters = GetTypeFilters(), 2, TLP_Filters.RowCount - 1);
+            GetTypeFilters();
 
             // Load Data
             L_Count.Text = "Ready...";
@@ -75,9 +73,8 @@ namespace PKHeX.WinForms
             CenterToParent();
         }
 
-        private static FlowLayoutPanel GetTypeFilters()
+        private void GetTypeFilters()
         {
-            var flp = new FlowLayoutPanel { Dock = DockStyle.Fill };
             var types = (EncounterOrder[])Enum.GetValues(typeof(EncounterOrder));
             var checks = types.Select(z => new CheckBox
             {
@@ -90,11 +87,9 @@ namespace PKHeX.WinForms
             }).ToArray();
             foreach (var chk in checks)
             {
-                flp.Controls.Add(chk);
-                flp.SetFlowBreak(chk, true);
+                TypeFilters.Controls.Add(chk);
+                TypeFilters.SetFlowBreak(chk, true);
             }
-            flp.AutoSize = true;
-            return flp;
         }
 
         private EncounterOrder[] GetTypes()
@@ -110,7 +105,6 @@ namespace PKHeX.WinForms
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
-        private readonly FlowLayoutPanel TypeFilters;
 
         // Important Events
         private void ClickView(object sender, EventArgs e)

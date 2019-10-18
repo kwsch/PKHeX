@@ -12,7 +12,7 @@
 
         private const int strlen = SAV6.LongStringLength / 2;
 
-        public BoxLayout8(SAV8 sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout8(SAV8SWSH sav, int offset) : base(sav) => Offset = offset;
 
         public int GetBoxWallpaperOffset(int box) => -1; // Offset + PCBackgrounds + box;
 

@@ -31,7 +31,7 @@ namespace PKHeX.Core
             StaticRBY.SetVersion(GameVersion.RBY);
         }
 
-        internal static readonly string[] TradeOTG1 = {null, "トレーナー", "Trainer", "Dresseur", "Allenatore", "Trainer", null, "Entrenador", "트레이너"};
+        internal static readonly string[] TradeOTG1 = {string.Empty, "トレーナー", "Trainer", "Dresseur", "Allenatore", "Trainer", string.Empty, "Entrenador", "트레이너"};
 
         private static EncounterArea1[] GetAreas()
         {

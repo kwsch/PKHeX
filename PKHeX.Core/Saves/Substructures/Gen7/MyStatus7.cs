@@ -8,7 +8,8 @@ namespace PKHeX.Core
         public const int GameSyncIDSize = 16; // 64 bits
         public const int NexUniqueIDSize = 32; // 128 bits
 
-        public MyStatus7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int TID
         {
@@ -39,10 +40,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x10);
@@ -54,10 +53,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x18, NexUniqueIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != NexUniqueIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x18);

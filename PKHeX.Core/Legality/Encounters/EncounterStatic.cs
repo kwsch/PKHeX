@@ -12,7 +12,7 @@ namespace PKHeX.Core
     public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
-        public int[] Moves { get; set; }
+        public int[] Moves { get; set; } = Array.Empty<int>();
         public int Level { get; set; }
 
         public int LevelMin => Level;
@@ -29,7 +29,7 @@ namespace PKHeX.Core
         public bool Gift { get; set; }
         public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[] IVs { get; set; }
+        public int[] IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }
 
         public int[] Contest { set => this.SetContestStats(value); }
@@ -52,9 +52,9 @@ namespace PKHeX.Core
         private void CloneArrays()
         {
             // dereference original arrays with new copies
-            Moves = (int[])Moves?.Clone();
-            Relearn = (int[])Relearn.Clone();
-            IVs = (int[])IVs?.Clone();
+            Moves = Moves.Length == 0 ? Moves : (int[])Moves.Clone();
+            Relearn = Relearn.Length == 0 ? Relearn : (int[])Relearn.Clone();
+            IVs = IVs.Length == 0 ? IVs : (int[])IVs.Clone();
         }
 
         internal virtual EncounterStatic Clone()
@@ -176,7 +176,7 @@ namespace PKHeX.Core
 
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = Moves?.Length > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            var moves = Moves.Length > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             pk.Moves = moves;
             pk.SetMaximumPPCurrent(moves);
         }
@@ -196,7 +196,7 @@ namespace PKHeX.Core
 
         protected void SetIVs(PKM pk)
         {
-            if (IVs != null)
+            if (IVs.Length != 0)
                 pk.SetRandomIVs(IVs, FlawlessIVCount);
             else if (FlawlessIVCount > 0)
                 pk.SetRandomIVs(flawless: FlawlessIVCount);
@@ -353,7 +353,7 @@ namespace PKHeX.Core
             if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
-            if (IVs != null && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
+            if (IVs.Length != 0 && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
             {
                 if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
                     return false;

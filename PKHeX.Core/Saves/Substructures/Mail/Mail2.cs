@@ -6,11 +6,14 @@ namespace PKHeX.Core
     {
         private readonly bool US;
 
-        public Mail2(SAV2 sav, int index)
+        public Mail2(SAV2 sav, int index) : base(sav.GetData(GetMailOffset(index), 0x2F), GetMailOffset(index))
         {
             US = !sav.Japanese && !sav.Korean;
-            DataOffset = index < 6 ? (index * 0x2F) + 0x600 : ((index - 6) * 0x2F) + 0x835;
-            Data = sav.GetData(DataOffset, 0x2F);
+        }
+
+        private static int GetMailOffset(int index)
+        {
+            return index < 6 ? (index * 0x2F) + 0x600 : ((index - 6) * 0x2F) + 0x835;
         }
 
         public override string GetMessage(bool isLastLine) => US ? StringConverter12.GetString1(Data, isLastLine ? 0x11 : 0, 0x10, false) : string.Empty;

@@ -22,33 +22,6 @@ namespace PKHeX.WinForms
 
             Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
             Setup();
-            editor_spec = new Control[]{
-                GB_OT,
-                GB_CurrentMoves,
-                CB_Species,
-                CB_HeldItem,
-                TB_EC,
-                TB_VN,
-                CAL_MetDate,
-                CHK_Nicknamed,
-                CHK_Shiny,
-                L_PartyNum,
-                L_Victory,
-                L_Shiny,
-                L_Level,
-                Label_TID,
-                Label_Form,
-                Label_Gender,
-                Label_HeldItem,
-                Label_OT,
-                Label_TID,
-                Label_SID,
-                Label_Species,
-                TB_Level,
-                NUP_PartyIndex,
-                Label_EncryptionConstant,
-                Label_MetDate,
-            };
             LB_DataEntry.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(null, EventArgs.Empty);
             try { TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont(11); }
@@ -60,8 +33,6 @@ namespace PKHeX.WinForms
 
         private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
         private readonly byte[] data = new byte[0x1B40];
-
-        private readonly Control[] editor_spec;
 
         private void Setup()
         {
@@ -120,16 +91,14 @@ namespace PKHeX.WinForms
             if (day == 0)
             {
                 s.Add("No records in this slot.");
-                foreach (Control t in editor_spec)
-                    t.Enabled = false;
+                groupBox1.Enabled = false;
 
                 editing = false;
                 NUP_PartyIndex_ValueChanged(sender, e);
             }
             else
             {
-                foreach (Control t in editor_spec)
-                    t.Enabled = true;
+                groupBox1.Enabled = true;
                 var moncount = AddEntries(offset, s, year, month, day);
 
                 if (sender != null)

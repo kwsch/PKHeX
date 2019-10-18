@@ -23,10 +23,11 @@ namespace PKHeX.WinForms
             if (raw != null)
                 AddTrashEditing(raw.Length);
 
-            AddCharEditing();
+            var f = FontUtil.GetPKXFont(12F);
+            AddCharEditing(f);
             TB_Text.MaxLength = TB_NN.MaxLength;
             TB_Text.Text = TB_NN.Text;
-            TB_Text.Font = pkxFont;
+            TB_Text.Font = f;
 
             if (FLP_Characters.Controls.Count == 0)
             {
@@ -44,7 +45,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
-        private readonly Font pkxFont = FontUtil.GetPKXFont(12F);
         public string FinalString;
         public byte[] FinalBytes { get; private set; }
         private readonly byte[] Raw;
@@ -59,7 +59,7 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void AddCharEditing()
+        private void AddCharEditing(Font f)
         {
             ushort[] chars = GetChars(SAV.Generation);
             if (chars.Length == 0)
@@ -69,7 +69,7 @@ namespace PKHeX.WinForms
             foreach (ushort c in chars)
             {
                 var l = GetLabel(((char)c).ToString());
-                l.Font = pkxFont;
+                l.Font = f;
                 l.AutoSize = false;
                 l.Size = new Size(20, 20);
                 l.Click += (s, e) => { if (TB_Text.Text.Length < TB_Text.MaxLength) TB_Text.AppendText(l.Text); };

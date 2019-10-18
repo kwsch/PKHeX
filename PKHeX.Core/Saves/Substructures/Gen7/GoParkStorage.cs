@@ -9,7 +9,7 @@ namespace PKHeX.Core
     {
         public GoParkStorage(SaveFile sav) : base(sav)
         {
-            Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.GoParkEntities);
+            Offset = ((SAV7b)sav).Blocks.GetBlockOffset(BelugaBlockIndex.GoParkEntities);
         }
 
         public const int SlotsPerArea = 50;
@@ -41,7 +41,7 @@ namespace PKHeX.Core
             }
             set
             {
-                Debug.Assert(value?.Length == Count);
+                Debug.Assert(value.Length == Count);
                 for (int i = 0; i < value.Length; i++)
                     this[i] = value[i];
             }

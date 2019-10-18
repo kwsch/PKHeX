@@ -28,6 +28,7 @@ namespace PKHeX.WinForms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
@@ -154,6 +155,8 @@ namespace PKHeX.WinForms
             this.PG_CurrentAppearance = new System.Windows.Forms.PropertyGrid();
             this.L_TRNick = new System.Windows.Forms.Label();
             this.TB_TRNick = new System.Windows.Forms.TextBox();
+            this.Tip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.Tip2 = new System.Windows.Forms.ToolTip(this.components);
             this.GB_Sayings.SuspendLayout();
             this.GB_MaisonBest.SuspendLayout();
             this.GB_MaisonCurrent.SuspendLayout();
@@ -1725,5 +1728,7 @@ namespace PKHeX.WinForms
         private Subforms.Save_Editors.TrainerStat TrainerStats;
         private System.Windows.Forms.PropertyGrid PG_CurrentAppearance;
         private System.Windows.Forms.CheckBox CHK_MegaRayquazaUnlocked;
+        private System.Windows.Forms.ToolTip Tip1;
+        private System.Windows.Forms.ToolTip Tip2;
     }
 }

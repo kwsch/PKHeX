@@ -65,9 +65,9 @@ namespace PKHeX.WinForms
         {
             // Get Data
             TB_OTName.Text = SAV.OT;
-            TB_RivalName.Text = SAV.Misc.Rival;
+            TB_RivalName.Text = SAV.Blocks.Misc.Rival;
             CB_Language.SelectedValue = SAV.Language;
-            MT_Money.Text = SAV.Misc.Money.ToString();
+            MT_Money.Text = SAV.Blocks.Misc.Money.ToString();
 
             CB_Game.SelectedValue = SAV.Game;
             CB_Gender.SelectedIndex = SAV.Gender;
@@ -93,7 +93,7 @@ namespace PKHeX.WinForms
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
 
             SAV.OT = TB_OTName.Text;
-            SAV.Misc.Rival = TB_RivalName.Text;
+            SAV.Blocks.Misc.Rival = TB_RivalName.Text;
 
             // Save PlayTime
             SAV.PlayedHours = ushort.Parse(MT_Hours.Text);

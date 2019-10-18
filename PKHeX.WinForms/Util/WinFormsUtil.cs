@@ -361,7 +361,7 @@ namespace PKHeX.WinForms
         /// <param name="gift"><see cref="MysteryGift"/> to be saved.</param>
         /// <param name="origin">Game the gift originates from</param>
         /// <returns>Result of whether or not the file was saved.</returns>
-        public static bool ExportMGDialog(MysteryGift gift, GameVersion origin)
+        public static bool ExportMGDialog(DataMysteryGift gift, GameVersion origin)
         {
             using var sfd = new SaveFileDialog
             {

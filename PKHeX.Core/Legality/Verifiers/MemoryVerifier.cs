@@ -13,6 +13,8 @@ namespace PKHeX.Core
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
 
+        private static readonly CheckResult NONE = new CheckResult(CheckIdentifier.Memory);
+
         public override void Verify(LegalityAnalysis data)
         {
             if (data.pkm.Format < 6)
@@ -161,7 +163,7 @@ namespace PKHeX.Core
 
         private bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
         {
-            result = null;
+            result = NONE;
             if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
                 result = GetInvalid(LMemoryHTFlagInvalid);
             else if (pkm.HT_Friendship != 0)
@@ -176,7 +178,7 @@ namespace PKHeX.Core
 
         private bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
         {
-            result = null;
+            result = NONE;
             // Handling Trainer string is empty implying it has not been traded.
             // If it must be trade evolved, flag it.
 

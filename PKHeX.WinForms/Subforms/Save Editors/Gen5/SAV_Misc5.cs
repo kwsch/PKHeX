@@ -287,7 +287,6 @@ namespace PKHeX.WinForms
 
         private bool editing;
         private const int ofsFM = 0x25900;
-        private readonly ToolTip TipExpB = new ToolTip(), TipExpW = new ToolTip();
         private NumericUpDown[] nudaE, nudaF;
         private ComboBox[] cba;
         private ToolTip[] ta;
@@ -674,7 +673,7 @@ namespace PKHeX.WinForms
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
-                s.Move = slot.Moves?[Util.Rand.Next(slot.Moves.Length)] ?? 0;
+                s.Move = slot.Moves[Util.Rand.Next(slot.Moves.Length)];
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
             }
             ChangeArea(null, EventArgs.Empty); // refresh

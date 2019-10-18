@@ -33,7 +33,7 @@ namespace PKHeX.WinForms
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
             InitializeComponent();
-            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(null) { PKMEditor = PKME_Tabs };
+            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(null, PKME_Tabs);
             FormLoadAddEvents();
             #if DEBUG // translation updater -- all controls are added at this point -- call translate now
             if (DevUtil.IsUpdatingTranslations)
@@ -750,7 +750,7 @@ namespace PKHeX.WinForms
         private void ResetSAVPKMEditors(SaveFile sav)
         {
             bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
-            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(sav) {PKMEditor = PKME_Tabs};
+            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(sav, PKME_Tabs);
 
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);

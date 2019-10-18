@@ -14,11 +14,11 @@ namespace PKHeX.Core
         public abstract int SIZE_STORED { get; }
         public string Extension => GetType().Name.ToLower();
         public abstract PersonalInfo PersonalInfo { get; }
-        public abstract byte[] ExtraBytes { get; }
+        public abstract IReadOnlyList<byte> ExtraBytes { get; }
 
         // Internal Attributes set on creation
-        public byte[] Data; // Raw Storage
-        public string Identifier; // User or Form Custom Attribute
+        public abstract byte[] Data { get; } // Raw Storage
+        public string? Identifier; // User or Form Custom Attribute
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
@@ -39,7 +39,7 @@ namespace PKHeX.Core
         // Trash Bytes
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
-        public virtual byte[] HT_Trash { get; set; }
+        public virtual byte[] HT_Trash { get; set; } = Array.Empty<byte>();
 
         protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
 
@@ -150,7 +150,7 @@ namespace PKHeX.Core
         public virtual int Met_Year { get => 0; set { } }
         public virtual int Met_Month { get => 0; set { } }
         public virtual int Met_Day { get => 0; set { } }
-        public virtual string HT_Name { get; set; }
+        public virtual string HT_Name { get; set; } = string.Empty;
         public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
         public virtual int HT_Friendship { get; set; }
@@ -404,7 +404,8 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6)
+                    return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
@@ -415,7 +416,8 @@ namespace PKHeX.Core
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6)
+                    return;
                 EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
@@ -426,7 +428,7 @@ namespace PKHeX.Core
             get => new[] { Stat_HPCurrent, Stat_ATK, Stat_DEF, Stat_SPE, Stat_SPA, Stat_SPD };
             set
             {
-                if (value?.Length != 6)
+                if (value.Length != 6)
                     return;
                 Stat_HPCurrent = value[0]; Stat_ATK = value[1]; Stat_DEF = value[2];
                 Stat_SPE = value[3]; Stat_SPA = value[4]; Stat_SPD = value[5];
@@ -861,7 +863,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(IList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
+        public virtual bool CanHoldItem(IReadOnlyList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.

@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
-            Dex = SAV.Zukan;
+            Dex = SAV.Blocks.Zukan;
 
             var Species = GameInfo.Strings.Species;
             var names = Dex.GetEntryNames(Species);

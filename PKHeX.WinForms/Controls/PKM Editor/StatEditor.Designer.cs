@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.FLP_Stats = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_StatHeader = new System.Windows.Forms.FlowLayoutPanel();
             this.FLP_HackedStats = new System.Windows.Forms.FlowLayoutPanel();
@@ -103,9 +104,10 @@
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
             this.L_Characteristic = new System.Windows.Forms.Label();
             this.PAN_BTN = new System.Windows.Forms.Panel();
+            this.BTN_RandomAVs = new System.Windows.Forms.Button();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
-            this.BTN_RandomAVs = new System.Windows.Forms.Button();
+            this.EVTip = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -1071,6 +1073,16 @@
             this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
             this.PAN_BTN.TabIndex = 132;
             // 
+            // BTN_RandomAVs
+            // 
+            this.BTN_RandomAVs.Location = new System.Drawing.Point(137, 3);
+            this.BTN_RandomAVs.Name = "BTN_RandomAVs";
+            this.BTN_RandomAVs.Size = new System.Drawing.Size(92, 23);
+            this.BTN_RandomAVs.TabIndex = 106;
+            this.BTN_RandomAVs.Text = "Randomize AVs";
+            this.BTN_RandomAVs.UseVisualStyleBackColor = true;
+            this.BTN_RandomAVs.Click += new System.EventHandler(this.UpdateRandomAVs);
+            // 
             // BTN_RandomIVs
             // 
             this.BTN_RandomIVs.Location = new System.Drawing.Point(38, 3);
@@ -1090,16 +1102,6 @@
             this.BTN_RandomEVs.Text = "Randomize EVs";
             this.BTN_RandomEVs.UseVisualStyleBackColor = true;
             this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
-            // 
-            // BTN_RandomAVs
-            // 
-            this.BTN_RandomAVs.Location = new System.Drawing.Point(137, 3);
-            this.BTN_RandomAVs.Name = "BTN_RandomAVs";
-            this.BTN_RandomAVs.Size = new System.Drawing.Size(92, 23);
-            this.BTN_RandomAVs.TabIndex = 106;
-            this.BTN_RandomAVs.Text = "Randomize AVs";
-            this.BTN_RandomAVs.UseVisualStyleBackColor = true;
-            this.BTN_RandomAVs.Click += new System.EventHandler(this.UpdateRandomAVs);
             // 
             // StatEditor
             // 
@@ -1220,5 +1222,6 @@
         private System.Windows.Forms.MaskedTextBox TB_AVSPE;
         private System.Windows.Forms.TextBox TB_AVTotal;
         private System.Windows.Forms.Button BTN_RandomAVs;
+        private System.Windows.Forms.ToolTip EVTip;
     }
 }

@@ -14,22 +14,31 @@ namespace PKHeX.Core
         public byte[] Data;
         public bool Edited;
         public readonly bool Exportable;
-        public byte[] BAK { get; protected set; }
+        public readonly byte[] BAK;
 
-        protected SaveFile(byte[] data)
+        protected SaveFile(byte[] data, byte[] bak)
         {
             Data = data;
-            BAK = (byte[])Data.Clone();
+            BAK = bak;
             Exportable = true;
         }
 
-        protected SaveFile(int size) : this()
+        protected SaveFile(byte[] data) : this(data, (byte[])data.Clone()) { }
+
+        protected SaveFile()
+        {
+            Data = BAK = Array.Empty<byte>();
+            Exportable = false;
+        }
+
+        protected SaveFile(int size)
         {
             Data = new byte[size];
             BAK = Data;
+            Exportable = false;
         }
 
-        public string FileName, FilePath, FileFolder;
+        public string? FileName, FilePath, FileFolder;
         public string BAKName => $"{FileName} [{BAKText}].bak";
         protected abstract string BAKText { get; }
         public abstract SaveFile Clone();
@@ -44,11 +53,6 @@ namespace PKHeX.Core
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;
         }).ToArray();
-
-        protected SaveFile()
-        {
-            Exportable = false;
-        }
 
         // General SAV Properties
         public byte[] Write(ExportFlags flags = ExportFlags.None)
@@ -96,7 +100,7 @@ namespace PKHeX.Core
         protected int Trainer1 { get; set; } = int.MinValue;
 
         #region Stored PKM Limits
-        public PersonalTable Personal { get; protected set; }
+        public abstract PersonalTable Personal { get; }
         public abstract int OTLength { get; }
         public abstract int NickLength { get; }
         public abstract int MaxMoveID { get; }
@@ -236,7 +240,7 @@ namespace PKHeX.Core
         public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
         #endregion
 
-        public virtual InventoryPouch[] Inventory { get; set; }
+        public virtual InventoryPouch[] Inventory { get; set; } = Array.Empty<InventoryPouch>();
 
         #region Mystery Gift
         protected virtual int GiftCountMax { get; } = int.MinValue;
@@ -244,15 +248,11 @@ namespace PKHeX.Core
         protected int WondercardData { get; set; } = int.MinValue;
         public bool HasWondercards => WondercardData > -1;
         protected virtual bool[] MysteryGiftReceivedFlags { get => Array.Empty<bool>(); set { } }
-        protected virtual MysteryGift[] MysteryGiftCards { get => Array.Empty<MysteryGift>(); set { } }
+        protected virtual DataMysteryGift[] MysteryGiftCards { get => Array.Empty<DataMysteryGift>(); set { } }
 
         public virtual MysteryGiftAlbum GiftAlbum
         {
-            get => new MysteryGiftAlbum
-            {
-                Flags = MysteryGiftReceivedFlags,
-                Gifts = MysteryGiftCards
-            };
+            get => new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
             set
             {
                 MysteryGiftReceivedFlags = value.Flags;
@@ -350,7 +350,7 @@ namespace PKHeX.Core
         // Varied Methods
         protected abstract void SetChecksums();
         public virtual int GameSyncIDSize { get; } = 8;
-        public virtual string GameSyncID { get => null; set { } }
+        public virtual string GameSyncID { get => string.Empty; set { } }
 
         #region Daycare
         public bool HasDaycare => Daycare > -1;
@@ -360,7 +360,7 @@ namespace PKHeX.Core
         public virtual bool HasTwoDaycares => false;
         public virtual int GetDaycareSlotOffset(int loc, int slot) => -1;
         public virtual uint? GetDaycareEXP(int loc, int slot) => null;
-        public virtual string GetDaycareRNGSeed(int loc) => null;
+        public virtual string GetDaycareRNGSeed(int loc) => string.Empty;
         public virtual bool? IsDaycareHasEgg(int loc) => null;
         public virtual bool? IsDaycareOccupied(int loc, int slot) => null;
 
@@ -449,7 +449,7 @@ namespace PKHeX.Core
         protected abstract int SIZE_PARTY { get; }
         public abstract int MaxEV { get; }
         public virtual int MaxIV => 31;
-        public ushort[] HeldItems { get; protected set; }
+        public abstract IReadOnlyList<ushort> HeldItems { get; }
         public virtual bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresent(data, offset);
         public virtual PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public virtual PKM GetPartySlot(int offset) => GetDecryptedPKM(GetData(offset, SIZE_PARTY));
@@ -753,7 +753,7 @@ namespace PKHeX.Core
         /// <param name="sortMethod">Sorting logic required to order a <see cref="PKM"/> with respect to its peers; if not provided, will use a default sorting method.</param>
         /// <param name="reverse">Reverse the sorting order</param>
         /// <returns>Count of repositioned <see cref="PKM"/> slots.</returns>
-        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>> sortMethod = null, bool reverse = false)
+        public int SortBoxes(int BoxStart = 0, int BoxEnd = -1, Func<IEnumerable<PKM>, IEnumerable<PKM>>? sortMethod = null, bool reverse = false)
         {
             var BD = BoxData;
             int start = BoxSlotCount * BoxStart;
@@ -797,7 +797,7 @@ namespace PKHeX.Core
         /// <param name="BoxEnd">Ending box; if not provided, will iterate to the end.</param>
         /// <param name="deleteCriteria">Criteria required to be satisfied for a <see cref="PKM"/> to be deleted; if not provided, will clear if possible.</param>
         /// <returns>Count of deleted <see cref="PKM"/> slots.</returns>
-        public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool> deleteCriteria = null)
+        public int ClearBoxes(int BoxStart = 0, int BoxEnd = -1, Func<PKM, bool>? deleteCriteria = null)
         {
             var storage = StorageData;
 
@@ -838,12 +838,10 @@ namespace PKHeX.Core
         /// <returns>Count of modified <see cref="PKM"/> slots.</returns>
         public int ModifyBoxes(Action<PKM> action, int BoxStart = 0, int BoxEnd = -1)
         {
-            var storage = StorageData;
-
-            if (action == null)
-                throw new ArgumentException(nameof(action));
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
+
+            var storage = StorageData;
             int modified = 0;
             for (int b = BoxStart; b <= BoxEnd; b++)
             {

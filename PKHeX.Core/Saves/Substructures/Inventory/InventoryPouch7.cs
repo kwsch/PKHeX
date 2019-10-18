@@ -8,6 +8,7 @@ namespace PKHeX.Core
         public InventoryPouch7(InventoryType type, ushort[] legal, int maxcount, int offset)
             : base(type, legal, maxcount, offset)
         {
+            OriginalItems = Array.Empty<InventoryItem>();
         }
 
         public bool SetNew { get; set; } = false;

@@ -257,7 +257,7 @@ namespace PKHeX.Core
             return GetText(strings);
         }
 
-        private string GetText(GameStrings strings = null)
+        private string GetText(GameStrings? strings = null)
         {
             if (Species <= 0 || Species > MAX_SPECIES)
                 return string.Empty;

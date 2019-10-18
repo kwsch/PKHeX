@@ -4,7 +4,8 @@ namespace PKHeX.Core
 {
     public sealed class BattleSubway5 : SaveBlock
     {
-        public BattleSubway5(SAV5 sav, int offset) : base(sav) => Offset = offset;
+        public BattleSubway5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
+        public BattleSubway5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
         public int BP
         {

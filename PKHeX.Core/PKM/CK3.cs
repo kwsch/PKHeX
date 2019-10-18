@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -14,14 +15,14 @@ namespace PKHeX.Core
             // 0xFC onwards unused?
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_3CSTORED;
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
-
-        public CK3(byte[] decryptedData) => Data = decryptedData;
+        public override byte[] Data { get; }
+        public CK3(byte[] data) => Data = data;
         public CK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new CK3((byte[])Data.Clone()) {Identifier = Identifier};
 

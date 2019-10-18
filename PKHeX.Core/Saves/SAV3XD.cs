@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -12,7 +13,7 @@ namespace PKHeX.Core
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
+        private readonly SAV3GCMemoryCard? MC;
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -22,26 +23,33 @@ namespace PKHeX.Core
         private int SaveIndex = -1;
         private int Memo;
         private int Shadow;
-        private StrategyMemo StrategyMemo;
-        private ShadowInfoTableXD ShadowInfo;
+        private readonly StrategyMemo StrategyMemo;
+        private readonly ShadowInfoTableXD ShadowInfo;
         public int MaxShadowID => ShadowInfo.Count;
         private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3XD(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
+            // create fake objects
+            StrategyMemo = new StrategyMemo();
+            ShadowInfo = new ShadowInfoTableXD();
             Initialize();
             ClearBoxes();
         }
 
-        public SAV3XD(byte[] data) : base(data)
+        private SAV3XD(byte[] data, byte[] bak) : base(data, bak)
         {
-            InitializeData();
+            InitializeData(out StrategyMemo, out ShadowInfo);
             Initialize();
         }
 
-        private void InitializeData()
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
+
+        private void InitializeData(out StrategyMemo memo, out ShadowInfoTableXD info)
         {
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -86,8 +94,8 @@ namespace PKHeX.Core
             Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
-            StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
-            ShadowInfo = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
+            memo = new StrategyMemo(Data, Memo, xd: true);
+            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
         }
 
         private void Initialize()
@@ -99,8 +107,6 @@ namespace PKHeX.Core
             OFS_PouchBerry = Trainer1 + 0x72C;
             OFS_PouchCologne = Trainer1 + 0x7E4;
             OFS_PouchDisc = Trainer1 + 0x7F0;
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_XD;
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
@@ -119,7 +125,7 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
@@ -146,7 +152,7 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3XD(data, MC) : new SAV3XD(data);
+            var sav = IsMemoryCardSave ? new SAV3XD(data, MC!) : new SAV3XD(data);
             sav.Header = (byte[]) Header.Clone();
             return sav;
         }

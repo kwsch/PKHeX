@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -20,10 +21,7 @@ namespace PKHeX.Core
                 string[] split = line.Split('\t');
                 if (split.Length != 2)
                     continue;
-                if (RibbonNames.ContainsKey(split[0]))
-                    RibbonNames[split[0]] = split[1];
-                else
-                    RibbonNames.Add(split[0], split[1]);
+                RibbonNames[split[0]] = split[1];
             }
         }
 
@@ -34,9 +32,9 @@ namespace PKHeX.Core
         /// <returns>Ribbon display name</returns>
         public static string GetName(string propertyName)
         {
-            if (RibbonNames.TryGetValue(propertyName, out string value))
-                return value;
-            return null;
+            if (!RibbonNames.TryGetValue(propertyName, out string value))
+                throw new ArgumentException(propertyName);
+            return value;
         }
     }
 }

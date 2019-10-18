@@ -4,7 +4,8 @@ namespace PKHeX.Core
 {
     public sealed class BattleTree7 : SaveBlock
     {
-        public BattleTree7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public BattleTree7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public BattleTree7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int GetTreeStreak(int battletype, bool super, bool max)
         {

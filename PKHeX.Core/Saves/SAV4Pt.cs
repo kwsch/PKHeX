@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// <see cref="SaveFile"/> format for <see cref="GameVersion.Pt"/>
@@ -8,6 +10,8 @@
         public SAV4Pt() => Initialize();
         public SAV4Pt(byte[] data) : base(data) => Initialize();
         protected override SAV4 CloneInternal() => Exportable ? new SAV4Pt(Data) : new SAV4Pt();
+        public override PersonalTable Personal => PersonalTable.Pt;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
 
         protected override int GeneralSize => 0xCF2C;
         protected override int StorageSize => 0x121E4; // Start 0xCF2C, +4 starts box data
@@ -15,7 +19,6 @@
         private void Initialize()
         {
             Version = GameVersion.Pt;
-            Personal = PersonalTable.Pt;
             GetSAVOffsets();
         }
 
@@ -28,24 +31,6 @@
             WondercardFlags = 0xB4C0;
             WondercardData = 0xB5C0;
 
-            OFS_PouchHeldItem = 0x630;
-            OFS_PouchKeyItem = 0x8C4;
-            OFS_PouchTMHM = 0x98C;
-            OFS_MailItems = 0xB1C;
-            OFS_PouchMedicine = 0xB4C;
-            OFS_PouchBerry = 0xBEC;
-            OFS_PouchBalls = 0xCEC;
-            OFS_BattleItems = 0xD28;
-            LegalItems = Legal.Pouch_Items_Pt;
-            LegalKeyItems = Legal.Pouch_Key_Pt;
-            LegalTMHMs = Legal.Pouch_TMHM_Pt;
-            LegalMedicine = Legal.Pouch_Medicine_Pt;
-            LegalBerries = Legal.Pouch_Berries_Pt;
-            LegalBalls = Legal.Pouch_Ball_Pt;
-            LegalBattleItems = Legal.Pouch_Battle_Pt;
-            LegalMailItems = Legal.Pouch_Mail_Pt;
-
-            HeldItems = Legal.HeldItems_Pt;
             EventConst = 0xDAC;
             EventFlag = 0xFEC;
             Daycare = 0x1654;
@@ -87,5 +72,25 @@
             Storage[GetBoxWallpaperOffset(box)] = (byte)value;
         }
         #endregion
+        
+        public override InventoryPouch[] Inventory
+        {
+            get
+            {
+                InventoryPouch[] pouch =
+                {
+                    new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_Pt, 999, 0x630),
+                    new InventoryPouch4(InventoryType.KeyItems, Legal.Pouch_Key_Pt, 1, 0x8C4),
+                    new InventoryPouch4(InventoryType.TMHMs, Legal.Pouch_TMHM_Pt, 99, 0x98C),
+                    new InventoryPouch4(InventoryType.MailItems, Legal.Pouch_Mail_Pt, 999, 0xB1C),
+                    new InventoryPouch4(InventoryType.Medicine, Legal.Pouch_Medicine_Pt, 999, 0xB4C),
+                    new InventoryPouch4(InventoryType.Berries, Legal.Pouch_Berries_Pt, 999, 0xBEC),
+                    new InventoryPouch4(InventoryType.Balls, Legal.Pouch_Ball_Pt, 999, 0xCEC),
+                    new InventoryPouch4(InventoryType.BattleItems, Legal.Pouch_Battle_Pt, 999, 0xD28),
+                };
+                return pouch.LoadAll(General);
+            }
+            set => value.SaveAll(General);
+        }
     }
 }

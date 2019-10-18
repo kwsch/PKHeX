@@ -14,7 +14,7 @@
         /// <returns>True if operation succeeded, false if no changes made.</returns>
         public bool Execute(IBoxManip manip, int box, bool allBoxes, bool reverse = false)
         {
-            bool usable = manip.Usable?.Invoke(SAV) ?? true;
+            bool usable = manip.Usable.Invoke(SAV);
             if (!usable)
                 return false;
 

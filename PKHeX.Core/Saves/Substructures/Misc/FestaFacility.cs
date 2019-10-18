@@ -11,7 +11,7 @@ namespace PKHeX.Core
 
         public FestaFacility(SAV7 sav, int index)
         {
-            ofs = (index * SIZE) + sav.JoinFestaData + 0x310;
+            ofs = (index * SIZE) + sav.Festa.Offset + 0x310;
             Data = sav.GetData(ofs, SIZE);
             Language = sav.Language;
         }

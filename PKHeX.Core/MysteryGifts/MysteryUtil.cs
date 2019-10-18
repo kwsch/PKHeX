@@ -24,7 +24,9 @@ namespace PKHeX.Core
                 if (!MysteryGift.IsMysteryGift(fi.Length))
                     continue;
 
-                yield return MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                if (gift != null)
+                    yield return gift;
             }
         }
 
@@ -138,7 +140,7 @@ namespace PKHeX.Core
                 }
             }
 
-            message = null;
+            message = string.Empty;
             return true;
         }
 

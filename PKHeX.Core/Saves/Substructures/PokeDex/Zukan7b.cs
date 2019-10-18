@@ -19,10 +19,8 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
         protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-        public Zukan7b(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexGG;
-            LoadDexList();
         }
 
         public override void SetDex(PKM pkm)

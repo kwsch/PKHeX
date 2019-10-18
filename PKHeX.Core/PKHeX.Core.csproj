@@ -11,6 +11,7 @@
     <PackageProjectUrl />
     <RepositoryUrl>https://github.com/kwsch/PKHeX</RepositoryUrl>
     <LangVersion>8</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>

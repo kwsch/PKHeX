@@ -79,7 +79,7 @@ namespace PKHeX.Core
         /// <param name="propertyName">Property Name to fetch the type for</param>
         /// <param name="typeIndex">Type index (within <see cref="Types"/>. Leave empty (0) for a nonspecific format.</param>
         /// <returns>Short name of the property's type.</returns>
-        public static string GetPropertyType(string propertyName, int typeIndex = 0)
+        public static string? GetPropertyType(string propertyName, int typeIndex = 0)
         {
             if (CustomProperties.Contains(propertyName))
                 return "Custom";
@@ -164,6 +164,8 @@ namespace PKHeX.Core
                     return false;
                 try
                 {
+                    if (pi == null)
+                        continue;
                     if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
                         continue;
                 }
@@ -248,7 +250,7 @@ namespace PKHeX.Core
             if (cmd.PropertyValue == CONST_SUGGEST)
                 return SetSuggestedPKMProperty(cmd.PropertyName, info);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
-                return SetMoves(pk, pk.GetMoveSet(true, info.Legality));
+                return SetMoves(pk, pk.GetMoveSet(info.Legality, true));
 
             if (SetComplexProperty(pk, cmd))
                 return ModifyResult.Modified;
@@ -321,7 +323,7 @@ namespace PKHeX.Core
             if (cmd.PropertyName != IdentifierContains)
                 return false;
 
-            bool result = pk.Identifier.Contains(cmd.PropertyValue);
+            bool result = pk.Identifier?.Contains(cmd.PropertyValue) ?? false;
             return result == cmd.Evaluator;
         }
 
@@ -451,7 +453,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
                 pk.SetShiny();
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                pk.Data = new byte[pk.Data.Length];
+                Array.Clear(pk.Data, 0, pk.Data.Length);
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
                 SetRandomIVs(pk, cmd);
             else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))

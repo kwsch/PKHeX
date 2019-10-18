@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class MyStatus8 : SaveBlock
     {
-        public MyStatus8(SAV8 sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus8(SAV8SWSH sav, int offset) : base(sav) => Offset = offset;
 
         public int TID
         {

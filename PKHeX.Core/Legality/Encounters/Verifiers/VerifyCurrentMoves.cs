@@ -43,15 +43,17 @@ namespace PKHeX.Core
             var restrict = new LevelUpRestriction(pkm, info);
             info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
 
-            List<int> defaultG1LevelMoves = null;
-            List<int> defaultG2LevelMoves = null;
+            IReadOnlyList<int> defaultG1LevelMoves = Array.Empty<int>();
+            IReadOnlyList<int> defaultG2LevelMoves = Array.Empty<int>();
             var defaultTradeback = pkm.TradebackStatus;
             bool gb = false;
             if (info.EncounterMatch is IGeneration g && g.Generation <= 2)
             {
                 gb = true;
                 defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
-                defaultG2LevelMoves = pkm.InhabitedGeneration(2) ? info.EncounterMoves.LevelUpMoves[2] : null;
+                if (pkm.InhabitedGeneration(2))
+                    defaultG2LevelMoves = info.EncounterMoves.LevelUpMoves[2];
+
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
                 UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, g.Generation, info);
 
@@ -179,7 +181,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info);
+            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);
             foreach (var ver in games)
             {
                 var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);
@@ -212,7 +214,7 @@ namespace PKHeX.Core
 
         private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
         {
-            if (EncounterMatch is IMoveset mg && mg.Moves != null)
+            if (EncounterMatch is IMoveset mg)
                 return mg.Moves;
             return Array.Empty<int>();
         }
@@ -258,7 +260,7 @@ namespace PKHeX.Core
                 return res;
 
             // Encapsulate arguments to simplify method calls
-            var moveInfo = new LearnInfo(pkm) { Source = source };
+            var moveInfo = new LearnInfo(pkm, source);
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
             int[] generations = GetGenMovesCheckOrder(pkm);
             if (pkm.Format <= 2)
@@ -549,7 +551,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, List<int> tmhm)
+        private static void ParseEvolutionsIncompatibleMoves(PKM pkm, IList<CheckMoveResult> res, IReadOnlyList<int> moves, IReadOnlyList<int> tmhm)
         {
             GBRestrictions.GetIncompatibleEvolutionMoves(pkm, moves, tmhm,
                 out var prevSpeciesID,
@@ -829,7 +831,7 @@ namespace PKHeX.Core
         {
             if (generation >= 3)
                 return;
-            var lvlG1 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            var lvlG1 = info.EncounterMatch.LevelMin + 1;
             if (lvlG1 == defaultLvlG1)
                 return;
             EncounterMoves.LevelUpMoves[1] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
@@ -839,7 +841,7 @@ namespace PKHeX.Core
         {
             if (generation >= 3)
                 return;
-            var lvlG2 = info.EncounterMatch?.LevelMin + 1 ?? 6;
+            var lvlG2 = info.EncounterMatch.LevelMin + 1;
             if (lvlG2 == defaultLvlG2)
                 return;
             EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();

@@ -19,16 +19,20 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
         protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-        private IList<int> FormBaseSpecies;
+        private readonly IList<int> FormBaseSpecies;
 
-        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan7(SAV7SM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexSM) { }
+        public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
+        protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
+
+        private Zukan7(SaveFile sav, int dex, int langflag, Func<int, int, int, int> form) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = SAV is SAV7USUM ? (Func<int, int, int, int>)DexFormUtil.GetDexFormIndexUSUM : DexFormUtil.GetDexFormIndexSM;
-            LoadDexList();
+            DexFormIndexFetcher = form;
+            FormBaseSpecies = GetFormIndexBaseSpeciesList();
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
-        protected void LoadDexList() => FormBaseSpecies = GetFormIndexBaseSpeciesList();
+        public Func<int, int, int, int> DexFormIndexFetcher { get; }
 
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {

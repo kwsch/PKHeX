@@ -14,7 +14,7 @@
 
         public RibbonResult(string prop, bool invalid = true)
         {
-            Name = RibbonStrings.GetName(prop) ?? prop;
+            Name = RibbonStrings.GetName(prop);
             Invalid = invalid;
         }
 

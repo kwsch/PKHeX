@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,6 +14,9 @@ namespace PKHeX.Core
         public override string Extension => ".sav";
         public bool Japanese { get; }
         public bool Korean { get; }
+
+        public override PersonalTable Personal { get; }
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GSC;
 
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
@@ -36,6 +40,7 @@ namespace PKHeX.Core
                     // otherwise, both false
             }
             Offsets = new SAV2Offsets(this);
+            Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
             Initialize();
             ClearBoxes();
         }
@@ -43,13 +48,12 @@ namespace PKHeX.Core
         public SAV2(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
         {
             Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG2SAV(Data);
-            if (Version == GameVersion.Invalid)
-                return;
             Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
             if (!Japanese)
                 Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
 
             Offsets = new SAV2Offsets(this);
+            Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
             Initialize();
         }
 
@@ -58,14 +62,6 @@ namespace PKHeX.Core
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
-
-            Personal = Version == GameVersion.GS ? PersonalTable.GS : PersonalTable.C;
-
-            LegalItems = Legal.Pouch_Items_GSC;
-            LegalBalls = Legal.Pouch_Ball_GSC;
-            LegalKeyItems = Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
-            LegalTMHMs = Legal.Pouch_TMHM_GSC;
-            HeldItems = Legal.HeldItems_GSC;
 
             // Stash boxes after the save file's end.
             int splitAtIndex = (Japanese ? 6 : 7);
@@ -452,10 +448,10 @@ namespace PKHeX.Core
             }
         }
 
-        private ushort[] LegalItems;
-        private ushort[] LegalKeyItems;
-        private ushort[] LegalBalls;
-        private ushort[] LegalTMHMs;
+        private ushort[] LegalItems => Legal.Pouch_Items_GSC;
+        private ushort[] LegalKeyItems => Legal.Pouch_Ball_GSC;
+        private ushort[] LegalBalls => Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
+        private ushort[] LegalTMHMs => Legal.Pouch_TMHM_GSC;
 
         public override InventoryPouch[] Inventory
         {

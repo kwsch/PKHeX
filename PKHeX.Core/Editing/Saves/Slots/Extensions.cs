@@ -119,7 +119,7 @@ namespace PKHeX.Core
         {
             var list = new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(0, sav.GTS) {Type = StorageSlotType.GTS},
+                new SlotInfoMisc(0, sav.AllBlocks[07].Offset) {Type = StorageSlotType.GTS},
                 new SlotInfoMisc(0, sav.GetFusedSlotOffset(0)) {Type = StorageSlotType.Fused}
             };
             if (sav is SAV7USUM)

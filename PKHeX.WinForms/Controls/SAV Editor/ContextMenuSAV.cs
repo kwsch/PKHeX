@@ -135,7 +135,7 @@ namespace PKHeX.WinForms.Controls
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var loc = view.GetSlotData(pb);
             sender = pb;
-            return new SlotViewInfo<PictureBox> {Slot = loc, View = view};
+            return new SlotViewInfo<PictureBox>(loc, view);
         }
 
         private static void ToggleItem(ToolStripItemCollection items, ToolStripItem item, bool visible, bool first = false)

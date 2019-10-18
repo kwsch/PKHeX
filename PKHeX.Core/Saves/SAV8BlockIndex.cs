@@ -21,5 +21,6 @@
         PlayTime,
         FieldMoveModelSave,
         Records,
+        Pokedex
     }
 }

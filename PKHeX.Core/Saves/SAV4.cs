@@ -43,7 +43,6 @@ namespace PKHeX.Core
 
         protected SAV4()
         {
-            Data = BAK = Array.Empty<byte>();
             Storage = new byte[StorageSize];
             General = new byte[GeneralSize];
             ClearBoxes();
@@ -188,31 +187,7 @@ namespace PKHeX.Core
         protected int AdventureInfo = int.MinValue;
         protected int Seal = int.MinValue;
         public int GTS { get; protected set; } = int.MinValue;
-
-        // Inventory
-        protected int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchTMHM, OFS_MailItems, OFS_PouchMedicine, OFS_PouchBerry, OFS_PouchBalls, OFS_BattleItems;
-        protected ushort[] LegalItems, LegalKeyItems, LegalTMHMs, LegalMedicine, LegalBerries, LegalBalls, LegalBattleItems, LegalMailItems;
-
-        public override InventoryPouch[] Inventory
-        {
-            get
-            {
-                InventoryPouch[] pouch =
-                {
-                    new InventoryPouch4(InventoryType.Items, LegalItems, 999, OFS_PouchHeldItem),
-                    new InventoryPouch4(InventoryType.KeyItems, LegalKeyItems, 1, OFS_PouchKeyItem),
-                    new InventoryPouch4(InventoryType.TMHMs, LegalTMHMs, 99, OFS_PouchTMHM),
-                    new InventoryPouch4(InventoryType.Medicine, LegalMedicine, 999, OFS_PouchMedicine),
-                    new InventoryPouch4(InventoryType.Berries, LegalBerries, 999, OFS_PouchBerry),
-                    new InventoryPouch4(InventoryType.Balls, LegalBalls, 999, OFS_PouchBalls),
-                    new InventoryPouch4(InventoryType.BattleItems, LegalBattleItems, 999, OFS_BattleItems),
-                    new InventoryPouch4(InventoryType.MailItems, LegalMailItems, 999, OFS_MailItems),
-                };
-                return pouch.LoadAll(General);
-            }
-            set => value.SaveAll(General);
-        }
-
+        
         // Storage
         public override int PartyCount
         {
@@ -494,11 +469,8 @@ namespace PKHeX.Core
         // Mystery Gift
         private bool MysteryGiftActive { get => (General[72] & 1) == 1; set => General[72] = (byte)((General[72] & 0xFE) | (value ? 1 : 0)); }
 
-        private static bool IsMysteryGiftAvailable(MysteryGift[] value)
+        private static bool IsMysteryGiftAvailable(DataMysteryGift[] value)
         {
-            if (value == null)
-                return false;
-
             for (int i = 0; i < 8; i++) // 8 PGT
             {
                 if (value[i] is PGT g && g.CardType != 0)
@@ -512,11 +484,8 @@ namespace PKHeX.Core
             return false;
         }
 
-        private int[] MatchMysteryGifts(MysteryGift[] value)
+        private int[] MatchMysteryGifts(DataMysteryGift[] value)
         {
-            if (value == null)
-                return Array.Empty<int>();
-
             int[] cardMatch = new int[8];
             for (int i = 0; i < 8; i++)
             {
@@ -552,11 +521,7 @@ namespace PKHeX.Core
         {
             get
             {
-                var album = new MysteryGiftAlbum
-                {
-                    Flags = MysteryGiftReceivedFlags,
-                    Gifts = MysteryGiftCards,
-                };
+                var album = new MysteryGiftAlbum(MysteryGiftCards, MysteryGiftReceivedFlags);
                 album.Flags[2047] = false;
                 return album;
             }
@@ -612,11 +577,11 @@ namespace PKHeX.Core
             }
         }
 
-        protected override MysteryGift[] MysteryGiftCards
+        protected override DataMysteryGift[] MysteryGiftCards
         {
             get
             {
-                MysteryGift[] cards = new MysteryGift[8 + 3];
+                DataMysteryGift[] cards = new DataMysteryGift[8 + 3];
                 for (int i = 0; i < 8; i++) // 8 PGT
                     cards[i] = new PGT(General.Slice(WondercardData + (i * PGT.Size), PGT.Size));
                 for (int i = 8; i < 11; i++) // 3 PCD
@@ -625,9 +590,6 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    return;
-
                 var Matches = MatchMysteryGifts(value); // automatically applied
                 if (Matches.Length == 0)
                     return;
@@ -1012,5 +974,18 @@ namespace PKHeX.Core
             for (int i = 0; i < sealIndexCount; i++)
                 General[Seal + i] = val;
         }
+
+        public int GetMailOffset(int index)
+        {
+            int ofs = (index * Mail4.SIZE);
+            return Version switch
+            {
+                GameVersion.DP => (ofs + 0x4BEC),
+                GameVersion.Pt => (ofs + 0x4E80),
+                _ => (ofs + 0x3FA8)
+            };
+        }
+
+        public byte[] GetMailData(int ofs) => General.Slice(ofs, Mail4.SIZE);
     }
 }

@@ -11,7 +11,7 @@ namespace PKHeX.Core
     {
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
         {
-            EncounterSlot slotMax = null;
+            EncounterSlot? slotMax = null;
             void CachePressureSlot(EncounterSlot s)
             {
                 if (slotMax == null || s.LevelMax > slotMax.LevelMax)

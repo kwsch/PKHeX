@@ -69,7 +69,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly bool editing;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
         private bool MapUpdated;
@@ -172,7 +171,7 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV6XY xy)
             {
-                var xystat = ((MyStatus6XY) xy.Status);
+                var xystat = (MyStatus6XY)xy.Status;
                 PG_CurrentAppearance.SelectedObject = xystat.Fashion;
                 TB_TRNick.Text = xystat.OT_Nick;
             }
@@ -330,7 +329,7 @@ namespace PKHeX.WinForms
         private void GiveAllAccessories(object sender, EventArgs e)
         {
             if (SAV is SAV6XY xy)
-                xy.UnlockAllAccessories();
+                xy.Blocks.Fashion6XY.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)

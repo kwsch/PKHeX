@@ -22,7 +22,7 @@ namespace PKHeX.Core
         /// </returns>
         public static LegalInfo FindVerifiedEncounter(PKM pkm)
         {
-            LegalInfo info = new LegalInfo(pkm);
+            var info = new LegalInfo(pkm);
             var encounters = EncounterGenerator.GetEncounters(pkm, info);
 
             using var encounter = new PeekEnumerator<IEncounterable>(encounters);

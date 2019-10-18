@@ -13,23 +13,26 @@ namespace PKHeX.Core
 
         private const string SetSeparator = ";";
 
+        public StringInstructionSet(IList<StringInstruction> filters, IList<StringInstruction> instructions)
+        {
+            Filters = filters;
+            Instructions = instructions;
+        }
+
+        public StringInstructionSet(ICollection<string> set)
+        {
+            Filters = StringInstruction.GetFilters(set).ToList();
+            Instructions = StringInstruction.GetInstructions(set).ToList();
+        }
+
         public static IEnumerable<StringInstructionSet> GetBatchSets(IList<string> lines)
         {
             int start = 0;
             while (start < lines.Count)
             {
                 var list = lines.Skip(start).TakeWhile(_ => !lines[start++].StartsWith(SetSeparator)).ToList();
-                yield return GetBatchSet(list);
+                yield return new StringInstructionSet(list);
             }
-        }
-
-        private static StringInstructionSet GetBatchSet(ICollection<string> set)
-        {
-            return new StringInstructionSet
-            {
-                Filters = StringInstruction.GetFilters(set).ToList(),
-                Instructions = StringInstruction.GetInstructions(set).ToList(),
-            };
         }
     }
 }

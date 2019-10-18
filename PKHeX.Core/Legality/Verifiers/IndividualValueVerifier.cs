@@ -47,8 +47,8 @@ namespace PKHeX.Core
 
         private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
         {
-            int[] IVs = g.IVs;
-            if (IVs == null)
+            var IVs = g.IVs;
+            if (IVs.Length == 0)
                 return;
 
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);

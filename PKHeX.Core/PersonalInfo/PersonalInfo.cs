@@ -10,7 +10,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Raw Data
         /// </summary>
-        protected byte[] Data;
+        protected readonly byte[] Data;
+
+        protected PersonalInfo(byte[] data) => Data = data;
 
         /// <summary>
         /// Writes entry to raw bytes.
@@ -226,12 +228,12 @@ namespace PKHeX.Core
         /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TMHM { get; protected set; }
+        public bool[] TMHM { get; protected set; } = Array.Empty<bool>();
 
         /// <summary>
         /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TypeTutors { get; protected set; }
+        public bool[] TypeTutors { get; protected set; } = Array.Empty<bool>();
 
         /// <summary>
         /// Special tutor learn compatibility flags for individual moves.

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -9,25 +10,23 @@ namespace PKHeX.Core
     /// <remarks>Shared logic is used by Gen6 and Gen7 save files.</remarks>
     public abstract class SAV_BEEF : SaveFile, ISecureValueStorage
     {
-        protected SAV_BEEF(byte[] data, BlockInfo[] blocks, int biOffset) : base(data)
+        protected SAV_BEEF(byte[] data, int biOffset) : base(data)
         {
-            Blocks = blocks;
             BlockInfoOffset = biOffset;
         }
 
-        protected SAV_BEEF(int size, BlockInfo[] blocks, int biOffset) : base(size)
+        protected SAV_BEEF(int size, int biOffset) : base(size)
         {
-            Blocks = blocks;
             BlockInfoOffset = biOffset;
         }
 
-        protected override void SetChecksums() => Blocks.SetChecksums(Data);
-        public override bool ChecksumsValid => Blocks.GetChecksumsValid(Data);
-        public override string ChecksumInfo => Blocks.GetChecksumInfo(Data);
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
+        public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
+        protected override void SetChecksums() => AllBlocks.SetChecksums(Data);
+        public override bool ChecksumsValid => AllBlocks.GetChecksumsValid(Data);
+        public override string ChecksumInfo => AllBlocks.GetChecksumInfo(Data);
+        public override string MiscSaveInfo() => string.Join(Environment.NewLine, AllBlocks.Select(b => b.Summary));
 
         protected readonly int BlockInfoOffset;
-        protected readonly BlockInfo[] Blocks;
 
         public ulong TimeStampCurrent
         {

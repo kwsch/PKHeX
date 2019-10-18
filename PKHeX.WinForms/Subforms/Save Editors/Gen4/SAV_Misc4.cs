@@ -198,7 +198,6 @@ namespace PKHeX.WinForms
         #region Poketch
         private byte[] DotArtistByte;
         private byte[] ColorTable;
-        private readonly ToolTip tip1 = new ToolTip();
 
         private void ReadPoketch()
         {
@@ -426,7 +425,6 @@ namespace PKHeX.WinForms
         private string[][] BFT;
         private int[][] BFV;
         private string[] BFN;
-        private readonly ToolTip tip2 = new ToolTip();
         private NumericUpDown[] HallNUDA;
         private bool HallStatUpdated;
         private int ofsHallStat = -1;

@@ -160,7 +160,7 @@ namespace PKHeX.Core
             return buffer;
         }
 
-        public static string GetStringResource(string name)
+        public static string? GetStringResource(string name)
         {
             if (!resourceNameMap.TryGetValue(name, out var resname))
             {
@@ -172,6 +172,8 @@ namespace PKHeX.Core
             }
 
             using var resource = thisAssembly.GetManifestResourceStream(resname);
+            if (resource == null)
+                return null;
             using var reader = new StreamReader(resource);
             return reader.ReadToEnd();
         }
@@ -196,12 +198,16 @@ namespace PKHeX.Core
         /// Gets the current localization in a static class containing language-specific strings
         /// </summary>
         /// <param name="t"></param>
+        public static string[] GetLocalization(Type t) => DumpStrings(t).ToArray();
+
+        /// <summary>
+        /// Gets the current localization in a static class containing language-specific strings
+        /// </summary>
+        /// <param name="t"></param>
         /// <param name="existingLines">Existing localization lines (if provided)</param>
-        public static string[] GetLocalization(Type t, string[] existingLines = null)
+        public static string[] GetLocalization(Type t, string[] existingLines)
         {
-            var currentLines = DumpStrings(t).ToArray();
-            if (existingLines == null)
-                return currentLines;
+            var currentLines = GetLocalization(t);
             var existing = GetProperties(existingLines);
             var current = GetProperties(currentLines);
 

@@ -48,6 +48,7 @@ namespace PKHeX.WinForms.Controls
                 {
                     var x = padEdge + (column * (colWidth + border));
                     var pb = GetControl(sizeW, sizeH);
+                    pb.SuspendLayout();
                     Controls.Add(pb);
                     pb.Location = new Point(x, y);
                     Entries.Add(pb);

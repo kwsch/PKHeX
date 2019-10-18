@@ -50,7 +50,6 @@ namespace PKHeX.WinForms.Controls
 
         private readonly Label[] L_Stats;
         private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_AVs, MT_Stats, MT_Base;
-        private readonly ToolTip EVTip = new ToolTip();
         private PKM pkm => MainEditor.pkm;
 
         private bool ChangingFields
@@ -404,10 +403,6 @@ namespace PKHeX.WinForms.Controls
 
         public void LoadPartyStats(PKM pk)
         {
-            int size = pk.SIZE_PARTY;
-            if (pk.Data.Length != size)
-                Array.Resize(ref pk.Data, size);
-
             Stat_HP.Text = pk.Stat_HPCurrent.ToString();
             Stat_ATK.Text = pk.Stat_ATK.ToString();
             Stat_DEF.Text = pk.Stat_DEF.ToString();
@@ -418,10 +413,6 @@ namespace PKHeX.WinForms.Controls
 
         public void SavePartyStats(PKM pk)
         {
-            int size = pk.SIZE_PARTY;
-            if (pk.Data.Length != size)
-                Array.Resize(ref pk.Data, size);
-
             pk.Stat_HPCurrent = Util.ToInt32(Stat_HP.Text);
             pk.Stat_HPMax = Util.ToInt32(Stat_HP.Text);
             pk.Stat_ATK = Util.ToInt32(Stat_ATK.Text);

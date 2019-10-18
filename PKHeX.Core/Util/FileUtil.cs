@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <param name="path"></param>
         /// <param name="reference">Reference savefile used for PC Binary compatibility checks.</param>
         /// <returns>Supported file object reference, null if none found.</returns>
-        public static object GetSupportedFile(string path, SaveFile reference = null)
+        public static object? GetSupportedFile(string path, SaveFile? reference = null)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace PKHeX.Core
         /// <param name="ext">File extension used as a hint.</param>
         /// <param name="reference">Reference savefile used for PC Binary compatibility checks.</param>
         /// <returns>Supported file object reference, null if none found.</returns>
-        public static object GetSupportedFile(byte[] data, string ext, SaveFile reference = null)
+        public static object? GetSupportedFile(byte[] data, string ext, SaveFile? reference = null)
         {
             if (TryGetSAV(data, out var sav))
                 return sav;
@@ -54,16 +54,16 @@ namespace PKHeX.Core
                 return pk;
             if (TryGetPCBoxBin(data, out IEnumerable<byte[]> pks, reference))
                 return pks;
-            if (TryGetBattleVideo(data, out BattleVideo bv))
+            if (TryGetBattleVideo(data, out var bv))
                 return bv;
-            if (TryGetMysteryGift(data, out MysteryGift g, ext))
+            if (TryGetMysteryGift(data, out var g, ext))
                 return g;
-            if (TryGetGP1(data, out GP1 gp))
+            if (TryGetGP1(data, out var gp))
                 return gp;
             return null;
         }
 
-        private static bool TryGetGP1(byte[] data, out GP1 gp1)
+        private static bool TryGetGP1(byte[] data, out GP1? gp1)
         {
             gp1 = null;
             if (data.Length != GP1.SIZE || BitConverter.ToUInt32(data, 0x28) == 0)
@@ -99,7 +99,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="sav">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetSAV(byte[] data, out SaveFile sav)
+        public static bool TryGetSAV(byte[] data, out SaveFile? sav)
         {
             sav = SaveUtil.GetVariantSAV(data);
             return sav != null;
@@ -111,7 +111,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="memcard">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetMemoryCard(byte[] data, out SAV3GCMemoryCard memcard)
+        public static bool TryGetMemoryCard(byte[] data, out SAV3GCMemoryCard? memcard)
         {
             if (!SAV3GCMemoryCard.IsMemoryCardSize(data))
             {
@@ -130,11 +130,11 @@ namespace PKHeX.Core
         /// <param name="ext">Format hint</param>
         /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetPKM(byte[] data, out PKM pk, string ext, ITrainerInfo sav = null)
+        public static bool TryGetPKM(byte[] data, out PKM? pk, string ext, ITrainerInfo? sav = null)
         {
             if (ext == ".pgt") // size collision with pk6
             {
-                pk = default;
+                pk = null;
                 return false;
             }
             var format = PKX.GetPKMFormatFromExtension(ext, sav?.Generation ?? 6);
@@ -147,17 +147,17 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="data">Binary data</param>
         /// <param name="pkms">Output result</param>
-        /// <param name="SAV">Reference savefile used for PC Binary compatibility checks.</param>
+        /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetPCBoxBin(byte[] data, out IEnumerable<byte[]> pkms, SaveFile SAV)
+        public static bool TryGetPCBoxBin(byte[] data, out IEnumerable<byte[]> pkms, SaveFile? sav)
         {
-            if (SAV == null)
+            if (sav == null)
             {
                 pkms = Enumerable.Empty<byte[]>();
                 return false;
             }
             var length = data.Length;
-            if (PKX.IsPKM(length / SAV.SlotCount) || PKX.IsPKM(length / SAV.BoxSlotCount))
+            if (PKX.IsPKM(length / sav.SlotCount) || PKX.IsPKM(length / sav.BoxSlotCount))
             {
                 pkms = ArrayUtil.EnumerateSplit(data, length);
                 return true;
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="bv">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetBattleVideo(byte[] data, out BattleVideo bv)
+        public static bool TryGetBattleVideo(byte[] data, out BattleVideo? bv)
         {
             bv = BattleVideo.GetVariantBattleVideo(data);
             return bv != null;
@@ -185,7 +185,7 @@ namespace PKHeX.Core
         /// <param name="mg">Output result</param>
         /// <param name="ext">Format hint</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetMysteryGift(byte[] data, out MysteryGift mg, string ext)
+        public static bool TryGetMysteryGift(byte[] data, out MysteryGift? mg, string ext)
         {
             mg = MysteryGift.GetMysteryGift(data, ext);
             return mg != null;
@@ -211,13 +211,13 @@ namespace PKHeX.Core
         /// <param name="file"><see cref="PKM"/> or <see cref="MysteryGift"/> file path.</param>
         /// <param name="SAV">Generation Info</param>
         /// <returns>New <see cref="PKM"/> reference from the file.</returns>
-        public static PKM GetSingleFromPath(string file, ITrainerInfo SAV)
+        public static PKM? GetSingleFromPath(string file, ITrainerInfo SAV)
         {
             var fi = new FileInfo(file);
             if (!fi.Exists)
                 return null;
             if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
-                return gp1.ConvertToPB7(SAV);
+                return gp1?.ConvertToPB7(SAV);
             if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
                 return null;
             var data = File.ReadAllBytes(file);

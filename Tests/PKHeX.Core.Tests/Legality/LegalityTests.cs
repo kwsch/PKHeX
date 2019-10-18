@@ -48,11 +48,13 @@ namespace PKHeX.Tests.Legality
                 var data = File.ReadAllBytes(file);
                 var format = PKX.GetPKMFormatFromExtension(file[file.Length - 1], -1);
                 format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
 
                 ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
                 ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
+                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
+                pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
+                if (pkm == null)
+                    continue;
                 var legality = new LegalityAnalysis(pkm);
                 legality.Valid.Should().Be(isValid, $"because the file '{fi.Directory.Name}\\{fi.Name}' should be {(isValid ? "Valid" : "Invalid")}");
                 ctr++;

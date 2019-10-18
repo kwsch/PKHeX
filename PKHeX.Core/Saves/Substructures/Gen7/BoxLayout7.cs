@@ -18,7 +18,8 @@ namespace PKHeX.Core
         private const int NONE_SELECTED = -1;
         public readonly int[] TeamSlots = new int[TeamCount * 6];
 
-        public BoxLayout7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 

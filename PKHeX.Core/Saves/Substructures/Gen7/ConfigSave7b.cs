@@ -13,11 +13,7 @@ namespace PKHeX.Core
          * everything else: unknown
          */
 
-
-        public ConfigSave7b(SAV7b sav) : base(sav)
-        {
-            Offset = sav.GetBlockOffset(BelugaBlockIndex.ConfigSave);
-        }
+        public ConfigSave7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         public int ConfigValue
         {

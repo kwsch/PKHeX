@@ -10,13 +10,13 @@ namespace PKHeX.Core
         /// <param name="fileData">Packed data</param>
         /// <param name="identifier">Signature expected in the first two bytes (ASCII)</param>
         /// <returns>Unpacked array containing all files that were packed.</returns>
-        public static byte[][] UnpackMini(byte[] fileData, string identifier)
+        public static byte[][] UnpackMini(byte[]? fileData, string identifier)
         {
             if (fileData == null || fileData.Length < 4)
-                return null;
+                throw new ArgumentException(nameof(fileData));
 
             if (identifier[0] != fileData[0] || identifier[1] != fileData[1])
-                return null;
+                throw new ArgumentException(nameof(identifier));
 
             int count = BitConverter.ToUInt16(fileData, 2); int ctr = 4;
             int start = BitConverter.ToInt32(fileData, ctr); ctr += 4;

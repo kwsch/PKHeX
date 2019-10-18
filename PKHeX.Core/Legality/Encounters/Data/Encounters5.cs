@@ -100,7 +100,7 @@ namespace PKHeX.Core
             var list = new List<EncounterStatic>();
             foreach (EncounterStatic s in t)
             {
-                if (s.Moves == null || s.Moves.Length <= 1) // no special moves
+                if (s.Moves.Length <= 1) // no special moves
                 {
                     list.Add(s);
                     continue;
@@ -745,8 +745,8 @@ namespace PKHeX.Core
         private const string tradeB2W2 = "tradeb2w2";
         private static readonly string[][] TradeBW = Util.GetLanguageStrings8(tradeBW);
         private static readonly string[][] TradeB2W2 = Util.GetLanguageStrings8(tradeB2W2);
-        private static readonly string[] TradeOT_B2W2_F = {null, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", null, "Belinda", "루리"};
-        private static readonly string[] TradeOT_B2W2_M = {null, "テツ", "Curtis", "Julien", "Dadi", "Markus", null, "Julián", "철권"};
+        private static readonly string[] TradeOT_B2W2_F = {string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리"};
+        private static readonly string[] TradeOT_B2W2_M = {string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권"};
 
         internal static readonly EncounterTrade[] TradeGift_B2W2 = TradeGift_B2W2_Regular.Concat(TradeGift_B2W2_YancyCurtis).ToArray();
 

@@ -69,7 +69,7 @@ namespace PKHeX.Core
                     else if (z is EncounterStaticShadow s)
                     {
                         bool valid = false;
-                        if (s.IVs == null) // not ereader
+                        if (s.IVs.Length == 0) // not ereader
                         {
                             valid = LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
                         }
@@ -280,7 +280,7 @@ namespace PKHeX.Core
                 case EncounterTrade t:
                     return t.Generation == 2 ? GBEncounterPriority.TradeEncounterG2 : GBEncounterPriority.TradeEncounterG1;
                 case EncounterStatic s:
-                    if (s.Moves != null && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                    if (s.Moves.Length != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
                         return GBEncounterPriority.SpecialEncounter;
                     return GBEncounterPriority.StaticEncounter;
                 case EncounterSlot _:

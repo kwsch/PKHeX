@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -9,18 +10,19 @@ namespace PKHeX.Core
         {
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<byte> ExtraBytes => Unused;
         public override int Format => 8;
         public override PersonalInfo PersonalInfo => PersonalTable.USUM.GetFormeEntry(Species, AltForm);
 
+        public override byte[] Data { get; }
         public PK8() => Data = new byte[PKX.SIZE_8PARTY];
 
-        public PK8(byte[] decryptedData)
+        public PK8(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PKX.CheckEncrypted(ref data, Format);
+            if (data.Length != PKX.SIZE_8PARTY)
+                Array.Resize(ref data, PKX.SIZE_8PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK8((byte[])Data.Clone()) { Identifier = Identifier };

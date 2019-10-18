@@ -1,13 +1,44 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.SWSH"/> games.
     /// </summary>
-    public sealed class SAV8SWSH : SAV8
+    public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH
     {
-        public SAV8SWSH(byte[] data) : base(data, BlocksSWSH, boSWSH) => Initialize();
-        public SAV8SWSH() : base(SaveUtil.SIZE_G8SWSH, BlocksSWSH, boSWSH) => Initialize();
+        public SAV8SWSH(byte[] data) : base(data, SaveBlockAccessorSWSH.boGG)
+        {
+            Blocks = new SaveBlockAccessorSWSH(this);
+            Initialize();
+        }
 
+        public SAV8SWSH() : base(SaveUtil.SIZE_G8SWSH, SaveBlockAccessorSWSH.boGG)
+        {
+            Blocks = new SaveBlockAccessorSWSH(this);
+            Initialize();
+        }
+
+        public override PersonalTable Personal => PersonalTable.SWSH;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SWSH;
+
+        #region Blocks
+        public SaveBlockAccessorSWSH Blocks { get; }
+        public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
+        public override MyItem Items => Blocks.Items;
+        public override Record8 Records => Blocks.Records;
+        public override PlayTime8 Played => Blocks.Played;
+        public override MyStatus8 MyStatus => Blocks.MyStatus;
+        public override ConfigSave8 Config => Blocks.Config;
+        public override GameTime8 GameTime => Blocks.GameTime;
+        public override Misc8 MiscBlock => Blocks.MiscBlock;
+        public override Zukan8 Zukan => Blocks.Zukan;
+        public override EventWork8 EventWork => Blocks.EventWork;
+        public override BoxLayout8 BoxLayout => Blocks.BoxLayout;
+        public override Situation8 Situation => Blocks.Situation;
+        public override FieldMoveModelSave8 OverworldBlock => Blocks.OverworldBlock;
+
+        #endregion
         public override SaveFile Clone() => new SAV8SWSH((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_8;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_8;
@@ -16,38 +47,8 @@
         public override int MaxGameID => Legal.MaxGameID_8;
         public override int MaxAbilityID => Legal.MaxAbilityID_8;
 
-        private const int boSWSH = -1;
-
-        private static readonly BlockInfo[] BlocksSWSH =
-        {
-            new BlockInfo7b(boSWSH, 00, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 01, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 02, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 03, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 04, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 04, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 05, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 06, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 07, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 08, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 09, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 10, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 11, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 12, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 13, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 14, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 14, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 15, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 16, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 17, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 18, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 19, 0x00000, 0x00000),
-            new BlockInfo7b(boSWSH, 20, 0x00000, 0x00000),
-        };
-
         private void Initialize()
         {
-            Personal = PersonalTable.SWSH;
         }
     }
 }

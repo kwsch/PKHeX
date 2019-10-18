@@ -12,12 +12,14 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
     {
+        public override MysteryGift Clone() => (WC3)MemberwiseClone();
+
         /// <summary>
         /// Matched <see cref="PIDIV"/> Type
         /// </summary>
         public PIDType Method;
 
-        public override string OT_Name { get; set; }
+        public override string OT_Name { get; set; } = string.Empty;
         public int OT_Gender { get; set; } = 3;
         public override int TID { get; set; }
         public override int SID { get; set; }
@@ -37,7 +39,6 @@ namespace PKHeX.Core
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
-
         public bool RibbonEarth { get; set; }
         public bool RibbonNational { get; set; }
         public bool RibbonCountry { get; set; }

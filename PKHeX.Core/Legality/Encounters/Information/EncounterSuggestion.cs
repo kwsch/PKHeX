@@ -7,11 +7,8 @@ namespace PKHeX.Core
     /// </summary>
     public static class EncounterSuggestion
     {
-        public static EncounterStatic GetSuggestedMetInfo(PKM pkm)
+        public static EncounterStatic? GetSuggestedMetInfo(PKM pkm)
         {
-            if (pkm == null)
-                return null;
-
             int loc = GetSuggestedTransferLocation(pkm);
 
             if (pkm.WasEgg)

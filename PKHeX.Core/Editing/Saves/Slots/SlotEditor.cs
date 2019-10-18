@@ -100,12 +100,16 @@
 
         public void Undo()
         {
+            if (!Changelog.CanUndo)
+                return;
             var slot = Changelog.Undo();
             NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
         }
 
         public void Redo()
         {
+            if (!Changelog.CanRedo)
+                return;
             var slot = Changelog.Redo();
             NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
         }

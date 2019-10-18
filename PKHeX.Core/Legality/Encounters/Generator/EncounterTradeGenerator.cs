@@ -59,7 +59,7 @@ namespace PKHeX.Core
             return table.Where(f => p.Any(r => r.Species == f.Species));
         }
 
-        private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
+        private static IEnumerable<EncounterTrade>? GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
                 return !ParseSettings.AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
@@ -68,7 +68,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
+        private static IEnumerable<EncounterTrade>? GetEncounterTradeTable(PKM pkm)
         {
             return pkm.GenNumber switch
             {

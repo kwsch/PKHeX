@@ -77,7 +77,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm"></param>
         /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetSuggestedHyperTrainingData(this PKM pkm, int[] IVs = null)
+        public static void SetSuggestedHyperTrainingData(this PKM pkm, int[]? IVs = null)
         {
             if (!(pkm is IHyperTrain t))
                 return;

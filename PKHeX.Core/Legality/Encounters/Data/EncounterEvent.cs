@@ -38,11 +38,11 @@ namespace PKHeX.Core
         private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
 
         private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<WC6>(
-            ArrayUtil.EnumerateSplit(wc6full, WC6.SizeFull).Select(d => new WC6(d))
+            ArrayUtil.EnumerateSplit(wc6full, WC6Full.Size).Select(d => new WC6Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc6bin, WC6.Size).Select(d => new WC6(d))));
 
         private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
-            ArrayUtil.EnumerateSplit(wc7full, WC7.SizeFull).Select(d => new WC7(d))
+            ArrayUtil.EnumerateSplit(wc7full, WC7Full.Size).Select(d => new WC7Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
         private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));

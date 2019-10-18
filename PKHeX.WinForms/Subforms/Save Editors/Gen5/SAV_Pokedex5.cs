@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
             int pk = species;
 
             // Load Partitions
-            var Dex = (Zukan5)SAV.Zukan;
+            var Dex = SAV.Zukan;
             CP[0].Checked = Dex.GetCaught(species);
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.GetSeen(species, i);
@@ -160,7 +160,7 @@ namespace PKHeX.WinForms
             if (species < 0)
                 return;
 
-            var Dex = (Zukan5)SAV.Zukan;
+            var Dex = SAV.Zukan;
             Dex.SetCaught(species, CP[0].Checked);
             for (int i = 0; i < 4; i++)
                 Dex.SetSeen(species, i, CP[i + 1].Checked);
