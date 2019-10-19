@@ -738,7 +738,11 @@ namespace PKHeX.Core
             if (Relearn && pkm.Format >= 6)
                 r.AddRange(pkm.RelearnMoves);
 
-            for (int gen = pkm.GenNumber; gen <= pkm.Format; gen++)
+            int start = pkm.GenNumber;
+            if (start < 0)
+                start = pkm.Format; // be generous instead of returning nothing
+
+            for (int gen = start; gen <= pkm.Format; gen++)
             {
                 if (vs[gen].Count != 0)
                     r.AddRange(GetValidMoves(pkm, Version, vs[gen], gen, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
