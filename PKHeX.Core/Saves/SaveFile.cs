@@ -424,17 +424,17 @@ namespace PKHeX.Core
 
         public void DeletePartySlot(int slot)
         {
-            if (PartyCount <= slot) // beyond party range (or empty data already present)
+            int newEmpty = PartyCount - 1;
+            if ((uint)slot > newEmpty) // beyond party range (or empty data already present)
                 return;
             // Move all party slots down one
-            for (int i = slot + 1; i < 6; i++) // Slide slots down
+            for (int i = slot + 1; i <= newEmpty; i++) // Slide slots down
             {
-                int slotTo = GetPartyOffset(i - 1);
-                int slotFrom = GetPartyOffset(i);
-                SetData(GetData(slotFrom, SIZE_PARTY), slotTo);
+                var current = GetPartySlotAtIndex(i);
+                SetPartySlotAtIndex(current, i - 1, PKMImportSetting.Skip, PKMImportSetting.Skip);
             }
-            SetPartySlot(BlankPKM, GetPartyOffset(5), PKMImportSetting.Skip, PKMImportSetting.Skip);
-            PartyCount--;
+            SetPartySlotAtIndex(BlankPKM, newEmpty, PKMImportSetting.Skip, PKMImportSetting.Skip);
+            // PartyCount will automatically update via above call. Do not adjust.
         }
 
         #region Slot Storing
