@@ -8,6 +8,6 @@
         Situation6 Situation { get; }
         PlayTime6 Played { get; }
         MyStatus6 Status { get; }
-        Record6 Records { get; }
+        RecordBlock6 Records { get; }
     }
 }

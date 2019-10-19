@@ -3,9 +3,9 @@
     public interface ISaveBlock6Main : ISaveBlock6Core, IPokePuff, IOPower, ILink
     {
         BoxLayout6 BoxLayout { get; }
-        BattleBox6 BattleBoxBlock { get; }
-        MysteryBlock6 MysteryBlock { get; }
+        BattleBox6 BattleBox { get; }
+        MysteryBlock6 MysteryGift { get; }
         SuperTrainBlock SuperTrain { get; }
-        MaisonBlock MaisonBlock { get; }
+        MaisonBlock Maison { get; }
     }
 }

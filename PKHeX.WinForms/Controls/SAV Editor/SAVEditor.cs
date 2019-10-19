@@ -147,7 +147,7 @@ namespace PKHeX.WinForms.Controls
         public int GetSlotOffset(int slot)
         {
             if (slot < (int)SlotIndex.Daycare) // Battle Box Slot
-                return SAV.BattleBox + ((slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED);
+                return SAV.BattleBoxOffset + ((slot - (int)SlotIndex.BattleBox) * SAV.SIZE_STORED);
             return SAV.GetDaycareSlotOffset(SAV.DaycareIndex, slot - (int)SlotIndex.Daycare);
         }
 

@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public void UpdateOverworldCoordinates()
         {
-            var o = ((SAV8)SAV).OverworldBlock;
+            var o = ((SAV8)SAV).Overworld;
             o.M = M;
             o.X = X;
             o.Z = Z;

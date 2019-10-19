@@ -52,12 +52,12 @@ namespace PKHeX.Core
         public abstract MyStatus8 MyStatus { get; }
         public abstract ConfigSave8 Config { get; }
         public abstract GameTime8 GameTime { get; }
-        public abstract Misc8 MiscBlock { get; }
+        public abstract Misc8 Misc { get; }
         public abstract Zukan8 Zukan { get; }
         public abstract EventWork8 EventWork { get; }
         public abstract BoxLayout8 BoxLayout { get; }
         public abstract Situation8 Situation { get; }
-        public abstract FieldMoveModelSave8 OverworldBlock { get; }
+        public abstract FieldMoveModelSave8 Overworld { get; }
         #endregion
 
         // Feature Overrides
@@ -97,7 +97,7 @@ namespace PKHeX.Core
         public override int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
-        public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
+        public override uint Money { get => Misc.Money; set => Misc.Money = value; }
 
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }

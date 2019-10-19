@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Origin = (SaveFile)sav;
             SAV = Origin.Clone();
-            Data = ((IOPower)SAV).OPowerBlock;
+            Data = ((IOPower)SAV).OPower;
 
             Current = Types[0];
             foreach (var z in Types)

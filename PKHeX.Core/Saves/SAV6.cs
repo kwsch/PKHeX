@@ -164,13 +164,13 @@ namespace PKHeX.Core
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
         public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
-        public int RecordCount => Record6.RecordCount;
+        public int RecordCount => RecordBlock6.RecordCount;
         public abstract MyItem Items { get; }
         public abstract ItemInfo6 ItemInfo { get; }
         public abstract GameTime6 GameTime { get; }
         public abstract Situation6 Situation { get; }
         public abstract PlayTime6 Played { get; }
         public abstract MyStatus6 Status { get; }
-        public abstract Record6 Records { get; }
+        public abstract RecordBlock6 Records { get; }
     }
 }

@@ -4,23 +4,23 @@ namespace PKHeX.Core
 {
     public interface IPokePuff
     {
-        Puff6 PuffBlock { get; }
+        Puff6 Puff { get; }
     }
 
     public interface IOPower
     {
-        OPower6 OPowerBlock { get; }
+        OPower6 OPower { get; }
     }
 
     public interface ILink
     {
-        Link6 LinkBlock { get; }
+        LinkBlock6 Link { get; }
     }
 
-    public sealed class Link6 : SaveBlock
+    public sealed class LinkBlock6 : SaveBlock
     {
-        public Link6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
-        public Link6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
+        public LinkBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
+        public LinkBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public byte[] GetLinkInfoData() => Data.Slice(Offset + 0x1FF, PL6.Size);
         public PL6 GetLinkInfo() => new PL6(GetLinkInfoData());

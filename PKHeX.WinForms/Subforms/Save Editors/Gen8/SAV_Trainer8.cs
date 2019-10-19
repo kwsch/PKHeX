@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
 
             // Vivillon
             if (CB_Vivillon.SelectedIndex >= 0)
-                SAV.MiscBlock.Vivillon = CB_Vivillon.SelectedIndex;
+                SAV.Misc.Vivillon = CB_Vivillon.SelectedIndex;
         }
 
         private void SaveTrainerInfo()

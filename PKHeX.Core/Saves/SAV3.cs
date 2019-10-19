@@ -155,7 +155,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + (EventFlagMax / 8);
-                    Daycare = BlockOfs[4] + 0x11C;
+                    DaycareOffset = BlockOfs[4] + 0x11C;
                     break;
                 case GameVersion.E:
                     OFS_PCItem = BlockOfs[1] + 0x0498;
@@ -166,7 +166,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + (EventFlagMax / 8);
-                    Daycare = BlockOfs[4] + 0x1B0;
+                    DaycareOffset = BlockOfs[4] + 0x1B0;
                     break;
                 case GameVersion.FRLG:
                     OFS_PCItem = BlockOfs[1] + 0x0298;
@@ -177,7 +177,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x054C;
                     EventFlag = BlockOfs[1] + 0xEE0;
                     EventConst = BlockOfs[2] + 0x80;
-                    Daycare = BlockOfs[4] + 0x100;
+                    DaycareOffset = BlockOfs[4] + 0x100;
                     break;
                 default:
                     throw new ArgumentException(nameof(Version));
@@ -650,7 +650,7 @@ namespace PKHeX.Core
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, GetDaycareEXPOffset(slot));
         public override bool? IsDaycareOccupied(int loc, int slot) => IsPKMPresent(Data, GetDaycareSlotOffset(loc, slot));
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) { /* todo */ }
-        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * DaycareSlotSize);
+        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * DaycareSlotSize);
 
         private int EggEventFlag => GameVersion.FRLG.Contains(Version) ? 0x266 : 0x86;
         public override bool? IsDaycareHasEgg(int loc) => GetEventFlag(EggEventFlag);

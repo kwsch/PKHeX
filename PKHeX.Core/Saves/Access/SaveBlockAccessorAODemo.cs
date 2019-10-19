@@ -33,7 +33,7 @@ namespace PKHeX.Core
         public Situation6 Situation { get; }
         public PlayTime6 Played { get; }
         public MyStatus6 Status { get; }
-        public Record6 Records { get; }
+        public RecordBlock6 Records { get; }
         public Misc6AO Misc { get; }
 
         public SaveBlockAccessorAODemo(SAV6AODemo sav)
@@ -44,7 +44,7 @@ namespace PKHeX.Core
             Situation = new Situation6(sav, 0x01000);
             Played = new PlayTime6(sav, 0x01400);
             Status = new MyStatus6(sav, 0x03C00);
-            Records = new Record6(sav, 0x05400);
+            Records = new RecordBlock6(sav, 0x05400);
             Misc = new Misc6AO(sav, 0x03A00);
         }
     }

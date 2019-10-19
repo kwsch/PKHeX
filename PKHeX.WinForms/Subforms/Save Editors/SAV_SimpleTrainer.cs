@@ -135,14 +135,14 @@ namespace PKHeX.WinForms
                     control.Visible = true;
                 }
                 L_Coins.Text = "BP"; // no translation boo
-                MT_Coins.Text = s.BattleSubwayBlock.BP.ToString();
+                MT_Coins.Text = s.BattleSubway.BP.ToString();
 
                 var pd = s.PlayerData;
                 NUD_M.Value = pd.M;
                 NUD_X.Value = pd.X;
                 NUD_Z.Value = pd.Z;
                 NUD_Y.Value = pd.Y;
-                badgeval = s.MiscBlock.Badges;
+                badgeval = s.Misc.Badges;
             }
 
             for (int i = 0; i < cba.Length; i++)
@@ -251,8 +251,8 @@ namespace PKHeX.WinForms
                     pd.Z = (int)NUD_Z.Value;
                     pd.Y = (int)NUD_Y.Value;
                 }
-                s.MiscBlock.Badges = badgeval & 0xFF;
-                s.BattleSubwayBlock.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
+                s.Misc.Badges = badgeval & 0xFF;
+                s.BattleSubway.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
             SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);

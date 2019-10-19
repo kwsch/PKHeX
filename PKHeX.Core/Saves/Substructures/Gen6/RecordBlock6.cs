@@ -4,36 +4,36 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public sealed class Record6 : RecordBlock
+    public sealed class RecordBlock6 : RecordBlock
     {
         public const int RecordCount = 200;
         protected override IReadOnlyList<byte> RecordMax { get; }
 
-        public Record6(SAV6XY sav, int offset) : base(sav)
+        public RecordBlock6(SAV6XY sav, int offset) : base(sav)
         {
             Offset = offset;
             RecordMax = Records.MaxType_XY;
         }
 
-        public Record6(SAV6AO sav, int offset) : base(sav)
+        public RecordBlock6(SAV6AO sav, int offset) : base(sav)
         {
             Offset = offset;
             RecordMax = Records.MaxType_AO;
         }
 
-        public Record6(SAV6AODemo sav, int offset) : base(sav)
+        public RecordBlock6(SAV6AODemo sav, int offset) : base(sav)
         {
             Offset = offset;
             RecordMax = Records.MaxType_AO;
         }
 
-        public Record6(SAV7SM sav, int offset) : base(sav)
+        public RecordBlock6(SAV7SM sav, int offset) : base(sav)
         {
             Offset = offset;
             RecordMax = Records.MaxType_SM;
         }
 
-        public Record6(SAV7USUM sav, int offset) : base(sav)
+        public RecordBlock6(SAV7USUM sav, int offset) : base(sav)
         {
             Offset = offset;
             RecordMax = Records.MaxType_USUM;

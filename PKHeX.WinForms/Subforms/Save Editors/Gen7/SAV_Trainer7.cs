@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
 
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.MiscBlock.BP);
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.Misc.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
 
             // Poké Finder
@@ -167,7 +167,7 @@ namespace PKHeX.WinForms
             CHK_Gyro.Checked = SAV.PokeFinder.GyroFlag;
 
             // Battle Tree
-            var bt = SAV.BattleTreeBlock;
+            var bt = SAV.BattleTree;
             NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: false));
             NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: false));
             NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: false));
@@ -185,8 +185,8 @@ namespace PKHeX.WinForms
             CB_SkinColor.SelectedIndex = SAV.MyStatus.DressUpSkinColor;
             TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
-            CB_Vivillon.SelectedIndex = (SAV.MiscBlock.Vivillon < CB_Vivillon.Items.Count) ? SAV.MiscBlock.Vivillon : -1;
-            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.MiscBlock.DaysFromRefreshed);
+            CB_Vivillon.SelectedIndex = (SAV.Misc.Vivillon < CB_Vivillon.Items.Count) ? SAV.Misc.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.Misc.DaysFromRefreshed);
 
             if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
@@ -196,7 +196,7 @@ namespace PKHeX.WinForms
             else
                 CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
 
-            uint stampBits = SAV.MiscBlock.Stamps;
+            uint stampBits = SAV.Misc.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
@@ -292,10 +292,10 @@ namespace PKHeX.WinForms
 
         private void LoadUltraData()
         {
-            NUD_Surf0.Value = SAV.MiscBlock.GetSurfScore(0);
-            NUD_Surf1.Value = SAV.MiscBlock.GetSurfScore(1);
-            NUD_Surf2.Value = SAV.MiscBlock.GetSurfScore(2);
-            NUD_Surf3.Value = SAV.MiscBlock.GetSurfScore(3);
+            NUD_Surf0.Value = SAV.Misc.GetSurfScore(0);
+            NUD_Surf1.Value = SAV.Misc.GetSurfScore(1);
+            NUD_Surf2.Value = SAV.Misc.GetSurfScore(2);
+            NUD_Surf3.Value = SAV.Misc.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
             TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
         }
@@ -306,13 +306,13 @@ namespace PKHeX.WinForms
             SavePokeFinder();
             SaveBattleTree();
             SaveTrainerAppearance();
-            SAV.MiscBlock.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            SAV.Misc.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SaveThrowType();
 
             SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
 
             // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0) SAV.MiscBlock.Vivillon = CB_Vivillon.SelectedIndex;
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Misc.Vivillon = CB_Vivillon.SelectedIndex;
 
             SaveFlags();
 
@@ -357,7 +357,7 @@ namespace PKHeX.WinForms
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
-            SAV.MiscBlock.BP = (uint)NUD_BP.Value;
+            SAV.Misc.BP = (uint)NUD_BP.Value;
             SAV.Festa.FestaCoins = (int)NUD_FC.Value;
         }
 
@@ -373,7 +373,7 @@ namespace PKHeX.WinForms
 
         private void SaveBattleTree()
         {
-            var bt = SAV.BattleTreeBlock;
+            var bt = SAV.BattleTree;
             bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
             bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
             bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
@@ -422,7 +422,7 @@ namespace PKHeX.WinForms
 
         private void SaveFlags()
         {
-            SAV.MiscBlock.Stamps = GetBits(LB_Stamps);
+            SAV.Misc.Stamps = GetBits(LB_Stamps);
 
             SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
             SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
@@ -439,10 +439,10 @@ namespace PKHeX.WinForms
 
         private void SaveUltraData()
         {
-            SAV.MiscBlock.SetSurfScore(0, (int)NUD_Surf0.Value);
-            SAV.MiscBlock.SetSurfScore(1, (int)NUD_Surf1.Value);
-            SAV.MiscBlock.SetSurfScore(2, (int)NUD_Surf2.Value);
-            SAV.MiscBlock.SetSurfScore(3, (int)NUD_Surf3.Value);
+            SAV.Misc.SetSurfScore(0, (int)NUD_Surf0.Value);
+            SAV.Misc.SetSurfScore(1, (int)NUD_Surf1.Value);
+            SAV.Misc.SetSurfScore(2, (int)NUD_Surf2.Value);
+            SAV.Misc.SetSurfScore(3, (int)NUD_Surf3.Value);
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
@@ -519,7 +519,7 @@ namespace PKHeX.WinForms
                 return;
 
             // Clear Block
-            SAV.FashionBlock.Clear();
+            SAV.Fashion.Clear();
 
             // Write Payload
 
@@ -527,20 +527,20 @@ namespace PKHeX.WinForms
             {
                 case 0: // Base Fashion
                 {
-                    SAV.FashionBlock.Reset();
+                    SAV.Fashion.Reset();
                     break;
                 }
                 case 1: // Full Legal
                     byte[] data1 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    SAV.SetData(data1, SAV.FashionBlock.Offset);
+                    SAV.SetData(data1, SAV.Fashion.Offset);
                     break;
                 case 2: // Everything
                     byte[] data2 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    SAV.SetData(data2, SAV.FashionBlock.Offset);
+                    SAV.SetData(data2, SAV.Fashion.Offset);
                     break;
                 default:
                     return;

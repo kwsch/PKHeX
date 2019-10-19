@@ -56,7 +56,7 @@ namespace PKHeX.Core
             Party = 0x000A8;
 
             Box = 0x00B90;
-            Daycare = 0x08170;
+            DaycareOffset = 0x08170;
             Memo = 0x082B0;
 
             // Since PartyCount is not stored in the save file,
@@ -392,7 +392,7 @@ namespace PKHeX.Core
         // 0x01 -- Deposited Level
         // 0x02-0x03 -- unused?
         // 0x04-0x07 -- Initial EXP
-        public override int GetDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
+        public override int GetDaycareSlotOffset(int loc, int slot) { return DaycareOffset + 8; }
         public override uint? GetDaycareEXP(int loc, int slot) { return null; }
         public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { }

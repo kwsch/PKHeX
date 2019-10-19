@@ -8,11 +8,11 @@
         MyStatus8 MyStatus { get; }
         ConfigSave8 Config { get; }
         GameTime8 GameTime { get; }
-        Misc8 MiscBlock { get; }
+        Misc8 Misc { get; }
         Zukan8 Zukan { get; }
         EventWork8 EventWork { get; }
         BoxLayout8 BoxLayout { get; }
         Situation8 Situation { get; }
-        FieldMoveModelSave8 OverworldBlock { get; }
+        FieldMoveModelSave8 Overworld { get; }
     }
 }

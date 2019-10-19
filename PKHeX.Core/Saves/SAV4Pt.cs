@@ -33,7 +33,7 @@ namespace PKHeX.Core
 
             EventConst = 0xDAC;
             EventFlag = 0xFEC;
-            Daycare = 0x1654;
+            DaycareOffset = 0x1654;
             OFS_HONEY = 0x7F38;
 
             OFS_UG_Stats = 0x3CB4;

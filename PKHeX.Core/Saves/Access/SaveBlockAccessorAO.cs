@@ -75,23 +75,23 @@ namespace PKHeX.Core
         public Situation6 Situation { get; }
         public PlayTime6 Played { get; }
         public MyStatus6 Status { get; }
-        public Record6 Records { get; }
+        public RecordBlock6 Records { get; }
 
         public Zukan6AO Zukan { get; }
-        public Puff6 PuffBlock { get; }
+        public Puff6 Puff { get; }
         public BoxLayout6 BoxLayout { get; }
-        public BattleBox6 BattleBoxBlock { get; }
-        public OPower6 OPowerBlock { get; }
-        public MysteryBlock6 MysteryBlock { get; }
+        public BattleBox6 BattleBox { get; }
+        public OPower6 OPower { get; }
+        public MysteryBlock6 MysteryGift { get; }
         public SangoInfoBlock Sango { get; }
-        public Link6 LinkBlock { get; }
+        public LinkBlock6 Link { get; }
         public Misc6AO Misc { get; }
         public SuperTrainBlock SuperTrain { get; }
-        public MaisonBlock MaisonBlock { get; }
+        public MaisonBlock Maison { get; }
 
         public SaveBlockAccessorAO(SAV6AO sav)
         {
-            PuffBlock = new Puff6(sav, 0x0000);
+            Puff = new Puff6(sav, 0x0000);
             Items = new MyItem6AO(sav, 0x00400);
             ItemInfo = new ItemInfo6(sav, 0x1000);
             GameTime = new GameTime6(sav, 0x01200);
@@ -99,15 +99,15 @@ namespace PKHeX.Core
             Played = new PlayTime6(sav, 0x01800);
             Misc = new Misc6AO(sav, 0x04200);
             BoxLayout = new BoxLayout6(sav, 0x04400);
-            BattleBoxBlock = new BattleBox6(sav, 0x04A00);
+            BattleBox = new BattleBox6(sav, 0x04A00);
             Status = new MyStatus6(sav, 0x14000);
             Zukan = new Zukan6AO(sav, 0x15000, 0x400);
-            OPowerBlock = new OPower6(sav, 0x17400);
-            MaisonBlock = new MaisonBlock(sav, 0x1BA00);
-            MysteryBlock = new MysteryBlock6(sav, 0x1CC00);
-            Records = new Record6(sav, 0x1F400);
+            OPower = new OPower6(sav, 0x17400);
+            Maison = new MaisonBlock(sav, 0x1BA00);
+            MysteryGift = new MysteryBlock6(sav, 0x1CC00);
+            Records = new RecordBlock6(sav, 0x1F400);
             SuperTrain = new SuperTrainBlock(sav, 0x20200);
-            LinkBlock = new Link6(sav, 0x20E00);
+            Link = new LinkBlock6(sav, 0x20E00);
             Sango = new SangoInfoBlock(sav, 0x2B600);
         }
     }

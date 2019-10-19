@@ -39,13 +39,13 @@ namespace PKHeX.Core
             SUBE = 0x1D890; // PokeDiarySave
 
             PCLayout = 0x04400;
-            BattleBox = 0x04A00;
+            BattleBoxOffset = 0x04A00;
             PSS = 0x05000;
             Party = 0x14200;
             EventConst = 0x14A00;
             PokeDex = 0x15000;
             HoF = 0x19E00;
-            Daycare = 0x1BC00;
+            DaycareOffset = 0x1BC00;
             BerryField = 0x1C400;
             WondercardFlags = 0x1CC00;
             Contest = 0x23600;
@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
             EventFlag = EventConst + 0x2FC;
             WondercardData = WondercardFlags + 0x100;
-            Daycare2 = Daycare + 0x1F0;
+            Daycare2 = DaycareOffset + 0x1F0;
         }
 
         public int EonTicket { get; private set; }
@@ -74,15 +74,15 @@ namespace PKHeX.Core
         public override Situation6 Situation => Blocks.Situation;
         public override PlayTime6 Played => Blocks.Played;
         public override MyStatus6 Status => Blocks.Status;
-        public override Record6 Records => Blocks.Records;
-        public Puff6 PuffBlock => Blocks.PuffBlock;
-        public OPower6 OPowerBlock => Blocks.OPowerBlock;
-        public Link6 LinkBlock => Blocks.LinkBlock;
+        public override RecordBlock6 Records => Blocks.Records;
+        public Puff6 Puff => Blocks.Puff;
+        public OPower6 OPower => Blocks.OPower;
+        public LinkBlock6 Link => Blocks.Link;
         public BoxLayout6 BoxLayout => Blocks.BoxLayout;
-        public BattleBox6 BattleBoxBlock => Blocks.BattleBoxBlock;
-        public MysteryBlock6 MysteryBlock => Blocks.MysteryBlock;
+        public BattleBox6 BattleBox => Blocks.BattleBox;
+        public MysteryBlock6 MysteryGift => Blocks.MysteryGift;
         public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
-        public MaisonBlock MaisonBlock => Blocks.MaisonBlock;
+        public MaisonBlock Maison => Blocks.Maison;
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;
@@ -118,44 +118,44 @@ namespace PKHeX.Core
 
         public override int GetDaycareSlotOffset(int loc, int slot)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             return ofs + 8 + (slot * (SIZE_STORED + 8));
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             return BitConverter.ToUInt32(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
         }
 
         public override bool? IsDaycareOccupied(int loc, int slot)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             return Data[ofs + ((SIZE_STORED + 8) * slot)] == 1;
         }
 
         public override string GetDaycareRNGSeed(int loc)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
         public override bool? IsDaycareHasEgg(int loc)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             return Data[ofs + 0x1E0] == 1;
         }
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             BitConverter.GetBytes(EXP).CopyTo(Data, ofs + ((SIZE_STORED + 8) * slot) + 4);
         }
 
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
         }
 
@@ -163,17 +163,17 @@ namespace PKHeX.Core
         {
             if (loc != 0)
                 return;
-            if (Daycare < 0)
+            if (DaycareOffset < 0)
                 return;
             if (seed.Length > DaycareSeedSize)
                 return;
 
-            Util.GetBytesFromHexString(seed).CopyTo(Data, Daycare + 0x1E8);
+            Util.GetBytesFromHexString(seed).CopyTo(Data, DaycareOffset + 0x1E8);
         }
 
         public override void SetDaycareHasEgg(int loc, bool hasEgg)
         {
-            int ofs = loc == 0 ? Daycare : Daycare2;
+            int ofs = loc == 0 ? DaycareOffset : Daycare2;
             Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
         }
 
@@ -182,8 +182,8 @@ namespace PKHeX.Core
 
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
 
-        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryBlock.MysteryGiftReceivedFlags; set => Blocks.MysteryBlock.MysteryGiftReceivedFlags = value; }
-        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryBlock.MysteryGiftCards; set => Blocks.MysteryBlock.MysteryGiftCards = value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.MysteryGiftReceivedFlags; set => Blocks.MysteryGift.MysteryGiftReceivedFlags = value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.MysteryGiftCards; set => Blocks.MysteryGift.MysteryGiftCards = value; }
 
         // Gym History
         public ushort[][] GymTeams
@@ -220,8 +220,8 @@ namespace PKHeX.Core
 
         public override bool BattleBoxLocked
         {
-            get => Blocks.BattleBoxBlock.Locked;
-            set => Blocks.BattleBoxBlock.Locked = value;
+            get => Blocks.BattleBox.Locked;
+            set => Blocks.BattleBox.Locked = value;
         }
     }
 }

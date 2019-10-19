@@ -23,13 +23,13 @@ namespace PKHeX.WinForms
                 cb.InitializeBinding();
                 cb.DataSource = new BindingSource(GameInfo.ItemDataSource.Where(item => item.Value <= sav.MaxItemID).ToArray(), null);
             }
-            LinkInfo = SAV.LinkBlock.GetLinkInfo();
+            LinkInfo = SAV.Link.GetLinkInfo();
             LoadLinkData();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            SAV.LinkBlock.SetLinkInfo(LinkInfo);
+            SAV.Link.SetLinkInfo(LinkInfo);
             Origin.CopyChangesFrom((SaveFile)SAV);
             Close();
         }

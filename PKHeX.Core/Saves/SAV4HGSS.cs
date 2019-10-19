@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
             EventConst = 0xDE4;
             EventFlag = 0x10C4;
-            Daycare = 0x15FC;
+            DaycareOffset = 0x15FC;
             Seal = 0x4E20;
 
             Box = 0;

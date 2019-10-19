@@ -61,8 +61,7 @@ namespace PKHeX.Core
             new BlockInfoNDS(0x21100, 0x00f0, 0x211F2, 0x25F68), // 52 Misc (Badge Flags, Money, Trainer Sayings)
             new BlockInfoNDS(0x21200, 0x01b4, 0x213B6, 0x25F6A), // 53 Entralink (Level & Powers etc)
             new BlockInfoNDS(0x21400, 0x04dc, 0x218DE, 0x25F6C), // 54 Pokedex
-            new BlockInfoNDS(0x21900, 0x0034, 0x21936,
-                0x25F6E), // 55 Encount (Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type)
+            new BlockInfoNDS(0x21900, 0x0034, 0x21936, 0x25F6E), // 55 Encount (Swarm and other overworld info - 2C - swarm, 2D - repel steps, 2E repel type)
             new BlockInfoNDS(0x21A00, 0x003c, 0x21A3E, 0x25F70), // 56 Battle Subway Play Info
             new BlockInfoNDS(0x21B00, 0x01ac, 0x21CAE, 0x25F72), // 57 Battle Subway Score Info
             new BlockInfoNDS(0x21D00, 0x0b90, 0x22892, 0x25F74), // 58 Battle Subway WiFI Info
@@ -88,28 +87,23 @@ namespace PKHeX.Core
             BoxLayout = new BoxLayout5(sav, 0x00000);
             Items = new MyItem5B2W2(sav, 0x18400);
             PlayerData = new PlayerData5(sav, 0x19400);
-            MysteryBlock = new MysteryBlock5(sav, 0x1C800);
-            DaycareBlock = new Daycare5(sav, 0x20D00);
-            MiscBlock = new Misc5(sav, 0x21100);
+            Mystery = new MysteryBlock5(sav, 0x1C800);
+            Daycare = new Daycare5(sav, 0x20D00);
+            Misc = new Misc5(sav, 0x21100);
             Zukan = new Zukan5(sav, 0x21400, 0x328); // forme flags size is + 8 from bw with new formes (therians)
-            BattleSubwayBlock = new BattleSubway5(sav, 0x21B00);
-            PWTBlock = new PWTBlock5(sav, 0x23700);
+            BattleSubway = new BattleSubway5(sav, 0x21B00);
+            PWT = new PWTBlock5(sav, 0x23700);
         }
 
         public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksB2W2;
         public MyItem Items { get; }
         public Zukan5 Zukan { get; }
-        public Misc5 MiscBlock { get; }
-        public MysteryBlock5 MysteryBlock { get; }
-        public Daycare5 DaycareBlock { get; }
+        public Misc5 Misc { get; }
+        public MysteryBlock5 Mystery { get; }
+        public Daycare5 Daycare { get; }
         public BoxLayout5 BoxLayout { get; }
         public PlayerData5 PlayerData { get; }
-        public BattleSubway5 BattleSubwayBlock { get; }
-        public PWTBlock5 PWTBlock { get; }
-    }
-
-    public interface ISaveBlock5B2W2
-    {
-        PWTBlock5 PWTBlock { get; }
+        public BattleSubway5 BattleSubway { get; }
+        public PWTBlock5 PWT { get; }
     }
 }

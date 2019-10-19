@@ -43,24 +43,24 @@ namespace PKHeX.Core
 
         #region Blocks
         public abstract MyItem Items { get; }
-        public abstract MysteryBlock7 MysteryBlock { get; }
+        public abstract MysteryBlock7 MysteryGift { get; }
         public abstract PokeFinder7 PokeFinder { get; }
         public abstract JoinFesta7 Festa { get; }
-        public abstract Daycare7 DaycareBlock { get; }
-        public abstract Record6 Records { get; }
+        public abstract Daycare7 Daycare { get; }
+        public abstract RecordBlock6 Records { get; }
         public abstract PlayTime6 Played { get; }
         public abstract MyStatus7 MyStatus { get; }
-        public abstract FieldMoveModelSave7 OverworldBlock { get; }
+        public abstract FieldMoveModelSave7 Overworld { get; }
         public abstract Situation7 Situation { get; }
         public abstract ConfigSave7 Config { get; }
         public abstract GameTime7 GameTime { get; }
-        public abstract Misc7 MiscBlock { get; }
+        public abstract Misc7 Misc { get; }
         public abstract Zukan7 Zukan { get; }
         public abstract BoxLayout7 BoxLayout { get; }
-        public abstract BattleTree7 BattleTreeBlock { get; }
+        public abstract BattleTree7 BattleTree { get; }
         public abstract ResortSave7 ResortSave { get; }
         public abstract FieldMenu7 FieldMenu { get; }
-        public abstract FashionBlock7 FashionBlock { get; }
+        public abstract FashionBlock7 Fashion { get; }
         #endregion
 
         // Configuration
@@ -146,7 +146,7 @@ namespace PKHeX.Core
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
-        public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
+        public override uint Money { get => Misc.Money; set => Misc.Money = value; }
 
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
@@ -255,15 +255,15 @@ namespace PKHeX.Core
         }
 
         public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits
-        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetDaycareSlotOffset(slot);
-        public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.GetIsOccupied(slot);
-        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.RNGSeed;
-        public override bool? IsDaycareHasEgg(int loc) => DaycareBlock.HasEgg;
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
-        public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.RNGSeed = seed;
-        public override void SetDaycareHasEgg(int loc, bool hasEgg) => DaycareBlock.HasEgg = hasEgg;
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetDaycareSlotOffset(slot);
+        public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetIsOccupied(slot);
+        public override string GetDaycareRNGSeed(int loc) => Daycare.RNGSeed;
+        public override bool? IsDaycareHasEgg(int loc) => Daycare.HasEgg;
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.RNGSeed = seed;
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.HasEgg = hasEgg;
 
-        protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
-        protected override DataMysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }
     }
 }

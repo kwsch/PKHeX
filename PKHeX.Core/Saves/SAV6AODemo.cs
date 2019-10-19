@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public override Situation6 Situation => Blocks.Situation;
         public override PlayTime6 Played => Blocks.Played;
         public override MyStatus6 Status => Blocks.Status;
-        public override Record6 Records => Blocks.Records;
+        public override RecordBlock6 Records => Blocks.Records;
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
     }
 }

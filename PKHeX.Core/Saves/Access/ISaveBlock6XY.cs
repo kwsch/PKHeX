@@ -4,6 +4,6 @@
     {
         Misc6XY Misc { get; }
         Zukan6XY Zukan { get; }
-        Fashion6XY Fashion6XY { get; }
+        Fashion6XY Fashion { get; }
     }
 }

@@ -73,41 +73,41 @@ namespace PKHeX.Core
         public Situation6 Situation { get; }
         public PlayTime6 Played { get; }
         public MyStatus6 Status { get; }
-        public Record6 Records { get; }
+        public RecordBlock6 Records { get; }
 
         public SaveBlockAccessorXY(SAV6XY sav)
         {
-            PuffBlock = new Puff6(sav, 0x00000);
+            Puff = new Puff6(sav, 0x00000);
             Items = new MyItem6XY(sav, 0x00400);
             ItemInfo = new ItemInfo6(sav, 0x01000);
             GameTime = new GameTime6(sav, 0x01200);
             Situation = new Situation6(sav, 0x01400);
             Played = new PlayTime6(sav, 0x01800);
-            Fashion6XY = new Fashion6XY(sav, 0x1A00);
+            Fashion = new Fashion6XY(sav, 0x1A00);
             Misc = new Misc6XY(sav, 0x4200);
             BoxLayout = new BoxLayout6(sav, 0x4400);
-            BattleBoxBlock = new BattleBox6(sav, 0x04A00);
+            BattleBox = new BattleBox6(sav, 0x04A00);
             Status = new MyStatus6XY(sav, 0x14000);
             Zukan = new Zukan6XY(sav, 0x15000, 0x3C8);
-            OPowerBlock = new OPower6(sav, 0x16A00);
-            MysteryBlock = new MysteryBlock6(sav, 0x1BC00);
-            Records = new Record6(sav, 0x1E400);
+            OPower = new OPower6(sav, 0x16A00);
+            MysteryGift = new MysteryBlock6(sav, 0x1BC00);
+            Records = new RecordBlock6(sav, 0x1E400);
             SuperTrain = new SuperTrainBlock(sav, 0x1F200);
-            LinkBlock = new Link6(sav, 0x1FE00);
-            MaisonBlock = new MaisonBlock(sav, 0x1B000);
+            Link = new LinkBlock6(sav, 0x1FE00);
+            Maison = new MaisonBlock(sav, 0x1B000);
         }
 
-        public Puff6 PuffBlock { get; }
+        public Puff6 Puff { get; }
         public BoxLayout6 BoxLayout { get; }
-        public BattleBox6 BattleBoxBlock { get; }
-        public OPower6 OPowerBlock { get; }
-        public MysteryBlock6 MysteryBlock { get; }
-        public Link6 LinkBlock { get; }
+        public BattleBox6 BattleBox { get; }
+        public OPower6 OPower { get; }
+        public MysteryBlock6 MysteryGift { get; }
+        public LinkBlock6 Link { get; }
         public SuperTrainBlock SuperTrain { get; }
-        public MaisonBlock MaisonBlock { get; }
+        public MaisonBlock Maison { get; }
 
         public Misc6XY Misc { get; }
         public Zukan6XY Zukan { get; }
-        public Fashion6XY Fashion6XY { get; }
+        public Fashion6XY Fashion { get; }
     }
 }

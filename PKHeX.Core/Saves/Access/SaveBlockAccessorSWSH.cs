@@ -38,12 +38,12 @@ namespace PKHeX.Core
         public MyStatus8 MyStatus { get; }
         public ConfigSave8 Config { get; }
         public GameTime8 GameTime { get; }
-        public Misc8 MiscBlock { get; }
+        public Misc8 Misc { get; }
         public Zukan8 Zukan { get; }
         public EventWork8 EventWork { get; }
         public BoxLayout8 BoxLayout { get; }
         public Situation8 Situation { get; }
-        public FieldMoveModelSave8 OverworldBlock { get; }
+        public FieldMoveModelSave8 Overworld { get; }
 
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
@@ -52,9 +52,9 @@ namespace PKHeX.Core
             Zukan = new Zukan8(sav, GetBlockOffset(SAV8BlockIndex.Pokedex), langFlagStart);
             MyStatus = new MyStatus8(sav, GetBlockOffset(SAV8BlockIndex.MyStatus));
             Played = new PlayTime8(sav, GetBlockOffset(SAV8BlockIndex.PlayTime));
-            MiscBlock = new Misc8(sav, GetBlockOffset(SAV8BlockIndex.Misc));
+            Misc = new Misc8(sav, GetBlockOffset(SAV8BlockIndex.Misc));
             GameTime = new GameTime8(sav, GetBlockOffset(SAV8BlockIndex.GameTime));
-            OverworldBlock = new FieldMoveModelSave8(sav, GetBlockOffset(SAV8BlockIndex.FieldMoveModelSave));
+            Overworld = new FieldMoveModelSave8(sav, GetBlockOffset(SAV8BlockIndex.FieldMoveModelSave));
             Records = new Record8(sav, GetBlockOffset(SAV8BlockIndex.Records), Core.Records.MaxType_SWSH);
             Situation = new Situation8(sav, GetBlockOffset(SAV8BlockIndex.Situation));
             EventWork = new EventWork8(sav);

@@ -113,9 +113,9 @@ namespace PKHeX.Core
         #endregion
 
         #region Battle Box
-        public int BattleBox { get; protected set; } = int.MinValue;
-        public bool HasBattleBox => BattleBox > -1;
-        public int GetBattleBoxOffset(int index) => BattleBox + (SIZE_STORED * index);
+        public int BattleBoxOffset { get; protected set; } = int.MinValue;
+        public bool HasBattleBox => BattleBoxOffset > -1;
+        public int GetBattleBoxOffset(int index) => BattleBoxOffset + (SIZE_STORED * index);
         public virtual bool BattleBoxLocked { get => false; set { } }
 
         public IList<PKM> BattleBoxData
@@ -353,8 +353,8 @@ namespace PKHeX.Core
         public virtual string GameSyncID { get => string.Empty; set { } }
 
         #region Daycare
-        public bool HasDaycare => Daycare > -1;
-        protected int Daycare { get; set; } = int.MinValue;
+        public bool HasDaycare => DaycareOffset > -1;
+        protected int DaycareOffset { get; set; } = int.MinValue;
         public virtual int DaycareSeedSize { get; } = 0;
         public int DaycareIndex = 0;
         public virtual bool HasTwoDaycares => false;

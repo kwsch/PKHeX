@@ -55,43 +55,43 @@ namespace PKHeX.Core
             Situation = new Situation7(sav, bi[01].Offset);
             MyStatus = new MyStatus7(sav, bi[03].Offset);
             Zukan = new Zukan7(sav, bi[06].Offset, 0x550);
-            MiscBlock = new Misc7(sav, bi[09].Offset);
+            Misc = new Misc7(sav, bi[09].Offset);
             FieldMenu = new FieldMenu7(sav, bi[10].Offset);
             Config = new ConfigSave7(sav, bi[11].Offset);
             GameTime = new GameTime7(sav, bi[12].Offset);
             BoxLayout = new BoxLayout7(sav, bi[13].Offset);
             ResortSave = new ResortSave7(sav, bi[15].Offset);
             Played = new PlayTime6(sav, bi[16].Offset);
-            OverworldBlock = new FieldMoveModelSave7(sav, bi[17].Offset);
-            FashionBlock = new FashionBlock7(sav, bi[18].Offset);
+            Overworld = new FieldMoveModelSave7(sav, bi[17].Offset);
+            Fashion = new FashionBlock7(sav, bi[18].Offset);
             Festa = new JoinFesta7(sav, bi[21].Offset);
             PokeFinder = new PokeFinder7(sav, bi[26].Offset);
-            MysteryBlock = new MysteryBlock7(sav, bi[27].Offset);
-            Records = new Record6(sav, bi[28].Offset);
-            BattleTreeBlock = new BattleTree7(sav, bi[32].Offset);
-            DaycareBlock = new Daycare7(sav, bi[33].Offset);
+            MysteryGift = new MysteryBlock7(sav, bi[27].Offset);
+            Records = new RecordBlock6(sav, bi[28].Offset);
+            BattleTree = new BattleTree7(sav, bi[32].Offset);
+            Daycare = new Daycare7(sav, bi[33].Offset);
         }
 
         public IReadOnlyList<BlockInfo7> BlockInfo => BlockInfoSM;
 
         public MyItem Items { get; }
-        public MysteryBlock7 MysteryBlock { get; }
+        public MysteryBlock7 MysteryGift { get; }
         public PokeFinder7 PokeFinder { get; }
         public JoinFesta7 Festa { get; }
-        public Daycare7 DaycareBlock { get; }
-        public Record6 Records { get; }
+        public Daycare7 Daycare { get; }
+        public RecordBlock6 Records { get; }
         public PlayTime6 Played { get; }
         public MyStatus7 MyStatus { get; }
-        public FieldMoveModelSave7 OverworldBlock { get; }
+        public FieldMoveModelSave7 Overworld { get; }
         public Situation7 Situation { get; }
         public ConfigSave7 Config { get; }
         public GameTime7 GameTime { get; }
-        public Misc7 MiscBlock { get; }
+        public Misc7 Misc { get; }
         public Zukan7 Zukan { get; }
         public BoxLayout7 BoxLayout { get; }
-        public BattleTree7 BattleTreeBlock { get; }
+        public BattleTree7 BattleTree { get; }
         public ResortSave7 ResortSave { get; }
         public FieldMenu7 FieldMenu { get; }
-        public FashionBlock7 FashionBlock { get; }
+        public FashionBlock7 Fashion { get; }
     }
 }

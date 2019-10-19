@@ -445,11 +445,11 @@ namespace PKHeX.Core
         }
 
         // Daycare
-        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare + (slot * SIZE_PARTY);
+        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + (slot * SIZE_PARTY);
 
         public override uint? GetDaycareEXP(int loc, int slot)
         {
-            int ofs = Daycare + ((slot+1)*SIZE_PARTY) - 4;
+            int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
             return BitConverter.ToUInt32(General, ofs);
         }
 
@@ -457,7 +457,7 @@ namespace PKHeX.Core
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)
         {
-            int ofs = Daycare + ((slot+1)*SIZE_PARTY) - 4;
+            int ofs = DaycareOffset + ((slot+1)*SIZE_PARTY) - 4;
             BitConverter.GetBytes(EXP).CopyTo(General, ofs);
         }
 

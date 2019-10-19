@@ -84,21 +84,21 @@ namespace PKHeX.Core
             BoxLayout = new BoxLayout5(sav, 0x00000);
             Items = new MyItem5BW(sav, 0x18400);
             PlayerData = new PlayerData5(sav, 0x19400);
-            MysteryBlock = new MysteryBlock5(sav, 0x1C800);
-            DaycareBlock = new Daycare5(sav, 0x20E00);
-            MiscBlock = new Misc5(sav, 0x21200);
+            Mystery = new MysteryBlock5(sav, 0x1C800);
+            Daycare = new Daycare5(sav, 0x20E00);
+            Misc = new Misc5(sav, 0x21200);
             Zukan = new Zukan5(sav, 0x21600, 0x320);
-            BattleSubwayBlock = new BattleSubway5(sav, 0x21D00);
+            BattleSubway = new BattleSubway5(sav, 0x21D00);
         }
 
         public IReadOnlyList<BlockInfoNDS> BlockInfo => BlocksBW;
         public MyItem Items { get; }
         public Zukan5 Zukan { get; }
-        public Misc5 MiscBlock { get; }
-        public MysteryBlock5 MysteryBlock { get; }
-        public Daycare5 DaycareBlock { get; }
+        public Misc5 Misc { get; }
+        public MysteryBlock5 Mystery { get; }
+        public Daycare5 Daycare { get; }
         public BoxLayout5 BoxLayout { get; }
         public PlayerData5 PlayerData { get; }
-        public BattleSubway5 BattleSubwayBlock { get; }
+        public BattleSubway5 BattleSubway { get; }
     }
 }

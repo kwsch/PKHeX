@@ -108,7 +108,7 @@ namespace PKHeX.Core
             Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PKX.SIZE_1STORED);
             PokeList1 daycareList = new PokeList1(TempDaycare, PokeListType.Single, Japanese);
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
-            Daycare = GetPartyOffset(7);
+            DaycareOffset = GetPartyOffset(7);
 
             EventFlag = Offsets.EventFlag;
 
@@ -382,7 +382,7 @@ namespace PKHeX.Core
 
         public override int GetDaycareSlotOffset(int loc, int slot)
         {
-            return Daycare;
+            return DaycareOffset;
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)

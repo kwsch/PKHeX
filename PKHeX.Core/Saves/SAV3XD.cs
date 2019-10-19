@@ -89,7 +89,7 @@ namespace PKHeX.Core
             Trainer1 = subOffsets[1] + 0xA8;
             Party = Trainer1 + 0x30;
             Box = subOffsets[2] + 0xA8;
-            Daycare = subOffsets[4] + 0xA8;
+            DaycareOffset = subOffsets[4] + 0xA8;
             Memo = subOffsets[5] + 0xA8;
             Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
@@ -350,7 +350,7 @@ namespace PKHeX.Core
         // 0x01 -- Deposited Level
         // 0x02-0x03 -- unused?
         // 0x04-0x07 -- Initial EXP
-        public override int GetDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
+        public override int GetDaycareSlotOffset(int loc, int slot) { return DaycareOffset + 8; }
         public override uint? GetDaycareEXP(int loc, int slot) { return null; }
         public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }

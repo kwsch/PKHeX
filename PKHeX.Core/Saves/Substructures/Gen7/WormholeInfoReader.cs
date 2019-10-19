@@ -9,8 +9,8 @@ namespace PKHeX.Core
         // https://projectpokemon.org/home/forums/topic/39433-gen-7-save-research-thread/?page=3&tab=comments#comment-239090
         public bool WormholeShininess // 0x4535 = Misc (0x4400 in USUM) + 0x0135
         {
-            get => SAV.Data[SAV.MiscBlock.Offset + 0x0135] == 1;
-            set => SAV.Data[SAV.MiscBlock.Offset + 0x0135] = (byte)(value ? 1 : 0);
+            get => SAV.Data[SAV.Misc.Offset + 0x0135] == 1;
+            set => SAV.Data[SAV.Misc.Offset + 0x0135] = (byte)(value ? 1 : 0);
         }
 
         public const int WormholeSlotMax = 15;

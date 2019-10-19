@@ -72,13 +72,13 @@ namespace PKHeX.Core
 
         // Daycare
         public override int DaycareSeedSize => Daycare5.DaycareSeedSize;
-        public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.IsOccupied(slot);
-        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetPKMOffset(slot);
-        public override uint? GetDaycareEXP(int loc, int slot) => DaycareBlock.GetEXP(slot);
-        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.GetSeed()?.ToString("X16") ?? string.Empty;
-        public override void SetDaycareEXP(int loc, int slot, uint EXP) => DaycareBlock.SetEXP(slot, EXP);
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
-        public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.SetSeed(seed);
+        public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.IsOccupied(slot);
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetPKMOffset(slot);
+        public override uint? GetDaycareEXP(int loc, int slot) => Daycare.GetEXP(slot);
+        public override string GetDaycareRNGSeed(int loc) => Daycare.GetSeed()?.ToString("X16") ?? string.Empty;
+        public override void SetDaycareEXP(int loc, int slot, uint EXP) => Daycare.SetEXP(slot, EXP);
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.SetSeed(seed);
 
         // Storage
         public override int PartyCount
@@ -99,8 +99,8 @@ namespace PKHeX.Core
 
         public override bool BattleBoxLocked
         {
-            get => Data[BattleBox + 0x358] != 0; // wifi/live
-            set => Data[BattleBox + 0x358] = (byte)(value ? 1 : 0);
+            get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live
+            set => Data[BattleBoxOffset + 0x358] = (byte)(value ? 1 : 0);
         }
 
         protected override void SetPKM(PKM pkm)
@@ -122,10 +122,10 @@ namespace PKHeX.Core
         public override int PlayedHours { get => PlayerData.PlayedHours; set => PlayerData.PlayedHours = value; }
         public override int PlayedMinutes { get => PlayerData.PlayedMinutes; set => PlayerData.PlayedMinutes = value; }
         public override int PlayedSeconds { get => PlayerData.PlayedSeconds; set => PlayerData.PlayedSeconds = value; }
-        public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
+        public override uint Money { get => Misc.Money; set => Misc.Money = value; }
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
-        public override MysteryGiftAlbum GiftAlbum { get => MysteryBlock.GiftAlbum; set => MysteryBlock.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
+        public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
@@ -196,12 +196,12 @@ namespace PKHeX.Core
         public abstract IReadOnlyList<BlockInfo> AllBlocks { get; }
         public abstract MyItem Items { get; }
         public abstract Zukan5 Zukan { get; }
-        public abstract Misc5 MiscBlock { get; }
-        public abstract MysteryBlock5 MysteryBlock { get; }
-        public abstract Daycare5 DaycareBlock { get; }
+        public abstract Misc5 Misc { get; }
+        public abstract MysteryBlock5 Mystery { get; }
+        public abstract Daycare5 Daycare { get; }
         public abstract BoxLayout5 BoxLayout { get; }
         public abstract PlayerData5 PlayerData { get; }
-        public abstract BattleSubway5 BattleSubwayBlock { get; }
+        public abstract BattleSubway5 BattleSubway { get; }
 
         public int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);

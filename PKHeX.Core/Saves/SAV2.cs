@@ -132,7 +132,7 @@ namespace PKHeX.Core
                 daycare1.Write().CopyTo(Data, GetPartyOffset(7 + (0 * 2)));
                 daycare2.Write().CopyTo(Data, GetPartyOffset(7 + (1 * 2)));
                 daycare3.Write().CopyTo(Data, GetPartyOffset(7 + (2 * 2)));
-                Daycare = Offsets.Daycare;
+                DaycareOffset = Offsets.Daycare;
             }
 
             // Enable Pokedex editing

@@ -133,7 +133,7 @@ namespace PKHeX.WinForms
             if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    MaisonRecords[i].Text = xyao.MaisonBlock.GetMaisonStat(i).ToString();
+                    MaisonRecords[i].Text = xyao.Maison.GetMaisonStat(i).ToString();
             }
 
             var sit = SAV.Situation;
@@ -222,7 +222,7 @@ namespace PKHeX.WinForms
             if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    xyao.MaisonBlock.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+                    xyao.Maison.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
             }
 
             // Copy Position
@@ -329,7 +329,7 @@ namespace PKHeX.WinForms
         private void GiveAllAccessories(object sender, EventArgs e)
         {
             if (SAV is SAV6XY xy)
-                xy.Blocks.Fashion6XY.UnlockAllAccessories();
+                xy.Blocks.Fashion.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)

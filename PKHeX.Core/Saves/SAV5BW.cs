@@ -25,24 +25,24 @@ namespace PKHeX.Core
 
         private void Initialize()
         {
-            BattleBox = 0x20A00;
+            BattleBoxOffset = 0x20A00;
             EventConst = 0x20100;
             EventFlag = EventConst + 0x27C;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52000;
             EntreeForestOffset = 0x22C00;
             PokeDex = Blocks.Zukan.PokeDex;
-            WondercardData = Blocks.MysteryBlock.Offset;
+            WondercardData = Blocks.Mystery.Offset;
         }
 
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
         public override MyItem Items => Blocks.Items;
         public override Zukan5 Zukan => Blocks.Zukan;
-        public override Misc5 MiscBlock => Blocks.MiscBlock;
-        public override MysteryBlock5 MysteryBlock => Blocks.MysteryBlock;
-        public override Daycare5 DaycareBlock => Blocks.DaycareBlock;
+        public override Misc5 Misc => Blocks.Misc;
+        public override MysteryBlock5 Mystery => Blocks.Mystery;
+        public override Daycare5 Daycare => Blocks.Daycare;
         public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
         public override PlayerData5 PlayerData => Blocks.PlayerData;
-        public override BattleSubway5 BattleSubwayBlock => Blocks.BattleSubwayBlock;
+        public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
     }
 }

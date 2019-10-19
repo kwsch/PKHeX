@@ -31,12 +31,12 @@ namespace PKHeX.Core
         public override MyStatus8 MyStatus => Blocks.MyStatus;
         public override ConfigSave8 Config => Blocks.Config;
         public override GameTime8 GameTime => Blocks.GameTime;
-        public override Misc8 MiscBlock => Blocks.MiscBlock;
+        public override Misc8 Misc => Blocks.Misc;
         public override Zukan8 Zukan => Blocks.Zukan;
         public override EventWork8 EventWork => Blocks.EventWork;
         public override BoxLayout8 BoxLayout => Blocks.BoxLayout;
         public override Situation8 Situation => Blocks.Situation;
-        public override FieldMoveModelSave8 OverworldBlock => Blocks.OverworldBlock;
+        public override FieldMoveModelSave8 Overworld => Blocks.Overworld;
 
         #endregion
         public override SaveFile Clone() => new SAV8SWSH((byte[])Data.Clone());

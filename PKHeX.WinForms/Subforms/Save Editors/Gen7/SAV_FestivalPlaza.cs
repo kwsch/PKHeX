@@ -301,7 +301,7 @@ namespace PKHeX.WinForms
                 var m = (int)NUD_Trainers[i].Maximum;
                 NUD_Trainers[i].Value = (uint)j > m ? m : j;
             }
-            B_AgentGlass.Enabled = (SAV.GetData(SAV.FashionBlock.Offset + 0xD0, 1)[0] & 1) == 0;
+            B_AgentGlass.Enabled = (SAV.GetData(SAV.Fashion.Offset + 0xD0, 1)[0] & 1) == 0;
         }
 
         private void LoadPictureBox()
@@ -733,7 +733,7 @@ namespace PKHeX.WinForms
         {
             if (NUD_Grade.Value < 30 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Agent Sunglasses is reward of Grade 30.", "Continue?"))
                 return;
-            SAV.SetData(new byte[] { 3 }, SAV.FashionBlock.Offset + 0xD0);
+            SAV.SetData(new byte[] { 3 }, SAV.Fashion.Offset + 0xD0);
             B_AgentGlass.Enabled = false;
             System.Media.SystemSounds.Asterisk.Play();
         }
