@@ -130,10 +130,10 @@ namespace PKHeX.WinForms
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data
-            if (SAV.MaisonStats > -1)
+            if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    MaisonRecords[i].Text = SAV.GetMaisonStat(i).ToString();
+                    MaisonRecords[i].Text = xyao.MaisonBlock.GetMaisonStat(i).ToString();
             }
 
             var sit = SAV.Situation;
@@ -219,10 +219,10 @@ namespace PKHeX.WinForms
             status.Saying5 = TB_Saying5.Text;
 
             // Copy Maison Data in
-            if (SAV.MaisonStats > -1)
+            if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    SAV.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+                    xyao.MaisonBlock.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
             }
 
             // Copy Position

@@ -39,10 +39,8 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK6(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray6(data);
 
-
         protected int WondercardFlags { get; set; } = int.MinValue;
         protected int JPEG { get; set; } = int.MinValue;
-        public int MaisonStats { get; protected set; } = int.MinValue;
         public int PSS { get; protected set; } = int.MinValue;
         public int SUBE { get; protected set; } = int.MinValue;
         public int BerryField { get; protected set; } = int.MinValue;
@@ -77,9 +75,6 @@ namespace PKHeX.Core
         public override uint SecondsToStart { get => GameTime.SecondsToStart; set => GameTime.SecondsToStart = value; }
         public override uint SecondsToFame { get => GameTime.SecondsToFame; set => GameTime.SecondsToFame = value; }
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
-
-        public ushort GetMaisonStat(int index) { return BitConverter.ToUInt16(Data, MaisonStats + (2 * index)); }
-        public void SetMaisonStat(int index, ushort value) { BitConverter.GetBytes(value).CopyTo(Data, MaisonStats + (2 * index)); }
 
         // Daycare
         public override int DaycareSeedSize => 16;

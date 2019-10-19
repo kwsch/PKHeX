@@ -45,7 +45,6 @@ namespace PKHeX.Core
             EventConst = 0x14A00;
             PokeDex = 0x15000;
             HoF = 0x19E00;
-            MaisonStats = 0x1BBC0;
             Daycare = 0x1BC00;
             BerryField = 0x1C400;
             WondercardFlags = 0x1CC00;
@@ -83,6 +82,7 @@ namespace PKHeX.Core
         public BattleBox6 BattleBoxBlock => Blocks.BattleBoxBlock;
         public MysteryBlock6 MysteryBlock => Blocks.MysteryBlock;
         public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
+        public MaisonBlock MaisonBlock => Blocks.MaisonBlock;
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;

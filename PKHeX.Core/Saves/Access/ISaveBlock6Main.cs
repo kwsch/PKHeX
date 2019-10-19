@@ -6,5 +6,6 @@
         BattleBox6 BattleBoxBlock { get; }
         MysteryBlock6 MysteryBlock { get; }
         SuperTrainBlock SuperTrain { get; }
+        MaisonBlock MaisonBlock { get; }
     }
 }

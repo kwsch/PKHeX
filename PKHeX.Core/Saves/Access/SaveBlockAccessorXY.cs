@@ -94,6 +94,7 @@ namespace PKHeX.Core
             Records = new Record6(sav, 0x1E400);
             SuperTrain = new SuperTrainBlock(sav, 0x1F200);
             LinkBlock = new Link6(sav, 0x1FE00);
+            MaisonBlock = new MaisonBlock(sav, 0x1B000);
         }
 
         public Puff6 PuffBlock { get; }
@@ -103,6 +104,7 @@ namespace PKHeX.Core
         public MysteryBlock6 MysteryBlock { get; }
         public Link6 LinkBlock { get; }
         public SuperTrainBlock SuperTrain { get; }
+        public MaisonBlock MaisonBlock { get; }
 
         public Misc6XY Misc { get; }
         public Zukan6XY Zukan { get; }
