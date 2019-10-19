@@ -32,6 +32,7 @@ namespace PKHeX.Core
             CGearDataOffset = 0x52800;
             EntreeForestOffset = 0x22A00;
             PokeDex = Blocks.Zukan.PokeDex;
+            WondercardData = Blocks.MysteryBlock.Offset;
         }
 
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;

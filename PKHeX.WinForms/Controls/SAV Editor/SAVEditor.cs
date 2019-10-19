@@ -996,10 +996,10 @@ namespace PKHeX.WinForms.Controls
                 B_OpenPokeblocks.Enabled = sav is SAV6AO;
                 B_OpenSecretBase.Enabled = sav is SAV6AO;
                 B_OpenPokepuffs.Enabled = sav is IPokePuff;
-                B_JPEG.Visible = B_OpenLinkInfo.Enabled = B_OpenSuperTraining.Enabled = B_OUTPasserby.Enabled = sav is SAV6XY || sav is SAV6AO;
+                B_JPEG.Visible = B_OpenLinkInfo.Enabled = B_OpenSuperTraining.Enabled = B_OUTPasserby.Enabled = sav is ISaveBlock6Main;
                 B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
                 B_OpenWondercards.Enabled = sav.HasWondercards;
-                B_OpenHallofFame.Enabled = sav is SAV6XY || sav is SAV6AO || sav is SAV7;
+                B_OpenHallofFame.Enabled = sav is ISaveBlock6Main || sav is SAV7;
                 B_OpenOPowers.Enabled = sav is IOPower;
                 B_OpenPokedex.Enabled = sav.HasPokeDex;
                 B_OpenBerryField.Enabled = sav is SAV6XY; // oras undocumented
