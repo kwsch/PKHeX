@@ -58,7 +58,7 @@ namespace PKHeX.Core
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
-            SetDexFlags(baseBit, 0, gender, shiny);
+            SetDexFlags(baseBit, baseBit, gender, shiny);
             SetFormFlags(baseBit + 1, altform, shiny, value);
         }
 
@@ -82,9 +82,17 @@ namespace PKHeX.Core
 
         protected override void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
         {
+            if (!value)
+            {
+                SetDisplayed(baseBit, shift, false);
+                return;
+            }
+
             bool displayed = GetIsSpeciesAnyDisplayed(baseBit);
-            if (!displayed || !value)
-                SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), baseBit, value);
+            if (displayed)
+                return; // no need to set another bit
+
+            SetDisplayed(baseBit, shift, true);
         }
 
         private bool GetIsSpeciesAnyDisplayed(int baseBit)

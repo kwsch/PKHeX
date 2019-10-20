@@ -59,7 +59,7 @@ namespace PKHeX.Core
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
-            SetDexFlags(baseBit, 0, gender, shiny);
+            SetDexFlags(baseBit, baseBit, gender, shiny);
             SetFormFlags(baseBit + 1, altform, shiny, value);
         }
 

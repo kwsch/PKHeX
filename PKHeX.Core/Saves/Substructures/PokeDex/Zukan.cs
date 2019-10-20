@@ -127,9 +127,18 @@ namespace PKHeX.Core
 
         protected virtual void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
         {
+            var bit = formBit >= 0 ? formBit : baseBit;
+            if (!value)
+            {
+                SetDisplayed(bit, shift, false);
+                return;
+            }
+
             bool displayed = GetIsSpeciesFormAnyDisplayed(baseBit, formBit);
-            if (!displayed || !value)
-                SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), formBit, value);
+            if (displayed)
+                return; // no need to set another bit
+
+            SetDisplayed(bit, shift, true);
         }
 
         private bool GetIsSpeciesFormAnyDisplayed(int baseBit, int formBit)
