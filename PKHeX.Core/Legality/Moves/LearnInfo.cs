@@ -22,7 +22,7 @@ namespace PKHeX.Core
         }
     }
 
-    public struct LearnVersion
+    public readonly struct LearnVersion
     {
         public readonly GameVersion Game;
         public readonly int Level;
@@ -34,5 +34,10 @@ namespace PKHeX.Core
         }
 
         public bool IsLevelUp => Level >= 0;
+
+        public override bool Equals(object obj) => obj is LearnVersion v && v.Game == Game && v.Level == Level;
+        public override int GetHashCode() => -1;
+        public static bool operator ==(LearnVersion left, LearnVersion right) => left.Equals(right);
+        public static bool operator !=(LearnVersion left, LearnVersion right) => !(left == right);
     }
 }
