@@ -636,7 +636,6 @@ namespace PKHeX.Core
             576, // Dream Ball
             584, // Relic Copper
             585, // Relic Silver
-            586, // Relic Gold
             587, // Relic Vase
             588, // Relic Band
             589, // Relic Statue
