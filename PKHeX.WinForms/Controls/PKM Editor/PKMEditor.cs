@@ -1548,8 +1548,17 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Secondary Windows for Ribbons/Amie/Memories
-        private void OpenRibbons(object sender, EventArgs e) => new RibbonEditor(pkm).ShowDialog();
-        private void OpenMedals(object sender, EventArgs e) => new SuperTrainingEditor(pkm).ShowDialog();
+        private void OpenRibbons(object sender, EventArgs e)
+        {
+            using var form = new RibbonEditor(pkm);
+            form.ShowDialog();
+        }
+
+        private void OpenMedals(object sender, EventArgs e)
+        {
+            using var form = new SuperTrainingEditor(pkm);
+            form.ShowDialog();
+        }
 
         private void OpenHistory(object sender, EventArgs e)
         {

@@ -507,19 +507,83 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Subfunction Save Buttons //
-        private void B_OpenWondercards_Click(object sender, EventArgs e) => new SAV_Wondercard(SAV, sender as DataMysteryGift).ShowDialog();
-        private void B_OpenPokepuffs_Click(object sender, EventArgs e) => new SAV_Pokepuff(SAV).ShowDialog();
-        private void B_OpenPokeBeans_Click(object sender, EventArgs e) => new SAV_Pokebean(SAV).ShowDialog();
-        private void B_OpenItemPouch_Click(object sender, EventArgs e) => new SAV_Inventory(SAV).ShowDialog();
-        private void B_OpenBerryField_Click(object sender, EventArgs e) => new SAV_BerryFieldXY((SAV6XY)SAV).ShowDialog();
-        private void B_OpenPokeblocks_Click(object sender, EventArgs e) => new SAV_PokeBlockORAS(SAV).ShowDialog();
-        private void B_OpenSuperTraining_Click(object sender, EventArgs e) => new SAV_SuperTrain(SAV).ShowDialog();
-        private void B_OpenSecretBase_Click(object sender, EventArgs e) => new SAV_SecretBase(SAV).ShowDialog();
-        private void B_CellsStickers_Click(object sender, EventArgs e) => new SAV_ZygardeCell(SAV).ShowDialog();
-        private void B_LinkInfo_Click(object sender, EventArgs e) => new SAV_Link6(SAV).ShowDialog();
-        private void B_Roamer_Click(object sender, EventArgs e) => new SAV_Roamer3(SAV).ShowDialog();
-        private void B_OpenApricorn_Click(object sender, EventArgs e) => new SAV_Apricorn((SAV4HGSS)SAV).ShowDialog();
-        private void B_CGearSkin_Click(object sender, EventArgs e) => new SAV_CGearSkin(SAV).ShowDialog();
+        private void B_OpenWondercards_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Wondercard(SAV, sender as DataMysteryGift);
+            form.ShowDialog();
+        }
+
+        private void B_OpenPokepuffs_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Pokepuff(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenPokeBeans_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Pokebean(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenItemPouch_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Inventory(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenBerryField_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_BerryFieldXY((SAV6XY) SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenPokeblocks_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_PokeBlockORAS(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenSuperTraining_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_SuperTrain(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenSecretBase_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_SecretBase(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_CellsStickers_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_ZygardeCell(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_LinkInfo_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Link6(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_Roamer_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Roamer3(SAV);
+            form.ShowDialog();
+        }
+
+        private void B_OpenApricorn_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_Apricorn((SAV4HGSS) SAV);
+            form.ShowDialog();
+        }
+
+        private void B_CGearSkin_Click(object sender, EventArgs e)
+        {
+            using var form = new SAV_CGearSkin(SAV);
+            form.ShowDialog();
+        }
 
         private void B_OpenEventFlags_Click(object sender, EventArgs e)
         {
@@ -535,7 +599,8 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenBoxLayout_Click(object sender, EventArgs e)
         {
-            new SAV_BoxLayout(SAV, Box.CurrentBox).ShowDialog();
+            using var form = new SAV_BoxLayout(SAV, Box.CurrentBox);
+            form.ShowDialog();
             Box.ResetBoxNames(); // fix box names
             Box.ResetSlots(); // refresh box background
             UpdateBoxViewers(all: true); // update subviewers
@@ -544,7 +609,7 @@ namespace PKHeX.WinForms.Controls
         private void B_OpenTrainerInfo_Click(object sender, EventArgs e)
         {
             using var form = GetTrainerEditor(SAV);
-            form?.ShowDialog();
+            form.ShowDialog();
         }
 
         private static Form GetTrainerEditor(SaveFile sav)
@@ -1110,23 +1175,26 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
         {
-            switch (SAV.Version)
+            if (SAV is SAV4Sinnoh s)
             {
-                case GameVersion.DP:
-                case GameVersion.Pt:
-                    new SAV_Underground(SAV).ShowDialog(); break;
+                using var form = new SAV_Underground(s);
+                form.ShowDialog();
             }
         }
 
         private void B_FestivalPlaza_Click(object sender, EventArgs e)
         {
-            if (SAV is SAV7)
-                new SAV_FestivalPlaza(SAV).ShowDialog();
+            if (SAV is SAV7 s)
+            {
+                using var form = new SAV_FestivalPlaza(s);
+                form.ShowDialog();
+            }
         }
 
         private void B_MailBox_Click(object sender, EventArgs e)
         {
-            new SAV_MailBox(SAV).ShowDialog();
+            using var form = new SAV_MailBox(SAV);
+            form.ShowDialog();
             ResetParty();
         }
 
