@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Generation 6 <see cref="SaveFile"/> object for <see cref="GameVersion.XY"/>.
     /// </summary>
     /// <inheritdoc cref="SAV6" />
-    public sealed class SAV6XY : SAV6, ISaveBlock6Main
+    public sealed class SAV6XY : SAV6, ISaveBlock6XY
     {
         public SAV6XY(byte[] data) : base(data, SaveBlockAccessorXY.boXY)
         {
@@ -76,6 +76,9 @@ namespace PKHeX.Core
         public MysteryBlock6 MysteryGift => Blocks.MysteryGift;
         public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
         public MaisonBlock Maison => Blocks.Maison;
+        public Zukan6XY Zukan => Blocks.Zukan;
+        public Misc6XY Misc => Blocks.Misc;
+        public Fashion6XY Fashion => Blocks.Fashion;
         #endregion
 
         protected override void SetDex(PKM pkm) => Blocks.Zukan.SetDex(pkm);
