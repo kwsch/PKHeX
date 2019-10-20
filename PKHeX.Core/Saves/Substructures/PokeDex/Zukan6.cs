@@ -8,7 +8,7 @@ namespace PKHeX.Core
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
         protected override int OFS_CAUGHT => 0x8;
         protected override int BitSeenSize => 0x60;
-        protected override int DexLangFlagByteCount => 7;
+        protected override int DexLangFlagByteCount => 631; // 721 * 7, rounded up
         protected override int DexLangIDCount => 7;
         protected int SpindaOffset { get; set; }
 
