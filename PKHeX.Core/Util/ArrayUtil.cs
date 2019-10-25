@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// </summary>
     public static class ArrayUtil
     {
-        public static bool IsRangeAll(this byte[] data, int value, int offset, int length)
+        public static bool IsRangeAll<T>(this T[] data, T value, int offset, int length) where T : IEquatable<T>
         {
             int start = offset + length - 1;
             int end = offset;
             for (int i = start; i >= end; i--)
             {
-                if (data[i] != value)
+                if (!data[i].Equals(value))
                     return false;
             }
 
@@ -36,23 +36,38 @@ namespace PKHeX.Core
             return data;
         }
 
+        public static T[] Slice<T>(this T[] src, int offset, int length)
+        {
+            var data = new T[length];
+            Array.Copy(src, offset, data, 0, data.Length);
+            return data;
+        }
+
+        public static T[] SliceEnd<T>(this T[] src, int offset)
+        {
+            int length = src.Length - offset;
+            var data = new T[length];
+            Array.Copy(src, offset, data, 0, data.Length);
+            return data;
+        }
+
         public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 
-        public static byte[][] Split(this byte[] data, int size)
+        public static T[][] Split<T>(this T[] data, int size)
         {
-            byte[][] result = new byte[data.Length / size][];
+            var result = new T[data.Length / size][];
             for (int i = 0; i < data.Length; i += size)
                 result[i / size] = data.Slice(i, size);
             return result;
         }
 
-        public static IEnumerable<byte[]> EnumerateSplit(byte[] bin, int size, int start = 0)
+        public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start = 0)
         {
             for (int i = start; i < bin.Length; i += size)
                 yield return bin.Slice(i, size);
         }
 
-        public static IEnumerable<byte[]> EnumerateSplit(byte[] bin, int size, int start, int end)
+        public static IEnumerable<T[]> EnumerateSplit<T>(T[] bin, int size, int start, int end)
         {
             if (end < 0)
                 end = bin.Length;

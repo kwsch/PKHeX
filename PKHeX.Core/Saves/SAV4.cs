@@ -153,10 +153,10 @@ namespace PKHeX.Core
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
             int start = 0;
-            if (Data.IsRangeAll(0, start, 10) || Data.IsRangeAll(0xFF, start, 10))
+            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
                 return 1;
             start += 0x40000; // check other save
-            if (Data.IsRangeAll(0, start, 10) || Data.IsRangeAll(0xFF, start, 10))
+            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
                 return 0;
 
             int ofs = GetGeneralBlockSaveCounterOffset();
@@ -169,10 +169,10 @@ namespace PKHeX.Core
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
             int start = StorageStart;
-            if (Data.IsRangeAll(0, start, 10) || Data.IsRangeAll(0xFF, start, 10))
+            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
                 return 1;
             start += 0x40000; // check other save
-            if (Data.IsRangeAll(0, start, 10) || Data.IsRangeAll(0xFF, start, 10))
+            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
                 return 0;
 
             int ofs = GetStorageBlockSaveCounterOffset();
