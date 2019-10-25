@@ -282,9 +282,15 @@ namespace PKHeX.Core
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
+        /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk) => new LegalityAnalysis(pk).GetSuggestedRelearnMoves();
+
+        /// <summary>
+        /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
+        /// </summary>
         /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk, LegalityAnalysis legal)
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal)
         {
             var m = legal.GetSuggestedRelearn();
             if (m.Any(z => z != 0))
@@ -361,7 +367,7 @@ namespace PKHeX.Core
 
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
-                pk.SetRelearnMoves(pk.GetSuggestedRelearnMoves(legal));
+                pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
             pk.RefreshChecksum();
         }
 
@@ -606,7 +612,17 @@ namespace PKHeX.Core
         public static int[] GetMoveSet(this PKM pkm, bool random = false)
         {
             var la = new LegalityAnalysis(pkm);
-            return pkm.GetMoveSet(la, random);
+            var moves = pkm.GetMoveSet(la, random);
+
+            if (random)
+                return moves;
+
+            var clone = pkm.Clone();
+            clone.SetMoves(moves);
+            var newLa = new LegalityAnalysis(pkm);
+
+            // ReSharper disable once TailRecursiveCall
+            return newLa.Valid ? moves : GetMoveSet(pkm, true);
         }
 
         /// <summary>
@@ -630,7 +646,7 @@ namespace PKHeX.Core
 
             const int count = 4;
             if (m.Length > count)
-                return m.Skip(m.Length - count).ToArray();
+                return m.SliceEnd(m.Length - count);
             Array.Resize(ref m, count);
             return m;
         }

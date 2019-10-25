@@ -671,7 +671,7 @@ namespace PKHeX.WinForms.Controls
             if (pkm.Format < 6)
                 return false;
 
-            var m = pkm.GetSuggestedRelearnMoves(Legality);
+            var m = Legality.GetSuggestedRelearnMoves();
             if (pkm.RelearnMoves.SequenceEqual(m))
                 return false;
 
