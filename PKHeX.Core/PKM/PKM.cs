@@ -912,7 +912,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <remarks>
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
-        /// If a <see cref="PKM"/> is in the <see cref="_K12"/> format, it will update the <see cref="IVs"/> instead.
+        /// If a <see cref="PKM"/> is in the <see cref="GBPKM"/> format, it will update the <see cref="IVs"/> instead.
         /// </remarks>
         public virtual void SetShiny()
         {

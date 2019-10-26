@@ -112,7 +112,7 @@ namespace PKHeX.Core
 
         private byte[] GetInnerData()
         {
-            StrategyMemo.FinalData.CopyTo(Data, Memo);
+            StrategyMemo.Write().CopyTo(Data, Memo);
             SetChecksums();
 
             // Get updated save slot data

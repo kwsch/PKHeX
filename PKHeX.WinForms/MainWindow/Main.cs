@@ -479,8 +479,10 @@ namespace PKHeX.WinForms
 
         private void MainMenuFolder(object sender, EventArgs e)
         {
-            if (!this.OpenWindowExists<SAV_FolderList>())
-                new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath), s.FilePath)).Show();
+            if (this.OpenWindowExists<SAV_FolderList>())
+                return;
+            var form = new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath), s.FilePath));
+            form.Show();
         }
 
         // Misc Options

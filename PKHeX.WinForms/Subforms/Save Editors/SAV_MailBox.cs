@@ -99,7 +99,7 @@ namespace PKHeX.WinForms
                         m[i] = new Mail5(((PK5)p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                     {
-                        int ofs = sav5.GetMailOffset(j);
+                        int ofs = SAV5.GetMailOffset(j);
                         var data = sav5.GetMailData(ofs);
                         m[i] = new Mail5(data, ofs);
                     }

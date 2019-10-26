@@ -132,8 +132,8 @@ namespace PKHeX.Core
         private byte[] GetInnerData()
         {
             // Set Memo Back
-            StrategyMemo.FinalData.CopyTo(Data, Memo);
-            ShadowInfo.FinalData.CopyTo(Data, Shadow);
+            StrategyMemo.Write().CopyTo(Data, Memo);
+            ShadowInfo.Write().CopyTo(Data, Shadow);
             SetChecksums();
 
             // Get updated save slot data

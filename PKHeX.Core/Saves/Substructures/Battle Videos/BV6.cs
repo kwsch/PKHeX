@@ -39,7 +39,7 @@ namespace PKHeX.Core
         public ulong RNGSeed2 { get => BitConverter.ToUInt64(Data, 0x1B0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1B0); }
 
         public int Background { get => BitConverter.ToInt32(Data, 0x1BC); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1BC); }
-        public int _1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
+        public int Unk1CE { get => BitConverter.ToUInt16(Data, 0x1CE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1CE); }
         public int IntroID { get => BitConverter.ToUInt16(Data, 0x1E4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E4); }
         public int MusicID { get => BitConverter.ToUInt16(Data, 0x1F0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1F0); }
 

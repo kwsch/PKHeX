@@ -422,7 +422,14 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
             if (M.Boxes.Count > 1) // subview open
-            { var z = M.Boxes[1].ParentForm; z.CenterToForm(ParentForm); z.BringToFront(); return; }
+            {
+                var z = M.Boxes[1].ParentForm;
+                if (z == null)
+                    return;
+                z.CenterToForm(ParentForm);
+                z.BringToFront();
+                return;
+            }
             new SAV_BoxViewer(this, M).Show();
         }
 
@@ -1198,12 +1205,6 @@ namespace PKHeX.WinForms.Controls
             ResetParty();
         }
 
-        private void GenerateLivingDex()
-        {
-            SAV.BoxData = GetLivingDex(SAV);
-            ReloadSlots();
-        }
-
         private static PKMImportSetting GetPKMSetOverride(bool currentSetting)
         {
             var yn = currentSetting ? MsgYes : MsgNo;
@@ -1218,24 +1219,6 @@ namespace PKHeX.WinForms.Controls
                 DialogResult.No => PKMImportSetting.Skip,
                 _ => PKMImportSetting.UseDefault
             };
-        }
-
-        private static IList<PKM> GetLivingDex(SaveFile SAV)
-        {
-            var bd = SAV.BoxData;
-            var tr = SAV;
-            for (int i = 1; i <= 807; i++)
-            {
-                var pk = SAV.BlankPKM;
-                pk.Species = i;
-                pk.Gender = pk.GetSaneGender();
-                if (i == 678)
-                    pk.AltForm = pk.Gender;
-                var f = EncounterMovesetGenerator.GeneratePKMs(pk, tr).FirstOrDefault();
-                if (f != null)
-                    bd[i] = PKMConverter.ConvertToType(f, SAV.PKMType, out _);
-            }
-            return bd;
         }
     }
 }

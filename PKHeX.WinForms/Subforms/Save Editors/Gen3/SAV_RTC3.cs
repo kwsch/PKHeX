@@ -20,8 +20,8 @@ namespace PKHeX.WinForms
             LoadData();
         }
 
-        private readonly SAV3.RTC3 ClockInitial;
-        private readonly SAV3.RTC3 ClockElapsed;
+        private readonly RTC3 ClockInitial;
+        private readonly RTC3 ClockElapsed;
 
         private void LoadData()
         {

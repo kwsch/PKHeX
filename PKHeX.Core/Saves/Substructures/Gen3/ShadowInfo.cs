@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return entry;
         }
 
-        public byte[] FinalData => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();
+        public byte[] Write() => Entries.SelectMany(entry => entry.Data).Take(MaxLength).ToArray();
 
         public ShadowInfoEntryXD GetEntry(int Species, uint PID)
         {
