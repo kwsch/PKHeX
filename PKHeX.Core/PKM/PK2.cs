@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public sealed class PK2 : _K12
+    public sealed class PK2 : GBPKM
     {
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 

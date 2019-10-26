@@ -62,7 +62,7 @@ namespace PKHeX.Core
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
-            if (pk is _K12 pk12)
+            if (pk is GBPKM pk12)
             {
                 switch (tr)
                 {

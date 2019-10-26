@@ -128,7 +128,7 @@ namespace PKHeX.Core
         /// <param name="pk">PKM to check</param>
         /// <param name="prefer">Prefer a certain generation over another</param>
         /// <returns>Updated PKM if actually PK7</returns>
-        private static _K6 CheckPKMFormat7(PK6 pk, int prefer)
+        private static G6PKM CheckPKMFormat7(PK6 pk, int prefer)
         {
             if (GameVersion.GG.Contains(pk.Version))
                 return new PB7(pk.Data);

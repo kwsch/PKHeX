@@ -6,7 +6,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK3()
         {
-            if (!(pkm is _K3 pk3))
+            if (!(pkm is G3PKM pk3))
                 return;
 
             LoadMisc1(pk3);
@@ -23,7 +23,7 @@ namespace PKHeX.WinForms.Controls
 
         private PKM PreparePK3()
         {
-            if (!(pkm is _K3 pk3))
+            if (!(pkm is G3PKM pk3))
                 return null;
 
             SaveMisc1(pk3);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
-    public sealed class PK3 : _K3
+    public sealed class PK3 : G3PKM
     {
         private static readonly byte[] Unused =
         {

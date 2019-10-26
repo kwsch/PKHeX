@@ -3,7 +3,7 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public abstract class _K6 : PKM
+    public abstract class G6PKM : PKM
     {
         public override int SIZE_PARTY => PKX.SIZE_6PARTY;
         public override int SIZE_STORED => PKX.SIZE_6STORED;

@@ -5,7 +5,7 @@ using System.Linq;
 namespace PKHeX.Core
 {
     /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
-    public sealed class PK4 : _K4
+    public sealed class PK4 : G4PKM
     {
         private static readonly byte[] Unused =
         {

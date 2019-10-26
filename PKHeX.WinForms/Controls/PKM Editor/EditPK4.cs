@@ -26,7 +26,7 @@ namespace PKHeX.WinForms.Controls
             // Minor properties
             switch (pk4)
             {
-                case _K4 p4: ShinyLeaf.SetValue(p4.ShinyLeaf);
+                case G4PKM p4: ShinyLeaf.SetValue(p4.ShinyLeaf);
                     break;
             }
 
@@ -50,7 +50,7 @@ namespace PKHeX.WinForms.Controls
             // Minor properties
             switch (pk4)
             {
-                case _K4 p4:
+                case G4PKM p4:
                     p4.ShinyLeaf = ShinyLeaf.GetValue();
                     break;
             }

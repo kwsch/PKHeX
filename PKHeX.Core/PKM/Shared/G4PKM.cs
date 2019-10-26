@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class _K4 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
+    public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_4;
@@ -159,7 +159,7 @@
         public abstract int CNT_Tough { get; set; }
         public abstract int CNT_Sheen { get; set; }
 
-        protected T ConvertTo<T>() where T : _K4, new()
+        protected T ConvertTo<T>() where T : G4PKM, new()
         {
             var pk = new T
             {

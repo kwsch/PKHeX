@@ -211,7 +211,7 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
-        private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
+        private int StringLength => Japanese ? GBPKM.STRLEN_J : GBPKM.STRLEN_U;
 
         public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
 

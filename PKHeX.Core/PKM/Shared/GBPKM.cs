@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class _K12 : PKM
+    public abstract class GBPKM : PKM
     {
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
@@ -32,7 +32,7 @@ namespace PKHeX.Core
         public override bool Japanese => otname.Length == STRLEN_J;
         public override byte[] Data { get; }
 
-        protected _K12(byte[] data, bool jp = false)
+        protected GBPKM(byte[] data, bool jp = false)
         {
             int partySize = SIZE_PARTY;
             if (data.Length != partySize)

@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 4 <see cref="PKM"/> format, exclusively for Pokémon Battle Revolution. </summary>
     /// <remarks> Values are stored in Big Endian format rather than Little Endian. Beware. </remarks>
-    public sealed class BK4 : _K4
+    public sealed class BK4 : G4PKM
     {
         private static readonly byte[] Unused =
         {

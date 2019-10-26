@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
-    public sealed class CK3 : _K3, IShadowPKM
+    public sealed class CK3 : G3PKM, IShadowPKM
     {
         private static readonly byte[] Unused =
         {

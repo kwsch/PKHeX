@@ -3,7 +3,7 @@
     /// <summary>
     /// Generation 3 Base <see cref="PKM"/> Class
     /// </summary>
-    public abstract class _K3 : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
+    public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
     {
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_3;
@@ -93,7 +93,7 @@
         /// </summary>
         /// <typeparam name="T">Generation 3 format to convert to</typeparam>
         /// <returns>New object with transferred properties.</returns>
-        protected T ConvertTo<T>() where T : _K3, new()
+        protected T ConvertTo<T>() where T : G3PKM, new()
         {
             var pk = new T // Convert away!
             {

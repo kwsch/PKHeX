@@ -45,7 +45,7 @@ namespace PKHeX.Core
             pk.IsNicknamed = false;
             string nick = SpeciesName.GetSpeciesNameGeneration(pk.Species, pk.Language, pk.Format);
             pk.Nickname = nick;
-            if (pk is _K12 pk12)
+            if (pk is GBPKM pk12)
                 pk12.SetNotNicknamed();
             return nick;
         }

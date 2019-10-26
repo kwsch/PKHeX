@@ -1193,7 +1193,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             TB_Nickname.Text = SpeciesName.GetSpeciesNameGeneration(species, lang, pkm.Format);
-            if (pkm is _K12 pk)
+            if (pkm is GBPKM pk)
                 pk.SetNotNicknamed();
         }
 
