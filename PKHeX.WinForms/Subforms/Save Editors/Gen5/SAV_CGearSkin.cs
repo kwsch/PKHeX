@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             byte[] data = SAV.CGearSkinData;
             bg = new CGearBackground(data);
 
-            PB_Background.Image = CGearExtensions.GetBitmap(bg);
+            PB_Background.Image = CGearImage.GetBitmap(bg);
         }
 
         private CGearBackground bg;
@@ -42,8 +42,8 @@ namespace PKHeX.WinForms
 
             try
             {
-                bg = CGearExtensions.GetCGearBackground(img);
-                PB_Background.Image = CGearExtensions.GetBitmap(bg);
+                bg = CGearImage.GetCGearBackground(img);
+                PB_Background.Image = CGearImage.GetBitmap(bg);
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace PKHeX.WinForms
 
             byte[] data = File.ReadAllBytes(path);
             bg = new CGearBackground(data);
-            PB_Background.Image = CGearExtensions.GetBitmap(bg);
+            PB_Background.Image = CGearImage.GetBitmap(bg);
         }
 
         private void B_ExportCGB_Click(object sender, EventArgs e)

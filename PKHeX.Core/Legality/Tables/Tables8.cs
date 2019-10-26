@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable RedundantEmptyObjectOrCollectionInitializer todo
 
 namespace PKHeX.Core
 {
@@ -105,7 +106,7 @@ namespace PKHeX.Core
         {
         };
 
-        internal static readonly HashSet<int> TransferrableGalar = new HashSet<int>
+        internal static readonly HashSet<int> TransferrableGalar = new HashSet<int>()
         {
         };
 

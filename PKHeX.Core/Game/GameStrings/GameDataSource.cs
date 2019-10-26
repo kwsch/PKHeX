@@ -96,7 +96,6 @@ namespace PKHeX.Core
             return met_list;
         }
 
-
         private static List<ComboItem> CreateGen3CXD(GameStrings s)
         {
             return Util.GetCBList(s.metCXD_00000, Enumerable.Range(0, s.metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
@@ -113,6 +112,7 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(met_list, s.metHGSS_03000, 3000, Legal.Met_HGSS_3);
             return met_list;
         }
+
         private static List<ComboItem> CreateGen5(GameStrings s)
         {
             var met_list = Util.GetCBList(s.metBW2_00000, 0);

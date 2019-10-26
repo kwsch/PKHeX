@@ -79,7 +79,6 @@ namespace PKHeX.Core
             SAV.EventSpawnFlags = SpawnFlags;
         }
 
-
         public IEnumerable<FlagPairG1Detail> GetFlagPairs()
         {
             var pz = ReflectUtil.GetPropertiesStartWithPrefix(GetType(), "Flag");

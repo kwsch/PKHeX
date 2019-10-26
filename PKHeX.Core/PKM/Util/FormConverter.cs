@@ -695,31 +695,29 @@ namespace PKHeX.Core
 
         private static string[] GetFormsUnown(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 2:
-                    return new[]
-                    {
-                        "A", "B", "C", "D", "E",
-                        "F", "G", "H", "I", "J",
-                        "K", "L", "M", "N", "O",
-                        "P", "Q", "R", "S", "T",
-                        "U", "V", "W", "X", "Y",
-                        "Z",
-                        // "!", "?", not in Gen II
-                    };
-                default:
-                    return new[]
-                    {
-                        "A", "B", "C", "D", "E",
-                        "F", "G", "H", "I", "J",
-                        "K", "L", "M", "N", "O",
-                        "P", "Q", "R", "S", "T",
-                        "U", "V", "W", "X", "Y",
-                        "Z",
-                        "!", "?",
-                    };
-            }
+                2 => new[]
+                {
+                    "A", "B", "C", "D", "E",
+                    "F", "G", "H", "I", "J",
+                    "K", "L", "M", "N", "O",
+                    "P", "Q", "R", "S", "T",
+                    "U", "V", "W", "X", "Y",
+                    "Z",
+                    // "!", "?", not in Gen II
+                },
+                _ => new[]
+                {
+                    "A", "B", "C", "D", "E",
+                    "F", "G", "H", "I", "J",
+                    "K", "L", "M", "N", "O",
+                    "P", "Q", "R", "S", "T",
+                    "U", "V", "W", "X", "Y",
+                    "Z",
+                    "!", "?",
+                }
+            };
         }
 
         private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);

@@ -74,12 +74,10 @@ namespace PKHeX.Core
 
         private static bool CanVersionRecieveGift(int format, int version4bit, int version)
         {
-            switch (format)
+            return format switch
             {
-                // todo
-                default:
-                    return false;
-            }
+                _ => false
+            };
         }
 
         private static bool CurrentOTMatchesReplaced(int format, string pkOtName)
@@ -97,12 +95,10 @@ namespace PKHeX.Core
 
         private static bool IsMatchName(string pkOtName, int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                // todo
-                default:
-                    return false;
-            }
+                _ => false
+            };
         }
     }
 }

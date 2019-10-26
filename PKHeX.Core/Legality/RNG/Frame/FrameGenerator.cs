@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generator class for Gen3/4 Frame patterns
+    /// </summary>
     public sealed class FrameGenerator
     {
         public uint Nature;
@@ -11,13 +14,13 @@ namespace PKHeX.Core
         public readonly bool DPPt;
         public readonly bool AllowLeads;
         public readonly FrameType FrameType = FrameType.None;
-        public readonly RNG RNG;
+        public readonly RNG RNG = RNG.LCRNG;
         public readonly bool Safari3;
 
-        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, RNG, lead);
+        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, lead);
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
 
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, RNG, lead)
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, lead)
         {
             RandESV = esv,
             RandLevel = lvl,
@@ -31,7 +34,6 @@ namespace PKHeX.Core
         /// <returns>Object containing search criteria to be passed by reference to search/filter methods.</returns>
         public FrameGenerator(PKM pk)
         {
-            RNG = RNG.LCRNG;
             var ver = (GameVersion)pk.Version;
             switch (ver)
             {
@@ -69,7 +71,6 @@ namespace PKHeX.Core
                     DPPt = true;
                     AllowLeads = true;
                     FrameType = FrameType.MethodJ;
-                    RNG = RNG.LCRNG;
                     return;
 
                 // Method K
@@ -78,7 +79,6 @@ namespace PKHeX.Core
                     DPPt = false;
                     AllowLeads = true;
                     FrameType = FrameType.MethodK;
-                    RNG = RNG.LCRNG;
                     return;
                 default:
                     throw new ArgumentException(nameof(ver));

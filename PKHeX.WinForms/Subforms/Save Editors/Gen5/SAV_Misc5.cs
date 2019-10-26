@@ -122,12 +122,6 @@ namespace PKHeX.WinForms
                 GB_KeySystem.Visible = false;
                 // Roamer
                 cbr = new[] { CB_Roamer642, CB_Roamer641 };
-                List<ComboItem> getStates() => new List<ComboItem> {
-                    new ComboItem("Not roamed", 0),
-                    new ComboItem("Roaming", 1),
-                    new ComboItem("Defeated", 2),
-                    new ComboItem("Captured", 3),
-                };
                 // CurrentStat:ComboboxSource
                 // Not roamed: Not roamed/Defeated/Captured
                 //    Roaming: Roaming/Defeated/Captured
@@ -137,8 +131,7 @@ namespace PKHeX.WinForms
                 for (int i = 0; i < cbr.Length; i++)
                 {
                     int c = SAV.Data[ofsRoamer + 0x2E + i];
-
-                    var states = getStates();
+                    var states = GetStates();
                     if (states.All(z => z.Value != c))
                         states.Add(new ComboItem($"Unknown (0x{c:X2})", c));
                     cbr[i].Items.Clear();
@@ -177,6 +170,17 @@ namespace PKHeX.WinForms
             {
                 GB_KeySystem.Visible = GB_Roamer.Visible = CHK_LibertyPass.Visible = false;
             }
+        }
+
+        private static List<ComboItem> GetStates()
+        {
+            return new List<ComboItem>
+            {
+                new ComboItem("Not roamed", 0),
+                new ComboItem("Roaming", 1),
+                new ComboItem("Defeated", 2),
+                new ComboItem("Captured", 3),
+            };
         }
 
         private void SaveMain()

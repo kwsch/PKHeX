@@ -24,10 +24,11 @@ namespace PKHeX.Core
             TutorMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
         }
 
-        public ValidEncounterMoves(List<int>[] levelup)
+        public ValidEncounterMoves(IReadOnlyList<int>[] levelup)
         {
             LevelUpMoves = levelup;
         }
+
         public ValidEncounterMoves()
         {
             LevelUpMoves = Array.Empty<int[]>();

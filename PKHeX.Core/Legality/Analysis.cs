@@ -86,7 +86,7 @@ namespace PKHeX.Core
         }
 
         private int[]? _allSuggestedMoves, _allSuggestedRelearnMoves;
-        public int[] AllSuggestedMovesAndRelearn => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
+        public int[] AllSuggestedMovesAndRelearn() => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
 
         private string EncounterName
         {

@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
                     m = new Mail3[6 + 10];
                     for (int i = 0; i < m.Length; i++)
                     {
-                        var ofs = sav3.GetMailOffset(i); 
+                        var ofs = sav3.GetMailOffset(i);
                         var data = sav.GetData(ofs, Mail3.SIZE);
                         m[i] = new Mail3(data, ofs, sav3.Japanese);
                     }
@@ -442,7 +442,8 @@ namespace PKHeX.WinForms
             if (s.Count(v => v != null) == 0)
                 return ret;
             System.Media.SystemSounds.Question.Play();
-            ret = MessageBox.Show($"{s.Select((v, i) => v != null ? $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}" : string.Empty).Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail", "Prompt", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button3);
+            var msg = $"{s.Select((v, i) => v == null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";
+            ret = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, msg);
             if (ret != DialogResult.Yes)
                 return ret;
             foreach (PKM pkm in s)

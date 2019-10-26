@@ -6,7 +6,7 @@ using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
-    public static class CGearExtensions
+    public static class CGearImage
     {
         public static Bitmap GetBitmap(CGearBackground bg)
         {

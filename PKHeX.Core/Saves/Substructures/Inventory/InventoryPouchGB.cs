@@ -42,23 +42,13 @@ namespace PKHeX.Core
                     numStored = 0;
                 for (int i = 0; i < numStored; i++)
                 {
-                    switch (Type)
+                    items[i] = Type switch
                     {
-                        case InventoryType.KeyItems:
-                            items[i] = new InventoryItem
-                            {
-                                Index = Data[Offset + i + 1],
-                                Count = 1
-                            };
-                            break;
-                        default:
-                            items[i] = new InventoryItem
-                            {
-                                Index = Data[Offset + (i * 2) + 1],
-                                Count = Data[Offset + (i * 2) + 2]
-                            };
-                            break;
-                    }
+                        InventoryType.KeyItems =>
+                            new InventoryItem {Index = Data[Offset + i + 1], Count = 1},
+                        _ =>
+                            new InventoryItem {Index = Data[Offset + (i * 2) + 1], Count = Data[Offset + (i * 2) + 2]}
+                    };
                 }
                 for (int i = numStored; i < items.Length; i++)
                 {

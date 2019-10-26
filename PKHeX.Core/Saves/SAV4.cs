@@ -187,7 +187,7 @@ namespace PKHeX.Core
         protected int AdventureInfo = int.MinValue;
         protected int Seal = int.MinValue;
         public int GTS { get; protected set; } = int.MinValue;
-        
+
         // Storage
         public override int PartyCount
         {

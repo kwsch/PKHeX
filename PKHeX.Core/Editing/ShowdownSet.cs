@@ -163,6 +163,7 @@ namespace PKHeX.Core
 
         private void ParseLines(IEnumerable<string> lines)
         {
+            // ReSharper disable once GenericEnumeratorNotDisposed
             using var e = lines.GetEnumerator();
             if (!e.MoveNext())
                 return;

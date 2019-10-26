@@ -42,7 +42,7 @@ namespace PKHeX.Core
             set => Data[Offset + 7] = (byte)value;
         }
 
-        public int GameSyncIDSize => 16; // 64 bits
+        public const int GameSyncIDSize = 16; // 64 bits
 
         public string GameSyncID
         {

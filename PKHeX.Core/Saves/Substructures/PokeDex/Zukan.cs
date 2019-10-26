@@ -5,9 +5,9 @@ namespace PKHeX.Core
 {
     public abstract class Zukan
     {
-        protected SaveFile SAV { get; set; }
-        public int PokeDex { get; private set; }
-        protected int PokeDexLanguageFlags { get; set; }
+        protected readonly SaveFile SAV;
+        public readonly int PokeDex;
+        protected readonly int PokeDexLanguageFlags;
 
         protected Zukan(SaveFile sav, int dex, int langflag)
         {
@@ -88,7 +88,7 @@ namespace PKHeX.Core
 
         public virtual void SetDex(PKM pkm)
         {
-            if (PokeDex < 0 || SAV.Version == GameVersion.Invalid) // sanity
+            if (SAV.Version == GameVersion.Invalid) // sanity
                 return;
             if (pkm.Species == 0 || pkm.Species > SAV.MaxSpeciesID) // out of range
                 return;
@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 return;
 
             int species = pkm.Species;
-            if (species == 327) // Spinda
+            if (species == (int)Species.Spinda)
                 SetSpindaDexData(pkm, GetSeen(species));
 
             int bit = pkm.Species - 1;

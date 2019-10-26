@@ -223,7 +223,7 @@ namespace PKHeX.Core
             {0xB7, 'x'},
             {0xB8, 'y'},
             {0xB9, 'z'},
-            
+
             // unused characters
             {0xBA, 'à'},
             {0xBB, 'è'},
@@ -516,7 +516,7 @@ namespace PKHeX.Core
             {'x', 0xB7},
             {'y', 0xB8},
             {'z', 0xB9},
-            
+
             // unused characters
             {'à', 0xBA},
             {'è', 0xBB},

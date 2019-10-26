@@ -72,7 +72,7 @@ namespace PKHeX.Core
             Storage[GetBoxWallpaperOffset(box)] = (byte)value;
         }
         #endregion
-        
+
         public override InventoryPouch[] Inventory
         {
             get

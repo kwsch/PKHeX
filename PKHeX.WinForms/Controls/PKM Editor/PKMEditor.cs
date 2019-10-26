@@ -296,7 +296,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             // Resort moves
             FieldsLoaded = false;
-            LegalMoveSource.ReloadMoves(Legality.AllSuggestedMovesAndRelearn);
+            LegalMoveSource.ReloadMoves(Legality.AllSuggestedMovesAndRelearn());
             FieldsLoaded = true;
             LegalityChanged?.Invoke(Legality.Valid, EventArgs.Empty);
         }

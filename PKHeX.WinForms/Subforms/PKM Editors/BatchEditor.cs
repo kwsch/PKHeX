@@ -29,9 +29,9 @@ namespace PKHeX.WinForms
             CB_Format.Items.Add(MsgAll);
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
-            new ToolTip().SetToolTip(CB_Property, MsgBEToolTipPropName);
-            new ToolTip().SetToolTip(L_PropType, MsgBEToolTipPropType);
-            new ToolTip().SetToolTip(L_PropValue, MsgBEToolTipPropValue);
+            toolTip1.SetToolTip(CB_Property, MsgBEToolTipPropName);
+            toolTip2.SetToolTip(L_PropType, MsgBEToolTipPropType);
+            toolTip3.SetToolTip(L_PropValue, MsgBEToolTipPropValue);
         }
 
         private readonly PKM pkmref;
@@ -184,7 +184,7 @@ namespace PKHeX.WinForms
             b.RunWorkerAsync();
         }
 
-        private void RunBatchEditFolder(IList<StringInstructionSet> sets, string source, string destination)
+        private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, string source, string destination)
         {
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             SetupProgressBar(files.Length * sets.Count);
@@ -192,7 +192,7 @@ namespace PKHeX.WinForms
                 ProcessFolder(files, set.Filters, set.Instructions, destination);
         }
 
-        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets, bool boxes = false, bool party = false)
+        private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
         {
             IList<PKM> data;
             if (party && SAV.HasParty && process(data = SAV.PartyData))
@@ -229,7 +229,7 @@ namespace PKHeX.WinForms
         // Mass Editing
         private Core.BatchEditor editor = new Core.BatchEditor();
 
-        private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
+        private void ProcessSAV(IList<PKM> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
             for (int i = 0; i < data.Count; i++)
             {
@@ -238,7 +238,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void ProcessFolder(IReadOnlyList<string> files, IList<StringInstruction> Filters, IList<StringInstruction> Instructions, string destPath)
+        private void ProcessFolder(IReadOnlyList<string> files, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, string destPath)
         {
             for (int i = 0; i < files.Count; i++)
             {

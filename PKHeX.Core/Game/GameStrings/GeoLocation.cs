@@ -79,25 +79,25 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the Country string for a given Country ID
         /// </summary>
-        /// <param name="country">Country ID</param>
         /// <param name="language">Language ID</param>
+        /// <param name="country">Country ID</param>
         /// <returns>Country ID string</returns>
         public static string GetCountryName(string language, int country) => GetCountryName(country, GetLanguageIndex(language));
 
         /// <summary>
         /// Gets the Region string for a specified country ID.
         /// </summary>
+        /// <param name="language">Language ID</param>
         /// <param name="country">Country ID</param>
         /// <param name="region">Region ID</param>
-        /// <param name="language">Language ID</param>
         /// <returns>Region ID string</returns>
         public static string GetRegionName(string language, int country, int region) => GetRegionName(country, region, GetLanguageIndex(language));
 
         /// <summary>
         /// Gets the Country string for a given Country ID
         /// </summary>
-        /// <param name="country">Country ID</param>
         /// <param name="language">Language ID</param>
+        /// <param name="country">Country ID</param>
         /// <returns>Country ID string</returns>
         public static string GetCountryName(LanguageID language, int country) => GetCountryName(country, GetLanguageIndex(language));
 

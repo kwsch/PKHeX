@@ -17,6 +17,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Default <see cref="MarkingMethod"/> when applying markings.
         /// </summary>
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public static Func<PKM, Func<int, int, int>> MarkingMethod { get; set; } = FlagHighLow;
 
         /// <summary>
@@ -629,8 +630,8 @@ namespace PKHeX.Core
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
         /// <param name="pkm">PKM to generate for</param>
-        /// <param name="random">Full movepool &amp; shuffling</param>
         /// <param name="la">Precomputed optional</param>
+        /// <param name="random">Full movepool &amp; shuffling</param>
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this PKM pkm, LegalityAnalysis la, bool random = false)
         {
@@ -638,8 +639,8 @@ namespace PKHeX.Core
             if (m == null)
                 return pkm.Moves;
 
-            if (!m.All(z => la.AllSuggestedMovesAndRelearn.Contains(z)))
-                m = m.Intersect(la.AllSuggestedMovesAndRelearn).ToArray();
+            if (!m.All(z => la.AllSuggestedMovesAndRelearn().Contains(z)))
+                m = m.Intersect(la.AllSuggestedMovesAndRelearn()).ToArray();
 
             if (random)
                 Util.Shuffle(m);

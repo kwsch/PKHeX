@@ -96,16 +96,14 @@ namespace PKHeX.Core
         BugContest   = 1 << 15,
 
         /// <summary>
+        /// Slot is encountered via the Bug Catching Contest.
+        /// </summary>
+        GoPark = 1 << 16,
+
+        /// <summary>
         /// Slot is encountered in the Safari Zone.
         /// </summary>
-        Safari       = 1 << 16, // always used as a modifier to another slot type
-
-        Rough_Terrain  = 1 << 17,
-        Yellow_Flowers = 1 << 18,
-        Purple_Flowers = 1 << 19,
-        Red_Flowers    = 1 << 20,
-
-        GoPark = 1 << 21,
+        Safari       = 1 << 30, // always used as a modifier to another slot type
 
         // Combined
         Headbutt_Special = Headbutt | Special,

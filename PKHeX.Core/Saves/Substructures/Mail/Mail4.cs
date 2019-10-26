@@ -9,7 +9,7 @@ namespace PKHeX.Core
         public Mail4(byte[] data, int ofs) : base(data, ofs) { }
 
         public Mail4(byte[] data) : base(data, -1) { }
-        
+
         public Mail4(byte? lang, byte? ver) : base(new byte[SIZE])
         {
             if (lang != null) AuthorLanguage = (byte)lang;
@@ -59,6 +59,7 @@ namespace PKHeX.Core
         }
 
         public override void SetBlank() => SetBlank(0, 0);
+
         public void SetBlank(byte lang, byte ver)
         {
             Array.Clear(Data, 0, Data.Length);

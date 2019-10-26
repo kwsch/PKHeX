@@ -17,7 +17,6 @@ namespace PKHeX.Core
             return hash;
         }
 
-
         /// <summary>
         /// Creates a deep copy of the <see cref="MysteryGift"/> object data.
         /// </summary>
@@ -175,7 +174,7 @@ namespace PKHeX.Core
         public virtual int BeanCount { get => 0; set { } }
 
         public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
-        
+
         // Search Properties
         public virtual int[] Moves { get => Array.Empty<int>(); set { } }
         public virtual int[] RelearnMoves { get => Array.Empty<int>(); set { } }

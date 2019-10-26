@@ -33,7 +33,7 @@ namespace PKHeX.Core
         private int SaveCount = -1;
         private int SaveIndex = -1;
         private readonly StrategyMemo StrategyMemo;
-        public int MaxShadowID => 0x80; // 128
+        public const int MaxShadowID = 0x80; // 128
         private int Memo;
         public SAV3Colosseum(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
         public SAV3Colosseum(byte[] data) : this(data, (byte[])data.Clone()) { }

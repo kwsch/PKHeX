@@ -92,7 +92,7 @@
             // 
             // IL_Pouch
             // 
-            this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("IL_Pouch.ImageStream")));
+            this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject($"IL_Pouch.ImageStream")));
             this.IL_Pouch.TransparentColor = System.Drawing.Color.Transparent;
             this.IL_Pouch.Images.SetKeyName(0, "Bag_Items.png");
             this.IL_Pouch.Images.SetKeyName(1, "Bag_Key.png");

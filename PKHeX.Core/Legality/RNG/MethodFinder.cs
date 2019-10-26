@@ -10,7 +10,6 @@ namespace PKHeX.Core
     /// </summary>
     public static class MethodFinder
     {
-
         /// <summary>
         /// Analyzes a <see cref="PKM"/> to find a matching PIDIV method.
         /// </summary>

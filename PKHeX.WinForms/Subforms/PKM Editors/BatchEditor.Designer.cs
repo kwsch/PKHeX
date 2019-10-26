@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.RB_Boxes = new System.Windows.Forms.RadioButton();
             this.RB_Path = new System.Windows.Forms.RadioButton();
             this.FLP_RB = new System.Windows.Forms.FlowLayoutPanel();
@@ -43,6 +44,9 @@
             this.L_PropType = new System.Windows.Forms.Label();
             this.L_PropValue = new System.Windows.Forms.Label();
             this.b = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -263,5 +267,8 @@
         private System.Windows.Forms.Label L_PropValue;
         private System.Windows.Forms.RadioButton RB_Party;
         private System.ComponentModel.BackgroundWorker b;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.ToolTip toolTip3;
     }
 }

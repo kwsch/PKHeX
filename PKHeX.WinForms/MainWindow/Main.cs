@@ -72,7 +72,7 @@ namespace PKHeX.WinForms
             private set => GameInfo.CurrentLanguage = value;
         }
 
-        private static bool _unicode { get; set; }
+        private static bool _unicode;
 
         public static bool Unicode
         {

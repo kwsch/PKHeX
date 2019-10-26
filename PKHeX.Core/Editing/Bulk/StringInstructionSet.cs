@@ -8,12 +8,12 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class StringInstructionSet
     {
-        public IList<StringInstruction> Filters { get; private set; }
-        public IList<StringInstruction> Instructions { get; private set; }
+        public readonly IReadOnlyList<StringInstruction> Filters;
+        public readonly IReadOnlyList<StringInstruction> Instructions;
 
         private const string SetSeparator = ";";
 
-        public StringInstructionSet(IList<StringInstruction> filters, IList<StringInstruction> instructions)
+        public StringInstructionSet(IReadOnlyList<StringInstruction> filters, IReadOnlyList<StringInstruction> instructions)
         {
             Filters = filters;
             Instructions = instructions;

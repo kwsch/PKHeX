@@ -86,7 +86,7 @@ namespace PKHeX.Core
         public F6HairStyle Hair { get => (F6HairStyle)GetBits(data0, 19, 4); set => data0 = SetBits(data0, 19, 4, (uint)value); }
         public uint Face     { get => GetBits(data0, 23, 3); set => data0 = SetBits(data0, 23, 3, value); }
         public uint Arms     { get => GetBits(data0, 26, 2); set => data0 = SetBits(data0, 26, 2, value); }
-        public uint _0       { get => GetBits(data0, 28, 2); set => data0 = SetBits(data0, 28, 2, value); }
+        public uint Unknown0 { get => GetBits(data0, 28, 2); set => data0 = SetBits(data0, 28, 2, value); }
         public uint Unused0  { get => GetBits(data0, 30, 2); set => data0 = SetBits(data0, 30, 2, value); }
 
         public F6Top Top      { get => (F6Top)GetBits(data1,  0, 6); set => data1 = SetBits(data1,  0, 6, (uint)value); }
@@ -95,7 +95,7 @@ namespace PKHeX.Core
         public F6Shoes Shoes  { get => (F6Shoes)GetBits(data1, 14, 5); set => data1 = SetBits(data1, 14, 5, (uint)value); }
         public F6Bag Bag      { get => (F6Bag)GetBits(data1, 19, 4); set => data1 = SetBits(data1, 19, 4, (uint)value); }
         public F6Accessory AHat { get => (F6Accessory)GetBits(data1, 23, 4); set => data1 = SetBits(data1, 23, 4, (uint)value); }
-        public uint _1       { get => GetBits(data1, 27, 2); set => data1 = SetBits(data1, 27, 2, value); }
+        public uint Unknown1 { get => GetBits(data1, 27, 2); set => data1 = SetBits(data1, 27, 2, value); }
         public uint Unused1  { get => GetBits(data1, 29, 3); set => data1 = SetBits(data1, 29, 3, value); }
 
         public bool Contacts      { get => GetBits(data2,  0, 1) == 1; set => data2 = SetBits(data2,  0, 1, value ? 1u : 0); }
@@ -286,7 +286,7 @@ namespace PKHeX.Core
         public F6HairStyle Hair { get => (F6HairStyle)GetBits(data0, 20, 4); set => data0 = SetBits(data0, 20, 4, (uint)value); }
         public uint Face     { get => GetBits(data0, 24, 3); set => data0 = SetBits(data0, 24, 3, value); }
         public uint Arms     { get => GetBits(data0, 27, 2); set => data0 = SetBits(data0, 27, 2, value); }
-        public uint _0       { get => GetBits(data0, 29, 2); set => data0 = SetBits(data0, 29, 2, value); }
+        public uint Unknown0 { get => GetBits(data0, 29, 2); set => data0 = SetBits(data0, 29, 2, value); }
         public uint Unused0  { get => GetBits(data0, 31, 1); set => data0 = SetBits(data0, 31, 1, value); }
 
         public F6Top Top     { get => (F6Top)GetBits(data1,  0, 6); set => data1 = SetBits(data1,  0, 6, (uint)value); }
@@ -294,7 +294,7 @@ namespace PKHeX.Core
         public F6Dress Dress { get => (F6Dress)GetBits(data1, 13, 4); set => data1 = SetBits(data1, 13, 4, (uint)value); }
         public F6Socks Socks { get => (F6Socks)GetBits(data1, 17, 5); set => data1 = SetBits(data1, 17, 5, (uint)value); }
         public F6Shoes Shoes { get => (F6Shoes)GetBits(data1, 22, 6); set => data1 = SetBits(data1, 22, 6, (uint)value); }
-        public uint _1       { get => GetBits(data1, 28, 2); set => data1 = SetBits(data1, 28, 2, value); }
+        public uint Unknown1 { get => GetBits(data1, 28, 2); set => data1 = SetBits(data1, 28, 2, value); }
         public uint Unused1  { get => GetBits(data1, 30, 2); set => data1 = SetBits(data1, 30, 2, value); }
 
         public F6Bag Bag          { get => (F6Bag)GetBits(data2,  0, 5); set => data2 = SetBits(data2,  0, 5, (uint)value); }

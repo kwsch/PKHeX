@@ -85,12 +85,11 @@ namespace PKHeX.WinForms
 
         private static object GetValue(IDisposable control)
         {
-            switch (control)
+            return control switch
             {
-                case CheckBox cb:
-                    return cb.Checked;
-                default: return null;
-            }
+                CheckBox cb => cb.Checked,
+                _ => (object)null
+            };
         }
 
         private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)

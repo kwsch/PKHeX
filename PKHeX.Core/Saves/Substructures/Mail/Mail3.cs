@@ -7,7 +7,7 @@ namespace PKHeX.Core
     {
         public const int SIZE = 0x24;
         private readonly bool JP;
-        
+
         public Mail3() : base(new byte[SIZE], -1) => ResetData();
         public Mail3(byte[] data, int ofs, bool japanese) : base(data, ofs) => JP = japanese;
 

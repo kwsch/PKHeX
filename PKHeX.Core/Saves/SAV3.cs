@@ -69,7 +69,7 @@ namespace PKHeX.Core
             return chunkOffset;
         }
 
-        private PersonalTable _personal { get; set; }
+        private PersonalTable _personal;
         public override PersonalTable Personal => _personal;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
 
@@ -273,8 +273,8 @@ namespace PKHeX.Core
 
         private int ActiveSAV;
         private int ABO => ActiveSAV*SIZE_BLOCK*0xE;
-        private int[] BlockOrder;
-        private int[] BlockOfs;
+        private readonly int[] BlockOrder;
+        private readonly int[] BlockOfs;
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
@@ -402,12 +402,12 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Version)
+                return Version switch
                 {
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC);
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[0] + 0xF20);
-                    default: return 0;
-                }
+                    GameVersion.E => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC),
+                    GameVersion.FRLG => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xF20),
+                    _ => 0u
+                };
             }
         }
 
@@ -919,7 +919,7 @@ namespace PKHeX.Core
         public sealed class RTC3
         {
             public readonly byte[] Data;
-            private const int Size = 8;
+            public const int Size = 8;
 
             public RTC3(byte[] data) => Data = data;
 
@@ -936,7 +936,7 @@ namespace PKHeX.Core
                 if (FRLG)
                     throw new ArgumentException(nameof(ClockInitial));
                 int block0 = GetBlockOffset(0);
-                return new RTC3(GetData(block0 + 0x98, 8));
+                return new RTC3(GetData(block0 + 0x98, RTC3.Size));
             }
             set
             {
@@ -954,7 +954,7 @@ namespace PKHeX.Core
                 if (FRLG)
                     throw new ArgumentException(nameof(ClockElapsed));
                 int block0 = GetBlockOffset(0);
-                return new RTC3(GetData(block0 + 0xA0, 8));
+                return new RTC3(GetData(block0 + 0xA0, RTC3.Size));
             }
             set
             {

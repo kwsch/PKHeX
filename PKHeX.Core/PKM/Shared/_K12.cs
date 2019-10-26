@@ -31,6 +31,7 @@ namespace PKHeX.Core
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public override bool Japanese => otname.Length == STRLEN_J;
         public override byte[] Data { get; }
+
         protected _K12(byte[] data, bool jp = false)
         {
             int partySize = SIZE_PARTY;

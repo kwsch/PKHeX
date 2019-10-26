@@ -206,7 +206,6 @@ namespace PKHeX.Core
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
                 AddLine(pa.pkm, ca.pkm, "EC sharing across RNG encounters detected.", ident);
-                return;
             }
         }
 
@@ -236,7 +235,6 @@ namespace PKHeX.Core
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
                 AddLine(pa.pkm, ca.pkm, "PID sharing across RNG encounters detected.", ident);
-                return;
             }
         }
 

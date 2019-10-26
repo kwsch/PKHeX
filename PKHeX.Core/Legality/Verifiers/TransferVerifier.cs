@@ -13,7 +13,7 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            throw new NotImplementedException();
+            throw new Exception("Don't call via this.");
         }
 
         public void VerifyTransferLegalityG12(LegalityAnalysis data)

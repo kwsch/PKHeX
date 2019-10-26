@@ -47,7 +47,6 @@ namespace PKHeX.Core
 
         private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
-
         public static void RefreshMGDB(params string[] paths)
         {
             var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));

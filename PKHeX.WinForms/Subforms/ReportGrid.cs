@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
                 return;
-            SaveFileDialog savecsv = new SaveFileDialog
+            using var savecsv = new SaveFileDialog
             {
                 Filter = "Spreadsheet|*.csv",
                 FileName = "Box Data Dump.csv"

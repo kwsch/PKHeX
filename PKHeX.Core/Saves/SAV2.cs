@@ -118,9 +118,9 @@ namespace PKHeX.Core
                 offset += (StringLength * 2) + 0x20; // nick/ot/pkm
                 DaycareFlags[1] = Data[offset];
                 offset++;
-                byte steps = Data[offset];
+                //byte steps = Data[offset];
                 offset++;
-                byte BreedMotherOrNonDitto = Data[offset];
+                //byte BreedMotherOrNonDitto = Data[offset];
                 offset++;
                 var pk2 = ReadPKMFromOffset(offset); // parent 2
                 var daycare2 = new PokeList2(pk2);
@@ -319,7 +319,11 @@ namespace PKHeX.Core
             set => SetString(value, (Korean ? 2 : 1) * OTLength).CopyTo(Data, Offsets.Trainer1 + 2);
         }
 
-        public byte[] OT_Trash { get => GetData(Offsets.Trainer1 + 2, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); } }
+        public byte[] OT_Trash
+        {
+            get => GetData(Offsets.Trainer1 + 2, StringLength);
+            set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); }
+        }
 
         public override int Gender
         {
@@ -335,7 +339,8 @@ namespace PKHeX.Core
 
         public override int TID
         {
-            get => BigEndian.ToUInt16(Data, Offsets.Trainer1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
+            get => BigEndian.ToUInt16(Data, Offsets.Trainer1);
+            set => BigEndian.GetBytes((ushort)value).CopyTo(Data, Offsets.Trainer1);
         }
 
         public override int SID { get => 0; set { } }
@@ -448,10 +453,10 @@ namespace PKHeX.Core
             }
         }
 
-        private ushort[] LegalItems => Legal.Pouch_Items_GSC;
-        private ushort[] LegalKeyItems => Legal.Pouch_Ball_GSC;
+        private static ushort[] LegalItems => Legal.Pouch_Items_GSC;
+        private static ushort[] LegalKeyItems => Legal.Pouch_Ball_GSC;
         private ushort[] LegalBalls => Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
-        private ushort[] LegalTMHMs => Legal.Pouch_TMHM_GSC;
+        private static ushort[] LegalTMHMs => Legal.Pouch_TMHM_GSC;
 
         public override InventoryPouch[] Inventory
         {
