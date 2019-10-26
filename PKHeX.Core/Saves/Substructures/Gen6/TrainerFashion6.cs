@@ -7,12 +7,14 @@ namespace PKHeX.Core
         protected uint data0;
         protected uint data1;
         protected uint data2;
+        protected uint data3;
 
         protected TrainerFashion6(byte[] data, int offset)
         {
             data0 = BitConverter.ToUInt32(data, 0 + offset);
             data1 = BitConverter.ToUInt32(data, 4 + offset);
             data2 = BitConverter.ToUInt32(data, 8 + offset);
+            data3 = BitConverter.ToUInt32(data, 12 + offset);
         }
 
         public static TrainerFashion6 GetFashion(byte[] data, int offset, int gender)
@@ -27,6 +29,7 @@ namespace PKHeX.Core
             BitConverter.GetBytes(data0).CopyTo(data, 0 + offset);
             BitConverter.GetBytes(data1).CopyTo(data, 4 + offset);
             BitConverter.GetBytes(data2).CopyTo(data, 8 + offset);
+            BitConverter.GetBytes(data3).CopyTo(data, 12 + offset);
         }
 
         protected static uint GetBits(uint value, int startPos, int bits)
@@ -306,6 +309,11 @@ namespace PKHeX.Core
         public uint ColorEyeshadow{ get => GetBits(data2, 25, 3);      set => data2 = SetBits(data2, 25, 3, value); }
         public uint ColorCheek    { get => GetBits(data2, 28, 3);      set => data2 = SetBits(data2, 28, 3, value); }
         public uint Unused2       { get => GetBits(data2, 31, 1);      set => data2 = SetBits(data2, 31, 1, value); }
+
+        public uint ColorLips     { get => GetBits(data0, 0, 2); set => data0 = SetBits(data0, 0, 2, value); }
+        public uint Freckles      { get => GetBits(data0, 2, 3); set => data0 = SetBits(data0, 2, 3, value); }
+        public uint ColorFreckles { get => GetBits(data0, 5, 3); set => data0 = SetBits(data0, 5, 3, value); }
+        public uint Unused3       { get => GetBits(data2, 8, 24); set => data2 = SetBits(data3, 8, 24, value); }
 
         public enum F6Top
         {
