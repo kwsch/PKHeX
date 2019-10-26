@@ -68,16 +68,22 @@ namespace PKHeX.Core
             return Array.FindIndex(arr, i => Match(i, val));
         }
 
-        public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters)
+        public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters, bool advanced = false)
         {
             var types = encounters.GroupBy(z => z.Name);
-            return types.SelectMany(g => EnhancedSummary.SummarizeGroup(g.Key, g));
+            return types.SelectMany(g => EnhancedSummary.SummarizeGroup(g.Key, g, advanced));
         }
 
-        private struct EnhancedSummary
+        private readonly struct EnhancedSummary
         {
             private readonly GameVersion Version;
             private readonly string LocationName;
+
+            private EnhancedSummary(IEncounterable z, string type)
+            {
+                Version = z is IVersion v ? v.Version : GameVersion.Any;
+                LocationName = GetLocationName(z) + $"({type}) ";
+            }
 
             private EnhancedSummary(IEncounterable z)
             {
@@ -101,12 +107,44 @@ namespace PKHeX.Core
                 return $"[Gen{gen}]\t{loc}: ";
             }
 
-            public static IEnumerable<string> SummarizeGroup(string header, IEnumerable<IEncounterable> items)
+            public static IEnumerable<string> SummarizeGroup(string header, IEnumerable<IEncounterable> items, bool advanced = false)
             {
                 yield return $"=={header}==";
-                var objs = items.Select(z => new EnhancedSummary(z)).GroupBy(z => z.LocationName);
+                var summaries = advanced ? GetSummaries(items) : items.Select(z => new EnhancedSummary(z));
+                var objs = summaries.GroupBy(z => z.LocationName);
                 foreach (var g in objs)
                     yield return $"\t{g.Key}{string.Join(", ", g.Select(z => z.Version).Distinct())}";
+            }
+
+            public static IEnumerable<EnhancedSummary> GetSummaries(IEnumerable<IEncounterable> items)
+            {
+                return items.SelectMany(GetSummaries);
+            }
+
+            private static IEnumerable<EnhancedSummary> GetSummaries(IEncounterable item)
+            {
+                switch (item)
+                {
+                    case EncounterSlot s:
+                        var type = s.Type;
+                        if (type == 0)
+                        {
+                            yield return new EnhancedSummary(item);
+                            break;
+                        }
+                        for (int i = 0; i < sizeof(SlotType) * 8; i++)
+                        {
+                            var flag = (SlotType) (1 << i);
+                            if ((type & flag) != 0)
+                                yield return new EnhancedSummary(item, flag.ToString());
+                        }
+
+                        break;
+
+                    default:
+                        yield return new EnhancedSummary(item);
+                        break;
+                }
             }
         }
     }
