@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             SetupComboBoxes();
             PopFavorite();
             PopFavorite();
-            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = LB_Favorite.Font = FontUtil.GetPKXFont(11);
+            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = LB_Favorite.Font = FontUtil.GetPKXFont();
             CB_Ability.InitializeBinding();
 
             LB_Favorite.SelectedIndex = 0;

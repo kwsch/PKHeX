@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             CustomFonts.AddFontFile(g6path);
         }
 
-        public static Font GetPKXFont(float size)
+        public static Font GetPKXFont(float size = 11f)
         {
             if (GeneratedFonts.TryGetValue(size, out var f))
                 return f;

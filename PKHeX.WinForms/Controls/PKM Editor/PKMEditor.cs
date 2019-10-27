@@ -22,7 +22,7 @@ namespace PKHeX.WinForms.Controls
             GB_CurrentMoves.Click += ClickMoves;
             GB_RelearnMoves.Click += ClickMoves;
 
-            TB_Nickname.Font = FontUtil.GetPKXFont(11);
+            TB_Nickname.Font = FontUtil.GetPKXFont();
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
             TB_OTt2.Font = (Font)TB_Nickname.Font.Clone();
 
@@ -312,7 +312,7 @@ namespace PKHeX.WinForms.Controls
             else
             {
                 BTN_Shinytize.Text = Draw.ShinyUnicode;
-                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont(11);
+                TB_Nickname.Font = TB_OT.Font = TB_OTt2.Font = FontUtil.GetPKXFont();
             }
 
             // Switch active gender labels to new if they are active.

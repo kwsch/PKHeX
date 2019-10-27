@@ -24,8 +24,7 @@ namespace PKHeX.WinForms
             Setup();
             LB_DataEntry.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(null, EventArgs.Empty);
-            try { TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont(11); }
-            catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+            TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont();
             editing = true;
         }
 

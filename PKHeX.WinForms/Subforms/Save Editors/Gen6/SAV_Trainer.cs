@@ -18,13 +18,9 @@ namespace PKHeX.WinForms
             SAV = (SAV6)(Origin = sav).Clone();
             if (Main.Unicode)
             {
-                try
-                {
-                    TB_OTName.Font = FontUtil.GetPKXFont(11);
-                    if (SAV is SAV6XY)
-                        TB_TRNick.Font = TB_OTName.Font;
-                }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = FontUtil.GetPKXFont();
+                if (SAV is SAV6XY)
+                    TB_TRNick.Font = TB_OTName.Font;
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";

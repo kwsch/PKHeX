@@ -62,7 +62,7 @@ namespace PKHeX.WinForms
         {
             SuspendLayout();
             ResumeLayout();
-            Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont((float)8.25);
+            Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont(8.25f);
             PB_QR.BackgroundImage = QRImageUtil.GetQRImageExtended(font, qr, icon, PB_QR.Width, PB_QR.Height, Lines, extraText);
         }
 

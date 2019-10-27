@@ -353,32 +353,24 @@ namespace PKHeX.WinForms
 
         private static void TryAddPKMsFromSaveFilePath(ConcurrentBag<PKM> dbTemp, string file, string externalFilePrefix)
         {
-            try
+            var sav = SaveUtil.GetVariantSAV(file);
+            if (sav == null)
             {
-                var sav = SaveUtil.GetVariantSAV(file);
-                if (sav == null)
-                {
-                    Console.WriteLine("Unable to load SaveFile: " + file);
-                    return;
-                }
-
-                var path = externalFilePrefix + Path.GetFileName(file);
-                if (sav.HasBox)
-                {
-                    foreach (var pk in sav.BoxData)
-                        addPKM(pk);
-                }
-
-                void addPKM(PKM pk)
-                {
-                    pk.Identifier = Path.Combine(path, pk.Identifier);
-                    dbTemp.Add(pk);
-                }
+                Console.WriteLine("Unable to load SaveFile: " + file);
+                return;
             }
-            catch (Exception ex)
+
+            var path = externalFilePrefix + Path.GetFileName(file);
+            if (sav.HasBox)
             {
-                Console.WriteLine("ERROR: Unable to load SaveFile: " + file);
-                Console.WriteLine(ex.Message);
+                foreach (var pk in sav.BoxData)
+                    addPKM(pk);
+            }
+
+            void addPKM(PKM pk)
+            {
+                pk.Identifier = Path.Combine(path, pk.Identifier);
+                dbTemp.Add(pk);
             }
         }
 

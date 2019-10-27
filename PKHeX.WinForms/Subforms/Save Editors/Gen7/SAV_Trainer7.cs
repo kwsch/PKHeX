@@ -19,8 +19,7 @@ namespace PKHeX.WinForms
             Loading = true;
             if (Main.Unicode)
             {
-                try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = FontUtil.GetPKXFont();
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";

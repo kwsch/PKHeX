@@ -33,8 +33,7 @@ namespace PKHeX.WinForms
 
             if (Main.Unicode)
             {
-                try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = FontUtil.GetPKXFont();
             }
 
             var cc = SAV.Festa.FestaCoins;

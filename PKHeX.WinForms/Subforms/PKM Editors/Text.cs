@@ -23,7 +23,7 @@ namespace PKHeX.WinForms
             if (raw != null)
                 AddTrashEditing(raw.Length);
 
-            var f = FontUtil.GetPKXFont(12F);
+            var f = FontUtil.GetPKXFont();
             AddCharEditing(f);
             TB_Text.MaxLength = TB_NN.MaxLength;
             TB_Text.Text = TB_NN.Text;

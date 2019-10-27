@@ -23,8 +23,7 @@ namespace PKHeX.WinForms
 
             if (Main.Unicode)
             {
-                try { TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont(11); }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont();
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
