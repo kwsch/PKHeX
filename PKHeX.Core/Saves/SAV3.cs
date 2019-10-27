@@ -914,7 +914,7 @@ namespace PKHeX.Core
             IsEBerryChecksumValid = EBerryChecksum == chk;
         }
         #endregion
-        
+
         public RTC3 ClockInitial
         {
             get

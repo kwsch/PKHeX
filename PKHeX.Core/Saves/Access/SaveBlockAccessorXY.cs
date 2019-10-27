@@ -5,7 +5,6 @@ namespace PKHeX.Core
     public class SaveBlockAccessorXY : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6XY
     {
         public const int boXY = SaveUtil.SIZE_G6XY - 0x200;
-        public int FooterOffset => boXY;
 
         public static readonly BlockInfo6[] BlocksXY =
         {

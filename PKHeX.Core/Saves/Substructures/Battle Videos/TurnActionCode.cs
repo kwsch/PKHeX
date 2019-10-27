@@ -12,7 +12,7 @@
         MegaEvolve = 8,
     }
 
-    public struct TurnActionInstruction
+    public readonly struct TurnActionInstruction
     {
         public readonly int PlayerID;
         public readonly int Count;

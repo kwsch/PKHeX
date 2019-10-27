@@ -120,7 +120,7 @@ namespace PKHeX.Core
         {
             uint pid = Cache[ctr + 1] << 16 | Cache[ctr];
             if (current.MatchesLock(pid))
-                yield return new SeedFrame { FrameID = ctr + (current.Seen ? 5 : 7), PID = pid };
+                yield return new SeedFrame(pid, ctr + (current.Seen ? 5 : 7));
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace PKHeX.Core
                 }
                 uint pid = Cache[ctr + 1] << 16 | Cache[ctr];
                 if (current.MatchesLock(pid))
-                    yield return new SeedFrame { FrameID = ctr + (current.Seen ? 5 : 7), PID = pid };
+                    yield return new SeedFrame(pid, ctr + (current.Seen ? 5 : 7));
 
                 ctr += 2;
             }

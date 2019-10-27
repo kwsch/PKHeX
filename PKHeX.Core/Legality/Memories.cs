@@ -230,13 +230,13 @@ namespace PKHeX.Core
             };
         }
 
-        public override bool Equals(object obj) => obj is MemoryVariableSet v
-            && v.Handler == Handler
-            && v.MemoryID == MemoryID
-            && v.Variable == Variable
-            && v.Intensity == Intensity
-            && v.Feeling == Feeling;
+        public bool Equals(MemoryVariableSet v) => v.Handler == Handler
+                                                   && v.MemoryID == MemoryID
+                                                   && v.Variable == Variable
+                                                   && v.Intensity == Intensity
+                                                   && v.Feeling == Feeling;
 
+        public override bool Equals(object obj) => obj is MemoryVariableSet v && Equals(v);
         public override int GetHashCode() => -1;
         public static bool operator ==(MemoryVariableSet left, MemoryVariableSet right) => left.Equals(right);
         public static bool operator !=(MemoryVariableSet left, MemoryVariableSet right) => !(left == right);

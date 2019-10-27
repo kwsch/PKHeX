@@ -94,16 +94,16 @@ namespace PKHeX.Core
             }
         }
 
-        private struct Range
+        private readonly struct Range
         {
+            internal readonly uint Min;
+            internal readonly uint Max;
+
             internal Range(uint min, uint max)
             {
                 Min = min;
                 Max = max;
             }
-
-            internal uint Min { get; }
-            internal uint Max { get; }
         }
 
         private static Range[] GetRanges(params uint[] rates)

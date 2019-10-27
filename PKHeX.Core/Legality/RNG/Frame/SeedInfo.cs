@@ -13,7 +13,8 @@ namespace PKHeX.Core
             Charm3 = charm3;
         }
 
-        public override bool Equals(object obj) => obj is SeedInfo s && s.Charm3 == Charm3 && s.Seed == Seed;
+        public override bool Equals(object obj) => obj is SeedInfo s && Equals(s);
+        public bool Equals(SeedInfo s) => s.Charm3 == Charm3 && s.Seed == Seed;
         public override int GetHashCode() => -1;
         public static bool operator ==(SeedInfo left, SeedInfo right) => left.Equals(right);
         public static bool operator !=(SeedInfo left, SeedInfo right) => !(left == right);

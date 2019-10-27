@@ -1,9 +1,9 @@
 ﻿namespace PKHeX.Core
 {
-    public struct TurnStartInstruction
+    public readonly struct TurnStartInstruction
     {
-        public TurnStartCode TurnCode;
-        public int Count;
+        public readonly TurnStartCode TurnCode;
+        public readonly int Count;
 
         public TurnStartInstruction(byte Op)
         {

@@ -1,12 +1,20 @@
 ﻿namespace PKHeX.Core
 {
-    public struct BoxManipParam
+    public readonly struct BoxManipParam
     {
-        public int Start { get; set; }
-        public int Stop { get; set; }
-        public bool Reverse { get; set; }
+        public readonly int Start;
+        public readonly int Stop;
+        public readonly bool Reverse;
 
-        public override bool Equals(object obj) => obj is BoxManipParam p && p.Start == Start && p.Stop == Stop && p.Reverse == Reverse;
+        public BoxManipParam(int start, int stop, bool reverse = false)
+        {
+            Start = start;
+            Stop = stop;
+            Reverse = reverse;
+        }
+
+        public bool Equals(BoxManipParam p) => p.Start == Start && p.Stop == Stop && p.Reverse == Reverse;
+        public override bool Equals(object obj) => obj is BoxManipParam p && Equals(p);
         public override int GetHashCode() => -1;
         public static bool operator ==(BoxManipParam left, BoxManipParam right) => left.Equals(right);
         public static bool operator !=(BoxManipParam left, BoxManipParam right) => !(left == right);

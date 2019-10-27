@@ -66,11 +66,18 @@ namespace PKHeX.Core
             return true;
         }
 
-        private struct PIDIVGroup
+        private readonly struct PIDIVGroup
         {
-            public uint PID;
-            public uint IV1;
-            public uint IV2;
+            private readonly uint PID;
+            private readonly uint IV1;
+            private readonly uint IV2;
+
+            public PIDIVGroup(uint pid, uint iv1, uint iv2)
+            {
+                PID = pid;
+                IV1 = iv1;
+                IV2 = iv2;
+            }
 
             public bool Equals(uint pid, uint iv1, uint iv2) => PID == pid && IV1 == iv1 && IV2 == iv2;
         }
@@ -78,19 +85,18 @@ namespace PKHeX.Core
         private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, int TID, int SID)
         {
             var rng = RNG.XDRNG;
-            PIDIVGroup group = new PIDIVGroup();
 
             uSeed = rng.Advance(uSeed, 2); // skip fakePID
-            group.IV1 = (uSeed >> 16) & 0x7FFF;
+            var IV1 = (uSeed >> 16) & 0x7FFF;
             uSeed = rng.Next(uSeed);
-            group.IV2 = (uSeed >> 16) & 0x7FFF;
+            var IV2 = (uSeed >> 16) & 0x7FFF;
             uSeed = rng.Next(uSeed);
             uSeed = rng.Advance(uSeed, 1); // skip ability call
-            group.PID = GenerateStarterPID(ref uSeed, TID, SID);
+            var PID = GenerateStarterPID(ref uSeed, TID, SID);
 
             uSeed = rng.Advance(uSeed, 2); // PID calls consumed
 
-            return group;
+            return new PIDIVGroup(PID, IV1, IV2);
         }
 
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;

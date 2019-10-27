@@ -40,12 +40,12 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Game)
+                return Game switch
                 {
-                    case (int)GameVersion.AS: return GameVersion.AS;
-                    case (int)GameVersion.OR: return GameVersion.OR;
-                }
-                return GameVersion.Invalid;
+                    (int) GameVersion.AS => GameVersion.AS,
+                    (int) GameVersion.OR => GameVersion.OR,
+                    _ => GameVersion.Invalid
+                };
             }
         }
 

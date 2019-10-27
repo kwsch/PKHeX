@@ -18,12 +18,9 @@
             if (!usable)
                 return false;
 
-            var param = new BoxManipParam
-            {
-                Reverse = reverse,
-                Start = allBoxes ? 0 : box,
-                Stop = allBoxes ? SAV.BoxCount - 1 : box,
-            };
+            var start = allBoxes ? 0 : box;
+            var stop = allBoxes ? SAV.BoxCount - 1 : box;
+            var param = new BoxManipParam(start, stop, reverse);
 
             var prompt = manip.GetPrompt(allBoxes);
             var fail = manip.GetFail(allBoxes);

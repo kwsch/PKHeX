@@ -86,6 +86,6 @@ namespace PKHeX.Core
 
         public uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
         public int Met_Location { get => BigEndian.ToUInt16(Data, 0x06); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x06); }
-        public uint _0x08 { get => BigEndian.ToUInt32(Data, 0x08); set => BigEndian.GetBytes(value).CopyTo(Data, 0x08); }
+        public uint Unk08 { get => BigEndian.ToUInt32(Data, 0x08); set => BigEndian.GetBytes(value).CopyTo(Data, 0x08); }
     }
 }
