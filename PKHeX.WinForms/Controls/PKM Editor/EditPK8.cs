@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,8 +7,8 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK8()
         {
-            if (!(pkm is PK8 pk8))
-                return;
+            if (!(Entity is PK8 pk8))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk8);
             LoadMisc2(pk8);
@@ -20,10 +21,10 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private PKM PreparePK8()
+        private PK8 PreparePK8()
         {
-            if (!(pkm is PK8 pk8))
-                return null;
+            if (!(Entity is PK8 pk8))
+                throw new FormatException(nameof(Entity));
 
             CheckTransferPIDValid();
             SaveMisc1(pk8);

@@ -12,12 +12,14 @@ namespace PKHeX.WinForms
     public partial class BatchEditor : Form
     {
         private readonly SaveFile SAV;
+        private readonly PKM pkm;
+        private int currentFormat = -1;
 
         public BatchEditor(PKM pk, SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            pkmref = pk;
+            pkm = pk;
             SAV = sav;
             DragDrop += TabMain_DragDrop;
             DragEnter += TabMain_DragEnter;
@@ -33,10 +35,6 @@ namespace PKHeX.WinForms
             toolTip2.SetToolTip(L_PropType, MsgBEToolTipPropType);
             toolTip3.SetToolTip(L_PropValue, MsgBEToolTipPropValue);
         }
-
-        private readonly PKM pkmref;
-
-        private int currentFormat = -1;
 
         private void B_Open_Click(object sender, EventArgs e)
         {
@@ -88,9 +86,9 @@ namespace PKHeX.WinForms
         private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
         {
             L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
-            if (BatchEditing.TryGetHasProperty(pkmref, CB_Property.Text, out var pi))
+            if (BatchEditing.TryGetHasProperty(pkm, CB_Property.Text, out var pi))
             {
-                L_PropValue.Text = pi.GetValue(pkmref)?.ToString();
+                L_PropValue.Text = pi.GetValue(pkm)?.ToString();
                 L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
             }
             else // no property, flag
@@ -252,9 +250,9 @@ namespace PKHeX.WinForms
 
                 int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 byte[] data = File.ReadAllBytes(file);
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (editor.ProcessPKM(pkm, Filters, Instructions))
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
+                var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+                if (editor.ProcessPKM(pk, Filters, Instructions))
+                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedBoxData);
 
                 b.ReportProgress(i);
             }

@@ -243,7 +243,7 @@ namespace PKHeX.Core
         /// <returns>True if filtered, else false.</returns>
         private static ModifyResult SetPKMProperty(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            var pk = info.pkm;
+            var pk = info.Entity;
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
                 return SetByteArrayProperty(pk, cmd);
 
@@ -277,7 +277,7 @@ namespace PKHeX.Core
         {
             if (IsLegalFiltered(cmd, () => info.Legal))
                 return true;
-            return IsPropertyFiltered(cmd, info.pkm, props);
+            return IsPropertyFiltered(cmd, info.Entity, props);
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ namespace PKHeX.Core
         /// <param name="info">Cached info storing Legal data.</param>
         private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info)
         {
-            var pk = info.pkm;
+            var pk = info.Entity;
             switch (name)
             {
                 // pb7 only

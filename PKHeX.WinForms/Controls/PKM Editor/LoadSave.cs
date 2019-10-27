@@ -174,8 +174,8 @@ namespace PKHeX.WinForms.Controls
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 
-            Label_HatchCounter.Visible = CHK_IsEgg.Checked && pkm.Format > 1;
-            Label_Friendship.Visible = !CHK_IsEgg.Checked && pkm.Format > 1;
+            Label_HatchCounter.Visible = CHK_IsEgg.Checked && Entity.Format > 1;
+            Label_Friendship.Visible = !CHK_IsEgg.Checked && Entity.Format > 1;
         }
 
         private void SaveMisc2(PKM pk)
@@ -341,14 +341,14 @@ namespace PKHeX.WinForms.Controls
         // Misc
         private void CheckTransferPIDValid()
         {
-            if (pkm.Version >= 24)
+            if (Entity.Version >= 24)
                 return;
 
             uint EC = Util.GetHexValue(TB_EC.Text);
             uint PID = Util.GetHexValue(TB_PID.Text);
             uint LID = PID & 0xFFFF;
             uint HID = PID >> 16;
-            uint XOR = (uint)(pkm.TID ^ LID ^ pkm.SID ^ HID);
+            uint XOR = (uint)(Entity.TID ^ LID ^ Entity.SID ^ HID);
 
             // Ensure we don't have a shiny.
             if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)

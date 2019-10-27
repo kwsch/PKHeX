@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,8 +7,8 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK7()
         {
-            if (!(pkm is PK7 pk7))
-                return;
+            if (!(Entity is PK7 pk7))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk7);
             LoadMisc2(pk7);
@@ -19,10 +20,10 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private PKM PreparePK7()
+        private PK7 PreparePK7()
         {
-            if (!(pkm is PK7 pk7))
-                return null;
+            if (!(Entity is PK7 pk7))
+                throw new FormatException(nameof(Entity));
 
             CheckTransferPIDValid();
             SaveMisc1(pk7);
@@ -50,8 +51,8 @@ namespace PKHeX.WinForms.Controls
 
         private void PopulateFieldsPB7()
         {
-            if (!(pkm is PB7 pk7))
-                return;
+            if (!(Entity is PB7 pk7))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk7);
             LoadMisc2(pk7);
@@ -65,10 +66,10 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private PKM PreparePB7()
+        private PB7 PreparePB7()
         {
-            if (!(pkm is PB7 pk7))
-                return null;
+            if (!(Entity is PB7 pk7))
+                throw new FormatException(nameof(Entity));
 
             CheckTransferPIDValid();
             SaveMisc1(pk7);

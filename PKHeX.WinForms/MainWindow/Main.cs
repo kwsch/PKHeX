@@ -758,7 +758,7 @@ namespace PKHeX.WinForms
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
             if (isBlank)
                 EditPKMUtil.TemplateFields(pk, sav);
-            bool init = PKME_Tabs.pkm == null;
+            bool init = PKME_Tabs.Entity == null;
             PKME_Tabs.CurrentPKM = pk;
             if (init)
             {
@@ -1138,7 +1138,7 @@ namespace PKHeX.WinForms
 
         private void DragoutEnter(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = PKME_Tabs.pkm.Species > 0 ? Resources.slotSet : Resources.slotDel;
+            dragout.BackgroundImage = PKME_Tabs.Entity.Species > 0 ? Resources.slotSet : Resources.slotDel;
             Cursor = Cursors.Hand;
         }
 

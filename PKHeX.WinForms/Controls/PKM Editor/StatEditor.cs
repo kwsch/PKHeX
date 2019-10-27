@@ -38,11 +38,11 @@ namespace PKHeX.WinForms.Controls
         {
             get
             {
-                if (pkm.Format < 3)
+                if (Entity.Format < 3)
                     return true;
                 if (CHK_HackedStats.Checked)
                     return true;
-                if (pkm is IAwakened a)
+                if (Entity is IAwakened a)
                     return a.AwakeningAllValid();
                 return Convert.ToUInt32(TB_EVTotal.Text) <= 510;
             }
@@ -50,7 +50,7 @@ namespace PKHeX.WinForms.Controls
 
         private readonly Label[] L_Stats;
         private readonly MaskedTextBox[] MT_EVs, MT_IVs, MT_AVs, MT_Stats, MT_Base;
-        private PKM pkm => MainEditor.pkm;
+        private PKM Entity => MainEditor.Entity;
 
         private bool ChangingFields
         {
@@ -70,9 +70,9 @@ namespace PKHeX.WinForms.Controls
             else if (ModifierKeys.HasFlag(Keys.Control))
             {
                 var index = Array.IndexOf(MT_IVs, t);
-                t.Text = pkm.GetMaximumIV(index, true).ToString();
+                t.Text = Entity.GetMaximumIV(index, true).ToString();
             }
-            else if (pkm is IHyperTrain h && ModifierKeys.HasFlag(Keys.Shift))
+            else if (Entity is IHyperTrain h && ModifierKeys.HasFlag(Keys.Shift))
             {
                 var index = Array.IndexOf(MT_IVs, t);
                 bool flag = h.HyperTrainInvert(index);
@@ -94,7 +94,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             int index = Array.IndexOf(MT_EVs, t);
-            int newEV = pkm.GetMaximumEV(index);
+            int newEV = Entity.GetMaximumEV(index);
             t.Text = newEV.ToString();
         }
 
@@ -118,14 +118,14 @@ namespace PKHeX.WinForms.Controls
             if (sender is MaskedTextBox m)
             {
                 int value = Util.ToInt32(m.Text);
-                if (value > pkm.MaxIV)
+                if (value > Entity.MaxIV)
                 {
-                    m.Text = pkm.MaxIV.ToString();
+                    m.Text = Entity.MaxIV.ToString();
                     return; // recursive on text set
                 }
 
                 int index = Array.IndexOf(MT_IVs, m);
-                pkm.SetIV(index, value);
+                Entity.SetIV(index, value);
             }
             RefreshDerivedValues(e);
             UpdateStats();
@@ -133,10 +133,10 @@ namespace PKHeX.WinForms.Controls
 
         private void RefreshDerivedValues(object sender)
         {
-            if (pkm.Format < 3)
+            if (Entity.Format < 3)
             {
-                TB_IVHP.Text = pkm.IV_HP.ToString();
-                TB_IVSPD.Text = pkm.IV_SPD.ToString();
+                TB_IVHP.Text = Entity.IV_HP.ToString();
+                TB_IVSPD.Text = Entity.IV_SPD.ToString();
 
                 MainEditor.UpdateIVsGB(sender == null);
             }
@@ -144,15 +144,15 @@ namespace PKHeX.WinForms.Controls
             if (!ChangingFields)
             {
                 ChangingFields = true;
-                CB_HPType.SelectedValue = pkm.HPType;
+                CB_HPType.SelectedValue = Entity.HPType;
                 ChangingFields = false;
             }
 
             // Potential Reading
-            L_Potential.Text = pkm.GetPotentialString(MainEditor.Unicode);
+            L_Potential.Text = Entity.GetPotentialString(MainEditor.Unicode);
 
-            TB_IVTotal.Text = pkm.IVTotal.ToString();
-            UpdateCharacteristic(pkm.Characteristic);
+            TB_IVTotal.Text = Entity.IVTotal.ToString();
+            UpdateCharacteristic(Entity.Characteristic);
         }
 
         private void UpdateEVs(object sender, EventArgs e)
@@ -160,19 +160,19 @@ namespace PKHeX.WinForms.Controls
             if (sender is MaskedTextBox m)
             {
                 int value = Util.ToInt32(m.Text);
-                if (value > pkm.MaxEV)
+                if (value > Entity.MaxEV)
                 {
-                    m.Text = pkm.MaxEV.ToString();
+                    m.Text = Entity.MaxEV.ToString();
                     return; // recursive on text set
                 }
 
                 int index = Array.IndexOf(MT_EVs, m);
-                pkm.SetEV(index, value);
+                Entity.SetEV(index, value);
             }
 
             UpdateEVTotals();
 
-            if (pkm.Format < 3)
+            if (Entity.Format < 3)
             {
                 ChangingFields = true;
                 TB_EVSPD.Text = TB_EVSPA.Text;
@@ -184,7 +184,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateAVs(object sender, EventArgs e)
         {
-            if (!(pkm is IAwakened a))
+            if (!(Entity is IAwakened a))
                 return;
             if (sender is MaskedTextBox m)
             {
@@ -206,7 +206,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
             bool zero = ModifierKeys.HasFlag(Keys.Control);
-            var evs = zero ? new int[6] : PKX.GetRandomEVs(pkm.Format);
+            var evs = zero ? new int[6] : PKX.GetRandomEVs(Entity.Format);
             LoadEVs(evs);
             UpdateEVs(null, EventArgs.Empty);
         }
@@ -246,7 +246,7 @@ namespace PKHeX.WinForms.Controls
 
             // Change IVs to match the new Hidden Power
             int hpower = WinFormsUtil.GetIndex(CB_HPType);
-            int[] newIVs = HiddenPower.SetIVs(hpower, pkm.IVs, pkm.Format);
+            int[] newIVs = HiddenPower.SetIVs(hpower, Entity.IVs, Entity.Format);
             LoadIVs(newIVs);
         }
 
@@ -259,27 +259,27 @@ namespace PKHeX.WinForms.Controls
             if (ModifierKeys.HasFlag(Keys.Alt)) // EV
             {
                 bool min = e.Button != MouseButtons.Left;
-                if (pkm is PB7)
+                if (Entity is PB7)
                 {
                     var value = min ? 0 : 200;
                     MT_AVs[index].Text = value.ToString();
                 }
                 else
                 {
-                    var value = min ? 0 : pkm.GetMaximumEV(index);
+                    var value = min ? 0 : Entity.GetMaximumEV(index);
                     MT_EVs[index].Text = value.ToString();
                 }
             }
             else if (ModifierKeys.HasFlag(Keys.Control)) // IV
             {
-                var value = e.Button != MouseButtons.Left ? 0 : pkm.GetMaximumIV(index, true);
+                var value = e.Button != MouseButtons.Left ? 0 : Entity.GetMaximumIV(index, true);
                 MT_IVs[index].Text = value.ToString();
             }
         }
 
         private void LoadHyperTraining()
         {
-            if (!(pkm is IHyperTrain h))
+            if (!(Entity is IHyperTrain h))
             {
                 foreach (var iv in MT_IVs)
                     iv.ResetBackColor();
@@ -292,7 +292,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateAVTotals()
         {
-            if (!(pkm is IAwakened a))
+            if (!(Entity is IAwakened a))
                 return;
             var total = a.AwakeningSum();
             TB_AVTotal.Text = total.ToString();
@@ -300,7 +300,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateEVTotals()
         {
-            var evtotal = pkm.EVTotal;
+            var evtotal = Entity.EVTotal;
             TB_EVTotal.BackColor = GetEVTotalColor(evtotal, TB_IVTotal.BackColor);
             TB_EVTotal.Text = evtotal.ToString();
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
@@ -320,13 +320,13 @@ namespace PKHeX.WinForms.Controls
         public void UpdateStats()
         {
             // Generate the stats.
-            if (!CHK_HackedStats.Checked || pkm.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
+            if (!CHK_HackedStats.Checked || Entity.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
             {
                 var pt = MainEditor.RequestSaveFile.Personal;
-                var pi = pt.GetFormeEntry(pkm.Species, pkm.AltForm);
-                pkm.SetStats(pkm.GetStats(pi));
+                var pi = pt.GetFormeEntry(Entity.Species, Entity.AltForm);
+                Entity.SetStats(Entity.GetStats(pi));
                 LoadBST(pi);
-                LoadPartyStats(pkm);
+                LoadPartyStats(Entity);
             }
         }
 
@@ -346,19 +346,19 @@ namespace PKHeX.WinForms.Controls
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
             int? flawless = ModifierKeys.HasFlag(Keys.Control) ? (int?)6 : null;
-            var IVs = pkm.SetRandomIVs(flawless);
+            var IVs = Entity.SetRandomIVs(flawless);
             LoadIVs(IVs);
         }
 
         private void UpdateRandomAVs(object sender, EventArgs e)
         {
-            if (!(pkm is IAwakened a))
+            if (!(Entity is IAwakened a))
                 return;
 
             switch (ModifierKeys)
             {
                 case Keys.Control:
-                    a.SetSuggestedAwakenedValues(pkm);
+                    a.SetSuggestedAwakenedValues(Entity);
                     break;
                 case Keys.Alt:
                     a.AwakeningSetAllTo(0);
@@ -371,7 +371,7 @@ namespace PKHeX.WinForms.Controls
             LoadAVs(a);
         }
 
-        public void UpdateCharacteristic() => UpdateCharacteristic(pkm.Characteristic);
+        public void UpdateCharacteristic() => UpdateCharacteristic(Entity.Characteristic);
 
         private void UpdateCharacteristic(int characteristic)
         {
@@ -397,8 +397,8 @@ namespace PKHeX.WinForms.Controls
 
         public void SetATKIVGender(int gender)
         {
-            pkm.SetATKIVGender(gender);
-            TB_IVATK.Text = pkm.IV_ATK.ToString();
+            Entity.SetATKIVGender(gender);
+            TB_IVATK.Text = Entity.IV_ATK.ToString();
         }
 
         public void LoadPartyStats(PKM pk)

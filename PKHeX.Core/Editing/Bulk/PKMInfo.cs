@@ -7,11 +7,11 @@ namespace PKHeX.Core
     /// </summary>
     internal sealed class PKMInfo
     {
-        internal PKM pkm { get; }
-        internal PKMInfo(PKM pk) { pkm = pk; }
+        internal PKM Entity { get; }
+        internal PKMInfo(PKM pk) { Entity = pk; }
 
         private LegalityAnalysis? la;
-        internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(pkm);
+        internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
         public bool Legal => Legality.Valid;
         internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearn();
