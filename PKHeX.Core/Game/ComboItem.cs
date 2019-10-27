@@ -8,8 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     public readonly struct ComboItem : IEquatable<int>
     {
-        public readonly string Text;
-        public readonly int Value;
+        public string Text { get; }
+        public int Value { get; }
 
         public ComboItem(string text, int value)
         {
