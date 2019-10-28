@@ -27,7 +27,6 @@ namespace PKHeX.WinForms
             InitializeComponent();
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuDelete });
 
             SAV = saveditor.SAV;
             BoxView = saveditor;
@@ -53,6 +52,7 @@ namespace PKHeX.WinForms
                     }
                 };
 
+                slot.ContextMenuStrip = mnu;
                 if (Settings.Default.HoverSlotShowText)
                     slot.MouseEnter += ShowHoverTextForSlot;
             }
@@ -61,10 +61,6 @@ namespace PKHeX.WinForms
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invisible for now
             PopulateComboBoxes();
-
-            // Assign to datagridview
-            foreach (PictureBox p in PKXBOXES)
-                p.ContextMenuStrip = mnu;
 
             // Load Data
             B_Search.Enabled = false;

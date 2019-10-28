@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.SCR_Box = new System.Windows.Forms.VScrollBar();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.Menu_Close = new System.Windows.Forms.ToolStripMenuItem();
@@ -39,6 +40,7 @@
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
+            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
@@ -65,12 +67,17 @@
             this.L_Format = new System.Windows.Forms.Label();
             this.FLP_Level = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSaveMG = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuSavePK = new System.Windows.Forms.ToolStripMenuItem();
+            this.hover = new System.Windows.Forms.ToolTip(this.components);
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.FLP_Egg.SuspendLayout();
             this.TLP_Filters.SuspendLayout();
             this.FLP_Format.SuspendLayout();
+            this.mnu.SuspendLayout();
             this.SuspendLayout();
             // 
             // SCR_Box
@@ -177,6 +184,15 @@
             this.P_Results.Name = "P_Results";
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
+            // 
+            // pokeGrid1
+            // 
+            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
+            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
+            this.pokeGrid1.Name = "pokeGrid1";
+            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
+            this.pokeGrid1.TabIndex = 2;
             // 
             // CB_HeldItem
             // 
@@ -535,13 +551,38 @@
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
-            // pokeGrid1
+            // mnu
             // 
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
+            this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuView,
+            this.mnuSaveMG,
+            this.mnuSavePK});
+            this.mnu.Name = "contextMenuStrip1";
+            this.mnu.Size = new System.Drawing.Size(127, 70);
+            // 
+            // mnuView
+            // 
+            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
+            this.mnuView.Name = "mnuView";
+            this.mnuView.Size = new System.Drawing.Size(126, 22);
+            this.mnuView.Text = "View";
+            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            // 
+            // mnuSaveMG
+            // 
+            this.mnuSaveMG.Image = global::PKHeX.WinForms.Properties.Resources.gift;
+            this.mnuSaveMG.Name = "mnuSaveMG";
+            this.mnuSaveMG.Size = new System.Drawing.Size(126, 22);
+            this.mnuSaveMG.Text = "Save Gift";
+            this.mnuSaveMG.Click += new System.EventHandler(this.ClickSaveMG);
+            // 
+            // mnuSavePK
+            // 
+            this.mnuSavePK.Image = global::PKHeX.WinForms.Properties.Resources.savePKM;
+            this.mnuSavePK.Name = "mnuSavePK";
+            this.mnuSavePK.Size = new System.Drawing.Size(126, 22);
+            this.mnuSavePK.Text = "Save PKM";
+            this.mnuSavePK.Click += new System.EventHandler(this.ClickSavePK);
             // 
             // SAV_MysteryGiftDB
             // 
@@ -573,6 +614,7 @@
             this.TLP_Filters.ResumeLayout(false);
             this.TLP_Filters.PerformLayout();
             this.FLP_Format.ResumeLayout(false);
+            this.mnu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -618,5 +660,10 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
         private System.Windows.Forms.ToolStripMenuItem Menu_Import;
         private Controls.PokeGrid pokeGrid1;
+        private System.Windows.Forms.ContextMenuStrip mnu;
+        private System.Windows.Forms.ToolStripMenuItem mnuView;
+        private System.Windows.Forms.ToolStripMenuItem mnuSaveMG;
+        private System.Windows.Forms.ToolStripMenuItem mnuSavePK;
+        private System.Windows.Forms.ToolTip hover;
     }
 }

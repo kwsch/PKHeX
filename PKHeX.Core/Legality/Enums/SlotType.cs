@@ -75,6 +75,8 @@ namespace PKHeX.Core
         /// </summary>
         Headbutt     = 1 << 11,
 
+        Headbutt_Special = Headbutt | Special,
+
         /// <summary>
         /// Slot is encountered via the Poké Radar.
         /// </summary>
@@ -104,9 +106,6 @@ namespace PKHeX.Core
         /// Slot is encountered in the Safari Zone.
         /// </summary>
         Safari       = 1 << 30, // always used as a modifier to another slot type
-
-        // Combined
-        Headbutt_Special = Headbutt | Special,
 
         Grass_Safari = Grass | Safari,
         Surf_Safari = Surf | Safari,

@@ -23,11 +23,6 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-            ToolStripMenuItem mnuView = new ToolStripMenuItem {Name = "mnuView", Text = "View", Image = Resources.other };
-
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView });
-
             PKME_Tabs = f1;
 
             pokeGrid1.InitializeGrid(6, 11);
@@ -43,21 +38,13 @@ namespace PKHeX.WinForms
                     if (ModifierKeys == Keys.Control)
                         ClickView(sender, e);
                 };
+                slot.ContextMenuStrip = mnu;
             }
 
             Counter = L_Count.Text;
             L_Viewed.Text = string.Empty; // invis for now
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
             PopulateComboBoxes();
-
-            // Assign event handlers
-            mnuView.Click += ClickView;
-
-            // Add to main context menu
-
-            // Assign to datagridview
-            foreach (PictureBox p in PKXBOXES)
-                p.ContextMenuStrip = mnu;
 
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             GetTypeFilters();

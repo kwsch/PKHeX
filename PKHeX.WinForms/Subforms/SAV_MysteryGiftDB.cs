@@ -24,13 +24,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View", Image = Resources.other };
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift", Image = Resources.gift };
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM", Image = Resources.savePKM };
-
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
 
             SAV = sav.SAV;
             BoxView = sav;
@@ -52,22 +46,14 @@ namespace PKHeX.WinForms
                     if (ModifierKeys == Keys.Control)
                         ClickView(sender, e);
                 };
+
+                slot.ContextMenuStrip = mnu;
             }
 
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invis for now
-            var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
-
-            // Assign event handlers
-            mnuView.Click += ClickView;
-            mnuSaveMG.Click += ClickSaveMG;
-            mnuSavePK.Click += ClickSavePK;
-
-            // Assign to datagridview
-            foreach (PictureBox p in PKXBOXES)
-                p.ContextMenuStrip = mnu;
 
             // Load Data
             B_Search.Enabled = false;

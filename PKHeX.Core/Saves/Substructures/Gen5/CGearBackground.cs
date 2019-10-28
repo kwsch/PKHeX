@@ -156,196 +156,6 @@ namespace PKHeX.Core
         public Tile[] Tiles { get; }
         public TileMap Map { get; }
 
-        public sealed class Tile
-        {
-            internal const int SIZE_TILE = 0x20;
-            private const int TileWidth = 8;
-            private const int TileHeight = 8;
-            internal readonly int[] ColorChoices;
-            private byte[] PixelData;
-            private byte[]? PixelDataX;
-            private byte[]? PixelDataY;
-
-            internal Tile() : this(new byte[SIZE_TILE]) { }
-
-            internal Tile(byte[] data)
-            {
-                if (data.Length != SIZE_TILE)
-                    throw new ArgumentException(nameof(data));
-
-                ColorChoices = new int[TileWidth * TileHeight];
-                for (int i = 0; i < data.Length; i++)
-                {
-                    var ofs = i * 2;
-                    ColorChoices[ofs + 0] = data[i] & 0xF;
-                    ColorChoices[ofs + 1] = data[i] >> 4;
-                }
-                PixelData = Array.Empty<byte>();
-            }
-
-            internal void SetTile(int[] Palette) => PixelData = GetTileData(Palette);
-
-            private byte[] GetTileData(IReadOnlyList<int> Palette)
-            {
-                const int pixels = TileWidth * TileHeight;
-                byte[] data = new byte[pixels * 4];
-                for (int i = 0; i < pixels; i++)
-                {
-                    var choice = ColorChoices[i];
-                    var val = Palette[choice];
-                    var o = 4 * i;
-                    data[o + 0] = (byte)(val & 0xFF);
-                    data[o + 1] = (byte)(val >> 8 & 0xFF);
-                    data[o + 2] = (byte)(val >> 16 & 0xFF);
-                    data[o + 3] = (byte)(val >> 24 & 0xFF);
-                }
-                return data;
-            }
-
-            internal byte[] Write()
-            {
-                byte[] data = new byte[SIZE_TILE];
-                for (int i = 0; i < data.Length; i++)
-                {
-                    var ofs = i * 2;
-                    data[i] |= (byte)(ColorChoices[ofs+0] & 0xF);
-                    data[i] |= (byte)((ColorChoices[ofs+1] & 0xF) << 4);
-                }
-                return data;
-            }
-
-            public byte[] Rotate(int rotFlip)
-            {
-                if (rotFlip == 0)
-                    return PixelData;
-                if ((rotFlip & 4) > 0)
-                    return PixelDataX ??= FlipX(PixelData, TileWidth);
-                if ((rotFlip & 8) > 0)
-                    return PixelDataY ??= FlipY(PixelData, TileHeight);
-                return PixelData;
-            }
-
-            private static byte[] FlipX(IReadOnlyList<byte> data, int width, int bpp = 4)
-            {
-                byte[] result = new byte[data.Count];
-                int pixels = data.Count / bpp;
-                for (int i = 0; i < pixels; i++)
-                {
-                    int x = i % width;
-                    int y = i / width;
-
-                    x = width - x - 1; // flip x
-                    int dest = ((y * width) + x) * bpp;
-
-                    var o = 4 * i;
-                    result[dest + 0] = data[o + 0];
-                    result[dest + 1] = data[o + 1];
-                    result[dest + 2] = data[o + 2];
-                    result[dest + 3] = data[o + 3];
-                }
-                return result;
-            }
-
-            private static byte[] FlipY(IReadOnlyList<byte> data, int height, int bpp = 4)
-            {
-                byte[] result = new byte[data.Count];
-                int pixels = data.Count / bpp;
-                int width = pixels / height;
-                for (int i = 0; i < pixels; i++)
-                {
-                    int x = i % width;
-                    int y = i / width;
-
-                    y = height - y - 1; // flip x
-                    int dest = ((y * width) + x) * bpp;
-
-                    var o = 4 * i;
-                    result[dest + 0] = data[o + 0];
-                    result[dest + 1] = data[o + 1];
-                    result[dest + 2] = data[o + 2];
-                    result[dest + 3] = data[o + 3];
-                }
-                return result;
-            }
-
-            internal int GetRotationValue(int[] tileColors)
-            {
-                // Check all rotation types
-                if (ColorChoices.SequenceEqual(tileColors))
-                    return 0;
-
-                if (IsMirrorX(tileColors))
-                    return 4;
-                if (IsMirrorY(tileColors))
-                    return 8;
-                if (IsMirrorXY(tileColors))
-                    return 12;
-
-                return -1;
-            }
-
-            private bool IsMirrorX(int[] tileColors)
-            {
-                for (int i = 0; i < 64; i++)
-                {
-                    if (ColorChoices[(7 - (i & 7)) + (8 * (i / 8))] != tileColors[i])
-                        return false;
-                }
-
-                return true;
-            }
-
-            private bool IsMirrorY(int[] tileColors)
-            {
-                for (int i = 0; i < 64; i++)
-                {
-                    if (ColorChoices[64 - (8 * (1 + (i / 8))) + (i & 7)] != tileColors[i])
-                        return false;
-                }
-
-                return true;
-            }
-
-            private bool IsMirrorXY(int[] tileColors)
-            {
-                for (int i = 0; i < 64; i++)
-                {
-                    if (ColorChoices[63 - i] != tileColors[i])
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
-        public sealed class TileMap
-        {
-            public readonly int[] TileChoices;
-            public readonly int[] Rotations;
-
-            internal TileMap(byte[] data)
-            {
-                TileChoices = new int[data.Length/2];
-                Rotations = new int[data.Length/2];
-                for (int i = 0; i < data.Length; i += 2)
-                {
-                    TileChoices[i/2] = data[i];
-                    Rotations[i/2] = data[i+1];
-                }
-            }
-
-            internal byte[] Write()
-            {
-                byte[] data = new byte[TileChoices.Length * 2];
-                for (int i = 0; i < data.Length; i += 2)
-                {
-                    data[i] = (byte)TileChoices[i/2];
-                    data[i+1] = (byte)Rotations[i/2];
-                }
-                return data;
-            }
-        }
-
         private static int ValToIndex(int val)
         {
             if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
@@ -511,6 +321,196 @@ namespace PKHeX.Core
                     int dest = (((y+iy) * Width) + x) * 4;
                     Array.Copy(tileData, src, data, dest, 4*8);
                 }
+            }
+            return data;
+        }
+    }
+
+    public sealed class Tile
+    {
+        internal const int SIZE_TILE = 0x20;
+        private const int TileWidth = 8;
+        private const int TileHeight = 8;
+        internal readonly int[] ColorChoices;
+        private byte[] PixelData;
+        private byte[]? PixelDataX;
+        private byte[]? PixelDataY;
+
+        internal Tile() : this(new byte[SIZE_TILE]) { }
+
+        internal Tile(byte[] data)
+        {
+            if (data.Length != SIZE_TILE)
+                throw new ArgumentException(nameof(data));
+
+            ColorChoices = new int[TileWidth * TileHeight];
+            for (int i = 0; i < data.Length; i++)
+            {
+                var ofs = i * 2;
+                ColorChoices[ofs + 0] = data[i] & 0xF;
+                ColorChoices[ofs + 1] = data[i] >> 4;
+            }
+            PixelData = Array.Empty<byte>();
+        }
+
+        internal void SetTile(int[] Palette) => PixelData = GetTileData(Palette);
+
+        private byte[] GetTileData(IReadOnlyList<int> Palette)
+        {
+            const int pixels = TileWidth * TileHeight;
+            byte[] data = new byte[pixels * 4];
+            for (int i = 0; i < pixels; i++)
+            {
+                var choice = ColorChoices[i];
+                var val = Palette[choice];
+                var o = 4 * i;
+                data[o + 0] = (byte)(val & 0xFF);
+                data[o + 1] = (byte)(val >> 8 & 0xFF);
+                data[o + 2] = (byte)(val >> 16 & 0xFF);
+                data[o + 3] = (byte)(val >> 24 & 0xFF);
+            }
+            return data;
+        }
+
+        internal byte[] Write()
+        {
+            byte[] data = new byte[SIZE_TILE];
+            for (int i = 0; i < data.Length; i++)
+            {
+                var ofs = i * 2;
+                data[i] |= (byte)(ColorChoices[ofs + 0] & 0xF);
+                data[i] |= (byte)((ColorChoices[ofs + 1] & 0xF) << 4);
+            }
+            return data;
+        }
+
+        public byte[] Rotate(int rotFlip)
+        {
+            if (rotFlip == 0)
+                return PixelData;
+            if ((rotFlip & 4) > 0)
+                return PixelDataX ??= FlipX(PixelData, TileWidth);
+            if ((rotFlip & 8) > 0)
+                return PixelDataY ??= FlipY(PixelData, TileHeight);
+            return PixelData;
+        }
+
+        private static byte[] FlipX(IReadOnlyList<byte> data, int width, int bpp = 4)
+        {
+            byte[] result = new byte[data.Count];
+            int pixels = data.Count / bpp;
+            for (int i = 0; i < pixels; i++)
+            {
+                int x = i % width;
+                int y = i / width;
+
+                x = width - x - 1; // flip x
+                int dest = ((y * width) + x) * bpp;
+
+                var o = 4 * i;
+                result[dest + 0] = data[o + 0];
+                result[dest + 1] = data[o + 1];
+                result[dest + 2] = data[o + 2];
+                result[dest + 3] = data[o + 3];
+            }
+            return result;
+        }
+
+        private static byte[] FlipY(IReadOnlyList<byte> data, int height, int bpp = 4)
+        {
+            byte[] result = new byte[data.Count];
+            int pixels = data.Count / bpp;
+            int width = pixels / height;
+            for (int i = 0; i < pixels; i++)
+            {
+                int x = i % width;
+                int y = i / width;
+
+                y = height - y - 1; // flip x
+                int dest = ((y * width) + x) * bpp;
+
+                var o = 4 * i;
+                result[dest + 0] = data[o + 0];
+                result[dest + 1] = data[o + 1];
+                result[dest + 2] = data[o + 2];
+                result[dest + 3] = data[o + 3];
+            }
+            return result;
+        }
+
+        internal int GetRotationValue(int[] tileColors)
+        {
+            // Check all rotation types
+            if (ColorChoices.SequenceEqual(tileColors))
+                return 0;
+
+            if (IsMirrorX(tileColors))
+                return 4;
+            if (IsMirrorY(tileColors))
+                return 8;
+            if (IsMirrorXY(tileColors))
+                return 12;
+
+            return -1;
+        }
+
+        private bool IsMirrorX(int[] tileColors)
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                if (ColorChoices[(7 - (i & 7)) + (8 * (i / 8))] != tileColors[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool IsMirrorY(int[] tileColors)
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                if (ColorChoices[64 - (8 * (1 + (i / 8))) + (i & 7)] != tileColors[i])
+                    return false;
+            }
+
+            return true;
+        }
+
+        private bool IsMirrorXY(int[] tileColors)
+        {
+            for (int i = 0; i < 64; i++)
+            {
+                if (ColorChoices[63 - i] != tileColors[i])
+                    return false;
+            }
+
+            return true;
+        }
+    }
+
+    public sealed class TileMap
+    {
+        public readonly int[] TileChoices;
+        public readonly int[] Rotations;
+
+        internal TileMap(byte[] data)
+        {
+            TileChoices = new int[data.Length / 2];
+            Rotations = new int[data.Length / 2];
+            for (int i = 0; i < data.Length; i += 2)
+            {
+                TileChoices[i / 2] = data[i];
+                Rotations[i / 2] = data[i + 1];
+            }
+        }
+
+        internal byte[] Write()
+        {
+            byte[] data = new byte[TileChoices.Length * 2];
+            for (int i = 0; i < data.Length; i += 2)
+            {
+                data[i] = (byte)TileChoices[i / 2];
+                data[i + 1] = (byte)Rotations[i / 2];
             }
             return data;
         }

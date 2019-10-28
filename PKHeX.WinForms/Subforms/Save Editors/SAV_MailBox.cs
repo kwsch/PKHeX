@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -117,11 +116,11 @@ namespace PKHeX.WinForms
             {
                 CB_AppearPKM1.Items.Clear();
                 CB_AppearPKM1.InitializeBinding();
-                CB_AppearPKM1.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
+                CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
             }
             else if (Gen == 4 || Gen == 5)
             {
-                var species = GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList();
+                var species = GameInfo.FilteredSources.Species.ToList();
                 foreach (ComboBox a in AppearPKMs)
                 {
                     a.Items.Clear();
@@ -138,13 +137,13 @@ namespace PKHeX.WinForms
                         new ComboItem("Platinum", (int)GameVersion.Pt),
                         new ComboItem("HeartGold", (int)GameVersion.HG),
                         new ComboItem("SoulSilver", (int)GameVersion.SS),
-                    }.ToList()
+                    }
                     : new[] {
                         new ComboItem("Black", (int)GameVersion.B),
                         new ComboItem("White", (int)GameVersion.W),
                         new ComboItem("Black2", (int)GameVersion.B2),
                         new ComboItem("White2", (int)GameVersion.W2),
-                    }.ToList(), null);
+                    }, null);
 
                 CB_AuthorLang.Items.Clear();
                 CB_AuthorLang.InitializeBinding();
@@ -157,7 +156,7 @@ namespace PKHeX.WinForms
                     new ComboItem("GER", 5),
                     new ComboItem("ESP", 7),
                     new ComboItem("KOR", 8),
-                }.ToList(), null);
+                }, null);
             }
 
             var ItemList = GameInfo.Strings.GetItemStrings(Gen, SAV.Version);
@@ -574,7 +573,7 @@ namespace PKHeX.WinForms
         private void LoadOTlabel()
         {
             Label_OTGender.Text = gendersymbols[LabelValue_GenderF ? 1 : 0];
-            Label_OTGender.ForeColor = LabelValue_GenderF ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = Main.Draw.GetGenderColor(LabelValue_GenderF ? 1 : 0);
         }
 
         private void Label_OTGender_Click(object sender, EventArgs e)

@@ -153,7 +153,7 @@ namespace PKHeX.WinForms
             C_SAV.EnableDragDrop(Main_DragEnter, Main_DragDrop);
 
             // ToolTips for Drag&Drop
-            new ToolTip().SetToolTip(dragout, "PKM QuickSave");
+            dragTip.SetToolTip(dragout, "PKM QuickSave");
 
             // Box to Tabs D&D
             dragout.AllowDrop = true;

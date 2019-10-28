@@ -61,9 +61,12 @@
             this.TypeFilters = new System.Windows.Forms.FlowLayoutPanel();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.hover = new System.Windows.Forms.ToolTip(this.components);
+            this.mnu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mnuView = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.P_Results.SuspendLayout();
             this.TLP_Filters.SuspendLayout();
+            this.mnu.SuspendLayout();
             this.SuspendLayout();
             // 
             // SCR_Box
@@ -441,6 +444,21 @@
             this.RTB_Instructions.TabIndex = 119;
             this.RTB_Instructions.Text = "";
             // 
+            // mnu
+            // 
+            this.mnu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mnuView});
+            this.mnu.Name = "contextMenuStrip1";
+            this.mnu.Size = new System.Drawing.Size(181, 48);
+            // 
+            // mnuView
+            // 
+            this.mnuView.Image = global::PKHeX.WinForms.Properties.Resources.other;
+            this.mnuView.Name = "mnuView";
+            this.mnuView.Size = new System.Drawing.Size(180, 22);
+            this.mnuView.Text = "View";
+            this.mnuView.Click += new System.EventHandler(this.ClickView);
+            // 
             // SAV_Encounters
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -468,6 +486,7 @@
             this.P_Results.ResumeLayout(false);
             this.TLP_Filters.ResumeLayout(false);
             this.TLP_Filters.PerformLayout();
+            this.mnu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -507,5 +526,7 @@
         private Controls.PokeGrid pokeGrid1;
         private System.Windows.Forms.FlowLayoutPanel TypeFilters;
         private System.Windows.Forms.ToolTip hover;
+        private System.Windows.Forms.ContextMenuStrip mnu;
+        private System.Windows.Forms.ToolStripMenuItem mnuView;
     }
 }

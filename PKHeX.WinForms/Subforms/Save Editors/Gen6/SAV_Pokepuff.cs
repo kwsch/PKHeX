@@ -19,8 +19,8 @@ namespace PKHeX.WinForms
             Setup(puffs.Length);
             LoadPuffs(puffs);
 
-            new ToolTip().SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
-            new ToolTip().SetToolTip(B_All, "Hold CTRL to best instead of varied.");
+            toolTip1.SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
+            toolTip2.SetToolTip(B_All, "Hold CTRL to best instead of varied.");
         }
 
         private readonly string[] pfa = GameInfo.Strings.puffs;

@@ -16,7 +16,7 @@ namespace PKHeX.Core
     /// <see cref="Apply"/>
     public sealed class StringInstruction
     {
-        public string PropertyName { get; private set; }
+        public string PropertyName { get; }
         public string PropertyValue { get; private set; }
         public bool Evaluator { get; private set; }
 

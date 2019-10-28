@@ -551,9 +551,8 @@ namespace PKHeX.Core
 
             if (CardID == 2046) // Greninja WC has variant PID and can arrive @ 36 or 37
                 return pkm.SM; // not USUM
-            if (PIDType == 0 && pkm.PID != PID)
-                return false;
-            return true;
+
+            return PIDType != 0 || pkm.PID == PID;
         }
 
         protected override bool IsMatchDeferred(PKM pkm)

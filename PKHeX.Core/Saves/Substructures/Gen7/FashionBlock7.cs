@@ -10,21 +10,6 @@ namespace PKHeX.Core
 
         private const int FashionLength = 0x1A08;
 
-        // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
-        public sealed class FashionItem7
-        {
-            public bool IsOwned { get; set; }
-            public bool IsNew { get; set; }
-
-            public FashionItem7(byte b)
-            {
-                IsOwned = (b & 1) != 0;
-                IsNew = (b & 2) != 0;
-            }
-
-            public byte Value => (byte)((IsOwned ? 1 : 0) | (IsNew ? 2 : 0));
-        }
-
         public FashionItem7[] Wardrobe
         {
             get
@@ -58,5 +43,20 @@ namespace PKHeX.Core
             foreach (var ofs in offsetList)
                 SAV.Data[Offset + ofs] = 3; // owned | new
         }
+    }
+
+    // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
+    public sealed class FashionItem7
+    {
+        public bool IsOwned { get; set; }
+        public bool IsNew { get; set; }
+
+        public FashionItem7(byte b)
+        {
+            IsOwned = (b & 1) != 0;
+            IsNew = (b & 2) != 0;
+        }
+
+        public byte Value => (byte)((IsOwned ? 1 : 0) | (IsNew ? 2 : 0));
     }
 }
