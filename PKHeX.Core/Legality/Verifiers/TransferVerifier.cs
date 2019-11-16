@@ -107,6 +107,8 @@ namespace PKHeX.Core
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
             if (!pi.IsPresentInGame)
                 data.AddLine(GetInvalid(LTransferBad));
+            else if (pkm.GenNumber != 8)
+                data.AddLine(GetInvalid(LTransferBad));
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
