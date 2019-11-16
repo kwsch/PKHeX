@@ -60,20 +60,20 @@
             this.L_Battled = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.GB_Displayed = new System.Windows.Forms.GroupBox();
+            this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.CHK_S = new System.Windows.Forms.CheckBox();
             this.CHK_G = new System.Windows.Forms.CheckBox();
             this.CHK_Unk = new System.Windows.Forms.CheckBox();
             this.NUD_Form = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.CLB_2 = new System.Windows.Forms.CheckedListBox();
-            this.CLB_1 = new System.Windows.Forms.CheckedListBox();
-            this.CLB_4 = new System.Windows.Forms.CheckedListBox();
-            this.CLB_3 = new System.Windows.Forms.CheckedListBox();
             this.L_Male = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.CB_Gender = new System.Windows.Forms.ComboBox();
+            this.CLB_3 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_4 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_1 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_2 = new System.Windows.Forms.CheckedListBox();
             this.GB_Language.SuspendLayout();
             this.modifyMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Battled)).BeginInit();
@@ -344,6 +344,11 @@
             // 
             this.NUD_Battled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_Battled.Location = new System.Drawing.Point(603, 358);
+            this.NUD_Battled.Maximum = new decimal(new int[] {
+            2147483647,
+            0,
+            0,
+            0});
             this.NUD_Battled.Name = "NUD_Battled";
             this.NUD_Battled.Size = new System.Drawing.Size(113, 20);
             this.NUD_Battled.TabIndex = 28;
@@ -381,6 +386,19 @@
             this.GB_Displayed.TabStop = false;
             this.GB_Displayed.Text = "Displayed";
             // 
+            // CB_Gender
+            // 
+            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Gender.FormattingEnabled = true;
+            this.CB_Gender.Items.AddRange(new object[] {
+            "♂",
+            "♀",
+            "-"});
+            this.CB_Gender.Location = new System.Drawing.Point(6, 49);
+            this.CB_Gender.Name = "CB_Gender";
+            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
+            this.CB_Gender.TabIndex = 23;
+            // 
             // CHK_S
             // 
             this.CHK_S.AutoSize = true;
@@ -396,7 +414,7 @@
             this.CHK_G.AutoSize = true;
             this.CHK_G.Location = new System.Drawing.Point(5, 13);
             this.CHK_G.Name = "CHK_G";
-            this.CHK_G.Size = new System.Drawing.Size(78, 17);
+            this.CHK_G.Size = new System.Drawing.Size(82, 17);
             this.CHK_G.TabIndex = 8;
             this.CHK_G.Text = "Gigantamax";
             this.CHK_G.UseVisualStyleBackColor = true;
@@ -448,46 +466,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(416, 396);
             this.tableLayoutPanel1.TabIndex = 36;
             // 
-            // CLB_2
-            // 
-            this.CLB_2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CLB_2.FormattingEnabled = true;
-            this.CLB_2.Location = new System.Drawing.Point(105, 21);
-            this.CLB_2.Margin = new System.Windows.Forms.Padding(1);
-            this.CLB_2.Name = "CLB_2";
-            this.CLB_2.Size = new System.Drawing.Size(102, 374);
-            this.CLB_2.TabIndex = 30;
-            // 
-            // CLB_1
-            // 
-            this.CLB_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CLB_1.FormattingEnabled = true;
-            this.CLB_1.Location = new System.Drawing.Point(1, 21);
-            this.CLB_1.Margin = new System.Windows.Forms.Padding(1);
-            this.CLB_1.Name = "CLB_1";
-            this.CLB_1.Size = new System.Drawing.Size(102, 374);
-            this.CLB_1.TabIndex = 32;
-            // 
-            // CLB_4
-            // 
-            this.CLB_4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CLB_4.FormattingEnabled = true;
-            this.CLB_4.Location = new System.Drawing.Point(313, 21);
-            this.CLB_4.Margin = new System.Windows.Forms.Padding(1);
-            this.CLB_4.Name = "CLB_4";
-            this.CLB_4.Size = new System.Drawing.Size(102, 374);
-            this.CLB_4.TabIndex = 33;
-            // 
-            // CLB_3
-            // 
-            this.CLB_3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CLB_3.FormattingEnabled = true;
-            this.CLB_3.Location = new System.Drawing.Point(209, 21);
-            this.CLB_3.Margin = new System.Windows.Forms.Padding(1);
-            this.CLB_3.Name = "CLB_3";
-            this.CLB_3.Size = new System.Drawing.Size(102, 374);
-            this.CLB_3.TabIndex = 34;
-            // 
             // L_Male
             // 
             this.L_Male.AutoSize = true;
@@ -532,18 +510,45 @@
             this.label5.Text = "*Female*";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // CB_Gender
+            // CLB_3
             // 
-            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Gender.FormattingEnabled = true;
-            this.CB_Gender.Items.AddRange(new object[] {
-            "♂",
-            "♀",
-            "-"});
-            this.CB_Gender.Location = new System.Drawing.Point(6, 49);
-            this.CB_Gender.Name = "CB_Gender";
-            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
-            this.CB_Gender.TabIndex = 23;
+            this.CLB_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_3.FormattingEnabled = true;
+            this.CLB_3.Location = new System.Drawing.Point(209, 21);
+            this.CLB_3.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_3.Name = "CLB_3";
+            this.CLB_3.Size = new System.Drawing.Size(102, 374);
+            this.CLB_3.TabIndex = 34;
+            // 
+            // CLB_4
+            // 
+            this.CLB_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_4.FormattingEnabled = true;
+            this.CLB_4.Location = new System.Drawing.Point(313, 21);
+            this.CLB_4.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_4.Name = "CLB_4";
+            this.CLB_4.Size = new System.Drawing.Size(102, 374);
+            this.CLB_4.TabIndex = 33;
+            // 
+            // CLB_1
+            // 
+            this.CLB_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_1.FormattingEnabled = true;
+            this.CLB_1.Location = new System.Drawing.Point(1, 21);
+            this.CLB_1.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_1.Name = "CLB_1";
+            this.CLB_1.Size = new System.Drawing.Size(102, 374);
+            this.CLB_1.TabIndex = 32;
+            // 
+            // CLB_2
+            // 
+            this.CLB_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_2.FormattingEnabled = true;
+            this.CLB_2.Location = new System.Drawing.Point(105, 21);
+            this.CLB_2.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_2.Name = "CLB_2";
+            this.CLB_2.Size = new System.Drawing.Size(102, 374);
+            this.CLB_2.TabIndex = 30;
             // 
             // SAV_PokedexSWSH
             // 
