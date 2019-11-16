@@ -9,35 +9,24 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea8 : EncounterArea32
     {
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
+            var loc = Location;
+            if (120 <= loc && loc <= 154) // wild area gets boosted up to level 60 postgame
+            {
+                const int boostTo = 60;
+                if (pkm.Met_Level == boostTo)
+                {
+                    var boost = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= boostTo));
+                    return boost.Where(s => s.LevelMax < 60 || s.IsLevelWithinRange(minLevel));
+                }
+            }
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin)));
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel));
         }
 
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
-        {
-            int species = pkm.Species;
-
-            int form = pkm.AltForm;
-            if (Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
-            {
-                foreach (var slot in slots)
-                {
-                    if (species == slot.Species ? slot.Form == form : slot.Form == 0)
-                        yield return slot;
-                }
-            }
-            else if (form == 0)
-            {
-                // enforce no form
-                foreach (var slot in slots)
-                {
-                    yield return slot;
-                }
-            }
-        }
+        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
     }
 }

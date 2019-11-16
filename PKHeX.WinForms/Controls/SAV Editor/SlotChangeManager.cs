@@ -8,7 +8,7 @@ using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -187,7 +187,7 @@ namespace PKHeX.WinForms.Controls
             Drag.SetCursor(pb.FindForm(), new Cursor(img.GetHicon()));
             Hover.Stop();
             pb.Image = null;
-            pb.BackgroundImage = Resources.slotDrag;
+            pb.BackgroundImage = SpriteUtil.Spriter.Drag;
 
             // Thread Blocks on DoDragDrop
             Drag.Info.CurrentPath = newfile;

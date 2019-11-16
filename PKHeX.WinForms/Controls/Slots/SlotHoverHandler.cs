@@ -17,8 +17,9 @@ namespace PKHeX.WinForms.Controls
 
         public static readonly CryPlayer CryPlayer = new CryPlayer();
         public static readonly SummaryPreviewer Preview = new SummaryPreviewer();
+        private static Bitmap Hover => SpriteUtil.Spriter.Hover;
 
-        private readonly BitmapAnimator HoverWorker = new BitmapAnimator(Resources.slotHover);
+        private readonly BitmapAnimator HoverWorker = new BitmapAnimator();
 
         private PictureBox Slot;
 
@@ -35,16 +36,16 @@ namespace PKHeX.WinForms.Controls
             if (GlowHover)
             {
                 HoverWorker.Stop();
-
+                var hover = Hover;
                 SpriteUtil.GetSpriteGlow(pk, Draw.GlowInitial.B, Draw.GlowInitial.G, Draw.GlowInitial.R, out var glowdata, out var GlowBase);
-                bg = ImageUtil.LayerImage(GlowBase, Resources.slotHover, 0, 0);
+                bg = ImageUtil.LayerImage(GlowBase, hover, 0, 0);
                 HoverWorker.GlowToColor = Draw.GlowFinal;
                 HoverWorker.GlowFromColor = Draw.GlowInitial;
-                HoverWorker.Start(pb, GlowBase, glowdata, orig);
+                HoverWorker.Start(pb, GlowBase, glowdata, orig, hover);
             }
             else
             {
-                bg = Resources.slotHover;
+                bg = Hover;
             }
 
             if (orig != null)

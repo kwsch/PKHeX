@@ -36,6 +36,7 @@ namespace PKHeX.WinForms.Controls
             {
                 CB_Species, CB_Nature, CB_HeldItem, CB_Ability, // Main Tab
                 CB_MetLocation, CB_EggLocation, CB_Ball, // Met Tab
+                CB_StatNature,
             }).ToArray();
             relearnPB = new[] { PB_WarnRelearn1, PB_WarnRelearn2, PB_WarnRelearn3, PB_WarnRelearn4 };
             movePB = new[] { PB_WarnMove1, PB_WarnMove2, PB_WarnMove3, PB_WarnMove4 };
@@ -52,9 +53,9 @@ namespace PKHeX.WinForms.Controls
         {
             ComboBox[] cbs =
             {
-                CB_Nature,
+                CB_Nature, CB_StatNature,
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
-                CB_EncounterType, CB_GameOrigin, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language,
+                CB_EncounterType, CB_GameOrigin, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
             };
             foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
                 cb.InitializeBinding();
@@ -221,7 +222,7 @@ namespace PKHeX.WinForms.Controls
             var extraBytes = pk.ExtraBytes;
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = extraBytes.Count != 0;
             CB_ExtraBytes.Items.Clear();
-            foreach (byte b in extraBytes)
+            foreach (var b in extraBytes)
                 CB_ExtraBytes.Items.Add($"0x{b:X2}");
             if (GB_ExtraBytes.Enabled)
                 CB_ExtraBytes.SelectedIndex = 0;
@@ -252,7 +253,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm)).ToString();
+                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.PersonalInfo.EXPGrowth)).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = Math.Max(0, pk.AltForm).ToString();
                 if (pk.PartyStatsPresent) // stats present
@@ -282,12 +283,12 @@ namespace PKHeX.WinForms.Controls
 
             // Refresh Move Legality
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.Info?.Moves[i].Valid ?? false;
+                movePB[i].Visible = !Legality.Info?.Moves[i]?.Valid ?? false;
 
             if (Entity.Format >= 6)
             {
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.Info?.Relearn[i].Valid ?? false;
+                    relearnPB[i].Visible = !Legality.Info?.Relearn[i]?.Valid ?? false;
             }
 
             if (skipMoveRepop)
@@ -374,7 +375,11 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (TB_OTt2.Text.Length > 0)
+            {
                 Label_CTGender.Text = gendersymbols[tr.Gender & 1];
+                if (Entity is IHandlerLanguage)
+                    CB_HTLanguage.SelectedValue = tr.Language;
+            }
         }
 
         private void SetForms()
@@ -443,22 +448,35 @@ namespace PKHeX.WinForms.Controls
             PB_MarkShiny.Image = changeOpacity(PB_MarkShiny, getOpacity(!BTN_Shinytize.Enabled));
             PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
 
-            PB_MarkPentagon.Image = changeOpacity(PB_MarkPentagon, getOpacity(Entity.Gen6));
-            PB_Favorite.Image = changeOpacity(PB_Favorite, getOpacity(Entity is PB7 pb7 && pb7.Favorite));
+            PB_Favorite.Image = changeOpacity(PB_Favorite, getOpacity(Entity is IFavorite pb7 && pb7.Favorite));
+            PB_Origin.Image = GetOriginSprite(Entity);
 
-            // Gen7 Markings
-            if (Entity.Format != 7)
+            // Colored Markings
+            if (Entity.Format < 7)
                 return;
-
-            PB_MarkAlola.Image = changeOpacity(PB_MarkAlola, getOpacity(Entity.Gen7));
-            PB_MarkVC.Image = changeOpacity(PB_MarkVC, getOpacity(Entity.VC));
-            PB_MarkGO.Image = changeOpacity(PB_MarkGO, getOpacity(Entity.GO));
 
             for (int i = 0; i < pba.Length; i++)
             {
                 if (Draw.GetMarkingColor(markings[i], out Color c))
                     pba[i].Image = ImageUtil.ChangeAllColorTo(pba[i].Image, c);
             }
+        }
+
+        private static Image GetOriginSprite(PKM pkm)
+        {
+            if (pkm.Format < 6)
+                return null;
+            if (pkm.Gen6)
+                return Properties.Resources.gen_6;
+            if (pkm.GO)
+                return Properties.Resources.gen_go;
+            if (pkm.GG)
+                return Properties.Resources.gen_gg;
+            if (pkm.Gen7)
+                return Properties.Resources.gen_7;
+            if (pkm.Gen8)
+                return Properties.Resources.gen_8;
+            return null;
         }
 
         private void UpdateGender()
@@ -541,7 +559,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickFavorite(object sender, EventArgs e)
         {
-            if (Entity is PB7 pb7)
+            if (Entity is IFavorite pb7)
                 pb7.Favorite ^= true;
             SetMarkings();
         }
@@ -763,11 +781,10 @@ namespace PKHeX.WinForms.Controls
             {
                 // Change the Level
                 uint EXP = Util.ToUInt32(TB_EXP.Text);
-                int Species = Entity.Species;
-                int Form = Entity.AltForm;
-                int Level = Experience.GetLevel(EXP, Species, Form);
+                var gr = Entity.PersonalInfo.EXPGrowth;
+                int Level = Experience.GetLevel(EXP, gr);
                 if (Level == 100)
-                    EXP = Experience.GetEXP(100, Species, Form);
+                    EXP = Experience.GetEXP(100, gr);
 
                 TB_Level.Text = Level.ToString();
                 if (!HaX)
@@ -792,7 +809,7 @@ namespace PKHeX.WinForms.Controls
                 if (Level > byte.MaxValue)
                     MT_Level.Text = "255";
                 else if (Level <= 100)
-                    TB_EXP.Text = Experience.GetEXP(Level, Entity.Species, Entity.AltForm).ToString();
+                    TB_EXP.Text = Experience.GetEXP(Level, Entity.PersonalInfo.EXPGrowth).ToString();
             }
             ChangingFields = false;
             if (FieldsLoaded) // store values back
@@ -855,7 +872,7 @@ namespace PKHeX.WinForms.Controls
             if (CB_Form == sender && FieldsLoaded)
             {
                 Entity.AltForm = CB_Form.SelectedIndex;
-                uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.Species, Entity.AltForm);
+                uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
                 TB_EXP.Text = EXP.ToString();
             }
 
@@ -1044,7 +1061,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             // Recalculate EXP for Given Level
-            uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.Species, Entity.AltForm);
+            uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
             TB_EXP.Text = EXP.ToString();
 
             // Check for Gender Changes
@@ -1584,10 +1601,20 @@ namespace PKHeX.WinForms.Controls
 
         private void ToggleInterface(PKM t)
         {
+            var pb7 = t is PB7;
+            int gen = t.Format;
             FLP_Purification.Visible = FLP_ShadowID.Visible = t is IShadowPKM;
-            FLP_SizeCP.Visible = PB_Favorite.Visible = t is PB7;
-            BTN_Medals.Visible = BTN_History.Visible = t.Format >= 6 && !(t is PB7);
-            BTN_Ribbons.Visible = t.Format >= 3 && !(t is PB7);
+            bool sizeCP = gen >= 8 || pb7;
+            FLP_SizeCP.Visible = sizeCP;
+            if (sizeCP)
+                SizeCP.ToggleVisibility(t);
+            PB_Favorite.Visible = t is IFavorite;
+            BTN_History.Visible = gen >= 6 && !pb7;
+            BTN_Ribbons.Visible = gen >= 3 && !pb7;
+            BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6 && gen <= 7 && !pb7;
+            FLP_OriginalNature.Visible = gen >= 8;
+
             ToggleInterface(Entity.Format);
         }
 
@@ -1600,12 +1627,9 @@ namespace PKHeX.WinForms.Controls
         private void ToggleInterface(int gen)
         {
             ToggleSecrets(HideSecretValues, gen);
-            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6;
             GB_nOT.Visible = GB_RelearnMoves.Visible = gen >= 6;
 
-            PB_MarkPentagon.Visible = gen >= 6;
-            PB_MarkAlola.Visible = PB_MarkVC.Visible = PB_MarkGO.Visible = gen >= 7;
-
+            PB_Origin.Visible = gen >= 6;
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
 
             CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = gen >= 4;
@@ -1737,6 +1761,7 @@ namespace PKHeX.WinForms.Controls
 
             CB_EncounterType.DataSource = new BindingSource(source.G4EncounterTypes, null);
             CB_Nature.DataSource = new BindingSource(source.Natures, null);
+            CB_StatNature.DataSource = new BindingSource(source.Natures, null);
 
             // Sub editors
             Stats.InitializeDataSources();
@@ -1751,7 +1776,10 @@ namespace PKHeX.WinForms.Controls
             if (sav.Generation > 1)
                 CB_HeldItem.DataSource = new BindingSource(source.Items, null);
 
-            CB_Language.DataSource = source.Languages;
+            CB_Language.DataSource = new BindingSource(source.Languages, null);
+
+            var langWith0 = new[] {GameInfo.Sources.Empty}.Concat(source.Languages).ToArray();
+            CB_HTLanguage.DataSource = new BindingSource(langWith0, null);
 
             CB_Ball.DataSource = new BindingSource(source.Balls, null);
             CB_Species.DataSource = new BindingSource(source.Species, null);

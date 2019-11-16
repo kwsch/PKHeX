@@ -31,7 +31,7 @@
             this.B_BoxRight = new System.Windows.Forms.Button();
             this.B_BoxLeft = new System.Windows.Forms.Button();
             this.CB_BoxSelect = new System.Windows.Forms.ComboBox();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.BoxPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.SuspendLayout();
             // 
             // B_BoxRight
@@ -98,17 +98,20 @@
             this.CB_BoxSelect.TabIndex = 63;
             this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.GetBox);
             // 
-            // pokeGrid1
+            // BoxPokeGrid
             // 
-            this.pokeGrid1.Location = new System.Drawing.Point(0, 25);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 160);
-            this.pokeGrid1.TabIndex = 66;
+            this.BoxPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.BoxPokeGrid.Location = new System.Drawing.Point(0, 25);
+            this.BoxPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.BoxPokeGrid.Name = "BoxPokeGrid";
+            this.BoxPokeGrid.Size = new System.Drawing.Size(251, 160);
+            this.BoxPokeGrid.TabIndex = 66;
             // 
             // BoxEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.Controls.Add(this.pokeGrid1);
+            this.AutoSize = true;
+            this.Controls.Add(this.BoxPokeGrid);
             this.Controls.Add(this.B_BoxRight);
             this.Controls.Add(this.B_BoxLeft);
             this.Controls.Add(this.CB_BoxSelect);
@@ -122,6 +125,6 @@
         public System.Windows.Forms.Button B_BoxRight;
         public System.Windows.Forms.Button B_BoxLeft;
         public System.Windows.Forms.ComboBox CB_BoxSelect;
-        private PokeGrid pokeGrid1;
+        public PokeGrid BoxPokeGrid;
     }
 }

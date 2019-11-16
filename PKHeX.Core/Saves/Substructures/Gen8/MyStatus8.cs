@@ -4,60 +4,43 @@ namespace PKHeX.Core
 {
     public sealed class MyStatus8 : SaveBlock
     {
-        public MyStatus8(SAV8SWSH sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         public int TID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
+            get => BitConverter.ToUInt16(Data, 0xA0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA0);
         }
 
         public int SID
         {
-            get => BitConverter.ToUInt16(Data, Offset + 2);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 2);
+            get => BitConverter.ToUInt16(Data, 0xA2);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA2);
         }
 
         public int Game
         {
-            get => Data[Offset + 4];
-            set => Data[Offset + 4] = (byte)value;
+            get => Data[0xA4];
+            set => Data[0xA4] = (byte)value;
         }
 
         public int Gender
         {
-            get => Data[Offset + 5];
-            set => Data[Offset + 5] = (byte)value;
+            get => Data[0xA5];
+            set => Data[0xA5] = (byte)value;
         }
 
-        public int SubRegion
-        {
-            get => Data[Offset + 0x2E];
-            set => Data[Offset + 0x2E] = (byte)value;
-        }
-
-        public int Country
-        {
-            get => Data[Offset + 0x2F];
-            set => Data[Offset + 0x2F] = (byte)value;
-        }
-
-        public int ConsoleRegion
-        {
-            get => Data[Offset + 0x34];
-            set => Data[Offset + 0x34] = (byte)value;
-        }
-
+        // A6
         public int Language
         {
-            get => Data[Offset + 0x35];
-            set => Data[Offset + 0x35] = (byte)value;
+            get => Data[Offset + 0xA7];
+            set => Data[Offset + 0xA7] = (byte)value;
         }
 
         public string OT
         {
-            get => SAV.GetString(Offset + 0x38, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, Offset + 0x38);
+            get => SAV.GetString(Data, 0xB0, 0x1A);
+            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, 0xB0);
         }
     }
 }

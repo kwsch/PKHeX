@@ -66,10 +66,7 @@ namespace PKHeX.WinForms
             var name = rib.Name;
             var pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
             var img = SpriteUtil.GetRibbonSprite(name);
-            if (img != null)
-                pb.BackgroundImage = (Bitmap)img;
-            if (img == null)
-                return;
+            pb.BackgroundImage = (Bitmap)img;
 
             var display = RibbonStrings.GetName(name);
             pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);
@@ -151,6 +148,14 @@ namespace PKHeX.WinForms
 
         private void B_All_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Shift)
+            {
+                RibbonApplicator.RemoveAllValidRibbons(pkm);
+                RibbonApplicator.SetAllValidRibbons(pkm);
+                Close();
+                return;
+            }
+
             foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
                 c.Checked = true;
             foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())
@@ -159,6 +164,13 @@ namespace PKHeX.WinForms
 
         private void B_None_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Shift)
+            {
+                RibbonApplicator.RemoveAllValidRibbons(pkm);
+                Close();
+                return;
+            }
+
             foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
                 c.Checked = false;
             foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())

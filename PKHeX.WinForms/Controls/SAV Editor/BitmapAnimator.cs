@@ -9,16 +9,15 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed class BitmapAnimator : Timer
     {
-        public BitmapAnimator(Image extraLayer = null)
+        public BitmapAnimator()
         {
-            ExtraLayer = extraLayer;
             Elapsed += TimerElapsed;
         }
 
         private int imgWidth;
         private int imgHeight;
         private byte[] GlowData;
-        private readonly Image ExtraLayer;
+        private Image ExtraLayer;
         private Image[] GlowCache;
         public Image OriginalBackground;
         private readonly object Lock = new object();
@@ -50,7 +49,7 @@ namespace PKHeX.WinForms.Controls
                 GlowCache[i] = null;
         }
 
-        public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image original)
+        public void Start(PictureBox pbox, Image baseImage, byte[] glowData, Image original, Image extra)
         {
             Enabled = false;
             imgWidth = baseImage.Width;
@@ -63,6 +62,7 @@ namespace PKHeX.WinForms.Controls
             lock (Lock)
             {
                 pb = pbox;
+                ExtraLayer = extra;
                 OriginalBackground = original;
             }
             Enabled = true;

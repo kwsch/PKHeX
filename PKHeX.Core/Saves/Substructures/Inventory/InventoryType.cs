@@ -18,5 +18,7 @@ namespace PKHeX.Core
         FreeSpace,
         ZCrystals,
         Candy,
+        Treasure,
+        Ingredients,
     }
 }

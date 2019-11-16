@@ -13,10 +13,10 @@ namespace PKHeX.Core
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
             none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
-            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.Take(Legal.MaxSpeciesID_6 + 1).ToArray()));
+            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.ToArray()));
             item = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.itemlist, Memories.MemoryItems));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
-            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.Take(622).ToArray())); // Hyperspace Fury
+            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.ToArray())); // Hyperspace Fury
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
         }
 
@@ -48,21 +48,8 @@ namespace PKHeX.Core
             return memory_list1;
         }
 
-        public string[] GetMemoryQualities()
-        {
-            var list = new string[7];
-            for (int i = 0; i < list.Length; i++)
-                list[i] = s.memories[2 + i];
-            return list;
-        }
-
-        public string[] GetMemoryFeelings()
-        {
-            var list = new string[24];
-            for (int i = 0; i < 24; i++)
-                list[i] = s.memories[10 + i];
-            return list;
-        }
+        public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
+        public string[] GetMemoryFeelings() => s.memories.Slice(10, 24);
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
         {

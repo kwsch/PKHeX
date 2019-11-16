@@ -6,7 +6,9 @@ namespace PKHeX.Drawing
 {
     public static class SpriteUtil
     {
-        public static ISpriteBuilder<Image> Spriter { get; set; } = new SpriteBuilder();
+        public static readonly SpriteBuilder3040 SB17 = new SpriteBuilder3040();
+        public static readonly SpriteBuilder5668 SB8 = new SpriteBuilder5668();
+        public static SpriteBuilder Spriter { get; set; } = SB17;
 
         public static Image GetBallSprite(int ball)
         {
@@ -98,6 +100,11 @@ namespace PKHeX.Drawing
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 img = ImageUtil.LayerImage(glowImg, img, 0, 0);
             }
+            else if (pk is IGigantamax g && g.CanGigantamax)
+            {
+                var gm = Resources.dyna;
+                img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+            }
             return img;
         }
 
@@ -151,12 +158,12 @@ namespace PKHeX.Drawing
         }
 
         private const int MaxSlotCount = 30; // slots in a box
-        private const int SpriteWidth = 40;
-        private const int SpriteHeight = 30;
-        private const int PartyMarkShiftX = SpriteWidth - 16;
-        private const int SlotLockShiftX = SpriteWidth - 14;
-        private const int SlotTeamShiftX = SpriteWidth - 19;
-        private const int FlagIllegalShiftY = SpriteHeight - 16;
+        private static int SpriteWidth => Spriter.Width;
+        private static int SpriteHeight => Spriter.Height;
+        private static int PartyMarkShiftX => SpriteWidth - 16;
+        private static int SlotLockShiftX => SpriteWidth - 14;
+        private static int SlotTeamShiftX => SpriteWidth - 19;
+        private static int FlagIllegalShiftY => SpriteHeight - 16;
 
         private static readonly Bitmap[] PartyMarks =
         {
@@ -203,5 +210,8 @@ namespace PKHeX.Drawing
 
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
+
+        public static void Initialize(SaveFile sav) => Initialize(sav.Generation >= 7);
+        public static void Initialize(bool big) => Spriter = big ? (SpriteBuilder)SB8 : SB17;
     }
 }

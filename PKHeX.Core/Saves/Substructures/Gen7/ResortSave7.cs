@@ -28,7 +28,7 @@ namespace PKHeX.Core
                     throw new ArgumentException(nameof(ResortCount));
 
                 for (int i = 0; i < value.Length; i++)
-                    SAV.SetStoredSlot(value[i], GetResortSlotOffset(i));
+                    SAV.SetSlotFormatStored(value[i], Data, GetResortSlotOffset(i));
             }
         }
 

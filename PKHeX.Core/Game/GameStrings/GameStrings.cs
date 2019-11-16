@@ -125,11 +125,10 @@ namespace PKHeX.Core
             metGG_40000 = Get("gg_40000");
             metGG_60000 = metSM_60000;
 
-            // todo
-            metSWSH_00000 = Enumerable.Range(1, 500).Select(z => $"a{z}").ToArray();
-            metSWSH_30000 = Enumerable.Range(1, 500).Select(z => $"b{z}").ToArray();
-            metSWSH_40000 = Enumerable.Range(1, 500).Select(z => $"c{z}").ToArray();
-            metSWSH_60000 = Enumerable.Range(1, 500).Select(z => $"d{z}").ToArray();
+            metSWSH_00000 = Get("swsh_00000");
+            metSWSH_30000 = Get("swsh_30000");
+            metSWSH_40000 = Get("swsh_40000");
+            metSWSH_60000 = Get("swsh_60000");
 
             Sanitize();
 
@@ -206,6 +205,14 @@ namespace PKHeX.Core
             foreach (var i in Legal.Pouch_ZCrystal_USUM)
                 itemlist[i] += " [Z]";
 
+            itemlist[0121] += " (1)"; // Pokémon Box Link
+            itemlist[1075] += " (2)"; // Pokémon Box Link
+
+            itemlist[1080] += " (SW/SH)"; // Fishing Rod
+
+            itemlist[1081] += " (1)"; // Rotom Bike
+            itemlist[1266] += " (2)"; // Rotom Bike
+
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
             // differentiate G3 Card Key from Colo
@@ -219,6 +226,7 @@ namespace PKHeX.Core
             SanitizeMetG5BW();
             SanitizeMetG6XY();
             SanitizeMetG7SM();
+            SanitizeMetG8SWSH();
 
             if (lang == "es" || lang == "it")
             {
@@ -320,6 +328,34 @@ namespace PKHeX.Core
 
             for (int i = 47; i < 54; i++) // distinguish Event year duplicates
                 metGG_40000[i] += " (-)";
+        }
+
+        private void SanitizeMetG8SWSH()
+        {
+            // SWSH duplicates -- elaborate!
+            var metSWSH_00000_good = (string[])metSWSH_00000.Clone();
+            for (int i = 2; i < metSWSH_00000_good.Length; i += 2)
+            {
+                var nextLoc = metSWSH_00000[i + 1];
+                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                    metSWSH_00000_good[i] += $" ({nextLoc})";
+            }
+
+            for (int i = 121; i <= 155; i+=2)
+                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
+
+            metSWSH_00000_good.CopyTo(metSWSH_00000, 0);
+
+            metSWSH_30000[0] += $" ({NPC})";      // Anything from an NPC
+            metSWSH_30000[1] += $" ({EggName})";  // Egg From Link Trade
+            for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
+                metSWSH_30000[i] += " (-)";
+            metSWSH_30000[18] += " (?)"; // Kanto for the third time
+
+            for (int i = 54; i < 60; i++) // distinguish Event year duplicates
+                metSWSH_40000[i] += " (-)";
+            metSWSH_40000[29] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 39
+            metSWSH_40000[52] += " (-)"; // a Pokémon event -- duplicate with line 37
         }
 
         public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)

@@ -34,7 +34,7 @@ Edelmut
 Wassertempo
 Chlorophyll
 Erleuchtung
-Fährte
+Erfassen
 Kraftkoloss
 Giftdorn
 Konzentrator
@@ -58,7 +58,7 @@ Charmebolzen
 Plus
 Minus
 Prognose
-Wertehalter
+Klebekörper
 Expidermis
 Adrenalin
 Notschutz
@@ -140,7 +140,7 @@ Hitzewahn
 Reiche Ernte
 Telepathie
 Gefühlswippe
-Wetterfest
+Partikelschutz
 Giftgriff
 Belebekraft
 Brustbieter
@@ -232,3 +232,28 @@ Metallprotektor
 Phantomschutz
 Prismarüstung
 Zerebralmacht
+Kühnes Schwert
+Wackerer Schild
+Libero
+Apport
+Wollflaum
+Schraubflosse
+Spiegelrüstung
+Würggeschoss
+Stahlrückgrat
+Dampfantrieb
+Punk Rock
+Sandspeier
+Eisflügelstaub
+Heranreifen
+Tiefkühlkopf
+Kraftquelle
+Mimese
+Hemmungslos
+Stählerner Wille
+Unheilskörper
+Rastlose Seele
+Affenfokus
+Reaktionsgas
+Pastellhülle
+Heißhunger

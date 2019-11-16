@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -11,18 +13,23 @@ namespace PKHeX.WinForms.Controls
             InitializeComponent();
         }
 
-        public List<PictureBox> Entries = new List<PictureBox>();
+        public readonly List<PictureBox> Entries = new List<PictureBox>();
         public int Slots { get; private set; }
 
-        private const int sizeW = 40;
-        private const int sizeH = 30;
+        private int sizeW = 40;
+        private int sizeH = 30;
 
-        public bool InitializeGrid(int width, int height)
+        public bool InitializeGrid(int width, int height, SpriteBuilder info)
         {
             var newCount = width * height;
             if (Slots == newCount)
-                return false;
+            {
+                if (info.Width == sizeW && info.Height == sizeH)
+                    return false;
+            }
 
+            sizeW = info.Width;
+            sizeH = info.Height;
             Generate(width, height);
             Slots = newCount;
 
@@ -38,9 +45,10 @@ namespace PKHeX.WinForms.Controls
             Controls.Clear();
             Entries.Clear();
 
-            const int colWidth = sizeW;
-            const int rowHeight = sizeH;
+            int colWidth = sizeW;
+            int rowHeight = sizeH;
 
+            Location = new Point(0, Location.Y); // prevent auto-expanding parent if position changes (centered)
             for (int row = 0; row < height; row++)
             {
                 var y = padEdge + (row * (rowHeight + border));
@@ -57,6 +65,7 @@ namespace PKHeX.WinForms.Controls
 
             Width = (2 * padEdge) + border + (width * (colWidth + border));
             Height = (2 * padEdge) + border + (height * (rowHeight + border));
+            Debug.WriteLine($"{Name} -- Width: {Width}, Height: {Height}");
             ResumeLayout();
         }
 
@@ -67,6 +76,7 @@ namespace PKHeX.WinForms.Controls
             return new PictureBox
             {
                 AutoSize = false,
+                SizeMode = PictureBoxSizeMode.CenterImage,
                 BackColor = Color.Transparent,
                 Width = width + (2 * 1),
                 Height = height + (2 * 1),

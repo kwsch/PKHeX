@@ -33,9 +33,9 @@ namespace PKHeX.WinForms
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
 
-            pokeGrid1.InitializeGrid(6, 11);
-            pokeGrid1.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = pokeGrid1.Entries.ToArray();
+            MysteryPokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            MysteryPokeGrid.SetBackground(Resources.box_wp_clean);
+            PKXBOXES = MysteryPokeGrid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -89,7 +89,7 @@ namespace PKHeX.WinForms
                 return;
             PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
-            slotColor = Resources.slotView;
+            slotColor = SpriteUtil.Spriter.View;
             UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
@@ -313,9 +313,9 @@ namespace PKHeX.WinForms
         private void UpdateSlotColor(int start)
         {
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < (RES_MIN * start) + RES_MAX)
-                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? Resources.slotView;
+                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
@@ -353,7 +353,7 @@ namespace PKHeX.WinForms
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!pokeGrid1.RectangleToScreen(pokeGrid1.ClientRectangle).Contains(MousePosition))
+            if (!MysteryPokeGrid.RectangleToScreen(MysteryPokeGrid.ClientRectangle).Contains(MousePosition))
                 return;
             int oldval = SCR_Box.Value;
             int newval = oldval + (e.Delta < 0 ? 1 : -1);

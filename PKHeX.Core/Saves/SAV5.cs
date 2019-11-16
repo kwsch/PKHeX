@@ -97,7 +97,8 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
-        public override bool BattleBoxLocked
+        protected int BattleBoxOffset;
+        public bool BattleBoxLocked
         {
             get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live
             set => Data[BattleBoxOffset + 0x358] = (byte)(value ? 1 : 0);
@@ -205,5 +206,6 @@ namespace PKHeX.Core
 
         public static int GetMailOffset(int index) => (index * Mail5.SIZE) + 0x1DD00;
         public byte[] GetMailData(int offset) => GetData(offset, Mail5.SIZE);
+        public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
     }
 }

@@ -1,4 +1,4 @@
-
+﻿
 
 The Pokémon remembers
 The Pokémon remembers
@@ -36,73 +36,93 @@ it got sleepy
 a certain item
 a certain move
 a Pokémon
-The Pokémon seems to have a good memory, but it doesn’t seem to be able to remember...
-{0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
-{0} hatched from an Egg and saw {1} for the first time at... {2}. {4} that {3}.
-{0} met {1} at... {2}. {4} that {3}.
-{0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
+{0} seems to have a fond memory, but it doesn’t seem to be able to remember the details...
+{0} met {1} {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
+{0} hatched from an Egg and saw {1} for the first time {2}. {4} that {3}.
+{0} met {1} {2}. {4} that {3}.
+{0} became {1}’s friend when it came through Link Trade {2}. {4} that {3}.
 {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
-{0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-{0} went fishing with {1}, and they caught {2}. {4} that {3}.
-{0} went fishing with {1}, but the hooked Pokémon got away! {4} that {3}.
+With {1}, {0} went to the Pokémon Center and had its tired body healed there. {4} that {3}.
+With {1}, {0} went fishing, and they caught {2}. {4} that {3}.
+With {1}, {0} went fishing, but the hooked Pokémon got away! {4} that {3}.
 {0} saw {1} paying attention to {2}. {4} that {3}.
 {0} got treats from {1}. {4} that {3}.
 {0} went clothes shopping with {1}. {4} that {3}.
 {0} learned {2} from {1}. {4} that {3}.
 {0} helped {1} hatch {2} from an Egg. {4} that {3}.
-{0} was with {1} when (he/she) caught {2}. {4} that {3}.
+{0} was with {1} when {1} caught {2}. {4} that {3}.
 {1} used {2} when {0} was in trouble. {4} that {3}.
 {0} used {2} at {1}’s instruction, but it had no effect. {4} that {3}.
-{0} battled at {1}’s side and defeated {2}. {4} that {3}.
-{0} was defeated by {2} and {1} ran away. {4} that {3}.
-{0} was raised by {1} and evolved at {2}. {4} that {3}.
+{0} battled at {1}’s side and beat {2}. {4} that {3}.
+{0} lost to {2} and ran away with {1}. {4} that {3}.
+{0} was raised by {1} and evolved {2}. {4} that {3}.
 {0} surfed across the water, carrying {1} on its back. {4} that {3}.
 {0} saw {2} carrying {1} on its back. {4} that {3}.
 {0} battled at {1}’s side and defeated a Gym Leader. {4} that {3}.
-When {1} challenged the Battle Maison, {0} got so nervous. {4} that {3}.
-{0} flew, carrying {1} on its back, to {2}. {4} that {3}.
+When {1} challenged the Battle Maison, {0} got really nervous. {4} that {3}.
+{0} flew, carrying {1} on its back, to a place... {2}. {4} that {3}.
 {0} and {1} were surprised when {2} jumped out! {4} that {3}.
 {0} saw {1} using {2}. {4} that {3}.
 {0} battled at {1}’s side and defeated the Champion. {4} that {3}.
-{0} was with {1} when (he/she) completed (his/her) Pokédex. {4} that {3}.
+{0} was there when {1} completed the Pokédex. {4} that {3}.
 {0} encountered {2} when it was with {1}. {4} that {3}.
-{0} battled at {1}’s side and defeated a Battle Chatelaine. {4} that {3}.
-{0} searched for hidden items with {1} using the Dowsing Machine at... {2}. {4} that {3}.
-{0} rode a Bicycle with {1} at... {2}. {4} that {3}.
-{0} checked a destination with {1} using the Town Map at... {2}. {4} that {3}.
+{0} battled at {1}’s side and defeated the strongest Trainer. {4} that {3}.
+{0} searched for hidden items with {1} using the Dowsing Machine {2}. {4} that {3}.
+{0} rode a bike with {1} {2}. {4} that {3}.
+{0} checked a destination with {1} using the Town Map {2}. {4} that {3}.
 {0} planted {2} with {1} and imagined a big harvest. {4} that {3}.
-{0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
-{0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
-{0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
-{0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
-{0} saw {1} secretly picking up something in... {2}. {4} that {3}.
+{1} asked {0} to use Strength, and it proudly used the move {2}. {4} that {3}.
+{1} asked {0} to use Cut, and it proudly used the move {2}. {4} that {3}.
+{1} asked {0} to shatter rocks, which it did to its heart’s content {2}. {4} that {3}.
+{0} used Waterfall while carrying {1} on its back {2}. {4} that {3}.
+{0} saw {1} secretly picking up something {2}. {4} that {3}.
 {1} had {0} hold items like {2} to help it along. {4} that {3}.
 {0} headed for Victory Road with {1}. {4} that {3}.
-{0} checked the sign with {1} at... {2}. {4} that {3}.
+{0} checked the sign with {1} {2}. {4} that {3}.
 {0} was impressed by the speed of the train it took with {1}. {4} that {3}.
 {0} encountered {2} with {1} using the Poké Radar. {4} that {3}.
 When {2} jumped out, {0} was surprised and ran away with {1}. {4} that {3}.
-{0} got a high score at the Battle Institute where it challenged with {1}. {4} that {3}.
-{0} was stared at by the Judge intensely when it met him with {1}. {4} that {3}.
+{0} got a high score at the Battle Institute where it challenged others with {1}. {4} that {3}.
+{0} was stared at by the Judge when it met him with {1}. {4} that {3}.
 The Move Deleter that {0} met through {1} made it forget {2}. {4} that {3}.
-{0} was able to remember {2} at {1}’s instruction. {4} that {3}.
-{0} was taken to Pokémon Day Care by {1} and left with {2}. {4} that {3}.
-{0} was excited when {1} won with (his/her) Loto Ticket and won prizes like {2}. {4} that {3}.
-{0} was with {1} when (he/she) used a Repel at... {2}. {4} that {3}.
+{1} asked {0} to remember {2}, and it was able to remember the move. {4} that {3}.
+{0} was taken to the Pokémon Day Care by {1} and left with {2}. {4} that {3}.
+{0} was excited when {1} won prizes like {2} through Loto-ID. {4} that {3}.
+{0} was there when {1} used a repellent {2}. {4} that {3}.
 {0} had a very hard training session with {1}. {4} that {3}.
 {0} took an elevator with {1}. {4} that {3}.
 {0} was taken to the Name Rater by {1} and given a fateful name. {4} that {3}.
-{0} was with {1} when (he/she) went to a boutique and tried on clothes, but (he/she) left the boutique without buying anything. {4} that {3}.
-{0} went to a nice restaurant with {1} and ate until it got totally full. {4} that {3}.
+{0} was there when {1} went to a boutique and tried on clothes but left the boutique without buying anything. {4} that {3}.
+{0} went to a nice restaurant with {1} and ate until it got completely full. {4} that {3}.
 {0} was taken to a nice lady by {1} and pampered. {4} that {3}.
-{0} checked a trash can with {1} at... {2}. {4} that {3}.
+{0} checked a bin with {1} {2}. {4} that {3}.
 {0} fought hard until it had to use Struggle when it battled at {1}’s side against {2}. {4} that {3}.
-{0} looked down at the world from a tall tower where it went with {1}. {4} that {3}.
-{0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
+{0} went to a tall tower with {1} and looked down on the world. {4} that {3}.
+{0} saw itself in a mirror inside a mirror cave that it explored with {1}. {4} that {3}.
 {0} almost got lost when it explored a forest with {1}. {4} that {3}.
 {0} went to a factory with {1} and saw a lot of machines that looked very complicated. {4} that {3}.
-{0} was with {1} when (he/she) built a Secret Base. {4} that {3}.
+{0} was there when {1} created a Secret Base. {4} that {3}.
 {0} participated in a contest with {1} and impressed many people. {4} that {3}.
 {0} participated in a contest with {1} and won the title. {4} that {3}.
 {0} soared through the sky with {1} and went to many different places. {4} that {3}.
 {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
+{0} sat with {1} on a bench {2}. {4} that {3}.
+{0} battled at {1}’s side against {2} that Dynamaxed. {4} that {3}.
+{0} battled {2} and Dynamaxed upon {1}’s instruction. {4} that {3}.
+{0} camped with {1}. {4} that {3}.
+{0} cooked with {1}. {4} that {3}.
+{0} was taken to a Pokémon Nursery by {1} and left with {2}. {4} that {3}.
+{0} celebrated {1}’s birthday in a Pokémon Center. {4} that {3}.
+{0} went to a hair salon with {1}. {4} that {3}.
+When {0} was walking with {1}, it started raining, and they both got soaked. {4} that {3}.
+{0} participated in a rally with {1} and went really fast. {4} that {3}.
+{0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
+{0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
+{0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
+{0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
+{0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
+When {1} came to check on {0} in a Box, it got nervous and couldn’t make eye contact with {1}. {4} that {3}.
+When {0} heard a rumor that {1} arrived at a place... {2}, it imagined how {1} looked there. {4} that {3}.
+{0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
+When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
+When {0} was in a Box, it had a weird dream in which {1} was using the move {2}. {4} that {3}.

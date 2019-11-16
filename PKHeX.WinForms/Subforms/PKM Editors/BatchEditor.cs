@@ -162,14 +162,18 @@ namespace PKHeX.WinForms
         private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
             editor = new Core.BatchEditor();
+            bool finished = false; // hack cuz DoWork event isn't cleared after completion
             b.DoWork += (sender, e) =>
             {
+                if (finished)
+                    return;
                 if (RB_Boxes.Checked)
                     RunBatchEditSaveFile(sets, boxes: true);
                 else if (RB_Party.Checked)
                     RunBatchEditSaveFile(sets, party: true);
                 else
                     RunBatchEditFolder(sets, source, destination);
+                finished = true;
             };
             b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
             b.RunWorkerCompleted += (sender, e) =>

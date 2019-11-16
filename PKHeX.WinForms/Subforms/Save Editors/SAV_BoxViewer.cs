@@ -13,9 +13,17 @@ namespace PKHeX.WinForms
         {
             parent = p;
             InitializeComponent();
+            int deltaW = Width - Box.BoxPokeGrid.Width;
+            int deltaH = Height - Box.BoxPokeGrid.Height;
             Box.Editor = new BoxEdit(m.SE.SAV);
             Box.Setup(m);
             Box.InitializeGrid();
+
+            Width = Box.BoxPokeGrid.Width + deltaW + 2;
+            Height = Box.BoxPokeGrid.Height + deltaH + 2;
+
+            Box.RecenterControls();
+            Box.HorizontallyCenter(this);
             Box.Reset();
             CenterToParent();
 

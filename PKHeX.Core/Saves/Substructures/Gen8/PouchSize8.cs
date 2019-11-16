@@ -2,8 +2,6 @@ namespace PKHeX.Core
 {
     public static class PouchSize8
     {
-        // todo
-
         /// <summary>
         /// Pouch0 Item Max Capacity
         /// </summary>
@@ -12,31 +10,41 @@ namespace PKHeX.Core
         /// <summary>
         /// Pouch1 Item Max Capacity
         /// </summary>
-        public const int TM = 108;
+        public const int Balls = 30;
 
         /// <summary>
         /// Pouch2 Item Max Capacity
         /// </summary>
-        public const int Candy = 200;
+        public const int Battle = 20;
 
         /// <summary>
         /// Pouch3 Item Max Capacity
         /// </summary>
-        public const int PowerUp = 150;
+        public const int Berries = 80;
 
         /// <summary>
         /// Pouch4 Item Max Capacity
         /// </summary>
-        public const int Catching = 50;
+        public const int Items = 550;
 
         /// <summary>
         /// Pouch5 Item Max Capacity
         /// </summary>
-        public const int Battle = 150;
+        public const int TMs = 210;
 
         /// <summary>
-        /// Pouch6 Item Max Capacity
+        /// Pouch5 Item Max Capacity
         /// </summary>
-        public const int Items = 150;
+        public const int Treasures = 100; // todo
+
+        /// <summary>
+        /// Pouch5 Item Max Capacity
+        /// </summary>
+        public const int Ingredients = 100; // todo
+
+        /// <summary>
+        /// Pouch5 Item Max Capacity
+        /// </summary>
+        public const int Key = 64;
     }
 }

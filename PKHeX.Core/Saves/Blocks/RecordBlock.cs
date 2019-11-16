@@ -15,5 +15,9 @@ namespace PKHeX.Core
         protected RecordBlock(SaveFile sav) : base(sav)
         {
         }
+
+        protected RecordBlock(SaveFile sav, byte[] data) : base(sav, data)
+        {
+        }
     }
 }

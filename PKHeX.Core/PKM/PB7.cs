@@ -5,9 +5,9 @@ using System.Runtime.CompilerServices;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened
+    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSize, IFavorite
     {
-        public static readonly byte[] Unused =
+        public static readonly ushort[] Unused =
         {
             0x2A, // Old Marking Value (PelagoEventStatus)
             0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
@@ -20,7 +20,7 @@ namespace PKHeX.Core
             0xC8, 0xC9, // OT Terminator
         };
 
-        public override IReadOnlyList<byte> ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => SIZE;
         public override int SIZE_STORED => SIZE;
@@ -531,19 +531,6 @@ namespace PKHeX.Core
             var updated = CalcWeightAbsolute;
             if (Math.Abs(current - updated) > 0.0001f)
                 WeightAbsolute = updated;
-        }
-
-        public static int GetSizeRating(int scalar)
-        {
-            if (scalar < 0x10)
-                return 0; // 1/16 = XS
-            if (scalar < 0x30u)
-                return 1; // 2/16 = S
-            if (scalar < 0xD0u)
-                return 2; // average (10/16)
-            if (scalar < 0xF0u)
-                return 3; // 2/16 = L
-            return 4; // 1/16 = XL
         }
 
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]

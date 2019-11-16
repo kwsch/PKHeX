@@ -25,9 +25,9 @@ namespace PKHeX.WinForms
 
             PKME_Tabs = f1;
 
-            pokeGrid1.InitializeGrid(6, 11);
-            pokeGrid1.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = pokeGrid1.Entries.ToArray();
+            EncounterPokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            EncounterPokeGrid.SetBackground(Resources.box_wp_clean);
+            PKXBOXES = EncounterPokeGrid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -115,7 +115,7 @@ namespace PKHeX.WinForms
             pk.RefreshChecksum();
             PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
-            slotColor = Resources.slotView;
+            slotColor = SpriteUtil.Spriter.View;
             FillPKXBoxes(SCR_Box.Value);
         }
 
@@ -276,9 +276,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
-                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Resources.slotView;
+                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
 
         private static int GetForm(IEncounterable enc)
@@ -302,7 +302,7 @@ namespace PKHeX.WinForms
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!pokeGrid1.RectangleToScreen(pokeGrid1.ClientRectangle).Contains(MousePosition))
+            if (!EncounterPokeGrid.RectangleToScreen(EncounterPokeGrid.ClientRectangle).Contains(MousePosition))
                 return;
             int oldval = SCR_Box.Value;
             int newval = oldval + (e.Delta < 0 ? 1 : -1);

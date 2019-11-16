@@ -53,14 +53,8 @@
             this.L_Hours = new System.Windows.Forms.Label();
             this.MT_Hours = new System.Windows.Forms.MaskedTextBox();
             this.L_Language = new System.Windows.Forms.Label();
-            this.L_Region = new System.Windows.Forms.Label();
-            this.L_Country = new System.Windows.Forms.Label();
-            this.CB_Region = new System.Windows.Forms.ComboBox();
-            this.CB_Country = new System.Windows.Forms.ComboBox();
             this.B_MaxCash = new System.Windows.Forms.Button();
-            this.CB_3DSReg = new System.Windows.Forms.ComboBox();
             this.CB_Language = new System.Windows.Forms.ComboBox();
-            this.L_3DSReg = new System.Windows.Forms.Label();
             this.CB_Game = new System.Windows.Forms.ComboBox();
             this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.TB_MBMS = new System.Windows.Forms.MaskedTextBox();
@@ -99,9 +93,11 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.GB_Stats = new System.Windows.Forms.GroupBox();
+            this.NUD_BP = new System.Windows.Forms.NumericUpDown();
+            this.L_BP = new System.Windows.Forms.Label();
+            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
             this.trainerID1 = new PKHeX.WinForms.Controls.TrainerID();
-            this.CB_Vivillon = new System.Windows.Forms.ComboBox();
-            this.L_Vivillon = new System.Windows.Forms.Label();
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
             this.L_Fame = new System.Windows.Forms.Label();
             this.CAL_HoFDate = new System.Windows.Forms.DateTimePicker();
@@ -122,10 +118,10 @@
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
-            this.GB_Stats = new System.Windows.Forms.GroupBox();
-            this.TrainerStats = new PKHeX.WinForms.Subforms.Save_Editors.TrainerStat();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
+            this.GB_Stats.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).BeginInit();
             this.GB_Adventure.SuspendLayout();
             this.Tab_BadgeMap.SuspendLayout();
             this.GB_Map.SuspendLayout();
@@ -134,7 +130,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
-            this.GB_Stats.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -345,49 +340,12 @@
             // 
             // L_Language
             // 
-            this.L_Language.Location = new System.Drawing.Point(202, 82);
+            this.L_Language.Location = new System.Drawing.Point(-7, 106);
             this.L_Language.Name = "L_Language";
             this.L_Language.Size = new System.Drawing.Size(100, 13);
             this.L_Language.TabIndex = 21;
             this.L_Language.Text = "Language:";
             this.L_Language.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Region
-            // 
-            this.L_Region.Location = new System.Drawing.Point(202, 32);
-            this.L_Region.Name = "L_Region";
-            this.L_Region.Size = new System.Drawing.Size(100, 13);
-            this.L_Region.TabIndex = 20;
-            this.L_Region.Text = "Sub Region:";
-            this.L_Region.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // L_Country
-            // 
-            this.L_Country.Location = new System.Drawing.Point(202, 10);
-            this.L_Country.Name = "L_Country";
-            this.L_Country.Size = new System.Drawing.Size(100, 13);
-            this.L_Country.TabIndex = 19;
-            this.L_Country.Text = "Country:";
-            this.L_Country.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Region
-            // 
-            this.CB_Region.DropDownWidth = 180;
-            this.CB_Region.FormattingEnabled = true;
-            this.CB_Region.Location = new System.Drawing.Point(308, 29);
-            this.CB_Region.Name = "CB_Region";
-            this.CB_Region.Size = new System.Drawing.Size(93, 21);
-            this.CB_Region.TabIndex = 18;
-            // 
-            // CB_Country
-            // 
-            this.CB_Country.DropDownWidth = 180;
-            this.CB_Country.FormattingEnabled = true;
-            this.CB_Country.Location = new System.Drawing.Point(308, 7);
-            this.CB_Country.Name = "CB_Country";
-            this.CB_Country.Size = new System.Drawing.Size(93, 21);
-            this.CB_Country.TabIndex = 17;
-            this.CB_Country.SelectedIndexChanged += new System.EventHandler(this.UpdateCountry);
             // 
             // B_MaxCash
             // 
@@ -398,42 +356,22 @@
             this.B_MaxCash.Text = "+";
             this.B_MaxCash.UseVisualStyleBackColor = true;
             // 
-            // CB_3DSReg
-            // 
-            this.CB_3DSReg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_3DSReg.FormattingEnabled = true;
-            this.CB_3DSReg.Location = new System.Drawing.Point(308, 51);
-            this.CB_3DSReg.Name = "CB_3DSReg";
-            this.CB_3DSReg.Size = new System.Drawing.Size(93, 21);
-            this.CB_3DSReg.TabIndex = 14;
-            // 
             // CB_Language
             // 
             this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(308, 79);
+            this.CB_Language.Location = new System.Drawing.Point(99, 103);
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(93, 21);
             this.CB_Language.TabIndex = 15;
-            // 
-            // L_3DSReg
-            // 
-            this.L_3DSReg.Location = new System.Drawing.Point(202, 54);
-            this.L_3DSReg.Name = "L_3DSReg";
-            this.L_3DSReg.Size = new System.Drawing.Size(100, 13);
-            this.L_3DSReg.TabIndex = 10;
-            this.L_3DSReg.Text = "Console Region:";
-            this.L_3DSReg.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // CB_Game
             // 
             this.CB_Game.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Game.FormattingEnabled = true;
             this.CB_Game.Items.AddRange(new object[] {
-            "Sun",
-            "Moon",
-            "US",
-            "UM"});
+            "Sword",
+            "Shield"});
             this.CB_Game.Location = new System.Drawing.Point(141, 51);
             this.CB_Game.Name = "CB_Game";
             this.CB_Game.Size = new System.Drawing.Size(51, 21);
@@ -707,8 +645,6 @@
             // 
             this.Tab_Overview.Controls.Add(this.GB_Stats);
             this.Tab_Overview.Controls.Add(this.trainerID1);
-            this.Tab_Overview.Controls.Add(this.CB_Vivillon);
-            this.Tab_Overview.Controls.Add(this.L_Vivillon);
             this.Tab_Overview.Controls.Add(this.GB_Adventure);
             this.Tab_Overview.Controls.Add(this.TB_OTName);
             this.Tab_Overview.Controls.Add(this.CB_Gender);
@@ -717,14 +653,8 @@
             this.Tab_Overview.Controls.Add(this.MT_Money);
             this.Tab_Overview.Controls.Add(this.L_Money);
             this.Tab_Overview.Controls.Add(this.L_Language);
-            this.Tab_Overview.Controls.Add(this.L_3DSReg);
             this.Tab_Overview.Controls.Add(this.CB_Language);
-            this.Tab_Overview.Controls.Add(this.L_Region);
-            this.Tab_Overview.Controls.Add(this.CB_3DSReg);
             this.Tab_Overview.Controls.Add(this.B_MaxCash);
-            this.Tab_Overview.Controls.Add(this.L_Country);
-            this.Tab_Overview.Controls.Add(this.CB_Country);
-            this.Tab_Overview.Controls.Add(this.CB_Region);
             this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
             this.Tab_Overview.Name = "Tab_Overview";
             this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
@@ -733,30 +663,57 @@
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // GB_Stats
+            // 
+            this.GB_Stats.Controls.Add(this.NUD_BP);
+            this.GB_Stats.Controls.Add(this.L_BP);
+            this.GB_Stats.Controls.Add(this.TrainerStats);
+            this.GB_Stats.Location = new System.Drawing.Point(209, 130);
+            this.GB_Stats.Name = "GB_Stats";
+            this.GB_Stats.Size = new System.Drawing.Size(171, 137);
+            this.GB_Stats.TabIndex = 67;
+            this.GB_Stats.TabStop = false;
+            this.GB_Stats.Text = "Stats";
+            // 
+            // NUD_BP
+            // 
+            this.NUD_BP.Location = new System.Drawing.Point(115, 39);
+            this.NUD_BP.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_BP.Name = "NUD_BP";
+            this.NUD_BP.Size = new System.Drawing.Size(47, 20);
+            this.NUD_BP.TabIndex = 69;
+            this.NUD_BP.Value = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            // 
+            // L_BP
+            // 
+            this.L_BP.Location = new System.Drawing.Point(28, 37);
+            this.L_BP.Name = "L_BP";
+            this.L_BP.Size = new System.Drawing.Size(81, 20);
+            this.L_BP.TabIndex = 68;
+            this.L_BP.Text = "BP:";
+            this.L_BP.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // TrainerStats
+            // 
+            this.TrainerStats.Location = new System.Drawing.Point(19, 61);
+            this.TrainerStats.Name = "TrainerStats";
+            this.TrainerStats.Size = new System.Drawing.Size(146, 72);
+            this.TrainerStats.TabIndex = 67;
+            // 
             // trainerID1
             // 
             this.trainerID1.Location = new System.Drawing.Point(6, 26);
             this.trainerID1.Name = "trainerID1";
-            this.trainerID1.Size = new System.Drawing.Size(90, 64);
+            this.trainerID1.Size = new System.Drawing.Size(90, 74);
             this.trainerID1.TabIndex = 66;
-            // 
-            // CB_Vivillon
-            // 
-            this.CB_Vivillon.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Vivillon.FormattingEnabled = true;
-            this.CB_Vivillon.Location = new System.Drawing.Point(85, 98);
-            this.CB_Vivillon.Name = "CB_Vivillon";
-            this.CB_Vivillon.Size = new System.Drawing.Size(93, 21);
-            this.CB_Vivillon.TabIndex = 65;
-            // 
-            // L_Vivillon
-            // 
-            this.L_Vivillon.Location = new System.Drawing.Point(-1, 101);
-            this.L_Vivillon.Name = "L_Vivillon";
-            this.L_Vivillon.Size = new System.Drawing.Size(80, 12);
-            this.L_Vivillon.TabIndex = 64;
-            this.L_Vivillon.Text = "Vivillon:";
-            this.L_Vivillon.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Adventure
             // 
@@ -1031,23 +988,6 @@
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // GB_Stats
-            // 
-            this.GB_Stats.Controls.Add(this.TrainerStats);
-            this.GB_Stats.Location = new System.Drawing.Point(209, 130);
-            this.GB_Stats.Name = "GB_Stats";
-            this.GB_Stats.Size = new System.Drawing.Size(171, 137);
-            this.GB_Stats.TabIndex = 67;
-            this.GB_Stats.TabStop = false;
-            this.GB_Stats.Text = "Stats";
-            // 
-            // TrainerStats
-            // 
-            this.TrainerStats.Location = new System.Drawing.Point(19, 61);
-            this.TrainerStats.Name = "TrainerStats";
-            this.TrainerStats.Size = new System.Drawing.Size(146, 72);
-            this.TrainerStats.TabIndex = 67;
-            // 
             // SAV_Trainer8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1066,6 +1006,8 @@
             this.TC_Editor.ResumeLayout(false);
             this.Tab_Overview.ResumeLayout(false);
             this.Tab_Overview.PerformLayout();
+            this.GB_Stats.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_BP)).EndInit();
             this.GB_Adventure.ResumeLayout(false);
             this.GB_Adventure.PerformLayout();
             this.Tab_BadgeMap.ResumeLayout(false);
@@ -1075,7 +1017,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
-            this.GB_Stats.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1099,13 +1040,7 @@
         private System.Windows.Forms.TextBox TB_Saying2;
         private System.Windows.Forms.TextBox TB_Saying1;
         private System.Windows.Forms.ComboBox CB_Language;
-        private System.Windows.Forms.ComboBox CB_3DSReg;
-        private System.Windows.Forms.Label L_3DSReg;
         private System.Windows.Forms.Button B_MaxCash;
-        private System.Windows.Forms.ComboBox CB_Region;
-        private System.Windows.Forms.ComboBox CB_Country;
-        private System.Windows.Forms.Label L_Region;
-        private System.Windows.Forms.Label L_Country;
         private System.Windows.Forms.Label L_SuperB;
         private System.Windows.Forms.Label L_NormalB;
         private System.Windows.Forms.Label L_MultiB;
@@ -1173,10 +1108,10 @@
         private System.Windows.Forms.GroupBox GB_Map;
         private System.Windows.Forms.NumericUpDown NUD_R;
         private System.Windows.Forms.Label L_R;
-        private System.Windows.Forms.Label L_Vivillon;
-        private System.Windows.Forms.ComboBox CB_Vivillon;
         private Controls.TrainerID trainerID1;
         private System.Windows.Forms.GroupBox GB_Stats;
         private Subforms.Save_Editors.TrainerStat TrainerStats;
+        private System.Windows.Forms.NumericUpDown NUD_BP;
+        private System.Windows.Forms.Label L_BP;
     }
 }

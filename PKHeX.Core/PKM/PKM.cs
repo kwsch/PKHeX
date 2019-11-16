@@ -7,14 +7,14 @@ namespace PKHeX.Core
     /// <summary>
     /// Object representing a <see cref="PKM"/>'s data and derived properties.
     /// </summary>
-    public abstract class PKM : ITrainerID, ILangNick, IGameValueLimit
+    public abstract class PKM : ITrainerID, ILangNick, IGameValueLimit, INature
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
         public abstract int SIZE_STORED { get; }
         public string Extension => GetType().Name.ToLower();
         public abstract PersonalInfo PersonalInfo { get; }
-        public abstract IReadOnlyList<byte> ExtraBytes { get; }
+        public virtual IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
         // Internal Attributes set on creation
         public abstract byte[] Data { get; } // Raw Storage
@@ -74,6 +74,7 @@ namespace PKHeX.Core
         public abstract int HeldItem { get; set; }
         public abstract int Gender { get; set; }
         public abstract int Nature { get; set; }
+        public virtual int StatNature { get => Nature; set => Nature = value; }
         public abstract int Ability { get; set; }
         public abstract int CurrentFriendship { get; set; }
         public abstract int AltForm { get; set; }
@@ -320,6 +321,7 @@ namespace PKHeX.Core
 
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
+        public bool Gen8 => Version >= 44 && Version <= 45;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;
@@ -333,6 +335,7 @@ namespace PKHeX.Core
         {
             get
             {
+                if (Gen8) return 8;
                 if (Gen7) return 7;
                 if (Gen6) return 6;
                 if (Gen5) return 5;
@@ -360,7 +363,7 @@ namespace PKHeX.Core
         }
 
         public virtual bool ChecksumValid => Checksum == CalculateChecksum();
-        public int CurrentLevel { get => Experience.GetLevel(EXP, Species, AltForm); set => EXP = Experience.GetEXP(Stat_Level = value, Species, AltForm); }
+        public int CurrentLevel { get => Experience.GetLevel(EXP, PersonalInfo.EXPGrowth); set => EXP = Experience.GetEXP(Stat_Level = value, PersonalInfo.EXPGrowth); }
         public int MarkCircle      { get => Markings[0]; set { var marks = Markings; marks[0] = value; Markings = marks; } }
         public int MarkTriangle    { get => Markings[1]; set { var marks = Markings; marks[1] = value; Markings = marks; } }
         public int MarkSquare      { get => Markings[2]; set { var marks = Markings; marks[2] = value; Markings = marks; } }
@@ -772,7 +775,7 @@ namespace PKHeX.Core
 
             ushort[] stats = this is IHyperTrain t ? GetStats(p, t, level) : GetStats(p, level);
             // Account for nature
-            PKX.ModifyStatsForNature(stats, Nature);
+            PKX.ModifyStatsForNature(stats, StatNature);
             return stats;
         }
 

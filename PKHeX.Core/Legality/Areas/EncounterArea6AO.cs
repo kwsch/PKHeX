@@ -13,7 +13,7 @@ namespace PKHeX.Core
         private const int FluteBoostMax = 3; // Black Flute increases levels.
         private const int DexNavBoost = 30; // Maximum DexNav chain
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - FluteBoostMax)));
 

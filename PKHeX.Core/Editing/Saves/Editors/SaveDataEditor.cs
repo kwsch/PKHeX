@@ -56,12 +56,12 @@ namespace PKHeX.Core
         public override string Extension => string.Empty;
         public override bool ChecksumsValid => true;
         public override string ChecksumInfo => string.Empty;
-        public override int Generation => PKX.Generation;
+        public override int Generation => 3;
         public override string GetString(byte[] data, int offset, int length) => string.Empty;
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => Array.Empty<byte>();
-        public override PersonalTable Personal => PKX.Personal;
+        public override PersonalTable Personal => PersonalTable.RS;
         public override int MaxEV => 0;
-        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
         public override int GetBoxOffset(int box) => -1;
         public override string GetBoxName(int box) => $"Box {box:00}";
         public override void SetBoxName(int box, string value) { }
@@ -77,10 +77,10 @@ namespace PKHeX.Core
         public override int GetPartyOffset(int slot) => -1;
         protected override void SetChecksums() { }
 
-        public override Type PKMType => typeof(PKM);
+        public override Type PKMType => typeof(PK3);
         protected override PKM GetPKM(byte[] data) => BlankPKM;
         protected override byte[] DecryptPKM(byte[] data) => data;
-        public override PKM BlankPKM => new PK7();
+        public override PKM BlankPKM => new PK3();
         public override int SIZE_STORED => 0;
         protected override int SIZE_PARTY => 0;
     }

@@ -13,6 +13,7 @@ namespace PKHeX.WinForms.Controls
         private List<SlotInfoMisc> SlotOffsets = new List<SlotInfoMisc>();
         public int SlotCount { get; private set; }
         public SaveFile SAV { get; set; }
+        public bool FlagIllegal { get; set; }
 
         public SlotList()
         {
@@ -56,7 +57,7 @@ namespace PKHeX.WinForms.Controls
             if (index < 0)
                 return;
             var pb = slots[index];
-            SlotUtil.UpdateSlot(pb, slot, pkm, SAV, true, type);
+            SlotUtil.UpdateSlot(pb, slot, pkm, SAV, FlagIllegal, type);
         }
 
         public int GetViewIndex(ISlotInfo info) => SlotOffsets.FindIndex(info.Equals);

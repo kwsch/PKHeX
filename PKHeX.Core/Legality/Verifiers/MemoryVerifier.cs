@@ -213,7 +213,7 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadPokecenter, memory.Handler));
 
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, memory.Variable, 0)}, 19, 6):
+                case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormeIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 case 16 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, 6):

@@ -46,6 +46,8 @@ namespace PKHeX.Core
         public int BerryField { get; protected set; } = int.MinValue;
         public int HoF { get; protected set; } = int.MinValue;
         protected int PCLayout { private get; set; } = int.MinValue;
+        protected int BattleBoxOffset { get; set; } = int.MinValue;
+        public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
         public virtual string JPEGTitle => string.Empty;
         public virtual byte[] JPEGData => Array.Empty<byte>();

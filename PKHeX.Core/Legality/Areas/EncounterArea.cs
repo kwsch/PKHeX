@@ -51,7 +51,7 @@ namespace PKHeX.Core
         /// <param name="vs">Evolution lineage</param>
         /// <param name="minLevel">Minimum level of the encounter</param>
         /// <returns>Enumerable list of encounters</returns>
-        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> vs, int minLevel = 0)
+        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> vs, int minLevel = 0)
         {
             if (minLevel == 0) // any
                 return Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
@@ -60,7 +60,7 @@ namespace PKHeX.Core
             return GetFilteredSlots(pkm, slots, minLevel);
         }
 
-        protected virtual IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
+        protected virtual IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
             // Get slots where pokemon can exist with respect to level constraints

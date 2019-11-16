@@ -30,8 +30,7 @@ namespace PKHeX.Tests.Saves
             var pk5 = new PK5 {Species = species, TID = 1337}; // non-shiny
             pk5.Gender = pk5.GetSaneGender();
 
-            int boxofs = sav.GetBoxSlotOffset(0, 0);
-            sav.SetStoredSlot(pk5, boxofs);
+            sav.SetBoxSlotAtIndex(pk5, 0);
 
             CheckFlags(sav, species, regionSize);
         }

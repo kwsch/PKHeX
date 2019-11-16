@@ -4,10 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class EventWork8 : SaveBlock, IEventWork<int>
     {
-        public EventWork8(SAV8SWSH sav) : base(sav)
-        {
-            Offset = sav.Blocks.GetBlockOffset(SAV8BlockIndex.EventWork);
-        }
+        public EventWork8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         // Overall Layout
         private const int WorkCount = 1000;

@@ -6,12 +6,12 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV8 : SAV_BEEF, ITrainerStatRecord, ISaveBlock8Main
+    public abstract class SAV8 : SaveFile, ISaveBlock8Main
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "savedata|*.bin";
-        public override string Extension => ".bin";
+        public override string Filter => "Main SAV|*.*";
+        public override string Extension => string.Empty;
 
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
@@ -19,14 +19,8 @@ namespace PKHeX.Core
             return gen == 8; // future: change to <= when HOME released
         }).ToArray();
 
-        protected SAV8(byte[] data, int biOffset) : base(data, biOffset)
-        {
-        }
-
-        protected SAV8(int size, int biOffset) : base(size, biOffset)
-        {
-            ClearBoxes();
-        }
+        protected SAV8(byte[] data) : base(data) { }
+        protected SAV8() { }
 
         // Configuration
         public override int SIZE_STORED => PKX.SIZE_8STORED;
@@ -46,26 +40,18 @@ namespace PKHeX.Core
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray8(data);
 
         #region Blocks
+        public abstract Box8 BoxInfo { get; }
+        public abstract Party8 PartyInfo { get; }
         public abstract MyItem Items { get; }
-        public abstract Record8 Records { get; }
         public abstract PlayTime8 Played { get; }
         public abstract MyStatus8 MyStatus { get; }
-        public abstract ConfigSave8 Config { get; }
-        public abstract GameTime8 GameTime { get; }
         public abstract Misc8 Misc { get; }
         public abstract Zukan8 Zukan { get; }
-        public abstract EventWork8 EventWork { get; }
         public abstract BoxLayout8 BoxLayout { get; }
-        public abstract Situation8 Situation { get; }
-        public abstract FieldMoveModelSave8 Overworld { get; }
+        public abstract Fused8 Fused { get; }
+        public abstract Daycare8 Daycare { get; }
+        public abstract Record8 Records { get; }
         #endregion
-
-        // Feature Overrides
-        protected override byte[] GetFinalData()
-        {
-            SetChecksums();
-            return Data;
-        }
 
         public override GameVersion Version
         {
@@ -92,40 +78,24 @@ namespace PKHeX.Core
         public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
         public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
         public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
-        public override int SubRegion { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
-        public override int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
-        public override int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override uint Money { get => Misc.Money; set => Misc.Money = value; }
+        public int Badges { get => Misc.Badges; set => Misc.Badges = value; }
 
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
-        public override uint SecondsToStart { get => GameTime.SecondsToStart; set => GameTime.SecondsToStart = value; }
-        public override uint SecondsToFame { get => GameTime.SecondsToFame; set => GameTime.SecondsToFame = value; }
-
-        // Stat Records
-        public int RecordCount => 200;
-        public int GetRecord(int recordID) => Records.GetRecord(recordID);
-        public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
-        public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
-        public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
 
         // Inventory
         public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
-        public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
-        protected override int GetBoxWallpaperOffset(int box) => BoxLayout.GetBoxWallpaperOffset(box);
-        public override int GetBoxWallpaper(int box) => BoxLayout.GetBoxWallpaper(box);
-        public override void SetBoxWallpaper(int box, int value) => BoxLayout.SetBoxWallpaper(box, value);
+        public override int GetBoxOffset(int box) => Box + (SIZE_PARTY * box * 30);
         public override string GetBoxName(int box) => BoxLayout[box];
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
-        public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
-        public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
-        public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
+        public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
         protected override void SetPKM(PKM pkm)
         {
@@ -148,17 +118,6 @@ namespace PKHeX.Core
 
         private void AddCountAcquired(PKM pkm)
         {
-            Records.AddRecord(pkm.WasEgg ? 008 : 006); // egg, capture
-            if (pkm.CurrentHandler == 1)
-                Records.AddRecord(011); // trade
-            if (!pkm.WasEgg)
-                Records.AddRecord(004); // wild encounters
-        }
-
-        protected override void SetPartyValues(PKM pkm, bool isParty)
-        {
-            base.SetPartyValues(pkm, isParty);
-            ((PK8)pkm).FormDuration = GetFormDuration(pkm, isParty);
         }
 
         private static uint GetFormDuration(PKM pkm, bool isParty)
@@ -179,8 +138,14 @@ namespace PKHeX.Core
 
         public override int PartyCount
         {
-            get => Data[Party + (6 * SIZE_PARTY)];
-            protected set => Data[Party + (6 * SIZE_PARTY)] = (byte)value;
+            get => PartyInfo.PartyCount;
+            protected set => PartyInfo.PartyCount = value;
         }
+
+        protected override byte[] BoxBuffer => BoxInfo.Data;
+        protected override byte[] PartyBuffer => PartyInfo.Data;
+        public override int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_PARTY); // party format in boxes!
+        public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
+        public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
     }
 }

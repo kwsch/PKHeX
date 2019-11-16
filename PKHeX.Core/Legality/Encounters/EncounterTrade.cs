@@ -74,6 +74,7 @@ namespace PKHeX.Core
             Locations.LinkTrade5NPC,
             Locations.LinkTrade6NPC,
             Locations.LinkTrade6NPC, // 7 is same as 6
+            Locations.LinkTrade6NPC, // 8 is same as 6
         };
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
@@ -83,6 +84,12 @@ namespace PKHeX.Core
             var pk = PKMConverter.GetBlank(Generation, Version);
             SAV.ApplyToPKM(pk);
 
+            ApplyDetails(SAV, criteria, pk);
+            return pk;
+        }
+
+        protected virtual void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        {
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
@@ -102,7 +109,7 @@ namespace PKHeX.Core
             pk.SetNickname(GetNickname(lang));
 
             pk.CurrentLevel = level;
-            pk.Version = (int)version;
+            pk.Version = (int) version;
             pk.TID = TID;
             pk.SID = SID;
             pk.Ball = Ball;
@@ -117,11 +124,12 @@ namespace PKHeX.Core
                 var location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
                 SetMetData(pk, level, location, time);
             }
+
             if (EggLocation != 0)
                 SetEggMetData(pk, time);
 
             if (pk is PK1 pk1 && this is EncounterTradeCatchRate c)
-                pk1.Catch_Rate = (int)c.Catch_Rate;
+                pk1.Catch_Rate = (int) c.Catch_Rate;
 
             if (pk is IContestStats s)
                 this.CopyContestStatsTo(s);
@@ -132,7 +140,7 @@ namespace PKHeX.Core
             UpdateEdgeCase(pk);
 
             if (pk.Format < 6)
-                return pk;
+                return;
 
             SAV.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
@@ -141,8 +149,6 @@ namespace PKHeX.Core
                 pk.SetRandomMemory6();
             else if (pk.Format == 7)
                 SetSMOTMemory(pk);
-
-            return pk;
         }
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
@@ -229,7 +235,7 @@ namespace PKHeX.Core
             pk.OT_Feeling = 5;
         }
 
-        public bool IsMatch(PKM pkm, int lvl)
+        public virtual bool IsMatch(PKM pkm, int lvl)
         {
             if (IVs.Length != 0)
             {
@@ -237,27 +243,38 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (this is EncounterTradePID p)
-            {
-                if (p.PID != pkm.EncryptionConstant)
-                    return false;
-                if (Nature != Nature.Random && (int)Nature != pkm.Nature) // gen5 BW only
-                    return false;
-            }
-            else
-            {
-                if (!Shiny.IsValid(pkm))
-                    return false;
-                if (Nature != Nature.Random && (int)Nature != pkm.Nature)
-                    return false;
-                if (Gender != -1 && Gender != pkm.Gender)
-                    return false;
-            }
+            if (!IsMatchNatureGenderShiny(pkm))
+                return false;
             if (TID != pkm.TID)
                 return false;
             if (SID != pkm.SID)
                 return false;
 
+            if (!IsMatchLevel(pkm, lvl))
+                return false;
+
+            if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
+                return false;
+
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, pkm.Species))
+                return false;
+            if (OTGender != -1 && OTGender != pkm.OT_Gender)
+                return false;
+            if (EggLocation != pkm.Egg_Location)
+                return false;
+            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
+            //    countinue;
+            if (!Version.Contains((GameVersion)pkm.Version))
+                return false;
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            return true;
+        }
+
+        private bool IsMatchLevel(PKM pkm, int lvl)
+        {
             if (pkm.HasOriginalMetLocation)
             {
                 var loc = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
@@ -279,21 +296,17 @@ namespace PKHeX.Core
                 return false;
             }
 
-            if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
+            return true;
+        }
+
+        protected virtual bool IsMatchNatureGenderShiny(PKM pkm)
+        {
+            if (!Shiny.IsValid(pkm))
+                return false;
+            if (Gender != -1 && Gender != pkm.Gender)
                 return false;
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, pkm.Species))
-                return false;
-            if (OTGender != -1 && OTGender != pkm.OT_Gender)
-                return false;
-            if (EggLocation != pkm.Egg_Location)
-                return false;
-            // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
-            //    countinue;
-            if (!Version.Contains((GameVersion)pkm.Version))
-                return false;
-
-            if (pkm is IContestStats s && s.IsContestBelow(this))
+            if (Nature != Nature.Random && pkm.Nature != (int)Nature)
                 return false;
 
             return true;

@@ -112,7 +112,7 @@ namespace PKHeX.Core
             // Count up how many party slots are active.
             for (int i = 0; i < 6; i++)
             {
-                if (GetPartySlot(GetPartyOffset(i)).Species != 0)
+                if (GetPartySlot(Data, GetPartyOffset(i)).Species != 0)
                     PartyCount++;
             }
         }
@@ -275,12 +275,12 @@ namespace PKHeX.Core
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;
-        public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
+        public override PKM GetPartySlot(byte[] data, int offset) => GetStoredSlot(data, offset);
 
-        public override PKM GetStoredSlot(int offset)
+        public override PKM GetStoredSlot(byte[] data, int offset)
         {
             // Get Shadow Data
-            var pk = (XK3)base.GetStoredSlot(offset);
+            var pk = (XK3)base.GetStoredSlot(data, offset);
             if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID].Purification;
             return pk;

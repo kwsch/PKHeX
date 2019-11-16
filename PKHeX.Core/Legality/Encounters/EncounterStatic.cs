@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
+    public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion, IRelearn
     {
         public int Species { get; set; }
         public int[] Moves { get; set; } = Array.Empty<int>();
@@ -80,7 +80,7 @@ namespace PKHeX.Core
             pk.AltForm = Form;
 
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
-            int level = LevelMin;
+            int level = GetMinimalLevel();
             var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
             SanityCheckVersion(ref version);
 
@@ -126,23 +126,39 @@ namespace PKHeX.Core
             if (pk.Format < 6)
                 return pk;
 
-            if (Relearn.Length > 0)
-                pk.RelearnMoves = Relearn;
+            pk.SetRelearnMoves(Relearn);
             SAV.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
+            if (this is IGigantamax g && pk is IGigantamax pg)
+                pg.CanGigantamax = g.CanGigantamax;
+            if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)
+                pd.DynamaxLevel = d.DynamaxLevel;
+
             return pk;
         }
+
+        protected virtual int GetMinimalLevel() => LevelMin;
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(Gender, pk.PersonalInfo);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = Ability;
+            int ability = GetRandomAbility(); // use criteria?
 
             var pidtype = GetPIDType();
-            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability >> 1, gender, pidtype);
+            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
             SetIVs(pk);
+        }
+
+        private int GetRandomAbility()
+        {
+            return Ability switch
+            {
+                 0 => Util.Rand.Next(2),
+                -1 => Util.Rand.Next(3),
+                _ => (Ability >> 1)
+            };
         }
 
         private void SetEggMetData(PKM pk, ITrainerInfo tr, DateTime today)
@@ -240,16 +256,65 @@ namespace PKHeX.Core
             }
         }
 
-        public bool IsMatch(PKM pkm, int lvl)
+        public virtual bool IsMatch(PKM pkm, int lvl)
         {
-            if (Nature != Nature.Random && pkm.Nature != (int)Nature)
+            if (Nature != Nature.Random && pkm.Nature != (int) Nature)
                 return false;
 
             if (Generation > 3 && pkm.Format > 3 && pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && !pkm.IsEgg)
                 return false;
-            if (this is EncounterStaticPID p && p.PID != pkm.PID)
+
+            if (!IsMatchEggLocation(pkm, ref lvl))
                 return false;
 
+            if (!IsMatchLevel(pkm, lvl))
+                return false;
+            if (!IsMatchGender(pkm))
+                return false;
+            if (!IsMatchForm(pkm))
+                return false;
+
+            if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+                return false;
+
+            if (!IsMatchIVs(pkm))
+                return false;
+
+            if (pkm is IContestStats s && s.IsContestBelow(this))
+                return false;
+
+            // Defer to EC/PID check
+            // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
+            // continue;
+
+            // Defer ball check to later
+            // if (e.Gift && pkm.Ball != 4) // PokéBall
+            // continue;
+
+            return true;
+        }
+
+        private bool IsMatchIVs(PKM pkm)
+        {
+            if (IVs.Length == 0)
+                return true; // nothing to check, IVs are random
+            if (Generation <= 2 && pkm.Format > 2)
+                return true; // IVs are regenerated on VC transfer upward
+
+            return Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm);
+        }
+
+        private bool IsMatchForm(PKM pkm)
+        {
+            if (SkipFormCheck)
+                return true;
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+                return false;
+            return true;
+        }
+
+        private bool IsMatchEggLocation(PKM pkm, ref int lvl)
+        {
             if (Generation == 3 && EggLocation != 0) // Gen3 Egg
             {
                 if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
@@ -257,30 +322,31 @@ namespace PKHeX.Core
             }
             else if (Generation <= 2 && EggLocation != 0) // Gen2 Egg
             {
-                if (pkm.Format <= 2)
+                if (pkm.Format > 2)
+                    return true;
+
+                if (pkm.IsEgg)
                 {
-                    if (pkm.IsEgg)
-                    {
-                        if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
-                            return false;
-                    }
-                    else
-                    {
-                        switch (pkm.Met_Level)
-                        {
-                            case 0 when pkm.Met_Location != 0:
-                                return false;
-                            case 1 when pkm.Met_Location == 0:
-                                return false;
-                            default:
-                                if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
-                                    return false;
-                                break;
-                        }
-                    }
-                    if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
-                        lvl = 5;
+                    if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
+                        return false;
                 }
+                else
+                {
+                    switch (pkm.Met_Level)
+                    {
+                        case 0 when pkm.Met_Location != 0:
+                            return false;
+                        case 1 when pkm.Met_Location == 0:
+                            return false;
+                        default:
+                            if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
+                                return false;
+                            break;
+                    }
+                }
+
+                if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
+                    lvl = 5;
             }
             else if (EggLocation != pkm.Egg_Location)
             {
@@ -297,7 +363,7 @@ namespace PKHeX.Core
                     {
                         // check Pt/HGSS data
                         if (pkm.Format <= 4)
-                            return false; // must match
+                            return false;
                         if (!Locations.IsPtHGSSLocationEgg(EggLocation)) // non-Pt/HGSS egg gift
                             return false;
                         // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
@@ -317,58 +383,36 @@ namespace PKHeX.Core
                 if (Locations.IsPtHGSSLocationEgg(EggLocation)) // egg gift
                 {
                     if (pkm.Format > 4)
-                        return false; // locations match when it shouldn't
-                }
-            }
-
-            if (pkm.HasOriginalMetLocation)
-            {
-                if (!EggEncounter && Location != 0 && Location != pkm.Met_Location)
-                    return false;
-                if (Level != lvl)
-                {
-                    if (!(pkm.Format == 3 && EggEncounter && lvl == 0))
                         return false;
                 }
             }
-            else if (Level > lvl)
-            {
-                return false;
-            }
 
-            if (Gender != -1 && Gender != pkm.Gender)
-            {
-                if (Species == (int)Core.Species.Azurill && Generation == 4 && Location == 233 && pkm.Gender == 0)
-                {
-                    if (PKX.GetGenderFromPIDAndRatio(pkm.PID, 0xBF) != 1)
-                        return false;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            if (Form != pkm.AltForm && !SkipFormCheck && !Legal.IsFormChangeable(pkm, Species))
-                return false;
-            if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
-                return false;
+            return true;
+        }
 
-            if (IVs.Length != 0 && (Generation > 2 || pkm.Format <= 2)) // 1,2->7 regenerates IVs, only check if original IVs still exist
-            {
-                if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
-                    return false;
-            }
+        private bool IsMatchGender(PKM pkm)
+        {
+            if (Gender == -1 || Gender == pkm.Gender)
+                return true;
 
-            if (pkm is IContestStats s && s.IsContestBelow(this))
+            if (Species == (int) Core.Species.Azurill && Generation == 4 && Location == 233 && pkm.Gender == 0)
+                return PKX.GetGenderFromPIDAndRatio(pkm.PID, 0xBF) == 1;
+
+            return false;
+        }
+
+        protected virtual bool IsMatchLevel(PKM pkm, int lvl)
+        {
+            if (!pkm.HasOriginalMetLocation)
+                return lvl >= Level;
+
+            if (!EggEncounter && Location != 0 && Location != pkm.Met_Location)
                 return false;
 
-            // Defer to EC/PID check
-            // if (e.Shiny != null && e.Shiny != pkm.IsShiny)
-            // continue;
-
-            // Defer ball check to later
-            // if (e.Gift && pkm.Ball != 4) // PokéBall
-            // continue;
+            if (lvl == Level)
+                return true;
+            if (!(pkm.Format == 3 && EggEncounter && lvl == 0))
+                return false;
 
             return true;
         }

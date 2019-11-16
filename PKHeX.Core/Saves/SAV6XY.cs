@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
@@ -95,6 +96,13 @@ namespace PKHeX.Core
         public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Data[DaycareOffset + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, DaycareOffset + 4 + ((SIZE_STORED + 8) * slot));
 
+        public override string GetDaycareRNGSeed(int loc)
+        {
+            int ofs = DaycareOffset;
+            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            return BitConverter.ToString(data).Replace("-", string.Empty);
+        }
+
         public override void SetDaycareRNGSeed(int loc, string seed)
         {
             if (loc != 0)
@@ -180,7 +188,7 @@ namespace PKHeX.Core
         public override int BoxesUnlocked { get => Blocks.BoxLayout.BoxesUnlocked; set => Blocks.BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => Blocks.BoxLayout.BoxFlags; set => Blocks.BoxLayout.BoxFlags = value; }
 
-        public override bool BattleBoxLocked
+        public bool BattleBoxLocked
         {
             get => Blocks.BattleBox.Locked;
             set => Blocks.BattleBox.Locked = value;

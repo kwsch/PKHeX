@@ -106,6 +106,7 @@ namespace PKHeX.Core
                 case 5: // Bank keeps current level
                 case 6:
                 case 7:
+                case 8:
                     return lvl >= Level && (!pkm.IsNative || pkm.Met_Level < lvl);
 
                 default: return false;

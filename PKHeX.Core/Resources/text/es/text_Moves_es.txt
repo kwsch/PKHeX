@@ -1,4 +1,4 @@
-﻿—
+—
 Destructor
 Golpe Kárate
 Doble Bofetón
@@ -38,7 +38,7 @@ Derribo
 Golpe
 Doble Filo
 Látigo
-Picotazo Ven
+Picotazo Veneno
 Doble Ataque
 Pin Misil
 Malicioso
@@ -67,7 +67,7 @@ Pico Taladro
 Sumisión
 Patada Baja
 Contraataque
-Mov. Sísmico
+Sísmico
 Fuerza
 Absorber
 Megaagotar
@@ -117,7 +117,7 @@ Reflejo
 Foco Energía
 Venganza
 Metrónomo
-Mov. Espejo
+Espejo
 Autodestrucción
 Bomba Huevo
 Lengüetazo
@@ -136,9 +136,9 @@ Kinético
 Amortiguador
 Pat. Salto Alta
 Deslumbrar
-Come Sueños
+Comesueños
 Gas Venenoso
-Presa
+Bombardeo
 Chupavidas
 Beso Amoroso
 Ataque Aéreo
@@ -203,8 +203,8 @@ Tormenta Arena
 Gigadrenado
 Aguante
 Encanto
-Desenrollar
-Falsotortazo
+Rodar
+Falso Tortazo
 Contoneo
 Batido
 Chispa
@@ -284,7 +284,7 @@ Desarme
 Esfuerzo
 Estallido
 Intercambio
-Cerca
+Sellar
 Alivio
 Rabia
 Robo
@@ -303,7 +303,7 @@ Bola Hielo
 Brazo Pincho
 Relajo
 Vozarrón
-Colmillo Ven
+Colmillo Veneno
 Garra Brutal
 Anillo Ígneo
 Hidrocañón
@@ -329,7 +329,7 @@ Gancho Alto
 Bucle Arena
 Frío Polar
 Agua Lodosa
-Recurrente
+Semilladora
 Golpe Aéreo
 Carámbano
 Defensa Férrea
@@ -382,8 +382,8 @@ Bilis
 Conjuro
 Yo Primero
 Copión
-Cambia Fuerza
-Cambia Defensa
+Cambiafuerza
+Cambiadefensa
 Castigo
 Última Baza
 Abatidoras
@@ -414,7 +414,7 @@ Energibola
 Pájaro Osado
 Tierra Viva
 Trapicheo
-Giga Impacto
+Gigaimpacto
 Maquinación
 Puño Bala
 Alud
@@ -439,7 +439,7 @@ Lluevehojas
 Latigazo
 Romperrocas
 Veneno X
-Lanza Mugre
+Lanzamugre
 Cabeza de Hierro
 Bomba Imán
 Roca Afilada
@@ -500,7 +500,7 @@ Guardia Baja
 Niebla Clara
 Poder Reserva
 Anticipo
-Cambio Banda
+Cambio de Banda
 Escaldar
 Rompecoraza
 Pulso Cura
@@ -681,7 +681,7 @@ Plancha
 Látigo Ígneo
 Chulería
 Llama Final
-Cambia Velocidad
+Cambiavelocidad
 Cuerno Certero
 Purificación
 Danza Despertar
@@ -741,3 +741,57 @@ Glaceoprisma
 Sylveotornado
 Eevimpacto
 Ferropuño Doble
+Maxibarrera
+Cañón Dinamax
+Disparo Certero
+Presa Maxilar
+Atiborramiento
+Bastión Final
+Alquitranazo
+Polvo Mágico
+Dracoflechas
+Hora del Té
+Octopresa
+Electropico
+Branquibocado
+Cambio de Cancha
+Maxignición
+Maxinsecto
+Maxitormenta
+Maxiataque
+Maxipuño
+Maxiespectro
+Maxihelada
+Maxiácido
+Maxichorro
+Maxiciclón
+Maxiestela
+Maxidraco
+Maxionda
+Maxilito
+Maxitemblor
+Maxisombra
+Maxiflora
+Maximetal
+Estruendo Escama
+Plancha Corporal
+Decoración
+Batería Asalto
+Cepo
+Balón Ígneo
+Tajo Supremo
+Embate Supremo
+Rueda Aural
+Vasto Impacto
+Punzada Rama
+Amplificador
+Ácido Málico
+Fuerza G
+Choque Anímico
+Cautivapor
+Gota Vital
+Obstrucción
+Irreverencia
+Asalto Estelar
+Rayo Infinito
+Metaláser

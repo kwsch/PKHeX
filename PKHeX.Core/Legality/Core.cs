@@ -58,8 +58,8 @@ namespace PKHeX.Core
         internal static readonly Learnset[] LevelUpGG = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_gg.pkl"), "gg"));
 
         // Gen 8
-        internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_sm.pkl"), "sm"));
-        internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_sm.pkl"), "sm"));
+        internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
+        internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
 
         // Setup Help
         static Legal()
@@ -513,6 +513,13 @@ namespace PKHeX.Core
 
             if (pkm.Format >= 7 && AlolanVariantEvolutions12.Contains(pkm.Species))
                 return pkm.AltForm == 1;
+            if (pkm.Format >= 8)
+            {
+                if (GalarVariantFormEvolutions.Contains(pkm.Species))
+                    return pkm.AltForm == 1;
+                if (GalarForm0Evolutions.TryGetValue(pkm.Species, out var orig))
+                    return pkm.AltForm != orig; // bad compare?
+            }
             if (pkm.Species == 678 && pkm.Gender == 1)
                 return pkm.AltForm == 1;
             return pkm.Species == 773;

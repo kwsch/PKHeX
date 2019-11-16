@@ -47,7 +47,7 @@
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_DeleteClones = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.DatabasePokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
@@ -270,7 +270,7 @@
             // 
             this.P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.P_Results.Controls.Add(this.pokeGrid1);
+            this.P_Results.Controls.Add(this.DatabasePokeGrid);
             this.P_Results.Controls.Add(this.SCR_Box);
             this.P_Results.Location = new System.Drawing.Point(12, 32);
             this.P_Results.Name = "P_Results";
@@ -279,12 +279,12 @@
             // 
             // pokeGrid1
             // 
-            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
+            this.DatabasePokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.DatabasePokeGrid.Location = new System.Drawing.Point(2, 2);
+            this.DatabasePokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.DatabasePokeGrid.Name = "DatabasePokeGrid";
+            this.DatabasePokeGrid.Size = new System.Drawing.Size(251, 346);
+            this.DatabasePokeGrid.TabIndex = 2;
             // 
             // CB_Ability
             // 
@@ -1057,6 +1057,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuDelete;
         private System.Windows.Forms.ToolTip hover;
-        private Controls.PokeGrid pokeGrid1;
+        private Controls.PokeGrid DatabasePokeGrid;
     }
 }

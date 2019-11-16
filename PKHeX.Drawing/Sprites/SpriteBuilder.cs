@@ -4,18 +4,35 @@ using PKHeX.Drawing.Properties;
 
 namespace PKHeX.Drawing
 {
-    public sealed class SpriteBuilder : ISpriteBuilder<Image>
+    public abstract class SpriteBuilder : ISpriteBuilder<Image>
     {
         public static bool ShowEggSpriteAsItem { get; set; } = true;
 
-        private const int ItemShiftX = 22;
-        private const int ItemShiftY = 15;
-        private const int ItemMaxSize = 15;
-        private const int EggItemShiftX = 9;
-        private const int EggItemShiftY = 2;
+        public abstract int Width { get; }
+        public abstract int Height { get; }
+
+        protected abstract int ItemShiftX { get; }
+        protected abstract int ItemShiftY { get; }
+        protected abstract int ItemMaxSize { get; }
+        protected abstract int EggItemShiftX { get; }
+        protected abstract int EggItemShiftY { get; }
+
+        public abstract Bitmap Hover { get; }
+        public abstract Bitmap View { get; }
+        public abstract Bitmap Set { get; }
+        public abstract Bitmap Delete { get; }
+        public abstract Bitmap Transparent { get; }
+        public abstract Bitmap Drag { get; }
+
         private const double UnknownFormTransparency = 0.5;
         private const double ShinyTransparency = 0.7;
         private const double EggUnderLayerTransparency = 0.33;
+
+        protected virtual string GetSpriteStringSpeciesOnly(int species) => $"_{species}";
+        protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected virtual string GetItemResourceName(int item) => $"item_{item}";
+        protected virtual Image Unknown => Resources.unknown;
+        protected virtual Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
 
         public void Initialize(SaveFile sav)
         {
@@ -56,14 +73,14 @@ namespace PKHeX.Drawing
         {
             if (isEgg)
                 baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
-            if (isShiny)
-                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed);
             if (heldItem > 0)
                 baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
+            if (isShiny)
+                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed);
             return baseSprite;
         }
 
-        private static Image GetBaseImage(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImage(int species, int form, int gender, bool shiny, int generation)
         {
             var img = FormConverter.IsTotemForm(species, form)
                         ? GetBaseImageTotem(species, form, gender, shiny, generation)
@@ -71,7 +88,7 @@ namespace PKHeX.Drawing
             return img ?? GetBaseImageFallback(species, form, gender, shiny, generation);
         }
 
-        private static Image? GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
+        private Image? GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
             var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, generation);
@@ -80,13 +97,13 @@ namespace PKHeX.Drawing
             return ImageUtil.ToGrayscale(baseImage);
         }
 
-        private static Image? GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
+        private Image? GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
         {
-            var file = SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+            var file = GetSpriteAll(species, form, gender, shiny, generation);
             return (Image?)Resources.ResourceManager.GetObject(file);
         }
 
-        private static Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
         {
             if (shiny) // try again without shiny
             {
@@ -96,17 +113,19 @@ namespace PKHeX.Drawing
             }
 
             // try again without form
-            var baseImage = (Image?)Resources.ResourceManager.GetObject($"_{species}");
+            var baseImage = (Image?)Resources.ResourceManager.GetObject(GetSpriteStringSpeciesOnly(species));
             if (baseImage == null) // failed again
-                return Resources.unknown;
-            return ImageUtil.LayerImage(baseImage, Resources.unknown, 0, 0, UnknownFormTransparency);
+                return Unknown;
+            return ImageUtil.LayerImage(baseImage, Unknown, 0, 0, UnknownFormTransparency);
         }
 
-        private static Image LayerOverImageItem(Image baseImage, int item, int generation)
+        private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image?)Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.helditem;
-            if (generation >= 2 && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
+            Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.helditem;
+            if (2 <= generation && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.item_tm;
+            else if (generation >= 8 && (1130 <= item && item <= 1229)) // Gen8 TR
+                itemimg = Resources.bitem_tr;
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
             int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);
@@ -123,16 +142,14 @@ namespace PKHeX.Drawing
             return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
         }
 
-        private static Image LayerOverImageEgg(Image baseImage, int species, bool hasItem)
+        private Image LayerOverImageEgg(Image baseImage, int species, bool hasItem)
         {
             if (ShowEggSpriteAsItem && !hasItem)
                 return LayerOverImageEggAsItem(baseImage, species);
             return LayerOverImageEggTransparentSpecies(baseImage, species);
         }
 
-        private static Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
-
-        private static Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
+        private Image LayerOverImageEggTransparentSpecies(Image baseImage, int species)
         {
             // Partially transparent species.
             baseImage = ImageUtil.ChangeOpacity(baseImage, EggUnderLayerTransparency);
@@ -141,10 +158,60 @@ namespace PKHeX.Drawing
             return ImageUtil.LayerImage(baseImage, egg, 0, 0);
         }
 
-        private static Image LayerOverImageEggAsItem(Image baseImage, int species)
+        private Image LayerOverImageEggAsItem(Image baseImage, int species)
         {
             var egg = GetEggSprite(species);
             return ImageUtil.LayerImage(baseImage, egg, EggItemShiftX, EggItemShiftY); // similar to held item, since they can't have any
         }
+    }
+
+    /// <summary>
+    /// 30 high, 40 wide sprite builder
+    /// </summary>
+    public class SpriteBuilder3040 : SpriteBuilder
+    {
+        public override int Height => 30;
+        public override int Width => 40;
+
+        protected override int ItemShiftX => 22;
+        protected override int ItemShiftY => 15;
+        protected override int ItemMaxSize => 15;
+        protected override int EggItemShiftX => 9;
+        protected override int EggItemShiftY => 2;
+
+        public override Bitmap Hover => Resources.slotHover;
+        public override Bitmap View => Resources.slotView;
+        public override Bitmap Set => Resources.slotSet;
+        public override Bitmap Delete => Resources.slotDel;
+        public override Bitmap Transparent => Resources.slotTrans;
+        public override Bitmap Drag => Resources.slotDrag;
+    }
+
+    /// <summary>
+    /// 56 high, 68 wide sprite builder
+    /// </summary>
+    public class SpriteBuilder5668 : SpriteBuilder
+    {
+        public override int Height => 56;
+        public override int Width => 68;
+
+        protected override int ItemShiftX => 52;
+        protected override int ItemShiftY => 28;
+        protected override int ItemMaxSize => 32;
+        protected override int EggItemShiftX => 9;
+        protected override int EggItemShiftY => 2;
+
+        protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
+        protected override string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
+        protected override Image Unknown => Resources.b_0;
+        protected override Image GetEggSprite(int species) => Resources.egg; // no manaphy egg sprite (yet)
+
+        public override Bitmap Hover => Resources.slotHover68;
+        public override Bitmap View => Resources.slotView68;
+        public override Bitmap Set => Resources.slotSet68;
+        public override Bitmap Delete => Resources.slotDel68;
+        public override Bitmap Transparent => Resources.slotTrans68;
+        public override Bitmap Drag => Resources.slotDrag68;
     }
 }

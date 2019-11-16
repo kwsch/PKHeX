@@ -1,4 +1,4 @@
-﻿-----
+-----
 Botta
 Colpokarate
 Doppiasberla
@@ -741,3 +741,57 @@ Scricchiagelo
 Sbrilluccibufera
 Eeveempatto
 Pugni Corazzati
+Dynabarriera
+Cannone Dynamax
+Tiromirato
+Morsostretto
+Riempiguance
+Spalle al Muro
+Colpocatrame
+Magipolvere
+Dragofrecce
+Ora del Tè
+Tentacolock
+Beccoshock
+Branchiomorso
+Cambiocampo
+Dynafiammata
+Dynainsetto
+Dynasaetta
+Dynattacco
+Dynapugno
+Dynavuoto
+Dynagelo
+Dynacorrosione
+Dynaflusso
+Dynajet
+Dynafata
+Dynadragone
+Dynapsiche
+Dynamacigno
+Dynasisma
+Dynatenebre
+Dynaflora
+Dynametallo
+Dracofonia
+Schiacciacorpo
+Decorazione
+Tamburattacco
+Tagliola
+Palla Infuocata
+Taglio Maestoso
+Colpo Maestoso
+Ruota d’Aura
+Vastoimpatto
+Ramostoccata
+Overdrive
+Acido Malico
+Forza G
+Frantumanima
+Vapore Incantato
+Goccia Vitale
+Sbarramento
+Supplicolpo
+Sfolgorassalto
+Raggio Infinito
+Raggio d’Acciaio

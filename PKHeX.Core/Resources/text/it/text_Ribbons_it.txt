@@ -101,3 +101,51 @@ RibbonChampionAlola	Alola Champion
 RibbonBattleRoyale	Battle Royal Champion
 RibbonBattleTreeGreat	Battle Tree Great
 RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionGalar	Campione Galar
+RibbonTowerMaster	Asso della Torre
+RibbonMasterRank	Asso Competizione
+RibbonMarkLunchtime	Emblema Mezzogiorno
+RibbonMarkSleepyTime	Emblema Mezzanotte
+RibbonMarkDusk	Emblema Tramonto
+RibbonMarkDawn	Emblema Alba
+RibbonMarkCloudy	Emblema Nuvolo
+RibbonMarkRainy	Emblema Pioggia
+RibbonMarkStormy	Emblema Tuoni e Lampi
+RibbonMarkSnowy	Emblema Neve
+RibbonMarkBlizzard	Emblema Tormenta
+RibbonMarkDry	Emblema Arsura
+RibbonMarkSandstorm	Emblema Tempesta di Sabbia
+RibbonMarkMisty	Emblema Nebbia
+RibbonMarkDestiny	Emblema Destino
+RibbonMarkFishing	Emblema Pesca
+RibbonMarkCurry	Emblema Curry
+RibbonMarkUncommon	Emblema Sporadicità
+RibbonMarkRare	Emblema Rarità
+RibbonMarkRowdy	Emblema Monello
+RibbonMarkAbsentMinded	Emblema Spensieratezza
+RibbonMarkJittery	Emblema Nervosismo
+RibbonMarkExcited	Emblema Speranza
+RibbonMarkCharismatic	Emblema Carisma
+RibbonMarkCalmness	Emblema Sangue Freddo
+RibbonMarkIntense	Emblema Sangue Caldo
+RibbonMarkZonedOut	Emblema Disattenzione
+RibbonMarkJoyful	Emblema Felicità
+RibbonMarkAngry	Emblema Collera
+RibbonMarkSmiley	Emblema Sorriso
+RibbonMarkTeary	Emblema Sconforto
+RibbonMarkUpbeat	Emblema Buonumore
+RibbonMarkPeeved	Emblema Malumore
+RibbonMarkIntellectual	Emblema Ragione
+RibbonMarkFerocious	Emblema Istinto
+RibbonMarkCrafty	Emblema Astuzia
+RibbonMarkScowling	Emblema Aria Minacciosa
+RibbonMarkKindly	Emblema Aria Gentile
+RibbonMarkFlustered	Emblema Agitazione
+RibbonMarkPumpedUp	Emblema Entusiasmo
+RibbonMarkZeroEnergy	Emblema Pigrizia
+RibbonMarkPrideful	Emblema Sicurezza
+RibbonMarkUnsure	Emblema Insicurezza
+RibbonMarkHumble	Emblema Ingenuità
+RibbonMarkThorny	Emblema Artificio
+RibbonMarkVigor	Emblema Vitalità
+RibbonMarkSlump	Emblema Sottotono

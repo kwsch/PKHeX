@@ -33,7 +33,7 @@ namespace PKHeX.WinForms
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
             InitializeComponent();
-            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(null, PKME_Tabs);
+            C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(null, PKME_Tabs));
             FormLoadAddEvents();
             #if DEBUG // translation updater -- all controls are added at this point -- call translate now
             if (DevUtil.IsUpdatingTranslations)
@@ -529,7 +529,6 @@ namespace PKHeX.WinForms
         }
 
         private void ClickShowdownExportParty(object sender, EventArgs e) => C_SAV.ClickShowdownExportParty(sender, e);
-        private void ClickShowdownExportBattleBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportBattleBox(sender, e);
         private void ClickShowdownExportCurrentBox(object sender, EventArgs e) => C_SAV.ClickShowdownExportCurrentBox(sender, e);
 
         // Main Menu Subfunctions
@@ -725,7 +724,8 @@ namespace PKHeX.WinForms
                 return true;
             StoreLegalSaveGameData(sav);
             PKMConverter.Trainer = sav;
-            SpriteUtil.Spriter.Initialize(sav); // refresh sprite generator
+            SpriteUtil.Initialize(sav); // refresh sprite generator
+            dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
 
             // clean fields
             Menu_ExportSAV.Enabled = sav.Exportable;
@@ -741,7 +741,6 @@ namespace PKHeX.WinForms
             Text = GetProgramTitle(sav);
             TryBackupExportCheck(sav, path);
 
-            Menu_ShowdownExportBattleBox.Visible = sav.HasBattleBox;
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
@@ -752,7 +751,7 @@ namespace PKHeX.WinForms
         private void ResetSAVPKMEditors(SaveFile sav)
         {
             bool WindowToggleRequired = C_SAV.SAV?.Generation < 3 && sav.Generation >= 3; // version combobox refresh hack
-            C_SAV.EditEnv = new SaveDataEditor<PictureBox>(sav, PKME_Tabs);
+            C_SAV.SetEditEnvironment(new SaveDataEditor<PictureBox>(sav, PKME_Tabs));
 
             var pk = sav.LoadTemplate(TemplatePath);
             var isBlank = pk.Data.SequenceEqual(sav.BlankPKM.Data);
@@ -1138,13 +1137,13 @@ namespace PKHeX.WinForms
 
         private void DragoutEnter(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = PKME_Tabs.Entity.Species > 0 ? Resources.slotSet : Resources.slotDel;
+            dragout.BackgroundImage = PKME_Tabs.Entity.Species > 0 ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete;
             Cursor = Cursors.Hand;
         }
 
         private void DragoutLeave(object sender, EventArgs e)
         {
-            dragout.BackgroundImage = Resources.slotTrans;
+            dragout.BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (Cursor == Cursors.Hand)
                 Cursor = Cursors.Default;
         }

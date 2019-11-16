@@ -58,6 +58,9 @@
             this.FLP_Nature = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Nature = new System.Windows.Forms.Label();
             this.CB_Nature = new System.Windows.Forms.ComboBox();
+            this.FLP_OriginalNature = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_OriginalNature = new System.Windows.Forms.Label();
+            this.CB_StatNature = new System.Windows.Forms.ComboBox();
             this.FLP_HeldItem = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HeldItem = new System.Windows.Forms.Label();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
@@ -185,6 +188,7 @@
             this.CB_Move2 = new System.Windows.Forms.ComboBox();
             this.CB_Move1 = new System.Windows.Forms.ComboBox();
             this.Tab_OTMisc = new System.Windows.Forms.TabPage();
+            this.PB_Origin = new System.Windows.Forms.PictureBox();
             this.PB_Favorite = new System.Windows.Forms.PictureBox();
             this.FLP_PKMEditors = new System.Windows.Forms.FlowLayoutPanel();
             this.BTN_Ribbons = new System.Windows.Forms.Button();
@@ -197,11 +201,7 @@
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
             this.GB_Markings = new System.Windows.Forms.GroupBox();
-            this.PB_MarkGO = new System.Windows.Forms.PictureBox();
-            this.PB_MarkVC = new System.Windows.Forms.PictureBox();
-            this.PB_MarkAlola = new System.Windows.Forms.PictureBox();
             this.PB_Mark6 = new System.Windows.Forms.PictureBox();
-            this.PB_MarkPentagon = new System.Windows.Forms.PictureBox();
             this.PB_Mark3 = new System.Windows.Forms.PictureBox();
             this.PB_Mark5 = new System.Windows.Forms.PictureBox();
             this.PB_MarkCured = new System.Windows.Forms.PictureBox();
@@ -221,6 +221,7 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -234,6 +235,7 @@
             this.FLP_EXPLevel.SuspendLayout();
             this.FLP_EXPLevelRight.SuspendLayout();
             this.FLP_Nature.SuspendLayout();
+            this.FLP_OriginalNature.SuspendLayout();
             this.FLP_HeldItem.SuspendLayout();
             this.FLP_FriendshipForm.SuspendLayout();
             this.FLP_FriendshipFormLeft.SuspendLayout();
@@ -283,15 +285,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnRelearn1)).BeginInit();
             this.GB_CurrentMoves.SuspendLayout();
             this.Tab_OTMisc.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Origin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).BeginInit();
             this.FLP_PKMEditors.SuspendLayout();
             this.GB_nOT.SuspendLayout();
             this.GB_Markings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).BeginInit();
@@ -306,13 +305,12 @@
             // tabMain
             // 
             this.tabMain.AllowDrop = true;
-            this.tabMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.tabMain.Controls.Add(this.Tab_Main);
             this.tabMain.Controls.Add(this.Tab_Met);
             this.tabMain.Controls.Add(this.Tab_Stats);
             this.tabMain.Controls.Add(this.Tab_Attacks);
             this.tabMain.Controls.Add(this.Tab_OTMisc);
+            this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabMain.Location = new System.Drawing.Point(0, 0);
             this.tabMain.Name = "tabMain";
             this.tabMain.SelectedIndex = 0;
@@ -340,6 +338,7 @@
             this.FLP_Main.Controls.Add(this.FLP_Nickname);
             this.FLP_Main.Controls.Add(this.FLP_EXPLevel);
             this.FLP_Main.Controls.Add(this.FLP_Nature);
+            this.FLP_Main.Controls.Add(this.FLP_OriginalNature);
             this.FLP_Main.Controls.Add(this.FLP_HeldItem);
             this.FLP_Main.Controls.Add(this.FLP_FriendshipForm);
             this.FLP_Main.Controls.Add(this.FLP_Ability);
@@ -677,12 +676,44 @@
             this.CB_Nature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_Nature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
+            // FLP_OriginalNature
+            // 
+            this.FLP_OriginalNature.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_OriginalNature.Controls.Add(this.L_OriginalNature);
+            this.FLP_OriginalNature.Controls.Add(this.CB_StatNature);
+            this.FLP_OriginalNature.Location = new System.Drawing.Point(0, 107);
+            this.FLP_OriginalNature.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_OriginalNature.Name = "FLP_OriginalNature";
+            this.FLP_OriginalNature.Size = new System.Drawing.Size(272, 21);
+            this.FLP_OriginalNature.TabIndex = 10;
+            // 
+            // L_OriginalNature
+            // 
+            this.L_OriginalNature.Location = new System.Drawing.Point(0, 0);
+            this.L_OriginalNature.Margin = new System.Windows.Forms.Padding(0);
+            this.L_OriginalNature.Name = "L_OriginalNature";
+            this.L_OriginalNature.Size = new System.Drawing.Size(110, 21);
+            this.L_OriginalNature.TabIndex = 8;
+            this.L_OriginalNature.Text = "Stat Nature:";
+            this.L_OriginalNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_StatNature
+            // 
+            this.CB_StatNature.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.CB_StatNature.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_StatNature.FormattingEnabled = true;
+            this.CB_StatNature.Location = new System.Drawing.Point(110, 0);
+            this.CB_StatNature.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_StatNature.Name = "CB_StatNature";
+            this.CB_StatNature.Size = new System.Drawing.Size(126, 21);
+            this.CB_StatNature.TabIndex = 9;
+            // 
             // FLP_HeldItem
             // 
             this.FLP_HeldItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_HeldItem.Controls.Add(this.Label_HeldItem);
             this.FLP_HeldItem.Controls.Add(this.CB_HeldItem);
-            this.FLP_HeldItem.Location = new System.Drawing.Point(0, 107);
+            this.FLP_HeldItem.Location = new System.Drawing.Point(0, 128);
             this.FLP_HeldItem.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HeldItem.Name = "FLP_HeldItem";
             this.FLP_HeldItem.Size = new System.Drawing.Size(272, 21);
@@ -717,7 +748,7 @@
             this.FLP_FriendshipForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_FriendshipForm.Controls.Add(this.FLP_FriendshipFormLeft);
             this.FLP_FriendshipForm.Controls.Add(this.FLP_FriendshipFormRight);
-            this.FLP_FriendshipForm.Location = new System.Drawing.Point(0, 128);
+            this.FLP_FriendshipForm.Location = new System.Drawing.Point(0, 149);
             this.FLP_FriendshipForm.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_FriendshipForm.Name = "FLP_FriendshipForm";
             this.FLP_FriendshipForm.Size = new System.Drawing.Size(272, 21);
@@ -824,7 +855,7 @@
             this.FLP_Ability.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Ability.Controls.Add(this.Label_Ability);
             this.FLP_Ability.Controls.Add(this.FLP_AbilityRight);
-            this.FLP_Ability.Location = new System.Drawing.Point(0, 149);
+            this.FLP_Ability.Location = new System.Drawing.Point(0, 170);
             this.FLP_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Ability.Name = "FLP_Ability";
             this.FLP_Ability.Size = new System.Drawing.Size(272, 21);
@@ -895,7 +926,7 @@
             this.FLP_Language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Language.Controls.Add(this.Label_Language);
             this.FLP_Language.Controls.Add(this.CB_Language);
-            this.FLP_Language.Location = new System.Drawing.Point(0, 170);
+            this.FLP_Language.Location = new System.Drawing.Point(0, 191);
             this.FLP_Language.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Language.Name = "FLP_Language";
             this.FLP_Language.Size = new System.Drawing.Size(272, 21);
@@ -928,7 +959,7 @@
             this.FLP_EggPKRS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_EggPKRS.Controls.Add(this.FLP_EggPKRSLeft);
             this.FLP_EggPKRS.Controls.Add(this.FLP_EggPKRSRight);
-            this.FLP_EggPKRS.Location = new System.Drawing.Point(0, 191);
+            this.FLP_EggPKRS.Location = new System.Drawing.Point(0, 212);
             this.FLP_EggPKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EggPKRS.Name = "FLP_EggPKRS";
             this.FLP_EggPKRS.Size = new System.Drawing.Size(272, 21);
@@ -1000,7 +1031,7 @@
             this.FLP_PKRS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_PKRS.Controls.Add(this.Label_PKRS);
             this.FLP_PKRS.Controls.Add(this.FLP_PKRSRight);
-            this.FLP_PKRS.Location = new System.Drawing.Point(0, 212);
+            this.FLP_PKRS.Location = new System.Drawing.Point(0, 233);
             this.FLP_PKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_PKRS.Name = "FLP_PKRS";
             this.FLP_PKRS.Size = new System.Drawing.Size(272, 21);
@@ -1086,7 +1117,7 @@
             this.FLP_Country.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Country.Controls.Add(this.Label_Country);
             this.FLP_Country.Controls.Add(this.CB_Country);
-            this.FLP_Country.Location = new System.Drawing.Point(0, 233);
+            this.FLP_Country.Location = new System.Drawing.Point(0, 254);
             this.FLP_Country.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Country.Name = "FLP_Country";
             this.FLP_Country.Size = new System.Drawing.Size(272, 21);
@@ -1121,7 +1152,7 @@
             this.FLP_SubRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_SubRegion.Controls.Add(this.Label_SubRegion);
             this.FLP_SubRegion.Controls.Add(this.CB_SubRegion);
-            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 254);
+            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 275);
             this.FLP_SubRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SubRegion.Name = "FLP_SubRegion";
             this.FLP_SubRegion.Size = new System.Drawing.Size(272, 21);
@@ -1155,7 +1186,7 @@
             this.FLP_3DSRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_3DSRegion.Controls.Add(this.Label_3DSRegion);
             this.FLP_3DSRegion.Controls.Add(this.CB_3DSReg);
-            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 275);
+            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 296);
             this.FLP_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_3DSRegion.Name = "FLP_3DSRegion";
             this.FLP_3DSRegion.Size = new System.Drawing.Size(272, 21);
@@ -1186,7 +1217,7 @@
             this.FLP_NSparkle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_NSparkle.Controls.Add(this.L_NSparkle);
             this.FLP_NSparkle.Controls.Add(this.CHK_NSparkle);
-            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 296);
+            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 317);
             this.FLP_NSparkle.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_NSparkle.Name = "FLP_NSparkle";
             this.FLP_NSparkle.Size = new System.Drawing.Size(272, 21);
@@ -1219,7 +1250,7 @@
             this.FLP_ShadowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_ShadowID.Controls.Add(this.L_ShadowID);
             this.FLP_ShadowID.Controls.Add(this.NUD_ShadowID);
-            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 317);
+            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 338);
             this.FLP_ShadowID.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShadowID.Name = "FLP_ShadowID";
             this.FLP_ShadowID.Size = new System.Drawing.Size(272, 21);
@@ -1255,7 +1286,7 @@
             this.FLP_Purification.Controls.Add(this.L_HeartGauge);
             this.FLP_Purification.Controls.Add(this.NUD_Purification);
             this.FLP_Purification.Controls.Add(this.CHK_Shadow);
-            this.FLP_Purification.Location = new System.Drawing.Point(0, 338);
+            this.FLP_Purification.Location = new System.Drawing.Point(0, 359);
             this.FLP_Purification.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Purification.Name = "FLP_Purification";
             this.FLP_Purification.Size = new System.Drawing.Size(272, 21);
@@ -1308,7 +1339,7 @@
             this.FLP_ShinyLeaf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_ShinyLeaf.Controls.Add(this.L_ShinyLeaf);
             this.FLP_ShinyLeaf.Controls.Add(this.ShinyLeaf);
-            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 359);
+            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 380);
             this.FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
             this.FLP_ShinyLeaf.Size = new System.Drawing.Size(272, 56);
@@ -1338,7 +1369,7 @@
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
             this.FLP_CatchRate.Controls.Add(this.CR_PK1);
-            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 415);
+            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 436);
             this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_CatchRate.Name = "FLP_CatchRate";
             this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
@@ -1366,7 +1397,7 @@
             // 
             this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_SizeCP.Controls.Add(this.SizeCP);
-            this.FLP_SizeCP.Location = new System.Drawing.Point(0, 440);
+            this.FLP_SizeCP.Location = new System.Drawing.Point(0, 461);
             this.FLP_SizeCP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SizeCP.Name = "FLP_SizeCP";
             this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
@@ -1793,7 +1824,7 @@
             this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
             this.Stats.Location = new System.Drawing.Point(0, 0);
             this.Stats.Name = "Stats";
-            this.Stats.Size = new System.Drawing.Size(270, 240);
+            this.Stats.Size = new System.Drawing.Size(270, 264);
             this.Stats.StatDecreased = System.Drawing.Color.Blue;
             this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
             this.Stats.StatIncreased = System.Drawing.Color.Red;
@@ -1807,7 +1838,7 @@
             this.Contest.CNT_Sheen = 0;
             this.Contest.CNT_Smart = 0;
             this.Contest.CNT_Tough = 0;
-            this.Contest.Location = new System.Drawing.Point(21, 247);
+            this.Contest.Location = new System.Drawing.Point(21, 265);
             this.Contest.Margin = new System.Windows.Forms.Padding(0);
             this.Contest.Name = "Contest";
             this.Contest.Size = new System.Drawing.Size(230, 50);
@@ -2200,6 +2231,7 @@
             // Tab_OTMisc
             // 
             this.Tab_OTMisc.AllowDrop = true;
+            this.Tab_OTMisc.Controls.Add(this.PB_Origin);
             this.Tab_OTMisc.Controls.Add(this.PB_Favorite);
             this.Tab_OTMisc.Controls.Add(this.FLP_PKMEditors);
             this.Tab_OTMisc.Controls.Add(this.TB_EC);
@@ -2212,16 +2244,25 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
+            // 
+            // PB_Origin
+            // 
+            this.PB_Origin.Location = new System.Drawing.Point(209, 228);
+            this.PB_Origin.Name = "PB_Origin";
+            this.PB_Origin.Size = new System.Drawing.Size(40, 40);
+            this.PB_Origin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_Origin.TabIndex = 11;
+            this.PB_Origin.TabStop = false;
             // 
             // PB_Favorite
             // 
             this.PB_Favorite.Image = global::PKHeX.WinForms.Properties.Resources.icon_favo;
             this.PB_Favorite.InitialImage = global::PKHeX.WinForms.Properties.Resources.icon_favo;
-            this.PB_Favorite.Location = new System.Drawing.Point(23, 198);
+            this.PB_Favorite.Location = new System.Drawing.Point(22, 228);
             this.PB_Favorite.Name = "PB_Favorite";
             this.PB_Favorite.Size = new System.Drawing.Size(40, 40);
             this.PB_Favorite.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
@@ -2238,7 +2279,7 @@
             this.FLP_PKMEditors.Controls.Add(this.BTN_Ribbons);
             this.FLP_PKMEditors.Controls.Add(this.BTN_Medals);
             this.FLP_PKMEditors.Controls.Add(this.BTN_History);
-            this.FLP_PKMEditors.Location = new System.Drawing.Point(49, 245);
+            this.FLP_PKMEditors.Location = new System.Drawing.Point(49, 275);
             this.FLP_PKMEditors.Name = "FLP_PKMEditors";
             this.FLP_PKMEditors.Size = new System.Drawing.Size(175, 25);
             this.FLP_PKMEditors.TabIndex = 9;
@@ -2296,7 +2337,7 @@
             // 
             this.TB_EC.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_EC.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_EC.Location = new System.Drawing.Point(176, 276);
+            this.TB_EC.Location = new System.Drawing.Point(176, 306);
             this.TB_EC.MaxLength = 8;
             this.TB_EC.Name = "TB_EC";
             this.TB_EC.Size = new System.Drawing.Size(60, 20);
@@ -2307,11 +2348,12 @@
             // GB_nOT
             // 
             this.GB_nOT.Controls.Add(this.Label_CTGender);
+            this.GB_nOT.Controls.Add(this.CB_HTLanguage);
             this.GB_nOT.Controls.Add(this.TB_OTt2);
             this.GB_nOT.Controls.Add(this.Label_PrevOT);
             this.GB_nOT.Location = new System.Drawing.Point(40, 85);
             this.GB_nOT.Name = "GB_nOT";
-            this.GB_nOT.Size = new System.Drawing.Size(190, 50);
+            this.GB_nOT.Size = new System.Drawing.Size(190, 74);
             this.GB_nOT.TabIndex = 2;
             this.GB_nOT.TabStop = false;
             this.GB_nOT.Text = "Latest (not OT) Handler";
@@ -2329,7 +2371,6 @@
             // 
             // TB_OTt2
             // 
-            this.TB_OTt2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.TB_OTt2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_OTt2.Location = new System.Drawing.Point(46, 20);
             this.TB_OTt2.MaxLength = 12;
@@ -2353,7 +2394,7 @@
             // BTN_RerollEC
             // 
             this.BTN_RerollEC.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F);
-            this.BTN_RerollEC.Location = new System.Drawing.Point(138, 276);
+            this.BTN_RerollEC.Location = new System.Drawing.Point(138, 306);
             this.BTN_RerollEC.Name = "BTN_RerollEC";
             this.BTN_RerollEC.Size = new System.Drawing.Size(38, 20);
             this.BTN_RerollEC.TabIndex = 7;
@@ -2363,11 +2404,7 @@
             // 
             // GB_Markings
             // 
-            this.GB_Markings.Controls.Add(this.PB_MarkGO);
-            this.GB_Markings.Controls.Add(this.PB_MarkVC);
-            this.GB_Markings.Controls.Add(this.PB_MarkAlola);
             this.GB_Markings.Controls.Add(this.PB_Mark6);
-            this.GB_Markings.Controls.Add(this.PB_MarkPentagon);
             this.GB_Markings.Controls.Add(this.PB_Mark3);
             this.GB_Markings.Controls.Add(this.PB_Mark5);
             this.GB_Markings.Controls.Add(this.PB_MarkCured);
@@ -2375,45 +2412,12 @@
             this.GB_Markings.Controls.Add(this.PB_MarkShiny);
             this.GB_Markings.Controls.Add(this.PB_Mark1);
             this.GB_Markings.Controls.Add(this.PB_Mark4);
-            this.GB_Markings.Location = new System.Drawing.Point(68, 183);
+            this.GB_Markings.Location = new System.Drawing.Point(68, 213);
             this.GB_Markings.Name = "GB_Markings";
             this.GB_Markings.Size = new System.Drawing.Size(135, 58);
             this.GB_Markings.TabIndex = 4;
             this.GB_Markings.TabStop = false;
             this.GB_Markings.Text = "Markings";
-            // 
-            // PB_MarkGO
-            // 
-            this.PB_MarkGO.Image = global::PKHeX.WinForms.Properties.Resources.horohoro;
-            this.PB_MarkGO.InitialImage = global::PKHeX.WinForms.Properties.Resources.horohoro;
-            this.PB_MarkGO.Location = new System.Drawing.Point(110, 15);
-            this.PB_MarkGO.Name = "PB_MarkGO";
-            this.PB_MarkGO.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkGO.TabIndex = 11;
-            this.PB_MarkGO.TabStop = false;
-            // 
-            // PB_MarkVC
-            // 
-            this.PB_MarkVC.Image = global::PKHeX.WinForms.Properties.Resources.vc;
-            this.PB_MarkVC.InitialImage = global::PKHeX.WinForms.Properties.Resources.vc;
-            this.PB_MarkVC.Location = new System.Drawing.Point(89, 15);
-            this.PB_MarkVC.Name = "PB_MarkVC";
-            this.PB_MarkVC.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkVC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkVC.TabIndex = 10;
-            this.PB_MarkVC.TabStop = false;
-            // 
-            // PB_MarkAlola
-            // 
-            this.PB_MarkAlola.Image = global::PKHeX.WinForms.Properties.Resources.alora;
-            this.PB_MarkAlola.InitialImage = global::PKHeX.WinForms.Properties.Resources.alora;
-            this.PB_MarkAlola.Location = new System.Drawing.Point(68, 15);
-            this.PB_MarkAlola.Name = "PB_MarkAlola";
-            this.PB_MarkAlola.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkAlola.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkAlola.TabIndex = 9;
-            this.PB_MarkAlola.TabStop = false;
             // 
             // PB_Mark6
             // 
@@ -2427,17 +2431,6 @@
             this.PB_Mark6.TabIndex = 5;
             this.PB_Mark6.TabStop = false;
             this.PB_Mark6.Click += new System.EventHandler(this.ClickMarking);
-            // 
-            // PB_MarkPentagon
-            // 
-            this.PB_MarkPentagon.Image = global::PKHeX.WinForms.Properties.Resources._6th;
-            this.PB_MarkPentagon.InitialImage = global::PKHeX.WinForms.Properties.Resources._6th;
-            this.PB_MarkPentagon.Location = new System.Drawing.Point(47, 15);
-            this.PB_MarkPentagon.Name = "PB_MarkPentagon";
-            this.PB_MarkPentagon.Size = new System.Drawing.Size(20, 20);
-            this.PB_MarkPentagon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.PB_MarkPentagon.TabIndex = 8;
-            this.PB_MarkPentagon.TabStop = false;
             // 
             // PB_Mark3
             // 
@@ -2469,9 +2462,9 @@
             // 
             this.PB_MarkCured.Image = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
             this.PB_MarkCured.InitialImage = global::PKHeX.WinForms.Properties.Resources.anti_pokerus_icon;
-            this.PB_MarkCured.Location = new System.Drawing.Point(26, 15);
+            this.PB_MarkCured.Location = new System.Drawing.Point(67, 15);
             this.PB_MarkCured.Name = "PB_MarkCured";
-            this.PB_MarkCured.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkCured.Size = new System.Drawing.Size(22, 20);
             this.PB_MarkCured.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_MarkCured.TabIndex = 7;
             this.PB_MarkCured.TabStop = false;
@@ -2493,9 +2486,9 @@
             // 
             this.PB_MarkShiny.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon;
             this.PB_MarkShiny.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon;
-            this.PB_MarkShiny.Location = new System.Drawing.Point(5, 15);
+            this.PB_MarkShiny.Location = new System.Drawing.Point(46, 15);
             this.PB_MarkShiny.Name = "PB_MarkShiny";
-            this.PB_MarkShiny.Size = new System.Drawing.Size(20, 20);
+            this.PB_MarkShiny.Size = new System.Drawing.Size(22, 20);
             this.PB_MarkShiny.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PB_MarkShiny.TabIndex = 6;
             this.PB_MarkShiny.TabStop = false;
@@ -2530,7 +2523,7 @@
             // 
             this.GB_ExtraBytes.Controls.Add(this.TB_ExtraByte);
             this.GB_ExtraBytes.Controls.Add(this.CB_ExtraBytes);
-            this.GB_ExtraBytes.Location = new System.Drawing.Point(68, 135);
+            this.GB_ExtraBytes.Location = new System.Drawing.Point(68, 165);
             this.GB_ExtraBytes.Name = "GB_ExtraBytes";
             this.GB_ExtraBytes.Size = new System.Drawing.Size(135, 48);
             this.GB_ExtraBytes.TabIndex = 3;
@@ -2610,12 +2603,23 @@
             // 
             // Label_EncryptionConstant
             // 
-            this.Label_EncryptionConstant.Location = new System.Drawing.Point(20, 279);
+            this.Label_EncryptionConstant.Location = new System.Drawing.Point(20, 309);
             this.Label_EncryptionConstant.Name = "Label_EncryptionConstant";
             this.Label_EncryptionConstant.Size = new System.Drawing.Size(120, 13);
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_HTLanguage
+            // 
+            this.CB_HTLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_HTLanguage.FormattingEnabled = true;
+            this.CB_HTLanguage.Location = new System.Drawing.Point(46, 43);
+            this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_HTLanguage.Name = "CB_HTLanguage";
+            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 21);
+            this.CB_HTLanguage.TabIndex = 15;
             // 
             // PKMEditor
             // 
@@ -2641,6 +2645,7 @@
             this.FLP_EXPLevelRight.ResumeLayout(false);
             this.FLP_EXPLevelRight.PerformLayout();
             this.FLP_Nature.ResumeLayout(false);
+            this.FLP_OriginalNature.ResumeLayout(false);
             this.FLP_HeldItem.ResumeLayout(false);
             this.FLP_FriendshipForm.ResumeLayout(false);
             this.FLP_FriendshipFormLeft.ResumeLayout(false);
@@ -2702,17 +2707,14 @@
             this.GB_CurrentMoves.PerformLayout();
             this.Tab_OTMisc.ResumeLayout(false);
             this.Tab_OTMisc.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Origin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Favorite)).EndInit();
             this.FLP_PKMEditors.ResumeLayout(false);
             this.FLP_PKMEditors.PerformLayout();
             this.GB_nOT.ResumeLayout(false);
             this.GB_nOT.PerformLayout();
             this.GB_Markings.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkGO)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkVC)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkAlola)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PB_MarkPentagon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark5)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_MarkCured)).EndInit();
@@ -2887,11 +2889,7 @@
         private System.Windows.Forms.Label Label_PrevOT;
         private System.Windows.Forms.Button BTN_RerollEC;
         private System.Windows.Forms.GroupBox GB_Markings;
-        private System.Windows.Forms.PictureBox PB_MarkGO;
-        private System.Windows.Forms.PictureBox PB_MarkVC;
-        private System.Windows.Forms.PictureBox PB_MarkAlola;
         private System.Windows.Forms.PictureBox PB_Mark6;
-        private System.Windows.Forms.PictureBox PB_MarkPentagon;
         private System.Windows.Forms.PictureBox PB_Mark3;
         private System.Windows.Forms.PictureBox PB_Mark5;
         private System.Windows.Forms.PictureBox PB_MarkCured;
@@ -2922,5 +2920,10 @@
         private System.Windows.Forms.ToolTip SpeciesIDTip;
         private System.Windows.Forms.ToolTip NatureTip;
         private System.Windows.Forms.ToolTip Tip3;
+        private System.Windows.Forms.FlowLayoutPanel FLP_OriginalNature;
+        private System.Windows.Forms.Label L_OriginalNature;
+        private System.Windows.Forms.ComboBox CB_StatNature;
+        private System.Windows.Forms.PictureBox PB_Origin;
+        private System.Windows.Forms.ComboBox CB_HTLanguage;
     }
 }

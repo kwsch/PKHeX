@@ -37,7 +37,7 @@
             this.Menu_SearchSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_SearchAdvanced = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.EncounterPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
             this.CB_Move3 = new System.Windows.Forms.ComboBox();
@@ -141,7 +141,7 @@
             // 
             this.P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.P_Results.Controls.Add(this.pokeGrid1);
+            this.P_Results.Controls.Add(this.EncounterPokeGrid);
             this.P_Results.Controls.Add(this.SCR_Box);
             this.P_Results.Location = new System.Drawing.Point(12, 32);
             this.P_Results.Name = "P_Results";
@@ -150,12 +150,12 @@
             // 
             // pokeGrid1
             // 
-            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
+            this.EncounterPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.EncounterPokeGrid.Location = new System.Drawing.Point(2, 2);
+            this.EncounterPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.EncounterPokeGrid.Name = "EncounterPokeGrid";
+            this.EncounterPokeGrid.Size = new System.Drawing.Size(251, 346);
+            this.EncounterPokeGrid.TabIndex = 2;
             // 
             // CB_Species
             // 
@@ -523,7 +523,7 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
         private System.Windows.Forms.ComboBox CB_GameOrigin;
         private System.Windows.Forms.Label L_Version;
-        private Controls.PokeGrid pokeGrid1;
+        private Controls.PokeGrid EncounterPokeGrid;
         private System.Windows.Forms.FlowLayoutPanel TypeFilters;
         private System.Windows.Forms.ToolTip hover;
         private System.Windows.Forms.ContextMenuStrip mnu;

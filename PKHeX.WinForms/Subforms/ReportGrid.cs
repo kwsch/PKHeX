@@ -59,7 +59,7 @@ namespace PKHeX.WinForms
             var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
-                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm); // recalc Level
+                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth); // recalc Level
                 PL.Add(new PKMSummaryImage(pkm, strings));
                 BoxBar.PerformStep();
             }

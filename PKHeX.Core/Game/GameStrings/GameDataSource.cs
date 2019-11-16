@@ -42,6 +42,8 @@ namespace PKHeX.Core
             MetGen8 = CreateGen8(s);
 
             Memories = new MemoryStrings(s);
+
+            Empty = new ComboItem(s.Species[0], 0);
         }
 
         public readonly GameStrings Source;
@@ -65,6 +67,8 @@ namespace PKHeX.Core
         private readonly IReadOnlyList<ComboItem> MetGen7;
         private readonly IReadOnlyList<ComboItem> MetGen7GG;
         private readonly IReadOnlyList<ComboItem> MetGen8;
+
+        public readonly ComboItem Empty;
 
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {

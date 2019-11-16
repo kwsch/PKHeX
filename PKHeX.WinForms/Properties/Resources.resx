@@ -238,24 +238,6 @@
   <data name="showdown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Program\showdown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="slotDel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotDel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotDrag" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotDrag.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotHover" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotHover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotSet" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotSet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotTrans" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotTrans.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="slotView" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Slots\slotView.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="swapBox" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Slots\swapBox.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -342,5 +324,23 @@
   </data>
   <data name="warn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Accents\warn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_8" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_8.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_gg" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_gg.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_go" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_go.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gen_vc" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\Markings\gen_vc.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

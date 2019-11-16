@@ -168,6 +168,12 @@ namespace PKHeX.Core
 
             808, // Meltan
             809, // Melmetal
+
+            (int)Species.Zacian,
+            (int)Species.Zamazenta,
+            (int)Species.Eternatus,
+            // 891, // mythical1?
+            // 892, // mythical2?
         };
 
         public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
@@ -231,6 +237,10 @@ namespace PKHeX.Core
             716, // Xerneas
             746, // Wishiwashi
             778, // Mimikyu
+
+            (int)Species.Zacian,
+            (int)Species.Zamazenta,
+            (int)Species.Eternatus,
         };
 
         public static readonly HashSet<int> BattleMegas = new HashSet<int>

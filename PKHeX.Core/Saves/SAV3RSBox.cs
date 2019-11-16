@@ -191,11 +191,11 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
 
-        protected override void WriteBoxSlot(PKM pkm, int offset)
+        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
         {
-            base.WriteBoxSlot(pkm, offset);
-            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + PKX.SIZE_3STORED + 0);
-            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + PKX.SIZE_3STORED + 2);
+            base.WriteBoxSlot(pkm, data, offset);
+            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(data, offset + PKX.SIZE_3STORED + 0);
+            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(data, offset + PKX.SIZE_3STORED + 2);
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);

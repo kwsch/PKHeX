@@ -23,7 +23,8 @@ namespace PKHeX.Core
         // SaveData is chunked into two pieces.
         protected readonly byte[] Storage;
         public readonly byte[] General;
-        protected override byte[] StorageData => Storage;
+        protected override byte[] BoxBuffer => Storage;
+        protected override byte[] PartyBuffer => General;
 
         protected abstract int StorageSize { get; }
         protected abstract int GeneralSize { get; }
@@ -34,12 +35,6 @@ namespace PKHeX.Core
 
         /// <inheritdoc />
         public override void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(General, offset, bitIndex, value);
-
-        public override PKM GetPartySlot(int offset) => GetDecryptedPKM(General.Slice(offset, SIZE_PARTY));
-
-        protected override void WritePartySlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedPartyData, offset);
-        protected override void WriteStoredSlot(PKM pkm, int offset) => SetData(General, pkm.EncryptedBoxData, offset);
-        protected override void WriteBoxSlot(PKM pkm, int offset) => SetData(Storage, pkm.EncryptedBoxData, offset);
 
         protected SAV4()
         {
@@ -428,9 +423,6 @@ namespace PKHeX.Core
 
         public override uint SecondsToStart { get => BitConverter.ToUInt32(General, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(General, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x3C); }
-
-        public override PKM GetStoredSlot(int offset) => GetDecryptedPKM(General.Slice(offset, SIZE_STORED));
-        public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(Storage.Slice(offset, SIZE_STORED));
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
         protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);

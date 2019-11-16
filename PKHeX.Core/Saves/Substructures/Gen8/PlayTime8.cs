@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class PlayTime8 : SaveBlock
     {
-        public PlayTime8(SaveFile sav, int offset) : base(sav) => Offset = offset;
+        public PlayTime8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
 
         public int PlayedHours
         {
@@ -24,6 +24,7 @@ namespace PKHeX.Core
             set => Data[Offset + 3] = (byte)value;
         }
 
+        // TODO
         private uint LastSaved { get => BitConverter.ToUInt32(Data, Offset + 0x4); set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x4); }
         private int LastSavedYear { get => (int)(LastSaved & 0xFFF); set => LastSaved = (LastSaved & 0xFFFFF000) | (uint)value; }
         private int LastSavedMonth { get => (int)(LastSaved >> 12 & 0xF); set => LastSaved = (LastSaved & 0xFFFF0FFF) | ((uint)value & 0xF) << 12; }

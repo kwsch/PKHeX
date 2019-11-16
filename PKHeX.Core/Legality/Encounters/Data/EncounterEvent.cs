@@ -27,8 +27,8 @@ namespace PKHeX.Core
         /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
         public static WB7[] MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
 
-        /// <summary>Event Database for Generation 7</summary>
-        public static WC7[] MGDB_G8 { get; private set; } = Array.Empty<WC7>(); // todo
+        /// <summary>Event Database for Generation 8</summary>
+        public static WC8[] MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Length != 0;
@@ -47,6 +47,9 @@ namespace PKHeX.Core
 
         private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
+        private static HashSet<WC8> GetWC8DB(byte[] wc8bin) =>
+            new HashSet<WC8>(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
+
         public static void RefreshMGDB(params string[] paths)
         {
             var g4 = GetPCDDB(Util.GetBinaryResource("wc4.pkl"));
@@ -54,6 +57,7 @@ namespace PKHeX.Core
             var g6 = GetWC6DB(Util.GetBinaryResource("wc6.pkl"), Util.GetBinaryResource("wc6full.pkl"));
             var g7 = GetWC7DB(Util.GetBinaryResource("wc7.pkl"), Util.GetBinaryResource("wc7full.pkl"));
             var b7 = GetWB7DB(Util.GetBinaryResource("wb7full.pkl"));
+            var g8 = GetWC8DB(Util.GetBinaryResource("wc8.pkl"));
 
             foreach (var gift in paths.Where(Directory.Exists).SelectMany(MysteryUtil.GetGiftsFromFolder))
             {
@@ -64,6 +68,7 @@ namespace PKHeX.Core
                     case WC6 wc6: g6.Add(wc6); continue;
                     case WC7 wc7: g7.Add(wc7); continue;
                     case WB7 wb7: b7.Add(wb7); continue;
+                    case WC8 wc8: g8.Add(wc8); continue;
                 }
             }
 
@@ -73,6 +78,7 @@ namespace PKHeX.Core
             MGDB_G6 = g6.ToArray();
             MGDB_G7 = g7.ToArray();
             MGDB_G7GG = b7.ToArray();
+            MGDB_G8 = g8.ToArray();
         }
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)

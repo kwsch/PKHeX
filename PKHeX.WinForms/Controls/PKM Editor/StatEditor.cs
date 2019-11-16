@@ -467,6 +467,8 @@ namespace PKHeX.WinForms.Controls
         {
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
+            FLP_HPType.Visible = gen <= 7;
+            FLP_DynamaxLevel.Visible = gen >= 8;
 
             switch (gen)
             {

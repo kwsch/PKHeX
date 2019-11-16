@@ -77,9 +77,7 @@ namespace PKHeX.Core
                 Met_Level = Met_Level,
                 Met_Location = Location,
                 Ball = 4,
-
-                EXP = Experience.GetEXP(Level, Species, 0),
-
+                
                 // Ribbons
                 RibbonCountry = RibbonCountry,
                 RibbonNational = RibbonNational,
@@ -91,6 +89,7 @@ namespace PKHeX.Core
                 FatefulEncounter = Fateful,
                 Version = GetVersion(SAV),
             };
+            pk.EXP = Experience.GetEXP(Level, pk.PersonalInfo.EXPGrowth);
             SetMoves(pk);
 
             bool hatchedEgg = IsEgg && SAV.Generation != 3;

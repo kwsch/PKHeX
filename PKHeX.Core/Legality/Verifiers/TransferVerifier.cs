@@ -104,10 +104,9 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = pkm.Species;
-            if (!Legal.TransferrableGalar.Contains(species))
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
+            if (!pi.IsPresentInGame)
                 data.AddLine(GetInvalid(LTransferBad));
-
-            // todo: alternate forms disallowed?
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)

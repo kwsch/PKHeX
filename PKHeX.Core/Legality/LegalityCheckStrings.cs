@@ -184,6 +184,8 @@ namespace PKHeX.Core
         public static string LFatefulMystery { get; set; } = "Mystery Gift Fateful Encounter.";
         public static string LFatefulMysteryMissing { get; set; } = "Mystery Gift Fateful Encounter flag missing.";
 
+        public static string LFavoriteMarkingUnavailable { get; set; } = "Favorite Marking is not available.";
+
         public static string LFormBattle { get; set; } = "Form cannot exist outside of a battle.";
         public static string LFormEternal { get; set; } = "Valid Eternal Flower encounter.";
         public static string LFormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
@@ -297,6 +299,7 @@ namespace PKHeX.Core
         public static string LMemoryHTEvent { get; set; } = "Current handler should not be Event OT.";
         public static string LMemoryHTFlagInvalid { get; set; } = "Untraded: Current handler should not be the Handling Trainer.";
         public static string LMemoryHTGender { get; set; } = "HT Gender invalid: {0}";
+        public static string LMemoryHTLanguage { get; set; } = "HT Language is missing.";
 
         public static string LMemoryIndexArgHT { get; set; } = "Should have a HT Memory TextVar value (somewhere).";
         public static string LMemoryIndexFeel { get; set; } = "{0} Memory: Feeling should be index {1}.";
@@ -370,6 +373,7 @@ namespace PKHeX.Core
         public static string LMoveSourceSpecial { get; set; } = "Special Non-Relearn Move.";
         public static string LMoveSourceTMHM { get; set; } = "Learned by TM/HM.";
         public static string LMoveSourceTutor { get; set; } = "Learned by Move Tutor.";
+        public static string LMoveSourceTR { get; set; } = "Unexpected Technical Record Learned flag: {0}";
 
         public static string LNickFlagEggNo { get; set; } = "Egg must be not nicknamed.";
         public static string LNickFlagEggYes { get; set; } = "Egg must be nicknamed.";
@@ -410,9 +414,11 @@ namespace PKHeX.Core
         public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
         public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
 
+        public static string LStatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
         public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";
         public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
         public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
+        public static string LStatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
 
         public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
         public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";

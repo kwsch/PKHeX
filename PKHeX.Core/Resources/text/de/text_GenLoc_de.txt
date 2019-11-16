@@ -1,6 +1,6 @@
-﻿irgendwo
+irgendwo
 in der ersten Stadt
-in [VAR GENDBR(00FF,0506,0000)]dessenderen Zuhause
+zu Hause
 im Zuhause eines Freundes
 in irgendjemandes Zuhause
 in einer lebhaften Stadt
@@ -28,7 +28,7 @@ in einem Museum
 in einem Filmstudio
 in einem Bahnhof
 an einem Kampfschauplatz
-in einem Schönheitssalon
+in einem Friseursalon
 in einem Restaurant
 in einem Edelrestaurant
 in einer Küstenstadt
@@ -36,7 +36,7 @@ im Inneren eines hohen Gebäudes
 in einer geheimnisvollen Stadt
 in einer Stadt am Fluss
 in einer schneebedeckten Stadt
-in der Pokémon Liga
+in der Pokémon-Liga
 in einem Palast
 in einer Höhle
 in einem Wald
@@ -60,12 +60,21 @@ auf einem Feld
 in einer Ruine
 auf einer Wasserroute
 auf einer Safari
-in einer Geheimbasis
+auf einem großen Schiff
+beim Flug durch die Lüfte
 in einer Wettbewerbshalle
+an einem geheimnisvollen Ort
+auf einer kleinen Insel
+auf einem aschebedeckten Weg
+in einer Geheimbasis
 in der Tiefe des Meeres
 an einem wundersamen Ort
-auf einem großen Schiff
-auf einem aschebedeckten Weg
-auf einer kleinen Insel
-an einem geheimnisvollen Ort
-beim Flug durch die Lüfte
+auf einem Weg mit Seeblick
+auf einer weiten Grasebene
+in einem Stadion
+in einem Pokémon-Hort
+in einer Mine
+in einer Stadt in den Bergen
+in einer heruntergekommenen Stadt
+in einem Tunnel
+an einem gefährlichen Ort

@@ -1,127 +1,32 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public class Zukan8 : Zukan
+    public class Zukan8 : ZukanBase
     {
-        private const int MAGIC = 0x2F120F17;
-        private const int SIZE_MAGIC = 4;
-        private const int SIZE_FLAGS = 4;
-        private const int SIZE_MISC = 0x80; // Misc Data (1024 bits)
-        private const int SIZE_CAUGHT = 0x68; // 832 bits
+        private readonly SCBlock Block;
+        public static readonly IReadOnlyDictionary<int, int> DexLookup = GetDexLookup(PersonalTable.SWSH);
 
-        protected override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
-        protected override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
+        public Zukan8(SAV8SWSH sav, SCBlock block) : base(sav, 0) => Block = block;
 
-        protected override int BitSeenSize => 0x8C; // 1120 bits
-        protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
-        protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
+        private bool GetFlag(int ofs, int bitIndex) => FlagUtil.GetFlag(Block.Data, ofs + (bitIndex >> 3), bitIndex);
+        private void SetFlag(int ofs, int bitIndex, bool value = true) => FlagUtil.SetFlag(Block.Data, ofs + (bitIndex >> 3), bitIndex, value);
 
-        private readonly IList<int> FormBaseSpecies;
-
-        public Zukan8(SAV8SWSH sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexSWSH) { }
-
-        private Zukan8(SaveFile sav, int dex, int langflag, Func<int, int, int, int> form) : base(sav, dex, langflag)
+        private static Dictionary<int, int> GetDexLookup(PersonalTable pt)
         {
-            DexFormIndexFetcher = form;
-            FormBaseSpecies = GetFormIndexBaseSpeciesList();
-            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
-        }
-
-        public Func<int, int, int, int> DexFormIndexFetcher { get; }
-
-        protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
-        {
-            int species = baseBit + 1;
-
-            if (species == 351) // castform
-                isShiny = false;
-
-            // Starting with Gen7, form bits are stored in the same region as the species flags.
-            int formstart = altform;
-            int formend = altform;
-            bool reset = GetSaneFormsToIterate(species, out int fs, out int fe, formstart);
-            if (reset)
+            var lookup = new Dictionary<int, int>();
+            for (int i = 1; i <= pt.MaxSpeciesID; i++)
             {
-                formstart = fs;
-                formend = fe;
+                var p = (PersonalInfoSWSH) pt[i];
+                var index = p.PokeDexIndex;
+                if (index != 0)
+                    lookup.Add(i, index);
             }
-
-            int shiny = isShiny ? 1 : 0;
-            for (int form = formstart; form <= formend; form++)
-            {
-                int formBit = baseBit;
-                if (form > 0) // Override the bit to overwrite
-                {
-                    int fc = SAV.Personal[species].FormeCount;
-                    if (fc > 1) // actually has forms
-                    {
-                        int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
-                        if (f >= 0) // bit index valid
-                            formBit = f + form;
-                    }
-                }
-                SetDexFlags(baseBit, formBit, gender, shiny, value);
-            }
+            return lookup;
         }
 
-        protected override bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
-        {
-            return SanitizeFormsToIterate(species, out formStart, out formEnd, formIn);
-        }
-
-        public static bool SanitizeFormsToIterate(int species, out int formStart, out int formEnd, int formIn)
-        {
-            // 004AA370 in Moon
-            // Simplified in terms of usage -- only overrides to give all the battle forms for a pkm
-            switch (species)
-            {
-                case 351: // Castform
-                    formStart = 0;
-                    formEnd = 3;
-                    return true;
-
-                case 421: // Cherrim
-                case 555: // Darmanitan
-                case 648: // Meloetta
-                case 746: // Wishiwashi
-                case 778: // Mimikyu
-                // Alolans
-                case 020: // Raticate
-                case 105: // Marowak
-                    formStart = 0;
-                    formEnd = 1;
-                    return true;
-
-                case 735: // Gumshoos
-                case 758: // Salazzle
-                case 754: // Lurantis
-                case 738: // Vikavolt
-                case 784: // Kommo-o
-                case 752: // Araquanid
-                case 777: // Togedemaru
-                case 743: // Ribombee
-                case 744: // Rockruff
-                    break;
-
-                case 774 when formIn <= 6: // Minior
-                    break; // don't give meteor forms except the first
-
-                case 718 when formIn > 1:
-                    break;
-                default:
-                    int count = DexFormUtil.GetDexFormCountSWSH(species);
-                    formStart = formEnd = 0;
-                    return count < formIn;
-            }
-            formStart = 0;
-            formEnd = 0;
-            return true;
-        }
-
-        protected override int GetDexLangFlag(int lang)
+        private static int GetDexLangFlag(int lang)
         {
             if (lang > 10 || lang == 6 || lang <= 0)
                 return -1; // invalid language
@@ -132,182 +37,399 @@ namespace PKHeX.Core
             return lang;
         }
 
-        protected override void SetSpindaDexData(PKM pkm, bool alreadySeen)
+        public static IList<string> GetEntryNames(IReadOnlyList<string> Species)
         {
-            int shift = (pkm.Gender & 1) | (pkm.IsShiny ? 2 : 0);
-            if (alreadySeen) // update?
+            var dex = new List<string>();
+            foreach (var d in DexLookup)
             {
-                var flag1 = (1 << (shift + 4));
-                if ((SAV.Data[PokeDex + 0x84] & flag1) != 0) // Already showing this one
-                    return;
-                BitConverter.GetBytes(pkm.EncryptionConstant).CopyTo(SAV.Data, PokeDex + 0x8E8 + (shift * 4));
-                SAV.Data[PokeDex + 0x84] |= (byte)(flag1 | (1 << shift));
+                var spec = d.Key;
+                var index = d.Value;
+                var name = $"{index:000} - {Species[spec]}";
+                dex.Add(name);
             }
-            else if ((SAV.Data[PokeDex + 0x84] & (1 << shift)) == 0)
-            {
-                BitConverter.GetBytes(pkm.EncryptionConstant).CopyTo(SAV.Data, PokeDex + 0x8E8 + (shift * 4));
-                SAV.Data[PokeDex + 0x84] |= (byte)(1 << shift);
-            }
+            dex.Sort();
+            return dex;
         }
 
-        // Dex Flags
-        public bool NationalDex
+        #region Structure
+        private const int EntrySize = 0x30;
+
+        // First 0x20 bytes are for seen flags, allocated as 4 QWORD values.
+        private const int SeenRegionCount = 4;
+        private const int SeenRegionSize = sizeof(ulong);
+        // not_shiny_gender_0,
+        // not_shiny_gender_1,
+        // shiny_gender_0,
+        // shiny_gender_1
+        // Each QWORD stores the following bits:
+        // - FormsSeen[63], default form is index 0.
+        // - Gigantimax:1
+
+        // Next 4 bytes are for obtained info (u32)
+        private const int OFS_CAUGHT = 0x20;
+        // Caught:1
+        // Unknown:1
+        // LanguagesObtained:2-14 (flags)
+        // DisplayFormID:15-27 (value)
+        // DisplayGigantamaxInstead:28 (flag)
+        // DisplayGender:29/30 (m/f)
+        // DisplayShiny:31 (flag)
+
+        // Next 4 bytes are Battled Count (u32)
+        private const int OFS_BATTLED = 0x24;
+
+        // Next 4 bytes are Unused(?)
+        private const int OFS_UNK1 = 0x28;
+        // Next 4 bytes are Unused(?)
+        private const int OFS_UNK2 = 0x2C;
+
+        public static int GetOffsetEntry(int species)
         {
-            get => (SAV.Data[PokeDex + 4] & 1) == 1;
-            set => SAV.Data[PokeDex + 4] = (byte)((SAV.Data[PokeDex + 4] & 0xFE) | (value ? 1 : 0));
+            if (!DexLookup.TryGetValue(species, out var index))
+                return -1;
+            if (index < 1)
+                throw new IndexOutOfRangeException();
+
+            return (index - 1) * EntrySize;
         }
 
-        /// <summary>
-        /// Gets the last viewed dex entry in the Pokedex (by National Dex ID), internally called DefaultMons
-        /// </summary>
-        public uint CurrentViewedDex => BitConverter.ToUInt32(SAV.Data, PokeDex + 4) >> 9 & 0x3FF;
-
-        public IEnumerable<int> GetAllFormEntries(int spec)
+        public override bool GetSeen(int species)
         {
-            var fc = SAV.Personal[spec].FormeCount;
-            for (int j = 1; j < fc; j++)
-            {
-                int start = j;
-                int end = j;
-                if (GetSaneFormsToIterate(spec, out int s, out int n, j))
-                {
-                    start = s;
-                    end = n;
-                }
-                start = Math.Max(1, start);
-                for (int f = start; f <= end; f++)
-                {
-                    int x = GetDexFormIndex(spec, fc, f);
-                    if (x >= 0)
-                        yield return x;
-                }
-            }
-        }
-
-        public int GetDexFormIndex(int spec, int fc, int f)
-        {
-            var index = DexFormIndexFetcher(spec, fc, f);
+            var index = GetOffsetEntry(species);
             if (index < 0)
-                return index;
-            return index + SAV.MaxSpeciesID - 1;
-        }
+                return false;
 
-        public IList<string> GetEntryNames(IReadOnlyList<string> Species)
-        {
-            var names = new List<string>();
-            for (int i = 1; i <= SAV.MaxSpeciesID; i++)
-                names.Add($"{i:000} - {Species[i]}");
-
-            // Add Formes
-            int ctr = SAV.MaxSpeciesID;
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
+            for (int i = 0; i < SeenRegionCount; i++)
             {
-                int c = SAV.Personal[spec].FormeCount;
-                for (int f = 1; f < c; f++)
-                {
-                    int x = GetDexFormIndex(spec, c, f);
-                    if (x >= 0)
-                        names.Add($"{ctr++:000} - {Species[spec]}-{f}");
-                }
+                var ofs = index + (SeenRegionSize * i);
+                if (BitConverter.ToUInt64(Block.Data, ofs) != 0)
+                    return true;
             }
-            return names;
+
+            return false;
         }
 
-        /// <summary>
-        /// Gets a list of Species IDs that a given dex-forme index corresponds to.
-        /// </summary>
-        /// <returns></returns>
-        private List<int> GetFormIndexBaseSpeciesList()
+        public bool GetSeenRegion(int species, int form, int region)
         {
-            var baseSpecies = new List<int>();
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
-            {
-                int c = SAV.Personal[spec].FormeCount;
-                for (int f = 1; f < c; f++)
-                {
-                    int x = GetDexFormIndex(spec, c, f);
-                    if (x >= 0)
-                        baseSpecies.Add(spec);
-                }
-            }
-            return baseSpecies;
+            if ((uint)region >= SeenRegionCount)
+                throw new ArgumentException(nameof(region));
+            if ((uint)form > 63)
+                return false;
+
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return false;
+
+            var ofs = SeenRegionSize * region;
+            return GetFlag(index + ofs, form);
         }
 
-        public int GetBaseSpeciesGenderValue(int index)
+        public void SetSeenRegion(int species, int form, int region, bool value = true)
         {
-            // meowstic special handling
-            const int meow = 678;
-            if (index == meow - 1 || (index >= SAV.MaxSpeciesID && FormBaseSpecies[index - SAV.MaxSpeciesID] == meow))
-                return index < SAV.MaxSpeciesID ? 0 : 254; // M : F
-
-            if (index < SAV.MaxSpeciesID)
-                return SAV.Personal[index + 1].Gender;
-
-            index -= SAV.MaxSpeciesID;
-            int spec = FormBaseSpecies[index];
-            return SAV.Personal[spec].Gender;
-        }
-
-        public int GetBaseSpecies(int index)
-        {
-            if (index <= SAV.MaxSpeciesID)
-                return index;
-
-            return FormBaseSpecies[index - SAV.MaxSpeciesID - 1];
-        }
-
-        protected override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
-        {
-            lang = GetDexLangFlag(lang);
-            if (lang < 0)
+            if ((uint)region >= SeenRegionCount)
+                throw new ArgumentException(nameof(region));
+            if ((uint)form > 63)
                 return;
 
-            int lbit = (bit * DexLangIDCount) + lang;
-            if (lbit < DexLangFlagByteCount << 3) // Sanity check for max length of region
-                SetFlag(PokeDexLanguageFlags, lbit, value);
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            var ofs = SeenRegionSize * region;
+            SetFlag(index + ofs, form, value);
         }
 
-        public bool[] GetLanguageBitflags(int species)
+        public override bool GetCaught(int species) => GetCaughtFlagID(species, 0);
+        public void SetCaught(int species, bool value = true) => SetCaughtFlagID(species, 0, value);
+        public bool GetCaughtUnkFlag(int species) => GetCaughtFlagID(species, 1);
+        public void SetCaughtUnkFlag(int species, bool value = true) => SetCaughtFlagID(species, 1, value);
+        public bool GetIsLanguageIndexObtained(int species, int langIndex) => GetCaughtFlagID(species, 2 + langIndex);
+        public void SetIsLanguageIndexObtained(int species, int langIndex, bool value = true) => SetCaughtFlagID(species, 2 + langIndex, value);
+
+        private bool GetCaughtFlagID(int species, int id)
         {
-            var result = new bool[DexLangIDCount];
-            int bit = species - 1;
-            for (int i = 0; i < DexLangIDCount; i++)
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return false;
+
+            return GetFlag(index + OFS_CAUGHT, id);
+        }
+
+        private void SetCaughtFlagID(int species, int id, bool value = true)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            SetFlag(index + OFS_CAUGHT, id, value);
+        }
+
+        public bool GetIsLanguageObtained(int species, int language)
+        {
+            int langIndex = GetDexLangFlag(language);
+            if (langIndex < 0)
+                return false;
+
+            return GetIsLanguageIndexObtained(species, langIndex);
+        }
+
+        public void SetIsLanguageObtained(int species, int language, bool value = true)
+        {
+            int langIndex = GetDexLangFlag(language);
+            if (langIndex < 0)
+                return;
+
+            SetIsLanguageIndexObtained(species, langIndex, value);
+        }
+
+        public uint GetAltFormDisplayed(int species)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return 0;
+
+            var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
+            return (val >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
+        }
+
+        public void SetAltFormDisplayed(int species, uint value = 0)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
+            var nv = (val & ~(0x1FFF << 15)) | ((value & 0x1FFF) << 15);
+            BitConverter.GetBytes(nv).CopyTo(Block.Data, index + OFS_CAUGHT);
+        }
+
+        public uint GetGenderDisplayed(int species)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return 0;
+
+            var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
+            return (val >> 29) & 3;
+        }
+
+        public void SetGenderDisplayed(int species, uint value = 0)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
+            var nv = (val & ~(3 << 29)) | ((value & 3) << 29);
+            BitConverter.GetBytes(nv).CopyTo(Block.Data, index + OFS_CAUGHT);
+        }
+
+        public bool GetDisplayDynamaxInstead(int species) => GetCaughtFlagID(species, 28);
+        public void SetDisplayDynamaxInstead(int species, bool value = true) => SetCaughtFlagID(species, 28, value);
+        public bool GetDisplayShiny(int species) => GetCaughtFlagID(species, 31);
+        public void SetDisplayShiny(int species, bool value = true) => SetCaughtFlagID(species, 31, value);
+
+        public void SetCaughtFlags32(int species, uint value) => SetU32(species, value, OFS_CAUGHT);
+        public uint GetBattledCount(int species) => GetU32(species, OFS_BATTLED);
+        public void SetBattledCount(int species, uint value) => SetU32(species, value, OFS_BATTLED);
+        public uint GetUnk1Count(int species) => GetU32(species, OFS_UNK1);
+        public void SetUnk1Count(int species, uint value) => SetU32(species, value, OFS_UNK1);
+        public uint GetUnk2Count(int species) => GetU32(species, OFS_UNK2);
+        public void SetUnk2Count(int species, uint value) => SetU32(species, value, OFS_UNK2);
+
+        private uint GetU32(int species, int ofs)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return 0;
+
+            return BitConverter.ToUInt32(Block.Data, index + ofs);
+        }
+
+        private void SetU32(int species, uint value, int ofs)
+        {
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            BitConverter.GetBytes(value).CopyTo(Block.Data, index + ofs);
+        }
+        #endregion
+
+        #region Inherited
+        public override void SetDex(PKM pkm)
+        {
+            int species = pkm.Species;
+            var index = GetOffsetEntry(species);
+            if (index < 0)
+                return;
+
+            var g = pkm.Gender == 1 ? 1 : 0;
+            bool shiny = pkm.IsShiny;
+            var s = shiny ? 2 : 0;
+            int form = pkm.AltForm;
+            if (species == (int)Species.Alcremie)
             {
-                int lbit = (bit * DexLangIDCount) + i;
-                result[i] = GetFlag(PokeDexLanguageFlags, lbit);
+                form *= 7;
+                form += 0; // alteration byte?
             }
-            return result;
-        }
-
-        public void SetLanguageBitflags(int species, bool[] value)
-        {
-            int bit = species - 1;
-            for (int i = 0; i < DexLangIDCount; i++)
+            else if (species == (int) Species.Eternatus && pkm.AltForm == 1)
             {
-                int lbit = (bit * DexLangIDCount) + i;
-                SetFlag(PokeDexLanguageFlags, lbit, value[i]);
+                form = 0;
+                SetSeenRegion(species, 63, g | s);
+            }
+
+            SetSeenRegion(species, form, g | s);
+            SetCaught(species);
+            SetIsLanguageObtained(species, pkm.Language);
+            SetAltFormDisplayed(species, (byte)form);
+
+            if (shiny)
+                SetDisplayShiny(species);
+
+            var count = GetBattledCount(species);
+            if (count == 0)
+                SetBattledCount(species, 1);
+        }
+
+        public override void SeenNone()
+        {
+            Array.Clear(Block.Data, 0, DexLookup.Count * EntrySize);
+        }
+
+        public override void CaughtNone()
+        {
+            foreach (var kvp in DexLookup)
+                CaughtNone(kvp.Key);
+        }
+
+        private void CaughtNone(int species)
+        {
+            SetCaughtFlags32(species, 0);
+            SetUnk1Count(species, 0);
+            SetUnk2Count(species, 0);
+        }
+
+        public override void SeenAll(bool shinyToo = false)
+        {
+            SetAllSeen(true, shinyToo);
+        }
+
+        private void SeenAll(int species, int fc, PersonalInfo pi, bool shinyToo, bool value = true)
+        {
+            for (int i = 0; i < fc; i++)
+            {
+                if (pi.IsDualGender || !value)
+                {
+                    SetSeenRegion(species, i, 0, value);
+                    SetSeenRegion(species, i, 1, value);
+                    if (!shinyToo && !value)
+                        continue;
+                    SetSeenRegion(species, i, 2, value);
+                    SetSeenRegion(species, i, 3, value);
+                }
+                else
+                {
+                    var index = pi.OnlyFemale ? 1 : 0;
+                    SetSeenRegion(species, i, 0 + index);
+                    if (!shinyToo)
+                        continue;
+                    SetSeenRegion(species, i, 2 + index);
+                }
+            }
+
+            if (!value)
+            {
+                SetSeenRegion(species, 63, 0, false);
+                SetSeenRegion(species, 63, 1, false);
+                SetSeenRegion(species, 63, 2, false);
+                SetSeenRegion(species, 63, 3, false);
             }
         }
 
-        public void ToggleLanguageFlagsAll(bool value)
+        public override void CompleteDex(bool shinyToo = false)
         {
-            var arr = GetBlankLanguageBits(value);
-            for (int i = 1; i <= SAV.MaxSpeciesID; i++)
-                SetLanguageBitflags(i, arr);
+            foreach (var kvp in DexLookup)
+                SetDexEntryAll(kvp.Key, shinyToo);
         }
 
-        public void ToggleLanguageFlagsSingle(int species, bool value)
+        public override void CaughtAll(bool shinyToo = false)
         {
-            var arr = GetBlankLanguageBits(value);
-            SetLanguageBitflags(species, arr);
+            SeenAll(shinyToo);
+            foreach (var kvp in DexLookup)
+            {
+                var species = kvp.Key;
+                SetAllCaught(species, true, shinyToo);
+            }
         }
 
-        private bool[] GetBlankLanguageBits(bool value)
+        private void SetAllCaught(int species, bool value = true, bool shinyToo = false)
         {
-            var result = new bool[DexLangIDCount];
-            for (int i = 0; i < DexLangIDCount; i++)
-                result[i] = value;
-            return result;
+            SetCaught(species);
+            for (int i = 0; i < 11; i++)
+                SetIsLanguageObtained(species, i, value);
+
+            if (value)
+            {
+                var pi = PersonalTable.SWSH[species];
+                if (shinyToo)
+                    SetDisplayShiny(species);
+
+                SetGenderDisplayed(species, (uint)pi.RandomGender());
+            }
+            else
+            {
+                SetDisplayShiny(species, false);
+                SetDisplayDynamaxInstead(species, false);
+                SetGenderDisplayed(species, 0);
+            }
         }
+
+        public override void SetAllSeen(bool value = true, bool shinyToo = false)
+        {
+            foreach (var kvp in DexLookup)
+            {
+                var species = kvp.Key;
+                SetAllSeen(species, value, shinyToo);
+            }
+        }
+
+        private void SetAllSeen(int species, bool value = true, bool shinyToo = false)
+        {
+            var pi = PersonalTable.SWSH[species];
+            var fc = pi.FormeCount;
+            if (species == (int) Species.Eternatus)
+                fc = 1; // ignore gigantamax
+            SeenAll(species, fc, pi, shinyToo, value);
+
+            if (species == (int) Species.Alcremie)
+            {
+                // Alcremie forms
+                var alc = PersonalTable.SWSH[(int)Species.Alcremie];
+                SeenAll((int)Species.Alcremie, 7 * 8, alc, shinyToo, value);
+            }
+            else if (species == (int) Species.Eternatus)
+            {
+                SetSeenRegion(species, 63, 0, value);
+                if (!shinyToo && !value)
+                    return;
+                SetSeenRegion(species, 63, 2, value);
+            }
+        }
+
+        public override void SetDexEntryAll(int species, bool shinyToo = false)
+        {
+            SetAllSeen(species, true, shinyToo);
+            SetAllCaught(species, true);
+        }
+
+        public override void ClearDexEntryAll(int species)
+        {
+            var ofs = GetOffsetEntry(species);
+            if (ofs < 0)
+                return;
+            Array.Clear(Block.Data, ofs, EntrySize);
+        }
+        #endregion
     }
 }

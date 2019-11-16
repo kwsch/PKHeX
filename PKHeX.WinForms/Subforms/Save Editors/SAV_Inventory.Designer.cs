@@ -106,6 +106,8 @@
             this.IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
             this.IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
             this.IL_Pouch.Images.SetKeyName(11, "Bag_Candy.png");
+            this.IL_Pouch.Images.SetKeyName(12, "Bag_Treasure.png");
+            this.IL_Pouch.Images.SetKeyName(13, "Bag_Ingredient.png");
             // 
             // B_GiveAll
             // 

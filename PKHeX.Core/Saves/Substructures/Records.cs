@@ -156,28 +156,12 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<byte> MaxType_SWSH = new byte[]
         {
-            // todo
-            0, 0, 0, 0, 0, 0, 2, 2, 2, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 2, 2, 2, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 2, 2, 2, 0, 0, 0, 2, 2, 0,
-            0, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 1, 2, 2, 2,
-            0, 0, 0, 0, 0, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-            2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
-
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 6, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
-            5, 5, 4, 4, 4, 5, 5, 4, 5, 5
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0,
         };
 
         public static readonly Dictionary<int, string> RecordList_6 = new Dictionary<int, string>
@@ -549,10 +533,56 @@ namespace PKHeX.Core
 
         public static readonly Dictionary<int, string> RecordList_8 = new Dictionary<int, string>
         {
-            // todo
-            {000, "Steps Taken"},
-            {001, "Times Saved"},
-            {002, "Storyline Completed Time"},
+            {00, "egg_hatching"},
+            {01, "capture_wild"},
+            {02, "capture_symbol"},
+            {03, "capture_raid"},
+            {04, "capture_camp"},
+            {05, "capture_fishing"},
+            {06, "total_capture"},
+            {07, "dress_up"},
+            {08, "training"},
+            {09, "personal_change"},
+            {10, "rotomu_circuit"},
+            {11, "npc_trade"},
+            {12, "pretty"},
+            {13, "chain_encount"},
+            {14, "hall_of_fame"},
+            {15, "fossil_restore"},
+            {16, "wild_pokemon_encount"},
+            {17, "trade"},
+            {18, "magical_trade"},
+            {19, "one_day_captured"},
+            {20, "one_day_evolution"},
+            {21, "total_walk"},
+            {22, "total_watt"},
+            {23, "total_all_battle"},
+            {24, "campin"},
+            {25, "battle_point"},
+            {26, "win_battle_point"},
+            {27, "license_trade"},
+            {28, "use_skill_record"},
+            {29, "use_exp_ball"},
+            {30, "use_personal_change_item"},
+            {31, "clothes"},
+            {32, "evolution"},
+            {33, "net_battle"},
+            {34, "cooking"},
+            {35, "poke_job_return"},
+            {36, "get_rare_item"},
+            {37, "whistle"},
+            {38, "bike_dash"},
+            {39, "tree_shake"},
+            {40, "tree_nut"},
+            {41, "battle_lose"},
+            {42, "recipe"},
+            {43, "raid_battle"},
+            {44, "total_money"},
+            {45, "create_license_card"},
+            {46, "change_hair"},
+            {47, "battle_tower_single_win"},
+            {48, "battle_tower_double_win"},
+            {49, "now_money"},
         };
     }
 }

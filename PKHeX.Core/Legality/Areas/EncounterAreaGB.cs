@@ -39,7 +39,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> vs, int minLevel = 0)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> vs, int minLevel = 0)
         {
             if (minLevel == 0) // any
                 return Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
@@ -54,7 +54,7 @@ namespace PKHeX.Core
             return GetFilteredSlots(pkm, encounterSlots, Gen1Version, RBDragonair).OrderBy(slot => slot.LevelMin); // prefer lowest levels
         }
 
-        private static bool FilterGBSlotsCatchRate(PKM pkm, ref IReadOnlyList<DexLevel> vs, ref GameVersion Gen1Version, ref bool RBDragonair)
+        private static bool FilterGBSlotsCatchRate(PKM pkm, ref IReadOnlyList<EvoCriteria> vs, ref GameVersion Gen1Version, ref bool RBDragonair)
         {
             if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
                 return true;
@@ -129,7 +129,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<DexLevel> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
 

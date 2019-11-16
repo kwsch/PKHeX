@@ -12,25 +12,36 @@ namespace PKHeX.Core
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.InvalidDestination;
         public StorageSlotType Type { get; set; }
 
-        public SlotInfoMisc(int slot, int offset, bool party = false)
+        private readonly byte[] Data; // buffer to r/w
+
+        public SlotInfoMisc(SaveFile sav, int slot, int offset, bool party = false)
         {
             Slot = slot;
             Offset = offset;
             PartyFormat = party;
+            Data = sav.Data;
+        }
+
+        public SlotInfoMisc(byte[] data, int slot, int offset, bool party = false)
+        {
+            Slot = slot;
+            Offset = offset;
+            PartyFormat = party;
+            Data = data;
         }
 
         public bool WriteTo(SaveFile sav, PKM pkm, PKMImportSetting setting = PKMImportSetting.UseDefault)
         {
             if (PartyFormat)
-                sav.SetPartySlot(pkm, Offset, setting, setting);
+                sav.SetSlotFormatParty(pkm, Data, Offset, setting, setting);
             else
-                sav.SetStoredSlot(pkm, Offset, setting, setting);
+                sav.SetSlotFormatStored(pkm, Data, Offset, setting, setting);
             return true;
         }
 
         public PKM Read(SaveFile sav)
         {
-            return PartyFormat ? sav.GetPartySlot(Offset) : sav.GetStoredSlot(Offset);
+            return PartyFormat ? sav.GetPartySlot(Data, Offset) : sav.GetStoredSlot(Data, Offset);
         }
 
         private bool Equals(SlotInfoMisc other) => Offset == other.Offset;

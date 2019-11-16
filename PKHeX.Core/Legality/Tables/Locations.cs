@@ -50,8 +50,8 @@
         /// <summary> Route 4 in <see cref="GameVersion.Gen7"/> </summary>
         public const int HatchLocation7 = 50;
 
-        /// <summary> ??? in <see cref="GameVersion.SWSH"/> </summary>
-        public const int HatchLocation8 = 50; // todo
+        /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
+        public const int HatchLocation8 = 40;
 
         /// <summary> Generation 3 -> Generation 4 Transfer Location (Pal Park) </summary>
         public const int Transfer3 = 0x37;

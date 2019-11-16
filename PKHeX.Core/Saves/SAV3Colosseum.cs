@@ -63,7 +63,7 @@ namespace PKHeX.Core
             // Count up how many party slots are active.
             for (int i = 0; i < 6; i++)
             {
-                if (GetPartySlot(GetPartyOffset(i)).Species != 0)
+                if (GetPartySlot(Data, GetPartyOffset(i)).Species != 0)
                     PartyCount++;
             }
 

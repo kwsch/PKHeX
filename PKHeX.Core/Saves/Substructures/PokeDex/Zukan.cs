@@ -3,16 +3,47 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class Zukan
+    public abstract class ZukanBase
     {
         protected readonly SaveFile SAV;
         public readonly int PokeDex;
-        protected readonly int PokeDexLanguageFlags;
 
-        protected Zukan(SaveFile sav, int dex, int langflag)
+        protected ZukanBase(SaveFile sav, int dex)
         {
             SAV = sav;
             PokeDex = dex;
+        }
+
+        public int SeenCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetSeen);
+        public int CaughtCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetCaught);
+
+        public decimal PercentSeen => (decimal)SeenCount / SAV.MaxSpeciesID;
+        public decimal PercentCaught => (decimal)CaughtCount / SAV.MaxSpeciesID;
+
+        public abstract bool GetSeen(int species);
+        public abstract bool GetCaught(int species);
+
+        public abstract void SetDex(PKM pkm);
+
+        // Bulk Manipulation
+        public abstract void SeenNone();
+        public abstract void CaughtNone();
+
+        public abstract void SeenAll(bool shinyToo = false);
+        public abstract void CompleteDex(bool shinyToo = false);
+        public abstract void CaughtAll(bool shinyToo = false);
+        public abstract void SetAllSeen(bool value = true, bool shinyToo = false);
+
+        public abstract void SetDexEntryAll(int species, bool shinyToo = false);
+        public abstract void ClearDexEntryAll(int species);
+    }
+
+    public abstract class Zukan : ZukanBase
+    {
+        protected readonly int PokeDexLanguageFlags;
+
+        protected Zukan(SaveFile sav, int dex, int langflag) : base(sav, dex)
+        {
             PokeDexLanguageFlags = langflag;
             if (langflag > dex)
                 throw new ArgumentException(nameof(langflag));
@@ -30,18 +61,13 @@ namespace PKHeX.Core
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
         protected abstract void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true);
 
-        protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
-        protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
+        protected virtual bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
+        protected virtual void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
 
-        public virtual bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
+        public override bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
         public virtual void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);
 
-        public int SeenCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetSeen);
-        public int CaughtCount => Enumerable.Range(1, SAV.MaxSpeciesID).Count(GetCaught);
-        public decimal PercentSeen => (decimal)SeenCount / SAV.MaxSpeciesID;
-        public decimal PercentCaught => (decimal)CaughtCount / SAV.MaxSpeciesID;
-
-        public virtual bool GetSeen(int species)
+        public override bool GetSeen(int species)
         {
             // check all 4 seen flags (gender/shiny)
             for (int i = 0; i < 4; i++)
@@ -86,7 +112,7 @@ namespace PKHeX.Core
                 SetFlag(OFS_SEEN + (i * BitSeenSize), species - 1, false);
         }
 
-        public virtual void SetDex(PKM pkm)
+        public override void SetDex(PKM pkm)
         {
             if (SAV.Version == GameVersion.Invalid) // sanity
                 return;
@@ -162,12 +188,12 @@ namespace PKHeX.Core
         }
 
         // Bulk Manipulation
-        public void SeenNone() => SetDexEntriesAll(false, shinyToo: true);
-        public void CaughtNone() => SetAllCaught(false, true);
-        public void SeenAll(bool shinyToo = false) => SetAllSeen(shinyToo);
-        public void CompleteDex(bool shinyToo = false) => SetDexEntriesAll(shinyToo: shinyToo);
+        public override void SeenNone() => SetDexEntriesAll(false, shinyToo: true);
+        public override void CaughtNone() => SetAllCaught(false, true);
+        public override void SeenAll(bool shinyToo = false) => SetAllSeen(shinyToo);
+        public override void CompleteDex(bool shinyToo = false) => SetDexEntriesAll(shinyToo: shinyToo);
 
-        public void CaughtAll(bool shinyToo = false)
+        public override void CaughtAll(bool shinyToo = false)
         {
             SetAllSeen(true, shinyToo);
             SetAllCaught(true, shinyToo);
@@ -183,10 +209,22 @@ namespace PKHeX.Core
             }
         }
 
-        public void SetAllSeen(bool value = true, bool shinyToo = false)
+        public override void SetAllSeen(bool value = true, bool shinyToo = false)
         {
             for (int i = 0; i < SAV.MaxSpeciesID; i++)
                 SetSeenSingle(i + 1, value, shinyToo);
+        }
+
+        public override void SetDexEntryAll(int species, bool shinyToo = false)
+        {
+            SetSeenSingle(species, true, shinyToo);
+            SetCaughtSingle(species);
+        }
+
+        public override void ClearDexEntryAll(int species)
+        {
+            SetSeenSingle(species, false);
+            SetCaughtSingle(species, false);
         }
 
         public void SetDexEntriesAll(bool value = true, int max = -1, bool shinyToo = false)

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
     public sealed class CK3 : G3PKM, IShadowPKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x11, 0x12, 0x13,
             0x61, 0x62, 0x63, 0x64,
@@ -15,7 +15,7 @@ namespace PKHeX.Core
             // 0xFC onwards unused?
         };
 
-        public override IReadOnlyList<byte> ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_3CSTORED;
         public override int SIZE_STORED => PKX.SIZE_3CSTORED;

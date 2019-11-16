@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
-using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -19,11 +18,11 @@ namespace PKHeX.WinForms.Controls
         {
             return type switch
             {
-                SlotTouchType.None => Resources.slotTrans,
-                SlotTouchType.Get => Resources.slotView,
-                SlotTouchType.Set => Resources.slotSet,
-                SlotTouchType.Delete => Resources.slotDel,
-                SlotTouchType.Swap => Resources.slotSet,
+                SlotTouchType.None => SpriteUtil.Spriter.Transparent,
+                SlotTouchType.Get => SpriteUtil.Spriter.View,
+                SlotTouchType.Set => SpriteUtil.Spriter.Set,
+                SlotTouchType.Delete => SpriteUtil.Spriter.Delete,
+                SlotTouchType.Swap => SpriteUtil.Spriter.Set,
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }

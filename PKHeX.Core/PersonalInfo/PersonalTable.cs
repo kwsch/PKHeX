@@ -15,7 +15,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.SWSH"/>.
         /// </summary>
-        public static readonly PersonalTable SWSH = GetTable("gg", GameVersion.SWSH); // todo
+        public static readonly PersonalTable SWSH = GetTable("swsh", GameVersion.SWSH); // todo
 
         /// <summary>
         /// Personal Table used in <see cref="GameVersion.GG"/>.
@@ -164,7 +164,7 @@ namespace PKHeX.Core
                 case GameVersion.SM:
                 case GameVersion.USUM:
                 case GameVersion.GG: return PersonalInfoSM.SIZE;
-                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE; // todo
+                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE;
 
                 default: return -1;
             }
@@ -175,6 +175,7 @@ namespace PKHeX.Core
             FixPersonalTableG1();
             PopulateGen3Tutors();
             PopulateGen4Tutors();
+            CopyDexitGenders();
         }
 
         private static void FixPersonalTableG1()
@@ -205,6 +206,20 @@ namespace PKHeX.Core
             var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
             for (int i = 0; i < tutors.Length; i++)
                 HGSS[i].AddTypeTutors(tutors[i]);
+        }
+
+        /// <summary>
+        /// Sword/Shield do not contain personal data (stubbed) for all species that are not allowed to visit the game.
+        /// Copy all the genders from <see cref="USUM"/>'s table for all past species, since we need it for <see cref="PKX.Personal"/> gender lookups for all generations.
+        /// </summary>
+        private static void CopyDexitGenders()
+        {
+            for (int i = 1; i <= 807; i++)
+            {
+                var ss = SWSH[i];
+                if (ss.HP == 0)
+                    ss.Gender = USUM[i].Gender;
+            }
         }
 
         public PersonalTable(byte[] data, GameVersion format)

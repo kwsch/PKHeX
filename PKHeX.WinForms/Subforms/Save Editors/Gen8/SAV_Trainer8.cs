@@ -8,14 +8,14 @@ namespace PKHeX.WinForms
     public partial class SAV_Trainer8 : Form
     {
         private readonly SaveFile Origin;
-        private readonly SAV8 SAV;
+        private readonly SAV8SWSH SAV;
 
         public SAV_Trainer8(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV8)(Origin = sav).Clone();
-            Loading = true;
+            SAV = (SAV8SWSH)(Origin = sav).Clone();
+            //Loading = true;
             if (Main.Unicode)
             {
                 TB_OTName.Font = FontUtil.GetPKXFont();
@@ -27,91 +27,77 @@ namespace PKHeX.WinForms
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
 
             TrainerStats.LoadRecords(SAV, Records.RecordList_8);
-            TrainerStats.GetToolTipText = UpdateTip;
 
+            NUD_BP.Value = SAV.Misc.BP;
             GetComboBoxes();
             GetTextBoxes();
 
-            Loading = false;
+            TC_Editor.TabPages.Remove(Tab_BadgeMap); // needs more work
+
+            //Loading = false;
         }
 
-        private readonly bool Loading;
-        private bool MapUpdated;
+        // private readonly bool Loading;
+        // private bool MapUpdated;
 
         private void GetComboBoxes()
         {
-            CB_3DSReg.InitializeBinding();
-            CB_3DSReg.DataSource = GameInfo.Regions;
             CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
-
-            CB_Country.InitializeBinding();
-            CB_Region.InitializeBinding();
-            Main.SetCountrySubRegion(CB_Country, "countries");
-
-            L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":"; // todo : did they replace this with the new multiform species?
-            CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
         }
 
         private void GetTextBoxes()
         {
             // Get Data
-            CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SN;
+            CB_Game.SelectedIndex = SAV.Game - (int)GameVersion.SW;
             CB_Gender.SelectedIndex = SAV.Gender;
 
             // Display Data
             TB_OTName.Text = SAV.OT;
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
-
-            CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.SubRegion;
-            CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
 
-            NUD_M.Value = SAV.Situation.M;
-            // Sanity Check Map Coordinates
-            try
-            {
-                NUD_X.Value = (decimal)SAV.Situation.X;
-                NUD_Z.Value = (decimal)SAV.Situation.Z;
-                NUD_Y.Value = (decimal)SAV.Situation.Y;
-                NUD_R.Value = (decimal)SAV.Situation.R;
-            }
-            catch { GB_Map.Enabled = false; }
+            //NUD_M.Value = SAV.Situation.M;
+            //// Sanity Check Map Coordinates
+            //try
+            //{
+            //    NUD_X.Value = (decimal)SAV.Situation.X;
+            //    NUD_Z.Value = (decimal)SAV.Situation.Z;
+            //    NUD_Y.Value = (decimal)SAV.Situation.Y;
+            //    NUD_R.Value = (decimal)SAV.Situation.R;
+            //}
+            //catch { GB_Map.Enabled = false; }
 
             // Load Play Time
             MT_Hours.Text = SAV.PlayedHours.ToString();
             MT_Minutes.Text = SAV.PlayedMinutes.ToString();
             MT_Seconds.Text = SAV.PlayedSeconds.ToString();
 
-            if (SAV.Played.LastSavedDate.HasValue)
-            {
-                CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
-                CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
-            }
-            else
-            {
+            //if (SAV.Played.LastSavedDate.HasValue)
+            //{
+            //    CAL_LastSavedDate.Value = SAV.Played.LastSavedDate.Value;
+            //    CAL_LastSavedTime.Value = SAV.Played.LastSavedDate.Value;
+            //}
+            //else
+            //{
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
-            }
+            //}
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
-            CAL_AdventureStartDate.Value = date;
-            CAL_AdventureStartTime.Value = time;
-
-            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
-            CAL_HoFDate.Value = date;
-            CAL_HoFTime.Value = time;
+            L_Started.Visible = CAL_AdventureStartDate.Visible = CAL_AdventureStartTime.Visible = false;
+            L_Fame.Visible = CAL_HoFDate.Visible = CAL_HoFTime.Visible = false;
+            // Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            // CAL_AdventureStartDate.Value = date;
+            // CAL_AdventureStartTime.Value = time;
+            // 
+            // Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            // CAL_HoFDate.Value = date;
+            // CAL_HoFTime.Value = time;
         }
 
         private void Save()
         {
             SaveTrainerInfo();
-
-            // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0)
-                SAV.Misc.Vivillon = CB_Vivillon.SelectedIndex;
         }
 
         private void SaveTrainerInfo()
@@ -120,33 +106,32 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
-            SAV.Country = WinFormsUtil.GetIndex(CB_Country);
-            SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             SAV.OT = TB_OTName.Text;
 
+            SAV.Misc.BP = (int)NUD_BP.Value;
+
             // Copy Position
-            if (GB_Map.Enabled && MapUpdated)
-            {
-                SAV.Situation.M = (int)NUD_M.Value;
-                SAV.Situation.X = (float)NUD_X.Value;
-                SAV.Situation.Z = (float)NUD_Z.Value;
-                SAV.Situation.Y = (float)NUD_Y.Value;
-                SAV.Situation.R = (float)NUD_R.Value;
-                SAV.Situation.UpdateOverworldCoordinates();
-            }
+            //if (GB_Map.Enabled && MapUpdated)
+            //{
+            //    SAV.Situation.M = (int)NUD_M.Value;
+            //    SAV.Situation.X = (float)NUD_X.Value;
+            //    SAV.Situation.Z = (float)NUD_Z.Value;
+            //    SAV.Situation.Y = (float)NUD_Y.Value;
+            //    SAV.Situation.R = (float)NUD_R.Value;
+            //    SAV.Situation.UpdateOverworldCoordinates();
+            //}
 
             // Save PlayTime
             SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
-
-            if (SAV.Played.LastSavedDate.HasValue)
-                SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
+            //SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            //SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            //
+            //if (SAV.Played.LastSavedDate.HasValue)
+            //    SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
         }
 
         private void ClickOT(object sender, MouseEventArgs e)
@@ -182,27 +167,20 @@ namespace PKHeX.WinForms
 
         private void ChangeMapValue(object sender, EventArgs e)
         {
-            if (!Loading)
-                MapUpdated = true;
+            //if (!Loading)
+            //    MapUpdated = true;
         }
 
-        private void UpdateCountry(object sender, EventArgs e)
-        {
-            int index;
-            if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
-                Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
-        }
-
-        private string UpdateTip(int index)
-        {
-            switch (index)
-            {
-                case 2: // Storyline Completed Time
-                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
-                default:
-                    return null;
-            }
-        }
+        //private string UpdateTip(int index)
+        //{
+        //    switch (index)
+        //    {
+        //        case 2: // Storyline Completed Time
+        //            var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+        //            return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
+        //        default:
+        //            return null;
+        //    }
+        //}
     }
 }

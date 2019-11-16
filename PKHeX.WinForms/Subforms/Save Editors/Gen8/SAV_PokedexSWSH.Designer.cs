@@ -31,15 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Species = new System.Windows.Forms.ListBox();
-            this.CHK_P1 = new System.Windows.Forms.CheckBox();
-            this.CHK_P2 = new System.Windows.Forms.CheckBox();
-            this.CHK_P3 = new System.Windows.Forms.CheckBox();
-            this.CHK_P4 = new System.Windows.Forms.CheckBox();
-            this.CHK_P5 = new System.Windows.Forms.CheckBox();
-            this.CHK_P6 = new System.Windows.Forms.CheckBox();
-            this.CHK_P7 = new System.Windows.Forms.CheckBox();
-            this.CHK_P8 = new System.Windows.Forms.CheckBox();
-            this.CHK_P9 = new System.Windows.Forms.CheckBox();
+            this.CHK_Caught = new System.Windows.Forms.CheckBox();
             this.CHK_L7 = new System.Windows.Forms.CheckBox();
             this.CHK_L6 = new System.Windows.Forms.CheckBox();
             this.CHK_L5 = new System.Windows.Forms.CheckBox();
@@ -55,9 +47,6 @@
             this.GB_Language = new System.Windows.Forms.GroupBox();
             this.CHK_L9 = new System.Windows.Forms.CheckBox();
             this.CHK_L8 = new System.Windows.Forms.CheckBox();
-            this.GB_Encountered = new System.Windows.Forms.GroupBox();
-            this.GB_Owned = new System.Windows.Forms.GroupBox();
-            this.GB_Displayed = new System.Windows.Forms.GroupBox();
             this.modifyMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.mnuSeenNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuSeenAll = new System.Windows.Forms.ToolStripMenuItem();
@@ -67,18 +56,36 @@
             this.mnuFormNone = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuForm1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFormAll = new System.Windows.Forms.ToolStripMenuItem();
-            this.LB_Forms = new System.Windows.Forms.ListBox();
+            this.NUD_Battled = new System.Windows.Forms.NumericUpDown();
+            this.L_Battled = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.GB_Displayed = new System.Windows.Forms.GroupBox();
+            this.CHK_S = new System.Windows.Forms.CheckBox();
+            this.CHK_G = new System.Windows.Forms.CheckBox();
+            this.CHK_Unk = new System.Windows.Forms.CheckBox();
+            this.NUD_Form = new System.Windows.Forms.NumericUpDown();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.CLB_2 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_1 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_4 = new System.Windows.Forms.CheckedListBox();
+            this.CLB_3 = new System.Windows.Forms.CheckedListBox();
+            this.L_Male = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.GB_Language.SuspendLayout();
-            this.GB_Encountered.SuspendLayout();
-            this.GB_Owned.SuspendLayout();
-            this.GB_Displayed.SuspendLayout();
             this.modifyMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Battled)).BeginInit();
+            this.GB_Displayed.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(244, 261);
+            this.B_Cancel.Location = new System.Drawing.Point(642, 421);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(80, 23);
             this.B_Cancel.TabIndex = 0;
@@ -88,110 +95,24 @@
             // 
             // LB_Species
             // 
+            this.LB_Species.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.LB_Species.FormattingEnabled = true;
             this.LB_Species.Location = new System.Drawing.Point(12, 40);
             this.LB_Species.Name = "LB_Species";
-            this.LB_Species.Size = new System.Drawing.Size(160, 173);
+            this.LB_Species.Size = new System.Drawing.Size(160, 394);
             this.LB_Species.TabIndex = 2;
             this.LB_Species.SelectedIndexChanged += new System.EventHandler(this.ChangeLBSpecies);
             // 
-            // CHK_P1
+            // CHK_Caught
             // 
-            this.CHK_P1.AutoSize = true;
-            this.CHK_P1.Location = new System.Drawing.Point(18, 15);
-            this.CHK_P1.Name = "CHK_P1";
-            this.CHK_P1.Size = new System.Drawing.Size(60, 17);
-            this.CHK_P1.TabIndex = 3;
-            this.CHK_P1.Text = "Owned";
-            this.CHK_P1.UseVisualStyleBackColor = true;
-            // 
-            // CHK_P2
-            // 
-            this.CHK_P2.AutoSize = true;
-            this.CHK_P2.Location = new System.Drawing.Point(6, 25);
-            this.CHK_P2.Name = "CHK_P2";
-            this.CHK_P2.Size = new System.Drawing.Size(49, 17);
-            this.CHK_P2.TabIndex = 4;
-            this.CHK_P2.Text = "Male";
-            this.CHK_P2.UseVisualStyleBackColor = true;
-            this.CHK_P2.Click += new System.EventHandler(this.ChangeEncountered);
-            // 
-            // CHK_P3
-            // 
-            this.CHK_P3.AutoSize = true;
-            this.CHK_P3.Location = new System.Drawing.Point(6, 42);
-            this.CHK_P3.Name = "CHK_P3";
-            this.CHK_P3.Size = new System.Drawing.Size(60, 17);
-            this.CHK_P3.TabIndex = 5;
-            this.CHK_P3.Text = "Female";
-            this.CHK_P3.UseVisualStyleBackColor = true;
-            this.CHK_P3.Click += new System.EventHandler(this.ChangeEncountered);
-            // 
-            // CHK_P4
-            // 
-            this.CHK_P4.AutoSize = true;
-            this.CHK_P4.Location = new System.Drawing.Point(6, 60);
-            this.CHK_P4.Name = "CHK_P4";
-            this.CHK_P4.Size = new System.Drawing.Size(78, 17);
-            this.CHK_P4.TabIndex = 6;
-            this.CHK_P4.Text = "Shiny Male";
-            this.CHK_P4.UseVisualStyleBackColor = true;
-            this.CHK_P4.Click += new System.EventHandler(this.ChangeEncountered);
-            // 
-            // CHK_P5
-            // 
-            this.CHK_P5.AutoSize = true;
-            this.CHK_P5.Location = new System.Drawing.Point(6, 77);
-            this.CHK_P5.Name = "CHK_P5";
-            this.CHK_P5.Size = new System.Drawing.Size(89, 17);
-            this.CHK_P5.TabIndex = 7;
-            this.CHK_P5.Text = "Shiny Female";
-            this.CHK_P5.UseVisualStyleBackColor = true;
-            this.CHK_P5.Click += new System.EventHandler(this.ChangeEncountered);
-            // 
-            // CHK_P6
-            // 
-            this.CHK_P6.AutoSize = true;
-            this.CHK_P6.Location = new System.Drawing.Point(6, 25);
-            this.CHK_P6.Name = "CHK_P6";
-            this.CHK_P6.Size = new System.Drawing.Size(49, 17);
-            this.CHK_P6.TabIndex = 8;
-            this.CHK_P6.Text = "Male";
-            this.CHK_P6.UseVisualStyleBackColor = true;
-            this.CHK_P6.Click += new System.EventHandler(this.ChangeDisplayed);
-            // 
-            // CHK_P7
-            // 
-            this.CHK_P7.AutoSize = true;
-            this.CHK_P7.Location = new System.Drawing.Point(6, 42);
-            this.CHK_P7.Name = "CHK_P7";
-            this.CHK_P7.Size = new System.Drawing.Size(60, 17);
-            this.CHK_P7.TabIndex = 9;
-            this.CHK_P7.Text = "Female";
-            this.CHK_P7.UseVisualStyleBackColor = true;
-            this.CHK_P7.Click += new System.EventHandler(this.ChangeDisplayed);
-            // 
-            // CHK_P8
-            // 
-            this.CHK_P8.AutoSize = true;
-            this.CHK_P8.Location = new System.Drawing.Point(6, 60);
-            this.CHK_P8.Name = "CHK_P8";
-            this.CHK_P8.Size = new System.Drawing.Size(78, 17);
-            this.CHK_P8.TabIndex = 10;
-            this.CHK_P8.Text = "Shiny Male";
-            this.CHK_P8.UseVisualStyleBackColor = true;
-            this.CHK_P8.Click += new System.EventHandler(this.ChangeDisplayed);
-            // 
-            // CHK_P9
-            // 
-            this.CHK_P9.AutoSize = true;
-            this.CHK_P9.Location = new System.Drawing.Point(6, 77);
-            this.CHK_P9.Name = "CHK_P9";
-            this.CHK_P9.Size = new System.Drawing.Size(89, 17);
-            this.CHK_P9.TabIndex = 11;
-            this.CHK_P9.Text = "Shiny Female";
-            this.CHK_P9.UseVisualStyleBackColor = true;
-            this.CHK_P9.Click += new System.EventHandler(this.ChangeDisplayed);
+            this.CHK_Caught.AutoSize = true;
+            this.CHK_Caught.Location = new System.Drawing.Point(284, 15);
+            this.CHK_Caught.Name = "CHK_Caught";
+            this.CHK_Caught.Size = new System.Drawing.Size(60, 17);
+            this.CHK_Caught.TabIndex = 3;
+            this.CHK_Caught.Text = "Owned";
+            this.CHK_Caught.UseVisualStyleBackColor = true;
             // 
             // CHK_L7
             // 
@@ -300,7 +221,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(330, 261);
+            this.B_Save.Location = new System.Drawing.Point(642, 392);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(80, 23);
             this.B_Save.TabIndex = 24;
@@ -310,7 +231,8 @@
             // 
             // B_Modify
             // 
-            this.B_Modify.Location = new System.Drawing.Point(347, 11);
+            this.B_Modify.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Modify.Location = new System.Drawing.Point(600, 9);
             this.B_Modify.Name = "B_Modify";
             this.B_Modify.Size = new System.Drawing.Size(60, 23);
             this.B_Modify.TabIndex = 25;
@@ -320,6 +242,7 @@
             // 
             // GB_Language
             // 
+            this.GB_Language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Language.Controls.Add(this.CHK_L9);
             this.GB_Language.Controls.Add(this.CHK_L8);
             this.GB_Language.Controls.Add(this.CHK_L7);
@@ -329,9 +252,9 @@
             this.GB_Language.Controls.Add(this.CHK_L3);
             this.GB_Language.Controls.Add(this.CHK_L2);
             this.GB_Language.Controls.Add(this.CHK_L1);
-            this.GB_Language.Location = new System.Drawing.Point(300, 82);
+            this.GB_Language.Location = new System.Drawing.Point(600, 40);
             this.GB_Language.Name = "GB_Language";
-            this.GB_Language.Size = new System.Drawing.Size(108, 172);
+            this.GB_Language.Size = new System.Drawing.Size(122, 172);
             this.GB_Language.TabIndex = 26;
             this.GB_Language.TabStop = false;
             this.GB_Language.Text = "Languages";
@@ -356,42 +279,6 @@
             this.CHK_L8.Text = "Chinese";
             this.CHK_L8.UseVisualStyleBackColor = true;
             // 
-            // GB_Encountered
-            // 
-            this.GB_Encountered.Controls.Add(this.CHK_P5);
-            this.GB_Encountered.Controls.Add(this.CHK_P4);
-            this.GB_Encountered.Controls.Add(this.CHK_P3);
-            this.GB_Encountered.Controls.Add(this.CHK_P2);
-            this.GB_Encountered.Location = new System.Drawing.Point(178, 40);
-            this.GB_Encountered.Name = "GB_Encountered";
-            this.GB_Encountered.Size = new System.Drawing.Size(116, 104);
-            this.GB_Encountered.TabIndex = 27;
-            this.GB_Encountered.TabStop = false;
-            this.GB_Encountered.Text = "Seen";
-            // 
-            // GB_Owned
-            // 
-            this.GB_Owned.Controls.Add(this.CHK_P1);
-            this.GB_Owned.Location = new System.Drawing.Point(300, 40);
-            this.GB_Owned.Name = "GB_Owned";
-            this.GB_Owned.Size = new System.Drawing.Size(108, 36);
-            this.GB_Owned.TabIndex = 28;
-            this.GB_Owned.TabStop = false;
-            this.GB_Owned.Text = "Owned";
-            // 
-            // GB_Displayed
-            // 
-            this.GB_Displayed.Controls.Add(this.CHK_P9);
-            this.GB_Displayed.Controls.Add(this.CHK_P8);
-            this.GB_Displayed.Controls.Add(this.CHK_P7);
-            this.GB_Displayed.Controls.Add(this.CHK_P6);
-            this.GB_Displayed.Location = new System.Drawing.Point(178, 151);
-            this.GB_Displayed.Name = "GB_Displayed";
-            this.GB_Displayed.Size = new System.Drawing.Size(116, 104);
-            this.GB_Displayed.TabIndex = 31;
-            this.GB_Displayed.TabStop = false;
-            this.GB_Displayed.Text = "Displayed";
-            // 
             // modifyMenu
             // 
             this.modifyMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -408,35 +295,35 @@
             this.mnuSeenNone.Name = "mnuSeenNone";
             this.mnuSeenNone.Size = new System.Drawing.Size(148, 22);
             this.mnuSeenNone.Text = "Seen none";
-            this.mnuSeenNone.Click += new System.EventHandler(this.ModifyAll);
+            this.mnuSeenNone.Click += new System.EventHandler(this.SeenNone);
             // 
             // mnuSeenAll
             // 
             this.mnuSeenAll.Name = "mnuSeenAll";
             this.mnuSeenAll.Size = new System.Drawing.Size(148, 22);
             this.mnuSeenAll.Text = "Seen all";
-            this.mnuSeenAll.Click += new System.EventHandler(this.ModifyAll);
+            this.mnuSeenAll.Click += new System.EventHandler(this.SeenAll);
             // 
             // mnuCaughtNone
             // 
             this.mnuCaughtNone.Name = "mnuCaughtNone";
             this.mnuCaughtNone.Size = new System.Drawing.Size(148, 22);
             this.mnuCaughtNone.Text = "Caught none";
-            this.mnuCaughtNone.Click += new System.EventHandler(this.ModifyAll);
+            this.mnuCaughtNone.Click += new System.EventHandler(this.CaughtNone);
             // 
             // mnuCaughtAll
             // 
             this.mnuCaughtAll.Name = "mnuCaughtAll";
             this.mnuCaughtAll.Size = new System.Drawing.Size(148, 22);
             this.mnuCaughtAll.Text = "Caught all";
-            this.mnuCaughtAll.Click += new System.EventHandler(this.ModifyAll);
+            this.mnuCaughtAll.Click += new System.EventHandler(this.CaughtAll);
             // 
             // mnuComplete
             // 
             this.mnuComplete.Name = "mnuComplete";
             this.mnuComplete.Size = new System.Drawing.Size(148, 22);
             this.mnuComplete.Text = "Complete Dex";
-            this.mnuComplete.Click += new System.EventHandler(this.ModifyAll);
+            this.mnuComplete.Click += new System.EventHandler(this.CompleteDex);
             // 
             // mnuFormNone
             // 
@@ -453,24 +340,224 @@
             this.mnuFormAll.Name = "mnuFormAll";
             this.mnuFormAll.Size = new System.Drawing.Size(32, 19);
             // 
-            // LB_Forms
+            // NUD_Battled
             // 
-            this.LB_Forms.FormattingEnabled = true;
-            this.LB_Forms.Location = new System.Drawing.Point(12, 222);
-            this.LB_Forms.Name = "LB_Forms";
-            this.LB_Forms.Size = new System.Drawing.Size(160, 56);
-            this.LB_Forms.TabIndex = 32;
-            this.LB_Forms.SelectedIndexChanged += new System.EventHandler(this.ChangeLBForms);
+            this.NUD_Battled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Battled.Location = new System.Drawing.Point(603, 358);
+            this.NUD_Battled.Name = "NUD_Battled";
+            this.NUD_Battled.Size = new System.Drawing.Size(113, 20);
+            this.NUD_Battled.TabIndex = 28;
+            // 
+            // L_Battled
+            // 
+            this.L_Battled.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_Battled.AutoSize = true;
+            this.L_Battled.Location = new System.Drawing.Point(600, 342);
+            this.L_Battled.Name = "L_Battled";
+            this.L_Battled.Size = new System.Drawing.Size(43, 13);
+            this.L_Battled.TabIndex = 29;
+            this.L_Battled.Text = "Battled:";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(600, 219);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 32;
+            this.label1.Text = "Displayed Form:";
+            // 
+            // GB_Displayed
+            // 
+            this.GB_Displayed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.GB_Displayed.Controls.Add(this.CB_Gender);
+            this.GB_Displayed.Controls.Add(this.CHK_S);
+            this.GB_Displayed.Controls.Add(this.CHK_G);
+            this.GB_Displayed.Location = new System.Drawing.Point(600, 262);
+            this.GB_Displayed.Name = "GB_Displayed";
+            this.GB_Displayed.Size = new System.Drawing.Size(122, 76);
+            this.GB_Displayed.TabIndex = 33;
+            this.GB_Displayed.TabStop = false;
+            this.GB_Displayed.Text = "Displayed";
+            // 
+            // CHK_S
+            // 
+            this.CHK_S.AutoSize = true;
+            this.CHK_S.Location = new System.Drawing.Point(5, 27);
+            this.CHK_S.Name = "CHK_S";
+            this.CHK_S.Size = new System.Drawing.Size(52, 17);
+            this.CHK_S.TabIndex = 9;
+            this.CHK_S.Text = "Shiny";
+            this.CHK_S.UseVisualStyleBackColor = true;
+            // 
+            // CHK_G
+            // 
+            this.CHK_G.AutoSize = true;
+            this.CHK_G.Location = new System.Drawing.Point(5, 13);
+            this.CHK_G.Name = "CHK_G";
+            this.CHK_G.Size = new System.Drawing.Size(78, 17);
+            this.CHK_G.TabIndex = 8;
+            this.CHK_G.Text = "Gigantamax";
+            this.CHK_G.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Unk
+            // 
+            this.CHK_Unk.AutoSize = true;
+            this.CHK_Unk.Enabled = false;
+            this.CHK_Unk.Location = new System.Drawing.Point(393, 15);
+            this.CHK_Unk.Name = "CHK_Unk";
+            this.CHK_Unk.Size = new System.Drawing.Size(92, 17);
+            this.CHK_Unk.TabIndex = 34;
+            this.CHK_Unk.Text = "UnknownFlag";
+            this.CHK_Unk.UseVisualStyleBackColor = true;
+            // 
+            // NUD_Form
+            // 
+            this.NUD_Form.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.NUD_Form.Location = new System.Drawing.Point(603, 236);
+            this.NUD_Form.Name = "NUD_Form";
+            this.NUD_Form.Size = new System.Drawing.Size(113, 20);
+            this.NUD_Form.TabIndex = 35;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.L_Male, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.CLB_3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.CLB_4, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.CLB_1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.CLB_2, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(178, 40);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(416, 396);
+            this.tableLayoutPanel1.TabIndex = 36;
+            // 
+            // CLB_2
+            // 
+            this.CLB_2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_2.FormattingEnabled = true;
+            this.CLB_2.Location = new System.Drawing.Point(105, 21);
+            this.CLB_2.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_2.Name = "CLB_2";
+            this.CLB_2.Size = new System.Drawing.Size(102, 374);
+            this.CLB_2.TabIndex = 30;
+            // 
+            // CLB_1
+            // 
+            this.CLB_1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_1.FormattingEnabled = true;
+            this.CLB_1.Location = new System.Drawing.Point(1, 21);
+            this.CLB_1.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_1.Name = "CLB_1";
+            this.CLB_1.Size = new System.Drawing.Size(102, 374);
+            this.CLB_1.TabIndex = 32;
+            // 
+            // CLB_4
+            // 
+            this.CLB_4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_4.FormattingEnabled = true;
+            this.CLB_4.Location = new System.Drawing.Point(313, 21);
+            this.CLB_4.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_4.Name = "CLB_4";
+            this.CLB_4.Size = new System.Drawing.Size(102, 374);
+            this.CLB_4.TabIndex = 33;
+            // 
+            // CLB_3
+            // 
+            this.CLB_3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CLB_3.FormattingEnabled = true;
+            this.CLB_3.Location = new System.Drawing.Point(209, 21);
+            this.CLB_3.Margin = new System.Windows.Forms.Padding(1);
+            this.CLB_3.Name = "CLB_3";
+            this.CLB_3.Size = new System.Drawing.Size(102, 374);
+            this.CLB_3.TabIndex = 34;
+            // 
+            // L_Male
+            // 
+            this.L_Male.AutoSize = true;
+            this.L_Male.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.L_Male.Location = new System.Drawing.Point(3, 0);
+            this.L_Male.Name = "L_Male";
+            this.L_Male.Size = new System.Drawing.Size(98, 20);
+            this.L_Male.TabIndex = 37;
+            this.L_Male.Text = "Male";
+            this.L_Male.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label3.Location = new System.Drawing.Point(107, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(98, 20);
+            this.label3.TabIndex = 38;
+            this.label3.Text = "Female";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label4.Location = new System.Drawing.Point(211, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(98, 20);
+            this.label4.TabIndex = 39;
+            this.label4.Text = "*Male*";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label5.Location = new System.Drawing.Point(315, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(98, 20);
+            this.label5.TabIndex = 40;
+            this.label5.Text = "*Female*";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // CB_Gender
+            // 
+            this.CB_Gender.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Gender.FormattingEnabled = true;
+            this.CB_Gender.Items.AddRange(new object[] {
+            "♂",
+            "♀",
+            "-"});
+            this.CB_Gender.Location = new System.Drawing.Point(6, 49);
+            this.CB_Gender.Name = "CB_Gender";
+            this.CB_Gender.Size = new System.Drawing.Size(40, 21);
+            this.CB_Gender.TabIndex = 23;
             // 
             // SAV_PokedexSWSH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(417, 291);
-            this.Controls.Add(this.LB_Forms);
+            this.ClientSize = new System.Drawing.Size(734, 454);
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.NUD_Form);
+            this.Controls.Add(this.CHK_Unk);
             this.Controls.Add(this.GB_Displayed);
-            this.Controls.Add(this.GB_Owned);
-            this.Controls.Add(this.GB_Encountered);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.L_Battled);
+            this.Controls.Add(this.NUD_Battled);
+            this.Controls.Add(this.CHK_Caught);
             this.Controls.Add(this.GB_Language);
             this.Controls.Add(this.B_Modify);
             this.Controls.Add(this.B_Save);
@@ -479,22 +566,22 @@
             this.Controls.Add(this.L_goto);
             this.Controls.Add(this.LB_Species);
             this.Controls.Add(this.B_Cancel);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(750, 493);
             this.Name = "SAV_PokedexSWSH";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Pokédex Editor";
             this.GB_Language.ResumeLayout(false);
             this.GB_Language.PerformLayout();
-            this.GB_Encountered.ResumeLayout(false);
-            this.GB_Encountered.PerformLayout();
-            this.GB_Owned.ResumeLayout(false);
-            this.GB_Owned.PerformLayout();
+            this.modifyMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Battled)).EndInit();
             this.GB_Displayed.ResumeLayout(false);
             this.GB_Displayed.PerformLayout();
-            this.modifyMenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_Form)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -504,15 +591,7 @@
 
         private System.Windows.Forms.Button B_Cancel;
         private System.Windows.Forms.ListBox LB_Species;
-        private System.Windows.Forms.CheckBox CHK_P1;
-        private System.Windows.Forms.CheckBox CHK_P2;
-        private System.Windows.Forms.CheckBox CHK_P3;
-        private System.Windows.Forms.CheckBox CHK_P4;
-        private System.Windows.Forms.CheckBox CHK_P5;
-        private System.Windows.Forms.CheckBox CHK_P6;
-        private System.Windows.Forms.CheckBox CHK_P7;
-        private System.Windows.Forms.CheckBox CHK_P8;
-        private System.Windows.Forms.CheckBox CHK_P9;
+        private System.Windows.Forms.CheckBox CHK_Caught;
         private System.Windows.Forms.CheckBox CHK_L7;
         private System.Windows.Forms.CheckBox CHK_L6;
         private System.Windows.Forms.CheckBox CHK_L5;
@@ -526,9 +605,6 @@
         private System.Windows.Forms.Button B_Save;
         private System.Windows.Forms.Button B_Modify;
         private System.Windows.Forms.GroupBox GB_Language;
-        private System.Windows.Forms.GroupBox GB_Encountered;
-        private System.Windows.Forms.GroupBox GB_Owned;
-        private System.Windows.Forms.GroupBox GB_Displayed;
         private System.Windows.Forms.ContextMenuStrip modifyMenu;
         private System.Windows.Forms.ToolStripMenuItem mnuSeenNone;
         private System.Windows.Forms.ToolStripMenuItem mnuSeenAll;
@@ -540,6 +616,23 @@
         private System.Windows.Forms.ToolStripMenuItem mnuFormAll;
         private System.Windows.Forms.CheckBox CHK_L8;
         private System.Windows.Forms.CheckBox CHK_L9;
-        private System.Windows.Forms.ListBox LB_Forms;
+        private System.Windows.Forms.NumericUpDown NUD_Battled;
+        private System.Windows.Forms.Label L_Battled;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox GB_Displayed;
+        private System.Windows.Forms.CheckBox CHK_S;
+        private System.Windows.Forms.CheckBox CHK_G;
+        private System.Windows.Forms.CheckBox CHK_Unk;
+        private System.Windows.Forms.NumericUpDown NUD_Form;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label L_Male;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckedListBox CLB_3;
+        private System.Windows.Forms.CheckedListBox CLB_4;
+        private System.Windows.Forms.CheckedListBox CLB_1;
+        private System.Windows.Forms.CheckedListBox CLB_2;
+        private System.Windows.Forms.ComboBox CB_Gender;
     }
 }

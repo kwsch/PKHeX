@@ -237,9 +237,10 @@ namespace PKHeX.Core
                 case Gen7:
                     return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
 
-                case Gen8:
                 case SWSH:
                     return g2 == SW || g2 == SH;
+                case Gen8:
+                    return SWSH.Contains(g2);
 
                 default: return false;
             }

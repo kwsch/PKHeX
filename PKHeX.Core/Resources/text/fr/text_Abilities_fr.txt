@@ -1,4 +1,4 @@
-
+-
 Puanteur
 Crachin
 Turbo
@@ -8,13 +8,13 @@ Moiteur
 Échauffement
 Voile Sable
 Statik
-Absorb Volt
-Absorb Eau
+Absorbe-Volt
+Absorbe-Eau
 Benêt
 Ciel Gris
 Œil Composé
 Insomnia
-Déguisement
+Homochromie
 Vaccin
 Torche
 Écran Poudre
@@ -56,9 +56,9 @@ Absentéisme
 Agitation
 Joli Sourire
 Plus
-Minus
+Moins
 Météo
-Glue
+Glu
 Mue
 Cran
 Écaille Spéciale
@@ -130,7 +130,7 @@ Acharné
 Défaitiste
 Corps Maudit
 Cœur Soin
-Garde Amie
+Garde-Ami
 Armurouillée
 Heavy Metal
 Light Metal
@@ -161,7 +161,7 @@ Force Sable
 Épine de Fer
 Mode Transe
 Victorieux
-TurboBrasier
+Turbo Brasier
 Téra-Voltage
 Aroma-Voile
 Flora-Voile
@@ -232,3 +232,28 @@ Métallo-Garde
 Spectro-Bouclier
 Prisme-Armure
 Cérébro-Force
+Lame Indomptable
+Égide Inflexible
+Libéro
+Ramasse Ball
+Effilochage
+Propulseur
+Armure Miroir
+Dégobage
+Nerfs d’Acier
+Turbine
+Punk Rock
+Expul’Sable
+Écailles Glacées
+Mûrissement
+Tête de Gel
+Cercle d’Énergie
+Mimétisme
+Brise-Barrière
+Boost Acier
+Corps Condamné
+Âme Vagabonde
+Entêtement
+Gaz Inhibiteur
+Voile Pastel
+Déclic Fringale

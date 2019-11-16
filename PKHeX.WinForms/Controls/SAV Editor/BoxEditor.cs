@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -29,18 +30,29 @@ namespace PKHeX.WinForms.Controls
             var count = SAV.BoxSlotCount;
             var width = count / 5;
             var height = count / width;
-            if (pokeGrid1.InitializeGrid(width, height))
-            {
-                pokeGrid1.HorizontallyCenter(this);
-                InitializeSlots();
-                return true;
-            }
-            return false;
+            if (!BoxPokeGrid.InitializeGrid(width, height, SpriteUtil.Spriter))
+                return false;
+            RecenterControls();
+            InitializeSlots();
+            return true;
+        }
+
+        public void RecenterControls()
+        {
+            BoxPokeGrid.HorizontallyCenter(this);
+            int p1 = CB_BoxSelect.Location.X;
+            CB_BoxSelect.HorizontallyCenter(this);
+            int p2 = CB_BoxSelect.Location.X;
+            if (p1 == p2)
+                return;
+
+            B_BoxLeft.Location = new Point(B_BoxLeft.Location.X + p2 - p1, B_BoxLeft.Location.Y);
+            B_BoxRight.Location = new Point(B_BoxRight.Location.X + p2 - p1, B_BoxRight.Location.Y);
         }
 
         private void InitializeSlots()
         {
-            SlotPictureBoxes = pokeGrid1.Entries;
+            SlotPictureBoxes = BoxPokeGrid.Entries;
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
@@ -164,7 +176,7 @@ namespace PKHeX.WinForms.Controls
         {
             Editor.Reload();
             int box = CurrentBox;
-            pokeGrid1.SetBackground(SAV.WallpaperImage(box));
+            BoxPokeGrid.SetBackground(SAV.WallpaperImage(box));
             M.Hover.Stop();
 
             int index = box * SAV.BoxSlotCount;

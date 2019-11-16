@@ -5,7 +5,6 @@ using System.Windows.Forms;
 
 using PKHeX.Core;
 using PKHeX.Drawing;
-using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms
 {
@@ -43,7 +42,7 @@ namespace PKHeX.WinForms
             {
                 Size = img.Size,
                 Image = img,
-                BackgroundImage = legal.Contains(b) ? Resources.slotSet : Resources.slotDel,
+                BackgroundImage = legal.Contains(b) ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
                 BackgroundImageLayout = ImageLayout.Tile
             };
             pb.MouseEnter += (_, __) => Text = names.First(z => z.Value == (int)b).Text;

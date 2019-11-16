@@ -40,7 +40,7 @@
             this.Menu_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Import = new System.Windows.Forms.ToolStripMenuItem();
             this.P_Results = new System.Windows.Forms.Panel();
-            this.pokeGrid1 = new PKHeX.WinForms.Controls.PokeGrid();
+            this.MysteryPokeGrid = new PKHeX.WinForms.Controls.PokeGrid();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.CB_Move4 = new System.Windows.Forms.ComboBox();
@@ -178,7 +178,7 @@
             // 
             this.P_Results.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.P_Results.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.P_Results.Controls.Add(this.pokeGrid1);
+            this.P_Results.Controls.Add(this.MysteryPokeGrid);
             this.P_Results.Controls.Add(this.SCR_Box);
             this.P_Results.Location = new System.Drawing.Point(12, 32);
             this.P_Results.Name = "P_Results";
@@ -187,12 +187,12 @@
             // 
             // pokeGrid1
             // 
-            this.pokeGrid1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pokeGrid1.Location = new System.Drawing.Point(2, 2);
-            this.pokeGrid1.Margin = new System.Windows.Forms.Padding(0);
-            this.pokeGrid1.Name = "pokeGrid1";
-            this.pokeGrid1.Size = new System.Drawing.Size(251, 346);
-            this.pokeGrid1.TabIndex = 2;
+            this.MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
+            this.MysteryPokeGrid.Margin = new System.Windows.Forms.Padding(0);
+            this.MysteryPokeGrid.Name = "MysteryPokeGrid";
+            this.MysteryPokeGrid.Size = new System.Drawing.Size(251, 346);
+            this.MysteryPokeGrid.TabIndex = 2;
             // 
             // CB_HeldItem
             // 
@@ -659,7 +659,7 @@
         private System.Windows.Forms.RichTextBox RTB_Instructions;
         private System.Windows.Forms.ToolStripMenuItem Menu_SearchAdvanced;
         private System.Windows.Forms.ToolStripMenuItem Menu_Import;
-        private Controls.PokeGrid pokeGrid1;
+        private Controls.PokeGrid MysteryPokeGrid;
         private System.Windows.Forms.ContextMenuStrip mnu;
         private System.Windows.Forms.ToolStripMenuItem mnuView;
         private System.Windows.Forms.ToolStripMenuItem mnuSaveMG;

@@ -175,7 +175,10 @@ namespace PKHeX.Core
             }
 
             if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
-                return GetInvalid(LFormBattle);
+            {
+                if (pkm.Species == (int)Species.Darmanitan && pkm.Species == 2) { } // this one is OK, Galarian non-Zen
+                else return GetInvalid(LFormBattle);
+            }
 
             return VALID;
         }

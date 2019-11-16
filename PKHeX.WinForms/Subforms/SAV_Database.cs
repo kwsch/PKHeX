@@ -34,9 +34,9 @@ namespace PKHeX.WinForms
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
-            pokeGrid1.InitializeGrid(6, 11);
-            pokeGrid1.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = pokeGrid1.Entries.ToArray();
+            DatabasePokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            DatabasePokeGrid.SetBackground(Resources.box_wp_clean);
+            PKXBOXES = DatabasePokeGrid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -103,7 +103,7 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.PopulateFields(Results[index], false);
             slotSelected = index;
-            slotColor = Resources.slotView;
+            slotColor = SpriteUtil.Spriter.View;
             FillPKXBoxes(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].Identifier);
         }
@@ -190,7 +190,7 @@ namespace PKHeX.WinForms
             // Refresh database view.
             L_Count.Text = string.Format(Counter, Results.Count);
             slotSelected = Results.Count - 1;
-            slotColor = Resources.slotSet;
+            slotColor = SpriteUtil.Spriter.Set;
             if ((SCR_Box.Maximum+1)*6 < Results.Count)
                 SCR_Box.Maximum++;
             SCR_Box.Value = Math.Max(0, SCR_Box.Maximum - (PKXBOXES.Length/6) + 1);
@@ -547,9 +547,9 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].Image = null;
 
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
-                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? Resources.slotView;
+                PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
 
         // Misc Update Methods
@@ -593,7 +593,7 @@ namespace PKHeX.WinForms
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!pokeGrid1.RectangleToScreen(pokeGrid1.ClientRectangle).Contains(MousePosition))
+            if (!DatabasePokeGrid.RectangleToScreen(DatabasePokeGrid.ClientRectangle).Contains(MousePosition))
                 return;
             int oldval = SCR_Box.Value;
             int newval = oldval + (e.Delta < 0 ? 1 : -1);

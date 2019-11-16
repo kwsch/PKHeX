@@ -35,7 +35,7 @@ namespace PKHeX.Core
             Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
             Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
             Evolves7b = new EvolutionTree(unpack("gg"), GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
-            Evolves8 = new EvolutionTree(unpack("gg"), GameVersion.Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
+            Evolves8 = new EvolutionTree(unpack("ss"), GameVersion.Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();

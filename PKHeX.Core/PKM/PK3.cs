@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
     public sealed class PK3 : G3PKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x2A, 0x2B
         };
@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public override IReadOnlyList<byte> ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override byte[] Data { get; }
         public PK3() => Data = new byte[PKX.SIZE_3PARTY];
@@ -213,7 +213,7 @@ namespace PKHeX.Core
                 Species = Species,
                 TID = TID,
                 SID = SID,
-                EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
+                EXP = IsEgg ? Experience.GetEXP(5, PersonalInfo.EXPGrowth) : EXP,
                 Gender = PKX.GetGenderFromPID(Species, PID),
                 AltForm = AltForm,
                 // IsEgg = false, -- already false

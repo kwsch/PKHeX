@@ -168,7 +168,9 @@ namespace PKHeX.Core
         public static void SetNature(this PKM pk, int nature)
         {
             var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
-            if (pk.Format <= 4)
+            if (pk.Format >= 8)
+                pk.StatNature = value;
+            else if (pk.Format <= 4)
                 pk.SetPIDNature(value);
             else
                 pk.Nature = value;
@@ -302,8 +304,8 @@ namespace PKHeX.Core
                 return m;
 
             var encounter = legal.GetSuggestedMetInfo();
-            if (encounter?.Relearn?.Length > 0)
-                m = encounter.Relearn;
+            if (encounter is IRelearn r && r.Relearn.Length > 0)
+                m = r.Relearn;
 
             return m;
         }
@@ -671,6 +673,7 @@ namespace PKHeX.Core
                     pk.Markings = markings;
                     break;
                 case 7: // 0 (none) | 1 (blue) | 2 (pink)
+                case 8:
                     markings[index] = (markings[index] + 1) % 3; // cycle 0->1->2->0...
                     pk.Markings = markings;
                     break;

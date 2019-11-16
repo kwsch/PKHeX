@@ -494,12 +494,20 @@ namespace PKHeX.Core
             SetFlag(region + ofs, bit & 7, value);
         }
 
-        protected override void WriteStoredSlot(PKM pkm, int offset)
+        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
             ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
-            SetStoredSlot(pkm, offset);
+            base.WriteSlotFormatStored(pkm, Data, offset);
+        }
+
+        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        {
+            // pkm that have never been boxed have yet to save the 'current level' for box indication
+            // set this value at this time
+            ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
+            base.WriteBoxSlot(pkm, Data, offset);
         }
 
         private const int SpawnFlagCount = 0xF0;

@@ -1,7 +1,6 @@
 ﻿using System;
 using PKHeX.Core;
 using PKHeX.Drawing;
-using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -22,9 +21,9 @@ namespace PKHeX.WinForms.Controls
         private void LoadSpeciesLevelEXP(PKM pk)
         {
             // Do first
-            pk.Stat_Level = Experience.GetLevel(pk.EXP, pk.Species, pk.AltForm);
+            pk.Stat_Level = Experience.GetLevel(pk.EXP, pk.PersonalInfo.EXPGrowth);
             if (pk.Stat_Level == 100 && !HaX)
-                pk.EXP = Experience.GetEXP(pk.Stat_Level, pk.Species, pk.AltForm);
+                pk.EXP = Experience.GetEXP(pk.Stat_Level, pk.PersonalInfo.EXPGrowth);
 
             CB_Species.SelectedValue = pk.Species;
             TB_Level.Text = pk.Stat_Level.ToString();
@@ -264,7 +263,7 @@ namespace PKHeX.WinForms.Controls
             if (pk.IsEgg && pk.Met_Location == 0) // If still an egg, it has no hatch location/date. Zero it!
                 pk.MetDate = null;
 
-            pk.Ability = (byte)WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
+            pk.Ability = WinFormsUtil.GetIndex(HaX ? DEV_Ability : CB_Ability);
         }
 
         private void LoadMisc6(PKM pk)
@@ -289,7 +288,9 @@ namespace PKHeX.WinForms.Controls
 
             SaveRelearnMoves(pk);
             SaveHandlingTrainer(pk);
-            SaveGeolocation(pk);
+
+            if (pk.Format <= 7 && !(pk is PB7))
+                SaveGeolocation(pk);
         }
 
         private void LoadGeolocation(PKM pk)
@@ -322,12 +323,12 @@ namespace PKHeX.WinForms.Controls
         {
             if (pk.CurrentHandler == 0) // OT
             {
-                GB_OT.BackgroundImage = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
+                GB_OT.BackgroundImage = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
                 GB_nOT.BackgroundImage = null;
             }
             else // Handling Trainer
             {
-                GB_nOT.BackgroundImage = ImageUtil.ChangeOpacity(Resources.slotSet, 0.5);
+                GB_nOT.BackgroundImage = ImageUtil.ChangeOpacity(SpriteUtil.Spriter.Set, 0.5);
                 GB_OT.BackgroundImage = null;
             }
         }
@@ -386,6 +387,22 @@ namespace PKHeX.WinForms.Controls
             if (abils[0] == abils[1])
                 return pk.PIDAbility;
             return abilityIndex;
+        }
+
+        private void LoadMisc8(PK8 pk8)
+        {
+            CB_StatNature.SelectedValue = pk8.StatNature;
+            Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
+            Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
+            CB_HTLanguage.SelectedValue = pk8.HT_Language;
+        }
+
+        private void SaveMisc8(PK8 pk8)
+        {
+            pk8.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+            pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
+            pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
+            pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
         }
     }
 }

@@ -16,6 +16,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc4(pk8);
             LoadMisc6(pk8);
             SizeCP.LoadPKM(pk8);
+            LoadMisc8(pk8);
 
             LoadPartyStats(pk8);
             UpdateStats();
@@ -32,6 +33,7 @@ namespace PKHeX.WinForms.Controls
             SaveMisc3(pk8);
             SaveMisc4(pk8);
             SaveMisc6(pk8);
+            SaveMisc8(pk8);
 
             // Toss in Party Stats
             SavePartyStats(pk8);

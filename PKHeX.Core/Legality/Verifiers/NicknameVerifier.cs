@@ -28,14 +28,17 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.VC && pkm.IsNicknamed)
+            if (pkm.Format <= 7) // can nickname afterwards
             {
-                VerifyG1NicknameWithinBounds(data, pkm.Nickname);
-            }
-            else if (EncounterMatch is MysteryGift m)
-            {
-                if (pkm.IsNicknamed && !m.IsEgg)
-                   data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
+                if (pkm.VC && pkm.IsNicknamed)
+                {
+                    VerifyG1NicknameWithinBounds(data, pkm.Nickname);
+                }
+                else if (EncounterMatch is MysteryGift m)
+                {
+                    if (pkm.IsNicknamed && !m.IsEgg)
+                        data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
+                }
             }
 
             if (EncounterMatch is EncounterTrade t)
@@ -83,7 +86,7 @@ namespace PKHeX.Core
                 }
                 if (nickname.Length > Legal.GetMaxLengthNickname(data.Info.Generation, (LanguageID)pkm.Language))
                 {
-                    var severe = data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, English)
+                    var severe = pkm.Format >= 8 || (data.EncounterOriginal.EggEncounter && pkm.WasTradedEgg && nickname.Length <= Legal.GetMaxLengthNickname(data.Info.Generation, English))
                             ? Severity.Fishy
                             : Severity.Invalid;
                     data.AddLine(Get(LNickLengthLong, severe));
@@ -345,7 +348,7 @@ namespace PKHeX.Core
         private static CheckResult CheckTradeOTOnly(LegalityAnalysis data, string[] validOT)
         {
             var pkm = data.pkm;
-            if (pkm.IsNicknamed)
+            if (pkm.IsNicknamed && pkm.Format < 8)
                 return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
             int lang = pkm.Language;
             if (validOT.Length <= lang)

@@ -47,7 +47,9 @@ namespace PKHeX.Drawing
                 }
             }
             else if (gender == 1 && SpeciesGenderedSprite.Contains(species))
-            { sb.Append(Separator); sb.Append(gender); }
+            {
+                sb.Append('f');
+            }
 
             if (shiny && AllowShinySprite)
                 sb.Append(Shiny);
@@ -72,6 +74,7 @@ namespace PKHeX.Drawing
         /// </summary>
         private static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
+            (int)Species.Hippowdon,
             (int)Species.Unfezant,
             (int)Species.Frillish,
             (int)Species.Jellicent,

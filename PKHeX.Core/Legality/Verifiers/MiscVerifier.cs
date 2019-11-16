@@ -43,6 +43,8 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferBad));
             if (pkm is PB7 pb7)
                 VerifyBelugaStats(data, pb7);
+            if (pkm is PK8 pk8)
+                VerifySWSHStats(data, pk8);
 
             VerifyMiscFatefulEncounter(data);
         }
@@ -223,6 +225,7 @@ namespace PKHeX.Core
             {
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
+                case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
@@ -259,11 +262,11 @@ namespace PKHeX.Core
             // No point using the evolution tree. Just handle certain species.
             switch (pkm.Species)
             {
-                case 745 when (pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun()): // Lycanroc
-                case 791 when Moon(): // Solgaleo
-                case 792 when Sun(): // Lunala
-                    bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
-                    bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
+                case (int)Species.Lycanroc when (pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun()):
+                case (int)Species.Solgaleo when Moon():
+                case (int)Species.Lunala when Sun():
+                    bool Sun() => (pkm.Version & 1) == 0;
+                    bool Moon() => (pkm.Version & 1) == 1;
                     if (pkm.IsUntraded)
                         data.AddLine(GetInvalid(LEvoTradeRequired, Evolution));
                     break;
@@ -315,5 +318,35 @@ namespace PKHeX.Core
 
         private static readonly int[] tradeEvo7b = { 064, 067, 075, 093 };
         private static bool IsStarter(PKM pb7) => (pb7.Species == 25 && pb7.AltForm == 8) || (pb7.Species == 133 && pb7.AltForm == 1);
+
+        private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
+        {
+            if (pk8.Favorite)
+                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
+
+            var gflag = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
+            if (gflag != pk8.CanGigantamax)
+                data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+
+            if (pk8.DynamaxLevel != 0)
+            {
+                if (pk8.IsEgg || pk8.DynamaxLevel > 10)
+                    data.AddLine(GetInvalid(LStatDynamaxInvalid));
+            }
+
+            PersonalInfo? pi = null;
+            for (int i = 0; i < 100; i++)
+            {
+                if (!pk8.GetMoveRecordFlag(i))
+                    continue;
+                if (!(pi ??= pk8.PersonalInfo).TMHM[i + 100])
+                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalysis.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
+            }
+
+            if (!string.IsNullOrWhiteSpace(pk8.HT_Name) && pk8.HT_Language == 0)
+                data.AddLine(GetInvalid(LMemoryHTLanguage));
+
+            // weight/height scalars can be legally 0 (1:65536) so don't bother checking
+        }
     }
 }

@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
             int index = Array.IndexOf(pba, pb);
 
-            SetBackground(index, Properties.Resources.slotView);
+            SetBackground(index, Drawing.Properties.Resources.slotView);
             ViewGiftData(mga.Gifts[index]);
         }
 
@@ -190,7 +190,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{mg.Type} != {mga.Gifts[index].Type}");
                 return;
             }
-            SetBackground(index, Properties.Resources.slotSet);
+            SetBackground(index, Drawing.Properties.Resources.slotSet);
             mga.Gifts[index] = (DataMysteryGift)mg.Clone();
             SetGiftBoxes();
             SetCardID(mg.CardID);
@@ -221,7 +221,7 @@ namespace PKHeX.WinForms
                 mga.Gifts[i-1] = mg1;
                 mga.Gifts[i] = mg2;
             }
-            SetBackground(i, Properties.Resources.slotDel);
+            SetBackground(i, Drawing.Properties.Resources.slotDel);
             SetGiftBoxes();
         }
 
@@ -416,7 +416,7 @@ namespace PKHeX.WinForms
                     WinFormsUtil.Alert(MsgMysteryGiftSlotFail, $"{gift.Type} != {mga.Gifts[index].Type}");
                     return;
                 }
-                SetBackground(index, Properties.Resources.slotSet);
+                SetBackground(index, Drawing.Properties.Resources.slotSet);
                 mga.Gifts[index] = (DataMysteryGift)gift.Clone();
 
                 SetCardID(mga.Gifts[index].CardID);
@@ -460,7 +460,7 @@ namespace PKHeX.WinForms
                     index = i-1;
                 }
             }
-            SetBackground(index, Properties.Resources.slotView);
+            SetBackground(index, Drawing.Properties.Resources.slotView);
             SetGiftBoxes();
         }
 

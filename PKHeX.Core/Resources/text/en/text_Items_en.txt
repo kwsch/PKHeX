@@ -1,4 +1,4 @@
-﻿None
+None
 Master Ball
 Ultra Ball
 Great Ball
@@ -119,7 +119,7 @@ Shock Drive
 Burn Drive
 Chill Drive
 ???
-Pokémon Box
+Pokémon Box Link
 Medicine Pocket
 TM Case
 Candy Jar
@@ -250,14 +250,14 @@ Twisted Spoon
 Charcoal
 Dragon Fang
 Silk Scarf
-Up-Grade
+Upgrade
 Shell Bell
 Sea Incense
 Lax Incense
 Lucky Punch
 Metal Powder
 Thick Club
-Stick
+Leek
 Red Scarf
 Blue Scarf
 Pink Scarf
@@ -563,13 +563,13 @@ Dragon Gem
 Dark Gem
 Steel Gem
 Normal Gem
-Health Wing
-Muscle Wing
-Resist Wing
-Genius Wing
-Clever Wing
-Swift Wing
-Pretty Wing
+Health Feather
+Muscle Feather
+Resist Feather
+Genius Feather
+Clever Feather
+Swift Feather
+Pretty Feather
 Cover Fossil
 Plume Fossil
 Liberty Pass
@@ -701,7 +701,7 @@ Discount Coupon
 Elevator Key
 TMV Pass
 Honor of Kalos
-Adventure Rules
+Adventure Guide
 Strange Souvenir
 Lens Case
 Makeup Bag
@@ -1056,3 +1056,524 @@ Mewtwo Candy
 Mew Candy
 Meltan Candy
 Magmar Candy
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Endorsement
+Pokémon Box Link
+Wishing Star
+Dynamax Band
+???
+???
+Fishing Rod
+Rotom Bike
+???
+???
+Sausages
+Bob’s Food Tin
+Bach’s Food Tin
+Tin of Beans
+Bread
+Pasta
+Mixed Mushrooms
+Smoke-Poke Tail
+Large Leek
+Fancy Apple
+Brittle Bones
+Pack of Potatoes
+Pungent Root
+Salad Mix
+Fried Food
+Boiled Egg
+Camping Gear
+???
+???
+Rusted Sword
+Rusted Shield
+Fossilized Bird
+Fossilized Fish
+Fossilized Drake
+Fossilized Dino
+Strawberry Sweet
+Love Sweet
+Berry Sweet
+Clover Sweet
+Flower Sweet
+Star Sweet
+Ribbon Sweet
+Sweet Apple
+Tart Apple
+Throat Spray
+Eject Pack
+Heavy-Duty Boots
+Blunder Policy
+Room Service
+Utility Umbrella
+Exp. Candy XS
+Exp. Candy S
+Exp. Candy M
+Exp. Candy L
+Exp. Candy XL
+Dynamax Candy
+TR00
+TR01
+TR02
+TR03
+TR04
+TR05
+TR06
+TR07
+TR08
+TR09
+TR10
+TR11
+TR12
+TR13
+TR14
+TR15
+TR16
+TR17
+TR18
+TR19
+TR20
+TR21
+TR22
+TR23
+TR24
+TR25
+TR26
+TR27
+TR28
+TR29
+TR30
+TR31
+TR32
+TR33
+TR34
+TR35
+TR36
+TR37
+TR38
+TR39
+TR40
+TR41
+TR42
+TR43
+TR44
+TR45
+TR46
+TR47
+TR48
+TR49
+TR50
+TR51
+TR52
+TR53
+TR54
+TR55
+TR56
+TR57
+TR58
+TR59
+TR60
+TR61
+TR62
+TR63
+TR64
+TR65
+TR66
+TR67
+TR68
+TR69
+TR70
+TR71
+TR72
+TR73
+TR74
+TR75
+TR76
+TR77
+TR78
+TR79
+TR80
+TR81
+TR82
+TR83
+TR84
+TR85
+TR86
+TR87
+TR88
+TR89
+TR90
+TR91
+TR92
+TR93
+TR94
+TR95
+TR96
+TR97
+TR98
+TR99
+TM00
+Lonely Mint
+Adamant Mint
+Naughty Mint
+Brave Mint
+Bold Mint
+Impish Mint
+Lax Mint
+Relaxed Mint
+Modest Mint
+Mild Mint
+Rash Mint
+Quiet Mint
+Calm Mint
+Gentle Mint
+Careful Mint
+Sassy Mint
+Timid Mint
+Hasty Mint
+Jolly Mint
+Naive Mint
+Serious Mint
+Wishing Piece
+Cracked Pot
+Chipped Pot
+Hi-tech Earbuds
+Fruit Bunch
+Moomoo Cheese
+Spice Mix
+Fresh Cream
+Packaged Curry
+Coconut Milk
+Instant Noodles
+Precooked Burger
+Gigantamix
+Wishing Chip
+Rotom Bike
+Catching Charm
+???
+Old Letter
+Band Autograph
+Sonia’s Book
+???
+???
+???
+???
+???
+???
+Rotom Catalog
+★And458
+★And15
+★And337
+★And603
+★And390
+★Sgr6879
+★Sgr6859
+★Sgr6913
+★Sgr7348
+★Sgr7121
+★Sgr6746
+★Sgr7194
+★Sgr7337
+★Sgr7343
+★Sgr6812
+★Sgr7116
+★Sgr7264
+★Sgr7597
+★Del7882
+★Del7906
+★Del7852
+★Psc596
+★Psc361
+★Psc510
+★Psc437
+★Psc8773
+★Lep1865
+★Lep1829
+★Boo5340
+★Boo5506
+★Boo5435
+★Boo5602
+★Boo5733
+★Boo5235
+★Boo5351
+★Hya3748
+★Hya3903
+★Hya3418
+★Hya3482
+★Hya3845
+★Eri1084
+★Eri472
+★Eri1666
+★Eri897
+★Eri1231
+★Eri874
+★Eri1298
+★Eri1325
+★Eri984
+★Eri1464
+★Eri1393
+★Eri850
+★Tau1409
+★Tau1457
+★Tau1165
+★Tau1791
+★Tau1910
+★Tau1346
+★Tau1373
+★Tau1412
+★CMa2491
+★CMa2693
+★CMa2294
+★CMa2827
+★CMa2282
+★CMa2618
+★CMa2657
+★CMa2646
+★UMa4905
+★UMa4301
+★UMa5191
+★UMa5054
+★UMa4295
+★UMa4660
+★UMa4554
+★UMa4069
+★UMa3569
+★UMa3323
+★UMa4033
+★UMa4377
+★UMa4375
+★UMa4518
+★UMa3594
+★Vir5056
+★Vir4825
+★Vir4932
+★Vir4540
+★Vir4689
+★Vir5338
+★Vir4910
+★Vir5315
+★Vir5359
+★Vir5409
+★Vir5107
+★Ari617
+★Ari553
+★Ari546
+★Ari951
+★Ori1713
+★Ori2061
+★Ori1790
+★Ori1903
+★Ori1948
+★Ori2004
+★Ori1852
+★Ori1879
+★Ori1899
+★Ori1543
+★Cas21
+★Cas168
+★Cas403
+★Cas153
+★Cas542
+★Cas219
+★Cas265
+★Cnc3572
+★Cnc3208
+★Cnc3461
+★Cnc3449
+★Cnc3429
+★Cnc3627
+★Cnc3268
+★Cnc3249
+★Com4968
+★Crv4757
+★Crv4623
+★Crv4662
+★Crv4786
+★Aur1708
+★Aur2088
+★Aur1605
+★Aur2095
+★Aur1577
+★Aur1641
+★Aur1612
+★Pav7790
+★Cet911
+★Cet681
+★Cet188
+★Cet539
+★Cet804
+★Cep8974
+★Cep8162
+★Cep8238
+★Cep8417
+★Cen5267
+★Cen5288
+★Cen551
+★Cen5459
+★Cen5460
+★CMi2943
+★CMi2845
+★Equ8131
+★Vul7405
+★UMi424
+★UMi5563
+★UMi5735
+★UMi6789
+★Crt4287
+★Lyr7001
+★Lyr7178
+★Lyr7106
+★Lyr7298
+★Ara6585
+★Sco6134
+★Sco6527
+★Sco6553
+★Sco5953
+★Sco5984
+★Sco6508
+★Sco6084
+★Sco5944
+★Sco6630
+★Sco6027
+★Sco6247
+★Sco6252
+★Sco5928
+★Sco6241
+★Sco6165
+★Tri544
+★Leo3982
+★Leo4534
+★Leo4357
+★Leo4057
+★Leo4359
+★Leo4031
+★Leo3852
+★Leo3905
+★Leo3773
+★Gru8425
+★Gru8636
+★Gru8353
+★Lib5685
+★Lib5531
+★Lib5787
+★Lib5603
+★Pup3165
+★Pup3185
+★Pup3045
+★Cyg7924
+★Cyg7417
+★Cyg7796
+★Cyg8301
+★Cyg7949
+★Cyg7528
+★Oct7228
+★Col1956
+★Col2040
+★Col2177
+★Gem2990
+★Gem2891
+★Gem2421
+★Gem2473
+★Gem2216
+★Gem2777
+★Gem2650
+★Gem2286
+★Gem2484
+★Gem2930
+★Peg8775
+★Peg8781
+★Peg39
+★Peg8308
+★Peg8650
+★Peg8634
+★Peg8684
+★Peg8450
+★Peg8880
+★Peg8905
+★Oph6556
+★Oph6378
+★Oph6603
+★Oph6149
+★Oph6056
+★Oph6075
+★Ser5854
+★Ser7141
+★Ser5879
+★Her6406
+★Her6148
+★Her6410
+★Her6526
+★Her6117
+★Her6008
+★Per936
+★Per1017
+★Per1131
+★Per1228
+★Per834
+★Per941
+★Phe99
+★Phe338
+★Vel3634
+★Vel3485
+★Vel3734
+★Aqr8232
+★Aqr8414
+★Aqr8709
+★Aqr8518
+★Aqr7950
+★Aqr8499
+★Aqr8610
+★Aqr8264
+★Cru4853
+★Cru4730
+★Cru4763
+★Cru4700
+★Cru4656
+★PsA8728
+★TrA6217
+★Cap7776
+★Cap7754
+★Cap8278
+★Cap8322
+★Cap7773
+★Sge7479
+★Car2326
+★Car3685
+★Car3307
+★Car3699
+★Dra5744
+★Dra5291
+★Dra6705
+★Dra6536
+★Dra7310
+★Dra6688
+★Dra4434
+★Dra6370
+★Dra7462
+★Dra6396
+★Dra6132
+★Dra6636
+★CVn4915
+★CVn4785
+★CVn4846
+★Aql7595
+★Aql7557
+★Aql7525
+★Aql7602
+★Aql7235

@@ -1,4 +1,4 @@
--
+—
 Hedor
 Llovizna
 Impulso
@@ -104,7 +104,7 @@ Defensa Hoja
 Zoquete
 Rompemoldes
 Afortunado
-Resquicio
+Detonación
 Anticipación
 Alerta
 Ignorante
@@ -134,7 +134,7 @@ Compiescolta
 Armadura Frágil
 Metal Pesado
 Metal Liviano
-Compensación
+Multiescamas
 Ímpetu Tóxico
 Ímpetu Ardiente
 Cosecha
@@ -232,3 +232,28 @@ Guardia Metálica
 Guardia Espectro
 Armadura Prisma
 Fuerza Cerebral
+Espada Indómita
+Escudo Recio
+Líbero
+Recogebolas
+Pelusa
+Hélice Caudal
+Coraza Reflejo
+Tragamisil
+Acérrimo
+Combustible
+Punk Rock
+Expulsarena
+Escama de Hielo
+Maduración
+Cara de Hielo
+Fuente Energía
+Mimetismo
+Antibarrera
+Alma Acerada
+Cuerpo Mortal
+Alma Errante
+Monotema
+Gas Reactivo
+Velo Pastel
+Mutapetito

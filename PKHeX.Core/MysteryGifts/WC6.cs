@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 Mystery Gift Template File
     /// </summary>
-    public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
+    public sealed class WC6 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature
     {
         public const int Size = 0x108;
         public const uint EonTicketConst = 0x225D73C2;
@@ -305,7 +305,7 @@ namespace PKHeX.Core
                 HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
-                EXP = Experience.GetEXP(Level, Species, 0),
+                EXP = Experience.GetEXP(Level, pi.EXPGrowth),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -501,7 +501,7 @@ namespace PKHeX.Core
             if (Level != pkm.Met_Level) return false;
             if (Ball != pkm.Ball) return false;
             if (OTGender < 3 && OTGender != pkm.OT_Gender) return false;
-            if (Nature != -1 && Nature != pkm.Nature) return false;
+            if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(this))

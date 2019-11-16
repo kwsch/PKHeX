@@ -48,5 +48,21 @@ namespace PKHeX.Core
 
             return true;
         }
+
+        public static bool IsEvolvedChangedFormValid(int species, int currentForm, int originalForm)
+        {
+            switch (currentForm)
+            {
+                case 0 when Legal.GalarForm0Evolutions.TryGetValue(species, out var val):
+                    return originalForm == val;
+                case 1 when Legal.AlolanVariantEvolutions12.Contains(species):
+                case 1 when Legal.GalarVariantFormEvolutions.Contains(species):
+                    return originalForm == 0;
+                case 2 when species == (int)Species.Darmanitan:
+                    return originalForm == 1;
+                default:
+                    return false;
+            }
+        }
     }
 }

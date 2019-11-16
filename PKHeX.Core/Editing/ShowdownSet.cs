@@ -69,7 +69,7 @@ namespace PKHeX.Core
         public int Friendship { get; private set; } = 255;
 
         /// <summary>
-        /// <see cref="PKM.Nature"/> of the Set entity.
+        /// <see cref="PKM.StatNature"/> of the Set entity.
         /// </summary>
         public int Nature { get; set; } = -1;
 
@@ -393,7 +393,7 @@ namespace PKHeX.Core
             Nature = pkm.Nature;
             Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2];
             Friendship = pkm.CurrentFriendship;
-            Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm);
+            Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth);
             Shiny = pkm.IsShiny;
 
             SetFormString(pkm.AltForm);

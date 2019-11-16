@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public interface ISaveBlockAccessor<out T> where T : BlockInfo
+    public interface ISaveBlockAccessor<out T>
     {
         IReadOnlyList<T> BlockInfo { get; }
     }

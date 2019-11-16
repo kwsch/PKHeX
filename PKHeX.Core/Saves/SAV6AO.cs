@@ -218,7 +218,7 @@ namespace PKHeX.Core
         public override int BoxesUnlocked { get => Blocks.BoxLayout.BoxesUnlocked; set => Blocks.BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => Blocks.BoxLayout.BoxFlags; set => Blocks.BoxLayout.BoxFlags = value; }
 
-        public override bool BattleBoxLocked
+        public bool BattleBoxLocked
         {
             get => Blocks.BattleBox.Locked;
             set => Blocks.BattleBox.Locked = value;

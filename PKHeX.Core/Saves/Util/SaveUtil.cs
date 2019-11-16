@@ -16,7 +16,7 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
-        public const int SIZE_G8SWSH = 0x845FED; // todo
+        public const int SIZE_G8SWSH = 0x1716B3;
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
@@ -97,8 +97,6 @@ namespace PKHeX.Core
                 return ver;
             if ((ver = GetIsG7SAV(data)) != Invalid)
                 return ver;
-            if ((ver = GetIsG8SAV(data)) != Invalid)
-                return ver;
 
             if (GetIsBelugaSAV(data) != Invalid)
                 return GG;
@@ -119,6 +117,9 @@ namespace PKHeX.Core
                 return Gen3;
             if (GetIsRanch4(data)) // ranch
                 return DPPt;
+
+            if ((ver = GetIsG8SAV(data)) != Invalid)
+                return ver;
 
             return Invalid;
         }
@@ -445,10 +446,7 @@ namespace PKHeX.Core
             if (data.Length != SIZE_G8SWSH)
                 return Invalid;
 
-            if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
-                return Invalid;
-
-            return SWSH;
+            return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;
         }
 
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;

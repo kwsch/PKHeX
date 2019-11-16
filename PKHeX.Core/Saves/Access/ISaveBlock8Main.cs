@@ -2,17 +2,16 @@
 {
     public interface ISaveBlock8Main
     {
+        Box8 BoxInfo { get; }
+        Party8 PartyInfo { get; }
         MyItem Items { get; }
-        Record8 Records { get; }
-        PlayTime8 Played { get; }
         MyStatus8 MyStatus { get; }
-        ConfigSave8 Config { get; }
-        GameTime8 GameTime { get; }
         Misc8 Misc { get; }
         Zukan8 Zukan { get; }
-        EventWork8 EventWork { get; }
         BoxLayout8 BoxLayout { get; }
-        Situation8 Situation { get; }
-        FieldMoveModelSave8 Overworld { get; }
+        PlayTime8 Played { get; }
+        Fused8 Fused { get; }
+        Daycare8 Daycare { get; }
+        Record8 Records { get; }
     }
 }

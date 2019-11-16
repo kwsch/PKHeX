@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public string? Position => pkm.Identifier;
         public string Nickname => pkm.Nickname;
         public string Species => Get(Strings.specieslist, pkm.Species);
-        public string Nature => Get(Strings.natures, pkm.Nature);
+        public string Nature => Get(Strings.natures, pkm.StatNature);
         public string Gender => Get(GenderSymbols, pkm.Gender);
         public string ESV => pkm.PSV.ToString("0000");
         public string HP_Type => Get(Strings.types, pkm.HPType + 1);

@@ -43,7 +43,6 @@
             this.Menu_ShowdownImportPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportPKM = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportParty = new System.Windows.Forms.ToolStripMenuItem();
-            this.Menu_ShowdownExportBattleBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_ShowdownExportCurrentBox = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Data = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_LoadBoxes = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,13 +61,23 @@
             this.Menu_Redo = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_Settings = new System.Windows.Forms.ToolStripMenuItem();
             this.Menu_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
+            this.dragTip = new System.Windows.Forms.ToolTip(this.components);
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.dragout = new System.Windows.Forms.PictureBox();
             this.PB_Legal = new System.Windows.Forms.PictureBox();
-            this.L_UpdateAvailable = new System.Windows.Forms.LinkLabel();
-            this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.PKME_Tabs = new PKHeX.WinForms.Controls.PKMEditor();
-            this.dragTip = new System.Windows.Forms.ToolTip(this.components);
+            this.C_SAV = new PKHeX.WinForms.Controls.SAVEditor();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).BeginInit();
             this.SuspendLayout();
@@ -82,7 +91,7 @@
             this.Menu_Options});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(614, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(761, 24);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -174,7 +183,6 @@
             this.Menu_ShowdownImportPKM,
             this.Menu_ShowdownExportPKM,
             this.Menu_ShowdownExportParty,
-            this.Menu_ShowdownExportBattleBox,
             this.Menu_ShowdownExportCurrentBox});
             this.Menu_Showdown.Image = global::PKHeX.WinForms.Properties.Resources.showdown;
             this.Menu_Showdown.Name = "Menu_Showdown";
@@ -209,14 +217,6 @@
             this.Menu_ShowdownExportParty.Size = new System.Drawing.Size(241, 22);
             this.Menu_ShowdownExportParty.Text = "Export Party to Clipboard";
             this.Menu_ShowdownExportParty.Click += new System.EventHandler(this.ClickShowdownExportParty);
-            // 
-            // Menu_ShowdownExportBattleBox
-            // 
-            this.Menu_ShowdownExportBattleBox.Image = global::PKHeX.WinForms.Properties.Resources.export;
-            this.Menu_ShowdownExportBattleBox.Name = "Menu_ShowdownExportBattleBox";
-            this.Menu_ShowdownExportBattleBox.Size = new System.Drawing.Size(241, 22);
-            this.Menu_ShowdownExportBattleBox.Text = "Export Battle Box to Clipboard";
-            this.Menu_ShowdownExportBattleBox.Click += new System.EventHandler(this.ClickShowdownExportBattleBox);
             // 
             // Menu_ShowdownExportCurrentBox
             // 
@@ -397,14 +397,64 @@
             this.Menu_About.Text = "About &PKHeX";
             this.Menu_About.Click += new System.EventHandler(this.MainMenuAbout);
             // 
+            // L_UpdateAvailable
+            // 
+            this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_UpdateAvailable.Location = new System.Drawing.Point(454, 8);
+            this.L_UpdateAvailable.Name = "L_UpdateAvailable";
+            this.L_UpdateAvailable.Size = new System.Drawing.Size(300, 13);
+            this.L_UpdateAvailable.TabIndex = 102;
+            this.L_UpdateAvailable.TabStop = true;
+            this.L_UpdateAvailable.Text = "New Update Available!";
+            this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_UpdateAvailable.Visible = false;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.PKME_Tabs);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.C_SAV);
+            this.splitContainer1.Size = new System.Drawing.Size(761, 356);
+            this.splitContainer1.SplitterDistance = 310;
+            this.splitContainer1.SplitterWidth = 2;
+            this.splitContainer1.TabIndex = 105;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.L_UpdateAvailable);
+            this.splitContainer2.Panel1.Controls.Add(this.menuStrip1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
+            this.splitContainer2.Size = new System.Drawing.Size(761, 382);
+            this.splitContainer2.SplitterDistance = 25;
+            this.splitContainer2.SplitterWidth = 1;
+            this.splitContainer2.TabIndex = 106;
+            // 
             // dragout
             // 
             this.dragout.BackColor = System.Drawing.Color.Transparent;
-            this.dragout.Location = new System.Drawing.Point(248, 0);
+            this.dragout.Location = new System.Drawing.Point(244, 1);
             this.dragout.Name = "dragout";
-            this.dragout.Size = new System.Drawing.Size(40, 30);
+            this.dragout.Size = new System.Drawing.Size(68, 56);
             this.dragout.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.dragout.TabIndex = 60;
+            this.dragout.TabIndex = 107;
             this.dragout.TabStop = false;
             this.dragout.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragoutDrop);
             this.dragout.DragOver += new System.Windows.Forms.DragEventHandler(this.Dragout_DragOver);
@@ -415,49 +465,23 @@
             // PB_Legal
             // 
             this.PB_Legal.Image = global::PKHeX.WinForms.Properties.Resources.valid;
-            this.PB_Legal.Location = new System.Drawing.Point(226, 5);
+            this.PB_Legal.Location = new System.Drawing.Point(222, 2);
             this.PB_Legal.Name = "PB_Legal";
             this.PB_Legal.Size = new System.Drawing.Size(16, 16);
-            this.PB_Legal.TabIndex = 101;
+            this.PB_Legal.TabIndex = 108;
             this.PB_Legal.TabStop = false;
             this.PB_Legal.Click += new System.EventHandler(this.ClickLegality);
             // 
-            // L_UpdateAvailable
-            // 
-            this.L_UpdateAvailable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_UpdateAvailable.Location = new System.Drawing.Point(305, 5);
-            this.L_UpdateAvailable.Name = "L_UpdateAvailable";
-            this.L_UpdateAvailable.Size = new System.Drawing.Size(300, 13);
-            this.L_UpdateAvailable.TabIndex = 102;
-            this.L_UpdateAvailable.TabStop = true;
-            this.L_UpdateAvailable.Text = "New Update Available!";
-            this.L_UpdateAvailable.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.L_UpdateAvailable.Visible = false;
-            // 
-            // C_SAV
-            // 
-            this.C_SAV.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.C_SAV.FlagIllegal = false;
-            this.C_SAV.Location = new System.Drawing.Point(292, 26);
-            this.C_SAV.Name = "C_SAV";
-            this.C_SAV.Size = new System.Drawing.Size(310, 326);
-            this.C_SAV.TabIndex = 104;
-            this.C_SAV.ViewIndex = -1;
-            this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
-            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
-            // 
             // PKME_Tabs
             // 
-            this.PKME_Tabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.PKME_Tabs.ChangingFields = false;
             this.PKME_Tabs.Data = null;
+            this.PKME_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.PKME_Tabs.HaX = false;
-            this.PKME_Tabs.Location = new System.Drawing.Point(8, 27);
+            this.PKME_Tabs.Location = new System.Drawing.Point(0, 0);
+            this.PKME_Tabs.Margin = new System.Windows.Forms.Padding(5);
             this.PKME_Tabs.Name = "PKME_Tabs";
-            this.PKME_Tabs.Size = new System.Drawing.Size(280, 325);
+            this.PKME_Tabs.Size = new System.Drawing.Size(310, 356);
             this.PKME_Tabs.TabIndex = 103;
             this.PKME_Tabs.Unicode = true;
             this.PKME_Tabs.LegalityChanged += new System.EventHandler(this.PKME_Tabs_LegalityChanged);
@@ -466,18 +490,28 @@
             this.PKME_Tabs.RequestShowdownExport += new System.EventHandler(this.PKME_Tabs_RequestShowdownExport);
             this.PKME_Tabs.SaveFileRequested += new PKHeX.WinForms.Controls.PKMEditor.ReturnSAVEventHandler(this.PKME_Tabs_SaveFileRequested);
             // 
+            // C_SAV
+            // 
+            this.C_SAV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.C_SAV.FlagIllegal = false;
+            this.C_SAV.Location = new System.Drawing.Point(0, 0);
+            this.C_SAV.Margin = new System.Windows.Forms.Padding(5);
+            this.C_SAV.Name = "C_SAV";
+            this.C_SAV.Size = new System.Drawing.Size(449, 356);
+            this.C_SAV.TabIndex = 104;
+            this.C_SAV.ViewIndex = -1;
+            this.C_SAV.RequestCloneData += new System.EventHandler(this.ClickClone);
+            this.C_SAV.RequestReloadSave += new System.EventHandler(this.ClickSaveFileName);
+            // 
             // Main
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(614, 361);
-            this.Controls.Add(this.C_SAV);
-            this.Controls.Add(this.L_UpdateAvailable);
-            this.Controls.Add(this.PB_Legal);
+            this.ClientSize = new System.Drawing.Size(761, 382);
             this.Controls.Add(this.dragout);
-            this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.PKME_Tabs);
+            this.Controls.Add(this.PB_Legal);
+            this.Controls.Add(this.splitContainer2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.KeyPreview = true;
@@ -489,10 +523,18 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.Main_DragDrop);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel1.PerformLayout();
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dragout)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_Legal)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -500,9 +542,6 @@
         public Controls.PKMEditor PKME_Tabs;
         private Controls.SAVEditor C_SAV;
         private System.Windows.Forms.LinkLabel L_UpdateAvailable;
-
-        private System.Windows.Forms.PictureBox dragout;
-        private System.Windows.Forms.PictureBox PB_Legal;
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem Menu_File;
@@ -519,7 +558,6 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportPKM;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownImportPKM;
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportParty;
-        private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportBattleBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_Folder;
         private System.Windows.Forms.ToolStripMenuItem Menu_Data;
         private System.Windows.Forms.ToolStripMenuItem Menu_LoadBoxes;
@@ -537,6 +575,10 @@
         private System.Windows.Forms.ToolStripMenuItem Menu_ShowdownExportCurrentBox;
         private System.Windows.Forms.ToolStripMenuItem Menu_EncDatabase;
         private System.Windows.Forms.ToolTip dragTip;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.PictureBox dragout;
+        private System.Windows.Forms.PictureBox PB_Legal;
     }
 }
 

@@ -1,10 +1,10 @@
-﻿da qualche parte
+da qualche parte
 nella città iniziale
 a casa
 a casa di amici
 a casa di qualcuno
 in una città animata
-in un negozio di vestiti
+in un negozio di abbigliamento
 in un negozio
 in una città tranquilla
 in un Centro Pokémon
@@ -28,7 +28,7 @@ in un museo
 in uno studio
 in una stazione
 sul campo di lotta
-in un salone di bellezza
+in un salone di acconciature
 in un ristorante
 in un ristorante di lusso
 in una città in riva al mare
@@ -58,14 +58,23 @@ su una montagna innevata
 in una centrale elettrica
 in un orto
 in mezzo a delle rovine
-in una via d’acqua
+in un percorso acquatico
 in un safari
-in una Base Segreta
+in una grande nave
+nell’Ipersfera
 in un’Arena delle Virtù
+in un luogo misterioso
+su una piccola isola
+in una strada coperta di cenere
+in una Base Segreta
 sul fondo del mare
 in una zona miraggio
-in una grande nave
-in una strada coperta di cenere
-su una piccola isola
-in un luogo misterioso
-nell’Ipersfera
+in una città vicina a un lago
+in una distesa verdeggiante
+in uno stadio
+in un Ostello Pokémon
+in una miniera
+in una città di montagna
+in una città mezza abbandonata
+in un tunnel
+in un luogo pericoloso

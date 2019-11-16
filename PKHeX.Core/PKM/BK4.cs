@@ -7,12 +7,12 @@ namespace PKHeX.Core
     /// <remarks> Values are stored in Big Endian format rather than Little Endian. Beware. </remarks>
     public sealed class BK4 : G4PKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
 
-        public override IReadOnlyList<byte> ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => PKX.SIZE_4STORED;
         public override int SIZE_STORED => PKX.SIZE_4STORED;

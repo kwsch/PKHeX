@@ -25,5 +25,14 @@
 
             SetIVs(pk);
         }
+
+        protected override bool IsMatchNatureGenderShiny(PKM pkm)
+        {
+            if (pkm.PID != pkm.EncryptionConstant)
+                return false;
+            if (Nature != Nature.Random && (int)Nature != pkm.Nature) // gen5 BW only
+                return false;
+            return true;
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Verifier ConsoleRegion = new ConsoleRegionVerifier();
         private static readonly Verifier Ability = new AbilityVerifier();
         private static readonly Verifier Medal = new MedalVerifier();
-        private static readonly Verifier Ribbon = new RibbonVerifier();
+        public static readonly Verifier Ribbon = new RibbonVerifier();
         private static readonly Verifier Item = new ItemVerifier();
         private static readonly Verifier EncounterType = new EncounterTypeVerifier();
         private static readonly Verifier HyperTraining = new HyperTrainingVerifier();

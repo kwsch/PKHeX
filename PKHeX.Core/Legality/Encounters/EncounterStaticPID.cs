@@ -19,6 +19,13 @@
                 pk.Nature = nature;
             pk.RefreshAbility(ability >> 1);
         }
+
+        public override bool IsMatch(PKM pkm, int lvl)
+        {
+            if (PID != pkm.PID)
+                return false;
+            return base.IsMatch(pkm, lvl);
+        }
     }
 
     internal sealed class EncounterStaticN : EncounterStaticPID

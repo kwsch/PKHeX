@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKX
     {
-        internal static readonly PersonalTable Personal = PersonalTable.GG;
+        internal static readonly PersonalTable Personal = PersonalTable.SWSH;
         public const int Generation = 7;
 
         internal const int SIZE_1ULIST = 69;
@@ -44,8 +44,8 @@ namespace PKHeX.Core
         // Gen7 Format is the same size as Gen6.
 
         internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK);
-        internal const int SIZE_8PARTY = SIZE_8STORED; // todo swsh
-        internal const int SIZE_8BLOCK = 72; // todo swsh
+        internal const int SIZE_8PARTY = SIZE_8STORED + 0x10;
+        internal const int SIZE_8BLOCK = 80;
 
         private static readonly HashSet<int> Sizes = new HashSet<int>
         {
@@ -549,7 +549,7 @@ namespace PKHeX.Core
                         pkm = DecryptArray6(pkm);
                     return;
                 case 8:
-                    if (BitConverter.ToUInt16(pkm, 4) != 0) // todo swsh: find hint of encrypted data
+                    if (BitConverter.ToUInt16(pkm, 0x70) != 0 && BitConverter.ToUInt16(pkm, 0xC0) != 0)
                         pkm = DecryptArray8(pkm);
                     return;
                 default:

@@ -108,6 +108,10 @@
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
             this.EVTip = new System.Windows.Forms.ToolTip(this.components);
+            this.FLP_DynamaxLevel = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_DynamaxLevel = new System.Windows.Forms.Label();
+            this.CHK_Gigantamax = new System.Windows.Forms.CheckBox();
+            this.CB_DynamaxLevel = new System.Windows.Forms.ComboBox();
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -130,13 +134,11 @@
             this.FLP_HPType.SuspendLayout();
             this.FLP_Characteristic.SuspendLayout();
             this.PAN_BTN.SuspendLayout();
+            this.FLP_DynamaxLevel.SuspendLayout();
             this.SuspendLayout();
             // 
             // FLP_Stats
             // 
-            this.FLP_Stats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Stats.Controls.Add(this.FLP_StatHeader);
             this.FLP_Stats.Controls.Add(this.FLP_HP);
             this.FLP_Stats.Controls.Add(this.FLP_Atk);
@@ -148,9 +150,11 @@
             this.FLP_Stats.Controls.Add(this.FLP_HPType);
             this.FLP_Stats.Controls.Add(this.FLP_Characteristic);
             this.FLP_Stats.Controls.Add(this.PAN_BTN);
+            this.FLP_Stats.Controls.Add(this.FLP_DynamaxLevel);
+            this.FLP_Stats.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_Stats.Location = new System.Drawing.Point(0, 0);
             this.FLP_Stats.Name = "FLP_Stats";
-            this.FLP_Stats.Size = new System.Drawing.Size(270, 253);
+            this.FLP_Stats.Size = new System.Drawing.Size(270, 303);
             this.FLP_Stats.TabIndex = 106;
             // 
             // FLP_StatHeader
@@ -1103,12 +1107,66 @@
             this.BTN_RandomEVs.UseVisualStyleBackColor = true;
             this.BTN_RandomEVs.Click += new System.EventHandler(this.UpdateRandomEVs);
             // 
+            // FLP_DynamaxLevel
+            // 
+            this.FLP_DynamaxLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_DynamaxLevel.Controls.Add(this.L_DynamaxLevel);
+            this.FLP_DynamaxLevel.Controls.Add(this.CB_DynamaxLevel);
+            this.FLP_DynamaxLevel.Controls.Add(this.CHK_Gigantamax);
+            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 248);
+            this.FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
+            this.FLP_DynamaxLevel.Size = new System.Drawing.Size(272, 21);
+            this.FLP_DynamaxLevel.TabIndex = 133;
+            // 
+            // L_DynamaxLevel
+            // 
+            this.L_DynamaxLevel.Location = new System.Drawing.Point(0, 0);
+            this.L_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.L_DynamaxLevel.Name = "L_DynamaxLevel";
+            this.L_DynamaxLevel.Size = new System.Drawing.Size(120, 21);
+            this.L_DynamaxLevel.TabIndex = 43;
+            this.L_DynamaxLevel.Text = "Dynamax Level:";
+            this.L_DynamaxLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // checkBox1
+            // 
+            this.CHK_Gigantamax.AutoSize = true;
+            this.CHK_Gigantamax.Location = new System.Drawing.Point(163, 3);
+            this.CHK_Gigantamax.Name = "CHK_Gigantamax";
+            this.CHK_Gigantamax.Size = new System.Drawing.Size(82, 17);
+            this.CHK_Gigantamax.TabIndex = 44;
+            this.CHK_Gigantamax.Text = "Gigantamax";
+            this.CHK_Gigantamax.UseVisualStyleBackColor = true;
+            // 
+            // comboBox1
+            // 
+            this.CB_DynamaxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_DynamaxLevel.FormattingEnabled = true;
+            this.CB_DynamaxLevel.Items.AddRange(new object[] {
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"});
+            this.CB_DynamaxLevel.Location = new System.Drawing.Point(120, 0);
+            this.CB_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_DynamaxLevel.Name = "CB_DynamaxLevel";
+            this.CB_DynamaxLevel.Size = new System.Drawing.Size(40, 21);
+            this.CB_DynamaxLevel.TabIndex = 44;
+            // 
             // StatEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.Controls.Add(this.FLP_Stats);
             this.Name = "StatEditor";
-            this.Size = new System.Drawing.Size(270, 247);
+            this.Size = new System.Drawing.Size(270, 303);
             this.FLP_Stats.ResumeLayout(false);
             this.FLP_StatHeader.ResumeLayout(false);
             this.FLP_HackedStats.ResumeLayout(false);
@@ -1138,6 +1196,8 @@
             this.FLP_HPType.ResumeLayout(false);
             this.FLP_Characteristic.ResumeLayout(false);
             this.PAN_BTN.ResumeLayout(false);
+            this.FLP_DynamaxLevel.ResumeLayout(false);
+            this.FLP_DynamaxLevel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1223,5 +1283,9 @@
         private System.Windows.Forms.TextBox TB_AVTotal;
         private System.Windows.Forms.Button BTN_RandomAVs;
         private System.Windows.Forms.ToolTip EVTip;
+        private System.Windows.Forms.FlowLayoutPanel FLP_DynamaxLevel;
+        private System.Windows.Forms.Label L_DynamaxLevel;
+        public System.Windows.Forms.ComboBox CB_DynamaxLevel;
+        public System.Windows.Forms.CheckBox CHK_Gigantamax;
     }
 }

@@ -6,8 +6,14 @@ namespace PKHeX.Core
     public abstract class SaveBlock
     {
         public int Offset { get; protected set; }
-        protected readonly byte[] Data;
+        public readonly byte[] Data;
         protected readonly SaveFile SAV;
         protected SaveBlock(SaveFile sav) => Data = (SAV = sav).Data;
+
+        protected SaveBlock(SaveFile sav, byte[] data)
+        {
+            SAV = sav;
+            Data = data;
+        }
     }
 }

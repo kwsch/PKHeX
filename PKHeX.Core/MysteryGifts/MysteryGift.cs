@@ -45,7 +45,7 @@ namespace PKHeX.Core
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
         public static bool IsMysteryGift(long len) => MGSizes.Contains((int)len);
 
-        private static readonly HashSet<int> MGSizes = new HashSet<int>{ WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
+        private static readonly HashSet<int> MGSizes = new HashSet<int>{ WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -61,6 +61,8 @@ namespace PKHeX.Core
 
             switch (data.Length)
             {
+                case WC8.Size when ext == ".wc8":
+                    return new WC8(data);
                 case WB7.SizeFull when ext == ".wb7full":
                 case WB7.Size when ext == ".wb7":
                     return new WB7(data);
@@ -106,6 +108,7 @@ namespace PKHeX.Core
                         return new WC7(data);
                     return new WC6(data);
                 case WR7.Size: return new WR7(data);
+                case WC8.Size: return new WC8(data);
 
                 case PGF.Size: return new PGF(data);
                 case PGT.Size: return new PGT(data);

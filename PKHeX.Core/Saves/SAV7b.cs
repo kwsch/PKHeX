@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new PB7();
         public override int SIZE_STORED => SIZE_PARTY;
         protected override int SIZE_PARTY => 260;
+        public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
         public override PersonalTable Personal => PersonalTable.GG;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
