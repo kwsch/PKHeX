@@ -454,8 +454,8 @@ namespace PKHeX.Core
         }
 
         private static ushort[] LegalItems => Legal.Pouch_Items_GSC;
-        private static ushort[] LegalKeyItems => Legal.Pouch_Ball_GSC;
-        private ushort[] LegalBalls => Version == GameVersion.C ? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
+        private ushort[] LegalKeyItems => Version == GameVersion.C? Legal.Pouch_Key_C : Legal.Pouch_Key_GS;
+        private static ushort[] LegalBalls => Legal.Pouch_Ball_GSC;
         private static ushort[] LegalTMHMs => Legal.Pouch_TMHM_GSC;
 
         public override InventoryPouch[] Inventory
