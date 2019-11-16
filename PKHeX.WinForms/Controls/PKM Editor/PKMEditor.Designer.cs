@@ -159,6 +159,7 @@
             this.Stats = new PKHeX.WinForms.Controls.StatEditor();
             this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
+            this.B_Records = new System.Windows.Forms.Button();
             this.PB_WarnMove4 = new System.Windows.Forms.PictureBox();
             this.PB_WarnMove3 = new System.Windows.Forms.PictureBox();
             this.PB_WarnMove2 = new System.Windows.Forms.PictureBox();
@@ -197,6 +198,7 @@
             this.TB_EC = new System.Windows.Forms.TextBox();
             this.GB_nOT = new System.Windows.Forms.GroupBox();
             this.Label_CTGender = new System.Windows.Forms.Label();
+            this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
             this.TB_OTt2 = new System.Windows.Forms.TextBox();
             this.Label_PrevOT = new System.Windows.Forms.Label();
             this.BTN_RerollEC = new System.Windows.Forms.Button();
@@ -221,7 +223,6 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.CB_HTLanguage = new System.Windows.Forms.ComboBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -1847,6 +1848,7 @@
             // Tab_Attacks
             // 
             this.Tab_Attacks.AllowDrop = true;
+            this.Tab_Attacks.Controls.Add(this.B_Records);
             this.Tab_Attacks.Controls.Add(this.PB_WarnMove4);
             this.Tab_Attacks.Controls.Add(this.PB_WarnMove3);
             this.Tab_Attacks.Controls.Add(this.PB_WarnMove2);
@@ -1856,10 +1858,25 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Attacks.Size = new System.Drawing.Size(272, 539);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
+            // 
+            // B_Records
+            // 
+            this.B_Records.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.B_Records.AutoSize = true;
+            this.B_Records.Location = new System.Drawing.Point(73, 284);
+            this.B_Records.Margin = new System.Windows.Forms.Padding(1);
+            this.B_Records.Name = "B_Records";
+            this.B_Records.Size = new System.Drawing.Size(124, 23);
+            this.B_Records.TabIndex = 8;
+            this.B_Records.Text = "Technical Records";
+            this.B_Records.UseVisualStyleBackColor = true;
+            this.B_Records.Click += new System.EventHandler(this.B_Records_Click);
             // 
             // PB_WarnMove4
             // 
@@ -2244,7 +2261,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(272, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2368,6 +2385,17 @@
             this.Label_CTGender.Text = "G";
             this.Label_CTGender.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.Label_CTGender.Click += new System.EventHandler(this.ClickTRGender);
+            // 
+            // CB_HTLanguage
+            // 
+            this.CB_HTLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_HTLanguage.FormattingEnabled = true;
+            this.CB_HTLanguage.Location = new System.Drawing.Point(46, 43);
+            this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_HTLanguage.Name = "CB_HTLanguage";
+            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 21);
+            this.CB_HTLanguage.TabIndex = 15;
             // 
             // TB_OTt2
             // 
@@ -2610,17 +2638,6 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CB_HTLanguage
-            // 
-            this.CB_HTLanguage.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.CB_HTLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_HTLanguage.FormattingEnabled = true;
-            this.CB_HTLanguage.Location = new System.Drawing.Point(46, 43);
-            this.CB_HTLanguage.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_HTLanguage.Name = "CB_HTLanguage";
-            this.CB_HTLanguage.Size = new System.Drawing.Size(126, 21);
-            this.CB_HTLanguage.TabIndex = 15;
-            // 
             // PKMEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -2694,6 +2711,7 @@
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
             this.Tab_Attacks.ResumeLayout(false);
+            this.Tab_Attacks.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).EndInit();
@@ -2925,5 +2943,6 @@
         private System.Windows.Forms.ComboBox CB_StatNature;
         private System.Windows.Forms.PictureBox PB_Origin;
         private System.Windows.Forms.ComboBox CB_HTLanguage;
+        private System.Windows.Forms.Button B_Records;
     }
 }

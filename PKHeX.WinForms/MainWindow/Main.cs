@@ -718,6 +718,8 @@ namespace PKHeX.WinForms
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
             {
+                // temporary swsh fix for initial release broken saves
+                // remove any time after November
                 if (sav is SAV8SWSH z)
                 {
                     var shift = z.Game + (GameVersion.SW - GameVersion.SN);

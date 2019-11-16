@@ -264,7 +264,7 @@ namespace PKHeX.Core
             160, 162,
         };
 
-        internal static readonly int[] TMHM_SWSH =
+        public static readonly int[] TMHM_SWSH =
         {
             // TM
             005, 025, 006, 007, 008, 009, 019, 042, 063, 416,

@@ -1587,6 +1587,13 @@ namespace PKHeX.WinForms.Controls
             TB_Friendship.Text = Entity.CurrentFriendship.ToString();
         }
 
+        private void B_Records_Click(object sender, EventArgs e)
+        {
+            using var form = new TechRecordEditor(Entity);
+            form.ShowDialog();
+            UpdateLegality();
+        }
+
         /// <summary>
         /// Refreshes the interface for the current PKM format.
         /// </summary>
@@ -1614,6 +1621,7 @@ namespace PKHeX.WinForms.Controls
             BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6 && gen <= 7 && !pb7;
             FLP_OriginalNature.Visible = gen >= 8;
+            B_Records.Visible = gen >= 8;
 
             ToggleInterface(Entity.Format);
         }

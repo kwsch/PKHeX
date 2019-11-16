@@ -544,6 +544,59 @@ namespace PKHeX.Core
         public static void SetHiddenPower(this PKM pk, MoveType hptype) => pk.SetHiddenPower((int) hptype);
 
         /// <summary>
+        /// Sets the Technical Record flags for the <see cref="pk"/>.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="value">Value to set for the record.</param>
+        /// <param name="max">Max record to set.</param>
+        public static void SetRecordFlags(this PKM pk, bool value, int max = 100)
+        {
+            if (!(pk is PK8 pk8))
+                return;
+            for (int i = 0; i < max; i++)
+                pk8.SetMoveRecordFlag(i, value);
+        }
+
+        /// <summary>
+        /// Clears the Technical Record flags for the <see cref="pk"/>.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void ClearRecordFlags(this PKM pk) => pk.SetRecordFlags(false, 128);
+
+        /// <summary>
+        /// Sets the Technical Record flags for the <see cref="pk"/> based on the current moves.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="moves">Moves to set flags for (if applicable)</param>
+        public static void SetRecordFlags(this PKM pk, IReadOnlyList<int> moves)
+        {
+            if (!(pk is PK8 pk8))
+                return;
+            foreach (var m in moves)
+            {
+                var index = Array.FindIndex(Legal.Pouch_TMHM_SWSH, 100, z => z == m) - 100;
+                if (index >= 0)
+                    pk8.SetMoveRecordFlag(index, true);
+            }
+        }
+
+        /// <summary>
+        /// Sets all the Technical Record flags for the <see cref="pk"/>.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        public static void SetRecordFlags(this PKM pk)
+        {
+            if (!(pk is PK8 pk8))
+                return;
+            var pi = pk8.PersonalInfo.TMHM;
+            for (int i = 100; i < pi.Length; i++)
+            {
+                if (pi[i])
+                    pk8.SetMoveRecordFlag(i - 100, true);
+            }
+        }
+
+        /// <summary>
         /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
         /// </summary>
         /// <param name="pkm">PKM to apply hatch details to</param>
