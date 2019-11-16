@@ -31,6 +31,7 @@ namespace PKHeX.Core
             TeamSlots = Blocks.BoxLayout.TeamSlots;
             Box = Blocks.BlockInfo[14].Offset;
             WondercardData = Blocks.MysteryGift.Offset;
+            DaycareOffset = Blocks.Daycare.Offset;
         }
 
         public override PersonalTable Personal => PersonalTable.SM;
