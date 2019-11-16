@@ -21,7 +21,7 @@ namespace PKHeX.Core
                     return boost.Where(s => s.LevelMax < 60 || s.IsLevelWithinRange(minLevel));
                 }
             }
-            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin)));
+            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= (slot.LevelMin)));
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel));
