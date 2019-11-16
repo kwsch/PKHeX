@@ -561,7 +561,7 @@ namespace PKHeX.Core
         /// Clears the Technical Record flags for the <see cref="pk"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        public static void ClearRecordFlags(this PKM pk) => pk.SetRecordFlags(false, 128);
+        public static void ClearRecordFlags(this PKM pk) => pk.SetRecordFlags(false, 112);
 
         /// <summary>
         /// Sets the Technical Record flags for the <see cref="pk"/> based on the current moves.
