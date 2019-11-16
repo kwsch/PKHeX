@@ -40,7 +40,7 @@ namespace PKHeX.Core
             new EncounterStatic { Gift = true, Species = 816, Shiny = Never, Level = 05, Location = 006, }, // Sobble
 
             new EncounterStatic { Gift = true, Species = 772, Shiny = Never, Level = 50, Location = 158, FlawlessIVCount = 3, }, // Type: Null
-            new EncounterStatic { Gift = true, Species = 848, Shiny = Never, Level = 01, Location =  -1, IVs = new[]{-1,31,-1,-1,-1,31}, Ball = 11 }, // Toxel
+            new EncounterStatic { Gift = true, Species = 848, Shiny = Never, Level = 01, Location = 040, IVs = new[]{-1,31,-1,-1,31,-1}, Ball = 11 }, // Toxel, Attack flawless
 
             new EncounterStatic { Gift = true, Species = 881, FlawlessIVCount = 3, Level = 10, Location = 068, }, // Dracozolt @ Route 6
             new EncounterStatic { Gift = true, Species = 881, FlawlessIVCount = 3, Level = 10, Location = 068, }, // Arctozolt @ Route 6
