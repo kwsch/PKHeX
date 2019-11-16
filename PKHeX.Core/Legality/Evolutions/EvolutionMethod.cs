@@ -47,6 +47,9 @@ namespace PKHeX.Core
             {
                 case UseItem:
                 case UseItemWormhole:
+                case Crit3:
+                case HPDownBy49:
+                case SpinType:
                     return true;
                 case UseItemMale:
                     return pkm.Gender == 0;
