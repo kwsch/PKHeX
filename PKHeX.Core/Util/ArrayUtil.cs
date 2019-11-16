@@ -160,5 +160,23 @@ namespace PKHeX.Core
             }
             return ctr - start;
         }
+
+        internal static T[] ConcatAll<T>(params T[][] arr)
+        {
+            int len = 0;
+            foreach (var a in arr)
+                len += a.Length;
+
+            var result = new T[len];
+
+            int ctr = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i].CopyTo(result, ctr);
+                ctr += arr[i].Length;
+            }
+
+            return result;
+        }
     }
 }
