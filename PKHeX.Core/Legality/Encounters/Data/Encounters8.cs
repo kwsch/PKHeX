@@ -97,7 +97,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 822, Level = 18, Location = -1, Moves = new[] {681,468,031,365}, Shiny = Never }, // Corvisquire
             new EncounterStatic { Species = 050, Level = 17, Location = -1, Moves = new[] {523,189,310,045} }, // Diglett
             new EncounterStatic { Species = 830, Level = 22, Location = 40, Moves = new[] {178,496,075,047} }, // Eldegoss
-            new EncounterStatic { Species = 558, Level = 40, Location = -1, Moves = new[] {404,350,446,157} }, // Crustle
+            new EncounterStatic { Species = 558, Level = 40, Location = 86, Moves = new[] {404,350,446,157} }, // Crustle on Route 8
             new EncounterStatic { Species = 870, Level = 40, Location = -1, Moves = new[] {748,660,179,203} }, // Falinks
             new EncounterStatic { Species = 362, Level = 55, Location = -1, Moves = new[] {573,329,104,182}, FlawlessIVCount = 3 }, // Glalie
             new EncounterStatic { Species = 853, Level = 50, Location = 92, Moves = new[] {753,576,276,179} }, // Grapploct
