@@ -546,7 +546,7 @@ namespace PKHeX.Core
                 case Toxtricity:
                     return new[]
                     {
-                        types[0], // Normal
+                        forms[(int)Toxtricity], // Amped
                         forms[LowKey],
                     };
 
@@ -568,6 +568,7 @@ namespace PKHeX.Core
                 case Alcremie:
                     return new[]
                     {
+                        forms[(int)Alcremie], // Vanilla Cream
                         forms[RubyCream],
                         forms[MatchaCream],
                         forms[MintCream],
