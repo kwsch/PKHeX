@@ -315,15 +315,17 @@ namespace PKHeX.Core
             SetAllSeen(true, shinyToo);
         }
 
-        private void SeenAll(int species, int fc, PersonalInfo pi, bool shinyToo, bool value = true)
+        private void SeenAll(int species, int fc, bool shinyToo, bool value = true)
         {
+            var pt = PersonalTable.SWSH;
             for (int i = 0; i < fc; i++)
             {
+                var pi = pt.GetFormeEntry(species, i);
                 if (pi.IsDualGender || !value)
                 {
                     SetSeenRegion(species, i, 0, value);
                     SetSeenRegion(species, i, 1, value);
-                    if (!shinyToo && !value)
+                    if (!shinyToo && value)
                         continue;
                     SetSeenRegion(species, i, 2, value);
                     SetSeenRegion(species, i, 3, value);
@@ -400,18 +402,17 @@ namespace PKHeX.Core
             var fc = pi.FormeCount;
             if (species == (int) Species.Eternatus)
                 fc = 1; // ignore gigantamax
-            SeenAll(species, fc, pi, shinyToo, value);
+            SeenAll(species, fc, shinyToo, value);
 
             if (species == (int) Species.Alcremie)
             {
                 // Alcremie forms
-                var alc = PersonalTable.SWSH[(int)Species.Alcremie];
-                SeenAll((int)Species.Alcremie, 7 * 8, alc, shinyToo, value);
+                SeenAll((int)Species.Alcremie, 7 * 8, shinyToo, value);
             }
             else if (species == (int) Species.Eternatus)
             {
                 SetSeenRegion(species, 63, 0, value);
-                if (!shinyToo && !value)
+                if (!shinyToo && value)
                     return;
                 SetSeenRegion(species, 63, 2, value);
             }
