@@ -233,7 +233,7 @@ namespace PKHeX.Core
         {
             {(int)Species.Perrserker, 2},
             {(int)Species.Obstagoon, 1},
-            {(int)Species.MrMime, 1},
+            {(int)Species.MrRime, 1},
             {(int)Species.Sirfetchd, 2},
             {(int)Species.Runerigus, 1},
             {(int)Species.Cursola, 1},
@@ -337,8 +337,8 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {
-            // todo
-            504, // Rage Candy Bar
+            // todo -- someone pls fill this in once the game is thoroughly played
+            // I just put a few here so that the list isn't empty.
             708, // Lumiose Galette
             709, // Shalour Sable
             715, // Fairy Gem
