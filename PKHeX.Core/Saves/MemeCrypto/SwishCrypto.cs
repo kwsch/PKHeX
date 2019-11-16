@@ -15,6 +15,7 @@ namespace PKHeX.Core
     /// </remarks>
     public static class SwishCrypto
     {
+        private static readonly object _lock = new object();
         private static readonly SHA256 sha256 = new SHA256CryptoServiceProvider();
         private const int SIZE_HASH = 0x20;
 
@@ -60,7 +61,10 @@ namespace PKHeX.Core
             stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
             stream.Write(OutroHashBytes, 0, OutroHashBytes.Length);
             stream.Seek(0, SeekOrigin.Begin);
-            return sha256.ComputeHash(stream);
+            lock (_lock)
+            {
+                return sha256.ComputeHash(stream);
+            }
         }
 
         /// <summary>
