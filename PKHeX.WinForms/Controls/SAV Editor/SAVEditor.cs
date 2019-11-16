@@ -69,10 +69,8 @@ namespace PKHeX.WinForms.Controls
             L_SlotOccupied = new[] { L_DC1, L_DC2 };
             TB_SlotEXP = new[] { TB_Daycare1XP, TB_Daycare2XP };
             L_SlotEXP = new[] { L_XP1, L_XP2 };
-            SlotPictureBoxes = new[]
-            {
-                dcpkx1, dcpkx2
-            };
+            SlotPictureBoxes = new[] { dcpkx1, dcpkx2 };
+
             Tab_Box.ContextMenuStrip = SortMenu = new BoxMenuStrip(this);
             M = new SlotChangeManager(this) {Env = EditEnv};
             Box.Setup(M);
@@ -204,9 +202,6 @@ namespace PKHeX.WinForms.Controls
 
         public ISlotInfo GetSlotData(int index)
         {
-            if (index < 6)
-                return new SlotInfoParty(index);
-
             var ofs = GetSlotOffset(index);
             return new SlotInfoMisc(SAV, index, ofs);
         }
