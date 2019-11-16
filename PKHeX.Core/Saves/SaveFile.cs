@@ -793,7 +793,7 @@ namespace PKHeX.Core
             if (BoxEnd < 0)
                 BoxEnd = BoxCount - 1;
 
-            var blank = BlankPKM.EncryptedBoxData;
+            var blank = GetDataForBox(BlankPKM);
             int deleted = 0;
             for (int i = BoxStart; i <= BoxEnd; i++)
             {
@@ -877,15 +877,15 @@ namespace PKHeX.Core
         #endregion
 
         #region Box Binaries
-        public byte[] GetPCBinary() => BoxData.SelectMany(pk => pk.EncryptedBoxData).ToArray();
-        public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(pk => pk.EncryptedBoxData).ToArray();
+        public byte[] GetPCBinary() => BoxData.SelectMany(pk => GetDataForBox(BlankPKM)).ToArray();
+        public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(pk => GetDataForBox(BlankPKM)).ToArray();
 
         public bool SetPCBinary(byte[] data)
         {
             if (IsRegionOverwriteProtected(0, SlotCount))
                 return false;
 
-            int expectLength = SlotCount * BlankPKM.EncryptedBoxData.Length;
+            int expectLength = SlotCount * GetDataForBox(BlankPKM).Length;
             return SetConcatenatedBinary(data, expectLength);
         }
 
@@ -897,7 +897,7 @@ namespace PKHeX.Core
             if (IsRegionOverwriteProtected(start, end))
                 return false;
 
-            int expectLength = BoxSlotCount * BlankPKM.EncryptedBoxData.Length;
+            int expectLength = BoxSlotCount * GetDataForBox(BlankPKM).Length;
             return SetConcatenatedBinary(data, expectLength, start);
         }
 
@@ -907,7 +907,7 @@ namespace PKHeX.Core
                 return false;
 
             var BD = BoxData;
-            var entryLength = BlankPKM.EncryptedBoxData.Length;
+            var entryLength = GetDataForBox(BlankPKM).Length;
             var pkdata = ArrayUtil.EnumerateSplit(data, entryLength);
             pkdata.Select(GetPKM).CopyTo(BD, IsSlotOverwriteProtected, start);
             BoxData = BD;
