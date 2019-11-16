@@ -53,14 +53,14 @@ namespace PKHeX.Core
 
             #region Static Part 1
             // encounters
-            // new EncounterStatic { Species = 612, Level = 62, Location = -1, Moves = new[] {200,089,231,416}, Shiny = Never, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Jolly }, // Haxorus (dyna 1)
-            // new EncounterStatic { Species = 477, Level = 62, Location = -1, Moves = new[] {008,089,009,325}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant }, // Dusknoir (dyna 1)
-            // new EncounterStatic { Species = 324, Level = 62, Location = -1, Moves = new[] {436,089,776,231}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Sassy, Gender = Male }, // Torkoal (dyna 5) (126 ATK, 126 SPD, 252 SPE)
-            // new EncounterStatic { Species = 526, Level = 62, Location = -1, Moves = new[] {157,089,444,675}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Careful, Gender = Male }, // Gigalith (dyna 1)
-            // new EncounterStatic { Species = 534, Level = 62, Location = -1, Moves = new[] {009,008,359,444}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant, Gender = Male }, // Conkeldurr (dyna 1)
-            // new EncounterStatic { Species = 478, Level = 62, Location = -1, Moves = new[] {196,247,087,094}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Timid, Gender = Female }, // Froslass (dyna 1)
-            // new EncounterStatic { Species = 763, Level = 62, Location = -1, Moves = new[] {438,136,583,428}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Adamant, Gender = Female }, // Tsareena (dyna 5) (252 DEF, 252 SPE)
-            // new EncounterStatic { Species = 130, Level = 62, Location = -1, Moves = new[] {127,444,242,419}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Jolly, Gender = Male }, // Gyarados (dyna 5) (252 HP, 252 ATK)
+         // new EncounterStatic { Species = 612, Level = 62, Location = -1, Moves = new[] {200,089,231,416}, Shiny = Never, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Jolly }, // Haxorus (dyna 1)
+         // new EncounterStatic { Species = 477, Level = 62, Location = -1, Moves = new[] {008,089,009,325}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant }, // Dusknoir (dyna 1)
+         // new EncounterStatic { Species = 324, Level = 62, Location = -1, Moves = new[] {436,089,776,231}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Sassy, Gender = Male }, // Torkoal (dyna 5) (126 ATK, 126 SPD, 252 SPE)
+         // new EncounterStatic { Species = 526, Level = 62, Location = -1, Moves = new[] {157,089,444,675}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Careful, Gender = Male }, // Gigalith (dyna 1)
+         // new EncounterStatic { Species = 534, Level = 62, Location = -1, Moves = new[] {009,008,359,444}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant, Gender = Male }, // Conkeldurr (dyna 1)
+         // new EncounterStatic { Species = 478, Level = 62, Location = -1, Moves = new[] {196,247,087,094}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Timid, Gender = Female }, // Froslass (dyna 1)
+         // new EncounterStatic { Species = 763, Level = 62, Location = -1, Moves = new[] {438,136,583,428}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Adamant, Gender = Female }, // Tsareena (dyna 5) (252 DEF, 252 SPE)
+         // new EncounterStatic { Species = 130, Level = 62, Location = -1, Moves = new[] {127,444,242,419}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Jolly, Gender = Male }, // Gyarados (dyna 5) (252 HP, 252 ATK)
             new EncounterStatic { Species = 888, Level = 70, Location = 66, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SW }, // Zacian
             new EncounterStatic { Species = 889, Level = 70, Location = 66, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SH }, // Zamazenta
          // new EncounterStatic { Species = 888, Level = 01, Location = -1, Moves = new[] {533,014,336,163}, Shiny = Never, Ability = 1, Nature = Nature.Hardy, Version = SW }, // Zacian
@@ -78,10 +78,10 @@ namespace PKHeX.Core
          // new EncounterStatic { Species = 819, Level = 03, Location = -1, Moves = new[] {033,039,000,000}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Gender = Female }, // Skwovet
          // new EncounterStatic { Species = 889, Level = 70, Location = -1, Moves = new[] {583,334,242,442}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31} }, // Zamazenta (HP/ATK EVs)
          // new EncounterStatic { Species = 888, Level = 70, Location = -1, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31} }, // Zacian (HP/ATK EVs)
-            new EncounterStatic { Species = 037, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SW }, // Vulpix
-            new EncounterStatic { Species = 058, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SH }, // Growlithe
-            new EncounterStatic { Species = 607, Level = 25, Location = 24, Moves = new[] {000,000,000,000} }, // Litwick
-            new EncounterStatic { Species = 850, Level = 25, Location = 24, Moves = new[] {000,000,000,000}, FlawlessIVCount = 3 }, // Sizzlipede
+            new EncounterStatic { Species = 037, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SW }, // Vulpix at Motostoke Stadium
+            new EncounterStatic { Species = 058, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SH }, // Growlithe at Motostoke Stadium
+            new EncounterStatic { Species = 607, Level = 25, Location = 24, Moves = new[] {000,000,000,000} }, // Litwick at Motostoke Stadium
+            new EncounterStatic { Species = 850, Level = 25, Location = 24, Moves = new[] {000,000,000,000}, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
             new EncounterStatic { Species = 618, Level = 48, Location = -1, Moves = new[] {779,330,340,334},     Form = 01 }, // Stunfisk
             new EncounterStatic { Species = 527, Level = 16, Location = -1, Moves = new[] {000,000,000,000} }, // Woobat
             new EncounterStatic { Species = 838, Level = 18, Location = -1, Moves = new[] {488,397,229,033} }, // Carkol
