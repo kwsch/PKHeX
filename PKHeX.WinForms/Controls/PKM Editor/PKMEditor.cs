@@ -1589,6 +1589,13 @@ namespace PKHeX.WinForms.Controls
 
         private void B_Records_Click(object sender, EventArgs e)
         {
+            if (ModifierKeys == Keys.Shift)
+            {
+                Entity.SetRelearnMoves(Entity.Moves);
+                UpdateLegality();
+                return;
+            }
+
             using var form = new TechRecordEditor(Entity);
             form.ShowDialog();
             UpdateLegality();
