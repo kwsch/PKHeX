@@ -36,7 +36,7 @@ namespace PKHeX.Core
             if (baseSpecies <= max)
             {
                 yield return new EncounterEgg { Version = ver, Level = lvl, Species = baseSpecies };
-                if (gen > 5 && (pkm.WasTradedEgg || all))
+                if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
                     yield return new EncounterEgg { Version = GetOtherTradePair(ver), Level = lvl, Species = baseSpecies };
             }
 
@@ -47,7 +47,7 @@ namespace PKHeX.Core
             if (other <= max)
             {
                 yield return new EncounterEggSplit { Version = ver, Level = lvl, Species = other, OtherSpecies = baseSpecies };
-                if (gen > 5 && (pkm.WasTradedEgg || all))
+                if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
                     yield return new EncounterEggSplit { Version = GetOtherTradePair(ver), Level = lvl, Species = other, OtherSpecies = baseSpecies };
             }
         }
@@ -60,6 +60,11 @@ namespace PKHeX.Core
             if (ver <= GameVersion.MN) // gen7
                 return ver + 2;
             return ver - 2;
+        }
+
+        private static bool HasOtherGamePair(GameVersion ver)
+        {
+            return ver < GameVersion.GP; // lgpe and sw/sh don't have a sister pair
         }
     }
 }
