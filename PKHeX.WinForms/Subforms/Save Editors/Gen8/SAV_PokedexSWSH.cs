@@ -110,6 +110,7 @@ namespace PKHeX.WinForms
             NUD_Form.Value = Dex.GetAltFormDisplayed(s);
 
             CHK_Caught.Checked = Dex.GetCaught(s);
+            CHK_Unk.Checked = Dex.GetCaughtUnkFlag(s);
             CHK_G.Checked = Dex.GetDisplayDynamaxInstead(s);
             CHK_S.Checked = Dex.GetDisplayShiny(s);
             CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(s);
