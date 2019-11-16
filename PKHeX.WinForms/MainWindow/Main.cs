@@ -717,7 +717,19 @@ namespace PKHeX.WinForms
         private bool OpenSAV(SaveFile sav, string path)
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
-            { WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path); return true; }
+            {
+                if (sav is SAV8SWSH z)
+                {
+                    var shift = z.Game + (GameVersion.SW - GameVersion.SN);
+                    if (shift == (int) GameVersion.SW || shift == (int) GameVersion.SH)
+                        z.Game = shift;
+                }
+                else
+                {
+                    WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
+                    return true;
+                }
+            }
 
             sav.SetFileInfo(path);
             if (!SanityCheckSAV(ref sav))
