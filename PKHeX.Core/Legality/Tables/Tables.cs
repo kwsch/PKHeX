@@ -363,46 +363,46 @@ namespace PKHeX.Core
         internal static readonly int[][] MinLevelEvolutionWithMove =
         {
             // Mr. Mime (Mime Jr with Mimic)
-            new [] { 0, 0, 0, 0, 18, 15, 15, 2 },
+            new [] { 0, 0, 0, 0, 18, 15, 15, 2, 2 },
             // Sudowoodo (Bonsly with Mimic)
-            new [] { 0, 0, 0, 0, 17, 17, 15, 2 },
+            new [] { 0, 0, 0, 0, 17, 17, 15, 2, 2 },
             // Ambipom (Aipom with Double Hit)
-            new [] { 0, 0, 0, 0, 32, 32, 32, 2 },
+            new [] { 0, 0, 0, 0, 32, 32, 32, 2, 2 },
             // Lickilicky (Lickitung with Rollout)
-            new [] { 0, 0, 2, 0, 2, 33, 33, 2 },
+            new [] { 0, 0, 2, 0, 2, 33, 33, 2, 2 },
             // Tangrowth (Tangela with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 36, 38, 2 },
+            new [] { 0, 0, 0, 0, 2, 36, 38, 2, 2 },
             // Yanmega (Yanma with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 33, 33, 2 },
+            new [] { 0, 0, 0, 0, 2, 33, 33, 2, 2 },
             // Mamoswine (Piloswine with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 2, 2, 2 },
+            new [] { 0, 0, 0, 0, 2, 2, 2, 2, 2 },
             // Sylveon (Eevee with Fairy Move)
-            new [] { 0, 0, 0, 0, 0, 29, 9, 2 },
+            new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
             // Tsareena (Steenee with Stomp)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 2 },
+            new [] { 0, 0, 0, 0, 0, 0, 0, 2, 2 },
         };
 
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
         internal static readonly bool[][] EggMoveEvolutionWithMove =
         {
             // Mr. Mime (Mime Jr with Mimic)
-            new [] { false, false, false, false, true, true, true, true },
+            new [] { false, false, false, false, true, true, true, true, true },
             // Sudowoodo (Bonsly with Mimic)
-            new [] { false, false, false, false, true, true, true, true },
+            new [] { false, false, false, false, true, true, true, true, true },
             // Ambipom (Aipom with Double Hit)
-            new [] { false, false, false, false, true, true, true, true },
+            new [] { false, false, false, false, true, true, true, true, true },
             // Lickilicky (Lickitung with Rollout)
-            new [] { false, false, true, false, true, true, true, true },
+            new [] { false, false, true, false, true, true, true, true, true },
             // Tangrowth (Tangela with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true },
+            new [] { false, false, false, false, true, true, true, true, true },
             // Yanmega (Yanma with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true },
+            new [] { false, false, false, false, true, true, true, true, true },
             // Mamoswine (Piloswine with Ancient Power)
-            new [] { false, false, true, true, true, true, true, true },
+            new [] { false, false, true, true, true, true, true, true, true },
             // Sylveon (Eevee with Fairy Move)
-            new [] { false, false, true, true, true, true, true, true },
+            new [] { false, false, true, true, true, true, true, true, true },
             // Tsareena (Steenee with Stomp)
-            new [] { false, false, false, false, false, false, false, false },
+            new [] { false, false, false, false, false, false, false, false, false },
         };
 
         internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
