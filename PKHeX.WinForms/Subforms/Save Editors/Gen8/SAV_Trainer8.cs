@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
 
         private void SaveTrainerInfo()
         {
-            SAV.Game = (byte)(CB_Game.SelectedIndex + 30);
+            SAV.Game = (byte)(CB_Game.SelectedIndex + (int)GameVersion.SW);
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
