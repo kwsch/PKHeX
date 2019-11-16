@@ -185,7 +185,7 @@
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
             // 
-            // pokeGrid1
+            // MysteryPokeGrid
             // 
             this.MysteryPokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.MysteryPokeGrid.Location = new System.Drawing.Point(2, 2);
@@ -507,6 +507,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".wc8",
             ".wc7",
             ".wc6",
             ".pgf",

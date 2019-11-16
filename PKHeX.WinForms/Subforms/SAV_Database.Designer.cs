@@ -277,7 +277,7 @@
             this.P_Results.Size = new System.Drawing.Size(285, 352);
             this.P_Results.TabIndex = 66;
             // 
-            // pokeGrid1
+            // DatabasePokeGrid
             // 
             this.DatabasePokeGrid.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.DatabasePokeGrid.Location = new System.Drawing.Point(2, 2);
@@ -878,6 +878,7 @@
             this.CB_Format.FormattingEnabled = true;
             this.CB_Format.Items.AddRange(new object[] {
             "Any",
+            ".pk8",
             ".pk7",
             ".pk6",
             ".pk5",
