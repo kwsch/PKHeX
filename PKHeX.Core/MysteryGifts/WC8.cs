@@ -46,7 +46,7 @@ namespace PKHeX.Core
         public byte CardFlags { get => Data[CardStart + 0x10]; set => Data[CardStart + 0x10] = value; }
         public GiftType CardType { get => (GiftType)Data[CardStart + 0x11]; set => Data[CardStart + 0x11] = (byte)value; }
         public bool GiftRepeatable { get => (CardFlags & 1) == 0; set => CardFlags = (byte)((CardFlags & ~1) | (value ? 0 : 1)); }
-        public override bool GiftUsed { get => false; set => throw new Exception(); }
+        public override bool GiftUsed { get => false; set { }  }
 
         public int CardTitleIndex
         {
