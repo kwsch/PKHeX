@@ -1,7 +1,24 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/09/19 - New Update:
+19/11/15 - New Update:
+ - Introducing Sword/Shield support! Thanks @SciresM and @sora10pls for troubleshooting prior to release!
+ - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for Generation 8 parsing.
+ - - Bag editing, Pokédex, and Trainer Info editing is provided.
+ - Changed: PKHeX.Core.dll is now merged in with the main executable.
+ - Changed: PKHeX.WinForms spriting has now been split into a separate project. On build, it is merged into the main executable.
+ - Changed: .NET Core 3 support added for WinForms builds. .NET Framework 4.6 build is still the main build option.
+ - Changed: Project internals now use C# language version 8, the latest. Nullable compiler checks enabled for PKHeX.Core.
+ - Removed: Mono build no longer required due to font loading rework. No platform specific code remains!
+ - Changed: Slot grids are now generated instead of manually created. Party and Battle Box now appear differently.
+ - Changed: Encounter Slot generators now use game-specific logic to yield slots.
+ - Fixed: Gen6 Fashion for females now exposes the remaining fields.
+ - Fixed: Legality parsing for misc things fixed. Thanks @Rayqo, @steph9009, @iiippppk!
+ - Fixed: Mystery Gift received flags are now set correctly. Thanks tsubasa830!
+ - Fixed: Loading box data binaries now applies it to the current box. Thanks @PKMWM1!
+ - Fixed: Gen4 Poketch now behaves correctly in the editor, no longer deleting itself.
+
+19/09/19 - New Update: (80783) [2080662]
  - Legality:
  - - Updated GO shiny banlist.
  - Refactoring prep work for SwSh has changed some internal behavior.
