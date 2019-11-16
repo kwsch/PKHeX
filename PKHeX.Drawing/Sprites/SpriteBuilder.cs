@@ -198,8 +198,8 @@ namespace PKHeX.Drawing
         protected override int ItemShiftX => 52;
         protected override int ItemShiftY => 28;
         protected override int ItemMaxSize => 32;
-        protected override int EggItemShiftX => 9;
-        protected override int EggItemShiftY => 2;
+        protected override int EggItemShiftX => 32;
+        protected override int EggItemShiftY => 26;
 
         protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
         protected override string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
