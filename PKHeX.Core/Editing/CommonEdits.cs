@@ -567,8 +567,8 @@ namespace PKHeX.Core
         /// Sets the Technical Record flags for the <see cref="pk"/> based on the current moves.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="moves">Moves to set flags for (if applicable)</param>
-        public static void SetRecordFlags(this PKM pk, IReadOnlyList<int> moves)
+        /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
+        public static void SetRecordFlags(this PKM pk, IEnumerable<int> moves)
         {
             if (!(pk is PK8 pk8))
                 return;
@@ -581,17 +581,17 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets all the Technical Record flags for the <see cref="pk"/>.
+        /// Sets all the Technical Record flags for the <see cref="pk"/> if they are permitted to be learned in-game.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetRecordFlags(this PKM pk)
         {
             if (!(pk is PK8 pk8))
                 return;
-            var pi = pk8.PersonalInfo.TMHM;
-            for (int i = 100; i < pi.Length; i++)
+            var permit = pk8.PersonalInfo.TMHM;
+            for (int i = 100; i < permit.Length; i++)
             {
-                if (pi[i])
+                if (permit[i])
                     pk8.SetMoveRecordFlag(i - 100, true);
             }
         }
