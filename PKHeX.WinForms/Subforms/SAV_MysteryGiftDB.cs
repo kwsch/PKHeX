@@ -33,9 +33,21 @@ namespace PKHeX.WinForms
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
 
-            MysteryPokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
-            MysteryPokeGrid.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = MysteryPokeGrid.Entries.ToArray();
+            var grid = MysteryPokeGrid;
+            var smallWidth = grid.Width;
+            var smallHeight = grid.Height;
+            grid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            grid.SetBackground(Resources.box_wp_clean);
+            var newWidth = grid.Width;
+            var newHeight = grid.Height;
+            var wdelta = newWidth - smallWidth;
+            if (wdelta != 0)
+                Width += wdelta;
+            var hdelta = newHeight - smallHeight;
+            if (hdelta != 0)
+                Height += hdelta;
+
+            PKXBOXES = grid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -60,11 +72,6 @@ namespace PKHeX.WinForms
             L_Count.Text = "Loading...";
             new Task(LoadDatabase).Start();
 
-            Menu_SearchSettings.DropDown.Closing += (sender, e) =>
-            {
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
             CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
@@ -316,19 +323,6 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < (RES_MIN * start) + RES_MAX)
                 PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
-        }
-
-        private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
-        {
-            if (!Menu_SearchAdvanced.Checked)
-            {
-                Size = MinimumSize;
-                RTB_Instructions.Clear();
-            }
-            else
-            {
-                Size = MaximumSize;
-            }
         }
 
         private void Menu_Import_Click(object sender, EventArgs e)

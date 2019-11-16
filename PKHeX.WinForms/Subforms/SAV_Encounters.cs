@@ -25,9 +25,21 @@ namespace PKHeX.WinForms
 
             PKME_Tabs = f1;
 
-            EncounterPokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
-            EncounterPokeGrid.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = EncounterPokeGrid.Entries.ToArray();
+            var grid = EncounterPokeGrid;
+            var smallWidth = grid.Width;
+            var smallHeight = grid.Height;
+            grid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            grid.SetBackground(Resources.box_wp_clean);
+            var newWidth = grid.Width;
+            var newHeight = grid.Height;
+            var wdelta = newWidth - smallWidth;
+            if (wdelta != 0)
+                Width += wdelta;
+            var hdelta = newHeight - smallHeight;
+            if (hdelta != 0)
+                Height += hdelta;
+
+            PKXBOXES = grid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -52,11 +64,6 @@ namespace PKHeX.WinForms
             // Load Data
             L_Count.Text = "Ready...";
 
-            Menu_SearchSettings.DropDown.Closing += (sender, e) =>
-            {
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
             CenterToParent();
         }
 

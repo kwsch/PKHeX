@@ -34,9 +34,21 @@ namespace PKHeX.WinForms
 
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
-            DatabasePokeGrid.InitializeGrid(6, 11, SpriteUtil.Spriter);
-            DatabasePokeGrid.SetBackground(Resources.box_wp_clean);
-            PKXBOXES = DatabasePokeGrid.Entries.ToArray();
+
+            var grid = DatabasePokeGrid;
+            var smallWidth = grid.Width;
+            var smallHeight = grid.Height;
+            grid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            grid.SetBackground(Resources.box_wp_clean);
+            var newWidth = grid.Width;
+            var newHeight = grid.Height;
+            var wdelta = newWidth - smallWidth;
+            if (wdelta != 0)
+                Width += wdelta;
+            var hdelta = newHeight - smallHeight;
+            if (hdelta != 0)
+                Height += hdelta;
+            PKXBOXES = grid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -328,6 +340,9 @@ namespace PKHeX.WinForms
             var bakpkm = dbTemp.Where(pk => pk.Species != 0).OrderBy(pk => pk.Identifier);
             var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
+            // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
+            db = SAV is SAV8SWSH ? db.OfType<PK8>() : db.Where(z => !(z is PK8));
+
             // Finalize the Database
             return new List<PKM>(db);
         }
@@ -574,19 +589,6 @@ namespace PKHeX.WinForms
         {
             if (CB_Generation.SelectedIndex != 0)
                 CB_GameOrigin.SelectedIndex = 0;
-        }
-
-        private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
-        {
-            if (Menu_SearchAdvanced.Checked)
-            {
-                Size = MaximumSize;
-            }
-            else
-            {
-                Size = MinimumSize;
-                RTB_Instructions.Clear();
-            }
         }
 
         private void Menu_Exit_Click(object sender, EventArgs e) => Close();
