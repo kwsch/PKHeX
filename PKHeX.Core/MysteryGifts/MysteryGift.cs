@@ -76,6 +76,9 @@ namespace PKHeX.Core
                     return new WC6(data);
                 case WR7.Size when ext == ".wr7":
                     return new WR7(data);
+                case WC8.Size when ext == ".wc8":
+                case WC8.Size when ext == ".wc8full":
+                    return new WC8(data);
 
                 case PGF.Size when ext == ".pgf":
                     return new PGF(data);
