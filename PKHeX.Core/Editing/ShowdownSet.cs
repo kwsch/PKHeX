@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for exporting and importing <see cref="PKM"/> data in Pokémon Showdown's text format.
     /// </summary>
-    public sealed class ShowdownSet
+    public sealed class ShowdownSet : IGigantamax
     {
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
@@ -104,6 +104,11 @@ namespace PKHeX.Core
         public int[] Moves { get; } = {0, 0, 0, 0};
 
         /// <summary>
+        /// <see cref="IGigantamax.CanGigantamax"/> of the Set entity.
+        /// </summary>
+        public bool CanGigantamax { get; set; }
+
+        /// <summary>
         /// Any lines that failed to be parsed.
         /// </summary>
         public readonly List<string> InvalidLines = new List<string>();
@@ -148,6 +153,11 @@ namespace PKHeX.Core
             ParseLines(lines);
 
             // Showdown Quirks
+            if (Form == Gmax)
+            {
+                CanGigantamax = true;
+                Form = string.Empty;
+            }
             Form = ConvertFormFromShowdown(Form, Species, Ability);
             // Set Form
             if (Form.Length == 0)
@@ -275,7 +285,7 @@ namespace PKHeX.Core
             var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
-            var form = ConvertFormToShowdown(Form, Species);
+            var form = CanGigantamax ? Gmax : ConvertFormToShowdown(Form, Species);
             result.Add(GetStringFirstLine(form));
 
             // IVs
@@ -395,6 +405,9 @@ namespace PKHeX.Core
             Friendship = pkm.CurrentFriendship;
             Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth);
             Shiny = pkm.IsShiny;
+
+            if (pkm is IGigantamax g)
+                CanGigantamax = g.CanGigantamax;
 
             SetFormString(pkm.AltForm);
         }
@@ -602,6 +615,7 @@ namespace PKHeX.Core
         }
 
         private const string Minior = "Meteor";
+        private const string Gmax = "Gmax";
 
         private static string ConvertFormToShowdown(string form, int spec)
         {
