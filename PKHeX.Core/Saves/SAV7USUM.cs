@@ -8,6 +8,7 @@ namespace PKHeX.Core
         {
             Blocks = new SaveBlockAccessor7USUM(this);
             Initialize();
+            ClearMemeCrypto();
         }
 
         public SAV7USUM() : base(SaveUtil.SIZE_G7USUM, boUU)
