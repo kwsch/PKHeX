@@ -63,7 +63,7 @@
             this.CB_Gender = new System.Windows.Forms.ComboBox();
             this.CHK_S = new System.Windows.Forms.CheckBox();
             this.CHK_G = new System.Windows.Forms.CheckBox();
-            this.CHK_Unk = new System.Windows.Forms.CheckBox();
+            this.CHK_Gigantamaxed = new System.Windows.Forms.CheckBox();
             this.NUD_Form = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.L_Male = new System.Windows.Forms.Label();
@@ -419,16 +419,15 @@
             this.CHK_G.Text = "Gigantamax";
             this.CHK_G.UseVisualStyleBackColor = true;
             // 
-            // CHK_Unk
+            // CHK_Gigantamaxed
             // 
-            this.CHK_Unk.AutoSize = true;
-            this.CHK_Unk.Enabled = false;
-            this.CHK_Unk.Location = new System.Drawing.Point(393, 15);
-            this.CHK_Unk.Name = "CHK_Unk";
-            this.CHK_Unk.Size = new System.Drawing.Size(92, 17);
-            this.CHK_Unk.TabIndex = 34;
-            this.CHK_Unk.Text = "UnknownFlag";
-            this.CHK_Unk.UseVisualStyleBackColor = true;
+            this.CHK_Gigantamaxed.AutoSize = true;
+            this.CHK_Gigantamaxed.Location = new System.Drawing.Point(393, 15);
+            this.CHK_Gigantamaxed.Name = "CHK_Gigantamaxed";
+            this.CHK_Gigantamaxed.Size = new System.Drawing.Size(94, 17);
+            this.CHK_Gigantamaxed.TabIndex = 34;
+            this.CHK_Gigantamaxed.Text = "Gigantamaxed";
+            this.CHK_Gigantamaxed.UseVisualStyleBackColor = true;
             // 
             // NUD_Form
             // 
@@ -557,7 +556,7 @@
             this.ClientSize = new System.Drawing.Size(734, 454);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.NUD_Form);
-            this.Controls.Add(this.CHK_Unk);
+            this.Controls.Add(this.CHK_Gigantamaxed);
             this.Controls.Add(this.GB_Displayed);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.L_Battled);
@@ -627,7 +626,7 @@
         private System.Windows.Forms.GroupBox GB_Displayed;
         private System.Windows.Forms.CheckBox CHK_S;
         private System.Windows.Forms.CheckBox CHK_G;
-        private System.Windows.Forms.CheckBox CHK_Unk;
+        private System.Windows.Forms.CheckBox CHK_Gigantamaxed;
         private System.Windows.Forms.NumericUpDown NUD_Form;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label L_Male;

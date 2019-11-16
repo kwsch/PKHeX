@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
             NUD_Form.Value = Dex.GetAltFormDisplayed(s);
 
             CHK_Caught.Checked = Dex.GetCaught(s);
-            CHK_Unk.Checked = Dex.GetCaughtUnkFlag(s);
+            CHK_Gigantamaxed.Checked = Dex.GetCaughtGigantamaxed(s);
             CHK_G.Checked = Dex.GetDisplayDynamaxInstead(s);
             CHK_S.Checked = Dex.GetDisplayShiny(s);
             CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(s);
@@ -143,7 +143,7 @@ namespace PKHeX.WinForms
             Dex.SetAltFormDisplayed(s, (uint)NUD_Form.Value);
 
             Dex.SetCaught(s, CHK_Caught.Checked);
-            Dex.SetCaughtUnkFlag(s, CHK_Unk.Checked);
+            Dex.SetCaughtGigantamax(s, CHK_Gigantamaxed.Checked);
             Dex.SetGenderDisplayed(s, (uint)CB_Gender.SelectedIndex);
             Dex.SetDisplayDynamaxInstead(s, CHK_G.Checked);
             Dex.SetDisplayShiny(s, CHK_S.Checked);

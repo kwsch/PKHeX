@@ -141,8 +141,8 @@ namespace PKHeX.Core
 
         public override bool GetCaught(int species) => GetCaughtFlagID(species, 0);
         public void SetCaught(int species, bool value = true) => SetCaughtFlagID(species, 0, value);
-        public bool GetCaughtUnkFlag(int species) => GetCaughtFlagID(species, 1);
-        public void SetCaughtUnkFlag(int species, bool value = true) => SetCaughtFlagID(species, 1, value);
+        public bool GetCaughtGigantamaxed(int species) => GetCaughtFlagID(species, 1);
+        public void SetCaughtGigantamax(int species, bool value = true) => SetCaughtFlagID(species, 1, value);
         public bool GetIsLanguageIndexObtained(int species, int langIndex) => GetCaughtFlagID(species, 2 + langIndex);
         public void SetIsLanguageIndexObtained(int species, int langIndex, bool value = true) => SetCaughtFlagID(species, 2 + langIndex, value);
 
@@ -318,35 +318,43 @@ namespace PKHeX.Core
         private void SeenAll(int species, int fc, bool shinyToo, bool value = true)
         {
             var pt = PersonalTable.SWSH;
-            for (int i = 0; i < fc; i++)
+            for (int form = 0; form < fc; form++)
             {
-                var pi = pt.GetFormeEntry(species, i);
-                if (pi.IsDualGender || !value)
-                {
-                    SetSeenRegion(species, i, 0, value);
-                    SetSeenRegion(species, i, 1, value);
-                    if (!shinyToo && value)
-                        continue;
-                    SetSeenRegion(species, i, 2, value);
-                    SetSeenRegion(species, i, 3, value);
-                }
-                else
-                {
-                    var index = pi.OnlyFemale ? 1 : 0;
-                    SetSeenRegion(species, i, 0 + index);
-                    if (!shinyToo)
-                        continue;
-                    SetSeenRegion(species, i, 2 + index);
-                }
+                var pi = pt.GetFormeEntry(species, form);
+                SeenAll(species, form, value, pi, shinyToo);
             }
 
             if (!value)
+                ClearGigantamaxFlags(species);
+        }
+
+        private void SeenAll(int species, int bitIndex, bool value, PersonalInfo pi, bool shinyToo)
+        {
+            if (pi.IsDualGender || !value)
             {
-                SetSeenRegion(species, 63, 0, false);
-                SetSeenRegion(species, 63, 1, false);
-                SetSeenRegion(species, 63, 2, false);
-                SetSeenRegion(species, 63, 3, false);
+                SetSeenRegion(species, bitIndex, 0, value);
+                SetSeenRegion(species, bitIndex, 1, value);
+                if (!shinyToo && value)
+                    return;
+                SetSeenRegion(species, bitIndex, 2, value);
+                SetSeenRegion(species, bitIndex, 3, value);
             }
+            else
+            {
+                var index = pi.OnlyFemale ? 1 : 0;
+                SetSeenRegion(species, bitIndex, 0 + index);
+                if (!shinyToo)
+                    return;
+                SetSeenRegion(species, bitIndex, 2 + index);
+            }
+        }
+
+        private void ClearGigantamaxFlags(int species)
+        {
+            SetSeenRegion(species, 63, 0, false);
+            SetSeenRegion(species, 63, 1, false);
+            SetSeenRegion(species, 63, 2, false);
+            SetSeenRegion(species, 63, 3, false);
         }
 
         public override void CompleteDex(bool shinyToo = false)
@@ -407,14 +415,14 @@ namespace PKHeX.Core
             if (species == (int) Species.Alcremie)
             {
                 // Alcremie forms
-                SeenAll((int)Species.Alcremie, 7 * 8, shinyToo, value);
+                for (int i = 0; i < 7 * 8; i++)
+                    SeenAll(species, i, value, pi, shinyToo);
             }
-            else if (species == (int) Species.Eternatus)
+
+            if (SpeciesWithGigantamaxData.Contains(species))
             {
-                SetSeenRegion(species, 63, 0, value);
-                if (!shinyToo && value)
-                    return;
-                SetSeenRegion(species, 63, 2, value);
+                SeenAll(species, 63, value, pi, shinyToo);
+                SetCaughtGigantamax(species);
             }
         }
 
@@ -431,6 +439,36 @@ namespace PKHeX.Core
                 return;
             Array.Clear(Block.Data, ofs, EntrySize);
         }
+
+        private static readonly HashSet<int> SpeciesWithGigantamaxData = new HashSet<int>
+        {
+            (int)Species.Charizard,
+            (int)Species.Butterfree,
+            (int)Species.Pikachu,
+            (int)Species.Meowth,
+            (int)Species.Machamp,
+            (int)Species.Gengar,
+            (int)Species.Kingler,
+            (int)Species.Lapras,
+            (int)Species.Eevee,
+            (int)Species.Snorlax,
+            (int)Species.Garbodor,
+            (int)Species.Corviknight,
+            (int)Species.Orbeetle,
+            (int)Species.Drednaw,
+            (int)Species.Coalossal,
+            (int)Species.Flapple,
+            (int)Species.Appletun,
+            (int)Species.Sandaconda,
+            (int)Species.Toxtricity,
+            (int)Species.Centiskorch,
+            (int)Species.Hatterene,
+            (int)Species.Grimmsnarl,
+            (int)Species.Alcremie,
+            (int)Species.Copperajah,
+            (int)Species.Duraludon,
+            (int)Species.Eternatus,
+        };
         #endregion
     }
 }
