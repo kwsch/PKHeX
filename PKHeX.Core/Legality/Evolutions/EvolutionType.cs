@@ -47,6 +47,11 @@ namespace PKHeX.Core
         LevelUpDusk = 40,
         LevelUpWormhole = 41,
         UseItemWormhole = 42,
+        Crit3, // Sirfetch'd
+        HPDownBy49, // Runerigus
+        SpinType, // Alcremie
+        LevelUpNatureAmped, // Toxtricity
+        LevelUpNatureLowKey, // Toxtricity
     }
 
     public static class EvolutionTypeExtensions

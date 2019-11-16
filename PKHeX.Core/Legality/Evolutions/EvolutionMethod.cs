@@ -58,6 +58,10 @@ namespace PKHeX.Core
                 case TradeSpecies:
                     return !pkm.IsUntraded || skipChecks;
 
+                case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                    return false;
+
                 // Special Level Up Cases -- return false if invalid
                 case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
                     return skipChecks;
@@ -134,6 +138,13 @@ namespace PKHeX.Core
                 Form = Form,
                 Level = Level
             };
+        }
+
+        private static int GetAmpLowKeyResult(int n)
+        {
+            if ((uint)(n - 1) > 22)
+                return 0;
+            return (0x5BCA51 >> (n - 1)) & 1;
         }
     }
 }
