@@ -69,6 +69,7 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
+                case PKX.SIZE_8PARTY:
                 case PKX.SIZE_8STORED:
                     return 8;
 

@@ -168,7 +168,7 @@ namespace PKHeX.WinForms.Controls
             string newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
             try
             {
-                var data = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
+                var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
                 external = TryMakeDragDropPKM(pb, data, newfile);
             }
             catch (Exception x)

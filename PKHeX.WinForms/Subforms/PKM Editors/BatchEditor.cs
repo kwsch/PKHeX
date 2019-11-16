@@ -256,7 +256,7 @@ namespace PKHeX.WinForms
                 byte[] data = File.ReadAllBytes(file);
                 var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
                 if (editor.ProcessPKM(pk, Filters, Instructions))
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedBoxData);
+                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedPartyData);
 
                 b.ReportProgress(i);
             }

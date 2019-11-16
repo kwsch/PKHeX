@@ -43,7 +43,7 @@ namespace PKHeX.Core
                 if (File.Exists(fn))
                     continue;
 
-                File.WriteAllBytes(fn, pk.DecryptedBoxData);
+                File.WriteAllBytes(fn, pk.DecryptedPartyData);
                 ctr++;
             }
             return ctr;
@@ -72,7 +72,7 @@ namespace PKHeX.Core
                 if (File.Exists(fileName))
                     continue;
 
-                File.WriteAllBytes(fileName, pk.DecryptedBoxData);
+                File.WriteAllBytes(fileName, pk.DecryptedPartyData);
                 ctr++;
             }
             return ctr;

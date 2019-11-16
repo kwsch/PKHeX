@@ -1130,7 +1130,7 @@ namespace PKHeX.WinForms
             var pk = PreparePKM();
             var encrypt = ModifierKeys == Keys.Control;
             var newfile = FileUtil.GetPKMTempFileName(pk, encrypt);
-            var data = encrypt ? pk.EncryptedBoxData : pk.DecryptedBoxData;
+            var data = encrypt ? pk.EncryptedPartyData : pk.DecryptedPartyData;
             // Make file
             try
             {

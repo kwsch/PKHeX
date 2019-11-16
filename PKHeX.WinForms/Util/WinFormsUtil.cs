@@ -285,7 +285,7 @@ namespace PKHeX.WinForms
         {
             SaveBackup(path);
             string ext = Path.GetExtension(path);
-            var data = $".{pkx}" == ext ? pk.DecryptedBoxData : pk.EncryptedPartyData;
+            var data = $".{pkx}" == ext ? pk.DecryptedPartyData : pk.EncryptedPartyData;
             File.WriteAllBytes(path, data);
         }
 

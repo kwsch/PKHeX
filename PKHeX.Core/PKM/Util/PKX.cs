@@ -43,9 +43,9 @@ namespace PKHeX.Core
 
         // Gen7 Format is the same size as Gen6.
 
-        internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK);
-        internal const int SIZE_8PARTY = SIZE_8STORED + 0x10;
-        internal const int SIZE_8BLOCK = 80;
+        internal const int SIZE_8STORED = 8 + (4 * SIZE_8BLOCK); // 0x148
+        internal const int SIZE_8PARTY = SIZE_8STORED + 0x10; // 0x158
+        internal const int SIZE_8BLOCK = 80; // 0x50
 
         private static readonly HashSet<int> Sizes = new HashSet<int>
         {
@@ -56,7 +56,7 @@ namespace PKHeX.Core
             SIZE_4STORED, SIZE_4PARTY,
             SIZE_5PARTY,
             SIZE_6STORED, SIZE_6PARTY,
-            SIZE_8STORED,
+            SIZE_8STORED, SIZE_8PARTY,
         };
 
         /// <summary>

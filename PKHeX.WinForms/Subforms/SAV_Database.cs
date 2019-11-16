@@ -393,7 +393,7 @@ namespace PKHeX.WinForms
             Directory.CreateDirectory(path);
 
             foreach (PKM pkm in Results)
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedBoxData);
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(pkm.FileName)), pkm.DecryptedPartyData);
         }
 
         private void Menu_Import_Click(object sender, EventArgs e)
