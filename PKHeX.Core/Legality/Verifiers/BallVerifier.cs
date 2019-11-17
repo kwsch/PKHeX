@@ -260,6 +260,13 @@ namespace PKHeX.Core
             if (810 <= species && species <= 818) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
+            if (IsGalarCapture(species))
+            {
+                if (!Legal.WildPokeballs8.Contains(pkm.Ball))
+                    return GetInvalid(LBallSpecies);
+                return GetValid(LBallSpeciesPass);
+            }
+
             Ball ball = (Ball)pkm.Ball;
 
             if (ball == Safari)
@@ -326,6 +333,18 @@ namespace PKHeX.Core
                 return GetInvalid(LBallUnavailable);
 
             return NONE;
+        }
+
+        public bool IsGalarCapture(int species)
+        {
+            if (810 <= species && species <= 818) // starter
+                return false;
+            if (880 <= species && species <= 883) // fossil
+                return false;
+            var pt = PersonalTable.SWSH;
+            if (((PersonalInfoSWSH) pt.GetFormeEntry(species, 0)).IsPresentInGame)
+                return true;
+            return true;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
