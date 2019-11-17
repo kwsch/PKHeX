@@ -86,9 +86,7 @@ namespace PKHeX.WinForms
             if (s <= 0)
                 return;
 
-            var forms = FormConverter
-                .GetFormList(s, GameInfo.Strings.Types, GameInfo.Strings.forms, GameInfo.GenderSymbolASCII, 8)
-                .ToArray();
+            var forms = GetFormList(s);
             if (forms[0].Length == 0)
                 forms[0] = GameInfo.Strings.Types[0];
 
@@ -116,6 +114,14 @@ namespace PKHeX.WinForms
             CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(s);
 
             NUD_Battled.Value = Dex.GetBattledCount(s);
+        }
+
+        private static string[] GetFormList(in int species)
+        {
+            var s = GameInfo.Strings;
+            if (species == (int)Species.Alcremie)
+                return FormConverter.GetAlcremieFormList(s.forms);
+            return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, 8).ToArray();
         }
 
         private void SetEntry()

@@ -271,7 +271,7 @@ namespace PKHeX.Core
             if (species == (int)Species.Alcremie)
             {
                 form *= 7;
-                form += 0; // alteration byte?
+                form += (int)((PK8)pkm).FormDuration; // alteration byte
             }
             else if (species == (int) Species.Eternatus && pkm.AltForm == 1)
             {
@@ -415,7 +415,9 @@ namespace PKHeX.Core
             if (species == (int) Species.Alcremie)
             {
                 // Alcremie forms
-                for (int i = 0; i < 7 * 8; i++)
+                const int deco = 7;
+                const int forms = 9;
+                for (int i = 0; i < deco * forms; i++) // 0-62
                     SeenAll(species, i, value, pi, shinyToo);
             }
 

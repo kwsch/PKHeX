@@ -934,5 +934,32 @@ namespace PKHeX.Core
                 forms[Gigantamax], // Gigantamax
             };
         }
+
+        public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
+        {
+            var result = new string[63];
+            result[0 * 7] = forms[(int) Alcremie]; // Vanilla Cream
+            result[1 * 7] = forms[RubyCream];
+            result[2 * 7] = forms[MatchaCream];
+            result[3 * 7] = forms[MintCream];
+            result[4 * 7] = forms[LemonCream];
+            result[5 * 7] = forms[SaltedCream];
+            result[6 * 7] = forms[RubySwirl];
+            result[7 * 7] = forms[CaramelSwirl];
+            result[8 * 7] = forms[RainbowSwirl];
+
+            const int deco = 7;
+            const int fc = 9;
+            for (int f = 0; f < fc; f++)
+            {
+                int start = f * deco;
+                for (int i = deco - 1; i >= 0; i--)
+                {
+                    result[start + i] = result[start] + $" ({((AlcremieDecoration) i).ToString()})";
+                }
+            }
+
+            return result;
+        }
     }
 }
