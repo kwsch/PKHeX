@@ -964,6 +964,13 @@ namespace PKHeX.WinForms.Controls
                     Box.HorizontallyCenter(Tab_Box);
                     foreach (var pb in Box.SlotPictureBoxes)
                         pb.ContextMenuStrip = menu.mnuVSD;
+
+                    var grid = Box.BoxPokeGrid;
+                    var height = grid.Height + grid.Location.Y + Box.Location.Y; // needed height
+                    var required = height + 16;
+                    var allowed = Tab_Box.Height;
+                    if (required > allowed)
+                        FindForm().Height += required - allowed;
                 }
             }
             if (SAV.HasParty)
