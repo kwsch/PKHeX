@@ -999,7 +999,9 @@ namespace PKHeX.WinForms.Controls
 
             B_SaveBoxBin.Enabled = true;
             tabBoxMulti.SelectedIndex = 0;
-            Box.CurrentBox = Math.Max(0, Math.Min(sav.BoxCount, sav.CurrentBox));
+
+            var box = sav.CurrentBox;
+            Box.CurrentBox = (uint)box >= sav.BoxCount ? 0 : box;
 
             if (tabBoxMulti.TabPages.Contains(Tab_Box))
                 return false;
