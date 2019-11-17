@@ -207,6 +207,7 @@ namespace PKHeX.Core
             (int)Ball.Love,
             (int)Ball.Moon,
             (int)Ball.Dream,
+            (int)Ball.Beast,
         };
 
         internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
