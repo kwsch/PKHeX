@@ -1864,6 +1864,9 @@ namespace PKHeX.Core
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
+            if (pkm.GetFlawlessIVCount() < DynamaxLevel)
+                return false;
+
             return base.IsMatch(pkm, lvl);
         }
     }
