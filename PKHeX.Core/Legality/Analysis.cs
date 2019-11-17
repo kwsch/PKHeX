@@ -208,6 +208,9 @@ namespace PKHeX.Core
 
             if (Info.EncounterMatch is WC3 z && z.NotDistributed)
                 AddLine(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
+
+            if (pkm.Format >= 8)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         private void ParsePK4()
@@ -216,6 +219,8 @@ namespace PKHeX.Core
             UpdateChecks();
             if (pkm.Format > 4)
                 Transfer.VerifyTransferLegalityG4(this);
+            if (pkm.Format >= 8)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         private void ParsePK5()
@@ -223,12 +228,16 @@ namespace PKHeX.Core
             UpdateInfo();
             UpdateChecks();
             NHarmonia.Verify(this);
+            if (pkm.Format >= 8)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         private void ParsePK6()
         {
             UpdateInfo();
             UpdateChecks();
+            if (pkm.Format >= 8)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         private void ParsePK7()
@@ -237,16 +246,14 @@ namespace PKHeX.Core
             if (pkm.VC)
                 UpdateVCTransferInfo();
             UpdateChecks();
+            if (pkm.Format >= 8)
+                Transfer.VerifyTransferLegalityG8(this);
         }
 
         private void ParsePK8()
         {
             UpdateInfo();
-            if (pkm.VC)
-                UpdateVCTransferInfo();
             UpdateChecks();
-            if (Info.Generation <= 7)
-                Transfer.VerifyTransferLegalityG8(this);
         }
 
         /// <summary>
