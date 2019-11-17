@@ -1629,6 +1629,7 @@ namespace PKHeX.WinForms.Controls
             FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = gen >= 6 && gen <= 7 && !pb7;
             FLP_OriginalNature.Visible = gen >= 8;
             B_Records.Visible = gen >= 8;
+            CB_HTLanguage.Visible = gen >= 8;
 
             ToggleInterface(Entity.Format);
         }
