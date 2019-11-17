@@ -17,7 +17,12 @@ namespace PKHeX.Core
                 TMHM[i]       = FlagUtil.GetFlag(Data, 0x28 + (i >> 3), i);
                 TMHM[i + 100] = FlagUtil.GetFlag(Data, 0x3C + (i >> 3), i);
             }
-            TypeTutors = Array.Empty<bool>();
+
+            // 0x38-0x3B type tutors, but only 8 bits are valid flags.
+            var typeTutors = new bool[8];
+            for (int i = 0; i < typeTutors.Length; i++)
+                typeTutors[i] = FlagUtil.GetFlag(Data, 0x38, i);
+            TypeTutors = typeTutors;
         }
 
         public override byte[] Write()
@@ -27,6 +32,8 @@ namespace PKHeX.Core
                 FlagUtil.SetFlag(Data, 0x28 + (i >> 3), i, TMHM[i]);
                 FlagUtil.SetFlag(Data, 0x3C + (i >> 3), i, TMHM[i + 100]);
             }
+            for (int i = 0; i < TypeTutors.Length; i++)
+                FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
             return Data;
         }
 

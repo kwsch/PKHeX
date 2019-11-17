@@ -404,5 +404,13 @@ namespace PKHeX.Core
             710, 711, 715, 716, 718, 745, 746, 747, 748, 749,
             750, 751, 752, 753, 754, 755, 756,
         };
+
+        internal static readonly int[] TypeTutor8 =
+        {
+            520, 519, 518, // Pledge
+            338, 307, 308, // Elemental Beam
+            434, // Draco Meteor
+            796, // Steel Beam
+        };
     }
 }

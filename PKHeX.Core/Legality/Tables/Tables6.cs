@@ -214,7 +214,13 @@ namespace PKHeX.Core
             15, 19, 57, 70, 127,
         };
 
-        internal static readonly int[] TypeTutor6 = {520, 519, 518, 338, 307, 308, 434, 620};
+        internal static readonly int[] TypeTutor6 =
+        {
+            520, 519, 518, // Pledge
+            338, 307, 308, // Elemental Beam
+            434, // Draco Meteor
+            620, // Dragon Ascent
+        };
 
         internal static readonly int[][] Tutors_AO =
         {
