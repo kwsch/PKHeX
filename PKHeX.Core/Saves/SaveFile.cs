@@ -877,8 +877,8 @@ namespace PKHeX.Core
         #endregion
 
         #region Box Binaries
-        public byte[] GetPCBinary() => BoxData.SelectMany(pk => GetDataForBox(BlankPKM)).ToArray();
-        public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(pk => GetDataForBox(BlankPKM)).ToArray();
+        public byte[] GetPCBinary() => BoxData.SelectMany(GetDataForBox).ToArray();
+        public byte[] GetBoxBinary(int box) => GetBoxData(box).SelectMany(GetDataForBox).ToArray();
 
         public bool SetPCBinary(byte[] data)
         {
