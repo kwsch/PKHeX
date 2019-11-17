@@ -117,6 +117,8 @@ namespace PKHeX.Core
         /// <returns>Generation 3 encoded value.</returns>
         private static byte SetG3Char(char chr, bool jp)
         {
+            if (chr == '\'') // ’
+                return 0xB4;
             var table = jp ? G3_JP : G3_EN;
             var index = Array.IndexOf(table, chr);
             return (byte)(index > -1 ? index : 0xFF);
