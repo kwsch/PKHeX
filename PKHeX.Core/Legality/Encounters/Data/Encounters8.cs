@@ -1777,8 +1777,8 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic8ND[] Crystal_SWSH =
         {
-            new EncounterStatic8ND { Species = 782, Level = 16, Ability = -1, Location = 126, IVs = new []{31,31,31,-1,-1,-1}, DynamaxLevel = 2, Moves = new[] {33,29,525,43}, }, // ★And458 Jangmo-o
-            new EncounterStatic8ND { Species = 246, Level = 16,  Ability = -1, Location = 126, IVs = new []{31,31,31,-1,-1,-1}, DynamaxLevel = 2, Moves = new[] {33,157,371,44}, }, // ★And15 Larvitar
+            new EncounterStatic8ND { Species = 782, Level = 16, Ability = -1, Location = 126, IVs = new []{31,31,31,-1,-1,-1}, DynamaxLevel = 2, Moves = new[] {033,029,525,043}, }, // ★And458 Jangmo-o
+            new EncounterStatic8ND { Species = 246, Level = 16, Ability = -1, Location = 126, IVs = new []{31,31,31,-1,-1,-1}, DynamaxLevel = 2, Moves = new[] {033,157,371,044}, }, // ★And15 Larvitar
         };
 
         #endregion
