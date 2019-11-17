@@ -186,7 +186,13 @@ namespace PKHeX.WinForms
 
             // return filtered results
             var comparer = new ReferenceComparer<IEncounterable>();
-            return results.Distinct(comparer); // only distinct objects
+            results = results.Distinct(comparer); // only distinct objects
+
+            // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
+            results = SAV is SAV8SWSH
+                ? results.Where(z => !(z is IGeneration g) || g.Generation == 8)
+                : results.Where(z => !(z is IGeneration g) || g.Generation <= 7);
+            return results;
         }
 
         private class ReferenceComparer<T> : IEqualityComparer<T>
