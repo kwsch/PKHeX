@@ -266,7 +266,8 @@ namespace PKHeX.Core
 
             if (!IsMatchEggLocation(pkm, ref lvl))
                 return false;
-
+            if (!IsMatchLocation(pkm))
+                return false;
             if (!IsMatchLevel(pkm, lvl))
                 return false;
             if (!IsMatchGender(pkm))
@@ -401,13 +402,19 @@ namespace PKHeX.Core
             return false;
         }
 
+        protected bool IsMatchLocation(PKM pkm)
+        {
+            if (EggEncounter)
+                return true;
+            if (Location == 0)
+                return true;
+            return Location == pkm.Met_Location;
+        }
+
         protected virtual bool IsMatchLevel(PKM pkm, int lvl)
         {
             if (!pkm.HasOriginalMetLocation)
                 return lvl >= Level;
-
-            if (!EggEncounter && Location != 0 && Location != pkm.Met_Location)
-                return false;
 
             if (lvl == Level)
                 return true;

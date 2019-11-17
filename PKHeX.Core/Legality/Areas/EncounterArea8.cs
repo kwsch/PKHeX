@@ -12,7 +12,7 @@ namespace PKHeX.Core
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var loc = Location;
-            if (120 <= loc && loc <= 154) // wild area gets boosted up to level 60 postgame
+            if (IsWildArea8(loc)) // wild area gets boosted up to level 60 postgame
             {
                 const int boostTo = 60;
                 if (pkm.Met_Level == boostTo)
@@ -28,5 +28,7 @@ namespace PKHeX.Core
         }
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
+
+        public static bool IsWildArea8(int loc) => 120 <= loc && loc <= 154;
     }
 }

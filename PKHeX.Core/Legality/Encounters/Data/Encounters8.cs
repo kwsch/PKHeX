@@ -53,266 +53,249 @@ namespace PKHeX.Core
 
             #region Static Part 1
             // encounters
-         // new EncounterStatic { Species = 612, Level = 62, Location = -1, Moves = new[] {200,089,231,416}, Shiny = Never, Ability = 2, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Jolly }, // Haxorus (dyna 1)
-         // new EncounterStatic { Species = 477, Level = 62, Location = -1, Moves = new[] {008,089,009,325}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant }, // Dusknoir (dyna 1)
-         // new EncounterStatic { Species = 324, Level = 62, Location = -1, Moves = new[] {436,089,776,231}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Sassy, Gender = Male }, // Torkoal (dyna 5) (126 ATK, 126 SPD, 252 SPE)
-         // new EncounterStatic { Species = 526, Level = 62, Location = -1, Moves = new[] {157,089,444,675}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Careful, Gender = Male }, // Gigalith (dyna 1)
-         // new EncounterStatic { Species = 534, Level = 62, Location = -1, Moves = new[] {009,008,359,444}, Shiny = Never, Ability = 4, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Adamant, Gender = Male }, // Conkeldurr (dyna 1)
-         // new EncounterStatic { Species = 478, Level = 62, Location = -1, Moves = new[] {196,247,087,094}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Timid, Gender = Female }, // Froslass (dyna 1)
-         // new EncounterStatic { Species = 763, Level = 62, Location = -1, Moves = new[] {438,136,583,428}, Shiny = Never, Ability = 2, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Adamant, Gender = Female }, // Tsareena (dyna 5) (252 DEF, 252 SPE)
-         // new EncounterStatic { Species = 130, Level = 62, Location = -1, Moves = new[] {127,444,242,419}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31}, Nature = Nature.Jolly, Gender = Male }, // Gyarados (dyna 5) (252 HP, 252 ATK)
             new EncounterStatic { Species = 888, Level = 70, Location = 66, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SW }, // Zacian
             new EncounterStatic { Species = 889, Level = 70, Location = 66, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SH }, // Zamazenta
-         // new EncounterStatic { Species = 888, Level = 01, Location = -1, Moves = new[] {533,014,336,163}, Shiny = Never, Ability = 1, Nature = Nature.Hardy, Version = SW }, // Zacian
-         // new EncounterStatic { Species = 889, Level = 01, Location = -1, Moves = new[] {368,334,336,163}, Shiny = Never, Ability = 1, Nature = Nature.Hardy, Version = SH }, // Zamazenta
-         // new EncounterStatic { Species = 890, Level = 60, Location = 66, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1 }, // Eternatus
-         // new EncounterStatic { Species = 890, Level = 60, Location = 66, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1 }, // Eternatus-1
             new EncounterStatic { Species = 890, Level = 60, Location = 66, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
-         // new EncounterStatic { Species = 888, Level = 55, Location = -1, Moves = new[] {533,336,232,781}, Shiny = Never, Ability = 1, IVs = new[] {30, 15, 15, 15, 15, 15}, Nature = Nature.Timid, Version = SW }, // Zacian (212 HP EVs)
-         // new EncounterStatic { Species = 889, Level = 55, Location = -1, Moves = new[] {242,113,232,782}, Shiny = Never, Ability = 1, IVs = new[] {30, 15, 15, 15, 15, 15}, Nature = Nature.Jolly, Version = SH }, // Zamazenta (212 HP EVs)
-         // new EncounterStatic { Species = 819, Level = 02, Location = -1, Moves = new[] {033,039,000,000}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Nature = Nature.Modest, Gender = Male }, // Skwovet
-            new EncounterStatic { Species = 618, Level = 25, Location = 54, Moves = new[] {389,319,279,341},     Form = 01, Ability = 1 }, // Stunfisk
-         // new EncounterStatic { Species = 888, Level = 55, Location = -1, Moves = new[] {533,014,442,781}, Shiny = Never, Ability = 1, Nature = Nature.Hardy, Version = SW }, // Zacian
-         // new EncounterStatic { Species = 889, Level = 55, Location = -1, Moves = new[] {368,334,336,163}, Shiny = Never, Ability = 1, Nature = Nature.Hardy, Version = SH }, // Zamazenta
-         // new EncounterStatic { Species = 821, Level = 02, Location = -1, Moves = new[] {064,043,000,000}, Shiny = Never,              IVs = new[] {00, 00, 00, 00, 00, 00}, Gender = Male }, // Rookidee
-         // new EncounterStatic { Species = 819, Level = 03, Location = -1, Moves = new[] {033,039,000,000}, Shiny = Never, Ability = 1, IVs = new[] {00, 00, 00, 00, 00, 00}, Gender = Female }, // Skwovet
-         // new EncounterStatic { Species = 889, Level = 70, Location = -1, Moves = new[] {583,334,242,442}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31} }, // Zamazenta (HP/ATK EVs)
-         // new EncounterStatic { Species = 888, Level = 70, Location = -1, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, IVs = new[] {31, 31, 31, 31, 31, 31} }, // Zacian (HP/ATK EVs)
-            new EncounterStatic { Species = 037, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SW }, // Vulpix at Motostoke Stadium
-            new EncounterStatic { Species = 058, Level = 24, Location = 24, Moves = new[] {000,000,000,000}, Version = SH }, // Growlithe at Motostoke Stadium
-            new EncounterStatic { Species = 607, Level = 25, Location = 24, Moves = new[] {000,000,000,000} }, // Litwick at Motostoke Stadium
-            new EncounterStatic { Species = 850, Level = 25, Location = 24, Moves = new[] {000,000,000,000}, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
-            new EncounterStatic { Species = 618, Level = 48, Location = -1, Moves = new[] {779,330,340,334},     Form = 01 }, // Stunfisk
-            new EncounterStatic { Species = 527, Level = 16, Location = -1, Moves = new[] {000,000,000,000} }, // Woobat
-            new EncounterStatic { Species = 838, Level = 18, Location = -1, Moves = new[] {488,397,229,033} }, // Carkol
-            new EncounterStatic { Species = 834, Level = 24, Location = 54, Moves = new[] {317,029,055,044} }, // Drednaw
-            new EncounterStatic { Species = 423, Level = 50, Location = -1, Moves = new[] {240,414,330,246}, FlawlessIVCount = 3,     Form = 01 }, // Gastrodon
-            new EncounterStatic { Species = 859, Level = 31, Location = 76, Moves = new[] {259,389,207,372} }, // Impidimp
-            new EncounterStatic { Species = 860, Level = 38, Location = -1, Moves = new[] {793,399,259,389} }, // Morgrem
-            new EncounterStatic { Species = 835, Level = 08, Location = 18, Moves = new[] {039,033,609,000} }, // Yamper
-            new EncounterStatic { Species = 834, Level = 50, Location = -1, Moves = new[] {710,746,068,317}, FlawlessIVCount = 3 }, // Drednaw
-            new EncounterStatic { Species = 833, Level = 08, Location = -1, Moves = new[] {044,055,000,000} }, // Chewtle
-            new EncounterStatic { Species = 131, Level = 55, Location = -1, Moves = new[] {056,240,058,034}, FlawlessIVCount = 3 }, // Lapras
-            new EncounterStatic { Species = 862, Level = 50, Location = -1, Moves = new[] {269,068,792,184} }, // Obstagoon
-            new EncounterStatic { Species = 822, Level = 18, Location = -1, Moves = new[] {681,468,031,365}, Shiny = Never }, // Corvisquire
-            new EncounterStatic { Species = 050, Level = 17, Location = -1, Moves = new[] {523,189,310,045} }, // Diglett
-            new EncounterStatic { Species = 830, Level = 22, Location = 40, Moves = new[] {178,496,075,047} }, // Eldegoss
-            new EncounterStatic { Species = 558, Level = 40, Location = 86, Moves = new[] {404,350,446,157} }, // Crustle on Route 8
-            new EncounterStatic { Species = 870, Level = 40, Location = -1, Moves = new[] {748,660,179,203} }, // Falinks
-            new EncounterStatic { Species = 362, Level = 55, Location = -1, Moves = new[] {573,329,104,182}, FlawlessIVCount = 3 }, // Glalie
-            new EncounterStatic { Species = 853, Level = 50, Location = 92, Moves = new[] {753,576,276,179} }, // Grapploct
-            new EncounterStatic { Species = 822, Level = 35, Location = -1, Moves = new[] {065,184,269,365} }, // Corvisquire
-            new EncounterStatic { Species = 614, Level = 55, Location = 106, Moves = new[] {276,059,156,329} }, // Beartic
-            new EncounterStatic { Species = 460, Level = 55, Location = 106, Moves = new[] {008,059,452,275} }, // Abomasnow
-            new EncounterStatic { Species = 342, Level = 50, Location = -1, Moves = new[] {242,014,534,400}, FlawlessIVCount = 3 }, // Crawdaunt
+
+
+            // Motostoke Stadium Static Encounters
+            new EncounterStatic { Species = 037, Level = 24, Location = 24, Version = SW }, // Vulpix at Motostoke Stadium
+            new EncounterStatic { Species = 058, Level = 24, Location = 24, Version = SH }, // Growlithe at Motostoke Stadium
+            new EncounterStatic { Species = 607, Level = 25, Location = 24, }, // Litwick at Motostoke Stadium
+            new EncounterStatic { Species = 850, Level = 25, Location = 24, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
+            
+            new EncounterStatic  { Species = 618, Level = 25, Location = 054, Moves = new[] {389,319,279,341}, Form = 01, Ability = 1 }, // Stunfisk in Galar Mine No. 2
+            new EncounterStatic8 { Species = 618, Level = 48, Location =  -1, Moves = new[] {779,330,340,334}, Form = 01 }, // Stunfisk
+            new EncounterStatic8 { Species = 527, Level = 16, Location =  -1, Moves = new[] {000,000,000,000} }, // Woobat
+            new EncounterStatic8 { Species = 838, Level = 18, Location =  -1, Moves = new[] {488,397,229,033} }, // Carkol
+            new EncounterStatic8 { Species = 834, Level = 24, Location = 054, Moves = new[] {317,029,055,044} }, // Drednaw in Galar Mine No. 2
+            new EncounterStatic8 { Species = 423, Level = 50, Location =  -1, Moves = new[] {240,414,330,246}, FlawlessIVCount = 3, Form = 01 }, // Gastrodon
+            new EncounterStatic8 { Species = 859, Level = 31, Location = 076, Moves = new[] {259,389,207,372} }, // Impidimp
+            new EncounterStatic8 { Species = 860, Level = 38, Location =  -1, Moves = new[] {793,399,259,389} }, // Morgrem
+            new EncounterStatic8 { Species = 835, Level = 08, Location = 018, Moves = new[] {039,033,609,000} }, // Yamper on Route 2
+            new EncounterStatic8 { Species = 834, Level = 50, Location =  -1, Moves = new[] {710,746,068,317}, FlawlessIVCount = 3 }, // Drednaw
+            new EncounterStatic8 { Species = 833, Level = 08, Location =  -1, Moves = new[] {044,055,000,000} }, // Chewtle
+            new EncounterStatic8 { Species = 131, Level = 55, Location =  -1, Moves = new[] {056,240,058,034}, FlawlessIVCount = 3 }, // Lapras
+            new EncounterStatic8 { Species = 862, Level = 50, Location =  -1, Moves = new[] {269,068,792,184} }, // Obstagoon
+            new EncounterStatic8 { Species = 822, Level = 18, Location =  -1, Moves = new[] {681,468,031,365}, Shiny = Never }, // Corvisquire
+            new EncounterStatic8 { Species = 050, Level = 17, Location =  -1, Moves = new[] {523,189,310,045} }, // Diglett
+            new EncounterStatic8 { Species = 830, Level = 22, Location = 040, Moves = new[] {178,496,075,047} }, // Eldegoss on Route 5
+            new EncounterStatic8 { Species = 558, Level = 40, Location = 086, Moves = new[] {404,350,446,157} }, // Crustle on Route 8
+            new EncounterStatic8 { Species = 870, Level = 40, Location =  -1, Moves = new[] {748,660,179,203} }, // Falinks
+            new EncounterStatic8 { Species = 362, Level = 55, Location =  -1, Moves = new[] {573,329,104,182}, FlawlessIVCount = 3 }, // Glalie
+            new EncounterStatic8 { Species = 853, Level = 50, Location = 092, Moves = new[] {753,576,276,179} }, // Grapploct
+            new EncounterStatic8 { Species = 822, Level = 35, Location =  -1, Moves = new[] {065,184,269,365} }, // Corvisquire
+            new EncounterStatic8 { Species = 614, Level = 55, Location = 106, Moves = new[] {276,059,156,329} }, // Beartic
+            new EncounterStatic8 { Species = 460, Level = 55, Location = 106, Moves = new[] {008,059,452,275} }, // Abomasnow
+            new EncounterStatic8 { Species = 342, Level = 50, Location =  -1, Moves = new[] {242,014,534,400}, FlawlessIVCount = 3 }, // Crawdaunt
             #endregion
 
             #region Static Part 2
-            new EncounterStatic { Species = 095, Level = 26, Location = -1, }, // Onix
-            new EncounterStatic { Species = 416, Level = 26, Location = -1, }, // Vespiquen
-            new EncounterStatic { Species = 675, Level = 32, Location = -1, }, // Pangoro
-            new EncounterStatic { Species = 291, Level = 15, Location = -1, }, // Ninjask
-            new EncounterStatic { Species = 315, Level = 15, Location = -1, }, // Roselia
-            new EncounterStatic { Species = 045, Level = 36, Location = -1, }, // Vileplume
-            new EncounterStatic { Species = 760, Level = 34, Location = -1, }, // Bewear
-            new EncounterStatic { Species = 275, Level = 34, Location = -1, }, // Shiftry
-            new EncounterStatic { Species = 272, Level = 34, Location = -1, }, // Ludicolo
-            new EncounterStatic { Species = 426, Level = 34, Location = -1, }, // Drifblim
-            new EncounterStatic { Species = 623, Level = 40, Location = -1, }, // Golurk
-            new EncounterStatic { Species = 195, Level = 15, Location = -1, }, // Quagsire
-            new EncounterStatic { Species = 099, Level = 28, Location = -1, }, // Kingler
-            new EncounterStatic { Species = 660, Level = 15, Location = 122, }, // Diggersby
-            new EncounterStatic { Species = 178, Level = 26, Location = -1, }, // Xatu
-            new EncounterStatic { Species = 569, Level = 36, Location = -1, }, // Garbodor
-            new EncounterStatic { Species = 510, Level = 28, Location = -1, }, // Liepard
-            new EncounterStatic { Species = 750, Level = 31, Location = -1, }, // Mudsdale
-            new EncounterStatic { Species = 067, Level = 26, Location = -1, }, // Machoke
-            new EncounterStatic { Species = 435, Level = 34, Location = -1, }, // Skuntank
-            new EncounterStatic { Species = 099, Level = 31, Location = -1, }, // Kingler
-            new EncounterStatic { Species = 342, Level = 31, Location = -1, }, // Crawdaunt
-            new EncounterStatic { Species = 208, Level = 50, Location = -1, }, // Steelix
-            new EncounterStatic { Species = 823, Level = 50, Location = -1, }, // Corviknight
-            new EncounterStatic { Species = 448, Level = 36, Location = -1, }, // Lucario
-            new EncounterStatic { Species = 112, Level = 46, Location = -1, }, // Rhydon
-            new EncounterStatic { Species = 625, Level = 52, Location = -1, }, // Bisharp
-            new EncounterStatic { Species = 738, Level = 46, Location = -1, }, // Vikavolt
-            new EncounterStatic { Species = 091, Level = 46, Location = -1, }, // Cloyster
-            new EncounterStatic { Species = 131, Level = 56, Location = -1, }, // Lapras
-            new EncounterStatic { Species = 119, Level = 46, Location = -1, }, // Seaking
-            new EncounterStatic { Species = 130, Level = 56, Location = -1, }, // Gyarados
-            new EncounterStatic { Species = 279, Level = 46, Location = -1, }, // Pelipper
-            new EncounterStatic { Species = 853, Level = 56, Location = -1, }, // Grapploct
-            new EncounterStatic { Species = 593, Level = 46, Location = -1, }, // Jellicent
-            new EncounterStatic { Species = 171, Level = 46, Location = -1, }, // Lanturn
-            new EncounterStatic { Species = 340, Level = 46, Location = -1, }, // Whiscash
-            new EncounterStatic { Species = 426, Level = 46, Location = -1, }, // Drifblim
-            new EncounterStatic { Species = 224, Level = 46, Location = -1, }, // Octillery
-            new EncounterStatic { Species = 612, Level = 60, Location = -1, Ability = 1, }, // Haxorus
-            new EncounterStatic { Species = 143, Level = 36, Location = -1, }, // Snorlax
-            new EncounterStatic { Species = 452, Level = 40, Location = -1, }, // Drapion
-            new EncounterStatic { Species = 561, Level = 36, Location = -1, }, // Sigilyph
-            new EncounterStatic { Species = 534, Level = 55, Location = -1, Ability = 1, }, // Conkeldurr
-            new EncounterStatic { Species = 320, Level = 56, Location = -1, }, // Wailmer
-            new EncounterStatic { Species = 561, Level = 40, Location = -1, }, // Sigilyph
-            new EncounterStatic { Species = 569, Level = 40, Location = -1, }, // Garbodor
-            new EncounterStatic { Species = 743, Level = 40, Location = -1, }, // Ribombee
-            new EncounterStatic { Species = 475, Level = 60, Location = -1, }, // Gallade
-            new EncounterStatic { Species = 264, Level = 40, Location = -1,     Form = 01, }, // Linoone
-            new EncounterStatic { Species = 606, Level = 42, Location = -1, }, // Beheeyem
-            new EncounterStatic { Species = 715, Level = 50, Location = -1, }, // Noivern
-            new EncounterStatic { Species = 537, Level = 46, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 768, Level = 50, Location = -1, }, // Golisopod
-            new EncounterStatic { Species = 760, Level = 42, Location = -1, }, // Bewear
-            new EncounterStatic { Species = 820, Level = 42, Location = -1, }, // Greedent
-            new EncounterStatic { Species = 598, Level = 40, Location = -1, }, // Ferrothorn
-            new EncounterStatic { Species = 344, Level = 42, Location = -1, }, // Claydol
-            new EncounterStatic { Species = 477, Level = 60, Location = -1, }, // Dusknoir
-            new EncounterStatic { Species = 623, Level = 43, Location = -1, }, // Golurk
-            new EncounterStatic { Species = 561, Level = 40, Location = -1, }, // Sigilyph
-            new EncounterStatic { Species = 558, Level = 34, Location = -1, }, // Crustle
-            new EncounterStatic { Species = 112, Level = 41, Location = -1, }, // Rhydon
-            new EncounterStatic { Species = 763, Level = 36, Location = -1, }, // Tsareena
-            new EncounterStatic { Species = 750, Level = 41, Location = -1, }, // Mudsdale
-            new EncounterStatic { Species = 185, Level = 41, Location = -1, }, // Sudowoodo
-            new EncounterStatic { Species = 437, Level = 41, Location = -1, }, // Bronzong
-            new EncounterStatic { Species = 248, Level = 60, Location = -1, }, // Tyranitar
-            new EncounterStatic { Species = 784, Level = 60, Location = -1, Ability = 1, }, // Kommo-o
-            new EncounterStatic { Species = 213, Level = 34, Location = -1, }, // Shuckle
-            new EncounterStatic { Species = 330, Level = 51, Location = -1, }, // Flygon
-            new EncounterStatic { Species = 526, Level = 51, Location = -1, }, // Gigalith
-            new EncounterStatic { Species = 423, Level = 56, Location = -1,     Form = 01, }, // Gastrodon
-            new EncounterStatic { Species = 208, Level = 50, Location = -1, }, // Steelix
-            new EncounterStatic { Species = 068, Level = 60, Location = -1, Ability = 1, }, // Machamp
-            new EncounterStatic { Species = 182, Level = 41, Location = -1, }, // Bellossom
-            new EncounterStatic { Species = 521, Level = 41, Location = -1, }, // Unfezant
-            new EncounterStatic { Species = 701, Level = 36, Location = -1, }, // Hawlucha
-            new EncounterStatic { Species = 094, Level = 60, Location = -1, }, // Gengar
-            new EncounterStatic { Species = 823, Level = 39, Location = -1, }, // Corviknight
-            new EncounterStatic { Species = 573, Level = 46, Location = -1, }, // Cinccino
-            new EncounterStatic { Species = 826, Level = 41, Location = -1, }, // Orbeetle
-            new EncounterStatic { Species = 834, Level = 36, Location = -1, }, // Drednaw
-            new EncounterStatic { Species = 680, Level = 56, Location = -1, }, // Doublade
-            new EncounterStatic { Species = 711, Level = 41, Location = -1, }, // Gourgeist
-            new EncounterStatic { Species = 600, Level = 46, Location = -1, }, // Klang
-            new EncounterStatic { Species = 045, Level = 41, Location = -1, }, // Vileplume
-            new EncounterStatic { Species = 823, Level = 38, Location = -1, }, // Corviknight
-            new EncounterStatic { Species = 130, Level = 60, Location = -1, }, // Gyarados
-            new EncounterStatic { Species = 853, Level = 56, Location = -1, }, // Grapploct
-            new EncounterStatic { Species = 282, Level = 60, Location = -1, }, // Gardevoir
-            new EncounterStatic { Species = 470, Level = 56, Location = -1, }, // Leafeon
-            new EncounterStatic { Species = 510, Level = 31, Location = -1, }, // Liepard
-            new EncounterStatic { Species = 832, Level = 65, Location = -1, }, // Dubwool
-            new EncounterStatic { Species = 826, Level = 65, Location = -1, }, // Orbeetle
-            new EncounterStatic { Species = 823, Level = 65, Location = -1, }, // Corviknight
-            new EncounterStatic { Species = 110, Level = 65, Location = -1,     Form = 01, }, // Weezing
-            new EncounterStatic { Species = 834, Level = 65, Location = -1, }, // Drednaw
-            new EncounterStatic { Species = 845, Level = 65, Location = -1, }, // Cramorant
-            new EncounterStatic { Species = 828, Level = 65, Location = -1, }, // Thievul
-            new EncounterStatic { Species = 884, Level = 65, Location = -1, }, // Duraludon
-            new EncounterStatic { Species = 836, Level = 65, Location = -1, }, // Boltund
-            new EncounterStatic { Species = 830, Level = 65, Location = -1, }, // Eldegoss
-            new EncounterStatic { Species = 862, Level = 65, Location = -1, }, // Obstagoon
-            new EncounterStatic { Species = 861, Level = 65, Location = -1, Gender = 0, }, // Grimmsnarl
-            new EncounterStatic { Species = 844, Level = 65, Location = -1, }, // Sandaconda
-            new EncounterStatic { Species = 863, Level = 65, Location = -1, }, // Perrserker
-            new EncounterStatic { Species = 879, Level = 65, Location = -1, }, // Copperajah
-            new EncounterStatic { Species = 839, Level = 65, Location = -1, }, // Coalossal
-            new EncounterStatic { Species = 858, Level = 65, Location = -1, Gender = 1 }, // Hatterene
-            new EncounterStatic { Species = 279, Level = 26, Location = -1, }, // Pelipper
-            new EncounterStatic { Species = 310, Level = 26, Location = -1, }, // Manectric
-            new EncounterStatic { Species = 660, Level = 26, Location = -1, }, // Diggersby
-            new EncounterStatic { Species = 281, Level = 26, Location = -1, }, // Kirlia
-            new EncounterStatic { Species = 025, Level = 15, Location = -1, }, // Pikachu
-            new EncounterStatic { Species = 439, Level = 15, Location = -1, }, // Mime Jr.
-            new EncounterStatic { Species = 221, Level = 33, Location = -1, }, // Piloswine
-            new EncounterStatic { Species = 558, Level = 34, Location = -1, }, // Crustle
-            new EncounterStatic { Species = 282, Level = 32, Location = -1, }, // Gardevoir
-            new EncounterStatic { Species = 537, Level = 36, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 583, Level = 36, Location = -1, }, // Vanillish
-            new EncounterStatic { Species = 344, Level = 36, Location = -1, }, // Claydol
-            new EncounterStatic { Species = 093, Level = 34, Location = -1, }, // Haunter
-            new EncounterStatic { Species = 356, Level = 40, Location = -1, }, // Dusclops
-            new EncounterStatic { Species = 362, Level = 40, Location = -1, }, // Glalie
-            new EncounterStatic { Species = 279, Level = 28, Location = -1, }, // Pelipper
-            new EncounterStatic { Species = 536, Level = 28, Location = -1, }, // Palpitoad
-            new EncounterStatic { Species = 660, Level = 28, Location = -1, }, // Diggersby
-            new EncounterStatic { Species = 221, Level = 36, Location = -1, }, // Piloswine
-            new EncounterStatic { Species = 750, Level = 36, Location = -1, }, // Mudsdale
-            new EncounterStatic { Species = 437, Level = 36, Location = -1, }, // Bronzong
-            new EncounterStatic { Species = 536, Level = 34, Location = -1, }, // Palpitoad
-            new EncounterStatic { Species = 279, Level = 26, Location = -1, }, // Pelipper
-            new EncounterStatic { Species = 093, Level = 31, Location = -1, }, // Haunter
-            new EncounterStatic { Species = 221, Level = 33, Location = -1, }, // Piloswine
-            new EncounterStatic { Species = 558, Level = 34, Location = -1, }, // Crustle
-            new EncounterStatic { Species = 067, Level = 31, Location = -1, }, // Machoke
-            new EncounterStatic { Species = 426, Level = 31, Location = -1, }, // Drifblim
-            new EncounterStatic { Species = 435, Level = 36, Location = -1, }, // Skuntank
-            new EncounterStatic { Species = 537, Level = 36, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 583, Level = 36, Location = -1, }, // Vanillish
-            new EncounterStatic { Species = 426, Level = 36, Location = -1, }, // Drifblim
-            new EncounterStatic { Species = 437, Level = 46, Location = -1, }, // Bronzong
-            new EncounterStatic { Species = 460, Level = 46, Location = -1, }, // Abomasnow
-            new EncounterStatic { Species = 750, Level = 46, Location = -1, }, // Mudsdale
-            new EncounterStatic { Species = 623, Level = 46, Location = -1, }, // Golurk
-            new EncounterStatic { Species = 356, Level = 46, Location = -1, }, // Dusclops
-            new EncounterStatic { Species = 518, Level = 46, Location = -1, }, // Musharna
-            new EncounterStatic { Species = 362, Level = 46, Location = -1, }, // Glalie
-            new EncounterStatic { Species = 596, Level = 46, Location = -1, }, // Galvantula
-            new EncounterStatic { Species = 584, Level = 47, Location = -1, }, // Vanilluxe
-            new EncounterStatic { Species = 537, Level = 60, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 460, Level = 60, Location = -1, }, // Abomasnow
-            new EncounterStatic { Species = 036, Level = 36, Location = -1, }, // Clefable
-            new EncounterStatic { Species = 743, Level = 40, Location = -1, }, // Ribombee
-            new EncounterStatic { Species = 112, Level = 55, Location = -1, }, // Rhydon
-            new EncounterStatic { Species = 823, Level = 40, Location = -1, }, // Corviknight
-            new EncounterStatic { Species = 760, Level = 40, Location = -1, }, // Bewear
-            new EncounterStatic { Species = 614, Level = 60, Location = -1, }, // Beartic
-            new EncounterStatic { Species = 461, Level = 60, Location = -1, }, // Weavile
-            new EncounterStatic { Species = 518, Level = 60, Location = -1, }, // Musharna
-            new EncounterStatic { Species = 437, Level = 42, Location = -1, }, // Bronzong
-            new EncounterStatic { Species = 344, Level = 42, Location = -1, }, // Claydol
-            new EncounterStatic { Species = 452, Level = 50, Location = -1, }, // Drapion
-            new EncounterStatic { Species = 164, Level = 50, Location = -1, }, // Noctowl
-            new EncounterStatic { Species = 760, Level = 46, Location = -1, }, // Bewear
-            new EncounterStatic { Species = 675, Level = 42, Location = -1, }, // Pangoro
-            new EncounterStatic { Species = 584, Level = 50, Location = -1, }, // Vanilluxe
-            new EncounterStatic { Species = 112, Level = 50, Location = -1, }, // Rhydon
-            new EncounterStatic { Species = 778, Level = 50, Location = -1, }, // Mimikyu
-            new EncounterStatic { Species = 521, Level = 40, Location = -1, }, // Unfezant
-            new EncounterStatic { Species = 752, Level = 34, Location = -1, }, // Araquanid
-            new EncounterStatic { Species = 537, Level = 41, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 435, Level = 41, Location = -1, }, // Skuntank
-            new EncounterStatic { Species = 221, Level = 41, Location = -1, }, // Piloswine
-            new EncounterStatic { Species = 356, Level = 41, Location = -1, }, // Dusclops
-            new EncounterStatic { Species = 344, Level = 41, Location = -1, }, // Claydol
-            new EncounterStatic { Species = 689, Level = 60, Location = -1, }, // Barbaracle
-            new EncounterStatic { Species = 561, Level = 51, Location = -1, }, // Sigilyph
-            new EncounterStatic { Species = 623, Level = 51, Location = -1, }, // Golurk
-            new EncounterStatic { Species = 537, Level = 60, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 460, Level = 60, Location = -1, }, // Abomasnow
-            new EncounterStatic { Species = 045, Level = 41, Location = -1, }, // Vileplume
-            new EncounterStatic { Species = 178, Level = 41, Location = -1, }, // Xatu
-            new EncounterStatic { Species = 768, Level = 60, Location = -1, }, // Golisopod
-            new EncounterStatic { Species = 614, Level = 60, Location = -1, }, // Beartic
-            new EncounterStatic { Species = 530, Level = 46, Location = -1, }, // Excadrill
-            new EncounterStatic { Species = 362, Level = 46, Location = -1, }, // Glalie
-            new EncounterStatic { Species = 537, Level = 46, Location = -1, }, // Seismitoad
-            new EncounterStatic { Species = 681, Level = 58, Location = -1, }, // Aegislash
-            new EncounterStatic { Species = 601, Level = 49, Location = -1, }, // Klinklang
-            new EncounterStatic { Species = 407, Level = 41, Location = -1, }, // Roserade
-            new EncounterStatic { Species = 460, Level = 41, Location = -1, }, // Abomasnow
-            new EncounterStatic { Species = 350, Level = 60, Location = -1, Gender = 0, Ability = 1, }, // Milotic
-            new EncounterStatic { Species = 112, Level = 60, Location = -1, }, // Rhydon
-            new EncounterStatic { Species = 609, Level = 60, Location = -1, }, // Chandelure
-            new EncounterStatic { Species = 713, Level = 60, Location = -1, }, // Avalugg
-            new EncounterStatic { Species = 756, Level = 60, Location = -1, }, // Shiinotic
-            new EncounterStatic { Species = 134, Level = 56, Location = -1, }, // Vaporeon
-            new EncounterStatic { Species = 135, Level = 56, Location = -1, }, // Jolteon
-            new EncounterStatic { Species = 196, Level = 56, Location = -1, }, // Espeon
-            new EncounterStatic { Species = 471, Level = 56, Location = -1, }, // Glaceon
-            new EncounterStatic { Species = 136, Level = 56, Location = -1, }, // Flareon
-            new EncounterStatic { Species = 197, Level = 56, Location = -1, }, // Umbreon
-            new EncounterStatic { Species = 700, Level = 56, Location = -1, }, // Sylveon
+            new EncounterStatic8 { Species = 095, Level = 26, Location = 122, }, // Onix in the Rolling Fields (in a Wild Area)
+            new EncounterStatic8 { Species = 416, Level = 26, Location =  -1, }, // Vespiquen
+            new EncounterStatic8 { Species = 675, Level = 32, Location =  -1, }, // Pangoro
+            new EncounterStatic8 { Species = 291, Level = 15, Location =  -1, }, // Ninjask
+            new EncounterStatic8 { Species = 315, Level = 15, Location = 122, }, // Roselia in the Rolling Fields (in a Wild Area)
+            new EncounterStatic8 { Species = 045, Level = 36, Location =  -1, }, // Vileplume
+            new EncounterStatic8 { Species = 760, Level = 34, Location =  -1, }, // Bewear
+            new EncounterStatic8 { Species = 275, Level = 34, Location =  -1, }, // Shiftry
+            new EncounterStatic8 { Species = 272, Level = 34, Location =  -1, }, // Ludicolo
+            new EncounterStatic8 { Species = 426, Level = 34, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 623, Level = 40, Location =  -1, }, // Golurk
+            new EncounterStatic8 { Species = 195, Level = 15, Location =  -1, }, // Quagsire
+            new EncounterStatic8 { Species = 099, Level = 28, Location =  -1, }, // Kingler
+            new EncounterStatic8 { Species = 660, Level = 15, Location = 122, }, // Diggersby in the Rolling Fields (in a Wild Area)
+            new EncounterStatic8 { Species = 178, Level = 26, Location =  -1, }, // Xatu
+            new EncounterStatic8 { Species = 569, Level = 36, Location =  -1, }, // Garbodor
+            new EncounterStatic8 { Species = 510, Level = 28, Location = 138, }, // Liepard at North Lake Miloch (in a Wild Area)
+            new EncounterStatic8 { Species = 750, Level = 31, Location =  -1, }, // Mudsdale
+            new EncounterStatic8 { Species = 067, Level = 26, Location =  -1, }, // Machoke
+            new EncounterStatic8 { Species = 435, Level = 34, Location =  -1, }, // Skuntank
+            new EncounterStatic8 { Species = 099, Level = 31, Location =  -1, }, // Kingler
+            new EncounterStatic8 { Species = 342, Level = 31, Location =  -1, }, // Crawdaunt
+            new EncounterStatic8 { Species = 208, Level = 50, Location =  -1, }, // Steelix
+            new EncounterStatic8 { Species = 823, Level = 50, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 448, Level = 36, Location =  -1, }, // Lucario
+            new EncounterStatic8 { Species = 112, Level = 46, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 625, Level = 52, Location =  -1, }, // Bisharp
+            new EncounterStatic8 { Species = 738, Level = 46, Location =  -1, }, // Vikavolt
+            new EncounterStatic8 { Species = 091, Level = 46, Location =  -1, }, // Cloyster
+            new EncounterStatic8 { Species = 131, Level = 56, Location =  -1, }, // Lapras
+            new EncounterStatic8 { Species = 119, Level = 46, Location =  -1, }, // Seaking
+            new EncounterStatic8 { Species = 130, Level = 56, Location =  -1, }, // Gyarados
+            new EncounterStatic8 { Species = 279, Level = 46, Location =  -1, }, // Pelipper
+            new EncounterStatic8 { Species = 853, Level = 56, Location =  -1, }, // Grapploct
+            new EncounterStatic8 { Species = 593, Level = 46, Location =  -1, }, // Jellicent
+            new EncounterStatic8 { Species = 171, Level = 46, Location =  -1, }, // Lanturn
+            new EncounterStatic8 { Species = 340, Level = 46, Location =  -1, }, // Whiscash
+            new EncounterStatic8 { Species = 426, Level = 46, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 224, Level = 46, Location =  -1, }, // Octillery
+            new EncounterStatic8 { Species = 612, Level = 60, Location =  -1, Ability = 1, }, // Haxorus
+            new EncounterStatic8 { Species = 143, Level = 36, Location =  -1, }, // Snorlax
+            new EncounterStatic8 { Species = 452, Level = 40, Location =  -1, }, // Drapion
+            new EncounterStatic8 { Species = 561, Level = 36, Location =  -1, }, // Sigilyph
+            new EncounterStatic8 { Species = 534, Level = 55, Location =  -1, Ability = 1, }, // Conkeldurr
+            new EncounterStatic8 { Species = 320, Level = 56, Location =  -1, }, // Wailmer
+            new EncounterStatic8 { Species = 561, Level = 40, Location =  -1, }, // Sigilyph
+            new EncounterStatic8 { Species = 569, Level = 40, Location =  -1, }, // Garbodor
+            new EncounterStatic8 { Species = 743, Level = 40, Location =  -1, }, // Ribombee
+            new EncounterStatic8 { Species = 475, Level = 60, Location =  -1, }, // Gallade
+            new EncounterStatic8 { Species = 264, Level = 40, Location =  -1,     Form = 01, }, // Linoone
+            new EncounterStatic8 { Species = 606, Level = 42, Location =  -1, }, // Beheeyem
+            new EncounterStatic8 { Species = 715, Level = 50, Location =  -1, }, // Noivern
+            new EncounterStatic8 { Species = 537, Level = 46, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 768, Level = 50, Location =  -1, }, // Golisopod
+            new EncounterStatic8 { Species = 760, Level = 42, Location =  -1, }, // Bewear
+            new EncounterStatic8 { Species = 820, Level = 42, Location =  -1, }, // Greedent
+            new EncounterStatic8 { Species = 598, Level = 40, Location =  -1, }, // Ferrothorn
+            new EncounterStatic8 { Species = 344, Level = 42, Location =  -1, }, // Claydol
+            new EncounterStatic8 { Species = 477, Level = 60, Location =  -1, }, // Dusknoir
+            new EncounterStatic8 { Species = 623, Level = 43, Location =  -1, }, // Golurk
+            new EncounterStatic8 { Species = 561, Level = 40, Location =  -1, }, // Sigilyph
+            new EncounterStatic8 { Species = 558, Level = 34, Location =  -1, }, // Crustle
+            new EncounterStatic8 { Species = 112, Level = 41, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 763, Level = 36, Location =  -1, }, // Tsareena
+            new EncounterStatic8 { Species = 750, Level = 41, Location =  -1, }, // Mudsdale
+            new EncounterStatic8 { Species = 185, Level = 41, Location =  -1, }, // Sudowoodo
+            new EncounterStatic8 { Species = 437, Level = 41, Location =  -1, }, // Bronzong
+            new EncounterStatic8 { Species = 248, Level = 60, Location =  -1, }, // Tyranitar
+            new EncounterStatic8 { Species = 784, Level = 60, Location =  -1, Ability = 1, }, // Kommo-o
+            new EncounterStatic8 { Species = 213, Level = 34, Location =  -1, }, // Shuckle
+            new EncounterStatic8 { Species = 330, Level = 51, Location =  -1, }, // Flygon
+            new EncounterStatic8 { Species = 526, Level = 51, Location =  -1, }, // Gigalith
+            new EncounterStatic8 { Species = 423, Level = 56, Location =  -1,     Form = 01, }, // Gastrodon
+            new EncounterStatic8 { Species = 208, Level = 50, Location =  -1, }, // Steelix
+            new EncounterStatic8 { Species = 068, Level = 60, Location =  -1, Ability = 1, }, // Machamp
+            new EncounterStatic8 { Species = 182, Level = 41, Location =  -1, }, // Bellossom
+            new EncounterStatic8 { Species = 521, Level = 41, Location =  -1, }, // Unfezant
+            new EncounterStatic8 { Species = 701, Level = 36, Location =  -1, }, // Hawlucha
+            new EncounterStatic8 { Species = 094, Level = 60, Location =  -1, }, // Gengar
+            new EncounterStatic8 { Species = 823, Level = 39, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 573, Level = 46, Location =  -1, }, // Cinccino
+            new EncounterStatic8 { Species = 826, Level = 41, Location =  -1, }, // Orbeetle
+            new EncounterStatic8 { Species = 834, Level = 36, Location =  -1, }, // Drednaw
+            new EncounterStatic8 { Species = 680, Level = 56, Location =  -1, }, // Doublade
+            new EncounterStatic8 { Species = 711, Level = 41, Location =  -1, }, // Gourgeist
+            new EncounterStatic8 { Species = 600, Level = 46, Location =  -1, }, // Klang
+            new EncounterStatic8 { Species = 045, Level = 41, Location =  -1, }, // Vileplume
+            new EncounterStatic8 { Species = 823, Level = 38, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 130, Level = 60, Location =  -1, }, // Gyarados
+            new EncounterStatic8 { Species = 853, Level = 56, Location =  -1, }, // Grapploct
+            new EncounterStatic8 { Species = 282, Level = 60, Location =  -1, }, // Gardevoir
+            new EncounterStatic8 { Species = 470, Level = 56, Location =  -1, }, // Leafeon
+            new EncounterStatic8 { Species = 510, Level = 31, Location =  -1, }, // Liepard
+            new EncounterStatic8 { Species = 832, Level = 65, Location =  -1, }, // Dubwool
+            new EncounterStatic8 { Species = 826, Level = 65, Location =  -1, }, // Orbeetle
+            new EncounterStatic8 { Species = 823, Level = 65, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 110, Level = 65, Location =  -1,     Form = 01, }, // Weezing
+            new EncounterStatic8 { Species = 834, Level = 65, Location =  -1, }, // Drednaw
+            new EncounterStatic8 { Species = 845, Level = 65, Location =  -1, }, // Cramorant
+            new EncounterStatic8 { Species = 828, Level = 65, Location =  -1, }, // Thievul
+            new EncounterStatic8 { Species = 884, Level = 65, Location =  -1, }, // Duraludon
+            new EncounterStatic8 { Species = 836, Level = 65, Location =  -1, }, // Boltund
+            new EncounterStatic8 { Species = 830, Level = 65, Location =  -1, }, // Eldegoss
+            new EncounterStatic8 { Species = 862, Level = 65, Location =  -1, }, // Obstagoon
+            new EncounterStatic8 { Species = 861, Level = 65, Location =  -1, Gender = 0, }, // Grimmsnarl
+            new EncounterStatic8 { Species = 844, Level = 65, Location =  -1, }, // Sandaconda
+            new EncounterStatic8 { Species = 863, Level = 65, Location =  -1, }, // Perrserker
+            new EncounterStatic8 { Species = 879, Level = 65, Location =  -1, }, // Copperajah
+            new EncounterStatic8 { Species = 839, Level = 65, Location =  -1, }, // Coalossal
+            new EncounterStatic8 { Species = 858, Level = 65, Location =  -1, Gender = 1 }, // Hatterene
+            new EncounterStatic8 { Species = 279, Level = 26, Location =  -1, }, // Pelipper
+            new EncounterStatic8 { Species = 310, Level = 26, Location =  -1, }, // Manectric
+            new EncounterStatic8 { Species = 660, Level = 26, Location =  -1, }, // Diggersby
+            new EncounterStatic8 { Species = 281, Level = 26, Location =  -1, }, // Kirlia
+            new EncounterStatic8 { Species = 025, Level = 15, Location =  -1, }, // Pikachu
+            new EncounterStatic8 { Species = 439, Level = 15, Location =  -1, }, // Mime Jr.
+            new EncounterStatic8 { Species = 221, Level = 33, Location =  -1, }, // Piloswine
+            new EncounterStatic8 { Species = 558, Level = 34, Location =  -1, }, // Crustle
+            new EncounterStatic8 { Species = 282, Level = 32, Location =  -1, }, // Gardevoir
+            new EncounterStatic8 { Species = 537, Level = 36, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 583, Level = 36, Location =  -1, }, // Vanillish
+            new EncounterStatic8 { Species = 344, Level = 36, Location =  -1, }, // Claydol
+            new EncounterStatic8 { Species = 093, Level = 34, Location =  -1, }, // Haunter
+            new EncounterStatic8 { Species = 356, Level = 40, Location =  -1, }, // Dusclops
+            new EncounterStatic8 { Species = 362, Level = 40, Location =  -1, }, // Glalie
+            new EncounterStatic8 { Species = 279, Level = 28, Location =  -1, }, // Pelipper
+            new EncounterStatic8 { Species = 536, Level = 28, Location =  -1, }, // Palpitoad
+            new EncounterStatic8 { Species = 660, Level = 28, Location =  -1, }, // Diggersby
+            new EncounterStatic8 { Species = 221, Level = 36, Location =  -1, }, // Piloswine
+            new EncounterStatic8 { Species = 750, Level = 36, Location =  -1, }, // Mudsdale
+            new EncounterStatic8 { Species = 437, Level = 36, Location =  -1, }, // Bronzong
+            new EncounterStatic8 { Species = 536, Level = 34, Location =  -1, }, // Palpitoad
+            new EncounterStatic8 { Species = 279, Level = 26, Location =  -1, }, // Pelipper
+            new EncounterStatic8 { Species = 093, Level = 31, Location =  -1, }, // Haunter
+            new EncounterStatic8 { Species = 221, Level = 33, Location =  -1, }, // Piloswine
+            new EncounterStatic8 { Species = 558, Level = 34, Location =  -1, }, // Crustle
+            new EncounterStatic8 { Species = 067, Level = 31, Location =  -1, }, // Machoke
+            new EncounterStatic8 { Species = 426, Level = 31, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 435, Level = 36, Location =  -1, }, // Skuntank
+            new EncounterStatic8 { Species = 537, Level = 36, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 583, Level = 36, Location =  -1, }, // Vanillish
+            new EncounterStatic8 { Species = 426, Level = 36, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 437, Level = 46, Location =  -1, }, // Bronzong
+            new EncounterStatic8 { Species = 460, Level = 46, Location =  -1, }, // Abomasnow
+            new EncounterStatic8 { Species = 750, Level = 46, Location =  -1, }, // Mudsdale
+            new EncounterStatic8 { Species = 623, Level = 46, Location =  -1, }, // Golurk
+            new EncounterStatic8 { Species = 356, Level = 46, Location =  -1, }, // Dusclops
+            new EncounterStatic8 { Species = 518, Level = 46, Location =  -1, }, // Musharna
+            new EncounterStatic8 { Species = 362, Level = 46, Location =  -1, }, // Glalie
+            new EncounterStatic8 { Species = 596, Level = 46, Location =  -1, }, // Galvantula
+            new EncounterStatic8 { Species = 584, Level = 47, Location =  -1, }, // Vanilluxe
+            new EncounterStatic8 { Species = 537, Level = 60, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 460, Level = 60, Location =  -1, }, // Abomasnow
+            new EncounterStatic8 { Species = 036, Level = 36, Location =  -1, }, // Clefable
+            new EncounterStatic8 { Species = 743, Level = 40, Location =  -1, }, // Ribombee
+            new EncounterStatic8 { Species = 112, Level = 55, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 823, Level = 40, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 760, Level = 40, Location =  -1, }, // Bewear
+            new EncounterStatic8 { Species = 614, Level = 60, Location =  -1, }, // Beartic
+            new EncounterStatic8 { Species = 461, Level = 60, Location =  -1, }, // Weavile
+            new EncounterStatic8 { Species = 518, Level = 60, Location =  -1, }, // Musharna
+            new EncounterStatic8 { Species = 437, Level = 42, Location =  -1, }, // Bronzong
+            new EncounterStatic8 { Species = 344, Level = 42, Location =  -1, }, // Claydol
+            new EncounterStatic8 { Species = 452, Level = 50, Location =  -1, }, // Drapion
+            new EncounterStatic8 { Species = 164, Level = 50, Location =  -1, }, // Noctowl
+            new EncounterStatic8 { Species = 760, Level = 46, Location =  -1, }, // Bewear
+            new EncounterStatic8 { Species = 675, Level = 42, Location =  -1, }, // Pangoro
+            new EncounterStatic8 { Species = 584, Level = 50, Location =  -1, }, // Vanilluxe
+            new EncounterStatic8 { Species = 112, Level = 50, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 778, Level = 50, Location =  -1, }, // Mimikyu
+            new EncounterStatic8 { Species = 521, Level = 40, Location =  -1, }, // Unfezant
+            new EncounterStatic8 { Species = 752, Level = 34, Location =  -1, }, // Araquanid
+            new EncounterStatic8 { Species = 537, Level = 41, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 435, Level = 41, Location =  -1, }, // Skuntank
+            new EncounterStatic8 { Species = 221, Level = 41, Location =  -1, }, // Piloswine
+            new EncounterStatic8 { Species = 356, Level = 41, Location =  -1, }, // Dusclops
+            new EncounterStatic8 { Species = 344, Level = 41, Location =  -1, }, // Claydol
+            new EncounterStatic8 { Species = 689, Level = 60, Location =  -1, }, // Barbaracle
+            new EncounterStatic8 { Species = 561, Level = 51, Location =  -1, }, // Sigilyph
+            new EncounterStatic8 { Species = 623, Level = 51, Location =  -1, }, // Golurk
+            new EncounterStatic8 { Species = 537, Level = 60, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 460, Level = 60, Location =  -1, }, // Abomasnow
+            new EncounterStatic8 { Species = 045, Level = 41, Location =  -1, }, // Vileplume
+            new EncounterStatic8 { Species = 178, Level = 41, Location =  -1, }, // Xatu
+            new EncounterStatic8 { Species = 768, Level = 60, Location =  -1, }, // Golisopod
+            new EncounterStatic8 { Species = 614, Level = 60, Location =  -1, }, // Beartic
+            new EncounterStatic8 { Species = 530, Level = 46, Location =  -1, }, // Excadrill
+            new EncounterStatic8 { Species = 362, Level = 46, Location =  -1, }, // Glalie
+            new EncounterStatic8 { Species = 537, Level = 46, Location =  -1, }, // Seismitoad
+            new EncounterStatic8 { Species = 681, Level = 58, Location =  -1, }, // Aegislash
+            new EncounterStatic8 { Species = 601, Level = 49, Location =  -1, }, // Klinklang
+            new EncounterStatic8 { Species = 407, Level = 41, Location =  -1, }, // Roserade
+            new EncounterStatic8 { Species = 460, Level = 41, Location =  -1, }, // Abomasnow
+            new EncounterStatic8 { Species = 350, Level = 60, Location =  -1, Gender = 0, Ability = 1, }, // Milotic
+            new EncounterStatic8 { Species = 112, Level = 60, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 609, Level = 60, Location =  -1, }, // Chandelure
+            new EncounterStatic8 { Species = 713, Level = 60, Location =  -1, }, // Avalugg
+            new EncounterStatic8 { Species = 756, Level = 60, Location =  -1, }, // Shiinotic
+            new EncounterStatic8 { Species = 134, Level = 56, Location =  -1, }, // Vaporeon
+            new EncounterStatic8 { Species = 135, Level = 56, Location =  -1, }, // Jolteon
+            new EncounterStatic8 { Species = 196, Level = 56, Location =  -1, }, // Espeon
+            new EncounterStatic8 { Species = 471, Level = 56, Location =  -1, }, // Glaceon
+            new EncounterStatic8 { Species = 136, Level = 56, Location =  -1, }, // Flareon
+            new EncounterStatic8 { Species = 197, Level = 56, Location =  -1, }, // Umbreon
+            new EncounterStatic8 { Species = 700, Level = 56, Location =  -1, }, // Sylveon
             #endregion
         };
 
@@ -1815,6 +1798,18 @@ namespace PKHeX.Core
             pk.SetRelearnMoves(Relearn);
             ((PK8)pk).HT_Language = SAV.Language;
             base.ApplyDetails(SAV, criteria, pk);
+        }
+    }
+
+    public sealed class EncounterStatic8 : EncounterStatic
+    {
+        protected override bool IsMatchLevel(PKM pkm, int lvl)
+        {
+            if (lvl == Level)
+                return true;
+            if (EncounterArea8.IsWildArea8(Location))
+                return lvl == 60;
+            return false;
         }
     }
 
