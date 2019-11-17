@@ -79,7 +79,7 @@ namespace PKHeX.Core
                     data.AddLine(Get(msg, Severity.Fishy));
                     return true;
                 }
-                if (StringConverter.HasEastAsianScriptCharacters(nickname) && !(pkm is PB7)) // East Asian Scripts
+                if (pkm.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname) && !(pkm is PB7)) // East Asian Scripts
                 {
                     data.AddLine(GetInvalid(LNickInvalidChar));
                     return true;
