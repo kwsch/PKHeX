@@ -200,6 +200,9 @@ namespace PKHeX.Core
                     continue;
                 }
 
+                if (movectr != 0)
+                    break;
+
                 var split = line.Split(LineSplit, StringSplitOptions.None);
                 var valid = split.Length == 1
                     ? ParseSingle(line) // Nature

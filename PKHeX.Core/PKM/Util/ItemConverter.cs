@@ -180,6 +180,9 @@ namespace PKHeX.Core
             if (item <= 0)
                 return 0;
 
+            if (destFormat == srcFormat)
+                return item;
+
             if (destFormat != srcFormat && srcFormat <= 3) // past gen items
             {
                 if (destFormat > 3) // try remapping
