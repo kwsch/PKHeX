@@ -519,8 +519,10 @@ namespace PKHeX.Core
                     return pkm.AltForm == 1;
                 if (GalarForm0Evolutions.TryGetValue(pkm.Species, out var orig))
                     return pkm.AltForm != orig; // bad compare?
+                if ((int) Species.Toxtricity == pkm.Species)
+                    return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
             }
-            if (pkm.Species == 678 && pkm.Gender == 1)
+            if ((pkm.Species == (int)Species.Meowstic || pkm.Species == (int)Species.Indeedee) && pkm.Gender == 1)
                 return pkm.AltForm == 1;
             return pkm.Species == 773;
         }

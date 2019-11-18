@@ -138,7 +138,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static int GetAmpLowKeyResult(int n)
+        public static int GetAmpLowKeyResult(int n)
         {
             if ((uint)(n - 1) > 22)
                 return 0;
