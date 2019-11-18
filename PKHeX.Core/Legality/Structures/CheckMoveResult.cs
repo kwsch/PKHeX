@@ -18,6 +18,7 @@
         SpecialEgg,
         ShedinjaEvo,
         Sketch,
+        Shared,
     }
 
     /// <summary>

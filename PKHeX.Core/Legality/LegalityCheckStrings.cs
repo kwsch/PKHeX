@@ -352,6 +352,8 @@ namespace PKHeX.Core
         public static string LMoveNincada { get; set; } = "Only one Ninjask move allowed.";
         public static string LMoveNincadaEvo { get; set; } = "Learned by evolving Nincada into Ninjask.";
         public static string LMoveNincadaEvoF_0 { get; set; } = "Learned by evolving Nincada into Ninjask in Generation {0}.";
+        public static string LMoveSourceShared { get; set; } = "Shared Non-Relearn Move.";
+        public static string LMoveSourceSharedF { get; set; } = "Shared Non-Relearn Move in Generation {0}.";
 
         public static string LMoveRelearnDexNav { get; set; } = "Not an expected DexNav move.";
         public static string LMoveRelearnEgg { get; set; } = "Base Egg move.";
