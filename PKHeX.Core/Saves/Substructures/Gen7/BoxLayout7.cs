@@ -47,7 +47,7 @@ namespace PKHeX.Core
         public void SetBoxName(int box, string value)
         {
             var data = SAV.SetString(value, strlen, strlen, 0);
-            var offset = GetBoxNameOffset(box) + (SAV6.LongStringLength * box);
+            var offset = GetBoxNameOffset(box - 1) + (SAV6.LongStringLength);
             SAV.SetData(data, offset);
         }
 
