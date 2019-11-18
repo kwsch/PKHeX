@@ -249,7 +249,7 @@ namespace PKHeX.WinForms.Controls
             Stats.UpdateIVs(null, EventArgs.Empty);
             UpdatePKRSInfected(null, EventArgs.Empty);
             UpdatePKRSCured(null, EventArgs.Empty);
-            UpdateNatureModification(null, EventArgs.Empty);
+            UpdateNatureModification(CB_StatNature);
 
             if (HaX) // Load original values from pk not pkm
             {
@@ -1151,10 +1151,10 @@ namespace PKHeX.WinForms.Controls
             TB_ExtraByte.Text = Entity.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
         }
 
-        private void UpdateNatureModification(object sender, EventArgs e)
+        private void UpdateNatureModification(ComboBox cb)
         {
-            string text = Stats.UpdateNatureModification(Entity.Nature);
-            NatureTip.SetToolTip(CB_Nature, text);
+            string text = Stats.UpdateNatureModification(Entity.StatNature);
+            NatureTip.SetToolTip(cb, text);
         }
 
         private void UpdateIsNicknamed(object sender, EventArgs e)
@@ -1483,7 +1483,14 @@ namespace PKHeX.WinForms.Controls
                 if (Entity.Format <= 4)
                     UpdateRandomPID(sender, e);
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-                UpdateNatureModification(sender, EventArgs.Empty);
+                UpdateNatureModification(CB_Nature);
+                Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
+                UpdateLegality();
+            }
+            else if (sender == CB_StatNature)
+            {
+                Entity.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
+                UpdateNatureModification(CB_StatNature);
                 Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }

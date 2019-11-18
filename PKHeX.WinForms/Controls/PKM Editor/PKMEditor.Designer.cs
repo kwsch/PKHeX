@@ -708,6 +708,8 @@
             this.CB_StatNature.Name = "CB_StatNature";
             this.CB_StatNature.Size = new System.Drawing.Size(126, 21);
             this.CB_StatNature.TabIndex = 9;
+            this.CB_StatNature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
+            this.CB_StatNature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
             // FLP_HeldItem
             // 
@@ -1858,7 +1860,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(272, 539);
+            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
