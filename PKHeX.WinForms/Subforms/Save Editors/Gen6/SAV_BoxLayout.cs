@@ -28,6 +28,7 @@ namespace PKHeX.WinForms
             LoadUnlockedCount();
 
             LB_BoxSelect.SelectedIndex = box;
+            TB_BoxName.MaxLength = SAV.Generation >= 6 ? 14 : 8;
             editing = false;
         }
 
