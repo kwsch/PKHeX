@@ -70,8 +70,8 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 838, Level = 18, Location =  -1, Moves = new[] {488,397,229,033} }, // Carkol
             new EncounterStatic8 { Species = 834, Level = 24, Location = 054, Moves = new[] {317,029,055,044} }, // Drednaw in Galar Mine No. 2
             new EncounterStatic8 { Species = 423, Level = 50, Location =  -1, Moves = new[] {240,414,330,246}, FlawlessIVCount = 3, Form = 01 }, // Gastrodon
-            new EncounterStatic8 { Species = 859, Level = 31, Location = 076, Moves = new[] {259,389,207,372} }, // Impidimp
-            new EncounterStatic8 { Species = 860, Level = 38, Location =  -1, Moves = new[] {793,399,259,389} }, // Morgrem
+            new EncounterStatic8 { Species = 859, Level = 31, Location = 076, Moves = new[] {259,389,207,372} }, // Impidimp in Glimwood Tangle
+            new EncounterStatic8 { Species = 860, Level = 38, Location = 076, Moves = new[] {793,399,259,389} }, // Morgrem in Glimwood Tangle
             new EncounterStatic8 { Species = 835, Level = 08, Location = 018, Moves = new[] {039,033,609,000} }, // Yamper on Route 2
             new EncounterStatic8 { Species = 834, Level = 50, Location =  -1, Moves = new[] {710,746,068,317}, FlawlessIVCount = 3 }, // Drednaw
             new EncounterStatic8 { Species = 833, Level = 08, Location =  -1, Moves = new[] {044,055,000,000} }, // Chewtle
@@ -160,7 +160,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 437, Level = 41, Location =  -1, }, // Bronzong
             new EncounterStatic8 { Species = 248, Level = 60, Location =  -1, }, // Tyranitar
             new EncounterStatic8 { Species = 784, Level = 60, Location =  -1, Ability = 1, }, // Kommo-o
-            new EncounterStatic8 { Species = 213, Level = 34, Location =  -1, }, // Shuckle
+            new EncounterStatic8 { Species = 213, Level = 34, Location = 146, }, // Shuckle in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 330, Level = 51, Location =  -1, }, // Flygon
             new EncounterStatic8 { Species = 526, Level = 51, Location =  -1, }, // Gigalith
             new EncounterStatic8 { Species = 423, Level = 56, Location =  -1,     Form = 01, }, // Gastrodon
@@ -194,7 +194,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 884, Level = 65, Location =  -1, }, // Duraludon
             new EncounterStatic8 { Species = 836, Level = 65, Location =  -1, }, // Boltund
             new EncounterStatic8 { Species = 830, Level = 65, Location =  -1, }, // Eldegoss
-            new EncounterStatic8 { Species = 862, Level = 65, Location =  -1, }, // Obstagoon
+            new EncounterStatic8 { Species = 862, Level = 65, Location = 142, }, // Obstagoon in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 861, Level = 65, Location =  -1, Gender = 0, }, // Grimmsnarl
             new EncounterStatic8 { Species = 844, Level = 65, Location =  -1, }, // Sandaconda
             new EncounterStatic8 { Species = 863, Level = 65, Location =  -1, }, // Perrserker
