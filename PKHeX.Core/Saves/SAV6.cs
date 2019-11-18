@@ -92,7 +92,7 @@ namespace PKHeX.Core
         {
             if (PCLayout < 0)
                 return $"B{box + 1}";
-            return GetString(Data, GetBoxNameOffset(box), LongStringLength / 2);
+            return GetString(Data, GetBoxNameOffset(box), LongStringLength);
         }
 
         public override void SetBoxName(int box, string value)
