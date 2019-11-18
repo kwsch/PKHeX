@@ -408,6 +408,8 @@ namespace PKHeX.Core
                 return true;
             if (Location == 0)
                 return true;
+            if (!pkm.HasOriginalMetLocation)
+                return true;
             return Location == pkm.Met_Location;
         }
 

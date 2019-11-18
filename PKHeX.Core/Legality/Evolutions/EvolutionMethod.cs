@@ -32,11 +32,6 @@ namespace PKHeX.Core
         public bool Valid(PKM pkm, int lvl, bool skipChecks)
         {
             RequiresLevelUp = false;
-            if (Form > -1)
-            {
-                if (!skipChecks && pkm.AltForm != Form)
-                    return false;
-            }
 
             // Check for unavailable evolution methods for an un-traded specimen.
             // Example: Sun/Moon lack Ultra's Kantonian evolution methods.
@@ -131,14 +126,14 @@ namespace PKHeX.Core
             };
         }
 
-        public EvolutionMethod Copy(int species)
+        public EvolutionMethod Copy(int species, int form)
         {
             return new EvolutionMethod
             {
                 Method = Method,
                 Species = species,
                 Argument = Argument,
-                Form = Form,
+                Form = form,
                 Level = Level
             };
         }

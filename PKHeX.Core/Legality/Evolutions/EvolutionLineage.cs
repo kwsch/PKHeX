@@ -45,10 +45,6 @@ namespace PKHeX.Core
                     UpdateMinValues(dl, evo);
                     int species = evo.Species;
 
-                    // Gen7 Personal Formes -- unmap the forme personal entry ID to the actual species ID since species are consecutive
-                    if (evo.Species > maxSpeciesTree)
-                        species = pkm.Species - Chain.Count + i;
-
                     if (evo.RequiresLevelUp)
                         lvl--;
                     dl.Add(evo.GetEvoCriteria(species, lvl));

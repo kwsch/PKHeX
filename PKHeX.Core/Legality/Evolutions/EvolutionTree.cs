@@ -110,39 +110,63 @@ namespace PKHeX.Core
             if (Game == GameVersion.Gen6)
                 Array.Resize(ref lineage, MaxSpeciesTree + 1);
 
-            // Populate Lineages
-            for (int i = 1; i < lineage.Length; i++)
-                CreateBranch(lineage, i);
+            if (Game.GetGeneration() <= 6)
+                GenerateEntriesSpeciesOnly(lineage);
+            else
+                GenerateEntriesSpeciesForm(lineage);
+
             return lineage;
         }
 
-        private void CreateBranch(IReadOnlyList<EvolutionLineage> lineage, int i)
+        private void GenerateEntriesSpeciesOnly(EvolutionLineage[] lineage)
         {
-            // Iterate over all possible evolutions
-            foreach (var evo in Entries[i])
-                CreateLeaf(lineage, i, evo);
+            for (int species = 1; species < lineage.Length; species++)
+                CreateBranch(lineage, species, 0, species);
         }
 
-        private void CreateLeaf(IReadOnlyList<EvolutionLineage> lineage, int i, EvolutionMethod evo)
+        private void GenerateEntriesSpeciesForm(EvolutionLineage[] lineage)
         {
-            int index = GetIndex(evo);
-            if (index < 0)
+            for (int species = 1; species <= MaxSpeciesTree; species++)
+            {
+                var pi = Personal[species];
+                var fc = pi.FormeCount;
+                for (int form = 0; form < fc; form++)
+                {
+                    var index = Personal.GetFormeIndex(species, form);
+                    CreateBranch(lineage, species, form, index);
+                }
+            }
+        }
+
+        private void CreateBranch(IReadOnlyList<EvolutionLineage> lineage, int species, int form, int index)
+        {
+            var evos = Entries[index];
+            // Iterate over all possible evolutions
+            foreach (var evo in evos)
+                CreateLeaf(lineage, evo, species, form, index);
+        }
+
+        private void CreateLeaf(IReadOnlyList<EvolutionLineage> lineage, EvolutionMethod evo, int species, int form, int index)
+        {
+            int evolveTo = GetIndex(evo);
+            if (evolveTo < 0)
                 return;
 
-            var sourceEvo = evo.Copy(i);
+            var chainTo = lineage[evolveTo];
+            var current = lineage[index];
+            var sourceEvo = evo.Copy(species, form);
 
-            lineage[index].Insert(sourceEvo);
+            chainTo.Insert(sourceEvo);
             // If current entries has a pre-evolution, propagate to evolution as well
-            var current = lineage[i].Chain;
-            if (current.Count > 0)
-                lineage[index].Chain.Insert(0, current[0]);
+            if (current.Chain.Count != 0)
+                chainTo.Chain.Insert(0, current.Chain[0]);
 
-            if (index >= i)
+            if (evolveTo >= index)
                 return;
 
             // If destination species evolves into something (ie a 'baby' Pokemon like Cleffa)
             // Add it to the corresponding parent chains
-            foreach (var method in Entries[index])
+            foreach (var method in Entries[evolveTo])
             {
                 int newIndex = GetIndex(method);
                 if (newIndex < 0)
@@ -172,13 +196,17 @@ namespace PKHeX.Core
             // Clear forme chains from Florges
             Lineage[671].Chain.RemoveRange(0, Lineage[671].Chain.Count - 2);
 
-            // Gourgeist -- Sizes are still relevant. Formes are in reverse order.
-            for (int i = 1; i <= 3; i++)
+            // Gourgeist -- Sizes are still relevant.
+            var ggChain = Lineage[711].Chain;
+            for (int i = 3; i >= 1; i--)
             {
-                Lineage[Personal.GetFormeIndex(711, i)].Chain.Clear();
-                Lineage[Personal.GetFormeIndex(711, i)].Chain.Add(Lineage[711].Chain[3-i]);
+                var ggEvoIndex = Personal.GetFormeIndex(711, i);
+                var ggEvo = Lineage[ggEvoIndex];
+                ggEvo.Chain.Clear();
+                var actual = ggChain[0];
+                ggEvo.Chain.Add(new List<EvolutionMethod> {actual[i]});
             }
-            Lineage[711].Chain.RemoveRange(0, 3);
+            Lineage[711].Chain[0].RemoveRange(1, 3);
 
             // Ban Raichu Evolution on SM
             Lineage[Personal.GetFormeIndex(26, 0)]
