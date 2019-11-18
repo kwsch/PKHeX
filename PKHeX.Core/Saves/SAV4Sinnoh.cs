@@ -47,7 +47,7 @@ namespace PKHeX.Core
 
         public override void SetBoxName(int box, string value)
         {
-            const int maxlen = BOX_NAME_LEN / 2;
+            const int maxlen = 8;
             if (value.Length > maxlen)
                 value = value.Substring(0, maxlen); // Hard cap
             int offset = GetBoxNameOffset(box);
