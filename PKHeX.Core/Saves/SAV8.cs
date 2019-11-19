@@ -102,17 +102,8 @@ namespace PKHeX.Core
         {
             PK8 pk = (PK8)pkm;
             // Apply to this Save File
-            int CT = pk.CurrentHandler;
             DateTime Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
-            if (CT != pk.CurrentHandler) // Logic updated Friendship
-            {
-                // Copy over the Friendship Value only under certain circumstances
-                if (pk.Moves.Contains(216)) // Return
-                    pk.CurrentFriendship = pk.OppositeFriendship;
-                else if (pk.Moves.Contains(218)) // Frustration
-                    pkm.CurrentFriendship = pk.OppositeFriendship;
-            }
             pkm.RefreshChecksum();
             AddCountAcquired(pkm);
         }
