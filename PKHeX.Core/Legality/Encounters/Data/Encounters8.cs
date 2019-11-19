@@ -74,7 +74,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 860, Level = 38, Location = 076, Moves = new[] {793,399,259,389} }, // Morgrem in Glimwood Tangle
             new EncounterStatic8 { Species = 835, Level = 08, Location = 018, Moves = new[] {039,033,609,000} }, // Yamper on Route 2
             new EncounterStatic8 { Species = 834, Level = 50, Location =  -1, Moves = new[] {710,746,068,317}, FlawlessIVCount = 3 }, // Drednaw
-            new EncounterStatic8 { Species = 833, Level = 08, Location =  -1, Moves = new[] {044,055,000,000} }, // Chewtle
+            new EncounterStatic8 { Species = 833, Level = 08, Location = 018, Moves = new[] {044,055,000,000} }, // Chewtle on Route 2
             new EncounterStatic8 { Species = 131, Level = 55, Location =  -1, Moves = new[] {056,240,058,034}, FlawlessIVCount = 3 }, // Lapras
             new EncounterStatic8 { Species = 862, Level = 50, Location =  -1, Moves = new[] {269,068,792,184} }, // Obstagoon
             new EncounterStatic8 { Species = 822, Level = 18, Location =  -1, Moves = new[] {681,468,031,365}, Shiny = Never }, // Corvisquire
