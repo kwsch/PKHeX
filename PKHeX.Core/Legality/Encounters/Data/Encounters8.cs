@@ -110,8 +110,8 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 569, Level = 36, Location =  -1, }, // Garbodor
             new EncounterStatic8 { Species = 510, Level = 28, Location = 138, }, // Liepard at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 31, Location =  -1, }, // Mudsdale
-            new EncounterStatic8 { Species = 067, Level = 26, Location =  -1, }, // Machoke
-            new EncounterStatic8 { Species = 435, Level = 34, Location =  -1, }, // Skuntank
+            new EncounterStatic8 { Species = 067, Level = 26, Location =  134, }, // Machoke at South Lake Miloch (in a Wild Area)
+            new EncounterStatic8 { Species = 435, Level = 34, Location =  134, }, // Skuntank at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 099, Level = 31, Location =  -1, }, // Kingler
             new EncounterStatic8 { Species = 342, Level = 31, Location =  -1, }, // Crawdaunt
             new EncounterStatic8 { Species = 208, Level = 50, Location =  -1, }, // Steelix
@@ -139,7 +139,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 320, Level = 56, Location =  -1, }, // Wailmer
             new EncounterStatic8 { Species = 561, Level = 40, Location =  -1, }, // Sigilyph
             new EncounterStatic8 { Species = 569, Level = 40, Location =  -1, }, // Garbodor
-            new EncounterStatic8 { Species = 743, Level = 40, Location =  -1, }, // Ribombee
+            new EncounterStatic8 { Species = 743, Level = 40, Location =  140, }, // Ribombee at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 475, Level = 60, Location =  142, }, // Gallade in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 264, Level = 40, Location =  -1,     Form = 01, }, // Linoone
             new EncounterStatic8 { Species = 606, Level = 42, Location =  -1, }, // Beheeyem
@@ -192,17 +192,17 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 834, Level = 65, Location =  -1, }, // Drednaw
             new EncounterStatic8 { Species = 845, Level = 65, Location =  132, }, // Cramorant on Axew’s Eye (in a Wild Area)
             new EncounterStatic8 { Species = 828, Level = 65, Location =  134, }, // Thievul at South Lake Miloch (in a Wild Area)
-            new EncounterStatic8 { Species = 884, Level = 65, Location =  -1, }, // Duraludon
+            new EncounterStatic8 { Species = 884, Level = 65, Location =  136, }, // Duraludon near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 836, Level = 65, Location =  138, }, // Boltund at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 830, Level = 65, Location =  -1, }, // Eldegoss
             new EncounterStatic8 { Species = 862, Level = 65, Location = 142, }, // Obstagoon in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 861, Level = 65, Location =  144, Gender = 0, }, // Grimmsnarl in the Stony Wilderness (in a Wild Area)
             new EncounterStatic8 { Species = 844, Level = 65, Location =  -1, }, // Sandaconda
             new EncounterStatic8 { Species = 863, Level = 65, Location =  -1, }, // Perrserker
-            new EncounterStatic8 { Species = 879, Level = 65, Location =  -1, }, // Copperajah
+            new EncounterStatic8 { Species = 879, Level = 65, Location =  150, }, // Copperajah on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 839, Level = 65, Location =  152, }, // Coalossal near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 858, Level = 65, Location =  154, Gender = 1 }, // Hatterene at the Lake of Outrage (in a Wild Area)
-            new EncounterStatic8 { Species = 279, Level = 26, Location =  -1, }, // Pelipper
+            new EncounterStatic8 { Species = 279, Level = 26, Location =  138, }, // Pelipper at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 310, Level = 26, Location =  -1, }, // Manectric
             new EncounterStatic8 { Species = 660, Level = 26, Location =  -1, }, // Diggersby
             new EncounterStatic8 { Species = 281, Level = 26, Location =  -1, }, // Kirlia
