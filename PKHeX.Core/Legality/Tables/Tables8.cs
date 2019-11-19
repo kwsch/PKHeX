@@ -326,11 +326,6 @@ namespace PKHeX.Core
             (int)Species.Drizzile,
             (int)Species.Inteleon,
 
-            (int)Species.Dracozolt,
-            (int)Species.Arctozolt,
-            (int)Species.Dracovish,
-            (int)Species.Arctovish,
-
             (int)Species.Toxel,
             (int)Species.Toxtricity,
         };
