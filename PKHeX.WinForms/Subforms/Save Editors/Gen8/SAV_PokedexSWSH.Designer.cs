@@ -74,6 +74,7 @@
             this.CLB_4 = new System.Windows.Forms.CheckedListBox();
             this.CLB_1 = new System.Windows.Forms.CheckedListBox();
             this.CLB_2 = new System.Windows.Forms.CheckedListBox();
+            this.mnuBattleCount = new System.Windows.Forms.ToolStripMenuItem();
             this.GB_Language.SuspendLayout();
             this.modifyMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Battled)).BeginInit();
@@ -286,42 +287,43 @@
             this.mnuSeenAll,
             this.mnuCaughtNone,
             this.mnuCaughtAll,
-            this.mnuComplete});
+            this.mnuComplete,
+            this.mnuBattleCount});
             this.modifyMenu.Name = "modifyMenu";
-            this.modifyMenu.Size = new System.Drawing.Size(149, 114);
+            this.modifyMenu.Size = new System.Drawing.Size(202, 158);
             // 
             // mnuSeenNone
             // 
             this.mnuSeenNone.Name = "mnuSeenNone";
-            this.mnuSeenNone.Size = new System.Drawing.Size(148, 22);
+            this.mnuSeenNone.Size = new System.Drawing.Size(201, 22);
             this.mnuSeenNone.Text = "Seen none";
             this.mnuSeenNone.Click += new System.EventHandler(this.SeenNone);
             // 
             // mnuSeenAll
             // 
             this.mnuSeenAll.Name = "mnuSeenAll";
-            this.mnuSeenAll.Size = new System.Drawing.Size(148, 22);
+            this.mnuSeenAll.Size = new System.Drawing.Size(201, 22);
             this.mnuSeenAll.Text = "Seen all";
             this.mnuSeenAll.Click += new System.EventHandler(this.SeenAll);
             // 
             // mnuCaughtNone
             // 
             this.mnuCaughtNone.Name = "mnuCaughtNone";
-            this.mnuCaughtNone.Size = new System.Drawing.Size(148, 22);
+            this.mnuCaughtNone.Size = new System.Drawing.Size(201, 22);
             this.mnuCaughtNone.Text = "Caught none";
             this.mnuCaughtNone.Click += new System.EventHandler(this.CaughtNone);
             // 
             // mnuCaughtAll
             // 
             this.mnuCaughtAll.Name = "mnuCaughtAll";
-            this.mnuCaughtAll.Size = new System.Drawing.Size(148, 22);
+            this.mnuCaughtAll.Size = new System.Drawing.Size(201, 22);
             this.mnuCaughtAll.Text = "Caught all";
             this.mnuCaughtAll.Click += new System.EventHandler(this.CaughtAll);
             // 
             // mnuComplete
             // 
             this.mnuComplete.Name = "mnuComplete";
-            this.mnuComplete.Size = new System.Drawing.Size(148, 22);
+            this.mnuComplete.Size = new System.Drawing.Size(201, 22);
             this.mnuComplete.Text = "Complete Dex";
             this.mnuComplete.Click += new System.EventHandler(this.CompleteDex);
             // 
@@ -549,6 +551,13 @@
             this.CLB_2.Size = new System.Drawing.Size(102, 374);
             this.CLB_2.TabIndex = 30;
             // 
+            // mnuBattleCount
+            // 
+            this.mnuBattleCount.Name = "mnuBattleCount";
+            this.mnuBattleCount.Size = new System.Drawing.Size(201, 22);
+            this.mnuBattleCount.Text = "Change All Battle Count";
+            this.mnuBattleCount.Click += new System.EventHandler(this.ChangeAllCounts);
+            // 
             // SAV_PokedexSWSH
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -638,5 +647,6 @@
         private System.Windows.Forms.CheckedListBox CLB_1;
         private System.Windows.Forms.CheckedListBox CLB_2;
         private System.Windows.Forms.ComboBox CB_Gender;
+        private System.Windows.Forms.ToolStripMenuItem mnuBattleCount;
     }
 }

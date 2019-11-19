@@ -442,6 +442,15 @@ namespace PKHeX.Core
             Array.Clear(Block.Data, ofs, EntrySize);
         }
 
+        public void SetAllBattledCount(uint count = 500)
+        {
+            foreach (var kvp in DexLookup)
+            {
+                var species = kvp.Key;
+                SetBattledCount(species, count);
+            }
+        }
+
         private static readonly HashSet<int> SpeciesWithGigantamaxData = new HashSet<int>
         {
             (int)Species.Charizard,

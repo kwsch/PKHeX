@@ -226,5 +226,13 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
             GetEntry();
         }
+
+        private void ChangeAllCounts(object sender, EventArgs e)
+        {
+            SetEntry();
+            Dex.SetAllBattledCount((uint)NUD_Battled.Value);
+            System.Media.SystemSounds.Asterisk.Play();
+            GetEntry();
+        }
     }
 }
