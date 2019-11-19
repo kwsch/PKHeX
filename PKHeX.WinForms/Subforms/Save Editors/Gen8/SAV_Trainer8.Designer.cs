@@ -93,6 +93,8 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.TB_TrainerCardName = new System.Windows.Forms.TextBox();
+            this.L_TRCardName = new System.Windows.Forms.Label();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
             this.NUD_BP = new System.Windows.Forms.NumericUpDown();
             this.L_BP = new System.Windows.Forms.Label();
@@ -173,6 +175,7 @@
             this.L_TrainerName.Size = new System.Drawing.Size(87, 16);
             this.L_TrainerName.TabIndex = 3;
             this.L_TrainerName.Text = "Trainer Name:";
+            this.L_TrainerName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // MT_Money
             // 
@@ -643,6 +646,8 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.TB_TrainerCardName);
+            this.Tab_Overview.Controls.Add(this.L_TRCardName);
             this.Tab_Overview.Controls.Add(this.GB_Stats);
             this.Tab_Overview.Controls.Add(this.trainerID1);
             this.Tab_Overview.Controls.Add(this.GB_Adventure);
@@ -662,6 +667,27 @@
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // TB_TrainerCardName
+            // 
+            this.TB_TrainerCardName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_TrainerCardName.Location = new System.Drawing.Point(331, 7);
+            this.TB_TrainerCardName.MaxLength = 12;
+            this.TB_TrainerCardName.Name = "TB_TrainerCardName";
+            this.TB_TrainerCardName.Size = new System.Drawing.Size(93, 20);
+            this.TB_TrainerCardName.TabIndex = 68;
+            this.TB_TrainerCardName.Text = "WWWWWWWWWWWW";
+            this.TB_TrainerCardName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_TrainerCardName.MouseDown += new System.Windows.Forms.MouseEventHandler(this.ClickOT);
+            // 
+            // L_TRCardName
+            // 
+            this.L_TRCardName.Location = new System.Drawing.Point(209, 9);
+            this.L_TRCardName.Name = "L_TRCardName";
+            this.L_TRCardName.Size = new System.Drawing.Size(117, 16);
+            this.L_TRCardName.TabIndex = 69;
+            this.L_TRCardName.Text = "Trainer Card Name:";
+            this.L_TRCardName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Stats
             // 
@@ -1113,5 +1139,7 @@
         private Subforms.Save_Editors.TrainerStat TrainerStats;
         private System.Windows.Forms.NumericUpDown NUD_BP;
         private System.Windows.Forms.Label L_BP;
+        private System.Windows.Forms.TextBox TB_TrainerCardName;
+        private System.Windows.Forms.Label L_TRCardName;
     }
 }

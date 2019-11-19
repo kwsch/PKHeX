@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
             //Loading = true;
             if (Main.Unicode)
             {
-                TB_OTName.Font = FontUtil.GetPKXFont();
+                TB_OTName.Font = TB_TrainerCardName.Font = FontUtil.GetPKXFont();
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
@@ -54,6 +54,7 @@ namespace PKHeX.WinForms
 
             // Display Data
             TB_OTName.Text = SAV.OT;
+            TB_TrainerCardName.Text = SAV.Blocks.TrainerCard.OT;
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
             CB_Language.SelectedValue = SAV.Language;
@@ -108,6 +109,7 @@ namespace PKHeX.WinForms
             SAV.Money = Util.ToUInt32(MT_Money.Text);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             SAV.OT = TB_OTName.Text;
+            SAV.Blocks.TrainerCard.OT = TB_TrainerCardName.Text;
 
             SAV.Misc.BP = (int)NUD_BP.Value;
 
