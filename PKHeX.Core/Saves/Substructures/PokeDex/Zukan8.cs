@@ -199,7 +199,7 @@ namespace PKHeX.Core
                 return;
 
             var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
-            var nv = (val & ~(0x1FFF << 15)) | ((value & 0x1FFF) << 15);
+            uint nv = (val & ~(0x1FFFu << 15)) | ((value & 0x1FFF) << 15);
             BitConverter.GetBytes(nv).CopyTo(Block.Data, index + OFS_CAUGHT);
         }
 
@@ -220,7 +220,7 @@ namespace PKHeX.Core
                 return;
 
             var val = BitConverter.ToUInt32(Block.Data, index + OFS_CAUGHT);
-            var nv = (val & ~(3 << 29)) | ((value & 3) << 29);
+            uint nv = (val & ~(3u << 29)) | ((value & 3) << 29);
             BitConverter.GetBytes(nv).CopyTo(Block.Data, index + OFS_CAUGHT);
         }
 
