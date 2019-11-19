@@ -77,7 +77,7 @@ namespace PKHeX.Core
                 Met_Level = Met_Level,
                 Met_Location = Location,
                 Ball = 4,
-                
+
                 // Ribbons
                 RibbonCountry = RibbonCountry,
                 RibbonNational = RibbonNational,

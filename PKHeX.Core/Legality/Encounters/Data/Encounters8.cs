@@ -58,13 +58,12 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 889, Level = 70, Location = 66, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SH }, // Zamazenta
             new EncounterStatic { Species = 890, Level = 60, Location = 66, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
 
-
             // Motostoke Stadium Static Encounters
             new EncounterStatic { Species = 037, Level = 24, Location = 24, Version = SW }, // Vulpix at Motostoke Stadium
             new EncounterStatic { Species = 058, Level = 24, Location = 24, Version = SH }, // Growlithe at Motostoke Stadium
             new EncounterStatic { Species = 607, Level = 25, Location = 24, }, // Litwick at Motostoke Stadium
             new EncounterStatic { Species = 850, Level = 25, Location = 24, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
-            
+
             new EncounterStatic  { Species = 618, Level = 25, Location = 054, Moves = new[] {389,319,279,341}, Form = 01, Ability = 1 }, // Stunfisk in Galar Mine No. 2
             new EncounterStatic8 { Species = 618, Level = 48, Location =  -1, Moves = new[] {779,330,340,334}, Form = 01 }, // Stunfisk
             new EncounterStatic8 { Species = 527, Level = 16, Location =  -1, Moves = new[] {000,000,000,000} }, // Woobat

@@ -168,7 +168,7 @@ namespace PKHeX.Core
 
             808, // Meltan
             809, // Melmetal
-            
+
             (int)Species.Dracozolt,
             (int)Species.Arctozolt,
             (int)Species.Dracovish,

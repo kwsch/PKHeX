@@ -286,13 +286,13 @@ namespace PKHeX.Core
         public string GetOT(int language) => Util.TrimFromZero(Encoding.Unicode.GetString(Data, GetOTOffset(language), 0x1A));
         public void SetOT(int language, string value) => Encoding.Unicode.GetBytes(value.PadRight(0x1A / 2, '\0')).CopyTo(Data, GetOTOffset(language));
 
-        private int GetNicknameOffset(int language)
+        private static int GetNicknameOffset(int language)
         {
             int index = GetLanguageIndex(language);
             return 0x30 + (index * 0x1C);
         }
 
-        private int GetOTOffset(int language)
+        private static int GetOTOffset(int language)
         {
             int index = GetLanguageIndex(language);
             return 0x12C + (index * 0x1C);

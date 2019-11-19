@@ -176,8 +176,14 @@ namespace PKHeX.Core
 
             if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
             {
-                if (pkm.Species == (int)Species.Darmanitan && pkm.AltForm == 2) { } // this one is OK, Galarian non-Zen
-                else return GetInvalid(LFormBattle);
+                if (pkm.Species == (int) Species.Darmanitan && pkm.AltForm == 2 && pkm.Format >= 8)
+                {
+                    // this one is OK, Galarian non-Zen
+                } 
+                else
+                {
+                    return GetInvalid(LFormBattle);
+                }
             }
 
             return VALID;
@@ -210,16 +216,18 @@ namespace PKHeX.Core
             return 0;
         }
 
-        private static readonly HashSet<int> BattleOnly;
-        private static readonly HashSet<int> SafariFloette = new HashSet<int> { 0, 1, 3 }; // 0/1/3 - RBY
+        private static readonly HashSet<int> BattleOnly = GetBattleFormSet();
 
-        static FormVerifier()
+        private static HashSet<int> GetBattleFormSet()
         {
-            BattleOnly = new HashSet<int>();
-            BattleOnly.UnionWith(Legal.BattleForms);
-            BattleOnly.UnionWith(Legal.BattleMegas);
-            BattleOnly.UnionWith(Legal.BattlePrimals);
+            var hs = new HashSet<int>();
+            hs.UnionWith(Legal.BattleForms);
+            hs.UnionWith(Legal.BattleMegas);
+            hs.UnionWith(Legal.BattlePrimals);
+            return hs;
         }
+
+        private static readonly HashSet<int> SafariFloette = new HashSet<int> { 0, 1, 3 }; // 0/1/3 - RBY
 
         private void VerifyFormFriendSafari(LegalityAnalysis data)
         {

@@ -335,7 +335,7 @@ namespace PKHeX.Core
             return NONE;
         }
 
-        public bool IsGalarCapture(int species)
+        public static bool IsGalarCapture(int species)
         {
             if (810 <= species && species <= 818) // starter
                 return false;

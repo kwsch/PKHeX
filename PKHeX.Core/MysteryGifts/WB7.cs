@@ -255,7 +255,7 @@ namespace PKHeX.Core
 
         public bool GetIsNicknamed(int language) => Data[GetNicknameOffset(language)] != 0;
 
-        private int GetLanguageIndex(int language)
+        private static int GetLanguageIndex(int language)
         {
             var lang = (LanguageID) language;
             if (lang < LanguageID.Japanese || lang == LanguageID.UNUSED_6)
