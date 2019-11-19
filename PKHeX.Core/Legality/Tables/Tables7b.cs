@@ -296,8 +296,6 @@ namespace PKHeX.Core
             069, // Bellsprout
             070, // Weepinbell
             071, // Victreebel
-            072, // Tentacool
-            073, // Tentacruel
             079, // Slowpoke
             080, // Slowbro
             084, // Doduo
