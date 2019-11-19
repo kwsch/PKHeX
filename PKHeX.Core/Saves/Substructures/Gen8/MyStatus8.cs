@@ -40,7 +40,7 @@ namespace PKHeX.Core
         public string OT
         {
             get => SAV.GetString(Data, 0xB0, 0x1A);
-            set => SAV.SetString(value, SAV.OTLength).CopyTo(Data, 0xB0);
+            set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0xB0);
         }
     }
 }
