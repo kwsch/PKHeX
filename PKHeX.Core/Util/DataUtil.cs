@@ -337,10 +337,16 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
+            var list = GetCBListUnsorted(inStrings);
+            list.Sort(Comparer);
+            return list;
+        }
+
+        public static List<ComboItem> GetCBListUnsorted(IReadOnlyList<string> inStrings)
+        {
             var list = new List<ComboItem>(inStrings.Count);
             for (int i = 0; i < inStrings.Count; i++)
                 list.Add(new ComboItem(inStrings[i], i));
-            list.Sort(Comparer);
             return list;
         }
 
