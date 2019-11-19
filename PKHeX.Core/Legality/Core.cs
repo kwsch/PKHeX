@@ -685,9 +685,9 @@ namespace PKHeX.Core
             return GetBaseSpecies(pkm, evos, skipOption);
         }
 
-        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<DexLevel> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
+        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<EvoCriteria> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
 
-        internal static int GetBaseSpecies(int species, IReadOnlyList<DexLevel> evos, int skipOption = 0)
+        internal static int GetBaseSpecies(int species, IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
         {
             if (species == 292) // Shedinja
                 return 290; // Nincada

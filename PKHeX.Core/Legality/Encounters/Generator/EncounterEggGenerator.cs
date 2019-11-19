@@ -15,7 +15,7 @@ namespace PKHeX.Core
             return GenerateEggs(pkm, evos, all);
         }
 
-        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<DexLevel> vs, bool all = false)
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> vs, bool all = false)
         {
             int species = pkm.Species;
             if (NoHatchFromEgg.Contains(species))
