@@ -13,5 +13,6 @@
         Fused8 Fused { get; }
         Daycare8 Daycare { get; }
         Record8 Records { get; }
+        TrainerCard8 TrainerCard { get; }
     }
 }

@@ -62,6 +62,7 @@ namespace PKHeX.Core
         public override Fused8 Fused => Blocks.Fused;
         public override Daycare8 Daycare => Blocks.Daycare;
         public override Record8 Records => Blocks.Records;
+        public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
 
         #endregion
         public override SaveFile Clone() => new SAV8SWSH(BAK, AllBlocks.Select(z => z.Clone()).ToArray());

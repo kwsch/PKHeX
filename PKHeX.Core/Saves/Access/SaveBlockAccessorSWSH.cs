@@ -4,10 +4,6 @@ namespace PKHeX.Core
 {
     public class SaveBlockAccessorSWSH : ISaveBlockAccessor<SCBlock>, ISaveBlock8Main
     {
-        private static readonly SCBlock[] BlockInfoSWSH =
-        {
-        };
-
         public IReadOnlyList<SCBlock> BlockInfo { get; }
         public Box8 BoxInfo { get; }
         public Party8 PartyInfo { get; }
@@ -20,6 +16,7 @@ namespace PKHeX.Core
         public Fused8 Fused { get; }
         public Daycare8 Daycare { get; }
         public Record8 Records { get; }
+        public TrainerCard8 TrainerCard{ get; }
 
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
@@ -31,6 +28,7 @@ namespace PKHeX.Core
             MyStatus = new MyStatus8(sav, GetBlock(IMyStatus));
             Misc = new Misc8(sav, GetBlock(IMisc));
             BoxLayout = new BoxLayout8(sav, GetBlock(IBoxLayout));
+            TrainerCard = new TrainerCard8(sav, GetBlock(ITrainerCard));
             Played = new PlayTime8(sav, GetBlock(IPlayTime));
             Fused = new Fused8(sav, GetBlock(IFused));
             Daycare = new Daycare8(sav, GetBlock(IDaycare));
