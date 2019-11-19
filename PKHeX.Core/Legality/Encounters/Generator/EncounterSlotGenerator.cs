@@ -153,7 +153,10 @@ namespace PKHeX.Core
 
             var slots = GetEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || (pkm.Format == 2 && gameSource != GameVersion.C);
-            return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
+            if (noMet)
+                return slots;
+            var metLocation = pkm.Met_Location;
+            return slots.Where(z => z.IsMatchLocation(metLocation));
         }
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)

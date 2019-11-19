@@ -73,5 +73,7 @@ namespace PKHeX.Core
                 ? slots.Where(slot => slot.Form == pkm.AltForm)
                 : slots;
         }
+
+        public virtual bool IsMatchLocation(int location) => Location == location;
     }
 }
