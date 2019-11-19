@@ -176,7 +176,7 @@ namespace PKHeX.Core
 
             if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
             {
-                if (pkm.Species == (int)Species.Darmanitan && pkm.Species == 2) { } // this one is OK, Galarian non-Zen
+                if (pkm.Species == (int)Species.Darmanitan && pkm.AltForm == 2) { } // this one is OK, Galarian non-Zen
                 else return GetInvalid(LFormBattle);
             }
 
