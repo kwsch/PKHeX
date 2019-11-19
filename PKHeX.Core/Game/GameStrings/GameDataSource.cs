@@ -80,8 +80,8 @@ namespace PKHeX.Core
                 Legal.Games_6oras, Legal.Games_6xy,
                 Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r,
                 Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
-            ver.AddRange(Util.GetCBList(list, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
             ver.AddRange(Util.GetCBList(list, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
+            ver.AddRange(Util.GetCBList(list, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
             ver.AddRange(Util.GetCBList(list, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
             return ver;
         }
