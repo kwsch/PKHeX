@@ -153,6 +153,10 @@ namespace PKHeX.Core
 
             var slots = GetEncounterSlots(pkm, gameSource: gameSource);
             bool noMet = !pkm.HasOriginalMetLocation || (pkm.Format == 2 && gameSource != GameVersion.C);
+            if (gameSource == GameVersion.SW || gameSource == GameVersion.SH)
+            {
+                return noMet ? slots : slots.Where(area => EncounterArea8.ConnectingArea8(pkm.Met_Location).Contains(area.Location));
+            }
             return noMet ? slots : slots.Where(area => area.Location == pkm.Met_Location);
         }
 

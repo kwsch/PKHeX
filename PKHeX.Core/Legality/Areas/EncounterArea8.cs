@@ -35,7 +35,7 @@ namespace PKHeX.Core
         {
             if (!IsWildArea8(loc))
             {
-                return new int[] { }; // Empty
+                return new int[] { loc }; // Single
             }
 
             switch (loc)
@@ -108,10 +108,10 @@ namespace PKHeX.Core
                     return new int[] { 144, 150 };
 
                 case 154: // Lake of Outrage
-                    return new int[] { }; // Empty
+                    return new int[] { loc }; // Single
 
                 default:
-                    return new int[] { }; // Empty
+                    return new int[] { loc }; // Single
             }
         }
     }
