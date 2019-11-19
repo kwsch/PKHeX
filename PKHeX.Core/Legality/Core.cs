@@ -546,7 +546,7 @@ namespace PKHeX.Core
                 return curr.Count >= last;
             }
             int gen = pkm.GenNumber;
-            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(GetBaseSpecies(pkm, poss, 1)))
+            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(GetBaseSpecies(pkm, poss, 1).Species))
                 return curr.Count >= poss.Count - 1;
             return curr.Count >= poss.Count;
         }
@@ -669,14 +669,14 @@ namespace PKHeX.Core
             return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
-        internal static int GetBaseEggSpecies(PKM pkm, int skipOption = 0)
+        internal static EvoCriteria GetBaseEggSpecies(PKM pkm, int skipOption = 0)
         {
             if (pkm.Format == 1)
                 return GetBaseSpecies(pkm, generation: 2);
             return GetBaseSpecies(pkm, skipOption);
         }
 
-        internal static int GetBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
+        internal static EvoCriteria GetBaseSpecies(PKM pkm, int skipOption = 0, int generation = -1)
         {
             int tree = generation != -1 ? generation : pkm.Format;
             var table = EvolutionTree.GetEvolutionTree(pkm, tree);
@@ -685,16 +685,31 @@ namespace PKHeX.Core
             return GetBaseSpecies(pkm, evos, skipOption);
         }
 
-        internal static int GetBaseSpecies(PKM pkm, IReadOnlyList<EvoCriteria> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
+        internal static EvoCriteria GetBaseSpecies(PKM pkm, IReadOnlyList<EvoCriteria> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
 
-        internal static int GetBaseSpecies(int species, IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
+        private static readonly EvoCriteria Nincada = new EvoCriteria
         {
-            if (species == 292) // Shedinja
-                return 290; // Nincada
+            Method = (int) EvolutionType.LevelUp,
+            MinLevel = 20, Level = 20,
+            RequiresLvlUp = true,
+            Species = 290, Form = 0,
+        };
+
+        private static readonly EvoCriteria EvoEmpty = new EvoCriteria
+        {
+            Method = (int)EvolutionType.None,
+            Species = 0,
+            Form = 0,
+        };
+
+        internal static EvoCriteria GetBaseSpecies(int species, IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
+        {
+            if (species == (int)Species.Shedinja) // Shedinja
+                return Nincada; // Nincada
 
             // skip n from end, return species if invalid index
             int index = evos.Count - 1 - skipOption;
-            return (uint)index >= evos.Count ? species : evos[index].Species;
+            return (uint)index >= evos.Count ? EvoEmpty : evos[index];
         }
 
         private static int GetMaxLevelGeneration(PKM pkm)

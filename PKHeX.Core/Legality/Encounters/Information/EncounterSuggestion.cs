@@ -28,9 +28,11 @@ namespace PKHeX.Core
         private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
+            var evo = Legal.GetBaseSpecies(pkm);
             return new EncounterStatic
             {
-                Species = Legal.GetBaseSpecies(pkm),
+                Species = evo.Species,
+                Form = evo.Form,
                 Location = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm),
                 Level = lvl,
             };

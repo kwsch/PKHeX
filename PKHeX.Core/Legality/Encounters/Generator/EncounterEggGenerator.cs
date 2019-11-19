@@ -32,23 +32,23 @@ namespace PKHeX.Core
             int lvl = GetEggHatchLevel(gen);
             int max = GetMaxSpeciesOrigin(gen);
 
-            var baseSpecies = GetBaseSpecies(species, vs, 0);
-            if (baseSpecies <= max)
+            var e = GetBaseSpecies(species, vs, 0);
+            if (e.Species <= max)
             {
-                yield return new EncounterEgg(baseSpecies, 0, lvl) { Version = ver };
+                yield return new EncounterEgg(e.Species, e.Form, lvl) { Version = ver };
                 if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(baseSpecies, 0, lvl) { Version = GetOtherTradePair(ver) };
+                    yield return new EncounterEgg(e.Species, e.Form, lvl) { Version = GetOtherTradePair(ver) };
             }
 
             if (!GetSplitBreedGeneration(gen).Contains(species))
                 yield break; // no other possible species
 
-            var other = GetBaseSpecies(species, vs, 1);
-            if (other <= max)
+            var o = GetBaseSpecies(species, vs, 1);
+            if (o.Species <= max)
             {
-                yield return new EncounterEggSplit(other, 0, lvl, baseSpecies) { Version = ver };
+                yield return new EncounterEggSplit(o.Species, o.Form, lvl, e.Species) { Version = ver };
                 if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEggSplit(other, 0, lvl, baseSpecies) { Version = GetOtherTradePair(ver) };
+                    yield return new EncounterEggSplit(o.Species, o.Form, lvl, e.Species) { Version = GetOtherTradePair(ver) };
             }
         }
 

@@ -88,7 +88,7 @@ namespace PKHeX.Core
             if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
             {
                 int Rate = Catch_Rate;
-                int baseSpecies = Legal.GetBaseSpecies(this);
+                int baseSpecies = Legal.GetBaseSpecies(this).Species;
                 for (int z = baseSpecies; z <= value; z++)
                 {
                     if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)

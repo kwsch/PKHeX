@@ -50,7 +50,8 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            result[0] = !Legal.GetValidRelearn(pkm, Legal.GetBaseEggSpecies(pkm), true).Contains(RelearnMoves[0])
+            var enc = info.EncounterMatch;
+            result[0] = !Legal.GetValidRelearn(pkm, enc.Species, true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -169,7 +170,9 @@ namespace PKHeX.Core
 
         private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEgg e, PKM pkm)
         {
-            var other = e is EncounterEggSplit x ? x.OtherSpecies : Legal.GetBaseEggSpecies(pkm, 1);
+            if (!(e is EncounterEggSplit x))
+                return;
+            var other = x.OtherSpecies;
             for (int i = required; i < 4; i++)
             {
                 if (res[i] != null)
