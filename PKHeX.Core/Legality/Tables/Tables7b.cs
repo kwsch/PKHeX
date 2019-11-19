@@ -291,8 +291,6 @@ namespace PKHeX.Core
             047, // Parasect
             048, // Venonat
             049, // Venomoth
-            052, // Meowth
-            053, // Persian
             069, // Bellsprout
             070, // Weepinbell
             071, // Victreebel
