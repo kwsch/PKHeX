@@ -187,7 +187,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 832, Level = 65, Location =  -1, }, // Dubwool
             new EncounterStatic8 { Species = 826, Level = 65, Location =  -1, }, // Orbeetle
             new EncounterStatic8 { Species = 823, Level = 65, Location =  -1, }, // Corviknight
-            new EncounterStatic8 { Species = 110, Level = 65, Location =  -1,     Form = 01, }, // Weezing
+            new EncounterStatic8 { Species = 110, Level = 65, Location =  128,     Form = 01, }, // Weezing at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 834, Level = 65, Location =  -1, }, // Drednaw
             new EncounterStatic8 { Species = 845, Level = 65, Location =  132, }, // Cramorant on Axew’s Eye (in a Wild Area)
             new EncounterStatic8 { Species = 828, Level = 65, Location =  134, }, // Thievul at South Lake Miloch (in a Wild Area)
@@ -204,7 +204,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 279, Level = 26, Location =  138, }, // Pelipper at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 310, Level = 26, Location =  -1, }, // Manectric
             new EncounterStatic8 { Species = 660, Level = 26, Location =  -1, }, // Diggersby
-            new EncounterStatic8 { Species = 281, Level = 26, Location =  -1, }, // Kirlia
+            new EncounterStatic8 { Species = 281, Level = 26, Location =  122, }, // Kirlia in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 025, Level = 15, Location =  -1, }, // Pikachu
             new EncounterStatic8 { Species = 439, Level = 15, Location =  -1, }, // Mime Jr.
             new EncounterStatic8 { Species = 221, Level = 33, Location =  -1, }, // Piloswine
