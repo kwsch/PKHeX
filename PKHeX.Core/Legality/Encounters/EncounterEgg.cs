@@ -8,13 +8,21 @@ namespace PKHeX.Core
     /// </summary>
     public class EncounterEgg : IEncounterable, IVersion
     {
-        public int Species { get; set; }
+        public int Species { get; }
+        public int Form { get; }
         public string Name => "Egg";
         public string LongName => "Egg";
         public bool EggEncounter => true;
         public int LevelMin => Level;
         public int LevelMax => Level;
-        public int Level;
+        public readonly int Level;
+
+        public EncounterEgg(int species, int form, int level)
+        {
+            Species = species;
+            Form = form;
+            Level = level;
+        }
 
         public GameVersion Version { get; set; }
 
@@ -138,6 +146,7 @@ namespace PKHeX.Core
 
     public sealed class EncounterEggSplit : EncounterEgg
     {
-        public int OtherSpecies;
+        public int OtherSpecies { get; }
+        public EncounterEggSplit(int species, int form, int level, int otherSpecies) : base(species, form, level) => OtherSpecies = otherSpecies;
     }
 }

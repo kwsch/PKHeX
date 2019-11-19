@@ -190,8 +190,8 @@ namespace PKHeX.Core
                 {
                     int eggspec = GetBaseEggSpecies(pkm);
                     if (ParseSettings.AllowGen2Crystal(pkm))
-                        yield return new EncounterEgg { Species = eggspec, Version = GameVersion.C, Level = 5 }; // gen2 egg
-                    yield return new EncounterEgg { Species = eggspec, Version = GameVersion.GS, Level = 5 }; // gen2 egg
+                        yield return new EncounterEgg(eggspec, 0, 5) { Version = GameVersion.C }; // gen2 egg
+                    yield return new EncounterEgg(eggspec, 0, 5) { Version = GameVersion.GS }; // gen2 egg
                 }
             }
 
