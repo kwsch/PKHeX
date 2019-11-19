@@ -108,7 +108,7 @@
 
     public static class RibbonIndexExtensions
     {
-        public static bool HasRibbon(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
-        public static void SetRibbon(this IRibbonIndex x, RibbonIndex r) => x.SetRibbon((int)r);
+        public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
+        public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
     }
 }
