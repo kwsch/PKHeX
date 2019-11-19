@@ -36,7 +36,7 @@
     <None Include="Resources\text\version.txt" />
   </ItemGroup>
 
-  <ItemGroup>
+  <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(Configuration)' == 'Release'">
     <PackageReference Include="Costura.Fody" Version="4.1.0" />
     <PackageReference Include="Fody" Version="6.0.5">
       <PrivateAssets>all</PrivateAssets>
