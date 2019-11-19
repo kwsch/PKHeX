@@ -1815,7 +1815,7 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Stats.Size = new System.Drawing.Size(272, 539);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
@@ -1860,21 +1860,16 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Attacks.Size = new System.Drawing.Size(272, 539);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
             // 
             // B_Records
             // 
-            this.B_Records.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Records.AutoSize = true;
-            this.B_Records.Location = new System.Drawing.Point(73, 284);
-            this.B_Records.Margin = new System.Windows.Forms.Padding(1);
+            this.B_Records.Location = new System.Drawing.Point(63, 284);
             this.B_Records.Name = "B_Records";
-            this.B_Records.Size = new System.Drawing.Size(124, 23);
+            this.B_Records.Size = new System.Drawing.Size(144, 23);
             this.B_Records.TabIndex = 8;
             this.B_Records.Text = "Technical Records";
             this.B_Records.UseVisualStyleBackColor = true;
@@ -2713,7 +2708,6 @@
             this.FLP_TimeOfDay.ResumeLayout(false);
             this.Tab_Stats.ResumeLayout(false);
             this.Tab_Attacks.ResumeLayout(false);
-            this.Tab_Attacks.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PB_WarnMove2)).EndInit();
