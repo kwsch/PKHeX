@@ -106,26 +106,25 @@ namespace PKHeX.Core
             return GetValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
         }
 
-        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, GameVersion version = GameVersion.Any)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = GameVersion.Any)
         {
-            return GetValidRelearn(pkm, species, GetCanInheritMoves(species), version);
+            return GetValidRelearn(pkm, species, form, GetCanInheritMoves(species), version);
         }
 
-        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
             var r = new List<int> { 0 };
             if (pkm.GenNumber < 6)
                 return r;
 
-            r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 1, pkm.AltForm, version));
+            r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 1, form, version));
 
-            int form = pkm.AltForm;
             if (pkm.Format == 6 && pkm.Species != 678)
                 form = 0;
 
             r.AddRange(MoveEgg.GetEggMoves(pkm, species, form, version));
             if (inheritlvlmoves)
-                r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 100, pkm.AltForm, version));
+                r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 100, form, version));
             return r.Distinct();
         }
 
@@ -159,7 +158,7 @@ namespace PKHeX.Core
             return moves.GetLevelLearnMove(move);
         }
 
-        internal static int[] GetBaseEggMoves(PKM pkm, int species, GameVersion gameSource, int lvl)
+        internal static int[] GetBaseEggMoves(PKM pkm, int species, int form, GameVersion gameSource, int lvl)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
@@ -248,7 +247,7 @@ namespace PKHeX.Core
                         break;
                     if (pkm.InhabitedGeneration(7))
                     {
-                        int index = PersonalTable.SM.GetFormeIndex(species, pkm.AltForm);
+                        int index = PersonalTable.SM.GetFormeIndex(species, form);
                         return LevelUpSM[index].GetMoves(lvl);
                     }
                     break;
@@ -258,7 +257,7 @@ namespace PKHeX.Core
                 case GameVersion.USUM:
                     if (pkm.InhabitedGeneration(7))
                     {
-                        int index = PersonalTable.USUM.GetFormeIndex(species, pkm.AltForm);
+                        int index = PersonalTable.USUM.GetFormeIndex(species, form);
                         return LevelUpUSUM[index].GetMoves(lvl);
                     }
                     break;
@@ -268,7 +267,7 @@ namespace PKHeX.Core
                 case GameVersion.SWSH:
                     if (pkm.InhabitedGeneration(8))
                     {
-                        int index = PersonalTable.SWSH.GetFormeIndex(species, pkm.AltForm);
+                        int index = PersonalTable.SWSH.GetFormeIndex(species, form);
                         return LevelUpSWSH[index].GetMoves(lvl);
                     }
                     break;

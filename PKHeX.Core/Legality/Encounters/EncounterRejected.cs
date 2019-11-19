@@ -12,6 +12,7 @@ namespace PKHeX.Core
         public string Reason => Check.Comment;
 
         public int Species => Encounter.Species;
+        public int Form => Encounter.Form;
         public string Name => Encounter.Name;
         public string LongName => Encounter.LongName;
         public bool EggEncounter => Encounter.EggEncounter;

@@ -155,7 +155,7 @@ namespace PKHeX.Core
             {
                 if (Permissions.IsDexNav)
                 {
-                    var eggMoves = MoveEgg.GetEggMoves(pk, Species, pk.AltForm, Version);
+                    var eggMoves = MoveEgg.GetEggMoves(pk, Species, Form, Version);
                     if (eggMoves.Length > 0)
                         pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
                 }

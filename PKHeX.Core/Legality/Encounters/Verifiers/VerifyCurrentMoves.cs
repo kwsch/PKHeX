@@ -108,14 +108,14 @@ namespace PKHeX.Core
             var pi = pkm.PersonalInfo;
             var AllowLevelUp = notEvent && !pi.Genderless && !(pi.OnlyMale && Legal.MixedGenderBreeding.Contains(e.Species));
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
-            var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, BaseLevel);
+            var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, BaseLevel);
 
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
                 ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
-            var Egg = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
+            var Egg = MoveEgg.GetEggMoves(pkm, e.Species, e.Form, e.Version);
             if (info.Generation < 3 && pkm.Format >= 7 && pkm.VC1)
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 

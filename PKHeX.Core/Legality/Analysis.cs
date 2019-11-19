@@ -86,7 +86,8 @@ namespace PKHeX.Core
                     return _allSuggestedRelearnMoves;
                 if (Error || Info == null)
                     return new int[4];
-                return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, (GameVersion)pkm.Version).ToArray();
+                var enc = Info.EncounterMatch;
+                return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, enc.Species, enc.Form, (GameVersion)pkm.Version).ToArray();
             }
         }
 
@@ -456,7 +457,7 @@ namespace PKHeX.Core
             if (!Parsed)
                 return new int[4];
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
-                return Legal.GetBaseEggMoves(pkm, pkm.Species, (GameVersion)pkm.Version, pkm.CurrentLevel);
+                return Legal.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
 
             if (!tm && !tutor && !reminder)
             {

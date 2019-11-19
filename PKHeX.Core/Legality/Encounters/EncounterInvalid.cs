@@ -10,6 +10,7 @@ namespace PKHeX.Core
         public static readonly EncounterInvalid Default = new EncounterInvalid();
 
         public int Species { get; }
+        public int Form { get; }
         public int LevelMin { get; }
         public int LevelMax { get; }
         public bool EggEncounter { get; }
@@ -22,6 +23,7 @@ namespace PKHeX.Core
         public EncounterInvalid(PKM pkm)
         {
             Species = pkm.Species;
+            Form = pkm.AltForm;
             LevelMin = pkm.Met_Level;
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;

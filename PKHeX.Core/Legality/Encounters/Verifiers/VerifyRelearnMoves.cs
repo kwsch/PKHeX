@@ -51,7 +51,7 @@ namespace PKHeX.Core
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
             var enc = info.EncounterMatch;
-            result[0] = !Legal.GetValidRelearn(pkm, enc.Species, true).Contains(RelearnMoves[0])
+            result[0] = !Legal.GetValidRelearn(pkm, enc.Species, enc.Form, true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -97,11 +97,11 @@ namespace PKHeX.Core
             bool inheritLvlMoves = Legal.GetCanInheritMoves(e.Species);
 
             // Obtain level1 moves
-            var baseMoves = Legal.GetBaseEggMoves(pkm, e.Species, e.Version, 1);
+            var baseMoves = Legal.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, 1);
             int baseCt = Math.Min(4, baseMoves.Length);
 
             // Obtain Inherited moves
-            var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, inheritLvlMoves, e.Version).ToList();
+            var inheritMoves = Legal.GetValidRelearn(pkm, e.Species, e.Form, inheritLvlMoves, e.Version).ToList();
             int reqBase = GetRequiredBaseMoves(RelearnMoves, baseMoves, baseCt, inheritMoves);
 
             // Check if the required amount of Base Egg Moves are present.
@@ -113,7 +113,7 @@ namespace PKHeX.Core
 
             // If any splitbreed moves are invalid, flag accordingly
             var splitMoves = e is EncounterEggSplit s
-                ? Legal.GetValidRelearn(pkm, s.OtherSpecies, inheritLvlMoves, e.Version).ToList()
+                ? Legal.GetValidRelearn(pkm, s.OtherSpecies, s.Form, inheritLvlMoves, e.Version).ToList()
                 : (IReadOnlyList<int>)Array.Empty<int>();
 
             // Inherited moves appear after the required base moves.

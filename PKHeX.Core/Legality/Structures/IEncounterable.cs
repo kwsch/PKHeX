@@ -6,6 +6,7 @@
     public interface IEncounterable
     {
         int Species { get; }
+        int Form { get; }
         string Name { get; }
         string LongName { get; }
         bool EggEncounter { get; }
