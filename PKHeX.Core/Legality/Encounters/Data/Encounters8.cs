@@ -305,17 +305,17 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade8[] TradeGift_SWSH =
         {
-            new EncounterTrade8(052,18) { Ability = 2, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1            , Relearn = new[] {387,000,000,000} }, // Meowth
-            new EncounterTrade8(819,10) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, Gender = 0                                    }, // Skwovet
-            new EncounterTrade8(546,23) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, Gender = 0                                    }, // Cottonee
-            new EncounterTrade8(175,25) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, Gender = 0, Relearn = new[] {791,000,000,000} }, // Togepi
-            new EncounterTrade8(856,30) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1                                                }, // Hatenna
-            new EncounterTrade8(859,30) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1            , Relearn = new[] {252,000,000,000} }, // Impidimp
-            new EncounterTrade8(562,35) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, Gender = 0, Relearn = new[] {261,000,000,000} }, // Yamask
-            new EncounterTrade8(538,37) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2                                                }, // Throh
-            new EncounterTrade8(539,37) { Ability = 1, TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2                                                }, // Sawk
-            new EncounterTrade8(122,40) { Ability = 1, TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1                                                }, // Mr. Mime
-            new EncounterTrade8(884,50) { Ability = 2, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3            , Relearn = new[] {400,000,000,000} }, // Duraludon
+            new EncounterTrade8(052,18) { Ability = 2, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Relearn = new[] {387,000,000,000} }, // Meowth
+            new EncounterTrade8(819,10) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1,                                   }, // Skwovet
+            new EncounterTrade8(546,23) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1,                                   }, // Cottonee
+            new EncounterTrade8(175,25) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Relearn = new[] {791,000,000,000} }, // Togepi
+            new EncounterTrade8(856,30) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Version = SW                      }, // Hatenna
+            new EncounterTrade8(859,30) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Relearn = new[] {252,000,000,000}, Version = SH }, // Impidimp
+            new EncounterTrade8(562,35) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Relearn = new[] {261,000,000,000} }, // Yamask
+            new EncounterTrade8(538,37) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Version = SW                      }, // Throh
+            new EncounterTrade8(539,37) { Ability = 1, TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Version = SH                      }, // Sawk
+            new EncounterTrade8(122,40) { Ability = 1, TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0,                                   }, // Mr. Mime
+            new EncounterTrade8(884,50) { Ability = 2, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3, OTGender = 0, Relearn = new[] {400,000,000,000} }, // Duraludon
         };
     }
 }
