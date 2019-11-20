@@ -285,7 +285,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 407, Level = 41, Location = 150, }, // Roserade on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 460, Level = 41, Location = 150, }, // Abomasnow on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 350, Level = 60, Location = 154, Gender = 0, Ability = 1, }, // Milotic at the Lake of Outrage (in a Wild Area)
-            new EncounterStatic8 { Species = 112, Level = 60, Location =  -1, }, // Rhydon
+            new EncounterStatic8 { Species = 112, Level = 60, Location = 154, }, // Rhydon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 609, Level = 60, Location = 154, }, // Chandelure at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 713, Level = 60, Location = 154, }, // Avalugg at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 756, Level = 60, Location = 154, }, // Shiinotic at the Lake of Outrage (in a Wild Area)
