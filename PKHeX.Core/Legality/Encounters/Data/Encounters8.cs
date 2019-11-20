@@ -106,7 +106,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 099, Level = 28, Location = 130, }, // Kingler at West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 660, Level = 15, Location = 122, }, // Diggersby in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 178, Level = 26, Location = 128, }, // Xatu at East Lake Axewell (in a Wild Area)
-            new EncounterStatic8 { Species = 569, Level = 36, Location =  -1, }, // Garbodor
+            new EncounterStatic8 { Species = 569, Level = 36, Location = 128, }, // Garbodor at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 510, Level = 28, Location = 138, }, // Liepard at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 31, Location = 122, }, // Mudsdale in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 067, Level = 26, Location = 134, }, // Machoke at South Lake Miloch (in a Wild Area)
@@ -156,7 +156,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 112, Level = 41, Location = 144, }, // Rhydon in the Stony Wilderness (in a Wild Area)
             new EncounterStatic8 { Species = 763, Level = 36, Location = 144, }, // Tsareena in the Stony Wilderness (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 41, Location = 146, }, // Mudsdale in Dusty Bowl (in a Wild Area)
-            new EncounterStatic8 { Species = 185, Level = 41, Location =  -1, }, // Sudowoodo
+            new EncounterStatic8 { Species = 185, Level = 41, Location = 146, }, // Sudowoodo in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 437, Level = 41, Location = 146, }, // Bronzong in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 248, Level = 60, Location = 146, }, // Tyranitar in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 784, Level = 60, Location = 146, Ability = 1, }, // Kommo-o in Dusty Bowl (in a Wild Area)
