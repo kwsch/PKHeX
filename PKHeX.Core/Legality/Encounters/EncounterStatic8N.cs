@@ -8,10 +8,10 @@
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
 
-        private readonly int MinRank;
-        private readonly int MaxRank;
+        private readonly uint MinRank;
+        private readonly uint MaxRank;
 
-        public EncounterStatic8N(int loc, int minRank, int maxRank, byte val)
+        public EncounterStatic8N(int loc, uint minRank, uint maxRank, byte val)
         {
             Location = loc;
             MinRank = minRank;
@@ -33,8 +33,8 @@
         protected override bool IsMatchLevel(PKM pkm, int lvl)
         {
             var metLevel = pkm.Met_Level - 15;
-            var rank = metLevel / 10;
-            if ((uint)rank > 4u)
+            var rank = (uint)(metLevel / 10);
+            if (rank > 4)
                 return false;
             if (rank < MinRank || MaxRank < rank)
                 return false;
@@ -44,7 +44,7 @@
 
         public override bool IsMatch(PKM pkm, int lvl)
         {
-            if (Ability != -1 && pkm.AbilityNumber != 4)
+            if (Ability != Encounters8Nest.A4 && pkm.AbilityNumber != 4)
                 return false;
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;

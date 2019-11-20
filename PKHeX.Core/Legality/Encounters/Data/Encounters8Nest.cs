@@ -100,7 +100,7 @@
 
         // Abilities Allowed
         private const int A3 = -1; // 1/2/H
-        private const int A4 = 4; // H only
+        internal const int A4 = 4; // H only
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
