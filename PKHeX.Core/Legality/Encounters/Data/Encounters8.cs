@@ -122,7 +122,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 091, Level = 46, Location =  -1, }, // Cloyster
             new EncounterStatic8 { Species = 131, Level = 56, Location = 154, }, // Lapras at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 119, Level = 46, Location = 142, }, // Seaking in Bridge Field (in a Wild Area)
-            new EncounterStatic8 { Species = 130, Level = 56, Location =  -1, }, // Gyarados
+            new EncounterStatic8 { Species = 130, Level = 56, Location = 146, }, // Gyarados in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 279, Level = 46, Location =  -1, }, // Pelipper
             new EncounterStatic8 { Species = 853, Level = 56, Location =  -1, }, // Grapploct
             new EncounterStatic8 { Species = 593, Level = 46, Location = 128, }, // Jellicent at East Lake Axewell (in a Wild Area)
@@ -176,7 +176,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 834, Level = 36, Location =  -1, }, // Drednaw
             new EncounterStatic8 { Species = 680, Level = 56, Location = 152, }, // Doublade near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 711, Level = 41, Location =  -1, }, // Gourgeist
-            new EncounterStatic8 { Species = 600, Level = 46, Location =  -1, }, // Klang
+            new EncounterStatic8 { Species = 600, Level = 46, Location = 150, }, // Klang on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 045, Level = 41, Location =  -1, }, // Vileplume
             new EncounterStatic8 { Species = 823, Level = 38, Location =  -1, }, // Corviknight
             new EncounterStatic8 { Species = 130, Level = 60, Location =  -1, }, // Gyarados
