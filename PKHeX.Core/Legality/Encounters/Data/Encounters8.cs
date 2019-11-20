@@ -289,12 +289,12 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 609, Level = 60, Location =  -1, }, // Chandelure
             new EncounterStatic8 { Species = 713, Level = 60, Location = 154, }, // Avalugg at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 756, Level = 60, Location =  -1, }, // Shiinotic
-            new EncounterStatic8 { Species = 134, Level = 56, Location =  -1, }, // Vaporeon
-            new EncounterStatic8 { Species = 135, Level = 56, Location =  -1, }, // Jolteon
-            new EncounterStatic8 { Species = 196, Level = 56, Location =  -1, }, // Espeon
+            new EncounterStatic8 { Species = 134, Level = 56, Location = 154, }, // Vaporeon at the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8 { Species = 135, Level = 56, Location = 154, }, // Jolteon at the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8 { Species = 196, Level = 56, Location = 154, }, // Espeon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 471, Level = 56, Location = 154, }, // Glaceon at the Lake of Outrage (in a Wild Area)
-            new EncounterStatic8 { Species = 136, Level = 56, Location =  -1, }, // Flareon
-            new EncounterStatic8 { Species = 197, Level = 56, Location =  -1, }, // Umbreon
+            new EncounterStatic8 { Species = 136, Level = 56, Location = 154, }, // Flareon at the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8 { Species = 197, Level = 56, Location = 154, }, // Umbreon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 700, Level = 56, Location = 154, }, // Sylveon at the Lake of Outrage (in a Wild Area)
             #endregion
         };
