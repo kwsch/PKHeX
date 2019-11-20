@@ -140,7 +140,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 569, Level = 40, Location = 142, }, // Garbodor in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 743, Level = 40, Location = 142, }, // Ribombee in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 475, Level = 60, Location = 142, }, // Gallade in Bridge Field (in a Wild Area)
-            new EncounterStatic8 { Species = 264, Level = 40, Location =  -1, Form = 01, }, // Linoone
+            new EncounterStatic8 { Species = 264, Level = 40, Location = 142, Form = 01, }, // Linoone in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 606, Level = 42, Location =  -1, }, // Beheeyem
             new EncounterStatic8 { Species = 715, Level = 50, Location = 142, }, // Noivern in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 537, Level = 46, Location =  -1, }, // Seismitoad
