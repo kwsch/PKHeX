@@ -182,7 +182,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 130, Level = 60, Location =  -1, }, // Gyarados
             new EncounterStatic8 { Species = 853, Level = 56, Location =  -1, }, // Grapploct
             new EncounterStatic8 { Species = 282, Level = 60, Location =  -1, }, // Gardevoir
-            new EncounterStatic8 { Species = 470, Level = 56, Location =  -1, }, // Leafeon
+            new EncounterStatic8 { Species = 470, Level = 56, Location = 154, }, // Leafeon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 510, Level = 31, Location =  -1, }, // Liepard
             new EncounterStatic8 { Species = 832, Level = 65, Location =  -1, }, // Dubwool
             new EncounterStatic8 { Species = 826, Level = 65, Location =  -1, }, // Orbeetle
@@ -309,7 +309,7 @@ namespace PKHeX.Core
             new EncounterTrade8(819,10) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1,                                   }, // Skwovet
             new EncounterTrade8(546,23) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1,                                   }, // Cottonee
             new EncounterTrade8(175,25) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Relearn = new[] {791,000,000,000} }, // Togepi
-            new EncounterTrade8(856,30) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Version = SW                      }, // Hatenna
+            new EncounterTrade8(856,30) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Version = SW                      }, // Hatenna
             new EncounterTrade8(859,30) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Relearn = new[] {252,000,000,000}, Version = SH }, // Impidimp
             new EncounterTrade8(562,35) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Relearn = new[] {261,000,000,000} }, // Yamask
             new EncounterTrade8(538,37) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Version = SW                      }, // Throh
