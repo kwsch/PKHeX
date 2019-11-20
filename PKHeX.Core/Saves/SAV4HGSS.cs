@@ -58,6 +58,7 @@ namespace PKHeX.Core
         private const int BOX_END = BOX_COUNT * BOX_DATA_LEN; // 18 * 0x1000
         private const int BOX_NAME = 0x12008; // after current & counter
         private const int BOX_WP = BOX_NAME + (BOX_COUNT * BOX_NAME_LEN); // 0x122D8;
+        private const int BOX_FLAGS = 18 + BOX_WP; // 0x122EA;
 
         public override int GetBoxOffset(int box) => box * 0x1000;
         private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
@@ -68,6 +69,12 @@ namespace PKHeX.Core
         {
             get => Storage[BOX_END];
             set => Storage[BOX_END] = (byte)value;
+        }
+
+        public override byte[] BoxFlags
+        {
+            get => new[] { Storage[BOX_FLAGS] };
+            set => Storage[BOX_FLAGS] = value[0];
         }
 
         public int Counter

@@ -25,7 +25,7 @@ namespace PKHeX.Core
         private const int BOX_END = BOX_COUNT * BOX_DATA_LEN; // 18 * 0xFF0
         private const int BOX_NAME = 4 + BOX_END; // after box data
         private const int BOX_WP = BOX_NAME + (BOX_COUNT * BOX_NAME_LEN); // 0x121B4;
-        private const int BOX_WP_END = 18 + BOX_WP; // 0x121C6
+        private const int BOX_FLAGS = 18 + BOX_WP; // 0x121C6
 
         public override int GetBoxOffset(int box) => 4 + (box * BOX_DATA_LEN);
         private static int GetBoxNameOffset(int box) => BOX_NAME + (box * BOX_NAME_LEN);
@@ -37,10 +37,10 @@ namespace PKHeX.Core
             set => Storage[0] = (byte)value;
         }
 
-        public int Unknown
+        public override byte[] BoxFlags
         {
-            get => BitConverter.ToInt32(Storage, BOX_WP_END);
-            set => SetData(Storage, BitConverter.GetBytes(value), BOX_WP_END);
+            get => new[] { Storage[BOX_FLAGS] };
+            set => Storage[BOX_FLAGS] = value[0];
         }
 
         public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
