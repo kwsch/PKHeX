@@ -1361,7 +1361,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (PID)
                 {
-                    Entity.SetShiny();
+                    CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     if (Entity.GenNumber < 6 && TB_EC.Visible)
@@ -1393,7 +1393,10 @@ namespace PKHeX.WinForms.Controls
             TID_Trainer.UpdateTSV();
 
             Entity.PID = Util.GetHexValue(TB_PID.Text);
-            Tip3.SetToolTip(TB_PID, $"PSV: {Entity.PSV:d4}");
+            var tip = $"PSV: {Entity.PSV:d4}";
+            if (Entity.IsShiny)
+                tip += $" | Xor = {Entity.ShinyXor}";
+            Tip3.SetToolTip(TB_PID, tip);
         }
 
         private void Update_ID(object sender, EventArgs e)

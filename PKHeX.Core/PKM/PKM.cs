@@ -284,6 +284,16 @@ namespace PKHeX.Core
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
 
+        public uint ShinyXor
+        {
+            get
+            {
+                var pid = PID;
+                var upper = (pid >> 16) ^ (uint)SID;
+                return (pid & 0xFFFF) ^ (uint)TID ^ upper;
+            }
+        }
+
         public int DisplayTID
         {
             get => GenNumber >= 7 ? TrainerID7 : TID;
@@ -919,8 +929,8 @@ namespace PKHeX.Core
         /// </remarks>
         public virtual void SetShiny()
         {
-            while (!IsShiny)
-                PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
+            do { PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID); }
+            while (!IsShiny);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
