@@ -1345,11 +1345,12 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateShinyPID(object sender, EventArgs e)
         {
-            var ShinyPID = Entity.Format <= 2 || ModifierKeys != Keys.Control;
-            UpdateShiny(ShinyPID);
+            var ShinyPID = Entity.Format >= 3 && ModifierKeys != Keys.Control;
+            var UltraShiny = Entity.Format >= 8 && ModifierKeys == Keys.Shift;
+            UpdateShiny(ShinyPID, UltraShiny);
         }
 
-        private void UpdateShiny(bool PID)
+        private void UpdateShiny(bool PID, bool UltraShiny)
         {
             Entity.PID = Util.GetHexValue(TB_PID.Text);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
@@ -1361,7 +1362,11 @@ namespace PKHeX.WinForms.Controls
             {
                 if (PID)
                 {
-                    Entity.SetShiny();
+                    if (UltraShiny)
+                        Entity.SetUltraShiny();
+                    else
+                        Entity.SetShiny();
+
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     if (Entity.GenNumber < 6 && TB_EC.Visible)

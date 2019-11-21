@@ -279,6 +279,7 @@ namespace PKHeX.Core
         public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
+        public int ShinyValueResult => Convert.ToInt32((TID ^ SID) ^ ((PID / 65536) ^ (PID % 65536)));
         public StorageSlotFlag StorageFlags { get; internal set; }
         public bool Locked => StorageFlags.HasFlagFast(StorageSlotFlag.Locked);
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
@@ -919,7 +920,11 @@ namespace PKHeX.Core
         /// </remarks>
         public virtual void SetShiny()
         {
-            while (!IsShiny)
+            if (Gen8)
+                while (ShinyValueResult > 15 || ShinyValueResult < 1)
+                    PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
+            else
+                while (!IsShiny)
                 PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
@@ -933,6 +938,12 @@ namespace PKHeX.Core
             if (IsShiny) return;
             var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
             SID = (int)(xor & 0xFFF8) | Util.Rand.Next(8);
+        }
+
+        public virtual void SetUltraShiny()
+        {
+            while (ShinyValueResult != 0)
+                PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
         }
 
         /// <summary>
