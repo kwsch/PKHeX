@@ -108,7 +108,7 @@ namespace PKHeX.Core
             new byte[] {142, 124, 122},      // 03 : Bridge Field, Dappled Grove, Rolling Fields
             new byte[] {142, 134},           // 04 : Bridge Field, South Lake Miloch
             new byte[] {144, 126},           // 05 : Stony Wilderness, Watchtower Ruins
-            new byte[] {128, 138, 130},      // 06 : East Lake Axewell, North Lake Miloch, West Lake Axewell
+            new byte[] {128, 130},           // 06 : East Lake Axewell, West Lake Axewell
             new byte[] {154, 142, 134},      // 07 : Lake of Outrage, Bridge Field, South Lake Miloch
             new byte[] {146, 130},           // 08 : Dusty Bowl, West Lake Axewell
             new byte[] {146, 138},           // 09 : Dusty Bowl, North Lake Miloch
@@ -137,19 +137,19 @@ namespace PKHeX.Core
             new byte[] {150, 122},           // 32 : Hammerlocke Hills, Rolling Fields
             new byte[] {154, 142},           // 33 : Lake of Outrage, Bridge Field
             new byte[] {144, 130},           // 34 : Stony Wilderness, West Lake Axewell
-            new byte[] {146, 148, 142},      // 35 : Dusty Bowl, Giants Mirror, Bridge Field
+            new byte[] {146, 148},           // 35 : Dusty Bowl, Giants Mirror
             new byte[] {122},                // 36 : Rolling Fields
             new byte[] {132},                // 37 : Axew's Eye
             new byte[] {128, 122},           // 38 : East Lake Axewell, Rolling Fields
             new byte[] {144, 142, 140},      // 39 : Stony Wilderness, Bridge Field, Motostoke Riverbank
-            new byte[] {134},                // 40 : South Lake Miloch
+            new byte[] {134, 138},           // 40 : South Lake Miloch, North Lake Miloch
             new byte[] {148, 130},           // 41 : Giants Mirror, West Lake Axewell
-            new byte[] {148, 144, 134},      // 42 : Giants Mirror, Stony Wilderness, South Lake Miloch
+            new byte[] {148, 144},           // 42 : Giants Mirror, Stony Wilderness
             new byte[] {154, 142, 128, 130}, // 43 : Lake of Outrage, Bridge Field, East Lake Axewell, West Lake Axewell 
             new byte[] {150, 136},           // 44 : Hammerlocke Hills, Giants Seat
             new byte[] {142, 134, 122},      // 45 : Bridge Field, South Lake Miloch, Rolling Fields
             new byte[] {126},                // 46 : Watchtower Ruins
-            new byte[] {146, 138, 122},      // 47 : Dusty Bowl, North Lake Miloch, Rolling Fields
+            new byte[] {146, 138, 122, 134}, // 47 : Dusty Bowl, North Lake Miloch, Rolling Fields, South Lake Miloch
             new byte[] {146, 136},           // 48 : Dusty Bowl, Giants Seat
             new byte[] {144, 140, 126},      // 49 : Stony Wilderness, Motostoke Riverbank, Watchtower Ruins
             new byte[] {144, 136, 122},      // 50 : Stony Wilderness, Giants Seat, Rolling Fields
@@ -175,7 +175,7 @@ namespace PKHeX.Core
             new byte[] {152},                // 70 : Giants Cap
             new byte[] {148},                // 71 : Giants Mirror
             new byte[] {150},                // 72 : Hammerlocke Hills
-            new byte[] {154, 130},           // 73 : Lake of Outrage, West Lake Axewell
+            new byte[] {154},                // 73 : Lake of Outrage
             new byte[] {146, 130},           // 74 : Dusty Bowl, West Lake Axewell
             new byte[] {138, 134},           // 75 : North Lake Miloch, South Lake Miloch
             new byte[] {154},                // 76 : Lake of Outrage
@@ -193,10 +193,10 @@ namespace PKHeX.Core
             new byte[] {152},                // 88 : Giants Cap
             new byte[] {122},                // 89 : Rolling Fields
             new byte[] {130, 134},           // 90 : West Lake Axewell, South Lake Miloch
-            new byte[] {142, 124, 122},      // 91 : Bridge Field, Dappled Grove, Rolling Fields
+            new byte[] {142, 124},           // 91 : Bridge Field, Dappled Grove
             new byte[] {146},                // 92 : Dusty Bowl
         };
-
+        
         // Abilities Allowed
         private const int A3 = -1; // 1/2/H
         internal const int A4 = 4; // H only
