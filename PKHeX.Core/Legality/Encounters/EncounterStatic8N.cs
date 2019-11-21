@@ -15,13 +15,11 @@ namespace PKHeX.Core
         private readonly uint MaxRank;
         private readonly byte NestID;
 
+        private const int OnlineNest = 162;
+
         private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
 
-        public override int Location
-        {
-            get => NestLocations[0];
-            set { }
-        }
+        public override int Location { get => OnlineNest; set { } }
 
         public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val)
         {
@@ -57,7 +55,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc <= 255 && NestLocations.Contains((byte)loc);
+            return loc == OnlineNest || loc <= 255 && NestLocations.Contains((byte)loc);
         }
 
         public override bool IsMatch(PKM pkm, int lvl)
