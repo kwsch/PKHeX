@@ -1346,7 +1346,7 @@ namespace PKHeX.WinForms.Controls
         private void UpdateShinyPID(object sender, EventArgs e)
         {
             var ShinyPID = Entity.Format >= 3 && ModifierKeys != Keys.Control;
-            var UltraShiny = Entity.Format >= 8 && ModifierKeys == Keys.Shift;
+            var UltraShiny = Entity.SWSH && ModifierKeys == Keys.Shift;
             UpdateShiny(ShinyPID, UltraShiny);
         }
 

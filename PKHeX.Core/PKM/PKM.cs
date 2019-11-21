@@ -920,7 +920,7 @@ namespace PKHeX.Core
         /// </remarks>
         public virtual void SetShiny()
         {
-            if (Gen8)
+            if (Format >= 8)
                 while (ShinyValueResult > 15 || ShinyValueResult < 1)
                     PID = PKX.GetRandomPID(Species, Gender, Version, Nature, AltForm, PID);
             else
