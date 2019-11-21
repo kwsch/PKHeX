@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
 
             TrainerStats.LoadRecords(SAV, Records.RecordList_8);
 
-            NUD_BP.Value = SAV.Misc.BP;
+            NUD_BP.Value = Math.Min(SAV.Misc.BP, 9999);
             GetComboBoxes();
             GetTextBoxes();
 
