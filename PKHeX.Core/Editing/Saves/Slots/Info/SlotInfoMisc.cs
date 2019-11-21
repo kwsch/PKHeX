@@ -19,7 +19,7 @@ namespace PKHeX.Core
             Slot = slot;
             Offset = offset;
             PartyFormat = party;
-            Data = sav.Data;
+            Data = sav is SAV4 s ? s.General : sav.Data;
         }
 
         public SlotInfoMisc(byte[] data, int slot, int offset, bool party = false)

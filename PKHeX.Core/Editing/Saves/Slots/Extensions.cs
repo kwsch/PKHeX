@@ -82,7 +82,7 @@ namespace PKHeX.Core
         {
             return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS },
+                new SlotInfoMisc(sav.General, 0, sav.GTS) {Type = StorageSlotType.GTS },
             };
         }
 
