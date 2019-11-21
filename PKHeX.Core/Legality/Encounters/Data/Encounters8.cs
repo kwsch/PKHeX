@@ -121,6 +121,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 738, Level = 46, Location = 136, }, // Vikavolt near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 091, Level = 46, Location = 130, }, // Cloyster at West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 131, Level = 56, Location = 154, }, // Lapras at the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8 { Species = 131, Level = 60, Location = 138, }, // Lapras at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 119, Level = 46, Location = 142, }, // Seaking in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 130, Level = 56, Location = 146, }, // Gyarados in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 279, Level = 46, Location = 142, }, // Pelipper in Bridge Field (in a Wild Area)
