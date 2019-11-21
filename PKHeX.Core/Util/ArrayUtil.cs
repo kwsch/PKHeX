@@ -170,10 +170,10 @@ namespace PKHeX.Core
             var result = new T[len];
 
             int ctr = 0;
-            for (int i = 0; i < arr.Length; i++)
+            foreach (var a in arr)
             {
-                arr[i].CopyTo(result, ctr);
-                ctr += arr[i].Length;
+                a.CopyTo(result, ctr);
+                ctr += a.Length;
             }
 
             return result;

@@ -9,11 +9,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea8 : EncounterArea32
     {
+        /// <inheritdoc />
         public override bool IsMatchLocation(int location)
         {
             if (Location == location)
                 return true;
 
+            // get all other areas that can bleed encounters to the met location
             if (!ConnectingArea8.TryGetValue(location, out var others))
                 return false;
 
@@ -23,13 +25,13 @@ namespace PKHeX.Core
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var loc = Location;
-            if (IsWildArea8(loc)) // wild area gets boosted up to level 60 postgame
+            if (IsWildArea8(loc)) // wild area gets boosted up to level 60 post-game
             {
                 const int boostTo = 60;
                 if (pkm.Met_Level == boostTo)
                 {
                     var boost = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= boostTo));
-                    return boost.Where(s => s.LevelMax < 60 || s.IsLevelWithinRange(minLevel));
+                    return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
                 }
             }
             var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= (slot.LevelMin)));
@@ -40,9 +42,10 @@ namespace PKHeX.Core
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
 
-        public static bool IsWildArea8(int loc) => 120 <= loc && loc <= 154;
+        public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
 
-        public static IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
+        // Location, and areas that can feed encounters into it.
+        public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
         {
             // Rolling Fields
             // Dappled Grove, East Lake Axewell, West Lake Axewell

@@ -1468,7 +1468,7 @@ namespace PKHeX.Core
             // Source http://bulbapedia.bulbagarden.net/wiki/Johto_Safari_Zone#Pok.C3.A9mon
             // Supplement http://www.psypokes.com/hgss/safari_areas.php
             Location = 202, // Johto Safari Zone
-            Slots = ConcatAll(
+            Slots = ArrayUtil.ConcatAll(
                 SAFARIZONE_PEAK,
                 SAFARIZONE_DESERT,
                 SAFARIZONE_PLAINS,

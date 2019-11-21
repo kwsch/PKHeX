@@ -74,6 +74,11 @@ namespace PKHeX.Core
                 : slots;
         }
 
+        /// <summary>
+        /// Checks if the provided met location ID matches the parameters for the area.
+        /// </summary>
+        /// <param name="location">Met Location ID</param>
+        /// <returns>True if possibly originated from this area, false otherwise.</returns>
         public virtual bool IsMatchLocation(int location) => Location == location;
     }
 }

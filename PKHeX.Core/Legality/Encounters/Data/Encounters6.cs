@@ -342,7 +342,7 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 628, Level = 45, Location = 348 }, // Braviary
         };
 
-        private static readonly EncounterStatic[] Encounter_AO = ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
+        private static readonly EncounterStatic[] Encounter_AO = ArrayUtil.ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
 
         private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
         {

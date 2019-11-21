@@ -616,7 +616,7 @@ namespace PKHeX.Core
             },
         };
 
-        internal static readonly EncounterStatic[] Encounter_CXD = ConcatAll(Encounter_Colo, Encounter_XD);
+        internal static readonly EncounterStatic[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);
 
         private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
         {

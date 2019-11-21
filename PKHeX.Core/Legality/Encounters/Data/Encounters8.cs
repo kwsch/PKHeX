@@ -26,8 +26,8 @@ namespace PKHeX.Core
 
             StaticSW = GetStaticEncounters(Encounter_SWSH, SW);
             StaticSH = GetStaticEncounters(Encounter_SWSH, SH);
-            StaticSW = ConcatAll(StaticSW, Nest_Common, Nest_SW, GetStaticEncounters(Crystal_SWSH, SW));
-            StaticSH = ConcatAll(StaticSH, Nest_Common, Nest_SH, GetStaticEncounters(Crystal_SWSH, SH));
+            StaticSW = ArrayUtil.ConcatAll(StaticSW, Nest_Common, Nest_SW, GetStaticEncounters(Crystal_SWSH, SW));
+            StaticSH = ArrayUtil.ConcatAll(StaticSH, Nest_Common, Nest_SH, GetStaticEncounters(Crystal_SWSH, SH));
 
             MarkEncountersGeneration(8, SlotsSW, SlotsSH);
             MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
