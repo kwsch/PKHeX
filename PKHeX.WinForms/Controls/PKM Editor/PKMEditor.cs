@@ -1598,7 +1598,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (ModifierKeys == Keys.Shift)
             {
-                Entity.SetRelearnMoves(Entity.Moves);
+                Entity.SetRecordFlags(Entity.Moves);
                 UpdateLegality();
                 return;
             }

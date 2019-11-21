@@ -577,7 +577,7 @@ namespace PKHeX.Core
                 return;
             foreach (var m in moves)
             {
-                var index = Array.FindIndex(Legal.Pouch_TMHM_SWSH, 100, z => z == m) - 100;
+                var index = Array.FindIndex(Legal.TMHM_SWSH, 100, z => z == m) - 100;
                 if (index >= 0)
                     pk8.SetMoveRecordFlag(index, true);
             }
