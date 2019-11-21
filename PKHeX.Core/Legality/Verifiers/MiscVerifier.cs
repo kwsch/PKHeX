@@ -330,7 +330,7 @@ namespace PKHeX.Core
 
             if (pk8.DynamaxLevel != 0)
             {
-                if (pk8.IsEgg || pk8.DynamaxLevel > 10)
+                if (pk8.IsEgg || pk8.DynamaxLevel > 10 || pk8.Species >= (int)Species.Zacian)
                     data.AddLine(GetInvalid(LStatDynamaxInvalid));
             }
 
