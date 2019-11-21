@@ -1,102 +1,201 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     internal static class Encounters8Nest
     {
         #region Nest
         // Location IDs for each Nest group
-        private const int Nest00 = -100000;
-        private const int Nest01 = -100001;
-        private const int Nest02 = -100002;
-        private const int Nest03 = -100003;
-        private const int Nest04 = -100004;
-        private const int Nest05 = -100005;
-        private const int Nest06 = -100006;
-        private const int Nest07 = -100007;
-        private const int Nest08 = -100008;
-        private const int Nest09 = -100009;
-        private const int Nest10 = -100010;
-        private const int Nest11 = -100011;
-        private const int Nest12 = -100012;
-        private const int Nest13 = -100013;
-        private const int Nest14 = -100014;
-        private const int Nest15 = -100015;
-        private const int Nest16 = -100016;
-        private const int Nest17 = -100017;
-        private const int Nest18 = -100018;
-        private const int Nest19 = -100019;
-        private const int Nest20 = -100020;
-        private const int Nest21 = -100021;
-        private const int Nest22 = -100022;
-        private const int Nest23 = -100023;
-        private const int Nest24 = -100024;
-        private const int Nest25 = -100025;
-        private const int Nest26 = -100026;
-        private const int Nest27 = -100027;
-        private const int Nest28 = -100028;
-        private const int Nest29 = -100029;
-        private const int Nest30 = -100030;
-        private const int Nest31 = -100031;
-        private const int Nest32 = -100032;
-        private const int Nest33 = -100033;
-        private const int Nest34 = -100034;
-        private const int Nest35 = -100035;
-        private const int Nest36 = -100036;
-        private const int Nest37 = -100037;
-        private const int Nest38 = -100038;
-        private const int Nest39 = -100039;
-        private const int Nest40 = -100040;
-        private const int Nest41 = -100041;
-        private const int Nest42 = -100042;
-        private const int Nest43 = -100043;
-        private const int Nest44 = -100044;
-        private const int Nest45 = -100045;
-        private const int Nest46 = -100046;
-        private const int Nest47 = -100047;
-        private const int Nest48 = -100048;
-        private const int Nest49 = -100049;
-        private const int Nest50 = -100050;
-        private const int Nest51 = -100051;
-        private const int Nest52 = -100052;
-        private const int Nest53 = -100053;
-        private const int Nest54 = -100054;
-        private const int Nest55 = -100055;
-        private const int Nest56 = -100056;
-        private const int Nest57 = -100057;
-        private const int Nest58 = -100058;
-        private const int Nest59 = -100059;
-        private const int Nest60 = -100060;
-        private const int Nest61 = -100061;
-        private const int Nest62 = -100062;
-        private const int Nest63 = -100063;
-        private const int Nest64 = -100064;
-        private const int Nest65 = -100065;
-        private const int Nest66 = -100066;
-        private const int Nest67 = -100067;
-        private const int Nest68 = -100068;
-        private const int Nest69 = -100069;
-        private const int Nest70 = -100070;
-        private const int Nest71 = -100071;
-        private const int Nest72 = -100072;
-        private const int Nest73 = -100073;
-        private const int Nest74 = -100074;
-        private const int Nest75 = -100075;
-        private const int Nest76 = -100076;
-        private const int Nest77 = -100077;
-        private const int Nest78 = -100078;
-        private const int Nest79 = -100079;
-        private const int Nest80 = -100080;
-        private const int Nest81 = -100081;
-        private const int Nest82 = -100082;
-        private const int Nest83 = -100083;
-        private const int Nest84 = -100084;
-        private const int Nest85 = -100085;
-        private const int Nest86 = -100086;
-        private const int Nest87 = -100087;
-        private const int Nest88 = -100088;
-        private const int Nest89 = -100089;
-        private const int Nest90 = -100090;
-        private const int Nest91 = -100091;
-        private const int Nest92 = -100092;
+        private const byte Nest00 = 00;
+        private const byte Nest01 = 01;
+        private const byte Nest02 = 02;
+        private const byte Nest03 = 03;
+        private const byte Nest04 = 04;
+        private const byte Nest05 = 05;
+        private const byte Nest06 = 06;
+        private const byte Nest07 = 07;
+        private const byte Nest08 = 08;
+        private const byte Nest09 = 09;
+        private const byte Nest10 = 10;
+        private const byte Nest11 = 11;
+        private const byte Nest12 = 12;
+        private const byte Nest13 = 13;
+        private const byte Nest14 = 14;
+        private const byte Nest15 = 15;
+        private const byte Nest16 = 16;
+        private const byte Nest17 = 17;
+        private const byte Nest18 = 18;
+        private const byte Nest19 = 19;
+        private const byte Nest20 = 20;
+        private const byte Nest21 = 21;
+        private const byte Nest22 = 22;
+        private const byte Nest23 = 23;
+        private const byte Nest24 = 24;
+        private const byte Nest25 = 25;
+        private const byte Nest26 = 26;
+        private const byte Nest27 = 27;
+        private const byte Nest28 = 28;
+        private const byte Nest29 = 29;
+        private const byte Nest30 = 30;
+        private const byte Nest31 = 31;
+        private const byte Nest32 = 32;
+        private const byte Nest33 = 33;
+        private const byte Nest34 = 34;
+        private const byte Nest35 = 35;
+        private const byte Nest36 = 36;
+        private const byte Nest37 = 37;
+        private const byte Nest38 = 38;
+        private const byte Nest39 = 39;
+        private const byte Nest40 = 40;
+        private const byte Nest41 = 41;
+        private const byte Nest42 = 42;
+        private const byte Nest43 = 43;
+        private const byte Nest44 = 44;
+        private const byte Nest45 = 45;
+        private const byte Nest46 = 46;
+        private const byte Nest47 = 47;
+        private const byte Nest48 = 48;
+        private const byte Nest49 = 49;
+        private const byte Nest50 = 50;
+        private const byte Nest51 = 51;
+        private const byte Nest52 = 52;
+        private const byte Nest53 = 53;
+        private const byte Nest54 = 54;
+        private const byte Nest55 = 55;
+        private const byte Nest56 = 56;
+        private const byte Nest57 = 57;
+        private const byte Nest58 = 58;
+        private const byte Nest59 = 59;
+        private const byte Nest60 = 60;
+        private const byte Nest61 = 61;
+        private const byte Nest62 = 62;
+        private const byte Nest63 = 63;
+        private const byte Nest64 = 64;
+        private const byte Nest65 = 65;
+        private const byte Nest66 = 66;
+        private const byte Nest67 = 67;
+        private const byte Nest68 = 68;
+        private const byte Nest69 = 69;
+        private const byte Nest70 = 70;
+        private const byte Nest71 = 71;
+        private const byte Nest72 = 72;
+        private const byte Nest73 = 73;
+        private const byte Nest74 = 74;
+        private const byte Nest75 = 75;
+        private const byte Nest76 = 76;
+        private const byte Nest77 = 77;
+        private const byte Nest78 = 78;
+        private const byte Nest79 = 79;
+        private const byte Nest80 = 80;
+        private const byte Nest81 = 81;
+        private const byte Nest82 = 82;
+        private const byte Nest83 = 83;
+        private const byte Nest84 = 84;
+        private const byte Nest85 = 85;
+        private const byte Nest86 = 86;
+        private const byte Nest87 = 87;
+        private const byte Nest88 = 88;
+        private const byte Nest89 = 89;
+        private const byte Nest90 = 90;
+        private const byte Nest91 = 91;
+        private const byte Nest92 = 92;
+
+        internal static IReadOnlyList<IReadOnlyList<byte>> NestLocations = new []
+        {
+            new byte[] {144, 134, 122},      // 00 : Stony Wilderness, South Lake Miloch, Rolling Fields
+            new byte[] {144, 126},           // 01 : Stony Wilderness, Watchtower Ruins
+            new byte[] {144, 122},           // 02 : Stony Wilderness, Rolling Fields
+            new byte[] {142, 124, 122},      // 03 : Bridge Field, Dappled Grove, Rolling Fields
+            new byte[] {142, 134},           // 04 : Bridge Field, South Lake Miloch
+            new byte[] {144, 126},           // 05 : Stony Wilderness, Watchtower Ruins
+            new byte[] {128, 138, 130},      // 06 : East Lake Axewell, North Lake Miloch, West Lake Axewell
+            new byte[] {154, 142, 134},      // 07 : Lake of Outrage, Bridge Field, South Lake Miloch
+            new byte[] {146, 130},           // 08 : Dusty Bowl, West Lake Axewell
+            new byte[] {146, 138},           // 09 : Dusty Bowl, North Lake Miloch
+            new byte[] {146, 136},           // 10 : Dusty Bowl, Giants Seat
+            new byte[] {150, 144, 136},      // 11 : Hammerlocke Hills, Stony Wilderness, Giants Seat
+            new byte[] {142},                // 12 : Bridge Field
+            new byte[] {150, 144, 140},      // 13 : Hammerlocke Hills, Stony Wilderness, Motostoke Riverbank
+            new byte[] {146, 136},           // 14 : Dusty Bowl, Giants Seat
+            new byte[] {142, 122},           // 15 : Bridge Field, Rolling Fields
+            new byte[] {146},                // 16 : Dusty Bowl
+            new byte[] {154, 152, 144},      // 17 : Lake of Outrage, Giants Cap, Stony Wilderness
+            new byte[] {150, 144},           // 18 : Hammerlocke Hills, Stony Wilderness
+            new byte[] {146},                // 19 : Dusty Bowl
+            new byte[] {146},                // 20 : Dusty Bowl
+            new byte[] {144},                // 21 : Stony Wilderness
+            new byte[] {150, 152},           // 22 : Hammerlocke Hills, Giants Cap
+            new byte[] {152, 140},           // 23 : Giants Cap, Motostoke Riverbank
+            new byte[] {154, 148},           // 24 : Lake of Outrage, Giants Mirror
+            new byte[] {124},                // 25 : Dappled Grove
+            new byte[] {148, 144, 142},      // 26 : Giants Mirror, Stony Wilderness, Bridge Field
+            new byte[] {148, 124},           // 27 : Giants Mirror, Dappled Grove
+            new byte[] {138, 128},           // 28 : North Lake Miloch, East Lake Axewell
+            new byte[] {150, 152, 140},      // 29 : Hammerlocke Hills, Giants Cap, Motostoke Riverbank
+            new byte[] {128, 122},           // 30 : East Lake Axewell, Rolling Fields
+            new byte[] {150, 152},           // 31 : Hammerlocke Hills, Giants Cap
+            new byte[] {150, 122},           // 32 : Hammerlocke Hills, Rolling Fields
+            new byte[] {154, 142},           // 33 : Lake of Outrage, Bridge Field
+            new byte[] {144, 130},           // 34 : Stony Wilderness, West Lake Axewell
+            new byte[] {146, 148, 142},      // 35 : Dusty Bowl, Giants Mirror, Bridge Field
+            new byte[] {122},                // 36 : Rolling Fields
+            new byte[] {132},                // 37 : Axew's Eye
+            new byte[] {128, 122},           // 38 : East Lake Axewell, Rolling Fields
+            new byte[] {144, 142, 140},      // 39 : Stony Wilderness, Bridge Field, Motostoke Riverbank
+            new byte[] {134},                // 40 : South Lake Miloch
+            new byte[] {148, 130},           // 41 : Giants Mirror, West Lake Axewell
+            new byte[] {148, 144, 134},      // 42 : Giants Mirror, Stony Wilderness, South Lake Miloch
+            new byte[] {154, 142, 128, 130}, // 43 : Lake of Outrage, Bridge Field, East Lake Axewell, West Lake Axewell 
+            new byte[] {150, 136},           // 44 : Hammerlocke Hills, Giants Seat
+            new byte[] {142, 134, 122},      // 45 : Bridge Field, South Lake Miloch, Rolling Fields
+            new byte[] {126},                // 46 : Watchtower Ruins
+            new byte[] {146, 138, 122},      // 47 : Dusty Bowl, North Lake Miloch, Rolling Fields
+            new byte[] {146, 136},           // 48 : Dusty Bowl, Giants Seat
+            new byte[] {144, 140, 126},      // 49 : Stony Wilderness, Motostoke Riverbank, Watchtower Ruins
+            new byte[] {144, 136, 122},      // 50 : Stony Wilderness, Giants Seat, Rolling Fields
+            new byte[] {146, 142, 122},      // 51 : Dusty Bowl, Bridge Field, Rolling Fields
+            new byte[] {150},                // 52 : Hammerlocke Hills
+            new byte[] {146, 144},           // 53 : Dusty Bowl, Stony Wilderness
+            new byte[] {152, 146, 144},      // 54 : Giants Cap, Dusty Bowl, Stony Wilderness
+            new byte[] {154, 140},           // 55 : Lake of Outrage, Motostoke Riverbank
+            new byte[] {150},                // 56 : Hammerlocke Hills
+            new byte[] {124},                // 57 : Dappled Grove
+            new byte[] {144, 142, 124},      // 58 : Stony Wilderness, Bridge Field, Dappled Grove
+            new byte[] {152, 140, 138},      // 59 : Giants Cap, Motostoke Riverbank, North Lake Miloch
+            new byte[] {150, 128},           // 60 : Hammerlocke Hills, East Lake Axewell
+            new byte[] {150, 122},           // 61 : Hammerlocke Hills, Rolling Fields
+            new byte[] {144, 142, 130},      // 62 : Stony Wilderness, Bridge Field, West Lake Axewell
+            new byte[] {132, 122},           // 63 : Axew's Eye, Rolling Fields
+            new byte[] {142, 140, 128, 122}, // 64 : Bridge Field, Motostoke Riverbank, East Lake Axewell, Rolling Fields 
+            new byte[] {144},                // 65 : Stony Wilderness
+            new byte[] {148},                // 66 : Giants Mirror
+            new byte[] {150},                // 67 : Hammerlocke Hills
+            new byte[] {148},                // 68 : Giants Mirror
+            new byte[] {148},                // 69 : Giants Mirror
+            new byte[] {152},                // 70 : Giants Cap
+            new byte[] {148},                // 71 : Giants Mirror
+            new byte[] {150},                // 72 : Hammerlocke Hills
+            new byte[] {154, 130},           // 73 : Lake of Outrage, West Lake Axewell
+            new byte[] {146, 130},           // 74 : Dusty Bowl, West Lake Axewell
+            new byte[] {138, 134},           // 75 : North Lake Miloch, South Lake Miloch
+            new byte[] {154},                // 76 : Lake of Outrage
+            new byte[] {152},                // 77 : Giants Cap
+            new byte[] {124},                // 78 : Dappled Grove
+            new byte[] {144},                // 79 : Stony Wilderness
+            new byte[] {144},                // 80 : Stony Wilderness
+            new byte[] {142},                // 81 : Bridge Field
+            new byte[] {136},                // 82 : Giants Seat
+            new byte[] {136},                // 83 : Giants Seat
+            new byte[] {144},                // 84 : Stony Wilderness
+            new byte[] {128},                // 85 : East Lake Axewell
+            new byte[] {142},                // 86 : Bridge Field
+            new byte[] {146},                // 87 : Dusty Bowl
+            new byte[] {152},                // 88 : Giants Cap
+            new byte[] {122},                // 89 : Rolling Fields
+            new byte[] {130, 134},           // 90 : West Lake Axewell, South Lake Miloch
+            new byte[] {142, 124, 122},      // 91 : Bridge Field, Dappled Grove, Rolling Fields
+            new byte[] {146},                // 92 : Dusty Bowl
+        };
 
         // Abilities Allowed
         private const int A3 = -1; // 1/2/H

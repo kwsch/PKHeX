@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public int Generation { get; set; } = -1;
-        public int Location { get; set; }
+        public virtual int Location { get; set; }
         public int Ability { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
@@ -402,7 +402,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        protected bool IsMatchLocation(PKM pkm)
+        protected virtual bool IsMatchLocation(PKM pkm)
         {
             if (EggEncounter)
                 return true;

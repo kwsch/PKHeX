@@ -1,4 +1,7 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 8 Nest Encounter (Raid)
@@ -10,10 +13,19 @@
 
         private readonly uint MinRank;
         private readonly uint MaxRank;
+        private readonly byte NestID;
 
-        public EncounterStatic8N(int loc, uint minRank, uint maxRank, byte val)
+        private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
+
+        public override int Location
         {
-            Location = loc;
+            get => NestLocations[0];
+            set { }
+        }
+
+        public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val)
+        {
+            NestID = nestID;
             MinRank = minRank;
             MaxRank = maxRank;
             DynamaxLevel = val;
@@ -42,14 +54,20 @@
             return metLevel % 10 <= 5;
         }
 
+        protected override bool IsMatchLocation(PKM pkm)
+        {
+            var loc = pkm.Met_Location;
+            return loc <= 255 && NestLocations.Contains((byte)loc);
+        }
+
         public override bool IsMatch(PKM pkm, int lvl)
         {
-            if (Ability != Encounters8Nest.A4 && pkm.AbilityNumber != 4)
+            if (Ability == Encounters8Nest.A4 && pkm.AbilityNumber != 4)
                 return false;
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
-            if (pkm.GetFlawlessIVCount() < DynamaxLevel)
+            if (pkm.FlawlessIVCount < MinRank + 1)
                 return false;
 
             return base.IsMatch(pkm, lvl);
