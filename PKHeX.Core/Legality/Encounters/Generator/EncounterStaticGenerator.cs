@@ -66,22 +66,13 @@ namespace PKHeX.Core
                 if (!GetIsMatchStatic(pkm, e, lvl))
                     continue;
 
-                if (GetIsMatchDeferred(pkm, e))
+                if (e.IsMatchDeferred(pkm))
                     deferred.Add(e);
                 else
                     yield return e;
             }
             foreach (var e in deferred)
                 yield return e;
-        }
-
-        private static bool GetIsMatchDeferred(PKM pkm, EncounterStatic e)
-        {
-            if (pkm.FatefulEncounter != e.Fateful)
-                return true;
-            if (e.Ability == 4 && pkm.AbilityNumber != 4) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
-                return true;
-            return false;
         }
 
         private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, int lvl)

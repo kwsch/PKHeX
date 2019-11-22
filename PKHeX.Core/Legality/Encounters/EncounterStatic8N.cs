@@ -70,5 +70,15 @@ namespace PKHeX.Core
 
             return base.IsMatch(pkm, lvl);
         }
+
+        public override bool IsMatchDeferred(PKM pkm)
+        {
+            if (base.IsMatchDeferred(pkm))
+                return true;
+            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
+                return true;
+
+            return false;
+        }
     }
 }
