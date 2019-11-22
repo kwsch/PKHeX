@@ -17,6 +17,8 @@ namespace PKHeX.Core
         public Daycare8 Daycare { get; }
         public Record8 Records { get; }
         public TrainerCard8 TrainerCard{ get; }
+        public FashionUnlock8 Fashion { get; }
+        public RaidSpawnList8 Raid { get; }
 
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
@@ -33,6 +35,8 @@ namespace PKHeX.Core
             Fused = new Fused8(sav, GetBlock(IFused));
             Daycare = new Daycare8(sav, GetBlock(IDaycare));
             Records = new Record8(sav, GetBlock(IRecord), Core.Records.MaxType_SWSH);
+            Fashion = new FashionUnlock8(sav, GetBlock(IFashionUnlock));
+            Raid = new RaidSpawnList8(sav, GetBlock(IRaidSpawnList));
         }
 
         private const int IBox = 143; // Box Data
@@ -47,6 +51,7 @@ namespace PKHeX.Core
         private const int IZukan = 699; // PokeDex
         private const int ITrainerCard = 1259; // Trainer Card
         private const int IPlayTime = 1302; // Time Played
+        private const int IRaidSpawnList = 1326; // Nest current values (hash, seed, meta)
         private const int IRepel = 1469;
         private const int IFused = 1789; // Fused PKM (*3)
         private const int IFashionUnlock = 1989; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
