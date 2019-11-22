@@ -60,8 +60,6 @@ namespace PKHeX.Core
 
         public override bool IsMatch(PKM pkm, int lvl)
         {
-            if (Ability == Encounters8Nest.A3 && pkm.AbilityNumber == 4)
-                return false;
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
@@ -75,6 +73,8 @@ namespace PKHeX.Core
         {
             if (base.IsMatchDeferred(pkm))
                 return true;
+            if (Ability == Encounters8Nest.A3 && pkm.AbilityNumber == 4)
+                return false;
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
                 return true;
 
