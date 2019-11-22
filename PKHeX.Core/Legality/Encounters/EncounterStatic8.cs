@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class EncounterStatic8 : EncounterStatic
+    public class EncounterStatic8 : EncounterStatic
     {
         protected override bool IsMatchLevel(PKM pkm, int lvl)
         {
