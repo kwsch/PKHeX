@@ -198,8 +198,8 @@ namespace PKHeX.Core
         };
         
         // Abilities Allowed
-        private const int A3 = -1; // 1/2/H
-        internal const int A4 = 4; // H only
+        internal const int A3 = 0; // 1/2 only
+        internal const int A4 = -1; // 1/2/H
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
