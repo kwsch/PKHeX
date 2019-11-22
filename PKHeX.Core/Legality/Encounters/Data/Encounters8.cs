@@ -120,7 +120,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 625, Level = 52, Location = 136, }, // Bisharp near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 738, Level = 46, Location = 136, }, // Vikavolt near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 091, Level = 46, Location = 130, }, // Cloyster at West Lake Axewell (in a Wild Area)
-            new EncounterStatic8S{ Species = 131, Level = 56, Locations = new[] {138, 154}, }, // Lapras at North Lake Miloch, the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8S{ Species = 131, Level = 56, Locations = new[] {128, 130, 134, 138, 154 }, }, // Lapras at North/East/South/West Lake Miloch, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8S{ Species = 119, Level = 46, Locations = new[] {128, 130, 134, 138, 142, 154 }, }, // Seaking in Bridge Field, at North/East/South/West Lake Miloch, at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 130, Level = 56, Location = 146, }, // Gyarados in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 279, Level = 46, Location = 142, }, // Pelipper in Bridge Field (in a Wild Area)
@@ -179,7 +179,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 600, Level = 46, Location = 150, }, // Klang on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 045, Level = 41, Location = 148, }, // Vileplume around the Giant’s Mirror (in a Wild Area)
             new EncounterStatic8 { Species = 823, Level = 38, Location =  -1, }, // Corviknight
-            new EncounterStatic8 { Species = 130, Level = 60, Location = 154, }, // Gyarados at the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8S { Species = 130, Level = 60, Locations = new[] {128, 130, 134, 138, 154 }, }, // Gyarados at North/East/South/West Lake Miloch, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 853, Level = 56, Location = 154, }, // Grapploct at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 282, Level = 60, Location =  -1, }, // Gardevoir
             new EncounterStatic8 { Species = 470, Level = 56, Location = 154, }, // Leafeon at the Lake of Outrage (in a Wild Area)
