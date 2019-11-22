@@ -64,7 +64,8 @@ namespace PKHeX.Core
                 return false;
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
-
+            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
+                return false;
             if (pkm.FlawlessIVCount < MinRank + 1)
                 return false;
 
