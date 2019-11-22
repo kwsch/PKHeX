@@ -694,6 +694,10 @@ namespace PKHeX.Core
                     return "Dusk";
                 case (int)Core.Species.Necrozma when form == "Dawn-Wings":
                     return "Dawn";
+                    
+                // Toxtricity
+                case (int)Core.Species.Toxtricity when form == "Low-Key":
+                    return "Low Key";
 
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
