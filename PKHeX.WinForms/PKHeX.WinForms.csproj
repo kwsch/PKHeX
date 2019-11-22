@@ -62,6 +62,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Update="Subforms\PKM Editors\TechRecordEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +83,13 @@
     <EmbeddedResource Update="Subforms\Save Editors\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>
