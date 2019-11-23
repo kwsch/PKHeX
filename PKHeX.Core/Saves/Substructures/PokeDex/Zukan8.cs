@@ -67,8 +67,8 @@ namespace PKHeX.Core
 
         // Next 4 bytes are for obtained info (u32)
         private const int OFS_CAUGHT = 0x20;
-        // Caught:1
-        // Unknown:1
+        // Owned:1 (posessed by player)
+        // OwnedGigantamax:1 (Gigantamaxed by player in battle)
         // LanguagesObtained:2-14 (flags)
         // DisplayFormID:15-27 (value)
         // DisplayGigantamaxInstead:28 (flag)
