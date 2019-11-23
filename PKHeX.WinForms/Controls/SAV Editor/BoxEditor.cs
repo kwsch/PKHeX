@@ -39,6 +39,8 @@ namespace PKHeX.WinForms.Controls
 
         public void RecenterControls()
         {
+            if (Width < BoxPokeGrid.Width)
+                Width = BoxPokeGrid.Width;
             BoxPokeGrid.HorizontallyCenter(this);
             int p1 = CB_BoxSelect.Location.X;
             CB_BoxSelect.HorizontallyCenter(this);
