@@ -130,8 +130,20 @@ namespace PKHeX.Core
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
             var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
-            var canlearn = gens.SelectMany(z => Legal.GetValidMoves(pk, dl, z));
+            var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, dl, z));
             return moves.Except(canlearn).ToArray();
+        }
+
+        private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> dl, int generation)
+        {
+            IEnumerable<int> moves = Legal.GetValidMoves(pk, dl, generation);
+            if (generation >= 8)
+            {
+                var evo = dl[0];
+                var shared = MoveEgg.GetEggMoves(pk, evo.Species, evo.Form, GameVersion.SW);
+                moves = moves.Concat(shared);
+            }
+            return moves;
         }
 
         private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type)
