@@ -55,7 +55,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc == OnlineNest || loc <= 255 && NestLocations.Contains((byte)loc);
+            return loc == OnlineNest || (loc <= 255 && NestLocations.Contains((byte)loc));
         }
 
         public override bool IsMatch(PKM pkm, int lvl)
@@ -66,6 +66,9 @@ namespace PKHeX.Core
             if (pkm.FlawlessIVCount < MinRank + 1)
                 return false;
 
+            if (Version != GameVersion.SWSH && pkm.Version != (int) Version && pkm.Met_Location != OnlineNest)
+                return false;
+
             return base.IsMatch(pkm, lvl);
         }
 
@@ -74,7 +77,7 @@ namespace PKHeX.Core
             if (base.IsMatchDeferred(pkm))
                 return true;
             if (Ability == Encounters8Nest.A3 && pkm.AbilityNumber == 4)
-                return false;
+                return true;
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
                 return true;
 

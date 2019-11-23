@@ -100,7 +100,7 @@ namespace PKHeX.Core
         private const byte Nest91 = 91;
         private const byte Nest92 = 92;
 
-        internal static IReadOnlyList<IReadOnlyList<byte>> NestLocations = new []
+        internal static readonly IReadOnlyList<IReadOnlyList<byte>> NestLocations = new []
         {
             new byte[] {144, 134, 122},      // 00 : Stony Wilderness, South Lake Miloch, Rolling Fields
             new byte[] {144, 126},           // 01 : Stony Wilderness, Watchtower Ruins
@@ -196,10 +196,10 @@ namespace PKHeX.Core
             new byte[] {142, 124},           // 91 : Bridge Field, Dappled Grove
             new byte[] {146},                // 92 : Dusty Bowl
         };
-        
+
         // Abilities Allowed
         internal const int A3 = 0; // 1/2 only
-        internal const int A4 = -1; // 1/2/H
+        private const int A4 = -1; // 1/2/H
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
