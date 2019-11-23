@@ -39,6 +39,7 @@ namespace PKHeX.Core
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();
+            Evolves8.FixEvoTreeSS();
         }
 
         internal static EvolutionTree GetEvolutionTree(int generation)
@@ -178,48 +179,52 @@ namespace PKHeX.Core
 
         private void FixEvoTreeSM()
         {
-            // Wormadam -- Copy Burmy 0 to Wormadam-1/2
-            Lineage[Personal.GetFormeIndex(413, 1)].Chain.Insert(0, Lineage[413].Chain[0]);
-            Lineage[Personal.GetFormeIndex(413, 2)].Chain.Insert(0, Lineage[413].Chain[0]);
+            UnpackForms((int)Species.Wormadam, 2);
+            UnpackForms((int)Species.Gastrodon, 1);
+            UnpackForms((int)Species.Meowstic, 1);
+            UnpackForms((int)Species.Floette, 4);
+            Lineage[(int)Species.Florges].Chain.RemoveAt(0); // ???
+            UnpackForms((int)Species.Florges, 4);
+            UnpackForms((int)Species.Gourgeist, 3);
 
-            // Shellos -- Move Shellos-1 evo from Gastrodon-0 to Gastrodon-1
-            Lineage[Personal.GetFormeIndex(422 + 1, 1)].Chain.Insert(0, Lineage[422 + 1].Chain[0]);
-            Lineage[422+1].Chain.RemoveAt(0);
+            BanEvo((int)Species.Raichu, 1, EvolutionMethod.BanSM);
+            BanEvo((int)Species.Marowak, 0, EvolutionMethod.BanSM);
+            BanEvo((int)Species.Raichu, 0, EvolutionMethod.BanSM);
+        }
 
-            // Meowstic -- Meowstic-1 (F) should point back to Espurr, copy Meowstic-0 (M)
-            Lineage[Personal.GetFormeIndex(678, 1)].Chain.Insert(0, Lineage[678].Chain[0]);
+        private void FixEvoTreeSS()
+        {
+            SpreadForms((int)Species.Silvally, 17);
+        }
 
-            // Floette doesn't contain evo info for forms 1-4, copy. Florges points to form 0, no fix needed.
-            var fbb = Lineage[669+1].Chain[0];
-            for (int i = 1; i <= 4; i++) // NOT AZ
-                Lineage[Personal.GetFormeIndex(669+1, i)].Chain.Insert(0, fbb);
-            // Clear forme chains from Florges
-            Lineage[671].Chain.RemoveRange(0, Lineage[671].Chain.Count - 2);
+        private void BanEvo(int species, int type, IReadOnlyCollection<GameVersion> versionsBanned)
+        {
+            var entry = Personal.GetFormeIndex(species, 0);
+            var lin = Lineage[entry];
+            lin.Chain[type][0].Banlist = versionsBanned;
+        }
 
-            // Gourgeist -- Sizes are still relevant.
-            var ggChain = Lineage[711].Chain;
-            for (int i = 3; i >= 1; i--)
+        private void UnpackForms(int species, int formCount)
+        {
+            var baseChain = Lineage[species];
+            for (int i = 1; i <= formCount; i++)
             {
-                var ggEvoIndex = Personal.GetFormeIndex(711, i);
-                var ggEvo = Lineage[ggEvoIndex];
-                ggEvo.Chain.Clear();
-                var actual = ggChain[0];
-                ggEvo.Chain.Add(new List<EvolutionMethod> {actual[i]});
+                var entry = Personal.GetFormeIndex(species, i);
+                var lin = Lineage[entry];
+                lin.Chain.Add(new List<EvolutionMethod> { baseChain.Chain[0][i] });
             }
-            Lineage[711].Chain[0].RemoveRange(1, 3);
+            baseChain.Chain[0].RemoveRange(1, formCount);
+        }
 
-            // Ban Raichu Evolution on SM
-            Lineage[Personal.GetFormeIndex(26, 0)]
-                .Chain[1][0]
-                .Banlist = EvolutionMethod.BanSM;
-            // Ban Exeggutor Evolution on SM
-            Lineage[Personal.GetFormeIndex(103, 0)]
-                .Chain[0][0]
-                .Banlist = EvolutionMethod.BanSM;
-            // Ban Marowak Evolution on SM
-            Lineage[Personal.GetFormeIndex(105, 0)]
-                .Chain[0][0]
-                .Banlist = EvolutionMethod.BanSM;
+        private void SpreadForms(int species, int formCount)
+        {
+            var baseChain = Lineage[species];
+            for (int i = 1; i <= formCount; i++)
+            {
+                var entry = Personal.GetFormeIndex(species, i);
+                var lin = Lineage[entry];
+                lin.Chain.Add(baseChain.Chain[0]);
+            }
         }
 
         private int GetIndex(PKM pkm)
