@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 MysteryGift g => VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves),
                 IRelearn s when s.Relearn.Length > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
                 EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
-                EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav && EncounterSlotGenerator.IsDexNavValid(pkm) => VerifyRelearnDexNav(pkm, info),
+                EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav => VerifyRelearnDexNav(pkm, info),
                 _ => VerifyRelearnNone(pkm, info)
             };
         }
@@ -50,8 +50,8 @@ namespace PKHeX.Core
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
-            var enc = info.EncounterMatch;
-            result[0] = !Legal.GetValidRelearn(pkm, enc.Species, enc.Form, true).Contains(RelearnMoves[0])
+            var baseSpec = Legal.GetBaseSpecies(pkm);
+            result[0] = !Legal.GetValidRelearn(pkm, baseSpec.Species, baseSpec.Form, true).Contains(RelearnMoves[0])
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 

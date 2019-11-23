@@ -164,20 +164,6 @@ namespace PKHeX.Core
             return slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
         }
 
-        internal static bool IsDexNavValid(PKM pkm)
-        {
-            if (!pkm.AO || !pkm.InhabitedGeneration(6))
-                return false;
-
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            var table = pkm.Version == (int) GameVersion.AS ? SlotsA : SlotsO;
-            int loc = pkm.Met_Location;
-            var areas = table.Where(l => l.Location == loc);
-            var minlvl = GetMinLevelEncounter(pkm);
-            var d_areas = areas.Select(area => GetValidEncounterSlots(pkm, area, vs, minlvl));
-            return d_areas.Any(slots => slots.Any(slot => slot.Permissions.AllowDexNav && slot.Permissions.DexNav));
-        }
-
         internal static EncounterArea GetCaptureLocation(PKM pkm)
         {
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
