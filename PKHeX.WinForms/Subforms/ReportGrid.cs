@@ -132,15 +132,14 @@ namespace PKHeX.WinForms
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
             if (dr != DialogResult.Yes)
             {
-                Clipboard.SetText(data);
+                WinFormsUtil.SetClipboardText(data);
                 return true;
             }
 
             // Reformat datagrid clipboard content
             string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] newlines = ConvertTabbedToRedditTable(lines);
-            Clipboard.SetText(string.Join(Environment.NewLine, newlines));
-
+            WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, newlines));
             return true;
         }
 

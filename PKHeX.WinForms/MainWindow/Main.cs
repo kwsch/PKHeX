@@ -520,9 +520,8 @@ namespace PKHeX.WinForms
 
             var pk = PreparePKM();
             var text = ShowdownSet.GetShowdownText(pk);
-            Clipboard.SetText(text);
-            var clip = Clipboard.GetText();
-            if (clip != text)
+            bool success = WinFormsUtil.SetClipboardText(text);
+            if (!success || Clipboard.GetText() != text)
                 WinFormsUtil.Alert(MsgClipboardFailWrite, MsgSimulatorExportFail);
             else
                 WinFormsUtil.Alert(MsgSimulatorExportSuccess, text);
@@ -1049,7 +1048,7 @@ namespace PKHeX.WinForms
             {
                 var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, report, MsgClipboardLegalityExport);
                 if (dr == DialogResult.Yes)
-                    Clipboard.SetText(report);
+                    WinFormsUtil.SetClipboardText(report);
             }
             else if (Settings.Default.IgnoreLegalPopup && la.Valid)
             {

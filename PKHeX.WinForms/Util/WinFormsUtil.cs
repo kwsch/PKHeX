@@ -5,9 +5,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 using static PKHeX.Core.MessageStrings;
+using Exception = System.Exception;
 
 namespace PKHeX.WinForms
 {
@@ -122,6 +124,25 @@ namespace PKHeX.WinForms
             return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
         }
         #endregion
+
+        internal static bool SetClipboardText(string text)
+        {
+            try
+            {
+                Clipboard.SetText(text);
+                return true;
+            }
+            catch (ExternalException x)
+            {
+                Error(MsgClipboardFailWrite, x);
+            }
+            catch
+            {
+                Error(MsgClipboardFailWrite);
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// Gets the selected value of the input <see cref="cb"/>. If no value is selected, will return 0.

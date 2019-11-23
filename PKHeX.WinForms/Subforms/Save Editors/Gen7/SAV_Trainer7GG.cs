@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");
                 return;
             }
-            Clipboard.SetText(string.Join(Environment.NewLine, summary));
+            WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, summary));
             System.Media.SystemSounds.Asterisk.Play();
         }
 

@@ -97,7 +97,7 @@ namespace PKHeX.WinForms
             T_ExceptionDetails.Text = details.ToString();
         }
 
-        private void ClickCopyException(object sender, EventArgs e) => Clipboard.SetText(T_ExceptionDetails.Text);
+        private void ClickCopyException(object sender, EventArgs e) => WinFormsUtil.SetClipboardText(T_ExceptionDetails.Text);
 
         private void ClickContinue(object sender, EventArgs e)
         {

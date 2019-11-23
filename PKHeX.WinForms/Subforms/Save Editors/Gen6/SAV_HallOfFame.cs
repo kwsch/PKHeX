@@ -389,7 +389,7 @@ namespace PKHeX.WinForms
 
         private void B_CopyText_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(RTB.Text);
+            WinFormsUtil.SetClipboardText(RTB.Text);
         }
 
         private void B_Delete_Click(object sender, EventArgs e)

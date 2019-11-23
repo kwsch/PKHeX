@@ -692,7 +692,7 @@ namespace PKHeX.WinForms.Controls
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6Passerby))
                 return;
             var result = PSS6.GetPSSParse((SAV6)SAV);
-            Clipboard.SetText(string.Join(Environment.NewLine, result));
+            WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, result));
         }
 
         private void B_OUTHallofFame_Click(object sender, EventArgs e)
@@ -734,7 +734,7 @@ namespace PKHeX.WinForms.Controls
                 }
                 var lines = bulk.Parse.Select(z => $"{z.Judgement}: {z.Comment}");
                 var msg = string.Join(Environment.NewLine, lines);
-                Clipboard.SetText(msg);
+                WinFormsUtil.SetClipboardText(msg);
                 SystemSounds.Asterisk.Play();
                 return;
             }
@@ -751,7 +751,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveChecksumFailExport))
-                Clipboard.SetText(SAV.ChecksumInfo);
+                WinFormsUtil.SetClipboardText(SAV.ChecksumInfo);
         }
 
         // File I/O
@@ -1163,18 +1163,11 @@ namespace PKHeX.WinForms.Controls
 
         private static void ExportShowdownText(SaveFile SAV, string success, Func<SaveFile, IEnumerable<PKM>> func)
         {
-            try
-            {
-                var pkms = func(SAV);
-                var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
-                if (string.IsNullOrWhiteSpace(str)) return;
-                Clipboard.SetText(str);
+            var pkms = func(SAV);
+            var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
+            if (string.IsNullOrWhiteSpace(str)) return;
+            if (WinFormsUtil.SetClipboardText(str))
                 WinFormsUtil.Alert(success);
-            }
-            catch
-            {
-                WinFormsUtil.Error(MsgClipboardFailWrite);
-            }
         }
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
