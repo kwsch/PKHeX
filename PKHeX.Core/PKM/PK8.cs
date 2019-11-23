@@ -30,7 +30,7 @@ namespace PKHeX.Core
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < PKX.SIZE_8STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
+            for (int i = 8; i < PKX.SIZE_8STORED; i += 2)
                 chk += BitConverter.ToUInt16(Data, i);
             return chk;
         }
@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
         public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
-        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
+        public override bool IsUntraded => Data[0xA8] == 0 && Data[0xA8 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
 
         // Complex Generated Attributes
         public override int Characteristic
