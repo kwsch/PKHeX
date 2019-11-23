@@ -241,7 +241,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 518, Level = 46, Location = 136, }, // Musharna near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 362, Level = 46, Location = 136, }, // Glalie near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 596, Level = 46, Location =  -1, }, // Galvantula
-            new EncounterStatic8 { Species = 584, Level = 47, Location = 134, }, // Vanilluxe at South Lake Miloch (in a Wild Area)
+            new EncounterStatic8S { Species = 584, Level = 47, Locations = new[] {128, 130, 134, 138 }, }, // Vanilluxe at North/East/South/West Lake Miloch/Axwell (in a Wild Area)
             new EncounterStatic8 { Species = 537, Level = 60, Location = 132, }, // Seismitoad on Axew’s Eye (in a Wild Area)
             new EncounterStatic8 { Species = 460, Level = 60, Location = 132, }, // Abomasnow on Axew’s Eye (in a Wild Area)
             new EncounterStatic8 { Species = 036, Level = 36, Location = 140, }, // Clefable at the Motostoke Riverbank (in a Wild Area)
