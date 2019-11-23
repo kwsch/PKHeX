@@ -364,6 +364,12 @@ namespace PKHeX.Core
                     pb7.WeightAbsolute = pb7.CalcWeightAbsolute;
                     return ModifyResult.Modified;
 
+                case nameof(PKM.Nature) when pk.Format >= 8:
+                    pk.Nature = pk.StatNature;
+                    return ModifyResult.Modified;
+                case nameof(PKM.StatNature) when pk.Format >= 8:
+                    pk.StatNature = pk.Nature;
+                    return ModifyResult.Modified;
                 case nameof(PKM.Stats):
                     pk.ResetPartyStats();
                     return ModifyResult.Modified;
@@ -371,6 +377,11 @@ namespace PKHeX.Core
                     pk.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;
                 case nameof(PKM.RelearnMoves):
+                    if (pk.Format >= 8)
+                    {
+                        pk.ClearRecordFlags();
+                        pk.SetRecordFlags(pk.Moves);
+                    }
                     pk.SetRelearnMoves(info.SuggestedRelearn);
                     return ModifyResult.Modified;
                 case nameof(PKM.Met_Location):
