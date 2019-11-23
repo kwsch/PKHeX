@@ -136,6 +136,7 @@ namespace PKHeX.WinForms.Controls
 
             // Prepare Data
             Drag.Info.Source = GetSlotInfo(pb);
+            Drag.Info.Destination = null;
 
             // Make a new file name based off the PID
             string newfile = CreateDragDropPKM(pb, encrypt, out bool external);
@@ -192,7 +193,7 @@ namespace PKHeX.WinForms.Controls
             // Thread Blocks on DoDragDrop
             Drag.Info.CurrentPath = newfile;
             var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
-            var external = Drag.Info.Source == null || result != DragDropEffects.Link;
+            var external = Drag.Info.Destination == null || result != DragDropEffects.Link;
             if (external || Drag.Info.Source.Equals(Drag.Info.Destination)) // not dropped to another box slot, restore img
             {
                 pb.Image = img;
