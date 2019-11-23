@@ -139,7 +139,7 @@ namespace PKHeX.Core
             IEnumerable<int> moves = Legal.GetValidMoves(pk, dl, generation);
             if (generation >= 8)
             {
-                var evo = dl[0];
+                var evo = dl[dl.Count - 1];
                 var shared = MoveEgg.GetEggMoves(pk, evo.Species, evo.Form, GameVersion.SW);
                 moves = moves.Concat(shared);
             }
