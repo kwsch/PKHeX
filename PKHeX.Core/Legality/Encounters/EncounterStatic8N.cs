@@ -26,7 +26,8 @@ namespace PKHeX.Core
             NestID = nestID;
             MinRank = minRank;
             MaxRank = maxRank;
-            DynamaxLevel = val;
+            DynamaxLevel = (byte)(MinRank + 1u);
+            FlawlessIVCount = val;
         }
 
         private readonly int[] LevelCaps =
@@ -63,7 +64,7 @@ namespace PKHeX.Core
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
-            if (pkm.FlawlessIVCount < MinRank + 1)
+            if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
             if (Version != GameVersion.SWSH && pkm.Version != (int) Version && pkm.Met_Location != OnlineNest)
