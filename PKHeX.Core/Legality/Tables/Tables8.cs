@@ -360,20 +360,19 @@ namespace PKHeX.Core
 
             // Alolan Forms
             (int)Species.Raichu | 1 << 11,
-            (int)Species.Meowth, (int)Species.Persian,
             (int)Species.Meowth | 1 << 11, (int)Species.Persian | 1 << 11,
             (int)Species.Vulpix | 1 << 11, (int)Species.Ninetales | 1 << 11,
             (int)Species.Diglett | 1 << 11, (int)Species.Dugtrio | 1 << 11,
 
             // Non-Galar Forms
-            (int)Species.Yamask, (int)Species.Cofagrigus,
             (int)Species.Farfetchd,
             (int)Species.Ponyta, (int)Species.Rapidash,
             (int)Species.Corsola,
-            (int)Species.MrMime,
             (int)Species.Darumaka, (int)Species.Darmanitan,
             (int)Species.Stunfisk,
             (int)Species.Weezing,
+
+            (int)Species.Shellos, (int)Species.Gastrodon, // West
         };
 
         #region Unreleased Items
