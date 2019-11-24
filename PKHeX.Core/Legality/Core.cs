@@ -297,7 +297,7 @@ namespace PKHeX.Core
             for (int i = 0; i <= index; i++)
             {
                 var evo = evoChain[i];
-                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, generation: generation);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, evo.Form, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, generation: generation);
                 // Moves from Species or any species after in the evolution phase
                 evomoves.AddRange(moves);
             }
@@ -312,7 +312,7 @@ namespace PKHeX.Core
             for (int i = 0; i < evoChain.Count; i++)
             {
                 var evo = evoChain[i];
-                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, pkm.AltForm, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, generation: generation);
+                var moves = GetMoves(pkm, evo.Species, 1, 1, evo.Level, evo.Form, moveTutor: true, Version: Version, LVL: true, specialTutors: true, Machine: true, MoveReminder: true, RemoveTransferHM: false, generation: generation);
                 var list = i >= index ? preevomoves : evomoves;
                 list.AddRange(moves);
             }
@@ -828,7 +828,7 @@ namespace PKHeX.Core
             var maxLevel = evo.Level;
             if (i != 0 && vs[i - 1].RequiresLvlUp) // evolution
                 ++maxLevel; // allow lvlmoves from the level it evolved to the next species
-            return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, pkm.AltForm, Tutor, Version, LVL, moveTutor, Machine, MoveReminder, RemoveTransferHM, generation);
+            return GetMoves(pkm, evo.Species, minlvlevo1, minlvlevo2, maxLevel, evo.Form, Tutor, Version, LVL, moveTutor, Machine, MoveReminder, RemoveTransferHM, generation);
         }
 
         /// <summary>
