@@ -222,6 +222,7 @@ namespace PKHeX.Core
             (int)Species.Zigzagoon,
             (int)Species.Linoone,
             (int)Species.Yamask,
+            (int)Species.Darumaka,
             (int)Species.Darmanitan,
             (int)Species.Stunfisk,
         };
