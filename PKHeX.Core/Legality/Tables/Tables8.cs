@@ -200,11 +200,12 @@ namespace PKHeX.Core
             (int)Ball.Quick,
 
             // Ball Guy
-            (int)Ball.Friend,
-            (int)Ball.Lure,
+            (int)Ball.Fast,
             (int)Ball.Level,
+            (int)Ball.Lure,
             (int)Ball.Heavy,
             (int)Ball.Love,
+            (int)Ball.Friend,
             (int)Ball.Moon,
             (int)Ball.Dream,
             (int)Ball.Beast,
