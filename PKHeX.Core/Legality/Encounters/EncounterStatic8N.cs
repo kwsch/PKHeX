@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
@@ -15,11 +16,9 @@ namespace PKHeX.Core
         private readonly uint MaxRank;
         private readonly byte NestID;
 
-        private const int OnlineNest = 162;
-
         private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
 
-        public override int Location { get => OnlineNest; set { } }
+        public override int Location { get => SharedNest; set { } }
 
         public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val)
         {
@@ -56,7 +55,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc == OnlineNest || (loc <= 255 && NestLocations.Contains((byte)loc));
+            return loc == SharedNest || (loc <= 255 && NestLocations.Contains((byte)loc));
         }
 
         public override bool IsMatch(PKM pkm, int lvl)
@@ -67,7 +66,7 @@ namespace PKHeX.Core
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            if (Version != GameVersion.SWSH && pkm.Version != (int) Version && pkm.Met_Location != OnlineNest)
+            if (Version != GameVersion.SWSH && pkm.Version != (int) Version && pkm.Met_Location != SharedNest)
                 return false;
 
             return base.IsMatch(pkm, lvl);
@@ -77,7 +76,7 @@ namespace PKHeX.Core
         {
             if (base.IsMatchDeferred(pkm))
                 return true;
-            if (Ability == Encounters8Nest.A3 && pkm.AbilityNumber == 4)
+            if (Ability != A4 && pkm.AbilityNumber == 4)
                 return true;
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
                 return true;

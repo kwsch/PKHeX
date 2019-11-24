@@ -21,6 +21,9 @@ namespace PKHeX.Core
             Nest_Common.SetVersion(SWSH);
             Nest_SW.SetVersion(SW);
             Nest_SH.SetVersion(SH);
+            Dist_SW.SetVersion(SW);
+            Dist_SH.SetVersion(SH);
+            Dist_Common.SetVersion(SWSH);
             Crystal_SWSH.SetVersion(SWSH);
             MarkEncounterTradeStrings(TradeGift_SWSH, TradeSWSH);
 
@@ -28,8 +31,8 @@ namespace PKHeX.Core
             StaticSH = GetStaticEncounters(Encounter_SWSH, SH);
 
             // Include Nest Tables for both versions -- online play can share them across versions! In the IsMatch method we check if it's a valid share.
-            StaticSW = ArrayUtil.ConcatAll(StaticSW, Nest_Common, Nest_SW, Nest_SH, GetStaticEncounters(Crystal_SWSH, SW));
-            StaticSH = ArrayUtil.ConcatAll(StaticSH, Nest_Common, Nest_SW, Nest_SH, GetStaticEncounters(Crystal_SWSH, SH));
+            StaticSW = ArrayUtil.ConcatAll(StaticSW, Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SW));
+            StaticSH = ArrayUtil.ConcatAll(StaticSH, Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SH));
 
             MarkEncountersGeneration(8, SlotsSW, SlotsSH);
             MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
