@@ -29,7 +29,7 @@ namespace PKHeX.Core
                 return false;
             if (other.Slot.Slot != Slot.Slot)
                 return false;
-            return other.GetType() == GetType();
+            return other.Slot.GetType() == Slot.GetType();
         }
 
         public override bool Equals(object obj) => ReferenceEquals(this, obj) || (obj is SlotViewInfo<T> other && Equals(other));
