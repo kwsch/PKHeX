@@ -688,7 +688,7 @@ namespace PKHeX.Core
 
         private static readonly EvoCriteria Nincada = new EvoCriteria
         {
-            Method = (int) EvolutionType.LevelUp,
+            Method = (int)EvolutionType.LevelUp,
             MinLevel = 20, Level = 20,
             RequiresLvlUp = true,
             Species = 290, Form = 0,
