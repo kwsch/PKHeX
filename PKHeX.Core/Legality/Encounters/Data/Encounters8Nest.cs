@@ -144,7 +144,7 @@ namespace PKHeX.Core
             new byte[] {144, 142, 140},      // 39 : Stony Wilderness, Bridge Field, Motostoke Riverbank
             new byte[] {134, 138},           // 40 : South Lake Miloch, North Lake Miloch
             new byte[] {148, 130},           // 41 : Giants Mirror, West Lake Axewell
-            new byte[] {148, 144},           // 42 : Giants Mirror, Stony Wilderness
+            new byte[] {148, 144, 134},      // 42 : Giants Mirror, Stony Wilderness, South Lake Miloch
             new byte[] {154, 142, 128, 130}, // 43 : Lake of Outrage, Bridge Field, East Lake Axewell, West Lake Axewell 
             new byte[] {150, 136},           // 44 : Hammerlocke Hills, Giants Seat
             new byte[] {142, 134, 122},      // 45 : Bridge Field, South Lake Miloch, Rolling Fields
