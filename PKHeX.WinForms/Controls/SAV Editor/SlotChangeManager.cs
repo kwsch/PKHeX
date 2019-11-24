@@ -194,7 +194,7 @@ namespace PKHeX.WinForms.Controls
             Drag.Info.CurrentPath = newfile;
             var result = pb.DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             var external = Drag.Info.Destination == null || result != DragDropEffects.Link;
-            if (external || Drag.Info.Source.Equals(Drag.Info.Destination)) // not dropped to another box slot, restore img
+            if (external || Drag.Info.SameLocation) // not dropped to another box slot, restore img
             {
                 pb.Image = img;
                 pb.BackgroundImage = LastSlot.OriginalBackground;
