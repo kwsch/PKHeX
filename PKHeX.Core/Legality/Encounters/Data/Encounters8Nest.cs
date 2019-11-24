@@ -198,7 +198,7 @@ namespace PKHeX.Core
         };
 
         // Abilities Allowed
-        private const int A2 = 2; // Ability 2 only??
+        private const int A2 = 4; // Ability 4 only??
         private const int A3 = 0; // 1/2 only
         internal const int A4 = -1; // 1/2/H
 
