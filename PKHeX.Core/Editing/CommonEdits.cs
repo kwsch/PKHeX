@@ -381,6 +381,9 @@ namespace PKHeX.Core
             if (pk is IGigantamax c)
                 c.CanGigantamax = Set.CanGigantamax;
 
+            pk.ClearRecordFlags();
+            pk.SetRecordFlags(Set.Moves);
+
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
