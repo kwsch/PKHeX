@@ -588,11 +588,14 @@ namespace PKHeX.Core
         {
             if (!(pk is PK8 pk8))
                 return;
+            var permit = pk8.PersonalInfo.TMHM;
             foreach (var m in moves)
             {
-                var index = Array.FindIndex(Legal.TMHM_SWSH, 100, z => z == m) - 100;
-                if (index >= 0)
-                    pk8.SetMoveRecordFlag(index, true);
+                var index = Array.FindIndex(Legal.TMHM_SWSH, 100, z => z == m);
+                if (index < 100)
+                    continue;
+                if (permit[index])
+                    pk8.SetMoveRecordFlag(index - 100, true);
             }
         }
 
