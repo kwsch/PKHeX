@@ -214,14 +214,12 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///19/09/19 - New Update:
-        /// - Legality:
-        /// - - Updated GO shiny banlist.
-        /// - Refactoring prep work for SwSh has changed some internal behavior.
-        /// - - Changed: Slot drag &amp; drop / update notifications has been rewritten.
-        /// - - Changed: SAV4 split into SAV4DP/SAV4Pt/SAV4HGSS
-        /// - - Changed: Encounter Area -&gt; encounter slot yielding behavior is now unique per Area generation-type.
-        /// - - Changed: Some PKHeX.Core api method signatures have changed / will change [rest of string was truncated]&quot;;.
+        ///19/11/15 - New Update:
+        /// - Introducing Sword/Shield support! Thanks @SciresM and @sora10pls for troubleshooting prior to release!
+        /// - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for Generation 8 parsing.
+        /// - - Bag editing, Pokédex, and Trainer Info editing is provided.
+        /// - Changed: PKHeX.Core.dll is now merged in with the main executable.
+        /// - Changed: PKHeX.WinForms spriting has now been split in [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -645,6 +643,16 @@ namespace PKHeX.WinForms.Properties {
         public static System.Drawing.Bitmap rare_icon {
             get {
                 object obj = ResourceManager.GetObject("rare_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap rare_icon_2 {
+            get {
+                object obj = ResourceManager.GetObject("rare_icon_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

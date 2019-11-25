@@ -57,7 +57,7 @@ namespace PKHeX.Drawing
             };
         }
 
-        public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false)
+        public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
             if (species == 0)
                 return Resources._0;
@@ -66,17 +66,17 @@ namespace PKHeX.Drawing
                 form = GetDeoxysForm(Game);
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, generation);
-            return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed);
+            return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed, isAltShiny);
         }
 
-        public Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false)
+        public Image GetSprite(Image baseSprite, int species, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
             if (isEgg)
                 baseSprite = LayerOverImageEgg(baseSprite, species, heldItem != 0);
             if (heldItem > 0)
                 baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
             if (isShiny)
-                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed);
+                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed, (isAltShiny && generation > 7));
             return baseSprite;
         }
 
@@ -135,10 +135,12 @@ namespace PKHeX.Drawing
             return ImageUtil.LayerImage(baseImage, itemimg, x, y);
         }
 
-        private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed)
+        private static Image LayerOverImageShiny(Image baseImage, bool isBoxBGRed, bool altShiny)
         {
             // Add shiny star to top left of image.
             var rare = isBoxBGRed ? Resources.rare_icon_alt : Resources.rare_icon;
+            if (altShiny)
+                rare = Resources.rare_icon_2;
             return ImageUtil.LayerImage(baseImage, rare, 0, 0, ShinyTransparency);
         }
 

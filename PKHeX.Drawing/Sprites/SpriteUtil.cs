@@ -16,9 +16,9 @@ namespace PKHeX.Drawing
             return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
         }
 
-        public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false)
+        public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
-            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed);
+            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed, isAltShiny);
         }
 
         public static Image? GetRibbonSprite(string name)
@@ -90,12 +90,12 @@ namespace PKHeX.Drawing
 
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.ShinyXor == 0);
             if (pk is IShadowPKM s && s.Purification > 0)
             {
                 const int Lugia = 249;
                 if (pk.Species == Lugia) // show XD shadow sprite
-                    img = Spriter.GetSprite(Resources._249x, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
+                    img = Spriter.GetSprite(Resources._249x, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.ShinyXor == 0);
                 GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 img = ImageUtil.LayerImage(glowImg, img, 0, 0);
