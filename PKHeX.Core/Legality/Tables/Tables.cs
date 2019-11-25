@@ -384,7 +384,7 @@ namespace PKHeX.Core
             // Sylveon (Eevee with Fairy Move)
             new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
             // Tsareena (Steenee with Stomp)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 2, 2 },
+            new [] { 0, 0, 0, 0, 0, 0, 0, 2, 28 },
         };
 
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
