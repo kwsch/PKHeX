@@ -12,7 +12,7 @@
     <ApplicationIcon>icon.ico</ApplicationIcon>
     <StartupObject>PKHeX.WinForms.Program</StartupObject>
     <AssemblyName>PKHeX</AssemblyName>
-    <Version>19.11.15</Version>
+    <Version>19.11.25</Version>
     <LangVersion>8</LangVersion>
   </PropertyGroup>
 

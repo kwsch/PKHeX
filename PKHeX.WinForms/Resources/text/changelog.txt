@@ -1,7 +1,23 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/11/15 - New Update:
+19/11/25 - New Update:
+ - Legality:
+ - - Updated with detection for numerous encounter types. There's still a few stragglers and mechanics left to handle.
+ - - Thanks to everyone who has helped report issues & contributed updates!
+ - Added: Shift click the Shiny button to yield a Square (ultra) shiny, regular click for default Star type.
+ - Added: Sprites now display for Square (ultra) shiny vs regular Star type.
+ - Added: Technical Record popup window (below Relearn Moves) to flag which move has been instructed. Shift click to apply current move flags.
+ - Added: Batch Editor $suggest for Nature/StatNature copies the other value.
+ - Added: Gen8 League Card (Trainer Card) name can now be edited in the Trainer Editor.
+ - Added: Gen8 Pokédex now can set all Battled Count via the Modify button dropdown.
+ - Fixed: Gen8 Pokédex no longer clears Battled Count when updating flags.
+ - Fixed: Gen7 save corruption fixed.
+ - Fixed: Gen6 box names are no longer truncated.
+ - Fixed: Gen4 daycare slot reading fixed.
+ - Fixed: Party slot dragging to same slot no longer deletes the next slot.
+
+19/11/15 - New Update: (75698) [2156360]
  - Introducing Sword/Shield support! Thanks @SciresM and @sora10pls for troubleshooting prior to release!
  - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for Generation 8 parsing.
  - - Bag editing, Pokédex, and Trainer Info editing is provided.
