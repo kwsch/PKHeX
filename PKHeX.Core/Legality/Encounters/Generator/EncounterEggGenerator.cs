@@ -24,8 +24,8 @@ namespace PKHeX.Core
             int gen = pkm.GenNumber;
             if (gen <= 1)
                 yield break; // can't get eggs
-            if (FormConverter.IsTotemForm(species, pkm.AltForm, gen))
-                yield break; // no totem eggs
+            if (NoHatchFromEggForm(species, pkm.AltForm, gen))
+                yield break; // can't originate from eggs
 
             // version is a true indicator for all generation 3-5 origins
             var ver = (GameVersion)pkm.Version;
@@ -50,6 +50,15 @@ namespace PKHeX.Core
                 if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
                     yield return new EncounterEggSplit(o.Species, o.Form, lvl, e.Species) { Version = GetOtherTradePair(ver) };
             }
+        }
+
+        private static bool NoHatchFromEggForm(int species, int form, int gen)
+        {
+            if (FormConverter.IsTotemForm(species, form, gen))
+                return true;
+            if ((species == (int) Species.Sinistea || species == (int) Species.Polteageist) && form != 0) // Chipped = impossible
+                return true; // can't get Chipped eggs
+            return false;
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
