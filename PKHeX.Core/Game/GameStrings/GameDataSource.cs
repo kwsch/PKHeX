@@ -41,13 +41,10 @@ namespace PKHeX.Core
             MetGen7GG = CreateGen7GG(s);
             MetGen8 = CreateGen8(s);
 
-            Memories = new MemoryStrings(s);
-
             Empty = new ComboItem(s.Species[0], 0);
         }
 
         public readonly GameStrings Source;
-        public readonly MemoryStrings Memories;
 
         public readonly IReadOnlyList<ComboItem> SpeciesDataSource;
         public readonly IReadOnlyList<ComboItem> BallDataSource;

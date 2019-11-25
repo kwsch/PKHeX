@@ -7,12 +7,14 @@ namespace PKHeX.WinForms
     public partial class MemoryAmie : Form
     {
         private readonly TextMarkup TextArgs;
+        private readonly MemoryStrings MemStrings;
 
         public MemoryAmie(PKM pk)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             pkm = pk;
+            MemStrings = new MemoryStrings(GameInfo.Strings, pkm.Format);
             PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
@@ -182,7 +184,7 @@ namespace PKHeX.WinForms
 
         private void GetLangStrings()
         {
-            var strings = GameInfo.FilteredSources.Source.Memories;
+            var strings = MemStrings;
             CB_OTMemory.InitializeBinding();
             CB_CTMemory.InitializeBinding();
             CB_OTMemory.DataSource = new BindingSource(strings.Memory, null);
@@ -207,7 +209,7 @@ namespace PKHeX.WinForms
         {
             int memory = WinFormsUtil.GetIndex((ComboBox) sender);
             var memIndex = Memories.GetMemoryArgType(memory);
-            var argvals = GameInfo.Sources.Memories.GetArgumentStrings(memIndex);
+            var argvals = MemStrings.GetArgumentStrings(memIndex);
             if (sender == CB_CTMemory)
             {
                 CB_CTVar.InitializeBinding();

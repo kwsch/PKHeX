@@ -8,16 +8,23 @@ namespace PKHeX.Core
     {
         private readonly GameStrings s;
 
-        public MemoryStrings(GameStrings strings)
+        public MemoryStrings(GameStrings strings, int format)
         {
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
             none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
-            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.ToArray()));
-            item = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.itemlist, Memories.MemoryItems));
+            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist));
+            item = new Lazy<List<ComboItem>>(() => GetItems(format));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
-            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.ToArray())); // Hyperspace Fury
+            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist)); // Hyperspace Fury
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
+        }
+
+        private List<ComboItem> GetItems(int format)
+        {
+            var permit = format < 8 ? Legal.HeldItem_AO : Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct();
+            var asInt = permit.Select(z => (int) z).ToArray();
+            return Util.GetCBList(s.itemlist, asInt);
         }
 
         private readonly Lazy<List<ComboItem>> memories;
