@@ -17,11 +17,25 @@ namespace PKHeX.Core
         private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
         private static readonly List<int>[] Empty = new int[EmptyCount].Select(_ => new List<int>()).ToArray();
 
-        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict)
+        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterable encounter)
         {
-            LevelUpMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var originalGeneration = encounter is IGeneration g ? g.Generation : pkm.GenNumber;
+            var level = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
+            AddEdgeCaseMoves(level[originalGeneration], encounter, pkm);
+
+            LevelUpMoves = level;
             TMHMMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
             TutorMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
+        }
+
+        private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)
+        {
+            switch (encounter)
+            {
+                case EncounterStatic8N r when pkm.Met_Location == Encounters8Nest.SharedNest && !EncounterStatic8N.IsHighestLevelTier(pkm.Met_Level):
+                    moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, -1, -1, 60, r.Form, GameVersion.SW, false, 8));
+                    break;
+            }
         }
 
         public ValidEncounterMoves(IReadOnlyList<int>[] levelup)

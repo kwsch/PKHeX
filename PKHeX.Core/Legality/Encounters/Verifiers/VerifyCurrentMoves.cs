@@ -41,7 +41,7 @@ namespace PKHeX.Core
 
             // gather valid moves for encounter species
             var restrict = new LevelUpRestriction(pkm, info);
-            info.EncounterMoves = new ValidEncounterMoves(pkm, restrict);
+            info.EncounterMoves = new ValidEncounterMoves(pkm, restrict, info.EncounterMatch);
 
             IReadOnlyList<int> defaultG1LevelMoves = Array.Empty<int>();
             IReadOnlyList<int> defaultG2LevelMoves = Array.Empty<int>();

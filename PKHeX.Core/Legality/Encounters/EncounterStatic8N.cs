@@ -29,7 +29,7 @@ namespace PKHeX.Core
             FlawlessIVCount = val;
         }
 
-        private readonly int[] LevelCaps =
+        private static readonly int[] LevelCaps =
         {
             15, 20, // 0
             25, 30, // 1
@@ -37,6 +37,8 @@ namespace PKHeX.Core
             45, 50, // 3
             55, 60, // 4
         };
+
+        public static bool IsHighestLevelTier(int lvl) => ArrayUtil.WithinRange(lvl, 55, 60);
 
         protected override int GetMinimalLevel() => LevelCaps[MinRank * 2];
 
