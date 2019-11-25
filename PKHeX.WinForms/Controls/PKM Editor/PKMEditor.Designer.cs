@@ -37,6 +37,7 @@
             this.Label_PID = new System.Windows.Forms.Label();
             this.BTN_Shinytize = new System.Windows.Forms.Button();
             this.Label_IsShiny = new System.Windows.Forms.PictureBox();
+            this.Label_IsShiny2 = new System.Windows.Forms.PictureBox();
             this.FLP_PIDRight = new System.Windows.Forms.FlowLayoutPanel();
             this.TB_PID = new System.Windows.Forms.TextBox();
             this.Label_Gender = new System.Windows.Forms.Label();
@@ -229,6 +230,7 @@
             this.FLP_PID.SuspendLayout();
             this.FLP_PIDLeft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny2)).BeginInit();
             this.FLP_PIDRight.SuspendLayout();
             this.FLP_Species.SuspendLayout();
             this.FLP_Nickname.SuspendLayout();
@@ -377,6 +379,7 @@
             this.FLP_PIDLeft.Controls.Add(this.Label_PID);
             this.FLP_PIDLeft.Controls.Add(this.BTN_Shinytize);
             this.FLP_PIDLeft.Controls.Add(this.Label_IsShiny);
+            this.FLP_PIDLeft.Controls.Add(this.Label_IsShiny2);
             this.FLP_PIDLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.FLP_PIDLeft.Location = new System.Drawing.Point(0, 0);
             this.FLP_PIDLeft.Margin = new System.Windows.Forms.Padding(0);
@@ -421,6 +424,20 @@
             this.Label_IsShiny.TabIndex = 62;
             this.Label_IsShiny.TabStop = false;
             this.Label_IsShiny.Visible = false;
+            // 
+            // Label_IsShiny2
+            // 
+            this.Label_IsShiny2.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.Label_IsShiny2.Image = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
+            this.Label_IsShiny2.InitialImage = global::PKHeX.WinForms.Properties.Resources.rare_icon_2;
+            this.Label_IsShiny2.Location = new System.Drawing.Point(36, 2);
+            this.Label_IsShiny2.Margin = new System.Windows.Forms.Padding(0, 2, 2, 0);
+            this.Label_IsShiny2.Name = "Label_IsShiny2";
+            this.Label_IsShiny2.Size = new System.Drawing.Size(20, 20);
+            this.Label_IsShiny2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.Label_IsShiny2.TabIndex = 62;
+            this.Label_IsShiny2.TabStop = false;
+            this.Label_IsShiny2.Visible = false;
             // 
             // FLP_PIDRight
             // 
@@ -2648,6 +2665,7 @@
             this.FLP_PIDLeft.ResumeLayout(false);
             this.FLP_PIDLeft.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Label_IsShiny2)).EndInit();
             this.FLP_PIDRight.ResumeLayout(false);
             this.FLP_PIDRight.PerformLayout();
             this.FLP_Species.ResumeLayout(false);
@@ -2754,6 +2772,7 @@
         private System.Windows.Forms.Label Label_PID;
         private System.Windows.Forms.Button BTN_Shinytize;
         private System.Windows.Forms.PictureBox Label_IsShiny;
+        private System.Windows.Forms.PictureBox Label_IsShiny2;
         private System.Windows.Forms.FlowLayoutPanel FLP_PIDRight;
         private System.Windows.Forms.TextBox TB_PID;
         private System.Windows.Forms.Label Label_Gender;
