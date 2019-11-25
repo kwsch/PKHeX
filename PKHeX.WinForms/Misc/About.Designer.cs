@@ -31,9 +31,9 @@
             this.L_Thanks = new System.Windows.Forms.Label();
             this.TC_About = new System.Windows.Forms.TabControl();
             this.Tab_Shortcuts = new System.Windows.Forms.TabPage();
+            this.RTB_Shortcuts = new System.Windows.Forms.RichTextBox();
             this.Tab_Changelog = new System.Windows.Forms.TabPage();
             this.RTB_Changelog = new System.Windows.Forms.RichTextBox();
-            this.RTB_Shortcuts = new System.Windows.Forms.RichTextBox();
             this.TC_About.SuspendLayout();
             this.Tab_Shortcuts.SuspendLayout();
             this.Tab_Changelog.SuspendLayout();
@@ -41,7 +41,7 @@
             // 
             // L_Thanks
             // 
-            this.L_Thanks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.L_Thanks.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.L_Thanks.AutoSize = true;
             this.L_Thanks.Location = new System.Drawing.Point(265, 4);
             this.L_Thanks.Name = "L_Thanks";
@@ -71,6 +71,17 @@
             this.Tab_Shortcuts.Text = "Shortcuts";
             this.Tab_Shortcuts.UseVisualStyleBackColor = true;
             // 
+            // RTB_Shortcuts
+            // 
+            this.RTB_Shortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RTB_Shortcuts.Location = new System.Drawing.Point(0, 0);
+            this.RTB_Shortcuts.Name = "RTB_Shortcuts";
+            this.RTB_Shortcuts.ReadOnly = true;
+            this.RTB_Shortcuts.Size = new System.Drawing.Size(486, 346);
+            this.RTB_Shortcuts.TabIndex = 3;
+            this.RTB_Shortcuts.Text = "";
+            this.RTB_Shortcuts.WordWrap = false;
+            // 
             // Tab_Changelog
             // 
             this.Tab_Changelog.Controls.Add(this.RTB_Changelog);
@@ -91,17 +102,6 @@
             this.RTB_Changelog.TabIndex = 2;
             this.RTB_Changelog.Text = "";
             this.RTB_Changelog.WordWrap = false;
-            // 
-            // RTB_Shortcuts
-            // 
-            this.RTB_Shortcuts.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.RTB_Shortcuts.Location = new System.Drawing.Point(0, 0);
-            this.RTB_Shortcuts.Name = "RTB_Shortcuts";
-            this.RTB_Shortcuts.ReadOnly = true;
-            this.RTB_Shortcuts.Size = new System.Drawing.Size(486, 346);
-            this.RTB_Shortcuts.TabIndex = 3;
-            this.RTB_Shortcuts.Text = "";
-            this.RTB_Shortcuts.WordWrap = false;
             // 
             // About
             // 
