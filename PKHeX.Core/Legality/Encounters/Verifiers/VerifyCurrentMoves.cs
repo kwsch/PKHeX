@@ -376,7 +376,7 @@ namespace PKHeX.Core
             var table = PersonalTable.SWSH;
             var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
             var baseSpecies = entry.BaseSpecies;
-            var baseForm = entry.BaseSpeciesForm;
+            var baseForm = entry.FormIndex;
             var egg = MoveEgg.GetEggMoves(pkm, baseSpecies, baseForm, GameVersion.SW);
             return egg.Contains(move);
         }
