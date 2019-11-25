@@ -90,12 +90,12 @@ namespace PKHeX.Drawing
 
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.ShinyXor == 0);
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && pk.ShinyXor == 0);
             if (pk is IShadowPKM s && s.Purification > 0)
             {
                 const int Lugia = 249;
                 if (pk.Species == Lugia) // show XD shadow sprite
-                    img = Spriter.GetSprite(Resources._249x, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.ShinyXor == 0);
+                    img = Spriter.GetSprite(Resources._249x, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
                 GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 img = ImageUtil.LayerImage(glowImg, img, 0, 0);

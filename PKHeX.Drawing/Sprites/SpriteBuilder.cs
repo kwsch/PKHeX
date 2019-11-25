@@ -76,7 +76,7 @@ namespace PKHeX.Drawing
             if (heldItem > 0)
                 baseSprite = LayerOverImageItem(baseSprite, heldItem, generation);
             if (isShiny)
-                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed, (isAltShiny && generation > 7));
+                baseSprite = LayerOverImageShiny(baseSprite, isBoxBGRed, generation >= 8 && isAltShiny);
             return baseSprite;
         }
 
