@@ -342,7 +342,7 @@ namespace PKHeX.Core
             (int)Species.Basculin,
             (int)Species.Woobat, (int)Species.Swoobat,
             (int)Species.Noibat, (int)Species.Noivern,
-            (int)Species.Espurr, (int)Species.Meowstic,
+            (int)Species.Espurr, (int)Species.Meowstic, (int)Species.Meowstic | 1 << 11,
             (int)Species.Chinchou, (int)Species.Lanturn,
             (int)Species.Croagunk, (int)Species.Toxicroak,
             (int)Species.Scraggy, (int)Species.Scrafty,
