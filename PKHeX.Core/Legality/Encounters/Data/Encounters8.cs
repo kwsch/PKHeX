@@ -245,7 +245,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 356, Level = 46, Location = 136, }, // Dusclops near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 518, Level = 46, Location = 136, }, // Musharna near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 362, Level = 46, Location = 136, }, // Glalie near the Giant’s Seat (in a Wild Area)
-            new EncounterStatic8 { Species = 596, Level = 46, Location =  -1, }, // Galvantula
+            new EncounterStatic8 { Species = 596, Level = 46, Location = 136, }, // Galvantula near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8S { Species = 584, Level = 47, Locations = new[] {128, 130, 134, 138 }, }, // Vanilluxe at North/East/South/West Lake Miloch/Axwell (in a Wild Area)
             new EncounterStatic8 { Species = 537, Level = 60, Location = 132, }, // Seismitoad on Axew’s Eye (in a Wild Area)
             new EncounterStatic8 { Species = 460, Level = 60, Location = 132, }, // Abomasnow on Axew’s Eye (in a Wild Area)
@@ -257,7 +257,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 614, Level = 60, Location = 142, }, // Beartic in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 461, Level = 60, Location = 142, }, // Weavile in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 518, Level = 60, Location = 142, }, // Musharna in Bridge Field (in a Wild Area)
-            new EncounterStatic8 { Species = 437, Level = 42, Location = 144, }, // Bronzong in the Stony Wilderness (in a Wild Area)
+            new EncounterStatic8 { Species = 437, Level = 42, Location = 142, }, // Bronzong in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 344, Level = 42, Location = 142, }, // Claydol in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 452, Level = 50, Location = 142, }, // Drapion in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 164, Level = 50, Location = 142, }, // Noctowl in Bridge Field (in a Wild Area)
