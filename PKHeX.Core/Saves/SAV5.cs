@@ -98,6 +98,7 @@ namespace PKHeX.Core
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
 
         protected int BattleBoxOffset;
+
         public bool BattleBoxLocked
         {
             get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live

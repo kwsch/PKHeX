@@ -122,8 +122,7 @@ namespace PKHeX.WinForms
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
-            string str = GetString();
-            TB_Text.Text = str;
+            TB_Text.Text = GetString();
             editing = false;
         }
 
@@ -190,13 +189,12 @@ namespace PKHeX.WinForms
 
         private static ushort[] GetChars(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 6:
-                case 7:
-                    return chars67;
-                default: return Array.Empty<ushort>();
-            }
+                6 => chars67,
+                7 => chars67,
+                _ => Array.Empty<ushort>()
+            };
         }
 
         private static readonly ushort[] chars67 =
