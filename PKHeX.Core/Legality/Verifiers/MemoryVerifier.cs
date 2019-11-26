@@ -278,8 +278,11 @@ namespace PKHeX.Core
                 case WC7 g when !g.IsEgg && g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
+                case WC8 g when !g.IsEgg && g.OTGender != 3:
+                    VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
+                    return;
 
-                case IMemoryOT t:
+                case IMemoryOT t when !(t is MysteryGift):
                     VerifyOTMemoryIs(data, t.OT_Memory, t.OT_Intensity, t.OT_TextVar, t.OT_Feeling);
                     return;
             }
