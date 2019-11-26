@@ -377,7 +377,7 @@ namespace PKHeX.Core
                     b.ResetCalculatedValues();
                 }
             }
-            
+
             if (pk is IGigantamax c)
                 c.CanGigantamax = Set.CanGigantamax;
 
@@ -387,6 +387,7 @@ namespace PKHeX.Core
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))
                 pk.SetRelearnMoves(legal.GetSuggestedRelearnMoves());
+            pk.ResetPartyStats();
             pk.RefreshChecksum();
         }
 

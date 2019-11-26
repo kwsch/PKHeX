@@ -340,7 +340,7 @@ namespace PKHeX.WinForms.Controls
             }
             var bst = pi.BST;
             TB_BST.Text = bst.ToString("000");
-            TB_BST.BackColor = ImageUtil.ColorBaseStat((int)(Math.Max(0, bst - 175) / 3f));
+            TB_BST.BackColor = ImageUtil.ColorBaseStatTotal(bst);
         }
 
         public void UpdateRandomIVs(object sender, EventArgs e)

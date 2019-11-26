@@ -600,7 +600,7 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
                 /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
@@ -609,7 +609,7 @@ namespace PKHeX.Core
             }
 
             if (IsUntraded)
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
             {
                 /* OT_Affection = */
@@ -673,6 +673,7 @@ namespace PKHeX.Core
                 throw new ArgumentOutOfRangeException(nameof(index));
             if (index < 64)
                 return 0x34 + (index >> 3);
+            index -= 64;
             return 0x40 + (index >> 3);
         }
     }

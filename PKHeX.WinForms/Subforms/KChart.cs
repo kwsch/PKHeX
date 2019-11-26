@@ -52,7 +52,7 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = GetIsNative(p, s);
-            row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat((int)((Math.Max(p.BST - 175, 0)) / 3f));
+            row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStatTotal(p.BST);
             row.Cells[r++].Value = p.BST.ToString("000");
             row.Cells[r++].Value = SpriteUtil.GetTypeSprite(p.Type1, SAV.Generation);
             row.Cells[r++].Value = p.Type1 == p.Type2 ? SpriteUtil.Spriter.Transparent : SpriteUtil.GetTypeSprite(p.Type2, SAV.Generation);

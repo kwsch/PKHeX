@@ -229,6 +229,8 @@ namespace PKHeX.Drawing
             return Blend(Color.FromArgb((int)red, (int)green, 0), Color.White, 0.4);
         }
 
+        public static Color ColorBaseStatTotal(int tot) => ColorBaseStat((int) (Math.Max(0, tot - 175) / 3f));
+
         public static Color Blend(Color color, Color backColor, double amount)
         {
             byte r = (byte)((color.R * amount) + (backColor.R * (1 - amount)));
