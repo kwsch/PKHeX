@@ -119,7 +119,7 @@ namespace PKHeX.Core
         }
 
         // Legality Properties
-        public override bool WasLink => Met_Location == Locations.LinkGift6;
+        public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
         public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 

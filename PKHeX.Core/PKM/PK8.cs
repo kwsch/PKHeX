@@ -68,7 +68,7 @@ namespace PKHeX.Core
         public override byte[] Nickname_Trash { get => GetData(0x58, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x58); } }
         public override byte[] HT_Trash { get => GetData(0xA8, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0xA8); } }
         public override byte[] OT_Trash { get => GetData(0xF8, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0xF8); } }
-        public override bool WasLink => Met_Location == Locations.LinkGift6;
+        public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
         public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
