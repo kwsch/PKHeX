@@ -133,7 +133,7 @@ namespace PKHeX.Core
         private static readonly HashSet<int> MemorySpecific = new HashSet<int> { 6 };
         private static readonly HashSet<int> MemoryMove = new HashSet<int> { 12, 16, 48, 49, 80, 81, 89 };
         private static readonly HashSet<int> MemoryItem = new HashSet<int> { 5, 15, 26, 34, 40, 51, 84, 88 };
-        private static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60 };
+        private static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60, 70, 71, 72, 75, 82, 83, 87 };
 
         public static MemoryArgType GetMemoryArgType(int memory)
         {
