@@ -147,8 +147,6 @@ namespace PKHeX.Core
 
             if (pk.Format == 6)
                 pk.SetRandomMemory6();
-            else if (pk.Format == 7)
-                SetSMOTMemory(pk);
         }
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
@@ -225,14 +223,6 @@ namespace PKHeX.Core
                     pkm.Language = 0;
                     break;
             }
-        }
-
-        private static void SetSMOTMemory(PKM pk)
-        {
-            pk.OT_Memory = 1;
-            pk.OT_Intensity = 3;
-            pk.OT_TextVar = 40;
-            pk.OT_Feeling = 5;
         }
 
         public virtual bool IsMatch(PKM pkm, int lvl)
@@ -402,6 +392,23 @@ namespace PKHeX.Core
             const int end = (int)LanguageID.Spanish;
             var index = Array.FindIndex(TrainerNames, start, end - start + 1, w => w == OT);
             return index >= 0;
+        }
+    }
+
+    public sealed class EncounterTrade7 : EncounterTrade, IMemoryOT
+    {
+        public int OT_Memory => 1;
+        public int OT_Intensity => 3;
+        public int OT_Feeling => 5;
+        public int OT_TextVar => 40;
+
+        protected override void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(SAV, criteria, pk);
+            pk.OT_Memory = OT_Memory;
+            pk.OT_Intensity = OT_Intensity;
+            pk.OT_Feeling = OT_Feeling;
+            pk.OT_TextVar = OT_TextVar;
         }
     }
 }
