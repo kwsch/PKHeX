@@ -403,7 +403,7 @@ namespace PKHeX.Core
             EVs = pkm.EVs;
             IVs = pkm.IVs;
             Moves = pkm.Moves;
-            Nature = pkm.Nature;
+            Nature = pkm.StatNature;
             Gender = genders[pkm.Gender < 2 ? pkm.Gender : 2];
             Friendship = pkm.CurrentFriendship;
             Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth);
