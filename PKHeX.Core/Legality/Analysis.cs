@@ -14,7 +14,6 @@ namespace PKHeX.Core
     {
         internal readonly PKM pkm;
         internal readonly PersonalInfo PersonalInfo;
-        private readonly bool Error;
         private readonly List<CheckResult> Parse = new List<CheckResult>();
 
         /// <summary>
@@ -70,11 +69,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (_allSuggestedMoves != null)
-                    return _allSuggestedMoves;
-                if (Error || Info == null)
+                if (!Parsed)
                     return new int[4];
-                return _allSuggestedMoves = GetSuggestedMoves(true, true, true);
+                return _allSuggestedMoves ??= GetSuggestedMoves(true, true, true);
             }
         }
 
@@ -82,12 +79,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (_allSuggestedRelearnMoves != null)
-                    return _allSuggestedRelearnMoves;
-                if (Error || Info == null)
+                if (!Parsed)
                     return new int[4];
-                var enc = Info.EncounterMatch;
-                return _allSuggestedRelearnMoves = Legal.GetValidRelearn(pkm, enc.Species, enc.Form, (GameVersion)pkm.Version).ToArray();
+                return _allSuggestedRelearnMoves ??= Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, Info.EncounterMatch.Form, (GameVersion)pkm.Version).ToArray();
             }
         }
 
@@ -134,8 +128,11 @@ namespace PKHeX.Core
                     AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
                 GetParseMethod()();
 
-                if (Parse.Count == 0)
+                if (Parse.Count == 0) // shouldn't ever happen as at least one is yielded above.
+                {
+                    AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
                     return;
+                }
 
                 Valid = Parse.All(chk => chk.Valid)
                     && Info.Moves.All(m => m.Valid)
@@ -143,18 +140,17 @@ namespace PKHeX.Core
 
                 if (!Valid && pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
                     AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
+                Parsed = true;
             }
 #if SUPPRESS
             catch (Exception e)
             {
-                Info = new LegalInfo(pkm);
                 System.Diagnostics.Debug.WriteLine(e.Message);
+                Info = new LegalInfo(pkm);
                 Valid = false;
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
-                Error = true;
             }
 #endif
-            Parsed = true;
         }
 
         private Action GetParseMethod()
