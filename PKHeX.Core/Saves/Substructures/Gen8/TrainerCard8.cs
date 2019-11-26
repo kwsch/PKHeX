@@ -17,9 +17,9 @@ namespace PKHeX.Core
             get => Encoding.ASCII.GetString(Data, 0x39, 3);
             set
             {
-                var str = value.Length == 3 ? value : value.Length < 3 ? value.PadLeft(3, '0') : value.Substring(0, 3);
-                var bytes = Encoding.ASCII.GetBytes(str.ToCharArray(), 0, 3);
-                SAV.SetData(Data, bytes, 0x39);
+                for (int i = 0; i < 3; i++) 
+                    Data[0x39 + i] = (byte) (value.Length > i ? value[i] : '0');
+                SAV.Edited = true;
             }
         }
     }
