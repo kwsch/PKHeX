@@ -309,18 +309,16 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return;
 
-            if (pkm.Format < 8 && !(pkm is PB7))
-            {
-                Memory.Verify(this);
+            ConsoleRegion.Verify(this);
+            Memory.Verify(this);
+            if (pkm is ISuperTrain)
                 Medal.Verify(this);
-                ConsoleRegion.Verify(this);
-            }
 
-            if (pkm.Format >= 7)
-            {
-                HyperTraining.Verify(this);
-                Misc.VerifyVersionEvolution(this);
-            }
+            if (pkm.Format < 7)
+                return;
+
+            HyperTraining.Verify(this);
+            Misc.VerifyVersionEvolution(this);
         }
 
         private string GetLegalityReport()

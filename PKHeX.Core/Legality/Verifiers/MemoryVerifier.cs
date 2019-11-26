@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.Encounters6;
+using static PKHeX.Core.Encounters8;
 
 namespace PKHeX.Core
 {
@@ -221,17 +222,29 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, 6):
+                case 49 when memory.Variable == 0 && !GetIsMoveLearnable(pkm, handler, memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
             if (!Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
-                return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
+            {
+                if (pkm.GenNumber < 8) // todo: memory intensity checks for gen8
+                  return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
+            }
 
             if (memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
-                return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
+            {
+                if (pkm.GenNumber < 8) // todo: memory feeling checks for gen8
+                    return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
+            }
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
+        }
+
+        private static bool GetIsMoveLearnable(PKM pkm, int handler, int move)
+        {
+            int gen = handler == 0 ? pkm.GenNumber : pkm.Format >= 8 ? 8 : 6;
+            return Legal.GetCanRelearnMove(pkm, move, gen);
         }
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
@@ -250,9 +263,6 @@ namespace PKHeX.Core
         private void VerifyOTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.Format < 6)
-                return;
-
             var Info = data.Info;
             if (Info.Generation < 6 || pkm.IsEgg)
             {
@@ -262,28 +272,16 @@ namespace PKHeX.Core
 
             switch (data.EncounterMatch)
             {
-                case EncounterTrade _:
-                    switch (Info.Generation)
-                    {
-                        case 6:
-                            break; // Undocumented, uncommon, and insignificant -- don't bother.
-                        case 7:
-                            VerifyOTMemoryIs(data, 1, 3, 40, 5);
-                            break;
-                    }
-                    return;
                 case WC6 g when !g.IsEgg && g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
                 case WC7 g when !g.IsEgg && g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
-            }
 
-            if (Info.Generation >= 7)
-            {
-                VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
-                return;
+                case IMemoryOT t:
+                    VerifyOTMemoryIs(data, t.OT_Memory, t.OT_Intensity, t.OT_TextVar, t.OT_Feeling);
+                    return;
             }
 
             switch (pkm.OT_Memory)
@@ -293,7 +291,7 @@ namespace PKHeX.Core
                         data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadHatch, L_XOT), CheckIdentifier.Memory);
                     break;
 
-                case 4: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
+                case 4 when pkm.Gen6: // {0} became {1}’s friend when it arrived via Link Trade at... {2}. {4} that {3}.
                     data.AddLine(Severity.Invalid, string.Format(LMemoryArgBadOTEgg, L_XOT), CheckIdentifier.Memory);
                     return;
 
@@ -330,7 +328,7 @@ namespace PKHeX.Core
                 return;
 
             var Info = data.Info;
-            if (pkm.Format >= 7)
+            if (pkm.Format == 7)
             {
                 /*
                 *  Bank Transfer adds in the Link Trade Memory.
@@ -423,6 +421,18 @@ namespace PKHeX.Core
                             return GetCanBeCaptured(species, SlotsO, StaticO);
                     }
                     break;
+
+                case 8:
+                {
+                    switch (version)
+                    {
+                        case GameVersion.SW:
+                            return GetCanBeCaptured(species, SlotsSW, StaticSW);
+                        case GameVersion.SH:
+                            return GetCanBeCaptured(species, SlotsSH, StaticSH);
+                    }
+                    break;
+                }
             }
             return false;
         }
