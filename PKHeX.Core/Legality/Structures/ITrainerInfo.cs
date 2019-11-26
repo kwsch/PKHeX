@@ -28,6 +28,8 @@ namespace PKHeX.Core
             pk.Language = info.Language;
             pk.Version = info.Game;
 
+            if (pk.Format >= 8 || pk is PB7)
+                return;
             pk.Country = info.Country;
             pk.Region = info.SubRegion;
             pk.ConsoleRegion = info.ConsoleRegion;
