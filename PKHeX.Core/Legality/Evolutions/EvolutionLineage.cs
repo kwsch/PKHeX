@@ -25,7 +25,7 @@ namespace PKHeX.Core
                 Chain.Insert(0, new List<EvolutionMethod> {entry});
         }
 
-        public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesTree, int maxSpeciesOrigin, int minLevel)
+        public List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
             var first = new EvoCriteria {Species = pkm.Species, Level = lvl, Form = pkm.AltForm};

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -27,15 +28,15 @@ namespace PKHeX.Core
             static byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
             static byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
 
-            Evolves1 = new EvolutionTree(new[] { get("rby") }, GameVersion.Gen1, PersonalTable.Y, Legal.MaxSpeciesID_1);
-            Evolves2 = new EvolutionTree(new[] { get("gsc") }, GameVersion.Gen2, PersonalTable.C, Legal.MaxSpeciesID_2);
-            Evolves3 = new EvolutionTree(new[] { get("g3") }, GameVersion.Gen3, PersonalTable.RS, Legal.MaxSpeciesID_3);
-            Evolves4 = new EvolutionTree(new[] { get("g4") }, GameVersion.Gen4, PersonalTable.DP, Legal.MaxSpeciesID_4);
-            Evolves5 = new EvolutionTree(new[] { get("g5") }, GameVersion.Gen5, PersonalTable.BW, Legal.MaxSpeciesID_5);
-            Evolves6 = new EvolutionTree(unpack("ao"), GameVersion.Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
-            Evolves7 = new EvolutionTree(unpack("uu"), GameVersion.Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
-            Evolves7b = new EvolutionTree(unpack("gg"), GameVersion.Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
-            Evolves8 = new EvolutionTree(unpack("ss"), GameVersion.Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
+            Evolves1 = new EvolutionTree(new[] { get("rby") }, Gen1, PersonalTable.Y, Legal.MaxSpeciesID_1);
+            Evolves2 = new EvolutionTree(new[] { get("gsc") }, Gen2, PersonalTable.C, Legal.MaxSpeciesID_2);
+            Evolves3 = new EvolutionTree(new[] { get("g3") }, Gen3, PersonalTable.RS, Legal.MaxSpeciesID_3);
+            Evolves4 = new EvolutionTree(new[] { get("g4") }, Gen4, PersonalTable.DP, Legal.MaxSpeciesID_4);
+            Evolves5 = new EvolutionTree(new[] { get("g5") }, Gen5, PersonalTable.BW, Legal.MaxSpeciesID_5);
+            Evolves6 = new EvolutionTree(unpack("ao"), Gen6, PersonalTable.AO, Legal.MaxSpeciesID_6);
+            Evolves7 = new EvolutionTree(unpack("uu"), Gen7, PersonalTable.USUM, Legal.MaxSpeciesID_7_USUM);
+            Evolves7b = new EvolutionTree(unpack("gg"), Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
+            Evolves8 = new EvolutionTree(unpack("ss"), Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
 
             // There's always oddballs.
             Evolves7.FixEvoTreeSM();
@@ -91,14 +92,14 @@ namespace PKHeX.Core
         {
             return Game switch
             {
-                GameVersion.Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                GameVersion.Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                GameVersion.Gen3 => EvolutionSet3.GetArray(data[0]),
-                GameVersion.Gen4 => EvolutionSet4.GetArray(data[0]),
-                GameVersion.Gen5 => EvolutionSet5.GetArray(data[0]),
-                GameVersion.Gen6 => EvolutionSet6.GetArray(data),
-                GameVersion.Gen7 => EvolutionSet7.GetArray(data),
-                GameVersion.Gen8 => EvolutionSet7.GetArray(data),
+                Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+                Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+                Gen3 => EvolutionSet3.GetArray(data[0]),
+                Gen4 => EvolutionSet4.GetArray(data[0]),
+                Gen5 => EvolutionSet5.GetArray(data[0]),
+                Gen6 => EvolutionSet6.GetArray(data),
+                Gen7 => EvolutionSet7.GetArray(data),
+                Gen8 => EvolutionSet7.GetArray(data),
                 _ => throw new Exception()
             };
         }
@@ -108,7 +109,7 @@ namespace PKHeX.Core
             var lineage = new EvolutionLineage[Entries.Count];
             for (int i = 0; i < Entries.Count; i++)
                 lineage[i] = new EvolutionLineage();
-            if (Game == GameVersion.Gen6)
+            if (Game == Gen6)
                 Array.Resize(ref lineage, MaxSpeciesTree + 1);
 
             if (Game.GetGeneration() <= 6)
@@ -119,13 +120,13 @@ namespace PKHeX.Core
             return lineage;
         }
 
-        private void GenerateEntriesSpeciesOnly(EvolutionLineage[] lineage)
+        private void GenerateEntriesSpeciesOnly(IReadOnlyList<EvolutionLineage> lineage)
         {
-            for (int species = 1; species < lineage.Length; species++)
+            for (int species = 1; species < lineage.Count; species++)
                 CreateBranch(lineage, species, 0, species);
         }
 
-        private void GenerateEntriesSpeciesForm(EvolutionLineage[] lineage)
+        private void GenerateEntriesSpeciesForm(IReadOnlyList<EvolutionLineage> lineage)
         {
             for (int species = 1; species <= MaxSpeciesTree; species++)
             {
@@ -264,9 +265,15 @@ namespace PKHeX.Core
             int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
-            return Lineage[index].GetExplicitLineage(pkm, maxLevel, skipChecks, MaxSpeciesTree, maxSpeciesOrigin, minLevel);
+            return Lineage[index].GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
         }
 
+        /// <summary>
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="form">Form ID</param>
+        /// <returns>Enumerable of species IDs.</returns>
         public IEnumerable<int> GetEvolutionsAndPreEvolutions(int species, int form)
         {
             foreach (var s in GetPreEvolutions(species, form))

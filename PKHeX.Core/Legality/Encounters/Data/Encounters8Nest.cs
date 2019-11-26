@@ -1320,7 +1320,6 @@ namespace PKHeX.Core
             new EncounterStatic8N(Nest91,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
             new EncounterStatic8N(Nest91,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
             new EncounterStatic8N(Nest91,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
-
         };
 
         internal static readonly EncounterStatic8N[] Nest_SH =

@@ -98,12 +98,12 @@ namespace PKHeX.Drawing
                     img = Spriter.GetSprite(Resources._249x, Lugia, pk.HeldItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed);
                 GetSpriteGlow(pk, 75, 0, 130, out var pixels, out var baseSprite, true);
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
-                img = ImageUtil.LayerImage(glowImg, img, 0, 0);
+                return ImageUtil.LayerImage(glowImg, img, 0, 0);
             }
-            else if (pk is IGigantamax g && g.CanGigantamax)
+            if (pk is IGigantamax g && g.CanGigantamax)
             {
                 var gm = Resources.dyna;
-                img = ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
+                return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
             }
             return img;
         }
