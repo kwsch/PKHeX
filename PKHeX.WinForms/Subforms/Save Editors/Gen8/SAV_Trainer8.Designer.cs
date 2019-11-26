@@ -93,6 +93,8 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.TB_TrainerCardNumber = new System.Windows.Forms.TextBox();
+            this.L_TRCardNumber = new System.Windows.Forms.Label();
             this.TB_TrainerCardName = new System.Windows.Forms.TextBox();
             this.L_TRCardName = new System.Windows.Forms.Label();
             this.GB_Stats = new System.Windows.Forms.GroupBox();
@@ -646,6 +648,8 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.TB_TrainerCardNumber);
+            this.Tab_Overview.Controls.Add(this.L_TRCardNumber);
             this.Tab_Overview.Controls.Add(this.TB_TrainerCardName);
             this.Tab_Overview.Controls.Add(this.L_TRCardName);
             this.Tab_Overview.Controls.Add(this.GB_Stats);
@@ -668,6 +672,26 @@
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // TB_TrainerCardNumber
+            // 
+            this.TB_TrainerCardNumber.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TB_TrainerCardNumber.Location = new System.Drawing.Point(331, 33);
+            this.TB_TrainerCardNumber.MaxLength = 12;
+            this.TB_TrainerCardNumber.Name = "TB_TrainerCardNumber";
+            this.TB_TrainerCardNumber.Size = new System.Drawing.Size(28, 20);
+            this.TB_TrainerCardNumber.TabIndex = 70;
+            this.TB_TrainerCardNumber.Text = "WWW";
+            this.TB_TrainerCardNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_TRCardNumber
+            // 
+            this.L_TRCardNumber.Location = new System.Drawing.Point(209, 35);
+            this.L_TRCardNumber.Name = "L_TRCardNumber";
+            this.L_TRCardNumber.Size = new System.Drawing.Size(117, 16);
+            this.L_TRCardNumber.TabIndex = 71;
+            this.L_TRCardNumber.Text = "League Card ID:";
+            this.L_TRCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // TB_TrainerCardName
             // 
             this.TB_TrainerCardName.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -686,7 +710,7 @@
             this.L_TRCardName.Name = "L_TRCardName";
             this.L_TRCardName.Size = new System.Drawing.Size(117, 16);
             this.L_TRCardName.TabIndex = 69;
-            this.L_TRCardName.Text = "Trainer Card Name:";
+            this.L_TRCardName.Text = "League Card Name:";
             this.L_TRCardName.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Stats
@@ -1141,5 +1165,7 @@
         private System.Windows.Forms.Label L_BP;
         private System.Windows.Forms.TextBox TB_TrainerCardName;
         private System.Windows.Forms.Label L_TRCardName;
+        private System.Windows.Forms.TextBox TB_TrainerCardNumber;
+        private System.Windows.Forms.Label L_TRCardNumber;
     }
 }
