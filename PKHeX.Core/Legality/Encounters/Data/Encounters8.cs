@@ -31,8 +31,8 @@ namespace PKHeX.Core
             StaticSH = GetStaticEncounters(Encounter_SWSH, SH);
 
             // Include Nest Tables for both versions -- online play can share them across versions! In the IsMatch method we check if it's a valid share.
-            StaticSW = ArrayUtil.ConcatAll(StaticSW, Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SW));
-            StaticSH = ArrayUtil.ConcatAll(StaticSH, Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SH));
+            StaticSW = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SW), StaticSW);
+            StaticSH = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetStaticEncounters(Crystal_SWSH, SH), StaticSH);
 
             MarkEncountersGeneration(8, SlotsSW, SlotsSH);
             MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
@@ -201,8 +201,8 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 830, Level = 65, Location = 140, }, // Eldegoss at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 862, Level = 65, Location = 142, }, // Obstagoon in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 861, Level = 65, Location = 144, Gender = 0, }, // Grimmsnarl in the Stony Wilderness (in a Wild Area)
-            new EncounterStatic8 { Species = 844, Level = 65, Location =  -1, }, // Sandaconda
-            new EncounterStatic8 { Species = 863, Level = 65, Location =  -1, }, // Perrserker
+            new EncounterStatic8 { Species = 844, Level = 65, Location = 146, }, // Sandaconda in Dusty Bowl (in a Wild Area)
+            new EncounterStatic8 { Species = 863, Level = 65, Location = 148, }, // Perrserker around the Giant’s Mirror (in a Wild Area)
             new EncounterStatic8 { Species = 879, Level = 65, Location = 150, }, // Copperajah on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 839, Level = 65, Location = 152, }, // Coalossal near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 858, Level = 65, Location = 154, Gender = 1 }, // Hatterene at the Lake of Outrage (in a Wild Area)
