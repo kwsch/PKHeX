@@ -692,7 +692,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
 
             var m = Legality.GetSuggestedRelearnMoves();
-            if (Entity.RelearnMoves.SequenceEqual(m))
+            if (Entity.RelearnMoves.SequenceEqual(m) || m.Count != 4)
                 return false;
 
             if (!silent)
