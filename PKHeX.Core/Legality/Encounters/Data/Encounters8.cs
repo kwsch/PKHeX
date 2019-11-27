@@ -224,7 +224,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 279, Level = 28, Location = 138, }, // Pelipper at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 536, Level = 28, Location = 130, }, // Palpitoad at West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 660, Level = 28, Location =  -1, }, // Diggersby
-            new EncounterStatic8 { Species = 221, Level = 36, Location =  -1, }, // Piloswine
+            new EncounterStatic8 { Species = 221, Level = 36, Location = 128, }, // Piloswine at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 36, Location = 128, }, // Mudsdale at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 437, Level = 36, Location =  -1, }, // Bronzong
             new EncounterStatic8 { Species = 536, Level = 34, Location =  -1, }, // Palpitoad
