@@ -379,6 +379,38 @@ namespace PKHeX.Core
         {
             // todo -- someone pls fill this in once the game is thoroughly played
             // I just put a few here so that the list isn't empty.
+            298, // Flame Plate
+            299, // Splash Plate
+            300, // Zap Plate
+            301, // Meadow Plate
+            302, // Icicle Plate
+            303, // Fist Plate
+            304, // Toxic Plate
+            305, // Earth Plate
+            306, // Sky Plate
+            307, // Mind Plate
+            308, // Insect Plate
+            309, // Stone Plate
+            310, // Spooky Plate
+            311, // Draco Plate
+            312, // Dread Plate
+            313, // Iron Plate
+            548, // Fire Gem
+            549, // Water Gem
+            550, // Electric Gem
+            551, // Grass Gem
+            552, // Ice Gem
+            553, // Fighting Gem
+            554, // Poison Gem
+            555, // Ground Gem
+            556, // Flying Gem
+            557, // Psychic Gem
+            558, // Bug Gem
+            559, // Rock Gem
+            560, // Ghost Gem
+            561, // Dragon Gem
+            562, // Dark Gem
+            563, // Steel Gem
             708, // Lumiose Galette
             709, // Shalour Sable
             715, // Fairy Gem
