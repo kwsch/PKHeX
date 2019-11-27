@@ -379,6 +379,8 @@ namespace PKHeX.Core
         {
             // todo -- someone pls fill this in once the game is thoroughly played
             // I just put a few here so that the list isn't empty.
+            5, // Safari Ball
+            499, // Sport Ball
             298, // Flame Plate
             299, // Splash Plate
             300, // Zap Plate
