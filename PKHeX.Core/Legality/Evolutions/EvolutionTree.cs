@@ -183,9 +183,6 @@ namespace PKHeX.Core
             UnpackForms((int)Species.Wormadam, 2);
             UnpackForms((int)Species.Gastrodon, 1);
             UnpackForms((int)Species.Meowstic, 1);
-            UnpackForms((int)Species.Floette, 4);
-            Lineage[(int)Species.Florges].Chain.RemoveAt(0); // ???
-            UnpackForms((int)Species.Florges, 4);
             UnpackForms((int)Species.Gourgeist, 3);
 
             BanEvo((int)Species.Raichu, 1, EvolutionMethod.BanSM);
