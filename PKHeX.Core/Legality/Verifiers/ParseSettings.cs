@@ -2,7 +2,7 @@
 {
     public static class ParseSettings
     {
-        internal static ITrainerInfo ActiveTrainer { get; set; } = new SimpleTrainerInfo { OT = string.Empty, Game = (int)GameVersion.Any, Language = -1 };
+        internal static ITrainerInfo ActiveTrainer { get; set; } = new SimpleTrainerInfo(GameVersion.Any) { OT = string.Empty, Language = -1 };
 
         /// <summary>
         /// Toggles whether or not the word filter should be used when checking the data.

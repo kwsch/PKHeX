@@ -37,7 +37,7 @@ namespace PKHeX.Tests.Simulator
             Assert.NotNull(first);
 
             var egg = (EncounterEgg)first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = egg.ConvertToPKM(info);
             Assert.True(pk.Species != set.Species);
 
@@ -64,7 +64,7 @@ namespace PKHeX.Tests.Simulator
             Assert.NotNull(first);
 
             var wc3 = (WC3)first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.R);
             var pk = wc3.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
@@ -83,7 +83,7 @@ namespace PKHeX.Tests.Simulator
             Assert.NotNull(first);
 
             var enc = first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
@@ -99,7 +99,7 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Count > 0);
             Assert.True(encs.All(z => z.Species > 150));
 
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
@@ -115,7 +115,7 @@ namespace PKHeX.Tests.Simulator
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
             Assert.True(encs.Count > 0);
 
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
@@ -135,7 +135,7 @@ namespace PKHeX.Tests.Simulator
             Assert.NotNull(first);
 
             var enc = first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
