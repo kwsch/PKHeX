@@ -111,6 +111,25 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferBad));
             else if (pi.PokeDexIndex == 0) // Can't breed cuz no transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
+            else if (IsG8BanForm(pkm))
+                data.AddLine(GetInvalid(LTransferBad));
+        }
+
+        private bool IsG8BanForm(PKM pkm)
+        {
+            return pkm.Species switch
+            {
+                (int)Species.Meowth     when pkm.AltForm == 1 => true,
+                (int)Species.Persian    when pkm.AltForm == 1 => true,
+                (int)Species.Ponyta     when pkm.AltForm == 0 => true,
+                (int)Species.Rapidash   when pkm.AltForm == 0 => true,
+                (int)Species.Farfetchd  when pkm.AltForm == 0 => true,
+                (int)Species.Weezing    when pkm.AltForm == 0 => true,
+                (int)Species.Corsola    when pkm.AltForm == 0 => true,
+                (int)Species.Darumaka   when pkm.AltForm == 0 => true,
+                (int)Species.Darmanitan when pkm.AltForm == 0 => true,
+                _ => false
+            };
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
