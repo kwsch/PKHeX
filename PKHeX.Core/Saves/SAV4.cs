@@ -181,6 +181,7 @@ namespace PKHeX.Core
         protected int WondercardFlags = int.MinValue;
         protected int AdventureInfo = int.MinValue;
         protected int Seal = int.MinValue;
+        protected int Trainer1;
         public int GTS { get; protected set; } = int.MinValue;
 
         // Storage

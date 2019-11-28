@@ -38,7 +38,7 @@ namespace PKHeX.Core
                     return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
                 }
             }
-            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= (slot.LevelMin)));
+            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= slot.LevelMin));
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel));
@@ -57,7 +57,7 @@ namespace PKHeX.Core
             {122, new byte[] {124, 128, 130}},
 
             // Dappled Grove
-            // Dappled Grove, Watchtower Ruins
+            // Rolling Fields, Watchtower Ruins
             {124, new byte[] {122, 126}},
 
             // Watchtower Ruins
@@ -171,6 +171,10 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Encounter Conditions for <see cref="GameVersion.SWSH"/>
+    /// </summary>
+    /// <remarks>Values above <see cref="All"/> are for Shaking/Fishing hidden encounters only.</remarks>
     [Flags]
     public enum AreaWeather8
     {
@@ -193,6 +197,9 @@ namespace PKHeX.Core
         NotWeather = Shaking_Trees | Fishing,
     }
 
+    /// <summary>
+    /// Encounter Slot found in <see cref="GameVersion.SWSH"/>
+    /// </summary>
     public sealed class EncounterSlot8 : EncounterSlot
     {
         public readonly AreaWeather8 Weather;

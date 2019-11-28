@@ -98,7 +98,6 @@ namespace PKHeX.Core
         public virtual void CopyChangesFrom(SaveFile sav) => SetData(sav.Data, 0);
 
         // Offsets
-        protected int Trainer1 { get; set; } = int.MinValue;
 
         #region Stored PKM Limits
         public abstract PersonalTable Personal { get; }

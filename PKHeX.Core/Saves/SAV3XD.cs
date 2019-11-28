@@ -21,6 +21,7 @@ namespace PKHeX.Core
 
         private int SaveCount = -1;
         private int SaveIndex = -1;
+        private int Trainer1;
         private int Memo;
         private int Shadow;
         private readonly StrategyMemo StrategyMemo;

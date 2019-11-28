@@ -906,7 +906,7 @@ namespace PKHeX.Core
         }
 
         private const int Galarian = 1068;
-        private const int Gigantamax = 1069;
+        // private const int Gigantamax = 1069;
         private const int Gulping = 1070;
         private const int Gorging = 1071;
         private const int LowKey = 1072;
@@ -926,18 +926,10 @@ namespace PKHeX.Core
         private const int Crowned = 1083;
         private const int Eternamax = 1084;
 
-        private static string[] GetSingleGigantamax(IReadOnlyList<string> types, IReadOnlyList<string> forms)
-        {
-            return new[]
-            {
-                types[000], // Normal
-                forms[Gigantamax], // Gigantamax
-            };
-        }
-
         public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
         {
             var result = new string[63];
+            // seed form0 with the pattern
             result[0 * 7] = forms[(int) Alcremie]; // Vanilla Cream
             result[1 * 7] = forms[RubyCream];
             result[2 * 7] = forms[MatchaCream];
@@ -953,9 +945,10 @@ namespace PKHeX.Core
             for (int f = 0; f < fc; f++)
             {
                 int start = f * deco;
+                // iterate downwards using form0 as pattern ref, replacing on final loop
                 for (int i = deco - 1; i >= 0; i--)
                 {
-                    result[start + i] = result[start] + $" ({((AlcremieDecoration) i).ToString()})";
+                    result[start + i] = $"{result[start]} ({((AlcremieDecoration)i).ToString()})";
                 }
             }
 

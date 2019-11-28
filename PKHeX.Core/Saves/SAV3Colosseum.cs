@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
         private StrategyMemo Initialize()
         {
-            Trainer1 = 0x00078;
+            // Trainer1 = 0x00078;
             Party = 0x000A8;
 
             Box = 0x00B90;
