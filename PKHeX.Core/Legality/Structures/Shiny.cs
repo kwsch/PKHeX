@@ -31,7 +31,7 @@
         AlwaysStar = 5,
 
         /// <summary>
-        /// PID is randomly created and forced to be shiny as Stars.
+        /// PID is randomly created and forced to be shiny as Squares.
         /// </summary>
         AlwaysSquare = 6,
     }
