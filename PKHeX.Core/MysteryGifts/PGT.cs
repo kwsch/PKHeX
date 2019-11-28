@@ -240,6 +240,21 @@ namespace PKHeX.Core
             return seed;
         }
 
+        public static bool IsRangerManaphy(PKM pkm)
+        {
+            var egg = pkm.Egg_Location;
+            if (!pkm.IsEgg) // Link Trade Egg or Ranger
+                return egg == Locations.LinkTrade4 || egg == Locations.Ranger4;
+            if (egg != Locations.Ranger4)
+                return false;
+
+            if (pkm.Language == (int)LanguageID.Korean) // never korean
+                return false;
+
+            var met = pkm.Met_Location;
+            return met == Locations.LinkTrade4 || met == 0;
+        }
+
         protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
     }
