@@ -6,16 +6,29 @@ using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Encounters
+    /// </summary>
     internal static class Encounters8
     {
-        internal static readonly EncounterArea8[] SlotsSW = GetEncounterTables<EncounterArea8>("sw", "sw");
-        internal static readonly EncounterArea8[] SlotsSH = GetEncounterTables<EncounterArea8>("sh", "sh");
+        internal static readonly EncounterArea8[] SlotsSW_Symbol = GetEncounterTables8<EncounterArea8>("sw", "sw_symbol");
+        internal static readonly EncounterArea8[] SlotsSH_Symbol = GetEncounterTables8<EncounterArea8>("sh", "sh_symbol");
+        internal static readonly EncounterArea8[] SlotsSW_Hidden = GetEncounterTables8<EncounterArea8>("sw", "sw_hidden");
+        internal static readonly EncounterArea8[] SlotsSH_Hidden = GetEncounterTables8<EncounterArea8>("sh", "sh_hidden");
+        internal static readonly EncounterArea8[] SlotsSW, SlotsSH;
         internal static readonly EncounterStatic[] StaticSW, StaticSH;
 
         static Encounters8()
         {
+            SlotsSW = ArrayUtil.ConcatAll(SlotsSW_Symbol, SlotsSW_Hidden);
+            SlotsSH = ArrayUtil.ConcatAll(SlotsSH_Symbol, SlotsSH_Hidden);
             SlotsSW.SetVersion(SW);
             SlotsSH.SetVersion(SH);
+            foreach (var area in SlotsSW_Symbol)
+                area.PermitCrossover = true;
+            foreach (var area in SlotsSH_Symbol)
+                area.PermitCrossover = true;
+
             Encounter_SWSH.SetVersion(SWSH);
             TradeGift_SWSH.SetVersion(SWSH);
             Nest_Common.SetVersion(SWSH);

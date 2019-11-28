@@ -32,6 +32,18 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Direct fetch for <see cref="EncounterArea"/> data; can also be used to fetch supplementary encounter streams.
+        /// </summary>
+        /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
+        /// <param name="resource">Resource name (will be prefixed with "encounter_"</param>
+        /// <returns>Array of encounter areas</returns>
+        internal static T[] GetEncounterTables8<T>(string ident, string resource) where T : EncounterAreaSH, new()
+        {
+            byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
+            return EncounterAreaSH.GetArray<T>(Data.UnpackMini(mini, ident));
+        }
+
+        /// <summary>
         /// Combines <see cref="EncounterArea"/> slot arrays with the same <see cref="EncounterArea.Location"/>.
         /// </summary>
         /// <param name="tables">Input encounter areas to combine</param>

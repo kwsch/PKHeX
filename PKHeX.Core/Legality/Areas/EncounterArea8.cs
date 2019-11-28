@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -7,13 +8,16 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.SWSH"/> encounter area
     /// </summary>
-    public sealed class EncounterArea8 : EncounterArea32
+    public sealed class EncounterArea8 : EncounterAreaSH
     {
         /// <inheritdoc />
         public override bool IsMatchLocation(int location)
         {
             if (Location == location)
                 return true;
+
+            if (!PermitCrossover)
+                return false;
 
             // get all other areas that can bleed encounters to the met location
             if (!ConnectingArea8.TryGetValue(location, out var others))
@@ -116,5 +120,86 @@ namespace PKHeX.Core
 
             // Lake of Outrage is just itself.
         };
+    }
+
+    public abstract class EncounterAreaSH : EncounterArea
+    {
+        /// <summary>
+        /// Slots from this area can cross over to another area, resulting in a different met location.
+        /// </summary>
+        public bool PermitCrossover { get; internal set; }
+
+        /// <summary>
+        /// Gets an array of areas from an array of raw area data
+        /// </summary>
+        /// <param name="entries">Simplified raw format of an Area</param>
+        /// <returns>Array of areas</returns>
+        public static T[] GetArray<T>(byte[][] entries) where T : EncounterAreaSH, new()
+        {
+            T[] data = new T[entries.Length];
+            for (int i = 0; i < data.Length; i++)
+            {
+                var loc = data[i] = new T();
+                loc.LoadSlots(entries[i]);
+            }
+            return data;
+        }
+
+        private void LoadSlots(byte[] areaData)
+        {
+            Location = areaData[0];
+            Slots = new EncounterSlot[areaData[1]];
+
+            int ctr = 0;
+            int ofs = 2;
+            do
+            {
+                var flags = (AreaWeather8)BitConverter.ToUInt16(areaData, ofs);
+                var min = areaData[ofs + 2];
+                var max = areaData[ofs + 3];
+                var count = areaData[ofs + 4];
+                // ofs+5 reserved
+                ofs += 6;
+                for (int i = 0; i < count; i++, ctr++, ofs += 2)
+                {
+                    var specForm = BitConverter.ToUInt16(areaData, ofs);
+                    Slots[ctr] = new EncounterSlot8(specForm, min, max, flags);
+                }
+            } while (ctr != Slots.Length);
+            foreach (var slot in Slots)
+                slot.Area = this;
+        }
+    }
+
+    [Flags]
+    public enum AreaWeather8
+    {
+        None,
+        Normal = 1,
+        Overcast = 1 << 1,
+        Raining = 1 << 2,
+        Thunderstorm = 1 << 3,
+        Intense_Sun = 1 << 4,
+        Snowing = 1 << 5,
+        Snowstorm = 1 << 6,
+        Sandstorm = 1 << 7,
+        Heavy_Fog = 1 << 8,
+        Shaking_Trees = 1 << 9,
+        Fishing = 1 << 10,
+    }
+
+    public sealed class EncounterSlot8 : EncounterSlot
+    {
+        public readonly AreaWeather8 Weather;
+
+        public EncounterSlot8(int specForm, int min, int max, AreaWeather8 weather)
+        {
+            Species = specForm & 0x7FF;
+            Form = specForm >> 11;
+            LevelMin = min;
+            LevelMax = max;
+
+            Weather = weather;
+        }
     }
 }
