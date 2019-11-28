@@ -512,8 +512,10 @@ namespace PKHeX.Core
                 {
                     if (pkm.Egg_Location != Locations.LinkTrade6)
                         return false;
+                    if (PIDType == Shiny.Random && pkm.IsShiny && pkm.ShinyXor > 1)
+                        return false; // shiny traded egg will always have xor0/1.
                 }
-                else if (PIDType == 0 && pkm.IsShiny)
+                if (!PIDType.IsValid(pkm))
                 {
                     return false; // can't be traded away for unshiny
                 }
