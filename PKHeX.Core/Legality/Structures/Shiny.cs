@@ -24,6 +24,16 @@
         /// PID is randomly created and forced to be not shiny.
         /// </summary>
         Never = 3,
+
+        /// <summary>
+        /// PID is randomly created and forced to be shiny as Stars.
+        /// </summary>
+        AlwaysStar = 5,
+
+        /// <summary>
+        /// PID is randomly created and forced to be shiny as Stars.
+        /// </summary>
+        AlwaysSquare = 6,
     }
 
     public static partial class Extensions
@@ -34,6 +44,8 @@
             {
                 Shiny.Always => pkm.IsShiny,
                 Shiny.Never => !pkm.IsShiny,
+                Shiny.AlwaysSquare => pkm.ShinyXor == 0,
+                Shiny.AlwaysStar => pkm.ShinyXor == 1,
                 _ => true
             };
         }

@@ -152,19 +152,15 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Data[CardStart + 0x248])
+                return Data[CardStart + 0x248] switch
                 {
-                    case 0:
-                        return Shiny.Never;
-                    case 1:
-                        return Shiny.Random;
-                    case 2: // Fixed never shiny
-                    case 3: // Fixed always shiny
-                    case 4:
-                        return Shiny.FixedValue;
-                    default:
-                        throw new ArgumentException();
-                }
+                    0 => Shiny.Never,
+                    1 => Shiny.Random,
+                    2 => Shiny.AlwaysStar,
+                    3 => Shiny.AlwaysSquare,
+                    4 => Shiny.FixedValue,
+                    _ => throw new ArgumentException()
+                };
             }
         }
 
@@ -456,9 +452,13 @@ namespace PKHeX.Core
                 case Shiny.Random: // Random
                     pk.PID = Util.Rand32();
                     break;
-                case Shiny.Always: // Random Shiny
+                case Shiny.AlwaysStar: // Random Shiny
                     pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF));
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF)) ^ 1;
+                    break;
+                case Shiny.AlwaysSquare: // Random Shiny
+                    pk.PID = Util.Rand32();
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF)) ^ 0;
                     break;
                 case Shiny.Never: // Random Nonshiny
                     pk.PID = Util.Rand32();
