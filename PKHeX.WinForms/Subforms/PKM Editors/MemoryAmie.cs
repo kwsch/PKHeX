@@ -29,6 +29,9 @@ namespace PKHeX.WinForms
                 region.InitializeBinding();
             GetLangStrings();
             LoadFields();
+
+            if (!(pkm is IGeoTrack))
+                tabControl1.TabPages.Remove(Tab_Residence);
         }
 
         private bool init;
@@ -233,7 +236,8 @@ namespace PKHeX.WinForms
             int mem = WinFormsUtil.GetIndex(m);
             if (mem == 0)
             {
-                result = GameInfo.Strings.memories[38];
+                string nn = pkm.Nickname;
+                result = string.Format(GameInfo.Strings.memories[mem + 38], nn);
                 enabled = false;
             }
             else
