@@ -228,13 +228,13 @@ namespace PKHeX.Core
 
             if (!Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
             {
-                if (pkm.GenNumber < 8) // todo: memory intensity checks for gen8
+                if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory intensity checks for gen8
                   return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
             }
 
             if (memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
             {
-                if (pkm.GenNumber < 8) // todo: memory feeling checks for gen8
+                if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory feeling checks for gen8
                     return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
             }
 
