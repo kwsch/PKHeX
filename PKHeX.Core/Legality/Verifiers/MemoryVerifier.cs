@@ -217,8 +217,8 @@ namespace PKHeX.Core
                 case 21 when !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormeIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, 6):
-                case 48 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, 6):
+                case 16 when memory.Variable == 0 && !GetIsMoveKnowable(pkm, handler, memory.Variable):
+                case 48 when memory.Variable == 0 && !GetIsMoveKnowable(pkm, handler, memory.Variable):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
@@ -241,11 +241,9 @@ namespace PKHeX.Core
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
 
-        private static bool GetIsMoveLearnable(PKM pkm, int handler, int move)
-        {
-            int gen = handler == 0 ? pkm.GenNumber : pkm.Format >= 8 ? 8 : 6;
-            return Legal.GetCanRelearnMove(pkm, move, gen);
-        }
+        private static int GetMoveGeneration(PKM pkm, int handler) => handler == 0 ? pkm.GenNumber : pkm.Format >= 8 ? 8 : 6;
+        private static bool GetIsMoveKnowable(PKM pkm, int handler, int move) => Legal.GetCanKnowMove(pkm, move, GetMoveGeneration(pkm, handler));
+        private static bool GetIsMoveLearnable(PKM pkm, int handler, int move) => Legal.GetCanRelearnMove(pkm, move, GetMoveGeneration(pkm, handler));
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
         {
