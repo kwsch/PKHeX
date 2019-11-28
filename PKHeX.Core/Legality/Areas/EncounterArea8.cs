@@ -184,13 +184,19 @@ namespace PKHeX.Core
         Snowstorm = 1 << 6,
         Sandstorm = 1 << 7,
         Heavy_Fog = 1 << 8,
+
+        All = Normal | Overcast | Raining | Thunderstorm | Intense_Sun | Snowing | Snowstorm | Sandstorm | Heavy_Fog,
+
         Shaking_Trees = 1 << 9,
         Fishing = 1 << 10,
+
+        NotWeather = Shaking_Trees | Fishing,
     }
 
     public sealed class EncounterSlot8 : EncounterSlot
     {
         public readonly AreaWeather8 Weather;
+        public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
 
         public EncounterSlot8(int specForm, int min, int max, AreaWeather8 weather)
         {

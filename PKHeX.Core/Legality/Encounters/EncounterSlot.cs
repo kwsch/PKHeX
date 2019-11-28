@@ -72,10 +72,10 @@ namespace PKHeX.Core
         public bool IsMatchStatic(int index, int count) => index == Permissions.StaticIndex && count == Permissions.StaticCount;
         public bool IsMatchMagnet(int index, int count) => index == Permissions.MagnetPullIndex && count == Permissions.MagnetPullCount;
 
-        private const string wild = "Wild Encounter";
+        private protected const string wild = "Wild Encounter";
         public string Name => wild;
 
-        public string LongName
+        public virtual string LongName
         {
             get
             {
