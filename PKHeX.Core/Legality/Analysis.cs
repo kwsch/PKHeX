@@ -251,6 +251,7 @@ namespace PKHeX.Core
         {
             UpdateInfo();
             UpdateChecks();
+            Transfer.VerifyTransferLegalityG8(this);
         }
 
         /// <summary>

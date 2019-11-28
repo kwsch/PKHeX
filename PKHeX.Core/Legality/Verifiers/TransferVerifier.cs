@@ -105,9 +105,11 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             int species = pkm.Species;
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
-            if (!pi.IsPresentInGame)
+            if (!pi.IsPresentInGame) // Can't transfer
                 data.AddLine(GetInvalid(LTransferBad));
-            else if (pkm.GenNumber != 8)
+            else if (pkm.GenNumber != 8) // Can't transfer yet
+                data.AddLine(GetInvalid(LTransferBad));
+            else if (pi.PokeDexIndex == 0) // Can't breed cuz no transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
