@@ -112,18 +112,6 @@ namespace PKHeX.Core
         {
         }
 
-        private static uint GetFormDuration(PKM pkm, bool isParty)
-        {
-            if (!isParty || pkm.AltForm == 0)
-                return 0;
-            return pkm.Species switch
-            {
-                (int)Species.Furfrou => 5u, // Furfrou
-                (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
-            };
-        }
-
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
         public override bool GetCaught(int species) => Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Zukan.GetSeen(species);

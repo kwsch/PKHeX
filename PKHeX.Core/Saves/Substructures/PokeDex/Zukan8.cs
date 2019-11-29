@@ -271,7 +271,7 @@ namespace PKHeX.Core
             if (species == (int)Species.Alcremie)
             {
                 form *= 7;
-                form += (int)((PK8)pkm).FormDuration; // alteration byte
+                form += (int)((PK8)pkm).FormArgument; // alteration byte
             }
             else if (species == (int) Species.Eternatus && pkm.AltForm == 1)
             {

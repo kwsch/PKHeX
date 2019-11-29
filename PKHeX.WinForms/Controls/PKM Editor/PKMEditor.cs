@@ -915,6 +915,7 @@ namespace PKHeX.WinForms.Controls
                 UpdateGender();
             }
 
+            RefreshFormArguments();
             if (ChangingFields)
                 return;
             ChangingFields = true;
@@ -922,6 +923,18 @@ namespace PKHeX.WinForms.Controls
             ChangingFields = false;
 
             UpdateSprite();
+        }
+
+        private void RefreshFormArguments()
+        {
+            int index = CB_FormArgument.SelectedIndex;
+            var items = FormConverter.GetFormArgumentStrings(Entity.Species, Entity.AltForm, Entity.Format);
+            CB_FormArgument.Items.Clear();
+            CB_FormArgument.Items.AddRange(items);
+            CB_FormArgument.Visible = !string.IsNullOrWhiteSpace(items[0]);
+            if (ChangingFields)
+                return;
+            CB_FormArgument.SelectedIndex = index < items.Length ? index : 0;
         }
 
         private void UpdateHaXForm(object sender, EventArgs e)

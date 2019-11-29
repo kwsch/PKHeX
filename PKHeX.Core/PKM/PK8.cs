@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
     public sealed class PK8 : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8,
-        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage
+        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument
     {
         private static readonly ushort[] Unused =
         {
@@ -486,7 +486,7 @@ namespace PKHeX.Core
         public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
         public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
         public int UnkE3 { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
-        public uint FormDuration { get => BitConverter.ToUInt32(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
+        public uint FormArgument { get => BitConverter.ToUInt32(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
         public sbyte AffixedRibbon { get => (sbyte)Data[0xE8]; set => Data[0xE8] = (byte)value; } // selected ribbon
 
         public byte GetFromArrayC2(int index)

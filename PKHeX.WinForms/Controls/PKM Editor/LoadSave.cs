@@ -171,6 +171,9 @@ namespace PKHeX.WinForms.Controls
             CHK_IsEgg.Checked = pk.IsEgg;
             CB_HeldItem.SelectedValue = pk.HeldItem;
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
+            if (pk is IFormArgument f)
+                CB_FormArgument.SelectedIndex = (int)f.FormArgument;
+
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 
             Label_HatchCounter.Visible = CHK_IsEgg.Checked && Entity.Format > 1;
@@ -183,6 +186,8 @@ namespace PKHeX.WinForms.Controls
             pk.IsEgg = CHK_IsEgg.Checked;
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
+            if (Entity is IFormArgument f)
+                f.FormArgument = (uint)Math.Max(0, CB_FormArgument.SelectedIndex);
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
         }
 

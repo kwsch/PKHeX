@@ -207,10 +207,10 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            ((PK7)pkm).FormDuration = GetFormDuration(pkm, isParty);
+            ((PK7)pkm).FormArgument = GetFormArgument(pkm, isParty);
         }
 
-        private static uint GetFormDuration(PKM pkm, bool isParty)
+        private static uint GetFormArgument(PKM pkm, bool isParty)
         {
             if (!isParty || pkm.AltForm == 0)
                 return 0;

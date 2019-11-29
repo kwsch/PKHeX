@@ -84,13 +84,13 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            ((PK8)pkm).FormDuration = GetFormDuration((PK8)pkm, isParty);
+            ((PK8)pkm).FormArgument = GetFormArgument((PK8)pkm, isParty);
         }
 
-        private static uint GetFormDuration(PK8 pkm, bool isParty)
+        private static uint GetFormArgument(PK8 pkm, bool isParty)
         {
             if (pkm.Species == (int) Species.Alcremie)
-                return pkm.FormDuration & 7;
+                return pkm.FormArgument & 7;
 
             if (!isParty || pkm.AltForm == 0)
                 return 0;

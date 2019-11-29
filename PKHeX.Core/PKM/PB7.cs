@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSize, IFavorite
+    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSize, IFavorite, IFormArgument
     {
         public static readonly ushort[] Unused =
         {
@@ -129,7 +129,7 @@ namespace PKHeX.Core
         public byte _0x39 { get => Data[0x39]; set => Data[0x39] = value; }
         public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
-        public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
         #endregion
         #region Block B
         public override string Nickname

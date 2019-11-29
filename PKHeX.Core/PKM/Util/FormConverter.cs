@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
@@ -953,6 +954,20 @@ namespace PKHeX.Core
             }
 
             return result;
+        }
+
+        public static string[] GetFormArgumentStrings(int species, int form, int generation)
+        {
+            if (generation < 8)
+                return EMPTY;
+
+            return species switch
+            {
+                (int) Furfrou when form != 0 => new[] {"0", "1", "2", "3", "4", "5"},
+                (int) Hoopa when form == 1 => new[] {"0", "1", "2", "3"},
+                (int) Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
+                _ => EMPTY
+            };
         }
     }
 }
