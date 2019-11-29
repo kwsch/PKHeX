@@ -133,6 +133,8 @@ namespace PKHeX.Core
                 (int)Species.Corsola    when pkm.AltForm == 0 => true,
                 (int)Species.Zigzagoon  when pkm.AltForm == 0 => true,
                 (int)Species.Linoone    when pkm.AltForm == 0 => true,
+                (int)Species.Shellos    when pkm.AltForm == 0 => true,
+                (int)Species.Gastrodon  when pkm.AltForm == 0 => true,
                 (int)Species.Darumaka   when pkm.AltForm == 0 => true,
                 (int)Species.Darmanitan when pkm.AltForm == 0 => true,
                 (int)Species.Stunfisk   when pkm.AltForm == 0 => true,
