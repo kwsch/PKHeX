@@ -472,14 +472,16 @@ namespace PKHeX.WinForms.Controls
                 return null;
             if (pkm.Gen6)
                 return Properties.Resources.gen_6;
-            if (pkm.GO)
-                return Properties.Resources.gen_go;
-            if (pkm.GG)
-                return Properties.Resources.gen_gg;
             if (pkm.Gen7)
                 return Properties.Resources.gen_7;
             if (pkm.Gen8)
                 return Properties.Resources.gen_8;
+            if (pkm.VC)
+                return Properties.Resources.gen_vc;
+            if (pkm.GG)
+                return Properties.Resources.gen_gg;
+            if (pkm.GO)
+                return Properties.Resources.gen_go;
             return null;
         }
 
