@@ -119,6 +119,11 @@ namespace PKHeX.Core
         {
             return pkm.Species switch
             {
+                (int)Species.Raichu     when pkm.AltForm == 1 => true,
+                (int)Species.Vulpix     when pkm.AltForm == 1 => true,
+                (int)Species.Ninetales  when pkm.AltForm == 1 => true,
+                (int)Species.Diglett    when pkm.AltForm == 1 => true,
+                (int)Species.Dugtrio    when pkm.AltForm == 1 => true,
                 (int)Species.Meowth     when pkm.AltForm == 1 => true,
                 (int)Species.Persian    when pkm.AltForm == 1 => true,
                 (int)Species.Ponyta     when pkm.AltForm == 0 => true,
@@ -126,8 +131,11 @@ namespace PKHeX.Core
                 (int)Species.Farfetchd  when pkm.AltForm == 0 => true,
                 (int)Species.Weezing    when pkm.AltForm == 0 => true,
                 (int)Species.Corsola    when pkm.AltForm == 0 => true,
+                (int)Species.Zigzagoon  when pkm.AltForm == 0 => true,
+                (int)Species.Linoone    when pkm.AltForm == 0 => true,
                 (int)Species.Darumaka   when pkm.AltForm == 0 => true,
                 (int)Species.Darmanitan when pkm.AltForm == 0 => true,
+                (int)Species.Stunfisk   when pkm.AltForm == 0 => true,
                 _ => false
             };
         }
