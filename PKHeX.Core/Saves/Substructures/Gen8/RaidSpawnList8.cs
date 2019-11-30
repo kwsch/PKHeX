@@ -35,10 +35,10 @@ namespace PKHeX.Core
         public ulong Hash => BitConverter.ToUInt64(Data, Offset + 0);
         public ulong Seed => BitConverter.ToUInt64(Data, Offset + 8);
 
-        public byte V10 => Data[Offset + 0x10];
-        public byte V11 => Data[Offset + 0x11];
-        public byte V12 => Data[Offset + 0x12];
-        public byte V13 => Data[Offset + 0x13];
+        public byte Stars => Data[Offset + 0x10];
+        public byte RandRoll => Data[Offset + 0x11];
+        public byte DenType => Data[Offset + 0x12];
+        public byte Flags => Data[Offset + 0x13];
 
         // The games use a xoroshiro RNG to create the PKM from the stored seed.
     }
