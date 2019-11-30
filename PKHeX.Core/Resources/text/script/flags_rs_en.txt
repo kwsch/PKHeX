@@ -22,7 +22,7 @@
 0x83B	Received a Ribbon
 
 0x84B	Unlocked Lanette's PC
-0x84C	Mystery Gift Enabled
+0x84C	Mystery Event Enabled
 0x84D	Used White Flute
 0x84E	Used Black Flute
 0x84F	Completed Sealed Chamber Puzzle
