@@ -109,7 +109,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferBad));
             else if (pkm.GenNumber != 8) // Can't transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
-            else if (pi.PokeDexIndex == 0) // Can't breed cuz no transfer yet
+            else if (pi.PokeDexIndex == 0 && data.EncounterMatch is EncounterEgg) // Can't breed cuz no transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
             else if (IsG8BanForm(pkm))
                 data.AddLine(GetInvalid(LTransferBad));
