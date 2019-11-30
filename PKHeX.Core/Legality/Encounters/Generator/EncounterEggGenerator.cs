@@ -56,8 +56,8 @@ namespace PKHeX.Core
         {
             if (FormConverter.IsTotemForm(species, form, gen))
                 return true;
-            if ((species == (int) Species.Sinistea || species == (int) Species.Polteageist) && form != 0) // Chipped = impossible
-                return true; // can't get Chipped eggs
+            if ((species == (int) Species.Sinistea || species == (int) Species.Polteageist) && form != 0) // Antique = impossible
+                return true; // can't get Antique eggs
             return false;
         }
 

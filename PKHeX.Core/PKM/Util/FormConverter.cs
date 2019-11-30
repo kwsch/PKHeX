@@ -562,8 +562,8 @@ namespace PKHeX.Core
                 case Polteageist:
                     return new[]
                     {
-                        "Cracked",
-                        "Chipped",
+                        "Phony",
+                        "Antique",
                     };
 
                 case Alcremie:
