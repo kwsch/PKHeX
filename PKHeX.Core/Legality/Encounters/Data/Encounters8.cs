@@ -202,7 +202,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 282, Level = 60, Location =  -1, }, // Gardevoir
             new EncounterStatic8 { Species = 470, Level = 56, Location = 154, }, // Leafeon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 510, Level = 31, Location =  -1, }, // Liepard
-            new EncounterStatic8 { Species = 832, Level = 65, Location =  -1, }, // Dubwool
+            new EncounterStatic8 { Species = 832, Level = 65, Location = 122, }, // Dubwool in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 826, Level = 65, Location =  -1, }, // Orbeetle
             new EncounterStatic8 { Species = 823, Level = 65, Location = 126, }, // Corviknight at Watchtower Ruins (in a Wild Area)
             new EncounterStatic8 { Species = 110, Level = 65, Location = 128, Form = 01, }, // Weezing at East Lake Axewell (in a Wild Area)

@@ -47,6 +47,7 @@ namespace PKHeX.Core
             if (lang <= 0)
                 lang = (int)LanguageID.English;
             pk.Language = lang;
+            pk.Gender = pk.GetSaneGender();
 
             pk.ClearNickname();
 
