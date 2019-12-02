@@ -6,6 +6,92 @@ namespace PKHeX.Core
     {
         public MyStatus8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
+        public ulong Hair
+        {
+            get => BitConverter.ToUInt64(Data, 0x10);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x10);
+        }
+
+        public ulong Brow
+        {
+            get => BitConverter.ToUInt64(Data, 0x18);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x18);
+        }
+
+        public ulong Lashes
+        {
+            get => BitConverter.ToUInt64(Data, 0x20);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x20);
+        }
+
+        public ulong Contacts
+        {
+            get => BitConverter.ToUInt64(Data, 0x28);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x28);
+        }
+
+        public ulong Lips
+        {
+            get => BitConverter.ToUInt64(Data, 0x30);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x30);
+        }
+
+        public ulong Glasses
+        {
+            get => BitConverter.ToUInt64(Data, 0x38);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x38);
+        }
+
+        public ulong Hat
+        {
+            get => BitConverter.ToUInt64(Data, 0x40);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x40);
+        }
+
+        public ulong Jacket
+        {
+            get => BitConverter.ToUInt64(Data, 0x48);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x48);
+        }
+
+        public ulong Top
+        {
+            get => BitConverter.ToUInt64(Data, 0x50);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x50);
+        }
+
+        public ulong Bag
+        {
+            get => BitConverter.ToUInt64(Data, 0x58);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x58);
+        }
+
+        public ulong Gloves
+        {
+            get => BitConverter.ToUInt64(Data, 0x60);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x60);
+        }
+
+        public ulong BottonOrDress
+        {
+            get => BitConverter.ToUInt64(Data, 0x68);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x68);
+        }
+
+        public ulong Sock
+        {
+            get => BitConverter.ToUInt64(Data, 0x70);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x70);
+        }
+
+        public ulong Shoe
+        {
+            get => BitConverter.ToUInt64(Data, 0x78);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x78);
+        }
+
+        // 80 - A0
+
         public int TID
         {
             get => BitConverter.ToUInt16(Data, 0xA0);
