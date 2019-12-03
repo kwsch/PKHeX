@@ -648,15 +648,24 @@ namespace PKHeX.Core
                     return $"{form}-Mane";
                 case (int)Core.Species.Necrozma when form == "Dawn":
                     return $"{form}-Wings";
+                case (int)Core.Species.Darmanitan:
+                    if (form == "Galarian Zen")
+                        return "Zen-Galar";
+                    if (form == "Galarian Standard")
+                        return "Galar";
+                    if (form == "Normal Zen")
+                        return "Zen";
+                    return form;
 
                 case (int)Core.Species.Furfrou:
                 case (int)Core.Species.Greninja:
                 case (int)Core.Species.Rockruff:
+                case (int)Core.Species.Polteageist:
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
                         return Legal.Totem_Alolan.Contains(spec) && spec != (int)Core.Species.Mimikyu ? "Alola-Totem" : "Totem";
-                    return form.Replace(' ', '-');
+                    return form.Replace(' ', '-').Replace("Galarian", "Galar");
             }
         }
 
