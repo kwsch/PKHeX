@@ -72,7 +72,7 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x60);
         }
 
-        public ulong BottonOrDress
+        public ulong BottomOrDress
         {
             get => BitConverter.ToUInt64(Data, 0x68);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x68);
