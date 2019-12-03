@@ -36,11 +36,9 @@ namespace PKHeX.Core
             {
                 if ((pkm.OT_Affection != 0 && Info.Generation <= 2) || IsInvalidContestAffection(pkm))
                     return GetInvalid(LMemoryStatAffectionOT0);
-                if (pkm.OT_Memory > 0 || pkm.OT_Feeling > 0 || pkm.OT_Intensity > 0 || pkm.OT_TextVar > 0)
-                    return GetInvalid(LMemoryIndexIDOT0);
             }
 
-            if (pkm.Format >= 6 && Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
+            if (Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
                 return GetInvalid(LTransferHTFlagRequired);
 
             if (pkm.HT_Gender > 1)
@@ -64,7 +62,7 @@ namespace PKHeX.Core
                 if (pkm.CurrentHandler != 1)
                     return GetInvalid(LMemoryHTEvent);
             }
-            else if (EncounterMatch is MysteryGift mg && mg.Format < 6 && pkm.Format >= 6)
+            else if (EncounterMatch is MysteryGift mg && mg.Format < 6)
             {
                 if (pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
                     return GetInvalid(LMemoryStatAffectionOT0Event);
@@ -241,9 +239,14 @@ namespace PKHeX.Core
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
 
-        private static int GetMoveGeneration(PKM pkm, int handler) => handler == 0 ? pkm.GenNumber : pkm.Format >= 8 ? 8 : 6;
-        private static bool GetIsMoveKnowable(PKM pkm, int handler, int move) => Legal.GetCanKnowMove(pkm, move, GetMoveGeneration(pkm, handler));
-        private static bool GetIsMoveLearnable(PKM pkm, int handler, int move) => Legal.GetCanRelearnMove(pkm, move, GetMoveGeneration(pkm, handler));
+        /// <summary>
+        /// Gets the Generation the Memory ID was obtained in.
+        /// </summary>
+        /// <param name="pkm">Entity data</param>
+        /// <param name="handler">OT/HT</param>
+        private static int GetMemoryObtainedGeneration(PKM pkm, int handler) => handler == 0 ? pkm.GenNumber : pkm.Format >= 8 ? 8 : 6;
+        private static bool GetIsMoveKnowable(PKM pkm, int handler, int move) => Legal.GetCanKnowMove(pkm, move, GetMemoryObtainedGeneration(pkm, handler));
+        private static bool GetIsMoveLearnable(PKM pkm, int handler, int move) => Legal.GetCanRelearnMove(pkm, move, GetMemoryObtainedGeneration(pkm, handler));
 
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
         {
