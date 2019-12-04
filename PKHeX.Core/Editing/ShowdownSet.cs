@@ -652,6 +652,8 @@ namespace PKHeX.Core
                 case (int)Core.Species.Furfrou:
                 case (int)Core.Species.Greninja:
                 case (int)Core.Species.Rockruff:
+                case (int)Core.Species.Polteageist:
+                case (int)Core.Species.Sinistea:
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
@@ -698,6 +700,12 @@ namespace PKHeX.Core
                 // Toxtricity
                 case (int)Core.Species.Toxtricity when form == "Low-Key":
                     return "Low Key";
+
+                // Darmanitan
+                case (int)Core.Species.Darmanitan:
+                    if (form == "Zen-Galar")
+                        return "Zen Galar";
+                    return form;
 
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
