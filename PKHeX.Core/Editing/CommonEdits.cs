@@ -592,7 +592,7 @@ namespace PKHeX.Core
             var permit = pk8.PersonalInfo.TMHM;
             foreach (var m in moves)
             {
-                var index = Array.FindIndex(Legal.TMHM_SWSH, 100, z => z == m);
+                var index = Array.IndexOf(Legal.TMHM_SWSH, m, 100);
                 if (index < 100)
                     continue;
                 if (permit[index])
