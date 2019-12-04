@@ -1547,9 +1547,11 @@ namespace PKHeX.Core
 
         #region Dynamax Distribution Events
 
+        // For distribution encounters, all commented out entries are duplicate with a prior distribution encounter. Only one encounter is necessary for matching purposes.
+
         internal static readonly EncounterStatic8ND[] Dist_Common =
         {
-            // 11/27
+            // 11/15
             new EncounterStatic8ND(40,05,3) { Species = 012, Ability = A4, Moves = new[]{ 676, 403, 202, 527 } }, // Butterfree
             new EncounterStatic8ND(40,05,3) { Species = 012, Ability = A4, Moves = new[]{ 676, 403, 202, 527 }, CanGigantamax = true }, // Butterfree
             new EncounterStatic8ND(50,08,4) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 527, 078 } }, // Butterfree
@@ -1568,12 +1570,11 @@ namespace PKHeX.Core
             new EncounterStatic8ND(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, CanGigantamax = true }, // Snorlax
             new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 } }, // Snorlax
             new EncounterStatic8ND(70,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
-
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
         {
-            // 11/27
+            // 11/15
             new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 } }, // Butterfree
             new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, CanGigantamax = true }, // Butterfree
             new EncounterStatic8ND(17,01,1) { Species = 843, Ability = A2, Moves = new[]{ 693, 523, 189, 103 } }, // Silicobra
@@ -1624,7 +1625,7 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
         {
-            // 11/27
+            // 11/15
             new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 } }, // Butterfree
             new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, CanGigantamax = true }, // Butterfree
             new EncounterStatic8ND(17,01,1) { Species = 821, Ability = A2, Moves = new[]{ 365, 031, 526, 064 } }, // Rookidee
