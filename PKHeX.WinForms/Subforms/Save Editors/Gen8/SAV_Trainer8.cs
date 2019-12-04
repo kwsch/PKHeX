@@ -56,6 +56,7 @@ namespace PKHeX.WinForms
             TB_OTName.Text = SAV.OT;
             TB_TrainerCardName.Text = SAV.Blocks.TrainerCard.OT;
             TB_TrainerCardNumber.Text = SAV.Blocks.TrainerCard.Number;
+            MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
             CB_Language.SelectedValue = SAV.Language;
@@ -112,6 +113,7 @@ namespace PKHeX.WinForms
             SAV.OT = TB_OTName.Text;
             SAV.Blocks.TrainerCard.OT = TB_TrainerCardName.Text;
             SAV.Blocks.TrainerCard.Number = TB_TrainerCardNumber.Text;
+            SAV.Blocks.TrainerCard.TrainerID = Util.ToInt32(MT_TrainerCardID.Text);
 
             SAV.Misc.BP = (int)NUD_BP.Value;
 

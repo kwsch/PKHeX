@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace PKHeX.Core
 {
@@ -10,6 +11,12 @@ namespace PKHeX.Core
         {
             get => SAV.GetString(Data, 0x00, 0x1A);
             set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0x00);
+        }
+
+        public int TrainerID
+        {
+            get => BitConverter.ToInt32(Data, 0x1C);
+            set => SAV.SetData(BitConverter.GetBytes(value), 0x1C);
         }
 
         public string Number

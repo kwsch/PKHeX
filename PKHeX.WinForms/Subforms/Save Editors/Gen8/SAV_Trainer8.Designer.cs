@@ -93,6 +93,7 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.MT_TrainerCardID = new System.Windows.Forms.MaskedTextBox();
             this.TB_TrainerCardNumber = new System.Windows.Forms.TextBox();
             this.L_TRCardNumber = new System.Windows.Forms.Label();
             this.TB_TrainerCardName = new System.Windows.Forms.TextBox();
@@ -122,6 +123,7 @@
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.L_TRCardID = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -648,6 +650,8 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.L_TRCardID);
+            this.Tab_Overview.Controls.Add(this.MT_TrainerCardID);
             this.Tab_Overview.Controls.Add(this.TB_TrainerCardNumber);
             this.Tab_Overview.Controls.Add(this.L_TRCardNumber);
             this.Tab_Overview.Controls.Add(this.TB_TrainerCardName);
@@ -672,6 +676,16 @@
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
+            // MT_TRCardID
+            // 
+            this.MT_TrainerCardID.Location = new System.Drawing.Point(331, 59);
+            this.MT_TrainerCardID.Mask = "000000";
+            this.MT_TrainerCardID.Name = "MT_TrainerCardID";
+            this.MT_TrainerCardID.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_TrainerCardID.Size = new System.Drawing.Size(43, 20);
+            this.MT_TrainerCardID.TabIndex = 72;
+            this.MT_TrainerCardID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // TB_TrainerCardNumber
             // 
             this.TB_TrainerCardNumber.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -689,7 +703,7 @@
             this.L_TRCardNumber.Name = "L_TRCardNumber";
             this.L_TRCardNumber.Size = new System.Drawing.Size(117, 16);
             this.L_TRCardNumber.TabIndex = 71;
-            this.L_TRCardNumber.Text = "League Card ID:";
+            this.L_TRCardNumber.Text = "League Uniform ID:";
             this.L_TRCardNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // TB_TrainerCardName
@@ -1038,6 +1052,15 @@
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // L_TRCardID
+            // 
+            this.L_TRCardID.Location = new System.Drawing.Point(209, 60);
+            this.L_TRCardID.Name = "L_TRCardID";
+            this.L_TRCardID.Size = new System.Drawing.Size(117, 16);
+            this.L_TRCardID.TabIndex = 73;
+            this.L_TRCardID.Text = "League TrainerID:";
+            this.L_TRCardID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // SAV_Trainer8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1167,5 +1190,7 @@
         private System.Windows.Forms.Label L_TRCardName;
         private System.Windows.Forms.TextBox TB_TrainerCardNumber;
         private System.Windows.Forms.Label L_TRCardNumber;
+        private System.Windows.Forms.MaskedTextBox MT_TrainerCardID;
+        private System.Windows.Forms.Label L_TRCardID;
     }
 }
