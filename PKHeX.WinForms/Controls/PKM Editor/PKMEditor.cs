@@ -638,6 +638,16 @@ namespace PKHeX.WinForms.Controls
             TB_Friendship.Text = Entity.CurrentFriendship.ToString();
         }
 
+        private void ClickNature(object sender, EventArgs e)
+        {
+            if (Entity.Format < 8)
+                return;
+            if (sender == Label_Nature)
+                CB_Nature.SelectedIndex = CB_StatNature.SelectedIndex;
+            else
+                CB_StatNature.SelectedIndex = CB_Nature.SelectedIndex;
+        }
+
         private void ClickMoves(object sender, EventArgs e)
         {
             UpdateLegality(skipMoveRepop: true);

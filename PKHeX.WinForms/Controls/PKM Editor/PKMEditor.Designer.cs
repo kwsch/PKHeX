@@ -74,6 +74,7 @@
             this.Label_Form = new System.Windows.Forms.Label();
             this.CB_Form = new System.Windows.Forms.ComboBox();
             this.MT_Form = new System.Windows.Forms.MaskedTextBox();
+            this.CB_FormArgument = new System.Windows.Forms.ComboBox();
             this.FLP_Ability = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Ability = new System.Windows.Forms.Label();
             this.FLP_AbilityRight = new System.Windows.Forms.FlowLayoutPanel();
@@ -116,9 +117,12 @@
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
             this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             this.L_ShinyLeaf = new System.Windows.Forms.Label();
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
             this.L_CatchRate = new System.Windows.Forms.Label();
+            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.FLP_SizeCP = new System.Windows.Forms.FlowLayoutPanel();
+            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -154,6 +158,8 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
+            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
             this.B_Records = new System.Windows.Forms.Button();
             this.PB_WarnMove4 = new System.Windows.Forms.PictureBox();
@@ -211,6 +217,7 @@
             this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
             this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
             this.GB_OT = new System.Windows.Forms.GroupBox();
+            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.Label_OTGender = new System.Windows.Forms.Label();
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
@@ -218,13 +225,6 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.CB_FormArgument = new System.Windows.Forms.ComboBox();
-            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
-            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
-            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
-            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
-            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
-            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -680,6 +680,7 @@
             this.Label_Nature.TabIndex = 8;
             this.Label_Nature.Text = "Nature:";
             this.Label_Nature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_Nature.Click += new System.EventHandler(this.ClickNature);
             // 
             // CB_Nature
             // 
@@ -714,6 +715,7 @@
             this.L_OriginalNature.TabIndex = 8;
             this.L_OriginalNature.Text = "Stat Nature:";
             this.L_OriginalNature.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.L_OriginalNature.Click += new System.EventHandler(this.ClickNature);
             // 
             // CB_StatNature
             // 
@@ -870,6 +872,17 @@
             this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.MT_Form.Visible = false;
             this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
+            // 
+            // CB_FormArgument
+            // 
+            this.CB_FormArgument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FormArgument.DropDownWidth = 90;
+            this.CB_FormArgument.FormattingEnabled = true;
+            this.CB_FormArgument.Location = new System.Drawing.Point(145, 0);
+            this.CB_FormArgument.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_FormArgument.Name = "CB_FormArgument";
+            this.CB_FormArgument.Size = new System.Drawing.Size(52, 21);
+            this.CB_FormArgument.TabIndex = 19;
             // 
             // FLP_Ability
             // 
@@ -1377,6 +1390,14 @@
             this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
             // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            // 
             // FLP_CatchRate
             // 
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1398,6 +1419,14 @@
             this.L_CatchRate.Text = "Catch Rate:";
             this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // CR_PK1
+            // 
+            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
+            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
+            this.CR_PK1.Name = "CR_PK1";
+            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
+            this.CR_PK1.TabIndex = 10;
+            // 
             // FLP_SizeCP
             // 
             this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1408,6 +1437,15 @@
             this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
             this.FLP_SizeCP.TabIndex = 117;
             // 
+            // SizeCP
+            // 
+            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SizeCP.Location = new System.Drawing.Point(50, 0);
+            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
+            this.SizeCP.Name = "SizeCP";
+            this.SizeCP.Size = new System.Drawing.Size(204, 68);
+            this.SizeCP.TabIndex = 0;
+            // 
             // Tab_Met
             // 
             this.Tab_Met.AllowDrop = true;
@@ -1417,7 +1455,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(307, 539);
+            this.Tab_Met.Size = new System.Drawing.Size(192, 74);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1808,10 +1846,37 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(307, 539);
+            this.Tab_Stats.Size = new System.Drawing.Size(192, 74);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
+            // 
+            // Stats
+            // 
+            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
+            this.Stats.EVsInvalid = System.Drawing.Color.Red;
+            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
+            this.Stats.Location = new System.Drawing.Point(0, 0);
+            this.Stats.Name = "Stats";
+            this.Stats.Size = new System.Drawing.Size(270, 264);
+            this.Stats.StatDecreased = System.Drawing.Color.Blue;
+            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
+            this.Stats.StatIncreased = System.Drawing.Color.Red;
+            this.Stats.TabIndex = 118;
+            // 
+            // Contest
+            // 
+            this.Contest.CNT_Beauty = 0;
+            this.Contest.CNT_Cool = 0;
+            this.Contest.CNT_Cute = 0;
+            this.Contest.CNT_Sheen = 0;
+            this.Contest.CNT_Smart = 0;
+            this.Contest.CNT_Tough = 0;
+            this.Contest.Location = new System.Drawing.Point(21, 265);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.TabIndex = 117;
             // 
             // Tab_Attacks
             // 
@@ -1826,7 +1891,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(307, 539);
+            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2224,7 +2289,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(307, 539);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2554,6 +2619,13 @@
             this.GB_OT.TabStop = false;
             this.GB_OT.Text = "Trainer Information";
             // 
+            // TID_Trainer
+            // 
+            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
+            this.TID_Trainer.Name = "TID_Trainer";
+            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
+            this.TID_Trainer.TabIndex = 57;
+            // 
             // Label_OTGender
             // 
             this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2593,76 +2665,6 @@
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Form2
-            // 
-            this.CB_FormArgument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FormArgument.DropDownWidth = 90;
-            this.CB_FormArgument.FormattingEnabled = true;
-            this.CB_FormArgument.Location = new System.Drawing.Point(145, 0);
-            this.CB_FormArgument.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_FormArgument.Name = "CB_FormArgument";
-            this.CB_FormArgument.Size = new System.Drawing.Size(52, 21);
-            this.CB_FormArgument.TabIndex = 19;
-            // 
-            // ShinyLeaf
-            // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
-            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
-            this.ShinyLeaf.Name = "ShinyLeaf";
-            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
-            this.ShinyLeaf.TabIndex = 116;
-            // 
-            // CR_PK1
-            // 
-            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
-            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
-            this.CR_PK1.Name = "CR_PK1";
-            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
-            this.CR_PK1.TabIndex = 10;
-            // 
-            // SizeCP
-            // 
-            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SizeCP.Location = new System.Drawing.Point(50, 0);
-            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
-            this.SizeCP.Name = "SizeCP";
-            this.SizeCP.Size = new System.Drawing.Size(204, 68);
-            this.SizeCP.TabIndex = 0;
-            // 
-            // Stats
-            // 
-            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
-            this.Stats.EVsInvalid = System.Drawing.Color.Red;
-            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
-            this.Stats.Location = new System.Drawing.Point(0, 0);
-            this.Stats.Name = "Stats";
-            this.Stats.Size = new System.Drawing.Size(270, 264);
-            this.Stats.StatDecreased = System.Drawing.Color.Blue;
-            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
-            this.Stats.StatIncreased = System.Drawing.Color.Red;
-            this.Stats.TabIndex = 118;
-            // 
-            // Contest
-            // 
-            this.Contest.CNT_Beauty = 0;
-            this.Contest.CNT_Cool = 0;
-            this.Contest.CNT_Cute = 0;
-            this.Contest.CNT_Sheen = 0;
-            this.Contest.CNT_Smart = 0;
-            this.Contest.CNT_Tough = 0;
-            this.Contest.Location = new System.Drawing.Point(21, 265);
-            this.Contest.Margin = new System.Windows.Forms.Padding(0);
-            this.Contest.Name = "Contest";
-            this.Contest.Size = new System.Drawing.Size(230, 50);
-            this.Contest.TabIndex = 117;
-            // 
-            // TID_Trainer
-            // 
-            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
-            this.TID_Trainer.Name = "TID_Trainer";
-            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
-            this.TID_Trainer.TabIndex = 57;
             // 
             // PKMEditor
             // 
