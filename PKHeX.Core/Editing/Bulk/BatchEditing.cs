@@ -402,6 +402,10 @@ namespace PKHeX.Core
                 case nameof(PKM.Moves):
                     return SetMoves(pk, pk.GetMoveSet(la: info.Legality));
 
+                case nameof(PKM.Ball):
+                    BallRandomizer.ApplyBallLegalByColor(pk);
+                    return ModifyResult.Modified;
+
                 default:
                     return ModifyResult.Error;
             }
