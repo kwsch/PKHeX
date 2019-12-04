@@ -64,6 +64,7 @@ namespace PKHeX.Core
         public static bool SetAllValidRibbons(PKM pkm)
         {
             var ribNames = GetAllRibbonNames(pkm);
+            ribNames.RemoveAll(z => z.StartsWith("RibbonMark")); // until marking legality is handled
             return SetAllValidRibbons(pkm, ribNames);
         }
 
