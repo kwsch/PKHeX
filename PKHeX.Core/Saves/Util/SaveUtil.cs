@@ -561,9 +561,14 @@ namespace PKHeX.Core
             SAV.TID = 12345;
             SAV.SID = 54321;
             SAV.Language = (int)LanguageID.English; // English
-            SAV.Country = 49; // USA
-            SAV.SubRegion = 7; // CA
-            SAV.ConsoleRegion = 1; // Americas
+
+            // Only set geolocation data for 3DS titles
+            if (6 <= SAV.Generation && SAV.Generation <= 7 && !(SAV is SAV7b))
+            {
+                SAV.Country = 49; // USA
+                SAV.SubRegion = 7; // CA
+                SAV.ConsoleRegion = 1; // Americas
+            }
 
             return SAV;
         }
