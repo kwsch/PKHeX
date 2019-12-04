@@ -257,10 +257,10 @@ namespace PKHeX.Core
                     }
                     return new[]
                     {
-                        types[0] + " " + forms[555], // Standard
-                        types[0] + " " + forms[943], // Zen
-                        forms[Galarian] + " " + forms[555], // Standard
-                        forms[Galarian] + " " + forms[943], // Zen
+                        forms[555], // Standard
+                        forms[943], // Zen
+                        forms[Galarian], // Standard
+                        forms[943] + " " + forms[Galarian], // Zen
                     };
                 }
 

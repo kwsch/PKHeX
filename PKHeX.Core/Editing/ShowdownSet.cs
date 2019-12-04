@@ -648,24 +648,17 @@ namespace PKHeX.Core
                     return $"{form}-Mane";
                 case (int)Core.Species.Necrozma when form == "Dawn":
                     return $"{form}-Wings";
-                case (int)Core.Species.Darmanitan:
-                    if (form == "Galarian Zen")
-                        return "Zen-Galar";
-                    if (form == "Galarian Standard")
-                        return "Galar";
-                    if (form == "Normal Zen")
-                        return "Zen";
-                    return form;
 
                 case (int)Core.Species.Furfrou:
                 case (int)Core.Species.Greninja:
                 case (int)Core.Species.Rockruff:
                 case (int)Core.Species.Polteageist:
+                case (int)Core.Species.Sinistea:
                     return string.Empty;
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
                         return Legal.Totem_Alolan.Contains(spec) && spec != (int)Core.Species.Mimikyu ? "Alola-Totem" : "Totem";
-                    return form.Replace(' ', '-').Replace("Galarian", "Galar");
+                    return form.Replace(' ', '-');
             }
         }
 
@@ -707,6 +700,12 @@ namespace PKHeX.Core
                 // Toxtricity
                 case (int)Core.Species.Toxtricity when form == "Low-Key":
                     return "Low Key";
+
+                // Darmanitan
+                case (int)Core.Species.Darmanitan:
+                    if (form == "Zen-Galar")
+                        return "Zen Galar";
+                    return form;
 
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
