@@ -9,6 +9,13 @@ namespace PKHeX.Core
     {
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
+        public override int Location { get => SharedNest; set { } }
+
+        protected override bool IsMatchLocation(PKM pkm)
+        {
+            var loc = pkm.Met_Location;
+            return loc == SharedNest || EncounterArea8.IsWildArea8(loc);
+        }
 
         public override bool IsMatch(PKM pkm, int lvl)
         {
