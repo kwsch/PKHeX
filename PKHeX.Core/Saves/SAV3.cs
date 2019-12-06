@@ -94,6 +94,7 @@ namespace PKHeX.Core
                 GameVersion.E => Legal.Pouch_Key_E,
                 _ => Legal.Pouch_Key_FRLG
             };
+            PokeDex = BlockOfs[0] + 0x18;
             SeenFlagOffsets = Array.Empty<int>();
 
             Initialize();
