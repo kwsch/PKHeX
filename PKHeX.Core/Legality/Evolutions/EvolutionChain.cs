@@ -239,7 +239,7 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(1)
                 {
-                    new EvoCriteria { Species = pkm.Species, Level = lvl, MinLevel = lvl },
+                    new EvoCriteria(pkm.Species, pkm.AltForm) { Level = lvl, MinLevel = lvl },
                 };
             }
 
@@ -248,8 +248,8 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(2)
                 {
-                    new EvoCriteria { Species = (int)Species.Shedinja, Level = lvl, MinLevel = 20, Form = 0 },
-                    new EvoCriteria { Species = (int)Species.Nincada, Level = lvl, MinLevel = 1, Form = 0 }
+                    new EvoCriteria((int)Species.Shedinja, 0) { Level = lvl, MinLevel = 20 },
+                    new EvoCriteria((int)Species.Nincada, 0) { Level = lvl, MinLevel = 1 },
                 };
             }
 

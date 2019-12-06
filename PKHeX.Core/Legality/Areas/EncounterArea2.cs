@@ -196,9 +196,9 @@ namespace PKHeX.Core
             }
 
             // Read TimeFishGroups
-            var dl = new List<DexLevel>();
+            var dl = new List<SlotTemplate>();
             while (ofs < data.Length)
-                dl.Add(new DexLevel { Species = data[ofs++], Level = data[ofs++] });
+                dl.Add(new SlotTemplate(data[ofs++], data[ofs++]));
 
             // Add TimeSlots
             foreach (var area in areas)
@@ -226,6 +226,18 @@ namespace PKHeX.Core
                 area.Slots = slots;
             }
             return areas;
+        }
+
+        private readonly struct SlotTemplate
+        {
+            public readonly byte Species;
+            public readonly byte Level;
+
+            public SlotTemplate(byte species, byte level)
+            {
+                Species = species;
+                Level = level;
+            }
         }
 
         private static IEnumerable<EncounterArea2> GetAreas2Headbutt(byte[] data, ref int ofs)

@@ -233,7 +233,7 @@ namespace PKHeX.Core
         private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
         {
             int lvl = maxLevel;
-            var first = new EvoCriteria { Species = pkm.Species, Level = lvl, Form = pkm.AltForm };
+            var first = new EvoCriteria(pkm.Species, pkm.AltForm) { Level = lvl, };
 
             const int maxEvolutions = 3;
             var dl = new List<EvoCriteria>(maxEvolutions) { first };

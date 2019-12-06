@@ -5,7 +5,15 @@
     /// </summary>
     public class DexLevel
     {
-        public int Species { get; set; }
+        public readonly int Species;
+        public readonly int Form;
+
         public int Level { get; set; }
+
+        protected DexLevel(int species, int form)
+        {
+            Species = species;
+            Form = form;
+        }
     }
 }

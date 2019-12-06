@@ -686,19 +686,16 @@ namespace PKHeX.Core
 
         internal static EvoCriteria GetBaseSpecies(PKM pkm, IReadOnlyList<EvoCriteria> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
 
-        private static readonly EvoCriteria Nincada = new EvoCriteria
+        private static readonly EvoCriteria Nincada = new EvoCriteria(290, 0)
         {
             Method = (int)EvolutionType.LevelUp,
             MinLevel = 20, Level = 20,
             RequiresLvlUp = true,
-            Species = 290, Form = 0,
         };
 
-        private static readonly EvoCriteria EvoEmpty = new EvoCriteria
+        private static readonly EvoCriteria EvoEmpty = new EvoCriteria(290, 0)
         {
             Method = (int)EvolutionType.None,
-            Species = 0,
-            Form = 0,
         };
 
         internal static EvoCriteria GetBaseSpecies(int species, IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
