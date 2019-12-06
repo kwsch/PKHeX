@@ -38,7 +38,7 @@ namespace PKHeX.Core
 
             // Capture / Inherit cases -- can be one of many balls
             var pkm = data.pkm;
-            if (pkm.Species == 292 && Info.Generation > 3) // Shedinja. For gen3, copy the ball from Nincada
+            if (pkm.Species == (int)Species.Shedinja && Info.Generation != 3 && data.EncounterMatch.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
                 return VerifyBallEquals(data, (int)Poke); // Pokeball Only
 
             if (pkm.Ball == (int)Heavy && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
