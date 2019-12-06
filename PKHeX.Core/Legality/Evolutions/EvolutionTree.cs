@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
@@ -38,7 +39,7 @@ namespace PKHeX.Core
             Evolves7b = new EvolutionTree(unpack("gg"), Gen7, PersonalTable.GG, Legal.MaxSpeciesID_7b);
             Evolves8 = new EvolutionTree(unpack("ss"), Gen8, PersonalTable.SWSH, Legal.MaxSpeciesID_8);
 
-            // There's always oddballs.
+            // Throw in banned evolution data!
             Evolves7.FixEvoTreeSM();
             Evolves8.FixEvoTreeSS();
         }
@@ -74,10 +75,13 @@ namespace PKHeX.Core
         }
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
-        private readonly EvolutionLineage[] Lineage;
         private readonly GameVersion Game;
         private readonly PersonalTable Personal;
         private readonly int MaxSpeciesTree;
+        private readonly ILookup<int, EvolutionLink> Lineage;
+        private static int GetLookupKey(int species, int form) => species | (form << 11);
+
+        #region Constructor
 
         private EvolutionTree(IReadOnlyList<byte[]> data, GameVersion game, PersonalTable personal, int maxSpeciesTree)
         {
@@ -85,7 +89,32 @@ namespace PKHeX.Core
             Personal = personal;
             MaxSpeciesTree = maxSpeciesTree;
             Entries = GetEntries(data);
-            Lineage = CreateTree();
+            var connections = CreateTree();
+            Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
+        }
+
+        private IEnumerable<KeyValuePair<int, EvolutionLink>> CreateTree()
+        {
+            for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
+            {
+                var fc = Personal[sSpecies].FormeCount;
+                for (int sForm = 0; sForm < fc; sForm++)
+                {
+                    var index = Personal.GetFormeIndex(sSpecies, sForm);
+                    var evos = Entries[index];
+                    foreach (var evo in evos)
+                    {
+                        var dSpecies = evo.Species;
+                        if (dSpecies == 0)
+                            continue;
+                        var dForm = evo.Form < 0 ? sForm : evo.Form;
+                        var key = GetLookupKey(dSpecies, dForm);
+
+                        var link = new EvolutionLink(sSpecies, sForm, evo);
+                        yield return new KeyValuePair<int, EvolutionLink>(key, link);
+                    }
+                }
+            }
         }
 
         private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data)
@@ -104,149 +133,34 @@ namespace PKHeX.Core
             };
         }
 
-        private EvolutionLineage[] CreateTree()
-        {
-            var lineage = new EvolutionLineage[Entries.Count];
-            for (int i = 0; i < Entries.Count; i++)
-                lineage[i] = new EvolutionLineage();
-            if (Game == Gen6)
-                Array.Resize(ref lineage, MaxSpeciesTree + 1);
-
-            if (Game.GetGeneration() <= 6)
-                GenerateEntriesSpeciesOnly(lineage);
-            else
-                GenerateEntriesSpeciesForm(lineage);
-
-            return lineage;
-        }
-
-        private void GenerateEntriesSpeciesOnly(IReadOnlyList<EvolutionLineage> lineage)
-        {
-            for (int species = 1; species < lineage.Count; species++)
-                CreateBranch(lineage, species, 0, species);
-        }
-
-        private void GenerateEntriesSpeciesForm(IReadOnlyList<EvolutionLineage> lineage)
-        {
-            for (int species = 1; species <= MaxSpeciesTree; species++)
-            {
-                var pi = Personal[species];
-                var fc = pi.FormeCount;
-                for (int form = 0; form < fc; form++)
-                {
-                    var index = Personal.GetFormeIndex(species, form);
-                    CreateBranch(lineage, species, form, index);
-                }
-            }
-        }
-
-        private void CreateBranch(IReadOnlyList<EvolutionLineage> lineage, int species, int form, int index)
-        {
-            var evos = Entries[index];
-            // Iterate over all possible evolutions
-            foreach (var evo in evos)
-                CreateLeaf(lineage, evo, species, form, index);
-        }
-
-        private void CreateLeaf(IReadOnlyList<EvolutionLineage> lineage, EvolutionMethod evo, int species, int form, int index)
-        {
-            int evolveTo = GetIndex(evo);
-            if (evolveTo < 0)
-                return;
-
-            var chainTo = lineage[evolveTo];
-            var current = lineage[index];
-            var sourceEvo = evo.Copy(species, form);
-
-            chainTo.Insert(sourceEvo);
-            // If current entries has a pre-evolution, propagate to evolution as well
-            if (current.Chain.Count != 0)
-                chainTo.Chain.Insert(0, current.Chain[0]);
-
-            if (evolveTo >= index)
-                return;
-
-            // If destination species evolves into something (ie a 'baby' Pokemon like Cleffa)
-            // Add it to the corresponding parent chains
-            foreach (var method in Entries[evolveTo])
-            {
-                int newIndex = GetIndex(method);
-                if (newIndex < 0)
-                    continue;
-
-                lineage[newIndex].Insert(sourceEvo);
-            }
-        }
-
         private void FixEvoTreeSM()
         {
-            UnpackForms((int)Species.Wormadam, 2);
-            UnpackForms((int)Species.Gastrodon, 1);
-            UnpackForms((int)Species.Meowstic, 1);
-            UnpackForms((int)Species.Gourgeist, 3);
-
-            BanEvo((int)Species.Raichu, 1, EvolutionMethod.BanSM);
-            BanEvo((int)Species.Marowak, 0, EvolutionMethod.BanSM);
-            BanEvo((int)Species.Raichu, 0, EvolutionMethod.BanSM);
+            // Sun/Moon lack Ultra's Kantonian evolution methods.
+            BanEvo((int)Species.Raichu, 1, pkm => pkm.IsUntraded && pkm.SM);
+            BanEvo((int)Species.Marowak, 0, pkm => pkm.IsUntraded && pkm.SM);
+            BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
         }
 
         private void FixEvoTreeSS()
         {
-            SpreadForms((int)Species.Silvally, 17);
+            // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
+            BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Raichu, 1, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+
+            foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
+                BanEvo(s, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
         }
 
-        private void BanEvo(int species, int type, IReadOnlyCollection<GameVersion> versionsBanned)
+        private void BanEvo(int species, int form, Func<PKM, bool> func)
         {
-            var entry = Personal.GetFormeIndex(species, 0);
-            var lin = Lineage[entry];
-            lin.Chain[type][0].Banlist = versionsBanned;
+            var key = GetLookupKey(species, form);
+            var node = Lineage[key];
+            foreach (var link in node)
+                link.IsBanned = func;
         }
 
-        private void UnpackForms(int species, int formCount)
-        {
-            var baseChain = Lineage[species];
-            for (int i = 1; i <= formCount; i++)
-            {
-                var entry = Personal.GetFormeIndex(species, i);
-                var lin = Lineage[entry];
-                lin.Chain.Add(new List<EvolutionMethod> { baseChain.Chain[0][i] });
-            }
-            baseChain.Chain[0].RemoveRange(1, formCount);
-        }
-
-        private void SpreadForms(int species, int formCount)
-        {
-            var baseChain = Lineage[species];
-            for (int i = 1; i <= formCount; i++)
-            {
-                var entry = Personal.GetFormeIndex(species, i);
-                var lin = Lineage[entry];
-                lin.Chain.Add(baseChain.Chain[0]);
-            }
-        }
-
-        private int GetIndex(PKM pkm)
-        {
-            if (pkm.Format < 7)
-                return pkm.Species;
-            return Personal.GetFormeIndex(pkm.Species, pkm.AltForm);
-        }
-
-        private int GetIndex(EvolutionMethod evo)
-        {
-            int evolvesToSpecies = evo.Species;
-            if (evolvesToSpecies == 0)
-                return -1;
-
-            if (Personal == null)
-                return evolvesToSpecies;
-
-            int evolvesToForm = evo.Form;
-            if (evolvesToForm < 0)
-                evolvesToForm = 0;
-
-            return Personal.GetFormeIndex(evolvesToSpecies, evolvesToForm);
-        }
+        #endregion
 
         /// <summary>
         /// Gets a list of evolutions for the input <see cref="PKM"/> by checking each evolution in the chain.
@@ -259,10 +173,9 @@ namespace PKHeX.Core
         /// <returns></returns>
         public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
-            int index = GetIndex(pkm);
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
-            return Lineage[index].GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
+            return GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
         }
 
         /// <summary>
@@ -282,28 +195,161 @@ namespace PKHeX.Core
 
         private IEnumerable<int> GetPreEvolutions(int species, int form)
         {
-            int index = Personal.GetFormeIndex(species, form);
+            int index = GetLookupKey(species, form);
             var node = Lineage[index];
-            foreach (var methods in node.Chain)
+            foreach (var method in node)
             {
-                foreach (var prevo in methods)
-                    yield return prevo.Species;
+                var s = method.Species;
+                var f = method.Form;
+                yield return s;
+                var preEvolutions = GetPreEvolutions(s, f);
+                foreach (var preEvo in preEvolutions)
+                    yield return preEvo;
             }
         }
 
         private IEnumerable<int> GetEvolutions(int species, int form)
         {
             int index = Personal.GetFormeIndex(species, form);
-            var node = Entries[index];
-            foreach (var z in node)
+            var node = Lineage[index];
+            foreach (var method in node)
             {
-                var s = z.Species;
-                if (s == 0)
-                    continue;
+                var s = method.Species;
                 yield return s;
                 foreach (var next in GetEvolutions(s, form))
                     yield return next;
             }
+        }
+
+        /// <summary>
+        /// Generates the reverse evolution path for the input <see cref="pkm"/>.
+        /// </summary>
+        /// <param name="pkm">Entity data</param>
+        /// <param name="maxLevel">Maximum level</param>
+        /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
+        /// <param name="maxSpeciesOrigin">Clamp for maximum species ID</param>
+        /// <param name="minLevel">Minimum level</param>
+        /// <returns></returns>
+        private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
+        {
+            int lvl = maxLevel;
+            var first = new EvoCriteria { Species = pkm.Species, Level = lvl, Form = pkm.AltForm };
+
+            const int maxEvolutions = 3;
+            var dl = new List<EvoCriteria>(maxEvolutions) { first };
+
+            // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
+            // There aren't any convergent evolution paths, so only yield the first connection.
+            int species = pkm.Species;
+            int form = pkm.AltForm;
+            while (true)
+            {
+                var key = GetLookupKey(species, form);
+                var node = Lineage[key];
+
+                bool oneValid = false;
+                foreach (var link in node)
+                {
+                    if (link.IsEvolutionBanned(pkm))
+                        continue;
+
+                    var evo = link.Method;
+                    if (!evo.Valid(pkm, lvl, skipChecks))
+                        continue;
+
+                    if (evo.RequiresLevelUp && minLevel >= lvl)
+                        break; // impossible evolution
+
+                    oneValid = true;
+                    UpdateMinValues(dl, evo);
+                    if (evo.RequiresLevelUp)
+                        lvl--;
+
+                    species = link.Species;
+                    form = link.Form;
+                    var detail = evo.GetEvoCriteria(species, form, lvl);
+                    dl.Add(detail);
+                    break;
+                }
+                if (!oneValid)
+                    break;
+            }
+
+            // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
+            var last = dl[dl.Count - 1];
+            if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
+                dl.RemoveAt(dl.Count - 1);
+
+            // Last species is the wild/hatched species, the minimum level is 1 because it has not evolved from previous species
+            last = dl[dl.Count - 1];
+            last.MinLevel = 1;
+            last.RequiresLvlUp = false;
+            return dl;
+        }
+
+        private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
+        {
+            var last = dl[dl.Count - 1];
+            if (!evo.RequiresLevelUp)
+            {
+                // Evolutions like elemental stones, trade, etc
+                last.MinLevel = 1;
+                return;
+            }
+            if (evo.Level == 0)
+            {
+                // Friendship based Evolutions, Pichu -> Pikachu, Eevee -> Umbreon, etc
+                last.MinLevel = 2;
+
+                var first = dl[0];
+                if (dl.Count > 1 && !first.RequiresLvlUp)
+                    first.MinLevel = 2; // Raichu from Pikachu would have a minimum level of 1; accounting for Pichu (level up required) results in a minimum level of 2
+            }
+            else // level up evolutions
+            {
+                last.MinLevel = evo.Level;
+
+                var first = dl[0];
+                if (dl.Count > 1)
+                {
+                    if (first.RequiresLvlUp)
+                    {
+                        if (first.MinLevel <= evo.Level)
+                            first.MinLevel = evo.Level + 1; // Pokemon like Crobat, its minimum level is Golbat minimum level + 1
+                    }
+                    else
+                    {
+                        if (first.MinLevel < evo.Level)
+                            first.MinLevel = evo.Level; // Pokemon like Nidoqueen who evolve with an evolution stone, minimum level is prior evolution minimum level
+                    }
+                }
+            }
+            last.RequiresLvlUp = evo.RequiresLevelUp;
+        }
+
+        /// <summary>
+        /// Links a <see cref="EvolutionMethod"/> to the source <see cref="Species"/> and <see cref="Form"/> that the method can be triggered from.
+        /// </summary>
+        private sealed class EvolutionLink
+        {
+            public readonly int Species;
+            public readonly int Form;
+            public readonly EvolutionMethod Method;
+            public Func<PKM, bool>? IsBanned { private get; set; }
+
+            public EvolutionLink(int species, int form, EvolutionMethod method)
+            {
+                Species = species;
+                Form = form;
+                Method = method;
+            }
+
+            /// <summary>
+            /// Checks if the <see cref="Method"/> is allowed.
+            /// </summary>
+            /// <param name="pkm">Entity to check</param>
+            /// <returns>True if banned, false if allowed.</returns>
+            public bool IsEvolutionBanned(PKM pkm) => IsBanned != null && IsBanned(pkm);
         }
     }
 }

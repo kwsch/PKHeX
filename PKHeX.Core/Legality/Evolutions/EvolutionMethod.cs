@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.EvolutionType;
 
 namespace PKHeX.Core
@@ -17,10 +14,7 @@ namespace PKHeX.Core
         public int Level;
 
         // Not stored in binary data
-        public bool RequiresLevelUp; // tracks if this method requires a Level Up
-        internal IReadOnlyCollection<GameVersion> Banlist = Array.Empty<GameVersion>();
-
-        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
+        public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
         /// <summary>
         /// Checks the <see cref="EvolutionMethod"/> for validity by comparing against the <see cref="PKM"/> data.
@@ -28,16 +22,10 @@ namespace PKHeX.Core
         /// <param name="pkm">Entity to check</param>
         /// <param name="lvl">Current level</param>
         /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
-        /// <returns></returns>
+        /// <returns>True if a evolution criteria is valid.</returns>
         public bool Valid(PKM pkm, int lvl, bool skipChecks)
         {
             RequiresLevelUp = false;
-
-            // Check for unavailable evolution methods for an un-traded specimen.
-            // Example: Sun/Moon lack Ultra's Kantonian evolution methods.
-            if (!skipChecks && Banlist.Count > 0 && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded)
-                return false;
-
             switch ((EvolutionType)Method)
             {
                 case UseItem:
@@ -115,26 +103,14 @@ namespace PKHeX.Core
             }
         }
 
-        public EvoCriteria GetEvoCriteria(int species, int lvl)
+        public EvoCriteria GetEvoCriteria(int species, int form, int lvl)
         {
             return new EvoCriteria
             {
                 Species = species,
                 Level = lvl,
-                Form = Form,
-                Method = Method,
-            };
-        }
-
-        public EvolutionMethod Copy(int species, int form)
-        {
-            return new EvolutionMethod
-            {
-                Method = Method,
-                Species = species,
-                Argument = Argument,
                 Form = form,
-                Level = Level
+                Method = Method,
             };
         }
 
