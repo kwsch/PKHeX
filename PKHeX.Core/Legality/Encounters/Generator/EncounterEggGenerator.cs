@@ -32,7 +32,7 @@ namespace PKHeX.Core
             int lvl = GetEggHatchLevel(gen);
             int max = GetMaxSpeciesOrigin(gen);
 
-            var e = GetBaseSpecies(species, vs, 0);
+            var e = GetBaseSpecies(vs, 0);
             if (e.Species <= max)
             {
                 yield return new EncounterEgg(e.Species, e.Form, lvl) { Version = ver };
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             if (!GetSplitBreedGeneration(gen).Contains(species))
                 yield break; // no other possible species
 
-            var o = GetBaseSpecies(species, vs, 1);
+            var o = GetBaseSpecies(vs, 1);
             if (o.Species <= max)
             {
                 yield return new EncounterEggSplit(o.Species, o.Form, lvl, e.Species) { Version = ver };

@@ -545,7 +545,7 @@ namespace PKHeX.Core
                 return curr.Count >= last;
             }
             int gen = pkm.GenNumber;
-            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(GetBaseSpecies(pkm, poss, 1).Species))
+            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(GetBaseSpecies(poss, 1).Species))
                 return curr.Count >= poss.Count - 1;
             return curr.Count >= poss.Count;
         }
@@ -681,10 +681,8 @@ namespace PKHeX.Core
             var table = EvolutionTree.GetEvolutionTree(pkm, tree);
             int maxSpeciesOrigin = generation != -1 ? GetMaxSpeciesOrigin(generation) : -1;
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
-            return GetBaseSpecies(pkm, evos, skipOption);
+            return GetBaseSpecies(evos, skipOption);
         }
-
-        internal static EvoCriteria GetBaseSpecies(PKM pkm, IReadOnlyList<EvoCriteria> evos, int skipOption = 0) => GetBaseSpecies(pkm.Species, evos, skipOption);
 
         private static readonly EvoCriteria Nincada = new EvoCriteria(290, 0)
         {
@@ -698,8 +696,9 @@ namespace PKHeX.Core
             Method = (int)EvolutionType.None,
         };
 
-        internal static EvoCriteria GetBaseSpecies(int species, IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
+        internal static EvoCriteria GetBaseSpecies(IReadOnlyList<EvoCriteria> evos, int skipOption = 0)
         {
+            int species = evos[0].Species;
             if (species == (int)Species.Shedinja) // Shedinja
                 return Nincada; // Nincada
 
