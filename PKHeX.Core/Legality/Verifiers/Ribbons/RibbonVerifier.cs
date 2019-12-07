@@ -184,6 +184,13 @@ namespace PKHeX.Core
                 if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5
                     yield return new RibbonResult(nameof(s3.RibbonEffort));
             }
+            if (pkm is IRibbonSetCommon8 s8)
+            {
+                bool inhabited8 = gen <= 7;
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                foreach (var z in iterate)
+                    yield return z;
+            }
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons4Any(PKM pkm, IRibbonSetCommon4 s4, int gen)
@@ -312,7 +319,7 @@ namespace PKHeX.Core
             }
 
             const int mem_Champion = 27;
-            bool hasChampMemory = pkm.HT_Memory == mem_Champion || pkm.OT_Memory == mem_Champion;
+            bool hasChampMemory = (pkm.Format < 8 && pkm.HT_Memory == mem_Champion) || (pkm.Gen6 && pkm.OT_Memory == mem_Champion);
             if (!hasChampMemory || s6.RibbonChampionKalos || s6.RibbonChampionG6Hoenn)
                 yield break;
 
@@ -331,6 +338,26 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeGreat));
                 if (s7.RibbonBattleTreeMaster)
                     yield return new RibbonResult(nameof(s7.RibbonBattleTreeMaster));
+            }
+        }
+
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8)
+        {
+            if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
+            {
+                if (s8.RibbonChampionGalar)
+                    yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+                if (s8.RibbonTowerMaster && !(pkm.USUM || !pkm.IsUntraded))
+                    yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
+                if (s8.RibbonMasterRank)
+                    yield return new RibbonResult(nameof(s8.RibbonMasterRank));
+            }
+            else
+            {
+                const int mem_Champion = 27;
+                bool hasChampMemory = (pkm.Format == 8 && pkm.HT_Memory == mem_Champion) || (pkm.Gen8 && pkm.OT_Memory == mem_Champion);
+                if (hasChampMemory && !s8.RibbonChampionGalar)
+                    yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
             }
         }
 
