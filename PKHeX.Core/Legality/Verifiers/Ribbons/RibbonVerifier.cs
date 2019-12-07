@@ -161,8 +161,12 @@ namespace PKHeX.Core
                         yield return new RibbonResult(nameof(s6.RibbonCountMemoryBattle));
                 }
 
-                if (s6.RibbonBestFriends && pkm.OT_Affection < 255 && pkm.IsUntraded) // can't lower affection
-                    yield return new RibbonResult(nameof(s6.RibbonBestFriends));
+                // Gen8+ replaced with Max Friendship. Gen6/7 uses affection.
+                if (pkm.Format <= 7 && s6.RibbonBestFriends) // can't lower affection
+                {
+                    if (pkm.OT_Affection < 255 && pkm.IsUntraded)
+                        yield return new RibbonResult(nameof(s6.RibbonBestFriends));
+                }
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
