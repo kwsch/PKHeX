@@ -13,10 +13,10 @@ namespace PKHeX.Core
     {
         public int Species { get; set; }
         public int[] Moves { get; set; } = Array.Empty<int>();
-        public int Level { get; set; }
+        public virtual int Level { get; set; }
 
-        public int LevelMin => Level;
-        public int LevelMax => Level;
+        public virtual int LevelMin => Level;
+        public virtual int LevelMax => Level;
         public int Generation { get; set; } = -1;
         public virtual int Location { get; set; }
         public int Ability { get; set; }
