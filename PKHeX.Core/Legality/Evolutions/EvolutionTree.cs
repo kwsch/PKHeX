@@ -136,11 +136,7 @@ namespace PKHeX.Core
                     {
                         var dSpecies = evo.Species;
                         if (dSpecies == 0)
-                            continue;
-
-                        bool any = evo.Form == EvolutionMethod.AnyForm;
-                        if (!any && evo.Form != sForm)
-                            continue;
+                            break;
 
                         var dForm = evo.GetDestinationForm(sForm);
                         var key = GetLookupKey(dSpecies, dForm);
