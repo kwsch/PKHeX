@@ -693,7 +693,7 @@ namespace PKHeX.Core
             RequiresLvlUp = true,
         };
 
-        private static readonly EvoCriteria EvoEmpty = new EvoCriteria(290, 0)
+        private static readonly EvoCriteria EvoEmpty = new EvoCriteria(0, 0)
         {
             Method = (int)EvolutionType.None,
         };
