@@ -91,7 +91,7 @@ namespace PKHeX.Core
             Entries = GetEntries(data);
 
             // Starting in Generation 7, forms have separate evolution data.
-            int format = Game.GetGeneration();
+            int format = Game - Gen1 + 1;
             var oldStyle = format < 7;
             var connections = oldStyle ? CreateTreeOld() : CreateTree();
 
@@ -214,7 +214,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from.
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to &amp; from, yielded in order of increasing evolution stage.
         /// </summary>
         /// <param name="species">Species ID</param>
         /// <param name="form">Form ID</param>
@@ -235,6 +235,8 @@ namespace PKHeX.Core
             foreach (var method in node)
             {
                 var s = method.Species;
+                if (s == 0)
+                    continue;
                 var f = method.Form;
                 yield return s;
                 var preEvolutions = GetPreEvolutions(s, f);
@@ -245,13 +247,18 @@ namespace PKHeX.Core
 
         private IEnumerable<int> GetEvolutions(int species, int form)
         {
-            int index = GetLookupKey(species, form);
-            var node = Lineage[index];
-            foreach (var method in node)
+            int format = Game - Gen1 + 1;
+            int index = format < 7 ? species : Personal.GetFormeIndex(species, form);
+            var evos = Entries[index];
+            foreach (var method in evos)
             {
                 var s = method.Species;
+                if (s == 0)
+                    continue;
+                var f = method.GetDestinationForm(form);
                 yield return s;
-                foreach (var next in GetEvolutions(s, form))
+                var nextEvolutions = GetEvolutions(s, f);
+                foreach (var next in nextEvolutions)
                     yield return next;
             }
         }
