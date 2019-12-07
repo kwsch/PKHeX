@@ -27,7 +27,7 @@ namespace PKHeX.Core
         {
             // Incense
             113, 242, // Chansey
-            122, // Mr. Mime
+            122, 866, // Mr. Mime
             143, // Snorlax
             183, 184, // Marill
             185, // Sudowoodo
