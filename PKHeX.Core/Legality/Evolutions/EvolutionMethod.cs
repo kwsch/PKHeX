@@ -10,11 +10,15 @@ namespace PKHeX.Core
         public int Method;
         public int Species;
         public int Argument;
-        public int Form = -1;
+        public int Form = AnyForm;
         public int Level;
+
+        public const int AnyForm = -1;
 
         // Not stored in binary data
         public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
+
+        public int GetDestinationForm(int form) => Form == AnyForm ? form : Method == (int)LevelUpFormFemale1 ? 1 : Form;
 
         /// <summary>
         /// Checks the <see cref="EvolutionMethod"/> for validity by comparing against the <see cref="PKM"/> data.

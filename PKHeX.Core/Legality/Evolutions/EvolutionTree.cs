@@ -89,8 +89,38 @@ namespace PKHeX.Core
             Personal = personal;
             MaxSpeciesTree = maxSpeciesTree;
             Entries = GetEntries(data);
-            var connections = CreateTree();
+
+            // Starting in Generation 7, forms have separate evolution data.
+            int format = Game.GetGeneration();
+            var oldStyle = format < 7;
+            var connections = oldStyle ? CreateTreeOld() : CreateTree();
+
             Lineage = connections.ToLookup(obj => obj.Key, obj => obj.Value);
+        }
+
+        private IEnumerable<KeyValuePair<int, EvolutionLink>> CreateTreeOld()
+        {
+            for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
+            {
+                var fc = Personal[sSpecies].FormeCount;
+                for (int sForm = 0; sForm < fc; sForm++)
+                {
+                    var index = sSpecies;
+                    var evos = Entries[index];
+                    foreach (var evo in evos)
+                    {
+                        var dSpecies = evo.Species;
+                        if (dSpecies == 0)
+                            continue;
+
+                        var dForm = sForm;
+                        var key = GetLookupKey(dSpecies, dForm);
+
+                        var link = new EvolutionLink(sSpecies, sForm, evo);
+                        yield return new KeyValuePair<int, EvolutionLink>(key, link);
+                    }
+                }
+            }
         }
 
         private IEnumerable<KeyValuePair<int, EvolutionLink>> CreateTree()
@@ -107,7 +137,12 @@ namespace PKHeX.Core
                         var dSpecies = evo.Species;
                         if (dSpecies == 0)
                             continue;
-                        var dForm = evo.Form < 0 ? sForm : evo.Form;
+
+                        bool any = evo.Form == EvolutionMethod.AnyForm;
+                        if (!any && evo.Form != sForm)
+                            continue;
+
+                        var dForm = evo.GetDestinationForm(sForm);
                         var key = GetLookupKey(dSpecies, dForm);
 
                         var link = new EvolutionLink(sSpecies, sForm, evo);
@@ -210,7 +245,7 @@ namespace PKHeX.Core
 
         private IEnumerable<int> GetEvolutions(int species, int form)
         {
-            int index = Personal.GetFormeIndex(species, form);
+            int index = GetLookupKey(species, form);
             var node = Lineage[index];
             foreach (var method in node)
             {
