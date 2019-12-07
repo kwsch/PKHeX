@@ -274,16 +274,22 @@ namespace PKHeX.Core
         /// <returns></returns>
         private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
         {
+            int species = pkm.Species;
+            int form = pkm.AltForm;
             int lvl = maxLevel;
-            var first = new EvoCriteria(pkm.Species, pkm.AltForm) { Level = lvl, };
+            var first = new EvoCriteria(species, form) { Level = lvl };
 
             const int maxEvolutions = 3;
             var dl = new List<EvoCriteria>(maxEvolutions) { first };
 
+            switch (species)
+            {
+                case (int)Species.Silvally: form = 0;
+                    break;
+            }
+
             // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
             // There aren't any convergent evolution paths, so only yield the first connection.
-            int species = pkm.Species;
-            int form = pkm.AltForm;
             while (true)
             {
                 var key = GetLookupKey(species, form);
