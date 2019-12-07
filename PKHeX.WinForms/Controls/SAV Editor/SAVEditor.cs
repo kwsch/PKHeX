@@ -411,7 +411,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickClone(object sender, EventArgs e)
         {
-            var detail = GetSlotData((PictureBox) sender);
+            var detail = Box.GetSlotData((PictureBox) sender);
             if (detail is SlotInfoBox)
                 RequestCloneData?.Invoke(sender, e);
         }
