@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public int TrainerID
         {
             get => BitConverter.ToInt32(Data, 0x1C);
-            set => SAV.SetData(BitConverter.GetBytes(value), 0x1C);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
         }
 
         public string Number
