@@ -7,6 +7,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class Memories
     {
+        internal const int MAX_MEMORY_ID_XY = 64;
+        internal const int MAX_MEMORY_ID_AO = 69;
+        internal const int MAX_MEMORY_ID_SWSH = 89;
+
         #region Tables
         internal static readonly int[] Memory_NotXY =
         {
@@ -27,6 +31,18 @@ namespace PKHeX.Core
             62, // {0} saw itself in a mirror in a mirror cave that it went to with {1}. {4} that {3}.
         };
 
+        internal static readonly int[] Memory_NotSWSH =
+        {
+            // There's probably more. Send a pull request!
+            20, // {0} surfed across the water, carrying {1} on its back. {4} that {3}.
+            24, // {0} flew, carrying {1} on its back, to {2}. {4} that {3}.
+            35, // {0} proudly used Strength at {1}’s instruction in... {2}. {4} that {3}.
+            36, // {0} proudly used Cut at {1}’s instruction in... {2}. {4} that {3}.
+            37, // {0} shattered rocks to its heart’s content at {1}’s instruction in... {2}. {4} that {3}.
+            38, // {0} used Waterfall while carrying {1} on its back in... {2}. {4} that {3}.
+            69, // {1} asked {0} to dive. Down it went, deep into the ocean, to explore the bottom of the sea. {4} that {3}.
+        };
+
         internal static readonly int[][] MoveSpecificMemories =
         {
             new[] {
@@ -41,24 +57,27 @@ namespace PKHeX.Core
             new[] { 57, 19, 70, 15, 249, 127, 291}, // Move IDs
         };
 
-        internal static readonly int[] LocationsWithPKCenter =
+        internal static readonly int[] LocationsWithPokeCenter_XY =
         {
             // Kalos locations with a PKMN CENTER
-            18,  // Santalune City
-            22,  // Lumiose City
-            30,  // Camphrier Town
-            40,  // Cyllage City
-            44,  // Ambrette Town
-            52,  // Geosenge Towny
-            58,  // Shalour City
-            64,  // Coumarine City
-            70,  // Laverre City
-            76,  // Dendemille Town
-            86,  // Anistar City
-            90,  // Couriway Town
-            94,  // Snowbelle City
+            018, // Santalune City
+            022, // Lumiose City
+            030, // Camphrier Town
+            040, // Cyllage City
+            044, // Ambrette Town
+            052, // Geosenge Towny
+            058, // Shalour City
+            064, // Coumarine City
+            070, // Laverre City
+            076, // Dendemille Town
+            086, // Anistar City
+            090, // Couriway Town
+            094, // Snowbelle City
             106, // Pokémon League (X/Y)
+        };
 
+        internal static readonly int[] LocationsWithPokeCenter_AO =
+        {
             // Hoenn locations with a PKMN CENTER
             172, // Oldale Town
             174, // Dewford Town
@@ -78,16 +97,17 @@ namespace PKHeX.Core
             202, // Pokémon League (OR/AS)
         };
 
-        internal static GameVersion GetGameVersionForPokeCenterIndex(int index)
+        private static ICollection<int> GetPokeCenterLocations(GameVersion game)
         {
-            return PokeCenterVersion[index] == 0 ? GameVersion.XY : GameVersion.ORAS;
+            return GameVersion.XY.Contains(game) ? LocationsWithPokeCenter_XY : LocationsWithPokeCenter_AO;
         }
 
-        private static readonly int[] PokeCenterVersion = // Region matching
+        public static bool GetHasPokeCenterLocation(GameVersion game, int loc)
         {
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-        };
+            if (game == GameVersion.Gen6)
+                return GetHasPokeCenterLocation(GameVersion.X, loc) || GetHasPokeCenterLocation(GameVersion.AS, loc);
+            return GetPokeCenterLocations(game).Contains(loc);
+        }
 
         private static readonly byte[] MemoryMinIntensity =
         {
@@ -135,10 +155,10 @@ namespace PKHeX.Core
         private static readonly HashSet<int> MemoryItem = new HashSet<int> { 5, 15, 26, 34, 40, 51, 84, 88 };
         private static readonly HashSet<int> MemorySpecies = new HashSet<int> { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60, 70, 71, 72, 75, 82, 83, 87 };
 
-        public static MemoryArgType GetMemoryArgType(int memory)
+        public static MemoryArgType GetMemoryArgType(int memory, int format)
         {
             if (MemoryGeneral.Contains(memory)) return MemoryArgType.GeneralLocation;
-            if (MemorySpecific.Contains(memory)) return MemoryArgType.SpecificLocation;
+            if (MemorySpecific.Contains(memory) && format == 6) return MemoryArgType.SpecificLocation;
             if (MemoryItem.Contains(memory)) return MemoryArgType.Item;
             if (MemoryMove.Contains(memory)) return MemoryArgType.Move;
             if (MemorySpecies.Contains(memory)) return MemoryArgType.Species;

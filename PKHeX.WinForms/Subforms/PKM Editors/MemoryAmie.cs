@@ -210,21 +210,24 @@ namespace PKHeX.WinForms
 
         private void UpdateMemoryDisplay(object sender)
         {
-            int memory = WinFormsUtil.GetIndex((ComboBox) sender);
-            var memIndex = Memories.GetMemoryArgType(memory);
-            var argvals = MemStrings.GetArgumentStrings(memIndex);
             if (sender == CB_CTMemory)
             {
+                int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.GenNumber);
+                var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
-                LCTV.Text = TextArgs.GetMemoryCategory(memIndex);
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.GenNumber);
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
             {
+                int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.Format);
+                var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_OTVar.InitializeBinding();
                 CB_OTVar.DataSource = new BindingSource(argvals, null);
-                LOTV.Text = TextArgs.GetMemoryCategory(memIndex);
+                LOTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Format);
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
@@ -351,12 +354,12 @@ namespace PKHeX.WinForms
                 if (args[9] != null) Location = args[9] + ":";
             }
 
-            public string GetMemoryCategory(MemoryArgType type)
+            public string GetMemoryCategory(MemoryArgType type, int format)
             {
                 return type switch
                 {
                     MemoryArgType.GeneralLocation => Area,
-                    MemoryArgType.SpecificLocation => Location,
+                    MemoryArgType.SpecificLocation when format == 6 => Location,
                     MemoryArgType.Species => Species,
                     MemoryArgType.Move => Move,
                     MemoryArgType.Item => Item,
