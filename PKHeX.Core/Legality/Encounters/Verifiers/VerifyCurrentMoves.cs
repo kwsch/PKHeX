@@ -377,6 +377,11 @@ namespace PKHeX.Core
             var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
             var baseSpecies = entry.BaseSpecies;
             var baseForm = entry.FormIndex;
+
+            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
+            if (pkm.Species == (int) Species.Indeedee)
+                baseForm = pkm.AltForm;
+
             var egg = MoveEgg.GetEggMoves(pkm, baseSpecies, baseForm, GameVersion.SW);
             return egg.Contains(move);
         }
