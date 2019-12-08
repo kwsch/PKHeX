@@ -343,9 +343,6 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalysis.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
             }
 
-            if (!string.IsNullOrWhiteSpace(pk8.HT_Name) && pk8.HT_Language == 0)
-                data.AddLine(GetInvalid(LMemoryHTLanguage));
-
             // weight/height scalars can be legally 0 (1:65536) so don't bother checking
         }
     }

@@ -14,189 +14,10 @@ namespace PKHeX.Core
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
 
-        private static readonly CheckResult NONE = new CheckResult(CheckIdentifier.Memory);
-
         public override void Verify(LegalityAnalysis data)
         {
-            if (data.pkm.Format < 6)
-                return;
-            var hist = VerifyHistory(data);
             VerifyOTMemory(data);
             VerifyHTMemory(data);
-            data.AddLine(hist);
-        }
-
-        private CheckResult VerifyHistory(LegalityAnalysis data)
-        {
-            var pkm = data.pkm;
-            var Info = data.Info;
-            var EncounterMatch = data.EncounterMatch;
-
-            if (Info.Generation < 6)
-            {
-                if ((pkm.OT_Affection != 0 && Info.Generation <= 2) || IsInvalidContestAffection(pkm))
-                    return GetInvalid(LMemoryStatAffectionOT0);
-            }
-
-            if (Info.Generation != pkm.Format && pkm.CurrentHandler != 1)
-                return GetInvalid(LTransferHTFlagRequired);
-
-            if (pkm.HT_Gender > 1)
-                return GetInvalid(string.Format(LMemoryHTGender, pkm.HT_Gender));
-
-            if (EncounterMatch is WC6 wc6 && wc6.OT_Name.Length > 0)
-            {
-                if (pkm.OT_Friendship != PersonalTable.AO[EncounterMatch.Species].BaseFriendship)
-                    return GetInvalid(LMemoryStatFriendshipOTBaseEvent);
-                if (pkm.OT_Affection != 0 && (pkm.AO || !pkm.IsUntraded) && IsInvalidContestAffection(pkm))
-                    return GetInvalid(LMemoryStatAffectionOT0Event);
-                if (pkm.CurrentHandler != 1)
-                    return GetInvalid(LMemoryHTEvent);
-            }
-            else if (EncounterMatch is WC7 wc7 && wc7.OT_Name.Length > 0 && wc7.TID != 18075) // Ash Pikachu QR Gift doesn't set Current Handler
-            {
-                if (pkm.OT_Friendship != PersonalTable.USUM[EncounterMatch.Species].BaseFriendship)
-                    return GetInvalid(LMemoryStatFriendshipOTBaseEvent);
-                if (pkm.OT_Affection != 0)
-                    return GetInvalid(LMemoryStatAffectionOT0Event);
-                if (pkm.CurrentHandler != 1)
-                    return GetInvalid(LMemoryHTEvent);
-            }
-            else if (EncounterMatch is MysteryGift mg && mg.Format < 6)
-            {
-                if (pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
-                    return GetInvalid(LMemoryStatAffectionOT0Event);
-                if (pkm.CurrentHandler != 1)
-                    return GetInvalid(LMemoryHTEvent);
-            }
-
-            // Check sequential order (no zero gaps)
-            if (pkm is IGeoTrack t)
-            {
-                var valid = t.GetValidity();
-                if (valid == GeoValid.CountryAfterPreviousEmpty)
-                    return GetInvalid(LGeoBadOrder);
-                if (valid == GeoValid.RegionWithoutCountry)
-                    return GetInvalid(LGeoNoRegion);
-            }
-            if (pkm.Format >= 7)
-                return VerifyHistory7(data);
-
-            // Determine if we should check for Handling Trainer Memories
-            // A Pokémon is untraded if...
-            bool untraded = GetIsUntradedByEncounterMemories(pkm, EncounterMatch, Info.Generation);
-            if (untraded) // Is not Traded
-            {
-                if (pkm.HT_Name.Length != 0)
-                    return GetInvalid(LGeoNoCountryHT);
-                if (pkm is IGeoTrack g && g.Geo1_Country != 0)
-                    return GetInvalid(LGeoNoHT);
-                if (pkm.HT_Memory != 0)
-                    return GetInvalid(LMemoryMissingHTName);
-                if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                    return GetInvalid(LMemoryHTFlagInvalid);
-                if (pkm.HT_Friendship != 0)
-                    return GetInvalid(LMemoryStatFriendshipHT0);
-                if (pkm.HT_Affection != 0)
-                    return GetInvalid(LMemoryStatAffectionHT0);
-                if (pkm.XY && pkm is IContestStats s && s.HasContestStats())
-                    return GetInvalid(LContestZero);
-
-                if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
-                    return chk1;
-                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, Info.EvoChainsAllGens, out CheckResult chk2))
-                    return chk2;
-            }
-            else // Is Traded
-            {
-                if (pkm.Format == 6 && pkm.HT_Memory == 0 && !pkm.IsEgg)
-                    return GetInvalid(LMemoryMissingHT);
-            }
-
-            // Memory ChecksResult
-            if (pkm.IsEgg)
-            {
-                if (pkm.HT_Memory != 0)
-                    return GetInvalid(LMemoryArgBadHT);
-                if (pkm.OT_Memory != 0)
-                    return GetInvalid(LMemoryArgBadEggOT);
-            }
-            else if (!(EncounterMatch is WC6))
-            {
-                if (pkm.OT_Memory == 0 ^ !pkm.Gen6)
-                    return GetInvalid(LMemoryMissingOT);
-                if (Info.Generation < 6 && pkm.OT_Affection != 0 && IsInvalidContestAffection(pkm))
-                    return GetInvalid(LMemoryStatAffectionOT0);
-            }
-            // Unimplemented: Ingame Trade Memories
-
-            return GetValid(LMemoryValid);
-        }
-
-        private CheckResult VerifyHistory7(LegalityAnalysis data)
-        {
-            var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-            var Info = data.Info;
-
-            if (pkm.VC1 && pkm is IGeoTrack g)
-            {
-                var hasGeo = g.Geo1_Country != 0;
-                if (!hasGeo)
-                    return GetInvalid(LGeoMemoryMissing);
-            }
-
-            if ((2 >= Info.Generation || Info.Generation >= 7) && pkm is IContestStats s && s.HasContestStats())
-                return GetInvalid(LContestZero);
-
-            if (!pkm.WasEvent && pkm.HT_Name.Length == 0) // Is not Traded
-            {
-                if (VerifyHistoryUntradedHandler(pkm, out CheckResult chk1))
-                    return chk1;
-                if (EncounterMatch.Species != pkm.Species && VerifyHistoryUntradedEvolution(pkm, Info.EvoChainsAllGens, out CheckResult chk2))
-                    return chk2;
-            }
-
-            return GetValid(LMemoryValid);
-        }
-
-        private bool VerifyHistoryUntradedHandler(PKM pkm, out CheckResult result)
-        {
-            result = NONE;
-            if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
-                result = GetInvalid(LMemoryHTFlagInvalid);
-            else if (pkm.HT_Friendship != 0)
-                result = GetInvalid(LMemoryStatFriendshipHT0);
-            else if (pkm.HT_Affection != 0)
-                result = GetInvalid(LMemoryStatAffectionHT0);
-            else
-                return false;
-
-            return true;
-        }
-
-        private bool VerifyHistoryUntradedEvolution(PKM pkm, IReadOnlyList<EvoCriteria>[] chain, out CheckResult result)
-        {
-            result = NONE;
-            // Handling Trainer string is empty implying it has not been traded.
-            // If it must be trade evolved, flag it.
-
-            if (pkm.Species == 350) // Milotic
-            {
-                if (Legal.IsTradeEvolved(chain, pkm.Format))
-                    return false;
-                if (pkm is IContestStats s && s.CNT_Beauty < 170) // Beauty Contest Stat Requirement
-                    result = GetInvalid(LEvoBeautyTradeLow);
-                else if (pkm.CurrentLevel == 1)
-                    result = GetInvalid(LEvoBeautyUntrained);
-                else
-                    return false;
-                return true;
-            }
-            if (!Legal.IsTradeEvolved(chain, pkm.Format))
-                return false;
-            result = GetInvalid(LEvoTradeRequiredMemory);
-            return true;
         }
 
         private CheckResult VerifyCommonMemory(PKM pkm, int handler)
@@ -248,6 +69,14 @@ namespace PKHeX.Core
         private static bool GetIsMoveKnowable(PKM pkm, int handler, int move) => Legal.GetCanKnowMove(pkm, move, GetMemoryObtainedGeneration(pkm, handler));
         private static bool GetIsMoveLearnable(PKM pkm, int handler, int move) => Legal.GetCanRelearnMove(pkm, move, GetMemoryObtainedGeneration(pkm, handler));
 
+        /// <summary>
+        /// Used for enforcing a fixed memory detail.
+        /// </summary>
+        /// <param name="data">Output storage</param>
+        /// <param name="m">Memory ID</param>
+        /// <param name="i">Intensity</param>
+        /// <param name="t">Text Variable</param>
+        /// <param name="f">Feeling</param>
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
         {
             var pkm = data.pkm;
@@ -382,20 +211,6 @@ namespace PKHeX.Core
                     return;
             }
             data.AddLine(VerifyCommonMemory(pkm, 1));
-        }
-
-        // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
-        private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
-
-        private static bool GetIsUntradedByEncounterMemories(PKM pkm, IEncounterable EncounterMatch, int generation)
-        {
-            if (generation < 6)
-                return false;
-
-            bool untraded = pkm.HT_Name.Length == 0 || (pkm is IGeoTrack g && g.Geo1_Country == 0);
-            if (EncounterMatch is WC6 gift)
-                return gift.OTGender == 3 && untraded;
-            return untraded;
         }
 
         private static bool GetCanBeCaptured(int species, int gen, GameVersion version = GameVersion.Any)

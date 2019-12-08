@@ -311,6 +311,7 @@ namespace PKHeX.Core
                 return;
 
             ConsoleRegion.Verify(this);
+            History.Verify(this);
             Memory.Verify(this);
             if (pkm is ISuperTrain)
                 Medal.Verify(this);

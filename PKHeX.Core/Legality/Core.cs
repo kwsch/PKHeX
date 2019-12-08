@@ -526,11 +526,6 @@ namespace PKHeX.Core
             return pkm.Species == 773;
         }
 
-        internal static bool IsTradeEvolved(IReadOnlyList<EvoCriteria>[] chain, int pkmFormat)
-        {
-            return chain[pkmFormat].Any(z => z.IsTradeRequired);
-        }
-
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
             var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
