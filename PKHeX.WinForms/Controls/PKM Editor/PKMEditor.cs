@@ -243,8 +243,12 @@ namespace PKHeX.WinForms.Controls
 
             Entity = pk.Clone();
 
+#if !DEBUG
             try { GetFieldsfromPKM(); }
             catch { }
+#else
+            GetFieldsfromPKM();
+#endif
 
             Stats.UpdateIVs(null, EventArgs.Empty);
             UpdatePKRSInfected(null, EventArgs.Empty);

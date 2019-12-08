@@ -961,10 +961,20 @@ namespace PKHeX.Core
             if (generation < 8)
                 return EMPTY;
 
+            static string[] GetBlank(int count)
+            {
+                var result = new string[count];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = i.ToString();
+                return result;
+            }
+
             return species switch
             {
                 (int) Furfrou when form != 0 => new[] {"0", "1", "2", "3", "4", "5"},
                 (int) Hoopa when form == 1 => new[] {"0", "1", "2", "3"},
+                (int) Yamask when form == 1 => GetBlank(320),
+                (int) Runerigus when form == 0 => GetBlank(320), // max Runerigus HP
                 (int) Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
                 _ => EMPTY
             };
