@@ -398,16 +398,12 @@ namespace PKHeX.Core
             312, // Dread Plate
             313, // Iron Plate
             // 644, // Pixie Plate
+            
+            1114, // Star Sweet
+            1115, // Ribbon Sweet
 
-            565, // Health Feather
-            566, // Muscle Feather
-            567, // Resist Feather
-            568, // Genius Feather
-            569, // Clever Feather
-            570, // Swift Feather
-
-            // 1279, // ★And458
-            // 1280, // ★And15
+            // 1279, // ★And458 (Jangmo-o)
+            // 1280, // ★And15 (Larvitar)
             1281, // ★And337
             1282, // ★And603
             1283, // ★And390
@@ -718,8 +714,6 @@ namespace PKHeX.Core
             210, // Custap Berry
             211, // Jaboca Berry
             212, // Rowap Berry
-
-            054, // Old Gateau
         };
         #endregion
         internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8+1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();
