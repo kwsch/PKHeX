@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -71,10 +72,23 @@ namespace PKHeX.Core
 
         private void VerifyOTFriendship(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
         {
-            if (neverOT || origin <= 2)
+            if (origin <= 2)
             {
-                var baseFriendship = GetBaseFriendship(origin, pkm.Species);
-                if (pkm.OT_Friendship != baseFriendship)
+                // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
+                // Since some evolutions have different base friendship values, check all possible evolutions for a match.
+                // If none match, then it is not a valid OT friendship.
+                const int vc = 7; // VC transfers use SM personal info
+                var evos = data.Info.EvoChainsAllGens[vc];
+                var fs = pkm.OT_Friendship;
+                if (evos.All(z => GetBaseFriendship(vc, z.Species) != fs))
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
+            }
+            else if (neverOT)
+            {
+                // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
+                // If none match, then it is not a valid OT friendship.
+                var fs = pkm.OT_Friendship;
+                if (GetBaseFriendship(origin, data.Info.EncounterMatch.Species) != fs)
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
         }
@@ -177,11 +191,11 @@ namespace PKHeX.Core
         {
             return gen switch
             {
-                1 => PersonalTable.SM[species].BaseFriendship,
-                2 => PersonalTable.SM[species].BaseFriendship,
+                1 => PersonalTable.USUM[species].BaseFriendship,
+                2 => PersonalTable.USUM[species].BaseFriendship,
 
                 6 => PersonalTable.AO[species].BaseFriendship,
-                7 => PersonalTable.SM[species].BaseFriendship,
+                7 => PersonalTable.USUM[species].BaseFriendship,
                 8 => PersonalTable.SWSH[species].BaseFriendship,
                 _ => throw new IndexOutOfRangeException(),
             };
