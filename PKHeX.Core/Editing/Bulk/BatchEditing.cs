@@ -23,7 +23,7 @@ namespace PKHeX.Core
             typeof (PK2), typeof (PK1),
         };
 
-        public static readonly string[] CustomProperties = { PROP_LEGAL };
+        public static readonly string[] CustomProperties = { PROP_LEGAL, PROP_RIBBONS };
         public static readonly string[][] Properties = GetPropArray();
 
         private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
@@ -36,6 +36,7 @@ namespace PKHeX.Core
         private const string CONST_BYTES = "$[]";
 
         private const string PROP_LEGAL = "Legal";
+        private const string PROP_RIBBONS = "Ribbons";
         private const string IdentifierContains = nameof(PKM.Identifier) + "Contains";
 
         private static string[][] GetPropArray()
@@ -247,8 +248,8 @@ namespace PKHeX.Core
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
                 return SetByteArrayProperty(pk, cmd);
 
-            if (cmd.PropertyValue == CONST_SUGGEST)
-                return SetSuggestedPKMProperty(cmd.PropertyName, info);
+            if (cmd.PropertyValue.StartsWith(CONST_SUGGEST))
+                return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
                 return SetMoves(pk, pk.GetMoveSet(info.Legality, true));
 
@@ -348,8 +349,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="name">Property to modify.</param>
         /// <param name="info">Cached info storing Legal data.</param>
-        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info)
+        /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
+        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info, string propValue)
         {
+            bool isAll() => propValue.EndsWith("All", true, CultureInfo.CurrentCulture);
+            bool isNone() => propValue.EndsWith("None", true, CultureInfo.CurrentCulture);
             var pk = info.Entity;
             switch (name)
             {
@@ -380,9 +384,18 @@ namespace PKHeX.Core
                     if (pk.Format >= 8)
                     {
                         pk.ClearRecordFlags();
-                        pk.SetRecordFlags(pk.Moves);
+                        if (isAll())
+                            pk.SetRecordFlags(); // all
+                        else if (!isNone())
+                            pk.SetRecordFlags(pk.Moves); // whatever fit the current moves
                     }
                     pk.SetRelearnMoves(info.SuggestedRelearn);
+                    return ModifyResult.Modified;
+                case PROP_RIBBONS:
+                    if (isNone())
+                        RibbonApplicator.RemoveAllValidRibbons(pk);
+                    else // All
+                        RibbonApplicator.SetAllValidRibbons(pk);
                     return ModifyResult.Modified;
                 case nameof(PKM.Met_Location):
                     var encounter = info.SuggestedEncounter;
@@ -465,8 +478,8 @@ namespace PKHeX.Core
                 pk.SetPIDGender(pk.Gender);
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
                 pk.EncryptionConstant = pk.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
-                pk.SetShiny();
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY))
+                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0"));
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
                 Array.Clear(pk.Data, 0, pk.Data.Length);
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
