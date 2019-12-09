@@ -30,6 +30,16 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Original encounter data for the <see cref="pkm"/>.
+        /// </summary>
+        /// <remarks>
+        /// Generation 1/2 <see cref="pkm"/> that are transferred forward to Generation 7 are restricted to new encounter details.
+        /// By retaining their original match, more information can be provided by the parse.
+        /// </remarks>
+        public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
+
+        internal IEncounterable? EncounterOriginalGB;
         private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Base Relearn Moves for the <see cref="EncounterMatch"/>.</summary>
@@ -43,7 +53,7 @@ namespace PKHeX.Core
 
         private static readonly ValidEncounterMoves NONE = new ValidEncounterMoves();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterOriginal);
         private IReadOnlyList<EvoCriteria>[]? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>

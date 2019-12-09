@@ -26,8 +26,6 @@ namespace PKHeX.Core
         /// </summary>
         public void ResetParse() => Parse.Clear();
 
-        private IEncounterable? EncounterOriginalGB;
-
         /// <summary>
         /// Matched encounter data for the <see cref="pkm"/>.
         /// </summary>
@@ -40,7 +38,7 @@ namespace PKHeX.Core
         /// Generation 1/2 <see cref="pkm"/> that are transferred forward to Generation 7 are restricted to new encounter details.
         /// By retaining their original match, more information can be provided by the parse.
         /// </remarks>
-        public IEncounterable EncounterOriginal => EncounterOriginalGB ?? EncounterMatch;
+        public IEncounterable EncounterOriginal => Info.EncounterOriginal;
 
         /// <summary>
         /// Indicates if all checks ran to completion.
@@ -270,14 +268,14 @@ namespace PKHeX.Core
 
         private void UpdateVCTransferInfo()
         {
-            EncounterOriginalGB = EncounterMatch;
-            if (EncounterOriginalGB is EncounterInvalid)
+            var enc = (Info.EncounterOriginalGB = EncounterMatch);
+            if (enc is EncounterInvalid)
                 return;
             Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm);
             if (!(Info.EncounterMatch is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter); return; }
 
-            foreach (var z in Transfer.VerifyVCEncounter(pkm, EncounterOriginalGB, s, Info.Moves))
+            foreach (var z in Transfer.VerifyVCEncounter(pkm, enc, s, Info.Moves))
                 AddLine(z);
 
             Transfer.VerifyTransferLegalityG12(this);
