@@ -126,7 +126,7 @@ namespace PKHeX.Core
                 || slot.IsDeferredSport(IsSportBall);
         }
 
-        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == 265 && currentSpecies != 265 && !WurmpleUtil.IsWurmpleEvoValid(pkm);
+        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
         private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Type & SlotType.Safari) != 0);
         private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();

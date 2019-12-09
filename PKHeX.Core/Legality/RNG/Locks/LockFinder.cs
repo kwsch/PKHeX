@@ -38,7 +38,7 @@ namespace PKHeX.Core
         {
             // reverse the seed the bare minimum
             int rev = 2;
-            if (species == 196)
+            if (species == (int)Species.Espeon)
                 rev += 7;
 
             var rng = RNG.XDRNG;
@@ -57,7 +57,7 @@ namespace PKHeX.Core
 
             // generate Umbreon
             var PIDIV = GenerateValidColoStarterPID(ref next, TID, SID);
-            if (species == 196) // need espeon, which is immediately next
+            if (species == (int)Species.Espeon) // need Espeon, which is immediately next
                 PIDIV = GenerateValidColoStarterPID(ref next, TID, SID);
 
             if (!PIDIV.Equals(pkPID, IV1, IV2))

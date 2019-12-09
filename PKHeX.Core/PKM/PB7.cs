@@ -358,7 +358,7 @@ namespace PKHeX.Core
             int nature = Nature;
             int friend = CurrentFriendship; // stats +10% depending on friendship!
             int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
-            ushort[] stats =
+            return new[]
             {
                 (ushort)(AV_HP  + GetStat(p.HP,  HT_HP  ? 31 : IV_HP,  level) + 10 + level),
                 (ushort)(AV_ATK + (scalar * GetStat(p.ATK, HT_ATK ? 31 : IV_ATK, level, nature, 0) / 100)),
@@ -367,9 +367,6 @@ namespace PKHeX.Core
                 (ushort)(AV_SPA + (scalar * GetStat(p.SPA, HT_SPA ? 31 : IV_SPA, level, nature, 2) / 100)),
                 (ushort)(AV_SPD + (scalar * GetStat(p.SPD, HT_SPD ? 31 : IV_SPD, level, nature, 3) / 100)),
             };
-            if (Species == 292)
-                stats[0] = 1;
-            return stats;
         }
 
         /// <summary>

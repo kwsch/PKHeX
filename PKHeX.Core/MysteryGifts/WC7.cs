@@ -508,7 +508,7 @@ namespace PKHeX.Core
 
             if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
             {
-                if (Species == 744 && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
+                if (Species == (int)Core.Species.Rockruff && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
                 {
                     // Rockruff gift edge case; has altform 1 then evolves to altform 2
                 }

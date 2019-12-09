@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
         private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, int[] Moves)
         {
-            if (pkm.Species == 235) // special handling for Smeargle
+            if (pkm.Species == (int)Species.Smeargle) // special handling for Smeargle
                 return ParseMovesForSmeargle(pkm, Moves, info); // Smeargle can have any moves except a few
 
             // gather valid moves for encounter species
@@ -274,7 +274,7 @@ namespace PKHeX.Core
                     return res;
             }
 
-            if (pkm.Species == 292 && info.Generation <= 4)
+            if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
                 ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves);
 
             for (int m = 0; m < 4; m++)

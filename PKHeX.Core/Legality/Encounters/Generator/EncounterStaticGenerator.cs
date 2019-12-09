@@ -109,40 +109,41 @@ namespace PKHeX.Core
 
         private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
-            var enc = new EncounterStatic
+            bool mew = species == (int)Species.Mew;
+            return new EncounterStatic
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
                 Ability = TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 ? Shiny.Never : Shiny.Random,
-                Fateful = species == 151,
+                Shiny = mew ? Shiny.Never : Shiny.Random,
+                Fateful = mew,
                 Location = Transfer1,
                 EggLocation = 0,
                 Level = pkmMetLevel,
                 Generation = 7,
-                Version = GameVersion.RBY
+                Version = GameVersion.RBY,
+                FlawlessIVCount = mew ? 5 : 3,
             };
-            enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
-            return enc;
         }
 
         private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
         {
-            var enc = new EncounterStatic
+            bool mew = species == (int) Species.Mew;
+            bool fateful = mew || species == (int) Species.Celebi;
+            return new EncounterStatic
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
                 Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = species == 151 ? Shiny.Never : Shiny.Random,
-                Fateful = species == 151 || species == 251,
+                Shiny = mew ? Shiny.Never : Shiny.Random,
+                Fateful = fateful,
                 Location = Transfer2,
                 EggLocation = 0,
                 Level = pkmMetLevel,
                 Generation = 7,
-                Version = GameVersion.GSC
+                Version = GameVersion.GSC,
+                FlawlessIVCount = fateful ? 5 : 3
             };
-            enc.FlawlessIVCount = enc.Fateful ? 5 : 3;
-            return enc;
         }
 
         internal static EncounterStatic GetStaticLocation(PKM pkm, int species = -1)
@@ -168,7 +169,7 @@ namespace PKHeX.Core
         {
             var catch_rate = pk1.Catch_Rate;
             // Pure gen 1, trades can be filter by catch rate
-            if (pk1.Species == 25 || pk1.Species == 26)
+            if (pk1.Species == (int)Species.Pikachu || pk1.Species == (int)Species.Raichu)
             {
                 if (catch_rate == 190) // Red Blue Pikachu, is not a static encounter
                     return false;
@@ -179,7 +180,7 @@ namespace PKHeX.Core
             if (e.Version == GameVersion.Stadium)
             {
                 // Amnesia Psyduck has different catch rates depending on language
-                if (e.Species == 054)
+                if (e.Species == (int)Species.Psyduck)
                     return catch_rate == (pk1.Japanese ? 167 : 168);
                 return GBRestrictions.Stadium_CatchRate.Contains(catch_rate);
             }

@@ -632,7 +632,7 @@ namespace PKHeX.Core
         public override void SetCaught(int species, bool caught)
         {
             SetDexFlag(Offsets.PokedexCaught, species, caught);
-            if (caught && species == 201)
+            if (caught && species == (int)Species.Unown)
                 SetUnownFormFlags();
         }
 

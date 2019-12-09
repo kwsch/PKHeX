@@ -33,7 +33,7 @@ namespace PKHeX.WinForms.Controls
             {
                 case EncounterTradeCatchRate c:
                     return (int)c.Catch_Rate;
-                case EncounterStatic s when s.Version == GameVersion.Stadium && s.Species == 054:
+                case EncounterStatic s when s.Version == GameVersion.Stadium && s.Species == (int)Species.Psyduck:
                     return pk1.Japanese ? 167 : 168; // Amnesia Psyduck has different catch rates depending on language
                 case IVersion v:
                 {

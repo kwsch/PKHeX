@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
-            if (g.Generation == 4 && g.Species == 490 && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
+            if (g.Generation == 4 && g.Species == (int)Species.Manaphy && g.Ball == 0) // there is no ball data in Manaphy Mystery Gift from Gen4
                 return VerifyBallEquals(data, (int)Poke); // Pokeball
             return VerifyBallEquals(data, g.Ball);
         }
@@ -209,7 +209,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && (species == 313 || species == 314)) // Volbeat/Illumise
+                if (pkm.AbilityNumber == 4 && (species == (int)Species.Volbeat || species == (int)Species.Illumise)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -234,16 +234,16 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Mew && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if ((species > 731 && species <= 785) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
+                if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (Legal.PastGenAlolanScans.Contains(species))
                     return GetValid(LBallSpeciesPass);
                 // next statement catches all new alolans
             }
 
-            if (species > 721)
+            if (species > (int)Species.Volcanion)
                 return VerifyBallEquals(data, Legal.WildPokeballs7);
 
             if (ball > Beast)
@@ -254,10 +254,9 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallEggGen8(LegalityAnalysis data)
         {
-            // todo: pls gamefreak allow ball switching and remove ball inheritance
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (810 <= species && species <= 818) // G8 Starters
+            if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
             if (IsGalarCapture(species))
@@ -289,7 +288,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && (species == 313 || species == 314)) // Volbeat/Illumise
+                if (pkm.AbilityNumber == 4 && (species == (int)Species.Volbeat || species == (int)Species.Illumise)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -314,9 +313,9 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == 669 && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if ((species > 731 && species <= 785) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
+                if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (Legal.PastGenAlolanScans.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -326,7 +325,7 @@ namespace PKHeX.Core
             if (species > Legal.MaxSpeciesID_7_USUM)
                 return VerifyBallEquals(data, Legal.WildPokeballs8);
 
-            if (species > 721)
+            if (species > (int)Species.Volcanion)
                 return VerifyBallEquals(data, Legal.WildPokeballs7);
 
             if (ball > Beast)
@@ -337,9 +336,9 @@ namespace PKHeX.Core
 
         public static bool IsGalarCapture(int species)
         {
-            if (810 <= species && species <= 818) // starter
+            if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
                 return false;
-            if (880 <= species && species <= 883) // fossil
+            if ((int)Species.Dracozolt <= species && species <= (int)Species.Arctovish) // fossil
                 return false;
             var pt = PersonalTable.SWSH;
             if (((PersonalInfoSWSH) pt.GetFormeEntry(species, 0)).IsPresentInGame)

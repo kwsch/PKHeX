@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
             // Korean Gen4 games can not trade with other Gen4 languages, but can use Pal Park with any Gen3 game/language.
             if (pkm.Format == 4 && pkm.Gen4 && !IsValidG4Korean(currentLanguage)
-                && !(data.EncounterMatch is EncounterTrade x && (x.Species == 25 || x.Species == 129)) // ger magikarp / eng pikachu
+                && !(data.EncounterMatch is EncounterTrade x && (x.Species == (int)Species.Pikachu || x.Species == (int)Species.Magikarp)) // ger magikarp / eng pikachu
             )
             {
                 bool kor = currentLanguage == (int)LanguageID.Korean;

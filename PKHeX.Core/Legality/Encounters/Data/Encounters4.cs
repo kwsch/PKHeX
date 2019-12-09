@@ -101,12 +101,12 @@ namespace PKHeX.Core
         private static EncounterArea4DPPt[] GetFeebasArea(EncounterArea4DPPt template)
         {
             Debug.Assert(template.Location == 50); // Mt Coronet
-            Debug.Assert(template.Slots.Last().Species == 340); // Whiscash
+            Debug.Assert(template.Slots.Last().Species == (int)Species.Whiscash);
             var slots = template.Slots.Where(z => z.Type.IsFishingRodType()).Select(z => z.Clone()).ToArray();
-            Debug.Assert(slots[0].Species == 129); // Magikarp
+            Debug.Assert(slots[0].Species == (int)Species.Magikarp);
             foreach (var s in slots)
             {
-                s.Species = 349; // Feebas
+                s.Species = (int)Species.Feebas;
                 s.TypeEncounter = EncounterType.Surfing_Fishing;
             }
 
@@ -188,7 +188,7 @@ namespace PKHeX.Core
                     foreach (var swarmSlot in Area.Slots.Where(s => s.Type == SwarmSlot.Type).Take(slotsnum).Select(slot => slot.Clone()))
                     {
                         swarmSlot.Species = SwarmSlot.Species;
-                        if (swarmSlot.Species == 303) // edge case, mawile is only swarm subject to magnet pull (no other steel types in area)
+                        if (swarmSlot.Species == (int)Species.Mawile) // edge case, Mawile is only swarm subject to magnet pull (no other steel types in area)
                         {
                             swarmSlot.Permissions.MagnetPullIndex = swarmSlot.SlotNumber;
                             swarmSlot.Permissions.MagnetPullCount = 2;

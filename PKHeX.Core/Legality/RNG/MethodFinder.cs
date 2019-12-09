@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
             if (GetLCRNGMatch(top, bot, IVs, out PIDIV pidiv))
                 return pidiv;
-            if (pk.Species == 201 && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
+            if (pk.Species == (int)Species.Unown && GetLCRNGUnownMatch(top, bot, IVs, out pidiv)) // frlg only
                 return pidiv;
             if (GetColoStarterMatch(pk, top, bot, IVs, out pidiv))
                 return pidiv;
@@ -840,7 +840,7 @@ namespace PKHeX.Core
                 case EncounterSlot w:
                     if (pkm.Version == 15)
                         return val == PIDType.PokeSpot;
-                    return (w.Species == 201 ? MethodH_Unown : MethodH).Contains(val);
+                    return (w.Species == (int)Species.Unown ? MethodH_Unown : MethodH).Contains(val);
                 default:
                     return val == PIDType.None;
             }

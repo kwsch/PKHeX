@@ -377,7 +377,7 @@ namespace PKHeX.Core
             };
 
             // Arceus Type Changing -- Plate forcibly removed.
-            if (pk5.Species == 493)
+            if (pk5.Species == (int)Core.Species.Arceus)
             {
                 pk5.AltForm = 0;
                 pk5.HeldItem = 0;

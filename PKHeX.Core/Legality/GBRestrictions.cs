@@ -358,7 +358,7 @@ namespace PKHeX
             // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
             bool IsCatchRateRBY(IEnumerable<int> ds) => ds.Any(s => catch_rate == PersonalTable.RB[s].CatchRate || (s != 149 && catch_rate == PersonalTable.Y[s].CatchRate));
             // Krabby encounter trade special catch rate
-            bool IsCatchRateTrade() => (pkm.Species == 098 || pkm.Species == 099) && catch_rate == 204;
+            bool IsCatchRateTrade() => catch_rate == 204 && (pkm.Species == (int)Species.Krabby || pkm.Species == (int)Species.Kingler);
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
         }
 

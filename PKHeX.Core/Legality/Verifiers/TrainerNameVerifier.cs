@@ -104,7 +104,7 @@ namespace PKHeX.Core
             if (data.EncounterOriginal is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
                 data.AddLine(VerifyG1OTStadium(pkm, tr, s));
 
-            if (pkm.Species == 151)
+            if (pkm.Species == (int)Species.Mew)
             {
                 var OTMatch = (tr == Legal.GetG1OT_GFMew((int)LanguageID.Japanese))
                               || (tr == Legal.GetG1OT_GFMew((int)LanguageID.English));

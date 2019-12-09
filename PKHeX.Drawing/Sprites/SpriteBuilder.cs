@@ -32,7 +32,7 @@ namespace PKHeX.Drawing
         protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
         protected virtual string GetItemResourceName(int item) => $"item_{item}";
         protected virtual Image Unknown => Resources.unknown;
-        protected virtual Image GetEggSprite(int species) => species == 490 ? Resources._490_e : Resources.egg;
+        protected virtual Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources._490_e : Resources.egg;
 
         public void Initialize(SaveFile sav)
         {
@@ -62,7 +62,7 @@ namespace PKHeX.Drawing
             if (species == 0)
                 return Resources._0;
 
-            if (generation == 3 && species == 386) // Deoxys, special consideration for Gen3 save files
+            if (generation == 3 && species == (int)Species.Deoxys) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm(Game);
 
             var baseImage = GetBaseImage(species, form, gender, isShiny, generation);

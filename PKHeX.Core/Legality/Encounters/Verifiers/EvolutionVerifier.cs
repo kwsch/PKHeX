@@ -35,7 +35,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (info.EncounterMatch.Species == species)
                 return true;
-            if (info.EncounterMatch.EggEncounter && species == 350 && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
+            if (info.EncounterMatch.EggEncounter && species == (int)Species.Milotic && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
                 return true;
 
             if (info.Generation > 0 && info.EvoChainsAllGens[info.Generation].All(z => z.Species != info.EncounterMatch.Species))

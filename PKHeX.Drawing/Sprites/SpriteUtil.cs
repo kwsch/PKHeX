@@ -74,7 +74,7 @@ namespace PKHeX.Drawing
 
         private static Image GetBaseImage(MysteryGift gift)
         {
-            if (gift.IsEgg && gift.Species == 490) // Manaphy Egg
+            if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
                 return Resources._490_e;
             if (gift.IsPokémon)
                 return GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);

@@ -131,7 +131,7 @@ namespace PKHeX.Core
         {
             if (pk is PK1 pk1)
             {
-                if (Species == 64 && Version == GameVersion.YW) // Kadabra
+                if (Species == (int)Core.Species.Kadabra && Version == GameVersion.YW) // Kadabra
                     pk1.Catch_Rate = 96;
                 else if (Species == 148 && Version == GameVersion.YW) // Dragonair
                     pk1.Catch_Rate = 27;

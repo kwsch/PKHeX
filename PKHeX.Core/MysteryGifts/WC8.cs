@@ -367,7 +367,7 @@ namespace PKHeX.Core
             }
 
             // Official code explicitly corrects for meowstic
-            if (pk.Species == 678)
+            if (pk.Species == (int)Core.Species.Meowstic)
                 pk.AltForm = pk.Gender;
 
             pk.MetDate = DateTime.Now;

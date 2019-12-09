@@ -705,7 +705,7 @@ namespace PKHeX.WinForms
 
         private void SetForms(EntreeSlot slot)
         {
-            bool hasForms = PersonalTable.B2W2[slot.Species].HasFormes || slot.Species == 414;
+            bool hasForms = PersonalTable.B2W2[slot.Species].HasFormes || slot.Species == (int)Species.Mothim;
             L_Form.Visible = CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();

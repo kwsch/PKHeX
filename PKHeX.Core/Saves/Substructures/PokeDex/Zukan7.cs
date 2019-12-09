@@ -38,7 +38,7 @@ namespace PKHeX.Core
         {
             int species = baseBit + 1;
 
-            if (species == 351) // castform
+            if (species == (int)Species.Castform)
                 isShiny = false;
 
             // Starting with Gen7, form bits are stored in the same region as the species flags.

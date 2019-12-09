@@ -346,7 +346,7 @@ namespace PKHeX.Core
                 return specific;
             if (pk.Version == 15)
                 return PIDType.CXD;
-            if (pk.Gen3 && pk.Species == 201)
+            if (pk.Gen3 && pk.Species == (int)Species.Unown)
                 return PIDType.Method_1_Unown + Util.Rand.Next(3);
 
             return PIDType.Method_1;

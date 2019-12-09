@@ -172,7 +172,7 @@ namespace PKHeX.Core
 
             // IVs
             var new_ivs = new int[6];
-            int flawless = Species == 151 ? 5 : 3;
+            int flawless = Species == (int)Core.Species.Mew ? 5 : 3;
             for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = Util.Rand.Next(pk7.MaxIV + 1);
             for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
@@ -186,7 +186,7 @@ namespace PKHeX.Core
                 abil = 0; // Reset
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
-            if (Species == 151) // Mew gets special treatment.
+            if (Species == (int)Core.Species.Mew) // Mew gets special treatment.
             {
                 pk7.FatefulEncounter = true;
             }

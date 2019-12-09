@@ -50,7 +50,7 @@ namespace PKHeX.WinForms
             if (loading)
                 return;
 
-            if (species == 446 && !MunchlaxTrees.Contains(CB_TreeList.SelectedIndex))
+            if (species == (int)Species.Munchlax && !MunchlaxTrees.Contains(CB_TreeList.SelectedIndex))
                 WinFormsUtil.Alert("Catching Munchlax in this tree will make it illegal for this savegame's TID/SID combination.");
         }
 

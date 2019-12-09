@@ -662,7 +662,7 @@ namespace PKHeX.Core
             var forms = GetForms(pkm.Species);
             if (forms.Length > 0)
             {
-                if (pkm.Species == 201) // Unown
+                if (pkm.Species == (int)Species.Unown) // Unown
                 {
                     for (int i = 0; i < 0x1C; i++)
                     {
@@ -676,7 +676,7 @@ namespace PKHeX.Core
                         break; // form now set
                     }
                 }
-                else if (pkm.Species == 172 && HGSS) // Pichu (HGSS Only)
+                else if (pkm.Species == (int)Species.Pichu && HGSS) // Pichu (HGSS Only)
                 {
                     int form = pkm.AltForm == 1 ? 2 : pkm.Gender;
                     CheckInsertForm(ref forms, form);
@@ -740,7 +740,7 @@ namespace PKHeX.Core
         public int[] GetForms(int species)
         {
             const int brSize = 0x40;
-            if (species == 386)
+            if (species == (int)Species.Deoxys)
             {
                 uint val = (uint) (General[PokeDex + 0x4 + (1 * brSize) - 1] | General[PokeDex + 0x4 + (2 * brSize) - 1] << 8);
                 return GetDexFormValues(val, 4, 4);

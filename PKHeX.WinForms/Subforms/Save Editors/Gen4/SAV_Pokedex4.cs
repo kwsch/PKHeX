@@ -154,7 +154,7 @@ namespace PKHeX.WinForms
         private static string[] GetFormNames4Dex(int species)
         {
             string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
-            if (species == 172)
+            if (species == (int)Species.Pichu)
                 formNames = new[] { MALE, FEMALE, formNames[1] }; // Spiky
             return formNames;
         }

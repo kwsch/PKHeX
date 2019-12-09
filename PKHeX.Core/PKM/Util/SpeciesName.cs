@@ -90,7 +90,9 @@ namespace PKHeX.Core
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
         public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = PKX.Generation)
         {
-            if (species == 083 && string.Equals(nick, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
+            if (species == (int)Species.Farfetchd && string.Equals(nick, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
+                return false;
+            if (species == (int)Species.Sirfetchd && string.Equals(nick, "Sirfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
                 return false;
 
             var langs = Language.GetAvailableGameLanguages(generation);

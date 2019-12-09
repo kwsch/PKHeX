@@ -222,7 +222,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int lang = pkm.Language;
-            if (t.Species == 124) // FRLG Jynx
+            if (t.Species == (int)Species.Jynx) // FRLG Jynx
                 lang = DetectTradeLanguageG3DANTAEJynx(pkm, lang);
             VerifyTrade(data, t, lang);
         }

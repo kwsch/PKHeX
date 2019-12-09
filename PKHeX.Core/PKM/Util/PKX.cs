@@ -388,7 +388,7 @@ namespace PKHeX.Core
             if (origin >= 24)
                 return Util.Rand32();
 
-            bool g3unown = origin <= 5 && species == 201;
+            bool g3unown = origin <= 5 && species == (int)Species.Unown;
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.Rand32();

@@ -303,7 +303,7 @@ namespace PKHeX.WinForms
             {
                 // Fetch Current Species and set it as Nickname Text
                 int species = WinFormsUtil.GetIndex(CB_Species);
-                if (species == 0 || species > 721)
+                if (species == 0 || species > (int)Species.Volcanion)
                 {
                     TB_Nickname.Text = string.Empty;
                 }
@@ -369,7 +369,7 @@ namespace PKHeX.WinForms
                     CB_Form.SelectedIndex = 0;
             }
 
-            if (species == 668)
+            if (species == (int)Species.Pyroar)
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);
 
             Write_Entry(null, EventArgs.Empty);

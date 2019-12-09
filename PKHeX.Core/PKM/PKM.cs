@@ -1058,7 +1058,7 @@ namespace PKHeX.Core
                     return 3;
             }
             if (VC)
-                return Species == 151 || Species == 251 ? 5 : 3;
+                return Species == (int)Core.Species.Mew || Species == (int)Core.Species.Celebi ? 5 : 3;
             return 0;
         }
 

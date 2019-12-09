@@ -420,7 +420,7 @@ namespace PKHeX.Core
 
         private static bool IsAllowedBattleFrontier(int species, int form, int gen)
         {
-            if (gen == 4 && species == 172 && form == 1) // spiky
+            if (gen == 4 && species == (int)Species.Pichu && form == 1) // spiky
                 return false;
             return IsAllowedBattleFrontier(species);
         }

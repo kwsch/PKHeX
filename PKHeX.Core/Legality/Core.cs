@@ -583,7 +583,7 @@ namespace PKHeX.Core
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
             // VC pokemon: minimum level is one level after transfer to generation 7
             // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
-            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && pkm.Gen3) || pkm.VC || pkm.Species == 700)
+            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && pkm.Gen3) || pkm.VC || pkm.Species == (int)Species.Sylveon)
                 LearnLevel = Math.Max(pkm.Met_Level + 1, LearnLevel);
 
             // Current level must be at least one the minimum learn level
@@ -612,7 +612,7 @@ namespace PKHeX.Core
                 return true;
             if (IsEvolvedFormChange(pkm))
                 return true;
-            if (species == 718 && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
+            if (species == (int)Species.Zygarde && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
                 return true;
             return false;
         }
@@ -658,7 +658,7 @@ namespace PKHeX.Core
 
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            if (pkm.Species == 235)
+            if (pkm.Species == (int)Species.Smeargle)
                 return !InvalidSketch.Contains(move);
             return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
@@ -719,7 +719,7 @@ namespace PKHeX.Core
                 return pkm.CurrentLevel;
             }
 
-            if (pkm.Species == 700 && generation == 5)
+            if (pkm.Species == (int)Species.Sylveon && generation == 5)
                 return pkm.CurrentLevel - 1;
 
             if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUpGen4.Contains(pkm.Species))
@@ -778,7 +778,7 @@ namespace PKHeX.Core
                 int formcount;
 
                 // In gen 3 deoxys has different forms depending on the current game, in the PersonalInfo there is no alternate form info
-                if (pkm.Format == 3 && species == 386)
+                if (pkm.Format == 3 && species == (int)Species.Deoxys)
                     formcount = 4;
                 else
                     formcount = pkm.PersonalInfo.FormeCount;

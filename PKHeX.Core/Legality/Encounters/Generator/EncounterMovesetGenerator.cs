@@ -126,7 +126,7 @@ namespace PKHeX.Core
 
         private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> dl)
         {
-            if (pk.Species == 235) // Smeargle
+            if (pk.Species == (int)Species.Smeargle)
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
             var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);

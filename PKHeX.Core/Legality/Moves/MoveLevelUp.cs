@@ -94,7 +94,7 @@ namespace PKHeX.Core
 
         private static LearnVersion GetIsLevelUp3(int species, int move, int lvl, int form, GameVersion ver = Any)
         {
-            if (species == 386)
+            if (species == (int)Species.Deoxys)
                 return GetIsLevelUp3Deoxys(form, move, lvl);
 
             // Emerald level up tables are equal to R/S level up tables
@@ -360,7 +360,7 @@ namespace PKHeX.Core
 
         private static List<int> AddMovesLevelUp3(List<int> moves, GameVersion ver, int species, int max, int form)
         {
-            if (species == 386)
+            if (species == (int)Species.Deoxys)
             {
                 var learn = GetDeoxysLearn3(form, ver);
                 if (learn != null)

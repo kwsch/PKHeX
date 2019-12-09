@@ -28,7 +28,7 @@ namespace PKHeX.Core
             // Surf Pikachu via Stadium
             if (move != 57 || ParseSettings.AllowGBCartEra)
                 return NONE;
-            if (pkm.Format < 3 && (species == 25 || species == 26))
+            if (pkm.Format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu))
                 return GameVersion.Stadium;
             return NONE;
         }
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             }
 
             // XD (Mew)
-            if (species == 151 && Tutor_3Mew.Contains(move))
+            if (species == (int)Species.Mew && Tutor_3Mew.Contains(move))
                 return GameVersion.XD;
 
             return NONE;
@@ -204,7 +204,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor1(List<int> moves, int species, int format)
         {
-            if (ParseSettings.AllowGBCartEra && format < 3 && (species == 25 || species == 26)) // Surf Pikachu via Stadium
+            if (ParseSettings.AllowGBCartEra && format < 3 && (species == (int)Species.Pikachu || species == (int)Species.Raichu)) // Surf Pikachu via Stadium
                 moves.Add(57);
         }
 
@@ -229,7 +229,7 @@ namespace PKHeX.Core
             // XD
             moves.AddRange(SpecialTutors_XD_Exclusive.Where((_, i) => SpecialTutors_Compatibility_XD_Exclusive[i].Any(e => e == species)));
             // XD (Mew)
-            if (species == 151)
+            if (species == (int)Species.Mew)
                 moves.AddRange(Tutor_3Mew);
         }
 

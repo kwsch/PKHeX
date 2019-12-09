@@ -151,7 +151,7 @@ namespace PKHeX.Core
             if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
             {
                 bool exceptions = false;
-                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == 151 && pkm.TID == 22796;
+                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == (int)Species.Mew && pkm.TID == 22796;
                 if (!exceptions)
                     yield return GetInvalid(LG1GBEncounter);
             }

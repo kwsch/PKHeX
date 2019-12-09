@@ -38,7 +38,7 @@ namespace PKHeX.Core
             base.SetDex(species, bit, form, gender, shiny, lang);
         }
 
-        private static bool IsBuddy(int species, int form) => (species == 25 && form == 8) || (species == 133 && form == 1);
+        private static bool IsBuddy(int species, int form) => (species == (int)Species.Pikachu && form == 8) || (species == (int)Species.Eevee && form == 1);
 
         public const int DefaultEntryValue = 0x7F;
 

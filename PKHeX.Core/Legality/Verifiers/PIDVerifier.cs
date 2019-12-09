@@ -16,7 +16,7 @@ namespace PKHeX.Core
                 VerifyEC(data);
 
             var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch.Species == 265)
+            if (EncounterMatch.Species == (int)Species.Wurmple)
                 VerifyECPIDWurmple(data);
 
             if (pkm.PID == 0)
@@ -85,7 +85,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
 
-            if (pkm.Species == 265)
+            if (pkm.Species == (int)Species.Wurmple)
             {
                 // Indicate what it will evolve into
                 uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
