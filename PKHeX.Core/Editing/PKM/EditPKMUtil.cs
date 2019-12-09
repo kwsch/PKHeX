@@ -55,7 +55,7 @@ namespace PKHeX.Core
             pk.OT_Gender = tr.Gender;
             pk.TID = tr.TID;
             pk.SID = tr.SID;
-            if (tr.ConsoleRegion != 0)
+            if (tr.ConsoleRegion >= 0)
             {
                 pk.ConsoleRegion = tr.ConsoleRegion;
                 pk.Country = tr.Country;
