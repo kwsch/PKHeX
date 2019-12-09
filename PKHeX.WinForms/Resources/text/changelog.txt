@@ -1,7 +1,26 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/11/25 - New Update:
+19/12/09 - New Update
+ - Legality:
+ - - Updated: Banlist now checks for unavailable forms and unavailable hidden abilities.
+ - - Changed: Another round of legality check updates. Thanks @iiippppk, @BetaLeaf, @crzyc, @Bappsack & @ReignOfComputer
+ - - Changed: Rewrote EvolutionTree and MemoryVerifier to better handle the new rules that were introduced in Gen8.
+ - - Added: Gen6 In-game trades are now checked for their Memory values.
+ - Batch Editor:
+ - - Added: $suggest for Ball, sets a legal ball, with preference for color matching.
+ - - Added: $shiny0 for square shinies.
+ - - Added: $suggestAll for all TR moves
+ - - Added: $suggest for all legal Ribbons, and $suggestNone to remove all but required ribbons.
+ - Changed: Gen7 LGP/E now uses the large box sprites. Thanks @sora10pls!
+ - Added: Alcremie can now specify the topping type (next to form).
+ - Added: Click the Nature/StatNature labels to copy the other's value.
+ - Added: Gen8 Trainer Card's trainer number can now be edited via the Trainer Editor.
+ - Fixed: Gen5 CGear Background import from file now works. Thanks @CyraFen!
+ - Fixed: Gen3 Blank Saves now behave correctly when setting a slot.
+ - Fixed: VC origin sprite (GameBoy) now displays properly.
+
+19/11/25 - New Update: (59766) [2216126]
  - Legality:
  - - Updated with detection for numerous encounter types. There's still a few stragglers and mechanics left to handle.
  - - Thanks to everyone who has helped report issues & contributed updates!
