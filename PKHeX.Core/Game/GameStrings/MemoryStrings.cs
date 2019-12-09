@@ -56,7 +56,7 @@ namespace PKHeX.Core
         }
 
         public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
-        public string[] GetMemoryFeelings() => s.memories.Slice(10, 24);
+        public string[] GetMemoryFeelings(int format) => format >= 8 ? s.memories.Slice(9, 25) : s.memories.Slice(10, 24); // empty line for 0 in gen8+
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
         {

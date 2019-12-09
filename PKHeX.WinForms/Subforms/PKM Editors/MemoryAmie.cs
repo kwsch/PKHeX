@@ -201,7 +201,7 @@ namespace PKHeX.WinForms
             }
 
             // Feeling Chooser
-            foreach (var q in strings.GetMemoryFeelings())
+            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
             {
                 CB_CTFeel.Items.Add(q);
                 CB_OTFeel.Items.Add(q);
