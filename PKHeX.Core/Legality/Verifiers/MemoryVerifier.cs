@@ -175,10 +175,20 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var Info = data.Info;
 
+            var memory = pkm.HT_Memory;
+
             if (pkm.IsUntraded)
             {
-                VerifyHTMemoryNone(data, pkm);
-                return;
+                if (memory == 4 && WasTradedSWSHEgg(pkm))
+                {
+                    // Untraded link trade eggs in Gen8 have HT link trade memory applied erroneously.
+                    // Verify the link trade memory later.
+                }
+                else
+                {
+                    VerifyHTMemoryNone(data, pkm);
+                    return;
+                }
             }
 
             if (pkm.Format == 7)
@@ -188,7 +198,6 @@ namespace PKHeX.Core
             }
 
             var memoryGen = pkm.Format >= 8 ? 8 : 6;
-            var memory = pkm.HT_Memory;
 
             // Bounds checking
             switch (memoryGen)
@@ -236,6 +245,8 @@ namespace PKHeX.Core
             var commonResult = VerifyCommonMemory(pkm, 1, memoryGen);
             data.AddLine(commonResult);
         }
+
+        private static bool WasTradedSWSHEgg(PKM pkm) => pkm.Gen8 && (pkm.WasTradedEgg || pkm.WasBredEgg);
 
         private void VerifyHTMemoryTransferTo7(LegalityAnalysis data, PKM pkm, LegalInfo Info)
         {
