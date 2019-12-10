@@ -73,7 +73,6 @@
             this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.Label_Form = new System.Windows.Forms.Label();
             this.CB_Form = new System.Windows.Forms.ComboBox();
-            this.MT_Form = new System.Windows.Forms.MaskedTextBox();
             this.CB_FormArgument = new System.Windows.Forms.ComboBox();
             this.FLP_Ability = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Ability = new System.Windows.Forms.Label();
@@ -225,6 +224,7 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.MT_Form = new System.Windows.Forms.MaskedTextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -773,7 +773,7 @@
             this.FLP_FriendshipForm.Location = new System.Drawing.Point(0, 149);
             this.FLP_FriendshipForm.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_FriendshipForm.Name = "FLP_FriendshipForm";
-            this.FLP_FriendshipForm.Size = new System.Drawing.Size(307, 21);
+            this.FLP_FriendshipForm.Size = new System.Drawing.Size(292, 21);
             this.FLP_FriendshipForm.TabIndex = 6;
             // 
             // FLP_FriendshipFormLeft
@@ -820,7 +820,7 @@
             this.FLP_FriendshipFormRight.Location = new System.Drawing.Point(110, 0);
             this.FLP_FriendshipFormRight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_FriendshipFormRight.Name = "FLP_FriendshipFormRight";
-            this.FLP_FriendshipFormRight.Size = new System.Drawing.Size(197, 21);
+            this.FLP_FriendshipFormRight.Size = new System.Drawing.Size(182, 21);
             this.FLP_FriendshipFormRight.TabIndex = 104;
             // 
             // TB_Friendship
@@ -860,28 +860,15 @@
             this.CB_Form.TabIndex = 12;
             this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
             // 
-            // MT_Form
-            // 
-            this.MT_Form.Enabled = false;
-            this.MT_Form.Location = new System.Drawing.Point(126, 0);
-            this.MT_Form.Margin = new System.Windows.Forms.Padding(0);
-            this.MT_Form.Mask = "00";
-            this.MT_Form.Name = "MT_Form";
-            this.MT_Form.Size = new System.Drawing.Size(19, 20);
-            this.MT_Form.TabIndex = 18;
-            this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Form.Visible = false;
-            this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
-            // 
             // CB_FormArgument
             // 
             this.CB_FormArgument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FormArgument.DropDownWidth = 90;
             this.CB_FormArgument.FormattingEnabled = true;
-            this.CB_FormArgument.Location = new System.Drawing.Point(145, 0);
+            this.CB_FormArgument.Location = new System.Drawing.Point(0, 21);
             this.CB_FormArgument.Margin = new System.Windows.Forms.Padding(0);
             this.CB_FormArgument.Name = "CB_FormArgument";
-            this.CB_FormArgument.Size = new System.Drawing.Size(52, 21);
+            this.CB_FormArgument.Size = new System.Drawing.Size(50, 21);
             this.CB_FormArgument.TabIndex = 19;
             // 
             // FLP_Ability
@@ -2666,6 +2653,19 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // MT_Form
+            // 
+            this.MT_Form.Enabled = false;
+            this.MT_Form.Location = new System.Drawing.Point(126, 0);
+            this.MT_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.MT_Form.Mask = "00";
+            this.MT_Form.Name = "MT_Form";
+            this.MT_Form.Size = new System.Drawing.Size(19, 20);
+            this.MT_Form.TabIndex = 18;
+            this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Form.Visible = false;
+            this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
+            // 
             // PKMEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -2819,7 +2819,6 @@
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.Label Label_Form;
         private System.Windows.Forms.ComboBox CB_Form;
-        private System.Windows.Forms.MaskedTextBox MT_Form;
         private System.Windows.Forms.FlowLayoutPanel FLP_Ability;
         private System.Windows.Forms.Label Label_Ability;
         private System.Windows.Forms.FlowLayoutPanel FLP_AbilityRight;
@@ -2974,5 +2973,6 @@
         private System.Windows.Forms.ComboBox CB_HTLanguage;
         private System.Windows.Forms.Button B_Records;
         private System.Windows.Forms.ComboBox CB_FormArgument;
+        private System.Windows.Forms.MaskedTextBox MT_Form;
     }
 }
