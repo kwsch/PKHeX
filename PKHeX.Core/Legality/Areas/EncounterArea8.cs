@@ -23,7 +23,7 @@ namespace PKHeX.Core
             if (!ConnectingArea8.TryGetValue(location, out var others))
                 return false;
 
-            return others.Contains((byte) location);
+            return others.Contains((byte)Location);
         }
 
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
@@ -34,14 +34,25 @@ namespace PKHeX.Core
                 const int boostTo = 60;
                 if (pkm.Met_Level == boostTo)
                 {
-                    var boost = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= boostTo));
+                    var boost = Slots.Where(slot => vs.Any(evo => IsMatch(evo, slot) && evo.Level >= boostTo));
                     return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
                 }
             }
-            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= slot.LevelMin));
+            var slots = Slots.Where(slot => vs.Any(evo => IsMatch(evo, slot) && evo.Level >= slot.LevelMin));
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel));
+        }
+
+        private static bool IsMatch(DexLevel evo, EncounterSlot slot)
+        {
+            if (evo.Species != slot.Species) 
+                return false;
+            if (evo.Form == slot.Form)
+                return true;
+            if (Legal.FormChange.Contains(evo.Species))
+                return true;
+            return false;
         }
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
