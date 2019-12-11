@@ -109,6 +109,7 @@ namespace PKHeX.Core
             #endregion
 
             #region Static Part 2
+            // Some of these may be crossover cases. For now, just log the locations they can show up in and re-categorize later.
             new EncounterStatic8 { Species = 095, Level = 26, Location = 122, }, // Onix in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 416, Level = 26, Location = 122, }, // Vespiquen in the Rolling Fields (in a Wild Area)
             new EncounterStatic8S{ Species = 675, Level = 32, Locations = new[] {122, 124}}, // Pangoro in the Rolling Fields, in the Dappled Grove (in a Wild Area)
@@ -233,7 +234,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 344, Level = 36, Location = 124, }, // Claydol in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 093, Level = 34, Location = 126, }, // Haunter at Watchtower Ruins (in a Wild Area)
             new EncounterStatic8 { Species = 356, Level = 40, Location = 126, }, // Dusclops at Watchtower Ruins (in a Wild Area)
-            new EncounterStatic8 { Species = 362, Level = 40, Location = 126, }, // Glalie at Watchtower Ruins (in a Wild Area)
+            new EncounterStatic8S{ Species = 362, Level = 40, Locations = new[] {126, 130}, }, // Glalie at Watchtower Ruins (in a Wild Area) & at West Lake Axewell
             new EncounterStatic8 { Species = 279, Level = 28, Location = 138, }, // Pelipper at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 536, Level = 28, Location = 130, }, // Palpitoad at West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 660, Level = 28, Location =  -1, }, // Diggersby
@@ -247,7 +248,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 558, Level = 34, Location = 134, }, // Crustle at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 067, Level = 31, Location = 134, }, // Machoke at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 426, Level = 31, Location =  -1, }, // Drifblim
-            new EncounterStatic8 { Species = 435, Level = 36, Location =  -1, }, // Skuntank
+            new EncounterStatic8 { Species = 435, Level = 36, Location = 138, }, // Skuntank at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 537, Level = 36, Location = 124, }, // Seismitoad in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 583, Level = 36, Location =  -1, }, // Vanillish
             new EncounterStatic8 { Species = 426, Level = 36, Location =  -1, }, // Drifblim

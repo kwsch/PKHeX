@@ -19,11 +19,12 @@ namespace PKHeX.Core
             if (!PermitCrossover)
                 return false;
 
-            // get all other areas that can bleed encounters to the met location
-            if (!ConnectingArea8.TryGetValue(location, out var others))
+            // Get all other areas that the Location can bleed encounters to
+            if (!ConnectingArea8.TryGetValue(Location, out var others))
                 return false;
 
-            return others.Contains((byte)Location);
+            // Check if any of the other areas are the met location
+            return others.Contains((byte)location);
         }
 
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
@@ -46,7 +47,7 @@ namespace PKHeX.Core
 
         private static bool IsMatch(DexLevel evo, EncounterSlot slot)
         {
-            if (evo.Species != slot.Species) 
+            if (evo.Species != slot.Species)
                 return false;
             if (evo.Form == slot.Form)
                 return true;
