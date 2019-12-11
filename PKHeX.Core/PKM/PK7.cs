@@ -562,11 +562,16 @@ namespace PKHeX.Core
                 HyperTrainFlags = HyperTrainFlags,
 
                 // todo: locale?
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
+                Country = Country,
+                Region = Region,
+                ConsoleRegion = ConsoleRegion,
 
                 // todo: memories
+                OT_Memory = OT_Memory,
+                OT_TextVar = OT_TextVar,
+                OT_Feeling = OT_Feeling,
+                OT_Intensity = OT_Intensity,
+
                 PKRS_Strain = PKRS_Strain,
                 PKRS_Days = PKRS_Days,
                 CNT_Cool = CNT_Cool,
