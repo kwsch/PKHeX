@@ -454,11 +454,11 @@ namespace PKHeX.Core
                     break;
                 case Shiny.AlwaysStar: // Random Shiny
                     pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF)) ^ 1;
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 1) << 16) | (pk.PID & 0xFFFF));
                     break;
                 case Shiny.AlwaysSquare: // Random Shiny
                     pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF)) << 16) | (pk.PID & 0xFFFF)) ^ 0;
+                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
                     break;
                 case Shiny.Never: // Random Nonshiny
                     pk.PID = Util.Rand32();
