@@ -97,11 +97,6 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             var Info = data.Info;
-            if (Info.Generation < 6 || pkm.IsEgg || (pkm.Format == 7 && (pkm.GG || pkm.OT_Memory != 4)))
-            {
-                VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
-                return;
-            }
 
             switch (data.EncounterMatch)
             {
@@ -122,6 +117,12 @@ namespace PKHeX.Core
 
             int memoryGen = Info.Generation;
             int memory = pkm.OT_Memory;
+
+            if (!CanHaveMemory(pkm, memoryGen, memory))
+            {
+                VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
+                return;
+            }
 
             // Bounds checking
             switch (memoryGen)
@@ -168,6 +169,23 @@ namespace PKHeX.Core
             }
 
             data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation));
+        }
+
+        private static bool CanHaveMemory(PKM pkm, int origin, int memory)
+        {
+            if (pkm.GG) // LGPE never assigns memories
+                return false;
+
+            if ((pkm.VC || pkm.Gen7) && memory != 4) // Generation 7 - Trade memory or nothing
+                return memory == 4;
+
+            if (origin < 6) // NDS/3DS
+                return false;
+
+            if (pkm.IsEgg) // Eggs should not have memories
+                return false;
+
+            return true;
         }
 
         private void VerifyHTMemory(LegalityAnalysis data)
