@@ -128,5 +128,19 @@ namespace PKHeX.Core
             get => SAV.GetString(Data, 0xB0, 0x1A);
             set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0xB0);
         }
+
+        // D0
+        public uint Watt
+        {
+            get => BitConverter.ToUInt32(Data, Offset + 0xD0);
+            set
+            {
+                if (value > MaxWatt)
+                    value = MaxWatt;
+                SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0xD0);
+            }
+        }
+
+        public uint MaxWatt => 9999999;
     }
 }
