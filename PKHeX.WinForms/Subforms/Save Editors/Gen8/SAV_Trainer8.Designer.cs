@@ -700,12 +700,11 @@
             this.MT_Watt.Size = new System.Drawing.Size(52, 20);
             this.MT_Watt.TabIndex = 74;
             this.MT_Watt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Watt.TextChanged += new System.EventHandler(this.MT_Watt_TextChanged);
             // 
             // L_Watt
             // 
             this.L_Watt.AutoSize = true;
-            this.L_Watt.Location = new System.Drawing.Point(102, 56);
+            this.L_Watt.Location = new System.Drawing.Point(97, 56);
             this.L_Watt.Name = "L_Watt";
             this.L_Watt.Size = new System.Drawing.Size(21, 13);
             this.L_Watt.TabIndex = 75;

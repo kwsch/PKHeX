@@ -7,6 +7,7 @@ namespace PKHeX.Core
     public sealed class Record8 : RecordBlock
     {
         public const int RecordCount = 50;
+        public const int WattTotal = 22;
         protected override IReadOnlyList<byte> RecordMax { get; }
 
         public Record8(SaveFile sav, SCBlock block, IReadOnlyList<byte> maxes) : base(sav, block.Data) =>

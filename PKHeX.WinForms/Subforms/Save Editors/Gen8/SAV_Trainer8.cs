@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = SAV.MaxWatt.ToString();
+            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = SAV.MyStatus.MaxWatt.ToString();
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection
@@ -60,7 +60,7 @@ namespace PKHeX.WinForms
             MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
-            MT_Watt.Text = SAV.Watt.ToString();
+            MT_Watt.Text = SAV.MyStatus.Watt.ToString();
             CB_Language.SelectedValue = SAV.Language;
 
             //NUD_M.Value = SAV.Situation.M;
@@ -111,12 +111,16 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.Watt = Util.ToUInt32(MT_Watt.Text);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             SAV.OT = TB_OTName.Text;
             SAV.Blocks.TrainerCard.OT = TB_TrainerCardName.Text;
             SAV.Blocks.TrainerCard.Number = TB_TrainerCardNumber.Text;
             SAV.Blocks.TrainerCard.TrainerID = Util.ToInt32(MT_TrainerCardID.Text);
+
+            var watt = Util.ToUInt32(MT_Watt.Text);
+            SAV.MyStatus.Watt = watt;
+            if (SAV.GetRecord(Record8.WattTotal) < watt)
+                SAV.SetRecord(Record8.WattTotal, (int)watt);
 
             SAV.Misc.BP = (int)NUD_BP.Value;
 
@@ -142,9 +146,6 @@ namespace PKHeX.WinForms
             //if (SAV.Played.LastSavedDate.HasValue)
             //    SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
         }
-
-
-        #region Event handling
 
         private void ClickOT(object sender, MouseEventArgs e)
         {
@@ -182,20 +183,6 @@ namespace PKHeX.WinForms
             //if (!Loading)
             //    MapUpdated = true;
         }
-
-        private void MT_Watt_TextChanged(object sender, EventArgs e)
-        {
-            try {                
-                var watt = Util.ToUInt32(MT_Watt.Text);
-                var kv = Records.RecordList_8.FirstOrDefault(kv => kv.Value.Equals("total_watt", StringComparison.OrdinalIgnoreCase));
-
-                if (kv.Value != null && SAV.GetRecord(kv.Key) < watt)
-                    MessageBox.Show(this, "ya watt is greater than your total watt now!", "info");
-
-            } catch { }
-        }
-
-        #endregion
 
         //private string UpdateTip(int index)
         //{
