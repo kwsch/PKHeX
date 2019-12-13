@@ -81,6 +81,8 @@ namespace PKHeX.Core
         public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
+        public virtual uint Watt { get => MyStatus.Watt; set => MyStatus.Watt = value; }
+        public virtual uint MaxWatt => MyStatus.MaxWatt;
         public override uint Money { get => Misc.Money; set => Misc.Money = value; }
         public int Badges { get => Misc.Badges; set => Misc.Badges = value; }
 

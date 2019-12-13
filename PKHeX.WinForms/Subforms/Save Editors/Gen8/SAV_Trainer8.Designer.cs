@@ -93,6 +93,10 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.B_MaxWatt = new System.Windows.Forms.Button();
+            this.MT_Watt = new System.Windows.Forms.MaskedTextBox();
+            this.L_Watt = new System.Windows.Forms.Label();
+            this.L_TRCardID = new System.Windows.Forms.Label();
             this.MT_TrainerCardID = new System.Windows.Forms.MaskedTextBox();
             this.TB_TrainerCardNumber = new System.Windows.Forms.TextBox();
             this.L_TRCardNumber = new System.Windows.Forms.Label();
@@ -123,7 +127,6 @@
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
-            this.L_TRCardID = new System.Windows.Forms.Label();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -141,7 +144,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(294, 334);
+            this.B_Cancel.Location = new System.Drawing.Point(294, 331);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -152,7 +155,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(375, 334);
+            this.B_Save.Location = new System.Drawing.Point(375, 331);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -347,7 +350,7 @@
             // 
             // L_Language
             // 
-            this.L_Language.Location = new System.Drawing.Point(-7, 106);
+            this.L_Language.Location = new System.Drawing.Point(-7, 107);
             this.L_Language.Name = "L_Language";
             this.L_Language.Size = new System.Drawing.Size(100, 13);
             this.L_Language.TabIndex = 21;
@@ -367,7 +370,7 @@
             // 
             this.CB_Language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Language.FormattingEnabled = true;
-            this.CB_Language.Location = new System.Drawing.Point(99, 103);
+            this.CB_Language.Location = new System.Drawing.Point(99, 104);
             this.CB_Language.Name = "CB_Language";
             this.CB_Language.Size = new System.Drawing.Size(93, 21);
             this.CB_Language.TabIndex = 15;
@@ -379,7 +382,7 @@
             this.CB_Game.Items.AddRange(new object[] {
             "Sword",
             "Shield"});
-            this.CB_Game.Location = new System.Drawing.Point(141, 51);
+            this.CB_Game.Location = new System.Drawing.Point(141, 77);
             this.CB_Game.Name = "CB_Game";
             this.CB_Game.Size = new System.Drawing.Size(51, 21);
             this.CB_Game.TabIndex = 24;
@@ -392,7 +395,7 @@
             this.CB_Gender.Items.AddRange(new object[] {
             "♂",
             "♀"});
-            this.CB_Gender.Location = new System.Drawing.Point(99, 51);
+            this.CB_Gender.Location = new System.Drawing.Point(99, 77);
             this.CB_Gender.Name = "CB_Gender";
             this.CB_Gender.Size = new System.Drawing.Size(40, 21);
             this.CB_Gender.TabIndex = 22;
@@ -645,11 +648,14 @@
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
-            this.TC_Editor.Size = new System.Drawing.Size(438, 316);
+            this.TC_Editor.Size = new System.Drawing.Size(438, 313);
             this.TC_Editor.TabIndex = 54;
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.B_MaxWatt);
+            this.Tab_Overview.Controls.Add(this.MT_Watt);
+            this.Tab_Overview.Controls.Add(this.L_Watt);
             this.Tab_Overview.Controls.Add(this.L_TRCardID);
             this.Tab_Overview.Controls.Add(this.MT_TrainerCardID);
             this.Tab_Overview.Controls.Add(this.TB_TrainerCardNumber);
@@ -671,12 +677,50 @@
             this.Tab_Overview.Location = new System.Drawing.Point(4, 22);
             this.Tab_Overview.Name = "Tab_Overview";
             this.Tab_Overview.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Overview.Size = new System.Drawing.Size(430, 290);
+            this.Tab_Overview.Size = new System.Drawing.Size(430, 287);
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
             // 
-            // MT_TRCardID
+            // B_MaxWatt
+            // 
+            this.B_MaxWatt.Location = new System.Drawing.Point(172, 52);
+            this.B_MaxWatt.Name = "B_MaxWatt";
+            this.B_MaxWatt.Size = new System.Drawing.Size(20, 20);
+            this.B_MaxWatt.TabIndex = 76;
+            this.B_MaxWatt.Text = "+";
+            this.B_MaxWatt.UseVisualStyleBackColor = true;
+            // 
+            // MT_Watt
+            // 
+            this.MT_Watt.Location = new System.Drawing.Point(119, 53);
+            this.MT_Watt.Mask = "0000000";
+            this.MT_Watt.Name = "MT_Watt";
+            this.MT_Watt.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_Watt.Size = new System.Drawing.Size(52, 20);
+            this.MT_Watt.TabIndex = 74;
+            this.MT_Watt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Watt.TextChanged += new System.EventHandler(this.MT_Watt_TextChanged);
+            // 
+            // L_Watt
+            // 
+            this.L_Watt.AutoSize = true;
+            this.L_Watt.Location = new System.Drawing.Point(102, 56);
+            this.L_Watt.Name = "L_Watt";
+            this.L_Watt.Size = new System.Drawing.Size(21, 13);
+            this.L_Watt.TabIndex = 75;
+            this.L_Watt.Text = "W:";
+            // 
+            // L_TRCardID
+            // 
+            this.L_TRCardID.Location = new System.Drawing.Point(209, 60);
+            this.L_TRCardID.Name = "L_TRCardID";
+            this.L_TRCardID.Size = new System.Drawing.Size(117, 16);
+            this.L_TRCardID.TabIndex = 73;
+            this.L_TRCardID.Text = "League TrainerID:";
+            this.L_TRCardID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_TrainerCardID
             // 
             this.MT_TrainerCardID.Location = new System.Drawing.Point(331, 59);
             this.MT_TrainerCardID.Mask = "000000";
@@ -886,7 +930,7 @@
             this.Tab_BadgeMap.Controls.Add(this.GB_Map);
             this.Tab_BadgeMap.Location = new System.Drawing.Point(4, 22);
             this.Tab_BadgeMap.Name = "Tab_BadgeMap";
-            this.Tab_BadgeMap.Size = new System.Drawing.Size(430, 290);
+            this.Tab_BadgeMap.Size = new System.Drawing.Size(430, 287);
             this.Tab_BadgeMap.TabIndex = 3;
             this.Tab_BadgeMap.Text = "Map";
             this.Tab_BadgeMap.UseVisualStyleBackColor = true;
@@ -1052,20 +1096,11 @@
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // L_TRCardID
-            // 
-            this.L_TRCardID.Location = new System.Drawing.Point(209, 60);
-            this.L_TRCardID.Name = "L_TRCardID";
-            this.L_TRCardID.Size = new System.Drawing.Size(117, 16);
-            this.L_TRCardID.TabIndex = 73;
-            this.L_TRCardID.Text = "League TrainerID:";
-            this.L_TRCardID.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // SAV_Trainer8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(458, 366);
+            this.ClientSize = new System.Drawing.Size(458, 363);
             this.Controls.Add(this.TC_Editor);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
@@ -1192,5 +1227,8 @@
         private System.Windows.Forms.Label L_TRCardNumber;
         private System.Windows.Forms.MaskedTextBox MT_TrainerCardID;
         private System.Windows.Forms.Label L_TRCardID;
+        private System.Windows.Forms.MaskedTextBox MT_Watt;
+        private System.Windows.Forms.Label L_Watt;
+        private System.Windows.Forms.Button B_MaxWatt;
     }
 }
