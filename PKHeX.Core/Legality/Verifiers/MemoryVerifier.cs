@@ -324,6 +324,8 @@ namespace PKHeX.Core
                 {
                     switch (version)
                     {
+                        case GameVersion.Any:
+                            return GetCanBeCaptured(species, SlotsSW.Concat(SlotsSH), StaticSW.Concat(StaticSH));
                         case GameVersion.SW:
                             return GetCanBeCaptured(species, SlotsSW, StaticSW);
                         case GameVersion.SH:
