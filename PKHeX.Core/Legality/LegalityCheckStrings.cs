@@ -106,10 +106,12 @@ namespace PKHeX.Core
         public static string LEggLocationTrade { get; set; } = "Able to hatch a traded Egg at Met Location.";
         public static string LEggLocationTradeFail { get; set; } = "Invalid Egg Location, shouldn't be 'traded' while an Egg.";
         public static string LEggMetLocationFail { get; set; } = "Can't obtain Egg from Egg Location.";
+        public static string LEggNature { get; set; } = "Eggs cannot have their Stat Nature changed.";
         public static string LEggPokeathlon { get; set; } = "Eggs cannot have Pokéathlon stats.";
         public static string LEggPokerus { get; set; } = "Eggs cannot be infected with Pokérus.";
         public static string LEggPP { get; set; } = "Eggs cannot have modified move PP counts.";
         public static string LEggPPUp { get; set; } = "Cannot apply PP Ups to an Egg.";
+        public static string LEggRelearnFlags { get; set; } = "Expected no Relearn Move Flags.";
         public static string LEggShinyLeaf { get; set; } = "Eggs cannot have Shiny Leaf/Crown.";
         public static string LEggShinyPokeStar { get; set; } = "Eggs cannot be a Pokéstar Studios star.";
         public static string LEggSpecies { get; set; } = "Can't obtain Egg for this species.";

@@ -199,6 +199,14 @@ namespace PKHeX.Core
                 var msg = string.Format(LMoveFExpect_0, moves);
                 data.AddLine(GetInvalid(msg, Egg));
             }
+
+            if (pkm is PK8 pk8)
+            {
+                if (pk8.HasAnyMoveRecordFlag())
+                    data.AddLine(GetInvalid(LEggRelearnFlags, Egg));
+                if (pk8.StatNature != pk8.Nature)
+                    data.AddLine(GetInvalid(LEggNature, Egg));
+            }
         }
 
         private static void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
