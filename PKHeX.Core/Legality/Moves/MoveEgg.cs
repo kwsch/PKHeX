@@ -68,13 +68,8 @@ namespace PKHeX.Core
         private static int[] GetFormEggMoves(int species, int formnum, IReadOnlyList<EggMoves7> table)
         {
             var entry = table[species];
-            if (formnum > 0)
-            {
-                if (AlolanOriginForms.Contains(species))
-                    entry = table[entry.FormTableIndex + formnum - 1];
-                else if (GalarOriginForms.Contains(species))
-                    entry = table[entry.FormTableIndex + formnum - 1];
-            }
+            if (formnum > 0 && entry.FormTableIndex > species)
+                entry = table[entry.FormTableIndex + formnum - 1];
             return entry.Moves;
         }
 
