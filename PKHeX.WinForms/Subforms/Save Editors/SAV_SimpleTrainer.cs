@@ -31,7 +31,7 @@ namespace PKHeX.WinForms
             L_Coins.Visible = B_MaxCoins.Visible = MT_Coins.Visible = SAV.Generation < 3;
             CB_Gender.Visible = SAV.Generation > 1;
 
-            L_PikaFriend.Visible = MT_PikaFriend.Visible = SAV.Generation == 1;
+            L_PikaFriend.Visible = MT_PikaFriend.Visible = L_PikaBeach.Visible = MT_PikaBeach.Visible = SAV.Generation == 1;
 
             TB_OTName.Text = SAV.OT;
             CB_Gender.SelectedIndex = SAV.Gender;
@@ -63,6 +63,7 @@ namespace PKHeX.WinForms
                 CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
 
                 MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
+                MT_PikaBeach.Text = sav1.PikaBeachScore.ToString();
                 if (!sav1.Version.Contains(GameVersion.YW))
                 {
                     L_PikaFriend.Visible = MT_PikaFriend.Visible = false;
@@ -204,6 +205,7 @@ namespace PKHeX.WinForms
                 sav1.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav1.Badges = badgeval & 0xFF;
                 sav1.PikaFriendship = (byte)Math.Min(255, Util.ToUInt32(MT_PikaFriend.Text));
+                sav1.PikaBeachScore = (byte)Math.Min(9999, Util.ToUInt32(MT_PikaBeach.Text));
                 sav1.BattleEffects = CHK_BattleEffects.Checked;
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav1.Sound = CB_SoundType.SelectedIndex;

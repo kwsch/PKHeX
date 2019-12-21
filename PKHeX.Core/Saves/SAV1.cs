@@ -263,6 +263,12 @@ namespace PKHeX.Core
             set => Data[Offsets.PikaFriendship] = value;
         }
 
+        public int PikaBeachScore
+        {
+            get => BigEndian.BCDToInt32(Data, Offsets.PikaBeachScore, 2);
+            set => SetData(BigEndian.Int32ToBCD(Math.Min(9999, value), 2), Offsets.PikaBeachScore);
+        }
+
         public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
 
         public override int PlayedHours

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.GB_Adventure = new System.Windows.Forms.GroupBox();
+            this.L_PikaBeach = new System.Windows.Forms.Label();
+            this.MT_PikaBeach = new System.Windows.Forms.MaskedTextBox();
             this.L_PikaFriend = new System.Windows.Forms.Label();
             this.MT_PikaFriend = new System.Windows.Forms.MaskedTextBox();
             this.L_Started = new System.Windows.Forms.Label();
@@ -106,6 +108,8 @@
             // 
             // GB_Adventure
             // 
+            this.GB_Adventure.Controls.Add(this.L_PikaBeach);
+            this.GB_Adventure.Controls.Add(this.MT_PikaBeach);
             this.GB_Adventure.Controls.Add(this.L_PikaFriend);
             this.GB_Adventure.Controls.Add(this.MT_PikaFriend);
             this.GB_Adventure.Controls.Add(this.L_Started);
@@ -126,6 +130,27 @@
             this.GB_Adventure.TabIndex = 70;
             this.GB_Adventure.TabStop = false;
             this.GB_Adventure.Text = "Adventure Info";
+            // 
+            // L_PikaBeach
+            // 
+            this.L_PikaBeach.AutoSize = true;
+            this.L_PikaBeach.Location = new System.Drawing.Point(7, 68);
+            this.L_PikaBeach.Name = "L_PikaBeach";
+            this.L_PikaBeach.Size = new System.Drawing.Size(83, 13);
+            this.L_PikaBeach.TabIndex = 75;
+            this.L_PikaBeach.Text = "Pikachu Beach:";
+            this.L_PikaBeach.Visible = false;
+            // 
+            // MT_PikaBeach
+            // 
+            this.MT_PikaBeach.Location = new System.Drawing.Point(111, 64);
+            this.MT_PikaBeach.Mask = "0000";
+            this.MT_PikaBeach.Name = "MT_PikaBeach";
+            this.MT_PikaBeach.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_PikaBeach.Size = new System.Drawing.Size(39, 20);
+            this.MT_PikaBeach.TabIndex = 74;
+            this.MT_PikaBeach.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_PikaBeach.Visible = false;
             // 
             // L_PikaFriend
             // 
@@ -918,5 +943,7 @@
         private System.Windows.Forms.CheckBox CHK_BattleEffects;
         private System.Windows.Forms.Label L_PikaFriend;
         private System.Windows.Forms.MaskedTextBox MT_PikaFriend;
+        private System.Windows.Forms.Label L_PikaBeach;
+        private System.Windows.Forms.MaskedTextBox MT_PikaBeach;
     }
 }
