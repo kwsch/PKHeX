@@ -735,6 +735,8 @@ namespace PKHeX.WinForms
             sav.SetFileInfo(path);
             if (!SanityCheckSAV(ref sav))
                 return true;
+
+            PKME_Tabs.Focus(); // flush any pending changes
             StoreLegalSaveGameData(sav);
             PKMConverter.Trainer = sav;
             SpriteUtil.Initialize(sav); // refresh sprite generator
