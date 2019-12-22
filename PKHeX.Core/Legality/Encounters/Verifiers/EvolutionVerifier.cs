@@ -37,6 +37,8 @@ namespace PKHeX.Core
                 return true;
             if (info.EncounterMatch.EggEncounter && species == (int)Species.Milotic && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
                 return true;
+            if (species == (int)Species.Vespiquen && info.Generation < 6 && (pkm.PID & 0xFF) < 0xE0) // Combee->Vespiquen Invalid Evolution
+                return false;
 
             if (info.Generation > 0 && info.EvoChainsAllGens[info.Generation].All(z => z.Species != info.EncounterMatch.Species))
                 return false; // Can't exist as origin species
