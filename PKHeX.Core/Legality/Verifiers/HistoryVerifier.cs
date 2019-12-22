@@ -33,7 +33,11 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LegalityCheckStrings.LContestZero));
 
             if (!pkm.IsUntraded)
+            {
+                if (pkm.IsEgg) // Can't have HT details even as a Link Trade egg
+                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryArgBadHT));
                 return;
+            }
 
             if (pkm.CurrentHandler != 0) // Badly edited; PKHeX doesn't trip this.
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
