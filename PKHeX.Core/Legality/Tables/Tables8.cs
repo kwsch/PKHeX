@@ -181,7 +181,7 @@ namespace PKHeX.Core
             1105, 1106, 1107, 1108,
         };
 
-        internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH);
+        internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
         internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int> {
             (int)Ball.Poke,
