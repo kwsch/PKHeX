@@ -5,16 +5,16 @@ namespace PKHeX.Drawing
 {
     public static class QRImageUtil
     {
-        public static Bitmap GetQRImage(Image qr, Image pkm)
+        public static Bitmap GetQRImage(Image qr, Image preview)
         {
             // create a small area with the pkm sprite, with a white background
-            var foreground = new Bitmap(45, 45);
+            var foreground = new Bitmap(preview.Width + 4, preview.Height + 4);
             using (Graphics gfx = Graphics.FromImage(foreground))
             {
                 gfx.FillRectangle(new SolidBrush(Color.White), 0, 0, foreground.Width, foreground.Height);
-                int x = (foreground.Width / 2) - (pkm.Width / 2);
-                int y = (foreground.Height / 2) - (pkm.Height / 2);
-                gfx.DrawImage(pkm, x, y);
+                int x = (foreground.Width / 2) - (preview.Width / 2);
+                int y = (foreground.Height / 2) - (preview.Height / 2);
+                gfx.DrawImage(preview, x, y);
             }
 
             // Layer on Preview Image

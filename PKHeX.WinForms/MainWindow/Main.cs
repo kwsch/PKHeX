@@ -1017,7 +1017,7 @@ namespace PKHeX.WinForms
             if (la.Parsed && pk.Species != 0)
             {
                 var img = SpriteUtil.GetLegalIndicator(la.Valid);
-                sprite = ImageUtil.LayerImage(sprite, img, 24, 0);
+                sprite = ImageUtil.LayerImage(sprite, img, sprite.Width - img.Width, 0);
             }
 
             string[] r = pk.GetQRLines();

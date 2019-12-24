@@ -40,27 +40,32 @@ namespace PKHeX.WinForms
             this.label3 = new System.Windows.Forms.Label();
             this.NUD_Copies = new System.Windows.Forms.NumericUpDown();
             this.B_Refresh = new System.Windows.Forms.Button();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             ((System.ComponentModel.ISupportInitialize)(this.PB_QR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Box)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Slot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Copies)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // PB_QR
             // 
-            this.PB_QR.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.PB_QR.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.PB_QR.Location = new System.Drawing.Point(2, 1);
+            this.PB_QR.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.PB_QR.Location = new System.Drawing.Point(0, 0);
             this.PB_QR.Name = "PB_QR";
-            this.PB_QR.Size = new System.Drawing.Size(405, 455);
+            this.PB_QR.Size = new System.Drawing.Size(284, 176);
+            this.PB_QR.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.PB_QR.TabIndex = 0;
             this.PB_QR.TabStop = false;
             this.PB_QR.Click += new System.EventHandler(this.PB_QR_Click);
             // 
             // NUD_Box
             // 
-            this.NUD_Box.Location = new System.Drawing.Point(38, 465);
+            this.NUD_Box.Location = new System.Drawing.Point(37, 9);
             this.NUD_Box.Maximum = new decimal(new int[] {
             32,
             0,
@@ -83,7 +88,7 @@ namespace PKHeX.WinForms
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 467);
+            this.label1.Location = new System.Drawing.Point(3, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 3;
@@ -92,7 +97,7 @@ namespace PKHeX.WinForms
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(105, 467);
+            this.label2.Location = new System.Drawing.Point(104, 11);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 5;
@@ -100,7 +105,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Slot
             // 
-            this.NUD_Slot.Location = new System.Drawing.Point(139, 465);
+            this.NUD_Slot.Location = new System.Drawing.Point(138, 9);
             this.NUD_Slot.Maximum = new decimal(new int[] {
             30,
             0,
@@ -123,7 +128,7 @@ namespace PKHeX.WinForms
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(211, 467);
+            this.label3.Location = new System.Drawing.Point(210, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 13);
             this.label3.TabIndex = 7;
@@ -131,7 +136,7 @@ namespace PKHeX.WinForms
             // 
             // NUD_Copies
             // 
-            this.NUD_Copies.Location = new System.Drawing.Point(259, 465);
+            this.NUD_Copies.Location = new System.Drawing.Point(258, 9);
             this.NUD_Copies.Maximum = new decimal(new int[] {
             960,
             0,
@@ -153,7 +158,7 @@ namespace PKHeX.WinForms
             // 
             // B_Refresh
             // 
-            this.B_Refresh.Location = new System.Drawing.Point(317, 464);
+            this.B_Refresh.Location = new System.Drawing.Point(316, 8);
             this.B_Refresh.Name = "B_Refresh";
             this.B_Refresh.Size = new System.Drawing.Size(80, 23);
             this.B_Refresh.TabIndex = 8;
@@ -161,19 +166,39 @@ namespace PKHeX.WinForms
             this.B_Refresh.UseVisualStyleBackColor = true;
             this.B_Refresh.Click += new System.EventHandler(this.UpdateBoxSlotCopies);
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.IsSplitterFixed = true;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.NUD_Box);
+            this.splitContainer1.Panel1.Controls.Add(this.B_Refresh);
+            this.splitContainer1.Panel1.Controls.Add(this.label1);
+            this.splitContainer1.Panel1.Controls.Add(this.label3);
+            this.splitContainer1.Panel1.Controls.Add(this.NUD_Slot);
+            this.splitContainer1.Panel1.Controls.Add(this.NUD_Copies);
+            this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1MinSize = 34;
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.PB_QR);
+            this.splitContainer1.Size = new System.Drawing.Size(284, 211);
+            this.splitContainer1.SplitterDistance = 34;
+            this.splitContainer1.SplitterWidth = 1;
+            this.splitContainer1.TabIndex = 9;
+            // 
             // QR
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(409, 407);
-            this.Controls.Add(this.B_Refresh);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.NUD_Copies);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.NUD_Slot);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.NUD_Box);
-            this.Controls.Add(this.PB_QR);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(284, 211);
+            this.Controls.Add(this.splitContainer1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
@@ -185,8 +210,13 @@ namespace PKHeX.WinForms
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Box)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Slot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Copies)).EndInit();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.PerformLayout();
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -200,5 +230,6 @@ namespace PKHeX.WinForms
         private Label label3;
         private NumericUpDown NUD_Copies;
         private Button B_Refresh;
+        private SplitContainer splitContainer1;
     }
 }

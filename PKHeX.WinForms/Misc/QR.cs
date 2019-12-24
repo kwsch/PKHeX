@@ -23,10 +23,9 @@ namespace PKHeX.WinForms
             this.qr = qr;
             this.icon = icon;
             Lines = lines;
-
-            const int stretch = 50;
-            Height += stretch;
+            splitContainer1.Panel1Collapsed = true;
             RefreshImage();
+            ResizeWindow();
         }
 
         public QR(Image qr, Image icon, PKM pk, params string[] lines)
@@ -36,26 +35,32 @@ namespace PKHeX.WinForms
             this.icon = icon;
             Lines = lines;
 
-            const int stretch = 50;
-            Height += stretch;
-
             pkm = pk;
             // Layer on Text
-            if (pkm.Format == 7 && pkm is PK7 pk7)
-            {
-                Height += 40;
-                ReloadQRData(pk7);
-            }
+            if (pkm is PK7 pk7)
+                this.qr = ReloadQRData(pk7);
+            else
+                splitContainer1.Panel1Collapsed = true;
+
             RefreshImage();
+            ResizeWindow();
+            splitContainer1.SplitterDistance = 34;
         }
 
-        private void ReloadQRData(PK7 pk7)
+        private void ResizeWindow()
+        {
+            var img = PB_QR.Image;
+            splitContainer1.Height = splitContainer1.Panel1.Height + img.Height;
+            splitContainer1.Width = img.Width;
+        }
+
+        private Image ReloadQRData(PK7 pk7)
         {
             var box = (int)NUD_Box.Value - 1;
             var slot = (int)NUD_Slot.Value - 1;
             var copies = (int)NUD_Copies.Value;
             extraText = $" (Box {box + 1}, Slot {slot + 1}, {copies} cop{(copies > 1 ? "ies" : "y")})";
-            qr = QREncode.GenerateQRCode7(pk7, box, slot, copies);
+            return QREncode.GenerateQRCode7(pk7, box, slot, copies);
         }
 
         private void RefreshImage()
@@ -63,14 +68,15 @@ namespace PKHeX.WinForms
             SuspendLayout();
             ResumeLayout();
             Font font = !Main.Unicode ? Font : FontUtil.GetPKXFont(8.25f);
-            PB_QR.BackgroundImage = QRImageUtil.GetQRImageExtended(font, qr, icon, PB_QR.Width, PB_QR.Height, Lines, extraText);
+            var img = QRImageUtil.GetQRImageExtended(font, qr, icon, Math.Max(qr.Width, 370), qr.Height + 50, Lines, extraText);
+            PB_QR.Image = img;
         }
 
         private void PB_QR_Click(object sender, EventArgs e)
         {
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgQRClipboardImage))
                 return;
-            try { Clipboard.SetImage(PB_QR.BackgroundImage); }
+            try { Clipboard.SetImage(PB_QR.Image); }
             catch { WinFormsUtil.Alert(MsgQRClipboardFail); }
         }
 
@@ -78,7 +84,7 @@ namespace PKHeX.WinForms
         {
             if (!(pkm is PK7 pk7))
                 throw new ArgumentException("Can't update QR7 if pkm isn't a PK7!");
-            ReloadQRData(pk7);
+            qr = ReloadQRData(pk7);
             RefreshImage();
         }
     }
