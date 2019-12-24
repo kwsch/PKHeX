@@ -54,9 +54,13 @@ namespace PKHeX.Core
 
         private static bool NoHatchFromEggForm(int species, int form, int gen)
         {
+            if (form == 0)
+                return false;
             if (FormConverter.IsTotemForm(species, form, gen))
                 return true;
-            if ((species == (int) Species.Sinistea || species == (int) Species.Polteageist) && form != 0) // Antique = impossible
+            if (species == (int) Species.Pichu)
+                return true; // can't get Spiky Ear Pichu eggs
+            if (species == (int) Species.Sinistea || species == (int) Species.Polteageist) // Antique = impossible
                 return true; // can't get Antique eggs
             return false;
         }
