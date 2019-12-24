@@ -608,6 +608,14 @@ namespace PKHeX.WinForms.Controls
             };
         }
 
+        private void B_OpenRaids_Click(object sender, EventArgs e)
+        {
+            if (!(SAV is SAV8SWSH swsh))
+                return;
+            using var form = new SAV_Raid8(swsh);
+            form.ShowDialog();
+        }
+
         private void B_OpenOPowers_Click(object sender, EventArgs e)
         {
             if (!(SAV is IOPower op))
@@ -1086,6 +1094,8 @@ namespace PKHeX.WinForms.Controls
                 B_OpenApricorn.Enabled = sav is SAV4 s4 && s4.HGSS;
                 B_OpenRTCEditor.Enabled = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
+
+                B_Raids.Enabled = sav is SAV8SWSH;
 
                 SL_Extra.SAV = sav;
                 SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);

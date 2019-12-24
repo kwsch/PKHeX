@@ -81,6 +81,7 @@
             this.B_FestivalPlaza = new System.Windows.Forms.Button();
             this.B_MailBox = new System.Windows.Forms.Button();
             this.B_OpenApricorn = new System.Windows.Forms.Button();
+            this.B_Raids = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -155,7 +156,7 @@
             this.Tab_PartyBattle.Location = new System.Drawing.Point(4, 22);
             this.Tab_PartyBattle.Name = "Tab_PartyBattle";
             this.Tab_PartyBattle.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_PartyBattle.Size = new System.Drawing.Size(420, 337);
+            this.Tab_PartyBattle.Size = new System.Drawing.Size(441, 337);
             this.Tab_PartyBattle.TabIndex = 1;
             this.Tab_PartyBattle.Text = "Party";
             this.Tab_PartyBattle.UseVisualStyleBackColor = true;
@@ -177,7 +178,7 @@
             this.Tab_Other.Controls.Add(this.L_ReadOnlyOther);
             this.Tab_Other.Location = new System.Drawing.Point(4, 22);
             this.Tab_Other.Name = "Tab_Other";
-            this.Tab_Other.Size = new System.Drawing.Size(420, 337);
+            this.Tab_Other.Size = new System.Drawing.Size(441, 337);
             this.Tab_Other.TabIndex = 2;
             this.Tab_Other.Text = "Other";
             this.Tab_Other.UseVisualStyleBackColor = true;
@@ -186,7 +187,7 @@
             // 
             this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
             this.SL_Extra.FlagIllegal = false;
-            this.SL_Extra.Location = new System.Drawing.Point(345, 0);
+            this.SL_Extra.Location = new System.Drawing.Point(366, 0);
             this.SL_Extra.Name = "SL_Extra";
             this.SL_Extra.SAV = null;
             this.SL_Extra.Size = new System.Drawing.Size(75, 337);
@@ -342,7 +343,7 @@
             this.Tab_SAV.Controls.Add(this.B_VerifyCHK);
             this.Tab_SAV.Location = new System.Drawing.Point(4, 22);
             this.Tab_SAV.Name = "Tab_SAV";
-            this.Tab_SAV.Size = new System.Drawing.Size(420, 337);
+            this.Tab_SAV.Size = new System.Drawing.Size(441, 337);
             this.Tab_SAV.TabIndex = 3;
             this.Tab_SAV.Text = "SAV";
             this.Tab_SAV.UseVisualStyleBackColor = true;
@@ -365,7 +366,7 @@
             this.GB_SAVtools.Controls.Add(this.FLP_SAVtools);
             this.GB_SAVtools.Location = new System.Drawing.Point(0, 175);
             this.GB_SAVtools.Name = "GB_SAVtools";
-            this.GB_SAVtools.Size = new System.Drawing.Size(420, 162);
+            this.GB_SAVtools.Size = new System.Drawing.Size(441, 162);
             this.GB_SAVtools.TabIndex = 102;
             this.GB_SAVtools.TabStop = false;
             // 
@@ -399,10 +400,11 @@
             this.FLP_SAVtools.Controls.Add(this.B_FestivalPlaza);
             this.FLP_SAVtools.Controls.Add(this.B_MailBox);
             this.FLP_SAVtools.Controls.Add(this.B_OpenApricorn);
+            this.FLP_SAVtools.Controls.Add(this.B_Raids);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
-            this.FLP_SAVtools.Size = new System.Drawing.Size(414, 143);
+            this.FLP_SAVtools.Size = new System.Drawing.Size(435, 143);
             this.FLP_SAVtools.TabIndex = 101;
             // 
             // B_OpenTrainerInfo
@@ -678,6 +680,16 @@
             this.B_OpenApricorn.UseVisualStyleBackColor = true;
             this.B_OpenApricorn.Click += new System.EventHandler(this.B_OpenApricorn_Click);
             // 
+            // B_Raids
+            // 
+            this.B_Raids.Location = new System.Drawing.Point(282, 177);
+            this.B_Raids.Name = "B_Raids";
+            this.B_Raids.Size = new System.Drawing.Size(87, 23);
+            this.B_Raids.TabIndex = 34;
+            this.B_Raids.Text = "Raids";
+            this.B_Raids.UseVisualStyleBackColor = true;
+            this.B_Raids.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
             // L_SaveSlot
             // 
             this.L_SaveSlot.AutoSize = true;
@@ -868,5 +880,6 @@
         private System.Windows.Forms.Button B_OpenApricorn;
         private SlotList SL_Extra;
         private PartyEditor SL_Party;
+        private System.Windows.Forms.Button B_Raids;
     }
 }
