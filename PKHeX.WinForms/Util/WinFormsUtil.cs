@@ -395,7 +395,7 @@ namespace PKHeX.WinForms
             string path = sfd.FileName;
             SaveBackup(path);
 
-            File.WriteAllBytes(path, gift.Data);
+            File.WriteAllBytes(path, gift.Write());
             return true;
         }
 

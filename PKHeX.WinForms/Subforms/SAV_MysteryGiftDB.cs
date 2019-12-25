@@ -230,7 +230,7 @@ namespace PKHeX.WinForms
             Directory.CreateDirectory(path);
 
             foreach (var gift in Results.OfType<DataMysteryGift>()) // WC3 have no data
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Write());
         }
 
         // View Updates

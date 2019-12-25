@@ -61,7 +61,7 @@ namespace PKHeX.Core
         public static string GetMessage(DataMysteryGift mg)
         {
             var server = GetExploitURLPrefixWC(mg.Format);
-            var data = mg.Data;
+            var data = mg.Write();
             return GetMessageBase64(data, server);
         }
 

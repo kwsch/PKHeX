@@ -9,6 +9,11 @@ namespace PKHeX.Core
 
         protected DataMysteryGift(byte[] data) => Data = data;
 
+        /// <summary>
+        /// Returns an array for exporting outside the program (to disk, etc).
+        /// </summary>
+        public virtual byte[] Write() => Data;
+
         public override int GetHashCode()
         {
             int hash = 17;

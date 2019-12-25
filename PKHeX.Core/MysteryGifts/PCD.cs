@@ -33,6 +33,15 @@ namespace PKHeX.Core
         public PCD() : this(new byte[Size]) { }
         public PCD(byte[] data) : base(data) { }
 
+        public override byte[] Write()
+        {
+            // Ensure PGT content is encrypted
+            var clone = (PCD)Clone();
+            if (clone.Gift.VerifyPKEncryption())
+                clone.Gift = clone.Gift;
+            return clone.Data;
+        }
+
         public PGT Gift
         {
             get => _gift ??= new PGT(Data.Slice(0, PGT.Size));

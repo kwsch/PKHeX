@@ -77,6 +77,14 @@ namespace PKHeX.Core
             }
         }
 
+        public override byte[] Write()
+        {
+            // Ensure PGT content is encrypted
+            var clone = (PGT)Clone();
+            clone.VerifyPKEncryption();
+            return clone.Data;
+        }
+
         private PK4? _pk;
 
         /// <summary>
