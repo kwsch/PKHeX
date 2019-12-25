@@ -551,8 +551,10 @@ namespace PKHeX.Core
         public bool HasAnyMoveRecordFlag()
         {
             for (int i = 0x127; i < 0x127 + 14; i++)
+            {
                 if (Data[i] != 0)
                     return true;
+            }
             return false;
         }
 
