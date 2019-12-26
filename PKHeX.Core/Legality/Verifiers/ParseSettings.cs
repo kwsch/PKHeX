@@ -58,7 +58,7 @@
             ActiveTrainer = sav;
             if (sav.Generation >= 3)
                 return AllowGBCartEra = false;
-            bool vc = sav.Exportable || (sav.FileName?.EndsWith("dat") ?? false); // default to true for non-exportable
+            bool vc = !sav.Exportable || (sav.FileName?.EndsWith("dat") ?? false); // default to true for non-exportable
             return AllowGBCartEra = !vc; // physical cart selected
         }
     }
