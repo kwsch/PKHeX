@@ -82,7 +82,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(145, 244);
+            this.B_Cancel.Location = new System.Drawing.Point(146, 289);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 0;
@@ -93,7 +93,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(226, 244);
+            this.B_Save.Location = new System.Drawing.Point(227, 289);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 1;
@@ -414,10 +414,10 @@
             this.PG_Den.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PG_Den.HelpVisible = false;
             this.PG_Den.Location = new System.Drawing.Point(12, 32);
             this.PG_Den.Name = "PG_Den";
-            this.PG_Den.Size = new System.Drawing.Size(289, 206);
+            this.PG_Den.PropertySort = System.Windows.Forms.PropertySort.NoSort;
+            this.PG_Den.Size = new System.Drawing.Size(290, 251);
             this.PG_Den.TabIndex = 2;
             this.PG_Den.ToolbarVisible = false;
             // 
@@ -434,7 +434,7 @@
             // B_ActivateAll
             // 
             this.B_ActivateAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_ActivateAll.Location = new System.Drawing.Point(12, 244);
+            this.B_ActivateAll.Location = new System.Drawing.Point(13, 289);
             this.B_ActivateAll.Name = "B_ActivateAll";
             this.B_ActivateAll.Size = new System.Drawing.Size(103, 23);
             this.B_ActivateAll.TabIndex = 4;
@@ -446,7 +446,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(313, 276);
+            this.ClientSize = new System.Drawing.Size(314, 321);
             this.Controls.Add(this.B_ActivateAll);
             this.Controls.Add(this.CB_Den);
             this.Controls.Add(this.PG_Den);

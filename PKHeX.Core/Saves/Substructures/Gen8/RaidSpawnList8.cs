@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace PKHeX.Core
 {
@@ -51,50 +52,62 @@ namespace PKHeX.Core
             Offset = ofs;
         }
 
+        private const string General = nameof(General);
+        private const string Derived = nameof(Derived);
+
+        [Category(General), Description("FNV Hash for fetching the Raid data table (64bit)."), TypeConverter(typeof(TypeConverterU64))]
         public ulong Hash
         {
             get => BitConverter.ToUInt64(Data, Offset + 0);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0);
         }
 
+        [Category(General), Description("RNG Seed for generating the Raid's content (64bit)."), TypeConverter(typeof(TypeConverterU64))]
         public ulong Seed
         {
             get => BitConverter.ToUInt64(Data, Offset + 8);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 8);
         }
 
+        [Category(General), Description("Star Count for the Raid's content (0-4).")]
         public byte Stars
         {
             get => Data[Offset + 0x10];
             set => Data[Offset + 0x10] = value;
         }
 
+        [Category(General), Description("Random value which picks out the encounter from the Raid data table (0-99).")]
         public byte RandRoll
         {
             get => Data[Offset + 0x11];
             set => Data[Offset + 0x11] = value;
         }
 
+        [Category(General), Description("First set of Den Flags.")]
         public byte DenType
         {
             get => Data[Offset + 0x12];
             set => Data[Offset + 0x12] = value;
         }
 
+        [Category(General), Description("Second set of Den Flags.")]
         public byte Flags
         {
             get => Data[Offset + 0x13];
             set => Data[Offset + 0x13] = value;
         }
 
+        [Category(Derived), Description("Active Nest")]
         public bool IsActive => DenType > 0;
 
+        [Category(Derived), Description("Rare encounter details used instead of Common details.")]
         public bool IsRare
         {
-            get => IsActive && (DenType & 1) != 0;
-            set => DenType = 2;
+            get => IsActive && (DenType & 1) == 0;
+            set => DenType = 2; // set the 1th bit; the 2th bit has a similar-unknown function (?)
         }
 
+        [Category(Derived), Description("Distribution (event) details used for Raid encounter.")]
         public bool IsEvent
         {
             get => IsActive && ((Flags >> 1) & 1) == 1;
@@ -112,5 +125,34 @@ namespace PKHeX.Core
         public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType:X2}\t{Flags:X2}";
 
         // The games use a xoroshiro RNG to create the PKM from the stored seed.
+    }
+
+    public class TypeConverterU64 : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
+        }
+
+        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        {
+            return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+        {
+            if (destinationType == typeof(string) && value is ulong)
+                return $"{value:X16}"; // no 0x prefix
+            return base.ConvertTo(context, culture, value, destinationType);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+        {
+            if (!(value is string input))
+                return base.ConvertFrom(context, culture, value);
+            if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+                input = input.Substring(2);
+            return ulong.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0ul;
+        }
     }
 }
