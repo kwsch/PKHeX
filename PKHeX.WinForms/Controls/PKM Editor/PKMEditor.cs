@@ -1702,7 +1702,7 @@ namespace PKHeX.WinForms.Controls
             GB_Markings.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
 
-            FLP_FriendshipForm.Visible = gen >= 2;
+            FLP_Friendship.Visible = FLP_Form.Visible = gen >= 2;
             FLP_HeldItem.Visible = gen >= 2;
             CHK_IsEgg.Visible = gen >= 2;
             FLP_PKRS.Visible = FLP_EggPKRSRight.Visible = gen >= 2;

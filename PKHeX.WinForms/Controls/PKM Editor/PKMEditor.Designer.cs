@@ -62,24 +62,28 @@
             this.FLP_OriginalNature = new System.Windows.Forms.FlowLayoutPanel();
             this.L_OriginalNature = new System.Windows.Forms.Label();
             this.CB_StatNature = new System.Windows.Forms.ComboBox();
+            this.FLP_Form = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_FormLeft = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_Form = new System.Windows.Forms.Label();
+            this.FLP_FormRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.CB_Form = new System.Windows.Forms.ComboBox();
+            this.MT_Form = new System.Windows.Forms.MaskedTextBox();
+            this.CB_FormArgument = new System.Windows.Forms.ComboBox();
             this.FLP_HeldItem = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HeldItem = new System.Windows.Forms.Label();
             this.CB_HeldItem = new System.Windows.Forms.ComboBox();
-            this.FLP_FriendshipForm = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_FriendshipFormLeft = new System.Windows.Forms.FlowLayoutPanel();
-            this.Label_Friendship = new System.Windows.Forms.Label();
-            this.Label_HatchCounter = new System.Windows.Forms.Label();
-            this.FLP_FriendshipFormRight = new System.Windows.Forms.FlowLayoutPanel();
-            this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
-            this.Label_Form = new System.Windows.Forms.Label();
-            this.CB_Form = new System.Windows.Forms.ComboBox();
-            this.CB_FormArgument = new System.Windows.Forms.ComboBox();
             this.FLP_Ability = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Ability = new System.Windows.Forms.Label();
             this.FLP_AbilityRight = new System.Windows.Forms.FlowLayoutPanel();
             this.CB_Ability = new System.Windows.Forms.ComboBox();
             this.DEV_Ability = new System.Windows.Forms.ComboBox();
             this.TB_AbilityNumber = new System.Windows.Forms.MaskedTextBox();
+            this.FLP_Friendship = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_FriendshipLeft = new System.Windows.Forms.FlowLayoutPanel();
+            this.Label_Friendship = new System.Windows.Forms.Label();
+            this.Label_HatchCounter = new System.Windows.Forms.Label();
+            this.FLP_FriendshipRight = new System.Windows.Forms.FlowLayoutPanel();
+            this.TB_Friendship = new System.Windows.Forms.MaskedTextBox();
             this.FLP_Language = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_Language = new System.Windows.Forms.Label();
             this.CB_Language = new System.Windows.Forms.ComboBox();
@@ -224,7 +228,6 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
-            this.MT_Form = new System.Windows.Forms.MaskedTextBox();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -240,12 +243,15 @@
             this.FLP_EXPLevelRight.SuspendLayout();
             this.FLP_Nature.SuspendLayout();
             this.FLP_OriginalNature.SuspendLayout();
+            this.FLP_Form.SuspendLayout();
+            this.FLP_FormLeft.SuspendLayout();
+            this.FLP_FormRight.SuspendLayout();
             this.FLP_HeldItem.SuspendLayout();
-            this.FLP_FriendshipForm.SuspendLayout();
-            this.FLP_FriendshipFormLeft.SuspendLayout();
-            this.FLP_FriendshipFormRight.SuspendLayout();
             this.FLP_Ability.SuspendLayout();
             this.FLP_AbilityRight.SuspendLayout();
+            this.FLP_Friendship.SuspendLayout();
+            this.FLP_FriendshipLeft.SuspendLayout();
+            this.FLP_FriendshipRight.SuspendLayout();
             this.FLP_Language.SuspendLayout();
             this.FLP_EggPKRS.SuspendLayout();
             this.FLP_EggPKRSLeft.SuspendLayout();
@@ -340,9 +346,10 @@
             this.FLP_Main.Controls.Add(this.FLP_EXPLevel);
             this.FLP_Main.Controls.Add(this.FLP_Nature);
             this.FLP_Main.Controls.Add(this.FLP_OriginalNature);
+            this.FLP_Main.Controls.Add(this.FLP_Form);
             this.FLP_Main.Controls.Add(this.FLP_HeldItem);
-            this.FLP_Main.Controls.Add(this.FLP_FriendshipForm);
             this.FLP_Main.Controls.Add(this.FLP_Ability);
+            this.FLP_Main.Controls.Add(this.FLP_Friendship);
             this.FLP_Main.Controls.Add(this.FLP_Language);
             this.FLP_Main.Controls.Add(this.FLP_EggPKRS);
             this.FLP_Main.Controls.Add(this.FLP_PKRS);
@@ -730,12 +737,93 @@
             this.CB_StatNature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_StatNature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
+            // FLP_Form
+            // 
+            this.FLP_Form.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Form.Controls.Add(this.FLP_FormLeft);
+            this.FLP_Form.Controls.Add(this.FLP_FormRight);
+            this.FLP_Form.Location = new System.Drawing.Point(0, 128);
+            this.FLP_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Form.Name = "FLP_Form";
+            this.FLP_Form.Size = new System.Drawing.Size(272, 21);
+            this.FLP_Form.TabIndex = 118;
+            // 
+            // FLP_FormLeft
+            // 
+            this.FLP_FormLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.FLP_FormLeft.Controls.Add(this.Label_Form);
+            this.FLP_FormLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.FLP_FormLeft.Location = new System.Drawing.Point(0, 0);
+            this.FLP_FormLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_FormLeft.Name = "FLP_FormLeft";
+            this.FLP_FormLeft.Size = new System.Drawing.Size(110, 21);
+            this.FLP_FormLeft.TabIndex = 0;
+            // 
+            // Label_Form
+            // 
+            this.Label_Form.Location = new System.Drawing.Point(0, 0);
+            this.Label_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_Form.Name = "Label_Form";
+            this.Label_Form.Size = new System.Drawing.Size(110, 21);
+            this.Label_Form.TabIndex = 11;
+            this.Label_Form.Text = "Form:";
+            this.Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // FLP_FormRight
+            // 
+            this.FLP_FormRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_FormRight.Controls.Add(this.CB_Form);
+            this.FLP_FormRight.Controls.Add(this.MT_Form);
+            this.FLP_FormRight.Controls.Add(this.CB_FormArgument);
+            this.FLP_FormRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_FormRight.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_FormRight.Name = "FLP_FormRight";
+            this.FLP_FormRight.Size = new System.Drawing.Size(162, 21);
+            this.FLP_FormRight.TabIndex = 104;
+            // 
+            // CB_Form
+            // 
+            this.CB_Form.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Form.DropDownWidth = 85;
+            this.CB_Form.Enabled = false;
+            this.CB_Form.FormattingEnabled = true;
+            this.CB_Form.Location = new System.Drawing.Point(0, 0);
+            this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_Form.Name = "CB_Form";
+            this.CB_Form.Size = new System.Drawing.Size(71, 21);
+            this.CB_Form.TabIndex = 12;
+            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
+            // 
+            // MT_Form
+            // 
+            this.MT_Form.Enabled = false;
+            this.MT_Form.Location = new System.Drawing.Point(71, 0);
+            this.MT_Form.Margin = new System.Windows.Forms.Padding(0);
+            this.MT_Form.Mask = "00";
+            this.MT_Form.Name = "MT_Form";
+            this.MT_Form.Size = new System.Drawing.Size(19, 20);
+            this.MT_Form.TabIndex = 18;
+            this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.MT_Form.Visible = false;
+            this.MT_Form.TextChanged += new System.EventHandler(this.UpdateHaXForm);
+            // 
+            // CB_FormArgument
+            // 
+            this.CB_FormArgument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_FormArgument.DropDownWidth = 90;
+            this.CB_FormArgument.FormattingEnabled = true;
+            this.CB_FormArgument.Location = new System.Drawing.Point(90, 0);
+            this.CB_FormArgument.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_FormArgument.Name = "CB_FormArgument";
+            this.CB_FormArgument.Size = new System.Drawing.Size(50, 21);
+            this.CB_FormArgument.TabIndex = 19;
+            // 
             // FLP_HeldItem
             // 
             this.FLP_HeldItem.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_HeldItem.Controls.Add(this.Label_HeldItem);
             this.FLP_HeldItem.Controls.Add(this.CB_HeldItem);
-            this.FLP_HeldItem.Location = new System.Drawing.Point(0, 128);
+            this.FLP_HeldItem.Location = new System.Drawing.Point(0, 149);
             this.FLP_HeldItem.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HeldItem.Name = "FLP_HeldItem";
             this.FLP_HeldItem.Size = new System.Drawing.Size(272, 21);
@@ -764,112 +852,6 @@
             this.CB_HeldItem.TabIndex = 10;
             this.CB_HeldItem.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_HeldItem.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
-            // 
-            // FLP_FriendshipForm
-            // 
-            this.FLP_FriendshipForm.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_FriendshipForm.Controls.Add(this.FLP_FriendshipFormLeft);
-            this.FLP_FriendshipForm.Controls.Add(this.FLP_FriendshipFormRight);
-            this.FLP_FriendshipForm.Location = new System.Drawing.Point(0, 149);
-            this.FLP_FriendshipForm.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_FriendshipForm.Name = "FLP_FriendshipForm";
-            this.FLP_FriendshipForm.Size = new System.Drawing.Size(292, 21);
-            this.FLP_FriendshipForm.TabIndex = 6;
-            // 
-            // FLP_FriendshipFormLeft
-            // 
-            this.FLP_FriendshipFormLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.FLP_FriendshipFormLeft.Controls.Add(this.Label_Friendship);
-            this.FLP_FriendshipFormLeft.Controls.Add(this.Label_HatchCounter);
-            this.FLP_FriendshipFormLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.FLP_FriendshipFormLeft.Location = new System.Drawing.Point(0, 0);
-            this.FLP_FriendshipFormLeft.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_FriendshipFormLeft.Name = "FLP_FriendshipFormLeft";
-            this.FLP_FriendshipFormLeft.Size = new System.Drawing.Size(110, 21);
-            this.FLP_FriendshipFormLeft.TabIndex = 0;
-            // 
-            // Label_Friendship
-            // 
-            this.Label_Friendship.Location = new System.Drawing.Point(0, 0);
-            this.Label_Friendship.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Friendship.Name = "Label_Friendship";
-            this.Label_Friendship.Size = new System.Drawing.Size(110, 21);
-            this.Label_Friendship.TabIndex = 9;
-            this.Label_Friendship.Text = "Friendship:";
-            this.Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Label_Friendship.Click += new System.EventHandler(this.ClickFriendship);
-            // 
-            // Label_HatchCounter
-            // 
-            this.Label_HatchCounter.Location = new System.Drawing.Point(0, 21);
-            this.Label_HatchCounter.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_HatchCounter.Name = "Label_HatchCounter";
-            this.Label_HatchCounter.Size = new System.Drawing.Size(110, 21);
-            this.Label_HatchCounter.TabIndex = 61;
-            this.Label_HatchCounter.Text = "Hatch Counter:";
-            this.Label_HatchCounter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // FLP_FriendshipFormRight
-            // 
-            this.FLP_FriendshipFormRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.FLP_FriendshipFormRight.Controls.Add(this.TB_Friendship);
-            this.FLP_FriendshipFormRight.Controls.Add(this.Label_Form);
-            this.FLP_FriendshipFormRight.Controls.Add(this.CB_Form);
-            this.FLP_FriendshipFormRight.Controls.Add(this.MT_Form);
-            this.FLP_FriendshipFormRight.Controls.Add(this.CB_FormArgument);
-            this.FLP_FriendshipFormRight.Location = new System.Drawing.Point(110, 0);
-            this.FLP_FriendshipFormRight.Margin = new System.Windows.Forms.Padding(0);
-            this.FLP_FriendshipFormRight.Name = "FLP_FriendshipFormRight";
-            this.FLP_FriendshipFormRight.Size = new System.Drawing.Size(182, 21);
-            this.FLP_FriendshipFormRight.TabIndex = 104;
-            // 
-            // TB_Friendship
-            // 
-            this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.TB_Friendship.Location = new System.Drawing.Point(0, 0);
-            this.TB_Friendship.Margin = new System.Windows.Forms.Padding(0);
-            this.TB_Friendship.Mask = "000";
-            this.TB_Friendship.Name = "TB_Friendship";
-            this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
-            this.TB_Friendship.TabIndex = 11;
-            this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TB_Friendship.Validated += new System.EventHandler(this.Update255_MTB);
-            // 
-            // Label_Form
-            // 
-            this.Label_Form.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.Label_Form.AutoSize = true;
-            this.Label_Form.Location = new System.Drawing.Point(22, 4);
-            this.Label_Form.Margin = new System.Windows.Forms.Padding(0);
-            this.Label_Form.Name = "Label_Form";
-            this.Label_Form.Size = new System.Drawing.Size(33, 13);
-            this.Label_Form.TabIndex = 11;
-            this.Label_Form.Text = "Form:";
-            this.Label_Form.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // CB_Form
-            // 
-            this.CB_Form.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_Form.DropDownWidth = 85;
-            this.CB_Form.Enabled = false;
-            this.CB_Form.FormattingEnabled = true;
-            this.CB_Form.Location = new System.Drawing.Point(55, 0);
-            this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_Form.Name = "CB_Form";
-            this.CB_Form.Size = new System.Drawing.Size(71, 21);
-            this.CB_Form.TabIndex = 12;
-            this.CB_Form.SelectedIndexChanged += new System.EventHandler(this.UpdateForm);
-            // 
-            // CB_FormArgument
-            // 
-            this.CB_FormArgument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CB_FormArgument.DropDownWidth = 90;
-            this.CB_FormArgument.FormattingEnabled = true;
-            this.CB_FormArgument.Location = new System.Drawing.Point(0, 21);
-            this.CB_FormArgument.Margin = new System.Windows.Forms.Padding(0);
-            this.CB_FormArgument.Name = "CB_FormArgument";
-            this.CB_FormArgument.Size = new System.Drawing.Size(50, 21);
-            this.CB_FormArgument.TabIndex = 19;
             // 
             // FLP_Ability
             // 
@@ -942,12 +924,78 @@
             this.TB_AbilityNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TB_AbilityNumber.Visible = false;
             // 
+            // FLP_Friendship
+            // 
+            this.FLP_Friendship.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_Friendship.Controls.Add(this.FLP_FriendshipLeft);
+            this.FLP_Friendship.Controls.Add(this.FLP_FriendshipRight);
+            this.FLP_Friendship.Location = new System.Drawing.Point(0, 191);
+            this.FLP_Friendship.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_Friendship.Name = "FLP_Friendship";
+            this.FLP_Friendship.Size = new System.Drawing.Size(272, 21);
+            this.FLP_Friendship.TabIndex = 6;
+            // 
+            // FLP_FriendshipLeft
+            // 
+            this.FLP_FriendshipLeft.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.FLP_FriendshipLeft.Controls.Add(this.Label_Friendship);
+            this.FLP_FriendshipLeft.Controls.Add(this.Label_HatchCounter);
+            this.FLP_FriendshipLeft.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.FLP_FriendshipLeft.Location = new System.Drawing.Point(0, 0);
+            this.FLP_FriendshipLeft.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_FriendshipLeft.Name = "FLP_FriendshipLeft";
+            this.FLP_FriendshipLeft.Size = new System.Drawing.Size(110, 21);
+            this.FLP_FriendshipLeft.TabIndex = 0;
+            // 
+            // Label_Friendship
+            // 
+            this.Label_Friendship.Location = new System.Drawing.Point(0, 0);
+            this.Label_Friendship.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_Friendship.Name = "Label_Friendship";
+            this.Label_Friendship.Size = new System.Drawing.Size(110, 21);
+            this.Label_Friendship.TabIndex = 9;
+            this.Label_Friendship.Text = "Friendship:";
+            this.Label_Friendship.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Label_Friendship.Click += new System.EventHandler(this.ClickFriendship);
+            // 
+            // Label_HatchCounter
+            // 
+            this.Label_HatchCounter.Location = new System.Drawing.Point(0, 21);
+            this.Label_HatchCounter.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_HatchCounter.Name = "Label_HatchCounter";
+            this.Label_HatchCounter.Size = new System.Drawing.Size(110, 21);
+            this.Label_HatchCounter.TabIndex = 61;
+            this.Label_HatchCounter.Text = "Hatch Counter:";
+            this.Label_HatchCounter.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // FLP_FriendshipRight
+            // 
+            this.FLP_FriendshipRight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_FriendshipRight.Controls.Add(this.TB_Friendship);
+            this.FLP_FriendshipRight.Location = new System.Drawing.Point(110, 0);
+            this.FLP_FriendshipRight.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_FriendshipRight.Name = "FLP_FriendshipRight";
+            this.FLP_FriendshipRight.Size = new System.Drawing.Size(162, 21);
+            this.FLP_FriendshipRight.TabIndex = 104;
+            // 
+            // TB_Friendship
+            // 
+            this.TB_Friendship.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.TB_Friendship.Location = new System.Drawing.Point(0, 0);
+            this.TB_Friendship.Margin = new System.Windows.Forms.Padding(0);
+            this.TB_Friendship.Mask = "000";
+            this.TB_Friendship.Name = "TB_Friendship";
+            this.TB_Friendship.Size = new System.Drawing.Size(22, 20);
+            this.TB_Friendship.TabIndex = 11;
+            this.TB_Friendship.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TB_Friendship.Validated += new System.EventHandler(this.Update255_MTB);
+            // 
             // FLP_Language
             // 
             this.FLP_Language.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Language.Controls.Add(this.Label_Language);
             this.FLP_Language.Controls.Add(this.CB_Language);
-            this.FLP_Language.Location = new System.Drawing.Point(0, 191);
+            this.FLP_Language.Location = new System.Drawing.Point(0, 212);
             this.FLP_Language.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Language.Name = "FLP_Language";
             this.FLP_Language.Size = new System.Drawing.Size(272, 21);
@@ -980,7 +1028,7 @@
             this.FLP_EggPKRS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_EggPKRS.Controls.Add(this.FLP_EggPKRSLeft);
             this.FLP_EggPKRS.Controls.Add(this.FLP_EggPKRSRight);
-            this.FLP_EggPKRS.Location = new System.Drawing.Point(0, 212);
+            this.FLP_EggPKRS.Location = new System.Drawing.Point(0, 233);
             this.FLP_EggPKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EggPKRS.Name = "FLP_EggPKRS";
             this.FLP_EggPKRS.Size = new System.Drawing.Size(272, 21);
@@ -1052,7 +1100,7 @@
             this.FLP_PKRS.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_PKRS.Controls.Add(this.Label_PKRS);
             this.FLP_PKRS.Controls.Add(this.FLP_PKRSRight);
-            this.FLP_PKRS.Location = new System.Drawing.Point(0, 233);
+            this.FLP_PKRS.Location = new System.Drawing.Point(0, 254);
             this.FLP_PKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_PKRS.Name = "FLP_PKRS";
             this.FLP_PKRS.Size = new System.Drawing.Size(272, 21);
@@ -1138,7 +1186,7 @@
             this.FLP_Country.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Country.Controls.Add(this.Label_Country);
             this.FLP_Country.Controls.Add(this.CB_Country);
-            this.FLP_Country.Location = new System.Drawing.Point(0, 254);
+            this.FLP_Country.Location = new System.Drawing.Point(0, 275);
             this.FLP_Country.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Country.Name = "FLP_Country";
             this.FLP_Country.Size = new System.Drawing.Size(272, 21);
@@ -1173,7 +1221,7 @@
             this.FLP_SubRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_SubRegion.Controls.Add(this.Label_SubRegion);
             this.FLP_SubRegion.Controls.Add(this.CB_SubRegion);
-            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 275);
+            this.FLP_SubRegion.Location = new System.Drawing.Point(0, 296);
             this.FLP_SubRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SubRegion.Name = "FLP_SubRegion";
             this.FLP_SubRegion.Size = new System.Drawing.Size(272, 21);
@@ -1207,7 +1255,7 @@
             this.FLP_3DSRegion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_3DSRegion.Controls.Add(this.Label_3DSRegion);
             this.FLP_3DSRegion.Controls.Add(this.CB_3DSReg);
-            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 296);
+            this.FLP_3DSRegion.Location = new System.Drawing.Point(0, 317);
             this.FLP_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_3DSRegion.Name = "FLP_3DSRegion";
             this.FLP_3DSRegion.Size = new System.Drawing.Size(272, 21);
@@ -1238,7 +1286,7 @@
             this.FLP_NSparkle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_NSparkle.Controls.Add(this.L_NSparkle);
             this.FLP_NSparkle.Controls.Add(this.CHK_NSparkle);
-            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 317);
+            this.FLP_NSparkle.Location = new System.Drawing.Point(0, 338);
             this.FLP_NSparkle.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_NSparkle.Name = "FLP_NSparkle";
             this.FLP_NSparkle.Size = new System.Drawing.Size(272, 21);
@@ -1271,7 +1319,7 @@
             this.FLP_ShadowID.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_ShadowID.Controls.Add(this.L_ShadowID);
             this.FLP_ShadowID.Controls.Add(this.NUD_ShadowID);
-            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 338);
+            this.FLP_ShadowID.Location = new System.Drawing.Point(0, 359);
             this.FLP_ShadowID.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShadowID.Name = "FLP_ShadowID";
             this.FLP_ShadowID.Size = new System.Drawing.Size(272, 21);
@@ -1307,7 +1355,7 @@
             this.FLP_Purification.Controls.Add(this.L_HeartGauge);
             this.FLP_Purification.Controls.Add(this.NUD_Purification);
             this.FLP_Purification.Controls.Add(this.CHK_Shadow);
-            this.FLP_Purification.Location = new System.Drawing.Point(0, 359);
+            this.FLP_Purification.Location = new System.Drawing.Point(0, 380);
             this.FLP_Purification.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Purification.Name = "FLP_Purification";
             this.FLP_Purification.Size = new System.Drawing.Size(272, 21);
@@ -1360,7 +1408,7 @@
             this.FLP_ShinyLeaf.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_ShinyLeaf.Controls.Add(this.L_ShinyLeaf);
             this.FLP_ShinyLeaf.Controls.Add(this.ShinyLeaf);
-            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 380);
+            this.FLP_ShinyLeaf.Location = new System.Drawing.Point(0, 401);
             this.FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
             this.FLP_ShinyLeaf.Size = new System.Drawing.Size(272, 56);
@@ -1390,7 +1438,7 @@
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_CatchRate.Controls.Add(this.L_CatchRate);
             this.FLP_CatchRate.Controls.Add(this.CR_PK1);
-            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 436);
+            this.FLP_CatchRate.Location = new System.Drawing.Point(0, 457);
             this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_CatchRate.Name = "FLP_CatchRate";
             this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
@@ -1418,7 +1466,7 @@
             // 
             this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_SizeCP.Controls.Add(this.SizeCP);
-            this.FLP_SizeCP.Location = new System.Drawing.Point(0, 461);
+            this.FLP_SizeCP.Location = new System.Drawing.Point(0, 482);
             this.FLP_SizeCP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SizeCP.Name = "FLP_SizeCP";
             this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
@@ -2653,19 +2701,6 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // MT_Form
-            // 
-            this.MT_Form.Enabled = false;
-            this.MT_Form.Location = new System.Drawing.Point(126, 0);
-            this.MT_Form.Margin = new System.Windows.Forms.Padding(0);
-            this.MT_Form.Mask = "00";
-            this.MT_Form.Name = "MT_Form";
-            this.MT_Form.Size = new System.Drawing.Size(19, 20);
-            this.MT_Form.TabIndex = 18;
-            this.MT_Form.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.MT_Form.Visible = false;
-            this.MT_Form.Validated += new System.EventHandler(this.UpdateHaXForm);
-            // 
             // PKMEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -2692,14 +2727,18 @@
             this.FLP_EXPLevelRight.PerformLayout();
             this.FLP_Nature.ResumeLayout(false);
             this.FLP_OriginalNature.ResumeLayout(false);
+            this.FLP_Form.ResumeLayout(false);
+            this.FLP_FormLeft.ResumeLayout(false);
+            this.FLP_FormRight.ResumeLayout(false);
+            this.FLP_FormRight.PerformLayout();
             this.FLP_HeldItem.ResumeLayout(false);
-            this.FLP_FriendshipForm.ResumeLayout(false);
-            this.FLP_FriendshipFormLeft.ResumeLayout(false);
-            this.FLP_FriendshipFormRight.ResumeLayout(false);
-            this.FLP_FriendshipFormRight.PerformLayout();
             this.FLP_Ability.ResumeLayout(false);
             this.FLP_AbilityRight.ResumeLayout(false);
             this.FLP_AbilityRight.PerformLayout();
+            this.FLP_Friendship.ResumeLayout(false);
+            this.FLP_FriendshipLeft.ResumeLayout(false);
+            this.FLP_FriendshipRight.ResumeLayout(false);
+            this.FLP_FriendshipRight.PerformLayout();
             this.FLP_Language.ResumeLayout(false);
             this.FLP_EggPKRS.ResumeLayout(false);
             this.FLP_EggPKRSLeft.ResumeLayout(false);
@@ -2811,14 +2850,13 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_HeldItem;
         private System.Windows.Forms.Label Label_HeldItem;
         private System.Windows.Forms.ComboBox CB_HeldItem;
-        private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipForm;
-        private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormLeft;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Friendship;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipLeft;
         private System.Windows.Forms.Label Label_Friendship;
         private System.Windows.Forms.Label Label_HatchCounter;
-        private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipFormRight;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FriendshipRight;
         private System.Windows.Forms.MaskedTextBox TB_Friendship;
         private System.Windows.Forms.Label Label_Form;
-        private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.FlowLayoutPanel FLP_Ability;
         private System.Windows.Forms.Label Label_Ability;
         private System.Windows.Forms.FlowLayoutPanel FLP_AbilityRight;
@@ -2972,7 +3010,11 @@
         private System.Windows.Forms.PictureBox PB_Origin;
         private System.Windows.Forms.ComboBox CB_HTLanguage;
         private System.Windows.Forms.Button B_Records;
-        private System.Windows.Forms.ComboBox CB_FormArgument;
+        private System.Windows.Forms.FlowLayoutPanel FLP_Form;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FormLeft;
+        private System.Windows.Forms.FlowLayoutPanel FLP_FormRight;
+        private System.Windows.Forms.ComboBox CB_Form;
         private System.Windows.Forms.MaskedTextBox MT_Form;
+        private System.Windows.Forms.ComboBox CB_FormArgument;
     }
 }
