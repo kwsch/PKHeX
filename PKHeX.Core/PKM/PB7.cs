@@ -600,10 +600,66 @@ namespace PKHeX.Core
 
         public PK8 ConvertToPK8()
         {
-            var pk8 = new PK8();
+            var pk8 = new PK8()
+            {
+                EncryptionConstant = EncryptionConstant,
+                Species = Species,
+                TID = TID,
+                SID = SID,
+                EXP = EXP,
+                PID = PID,
+                Ability = Ability,
+                AbilityNumber = AbilityNumber,
+                Markings = Markings,
+                Language = Language,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPA = EV_SPA,
+                EV_SPD = EV_SPD,
+                EV_SPE = EV_SPE,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                RelearnMove1 = RelearnMove1,
+                RelearnMove2 = RelearnMove2,
+                RelearnMove3 = RelearnMove3,
+                RelearnMove4 = RelearnMove4,
+                IV_HP = IV_HP,
+                IV_ATK = IV_ATK,
+                IV_DEF = IV_DEF,
+                IV_SPA = IV_SPA,
+                IV_SPD = IV_SPD,
+                IV_SPE = IV_SPE,
+                IsEgg = IsEgg,
+                IsNicknamed = IsNicknamed,
+                FatefulEncounter = FatefulEncounter,
+                Gender = Gender,
+                AltForm = AltForm,
+                Nature = Nature,
+                Nickname = Nickname,
+                Version = Version,
+                OT_Name = OT_Name,
+                MetDate = MetDate,
+                EggMetDate = EggMetDate,
+                Met_Location = Met_Location,
+                Ball = Ball,
+                Met_Level = Met_Level,
+                OT_Gender = OT_Gender,
 
-            // todo: take from PK7.ConvertToPK8()
+                // todo: memories
+                OT_Memory = OT_Memory,
+                OT_TextVar = OT_TextVar,
+                OT_Feeling = OT_Feeling,
+                OT_Intensity = OT_Intensity,
+            };
 
+            pk8.HealPP();
             // Fix Checksum
             pk8.RefreshChecksum();
 

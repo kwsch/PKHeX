@@ -146,10 +146,6 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Move1_PP = Move1_PP,
-                Move2_PP = Move2_PP,
-                Move3_PP = Move3_PP,
-                Move4_PP = Move4_PP,
                 Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
                 OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
@@ -164,6 +160,7 @@ namespace PKHeX.Core
                 Geo1_Country = PKMConverter.Country,
                 Geo1_Region = PKMConverter.Region
             };
+            pk7.HealPP();
             pk7.Language = TransferLanguage(PKMConverter.Language);
             pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
             if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
