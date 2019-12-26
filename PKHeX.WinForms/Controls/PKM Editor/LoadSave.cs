@@ -194,7 +194,7 @@ namespace PKHeX.WinForms.Controls
         private void LoadMisc3(PKM pk)
         {
             TB_PID.Text = $"{pk.PID:X8}";
-            Label_Gender.Text = gendersymbols[pk.Gender];
+            Label_Gender.Text = gendersymbols[Math.Min(2, pk.Gender)];
             Label_Gender.ForeColor = Draw.GetGenderColor(pk.Gender);
             CB_Nature.SelectedValue = pk.Nature;
             CB_Language.SelectedValue = pk.Language;
