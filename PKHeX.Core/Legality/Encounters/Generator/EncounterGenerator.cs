@@ -34,6 +34,7 @@ namespace PKHeX.Core
                 case 2: return GetEncounters12(pkm, info);
                 case 3: return GetEncounters3(pkm, info);
                 case 4: return GetEncounters4(pkm, info);
+                case 8: return GenerateRawEncounters8(pkm);
                 default: return GenerateRawEncounters(pkm);
             }
         }
@@ -330,6 +331,36 @@ namespace PKHeX.Core
             if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
+            if (ctr != 0) yield break;
+            foreach (var z in GetValidEncounterTrades(pkm))
+            { yield return z; ++ctr; }
+        }
+
+        private static IEnumerable<IEncounterable> GenerateRawEncounters8(PKM pkm)
+        {
+            // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
+            int ctr = 0;
+
+            if (pkm.WasEvent || pkm.WasEventEgg)
+            {
+                foreach (var z in GetValidGifts(pkm))
+                { yield return z; ++ctr; }
+                if (ctr != 0) yield break;
+            }
+
+            if (pkm.WasBredEgg)
+            {
+                foreach (var z in GenerateEggs(pkm))
+                { yield return z; ++ctr; }
+                if (ctr == 0) yield break;
+            }
+
+            foreach (var z in GetValidStaticEncounter(pkm))
+            { yield return z; ++ctr; }
+            // if (ctr != 0) yield break;
+            foreach (var z in GetValidWildEncounters(pkm))
+            { yield return z; ++ctr; }
+
             if (ctr != 0) yield break;
             foreach (var z in GetValidEncounterTrades(pkm))
             { yield return z; ++ctr; }
