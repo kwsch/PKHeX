@@ -25,7 +25,7 @@ namespace PKHeX.Core
             set
             {
                 for (int i = 0; i < 3; i++)
-                    Data[0x39 + i] = (byte) (value.Length > i ? value[i] : '0');
+                    Data[0x39 + i] = (byte) (value.Length > i ? value[i] : '\0');
                 SAV.Edited = true;
             }
         }
