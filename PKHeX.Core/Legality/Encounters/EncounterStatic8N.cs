@@ -51,8 +51,15 @@ namespace PKHeX.Core
             var rank = (uint)(metLevel / 10);
             if (rank > 4)
                 return false;
-            if (rank < MinRank || MaxRank < rank)
+            if (rank > MaxRank)
                 return false;
+            if (rank < MinRank) // downleveled
+            {
+                if (pkm.Met_Location == SharedNest)
+                { } // shared nests can be downleveled to any
+                else if (MinRank - rank > 1) // native downlevels: only allow 1 rank down (?) 
+                    return false;
+            }
 
             return metLevel % 10 <= 5;
         }
