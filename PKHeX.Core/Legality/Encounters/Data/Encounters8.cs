@@ -229,7 +229,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 221, Level = 33, Location = 122, }, // Piloswine in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 558, Level = 34, Location = 122, }, // Crustle in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 282, Level = 32, Location = 122, }, // Gardevoir in the Rolling Fields (in a Wild Area)
-            new EncounterStatic8 { Species = 537, Level = 36, Location = 142, }, // Seismitoad in Bridge Field (in a Wild Area)
+            new EncounterStatic8S{ Species = 537, Level = 36, Locations = new[] {138, 142}, }, // Seismitoad in Bridge Field (in a Wild Area) & at North Lake Miloch
             new EncounterStatic8 { Species = 583, Level = 36, Location = 124, }, // Vanillish in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 344, Level = 36, Location = 124, }, // Claydol in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 093, Level = 34, Location = 126, }, // Haunter at Watchtower Ruins (in a Wild Area)
