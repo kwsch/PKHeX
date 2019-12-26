@@ -38,6 +38,10 @@ namespace PKHeX.Core
                         break;
                 }
             }
+            else
+            {
+                VerifyMiscMovePP(data);
+            }
 
             if (pkm is PK7 pk7 && pk7.ResortEventStatus >= 20)
                 data.AddLine(GetInvalid(LTransferBad));
@@ -176,6 +180,19 @@ namespace PKHeX.Core
             }
             if (pkm.FatefulEncounter)
                 data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
+        }
+
+        private static void VerifyMiscMovePP(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.Move1_PP > pkm.GetMovePP(pkm.Move1, pkm.Move1_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), Move));
+            if (pkm.Move2_PP > pkm.GetMovePP(pkm.Move2, pkm.Move2_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 2), Move));
+            if (pkm.Move3_PP > pkm.GetMovePP(pkm.Move3, pkm.Move3_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 3), Move));
+            if (pkm.Move4_PP > pkm.GetMovePP(pkm.Move4, pkm.Move4_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 4), Move));
         }
 
         private static void VerifyMiscEggCommon(LegalityAnalysis data)
