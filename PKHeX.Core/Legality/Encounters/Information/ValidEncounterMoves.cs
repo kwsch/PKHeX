@@ -33,7 +33,7 @@ namespace PKHeX.Core
         {
             switch (encounter)
             {
-                case EncounterStatic8N r when !EncounterStatic8N.IsHighestLevelTier(pkm.Met_Level): // Downleveled Raid can happen for shared raids and self-hosted raids.
+                case EncounterStatic8N r when !EncounterStatic8N.IsHighestLevelTier(pkm.Met_Level) && pkm.Met_Level % 5 == 0: // Downleveled Raid can happen for shared raids and self-hosted raids.
                     moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, -1, -1, 60, r.Form, GameVersion.SW, false, 8));
                     break;
             }
