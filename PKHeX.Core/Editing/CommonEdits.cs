@@ -197,15 +197,15 @@ namespace PKHeX.Core
         /// Sets the individual PP Up count values depending if a Move is present in the moveslot or not.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPUps(this PKM pk, int[] Moves)
+        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
+        public static void SetMaximumPPUps(this PKM pk, int[] moves)
         {
-            pk.Move1_PPUps = GetPPUpCount(Moves[0]);
-            pk.Move2_PPUps = GetPPUpCount(Moves[1]);
-            pk.Move3_PPUps = GetPPUpCount(Moves[2]);
-            pk.Move4_PPUps = GetPPUpCount(Moves[3]);
+            pk.Move1_PPUps = GetPPUpCount(moves[0]);
+            pk.Move2_PPUps = GetPPUpCount(moves[1]);
+            pk.Move3_PPUps = GetPPUpCount(moves[2]);
+            pk.Move4_PPUps = GetPPUpCount(moves[3]);
 
-            pk.SetMaximumPPCurrent(Moves);
+            pk.SetMaximumPPCurrent(moves);
             static int GetPPUpCount(int moveID) => moveID > 0 ? 3 : 0;
         }
 
@@ -219,20 +219,20 @@ namespace PKHeX.Core
         /// Updates the <see cref="PKM.Moves"/> and updates the current PP counts.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to set. Will be resized if 4 entries are not present.</param>
+        /// <param name="moves"><see cref="PKM.Moves"/> to set. Will be resized if 4 entries are not present.</param>
         /// <param name="maxPP">Option to maximize PP Ups</param>
-        public static void SetMoves(this PKM pk, int[] Moves, bool maxPP = false)
+        public static void SetMoves(this PKM pk, int[] moves, bool maxPP = false)
         {
-            if (Moves.Any(z => z > pk.MaxMoveID))
-                Moves = Moves.Where(z => z <= pk.MaxMoveID).ToArray();
-            if (Moves.Length != 4)
-                Array.Resize(ref Moves, 4);
+            if (moves.Any(z => z > pk.MaxMoveID))
+                moves = moves.Where(z => z <= pk.MaxMoveID).ToArray();
+            if (moves.Length != 4)
+                Array.Resize(ref moves, 4);
 
-            pk.Moves = Moves;
+            pk.Moves = moves;
             if (maxPP)
-                pk.SetMaximumPPUps(Moves);
+                pk.SetMaximumPPUps(moves);
             else
-                pk.SetMaximumPPCurrent(Moves);
+                pk.SetMaximumPPCurrent(moves);
             pk.FixMoves();
         }
 
@@ -240,13 +240,13 @@ namespace PKHeX.Core
         /// Updates the individual PP count values for each moveslot based on the maximum possible value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
-        public static void SetMaximumPPCurrent(this PKM pk, int[] Moves)
+        /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
+        public static void SetMaximumPPCurrent(this PKM pk, int[] moves)
         {
-            pk.Move1_PP = Moves.Length == 0 ? 0 : pk.GetMovePP(Moves[0], pk.Move1_PPUps);
-            pk.Move2_PP = Moves.Length <= 1 ? 0 : pk.GetMovePP(Moves[1], pk.Move2_PPUps);
-            pk.Move3_PP = Moves.Length <= 2 ? 0 : pk.GetMovePP(Moves[2], pk.Move3_PPUps);
-            pk.Move4_PP = Moves.Length <= 3 ? 0 : pk.GetMovePP(Moves[3], pk.Move4_PPUps);
+            pk.Move1_PP = moves.Length == 0 ? 0 : pk.GetMovePP(moves[0], pk.Move1_PPUps);
+            pk.Move2_PP = moves.Length <= 1 ? 0 : pk.GetMovePP(moves[1], pk.Move2_PPUps);
+            pk.Move3_PP = moves.Length <= 2 ? 0 : pk.GetMovePP(moves[2], pk.Move3_PPUps);
+            pk.Move4_PP = moves.Length <= 3 ? 0 : pk.GetMovePP(moves[3], pk.Move4_PPUps);
         }
 
         /// <summary>
@@ -323,20 +323,20 @@ namespace PKHeX.Core
         /// <summary>
         /// Sanity checks the provided <see cref="PKM.Gender"/> value, and returns a sane value.
         /// </summary>
-        /// <param name="pkm"></param>
+        /// <param name="pk"></param>
         /// <returns>Most-legal <see cref="PKM.Gender"/> value</returns>
-        public static int GetSaneGender(this PKM pkm)
+        public static int GetSaneGender(this PKM pk)
         {
-            int gt = pkm.PersonalInfo.Gender;
+            int gt = pk.PersonalInfo.Gender;
             switch (gt)
             {
                 case 255: return 2; // Genderless
                 case 254: return 1; // Female-Only
                 case 0: return 0; // Male-Only
             }
-            if (!pkm.IsGenderValid())
-                return PKX.GetGenderFromPIDAndRatio(pkm.PID, gt);
-            return pkm.Gender;
+            if (!pk.IsGenderValid())
+                return PKX.GetGenderFromPIDAndRatio(pk.PID, gt);
+            return pk.Gender;
         }
 
         /// <summary>
@@ -417,13 +417,13 @@ namespace PKHeX.Core
         /// Sets the <see cref="PKM.Markings"/> to indicate flawless (or near-flawless) <see cref="PKM.IVs"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetMarkings(this PKM pk, int[] IVs)
+        /// <param name="ivs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
+        public static void SetMarkings(this PKM pk, int[] ivs)
         {
             if (pk.Format <= 3)
                 return; // no markings (gen3 only has 4; can't mark stats intelligently
 
-            var markings = IVs.Select(MarkingMethod(pk)).ToArray();
+            var markings = ivs.Select(MarkingMethod(pk)).ToArray();
             pk.Markings = PKX.ReorderSpeedLast(markings);
         }
 
@@ -532,11 +532,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to fetch for</param>
-        /// <param name="Allow30">Causes the returned value to be dropped down -1 if the value is already at a maxmimum.</param>
+        /// <param name="allow30">Causes the returned value to be dropped down -1 if the value is already at a maxmimum.</param>
         /// <returns>Highest value the value can be.</returns>
-        public static int GetMaximumIV(this PKM pk, int index, bool Allow30 = false)
+        public static int GetMaximumIV(this PKM pk, int index, bool allow30 = false)
         {
-            if (pk.GetIV(index) == pk.MaxIV && Allow30)
+            if (pk.GetIV(index) == pk.MaxIV && allow30)
                 return pk.MaxIV - 1;
             return pk.MaxIV;
         }
@@ -619,100 +619,100 @@ namespace PKHeX.Core
         /// <summary>
         /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
         /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <param name="pk">PKM to apply hatch details to</param>
         /// <param name="reHatch">Re-hatch already hatched <see cref="PKM"/> inputs</param>
-        public static void ForceHatchPKM(this PKM pkm, bool reHatch = false)
+        public static void ForceHatchPKM(this PKM pk, bool reHatch = false)
         {
-            if (!pkm.IsEgg && !reHatch)
+            if (!pk.IsEgg && !reHatch)
                 return;
-            pkm.IsEgg = false;
-            pkm.ClearNickname();
-            pkm.CurrentFriendship = pkm.PersonalInfo.BaseFriendship;
-            if (pkm.IsTradedEgg)
-                pkm.Egg_Location = pkm.Met_Location;
-            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pkm);
+            pk.IsEgg = false;
+            pk.ClearNickname();
+            pk.CurrentFriendship = pk.PersonalInfo.BaseFriendship;
+            if (pk.IsTradedEgg)
+                pk.Egg_Location = pk.Met_Location;
+            var loc = EncounterSuggestion.GetSuggestedEggMetLocation(pk);
             if (loc >= 0)
-                pkm.Met_Location = loc;
-            pkm.MetDate = DateTime.Today;
-            if (pkm.Gen6)
-                pkm.SetHatchMemory6();
+                pk.Met_Location = loc;
+            pk.MetDate = DateTime.Today;
+            if (pk.Gen6)
+                pk.SetHatchMemory6();
         }
 
         /// <summary>
         /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
         /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
+        /// <param name="pk">PKM to apply hatch details to</param>
         /// <param name="origin">Game the egg originated from</param>
         /// <param name="dest">Game the egg is currently present on</param>
-        public static void SetEggMetData(this PKM pkm, GameVersion origin, GameVersion dest)
+        public static void SetEggMetData(this PKM pk, GameVersion origin, GameVersion dest)
         {
             bool traded = origin == dest;
-            var today = pkm.MetDate = DateTime.Today;
-            pkm.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pkm, traded);
-            pkm.EggMetDate = today;
+            var today = pk.MetDate = DateTime.Today;
+            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+            pk.EggMetDate = today;
         }
 
         /// <summary>
         /// Maximizes the <see cref="PKM.CurrentFriendship"/>. If the <see cref="PKM.IsEgg"/>, the hatch counter is set to 1.
         /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        public static void MaximizeFriendship(this PKM pkm)
+        /// <param name="pk">PKM to apply hatch details to</param>
+        public static void MaximizeFriendship(this PKM pk)
         {
-            if (pkm.IsEgg)
-                pkm.OT_Friendship = 1;
+            if (pk.IsEgg)
+                pk.OT_Friendship = 1;
             else
-                pkm.CurrentFriendship = byte.MaxValue;
-            if (pkm is PB7 pb)
+                pk.CurrentFriendship = byte.MaxValue;
+            if (pk is PB7 pb)
                 pb.ResetCP();
         }
 
         /// <summary>
         /// Maximizes the <see cref="PKM.CurrentLevel"/>. If the <see cref="PKM.IsEgg"/>, the <see cref="PKM"/> is ignored.
         /// </summary>
-        /// <param name="pkm">PKM to apply hatch details to</param>
-        public static void MaximizeLevel(this PKM pkm)
+        /// <param name="pk">PKM to apply hatch details to</param>
+        public static void MaximizeLevel(this PKM pk)
         {
-            if (pkm.IsEgg)
+            if (pk.IsEgg)
                 return;
-            pkm.CurrentLevel = 100;
-            if (pkm is PB7 pb)
+            pk.CurrentLevel = 100;
+            if (pk is PB7 pb)
                 pb.ResetCP();
         }
 
         /// <summary>
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
-        /// <param name="pkm">PKM to generate for</param>
+        /// <param name="pk">PKM to generate for</param>
         /// <param name="random">Full movepool &amp; shuffling</param>
         /// <returns>4 moves</returns>
-        public static int[] GetMoveSet(this PKM pkm, bool random = false)
+        public static int[] GetMoveSet(this PKM pk, bool random = false)
         {
-            var la = new LegalityAnalysis(pkm);
-            var moves = pkm.GetMoveSet(la, random);
+            var la = new LegalityAnalysis(pk);
+            var moves = pk.GetMoveSet(la, random);
 
             if (random)
                 return moves;
 
-            var clone = pkm.Clone();
+            var clone = pk.Clone();
             clone.SetMoves(moves);
-            var newLa = new LegalityAnalysis(pkm);
+            var newLa = new LegalityAnalysis(pk);
 
             // ReSharper disable once TailRecursiveCall
-            return newLa.Valid ? moves : GetMoveSet(pkm, true);
+            return newLa.Valid ? moves : GetMoveSet(pk, true);
         }
 
         /// <summary>
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
-        /// <param name="pkm">PKM to generate for</param>
+        /// <param name="pk">PKM to generate for</param>
         /// <param name="la">Precomputed optional</param>
         /// <param name="random">Full movepool &amp; shuffling</param>
         /// <returns>4 moves</returns>
-        public static int[] GetMoveSet(this PKM pkm, LegalityAnalysis la, bool random = false)
+        public static int[] GetMoveSet(this PKM pk, LegalityAnalysis la, bool random = false)
         {
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
             if (m == null)
-                return pkm.Moves;
+                return pk.Moves;
 
             if (!m.All(z => la.AllSuggestedMovesAndRelearn().Contains(z)))
                 m = m.Intersect(la.AllSuggestedMovesAndRelearn()).ToArray();
