@@ -1,7 +1,27 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/12/09 - New Update
+19/12/26 - New Update:
+ - Legality:
+ - - Added: PP Count verification, Egg TR/StatNature checks, etc.
+ - - Added: More static encounter locations.
+ - - Added: Handling for downleveled raid content, and location crossover comparisons for wild encounters.
+ - - Changed: Encounter yielding pattern for Gen8 is now slightly different from the one used for Gen5-7 (now yields more).
+ - - Fixed: EvolutionTree regressions have been resolved. Please report any further issues with legality!
+ - Added: Gen8 simple Raid Den parameter editor.
+ - Added: Gen8 Watts are now editable in the Trainer Data editor. Thanks @Atzgi!
+ - Added: Gen1 Yellow Pikachu Beach score editing.
+ - Changed: The Friendship and Form row in the PKM editor has been split, and the Ability row has been moved up.
+ - Changed: Blank Gen2 saves now act as Virtual Console blanks rather than GB Era blanks.
+ - Fixed: Gen8 Box edits made after using a popup save editor (eg. Trainer Editor) are now written correctly.
+ - Fixed: Gen8 Ingredients are now allowed as held items. Thanks @Narithegreat!
+ - Fixed: Gen8 QR Code image generation now works properly with the larger sprites.
+ - Fixed: Gen8 Trainer Card # (3 digits) now pads with \0 instead of 0, allowing for non-3-digit values.
+ - Fixed: Gen8 Traditional Chinese species names are now in the program. Thanks @iiippppk!
+ - Fixed: Gen4 PCD cards now export correctly with their PGT payload encrypted, rather than as the WC4 format.
+ - Fixed: Daycare/GameSync values from the previously loaded save are no longer erroneously applied to a new save if the caret is in the textbox.
+
+19/12/09 - New Update: (54579) [2270705]
  - Legality:
  - - Updated: Banlist now checks for unavailable forms and unavailable hidden abilities.
  - - Changed: Another round of legality check updates. Thanks @iiippppk, @BetaLeaf, @crzyc, @Bappsack & @ReignOfComputer
