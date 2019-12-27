@@ -129,7 +129,7 @@ namespace PKHeX.Core
             new byte[] {154, 148},           // 24 : Lake of Outrage, Giants Mirror
             new byte[] {124},                // 25 : Dappled Grove
             new byte[] {148, 144, 142},      // 26 : Giants Mirror, Stony Wilderness, Bridge Field
-            new byte[] {148, 124},           // 27 : Giants Mirror, Dappled Grove
+            new byte[] {148, 124, 146},      // 27 : Giants Mirror, Dappled Grove AND Dusty Bowl (Giant's Mirror load-line overlap)
             new byte[] {138, 128},           // 28 : North Lake Miloch, East Lake Axewell
             new byte[] {150, 152, 140},      // 29 : Hammerlocke Hills, Giants Cap, Motostoke Riverbank
             new byte[] {128, 122},           // 30 : East Lake Axewell, Rolling Fields
@@ -144,7 +144,7 @@ namespace PKHeX.Core
             new byte[] {144, 142, 140},      // 39 : Stony Wilderness, Bridge Field, Motostoke Riverbank
             new byte[] {134, 138},           // 40 : South Lake Miloch, North Lake Miloch
             new byte[] {148, 130},           // 41 : Giants Mirror, West Lake Axewell
-            new byte[] {148, 144, 134},      // 42 : Giants Mirror, Stony Wilderness, South Lake Miloch
+            new byte[] {148, 144, 134, 146}, // 42 : Giants Mirror, Stony Wilderness, South Lake Miloch AND Dusty Bowl (Giant's Mirror load-line overlap)
             new byte[] {154, 142, 128, 130}, // 43 : Lake of Outrage, Bridge Field, East Lake Axewell, West Lake Axewell 
             new byte[] {150, 136},           // 44 : Hammerlocke Hills, Giants Seat
             new byte[] {142, 134, 122},      // 45 : Bridge Field, South Lake Miloch, Rolling Fields
