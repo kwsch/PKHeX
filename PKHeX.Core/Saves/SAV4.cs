@@ -954,6 +954,32 @@ namespace PKHeX.Core
             return StringConverter4.SetString4(value, maxLength, PadToSize, PadWith);
         }
 
+
+        /// <summary> All Event Constant values for the savegame </summary>
+        public override ushort[] EventConsts
+        {
+            get
+            {
+                if (EventConstMax <= 0)
+                    return Array.Empty<ushort>();
+
+                ushort[] Constants = new ushort[EventConstMax];
+                for (int i = 0; i < Constants.Length; i++)
+                    Constants[i] = BitConverter.ToUInt16(General, EventConst + (i * 2));
+                return Constants;
+            }
+            set
+            {
+                if (EventConstMax <= 0)
+                    return;
+                if (value.Length != EventConstMax)
+                    return;
+
+                for (int i = 0; i < value.Length; i++)
+                    BitConverter.GetBytes(value[i]).CopyTo(General, EventConst + (i * 2));
+            }
+        }
+
         // Seals
         private const byte SealMaxCount = 99;
         public byte[] SealCase { get => General.Slice(Seal, (int) Seal4.MAX); set => SetData(General, value, Seal); }
