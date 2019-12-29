@@ -1,3 +1,4 @@
+0048	Starter	0:Not Chosen,152:Chikorita,155:Cyndaquil,158:Totodile
 0299	Spiky-eared Pichu (Ilex Forest)	0:Not appeared,2:Disappeared
 0161	Beasts (Burned Tower)	0:Appeared,1:Roaming/Fled
 0304	Roaming Latias/Latios	0:Not appeared,1:Ready to Roam,2:Roamed

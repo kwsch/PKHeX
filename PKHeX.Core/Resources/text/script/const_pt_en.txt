@@ -1,3 +1,4 @@
+0048	Starter	387:Turtwig,390:Chimchar,393:Piplup
 0196	Dialga	0:Battleable,1:Disappeared
 0197	Palkia	0:Battleable,1:Disappeared
 0085	Giratina (Distortion World)	13:Battleable,14:Disappeared
