@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -207,7 +206,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm)
         {
             // Gen3 Version MUST match.
             if (Version != 0 && !(Version).Contains((GameVersion)pkm.Version))

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -263,7 +262,7 @@ namespace PKHeX.Core
             return met == Locations.LinkTrade4 || met == 0;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        protected override bool IsMatchExact(PKM pkm) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
     }
 }

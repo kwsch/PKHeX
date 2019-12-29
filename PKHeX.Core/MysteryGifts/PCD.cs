@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -130,7 +128,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)
@@ -162,7 +160,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+            if (wc.AltForm != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;

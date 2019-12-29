@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace PKHeX.Core
@@ -98,7 +97,7 @@ namespace PKHeX.Core
 
         // Mystery Gift implementation
         public override int Format => 7;
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        protected override bool IsMatchExact(PKM pkm) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         public override int Location { get; set; }
         public override int EggLocation { get; set; }

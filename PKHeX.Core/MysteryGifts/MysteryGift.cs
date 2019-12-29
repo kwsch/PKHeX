@@ -132,12 +132,12 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
         public abstract PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);
 
-        protected abstract bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs);
+        protected abstract bool IsMatchExact(PKM pkm);
         protected abstract bool IsMatchDeferred(PKM pkm);
 
         public EncounterMatchRating IsMatch(PKM pkm, IEnumerable<DexLevel> vs)
         {
-            if (!IsMatchExact(pkm, vs))
+            if (!IsMatchExact(pkm))
                 return EncounterMatchRating.None;
             if (IsMatchDeferred(pkm))
                 return EncounterMatchRating.Deferred;

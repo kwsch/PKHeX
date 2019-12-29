@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -490,7 +489,7 @@ namespace PKHeX.Core
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -506,7 +505,7 @@ namespace PKHeX.Core
                 if (Language != 0 && Language != pkm.Language) return false;
             }
 
-            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
             {
                 if (Species == (int)Core.Species.Rockruff && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
                 {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -454,7 +453,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -475,7 +474,8 @@ namespace PKHeX.Core
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
                 if (Language != 0 && Language != pkm.Language) return false;
             }
-            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species))) return false;
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+                return false;
 
             if (IsEgg)
             {

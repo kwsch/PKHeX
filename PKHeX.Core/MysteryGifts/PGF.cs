@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
@@ -333,7 +331,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm)
         {
             if (!IsEgg)
             {
@@ -366,7 +364,8 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species))) return false;
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+                return false;
 
             if (Level != pkm.Met_Level) return false;
             if (Ball != pkm.Ball) return false;
