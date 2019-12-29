@@ -703,6 +703,9 @@
     <None Remove="Resources\text\script\const_usum_ja.txt" />
     <None Remove="Resources\text\script\const_usum_ko.txt" />
     <None Remove="Resources\text\script\const_usum_zh.txt" />
+    <None Remove="Resources\text\script\const_xy_en.txt" />
+    <None Remove="Resources\text\script\const_xy_ko.txt" />
+    <None Remove="Resources\text\script\const_xy_zh.txt" />
     <None Remove="Resources\text\script\flags_b2w2_en.txt" />
     <None Remove="Resources\text\script\flags_b2w2_ja.txt" />
     <None Remove="Resources\text\script\flags_b2w2_ko.txt" />
@@ -1492,6 +1495,9 @@
     <EmbeddedResource Include="Resources\text\script\const_usum_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_ko.txt" />
     <EmbeddedResource Include="Resources\text\script\const_usum_zh.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_xy_en.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_xy_ko.txt" />
+    <EmbeddedResource Include="Resources\text\script\const_xy_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_b2w2_ko.txt" />

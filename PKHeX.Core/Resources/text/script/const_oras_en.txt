@@ -1,1 +1,2 @@
+48	Starter	0:Treecko,1:Torchic,2:Mudkip
 60	Ash
