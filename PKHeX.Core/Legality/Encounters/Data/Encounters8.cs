@@ -142,7 +142,7 @@ namespace PKHeX.Core
             new EncounterStatic8S{ Species = 131, Level = 56, Locations = new[] {128, 130, 134, 138, 154 }, }, // Lapras at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8S{ Species = 119, Level = 46, Locations = new[] {128, 130, 134, 138, 142, 154 }, }, // Seaking in Bridge Field, at North/East/South/West Lake Miloch/Axwell, at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8S{ Species = 130, Level = 56, Locations = new[] {128, 146}, }, // Gyarados in East Lake Axewell, Dusty Bowl (in a Wild Area)
-            new EncounterStatic8 { Species = 279, Level = 46, Location = 142, }, // Pelipper in Bridge Field (in a Wild Area)
+            new EncounterStatic8S{ Species = 279, Level = 46, Locations = new[] {128, 142}, }, // Pelipper in East Lake Axewell, Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 853, Level = 56, Location = 130, }, // Grapploct at West Lake Axewell (in a Wild Area)
             new EncounterStatic8S{ Species = 593, Level = 46, Locations = new[] {128, 130, 134, 138, 154 }, }, // Jellicent at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 171, Level = 46, Location = 128, }, // Lanturn at East Lake Axewell (in a Wild Area)
@@ -233,7 +233,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 583, Level = 36, Location = 124, }, // Vanillish in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 344, Level = 36, Location = 124, }, // Claydol in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 093, Level = 34, Location = 126, }, // Haunter at Watchtower Ruins (in a Wild Area)
-            new EncounterStatic8 { Species = 356, Level = 40, Location = 126, }, // Dusclops at Watchtower Ruins (in a Wild Area)
+            new EncounterStatic8S{ Species = 356, Level = 40, Locations = new[] {126, 130}, }, // Dusclops at Watchtower Ruins (in a Wild Area) & at West Lake Axewell
             new EncounterStatic8S{ Species = 362, Level = 40, Locations = new[] {126, 130}, }, // Glalie at Watchtower Ruins (in a Wild Area) & at West Lake Axewell
             new EncounterStatic8 { Species = 279, Level = 28, Location = 138, }, // Pelipper at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 536, Level = 28, Location = 130, }, // Palpitoad at West Lake Axewell (in a Wild Area)
