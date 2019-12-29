@@ -8,20 +8,20 @@ namespace PKHeX.Core
 
         private static readonly BlockInfo6[] BlocksAODemo =
         {
-            new BlockInfo6(boAOdemo, 00, 0x00000, 0x00B90), // MyItem // Bag
+            new BlockInfo6(boAOdemo, 00, 0x00000, 0x00B90), // MyItem
             new BlockInfo6(boAOdemo, 01, 0x00C00, 0x0002C), // ItemInfo6
             new BlockInfo6(boAOdemo, 02, 0x00E00, 0x00038), // GameTime
             new BlockInfo6(boAOdemo, 03, 0x01000, 0x00150), // Situation
-            new BlockInfo6(boAOdemo, 04, 0x01200, 0x00004), // [00004] RandomGroup (rand seeds)
+            new BlockInfo6(boAOdemo, 04, 0x01200, 0x00004), // RandomGroup (rand seeds)
             new BlockInfo6(boAOdemo, 05, 0x01400, 0x00008), // PlayTime
-            new BlockInfo6(boAOdemo, 06, 0x01600, 0x00024), // [00024] temp variables (u32 id + 32 u8)
-            new BlockInfo6(boAOdemo, 07, 0x01800, 0x02100), // [02100] FieldMoveModelSave
+            new BlockInfo6(boAOdemo, 06, 0x01600, 0x00024), // temp variables (u32 id + 32 u8)
+            new BlockInfo6(boAOdemo, 07, 0x01800, 0x02100), // FieldMoveModelSave
             new BlockInfo6(boAOdemo, 08, 0x03A00, 0x00130), // Misc
             new BlockInfo6(boAOdemo, 09, 0x03C00, 0x00170), // MyStatus
             new BlockInfo6(boAOdemo, 10, 0x03E00, 0x0061C), // PokePartySave
             new BlockInfo6(boAOdemo, 11, 0x04600, 0x00504), // EventWork
-            new BlockInfo6(boAOdemo, 12, 0x04C00, 0x00004), // [00004] Packed Menu Bits
-            new BlockInfo6(boAOdemo, 13, 0x04E00, 0x00048), // [00048] Repel Info, (Swarm?) and other overworld info (roamer)
+            new BlockInfo6(boAOdemo, 12, 0x04C00, 0x00004), // Packed Menu Bits
+            new BlockInfo6(boAOdemo, 13, 0x04E00, 0x00048), // Repel Info, (Swarm?) and other overworld info (roamer)
             new BlockInfo6(boAOdemo, 14, 0x05000, 0x00400), // PokeDiarySave
             new BlockInfo6(boAOdemo, 15, 0x05400, 0x0025C), // Record
         };

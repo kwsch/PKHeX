@@ -108,7 +108,7 @@ namespace PKHeX.Core
             {
                 new SlotInfoMisc(sav.Data, 0, sav.GTS) {Type = StorageSlotType.GTS},
                 new SlotInfoMisc(sav.Data, 0, sav.Fused) {Type = StorageSlotType.Fused},
-                new SlotInfoMisc(sav.Data, 0, sav.SUBE) {Type = StorageSlotType.Misc},
+                new SlotInfoMisc(sav.Data, 0, sav.SUBE.Offset + 0x90) {Type = StorageSlotType.Misc}, // Old Man
 
                 new SlotInfoMisc(sav.Data, 0, sav.GetBattleBoxSlot(0)) {Type = StorageSlotType.BattleBox},
                 new SlotInfoMisc(sav.Data, 1, sav.GetBattleBoxSlot(1)) {Type = StorageSlotType.BattleBox},

@@ -33,7 +33,7 @@ namespace PKHeX.Core
             new BlockInfo6(boAO, 22, 0x16A00, 0x00104), // 22 UnionPokemon
             new BlockInfo6(boAO, 23, 0x16C00, 0x00004), // 23 ConfigSave
             new BlockInfo6(boAO, 24, 0x16E00, 0x00420), // 24 Amie decoration stuff
-            new BlockInfo6(boAO, 25, 0x17400, 0x00064), // 25 OPower = 0x17400;
+            new BlockInfo6(boAO, 25, 0x17400, 0x00064), // 25 OPower
             new BlockInfo6(boAO, 26, 0x17600, 0x003F0), // 26 Strength Rock position (xyz float: 84 entries, 12bytes/entry)
             new BlockInfo6(boAO, 27, 0x17A00, 0x0070C), // 27 Trainer PR Video
             new BlockInfo6(boAO, 28, 0x18200, 0x00180), // 28 GtsData
@@ -50,7 +50,7 @@ namespace PKHeX.Core
             new BlockInfo6(boAO, 39, 0x1C000, 0x00216), // 39 BattleInstSave
             new BlockInfo6(boAO, 40, 0x1C400, 0x00640), // 40 BerryField
             new BlockInfo6(boAO, 41, 0x1CC00, 0x01A90), // 41 MysteryGiftSave
-            new BlockInfo6(boAO, 42, 0x1E800, 0x00400), // 42 Storyline Records
+            new BlockInfo6(boAO, 42, 0x1E800, 0x00400), // 42 [SubE]vent Log
             new BlockInfo6(boAO, 43, 0x1EC00, 0x00618), // 43 PokeDiarySave
             new BlockInfo6(boAO, 44, 0x1F400, 0x0025C), // 44 Record
             new BlockInfo6(boAO, 45, 0x1F800, 0x00834), // 45 Friend Safari (0x15 per entry, 100 entries)
@@ -88,6 +88,7 @@ namespace PKHeX.Core
         public Misc6AO Misc { get; }
         public SuperTrainBlock SuperTrain { get; }
         public MaisonBlock Maison { get; }
+        public SubEventLog6 SUBE { get; }
 
         public SaveBlockAccessorAO(SAV6AO sav)
         {
@@ -105,6 +106,7 @@ namespace PKHeX.Core
             OPower = new OPower6(sav, 0x17400);
             Maison = new MaisonBlock(sav, 0x1BA00);
             MysteryGift = new MysteryBlock6(sav, 0x1CC00);
+            SUBE = new SubEventLog6AO(sav, 0x1E800);
             Records = new RecordBlock6(sav, 0x1F400);
             SuperTrain = new SuperTrainBlock(sav, 0x20200);
             Link = new LinkBlock6(sav, 0x20E00);

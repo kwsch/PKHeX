@@ -36,7 +36,6 @@ namespace PKHeX.Core
         {
             GTS = 0x18200; // GtsData
             Fused = 0x16A00; // UnionPokemon
-            SUBE = 0x1D890; // PokeDiarySave
 
             PCLayout = 0x04400;
             BattleBoxOffset = 0x04A00;
@@ -83,6 +82,7 @@ namespace PKHeX.Core
         public MysteryBlock6 MysteryGift => Blocks.MysteryGift;
         public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
         public MaisonBlock Maison => Blocks.Maison;
+        public SubEventLog6 SUBE => Blocks.SUBE;
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;
@@ -184,34 +184,6 @@ namespace PKHeX.Core
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.MysteryGiftReceivedFlags; set => Blocks.MysteryGift.MysteryGiftReceivedFlags = value; }
         protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.MysteryGiftCards; set => Blocks.MysteryGift.MysteryGiftCards = value; }
-
-        // Gym History
-        public ushort[][] GymTeams
-        {
-            get
-            {
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                var data = GetData(ofs, size);
-                ushort[][] teams = new ushort[8][];
-                for (int i = 0; i < teams.Length; i++)
-                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
-                return teams;
-            }
-            set
-            {
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                byte[] data = new byte[size];
-                for (int i = 0; i < value.Length; i++)
-                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
-                SetData(data, ofs);
-            }
-        }
 
         public override int CurrentBox { get => Blocks.BoxLayout.CurrentBox; set => Blocks.BoxLayout.CurrentBox = value; }
         protected override int GetBoxWallpaperOffset(int box) => Blocks.BoxLayout.GetBoxWallpaperOffset(box);

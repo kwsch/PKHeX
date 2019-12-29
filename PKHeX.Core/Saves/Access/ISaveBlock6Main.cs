@@ -7,5 +7,6 @@
         MysteryBlock6 MysteryGift { get; }
         SuperTrainBlock SuperTrain { get; }
         MaisonBlock Maison { get; }
+        SubEventLog6 SUBE { get; }
     }
 }

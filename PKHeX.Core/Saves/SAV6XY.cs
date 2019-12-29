@@ -54,7 +54,6 @@ namespace PKHeX.Core
             // Extra Viewable Slots
             Fused = 0x16000;
             GTS = 0x17800;
-            SUBE = 0x1D890;
         }
 
         public int GTS { get; private set; } = int.MinValue;
@@ -80,6 +79,7 @@ namespace PKHeX.Core
         public Zukan6XY Zukan => Blocks.Zukan;
         public Misc6XY Misc => Blocks.Misc;
         public Fashion6XY Fashion => Blocks.Fashion;
+        public SubEventLog6 SUBE => Blocks.SUBE;
         #endregion
 
         protected override void SetDex(PKM pkm) => Blocks.Zukan.SetDex(pkm);
@@ -119,34 +119,6 @@ namespace PKHeX.Core
         public override byte[] JPEGData => HasJPPEGData ? Array.Empty<byte>() : GetData(JPEG + 0x54, 0xE004);
 
         private bool HasJPPEGData => Data[JPEG + 0x54] == 0xFF;
-
-        // Gym History
-        public ushort[][] GymTeams
-        {
-            get
-            {
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                var data = GetData(ofs, size);
-                ushort[][] teams = new ushort[8][];
-                for (int i = 0; i < teams.Length; i++)
-                    Buffer.BlockCopy(data, teamsize * i, teams[i] = new ushort[6], 0, teamsize);
-                return teams;
-            }
-            set
-            {
-                const int teamsize = 2 * 6; // 2byte/species, 6species/team
-                const int size = teamsize * 8; // 8 gyms
-                int ofs = SUBE - size - 4;
-
-                byte[] data = new byte[size];
-                for (int i = 0; i < value.Length; i++)
-                    Buffer.BlockCopy(value[i], 0, data, teamsize * i, teamsize);
-                SetData(data, ofs);
-            }
-        }
 
         public void UnlockAllFriendSafariSlots()
         {
