@@ -89,7 +89,7 @@ namespace PKHeX.Core
             PlayerData = new PlayerData5(sav, 0x19400);
             Mystery = new MysteryBlock5(sav, 0x1C800);
             Daycare = new Daycare5(sav, 0x20D00);
-            Misc = new Misc5(sav, 0x21100);
+            Misc = new Misc5B2W2(sav, 0x21100);
             Zukan = new Zukan5(sav, 0x21400, 0x328); // forme flags size is + 8 from bw with new formes (therians)
             BattleSubway = new BattleSubway5(sav, 0x21B00);
             PWT = new PWTBlock5(sav, 0x23700);

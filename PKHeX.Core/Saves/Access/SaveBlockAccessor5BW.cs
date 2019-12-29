@@ -86,7 +86,7 @@ namespace PKHeX.Core
             PlayerData = new PlayerData5(sav, 0x19400);
             Mystery = new MysteryBlock5(sav, 0x1C800);
             Daycare = new Daycare5(sav, 0x20E00);
-            Misc = new Misc5(sav, 0x21200);
+            Misc = new Misc5BW(sav, 0x21200);
             Zukan = new Zukan5(sav, 0x21600, 0x320);
             BattleSubway = new BattleSubway5(sav, 0x21D00);
         }
