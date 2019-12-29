@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public abstract class Misc5 : SaveBlock
+    public abstract class Misc5 : SaveBlock, IGymTeamInfo
     {
         protected Misc5(SAV5 sav, int offset) : base(sav) => Offset = offset;
 
@@ -36,7 +36,7 @@ namespace PKHeX.Core
             return BitConverter.ToUInt16(Data, ofs);
         }
 
-        public void GetBadgeVictorySpecies(uint badge, uint slot, ushort species)
+        public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
             SAV.SetData(BitConverter.GetBytes(species), ofs);

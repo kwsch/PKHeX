@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public abstract class SubEventLog6 : SaveBlock
+    public abstract class SubEventLog6 : SaveBlock, IGymTeamInfo
     {
         protected SubEventLog6(SAV6 sav, int offset) : base(sav) => Offset = offset;
 
@@ -24,7 +24,7 @@ namespace PKHeX.Core
             return BitConverter.ToUInt16(Data, ofs);
         }
 
-        public void GetBadgeVictorySpecies(uint badge, uint slot, ushort species)
+        public void SetBadgeVictorySpecies(uint badge, uint slot, ushort species)
         {
             var ofs = GetBadgeVictorySpeciesOffset(badge, slot);
             SAV.SetData(BitConverter.GetBytes(species), ofs);
