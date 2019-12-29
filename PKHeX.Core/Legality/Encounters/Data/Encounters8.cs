@@ -1,4 +1,7 @@
-﻿using static PKHeX.Core.EncounterUtil;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 
@@ -49,6 +52,27 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(8, SlotsSW, SlotsSH);
             MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
+
+            CopyBerryTreeFromBridgeFieldToStony(SlotsSW_Hidden, 26);
+            CopyBerryTreeFromBridgeFieldToStony(SlotsSH_Hidden, 25);
+        }
+
+        private static void CopyBerryTreeFromBridgeFieldToStony(IReadOnlyList<EncounterArea8> arr, int start)
+        {
+            // The Berry Trees in Bridge Field are right against the map boundary, and can be accessed on the adjacent Map ID (Stony Wilderness)
+            // Copy the two Berry Tree encounters from Bridge to Stony, as these aren't overworld (wandering) crossover encounters.
+            var bridge = arr[13];
+            Debug.Assert(bridge.Location == 142);
+            var stony = arr[31];
+            Debug.Assert(stony.Location == 144);
+
+            var ss = stony.Slots;
+            var ssl = ss.Length;
+            Array.Resize(ref ss, ssl + 2);
+            Array.Copy(bridge.Slots, start, ss, ssl, 2);
+            Debug.Assert(((EncounterSlot8)ss[ssl]).Weather == AreaWeather8.Shaking_Trees);
+            Debug.Assert(((EncounterSlot8)ss[ssl+1]).Weather == AreaWeather8.Shaking_Trees);
+            stony.Slots = ss;
         }
 
         private static readonly EncounterStatic[] Encounter_SWSH =
