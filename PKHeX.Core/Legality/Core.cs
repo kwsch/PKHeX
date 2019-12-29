@@ -520,6 +520,8 @@ namespace PKHeX.Core
                     return pkm.AltForm != orig; // bad compare?
                 if ((int) Species.Toxtricity == pkm.Species)
                     return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
+                if ((int) Species.Alcremie == pkm.Species)
+                    return true;
             }
             if ((pkm.Species == (int)Species.Meowstic || pkm.Species == (int)Species.Indeedee) && pkm.Gender == 1)
                 return pkm.AltForm == 1;
@@ -606,11 +608,14 @@ namespace PKHeX.Core
             return 4 > info.Moves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
         }
 
+        /// <summary>Checks if the form may be different than the original encounter detail.</summary>
+        /// <param name="pkm">Pokémon</param>
+        /// <param name="species">Original species</param>
         internal static bool IsFormChangeable(PKM pkm, int species)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (IsEvolvedFormChange(pkm))
+            if (species != pkm.Species && IsEvolvedFormChange(pkm))
                 return true;
             if (species == (int)Species.Zygarde && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
                 return true;
