@@ -228,7 +228,7 @@ namespace PKHeX.Core
             };
 
             if (info.EncounterMatch is EncounterEgg e)
-                source.EggMoveSource = MoveEgg.GetEggMoves(pkm, e.Species, pkm.AltForm, e.Version);
+                source.EggMoveSource = MoveEgg.GetEggMoves(pkm, e.Species, e.Form, e.Version);
 
             var res = ParseMoves(pkm, source, info);
             var relearn = pkm.RelearnMoves;
