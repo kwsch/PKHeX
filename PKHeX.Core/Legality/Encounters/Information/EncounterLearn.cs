@@ -60,7 +60,7 @@ namespace PKHeX.Core
             {
                 if (item.Length != find.Length)
                     return false;
-                const CompareOptions options = CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase;
+                const CompareOptions options = CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols;
                 var compare = CultureInfo.CurrentCulture.CompareInfo.Compare(item, find, options);
                 return compare == 0;
             }
