@@ -206,7 +206,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 213, Level = 34, Location = 146, }, // Shuckle in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 330, Level = 51, Location = 146, }, // Flygon in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 526, Level = 51, Location = 146, }, // Gigalith in Dusty Bowl (in a Wild Area)
-            new EncounterStatic8 { Species = 423, Level = 56, Location = 146, Form = 01, }, // Gastrodon in Dusty Bowl (in a Wild Area)
+            new EncounterStatic8S{ Species = 423, Level = 56, Locations = new[] {146, 148}, Form = 01, }, // Gastrodon in Dusty Bowl (in a Wild Area) and the Giant’s Mirror
             new EncounterStatic8 { Species = 208, Level = 50, Location = 148, }, // Steelix around the Giant’s Mirror (in a Wild Area)
             new EncounterStatic8 { Species = 068, Level = 60, Location = 148, Ability = 1, }, // Machamp around the Giant’s Mirror (in a Wild Area)
             new EncounterStatic8 { Species = 182, Level = 41, Location = 148, }, // Bellossom around the Giant’s Mirror (in a Wild Area)
