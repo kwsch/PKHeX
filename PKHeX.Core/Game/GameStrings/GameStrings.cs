@@ -453,7 +453,7 @@ namespace PKHeX.Core
             {
                 case 2: return metGSC_00000;
                 case 3:
-                    return version == GameVersion.CXD ? metCXD_00000 : metRSEFRLG_00000;
+                    return GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000;
                 case 4: return GetLocationNames4(bankID);
                 case 5: return GetLocationNames5(bankID);
                 case 6: return GetLocationNames6(bankID);
