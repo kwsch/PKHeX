@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,14 +12,23 @@ namespace PKHeX.Core
                 EncounterEvent.RefreshMGDB();
         }
 
+        /// <summary>
+        /// Default response if there are no matches.
+        /// </summary>
         public const string NoMatches = "None";
 
+        /// <summary>
+        /// Checks if a <see cref="species"/> can learn all input <see cref="moves"/>.
+        /// </summary>
         public static bool CanLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var encs = GetLearn(species, moves, lang);
             return encs.Any();
         }
 
+        /// <summary>
+        /// Gets a summary of all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
+        /// </summary>
         public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var encs = GetLearn(species, moves, lang);
@@ -28,36 +38,50 @@ namespace PKHeX.Core
             return msg;
         }
 
+        /// <summary>
+        /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
+        /// </summary>
         public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var str = GameInfo.GetStrings(lang);
             if (str == null)
-                return Enumerable.Empty<IEncounterable>();
+                return Array.Empty<IEncounterable>();
 
             var spec = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
-            if (spec <= 0)
-                return Enumerable.Empty<IEncounterable>();
-
-            var moveIDs = moves.Select(z => StringUtil.FindIndexIgnoreCase(str.movelist, z)).Where(z => z > 0).ToArray();
+            var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
 
             return GetLearn(spec, moveIDs);
         }
 
-        public static IEnumerable<IEncounterable> GetLearn(int spec, int[] moveIDs)
+        /// <summary>
+        /// Gets all encounters where a <see cref="species"/> can learn all input <see cref="moves"/>.
+        /// </summary>
+        public static IEnumerable<IEncounterable> GetLearn(int species, int[] moves)
         {
+            if (species <= 0)
+                return Array.Empty<IEncounterable>();
+            if (moves.Any(z => z < 0))
+                return Array.Empty<IEncounterable>();
+
             var blank = PKMConverter.GetBlank(PKX.Generation);
-            blank.Species = spec;
+            blank.Species = species;
 
             var vers = GameUtil.GameVersions;
-            return EncounterMovesetGenerator.GenerateEncounters(blank, moveIDs, vers);
+            return EncounterMovesetGenerator.GenerateEncounters(blank, moves, vers);
         }
 
+        /// <summary>
+        /// Summarizes all encounters by grouping by <see cref="IEncounterable.Name"/>.
+        /// </summary>
         public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters, bool advanced = false)
         {
             var types = encounters.GroupBy(z => z.Name);
             return Summarize(types, advanced);
         }
 
+        /// <summary>
+        /// Summarizes groups of encounters.
+        /// </summary>
         public static IEnumerable<string> Summarize(IEnumerable<IGrouping<string, IEncounterable>> types, bool advanced = false)
         {
             return types.SelectMany(g => EncounterSummary.SummarizeGroup(g, g.Key, advanced));
