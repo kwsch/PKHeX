@@ -189,7 +189,7 @@ namespace PKHeX.Core
                 if (line[0] == '-')
                 {
                     string moveString = ParseLineMove(line);
-                    int move = Array.IndexOf(Strings.movelist, moveString);
+                    int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
                     if (move < 0)
                         InvalidLines.Add($"Unknown Move: {moveString}");
                     else
@@ -217,16 +217,16 @@ namespace PKHeX.Core
             if (!identifier.EndsWith("Nature"))
                 return false;
             var naturestr = identifier.Split(' ')[0].Trim();
-            return (Nature = Array.IndexOf(Strings.natures, naturestr)) >= 0;
+            return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, naturestr)) >= 0;
         }
 
         private bool ParseEntry(string identifier, string value)
         {
             switch (identifier)
             {
-                case "Trait": case "Ability": return (Ability = Array.IndexOf(Strings.abilitylist, value)) >= 0;
+                case "Trait": case "Ability": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
                 case "Shiny": return Shiny = value.Trim() == "Yes";
-                case "Nature": return (Nature = Array.IndexOf(Strings.natures, value)) >= 0;
+                case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
                 case "EV": case "EVs": ParseLineEVs(value); return true;
                 case "IV": case "IVs": ParseLineIVs(value); return true;
                 case "Level":
@@ -456,7 +456,7 @@ namespace PKHeX.Core
             bool tryGetItem(int format)
             {
                 var items = (string[])Strings.GetItemStrings(format); // ireadonlylist->string[] must be possible for the provided strings
-                int item = Array.IndexOf(items, itemstr);
+                int item = StringUtil.FindIndexIgnoreCase(items, itemstr);
                 if (item < 0)
                     return false;
                 HeldItem = item;
@@ -474,7 +474,7 @@ namespace PKHeX.Core
                 Gender = last3.Substring(1, 1);
                 line = line.Substring(0, line.Length - 3);
             }
-            else if (line.Contains(Strings.Species[678])) // Meowstic Edge Case with no gender provided
+            else if (line.Contains(Strings.Species[(int)Core.Species.Meowstic]) || line.Contains(Strings.Species[(int)Core.Species.Indeedee])) // Meowstic Edge Case with no gender provided
             {
                 Gender = "M";
             }
@@ -489,7 +489,7 @@ namespace PKHeX.Core
         private bool ParseSpeciesForm(string spec)
         {
             spec = spec.Trim();
-            if ((Species = Array.IndexOf(Strings.specieslist, spec)) >= 0) // success, nothing else!
+            if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec)) >= 0) // success, nothing else!
                 return true;
 
             // Forme string present.
@@ -497,7 +497,7 @@ namespace PKHeX.Core
             if (end < 0)
                 return false;
 
-            Species = Array.IndexOf(Strings.specieslist, spec.Substring(0, end).Trim());
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
             Form = spec.Substring(end + 1);
 
             if (Species >= 0)
@@ -517,7 +517,7 @@ namespace PKHeX.Core
             end = spec.LastIndexOf('-', Math.Max(0, end - 1));
             if (end < 0)
                 return false;
-            Species = Array.IndexOf(Strings.specieslist, spec.Substring(0, end).Trim());
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
             Form = spec.Substring(end + 1);
 
             return Species >= 0;
@@ -564,7 +564,7 @@ namespace PKHeX.Core
             // Defined Hidden Power
             string type = moveString.Substring(13);
             type = RemoveAll(type, ParenJunk); // Trim out excess data
-            int hpVal = Array.IndexOf(Strings.types, type) - 1; // Get HP Type
+            int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types, type) - 1; // Get HP Type
 
             HiddenPowerType = hpVal;
             if (IVs.Any(z => z != 31))
@@ -591,7 +591,7 @@ namespace PKHeX.Core
             for (int i = 0; i < list.Length / 2; i++)
             {
                 int pos = i * 2;
-                int index = Array.IndexOf(StatNames, list[pos + 1]);
+                int index = StringUtil.FindIndexIgnoreCase(StatNames, list[pos + 1]);
                 if (index >= 0 && ushort.TryParse(list[pos + 0], out var EV))
                     EVs[index] = EV;
                 else
@@ -608,7 +608,7 @@ namespace PKHeX.Core
             for (int i = 0; i < list.Length / 2; i++)
             {
                 int pos = i * 2;
-                int index = Array.IndexOf(StatNames, list[pos + 1]);
+                int index = StringUtil.FindIndexIgnoreCase(StatNames, list[pos + 1]);
                 if (index >= 0 && byte.TryParse(list[pos + 0], out var IV))
                     IVs[index] = IV;
                 else
@@ -696,7 +696,7 @@ namespace PKHeX.Core
                     return "Dusk";
                 case (int)Core.Species.Necrozma when form == "Dawn-Wings":
                     return "Dawn";
-                    
+
                 // Toxtricity
                 case (int)Core.Species.Toxtricity when form == "Low-Key":
                     return "Low Key";
