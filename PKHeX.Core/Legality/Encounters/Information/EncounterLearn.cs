@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,15 +11,13 @@ namespace PKHeX.Core
                 EncounterEvent.RefreshMGDB();
         }
 
-        private const string DefaultLang = "en";
-
-        public static bool CanLearn(string species, IEnumerable<string> moves, string lang = DefaultLang)
+        public static bool CanLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var encs = GetLearn(species, moves, lang);
             return encs.Any();
         }
 
-        public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, string lang = DefaultLang)
+        public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var encs = GetLearn(species, moves, lang);
             var msg = Summarize(encs).ToList();
@@ -30,17 +26,17 @@ namespace PKHeX.Core
             return msg;
         }
 
-        public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, string lang = DefaultLang)
+        public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var str = GameInfo.GetStrings(lang);
             if (str == null)
                 return Enumerable.Empty<IEncounterable>();
 
-            var spec = FindIndexIgnoreCase(str.specieslist, species);
+            var spec = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
             if (spec <= 0)
                 return Enumerable.Empty<IEncounterable>();
 
-            var moveIDs = moves.Select(z => FindIndexIgnoreCase(str.movelist, z)).Where(z => z > 0).ToArray();
+            var moveIDs = moves.Select(z => StringUtil.FindIndexIgnoreCase(str.movelist, z)).Where(z => z > 0).ToArray();
 
             return GetLearn(spec, moveIDs);
         }
@@ -52,20 +48,6 @@ namespace PKHeX.Core
 
             var vers = GameUtil.GameVersions;
             return EncounterMovesetGenerator.GenerateEncounters(blank, moveIDs, vers);
-        }
-
-        private static int FindIndexIgnoreCase(string[] arr, string val)
-        {
-            static bool Match(string item, string find)
-            {
-                if (item.Length != find.Length)
-                    return false;
-                const CompareOptions options = CompareOptions.IgnoreNonSpace | CompareOptions.IgnoreCase | CompareOptions.IgnoreSymbols;
-                var compare = CultureInfo.CurrentCulture.CompareInfo.Compare(item, find, options);
-                return compare == 0;
-            }
-
-            return Array.FindIndex(arr, i => Match(i, val));
         }
 
         public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters, bool advanced = false)

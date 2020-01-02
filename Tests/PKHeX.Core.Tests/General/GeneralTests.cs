@@ -14,9 +14,9 @@ namespace PKHeX.Tests.General
         }
 
         [Fact]
-        public void StringsLoad() => GameInfo.GetStrings("en");
+        public void StringsLoad() => GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
         [Fact]
-        public void SourcesLoad() => GameInfo.Strings = GameInfo.GetStrings("en");
+        public void SourcesLoad() => GameInfo.Strings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
     }
 }

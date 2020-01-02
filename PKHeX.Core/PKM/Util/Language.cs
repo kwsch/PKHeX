@@ -64,7 +64,7 @@ namespace PKHeX.Core
         {
             switch (lang)
             {
-                default: return "en";
+                default: return GameLanguage.DefaultLanguage;
 
                 case LanguageID.Japanese: return "ja";
                 case LanguageID.French: return "fr";

@@ -460,7 +460,7 @@ namespace PKHeX.WinForms
                         NUD_HallType07, NUD_HallType08, NUD_HallType09, NUD_HallType10, NUD_HallType11, NUD_HallType12,
                         NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
                     };
-                string[] TypeName = Util.GetTypesList("en");
+                string[] TypeName = GameInfo.Strings.types;
                 int[] typenameIndex = new[] { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
                 for (int i = 0; i < HallNUDA.Length; i++)
                     tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);

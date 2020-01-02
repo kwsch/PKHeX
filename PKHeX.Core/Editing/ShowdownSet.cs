@@ -19,7 +19,7 @@ namespace PKHeX.Core
         private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
         private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private const int MAX_SPECIES = (int)Core.Species.MAX_COUNT - 1;
-        private const string Language = "en";
+        private const string Language = GameLanguage.DefaultLanguage;
         private const int DefaultLanguageID = (int)Core.LanguageID.English;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
 

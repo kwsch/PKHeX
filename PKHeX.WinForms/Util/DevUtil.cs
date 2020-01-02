@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
         }
 
         private static readonly string[] Languages = {"ja", "fr", "it", "de", "es", "ko", "zh"};
-        private const string DefaultLanguage = "en";
+        private const string DefaultLanguage = GameLanguage.DefaultLanguage;
 
         public static bool IsUpdatingTranslations { get; private set; }
 

@@ -31,8 +31,8 @@ namespace PKHeX.Core
         private static readonly MiscVerifier Misc = new MiscVerifier();
         private static readonly TransferVerifier Transfer = new TransferVerifier();
 
-        public static string[] MoveStrings { internal get; set; } = Util.GetMovesList("en");
-        public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList("en");
+        public static string[] MoveStrings { internal get; set; } = Util.GetMovesList(GameLanguage.DefaultLanguage);
+        public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
         internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Length ? L_AError : MoveStrings[m]);
     }
 }

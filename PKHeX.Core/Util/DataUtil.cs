@@ -307,32 +307,11 @@ namespace PKHeX.Core
                 var zeroth = line.IndexOf(',');
 
                 var val = line.Substring(0, zeroth);
-                var text = GetNthEntry(line, index, zeroth);
+                var text = StringUtil.GetNthEntry(line, index, zeroth);
                 var item = new ComboItem(text, Convert.ToInt32(val));
                 arr.Add(item);
             }
             return arr;
-        }
-
-        private static string GetNthEntry(string line, int nth, int start)
-        {
-            if (nth != 1)
-                start = line.IndexOfNth(',', nth - 1, start + 1);
-            var end = line.IndexOfNth(',', 1, start + 1);
-            return end < 0 ? line.Substring(start + 1) : line.Substring(start + 1, end - start - 1);
-        }
-
-        private static int IndexOfNth(this string s, char t, int n, int start)
-        {
-            int count = 0;
-            for (int i = start; i < s.Length; i++)
-            {
-                if (s[i] != t)
-                    continue;
-                if (++count == n)
-                    return i;
-            }
-            return -1;
         }
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
