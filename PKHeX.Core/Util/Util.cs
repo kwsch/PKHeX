@@ -18,21 +18,21 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            bool negative = false;
+            foreach (var c in value)
             {
-                var c = value[i];
                 if (IsNum(c))
                 {
                     result *= 10;
                     result += c;
                     result -= '0';
                 }
-                else if (c == '-')
+                else if (c == '-' && result == 0)
                 {
-                    result = -result;
+                    negative = true;
                 }
             }
-            return result;
+            return negative ? -result : result;
         }
 
         /// <summary>
@@ -46,15 +46,13 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            foreach (var c in value)
             {
-                var c = value[i];
-                if (IsNum(c))
-                {
-                    result *= 10;
-                    result += c;
-                    result -= '0';
-                }
+                if (!IsNum(c))
+                    continue;
+                result *= 10;
+                result += c;
+                result -= '0';
             }
             return result;
         }
@@ -70,9 +68,8 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            foreach (var c in value)
             {
-                var c = value[i];
                 if (IsNum(c))
                 {
                     result <<= 4;
@@ -106,9 +103,9 @@ namespace PKHeX.Core
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
-        private static bool IsNum(char c) => c >= '0' && c <= '9';
-        private static bool IsHexUpper(char c) => c >= 'A' && c <= 'F';
-        private static bool IsHexLower(char c) => c >= 'a' && c <= 'f';
+        private static bool IsNum(char c) => (uint)(c - '0') <= 9;
+        private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
+        private static bool IsHexLower(char c) => (uint)(c - 'a') <= 5;
         private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
         private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
 
