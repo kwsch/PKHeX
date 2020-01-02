@@ -11,6 +11,8 @@ namespace PKHeX.Core
                 EncounterEvent.RefreshMGDB();
         }
 
+        public const string NoMatches = "None";
+
         public static bool CanLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var encs = GetLearn(species, moves, lang);
@@ -22,7 +24,7 @@ namespace PKHeX.Core
             var encs = GetLearn(species, moves, lang);
             var msg = Summarize(encs).ToList();
             if (msg.Count == 0)
-                msg.Add("None.");
+                msg.Add(NoMatches);
             return msg;
         }
 
@@ -53,81 +55,93 @@ namespace PKHeX.Core
         public static IEnumerable<string> Summarize(IEnumerable<IEncounterable> encounters, bool advanced = false)
         {
             var types = encounters.GroupBy(z => z.Name);
-            return types.SelectMany(g => EnhancedSummary.SummarizeGroup(g.Key, g, advanced));
+            return Summarize(types, advanced);
         }
 
-        private readonly struct EnhancedSummary
+        public static IEnumerable<string> Summarize(IEnumerable<IGrouping<string, IEncounterable>> types, bool advanced = false)
         {
-            private readonly GameVersion Version;
-            private readonly string LocationName;
+            return types.SelectMany(g => EncounterSummary.SummarizeGroup(g, g.Key, advanced));
+        }
+    }
 
-            private EnhancedSummary(IEncounterable z, string type)
-            {
-                Version = z is IVersion v ? v.Version : GameVersion.Any;
-                LocationName = GetLocationName(z) + $"({type}) ";
-            }
+    public readonly struct EncounterSummary
+    {
+        private readonly GameVersion Version;
+        private readonly string LocationName;
 
-            private EnhancedSummary(IEncounterable z)
-            {
-                Version = z is IVersion v ? v.Version : GameVersion.Any;
-                LocationName = GetLocationName(z);
-            }
+        private EncounterSummary(IEncounterable z, string type)
+        {
+            Version = z is IVersion v ? v.Version : GameVersion.Any;
+            LocationName = GetLocationName(z) + $"({type}) ";
+        }
 
-            private static string GetLocationName(IEncounterable z)
-            {
-                var gen = z is IGeneration g ? g.Generation : -1;
-                var version = z is IVersion v ? (int) v.Version : -1;
-                if (gen < 0 && version > 0)
-                    gen = ((GameVersion)version).GetGeneration();
+        private EncounterSummary(IEncounterable z)
+        {
+            Version = z is IVersion v ? v.Version : GameVersion.Any;
+            LocationName = GetLocationName(z);
+        }
 
-                if (!(z is ILocation l))
-                    return $"[Gen{gen}]\t";
-                var loc = l.GetEncounterLocation(gen, version);
+        private static string GetLocationName(IEncounterable z)
+        {
+            var gen = z is IGeneration g ? g.Generation : -1;
+            var version = z is IVersion v ? (int)v.Version : -1;
+            if (gen < 0 && version > 0)
+                gen = ((GameVersion)version).GetGeneration();
 
-                if (string.IsNullOrWhiteSpace(loc))
-                    return $"[Gen{gen}]\t";
-                return $"[Gen{gen}]\t{loc}: ";
-            }
+            if (!(z is ILocation l))
+                return $"[Gen{gen}]\t";
+            var loc = l.GetEncounterLocation(gen, version);
 
-            public static IEnumerable<string> SummarizeGroup(string header, IEnumerable<IEncounterable> items, bool advanced = false)
-            {
+            if (string.IsNullOrWhiteSpace(loc))
+                return $"[Gen{gen}]\t";
+            return $"[Gen{gen}]\t{loc}: ";
+        }
+
+        public static IEnumerable<string> SummarizeGroup(IEnumerable<IEncounterable> items, string header = "", bool advanced = false)
+        {
+            if (!string.IsNullOrWhiteSpace(header))
                 yield return $"=={header}==";
-                var summaries = advanced ? GetSummaries(items) : items.Select(z => new EnhancedSummary(z));
-                var objs = summaries.GroupBy(z => z.LocationName);
-                foreach (var g in objs)
-                    yield return $"\t{g.Key}{string.Join(", ", g.Select(z => z.Version).Distinct())}";
-            }
+            var summaries = advanced ? GetSummaries(items) : items.Select(z => new EncounterSummary(z));
+            var objs = summaries.GroupBy(z => z.LocationName);
+            foreach (var g in objs)
+                yield return $"\t{g.Key}{string.Join(", ", g.Select(z => z.Version).Distinct())}";
+        }
 
-            public static IEnumerable<EnhancedSummary> GetSummaries(IEnumerable<IEncounterable> items)
+        public static IEnumerable<EncounterSummary> GetSummaries(IEnumerable<IEncounterable> items)
+        {
+            return items.SelectMany(GetSummaries);
+        }
+
+        private static IEnumerable<EncounterSummary> GetSummaries(IEncounterable item)
+        {
+            switch (item)
             {
-                return items.SelectMany(GetSummaries);
-            }
-
-            private static IEnumerable<EnhancedSummary> GetSummaries(IEncounterable item)
-            {
-                switch (item)
-                {
-                    case EncounterSlot s:
-                        var type = s.Type;
-                        if (type == 0)
-                        {
-                            yield return new EnhancedSummary(item);
-                            break;
-                        }
-                        for (int i = 0; i < sizeof(SlotType) * 8; i++)
-                        {
-                            var flag = (SlotType) (1 << i);
-                            if ((type & flag) != 0)
-                                yield return new EnhancedSummary(item, flag.ToString());
-                        }
-
+                case EncounterSlot s:
+                    var type = s.Type;
+                    if (type == 0)
+                    {
+                        yield return new EncounterSummary(item);
                         break;
+                    }
+                    for (int i = 0; i < sizeof(SlotType) * 8; i++)
+                    {
+                        var flag = (SlotType)(1 << i);
+                        if ((type & flag) != 0)
+                            yield return new EncounterSummary(item, flag.ToString());
+                    }
 
-                    default:
-                        yield return new EnhancedSummary(item);
-                        break;
-                }
+                    break;
+
+                default:
+                    yield return new EncounterSummary(item);
+                    break;
             }
         }
+
+        public bool Equals(EncounterSummary obj) => obj.Version == Version && obj.LocationName == LocationName;
+        public override bool Equals(object obj) => obj is EncounterSummary t && Equals(t);
+        public override int GetHashCode() => LocationName.GetHashCode();
+        public static bool operator ==(EncounterSummary left, EncounterSummary right) => left.Equals(right);
+        public static bool operator !=(EncounterSummary left, EncounterSummary right) => !(left == right);
     }
 }
