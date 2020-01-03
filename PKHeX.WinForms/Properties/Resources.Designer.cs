@@ -214,12 +214,13 @@ namespace PKHeX.WinForms.Properties {
         ///   Looks up a localized string similar to PKHeX - By Kaphotics
         ///http://projectpokemon.org/pkhex/
         ///
-        ///19/11/15 - New Update:
-        /// - Introducing Sword/Shield support! Thanks @SciresM and @sora10pls for troubleshooting prior to release!
-        /// - - Initial Legality Checking is provided. Please refer to the forums when reporting legality issues for Generation 8 parsing.
-        /// - - Bag editing, Pokédex, and Trainer Info editing is provided.
-        /// - Changed: PKHeX.Core.dll is now merged in with the main executable.
-        /// - Changed: PKHeX.WinForms spriting has now been split in [rest of string was truncated]&quot;;.
+        ///19/12/26 - New Update:
+        /// - Legality:
+        /// - - Added: PP Count verification, Egg TR/StatNature checks, etc.
+        /// - - Added: More static encounter locations.
+        /// - - Added: Handling for downleveled raid content, and location crossover comparisons for wild encounters.
+        /// - - Changed: Encounter yielding pattern for Gen8 is now slightly different from the one used for Gen5-7 (now yields more).
+        /// - - Fixed: EvolutionTree regressions have been resolved. Please repor [rest of string was truncated]&quot;;.
         /// </summary>
         public static string changelog {
             get {
@@ -504,6 +505,236 @@ namespace PKHeX.WinForms.Properties {
             get {
                 object obj = ResourceManager.GetObject("import", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=Batch Editor
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Memory / Amie Editor
+        ///RibbonEditor=Ribbon Editor
+        ///SAV_Apricorn=Apricorn Editor
+        ///SAV_BerryField=Berry Field Viewer
+        ///SAV_BoxLayout=Box Layout Editor
+        ///SAV_BoxList=Storage Viewer
+        ///SAV_CGearSkin=C-Gear Skin
+        ///SAV_Database=Database
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=Event Flag Editor
+        ///SAV_EventReset1=Event Resetter
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=Folder List
+        ///SAV_GameSelect=Game Selection
+        ///SAV_Hal [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_de {
+            get {
+                return ResourceManager.GetString("lang_de", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=Batch Editor
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Memory / Amie Editor
+        ///RibbonEditor=Ribbon Editor
+        ///SAV_Apricorn=Apricorn Editor
+        ///SAV_BerryField=Berry Field Viewer
+        ///SAV_BoxLayout=Box Layout Editor
+        ///SAV_BoxList=Storage Viewer
+        ///SAV_CGearSkin=C-Gear Skin
+        ///SAV_Database=Database
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=Event Flag Editor
+        ///SAV_EventReset1=Event Resetter
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=Folder List
+        ///SAV_GameSelect=Game Selection
+        ///SAV_Hal [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_en {
+            get {
+                return ResourceManager.GetString("lang_en", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=Acerca de
+        ///BatchEditor=Editor por lotes
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Editor de memorias / Poké Recreo
+        ///RibbonEditor=Editor de cintas
+        ///SAV_Apricorn=Editor de Bonguri
+        ///SAV_BerryField=Visor de campos de bayas
+        ///SAV_BoxLayout=Editor de fondos de cajas
+        ///SAV_BoxList=Visor de almacenamiento
+        ///SAV_CGearSkin=Editor de la apariencia C-Gear
+        ///SAV_Database=Base de datos
+        ///SAV_Encounters=Base de datos
+        ///SAV_EventFlags=Editor de marca de eventos
+        ///SAV_EventReset1=Reiniciador de eventos
+        ///SAV_E [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_es {
+            get {
+                return ResourceManager.GetString("lang_es", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=À propos
+        ///BatchEditor=Batch Editor
+        ///ErrorWindow=Erreur
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Memory / Amie Editor
+        ///RibbonEditor=Rubans
+        ///SAV_Apricorn=Noigrumes
+        ///SAV_BerryField=Champs de Baies
+        ///SAV_BoxLayout=Fonds de Boîtes
+        ///SAV_BoxList=Storage Viewer
+        ///SAV_CGearSkin=Fonds C-Gear
+        ///SAV_Database=Base de Données
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=Événements dans le Jeu
+        ///SAV_EventReset1=Réinitialisateur d&apos;événements
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=Liste Dossiers
+        ///SAV_GameSelect=Choix  [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_fr {
+            get {
+                return ResourceManager.GetString("lang_fr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=Batch Editor
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Memory / Amie Editor
+        ///RibbonEditor=Ribbon Editor
+        ///SAV_Apricorn=Apricorn Editor
+        ///SAV_BerryField=Berry Field Viewer
+        ///SAV_BoxLayout=Box Layout Editor
+        ///SAV_BoxList=Storage Viewer
+        ///SAV_CGearSkin=C-Gear Skin
+        ///SAV_Database=Database
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=Event Flag Editor
+        ///SAV_EventReset1=Event Resetter
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=Folder List
+        ///SAV_GameSelect=Game Selection
+        ///SAV_Hal [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_it {
+            get {
+                return ResourceManager.GetString("lang_it", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=バッチエディタ
+        ///ErrorWindow=エラー
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=おもいで
+        ///RibbonEditor=取得リボン
+        ///SAV_Apricorn=ぼんぐり
+        ///SAV_BerryField=きのみ畑
+        ///SAV_BoxLayout=ボックスレイアウト
+        ///SAV_BoxList=ボックスリスト
+        ///SAV_CGearSkin=Cギア スキン
+        ///SAV_Database=データベース
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=イベントフラグ
+        ///SAV_EventReset1=イベントリセット
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=フォルダリスト
+        ///SAV_GameSelect=ゲームバーション
+        ///SAV_HallOfFame=殿堂入りデータ
+        ///SAV_HallOfFame7=殿堂入りデータ参照
+        ///SAV_HoneyTree=あまいかおりのするき
+        ///SAV_Inventory=アイテム
+        ///SAV_Link6=ポケモ [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_ja {
+            get {
+                return ResourceManager.GetString("lang_ja", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=Batch Editor
+        ///ErrorWindow=Error
+        ///KChart=KChart
+        ///Main=PKHeX
+        ///MemoryAmie=Memory / Amie Editor
+        ///RibbonEditor=Ribbon Editor
+        ///SAV_Apricorn=Apricorn Editor
+        ///SAV_BerryField=Berry Field Viewer
+        ///SAV_BoxLayout=Box Layout Editor
+        ///SAV_BoxList=Storage Viewer
+        ///SAV_CGearSkin=C-Gear Skin
+        ///SAV_Database=Database
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=Event Flag Editor
+        ///SAV_EventReset1=Event Resetter
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=Folder List
+        ///SAV_GameSelect=Game Selection
+        ///SAV_Hal [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_ko {
+            get {
+                return ResourceManager.GetString("lang_ko", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to About=About
+        ///BatchEditor=批量编辑器
+        ///ErrorWindow=错误
+        ///KChart=信息列表
+        ///Main=PKHeX
+        ///MemoryAmie=回忆/清爽乐
+        ///RibbonEditor=奖章
+        ///SAV_Apricorn=球果编辑
+        ///SAV_BerryField=树果田查看器
+        ///SAV_BoxLayout=盒子外观
+        ///SAV_BoxList=寄放系统
+        ///SAV_CGearSkin=C-装置皮肤
+        ///SAV_Database=数据库
+        ///SAV_Encounters=Database
+        ///SAV_EventFlags=事件旗标编辑
+        ///SAV_EventReset1=事件重置
+        ///SAV_EventWork=Event Flag Editor
+        ///SAV_FolderList=文件夹列表
+        ///SAV_GameSelect=游戏选择
+        ///SAV_HallOfFame=名人堂
+        ///SAV_HallOfFame7=名人堂
+        ///SAV_HoneyTree=甜甜蜜树编辑
+        ///SAV_Inventory=物品栏
+        ///SAV_Link6=宝可梦连接工具
+        ///SAV_MailBox=邮箱编辑
+        ///SAV_Misc3=训练家数据编辑        /// [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string lang_zh {
+            get {
+                return ResourceManager.GetString("lang_zh", resourceCulture);
             }
         }
         

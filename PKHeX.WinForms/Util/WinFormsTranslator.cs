@@ -63,7 +63,10 @@ namespace PKHeX.WinForms
                 catch { /* In use? Just return the internal resource. */ }
             }
 
-            return Util.GetStringList(file);
+            if (Util.IsStringListCached(file, out var result))
+                return result;
+            var txt = (string)Properties.Resources.ResourceManager.GetObject(file);
+            return Util.LoadStringList(file, txt);
         }
 
         private static IEnumerable<object> GetTranslatableControls(Control f)

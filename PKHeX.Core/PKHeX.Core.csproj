@@ -131,7 +131,6 @@
     <None Remove="Resources\byte\wc7full.pkl" />
     <None Remove="Resources\byte\wb7full.pkl" />
     <None Remove="Resources\byte\wc8.pkl" />
-    <None Remove="Resources\text\de\lang_de.txt" />
     <None Remove="Resources\text\de\LegalityCheckStrings_de.txt" />
     <None Remove="Resources\text\de\MessageStrings_en.txt" />
     <None Remove="Resources\text\de\text_Abilities_de.txt" />
@@ -186,7 +185,6 @@
     <None Remove="Resources\text\de\text_xy_30000_de.txt" />
     <None Remove="Resources\text\de\text_xy_40000_de.txt" />
     <None Remove="Resources\text\de\text_xy_60000_de.txt" />
-    <None Remove="Resources\text\en\lang_en.txt" />
     <None Remove="Resources\text\en\LegalityCheckStrings_en.txt" />
     <None Remove="Resources\text\en\MessageStrings_en.txt" />
     <None Remove="Resources\text\en\text_Abilities_en.txt" />
@@ -241,7 +239,6 @@
     <None Remove="Resources\text\en\text_xy_30000_en.txt" />
     <None Remove="Resources\text\en\text_xy_40000_en.txt" />
     <None Remove="Resources\text\en\text_xy_60000_en.txt" />
-    <None Remove="Resources\text\es\lang_es.txt" />
     <None Remove="Resources\text\es\LegalityCheckStrings_es.txt" />
     <None Remove="Resources\text\es\MessageStrings_es.txt" />
     <None Remove="Resources\text\es\text_Abilities_es.txt" />
@@ -296,7 +293,6 @@
     <None Remove="Resources\text\es\text_xy_30000_es.txt" />
     <None Remove="Resources\text\es\text_xy_40000_es.txt" />
     <None Remove="Resources\text\es\text_xy_60000_es.txt" />
-    <None Remove="Resources\text\fr\lang_fr.txt" />
     <None Remove="Resources\text\fr\LegalityCheckStrings_fr.txt" />
     <None Remove="Resources\text\fr\MessageStrings_fr.txt" />
     <None Remove="Resources\text\fr\text_Abilities_fr.txt" />
@@ -375,7 +371,6 @@
     <None Remove="Resources\text\gen3\text_rsefrlg_00000_en.txt" />
     <None Remove="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
     <None Remove="Resources\text\gen3\text_rsefrlg_00000_zh.txt" />
-    <None Remove="Resources\text\it\lang_it.txt" />
     <None Remove="Resources\text\it\LegalityCheckStrings_it.txt" />
     <None Remove="Resources\text\it\MessageStrings_it.txt" />
     <None Remove="Resources\text\it\text_Abilities_it.txt" />
@@ -430,7 +425,6 @@
     <None Remove="Resources\text\it\text_xy_30000_it.txt" />
     <None Remove="Resources\text\it\text_xy_40000_it.txt" />
     <None Remove="Resources\text\it\text_xy_60000_it.txt" />
-    <None Remove="Resources\text\ja\lang_ja.txt" />
     <None Remove="Resources\text\ja\LegalityCheckStrings_ja.txt" />
     <None Remove="Resources\text\ja\MessageStrings_ja.txt" />
     <None Remove="Resources\text\ja\text_Abilities_ja.txt" />
@@ -485,7 +479,6 @@
     <None Remove="Resources\text\ja\text_xy_30000_ja.txt" />
     <None Remove="Resources\text\ja\text_xy_40000_ja.txt" />
     <None Remove="Resources\text\ja\text_xy_60000_ja.txt" />
-    <None Remove="Resources\text\ko\lang_ko.txt" />
     <None Remove="Resources\text\ko\LegalityCheckStrings_ko.txt" />
     <None Remove="Resources\text\ko\MessageStrings_ko.txt" />
     <None Remove="Resources\text\ko\text_Abilities_ko.txt" />
@@ -755,7 +748,6 @@
     <None Remove="Resources\text\script\flags_gs_en.txt" />
     <None Remove="Resources\text\script\flags_gs_ja.txt" />
     <None Remove="Resources\text\script\flags_gs_zh.txt" />
-    <None Remove="Resources\text\zh\lang_zh.txt" />
     <None Remove="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <None Remove="Resources\text\zh\MessageStrings_zh.txt" />
     <None Remove="Resources\text\zh\text_Abilities_zh.txt" />
@@ -923,7 +915,6 @@
     <EmbeddedResource Include="Resources\byte\wc7full.pkl" />
     <EmbeddedResource Include="Resources\byte\wb7full.pkl" />
     <EmbeddedResource Include="Resources\byte\wc8.pkl" />
-    <EmbeddedResource Include="Resources\text\de\lang_de.txt" />
     <EmbeddedResource Include="Resources\text\de\LegalityCheckStrings_de.txt" />
     <EmbeddedResource Include="Resources\text\de\MessageStrings_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Abilities_de.txt" />
@@ -978,7 +969,6 @@
     <EmbeddedResource Include="Resources\text\de\text_xy_30000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_xy_40000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_xy_60000_de.txt" />
-    <EmbeddedResource Include="Resources\text\en\lang_en.txt" />
     <EmbeddedResource Include="Resources\text\en\LegalityCheckStrings_en.txt" />
     <EmbeddedResource Include="Resources\text\en\MessageStrings_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Abilities_en.txt" />
@@ -1033,8 +1023,6 @@
     <EmbeddedResource Include="Resources\text\en\text_xy_30000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_xy_40000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_xy_60000_en.txt" />
-    <EmbeddedResource Include="Resources\text\es\lang_es.txt" />
-    <EmbeddedResource Include="Resources\text\es\LegalityCheckStrings_es.txt" />
     <EmbeddedResource Include="Resources\text\es\MessageStrings_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Abilities_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_bw2_00000_es.txt" />
@@ -1088,7 +1076,6 @@
     <EmbeddedResource Include="Resources\text\es\text_xy_30000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_xy_40000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_xy_60000_es.txt" />
-    <EmbeddedResource Include="Resources\text\fr\lang_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\LegalityCheckStrings_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\MessageStrings_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Abilities_fr.txt" />
@@ -1167,7 +1154,6 @@
     <EmbeddedResource Include="Resources\text\gen3\text_rsefrlg_00000_en.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_rsefrlg_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\gen3\text_rsefrlg_00000_zh.txt" />
-    <EmbeddedResource Include="Resources\text\it\lang_it.txt" />
     <EmbeddedResource Include="Resources\text\it\LegalityCheckStrings_it.txt" />
     <EmbeddedResource Include="Resources\text\it\MessageStrings_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Abilities_it.txt" />
@@ -1222,7 +1208,6 @@
     <EmbeddedResource Include="Resources\text\it\text_xy_30000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_xy_40000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_xy_60000_it.txt" />
-    <EmbeddedResource Include="Resources\text\ja\lang_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\LegalityCheckStrings_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\MessageStrings_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Abilities_ja.txt" />
@@ -1277,7 +1262,6 @@
     <EmbeddedResource Include="Resources\text\ja\text_xy_30000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_xy_40000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_xy_60000_ja.txt" />
-    <EmbeddedResource Include="Resources\text\ko\lang_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\LegalityCheckStrings_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\MessageStrings_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Abilities_ko.txt" />
@@ -1547,7 +1531,6 @@
     <EmbeddedResource Include="Resources\text\script\flags_gs_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_gs_ja.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_gs_zh.txt" />
-    <EmbeddedResource Include="Resources\text\zh\lang_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\LegalityCheckStrings_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\MessageStrings_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Abilities_zh.txt" />

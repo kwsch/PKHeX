@@ -126,15 +126,22 @@ namespace PKHeX.Core
 
         #endregion
 
-        public static string[] GetStringList(string f)
+        public static string[] GetStringList(string fileName)
+        {
+            if (IsStringListCached(fileName, out var result))
+                return result;
+            var txt = GetStringResource(fileName); // Fetch File, \n to list.
+            return LoadStringList(fileName, txt);
+        }
+
+        public static bool IsStringListCached(string fileName, out string[] result)
         {
             lock (getStringListLoadLock) // Make sure only one thread can read the cache
-            {
-                if (stringListCache.TryGetValue(f, out var result))
-                    return (string[])result.Clone();
-            }
+                return stringListCache.TryGetValue(fileName, out result);
+        }
 
-            var txt = GetStringResource(f); // Fetch File, \n to list.
+        public static string[] LoadStringList(string file, string? txt)
+        {
             if (txt == null)
                 return Array.Empty<string>();
             string[] rawlist = txt.Split('\n');
@@ -143,14 +150,14 @@ namespace PKHeX.Core
 
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache
             {
-                if (!stringListCache.ContainsKey(f)) // Check cache again in case of race condition
-                    stringListCache.Add(f, rawlist);
+                if (!stringListCache.ContainsKey(file)) // Check cache again in case of race condition
+                    stringListCache.Add(file, rawlist);
             }
 
             return (string[])rawlist.Clone();
         }
 
-        public static string[] GetStringList(string f, string l, string type = "text") => GetStringList($"{type}_{f}_{l}");
+        public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList($"{type}_{fileName}_{lang2char}");
 
         public static byte[] GetBinaryResource(string name)
         {
