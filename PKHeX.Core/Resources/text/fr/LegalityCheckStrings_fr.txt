@@ -281,6 +281,7 @@ LMoveKeldeoMismatch = Combinaison forme/capacité invalide chez Keldeo.
 LMoveNincada = Une seule capacité de Ninjask est permise.
 LMoveNincadaEvo = Apprise en faisant évoluer Ningale en Ninjask.
 LMoveNincadaEvoF_0 = Apprise en faisant évoluer Ningale en Ninjask dans la génération {0}.
+LMovePPTooHigh_0 = Move {0} PP is above the amount allowed.
 LMoveRelearnDexNav = Not an expected DexNav move.
 LMoveRelearnEgg = Base Egg move.
 LMoveRelearnEggMissing = Base Egg move missing.

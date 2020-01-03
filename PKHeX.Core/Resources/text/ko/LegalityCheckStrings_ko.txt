@@ -281,6 +281,7 @@ LMoveKeldeoMismatch = 케르디오의 기술과 폼이 일치하지 않습니다
 LMoveNincada = 하나의 아이스크 기술만 가질 수 있습니다.
 LMoveNincadaEvo = 토중몬에서 아이스크로 진화하면서 배운 기술입니다.
 LMoveNincadaEvoF_0 = {0}세대에서 토중몬에서 아이스크로 진화하면서 배운 기술입니다.
+LMovePPTooHigh_0 = Move {0} PP is above the amount allowed.
 LMoveRelearnDexNav = 도감 내비 기술이 예상과 다릅니다.
 LMoveRelearnEgg = 베이스 자력기입니다.
 LMoveRelearnEggMissing = 베이스 자력기가 없습니다.

@@ -281,6 +281,7 @@ LMoveKeldeoMismatch = 凯路迪欧的招式与形态不匹配。
 LMoveNincada = 只能拥有一个铁面忍者的招式。
 LMoveNincadaEvo = 通过土居忍士进化为铁面忍者习得。
 LMoveNincadaEvoF_0 = 通过土居忍士在第{0}世代进化为铁面忍者习得。
+LMovePPTooHigh_0 = Move {0} PP is above the amount allowed.
 LMoveRelearnDexNav = 非正确忍足招式。
 LMoveRelearnEgg = 基本遗传招式。
 LMoveRelearnEggMissing = 缺失基本遗传招式。

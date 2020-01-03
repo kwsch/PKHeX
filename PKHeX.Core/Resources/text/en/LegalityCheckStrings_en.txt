@@ -281,6 +281,7 @@ LMoveKeldeoMismatch = Keldeo Move/Form mismatch.
 LMoveNincada = Only one Ninjask move allowed.
 LMoveNincadaEvo = Learned by evolving Nincada into Ninjask.
 LMoveNincadaEvoF_0 = Learned by evolving Nincada into Ninjask in Generation {0}.
+LMovePPTooHigh_0 = Move {0} PP is above the amount allowed.
 LMoveRelearnDexNav = Not an expected DexNav move.
 LMoveRelearnEgg = Base Egg move.
 LMoveRelearnEggMissing = Base Egg move missing.
