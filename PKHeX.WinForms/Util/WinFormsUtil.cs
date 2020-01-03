@@ -110,18 +110,21 @@ namespace PKHeX.WinForms
             return MessageBox.Show(msg, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        internal static DialogResult Alert(params string[] lines)
+        internal static DialogResult Alert(params string[] lines) => Alert(true, lines);
+
+        internal static DialogResult Alert(bool sound, params string[] lines)
         {
-            System.Media.SystemSounds.Asterisk.Play();
+            if (sound)
+                System.Media.SystemSounds.Asterisk.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-            return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return MessageBox.Show(msg, "Alert", MessageBoxButtons.OK, sound ? MessageBoxIcon.Information : MessageBoxIcon.None);
         }
 
         internal static DialogResult Prompt(MessageBoxButtons btn, params string[] lines)
         {
-            System.Media.SystemSounds.Question.Play();
+            System.Media.SystemSounds.Asterisk.Play();
             string msg = string.Join(Environment.NewLine + Environment.NewLine, lines);
-            return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Asterisk);
+            return MessageBox.Show(msg, "Prompt", btn, MessageBoxIcon.Question);
         }
         #endregion
 

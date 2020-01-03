@@ -298,5 +298,29 @@ namespace PKHeX.WinForms.Properties {
                 this["Draw"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlaySoundSAVLoad {
+            get {
+                return ((bool)(this["PlaySoundSAVLoad"]));
+            }
+            set {
+                this["PlaySoundSAVLoad"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlaySoundLegalityCheck {
+            get {
+                return ((bool)(this["PlaySoundLegalityCheck"]));
+            }
+            set {
+                this["PlaySoundLegalityCheck"] = value;
+            }
+        }
     }
 }

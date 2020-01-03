@@ -759,7 +759,8 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
-            SystemSounds.Asterisk.Play();
+            if (Settings.Default.PlaySoundSAVLoad)
+                SystemSounds.Asterisk.Play();
             return true;
         }
 
@@ -1054,11 +1055,12 @@ namespace PKHeX.WinForms
             }
             else if (Settings.Default.IgnoreLegalPopup && la.Valid)
             {
-                SystemSounds.Asterisk.Play();
+                if (Settings.Default.PlaySoundLegalityCheck)
+                    SystemSounds.Asterisk.Play();
             }
             else
             {
-                WinFormsUtil.Alert(report);
+                WinFormsUtil.Alert(Settings.Default.PlaySoundLegalityCheck, report);
             }
         }
 
