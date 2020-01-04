@@ -511,6 +511,13 @@ namespace PKHeX.Core
                         forms[1057], // "V-Core", // Core Violet
                     };
 
+                case Mimikyu:
+                    return new[]
+                    {
+                        forms[778], // Disguised
+                        forms[1058], // Busted
+                    };
+
                 case Necrozma:
                     return new[]
                     {
