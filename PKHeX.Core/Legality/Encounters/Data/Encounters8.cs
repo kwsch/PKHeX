@@ -291,7 +291,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 743, Level = 40, Location = 140, }, // Ribombee at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 112, Level = 55, Location = 140, }, // Rhydon at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 823, Level = 40, Location =  -1, }, // Corviknight
-            new EncounterStatic8 { Species = 760, Level = 40, Location = 142, }, // Bewear in Bridge Field (in a Wild Area)
+            new EncounterStatic8S{ Species = 760, Level = 40, Locations = new[] {140, 142}, }, // Bewear in Bridge Field, Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 614, Level = 60, Location = 142, }, // Beartic in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 461, Level = 60, Location = 142, }, // Weavile in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 518, Level = 60, Location = 142, }, // Musharna in Bridge Field (in a Wild Area)
