@@ -617,6 +617,23 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Refreshes the Move PP for the desired move.
+        /// </summary>
+        /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="index">Move PP to refresh.</param>
+        public static void SetSuggestedMovePP(this PKM pk, int index)
+        {
+            switch (index)
+            {
+                case 0: pk.Move1_PP = pk.GetMovePP(pk.Move1, pk.Move1_PPUps); return;
+                case 1: pk.Move2_PP = pk.GetMovePP(pk.Move2, pk.Move2_PPUps); return;
+                case 2: pk.Move3_PP = pk.GetMovePP(pk.Move3, pk.Move3_PPUps); return;
+                case 3: pk.Move4_PP = pk.GetMovePP(pk.Move4, pk.Move4_PPUps); return;
+                default: throw new ArgumentException(nameof(index));
+            }
+        }
+
+        /// <summary>
         /// Force hatches a PKM by applying the current species name and a valid Met Location from the origin game.
         /// </summary>
         /// <param name="pk">PKM to apply hatch details to</param>

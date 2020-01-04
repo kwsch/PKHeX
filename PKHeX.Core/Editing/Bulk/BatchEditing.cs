@@ -412,6 +412,20 @@ namespace PKHeX.Core
 
                     return ModifyResult.Modified;
 
+                case nameof(PKM.Heal):
+                    pk.Heal();
+                    return ModifyResult.Modified;
+                case nameof(PKM.HealPP):
+                    pk.HealPP();
+                    return ModifyResult.Modified;
+
+                case nameof(PKM.Move1_PP):
+                case nameof(PKM.Move2_PP):
+                case nameof(PKM.Move3_PP):
+                case nameof(PKM.Move4_PP):
+                    pk.SetSuggestedMovePP(name[4] - '1'); // 0-3 int32
+                    return ModifyResult.Modified;
+
                 case nameof(PKM.Moves):
                     return SetMoves(pk, pk.GetMoveSet(la: info.Legality));
 
