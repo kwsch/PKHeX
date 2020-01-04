@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Encounters8Nest;
 
@@ -8,14 +7,8 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Nest Encounter (Raid)
     /// </summary>
-    public sealed class EncounterStatic8N : EncounterStatic, IGigantamax, IDynamaxLevel
+    public sealed class EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
-        public static Func<PKM, EncounterStatic8N, bool>? VerifyCorrelation { private get; set; }
-        public static Action<PKM, EncounterStatic8N, EncounterCriteria>? GenerateData { private get; set; }
-
-        public bool CanGigantamax { get; set; }
-        public byte DynamaxLevel { get; set; }
-
         private readonly uint MinRank;
         private readonly uint MaxRank;
         private readonly byte NestID;
@@ -78,39 +71,10 @@ namespace PKHeX.Core
 
         public override bool IsMatch(PKM pkm, int lvl)
         {
-            if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
-                return false;
-
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            if (Version != GameVersion.SWSH && pkm.Version != (int) Version && pkm.Met_Location != SharedNest)
-                return false;
-
-            if (VerifyCorrelation != null && !VerifyCorrelation(pkm, this))
-                return false;
-
             return base.IsMatch(pkm, lvl);
-        }
-
-        public override bool IsMatchDeferred(PKM pkm)
-        {
-            if (base.IsMatchDeferred(pkm))
-                return true;
-            if (Ability != A4 && pkm.AbilityNumber == 4)
-                return true;
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
-                return true;
-
-            return false;
-        }
-
-        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
-        {
-            if (GenerateData != null)
-                GenerateData(pk, this, criteria);
-            else
-                base.SetPINGA(pk, criteria);
         }
     }
 }
