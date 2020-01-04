@@ -174,8 +174,11 @@ namespace PKHeX.WinForms
         private IEnumerable<IEncounterable> SearchDatabase()
         {
             var settings = GetSearchSettings();
-
             var moves = settings.Moves.ToArray();
+
+            // If nothing is specified, instead of just returning all possible encounters, just return nothing.
+            if (settings.Species <= 0 && moves.Length == 0)
+                return Array.Empty<IEncounterable>();
             var pk = SAV.BlankPKM;
 
             var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
