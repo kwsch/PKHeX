@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.Encounters8Nest;
+﻿using System;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
@@ -7,6 +8,9 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterStatic8ND : EncounterStatic, IGigantamax, IDynamaxLevel
     {
+        public static Func<PKM, EncounterStatic8ND, bool>? VerifyCorrelation { private get; set; }
+        public static Action<PKM, EncounterStatic8ND, EncounterCriteria>? GenerateData { private get; set; }
+
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
         public override int Location { get => SharedNest; set { } }
@@ -35,6 +39,9 @@ namespace PKHeX.Core
             if (Version != GameVersion.SWSH && pkm.Version != (int)Version && pkm.Met_Location != SharedNest)
                 return false;
 
+            if (VerifyCorrelation != null && !VerifyCorrelation(pkm, this))
+                return false;
+
             return base.IsMatch(pkm, lvl);
         }
 
@@ -48,6 +55,14 @@ namespace PKHeX.Core
                 return true;
 
             return false;
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            if (GenerateData != null)
+                GenerateData(pk, this, criteria);
+            else
+                base.SetPINGA(pk, criteria);
         }
     }
 }
