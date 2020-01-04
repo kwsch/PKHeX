@@ -256,7 +256,7 @@ namespace PKHeX.Core
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
-            int tree = pkm.Format <= 2 ? 2 : pkm.Format;
+            int tree = Math.Max(2, pkm.Format);
             var et = EvolutionTree.GetEvolutionTree(pkm, tree);
             return et.GetValidPreEvolutions(pkm, maxLevel: lvl, maxSpeciesOrigin: maxspeciesorigin, skipChecks: skipChecks, minLevel: minLevel);
         }
