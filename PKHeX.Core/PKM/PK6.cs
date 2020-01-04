@@ -16,15 +16,15 @@ namespace PKHeX.Core
         public override int Format => 6;
         public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
 
-        public PK6() => Data = new byte[PKX.SIZE_6PARTY];
+        public PK6() => Data = new byte[PokeCrypto.SIZE_6PARTY];
 
         public override byte[] Data { get; }
 
         public PK6(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, Format);
-            if (data.Length != PKX.SIZE_6PARTY)
-                Array.Resize(ref data, PKX.SIZE_6PARTY);
+            PokeCrypto.DecryptIfEncrypted67(ref data);
+            if (data.Length != PokeCrypto.SIZE_6PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_6PARTY);
             Data = data;
         }
 

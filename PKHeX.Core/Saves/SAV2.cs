@@ -124,7 +124,7 @@ namespace PKHeX.Core
                 offset++;
                 var pk2 = ReadPKMFromOffset(offset); // parent 2
                 var daycare2 = new PokeList2(pk2);
-                offset += (StringLength * 2) + PKX.SIZE_2STORED; // nick/ot/pkm
+                offset += (StringLength * 2) + PokeCrypto.SIZE_2STORED; // nick/ot/pkm
                 var pk3 = ReadPKMFromOffset(offset); // egg!
                 pk3.IsEgg = true;
                 var daycare3 = new PokeList2(pk3);
@@ -145,7 +145,7 @@ namespace PKHeX.Core
         {
             byte[] nick = new byte[StringLength];
             byte[] ot = new byte[StringLength];
-            byte[] pk = new byte[PKX.SIZE_2STORED];
+            byte[] pk = new byte[PokeCrypto.SIZE_2STORED];
 
             Array.Copy(Data, offset, nick, 0, nick.Length); offset += nick.Length;
             Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
@@ -246,8 +246,8 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() => new SAV2(Write());
 
-        public override int SIZE_STORED => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
-        protected override int SIZE_PARTY => Japanese ? PKX.SIZE_2JLIST : PKX.SIZE_2ULIST;
+        public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
+        protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
         public override PKM BlankPKM => new PK2(jp: Japanese);
         public override Type PKMType => typeof(PK2);
 

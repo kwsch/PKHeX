@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public override string Filter { get; } = "Ranch G4 Storage|*.bin*";
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
         public override StorageSlotFlag GetSlotFlags(int index) => index >= SlotCount ? StorageSlotFlag.Locked : StorageSlotFlag.None;
         protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
 

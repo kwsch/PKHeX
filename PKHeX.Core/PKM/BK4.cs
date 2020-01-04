@@ -14,8 +14,8 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_4STORED;
-        public override int SIZE_STORED => PKX.SIZE_4STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_4STORED;
+        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS[Species];
 
@@ -29,7 +29,7 @@ namespace PKHeX.Core
         {
             Data = data;
             uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            Data = PKX.ShuffleArray(Data, sv, PKX.SIZE_4BLOCK);
+            Data = PokeCrypto.ShuffleArray(Data, sv, PokeCrypto.SIZE_4BLOCK);
             if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope
                 RefreshChecksum();
             if (Valid && Sanity == 0)
@@ -370,7 +370,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.ShuffleArray(Data, PKX.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24], PKX.SIZE_4BLOCK);
+            return PokeCrypto.ShuffleArray(Data, PokeCrypto.blockPositionInvert[((PID & 0x3E000) >> 0xD)%24], PokeCrypto.SIZE_4BLOCK);
         }
 
         public PK4 ConvertToPK4()

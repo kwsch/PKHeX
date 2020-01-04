@@ -11,27 +11,27 @@ namespace PKHeX.Core
             0x2A, 0x2B
         };
 
-        public override int SIZE_PARTY => PKX.SIZE_3PARTY;
-        public override int SIZE_STORED => PKX.SIZE_3STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override byte[] Data { get; }
-        public PK3() => Data = new byte[PKX.SIZE_3PARTY];
+        public PK3() => Data = new byte[PokeCrypto.SIZE_3PARTY];
 
         public PK3(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, Format);
-            if (data.Length != PKX.SIZE_3PARTY)
-                Array.Resize(ref data, PKX.SIZE_3PARTY);
+            PokeCrypto.DecryptIfEncrypted3(ref data);
+            if (data.Length != PokeCrypto.SIZE_3PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_3PARTY);
             Data = data;
         }
 
         public override PKM Clone()
         {
-            // Don't use the byte[] constructor, the CheckEncrypted call is based on checksum.
+            // Don't use the byte[] constructor, the DecryptIfEncrypted call is based on checksum.
             // An invalid checksum will shuffle the data; we already know it's un-shuffled. Set up manually.
             var pk = new PK3 {Identifier = Identifier};
             Data.CopyTo(pk.Data, 0);
@@ -196,7 +196,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray3(Data);
+            return PokeCrypto.EncryptArray3(Data);
         }
 
         public override void RefreshChecksum()

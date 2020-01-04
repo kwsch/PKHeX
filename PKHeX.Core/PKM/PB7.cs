@@ -32,7 +32,7 @@ namespace PKHeX.Core
 
         public PB7(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, 7);
+            PokeCrypto.DecryptIfEncrypted67(ref data);
             if (data.Length != SIZE)
                 Array.Resize(ref data, SIZE);
             Data = data;

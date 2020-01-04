@@ -103,9 +103,9 @@ namespace PKHeX.Core
             Array.Copy(Data, Offsets.Daycare, rawDC, 0, rawDC.Length);
             byte[] TempDaycare = new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
             TempDaycare[0] = rawDC[0];
-            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY + StringLength, StringLength);
-            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY, StringLength);
-            Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PKX.SIZE_1STORED);
+            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength);
+            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength);
+            Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PokeCrypto.SIZE_1STORED);
             PokeList1 daycareList = new PokeList1(TempDaycare, PokeListType.Single, Japanese);
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             DaycareOffset = GetPartyOffset(7);
@@ -160,11 +160,11 @@ namespace PKHeX.Core
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
             byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
-            byte[] dc = new byte[1 + (2 * StringLength) + PKX.SIZE_1STORED];
+            byte[] dc = new byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
             dc[0] = rawDC[0];
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY + StringLength, dc, 1, StringLength);
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
-            Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PKX.SIZE_1STORED);
+            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, dc, 1, StringLength);
+            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
+            Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PokeCrypto.SIZE_1STORED);
             dc.CopyTo(Data, Offsets.Daycare);
 
             SetChecksums();
@@ -183,8 +183,8 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() => new SAV1(Write(), Version);
 
-        public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
-        protected override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
+        public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+        protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
         private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
         private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);

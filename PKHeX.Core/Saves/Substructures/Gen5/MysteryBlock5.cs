@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
         private static EncryptedMysteryGiftAlbum GetAlbum(uint seed, byte[] wcData)
         {
-            PKX.CryptArray(wcData, seed);
+            PokeCrypto.CryptArray(wcData, seed);
 
             var flags = new bool[MaxReceivedFlag];
             var gifts = new DataMysteryGift[MaxCardsPresent];
@@ -71,7 +71,7 @@ namespace PKHeX.Core
                 value.Gifts[i].Data.CopyTo(wcData, CardStart + (i * PGF.Size));
 
             // Decrypted, Encrypt
-            PKX.CryptArray(wcData, value.Seed);
+            PokeCrypto.CryptArray(wcData, value.Seed);
             return wcData;
         }
     }

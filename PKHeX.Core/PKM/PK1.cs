@@ -10,13 +10,13 @@ namespace PKHeX.Core
 
         public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
-        public override int SIZE_PARTY => PKX.SIZE_1PARTY;
-        public override int SIZE_STORED => PKX.SIZE_1STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_1PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_1STORED;
         public override bool Korean => false;
 
         public override int Format => 1;
 
-        public PK1(bool jp = false) : base(new byte[PKX.SIZE_1PARTY], jp) { }
+        public PK1(bool jp = false) : base(new byte[PokeCrypto.SIZE_1PARTY], jp) { }
         public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
         public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)

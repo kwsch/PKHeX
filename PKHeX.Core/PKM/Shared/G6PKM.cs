@@ -5,8 +5,8 @@ namespace PKHeX.Core
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
     public abstract class G6PKM : PKM
     {
-        public override int SIZE_PARTY => PKX.SIZE_6PARTY;
-        public override int SIZE_STORED => PKX.SIZE_6STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
@@ -16,7 +16,7 @@ namespace PKHeX.Core
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < PKX.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
+            for (int i = 8; i < PokeCrypto.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
                 chk += BitConverter.ToUInt16(Data, i);
             return chk;
         }
@@ -60,7 +60,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray6(Data);
+            return PokeCrypto.EncryptArray6(Data);
         }
 
         // General User-error Fixes

@@ -9,17 +9,17 @@
 
         public bool GetIsOccupied(int slot)
         {
-            return Data[Offset + ((PKX.SIZE_6STORED + 1) * slot)] != 0;
+            return Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] != 0;
         }
 
         public void SetOccupied(int slot, bool occupied)
         {
-            Data[Offset + ((PKX.SIZE_6STORED + 1) * slot)] = (byte)(occupied ? 1 : 0);
+            Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] = (byte)(occupied ? 1 : 0);
         }
 
         public int GetDaycareSlotOffset(int slot)
         {
-            return Offset + 1 + (slot * (PKX.SIZE_6STORED + 1));
+            return Offset + 1 + (slot * (PokeCrypto.SIZE_6STORED + 1));
         }
 
         public bool HasEgg

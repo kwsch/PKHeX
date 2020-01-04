@@ -60,7 +60,7 @@ namespace PKHeX.Core
             {
                 if (_pk != null)
                     return _pk;
-                byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+                byte[] ekdata = new byte[PokeCrypto.SIZE_4PARTY];
                 Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
                 return _pk = new PK4(ekdata);
             }
@@ -71,7 +71,7 @@ namespace PKHeX.Core
 
                 var pkdata = value.Data.All(z => z == 0)
                     ? value.Data
-                    : PKX.EncryptArray45(value.Data);
+                    : PokeCrypto.EncryptArray45(value.Data);
                 pkdata.CopyTo(Data, 8);
             }
         }
@@ -100,9 +100,9 @@ namespace PKHeX.Core
 
         private void EncryptPK()
         {
-            byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+            byte[] ekdata = new byte[PokeCrypto.SIZE_4PARTY];
             Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-            ekdata = PKX.EncryptArray45(ekdata);
+            ekdata = PokeCrypto.EncryptArray45(ekdata);
             ekdata.CopyTo(Data, 8);
         }
 

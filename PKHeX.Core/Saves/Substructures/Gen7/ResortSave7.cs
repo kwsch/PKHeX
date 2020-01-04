@@ -8,7 +8,7 @@ namespace PKHeX.Core
         public ResortSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public const int ResortCount = 93;
-        public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * PKX.SIZE_6STORED);
+        public int GetResortSlotOffset(int slot) => Offset + 0x16 + (slot * PokeCrypto.SIZE_6STORED);
 
         public PKM[] ResortPKM
         {
@@ -17,7 +17,7 @@ namespace PKHeX.Core
                 PKM[] data = new PKM[ResortCount];
                 for (int i = 0; i < data.Length; i++)
                 {
-                    var bytes = SAV.GetData(GetResortSlotOffset(i), PKX.SIZE_6STORED);
+                    var bytes = SAV.GetData(GetResortSlotOffset(i), PokeCrypto.SIZE_6STORED);
                     data[i] = new PK7(bytes) { Identifier = $"Resort Slot {i}" };
                 }
                 return data;

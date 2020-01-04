@@ -23,14 +23,14 @@ namespace PKHeX.Core
 
         public PK8()
         {
-            Data = new byte[PKX.SIZE_8PARTY];
+            Data = new byte[PokeCrypto.SIZE_8PARTY];
             AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
         }
 
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < PKX.SIZE_8STORED; i += 2)
+            for (int i = 8; i < PokeCrypto.SIZE_8STORED; i += 2)
                 chk += BitConverter.ToUInt16(Data, i);
             return chk;
         }
@@ -50,9 +50,9 @@ namespace PKHeX.Core
 
         public PK8(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, Format);
-            if (data.Length != PKX.SIZE_8PARTY)
-                Array.Resize(ref data, PKX.SIZE_8PARTY);
+            PokeCrypto.DecryptIfEncrypted8(ref data);
+            if (data.Length != PokeCrypto.SIZE_8PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_8PARTY);
             Data = data;
         }
 
@@ -61,8 +61,8 @@ namespace PKHeX.Core
         private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
         private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7(value, maxLength, Language, chinese: chinese);
 
-        public override int SIZE_PARTY => PKX.SIZE_8PARTY;
-        public override int SIZE_STORED => PKX.SIZE_8STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x58, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x58); } }
@@ -104,7 +104,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray8(Data);
+            return PokeCrypto.EncryptArray8(Data);
         }
 
         public void FixRelearn()

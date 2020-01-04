@@ -9,15 +9,15 @@ namespace PKHeX.Core
     public abstract class SAV5 : SaveFile, ISaveBlock5BW
     {
         protected override PKM GetPKM(byte[] data) => new PK5(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
         protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
         public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
-        public override int SIZE_STORED => PKX.SIZE_5STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_5PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
         public override Type PKMType => typeof(PK5);
 

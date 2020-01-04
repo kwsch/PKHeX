@@ -8,7 +8,7 @@ namespace PKHeX.Core
         // bool32 occupied
         // pk5party pkm
         // u32 expGained
-        private const int SlotSize = 4 + PKX.SIZE_5PARTY + 4; // occupied u32 flag, pk5, exp
+        private const int SlotSize = 4 + PokeCrypto.SIZE_5PARTY + 4; // occupied u32 flag, pk5, exp
 
         // struct daycare
         // daycareSlot[2]
@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         private int GetDaycareSlotOffset(int slot) => Offset + (SlotSize * slot);
         public int GetPKMOffset(int slot) => GetDaycareSlotOffset(slot) + 4;
-        private int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot) + 4 + PKX.SIZE_5PARTY;
+        private int GetDaycareEXPOffset(int slot) => GetDaycareSlotOffset(slot) + 4 + PokeCrypto.SIZE_5PARTY;
 
         public bool? IsOccupied(int slot) => BitConverter.ToUInt32(Data, GetDaycareSlotOffset(slot)) == 1;
         public void SetOccupied(int slot, bool occupied) => SAV.SetData(BitConverter.GetBytes((uint)(occupied ? 1 : 0)), GetDaycareSlotOffset(slot));

@@ -54,7 +54,7 @@ namespace PKHeX.Core
         private const int BOX_SLOTS = 30;
         private const int BOX_NAME_LEN = 40; // 20 characters
 
-        private const int BOX_DATA_LEN = (BOX_SLOTS * PKX.SIZE_4STORED) + 0x10; // 0xFF0, each box chunk is padded to nearest 0x100
+        private const int BOX_DATA_LEN = (BOX_SLOTS * PokeCrypto.SIZE_4STORED) + 0x10; // 0xFF0, each box chunk is padded to nearest 0x100
         private const int BOX_END = BOX_COUNT * BOX_DATA_LEN; // 18 * 0x1000
         private const int BOX_NAME = 0x12008; // after current & counter
         private const int BOX_WP = BOX_NAME + (BOX_COUNT * BOX_NAME_LEN); // 0x122D8;

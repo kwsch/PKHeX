@@ -19,13 +19,13 @@ namespace PKHeX.Core
 
         public override byte[] Data { get; }
 
-        public PK7() => Data = new byte[PKX.SIZE_6PARTY];
+        public PK7() => Data = new byte[PokeCrypto.SIZE_6PARTY];
 
         public PK7(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, Format);
-            if (data.Length != PKX.SIZE_6PARTY)
-                Array.Resize(ref data, PKX.SIZE_6PARTY);
+            PokeCrypto.DecryptIfEncrypted67(ref data);
+            if (data.Length != PokeCrypto.SIZE_6PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_6PARTY);
             Data = data;
         }
 

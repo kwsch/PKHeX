@@ -103,8 +103,8 @@ namespace PKHeX.Core
             return sav;
         }
 
-        public override int SIZE_STORED => PKX.SIZE_3STORED + 4;
-        protected override int SIZE_PARTY => PKX.SIZE_3PARTY; // unused
+        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);
 
@@ -177,16 +177,16 @@ namespace PKHeX.Core
 
         protected override PKM GetPKM(byte[] data)
         {
-            if (data.Length != PKX.SIZE_3STORED)
-                Array.Resize(ref data, PKX.SIZE_3STORED);
+            if (data.Length != PokeCrypto.SIZE_3STORED)
+                Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
             return new PK3(data);
         }
 
         protected override byte[] DecryptPKM(byte[] data)
         {
-            if (data.Length != PKX.SIZE_3STORED)
-                Array.Resize(ref data, PKX.SIZE_3STORED);
-            return PKX.DecryptArray3(data);
+            if (data.Length != PokeCrypto.SIZE_3STORED)
+                Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
+            return PokeCrypto.DecryptArray3(data);
         }
 
         protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
@@ -194,8 +194,8 @@ namespace PKHeX.Core
         public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
         {
             base.WriteBoxSlot(pkm, data, offset);
-            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(data, offset + PKX.SIZE_3STORED + 0);
-            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(data, offset + PKX.SIZE_3STORED + 2);
+            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(data, offset + PokeCrypto.SIZE_3STORED + 0);
+            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(data, offset + PokeCrypto.SIZE_3STORED + 2);
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);

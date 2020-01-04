@@ -9,13 +9,13 @@ namespace PKHeX.Core
 
         public override bool Valid => Species <= 252;
 
-        public override int SIZE_PARTY => PKX.SIZE_2PARTY;
-        public override int SIZE_STORED => PKX.SIZE_2STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
         public override bool Korean => !Japanese && otname[0] <= 0xB;
 
         public override int Format => 2;
 
-        public PK2(bool jp = false) : base(new byte[PKX.SIZE_2PARTY], jp) { }
+        public PK2(bool jp = false) : base(new byte[PokeCrypto.SIZE_2PARTY], jp) { }
         public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
         public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)

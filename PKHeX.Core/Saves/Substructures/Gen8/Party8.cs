@@ -6,8 +6,8 @@
 
         public int PartyCount
         {
-            get => Data[6 * PKX.SIZE_8PARTY];
-            set => Data[6 * PKX.SIZE_8PARTY] = (byte)value;
+            get => Data[6 * PokeCrypto.SIZE_8PARTY];
+            set => Data[6 * PokeCrypto.SIZE_8PARTY] = (byte)value;
         }
     }
 }

@@ -14,19 +14,19 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
-        public override int SIZE_STORED => PKX.SIZE_4STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
         public override byte[] Data { get; }
-        public PK4() => Data = new byte[PKX.SIZE_4PARTY];
+        public PK4() => Data = new byte[PokeCrypto.SIZE_4PARTY];
 
         public PK4(byte[] data)
         {
-            PKX.CheckEncrypted(ref data, Format);
-            if (data.Length != PKX.SIZE_4PARTY)
-                Array.Resize(ref data, PKX.SIZE_4PARTY);
+            PokeCrypto.DecryptIfEncrypted45(ref data);
+            if (data.Length != PokeCrypto.SIZE_4PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_4PARTY);
             Data = data;
         }
 
@@ -333,7 +333,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray45(Data);
+            return PokeCrypto.EncryptArray45(Data);
         }
 
         // Synthetic Trading Logic

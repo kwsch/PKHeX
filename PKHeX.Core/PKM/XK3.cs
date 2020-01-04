@@ -16,8 +16,8 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_3XSTORED;
-        public override int SIZE_STORED => PKX.SIZE_3XSTORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED;
+        public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
         public override byte[] Data { get; }

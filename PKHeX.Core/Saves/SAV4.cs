@@ -74,8 +74,8 @@ namespace PKHeX.Core
             SetData(Storage, s4.Storage, 0);
         }
 
-        public override int SIZE_STORED => PKX.SIZE_4STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_4PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
         public override PKM BlankPKM => new PK4();
         public override Type PKMType => typeof(PK4);
 
@@ -426,7 +426,7 @@ namespace PKHeX.Core
         public override uint SecondsToFame { get => BitConverter.ToUInt32(General, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(General, AdventureInfo + 0x3C); }
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
         protected override void SetPKM(PKM pkm)
         {

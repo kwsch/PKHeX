@@ -83,9 +83,9 @@ namespace PKHeX.Core
                     Teams[t] = new PKM[6];
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = start + (PKX.SIZE_6PARTY*((t * 6) + p));
+                        int offset = start + (PokeCrypto.SIZE_6PARTY*((t * 6) + p));
                         offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
-                        Teams[t][p] = new PK6(Data.Slice(offset, PKX.SIZE_6PARTY)) {Identifier = $"Team {t}, Slot {p}"};
+                        Teams[t][p] = new PK6(Data.Slice(offset, PokeCrypto.SIZE_6PARTY)) {Identifier = $"Team {t}, Slot {p}"};
                     }
                 }
                 return Teams;
@@ -98,7 +98,7 @@ namespace PKHeX.Core
                 {
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = start + (PKX.SIZE_6PARTY*((t * 6) + p));
+                        int offset = start + (PokeCrypto.SIZE_6PARTY*((t * 6) + p));
                         offset += 8*(((t * 6) + p)/6); // 8 bytes padding between teams
                         Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
                     }

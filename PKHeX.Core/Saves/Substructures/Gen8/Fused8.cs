@@ -11,7 +11,7 @@
         {
             if ((uint)slot >= 3)
                 return -1;
-            return PKX.SIZE_8PARTY * slot;
+            return PokeCrypto.SIZE_8PARTY * slot;
         }
     }
 }

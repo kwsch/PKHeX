@@ -34,29 +34,29 @@ namespace PKHeX.Core
 
             switch (data.Length)
             {
-                case PKX.SIZE_1JLIST:
-                case PKX.SIZE_1ULIST:
+                case PokeCrypto.SIZE_1JLIST:
+                case PokeCrypto.SIZE_1ULIST:
                     return 1;
-                case PKX.SIZE_2ULIST:
-                case PKX.SIZE_2JLIST:
+                case PokeCrypto.SIZE_2ULIST:
+                case PokeCrypto.SIZE_2JLIST:
                     return 2;
-                case PKX.SIZE_3PARTY:
-                case PKX.SIZE_3STORED:
-                case PKX.SIZE_3CSTORED:
-                case PKX.SIZE_3XSTORED:
+                case PokeCrypto.SIZE_3PARTY:
+                case PokeCrypto.SIZE_3STORED:
+                case PokeCrypto.SIZE_3CSTORED:
+                case PokeCrypto.SIZE_3XSTORED:
                     return 3;
-                case PKX.SIZE_4PARTY:
-                case PKX.SIZE_4STORED:
-                case PKX.SIZE_5PARTY:
+                case PokeCrypto.SIZE_4PARTY:
+                case PokeCrypto.SIZE_4STORED:
+                case PokeCrypto.SIZE_5PARTY:
                     if ((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
                         return 5;
                     return 4;
-                case PKX.SIZE_6STORED:
+                case PokeCrypto.SIZE_6STORED:
                     return 6;
-                case PKX.SIZE_6PARTY: // collision with PGT, same size.
+                case PokeCrypto.SIZE_6PARTY: // collision with PGT, same size.
                     if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
                         return -1;
-                    if (BitConverter.ToUInt32(data, 0x06) == PKX.GetCHK(data))
+                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data))
                         return 6;
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
@@ -69,8 +69,8 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
-                case PKX.SIZE_8PARTY:
-                case PKX.SIZE_8STORED:
+                case PokeCrypto.SIZE_8PARTY:
+                case PokeCrypto.SIZE_8STORED:
                     return 8;
 
                 default:
@@ -98,8 +98,8 @@ namespace PKHeX.Core
                 case 3:
                     return data.Length switch
                     {
-                        PKX.SIZE_3CSTORED => new CK3(data),
-                        PKX.SIZE_3XSTORED => new XK3(data),
+                        PokeCrypto.SIZE_3CSTORED => new CK3(data),
+                        PokeCrypto.SIZE_3XSTORED => new XK3(data),
                         _ => (PKM)new PK3(data)
                     };
                 case 4:

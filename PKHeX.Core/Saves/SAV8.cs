@@ -23,8 +23,8 @@ namespace PKHeX.Core
         protected SAV8() { }
 
         // Configuration
-        public override int SIZE_STORED => PKX.SIZE_8STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_8PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
         public override PKM BlankPKM => new PK8();
         public override Type PKMType => typeof(PK8);
 
@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public override int OTLength => 12;
         public override int NickLength => 12;
         protected override PKM GetPKM(byte[] data) => new PK8(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray8(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray8(data);
 
         #region Blocks
         public abstract Box8 BoxInfo { get; }

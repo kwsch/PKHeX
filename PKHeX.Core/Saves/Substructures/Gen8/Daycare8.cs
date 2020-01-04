@@ -30,7 +30,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Size of each PKM data stored (bool, pk8)
         /// </summary>
-        private const int STRUCT_SIZE = 1 + PKX.SIZE_8STORED;
+        private const int STRUCT_SIZE = 1 + PokeCrypto.SIZE_8STORED;
 
         /// <summary>
         /// Size of each daycare (both entries &amp; metadata)

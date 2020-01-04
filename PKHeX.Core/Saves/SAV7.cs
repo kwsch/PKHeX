@@ -64,8 +64,8 @@ namespace PKHeX.Core
         #endregion
 
         // Configuration
-        public override int SIZE_STORED => PKX.SIZE_6STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
         public override Type PKMType => typeof(PK7);
 
@@ -81,7 +81,7 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_7; // 26
         public override int MaxGameID => Legal.MaxGameID_7;
         protected override PKM GetPKM(byte[] data) => new PK7(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray6(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
         // Feature Overrides
 
@@ -251,7 +251,7 @@ namespace PKHeX.Core
         {
             if ((uint)slot >= FusedCount)
                 return -1;
-            return AllBlocks[08].Offset + (PKX.SIZE_6PARTY * slot); // 0x104*slot
+            return AllBlocks[08].Offset + (PokeCrypto.SIZE_6PARTY * slot); // 0x104*slot
         }
 
         public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits

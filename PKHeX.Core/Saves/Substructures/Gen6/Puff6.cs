@@ -61,7 +61,7 @@ namespace PKHeX.Core
     {
         public BattleBox6(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
-        private int LockedFlagOffset => Offset + (6 * PKX.SIZE_6STORED);
+        private int LockedFlagOffset => Offset + (6 * PokeCrypto.SIZE_6STORED);
 
         public bool Locked
         {

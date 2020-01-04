@@ -158,8 +158,8 @@ namespace PKHeX.Core
             return sav;
         }
 
-        public override int SIZE_STORED => PKX.SIZE_3XSTORED;
-        protected override int SIZE_PARTY => PKX.SIZE_3XSTORED; // unused
+        public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
         public override PKM BlankPKM => new XK3();
         public override Type PKMType => typeof(XK3);
 
