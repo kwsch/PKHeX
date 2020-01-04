@@ -22,13 +22,15 @@ namespace PKHeX.WinForms.Controls
         private readonly BitmapAnimator HoverWorker = new BitmapAnimator();
 
         private PictureBox Slot;
+        private SlotTrackerImage LastSlot;
 
-        public void Start(PictureBox pb, SlotTrackerImage LastSlot)
+        public void Start(PictureBox pb, SlotTrackerImage lastSlot)
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             var data = view.GetSlotData(pb);
             var pk = data.Read(view.SAV);
             Slot = pb;
+            LastSlot = lastSlot;
 
             var orig = LastSlot.OriginalBackground = pb.BackgroundImage;
 
@@ -62,8 +64,12 @@ namespace PKHeX.WinForms.Controls
         {
             if (Slot != null)
             {
-                HoverWorker.Stop();
+                if (HoverWorker.Enabled)
+                    HoverWorker.Stop();
+                else
+                    Slot.BackgroundImage = LastSlot.OriginalBackground;
                 Slot = null;
+                LastSlot = null;
             }
             Preview.Clear();
             CryPlayer.Stop();
