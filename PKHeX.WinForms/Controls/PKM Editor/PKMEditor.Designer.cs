@@ -1926,7 +1926,7 @@
             this.Tab_Attacks.Location = new System.Drawing.Point(4, 22);
             this.Tab_Attacks.Name = "Tab_Attacks";
             this.Tab_Attacks.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Attacks.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Attacks.Size = new System.Drawing.Size(307, 539);
             this.Tab_Attacks.TabIndex = 3;
             this.Tab_Attacks.Text = "Attacks";
             this.Tab_Attacks.UseVisualStyleBackColor = true;
@@ -2161,6 +2161,7 @@
             this.Label_CurPP.TabIndex = 2;
             this.Label_CurPP.Text = "PP";
             this.Label_CurPP.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Label_CurPP.Click += new System.EventHandler(this.ClickPP);
             // 
             // Label_PPups
             // 

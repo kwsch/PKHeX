@@ -550,6 +550,12 @@ namespace PKHeX.WinForms.Controls
             UpdatePreviewSprite(Label_Gender, EventArgs.Empty);
         }
 
+        private void ClickPP(object sender, EventArgs e)
+        {
+            for (int i = 0; i < MovePP.Length; i++)
+                RefreshMovePP(i);
+        }
+
         private void ClickPPUps(object sender, EventArgs e)
         {
             bool min = ModifierKeys.HasFlag(Keys.Control);
@@ -975,6 +981,11 @@ namespace PKHeX.WinForms.Controls
             if (index < 0)
                 return;
 
+            RefreshMovePP(index);
+        }
+
+        private void RefreshMovePP(int index)
+        {
             int move = WinFormsUtil.GetIndex(Moves[index]);
             var ppctrl = PPUps[index];
             int ppups = ppctrl.SelectedIndex;
