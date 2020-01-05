@@ -113,7 +113,7 @@ namespace PKHeX.Core
                         if (dSpecies == 0)
                             continue;
 
-                        var dForm = sForm;
+                        var dForm = sSpecies == (int)Species.Espurr && evo.Method == (int)EvolutionType.LevelUpFormFemale1 ? 1 : sForm;
                         var key = GetLookupKey(dSpecies, dForm);
 
                         var link = new EvolutionLink(sSpecies, sForm, evo);
