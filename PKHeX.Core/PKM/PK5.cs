@@ -480,16 +480,13 @@ namespace PKHeX.Core
             pk6.RibbonChampionWorld = RibbonChampionWorld;
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
-            pk6.Country = PKMConverter.Country;
-            pk6.Region = PKMConverter.Region;
-            pk6.ConsoleRegion = PKMConverter.ConsoleRegion;
+            PKMConverter.SetConsoleRegionData3DS(pk6);
+            PKMConverter.SetFirstCountryRegion(pk6);
 
             // Write the Memories, Friendship, and Origin!
             pk6.CurrentHandler = 1;
             pk6.HT_Name = PKMConverter.OT_Name;
             pk6.HT_Gender = PKMConverter.OT_Gender;
-            pk6.Geo1_Region = PKMConverter.Region;
-            pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
             pk6.HT_Feeling = Memories.GetRandomFeeling(pk6.HT_Memory);

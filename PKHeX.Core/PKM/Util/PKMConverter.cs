@@ -13,14 +13,27 @@ namespace PKHeX.Core
     public static class PKMConverter
     {
         public static ITrainerInfo Trainer { internal get; set; } = new SimpleTrainerInfo();
-        public static int Country => Trainer.Country;
-        public static int Region => Trainer.SubRegion;
-        public static int ConsoleRegion => Trainer.ConsoleRegion;
+        private static readonly ITrainerInfo Trainer67 = new SimpleTrainerInfo(GameVersion.SN);
         public static string OT_Name => Trainer.OT;
         public static int OT_Gender => Trainer.Gender;
         public static int Language => Trainer.Language;
         public static int Format => Trainer.Generation;
         public static bool AllowIncompatibleConversion { private get; set; }
+
+        public static void SetConsoleRegionData3DS(PKM pkm)
+        {
+            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            pkm.ConsoleRegion = trainer.ConsoleRegion;
+            pkm.Country = trainer.Country;
+            pkm.Region = trainer.SubRegion;
+        }
+
+        public static void SetFirstCountryRegion(IGeoTrack pkm)
+        {
+            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            pkm.Geo1_Country = trainer.Country;
+            pkm.Geo1_Region = trainer.SubRegion;
+        }
 
         /// <summary>
         /// Gets the generation of the Pokemon data.

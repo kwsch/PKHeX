@@ -150,15 +150,12 @@ namespace PKHeX.Core
                 IsNicknamed = false,
                 AltForm = AltForm,
 
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,
                 HT_Gender = PKMConverter.OT_Gender,
-                Geo1_Country = PKMConverter.Country,
-                Geo1_Region = PKMConverter.Region
             };
+            PKMConverter.SetConsoleRegionData3DS(pk7);
+            PKMConverter.SetFirstCountryRegion(pk7);
             pk7.HealPP();
             pk7.Language = TransferLanguage(PKMConverter.Language);
             pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);

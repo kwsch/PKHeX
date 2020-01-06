@@ -105,10 +105,8 @@ namespace PKHeX.Core
                 CurrentLevel = Level,
                 Met_Level = Level,
                 MetDate = DateTime.Now,
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
             };
+            PKMConverter.SetConsoleRegionData3DS(pk);
 
             pk.RefreshAbility(AbilityIndex >> 1);
             pk.ForcePartyData();

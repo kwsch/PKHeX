@@ -463,8 +463,7 @@ namespace PKHeX.Core
             }
 
             pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
-            pk7.Geo1_Country = PKMConverter.Country;
-            pk7.Geo1_Region = PKMConverter.Region;
+            PKMConverter.SetFirstCountryRegion(pk7);
 
             // Bank-accurate data zeroing
             for (var i = 0x94; i < 0x9E; i++) pk7.Data[i] = 0; /* Geolocations. */
