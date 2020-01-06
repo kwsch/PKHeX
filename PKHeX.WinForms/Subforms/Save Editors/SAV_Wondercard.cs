@@ -260,7 +260,7 @@ namespace PKHeX.WinForms
         // Drag & Drop Wonder Cards
         private static void Main_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop)) 
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
                 e.Effect = DragDropEffects.Copy;
         }
 

@@ -17,8 +17,8 @@ namespace PKHeX.Core
         LangSpanish = 1 << LanguageID.Spanish,
         LangKorean = 1 << LanguageID.Korean,
 
-        LangRestrict = LangJapanese | LangEnglish | LangFrench | LangItalian | LangGerman | LangSpanish | LangKorean,
         RegionBase = LangKorean,
+        LangRestrict = LangJapanese | LangEnglish | LangFrench | LangItalian | LangGerman | LangSpanish | LangKorean,
 
         RegJP = RegionBase << RegionID.Japan,
         RegNA = RegionBase << RegionID.NorthAmerica,

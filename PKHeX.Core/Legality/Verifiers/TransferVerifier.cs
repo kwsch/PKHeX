@@ -115,7 +115,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferBad));
         }
 
-        private bool IsG8BanForm(PKM pkm)
+        private static bool IsG8BanForm(PKM pkm)
         {
             return pkm.Species switch
             {

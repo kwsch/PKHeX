@@ -76,7 +76,7 @@ namespace PKHeX.Core
             var gifts = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
             foreach (var mg in gifts)
             {
-                var result = mg.IsMatch(pkm, vs);
+                var result = mg.IsMatch(pkm);
                 if (result == EncounterMatchRating.None)
                     continue;
                 if (result == EncounterMatchRating.Match)

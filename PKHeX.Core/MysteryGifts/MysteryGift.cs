@@ -135,7 +135,7 @@ namespace PKHeX.Core
         protected abstract bool IsMatchExact(PKM pkm);
         protected abstract bool IsMatchDeferred(PKM pkm);
 
-        public EncounterMatchRating IsMatch(PKM pkm, IEnumerable<DexLevel> vs)
+        public EncounterMatchRating IsMatch(PKM pkm)
         {
             if (!IsMatchExact(pkm))
                 return EncounterMatchRating.None;

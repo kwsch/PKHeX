@@ -148,7 +148,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (EventConstMax <= 0 || Data.Length <= 0)
+                if (EventConstMax <= 0 || Data.Length == 0)
                     return Array.Empty<ushort>();
 
                 ushort[] Constants = new ushort[EventConstMax];

@@ -954,7 +954,6 @@ namespace PKHeX.Core
             return StringConverter4.SetString4(value, maxLength, PadToSize, PadWith);
         }
 
-
         /// <summary> All Event Constant values for the savegame </summary>
         public override ushort[] EventConsts
         {

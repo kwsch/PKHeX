@@ -398,7 +398,7 @@ namespace PKHeX.Core
             312, // Dread Plate
             313, // Iron Plate
             // 644, // Pixie Plate
-            
+
             1114, // Star Sweet
             1115, // Ribbon Sweet
 

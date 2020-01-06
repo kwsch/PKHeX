@@ -179,7 +179,7 @@ namespace PKHeX.Core
                 if (pkm.Species == (int) Species.Darmanitan && pkm.AltForm == 2 && pkm.Format >= 8)
                 {
                     // this one is OK, Galarian non-Zen
-                } 
+                }
                 else
                 {
                     return GetInvalid(LFormBattle);

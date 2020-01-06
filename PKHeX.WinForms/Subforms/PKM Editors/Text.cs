@@ -82,11 +82,10 @@ namespace PKHeX.WinForms
             FLP_Hex.Visible = true;
             GB_Trash.Visible = true;
             NUD_Generation.Value = SAV.Generation;
-            Font courier = new Font("Courier New", 8);
             for (int i = 0; i < count; i++)
             {
                 var l = GetLabel($"${i:X2}");
-                l.Font = courier;
+                l.Font = NUD_Generation.Font;
                 var n = GetNUD(min: 0, max: 255, hex: true);
                 n.Click += (s, e) =>
                 {

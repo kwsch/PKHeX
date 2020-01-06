@@ -175,6 +175,7 @@
             // 
             // NUD_Generation
             // 
+            this.NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NUD_Generation.Location = new System.Drawing.Point(115, 70);
             this.NUD_Generation.Name = "NUD_Generation";
             this.NUD_Generation.Size = new System.Drawing.Size(47, 20);
