@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using PKHeX.Core;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace PKHeX.Tests.Legality
@@ -56,11 +58,23 @@ namespace PKHeX.Tests.Legality
                 if (pkm == null)
                     continue;
                 var legality = new LegalityAnalysis(pkm);
-                legality.Valid.Should().Be(isValid, $"because the file '{fi.Directory.Name}\\{fi.Name}' should be {(isValid ? "Valid" : "Invalid")}");
-                ctr++;
-            }
+                if (legality.Valid == isValid)
+                {
+                    ctr++;
+                    continue;
+                }
 
-            ctr.Should().BeGreaterThan(0);
+                if (isValid)
+                {
+                    legality.Valid.Should().BeTrue($"because the file '{fi.Directory.Name}\\{fi.Name}' should be Valid");
+                }
+                else
+                {
+                    var invalid = legality.Results.Where(z => !z.Valid);
+                    var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
+                    legality.Valid.Should().BeTrue($"because the file '{fi.Directory.Name}\\{fi.Name}' should be invalid, but found:{Environment.NewLine}{msg}");
+                }
+            }
         }
     }
 }
