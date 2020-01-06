@@ -12,12 +12,20 @@ namespace PKHeX.Core
     /// </summary>
     public static class PKMConverter
     {
-        public static ITrainerInfo Trainer { internal get; set; } = new SimpleTrainerInfo();
-        private static readonly ITrainerInfo Trainer67 = new SimpleTrainerInfo(GameVersion.SN);
+        public static void SetPrimaryTrainer(ITrainerInfo t)
+        {
+            Trainer = t;
+            if (t.ConsoleRegion != 0)
+                Trainer67 = t;
+        }
+
+        private static ITrainerInfo Trainer { get; set; } = new SimpleTrainerInfo();
+        private static ITrainerInfo Trainer67 { get; set; } = new SimpleTrainerInfo(GameVersion.SN);
         public static string OT_Name => Trainer.OT;
         public static int OT_Gender => Trainer.Gender;
         public static int Language => Trainer.Language;
         public static int Format => Trainer.Generation;
+        public static int Game => Trainer.Game;
         public static bool AllowIncompatibleConversion { private get; set; }
 
         public static void SetConsoleRegionData3DS(PKM pkm)

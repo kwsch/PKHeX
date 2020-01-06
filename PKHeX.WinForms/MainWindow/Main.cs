@@ -738,7 +738,7 @@ namespace PKHeX.WinForms
 
             PKME_Tabs.Focus(); // flush any pending changes
             StoreLegalSaveGameData(sav);
-            PKMConverter.Trainer = sav;
+            PKMConverter.SetPrimaryTrainer(sav);
             SpriteUtil.Initialize(sav); // refresh sprite generator
             dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
 

@@ -44,7 +44,8 @@ namespace PKHeX.Core
             return GetFormsGen8(species, types, forms, genders);
         }
 
-        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Trainer.Game);
+        // this is a hack; depends on currently loaded SaveFile's Game ID
+        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Game);
 
         public static bool IsTotemForm(int species, int form, int generation = 7)
         {
