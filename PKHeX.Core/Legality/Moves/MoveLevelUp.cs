@@ -275,7 +275,7 @@ namespace PKHeX.Core
                 6 => GetMovesLevelUp6(species, form, lvl, version),
                 7 => GetMovesLevelUp7(species, form, lvl, MoveReminder, version),
                 8 => GetMovesLevelUp8(species, form, lvl, version),
-                _ => (IEnumerable<int>)Array.Empty<int>()
+                _ => Array.Empty<int>()
             };
         }
 

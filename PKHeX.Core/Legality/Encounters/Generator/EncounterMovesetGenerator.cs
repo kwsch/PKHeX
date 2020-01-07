@@ -150,7 +150,7 @@ namespace PKHeX.Core
         {
             return type switch
             {
-                EncounterOrder.Egg => (IEnumerable<IEncounterable>)GetEggs(pk, needs, version),
+                EncounterOrder.Egg => GetEggs(pk, needs, version),
                 EncounterOrder.Mystery => GetGifts(pk, needs),
                 EncounterOrder.Static => GetStatic(pk, needs),
                 EncounterOrder.Trade => GetTrades(pk, needs),

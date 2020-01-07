@@ -170,7 +170,7 @@ namespace PKHeX.Core
                 2 => ParsePK7,
                 7 => ParsePK7,
 
-                8 => (Action)ParsePK8,
+                8 => ParsePK8,
 
                 _ => throw new Exception()
             };

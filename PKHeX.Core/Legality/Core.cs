@@ -373,7 +373,7 @@ namespace PKHeX.Core
                 6 => WildPokeballs6,
                 7 => (pkm.GG ? WildPokeballs7b : WildPokeballs7),
                 8 => WildPokeballs8,
-                _ => (ICollection<int>)Array.Empty<int>()
+                _ => Array.Empty<int>()
             };
         }
 
@@ -431,7 +431,7 @@ namespace PKHeX.Core
                 3 => FutureEvolutionsGen3,
                 4 => FutureEvolutionsGen4,
                 5 => FutureEvolutionsGen5,
-                _ => (ICollection<int>)Array.Empty<int>()
+                _ => Array.Empty<int>()
             };
         }
 

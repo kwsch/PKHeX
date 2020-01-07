@@ -55,7 +55,7 @@ namespace PKHeX.Core
         {
             return info switch
             {
-                SlotInfoParty p => (SlotReversion) new PartyReversion(p, sav),
+                SlotInfoParty p => new PartyReversion(p, sav),
                 _ => new SingleSlotReversion(info, sav)
             };
         }

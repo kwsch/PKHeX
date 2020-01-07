@@ -75,6 +75,7 @@ namespace PKHeX.Tests.Legality
                     legality.Valid.Should().BeTrue($"because the file '{fi.Directory.Name}\\{fi.Name}' should be invalid, but found:{Environment.NewLine}{msg}");
                 }
             }
+            ctr.Should().BeGreaterThan(0);
         }
     }
 }

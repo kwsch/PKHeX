@@ -121,7 +121,7 @@ namespace PKHeX.Core
                     {
                         PokeCrypto.SIZE_3CSTORED => new CK3(data),
                         PokeCrypto.SIZE_3XSTORED => new XK3(data),
-                        _ => (PKM)new PK3(data)
+                        _ => new PK3(data)
                     };
                 case 4:
                     var pk = new PK4(data);
