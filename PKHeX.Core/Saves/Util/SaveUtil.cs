@@ -17,6 +17,7 @@ namespace PKHeX.Core
         public const int BEEF = 0x42454546;
 
         public const int SIZE_G8SWSH = 0x1716B3;
+        public const int SIZE_G8SWSH_1 = 0x17195E;
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
@@ -60,7 +61,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> SIZES = new HashSet<int>(SIZES_2)
         {
-            SIZE_G8SWSH,
+            SIZE_G8SWSH, SIZE_G8SWSH_1,
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
@@ -443,7 +444,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG8SAV(byte[] data)
         {
-            if (data.Length != SIZE_G8SWSH)
+            if (data.Length != SIZE_G8SWSH && data.Length != SIZE_G8SWSH_1)
                 return Invalid;
 
             return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;

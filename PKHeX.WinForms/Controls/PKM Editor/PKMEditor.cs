@@ -73,8 +73,8 @@ namespace PKHeX.WinForms.Controls
         private void SavePartyStats(PKM pk)
         {
             Stats.SavePartyStats(pk);
-            pk.Stat_Level = CurrentLevel;
-        }
+            pk.Stat_Level = Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
+    }
 
         public PKM CurrentPKM { get => PreparePKM(); set => Entity = value; }
         public bool ModifyPKM { private get; set; } = true;
@@ -102,7 +102,6 @@ namespace PKHeX.WinForms.Controls
         public PKM Entity { get; private set; }
         public bool FieldsLoaded { get; private set; }
         public bool ChangingFields { get; set; }
-        public int CurrentLevel => Util.ToInt32((HaX ? MT_Level : TB_Level).Text);
 
         private GameVersion origintrack;
         private Action GetFieldsfromPKM;
@@ -121,7 +120,6 @@ namespace PKHeX.WinForms.Controls
         private readonly PictureBox[] movePB, relearnPB;
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
-        public bool IsEmptyOrEgg => CHK_IsEgg.Checked || CB_Species.SelectedIndex == 0;
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
         private readonly MaskedTextBox[] MovePP;
