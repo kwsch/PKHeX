@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
     public class SaveBlockAccessorSWSH : ISaveBlockAccessor<SCBlock>, ISaveBlock8Main
     {
         public IReadOnlyList<SCBlock> BlockInfo { get; }
+        public Dictionary<uint, SCBlock> BlockDictionary { get; }
         public Box8 BoxInfo { get; }
         public Party8 PartyInfo { get; }
         public MyItem Items { get; }
@@ -23,40 +25,45 @@ namespace PKHeX.Core
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
             BlockInfo = sav.AllBlocks;
-            BoxInfo = new Box8(sav, GetBlock(IBox));
-            PartyInfo = new Party8(sav, GetBlock(IParty));
-            Items = new MyItem8(sav, GetBlock(IItem));
-            Zukan = new Zukan8(sav, GetBlock(IZukan));
-            MyStatus = new MyStatus8(sav, GetBlock(IMyStatus));
-            Misc = new Misc8(sav, GetBlock(IMisc));
-            BoxLayout = new BoxLayout8(sav, GetBlock(IBoxLayout));
-            TrainerCard = new TrainerCard8(sav, GetBlock(ITrainerCard));
-            Played = new PlayTime8(sav, GetBlock(IPlayTime));
-            Fused = new Fused8(sav, GetBlock(IFused));
-            Daycare = new Daycare8(sav, GetBlock(IDaycare));
-            Records = new Record8(sav, GetBlock(IRecord), Core.Records.MaxType_SWSH);
-            Fashion = new FashionUnlock8(sav, GetBlock(IFashionUnlock));
-            Raid = new RaidSpawnList8(sav, GetBlock(IRaidSpawnList));
+            BlockDictionary = sav.AllBlocks.ToDictionary(z => z.Key);
+            BoxInfo = new Box8(sav, GetBlock(KBox));
+            PartyInfo = new Party8(sav, GetBlock(KParty));
+            Items = new MyItem8(sav, GetBlock(KItem));
+            Zukan = new Zukan8(sav, GetBlock(KZukan));
+            MyStatus = new MyStatus8(sav, GetBlock(KMyStatus));
+            Misc = new Misc8(sav, GetBlock(KMisc));
+            BoxLayout = new BoxLayout8(sav, GetBlock(KBoxLayout));
+            TrainerCard = new TrainerCard8(sav, GetBlock(KTrainerCard));
+            Played = new PlayTime8(sav, GetBlock(KPlayTime));
+            Fused = new Fused8(sav, GetBlock(KFused));
+            Daycare = new Daycare8(sav, GetBlock(KDaycare));
+            Records = new Record8(sav, GetBlock(KRecord), Core.Records.MaxType_SWSH);
+            Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
+            Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList));
         }
 
-        private const int IBox = 143; // Box Data
-        private const int IMysteryGift = 186; // Mystery Gift Data
-        private const int IItem = 191; // Items
-        // Coordinates? 253
-        private const int IBoxLayout = 275; // Box Names
-        private const int IMisc = 288; // Money
-        private const int IParty = 428; // Party Data
-        private const int IDaycare = 465; // Daycare slots (2 daycares)
-        private const int IRecord = 544;
-        private const int IZukan = 699; // PokeDex
-        private const int ITrainerCard = 1259; // Trainer Card
-        private const int IPlayTime = 1302; // Time Played
-        private const int IRaidSpawnList = 1326; // Nest current values (hash, seed, meta)
-        private const int IRepel = 1469;
-        private const int IFused = 1789; // Fused PKM (*3)
-        private const int IFashionUnlock = 1989; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
-        private const int IMyStatus = 2275; // Trainer Details
+        /* To dump key list of current format, use the following in the immediate window, and update Meta8
+        var blocks = BlockInfo.Where(z => z.Data.Length != 0).Select(z => new KeyValuePair<uint, int>(z.Key, z.Data.Length)).Select(z => $"{z.Key:X8}, {z.Value:X5},");
+        System.IO.File.WriteAllLines("blank.txt", blocks.ToArray());
+        */
+        private const uint KBox = 0x0d66012c; // Box Data
+        private const uint KMysteryGift = 0x112d5141; // Mystery Gift Data
+        private const uint KItem = 0x1177c2c4; // Items
+        private const uint KCoordinates = 0x16aaa7fa; // Coordinates?
+        private const uint KBoxLayout = 0x19722c89; // Box Names
+        private const uint KMisc = 0x1b882b09; // Money
+        private const uint KParty = 0x2985fe5d; // Party Data
+        private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
+        private const uint KRecord = 0x37da95a3;
+        private const uint KZukan = 0x4716c404; // PokeDex
+        private const uint KTrainerCard = 0x874da6fa; // Trainer Card
+        private const uint KPlayTime = 0x8cbbfd90; // Time Played
+        private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
+        private const uint KRepel = 0x9ec079da;
+        private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
+        private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
+        private const uint KMyStatus = 0xf25c070e; // Trainer Details
 
-        public SCBlock GetBlock(int index) => BlockInfo[index];
+        public SCBlock GetBlock(uint key) => BlockDictionary[key];
     }
 }

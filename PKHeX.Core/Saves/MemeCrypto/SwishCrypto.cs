@@ -151,7 +151,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Used to encrypt the rest of the block.
         /// </summary>
-        public uint Key { get; }
+        public uint Key { get; set; }
 
         /// <summary>
         /// What kind of block is it?
