@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     public class SaveBlockAccessorSWSH : ISaveBlockAccessor<SCBlock>, ISaveBlock8Main
     {
         public IReadOnlyList<SCBlock> BlockInfo { get; }
-        public Dictionary<uint, SCBlock> BlockDictionary { get; }
         public Box8 BoxInfo { get; }
         public Party8 PartyInfo { get; }
         public MyItem Items { get; }
@@ -25,7 +23,6 @@ namespace PKHeX.Core
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
             BlockInfo = sav.AllBlocks;
-            BlockDictionary = sav.AllBlocks.ToDictionary(z => z.Key);
             BoxInfo = new Box8(sav, GetBlock(KBox));
             PartyInfo = new Party8(sav, GetBlock(KParty));
             Items = new MyItem8(sav, GetBlock(KItem));
@@ -64,6 +61,28 @@ namespace PKHeX.Core
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
 
-        public SCBlock GetBlock(uint key) => BlockDictionary[key];
+        // Rather than storing a dictionary of keys, we can abuse the fact that the SCBlock[] is stored in order of ascending block key.
+        // Binary Search doesn't require extra memory like a Dictionary would; also, we only need to find a few blocks.
+        public SCBlock GetBlock(uint key) => BinarySearch(BlockInfo, key);
+
+        private static SCBlock BinarySearch(IReadOnlyList<SCBlock> arr, uint key)
+        {
+            int min = 0;
+            int max = arr.Count - 1;
+            do
+            {
+                int mid = (min + max) / 2;
+                var entry = arr[mid];
+                var ek = entry.Key;
+                if (key == ek)
+                    return entry;
+
+                if (key < ek)
+                    max = mid - 1;
+                else
+                    min = mid + 1;
+            } while (min <= max);
+            throw new KeyNotFoundException(nameof(key));
+        }
     }
 }
