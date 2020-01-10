@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-19/12/26 - New Update:
+20/01/10 - New Update:
+ - Added: Gen8 Support for save data from the latest game patch.
+ - Legality: More handling for new additions.
+ - Added: Move#_PP $suggest for batch editor.
+ - Added: Click the PP label to refresh PP counts.
+ - Added: Setting to disable sounds on save file load and legality checks (nuisance).
+ - Fixed: Gen8 Mimikyu Busted form now shows up in Pokédex editor.
+ - Fixed: Gen4 Event Constants are now read correctly.
+ - Fixed: Disabled pkm slot glow effect will no longer leave the frosted effect behind.
+ - Changed: GUI translation (winforms only) files moved to WinForms project (no longer in PKHeX.Core). Still need translations ;)
+
+19/12/26 - New Update: (37582) [2308287]
  - Legality:
  - - Added: PP Count verification, Egg TR/StatNature checks, etc.
  - - Added: More static encounter locations.
