@@ -322,6 +322,7 @@ namespace PKHeX.Core
             (int)Species.Grookey, (int)Species.Thwackey, (int)Species.Rillaboom,
             (int)Species.Scorbunny, (int)Species.Raboot, (int)Species.Cinderace,
             (int)Species.Sobble, (int)Species.Drizzile, (int)Species.Inteleon,
+            (int)Species.Slowpoke | 1 << 11,
 
             (int)Species.Hoothoot, (int)Species.Noctowl,
             (int)Species.Skwovet, (int)Species.Greedent,
