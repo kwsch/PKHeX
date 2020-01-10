@@ -8,3 +8,5 @@
 0651	Virizion Disappeared
 0652	Obstacle (Victory Road) Cleared
 0653	Obstacle (Pinwheel Forest) Cleared
+2403	Has Running Shoes
+0115	Trading Functionality Enabled (Pokecenter)
