@@ -21343,6 +21343,86 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_100 {
+            get {
+                object obj = ResourceManager.GetObject("b_100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_101 {
+            get {
+                object obj = ResourceManager.GetObject("b_101", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_102 {
+            get {
+                object obj = ResourceManager.GetObject("b_102", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_103 {
+            get {
+                object obj = ResourceManager.GetObject("b_103", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_103_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_103_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_104 {
+            get {
+                object obj = ResourceManager.GetObject("b_104", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_105 {
+            get {
+                object obj = ResourceManager.GetObject("b_105", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_105_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_105_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_106 {
             get {
                 object obj = ResourceManager.GetObject("b_106", resourceCulture);
@@ -21356,6 +21436,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_107 {
             get {
                 object obj = ResourceManager.GetObject("b_107", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_108 {
+            get {
+                object obj = ResourceManager.GetObject("b_108", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21423,6 +21513,66 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_113 {
+            get {
+                object obj = ResourceManager.GetObject("b_113", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_114 {
+            get {
+                object obj = ResourceManager.GetObject("b_114", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_115 {
+            get {
+                object obj = ResourceManager.GetObject("b_115", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_115_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_115_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_116 {
+            get {
+                object obj = ResourceManager.GetObject("b_116", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_117 {
+            get {
+                object obj = ResourceManager.GetObject("b_117", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_118 {
             get {
                 object obj = ResourceManager.GetObject("b_118", resourceCulture);
@@ -21453,6 +21603,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_120 {
+            get {
+                object obj = ResourceManager.GetObject("b_120", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_121 {
+            get {
+                object obj = ResourceManager.GetObject("b_121", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_122 {
             get {
                 object obj = ResourceManager.GetObject("b_122", resourceCulture);
@@ -21473,6 +21643,76 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_123 {
+            get {
+                object obj = ResourceManager.GetObject("b_123", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_124 {
+            get {
+                object obj = ResourceManager.GetObject("b_124", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_125 {
+            get {
+                object obj = ResourceManager.GetObject("b_125", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_126 {
+            get {
+                object obj = ResourceManager.GetObject("b_126", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_127 {
+            get {
+                object obj = ResourceManager.GetObject("b_127", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_127_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_127_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_128 {
+            get {
+                object obj = ResourceManager.GetObject("b_128", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_129 {
             get {
                 object obj = ResourceManager.GetObject("b_129", resourceCulture);
@@ -21483,9 +21723,29 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_13 {
+            get {
+                object obj = ResourceManager.GetObject("b_13", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_130 {
             get {
                 object obj = ResourceManager.GetObject("b_130", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_130_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_130_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21523,6 +21783,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_133_1p {
+            get {
+                object obj = ResourceManager.GetObject("b_133_1p", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_134 {
             get {
                 object obj = ResourceManager.GetObject("b_134", resourceCulture);
@@ -21553,9 +21823,169 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_137 {
+            get {
+                object obj = ResourceManager.GetObject("b_137", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_138 {
+            get {
+                object obj = ResourceManager.GetObject("b_138", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_139 {
+            get {
+                object obj = ResourceManager.GetObject("b_139", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_14 {
+            get {
+                object obj = ResourceManager.GetObject("b_14", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_140 {
+            get {
+                object obj = ResourceManager.GetObject("b_140", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_141 {
+            get {
+                object obj = ResourceManager.GetObject("b_141", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_142 {
+            get {
+                object obj = ResourceManager.GetObject("b_142", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_142_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_142_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_143 {
             get {
                 object obj = ResourceManager.GetObject("b_143", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_144 {
+            get {
+                object obj = ResourceManager.GetObject("b_144", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_145 {
+            get {
+                object obj = ResourceManager.GetObject("b_145", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_146 {
+            get {
+                object obj = ResourceManager.GetObject("b_146", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_147 {
+            get {
+                object obj = ResourceManager.GetObject("b_147", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_148 {
+            get {
+                object obj = ResourceManager.GetObject("b_148", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_149 {
+            get {
+                object obj = ResourceManager.GetObject("b_149", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_15 {
+            get {
+                object obj = ResourceManager.GetObject("b_15", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_15_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_15_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21573,9 +22003,39 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_150_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_150_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_150_2 {
+            get {
+                object obj = ResourceManager.GetObject("b_150_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_151 {
             get {
                 object obj = ResourceManager.GetObject("b_151", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_16 {
+            get {
+                object obj = ResourceManager.GetObject("b_16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21596,6 +22056,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_164 {
             get {
                 object obj = ResourceManager.GetObject("b_164", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_17 {
+            get {
+                object obj = ResourceManager.GetObject("b_17", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21683,6 +22153,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_18 {
+            get {
+                object obj = ResourceManager.GetObject("b_18", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_18_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_18_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_182 {
             get {
                 object obj = ResourceManager.GetObject("b_182", resourceCulture);
@@ -21696,6 +22186,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_185 {
             get {
                 object obj = ResourceManager.GetObject("b_185", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_19 {
+            get {
+                object obj = ResourceManager.GetObject("b_19", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_19_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_19_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21753,6 +22263,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_20 {
+            get {
+                object obj = ResourceManager.GetObject("b_20", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_20_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_20_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_202 {
             get {
                 object obj = ResourceManager.GetObject("b_202", resourceCulture);
@@ -21766,6 +22296,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_208 {
             get {
                 object obj = ResourceManager.GetObject("b_208", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_21 {
+            get {
+                object obj = ResourceManager.GetObject("b_21", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21796,6 +22336,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_215 {
             get {
                 object obj = ResourceManager.GetObject("b_215", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_22 {
+            get {
+                object obj = ResourceManager.GetObject("b_22", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -21883,6 +22433,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_23 {
+            get {
+                object obj = ResourceManager.GetObject("b_23", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_236 {
             get {
                 object obj = ResourceManager.GetObject("b_236", resourceCulture);
@@ -21896,6 +22456,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_237 {
             get {
                 object obj = ResourceManager.GetObject("b_237", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_24 {
+            get {
+                object obj = ResourceManager.GetObject("b_24", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22013,6 +22583,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_25_8p {
+            get {
+                object obj = ResourceManager.GetObject("b_25_8p", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_251 {
             get {
                 object obj = ResourceManager.GetObject("b_251", resourceCulture);
@@ -22076,6 +22656,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_264_1 {
             get {
                 object obj = ResourceManager.GetObject("b_264_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_27 {
+            get {
+                object obj = ResourceManager.GetObject("b_27", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_27_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_27_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22163,6 +22763,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_28 {
+            get {
+                object obj = ResourceManager.GetObject("b_28", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_28_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_28_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_280 {
             get {
                 object obj = ResourceManager.GetObject("b_280", resourceCulture);
@@ -22186,6 +22806,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_282 {
             get {
                 object obj = ResourceManager.GetObject("b_282", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_29 {
+            get {
+                object obj = ResourceManager.GetObject("b_29", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22233,6 +22863,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_3_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_3_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_30 {
+            get {
+                object obj = ResourceManager.GetObject("b_30", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_302 {
             get {
                 object obj = ResourceManager.GetObject("b_302", resourceCulture);
@@ -22263,6 +22913,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_31 {
+            get {
+                object obj = ResourceManager.GetObject("b_31", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_310 {
             get {
                 object obj = ResourceManager.GetObject("b_310", resourceCulture);
@@ -22276,6 +22936,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_315 {
             get {
                 object obj = ResourceManager.GetObject("b_315", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_32 {
+            get {
+                object obj = ResourceManager.GetObject("b_32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22333,6 +23003,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_33 {
+            get {
+                object obj = ResourceManager.GetObject("b_33", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_330 {
             get {
                 object obj = ResourceManager.GetObject("b_330", resourceCulture);
@@ -22366,6 +23046,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_339 {
             get {
                 object obj = ResourceManager.GetObject("b_339", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_34 {
+            get {
+                object obj = ResourceManager.GetObject("b_34", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22563,9 +23253,29 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_39 {
+            get {
+                object obj = ResourceManager.GetObject("b_39", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_4 {
             get {
                 object obj = ResourceManager.GetObject("b_4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_40 {
+            get {
+                object obj = ResourceManager.GetObject("b_40", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22593,6 +23303,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_41 {
+            get {
+                object obj = ResourceManager.GetObject("b_41", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_415 {
             get {
                 object obj = ResourceManager.GetObject("b_415", resourceCulture);
@@ -22606,6 +23326,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_416 {
             get {
                 object obj = ResourceManager.GetObject("b_416", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_42 {
+            get {
+                object obj = ResourceManager.GetObject("b_42", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -22913,6 +23643,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_46 {
+            get {
+                object obj = ResourceManager.GetObject("b_46", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_460 {
             get {
                 object obj = ResourceManager.GetObject("b_460", resourceCulture);
@@ -22946,6 +23686,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_468 {
             get {
                 object obj = ResourceManager.GetObject("b_468", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_47 {
+            get {
+                object obj = ResourceManager.GetObject("b_47", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23066,6 +23816,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_479_5 {
             get {
                 object obj = ResourceManager.GetObject("b_479_5", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_48 {
+            get {
+                object obj = ResourceManager.GetObject("b_48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_49 {
+            get {
+                object obj = ResourceManager.GetObject("b_49", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23403,6 +24173,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_54 {
+            get {
+                object obj = ResourceManager.GetObject("b_54", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_546 {
             get {
                 object obj = ResourceManager.GetObject("b_546", resourceCulture);
@@ -23416,6 +24196,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_547 {
             get {
                 object obj = ResourceManager.GetObject("b_547", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_55 {
+            get {
+                object obj = ResourceManager.GetObject("b_55", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23543,6 +24333,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_56 {
+            get {
+                object obj = ResourceManager.GetObject("b_56", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_560 {
             get {
                 object obj = ResourceManager.GetObject("b_560", resourceCulture);
@@ -23606,6 +24406,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_569 {
             get {
                 object obj = ResourceManager.GetObject("b_569", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_57 {
+            get {
+                object obj = ResourceManager.GetObject("b_57", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -23863,6 +24673,36 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_6_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_6_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_6_2 {
+            get {
+                object obj = ResourceManager.GetObject("b_6_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_60 {
+            get {
+                object obj = ResourceManager.GetObject("b_60", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_600 {
             get {
                 object obj = ResourceManager.GetObject("b_600", resourceCulture);
@@ -23926,6 +24766,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_609 {
             get {
                 object obj = ResourceManager.GetObject("b_609", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_61 {
+            get {
+                object obj = ResourceManager.GetObject("b_61", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24023,6 +24873,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_62 {
+            get {
+                object obj = ResourceManager.GetObject("b_62", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_622 {
             get {
                 object obj = ResourceManager.GetObject("b_622", resourceCulture);
@@ -24086,6 +24946,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_629 {
             get {
                 object obj = ResourceManager.GetObject("b_629", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_63 {
+            get {
+                object obj = ResourceManager.GetObject("b_63", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24173,6 +25043,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_64 {
+            get {
+                object obj = ResourceManager.GetObject("b_64", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_640 {
             get {
                 object obj = ResourceManager.GetObject("b_640", resourceCulture);
@@ -24246,6 +25126,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_647_1 {
             get {
                 object obj = ResourceManager.GetObject("b_647_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_65 {
+            get {
+                object obj = ResourceManager.GetObject("b_65", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_65_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_65_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24473,6 +25373,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_69 {
+            get {
+                object obj = ResourceManager.GetObject("b_69", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_694 {
             get {
                 object obj = ResourceManager.GetObject("b_694", resourceCulture);
@@ -24496,6 +25406,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_7 {
             get {
                 object obj = ResourceManager.GetObject("b_7", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_70 {
+            get {
+                object obj = ResourceManager.GetObject("b_70", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24566,6 +25486,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_709 {
             get {
                 object obj = ResourceManager.GetObject("b_709", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_71 {
+            get {
+                object obj = ResourceManager.GetObject("b_71", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24693,6 +25623,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_72 {
+            get {
+                object obj = ResourceManager.GetObject("b_72", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_722 {
             get {
                 object obj = ResourceManager.GetObject("b_722", resourceCulture);
@@ -24773,6 +25713,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_73 {
+            get {
+                object obj = ResourceManager.GetObject("b_73", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_730 {
             get {
                 object obj = ResourceManager.GetObject("b_730", resourceCulture);
@@ -24806,6 +25756,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_738 {
             get {
                 object obj = ResourceManager.GetObject("b_738", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_74 {
+            get {
+                object obj = ResourceManager.GetObject("b_74", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_74_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_74_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24876,6 +25846,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_749 {
             get {
                 object obj = ResourceManager.GetObject("b_749", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_75 {
+            get {
+                object obj = ResourceManager.GetObject("b_75", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_75_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_75_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -24956,6 +25946,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_759 {
             get {
                 object obj = ResourceManager.GetObject("b_759", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_76 {
+            get {
+                object obj = ResourceManager.GetObject("b_76", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_76_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_76_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25383,6 +26393,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_79 {
+            get {
+                object obj = ResourceManager.GetObject("b_79", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_79_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_79_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_790 {
             get {
                 object obj = ResourceManager.GetObject("b_790", resourceCulture);
@@ -25416,6 +26446,26 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_8 {
             get {
                 object obj = ResourceManager.GetObject("b_8", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_80 {
+            get {
+                object obj = ResourceManager.GetObject("b_80", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_80_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_80_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25486,6 +26536,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_809 {
             get {
                 object obj = ResourceManager.GetObject("b_809", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_81 {
+            get {
+                object obj = ResourceManager.GetObject("b_81", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25586,6 +26646,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_819 {
             get {
                 object obj = ResourceManager.GetObject("b_819", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_82 {
+            get {
+                object obj = ResourceManager.GetObject("b_82", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -25813,6 +26883,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_84 {
+            get {
+                object obj = ResourceManager.GetObject("b_84", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_840 {
             get {
                 object obj = ResourceManager.GetObject("b_840", resourceCulture);
@@ -25943,6 +27023,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_85 {
+            get {
+                object obj = ResourceManager.GetObject("b_85", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_850 {
             get {
                 object obj = ResourceManager.GetObject("b_850", resourceCulture);
@@ -26056,6 +27146,16 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap b_859 {
             get {
                 object obj = ResourceManager.GetObject("b_859", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_86 {
+            get {
+                object obj = ResourceManager.GetObject("b_86", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -26243,6 +27343,16 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_87 {
+            get {
+                object obj = ResourceManager.GetObject("b_87", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_870 {
             get {
                 object obj = ResourceManager.GetObject("b_870", resourceCulture);
@@ -26373,6 +27483,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_88 {
+            get {
+                object obj = ResourceManager.GetObject("b_88", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_88_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_88_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_880 {
             get {
                 object obj = ResourceManager.GetObject("b_880", resourceCulture);
@@ -26493,6 +27623,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_89 {
+            get {
+                object obj = ResourceManager.GetObject("b_89", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_89_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_89_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_890 {
             get {
                 object obj = ResourceManager.GetObject("b_890", resourceCulture);
@@ -26503,9 +27653,29 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_890_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_890_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_9 {
             get {
                 object obj = ResourceManager.GetObject("b_9", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_9_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_9_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -26563,9 +27733,39 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_94_1 {
+            get {
+                object obj = ResourceManager.GetObject("b_94_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_95 {
             get {
                 object obj = ResourceManager.GetObject("b_95", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_96 {
+            get {
+                object obj = ResourceManager.GetObject("b_96", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_97 {
+            get {
+                object obj = ResourceManager.GetObject("b_97", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

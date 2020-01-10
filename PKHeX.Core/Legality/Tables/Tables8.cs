@@ -216,6 +216,7 @@ namespace PKHeX.Core
             (int)Species.Meowth,
             (int)Species.Ponyta,
             (int)Species.Rapidash,
+            (int)Species.Slowpoke,
             (int)Species.Farfetchd,
             (int)Species.MrMime,
             (int)Species.Corsola,
@@ -365,6 +366,7 @@ namespace PKHeX.Core
             // Non-Galar Forms
             (int)Species.Farfetchd,
             (int)Species.Ponyta, (int)Species.Rapidash,
+            (int)Species.Slowpoke,
             (int)Species.Corsola,
             (int)Species.Darumaka, (int)Species.Darmanitan,
             (int)Species.Stunfisk,

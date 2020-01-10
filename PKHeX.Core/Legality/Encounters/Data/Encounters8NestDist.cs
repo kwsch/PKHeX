@@ -55,6 +55,13 @@
             new EncounterStatic8ND(60,10,5) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 340 } }, // Magikarp
             new EncounterStatic8ND(70,10,5) { Species = 129, Ability = A4, Moves = new[]{ 150, 033, 175, 340 } }, // Magikarp
             //new EncounterStatic8ND(70,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
+
+            // 1/8 - Applin
+            new EncounterStatic8ND(17,01,1) { Species = 840, Ability = A4, Moves = new[]{ 110, 310, 389, 213 } }, // Applin
+            new EncounterStatic8ND(17,01,1) { Species = 840, Ability = A2, Moves = new[]{ 110, 310, 389, 213 } }, // Applin
+            new EncounterStatic8ND(17,01,1) { Species = 868, Ability = A4, Moves = new[]{ 577, 033, 186, 263 } }, // Milcery
+            new EncounterStatic8ND(17,01,1) { Species = 868, Ability = A2, Moves = new[]{ 577, 033, 186, 263 } }, // Milcery
+            new EncounterStatic8ND(30,03,2) { Species = 869, Ability = A4, Moves = new[]{ 577, 213, 033, 186 }, CanGigantamax = true }, // Alcremie
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
@@ -140,6 +147,32 @@
             //new EncounterStatic8ND(60,10,5) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 542, 202 }, CanGigantamax = true }, // Butterfree
             //new EncounterStatic8ND(70,10,5) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 342, 328 }, CanGigantamax = true }, // Sandaconda
             //new EncounterStatic8ND(70,10,5) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 }, CanGigantamax = true }, // Drednaw
+
+            // 1/8 - Applin
+            new EncounterStatic8ND(17,01,1) { Species = 837, Ability = A4, Moves = new[]{ 479, 033, 108, 189 } }, // Rolycoly
+            new EncounterStatic8ND(17,01,1) { Species = 837, Ability = A2, Moves = new[]{ 479, 033, 108, 189 } }, // Rolycoly
+            new EncounterStatic8ND(30,03,2) { Species = 841, Ability = A4, Moves = new[]{ 406, 491, 017, 225 } }, // Flapple
+            new EncounterStatic8ND(30,03,2) { Species = 841, Ability = A2, Moves = new[]{ 406, 491, 017, 225 } }, // Flapple
+            new EncounterStatic8ND(30,03,2) { Species = 838, Ability = A4, Moves = new[]{ 246, 510, 479, 189 } }, // Carkol
+            new EncounterStatic8ND(30,03,2) { Species = 838, Ability = A2, Moves = new[]{ 246, 510, 479, 189 } }, // Carkol
+            new EncounterStatic8ND(40,05,3) { Species = 841, Ability = A4, Moves = new[]{ 788, 406, 512, 491 } }, // Flapple
+            new EncounterStatic8ND(40,05,3) { Species = 841, Ability = A4, Moves = new[]{ 788, 406, 512, 491 }, CanGigantamax = true }, // Flapple
+            new EncounterStatic8ND(40,05,3) { Species = 869, Ability = A4, Moves = new[]{ 577, 605, 202, 186 }, Form = 3, CanGigantamax = true }, // Alcremie-3
+            new EncounterStatic8ND(40,05,3) { Species = 869, Ability = A4, Moves = new[]{ 577, 605, 202, 186 }, Form = 4, CanGigantamax = true }, // Alcremie-4
+            new EncounterStatic8ND(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 246, 510, 479, 488 } }, // Coalossal
+            new EncounterStatic8ND(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 246, 510, 479, 488 }, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8ND(50,08,4) { Species = 841, Ability = A4, Moves = new[]{ 407, 788, 491, 334 } }, // Flapple
+            new EncounterStatic8ND(50,08,4) { Species = 841, Ability = A4, Moves = new[]{ 407, 788, 491, 334 }, CanGigantamax = true }, // Flapple
+            new EncounterStatic8ND(50,08,4) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 094, 151 }, Form = 1, CanGigantamax = true }, // Alcremie-1
+            new EncounterStatic8ND(50,08,4) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 094, 151 }, Form = 2, CanGigantamax = true }, // Alcremie-2
+            new EncounterStatic8ND(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 246, 053, 157, 261 } }, // Coalossal
+            new EncounterStatic8ND(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 246, 053, 157, 261 }, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8ND(60,10,5) { Species = 841, Ability = A4, Moves = new[]{ 407, 788, 512, 349 } }, // Flapple
+            new EncounterStatic8ND(60,10,5) { Species = 841, Ability = A4, Moves = new[]{ 407, 788, 512, 349 }, CanGigantamax = true }, // Flapple
+            new EncounterStatic8ND(60,10,5) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 595, 500 }, Form = 5, CanGigantamax = true }, // Alcremie-5
+            new EncounterStatic8ND(60,10,5) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 595, 500 }, Form = 6, CanGigantamax = true }, // Alcremie-6
+            new EncounterStatic8ND(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 246, 053, 157, 523 } }, // Coalossal
+            new EncounterStatic8ND(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 246, 053, 157, 523 }, CanGigantamax = true }, // Coalossal
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
@@ -225,6 +258,33 @@
             //new EncounterStatic8ND(60,10,5) { Species = 012, Ability = A4, Moves = new[]{ 405, 094, 403, 079 }, CanGigantamax = true }, // Butterfree
             //new EncounterStatic8ND(70,10,5) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 249, 103 }, CanGigantamax = true }, // Corviknight
             //new EncounterStatic8ND(70,10,5) { Species = 851, Ability = A4, Moves = new[]{ 679, 257, 083, 438 }, CanGigantamax = true }, // Centiskorch
+
+            // 1/8 - Applin
+            new EncounterStatic8ND(17,01,1) { Species = 131, Ability = A4, Moves = new[]{ 055, 496, 045, 047 } }, // Lapras
+            new EncounterStatic8ND(17,01,1) { Species = 131, Ability = A2, Moves = new[]{ 055, 496, 045, 047 } }, // Lapras
+            new EncounterStatic8ND(30,03,2) { Species = 842, Ability = A4, Moves = new[]{ 787, 029, 389, 073 } }, // Appletun
+            new EncounterStatic8ND(30,03,2) { Species = 842, Ability = A2, Moves = new[]{ 787, 029, 389, 073 } }, // Appletun
+            new EncounterStatic8ND(30,03,2) { Species = 131, Ability = A4, Moves = new[]{ 352, 420, 109, 047 } }, // Lapras
+            new EncounterStatic8ND(30,03,2) { Species = 131, Ability = A2, Moves = new[]{ 352, 420, 109, 047 } }, // Lapras
+            new EncounterStatic8ND(40,05,3) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 523 } }, // Appletun
+            new EncounterStatic8ND(40,05,3) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 523 }, CanGigantamax = true }, // Appletun
+            new EncounterStatic8ND(40,05,3) { Species = 869, Ability = A4, Moves = new[]{ 577, 605, 202, 186 }, Form = 1, CanGigantamax = true }, // Alcremie-1
+            new EncounterStatic8ND(40,05,3) { Species = 869, Ability = A4, Moves = new[]{ 577, 605, 202, 186 }, Form = 2, CanGigantamax = true }, // Alcremie-2
+            new EncounterStatic8ND(40,05,3) { Species = 131, Ability = A4, Moves = new[]{ 352, 420, 109, 034 } }, // Lapras
+            new EncounterStatic8ND(40,05,3) { Species = 131, Ability = A4, Moves = new[]{ 352, 420, 109, 034 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(50,08,4) { Species = 842, Ability = A4, Moves = new[]{ 787, 202, 406, 089 } }, // Appletun
+            new EncounterStatic8ND(50,08,4) { Species = 842, Ability = A4, Moves = new[]{ 787, 202, 406, 089 }, CanGigantamax = true }, // Appletun
+            new EncounterStatic8ND(50,08,4) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 094, 151 }, Form = 7, CanGigantamax = true }, // Alcremie-7
+            new EncounterStatic8ND(50,08,4) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 094, 151 }, Form = 8, CanGigantamax = true }, // Alcremie-8
+            new EncounterStatic8ND(50,08,4) { Species = 131, Ability = A4, Moves = new[]{ 057, 058, 246, 523 } }, // Lapras
+            new EncounterStatic8ND(50,08,4) { Species = 131, Ability = A4, Moves = new[]{ 057, 058, 246, 523 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(60,10,5) { Species = 842, Ability = A4, Moves = new[]{ 787, 406, 412, 089 } }, // Appletun
+            new EncounterStatic8ND(60,10,5) { Species = 842, Ability = A4, Moves = new[]{ 787, 406, 412, 089 }, CanGigantamax = true }, // Appletun
+            new EncounterStatic8ND(60,10,5) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 595, 500 }, Form = 3, CanGigantamax = true }, // Alcremie-3
+            new EncounterStatic8ND(60,10,5) { Species = 869, Ability = A4, Moves = new[]{ 605, 202, 595, 500 }, Form = 4, CanGigantamax = true }, // Alcremie-4
+            new EncounterStatic8ND(60,10,5) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 573, 329 } }, // Lapras
+            new EncounterStatic8ND(60,10,5) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 573, 329 }, CanGigantamax = true }, // Lapras
+
         };
     }
 }

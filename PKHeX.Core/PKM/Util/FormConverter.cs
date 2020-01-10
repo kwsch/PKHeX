@@ -109,6 +109,7 @@ namespace PKHeX.Core
                 case Weezing when generation >= 8:
                 case Ponyta when generation >= 8:
                 case Rapidash when generation >= 8:
+                case Slowpoke when generation >= 8:
                 case MrMime when generation >= 8:
                 case Farfetchd when generation >= 8:
                     return GetFormsGalar(types, forms);

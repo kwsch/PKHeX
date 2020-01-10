@@ -340,6 +340,9 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 197, Level = 56, Location = 154, }, // Umbreon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 700, Level = 56, Location = 154, }, // Sylveon at the Lake of Outrage (in a Wild Area)
             #endregion
+
+            // DLC
+            new EncounterStatic { Species = 079, Level = 12, Location = 016, Form = 01, Shiny = Never }, // Slowpoke-1 at Wedgehurst Station
         };
 
         private const string tradeSWSH = "tradeswsh";

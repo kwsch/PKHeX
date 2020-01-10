@@ -109,11 +109,16 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LTransferBad));
             else if (pkm.GenNumber != 8) // Can't transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
-            else if (pi.PokeDexIndex == 0 && data.EncounterMatch is EncounterEgg) // Can't breed cuz no transfer yet
+            else if (pi.PokeDexIndex == 0 && data.EncounterMatch is EncounterEgg egg && !BreedGalarForeign.Contains(egg.Species)) // Can't breed cuz no transfer yet
                 data.AddLine(GetInvalid(LTransferBad));
             else if (IsG8BanForm(pkm))
                 data.AddLine(GetInvalid(LTransferBad));
         }
+
+        private static readonly HashSet<int> BreedGalarForeign = new HashSet<int>
+        {
+            (int)Species.Slowpoke,
+        };
 
         private static bool IsG8BanForm(PKM pkm)
         {
@@ -128,6 +133,7 @@ namespace PKHeX.Core
                 (int)Species.Persian    when pkm.AltForm == 1 => true,
                 (int)Species.Ponyta     when pkm.AltForm == 0 => true,
                 (int)Species.Rapidash   when pkm.AltForm == 0 => true,
+                (int)Species.Slowpoke   when pkm.AltForm == 0 => true,
                 (int)Species.Farfetchd  when pkm.AltForm == 0 => true,
                 (int)Species.Weezing    when pkm.AltForm == 0 => true,
                 (int)Species.Corsola    when pkm.AltForm == 0 => true,
