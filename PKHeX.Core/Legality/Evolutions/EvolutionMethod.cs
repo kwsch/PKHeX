@@ -18,7 +18,14 @@ namespace PKHeX.Core
         // Not stored in binary data
         public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
-        public int GetDestinationForm(int form) => Form == AnyForm ? form : Method == (int)LevelUpFormFemale1 ? 1 : Form;
+        public int GetDestinationForm(int form)
+        {
+            if (Method == (int)LevelUpFormFemale1)
+                return 1;
+            if (Form == AnyForm)
+                return form;
+            return Form;
+        }
 
         /// <summary>
         /// Checks the <see cref="EvolutionMethod"/> for validity by comparing against the <see cref="PKM"/> data.
