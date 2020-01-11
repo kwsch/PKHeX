@@ -155,8 +155,10 @@ namespace PKHeX.Core
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
                 case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation((GameVersion)pkm.Version, pkm.OT_TextVar):
-                case 6 when memoryGen == 8 && pkm.OT_TextVar != 0:
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
+                    return;
+                case 6 when memoryGen == 8 && pkm.OT_TextVar != 0:
+                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
@@ -247,8 +249,10 @@ namespace PKHeX.Core
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
                 case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation(GameVersion.Gen6, pkm.HT_TextVar):
-                case 6 when memoryGen == 8 && pkm.HT_TextVar != 0:
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
+                    return;
+                case 6 when memoryGen == 8 && pkm.HT_TextVar != 0:
+                    data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
