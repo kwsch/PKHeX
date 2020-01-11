@@ -151,7 +151,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Used to encrypt the rest of the block.
         /// </summary>
-        public uint Key { get; set; }
+        public readonly uint Key;
 
         /// <summary>
         /// What kind of block is it?
@@ -168,8 +168,7 @@ namespace PKHeX.Core
         /// </summary>
         public byte[] Data = Array.Empty<byte>();
 
-        private SCBlock(uint key) => Key = key;
-        internal SCBlock() { }
+        internal SCBlock(uint key) => Key = key;
         protected override bool ChecksumValid(byte[] data) => true;
         protected override void SetChecksum(byte[] data) { }
 

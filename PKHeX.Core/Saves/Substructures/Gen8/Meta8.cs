@@ -12,7 +12,7 @@ namespace PKHeX.Core
             for (int i = 0; i < blocks.Length; i++)
             {
                 int index = i * 2;
-                blocks[i] = new SCBlock { Key = arr[index], Data = new byte[(int)arr[index + 1]] };
+                blocks[i] = new SCBlock(arr[index]) { Data = new byte[(int)arr[index + 1]] };
             }
 
             return blocks;
