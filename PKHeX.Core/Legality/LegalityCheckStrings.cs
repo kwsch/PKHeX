@@ -188,6 +188,10 @@ namespace PKHeX.Core
 
         public static string LFavoriteMarkingUnavailable { get; set; } = "Favorite Marking is not available.";
 
+        public static string LFormArgumentHigh { get; set; } = "Form argument is too high for current form.";
+        public static string LFormArgumentLow { get; set; } = "Form argument is too low for current form.";
+        public static string LFormArgumentNotAllowed { get; set; } = "Form argument is not allowed for this encounter.";
+        public static string LFormArgumentValid { get; set; } = "Form argument is valid.";
         public static string LFormBattle { get; set; } = "Form cannot exist outside of a battle.";
         public static string LFormEternal { get; set; } = "Valid Eternal Flower encounter.";
         public static string LFormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
