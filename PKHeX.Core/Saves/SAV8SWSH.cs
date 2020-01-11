@@ -81,29 +81,6 @@ namespace PKHeX.Core
             PokeDex = 0;
         }
 
-        protected override void SetPartyValues(PKM pkm, bool isParty)
-        {
-            base.SetPartyValues(pkm, isParty);
-            ((PK8)pkm).FormArgument = GetFormArgument((PK8)pkm, isParty);
-        }
-
-        private static uint GetFormArgument(PK8 pkm, bool isParty)
-        {
-            if (pkm.Species == (int) Species.Alcremie)
-                return pkm.FormArgument & 7;
-
-            if (!isParty || pkm.AltForm == 0)
-                return 0;
-
-            // Neither species is available in SW/SH, but the game code still does this!
-            return pkm.Species switch
-            {
-                (int)Species.Furfrou => 5u, // Furfrou
-                (int)Species.Hoopa => 3u, // Hoopa
-                _ => 0u
-            };
-        }
-
         public int GetRecord(int recordID) => Records.GetRecord(recordID);
         public void SetRecord(int recordID, int value) => Records.SetRecord(recordID, value);
         public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
