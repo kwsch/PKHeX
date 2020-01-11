@@ -204,7 +204,10 @@ namespace PKHeX.Core
                     ReflectUtil.SetValue(pk, rib, value * (pk.Gen4 ? 20 : 40));
                     break;
                 default:
-                    ReflectUtil.SetValue(pk, rib, value != 0);
+                    if (rib.StartsWith("RibbonCountG3"))
+                        ReflectUtil.SetValue(pk, rib, value * 4);
+                    else
+                        ReflectUtil.SetValue(pk, rib, value != 0);
                     break;
             }
         }
