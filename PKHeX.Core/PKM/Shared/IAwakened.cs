@@ -107,11 +107,12 @@ namespace PKHeX.Core
         /// <param name="pk">Retriever for IVs</param>
         public static void SetSuggestedAwakenedValues(this IAwakened a, PKM pk)
         {
-            for (int i = 0; i < 6; i++)
-            {
-                if (pk.GetIV(i) > 2)
-                    a.SetAV(i, 200);
-            }
+            a.AV_HP  = Legal.AwakeningMax;
+            a.AV_ATK = pk.IV_ATK == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_DEF = Legal.AwakeningMax;
+            a.AV_SPE = pk.IV_SPE == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_SPA = Legal.AwakeningMax;
+            a.AV_SPD = Legal.AwakeningMax;
         }
 
         public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);
