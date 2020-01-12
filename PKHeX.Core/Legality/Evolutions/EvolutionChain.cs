@@ -235,23 +235,6 @@ namespace PKHeX.Core
         {
             if (lvl < 0)
                 lvl = pkm.CurrentLevel;
-            if (pkm.IsEgg && !skipChecks)
-            {
-                return new List<EvoCriteria>(1)
-                {
-                    new EvoCriteria(pkm.Species, pkm.AltForm) { Level = lvl, MinLevel = lvl },
-                };
-            }
-
-            // Shedinja's evolution case can be a little tricky; hard-code handling.
-            if (pkm.Species == (int)Species.Shedinja && lvl >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= lvl))
-            {
-                return new List<EvoCriteria>(2)
-                {
-                    new EvoCriteria((int)Species.Shedinja, 0) { Level = lvl, MinLevel = 20 },
-                    new EvoCriteria((int)Species.Nincada, 0) { Level = lvl, MinLevel = 1 },
-                };
-            }
 
             if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.GenNumber == 1)
                 maxspeciesorigin = MaxSpeciesID_2;

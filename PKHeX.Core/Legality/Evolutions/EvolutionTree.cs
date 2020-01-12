@@ -206,6 +206,24 @@ namespace PKHeX.Core
         {
             if (maxSpeciesOrigin <= 0)
                 maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
+            if (pkm.IsEgg && !skipChecks)
+            {
+                return new List<EvoCriteria>(1)
+                {
+                    new EvoCriteria(pkm.Species, pkm.AltForm) { Level = maxLevel, MinLevel = maxLevel },
+                };
+            }
+
+            // Shedinja's evolution case can be a little tricky; hard-code handling.
+            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= maxLevel))
+            {
+                return new List<EvoCriteria>(2)
+                {
+                    new EvoCriteria((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
+                    new EvoCriteria((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = 1 },
+                };
+            }
+
             return GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
         }
 
