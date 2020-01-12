@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
         {
             Form splash = null; // popup a splash screen in another thread
             new Task(() => (splash = new SplashScreen()).ShowDialog()).Start();
-            new Task(() => Legal.RefreshMGDB(MGDatabasePath)).Start();
+            new Task(() => EncounterEvent.RefreshMGDB(MGDatabasePath)).Start();
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
