@@ -596,7 +596,8 @@ namespace PKHeX.Core
             var ShedinjaEvoMovesLearned = new List<int>();
             for (int gen = Math.Min(pkm.Format, 4); gen >= 3; gen--)
             {
-                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, gen);
+                var maxLevel = pkm.CurrentLevel;
+                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, gen, maxLevel);
                 bool native = gen == pkm.Format;
                 for (int m = 0; m < 4; m++)
                 {
@@ -625,7 +626,7 @@ namespace PKHeX.Core
             // Double check that the Ninjask move level isn't less than any Nincada move level
             int move = ShedinjaEvoMovesLearned[0];
             int g = res[move].Generation;
-            int levelJ = Legal.GetShedinjaMoveLevel(291, moves[move], g);
+            int levelJ = Legal.GetShedinjaMoveLevel((int)Species.Ninjask, moves[move], g);
 
             for (int m = 0; m < 4; m++)
             {
@@ -633,13 +634,13 @@ namespace PKHeX.Core
                     continue;
                 if (res[m].Source != LevelUp)
                     continue;
-                int levelS = Legal.GetShedinjaMoveLevel(292, moves[m], res[m].Generation);
+                int levelS = Legal.GetShedinjaMoveLevel((int)Species.Shedinja, moves[m], res[m].Generation);
                 if (levelS > 0)
                     continue;
 
-                int levelN = Legal.GetShedinjaMoveLevel(290, moves[m], res[m].Generation);
+                int levelN = Legal.GetShedinjaMoveLevel((int)Species.Nincada, moves[m], res[m].Generation);
                 if (levelN > levelJ)
-                    res[m] = new CheckMoveResult(res[m], Invalid, string.Format(LMoveEvoFHigher, SpeciesStrings[290], SpeciesStrings[291]), Move);
+                    res[m] = new CheckMoveResult(res[m], Invalid, string.Format(LMoveEvoFHigher, SpeciesStrings[(int)Species.Nincada], SpeciesStrings[(int)Species.Ninjask]), Move);
             }
         }
 

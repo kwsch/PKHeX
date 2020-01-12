@@ -143,15 +143,17 @@ namespace PKHeX.Core
                 // Any egg move can be obtained
                 var evo = dl[dl.Count - 1];
                 var shared = MoveEgg.GetEggMoves(pk, evo.Species, evo.Form, GameVersion.SW);
-                moves = moves.Concat(shared);
+                return moves.Concat(shared);
             }
-            if (generation == 3 && dl[0].Species == (int)Species.Shedinja)
+            if (dl[0].Species == (int)Species.Shedinja)
             {
-                // Leveling up Nincada in Gen3 levels up, evolves to Ninjask, applies moves for Ninjask, then spawns Shedinja with the current moveset.
+                // Leveling up Nincada in Gen3/4 levels up, evolves to Ninjask, applies moves for Ninjask, then spawns Shedinja with the current moveset.
                 // Future games spawn the Shedinja before doing Ninjask moves, so this is a special case.
                 // Can't get more than the evolved-at level move; >=2 special moves will get caught by the legality checker later.
-                var ninjask = MoveLevelUp.GetMovesLevelUp(pk, (int)Species.Ninjask, 0, 0, 100, 0, GameVersion.Any, false, 3);
-                moves = moves.Concat(ninjask);
+                if (generation == 3)
+                    return moves.Concat(Legal.LevelUpE[(int)Species.Ninjask].GetMoves(100, 20));
+                if (generation == 4)
+                    return moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20));
             }
             return moves;
         }

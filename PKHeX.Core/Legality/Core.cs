@@ -112,27 +112,19 @@ namespace PKHeX.Core
             return r.Distinct();
         }
 
-        internal static int[] GetShedinjaEvolveMoves(PKM pkm, int generation, int lvl = -1)
+        internal static int[] GetShedinjaEvolveMoves(PKM pkm, int generation, int lvl)
         {
-            if (lvl == -1)
-                lvl = pkm.CurrentLevel;
-            if (pkm.Species != 292 || lvl < 20)
+            if (pkm.Species != (int)Species.Shedinja || lvl < 20)
                 return Array.Empty<int>();
 
-            // If nincada evolves into Ninjask an learn in the evolution a move from ninjask learnset pool
-            // Shedinja would appear with that move learned. Only one move above level 20 allowed, only in generations 3 and 4
-            switch (generation)
+            // If Nincada evolves into Ninjask and learns a move after evolution from Ninjask's LevelUp data, Shedinja would appear with that move.
+            // Only one move above level 20 is allowed; check the count of Ninjask moves elsewhere.
+            return generation switch
             {
-                case 3: // Ninjask have the same learnset in every gen 3 games
-                    if (pkm.InhabitedGeneration(3))
-                        return LevelUpE[291].GetMoves(lvl, 20);
-                    break;
-                case 4: // Ninjask have the same learnset in every gen 4 games
-                    if (pkm.InhabitedGeneration(4))
-                        return LevelUpPt[291].GetMoves(lvl, 20);
-                    break;
-            }
-            return Array.Empty<int>();
+                3 when pkm.InhabitedGeneration(3) => LevelUpE[(int)Species.Ninjask].GetMoves(lvl, 20), // Same LevelUp data in all Gen3 games
+                4 when pkm.InhabitedGeneration(4) => LevelUpPt[(int)Species.Ninjask].GetMoves(lvl, 20), // Same LevelUp data in all Gen4 games
+                _ => Array.Empty<int>(),
+            };
         }
 
         internal static int GetShedinjaMoveLevel(int species, int move, int generation)
