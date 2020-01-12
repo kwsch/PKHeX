@@ -61,15 +61,15 @@ namespace PKHeX.Core
         internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
         internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
 
-        internal static List<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
+        internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            var Moves = new List<int>[evoChains.Length];
+            var Moves = new IReadOnlyList<int>[evoChains.Length];
             for (int i = 1; i < evoChains.Length; i++)
             {
                 if (evoChains[i].Count != 0)
                     Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
                 else
-                    Moves[i] = new List<int>();
+                    Moves[i] = Array.Empty<int>();
             }
             return Moves;
         }
@@ -97,10 +97,10 @@ namespace PKHeX.Core
 
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
-            var r = new List<int> { 0 };
             if (pkm.GenNumber < 6)
-                return r;
+                return Array.Empty<int>();
 
+            var r = new List<int>();
             r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 1, form, version));
 
             if (pkm.Format == 6 && pkm.Species != 678)

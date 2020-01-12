@@ -22,7 +22,7 @@ namespace PKHeX.Core
             var level = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
 
             if (encounter is IGeneration g)
-                AddEdgeCaseMoves(level[g.Generation], encounter, pkm);
+                AddEdgeCaseMoves((List<int>)level[g.Generation], encounter, pkm);
 
             LevelUpMoves = level;
             TMHMMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
