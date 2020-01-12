@@ -61,20 +61,6 @@ namespace PKHeX.Core
         internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(Data.UnpackMini(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
         internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(Data.UnpackMini(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
 
-        // Setup Help
-        static Legal()
-        {
-            // Misc Fixes to Data pertaining to legality constraints
-
-            // Remove Punishment from USUM Murkrow (no species can pass it #1829)
-            // DONE: Egg Move Data for EggMovesUSUM no longer has it at the end
-
-            // Prevent Silvally from being tutored Fire/Water Pledge (logic can only tutor one, and Grass is first)
-            var pi = PersonalTable.USUM[773];
-            pi.TypeTutors[1] = false; // fire
-            pi.TypeTutors[2] = false; // water
-        }
-
         public static void RefreshMGDB(string localDbPath) => EncounterEvent.RefreshMGDB(localDbPath);
 
         internal static List<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
