@@ -112,10 +112,10 @@ namespace PKHeX.Core
         }
 
         // Eggs
-        private static CheckResult VerifyEncounterEgg(PKM pkm)
+        private static CheckResult VerifyEncounterEgg(PKM pkm, bool checkSpecies = true)
         {
             // Check Species
-            if (Legal.NoHatchFromEgg.Contains(pkm.Species))
+            if (checkSpecies && Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
 
             switch (pkm.GenNumber)
@@ -357,7 +357,7 @@ namespace PKHeX.Core
             }
             if (!pkm.IsEgg && MatchedGift.IsEgg) // hatched
             {
-                var hatchCheck = VerifyEncounterEgg(pkm);
+                var hatchCheck = VerifyEncounterEgg(pkm, false);
                 if (!hatchCheck.Valid)
                     return hatchCheck;
             }
