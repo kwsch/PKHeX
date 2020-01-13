@@ -20,7 +20,7 @@ namespace PKHeX.Core
             data.AddLine(result);
 
             if (pkm is IFormArgument f)
-                data.AddLine(VerifyFormArgument(data, f));
+                data.AddLine(VerifyFormArgument(data, f.FormArgument));
         }
 
         private CheckResult VALID => GetValid(LFormValid);
@@ -254,34 +254,34 @@ namespace PKHeX.Core
             }
         }
 
-        private CheckResult VerifyFormArgument(LegalityAnalysis data, IFormArgument f)
+        private CheckResult VerifyFormArgument(LegalityAnalysis data, in uint arg)
         {
             var pkm = data.pkm;
             switch (data.pkm.Species)
             {
                 default:
                     {
-                        if (f.FormArgument != 0)
+                        if (arg != 0)
                             return GetInvalid(LFormArgumentNotAllowed);
                         break;
                     }
                 case (int)Species.Furfrou:
                     {
-                        if (f.FormArgument > 5)
+                        if (arg > 5)
                             return GetInvalid(LFormArgumentHigh);
-                        if (f.FormArgument == 0 && pkm.AltForm != 0)
+                        if (arg == 0 && pkm.AltForm != 0)
                             return GetInvalid(LFormArgumentNotAllowed);
-                        if (f.FormArgument != 0 && pkm.AltForm == 0)
+                        if (arg != 0 && pkm.AltForm == 0)
                             return GetInvalid(LFormArgumentNotAllowed);
                         break;
                     }
                 case (int)Species.Hoopa:
                     {
-                        if (f.FormArgument > 3)
+                        if (arg > 3)
                             return GetInvalid(LFormArgumentHigh);
-                        if (f.FormArgument == 0 && pkm.AltForm != 0)
+                        if (arg == 0 && pkm.AltForm != 0)
                             return GetInvalid(LFormArgumentNotAllowed);
-                        if (f.FormArgument != 0 && pkm.AltForm == 0)
+                        if (arg != 0 && pkm.AltForm == 0)
                             return GetInvalid(LFormArgumentNotAllowed);
                         break;
                     }
@@ -289,13 +289,13 @@ namespace PKHeX.Core
                     {
                         if (pkm.IsEgg)
                         {
-                            if (f.FormArgument != 0)
+                            if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
                             break;
                         }
 
                         var hp_max = GetYamask1MaxHP(pkm);
-                        if (f.FormArgument > hp_max)
+                        if (arg > hp_max)
                             return GetInvalid(LFormArgumentHigh);
                         break;
                     }
@@ -303,15 +303,15 @@ namespace PKHeX.Core
                     {
                         if (data.EncounterMatch.Species == (int)Species.Runerigus)
                         {
-                            if (f.FormArgument != 0)
+                            if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
                         }
                         else
                         {
-                            if (f.FormArgument < 49)
+                            if (arg < 49)
                                 return GetInvalid(LFormArgumentLow);
                             var hp_max = GetYamask1MaxHP(pkm);
-                            if (f.FormArgument > hp_max)
+                            if (arg > hp_max)
                                 return GetInvalid(LFormArgumentHigh);
                         }
                         break;
@@ -321,12 +321,12 @@ namespace PKHeX.Core
                     {
                         if (data.EncounterMatch.Species == (int)Species.Alcremie)
                         {
-                            if (f.FormArgument != 0)
+                            if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
                         }
                         else
                         {
-                            if (f.FormArgument > (uint)AlcremieDecoration.Ribbon)
+                            if (arg > (uint)AlcremieDecoration.Ribbon)
                                 return GetInvalid(LFormArgumentHigh);
                         }
                         break;
