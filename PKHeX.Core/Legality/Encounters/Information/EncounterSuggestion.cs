@@ -208,7 +208,7 @@ namespace PKHeX.Core
             {
                 clone.Met_Level = i;
                 var la = new LegalityAnalysis(clone);
-                if (la.Valid)
+                if (la.Info.Moves.All(z => z.Valid))
                     return i;
             }
             return LevelMin;
