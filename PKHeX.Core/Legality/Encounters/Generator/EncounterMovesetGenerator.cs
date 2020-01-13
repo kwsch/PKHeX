@@ -243,8 +243,9 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                var em = enc.Moves;
-                if (em != null && !needs.Except(em).Any())
+                // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
+                var em = enc.Moves.Concat(enc.Relearn);
+                if (!needs.Except(em).Any())
                     yield return enc;
             }
         }
