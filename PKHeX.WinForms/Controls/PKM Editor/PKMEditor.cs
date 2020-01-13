@@ -741,7 +741,7 @@ namespace PKHeX.WinForms.Controls
                 return false;
             }
 
-            int level = encounter.Level;
+            int level = encounter.LevelMin;
             int location = encounter.Location;
             int minlvl = Legal.GetLowestLevel(Entity, encounter.LevelMin);
             if (minlvl == 0)
@@ -765,7 +765,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.Format >= 3)
             {
-                TB_MetLevel.Text = level.ToString();
+                TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
                 CB_MetLocation.SelectedValue = location;
 
                 if (Entity.Gen6 && Entity.WasEgg && ModifyPKM)

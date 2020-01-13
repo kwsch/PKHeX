@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets an object containing met data properties that might be legal.
         /// </summary>
-        public static EncounterStatic? GetSuggestedMetInfo(PKM pkm)
+        public static EncounterSuggestionData? GetSuggestedMetInfo(PKM pkm)
         {
             int loc = GetSuggestedTransferLocation(pkm);
 
@@ -19,26 +20,20 @@ namespace PKHeX.Core
 
             var w = EncounterSlotGenerator.GetCaptureLocation(pkm);
             if (w != null)
-                return GetSuggestedEncounterWild(w, loc);
+                return GetSuggestedEncounterWild(pkm, w, loc);
 
             var s = EncounterStaticGenerator.GetStaticLocation(pkm);
             if (s != null)
-                return GetSuggestedEncounterStatic(s, loc);
+                return GetSuggestedEncounterStatic(pkm, s, loc);
 
             return null;
         }
 
-        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
-            var evo = Legal.GetBaseSpecies(pkm);
-            return new EncounterStatic
-            {
-                Species = evo.Species,
-                Form = evo.Form,
-                Location = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm),
-                Level = lvl,
-            };
+            var met = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm);
+            return new EncounterSuggestionData(pkm, met, lvl);
         }
 
         public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
@@ -67,26 +62,18 @@ namespace PKHeX.Core
             }
         }
 
-        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterArea area, int loc = -1)
         {
             var slots = area.Slots.OrderBy(s => s.LevelMin);
             var first = slots.First();
-            return new EncounterStatic
-            {
-                Location = loc != -1 ? loc : area.Location,
-                Species = first.Species,
-                Level = first.LevelMin,
-            };
+            var met = loc != -1 ? loc : area.Location;
+            return new EncounterSuggestionData(pkm, first, met);
         }
 
-        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterStatic(PKM pkm, EncounterStatic s, int loc = -1)
         {
-            if (loc == -1)
-                loc = s.Location;
-
-            // don't leak out the original EncounterStatic object
-            var encounter = s.Clone(loc);
-            return encounter;
+            var met = loc != -1 ? loc : s.Location;
+            return new EncounterSuggestionData(pkm, s, met);
         }
 
         /// <summary>
@@ -177,6 +164,54 @@ namespace PKHeX.Core
             if (pkm.Format >= 5) // Transporter
                 return Legal.GetTransfer45MetLocation(pkm);
             return -1;
+        }
+    }
+
+    public sealed class EncounterSuggestionData : IRelearn
+    {
+        private readonly IEncounterable? Encounter;
+
+        public int[] Relearn => Encounter is IRelearn r ? r.Relearn : Array.Empty<int>();
+
+        public EncounterSuggestionData(PKM pkm, IEncounterable enc, int met)
+        {
+            Encounter = enc;
+            Species = pkm.Species;
+            Form = pkm.AltForm;
+            Location = met;
+
+            LevelMin = enc.LevelMin;
+            LevelMax = enc.LevelMax;
+        }
+
+        public EncounterSuggestionData(PKM pkm, int met, int lvl)
+        {
+            Species = pkm.Species;
+            Form = pkm.AltForm;
+            Location = met;
+
+            LevelMin = lvl;
+            LevelMax = lvl;
+        }
+
+        public int Species { get; }
+        public int Form { get; }
+        public int Location { get; }
+
+        public int LevelMin { get; }
+        public int LevelMax { get; }
+
+        public int GetSuggestedMetLevel(PKM pkm)
+        {
+            var clone = pkm.Clone();
+            for (int i = clone.CurrentLevel; i > LevelMin; i--)
+            {
+                clone.Met_Level = i;
+                var la = new LegalityAnalysis(clone);
+                if (la.Valid)
+                    return i;
+            }
+            return LevelMin;
         }
     }
 }
