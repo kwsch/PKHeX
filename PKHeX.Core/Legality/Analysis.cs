@@ -470,10 +470,5 @@ namespace PKHeX.Core
             var evos = Info.EvoChainsAllGens;
             return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
-
-        /// <summary>
-        /// Gets an object containing met data properties that might be legal.
-        /// </summary>
-        public EncounterStatic? GetSuggestedMetInfo() => EncounterSuggestion.GetSuggestedMetInfo(pkm);
     }
 }

@@ -733,7 +733,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool SetSuggestedMetLocation(bool silent = false)
         {
-            var encounter = Legality.GetSuggestedMetInfo();
+            var encounter = EncounterSuggestion.GetSuggestedMetInfo(Entity);
             if (encounter == null || (Entity.Format >= 3 && encounter.Location < 0))
             {
                 if (!silent)

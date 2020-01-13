@@ -7,6 +7,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class EncounterSuggestion
     {
+        /// <summary>
+        /// Gets an object containing met data properties that might be legal.
+        /// </summary>
         public static EncounterStatic? GetSuggestedMetInfo(PKM pkm)
         {
             int loc = GetSuggestedTransferLocation(pkm);

@@ -15,6 +15,6 @@ namespace PKHeX.Core
 
         public bool Legal => Legality.Valid;
         internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearn();
-        internal EncounterStatic? SuggestedEncounter => Legality.GetSuggestedMetInfo();
+        internal EncounterStatic? SuggestedEncounter => EncounterSuggestion.GetSuggestedMetInfo(Entity);
     }
 }

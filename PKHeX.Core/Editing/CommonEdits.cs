@@ -313,7 +313,7 @@ namespace PKHeX.Core
             if (enc is MysteryGift || enc is EncounterEgg)
                 return m;
 
-            var encounter = legal.GetSuggestedMetInfo();
+            var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
             if (encounter is IRelearn r && r.Relearn.Length > 0)
                 m = r.Relearn;
 
