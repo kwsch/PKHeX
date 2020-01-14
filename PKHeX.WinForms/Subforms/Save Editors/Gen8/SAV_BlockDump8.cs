@@ -1,0 +1,153 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using PKHeX.Core;
+
+namespace PKHeX.WinForms
+{
+    public partial class SAV_BlockDump8 : Form
+    {
+        private readonly SAV8SWSH SAV;
+        private SCBlock CurrentBlock;
+
+        public SAV_BlockDump8(SaveFile sav)
+        {
+            InitializeComponent();
+            WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
+            SAV = (SAV8SWSH)sav;
+
+            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000}", (int)z.Key));
+            CB_Key.InitializeBinding();
+            CB_Key.DataSource = blocks.ToArray();
+        }
+
+        private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var key = (uint)WinFormsUtil.GetIndex(CB_Key);
+            CurrentBlock = SAV.Blocks.GetBlock(key);
+            L_Detail_R.Text = GetBlockSummary(CurrentBlock);
+        }
+
+        private void B_ExportAll_Click(object sender, EventArgs e)
+        {
+            using var fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+            var path = fbd.SelectedPath;
+            var blocks = SAV.AllBlocks;
+            ExportAllBlocks(blocks, path);
+        }
+
+        private static void ExportAllBlocks(IEnumerable<SCBlock> blocks, string path)
+        {
+            foreach (var b in blocks.Where(z => z.Data.Length != 0))
+                File.WriteAllBytes(Path.Combine(path, $"{b.Key:X8}.bin"), b.Data);
+        }
+
+        private void B_ImportFolder_Click(object sender, EventArgs e)
+        {
+            using var fbd = new FolderBrowserDialog();
+            if (fbd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var failed = ImportBlocksFromFolder(fbd.SelectedPath, SAV);
+            if (failed.Count != 0)
+            {
+                var msg = string.Join(Environment.NewLine, failed);
+                WinFormsUtil.Error("Failed to import:", msg);
+            }
+        }
+
+        private void B_ImportCurrent_Click(object sender, EventArgs e) => ImportSelectBlock(CurrentBlock);
+        private void B_ExportCurrent_Click(object sender, EventArgs e) => ExportSelectBlock(CurrentBlock);
+
+        private void B_ExportAllSingle_Click(object sender, EventArgs e)
+        {
+            using var sfd = new SaveFileDialog { FileName = "raw.bin" };
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            var blocks = SAV.Blocks.BlockInfo;
+            ExportAllBlocksAsSingleFile(blocks, sfd.FileName);
+        }
+
+        private static void ExportSelectBlock(SCBlock block)
+        {
+            var key = block.Key;
+            using var sfd = new SaveFileDialog {FileName = $"{key:X8}.bin"};
+            if (sfd.ShowDialog() != DialogResult.OK)
+                return;
+            File.WriteAllBytes(sfd.FileName, block.Data);
+        }
+
+        private static void ImportSelectBlock(SCBlock blockTarget)
+        {
+            var key = blockTarget.Key;
+            var data = blockTarget.Data;
+            using var ofd = new OpenFileDialog {FileName = $"{key:X8}.bin"};
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+
+            var path = ofd.FileName;
+            var file = new FileInfo(path);
+            if (file.Length != data.Length)
+            {
+                WinFormsUtil.Error(string.Format(MessageStrings.MsgFileSize, $"0x{file.Length:X8}"));
+                return;
+            }
+
+            var bytes = File.ReadAllBytes(path);
+            bytes.CopyTo(data, 0);
+        }
+
+        private static void ExportAllBlocksAsSingleFile(IEnumerable<SCBlock> blocks, string path)
+        {
+            var data = SwishCrypto.GetDecryptedRawData(blocks);
+            File.WriteAllBytes(path, data);
+        }
+
+        private static string GetBlockSummary(SCBlock b)
+        {
+            var sb = new StringBuilder();
+            sb.Append("Block Info:")
+                .Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine()
+                .Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine()
+                .Append("Type: ").Append(b.Type).AppendLine()
+                .Append("SubType: ").Append(b.SubType).AppendLine();
+            return sb.ToString();
+        }
+
+        private static List<string> ImportBlocksFromFolder(string path, SAV8SWSH sav)
+        {
+            var failed = new List<string>();
+            var files = Directory.EnumerateFiles(path);
+            foreach (var f in files)
+            {
+                var fn = Path.GetFileNameWithoutExtension(f);
+                var hex = Util.GetHexValue(fn);
+                try
+                {
+                    var block = sav.Blocks.GetBlock(hex);
+                    var len = block.Data.Length;
+                    var fi = new FileInfo(f);
+                    if (fi.Length != len)
+                    {
+                        failed.Add(fn);
+                        continue;
+                    }
+
+                    var data = File.ReadAllBytes(f);
+                    data.CopyTo(block.Data, 0);
+                }
+                catch
+                {
+                    failed.Add(fn);
+                }
+            }
+
+            return failed;
+        }
+    }
+}

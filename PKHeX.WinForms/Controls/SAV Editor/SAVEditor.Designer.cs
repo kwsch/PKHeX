@@ -92,6 +92,7 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
+            this.B_Blocks = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -401,6 +402,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_MailBox);
             this.FLP_SAVtools.Controls.Add(this.B_OpenApricorn);
             this.FLP_SAVtools.Controls.Add(this.B_Raids);
+            this.FLP_SAVtools.Controls.Add(this.B_Blocks);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
             this.FLP_SAVtools.Location = new System.Drawing.Point(3, 16);
             this.FLP_SAVtools.Name = "FLP_SAVtools";
@@ -793,6 +795,16 @@
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
             // 
+            // B_Blocks
+            // 
+            this.B_Blocks.Location = new System.Drawing.Point(3, 206);
+            this.B_Blocks.Name = "B_Blocks";
+            this.B_Blocks.Size = new System.Drawing.Size(87, 23);
+            this.B_Blocks.TabIndex = 35;
+            this.B_Blocks.Text = "Block Data";
+            this.B_Blocks.UseVisualStyleBackColor = true;
+            this.B_Blocks.Click += new System.EventHandler(this.B_Blocks_Click);
+            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -881,5 +893,6 @@
         private SlotList SL_Extra;
         private PartyEditor SL_Party;
         private System.Windows.Forms.Button B_Raids;
+        private System.Windows.Forms.Button B_Blocks;
     }
 }
