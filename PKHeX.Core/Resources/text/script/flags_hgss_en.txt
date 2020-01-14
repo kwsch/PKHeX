@@ -16,3 +16,7 @@
 2404	Entered Hall of Fame (Trainer Card Upgrade)
 0388	Obtained 1 Shiny Crown (Trainer Card Upgrade)
 0241	Beat Pokeathlon Records (Trainer Card Upgrade)
+0766	Bulbasaur Starter Ball Disappeared
+0767	Squirtle Starter Ball Disappeared
+0768	Charmander Starter Ball Disappeared
+0789	Trading Functionality Enabled (Pokecenter)

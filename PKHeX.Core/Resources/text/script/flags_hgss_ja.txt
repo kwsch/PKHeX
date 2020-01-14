@@ -1,4 +1,4 @@
-0607	レッド: シロガネやま頂上 (戦闘済み)
+﻿0607	レッド: シロガネやま頂上 (戦闘済み)
 0774	フリーザー (戦闘済み)
 0663	サンダー (戦闘済み)
 0775	ファイヤー (戦闘済み)
@@ -16,3 +16,7 @@
 2404	殿堂入り済み (トレーナーカード更新)
 0388	かがやくはっぱのおうかん入手 (トレーナーカード更新)
 0241	ポケスロン: ゆうじょうの部屋 (トレーナーカード更新)
+0766	Bulbasaur Starter Ball Disappeared
+0767	Squirtle Starter Ball Disappeared
+0768	Charmander Starter Ball Disappeared
+0789	Trading Functionality Enabled (Pokecenter)

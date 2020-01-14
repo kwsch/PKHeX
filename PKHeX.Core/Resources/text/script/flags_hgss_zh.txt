@@ -1,4 +1,4 @@
-0607	赤红 (白银山) 已消失
+﻿0607	赤红 (白银山) 已消失
 0774	急冻鸟 已消失
 0663	闪电鸟 已消失
 0775	火焰鸟 已消失
@@ -16,3 +16,7 @@
 2404	已进入名人堂 (训练家卡片升级)
 0388	获得一个闪光王冠 (训练家卡片升级)
 0241	破宝可梦全能竞技赛的记录 (训练家卡片升级)
+0766	Bulbasaur Starter Ball Disappeared
+0767	Squirtle Starter Ball Disappeared
+0768	Charmander Starter Ball Disappeared
+0789	Trading Functionality Enabled (Pokecenter)
