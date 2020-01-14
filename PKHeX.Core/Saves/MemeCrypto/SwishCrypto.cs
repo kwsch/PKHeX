@@ -97,10 +97,19 @@ namespace PKHeX.Core
         /// </remarks>
         public static IReadOnlyList<SCBlock> Decrypt(byte[] data)
         {
+            var temp = GetDecryptedRawData(data);
+            return ReadBlocks(temp);
+        }
+
+        /// <summary>
+        /// Decrypts the save data, with raw block data concatenated together.
+        /// </summary>
+        public static byte[] GetDecryptedRawData(byte[] data)
+        {
             // de-ref from input data, since we're going to modify the contents in-place
             var temp = (byte[])data.Clone();
             CryptStaticXorpadBytes(temp);
-            return ReadBlocks(temp);
+            return temp;
         }
 
         private static IReadOnlyList<SCBlock> ReadBlocks(byte[] data)
@@ -123,6 +132,21 @@ namespace PKHeX.Core
         /// <returns>Encrypted save data.</returns>
         public static byte[] Encrypt(IReadOnlyList<SCBlock> blocks)
         {
+            var result = GetDecryptedRawData(blocks);
+            CryptStaticXorpadBytes(result);
+
+            var hash = ComputeHash(result);
+            hash.CopyTo(result, result.Length - SIZE_HASH);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Tries to encrypt the save data.
+        /// </summary>
+        /// <returns>Raw save data without the final xorpad layer.</returns>
+        public static byte[] GetDecryptedRawData(IEnumerable<SCBlock> blocks)
+        {
             using var ms = new MemoryStream();
             foreach (var block in blocks)
             {
@@ -133,12 +157,6 @@ namespace PKHeX.Core
             // Allocate hash bytes at the end
             var result = new byte[ms.Length + SIZE_HASH];
             ms.ToArray().CopyTo(result, 0);
-
-            CryptStaticXorpadBytes(result);
-
-            var hash = ComputeHash(result);
-            hash.CopyTo(result, result.Length - SIZE_HASH);
-
             return result;
         }
     }
