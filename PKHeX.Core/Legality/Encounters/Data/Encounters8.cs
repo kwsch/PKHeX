@@ -157,7 +157,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 099, Level = 31, Location = 134, }, // Kingler at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 342, Level = 31, Location = 134, }, // Crawdaunt at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 208, Level = 50, Location = 136, }, // Steelix near the Giant’s Seat (in a Wild Area)
-            new EncounterStatic8 { Species = 823, Level = 50, Location = 150, }, // Corviknight on the Hammerlocke Hills (in a Wild Area)
+            new EncounterStatic8S{ Species = 823, Level = 50, Locations = new[] {138, 150} }, // Corviknight at North Lake Miloch & on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 448, Level = 36, Location = 138, }, // Lucario at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 112, Level = 46, Location = 142, }, // Rhydon in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 625, Level = 52, Location = 136, }, // Bisharp near the Giant’s Seat (in a Wild Area)
