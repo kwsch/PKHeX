@@ -172,7 +172,7 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem.SelectedValue = pk.HeldItem;
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
             if (pk is IFormArgument f)
-                CB_FormArgument.SelectedIndex = (int)f.FormArgument;
+                CB_FormArgument.SelectedIndex = CB_FormArgument.Items.Count > f.FormArgument ? (int)f.FormArgument : CB_FormArgument.Items.Count - 1;
 
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 

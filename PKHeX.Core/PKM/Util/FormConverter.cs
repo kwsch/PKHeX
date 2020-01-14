@@ -967,7 +967,7 @@ namespace PKHeX.Core
 
         public static string[] GetFormArgumentStrings(int species, int form, int generation)
         {
-            if (generation < 8)
+            if (generation <= 5)
                 return EMPTY;
 
             static string[] GetBlank(int count)
