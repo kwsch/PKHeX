@@ -104,7 +104,16 @@ namespace PKHeX.WinForms
 
         private static void ExportAllBlocksAsSingleFile(IEnumerable<SCBlock> blocks, string path)
         {
-            var data = SwishCrypto.GetDecryptedRawData(blocks);
+            using var stream = new MemoryStream();
+            using var bw = new BinaryWriter(stream);
+            foreach (var b in blocks)
+            {
+                bw.Write(b.Key);
+                bw.Write((byte)b.Type);
+                bw.Write((byte)b.SubType);
+                bw.Write(b.Data);
+            }
+            var data = stream.ToArray(); // SwishCrypto.GetDecryptedRawData(blocks); for raw encrypted
             File.WriteAllBytes(path, data);
         }
 
