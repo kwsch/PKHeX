@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             var blocks = SAV.Blocks.BlockInfo;
-            ExportAllBlocksAsSingleFile(blocks, sfd.FileName);
+            ExportAllBlocksAsSingleFile(blocks, sfd.FileName, CHK_DataOnly.Checked, CHK_Key.Checked, CHK_Type.Checked, CHK_FakeHeader.Checked);
         }
 
         private static void ExportSelectBlock(SCBlock block)
@@ -102,15 +102,29 @@ namespace PKHeX.WinForms
             bytes.CopyTo(data, 0);
         }
 
-        private static void ExportAllBlocksAsSingleFile(IEnumerable<SCBlock> blocks, string path)
+        private static void ExportAllBlocksAsSingleFile(IReadOnlyList<SCBlock> blocks, string path, bool dataOnly = true, bool key = true, bool typeInfo = true, bool fakeHeader = true)
         {
             using var stream = new MemoryStream();
             using var bw = new BinaryWriter(stream);
-            foreach (var b in blocks)
+
+            if (fakeHeader)
             {
-                bw.Write(b.Key);
-                bw.Write((byte)b.Type);
-                bw.Write((byte)b.SubType);
+                for (int i = 0; i < blocks.Count; i++)
+                    blocks[i].ID = (uint)i;
+            }
+
+            var iterate = dataOnly ? blocks.Where(z => z.Data.Length != 0) : blocks;
+            foreach (var b in iterate)
+            {
+                if (fakeHeader)
+                    bw.Write($"BLOCK{b.ID:0000} {b.Key:X8}");
+                if (key)
+                    bw.Write(b.Key);
+                if (typeInfo)
+                {
+                    bw.Write((byte)b.Type);
+                    bw.Write((byte)b.SubType);
+                }
                 bw.Write(b.Data);
             }
             var data = stream.ToArray(); // SwishCrypto.GetDecryptedRawData(blocks); for raw encrypted
@@ -120,7 +134,7 @@ namespace PKHeX.WinForms
         private static string GetBlockSummary(SCBlock b)
         {
             var sb = new StringBuilder();
-            sb.Append("Block Info:")
+            sb
                 .Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine()
                 .Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine()
                 .Append("Type: ").Append(b.Type).AppendLine()

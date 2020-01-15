@@ -81,6 +81,10 @@
             this.B_ImportCurrent = new System.Windows.Forms.Button();
             this.B_ExportCurrent = new System.Windows.Forms.Button();
             this.B_ImportFolder = new System.Windows.Forms.Button();
+            this.CHK_Type = new System.Windows.Forms.CheckBox();
+            this.CHK_DataOnly = new System.Windows.Forms.CheckBox();
+            this.CHK_FakeHeader = new System.Windows.Forms.CheckBox();
+            this.CHK_Key = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // L_Saying5
@@ -431,7 +435,7 @@
             // 
             // B_ExportAll
             // 
-            this.B_ExportAll.Location = new System.Drawing.Point(109, 143);
+            this.B_ExportAll.Location = new System.Drawing.Point(12, 143);
             this.B_ExportAll.Name = "B_ExportAll";
             this.B_ExportAll.Size = new System.Drawing.Size(91, 50);
             this.B_ExportAll.TabIndex = 4;
@@ -441,7 +445,7 @@
             // 
             // B_ExportAllSingle
             // 
-            this.B_ExportAllSingle.Location = new System.Drawing.Point(206, 143);
+            this.B_ExportAllSingle.Location = new System.Drawing.Point(12, 255);
             this.B_ExportAllSingle.Name = "B_ExportAllSingle";
             this.B_ExportAllSingle.Size = new System.Drawing.Size(91, 50);
             this.B_ExportAllSingle.TabIndex = 5;
@@ -451,7 +455,7 @@
             // 
             // B_ImportCurrent
             // 
-            this.B_ImportCurrent.Location = new System.Drawing.Point(12, 199);
+            this.B_ImportCurrent.Location = new System.Drawing.Point(109, 199);
             this.B_ImportCurrent.Name = "B_ImportCurrent";
             this.B_ImportCurrent.Size = new System.Drawing.Size(91, 50);
             this.B_ImportCurrent.TabIndex = 7;
@@ -461,7 +465,7 @@
             // 
             // B_ExportCurrent
             // 
-            this.B_ExportCurrent.Location = new System.Drawing.Point(109, 199);
+            this.B_ExportCurrent.Location = new System.Drawing.Point(12, 199);
             this.B_ExportCurrent.Name = "B_ExportCurrent";
             this.B_ExportCurrent.Size = new System.Drawing.Size(91, 50);
             this.B_ExportCurrent.TabIndex = 6;
@@ -471,7 +475,7 @@
             // 
             // B_ImportFolder
             // 
-            this.B_ImportFolder.Location = new System.Drawing.Point(12, 143);
+            this.B_ImportFolder.Location = new System.Drawing.Point(109, 143);
             this.B_ImportFolder.Name = "B_ImportFolder";
             this.B_ImportFolder.Size = new System.Drawing.Size(91, 50);
             this.B_ImportFolder.TabIndex = 8;
@@ -479,11 +483,59 @@
             this.B_ImportFolder.UseVisualStyleBackColor = true;
             this.B_ImportFolder.Click += new System.EventHandler(this.B_ImportFolder_Click);
             // 
+            // CHK_Type
+            // 
+            this.CHK_Type.AutoSize = true;
+            this.CHK_Type.Location = new System.Drawing.Point(109, 279);
+            this.CHK_Type.Name = "CHK_Type";
+            this.CHK_Type.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Type.TabIndex = 9;
+            this.CHK_Type.Text = "Include Type Info";
+            this.CHK_Type.UseVisualStyleBackColor = true;
+            // 
+            // CHK_DataOnly
+            // 
+            this.CHK_DataOnly.AutoSize = true;
+            this.CHK_DataOnly.Checked = true;
+            this.CHK_DataOnly.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_DataOnly.Location = new System.Drawing.Point(109, 251);
+            this.CHK_DataOnly.Name = "CHK_DataOnly";
+            this.CHK_DataOnly.Size = new System.Drawing.Size(108, 17);
+            this.CHK_DataOnly.TabIndex = 9;
+            this.CHK_DataOnly.Text = "Data Blocks Only";
+            this.CHK_DataOnly.UseVisualStyleBackColor = true;
+            // 
+            // CHK_FakeHeader
+            // 
+            this.CHK_FakeHeader.AutoSize = true;
+            this.CHK_FakeHeader.Checked = true;
+            this.CHK_FakeHeader.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_FakeHeader.Location = new System.Drawing.Point(109, 293);
+            this.CHK_FakeHeader.Name = "CHK_FakeHeader";
+            this.CHK_FakeHeader.Size = new System.Drawing.Size(141, 17);
+            this.CHK_FakeHeader.TabIndex = 10;
+            this.CHK_FakeHeader.Text = "Mark Block Start (ASCII)";
+            this.CHK_FakeHeader.UseVisualStyleBackColor = true;
+            // 
+            // CHK_Key
+            // 
+            this.CHK_Key.AutoSize = true;
+            this.CHK_Key.Location = new System.Drawing.Point(109, 265);
+            this.CHK_Key.Name = "CHK_Key";
+            this.CHK_Key.Size = new System.Drawing.Size(109, 17);
+            this.CHK_Key.TabIndex = 11;
+            this.CHK_Key.Text = "Include 32Bit Key";
+            this.CHK_Key.UseVisualStyleBackColor = true;
+            // 
             // SAV_BlockDump8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(306, 261);
+            this.ClientSize = new System.Drawing.Size(284, 316);
+            this.Controls.Add(this.CHK_FakeHeader);
+            this.Controls.Add(this.CHK_Type);
+            this.Controls.Add(this.CHK_Key);
+            this.Controls.Add(this.CHK_DataOnly);
             this.Controls.Add(this.B_ImportFolder);
             this.Controls.Add(this.B_ImportCurrent);
             this.Controls.Add(this.B_ExportCurrent);
@@ -559,5 +611,9 @@
         private System.Windows.Forms.Button B_ImportCurrent;
         private System.Windows.Forms.Button B_ExportCurrent;
         private System.Windows.Forms.Button B_ImportFolder;
+        private System.Windows.Forms.CheckBox CHK_Type;
+        private System.Windows.Forms.CheckBox CHK_DataOnly;
+        private System.Windows.Forms.CheckBox CHK_FakeHeader;
+        private System.Windows.Forms.CheckBox CHK_Key;
     }
 }
