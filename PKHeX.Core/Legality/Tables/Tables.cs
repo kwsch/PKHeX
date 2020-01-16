@@ -289,6 +289,7 @@ namespace PKHeX.Core
             484, 487, 489, 490, 491, 492, 493, 494, 643, 644, 646,
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
             791, 792, 800, 801, 802, 807, 808, 809,
+            (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus,
         };
 
         public static readonly HashSet<int> SubLegends = new HashSet<int>
