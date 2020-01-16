@@ -58,6 +58,7 @@ namespace PKHeX.WinForms
             TB_TrainerCardName.Text = SAV.Blocks.TrainerCard.OT;
             TB_TrainerCardNumber.Text = SAV.Blocks.TrainerCard.Number;
             MT_TrainerCardID.Text = SAV.Blocks.TrainerCard.TrainerID.ToString("000000");
+            MT_RotoRally.Text = SAV.Blocks.TrainerCard.RotoRallyScore.ToString();
             trainerID1.LoadIDValues(SAV);
             MT_Money.Text = SAV.Money.ToString();
             MT_Watt.Text = SAV.MyStatus.Watt.ToString();
@@ -114,8 +115,9 @@ namespace PKHeX.WinForms
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             SAV.OT = TB_OTName.Text;
             SAV.Blocks.TrainerCard.OT = TB_TrainerCardName.Text;
-            SAV.Blocks.TrainerCard.Number = TB_TrainerCardNumber.Text;
+            SAV.Blocks.MyStatus.Number = SAV.Blocks.TrainerCard.Number = TB_TrainerCardNumber.Text;
             SAV.Blocks.TrainerCard.TrainerID = Util.ToInt32(MT_TrainerCardID.Text);
+            SAV.Blocks.TrainerCard.RotoRallyScore = Util.ToInt32(MT_RotoRally.Text);
 
             var watt = Util.ToUInt32(MT_Watt.Text);
             SAV.MyStatus.Watt = watt;

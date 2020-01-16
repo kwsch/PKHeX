@@ -51,6 +51,7 @@ namespace PKHeX.Core
         private const uint KMisc = 0x1b882b09; // Money
         private const uint KParty = 0x2985fe5d; // Party Data
         private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
+        internal const uint KRotoRally = 0x38548020;
         private const uint KRecord = 0x37da95a3;
         private const uint KZukan = 0x4716c404; // PokeDex
         private const uint KTrainerCard = 0x874da6fa; // Trainer Card

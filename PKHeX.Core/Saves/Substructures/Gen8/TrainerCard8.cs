@@ -19,6 +19,19 @@ namespace PKHeX.Core
             set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
         }
 
+        public int RotoRallyScore
+        {
+            get => BitConverter.ToInt32(Data, 0x28);
+            set
+            {
+                var data = BitConverter.GetBytes(value);
+                SAV.SetData(Data, data, 0x28);
+                // set to the other block since it doesn't have an accessor
+                var used = ((SAV8SWSH) SAV).Blocks.GetBlock(SaveBlockAccessorSWSH.KRotoRally);
+                SAV.SetData(used.Data, data, 0);
+            }
+        }
+
         public string Number
         {
             get => Encoding.ASCII.GetString(Data, 0x39, 3);

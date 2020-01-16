@@ -93,6 +93,8 @@
             this.L_SinglesC = new System.Windows.Forms.Label();
             this.TC_Editor = new System.Windows.Forms.TabControl();
             this.Tab_Overview = new System.Windows.Forms.TabPage();
+            this.L_RotoRally = new System.Windows.Forms.Label();
+            this.MT_RotoRally = new System.Windows.Forms.MaskedTextBox();
             this.B_MaxWatt = new System.Windows.Forms.Button();
             this.MT_Watt = new System.Windows.Forms.MaskedTextBox();
             this.L_Watt = new System.Windows.Forms.Label();
@@ -653,6 +655,8 @@
             // 
             // Tab_Overview
             // 
+            this.Tab_Overview.Controls.Add(this.L_RotoRally);
+            this.Tab_Overview.Controls.Add(this.MT_RotoRally);
             this.Tab_Overview.Controls.Add(this.B_MaxWatt);
             this.Tab_Overview.Controls.Add(this.MT_Watt);
             this.Tab_Overview.Controls.Add(this.L_Watt);
@@ -681,6 +685,25 @@
             this.Tab_Overview.TabIndex = 0;
             this.Tab_Overview.Text = "Overview";
             this.Tab_Overview.UseVisualStyleBackColor = true;
+            // 
+            // L_RotoRally
+            // 
+            this.L_RotoRally.Location = new System.Drawing.Point(209, 101);
+            this.L_RotoRally.Name = "L_RotoRally";
+            this.L_RotoRally.Size = new System.Drawing.Size(117, 16);
+            this.L_RotoRally.TabIndex = 78;
+            this.L_RotoRally.Text = "Roto Rally Score:";
+            this.L_RotoRally.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_RotoRally
+            // 
+            this.MT_RotoRally.Location = new System.Drawing.Point(331, 100);
+            this.MT_RotoRally.Mask = "000000";
+            this.MT_RotoRally.Name = "MT_RotoRally";
+            this.MT_RotoRally.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_RotoRally.Size = new System.Drawing.Size(43, 20);
+            this.MT_RotoRally.TabIndex = 77;
+            this.MT_RotoRally.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // B_MaxWatt
             // 
@@ -1229,5 +1252,7 @@
         private System.Windows.Forms.MaskedTextBox MT_Watt;
         private System.Windows.Forms.Label L_Watt;
         private System.Windows.Forms.Button B_MaxWatt;
+        private System.Windows.Forms.Label L_RotoRally;
+        private System.Windows.Forms.MaskedTextBox MT_RotoRally;
     }
 }

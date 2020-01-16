@@ -1,10 +1,22 @@
 ﻿using System;
+using System.Text;
 
 namespace PKHeX.Core
 {
     public sealed class MyStatus8 : SaveBlock
     {
         public MyStatus8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
+
+        public string Number
+        {
+            get => Encoding.ASCII.GetString(Data, 0x01, 3);
+            set
+            {
+                for (int i = 0; i < 3; i++)
+                    Data[0x01 + i] = (byte)(value.Length > i ? value[i] : '\0');
+                SAV.Edited = true;
+            }
+        }
 
         public ulong Hair
         {
