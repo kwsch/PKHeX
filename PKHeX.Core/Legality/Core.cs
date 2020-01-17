@@ -448,39 +448,6 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool[] GetReleasedHeldItems(int generation)
-        {
-            return generation switch
-            {
-                2 => ReleasedHeldItems_2,
-                3 => ReleasedHeldItems_3,
-                4 => ReleasedHeldItems_4,
-                5 => ReleasedHeldItems_5,
-                6 => ReleasedHeldItems_6,
-                7 => ReleasedHeldItems_7,
-                8 => ReleasedHeldItems_8,
-                _ => Array.Empty<bool>()
-            };
-        }
-
-        internal static bool IsHeldItemAllowed(PKM pkm)
-        {
-            if (pkm is PB7)
-                return pkm.HeldItem == 0;
-            return IsHeldItemAllowed(pkm.HeldItem, pkm.Format);
-        }
-
-        private static bool IsHeldItemAllowed(int item, int generation)
-        {
-            if (item == 0)
-                return true;
-            if (item < 0)
-                return false;
-
-            var items = GetReleasedHeldItems(generation);
-            return items.Length > item && items[item];
-        }
-
         private static bool IsEvolvedFormChange(PKM pkm)
         {
             if (pkm.IsEgg)

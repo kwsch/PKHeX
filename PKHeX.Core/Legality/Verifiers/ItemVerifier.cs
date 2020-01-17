@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (!Legal.IsHeldItemAllowed(pkm))
+            if (!ItemRestrictions.IsHeldItemAllowed(pkm))
                 data.AddLine(GetInvalid(LItemUnreleased));
 
             if (pkm.Format == 3 && pkm.HeldItem == 175) // Enigma Berry
