@@ -692,9 +692,9 @@ namespace PKHeX.Core
                     return $"C-{form}";
 
                 // Necrozma
-                case (int)Core.Species.Necrozma when form == "Dusk-Mane":
+                case (int)Core.Species.Necrozma when form == "Dusk-Mane" || form == "Dusk Mane":
                     return "Dusk";
-                case (int)Core.Species.Necrozma when form == "Dawn-Wings":
+                case (int)Core.Species.Necrozma when form == "Dawn-Wings" || form == "Dawn Wings":
                     return "Dawn";
 
                 // Toxtricity
