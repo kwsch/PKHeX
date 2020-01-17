@@ -243,6 +243,10 @@ namespace PKHeX.Core
             746, // Wishiwashi
             778, // Mimikyu
 
+            (int)Species.Cramorant,
+            (int)Species.Morpeko,
+            (int)Species.Eiscue,
+
             (int)Species.Zacian,
             (int)Species.Zamazenta,
             (int)Species.Eternatus,
