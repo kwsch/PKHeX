@@ -31,14 +31,16 @@ namespace PKHeX.Core
             var PersonalInfo = data.PersonalInfo;
 
             int count = PersonalInfo.FormeCount;
-            if (count <= 1 && pkm.AltForm == 0)
+            var form = pkm.AltForm;
+            if (count <= 1 && form == 0)
                 return VALID; // no forms to check
 
+            var species = pkm.Species;
             var EncounterMatch = data.EncounterMatch;
             var Info = data.Info;
 
-            if (!PersonalInfo.IsFormeWithinRange(pkm.AltForm) && !FormConverter.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, Info.Generation))
-                return GetInvalid(string.Format(LFormInvalidRange, count - 1, pkm.AltForm));
+            if (!PersonalInfo.IsFormeWithinRange(form) && !FormConverter.IsValidOutOfBoundsForme(species, form, Info.Generation))
+                return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
             if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
             {
@@ -46,15 +48,15 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is EncounterEgg)
             {
-                if (FormConverter.IsTotemForm(pkm.Species, pkm.AltForm))
+                if (FormConverter.IsTotemForm(species, form))
                     return GetInvalid(LFormInvalidGame);
             }
 
-            switch (pkm.Species)
+            switch (species)
             {
                 case (int)Species.Pikachu when Info.Generation == 6: // Cosplay
                     bool isStatic = EncounterMatch is EncounterStatic;
-                    if (isStatic != (pkm.AltForm != 0))
+                    if (isStatic != (form != 0))
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
@@ -63,123 +65,128 @@ namespace PKHeX.Core
                     {
                         return EncounterMatch switch
                         {
-                            WC7 wc7 => (wc7.Form == pkm.AltForm),
-                            EncounterStatic s => (s.Form == pkm.AltForm),
-                            _ => (pkm.AltForm == 0)
+                            WC7 wc7 => (wc7.Form == form),
+                            EncounterStatic s => (s.Form == form),
+                            _ => (form == 0)
                         };
                     }
 
                     if (!IsValidPikachuCap())
                     {
-                        bool gift = EncounterMatch is WC7 g && g.Form != pkm.AltForm;
+                        bool gift = EncounterMatch is WC7 g && g.Form != form;
                         var msg = gift ? LFormPikachuEventInvalid : LFormInvalidGame;
                         return GetInvalid(msg);
                     }
                     break;
-                case (int)Species.Unown when Info.Generation == 2 && pkm.AltForm >= 26:
-                    return GetInvalid(string.Format(LFormInvalidRange, "Z", pkm.AltForm == 26 ? "!" : "?"));
-                case (int)Species.Giratina when pkm.AltForm == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
+                case (int)Species.Unown when Info.Generation == 2 && form >= 26:
+                    return GetInvalid(string.Format(LFormInvalidRange, "Z", form == 26 ? "!" : "?"));
+                case (int)Species.Giratina when form == 1 ^ pkm.HeldItem == 112: // Giratina, Origin form only with Griseous Orb
                     return GetInvalid(LFormItemInvalid);
 
                 case (int)Species.Arceus:
                     {
-                        int form = GetArceusFormFromHeldItem(pkm.HeldItem, pkm.Format);
-                        return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
+                        int arceus = GetArceusFormFromHeldItem(pkm.HeldItem, pkm.Format);
+                        return arceus != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
                 case (int)Species.Keldeo:
                 {
-                    if (pkm.Gen5) // can mismatch in gen5 via BW tutor and transfer up
+                    if (Info.Generation == 5) // can mismatch in gen5 via BW tutor and transfer up
                         break;
                     int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                     bool noSword = index < 0;
-                    if (pkm.AltForm == 0 ^ noSword) // mismatch
+                    if (form == 0 ^ noSword) // mismatch
                         Info.Moves[noSword ? 0 : index] = new CheckMoveResult(Info.Moves[noSword ? 0 : index], Severity.Invalid, LMoveKeldeoMismatch, CheckIdentifier.Move);
                     break;
                 }
                 case (int)Species.Genesect:
                     {
-                        int form = GetGenesectFormFromHeldItem(pkm.HeldItem);
-                        return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
+                        int genesect = GetGenesectFormFromHeldItem(pkm.HeldItem);
+                        return genesect != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
                 case (int)Species.Greninja:
-                    if (pkm.AltForm > 1) // Ash Battle Bond active
+                    if (form > 1) // Ash Battle Bond active
                         return GetInvalid(LFormBattle);
-                    if (pkm.AltForm != 0 && !(EncounterMatch is MysteryGift)) // Formes are not breedable, MysteryGift already checked
-                        return GetInvalid(string.Format(LFormInvalidRange, 0, pkm.AltForm));
+                    if (form != 0 && !(EncounterMatch is MysteryGift)) // Formes are not breedable, MysteryGift already checked
+                        return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                     break;
 
                 case (int)Species.Scatterbug:
                 case (int)Species.Spewpa:
-                    if (pkm.AltForm > 17) // Fancy & Pokéball
+                    if (form > 17) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
-                    if (!Legal.CheckVivillonPattern(pkm.AltForm, (byte)pkm.Country, (byte)pkm.Region))
+                    if (!Legal.CheckVivillonPattern(form, (byte)pkm.Country, (byte)pkm.Region))
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
                 case (int)Species.Vivillon:
-                    if (pkm.AltForm > 17) // Fancy & Pokéball
+                    if (form > 17) // Fancy & Pokéball
                     {
                         if (!(EncounterMatch is MysteryGift))
                             return GetInvalid(LFormVivillonInvalid);
                         return GetValid(LFormVivillon);
                     }
-                    if (!Legal.CheckVivillonPattern(pkm.AltForm, (byte)pkm.Country, (byte)pkm.Region))
+                    if (!Legal.CheckVivillonPattern(form, (byte)pkm.Country, (byte)pkm.Region))
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
 
-                case (int)Species.Floette when pkm.AltForm == 5: // Floette Eternal Flower -- Never Released
+                case (int)Species.Floette when form == 5: // Floette Eternal Flower -- Never Released
                     if (!(EncounterMatch is MysteryGift))
                         return GetInvalid(LFormEternalInvalid);
                     return GetValid(LFormEternal);
-                case (int)Species.Meowstic when pkm.AltForm != pkm.Gender:
+                case (int)Species.Meowstic when form != pkm.Gender:
                     return GetInvalid(LGenderInvalidNone);
 
                 case (int)Species.Silvally:
                     {
-                        int form = GetSilvallyFormFromHeldItem(pkm.HeldItem);
-                        return form != pkm.AltForm ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
+                        int silvally = GetSilvallyFormFromHeldItem(pkm.HeldItem);
+                        return silvally != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
 
-                case (int)Species.Lillipup when Info.EncounterMatch.EggEncounter && pkm.AltForm == 1 && pkm.SM:
-                case (int)Species.Lycanroc when Info.EncounterMatch.EggEncounter && pkm.AltForm == 2 && pkm.SM:
+                case (int)Species.Lillipup when Info.EncounterMatch.EggEncounter && form == 1 && pkm.SM:
+                case (int)Species.Lycanroc when Info.EncounterMatch.EggEncounter && form == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
                 // Impossible Egg forms
-                case (int)Species.Rotom when pkm.IsEgg && pkm.AltForm != 0:
-                case (int)Species.Furfrou when pkm.IsEgg && pkm.AltForm != 0:
+                case (int)Species.Rotom when pkm.IsEgg && form != 0:
+                case (int)Species.Furfrou when pkm.IsEgg && form != 0:
                     return GetInvalid(LEggSpecies);
 
                 // Party Only Forms
                 case (int)Species.Shaymin:
                 case (int)Species.Furfrou:
                 case (int)Species.Hoopa:
-                    if (pkm.AltForm != 0 && pkm.Box > -1 && pkm.Format <= 6) // has form but stored in box
+                    if (form != 0 && pkm.Box > -1 && pkm.Format <= 6) // has form but stored in box
                         return GetInvalid(LFormParty);
                     break;
 
                 // Battle only Forms with other legal forms allowed
-                case (int)Species.Zygarde when pkm.AltForm >= 4: // Zygarde Complete
-                case (int)Species.Minior when pkm.AltForm < 7: // Minior Shield
-                case (int)Species.Necrozma when pkm.AltForm == 3: // Ultra Necrozma
+                case (int)Species.Zygarde when form >= 4: // Zygarde Complete
+                case (int)Species.Minior when form < 7: // Minior Shield
+                case (int)Species.Necrozma when form == 3: // Ultra Necrozma
                     return GetInvalid(LFormBattle);
-                case (int)Species.Necrozma when pkm.AltForm < 3: // Necrozma Fused forms & default
-                case (int)Species.Mimikyu when pkm.AltForm == 2: // Totem disguise Mimikyu
+                case (int)Species.Necrozma when form < 3: // Necrozma Fused forms & default
+                case (int)Species.Mimikyu when form == 2: // Totem disguise Mimikyu
                     return VALID;
             }
 
-            if (pkm.Format >= 7 && Info.Generation < 7 && pkm.AltForm != 0)
+            if (form == 0)
+                return VALID;
+
+            // everything below here is currently an altform
+            var format = pkm.Format;
+            if (format >= 7 && Info.Generation < 7)
             {
-                if (pkm.Species == 25 || Legal.AlolanOriginForms.Contains(pkm.Species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
+                if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
                     return GetInvalid(LFormInvalidGame);
             }
-            if (pkm.Format >= 8 && Info.Generation < 8 && pkm.AltForm != 0)
+            if (format >= 8 && Info.Generation < 8)
             {
-                if (pkm.Species == 25 || Legal.GalarOriginForms.Contains(pkm.Species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
+                if (species == 25 || Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
                     return GetInvalid(LFormInvalidGame);
             }
 
-            if (pkm.AltForm != 0 && BattleOnly.Contains(pkm.Species))
+            if (BattleOnly.Contains(species))
             {
-                if (pkm.Species == (int) Species.Darmanitan && pkm.AltForm == 2 && pkm.Format >= 8)
+                if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
                 {
                     // this one is OK, Galarian non-Zen
                 }
