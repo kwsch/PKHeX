@@ -279,7 +279,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC);
+        private static bool LearnMovesNew2Disallowed(this PKM pkm) => pkm.Format == 1 || (pkm.Format >= 7 && pkm.VC1);
 
         internal static List<int> GetMovesLevelUp1(int species, int form, int max, int min, GameVersion ver = Any)
         {

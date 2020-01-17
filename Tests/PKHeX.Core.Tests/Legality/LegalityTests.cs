@@ -48,7 +48,7 @@ namespace PKHeX.Tests.Legality
                 PKX.IsPKM(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
 
                 var data = File.ReadAllBytes(file);
-                var format = PKX.GetPKMFormatFromExtension(file[file.Length - 1], -1);
+                var format = PKX.GetPKMFormatFromExtension(file[^1], -1);
                 format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
 
                 ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
@@ -64,15 +64,16 @@ namespace PKHeX.Tests.Legality
                     continue;
                 }
 
+                var fn = Path.Combine(fi.Directory.Name, fi.Name);
                 if (isValid)
-                {
-                    legality.Valid.Should().BeTrue($"because the file '{fi.Directory.Name}\\{fi.Name}' should be Valid");
-                }
-                else
                 {
                     var invalid = legality.Results.Where(z => !z.Valid);
                     var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
-                    legality.Valid.Should().BeTrue($"because the file '{fi.Directory.Name}\\{fi.Name}' should be invalid, but found:{Environment.NewLine}{msg}");
+                    legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
+                }
+                else
+                {
+                    legality.Valid.Should().BeFalse($"because the file '{fn}' should be invalid, but found Valid.");
                 }
             }
             ctr.Should().BeGreaterThan(0);

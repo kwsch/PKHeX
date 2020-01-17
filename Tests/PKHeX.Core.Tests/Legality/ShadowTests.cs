@@ -155,7 +155,7 @@ namespace PKHeX.Tests.Legality.Shadow
             for (int i = 0; i < results.Count; i++)
             {
                 var result = results[i];
-                var seeds = getSeeds(result[result.Length - 1]);
+                var seeds = getSeeds(result[^1]);
                 bool match = false;
                 foreach (var seed in seeds)
                 {

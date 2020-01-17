@@ -105,14 +105,27 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks the input <see cref="PKM"/> data for legality.
+        /// Checks the input <see cref="PKM"/> data for legality. This is the best method for checking with context, as some games do not have all Alternate Form data available.
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable? table = null)
+        public LegalityAnalysis(PKM pk, PersonalTable table) : this(pk, table.GetFormeEntry(pk.Species, pk.AltForm)) { }
+
+        /// <summary>
+        /// Checks the input <see cref="PKM"/> data for legality.
+        /// </summary>
+        /// <param name="pk">Input data to check</param>
+        public LegalityAnalysis(PKM pk) : this(pk, pk.PersonalInfo) { }
+
+        /// <summary>
+        /// Checks the input <see cref="PKM"/> data for legality.
+        /// </summary>
+        /// <param name="pk">Input data to check</param>
+        /// <param name="pi">Personal info to parse with</param>
+        public LegalityAnalysis(PKM pk, PersonalInfo pi)
         {
             pkm = pk;
-            PersonalInfo = table?.GetFormeEntry(pkm.Species, pkm.AltForm) ?? pkm.PersonalInfo;
+            PersonalInfo = pi;
 
             if (pkm.Format <= 2) // prior to storing GameVersion
                 pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
