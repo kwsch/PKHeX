@@ -703,8 +703,8 @@ namespace PKHeX.Core
 
                 // Darmanitan
                 case (int)Core.Species.Darmanitan:
-                    if (form == "Zen-Galar")
-                        return "Zen Galar";
+                    if (form == "Galar-Zen")
+                        return "Galar Zen";
                     return form;
 
                 default:

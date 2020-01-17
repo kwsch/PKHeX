@@ -262,7 +262,7 @@ namespace PKHeX.Core
                         forms[555], // Standard
                         forms[943], // Zen
                         forms[Galarian], // Standard
-                        forms[943] + " " + forms[Galarian], // Zen
+                        forms[Galarian] + " " + forms[943], // Zen
                     };
                 }
 
