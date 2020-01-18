@@ -201,31 +201,6 @@ namespace PKHeX.Core
             return block;
         }
 
-        private static int GetArrayEntrySize(SCTypeCode type)
-        {
-            switch (type)
-            {
-                case SCTypeCode.Common3:
-                case SCTypeCode.Byte:
-                case SCTypeCode.SByte:
-                    return 1;
-                case SCTypeCode.UInt16:
-                case SCTypeCode.Int16:
-                    return 2;
-                case SCTypeCode.UInt32:
-                case SCTypeCode.Int32:
-                case SCTypeCode.Single:
-                    return 4;
-                case SCTypeCode.UInt64:
-                case SCTypeCode.Int64:
-                case SCTypeCode.Double:
-                    return 8;
-
-                default:
-                    throw new ArgumentException(nameof(type));
-            }
-        }
-
         private static void XorshiftAdvance(ref uint key)
         {
             key ^= (key << 2);
@@ -346,7 +321,8 @@ namespace PKHeX.Core
             }
             else if (Type == SCTypeCode.Array)
             {
-                BitConverter.GetBytes(Data.Length / GetArrayEntrySize(SubType)).CopyTo(result, out_ofs);
+                var size = SubType.GetTypeSize();
+                BitConverter.GetBytes(Data.Length / size).CopyTo(result, out_ofs);
                 result[out_ofs + 4] = (byte)SubType;
                 out_ofs += 5;
             }
@@ -410,7 +386,7 @@ namespace PKHeX.Core
                         case SCTypeCode.Int64:
                         case SCTypeCode.Single:
                         case SCTypeCode.Double:
-                            var entry_size = GetArrayEntrySize(block.SubType);
+                            var entry_size = block.SubType.GetTypeSize();
                             block.Data = block.CryptBytes(data, offset, 6, num_entries * entry_size);
                             offset += 6 + (num_entries * entry_size);
                             break;
@@ -431,7 +407,7 @@ namespace PKHeX.Core
                 case SCTypeCode.Single:
                 case SCTypeCode.Double:
                     {
-                        var entry_size = GetArrayEntrySize(block.Type);
+                        var entry_size = block.Type.GetTypeSize();
                         block.Data = block.CryptBytes(data, offset, 1, entry_size);
                         offset += 1 + entry_size;
                         break;
@@ -475,6 +451,29 @@ namespace PKHeX.Core
 
     public static class SCTypeCodeExtensions
     {
+        public static int GetTypeSize(this SCTypeCode type)
+        {
+            return type switch
+            {
+                SCTypeCode.Common3 => sizeof(bool),
+
+                SCTypeCode.Byte => sizeof(byte),
+                SCTypeCode.UInt16 => sizeof(ushort),
+                SCTypeCode.UInt32 => sizeof(uint),
+                SCTypeCode.UInt64 => sizeof(ulong),
+
+                SCTypeCode.SByte => sizeof(sbyte),
+                SCTypeCode.Int16 => sizeof(short),
+                SCTypeCode.Int32 => sizeof(int),
+                SCTypeCode.Int64 => sizeof(long),
+
+                SCTypeCode.Single => sizeof(float),
+                SCTypeCode.Double => sizeof(double),
+
+                _ => throw new ArgumentException(nameof(type))
+            };
+        }
+
         public static Type GetType(this SCTypeCode type)
         {
             return type switch
