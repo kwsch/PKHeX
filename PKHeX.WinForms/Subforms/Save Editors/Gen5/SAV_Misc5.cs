@@ -22,6 +22,9 @@ namespace PKHeX.WinForms
                 ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);
             LoadForest();
+            if (SAV is SAV5BW) // TODO B2W2
+                ReadSubway();
+            else TC_Misc.Controls.Remove(TAB_Subway);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -35,10 +38,12 @@ namespace PKHeX.WinForms
             if (SAV is SAV5B2W2)
                 SaveEntralink();
             SaveForest();
+            if (SAV is SAV5BW) // TODO B2W2
+                SaveSubway();
             Origin.CopyChangesFrom(SAV);
             Close();
         }
-
+        
         private ComboBox[] cbr;
         private int ofsFly;
         private int[] FlyDestC;
@@ -712,5 +717,117 @@ namespace PKHeX.WinForms
             var list = FormConverter.GetFormList(slot.Species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             CB_Form.DataSource = new BindingSource(list, null);
         }
+
+        // Subway
+        private BattleSubway5 sw;
+
+        private void ReadSubway()
+        {
+            sw = SAV.BattleSubway;
+            int swSuperCheck;
+
+            // Figure out the Super Checks
+            swSuperCheck = sw.SuperCheck;
+            if (swSuperCheck == 0x00)
+            {
+                CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = false;
+            }
+            else if (swSuperCheck >= 0x70) // 0x70 or anything else means all super enabled
+            {
+                CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = true;
+            }
+            else
+            {
+                if (swSuperCheck == 0x10 || swSuperCheck == 0x30 || swSuperCheck == 0x50)
+                {
+                    CHK_SuperSingle.Checked = true;
+                }
+                if (swSuperCheck == 0x20 || swSuperCheck == 0x30 || swSuperCheck == 0x60)
+                {
+                    CHK_SuperDouble.Checked = true;
+                }
+                if (swSuperCheck == 0x40 || swSuperCheck == 0x50 || swSuperCheck == 0x60)
+                {
+                    CHK_SuperMulti.Checked = true;
+                }
+            }
+
+            // Normal
+            // Single
+            NUD_SinglePast.Value = sw.SinglePast;
+            NUD_SingleRecord.Value = sw.SingleRecord;
+
+            // Double
+            NUD_DoublePast.Value = sw.DoublePast;
+            NUD_DoubleRecord.Value = sw.DoubleRecord;
+
+            // Multi NPC
+            NUD_MultiNpcPast.Value = sw.MultiNPCPast;
+            NUD_MultiNpcRecord.Value = sw.MultiNPCRecord;
+
+            // Multi Friends
+            NUD_MultiFriendsPast.Value = sw.MultiFriendsPast;
+            NUD_MultiFriendsRecord.Value = sw.MultiFriendsRecord;
+
+            // Super
+            // Single
+            NUD_SSinglePast.Value = sw.SuperSinglePast;
+            NUD_SSingleRecord.Value = sw.SuperSingleRecord;
+
+            // Double
+            NUD_SDoublePast.Value = sw.SuperDoublePast;
+            NUD_SDoubleRecord.Value = sw.SuperDoubleRecord;
+
+            // Multi NPC
+            NUD_SMultiNpcPast.Value = sw.SuperMultiNPCPast;
+            NUD_SMultiNpcRecord.Value = sw.SuperMultiNPCRecord;
+
+            // Multi Friends
+            NUD_SMultiFriendsPast.Value = sw.SuperMultiFriendsPast;
+            NUD_SMultiFriendsRecord.Value = sw.SuperMultiFriendsRecord;
+
+        }
+
+        private void SaveSubway()
+        {
+            // Save Super Checks
+            sw.SuperCheck = ((CHK_SuperSingle.Checked ? 0x10 : 0x00) + (CHK_SuperDouble.Checked ? 0x20 : 0x00) + (CHK_SuperMulti.Checked ? 0x40 : 0x00));
+
+            // Normal
+            // Single
+            sw.SinglePast = (int)NUD_SinglePast.Value;
+            sw.SingleRecord = (int)NUD_SingleRecord.Value;
+
+            // Double
+            sw.DoublePast = (int)NUD_DoublePast.Value;
+            sw.DoubleRecord = (int)NUD_DoubleRecord.Value;
+
+            // Multi NPC
+            sw.MultiNPCPast = (int)NUD_MultiNpcPast.Value;
+            sw.MultiNPCRecord = (int)NUD_MultiNpcRecord.Value;
+
+            // Multi Friends
+            sw.MultiFriendsPast = (int)NUD_MultiFriendsPast.Value;
+            sw.MultiFriendsRecord = (int)NUD_MultiFriendsRecord.Value;
+
+            // Super
+            // Single
+            sw.SuperSinglePast = (int)NUD_SSinglePast.Value;
+            sw.SuperSingleRecord = (int)NUD_SSingleRecord.Value;
+
+            // Double
+            sw.SuperDoublePast = (int)NUD_SDoublePast.Value;
+            sw.SuperDoubleRecord = (int)NUD_SDoubleRecord.Value;
+
+            // Multi NPC
+            sw.SuperMultiNPCPast = (int)NUD_SMultiNpcPast.Value;
+            sw.SuperMultiNPCRecord = (int)NUD_SMultiNpcRecord.Value;
+
+            // Multi Friends
+            sw.SuperMultiFriendsPast = (int)NUD_SMultiFriendsPast.Value;
+            sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
+
+        }
+
     }
 }
