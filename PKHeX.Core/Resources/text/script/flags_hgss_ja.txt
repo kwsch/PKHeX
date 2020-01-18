@@ -19,4 +19,4 @@
 0766	Bulbasaur Starter Ball Disappeared
 0767	Squirtle Starter Ball Disappeared
 0768	Charmander Starter Ball Disappeared
-0789	Trading Functionality Enabled (Pokecenter)
+0789	Trading Functionality Disabled (Pokecenter)
