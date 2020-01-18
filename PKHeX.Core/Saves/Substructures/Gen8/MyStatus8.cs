@@ -132,7 +132,11 @@ namespace PKHeX.Core
         public int Language
         {
             get => Data[Offset + 0xA7];
-            set => Data[Offset + 0xA7] = (byte)value;
+            set
+            {
+                Data[Offset + 0xA7] = (byte) value;
+                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessorSWSH.KGameLanguage, (uint)value);
+            }
         }
 
         public string OT

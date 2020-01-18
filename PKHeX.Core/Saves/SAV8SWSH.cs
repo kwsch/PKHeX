@@ -51,6 +51,8 @@ namespace PKHeX.Core
 
         #region Blocks
         public SaveBlockAccessorSWSH Blocks { get; }
+        public T GetValue<T>(uint key) where T : struct => Blocks.GetBlockValue<T>(key);
+        public void SetValue<T>(uint key, T value) where T : struct => Blocks.SetBlockValue<T>(key, value);
         public override Box8 BoxInfo => Blocks.BoxInfo;
         public override Party8 PartyInfo => Blocks.PartyInfo;
         public override MyItem Items => Blocks.Items;
