@@ -129,6 +129,16 @@
             this.L_CurrentMap = new System.Windows.Forms.Label();
             this.L_Z = new System.Windows.Forms.Label();
             this.L_X = new System.Windows.Forms.Label();
+            this.Tab_MiscValues = new System.Windows.Forms.TabPage();
+            this.GB_BattleTower = new System.Windows.Forms.GroupBox();
+            this.L_Singles = new System.Windows.Forms.Label();
+            this.MT_BattleTowerSinglesWin = new System.Windows.Forms.MaskedTextBox();
+            this.L_BattleTowerWins = new System.Windows.Forms.Label();
+            this.L_BattleTowerStreak = new System.Windows.Forms.Label();
+            this.MT_BattleTowerSinglesStreak = new System.Windows.Forms.MaskedTextBox();
+            this.MT_BattleTowerDoublesStreak = new System.Windows.Forms.MaskedTextBox();
+            this.L_Doubles = new System.Windows.Forms.Label();
+            this.MT_BattleTowerDoublesWin = new System.Windows.Forms.MaskedTextBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -141,6 +151,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
+            this.Tab_MiscValues.SuspendLayout();
+            this.GB_BattleTower.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -647,6 +659,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_Editor.Controls.Add(this.Tab_Overview);
             this.TC_Editor.Controls.Add(this.Tab_BadgeMap);
+            this.TC_Editor.Controls.Add(this.Tab_MiscValues);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
@@ -698,7 +711,7 @@
             // MT_RotoRally
             // 
             this.MT_RotoRally.Location = new System.Drawing.Point(331, 100);
-            this.MT_RotoRally.Mask = "000000";
+            this.MT_RotoRally.Mask = "00000";
             this.MT_RotoRally.Name = "MT_RotoRally";
             this.MT_RotoRally.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.MT_RotoRally.Size = new System.Drawing.Size(43, 20);
@@ -1118,6 +1131,110 @@
             this.L_X.Text = "X Coordinate:";
             this.L_X.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // Tab_MiscValues
+            // 
+            this.Tab_MiscValues.Controls.Add(this.GB_BattleTower);
+            this.Tab_MiscValues.Location = new System.Drawing.Point(4, 22);
+            this.Tab_MiscValues.Name = "Tab_MiscValues";
+            this.Tab_MiscValues.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_MiscValues.Size = new System.Drawing.Size(430, 287);
+            this.Tab_MiscValues.TabIndex = 4;
+            this.Tab_MiscValues.Text = "Misc";
+            this.Tab_MiscValues.UseVisualStyleBackColor = true;
+            // 
+            // GB_BattleTower
+            // 
+            this.GB_BattleTower.Controls.Add(this.MT_BattleTowerDoublesStreak);
+            this.GB_BattleTower.Controls.Add(this.L_Doubles);
+            this.GB_BattleTower.Controls.Add(this.MT_BattleTowerDoublesWin);
+            this.GB_BattleTower.Controls.Add(this.L_BattleTowerStreak);
+            this.GB_BattleTower.Controls.Add(this.MT_BattleTowerSinglesStreak);
+            this.GB_BattleTower.Controls.Add(this.L_BattleTowerWins);
+            this.GB_BattleTower.Controls.Add(this.L_Singles);
+            this.GB_BattleTower.Controls.Add(this.MT_BattleTowerSinglesWin);
+            this.GB_BattleTower.Location = new System.Drawing.Point(6, 6);
+            this.GB_BattleTower.Name = "GB_BattleTower";
+            this.GB_BattleTower.Size = new System.Drawing.Size(195, 94);
+            this.GB_BattleTower.TabIndex = 0;
+            this.GB_BattleTower.TabStop = false;
+            this.GB_BattleTower.Text = "Battle Tower";
+            // 
+            // L_Singles
+            // 
+            this.L_Singles.Location = new System.Drawing.Point(6, 34);
+            this.L_Singles.Name = "L_Singles";
+            this.L_Singles.Size = new System.Drawing.Size(76, 20);
+            this.L_Singles.TabIndex = 77;
+            this.L_Singles.Text = "Singles:";
+            this.L_Singles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_BattleTowerSinglesWin
+            // 
+            this.MT_BattleTowerSinglesWin.Location = new System.Drawing.Point(88, 34);
+            this.MT_BattleTowerSinglesWin.Mask = "000000";
+            this.MT_BattleTowerSinglesWin.Name = "MT_BattleTowerSinglesWin";
+            this.MT_BattleTowerSinglesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerSinglesWin.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerSinglesWin.TabIndex = 76;
+            this.MT_BattleTowerSinglesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_BattleTowerWins
+            // 
+            this.L_BattleTowerWins.Location = new System.Drawing.Point(85, 11);
+            this.L_BattleTowerWins.Name = "L_BattleTowerWins";
+            this.L_BattleTowerWins.Size = new System.Drawing.Size(46, 20);
+            this.L_BattleTowerWins.TabIndex = 78;
+            this.L_BattleTowerWins.Text = "Wins";
+            this.L_BattleTowerWins.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // L_BattleTowerStreak
+            // 
+            this.L_BattleTowerStreak.Location = new System.Drawing.Point(134, 12);
+            this.L_BattleTowerStreak.Name = "L_BattleTowerStreak";
+            this.L_BattleTowerStreak.Size = new System.Drawing.Size(46, 20);
+            this.L_BattleTowerStreak.TabIndex = 80;
+            this.L_BattleTowerStreak.Text = "Streak";
+            this.L_BattleTowerStreak.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // MT_BattleTowerSinglesStreak
+            // 
+            this.MT_BattleTowerSinglesStreak.Location = new System.Drawing.Point(137, 35);
+            this.MT_BattleTowerSinglesStreak.Mask = "000";
+            this.MT_BattleTowerSinglesStreak.Name = "MT_BattleTowerSinglesStreak";
+            this.MT_BattleTowerSinglesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerSinglesStreak.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerSinglesStreak.TabIndex = 79;
+            this.MT_BattleTowerSinglesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // MT_BattleTowerDoublesStreak
+            // 
+            this.MT_BattleTowerDoublesStreak.Location = new System.Drawing.Point(137, 61);
+            this.MT_BattleTowerDoublesStreak.Mask = "000";
+            this.MT_BattleTowerDoublesStreak.Name = "MT_BattleTowerDoublesStreak";
+            this.MT_BattleTowerDoublesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerDoublesStreak.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerDoublesStreak.TabIndex = 83;
+            this.MT_BattleTowerDoublesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_Doubles
+            // 
+            this.L_Doubles.Location = new System.Drawing.Point(6, 60);
+            this.L_Doubles.Name = "L_Doubles";
+            this.L_Doubles.Size = new System.Drawing.Size(76, 20);
+            this.L_Doubles.TabIndex = 82;
+            this.L_Doubles.Text = "Doubles:";
+            this.L_Doubles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_BattleTowerDoublesWin
+            // 
+            this.MT_BattleTowerDoublesWin.Location = new System.Drawing.Point(88, 60);
+            this.MT_BattleTowerDoublesWin.Mask = "000000";
+            this.MT_BattleTowerDoublesWin.Name = "MT_BattleTowerDoublesWin";
+            this.MT_BattleTowerDoublesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerDoublesWin.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerDoublesWin.TabIndex = 81;
+            this.MT_BattleTowerDoublesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // SAV_Trainer8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1147,6 +1264,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_M)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Y)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).EndInit();
+            this.Tab_MiscValues.ResumeLayout(false);
+            this.GB_BattleTower.ResumeLayout(false);
+            this.GB_BattleTower.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1254,5 +1374,15 @@
         private System.Windows.Forms.Button B_MaxWatt;
         private System.Windows.Forms.Label L_RotoRally;
         private System.Windows.Forms.MaskedTextBox MT_RotoRally;
+        private System.Windows.Forms.TabPage Tab_MiscValues;
+        private System.Windows.Forms.GroupBox GB_BattleTower;
+        private System.Windows.Forms.MaskedTextBox MT_BattleTowerDoublesStreak;
+        private System.Windows.Forms.Label L_Doubles;
+        private System.Windows.Forms.MaskedTextBox MT_BattleTowerDoublesWin;
+        private System.Windows.Forms.Label L_BattleTowerStreak;
+        private System.Windows.Forms.MaskedTextBox MT_BattleTowerSinglesStreak;
+        private System.Windows.Forms.Label L_BattleTowerWins;
+        private System.Windows.Forms.Label L_Singles;
+        private System.Windows.Forms.MaskedTextBox MT_BattleTowerSinglesWin;
     }
 }

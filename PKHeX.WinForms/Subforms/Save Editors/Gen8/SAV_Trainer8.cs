@@ -32,6 +32,7 @@ namespace PKHeX.WinForms
             NUD_BP.Value = Math.Min(SAV.Misc.BP, 9999);
             GetComboBoxes();
             GetTextBoxes();
+            GetMiscValues();
 
             TC_Editor.TabPages.Remove(Tab_BadgeMap); // needs more work
 
@@ -101,9 +102,26 @@ namespace PKHeX.WinForms
             // CAL_HoFTime.Value = time;
         }
 
+        private void GetMiscValues()
+        {
+            MT_BattleTowerSinglesWin.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesVictory).ToString();
+            MT_BattleTowerDoublesWin.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesVictory).ToString();
+            MT_BattleTowerSinglesStreak.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesStreak).ToString();
+            MT_BattleTowerDoublesStreak.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesStreak).ToString();
+        }
+
+        private void SaveMiscValues()
+        {
+            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesVictory, Math.Min(999_999u, Util.ToUInt32(MT_BattleTowerSinglesWin.Text)));
+            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesVictory, Math.Min(999_999u, Util.ToUInt32(MT_BattleTowerDoublesWin.Text)));
+            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesStreak, (ushort)Math.Min(255, Util.ToUInt32(MT_BattleTowerSinglesStreak.Text)));
+            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesStreak, (ushort)Math.Min(255, Util.ToUInt32(MT_BattleTowerDoublesStreak.Text)));
+        }
+
         private void Save()
         {
             SaveTrainerInfo();
+            SaveMiscValues();
         }
 
         private void SaveTrainerInfo()

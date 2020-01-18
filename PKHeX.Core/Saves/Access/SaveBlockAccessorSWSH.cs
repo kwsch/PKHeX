@@ -70,8 +70,8 @@ namespace PKHeX.Core
         public const int KBattleTowerDoublesVictory = 0x0D477836; // U32 Doubles victories (9,999,999 cap)
         public const int KBattleTowerSinglesStreak = 0x6226F5AD; // U16 Singles Streak (255 cap)
         public const int KBattleTowerDoublesStreak = 0x5F74FCEE; // U16 Doubles Streak (255 cap)
-        public T GetBlockValue<T>(uint key) where T : struct => (T)GetBlock(key).GetValue();
-        public void SetBlockValue<T>(uint key, T value) where T : struct => GetBlock(key).SetValue(value);
+        public object GetBlockValue(uint key) => GetBlock(key).GetValue();
+        public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
 
         // Rather than storing a dictionary of keys, we can abuse the fact that the SCBlock[] is stored in order of ascending block key.
         // Binary Search doesn't require extra memory like a Dictionary would; also, we only need to find a few blocks.

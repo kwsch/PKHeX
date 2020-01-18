@@ -31,7 +31,7 @@ namespace PKHeX.Core
                 var data = BitConverter.GetBytes(value);
                 SAV.SetData(Data, data, 0x28);
                 // set to the other block since it doesn't have an accessor
-                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessorSWSH.KRotoRally, value);
+                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessorSWSH.KRotoRally, (uint)value);
             }
         }
 
