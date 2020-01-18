@@ -19,11 +19,15 @@ namespace PKHeX.Core
             set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
         }
 
+        public const int RotoRallyScoreMax = 99_999;
+
         public int RotoRallyScore
         {
             get => BitConverter.ToInt32(Data, 0x28);
             set
             {
+                if (value > RotoRallyScoreMax)
+                    value = RotoRallyScoreMax;
                 var data = BitConverter.GetBytes(value);
                 SAV.SetData(Data, data, 0x28);
                 // set to the other block since it doesn't have an accessor
