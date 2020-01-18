@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)sav;
 
-            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000}", (int)z.Key));
+            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000} {z.Type}", (int)z.Key));
             CB_Key.InitializeBinding();
             CB_Key.DataSource = blocks.ToArray();
         }
@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
         private static void ExportAllBlocks(IEnumerable<SCBlock> blocks, string path)
         {
             foreach (var b in blocks.Where(z => z.Data.Length != 0))
-                File.WriteAllBytes(Path.Combine(path, $"{b.Key:X8}.bin"), b.Data);
+                File.WriteAllBytes(Path.Combine(path, $"{GetBlockFileNameWithoutExtension(b)}.bin"), b.Data);
         }
 
         private void B_ImportFolder_Click(object sender, EventArgs e)
@@ -75,8 +75,8 @@ namespace PKHeX.WinForms
 
         private static void ExportSelectBlock(SCBlock block)
         {
-            var key = block.Key;
-            using var sfd = new SaveFileDialog {FileName = $"{key:X8}.bin"};
+            var name = GetBlockFileNameWithoutExtension(block);
+            using var sfd = new SaveFileDialog {FileName = $"{name}.bin"};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
             File.WriteAllBytes(sfd.FileName, block.Data);
@@ -131,14 +131,28 @@ namespace PKHeX.WinForms
             File.WriteAllBytes(path, data);
         }
 
+        private static string GetBlockFileNameWithoutExtension(SCBlock block)
+        {
+            var key = block.Key;
+            var name = $"{key:X8}";
+            if (block.HasValue())
+                name += $" {block.GetValue()}";
+            return name;
+        }
+
         private static string GetBlockSummary(SCBlock b)
         {
             var sb = new StringBuilder();
-            sb
-                .Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine()
-                .Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine()
-                .Append("Type: ").Append(b.Type).AppendLine()
-                .Append("SubType: ").Append(b.SubType).AppendLine();
+            sb.Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine();
+            sb.Append("Type: ").Append(b.Type).AppendLine();
+            if (b.Data.Length != 0)
+                sb.Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine();
+
+            if (b.SubType != 0)
+                sb.Append("SubType: ").Append(b.SubType).AppendLine();
+            else if (b.HasValue())
+                sb.Append("Value: ").Append(b.GetValue()).AppendLine();
+
             return sb.ToString();
         }
 
@@ -149,6 +163,12 @@ namespace PKHeX.WinForms
             foreach (var f in files)
             {
                 var fn = Path.GetFileNameWithoutExtension(f);
+
+                // Trim off Value summary if present
+                var space = fn.IndexOf(' ');
+                if (space >= 0)
+                    fn = fn.Substring(0, space);
+
                 var hex = Util.GetHexValue(fn);
                 try
                 {

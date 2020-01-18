@@ -399,10 +399,11 @@
             // 
             this.CB_Key.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Key.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_Key.FormattingEnabled = true;
             this.CB_Key.Location = new System.Drawing.Point(89, 12);
             this.CB_Key.Name = "CB_Key";
-            this.CB_Key.Size = new System.Drawing.Size(121, 21);
+            this.CB_Key.Size = new System.Drawing.Size(183, 22);
             this.CB_Key.TabIndex = 0;
             this.CB_Key.SelectedIndexChanged += new System.EventHandler(this.CB_Key_SelectedIndexChanged);
             // 
