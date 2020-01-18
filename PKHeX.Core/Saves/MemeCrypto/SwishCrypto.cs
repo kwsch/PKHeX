@@ -174,12 +174,12 @@ namespace PKHeX.Core
         /// <summary>
         /// What kind of block is it?
         /// </summary>
-        public SCBlockType Type { get; set; }
+        public SCTypeCode Type { get; set; }
 
         /// <summary>
-        /// For <see cref="SCBlockType.Array"/>: What kind of array is it?
+        /// For <see cref="SCTypeCode.Array"/>: What kind of array is it?
         /// </summary>
-        public SCBlockType SubType { get; set; }
+        public SCTypeCode SubType { get; set; }
 
         /// <summary>
         /// Decrypted data for this block.
@@ -190,6 +190,10 @@ namespace PKHeX.Core
         protected override bool ChecksumValid(byte[] data) => true;
         protected override void SetChecksum(byte[] data) { }
 
+        public bool HasValue() => Type > SCTypeCode.Array;
+        public object GetValue() => Type.GetValue(Data);
+        public void SetValue(object value) => Type.SetValue(Data, value);
+
         public SCBlock Clone()
         {
             var block = (SCBlock)MemberwiseClone();
@@ -197,24 +201,24 @@ namespace PKHeX.Core
             return block;
         }
 
-        private static int GetArrayEntrySize(SCBlockType type)
+        private static int GetArrayEntrySize(SCTypeCode type)
         {
             switch (type)
             {
-                case SCBlockType.Common3:
-                case SCBlockType.Single1:
-                case SCBlockType.Single5:
+                case SCTypeCode.Common3:
+                case SCTypeCode.Byte:
+                case SCTypeCode.SByte:
                     return 1;
-                case SCBlockType.Single2:
-                case SCBlockType.Single6:
+                case SCTypeCode.UInt16:
+                case SCTypeCode.Int16:
                     return 2;
-                case SCBlockType.Single3:
-                case SCBlockType.Single7:
-                case SCBlockType.Single9:
+                case SCTypeCode.UInt32:
+                case SCTypeCode.Int32:
+                case SCTypeCode.Single:
                     return 4;
-                case SCBlockType.Single4:
-                case SCBlockType.Single8:
-                case SCBlockType.Single10:
+                case SCTypeCode.UInt64:
+                case SCTypeCode.Int64:
+                case SCTypeCode.Double:
                     return 8;
 
                 default:
@@ -300,24 +304,24 @@ namespace PKHeX.Core
             const int size = 4 + 1; // key + type
             switch (Type)
             {
-                case SCBlockType.Common1:
-                case SCBlockType.Common2:
-                case SCBlockType.Common3:
+                case SCTypeCode.Common1:
+                case SCTypeCode.Common2:
+                case SCTypeCode.Common3:
                     return size;
-                case SCBlockType.Data:
+                case SCTypeCode.Object:
                     return size + 4 + Data.Length;
-                case SCBlockType.Array:
+                case SCTypeCode.Array:
                     return size + 5 + Data.Length;
-                case SCBlockType.Single1:
-                case SCBlockType.Single2:
-                case SCBlockType.Single3:
-                case SCBlockType.Single4:
-                case SCBlockType.Single5:
-                case SCBlockType.Single6:
-                case SCBlockType.Single7:
-                case SCBlockType.Single8:
-                case SCBlockType.Single9:
-                case SCBlockType.Single10:
+                case SCTypeCode.Byte:
+                case SCTypeCode.UInt16:
+                case SCTypeCode.UInt32:
+                case SCTypeCode.UInt64:
+                case SCTypeCode.SByte:
+                case SCTypeCode.Int16:
+                case SCTypeCode.Int32:
+                case SCTypeCode.Int64:
+                case SCTypeCode.Single:
+                case SCTypeCode.Double:
                     return size + Data.Length;
                 default:
                     throw new ArgumentException(nameof(Type));
@@ -335,12 +339,12 @@ namespace PKHeX.Core
             result[4] = (byte)Type;
             var out_ofs = 5;
 
-            if (Type == SCBlockType.Data)
+            if (Type == SCTypeCode.Object)
             {
                 BitConverter.GetBytes(Data.Length).CopyTo(result, out_ofs);
                 out_ofs += 4;
             }
-            else if (Type == SCBlockType.Array)
+            else if (Type == SCTypeCode.Array)
             {
                 BitConverter.GetBytes(Data.Length / GetArrayEntrySize(SubType)).CopyTo(result, out_ofs);
                 result[out_ofs + 4] = (byte)SubType;
@@ -367,45 +371,45 @@ namespace PKHeX.Core
             var block = new SCBlock(key);
 
             // Parse the block's type
-            block.Type = (SCBlockType)block.CryptBytes(data, offset, 0, 1)[0];
+            block.Type = (SCTypeCode)block.CryptBytes(data, offset, 0, 1)[0];
 
             switch (block.Type)
             {
-                case SCBlockType.Common1:
-                case SCBlockType.Common2:
-                case SCBlockType.Common3:
-                    // Block types A, B, Common are empty, and have no extra data.
+                case SCTypeCode.Common1:
+                case SCTypeCode.Common2:
+                case SCTypeCode.Common3:
+                    // Block types are empty, and have no extra data.
                     offset++;
                     break;
 
-                case SCBlockType.Data:
+                case SCTypeCode.Object:
                     var num_bytes = BitConverter.ToInt32(block.CryptBytes(data, offset, 1, 4), 0);
                     block.Data = block.CryptBytes(data, offset, 5, num_bytes);
                     offset += 5 + num_bytes;
                     break;
 
-                case SCBlockType.Array:
+                case SCTypeCode.Array:
                     var num_entries = BitConverter.ToInt32(block.CryptBytes(data, offset, 1, 4), 0);
-                    block.SubType = (SCBlockType)block.CryptBytes(data, offset, 5, 1)[0];
+                    block.SubType = (SCTypeCode)block.CryptBytes(data, offset, 5, 1)[0];
                     switch (block.SubType)
                     {
-                        case SCBlockType.Common3:
+                        case SCTypeCode.Common3:
                             // This is an array of booleans.
                             block.Data = block.CryptBytes(data, offset, 6, num_entries);
                             offset += 6 + num_entries;
                             Debug.Assert(block.Data.All(entry => entry <= 1));
                             break;
 
-                        case SCBlockType.Single1:
-                        case SCBlockType.Single2:
-                        case SCBlockType.Single3:
-                        case SCBlockType.Single4:
-                        case SCBlockType.Single5:
-                        case SCBlockType.Single6:
-                        case SCBlockType.Single7:
-                        case SCBlockType.Single8:
-                        case SCBlockType.Single9:
-                        case SCBlockType.Single10:
+                        case SCTypeCode.Byte:
+                        case SCTypeCode.UInt16:
+                        case SCTypeCode.UInt32:
+                        case SCTypeCode.UInt64:
+                        case SCTypeCode.SByte:
+                        case SCTypeCode.Int16:
+                        case SCTypeCode.Int32:
+                        case SCTypeCode.Int64:
+                        case SCTypeCode.Single:
+                        case SCTypeCode.Double:
                             var entry_size = GetArrayEntrySize(block.SubType);
                             block.Data = block.CryptBytes(data, offset, 6, num_entries * entry_size);
                             offset += 6 + (num_entries * entry_size);
@@ -416,16 +420,16 @@ namespace PKHeX.Core
                     }
                     break;
 
-                case SCBlockType.Single1:
-                case SCBlockType.Single2:
-                case SCBlockType.Single3:
-                case SCBlockType.Single4:
-                case SCBlockType.Single5:
-                case SCBlockType.Single6:
-                case SCBlockType.Single7:
-                case SCBlockType.Single8:
-                case SCBlockType.Single9:
-                case SCBlockType.Single10:
+                case SCTypeCode.Byte:
+                case SCTypeCode.UInt16:
+                case SCTypeCode.UInt32:
+                case SCTypeCode.UInt64:
+                case SCTypeCode.SByte:
+                case SCTypeCode.Int16:
+                case SCTypeCode.Int32:
+                case SCTypeCode.Int64:
+                case SCTypeCode.Single:
+                case SCTypeCode.Double:
                     {
                         var entry_size = GetArrayEntrySize(block.Type);
                         block.Data = block.CryptBytes(data, offset, 1, entry_size);
@@ -444,7 +448,7 @@ namespace PKHeX.Core
     /// Block type for a <see cref="SCBlock"/>.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1027:Mark enums with FlagsAttribute", Justification = "NOT FLAGS")]
-    public enum SCBlockType
+    public enum SCTypeCode
     {
         None = 0,
 
@@ -453,19 +457,85 @@ namespace PKHeX.Core
         Common2 = 2,
         Common3 = 3,
 
-        Data = 4,
+        Object = 4,
 
         Array = 5,
 
-        Single1 = 8,
-        Single2 = 9,
-        Single3 = 10,
-        Single4 = 11,
-        Single5 = 12,
-        Single6 = 13,
-        Single7 = 14,
-        Single8 = 15,
-        Single9 = 16,
-        Single10 = 17,
+        Byte = 8,
+        UInt16 = 9,
+        UInt32 = 10,
+        UInt64 = 11,
+        SByte = 12,
+        Int16 = 13,
+        Int32 = 14,
+        Int64 = 15,
+        Single = 16,
+        Double = 17,
+    }
+
+    public static class SCTypeCodeExtensions
+    {
+        public static Type GetType(this SCTypeCode type)
+        {
+            return type switch
+            {
+                SCTypeCode.Byte => typeof(byte),
+                SCTypeCode.UInt16 => typeof(ushort),
+                SCTypeCode.UInt32 => typeof(uint),
+                SCTypeCode.UInt64 => typeof(ulong),
+
+                SCTypeCode.SByte => typeof(sbyte),
+                SCTypeCode.Int16 => typeof(short),
+                SCTypeCode.Int32 => typeof(int),
+                SCTypeCode.Int64 => typeof(long),
+
+                SCTypeCode.Single => typeof(float),
+                SCTypeCode.Double => typeof(double),
+
+                _ => throw new ArgumentException(nameof(type)),
+            };
+        }
+
+        public static object GetValue(this SCTypeCode type, byte[] data)
+        {
+            return type switch
+            {
+                SCTypeCode.Byte => data[0],
+                SCTypeCode.UInt16 => BitConverter.ToUInt16(data, 0),
+                SCTypeCode.UInt32 => BitConverter.ToUInt32(data, 0),
+                SCTypeCode.UInt64 => BitConverter.ToUInt64(data, 0),
+
+                SCTypeCode.SByte => (sbyte)data[0],
+                SCTypeCode.Int16 => BitConverter.ToInt16(data, 0),
+                SCTypeCode.Int32 => BitConverter.ToInt32(data, 0),
+                SCTypeCode.Int64 => BitConverter.ToInt64(data, 0),
+
+                SCTypeCode.Single => BitConverter.ToSingle(data, 0),
+                SCTypeCode.Double => BitConverter.ToDouble(data, 0),
+
+                _ => throw new ArgumentException(nameof(type)),
+            };
+        }
+
+        public static void SetValue(this SCTypeCode type, byte[] data, object value)
+        {
+            switch (type)
+            {
+                case SCTypeCode.Byte: data[0] = (byte)value; break;
+                case SCTypeCode.UInt16: BitConverter.GetBytes((ushort)value).CopyTo(data, 0); break;
+                case SCTypeCode.UInt32: BitConverter.GetBytes((uint)value).CopyTo(data, 0); break;
+                case SCTypeCode.UInt64: BitConverter.GetBytes((ulong)value).CopyTo(data, 0); break;
+
+                case SCTypeCode.SByte: data[0] = (byte)value; break;
+                case SCTypeCode.Int16: BitConverter.GetBytes((short)value).CopyTo(data, 0); break;
+                case SCTypeCode.Int32: BitConverter.GetBytes((int)value).CopyTo(data, 0); break;
+                case SCTypeCode.Int64: BitConverter.GetBytes((long)value).CopyTo(data, 0); break;
+
+                case SCTypeCode.Single: BitConverter.GetBytes((float)value).CopyTo(data, 0); break;
+                case SCTypeCode.Double: BitConverter.GetBytes((double)value).CopyTo(data, 0); break;
+
+                default: throw new ArgumentException(nameof(type));
+            }
+        }
     }
 }
