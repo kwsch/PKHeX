@@ -279,9 +279,9 @@ namespace PKHeX.Core
             const int size = 4 + 1; // key + type
             switch (Type)
             {
-                case SCTypeCode.Common1:
-                case SCTypeCode.Common2:
-                case SCTypeCode.Common3:
+                case SCTypeCode.Bool1:
+                case SCTypeCode.Bool2:
+                case SCTypeCode.Bool3:
                     return size;
                 case SCTypeCode.Object:
                     return size + 4 + Data.Length;
@@ -351,9 +351,9 @@ namespace PKHeX.Core
 
             switch (block.Type)
             {
-                case SCTypeCode.Common1:
-                case SCTypeCode.Common2:
-                case SCTypeCode.Common3:
+                case SCTypeCode.Bool1:
+                case SCTypeCode.Bool2:
+                case SCTypeCode.Bool3:
                     // Block types are empty, and have no extra data.
                     offset++;
                     break;
@@ -369,7 +369,7 @@ namespace PKHeX.Core
                     block.SubType = (SCTypeCode)block.CryptBytes(data, offset, 5, 1)[0];
                     switch (block.SubType)
                     {
-                        case SCTypeCode.Common3:
+                        case SCTypeCode.Bool3:
                             // This is an array of booleans.
                             block.Data = block.CryptBytes(data, offset, 6, num_entries);
                             offset += 6 + num_entries;
@@ -424,14 +424,13 @@ namespace PKHeX.Core
     /// Block type for a <see cref="SCBlock"/>.
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1027:Mark enums with FlagsAttribute", Justification = "NOT FLAGS")]
-    public enum SCTypeCode
+    public enum SCTypeCode : byte
     {
         None = 0,
 
-        // All aliases of each other
-        Common1 = 1,
-        Common2 = 2,
-        Common3 = 3,
+        Bool1 = 1, // False?
+        Bool2 = 2, // True?
+        Bool3 = 3, // Either? (Array boolean type)
 
         Object = 4,
 
@@ -451,11 +450,13 @@ namespace PKHeX.Core
 
     public static class SCTypeCodeExtensions
     {
+        public static bool IsBoolean(this SCTypeCode type) => (byte)type - 1 < 3;
+
         public static int GetTypeSize(this SCTypeCode type)
         {
             return type switch
             {
-                SCTypeCode.Common3 => sizeof(bool),
+                SCTypeCode.Bool3 => sizeof(bool),
 
                 SCTypeCode.Byte => sizeof(byte),
                 SCTypeCode.UInt16 => sizeof(ushort),
