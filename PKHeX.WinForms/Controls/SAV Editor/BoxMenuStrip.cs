@@ -135,10 +135,10 @@ namespace PKHeX.WinForms.Controls
 
         protected override bool CanManipulateRegion(int start, int end, string prompt, string fail)
         {
-            if (prompt != null && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
+            if (!string.IsNullOrEmpty(prompt) && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, prompt) != DialogResult.Yes)
                 return false;
             bool canModify = base.CanManipulateRegion(start, end, prompt, fail);
-            if (!canModify && fail != null)
+            if (!canModify && !string.IsNullOrEmpty(fail))
                 WinFormsUtil.Alert(fail);
             return canModify;
         }

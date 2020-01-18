@@ -265,8 +265,9 @@ namespace PKHeX.WinForms.Controls
                 else
                 {
                     L_SlotOccupied[i].Text = $"{i + 1}: ✘";
-                    if (pb.Image != null)
-                        pb.Image = ImageUtil.ChangeOpacity(pb.Image, 0.6);
+                    var current = pb.Image;
+                    if (current != null)
+                        pb.Image = ImageUtil.ChangeOpacity(current, 0.6);
                 }
             }
 
@@ -275,12 +276,13 @@ namespace PKHeX.WinForms.Controls
             DayCare_HasEgg.Checked = egg == true;
 
             var seed = SAV.GetDaycareRNGSeed(SAV.DaycareIndex);
-            if (seed != null)
+            bool hasSeed = !string.IsNullOrEmpty(seed);
+            if (hasSeed)
             {
                 TB_RNGSeed.MaxLength = SAV.DaycareSeedSize;
                 TB_RNGSeed.Text = seed;
             }
-            L_DaycareSeed.Visible = TB_RNGSeed.Visible = seed != null;
+            L_DaycareSeed.Visible = TB_RNGSeed.Visible = hasSeed;
         }
 
         private PictureBox UpdateSlot(int relIndex)
@@ -369,7 +371,7 @@ namespace PKHeX.WinForms.Controls
         {
             SetPKMBoxes();
             UpdateBoxViewers(all);
-            if (message != null)
+            if (!string.IsNullOrWhiteSpace(message))
                 WinFormsUtil.Alert(message + $" ({count})");
             else
                 SystemSounds.Asterisk.Play();
@@ -848,7 +850,7 @@ namespace PKHeX.WinForms.Controls
 
         public bool OpenBattleVideo(BattleVideo b, out string c)
         {
-            if (b == null || SAV.Generation != b.Generation)
+            if (SAV.Generation != b.Generation)
             {
                 c = MsgSaveBoxImportVideoFailGeneration;
                 return false;
@@ -1142,9 +1144,10 @@ namespace PKHeX.WinForms.Controls
             {
                 case 6:
                 case 7:
-                    TB_GameSync.Enabled = sav.GameSyncID != null;
+                    var gsid = sav.GameSyncID;
+                    TB_GameSync.Enabled = !string.IsNullOrEmpty(gsid);
                     TB_GameSync.MaxLength = sav.GameSyncIDSize;
-                    TB_GameSync.Text = (sav.GameSyncID ?? 0.ToString()).PadLeft(sav.GameSyncIDSize, '0');
+                    TB_GameSync.Text = (string.IsNullOrEmpty(gsid) ? 0.ToString() : gsid).PadLeft(sav.GameSyncIDSize, '0');
                     break;
             }
         }
