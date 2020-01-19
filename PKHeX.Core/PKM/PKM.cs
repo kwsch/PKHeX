@@ -460,6 +460,14 @@ namespace PKHeX.Core
             }
         }
 
+        public void SetMoves(IReadOnlyList<int> value)
+        {
+            Move1 = value.Count > 0 ? value[0] : 0;
+            Move2 = value.Count > 1 ? value[1] : 0;
+            Move3 = value.Count > 2 ? value[2] : 0;
+            Move4 = value.Count > 3 ? value[3] : 0;
+        }
+
         public int[] RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };

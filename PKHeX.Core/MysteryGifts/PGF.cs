@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace PKHeX.Core
@@ -155,7 +156,7 @@ namespace PKHeX.Core
         public bool IsNicknamed => Nickname.Length > 0;
         public override bool IsShiny => PIDType == 2;
         public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
-        public override int[] Moves => new[] { Move1, Move2, Move3, Move4 };
+        public override IReadOnlyList<int> Moves => new[] { Move1, Move2, Move3, Move4 };
         public override bool IsPokémon { get => CardType == 1; set { if (value) CardType = 1; } }
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
         public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }

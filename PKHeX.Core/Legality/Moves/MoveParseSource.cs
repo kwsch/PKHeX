@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -6,7 +7,7 @@ namespace PKHeX.Core
     {
         private static readonly int[] Empty = Array.Empty<int>();
         public int[] CurrentMoves { get; set; } = Empty;
-        public int[] SpecialSource { get; set; } = Empty;
+        public IReadOnlyList<int> SpecialSource { get; set; } = Empty;
         public int[] NonTradeBackLevelUpMoves { get; set; } = Empty;
 
         /// <summary>
@@ -16,6 +17,6 @@ namespace PKHeX.Core
 
         public int[] EggLevelUpSource { get; set; } = Empty;
         public int[] EggMoveSource { get; set; } = Empty;
-        public int[] EggEventSource { get; set; } = Empty;
+        public IReadOnlyList<int> EggEventSource { get; set; } = Empty;
     }
 }

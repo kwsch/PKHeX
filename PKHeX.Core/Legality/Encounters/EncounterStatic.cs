@@ -13,7 +13,7 @@ namespace PKHeX.Core
     public class EncounterStatic : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion, IRelearn
     {
         public int Species { get; set; }
-        public int[] Moves { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
         public virtual int Level { get; set; }
 
         public virtual int LevelMin => Level;
@@ -53,7 +53,6 @@ namespace PKHeX.Core
         private void CloneArrays()
         {
             // dereference original arrays with new copies
-            Moves = Moves.Length == 0 ? Moves : (int[])Moves.Clone();
             IVs = IVs.Length == 0 ? IVs : (int[])IVs.Clone();
         }
 
@@ -192,8 +191,8 @@ namespace PKHeX.Core
 
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = Moves.Length > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.Moves = moves;
+            var moves = Moves.Count > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }
 

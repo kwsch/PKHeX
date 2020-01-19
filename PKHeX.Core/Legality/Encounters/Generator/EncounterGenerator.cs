@@ -281,7 +281,7 @@ namespace PKHeX.Core
                 case EncounterTrade t:
                     return t.Generation == 2 ? GBEncounterPriority.TradeEncounterG2 : GBEncounterPriority.TradeEncounterG1;
                 case EncounterStatic s:
-                    if (s.Moves.Length != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
                         return GBEncounterPriority.SpecialEncounter;
                     return GBEncounterPriority.StaticEncounter;
                 case EncounterSlot _:

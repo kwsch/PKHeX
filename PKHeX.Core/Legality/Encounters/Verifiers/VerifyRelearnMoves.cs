@@ -20,7 +20,6 @@ namespace PKHeX.Core
 
             return info.EncounterMatch switch
             {
-                MysteryGift g => VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves),
                 IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
                 EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
                 EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav => VerifyRelearnDexNav(pkm, info),

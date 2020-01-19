@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -85,7 +86,7 @@ namespace PKHeX.Core
         public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
-        public override int[] Moves { get => Gift.Moves; set => Gift.Moves = value; }
+        public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }
         public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
         public override bool IsShiny => Gift.IsShiny;
         public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }

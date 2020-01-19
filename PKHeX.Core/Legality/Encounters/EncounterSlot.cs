@@ -123,7 +123,7 @@ namespace PKHeX.Core
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
             var moves = this is IMoveset m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
-            pk.Moves = moves;
+            pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }
 

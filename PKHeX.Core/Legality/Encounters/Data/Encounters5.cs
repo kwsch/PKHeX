@@ -100,14 +100,14 @@ namespace PKHeX.Core
             var list = new List<EncounterStatic>();
             foreach (EncounterStatic s in t)
             {
-                if (s.Moves.Length <= 1) // no special moves
+                if (s.Moves.Count <= 1) // no special moves
                 {
                     list.Add(s);
                     continue;
                 }
 
                 var loc = s.Location;
-                for (int i = 0; i < s.Moves.Length; i++)
+                for (int i = 0; i < s.Moves.Count; i++)
                 {
                     var clone = s.Clone(loc);
                     clone.Moves = new[] { s.Moves[i] };

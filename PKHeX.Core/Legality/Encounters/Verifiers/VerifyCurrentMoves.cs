@@ -93,7 +93,7 @@ namespace PKHeX.Core
             return ParseMoves(pkm, source, info);
         }
 
-        private static CheckMoveResult[] ParseMovesIsEggPreRelearn(PKM pkm, int[] Moves, int[] SpecialMoves, EncounterEgg e)
+        private static CheckMoveResult[] ParseMovesIsEggPreRelearn(PKM pkm, int[] Moves, IReadOnlyList<int> SpecialMoves, EncounterEgg e)
         {
             var infoset = new EggInfoSource(pkm, SpecialMoves, e);
             return VerifyPreRelearnEggBase(pkm, Moves, infoset);
@@ -102,7 +102,7 @@ namespace PKHeX.Core
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, int[] Moves, LegalInfo info, EncounterEgg e)
         {
             var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
-            bool notEvent = EventEggMoves.Length == 0;
+            bool notEvent = EventEggMoves.Count == 0;
             // Level up moves could not be inherited if Ditto is parent,
             // that means genderless species and male only species (except Nidoran-M and Volbeat; they breed with Nidoran-F and Illumise) could not have level up moves as an egg
             var pi = pkm.PersonalInfo;
@@ -212,7 +212,7 @@ namespace PKHeX.Core
             return ParseMoves(pkm, source, info);
         }
 
-        private static int[] GetSpecialMoves(IEncounterable EncounterMatch)
+        private static IReadOnlyList<int> GetSpecialMoves(IEncounterable EncounterMatch)
         {
             if (EncounterMatch is IMoveset mg)
                 return mg.Moves;
