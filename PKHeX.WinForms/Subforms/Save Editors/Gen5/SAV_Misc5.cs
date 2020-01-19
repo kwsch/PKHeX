@@ -22,9 +22,7 @@ namespace PKHeX.WinForms
                 ReadEntralink();
             else TC_Misc.Controls.Remove(TAB_Entralink);
             LoadForest();
-            if (SAV is SAV5BW) // TODO B2W2
-                ReadSubway();
-            else TC_Misc.Controls.Remove(TAB_Subway);
+            ReadSubway();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -38,8 +36,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV5B2W2)
                 SaveEntralink();
             SaveForest();
-            if (SAV is SAV5BW) // TODO B2W2
-                SaveSubway();
+            SaveSubway();
             Origin.CopyChangesFrom(SAV);
             Close();
         }
