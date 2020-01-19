@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -171,7 +172,7 @@ namespace PKHeX.Core
     {
         private readonly IEncounterable? Encounter;
 
-        public int[] Relearn => Encounter is IRelearn r ? r.Relearn : Array.Empty<int>();
+        public IReadOnlyList<int> Relearn => Encounter is IRelearn r ? r.Relearn : Array.Empty<int>();
 
         public EncounterSuggestionData(PKM pkm, IEncounterable enc, int met)
         {

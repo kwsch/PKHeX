@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     public class EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public byte DynamaxLevel { get; set; }
-        public int[] Relearn { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
 
         public int OT_Memory { get; }
         public int OT_TextVar { get; }

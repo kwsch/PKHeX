@@ -314,7 +314,7 @@ namespace PKHeX.Core
                 return m;
 
             var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
-            if (encounter is IRelearn r && r.Relearn.Length > 0)
+            if (encounter is IRelearn r && r.Relearn.Count > 0)
                 m = r.Relearn;
 
             return m;

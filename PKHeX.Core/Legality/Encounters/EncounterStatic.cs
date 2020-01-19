@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -22,7 +23,7 @@ namespace PKHeX.Core
         public int Ability { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
-        public int[] Relearn { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;
@@ -53,7 +54,6 @@ namespace PKHeX.Core
         {
             // dereference original arrays with new copies
             Moves = Moves.Length == 0 ? Moves : (int[])Moves.Clone();
-            Relearn = Relearn.Length == 0 ? Relearn : (int[])Relearn.Clone();
             IVs = IVs.Length == 0 ? IVs : (int[])IVs.Clone();
         }
 
@@ -275,7 +275,7 @@ namespace PKHeX.Core
             if (!IsMatchForm(pkm))
                 return false;
 
-            if (EggLocation == Locations.Daycare5 && Relearn.Length == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
+            if (EggLocation == Locations.Daycare5 && Relearn.Count == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
                 return false;
 
             if (!IsMatchIVs(pkm))

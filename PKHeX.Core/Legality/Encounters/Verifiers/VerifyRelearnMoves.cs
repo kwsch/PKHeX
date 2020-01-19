@@ -21,26 +21,26 @@ namespace PKHeX.Core
             return info.EncounterMatch switch
             {
                 MysteryGift g => VerifyRelearnSpecifiedMoveset(pkm, info, g.RelearnMoves),
-                IRelearn s when s.Relearn.Length > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
+                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
                 EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
                 EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav => VerifyRelearnDexNav(pkm, info),
                 _ => VerifyRelearnNone(pkm, info)
             };
         }
 
-        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, int[] moves)
+        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, IReadOnlyList<int> relearn)
         {
             CheckResult[] res = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
 
             for (int i = 0; i < 4; i++)
             {
-                res[i] = moves[i] != RelearnMoves[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[moves[i]]), CheckIdentifier.RelearnMove)
+                res[i] = relearn[i] != RelearnMoves[i]
+                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[relearn[i]]), CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
-            info.RelearnBase = moves;
+            info.RelearnBase = relearn;
             return res;
         }
 

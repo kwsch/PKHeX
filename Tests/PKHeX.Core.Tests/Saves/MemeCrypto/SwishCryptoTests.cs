@@ -9,7 +9,7 @@ namespace PKHeX.Tests.Saves
         [Fact]
         public void SizeCheck()
         {
-            SCTypeCode.Common3.GetTypeSize().Should().Be(1);
+            SCTypeCode.Bool3.GetTypeSize().Should().Be(1);
         }
     }
 }

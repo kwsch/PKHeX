@@ -1,7 +1,9 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     public interface IRelearn
     {
-        int[] Relearn { get; }
+        IReadOnlyList<int> Relearn { get; }
     }
 }
