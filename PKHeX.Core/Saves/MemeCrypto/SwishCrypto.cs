@@ -299,7 +299,7 @@ namespace PKHeX.Core
                 case SCTypeCode.Double:
                     return size + Data.Length;
                 default:
-                    throw new ArgumentException(nameof(Type));
+                    throw new ArgumentException(Type.ToString(), nameof(Type));
             }
         }
 
@@ -392,7 +392,7 @@ namespace PKHeX.Core
                             break;
 
                         default:
-                            throw new ArgumentException(nameof(block.SubType));
+                            throw new ArgumentException(block.SubType.ToString(), nameof(block.SubType));
                     }
                     break;
 
@@ -413,7 +413,7 @@ namespace PKHeX.Core
                         break;
                     }
                 default:
-                    throw new ArgumentException(nameof(block.Type));
+                    throw new ArgumentException(block.Type.ToString(), nameof(block.Type));
             }
 
             return block;
@@ -471,7 +471,7 @@ namespace PKHeX.Core
                 SCTypeCode.Single => sizeof(float),
                 SCTypeCode.Double => sizeof(double),
 
-                _ => throw new ArgumentException(nameof(type))
+                _ => throw new ArgumentException(type.ToString(), nameof(type))
             };
         }
 
@@ -492,7 +492,7 @@ namespace PKHeX.Core
                 SCTypeCode.Single => typeof(float),
                 SCTypeCode.Double => typeof(double),
 
-                _ => throw new ArgumentException(nameof(type)),
+                _ => throw new ArgumentException(type.ToString(), nameof(type))
             };
         }
 
@@ -513,7 +513,7 @@ namespace PKHeX.Core
                 SCTypeCode.Single => BitConverter.ToSingle(data, 0),
                 SCTypeCode.Double => BitConverter.ToDouble(data, 0),
 
-                _ => throw new ArgumentException(nameof(type)),
+                _ => throw new ArgumentException(type.ToString(), nameof(type)),
             };
         }
 
@@ -534,7 +534,7 @@ namespace PKHeX.Core
                 case SCTypeCode.Single: BitConverter.GetBytes((float)value).CopyTo(data, 0); break;
                 case SCTypeCode.Double: BitConverter.GetBytes((double)value).CopyTo(data, 0); break;
 
-                default: throw new ArgumentException(nameof(type));
+                default: throw new ArgumentException(type.ToString(), nameof(type));
             }
         }
     }
