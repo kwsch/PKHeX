@@ -556,7 +556,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (GiftFlagMax != value?.Length)
+                if (GiftFlagMax != value.Length)
                     return;
 
                 byte[] data = new byte[value.Length / 8];

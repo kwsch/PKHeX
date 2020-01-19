@@ -66,7 +66,7 @@ namespace PKHeX.Core
             get => Data.Skip(Offset + 0x28).Take(4).Concat(Data.Skip(Offset + 0x18).Take(8)).ToArray();
             set
             {
-                if (value?.Length != 12)
+                if (value.Length != 12)
                     return;
                 Array.Copy(value, 0, Data, Offset + 0x28, 4);
                 Array.Copy(value, 4, Data, Offset + 0x18, 8);

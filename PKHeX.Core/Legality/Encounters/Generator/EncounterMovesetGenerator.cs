@@ -34,7 +34,7 @@ namespace PKHeX.Core
         {
             pk.TID = info.TID;
             var m = moves ?? pk.Moves;
-            var vers = versions?.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
+            var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
             foreach (var ver in vers)
             {
                 var encs = GenerateVersionEncounters(pk, m, ver);

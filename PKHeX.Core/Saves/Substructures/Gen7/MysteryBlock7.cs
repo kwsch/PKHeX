@@ -19,7 +19,7 @@ namespace PKHeX.Core
             get => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
             set
             {
-                if (value?.Length != MaxReceivedFlag)
+                if (value.Length != MaxReceivedFlag)
                     return;
                 ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
                 SAV.Edited = true;

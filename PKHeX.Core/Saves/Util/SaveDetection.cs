@@ -127,7 +127,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<string> GetFoldersToCheck(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
-            var foldersToCheck = extra.Where(f => f?.Length > 0).Concat(CustomBackupPaths);
+            var foldersToCheck = extra.Where(f => f.Length > 0).Concat(CustomBackupPaths);
 
             string path3DS = Path.GetPathRoot(Get3DSLocation(drives));
             if (path3DS != null) // check for Homebrew/CFW backups

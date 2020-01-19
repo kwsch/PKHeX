@@ -42,7 +42,7 @@
             get => new[] { Item1, Item2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Item1 = value[0];
                 Item2 = value[1];
             }

@@ -124,6 +124,6 @@ namespace PKHeX.Core
         /// <param name="arr">Array of strings</param>
         /// <param name="val">Index to fetch</param>
         /// <returns>Null if array is null</returns>
-        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr?.Count ? arr[val] : string.Empty;
+        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr.Count ? arr[val] : string.Empty;
     }
 }

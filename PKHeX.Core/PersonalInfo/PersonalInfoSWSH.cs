@@ -82,7 +82,7 @@ namespace PKHeX.Core
             get => new[] { Item1, Item2, Item3 };
             set
             {
-                if (value?.Length != 3) return;
+                if (value.Length != 3) return;
                 Item1 = value[0];
                 Item2 = value[1];
                 Item3 = value[2];
@@ -94,7 +94,7 @@ namespace PKHeX.Core
             get => new[] { Ability1, Ability2, AbilityH };
             set
             {
-                if (value?.Length != 3) return;
+                if (value.Length != 3) return;
                 Ability1 = value[0];
                 Ability2 = value[1];
                 AbilityH = value[2];

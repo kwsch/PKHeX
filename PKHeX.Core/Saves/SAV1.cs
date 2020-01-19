@@ -238,7 +238,7 @@ namespace PKHeX.Core
             set => SetString(value, OTLength).CopyTo(Data, Offsets.OT);
         }
 
-        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.OT); } }
+        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value.Length == StringLength) SetData(value, Offsets.OT); } }
 
         public override int Gender
         {

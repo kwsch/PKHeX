@@ -30,8 +30,8 @@ namespace PKHeX.Core
         private byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
-        public override byte[] OT_Trash { get => GetData(0x18, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
+        public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x2E); } }
+        public override byte[] OT_Trash { get => GetData(0x18, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x18); } }
 
         // Future Attributes
 

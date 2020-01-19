@@ -98,7 +98,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != GiftCountMax)
+                if (value.Length != GiftCountMax)
                     return;
 
                 int ofs = WondercardFlags + 0x100; // skip over flags

@@ -24,7 +24,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != ResortCount)
+                if (value.Length != ResortCount)
                     throw new ArgumentException(nameof(ResortCount));
 
                 for (int i = 0; i < value.Length; i++)

@@ -71,7 +71,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != 4)
+                if (value.Length != 4)
                     return;
 
                 for (int i = 0; i < 4; i++)

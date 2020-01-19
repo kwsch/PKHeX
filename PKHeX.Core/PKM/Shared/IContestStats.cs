@@ -14,7 +14,7 @@
     {
         public static void SetContestStats(this IContestStats dest, int[] stats)
         {
-            if (stats?.Length != 6)
+            if (stats.Length != 6)
                 return;
 
             dest.CNT_Cool   = stats[0];

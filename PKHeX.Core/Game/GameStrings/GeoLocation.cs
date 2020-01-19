@@ -50,7 +50,7 @@ namespace PKHeX.Core
             if (countryID >= CountryList.Length)
                 return INVALID;
             var countryNames = CountryList[countryID];
-            if (l < countryNames?.Length)
+            if (l < countryNames.Length)
                 return countryNames[l + 1];
             return INVALID;
         }
@@ -71,7 +71,7 @@ namespace PKHeX.Core
             if (regionID >= regionstrs.Length)
                 return INVALID;
             var localized = regionstrs[regionID];
-            if (l < localized?.Length)
+            if (l < localized.Length)
                 return localized[l + 1];
             return INVALID;
         }

@@ -205,7 +205,7 @@ namespace PKHeX.Core
             get => new[] { Type1, Type2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Type1 = value[0];
                 Type2 = value[1];
             }
@@ -219,7 +219,7 @@ namespace PKHeX.Core
             get => new[] { EggGroup1, EggGroup2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 EggGroup1 = (byte)value[0];
                 EggGroup2 = (byte)value[1];
             }

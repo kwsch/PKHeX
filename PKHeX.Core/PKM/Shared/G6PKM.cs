@@ -9,9 +9,9 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x40); } }
-        public override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0x78); } }
-        public override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value?.Length == 24) value.CopyTo(Data, 0xB0); } }
+        public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x40); } }
+        public override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x78); } }
+        public override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xB0); } }
 
         protected override ushort CalculateChecksum()
         {

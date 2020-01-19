@@ -51,8 +51,8 @@ namespace PKHeX.Core
         internal byte[] nick;
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => nick; set { if (value?.Length == nick.Length) nick = value; } }
-        public override byte[] OT_Trash { get => otname; set { if (value?.Length == otname.Length) otname = value; } }
+        public override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) nick = value; } }
+        public override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) otname = value; } }
 
         public override byte[] EncryptedPartyData => Encrypt();
         public override byte[] EncryptedBoxData => Encrypt();

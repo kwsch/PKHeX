@@ -322,7 +322,7 @@ namespace PKHeX.Core
         public byte[] OT_Trash
         {
             get => GetData(Offsets.Trainer1 + 2, StringLength);
-            set { if (value?.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); }
+            set { if (value.Length == StringLength) SetData(value, Offsets.Trainer1 + 2); }
         }
 
         public override int Gender

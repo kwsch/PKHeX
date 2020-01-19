@@ -61,7 +61,7 @@
             get => new[] { Move1, Move2, Move3, Move4 };
             set
             {
-                if (value?.Length != 4) return;
+                if (value.Length != 4) return;
                 Move1 = value[0];
                 Move2 = value[1];
                 Move3 = value[2];
