@@ -127,14 +127,14 @@ namespace PKHeX.Core
 
         public static IEnumerable<string> GetFoldersToCheck(IReadOnlyList<string> drives, IEnumerable<string> extra)
         {
-            var foldersToCheck = extra.Where(f => f.Length > 0).Concat(CustomBackupPaths);
+            var foldersToCheck = extra.Where(f => !string.IsNullOrWhiteSpace(f)).Concat(CustomBackupPaths);
 
             string path3DS = Path.GetPathRoot(Get3DSLocation(drives));
-            if (path3DS != null) // check for Homebrew/CFW backups
+            if (!string.IsNullOrEmpty(path3DS)) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(Get3DSBackupPaths(path3DS));
 
             string pathNX = Path.GetPathRoot(GetSwitchLocation(drives));
-            if (pathNX != null) // check for Homebrew/CFW backups
+            if (!string.IsNullOrEmpty(pathNX)) // check for Homebrew/CFW backups
                 foldersToCheck = foldersToCheck.Concat(GetSwitchBackupPaths(pathNX));
 
             return foldersToCheck;
