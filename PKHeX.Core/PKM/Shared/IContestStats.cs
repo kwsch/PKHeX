@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     public interface IContestStats
     {
@@ -12,9 +14,9 @@
 
     public static partial class Extensions
     {
-        public static void SetContestStats(this IContestStats dest, int[] stats)
+        public static void SetContestStats(this IContestStats dest, IReadOnlyList<int> stats)
         {
-            if (stats.Length != 6)
+            if (stats.Count != 6)
                 return;
 
             dest.CNT_Cool   = stats[0];

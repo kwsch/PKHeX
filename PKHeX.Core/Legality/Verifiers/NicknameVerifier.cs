@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.LanguageID;
 
@@ -272,7 +273,7 @@ namespace PKHeX.Core
         private static int DetectTradeLanguage(string OT, EncounterTrade t, int currentLanguageID)
         {
             var names = t.TrainerNames;
-            for (int lang = 1; lang < names.Length; lang++)
+            for (int lang = 1; lang < names.Count; lang++)
             {
                 if (names[lang] != OT)
                     continue;
@@ -345,13 +346,13 @@ namespace PKHeX.Core
             data.AddLine(result);
         }
 
-        private static CheckResult CheckTradeOTOnly(LegalityAnalysis data, string[] validOT)
+        private static CheckResult CheckTradeOTOnly(LegalityAnalysis data, IReadOnlyList<string> validOT)
         {
             var pkm = data.pkm;
             if (pkm.IsNicknamed && pkm.Format < 8)
                 return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
             int lang = pkm.Language;
-            if (validOT.Length <= lang)
+            if (validOT.Count <= lang)
                 return GetInvalid(LEncTradeIndexBad, CheckIdentifier.Trainer);
             if (validOT[lang] != pkm.OT_Name)
                 return GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer);

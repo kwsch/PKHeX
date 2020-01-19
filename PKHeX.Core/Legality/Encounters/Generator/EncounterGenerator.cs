@@ -70,7 +70,7 @@ namespace PKHeX.Core
                     else if (z is EncounterStaticShadow s)
                     {
                         bool valid = false;
-                        if (s.IVs.Length == 0) // not ereader
+                        if (s.IVs.Count == 0) // not ereader
                         {
                             valid = LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
                         }

@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public int TID { get; set; }
         public int SID { get; set; }
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[] IVs { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Never;
         public int Gender { get; set; } = -1;
@@ -36,7 +36,7 @@ namespace PKHeX.Core
         public int Ball { get; set; } = 4;
         public int CurrentLevel { get; set; } = -1;
 
-        public int[] Contest { set => this.SetContestStats(value); }
+        internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
         public int CNT_Cool { get; set; }
         public int CNT_Beauty { get; set; }
         public int CNT_Cute { get; set; }
@@ -59,12 +59,12 @@ namespace PKHeX.Core
         public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
-        public string[] Nicknames { get; internal set; } = Array.Empty<string>();
-        public string[] TrainerNames { get; internal set; } = Array.Empty<string>();
-        public string GetNickname(int language) => (uint)language < Nicknames.Length ? Nicknames[language] : string.Empty;
-        public string GetOT(int language) => (uint)language < TrainerNames.Length ? TrainerNames[language] : string.Empty;
-        public bool HasNickname => Nicknames.Length != 0;
-        public bool HasTrainerName => TrainerNames.Length != 0;
+        public IReadOnlyList<string> Nicknames { get; internal set; } = Array.Empty<string>();
+        public IReadOnlyList<string> TrainerNames { get; internal set; } = Array.Empty<string>();
+        public string GetNickname(int language) => (uint)language < Nicknames.Count ? Nicknames[language] : string.Empty;
+        public string GetOT(int language) => (uint)language < TrainerNames.Count ? TrainerNames[language] : string.Empty;
+        public bool HasNickname => Nicknames.Count != 0;
+        public bool HasTrainerName => TrainerNames.Count != 0;
 
         public static readonly int[] DefaultMetLocation =
         {
@@ -166,7 +166,7 @@ namespace PKHeX.Core
 
         protected void SetIVs(PKM pk)
         {
-            if (IVs.Length != 0)
+            if (IVs.Count != 0)
                 pk.SetRandomIVs(IVs, 0);
             else
                 pk.SetRandomIVs(flawless: 3);
@@ -228,7 +228,7 @@ namespace PKHeX.Core
 
         public virtual bool IsMatch(PKM pkm, int lvl)
         {
-            if (IVs.Length != 0)
+            if (IVs.Count != 0)
             {
                 if (!Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm))
                     return false;
@@ -337,7 +337,7 @@ namespace PKHeX.Core
             {
                 if (Gender >= 0 && Gender != pkm.Gender)
                     return false;
-                if (IVs.Length != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
+                if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
                     return false;
             }
             if (pkm.Met_Location != 0 && pkm.Format == 2 && pkm.Met_Location != 126)
@@ -391,8 +391,13 @@ namespace PKHeX.Core
 
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Spanish;
-            var index = Array.FindIndex(TrainerNames, start, end - start + 1, w => w == OT);
-            return index >= 0;
+
+            for (int i = start; i <= end; i++)
+            {
+                if (TrainerNames[i] == OT)
+                    return true;
+            }
+            return false;
         }
     }
 

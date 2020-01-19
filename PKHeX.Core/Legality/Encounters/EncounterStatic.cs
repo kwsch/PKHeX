@@ -30,10 +30,10 @@ namespace PKHeX.Core
         public bool Gift { get; set; }
         public int Ball { get; set; } = 4; // Only checked when is Gift
         public GameVersion Version { get; set; } = GameVersion.Any;
-        public int[] IVs { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }
 
-        public int[] Contest { set => this.SetContestStats(value); }
+        internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
         public int CNT_Cool { get; set; }
         public int CNT_Beauty { get; set; }
         public int CNT_Cute { get; set; }
@@ -50,18 +50,7 @@ namespace PKHeX.Core
         public bool Roaming { get; set; }
         public bool EggEncounter => EggLocation > 0;
 
-        private void CloneArrays()
-        {
-            // dereference original arrays with new copies
-            IVs = IVs.Length == 0 ? IVs : (int[])IVs.Clone();
-        }
-
-        internal virtual EncounterStatic Clone()
-        {
-            var result = (EncounterStatic)MemberwiseClone();
-            result.CloneArrays();
-            return result;
-        }
+        internal EncounterStatic Clone() => (EncounterStatic)MemberwiseClone();
 
         private const string _name = "Static Encounter";
         public string Name => _name;
@@ -211,7 +200,7 @@ namespace PKHeX.Core
 
         protected void SetIVs(PKM pk)
         {
-            if (IVs.Length != 0)
+            if (IVs.Count != 0)
                 pk.SetRandomIVs(IVs, FlawlessIVCount);
             else if (FlawlessIVCount > 0)
                 pk.SetRandomIVs(flawless: FlawlessIVCount);
@@ -296,7 +285,7 @@ namespace PKHeX.Core
 
         private bool IsMatchIVs(PKM pkm)
         {
-            if (IVs.Length == 0)
+            if (IVs.Count == 0)
                 return true; // nothing to check, IVs are random
             if (Generation <= 2 && pkm.Format > 2)
                 return true; // IVs are regenerated on VC transfer upward
