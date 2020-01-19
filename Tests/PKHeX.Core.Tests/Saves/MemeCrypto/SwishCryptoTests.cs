@@ -11,5 +11,12 @@ namespace PKHeX.Tests.Saves
         {
             SCTypeCode.Bool3.GetTypeSize().Should().Be(1);
         }
+
+        [Fact]
+        public void CanMakeBlankSAV8()
+        {
+            var sav = SaveUtil.GetBlankSAV(GameVersion.SW, "PKHeX");
+            sav.Should().NotBeNull();
+        }
     }
 }

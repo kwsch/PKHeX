@@ -51,8 +51,6 @@ namespace PKHeX.Core
 
         #region Blocks
         public SaveBlockAccessorSWSH Blocks { get; }
-        public object GetValue(uint key) => Blocks.GetBlockValue(key);
-        public void SetValue(uint key, object value) => Blocks.SetBlockValue(key, value);
         public override Box8 BoxInfo => Blocks.BoxInfo;
         public override Party8 PartyInfo => Blocks.PartyInfo;
         public override MyItem Items => Blocks.Items;
@@ -65,6 +63,15 @@ namespace PKHeX.Core
         public override Daycare8 Daycare => Blocks.Daycare;
         public override Record8 Records => Blocks.Records;
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
+
+        public object GetValue(uint key) => Blocks.GetBlockValue(key);
+
+        public void SetValue(uint key, object value)
+        {
+            if (!Exportable)
+                return;
+            Blocks.SetBlockValue(key, value);
+        }
 
         #endregion
         public override SaveFile Clone() => new SAV8SWSH(BAK, AllBlocks.Select(z => z.Clone()).ToArray());
