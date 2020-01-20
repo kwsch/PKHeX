@@ -355,7 +355,6 @@ namespace PKHeX.Core
             (int)Species.Cubchoo, (int)Species.Beartic,
             (int)Species.Skorupi, (int)Species.Drapion,
             (int)Species.Maractus,
-            (int)Species.Mimikyu,
             (int)Species.Bergmite, (int)Species.Avalugg,
 
             // Alolan Forms
