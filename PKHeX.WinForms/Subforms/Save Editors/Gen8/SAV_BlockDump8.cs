@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.SCBlockUtil;
 
 namespace PKHeX.WinForms
 {
@@ -19,15 +19,43 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)sav;
 
-            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000} {z.Type}", (int)z.Key));
+            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000} {(z.Type.IsBoolean() ? "Bool" : z.Type.ToString())}", (int)z.Key));
             CB_Key.InitializeBinding();
             CB_Key.DataSource = blocks.ToArray();
+
+            var boolToggle = new[]
+            {
+                new ComboItem(nameof(SCTypeCode.Bool1), (int)SCTypeCode.Bool1),
+                new ComboItem(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
+                new ComboItem(nameof(SCTypeCode.Bool3), (int)SCTypeCode.Bool3),
+            };
+            CB_TypeToggle.InitializeBinding();
+            CB_TypeToggle.DataSource = boolToggle;
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
         {
             var key = (uint)WinFormsUtil.GetIndex(CB_Key);
             CurrentBlock = SAV.Blocks.GetBlock(key);
+            L_Detail_R.Text = GetBlockSummary(CurrentBlock);
+            if (CurrentBlock.Type.IsBoolean())
+            {
+                CB_TypeToggle.SelectedValue = (int)CurrentBlock.Type;
+                CB_TypeToggle.Visible = true;
+            }
+            else
+            {
+                CB_TypeToggle.Visible = false;
+            }
+        }
+
+        private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var cType = CurrentBlock.Type;
+            var cValue = (SCTypeCode)WinFormsUtil.GetIndex(CB_TypeToggle);
+            if (cType == cValue)
+                return;
+            CurrentBlock.Type = cValue;
             L_Detail_R.Text = GetBlockSummary(CurrentBlock);
         }
 
@@ -73,6 +101,49 @@ namespace PKHeX.WinForms
             ExportAllBlocksAsSingleFile(blocks, sfd.FileName, CHK_DataOnly.Checked, CHK_Key.Checked, CHK_Type.Checked, CHK_FakeHeader.Checked);
         }
 
+        private void B_LoadOld_Click(object sender, EventArgs e)
+        {
+            using var ofd = new OpenFileDialog { FileName = "main" };
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+            TB_OldSAV.Text = ofd.FileName;
+            if (!string.IsNullOrWhiteSpace(TB_NewSAV.Text))
+                CompareSaves();
+        }
+
+        private void B_LoadNew_Click(object sender, EventArgs e)
+        {
+            using var ofd = new OpenFileDialog { FileName = "main" };
+            if (ofd.ShowDialog() != DialogResult.OK)
+                return;
+            TB_NewSAV.Text = ofd.FileName;
+            if (!string.IsNullOrWhiteSpace(TB_OldSAV.Text))
+                CompareSaves();
+        }
+
+        private void CompareSaves()
+        {
+            var p1 = TB_OldSAV.Text;
+            var p2 = TB_NewSAV.Text;
+
+            var f1 = new FileInfo(p1);
+            if (!SaveUtil.IsSizeValid((int)f1.Length))
+                return;
+            var f2 = new FileInfo(p1);
+            if (!SaveUtil.IsSizeValid((int)f2.Length))
+                return;
+
+            var s1 = SaveUtil.GetVariantSAV(p1);
+            if (!(s1 is SAV8SWSH w1))
+                return;
+            var s2 = SaveUtil.GetVariantSAV(p2);
+            if (!(s2 is SAV8SWSH w2))
+                return;
+
+            var compare = new SCBlockCompare(w1, w2);
+            richTextBox1.Lines = compare.Summary().ToArray();
+        }
+
         private static void ExportSelectBlock(SCBlock block)
         {
             var name = GetBlockFileNameWithoutExtension(block);
@@ -100,97 +171,6 @@ namespace PKHeX.WinForms
 
             var bytes = File.ReadAllBytes(path);
             bytes.CopyTo(data, 0);
-        }
-
-        private static void ExportAllBlocksAsSingleFile(IReadOnlyList<SCBlock> blocks, string path, bool dataOnly = true, bool key = true, bool typeInfo = true, bool fakeHeader = true)
-        {
-            using var stream = new MemoryStream();
-            using var bw = new BinaryWriter(stream);
-
-            if (fakeHeader)
-            {
-                for (int i = 0; i < blocks.Count; i++)
-                    blocks[i].ID = (uint)i;
-            }
-
-            var iterate = dataOnly ? blocks.Where(z => z.Data.Length != 0) : blocks;
-            foreach (var b in iterate)
-            {
-                if (fakeHeader)
-                    bw.Write($"BLOCK{b.ID:0000} {b.Key:X8}");
-                if (key)
-                    bw.Write(b.Key);
-                if (typeInfo)
-                {
-                    bw.Write((byte)b.Type);
-                    bw.Write((byte)b.SubType);
-                }
-                bw.Write(b.Data);
-            }
-            var data = stream.ToArray(); // SwishCrypto.GetDecryptedRawData(blocks); for raw encrypted
-            File.WriteAllBytes(path, data);
-        }
-
-        private static string GetBlockFileNameWithoutExtension(SCBlock block)
-        {
-            var key = block.Key;
-            var name = $"{key:X8}";
-            if (block.HasValue())
-                name += $" {block.GetValue()}";
-            return name;
-        }
-
-        private static string GetBlockSummary(SCBlock b)
-        {
-            var sb = new StringBuilder();
-            sb.Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine();
-            sb.Append("Type: ").Append(b.Type).AppendLine();
-            if (b.Data.Length != 0)
-                sb.Append("Length: ").AppendFormat("{0:X8}", b.Data.Length).AppendLine();
-
-            if (b.SubType != 0)
-                sb.Append("SubType: ").Append(b.SubType).AppendLine();
-            else if (b.HasValue())
-                sb.Append("Value: ").Append(b.GetValue()).AppendLine();
-
-            return sb.ToString();
-        }
-
-        private static List<string> ImportBlocksFromFolder(string path, SAV8SWSH sav)
-        {
-            var failed = new List<string>();
-            var files = Directory.EnumerateFiles(path);
-            foreach (var f in files)
-            {
-                var fn = Path.GetFileNameWithoutExtension(f);
-
-                // Trim off Value summary if present
-                var space = fn.IndexOf(' ');
-                if (space >= 0)
-                    fn = fn.Substring(0, space);
-
-                var hex = Util.GetHexValue(fn);
-                try
-                {
-                    var block = sav.Blocks.GetBlock(hex);
-                    var len = block.Data.Length;
-                    var fi = new FileInfo(f);
-                    if (fi.Length != len)
-                    {
-                        failed.Add(fn);
-                        continue;
-                    }
-
-                    var data = File.ReadAllBytes(f);
-                    data.CopyTo(block.Data, 0);
-                }
-                catch
-                {
-                    failed.Add(fn);
-                }
-            }
-
-            return failed;
         }
     }
 }
