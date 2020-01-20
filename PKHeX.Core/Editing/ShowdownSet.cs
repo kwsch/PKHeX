@@ -554,7 +554,7 @@ namespace PKHeX.Core
         private string ParseLineMove(string line)
         {
             const int hiddenPower = 237;
-            string moveString = line.Substring(line[1] == ' ' ? 2 : 1).Trim();
+            string moveString = line.Substring(line[1] == ' ' ? 2 : 1).Split('/')[0].Trim();
             if (!moveString.StartsWith(Strings.Move[hiddenPower])) // Hidden Power
                 return moveString; // regular move
 
