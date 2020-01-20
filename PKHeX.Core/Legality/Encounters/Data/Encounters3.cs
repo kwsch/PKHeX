@@ -274,8 +274,8 @@ namespace PKHeX.Core
         private static readonly string[][] TradeFRLG = Util.GetLanguageStrings7(tradeFRLG);
 
         private static readonly int[] MoveSwarmSurskit = { 145, 098 }; /* Bubble, Quick Attack */
-        private static readonly int[] MoveSwarmSeedot = { 145, 098 };  /* Bide, Harden, Leech Seed */
-        private static readonly int[] MoveSwarmNuzleaf = { 145, 098 }; /* Harden, Growth, Nature Power, Leech Seed */
+        private static readonly int[] MoveSwarmSeedot = { 117, 106, 073 };  /* Bide, Harden, Leech Seed */
+        private static readonly int[] MoveSwarmNuzleaf = { 106, 074, 267, 073 }; /* Harden, Growth, Nature Power, Leech Seed */
         private static readonly int[] MoveSwarmSeedotF = { 202, 218, 076, 073 }; /* Giga Drain, Frustration, Solar Beam, Leech Seed */
         private static readonly int[] MoveSwarmSkittyRS = { 045, 033 }; /* Growl, Tackle */
         private static readonly int[] MoveSwarmSkittyE = { 045, 033, 039, 213 }; /* Growl, Tackle, Tail Whip, Attract */
