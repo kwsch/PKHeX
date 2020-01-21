@@ -580,9 +580,12 @@ namespace PKHeX.Core
             {44, "total_money"},
             {45, "create_license_card"},
             {46, "change_hair"},
-            {47, "battle_tower_single_win"},
-            {48, "battle_tower_double_win"},
+          /* 47 */ {G8BattleTowerSingleWin, "battle_tower_single_win"},
+          /* 48 */ {G8BattleTowerDoubleWin, "battle_tower_double_win"},
             {49, "now_money"},
         };
+
+        public const int G8BattleTowerSingleWin = 47;
+        public const int G8BattleTowerDoubleWin = 48;
     }
 }

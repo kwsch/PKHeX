@@ -131,14 +131,14 @@
             this.L_X = new System.Windows.Forms.Label();
             this.Tab_MiscValues = new System.Windows.Forms.TabPage();
             this.GB_BattleTower = new System.Windows.Forms.GroupBox();
-            this.L_Singles = new System.Windows.Forms.Label();
-            this.MT_BattleTowerSinglesWin = new System.Windows.Forms.MaskedTextBox();
-            this.L_BattleTowerWins = new System.Windows.Forms.Label();
-            this.L_BattleTowerStreak = new System.Windows.Forms.Label();
-            this.MT_BattleTowerSinglesStreak = new System.Windows.Forms.MaskedTextBox();
             this.MT_BattleTowerDoublesStreak = new System.Windows.Forms.MaskedTextBox();
             this.L_Doubles = new System.Windows.Forms.Label();
             this.MT_BattleTowerDoublesWin = new System.Windows.Forms.MaskedTextBox();
+            this.L_BattleTowerStreak = new System.Windows.Forms.Label();
+            this.MT_BattleTowerSinglesStreak = new System.Windows.Forms.MaskedTextBox();
+            this.L_BattleTowerWins = new System.Windows.Forms.Label();
+            this.L_Singles = new System.Windows.Forms.Label();
+            this.MT_BattleTowerSinglesWin = new System.Windows.Forms.MaskedTextBox();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -1159,56 +1159,9 @@
             this.GB_BattleTower.TabStop = false;
             this.GB_BattleTower.Text = "Battle Tower";
             // 
-            // L_Singles
-            // 
-            this.L_Singles.Location = new System.Drawing.Point(6, 34);
-            this.L_Singles.Name = "L_Singles";
-            this.L_Singles.Size = new System.Drawing.Size(76, 20);
-            this.L_Singles.TabIndex = 77;
-            this.L_Singles.Text = "Singles:";
-            this.L_Singles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // MT_BattleTowerSinglesWin
-            // 
-            this.MT_BattleTowerSinglesWin.Location = new System.Drawing.Point(88, 34);
-            this.MT_BattleTowerSinglesWin.Mask = "000000";
-            this.MT_BattleTowerSinglesWin.Name = "MT_BattleTowerSinglesWin";
-            this.MT_BattleTowerSinglesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_BattleTowerSinglesWin.Size = new System.Drawing.Size(43, 20);
-            this.MT_BattleTowerSinglesWin.TabIndex = 76;
-            this.MT_BattleTowerSinglesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // L_BattleTowerWins
-            // 
-            this.L_BattleTowerWins.Location = new System.Drawing.Point(85, 11);
-            this.L_BattleTowerWins.Name = "L_BattleTowerWins";
-            this.L_BattleTowerWins.Size = new System.Drawing.Size(46, 20);
-            this.L_BattleTowerWins.TabIndex = 78;
-            this.L_BattleTowerWins.Text = "Wins";
-            this.L_BattleTowerWins.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // L_BattleTowerStreak
-            // 
-            this.L_BattleTowerStreak.Location = new System.Drawing.Point(134, 12);
-            this.L_BattleTowerStreak.Name = "L_BattleTowerStreak";
-            this.L_BattleTowerStreak.Size = new System.Drawing.Size(46, 20);
-            this.L_BattleTowerStreak.TabIndex = 80;
-            this.L_BattleTowerStreak.Text = "Streak";
-            this.L_BattleTowerStreak.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // MT_BattleTowerSinglesStreak
-            // 
-            this.MT_BattleTowerSinglesStreak.Location = new System.Drawing.Point(137, 35);
-            this.MT_BattleTowerSinglesStreak.Mask = "000";
-            this.MT_BattleTowerSinglesStreak.Name = "MT_BattleTowerSinglesStreak";
-            this.MT_BattleTowerSinglesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_BattleTowerSinglesStreak.Size = new System.Drawing.Size(43, 20);
-            this.MT_BattleTowerSinglesStreak.TabIndex = 79;
-            this.MT_BattleTowerSinglesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // MT_BattleTowerDoublesStreak
             // 
-            this.MT_BattleTowerDoublesStreak.Location = new System.Drawing.Point(137, 61);
+            this.MT_BattleTowerDoublesStreak.Location = new System.Drawing.Point(145, 61);
             this.MT_BattleTowerDoublesStreak.Mask = "000";
             this.MT_BattleTowerDoublesStreak.Name = "MT_BattleTowerDoublesStreak";
             this.MT_BattleTowerDoublesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -1228,12 +1181,59 @@
             // MT_BattleTowerDoublesWin
             // 
             this.MT_BattleTowerDoublesWin.Location = new System.Drawing.Point(88, 60);
-            this.MT_BattleTowerDoublesWin.Mask = "000000";
+            this.MT_BattleTowerDoublesWin.Mask = "0000000";
             this.MT_BattleTowerDoublesWin.Name = "MT_BattleTowerDoublesWin";
             this.MT_BattleTowerDoublesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.MT_BattleTowerDoublesWin.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerDoublesWin.Size = new System.Drawing.Size(51, 20);
             this.MT_BattleTowerDoublesWin.TabIndex = 81;
             this.MT_BattleTowerDoublesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_BattleTowerStreak
+            // 
+            this.L_BattleTowerStreak.Location = new System.Drawing.Point(142, 12);
+            this.L_BattleTowerStreak.Name = "L_BattleTowerStreak";
+            this.L_BattleTowerStreak.Size = new System.Drawing.Size(46, 20);
+            this.L_BattleTowerStreak.TabIndex = 80;
+            this.L_BattleTowerStreak.Text = "Streak";
+            this.L_BattleTowerStreak.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // MT_BattleTowerSinglesStreak
+            // 
+            this.MT_BattleTowerSinglesStreak.Location = new System.Drawing.Point(145, 35);
+            this.MT_BattleTowerSinglesStreak.Mask = "000";
+            this.MT_BattleTowerSinglesStreak.Name = "MT_BattleTowerSinglesStreak";
+            this.MT_BattleTowerSinglesStreak.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerSinglesStreak.Size = new System.Drawing.Size(43, 20);
+            this.MT_BattleTowerSinglesStreak.TabIndex = 79;
+            this.MT_BattleTowerSinglesStreak.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // L_BattleTowerWins
+            // 
+            this.L_BattleTowerWins.Location = new System.Drawing.Point(85, 11);
+            this.L_BattleTowerWins.Name = "L_BattleTowerWins";
+            this.L_BattleTowerWins.Size = new System.Drawing.Size(46, 20);
+            this.L_BattleTowerWins.TabIndex = 78;
+            this.L_BattleTowerWins.Text = "Wins";
+            this.L_BattleTowerWins.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // L_Singles
+            // 
+            this.L_Singles.Location = new System.Drawing.Point(6, 34);
+            this.L_Singles.Name = "L_Singles";
+            this.L_Singles.Size = new System.Drawing.Size(76, 20);
+            this.L_Singles.TabIndex = 77;
+            this.L_Singles.Text = "Singles:";
+            this.L_Singles.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // MT_BattleTowerSinglesWin
+            // 
+            this.MT_BattleTowerSinglesWin.Location = new System.Drawing.Point(88, 34);
+            this.MT_BattleTowerSinglesWin.Mask = "0000000";
+            this.MT_BattleTowerSinglesWin.Name = "MT_BattleTowerSinglesWin";
+            this.MT_BattleTowerSinglesWin.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.MT_BattleTowerSinglesWin.Size = new System.Drawing.Size(51, 20);
+            this.MT_BattleTowerSinglesWin.TabIndex = 76;
+            this.MT_BattleTowerSinglesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SAV_Trainer8
             // 
