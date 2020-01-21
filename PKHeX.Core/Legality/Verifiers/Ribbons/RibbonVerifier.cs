@@ -224,7 +224,7 @@ namespace PKHeX.Core
                 return true;
             // Gen5: Can't obtain
             // Gen6/7: Increase level by 30 from original level
-            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level < 30))
+            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level >= 30))
                 return true;
 
             // Gen8: Can't obtain
