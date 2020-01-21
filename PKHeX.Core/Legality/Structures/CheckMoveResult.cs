@@ -45,10 +45,8 @@
         }
 
         internal CheckMoveResult(CheckMoveResult Org, Severity s, string c, CheckIdentifier i)
-            : base(s, c, i)
+            : this(Org.Source, Org.Generation, s, c, i)
         {
-            Source = Org?.Source ?? MoveSource.Unknown;
-            Generation = Org?.Generation ?? 0;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
             new BoxManipSort(BoxManipType.SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
-            new BoxManipSort(BoxManipType.SortEncounterType, list => list.OrderByCustom(pk => new LegalityAnalysis(pk).Info?.EncounterMatch.GetEncounterTypeName() ?? string.Empty)),
+            new BoxManipSort(BoxManipType.SortEncounterType, list => list.OrderByCustom(pk => new LegalityAnalysis(pk).Info.EncounterMatch.LongName)),
         };
 
         public static readonly IReadOnlyList<BoxManipBase> ClearCommon = new List<BoxManipBase>

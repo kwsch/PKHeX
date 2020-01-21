@@ -91,7 +91,7 @@ namespace PKHeX.Core
             get
             {
                 var enc = EncounterOriginal;
-                return $"{enc.GetEncounterTypeName()} ({SpeciesStrings[enc.Species]})";
+                return $"{enc.LongName} ({SpeciesStrings[enc.Species]})";
             }
         }
 

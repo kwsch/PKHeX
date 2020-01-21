@@ -105,7 +105,7 @@ namespace PKHeX.Core
                 pk.SID = SID;
 
                 pk.Language = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
-                pk.OT_Name = OT_Name ?? SAV.OT;
+                pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : SAV.OT;
                 if (IsEgg)
                     pk.IsEgg = true; // lang should be set to japanese by IsEgg setter
             }

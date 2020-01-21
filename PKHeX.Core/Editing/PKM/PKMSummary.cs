@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public string Ball => Get(Strings.balllist, pkm.Ball);
         public string OT => pkm.OT_Name;
         public string Version => Get(Strings.gamelist, pkm.Version);
-        public string OTLang => Get(GameDataSource.Languages, pkm.Language) ?? $"UNK {pkm.Language}";
+        public string OTLang => Get(GameDataSource.Languages, pkm.Language);
         public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
         public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
         public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";

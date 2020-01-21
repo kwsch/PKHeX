@@ -34,7 +34,5 @@
                 return pkm.CurrentLevel == g.Level;
             return pkm.CurrentLevel == pkm.Met_Level;
         }
-
-        internal static string GetEncounterTypeName(this IEncounterable Encounter) => Encounter?.LongName ?? "Unknown";
     }
 }
