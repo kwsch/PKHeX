@@ -8,7 +8,7 @@
 
         public BoxLayout8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
-        private int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
+        private static int GetBoxNameOffset(int box) => SAV6.LongStringLength * box;
 
         public string GetBoxName(int box)
         {
@@ -18,7 +18,7 @@
         public void SetBoxName(int box, string value)
         {
             var data = SAV.SetString(value, strlen, strlen, 0);
-            var offset = GetBoxNameOffset(box) + (SAV6.LongStringLength * box);
+            var offset = GetBoxNameOffset(box);
             SAV.SetData(Data, data, offset);
         }
 
