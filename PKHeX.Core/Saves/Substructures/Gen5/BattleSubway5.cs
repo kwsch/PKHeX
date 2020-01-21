@@ -65,8 +65,8 @@ namespace PKHeX.Core
         // Super Check
         public int SuperCheck
         {
-            get => BitConverter.ToUInt16(Data, Offset + 0x04);
-            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x04);
+            get => Data[Offset + 0x04];
+            set => Data[Offset + 0x04] = (byte)value;
         }
 
         // Super
