@@ -18,7 +18,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var Info = data.Info;
             // Check Unobtainable Ribbons
-            var encounterContent = (EncounterMatch as MysteryGift)?.Content ?? EncounterMatch;
+            var encounterContent = EncounterMatch is MysteryGift mg ? mg.Content : EncounterMatch;
             if (pkm.IsEgg)
             {
                 if (GetIncorrectRibbonsEgg(pkm, encounterContent))
@@ -197,7 +197,7 @@ namespace PKHeX.Core
         {
             if (s4.RibbonRecord)
                 yield return new RibbonResult(nameof(s4.RibbonRecord)); // Unobtainable
-            if (s4.RibbonFootprint && ((pkm.Format < 6 && gen == 5) || (gen >= 5 && pkm.CurrentLevel - pkm.Met_Level < 30)))
+            if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
             bool gen34 = gen == 3 || gen == 4;
@@ -216,6 +216,19 @@ namespace PKHeX.Core
                 foreach (var z in GetInvalidRibbonsNone(s4.RibbonBitsCosmetic(), s4.RibbonNamesCosmetic()))
                     yield return z;
             }
+        }
+
+        private static bool CanHaveFootprintRibbon(PKM pkm, int gen)
+        {
+            if (gen <= 4) // Friendship Check unnecessary - can decrease after obtaining ribbon.
+                return true;
+            // Gen5: Can't obtain
+            // Gen6/7: Increase level by 30 from original level
+            if (pkm.Format >= 6 && (gen != 8 && !pkm.GG) && (pkm.CurrentLevel - pkm.Met_Level < 30))
+                return true;
+
+            // Gen8: Can't obtain
+            return false;
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons6Any(PKM pkm, IRibbonSetCommon6 s6, int gen)
