@@ -139,6 +139,15 @@
             this.L_BattleTowerWins = new System.Windows.Forms.Label();
             this.L_Singles = new System.Windows.Forms.Label();
             this.MT_BattleTowerSinglesWin = new System.Windows.Forms.MaskedTextBox();
+            this.Tab_Team = new System.Windows.Forms.TabPage();
+            this.NUD_ShowTrainerCard = new System.Windows.Forms.NumericUpDown();
+            this.L_ShowTrainerCard = new System.Windows.Forms.Label();
+            this.PG_ShowTrainerCard = new System.Windows.Forms.PropertyGrid();
+            this.NUD_ShowTitleScreen = new System.Windows.Forms.NumericUpDown();
+            this.L_ShowTitleScreen = new System.Windows.Forms.Label();
+            this.PG_ShowTitleScreen = new System.Windows.Forms.PropertyGrid();
+            this.B_CopyFromPartyToTitleScreen = new System.Windows.Forms.Button();
+            this.B_CopyFromPartyToTrainerCard = new System.Windows.Forms.Button();
             this.TC_Editor.SuspendLayout();
             this.Tab_Overview.SuspendLayout();
             this.GB_Stats.SuspendLayout();
@@ -153,6 +162,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUD_X)).BeginInit();
             this.Tab_MiscValues.SuspendLayout();
             this.GB_BattleTower.SuspendLayout();
+            this.Tab_Team.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShowTrainerCard)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShowTitleScreen)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -660,6 +672,7 @@
             this.TC_Editor.Controls.Add(this.Tab_Overview);
             this.TC_Editor.Controls.Add(this.Tab_BadgeMap);
             this.TC_Editor.Controls.Add(this.Tab_MiscValues);
+            this.TC_Editor.Controls.Add(this.Tab_Team);
             this.TC_Editor.Location = new System.Drawing.Point(12, 12);
             this.TC_Editor.Name = "TC_Editor";
             this.TC_Editor.SelectedIndex = 0;
@@ -1235,6 +1248,126 @@
             this.MT_BattleTowerSinglesWin.TabIndex = 76;
             this.MT_BattleTowerSinglesWin.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // Tab_Team
+            // 
+            this.Tab_Team.Controls.Add(this.B_CopyFromPartyToTrainerCard);
+            this.Tab_Team.Controls.Add(this.B_CopyFromPartyToTitleScreen);
+            this.Tab_Team.Controls.Add(this.NUD_ShowTrainerCard);
+            this.Tab_Team.Controls.Add(this.L_ShowTrainerCard);
+            this.Tab_Team.Controls.Add(this.PG_ShowTrainerCard);
+            this.Tab_Team.Controls.Add(this.NUD_ShowTitleScreen);
+            this.Tab_Team.Controls.Add(this.L_ShowTitleScreen);
+            this.Tab_Team.Controls.Add(this.PG_ShowTitleScreen);
+            this.Tab_Team.Location = new System.Drawing.Point(4, 22);
+            this.Tab_Team.Name = "Tab_Team";
+            this.Tab_Team.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_Team.Size = new System.Drawing.Size(430, 287);
+            this.Tab_Team.TabIndex = 5;
+            this.Tab_Team.Text = "Team";
+            this.Tab_Team.UseVisualStyleBackColor = true;
+            // 
+            // NUD_ShowTrainerCard
+            // 
+            this.NUD_ShowTrainerCard.Location = new System.Drawing.Point(138, 9);
+            this.NUD_ShowTrainerCard.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.NUD_ShowTrainerCard.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ShowTrainerCard.Name = "NUD_ShowTrainerCard";
+            this.NUD_ShowTrainerCard.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ShowTrainerCard.TabIndex = 2;
+            this.NUD_ShowTrainerCard.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ShowTrainerCard.ValueChanged += new System.EventHandler(this.ChangeTrainerCardIndex);
+            // 
+            // L_ShowTrainerCard
+            // 
+            this.L_ShowTrainerCard.AutoSize = true;
+            this.L_ShowTrainerCard.Location = new System.Drawing.Point(3, 11);
+            this.L_ShowTrainerCard.Name = "L_ShowTrainerCard";
+            this.L_ShowTrainerCard.Size = new System.Drawing.Size(119, 13);
+            this.L_ShowTrainerCard.TabIndex = 1;
+            this.L_ShowTrainerCard.Text = "Shown on Trainer Card:";
+            // 
+            // PG_ShowTrainerCard
+            // 
+            this.PG_ShowTrainerCard.HelpVisible = false;
+            this.PG_ShowTrainerCard.Location = new System.Drawing.Point(3, 30);
+            this.PG_ShowTrainerCard.Name = "PG_ShowTrainerCard";
+            this.PG_ShowTrainerCard.Size = new System.Drawing.Size(200, 222);
+            this.PG_ShowTrainerCard.TabIndex = 3;
+            this.PG_ShowTrainerCard.ToolbarVisible = false;
+            // 
+            // NUD_ShowTitleScreen
+            // 
+            this.NUD_ShowTitleScreen.Location = new System.Drawing.Point(359, 9);
+            this.NUD_ShowTitleScreen.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.NUD_ShowTitleScreen.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ShowTitleScreen.Name = "NUD_ShowTitleScreen";
+            this.NUD_ShowTitleScreen.Size = new System.Drawing.Size(65, 20);
+            this.NUD_ShowTitleScreen.TabIndex = 6;
+            this.NUD_ShowTitleScreen.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUD_ShowTitleScreen.ValueChanged += new System.EventHandler(this.ChangeTitleScreenIndex);
+            // 
+            // L_ShowTitleScreen
+            // 
+            this.L_ShowTitleScreen.AutoSize = true;
+            this.L_ShowTitleScreen.Location = new System.Drawing.Point(221, 11);
+            this.L_ShowTitleScreen.Name = "L_ShowTitleScreen";
+            this.L_ShowTitleScreen.Size = new System.Drawing.Size(118, 13);
+            this.L_ShowTitleScreen.TabIndex = 5;
+            this.L_ShowTitleScreen.Text = "Shown on Title Screen:";
+            // 
+            // PG_ShowTitleScreen
+            // 
+            this.PG_ShowTitleScreen.HelpVisible = false;
+            this.PG_ShowTitleScreen.Location = new System.Drawing.Point(224, 30);
+            this.PG_ShowTitleScreen.Name = "PG_ShowTitleScreen";
+            this.PG_ShowTitleScreen.Size = new System.Drawing.Size(200, 222);
+            this.PG_ShowTitleScreen.TabIndex = 7;
+            this.PG_ShowTitleScreen.ToolbarVisible = false;
+            // 
+            // B_CopyFromPartyToTitleScreen
+            // 
+            this.B_CopyFromPartyToTitleScreen.Location = new System.Drawing.Point(309, 258);
+            this.B_CopyFromPartyToTitleScreen.Name = "B_CopyFromPartyToTitleScreen";
+            this.B_CopyFromPartyToTitleScreen.Size = new System.Drawing.Size(115, 23);
+            this.B_CopyFromPartyToTitleScreen.TabIndex = 8;
+            this.B_CopyFromPartyToTitleScreen.Text = "Copy From Party";
+            this.B_CopyFromPartyToTitleScreen.UseVisualStyleBackColor = true;
+            this.B_CopyFromPartyToTitleScreen.Click += new System.EventHandler(this.B_CopyFromPartyToTitleScreen_Click);
+            // 
+            // B_CopyFromPartyToTrainerCard
+            // 
+            this.B_CopyFromPartyToTrainerCard.Location = new System.Drawing.Point(88, 258);
+            this.B_CopyFromPartyToTrainerCard.Name = "B_CopyFromPartyToTrainerCard";
+            this.B_CopyFromPartyToTrainerCard.Size = new System.Drawing.Size(115, 23);
+            this.B_CopyFromPartyToTrainerCard.TabIndex = 4;
+            this.B_CopyFromPartyToTrainerCard.Text = "Copy From Party";
+            this.B_CopyFromPartyToTrainerCard.UseVisualStyleBackColor = true;
+            this.B_CopyFromPartyToTrainerCard.Click += new System.EventHandler(this.B_CopyFromPartyToTrainerCard_Click);
+            // 
             // SAV_Trainer8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1267,6 +1400,10 @@
             this.Tab_MiscValues.ResumeLayout(false);
             this.GB_BattleTower.ResumeLayout(false);
             this.GB_BattleTower.PerformLayout();
+            this.Tab_Team.ResumeLayout(false);
+            this.Tab_Team.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShowTrainerCard)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_ShowTitleScreen)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1384,5 +1521,14 @@
         private System.Windows.Forms.Label L_BattleTowerWins;
         private System.Windows.Forms.Label L_Singles;
         private System.Windows.Forms.MaskedTextBox MT_BattleTowerSinglesWin;
+        private System.Windows.Forms.TabPage Tab_Team;
+        private System.Windows.Forms.Label L_ShowTitleScreen;
+        private System.Windows.Forms.PropertyGrid PG_ShowTitleScreen;
+        private System.Windows.Forms.NumericUpDown NUD_ShowTrainerCard;
+        private System.Windows.Forms.Label L_ShowTrainerCard;
+        private System.Windows.Forms.PropertyGrid PG_ShowTrainerCard;
+        private System.Windows.Forms.NumericUpDown NUD_ShowTitleScreen;
+        private System.Windows.Forms.Button B_CopyFromPartyToTrainerCard;
+        private System.Windows.Forms.Button B_CopyFromPartyToTitleScreen;
     }
 }

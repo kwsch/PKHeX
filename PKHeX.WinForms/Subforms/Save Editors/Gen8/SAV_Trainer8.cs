@@ -36,6 +36,9 @@ namespace PKHeX.WinForms
 
             TC_Editor.TabPages.Remove(Tab_BadgeMap); // needs more work
 
+            ChangeTitleScreenIndex(null, EventArgs.Empty);
+            ChangeTrainerCardIndex(null, EventArgs.Empty);
+
             //Loading = false;
         }
 
@@ -207,6 +210,32 @@ namespace PKHeX.WinForms
         {
             //if (!Loading)
             //    MapUpdated = true;
+        }
+
+        private void ChangeTrainerCardIndex(object sender, EventArgs e)
+        {
+            var index = (int)NUD_ShowTrainerCard.Value - 1;
+            PG_ShowTrainerCard.SelectedObject = SAV.Blocks.TrainerCard.ViewPoke(index);
+        }
+
+        private void ChangeTitleScreenIndex(object sender, EventArgs e)
+        {
+            var index = (int)NUD_ShowTitleScreen.Value - 1;
+            PG_ShowTitleScreen.SelectedObject = SAV.Blocks.TitleScreen.ViewPoke(index);
+        }
+
+        private void B_CopyFromPartyToTrainerCard_Click(object sender, EventArgs e)
+        {
+            SAV.Blocks.TrainerCard.SetPartyData();
+            System.Media.SystemSounds.Asterisk.Play();
+            ChangeTrainerCardIndex(null, EventArgs.Empty);
+        }
+
+        private void B_CopyFromPartyToTitleScreen_Click(object sender, EventArgs e)
+        {
+            SAV.Blocks.TitleScreen.SetPartyData();
+            System.Media.SystemSounds.Asterisk.Play();
+            ChangeTitleScreenIndex(null, EventArgs.Empty);
         }
 
         //private string UpdateTip(int index)

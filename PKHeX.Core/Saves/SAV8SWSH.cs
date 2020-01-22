@@ -63,6 +63,8 @@ namespace PKHeX.Core
         public override Daycare8 Daycare => Blocks.Daycare;
         public override Record8 Records => Blocks.Records;
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
+        public override RaidSpawnList8 Raid => Blocks.Raid;
+        public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
 
         public object GetValue(uint key) => Blocks.GetBlockValue(key);
 

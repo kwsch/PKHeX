@@ -1,68 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PKHeX.Core
 {
-    public sealed class TrainerCard8 : SaveBlock
+    /// <summary>
+    /// Pokémon Team that shows up at the title screen.
+    /// </summary>
+    public sealed class TitleScreen8 : SaveBlock
     {
-        public TrainerCard8(SAV8SWSH sav, SCBlock block) : base (sav, block.Data) { }
-
-        public string OT
-        {
-            get => SAV.GetString(Data, 0x00, 0x1A);
-            set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0x00);
-        }
-
-        public int TrainerID
-        {
-            get => BitConverter.ToInt32(Data, 0x1C);
-            set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
-        }
-
-        public const int RotoRallyScoreMax = 99_999;
-
-        public int RotoRallyScore
-        {
-            get => BitConverter.ToInt32(Data, 0x28);
-            set
-            {
-                if (value > RotoRallyScoreMax)
-                    value = RotoRallyScoreMax;
-                var data = BitConverter.GetBytes(value);
-                SAV.SetData(Data, data, 0x28);
-                // set to the other block since it doesn't have an accessor
-                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessorSWSH.KRotoRally, (uint)value);
-            }
-        }
-
-        public string Number
-        {
-            get => Encoding.ASCII.GetString(Data, 0x39, 3);
-            set
-            {
-                for (int i = 0; i < 3; i++)
-                    Data[0x39 + i] = (byte) (value.Length > i ? value[i] : '\0');
-                SAV.Edited = true;
-            }
-        }
-
-        // Trainer Card Pokemon
-        // 0xC8 - 0xE3 (0x1C)
-        // 0xE4
-        // 0x100
-        // 0x11C
-        // 0x138
-        // 0x154 - 0x16F
+        public TitleScreen8(SAV8SWSH sav, SCBlock block) : base(sav, block.Data) { }
 
         /// <summary>
         /// Gets an object that exposes the data of the corresponding party <see cref="index"/>.
         /// </summary>
-        public TrainerCard8Poke ViewPoke(int index)
+        public TitleScreen8Poke ViewPoke(int index)
         {
-            if ((uint) index >= 6)
+            if ((uint)index >= 6)
                 throw new ArgumentOutOfRangeException(nameof(index));
-            return new TrainerCard8Poke(Data, Offset + 0xC8 + (index * TrainerCard8Poke.SIZE));
+            return new TitleScreen8Poke(Data, Offset + 0x00 + (index * TitleScreen8Poke.SIZE));
         }
 
         /// <summary>
@@ -77,13 +32,13 @@ namespace PKHeX.Core
         }
     }
 
-    public class TrainerCard8Poke
+    public class TitleScreen8Poke
     {
-        public const int SIZE = 0x1C;
+        public const int SIZE = 0x28;
         private readonly byte[] Data;
         private readonly int Offset;
 
-        public TrainerCard8Poke(byte[] data, int offset)
+        public TitleScreen8Poke(byte[] data, int offset)
         {
             Data = data;
             Offset = offset;
@@ -110,7 +65,7 @@ namespace PKHeX.Core
         public bool IsShiny
         {
             get => Data[Offset + 0xC] != 0;
-            set => Data[Offset + 0xC] = (byte) (value ? 1 : 0);
+            set => Data[Offset + 0xC] = (byte)(value ? 1 : 0);
         }
 
         public uint EncryptionConstant
@@ -119,16 +74,34 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x10);
         }
 
-        public uint Unknown
+        public int FormArgument
         {
-            get => BitConverter.ToUInt32(Data, Offset + 0x14);
+            get => BitConverter.ToInt32(Data, Offset + 0x14);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x14);
         }
 
-        public int FormArgument
+        public uint Unknown18
         {
-            get => BitConverter.ToInt32(Data, Offset + 0x18);
+            get => BitConverter.ToUInt32(Data, Offset + 0x18);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x18);
+        }
+
+        public uint Unknown1C
+        {
+            get => BitConverter.ToUInt32(Data, Offset + 0x1C);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x1C);
+        }
+
+        public uint Unknown20
+        {
+            get => BitConverter.ToUInt32(Data, Offset + 0x20);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x20);
+        }
+
+        public uint Unknown24
+        {
+            get => BitConverter.ToUInt32(Data, Offset + 0x24);
+            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x24);
         }
 
         public void LoadFrom(PKM pkm)
@@ -138,10 +111,10 @@ namespace PKHeX.Core
             Gender = pkm.Gender;
             IsShiny = pkm.IsShiny;
             EncryptionConstant = pkm.EncryptionConstant;
-            FormArgument = pkm is IFormArgument f && pkm.Species == (int) Core.Species.Alcremie ? (int)f.FormArgument : -1;
+            FormArgument = pkm is IFormArgument f && pkm.Species == (int)Core.Species.Alcremie ? (int)f.FormArgument : -1;
         }
 
-        public void LoadFrom(TitleScreen8Poke pkm)
+        public void LoadFrom(TrainerCard8Poke pkm)
         {
             Species = pkm.Species;
             AltForm = pkm.AltForm;

@@ -19,6 +19,7 @@ namespace PKHeX.Core
         public TrainerCard8 TrainerCard{ get; }
         public FashionUnlock8 Fashion { get; }
         public RaidSpawnList8 Raid { get; }
+        public TitleScreen8 TitleScreen { get; }
 
         public SaveBlockAccessorSWSH(SAV8SWSH sav)
         {
@@ -37,6 +38,7 @@ namespace PKHeX.Core
             Records = new Record8(sav, GetBlock(KRecord), Core.Records.MaxType_SWSH);
             Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
             Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList));
+            TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
         }
 
         /* To dump key list of current format, use the following in the immediate window, and update Meta8
@@ -60,6 +62,7 @@ namespace PKHeX.Core
         private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
+        private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
 
         // Values

@@ -52,6 +52,8 @@ namespace PKHeX.Core
         public abstract Daycare8 Daycare { get; }
         public abstract Record8 Records { get; }
         public abstract TrainerCard8 TrainerCard { get; }
+        public abstract RaidSpawnList8 Raid { get; }
+        public abstract TitleScreen8 TitleScreen { get; }
         #endregion
 
         public override GameVersion Version
