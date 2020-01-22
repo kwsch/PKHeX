@@ -702,6 +702,7 @@ namespace PKHeX.WinForms.Controls
             Entity.SetMoves(m);
             FieldsLoaded = false;
             LoadMoves(Entity);
+            ClickPP(null, EventArgs.Empty);
             FieldsLoaded = true;
             return true;
         }
