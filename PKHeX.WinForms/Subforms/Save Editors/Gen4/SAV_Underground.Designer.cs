@@ -79,12 +79,12 @@
             // 
             // LU_PlayersMet
             // 
-            this.LU_PlayersMet.AutoSize = true;
-            this.LU_PlayersMet.Location = new System.Drawing.Point(91, 18);
+            this.LU_PlayersMet.Location = new System.Drawing.Point(12, 17);
             this.LU_PlayersMet.Name = "LU_PlayersMet";
-            this.LU_PlayersMet.Size = new System.Drawing.Size(82, 17);
+            this.LU_PlayersMet.Size = new System.Drawing.Size(161, 22);
             this.LU_PlayersMet.TabIndex = 3;
             this.LU_PlayersMet.Text = "Players Met";
+            this.LU_PlayersMet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_PlayersMet
             // 
@@ -101,16 +101,16 @@
             // 
             // LU_Gifts
             // 
-            this.LU_Gifts.AutoSize = true;
-            this.LU_Gifts.Location = new System.Drawing.Point(95, 47);
+            this.LU_Gifts.Location = new System.Drawing.Point(12, 45);
             this.LU_Gifts.Name = "LU_Gifts";
-            this.LU_Gifts.Size = new System.Drawing.Size(78, 17);
+            this.LU_Gifts.Size = new System.Drawing.Size(161, 22);
             this.LU_Gifts.TabIndex = 5;
             this.LU_Gifts.Text = "Gifts Given";
+            this.LU_Gifts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Gifts
             // 
-            this.U_Gifts.Location = new System.Drawing.Point(179, 46);
+            this.U_Gifts.Location = new System.Drawing.Point(179, 45);
             this.U_Gifts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.U_Gifts.Maximum = new decimal(new int[] {
             999999,
@@ -123,12 +123,12 @@
             // 
             // LU_Spheres
             // 
-            this.LU_Spheres.AutoSize = true;
-            this.LU_Spheres.Location = new System.Drawing.Point(51, 75);
+            this.LU_Spheres.Location = new System.Drawing.Point(12, 73);
             this.LU_Spheres.Name = "LU_Spheres";
-            this.LU_Spheres.Size = new System.Drawing.Size(123, 17);
+            this.LU_Spheres.Size = new System.Drawing.Size(161, 22);
             this.LU_Spheres.TabIndex = 7;
             this.LU_Spheres.Text = "Spheres Obtained";
+            this.LU_Spheres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Spheres
             // 
@@ -145,12 +145,12 @@
             // 
             // LU_Fossils
             // 
-            this.LU_Fossils.AutoSize = true;
-            this.LU_Fossils.Location = new System.Drawing.Point(60, 103);
+            this.LU_Fossils.Location = new System.Drawing.Point(12, 101);
             this.LU_Fossils.Name = "LU_Fossils";
-            this.LU_Fossils.Size = new System.Drawing.Size(113, 17);
+            this.LU_Fossils.Size = new System.Drawing.Size(161, 22);
             this.LU_Fossils.TabIndex = 9;
             this.LU_Fossils.Text = "Fossils Obtained";
+            this.LU_Fossils.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Fossils
             // 
@@ -167,12 +167,12 @@
             // 
             // LU_TrapsA
             // 
-            this.LU_TrapsA.AutoSize = true;
-            this.LU_TrapsA.Location = new System.Drawing.Point(74, 131);
+            this.LU_TrapsA.Location = new System.Drawing.Point(12, 129);
             this.LU_TrapsA.Name = "LU_TrapsA";
-            this.LU_TrapsA.Size = new System.Drawing.Size(100, 17);
+            this.LU_TrapsA.Size = new System.Drawing.Size(161, 22);
             this.LU_TrapsA.TabIndex = 11;
             this.LU_TrapsA.Text = "Traps Avoided";
+            this.LU_TrapsA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_TrapsA
             // 
@@ -189,16 +189,16 @@
             // 
             // LU_TrapsT
             // 
-            this.LU_TrapsT.AutoSize = true;
-            this.LU_TrapsT.Location = new System.Drawing.Point(63, 160);
+            this.LU_TrapsT.Location = new System.Drawing.Point(12, 157);
             this.LU_TrapsT.Name = "LU_TrapsT";
-            this.LU_TrapsT.Size = new System.Drawing.Size(111, 17);
+            this.LU_TrapsT.Size = new System.Drawing.Size(161, 22);
             this.LU_TrapsT.TabIndex = 13;
             this.LU_TrapsT.Text = "Traps Triggered";
+            this.LU_TrapsT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_TrapsT
             // 
-            this.U_TrapsT.Location = new System.Drawing.Point(179, 158);
+            this.U_TrapsT.Location = new System.Drawing.Point(179, 157);
             this.U_TrapsT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.U_TrapsT.Maximum = new decimal(new int[] {
             999999,
@@ -211,16 +211,16 @@
             // 
             // LU_Flags
             // 
-            this.LU_Flags.AutoSize = true;
-            this.LU_Flags.Location = new System.Drawing.Point(69, 187);
+            this.LU_Flags.Location = new System.Drawing.Point(12, 184);
             this.LU_Flags.Name = "LU_Flags";
-            this.LU_Flags.Size = new System.Drawing.Size(104, 17);
+            this.LU_Flags.Size = new System.Drawing.Size(161, 22);
             this.LU_Flags.TabIndex = 15;
             this.LU_Flags.Text = "Flags Captured";
+            this.LU_Flags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Flags
             // 
-            this.U_Flags.Location = new System.Drawing.Point(179, 185);
+            this.U_Flags.Location = new System.Drawing.Point(179, 184);
             this.U_Flags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.U_Flags.Maximum = new decimal(new int[] {
             999999,
@@ -264,7 +264,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.U_TrapsT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Flags)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
