@@ -69,10 +69,10 @@ namespace PKHeX.Core
         public const uint KGameLanguage = 0x0BFDEBA1; // U32 Game Language
         public const uint KRepel = 0x9ec079da; // U16 Repel Steps remaining
         public const uint KRotoRally = 0x38548020; // U32 Roto Rally Score (99,999 cap)
-        public const int KBattleTowerSinglesVictory = 0x436CAF2B; // U32 Singles victories (9,999,999 cap)
-        public const int KBattleTowerDoublesVictory = 0x0D477836; // U32 Doubles victories (9,999,999 cap)
-        public const int KBattleTowerSinglesStreak = 0x6226F5AD; // U16 Singles Streak (255 cap)
-        public const int KBattleTowerDoublesStreak = 0x5F74FCEE; // U16 Doubles Streak (255 cap)
+        public const uint KBattleTowerSinglesVictory = 0x436CAF2B; // U32 Singles victories (9,999,999 cap)
+        public const uint KBattleTowerDoublesVictory = 0x0D477836; // U32 Doubles victories (9,999,999 cap)
+        public const uint KBattleTowerSinglesStreak = 0x6226F5AD; // U16 Singles Streak (255 cap)
+        public const uint KBattleTowerDoublesStreak = 0x5F74FCEE; // U16 Doubles Streak (255 cap)
         public object GetBlockValue(uint key) => GetBlock(key).GetValue();
         public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
 

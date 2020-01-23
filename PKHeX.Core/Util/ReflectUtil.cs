@@ -124,5 +124,12 @@ namespace PKHeX.Core
         {
             return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
         }
+
+        public static Dictionary<T, string> GetAllConstantsOfType<T>(this Type type)
+        {
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var consts = fields.Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(T));
+            return consts.ToDictionary(x => (T)x.GetRawConstantValue(), z => z.Name);
+        }
     }
 }
