@@ -168,7 +168,7 @@
             // LU_TrapsA
             // 
             this.LU_TrapsA.AutoSize = true;
-            this.LU_TrapsA.Location = new System.Drawing.Point(73, 130);
+            this.LU_TrapsA.Location = new System.Drawing.Point(74, 131);
             this.LU_TrapsA.Name = "LU_TrapsA";
             this.LU_TrapsA.Size = new System.Drawing.Size(100, 17);
             this.LU_TrapsA.TabIndex = 11;
@@ -190,7 +190,7 @@
             // LU_TrapsT
             // 
             this.LU_TrapsT.AutoSize = true;
-            this.LU_TrapsT.Location = new System.Drawing.Point(61, 159);
+            this.LU_TrapsT.Location = new System.Drawing.Point(63, 160);
             this.LU_TrapsT.Name = "LU_TrapsT";
             this.LU_TrapsT.Size = new System.Drawing.Size(111, 17);
             this.LU_TrapsT.TabIndex = 13;
