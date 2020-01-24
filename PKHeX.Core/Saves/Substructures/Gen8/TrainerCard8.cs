@@ -20,6 +20,12 @@ namespace PKHeX.Core
             set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
         }
 
+        public byte Starter
+        {
+            get => Data[0x25];
+            set => Data[0x25] = value; // Grookey=0, Scorbunny=1, Sobble=2
+        }
+
         public const int RotoRallyScoreMax = 99_999;
 
         public int RotoRallyScore
@@ -36,6 +42,20 @@ namespace PKHeX.Core
             }
         }
 
+        public const int MaxPokemonCaught = 99_999;
+
+        public int CaughtPokemon
+        {
+            get => BitConverter.ToInt32(Data, 0x2C);
+            set
+            {
+                if (value > MaxPokemonCaught)
+                    value = MaxPokemonCaught;
+                var data = BitConverter.GetBytes(value);
+                SAV.SetData(Data, data, 0x2C);
+            }
+        }
+
         public string Number
         {
             get => Encoding.ASCII.GetString(Data, 0x39, 3);
@@ -45,6 +65,96 @@ namespace PKHeX.Core
                     Data[0x39 + i] = (byte) (value.Length > i ? value[i] : '\0');
                 SAV.Edited = true;
             }
+        }
+
+        public ulong Skin // aka the base model
+        {
+            get => BitConverter.ToUInt64(Data, 0x40);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x40);
+        }
+
+        public ulong Hair
+        {
+            get => BitConverter.ToUInt64(Data, 0x48);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x48);
+        }
+
+        public ulong Brow
+        {
+            get => BitConverter.ToUInt64(Data, 0x50);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x50);
+        }
+
+        public ulong Lashes
+        {
+            get => BitConverter.ToUInt64(Data, 0x58);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x58);
+        }
+
+        public ulong Contacts
+        {
+            get => BitConverter.ToUInt64(Data, 0x60);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x60);
+        }
+
+        public ulong Lips
+        {
+            get => BitConverter.ToUInt64(Data, 0x68);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x68);
+        }
+
+        public ulong Glasses
+        {
+            get => BitConverter.ToUInt64(Data, 0x70);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x70);
+        }
+
+        public ulong Hat
+        {
+            get => BitConverter.ToUInt64(Data, 0x78);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x78);
+        }
+
+        public ulong Jacket
+        {
+            get => BitConverter.ToUInt64(Data, 0x80);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x80);
+        }
+
+        public ulong Top
+        {
+            get => BitConverter.ToUInt64(Data, 0x88);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x88);
+        }
+
+        public ulong Bag
+        {
+            get => BitConverter.ToUInt64(Data, 0x90);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x90);
+        }
+
+        public ulong Gloves
+        {
+            get => BitConverter.ToUInt64(Data, 0x98);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x98);
+        }
+
+        public ulong BottomOrDress
+        {
+            get => BitConverter.ToUInt64(Data, 0xA0);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0xA0);
+        }
+
+        public ulong Sock
+        {
+            get => BitConverter.ToUInt64(Data, 0xA8);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0xA8);
+        }
+
+        public ulong Shoe
+        {
+            get => BitConverter.ToUInt64(Data, 0xB0);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0xB0);
         }
 
         // Trainer Card Pokemon

@@ -18,6 +18,12 @@ namespace PKHeX.Core
             }
         }
 
+        public ulong Skin // aka the base model
+        {
+            get => BitConverter.ToUInt64(Data, 0x08);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x08);
+        }
+
         public ulong Hair
         {
             get => BitConverter.ToUInt64(Data, 0x10);
@@ -102,7 +108,15 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x78);
         }
 
-        // 80 - A0
+        // 80 - 87
+
+        public ulong MomSkin // aka the base model
+        {
+            get => BitConverter.ToUInt64(Data, 0x88);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x88);
+        }
+
+        // 8C - 9F
 
         public int TID
         {
