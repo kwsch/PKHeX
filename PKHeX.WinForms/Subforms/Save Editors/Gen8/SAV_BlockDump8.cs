@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -79,26 +81,39 @@ namespace PKHeX.WinForms
             RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
 
             string blockName = GetBlockName(block, out SaveBlock obj);
-            if (blockName == null)
+            if (blockName != null)
             {
-                L_BlockName.Visible = false;
-                return;
-            }
-
-            if (obj != null && ModifierKeys != Keys.Control)
-            {
-                // property grid instead of hex view?
-                PG_BlockView.SelectedObject = obj;
-                var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(obj.GetType());
-                PG_BlockView.Visible = props.Count() > 1;
+                L_BlockName.Visible = true;
+                L_BlockName.Text = blockName;
             }
             else
             {
-                PG_BlockView.Visible = false;
+                L_BlockName.Visible = false;
             }
 
-            L_BlockName.Visible = true;
-            L_BlockName.Text = blockName;
+            if (ModifierKeys != Keys.Control)
+            {
+                // Show a PropertyGrid to edit
+                if (obj != null)
+                {
+                    var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(obj.GetType());
+                    if (props.Count() > 1)
+                    {
+                        PG_BlockView.Visible = true;
+                        PG_BlockView.SelectedObject = obj;
+                        return;
+                    }
+                }
+
+                var o = WrapUtil.GetWrapped(block);
+                if (o != null)
+                {
+                    PG_BlockView.Visible = true;
+                    PG_BlockView.SelectedObject = o;
+                    return;
+                }
+            }
+            PG_BlockView.Visible = false;
         }
 
         private string GetBlockName(SCBlock block, out SaveBlock saveBlock)
@@ -243,6 +258,59 @@ namespace PKHeX.WinForms
 
             var bytes = File.ReadAllBytes(path);
             bytes.CopyTo(data, 0);
+        }
+
+        private class WrappedValueView<T>
+        {
+            private readonly SCBlock Parent;
+            private T _value;
+
+            [Description("Stored Value for this Block")]
+            public T Value
+            {
+                get => _value;
+                set => Parent.SetValue(_value = value);
+            }
+
+            [Description("Type of Value this Block stores")]
+            public string ValueType => typeof(T).Name;
+
+            public WrappedValueView(SCBlock block, object currentValue)
+            {
+                Parent = block;
+                _value = (T)Convert.ChangeType(currentValue, typeof(T));
+            }
+        }
+
+        private static class WrapUtil
+        {
+            public static object GetWrapped(SCBlock block)
+            {
+                return block.Type switch
+                {
+                    SCTypeCode.Byte => new WrappedValueView<byte>(block, block.GetValue()),
+                    SCTypeCode.UInt16 => new WrappedValueView<ushort>(block, block.GetValue()),
+                    SCTypeCode.UInt32 => new WrappedValueView<uint>(block, block.GetValue()),
+                    SCTypeCode.UInt64 => new WrappedValueView<ulong>(block, block.GetValue()),
+
+                    SCTypeCode.SByte => new WrappedValueView<sbyte>(block, block.GetValue()),
+                    SCTypeCode.Int16 => new WrappedValueView<short>(block, block.GetValue()),
+                    SCTypeCode.Int32 => new WrappedValueView<int>(block, block.GetValue()),
+                    SCTypeCode.Int64 => new WrappedValueView<long>(block, block.GetValue()),
+
+                    SCTypeCode.Single => new WrappedValueView<float>(block, block.GetValue()),
+                    SCTypeCode.Double => new WrappedValueView<double>(block, block.GetValue()),
+
+                    _ => null,
+                };
+            }
+        }
+
+        private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            Debug.WriteLine($"ChangedItem = {e.ChangedItem.Label}, OldValue = {e.OldValue}, NewValue = {e.ChangedItem.Value}");
+            if (CurrentBlock.Type != SCTypeCode.Object && CurrentBlock.Type != SCTypeCode.Array)
+                L_Detail_R.Text = GetBlockSummary(CurrentBlock);
         }
     }
 }

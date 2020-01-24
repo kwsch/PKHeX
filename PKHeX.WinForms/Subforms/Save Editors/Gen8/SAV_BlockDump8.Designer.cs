@@ -64,7 +64,7 @@
             // 
             this.CB_Key.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Key.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_Key.DropDownWidth = 234;
+            this.CB_Key.DropDownWidth = 270;
             this.CB_Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_Key.FormattingEnabled = true;
             this.CB_Key.Location = new System.Drawing.Point(83, 9);
@@ -240,6 +240,7 @@
             this.PG_BlockView.Name = "PG_BlockView";
             this.PG_BlockView.Size = new System.Drawing.Size(114, 130);
             this.PG_BlockView.TabIndex = 14;
+            this.PG_BlockView.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PG_BlockView_PropertyValueChanged);
             // 
             // RTB_Hex
             // 
