@@ -13,13 +13,25 @@ namespace PKHeX.WinForms
         private readonly SAV8SWSH SAV;
         private SCBlock CurrentBlock;
 
+        private readonly Dictionary<SaveBlock, string> BlockList;
+        private readonly Dictionary<uint, string> ValueList;
+
         public SAV_BlockDump8(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)sav;
 
-            var blocks = SAV.AllBlocks.Select((z, i) => new ComboItem($"{z.Key:X8} - {i:0000} {(z.Type.IsBoolean() ? "Bool" : z.Type.ToString())}", (int)z.Key));
+            var accessor = SAV.Blocks;
+            var aType = accessor.GetType();
+            BlockList = aType.GetAllPropertiesOfType<SaveBlock>(SAV.Blocks);
+            ValueList = aType.GetAllConstantsOfType<uint>();
+
+            var blocks = SAV.AllBlocks
+                .Select((z, i) => new ComboItem(GetBlockHint(z, i), (int)z.Key))
+                .OrderBy(z => !z.Text.StartsWith("*"))
+                .ThenBy(z => z.Text);
+
             CB_Key.InitializeBinding();
             CB_Key.DataSource = blocks.ToArray();
 
@@ -31,6 +43,15 @@ namespace PKHeX.WinForms
             };
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
+        }
+
+        private string GetBlockHint(SCBlock z, int i)
+        {
+            var blockName = GetBlockName(z, out _);
+            var type = (z.Type.IsBoolean() ? "Bool" : z.Type.ToString());
+            if (blockName != null)
+                return $"*{type} {blockName}";
+            return $"{z.Key:X8} - {i:0000} {type}";
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
@@ -54,6 +75,41 @@ namespace PKHeX.WinForms
             var block = CurrentBlock;
             L_Detail_R.Text = GetBlockSummary(block);
             RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
+
+            string blockName = GetBlockName(block, out SaveBlock obj);
+            if (blockName == null)
+            {
+                L_BlockName.Visible = false;
+                return;
+            }
+
+            if (obj != null)
+            {
+                // property grid instead of hex view?
+            }
+
+            L_BlockName.Visible = true;
+            L_BlockName.Text = blockName;
+        }
+
+        private string GetBlockName(SCBlock block, out SaveBlock saveBlock)
+        {
+            // See if we have a Block object for this block
+            var obj = BlockList.FirstOrDefault(z => ReferenceEquals(z.Key.Data, block.Data));
+            if (obj.Key != null)
+            {
+                saveBlock = obj.Key;
+                return obj.Value;
+            }
+
+            // See if it's a single-value declaration
+            if (ValueList.TryGetValue(block.Key, out var blockName))
+            {
+                saveBlock = null;
+                return blockName;
+            }
+            saveBlock = null;
+            return null;
         }
 
         private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)

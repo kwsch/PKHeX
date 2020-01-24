@@ -41,7 +41,7 @@
             this.CHK_DataOnly = new System.Windows.Forms.CheckBox();
             this.CHK_FakeHeader = new System.Windows.Forms.CheckBox();
             this.CHK_Key = new System.Windows.Forms.CheckBox();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Dump = new System.Windows.Forms.TabPage();
             this.RTB_Hex = new System.Windows.Forms.RichTextBox();
             this.CB_TypeToggle = new System.Windows.Forms.ComboBox();
@@ -52,7 +52,8 @@
             this.TB_OldSAV = new System.Windows.Forms.TextBox();
             this.B_LoadNew = new System.Windows.Forms.Button();
             this.B_LoadOld = new System.Windows.Forms.Button();
-            this.tabControl1.SuspendLayout();
+            this.L_BlockName = new System.Windows.Forms.Label();
+            this.TC_Tabs.SuspendLayout();
             this.Tab_Dump.SuspendLayout();
             this.Tab_Compare.SuspendLayout();
             this.GB_Researcher.SuspendLayout();
@@ -62,6 +63,7 @@
             // 
             this.CB_Key.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.CB_Key.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.CB_Key.DropDownWidth = 234;
             this.CB_Key.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CB_Key.FormattingEnabled = true;
             this.CB_Key.Location = new System.Drawing.Point(83, 9);
@@ -191,16 +193,16 @@
             this.CHK_Key.Text = "Include 32Bit Key";
             this.CHK_Key.UseVisualStyleBackColor = true;
             // 
-            // tabControl1
+            // TC_Tabs
             // 
-            this.tabControl1.Controls.Add(this.Tab_Dump);
-            this.tabControl1.Controls.Add(this.Tab_Compare);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(474, 341);
-            this.tabControl1.TabIndex = 12;
+            this.TC_Tabs.Controls.Add(this.Tab_Dump);
+            this.TC_Tabs.Controls.Add(this.Tab_Compare);
+            this.TC_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.TC_Tabs.Location = new System.Drawing.Point(0, 0);
+            this.TC_Tabs.Name = "TC_Tabs";
+            this.TC_Tabs.SelectedIndex = 0;
+            this.TC_Tabs.Size = new System.Drawing.Size(474, 341);
+            this.TC_Tabs.TabIndex = 12;
             // 
             // Tab_Dump
             // 
@@ -257,7 +259,7 @@
             this.Tab_Compare.Controls.Add(this.GB_Researcher);
             this.Tab_Compare.Location = new System.Drawing.Point(4, 22);
             this.Tab_Compare.Name = "Tab_Compare";
-            this.Tab_Compare.Size = new System.Drawing.Size(466, 318);
+            this.Tab_Compare.Size = new System.Drawing.Size(466, 315);
             this.Tab_Compare.TabIndex = 1;
             this.Tab_Compare.Text = "Compare";
             this.Tab_Compare.UseVisualStyleBackColor = true;
@@ -269,7 +271,7 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(466, 242);
+            this.richTextBox1.Size = new System.Drawing.Size(466, 239);
             this.richTextBox1.TabIndex = 15;
             this.richTextBox1.Text = "";
             // 
@@ -327,12 +329,24 @@
             this.B_LoadOld.UseVisualStyleBackColor = true;
             this.B_LoadOld.Click += new System.EventHandler(this.B_LoadOld_Click);
             // 
+            // L_BlockName
+            // 
+            this.L_BlockName.AutoSize = true;
+            this.L_BlockName.ForeColor = System.Drawing.Color.Red;
+            this.L_BlockName.Location = new System.Drawing.Point(271, 4);
+            this.L_BlockName.Name = "L_BlockName";
+            this.L_BlockName.Size = new System.Drawing.Size(107, 13);
+            this.L_BlockName.TabIndex = 14;
+            this.L_BlockName.Text = "HIDDEN:BlockName";
+            this.L_BlockName.Visible = false;
+            // 
             // SAV_BlockDump8
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 341);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.L_BlockName);
+            this.Controls.Add(this.TC_Tabs);
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -340,13 +354,14 @@
             this.Name = "SAV_BlockDump8";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Savedata Block Dump";
-            this.tabControl1.ResumeLayout(false);
+            this.TC_Tabs.ResumeLayout(false);
             this.Tab_Dump.ResumeLayout(false);
             this.Tab_Dump.PerformLayout();
             this.Tab_Compare.ResumeLayout(false);
             this.GB_Researcher.ResumeLayout(false);
             this.GB_Researcher.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -364,7 +379,7 @@
         private System.Windows.Forms.CheckBox CHK_DataOnly;
         private System.Windows.Forms.CheckBox CHK_FakeHeader;
         private System.Windows.Forms.CheckBox CHK_Key;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl TC_Tabs;
         private System.Windows.Forms.TabPage Tab_Dump;
         private System.Windows.Forms.TabPage Tab_Compare;
         private System.Windows.Forms.ComboBox CB_TypeToggle;
@@ -375,5 +390,6 @@
         private System.Windows.Forms.Button B_LoadOld;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox RTB_Hex;
+        private System.Windows.Forms.Label L_BlockName;
     }
 }
