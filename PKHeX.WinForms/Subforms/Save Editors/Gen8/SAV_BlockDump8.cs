@@ -227,7 +227,7 @@ namespace PKHeX.WinForms
             if (!(s2 is SAV8SWSH w2))
                 return;
 
-            var compare = new SCBlockCompare(w1, w2);
+            var compare = new SCBlockCompare(w1.Blocks, w2.Blocks);
             richTextBox1.Lines = compare.Summary().ToArray();
         }
 

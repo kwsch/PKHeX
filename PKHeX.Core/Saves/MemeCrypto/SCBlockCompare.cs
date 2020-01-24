@@ -10,11 +10,12 @@ namespace PKHeX.Core
         private readonly List<string> TypesChanged = new List<string>();
         private readonly List<string> ValueChanged = new List<string>();
 
-        public SCBlockCompare(SAV8SWSH s1, SAV8SWSH s2)
+        public SCBlockCompare(SCBlockAccessor s1, SCBlockAccessor s2)
         {
-            var b1 = s1.Blocks.BlockInfo;
-            var b2 = s2.Blocks.BlockInfo;
-            var names = s1.Blocks.GetType().GetAllConstantsOfType<uint>();
+            var b1 = s1.BlockInfo;
+            var b2 = s2.BlockInfo;
+            var names = GetKeyNames(s1, b1, b2);
+
             string GetKeyName(uint key) => names.TryGetValue(key, out var val) ? val : $"{key:X8}";
 
             var hs1 = new HashSet<uint>(b1.Select(z => z.Key));
@@ -27,12 +28,12 @@ namespace PKHeX.Core
                 var name = GetKeyName(k);
                 if (hs1.Contains(k))
                 {
-                    var b = s1.Blocks.GetBlock(k);
+                    var b = s1.GetBlock(k);
                     RemovedKeys.Add($"{name} - {b.Type}");
                 }
                 else
                 {
-                    var b = s2.Blocks.GetBlock(k);
+                    var b = s2.GetBlock(k);
                     AddedKeys.Add($"{name} - {b.Type}");
                 }
             }
@@ -40,8 +41,8 @@ namespace PKHeX.Core
             hs1.IntersectWith(hs2);
             foreach (var k in hs1)
             {
-                var x1 = s1.Blocks.GetBlock(k);
-                var x2 = s2.Blocks.GetBlock(k);
+                var x1 = s1.GetBlock(k);
+                var x2 = s2.GetBlock(k);
                 var name = GetKeyName(x1.Key);
                 if (x1.Type != x2.Type)
                 {
@@ -73,6 +74,26 @@ namespace PKHeX.Core
                 else
                     ValueChanged.Add($"{name} - {val1} => {val2}");
             }
+        }
+
+        private static Dictionary<uint, string> GetKeyNames(SCBlockAccessor s1, IEnumerable<SCBlock> b1, IEnumerable<SCBlock> b2)
+        {
+            var aType = s1.GetType();
+            var b1n = aType.GetAllPropertiesOfType<SaveBlock>(s1);
+            var names = aType.GetAllConstantsOfType<uint>();
+            Add(b1n, b1);
+            Add(b1n, b2);
+
+            void Add(Dictionary<SaveBlock, string> list, IEnumerable<SCBlock> blocks)
+            {
+                foreach (var b in blocks)
+                {
+                    var match = list.FirstOrDefault(z => ReferenceEquals(z.Key.Data, b.Data));
+                    if (match.Value != null && names.ContainsKey(b.Key))
+                        names[b.Key] = match.Value;
+                }
+            }
+            return names;
         }
 
         public IReadOnlyList<string> Summary()
