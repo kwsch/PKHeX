@@ -2,9 +2,9 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessorSWSH : ISaveBlockAccessor<SCBlock>, ISaveBlock8Main
+    public class SaveBlockAccessorSWSH : SCBlockAccessor, ISaveBlock8Main
     {
-        public IReadOnlyList<SCBlock> BlockInfo { get; }
+        public override IReadOnlyList<SCBlock> BlockInfo { get; }
         public Box8 BoxInfo { get; }
         public Party8 PartyInfo { get; }
         public MyItem Items { get; }
@@ -76,32 +76,5 @@ namespace PKHeX.Core
         public const uint KStarterChoice = 0x3677602D; // U32 Grookey=0, Scorbunny=1, Sobble=2
         public const uint KDiggingDuoStreakSkill = 0xA0F49CFB; // U32
         public const uint KDiggingDuoStreakStamina = 0x066F38F5; // U32
-
-        public object GetBlockValue(uint key) => GetBlock(key).GetValue();
-        public void SetBlockValue(uint key, object value) => GetBlock(key).SetValue(value);
-
-        // Rather than storing a dictionary of keys, we can abuse the fact that the SCBlock[] is stored in order of ascending block key.
-        // Binary Search doesn't require extra memory like a Dictionary would; also, we only need to find a few blocks.
-        public SCBlock GetBlock(uint key) => BinarySearch(BlockInfo, key);
-
-        private static SCBlock BinarySearch(IReadOnlyList<SCBlock> arr, uint key)
-        {
-            int min = 0;
-            int max = arr.Count - 1;
-            do
-            {
-                int mid = (min + max) / 2;
-                var entry = arr[mid];
-                var ek = entry.Key;
-                if (key == ek)
-                    return entry;
-
-                if (key < ek)
-                    max = mid - 1;
-                else
-                    min = mid + 1;
-            } while (min <= max);
-            throw new KeyNotFoundException(nameof(key));
-        }
     }
 }
