@@ -37,7 +37,7 @@ namespace PKHeX.WinForms
         {
             var key = (uint)WinFormsUtil.GetIndex(CB_Key);
             CurrentBlock = SAV.Blocks.GetBlock(key);
-            L_Detail_R.Text = GetBlockSummary(CurrentBlock);
+            UpdateBlockSummaryControls();
             if (CurrentBlock.Type.IsBoolean())
             {
                 CB_TypeToggle.SelectedValue = (int)CurrentBlock.Type;
@@ -49,6 +49,13 @@ namespace PKHeX.WinForms
             }
         }
 
+        private void UpdateBlockSummaryControls()
+        {
+            var block = CurrentBlock;
+            L_Detail_R.Text = GetBlockSummary(block);
+            RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
+        }
+
         private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)
         {
             var cType = CurrentBlock.Type;
@@ -56,7 +63,7 @@ namespace PKHeX.WinForms
             if (cType == cValue)
                 return;
             CurrentBlock.Type = cValue;
-            L_Detail_R.Text = GetBlockSummary(CurrentBlock);
+            UpdateBlockSummaryControls();
         }
 
         private void B_ExportAll_Click(object sender, EventArgs e)

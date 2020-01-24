@@ -43,6 +43,7 @@
             this.CHK_Key = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.Tab_Dump = new System.Windows.Forms.TabPage();
+            this.RTB_Hex = new System.Windows.Forms.RichTextBox();
             this.CB_TypeToggle = new System.Windows.Forms.ComboBox();
             this.Tab_Compare = new System.Windows.Forms.TabPage();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
@@ -55,7 +56,7 @@
             this.Tab_Dump.SuspendLayout();
             this.Tab_Compare.SuspendLayout();
             this.GB_Researcher.SuspendLayout();
-            this.SuspendLayout();   
+            this.SuspendLayout();
             // 
             // CB_Key
             // 
@@ -198,11 +199,12 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(284, 344);
+            this.tabControl1.Size = new System.Drawing.Size(474, 341);
             this.tabControl1.TabIndex = 12;
             // 
             // Tab_Dump
             // 
+            this.Tab_Dump.Controls.Add(this.RTB_Hex);
             this.Tab_Dump.Controls.Add(this.CB_TypeToggle);
             this.Tab_Dump.Controls.Add(this.L_Key);
             this.Tab_Dump.Controls.Add(this.CHK_FakeHeader);
@@ -220,10 +222,23 @@
             this.Tab_Dump.Location = new System.Drawing.Point(4, 22);
             this.Tab_Dump.Name = "Tab_Dump";
             this.Tab_Dump.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Dump.Size = new System.Drawing.Size(276, 318);
+            this.Tab_Dump.Size = new System.Drawing.Size(466, 315);
             this.Tab_Dump.TabIndex = 0;
             this.Tab_Dump.Text = "Dump";
             this.Tab_Dump.UseVisualStyleBackColor = true;
+            // 
+            // RTB_Hex
+            // 
+            this.RTB_Hex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.RTB_Hex.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RTB_Hex.Location = new System.Drawing.Point(271, 9);
+            this.RTB_Hex.Name = "RTB_Hex";
+            this.RTB_Hex.ReadOnly = true;
+            this.RTB_Hex.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            this.RTB_Hex.Size = new System.Drawing.Size(192, 303);
+            this.RTB_Hex.TabIndex = 13;
+            this.RTB_Hex.Text = "00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F";
             // 
             // CB_TypeToggle
             // 
@@ -242,7 +257,7 @@
             this.Tab_Compare.Controls.Add(this.GB_Researcher);
             this.Tab_Compare.Location = new System.Drawing.Point(4, 22);
             this.Tab_Compare.Name = "Tab_Compare";
-            this.Tab_Compare.Size = new System.Drawing.Size(276, 318);
+            this.Tab_Compare.Size = new System.Drawing.Size(466, 318);
             this.Tab_Compare.TabIndex = 1;
             this.Tab_Compare.Text = "Compare";
             this.Tab_Compare.UseVisualStyleBackColor = true;
@@ -254,7 +269,7 @@
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(276, 242);
+            this.richTextBox1.Size = new System.Drawing.Size(466, 242);
             this.richTextBox1.TabIndex = 15;
             this.richTextBox1.Text = "";
             // 
@@ -267,7 +282,7 @@
             this.GB_Researcher.Dock = System.Windows.Forms.DockStyle.Top;
             this.GB_Researcher.Location = new System.Drawing.Point(0, 0);
             this.GB_Researcher.Name = "GB_Researcher";
-            this.GB_Researcher.Size = new System.Drawing.Size(276, 76);
+            this.GB_Researcher.Size = new System.Drawing.Size(466, 76);
             this.GB_Researcher.TabIndex = 14;
             this.GB_Researcher.TabStop = false;
             this.GB_Researcher.Text = "Load Two Save Files";
@@ -279,7 +294,7 @@
             this.TB_NewSAV.Location = new System.Drawing.Point(93, 47);
             this.TB_NewSAV.Name = "TB_NewSAV";
             this.TB_NewSAV.ReadOnly = true;
-            this.TB_NewSAV.Size = new System.Drawing.Size(177, 20);
+            this.TB_NewSAV.Size = new System.Drawing.Size(367, 20);
             this.TB_NewSAV.TabIndex = 5;
             // 
             // TB_OldSAV
@@ -289,7 +304,7 @@
             this.TB_OldSAV.Location = new System.Drawing.Point(93, 21);
             this.TB_OldSAV.Name = "TB_OldSAV";
             this.TB_OldSAV.ReadOnly = true;
-            this.TB_OldSAV.Size = new System.Drawing.Size(177, 20);
+            this.TB_OldSAV.Size = new System.Drawing.Size(367, 20);
             this.TB_OldSAV.TabIndex = 4;
             // 
             // B_LoadNew
@@ -316,12 +331,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 344);
+            this.ClientSize = new System.Drawing.Size(474, 341);
             this.Controls.Add(this.tabControl1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(490, 380);
             this.Name = "SAV_BlockDump8";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Savedata Block Dump";
@@ -359,5 +374,6 @@
         private System.Windows.Forms.Button B_LoadNew;
         private System.Windows.Forms.Button B_LoadOld;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox RTB_Hex;
     }
 }
