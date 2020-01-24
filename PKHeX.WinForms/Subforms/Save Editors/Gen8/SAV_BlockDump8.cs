@@ -22,6 +22,8 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)sav;
 
+            PG_BlockView.Size = RTB_Hex.Size;
+
             var accessor = SAV.Blocks;
             var aType = accessor.GetType();
             BlockList = aType.GetAllPropertiesOfType<SaveBlock>(SAV.Blocks);
@@ -83,9 +85,16 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            if (obj != null)
+            if (obj != null && ModifierKeys != Keys.Control)
             {
                 // property grid instead of hex view?
+                PG_BlockView.SelectedObject = obj;
+                var props = ReflectUtil.GetPropertiesCanWritePublicDeclared(obj.GetType());
+                PG_BlockView.Visible = props.Count() > 1;
+            }
+            else
+            {
+                PG_BlockView.Visible = false;
             }
 
             L_BlockName.Visible = true;

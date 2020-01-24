@@ -43,6 +43,7 @@
             this.CHK_Key = new System.Windows.Forms.CheckBox();
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Dump = new System.Windows.Forms.TabPage();
+            this.PG_BlockView = new System.Windows.Forms.PropertyGrid();
             this.RTB_Hex = new System.Windows.Forms.RichTextBox();
             this.CB_TypeToggle = new System.Windows.Forms.ComboBox();
             this.Tab_Compare = new System.Windows.Forms.TabPage();
@@ -206,6 +207,7 @@
             // 
             // Tab_Dump
             // 
+            this.Tab_Dump.Controls.Add(this.PG_BlockView);
             this.Tab_Dump.Controls.Add(this.RTB_Hex);
             this.Tab_Dump.Controls.Add(this.CB_TypeToggle);
             this.Tab_Dump.Controls.Add(this.L_Key);
@@ -229,9 +231,20 @@
             this.Tab_Dump.Text = "Dump";
             this.Tab_Dump.UseVisualStyleBackColor = true;
             // 
+            // PG_BlockView
+            // 
+            this.PG_BlockView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PG_BlockView.Location = new System.Drawing.Point(271, 9);
+            this.PG_BlockView.Name = "PG_BlockView";
+            this.PG_BlockView.Size = new System.Drawing.Size(114, 130);
+            this.PG_BlockView.TabIndex = 14;
+            // 
             // RTB_Hex
             // 
-            this.RTB_Hex.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.RTB_Hex.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RTB_Hex.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RTB_Hex.Location = new System.Drawing.Point(271, 9);
@@ -391,5 +404,6 @@
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.RichTextBox RTB_Hex;
         private System.Windows.Forms.Label L_BlockName;
+        private System.Windows.Forms.PropertyGrid PG_BlockView;
     }
 }
