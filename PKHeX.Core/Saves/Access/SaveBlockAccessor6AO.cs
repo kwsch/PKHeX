@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessorAO : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6Main
+    public class SaveBlockAccessor6AO : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6Main
     {
         public const int boAO = SaveUtil.SIZE_G6ORAS - 0x200;
 
@@ -90,7 +90,7 @@ namespace PKHeX.Core
         public MaisonBlock Maison { get; }
         public SubEventLog6 SUBE { get; }
 
-        public SaveBlockAccessorAO(SAV6AO sav)
+        public SaveBlockAccessor6AO(SAV6AO sav)
         {
             Puff = new Puff6(sav, 0x0000);
             Items = new MyItem6AO(sav, 0x00400);

@@ -11,22 +11,22 @@ namespace PKHeX.Core
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AO : SAV6, ISaveBlock6AO
     {
-        public SAV6AO(byte[] data) : base(data, SaveBlockAccessorAO.boAO)
+        public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.boAO)
         {
-            Blocks = new SaveBlockAccessorAO(this);
+            Blocks = new SaveBlockAccessor6AO(this);
             Initialize();
         }
 
-        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, SaveBlockAccessorAO.boAO)
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, SaveBlockAccessor6AO.boAO)
         {
-            Blocks = new SaveBlockAccessorAO(this);
+            Blocks = new SaveBlockAccessor6AO(this);
             Initialize();
             ClearBoxes();
         }
 
         public override PersonalTable Personal => PersonalTable.AO;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
-        public SaveBlockAccessorAO Blocks { get; }
+        public SaveBlockAccessor6AO Blocks { get; }
         public override SaveFile Clone() => new SAV6AO((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;

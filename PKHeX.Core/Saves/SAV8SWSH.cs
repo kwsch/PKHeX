@@ -17,14 +17,14 @@ namespace PKHeX.Core
         {
             Data = Array.Empty<byte>();
             AllBlocks = blocks;
-            Blocks = new SaveBlockAccessorSWSH(this);
+            Blocks = new SaveBlockAccessor8SWSH(this);
             Initialize();
         }
 
         public SAV8SWSH()
         {
             AllBlocks = Meta8.GetBlankDataSWSH();
-            Blocks = new SaveBlockAccessorSWSH(this);
+            Blocks = new SaveBlockAccessor8SWSH(this);
             Initialize();
             ClearBoxes();
         }
@@ -50,7 +50,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SWSH;
 
         #region Blocks
-        public SaveBlockAccessorSWSH Blocks { get; }
+        public SaveBlockAccessor8SWSH Blocks { get; }
         public override Box8 BoxInfo => Blocks.BoxInfo;
         public override Party8 PartyInfo => Blocks.PartyInfo;
         public override MyItem Items => Blocks.Items;

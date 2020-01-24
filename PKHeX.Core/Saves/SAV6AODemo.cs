@@ -8,15 +8,15 @@ namespace PKHeX.Core
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AODemo : SAV6
     {
-        public SAV6AODemo(byte[] data) : base(data, SaveBlockAccessorAODemo.boAOdemo)
+        public SAV6AODemo(byte[] data) : base(data, SaveBlockAccessor6AODemo.boAOdemo)
         {
-            Blocks = new SaveBlockAccessorAODemo(this);
+            Blocks = new SaveBlockAccessor6AODemo(this);
             Initialize();
         }
 
-        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO, SaveBlockAccessorAODemo.boAOdemo)
+        public SAV6AODemo() : base(SaveUtil.SIZE_G6ORASDEMO, SaveBlockAccessor6AODemo.boAOdemo)
         {
-            Blocks = new SaveBlockAccessorAODemo(this);
+            Blocks = new SaveBlockAccessor6AODemo(this);
             Initialize();
         }
 
@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;
-        public SaveBlockAccessorAODemo Blocks { get; }
+        public SaveBlockAccessor6AODemo Blocks { get; }
 
         private void Initialize()
         {

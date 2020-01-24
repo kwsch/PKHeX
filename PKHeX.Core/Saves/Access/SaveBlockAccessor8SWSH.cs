@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessorSWSH : SCBlockAccessor, ISaveBlock8Main
+    public class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     {
         public override IReadOnlyList<SCBlock> BlockInfo { get; }
         public Box8 BoxInfo { get; }
@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public RaidSpawnList8 Raid { get; }
         public TitleScreen8 TitleScreen { get; }
 
-        public SaveBlockAccessorSWSH(SAV8SWSH sav)
+        public SaveBlockAccessor8SWSH(SAV8SWSH sav)
         {
             BlockInfo = sav.AllBlocks;
             BoxInfo = new Box8(sav, GetBlock(KBox));

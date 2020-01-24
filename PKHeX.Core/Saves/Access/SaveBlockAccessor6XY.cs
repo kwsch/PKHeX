@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessorXY : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6XY
+    public class SaveBlockAccessor6XY : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6XY
     {
         public const int boXY = SaveUtil.SIZE_G6XY - 0x200;
 
@@ -75,7 +75,7 @@ namespace PKHeX.Core
         public RecordBlock6 Records { get; }
         public SubEventLog6 SUBE { get; }
 
-        public SaveBlockAccessorXY(SAV6XY sav)
+        public SaveBlockAccessor6XY(SAV6XY sav)
         {
             Puff = new Puff6(sav, 0x00000);
             Items = new MyItem6XY(sav, 0x00400);

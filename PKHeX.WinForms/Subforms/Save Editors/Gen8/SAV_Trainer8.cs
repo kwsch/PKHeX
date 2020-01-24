@@ -107,20 +107,20 @@ namespace PKHeX.WinForms
 
         private void GetMiscValues()
         {
-            MT_BattleTowerSinglesWin.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesVictory).ToString();
-            MT_BattleTowerDoublesWin.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesVictory).ToString();
-            MT_BattleTowerSinglesStreak.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesStreak).ToString();
-            MT_BattleTowerDoublesStreak.Text = SAV.GetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesStreak).ToString();
+            MT_BattleTowerSinglesWin.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesVictory).ToString();
+            MT_BattleTowerDoublesWin.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesVictory).ToString();
+            MT_BattleTowerSinglesStreak.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesStreak).ToString();
+            MT_BattleTowerDoublesStreak.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesStreak).ToString();
         }
 
         private void SaveMiscValues()
         {
             var singles = Math.Min(9_999_999u, Util.ToUInt32(MT_BattleTowerSinglesWin.Text));
             var doubles = Math.Min(9_999_999u, Util.ToUInt32(MT_BattleTowerDoublesWin.Text));
-            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesVictory, singles);
-            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesVictory, doubles);
-            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerSinglesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerSinglesStreak.Text)));
-            SAV.SetValue(SaveBlockAccessorSWSH.KBattleTowerDoublesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerDoublesStreak.Text)));
+            SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesVictory, singles);
+            SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesVictory, doubles);
+            SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerSinglesStreak.Text)));
+            SAV.SetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesStreak, (ushort)Math.Min(300, Util.ToUInt32(MT_BattleTowerDoublesStreak.Text)));
 
             SAV.SetRecord(Records.G8BattleTowerSingleWin, (int)singles);
             SAV.SetRecord(Records.G8BattleTowerDoubleWin, (int)doubles);

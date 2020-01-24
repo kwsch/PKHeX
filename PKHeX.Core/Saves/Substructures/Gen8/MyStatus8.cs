@@ -149,7 +149,7 @@ namespace PKHeX.Core
             set
             {
                 Data[Offset + 0xA7] = (byte) value;
-                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessorSWSH.KGameLanguage, (uint)value);
+                ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KGameLanguage, (uint)value);
             }
         }
 
