@@ -323,16 +323,19 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
-            var list = GetCBListUnsorted(inStrings);
+            var list = new List<ComboItem>(inStrings.Count);
+            for (int i = 0; i < inStrings.Count; i++)
+                list.Add(new ComboItem(inStrings[i], i));
             list.Sort(Comparer);
             return list;
         }
 
-        public static List<ComboItem> GetCBListUnsorted(IReadOnlyList<string> inStrings)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, IReadOnlyList<ushort> allowed)
         {
-            var list = new List<ComboItem>(inStrings.Count);
-            for (int i = 0; i < inStrings.Count; i++)
-                list.Add(new ComboItem(inStrings[i], i));
+            var list = new List<ComboItem>(allowed.Count + 1) { new ComboItem(inStrings[0], 0) };
+            foreach (var index in allowed)
+                list.Add(new ComboItem(inStrings[index], index));
+            list.Sort(Comparer);
             return list;
         }
 

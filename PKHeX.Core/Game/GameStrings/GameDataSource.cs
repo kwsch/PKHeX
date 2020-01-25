@@ -174,11 +174,10 @@ namespace PKHeX.Core
             return met_list;
         }
 
-        public IReadOnlyList<ComboItem> GetItemDataSource(GameVersion game, int generation, int MaxItemID, IEnumerable<ushort>? allowed = null, bool HaX = false)
+        public List<ComboItem> GetItemDataSource(GameVersion game, int generation, IReadOnlyList<ushort> allowed, bool HaX = false)
         {
             var items = Source.GetItemStrings(generation, game);
-            var range = (allowed == null || HaX ? Enumerable.Range(0, MaxItemID) : allowed.Select(i => (int) i)).ToArray();
-            return Util.GetCBList(items, range);
+            return HaX ? Util.GetCBList(items) : Util.GetCBList(items, allowed);
         }
 
         /// <summary>

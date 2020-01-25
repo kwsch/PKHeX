@@ -16,8 +16,9 @@ namespace PKHeX.Core
             Moves = GetFilteredMoves(sav, source, HaX).ToList();
             if (sav.Generation > 1)
             {
-                var items = Source.GetItemDataSource(sav.Version, sav.Generation, sav.MaxItemID, sav.HeldItems, HaX);
-                Items = items.Where(i => i.Value <= sav.MaxItemID).ToList();
+                var items = Source.GetItemDataSource(sav.Version, sav.Generation, sav.HeldItems, HaX);
+                items.RemoveAll(i => i.Value > sav.MaxItemID);
+                Items = items;
             }
             else
             {
