@@ -22,7 +22,7 @@ namespace PKHeX.Core
             {
                 case EncounterTrade _:
                 case MysteryGift g when !g.IsEgg:
-                case EncounterStaticN s when s.NSparkle:
+                case EncounterStatic5N _:
                     return; // already verified
             }
 

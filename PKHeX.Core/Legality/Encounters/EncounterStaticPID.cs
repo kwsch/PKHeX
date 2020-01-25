@@ -2,8 +2,10 @@
 {
     internal class EncounterStaticPID : EncounterStatic
     {
-        public uint PID { get; set; }
+        public readonly uint PID;
         public sealed override Shiny Shiny { get; set; } = Shiny.FixedValue;
+
+        internal EncounterStaticPID(uint pid) => PID = pid;
 
         protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
@@ -28,9 +30,11 @@
         }
     }
 
-    internal sealed class EncounterStaticN : EncounterStaticPID
+    internal sealed class EncounterStatic5N : EncounterStaticPID
     {
-        public bool NSparkle { get; set; }
+        public const bool NSparkle = true;
+
+        public EncounterStatic5N(uint pid) : base(pid) { }
 
         internal void SetNPokemonData(PK5 pk5, int lang)
         {
