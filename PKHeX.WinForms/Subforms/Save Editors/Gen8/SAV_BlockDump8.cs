@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             var blocks = SAV.AllBlocks
                 .Select((z, i) => new ComboItem(GetBlockHint(z, i), (int)z.Key))
                 .OrderBy(z => !z.Text.StartsWith("*"))
-                .ThenBy(z => z.Text);
+                .ThenBy(z => GetSortKey(z));
 
             CB_Key.InitializeBinding();
             CB_Key.DataSource = blocks.ToArray();
@@ -47,6 +47,15 @@ namespace PKHeX.WinForms
             };
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
+        }
+
+        private static string GetSortKey(in ComboItem item)
+        {
+            var text = item.Text;
+            if (text.StartsWith("*"))
+                return text;
+            // key:X8, " - ", "####", " ", type
+            return text.Substring(8 + 3 + 4 + 1);
         }
 
         private string GetBlockHint(SCBlock z, int i)
