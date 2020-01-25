@@ -17,17 +17,8 @@ namespace PKHeX.Core
             if (method == 0)
                 throw new ArgumentException(nameof(data));
 
-            var evo = new EvolutionMethod
-            {
-                Method = method,
-                Argument = arg,
-                Species = species,
-                Level = arg,
-            };
-
-            if (EvolutionSet6.EvosWithArg.Contains(method))
-                evo.Level = 0;
-            return evo;
+            var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
+            return new EvolutionMethod(method, species, argument: arg, level: lvl);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)
