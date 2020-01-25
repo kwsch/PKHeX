@@ -98,3 +98,8 @@
 0x248	Traded on Route 2
 0x257	Traded on Route 18
 0x274	Traded in Cinnabar Lab
+
+0040	Bulbasaur ball at Oak's disappeared
+0041	Squirtle ball at Oak's disappeared
+0042	Charmander ball at Oak's disappeared
+2121	Tanoby Key puzzle solved/Wild Unown in Tanoby Chambers

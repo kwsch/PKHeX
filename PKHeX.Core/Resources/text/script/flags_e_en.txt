@@ -78,7 +78,6 @@
 0x861	Received Pokedex
 0x862	Received PokeNav
 0x864	Entered Hall of Fame
-0x865	Used Easy Chat System
 0x866	Met The Hipster
 
 0x867	Received Stone Badge
@@ -98,7 +97,6 @@
 0x89B	Received a Ribbon
 
 0x8AB	Unlocked Lanette's PC
-0x8AC	Mystery Event Enabled
 0x8AD	Used White Flute
 0x8AE	Used Black Flute
 0x8AF	Completed Sealed Chamber Puzzle
