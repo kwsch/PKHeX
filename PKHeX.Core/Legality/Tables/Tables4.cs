@@ -29,8 +29,6 @@ namespace PKHeX.Core
             232, 233, 234,
         };
 
-        internal static readonly int[] Met_HGSS_Hatch = Met_HGSS_0.Skip(1).ToArray(); // except 0
-
         internal static readonly int[] Met_HGSS_2 =
         {
             2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2011,
@@ -255,6 +253,8 @@ namespace PKHeX.Core
             201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220,
             221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,      234,                               //233: Pokéwalker
         };
+
+        internal static readonly HashSet<int> ValidMet_4 = new HashSet<int>(ValidMet_Pt.Concat(ValidMet_HGSS));
 
         internal static readonly HashSet<int> GiftEggLocation4 = new HashSet<int>
         {
