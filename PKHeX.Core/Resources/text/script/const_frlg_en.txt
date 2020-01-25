@@ -1,4 +1,4 @@
-0x4031	Starter	00:Bulbasaur,1:Charmander,2:Squirtle
+0x4031	Starter	00:Bulbasaur,1:Squirtle,2:Charmander
 0x4055	Oak's Lab Status	00:First Visit,01:Escorted to Lab,02:Starter Available,03:Rival Battle Ready,04:Pick Up Oak's Parcel,05:Deliver Oak's Parcel,06:Received Pokedex,08:Received National Dex
 0x4057	Oak's Parcel	00:Not Received,01:Received,02:Delivered
 0x4051	Old Man Blocking Route 2	01:Yes,02:No
