@@ -228,6 +228,6 @@ namespace PKHeX.Core
             }
         }
 
-        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
+        public void PokewalkerCoursesUnlockAll() => SetData(General, BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
     }
 }
