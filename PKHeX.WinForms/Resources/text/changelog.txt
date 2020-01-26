@@ -1,7 +1,29 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/01/10 - New Update:
+20/01/26 - New Update:
+ - Legality:
+ - - Added: Form Argument legality checks. Alcremie, Runerigus, Yamask, Hoopa, and Furfrou. Thanks @CanoeHope!
+ - - Added: More static encounter locations.
+ - - Fixed: Footprint ribbon is now checked for Gen8.
+ - - Fixed: Slowpoke-1 Hidden Ability is now banned, and bred Mimikyu now allows Hidden Ability.
+ - - Changed: A little bit of the program's internal structures have been tweaked for performance.
+ - Added: Gen8 Block Research/Export/Import tool, with direct block edits.
+ - - Can swap in a full Fashion block, for example. Or, edit your title screen to show 6 Magikarp!
+ - - Edit things directly! Known block objects can be selected, and all exposed Properties can be changed.
+ - - Can compare two saves to see what blocks/values changed.
+ - Added: Gen5 Subway score editing. Thanks @egzn!
+ - Added: More event flag/const have been documented. Thanks @FeralFalcon & @asterysx!
+ - Fixed: Internal API changes for more Thread safety. (People reuse PKHeX.Core in multithreaded applications, and the Rand utility didn't work correctly).
+ - Fixed: German translation no longer misbehaves for certain ribbons.
+ - Fixed: Handling for Form Arguments is now performed correctly. Will no longer clear for Runerigus on edit.
+ - Fixed: Gen7 LGPE Dumping of Go Park Entities with invalid file names are now sanitized before saving. Thanks @xJam-es!
+ - Fixed: Gen4 HGSS Pokéwalker course unlock cheat now works as intended.
+ - Changed: Gen8 SWSH Block reading/writing is now much more efficient.
+ - Changed: Gen7 LGPE Awakening Values are now applied more liberally via Control-click Random. Only an attack IV of 0 will not add AVs. Thanks slp32!
+ - Changed: Spanish Translation updated. Thanks @egzn!
+
+20/01/10 - New Update: (43722) [2352009]
  - Added: Gen8 Support for save data from the latest game patch.
  - Legality: More handling for new additions.
  - Added: Move#_PP $suggest for batch editor.

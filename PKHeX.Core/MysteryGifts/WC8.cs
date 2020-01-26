@@ -408,7 +408,7 @@ namespace PKHeX.Core
 
         private void SetPINGA(PKM pk, ITrainerInfo SAV, EncounterCriteria criteria)
         {
-            var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
             pk.StatNature = pk.Nature;
             pk.Gender = criteria.GetGender(Gender, pi);
