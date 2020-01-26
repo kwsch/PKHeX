@@ -56,7 +56,7 @@ namespace PKHeX.WinForms
 
             // Move translated files from the debug exe loc to their project location
             var files = Directory.GetFiles(Application.StartupPath);
-            var dir = GetResourcePath();
+            var dir = GetResourcePath().Replace("PKHeX.Core", "PKHeX.WinForms");
             foreach (var f in files)
             {
                 var fn = Path.GetFileName(f);
@@ -65,11 +65,8 @@ namespace PKHeX.WinForms
                 if (!fn.StartsWith("lang_"))
                     continue;
 
-                string lang = fn.Substring(5, fn.Length - (5+4));
-                var loc = GetFileLocationInText("lang", dir, lang);
-                if (File.Exists(f))
-                    File.Delete(loc);
-                File.Move(f, loc);
+                var loc = Path.Combine(dir, fn);
+                File.Move(f, loc, true);
             }
 
             Application.Exit();
@@ -94,6 +91,7 @@ namespace PKHeX.WinForms
             "SAV_Misc3.BTN_Symbol", // symbols should stay as their current character
             "SettingsEditor.BAKPrompt", // internal setting
             "SAV_GameSelect.L_Prompt", // prompt text (dynamic)
+            "SAV_BlockDump8.L_BlockName", // Block name (dynamic)
         };
 
         private static readonly string[] PurgeBanlist =
