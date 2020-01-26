@@ -603,7 +603,7 @@ namespace PKHeX.WinForms.Controls
             }
             if (ModifierKeys.HasFlag(Keys.Shift))
             {
-                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalByColor(Entity);
+                CB_Ball.SelectedValue = BallApplicator.ApplyBallLegalByColor(Entity);
                 return;
             }
 

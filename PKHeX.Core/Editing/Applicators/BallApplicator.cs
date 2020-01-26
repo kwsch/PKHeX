@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains logic to apply a new <see cref="Ball"/> value to a <see cref="PKM"/>.
     /// </summary>
-    public static class BallRandomizer
+    public static class BallApplicator
     {
         /// <summary>
         /// Gets all balls that are legal for the input <see cref="PKM"/>.
@@ -108,7 +108,7 @@ namespace PKHeX.Core
 
         private static readonly Ball[] BallList = (Ball[]) Enum.GetValues(typeof(Ball));
 
-        static BallRandomizer()
+        static BallApplicator()
         {
             var exclude = new[] {None, Poke};
             var end = new[] {Poke};

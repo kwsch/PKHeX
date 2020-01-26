@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
 
         public void LoadBalls(PKM pkm)
         {
-            var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
+            var legal = BallApplicator.GetLegalBalls(pkm).ToArray();
             var poss = ((Ball[])Enum.GetValues(typeof(Ball))).Skip(1)
                 .TakeWhile(z => (int)z <= pkm.MaxBallID).ToArray();
             var names = GameInfo.BallDataSource;
