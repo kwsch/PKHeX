@@ -37,6 +37,8 @@ namespace PKHeX.WinForms
             };
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
+
+            CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)

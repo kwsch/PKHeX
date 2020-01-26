@@ -265,7 +265,6 @@
             this.CB_TypeToggle.Size = new System.Drawing.Size(97, 21);
             this.CB_TypeToggle.TabIndex = 12;
             this.CB_TypeToggle.Visible = false;
-            this.CB_TypeToggle.SelectedIndexChanged += new System.EventHandler(this.CB_TypeToggle_SelectedIndexChanged);
             // 
             // Tab_Compare
             // 
