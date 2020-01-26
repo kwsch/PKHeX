@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Reflection;
 #if !DEBUG
 using System.IO;
 using System.Threading;
@@ -61,7 +62,11 @@ namespace PKHeX.WinForms
             var ex = e.ExceptionObject as Exception;
             try
             {
-                if (ex != null)
+                if (IsOldPkhexCorePresent(ex))
+                {
+                    Error("You have upgraded PKHeX incorrectly. Please delete PKHeX.Core.dll.");
+                }
+                else if (ex != null)
                 {
                     ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
                 }
@@ -113,6 +118,13 @@ namespace PKHeX.WinForms
                 return false;
             }
             return true;
+        }
+
+        private static bool IsOldPkhexCorePresent(Exception ex)
+        {
+            return ex is MissingMethodException
+                && File.Exists("PKHeX.Core.dll")
+                && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < Assembly.GetExecutingAssembly().GetName().Version;
         }
 #endif
     }
