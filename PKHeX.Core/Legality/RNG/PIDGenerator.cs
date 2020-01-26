@@ -401,14 +401,15 @@ namespace PKHeX.Core
 
         private static void SetRandomIVs(PKM pk)
         {
+            var rng = Util.Rand;
             pk.IVs = new[]
             {
-                Util.Rand.Next(32),
-                Util.Rand.Next(32),
-                Util.Rand.Next(32),
-                Util.Rand.Next(32),
-                Util.Rand.Next(32),
-                Util.Rand.Next(32),
+                rng.Next(32),
+                rng.Next(32),
+                rng.Next(32),
+                rng.Next(32),
+                rng.Next(32),
+                rng.Next(32),
             };
         }
     }

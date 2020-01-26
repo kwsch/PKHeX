@@ -21,10 +21,11 @@ namespace PKHeX.Core
 
         public void ActivateAllRaids(bool rare, bool isEvent)
         {
+            var rnd = Util.Rand;
             for (int i = 0; i < RaidCount; i++)
             {
-                var star = (byte)Util.Rand.Next(0, 5);
-                var rand = (byte)Util.Rand.Next(0, 100);
+                var star = (byte)rnd.Next(0, 5);
+                var rand = (byte)rnd.Next(0, 100);
                 GetRaid(i).Activate(star, rand, rare, isEvent);
             }
         }

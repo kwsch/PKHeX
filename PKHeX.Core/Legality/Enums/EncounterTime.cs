@@ -20,11 +20,12 @@ namespace PKHeX.Core
 
         internal static int RandomValidTime(this EncounterTime t1)
         {
-            int val = Util.Rand.Next(1, 4);
+            var rnd = Util.Rand;
+            int val = rnd.Next(1, 4);
             if (t1 == EncounterTime.Any)
                 return val;
             while (!t1.Contains(val))
-                val = Util.Rand.Next(1, 4);
+                val = rnd.Next(1, 4);
             return val;
         }
     }

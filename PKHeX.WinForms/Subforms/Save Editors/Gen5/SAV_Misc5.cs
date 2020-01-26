@@ -672,14 +672,15 @@ namespace PKHeX.WinForms
         private void B_RandForest_Click(object sender, EventArgs e)
         {
             var source = (SAV is SAV5B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
+            var rnd = Util.Rand;
             foreach (var s in AllSlots)
             {
-                int index = Util.Rand.Next(source.Count);
+                int index = rnd.Next(source.Count);
                 var slot = source[index];
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
-                s.Move = slot.Moves[Util.Rand.Next(slot.Moves.Count)];
+                s.Move = slot.Moves[rnd.Next(slot.Moves.Count)];
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
             }
             ChangeArea(null, EventArgs.Empty); // refresh

@@ -35,16 +35,17 @@ namespace PKHeX.Core
 
         public void MaxCheat(bool special = false)
         {
+            var rnd = Util.Rand;
             if (special)
             {
                 for (int i = 0; i < PuffSlots; i++)
-                    Data[Offset + i] = (byte)(21 + Util.Rand.Next(2)); // Supreme Wish or Honor
+                    Data[Offset + i] = (byte)(21 + rnd.Next(2)); // Supreme Wish or Honor
             }
             else
             {
                 for (int i = 0; i < PuffSlots; i++)
                     Data[Offset + i] = (byte)((i % MaxPuffID) + 1);
-                Util.Shuffle(Data, Offset, Offset + PuffSlots);
+                Util.Shuffle(Data, Offset, Offset + PuffSlots, rnd);
             }
             PuffCount = PuffSlots;
         }

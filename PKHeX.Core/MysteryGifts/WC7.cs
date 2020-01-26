@@ -313,7 +313,9 @@ namespace PKHeX.Core
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
 
-            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
+            var rnd = Util.Rand;
+
+            int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
             PK7 pk = new PK7
@@ -384,7 +386,7 @@ namespace PKHeX.Core
             if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
-                do { pk.Version = (int)GameVersion.SN + Util.Rand.Next(4); }
+                do { pk.Version = (int)GameVersion.SN + rnd.Next(4); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }
 
@@ -469,18 +471,19 @@ namespace PKHeX.Core
         {
             int[] finalIVs = new int[6];
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            var rng = Util.Rand;
             if (ivflag == 0) // Random IVs
             {
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > 31 ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
+                    finalIVs[i] = IVs[i] > 31 ? rng.Next(32) : IVs[i];
             }
             else // 1/2/3 perfect IVs
             {
                 int IVCount = ivflag - 0xFB;
-                do { finalIVs[Util.Rand.Next(6)] = 31; }
+                do { finalIVs[rng.Next(6)] = 31; }
                 while (finalIVs.Count(iv => iv == 31) < IVCount);
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
+                    finalIVs[i] = finalIVs[i] == 31 ? 31 : rng.Next(32);
             }
             pk.IVs = finalIVs;
         }

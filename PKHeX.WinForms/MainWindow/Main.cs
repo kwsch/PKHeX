@@ -23,7 +23,10 @@ namespace PKHeX.WinForms
     public partial class Main : Form
     {
         private static readonly Version CurrentProgramVersion = Assembly.GetExecutingAssembly().GetName().Version;
-
+        static async Task<LegalityAnalysis> GetLegal(PKM pkm)
+        {
+            return await Task.Run(() => new LegalityAnalysis(pkm));
+        }
         public Main()
         {
             Form splash = null; // popup a splash screen in another thread

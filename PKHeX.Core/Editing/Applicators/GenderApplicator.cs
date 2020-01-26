@@ -66,8 +66,9 @@ namespace PKHeX.Core
         /// <param name="gender">Desired <see cref="PKM.Gender"/>.</param>
         public static void SetATKIVGender(this PKM pk, int gender)
         {
+            var rnd = Util.Rand;
             while (pk.Gender != gender)
-                pk.IV_ATK = Util.Rand.Next(pk.MaxIV + 1);
+                pk.IV_ATK = rnd.Next(16);
         }
     }
 }

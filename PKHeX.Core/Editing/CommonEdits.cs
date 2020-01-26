@@ -90,7 +90,7 @@ namespace PKHeX.Core
             if (pk is PK5 pk5 && abilIndex == 2)
                 pk5.HiddenAbility = true;
             else if (pk.Format <= 5)
-                pk.PID = PKX.GetRandomPID(pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(abilIndex * 0x10001));
+                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(abilIndex * 0x10001));
             pk.RefreshAbility(abilIndex);
         }
 
