@@ -232,9 +232,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
-        private static void SetLocalization(Type t, IEnumerable<string> lines)
+        private static void SetLocalization(Type t, IReadOnlyList<string> lines)
         {
-            if (lines == null)
+            if (lines.Count == 0)
                 return;
             foreach (var line in lines.Where(l => l != null))
             {
