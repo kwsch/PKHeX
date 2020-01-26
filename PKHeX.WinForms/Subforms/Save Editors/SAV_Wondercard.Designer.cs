@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Wondercard
     {
@@ -103,8 +103,10 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.LB_Received.ContextMenuStrip = this.mnuDel;
             this.LB_Received.FormattingEnabled = true;
+            this.LB_Received.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LB_Received_KeyDown);
             this.LB_Received.Location = new System.Drawing.Point(12, 31);
             this.LB_Received.Name = "LB_Received";
+            this.LB_Received.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_Received.Size = new System.Drawing.Size(78, 316);
             this.LB_Received.Sorted = true;
             this.LB_Received.TabIndex = 5;
