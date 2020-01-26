@@ -15,3 +15,5 @@
 0900	히드런 사라짐
 0924	레지기가스 사라짐
 0897	크레세리아 사라짐
+0106	Trading Functionality Enabled (PokeCenter)
+2403	Has Running Shoes
