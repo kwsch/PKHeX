@@ -26,7 +26,7 @@
         Fairy,
     }
 
-    public static partial class Extensions
+    public static class MoveTypeExtensions
     {
         public static MoveType GetMoveTypeGeneration(this MoveType type, int generation)
         {
