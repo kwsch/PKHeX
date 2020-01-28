@@ -120,12 +120,9 @@
             this.CHK_Shadow = new System.Windows.Forms.CheckBox();
             this.FLP_ShinyLeaf = new System.Windows.Forms.FlowLayoutPanel();
             this.L_ShinyLeaf = new System.Windows.Forms.Label();
-            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.FLP_CatchRate = new System.Windows.Forms.FlowLayoutPanel();
             this.L_CatchRate = new System.Windows.Forms.Label();
-            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.FLP_SizeCP = new System.Windows.Forms.FlowLayoutPanel();
-            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
             this.Tab_Met = new System.Windows.Forms.TabPage();
             this.CHK_AsEgg = new System.Windows.Forms.CheckBox();
             this.GB_EggConditions = new System.Windows.Forms.GroupBox();
@@ -161,8 +158,6 @@
             this.L_MetTimeOfDay = new System.Windows.Forms.Label();
             this.CB_MetTimeOfDay = new System.Windows.Forms.ComboBox();
             this.Tab_Stats = new System.Windows.Forms.TabPage();
-            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
-            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
             this.Tab_Attacks = new System.Windows.Forms.TabPage();
             this.B_Records = new System.Windows.Forms.Button();
             this.PB_WarnMove4 = new System.Windows.Forms.PictureBox();
@@ -220,7 +215,6 @@
             this.TB_ExtraByte = new System.Windows.Forms.MaskedTextBox();
             this.CB_ExtraBytes = new System.Windows.Forms.ComboBox();
             this.GB_OT = new System.Windows.Forms.GroupBox();
-            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.Label_OTGender = new System.Windows.Forms.Label();
             this.TB_OT = new System.Windows.Forms.TextBox();
             this.Label_OT = new System.Windows.Forms.Label();
@@ -228,6 +222,12 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
+            this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
+            this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
+            this.Stats = new PKHeX.WinForms.Controls.StatEditor();
+            this.Contest = new PKHeX.WinForms.Controls.ContestStat();
+            this.TID_Trainer = new PKHeX.WinForms.Controls.TrainerID();
             this.tabMain.SuspendLayout();
             this.Tab_Main.SuspendLayout();
             this.FLP_Main.SuspendLayout();
@@ -711,7 +711,7 @@
             this.FLP_OriginalNature.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_OriginalNature.Name = "FLP_OriginalNature";
             this.FLP_OriginalNature.Size = new System.Drawing.Size(272, 21);
-            this.FLP_OriginalNature.TabIndex = 10;
+            this.FLP_OriginalNature.TabIndex = 5;
             // 
             // L_OriginalNature
             // 
@@ -733,7 +733,7 @@
             this.CB_StatNature.Margin = new System.Windows.Forms.Padding(0);
             this.CB_StatNature.Name = "CB_StatNature";
             this.CB_StatNature.Size = new System.Drawing.Size(126, 21);
-            this.CB_StatNature.TabIndex = 9;
+            this.CB_StatNature.TabIndex = 10;
             this.CB_StatNature.SelectedIndexChanged += new System.EventHandler(this.ValidateComboBox2);
             this.CB_StatNature.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -746,7 +746,7 @@
             this.FLP_Form.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Form.Name = "FLP_Form";
             this.FLP_Form.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Form.TabIndex = 118;
+            this.FLP_Form.TabIndex = 6;
             // 
             // FLP_FormLeft
             // 
@@ -827,7 +827,7 @@
             this.FLP_HeldItem.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HeldItem.Name = "FLP_HeldItem";
             this.FLP_HeldItem.Size = new System.Drawing.Size(272, 21);
-            this.FLP_HeldItem.TabIndex = 5;
+            this.FLP_HeldItem.TabIndex = 7;
             // 
             // Label_HeldItem
             // 
@@ -862,7 +862,7 @@
             this.FLP_Ability.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Ability.Name = "FLP_Ability";
             this.FLP_Ability.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Ability.TabIndex = 7;
+            this.FLP_Ability.TabIndex = 8;
             // 
             // Label_Ability
             // 
@@ -933,7 +933,7 @@
             this.FLP_Friendship.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Friendship.Name = "FLP_Friendship";
             this.FLP_Friendship.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Friendship.TabIndex = 6;
+            this.FLP_Friendship.TabIndex = 9;
             // 
             // FLP_FriendshipLeft
             // 
@@ -999,7 +999,7 @@
             this.FLP_Language.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Language.Name = "FLP_Language";
             this.FLP_Language.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Language.TabIndex = 8;
+            this.FLP_Language.TabIndex = 10;
             // 
             // Label_Language
             // 
@@ -1032,7 +1032,7 @@
             this.FLP_EggPKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EggPKRS.Name = "FLP_EggPKRS";
             this.FLP_EggPKRS.Size = new System.Drawing.Size(272, 21);
-            this.FLP_EggPKRS.TabIndex = 9;
+            this.FLP_EggPKRS.TabIndex = 11;
             // 
             // FLP_EggPKRSLeft
             // 
@@ -1104,7 +1104,7 @@
             this.FLP_PKRS.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_PKRS.Name = "FLP_PKRS";
             this.FLP_PKRS.Size = new System.Drawing.Size(272, 21);
-            this.FLP_PKRS.TabIndex = 10;
+            this.FLP_PKRS.TabIndex = 12;
             // 
             // Label_PKRS
             // 
@@ -1190,7 +1190,7 @@
             this.FLP_Country.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Country.Name = "FLP_Country";
             this.FLP_Country.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Country.TabIndex = 107;
+            this.FLP_Country.TabIndex = 13;
             // 
             // Label_Country
             // 
@@ -1225,7 +1225,7 @@
             this.FLP_SubRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SubRegion.Name = "FLP_SubRegion";
             this.FLP_SubRegion.Size = new System.Drawing.Size(272, 21);
-            this.FLP_SubRegion.TabIndex = 110;
+            this.FLP_SubRegion.TabIndex = 14;
             // 
             // Label_SubRegion
             // 
@@ -1259,7 +1259,7 @@
             this.FLP_3DSRegion.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_3DSRegion.Name = "FLP_3DSRegion";
             this.FLP_3DSRegion.Size = new System.Drawing.Size(272, 21);
-            this.FLP_3DSRegion.TabIndex = 111;
+            this.FLP_3DSRegion.TabIndex = 15;
             // 
             // Label_3DSRegion
             // 
@@ -1290,7 +1290,7 @@
             this.FLP_NSparkle.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_NSparkle.Name = "FLP_NSparkle";
             this.FLP_NSparkle.Size = new System.Drawing.Size(272, 21);
-            this.FLP_NSparkle.TabIndex = 112;
+            this.FLP_NSparkle.TabIndex = 16;
             // 
             // L_NSparkle
             // 
@@ -1323,7 +1323,7 @@
             this.FLP_ShadowID.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShadowID.Name = "FLP_ShadowID";
             this.FLP_ShadowID.Size = new System.Drawing.Size(272, 21);
-            this.FLP_ShadowID.TabIndex = 114;
+            this.FLP_ShadowID.TabIndex = 17;
             // 
             // L_ShadowID
             // 
@@ -1359,7 +1359,7 @@
             this.FLP_Purification.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Purification.Name = "FLP_Purification";
             this.FLP_Purification.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Purification.TabIndex = 113;
+            this.FLP_Purification.TabIndex = 18;
             // 
             // L_HeartGauge
             // 
@@ -1412,7 +1412,7 @@
             this.FLP_ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_ShinyLeaf.Name = "FLP_ShinyLeaf";
             this.FLP_ShinyLeaf.Size = new System.Drawing.Size(272, 56);
-            this.FLP_ShinyLeaf.TabIndex = 115;
+            this.FLP_ShinyLeaf.TabIndex = 19;
             // 
             // L_ShinyLeaf
             // 
@@ -1425,14 +1425,6 @@
             this.L_ShinyLeaf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.L_ShinyLeaf.Click += new System.EventHandler(this.ClickShinyLeaf);
             // 
-            // ShinyLeaf
-            // 
-            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
-            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
-            this.ShinyLeaf.Name = "ShinyLeaf";
-            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
-            this.ShinyLeaf.TabIndex = 116;
-            // 
             // FLP_CatchRate
             // 
             this.FLP_CatchRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1442,7 +1434,7 @@
             this.FLP_CatchRate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_CatchRate.Name = "FLP_CatchRate";
             this.FLP_CatchRate.Size = new System.Drawing.Size(272, 25);
-            this.FLP_CatchRate.TabIndex = 116;
+            this.FLP_CatchRate.TabIndex = 20;
             // 
             // L_CatchRate
             // 
@@ -1454,14 +1446,6 @@
             this.L_CatchRate.Text = "Catch Rate:";
             this.L_CatchRate.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // CR_PK1
-            // 
-            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
-            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
-            this.CR_PK1.Name = "CR_PK1";
-            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
-            this.CR_PK1.TabIndex = 10;
-            // 
             // FLP_SizeCP
             // 
             this.FLP_SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1470,16 +1454,7 @@
             this.FLP_SizeCP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_SizeCP.Name = "FLP_SizeCP";
             this.FLP_SizeCP.Size = new System.Drawing.Size(272, 72);
-            this.FLP_SizeCP.TabIndex = 117;
-            // 
-            // SizeCP
-            // 
-            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SizeCP.Location = new System.Drawing.Point(50, 0);
-            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
-            this.SizeCP.Name = "SizeCP";
-            this.SizeCP.Size = new System.Drawing.Size(204, 68);
-            this.SizeCP.TabIndex = 0;
+            this.FLP_SizeCP.TabIndex = 21;
             // 
             // Tab_Met
             // 
@@ -1490,7 +1465,7 @@
             this.Tab_Met.Location = new System.Drawing.Point(4, 22);
             this.Tab_Met.Name = "Tab_Met";
             this.Tab_Met.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Met.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Met.Size = new System.Drawing.Size(307, 539);
             this.Tab_Met.TabIndex = 1;
             this.Tab_Met.Text = "Met";
             this.Tab_Met.UseVisualStyleBackColor = true;
@@ -1501,7 +1476,7 @@
             this.CHK_AsEgg.Location = new System.Drawing.Point(110, 204);
             this.CHK_AsEgg.Name = "CHK_AsEgg";
             this.CHK_AsEgg.Size = new System.Drawing.Size(60, 17);
-            this.CHK_AsEgg.TabIndex = 8;
+            this.CHK_AsEgg.TabIndex = 2;
             this.CHK_AsEgg.Text = "As Egg";
             this.CHK_AsEgg.UseVisualStyleBackColor = true;
             this.CHK_AsEgg.Click += new System.EventHandler(this.UpdateMetAsEgg);
@@ -1516,7 +1491,7 @@
             this.GB_EggConditions.Location = new System.Drawing.Point(39, 226);
             this.GB_EggConditions.Name = "GB_EggConditions";
             this.GB_EggConditions.Size = new System.Drawing.Size(200, 67);
-            this.GB_EggConditions.TabIndex = 9;
+            this.GB_EggConditions.TabIndex = 3;
             this.GB_EggConditions.TabStop = false;
             this.GB_EggConditions.Text = "Egg Met Conditions";
             // 
@@ -1529,7 +1504,7 @@
             this.CB_EggLocation.Location = new System.Drawing.Point(71, 19);
             this.CB_EggLocation.Name = "CB_EggLocation";
             this.CB_EggLocation.Size = new System.Drawing.Size(122, 21);
-            this.CB_EggLocation.TabIndex = 10;
+            this.CB_EggLocation.TabIndex = 4;
             this.CB_EggLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
             this.CB_EggLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
             // 
@@ -1542,7 +1517,7 @@
             this.CAL_EggDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.CAL_EggDate.Name = "CAL_EggDate";
             this.CAL_EggDate.Size = new System.Drawing.Size(122, 20);
-            this.CAL_EggDate.TabIndex = 11;
+            this.CAL_EggDate.TabIndex = 5;
             this.CAL_EggDate.Value = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             // 
             // Label_EggDate
@@ -1576,7 +1551,7 @@
             this.FLP_Met.Location = new System.Drawing.Point(0, 24);
             this.FLP_Met.Name = "FLP_Met";
             this.FLP_Met.Size = new System.Drawing.Size(272, 175);
-            this.FLP_Met.TabIndex = 103;
+            this.FLP_Met.TabIndex = 1;
             // 
             // FLP_OriginGame
             // 
@@ -1587,7 +1562,7 @@
             this.FLP_OriginGame.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_OriginGame.Name = "FLP_OriginGame";
             this.FLP_OriginGame.Size = new System.Drawing.Size(272, 21);
-            this.FLP_OriginGame.TabIndex = 112;
+            this.FLP_OriginGame.TabIndex = 1;
             // 
             // Label_OriginGame
             // 
@@ -1619,7 +1594,7 @@
             this.FLP_MetLocation.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLocation.Name = "FLP_MetLocation";
             this.FLP_MetLocation.Size = new System.Drawing.Size(272, 21);
-            this.FLP_MetLocation.TabIndex = 113;
+            this.FLP_MetLocation.TabIndex = 2;
             // 
             // Label_MetLocation
             // 
@@ -1655,7 +1630,7 @@
             this.FLP_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Ball.Name = "FLP_Ball";
             this.FLP_Ball.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Ball.TabIndex = 114;
+            this.FLP_Ball.TabIndex = 3;
             // 
             // FLP_BallLeft
             // 
@@ -1717,7 +1692,7 @@
             this.FLP_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLevel.Name = "FLP_MetLevel";
             this.FLP_MetLevel.Size = new System.Drawing.Size(272, 21);
-            this.FLP_MetLevel.TabIndex = 115;
+            this.FLP_MetLevel.TabIndex = 4;
             // 
             // Label_MetLevel
             // 
@@ -1749,7 +1724,7 @@
             this.FLP_MetDate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetDate.Name = "FLP_MetDate";
             this.FLP_MetDate.Size = new System.Drawing.Size(272, 21);
-            this.FLP_MetDate.TabIndex = 116;
+            this.FLP_MetDate.TabIndex = 5;
             // 
             // Label_MetDate
             // 
@@ -1783,7 +1758,7 @@
             this.FLP_Fateful.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Fateful.Name = "FLP_Fateful";
             this.FLP_Fateful.Size = new System.Drawing.Size(272, 21);
-            this.FLP_Fateful.TabIndex = 117;
+            this.FLP_Fateful.TabIndex = 5;
             // 
             // PAN_Fateful
             // 
@@ -1813,7 +1788,7 @@
             this.FLP_EncounterType.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EncounterType.Name = "FLP_EncounterType";
             this.FLP_EncounterType.Size = new System.Drawing.Size(272, 21);
-            this.FLP_EncounterType.TabIndex = 118;
+            this.FLP_EncounterType.TabIndex = 6;
             // 
             // Label_EncounterType
             // 
@@ -1845,7 +1820,7 @@
             this.FLP_TimeOfDay.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_TimeOfDay.Name = "FLP_TimeOfDay";
             this.FLP_TimeOfDay.Size = new System.Drawing.Size(272, 21);
-            this.FLP_TimeOfDay.TabIndex = 119;
+            this.FLP_TimeOfDay.TabIndex = 7;
             // 
             // L_MetTimeOfDay
             // 
@@ -1881,37 +1856,10 @@
             this.Tab_Stats.Location = new System.Drawing.Point(4, 22);
             this.Tab_Stats.Name = "Tab_Stats";
             this.Tab_Stats.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_Stats.Size = new System.Drawing.Size(192, 74);
+            this.Tab_Stats.Size = new System.Drawing.Size(307, 539);
             this.Tab_Stats.TabIndex = 2;
             this.Tab_Stats.Text = "Stats";
             this.Tab_Stats.UseVisualStyleBackColor = true;
-            // 
-            // Stats
-            // 
-            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
-            this.Stats.EVsInvalid = System.Drawing.Color.Red;
-            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
-            this.Stats.Location = new System.Drawing.Point(0, 0);
-            this.Stats.Name = "Stats";
-            this.Stats.Size = new System.Drawing.Size(270, 264);
-            this.Stats.StatDecreased = System.Drawing.Color.Blue;
-            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
-            this.Stats.StatIncreased = System.Drawing.Color.Red;
-            this.Stats.TabIndex = 118;
-            // 
-            // Contest
-            // 
-            this.Contest.CNT_Beauty = 0;
-            this.Contest.CNT_Cool = 0;
-            this.Contest.CNT_Cute = 0;
-            this.Contest.CNT_Sheen = 0;
-            this.Contest.CNT_Smart = 0;
-            this.Contest.CNT_Tough = 0;
-            this.Contest.Location = new System.Drawing.Point(21, 265);
-            this.Contest.Margin = new System.Windows.Forms.Padding(0);
-            this.Contest.Name = "Contest";
-            this.Contest.Size = new System.Drawing.Size(230, 50);
-            this.Contest.TabIndex = 117;
             // 
             // Tab_Attacks
             // 
@@ -2325,7 +2273,7 @@
             this.Tab_OTMisc.Location = new System.Drawing.Point(4, 22);
             this.Tab_OTMisc.Name = "Tab_OTMisc";
             this.Tab_OTMisc.Padding = new System.Windows.Forms.Padding(3);
-            this.Tab_OTMisc.Size = new System.Drawing.Size(192, 74);
+            this.Tab_OTMisc.Size = new System.Drawing.Size(307, 539);
             this.Tab_OTMisc.TabIndex = 4;
             this.Tab_OTMisc.Text = "OT/Misc";
             this.Tab_OTMisc.UseVisualStyleBackColor = true;
@@ -2655,13 +2603,6 @@
             this.GB_OT.TabStop = false;
             this.GB_OT.Text = "Trainer Information";
             // 
-            // TID_Trainer
-            // 
-            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
-            this.TID_Trainer.Name = "TID_Trainer";
-            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
-            this.TID_Trainer.TabIndex = 57;
-            // 
             // Label_OTGender
             // 
             this.Label_OTGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -2701,6 +2642,65 @@
             this.Label_EncryptionConstant.TabIndex = 1;
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // ShinyLeaf
+            // 
+            this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
+            this.ShinyLeaf.Margin = new System.Windows.Forms.Padding(0);
+            this.ShinyLeaf.Name = "ShinyLeaf";
+            this.ShinyLeaf.Size = new System.Drawing.Size(140, 56);
+            this.ShinyLeaf.TabIndex = 116;
+            // 
+            // CR_PK1
+            // 
+            this.CR_PK1.Location = new System.Drawing.Point(110, 0);
+            this.CR_PK1.Margin = new System.Windows.Forms.Padding(0);
+            this.CR_PK1.Name = "CR_PK1";
+            this.CR_PK1.Size = new System.Drawing.Size(162, 25);
+            this.CR_PK1.TabIndex = 10;
+            // 
+            // SizeCP
+            // 
+            this.SizeCP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SizeCP.Location = new System.Drawing.Point(50, 0);
+            this.SizeCP.Margin = new System.Windows.Forms.Padding(50, 0, 0, 0);
+            this.SizeCP.Name = "SizeCP";
+            this.SizeCP.Size = new System.Drawing.Size(204, 68);
+            this.SizeCP.TabIndex = 0;
+            // 
+            // Stats
+            // 
+            this.Stats.EVsFishy = System.Drawing.Color.LightYellow;
+            this.Stats.EVsInvalid = System.Drawing.Color.Red;
+            this.Stats.EVsMaxed = System.Drawing.Color.Honeydew;
+            this.Stats.Location = new System.Drawing.Point(0, 0);
+            this.Stats.Name = "Stats";
+            this.Stats.Size = new System.Drawing.Size(270, 264);
+            this.Stats.StatDecreased = System.Drawing.Color.Blue;
+            this.Stats.StatHyperTrained = System.Drawing.Color.LightGreen;
+            this.Stats.StatIncreased = System.Drawing.Color.Red;
+            this.Stats.TabIndex = 1;
+            // 
+            // Contest
+            // 
+            this.Contest.CNT_Beauty = 0;
+            this.Contest.CNT_Cool = 0;
+            this.Contest.CNT_Cute = 0;
+            this.Contest.CNT_Sheen = 0;
+            this.Contest.CNT_Smart = 0;
+            this.Contest.CNT_Tough = 0;
+            this.Contest.Location = new System.Drawing.Point(21, 265);
+            this.Contest.Margin = new System.Windows.Forms.Padding(0);
+            this.Contest.Name = "Contest";
+            this.Contest.Size = new System.Drawing.Size(230, 50);
+            this.Contest.TabIndex = 2;
+            // 
+            // TID_Trainer
+            // 
+            this.TID_Trainer.Location = new System.Drawing.Point(13, 18);
+            this.TID_Trainer.Name = "TID_Trainer";
+            this.TID_Trainer.Size = new System.Drawing.Size(178, 27);
+            this.TID_Trainer.TabIndex = 57;
             // 
             // PKMEditor
             // 

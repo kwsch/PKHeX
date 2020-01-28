@@ -82,6 +82,7 @@
             this.B_MailBox = new System.Windows.Forms.Button();
             this.B_OpenApricorn = new System.Windows.Forms.Button();
             this.B_Raids = new System.Windows.Forms.Button();
+            this.B_Blocks = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -92,7 +93,6 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_Blocks = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -414,7 +414,7 @@
             this.B_OpenTrainerInfo.Location = new System.Drawing.Point(3, 3);
             this.B_OpenTrainerInfo.Name = "B_OpenTrainerInfo";
             this.B_OpenTrainerInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenTrainerInfo.TabIndex = 3;
+            this.B_OpenTrainerInfo.TabIndex = 1;
             this.B_OpenTrainerInfo.Text = "Trainer Info";
             this.B_OpenTrainerInfo.UseVisualStyleBackColor = true;
             this.B_OpenTrainerInfo.Click += new System.EventHandler(this.B_OpenTrainerInfo_Click);
@@ -424,7 +424,7 @@
             this.B_OpenItemPouch.Location = new System.Drawing.Point(96, 3);
             this.B_OpenItemPouch.Name = "B_OpenItemPouch";
             this.B_OpenItemPouch.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenItemPouch.TabIndex = 2;
+            this.B_OpenItemPouch.TabIndex = 1;
             this.B_OpenItemPouch.Text = "Items";
             this.B_OpenItemPouch.UseVisualStyleBackColor = true;
             this.B_OpenItemPouch.Click += new System.EventHandler(this.B_OpenItemPouch_Click);
@@ -434,7 +434,7 @@
             this.B_OpenBoxLayout.Location = new System.Drawing.Point(189, 3);
             this.B_OpenBoxLayout.Name = "B_OpenBoxLayout";
             this.B_OpenBoxLayout.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenBoxLayout.TabIndex = 5;
+            this.B_OpenBoxLayout.TabIndex = 1;
             this.B_OpenBoxLayout.Text = "Box Layout";
             this.B_OpenBoxLayout.UseVisualStyleBackColor = true;
             this.B_OpenBoxLayout.Click += new System.EventHandler(this.B_OpenBoxLayout_Click);
@@ -444,7 +444,7 @@
             this.B_OpenWondercards.Location = new System.Drawing.Point(282, 3);
             this.B_OpenWondercards.Name = "B_OpenWondercards";
             this.B_OpenWondercards.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenWondercards.TabIndex = 6;
+            this.B_OpenWondercards.TabIndex = 1;
             this.B_OpenWondercards.Text = "Wondercard";
             this.B_OpenWondercards.UseVisualStyleBackColor = true;
             this.B_OpenWondercards.Click += new System.EventHandler(this.B_OpenWondercards_Click);
@@ -454,7 +454,7 @@
             this.B_OpenOPowers.Location = new System.Drawing.Point(3, 32);
             this.B_OpenOPowers.Name = "B_OpenOPowers";
             this.B_OpenOPowers.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenOPowers.TabIndex = 9;
+            this.B_OpenOPowers.TabIndex = 1;
             this.B_OpenOPowers.Text = "O-Powers";
             this.B_OpenOPowers.UseVisualStyleBackColor = true;
             this.B_OpenOPowers.Click += new System.EventHandler(this.B_OpenOPowers_Click);
@@ -464,7 +464,7 @@
             this.B_OpenEventFlags.Location = new System.Drawing.Point(96, 32);
             this.B_OpenEventFlags.Name = "B_OpenEventFlags";
             this.B_OpenEventFlags.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenEventFlags.TabIndex = 10;
+            this.B_OpenEventFlags.TabIndex = 1;
             this.B_OpenEventFlags.Text = "Event Flags";
             this.B_OpenEventFlags.UseVisualStyleBackColor = true;
             this.B_OpenEventFlags.Click += new System.EventHandler(this.B_OpenEventFlags_Click);
@@ -474,7 +474,7 @@
             this.B_OpenPokedex.Location = new System.Drawing.Point(189, 32);
             this.B_OpenPokedex.Name = "B_OpenPokedex";
             this.B_OpenPokedex.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenPokedex.TabIndex = 11;
+            this.B_OpenPokedex.TabIndex = 1;
             this.B_OpenPokedex.Text = "Pokédex";
             this.B_OpenPokedex.UseVisualStyleBackColor = true;
             this.B_OpenPokedex.Click += new System.EventHandler(this.B_OpenPokedex_Click);
@@ -484,7 +484,7 @@
             this.B_OpenLinkInfo.Location = new System.Drawing.Point(282, 32);
             this.B_OpenLinkInfo.Name = "B_OpenLinkInfo";
             this.B_OpenLinkInfo.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenLinkInfo.TabIndex = 23;
+            this.B_OpenLinkInfo.TabIndex = 1;
             this.B_OpenLinkInfo.Text = "Link Data";
             this.B_OpenLinkInfo.UseVisualStyleBackColor = true;
             this.B_OpenLinkInfo.Click += new System.EventHandler(this.B_LinkInfo_Click);
@@ -494,7 +494,7 @@
             this.B_OpenBerryField.Location = new System.Drawing.Point(3, 61);
             this.B_OpenBerryField.Name = "B_OpenBerryField";
             this.B_OpenBerryField.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenBerryField.TabIndex = 12;
+            this.B_OpenBerryField.TabIndex = 1;
             this.B_OpenBerryField.Text = "Berry Field";
             this.B_OpenBerryField.UseVisualStyleBackColor = true;
             this.B_OpenBerryField.Click += new System.EventHandler(this.B_OpenBerryField_Click);
@@ -504,7 +504,7 @@
             this.B_OpenPokeblocks.Location = new System.Drawing.Point(96, 61);
             this.B_OpenPokeblocks.Name = "B_OpenPokeblocks";
             this.B_OpenPokeblocks.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenPokeblocks.TabIndex = 22;
+            this.B_OpenPokeblocks.TabIndex = 1;
             this.B_OpenPokeblocks.Text = "Pokéblocks";
             this.B_OpenPokeblocks.UseVisualStyleBackColor = true;
             this.B_OpenPokeblocks.Visible = false;
@@ -515,7 +515,7 @@
             this.B_OpenSecretBase.Location = new System.Drawing.Point(189, 61);
             this.B_OpenSecretBase.Name = "B_OpenSecretBase";
             this.B_OpenSecretBase.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenSecretBase.TabIndex = 21;
+            this.B_OpenSecretBase.TabIndex = 1;
             this.B_OpenSecretBase.Text = "Secret Base";
             this.B_OpenSecretBase.UseVisualStyleBackColor = true;
             this.B_OpenSecretBase.Visible = false;
@@ -537,7 +537,7 @@
             this.B_OpenSuperTraining.Location = new System.Drawing.Point(3, 90);
             this.B_OpenSuperTraining.Name = "B_OpenSuperTraining";
             this.B_OpenSuperTraining.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenSuperTraining.TabIndex = 7;
+            this.B_OpenSuperTraining.TabIndex = 1;
             this.B_OpenSuperTraining.Text = "Super Train";
             this.B_OpenSuperTraining.UseVisualStyleBackColor = true;
             this.B_OpenSuperTraining.Click += new System.EventHandler(this.B_OpenSuperTraining_Click);
@@ -547,7 +547,7 @@
             this.B_OpenHallofFame.Location = new System.Drawing.Point(96, 90);
             this.B_OpenHallofFame.Name = "B_OpenHallofFame";
             this.B_OpenHallofFame.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenHallofFame.TabIndex = 8;
+            this.B_OpenHallofFame.TabIndex = 1;
             this.B_OpenHallofFame.Text = "Hall of Fame";
             this.B_OpenHallofFame.UseVisualStyleBackColor = true;
             this.B_OpenHallofFame.Click += new System.EventHandler(this.B_OUTHallofFame_Click);
@@ -557,7 +557,7 @@
             this.B_OUTPasserby.Location = new System.Drawing.Point(189, 90);
             this.B_OUTPasserby.Name = "B_OUTPasserby";
             this.B_OUTPasserby.Size = new System.Drawing.Size(87, 23);
-            this.B_OUTPasserby.TabIndex = 4;
+            this.B_OUTPasserby.TabIndex = 1;
             this.B_OUTPasserby.Text = "Passerby";
             this.B_OUTPasserby.UseVisualStyleBackColor = true;
             this.B_OUTPasserby.Click += new System.EventHandler(this.B_OUTPasserby_Click);
@@ -567,7 +567,7 @@
             this.B_CGearSkin.Location = new System.Drawing.Point(282, 90);
             this.B_CGearSkin.Name = "B_CGearSkin";
             this.B_CGearSkin.Size = new System.Drawing.Size(87, 23);
-            this.B_CGearSkin.TabIndex = 24;
+            this.B_CGearSkin.TabIndex = 1;
             this.B_CGearSkin.Text = "C-Gear Skin";
             this.B_CGearSkin.UseVisualStyleBackColor = true;
             this.B_CGearSkin.Click += new System.EventHandler(this.B_CGearSkin_Click);
@@ -577,7 +577,7 @@
             this.B_OpenPokeBeans.Location = new System.Drawing.Point(3, 119);
             this.B_OpenPokeBeans.Name = "B_OpenPokeBeans";
             this.B_OpenPokeBeans.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenPokeBeans.TabIndex = 25;
+            this.B_OpenPokeBeans.TabIndex = 1;
             this.B_OpenPokeBeans.Text = "‎Poké Beans";
             this.B_OpenPokeBeans.UseVisualStyleBackColor = true;
             this.B_OpenPokeBeans.Click += new System.EventHandler(this.B_OpenPokeBeans_Click);
@@ -587,7 +587,7 @@
             this.B_CellsStickers.Location = new System.Drawing.Point(96, 119);
             this.B_CellsStickers.Name = "B_CellsStickers";
             this.B_CellsStickers.Size = new System.Drawing.Size(87, 23);
-            this.B_CellsStickers.TabIndex = 26;
+            this.B_CellsStickers.TabIndex = 1;
             this.B_CellsStickers.Text = "Cells/Stickers";
             this.B_CellsStickers.UseVisualStyleBackColor = true;
             this.B_CellsStickers.Click += new System.EventHandler(this.B_CellsStickers_Click);
@@ -597,7 +597,7 @@
             this.B_OpenMiscEditor.Location = new System.Drawing.Point(189, 119);
             this.B_OpenMiscEditor.Name = "B_OpenMiscEditor";
             this.B_OpenMiscEditor.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenMiscEditor.TabIndex = 27;
+            this.B_OpenMiscEditor.TabIndex = 1;
             this.B_OpenMiscEditor.Text = "Misc Edits";
             this.B_OpenMiscEditor.UseVisualStyleBackColor = true;
             this.B_OpenMiscEditor.Click += new System.EventHandler(this.B_OpenMiscEditor_Click);
@@ -607,7 +607,7 @@
             this.B_OpenHoneyTreeEditor.Location = new System.Drawing.Point(282, 119);
             this.B_OpenHoneyTreeEditor.Name = "B_OpenHoneyTreeEditor";
             this.B_OpenHoneyTreeEditor.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenHoneyTreeEditor.TabIndex = 28;
+            this.B_OpenHoneyTreeEditor.TabIndex = 1;
             this.B_OpenHoneyTreeEditor.Text = "Honey Tree";
             this.B_OpenHoneyTreeEditor.UseVisualStyleBackColor = true;
             this.B_OpenHoneyTreeEditor.Click += new System.EventHandler(this.B_OpenHoneyTreeEditor_Click);
@@ -617,7 +617,7 @@
             this.B_OpenFriendSafari.Location = new System.Drawing.Point(3, 148);
             this.B_OpenFriendSafari.Name = "B_OpenFriendSafari";
             this.B_OpenFriendSafari.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenFriendSafari.TabIndex = 28;
+            this.B_OpenFriendSafari.TabIndex = 1;
             this.B_OpenFriendSafari.Text = "Friend Safari";
             this.B_OpenFriendSafari.UseVisualStyleBackColor = true;
             this.B_OpenFriendSafari.Click += new System.EventHandler(this.B_OpenFriendSafari_Click);
@@ -627,7 +627,7 @@
             this.B_OpenRTCEditor.Location = new System.Drawing.Point(96, 148);
             this.B_OpenRTCEditor.Name = "B_OpenRTCEditor";
             this.B_OpenRTCEditor.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenRTCEditor.TabIndex = 29;
+            this.B_OpenRTCEditor.TabIndex = 1;
             this.B_OpenRTCEditor.Text = "Clock (RTC)";
             this.B_OpenRTCEditor.UseVisualStyleBackColor = true;
             this.B_OpenRTCEditor.Click += new System.EventHandler(this.B_OpenRTCEditor_Click);
@@ -637,7 +637,7 @@
             this.B_OpenUGSEditor.Location = new System.Drawing.Point(189, 148);
             this.B_OpenUGSEditor.Name = "B_OpenUGSEditor";
             this.B_OpenUGSEditor.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenUGSEditor.TabIndex = 2;
+            this.B_OpenUGSEditor.TabIndex = 1;
             this.B_OpenUGSEditor.Text = "Underground";
             this.B_OpenUGSEditor.UseVisualStyleBackColor = true;
             this.B_OpenUGSEditor.Click += new System.EventHandler(this.B_OpenUGSEditor_Click);
@@ -647,7 +647,7 @@
             this.B_Roamer.Location = new System.Drawing.Point(282, 148);
             this.B_Roamer.Name = "B_Roamer";
             this.B_Roamer.Size = new System.Drawing.Size(87, 23);
-            this.B_Roamer.TabIndex = 30;
+            this.B_Roamer.TabIndex = 1;
             this.B_Roamer.Text = "Roamer";
             this.B_Roamer.UseVisualStyleBackColor = true;
             this.B_Roamer.Click += new System.EventHandler(this.B_Roamer_Click);
@@ -657,7 +657,7 @@
             this.B_FestivalPlaza.Location = new System.Drawing.Point(3, 177);
             this.B_FestivalPlaza.Name = "B_FestivalPlaza";
             this.B_FestivalPlaza.Size = new System.Drawing.Size(87, 23);
-            this.B_FestivalPlaza.TabIndex = 31;
+            this.B_FestivalPlaza.TabIndex = 1;
             this.B_FestivalPlaza.Text = "Festival Plaza";
             this.B_FestivalPlaza.UseVisualStyleBackColor = true;
             this.B_FestivalPlaza.Click += new System.EventHandler(this.B_FestivalPlaza_Click);
@@ -667,7 +667,7 @@
             this.B_MailBox.Location = new System.Drawing.Point(96, 177);
             this.B_MailBox.Name = "B_MailBox";
             this.B_MailBox.Size = new System.Drawing.Size(87, 23);
-            this.B_MailBox.TabIndex = 32;
+            this.B_MailBox.TabIndex = 1;
             this.B_MailBox.Text = "Mail Box";
             this.B_MailBox.UseVisualStyleBackColor = true;
             this.B_MailBox.Click += new System.EventHandler(this.B_MailBox_Click);
@@ -677,7 +677,7 @@
             this.B_OpenApricorn.Location = new System.Drawing.Point(189, 177);
             this.B_OpenApricorn.Name = "B_OpenApricorn";
             this.B_OpenApricorn.Size = new System.Drawing.Size(87, 23);
-            this.B_OpenApricorn.TabIndex = 33;
+            this.B_OpenApricorn.TabIndex = 1;
             this.B_OpenApricorn.Text = "Apricorns";
             this.B_OpenApricorn.UseVisualStyleBackColor = true;
             this.B_OpenApricorn.Click += new System.EventHandler(this.B_OpenApricorn_Click);
@@ -687,10 +687,20 @@
             this.B_Raids.Location = new System.Drawing.Point(282, 177);
             this.B_Raids.Name = "B_Raids";
             this.B_Raids.Size = new System.Drawing.Size(87, 23);
-            this.B_Raids.TabIndex = 34;
+            this.B_Raids.TabIndex = 1;
             this.B_Raids.Text = "Raids";
             this.B_Raids.UseVisualStyleBackColor = true;
             this.B_Raids.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
+            // B_Blocks
+            // 
+            this.B_Blocks.Location = new System.Drawing.Point(3, 206);
+            this.B_Blocks.Name = "B_Blocks";
+            this.B_Blocks.Size = new System.Drawing.Size(87, 23);
+            this.B_Blocks.TabIndex = 1;
+            this.B_Blocks.Text = "Block Data";
+            this.B_Blocks.UseVisualStyleBackColor = true;
+            this.B_Blocks.Click += new System.EventHandler(this.B_Blocks_Click);
             // 
             // L_SaveSlot
             // 
@@ -794,16 +804,6 @@
             this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
-            // 
-            // B_Blocks
-            // 
-            this.B_Blocks.Location = new System.Drawing.Point(3, 206);
-            this.B_Blocks.Name = "B_Blocks";
-            this.B_Blocks.Size = new System.Drawing.Size(87, 23);
-            this.B_Blocks.TabIndex = 35;
-            this.B_Blocks.Text = "Block Data";
-            this.B_Blocks.UseVisualStyleBackColor = true;
-            this.B_Blocks.Click += new System.EventHandler(this.B_Blocks_Click);
             // 
             // SAVEditor
             // 
