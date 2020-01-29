@@ -44,10 +44,16 @@ namespace PKHeX.Core
         private string GetBlockHint(SCBlock z, int i)
         {
             var blockName = GetBlockName(z, out _);
-            var type = (z.Type.IsBoolean() ? "Bool" : z.Type.ToString());
+            var isBool = z.Type.IsBoolean();
+            var type = (isBool ? "Bool" : z.Type.ToString());
             if (blockName != null)
                 return $"*{type} {blockName}";
-            return $"{z.Key:X8} - {i:0000} {type}";
+            var result = $"{z.Key:X8} - {i:0000} {type}";
+            if (z.Type == SCTypeCode.Object || z.Type == SCTypeCode.Array)
+                result += $" 0x{z.Data.Length:X3}";
+            else if (!isBool)
+                result += $" {z.GetValue()}";
+            return result;
         }
 
         public string? GetBlockName(SCBlock block, out SaveBlock? saveBlock)
