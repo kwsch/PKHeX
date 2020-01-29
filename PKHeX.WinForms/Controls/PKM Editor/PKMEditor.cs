@@ -766,6 +766,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.Format >= 3)
             {
+                Entity.Met_Location = location;
                 TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
                 CB_MetLocation.SelectedValue = location;
 
