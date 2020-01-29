@@ -46,12 +46,15 @@ namespace PKHeX.Core
         System.IO.File.WriteAllLines("blank.txt", blocks.ToArray());
         */
 
+        // Arrays (Blocks)
+        private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
+        private const uint KBoxLayout = 0x19722c89; // Box Names
+
         // Objects (Blocks)
         private const uint KBox = 0x0d66012c; // Box Data
         private const uint KMysteryGift = 0x112d5141; // Mystery Gift Data
         private const uint KItem = 0x1177c2c4; // Items
         private const uint KCoordinates = 0x16aaa7fa; // Coordinates?
-        private const uint KBoxLayout = 0x19722c89; // Box Names
         private const uint KMisc = 0x1b882b09; // Money
         private const uint KParty = 0x2985fe5d; // Party Data
         private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
@@ -64,6 +67,12 @@ namespace PKHeX.Core
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
+
+        // Raid DLC Flatbuffer Storage Objects (Blocks)
+        private const uint KDropRewards = 0x680EEB85; // drop_rewards
+        private const uint KDaiEncount = 0xAD3920F5; // dai_encount
+        private const uint KNormalEncount = 0xAD9DFA6A; // normal_encount
+        private const uint KBonusRewards = 0xEFCAE04E; // bonus_rewards
 
         // Values
         public const uint KGameLanguage = 0x0BFDEBA1; // U32 Game Language
