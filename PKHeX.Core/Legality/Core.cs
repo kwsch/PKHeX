@@ -577,23 +577,6 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static int GetLowestLevel(PKM pkm, int startLevel)
-        {
-            if (startLevel == -1)
-                startLevel = 100;
-
-            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
-            int count = 1;
-            for (int i = 100; i >= startLevel; i--)
-            {
-                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
-                if (evos.Count < count) // lost an evolution, prior level was minimum current level
-                    return evos.Max(evo => evo.Level) + 1;
-                count = evos.Count;
-            }
-            return startLevel;
-        }
-
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
             return GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);

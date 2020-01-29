@@ -404,7 +404,7 @@ namespace PKHeX.Core
 
                     int level = encounter.LevelMin;
                     int location = encounter.Location;
-                    int minlvl = Legal.GetLowestLevel(pk, encounter.LevelMin);
+                    int minlvl = EncounterSuggestion.GetLowestLevel(pk, encounter.LevelMin);
 
                     pk.Met_Level = level;
                     pk.Met_Location = location;

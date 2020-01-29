@@ -744,7 +744,7 @@ namespace PKHeX.WinForms.Controls
 
             int level = encounter.LevelMin;
             int location = encounter.Location;
-            int minlvl = Legal.GetLowestLevel(Entity, encounter.LevelMin);
+            int minlvl = EncounterSuggestion.GetLowestLevel(Entity, encounter.LevelMin);
             if (minlvl == 0)
                 minlvl = level;
 
