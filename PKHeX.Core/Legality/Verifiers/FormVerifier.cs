@@ -298,12 +298,7 @@ namespace PKHeX.Core
                         {
                             if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
-                            break;
                         }
-
-                        var hp_max = GetYamask1MaxHP(pkm);
-                        if (arg > hp_max)
-                            return GetInvalid(LFormArgumentHigh);
                         break;
                     }
                 case (int)Species.Runerigus:
@@ -317,9 +312,6 @@ namespace PKHeX.Core
                         {
                             if (arg < 49)
                                 return GetInvalid(LFormArgumentLow);
-                            var hp_max = GetYamask1MaxHP(pkm);
-                            if (arg > hp_max)
-                                return GetInvalid(LFormArgumentHigh);
                         }
                         break;
                     }
@@ -341,17 +333,6 @@ namespace PKHeX.Core
             }
 
             return GetValid(LFormArgumentValid);
-        }
-
-        private static int GetYamask1MaxHP(PKM pkm)
-        {
-            var lvl = pkm.CurrentLevel; // assume it was evolved at the current level (no further level ups)
-            var iv_hp = pkm is IHyperTrain ht && ht.HT_HP ? 31 : pkm.IV_HP;
-            const int base_hp = 38;
-            const int ev_hp = 252; // account for full EVs then removed
-
-            // Manually calculate the stat of Galarian Yamask under the most favorable conditions
-            return ((iv_hp + (2 * base_hp) + (ev_hp / 4) + 100) * lvl / 100) + 10;
         }
     }
 }
