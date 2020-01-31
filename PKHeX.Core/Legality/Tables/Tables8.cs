@@ -401,9 +401,6 @@ namespace PKHeX.Core
             313, // Iron Plate
             // 644, // Pixie Plate
 
-            1114, // Star Sweet
-            1115, // Ribbon Sweet
-
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
             1281, // ★And337
