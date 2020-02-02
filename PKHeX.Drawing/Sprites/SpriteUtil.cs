@@ -142,11 +142,11 @@ namespace PKHeX.Drawing
             if (inBox) // in box
             {
                 var flags = sav.GetSlotFlags(box, slot);
-                if (flags.HasFlagFast(StorageSlotFlag.Locked))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
                 int team = flags.IsBattleTeam();
                 if (team >= 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.team, SlotTeamShiftX, 0);
+                if (flags.HasFlagFast(StorageSlotFlag.Locked))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
                 int party = flags.IsParty();
                 if (party >= 0)
                     sprite = ImageUtil.LayerImage(sprite, PartyMarks[party], PartyMarkShiftX, 0);

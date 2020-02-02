@@ -54,6 +54,7 @@ namespace PKHeX.Core
         public abstract TrainerCard8 TrainerCard { get; }
         public abstract RaidSpawnList8 Raid { get; }
         public abstract TitleScreen8 TitleScreen { get; }
+        public abstract TeamIndexes8 TeamIndexes { get; }
         #endregion
 
         public override GameVersion Version

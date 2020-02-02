@@ -20,6 +20,7 @@ namespace PKHeX.Core
         public FashionUnlock8 Fashion { get; }
         public RaidSpawnList8 Raid { get; }
         public TitleScreen8 TitleScreen { get; }
+        public TeamIndexes8 TeamIndexes { get; }
 
         public SaveBlockAccessor8SWSH(SAV8SWSH sav)
         {
@@ -39,6 +40,7 @@ namespace PKHeX.Core
             Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
             Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList));
             TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
+            TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
         }
 
         /* To dump key list of current format, use the following in the immediate window, and update Meta8
@@ -58,6 +60,7 @@ namespace PKHeX.Core
         private const uint KMisc = 0x1b882b09; // Money
         private const uint KParty = 0x2985fe5d; // Party Data
         private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
+        private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
         private const uint KRecord = 0x37da95a3;
         private const uint KZukan = 0x4716c404; // PokeDex
         private const uint KTrainerCard = 0x874da6fa; // Trainer Card
