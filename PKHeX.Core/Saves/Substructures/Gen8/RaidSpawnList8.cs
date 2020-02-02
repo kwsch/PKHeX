@@ -108,11 +108,18 @@ namespace PKHeX.Core
             set => DenType = 2; // set the 1th bit; the 2th bit has a similar-unknown function (?)
         }
 
+        [Category(Derived), Description("Wishing Piece was used for Raid encounter.")]
+        public bool IsWishingPiece
+        {
+            get => IsActive && ((Flags >> 0) & 1) == 1;
+            set => Flags = (byte)((Flags & ~1) | (value ? 1 : 0));
+        }
+
         [Category(Derived), Description("Distribution (event) details used for Raid encounter.")]
         public bool IsEvent
         {
             get => IsActive && ((Flags >> 1) & 1) == 1;
-            set => Flags = (byte)((Flags & 2) | (value ? 2 : 0));
+            set => Flags = (byte)((Flags & ~2) | (value ? 2 : 0));
         }
 
         public void Activate(byte star, byte rand, bool rare = false, bool isEvent = false)
@@ -126,6 +133,16 @@ namespace PKHeX.Core
         public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType:X2}\t{Flags:X2}";
 
         // The games use a xoroshiro RNG to create the PKM from the stored seed.
+    }
+
+    public enum RaidType : byte
+    {
+        None = 0,
+        Common = 1,
+        Rare = 2,
+        CommonWish = 3,
+        RareWish = 4,
+        Event = 5,
     }
 
     public class TypeConverterU64 : TypeConverter
