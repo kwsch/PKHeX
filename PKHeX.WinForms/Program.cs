@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Reflection;
 #if !DEBUG
+using System.Reflection;
 using System.IO;
 using System.Threading;
 #endif
