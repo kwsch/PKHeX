@@ -137,7 +137,7 @@ namespace PKHeX.Core
             new byte[] {150, 122},           // 32 : Hammerlocke Hills, Rolling Fields
             new byte[] {154, 142},           // 33 : Lake of Outrage, Bridge Field
             new byte[] {144, 130},           // 34 : Stony Wilderness, West Lake Axewell
-            new byte[] {146, 148},           // 35 : Dusty Bowl, Giants Mirror
+            new byte[] {142, 146, 148},      // 35 : Bridge Field, Dusty Bowl, Giants Mirror
             new byte[] {122},                // 36 : Rolling Fields
             new byte[] {132},                // 37 : Axew's Eye
             new byte[] {128, 122},           // 38 : East Lake Axewell, Rolling Fields
