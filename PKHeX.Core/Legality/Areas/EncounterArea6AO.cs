@@ -9,8 +9,8 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea6AO : EncounterArea32
     {
-        private const int FluteBoostMin = 3; // White Flute decreases levels.
-        private const int FluteBoostMax = 3; // Black Flute increases levels.
+        private const int FluteBoostMin = 4; // White Flute decreases levels.
+        private const int FluteBoostMax = 4; // Black Flute increases levels.
         private const int DexNavBoost = 30; // Maximum DexNav chain
 
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
