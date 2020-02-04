@@ -236,8 +236,8 @@ namespace PKHeX.Core
 
         public byte Day
         {
-            get => Data[Offset + 0x172];
-            set => Data[Offset + 0x172] = value;
+            get => Data[Offset + 0x173];
+            set => Data[Offset + 0x173] = value;
         }
 
         public uint TimestampPrinted
