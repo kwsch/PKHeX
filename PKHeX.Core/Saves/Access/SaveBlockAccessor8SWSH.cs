@@ -63,12 +63,14 @@ namespace PKHeX.Core
         private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
         private const uint KRecord = 0x37da95a3;
         private const uint KZukan = 0x4716c404; // PokeDex
+        private const uint KCurryDex = 0x6EB72940; // Curry Dex
         private const uint KTrainerCard = 0x874da6fa; // Trainer Card
         private const uint KPlayTime = 0x8cbbfd90; // Time Played
         private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
+        public const uint KEnteredHallOfFame = 0xE2F6E456; // U64 Unix Timestamp
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
 
         // Raid DLC Flatbuffer Storage Objects (Blocks)

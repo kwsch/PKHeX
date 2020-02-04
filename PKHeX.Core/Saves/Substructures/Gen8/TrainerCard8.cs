@@ -14,16 +14,46 @@ namespace PKHeX.Core
             set => SAV.SetData(Data, SAV.SetString(value, SAV.OTLength), 0x00);
         }
 
+        public byte Language
+        {
+            get => Data[0x1B];
+            set => Data[0x1B] = value; // languageID
+        }
+
         public int TrainerID
         {
             get => BitConverter.ToInt32(Data, 0x1C);
             set => SAV.SetData(Data, BitConverter.GetBytes(value), 0x1C);
         }
 
+        public ushort PokeDexOwned
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0x20);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x20);
+        }
+
+        public ushort ShinyPokemonFound
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0x22);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x22);
+        }
+
+        public byte Game
+        {
+            get => Data[0x24];
+            set => Data[0x24] = value; // 0 = Sword, 1 = Shield
+        }
+
         public byte Starter
         {
             get => Data[0x25];
             set => Data[0x25] = value; // Grookey=0, Scorbunny=1, Sobble=2
+        }
+
+        public ushort CurryTypesOwned
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0x26);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x26);
         }
 
         public const int RotoRallyScoreMax = 99_999;
@@ -54,6 +84,12 @@ namespace PKHeX.Core
                 var data = BitConverter.GetBytes(value);
                 SAV.SetData(Data, data, 0x2C);
             }
+        }
+
+        public bool PokeDexComplete
+        {
+            get => Data[Offset + 0x30] == 1;
+            set => Data[Offset + 0x30] = (byte)(value ? 1 : 0);
         }
 
         public string Number
@@ -184,6 +220,31 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < party.Count; i++)
                 ViewPoke(i).LoadFrom(party[i]);
+        }
+
+        public ushort Year
+        {
+            get => BitConverter.ToUInt16(Data, Offset + 0x170);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x170);
+        }
+
+        public byte Month
+        {
+            get => Data[Offset + 0x172];
+            set => Data[Offset + 0x172] = value;
+        }
+
+        public byte Day
+        {
+            get => Data[Offset + 0x172];
+            set => Data[Offset + 0x172] = value;
+        }
+
+        public uint TimestampPrinted
+        {
+            // should this be a ulong?
+            get => BitConverter.ToUInt32(Data, Offset + 0x1A8);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x1A8);
         }
     }
 
