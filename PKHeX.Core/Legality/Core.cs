@@ -811,18 +811,25 @@ namespace PKHeX.Core
         public static string GetG1OT_GFMew(int lang) => lang == (int)LanguageID.Japanese ? "ゲーフリ" : "GF";
         public static string GetG5OT_NSparkle(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
 
+        public const string Stadium1JP = "スタジアム";
+
         public static string GetGBStadiumOTName(bool jp, GameVersion s)
         {
             if (jp)
-                return "スタジアム";
+                return Stadium1JP;
             return s == GameVersion.Stadium2 ? "Stadium" : "STADIUM";
         }
 
         public static int GetGBStadiumOTID(bool jp, GameVersion s)
         {
             if (jp)
-                return s == GameVersion.Stadium2 ? 2000 : 1999;
+                return GetGBStadiumOTID_JPN(s);
             return 2000;
+        }
+
+        public static int GetGBStadiumOTID_JPN(GameVersion s)
+        {
+            return s == GameVersion.Stadium2 ? 2000 : 1999;
         }
 
         public static int GetMaxLengthOT(int gen, LanguageID lang)
