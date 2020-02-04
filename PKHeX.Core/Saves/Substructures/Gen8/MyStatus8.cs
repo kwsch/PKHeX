@@ -148,7 +148,13 @@ namespace PKHeX.Core
             get => Data[Offset + 0xA7];
             set
             {
+                if (value == Language)
+                    return;
                 Data[Offset + 0xA7] = (byte) value;
+
+                // For runtime language, the game shifts all languages above Language 6 (unused) down one.
+                if (value >= 6)
+                    value--;
                 ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KGameLanguage, (uint)value);
             }
         }
