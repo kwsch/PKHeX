@@ -221,7 +221,7 @@ namespace PKHeX.Core
                 if (TID != -1 && TID != pkm.TID) return false;
                 if (OT_Gender < 3 && OT_Gender != pkm.OT_Gender) return false;
                 var wcOT = OT_Name;
-                if (wcOT != null)
+                if (!string.IsNullOrEmpty(wcOT))
                 {
                     if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
                     {
