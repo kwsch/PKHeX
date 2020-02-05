@@ -7,7 +7,7 @@ namespace PKHeX.Core
     {
         public RaidSpawnList8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
 
-        public const int RaidCountLegal = 93;
+        public const int RaidCountLegal = 100;
         public const int RaidCount = 111;
 
         public RaidSpawnDetail GetRaid(int entry) => new RaidSpawnDetail(Data, entry * RaidSpawnDetail.SIZE);
