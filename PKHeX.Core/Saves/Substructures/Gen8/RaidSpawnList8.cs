@@ -7,6 +7,7 @@ namespace PKHeX.Core
     {
         public RaidSpawnList8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
 
+        public const int RaidCountLegal = 93;
         public const int RaidCount = 111;
 
         public RaidSpawnDetail GetRaid(int entry) => new RaidSpawnDetail(Data, entry * RaidSpawnDetail.SIZE);
@@ -22,7 +23,7 @@ namespace PKHeX.Core
         public void ActivateAllRaids(bool rare, bool isEvent)
         {
             var rnd = Util.Rand;
-            for (int i = 0; i < RaidCount; i++)
+            for (int i = 0; i < RaidCountLegal; i++)
             {
                 var star = (byte)rnd.Next(0, 5);
                 var rand = (byte)rnd.Next(0, 100);
