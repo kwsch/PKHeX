@@ -133,5 +133,12 @@ namespace PKHeX.Core
                 return slots.Where(slot => slot.LevelMin <= minLevel);
             return slots.Where(s => s.IsLevelWithinRange(minLevel));
         }
+
+        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
+        {
+            if (pkm.Species == (int) Species.Unown)
+                return slots.Where(z => z.Form == pkm.AltForm);
+            return slots;
+        }
     }
 }
