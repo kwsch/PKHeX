@@ -332,13 +332,13 @@ namespace PKHeX.Core
 
         private static readonly EncounterArea3[] SlotsFRLGUnown =
         {
-            GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,26 }), // 188 = Monean Chamber
+            GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,27 }), // 188 = Monean Chamber
             GetUnownArea(189, new[] { 02,02,02,03,03,03,07,07,07,20,20,14 }), // 189 = Liptoo Chamber
             GetUnownArea(190, new[] { 13,13,13,13,18,18,18,18,08,08,04,04 }), // 190 = Weepth Chamber
             GetUnownArea(191, new[] { 15,15,11,11,09,09,17,17,17,16,16,16 }), // 191 = Dilford Chamber
             GetUnownArea(192, new[] { 24,24,19,19,06,06,06,05,05,05,10,10 }), // 192 = Scufib Chamber
             GetUnownArea(193, new[] { 21,21,21,22,22,22,23,23,12,12,01,01 }), // 193 = Rixy Chamber
-            GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,27 }), // 194 = Viapois Chamber
+            GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,26 }), // 194 = Viapois Chamber
         };
 
         private static EncounterArea3 GetUnownArea(int location, IReadOnlyList<int> SlotForms)
