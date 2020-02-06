@@ -113,6 +113,18 @@ namespace PKHeX.Core
 
         private void AddCountAcquired(PKM pkm)
         {
+            if (pkm.WasEgg)
+            {
+                Records.AddRecord(00);
+            }
+            else // capture, assume wild
+            {
+                Records.AddRecord(01); // wild capture
+                Records.AddRecord(06); // total captured
+                Records.AddRecord(16); // wild encountered
+            }
+            if (pkm.CurrentHandler == 1)
+                Records.AddRecord(17, 2); // trade * 2 -- these games count 1 trade as 2 for some reason.
         }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
