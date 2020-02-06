@@ -86,10 +86,10 @@ namespace PKHeX.Core
         }
 
         [Category(General), Description("First set of Den Flags.")]
-        public byte DenType
+        public RaidType DenType
         {
-            get => Data[Offset + 0x12];
-            set => Data[Offset + 0x12] = value;
+            get => (RaidType)Data[Offset + 0x12];
+            set => Data[Offset + 0x12] = (byte)value;
         }
 
         [Category(General), Description("Second set of Den Flags.")]
@@ -105,12 +105,39 @@ namespace PKHeX.Core
         [Category(Derived), Description("Rare encounter details used instead of Common details.")]
         public bool IsRare
         {
-            get => IsActive && (DenType & 1) == 0;
-            set => DenType = 2; // set the 1th bit; the 2th bit has a similar-unknown function (?)
+            get => DenType == RaidType.Rare || DenType == RaidType.RareWish;
+            set
+            {
+                if (value)
+                {
+                    DenType = IsWishingPiece ? RaidType.RareWish : RaidType.Rare;
+                }
+                else
+                {
+                    DenType = IsWishingPiece ? RaidType.CommonWish : RaidType.Common;
+                }
+            }
         }
 
         [Category(Derived), Description("Wishing Piece was used for Raid encounter.")]
         public bool IsWishingPiece
+        {
+            get => DenType == RaidType.CommonWish || DenType == RaidType.RareWish;
+            set
+            {
+                if (value)
+                {
+                    DenType = IsRare ? RaidType.RareWish : RaidType.CommonWish;
+                }
+                else
+                {
+                    DenType = IsRare ? RaidType.Rare : RaidType.Common;
+                }
+            }
+        }
+
+        [Category(Derived), Description("Has watts available for harvest or not.")]
+        public bool WattsHarvested
         {
             get => IsActive && ((Flags >> 0) & 1) == 1;
             set => Flags = (byte)((Flags & ~1) | (value ? 1 : 0));
