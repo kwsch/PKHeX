@@ -47,8 +47,8 @@
         /// <summary> Battle Resort in <see cref="GameVersion.ORAS"/> </summary>
         public const int HatchLocation6AO = 318;
 
-        /// <summary> Route 4 in <see cref="GameVersion.Gen7"/> </summary>
-        public const int HatchLocation7 = 50;
+        /// <summary> Paniola Ranch in <see cref="GameVersion.Gen7"/> </summary>
+        public const int HatchLocation7 = 78;
 
         /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
         public const int HatchLocation8 = 40;
