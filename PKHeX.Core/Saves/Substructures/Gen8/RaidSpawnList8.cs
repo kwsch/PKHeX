@@ -89,7 +89,18 @@ namespace PKHeX.Core
         public RaidType DenType
         {
             get => (RaidType)Data[Offset + 0x12];
-            set => Data[Offset + 0x12] = (byte)value;
+            set
+            {
+                Data[Offset + 0x12] = (byte)value;
+                if (value == RaidType.Event)
+                {
+                    IsEvent = true;
+                }
+                else if (value != RaidType.CommonWish)
+                {
+                    IsEvent = false;
+                }
+            }
         }
 
         [Category(General), Description("Second set of Den Flags.")]
@@ -136,7 +147,7 @@ namespace PKHeX.Core
             }
         }
 
-        [Category(Derived), Description("Has watts available for harvest or not.")]
+        [Category(Derived), Description("Has watts already been harvested.")]
         public bool WattsHarvested
         {
             get => IsActive && ((Flags >> 0) & 1) == 1;
@@ -147,7 +158,24 @@ namespace PKHeX.Core
         public bool IsEvent
         {
             get => IsActive && ((Flags >> 1) & 1) == 1;
-            set => Flags = (byte)((Flags & ~2) | (value ? 2 : 0));
+            set
+            {
+                Flags = (byte)((Flags & ~(byte)2) | (value ? 2 : 0));
+                if (value)
+                {
+                    if (DenType != RaidType.CommonWish && DenType != RaidType.Event)
+                    {
+                        DenType = RaidType.Event;
+                    }
+                }
+                else
+                {
+                    if (DenType == RaidType.Event)
+                    {
+                        DenType = RaidType.Common;
+                    }
+                }
+            }
         }
 
         public void Activate(byte star, byte rand, bool rare = false, bool isEvent = false)
