@@ -8,3 +8,4 @@
 0259	Sinnoh Legendary (1st)	1:Dialga,2:Palkia,3:Giratina
 0258	Teleportable (2nd) Arceus	1:Hall of Origin,2:Fateful Encounter
 0305	Kanto Starters	0:Not Activated,1:Activated,2:Pending,3:Bulbasaur,4:Squirtle,5:Charmander
+0116	Togepi Gift	0:Not Activated,1:Activated,2:Pending,3:Obtained,4:Completed

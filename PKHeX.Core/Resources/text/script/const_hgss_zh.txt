@@ -8,3 +8,4 @@
 0259	神奥第一只传说	1:帝牙卢卡,2:帕路奇亚,3:骑拉帝纳
 0258	神奥第二只阿尔宙斯	1:初始之间,2:命中注定般地遇见
 0305	Kanto Starters	0:Not Activated,1:Activated,2:Pending,3:Bulbasaur,4:Squirtle,5:Charmander
+0116	Togepi Gift	0:Not Activated,1:Activated,2:Pending,3:Obtained,4:Completed
