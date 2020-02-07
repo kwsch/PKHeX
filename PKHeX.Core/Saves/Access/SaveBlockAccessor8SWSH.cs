@@ -73,6 +73,14 @@ namespace PKHeX.Core
         public const uint KEnteredHallOfFame = 0xE2F6E456; // U64 Unix Timestamp
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
 
+        // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
+        private const uint KRentalTeam1 = 0x149A1DD0;
+      //private const uint KRentalTeam2 = 0x159A1F63; // does not exist
+        private const uint KRentalTeam3 = 0x169A20F6;
+        private const uint KRentalTeam4 = 0x179A2289;
+        private const uint KRentalTeam5 = 0x189A241C;
+        private const uint KRentalTeam6 = 0x199A25AF;
+
         // Raid DLC Flatbuffer Storage Objects (Blocks)
         private const uint KDropRewards = 0x680EEB85; // drop_rewards
         private const uint KDaiEncount = 0xAD3920F5; // dai_encount
