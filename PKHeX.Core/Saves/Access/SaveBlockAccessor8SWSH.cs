@@ -21,6 +21,7 @@ namespace PKHeX.Core
         public RaidSpawnList8 Raid { get; }
         public TitleScreen8 TitleScreen { get; }
         public TeamIndexes8 TeamIndexes { get; }
+        public HallOfFameTime8 FameTime { get; }
 
         public SaveBlockAccessor8SWSH(SAV8SWSH sav)
         {
@@ -41,6 +42,7 @@ namespace PKHeX.Core
             Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList));
             TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
             TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
+            FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
         }
 
         /* To dump key list of current format, use the following in the immediate window, and update Meta8
