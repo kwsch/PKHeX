@@ -25,6 +25,8 @@ namespace PKHeX.Core
             var rnd = Util.Rand;
             for (int i = 0; i < RaidCountLegal; i++)
             {
+                if (i == 16) // Watchtower, special
+                    continue;
                 var star = (byte)rnd.Next(0, 5);
                 var rand = (byte)rnd.Next(0, 100);
                 GetRaid(i).Activate(star, rand, rare, isEvent);
@@ -150,17 +152,17 @@ namespace PKHeX.Core
         [Category(Derived), Description("Has watts already been harvested.")]
         public bool WattsHarvested
         {
-            get => IsActive && ((Flags >> 0) & 1) == 1;
+            get => IsActive && (Flags & 1) == 1;
             set => Flags = (byte)((Flags & ~1) | (value ? 1 : 0));
         }
 
         [Category(Derived), Description("Distribution (event) details used for Raid encounter.")]
         public bool IsEvent
         {
-            get => IsActive && ((Flags >> 1) & 1) == 1;
+            get => IsActive && (Flags & 2) == 2;
             set
             {
-                Flags = (byte)((Flags & ~(byte)2) | (value ? 2 : 0));
+                Flags = (byte)((Flags & ~2) | (value ? 2 : 0));
                 if (value)
                 {
                     if (DenType != RaidType.CommonWish && DenType != RaidType.Event)
@@ -199,6 +201,7 @@ namespace PKHeX.Core
         CommonWish = 3,
         RareWish = 4,
         Event = 5,
+        DynamaxCrystal = 6,
     }
 
     public class TypeConverterU64 : TypeConverter
