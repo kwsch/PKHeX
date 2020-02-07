@@ -249,3 +249,6 @@ pip-log.txt
 #################
 
 *.userprefs
+
+Windows shortcuts
+*.lnk
