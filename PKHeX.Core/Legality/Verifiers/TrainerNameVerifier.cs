@@ -141,6 +141,9 @@ namespace PKHeX.Core
 
         private CheckResult VerifyG1OTStadium(PKM pkm, string tr, IVersion s)
         {
+            if (pkm.OT_Gender != 0)
+                return GetInvalid(LG1OTGender);
+
             int tid = pkm.TID;
             if (pkm.Japanese)
             {
