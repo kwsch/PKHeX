@@ -12,6 +12,12 @@ namespace PKHeX.Core
 
         public void LoadBattleTeams()
         {
+            if (!SAV.Exportable)
+            {
+                ClearBattleTeams();
+                return;
+            }
+
             for (int i = 0; i < TeamCount * 6; i++)
             {
                 short val = BitConverter.ToInt16(Data, Offset + (i * 2));
@@ -32,6 +38,10 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < TeamSlots.Length; i++)
                 TeamSlots[i] = NONE_SELECTED;
+        }
+
+        public void UnlockAllTeams()
+        {
             for (int i = 0; i < TeamCount; i++)
                 SetIsTeamLocked(i, false);
         }
