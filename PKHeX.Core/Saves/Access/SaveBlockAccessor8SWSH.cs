@@ -83,6 +83,24 @@ namespace PKHeX.Core
         private const uint KRentalTeam5 = 0x189A241C;
         private const uint KRentalTeam6 = 0x199A25AF;
 
+        // Download Rules
+        private const uint KDownloadRules1 = 0xEEF1B186;
+        private const uint KDownloadRules2 = 0xEFF1B319;
+        private const uint KDownloadRules3 = 0xF0F1B4AC;
+        private const uint KDownloadRules4 = 0xF1F1B63F;
+        private const uint KDownloadRules5 = 0xF2F1B7D2;
+        private const uint KDownloadRules6 = 0xF3F1B965;
+      //private const uint KDownloadRulesX = 0xF4F1BAF8; // does not exist
+      //private const uint KDownloadRulesX = 0xF5F1BC8B; // does not exist
+      //private const uint KDownloadRulesX = 0xF6F1BE1E; // does not exist
+      //private const uint KDownloadRulesX = 0xF7F1BFB1; // does not exist
+      //private const uint KDownloadRulesX = 0xF8F1C144; // does not exist
+      //private const uint KDownloadRulesX = 0xF9F1C2D7; // does not exist
+        private const uint KDownloadRulesU1 = 0xFAF1C46A;
+        private const uint KDownloadRulesU2 = 0xFBF1C5FD;
+
+        private const uint KOfficialCompetition = 0xEEE5A3F8;
+
         // Raid DLC Flatbuffer Storage Objects (Blocks)
         private const uint KDropRewards = 0x680EEB85; // drop_rewards
         private const uint KDaiEncount = 0xAD3920F5; // dai_encount
