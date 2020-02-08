@@ -19,9 +19,7 @@ namespace PKHeX.Core
         private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
         private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
         private const int MAX_SPECIES = (int)Core.Species.MAX_COUNT - 1;
-        private const string Language = GameLanguage.DefaultLanguage;
-        private const int DefaultLanguageID = (int)Core.LanguageID.English;
-        private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(Language);
+        private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
         /// <summary>
         /// <see cref="PKM.Species"/> of the Set entity.
@@ -114,7 +112,6 @@ namespace PKHeX.Core
         public readonly List<string> InvalidLines = new List<string>();
 
         private GameStrings Strings { get; set; } = DefaultStrings;
-        private int LanguageID { get; set; } = DefaultLanguageID;
 
         private int[] IVsSpeedFirst => new[] {IVs[0], IVs[1], IVs[2], IVs[5], IVs[3], IVs[4]};
         private int[] IVsSpeedLast => new[] {IVs[0], IVs[1], IVs[2], IVs[4], IVs[5], IVs[3]};
@@ -266,8 +263,6 @@ namespace PKHeX.Core
         private string LocalizedText(int lang)
         {
             var strings = GameInfo.GetStrings(lang);
-            lang += lang >= 5 ? 2 : 1; // shift from array index to LanguageID
-            LanguageID = lang;
             return GetText(strings);
         }
 
@@ -365,14 +360,10 @@ namespace PKHeX.Core
         {
             foreach (int move in Moves.Where(move => move != 0 && move < Strings.Move.Count))
             {
-                var str = $"- {Strings.Move[move]}";
                 if (move == 237) // Hidden Power
-                {
-                    var hpVal = HiddenPower.GetType(IVs, Format);
-                    str += $" [{Strings.Types[1+ hpVal]}]";
-                    HiddenPowerType = hpVal;
-                }
-                yield return str;
+                    yield return $"- {Strings.Move[move]} [{Strings.Types[1 + HiddenPowerType]}]";
+
+                yield return $"- {Strings.Move[move]}";
             }
         }
 
@@ -415,6 +406,16 @@ namespace PKHeX.Core
 
             if (pkm is IGigantamax g)
                 CanGigantamax = g.CanGigantamax;
+
+            HiddenPowerType = HiddenPower.GetType(IVs, Format);
+            if (pkm is IHyperTrain h)
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (h.GetHT(i))
+                        IVs[i] = pkm.MaxIV;
+                }
+            }
 
             SetFormString(pkm.AltForm);
         }
