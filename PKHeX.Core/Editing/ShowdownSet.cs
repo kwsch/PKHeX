@@ -361,7 +361,10 @@ namespace PKHeX.Core
             foreach (int move in Moves.Where(move => move != 0 && move < Strings.Move.Count))
             {
                 if (move == 237) // Hidden Power
+                {
                     yield return $"- {Strings.Move[move]} [{Strings.Types[1 + HiddenPowerType]}]";
+                    continue;
+                }
 
                 yield return $"- {Strings.Move[move]}";
             }
