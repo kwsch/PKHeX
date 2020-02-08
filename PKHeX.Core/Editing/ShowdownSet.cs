@@ -339,8 +339,8 @@ namespace PKHeX.Core
         {
             if (Nickname.Length == 0)
                 return specForm;
-            var name = SpeciesName.GetSpeciesNameGeneration(Species, LanguageID, Format);
-            if (name == Nickname)
+            bool isNicknamed = SpeciesName.IsNicknamedAnyLanguage(Species, Nickname, Format);
+            if (!isNicknamed)
                 return specForm;
             return $"{Nickname} ({specForm})";
         }
