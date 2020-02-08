@@ -199,7 +199,7 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private static int GetArceusFormFromHeldItem(int item, int format)
+        public static int GetArceusFormFromHeldItem(int item, int format)
         {
             if (777 <= item && item <= 793)
                 return Array.IndexOf(Legal.Arceus_ZCrystal, (ushort)item) + 1;
@@ -212,14 +212,14 @@ namespace PKHeX.Core
             return form;
         }
 
-        private static int GetSilvallyFormFromHeldItem(int item)
+        public static int GetSilvallyFormFromHeldItem(int item)
         {
             if ((904 <= item && item <= 920) || item == 644)
                 return item - 903;
             return 0;
         }
 
-        private static int GetGenesectFormFromHeldItem(int item)
+        public static int GetGenesectFormFromHeldItem(int item)
         {
             if (116 <= item && item <= 119)
                 return item - 115;
