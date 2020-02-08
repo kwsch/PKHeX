@@ -21,7 +21,7 @@ http://projectpokemon.org/pkhex/
  - Changed: Mystery Gift - Can now delete multiple Gift Received flags at a time. Thanks @murrty!
  - Changed: Updated Korean translation. Thanks @yurical!
  - Fixed: Gen8 Trainer Editor no longer screws up game language.
- - Fixed: Showdown Sets are now exported more accuratley (hyper training / foreign species names).
+ - Fixed: Showdown Sets are now exported more accurately (hyper training / foreign species names).
 
 20/01/26 - New Update: (32160) [2384169]
  - Legality:
