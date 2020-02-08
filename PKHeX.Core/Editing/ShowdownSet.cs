@@ -322,6 +322,10 @@ namespace PKHeX.Core
             string specForm = Strings.Species[Species];
             if (form.Length != 0)
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
+            else if (Species == (int)Core.Species.NidoranM)
+                specForm = specForm.Replace("♂", "-M");
+            else if (Species == (int)Core.Species.NidoranF)
+                specForm = specForm.Replace("♀", "-F");
 
             string result = GetSpeciesNickname(specForm);
             if (Gender.Length != 0)
