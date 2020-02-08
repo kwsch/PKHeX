@@ -1,7 +1,29 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/01/26 - New Update:
+20/02/08 - New Update:
+ - Legality:
+ - - Added: Milcery & Toxtricity distribution data.
+ - - Fixed: Runerigus FormArgument handling checks updated.
+ - - Fixed: ORAS flute level boosts increased from 3 to 4.
+ - - Fixed: FRLG Unown locations are now checked correctly. Thanks @Kermalis!
+ - - Fixed: Gen1/2 Stadium gifts are now checked more thoroughly. Thanks @FeralFalcon!
+ - Added: Gen8 Team Slots are now recognized and locked for editing. Thanks Anubis, @architdate, @Wanderer1391!
+ - Added: Gen8 Block Info editor now has more blocks labeled.
+ - Added: Gen8 Raid editor now shows the raid type enumeration, and more cleanly sets flags. Thanks @3096 & @slp32!
+ - Added: Gen8 setting to a slot will now increment game records. Thanks @CanoeHope!
+ - Added: Gen8 Rental Team reading. Thanks @architdate!
+ - Added: Gen4 Togepi egg gift event constant. Thanks @asterysx!
+ - Changed: Gen8 Block Info editor now sorts blocks by current value.
+ - Changed: Gen7 default hatch location is now Paniola Ranch instead of one of the routes. Thanks @CanoeHope!
+ - Changed: Tab indexes (pressing tab to jump between controls) now behaves more fluidly in the main window.
+ - Changed: Save Editor buttons (like Trainer Info, Pokédex) are now sorted alphabetically for easier locating.
+ - Changed: Mystery Gift - Can now delete multiple Gift Received flags at a time. Thanks @murrty!
+ - Changed: Updated Korean translation. Thanks @yurical!
+ - Fixed: Gen8 Trainer Editor no longer screws up game language.
+ - Fixed: Showdown Sets are now exported more accuratley (hyper training / foreign species names).
+
+20/01/26 - New Update: (32160) [2384169]
  - Legality:
  - - Added: Form Argument legality checks. Alcremie, Runerigus, Yamask, Hoopa, and Furfrou. Thanks @CanoeHope!
  - - Added: More static encounter locations.
