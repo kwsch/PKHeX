@@ -132,6 +132,7 @@ LFormBattle = このフォルムはバトル中以外では選択できません
 LFormEternal = Valid Eternal Flower encounter.
 LFormEternalInvalid = Invalid Eternal Flower encounter.
 LFormInvalidGame = Form cannot be obtained in origin game.
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = Form Count is out of range. Expected <= {0}, got {1}.
 LFormItem = 持ち物とフォルムは一致しています
 LFormItemInvalid = 持ち物とフォルムが一致しません

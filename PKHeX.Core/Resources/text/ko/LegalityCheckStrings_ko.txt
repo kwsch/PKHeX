@@ -132,6 +132,7 @@ LFormBattle = 배틀 밖에서 존재할 수 없는 폼입니다.
 LFormEternal = 사용 가능한 영원의 꽃 인카운터입니다.
 LFormEternalInvalid = 사용할 수 없는 영원의 꽃 인카운터입니다.
 LFormInvalidGame = 이 양식은 원래 게임에서 얻을 수 없습니다.
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = 폼 번호가 범위를 벗어났습니다. 예상되는 폼 번호는 최대 {0}입니다. got {1}.
 LFormItem = 지닌 물건이 도구와 일치합니다.
 LFormItemInvalid = 지닌 물건이 도구와 일치하지 않습니다.

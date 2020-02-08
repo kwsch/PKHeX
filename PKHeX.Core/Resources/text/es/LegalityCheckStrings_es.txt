@@ -132,6 +132,7 @@ LFormBattle = La forma no puede existir fuera de combate.
 LFormEternal = Encuentro con Flor Eterna válido.
 LFormEternalInvalid = Encuentro con Flor Eterna inválido.
 LFormInvalidGame = La forma no se puede obtener en el juego de origen.
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = Contador de forma fuera de rango. Se esperaba <= {0}, se obtuvo {1}.
 LFormItem = El objeto equipado coincide con la forma.
 LFormItemInvalid = El objeto equipado no coincide con la forma.

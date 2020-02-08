@@ -145,6 +145,15 @@ namespace PKHeX.Core
                 case (int)Species.Lycanroc when Info.EncounterMatch.EggEncounter && form == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
+                // Toxel encounters have already been checked for the nature-specific evolution criteria.
+                case (int)Species.Toxtricity when Info.EncounterMatch.Species == (int)Species.Toxtricity:
+                    {
+                        // The game enforces the Nature for Toxtricity encounters too!
+                        if (pkm.AltForm != EvolutionMethod.GetAmpLowKeyResult(pkm.Nature))
+                            return GetInvalid(LFormInvalidNature);
+                        break;
+                    }
+
                 // Impossible Egg forms
                 case (int)Species.Rotom when pkm.IsEgg && form != 0:
                 case (int)Species.Furfrou when pkm.IsEgg && form != 0:

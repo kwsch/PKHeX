@@ -132,6 +132,7 @@ LFormBattle = Form cannot exist outside of a battle.
 LFormEternal = Valid Eternal Flower encounter.
 LFormEternalInvalid = Invalid Eternal Flower encounter.
 LFormInvalidGame = Form cannot be obtained in origin game.
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = Form Count is out of range. Expected <= {0}, got {1}.
 LFormItem = Held item matches Form.
 LFormItemInvalid = Held item does not match Form.

@@ -132,6 +132,7 @@ LFormBattle = La Forme ne peut pas être obtenue en dehors d'un combat.
 LFormEternal = Valid Eternal Flower encounter.
 LFormEternalInvalid = Invalid Eternal Flower encounter.
 LFormInvalidGame = La Forme ne peut pas être obtenue dans le jeu actuel.
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = Form Count is out of range. Expected <= {0}, got {1}.
 LFormItem = L'objet tenu correspond à la forme.
 LFormItemInvalid = L'objet tenu ne correspond pas à la forme.

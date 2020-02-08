@@ -191,6 +191,7 @@ namespace PKHeX.Core
         public static string LFormEternal { get; set; } = "Valid Eternal Flower encounter.";
         public static string LFormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
         public static string LFormInvalidGame { get; set; } = "Form cannot be obtained in origin game.";
+        public static string LFormInvalidNature { get; set; } = "Form cannot have this nature.";
         public static string LFormInvalidRange { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
         public static string LFormItem { get; set; } = "Held item matches Form.";
         public static string LFormItemInvalid { get; set; } = "Held item does not match Form.";

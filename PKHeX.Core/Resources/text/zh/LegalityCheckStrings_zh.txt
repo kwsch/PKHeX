@@ -132,6 +132,7 @@ LFormBattle = 该形态不可能存在对战外。
 LFormEternal = 永恒之花遇见合法。
 LFormEternalInvalid = 永恒之花遇见不合法。
 LFormInvalidGame = 这种形态不能在来源版本中获得。
+LFormInvalidNature = Form cannot have this nature.
 LFormInvalidRange = 形态数超过最大值。 应该 <= {0}, 实际是 {1}。
 LFormItem = 持有物与形态一致。
 LFormItemInvalid = 持有物与形态不一致。
