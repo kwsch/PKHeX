@@ -50,6 +50,10 @@ namespace PKHeX.Core
                 return true;
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax)
                 return true;
+            if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument a && a.FormArgument != 0)
+                return true;
+            if (Species == (int)Core.Species.Runerigus && pkm is IFormArgument r && r.FormArgument != 0)
+                return true;
 
             return false;
         }
