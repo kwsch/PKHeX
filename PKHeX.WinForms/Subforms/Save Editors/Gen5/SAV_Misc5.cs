@@ -680,7 +680,7 @@ namespace PKHeX.WinForms
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
-                s.Move = slot.Moves[rnd.Next(slot.Moves.Count)];
+                s.Move = slot.Moves.Count > 0 ? slot.Moves[rnd.Next(slot.Moves.Count)] : 0;
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
             }
             ChangeArea(null, EventArgs.Empty); // refresh
