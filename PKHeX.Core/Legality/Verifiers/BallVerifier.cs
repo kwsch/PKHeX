@@ -234,8 +234,10 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Mew && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
+                if (species == (int)Species.Voltorb && pkm.AbilityNumber == 4)
+                    return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
                 if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (Legal.PastGenAlolanScans.Contains(species))
