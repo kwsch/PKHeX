@@ -38,8 +38,8 @@
         /// <summary> Route 34 in <see cref="GameVersion.HGSS"/> </summary>
         public const int HatchLocationHGSS = 182;
 
-        /// <summary> Route 3 in <see cref="GameVersion.Gen5"/> </summary>
-        public const int HatchLocation5 = 16;
+        /// <summary> Skyarrow Bridge in <see cref="GameVersion.Gen5"/> </summary>
+        public const int HatchLocation5 = 64;
 
         /// <summary> Route 7 in <see cref="GameVersion.XY"/> </summary>
         public const int HatchLocation6XY = 38;
