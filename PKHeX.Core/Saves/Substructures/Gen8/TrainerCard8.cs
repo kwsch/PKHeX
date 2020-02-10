@@ -92,6 +92,12 @@ namespace PKHeX.Core
             set => Data[Offset + 0x30] = (byte)(value ? 1 : 0);
         }
 
+        public int Gender
+        {
+            get => Data[0x38];
+            set => Data[0x38] = (byte)value;
+        }
+
         public string Number
         {
             get => Encoding.ASCII.GetString(Data, 0x39, 3);
