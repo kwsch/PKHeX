@@ -29,8 +29,8 @@
         /// <summary> Route 117 in <see cref="GameVersion.RSE"/> </summary>
         public const int HatchLocationRSE = 32;
 
-        /// <summary> Four Island in <see cref="GameVersion.FRLG"/> </summary>
-        public const int HatchLocationFRLG = 146;
+        /// <summary> Route 17 in <see cref="GameVersion.FRLG"/> </summary>
+        public const int HatchLocationFRLG = 117;
 
         /// <summary> Solaceon Town in <see cref="GameVersion.DPPt"/> </summary>
         public const int HatchLocationDPPt = 4;
