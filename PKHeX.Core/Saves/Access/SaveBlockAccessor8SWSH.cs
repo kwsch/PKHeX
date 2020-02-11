@@ -118,5 +118,7 @@ namespace PKHeX.Core
         public const uint KStarterChoice = 0x3677602D; // U32 Grookey=0, Scorbunny=1, Sobble=2
         public const uint KDiggingDuoStreakSkill = 0xA0F49CFB; // U32
         public const uint KDiggingDuoStreakStamina = 0x066F38F5; // U32
+        public const uint KBirthMonth = 0x0D987D50; // U32
+        public const uint KBirthDay = 0x355C8314; // U32
     }
 }
