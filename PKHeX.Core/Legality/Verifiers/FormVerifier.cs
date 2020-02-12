@@ -60,12 +60,13 @@ namespace PKHeX.Core
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
-                case (int)Species.Pikachu when Info.Generation == 7: // Cap
+                case (int)Species.Pikachu when Info.Generation >= 7: // Cap
                     bool IsValidPikachuCap()
                     {
                         return EncounterMatch switch
                         {
                             WC7 wc7 => (wc7.Form == form),
+                            WC8 wc => (wc.Form == form),
                             EncounterStatic s => (s.Form == form),
                             _ => (form == 0)
                         };
@@ -73,7 +74,7 @@ namespace PKHeX.Core
 
                     if (!IsValidPikachuCap())
                     {
-                        bool gift = EncounterMatch is WC7 g && g.Form != form;
+                        bool gift = EncounterMatch is MysteryGift g && g.Form != form;
                         var msg = gift ? LFormPikachuEventInvalid : LFormInvalidGame;
                         return GetInvalid(msg);
                     }
@@ -189,7 +190,7 @@ namespace PKHeX.Core
             }
             if (format >= 8 && Info.Generation < 8)
             {
-                if (species == 25 || Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
+                if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
                     return GetInvalid(LFormInvalidGame);
             }
 
