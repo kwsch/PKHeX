@@ -48,13 +48,13 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
-            if (!Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
+            if (gen == 6 && !Memories.CanHaveIntensity(memory.MemoryID, memory.Intensity))
             {
                 if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory intensity checks for gen8
                   return GetInvalid(string.Format(LMemoryIndexIntensityMin, memory.Handler, Memories.GetMinimumIntensity(memory.MemoryID)));
             }
 
-            if (memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
+            if (gen == 6 && memory.MemoryID != 4 && !Memories.CanHaveFeeling(memory.MemoryID, memory.Feeling))
             {
                 if (pkm.Gen6 || (pkm.Gen7 && memory.MemoryID != 0)) // todo: memory feeling checks for gen8
                     return GetInvalid(string.Format(LMemoryFeelInvalid, memory.Handler));
