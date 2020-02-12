@@ -652,11 +652,17 @@ namespace PKHeX.Core
                 Met_Level = Met_Level,
                 OT_Gender = OT_Gender,
 
-                // todo: memories
+                // Memories don't exist in LGPE, and no memories are set on transfer.
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
                 OT_Intensity = OT_Intensity,
+
+                // No Ribbons or Markings on transfer.
+
+                StatNature = Nature,
+                HeightScalar = HeightScalar,
+                WeightScalar = WeightScalar,
             };
 
             pk8.HealPP();
