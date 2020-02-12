@@ -39,4 +39,7 @@
 1262	숲의양옥집에서 TM90 찾음
 1281	숲의양옥집에서 이상한사탕 찾음
 1282	숲의양옥집에서 큰진주 찾음
+1337	Found Metal Coat in Iron Ruins
+1338	Found Never-Melt Ice in Iceberg Ruins
+1339	Found Hard Stone in Rock Peak Ruins
 2736	숲의양옥집 TV에서 로토무 사라짐
