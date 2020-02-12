@@ -658,6 +658,8 @@ namespace PKHeX.Core
                 OT_Feeling = OT_Feeling,
                 OT_Intensity = OT_Intensity,
 
+                OT_Friendship = OT_Friendship,
+
                 // No Ribbons or Markings on transfer.
 
                 StatNature = Nature,

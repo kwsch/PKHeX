@@ -106,7 +106,21 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
             if (!pi.IsPresentInGame) // Can't transfer
+            {
                 data.AddLine(GetInvalid(LTransferBad));
+            }
+            else if (data.Info.Generation < 8 && pkm is PK8 pk)
+            {
+                if (!pk.GG)
+                {
+                    if (pk.HeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+                    if (pk.WeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+                }
+                if (pk.Tracker == 0) // Tracker value?
+                    data.AddLine(GetInvalid(LTransferBad));
+            }
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)

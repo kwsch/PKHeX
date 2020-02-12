@@ -558,6 +558,12 @@ namespace PKHeX.Core
             return false;
         }
 
+        public ulong Tracker
+        {
+            get => BitConverter.ToUInt64(Data, 0x135);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x135);
+        }
+
         public byte GetFromArrayD1(int index)
         {
             if ((uint)index >= 19)
@@ -652,7 +658,7 @@ namespace PKHeX.Core
 
             if (HT_Name != tr.OT)
             {
-                HT_Friendship = PersonalInfo.BaseFriendship;
+                HT_Friendship = 50;
                 HT_Affection = 0;
                 HT_Name = tr.OT;
             }

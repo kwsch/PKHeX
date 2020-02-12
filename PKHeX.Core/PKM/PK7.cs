@@ -632,12 +632,13 @@ namespace PKHeX.Core
                 RibbonBattleTreeGreat = RibbonBattleTreeGreat,
                 RibbonBattleTreeMaster = RibbonBattleTreeMaster,
 
+                OT_Friendship = OT_Friendship,
+
                 // No Ribbons or Markings on transfer.
 
-                // Todo: Analyze the distribution to see if it's triangular /\ or just pure random
                 StatNature = Nature,
-                HeightScalar = PokeSizeExtensions.GetRandomScalar(),
-                WeightScalar = PokeSizeExtensions.GetRandomScalar(),
+                // HeightScalar = 0,
+                // WeightScalar = 0,
             };
 
             // Fix PP
