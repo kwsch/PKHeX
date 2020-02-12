@@ -641,6 +641,10 @@ namespace PKHeX.Core
                 // WeightScalar = 0,
             };
 
+            // Wipe Totem Forms
+            if (FormConverter.IsTotemForm(Species, AltForm, 7))
+                pk8.AltForm = FormConverter.GetTotemBaseForm(Species, AltForm);
+
             // Fix PP
             pk8.HealPP();
 

@@ -117,6 +117,15 @@ namespace PKHeX.Core
                         data.AddLine(GetInvalid(LTransferBad));
                     if (pk.WeightScalar != 0)
                         data.AddLine(GetInvalid(LTransferBad));
+
+                    var enc = data.EncounterMatch;
+                    if (data.Info.Generation == 7 && FormConverter.IsTotemForm(enc.Species, enc.Form, 7))
+                    {
+                        if (Legal.Totem_NoTransfer.Contains(data.EncounterMatch.Species))
+                            data.AddLine(GetInvalid(LTransferBad));
+                        if (pkm.AltForm != FormConverter.GetTotemBaseForm(enc.Species, enc.Form))
+                            data.AddLine(GetInvalid(LTransferBad));
+                    }
                 }
                 if (pk.Tracker == 0) // Tracker value?
                     data.AddLine(GetInvalid(LTransferBad));

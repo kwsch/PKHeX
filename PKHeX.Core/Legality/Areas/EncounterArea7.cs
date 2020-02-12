@@ -75,7 +75,7 @@ namespace PKHeX.Core
                 yield return GetPressureSlot(slotMax, pkm);
             }
 
-            bool ShouldMatchSlotForm() => Legal.WildForms.Contains(species) || Legal.AlolanOriginForms.Contains(species) || FormConverter.IsTotemForm(species, form);
+            bool ShouldMatchSlotForm() => Legal.WildForms.Contains(species) || Legal.AlolanOriginForms.Contains(species) || FormConverter.IsTotemForm(species, form, 7);
         }
     }
 }

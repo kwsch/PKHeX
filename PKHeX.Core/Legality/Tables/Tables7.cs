@@ -470,16 +470,11 @@ namespace PKHeX.Core
             778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
         };
 
-        internal static readonly HashSet<int> Totem_SM = new HashSet<int>
+        internal static readonly HashSet<int> Totem_NoTransfer = new HashSet<int>
         {
-            020, // Raticate
-            735, // Gumshoos
-            //746, // Wishiwashi
-            758, // Salazzle
-            754, // Lurantis
-            738, // Vikavolt
-            778, // Mimikyu
-            784, // Kommo-o
+            752, // Araquanid
+            777, // Togedemaru
+            743, // Ribombee
         };
 
         internal static readonly HashSet<int> Totem_USUM = new HashSet<int>

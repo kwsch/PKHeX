@@ -48,7 +48,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is EncounterEgg)
             {
-                if (FormConverter.IsTotemForm(species, form))
+                if (FormConverter.IsTotemForm(species, form, data.Info.Generation))
                     return GetInvalid(LFormInvalidGame);
             }
 
