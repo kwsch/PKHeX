@@ -168,7 +168,7 @@ namespace PKHeX.Core
             new EncounterStatic8S{ Species = 130, Level = 56, Locations = new[] {128, 146}, }, // Gyarados in East Lake Axewell, Dusty Bowl (in a Wild Area)
             new EncounterStatic8S{ Species = 279, Level = 46, Locations = new[] {128, 142}, }, // Pelipper in East Lake Axewell, Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 853, Level = 56, Location = 130, }, // Grapploct at West Lake Axewell (in a Wild Area)
-            new EncounterStatic8S{ Species = 593, Level = 46, Locations = new[] {128, 130, 134, 138, 154 }, }, // Jellicent at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage (in a Wild Area)
+            new EncounterStatic8S{ Species = 593, Level = 46, Locations = new[] {128, 130, 134, 138, 142, 154 }, }, // Jellicent at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage, Bridge Field (in a Wild Area)
             new EncounterStatic8S{ Species = 171, Level = 46, Locations = new[] {128, 134}, }, // Lanturn at East Lake Axewell & South Lake Miloch (in a Wild Area)
             new EncounterStatic8S{ Species = 340, Level = 46, Locations = new[] {128, 130, 134, 138, 154 }, }, // Whiscash at North/East/South/West Lake Miloch/Axwell (in a Wild Area)
             new EncounterStatic8S{ Species = 426, Level = 46, Locations = new[] {128, 130, 134, 138, 154 }, }, // Drifblim at North/East/South/West Lake Miloch/Axwell (in a Wild Area)
@@ -290,7 +290,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 036, Level = 36, Location = 140, }, // Clefable at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 743, Level = 40, Location = 140, }, // Ribombee at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 112, Level = 55, Location = 140, }, // Rhydon at the Motostoke Riverbank (in a Wild Area)
-            new EncounterStatic8 { Species = 823, Level = 40, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 823, Level = 40, Location = 140, }, // Corviknight at the Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8S{ Species = 760, Level = 40, Locations = new[] {140, 142}, }, // Bewear in Bridge Field, Motostoke Riverbank (in a Wild Area)
             new EncounterStatic8 { Species = 614, Level = 60, Location = 142, }, // Beartic in Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 461, Level = 60, Location = 142, }, // Weavile in Bridge Field (in a Wild Area)
