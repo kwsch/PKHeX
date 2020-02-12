@@ -162,7 +162,7 @@ namespace PKHeX.WinForms
         private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
             editor = new Core.BatchEditor();
-            bool finished = false; // hack cuz DoWork event isn't cleared after completion
+            bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
             b.DoWork += (sender, e) =>
             {
                 if (finished)
@@ -179,7 +179,8 @@ namespace PKHeX.WinForms
             b.RunWorkerCompleted += (sender, e) =>
             {
                 string result = editor.GetEditorResults(sets);
-                WinFormsUtil.Alert(result);
+                if (!displayed) WinFormsUtil.Alert(result);
+                displayed = true;
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
             };
