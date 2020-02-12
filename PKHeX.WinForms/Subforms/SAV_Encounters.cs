@@ -191,9 +191,9 @@ namespace PKHeX.WinForms
             var comparer = new ReferenceComparer<IEncounterable>();
             results = results.Distinct(comparer); // only distinct objects
 
-            // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
+            // when all sprites in new size are available, remove this filter
             results = SAV is SAV8SWSH
-                ? results.Where(z => !(z is IGeneration g) || g.Generation == 8)
+                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame)
                 : results.Where(z => !(z is IGeneration g) || g.Generation <= 7);
             return results;
         }
