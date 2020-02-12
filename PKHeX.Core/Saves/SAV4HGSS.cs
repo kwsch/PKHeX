@@ -106,7 +106,7 @@ namespace PKHeX.Core
 
         public override int GetBoxWallpaper(int box)
         {
-            int offset = GetBoxWallpaperOffset(BoxCount);
+            int offset = GetBoxWallpaperOffset(box);
             int value = Storage[offset];
             return AdjustWallpaper(value, -0x10);
         }
