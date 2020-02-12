@@ -561,10 +561,10 @@ namespace PKHeX.Core
                 OT_Gender = OT_Gender,
                 HyperTrainFlags = HyperTrainFlags,
 
-                // todo: locale?
-                Country = Country,
-                Region = Region,
-                ConsoleRegion = ConsoleRegion,
+                // Locale does not transfer. All Zero
+                // Country = Country,
+                // Region = Region,
+                // ConsoleRegion = ConsoleRegion,
 
                 // todo: memories
                 OT_Memory = OT_Memory,
