@@ -29,7 +29,7 @@ namespace PKHeX.Core
 
         public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int form, int lvl, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
         {
-            if (pkm.IsMovesetRestricted())
+            if (pkm.IsMovesetRestricted(generation))
                 version = (GameVersion)pkm.Version;
 
             switch (generation)
@@ -263,7 +263,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
         {
-            if (pkm.IsMovesetRestricted())
+            if (pkm.IsMovesetRestricted(Generation))
                 version = (GameVersion)pkm.Version;
             return Generation switch
             {

@@ -792,7 +792,7 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm) => pkm.InhabitedGeneration(5);
         internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
-        internal static bool IsMovesetRestricted(this PKM pkm) => (pkm.GG && pkm.Format == 7) || pkm.IsUntraded;
+        internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (pkm.GG && gen == 7) || pkm.IsUntraded;
 
         public static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
         {
