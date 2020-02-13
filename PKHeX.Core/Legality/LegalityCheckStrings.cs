@@ -432,6 +432,7 @@ namespace PKHeX.Core
         public static string LTransferPIDECBitFlip { get; set; } = "PID should be equal to EC [with top bit flipped]!";
         public static string LTransferPIDECEquals { get; set; } = "PID should be equal to EC!";
         public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";
+        public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
         #endregion
 
     }

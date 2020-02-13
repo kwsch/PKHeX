@@ -127,8 +127,16 @@ namespace PKHeX.Core
                             data.AddLine(GetInvalid(LTransferBad));
                     }
                 }
-                if (pk.Tracker == 0) // Tracker value?
-                    data.AddLine(GetInvalid(LTransferBad));
+
+                // Tracker value is set via Transfer across HOME.
+                // Can't validate the actual values (we aren't the server), so we can only check against zero.
+                if (pk.Tracker == 0)
+                {
+                    data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+                    // To the reader: It seems like the best course of action for setting a tracker is:
+                    // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
+                    // - Don't make one up.
+                }
             }
         }
 

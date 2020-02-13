@@ -23,6 +23,7 @@
         public static Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
         public static Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
         public static Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
+        public static Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
 
         /// <summary>
         /// Checks to see if Crystal is available to visit/originate from.
