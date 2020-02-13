@@ -14,6 +14,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
         public readonly ITrainerInfo Trainer;
         public readonly List<CheckResult> Parse = new List<CheckResult>();
+        public readonly Dictionary<ulong, PKM> Trackers = new Dictionary<ulong, PKM>();
         public readonly bool Valid;
 
         private readonly bool[] CloneFlags;
@@ -71,6 +72,17 @@ namespace PKHeX.Core
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Format == Trainer.Generation);
 
+                // Check the upload tracker to see if there's any duplication.
+                if (cp is PK8 pk8 && pk8.Tracker != 0)
+                {
+                    var tracker = pk8.Tracker;
+                    if (Trackers.TryGetValue(tracker, out var clone))
+                        AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
+                    else
+                        Trackers.Add(tracker, cp);
+                }
+
+                // Hash Details like EC/IV to see if there's any duplication.
                 var identity = SearchUtil.HashByDetails(cp);
                 if (!dict.TryGetValue(identity, out var pa))
                 {
@@ -79,7 +91,7 @@ namespace PKHeX.Core
                 }
 
                 CloneFlags[i] = true;
-                AddLine(pa.pkm, cp, "Clone detected.", Encounter);
+                AddLine(pa.pkm, cp, "Clone detected (Details).", Encounter);
             }
         }
 
