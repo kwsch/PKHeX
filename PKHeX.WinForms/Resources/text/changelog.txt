@@ -1,7 +1,19 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/02/08 - New Update:
+20/02/14 - New Update:
+ - Legality:
+ - - Added: Initial handling for HOME Transfers.
+ - - Note: Tracker value is currently not flagged if missing; there's a setting to enable flagging.
+ - - Note: Pokémon that haven't yet visited HOME do not have a tracker.
+ - - Note: Fake WC8 data will have to be prepared to recognize HOME gifts.
+ - Added: More Gen8 editable fields. Thanks @CanoeHope!
+ - Added: More Gen4 Event Flags. Thanks @FeralFalcon!
+ - Changed: Revised suggested hatch locations. Thanks @CanoeHope!
+ - Fixed: Gen5 Entree Forest randomization no longer causes errors. Thanks Pocket Monsters (user)!
+ - Fixed: Gen4 HGSS Box Wallpapers are now read correctly. Thanks @Ammako!
+
+20/02/08 - New Update: (27045) [2411214]
  - Legality:
  - - Added: Milcery & Toxtricity distribution data.
  - - Fixed: Runerigus FormArgument handling checks updated.
