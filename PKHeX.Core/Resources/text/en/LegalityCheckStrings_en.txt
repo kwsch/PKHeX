@@ -351,3 +351,4 @@ LTransferOriginFInvalid0_1 = {0} origin cannot exist in the currently loaded ({1
 LTransferPIDECBitFlip = PID should be equal to EC [with top bit flipped]!
 LTransferPIDECEquals = PID should be equal to EC!
 LTransferPIDECXor = Encryption Constant matches shinyxored PID.
+LTransferTrackerMissing = Pokémon HOME Transfer Tracker is missing.

@@ -286,6 +286,7 @@ namespace PKHeX.WinForms
             PB_Legal.Visible = !HaX;
             PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
             WinFormsUtil.DetectSaveFileOnFileOpen = settings.DetectSaveOnStartup;
+            ParseSettings.Gen8TransferTrackerNotPresent = settings.FlagMissingTracker ? Severity.Invalid : Severity.Fishy;
 
             #if DEBUG
             DevUtil.AddControl(Menu_Tools);

@@ -351,3 +351,4 @@ LTransferOriginFInvalid0_1 = 현재 로드한 세이브파일 ({1}) 에서는 {0
 LTransferPIDECBitFlip = PID는 Top bit가 뒤집힌 암호화 상수와 동일해야 합니다!
 LTransferPIDECEquals = PID는 암호화 상수와 동일해야 합니다!
 LTransferPIDECXor = 암호화 상수가 색이 다르도록 계산된 PID와 일치합니다.
+LTransferTrackerMissing = Pokémon HOME Transfer Tracker is missing.

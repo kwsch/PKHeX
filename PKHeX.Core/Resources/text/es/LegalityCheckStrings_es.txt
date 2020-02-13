@@ -351,3 +351,4 @@ LTransferOriginFInvalid0_1 = {0} origen no puede existir en la partida cargada (
 LTransferPIDECBitFlip = ¡El PID debería de ser igual al EC [Con el primer dígito invertido]!
 LTransferPIDECEquals = ¡El PID debería de ser igual al EC!
 LTransferPIDECXor = La Constante de Encriptado coincide con el PID Variocolor.
+LTransferTrackerMissing = Pokémon HOME Transfer Tracker is missing.

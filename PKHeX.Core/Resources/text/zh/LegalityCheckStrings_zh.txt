@@ -351,3 +351,4 @@ LTransferOriginFInvalid0_1 = {0}来源的宝可梦不能存在于({1})的游戏�
 LTransferPIDECBitFlip = PID应与加密常数相等[第一位反转]!
 LTransferPIDECEquals = PID应与加密常数相等!
 LTransferPIDECXor = 加密常数与闪光xor的PID匹配。
+LTransferTrackerMissing = Pokémon HOME Transfer Tracker is missing.
