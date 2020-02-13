@@ -63,6 +63,15 @@ namespace PKHeX.Core
             Parse.Add(chk);
         }
 
+        private void AddLine(PKM first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
+        {
+            static string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
+
+            var c = $"{msg}{Environment.NewLine}{GetSummary(first)}";
+            var chk = new CheckResult(s, c, i);
+            Parse.Add(chk);
+        }
+
         private void CheckClones()
         {
             var dict = new Dictionary<string, LegalityAnalysis>();
@@ -73,13 +82,20 @@ namespace PKHeX.Core
                 Debug.Assert(cp.Format == Trainer.Generation);
 
                 // Check the upload tracker to see if there's any duplication.
-                if (cp is PK8 pk8 && pk8.Tracker != 0)
+                if (cp is PK8 pk8)
                 {
-                    var tracker = pk8.Tracker;
-                    if (Trackers.TryGetValue(tracker, out var clone))
-                        AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
-                    else
-                        Trackers.Add(tracker, cp);
+                    if (pk8.Tracker != 0)
+                    {
+                        var tracker = pk8.Tracker;
+                        if (Trackers.TryGetValue(tracker, out var clone))
+                            AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
+                        else
+                            Trackers.Add(tracker, cp);
+                    }
+                    else if (pk8.GenNumber < 8)
+                    {
+                        AddLine(cp, "Missing tracker.", Encounter);
+                    }
                 }
 
                 // Hash Details like EC/IV to see if there's any duplication.
