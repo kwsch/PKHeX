@@ -12,7 +12,7 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            bool neverOT = !GetCanOTHandle(data);
+            bool neverOT = !GetCanOTHandle(data.Info.EncounterMatch, data.pkm, data.Info.Generation);
             VerifyHandlerState(data, neverOT);
             VerifyTradeState(data);
             VerifyOTMisc(data, neverOT);
@@ -176,17 +176,16 @@ namespace PKHeX.Core
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
         private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
-        private static bool GetCanOTHandle(LegalityAnalysis data)
+        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int gen)
         {
-            var Info = data.Info;
-            if (Info.Generation < 6)
+            if (gen < 6)
                 return true;
-            return Info.EncounterMatch switch
+            return enc switch
             {
                 EncounterTrade _ => false,
                 WC6 wc6 when wc6.OT_Name.Length > 0 => false,
                 WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
-                WC8 wc8 when wc8.GetHasOT(data.pkm.Language) => false,
+                WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
                 _ => true
             };
         }
