@@ -324,55 +324,19 @@ namespace PKHeX.Core
             (int)Species.Sobble, (int)Species.Drizzile, (int)Species.Inteleon,
             (int)Species.Slowpoke | 1 << 11,
 
-            (int)Species.Hoothoot, (int)Species.Noctowl,
             (int)Species.Skwovet, (int)Species.Greedent,
-            (int)Species.Pidove, (int)Species.Tranquill, (int)Species.Unfezant,
             (int)Species.Nickit, (int)Species.Thievul,
             (int)Species.Wooloo, (int)Species.Dubwool,
-            (int)Species.Purrloin, (int)Species.Liepard,
             (int)Species.Yamper, (int)Species.Boltund,
-            (int)Species.Wingull, (int)Species.Pelipper,
-            (int)Species.Electrike, (int)Species.Manectric,
-            (int)Species.Golett, (int)Species.Golurk,
-            (int)Species.Munna, (int)Species.Musharna,
-            (int)Species.Snover, (int)Species.Abomasnow,
-            (int)Species.Bronzor, (int)Species.Bronzong,
-            (int)Species.Drifloon, (int)Species.Drifblim,
-            (int)Species.Cherubi, (int)Species.Cherrim,
-            (int)Species.Goldeen, (int)Species.Seaking,
-            (int)Species.Basculin, (int)Species.Basculin | 1 << 11,
-            (int)Species.Woobat, (int)Species.Swoobat,
-            (int)Species.Noibat, (int)Species.Noivern,
-            (int)Species.Espurr, (int)Species.Meowstic, (int)Species.Meowstic | 1 << 11,
-            (int)Species.Chinchou, (int)Species.Lanturn,
-            (int)Species.Croagunk, (int)Species.Toxicroak,
-            (int)Species.Barboach, (int)Species.Whiscash,
-            (int)Species.Binacle, (int)Species.Barbaracle,
-            (int)Species.Sawk, (int)Species.Throh,
-            (int)Species.Bonsly, (int)Species.Sudowoodo,
-            (int)Species.Cleffa, (int)Species.Clefairy, (int)Species.Clefable,
-            (int)Species.Elgyem, (int)Species.Beheeyem,
-            (int)Species.Cubchoo, (int)Species.Beartic,
-            (int)Species.Skorupi, (int)Species.Drapion,
-            (int)Species.Maractus,
-            (int)Species.Bergmite, (int)Species.Avalugg,
+        };
 
-            // Alolan Forms
-            (int)Species.Raichu | 1 << 11,
-            (int)Species.Meowth | 1 << 11, (int)Species.Persian | 1 << 11,
-            (int)Species.Vulpix | 1 << 11, (int)Species.Ninetales | 1 << 11,
-            (int)Species.Diglett | 1 << 11, (int)Species.Dugtrio | 1 << 11,
-
-            // Non-Galar Forms
-            (int)Species.Farfetchd,
-            (int)Species.Ponyta, (int)Species.Rapidash,
-            (int)Species.Slowpoke,
-            (int)Species.Corsola,
-            (int)Species.Darumaka, (int)Species.Darmanitan,
-            (int)Species.Stunfisk,
-            (int)Species.Weezing,
-
-            (int)Species.Shellos, (int)Species.Gastrodon, // West
+        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
+        {
+            029, // Nidoran
+            032, // Nidoran
+            100, // Voltorb
+            // 436, // Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
+            669 + (3 << 11), // Flabébé-Blue
         };
 
         #region Unreleased Items

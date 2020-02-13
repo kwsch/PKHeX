@@ -282,7 +282,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
+                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
