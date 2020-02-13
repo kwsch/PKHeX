@@ -1504,7 +1504,7 @@
             this.TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TB_HomeTracker.Location = new System.Drawing.Point(110, 302);
-            this.TB_HomeTracker.MaxLength = 8;
+            this.TB_HomeTracker.MaxLength = 16;
             this.TB_HomeTracker.Name = "TB_HomeTracker";
             this.TB_HomeTracker.Size = new System.Drawing.Size(118, 20);
             this.TB_HomeTracker.TabIndex = 10;
