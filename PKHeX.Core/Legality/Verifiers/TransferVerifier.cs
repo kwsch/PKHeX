@@ -109,13 +109,13 @@ namespace PKHeX.Core
             {
                 data.AddLine(GetInvalid(LTransferBad));
             }
-            else if (data.Info.Generation < 8 && pkm is PK8 pk)
+            else if (data.Info.Generation < 8 && pkm.Format >= 8)
             {
-                if (!pk.GG)
+                if (!pkm.GG && pkm is IScaledSize s)
                 {
-                    if (pk.HeightScalar != 0)
+                    if (s.HeightScalar != 0)
                         data.AddLine(GetInvalid(LTransferBad));
-                    if (pk.WeightScalar != 0)
+                    if (s.WeightScalar != 0)
                         data.AddLine(GetInvalid(LTransferBad));
 
                     var enc = data.EncounterMatch;
@@ -130,7 +130,7 @@ namespace PKHeX.Core
 
                 // Tracker value is set via Transfer across HOME.
                 // Can't validate the actual values (we aren't the server), so we can only check against zero.
-                if (pk.Tracker == 0)
+                if (pkm is IHomeTrack home && home.Tracker == 0)
                 {
                     data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
                     // To the reader: It seems like the best course of action for setting a tracker is:

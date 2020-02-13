@@ -82,17 +82,17 @@ namespace PKHeX.Core
                 Debug.Assert(cp.Format == Trainer.Generation);
 
                 // Check the upload tracker to see if there's any duplication.
-                if (cp is PK8 pk8)
+                if (cp is IHomeTrack home)
                 {
-                    if (pk8.Tracker != 0)
+                    if (home.Tracker != 0)
                     {
-                        var tracker = pk8.Tracker;
+                        var tracker = home.Tracker;
                         if (Trackers.TryGetValue(tracker, out var clone))
                             AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
                         else
                             Trackers.Add(tracker, cp);
                     }
-                    else if (pk8.GenNumber < 8)
+                    else if (cp.GenNumber < 8)
                     {
                         AddLine(cp, "Missing tracker.", Encounter);
                     }
