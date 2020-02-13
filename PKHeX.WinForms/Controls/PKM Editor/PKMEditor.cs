@@ -1465,6 +1465,19 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
+        private void Update_ID64(object sender, EventArgs e)
+        {
+            if (!FieldsLoaded)
+                return;
+            // Trim out nonhex characters
+            if (sender == TB_HomeTracker && Entity is PK8 pk8)
+            {
+                var value = Util.GetHexValue64(TB_HomeTracker.Text);
+                pk8.Tracker = value;
+                TB_HomeTracker.Text = value.ToString("X16");
+            }
+        }
+
         private void UpdateShadowID(object sender, EventArgs e)
         {
             if (!FieldsLoaded)
