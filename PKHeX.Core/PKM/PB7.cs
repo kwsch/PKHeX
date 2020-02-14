@@ -652,6 +652,8 @@ namespace PKHeX.Core
                 Met_Level = Met_Level,
                 OT_Gender = OT_Gender,
 
+                HyperTrainFlags = HyperTrainFlags,
+
                 // Memories don't exist in LGPE, and no memories are set on transfer.
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
