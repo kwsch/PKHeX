@@ -207,13 +207,15 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            ((PK7)pkm).FormArgument = GetFormArgument(pkm, isParty);
+            ((PK7)pkm).FormArgument = GetFormArgument(pkm);
         }
 
-        private static uint GetFormArgument(PKM pkm, bool isParty)
+        private static uint GetFormArgument(PKM pkm)
         {
-            if (!isParty || pkm.AltForm == 0)
+            if (pkm.AltForm == 0)
                 return 0;
+            // Gen7 allows forms to be stored in the box with the current duration & form
+            // Just cap out the form duration anyways
             return pkm.Species switch
             {
                 (int)Species.Furfrou => 5u, // Furfrou
