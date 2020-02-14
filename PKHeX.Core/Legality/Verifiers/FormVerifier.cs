@@ -191,7 +191,16 @@ namespace PKHeX.Core
             if (format >= 8 && Info.Generation < 8)
             {
                 if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
-                    return GetInvalid(LFormInvalidGame);
+                {
+                    if (species == (int)Species.Meowth && data.EncounterOriginal.Form != 2)
+                    {
+                        // We're okay here. There's also Alolan Meowth...
+                    }
+                    else
+                    {
+                        return GetInvalid(LFormInvalidGame);
+                    }
+                }
             }
 
             if (BattleOnly.Contains(species))
