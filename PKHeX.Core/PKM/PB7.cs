@@ -636,7 +636,6 @@ namespace PKHeX.Core
                 IV_SPA = IV_SPA,
                 IV_SPD = IV_SPD,
                 IV_SPE = IV_SPE,
-                IsEgg = IsEgg,
                 IsNicknamed = IsNicknamed,
                 FatefulEncounter = FatefulEncounter,
                 Gender = Gender,
@@ -646,12 +645,10 @@ namespace PKHeX.Core
                 Version = Version,
                 OT_Name = OT_Name,
                 MetDate = MetDate,
-                EggMetDate = EggMetDate,
                 Met_Location = Met_Location,
                 Ball = Ball,
                 Met_Level = Met_Level,
                 OT_Gender = OT_Gender,
-
                 HyperTrainFlags = HyperTrainFlags,
 
                 // Memories don't exist in LGPE, and no memories are set on transfer.

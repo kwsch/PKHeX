@@ -566,7 +566,6 @@ namespace PKHeX.Core
                 // Region = Region,
                 // ConsoleRegion = ConsoleRegion,
 
-                // todo: memories
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
