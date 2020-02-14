@@ -430,11 +430,16 @@ namespace PKHeX.WinForms.Controls
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            Label_IsShiny.Visible = Label_IsShiny2.Visible = false;
-            if (Entity.Format > 7 && Entity.ShinyXor == 0)
+            if (Entity.Format >= 8 && (Entity.ShinyXor == 0 || Entity.FatefulEncounter))
+            {
+                Label_IsShiny.Visible = false;
                 Label_IsShiny2.Visible = isShiny;
+            }
             else
+            {
                 Label_IsShiny.Visible = isShiny;
+                Label_IsShiny2.Visible = false;
+            }
 
             // Refresh Markings (for Shiny Star if applicable)
             SetMarkings();

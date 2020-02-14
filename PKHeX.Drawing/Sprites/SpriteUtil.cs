@@ -90,7 +90,7 @@ namespace PKHeX.Drawing
 
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && pk.ShinyXor == 0);
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter));
             if (pk is IShadowPKM s && s.Purification > 0)
             {
                 const int Lugia = 249;
