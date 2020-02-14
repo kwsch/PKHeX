@@ -1742,6 +1742,7 @@ namespace PKHeX.WinForms.Controls
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
 
             // Met Tab
+            L_HomeTracker.Visible = TB_HomeTracker.Visible = gen >= 8;
             FLP_MetDate.Visible = gen >= 4;
             FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;
