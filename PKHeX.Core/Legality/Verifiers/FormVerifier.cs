@@ -190,11 +190,16 @@ namespace PKHeX.Core
             }
             if (format >= 8 && Info.Generation < 8)
             {
-                if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
+                var orig = data.EncounterOriginal.Species;
+                if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(orig))
                 {
                     if (species == (int)Species.Meowth && data.EncounterOriginal.Form != 2)
                     {
                         // We're okay here. There's also Alolan Meowth...
+                    }
+                    else if ((orig == (int) Species.MrMime || orig == (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterOriginal.LevelMin && Info.Generation >= 4)
+                    {
+                        // We're okay with a Mime Jr. that has evolved via level up.
                     }
                     else
                     {
