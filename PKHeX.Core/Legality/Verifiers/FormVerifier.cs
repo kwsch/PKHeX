@@ -91,7 +91,9 @@ namespace PKHeX.Core
                     }
                 case (int)Species.Keldeo:
                 {
-                    if (Info.Generation == 5) // can mismatch in gen5 via BW tutor and transfer up
+                     // can mismatch in gen5 via BW tutor and transfer up
+                     // can mismatch in gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
+                    if (Info.Generation == 5 || pkm.Format >= 8)
                         break;
                     int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                     bool noSword = index < 0;
