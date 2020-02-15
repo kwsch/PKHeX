@@ -78,6 +78,9 @@ Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team
 
 // Misc Editors
 
+RIBBONS:
+- Shift-Click the Give All Button to set all legal Ribbons.
+
 POKEPUFF:
 - Control Click the All Button to give the best Pokepuffs.
 - Control Click the Sort Button to sort in reverse.
