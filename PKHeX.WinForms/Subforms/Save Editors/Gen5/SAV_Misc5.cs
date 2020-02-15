@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             Origin.CopyChangesFrom(SAV);
             Close();
         }
-        
+
         private ComboBox[] cbr;
         private int ofsFly;
         private int[] FlyDestC;
@@ -722,10 +722,9 @@ namespace PKHeX.WinForms
         private void ReadSubway()
         {
             sw = SAV.BattleSubway;
-            int swSuperCheck;
 
             // Figure out the Super Checks
-            swSuperCheck = sw.SuperCheck;
+            var swSuperCheck = sw.SuperCheck;
             if (swSuperCheck == 0x00)
             {
                 CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = false;
@@ -783,7 +782,6 @@ namespace PKHeX.WinForms
             // Multi Friends
             NUD_SMultiFriendsPast.Value = sw.SuperMultiFriendsPast;
             NUD_SMultiFriendsRecord.Value = sw.SuperMultiFriendsRecord;
-
         }
 
         private void SaveSubway()
@@ -824,8 +822,6 @@ namespace PKHeX.WinForms
             // Multi Friends
             sw.SuperMultiFriendsPast = (int)NUD_SMultiFriendsPast.Value;
             sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
-
         }
-
     }
 }

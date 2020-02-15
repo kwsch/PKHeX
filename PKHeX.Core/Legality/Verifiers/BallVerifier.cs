@@ -343,9 +343,7 @@ namespace PKHeX.Core
             if ((int)Species.Dracozolt <= species && species <= (int)Species.Arctovish) // fossil
                 return false;
             var pt = PersonalTable.SWSH;
-            if (((PersonalInfoSWSH) pt.GetFormeEntry(species, 0)).PokeDexIndex != 0)
-                return true;
-            return false;
+            return ((PersonalInfoSWSH)pt.GetFormeEntry(species, 0)).PokeDexIndex != 0;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);

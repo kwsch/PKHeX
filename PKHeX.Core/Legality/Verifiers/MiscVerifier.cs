@@ -317,7 +317,6 @@ namespace PKHeX.Core
             return Math.Abs(ia - ib) <= 7;
         }
 
-        private static readonly int[] tradeEvo7b = { 064, 067, 075, 093 };
         private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.AltForm == 8) || (pb7.Species == (int)Species.Eevee && pb7.AltForm == 1);
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
