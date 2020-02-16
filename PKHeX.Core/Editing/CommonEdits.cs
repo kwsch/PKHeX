@@ -140,9 +140,6 @@ namespace PKHeX.Core
             {
                 pk.SetShiny();
 
-                if (pk.Format <= 7)
-                    return true;
-
                 var xor = pk.ShinyXor;
                 if (xor0 ? xor == 0 : xor != 0)
                     return true;
