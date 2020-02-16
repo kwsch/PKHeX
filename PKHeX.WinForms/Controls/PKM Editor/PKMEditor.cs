@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using System.ComponentModel;
+using PKHeX.Drawing.Properties;
 
 using static PKHeX.Core.MessageStrings;
 
@@ -284,8 +285,21 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Refresh Move Legality
+            var moves = Entity.Moves;
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.Info?.Moves[i]?.Valid ?? false;
+            {
+                bool invalid = !Legality.Info?.Moves[i]?.Valid ?? false;
+
+                Bitmap img;
+                if (invalid)
+                    img = Resources.warn;
+                else if (Entity.Format >= 8 && Legal.DummiedMoves_SWSH.Contains(moves[i]))
+                    img = Resources.hint;
+                else
+                    img = null;
+                movePB[i].Visible = true;
+                movePB[i].Image = img;
+            }
 
             if (Entity.Format >= 6)
             {
