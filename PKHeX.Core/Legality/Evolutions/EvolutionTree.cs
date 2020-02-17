@@ -176,8 +176,10 @@ namespace PKHeX.Core
         {
             // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
             BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
-            BanEvo((int)Species.Raichu, 1, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Raichu, 1, pkm => pkm is IGigantamax g && g.CanGigantamax || pkm.Gen8);
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+
+            BanEvo((int)Species.Weezing, 0, pkm => pkm.Gen8);
 
             foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
                 BanEvo(s, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
@@ -312,7 +314,7 @@ namespace PKHeX.Core
                 bool oneValid = false;
                 foreach (var link in node)
                 {
-                    if (link.IsEvolutionBanned(pkm))
+                    if (link.IsEvolutionBanned(pkm) && !skipChecks)
                         continue;
 
                     var evo = link.Method;
