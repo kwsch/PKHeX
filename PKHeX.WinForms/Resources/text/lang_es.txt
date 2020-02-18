@@ -258,6 +258,7 @@ Main.mnu_DeletePastGen=Generación del pasado
 Main.mnu_DeleteUntrained=Sin entrenamiento
 Main.mnu_Modify=Modificar
 Main.mnu_ModifyHatchEggs=Eclosionar huevos
+Main.mnu_ModifyHeal=Heal (Stats/PP)
 Main.mnu_ModifyHyperTrain=Entrenamiento extremo
 Main.mnu_ModifyMaxFriendship=Amistad máxima
 Main.mnu_ModifyMaxLevel=Nivel máximo

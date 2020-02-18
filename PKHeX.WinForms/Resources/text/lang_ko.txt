@@ -258,6 +258,7 @@ Main.mnu_DeletePastGen=이전 세대
 Main.mnu_DeleteUntrained=Untrained
 Main.mnu_Modify=수정
 Main.mnu_ModifyHatchEggs=알 부화
+Main.mnu_ModifyHeal=Heal (Stats/PP)
 Main.mnu_ModifyHyperTrain=대단한특훈
 Main.mnu_ModifyMaxFriendship=친밀도 최대
 Main.mnu_ModifyMaxLevel=레벨 최대

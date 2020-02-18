@@ -70,6 +70,7 @@ namespace PKHeX.Core
             new BoxManipModify(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7),
             new BoxManipModify(BoxManipType.ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
             new BoxManipModify(BoxManipType.ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
+            new BoxManipModify(BoxManipType.ModifyHeal, pk => pk.Heal(), s => s.Generation >= 8 || s is SAV7b),
         };
     }
 }
