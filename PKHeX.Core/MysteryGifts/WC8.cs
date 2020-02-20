@@ -375,7 +375,7 @@ namespace PKHeX.Core
 
             var nickname_language = GetNicknameLanguage(SAV.Language);
             pk.Language = nickname_language != 0 ? nickname_language : SAV.Language;
-            pk.IsNicknamed = GetIsNicknamed(SAV.Language);
+            pk.IsNicknamed = GetIsNicknamed(pk.Language);
             pk.Nickname = pk.IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             for (var i = 0; i < RibbonBytesCount; i++)
