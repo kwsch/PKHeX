@@ -214,7 +214,13 @@ namespace PKHeX.Drawing
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
 
-        public static void Initialize(SaveFile sav) => Initialize(GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8);
-        public static void Initialize(bool big) => Spriter = big ? (SpriteBuilder)SB8 : SB17;
+        public static void Initialize(SaveFile sav)
+        {
+            var big = GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8;
+            Spriter = big ? (SpriteBuilder)SB8 : SB17;
+
+            // gen3 specific sprites
+            Spriter.Initialize(sav);
+        }
     }
 }

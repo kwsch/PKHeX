@@ -1020,10 +1020,9 @@ namespace PKHeX.Core
 
         public bool ResetPersonal(GameVersion g)
         {
-            var pt = SaveUtil.GetG3Personal(g);
-            if (pt == null)
+            if (g.GetGeneration() != 3)
                 return false;
-            _personal = pt;
+            _personal = SaveUtil.GetG3Personal(g);
             return true;
         }
     }
