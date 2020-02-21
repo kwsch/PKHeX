@@ -453,7 +453,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (pkm.Format >= 7 && AlolanVariantEvolutions12.Contains(pkm.Species))
+            if (pkm.Format >= 7 && (AlolanVariantEvolutions12.Contains(pkm.Species) || GalarVariantFormEvolutions.Contains(pkm.Species)))
                 return pkm.AltForm == 1;
             if (pkm.Format >= 8)
             {

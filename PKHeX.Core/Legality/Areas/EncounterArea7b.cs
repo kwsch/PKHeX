@@ -24,7 +24,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
 
             int form = pkm.AltForm;
-            if (Legal.AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
+            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
             {
                 if (pkm.AltForm != 0 && pkm is PB7)
                     yield break; // can't get Alolan forms from wild

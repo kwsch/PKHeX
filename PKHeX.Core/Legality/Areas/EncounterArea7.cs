@@ -28,7 +28,7 @@ namespace PKHeX.Core
                     slotMax = s;
             }
 
-            if (Legal.AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
+            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
             {
                 foreach (var slot in slots)
                 {
@@ -60,7 +60,7 @@ namespace PKHeX.Core
             if (slotMax == null)
                 yield break;
 
-            if (Legal.AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
+            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
             {
                 if (species == slotMax.Species ? slotMax.Form == form : slotMax.Form == 0)
                     yield return GetPressureSlot(slotMax, pkm);
