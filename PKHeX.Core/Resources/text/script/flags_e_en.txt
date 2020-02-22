@@ -1,4 +1,3 @@
-0x074	Received Pokedex
 0x089	Received HM01 Cut
 0x06E	Received HM02 Fly
 0x07A	Received HM03 Surf
@@ -9,16 +8,14 @@
 0x07B	Received HM08 Dive
 0x05A	Received Mach Bike/Acro Bike
 
-0x1B1	Used Move Tutor in Slateport City (Swagger)
-0x1B2	Used Move Tutor in Mauville City (Rollout)
-0x1B3	Used Move Tutor in Verdanturf Town (Fury Cutter)
-0x1B4	Used Move Tutor in Lavaridge Town (Mimic)
-0x1B5	Used Move Tutor in Fallarbor Town (Metronome)
-0x1B6	Used Move Tutor in Fortree City (Sleep Talk)
-0x1B7	Used Move Tutor in Lilycove City (Substitute)
-0x1B8	Used Move Tutor in Mossdeep City (Dynamic Punch)
-0x1B9	Used Move Tutor in Sootopolis City (Double-Edge)
-0x1BA	Used Move Tutor in Pacifidlog Town (Explosion)
+0x867	Received Stone Badge
+0x868	Received Knuckle Badge
+0x869	Received Dynamo Badge
+0x86A	Received Heat Badge
+0x86B	Received Balance Badge
+0x86C	Received Feather Badge
+0x86D	Received Mind Badge
+0x86E	Received Rain Badge
 
 0x099	Traded in Rustboro City
 0x09A	Traded in Pacifidlog Town
@@ -32,10 +29,12 @@
 0x13A	Received Aurora Ticket from Mystery Gift
 0x13B	Received Mystic Ticket from Mystery Gift
 0x13C	Received Old Sea Map from Mystery Gift
+0x8B3	Received Eon Ticket
 
 0x1AE	Has Eon Ticket
 0x1AF	Has Aurora Ticket
 0x1B0	Has Old Sea Map
+0x1DB	Has Mystic Ticket
 
 0x0FF	Lati@s Roaming
 
@@ -74,28 +73,28 @@
 0x3DD	Uncovered Kecleon (Route 119, Right of Ninja Boy)
 0x3DE	Uncovered Kecleon (Route 119, Left of Ninja Boy)
 
+0x1B1	Used Move Tutor in Slateport City (Swagger)
+0x1B2	Used Move Tutor in Mauville City (Rollout)
+0x1B3	Used Move Tutor in Verdanturf Town (Fury Cutter)
+0x1B4	Used Move Tutor in Lavaridge Town (Mimic)
+0x1B5	Used Move Tutor in Fallarbor Town (Metronome)
+0x1B6	Used Move Tutor in Fortree City (Sleep Talk)
+0x1B7	Used Move Tutor in Lilycove City (Substitute)
+0x1B8	Used Move Tutor in Mossdeep City (Dynamic Punch)
+0x1B9	Used Move Tutor in Sootopolis City (Double-Edge)
+0x1BA	Used Move Tutor in Pacifidlog Town (Explosion)
+
 0x860	Received Starter Pokemon
 0x861	Received Pokedex
 0x862	Received PokeNav
 0x864	Entered Hall of Fame
 0x866	Met The Hipster
-
-0x867	Received Stone Badge
-0x868	Received Knuckle Badge
-0x869	Received Dynamo Badge
-0x86A	Received Heat Badge
-0x86B	Received Balance Badge
-0x86C	Received Feather Badge
-0x86D	Received Mind Badge
-0x86E	Received Rain Badge
-
 0x890	Watched TV at Home
 0x894	Mixed Records
 0x895	Set Clock
 0x896	Received National Dex
 0x89A	Shoal Cave Tide
 0x89B	Received a Ribbon
-
 0x8AB	Unlocked Lanette's PC
 0x8AD	Used White Flute
 0x8AE	Used Black Flute
@@ -103,11 +102,11 @@
 0x8B0	Completed Regirock Puzzle
 0x8B1	Completed Regice Puzzle
 0x8B2	Completed Registeel Puzzle
-0x8B3	Received Eon Ticket
-
 0x8BF	Can Receive Shell Bell
 0x8C0	Received Running Shoes
 0x8C2	Reset RTC Enabled
+0x8DB	Mystery Gift Enabled
+0x8E4	Received Pokedex
 
 0x8C4	Received Silver Ability Symbol (Battle Tower)
 0x8C5	Received Gold Ability Symbol (Battle Tower)
@@ -131,5 +130,3 @@
 0x8D1	Received Gold Brave Symbol (Battle Pyramid)
 
 0x8D2	Received Frontier Pass
-
-0x8DB	Mystery Gift Enabled
