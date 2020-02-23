@@ -89,6 +89,8 @@
 
 0x25E	Received Old Amber
 0x236	Lemonade Donated to Tectonix
+0x2A7	Received Mystic Ticket
+0x2A8	Received Aurora Ticket
 0x2D9	Set Heracross Length Record
 0x84A	Received Mystic Ticket
 0x84B	Received Aurora Ticket

@@ -305,10 +305,6 @@ namespace PKHeX.Core
             103, // Exeggutor
             106, // Hitmonlee
             107, // Hitmonchan
-            108, // Lickitung
-            111, // Rhyhorn
-            112, // Rhydon
-            113, // Chansey
             114, // Tangela
             118, // Goldeen
             119, // Seaking
