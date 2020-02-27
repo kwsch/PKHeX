@@ -74,6 +74,25 @@
 
             // 2/17 - Toxel
             new EncounterStatic8ND(17,01,1) { Species = 848, Ability = A4, Moves = new[]{ 609, 051, 496, 715 } }, // Toxel
+
+            // 2/26 - Mewtwo
+            new EncounterStatic8ND(17,01,1) { Species = 001, Ability = A4, Moves = new[]{ 033, 045, 022, 074 } }, // Bulbasaur
+            new EncounterStatic8ND(17,01,1) { Species = 004, Ability = A4, Moves = new[]{ 010, 045, 052, 108 } }, // Charmander
+            new EncounterStatic8ND(17,01,1) { Species = 007, Ability = A4, Moves = new[]{ 033, 039, 055, 110 } }, // Squirtle
+            //new EncounterStatic8ND(17,01,1) { Species = 848, Ability = A4, Moves = new[]{ 609, 051, 496, 715 } }, // Toxel
+            new EncounterStatic8ND(30,03,2) { Species = 001, Ability = A4, Moves = new[]{ 033, 022, 073, 075 } }, // Bulbasaur
+            new EncounterStatic8ND(30,03,2) { Species = 004, Ability = A4, Moves = new[]{ 010, 052, 225, 424 } }, // Charmander
+            new EncounterStatic8ND(30,03,2) { Species = 007, Ability = A4, Moves = new[]{ 033, 055, 044, 352 } }, // Squirtle
+            new EncounterStatic8ND(40,05,3) { Species = 001, Ability = A4, Moves = new[]{ 073, 075, 077, 402 } }, // Bulbasaur
+            new EncounterStatic8ND(40,05,3) { Species = 004, Ability = A4, Moves = new[]{ 424, 225, 163, 108 } }, // Charmander
+            new EncounterStatic8ND(40,05,3) { Species = 007, Ability = A4, Moves = new[]{ 055, 229, 044, 352 } }, // Squirtle
+            new EncounterStatic8ND(50,08,4) { Species = 002, Ability = A4, Moves = new[]{ 188, 412, 075, 034 } }, // Ivysaur
+            new EncounterStatic8ND(50,08,4) { Species = 005, Ability = A4, Moves = new[]{ 257, 242, 009, 053 } }, // Charmeleon
+            new EncounterStatic8ND(50,08,4) { Species = 008, Ability = A4, Moves = new[]{ 330, 396, 503, 428 } }, // Wartortle
+
+            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 053, 396, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
+            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 428, 007, 089, 280 }, Nature = Nature.Jolly, Shiny = Shiny.Never }, // Mewtwo
+            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 126, 411, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
@@ -229,6 +248,22 @@
             //new EncounterStatic8ND(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 409, 007 }, CanGigantamax = true }, // Grimmsnarl
             new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 } }, // Toxtricity
             new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, CanGigantamax = true }, // Toxtricity
+
+            // 2/26 - Mewtwo
+            //new EncounterStatic8ND(17,01,1) { Species = 098, Ability = A4, Moves = new[]{ 055, 043, 106, 232 } }, // Krabby
+            //new EncounterStatic8ND(17,01,1) { Species = 859, Ability = A4, Moves = new[]{ 044, 260, 590, 372 } }, // Impidimp
+            //new EncounterStatic8ND(30,03,2) { Species = 099, Ability = A4, Moves = new[]{ 232, 341, 061, 023 }, CanGigantamax = true }, // Kingler
+            //new EncounterStatic8ND(30,03,2) { Species = 859, Ability = A4, Moves = new[]{ 389, 577, 260, 279 } }, // Impidimp
+            new EncounterStatic8ND(30,03,2) { Species = 849, Ability = A4, Moves = new[]{ 084, 209, 268, 175 } }, // Toxtricity
+            //new EncounterStatic8ND(40,05,3) { Species = 099, Ability = A4, Moves = new[]{ 534, 232, 023, 106 }, CanGigantamax = true }, // Kingler
+            //new EncounterStatic8ND(40,05,3) { Species = 860, Ability = A4, Moves = new[]{ 492, 577, 421, 141 } }, // Morgrem
+            //new EncounterStatic8ND(40,05,3) { Species = 849, Ability = A4, Moves = new[]{ 085, 474, 496, 103 }, CanGigantamax = true }, // Toxtricity
+            //new EncounterStatic8ND(50,08,4) { Species = 099, Ability = A4, Moves = new[]{ 359, 667, 157, 534 }, CanGigantamax = true }, // Kingler
+            //new EncounterStatic8ND(50,08,4) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 280, 409 }, CanGigantamax = true }, // Grimmsnarl
+            //new EncounterStatic8ND(50,08,4) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 474, 409 }, CanGigantamax = true }, // Toxtricity
+            //new EncounterStatic8ND(60,10,5) { Species = 099, Ability = A4, Moves = new[]{ 152, 667, 157, 404 }, CanGigantamax = true }, // Kingler
+            //new EncounterStatic8ND(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 409, 007 }, CanGigantamax = true }, // Grimmsnarl
+            //new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, CanGigantamax = true }, // Toxtricity
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
@@ -384,6 +419,22 @@
             //new EncounterStatic8ND(60,10,5) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 500 }, CanGigantamax = true }, // Hatterene
             new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Form = 1 }, // Toxtricity-1
             new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+
+            // 2/26 - Mewtwo
+            //new EncounterStatic8ND(17,01,1) { Species = 825, Ability = A4, Moves = new[]{ 093, 522, 113, 115 } }, // Dottler
+            //new EncounterStatic8ND(17,01,1) { Species = 856, Ability = A4, Moves = new[]{ 093, 589, 791, 574 } }, // Hatenna
+            //new EncounterStatic8ND(30,03,2) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 496, 095 }, CanGigantamax = true }, // Orbeetle
+            //new EncounterStatic8ND(30,03,2) { Species = 856, Ability = A4, Moves = new[]{ 605, 060, 345, 347 } }, // Hatenna
+            //new EncounterStatic8ND(30,03,2) { Species = 849, Ability = A4, Moves = new[]{ 599, 209, 268, 175 }, Form = 1 }, // Toxtricity-1
+            //new EncounterStatic8ND(40,05,3) { Species = 826, Ability = A4, Moves = new[]{ 405, 060, 202, 109 }, CanGigantamax = true }, // Orbeetle
+            //new EncounterStatic8ND(40,05,3) { Species = 857, Ability = A4, Moves = new[]{ 605, 345, 399, 500 } }, // Hattrem
+            //new EncounterStatic8ND(40,05,3) { Species = 849, Ability = A4, Moves = new[]{ 085, 599, 496, 103 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            //new EncounterStatic8ND(50,08,4) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 202, 247 }, CanGigantamax = true }, // Orbeetle
+            //new EncounterStatic8ND(50,08,4) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 247 }, CanGigantamax = true }, // Hatterene
+            //new EncounterStatic8ND(50,08,4) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 409 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            //new EncounterStatic8ND(60,10,5) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 247, 347 }, CanGigantamax = true }, // Orbeetle
+            //new EncounterStatic8ND(60,10,5) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 500 }, CanGigantamax = true }, // Hatterene
+            //new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
         };
     }
 }
