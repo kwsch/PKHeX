@@ -89,10 +89,10 @@
             new EncounterStatic8ND(50,08,4) { Species = 002, Ability = A4, Moves = new[]{ 188, 412, 075, 034 } }, // Ivysaur
             new EncounterStatic8ND(50,08,4) { Species = 005, Ability = A4, Moves = new[]{ 257, 242, 009, 053 } }, // Charmeleon
             new EncounterStatic8ND(50,08,4) { Species = 008, Ability = A4, Moves = new[]{ 330, 396, 503, 428 } }, // Wartortle
-
-            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 053, 396, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
-            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 428, 007, 089, 280 }, Nature = Nature.Jolly, Shiny = Shiny.Never }, // Mewtwo
-            new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 126, 411, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
+            // sadly, can't capture Mewtwo.
+            // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 053, 396, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
+            // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 428, 007, 089, 280 }, Nature = Nature.Jolly, Shiny = Shiny.Never }, // Mewtwo
+            // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 126, 411, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
