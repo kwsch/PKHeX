@@ -616,8 +616,8 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
-                /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
                 HT_Name = string.Empty.PadRight(11, '\0');
@@ -625,10 +625,9 @@ namespace PKHeX.Core
             }
 
             if (IsUntraded)
-                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
             {
-                /* OT_Affection = */
                 OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
             }
 
@@ -659,7 +658,6 @@ namespace PKHeX.Core
             if (HT_Name != tr.OT)
             {
                 HT_Friendship = 50;
-                HT_Affection = 0;
                 HT_Name = tr.OT;
             }
             CurrentHandler = 1;
