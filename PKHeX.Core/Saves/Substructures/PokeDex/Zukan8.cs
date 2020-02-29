@@ -285,10 +285,11 @@ namespace PKHeX.Core
             SetCaught(species);
             SetIsLanguageObtained(species, pkm.Language);
             if (!owned)
+            {
                 SetAltFormDisplayed(species, (byte)form);
-
-            if (shiny)
-                SetDisplayShiny(species);
+                if (shiny)
+                    SetDisplayShiny(species);
+            }
 
             var count = GetBattledCount(species);
             if (count == 0)
