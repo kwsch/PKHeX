@@ -287,7 +287,7 @@ namespace PKHeX.Core
             if (!owned)
                 SetAltFormDisplayed(species, (byte)form);
 
-            if (shiny)
+            if (!owned)
                 SetDisplayShiny(species);
 
             var count = GetBattledCount(species);
