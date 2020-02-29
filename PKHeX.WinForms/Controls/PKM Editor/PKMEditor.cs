@@ -1427,7 +1427,9 @@ namespace PKHeX.WinForms.Controls
                     CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
-                    if (Entity.GenNumber < 6 && TB_EC.Visible)
+                    int gen = Entity.GenNumber;
+                    bool pre3DS = 1 <= gen && gen < 6;
+                    if (pre3DS && TB_EC.Visible)
                         TB_EC.Text = TB_PID.Text;
                 }
                 else
