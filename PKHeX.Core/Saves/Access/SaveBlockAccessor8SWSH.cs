@@ -74,7 +74,7 @@ namespace PKHeX.Core
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
         public const uint KEnteredHallOfFame = 0xE2F6E456; // U64 Unix Timestamp
         private const uint KMyStatus = 0xf25c070e; // Trainer Details
-        private const uint KFriendLeagueCards = 0x28e707f5; // League Cards received from players linked with
+        private const uint KFriendLeagueCards = 0x28e707f5; // League Cards received from other players
         private const uint KNPCLeagueCards = 0xb1c26fb0; // League Cards received from NPCs
         
         // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
