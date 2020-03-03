@@ -25,11 +25,12 @@
 0x10A	Received Wynaut Egg
 0x12A	Received Beldum
 
-0x853	Has Eon Ticket
+0x853	Received Eon Ticket
 
 0x0FF	Lati@s Roaming
 
 0x71	Captured/Defeated Groudon/Kyogre
+0xCE	Captured/Defeated Lati@s (Southern Island)
 
 0x339	Overworld Hidden (Groudon/Kyogre)
 0x305	Overworld Hidden (Rayquaza)

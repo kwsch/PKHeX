@@ -1,18 +1,40 @@
-0x2C0	Used Move Tutor in Victory Road (Double-Edge)
-0x2C1	Used Move Tutor in Silph Co. (Thunder Wave)
-0x2C2	Used Move Tutor in Rock Tunnel (Rock Slide)
-0x2C3	Used Move Tutor in Mt. Ember (Explosion)
-0x2C4	Used Move Tutor on Route 4 (Mega Punch)
-0x2C5	Used Move Tutor on Route 4 (Mega Kick)
-0x2C6	Used Move Tutor in Viridian City (Dream Eater)
-0x2C7	Used Move Tutor in Celadon Department Store (Soft-Boiled)
-0x2C8	Used Move Tutor in Fuchsia City (Substitute)
-0x2C9	Used Move Tutor on Seven Island (Swords Dance)
-0x2CA	Used Move Tutor in Pewter City (Seismic Toss)
-0x2CB	Used Move Tutor in Celadon City (Counter)
-0x2CC	Used Move Tutor on Cinnabar Island (Metronome)
-0x2CD	Used Move Tutor in Saffron City (Mimic)
-0x2CE	Used Move Tutor on Four Island (Body Slam)
+0x237	Received HM01 Cut
+0x238	Received HM02 Fly
+0x239	Received HM03 Surf
+0x23A	Received HM04 Strength
+0x23B	Received HM05 Flash
+0x2EF	Received HM06 Rock Smash
+
+0x820	Received Boulder Badge
+0x821	Received Cascade Badge
+0x822	Received Thunder Badge
+0x823	Received Rainbow Badge
+0x824	Received Soul Badge
+0x825	Received Marsh Badge
+0x826	Received Volcano Badge
+0x827	Received Earth Badge
+
+0x24B	Traded in Underground Tunnel
+0x24D	Traded in Vermilion City
+0x248	Traded on Route 2
+0x257	Traded on Route 18
+0x274	Traded in Cinnabar Lab
+
+0x249	Purchased Magikarp
+0x232	Received Helix Fossil/Dome Fossil
+0x057	Received Eevee
+0x246	Received Lapras
+0x278	Received Hitmonchan/Hitmonlee
+0x2DA	Received Togepi Egg
+
+0x2A7	Received Mystic Ticket from Mystery Gift
+0x2A8	Received Aurora Ticket from Mystery Gift
+
+0x2F0	Shown Mystic Ticket
+0x2F1	Shown Aurora Ticket
+
+0x84A	Can Travel to Navel Rock
+0x84B	Can Travel to Birth Island
 
 0x2BE	Captured/Defeated Articuno
 0x2BF	Captured/Defeated Zapdos
@@ -40,28 +62,27 @@
 0x054	Overworld Hidden (Snorlax, Route 12)
 0x080	Overworld Hidden (Snorlax, Route 16)
 
-0x249	Bought Magikarp
-0x232	Received Helix Fossil/Dome Fossil
-0x057	Received Eevee
-0x246	Received Lapras
-0x278	Received Hitmonchan/Hitmonlee
-0x2DA	Received Togepi Egg
-
-0x820	Received Boulder Badge
-0x821	Received Cascade Badge
-0x822	Received Thunder Badge
-0x823	Received Rainbow Badge
-0x824	Received Soul Badge
-0x825	Received Marsh Badge
-0x826	Received Volcano Badge
-0x827	Received Earth Badge
+0x2C0	Used Move Tutor in Victory Road (Double-Edge)
+0x2C1	Used Move Tutor in Silph Co. (Thunder Wave)
+0x2C2	Used Move Tutor in Rock Tunnel (Rock Slide)
+0x2C3	Used Move Tutor in Mt. Ember (Explosion)
+0x2C4	Used Move Tutor on Route 4 (Mega Punch)
+0x2C5	Used Move Tutor on Route 4 (Mega Kick)
+0x2C6	Used Move Tutor in Viridian City (Dream Eater)
+0x2C7	Used Move Tutor in Celadon Department Store (Soft-Boiled)
+0x2C8	Used Move Tutor in Fuchsia City (Substitute)
+0x2C9	Used Move Tutor on Seven Island (Swords Dance)
+0x2CA	Used Move Tutor in Pewter City (Seismic Toss)
+0x2CB	Used Move Tutor in Celadon City (Counter)
+0x2CC	Used Move Tutor on Cinnabar Island (Metronome)
+0x2CD	Used Move Tutor in Saffron City (Mimic)
+0x2CE	Used Move Tutor on Four Island (Body Slam)
 
 0x829	Received Pokedex
 0x82F	Received Running Shoes
 0x834	Unlocked Bill's PC
 0x2A1	Restored Connectivity to Kanto
 0x844	Restored Connectivity to Hoenn
-
 0x29B	Received Fame Checker
 0x241	Received Bike Voucher
 0x2A5	Received Lift Key
@@ -74,33 +95,13 @@
 0x2D8	Sapphire Stolen
 0x2D6	Rocket Warehouse Door Opened
 0x2DC	Received Sapphire
-
-0x237	Received HM01 Cut
-0x238	Received HM02 Fly
-0x239	Received HM03 Surf
-0x23A	Received HM04 Strength
-0x23B	Received HM05 Flash
-0x2EF	Received HM06 Rock Smash
-
 0x2FD	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
 0x256	Received Itemfinder (Oak's Aide, Route 11)
 0x256	Received Exp. Share (Oak's Aide, Route 15)
 0x2FD	Received Amulet Coin (Oak's Aide, Route 16)
-
 0x25E	Received Old Amber
 0x236	Lemonade Donated to Tectonix
-0x2A7	Received Mystic Ticket
-0x2A8	Received Aurora Ticket
 0x2D9	Set Heracross Length Record
-0x84A	Received Mystic Ticket
-0x84B	Received Aurora Ticket
-
-0x24B	Traded in Underground Tunnel
-0x24D	Traded in Vermilion City
-0x248	Traded on Route 2
-0x257	Traded on Route 18
-0x274	Traded in Cinnabar Lab
-
 0040	Bulbasaur ball at Oak's disappeared
 0041	Squirtle ball at Oak's disappeared
 0042	Charmander ball at Oak's disappeared

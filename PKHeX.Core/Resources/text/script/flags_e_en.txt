@@ -29,12 +29,16 @@
 0x13A	Received Aurora Ticket from Mystery Gift
 0x13B	Received Mystic Ticket from Mystery Gift
 0x13C	Received Old Sea Map from Mystery Gift
-0x8B3	Received Eon Ticket
 
-0x1AE	Has Eon Ticket
-0x1AF	Has Aurora Ticket
-0x1B0	Has Old Sea Map
-0x1DB	Has Mystic Ticket
+0x1AE	Shown Eon Ticket
+0x1AF	Shown Aurora Ticket
+0x1B0	Shown Old Sea Map
+0x1DB	Shown Mystic Ticket
+
+0x8B3	Can Travel to Southern Island
+0x8D5	Can Travel to Birth Island
+0x8D6	Can Travel to Faraway Island
+0x8E0	Can Travel to Navel Rock
 
 0x0FF	Lati@s Roaming
 
@@ -110,23 +114,16 @@
 
 0x8C4	Received Silver Ability Symbol (Battle Tower)
 0x8C5	Received Gold Ability Symbol (Battle Tower)
-
 0x8C6	Received Silver Tactics Symbol (Battle Dome)
 0x8C7	Received Gold Tactics Symbol (Battle Dome)
-
 0x8C8	Received Silver Spirits Symbol (Battle Palace)
 0x8C9	Received Gold Spirits Symbol (Battle Palace)
-
 0x8CA	Received Silver Guts Symbol (Battle Arena)
 0x8CB	Received Gold Guts Symbol (Battle Arena)
-
 0x8CC	Received Silver Knowledge Symbol (Battle Factory)
 0x8CD	Received Gold Knowledge Symbol (Battle Factory)
-
 0x8CE	Received Silver Luck Symbol (Battle Pike)
 0x8CF	Received Gold Luck Symbol (Battle Pike)
-
 0x8D0	Received Silver Brave Symbol (Battle Pyramid)
 0x8D1	Received Gold Brave Symbol (Battle Pyramid)
-
 0x8D2	Received Frontier Pass
