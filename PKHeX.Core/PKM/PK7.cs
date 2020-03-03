@@ -644,8 +644,8 @@ namespace PKHeX.Core
             if (FormConverter.IsTotemForm(Species, AltForm, 7))
                 pk8.AltForm = FormConverter.GetTotemBaseForm(Species, AltForm);
 
-            // Fix PP
-            pk8.HealPP();
+            // Fix PP and Stats
+            pk8.Heal();
 
             // Fix Checksum
             pk8.RefreshChecksum();

@@ -666,7 +666,9 @@ namespace PKHeX.Core
                 WeightScalar = WeightScalar,
             };
 
-            pk8.HealPP();
+            // Fix PP and Stats
+            pk8.Heal();
+
             // Fix Checksum
             pk8.RefreshChecksum();
 
