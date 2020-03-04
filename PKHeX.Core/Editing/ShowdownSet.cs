@@ -189,6 +189,8 @@ namespace PKHeX.Core
                     int move = StringUtil.FindIndexIgnoreCase(Strings.movelist, moveString);
                     if (move < 0)
                         InvalidLines.Add($"Unknown Move: {moveString}");
+                    else if (Moves.Contains(move))
+                        InvalidLines.Add($"Duplicate Move: {moveString}");
                     else
                         Moves[movectr++] = move;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
@@ -156,6 +157,26 @@ namespace PKHeX.Tests.Simulator
             sets = ShowdownSet.GetShowdownSets(new [] {"", "   ", " "});
             Assert.True(!sets.Any());
         }
+
+        [Theory]
+        [InlineData(SetDuplicateMoves, 3)]
+        public void SimulatorParseDuplicate(string text, int moveCount)
+        {
+            var set = new ShowdownSet(text);
+            var actual = set.Moves.Count(z => z != 0);
+            actual.Should().Be(moveCount);
+        }
+
+        private const string SetDuplicateMoves =
+@"Kingler-Gmax @ Master Ball
+Ability: Sheer Force
+Shiny: Yes
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Crabhammer
+- Rock Slide
+- Rock Slide
+- X-Scissor";
 
         private const string SetROCKSMetang =
 @"Metang
