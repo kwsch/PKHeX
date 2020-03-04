@@ -286,7 +286,7 @@ namespace PKHeX.WinForms
             {
                 var enc = Results[i + begin];
                 var form = GetForm(enc);
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, enc.EggEncounter, false, enc is IGeneration g ? g.Generation : -1);
+                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, 0, enc.EggEncounter, false, enc is IGeneration g ? g.Generation : -1);
             }
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;

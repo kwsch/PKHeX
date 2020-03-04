@@ -21,17 +21,17 @@ namespace PKHeX.Drawing
         /// <summary>
         /// Gets the resource name of the Pokémon sprite.
         /// </summary>
-        public static string GetResourceStringSprite(int species, int form, int gender, int generation = PKX.Generation, bool shiny = false)
+        public static string GetResourceStringSprite(int species, int form, int gender, uint formarg, int generation = PKX.Generation, bool shiny = false)
         {
             if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
             var sb = new StringBuilder();
-            { sb.Append(Separator); sb.Append(species); }
+            sb.Append(Separator).Append(species);
 
             if (form != 0)
             {
-                sb.Append(Separator); sb.Append(form);
+                sb.Append(Separator).Append(form);
 
                 if (species == (int) Species.Pikachu)
                 {
@@ -49,6 +49,13 @@ namespace PKHeX.Drawing
             else if (gender == 1 && SpeciesGenderedSprite.Contains(species))
             {
                 sb.Append('f');
+            }
+
+            if (species == (int) Species.Alcremie)
+            {
+                if (form == 0)
+                    sb.Append(Separator).Append(form);
+                sb.Append(Separator).Append(formarg);
             }
 
             if (shiny && AllowShinySprite)

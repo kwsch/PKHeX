@@ -912,6 +912,12 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
+        private void UpdateFormArgument(object sender, EventArgs e)
+        {
+            if (FieldsLoaded && Entity.Species == (int)Species.Alcremie)
+                UpdateSprite();
+        }
+
         private void UpdateForm(object sender, EventArgs e)
         {
             if (CB_Form == sender && FieldsLoaded)

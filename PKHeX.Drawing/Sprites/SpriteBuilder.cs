@@ -29,7 +29,7 @@ namespace PKHeX.Drawing
         private const double EggUnderLayerTransparency = 0.33;
 
         protected virtual string GetSpriteStringSpeciesOnly(int species) => $"_{species}";
-        protected virtual string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected virtual string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
         protected virtual string GetItemResourceName(int item) => $"item_{item}";
         protected virtual Image Unknown => Resources.unknown;
         protected virtual Image GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources._490_e : Resources.egg;
@@ -57,7 +57,7 @@ namespace PKHeX.Drawing
             };
         }
 
-        public Image GetSprite(int species, int form, int gender, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
+        public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
             if (species == 0)
                 return Resources._0;
@@ -65,7 +65,7 @@ namespace PKHeX.Drawing
             if (generation == 3 && species == (int)Species.Deoxys) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm(Game);
 
-            var baseImage = GetBaseImage(species, form, gender, isShiny, generation);
+            var baseImage = GetBaseImage(species, form, gender, formarg, isShiny, generation);
             return GetSprite(baseImage, species, heldItem, isEgg, isShiny, generation, isBoxBGRed, isAltShiny);
         }
 
@@ -80,34 +80,34 @@ namespace PKHeX.Drawing
             return baseSprite;
         }
 
-        private Image GetBaseImage(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImage(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
             var img = FormConverter.IsTotemForm(species, form, generation)
-                        ? GetBaseImageTotem(species, form, gender, shiny, generation)
-                        : GetBaseImageDefault(species, form, gender, shiny, generation);
-            return img ?? GetBaseImageFallback(species, form, gender, shiny, generation);
+                        ? GetBaseImageTotem(species, form, gender, formarg, shiny, generation)
+                        : GetBaseImageDefault(species, form, gender, formarg, shiny, generation);
+            return img ?? GetBaseImageFallback(species, form, gender, formarg, shiny, generation);
         }
 
-        private Image? GetBaseImageTotem(int species, int form, int gender, bool shiny, int generation)
+        private Image? GetBaseImageTotem(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
             var baseform = FormConverter.GetTotemBaseForm(species, form);
-            var baseImage = GetBaseImageDefault(species, baseform, gender, shiny, generation);
+            var baseImage = GetBaseImageDefault(species, baseform, gender, formarg, shiny, generation);
             if (baseImage == null)
                 return null;
             return ImageUtil.ToGrayscale(baseImage);
         }
 
-        private Image? GetBaseImageDefault(int species, int form, int gender, bool shiny, int generation)
+        private Image? GetBaseImageDefault(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
-            var file = GetSpriteAll(species, form, gender, shiny, generation);
+            var file = GetSpriteAll(species, form, gender, formarg, shiny, generation);
             return (Image?)Resources.ResourceManager.GetObject(file);
         }
 
-        private Image GetBaseImageFallback(int species, int form, int gender, bool shiny, int generation)
+        private Image GetBaseImageFallback(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
             if (shiny) // try again without shiny
             {
-                var img = GetBaseImageDefault(species, form, gender, false, generation);
+                var img = GetBaseImageDefault(species, form, gender, formarg, false, generation);
                 if (img != null)
                     return img;
             }
@@ -204,7 +204,7 @@ namespace PKHeX.Drawing
         protected override int EggItemShiftY => 26;
 
         protected override string GetSpriteStringSpeciesOnly(int species) => 'b' + $"_{species}";
-        protected override string GetSpriteAll(int species, int form, int gender, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, generation, shiny);
+        protected override string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation) => 'b' + SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
         protected override string GetItemResourceName(int item) => 'b' + $"item_{item}";
         protected override Image Unknown => Resources.b_0;
         protected override Image GetEggSprite(int species) => Resources.egg; // no manaphy egg sprite (yet)

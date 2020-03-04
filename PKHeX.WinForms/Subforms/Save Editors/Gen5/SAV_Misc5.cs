@@ -660,7 +660,7 @@ namespace PKHeX.WinForms
 
         private void SetSprite(EntreeSlot slot)
         {
-            PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, false, false);
+            PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, 0, false, false);
         }
 
         private void SetGenders(EntreeSlot slot)
