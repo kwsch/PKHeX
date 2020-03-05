@@ -105,10 +105,11 @@ namespace PKHeX.Core
         {
             byte[] sdata = (byte[])data.Clone();
             uint index = sv * 4;
+            const int start = 8;
             for (int block = 0; block < 4; block++)
             {
                 int ofs = BlockPosition[index + block];
-                Array.Copy(data, 8 + (blockSize * ofs), sdata, 8 + (blockSize * block), blockSize);
+                Array.Copy(data, start + (blockSize * ofs), sdata, start + (blockSize * block), blockSize);
             }
             return sdata;
         }
@@ -207,7 +208,7 @@ namespace PKHeX.Core
         {
             const int start = 8;
             int end = (4 * blockSize) + start;
-            CryptArray(data, pv, 8, end); // Blocks
+            CryptArray(data, pv, start, end); // Blocks
             if (data.Length > end)
                 CryptArray(data, pv, end, data.Length); // Party Stats
         }

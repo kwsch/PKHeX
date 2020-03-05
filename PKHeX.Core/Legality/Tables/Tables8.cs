@@ -181,7 +181,7 @@ namespace PKHeX.Core
             1105, 1106, 1107, 1108,
         };
 
-        internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
+        internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
         internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int> {
             (int)Ball.Poke,
@@ -324,55 +324,19 @@ namespace PKHeX.Core
             (int)Species.Sobble, (int)Species.Drizzile, (int)Species.Inteleon,
             (int)Species.Slowpoke | 1 << 11,
 
-            (int)Species.Hoothoot, (int)Species.Noctowl,
             (int)Species.Skwovet, (int)Species.Greedent,
-            (int)Species.Pidove, (int)Species.Tranquill, (int)Species.Unfezant,
             (int)Species.Nickit, (int)Species.Thievul,
             (int)Species.Wooloo, (int)Species.Dubwool,
-            (int)Species.Purrloin, (int)Species.Liepard,
             (int)Species.Yamper, (int)Species.Boltund,
-            (int)Species.Wingull, (int)Species.Pelipper,
-            (int)Species.Electrike, (int)Species.Manectric,
-            (int)Species.Golett, (int)Species.Golurk,
-            (int)Species.Munna, (int)Species.Musharna,
-            (int)Species.Snover, (int)Species.Abomasnow,
-            (int)Species.Bronzor, (int)Species.Bronzong,
-            (int)Species.Drifloon, (int)Species.Drifblim,
-            (int)Species.Cherubi, (int)Species.Cherrim,
-            (int)Species.Goldeen, (int)Species.Seaking,
-            (int)Species.Basculin, (int)Species.Basculin | 1 << 11,
-            (int)Species.Woobat, (int)Species.Swoobat,
-            (int)Species.Noibat, (int)Species.Noivern,
-            (int)Species.Espurr, (int)Species.Meowstic, (int)Species.Meowstic | 1 << 11,
-            (int)Species.Chinchou, (int)Species.Lanturn,
-            (int)Species.Croagunk, (int)Species.Toxicroak,
-            (int)Species.Barboach, (int)Species.Whiscash,
-            (int)Species.Binacle, (int)Species.Barbaracle,
-            (int)Species.Sawk, (int)Species.Throh,
-            (int)Species.Bonsly, (int)Species.Sudowoodo,
-            (int)Species.Cleffa, (int)Species.Clefairy, (int)Species.Clefable,
-            (int)Species.Elgyem, (int)Species.Beheeyem,
-            (int)Species.Cubchoo, (int)Species.Beartic,
-            (int)Species.Skorupi, (int)Species.Drapion,
-            (int)Species.Maractus,
-            (int)Species.Bergmite, (int)Species.Avalugg,
+        };
 
-            // Alolan Forms
-            (int)Species.Raichu | 1 << 11,
-            (int)Species.Meowth | 1 << 11, (int)Species.Persian | 1 << 11,
-            (int)Species.Vulpix | 1 << 11, (int)Species.Ninetales | 1 << 11,
-            (int)Species.Diglett | 1 << 11, (int)Species.Dugtrio | 1 << 11,
-
-            // Non-Galar Forms
-            (int)Species.Farfetchd,
-            (int)Species.Ponyta, (int)Species.Rapidash,
-            (int)Species.Slowpoke,
-            (int)Species.Corsola,
-            (int)Species.Darumaka, (int)Species.Darmanitan,
-            (int)Species.Stunfisk,
-            (int)Species.Weezing,
-
-            (int)Species.Shellos, (int)Species.Gastrodon, // West
+        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
+        {
+            029, // Nidoran
+            032, // Nidoran
+            100, // Voltorb
+            // 436, // Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
+            669 + (3 << 11), // Flabébé-Blue
         };
 
         #region Unreleased Items
@@ -400,9 +364,6 @@ namespace PKHeX.Core
             312, // Dread Plate
             313, // Iron Plate
             // 644, // Pixie Plate
-
-            1114, // Star Sweet
-            1115, // Ribbon Sweet
 
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
@@ -721,61 +682,25 @@ namespace PKHeX.Core
         internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8+1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();
 
         /// <summary>
-        /// Moves that aren't kill
+        /// Moves that are kill
         /// </summary>
-        internal static readonly HashSet<int> ValidMoves_SWSH = new HashSet<int>
+        public static readonly HashSet<int> DummiedMoves_SWSH = new HashSet<int>
         {
-            001, 005, 006, 007, 008, 009, 010, 011, 012, 014,
-            015, 016, 017, 018, 019, 020, 021, 022, 023, 024,
-            025, 028, 029, 030, 031, 032, 033, 034, 035, 036,
-            037, 038, 039, 040, 042, 043, 044, 045, 046, 047,
-            048, 050, 051, 052, 053, 054, 055, 056, 057, 058,
-            059, 060, 061, 062, 063, 064, 065, 066, 067, 069,
-            070, 071, 072, 073, 074, 075, 076, 077, 078, 079,
-            080, 081, 083, 084, 085, 086, 087, 088, 089, 090,
-            091, 092, 093, 094, 095, 097, 098, 100, 101, 103,
-            104, 105, 106, 107, 108, 109, 110, 111, 113, 114,
-            115, 116, 120, 122, 123, 124, 126, 127, 129, 130,
-            133, 135, 136, 137, 138, 139, 141, 143, 147, 150,
-            151, 152, 153, 154, 156, 157, 161, 162, 163, 164,
-            167, 170, 172, 174, 175, 178, 179, 180, 181, 183,
-            184, 186, 187, 188, 189, 190, 191, 192, 195, 196,
-            198, 199, 200, 201, 202, 204, 205, 206, 207, 209,
-            210, 211, 212, 213, 215, 217, 219, 220, 223, 224,
-            225, 226, 227, 229, 230, 231, 232, 233, 234, 235,
-            236, 238, 239, 240, 241, 242, 244, 245, 246, 247,
-            248, 249, 250, 251, 252, 253, 254, 255, 256, 257,
-            258, 259, 260, 261, 262, 263, 268, 269, 272, 273,
-            275, 276, 277, 278, 279, 280, 281, 282, 283, 284,
-            285, 286, 288, 291, 292, 297, 298, 299, 303, 304,
-            305, 306, 307, 308, 309, 310, 311, 312, 313, 314,
-            315, 317, 319, 321, 322, 323, 325, 326, 328, 329,
-            330, 331, 332, 333, 334, 335, 336, 337, 338, 339,
-            340, 341, 342, 344, 345, 347, 348, 349, 350, 351,
-            352, 353, 355, 356, 359, 360, 361, 362, 365, 366,
-            367, 368, 369, 370, 371, 372, 374, 375, 379, 380,
-            384, 385, 387, 388, 389, 390, 392, 393, 394, 395,
-            396, 397, 398, 399, 400, 401, 402, 403, 404, 405,
-            406, 407, 408, 409, 410, 411, 412, 413, 414, 416,
-            417, 418, 419, 420, 421, 422, 423, 424, 425, 427,
-            428, 430, 432, 433, 434, 435, 436, 437, 438, 439,
-            440, 441, 442, 444, 446, 447, 450, 451, 452, 453,
-            454, 455, 457, 458, 468, 470, 471, 472, 473, 474,
-            475, 478, 479, 480, 482, 483, 484, 486, 487, 488,
-            489, 490, 491, 492, 493, 494, 496, 497, 499, 500,
-            502, 503, 504, 505, 506, 508, 509, 510, 512, 513,
-            514, 515, 517, 518, 519, 520, 521, 522, 523, 524,
-            525, 526, 527, 528, 529, 530, 532, 533, 534, 535,
-            536, 538, 539, 540, 541, 542, 544, 549, 550, 551,
-            556, 558, 559, 560, 564, 565, 566, 567, 568, 570,
-            571, 572, 573, 574, 575, 576, 577, 579, 580, 581,
-            582, 583, 584, 585, 586, 587, 589, 590, 594, 595,
-            597, 598, 599, 602, 603, 604, 605, 608, 609, 610,
-            611, 612, 660, 662, 663, 664, 667, 668, 669, 670,
-            673, 674, 675, 676, 677, 678, 679, 680, 681, 682,
-            683, 684, 685, 688, 691, 693, 694, 706, 707, 709,
-            710, 711, 715, 716, 718, 745, 746, 747, 748, 749,
-            750, 751, 752, 753, 754, 755, 756,
+            002, 003, 004, 013, 026, 027, 041, 049, 082, 096,
+            099, 112, 117, 119, 121, 125, 128, 131, 132, 134,
+            140, 145, 146, 148, 149, 159, 169, 171, 185, 193,
+            216, 218, 222, 228, 237, 265, 274, 287, 289, 290,
+            293, 300, 301, 302, 316, 318, 320, 324, 327, 346,
+            357, 358, 363, 373, 376, 377, 378, 381, 382, 386,
+            426, 429, 431, 443, 445, 456, 466, 477, 481, 485,
+            498, 507, 516, 531, 537, 563, 569, 622, 623, 624,
+            625, 626, 627, 628, 629, 630, 631, 632, 633, 634,
+            635, 636, 637, 638, 639, 640, 641, 642, 643, 644,
+            645, 646, 647, 648, 649, 650, 651, 652, 653, 654,
+            655, 656, 657, 658, 671, 695, 696, 697, 698, 699,
+            700, 701, 702, 703, 719, 723, 724, 725, 726, 727,
+            728, 729, 730, 731, 732, 733, 734, 735, 736, 737,
+            738, 739, 740, 741,
         };
 
         internal static readonly int[] TypeTutor8 =

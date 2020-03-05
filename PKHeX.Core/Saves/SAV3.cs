@@ -625,7 +625,7 @@ namespace PKHeX.Core
             get
             {
                 int max = Version == GameVersion.FRLG ? 999 : 99;
-                var PCItems = new [] {LegalItems, LegalKeyItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
+                var PCItems = new [] {LegalItems, LegalKeyItems, LegalBalls, LegalTMHMs, LegalBerries}.SelectMany(a => a).ToArray();
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouch3(InventoryType.Items, LegalItems, max, OFS_PouchHeldItem, (OFS_PouchKeyItem - OFS_PouchHeldItem)/4),
@@ -1020,10 +1020,9 @@ namespace PKHeX.Core
 
         public bool ResetPersonal(GameVersion g)
         {
-            var pt = SaveUtil.GetG3Personal(g);
-            if (pt == null)
+            if (g.GetGeneration() != 3)
                 return false;
-            _personal = pt;
+            _personal = SaveUtil.GetG3Personal(g);
             return true;
         }
     }

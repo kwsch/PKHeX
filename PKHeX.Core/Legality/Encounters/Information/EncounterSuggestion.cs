@@ -166,6 +166,40 @@ namespace PKHeX.Core
                 return Legal.GetTransfer45MetLocation(pkm);
             return -1;
         }
+
+        public static int GetLowestLevel(PKM pkm, int startLevel)
+        {
+            if (startLevel == -1)
+                startLevel = 100;
+
+            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
+            int count = 1;
+            for (int i = 100; i >= startLevel; i--)
+            {
+                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
+                if (evos.Count < count) // lost an evolution, prior level was minimum current level
+                    return evos.Max(evo => evo.Level) + 1;
+                count = evos.Count;
+            }
+            return startLevel;
+        }
+
+
+        public static int GetSuggestedMetLevel(PKM pkm, int minLevel)
+        {
+            var clone = pkm.Clone();
+            int minMove = -1;
+            for (int i = clone.CurrentLevel; i >= minLevel; i--)
+            {
+                clone.Met_Level = i;
+                var la = new LegalityAnalysis(clone);
+                if (la.Valid)
+                    return i;
+                if (la.Info.Moves.All(z => z.Valid))
+                    minMove = i;
+            }
+            return Math.Max(minMove, minLevel);
+        }
     }
 
     public sealed class EncounterSuggestionData : IRelearn
@@ -202,17 +236,6 @@ namespace PKHeX.Core
         public int LevelMin { get; }
         public int LevelMax { get; }
 
-        public int GetSuggestedMetLevel(PKM pkm)
-        {
-            var clone = pkm.Clone();
-            for (int i = clone.CurrentLevel; i > LevelMin; i--)
-            {
-                clone.Met_Level = i;
-                var la = new LegalityAnalysis(clone);
-                if (la.Info.Moves.All(z => z.Valid))
-                    return i;
-            }
-            return LevelMin;
-        }
+        public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
     }
 }

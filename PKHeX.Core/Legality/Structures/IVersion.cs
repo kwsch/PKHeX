@@ -38,9 +38,10 @@ namespace PKHeX.Core
             const int max = (int) GameVersion.RB;
             if ((int)ver.Version < max)
                 return ver.Version;
+            var rnd = Util.Rand;
             while (true) // this isn't optimal, but is low maintenance
             {
-                var game = (GameVersion)Util.Rand.Next(1, max);
+                var game = (GameVersion)rnd.Next(1, max);
                 if (ver.CanBeReceivedBy(game))
                     return game;
             }

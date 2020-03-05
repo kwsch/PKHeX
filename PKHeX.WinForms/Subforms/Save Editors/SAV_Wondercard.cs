@@ -1,4 +1,4 @@
-﻿using PKHeX.Core;
+using PKHeX.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -251,10 +251,23 @@ namespace PKHeX.WinForms
             if (LB_Received.SelectedIndex < 0)
                 return;
 
-            if (LB_Received.Items.Count > 0)
-                LB_Received.Items.Remove(LB_Received.SelectedItem);
-            if (LB_Received.Items.Count > 0)
-                LB_Received.SelectedIndex = 0;
+            if (LB_Received.SelectedIndices.Count > 1) {
+                for (int i = LB_Received.SelectedIndices.Count - 1; i >= 0; i--) {
+                    LB_Received.Items.RemoveAt(LB_Received.SelectedIndices[i]);
+                }
+            }
+            else if (LB_Received.SelectedIndices.Count == 1) {
+                int lastIndex = LB_Received.SelectedIndex;
+                LB_Received.Items.RemoveAt(LB_Received.SelectedIndex);
+                if (LB_Received.Items.Count > 0) {
+                    if (lastIndex > LB_Received.Items.Count - 1) {
+                        LB_Received.SelectedIndex = lastIndex - 1;
+                    }
+                    else {
+                        LB_Received.SelectedIndex = lastIndex;
+                    }
+                }
+            }
         }
 
         // Drag & Drop Wonder Cards
@@ -584,6 +597,29 @@ namespace PKHeX.WinForms
                 g.GiftUsed = sender == B_UsedAll;
             SetGiftBoxes();
             System.Media.SystemSounds.Asterisk.Play();
+        }
+
+        private void LB_Received_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete) {
+                if (LB_Received.SelectedIndices.Count > 1) {
+                    for (int i = LB_Received.SelectedIndices.Count - 1; i >= 0; i--) {
+                        LB_Received.Items.RemoveAt(LB_Received.SelectedIndices[i]);
+                    }
+                }
+                else if (LB_Received.SelectedIndices.Count == 1) {
+                    int lastIndex = LB_Received.SelectedIndex;
+                    LB_Received.Items.RemoveAt(LB_Received.SelectedIndex);
+                    if (LB_Received.Items.Count > 0) {
+                        if (lastIndex > LB_Received.Items.Count - 1) {
+                            LB_Received.SelectedIndex = lastIndex - 1;
+                        }
+                        else {
+                            LB_Received.SelectedIndex = lastIndex;
+                        }
+                    }
+                }
+            }
         }
     }
 }

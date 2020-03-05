@@ -1,7 +1,63 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/01/10 - New Update:
+20/02/14 - New Update:
+ - Legality:
+ - - Added: Initial handling for HOME Transfers.
+ - - Note: Tracker value is currently not flagged if missing; there's a setting to enable flagging.
+ - - Note: Pokémon that haven't yet visited HOME do not have a tracker.
+ - - Note: Fake WC8 data will have to be prepared to recognize HOME gifts.
+ - Added: More Gen8 editable fields. Thanks @CanoeHope!
+ - Added: More Gen4 Event Flags. Thanks @FeralFalcon!
+ - Changed: Revised suggested hatch locations. Thanks @CanoeHope!
+ - Fixed: Gen5 Entree Forest randomization no longer causes errors. Thanks Pocket Monsters (user)!
+ - Fixed: Gen4 HGSS Box Wallpapers are now read correctly. Thanks @Ammako!
+
+20/02/08 - New Update: (27045) [2411214]
+ - Legality:
+ - - Added: Milcery & Toxtricity distribution data.
+ - - Fixed: Runerigus FormArgument handling checks updated.
+ - - Fixed: ORAS flute level boosts increased from 3 to 4.
+ - - Fixed: FRLG Unown locations are now checked correctly. Thanks @Kermalis!
+ - - Fixed: Gen1/2 Stadium gifts are now checked more thoroughly. Thanks @FeralFalcon!
+ - Added: Gen8 Team Slots are now recognized and locked for editing. Thanks Anubis, @architdate, @Wanderer1391!
+ - Added: Gen8 Block Info editor now has more blocks labeled.
+ - Added: Gen8 Raid editor now shows the raid type enumeration, and more cleanly sets flags. Thanks @3096 & @slp32!
+ - Added: Gen8 setting to a slot will now increment game records. Thanks @CanoeHope!
+ - Added: Gen8 Rental Team reading. Thanks @architdate!
+ - Added: Gen4 Togepi egg gift event constant. Thanks @asterysx!
+ - Changed: Gen8 Block Info editor now sorts blocks by current value.
+ - Changed: Gen7 default hatch location is now Paniola Ranch instead of one of the routes. Thanks @CanoeHope!
+ - Changed: Tab indexes (pressing tab to jump between controls) now behaves more fluidly in the main window.
+ - Changed: Save Editor buttons (like Trainer Info, Pokédex) are now sorted alphabetically for easier locating.
+ - Changed: Mystery Gift - Can now delete multiple Gift Received flags at a time. Thanks @murrty!
+ - Changed: Updated Korean translation. Thanks @yurical!
+ - Fixed: Gen8 Trainer Editor no longer screws up game language.
+ - Fixed: Showdown Sets are now exported more accurately (hyper training / foreign species names).
+
+20/01/26 - New Update: (32160) [2384169]
+ - Legality:
+ - - Added: Form Argument legality checks. Alcremie, Runerigus, Yamask, Hoopa, and Furfrou. Thanks @CanoeHope!
+ - - Added: More static encounter locations.
+ - - Fixed: Footprint ribbon is now checked for Gen8.
+ - - Fixed: Slowpoke-1 Hidden Ability is now banned, and bred Mimikyu now allows Hidden Ability.
+ - - Changed: A little bit of the program's internal structures have been tweaked for performance.
+ - Added: Gen8 Block Research/Export/Import tool, with direct block edits.
+ - - Can swap in a full Fashion block, for example. Or, edit your title screen to show 6 Magikarp!
+ - - Edit things directly! Known block objects can be selected, and all exposed Properties can be changed.
+ - - Can compare two saves to see what blocks/values changed.
+ - Added: Gen5 Subway score editing. Thanks @egzn!
+ - Added: More event flag/const have been documented. Thanks @FeralFalcon & @asterysx!
+ - Fixed: Internal API changes for more Thread safety. (People reuse PKHeX.Core in multithreaded applications, and the Rand utility didn't work correctly).
+ - Fixed: German translation no longer misbehaves for certain ribbons.
+ - Fixed: Handling for Form Arguments is now performed correctly. Will no longer clear for Runerigus on edit.
+ - Fixed: Gen7 LGPE Dumping of Go Park Entities with invalid file names are now sanitized before saving. Thanks @xJam-es!
+ - Fixed: Gen4 HGSS Pokéwalker course unlock cheat now works as intended.
+ - Changed: Gen8 SWSH Block reading/writing is now much more efficient.
+ - Changed: Gen7 LGPE Awakening Values are now applied more liberally via Control-click Random. Only an attack IV of 0 will not add AVs. Thanks slp32!
+ - Changed: Spanish Translation updated. Thanks @egzn!
+
+20/01/10 - New Update: (43722) [2352009]
  - Added: Gen8 Support for save data from the latest game patch.
  - Legality: More handling for new additions.
  - Added: Move#_PP $suggest for batch editor.

@@ -232,9 +232,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="t">Type of the static class containing the desired strings.</param>
         /// <param name="lines">Lines containing the localized strings</param>
-        private static void SetLocalization(Type t, IEnumerable<string> lines)
+        private static void SetLocalization(Type t, IReadOnlyList<string> lines)
         {
-            if (lines == null)
+            if (lines.Count == 0)
                 return;
             foreach (var line in lines.Where(l => l != null))
             {
@@ -323,16 +323,19 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
         {
-            var list = GetCBListUnsorted(inStrings);
+            var list = new List<ComboItem>(inStrings.Count);
+            for (int i = 0; i < inStrings.Count; i++)
+                list.Add(new ComboItem(inStrings[i], i));
             list.Sort(Comparer);
             return list;
         }
 
-        public static List<ComboItem> GetCBListUnsorted(IReadOnlyList<string> inStrings)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, IReadOnlyList<ushort> allowed)
         {
-            var list = new List<ComboItem>(inStrings.Count);
-            for (int i = 0; i < inStrings.Count; i++)
-                list.Add(new ComboItem(inStrings[i], i));
+            var list = new List<ComboItem>(allowed.Count + 1) { new ComboItem(inStrings[0], 0) };
+            foreach (var index in allowed)
+                list.Add(new ComboItem(inStrings[index], index));
+            list.Sort(Comparer);
             return list;
         }
 

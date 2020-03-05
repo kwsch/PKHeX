@@ -234,8 +234,10 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Mew && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
+                if (species == (int)Species.Voltorb && pkm.AbilityNumber == 4)
+                    return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
                 if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
                 if (Legal.PastGenAlolanScans.Contains(species))
@@ -280,7 +282,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
+                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -341,9 +343,7 @@ namespace PKHeX.Core
             if ((int)Species.Dracozolt <= species && species <= (int)Species.Arctovish) // fossil
                 return false;
             var pt = PersonalTable.SWSH;
-            if (((PersonalInfoSWSH) pt.GetFormeEntry(species, 0)).IsPresentInGame)
-                return true;
-            return true;
+            return ((PersonalInfoSWSH)pt.GetFormeEntry(species, 0)).PokeDexIndex != 0;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);

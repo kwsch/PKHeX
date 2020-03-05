@@ -89,6 +89,38 @@ namespace PKHeX.Core
             return result;
         }
 
+        /// <summary>
+        /// Parses the hex string into a <see cref="ulong"/>, skipping all characters except for valid digits.
+        /// </summary>
+        /// <param name="value">Hex String to parse</param>
+        /// <returns>Parsed value</returns>
+        public static ulong GetHexValue64(string value)
+        {
+            ulong result = 0;
+            if (string.IsNullOrEmpty(value))
+                return result;
+
+            foreach (var c in value)
+            {
+                if (IsNum(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - '0');
+                }
+                else if (IsHexUpper(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'A' + 10);
+                }
+                else if (IsHexLower(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'a' + 10);
+                }
+            }
+            return result;
+        }
+
         public static byte[] GetBytesFromHexString(string seed)
         {
             return Enumerable.Range(0, seed.Length)

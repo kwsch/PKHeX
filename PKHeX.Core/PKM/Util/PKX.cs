@@ -37,15 +37,15 @@ namespace PKHeX.Core
         /// <returns>Array containing randomized EVs (H/A/B/S/C/D)</returns>
         public static int[] GetRandomEVs(int generation = Generation)
         {
+            var rnd = Util.Rand;
             if (generation > 2)
             {
                 var evs = new int[6];
                 do
                 {
                     int max = 510;
-                    int randomEV() => (byte)Math.Min(Util.Rand.Next(Math.Min(300, max)), 252);
                     for (int i = 0; i < evs.Length - 1; i++)
-                        max -= evs[i] = randomEV();
+                        max -= evs[i] = (byte)Math.Min(rnd.Next(Math.Min(300, max)), 252);
                     evs[5] = max;
                 } while (evs[5] > 252);
                 Util.Shuffle(evs);
@@ -55,7 +55,7 @@ namespace PKHeX.Core
             {
                 var evs = new int[6];
                 for (int i = 0; i < evs.Length; i++)
-                    evs[i] = Util.Rand.Next(ushort.MaxValue + 1);
+                    evs[i] = rnd.Next(ushort.MaxValue + 1);
                 return evs;
             }
         }
@@ -107,6 +107,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a random PID according to specifications.
         /// </summary>
+        /// <param name="rnd">RNG to use</param>
         /// <param name="species">National Dex ID</param>
         /// <param name="cg">Current Gender</param>
         /// <param name="origin">Origin Generation</param>
@@ -115,17 +116,17 @@ namespace PKHeX.Core
         /// <param name="OLDPID">Current PID</param>
         /// <remarks>Used to retain ability bits.</remarks>
         /// <returns>Rerolled PID.</returns>
-        public static uint GetRandomPID(int species, int cg, int origin, int nature, int form, uint OLDPID)
+        public static uint GetRandomPID(Random rnd, int species, int cg, int origin, int nature, int form, uint OLDPID)
         {
             uint bits = OLDPID & 0x00010001;
             int gt = Personal[species].Gender;
             if (origin >= 24)
-                return Util.Rand32();
+                return Util.Rand32(rnd);
 
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
             while (true) // Loop until we find a suitable PID
             {
-                uint pid = Util.Rand32();
+                uint pid = Util.Rand32(rnd);
 
                 // Gen 3/4: Nature derived from PID
                 if (origin <= 15 && pid%25 != nature)

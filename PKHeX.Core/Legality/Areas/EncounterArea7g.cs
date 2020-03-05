@@ -13,7 +13,7 @@ namespace PKHeX.Core
             int species = pkm.Species;
             int form = pkm.AltForm;
 
-            if (Legal.AlolanVariantEvolutions12.Contains(species)) // match form if same species, else form 0.
+            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
             {
                 foreach (var slot in slots)
                 {

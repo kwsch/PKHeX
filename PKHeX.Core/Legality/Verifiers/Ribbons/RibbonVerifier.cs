@@ -170,7 +170,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon7 s7)
             {
-                bool inhabited7 = gen <= 7;
+                bool inhabited7 = gen <= 7 && !pkm.GG;
                 var iterate = inhabited7 ? GetInvalidRibbons7Any(pkm, s7) : GetInvalidRibbonsNone(s7.RibbonBits(), s7.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
@@ -247,12 +247,16 @@ namespace PKHeX.Core
                 yield return new RibbonResult(nameof(s6.RibbonContestStar), s6.RibbonContestStar);
 
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
-            var affect = pkm.OT_Affection;
-            var contMemory = s6.RibbonNamesContest();
-            int contCount = 0;
-            var present = contMemory.Where((_, i) => contest[i] && affect < 20 * ++contCount);
-            foreach (var rib in present)
-                yield return new RibbonResult(rib);
+            // Affection is discarded on PK7->PK8 in favor of friendship, which can be lowered.
+            if (pkm.Format <= 7)
+            {
+                var affect = pkm.OT_Affection;
+                var contMemory = s6.RibbonNamesContest();
+                int contCount = 0;
+                var present = contMemory.Where((_, i) => contest[i] && affect < 20 * ++contCount);
+                foreach (var rib in present)
+                    yield return new RibbonResult(rib);
+            }
 
             const int mem_Chatelaine = 30;
             bool hasChampMemory = pkm.HT_Memory == mem_Chatelaine || pkm.OT_Memory == mem_Chatelaine;

@@ -20,7 +20,7 @@ namespace PKHeX.Core
             return GetEggMoves(gen, species, formnum, version);
         }
 
-        private static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        internal static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
         {
             switch (gen)
             {
@@ -104,6 +104,23 @@ namespace PKHeX.Core
             return Array.Empty<int>();
 
             int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
+        }
+
+        public static bool GetIsSharedEggMove(PKM pkm, int gen, int move)
+        {
+            if (gen < 8 || pkm.IsEgg)
+                return false;
+            var table = PersonalTable.SWSH;
+            var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
+            var baseSpecies = entry.BaseSpecies;
+            var baseForm = entry.FormIndex;
+
+            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
+            if (pkm.Species == (int)Species.Indeedee)
+                baseForm = pkm.AltForm;
+
+            var egg = GetEggMoves(8, baseSpecies, baseForm, GameVersion.SW);
+            return Array.Exists(egg, z => z == move);
         }
     }
 }

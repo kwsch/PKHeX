@@ -1,9 +1,12 @@
-0x800	Received Starter Pokemon
-0x801	Received Pokedex
-0x802	Received PokeNav
-0x804	Entered Hall of Fame
-0x805	Used Easy Chat
-0x806	Met The Hipster
+0x089	Received HM01 Cut
+0x06E	Received HM02 Fly
+0x07A	Received HM03 Surf
+0x06A	Received HM04 Strength
+0x06D	Received HM05 Flash
+0x06B	Received HM06 Rock Smash
+0x423	Received HM07 Waterfall
+0x07B	Received HM08 Dive
+0x05A	Received Mach Bike/Acro Bike
 
 0x807	Received Stone Badge
 0x808	Received Knuckle Badge
@@ -14,13 +17,39 @@
 0x80D	Received Mind Badge
 0x80E	Received Rain Badge
 
+0x099	Traded in Rustboro City
+0x09A	Traded in Pacifidlog Town
+0x09B	Traded in Fortree City
+
+0x097	Received Castform
+0x10A	Received Wynaut Egg
+0x12A	Received Beldum
+
+0x853	Received Eon Ticket
+
+0x0FF	Lati@s Roaming
+
+0x71	Captured/Defeated Groudon/Kyogre
+0xCE	Captured/Defeated Lati@s (Southern Island)
+
+0x339	Overworld Hidden (Groudon/Kyogre)
+0x305	Overworld Hidden (Rayquaza)
+0x3A7	Overworld Hidden (Regirock)
+0x3A8	Overworld Hidden (Regice)
+0x3A9	Overworld Hidden (Registeel)
+
+0x800	Received Starter Pokemon
+0x801	Received Pokedex
+0x802	Received PokeNav
+0x804	Entered Hall of Fame
+0x805	Used Easy Chat
+0x806	Met The Hipster
 0x830	Watched TV at Home
 0x834	Mixed Records
 0x835	Set Clock
 0x836	Received National Dex
 0x83A	Shoal Cave Tide
 0x83B	Received a Ribbon
-
 0x84B	Unlocked Lanette's PC
 0x84C	Mystery Event Enabled
 0x84D	Used White Flute
@@ -29,8 +58,6 @@
 0x850	Completed Regirock Puzzle
 0x851	Completed Regice Puzzle
 0x852	Completed Registeel Puzzle
-
 0x85F	Can Receive Shell Bell
 0x860	Received Running Shoes
-0x861	SYS_CTRL_OBJ_DELETE
 0x862	Reset RTC Enabled

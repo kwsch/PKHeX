@@ -106,7 +106,7 @@ namespace PKHeX.Core
 
         public override int GetBoxWallpaper(int box)
         {
-            int offset = GetBoxWallpaperOffset(BoxCount);
+            int offset = GetBoxWallpaperOffset(box);
             int value = Storage[offset];
             return AdjustWallpaper(value, -0x10);
         }
@@ -228,6 +228,6 @@ namespace PKHeX.Core
             }
         }
 
-        public void PokewalkerCoursesUnlockAll() => SetData(BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
+        public void PokewalkerCoursesUnlockAll() => SetData(General, BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
     }
 }

@@ -308,13 +308,6 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
-
-            if (IsTradeEvoRequired7b(data.EncounterOriginal, pb7))
-            {
-                var unevolved = LegalityAnalysis.SpeciesStrings[pb7.Species];
-                var evolved = LegalityAnalysis.SpeciesStrings[pb7.Species + 1];
-                data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved), Evolution));
-            }
         }
 
         private static bool IsCloseEnough(float a, float b)
@@ -324,24 +317,6 @@ namespace PKHeX.Core
             return Math.Abs(ia - ib) <= 7;
         }
 
-        private static bool IsTradeEvoRequired7b(IEncounterable enc, PKM pb7)
-        {
-            // There's no everstone! All Trade evolutions must evolve.
-            // Anything with current level == met level, having a HT, and being a trade-evolvable species must be evolved.
-            // Kadabra → Alakazam
-            // Machoke → Machamp
-            // Graveler → Golem
-            // Haunter → Gengar
-            if (pb7.Species != enc.Species)
-                return false;
-            if (!tradeEvo7b.Contains(enc.Species))
-                return false;
-            if (pb7.Met_Level != pb7.CurrentLevel)
-                return false;
-            return !pb7.IsUntraded;
-        }
-
-        private static readonly int[] tradeEvo7b = { 064, 067, 075, 093 };
         private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.AltForm == 8) || (pb7.Species == (int)Species.Eevee && pb7.AltForm == 1);
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)

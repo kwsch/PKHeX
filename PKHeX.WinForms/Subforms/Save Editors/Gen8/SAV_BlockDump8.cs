@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -13,10 +12,9 @@ namespace PKHeX.WinForms
     public partial class SAV_BlockDump8 : Form
     {
         private readonly SAV8SWSH SAV;
-        private SCBlock CurrentBlock;
+        private readonly SCBlockMetadata Metadata;
 
-        private readonly Dictionary<SaveBlock, string> BlockList;
-        private readonly Dictionary<uint, string> ValueList;
+        private SCBlock CurrentBlock;
 
         public SAV_BlockDump8(SaveFile sav)
         {
@@ -26,18 +24,10 @@ namespace PKHeX.WinForms
 
             PG_BlockView.Size = RTB_Hex.Size;
 
-            var accessor = SAV.Blocks;
-            var aType = accessor.GetType();
-            BlockList = aType.GetAllPropertiesOfType<SaveBlock>(SAV.Blocks);
-            ValueList = aType.GetAllConstantsOfType<uint>();
-
-            var blocks = SAV.AllBlocks
-                .Select((z, i) => new ComboItem(GetBlockHint(z, i), (int)z.Key))
-                .OrderBy(z => !z.Text.StartsWith("*"))
-                .ThenBy(z => z.Text);
+            Metadata = new SCBlockMetadata(SAV.Blocks);
 
             CB_Key.InitializeBinding();
-            CB_Key.DataSource = blocks.ToArray();
+            CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
 
             var boolToggle = new[]
             {
@@ -47,15 +37,8 @@ namespace PKHeX.WinForms
             };
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
-        }
 
-        private string GetBlockHint(SCBlock z, int i)
-        {
-            var blockName = GetBlockName(z, out _);
-            var type = (z.Type.IsBoolean() ? "Bool" : z.Type.ToString());
-            if (blockName != null)
-                return $"*{type} {blockName}";
-            return $"{z.Key:X8} - {i:0000} {type}";
+            CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
@@ -80,7 +63,7 @@ namespace PKHeX.WinForms
             L_Detail_R.Text = GetBlockSummary(block);
             RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
 
-            string blockName = GetBlockName(block, out SaveBlock obj);
+            string blockName = Metadata.GetBlockName(block, out SaveBlock obj);
             if (blockName != null)
             {
                 L_BlockName.Visible = true;
@@ -105,7 +88,7 @@ namespace PKHeX.WinForms
                     }
                 }
 
-                var o = WrapUtil.GetWrapped(block);
+                var o = SCBlockMetadata.GetEditableBlockObject(block);
                 if (o != null)
                 {
                     PG_BlockView.Visible = true;
@@ -114,26 +97,6 @@ namespace PKHeX.WinForms
                 }
             }
             PG_BlockView.Visible = false;
-        }
-
-        private string GetBlockName(SCBlock block, out SaveBlock saveBlock)
-        {
-            // See if we have a Block object for this block
-            var obj = BlockList.FirstOrDefault(z => ReferenceEquals(z.Key.Data, block.Data));
-            if (obj.Key != null)
-            {
-                saveBlock = obj.Key;
-                return obj.Value;
-            }
-
-            // See if it's a single-value declaration
-            if (ValueList.TryGetValue(block.Key, out var blockName))
-            {
-                saveBlock = null;
-                return blockName;
-            }
-            saveBlock = null;
-            return null;
         }
 
         private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)
@@ -258,52 +221,6 @@ namespace PKHeX.WinForms
 
             var bytes = File.ReadAllBytes(path);
             bytes.CopyTo(data, 0);
-        }
-
-        private class WrappedValueView<T>
-        {
-            private readonly SCBlock Parent;
-            private T _value;
-
-            [Description("Stored Value for this Block")]
-            public T Value
-            {
-                get => _value;
-                set => Parent.SetValue(_value = value);
-            }
-
-            [Description("Type of Value this Block stores")]
-            public string ValueType => typeof(T).Name;
-
-            public WrappedValueView(SCBlock block, object currentValue)
-            {
-                Parent = block;
-                _value = (T)Convert.ChangeType(currentValue, typeof(T));
-            }
-        }
-
-        private static class WrapUtil
-        {
-            public static object GetWrapped(SCBlock block)
-            {
-                return block.Type switch
-                {
-                    SCTypeCode.Byte => new WrappedValueView<byte>(block, block.GetValue()),
-                    SCTypeCode.UInt16 => new WrappedValueView<ushort>(block, block.GetValue()),
-                    SCTypeCode.UInt32 => new WrappedValueView<uint>(block, block.GetValue()),
-                    SCTypeCode.UInt64 => new WrappedValueView<ulong>(block, block.GetValue()),
-
-                    SCTypeCode.SByte => new WrappedValueView<sbyte>(block, block.GetValue()),
-                    SCTypeCode.Int16 => new WrappedValueView<short>(block, block.GetValue()),
-                    SCTypeCode.Int32 => new WrappedValueView<int>(block, block.GetValue()),
-                    SCTypeCode.Int64 => new WrappedValueView<long>(block, block.GetValue()),
-
-                    SCTypeCode.Single => new WrappedValueView<float>(block, block.GetValue()),
-                    SCTypeCode.Double => new WrappedValueView<double>(block, block.GetValue()),
-
-                    _ => null,
-                };
-            }
         }
 
         private void PG_BlockView_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)

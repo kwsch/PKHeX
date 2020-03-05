@@ -183,9 +183,10 @@ namespace PKHeX.Core
         public static int GetRandomFeeling(int memory, int max = 24)
         {
             var bits = MemoryFeelings[memory];
+            var rnd = Util.Rand;
             while (true)
             {
-                int feel = Util.Rand.Next(max);
+                int feel = rnd.Next(max);
                 if ((bits & (1 << feel)) != 0)
                     return feel;
             }

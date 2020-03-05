@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
             Origin.CopyChangesFrom(SAV);
             Close();
         }
-        
+
         private ComboBox[] cbr;
         private int ofsFly;
         private int[] FlyDestC;
@@ -660,7 +660,7 @@ namespace PKHeX.WinForms
 
         private void SetSprite(EntreeSlot slot)
         {
-            PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, false, false);
+            PB_SlotPreview.Image = SpriteUtil.GetSprite(slot.Species, slot.Form, slot.Gender, 0, 0, false, false);
         }
 
         private void SetGenders(EntreeSlot slot)
@@ -672,14 +672,15 @@ namespace PKHeX.WinForms
         private void B_RandForest_Click(object sender, EventArgs e)
         {
             var source = (SAV is SAV5B2W2 ? Encounters5.B2W2_DreamWorld : Encounters5.BW_DreamWorld).ToList();
+            var rnd = Util.Rand;
             foreach (var s in AllSlots)
             {
-                int index = Util.Rand.Next(source.Count);
+                int index = rnd.Next(source.Count);
                 var slot = source[index];
                 source.Remove(slot);
                 s.Species = slot.Species;
                 s.Form = slot.Form;
-                s.Move = slot.Moves[Util.Rand.Next(slot.Moves.Count)];
+                s.Move = slot.Moves.Count > 0 ? slot.Moves[rnd.Next(slot.Moves.Count)] : 0;
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
             }
             ChangeArea(null, EventArgs.Empty); // refresh
@@ -721,10 +722,9 @@ namespace PKHeX.WinForms
         private void ReadSubway()
         {
             sw = SAV.BattleSubway;
-            int swSuperCheck;
 
             // Figure out the Super Checks
-            swSuperCheck = sw.SuperCheck;
+            var swSuperCheck = sw.SuperCheck;
             if (swSuperCheck == 0x00)
             {
                 CHK_SuperSingle.Checked = CHK_SuperDouble.Checked = CHK_SuperMulti.Checked = false;
@@ -782,7 +782,6 @@ namespace PKHeX.WinForms
             // Multi Friends
             NUD_SMultiFriendsPast.Value = sw.SuperMultiFriendsPast;
             NUD_SMultiFriendsRecord.Value = sw.SuperMultiFriendsRecord;
-
         }
 
         private void SaveSubway()
@@ -823,8 +822,6 @@ namespace PKHeX.WinForms
             // Multi Friends
             sw.SuperMultiFriendsPast = (int)NUD_SMultiFriendsPast.Value;
             sw.SuperMultiFriendsRecord = (int)NUD_SMultiFriendsRecord.Value;
-
         }
-
     }
 }

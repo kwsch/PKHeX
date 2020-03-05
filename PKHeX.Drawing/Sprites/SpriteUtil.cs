@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Linq;
 using PKHeX.Core;
 using PKHeX.Drawing.Properties;
 
@@ -16,9 +17,9 @@ namespace PKHeX.Drawing
             return (Bitmap?)Resources.ResourceManager.GetObject(resource) ?? Resources._ball4; // Poké Ball (default)
         }
 
-        public static Image GetSprite(int species, int form, int gender, int item, bool isegg, bool shiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
+        public static Image GetSprite(int species, int form, int gender, uint formarg, int item, bool isegg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
-            return Spriter.GetSprite(species, form, gender, item, isegg, shiny, generation, isBoxBGRed, isAltShiny);
+            return Spriter.GetSprite(species, form, gender, formarg, item, isegg, isShiny, generation, isBoxBGRed, isAltShiny);
         }
 
         public static Image? GetRibbonSprite(string name)
@@ -77,7 +78,7 @@ namespace PKHeX.Drawing
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
                 return Resources._490_e;
             if (gift.IsPokémon)
-                return GetSprite(gift.Species, gift.Form, gift.Gender, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
+                return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
             if (gift.IsItem)
             {
                 int item = gift.ItemID;
@@ -90,7 +91,8 @@ namespace PKHeX.Drawing
 
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && pk.ShinyXor == 0);
+            var formarg = pk is IFormArgument f ? f.FormArgument : 0;
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter));
             if (pk is IShadowPKM s && s.Purification > 0)
             {
                 const int Lugia = 249;
@@ -138,15 +140,17 @@ namespace PKHeX.Drawing
                 var la = new LegalityAnalysis(pk, sav.Personal);
                 if (!la.Valid)
                     sprite = ImageUtil.LayerImage(sprite, Resources.warn, 0, FlagIllegalShiftY);
+                else if (pk.Format >= 8 && pk.Moves.Any(Legal.DummiedMoves_SWSH.Contains))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.hint, 0, FlagIllegalShiftY);
             }
             if (inBox) // in box
             {
                 var flags = sav.GetSlotFlags(box, slot);
-                if (flags.HasFlagFast(StorageSlotFlag.Locked))
-                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
                 int team = flags.IsBattleTeam();
                 if (team >= 0)
                     sprite = ImageUtil.LayerImage(sprite, Resources.team, SlotTeamShiftX, 0);
+                if (flags.HasFlagFast(StorageSlotFlag.Locked))
+                    sprite = ImageUtil.LayerImage(sprite, Resources.locked, SlotLockShiftX, 0);
                 int party = flags.IsParty();
                 if (party >= 0)
                     sprite = ImageUtil.LayerImage(sprite, PartyMarks[party], PartyMarkShiftX, 0);
@@ -178,7 +182,8 @@ namespace PKHeX.Drawing
         public static void GetSpriteGlow(PKM pk, byte blue, byte green, byte red, out byte[] pixels, out Image baseSprite, bool forceHollow = false)
         {
             bool egg = pk.IsEgg;
-            baseSprite = GetSprite(pk.Species, pk.AltForm, pk.Gender, 0, egg, false, pk.Format);
+            var formarg = pk is IFormArgument f ? f.FormArgument : 0;
+            baseSprite = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, 0, egg, false, pk.Format);
             GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
         }
 
@@ -211,7 +216,13 @@ namespace PKHeX.Drawing
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
 
-        public static void Initialize(SaveFile sav) => Initialize(GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8);
-        public static void Initialize(bool big) => Spriter = big ? (SpriteBuilder)SB8 : SB17;
+        public static void Initialize(SaveFile sav)
+        {
+            var big = GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8;
+            Spriter = big ? (SpriteBuilder)SB8 : SB17;
+
+            // gen3 specific sprites
+            Spriter.Initialize(sav);
+        }
     }
 }

@@ -104,7 +104,7 @@ namespace PKHeX.Core
 
             if (RibbonWishing && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
-            if (this is EncounterStaticN n)
+            if (this is EncounterStatic5N n)
                 n.SetNPokemonData((PK5)pk, lang);
             if (pk is IContestStats s)
                 this.CopyContestStatsTo(s);
@@ -297,6 +297,11 @@ namespace PKHeX.Core
         {
             if (SkipFormCheck)
                 return true;
+            if (FormConverter.IsTotemForm(Species, Form, Generation))
+            {
+                var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
+                return expectForm == pkm.AltForm;
+            }
             if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
                 return false;
             return true;

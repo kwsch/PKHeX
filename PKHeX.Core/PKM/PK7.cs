@@ -561,12 +561,11 @@ namespace PKHeX.Core
                 OT_Gender = OT_Gender,
                 HyperTrainFlags = HyperTrainFlags,
 
-                // todo: locale?
-                Country = Country,
-                Region = Region,
-                ConsoleRegion = ConsoleRegion,
+                // Locale does not transfer. All Zero
+                // Country = Country,
+                // Region = Region,
+                // ConsoleRegion = ConsoleRegion,
 
-                // todo: memories
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
@@ -631,10 +630,22 @@ namespace PKHeX.Core
                 RibbonBattleRoyale = RibbonBattleRoyale,
                 RibbonBattleTreeGreat = RibbonBattleTreeGreat,
                 RibbonBattleTreeMaster = RibbonBattleTreeMaster,
+
+                OT_Friendship = OT_Friendship,
+
+                // No Ribbons or Markings on transfer.
+
+                StatNature = Nature,
+                // HeightScalar = 0,
+                // WeightScalar = 0,
             };
 
-            // Fix PP
-            pk8.HealPP();
+            // Wipe Totem Forms
+            if (FormConverter.IsTotemForm(Species, AltForm, 7))
+                pk8.AltForm = FormConverter.GetTotemBaseForm(Species, AltForm);
+
+            // Fix PP and Stats
+            pk8.Heal();
 
             // Fix Checksum
             pk8.RefreshChecksum();

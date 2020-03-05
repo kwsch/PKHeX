@@ -29,8 +29,6 @@ namespace PKHeX.Core
             232, 233, 234,
         };
 
-        internal static readonly int[] Met_HGSS_Hatch = Met_HGSS_0.Skip(1).ToArray(); // except 0
-
         internal static readonly int[] Met_HGSS_2 =
         {
             2000, 2001, 2002, 2003, 2004, 2005, 2006, 2008, 2009, 2010, 2011,
@@ -79,7 +77,7 @@ namespace PKHeX.Core
             55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67
         };
 
-        internal static readonly ushort[] HeldItems_DP = new ushort[1].Concat(Pouch_Items_DP).Concat(Pouch_Mail_DP).Concat(Pouch_Medicine_DP).Concat(Pouch_Berries_DP).Concat(Pouch_Ball_DP).Concat(Pouch_TMHM_DP.Take(Pouch_TMHM_DP.Length - 8)).ToArray();
+        internal static readonly ushort[] HeldItems_DP = ArrayUtil.ConcatAll(Pouch_Items_DP, Pouch_Mail_DP, Pouch_Medicine_DP, Pouch_Berries_DP, Pouch_Ball_DP, Pouch_TMHM_DP.Take(Pouch_TMHM_DP.Length - 8).ToArray());
         #endregion
 
         #region Pt
@@ -98,7 +96,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Ball_Pt = Pouch_Ball_DP;
         internal static readonly ushort[] Pouch_Battle_Pt = Pouch_Battle_DP;
 
-        internal static readonly ushort[] HeldItems_Pt = new ushort[1].Concat(Pouch_Items_Pt).Concat(Pouch_Mail_Pt).Concat(Pouch_Medicine_Pt).Concat(Pouch_Berries_Pt).Concat(Pouch_Ball_Pt).Concat(Pouch_TMHM_Pt.Take(Pouch_TMHM_Pt.Length - 8)).ToArray();
+        internal static readonly ushort[] HeldItems_Pt = ArrayUtil.ConcatAll(Pouch_Items_Pt, Pouch_Mail_Pt, Pouch_Medicine_Pt, Pouch_Berries_Pt, Pouch_Ball_Pt, Pouch_TMHM_Pt.Take(Pouch_TMHM_Pt.Length - 8).ToArray());
         #endregion
 
         #region HGSS
@@ -119,7 +117,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Battle_HGSS = Pouch_Battle_DP;
 
-        internal static readonly ushort[] HeldItems_HGSS = new ushort[1].Concat(Pouch_Items_HGSS).Concat(Pouch_Mail_HGSS).Concat(Pouch_Medicine_HGSS).Concat(Pouch_Berries_HGSS).Concat(Pouch_Ball_Pt).Concat(Pouch_TMHM_HGSS.Take(Pouch_TMHM_HGSS.Length - 8)).ToArray();
+        internal static readonly ushort[] HeldItems_HGSS = ArrayUtil.ConcatAll(Pouch_Items_HGSS, Pouch_Mail_HGSS, Pouch_Medicine_HGSS, Pouch_Berries_HGSS, Pouch_Ball_Pt, Pouch_TMHM_HGSS.Take(Pouch_TMHM_HGSS.Length - 8).ToArray());
         #endregion
 
         internal static readonly int[] TM_4 =
@@ -248,6 +246,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> ValidMet_HGSS = new HashSet<int>
         {
+            080, 112, 113, 114, 115, 116,
             126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140,
             141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160,
             161, 162, 163, 164, 165, 166, 167, 168, 169, 170,      172, 173, 174, 175, 176, 177, 178, 179, 180, //171: Route 23 no longer exists
@@ -255,6 +254,8 @@ namespace PKHeX.Core
             201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220,
             221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,      234,                               //233: Pokéwalker
         };
+
+        internal static readonly HashSet<int> ValidMet_4 = new HashSet<int>(ValidMet_Pt.Concat(ValidMet_HGSS));
 
         internal static readonly HashSet<int> GiftEggLocation4 = new HashSet<int>
         {

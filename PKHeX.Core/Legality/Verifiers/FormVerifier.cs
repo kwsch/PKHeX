@@ -48,7 +48,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is EncounterEgg)
             {
-                if (FormConverter.IsTotemForm(species, form))
+                if (FormConverter.IsTotemForm(species, form, data.Info.Generation))
                     return GetInvalid(LFormInvalidGame);
             }
 
@@ -60,12 +60,13 @@ namespace PKHeX.Core
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
-                case (int)Species.Pikachu when Info.Generation == 7: // Cap
+                case (int)Species.Pikachu when Info.Generation >= 7: // Cap
                     bool IsValidPikachuCap()
                     {
                         return EncounterMatch switch
                         {
                             WC7 wc7 => (wc7.Form == form),
+                            WC8 wc => (wc.Form == form),
                             EncounterStatic s => (s.Form == form),
                             _ => (form == 0)
                         };
@@ -73,7 +74,7 @@ namespace PKHeX.Core
 
                     if (!IsValidPikachuCap())
                     {
-                        bool gift = EncounterMatch is WC7 g && g.Form != form;
+                        bool gift = EncounterMatch is MysteryGift g && g.Form != form;
                         var msg = gift ? LFormPikachuEventInvalid : LFormInvalidGame;
                         return GetInvalid(msg);
                     }
@@ -90,7 +91,9 @@ namespace PKHeX.Core
                     }
                 case (int)Species.Keldeo:
                 {
-                    if (Info.Generation == 5) // can mismatch in gen5 via BW tutor and transfer up
+                     // can mismatch in gen5 via BW tutor and transfer up
+                     // can mismatch in gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
+                    if (Info.Generation == 5 || pkm.Format >= 8)
                         break;
                     int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                     bool noSword = index < 0;
@@ -145,6 +148,15 @@ namespace PKHeX.Core
                 case (int)Species.Lycanroc when Info.EncounterMatch.EggEncounter && form == 2 && pkm.SM:
                     return GetInvalid(LFormInvalidGame);
 
+                // Toxel encounters have already been checked for the nature-specific evolution criteria.
+                case (int)Species.Toxtricity when Info.EncounterMatch.Species == (int)Species.Toxtricity:
+                    {
+                        // The game enforces the Nature for Toxtricity encounters too!
+                        if (pkm.AltForm != EvolutionMethod.GetAmpLowKeyResult(pkm.Nature))
+                            return GetInvalid(LFormInvalidNature);
+                        break;
+                    }
+
                 // Impossible Egg forms
                 case (int)Species.Rotom when pkm.IsEgg && form != 0:
                 case (int)Species.Furfrou when pkm.IsEgg && form != 0:
@@ -180,8 +192,22 @@ namespace PKHeX.Core
             }
             if (format >= 8 && Info.Generation < 8)
             {
-                if (species == 25 || Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(data.EncounterOriginal.Species))
-                    return GetInvalid(LFormInvalidGame);
+                var orig = data.EncounterOriginal.Species;
+                if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(orig))
+                {
+                    if (species == (int)Species.Meowth && data.EncounterOriginal.Form != 2)
+                    {
+                        // We're okay here. There's also Alolan Meowth...
+                    }
+                    else if ((orig == (int) Species.MrMime || orig == (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterOriginal.LevelMin && Info.Generation >= 4)
+                    {
+                        // We're okay with a Mime Jr. that has evolved via level up.
+                    }
+                    else
+                    {
+                        return GetInvalid(LFormInvalidGame);
+                    }
+                }
             }
 
             if (BattleOnly.Contains(species))
@@ -199,7 +225,7 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private static int GetArceusFormFromHeldItem(int item, int format)
+        public static int GetArceusFormFromHeldItem(int item, int format)
         {
             if (777 <= item && item <= 793)
                 return Array.IndexOf(Legal.Arceus_ZCrystal, (ushort)item) + 1;
@@ -212,14 +238,14 @@ namespace PKHeX.Core
             return form;
         }
 
-        private static int GetSilvallyFormFromHeldItem(int item)
+        public static int GetSilvallyFormFromHeldItem(int item)
         {
             if ((904 <= item && item <= 920) || item == 644)
                 return item - 903;
             return 0;
         }
 
-        private static int GetGenesectFormFromHeldItem(int item)
+        public static int GetGenesectFormFromHeldItem(int item)
         {
             if (116 <= item && item <= 119)
                 return item - 115;
@@ -298,12 +324,7 @@ namespace PKHeX.Core
                         {
                             if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
-                            break;
                         }
-
-                        var hp_max = GetYamask1MaxHP(pkm);
-                        if (arg > hp_max)
-                            return GetInvalid(LFormArgumentHigh);
                         break;
                     }
                 case (int)Species.Runerigus:
@@ -317,9 +338,6 @@ namespace PKHeX.Core
                         {
                             if (arg < 49)
                                 return GetInvalid(LFormArgumentLow);
-                            var hp_max = GetYamask1MaxHP(pkm);
-                            if (arg > hp_max)
-                                return GetInvalid(LFormArgumentHigh);
                         }
                         break;
                     }
@@ -341,17 +359,6 @@ namespace PKHeX.Core
             }
 
             return GetValid(LFormArgumentValid);
-        }
-
-        private static int GetYamask1MaxHP(PKM pkm)
-        {
-            var lvl = pkm.CurrentLevel; // assume it was evolved at the current level (no further level ups)
-            var iv_hp = pkm is IHyperTrain ht && ht.HT_HP ? 31 : pkm.IV_HP;
-            const int base_hp = 38;
-            const int ev_hp = 252; // account for full EVs then removed
-
-            // Manually calculate the stat of Galarian Yamask under the most favorable conditions
-            return ((iv_hp + (2 * base_hp) + (ev_hp / 4) + 100) * lvl / 100) + 10;
         }
     }
 }

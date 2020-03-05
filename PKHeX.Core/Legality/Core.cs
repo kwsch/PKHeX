@@ -453,7 +453,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (pkm.Format >= 7 && AlolanVariantEvolutions12.Contains(pkm.Species))
+            if (pkm.Format >= 7 && (AlolanVariantEvolutions12.Contains(pkm.Species) || GalarVariantFormEvolutions.Contains(pkm.Species)))
                 return pkm.AltForm == 1;
             if (pkm.Format >= 8)
             {
@@ -575,23 +575,6 @@ namespace PKHeX.Core
             if (MixedGenderBreeding.Contains(species))
                 return true;
             return false;
-        }
-
-        public static int GetLowestLevel(PKM pkm, int startLevel)
-        {
-            if (startLevel == -1)
-                startLevel = 100;
-
-            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
-            int count = 1;
-            for (int i = 100; i >= startLevel; i--)
-            {
-                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
-                if (evos.Count < count) // lost an evolution, prior level was minimum current level
-                    return evos.Max(evo => evo.Level) + 1;
-                count = evos.Count;
-            }
-            return startLevel;
         }
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
@@ -809,7 +792,7 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm) => pkm.InhabitedGeneration(5);
         internal static bool HasVisitedORAS(this PKM pkm) => pkm.InhabitedGeneration(6) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm) => pkm.InhabitedGeneration(7) && (pkm.USUM || !pkm.IsUntraded);
-        internal static bool IsMovesetRestricted(this PKM pkm) => (pkm.GG && pkm.Format == 7) || pkm.IsUntraded;
+        internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (pkm.GG && gen == 7) || pkm.IsUntraded;
 
         public static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
         {
@@ -828,18 +811,25 @@ namespace PKHeX.Core
         public static string GetG1OT_GFMew(int lang) => lang == (int)LanguageID.Japanese ? "ゲーフリ" : "GF";
         public static string GetG5OT_NSparkle(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
 
+        public const string Stadium1JP = "スタジアム";
+
         public static string GetGBStadiumOTName(bool jp, GameVersion s)
         {
             if (jp)
-                return "スタジアム";
+                return Stadium1JP;
             return s == GameVersion.Stadium2 ? "Stadium" : "STADIUM";
         }
 
         public static int GetGBStadiumOTID(bool jp, GameVersion s)
         {
             if (jp)
-                return s == GameVersion.Stadium2 ? 2000 : 1999;
+                return GetGBStadiumOTID_JPN(s);
             return 2000;
+        }
+
+        public static int GetGBStadiumOTID_JPN(GameVersion s)
+        {
+            return s == GameVersion.Stadium2 ? 2000 : 1999;
         }
 
         public static int GetMaxLengthOT(int gen, LanguageID lang)

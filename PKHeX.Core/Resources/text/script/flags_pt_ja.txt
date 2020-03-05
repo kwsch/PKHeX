@@ -1,4 +1,4 @@
-0481	ユクシー (戦闘済み)
+﻿0481	ユクシー (戦闘済み)
 0479	エムリット: シンジこのくうどう (戦闘済み)
 0480	アグノム (戦闘済み)
 0208	ディアルガ (捕獲済み)
@@ -30,3 +30,16 @@
 2410	かわいさコンテストマスター
 2411	かしこさコンテストマスター
 2412	たくましさコンテストマスター
+0329	Rotom Caught
+0635	Encountered Ghost Butler in Old Chateau
+0636	Encountered Ghost Girl in Old Chateau
+0897	Found Honey (hidden) in Old Chateau
+1036	Found Old Gateau in Old Chateau
+1261	Found Dread Plate in Old Chateau
+1262	Found TM90 in Old Chateau
+1281	Found Rare Candy in Old Chateau
+1282	Found Big Pearl in Old Chateau
+1337	Found Metal Coat in Iron Ruins
+1338	Found Never-Melt Ice in Iceberg Ruins
+1339	Found Hard Stone in Rock Peak Ruins
+2736	Rotom disappeared in Old Chateau TV

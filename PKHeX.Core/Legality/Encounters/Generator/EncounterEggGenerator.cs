@@ -34,7 +34,7 @@ namespace PKHeX.Core
             int max = GetMaxSpeciesOrigin(gen);
 
             var e = GetBaseSpecies(vs, 0);
-            if (e.Species <= max)
+            if (e.Species <= max && !NoHatchFromEggFormGen(e.Species, e.Form, ver))
             {
                 yield return new EncounterEgg(e.Species, e.Form, lvl) { Version = ver };
                 if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
@@ -45,7 +45,7 @@ namespace PKHeX.Core
                 yield break; // no other possible species
 
             var o = GetBaseSpecies(vs, 1);
-            if (o.Species <= max)
+            if (o.Species <= max && !NoHatchFromEggFormGen(o.Species, o.Form, ver))
             {
                 yield return new EncounterEggSplit(o.Species, o.Form, lvl, e.Species) { Version = ver };
                 if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
@@ -64,6 +64,14 @@ namespace PKHeX.Core
             if (species == (int) Species.Sinistea || species == (int) Species.Polteageist) // Antique = impossible
                 return true; // can't get Antique eggs
             return false;
+        }
+
+        private static bool NoHatchFromEggFormGen(int species, int form, GameVersion game)
+        {
+            // Sanity check form for origin
+            var gameInfo = GameData.GetPersonal(game);
+            var entry = gameInfo.GetFormeEntry(species, form);
+            return form >= entry.FormeCount;
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A

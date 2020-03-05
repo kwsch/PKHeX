@@ -7,17 +7,50 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EvolutionMethod
     {
-        public int Method;
-        public int Species;
-        public int Argument;
-        public int Form = AnyForm;
-        public int Level;
+        /// <summary>
+        /// Evolution Method
+        /// </summary>
+        public readonly int Method;
 
-        public const int AnyForm = -1;
+        /// <summary>
+        /// Evolve to Species
+        /// </summary>
+        public readonly int Species;
+
+        /// <summary>
+        /// Conditional Argument (different from <see cref="Level"/>)
+        /// </summary>
+        public readonly int Argument;
+
+        /// <summary>
+        /// Conditional Argument (different from <see cref="Argument"/>)
+        /// </summary>
+        public readonly int Level;
+
+        /// <summary>
+        /// Destination Form
+        /// </summary>
+        /// <remarks>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</remarks>
+        public readonly int Form;
+
+        private const int AnyForm = -1;
 
         // Not stored in binary data
         public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
+        public EvolutionMethod(int method, int species, int argument = 0, int level = 0, int form = AnyForm)
+        {
+            Method = method;
+            Species = species;
+            Argument = argument;
+            Form = form;
+            Level = level;
+        }
+
+        /// <summary>
+        /// Returns the form that the Pokémon will have after evolution.
+        /// </summary>
+        /// <param name="form">Un-evolved Form ID</param>
         public int GetDestinationForm(int form)
         {
             if (Method == (int)LevelUpFormFemale1)
@@ -55,11 +88,11 @@ namespace PKHeX.Core
                 case TradeSpecies:
                     return !pkm.IsUntraded || skipChecks;
 
+                // Special Level Up Cases -- return false if invalid
                 case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
                 case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
                     return false;
 
-                // Special Level Up Cases -- return false if invalid
                 case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
                     return skipChecks;
                 case LevelUpMale when pkm.Gender != 0:

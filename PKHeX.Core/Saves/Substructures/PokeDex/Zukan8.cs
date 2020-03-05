@@ -264,6 +264,8 @@ namespace PKHeX.Core
             if (index < 0)
                 return;
 
+            bool owned = GetCaught(species);
+
             var g = pkm.Gender == 1 ? 1 : 0;
             bool shiny = pkm.IsShiny;
             var s = shiny ? 2 : 0;
@@ -282,10 +284,12 @@ namespace PKHeX.Core
             SetSeenRegion(species, form, g | s);
             SetCaught(species);
             SetIsLanguageObtained(species, pkm.Language);
-            SetAltFormDisplayed(species, (byte)form);
-
-            if (shiny)
-                SetDisplayShiny(species);
+            if (!owned)
+            {
+                SetAltFormDisplayed(species, (byte)form);
+                if (shiny)
+                    SetDisplayShiny(species);
+            }
 
             var count = GetBattledCount(species);
             if (count == 0)

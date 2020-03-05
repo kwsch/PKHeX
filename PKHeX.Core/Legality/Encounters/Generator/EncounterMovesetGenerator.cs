@@ -137,12 +137,12 @@ namespace PKHeX.Core
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> dl, int generation)
         {
             IEnumerable<int> moves = Legal.GetValidMoves(pk, dl, generation);
-            if (generation >= 8)
+            if (pk.Format >= 8)
             {
                 // Shared Egg Moves via daycare
                 // Any egg move can be obtained
                 var evo = dl[dl.Count - 1];
-                var shared = MoveEgg.GetEggMoves(pk, evo.Species, evo.Form, GameVersion.SW);
+                var shared = MoveEgg.GetEggMoves(8, evo.Species, evo.Form, GameVersion.SW);
                 return moves.Concat(shared);
             }
             if (dl[0].Species == (int)Species.Shedinja)

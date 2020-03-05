@@ -21,7 +21,7 @@ namespace PKHeX.Core
             if (consoleRegion >= 7)
                 return GetInvalid(LGeoHardwareRange);
 
-            if (gen >= 8 || pkm.GG)
+            if (gen >= 8 || pkm.Format >= 8 || pkm.GG)
                 return VerifyNoDataPresent(pkm, consoleRegion);
             return Verify3DSDataPresent(pkm, consoleRegion);
         }

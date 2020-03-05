@@ -47,7 +47,7 @@ namespace PKHeX.Core
         // this is a hack; depends on currently loaded SaveFile's Game ID
         private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Game);
 
-        public static bool IsTotemForm(int species, int form, int generation = 7)
+        public static bool IsTotemForm(int species, int form, int generation)
         {
             if (generation != 7)
                 return false;

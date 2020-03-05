@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
             var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
             // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
-            db = SAV is SAV8SWSH ? db.OfType<PK8>() : db.Where(z => !(z is PK8));
+            db = SAV is SAV8SWSH ? db.Where(z => z is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.AltForm)).IsPresentInGame) : db.Where(z => !(z is PK8));
 
             // Finalize the Database
             return new List<PKM>(db);

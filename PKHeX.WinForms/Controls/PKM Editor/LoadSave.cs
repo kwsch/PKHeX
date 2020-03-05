@@ -400,6 +400,7 @@ namespace PKHeX.WinForms.Controls
             Stats.CB_DynamaxLevel.SelectedIndex = pk8.DynamaxLevel;
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
             CB_HTLanguage.SelectedValue = pk8.HT_Language;
+            TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
         }
 
         private void SaveMisc8(PK8 pk8)

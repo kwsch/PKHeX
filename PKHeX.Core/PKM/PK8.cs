@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
     public sealed class PK8 : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8,
-        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument
+        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack
     {
         private static readonly ushort[] Unused =
         {
@@ -290,7 +290,7 @@ namespace PKHeX.Core
         public bool RibbonMarkJoyful       { get => FlagUtil.GetFlag(Data, 0x41, 6); set => FlagUtil.SetFlag(Data, 0x41, 6, value); }
         public bool RibbonMarkAngry        { get => FlagUtil.GetFlag(Data, 0x41, 7); set => FlagUtil.SetFlag(Data, 0x41, 7, value); }
 
-        public bool RibbonMarkSmiley       { get => FlagUtil.GetFlag(Data, 0x41, 0); set => FlagUtil.SetFlag(Data, 0x41, 0, value); }
+        public bool RibbonMarkSmiley       { get => FlagUtil.GetFlag(Data, 0x42, 0); set => FlagUtil.SetFlag(Data, 0x42, 0, value); }
         public bool RibbonMarkTeary        { get => FlagUtil.GetFlag(Data, 0x42, 1); set => FlagUtil.SetFlag(Data, 0x42, 1, value); }
         public bool RibbonMarkUpbeat       { get => FlagUtil.GetFlag(Data, 0x42, 2); set => FlagUtil.SetFlag(Data, 0x42, 2, value); }
         public bool RibbonMarkPeeved       { get => FlagUtil.GetFlag(Data, 0x42, 3); set => FlagUtil.SetFlag(Data, 0x42, 3, value); }
@@ -558,6 +558,12 @@ namespace PKHeX.Core
             return false;
         }
 
+        public ulong Tracker
+        {
+            get => BitConverter.ToUInt64(Data, 0x135);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0x135);
+        }
+
         public byte GetFromArrayD1(int index)
         {
             if ((uint)index >= 19)
@@ -610,8 +616,8 @@ namespace PKHeX.Core
         {
             if (IsEgg) // No memories if is egg.
             {
-                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
-                /* OT_Friendship */ OT_Affection = OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling =
+                /* OT_Friendship */ OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
 
                 // Clear Handler
                 HT_Name = string.Empty.PadRight(11, '\0');
@@ -619,10 +625,9 @@ namespace PKHeX.Core
             }
 
             if (IsUntraded)
-                HT_Language = HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
             if (GenNumber < 6)
             {
-                /* OT_Affection = */
                 OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
             }
 
@@ -652,8 +657,7 @@ namespace PKHeX.Core
 
             if (HT_Name != tr.OT)
             {
-                HT_Friendship = PersonalInfo.BaseFriendship;
-                HT_Affection = 0;
+                HT_Friendship = 50;
                 HT_Name = tr.OT;
             }
             CurrentHandler = 1;

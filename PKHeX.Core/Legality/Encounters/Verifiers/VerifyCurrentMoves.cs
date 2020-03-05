@@ -346,7 +346,7 @@ namespace PKHeX.Core
                     res[m] = new CheckMoveResult(Tutor, gen, Valid, native ? LMoveSourceTutor : string.Format(LMoveFTutor_0, gen), Move);
                 else if (gen == info.Generation && learnInfo.Source.SpecialSource.Contains(move))
                     res[m] = new CheckMoveResult(Special, gen, Valid, LMoveSourceSpecial, Move);
-                else if (gen >= 8 && GetIsSharedEggMove(pkm, gen, move))
+                else if (gen >= 8 && MoveEgg.GetIsSharedEggMove(pkm, gen, move))
                     res[m] = new CheckMoveResult(Shared, gen, Valid, native ? LMoveSourceShared : string.Format(LMoveSourceSharedF, gen), Move);
 
                 if (gen >= 3 || !IsCheckValid(res[m]))
@@ -367,23 +367,6 @@ namespace PKHeX.Core
                 if (pkm.TradebackStatus == TradebackType.Any && info.Generation != gen)
                     pkm.TradebackStatus = TradebackType.WasTradeback;
             }
-        }
-
-        private static bool GetIsSharedEggMove(PKM pkm, int gen, int move)
-        {
-            if (gen < 8 || pkm.IsEgg)
-                return false;
-            var table = PersonalTable.SWSH;
-            var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
-            var baseSpecies = entry.BaseSpecies;
-            var baseForm = entry.FormIndex;
-
-            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
-            if (pkm.Species == (int) Species.Indeedee)
-                baseForm = pkm.AltForm;
-
-            var egg = MoveEgg.GetEggMoves(pkm, baseSpecies, baseForm, GameVersion.SW);
-            return egg.Contains(move);
         }
 
         private static void ParseMovesByGeneration12(PKM pkm, CheckMoveResult[] res, int[] moves, int gen, LegalInfo info, LearnInfo learnInfo)

@@ -149,8 +149,8 @@ namespace PKHeX.Core
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new KeyValuePair<int, int>(k, v))
             .ToDictionary(x => x.Key, x => x.Value);
 
-        internal static readonly ushort[] HeldItems_SM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_SM).ToArray();
-        internal static readonly ushort[] HeldItems_USUM = new ushort[1].Concat(Pouch_Items_SM).Concat(Pouch_Berries_SM).Concat(Pouch_Medicine_SM).Concat(Pouch_ZCrystalHeld_USUM).Concat(Pouch_Roto_USUM).ToArray();
+        internal static readonly ushort[] HeldItems_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_SM);
+        internal static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
 
         internal static readonly HashSet<int> WildPokeballs7 = new HashSet<int> {
             0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
@@ -470,16 +470,11 @@ namespace PKHeX.Core
             778, // Mimikyu (Normal, Busted, Totem, Totem_Busted)
         };
 
-        internal static readonly HashSet<int> Totem_SM = new HashSet<int>
+        internal static readonly HashSet<int> Totem_NoTransfer = new HashSet<int>
         {
-            020, // Raticate
-            735, // Gumshoos
-            //746, // Wishiwashi
-            758, // Salazzle
-            754, // Lurantis
-            738, // Vikavolt
-            778, // Mimikyu
-            784, // Kommo-o
+            752, // Araquanid
+            777, // Togedemaru
+            743, // Ribombee
         };
 
         internal static readonly HashSet<int> Totem_USUM = new HashSet<int>

@@ -1113,6 +1113,10 @@ namespace PKHeX.WinForms.Controls
             GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.OfType<Control>())
                 c.Visible = c.Enabled;
+            var list = FLP_SAVtools.Controls.OfType<Control>().ToArray();
+            list = list.OrderBy(z => z.Text).ToArray();
+            FLP_SAVtools.Controls.Clear();
+            FLP_SAVtools.Controls.AddRange(list);
         }
 
         private void ToggleViewMisc(SaveFile sav)

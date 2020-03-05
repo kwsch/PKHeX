@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
 
             int r = 0;
             row.Cells[r++].Value = s.ToString("000") + (f > 0 ? "-"+f.ToString("00") :"");
-            row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, false, false, SAV.Generation);
+            row.Cells[r++].Value = SpriteUtil.GetSprite(s, f, 0, 0, 0, false, false, SAV.Generation);
             row.Cells[r++].Value = species[index];
             row.Cells[r++].Value = GetIsNative(p, s);
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStatTotal(p.BST);

@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using System.ComponentModel;
+using PKHeX.Drawing.Properties;
 
 using static PKHeX.Core.MessageStrings;
 
@@ -284,8 +285,21 @@ namespace PKHeX.WinForms.Controls
             }
 
             // Refresh Move Legality
+            var moves = Entity.Moves;
             for (int i = 0; i < 4; i++)
-                movePB[i].Visible = !Legality.Info?.Moves[i]?.Valid ?? false;
+            {
+                bool invalid = !Legality.Info?.Moves[i]?.Valid ?? false;
+
+                Bitmap img;
+                if (invalid)
+                    img = Resources.warn;
+                else if (Entity.Format >= 8 && Legal.DummiedMoves_SWSH.Contains(moves[i]))
+                    img = Resources.hint;
+                else
+                    img = null;
+                movePB[i].Visible = true;
+                movePB[i].Image = img;
+            }
 
             if (Entity.Format >= 6)
             {
@@ -430,11 +444,16 @@ namespace PKHeX.WinForms.Controls
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            Label_IsShiny.Visible = Label_IsShiny2.Visible = false;
-            if (Entity.Format > 7 && Entity.ShinyXor == 0)
+            if (Entity.Format >= 8 && (Entity.ShinyXor == 0 || Entity.FatefulEncounter))
+            {
+                Label_IsShiny.Visible = false;
                 Label_IsShiny2.Visible = isShiny;
+            }
             else
+            {
                 Label_IsShiny.Visible = isShiny;
+                Label_IsShiny2.Visible = false;
+            }
 
             // Refresh Markings (for Shiny Star if applicable)
             SetMarkings();
@@ -603,7 +622,7 @@ namespace PKHeX.WinForms.Controls
             }
             if (ModifierKeys.HasFlag(Keys.Shift))
             {
-                CB_Ball.SelectedValue = BallRandomizer.ApplyBallLegalByColor(Entity);
+                CB_Ball.SelectedValue = BallApplicator.ApplyBallLegalByColor(Entity);
                 return;
             }
 
@@ -744,7 +763,7 @@ namespace PKHeX.WinForms.Controls
 
             int level = encounter.LevelMin;
             int location = encounter.Location;
-            int minlvl = Legal.GetLowestLevel(Entity, encounter.LevelMin);
+            int minlvl = EncounterSuggestion.GetLowestLevel(Entity, encounter.LevelMin);
             if (minlvl == 0)
                 minlvl = level;
 
@@ -766,6 +785,7 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.Format >= 3)
             {
+                Entity.Met_Location = location;
                 TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
                 CB_MetLocation.SelectedValue = location;
 
@@ -890,6 +910,12 @@ namespace PKHeX.WinForms.Controls
                 Entity.CurrentFriendship = val;
                 UpdateStats();
             }
+        }
+
+        private void UpdateFormArgument(object sender, EventArgs e)
+        {
+            if (FieldsLoaded && Entity.Species == (int)Species.Alcremie)
+                UpdateSprite();
         }
 
         private void UpdateForm(object sender, EventArgs e)
@@ -1407,7 +1433,9 @@ namespace PKHeX.WinForms.Controls
                     CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
-                    if (Entity.GenNumber < 6 && TB_EC.Visible)
+                    int gen = Entity.GenNumber;
+                    bool pre3DS = 1 <= gen && gen < 6;
+                    if (pre3DS && TB_EC.Visible)
                         TB_EC.Text = TB_PID.Text;
                 }
                 else
@@ -1461,6 +1489,19 @@ namespace PKHeX.WinForms.Controls
                 Label_Gender.Text = gendersymbols[Entity.Gender];
                 Label_Gender.ForeColor = Draw.GetGenderColor(Entity.Gender);
                 FieldsLoaded = true;
+            }
+        }
+
+        private void Update_ID64(object sender, EventArgs e)
+        {
+            if (!FieldsLoaded)
+                return;
+            // Trim out nonhex characters
+            if (sender == TB_HomeTracker && Entity is IHomeTrack home)
+            {
+                var value = Util.GetHexValue64(TB_HomeTracker.Text);
+                home.Tracker = value;
+                TB_HomeTracker.Text = value.ToString("X16");
             }
         }
 
@@ -1723,6 +1764,7 @@ namespace PKHeX.WinForms.Controls
             TB_AbilityNumber.Visible = gen >= 6 && DEV_Ability.Enabled;
 
             // Met Tab
+            L_HomeTracker.Visible = TB_HomeTracker.Visible = gen >= 8;
             FLP_MetDate.Visible = gen >= 4;
             FLP_Fateful.Visible = FLP_Ball.Visible = FLP_OriginGame.Visible = gen >= 3;
             FLP_MetLocation.Visible = FLP_MetLevel.Visible = gen >= 2;

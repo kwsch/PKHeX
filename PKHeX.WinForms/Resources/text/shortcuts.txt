@@ -43,6 +43,8 @@ Alt + Click on...
 Shift + Click on...
 - Preview Sprite to bring up a QR for the viewed Pokémon.
 - Individual IVs: Hyper Train the IV (toggles Hyper Training in Gen7 onwards)
+- Shiny Button: Make Square Shiny
+- Moves: Apply random moveset.
 
 Hold Control when dragging to save encrypted (ekx).
 
@@ -51,6 +53,8 @@ Click on...
 - Level / Met Location label: Suggest encounter information for relevant properties.
 - Moves groupbox: Suggest legal moves.
 - Relearn Moves groupbox: Suggest legal relearn moves.
+- Ball Sprite: Pop up ball editor; legal balls are backlit in green, illegal in red.
+- Nature Label: Copy the other Stat/Behavior nature.
 
 Drop WC7/WC6/PGF/PCD/PGT to convert to PKM in the main tabs.
 
@@ -60,7 +64,7 @@ Doubleclick on the SAV Tab: Auto-detect/Reload latest save.
 
 // Boxes
 
-Right click on Box Tab: Clear/Sort Box contents. Hold shift when selecting the action to apply to ALL boxes.
+Right click on Box Tab: Clear/Sort/Modify Box contents. Hold shift when selecting the action to apply to ALL boxes.
 
 Control-RightClick a Box Slot to show extra options (ie Legality check)
 Control-Drag a Box Slot to Copy-Overwrite
@@ -73,10 +77,17 @@ Alt-Click a slot to delete the data in slot.
 
 Doubleclick the Box tab to open up a new Box Viewer. Only one is allowed at a time, unless you hold shift when doubleclicking.
 
+Control-Click the Box Arrows to jump to the start/end.
+Control-Click on Verify Checksums to legality check all Pokémon in the save file against eachother.
+
 // Party / Battle Box
 Doubleclick on the Party or Battle Box label to export Showdown/Smogon Set (Team) to Clipboard.
 
 // Misc Editors
+
+RIBBONS:
+- Shift-Click the Give All Button to set all legal Ribbons.
+- Shift-Click the Remove All Button to remove all illegal Ribbons.
 
 POKEPUFF:
 - Control Click the All Button to give the best Pokepuffs.

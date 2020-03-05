@@ -14,6 +14,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
         public readonly ITrainerInfo Trainer;
         public readonly List<CheckResult> Parse = new List<CheckResult>();
+        public readonly Dictionary<ulong, PKM> Trackers = new Dictionary<ulong, PKM>();
         public readonly bool Valid;
 
         private readonly bool[] CloneFlags;
@@ -62,6 +63,15 @@ namespace PKHeX.Core
             Parse.Add(chk);
         }
 
+        private void AddLine(PKM first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
+        {
+            static string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
+
+            var c = $"{msg}{Environment.NewLine}{GetSummary(first)}";
+            var chk = new CheckResult(s, c, i);
+            Parse.Add(chk);
+        }
+
         private void CheckClones()
         {
             var dict = new Dictionary<string, LegalityAnalysis>();
@@ -71,6 +81,24 @@ namespace PKHeX.Core
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Format == Trainer.Generation);
 
+                // Check the upload tracker to see if there's any duplication.
+                if (cp is IHomeTrack home)
+                {
+                    if (home.Tracker != 0)
+                    {
+                        var tracker = home.Tracker;
+                        if (Trackers.TryGetValue(tracker, out var clone))
+                            AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
+                        else
+                            Trackers.Add(tracker, cp);
+                    }
+                    else if (cp.GenNumber < 8)
+                    {
+                        AddLine(cp, "Missing tracker.", Encounter);
+                    }
+                }
+
+                // Hash Details like EC/IV to see if there's any duplication.
                 var identity = SearchUtil.HashByDetails(cp);
                 if (!dict.TryGetValue(identity, out var pa))
                 {
@@ -79,7 +107,7 @@ namespace PKHeX.Core
                 }
 
                 CloneFlags[i] = true;
-                AddLine(pa.pkm, cp, "Clone detected.", Encounter);
+                AddLine(pa.pkm, cp, "Clone detected (Details).", Encounter);
             }
         }
 

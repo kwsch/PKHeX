@@ -22,7 +22,7 @@ namespace PKHeX.Core
             {
                 case EncounterTrade _:
                 case MysteryGift g when !g.IsEgg:
-                case EncounterStaticN s when s.NSparkle:
+                case EncounterStatic5N _:
                     return; // already verified
             }
 
@@ -141,11 +141,32 @@ namespace PKHeX.Core
 
         private CheckResult VerifyG1OTStadium(PKM pkm, string tr, IVersion s)
         {
-            bool jp = pkm.Japanese;
-            var ot = Legal.GetGBStadiumOTName(jp, s.Version);
-            var id = Legal.GetGBStadiumOTID(jp, s.Version);
-            bool valid = ot == tr && id == pkm.TID;
-            return valid ? GetValid(jp ? LG1StadiumJapanese : LG1StadiumInternational) : GetInvalid(LG1Stadium);
+            if (pkm.OT_Gender != 0)
+                return GetInvalid(LG1OTGender);
+
+            int tid = pkm.TID;
+            if (pkm.Japanese)
+            {
+                if (tid == Legal.GetGBStadiumOTID_JPN(s.Version) && Legal.Stadium1JP == tr)
+                    return GetValid(LG1StadiumJapanese);
+            }
+            else
+            {
+                if (s.Version == GameVersion.Stadium && tid == 2000)
+                {
+                    if (tr == "STADIUM" || tr == "STADE" || tr == "STADIO" || tr == "ESTADIO")
+                        return GetValid(LG1StadiumInternational);
+                }
+                else // Stadium2
+                {
+                    if (tid == 2000 && tr == "Stadium")
+                        return GetValid(LG1StadiumInternational);
+
+                    if (tid == 2001 && (tr == "Stade" || tr == "Stadion" || tr == "Stadio" || tr == "Estadio"))
+                        return GetValid(LG1StadiumInternational);
+                }
+            }
+            return GetInvalid(LG1Stadium);
         }
 
         private bool IsOTNameSuspicious(string name)

@@ -75,16 +75,19 @@ namespace PKHeX.Core
         private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pkm, IBasicStrings strings)
         {
             var errata = new List<string>();
-            if (sav.Generation > 1)
+            ushort held = (ushort)pkm.HeldItem;
+            if (sav.Generation > 1 && held != 0)
             {
-                ushort held = (ushort)pkm.HeldItem;
-                var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion) pkm.Version);
-                if (held > itemstr.Count)
-                    errata.Add($"{MsgIndexItemRange} {held}");
-                else if (held > sav.MaxItemID)
-                    errata.Add($"{MsgIndexItemGame} {itemstr[held]}");
+                string? msg = null;
+                if (held > sav.MaxItemID)
+                    msg = MsgIndexItemGame;
                 else if (!pkm.CanHoldItem(sav.HeldItems))
-                    errata.Add($"{MsgIndexItemHeld} {itemstr[held]}");
+                    msg = MsgIndexItemHeld;
+                if (msg != null)
+                {
+                    var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion)pkm.Version);
+                    errata.Add($"{msg} {(held >= itemstr.Count ? held.ToString() : itemstr[held])}");
+                }
             }
 
             if (pkm.Species > strings.Species.Count)

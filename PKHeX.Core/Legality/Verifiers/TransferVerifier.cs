@@ -106,46 +106,42 @@ namespace PKHeX.Core
             int species = pkm.Species;
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
             if (!pi.IsPresentInGame) // Can't transfer
-                data.AddLine(GetInvalid(LTransferBad));
-            else if (pkm.GenNumber != 8) // Can't transfer yet
-                data.AddLine(GetInvalid(LTransferBad));
-            else if (pi.PokeDexIndex == 0 && data.EncounterMatch is EncounterEgg egg && !BreedGalarForeign.Contains(egg.Species)) // Can't breed cuz no transfer yet
-                data.AddLine(GetInvalid(LTransferBad));
-            else if (IsG8BanForm(pkm))
-                data.AddLine(GetInvalid(LTransferBad));
-        }
-
-        private static readonly HashSet<int> BreedGalarForeign = new HashSet<int>
-        {
-            (int)Species.Slowpoke,
-        };
-
-        private static bool IsG8BanForm(PKM pkm)
-        {
-            return pkm.Species switch
             {
-                (int)Species.Raichu     when pkm.AltForm == 1 => true,
-                (int)Species.Vulpix     when pkm.AltForm == 1 => true,
-                (int)Species.Ninetales  when pkm.AltForm == 1 => true,
-                (int)Species.Diglett    when pkm.AltForm == 1 => true,
-                (int)Species.Dugtrio    when pkm.AltForm == 1 => true,
-                (int)Species.Meowth     when pkm.AltForm == 1 => true,
-                (int)Species.Persian    when pkm.AltForm == 1 => true,
-                (int)Species.Ponyta     when pkm.AltForm == 0 => true,
-                (int)Species.Rapidash   when pkm.AltForm == 0 => true,
-                (int)Species.Slowpoke   when pkm.AltForm == 0 => true,
-                (int)Species.Farfetchd  when pkm.AltForm == 0 => true,
-                (int)Species.Weezing    when pkm.AltForm == 0 => true,
-                (int)Species.Corsola    when pkm.AltForm == 0 => true,
-                (int)Species.Zigzagoon  when pkm.AltForm == 0 => true,
-                (int)Species.Linoone    when pkm.AltForm == 0 => true,
-                (int)Species.Shellos    when pkm.AltForm == 0 => true,
-                (int)Species.Gastrodon  when pkm.AltForm == 0 => true,
-                (int)Species.Darumaka   when pkm.AltForm == 0 => true,
-                (int)Species.Darmanitan when pkm.AltForm == 0 => true,
-                (int)Species.Stunfisk   when pkm.AltForm == 0 => true,
-                _ => false
-            };
+                data.AddLine(GetInvalid(LTransferBad));
+            }
+            else if (pkm.AltForm == 0 && (species == (int)Species.Slowpoke || species == (int)Species.Slowbro))
+            {
+                data.AddLine(GetInvalid(LTransferBad)); // can't get regular slowpoke/slowbro yet
+            }
+            else if (data.Info.Generation < 8 && pkm.Format >= 8)
+            {
+                if (!pkm.GG && pkm is IScaledSize s)
+                {
+                    if (s.HeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+                    if (s.WeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+
+                    var enc = data.EncounterMatch;
+                    if (data.Info.Generation == 7 && FormConverter.IsTotemForm(enc.Species, enc.Form, 7))
+                    {
+                        if (Legal.Totem_NoTransfer.Contains(data.EncounterMatch.Species))
+                            data.AddLine(GetInvalid(LTransferBad));
+                        if (pkm.AltForm != FormConverter.GetTotemBaseForm(enc.Species, enc.Form))
+                            data.AddLine(GetInvalid(LTransferBad));
+                    }
+                }
+
+                // Tracker value is set via Transfer across HOME.
+                // Can't validate the actual values (we aren't the server), so we can only check against zero.
+                if (pkm is IHomeTrack home && home.Tracker == 0)
+                {
+                    data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+                    // To the reader: It seems like the best course of action for setting a tracker is:
+                    // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
+                    // - Don't make one up.
+                }
+            }
         }
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)

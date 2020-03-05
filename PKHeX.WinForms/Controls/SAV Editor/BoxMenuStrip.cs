@@ -74,13 +74,14 @@ namespace PKHeX.WinForms.Controls
             [BoxManipType.SortEncounterType] = Resources.about,
 
             [BoxManipType.ModifyHatchEggs] = Resources.about,
-            [BoxManipType.ModifyMaxFriendship] = Resources.heart,
+            [BoxManipType.ModifyMaxFriendship] = Resources.users,
             [BoxManipType.ModifyMaxLevel] = Resources.showdown,
             [BoxManipType.ModifyResetMoves] = Resources.date,
             [BoxManipType.ModifyRandomMoves] = Resources.wand,
             [BoxManipType.ModifyHyperTrain] = Resources.vallohi,
             [BoxManipType.ModifyRemoveNicknames] = Resources.alphaAZ,
             [BoxManipType.ModifyRemoveItem] = Resources.gift,
+            [BoxManipType.ModifyHeal] = Resources.heart,
         };
 
         private sealed class ItemVisibility

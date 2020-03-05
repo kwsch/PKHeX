@@ -79,7 +79,6 @@ namespace PKHeX.Core
 
         public static string LAwakenedCap { get; set; } = "Individual AV cannot be greater than {0}.";
         public static string LAwakenedShouldBeValue { get; set; } = "Individual AV should be greater than {0}.";
-        public static string LAwakenedShouldBeZero { get; set; } = "Cannot receive AVs.";
         public static string LAwakenedEXPIncreased { get; set; } = "All AVs are zero, but leveled above Met Level.";
 
         public static string LBallAbility { get; set; } = "Can't obtain Hidden Ability with Ball.";
@@ -143,7 +142,6 @@ namespace PKHeX.Core
         public static string LEncTradeIndexBad { get; set; } = "Ingame Trade invalid index?";
         public static string LEncTradeMatch { get; set; } = "Valid ingame trade.";
         public static string LEncTradeUnchanged { get; set; } = "Ingame Trade OT and Nickname have not been altered.";
-        public static string LEncTradeVersionBad { get; set; } = "Ingame Trade invalid version?";
 
         public static string LEncStaticMatch { get; set; } = "Valid gift/static encounter.";
         public static string LEncStaticPIDShiny { get; set; } = "Static Encounter shiny mismatch.";
@@ -171,13 +169,10 @@ namespace PKHeX.Core
         public static string LEffortEXPIncreased { get; set; } = "All EVs are zero, but leveled above Met Level.";
         public static string LEffortUntrainedCap { get; set; } = "Individual EV without changing EXP cannot be greater than {0}.";
 
-        public static string LEvoBeautyTradeLow { get; set; } = "Untraded: Beauty is not high enough for Level-up Evolution.";
-        public static string LEvoBeautyUntrained { get; set; } = "Untraded: Beauty is high enough but still Level 1.";
         public static string LEvoInvalid { get; set; } = "Evolution not valid (or level/trade evolution unsatisfied).";
         public static string LEvoTradeReq { get; set; } = "In-game trade {0} should have evolved into {1}.";
         public static string LEvoTradeReqOutsider { get; set; } = "Outsider {0} should have evolved into {1}.";
         public static string LEvoTradeRequired { get; set; } = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
-        public static string LEvoTradeRequiredMemory { get; set; } = "Untraded: Requires a trade evolution.";
 
         public static string LFateful { get; set; } = "Special ingame Fateful Encounter.";
         public static string LFatefulGiftMissing { get; set; } = "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?";
@@ -196,6 +191,7 @@ namespace PKHeX.Core
         public static string LFormEternal { get; set; } = "Valid Eternal Flower encounter.";
         public static string LFormEternalInvalid { get; set; } = "Invalid Eternal Flower encounter.";
         public static string LFormInvalidGame { get; set; } = "Form cannot be obtained in origin game.";
+        public static string LFormInvalidNature { get; set; } = "Form cannot have this nature.";
         public static string LFormInvalidRange { get; set; } = "Form Count is out of range. Expected <= {0}, got {1}.";
         public static string LFormItem { get; set; } = "Held item matches Form.";
         public static string LFormItemInvalid { get; set; } = "Held item does not match Form.";
@@ -261,7 +257,6 @@ namespace PKHeX.Core
         public static string LGeoHardwareValid { get; set; } = "Geolocation: Country is in 3DS region.";
         public static string LGeoMemoryMissing { get; set; } = "GeoLocation Memory: Memories should be present.";
         public static string LGeoNoCountryHT { get; set; } = "GeoLocation Memory: HT Name present but has no previous Country.";
-        public static string LGeoNoHT { get; set; } = "GeoLocation Memory: Previous country of residence present with no Handling Trainer.";
         public static string LGeoNoRegion { get; set; } = "GeoLocation Memory: Region without Country.";
 
         public static string LHyperBelow100 { get; set; } = "Can't Hyper Train a Pokémon that isn't level 100.";
@@ -281,28 +276,18 @@ namespace PKHeX.Core
         public static string LLevelMetGiftFail { get; set; } = "Current Level below Mystery Gift level.";
         public static string LLevelMetSane { get; set; } = "Current level is not below met level.";
 
-        public static string LLinkAO { get; set; } = "Can't obtain this Pokémon Link gift in ORAS.";
-        public static string LLinkFateful { get; set; } = "Pokémon Link gift should not be Fateful Encounter.";
-        public static string LLinkNone { get; set; } = "Can't find matching Pokémon Link gift.";
-        public static string LLinkShiny { get; set; } = "Pokémon Link gift Shiny mismatch.";
-        public static string LLinkValid { get; set; } = "Valid Pokémon Link gift.";
-        public static string LLinkXY { get; set; } = "Can't obtain this Pokémon Link gift in XY.";
-
         public static string LMemoryArgBadCatch { get; set; } = "{0} Memory: {0} did not catch this.";
-        public static string LMemoryArgBadEggOT { get; set; } = "Memory: Can't have Original Trainer Memory as Egg.";
         public static string LMemoryArgBadHatch { get; set; } = "{0} Memory: {0} did not hatch this.";
         public static string LMemoryArgBadHT { get; set; } = "Memory: Can't have Handling Trainer Memory as Egg.";
         public static string LMemoryArgBadID { get; set; } = "{0} Memory: Can't obtain Memory on {0} Version.";
         public static string LMemoryArgBadLocation { get; set; } = "{0} Memory: Can't obtain Location on {0} Version.";
         public static string LMemoryArgBadMove { get; set; } = "{0} Memory: Species can't learn this move.";
         public static string LMemoryArgBadOTEgg { get; set; } = "{0} Memory: Link Trade is not a valid first memory.";
-        public static string LMemoryArgBadPokecenter { get; set; } = "{0} Memory: Location doesn't have a Pokémon Center.";
         public static string LMemoryArgBadSpecies { get; set; } = "{0} Memory: Can't capture species in game.";
         public static string LMemoryArgSpecies { get; set; } = "{0} Memory: Species can be captured in game.";
         public static string LMemoryCleared { get; set; } = "Memory: Not cleared properly.";
         public static string LMemoryF_0_Valid { get; set; } = "{0} Memory is valid.";
         public static string LMemoryFeelInvalid { get; set; } = "{0} Memory: Invalid Feeling.";
-        public static string LMemoryHTEvent { get; set; } = "Current handler should not be Event OT.";
         public static string LMemoryHTFlagInvalid { get; set; } = "Untraded: Current handler should not be the Handling Trainer.";
         public static string LMemoryHTGender { get; set; } = "HT Gender invalid: {0}";
         public static string LMemoryHTLanguage { get; set; } = "HT Language is missing.";
@@ -311,23 +296,18 @@ namespace PKHeX.Core
         public static string LMemoryIndexFeel { get; set; } = "{0} Memory: Feeling should be index {1}.";
         public static string LMemoryIndexFeelHT09 { get; set; } = "Should have a HT Memory Feeling value 0-9.";
         public static string LMemoryIndexID { get; set; } = "{0} Memory: Should be index {1}.";
-        public static string LMemoryIndexIDOT0 { get; set; } = "Can't have any OT Memory.";
         public static string LMemoryIndexIntensity { get; set; } = "{0} Memory: Intensity should be index {1}.";
         public static string LMemoryIndexIntensityHT1 { get; set; } = "Should have a HT Memory Intensity value (1st).";
         public static string LMemoryIndexIntensityMin { get; set; } = "{0} Memory: Intensity should be at least {1}.";
         public static string LMemoryIndexLinkHT { get; set; } = "Should have a Link Trade HT Memory.";
         public static string LMemoryIndexVar { get; set; } = "{0} Memory: TextVar should be index {1}.";
         public static string LMemoryMissingHT { get; set; } = "Memory: Handling Trainer Memory missing.";
-        public static string LMemoryMissingHTName { get; set; } = "Memory: Handling Trainer Memory present with no Handling Trainer name.";
         public static string LMemoryMissingOT { get; set; } = "Memory: Original Trainer Memory missing.";
 
         public static string LMemoryStatAffectionHT0 { get; set; } = "Untraded: Handling Trainer Affection should be 0.";
         public static string LMemoryStatAffectionOT0 { get; set; } = "OT Affection should be 0.";
-        public static string LMemoryStatAffectionOT0Event { get; set; } = "Event OT Affection should be zero.";
         public static string LMemoryStatFriendshipHT0 { get; set; } = "Untraded: Handling Trainer Friendship should be 0.";
         public static string LMemoryStatFriendshipOTBaseEvent { get; set; } = "Event OT Friendship does not match base friendship.";
-
-        public static string LMemoryValid { get; set; } = "History block is valid.";
 
         public static string LMoveEggFIncompatible0_1 { get; set; } = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         public static string LMoveEggIncompatible { get; set; } = "Egg Move. Incompatible with event Egg moves.";
@@ -452,6 +432,7 @@ namespace PKHeX.Core
         public static string LTransferPIDECBitFlip { get; set; } = "PID should be equal to EC [with top bit flipped]!";
         public static string LTransferPIDECEquals { get; set; } = "PID should be equal to EC!";
         public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";
+        public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
         #endregion
 
     }

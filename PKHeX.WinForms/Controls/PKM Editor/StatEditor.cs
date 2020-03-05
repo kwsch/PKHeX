@@ -364,8 +364,9 @@ namespace PKHeX.WinForms.Controls
                     a.AwakeningSetAllTo(0);
                     break;
                 default:
+                    var rnd = Util.Rand;
                     foreach (var index in Enumerable.Range(0, 6))
-                        a.SetAV(index, Util.Rand.Next(Legal.AwakeningMax + 1));
+                        a.SetAV(index, rnd.Next(Legal.AwakeningMax + 1));
                     break;
             }
             LoadAVs(a);

@@ -65,6 +65,7 @@ namespace PKHeX.Core
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
         public override RaidSpawnList8 Raid => Blocks.Raid;
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
+        public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 
         public object GetValue(uint key) => Blocks.GetBlockValue(key);
 
@@ -90,6 +91,7 @@ namespace PKHeX.Core
             Box = 0;
             Party = 0;
             PokeDex = 0;
+            TeamIndexes.LoadBattleTeams();
         }
 
         public int GetRecord(int recordID) => Records.GetRecord(recordID);
@@ -97,5 +99,18 @@ namespace PKHeX.Core
         public int GetRecordMax(int recordID) => Records.GetRecordMax(recordID);
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
         public int RecordCount => Record8.RecordCount;
+
+        public override StorageSlotFlag GetSlotFlags(int index)
+        {
+            int team = Array.IndexOf(TeamIndexes.TeamSlots, index);
+            if (team < 0)
+                return StorageSlotFlag.None;
+
+            team /= 6;
+            var val = (StorageSlotFlag)((int)StorageSlotFlag.BattleTeam1 << team);
+            if (TeamIndexes.GetIsTeamLocked(team))
+                val |= StorageSlotFlag.Locked;
+            return val;
+        }
     }
 }

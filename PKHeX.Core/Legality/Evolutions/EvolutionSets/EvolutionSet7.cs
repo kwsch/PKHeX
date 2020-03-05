@@ -15,14 +15,12 @@ namespace PKHeX.Core
             var evos = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
-                evos[i / SIZE] = new EvolutionMethod
-                {
-                    Method = BitConverter.ToUInt16(data, i + 0),
-                    Argument = BitConverter.ToUInt16(data, i + 2),
-                    Species = BitConverter.ToUInt16(data, i + 4),
-                    Form = (sbyte)data[i + 6],
-                    Level = data[i + 7],
-                };
+                var method = BitConverter.ToUInt16(data, i + 0);
+                var arg = BitConverter.ToUInt16(data, i + 2);
+                var spec = BitConverter.ToUInt16(data, i + 4);
+                var form = (sbyte) data[i + 6];
+                var level = data[i + 7];
+                evos[i / SIZE] = new EvolutionMethod(method, spec, argument: arg, level: level, form: form);
             }
             return evos;
         }

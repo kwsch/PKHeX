@@ -37,7 +37,7 @@ namespace PKHeX.WinForms.Controls
         private static string GetCryFileName(PKM pk)
         {
             // don't grab sprite of pkm, no gender specific cries
-            var res = SpriteName.GetResourceStringSprite(pk.Species, pk.AltForm, 0, pk.Format);
+            var res = SpriteName.GetResourceStringSprite(pk.Species, pk.AltForm, 0, 0, pk.Format);
             return res.Replace('_', '-') // people like - instead of _ file names ;)
                 .Substring(1); // skip leading underscore
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,7 +12,7 @@ namespace PKHeX.Core
         internal const int MaxBallID_7b = (int)Ball.Beast;
         internal const int MaxGameID_7b = (int)GameVersion.GE;
         internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
-        internal static readonly ushort[] HeldItems_GG = new ushort[1];
+        internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
         public const int AwakeningMax = 200;
 
         internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
@@ -304,10 +305,6 @@ namespace PKHeX.Core
             103, // Exeggutor
             106, // Hitmonlee
             107, // Hitmonchan
-            108, // Lickitung
-            111, // Rhyhorn
-            112, // Rhydon
-            113, // Chansey
             114, // Tangela
             118, // Goldeen
             119, // Seaking

@@ -93,6 +93,7 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt16(Data, Offset + 0x26);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x26);
         }
+
         public int SuperMultiNPCPast
         {
             get => BitConverter.ToUInt16(Data, Offset + 0x16);
@@ -104,6 +105,7 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt16(Data, Offset + 0x28);
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x28);
         }
+
         public int SuperMultiFriendsPast
         {
             get => BitConverter.ToUInt16(Data, Offset + 0x18);

@@ -636,7 +636,6 @@ namespace PKHeX.Core
                 IV_SPA = IV_SPA,
                 IV_SPD = IV_SPD,
                 IV_SPE = IV_SPE,
-                IsEgg = IsEgg,
                 IsNicknamed = IsNicknamed,
                 FatefulEncounter = FatefulEncounter,
                 Gender = Gender,
@@ -646,20 +645,30 @@ namespace PKHeX.Core
                 Version = Version,
                 OT_Name = OT_Name,
                 MetDate = MetDate,
-                EggMetDate = EggMetDate,
                 Met_Location = Met_Location,
                 Ball = Ball,
                 Met_Level = Met_Level,
                 OT_Gender = OT_Gender,
+                HyperTrainFlags = HyperTrainFlags,
 
-                // todo: memories
+                // Memories don't exist in LGPE, and no memories are set on transfer.
                 OT_Memory = OT_Memory,
                 OT_TextVar = OT_TextVar,
                 OT_Feeling = OT_Feeling,
                 OT_Intensity = OT_Intensity,
+
+                OT_Friendship = OT_Friendship,
+
+                // No Ribbons or Markings on transfer.
+
+                StatNature = Nature,
+                HeightScalar = HeightScalar,
+                WeightScalar = WeightScalar,
             };
 
-            pk8.HealPP();
+            // Fix PP and Stats
+            pk8.Heal();
+
             // Fix Checksum
             pk8.RefreshChecksum();
 

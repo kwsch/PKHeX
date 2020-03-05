@@ -43,7 +43,7 @@ RibbonMasterCoolness	Coolness Meister
 RibbonMasterBeauty	Schönheit Meister
 RibbonMasterCuteness	Putzigkeit Meister
 RibbonMasterCleverness	Klugheit Meister
-RibbonMasterToughness = Stärke Meister
+RibbonMasterToughness	Stärke Meister
 RibbonG3Cool	Coolness (G3)
 RibbonG3CoolSuper	Coolness Super
 RibbonG3CoolHyper	Coolness Hyper
