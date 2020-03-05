@@ -20,7 +20,7 @@ namespace PKHeX.Core
             return GetEggMoves(gen, species, formnum, version);
         }
 
-        private static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        internal static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
         {
             switch (gen)
             {

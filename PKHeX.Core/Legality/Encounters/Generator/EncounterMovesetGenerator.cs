@@ -142,7 +142,7 @@ namespace PKHeX.Core
                 // Shared Egg Moves via daycare
                 // Any egg move can be obtained
                 var evo = dl[dl.Count - 1];
-                var shared = MoveEgg.GetEggMoves(pk, evo.Species, evo.Form, GameVersion.SW);
+                var shared = MoveEgg.GetEggMoves(8, evo.Species, evo.Form, GameVersion.SW);
                 return moves.Concat(shared);
             }
             if (dl[0].Species == (int)Species.Shedinja)
