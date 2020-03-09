@@ -93,6 +93,28 @@
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 053, 396, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 428, 007, 089, 280 }, Nature = Nature.Jolly, Shiny = Shiny.Never }, // Mewtwo
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 126, 411, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
+            
+            // 3/8 - Gengar/Machamp
+            //new EncounterStatic8ND(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 } }, // Munchlax
+            new EncounterStatic8ND(17,01,1) { Species = 092, Ability = A4, Moves = new[]{ 122, 109, 095, 371 } }, // Gastly
+            new EncounterStatic8ND(17,01,1) { Species = 066, Ability = A4, Moves = new[]{ 067, 043, 116, 279 } }, // Machop
+            //new EncounterStatic8ND(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 } }, // Snorlax
+            new EncounterStatic8ND(30,03,2) { Species = 093, Ability = A4, Moves = new[]{ 325, 095, 122, 101 } }, // Haunter
+            new EncounterStatic8ND(30,03,2) { Species = 067, Ability = A4, Moves = new[]{ 067, 490, 282, 233 } }, // Machoke
+            //new EncounterStatic8ND(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 } }, // Snorlax
+            //new EncounterStatic8ND(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, CanGigantamax = true }, // Snorlax
+            new EncounterStatic8ND(40,05,3) { Species = 094, Ability = A4, Moves = new[]{ 506, 188, 085, 261 } }, // Gengar
+            new EncounterStatic8ND(40,05,3) { Species = 094, Ability = A4, Moves = new[]{ 506, 188, 085, 261 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(40,05,3) { Species = 068, Ability = A4, Moves = new[]{ 279, 667, 008, 157 } }, // Machamp
+            new EncounterStatic8ND(40,05,3) { Species = 068, Ability = A4, Moves = new[]{ 279, 667, 008, 157 }, CanGigantamax = true }, // Machamp
+            //new EncounterStatic8ND(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 } }, // Snorlax
+            //new EncounterStatic8ND(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, CanGigantamax = true }, // Snorlax
+            new EncounterStatic8ND(50,08,4) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 411, 605 } }, // Gengar
+            new EncounterStatic8ND(50,08,4) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 411, 605 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(50,08,4) { Species = 068, Ability = A4, Moves = new[]{ 280, 444, 371, 523 } }, // Machamp
+            new EncounterStatic8ND(50,08,4) { Species = 068, Ability = A4, Moves = new[]{ 280, 444, 371, 523 }, CanGigantamax = true }, // Machamp
+            //new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 } }, // Snorlax
+            new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
@@ -264,6 +286,10 @@
             //new EncounterStatic8ND(60,10,5) { Species = 099, Ability = A4, Moves = new[]{ 152, 667, 157, 404 }, CanGigantamax = true }, // Kingler
             //new EncounterStatic8ND(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 793, 409, 007 }, CanGigantamax = true }, // Grimmsnarl
             //new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, CanGigantamax = true }, // Toxtricity
+
+            // 3/8 - Gengar/Machamp
+            new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 } }, // Machamp
+            new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 }, CanGigantamax = true }, // Machamp
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
@@ -435,6 +461,10 @@
             //new EncounterStatic8ND(60,10,5) { Species = 826, Ability = A4, Moves = new[]{ 405, 094, 247, 347 }, CanGigantamax = true }, // Orbeetle
             //new EncounterStatic8ND(60,10,5) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 500 }, CanGigantamax = true }, // Hatterene
             //new EncounterStatic8ND(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 586, 188, 506 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+
+            // 3/8 - Gengar/Machamp
+            new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 } }, // Gengar
+            new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, CanGigantamax = true }, // Gengar
         };
     }
 }
