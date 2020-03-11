@@ -30,7 +30,7 @@
 
         public int CurrentBox
         {
-            get => (byte)((SAV8SWSH)SAV).GetValue(SaveBlockAccessor8SWSH.KCurrentBox);
+            get => ((SAV8SWSH)SAV).GetValue<byte>(SaveBlockAccessor8SWSH.KCurrentBox);
             set => ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KCurrentBox, (byte)value);
         }
     }

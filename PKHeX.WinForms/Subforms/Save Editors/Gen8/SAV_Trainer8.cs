@@ -107,10 +107,10 @@ namespace PKHeX.WinForms
 
         private void GetMiscValues()
         {
-            MT_BattleTowerSinglesWin.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesVictory).ToString();
-            MT_BattleTowerDoublesWin.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesVictory).ToString();
-            MT_BattleTowerSinglesStreak.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerSinglesStreak).ToString();
-            MT_BattleTowerDoublesStreak.Text = SAV.GetValue(SaveBlockAccessor8SWSH.KBattleTowerDoublesStreak).ToString();
+            MT_BattleTowerSinglesWin.Text = SAV.GetValue<uint>(SaveBlockAccessor8SWSH.KBattleTowerSinglesVictory).ToString();
+            MT_BattleTowerDoublesWin.Text = SAV.GetValue<uint>(SaveBlockAccessor8SWSH.KBattleTowerDoublesVictory).ToString();
+            MT_BattleTowerSinglesStreak.Text = SAV.GetValue<ushort>(SaveBlockAccessor8SWSH.KBattleTowerSinglesStreak).ToString();
+            MT_BattleTowerDoublesStreak.Text = SAV.GetValue<ushort>(SaveBlockAccessor8SWSH.KBattleTowerDoublesStreak).ToString();
         }
 
         private void SaveMiscValues()

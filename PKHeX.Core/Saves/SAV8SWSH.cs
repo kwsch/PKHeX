@@ -67,14 +67,17 @@ namespace PKHeX.Core
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
         public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 
-        public object GetValue(uint key)
+        public T GetValue<T>(uint key) where T : struct
         {
             if (!Exportable)
-                return (byte)0;
-            return Blocks.GetBlockValue(key);
+                return default;
+            var value = Blocks.GetBlockValue(key);
+            if (value is T v)
+                return v;
+            throw new ArgumentException($"Incorrect type request! Expected {typeof(T).Name}, received {value.GetType().Name}", nameof(T));
         }
 
-        public void SetValue(uint key, object value)
+        public void SetValue<T>(uint key, T value) where T : struct
         {
             if (!Exportable)
                 return;
