@@ -27,5 +27,11 @@
             get => GetBoxName(i);
             set => SetBoxName(i, value);
         }
+
+        public int CurrentBox
+        {
+            get => (byte)((SAV8SWSH)SAV).GetValue(SaveBlockAccessor8SWSH.KCurrentBox);
+            set => ((SAV8SWSH)SAV).SetValue(SaveBlockAccessor8SWSH.KCurrentBox, (byte)value);
+        }
     }
 }

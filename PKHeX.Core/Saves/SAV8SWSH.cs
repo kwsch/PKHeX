@@ -67,7 +67,12 @@ namespace PKHeX.Core
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
         public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 
-        public object GetValue(uint key) => Blocks.GetBlockValue(key);
+        public object GetValue(uint key)
+        {
+            if (!Exportable)
+                return (byte)0;
+            return Blocks.GetBlockValue(key);
+        }
 
         public void SetValue(uint key, object value)
         {
@@ -112,5 +117,7 @@ namespace PKHeX.Core
                 val |= StorageSlotFlag.Locked;
             return val;
         }
+
+        public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
     }
 }

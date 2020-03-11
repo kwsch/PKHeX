@@ -80,23 +80,22 @@ namespace PKHeX.Core
 
         public static object GetValue(this SCTypeCode type, byte[] data)
         {
-            return type switch
+            // don't use a switch expression here, we want to box our underlying type rather than the last type (double)
+            switch (type)
             {
-                SCTypeCode.Byte => data[0],
-                SCTypeCode.UInt16 => BitConverter.ToUInt16(data, 0),
-                SCTypeCode.UInt32 => BitConverter.ToUInt32(data, 0),
-                SCTypeCode.UInt64 => BitConverter.ToUInt64(data, 0),
-
-                SCTypeCode.SByte => (sbyte)data[0],
-                SCTypeCode.Int16 => BitConverter.ToInt16(data, 0),
-                SCTypeCode.Int32 => BitConverter.ToInt32(data, 0),
-                SCTypeCode.Int64 => BitConverter.ToInt64(data, 0),
-
-                SCTypeCode.Single => BitConverter.ToSingle(data, 0),
-                SCTypeCode.Double => BitConverter.ToDouble(data, 0),
-
-                _ => throw new ArgumentException(type.ToString(), nameof(type))
-            };
+                case SCTypeCode.Byte:   return data[0];
+                case SCTypeCode.UInt16: return BitConverter.ToUInt16(data, 0);
+                case SCTypeCode.UInt32: return BitConverter.ToUInt32(data, 0);
+                case SCTypeCode.UInt64: return BitConverter.ToUInt64(data, 0);
+                case SCTypeCode.SByte:  return (sbyte) data[0];
+                case SCTypeCode.Int16:  return BitConverter.ToInt16(data, 0);
+                case SCTypeCode.Int32:  return BitConverter.ToInt32(data, 0);
+                case SCTypeCode.Int64:  return BitConverter.ToInt64(data, 0);
+                case SCTypeCode.Single: return BitConverter.ToSingle(data, 0);
+                case SCTypeCode.Double: return BitConverter.ToDouble(data, 0);
+                default:
+                    throw new ArgumentException(type.ToString(), nameof(type));
+            }
         }
 
         public static void SetValue(this SCTypeCode type, byte[] data, object value)
