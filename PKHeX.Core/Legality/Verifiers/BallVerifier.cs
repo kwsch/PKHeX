@@ -261,11 +261,12 @@ namespace PKHeX.Core
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
-            if (IsGalarCapture(species))
+            if (IsGalarBreed(species))
             {
-                if (!Legal.WildPokeballs8.Contains(pkm.Ball))
+                if (Legal.WildPokeballs8.Contains(pkm.Ball))
+                    return GetValid(LBallSpeciesPass);
+                if (species >= (int)Species.Grookey)
                     return GetInvalid(LBallSpecies);
-                return GetValid(LBallSpeciesPass);
             }
 
             Ball ball = (Ball)pkm.Ball;
@@ -336,11 +337,9 @@ namespace PKHeX.Core
             return NONE;
         }
 
-        public static bool IsGalarCapture(int species)
+        public static bool IsGalarBreed(int species)
         {
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
-                return false;
-            if ((int)Species.Dracozolt <= species && species <= (int)Species.Arctovish) // fossil
                 return false;
             var pt = PersonalTable.SWSH;
             return ((PersonalInfoSWSH)pt.GetFormeEntry(species, 0)).PokeDexIndex != 0;
