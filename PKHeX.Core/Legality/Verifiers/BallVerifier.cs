@@ -269,6 +269,9 @@ namespace PKHeX.Core
                     return GetInvalid(LBallSpecies);
             }
 
+            if (722 <= species && species <= 730) // G7 Starters
+                return VerifyBallEquals(data, (int)Poke);
+
             Ball ball = (Ball)pkm.Ball;
 
             if (ball == Safari)
