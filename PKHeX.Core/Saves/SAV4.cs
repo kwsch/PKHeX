@@ -19,6 +19,7 @@ namespace PKHeX.Core
         // Blocks & Offsets
         private readonly int GeneralBlockPosition; // Small Block
         private readonly int StorageBlockPosition; // Big Block
+        private const int PartitionSize = 0x40000;
 
         // SaveData is chunked into two pieces.
         protected readonly byte[] Storage;
@@ -45,13 +46,16 @@ namespace PKHeX.Core
 
         protected SAV4(byte[] data) : base(data)
         {
-            GeneralBlockPosition = GetActiveGeneralBlock();
-            StorageBlockPosition = GetActiveStorageBlock();
+            var gSize = GeneralSize;
+            var sSize = StorageSize;
+            var sStart = StorageStart;
+            GeneralBlockPosition = GetActiveBlock(Data, 0, gSize);
+            StorageBlockPosition = GetActiveBlock(Data, sStart, sSize);
 
-            var gbo = (GeneralBlockPosition == 0 ? 0 : 0x40000);
-            var sbo = (StorageBlockPosition == 0 ? 0 : 0x40000) + StorageStart;
-            General = GetData(gbo, GeneralSize);
-            Storage = GetData(sbo, StorageSize);
+            var gbo = (GeneralBlockPosition == 0 ? 0 : PartitionSize);
+            var sbo = (StorageBlockPosition == 0 ? 0 : PartitionSize) + sStart;
+            General = GetData(gbo, gSize);
+            Storage = GetData(sbo, sSize);
         }
 
         // Configuration
@@ -112,8 +116,8 @@ namespace PKHeX.Core
             BitConverter.GetBytes(CalcBlockChecksum(Storage)).CopyTo(Storage, Storage.Length - 2);
 
             // Write blocks back
-            General.CopyTo(Data, GeneralBlockPosition * 0x40000);
-            Storage.CopyTo(Data, (StorageBlockPosition * 0x40000) + StorageStart);
+            General.CopyTo(Data, GeneralBlockPosition * PartitionSize);
+            Storage.CopyTo(Data, (StorageBlockPosition * PartitionSize) + StorageStart);
         }
 
         public override bool ChecksumsValid
@@ -143,40 +147,29 @@ namespace PKHeX.Core
             }
         }
 
-        private int GetActiveGeneralBlock()
+        private static int GetActiveBlock(byte[] data, int begin, int length)
         {
             // Check to see if the save is initialized completely
             // if the block is not initialized, fall back to the other save.
-            int start = 0;
-            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
+            var start = begin;
+            if (data.IsRangeAll((byte)0, start, 10) || data.IsRangeAll((byte)0xFF, start, 10))
                 return 1;
-            start += 0x40000; // check other save
-            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
+            start += PartitionSize; // check other save
+            if (data.IsRangeAll((byte)0, start, 10) || data.IsRangeAll((byte)0xFF, start, 10))
                 return 0;
 
-            int ofs = GetGeneralBlockSaveCounterOffset();
-            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
-            return first ? 0 : 1;
+            // Fall back to highest value save counter
+            return GetActiveBlockViaCounter(data, begin, length);
         }
 
-        private int GetActiveStorageBlock()
+        private static int GetActiveBlockViaCounter(byte[] data, int begin, int length)
         {
-            // Check to see if the save is initialized completely
-            // if the block is not initialized, fall back to the other save.
-            int start = StorageStart;
-            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
-                return 1;
-            start += 0x40000; // check other save
-            if (Data.IsRangeAll((byte)0, start, 10) || Data.IsRangeAll((byte)0xFF, start, 10))
-                return 0;
-
-            int ofs = GetStorageBlockSaveCounterOffset();
-            bool first = BitConverter.ToUInt16(Data, ofs) >= BitConverter.ToUInt16(Data, ofs + 0x40000);
+            int ofs = GetBlockSaveCounterOffset(begin, length);
+            bool first = BitConverter.ToUInt16(data, ofs) >= BitConverter.ToUInt16(data, ofs + PartitionSize);
             return first ? 0 : 1;
         }
 
-        private int GetGeneralBlockSaveCounterOffset() => GeneralSize - 0x10;
-        private int GetStorageBlockSaveCounterOffset() => StorageStart + StorageSize - 0x10;
+        private static int GetBlockSaveCounterOffset(int start, int length) => start + length - 0x10;
 
         protected int WondercardFlags = int.MinValue;
         protected int AdventureInfo = int.MinValue;
