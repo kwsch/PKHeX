@@ -38,12 +38,16 @@
 0x3A8	Overworld Hidden (Regice)
 0x3A9	Overworld Hidden (Registeel)
 
+0x3D1	Overworld Hidden (Electrode 1 in Hideout)
+0x3D2	Overworld Hidden (Electrode 2 in Hideout)
+
 0x800	Received Starter Pokemon
 0x801	Received Pokedex
 0x802	Received PokeNav
 0x804	Entered Hall of Fame
 0x805	Used Easy Chat
 0x806	Met The Hipster
+0x80D	Magma/Aqua Hideout entrance sealed
 0x830	Watched TV at Home
 0x834	Mixed Records
 0x835	Set Clock

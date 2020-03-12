@@ -67,6 +67,7 @@ namespace PKHeX.WinForms
                 if (!sav1.Version.Contains(GameVersion.YW))
                 {
                     L_PikaFriend.Visible = MT_PikaFriend.Visible = false;
+                    L_PikaBeach.Visible = MT_PikaBeach.Visible = false;
                     CB_SoundType.Visible = LBL_SoundType.Visible = false;
                 }
             }
