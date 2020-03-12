@@ -39,7 +39,7 @@ namespace PKHeX.Core
                 return new CheckResult(CheckIdentifier.GameOrigin);
 
             var ver = (int)val >> 16;
-            if (ver != 0 && !CanVersionRecieveGift(g.Format, ver, pk.Version))
+            if (ver != 0 && !CanVersionReceiveGift(g.Format, ver, pk.Version))
                 return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
             var lang = val & MysteryGiftRestriction.LangRestrict;
@@ -72,7 +72,7 @@ namespace PKHeX.Core
             return CurrentOTMatchesReplaced(g.Format, pk.OT_Name);
         }
 
-        private static bool CanVersionRecieveGift(int format, int version4bit, int version)
+        private static bool CanVersionReceiveGift(int format, int version4bit, int version)
         {
             return format switch
             {

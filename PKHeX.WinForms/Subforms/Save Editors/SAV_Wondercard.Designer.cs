@@ -123,7 +123,7 @@ namespace PKHeX.WinForms
             this.flagDel.Name = "flagDel";
             this.flagDel.Size = new System.Drawing.Size(107, 22);
             this.flagDel.Text = "Delete";
-            this.flagDel.Click += new System.EventHandler(this.ClearRecievedFlag);
+            this.flagDel.Click += new System.EventHandler(this.ClearReceivedFlag);
             // 
             // L_Received
             // 

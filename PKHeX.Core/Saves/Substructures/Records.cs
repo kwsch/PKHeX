@@ -346,7 +346,7 @@ namespace PKHeX.Core
 
             {179, "Shiny Pokemon Encountered"},
             {180, "Trick House Clears"},
-            {181, "Eon Ticket 1 (Spotpass)"},
+            {181, "Eon Ticket 1 (SpotPass)"},
             {182, "Eon Ticket 2 (Mystery Gift)"},
         };
 
@@ -469,7 +469,7 @@ namespace PKHeX.Core
             {137, "Battle Royal Dome Battles"},
             {138, "Items Picked Up after Battle"},
             {139, "Ate in Malasadas Shop"},
-            {140, "Hyper Trainings Recieved"},
+            {140, "Hyper Trainings Received"},
             {141, "Dishes eaten in Battle Buffet"},
             {142, "Pokémon Refresh Accessed"},
             {143, "Pokémon Storage System Log-outs"},

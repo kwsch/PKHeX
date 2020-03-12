@@ -246,7 +246,7 @@ namespace PKHeX.WinForms
         }
 
         // Delete Received Flag
-        private void ClearRecievedFlag(object sender, EventArgs e)
+        private void ClearReceivedFlag(object sender, EventArgs e)
         {
             if (LB_Received.SelectedIndex < 0)
                 return;
@@ -360,8 +360,8 @@ namespace PKHeX.WinForms
             if (mga.Gifts.All(card => card.Data.Length != data.Length))
                 WinFormsUtil.Alert(MsgMysteryGiftQRTypeLength, string.Format(MsgQRDecodeSize, $"0x{data.Length:X}"));
             else if (types.All(type => type != giftType))
-                WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible, $"{MsgMysteryGiftQRRecieved} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
-            else if (!SAV.CanRecieveGift(gift))
+                WinFormsUtil.Alert(MsgMysteryGiftTypeIncompatible, $"{MsgMysteryGiftQRReceived} {gift.Type}{Environment.NewLine}{MsgMysteryGiftTypeUnexpected} {string.Join(", ", types)}");
+            else if (!SAV.CanReceiveGift(gift))
                 WinFormsUtil.Alert(MsgMysteryGiftTypeDetails);
             else
                 ViewGiftData(gift);

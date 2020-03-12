@@ -125,7 +125,7 @@ namespace PKHeX.Core
                 return false;
             }
 
-            if (!SAV.CanRecieveGift(g))
+            if (!SAV.CanReceiveGift(g))
             {
                 message = MsgMysteryGiftTypeDetails;
                 return false;
@@ -150,7 +150,7 @@ namespace PKHeX.Core
         /// <param name="SAV">Save file receiving the gift data.</param>
         /// <param name="gift">Gift data to potentially insert to the save file.</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public static bool CanRecieveGift(this SaveFile SAV, MysteryGift gift)
+        public static bool CanReceiveGift(this SaveFile SAV, MysteryGift gift)
         {
             if (gift.Species > SAV.MaxSpeciesID)
                 return false;

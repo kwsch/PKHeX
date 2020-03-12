@@ -296,7 +296,7 @@ namespace PKHeX.Core
         public static string MsgMysteryGiftSlotFailSwap { get; set; } = "Can't swap a {0} with a {1}.";
 
         public static string MsgMysteryGiftQRTypeLength { get; set; } = "Decoded data length not valid for loaded save file.";
-        public static string MsgMysteryGiftQRRecieved { get; set; } = "QR Gift Type:";
+        public static string MsgMysteryGiftQRReceived { get; set; } = "QR Gift Type:";
         public static string MsgMysteryGiftQREonTicket { get; set; } = "Eon Ticket Mystery Gift will not import correctly when received via QR.";
         public static string MsgMysteryGiftQREonTicketAdvice { get; set; } = "Inject the Eon Ticket Mystery Gift to the save file instead.";
 
