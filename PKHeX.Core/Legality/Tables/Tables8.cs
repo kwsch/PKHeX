@@ -328,6 +328,12 @@ namespace PKHeX.Core
             (int)Species.Nickit, (int)Species.Thievul,
             (int)Species.Wooloo, (int)Species.Dubwool,
             (int)Species.Yamper, (int)Species.Boltund,
+
+            // Average & Super forms have hidden abilities available via raids.
+            710 + (1 << 11), //Pumpkaboo-Small
+            711 + (1 << 11), //Gourgeist-Small
+            710 + (2 << 11), //Pumpkaboo-Large
+            711 + (2 << 11), //Gourgeist-Large
         };
 
         internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
