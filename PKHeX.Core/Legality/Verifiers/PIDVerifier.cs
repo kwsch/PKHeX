@@ -127,11 +127,9 @@ namespace PKHeX.Core
             // If the PID is nonshiny->shiny, the top bit is flipped.
 
             // Check to see if the PID and EC are properly configured.
-            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(pkm.PID & 0xFFFF) ^ (int)(pkm.PID >> 16)) & ~0x7) == 8;
-            bool valid = xorPID
-                ? pkm.EncryptionConstant == (pkm.PID ^ 0x80000000)
-                : pkm.EncryptionConstant == pkm.PID;
-
+            var ec = pkm.EncryptionConstant; // should be original PID
+            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(ec & 0xFFFF) ^ (int)(ec >> 16)) & ~0x7) == 8;
+            bool valid = pkm.PID == (xorPID ? (ec ^ 0x80000000) : ec);
             if (valid)
                 return;
 
