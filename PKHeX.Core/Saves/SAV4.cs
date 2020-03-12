@@ -165,7 +165,9 @@ namespace PKHeX.Core
         private static int GetActiveBlockViaCounter(byte[] data, int begin, int length)
         {
             int ofs = GetBlockSaveCounterOffset(begin, length);
-            bool first = BitConverter.ToUInt16(data, ofs) >= BitConverter.ToUInt16(data, ofs + PartitionSize);
+            var block0 = BitConverter.ToUInt16(data, ofs);
+            var block1 = BitConverter.ToUInt16(data, ofs + PartitionSize);
+            bool first = block0 >= block1;
             return first ? 0 : 1;
         }
 
