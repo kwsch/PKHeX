@@ -154,7 +154,7 @@ namespace PKHeX.Core
                     var lower = Cache[p7];
                     uint cid = upper << 16 | lower;
                     var sv = (upper ^ lower) >> 3;
-                    if (current.Shadow && sv == TSV) // shiny shadow mon, only ever true for XD.
+                    if (sv == TSV) // XD shiny checks all opponent PKM, even non-shadow.
                     {
                         // This interrupt is ignored! The result is shiny.
                     }
@@ -204,9 +204,10 @@ namespace PKHeX.Core
                 var pid = member.PID;
                 var psv = ((pid & 0xFFFF) ^ (pid >> 16)) >> 3;
 
-                // check for shiny for Trainer
-                if (psv == TSV && Specifications.Locks[pos].Shadow) // always false for Colo, which doesn't set the TSV field.
-                    return false; // no shiny shadow mons
+                // check for shiny for Trainer -- XD only
+                // if (psv == TSV) // XD shiny checks all opponent PKM, even non-shadow.
+                //    return false; // no shiny shadow mons
+                // we already checked this when re-generating the team
 
                 // check for shiny for CPU
                 if (psv == CPUSV)

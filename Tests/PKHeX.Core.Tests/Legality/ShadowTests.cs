@@ -181,5 +181,38 @@ namespace PKHeX.Tests.Legality.Shadow
                     yield return RNG.XDRNG.Reverse(s, 3);
             }
         }
+
+        public static readonly uint[] Mawile =
+        {
+            0x4C3005E8, // Loudred
+            0xD28DE40E, // Girafarig (re - rolled 64 times to next viable match)
+            0x049F2F05, // Mawile
+        };
+
+        [Fact]
+        public static void VerifyMawileAntishiny()
+        {
+            VerifyResultsAntiShiny(Mawile, Encounters3Teams.Mawile, 12345, 51882, new[] {31, 30, 29, 31, 23, 27});
+        }
+
+        private static void VerifyResultsAntiShiny(uint[] results, TeamLock[] team, int tid, int sid, int[] ivs)
+        {
+            var pk3 = new PK3
+            {
+                PID = results[^1],
+                TID = tid,
+                SID = sid,
+                IVs = ivs,
+            };
+
+            var info = MethodFinder.Analyze(pk3);
+            info.Type.Should().Be(PIDType.CXD, "because the PID should have matched the CXD spread");
+            bool result = LockFinder.IsAllShadowLockValid(info, team, pk3.TSV);
+            result.Should().BeTrue();
+
+            // if you're here inspecting what's so special about this method,
+            // double check that the Team's PIDs exactly match what's in the expected result array.
+            // as of this test's date, the methods/fields aren't exposed for viewing.
+        }
     }
 }
