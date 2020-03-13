@@ -232,9 +232,9 @@ namespace PKHeX.WinForms
             }
 
             SAV.BP = ushort.Parse(TB_BP.Text);
-            // Set Current PokÈMiles
+            // Set Current Pok√©Miles
             SAV.SetRecord(63, Util.ToInt32(TB_PM.Text));
-            // Set Max Obtained PokÈmiles
+            // Set Max Obtained Pok√©miles
             SAV.SetRecord(64, Util.ToInt32(TB_PM.Text));
             sit.Style = byte.Parse(TB_Style.Text);
 
