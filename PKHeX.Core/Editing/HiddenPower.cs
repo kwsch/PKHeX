@@ -34,7 +34,7 @@ namespace PKHeX.Core
             hp *= 0xF;
             hp /= 0x3F;
             return hp;
-        }
+        
 
         /// <summary>
         /// Gets the current Hidden Power Type of the input <see cref="IVs"/> for Generations 1 &amp; 2
