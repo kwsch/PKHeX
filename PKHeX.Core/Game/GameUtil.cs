@@ -174,76 +174,96 @@ namespace PKHeX.Core
         /// <param name="g2">Individual version</param>
         public static bool Contains(this GameVersion g1, GameVersion g2)
         {
-            if (g1 == g2 || g1 == Any)
+            if (g1 == g2 || g1 == Any) 
                 return true;
 
-            switch (g1)
+            do
             {
-                case RB:
-                    return g2 == RD || g2 == BU || g2 == GN;
-                case Stadium:
-                case EventsGBGen1:
-                case VCEvents:
-                case RBY:
-                    return RB.Contains(g2) || g2 == YW;
-                case Gen1:
-                    return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
+                switch (g1)
+                {
+                    case RB:
+                        return g2 == RD || g2 == BU || g2 == GN;
+                    case Stadium:
+                    case EventsGBGen1:
+                    case VCEvents:
+                    case RBY:
+                        return RB.Contains(g2) || g2 == YW;
+                    case Gen1:
+                        return RBY.Contains(g2) || g2 == Stadium || g2 == EventsGBGen1 || g2 == VCEvents;
 
-                case GS: return g2 == GD || g2 == SV;
-                case Stadium2:
-                case EventsGBGen2:
-                case GSC:
-                    return GS.Contains(g2) || g2 == C;
-                case Gen2:
-                    return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
-                case GBCartEraOnly:
-                    return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
+                    case GS:
+                        return g2 == GD || g2 == SV;
+                    case Stadium2:
+                    case EventsGBGen2:
+                    case GSC:
+                        return GS.Contains(g2) || g2 == C;
+                    case Gen2:
+                        return GSC.Contains(g2) || g2 == Stadium2 || g2 == EventsGBGen2;
+                    case GBCartEraOnly:
+                        return g2 == Stadium || g2 == Stadium2 || g2 == EventsGBGen1 || g2 == EventsGBGen2;
 
-                case RS: return g2 == R || g2 == S;
-                case RSE:
-                    return RS.Contains(g2) || g2 == E;
-                case FRLG: return g2 == FR || g2 == LG;
-                case COLO:
-                case XD: return g2 == CXD;
-                case CXD: return g2 == COLO || g2 == XD;
-                case RSBOX: return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
-                case Gen3:
-                    return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
+                    case RS:
+                        return g2 == R || g2 == S;
+                    case RSE:
+                        return RS.Contains(g2) || g2 == E;
+                    case FRLG:
+                        return g2 == FR || g2 == LG;
+                    case COLO:
+                    case XD:
+                        return g2 == CXD;
+                    case CXD:
+                        return g2 == COLO || g2 == XD;
+                    case RSBOX:
+                        return RS.Contains(g2) || g2 == E || FRLG.Contains(g2);
+                    case Gen3:
+                        return RSE.Contains(g2) || FRLG.Contains(g2) || CXD.Contains(g2) || g2 == RSBOX;
 
-                case DP: return g2 == D || g2 == P;
-                case HGSS: return g2 == HG || g2 == SS;
-                case DPPt:
-                    return DP.Contains(g2) || g2 == Pt;
-                case BATREV: return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
-                case Gen4:
-                    return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
+                    case DP:
+                        return g2 == D || g2 == P;
+                    case HGSS:
+                        return g2 == HG || g2 == SS;
+                    case DPPt:
+                        return DP.Contains(g2) || g2 == Pt;
+                    case BATREV:
+                        return DP.Contains(g2) || g2 == Pt || HGSS.Contains(g2);
+                    case Gen4:
+                        return DPPt.Contains(g2) || HGSS.Contains(g2) || g2 == BATREV;
 
-                case BW: return g2 == B || g2 == W;
-                case B2W2: return g2 == B2 || g2 == W2;
-                case Gen5:
-                    return BW.Contains(g2) || B2W2.Contains(g2);
+                    case BW:
+                        return g2 == B || g2 == W;
+                    case B2W2:
+                        return g2 == B2 || g2 == W2;
+                    case Gen5:
+                        return BW.Contains(g2) || B2W2.Contains(g2);
 
-                case XY: return g2 == X || g2 == Y;
-                case ORAS: return g2 == OR || g2 == AS;
-                case Gen6:
-                    return XY.Contains(g2) || ORAS.Contains(g2);
+                    case XY:
+                        return g2 == X || g2 == Y;
+                    case ORAS:
+                        return g2 == OR || g2 == AS;
+                    case Gen6:
+                        return XY.Contains(g2) || ORAS.Contains(g2);
 
-                case SM:
-                    return g2 == SN || g2 == MN;
-                case USUM:
-                    return g2 == US || g2 == UM;
-                case GG:
-                    return g2 == GP || g2 == GE || g2 == GO;
-                case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
+                    case SM:
+                        return g2 == SN || g2 == MN;
+                    case USUM:
+                        return g2 == US || g2 == UM;
+                    case GG:
+                        return g2 == GP || g2 == GE || g2 == GO;
+                    case Gen7:
+                        return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
 
-                case SWSH:
-                    return g2 == SW || g2 == SH;
-                case Gen8:
-                    return SWSH.Contains(g2);
+                    case SWSH:
+                        return g2 == SW || g2 == SH;
+                    case Gen8:
+                        g1 = SWSH;
+                        break;
 
-                default: return false;
-            }
+                    default:
+                        return false;
+                }
+            } while (g1 != g2);
+
+            return true;
         }
 
         /// <summary>
