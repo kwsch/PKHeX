@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -163,9 +164,7 @@ namespace PKHeX.Core
 
         internal static T[] ConcatAll<T>(params T[][] arr)
         {
-            int len = 0;
-            foreach (var a in arr)
-                len += a.Length;
+            int len = arr.Sum(a => a.Length);
 
             var result = new T[len];
 

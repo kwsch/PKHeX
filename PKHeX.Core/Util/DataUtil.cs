@@ -333,8 +333,7 @@ namespace PKHeX.Core
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, IReadOnlyList<ushort> allowed)
         {
             var list = new List<ComboItem>(allowed.Count + 1) { new ComboItem(inStrings[0], 0) };
-            foreach (var index in allowed)
-                list.Add(new ComboItem(inStrings[index], index));
+            list.AddRange(allowed.Select(index => new ComboItem(inStrings[index], index)));
             list.Sort(Comparer);
             return list;
         }

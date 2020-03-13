@@ -46,10 +46,8 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            foreach (var c in value)
+            foreach (var c in value.Where(c => IsNum(c)))
             {
-                if (!IsNum(c))
-                    continue;
                 result *= 10;
                 result += c;
                 result -= '0';
