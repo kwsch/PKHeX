@@ -56,12 +56,29 @@ namespace PKHeX.Core
             }
         }
 
+        public static bool WasFriendSafari(PKM pkm)
+        {
+            if (!pkm.XY)
+                return false;
+            if (pkm.Met_Location != 148)
+                return false;
+            if (pkm.Met_Level != 30)
+                return false;
+            if (pkm.Egg_Location != 0)
+                return false;
+            return true;
+        }
+
         public static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
         {
-            if (!pkm.XY || pkm.Met_Location != 148 || pkm.Met_Level != 30 || pkm.Egg_Location != 0) // Friend Safari
-                return Enumerable.Empty<EncounterSlot>();
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm).Where(d => d.Level >= 30);
-            return vs.SelectMany(z => Encounters6.FriendSafari[z.Species]);
+            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
+            return GetValidFriendSafari(vs);
+        }
+
+        public static IEnumerable<EncounterSlot> GetValidFriendSafari(IEnumerable<EvoCriteria> vs)
+        {
+            var evos = vs.Where(d => d.Level >= 30);
+            return evos.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
     }
 }

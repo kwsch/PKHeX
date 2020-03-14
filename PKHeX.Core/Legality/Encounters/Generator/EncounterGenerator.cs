@@ -326,9 +326,14 @@ namespace PKHeX.Core
             foreach (var z in GetValidStaticEncounter(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
-            foreach (var z in EncounterArea6XY.GetValidFriendSafari(pkm))
-            { yield return z; ++ctr; }
-            if (ctr != 0) yield break;
+
+            if (EncounterArea6XY.WasFriendSafari(pkm))
+            {
+                foreach (var z in EncounterArea6XY.GetValidFriendSafari(pkm))
+                { yield return z; ++ctr; }
+                if (ctr != 0) yield break;
+            }
+
             foreach (var z in GetValidWildEncounters(pkm))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
