@@ -200,11 +200,17 @@ namespace PKHeX.WinForms
             RawDB = new List<MysteryGift>(db);
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
-            BeginInvoke(new MethodInvoker(delegate
+
+            try
             {
-                SetResults(RawDB);
-                PopulateComboBoxes();
-            }));
+                while (!IsHandleCreated) { }
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    SetResults(RawDB);
+                    PopulateComboBoxes();
+                }));
+            }
+            catch { /* Window Closed? */ }
         }
 
         // IO Usage

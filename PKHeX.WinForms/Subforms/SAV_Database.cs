@@ -318,6 +318,7 @@ namespace PKHeX.WinForms
 
             try
             {
+                while (!IsHandleCreated) { }
                 BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
             }
             catch { /* Window Closed? */ }

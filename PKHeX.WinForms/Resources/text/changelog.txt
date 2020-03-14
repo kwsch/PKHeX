@@ -1,7 +1,33 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/02/14 - New Update:
+20/03/14 - New Update:
+ - Added: Shiny Sprites for the new 68x56 box sprites. Thanks @msikma! https://github.com/msikma/pokesprite
+ - Legality:
+ - - Added: Latest raid news data.
+ - - Fixed: Shared egg moves are now allowed for past-gen transfers.
+ - - Fixed: Gen8 unavailable evolutions (like Alolan Raichu) are now recognized correctly. Thanks @sora10pls!
+ - - Fixed: Gen8 Pumpkaboo/Gourgeist Hidden Abilities are now restricted correctly in Gen8. Thanks @Lusamine!
+ - - Fixed: Gen8 Alola starters are now correctly banned from inheriting balls (only Poké Ball). Thanks @Lusamine!
+ - - Fixed: Gen8 Past gen species are now correctly allowed to inherit balls using Gen7 and prior rules. Thanks @Lusamine!
+ - - Fixed: Gen3 Antishiny trainer Pokémon mechanism for XD is now checked correctly. Thanks @ijuintekka!
+ - - Fixed: Gen4 HGSS egg hatch locations now allow the Battle Fontier. Thanks @sora10pls!
+ - - Added: Gen3/4 Min levels for in-game trades are now enforced.
+ - - Fixed: Gen3/4/5 ShinyXor8-15 Antishiny mechanism is now checked correctly. Thanks @Lusamine!
+ - Added: Current Box is now used when loading SW/SH save files.
+ - Added: Box manipulations (right click the Box tab) now has a Heal All manipulation (like the Pokécenter heal).
+ - Added: Gen8 Indicator for dummied moves. Thanks @sora10pls!
+ - Added: Gen8 now exposes NPC and Friend League card accessors in the block editor.
+ - Added: Gen3 More event flags. Thanks @Kermalis, @FeralFalcon!
+ - Fixed: Gen8 Showdown set parsing for Toxtricity now behaves correctly with Showdown's latest set syntax updates.
+ - Fixed: Gen6+ Loading a version-less PKM will no longer copy PID->EC. Only for Gen3/4/5 origins.
+ - Fixed: Gen8 converted PK2/PK7 files are now healed.
+ - Fixed: Gen8 affection fields are now hidden (properties don't exist in PK8 format).
+ - Fixed: Gen3 PC Item list no longer lists key items twice. Thanks @Kermalis!
+ - Changed: Gen8 now only sets the display form if it is not already owned; retaining the original displayed form. Thanks @CanoeHope!
+ - Updated: Spanish/Chinese translations. Thanks @qhq, @easyworld, @XxPhoenix1996xX !
+
+20/02/14 - New Update: (106566) [2517780]
  - Legality:
  - - Added: Initial handling for HOME Transfers.
  - - Note: Tracker value is currently not flagged if missing; there's a setting to enable flagging.
