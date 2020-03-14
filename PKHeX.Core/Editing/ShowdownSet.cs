@@ -496,14 +496,15 @@ namespace PKHeX.Core
         private bool ParseSpeciesForm(string spec)
         {
             spec = spec.Trim();
-            if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec)) >= 0) // success, nothing else!
-                return true;
-
             if (spec.EndsWith(Gmax))
             {
                 CanGigantamax = true;
                 spec = spec.Substring(0, spec.Length - Gmax.Length);
             }
+
+            if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec)) >= 0) // success, nothing else!
+                return true;
+
             // Forme string present.
             int end = spec.LastIndexOf('-');
             if (end < 0)
