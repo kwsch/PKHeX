@@ -104,10 +104,10 @@ namespace PKHeX.Core
                 pk.TID = TID;
                 pk.SID = SID;
 
-                pk.Language = (int)GetSafeLanguage((LanguageID)SAV.Language, (LanguageID)Language);
+                pk.Language = (int)GetSafeLanguage((LanguageID)SAV.Language);
                 pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : SAV.OT;
                 if (IsEgg)
-                    pk.IsEgg = true; // lang should be set to japanese by IsEgg setter
+                    pk.IsEgg = true; // lang should be set to japanese already
             }
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, 3); // will be set to Egg nickname if appropriate by PK3 setter
 
@@ -178,13 +178,15 @@ namespace PKHeX.Core
             };
         }
 
-        private static LanguageID GetSafeLanguage(LanguageID hatchLang, LanguageID supplied)
+        private LanguageID GetSafeLanguage(LanguageID hatchLang)
         {
-            if (supplied >= LanguageID.Japanese)
-                return supplied;
-            if (hatchLang < LanguageID.Hacked || hatchLang > LanguageID.Korean) // ko
-                return LanguageID.English;
-            return hatchLang;
+            if (IsEgg)
+                return LanguageID.Japanese;
+            if (Language != -1)
+                return (LanguageID)Language;
+            if (hatchLang < LanguageID.Korean && hatchLang != LanguageID.Hacked)
+                return hatchLang;
+            return LanguageID.English; // fallback
         }
 
         private static GameVersion GetRandomVersion(GameVersion version)
