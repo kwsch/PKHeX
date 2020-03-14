@@ -28,12 +28,12 @@ namespace PKHeX.WinForms.Controls
             if (!(Entity is PK6 pk6))
                 throw new FormatException(nameof(Entity));
 
-            CheckTransferPIDValid();
             SaveMisc1(pk6);
             SaveMisc2(pk6);
             SaveMisc3(pk6);
             SaveMisc4(pk6);
             SaveMisc6(pk6);
+            CheckTransferPIDValid(pk6);
 
             pk6.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
 

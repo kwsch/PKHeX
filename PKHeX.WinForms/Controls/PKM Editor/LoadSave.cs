@@ -345,32 +345,32 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Misc
-        private void CheckTransferPIDValid()
+        private static void CheckTransferPIDValid(PKM pk)
         {
-            if (Entity.Version >= 24)
+            if (pk.Version >= 24 && pk.Version != 0)
                 return;
 
-            uint EC = Util.GetHexValue(TB_EC.Text);
-            uint PID = Util.GetHexValue(TB_PID.Text);
+            uint EC = pk.EncryptionConstant;
+            uint PID = pk.PID;
             uint LID = PID & 0xFFFF;
             uint HID = PID >> 16;
-            uint XOR = (uint)(Entity.TID ^ LID ^ Entity.SID ^ HID);
+            uint XOR = (uint)(pk.TID ^ LID ^ pk.SID ^ HID);
 
             // Ensure we don't have a shiny.
             if (XOR >> 3 == 1) // Illegal, fix. (not 16<XOR>=8)
             {
-                // Keep as shiny, so we have to mod the PID
-                PID ^= XOR;
-                TB_PID.Text = PID.ToString("X8");
-                TB_EC.Text = PID.ToString("X8");
+                // Keep as shiny, so we have to mod the EC
+                pk.EncryptionConstant = PID ^ 0x80000000;
             }
             else if ((XOR ^ 0x8000) >> 3 == 1 && PID != EC)
             {
-                TB_EC.Text = (PID ^ 0x80000000).ToString("X8");
+                // Already anti-shiny, ensure the anti-shiny relationship is present.
+                pk.EncryptionConstant = PID ^ 0x80000000;
             }
-            else // Not illegal, no fix.
+            else
             {
-                TB_EC.Text = PID.ToString("X8");
+                // Ensure the copy correlation is present.
+                pk.EncryptionConstant = PID;
             }
         }
 

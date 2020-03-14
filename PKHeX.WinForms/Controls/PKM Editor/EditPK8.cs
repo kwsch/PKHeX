@@ -27,13 +27,13 @@ namespace PKHeX.WinForms.Controls
             if (!(Entity is PK8 pk8))
                 throw new FormatException(nameof(Entity));
 
-            CheckTransferPIDValid();
             SaveMisc1(pk8);
             SaveMisc2(pk8);
             SaveMisc3(pk8);
             SaveMisc4(pk8);
             SaveMisc6(pk8);
             SaveMisc8(pk8);
+            CheckTransferPIDValid(pk8);
 
             // Toss in Party Stats
             SavePartyStats(pk8);

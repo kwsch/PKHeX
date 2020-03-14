@@ -25,12 +25,12 @@ namespace PKHeX.WinForms.Controls
             if (!(Entity is PK7 pk7))
                 throw new FormatException(nameof(Entity));
 
-            CheckTransferPIDValid();
             SaveMisc1(pk7);
             SaveMisc2(pk7);
             SaveMisc3(pk7);
             SaveMisc4(pk7);
             SaveMisc6(pk7);
+            CheckTransferPIDValid(pk7);
 
             // Toss in Party Stats
             SavePartyStats(pk7);
@@ -71,7 +71,6 @@ namespace PKHeX.WinForms.Controls
             if (!(Entity is PB7 pk7))
                 throw new FormatException(nameof(Entity));
 
-            CheckTransferPIDValid();
             SaveMisc1(pk7);
             SaveMisc2(pk7);
             SaveMisc3(pk7);
