@@ -26,7 +26,16 @@ namespace PKHeX.Core
 
             var Info = data.Info;
             if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
-                data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+            {
+                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 &&wc8.EncryptionConstant == 0)
+                {
+                    // We'll allow this to pass.
+                }
+                else
+                {
+                    data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                }
+            }
 
             VerifyShiny(data);
         }

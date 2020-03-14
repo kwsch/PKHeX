@@ -356,6 +356,11 @@ namespace PKHeX.Core
                 metSWSH_40000[i] += " (-)";
             metSWSH_40000[29] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 39
             metSWSH_40000[52] += " (-)"; // a Pokémon event -- duplicate with line 37
+
+            // metSWSH_40000[80] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
+            // metSWSH_40000[85] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
+            metSWSH_30000[11] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
+            metSWSH_30000[17] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
         }
 
         public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)

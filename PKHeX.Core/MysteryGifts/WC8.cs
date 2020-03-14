@@ -294,6 +294,8 @@ namespace PKHeX.Core
             return 0x12C + (index * 0x1C);
         }
 
+        private bool IsHOMEGift => PIDType == Shiny.FixedValue && PID == 0 && EncryptionConstant == 0;
+
         public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
             if (!IsPokémon)
@@ -306,7 +308,7 @@ namespace PKHeX.Core
 
             var pk = new PK8
             {
-                EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
+                EncryptionConstant = EncryptionConstant != 0 || IsHOMEGift ? EncryptionConstant : Util.Rand32(),
                 TID = TID,
                 SID = SID,
                 Species = Species,
@@ -502,7 +504,19 @@ namespace PKHeX.Core
                 var OT = GetOT(pkm.Language); // May not be guaranteed to work.
                 if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
-                if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
+                if (EncryptionConstant != 0)
+                {
+                    if (EncryptionConstant != pkm.EncryptionConstant)
+                        return false;
+                }
+                else if (IsHOMEGift)// 0
+                {
+                    // HOME gifts -- PID and EC are zeroes...
+                    if (EncryptionConstant != pkm.EncryptionConstant)
+                        return false;
+                    if (IsShiny)
+                        return false;
+                }
             }
 
             if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
