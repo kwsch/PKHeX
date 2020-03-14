@@ -8,7 +8,9 @@
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.
         /// </summary>
-        public uint PID;
+        public readonly uint PID;
+
+        public EncounterTradePID(uint pid) => PID = pid;
 
         public override Shiny Shiny { get; set; } = Shiny.FixedValue;
 

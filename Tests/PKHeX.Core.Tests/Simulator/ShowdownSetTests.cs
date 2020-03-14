@@ -167,6 +167,31 @@ namespace PKHeX.Tests.Simulator
             actual.Should().Be(moveCount);
         }
 
+        [Theory]
+        [InlineData(LowLevelElectrode)]
+        public void SimulatorParseEncounter(string text)
+        {
+            var set = new ShowdownSet(text);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, CurrentLevel = set.Level };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
+            var tr3 = encs.First(z => z is EncounterTrade t && t.Generation == 3);
+            var pk3 = tr3.ConvertToPKM(new SAV3());
+
+            var la = new LegalityAnalysis(pk3);
+            la.Valid.Should().BeTrue();
+        }
+
+        private const string LowLevelElectrode =
+@"BOLICHI (Electrode)
+IVs: 19 HP / 16 Atk / 18 Def / 25 SpA / 19 SpD / 25 Spe
+Ability: Static
+Level: 3
+Hasty Nature
+- Charge
+- Tackle
+- Screech
+- Sonic Boom";
+
         private const string SetDuplicateMoves =
 @"Kingler-Gmax @ Master Ball
 Ability: Sheer Force

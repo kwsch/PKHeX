@@ -95,7 +95,7 @@ namespace PKHeX.Core
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
-                level = 25; // avoid some cases
+                level = Math.Max(1, LevelMin);
 
             int species = Species;
             if (EvolveOnTrade)
