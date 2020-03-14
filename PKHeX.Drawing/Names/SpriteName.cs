@@ -74,6 +74,8 @@ namespace PKHeX.Drawing
             (int)Species.Spewpa,
             (int)Species.Silvally,
             (int)Species.Mimikyu,
+            (int)Species.Sinistea,
+            (int)Species.Polteageist,
         };
 
         /// <summary>
@@ -81,6 +83,7 @@ namespace PKHeX.Drawing
         /// </summary>
         private static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
+            (int)Species.Hippopotas,
             (int)Species.Hippowdon,
             (int)Species.Unfezant,
             (int)Species.Frillish,
