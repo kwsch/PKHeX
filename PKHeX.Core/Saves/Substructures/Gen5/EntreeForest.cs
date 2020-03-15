@@ -69,8 +69,8 @@ namespace PKHeX.Core
         /// </summary>
         public int Unlock38Areas
         {
-            get => Data[0x849];
-            set => Data[0x849] = (byte)Math.Min(MaxUnlock38Areas, value);
+            get => Data[0x849] & 7;
+            set => Data[0x849] = (byte)((Data[0x849] & ~7) | Math.Min(MaxUnlock38Areas, value));
         }
 
         public uint EncryptionSeed
