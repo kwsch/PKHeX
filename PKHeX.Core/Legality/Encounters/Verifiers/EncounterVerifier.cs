@@ -44,18 +44,15 @@ namespace PKHeX.Core
             {
                 return VerifyEncounterEgg(pkm);
             }
-            if (EncounterMatch is EncounterSlot1 l)
-            {
-                if (info.Generation == 2)
-                    return VerifyWildEncounterGen2(pkm, l);
-                return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
-            }
-            if (EncounterMatch is EncounterStatic s)
-                return VerifyEncounterStatic(pkm, s);
-            if (EncounterMatch is EncounterTrade t)
-                return VerifyEncounterTrade(pkm, t);
 
-            return new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter);
+            return EncounterMatch switch
+            {
+                EncounterSlot1 l when info.Generation == 2 => VerifyWildEncounterGen2(pkm, l),
+                EncounterSlot1 l => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
+                EncounterStatic s => VerifyEncounterStatic(pkm, s),
+                EncounterTrade t => VerifyEncounterTrade(pkm, t),
+                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+            };
         }
 
         // Gen2 Wild Encounters

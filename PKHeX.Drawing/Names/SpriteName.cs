@@ -33,17 +33,23 @@ namespace PKHeX.Drawing
             {
                 sb.Append(Separator).Append(form);
 
-                if (species == (int) Species.Pikachu)
+                switch (species)
                 {
-                    if (generation == 6)
+                    case (int) Species.Pikachu when generation == 6:
                         sb.Append(Cosplay);
-                    else if (form == 8)
-                        sb.Append(GGStarter);
-                }
-                else if (species == (int) Species.Eevee)
-                {
-                    if (form == 1)
-                        sb.Append(GGStarter);
+                        break;
+                    case (int) Species.Pikachu:
+                    {
+                        if (form == 8)
+                            sb.Append(GGStarter);
+                        break;
+                    }
+                    case (int) Species.Eevee:
+                    {
+                        if (form == 1)
+                            sb.Append(GGStarter);
+                        break;
+                    }
                 }
             }
             else if (gender == 1 && SpeciesGenderedSprite.Contains(species))

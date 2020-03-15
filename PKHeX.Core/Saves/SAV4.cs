@@ -265,24 +265,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1238; break;
-                    case GameVersion.Pt:   ofs = 0x1280; break;
-                    case GameVersion.HGSS: ofs = 0x1234; break;
-                }
+                    GameVersion.DP => 0x1238,
+                    GameVersion.Pt => 0x1280,
+                    GameVersion.HGSS => 0x1234,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1238; break;
-                    case GameVersion.Pt:   ofs = 0x1280; break;
-                    case GameVersion.HGSS: ofs = 0x1234; break;
-                }
+                    GameVersion.DP => 0x1238,
+                    GameVersion.Pt => 0x1280,
+                    GameVersion.HGSS => 0x1234,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)value).CopyTo(General, ofs);
             }
         }
@@ -291,24 +291,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1240; break;
-                    case GameVersion.Pt:   ofs = 0x1288; break;
-                    case GameVersion.HGSS: ofs = 0x123C; break;
-                }
+                    GameVersion.DP => 0x1240,
+                    GameVersion.Pt => 0x1288,
+                    GameVersion.HGSS => 0x123C,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1240; break;
-                    case GameVersion.Pt:   ofs = 0x1288; break;
-                    case GameVersion.HGSS: ofs = 0x123C; break;
-                }
+                    GameVersion.DP => 0x1240,
+                    GameVersion.Pt => 0x1288,
+                    GameVersion.HGSS => 0x123C,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)(X2 = value)).CopyTo(General, ofs);
             }
         }
@@ -317,24 +317,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1244; break;
-                    case GameVersion.Pt:   ofs = 0x128C; break;
-                    case GameVersion.HGSS: ofs = 0x1240; break;
-                }
+                    GameVersion.DP => 0x1244,
+                    GameVersion.Pt => 0x128C,
+                    GameVersion.HGSS => 0x1240,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x1244; break;
-                    case GameVersion.Pt:   ofs = 0x128C; break;
-                    case GameVersion.HGSS: ofs = 0x1240; break;
-                }
+                    GameVersion.DP => 0x1244,
+                    GameVersion.Pt => 0x128C,
+                    GameVersion.HGSS => 0x1240,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)(Y2 = value)).CopyTo(General, ofs);
             }
         }
@@ -343,24 +343,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x25FA; break;
-                    case GameVersion.Pt:   ofs = 0x287E; break;
-                    case GameVersion.HGSS: ofs = 0x236E; break;
-                }
+                    GameVersion.DP => 0x25FA,
+                    GameVersion.Pt => 0x287E,
+                    GameVersion.HGSS => 0x236E,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x25FA; break;
-                    case GameVersion.Pt:   ofs = 0x287E; break;
-                    case GameVersion.HGSS: ofs = 0x236E; break;
-                }
+                    GameVersion.DP => 0x25FA,
+                    GameVersion.Pt => 0x287E,
+                    GameVersion.HGSS => 0x236E,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)value).CopyTo(General, ofs);
             }
         }
@@ -369,24 +369,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x25FE; break;
-                    case GameVersion.Pt:   ofs = 0x2882; break;
-                    case GameVersion.HGSS: ofs = 0x2372; break;
-                }
+                    GameVersion.DP => 0x25FE,
+                    GameVersion.Pt => 0x2882,
+                    GameVersion.HGSS => 0x2372,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x25FE; break;
-                    case GameVersion.Pt:   ofs = 0x2882; break;
-                    case GameVersion.HGSS: ofs = 0x2372; break;
-                }
+                    GameVersion.DP => 0x25FE,
+                    GameVersion.Pt => 0x2882,
+                    GameVersion.HGSS => 0x2372,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)value).CopyTo(General, ofs);
             }
         }
@@ -395,24 +395,24 @@ namespace PKHeX.Core
         {
             get
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x2602; break;
-                    case GameVersion.Pt:   ofs = 0x2886; break;
-                    case GameVersion.HGSS: ofs = 0x2376; break;
-                }
+                    GameVersion.DP => 0x2602,
+                    GameVersion.Pt => 0x2886,
+                    GameVersion.HGSS => 0x2376,
+                    _ => 0
+                };
                 return BitConverter.ToUInt16(General, ofs);
             }
             set
             {
-                int ofs = 0;
-                switch (Version)
+                var ofs = Version switch
                 {
-                    case GameVersion.DP:   ofs = 0x2602; break;
-                    case GameVersion.Pt:   ofs = 0x2886; break;
-                    case GameVersion.HGSS: ofs = 0x2376; break;
-                }
+                    GameVersion.DP => 0x2602,
+                    GameVersion.Pt => 0x2886,
+                    GameVersion.HGSS => 0x2376,
+                    _ => 0
+                };
                 BitConverter.GetBytes((ushort)value).CopyTo(General, ofs);
             }
         }

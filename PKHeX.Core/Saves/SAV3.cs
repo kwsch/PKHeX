@@ -518,11 +518,12 @@ namespace PKHeX.Core
         {
             get
             {
-                if (Version == GameVersion.FRLG)
-                    return 0x820;
-                if (Version == GameVersion.RS)
-                    return 0x807;
-                return 0x867; // emerald
+                return Version switch
+                {
+                    GameVersion.FRLG => 0x820,
+                    GameVersion.RS => 0x807,
+                    _ => 0x867 // emerald
+                };
             }
         }
 
@@ -530,13 +531,13 @@ namespace PKHeX.Core
         {
             get
             {
-                switch (Version)
+                return Version switch
                 {
-                    case GameVersion.RS:
-                    case GameVersion.E: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0490) ^ SecurityKey;
-                    case GameVersion.FRLG: return BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0290) ^ SecurityKey;
-                    default: return 0;
-                }
+                    GameVersion.RS => (BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0490) ^ SecurityKey),
+                    GameVersion.E => (BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0490) ^ SecurityKey),
+                    GameVersion.FRLG => (BitConverter.ToUInt32(Data, BlockOfs[1] + 0x0290) ^ SecurityKey),
+                    _ => 0
+                };
             }
             set
             {
@@ -830,15 +831,15 @@ namespace PKHeX.Core
             {
                 if (BlockOfs.Any(z => z < 0))
                     return false;
-                switch (Version) // only check natdex status in Block0
+                return Version switch // only check natdex status in Block0
                 {
-                    case GameVersion.RS:
-                    case GameVersion.E:
-                        return Data[PokeDex + 2] == 0xDA; // enable nat dex option magic value
-                    case GameVersion.FRLG:
-                        return Data[PokeDex + 3] == 0xB9;
-                }
-                return false;
+                    GameVersion.RS => (Data[PokeDex + 2] == 0xDA) // enable nat dex option magic value
+                    ,
+                    GameVersion.E => (Data[PokeDex + 2] == 0xDA) // enable nat dex option magic value
+                    ,
+                    GameVersion.FRLG => (Data[PokeDex + 3] == 0xB9),
+                    _ => false
+                };
             }
             set
             {

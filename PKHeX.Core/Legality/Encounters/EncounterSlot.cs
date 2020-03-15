@@ -129,37 +129,42 @@ namespace PKHeX.Core
 
         private void SetFormatSpecificData(PKM pk)
         {
-            if (pk is PK1 pk1)
+            switch (pk)
             {
-                if (Species == (int)Core.Species.Kadabra && Version == GameVersion.YW) // Kadabra
+                // Kadabra
+                case PK1 pk1 when Species == (int)Core.Species.Kadabra && Version == GameVersion.YW:
                     pk1.Catch_Rate = 96;
-                else if (Species == 148 && Version == GameVersion.YW) // Dragonair
+                    break;
+                // Dragonair
+                case PK1 pk1 when Species == 148 && Version == GameVersion.YW:
                     pk1.Catch_Rate = 27;
-                else
+                    break;
+                case PK1 pk1:
                     pk1.Catch_Rate = PersonalTable.RB[Species].CatchRate; // RB
-            }
-            else if (pk is PK2 pk2)
-            {
-                if (Version == GameVersion.C && this is EncounterSlot1 slot)
-                    pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
-            }
-            else if (pk is XK3 xk3)
-            {
-                xk3.FatefulEncounter = true; // PokeSpot
-            }
-            else if (pk is PK4 pk4)
-            {
-                pk4.EncounterType = TypeEncounter.GetIndex();
-            }
-            else if (pk is PK6 pk6)
-            {
-                if (Permissions.IsDexNav)
+                    break;
+                case PK2 pk2:
                 {
-                    var eggMoves = MoveEgg.GetEggMoves(pk, Species, Form, Version);
-                    if (eggMoves.Length > 0)
-                        pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
+                    if (Version == GameVersion.C && this is EncounterSlot1 slot)
+                        pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
+                    break;
                 }
-                pk.SetRandomMemory6();
+                case XK3 xk3:
+                    xk3.FatefulEncounter = true; // PokeSpot
+                    break;
+                case PK4 pk4:
+                    pk4.EncounterType = TypeEncounter.GetIndex();
+                    break;
+                case PK6 pk6:
+                {
+                    if (Permissions.IsDexNav)
+                    {
+                        var eggMoves = MoveEgg.GetEggMoves(pk, Species, Form, Version);
+                        if (eggMoves.Length > 0)
+                            pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
+                    }
+                    pk.SetRandomMemory6();
+                    break;
+                }
             }
         }
 
