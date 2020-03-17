@@ -491,18 +491,23 @@ namespace PKHeX.WinForms.Controls
         {
             if (pkm.Format < 6)
                 return null;
-            if (pkm.Gen6)
-                return Properties.Resources.gen_6;
-            if (pkm.Gen7)
-                return Properties.Resources.gen_7;
-            if (pkm.Gen8)
-                return Properties.Resources.gen_8;
+
+            // Specific Markings
             if (pkm.VC)
                 return Properties.Resources.gen_vc;
             if (pkm.GG)
                 return Properties.Resources.gen_gg;
             if (pkm.GO)
                 return Properties.Resources.gen_go;
+
+            // Lumped Generations
+            if (pkm.Gen6)
+                return Properties.Resources.gen_6;
+            if (pkm.Gen7)
+                return Properties.Resources.gen_7;
+            if (pkm.Gen8)
+                return Properties.Resources.gen_8;
+
             return null;
         }
 
