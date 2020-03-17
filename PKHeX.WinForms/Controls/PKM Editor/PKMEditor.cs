@@ -495,10 +495,10 @@ namespace PKHeX.WinForms.Controls
             // Specific Markings
             if (pkm.VC)
                 return Properties.Resources.gen_vc;
-            if (pkm.GG)
-                return Properties.Resources.gen_gg;
             if (pkm.GO)
                 return Properties.Resources.gen_go;
+            if (pkm.GG) // LGP/E -- GO already returned above.
+                return Properties.Resources.gen_gg;
 
             // Lumped Generations
             if (pkm.Gen6)
