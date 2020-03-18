@@ -26,4 +26,4 @@
 1008	Encontrada Barrita Plus en la Vieja Mansión
 1233	Encontrada Tabla Oscura en la Vieja Mansión
 1234	Encontrada MT90 en la Vieja Mansión
-2736	Rotom disaparecido en la TV de la Vieja Mansión
+2736	Rotom desaparecido en la TV de la Vieja Mansión
