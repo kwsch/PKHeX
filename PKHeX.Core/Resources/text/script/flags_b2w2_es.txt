@@ -16,4 +16,4 @@
 0924	Regigigas Desaparecido
 0897	Cresselia Desaparecida
 0106	Funcionalidad de Intercambio Habilitada (Centro Pokémon)
-2403	Tiene las Zapatillas
+2403	Tiene las Deportivas
