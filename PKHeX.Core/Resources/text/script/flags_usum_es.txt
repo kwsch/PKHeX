@@ -1,5 +1,5 @@
 4060	Es Campeón de Alola + Evento de Magearna Activo
-4562	Been to Akala Island/Can Receive Partner Cap Pikachu
+4562	Ha ido a Isla Akala/Puede recibir Pikachu con Gorro
 4563	Recibido Pikachu con Gorro
 0518	Recibido Pikachu con Surf
 0493	Recibido Porygon de Regalo
@@ -54,7 +54,7 @@
 4546	Debloqueado Primarina Twist
 4547	Debloqueado Starmie 720
 4548	Debloqueado Over-the-Gyarados
-4490	Usar Control de Pad Circular para el Ultra Warp Ride
+4490	Usar Joystick para el Ultraviaje Dimensional
 4440	Estilo de Batalla Aprendido: Gracil 
 4441	Estilo de Batalla Aprendido: Cuco 
 4442	Estilo de Batalla Aprendido: Dual 
