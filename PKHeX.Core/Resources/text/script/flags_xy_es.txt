@@ -13,4 +13,4 @@
 0293	Super Rotación Desbloqueado
 0294	Super Multi Desbloqueado
 0675	Racha de 50: Derrota Dama del Combate
-2546	Pokédex Obtenido
+2546	PokéDex Obtenida
