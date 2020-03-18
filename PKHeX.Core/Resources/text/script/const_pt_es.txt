@@ -1,0 +1,17 @@
+0048	Inicial	387:Turtwig,390:Chimchar,393:Piplup
+0196	Dialga	0:Luchable,1:Desaparecido
+0197	Palkia	0:Luchable,1:Desaparecido
+0085	Giratina (Mundo Distorsión)	13:Luchable,14:Desaparecido
+0158	Heatran	00:No Activado,01:Luchable,02:Desaparecido
+0054	Isla Plenilunio	0:No Activado,520:En el Mapa
+0055	Isla Lunanueva	0:No Activado,553:En el Mapa
+0056	Vía Manantial	0:No aparecido,786:Aparecido
+0057	Vía Costera	0:No aparecido,4136:Aparecido
+0067	Carné Socio	0:No Activado,4617:Activado
+0068	Carta Prof Oak	0:No Activado,4370:Activado
+0069	Flauta Azur	0:No Activado,4387:Activado
+0087	Evento de Sémola (Ruta 224)	0:No Activado,1:Puede ser activado,2:Activado
+0133	Sémola (Ruta 224)	0:No Activado,1:Activado,2:Aparecido
+0105	Estatua de las Ruinas de Hierro	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0106	Estatua de Ruinas de Iceberg 0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0107	Estatua de Ruinas de Pico Roca	0:Inactivo,270:Activado,280:Derrotado,290:Capturado

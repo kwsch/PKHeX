@@ -1,0 +1,72 @@
+4060	Es Campeón de Alola + Evento de Magearna Activo
+4562	Ha ido a Isla Akala/Puede recibir Pikachu con Gorro
+4563	Recibido Pikachu con Gorro
+0518	Recibido Pikachu con Surf
+0493	Recibido Porygon de Regalo
+0504	Recibido Aerodactyl de Regalo
+0654	Recibido Type: Null de Regalo (1)
+1101	Recibido Type: Null de Regalo (2)
+0503	Recibido Cosmog de Regalo
+4447	Recibido Magearna de Regalo
+0269	Recibido Poipole de Regalo
+4420	Articuno Capturado
+4421	Zapdos Capturado
+4422	Moltres Capturado
+4423	Mewtwo Capturado
+4260	(US) Raikou Capturado
+4261	(UM) Entei Capturado
+4262	Suicune Capturado
+4263	(UM) Lugia Capturado
+4264	(US) Ho-Oh Capturado
+4285	Regirock Capturado
+4286	Regice Capturado
+4287	Registeel Capturado
+4283	(UM) Latias Capturada
+4284	(US) Latios Capturado
+4289	(UM) Kyogre Capturado
+4288	(US) Groudon Capturado
+4290	Rayquaza Capturado
+4265	Uxie Capturado
+4266	Mesprit Capturado
+4267	Azelf Capturado
+4268	(US) Dialga Capturado
+4269	(UM) Palkia Capturado
+4270	(US) Heatran Capturado
+4271	(UM) Regigigas Capturado
+4272	Giratina Capturado
+4273	Cresselia Capturada
+4274	Cobalion Capturado
+4275	Terrakion Capturado
+4276	Virizion Capturado
+4277	(US) Tornadus Capturado
+4278	(UM) Thundurus Capturado
+4279	(US) Reshiram Capturado
+4280	(UM) Zekrom Capturado
+4281	Landorus Capturado
+4282	Kyurem Capturado
+4424	(US) Xerneas Capturado
+4425	(UM) Yveltal Capturado
+1627	Solgaleo/Lunala Capturado
+1552	Necrozma Capturado
+4370	(UM) Stakataka en Bosque de Poni
+4371	(US) Blacephalon en Bosque de Poni
+4545	Debloqueado Lanturn 360
+4546	Debloqueado Primarina Twist
+4547	Debloqueado Starmie 720
+4548	Debloqueado Over-the-Gyarados
+4490	Usar Joystick para el Ultraviaje Dimensional
+4440	Estilo de Batalla Aprendido: Gracil 
+4441	Estilo de Batalla Aprendido: Cuco 
+4442	Estilo de Batalla Aprendido: Dual 
+4443	Estilo de Batalla Aprendido: Desafiante 
+4444	Estilo de Batalla Aprendido: Zurdo 
+4445	Estilo de Batalla Aprendido: Impetuoso 
+4446	Estilo de Batalla Aprendido: Tirabuzón 
+4453	Estilo de Batalla Aprendido: Arrogante
+4074	Desbloqueado Carga Tauros
+4075	Desbloqueado Olfateo Stoutland
+4076	Desbloqueado Empuje Machamp
+4077	Desbloqueado Todoterreno Mudsdale
+4078	Desbloqueado Nado Lapras
+4079	Desbloqueado Propulsión Sharpedo
+4080	Desbloqueado Vuelo Charizard

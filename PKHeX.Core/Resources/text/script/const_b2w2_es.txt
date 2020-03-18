@@ -1,0 +1,3 @@
+0048	Inicial	0:Snivy,1:Tepig,2:Oshawott
+0077	Zona Nexo	6:Tutorial Terminado
+0268	Latios/Latias	5:Luchable,6:Desaparecido/a

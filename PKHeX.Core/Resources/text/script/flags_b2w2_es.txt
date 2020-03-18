@@ -1,0 +1,19 @@
+0802	Cobalion Desaparecido
+0302	Cobalion (Rematch, Nivel +20)
+0810	Terrakion Desaparecido
+0329	Terrakion (Rematch, Nivel +20)
+0801	Virizion Desaparecido
+0300	Virizion (Rematch, Nivel +20)
+0667	Reshiram/Zekrom Desaparecido
+1004	Kyurem Desaparecido
+0922	Regirock Desaparecido
+0921	Regice Desaparecido
+0923	Registeel Desaparecido
+0918	Uxie Desaparecido
+0919	Mesprit Desaparecido
+0920	Azelf Desaparecido
+0900	Heatran Desaparecido
+0924	Regigigas Desaparecido
+0897	Cresselia Desaparecida
+0106	Funcionalidad de Intercambio Habilitada (Centro Pokémon)
+2403	Tiene las Deportivas

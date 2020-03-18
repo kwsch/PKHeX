@@ -1,0 +1,8 @@
+0x4023	Pokémon Inicial	00:Treecko,01:Torchic,02:Mudkip
+0x4024	Isla Espejismo RND (Alto)
+0x4025	Isla Espejismo RND (Bajo)
+0x4026	Base Secreta Actual
+0x4026	Base Secreta Actual
+
+0x402A	Contador de Pasos de Amistad
+0x402B	Contador de Pasos de Envenenamiento

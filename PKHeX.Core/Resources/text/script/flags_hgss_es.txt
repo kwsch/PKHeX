@@ -1,0 +1,22 @@
+0607	Rojo Desaparecido (Monte Plateado)
+0774	Articuno Desaparecido
+0663	Zapdos Desaparecido
+0775	Moltres Desaparecido
+0773	Mewtwo Desaparecido
+0457	Raikou Errante
+0458	Entei Errante
+0459	Suicune Escapó (Torre Quemada)
+0673	Suicune Desaparecido (Ruta 25)
+0782	Suicune Desaparecido (De regreso a Torre Quemada)
+0579	Lugia Desaparecido
+0578	Ho-Oh Desaparecido
+0781	Latios/Latias Desaparecido/a (Ciudad Plateada)
+0721	Kyogre/Groudon Desaparecido
+0722	Rayquaza Desaparecido
+2404	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
+0388	Obtenida 1 Corona Brillante (Mejora de Tarjeta Entrenador)
+0241	Superados Récords de Pokéathlon (Mejora de Tarjeta Entrenador)
+0766	Bola Inicial de Bulbasaur Desaparecida
+0767	Bola Inicial de Squirtle Desaparecida
+0768	Bola Inicial de Charmander Desaparecida
+0789	Funcionalidad de Intercambio Deshabilitada (Centro Pokémon)

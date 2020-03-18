@@ -1,0 +1,108 @@
+0x237	Recibida MO01 Corte
+0x238	Recibida MO02 Vuelo
+0x239	Recibida MO03 Surf
+0x23A	Recibida MO04 Fuerza
+0x23B	Recibida MO05 Destello
+0x2EF	Recibida MO06 Rompe Roca
+
+0x820	Recibida Medalla Roca
+0x821	Recibida Medalla Cascada
+0x822	Recibida Medalla Trueno
+0x823	Recibida Medalla Arcoiris
+0x824	Recibida Medalla Alma
+0x825	Recibida Medalla Pantano
+0x826	Recibida Medalla Volcán
+0x827	Recibida Medalla Tierra
+
+0x24B	Intercambiado en Túner Subterráneo
+0x24D	Intercambiado en Ciudad Carmín
+0x248	Intercambiado en Ruta 2
+0x257	Intercambiado en Ruta 18
+0x274	Intercambiado en Laboratorio Canela
+
+0x249	Magikarp Comprado 
+0x232	Recibido Fósil Hélix/Domo
+0x057	Recibido Eevee
+0x246	Recibido Lapras
+0x278	Recibido Hitmonchan/Hitmonlee
+0x2DA	Recibido Huevo Togepi
+
+0x2A7	Recibido Misti-Ticket desde Regalo Misterioso
+0x2A8	Recibido Ori-Ticket desde Regalo Misterioso
+
+0x2F0	Muestra Misti-Ticket
+0x2F1	Muestra Ori-Ticket
+
+0x84A	Puede viajar a Roca Ombligo 
+0x84B	Puede viajar a Isla Origen
+
+0x2BE	Capturado/Derrotado Articuno
+0x2BF	Capturado/Derrotado Zapdos
+0x2BD	Capturado/Derrotado Moltres
+0x2F2	Capturado Lugia
+0x2F5	Derrotado Lugia
+0x2F3	Capturado Ho-Oh
+0x2F6	Derrotado Ho-Oh
+0x2E4	Capturado Deoxys
+0x2F7	Derrotado Deoxys
+0x085	Derrotado Voltorb (1)
+0x086	Derrotado Voltorb (2)
+0x2D0	Derrotado Electrode (1)
+0x2D2	Derrotado Electrode (2)
+
+0x02F	Escondido en el mundo (Fósil Domo)
+0x030	Escondido en el mundo (Fósil Hélix)
+0x082	Escondido en el mundo (Articuno)
+0x05D	Escondido en el mundo (Zapdos)
+0x052	Escondido en el mundo (Moltres)
+0x081	Escondido en el mundo (Mewtwo)
+0x09B	Escondido en el mundo (Lugia)
+0x09C	Escondido en el mundo (Ho-Oh)
+0x09A	Escondido en el mundo (Deoxys)
+0x054	Escondido en el mundo(Snorlax, Ruta 12)
+0x080	Escondido en el mundo (Snorlax, Ruta 16)
+
+0x2C0	Usado Tutor de Movimientos en Calle Victoria (Doble Filo)
+0x2C1	Usado Tutor de Movimientos en Silph S.A. (Onda Trueno)
+0x2C2	Usado Tutor de Movimientos en Túnel Rocal (Avalancha)
+0x2C3	Usado Tutor de Movimientos en Monte Ascuas (Explosión)
+0x2C4	Usado Tutor de Movimientos en Ruta 4 (Mega Puño)
+0x2C5	Usado Tutor de Movimientos en Ruta 4 (Mega Patada)
+0x2C6	Usado Tutor de Movimientos en Ciudad Verde (Insomnio)
+0x2C7	Usado Tutor de Movimientos en Centro comercial de Ciudad Azulona (Amortiguador)
+0x2C8	Usado Tutor de Movimientos en Ciudad Fucsia (Sustituto)
+0x2C9	Usado Tutor de Movimientos en Isla Sete (Danza Espada)
+0x2CA	Usado Tutor de Movimientos en Ciudad Plateada (Tiro Sísmico)
+0x2CB	Usado Tutor de Movimientos en Ciudad Azulona (Contador)
+0x2CC	Usado Tutor de Movimientos en Isla Canela (Metrónomo)
+0x2CD	Usado Tutor de Movimientos en Ciudad Azafrán (Mimético)
+0x2CE	Usado Tutor de Movimientos en Isla Cuarta (Golpe Cuerpo)
+
+0x829	Recibida PokéDex
+0x82F	Recibidas Deportivas
+0x834	Debloqueada PC de Bill
+0x2A1	Restaurada Conectividad con Kanto
+0x844	Restaurada Conectividad con Hoenn
+0x29B	Recibido Memorín
+0x241	Recibido Bono Bici
+0x2A5	Recibida Llave Ascensor
+0x2A6	Recibido Té
+0x23C	Mr. Fuji Rescatado
+0x23D	Recibida Poke Flauta
+0x82C	Entrada al  Hall de la Fama
+0x2DD	Recibido Rubí
+0x2E3	Puerta con agujeros Abierta
+0x2D8	Zafiro Robado
+0x2D6	Puerta Abierta de la Guarida Rocket
+0x2DC	Recibido Zafiro
+0x2FD	Recibida Piedra Eterna (Ayudante de Oak, Centro Pokemon del Túnel Roca)
+0x256	Recibido Buscaobjetos (Ayudante de Oak, Ruta 11)
+0x256	Recibido Rep. Exp. (Ayudante de Oak, Ruta 15)
+0x2FD	Recibido Amuleto Suerte (Ayudante de Oak, Ruta 16)
+0x25E	Recibido Ambar Viejo
+0x236	Limonada donada a Tectonix
+0x2D9	Imponer Récord del Tamaño de Heracross
+0040	Bola de Bulbasaur en el Laboratorio de Oak desaparecida
+0041	Bola de Squirtle en el Laboratorio de Oak desaparecida
+0042	Bola de Charmander en el Laboratorio de Oak desaparecida
+2121	Puzzle de Llave Sete Resuelto/Unown Salvajes en las Cámaras Sete
