@@ -55,12 +55,12 @@
 2838	Registeel Capturado
 0252	Regigigas Derrotado
 2822	Regigigas Capturado
-0284	Singles Statuette
+0284	Indiv. Statuette
 0285	Dobles Statuette
 0286	Triples Statuette
 0287	Rotación Statuette
 0288	Multi Statuette
-0289	Super Singles Desbloqueado
+0289	Super Indiv. Desbloqueado
 0290	Super Dobles Desbloqueado
 0291	Super Triples Desbloqueado
 0292	Super Rotación Desbloqueado
