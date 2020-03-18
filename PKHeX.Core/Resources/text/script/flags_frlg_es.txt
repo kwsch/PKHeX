@@ -97,7 +97,7 @@
 0x2DC	Recibido Zafiro
 0x2FD	Recibida Piedra Eterna (Ayudante de Oak, Centro Pokemon del Túnel Roca)
 0x256	Recibido Buscaobjetos (Ayudante de Oak, Ruta 11)
-0x256	Recibido Comp. Exp. (Ayudante de Oak, Ruta 15)
+0x256	Recibido Rep. Exp. (Ayudante de Oak, Ruta 15)
 0x2FD	Recibido Amuleto Suerte (Ayudante de Oak, Ruta 16)
 0x25E	Recibido Ambar Viejo
 0x236	Limonada donada a Tectonix
