@@ -110,7 +110,7 @@
 0x8C0	Recibidos Zapatillas
 0x8C2	Reinicio de RTR Habilitado
 0x8DB	Regalo Misterioso Habilitado
-0x8E4	Recibido Pokedex
+0x8E4	Recibida PokéDex
 
 0x8C4	Recibido Símbolo de Plata de Destreza (Torre Batalla)
 0x8C5	Recibido Símbolo de Oro de Destreza (Torre Batalla)
