@@ -78,17 +78,17 @@
 0x2CD	Usado Tutor de Movimientos en Ciudad Azafrán (Mimético)
 0x2CE	Usado Tutor de Movimientos en Isla Cuarta (Golpe Cuerpo)
 
-0x829	Recibido Pokédex
+0x829	Recibida PokéDex
 0x82F	Recibidas Deportivas
 0x834	Debloqueada PC de Bill
 0x2A1	Restaurada Conectividad con Kanto
 0x844	Restaurada Conectividad con Hoenn
 0x29B	Recibido Memorín
 0x241	Recibido Bono Bici
-0x2A5	Recibido Llave Ascensor
+0x2A5	Recibida Llave Ascensor
 0x2A6	Recibido Té
 0x23C	Mr. Fuji Rescatado
-0x23D	Recibido Poke Flauta
+0x23D	Recibida Poke Flauta
 0x82C	Entrada al  Hall de la Fama
 0x2DD	Recibido Rubí
 0x2E3	Puerta con agujeros Abierta
@@ -97,8 +97,8 @@
 0x2DC	Recibido Zafiro
 0x2FD	Recibida Piedra Eterna (Ayudante de Oak, Centro Pokemon del Túnel Roca)
 0x256	Recibido Buscaobjetos (Ayudante de Oak, Ruta 11)
-0x256	Recibido Exp. Share (Ayudante de Oak, Ruta 15)
-0x2FD	Recibido Amulet Coin (Ayudante de Oak, Ruta 16)
+0x256	Recibido Comp. Exp. (Ayudante de Oak, Ruta 15)
+0x2FD	Recibido Amuleto Suerte (Ayudante de Oak, Ruta 16)
 0x25E	Recibido Ambar Viejo
 0x236	Limonada donada a Tectonix
 0x2D9	Imponer Récord del Tamaño de Heracross
