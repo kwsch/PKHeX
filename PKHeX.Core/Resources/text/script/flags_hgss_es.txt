@@ -1,4 +1,4 @@
-0607	Rojo (Monte Plateado) Desaparecido
+0607	Rojo Desaparecido (Monte Plateado)
 0774	Articuno Desaparecido
 0663	Zapdos Desaparecido
 0775	Moltres Desaparecido
@@ -10,7 +10,7 @@
 0782	Suicune Desaparecido (De regreso a Torre Quemada)
 0579	Lugia Desaparecido
 0578	Ho-Oh Desaparecido
-0781	Latias/Latios Desaparecido/a (Ciudad Plateada)
+0781	Latios/Latias Desaparecido/a (Ciudad Plateada)
 0721	Kyogre/Groudon Desaparecido
 0722	Rayquaza Desaparecido
 2404	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
