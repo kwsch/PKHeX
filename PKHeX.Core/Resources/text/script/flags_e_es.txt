@@ -107,7 +107,7 @@
 0x8B1	Completado Puzzle de Regice
 0x8B2	Completado Puzzle de Registeel
 0x8BF	Puede Recibir Camp. Concha
-0x8C0	Recibidos Zapatillas
+0x8C0	Recibidad Deportivas
 0x8C2	Reinicio de RTR Habilitado
 0x8DB	Regalo Misterioso Habilitado
 0x8E4	Recibida PokéDex
