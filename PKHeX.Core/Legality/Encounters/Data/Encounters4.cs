@@ -1037,7 +1037,7 @@ namespace PKHeX.Core
             new EncounterTradePID(0x000025EF) { Species = 095, Level = 01, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15} }, // Bellsprout -> Onix
             new EncounterTradePID(0x00002310) { Species = 066, Level = 01, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15} }, // Drowzee -> Machop
             new EncounterTradePID(0x000001DB) { Species = 100, Level = 01, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15} }, // Krabby -> Voltorb
-            new EncounterTradePID(0x0001FC0A) { Species = 085, Level = 25, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15} }, // Dragonair (25 from FRLG Safari Zone) -> Dodrio
+            new EncounterTradePID(0x0001FC0A) { Species = 085, Level = 15, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15} }, // Dragonair (15 from DPPt) -> Dodrio
             new EncounterTradePID(0x0000D136) { Species = 082, Level = 19, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20} }, // Dugtrio (19 from Diglett's Cave) -> Magneton
             new EncounterTradePID(0x000034E4) { Species = 178, Level = 16, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20} }, // Haunter (16 from Old Chateau) -> Xatu
             new EncounterTradePID(0x00485876) { Species = 025, Level = 02, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13} }, // Pikachu

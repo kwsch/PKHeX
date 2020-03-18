@@ -30,7 +30,7 @@
 
         protected override bool IsMatchNatureGenderShiny(PKM pkm)
         {
-            if (pkm.PID != pkm.EncryptionConstant)
+            if (PID != pkm.EncryptionConstant)
                 return false;
             if (Nature != Nature.Random && (int)Nature != pkm.Nature) // gen5 BW only
                 return false;
