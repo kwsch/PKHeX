@@ -156,6 +156,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0740;
                     EventFlag = BlockOfs[2] + 0x2A0;
                     EventConst = EventFlag + (EventFlagMax / 8);
+                    OFS_Decorations = BlockOfs[3] + 0x7A0;
                     DaycareOffset = BlockOfs[4] + 0x11C;
                     break;
                 case GameVersion.E:
@@ -167,6 +168,7 @@ namespace PKHeX.Core
                     OFS_PouchBerry = BlockOfs[1] + 0x0790;
                     EventFlag = BlockOfs[2] + 0x2F0;
                     EventConst = EventFlag + (EventFlagMax / 8);
+                    OFS_Decorations = BlockOfs[3] + 0x834;
                     DaycareOffset = BlockOfs[4] + 0x1B0;
                     break;
                 case GameVersion.FRLG:
@@ -618,7 +620,7 @@ namespace PKHeX.Core
         private static ushort[] LegalTMHMs => Legal.Pouch_TMHM_RS;
         private static ushort[] LegalBerries => Legal.Pouch_Berries_RS;
 
-        private int OFS_PCItem, OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry;
+        private int OFS_PCItem, OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_Decorations;
 
         public override InventoryPouch[] Inventory
         {
@@ -1028,8 +1030,18 @@ namespace PKHeX.Core
 
         public DecorationInventory3 Decorations
         {
-            get => Data.Slice(GetBlockOffset(3) + 0x7A0, DecorationInventory3.SIZE).ToStructure<DecorationInventory3>();
-            set => SetData(value.ToBytes(), GetBlockOffset(3) + 0x7A0);
+            get
+            {
+                if (Version == GameVersion.FRLG)
+                    throw new Exception();
+                return Data.Slice(OFS_Decorations, DecorationInventory3.SIZE).ToStructure<DecorationInventory3>();
+            }
+            set
+            {
+                if (Version == GameVersion.FRLG)
+                    throw new Exception();
+                SetData(value.ToBytes(), OFS_Decorations);
+            }
         }
     }
 }
