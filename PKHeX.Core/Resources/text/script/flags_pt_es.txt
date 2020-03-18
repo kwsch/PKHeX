@@ -1,4 +1,4 @@
-0481	Uxie Desaparecidod
+0481	Uxie Desaparecido
 0479	Mesprit Desaparecido (Caverna Veraz)
 0480	Azelf Desaparecido
 0208	Dialga Capturado
@@ -42,4 +42,4 @@
 1337	Encontrado Revestimiento Metálico en Ruinas Hierro
 1338	Encontrado Antiderretir en Ruinas Iceberg
 1339	Encontrada Roca Dura Ruinas Pico Roca
-2736	Rotom disaparecido en la TV de la Vieja Mansión
+2736	Rotom desaparecido en la TV de la Vieja Mansión
