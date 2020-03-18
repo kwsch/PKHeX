@@ -1,5 +1,5 @@
 0048	Inicial	387:Turtwig,390:Chimchar,393:Piplup
-0152	Dialga/Palkia	00:Evento,01:Evento,02:Evento,03:Evento,04:Desaparecido,05:Luchaable
+0152	Dialga/Palkia	00:Evento,01:Evento,02:Evento,03:Evento,04:Desaparecido,05:Luchable
 0158	Heatran	00:No Activado,01:Luchable,02:Desaparecido
 0054	Isla Plenilunio	0:No Activado,520:En el Mapa
 0055	Isla Lunanueva	0:No Activado,553:En el Mapa
