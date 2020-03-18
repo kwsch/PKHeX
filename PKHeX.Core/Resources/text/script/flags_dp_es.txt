@@ -8,7 +8,7 @@
 0606	Darkrai Desaparecido
 0623	Shaymin Desaparecido (Paraiso Floral)
 0620	Arceus Desaparecido
-0286	Hall of Origin Desaparecido
+0286	Sala de Origen Desaparecida
 0307	Ferry a Isla Plenilunio Accesible
 0316	Ferry a Isla Lunanueva Accesible
 0301	Professor Oak Desaparecido (Ruta 224)
