@@ -2,12 +2,12 @@
 0115	Mewtwo Capturado
 0114	Zygarde Capturado
 0790	Zygarde Derrotado
-0285	Singles Statuette
+0285	Indiv. Statuette
 0286	Dobles Statuette
 0287	Triples Statuette
 0288	Rotación Statuette
 0289	Multi Statuette
-0290	Super Singles Desbloqueado
+0290	Super Indiv. Desbloqueado
 0291	Super Dobles Desbloqueado
 0292	Super Triples Desbloqueado
 0293	Super Rotación Desbloqueado
