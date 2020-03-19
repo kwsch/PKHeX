@@ -768,11 +768,11 @@
     <None Remove="Resources\text\script\flags_xy_ko.txt" />
     <None Remove="Resources\text\script\flags_xy_zh.txt" />
     <None Remove="Resources\text\script\flags_c_en.txt" />
-    <None Remove="Resources\text\script\flags_c_en.txt" />
+    <None Remove="Resources\text\script\flags_c_es.txt" />
     <None Remove="Resources\text\script\flags_c_ja.txt" />
     <None Remove="Resources\text\script\flags_c_zh.txt" />
     <None Remove="Resources\text\script\flags_gs_en.txt" />
-    <None Remove="Resources\text\script\flags_gs_en.txt" />
+    <None Remove="Resources\text\script\flags_gs_es.txt" />
     <None Remove="Resources\text\script\flags_gs_ja.txt" />
     <None Remove="Resources\text\script\flags_gs_ko.txt" />
     <None Remove="Resources\text\script\flags_gs_zh.txt" />
