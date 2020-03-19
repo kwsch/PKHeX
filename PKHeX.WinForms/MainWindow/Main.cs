@@ -1196,7 +1196,10 @@ namespace PKHeX.WinForms
         private void ClickExportSAV(object sender, EventArgs e)
         {
             if (Menu_ExportSAV.Enabled)
+            {
                 C_SAV.ExportSaveFile();
+                Text = GetProgramTitle(C_SAV.SAV);
+            }
         }
 
         private void ClickSaveFileName(object sender, EventArgs e)
