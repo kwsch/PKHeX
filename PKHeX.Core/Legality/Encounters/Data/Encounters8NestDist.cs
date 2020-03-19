@@ -93,7 +93,7 @@
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 053, 396, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 428, 007, 089, 280 }, Nature = Nature.Jolly, Shiny = Shiny.Never }, // Mewtwo
             // new EncounterStatic8ND(100,10,6) { Species = 150, Ability = 1, Moves = new[]{ 540, 126, 411, 059 }, Nature = Nature.Timid, Shiny = Shiny.Never }, // Mewtwo
-            
+
             // 3/8 - Gengar/Machamp
             //new EncounterStatic8ND(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 } }, // Munchlax
             new EncounterStatic8ND(17,01,1) { Species = 092, Ability = A4, Moves = new[]{ 122, 109, 095, 371 } }, // Gastly
@@ -115,6 +115,28 @@
             new EncounterStatic8ND(50,08,4) { Species = 068, Ability = A4, Moves = new[]{ 280, 444, 371, 523 }, CanGigantamax = true }, // Machamp
             //new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 } }, // Snorlax
             new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
+
+            // 3/18 Exclusives & Food
+            new EncounterStatic8ND(17,01,1) { Species = 588, Ability = A4, Moves = new[]{ 064, 043, 210, 491 } }, // Karrablast
+            new EncounterStatic8ND(17,01,1) { Species = 616, Ability = A4, Moves = new[]{ 071, 051, 174, 522 } }, // Shelmet
+            //new EncounterStatic8ND(17,01,1) { Species = 092, Ability = A4, Moves = new[]{ 122, 109, 095, 371 } }, // Gastly
+            new EncounterStatic8ND(17,01,1) { Species = 871, Ability = A4, Moves = new[]{ 084, 064, 055, 031 } }, // Pincurchin
+            //new EncounterStatic8ND(17,01,1) { Species = 066, Ability = A4, Moves = new[]{ 067, 043, 116, 279 } }, // Machop
+            //new EncounterStatic8ND(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 } }, // Snorlax
+            //new EncounterStatic8ND(30,03,2) { Species = 093, Ability = A4, Moves = new[]{ 325, 095, 122, 101 } }, // Haunter
+            new EncounterStatic8ND(30,03,2) { Species = 871, Ability = A4, Moves = new[]{ 209, 061, 086, 506 } }, // Pincurchin
+            //new EncounterStatic8ND(30,03,2) { Species = 067, Ability = A4, Moves = new[]{ 067, 490, 282, 233 } }, // Machoke
+            //new EncounterStatic8ND(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, CanGigantamax = true }, // Snorlax
+            //new EncounterStatic8ND(40,05,3) { Species = 094, Ability = A4, Moves = new[]{ 506, 188, 085, 261 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(40,05,3) { Species = 871, Ability = A2, Moves = new[]{ 085, 503, 398, 716 } }, // Pincurchin
+            //new EncounterStatic8ND(40,05,3) { Species = 068, Ability = A4, Moves = new[]{ 279, 667, 008, 157 }, CanGigantamax = true }, // Machamp
+            new EncounterStatic8ND(50,08,4) { Species = 617, Ability = A2, Moves = new[]{ 405, 522, 188, 202 } }, // Accelgor
+            //new EncounterStatic8ND(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, CanGigantamax = true }, // Snorlax
+            new EncounterStatic8ND(50,08,4) { Species = 589, Ability = A2, Moves = new[]{ 442, 224, 529, 398 } }, // Escavalier
+            //new EncounterStatic8ND(50,08,4) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 411, 605 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(50,08,4) { Species = 871, Ability = A2, Moves = new[]{ 435, 330, 474, 367 } }, // Pincurchin
+            //new EncounterStatic8ND(50,08,4) { Species = 068, Ability = A4, Moves = new[]{ 280, 444, 371, 523 }, CanGigantamax = true }, // Machamp
+            //new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
@@ -290,6 +312,18 @@
             // 3/8 - Gengar/Machamp
             new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 } }, // Machamp
             new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 }, CanGigantamax = true }, // Machamp
+
+            // 3/18 Exclusives & Food
+            new EncounterStatic8ND(17,01,1) { Species = 222, Ability = A4, Moves = new[]{ 033, 106, 310, 050 }, Form = 1 }, // Corsola-1
+            new EncounterStatic8ND(30,03,2) { Species = 077, Ability = A4, Moves = new[]{ 093, 584, 060, 023 }, Form = 1 }, // Ponyta-1
+            new EncounterStatic8ND(30,03,2) { Species = 222, Ability = A4, Moves = new[]{ 310, 050, 246, 506 }, Form = 1 }, // Corsola-1
+            new EncounterStatic8ND(40,05,3) { Species = 077, Ability = A2, Moves = new[]{ 340, 023, 428, 583 }, Form = 1 }, // Ponyta-1
+            new EncounterStatic8ND(40,05,3) { Species = 222, Ability = A2, Moves = new[]{ 506, 408, 503, 261 }, Form = 1 }, // Corsola-1
+            new EncounterStatic8ND(60,10,5) { Species = 765, Ability = A2, Moves = new[]{ 492, 094, 085, 247 } }, // Oranguru
+            new EncounterStatic8ND(60,10,5) { Species = 876, Ability = A2, Moves = new[]{ 094, 595, 605, 304 }, Form = 1 }, // Indeedee-1
+            new EncounterStatic8ND(60,10,5) { Species = 630, Ability = A2, Moves = new[]{ 403, 555, 492, 211 } }, // Mandibuzz
+            new EncounterStatic8ND(60,10,5) { Species = 078, Ability = A2, Moves = new[]{ 428, 583, 224, 340 }, Form = 1 }, // Rapidash-1
+            //new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 }, CanGigantamax = true }, // Machamp
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
@@ -465,6 +499,18 @@
             // 3/8 - Gengar/Machamp
             new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 } }, // Gengar
             new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, CanGigantamax = true }, // Gengar
+
+            // 3/18 - Exclusives & Food
+            new EncounterStatic8ND(17,01,1) { Species = 554, Ability = A4, Moves = new[]{ 033, 181, 044, 419 }, Form = 1 }, // Darumaka-1
+            new EncounterStatic8ND(30,03,2) { Species = 083, Ability = A4, Moves = new[]{ 064, 028, 249, 693 }, Form = 1 }, // Farfetch’d-1
+            new EncounterStatic8ND(30,03,2) { Species = 554, Ability = A4, Moves = new[]{ 423, 029, 424, 280 }, Form = 1 }, // Darumaka-1
+            new EncounterStatic8ND(40,05,3) { Species = 083, Ability = A2, Moves = new[]{ 280, 693, 348, 413 }, Form = 1 }, // Farfetch’d-1
+            new EncounterStatic8ND(40,05,3) { Species = 554, Ability = A2, Moves = new[]{ 008, 007, 428, 276 }, Form = 1 }, // Darumaka-1
+            new EncounterStatic8ND(60,10,5) { Species = 766, Ability = A2, Moves = new[]{ 370, 157, 523, 231 } }, // Passimian
+            new EncounterStatic8ND(60,10,5) { Species = 876, Ability = A2, Moves = new[]{ 094, 595, 605, 247 } }, // Indeedee
+            new EncounterStatic8ND(60,10,5) { Species = 628, Ability = A2, Moves = new[]{ 413, 276, 442, 157 } }, // Braviary
+            new EncounterStatic8ND(60,10,5) { Species = 865, Ability = A2, Moves = new[]{ 370, 413, 211, 675 } }, // Sirfetch’d
+            //new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, CanGigantamax = true }, // Gengar
         };
     }
 }
