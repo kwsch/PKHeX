@@ -373,7 +373,7 @@ namespace PKHeX.Core
 
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
-            1281, // ★And337
+            // 1281, // ★And337 (Corviknight)
             1282, // ★And603
             1283, // ★And390
             1284, // ★Sgr6879
