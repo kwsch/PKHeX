@@ -343,8 +343,6 @@ namespace PKHeX.Core
 
         public static void DecryptIfEncrypted45(ref byte[] pkm)
         {
-            if (BitConverter.ToUInt16(pkm, 4) != 0) // BK4
-                return;
             if (BitConverter.ToUInt32(pkm, 0x64) != 0)
                 pkm = DecryptArray45(pkm);
         }

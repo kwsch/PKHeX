@@ -4,7 +4,10 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 4 <see cref="PKM"/> format, exclusively for Pokémon Battle Revolution. </summary>
-    /// <remarks> Values are stored in Big Endian format rather than Little Endian. Beware. </remarks>
+    /// <remarks>
+    /// When stored in the save file, these are only shuffled; no xor encryption is performed.
+    /// Values are stored in Big Endian format rather than Little Endian. Beware.
+    /// </remarks>
     public sealed class BK4 : G4PKM
     {
         private static readonly ushort[] Unused =
@@ -25,26 +28,26 @@ namespace PKHeX.Core
 
         public override byte[] Data { get; }
 
+        public static BK4 ReadUnshuffle(byte[] data)
+        {
+            var PID = BigEndian.ToUInt32(data, 0);
+            uint sv = ((PID & 0x3E000) >> 0xD) % 24;
+            var Data = PokeCrypto.ShuffleArray(data, sv, PokeCrypto.SIZE_4BLOCK);
+            var result = new BK4(Data);
+            result.RefreshChecksum();
+            return result;
+        }
+
         public BK4(byte[] data)
         {
             Data = data;
-            uint sv = ((PID & 0x3E000) >> 0xD) % 24;
-            Data = PokeCrypto.ShuffleArray(Data, sv, PokeCrypto.SIZE_4BLOCK);
-            if (Sanity != 0 && Species <= MaxSpeciesID && !ChecksumValid) // We can only hope
-                RefreshChecksum();
-            if (Valid && Sanity == 0)
-                Sanity = 0x4000;
-            ResetPartyStats();
-        }
-
-        public BK4()
-        {
-            Data = new byte[SIZE_PARTY];
             Sanity = 0x4000;
             ResetPartyStats();
         }
 
-        public override PKM Clone() => new BK4((byte[])Encrypt().Clone()){Identifier = Identifier};
+        public BK4() : this(new byte[PokeCrypto.SIZE_4STORED]) { }
+
+        public override PKM Clone() => new BK4((byte[])Data.Clone()){Identifier = Identifier};
 
         public string GetString(int Offset, int Count) => StringConverter4.GetBEString4(Data, Offset, Count);
         public byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);

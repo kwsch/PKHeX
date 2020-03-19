@@ -124,14 +124,9 @@ namespace PKHeX.Core
                         _ => new PK3(data)
                     };
                 case 4:
-                    var pk = new PK4(data);
-                    if (!pk.Valid || pk.Sanity != 0)
-                    {
-                        var bk = new BK4(data);
-                        if (bk.Valid)
-                            return bk;
-                    }
-                    return pk;
+                    if (BitConverter.ToUInt16(data, 0x06) != 0)
+                        return new BK4(data);
+                    return new PK4(data);
                 case 5:
                     return new PK5(data);
                 case 6:

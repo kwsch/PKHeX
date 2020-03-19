@@ -208,7 +208,7 @@ namespace PKHeX.Core
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
-            return new BK4(data);
+            return BK4.ReadUnshuffle(data);
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;
