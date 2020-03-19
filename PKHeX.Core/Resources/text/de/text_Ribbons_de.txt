@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Kalos Champion
+RibbonChampionKalos	Kalos Champion
 RibbonChampionG3Hoenn	Hoenn Champion (RSE)
 RibbonChampionSinnoh	Sinnoh Champion
 RibbonBestFriends	Beste Freunde
@@ -96,7 +96,7 @@ RibbonCountG3Cool	Coolness
 RibbonCountG3Beauty	Schönheit
 RibbonCountG3Cute	Anmut
 RibbonCountG3Smart	Klugheit
-RibbonCountG3Tough = Stärke
+RibbonCountG3Tough	Stärke
 RibbonChampionAlola	Alola Champion
 RibbonBattleRoyale	Battle Royal Champion
 RibbonBattleTreeGreat	Battle Tree Great
