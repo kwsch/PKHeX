@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	칼로스챔피언리본
+RibbonChampionKalos	칼로스챔피언리본
 RibbonChampionG3Hoenn	호연챔피언리본 (RSE)
 RibbonChampionSinnoh	신오챔피언리본
 RibbonBestFriends	절친리본
@@ -96,7 +96,7 @@ RibbonCountG3Cool	쿨리본
 RibbonCountG3Beauty	뷰티리본
 RibbonCountG3Cute	큐트리본
 RibbonCountG3Smart	지니어스리본
-RibbonCountG3Tough = 파워풀리본
+RibbonCountG3Tough	파워풀리본
 RibbonChampionAlola	알로라챔피언리본
 RibbonBattleRoyale	로열마스터리본
 RibbonBattleTreeGreat	그레이트트리리본
