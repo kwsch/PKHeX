@@ -123,5 +123,6 @@ namespace PKHeX.Core
         public const uint KDiggingDuoStreakStamina = 0x066F38F5; // U32
         public const uint KBirthMonth = 0x0D987D50; // U32
         public const uint KBirthDay = 0x355C8314; // U32
+        public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed
     }
 }
