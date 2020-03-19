@@ -1362,6 +1362,7 @@ SAV_ZygardeCell.L_Cells=Conservé :
 SAV_ZygardeCell.L_Collected=Obtenu :
 SettingsEditor.AllowGen1Tradeback=GB: Permettre les movepools de revenants de la Gén. 2
 SettingsEditor.ApplyMarkings=Appliquer des marques de l'import
+SettingsEditor.ApplyNature=Appliquer StatNature à la nature lors de l'import
 SettingsEditor.B_Reset=Reset All
 SettingsEditor.BAKEnabled=Automatic Save File Backups Enabled
 SettingsEditor.DetectSaveOnStartup=Automatically Detect Save File on Program Startup

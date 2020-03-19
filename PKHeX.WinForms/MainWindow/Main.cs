@@ -429,6 +429,7 @@ namespace PKHeX.WinForms
             SaveFile.SetUpdatePKM = settings.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
             C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
             CommonEdits.ShowdownSetIVMarkings = settings.ApplyMarkings;
+            CommonEdits.ShowdownSetBehaviorNature = settings.ApplyNature;
             C_SAV.FlagIllegal = settings.FlagIllegal;
             C_SAV.M.Hover.GlowHover = settings.HoverSlotGlowEdges;
             SpriteBuilder.ShowEggSpriteAsItem = settings.ShowEggSpriteAsHeldItem;

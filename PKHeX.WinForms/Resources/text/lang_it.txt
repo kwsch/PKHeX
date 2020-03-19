@@ -1368,6 +1368,7 @@ SAV_ZygardeCell.L_Cells=Stored:
 SAV_ZygardeCell.L_Collected=Collected:
 SettingsEditor.AllowGen1Tradeback=GB: Allow Generation 2 tradeback learnsets
 SettingsEditor.ApplyMarkings=Apply Markings on Import
+SettingsEditor.ApplyNature=Apply StatNature to Nature on Import
 SettingsEditor.B_Reset=Reset All
 SettingsEditor.BAKEnabled=Automatic Save File Backups Enabled
 SettingsEditor.DetectSaveOnStartup=Automatically Detect Save File on Program Startup

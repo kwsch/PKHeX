@@ -1358,6 +1358,7 @@ SAV_ZygardeCell.L_Cells=Almacenado:
 SAV_ZygardeCell.L_Collected=Coleccionado:
 SettingsEditor.AllowGen1Tradeback=GB: Permitir intercambio de movimientos desde la Generación 2.
 SettingsEditor.ApplyMarkings=Aplicar marcadores al importar
+SettingsEditor.ApplyNature=Aplicar StatNature a la naturaleza al importar
 SettingsEditor.B_Reset=Reiniciar Todo
 SettingsEditor.BAKEnabled=Respaldo Automático de archivos de guardado habilitado
 SettingsEditor.DetectSaveOnStartup=Detectar automáticamente el archivo de guardado al inicio del programa

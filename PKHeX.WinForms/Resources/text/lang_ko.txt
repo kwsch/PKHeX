@@ -1358,6 +1358,7 @@ SAV_ZygardeCell.L_Cells=보관됨:
 SAV_ZygardeCell.L_Collected=회수함:
 SettingsEditor.AllowGen1Tradeback=GB: 2세대에서 옮겨온 1세대 기술 허용
 SettingsEditor.ApplyMarkings=가져오기 시 마킹하기
+SettingsEditor.ApplyNature=임포트시 자연에 StatNature 적용
 SettingsEditor.B_Reset=초기화
 SettingsEditor.BAKEnabled=세이브 파일 자동 백업 사용
 SettingsEditor.DetectSaveOnStartup=프로그램 시작 시 세이브 파일 자동 감지

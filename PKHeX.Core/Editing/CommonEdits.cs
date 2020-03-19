@@ -14,6 +14,11 @@ namespace PKHeX.Core
         public static bool ShowdownSetIVMarkings { get; set; } = true;
 
         /// <summary>
+        /// Setting which causes the <see cref="PKM.StatNature"/> to the <see cref="PKM.Nature"/> in Gen8+ formats.
+        /// </summary>
+        public static bool ShowdownSetBehaviorNature { get; set; } = false;
+
+        /// <summary>
         /// Sets the <see cref="PKM.Nickname"/> to the provided value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
@@ -223,6 +228,9 @@ namespace PKHeX.Core
 
             pk.ClearRecordFlags();
             pk.SetRecordFlags(Set.Moves);
+
+            if (ShowdownSetBehaviorNature && pk.Format >= 8)
+                pk.Nature = pk.StatNature;
 
             var legal = new LegalityAnalysis(pk);
             if (legal.Parsed && legal.Info.Relearn.Any(z => !z.Valid))

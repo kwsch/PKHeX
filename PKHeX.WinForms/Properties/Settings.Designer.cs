@@ -334,5 +334,17 @@ namespace PKHeX.WinForms.Properties {
                 this["FlagMissingTracker"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ApplyNature {
+            get {
+                return ((bool)(this["ApplyNature"]));
+            }
+            set {
+                this["ApplyNature"] = value;
+            }
+        }
     }
 }
