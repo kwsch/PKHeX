@@ -362,6 +362,7 @@ namespace PKHeX.WinForms
             {
                 File.WriteAllBytes(path, sav.Write(flags));
                 sav.Edited = false;
+                sav.SetFileInfo(path);
                 Alert(MsgSaveExportSuccessPath, path);
             }
             catch (Exception x)
