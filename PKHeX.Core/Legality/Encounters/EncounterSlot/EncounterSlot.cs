@@ -11,6 +11,12 @@ namespace PKHeX.Core
         public int Form { get; set; }
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
+        public GameVersion Version { get; set; }
+        public int Generation { get; set; } = -1;
+        internal EncounterArea? Area { private get; set; }
+        public int Location { get => Area?.Location ?? 0; set { } }
+        public bool EggEncounter => false;
+        public int EggLocation { get => 0; set { } }
 
         /// <summary>
         /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
@@ -49,15 +55,8 @@ namespace PKHeX.Core
         public SlotType Type { get; set; } = SlotType.Any;
         public EncounterType TypeEncounter { get; set; } = EncounterType.None;
         public int SlotNumber { get; set; }
-        public int Generation { get; set; } = -1;
         private EncounterSlotPermissions? _perm;
         public EncounterSlotPermissions Permissions => _perm ??= new EncounterSlotPermissions();
-        public GameVersion Version { get; set; }
-
-        internal EncounterArea? Area { private get; set; }
-        public int Location { get => Area?.Location ?? 0; set { } }
-        public bool EggEncounter => false;
-        public int EggLocation { get => 0; set { } }
 
         public EncounterSlot Clone()
         {

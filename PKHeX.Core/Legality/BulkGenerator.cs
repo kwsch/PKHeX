@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -8,13 +9,18 @@ namespace PKHeX.Core
     /// </summary>
     public static class BulkGenerator
     {
-        public static IList<PKM> GetLivingDex(SaveFile sav)
+        public static List<PKM> GetLivingDex(this SaveFile sav)
         {
             var speciesToGenerate = Enumerable.Range(1, sav.MaxSpeciesID);
-            return GetLivingDex(sav, speciesToGenerate, sav.BlankPKM);
+            return GetLivingDex(sav, speciesToGenerate);
         }
 
-        public static List<PKM> GetLivingDex(ITrainerInfo tr, IEnumerable<int> speciesToGenerate, PKM blank)
+        private static List<PKM> GetLivingDex(SaveFile sav, IEnumerable<int> speciesToGenerate)
+        {
+            return sav.GetLivingDex(speciesToGenerate, sav.BlankPKM);
+        }
+
+        public static List<PKM> GetLivingDex(this ITrainerInfo tr, IEnumerable<int> speciesToGenerate, PKM blank)
         {
             var result = new List<PKM>();
             var destType = blank.GetType();
@@ -25,27 +31,37 @@ namespace PKHeX.Core
                 pk.Gender = pk.GetSaneGender();
 
                 var pi = pk.PersonalInfo;
-                for (int i = 0; i < pi.FormeCount; i++)
+                for (int f = 0; f < pi.FormeCount; f++)
                 {
-                    pk.AltForm = i;
-                    if (s == (int) Species.Indeedee || s == (int) Species.Meowstic)
-                        pk.Gender = i;
-
-                    var f = EncounterMovesetGenerator.GeneratePKMs(pk, tr).FirstOrDefault();
-                    if (f == null)
+                    var entry = tr.GetLivingEntry(pk, s, f, destType);
+                    if (entry == null)
                         continue;
-                    var converted = PKMConverter.ConvertToType(f, destType, out _);
-                    if (converted == null)
-                        continue;
-
-                    converted.CurrentLevel = 100;
-                    converted.Species = s;
-                    converted.AltForm = i;
-
-                    result.Add(converted);
+                    result.Add(entry);
                 }
             }
 
+            return result;
+        }
+
+        public static PKM? GetLivingEntry(this ITrainerInfo tr, PKM template, int species, int form, Type destType)
+        {
+            template.Species = species;
+            template.AltForm = form;
+            template.Gender = template.GetSaneGender();
+
+            var f = EncounterMovesetGenerator.GeneratePKMs(template, tr).FirstOrDefault();
+            if (f == null)
+                return null;
+
+            var result = PKMConverter.ConvertToType(f, destType, out _);
+            if (result == null)
+                return null;
+
+            result.CurrentLevel = 100;
+            result.Species = species;
+            result.AltForm = form;
+
+            result.Heal();
             return result;
         }
     }
