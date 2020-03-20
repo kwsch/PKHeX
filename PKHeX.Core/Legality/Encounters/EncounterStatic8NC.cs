@@ -12,7 +12,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc == SharedNest || EncounterArea8.IsWildArea8(loc);
+            return loc == SharedNest || loc == Watchtower;
         }
     }
 }

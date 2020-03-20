@@ -203,6 +203,7 @@ namespace PKHeX.Core
         internal const int A4 = -1; // 1/2/H
 
         internal const int SharedNest = 162;
+        internal const int Watchtower = 126;
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
