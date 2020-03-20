@@ -58,7 +58,7 @@ namespace PKHeX.Core
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
 
-        public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
+        public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154 && loc != Watchtower; // Rolling Fields -> Lake of Outrage
 
         // Location, and areas that can feed encounters into it.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
