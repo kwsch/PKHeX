@@ -124,7 +124,7 @@ namespace PKHeX.Core
                         _ => new PK3(data)
                     };
                 case 4:
-                    if (BitConverter.ToUInt16(data, 0x06) != 0)
+                    if (BitConverter.ToUInt16(data, 0x04) != 0)
                         return new BK4(data);
                     return new PK4(data);
                 case 5:
