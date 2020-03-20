@@ -27,7 +27,7 @@ namespace PKHeX.Core
         {
             // Evolution tables need Personal Tables initialized beforehand, hence why the EvolutionTree data is initialized here.
             static byte[] get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
-            static byte[][] unpack(string resource) => Data.UnpackMini(get(resource), resource);
+            static byte[][] unpack(string resource) => BinLinker.Unpack(get(resource), resource);
 
             Evolves1 = new EvolutionTree(new[] { get("rby") }, Gen1, PersonalTable.Y, Legal.MaxSpeciesID_1);
             Evolves2 = new EvolutionTree(new[] { get("gsc") }, Gen2, PersonalTable.C, Legal.MaxSpeciesID_2);

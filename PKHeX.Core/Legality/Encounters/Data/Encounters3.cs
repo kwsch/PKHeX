@@ -27,7 +27,7 @@ namespace PKHeX.Core
             StaticLG = GetStaticEncounters(Encounter_FRLG, GameVersion.LG);
 
             static EncounterArea3[] get(string resource, string ident)
-                => EncounterArea3.GetArray3(Data.UnpackMini(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
+                => EncounterArea3.GetArray3(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
 
             var R_Slots = get("r", "ru");
             var S_Slots = get("s", "sa");

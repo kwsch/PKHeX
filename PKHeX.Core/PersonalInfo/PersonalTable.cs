@@ -192,8 +192,8 @@ namespace PKHeX.Core
         private static void PopulateGen3Tutors()
         {
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
-            var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            var TMHM = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
             for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
             {
                 E[i].AddTMHM(TMHM[i]);
@@ -203,7 +203,7 @@ namespace PKHeX.Core
 
         private static void PopulateGen4Tutors()
         {
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
             for (int i = 0; i < tutors.Length; i++)
                 HGSS[i].AddTypeTutors(tutors[i]);
         }

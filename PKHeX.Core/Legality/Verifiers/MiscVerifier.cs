@@ -279,7 +279,7 @@ namespace PKHeX.Core
             data.AddLine(result);
         }
 
-        public static void VerifyVersionEvolution(LegalityAnalysis data)
+        public void VerifyVersionEvolution(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.Format < 7 || data.EncounterMatch.Species == pkm.Species)

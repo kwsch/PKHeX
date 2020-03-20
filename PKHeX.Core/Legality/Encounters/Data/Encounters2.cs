@@ -11,7 +11,7 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea2[] SlotsGSC, SlotsGS, SlotsC;
         internal static readonly EncounterStatic[] StaticGSC, StaticGS, StaticC;
-        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(Data.UnpackMini(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
+        private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(BinLinker.Unpack(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
 
         static Encounters2()
         {
