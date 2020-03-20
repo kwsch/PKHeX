@@ -154,10 +154,11 @@ namespace PKHeX.Core
                     if (w.IsEgg)
                     {
                         // Eggs hatched in RS clear the obedience flag!
+                        // Hatching in Gen3 doesn't change the origin version.
                         if (pkm.Format != 3)
                             return; // possible hatched in either game, don't bother checking
-                        if (pkm.Met_Location <= 087) // hatched in RS
-                            break; // ensure fateful is not active
+                        if (pkm.Met_Location <= 087) // hatched in RS or Emerald
+                            return; // possible hatched in either game, don't bother checking
                         // else, ensure fateful is active (via below)
                     }
                     VerifyFatefulIngameActive(data);
