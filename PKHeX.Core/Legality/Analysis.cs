@@ -331,7 +331,7 @@ namespace PKHeX.Core
                 return;
 
             HyperTraining.Verify(this);
-            MiscVerifier.VerifyVersionEvolution(this);
+            Misc.VerifyVersionEvolution(this);
         }
 
         private string GetLegalityReport()
