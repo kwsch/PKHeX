@@ -1737,6 +1737,7 @@ namespace PKHeX.WinForms.Controls
         {
             Label_EncryptionConstant.Visible = BTN_RerollEC.Visible = TB_EC.Visible = gen >= 6 && !hidden;
             BTN_RerollPID.Visible = Label_PID.Visible = TB_PID.Visible = gen >= 3 && !hidden;
+            TB_HomeTracker.Visible = L_HomeTracker.Visible = gen >= 8 && !hidden;
         }
 
         private void ToggleInterface(int gen)
