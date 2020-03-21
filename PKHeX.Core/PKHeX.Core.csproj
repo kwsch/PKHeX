@@ -816,6 +816,7 @@
     <None Remove="Resources\text\zh\text_tradeao_zh.txt" />
     <None Remove="Resources\text\zh\text_tradesm_zh.txt" />
     <None Remove="Resources\text\zh\text_tradeswsh_zh.txt" />
+    <None Remove="Resources\text\zh\text_tradeswsh_zh2.txt" />
     <None Remove="Resources\text\zh\text_tradeusum_zh.txt" />
     <None Remove="Resources\text\zh\text_tradexy_zh.txt" />
     <None Remove="Resources\text\zh\text_TrainingBag_zh.txt" />
@@ -1628,6 +1629,7 @@
     <EmbeddedResource Include="Resources\text\zh\text_tradeao_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradesm_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradeswsh_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_tradeswsh_zh2.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradeusum_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_tradexy_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_TrainingBag_zh.txt" />

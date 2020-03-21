@@ -165,7 +165,7 @@ namespace PKHeX.Core
             new EncounterStatic8S{ Species = 091, Level = 46, Locations = new[] {128, 130}, }, // Cloyster at East/West Lake Axewell (in a Wild Area)
             new EncounterStatic8S{ Species = 131, Level = 56, Locations = new[] {128, 130, 134, 138, 154 }, }, // Lapras at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8S{ Species = 119, Level = 46, Locations = new[] {128, 130, 134, 138, 142, 154 }, }, // Seaking in Bridge Field, at North/East/South/West Lake Miloch/Axwell, at the Lake of Outrage (in a Wild Area)
-            new EncounterStatic8S{ Species = 130, Level = 56, Locations = new[] {128, 146}, }, // Gyarados in East Lake Axewell, Dusty Bowl (in a Wild Area)
+            new EncounterStatic8S{ Species = 130, Level = 56, Locations = new[] {128, 142, 146}, }, // Gyarados in East Lake Axewell, in Bridge Field, Dusty Bowl (in a Wild Area)
             new EncounterStatic8S{ Species = 279, Level = 46, Locations = new[] {128, 142}, }, // Pelipper in East Lake Axewell, Bridge Field (in a Wild Area)
             new EncounterStatic8 { Species = 853, Level = 56, Location = 130, }, // Grapploct at West Lake Axewell (in a Wild Area)
             new EncounterStatic8S{ Species = 593, Level = 46, Locations = new[] {128, 130, 134, 138, 142, 154 }, }, // Jellicent at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage, Bridge Field (in a Wild Area)
@@ -346,7 +346,7 @@ namespace PKHeX.Core
         };
 
         private const string tradeSWSH = "tradeswsh";
-        private static readonly string[][] TradeSWSH = Util.GetLanguageStrings10(tradeSWSH);
+        private static readonly string[][] TradeSWSH = Util.GetLanguageStrings10(tradeSWSH, "zh2");
         private static readonly int[] TradeIVs = {15, 15, 15, 15, 15, 15};
 
         internal static readonly EncounterTrade8[] TradeGift_SWSH =

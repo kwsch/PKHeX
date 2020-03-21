@@ -106,7 +106,7 @@ namespace PKHeX.Core
             };
         }
 
-        public static string[][] GetLanguageStrings10(string fileName)
+        public static string[][] GetLanguageStrings10(string fileName, string zh2 = "zh")
         {
             return new[]
             {
@@ -120,7 +120,7 @@ namespace PKHeX.Core
                 GetStringList(fileName, "es"), // 7
                 GetStringList(fileName, "ko"), // 8
                 GetStringList(fileName, "zh"), // 9
-                GetStringList(fileName, "zh"), // 10
+                GetStringList(fileName, zh2), // 10
             };
         }
 
