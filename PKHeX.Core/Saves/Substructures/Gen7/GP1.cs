@@ -50,7 +50,8 @@ namespace PKHeX.Core
         public int CP => BitConverter.ToInt32(Data, 0x2C);
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
-
+        public int Stat_HP => BitConverter.ToInt32(Data, 0x34);
+        // geolocation data 0x38-0x47?
         public float HeightF => BitConverter.ToSingle(Data, 0x48);
         public float WeightF => BitConverter.ToSingle(Data, 0x4C);
 
