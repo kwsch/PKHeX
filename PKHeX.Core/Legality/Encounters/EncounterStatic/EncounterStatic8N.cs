@@ -45,7 +45,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLevel(PKM pkm, int lvl)
         {
             var metLevel = pkm.Met_Level - 15;
-            var rank = (uint)(metLevel / 10);
+            var rank = ((uint)metLevel) / 10;
             if (rank > 4)
                 return false;
             if (rank > MaxRank)
