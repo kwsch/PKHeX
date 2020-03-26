@@ -118,7 +118,16 @@ namespace PKHeX.Core
             int memoryGen = Info.Generation;
             int memory = pkm.OT_Memory;
 
-            if (!CanHaveMemory(pkm, memoryGen, memory))
+            if (pkm.IsEgg)
+            {
+                // Traded unhatched eggs in Gen8 have OT link trade memory applied erroneously.
+                if (memoryGen != 8 || !(pkm.Met_Location == Locations.LinkTrade6 && memory == 4))
+                {
+                    VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
+                    return;
+                }
+            }
+            else if (!CanHaveMemory(pkm, memoryGen, memory))
             {
                 VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
                 return;
