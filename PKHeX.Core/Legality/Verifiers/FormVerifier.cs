@@ -240,7 +240,7 @@ namespace PKHeX.Core
 
         public static int GetSilvallyFormFromHeldItem(int item)
         {
-            if ((904 <= item && item <= 920) || item == 644)
+            if (904 <= item && item <= 920)
                 return item - 903;
             return 0;
         }
