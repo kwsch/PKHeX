@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
         /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
         /// <returns>Folder path pointing to the Nintendo 3DS folder.</returns>
-        public static string Get3DSLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
+        public static string? Get3DSLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
             FindConsoleRootFolder(drives, "Nintendo 3DS", skipFirstDrive);
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace PKHeX.Core
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
         /// The first drive is usually the system hard drive, or can be a floppy disk drive (slower to check, never has expected data).</param>
         /// <returns>Folder path pointing to the Nintendo folder.</returns>
-        public static string GetSwitchLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
+        public static string? GetSwitchLocation(IEnumerable<string> drives, bool skipFirstDrive = true) =>
             FindConsoleRootFolder(drives, "Nintendo", skipFirstDrive);
 
-        private static string FindConsoleRootFolder(IEnumerable<string> drives, string path, bool skipFirstDrive)
+        private static string? FindConsoleRootFolder(IEnumerable<string> drives, string path, bool skipFirstDrive)
         {
             if (skipFirstDrive)
                 drives = drives.Skip(1);

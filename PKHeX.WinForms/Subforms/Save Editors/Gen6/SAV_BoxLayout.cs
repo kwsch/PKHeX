@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
         private void LoadFlags()
         {
             byte[] flags = SAV.BoxFlags;
-            if (flags == null || flags.Length == 0)
+            if (flags.Length == 0)
             {
                 FLP_Flags.Visible = false;
                 return;

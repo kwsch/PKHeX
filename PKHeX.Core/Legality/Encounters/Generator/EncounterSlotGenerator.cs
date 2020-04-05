@@ -164,7 +164,7 @@ namespace PKHeX.Core
             return slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
         }
 
-        internal static EncounterArea GetCaptureLocation(PKM pkm)
+        internal static EncounterArea? GetCaptureLocation(PKM pkm)
         {
             var vs = EvolutionChain.GetValidPreEvolutions(pkm);
             return (from area in GetEncounterSlots(pkm)

@@ -158,7 +158,7 @@ namespace PKHeX.Core
 
         // Checksums
         private readonly SHA1 sha1 = SHA1.Create();
-        public void Dispose() => sha1?.Dispose();
+        public void Dispose() => sha1.Dispose();
 
         private byte[] EncryptColosseum(byte[] input, byte[] digest)
         {

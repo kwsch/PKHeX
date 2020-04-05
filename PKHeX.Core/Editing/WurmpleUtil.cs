@@ -41,7 +41,7 @@
         }
 
         /// <summary>
-        /// Checks to see if the input <see cref="pkm"/>, with species being that of Wurmple's evo chain, is valid. 
+        /// Checks to see if the input <see cref="pkm"/>, with species being that of Wurmple's evo chain, is valid.
         /// </summary>
         /// <param name="pkm">Pokémon data</param>
         /// <returns>True if valid, false if invalid</returns>

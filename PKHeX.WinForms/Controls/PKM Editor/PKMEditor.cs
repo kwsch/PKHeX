@@ -288,7 +288,7 @@ namespace PKHeX.WinForms.Controls
             var moves = Entity.Moves;
             for (int i = 0; i < 4; i++)
             {
-                bool invalid = !Legality.Info?.Moves[i]?.Valid ?? false;
+                bool invalid = !Legality.Info?.Moves[i].Valid ?? false;
 
                 Bitmap img;
                 if (invalid)
@@ -304,7 +304,7 @@ namespace PKHeX.WinForms.Controls
             if (Entity.Format >= 6)
             {
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.Info?.Relearn[i]?.Valid ?? false;
+                    relearnPB[i].Visible = !Legality.Info?.Relearn[i].Valid ?? false;
             }
 
             if (skipMoveRepop)
@@ -704,7 +704,7 @@ namespace PKHeX.WinForms.Controls
         private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
             int[] m = Entity.GetMoveSet(random);
-            if (m?.Any(z => z != 0) != true)
+            if (m.Any(z => z != 0) != true)
             {
                 if (!silent)
                     WinFormsUtil.Alert(MsgPKMSuggestionFormat);

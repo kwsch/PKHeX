@@ -42,7 +42,7 @@ namespace PKHeX.Core
         public static string[] GetStrings(string ident, string lang, string type = "text")
         {
             string[] data = Util.GetStringList(ident, lang, type);
-            if (data == null || data.Length == 0)
+            if (data.Length == 0)
                 data = Util.GetStringList(ident, DefaultLanguage, type);
 
             return data;

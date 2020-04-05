@@ -146,7 +146,7 @@ namespace PKHeX.Core
             };
         }
 
-        internal static EncounterStatic GetStaticLocation(PKM pkm, int species = -1)
+        internal static EncounterStatic? GetStaticLocation(PKM pkm, int species = -1)
         {
             switch (pkm.GenNumber)
             {

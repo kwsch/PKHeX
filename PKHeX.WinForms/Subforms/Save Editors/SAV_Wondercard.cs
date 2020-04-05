@@ -332,8 +332,6 @@ namespace PKHeX.WinForms
             }
 
             Image qr = QREncode.GenerateQRCode(mg);
-            if (qr == null)
-                return;
 
             string desc = $"({mg.Type}) {string.Join(Environment.NewLine, mg.GetDescription())}";
 

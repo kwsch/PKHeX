@@ -267,7 +267,7 @@ namespace PKHeX.Core
                     continue;
                 }
                 var em = trade.Moves;
-                if (em != null && !needs.Except(em).Any())
+                if (!needs.Except(em).Any())
                     yield return trade;
             }
         }

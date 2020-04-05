@@ -95,7 +95,7 @@ namespace PKHeX.WinForms.Controls
                 Manip = visible;
             }
 
-            public void SetVisibility(SaveFile s) => Item.Visible = Manip.Usable?.Invoke(s) ?? true;
+            public void SetVisibility(SaveFile s) => Item.Visible = Manip.Usable(s);
         }
 
         public void ToggleVisibility()

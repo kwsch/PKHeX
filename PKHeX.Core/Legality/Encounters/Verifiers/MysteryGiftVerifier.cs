@@ -6,11 +6,11 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftVerifier
     {
-        private static readonly Dictionary<int, MysteryGiftRestriction>[] RestrictionSet = Get();
+        private static readonly Dictionary<int, MysteryGiftRestriction>?[] RestrictionSet = Get();
 
-        private static Dictionary<int, MysteryGiftRestriction>[] Get()
+        private static Dictionary<int, MysteryGiftRestriction>?[] Get()
         {
-            var s = new Dictionary<int, MysteryGiftRestriction>[PKX.Generation + 1];
+            var s = new Dictionary<int, MysteryGiftRestriction>?[PKX.Generation + 1];
             for (int i = 3; i < s.Length; i++)
                 s[i] = GetRestriction(i);
             return s;

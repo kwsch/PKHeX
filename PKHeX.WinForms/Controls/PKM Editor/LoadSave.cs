@@ -347,7 +347,8 @@ namespace PKHeX.WinForms.Controls
         // Misc
         private static void CheckTransferPIDValid(PKM pk)
         {
-            if (pk.Version >= 24 && pk.Version != 0)
+            var ver = pk.Version;
+            if (ver >= (int)GameVersion.X || ver == 0)
                 return;
 
             uint EC = pk.EncryptionConstant;

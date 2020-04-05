@@ -44,8 +44,6 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GetLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
             var str = GameInfo.GetStrings(lang);
-            if (str == null)
-                return Array.Empty<IEncounterable>();
 
             var spec = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
             var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());

@@ -992,8 +992,6 @@ namespace PKHeX.WinForms
             }
 
             var qr = QREncode.GenerateQRCode(pk);
-            if (qr == null)
-                return;
 
             var sprite = dragout.Image;
             var la = new LegalityAnalysis(pk, C_SAV.SAV.Personal);

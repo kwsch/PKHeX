@@ -239,7 +239,7 @@ namespace PKHeX.Core
         public static void CryptArray(byte[] data, uint seed) => CryptArray(data, seed, 0, data.Length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void Crypt(in byte[] data, ref uint seed, in int i)
+        private static void Crypt(byte[] data, ref uint seed, in int i)
         {
             seed = (0x41C64E6D * seed) + 0x00006073;
             data[i] ^= (byte)(seed >> 16);

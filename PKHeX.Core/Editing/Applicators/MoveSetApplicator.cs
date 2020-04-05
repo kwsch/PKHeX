@@ -38,8 +38,6 @@ namespace PKHeX.Core
         public static int[] GetMoveSet(this PKM pk, LegalityAnalysis la, bool random = false)
         {
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
-            if (m == null)
-                return pk.Moves;
 
             if (!m.All(z => la.AllSuggestedMovesAndRelearn().Contains(z)))
                 m = m.Intersect(la.AllSuggestedMovesAndRelearn()).ToArray();

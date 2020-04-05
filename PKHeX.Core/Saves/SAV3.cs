@@ -81,7 +81,7 @@ namespace PKHeX.Core
                 Version = GameVersion.RS;
             else
                 Version = version;
-            _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+            _personal = SaveUtil.GetG3Personal(Version);
             Japanese = japanese;
 
             LoadBlocks(out BlockOrder, out BlockOfs);
@@ -105,7 +105,7 @@ namespace PKHeX.Core
         {
             LoadBlocks(out BlockOrder, out BlockOfs);
             Version = versionOverride != GameVersion.Any ? versionOverride : GetVersion(Data, BlockOfs[0]);
-            _personal = SaveUtil.GetG3Personal(Version) ?? PersonalTable.RS;
+            _personal = SaveUtil.GetG3Personal(Version);
 
             // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
             // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT

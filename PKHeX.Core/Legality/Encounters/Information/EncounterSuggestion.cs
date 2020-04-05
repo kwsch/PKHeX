@@ -184,7 +184,6 @@ namespace PKHeX.Core
             return startLevel;
         }
 
-
         public static int GetSuggestedMetLevel(PKM pkm, int minLevel)
         {
             var clone = pkm.Clone();

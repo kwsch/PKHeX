@@ -221,7 +221,7 @@ namespace PKHeX.WinForms
             }
 
             var forms = SAV.GetForms(species);
-            if (forms != null)
+            if (forms.Length > 0)
             {
                 int[] arr = new int[LB_Form.Items.Count];
                 string[] formNames = GetFormNames4Dex(species);

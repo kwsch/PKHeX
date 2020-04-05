@@ -11,7 +11,7 @@ namespace PKHeX.Core
         private readonly List<StrategyMemoEntry> Entries = new List<StrategyMemoEntry>();
         public const int MAX_COUNT = 500;
         public const int MAX_SIZE = MAX_COUNT * SIZE_ENTRY;
-        private StrategyMemoEntry this[int Species] => Entries.Find(e => e.Species == Species);
+        private StrategyMemoEntry? this[int Species] => Entries.Find(e => e.Species == Species);
         private readonly byte[] _unk;
 
         public StrategyMemo(bool xd = true) : this(new byte[MAX_SIZE], 0, xd) { }
