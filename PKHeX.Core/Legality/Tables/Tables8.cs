@@ -265,7 +265,7 @@ namespace PKHeX.Core
             130, 132, 134, 136, 138,
             140, 142, 144, 146, 148,
             150, 152, 154, 156, 158,
-            160, 162,
+            160,
         };
 
         public static readonly int[] TMHM_SWSH =
