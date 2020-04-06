@@ -349,13 +349,13 @@ namespace PKHeX.Core
 
         public static void DecryptIfEncrypted67(ref byte[] pkm)
         {
-            if (BitConverter.ToUInt16(pkm, 0xC8) != 0 && BitConverter.ToUInt16(pkm, 0x58) != 0)
+            if (BitConverter.ToUInt16(pkm, 0xC8) != 0 || BitConverter.ToUInt16(pkm, 0x58) != 0)
                 pkm = DecryptArray6(pkm);
         }
 
         public static void DecryptIfEncrypted8(ref byte[] pkm)
         {
-            if (BitConverter.ToUInt16(pkm, 0x70) != 0 && BitConverter.ToUInt16(pkm, 0xC0) != 0)
+            if (BitConverter.ToUInt16(pkm, 0x70) != 0 || BitConverter.ToUInt16(pkm, 0xC0) != 0)
                 pkm = DecryptArray8(pkm);
         }
     }
