@@ -167,7 +167,7 @@ namespace PKHeX.Core
         private void FixEvoTreeSM()
         {
             // Sun/Moon lack Ultra's Kantonian evolution methods.
-            BanEvo((int)Species.Raichu, 1, pkm => pkm.IsUntraded && pkm.SM);
+            BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
             BanEvo((int)Species.Marowak, 0, pkm => pkm.IsUntraded && pkm.SM);
             BanEvo((int)Species.Raichu, 0, pkm => pkm.IsUntraded && pkm.SM);
         }
@@ -175,8 +175,9 @@ namespace PKHeX.Core
         private void FixEvoTreeSS()
         {
             // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
+            // Raichu cannot be evolved to the Alolan variant at this time.
             BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
-            BanEvo((int)Species.Raichu, 1, pkm => pkm is IGigantamax g && g.CanGigantamax || pkm.Gen8 || pkm.GG);
+            BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax g && g.CanGigantamax) || pkm.Gen8 || pkm.GG);
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
 
             BanEvo((int)Species.Weezing, 0, pkm => pkm.Gen8);
