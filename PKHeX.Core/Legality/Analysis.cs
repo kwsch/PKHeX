@@ -332,6 +332,11 @@ namespace PKHeX.Core
 
             HyperTraining.Verify(this);
             Misc.VerifyVersionEvolution(this);
+
+            if (pkm.Format < 8)
+                return;
+
+            Mark.Verify(this);
         }
 
         private string GetLegalityReport()

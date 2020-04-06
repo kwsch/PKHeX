@@ -402,6 +402,7 @@ namespace PKHeX.Core
         public static string LRibbonEgg { get; set; } = "Can't receive Ribbon(s) as an Egg.";
         public static string LRibbonFInvalid_0 { get; set; } = "Invalid Ribbons: {0}";
         public static string LRibbonFMissing_0 { get; set; } = "Missing Ribbons: {0}";
+        public static string LRibbonMarkingFInvalid_0 { get; set; } = "Invalid Marking: {0}";
 
         public static string LStatDynamaxInvalid { get; set; } = "Dynamax Level is not within the expected range.";
         public static string LStatIncorrectHeight { get; set; } = "Calculated Height does not match stored value.";

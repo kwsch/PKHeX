@@ -30,6 +30,7 @@ namespace PKHeX.Core
         private static readonly LevelVerifier Level = new LevelVerifier();
         private static readonly MiscVerifier Misc = new MiscVerifier();
         private static readonly TransferVerifier Transfer = new TransferVerifier();
+        private static readonly MarkVerifier Mark = new MarkVerifier();
 
         public static string[] MoveStrings { internal get; set; } = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
