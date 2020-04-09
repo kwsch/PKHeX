@@ -8,7 +8,7 @@ namespace PKHeX.Core
         {
             var teams = s.Locks;
             if (teams.Length == 0)
-                return true;
+                return s.Version == GameVersion.COLO || !pkm.IsShiny; // no xd shiny shadow mons
 
             var tsv = s.Version == GameVersion.XD ? (pkm.TID ^ pkm.SID) >> 3 : -1; // no xd shiny shadow mons
             return IsAllShadowLockValid(pv, teams, tsv);
