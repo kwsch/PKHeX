@@ -155,6 +155,21 @@
             new EncounterStatic8ND(50,08,4) { Species = 569, Ability = A4, Moves = new[]{ 441, 499, 402, 707 }, CanGigantamax = true }, // Garbodor
             new EncounterStatic8ND(50,08,4) { Species = 006, Ability = A4, Moves = new[]{ 053, 403, 076, 257 }, CanGigantamax = true }, // Charizard
             new EncounterStatic8ND(50,08,4) { Species = 884, Ability = A4, Moves = new[]{ 337, 430, 784, 776 }, CanGigantamax = true }, // Duraludon
+
+            // 4/09 - Easter Eggs
+            new EncounterStatic8ND(40,05,2) { Species = 848, Ability = A4, Moves = new[]{ 609, 051, 175, 715 } }, // Toxel
+            new EncounterStatic8ND(40,05,2) { Species = 458, Ability = A4, Moves = new[]{ 403, 061, 469, 503 } }, // Mantyke
+            new EncounterStatic8ND(40,05,3) { Species = 406, Ability = A4, Moves = new[]{ 071, 074, 078, 188 } }, // Budew
+            new EncounterStatic8ND(40,05,3) { Species = 236, Ability = A4, Moves = new[]{ 280, 157, 252, 116 } }, // Tyrogue
+            new EncounterStatic8ND(40,05,3) { Species = 438, Ability = A4, Moves = new[]{ 317, 389, 157, 313 } }, // Bonsly
+            new EncounterStatic8ND(40,05,3) { Species = 447, Ability = A4, Moves = new[]{ 014, 009, 232, 249 } }, // Riolu
+            new EncounterStatic8ND(40,05,3) { Species = 446, Ability = A4, Moves = new[]{ 034, 089, 044, 122 } }, // Munchlax
+            new EncounterStatic8ND(40,05,3) { Species = 439, Ability = A4, Moves = new[]{ 389, 060, 182, 085 } }, // Mime Jr.
+            new EncounterStatic8ND(50,08,4) { Species = 175, Ability = A4, Moves = new[]{ 605, 219, 246, 053 } }, // Togepi
+            new EncounterStatic8ND(50,08,4) { Species = 360, Ability = A4, Moves = new[]{ 068, 243, 204, 133 } }, // Wynaut
+            new EncounterStatic8ND(50,08,4) { Species = 173, Ability = A4, Moves = new[]{ 574, 005, 113, 034 } }, // Cleffa
+            new EncounterStatic8ND(50,08,4) { Species = 172, Ability = A4, Moves = new[]{ 583, 417, 085, 186 } }, // Pichu
+            new EncounterStatic8ND(60,10,5) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
@@ -537,6 +552,10 @@
             // 3/25 - Charizard
             new EncounterStatic8ND(60,10,5) { Species = 569, Ability = A4, Moves = new[]{ 441, 409, 402, 707 }, CanGigantamax = true }, // Garbodor
             new EncounterStatic8ND(60,10,5) { Species = 006, Ability = A4, Moves = new[]{ 257, 403, 406, 411 }, CanGigantamax = true, Shiny = Shiny.Never }, // Charizard
+
+            // 4/09 - Easter Eggs (and fixed Charizard)
+            new EncounterStatic8ND(60,10,5) { Species = 569, Ability = A4, Moves = new[]{ 441, 499, 402, 707 }, CanGigantamax = true }, // Garbodor (Drain Punch -> Clear Smog)
+            new EncounterStatic8ND(60,10,5) { Species = 006, Ability = A4, Moves = new[]{ 053, 403, 019, 411 }, CanGigantamax = true }, // Charizard (Heat Wave, Dragon Pulse -> Flamethrower/Fly)
         };
     }
 }
