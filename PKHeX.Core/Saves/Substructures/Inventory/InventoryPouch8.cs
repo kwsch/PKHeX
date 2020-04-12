@@ -84,11 +84,10 @@ namespace PKHeX.Core
 
         public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
         {
-            switch (t)
+            return t switch
             {
-                default:
-                    return requestVal;
-            }
+                _ => requestVal
+            };
         }
     }
 }

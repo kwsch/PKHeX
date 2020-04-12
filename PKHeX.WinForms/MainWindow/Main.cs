@@ -849,7 +849,7 @@ namespace PKHeX.WinForms
 
         private static bool IsFileLocked(string path)
         {
-            try { return File.GetAttributes(path).HasFlag(FileAttributes.ReadOnly); }
+            try { return (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0; }
             catch { return true; }
         }
 

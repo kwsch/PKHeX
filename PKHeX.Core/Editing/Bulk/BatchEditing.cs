@@ -251,7 +251,7 @@ namespace PKHeX.Core
             if (cmd.PropertyValue.StartsWith(CONST_SUGGEST))
                 return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
-                return SetMoves(pk, pk.GetMoveSet(info.Legality, true));
+                return SetMoves(pk, info.Legality.GetMoveSet(true));
 
             if (SetComplexProperty(pk, cmd))
                 return ModifyResult.Modified;
@@ -427,7 +427,7 @@ namespace PKHeX.Core
                     return ModifyResult.Modified;
 
                 case nameof(PKM.Moves):
-                    return SetMoves(pk, pk.GetMoveSet(la: info.Legality));
+                    return SetMoves(pk, info.Legality.GetMoveSet());
 
                 case nameof(PKM.Ball):
                     BallApplicator.ApplyBallLegalByColor(pk);

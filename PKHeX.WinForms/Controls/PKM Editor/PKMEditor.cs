@@ -97,7 +97,7 @@ namespace PKHeX.WinForms.Controls
         public bool Unicode { get; set; } = true;
         private bool _hax;
         public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
-        public byte[] LastData { private get; set; }
+        private byte[] LastData;
 
         public PKM Data { get => Entity; set => Entity = value; }
         public PKM Entity { get; private set; }
@@ -581,7 +581,7 @@ namespace PKHeX.WinForms.Controls
         private void ClickPPUps(object sender, EventArgs e)
         {
             bool min = ModifierKeys.HasFlag(Keys.Control);
-            static int getValue(ComboBox cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
+            static int getValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
             CB_PPu1.SelectedIndex = getValue(CB_Move1, min);
             CB_PPu2.SelectedIndex = getValue(CB_Move2, min);
             CB_PPu3.SelectedIndex = getValue(CB_Move3, min);
@@ -703,8 +703,8 @@ namespace PKHeX.WinForms.Controls
 
         private bool SetSuggestedMoves(bool random = false, bool silent = false)
         {
-            int[] m = Entity.GetMoveSet(random);
-            if (m.Any(z => z != 0) != true)
+            var m = Entity.GetMoveSet(random);
+            if (m.All(z => z == 0) || m.Length == 0)
             {
                 if (!silent)
                     WinFormsUtil.Alert(MsgPKMSuggestionFormat);

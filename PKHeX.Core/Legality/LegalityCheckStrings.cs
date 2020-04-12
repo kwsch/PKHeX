@@ -31,13 +31,13 @@ namespace PKHeX.Core
         /// <summary>Format text for exporting a legality check result for a Relearn Move.</summary>
         public static string L_F0_RM_1_2 { get; set; } = "{0} Relearn Move {1}: {2}";
 
-        /// <summary>Format text for exporting the type of Encounter that was matched for the the <see cref="PKM"/></summary>
+        /// <summary>Format text for exporting the type of Encounter that was matched for the <see cref="PKM"/></summary>
         public static string L_FEncounterType_0 { get; set; } = "Encounter Type: {0}";
 
-        /// <summary>Format text for exporting the <see cref="PIDIV.OriginSeed"/> that was matched for the the <see cref="PKM"/></summary>
+        /// <summary>Format text for exporting the <see cref="PIDIV.OriginSeed"/> that was matched for the <see cref="PKM"/></summary>
         public static string L_FOriginSeed_0 { get; set; } = "Origin Seed: {0}";
 
-        /// <summary>Format text for exporting the <see cref="PIDIV.Type"/> that was matched for the the <see cref="PKM"/></summary>
+        /// <summary>Format text for exporting the <see cref="PIDIV.Type"/> that was matched for the <see cref="PKM"/></summary>
         public static string L_FPIDType_0 { get; set; } = "PID Type: {0}";
 
         /// <summary>Severity string for <see cref="Severity.Indeterminate"/></summary>

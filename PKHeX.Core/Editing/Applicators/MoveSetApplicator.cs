@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public static int[] GetMoveSet(this PKM pk, bool random = false)
         {
             var la = new LegalityAnalysis(pk);
-            var moves = pk.GetMoveSet(la, random);
+            var moves = la.GetMoveSet(random);
 
             if (random)
                 return moves;
@@ -31,16 +31,16 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a moveset for the provided <see cref="PKM"/> data.
         /// </summary>
-        /// <param name="pk">PKM to generate for</param>
         /// <param name="la">Precomputed optional</param>
         /// <param name="random">Full movepool &amp; shuffling</param>
         /// <returns>4 moves</returns>
-        public static int[] GetMoveSet(this PKM pk, LegalityAnalysis la, bool random = false)
+        public static int[] GetMoveSet(this LegalityAnalysis la, bool random = false)
         {
             int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
 
-            if (!m.All(z => la.AllSuggestedMovesAndRelearn().Contains(z)))
-                m = m.Intersect(la.AllSuggestedMovesAndRelearn()).ToArray();
+            var learn = la.AllSuggestedMovesAndRelearn();
+            if (!m.All(z => learn.Contains(z)))
+                m = m.Intersect(learn).ToArray();
 
             if (random)
                 Util.Shuffle(m);
