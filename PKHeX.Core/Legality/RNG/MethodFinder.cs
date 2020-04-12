@@ -823,6 +823,8 @@ namespace PKHeX.Core
                 case WC3 g:
                     if (val == g.Method)
                         return true;
+                    if (val == PIDType.CXDAnti && g.Shiny == Shiny.Never && g.Method == PIDType.CXD)
+                        return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
                 case EncounterStatic s:
