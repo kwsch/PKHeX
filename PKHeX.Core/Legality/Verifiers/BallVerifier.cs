@@ -38,8 +38,14 @@ namespace PKHeX.Core
 
             // Capture / Inherit cases -- can be one of many balls
             var pkm = data.pkm;
-            if (pkm.Species == (int)Species.Shedinja && Info.Generation != 3 && data.EncounterMatch.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
-                return VerifyBallEquals(data, (int)Poke); // Pokeball Only
+            if (pkm.Species == (int)Species.Shedinja && data.EncounterMatch.Species != (int)Species.Shedinja) // Shedinja. For gen3, copy the ball from Nincada
+            {
+                // Only Gen3 origin Shedinja can copy the wild ball.
+                // Evolution chains will indicate if it could have existed as Shedinja in Gen3.
+                // The special move verifier has a similar check!
+                if (Info.Generation != 3 || Info.EvoChainsAllGens[3].Count != 2)
+                    return VerifyBallEquals(data, (int)Poke); // Pokeball Only
+            }
 
             if (pkm.Ball == (int)Heavy && Legal.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
                 return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)

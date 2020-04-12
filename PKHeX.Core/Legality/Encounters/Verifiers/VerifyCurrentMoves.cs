@@ -275,7 +275,7 @@ namespace PKHeX.Core
             }
 
             if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
-                ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves);
+                ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves, info.EvoChainsAllGens);
 
             for (int m = 0; m < 4; m++)
             {
@@ -574,14 +574,20 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseShedinjaEvolveMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves)
+        private static void ParseShedinjaEvolveMoves(PKM pkm, IList<CheckMoveResult> res, int[] moves, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos)
         {
             var ShedinjaEvoMovesLearned = new List<int>();
-            for (int gen = Math.Min(pkm.Format, 4); gen >= 3; gen--)
+            var format = pkm.Format;
+            for (int gen = Math.Min(format, 4); gen >= 3; gen--)
             {
+                if (evos[gen].Count != 2)
+                    continue; // Was not evolved in this generation
+                if (gen == 4 && pkm.Ball != 4)
+                    continue; // Was definitively evolved in Gen3
+
                 var maxLevel = pkm.CurrentLevel;
                 var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, gen, maxLevel);
-                bool native = gen == pkm.Format;
+                bool native = gen == format;
                 for (int m = 0; m < 4; m++)
                 {
                     if (IsCheckValid(res[m])) // already validated
