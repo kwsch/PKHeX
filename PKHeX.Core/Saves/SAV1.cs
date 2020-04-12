@@ -530,7 +530,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != SpawnFlagCount)
+                if (value.Length != SpawnFlagCount)
                     return;
                 for (int i = 0; i < value.Length; i++)
                     SetFlag(Offsets.ObjectSpawnFlags + i >> 3, i & 7, value[i]);

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Legal;
 
@@ -50,7 +51,7 @@ namespace PKHeX.Core
                 return GetValidEncounterTradesVC(pkm, p, gameSource);
 
             var table = GetEncounterTradeTable(pkm);
-            return table?.Where(f => p.Any(r => r.Species == f.Species)) ?? Enumerable.Empty<EncounterTrade>();
+            return table.Where(f => p.Any(r => r.Species == f.Species));
         }
 
         private static IEnumerable<EncounterTrade> GetPossibleVC(IReadOnlyList<DexLevel> p, GameVersion gameSource = GameVersion.Any)
@@ -59,13 +60,13 @@ namespace PKHeX.Core
             return table.Where(f => p.Any(r => r.Species == f.Species));
         }
 
-        private static IEnumerable<EncounterTrade>? GetEncounterTradeTableVC(GameVersion gameSource)
+        private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
                 return !ParseSettings.AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
             if (GameVersion.GSC.Contains(gameSource))
                 return Encounters2.TradeGift_GSC;
-            return null;
+            return Array.Empty<EncounterTrade>();
         }
 
         private static IEnumerable<EncounterTrade>? GetEncounterTradeTable(PKM pkm)
@@ -78,7 +79,7 @@ namespace PKHeX.Core
                 6 => (pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO),
                 7 => (pkm.GG ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM),
                 8 => Encounters8.TradeGift_SWSH,
-                _ => null,
+                _ => Array.Empty<EncounterTrade>(),
             };
         }
 

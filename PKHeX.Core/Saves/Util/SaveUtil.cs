@@ -462,7 +462,9 @@ namespace PKHeX.Core
         {
             var data = File.ReadAllBytes(path);
             var sav = GetVariantSAV(data);
-            sav?.SetFileInfo(path);
+            if (sav == null)
+                return null;
+            sav.SetFileInfo(path);
             return sav;
         }
 

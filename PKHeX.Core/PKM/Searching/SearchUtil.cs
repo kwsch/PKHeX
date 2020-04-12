@@ -94,7 +94,7 @@ namespace PKHeX.Core.Searching
 
         public static IEnumerable<PKM> FilterByBatchInstruction(IEnumerable<PKM> res, IList<string> BatchInstructions)
         {
-            if (BatchInstructions?.All(string.IsNullOrWhiteSpace) != false)
+            if (BatchInstructions.All(string.IsNullOrWhiteSpace))
                 return res; // none specified;
 
             var lines = BatchInstructions.Where(z => !string.IsNullOrWhiteSpace(z));

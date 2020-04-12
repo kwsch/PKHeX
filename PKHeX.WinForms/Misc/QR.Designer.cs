@@ -21,7 +21,7 @@ namespace PKHeX.WinForms
                 components.Dispose();
             }
             base.Dispose(disposing);
-            qr?.Dispose();
+            qr.Dispose();
         }
 
         #region Windows Form Designer generated code

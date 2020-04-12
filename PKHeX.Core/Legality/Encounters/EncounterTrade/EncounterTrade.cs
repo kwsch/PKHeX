@@ -307,11 +307,11 @@ namespace PKHeX.Core
         {
             if (Level > pkm.CurrentLevel) // minimum required level
                 return false;
-            if (pkm.Format != 1 || !pkm.Gen1_NotTradeback)
+            if (!(pkm is PK1 pk1)|| !pkm.Gen1_NotTradeback)
                 return true;
 
             // Even if the in game trade uses the tables with source pokemon allowing generation 2 games, the traded pokemon could be a non-tradeback pokemon
-            var rate = (pkm as PK1)?.Catch_Rate;
+            var rate = pk1.Catch_Rate;
             if (this is EncounterTradeCatchRate r)
             {
                 if (rate != r.Catch_Rate)

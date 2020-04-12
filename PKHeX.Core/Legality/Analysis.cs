@@ -442,7 +442,7 @@ namespace PKHeX.Core
         /// </summary>
         public IReadOnlyList<int> GetSuggestedRelearn()
         {
-            if (Info?.RelearnBase == null || Info.Generation < 6)
+            if (Info.RelearnBase.Count == 0 || Info.Generation < 6)
                 return new int[4];
 
             if (!EncounterMatch.EggEncounter)

@@ -125,7 +125,7 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback()
             {
-                if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
+                if ((e is EncounterStatic s && s.Version == GameVersion.Stadium) || e is EncounterTradeCatchRate)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
                 if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
                     return GetInvalid(LG1CatchRateEvo);
