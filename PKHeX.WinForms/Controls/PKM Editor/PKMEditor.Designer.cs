@@ -1637,12 +1637,13 @@
             // 
             this.CB_MetLocation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CB_MetLocation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this.CB_MetLocation.DropDownWidth = 150;
+            this.CB_MetLocation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CB_MetLocation.DropDownWidth = 200;
             this.CB_MetLocation.FormattingEnabled = true;
             this.CB_MetLocation.Location = new System.Drawing.Point(110, 0);
             this.CB_MetLocation.Margin = new System.Windows.Forms.Padding(0);
             this.CB_MetLocation.Name = "CB_MetLocation";
-            this.CB_MetLocation.Size = new System.Drawing.Size(126, 21);
+            this.CB_MetLocation.Size = new System.Drawing.Size(162, 21);
             this.CB_MetLocation.TabIndex = 2;
             this.CB_MetLocation.SelectedIndexChanged += new System.EventHandler(this.ValidateLocation);
             this.CB_MetLocation.Validating += new System.ComponentModel.CancelEventHandler(this.ValidateComboBox);
