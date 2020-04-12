@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for exporting and importing <see cref="PKM"/> data in Pokémon Showdown's text format.
     /// </summary>
-    public sealed class ShowdownSet : IGigantamax
+    public sealed class ShowdownSet : IBattleTemplate
     {
         private static readonly string[] genders = {"M", "F", ""};
         private static readonly string[] genderForms = {"", "F", ""};
@@ -21,89 +21,55 @@ namespace PKHeX.Core
         private const int MAX_SPECIES = (int)Core.Species.MAX_COUNT - 1;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
-        /// <summary>
-        /// <see cref="PKM.Species"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int Species { get; private set; } = -1;
 
-        /// <summary>
-        /// <see cref="PKM.Format"/> of the Set entity it is specific to.
-        /// </summary>
+        /// <inheritdoc/>
         public int Format { get; private set; } = PKMConverter.Format;
 
-        /// <summary>
-        /// <see cref="PKM.Nickname"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public string Nickname { get; set; } = string.Empty;
 
-        /// <summary>
-        /// <see cref="PKM.Gender"/> name of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public string Gender { get; private set; } = string.Empty;
 
-        /// <summary>
-        /// <see cref="PKM.HeldItem"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int HeldItem { get; private set; }
 
-        /// <summary>
-        /// <see cref="PKM.Ability"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int Ability { get; private set; } = -1;
 
-        /// <summary>
-        /// <see cref="PKM.CurrentLevel"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int Level { get; private set; } = 100;
 
-        /// <summary>
-        /// <see cref="PKM.CurrentLevel"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public bool Shiny { get; private set; }
 
-        /// <summary>
-        /// <see cref="PKM.CurrentFriendship"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int Friendship { get; private set; } = 255;
 
-        /// <summary>
-        /// <see cref="PKM.StatNature"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int Nature { get; set; } = -1;
 
-        /// <summary>
-        /// <see cref="PKM.AltForm"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)
-        /// </summary>
+        /// <inheritdoc/>
         public string Form { get; private set; } = string.Empty;
 
-        /// <summary>
-        /// <see cref="PKM.AltForm"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int FormIndex { get; private set; }
 
-        /// <summary>
-        /// <see cref="PKM.EVs"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
 
-        /// <summary>
-        /// <see cref="PKM.IVs"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int[] IVs { get; private set; } = {31, 31, 31, 31, 31, 31};
 
-        /// <summary>
-        /// <see cref="PKM.HPType"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int HiddenPowerType { get; set; } = -1;
 
-        /// <summary>
-        /// <see cref="PKM.Moves"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public int[] Moves { get; } = {0, 0, 0, 0};
 
-        /// <summary>
-        /// <see cref="IGigantamax.CanGigantamax"/> of the Set entity.
-        /// </summary>
+        /// <inheritdoc/>
         public bool CanGigantamax { get; set; }
 
         /// <summary>
@@ -119,28 +85,16 @@ namespace PKHeX.Core
         private int[] EVsSpeedLast => new[] {EVs[0], EVs[1], EVs[2], EVs[4], EVs[5], EVs[3]};
 
         /// <summary>
-        /// Loads a new blank <see cref="ShowdownSet"/>.
-        /// </summary>
-        public ShowdownSet() { }
-
-        /// <summary>
         /// Loads a new <see cref="ShowdownSet"/> from the input string.
         /// </summary>
         /// <param name="input">Single-line string which will be split before loading.</param>
-        public ShowdownSet(string input)
-        {
-            var lines = input.Split(Splitters, StringSplitOptions.None);
-            LoadLines(lines);
-        }
+        public ShowdownSet(string input) : this(input.Split(Splitters, 0)) { }
 
         /// <summary>
         /// Loads a new <see cref="ShowdownSet"/> from the input string.
         /// </summary>
         /// <param name="lines">Enumerable list of lines.</param>
-        public ShowdownSet(IEnumerable<string> lines)
-        {
-            LoadLines(lines);
-        }
+        public ShowdownSet(IEnumerable<string> lines) => LoadLines(lines);
 
         private void LoadLines(IEnumerable<string> lines)
         {
@@ -164,7 +118,6 @@ namespace PKHeX.Core
 
         private void ParseLines(IEnumerable<string> lines)
         {
-            // ReSharper disable once GenericEnumeratorNotDisposed
             using var e = lines.GetEnumerator();
             if (!e.MoveNext())
                 return;

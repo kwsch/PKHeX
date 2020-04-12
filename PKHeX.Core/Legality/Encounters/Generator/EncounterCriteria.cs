@@ -43,7 +43,7 @@
             return true;
         }
 
-        public static EncounterCriteria GetCriteria(ShowdownSet s)
+        public static EncounterCriteria GetCriteria(IBattleTemplate s)
         {
             int gender = string.IsNullOrWhiteSpace(s.Gender) ? -1 : PKX.GetGenderFromString(s.Gender);
             return new EncounterCriteria

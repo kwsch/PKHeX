@@ -9,14 +9,14 @@ namespace PKHeX.Core
     public static class CommonEdits
     {
         /// <summary>
-        /// Setting which enables/disables automatic manipulation of <see cref="PKM.Markings"/> when importing from a <see cref="ShowdownSet"/>.
+        /// Setting which enables/disables automatic manipulation of <see cref="PKM.Markings"/> when importing from a <see cref="IBattleTemplate"/>.
         /// </summary>
         public static bool ShowdownSetIVMarkings { get; set; } = true;
 
         /// <summary>
         /// Setting which causes the <see cref="PKM.StatNature"/> to the <see cref="PKM.Nature"/> in Gen8+ formats.
         /// </summary>
-        public static bool ShowdownSetBehaviorNature { get; set; } = false;
+        public static bool ShowdownSetBehaviorNature { get; set; }
 
         /// <summary>
         /// Sets the <see cref="PKM.Nickname"/> to the provided value.
@@ -185,11 +185,11 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Copies <see cref="ShowdownSet"/> details to the <see cref="PKM"/>.
+        /// Copies <see cref="IBattleTemplate"/> details to the <see cref="PKM"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="Set"><see cref="ShowdownSet"/> details to copy from.</param>
-        public static void ApplySetDetails(this PKM pk, ShowdownSet Set)
+        /// <param name="Set"><see cref="IBattleTemplate"/> details to copy from.</param>
+        public static void ApplySetDetails(this PKM pk, IBattleTemplate Set)
         {
             pk.Species = Math.Min(pk.MaxSpeciesID, Set.Species);
             pk.SetMoves(Set.Moves, true);

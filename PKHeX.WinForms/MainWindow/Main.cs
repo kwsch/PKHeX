@@ -494,12 +494,12 @@ namespace PKHeX.WinForms
             { WinFormsUtil.Alert(MsgClipboardFailRead); return; }
 
             // Get Simulator Data
-            ShowdownSet Set = new ShowdownSet(Clipboard.GetText());
+            var Set = new ShowdownSet(Clipboard.GetText());
 
             if (Set.Species < 0)
             { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
-            if (Set.Nickname?.Length > C_SAV.SAV.NickLength)
+            if (Set.Nickname.Length > C_SAV.SAV.NickLength)
                 Set.Nickname = Set.Nickname.Substring(0, C_SAV.SAV.NickLength);
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))

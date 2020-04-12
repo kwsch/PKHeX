@@ -1844,9 +1844,9 @@ namespace PKHeX.WinForms.Controls
         }
 
         // ReSharper disable once FieldCanBeMadeReadOnly.Global
-        public Action<ShowdownSet> LoadShowdownSet;
+        public Action<IBattleTemplate> LoadShowdownSet;
 
-        private void LoadShowdownSetDefault(ShowdownSet Set)
+        private void LoadShowdownSetDefault(IBattleTemplate Set)
         {
             var pk = PreparePKM();
             pk.ApplySetDetails(Set);
