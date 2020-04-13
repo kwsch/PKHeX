@@ -375,7 +375,7 @@ namespace PKHeX.Core
             SetFormString(pkm.AltForm);
         }
 
-        public void SetFormString(int index)
+        private void SetFormString(int index)
         {
             FormIndex = index;
             if (index <= 0)
