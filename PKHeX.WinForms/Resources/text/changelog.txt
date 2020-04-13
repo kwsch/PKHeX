@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/03/14 - New Update:
+20/04/14 - New Update:
+ - Legality:
+ - - Added: Latest raid news data.
+ - - Fixed: HOME gifts now recognized.
+ - - Fixed: Antishiny Colosseum/XD spreads are recognized better for various gifts.
+ - - Fixed: Some unavailable evolution cases are now recognized correctly.
+ - - Fixed: Silvally Pixie Plate is now recognized correctly.
+ - - Fixed: Gen8 Raid downleveling thresholds are now recognized correctly.
+ - - Fixed: Gen8 Link trade eggs are now allowed to have OT memories prior to hatching (...)
+ - - Fixed: Gen8 Chinese2 language in-game trade strings are now recognized correctly (not a copy of the other Chinese strings).
+ - - Changed: Gen3/4 in-game trade met levels are now accurately restricted to their obtainable minimum level. The PID check now works.
+ - - Changed: Gen8 static (gift) encounters now verify specific ability indexes.
+ - Added: Batch Editor $suggest for EggDate/MetDate (copies the other).
+ - Added: Gen8 HOME tracker control can now be hidden (same as PID/EC) if the Hide Secret Values setting is set.
+ - Added: New setting to copy the stat-nature to the behavior (original) nature when importing a Showdown Set.
+ - Added: New setting to force large sprites for past generation games. Old sprites will eventually be removed!
+ - Changed: Past generation sprites will now use the larger sprites from Gen8. Opt out (for now) with the setting described above.
+ - Changed: Met Location combobox has been widened to show more text (Gen8's long met locations).
+ - Fixed: Game Origin markings in PKM Editor now show the correct game lump sprite.
+ - Fixed: BK4 file recognition has been fixed.
+
+20/03/14 - New Update: (81209) [2598989]
  - Added: Shiny Sprites for the new 68x56 box sprites. Thanks @msikma! https://github.com/msikma/pokesprite
  - Legality:
  - - Added: Latest raid news data.
