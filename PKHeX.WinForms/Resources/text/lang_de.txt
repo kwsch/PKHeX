@@ -1386,6 +1386,7 @@ SettingsEditor.ShowEggSpriteAsHeldItem=Show Egg Sprite As Held Item
 SettingsEditor.Tab_Bool=Toggles
 SettingsEditor.Tab_Color=Colors
 SettingsEditor.Unicode=Unicode
+SettingsEditor.UseLargeSprites=Always Use Large Sprites (Past Games)
 SuperTrainingEditor.B_All=Alle
 SuperTrainingEditor.B_Cancel=Abbrechen
 SuperTrainingEditor.B_None=Nichts

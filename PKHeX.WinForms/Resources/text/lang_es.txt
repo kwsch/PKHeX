@@ -1382,6 +1382,7 @@ SettingsEditor.ShowEggSpriteAsHeldItem=Mostrar sprite de huevo como objeto equip
 SettingsEditor.Tab_Bool=Opciones
 SettingsEditor.Tab_Color=Colores
 SettingsEditor.Unicode=Unicode
+SettingsEditor.UseLargeSprites=Always Use Large Sprites (Past Games)
 SuperTrainingEditor.B_All=Dar todos
 SuperTrainingEditor.B_Cancel=Cancelar
 SuperTrainingEditor.B_None=Quitar todos

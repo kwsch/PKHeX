@@ -1382,6 +1382,7 @@ SettingsEditor.ShowEggSpriteAsHeldItem=알 스프라이트를 지닌 물건에 �
 SettingsEditor.Tab_Bool=토글
 SettingsEditor.Tab_Color=색상
 SettingsEditor.Unicode=유니코드 사용
+SettingsEditor.UseLargeSprites=Always Use Large Sprites (Past Games)
 SuperTrainingEditor.B_All=모두 주기
 SuperTrainingEditor.B_Cancel=취소
 SuperTrainingEditor.B_None=모두 제거

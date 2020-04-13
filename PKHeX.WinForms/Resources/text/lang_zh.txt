@@ -1382,6 +1382,7 @@ SettingsEditor.ShowEggSpriteAsHeldItem=将蛋作为持有物品展示
 SettingsEditor.Tab_Bool=切换
 SettingsEditor.Tab_Color=颜色
 SettingsEditor.Unicode=统一
+SettingsEditor.UseLargeSprites=Always Use Large Sprites (Past Games)
 SuperTrainingEditor.B_All=获得全部
 SuperTrainingEditor.B_Cancel=取消
 SuperTrainingEditor.B_None=全部清除

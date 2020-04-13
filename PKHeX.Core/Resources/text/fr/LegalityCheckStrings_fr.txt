@@ -324,6 +324,7 @@ LRibbonAllValid = All ribbons accounted for.
 LRibbonEgg = L'Œuf ne peut pas recevoir de Rubans.
 LRibbonFInvalid_0 = Rubans invalidess : {0}
 LRibbonFMissing_0 = Rubans manquantss : {0}
+LRibbonMarkingFInvalid_0 = Invalid Marking: {0}
 LStatDynamaxInvalid = Dynamax Level is not within the expected range.
 LStatGigantamaxInvalid = Gigantamax Flag mismatch.
 LStatIncorrectCP = Calculated CP does not match stored value.
