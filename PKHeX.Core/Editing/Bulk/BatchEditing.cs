@@ -368,6 +368,14 @@ namespace PKHeX.Core
                     pb7.WeightAbsolute = pb7.CalcWeightAbsolute;
                     return ModifyResult.Modified;
 
+                // Date Copy
+                case nameof(PKM.EggMetDate):
+                    pk.EggMetDate = pk.MetDate;
+                    return ModifyResult.Modified;
+                case nameof(PKM.MetDate):
+                    pk.MetDate = pk.EggMetDate;
+                    return ModifyResult.Modified;
+
                 case nameof(PKM.Nature) when pk.Format >= 8:
                     pk.Nature = pk.StatNature;
                     return ModifyResult.Modified;
