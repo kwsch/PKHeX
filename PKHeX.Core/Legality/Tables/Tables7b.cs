@@ -301,8 +301,6 @@ namespace PKHeX.Core
             085, // Dodrio
             100, // Voltorb
             101, // Electrode
-            102, // Exeggcute
-            103, // Exeggutor
             106, // Hitmonlee
             107, // Hitmonchan
             114, // Tangela
