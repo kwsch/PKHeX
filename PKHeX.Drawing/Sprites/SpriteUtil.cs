@@ -9,7 +9,7 @@ namespace PKHeX.Drawing
     {
         public static readonly SpriteBuilder3040 SB17 = new SpriteBuilder3040();
         public static readonly SpriteBuilder5668 SB8 = new SpriteBuilder5668();
-        public static SpriteBuilder Spriter { get; set; } = SB17;
+        public static SpriteBuilder Spriter { get; set; } = SB8;
 
         public static Image GetBallSprite(int ball)
         {
@@ -216,13 +216,25 @@ namespace PKHeX.Drawing
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
 
+        public static bool UseLargeAlways { get; set; } = true;
+
         public static void Initialize(SaveFile sav)
         {
-            var big = GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8;
-            Spriter = big ? (SpriteBuilder)SB8 : SB17;
+            var s = GetSpriter(sav);
 
             // gen3 specific sprites
-            Spriter.Initialize(sav);
+            s.Initialize(sav);
+
+            Spriter = s;
+        }
+
+        private static SpriteBuilder GetSpriter(SaveFile sav)
+        {
+            if (UseLargeAlways)
+                return SB8;
+
+            var big = GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8;
+            return big ? (SpriteBuilder) SB8 : SB17;
         }
     }
 }
