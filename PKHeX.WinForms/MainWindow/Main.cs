@@ -1213,7 +1213,7 @@ namespace PKHeX.WinForms
         private static bool DetectSaveFile(out string path)
         {
             string msg = null;
-            var sav = SaveFinder.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
+            var sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 WinFormsUtil.Error(msg);
 
