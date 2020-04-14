@@ -97,7 +97,7 @@ namespace PKHeX.WinForms.Controls
         public bool Unicode { get; set; } = true;
         private bool _hax;
         public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
-        private byte[] LastData;
+        private byte[] LastData = Array.Empty<byte>();
 
         public PKM Data { get => Entity; set => Entity = value; }
         public PKM Entity { get; private set; }
@@ -120,7 +120,7 @@ namespace PKHeX.WinForms.Controls
 
         private readonly PictureBox[] movePB, relearnPB;
         public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
-        public bool PKMIsUnsaved => FieldsLoaded && LastData?.Any(b => b != 0) == true && !LastData.SequenceEqual(CurrentPKM.Data);
+        public bool PKMIsUnsaved => FieldsLoaded && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
         private readonly MaskedTextBox[] MovePP;
@@ -267,7 +267,7 @@ namespace PKHeX.WinForms.Controls
             SetMarkings();
             UpdateLegality();
             UpdateSprite();
-            LastData = PreparePKM()?.Data;
+            LastData = PreparePKM().Data;
         }
 
         public void UpdateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
@@ -288,7 +288,7 @@ namespace PKHeX.WinForms.Controls
             var moves = Entity.Moves;
             for (int i = 0; i < 4; i++)
             {
-                bool invalid = !Legality.Info?.Moves[i].Valid ?? false;
+                bool invalid = !Legality.Info.Moves[i].Valid;
 
                 Bitmap img;
                 if (invalid)
@@ -304,7 +304,7 @@ namespace PKHeX.WinForms.Controls
             if (Entity.Format >= 6)
             {
                 for (int i = 0; i < 4; i++)
-                    relearnPB[i].Visible = !Legality.Info?.Relearn[i].Valid ?? false;
+                    relearnPB[i].Visible = !Legality.Info.Relearn[i].Valid;
             }
 
             if (skipMoveRepop)
