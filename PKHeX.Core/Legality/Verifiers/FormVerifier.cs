@@ -210,19 +210,19 @@ namespace PKHeX.Core
                 }
             }
 
-            if (BattleOnly.Contains(species))
-            {
-                if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
-                {
-                    // this one is OK, Galarian non-Zen
-                }
-                else
-                {
-                    return GetInvalid(LFormBattle);
-                }
-            }
+            if (IsBattleOnlyForm(species, form, format))
+                return GetInvalid(LFormBattle);
 
             return VALID;
+        }
+
+        public static bool IsBattleOnlyForm(int species, int form, int format)
+        {
+            if (!BattleOnly.Contains(species)) 
+                return false;
+            if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
+                return false; // this one is OK, Galarian non-Zen
+            return true;
         }
 
         public static int GetArceusFormFromHeldItem(int item, int format)
