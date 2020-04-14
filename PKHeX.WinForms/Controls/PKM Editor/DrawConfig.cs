@@ -147,6 +147,8 @@ namespace PKHeX.WinForms
             try
             {
                 var pi = t.GetProperty(name);
+                if (pi == null)
+                    throw new ArgumentNullException(name);
                 if (pi.PropertyType == typeof(Color))
                 {
                     var color = Color.FromArgb(int.Parse(value));

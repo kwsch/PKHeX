@@ -81,7 +81,7 @@ namespace PKHeX.Core
 
         #region Savedata Container Handling
         public byte[] GetData(int offset, int length) => GetData(Data, offset, length);
-        public byte[] GetData(byte[] data, int offset, int length) => data.Slice(offset, length);
+        protected static byte[] GetData(byte[] data, int offset, int length) => data.Slice(offset, length);
         public void SetData(byte[] input, int offset) => SetData(Data, input, offset);
 
         public void SetData(byte[] dest, byte[] input, int offset)

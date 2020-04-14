@@ -68,5 +68,13 @@ namespace PKHeX.Core
             x |= x >> 16;
             return x;
         }
+
+        // ReSharper disable once NonReadonlyMemberInGetHashCode
+        // ReSharper disable once NonReadonlyMemberInGetHashCode
+        public override int GetHashCode() => (int)s0;
+        public override bool Equals(object obj) => obj is Xoroshiro128Plus s && Equals(s);
+        public bool Equals(Xoroshiro128Plus obj) => obj.s0 == s0 && obj.s1 == s1;
+        public static bool operator ==(Xoroshiro128Plus left, Xoroshiro128Plus right) => left.Equals(right);
+        public static bool operator !=(Xoroshiro128Plus left, Xoroshiro128Plus right) => !(left == right);
     }
 }

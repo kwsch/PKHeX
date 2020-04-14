@@ -21,7 +21,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int TotalFestaCoins
+        public int TotalFestaCoins
         {
             get => BitConverter.ToInt32(Data, Offset + 0x50C);
             set

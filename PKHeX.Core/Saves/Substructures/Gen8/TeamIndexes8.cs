@@ -64,10 +64,6 @@ namespace PKHeX.Core
         }
 
         public bool GetIsTeamLocked(int team) => true;
-
-        public void SetIsTeamLocked(int team, bool value)
-        {
-
-        }
+        public void SetIsTeamLocked(int team, bool value) { }
     }
 }
