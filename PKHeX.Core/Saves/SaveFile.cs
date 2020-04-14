@@ -762,11 +762,11 @@ namespace PKHeX.Core
 
             SlotPointerUtil.UpdateRepointFrom(boxclone, BD, 0, SlotPointers);
 
-            // clear storage flags to ensure all data is written back
-            foreach (var pk in result)
-                pk.StorageFlags = StorageSlotFlag.None;
-
-            BoxData = boxclone;
+            for (int i = 0; i < boxclone.Length; i++)
+            {
+                var pk = boxclone[i];
+                SetBoxSlotAtIndex(pk, i, PKMImportSetting.Skip, PKMImportSetting.Skip);
+            }
             return count;
         }
 
