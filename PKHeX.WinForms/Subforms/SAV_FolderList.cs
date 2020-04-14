@@ -31,9 +31,9 @@ namespace PKHeX.WinForms
             dgDataRecent.ContextMenuStrip = GetContextMenu(dgDataRecent);
             dgDataBackup.ContextMenuStrip = GetContextMenu(dgDataBackup);
 
-            var recent = SaveDetection.GetSaveFiles(drives, false, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
+            var recent = SaveFinder.GetSaveFiles(drives, false, Paths.Select(z => z.Path).Where(z => z != Main.BackupPath));
             Recent = PopulateData(dgDataRecent, recent);
-            var backup = SaveDetection.GetSaveFiles(drives, false, Main.BackupPath);
+            var backup = SaveFinder.GetSaveFiles(drives, false, Main.BackupPath);
             Backup = PopulateData(dgDataBackup, backup);
 
             CB_FilterColumn.Items.Add(MsgAny);
@@ -151,21 +151,21 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
         {
-            var path3DS = SaveDetection.Get3DSLocation(drives);
+            var path3DS = SaveFinder.Get3DSLocation(drives);
             if (path3DS == null)
                 return Enumerable.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(path3DS);
-            var paths = SaveDetection.Get3DSBackupPaths(root);
+            var paths = SaveFinder.Get3DSBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
 
         private static IEnumerable<CustomFolderPath> GetSwitchPaths(IEnumerable<string> drives)
         {
-            var pathNX = SaveDetection.GetSwitchLocation(drives);
+            var pathNX = SaveFinder.GetSwitchLocation(drives);
             if (pathNX == null)
                 return Enumerable.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(pathNX);
-            var paths = SaveDetection.GetSwitchBackupPaths(root);
+            var paths = SaveFinder.GetSwitchBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
 

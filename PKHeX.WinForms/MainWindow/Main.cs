@@ -138,9 +138,9 @@ namespace PKHeX.WinForms
 
         private static void FormLoadCustomBackupPaths()
         {
-            SaveDetection.CustomBackupPaths.Clear();
+            SaveFinder.CustomBackupPaths.Clear();
             if (File.Exists(SAVPaths)) // custom user paths
-                SaveDetection.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
+                SaveFinder.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
         }
 
         private void FormLoadAddEvents()
@@ -1213,7 +1213,7 @@ namespace PKHeX.WinForms
         private static bool DetectSaveFile(out string path)
         {
             string msg = null;
-            var sav = SaveDetection.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
+            var sav = SaveFinder.DetectSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 WinFormsUtil.Error(msg);
 

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Utility logic for detecting a <see cref="SaveFile"/> from various locations on the host machine.
     /// </summary>
-    public static class SaveDetection
+    public static class SaveFinder
     {
         /// <summary>
         /// Gets the 3DS's root folder, usually from an inserted SD card.
@@ -77,7 +77,7 @@ namespace PKHeX.Core
         /// <param name="error">If this function does not return a save file, this parameter will be set to the error message.</param>
         /// <param name="extra">Paths to check in addition to the default paths</param>
         /// <returns>Reference to a valid save file, if any.</returns>
-        public static SaveFile? DetectSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
+        public static SaveFile? FindMostRecentSaveFile(IReadOnlyList<string> drives, ref string error, params string[] extra)
         {
             var foldersToCheck = GetFoldersToCheck(drives, extra);
             var result = GetSaveFilePathsFromFolders(foldersToCheck, out var possiblePaths);
