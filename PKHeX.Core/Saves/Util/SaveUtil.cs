@@ -453,7 +453,9 @@ namespace PKHeX.Core
         private static bool GetIsBank7(byte[] data) => data.Length == SIZE_G7BANK && data[0] != 0;
         private static bool GetIsBank4(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) != 0; // box name present
         private static bool GetIsBank3(byte[] data) => data.Length == SIZE_G4BANK && BitConverter.ToUInt32(data, 0x3FC00) == 0; // size collision with ^
-        private static bool GetIsRanch4(byte[] data) => (data.Length == SIZE_G4RANCH && BigEndian.ToUInt32(data, 0x22AC) != 0) || (data.Length == SIZE_G4RANCH_PLAT && BigEndian.ToUInt32(data, 0x268C) != 0);
+        private static bool GetIsRanchDP(byte[] data) => data.Length == SIZE_G4RANCH && BigEndian.ToUInt32(data, 0x22AC) != 0;
+        private static bool GetIsRanchPlat(byte[] data) => data.Length == SIZE_G4RANCH_PLAT && BigEndian.ToUInt32(data, 0x268C) != 0;
+        private static bool GetIsRanch4(byte[] data) => GetIsRanchDP(data) || GetIsRanchPlat(data);
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="path">File location from which to create a SaveFile.</param>
@@ -526,19 +528,19 @@ namespace PKHeX.Core
             }
         }
 
-        public static SaveFile? GetVariantSAV(SAV3GCMemoryCard MC)
+        public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
         {
             // Pre-check for header/footer signatures
             SaveFile sav;
-            byte[] data = MC.SelectedSaveData;
+            byte[] data = memCard.SelectedSaveData;
             CheckHeaderFooter(ref data, out var header, out var footer);
 
-            switch (MC.SelectedGameVersion)
+            switch (memCard.SelectedGameVersion)
             {
                 // Side Games
-                case COLO: sav = new SAV3Colosseum(data, MC); break;
-                case XD: sav = new SAV3XD(data, MC); break;
-                case RSBOX: sav = new SAV3RSBox(data, MC); break;
+                case COLO: sav = new SAV3Colosseum(data, memCard); break;
+                case XD: sav = new SAV3XD(data, memCard); break;
+                case RSBOX: sav = new SAV3RSBox(data, memCard); break;
 
                 // No pattern matched
                 default: return null;
@@ -551,14 +553,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
-        /// <param name="Game">Version to create the save file for.</param>
-        /// <param name="OT">Trainer Name</param>
+        /// <param name="game">Version to create the save file for.</param>
+        /// <param name="trainerName">Trainer Name</param>
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-        public static SaveFile GetBlankSAV(GameVersion Game, string OT)
+        public static SaveFile GetBlankSAV(GameVersion game, string trainerName)
         {
-            var SAV = GetBlankSAV(Game);
-            SAV.Game = (int)Game;
-            SAV.OT = OT;
+            var SAV = GetBlankSAV(game);
+            SAV.Game = (int)game;
+            SAV.OT = trainerName;
 
             // Secondary Properties may not be used but can be filled in as template.
             SAV.TID = 12345;
@@ -579,15 +581,15 @@ namespace PKHeX.Core
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
-        /// <param name="Game">Version to create the save file for.</param>
+        /// <param name="game">Version to create the save file for.</param>
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-        private static SaveFile GetBlankSAV(GameVersion Game)
+        private static SaveFile GetBlankSAV(GameVersion game)
         {
-            switch (Game)
+            switch (game)
             {
                 case RD: case BU: case GN: case YW:
                 case RBY:
-                    return new SAV1(version: Game);
+                    return new SAV1(version: game);
 
                 case GS: case GD: case SV:
                     return new SAV2(version: GS);
@@ -595,7 +597,7 @@ namespace PKHeX.Core
                     return new SAV2(version: C);
 
                 case R: case S: case E: case FR: case LG:
-                    return new SAV3(version: Game);
+                    return new SAV3(version: game);
                 case FRLG:
                     return new SAV3(version: FR);
                 case RS:
@@ -643,7 +645,7 @@ namespace PKHeX.Core
                     return new SAV8SWSH();
 
                 default:
-                    throw new ArgumentException(nameof(Game));
+                    throw new ArgumentException(nameof(game));
             }
         }
 
@@ -651,12 +653,12 @@ namespace PKHeX.Core
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
         /// <param name="generation">Generation of the Save File.</param>
-        /// <param name="OT">Trainer Name</param>
+        /// <param name="trainerName">Trainer Name</param>
         /// <returns>Save File for that generation.</returns>
-        public static SaveFile GetBlankSAV(int generation, string OT)
+        public static SaveFile GetBlankSAV(int generation, string trainerName)
         {
             var ver = GameUtil.GetVersion(generation);
-            return GetBlankSAV(ver, OT);
+            return GetBlankSAV(ver, trainerName);
         }
 
         /// <summary>
