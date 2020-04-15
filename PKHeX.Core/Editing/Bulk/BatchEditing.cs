@@ -248,7 +248,7 @@ namespace PKHeX.Core
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
                 return SetByteArrayProperty(pk, cmd);
 
-            if (cmd.PropertyValue.StartsWith(CONST_SUGGEST))
+            if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, true, CultureInfo.CurrentCulture))
                 return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
                 return SetMoves(pk, info.Legality.GetMoveSet(true));
@@ -500,7 +500,7 @@ namespace PKHeX.Core
                 pk.SetPIDGender(pk.Gender);
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
                 pk.EncryptionConstant = pk.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY))
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture))
                 CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0"));
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
                 Array.Clear(pk.Data, 0, pk.Data.Length);
