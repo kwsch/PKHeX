@@ -188,13 +188,13 @@ namespace PKHeX.WinForms
                 #endif
                 {
                     string path = null;
-                    if (Settings.Default.DetectSaveOnStartup && !DetectSaveFile(out path) && path != null)
+                    SaveFile sav = null;
+                    if (Settings.Default.DetectSaveOnStartup && !DetectSaveFile(out path, out sav) && path != null)
                         WinFormsUtil.Error(path); // `path` contains the error message
 
                     bool savLoaded = false;
-                    if (path != null && File.Exists(path))
+                    if (sav != null)
                     {
-                        var sav = SaveUtil.GetVariantSAV(path);
                         savLoaded = OpenSAV(sav, path);
                     }
                     if (!savLoaded)
@@ -1204,16 +1204,16 @@ namespace PKHeX.WinForms
 
         private void ClickSaveFileName(object sender, EventArgs e)
         {
-            if (!DetectSaveFile(out string path))
+            if (!DetectSaveFile(out string path, out var sav))
                 return;
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
-                OpenQuick(path); // load save
+                LoadFile(sav, path); // load save
         }
 
-        private static bool DetectSaveFile(out string path)
+        private static bool DetectSaveFile(out string path, out SaveFile sav)
         {
             string msg = null;
-            var sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
+            sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
                 WinFormsUtil.Error(msg);
 
