@@ -23,6 +23,7 @@ namespace PKHeX.Drawing
         public abstract Bitmap Delete { get; }
         public abstract Bitmap Transparent { get; }
         public abstract Bitmap Drag { get; }
+        public abstract Bitmap UnknownItem { get; }
 
         private const double UnknownFormTransparency = 0.5;
         private const double ShinyTransparency = 0.7;
@@ -121,7 +122,7 @@ namespace PKHeX.Drawing
 
         private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? Resources.helditem;
+            Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem;
             if (2 <= generation && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
                 itemimg = Resources.item_tm;
             else if (generation >= 8 && (1130 <= item && item <= 1229)) // Gen8 TR
@@ -187,6 +188,7 @@ namespace PKHeX.Drawing
         public override Bitmap Delete => Resources.slotDel;
         public override Bitmap Transparent => Resources.slotTrans;
         public override Bitmap Drag => Resources.slotDrag;
+        public override Bitmap UnknownItem => Resources.helditem;
     }
 
     /// <summary>
@@ -215,5 +217,6 @@ namespace PKHeX.Drawing
         public override Bitmap Delete => Resources.slotDel68;
         public override Bitmap Transparent => Resources.slotTrans68;
         public override Bitmap Drag => Resources.slotDrag68;
+        public override Bitmap UnknownItem => Resources.bitem_unk;
     }
 }
