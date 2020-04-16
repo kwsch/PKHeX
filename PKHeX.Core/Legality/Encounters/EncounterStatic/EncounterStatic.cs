@@ -367,7 +367,7 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    if (pkm.Egg_Location != Locations.LinkTrade6) // Link Trade
+                    if (!EggEncounter || pkm.Egg_Location != Locations.LinkTrade6) // Link Trade
                         return false;
                 }
             }
