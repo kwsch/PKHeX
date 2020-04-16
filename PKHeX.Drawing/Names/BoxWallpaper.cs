@@ -95,10 +95,7 @@ namespace PKHeX.Drawing
                 case 8:
                     return wallpaperID switch
                     {
-                        3 => true,
-                        11 => true,
-                        15 => true,
-                        _ => false,
+                        _ => true, // Bad contrast with lots of void space, better to just highlight the shiny red.
                     };
                 default:
                     return false;
