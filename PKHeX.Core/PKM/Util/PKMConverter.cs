@@ -340,8 +340,8 @@ namespace PKHeX.Core
 
                 case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
                 case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
-                case 025 when pk.AltForm == 8 && pk.GG: // Buddy Pikachu
-                case 133 when pk.AltForm == 1 && pk.GG: // Buddy Eevee
+                case 025 when pk.AltForm == 8 && pk.LGPE: // Buddy Pikachu
+                case 133 when pk.AltForm == 1 && pk.LGPE: // Buddy Eevee
                     comment = MsgPKMConvertFailForme;
                     return true;
             }

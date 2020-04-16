@@ -326,11 +326,12 @@ namespace PKHeX.Core
         public bool GO => Version == (int)GameVersion.GO;
         public bool VC1 => Version >= (int)GameVersion.RD && Version <= (int)GameVersion.YW;
         public bool VC2 => Version >= (int)GameVersion.GD && Version <= (int)GameVersion.C;
-        public bool GG => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE || Version == (int)GameVersion.GO;
+        public bool LGPE => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE;
         public bool SWSH => Version == (int)GameVersion.SW || Version == (int)GameVersion.SH;
 
         protected bool PtHGSS => Pt || HGSS;
         public bool VC => VC1 || VC2;
+        public bool GG => LGPE || GO;
         public bool Gen8 => Version >= 44 && Version <= 45;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
         public bool Gen6 => Version >= 24 && Version <= 29;

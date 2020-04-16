@@ -83,15 +83,10 @@ namespace PKHeX.Core
         private void VerifyIVsGen7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.GG)
-            {
-                if (pkm.Version == (int)GameVersion.GO)
-                    VerifyIVsGoTransfer(data);
-            }
+            if (pkm.GO)
+                VerifyIVsGoTransfer(data);
             else if (pkm.AbilityNumber == 4)
-            {
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
-            }
         }
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)

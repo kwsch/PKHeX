@@ -46,7 +46,7 @@ namespace PKHeX.Core
                 4 => MGDB_G4,
                 5 => MGDB_G5,
                 6 => MGDB_G6,
-                7 => (pkm.GG ? (IEnumerable<MysteryGift>)MGDB_G7GG : MGDB_G7),
+                7 => (pkm.LGPE ? (IEnumerable<MysteryGift>)MGDB_G7GG : MGDB_G7),
                 8 => MGDB_G8,
                 _ => Enumerable.Empty<MysteryGift>()
             };

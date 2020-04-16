@@ -77,7 +77,7 @@ namespace PKHeX.Core
                 4 => (pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt),
                 5 => (pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW),
                 6 => (pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO),
-                7 => (pkm.GG ? (pkm.GO ? Array.Empty<EncounterTrade>() : Encounters7b.TradeGift_GG) : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM),
+                7 => (pkm.LGPE ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM),
                 8 => Encounters8.TradeGift_SWSH,
                 _ => Array.Empty<EncounterTrade>(),
             };

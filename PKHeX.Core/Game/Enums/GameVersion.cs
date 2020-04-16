@@ -369,6 +369,7 @@
         /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="GP"/>
         /// <see cref="GE"/>
+        /// <see cref="GO"/>
         GG,
 
         /// <summary>

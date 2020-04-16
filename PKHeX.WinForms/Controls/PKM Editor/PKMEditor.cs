@@ -497,7 +497,7 @@ namespace PKHeX.WinForms.Controls
                 return Properties.Resources.gen_vc;
             if (pkm.GO)
                 return Properties.Resources.gen_go;
-            if (pkm.GG) // LGP/E -- GO already returned above.
+            if (pkm.LGPE)
                 return Properties.Resources.gen_gg;
 
             // Lumped Generations
