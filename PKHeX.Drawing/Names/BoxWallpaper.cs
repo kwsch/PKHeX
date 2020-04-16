@@ -92,8 +92,14 @@ namespace PKHeX.Drawing
                         20 => true, // Special5 Flare/Magma
                         _ => false
                     };
-                case 8: // todo swsh
-                    return true;
+                case 8:
+                    return wallpaperID switch
+                    {
+                        3 => true,
+                        11 => true,
+                        15 => true,
+                        _ => false,
+                    };
                 default:
                     return false;
             }

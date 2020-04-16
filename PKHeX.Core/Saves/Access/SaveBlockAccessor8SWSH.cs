@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+// ReSharper disable UnusedMember.Local
+#pragma warning disable IDE0051 // Remove unused private members
+#pragma warning disable RCS1213 // Remove unused member declaration.
 
 namespace PKHeX.Core
 {
@@ -53,7 +56,7 @@ namespace PKHeX.Core
         // Arrays (Blocks)
         private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
         private const uint KBoxLayout = 0x19722c89; // Box Names
-        private const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
+        public const uint KBoxWallpapers = 0x2EB1B190; // Box Wallpapers
         private const uint KMenuButtons = 0xB1DDDCA8; // X Menu Button Order
 
         // Objects (Blocks)
@@ -145,3 +148,5 @@ namespace PKHeX.Core
         public const uint KOptionShowMoves = 0x9C781AE2; // U32 OptOut Show=0
     }
 }
+#pragma warning restore IDE0051 // Remove unused private members
+#pragma warning restore RCS1213 // Remove unused member declaration.

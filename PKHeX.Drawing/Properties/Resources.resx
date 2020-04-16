@@ -18088,4 +18088,61 @@
   <data name="b_9_1s" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Big Shiny Sprites\b_9-1s.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="box_wp01swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp01swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp02swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp02swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp03swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp03swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp04swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp04swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp05swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp05swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp06swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp06swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp07swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp07swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp08swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp08swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp09swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp09swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp10swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp10swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp11swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp11swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp12swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp12swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp13swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp13swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp14swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp14swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp15swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp15swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp16swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp16swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp17swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp17swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp18swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp18swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="box_wp19swsh" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\box\swsh\box_wp19swsh.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

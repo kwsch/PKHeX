@@ -122,5 +122,24 @@ namespace PKHeX.Core
         }
 
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
+
+        public override bool HasBoxWallpapers => true;
+        public override bool HasNamableBoxes => true;
+
+        public override int GetBoxWallpaper(int box)
+        {
+            if ((uint)box >= BoxCount)
+                return box;
+            var b = Blocks.GetBlock(SaveBlockAccessor8SWSH.KBoxWallpapers);
+            return b.Data[box];
+        }
+
+        public override void SetBoxWallpaper(int box, int value)
+        {
+            if ((uint)box >= BoxCount)
+                return;
+            var b = Blocks.GetBlock(SaveBlockAccessor8SWSH.KBoxWallpapers);
+            b.Data[box] = (byte)value;
+        }
     }
 }
