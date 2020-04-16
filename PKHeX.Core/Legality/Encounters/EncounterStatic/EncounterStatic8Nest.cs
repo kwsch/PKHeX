@@ -55,6 +55,14 @@ namespace PKHeX.Core
             if (Species == (int)Core.Species.Runerigus && pkm is IFormArgument r && r.FormArgument != 0)
                 return true;
 
+            if (Shiny != Shiny.Random)
+            {
+                if (Shiny == Shiny.Never && pkm.IsShiny)
+                    return true;
+                if (Shiny == Shiny.Always && !pkm.IsShiny)
+                    return true;
+            }
+
             return false;
         }
 
