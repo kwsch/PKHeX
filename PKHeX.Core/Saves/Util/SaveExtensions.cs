@@ -186,18 +186,15 @@ namespace PKHeX.Core
         /// <param name="sav">SaveFile to receive the compatible <see cref="pk"/></param>
         /// <param name="pk">Current Pokémon being edited</param>
         /// <returns>Current Pokémon, assuming conversion is possible. If conversion is not possible, a blank <see cref="PKM"/> will be obtained from the <see cref="sav"/>.</returns>
-        public static PKM GetCompatiblePKM(this SaveFile sav, PKM? pk = null)
+        public static PKM GetCompatiblePKM(this SaveFile sav, PKM pk)
         {
-            if (pk == null)
+            if (pk.Format >= 3 || sav.Generation >= 7)
+                return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
+            // gen1-2 compatibility check
+            if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
                 return sav.BlankPKM;
-            if (pk.Format < 3 && sav.Generation < 7)
-            {
-                // gen1-2 compatibility check
-                if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
-                    return sav.BlankPKM;
-                if (sav is SAV2 s2 && s2.Korean != pk.Korean)
-                    return sav.BlankPKM;
-            }
+            if (sav is SAV2 s2 && s2.Korean != pk.Korean)
+                return sav.BlankPKM;
             return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
         }
 

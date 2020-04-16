@@ -343,7 +343,7 @@ namespace PKHeX.Core
         {
             if (Valid)
                 return L_ALegal;
-            if (!Parsed || Info == null)
+            if (!Parsed)
                 return L_AnalysisUnavailable;
 
             var lines = new List<string>();
@@ -373,7 +373,7 @@ namespace PKHeX.Core
 
         private string GetVerboseLegalityReport()
         {
-            if (!Parsed || Info == null)
+            if (!Parsed)
                 return L_AnalysisUnavailable;
 
             const string separator = "===";

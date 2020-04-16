@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -153,7 +152,7 @@ namespace PKHeX.Core
         {
             if (sav == null)
             {
-                pkms = Enumerable.Empty<byte[]>();
+                pkms = Array.Empty<byte[]>();
                 return false;
             }
             var length = data.Length;
@@ -162,7 +161,7 @@ namespace PKHeX.Core
                 pkms = ArrayUtil.EnumerateSplit(data, length);
                 return true;
             }
-            pkms = Enumerable.Empty<byte[]>();
+            pkms = Array.Empty<byte[]>();
             return false;
         }
 

@@ -67,9 +67,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if ((_pk = value) == null)
-                    return;
-
+                _pk = value;
                 var pkdata = value.Data.All(z => z == 0)
                     ? value.Data
                     : PokeCrypto.EncryptArray45(value.Data);

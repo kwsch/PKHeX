@@ -10,9 +10,9 @@ namespace PKHeX.Core
         /// <param name="fileData">Packed data</param>
         /// <param name="identifier">Signature expected in the first two bytes (ASCII)</param>
         /// <returns>Unpacked array containing all files that were packed.</returns>
-        public static byte[][] Unpack(byte[]? fileData, string identifier)
+        public static byte[][] Unpack(byte[] fileData, string identifier)
         {
-            if (fileData == null || fileData.Length < 4)
+            if (fileData.Length < 4)
                 throw new ArgumentException(nameof(fileData));
 
             if (identifier[0] != fileData[0] || identifier[1] != fileData[1])

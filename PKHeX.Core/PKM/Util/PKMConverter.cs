@@ -228,12 +228,6 @@ namespace PKHeX.Core
         /// <returns>Converted PKM</returns>
         public static PKM? ConvertToType(PKM pk, Type PKMType, out string comment)
         {
-            if (pk == null)
-            {
-                comment = $"Bad {nameof(pk)} input. Aborting.";
-                return null;
-            }
-
             Type fromType = pk.GetType();
             if (fromType == PKMType)
             {

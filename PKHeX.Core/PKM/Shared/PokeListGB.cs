@@ -73,12 +73,7 @@ namespace PKHeX.Core
                     throw new ArgumentOutOfRangeException($"Invalid {nameof(PokeListGB<T>)} Access: {i}");
                 return Pokemon[i];
             }
-            set
-            {
-                if (value == null)
-                    return;
-                Pokemon[i] = (T)value.Clone();
-            }
+            set => Pokemon[i] = (T)value.Clone();
         }
 
         private T[] Read()

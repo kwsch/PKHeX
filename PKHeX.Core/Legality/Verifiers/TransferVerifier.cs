@@ -147,7 +147,7 @@ namespace PKHeX.Core
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             // Check existing EncounterMatch
-            if (encounter is EncounterInvalid || transfer == null)
+            if (encounter is EncounterInvalid)
                 yield break; // Avoid duplicate invalid message
 
             if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
