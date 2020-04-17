@@ -46853,69 +46853,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap bitem_1074 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1074", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1075 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1075", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1076 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1076", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1077 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1077", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap bitem_108 {
             get {
                 object obj = ResourceManager.GetObject("bitem_108", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1080 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1080", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1081 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1081", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -47106,16 +47046,6 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap bitem_110 {
             get {
                 object obj = ResourceManager.GetObject("bitem_110", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1100 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1100", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -47693,16 +47623,6 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap bitem_1255 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1255", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         public static System.Drawing.Bitmap bitem_1256 {
             get {
                 object obj = ResourceManager.GetObject("bitem_1256", resourceCulture);
@@ -47786,66 +47706,6 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap bitem_1264 {
             get {
                 object obj = ResourceManager.GetObject("bitem_1264", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1266 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1266", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1267 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1267", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1269 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1269", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1270 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1270", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1271 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1271", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_1278 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_1278", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -52646,46 +52506,6 @@ namespace PKHeX.Drawing.Properties {
         public static System.Drawing.Bitmap bitem_94 {
             get {
                 object obj = ResourceManager.GetObject("bitem_94", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_943 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_943", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_944 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_944", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_945 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_945", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap bitem_946 {
-            get {
-                object obj = ResourceManager.GetObject("bitem_946", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
