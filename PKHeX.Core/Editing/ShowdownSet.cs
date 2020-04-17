@@ -618,9 +618,12 @@ namespace PKHeX.Core
                 case (int)Core.Species.Furfrou:
                 case (int)Core.Species.Greninja:
                 case (int)Core.Species.Rockruff:
+                    return string.Empty;
+
                 case (int)Core.Species.Polteageist:
                 case (int)Core.Species.Sinistea:
-                    return string.Empty;
+                    return form == "Antique" ? form : string.Empty;
+
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form == "Large")
                         return Legal.Totem_Alolan.Contains(spec) && spec != (int)Core.Species.Mimikyu ? "Alola-Totem" : "Totem";
