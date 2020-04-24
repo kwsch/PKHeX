@@ -292,6 +292,11 @@ namespace PKHeX.Core
             710 + (2 << 11), //Pumpkaboo-Large
             711 + (2 << 11), //Gourgeist-Large
             //Super Size can be obtained as a Pumpkaboo from event distributions
+
+            // Same abilities (1/2/H), not available as H
+            (int)Species.Honedge,
+            (int)Species.Doublade,
+            (int)Species.Aegislash,
         };
         #region Ball Table
         internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>

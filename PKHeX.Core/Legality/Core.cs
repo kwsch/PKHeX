@@ -463,6 +463,8 @@ namespace PKHeX.Core
                     return pkm.AltForm != orig; // bad compare?
                 if ((int) Species.Darmanitan == pkm.Species)
                     return pkm.AltForm == (expected == 1 ? 2 : 0);
+                if ((int)Species.MrMime == pkm.Species)
+                    return pkm.AltForm == (expected == 0 ? 1 : 0);
                 if ((int) Species.Toxtricity == pkm.Species)
                     return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
                 if ((int) Species.Alcremie == pkm.Species)
