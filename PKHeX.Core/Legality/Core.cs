@@ -448,7 +448,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool IsEvolvedFormChange(PKM pkm)
+        private static bool IsEvolvedFormChange(PKM pkm, int expected)
         {
             if (pkm.IsEgg)
                 return false;
@@ -461,6 +461,8 @@ namespace PKHeX.Core
                     return pkm.AltForm == 1;
                 if (GalarForm0Evolutions.TryGetValue(pkm.Species, out var orig))
                     return pkm.AltForm != orig; // bad compare?
+                if ((int) Species.Darmanitan == pkm.Species)
+                    return pkm.AltForm == (expected == 1 ? 2 : 0);
                 if ((int) Species.Toxtricity == pkm.Species)
                     return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
                 if ((int) Species.Alcremie == pkm.Species)
@@ -554,11 +556,12 @@ namespace PKHeX.Core
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
         /// <param name="pkm">Pokémon</param>
         /// <param name="species">Original species</param>
-        internal static bool IsFormChangeable(PKM pkm, int species)
+        /// <param name="form">Original form</param>
+        internal static bool IsFormChangeable(PKM pkm, int species, int form)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (species != pkm.Species && IsEvolvedFormChange(pkm))
+            if (species != pkm.Species && IsEvolvedFormChange(pkm, form))
                 return true;
             if (species == (int)Species.Zygarde && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
                 return true;

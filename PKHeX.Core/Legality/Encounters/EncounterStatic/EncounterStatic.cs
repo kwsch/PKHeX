@@ -302,7 +302,7 @@ namespace PKHeX.Core
                 var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
                 return expectForm == pkm.AltForm;
             }
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
                 return false;
             return true;
         }

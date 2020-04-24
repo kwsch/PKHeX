@@ -161,7 +161,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+            if (wc.AltForm != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, wc.AltForm))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;

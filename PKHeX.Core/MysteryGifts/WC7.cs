@@ -509,7 +509,7 @@ namespace PKHeX.Core
                 if (Language != 0 && Language != pkm.Language) return false;
             }
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species))
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
             {
                 if (Species == (int)Core.Species.Rockruff && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
                 {
