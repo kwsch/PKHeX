@@ -37883,6 +37883,26 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap b_666_6 {
+            get {
+                object obj = ResourceManager.GetObject("b_666_6", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap b_666_6s {
+            get {
+                object obj = ResourceManager.GetObject("b_666_6s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap b_666_7 {
             get {
                 object obj = ResourceManager.GetObject("b_666_7", resourceCulture);
