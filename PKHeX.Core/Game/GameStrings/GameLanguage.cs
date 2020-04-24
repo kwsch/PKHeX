@@ -13,6 +13,11 @@ namespace PKHeX.Core
 
         public static int LanguageCount => LanguageCodes.Length;
 
+        /// <summary>
+        /// Gets the language from the requested 2-char <see cref="lang"/> code.
+        /// </summary>
+        /// <param name="lang">2 character language code</param>
+        /// <returns>Index of the language code; if not a valid language code, returns the <see cref="DefaultLanguageIndex"/>.</returns>
         public static int GetLanguageIndex(string lang)
         {
             int l = Array.IndexOf(LanguageCodes, lang);

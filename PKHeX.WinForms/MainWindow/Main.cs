@@ -292,10 +292,7 @@ namespace PKHeX.WinForms
             #endif
 
             // Select Language
-            int lang = GameLanguage.GetLanguageIndex(settings.Language);
-            if (lang < 0)
-                lang = GameLanguage.DefaultLanguageIndex;
-            CB_MainLanguage.SelectedIndex = lang;
+            CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Language);
         }
 
         private void FormLoadPlugins()
