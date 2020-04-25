@@ -200,7 +200,7 @@ namespace PKHeX.Drawing
         public override int Width => 68;
 
         protected override int ItemShiftX => 52;
-        protected override int ItemShiftY => 28;
+        protected override int ItemShiftY => 24;
         protected override int ItemMaxSize => 32;
         protected override int EggItemShiftX => 32;
         protected override int EggItemShiftY => 26;

@@ -640,6 +640,7 @@ namespace PKHeX.Core
             588, // Relic Band
             589, // Relic Statue
             590, // Relic Crown
+            699, // Discount Coupon
             715, // Fairy Gem
         };
         #endregion
