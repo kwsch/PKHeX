@@ -1141,9 +1141,6 @@
   <data name="bitem_7" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Big Items\bitem_7.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bitem_703" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\Big Items\bitem_703.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="bitem_708" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\Big Items\bitem_708.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
