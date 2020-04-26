@@ -89,6 +89,7 @@ namespace PKHeX.Core
         public SuperTrainBlock SuperTrain { get; }
         public MaisonBlock Maison { get; }
         public SubEventLog6 SUBE { get; }
+        public ConfigSave6 Config { get; }
 
         public SaveBlockAccessor6AO(SAV6AO sav)
         {
@@ -103,6 +104,7 @@ namespace PKHeX.Core
             BattleBox = new BattleBox6(sav, 0x04A00);
             Status = new MyStatus6(sav, 0x14000);
             Zukan = new Zukan6AO(sav, 0x15000, 0x400);
+            Config = new ConfigSave6(sav, 0x16C00);
             OPower = new OPower6(sav, 0x17400);
             Maison = new MaisonBlock(sav, 0x1BA00);
             MysteryGift = new MysteryBlock6(sav, 0x1CC00);

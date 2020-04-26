@@ -2,20 +2,24 @@
 
 namespace PKHeX.Core
 {
-    public sealed class ConfigSave7 : SaveBlock
+    public sealed class ConfigSave6 : SaveBlock
     {
         /* ===32 bits===
          * talkSpeed:2      0,1
          * battleAnim:1     2
          * battleStyle:1    3
-         * unknown:9        4..12
+         * unknown:4        4..7
+         * battleBG:5       8..12
          * buttonMode:2     13,14
-         * boxStatus:1      15
-         * everything else: unknown
+         * forcedSave:1     15
+         * flag1:1          16
+         * enablePSS:1      17
+         * enablePR:1       18
+         * unknown:14       19..31
          */
 
-        public ConfigSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
-        public ConfigSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public int ConfigValue
         {
@@ -45,17 +49,41 @@ namespace PKHeX.Core
 
         // UNKNOWN?
 
+        public int BattleBackground
+        {
+            // Only values 0-14 are used.
+            get => (ConfigValue >> 8) & 0x1F;
+            set => ConfigValue = (ConfigValue & ~(0x1F << 8)) | (value << 8);
+        }
+
         public int ButtonMode
         {
             get => (ConfigValue >> 13) & 3;
             set => ConfigValue = (ConfigValue & ~(1 << 13)) | (value << 13);
         }
 
-        public int BoxStatus
+        public int ForceSaveBeforeOnline
         {
-            // MANUAL = 1, AUTOMATIC = 0
             get => (ConfigValue >> 15) & 1;
             set => ConfigValue = (ConfigValue & ~(1 << 15)) | (value << 15);
+        }
+
+        public int EnableFlag1
+        {
+            get => (ConfigValue >> 16) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 16)) | (value << 16);
+        }
+
+        public int EnablePSSFlag
+        {
+            get => (ConfigValue >> 17) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 17)) | (value << 17);
+        }
+
+        public int EnableTrainerPRFlag
+        {
+            get => (ConfigValue >> 18) & 1;
+            set => ConfigValue = (ConfigValue & ~(1 << 18)) | (value << 18);
         }
 
         // NOTE: BELOW COMES FROM LGPE. MAYBE THIS IS WHAT THEY USE THE FLAGS FOR?

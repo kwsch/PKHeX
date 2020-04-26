@@ -80,6 +80,7 @@ namespace PKHeX.Core
         public Misc6XY Misc => Blocks.Misc;
         public Fashion6XY Fashion => Blocks.Fashion;
         public SubEventLog6 SUBE => Blocks.SUBE;
+        public ConfigSave6 Config => Blocks.Config;
         #endregion
 
         protected override void SetDex(PKM pkm) => Blocks.Zukan.SetDex(pkm);

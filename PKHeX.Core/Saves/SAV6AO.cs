@@ -83,6 +83,7 @@ namespace PKHeX.Core
         public SuperTrainBlock SuperTrain => Blocks.SuperTrain;
         public MaisonBlock Maison => Blocks.Maison;
         public SubEventLog6 SUBE => Blocks.SUBE;
+        public ConfigSave6 Config => Blocks.Config;
 
         public Misc6AO Misc => Blocks.Misc;
         public Zukan6AO Zukan => Blocks.Zukan;

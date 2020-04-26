@@ -4,6 +4,7 @@
     {
         BoxLayout6 BoxLayout { get; }
         BattleBox6 BattleBox { get; }
+        ConfigSave6 Config { get; }
         MysteryBlock6 MysteryGift { get; }
         SuperTrainBlock SuperTrain { get; }
         MaisonBlock Maison { get; }

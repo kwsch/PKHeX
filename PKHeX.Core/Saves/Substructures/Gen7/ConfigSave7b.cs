@@ -61,8 +61,8 @@ namespace PKHeX.Core
 
         public enum BattleStyleSetting
         {
-            SET,
             SWITCH,
+            SET,
         }
     }
 }
