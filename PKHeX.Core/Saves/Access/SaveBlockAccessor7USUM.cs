@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class SaveBlockAccessor7USUM : ISaveBlock7USUM
+    public sealed class SaveBlockAccessor7USUM : ISaveBlockAccessor<BlockInfo7>, ISaveBlock7USUM
     {
         public const int boUU = SaveUtil.SIZE_G7USUM - 0x200;
 

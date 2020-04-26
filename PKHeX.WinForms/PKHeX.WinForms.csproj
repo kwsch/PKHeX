@@ -70,6 +70,9 @@
     <Compile Update="Subforms\PKM Editors\TechRecordEditor.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Subforms\Save Editors\Misc\SAV_Accessor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Subforms\Save Editors\Gen8\SAV_BlockDump8.cs">
       <SubType>Form</SubType>
     </Compile>
