@@ -230,6 +230,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
         {
+            (int)Species.MrMime,
             (int)Species.Weezing,
         };
 

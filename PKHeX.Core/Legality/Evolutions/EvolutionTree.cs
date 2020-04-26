@@ -171,6 +171,7 @@ namespace PKHeX.Core
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
 
             BanEvo((int)Species.Weezing, 0, pkm => pkm.Gen8);
+            BanEvo((int)Species.MrMime, 0, pkm => pkm.Gen8);
 
             foreach (var s in GetEvolutions((int)Species.Eevee, 0)) // Eeveelutions
                 BanEvo(s, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
