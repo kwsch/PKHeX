@@ -8,7 +8,12 @@ namespace PKHeX.WinForms.Subforms.Save_Editors
 {
     public partial class TrainerStat : UserControl
     {
-        public TrainerStat() => InitializeComponent();
+        public TrainerStat()
+        {
+            InitializeComponent();
+            CB_Stats.MouseWheel += (s, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
+        }
+
         private bool Editing;
         private ITrainerStatRecord SAV;
         private Dictionary<int, string> RecordList; // index, description

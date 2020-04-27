@@ -463,6 +463,7 @@ namespace PKHeX.WinForms
                 LoadRecordID(index);
                 NUD_FameH.Visible = NUD_FameS.Visible = NUD_FameM.Visible = index == 1;
             };
+            CB_Record.MouseWheel += (s, e) => ((HandledMouseEventArgs)e).Handled = true; // disallowed
             CB_Record.SelectedIndex = 0;
             LoadRecordID(0);
             NUD_RecordValue.ValueChanged += (s, e) =>
