@@ -173,6 +173,7 @@
 
             // 4/27 - Meta
             new EncounterStatic8ND(17,01,1) { Species = 246, Ability = A4, Moves = new[]{ 157, 044, 184, 033 } }, // Larvitar
+            new EncounterStatic8ND(17,01,1) { Species = 529, Ability = A4, Moves = new[]{ 189, 232, 010, 468 } }, // Drilbur
             new EncounterStatic8ND(17,01,1) { Species = 546, Ability = A4, Moves = new[]{ 584, 078, 075, 071 } }, // Cottonee
             new EncounterStatic8ND(17,01,1) { Species = 885, Ability = A4, Moves = new[]{ 611, 098, 310, 044 } }, // Dreepy
             new EncounterStatic8ND(17,01,1) { Species = 175, Ability = A4, Moves = new[]{ 204, 577, 113, 791 } }, // Togepi
@@ -390,7 +391,6 @@
 
             // 4/27 - Meta
             new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 315, 084, 109 }, Form = 1 }, // Rotom-1
-            new EncounterStatic8ND(17,01,1) { Species = 529, Ability = A4, Moves = new[]{ 189, 232, 010, 468 } }, // Drilbur
             new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 315, 085, 109 }, Form = 1 }, // Rotom-1
             new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 315, 085, 506 }, Form = 1 }, // Rotom-1
             new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 315, 085, 261 }, Form = 1 }, // Rotom-1
@@ -592,8 +592,9 @@
             new EncounterStatic8ND(60,10,5) { Species = 006, Ability = A4, Moves = new[]{ 053, 403, 019, 411 }, CanGigantamax = true }, // Charizard (Heat Wave, Dragon Pulse -> Flamethrower/Fly)
 
             // 4/27 - Meta
-            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 435, 084, 109 }, Form = 2 }, // Rotom-2
-            new EncounterStatic8ND(17,01,1) { Species = 529, Ability = A4, Moves = new[]{ 189, 232, 056, 468 } }, // Drilbur
+            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 435, 084, 109 }, Form = 2 }, // Rotom-2 // From initial revision: Discharge @lv17 isn't legal, but they distributed it!
+            // new EncounterStatic8ND(17,01,1) { Species = 529, Ability = A4, Moves = new[]{ 189, 232, 056, 468 } }, // Drilbur // From initial revision: treat this as illegal.
+            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 056, 084, 109 }, Form = 2 }, // Rotom-2
             new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 056, 085, 109 }, Form = 2 }, // Rotom-2
             new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 085, 056 }, Form = 2 }, // Rotom-2
             new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 247, 056 }, Form = 2 }, // Rotom-2
