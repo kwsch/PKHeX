@@ -105,45 +105,45 @@ namespace PKHeX.WinForms
             this.GB_SuperMulti = new System.Windows.Forms.GroupBox();
             this.L_SMultiNPC = new System.Windows.Forms.Label();
             this.L_SMultiFriends = new System.Windows.Forms.Label();
-            this.L_SMultiFriendsRecord = new System.Windows.Forms.Label();
             this.NUD_SMultiFriendsRecord = new System.Windows.Forms.NumericUpDown();
             this.L_SMultiFriendsPast = new System.Windows.Forms.Label();
             this.NUD_SMultiFriendsPast = new System.Windows.Forms.NumericUpDown();
-            this.L_SMultiNpcRecord = new System.Windows.Forms.Label();
             this.NUD_SMultiNpcRecord = new System.Windows.Forms.NumericUpDown();
             this.L_SMultiNpcPast = new System.Windows.Forms.Label();
             this.NUD_SMultiNpcPast = new System.Windows.Forms.NumericUpDown();
+            this.L_SMultiFriendsRecord = new System.Windows.Forms.Label();
+            this.L_SMultiNpcRecord = new System.Windows.Forms.Label();
             this.GB_SuperDoubles = new System.Windows.Forms.GroupBox();
-            this.L_SDoubleRecord = new System.Windows.Forms.Label();
             this.NUD_SDoubleRecord = new System.Windows.Forms.NumericUpDown();
             this.L_SDoublePast = new System.Windows.Forms.Label();
             this.NUD_SDoublePast = new System.Windows.Forms.NumericUpDown();
+            this.L_SDoubleRecord = new System.Windows.Forms.Label();
             this.GB_SuperSingles = new System.Windows.Forms.GroupBox();
-            this.L_SSingleRecord = new System.Windows.Forms.Label();
             this.NUD_SSingleRecord = new System.Windows.Forms.NumericUpDown();
             this.L_SSinglePast = new System.Windows.Forms.Label();
             this.NUD_SSinglePast = new System.Windows.Forms.NumericUpDown();
+            this.L_SSingleRecord = new System.Windows.Forms.Label();
             this.GB_Multi = new System.Windows.Forms.GroupBox();
             this.L_MultiNPC = new System.Windows.Forms.Label();
             this.L_MultiFriends = new System.Windows.Forms.Label();
-            this.L_MultiFriendsRecord = new System.Windows.Forms.Label();
             this.NUD_MultiFriendsRecord = new System.Windows.Forms.NumericUpDown();
             this.L_MultiFriendsPast = new System.Windows.Forms.Label();
             this.NUD_MultiFriendsPast = new System.Windows.Forms.NumericUpDown();
-            this.L_MultiNpcRecord = new System.Windows.Forms.Label();
             this.NUD_MultiNpcRecord = new System.Windows.Forms.NumericUpDown();
             this.L_MultiNpcPast = new System.Windows.Forms.Label();
             this.NUD_MultiNpcPast = new System.Windows.Forms.NumericUpDown();
+            this.L_MultiFriendsRecord = new System.Windows.Forms.Label();
+            this.L_MultiNpcRecord = new System.Windows.Forms.Label();
             this.GB_Doubles = new System.Windows.Forms.GroupBox();
-            this.L_DoubleRecord = new System.Windows.Forms.Label();
             this.NUD_DoubleRecord = new System.Windows.Forms.NumericUpDown();
             this.L_DoublePast = new System.Windows.Forms.Label();
             this.NUD_DoublePast = new System.Windows.Forms.NumericUpDown();
+            this.L_DoubleRecord = new System.Windows.Forms.Label();
             this.GB_Singles = new System.Windows.Forms.GroupBox();
-            this.L_SingleRecord = new System.Windows.Forms.Label();
             this.NUD_SingleRecord = new System.Windows.Forms.NumericUpDown();
             this.L_SinglePast = new System.Windows.Forms.Label();
             this.NUD_SinglePast = new System.Windows.Forms.NumericUpDown();
+            this.L_SingleRecord = new System.Windows.Forms.Label();
             this.TipExpB = new System.Windows.Forms.ToolTip(this.components);
             this.TipExpW = new System.Windows.Forms.ToolTip(this.components);
             this.TC_Misc.SuspendLayout();
@@ -241,7 +241,7 @@ namespace PKHeX.WinForms
             this.TAB_Main.Controls.Add(this.GB_FlyDest);
             this.TAB_Main.Location = new System.Drawing.Point(4, 22);
             this.TAB_Main.Name = "TAB_Main";
-            this.TAB_Main.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.TAB_Main.Padding = new System.Windows.Forms.Padding(3);
             this.TAB_Main.Size = new System.Drawing.Size(333, 291);
             this.TAB_Main.TabIndex = 0;
             this.TAB_Main.Text = "Main";
@@ -249,9 +249,11 @@ namespace PKHeX.WinForms
             // 
             // GB_KeySystem
             // 
+            this.GB_KeySystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_KeySystem.Controls.Add(this.B_AllKeys);
             this.GB_KeySystem.Controls.Add(this.CLB_KeySystem);
-            this.GB_KeySystem.Location = new System.Drawing.Point(152, 7);
+            this.GB_KeySystem.Location = new System.Drawing.Point(6, 147);
             this.GB_KeySystem.Name = "GB_KeySystem";
             this.GB_KeySystem.Size = new System.Drawing.Size(140, 138);
             this.GB_KeySystem.TabIndex = 1;
@@ -270,6 +272,8 @@ namespace PKHeX.WinForms
             // 
             // CLB_KeySystem
             // 
+            this.CLB_KeySystem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_KeySystem.CheckOnClick = true;
             this.CLB_KeySystem.FormattingEnabled = true;
             this.CLB_KeySystem.Location = new System.Drawing.Point(6, 51);
@@ -279,8 +283,9 @@ namespace PKHeX.WinForms
             // 
             // CHK_LibertyPass
             // 
+            this.CHK_LibertyPass.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.CHK_LibertyPass.AutoSize = true;
-            this.CHK_LibertyPass.Location = new System.Drawing.Point(6, 233);
+            this.CHK_LibertyPass.Location = new System.Drawing.Point(152, 89);
             this.CHK_LibertyPass.Name = "CHK_LibertyPass";
             this.CHK_LibertyPass.Size = new System.Drawing.Size(122, 17);
             this.CHK_LibertyPass.TabIndex = 4;
@@ -289,13 +294,14 @@ namespace PKHeX.WinForms
             // 
             // GB_Roamer
             // 
+            this.GB_Roamer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_Roamer.Controls.Add(this.L_Roamer642);
             this.GB_Roamer.Controls.Add(this.L_Roamer641);
             this.GB_Roamer.Controls.Add(this.CB_Roamer642);
             this.GB_Roamer.Controls.Add(this.CB_Roamer641);
-            this.GB_Roamer.Location = new System.Drawing.Point(6, 151);
+            this.GB_Roamer.Location = new System.Drawing.Point(152, 7);
             this.GB_Roamer.Name = "GB_Roamer";
-            this.GB_Roamer.Size = new System.Drawing.Size(212, 76);
+            this.GB_Roamer.Size = new System.Drawing.Size(173, 76);
             this.GB_Roamer.TabIndex = 2;
             this.GB_Roamer.TabStop = false;
             this.GB_Roamer.Text = "Roamer";
@@ -304,7 +310,7 @@ namespace PKHeX.WinForms
             // 
             this.L_Roamer642.Location = new System.Drawing.Point(6, 46);
             this.L_Roamer642.Name = "L_Roamer642";
-            this.L_Roamer642.Size = new System.Drawing.Size(76, 25);
+            this.L_Roamer642.Size = new System.Drawing.Size(70, 25);
             this.L_Roamer642.TabIndex = 2;
             this.L_Roamer642.Text = "Thundurus";
             this.L_Roamer642.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -313,7 +319,7 @@ namespace PKHeX.WinForms
             // 
             this.L_Roamer641.Location = new System.Drawing.Point(6, 17);
             this.L_Roamer641.Name = "L_Roamer641";
-            this.L_Roamer641.Size = new System.Drawing.Size(76, 25);
+            this.L_Roamer641.Size = new System.Drawing.Size(70, 25);
             this.L_Roamer641.TabIndex = 0;
             this.L_Roamer641.Text = "Tornadus";
             this.L_Roamer641.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -322,24 +328,28 @@ namespace PKHeX.WinForms
             // 
             this.CB_Roamer642.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Roamer642.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Roamer642.FormattingEnabled = true;
-            this.CB_Roamer642.Location = new System.Drawing.Point(88, 48);
+            this.CB_Roamer642.Location = new System.Drawing.Point(80, 48);
             this.CB_Roamer642.Name = "CB_Roamer642";
-            this.CB_Roamer642.Size = new System.Drawing.Size(118, 21);
+            this.CB_Roamer642.Size = new System.Drawing.Size(87, 21);
             this.CB_Roamer642.TabIndex = 3;
             // 
             // CB_Roamer641
             // 
             this.CB_Roamer641.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Roamer641.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_Roamer641.FormattingEnabled = true;
-            this.CB_Roamer641.Location = new System.Drawing.Point(88, 20);
+            this.CB_Roamer641.Location = new System.Drawing.Point(80, 20);
             this.CB_Roamer641.Name = "CB_Roamer641";
-            this.CB_Roamer641.Size = new System.Drawing.Size(118, 21);
+            this.CB_Roamer641.Size = new System.Drawing.Size(87, 21);
             this.CB_Roamer641.TabIndex = 1;
             // 
             // GB_FlyDest
             // 
+            this.GB_FlyDest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.GB_FlyDest.Controls.Add(this.CLB_FlyDest);
             this.GB_FlyDest.Controls.Add(this.B_AllFlyDest);
             this.GB_FlyDest.Location = new System.Drawing.Point(6, 7);
@@ -351,6 +361,8 @@ namespace PKHeX.WinForms
             // 
             // CLB_FlyDest
             // 
+            this.CLB_FlyDest.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.CLB_FlyDest.CheckOnClick = true;
             this.CLB_FlyDest.FormattingEnabled = true;
             this.CLB_FlyDest.Location = new System.Drawing.Point(6, 51);
@@ -828,7 +840,7 @@ namespace PKHeX.WinForms
             this.TAB_Forest.Controls.Add(this.LB_Slots);
             this.TAB_Forest.Location = new System.Drawing.Point(4, 22);
             this.TAB_Forest.Name = "TAB_Forest";
-            this.TAB_Forest.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.TAB_Forest.Padding = new System.Windows.Forms.Padding(3);
             this.TAB_Forest.Size = new System.Drawing.Size(333, 291);
             this.TAB_Forest.TabIndex = 2;
             this.TAB_Forest.Text = "Forest";
@@ -1061,9 +1073,9 @@ namespace PKHeX.WinForms
             this.TAB_Subway.Controls.Add(this.GB_Doubles);
             this.TAB_Subway.Controls.Add(this.GB_Singles);
             this.TAB_Subway.Location = new System.Drawing.Point(4, 22);
-            this.TAB_Subway.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TAB_Subway.Margin = new System.Windows.Forms.Padding(2);
             this.TAB_Subway.Name = "TAB_Subway";
-            this.TAB_Subway.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.TAB_Subway.Padding = new System.Windows.Forms.Padding(2);
             this.TAB_Subway.Size = new System.Drawing.Size(333, 291);
             this.TAB_Subway.TabIndex = 3;
             this.TAB_Subway.Text = "Subway";
@@ -1075,9 +1087,9 @@ namespace PKHeX.WinForms
             this.GB_SuperChecks.Controls.Add(this.CHK_SuperDouble);
             this.GB_SuperChecks.Controls.Add(this.CHK_SuperSingle);
             this.GB_SuperChecks.Location = new System.Drawing.Point(212, 6);
-            this.GB_SuperChecks.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperChecks.Margin = new System.Windows.Forms.Padding(2);
             this.GB_SuperChecks.Name = "GB_SuperChecks";
-            this.GB_SuperChecks.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperChecks.Padding = new System.Windows.Forms.Padding(2);
             this.GB_SuperChecks.Size = new System.Drawing.Size(118, 87);
             this.GB_SuperChecks.TabIndex = 3;
             this.GB_SuperChecks.TabStop = false;
@@ -1087,7 +1099,7 @@ namespace PKHeX.WinForms
             // 
             this.CHK_SuperMulti.AutoSize = true;
             this.CHK_SuperMulti.Location = new System.Drawing.Point(9, 63);
-            this.CHK_SuperMulti.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CHK_SuperMulti.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperMulti.Name = "CHK_SuperMulti";
             this.CHK_SuperMulti.Size = new System.Drawing.Size(85, 17);
             this.CHK_SuperMulti.TabIndex = 2;
@@ -1098,7 +1110,7 @@ namespace PKHeX.WinForms
             // 
             this.CHK_SuperDouble.AutoSize = true;
             this.CHK_SuperDouble.Location = new System.Drawing.Point(9, 41);
-            this.CHK_SuperDouble.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CHK_SuperDouble.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperDouble.Name = "CHK_SuperDouble";
             this.CHK_SuperDouble.Size = new System.Drawing.Size(102, 17);
             this.CHK_SuperDouble.TabIndex = 1;
@@ -1109,7 +1121,7 @@ namespace PKHeX.WinForms
             // 
             this.CHK_SuperSingle.AutoSize = true;
             this.CHK_SuperSingle.Location = new System.Drawing.Point(9, 20);
-            this.CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CHK_SuperSingle.Margin = new System.Windows.Forms.Padding(2);
             this.CHK_SuperSingle.Name = "CHK_SuperSingle";
             this.CHK_SuperSingle.Size = new System.Drawing.Size(97, 17);
             this.CHK_SuperSingle.TabIndex = 0;
@@ -1129,9 +1141,9 @@ namespace PKHeX.WinForms
             this.GB_SuperMulti.Controls.Add(this.L_SMultiFriendsRecord);
             this.GB_SuperMulti.Controls.Add(this.L_SMultiNpcRecord);
             this.GB_SuperMulti.Location = new System.Drawing.Point(108, 141);
-            this.GB_SuperMulti.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperMulti.Margin = new System.Windows.Forms.Padding(2);
             this.GB_SuperMulti.Name = "GB_SuperMulti";
-            this.GB_SuperMulti.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperMulti.Padding = new System.Windows.Forms.Padding(2);
             this.GB_SuperMulti.Size = new System.Drawing.Size(99, 139);
             this.GB_SuperMulti.TabIndex = 7;
             this.GB_SuperMulti.TabStop = false;
@@ -1159,22 +1171,11 @@ namespace PKHeX.WinForms
             this.L_SMultiFriends.Text = "Friends";
             this.L_SMultiFriends.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // L_SMultiFriendsRecord
-            // 
-            this.L_SMultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SMultiFriendsRecord.Location = new System.Drawing.Point(8, 116);
-            this.L_SMultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_SMultiFriendsRecord.Name = "L_SMultiFriendsRecord";
-            this.L_SMultiFriendsRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_SMultiFriendsRecord.TabIndex = 8;
-            this.L_SMultiFriendsRecord.Text = "Record";
-            this.L_SMultiFriendsRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_SMultiFriendsRecord
             // 
             this.NUD_SMultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SMultiFriendsRecord.Location = new System.Drawing.Point(53, 115);
-            this.NUD_SMultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SMultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SMultiFriendsRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1199,7 +1200,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_SMultiFriendsPast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SMultiFriendsPast.Location = new System.Drawing.Point(53, 94);
-            this.NUD_SMultiFriendsPast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SMultiFriendsPast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SMultiFriendsPast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1209,22 +1210,11 @@ namespace PKHeX.WinForms
             this.NUD_SMultiFriendsPast.Size = new System.Drawing.Size(41, 20);
             this.NUD_SMultiFriendsPast.TabIndex = 7;
             // 
-            // L_SMultiNpcRecord
-            // 
-            this.L_SMultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SMultiNpcRecord.Location = new System.Drawing.Point(8, 55);
-            this.L_SMultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_SMultiNpcRecord.Name = "L_SMultiNpcRecord";
-            this.L_SMultiNpcRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_SMultiNpcRecord.TabIndex = 3;
-            this.L_SMultiNpcRecord.Text = "Record";
-            this.L_SMultiNpcRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_SMultiNpcRecord
             // 
             this.NUD_SMultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SMultiNpcRecord.Location = new System.Drawing.Point(53, 54);
-            this.NUD_SMultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SMultiNpcRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SMultiNpcRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1249,7 +1239,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_SMultiNpcPast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SMultiNpcPast.Location = new System.Drawing.Point(53, 33);
-            this.NUD_SMultiNpcPast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SMultiNpcPast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SMultiNpcPast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1259,6 +1249,28 @@ namespace PKHeX.WinForms
             this.NUD_SMultiNpcPast.Size = new System.Drawing.Size(41, 20);
             this.NUD_SMultiNpcPast.TabIndex = 2;
             // 
+            // L_SMultiFriendsRecord
+            // 
+            this.L_SMultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SMultiFriendsRecord.Location = new System.Drawing.Point(8, 116);
+            this.L_SMultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_SMultiFriendsRecord.Name = "L_SMultiFriendsRecord";
+            this.L_SMultiFriendsRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_SMultiFriendsRecord.TabIndex = 8;
+            this.L_SMultiFriendsRecord.Text = "Record";
+            this.L_SMultiFriendsRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // L_SMultiNpcRecord
+            // 
+            this.L_SMultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SMultiNpcRecord.Location = new System.Drawing.Point(8, 55);
+            this.L_SMultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_SMultiNpcRecord.Name = "L_SMultiNpcRecord";
+            this.L_SMultiNpcRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_SMultiNpcRecord.TabIndex = 3;
+            this.L_SMultiNpcRecord.Text = "Record";
+            this.L_SMultiNpcRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GB_SuperDoubles
             // 
             this.GB_SuperDoubles.Controls.Add(this.NUD_SDoubleRecord);
@@ -1266,30 +1278,19 @@ namespace PKHeX.WinForms
             this.GB_SuperDoubles.Controls.Add(this.NUD_SDoublePast);
             this.GB_SuperDoubles.Controls.Add(this.L_SDoubleRecord);
             this.GB_SuperDoubles.Location = new System.Drawing.Point(108, 73);
-            this.GB_SuperDoubles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperDoubles.Margin = new System.Windows.Forms.Padding(2);
             this.GB_SuperDoubles.Name = "GB_SuperDoubles";
-            this.GB_SuperDoubles.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperDoubles.Padding = new System.Windows.Forms.Padding(2);
             this.GB_SuperDoubles.Size = new System.Drawing.Size(99, 63);
             this.GB_SuperDoubles.TabIndex = 5;
             this.GB_SuperDoubles.TabStop = false;
             this.GB_SuperDoubles.Text = "Super Doubles";
             // 
-            // L_SDoubleRecord
-            // 
-            this.L_SDoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SDoubleRecord.Location = new System.Drawing.Point(8, 40);
-            this.L_SDoubleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_SDoubleRecord.Name = "L_SDoubleRecord";
-            this.L_SDoubleRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_SDoubleRecord.TabIndex = 2;
-            this.L_SDoubleRecord.Text = "Record";
-            this.L_SDoubleRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_SDoubleRecord
             // 
             this.NUD_SDoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SDoubleRecord.Location = new System.Drawing.Point(53, 38);
-            this.NUD_SDoubleRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SDoubleRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SDoubleRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1314,7 +1315,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_SDoublePast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SDoublePast.Location = new System.Drawing.Point(53, 18);
-            this.NUD_SDoublePast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SDoublePast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SDoublePast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1324,6 +1325,17 @@ namespace PKHeX.WinForms
             this.NUD_SDoublePast.Size = new System.Drawing.Size(41, 20);
             this.NUD_SDoublePast.TabIndex = 1;
             // 
+            // L_SDoubleRecord
+            // 
+            this.L_SDoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SDoubleRecord.Location = new System.Drawing.Point(8, 40);
+            this.L_SDoubleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_SDoubleRecord.Name = "L_SDoubleRecord";
+            this.L_SDoubleRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_SDoubleRecord.TabIndex = 2;
+            this.L_SDoubleRecord.Text = "Record";
+            this.L_SDoubleRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GB_SuperSingles
             // 
             this.GB_SuperSingles.Controls.Add(this.NUD_SSingleRecord);
@@ -1331,30 +1343,19 @@ namespace PKHeX.WinForms
             this.GB_SuperSingles.Controls.Add(this.NUD_SSinglePast);
             this.GB_SuperSingles.Controls.Add(this.L_SSingleRecord);
             this.GB_SuperSingles.Location = new System.Drawing.Point(108, 6);
-            this.GB_SuperSingles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperSingles.Margin = new System.Windows.Forms.Padding(2);
             this.GB_SuperSingles.Name = "GB_SuperSingles";
-            this.GB_SuperSingles.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_SuperSingles.Padding = new System.Windows.Forms.Padding(2);
             this.GB_SuperSingles.Size = new System.Drawing.Size(99, 63);
             this.GB_SuperSingles.TabIndex = 1;
             this.GB_SuperSingles.TabStop = false;
             this.GB_SuperSingles.Text = "Super Singles";
             // 
-            // L_SSingleRecord
-            // 
-            this.L_SSingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SSingleRecord.Location = new System.Drawing.Point(8, 41);
-            this.L_SSingleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_SSingleRecord.Name = "L_SSingleRecord";
-            this.L_SSingleRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_SSingleRecord.TabIndex = 2;
-            this.L_SSingleRecord.Text = "Record";
-            this.L_SSingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // NUD_SSingleRecord
             // 
             this.NUD_SSingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SSingleRecord.Location = new System.Drawing.Point(53, 39);
-            this.NUD_SSingleRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SSingleRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SSingleRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1379,7 +1380,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_SSinglePast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SSinglePast.Location = new System.Drawing.Point(53, 18);
-            this.NUD_SSinglePast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SSinglePast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SSinglePast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1388,6 +1389,17 @@ namespace PKHeX.WinForms
             this.NUD_SSinglePast.Name = "NUD_SSinglePast";
             this.NUD_SSinglePast.Size = new System.Drawing.Size(41, 20);
             this.NUD_SSinglePast.TabIndex = 1;
+            // 
+            // L_SSingleRecord
+            // 
+            this.L_SSingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SSingleRecord.Location = new System.Drawing.Point(8, 41);
+            this.L_SSingleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_SSingleRecord.Name = "L_SSingleRecord";
+            this.L_SSingleRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_SSingleRecord.TabIndex = 2;
+            this.L_SSingleRecord.Text = "Record";
+            this.L_SSingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // GB_Multi
             // 
@@ -1402,9 +1414,9 @@ namespace PKHeX.WinForms
             this.GB_Multi.Controls.Add(this.L_MultiFriendsRecord);
             this.GB_Multi.Controls.Add(this.L_MultiNpcRecord);
             this.GB_Multi.Location = new System.Drawing.Point(4, 141);
-            this.GB_Multi.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Multi.Margin = new System.Windows.Forms.Padding(2);
             this.GB_Multi.Name = "GB_Multi";
-            this.GB_Multi.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Multi.Padding = new System.Windows.Forms.Padding(2);
             this.GB_Multi.Size = new System.Drawing.Size(99, 139);
             this.GB_Multi.TabIndex = 6;
             this.GB_Multi.TabStop = false;
@@ -1432,22 +1444,11 @@ namespace PKHeX.WinForms
             this.L_MultiFriends.Text = "Friends";
             this.L_MultiFriends.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // L_MultiFriendsRecord
-            // 
-            this.L_MultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_MultiFriendsRecord.Location = new System.Drawing.Point(8, 116);
-            this.L_MultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_MultiFriendsRecord.Name = "L_MultiFriendsRecord";
-            this.L_MultiFriendsRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_MultiFriendsRecord.TabIndex = 8;
-            this.L_MultiFriendsRecord.Text = "Record";
-            this.L_MultiFriendsRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_MultiFriendsRecord
             // 
             this.NUD_MultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_MultiFriendsRecord.Location = new System.Drawing.Point(53, 115);
-            this.NUD_MultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_MultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_MultiFriendsRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1472,7 +1473,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_MultiFriendsPast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_MultiFriendsPast.Location = new System.Drawing.Point(53, 94);
-            this.NUD_MultiFriendsPast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_MultiFriendsPast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_MultiFriendsPast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1482,22 +1483,11 @@ namespace PKHeX.WinForms
             this.NUD_MultiFriendsPast.Size = new System.Drawing.Size(41, 20);
             this.NUD_MultiFriendsPast.TabIndex = 7;
             // 
-            // L_MultiNpcRecord
-            // 
-            this.L_MultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_MultiNpcRecord.Location = new System.Drawing.Point(8, 55);
-            this.L_MultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_MultiNpcRecord.Name = "L_MultiNpcRecord";
-            this.L_MultiNpcRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_MultiNpcRecord.TabIndex = 3;
-            this.L_MultiNpcRecord.Text = "Record";
-            this.L_MultiNpcRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_MultiNpcRecord
             // 
             this.NUD_MultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_MultiNpcRecord.Location = new System.Drawing.Point(53, 54);
-            this.NUD_MultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_MultiNpcRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_MultiNpcRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1522,7 +1512,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_MultiNpcPast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_MultiNpcPast.Location = new System.Drawing.Point(53, 33);
-            this.NUD_MultiNpcPast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_MultiNpcPast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_MultiNpcPast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1532,6 +1522,28 @@ namespace PKHeX.WinForms
             this.NUD_MultiNpcPast.Size = new System.Drawing.Size(41, 20);
             this.NUD_MultiNpcPast.TabIndex = 2;
             // 
+            // L_MultiFriendsRecord
+            // 
+            this.L_MultiFriendsRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_MultiFriendsRecord.Location = new System.Drawing.Point(8, 116);
+            this.L_MultiFriendsRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_MultiFriendsRecord.Name = "L_MultiFriendsRecord";
+            this.L_MultiFriendsRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_MultiFriendsRecord.TabIndex = 8;
+            this.L_MultiFriendsRecord.Text = "Record";
+            this.L_MultiFriendsRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
+            // L_MultiNpcRecord
+            // 
+            this.L_MultiNpcRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_MultiNpcRecord.Location = new System.Drawing.Point(8, 55);
+            this.L_MultiNpcRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_MultiNpcRecord.Name = "L_MultiNpcRecord";
+            this.L_MultiNpcRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_MultiNpcRecord.TabIndex = 3;
+            this.L_MultiNpcRecord.Text = "Record";
+            this.L_MultiNpcRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GB_Doubles
             // 
             this.GB_Doubles.Controls.Add(this.NUD_DoubleRecord);
@@ -1539,30 +1551,19 @@ namespace PKHeX.WinForms
             this.GB_Doubles.Controls.Add(this.NUD_DoublePast);
             this.GB_Doubles.Controls.Add(this.L_DoubleRecord);
             this.GB_Doubles.Location = new System.Drawing.Point(4, 73);
-            this.GB_Doubles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Doubles.Margin = new System.Windows.Forms.Padding(2);
             this.GB_Doubles.Name = "GB_Doubles";
-            this.GB_Doubles.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Doubles.Padding = new System.Windows.Forms.Padding(2);
             this.GB_Doubles.Size = new System.Drawing.Size(99, 63);
             this.GB_Doubles.TabIndex = 4;
             this.GB_Doubles.TabStop = false;
             this.GB_Doubles.Text = "Doubles";
             // 
-            // L_DoubleRecord
-            // 
-            this.L_DoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_DoubleRecord.Location = new System.Drawing.Point(8, 40);
-            this.L_DoubleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_DoubleRecord.Name = "L_DoubleRecord";
-            this.L_DoubleRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_DoubleRecord.TabIndex = 2;
-            this.L_DoubleRecord.Text = "Record";
-            this.L_DoubleRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
-            // 
             // NUD_DoubleRecord
             // 
             this.NUD_DoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_DoubleRecord.Location = new System.Drawing.Point(53, 38);
-            this.NUD_DoubleRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_DoubleRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_DoubleRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1587,7 +1588,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_DoublePast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_DoublePast.Location = new System.Drawing.Point(53, 18);
-            this.NUD_DoublePast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_DoublePast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_DoublePast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1597,6 +1598,17 @@ namespace PKHeX.WinForms
             this.NUD_DoublePast.Size = new System.Drawing.Size(41, 20);
             this.NUD_DoublePast.TabIndex = 1;
             // 
+            // L_DoubleRecord
+            // 
+            this.L_DoubleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_DoubleRecord.Location = new System.Drawing.Point(8, 40);
+            this.L_DoubleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_DoubleRecord.Name = "L_DoubleRecord";
+            this.L_DoubleRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_DoubleRecord.TabIndex = 2;
+            this.L_DoubleRecord.Text = "Record";
+            this.L_DoubleRecord.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // GB_Singles
             // 
             this.GB_Singles.Controls.Add(this.NUD_SingleRecord);
@@ -1604,30 +1616,19 @@ namespace PKHeX.WinForms
             this.GB_Singles.Controls.Add(this.NUD_SinglePast);
             this.GB_Singles.Controls.Add(this.L_SingleRecord);
             this.GB_Singles.Location = new System.Drawing.Point(4, 6);
-            this.GB_Singles.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Singles.Margin = new System.Windows.Forms.Padding(2);
             this.GB_Singles.Name = "GB_Singles";
-            this.GB_Singles.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.GB_Singles.Padding = new System.Windows.Forms.Padding(2);
             this.GB_Singles.Size = new System.Drawing.Size(99, 63);
             this.GB_Singles.TabIndex = 0;
             this.GB_Singles.TabStop = false;
             this.GB_Singles.Text = "Singles";
             // 
-            // L_SingleRecord
-            // 
-            this.L_SingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SingleRecord.Location = new System.Drawing.Point(8, 41);
-            this.L_SingleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.L_SingleRecord.Name = "L_SingleRecord";
-            this.L_SingleRecord.Size = new System.Drawing.Size(42, 14);
-            this.L_SingleRecord.TabIndex = 2;
-            this.L_SingleRecord.Text = "Record";
-            this.L_SingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
             // NUD_SingleRecord
             // 
             this.NUD_SingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SingleRecord.Location = new System.Drawing.Point(53, 39);
-            this.NUD_SingleRecord.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SingleRecord.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SingleRecord.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1652,7 +1653,7 @@ namespace PKHeX.WinForms
             // 
             this.NUD_SinglePast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.NUD_SinglePast.Location = new System.Drawing.Point(53, 18);
-            this.NUD_SinglePast.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.NUD_SinglePast.Margin = new System.Windows.Forms.Padding(2);
             this.NUD_SinglePast.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -1661,6 +1662,17 @@ namespace PKHeX.WinForms
             this.NUD_SinglePast.Name = "NUD_SinglePast";
             this.NUD_SinglePast.Size = new System.Drawing.Size(41, 20);
             this.NUD_SinglePast.TabIndex = 1;
+            // 
+            // L_SingleRecord
+            // 
+            this.L_SingleRecord.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SingleRecord.Location = new System.Drawing.Point(8, 41);
+            this.L_SingleRecord.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.L_SingleRecord.Name = "L_SingleRecord";
+            this.L_SingleRecord.Size = new System.Drawing.Size(42, 14);
+            this.L_SingleRecord.TabIndex = 2;
+            this.L_SingleRecord.Text = "Record";
+            this.L_SingleRecord.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // SAV_Misc5
             // 
