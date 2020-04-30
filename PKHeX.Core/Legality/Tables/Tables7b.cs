@@ -281,37 +281,22 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
         {
-            013, // Weedle
-            014, // Kakuna
-            015, // Beedrill
-            021, // Spearow
-            022, // Fearow
-            037, // Vulpix
-            038, // Ninetales
-            046, // Paras
-            047, // Parasect
-            048, // Venonat
-            049, // Venomoth
-            069, // Bellsprout
-            070, // Weepinbell
-            071, // Victreebel
-            079, // Slowpoke
-            080, // Slowbro
-            084, // Doduo
-            085, // Dodrio
-            100, // Voltorb
-            101, // Electrode
-            106, // Hitmonlee
-            107, // Hitmonchan
-            114, // Tangela
-            118, // Goldeen
-            119, // Seaking
-            120, // Staryu
-            121, // Starmie
-            132, // Ditto
-            137, // Porygon
-            143, // Snorlax
-            151, // Mew
+            (int)Species.Weedle, (int)Species.Kakuna, (int)Species.Beedrill,
+            (int)Species.Spearow, (int)Species.Fearow,
+            (int)Species.Vulpix, (int)Species.Ninetales,
+            (int)Species.Paras, (int)Species.Parasect,
+            (int)Species.Bellsprout, (int)Species.Weepinbell, (int)Species.Victreebel,
+            (int)Species.Slowpoke, (int)Species.Slowbro,
+            (int)Species.Doduo, (int)Species.Dodrio,
+            (int)Species.Voltorb, (int)Species.Electrode,
+            (int)Species.Hitmonlee, (int)Species.Hitmonchan,
+            (int)Species.Tangela,
+            (int)Species.Goldeen, (int)Species.Seaking,
+            (int)Species.Staryu, (int)Species.Starmie,
+            (int)Species.Ditto,
+            (int)Species.Porygon,
+            (int)Species.Snorlax,
+            (int)Species.Mew
         };
     }
 }
