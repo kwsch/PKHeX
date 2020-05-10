@@ -25,6 +25,7 @@ namespace PKHeX.Core
         private static readonly Verifier CXD = new CXDVerifier();
         private static readonly Verifier Memory = new MemoryVerifier();
         private static readonly Verifier History = new HistoryVerifier();
+        private static readonly Verifier Contest = new ContestStatVerifier();
 
         private static readonly TrainerNameVerifier Trainer = new TrainerNameVerifier();
         private static readonly LevelVerifier Level = new LevelVerifier();

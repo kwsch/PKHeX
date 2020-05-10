@@ -318,6 +318,8 @@ namespace PKHeX.Core
             if (pkm.Format <= 6 && pkm.Format >= 4)
                 EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
 
+            Contest.Verify(this);
+
             if (pkm.Format < 6)
                 return;
 

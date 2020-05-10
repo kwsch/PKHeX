@@ -22,15 +22,12 @@ namespace PKHeX.Core
         private void VerifyTradeState(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var Info = data.Info;
 
             if (data.pkm is IGeoTrack t)
                 VerifyGeoLocationData(data, t, data.pkm);
 
             if (pkm.VC && pkm is PK7 g && g.Geo1_Country == 0) // VC transfers set Geo1 Country
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoMemoryMissing));
-            if (pkm is IContestStats s && s.HasContestStats() && !CanHaveContestStats(pkm, Info.Generation))
-                data.AddLine(GetInvalid(LegalityCheckStrings.LContestZero));
 
             if (!pkm.IsUntraded)
             {
@@ -201,21 +198,6 @@ namespace PKHeX.Core
                 7 => PersonalTable.USUM[species].BaseFriendship,
                 8 => PersonalTable.SWSH[species].BaseFriendship,
                 _ => throw new IndexOutOfRangeException(),
-            };
-        }
-
-        private static bool CanHaveContestStats(PKM pkm, int origin)
-        {
-            return origin switch
-            {
-                1 => false,
-                2 => false,
-                3 => true,
-                4 => true,
-                5 => (pkm.Format >= 6), // ORAS Contests
-                6 => (!pkm.IsUntraded || pkm.AO),
-                7 => false,
-                _ => false
             };
         }
     }
