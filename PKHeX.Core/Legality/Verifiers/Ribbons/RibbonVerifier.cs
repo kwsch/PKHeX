@@ -102,7 +102,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetUnique4 u4)
             {
-                if (!IsAllowedBattleFrontier(pkm.Species, pkm.AltForm, 4))
+                if (!IsAllowedBattleFrontier(pkm.Species, pkm.AltForm, 4) || gen > 4)
                 {
                     foreach (var z in GetInvalidRibbonsNone(u4.RibbonBitsAbility(), u4.RibbonNamesAbility()))
                         yield return z;
