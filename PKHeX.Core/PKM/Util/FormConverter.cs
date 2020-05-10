@@ -141,7 +141,7 @@ namespace PKHeX.Core
                 case Linoone when generation >= 8:
                     return GetFormsGalar(types, forms);
 
-                case Castform: // Casftorm
+                case Castform: // Castform
                     return new[]
                     {
                         types[000], // Normal
@@ -359,7 +359,7 @@ namespace PKHeX.Core
                         forms[973], // Sandstorm
                         forms[974], // River
                         forms[975], // Monsoon
-                        forms[976], // Savannah
+                        forms[976], // Savanna
                         forms[977], // Sun
                         forms[978], // Ocean
                         forms[979], // Jungle
@@ -396,7 +396,7 @@ namespace PKHeX.Core
                         forms[995], // Heart
                         forms[996], // Star
                         forms[997], // Diamond
-                        forms[998], // Deputante
+                        forms[998], // Debutante
                         forms[999], // Matron
                         forms[1000], // Dandy
                         forms[1001], // La Reine
