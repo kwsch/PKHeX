@@ -14,7 +14,7 @@
 
             if (pkm is IContestStats s && s.HasContestStats() && !CanHaveContestStats(pkm, data.Info.Generation))
                 data.AddLine(GetInvalid(LegalityCheckStrings.LContestZero));
-            
+
             // some encounters have contest stats built in. they're already checked by the initial encounter match.
         }
 
