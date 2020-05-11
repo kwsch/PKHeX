@@ -121,6 +121,45 @@ namespace PKHeX.Core
             uint pid = Cache[ctr + 1] << 16 | Cache[ctr];
             if (current.MatchesLock(pid))
                 yield return new SeedFrame(pid, ctr + (current.Seen ? 5 : 7));
+            else
+                yield break;
+
+            // Reaching here means the single lock didn't cut it. Maybe the frame before it was an anti-shiny reroll?
+
+            // Track if we ever require the CPU Trainer Shiny Value to be a value for a shiny skip.
+            // We need to un-set this flag if future frames don't pan out.
+            bool forcedOT = false;
+
+            int start = 2;
+            while (true)
+            {
+                var upper = Cache[start + 1];
+                var lower = Cache[start];
+                // uint cid = upper << 16 | lower;
+                var sv = (upper ^ lower) >> 3;
+                if (sv == TSV) // XD shiny checks all opponent PKM, even non-shadow.
+                {
+                    // Anti-shiny rerolled! This is a possible frame.
+                }
+                else if (RCSV != NOT_FORCED) // CPU shiny value is required for a previous lock
+                {
+                    if (sv != RCSV)
+                    {
+                        if (forcedOT) // current call to this method had forced the OT; clear the forced OT before breaking.
+                            RCSV = NOT_FORCED;
+                        yield break; // Since we can't skip this interrupt, we're done.
+                    }
+                    else // No CPU shiny value forced yet. Lets try to skip this lock by requiring the eventual OT to get this shiny.
+                    {
+                        RCSV = (int)sv;
+                        forcedOT = true;
+                        // don't break
+                    }
+                }
+                // Yield the final rerolled pid instead of the bad anti-shiny (metadata/validation).
+                yield return new SeedFrame(pid, start + (current.Seen ? 5 : 7));
+                start += 2;
+            }
         }
 
         /// <summary>
