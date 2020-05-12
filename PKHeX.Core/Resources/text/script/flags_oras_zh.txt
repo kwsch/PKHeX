@@ -65,3 +65,4 @@
 0291	超级三打模式已解锁
 0292	超级轮盘模式已解锁
 0293	超级多人模式已解锁
+2642	Foreign DexNav Encounters Unlocked

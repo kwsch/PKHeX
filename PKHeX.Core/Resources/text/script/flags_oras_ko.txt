@@ -65,3 +65,4 @@
 0291	슈퍼트리플배틀 해금됨
 0292	슈퍼로테이션배틀 해금됨
 0293	슈퍼멀티배틀 해금됨
+2642	Foreign DexNav Encounters Unlocked
