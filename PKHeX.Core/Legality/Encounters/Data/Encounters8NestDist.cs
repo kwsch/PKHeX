@@ -197,6 +197,15 @@
             new EncounterStatic8ND(60,10,5) { Species = 547, Ability = A4, Moves = new[]{ 538, 585, 073, 366 } }, // Whimsicott
             new EncounterStatic8ND(60,10,5) { Species = 887, Ability = A4, Moves = new[]{ 751, 566, 349, 211 } }, // Dragapult
             new EncounterStatic8ND(60,10,5) { Species = 468, Ability = A4, Moves = new[]{ 605, 219, 246, 053 } }, // Togekiss
+
+            // 5/11 - Gigantamax Pikachu
+            new EncounterStatic8ND(17,01,1) { Species = 025, Ability = A4, Moves = new[]{ 084, 104, 486, 364 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(30,03,2) { Species = 025, Ability = A4, Moves = new[]{ 021, 209, 097, 364 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(40,05,3) { Species = 025, Ability = A4, Moves = new[]{ 021, 113, 085, 364 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(50,08,4) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 085, 364 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(50,08,4) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 085 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 364 }, CanGigantamax = true }, // Pikachu
+            new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 344 }, CanGigantamax = true }, // Pikachu
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
