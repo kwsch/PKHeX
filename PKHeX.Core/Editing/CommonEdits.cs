@@ -226,6 +226,9 @@ namespace PKHeX.Core
             if (pk is IGigantamax c)
                 c.CanGigantamax = Set.CanGigantamax;
 
+            if (pk is IDynamaxLevel d)
+                d.DynamaxLevel = 10;
+
             pk.ClearRecordFlags();
             pk.SetRecordFlags(Set.Moves);
 
