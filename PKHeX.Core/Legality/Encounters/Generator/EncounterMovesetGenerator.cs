@@ -117,7 +117,7 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
             pk.Version = (int)version;
-            var et = EvolutionTree.GetEvolutionTree(pk, pk.Species <= Legal.MaxSpeciesID_7_USUM ? 7 : PKX.Generation); // temp workaround as G8 doesn't have all evolutions
+            var et = EvolutionTree.GetEvolutionTree(pk.Format);
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 
