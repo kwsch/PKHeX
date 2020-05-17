@@ -12,6 +12,7 @@
         bool EggEncounter { get; }
         int LevelMin { get; }
         int LevelMax { get; }
+        int Generation { get; }
 
         PKM ConvertToPKM(ITrainerInfo SAV);
         PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);

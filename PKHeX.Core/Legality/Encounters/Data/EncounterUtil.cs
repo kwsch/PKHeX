@@ -160,18 +160,18 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="IGeneration.Generation"/> value.
+        /// Sets the <see cref="IGenerationSet.Generation"/> value.
         /// </summary>
         /// <param name="Generation">Generation number to set</param>
         /// <param name="Encounters">Ingame encounter data</param>
-        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<IGeneration>[] Encounters)
+        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<IGenerationSet>[] Encounters)
         {
             foreach (var table in Encounters)
                 MarkEncountersGeneration(Generation, table);
         }
 
         /// <summary>
-        /// Sets the <see cref="IGeneration.Generation"/> value, for use in determining split-generation origins.
+        /// Sets the <see cref="IGenerationSet.Generation"/> value, for use in determining split-generation origins.
         /// </summary>
         /// <param name="Generation">Generation number to set</param>
         /// <param name="Areas">Ingame encounter data</param>
@@ -184,9 +184,9 @@ namespace PKHeX.Core
             }
         }
 
-        private static void MarkEncountersGeneration(int Generation, IEnumerable<IGeneration> Encounters)
+        private static void MarkEncountersGeneration(int Generation, IEnumerable<IGenerationSet> Encounters)
         {
-            foreach (IGeneration enc in Encounters)
+            foreach (var enc in Encounters)
                 enc.Generation = Generation;
         }
 

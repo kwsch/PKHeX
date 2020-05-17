@@ -47,7 +47,8 @@ namespace PKHeX.Core
             IReadOnlyList<int> defaultG2LevelMoves = Array.Empty<int>();
             var defaultTradeback = pkm.TradebackStatus;
             bool gb = false;
-            if (info.EncounterMatch is IGeneration g && g.Generation <= 2)
+            int gen = info.EncounterMatch.Generation;
+            if (gen <= 2)
             {
                 gb = true;
                 defaultG1LevelMoves = info.EncounterMoves.LevelUpMoves[1];
@@ -55,11 +56,11 @@ namespace PKHeX.Core
                     defaultG2LevelMoves = info.EncounterMoves.LevelUpMoves[2];
 
                 // Generation 1 can have different minimum level in different encounter of the same species; update valid level moves
-                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, g.Generation, info);
+                UpdateGen1LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen1, gen, info);
 
                 // The same for Generation 2; if move reminder from Stadium 2 is not allowed
                 if (!ParseSettings.AllowGen2MoveReminder(pkm) && pkm.InhabitedGeneration(2))
-                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, g.Generation, info);
+                    UpdateGen2LevelUpMoves(pkm, info.EncounterMoves, restrict.MinimumLevelGen2, gen, info);
             }
 
             var res = info.Generation < 6
@@ -167,7 +168,9 @@ namespace PKHeX.Core
             }
             if (info.EncounterMatch is EncounterEgg e)
                 return ParseMovesWasEggPreRelearn(pkm, Moves, info, e);
-            if (info.Generation <= 2 && info.EncounterMatch is IGeneration g && (g.Generation == 1 || (g.Generation == 2 && !ParseSettings.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
+
+            int gen = info.EncounterMatch.Generation;
+            if (gen <= 2 && (gen == 1 || (gen == 2 && !ParseSettings.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
                 return ParseMovesGenGB(pkm, Moves, info);
 
             return ParseMovesSpecialMoveset(pkm, Moves, info);
@@ -181,7 +184,7 @@ namespace PKHeX.Core
                 return ParseMovesSpecialMoveset(pkm, Moves, info);
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            var games = info.EncounterMatch is IGeneration g && g.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);
+            var games = info.EncounterMatch.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);
             foreach (var ver in games)
             {
                 var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);

@@ -14,6 +14,7 @@ namespace PKHeX.Core
         public int LevelMin { get; }
         public int LevelMax { get; }
         public bool EggEncounter { get; }
+        public int Generation { get; set; }
 
         public string Name => "Invalid";
         public string LongName => "Invalid";
@@ -27,6 +28,7 @@ namespace PKHeX.Core
             LevelMin = pkm.Met_Level;
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
+            Generation = pkm.GenNumber;
         }
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);

@@ -16,12 +16,14 @@ namespace PKHeX.Core
         public int LevelMin => Level;
         public int LevelMax => Level;
         public readonly int Level;
+        public int Generation { get; }
 
-        public EncounterEgg(int species, int form, int level)
+        public EncounterEgg(int species, int form, int level, int gen)
         {
             Species = species;
             Form = form;
             Level = level;
+            Generation = gen;
         }
 
         public GameVersion Version { get; set; }
@@ -147,6 +149,6 @@ namespace PKHeX.Core
     public sealed class EncounterEggSplit : EncounterEgg
     {
         public int OtherSpecies { get; }
-        public EncounterEggSplit(int species, int form, int level, int otherSpecies) : base(species, form, level) => OtherSpecies = otherSpecies;
+        public EncounterEggSplit(int species, int form, int level, int gen, int otherSpecies) : base(species, form, level, gen) => OtherSpecies = otherSpecies;
     }
 }

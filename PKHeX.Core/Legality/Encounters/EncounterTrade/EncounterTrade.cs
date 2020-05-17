@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public class EncounterTrade : IEncounterable, IMoveset, IGeneration, ILocation, IContestStats, IVersion
+    public class EncounterTrade : IEncounterable, IGenerationSet, IMoveset, ILocation, IContestStats, IVersion
     {
         public int Species { get; set; }
         public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();

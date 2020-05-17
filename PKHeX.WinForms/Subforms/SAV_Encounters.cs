@@ -194,7 +194,7 @@ namespace PKHeX.WinForms
             // when all sprites in new size are available, remove this filter
             results = SAV is SAV8SWSH
                 ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame)
-                : results.Where(z => !(z is IGeneration g) || g.Generation <= 7);
+                : results.Where(z => z.Generation <= 7);
             return results;
         }
 
@@ -286,7 +286,7 @@ namespace PKHeX.WinForms
             {
                 var enc = Results[i + begin];
                 var form = GetForm(enc);
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, 0, enc.EggEncounter, false, enc is IGeneration g ? g.Generation : -1);
+                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, 0, enc.EggEncounter, false, enc.Generation);
             }
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;

@@ -41,7 +41,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
-    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, IGeneration, ILocation
+    public abstract class MysteryGift : IEncounterable, IMoveset, IRelearn, ILocation
     {
         /// <summary>
         /// Determines whether or not the given length of bytes is valid for a mystery gift.

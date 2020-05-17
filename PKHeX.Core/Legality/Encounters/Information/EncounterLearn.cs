@@ -105,7 +105,7 @@ namespace PKHeX.Core
 
         private static string GetLocationName(IEncounterable z)
         {
-            var gen = z is IGeneration g ? g.Generation : -1;
+            var gen = z.Generation;
             var version = z is IVersion v ? (int)v.Version : -1;
             if (gen < 0 && version > 0)
                 gen = ((GameVersion)version).GetGeneration();

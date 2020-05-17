@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public bool EggEncounter => Encounter.EggEncounter;
         public int LevelMin => Encounter.LevelMin;
         public int LevelMax => Encounter.LevelMax;
+        public int Generation => Encounter.Generation;
 
         public EncounterRejected(IEncounterable encounter, CheckResult check)
         {
