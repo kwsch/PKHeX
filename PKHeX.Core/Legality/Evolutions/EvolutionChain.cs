@@ -36,32 +36,27 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterable Encounter, IEnumerable<EvoCriteria> CompleteEvoChain)
         {
-            int maxgen = pkm is PK1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
-            var GensEvoChains = GetChainBase(maxgen);
+            int genBirth = Encounter.Generation;
+            int genMin = genBirth >= 3 ? genBirth : pkm.Gen2_NotTradeback ? 2 : 1;
+            int genMax = pkm is PK1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
+
+            var GensEvoChains = GetChainBase(genMax);
 
             var queue = new Queue<EvoCriteria>(CompleteEvoChain);
             var mostEvolved = queue.Dequeue();
 
-            int lvl = pkm.CurrentLevel;
-            int maxLevel = lvl;
-            int pkGen = pkm.GenNumber;
+            int maxLevel = pkm.CurrentLevel;
+            int lvl = maxLevel;
 
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
-            int mingen = (pkm is PK2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkGen;
             bool noxfrDecremented = true;
-            for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
+            for (int g = GensEvoChains.Length - 1; g >= genMin; g--)
             {
-                if (pkGen == 1 && pkm.Gen1_NotTradeback && g == 2)
-                    continue;
-                if (pkGen <= 2 && 3 <= g && g <= 6)
+                if (genBirth <= 2 && 3 <= g && g <= 6)
                     continue;
 
-                if (g <= 4 && 2 < pkm.Format && g < pkm.Format && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
-                {
-                    // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
-                    lvl = pkm.Met_Level;
-                }
+                lvl = GetMaxLevelForGeneration(pkm, g, lvl);
 
                 int maxspeciesgen = g == 2 && pkm.VC1 ? MaxSpeciesID_1 : GetMaxSpeciesOrigin(g);
 
@@ -105,13 +100,13 @@ namespace PKHeX.Core
                 if (GensEvoChains[g].Count == 0)
                     continue;
 
-                if (g > 2 && !pkm.HasOriginalMetLocation && g >= pkGen && noxfrDecremented)
+                if (g > 2 && !pkm.HasOriginalMetLocation && g >= genBirth && noxfrDecremented)
                 {
-                    bool isTransferred = HasMetLocationUpdatedTransfer(pkGen, g);
+                    bool isTransferred = HasMetLocationUpdatedTransfer(genBirth, g);
                     if (!isTransferred)
                         continue;
 
-                    noxfrDecremented = g > (pkGen != 3 ? 4 : 5);
+                    noxfrDecremented = g > (genBirth != 3 ? 4 : 5);
 
                     // Remove previous evolutions below transfer level
                     // For example a gen3 Charizard in format 7 with current level 36 and met level 36, thus could never be Charmander / Charmeleon in Gen5+.
@@ -140,6 +135,24 @@ namespace PKHeX.Core
                 }
             }
             return GensEvoChains;
+        }
+
+        private static int GetMaxLevelForGeneration(PKM pkm, int gen, int lvl)
+        {
+            return gen switch
+            {
+                // VC Transfers
+                1 => (pkm.Format >= 7 ? Math.Min(lvl, pkm.Met_Level) : lvl),
+                2 => (pkm.Format >= 7 ? Math.Min(lvl, pkm.Met_Level) : lvl),
+
+                // Pal Park
+                3 => (pkm.Format >= 4 ? Math.Min(lvl, pkm.Met_Level) : lvl),
+
+                // Poke Transfer
+                4 => (pkm.Format >= 5 ? Math.Min(lvl, pkm.Met_Level) : lvl),
+
+                _ => lvl
+            };
         }
 
         private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> GensEvoChains)
