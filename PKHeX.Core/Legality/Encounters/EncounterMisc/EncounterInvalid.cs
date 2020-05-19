@@ -28,7 +28,10 @@ namespace PKHeX.Core
             LevelMin = pkm.Met_Level;
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
-            Generation = pkm.GenNumber;
+            var gen = pkm.GenNumber;
+            if (gen <= 0)
+                gen = pkm.Format;
+            Generation = gen;
         }
 
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);

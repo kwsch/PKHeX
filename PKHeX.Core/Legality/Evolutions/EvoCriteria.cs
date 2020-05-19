@@ -11,5 +11,6 @@
         public int Method { get; set; } = -1;
 
         public bool IsTradeRequired => ((EvolutionType) Method).IsTrade();
+        public override string ToString() => $"{(Species)Species}-{Form} via {(EvolutionType)Method}";
     }
 }

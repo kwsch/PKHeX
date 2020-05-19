@@ -51,7 +51,7 @@ namespace PKHeX.Core
                 // match found, cache result
                 regMatch = pattern;
                 lock (dictLock)
-                    Lookup.Add(msg, regMatch);
+                    Lookup[msg] = regMatch;
                 return true;
             }
 
@@ -60,7 +60,7 @@ namespace PKHeX.Core
             {
                 if ((Lookup.Count & ~MAX_COUNT) != 0)
                     Lookup.Clear(); // reset
-                Lookup.Add(msg, regMatch = NoMatch);
+                Lookup[msg] = regMatch = NoMatch;
             }
             return false;
         }

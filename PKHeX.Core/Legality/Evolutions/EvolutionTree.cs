@@ -199,7 +199,8 @@ namespace PKHeX.Core
         public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             if (maxSpeciesOrigin <= 0)
-                maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
+                maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm);
+
             if (pkm.IsEgg && !skipChecks)
             {
                 return new List<EvoCriteria>(1)
@@ -218,7 +219,7 @@ namespace PKHeX.Core
                 };
             }
 
-            return GetExplicitLineage(pkm, maxLevel, skipChecks, maxSpeciesOrigin, minLevel);
+            return GetExplicitLineage(pkm, minLevel, maxLevel, skipChecks, maxSpeciesOrigin);
         }
 
         /// <summary>
@@ -275,20 +276,30 @@ namespace PKHeX.Core
         /// Generates the reverse evolution path for the input <see cref="pkm"/>.
         /// </summary>
         /// <param name="pkm">Entity data</param>
+        /// <param name="minLevel">Minimum level</param>
         /// <param name="maxLevel">Maximum level</param>
         /// <param name="skipChecks">Skip the secondary checks that validate the evolution</param>
         /// <param name="maxSpeciesOrigin">Clamp for maximum species ID</param>
-        /// <param name="minLevel">Minimum level</param>
         /// <returns></returns>
-        private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
+        private List<EvoCriteria> GetExplicitLineage(PKM pkm, int minLevel, int maxLevel, bool skipChecks, int maxSpeciesOrigin)
         {
             int species = pkm.Species;
             int form = pkm.AltForm;
-            int lvl = maxLevel;
-            var first = new EvoCriteria(species, form) { Level = lvl };
+            return GetExplicitLineage(pkm, minLevel, maxLevel, skipChecks, maxSpeciesOrigin, species, form);
+        }
 
-            const int maxEvolutions = 3;
-            var dl = new List<EvoCriteria>(maxEvolutions) { first };
+        private List<EvoCriteria> GetExplicitLineage(PKM pkm, int minLevel, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int species, int form)
+        {
+            var dl = GetEmptyEvoChain();
+            return FillTree(pkm, dl, species, form, minLevel, maxLevel, skipChecks, maxSpeciesOrigin);
+        }
+
+        public static List<EvoCriteria> GetEmptyEvoChain(int capacity = 3) => new List<EvoCriteria>(capacity);
+
+        public List<EvoCriteria> FillTree(PKM pkm, List<EvoCriteria> dl, int species, int form, int minLevel, int maxLevel, bool skipChecks, int maxSpeciesOrigin)
+        {
+            var first = new EvoCriteria(species, form) {Level = maxLevel};
+            dl.Add(first);
 
             switch (species)
             {
@@ -296,6 +307,13 @@ namespace PKHeX.Core
                     break;
             }
 
+            FillTree(dl, pkm, minLevel, maxLevel, species, form, skipChecks);
+            FinalizeTree(dl, maxSpeciesOrigin);
+            return dl;
+        }
+
+        private void FillTree(List<EvoCriteria> dl, PKM pkm, int minLevel, int maxLevel, int species, int form, bool skipChecks)
+        {
             // There aren't any circular evolution paths, and all lineages have at most 3 evolutions total.
             // There aren't any convergent evolution paths, so only yield the first connection.
             while (true)
@@ -310,27 +328,30 @@ namespace PKHeX.Core
                         continue;
 
                     var evo = link.Method;
-                    if (!evo.Valid(pkm, lvl, skipChecks))
+                    if (!evo.Valid(pkm, maxLevel, skipChecks))
                         continue;
 
-                    if (evo.RequiresLevelUp && minLevel >= lvl)
+                    if (evo.RequiresLevelUp && minLevel >= maxLevel)
                         break; // impossible evolution
 
                     oneValid = true;
                     UpdateMinValues(dl, evo);
                     if (evo.RequiresLevelUp)
-                        lvl--;
+                        maxLevel--;
 
                     species = link.Species;
                     form = link.Form;
-                    var detail = evo.GetEvoCriteria(species, form, lvl);
+                    var detail = evo.GetEvoCriteria(species, form, maxLevel);
                     dl.Add(detail);
                     break;
                 }
                 if (!oneValid)
                     break;
             }
+        }
 
+        private static void FinalizeTree(List<EvoCriteria> dl, int maxSpeciesOrigin)
+        {
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
             var last = dl[dl.Count - 1];
             if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
@@ -340,7 +361,6 @@ namespace PKHeX.Core
             last = dl[dl.Count - 1];
             last.MinLevel = 1;
             last.RequiresLvlUp = false;
-            return dl;
         }
 
         private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
