@@ -206,6 +206,16 @@
             new EncounterStatic8ND(50,08,4) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 085 }, CanGigantamax = true }, // Pikachu
             new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 364 }, CanGigantamax = true }, // Pikachu
             new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 087, 113, 057, 344 }, CanGigantamax = true }, // Pikachu
+
+            // 5/18 - Gigantamax Eevee
+            new EncounterStatic8ND(17,01,1) { Species = 133, Ability = A4, Moves = new[]{ 098, 270, 608, 028 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(30,03,2) { Species = 133, Ability = A4, Moves = new[]{ 129, 270, 608, 044 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(40,05,3) { Species = 133, Ability = A4, Moves = new[]{ 036, 270, 608, 044 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(40,05,3) { Species = 133, Ability = A4, Moves = new[]{ 036, 270, 608, 231 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(50,08,4) { Species = 133, Ability = A4, Moves = new[]{ 038, 270, 204, 044 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(50,08,4) { Species = 133, Ability = A4, Moves = new[]{ 038, 203, 204, 231 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(60,10,5) { Species = 133, Ability = A4, Moves = new[]{ 038, 270, 204, 231 }, CanGigantamax = true }, // Eevee
+            new EncounterStatic8ND(60,10,5) { Species = 133, Ability = A4, Moves = new[]{ 387, 203, 204, 231 }, CanGigantamax = true }, // Eevee
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
