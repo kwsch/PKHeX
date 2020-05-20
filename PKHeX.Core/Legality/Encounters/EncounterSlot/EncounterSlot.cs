@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
-    public class EncounterSlot : IEncounterable, IGenerationSet, ILocation
+    public class EncounterSlot : IEncounterable, IGenerationSet, ILocation, IVersionSet
     {
         public int Species { get; set; }
         public int Form { get; set; }

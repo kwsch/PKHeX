@@ -14,8 +14,8 @@ namespace PKHeX.Core
         public int LevelMin { get; }
         public int LevelMax { get; }
         public bool EggEncounter { get; }
-        public int Generation { get; set; }
-        public GameVersion Version { get; set; }
+        public int Generation { get; }
+        public GameVersion Version { get; }
 
         public string Name => "Invalid";
         public string LongName => "Invalid";

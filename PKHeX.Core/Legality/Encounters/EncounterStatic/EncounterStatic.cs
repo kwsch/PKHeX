@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public class EncounterStatic : IEncounterable, IMoveset, IGenerationSet, ILocation, IContestStats, IRelearn
+    public class EncounterStatic : IEncounterable, IMoveset, IGenerationSet, ILocation, IContestStats, IRelearn, IVersionSet
     {
         public int Species { get; set; }
         public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();

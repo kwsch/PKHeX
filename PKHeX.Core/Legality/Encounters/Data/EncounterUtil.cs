@@ -264,10 +264,10 @@ namespace PKHeX.Core
             string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
         }
 
-        internal static void MarkEncounterGame(IEnumerable<IVersion> table, GameVersion version)
+        internal static void MarkEncounterGame<T>(IEnumerable<T> table, GameVersion version) where T: IVersion, IVersionSet
         {
-            foreach (var t in table.Where(z => z.Version == GameVersion.Any))
-                t.Version = version;
+            foreach (var t in table.Where(z => ((IVersion)z).Version == GameVersion.Any))
+                ((IVersionSet)t).Version = version;
         }
     }
 }
