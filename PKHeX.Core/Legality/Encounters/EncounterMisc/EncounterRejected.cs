@@ -20,6 +20,12 @@ namespace PKHeX.Core
         public int LevelMax => Encounter.LevelMax;
         public int Generation => Encounter.Generation;
 
+        public GameVersion Version
+        {
+            get => Encounter.Version;
+            set => Encounter.Version = value;
+        }
+
         public EncounterRejected(IEncounterable encounter, CheckResult check)
         {
             Encounter = encounter;

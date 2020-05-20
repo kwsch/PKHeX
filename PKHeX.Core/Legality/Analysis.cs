@@ -478,7 +478,7 @@ namespace PKHeX.Core
                 if (Info.Generation <= 2)
                 {
                     var lvl = pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
-                    var ver = EncounterOriginal is IVersion v ? v.Version : (GameVersion)pkm.Version;
+                    var ver = EncounterOriginal.Version;
                     return MoveLevelUp.GetEncounterMoves(EncounterOriginal.Species, 0, lvl, ver);
                 }
                 if (pkm.Species == EncounterOriginal.Species)

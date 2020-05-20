@@ -3,7 +3,7 @@
     /// <summary>
     /// Common Encounter Properties base interface.
     /// </summary>
-    public interface IEncounterable
+    public interface IEncounterable : IVersion
     {
         int Species { get; }
         int Form { get; }

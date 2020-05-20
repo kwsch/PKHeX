@@ -49,7 +49,7 @@ namespace PKHeX.Core
             foreach (var z in GenerateFilteredEncounters12(pkm))
             {
                 info.Generation = z.Generation;
-                info.Game = ((IVersion)z).Version;
+                info.Game = z.Version;
                 yield return z;
             }
         }
@@ -238,7 +238,7 @@ namespace PKHeX.Core
 
                 if (gen == 1 && (pkm.Korean || (obj is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
                     deferred.Add(obj);
-                else if (gen == 2 && ((pkm.Korean && (((IVersion)obj).Version == GameVersion.C)) || kadabra))
+                else if (gen == 2 && ((pkm.Korean && obj.Version == GameVersion.C) || kadabra))
                     deferred.Add(obj);
                 else
                     yield return obj;

@@ -165,6 +165,12 @@ namespace PKHeX.Core
         /// </summary>
         public string LongName => $"{Name} ({Type})";
 
+        public virtual GameVersion Version
+        {
+            get => GameUtil.GetVersion(Format);
+            set { }
+        }
+
         // Properties
         public virtual int Species { get => -1; set { } }
         public abstract bool GiftUsed { get; set; }

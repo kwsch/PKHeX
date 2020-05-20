@@ -93,26 +93,26 @@ namespace PKHeX.Core
 
         private EncounterSummary(IEncounterable z, string type)
         {
-            Version = z is IVersion v ? v.Version : GameVersion.Any;
+            Version = z.Version;
             LocationName = GetLocationName(z) + $"({type}) ";
         }
 
         private EncounterSummary(IEncounterable z)
         {
-            Version = z is IVersion v ? v.Version : GameVersion.Any;
+            Version = z.Version;
             LocationName = GetLocationName(z);
         }
 
         private static string GetLocationName(IEncounterable z)
         {
             var gen = z.Generation;
-            var version = z is IVersion v ? (int)v.Version : -1;
+            var version = z.Version;
             if (gen < 0 && version > 0)
-                gen = ((GameVersion)version).GetGeneration();
+                gen = version.GetGeneration();
 
             if (!(z is ILocation l))
                 return $"[Gen{gen}]\t";
-            var loc = l.GetEncounterLocation(gen, version);
+            var loc = l.GetEncounterLocation(gen, (int)version);
 
             if (string.IsNullOrWhiteSpace(loc))
                 return $"[Gen{gen}]\t";

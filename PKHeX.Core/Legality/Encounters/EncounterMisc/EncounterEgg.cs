@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Egg Encounter Data
     /// </summary>
-    public class EncounterEgg : IEncounterable, IVersion
+    public class EncounterEgg : IEncounterable
     {
         public int Species { get; }
         public int Form { get; }

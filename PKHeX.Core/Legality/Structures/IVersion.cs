@@ -9,7 +9,7 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        public static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
+        private static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
 
         public static GameVersion GetCompatibleVersion(this IVersion ver, GameVersion prefer)
         {

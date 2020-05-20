@@ -11,7 +11,7 @@ namespace PKHeX.Core
     /// This is fabricated data built to emulate the future generation Mystery Gift objects.
     /// Data here is not stored in any save file and cannot be naturally exported.
     /// </remarks>
-    public sealed class WC3 : MysteryGift, IRibbonSetEvent3, IVersion
+    public sealed class WC3 : MysteryGift, IRibbonSetEvent3
     {
         public override MysteryGift Clone() => (WC3)MemberwiseClone();
 
@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public override int SID { get; set; }
         public override int Location { get; set; } = 255;
         public override int EggLocation { get => 0; set {} }
-        public GameVersion Version { get; set; }
+        public override GameVersion Version { get; set; }
         public int Language { get; set; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
