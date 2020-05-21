@@ -72,6 +72,7 @@ namespace PKHeX.Drawing
             (int)Species.Arceus,
             (int)Species.Scatterbug,
             (int)Species.Spewpa,
+            (int)Species.Rockruff,
             (int)Species.Silvally,
             (int)Species.Mimikyu,
             (int)Species.Sinistea,
