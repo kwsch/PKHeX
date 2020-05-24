@@ -323,6 +323,8 @@ namespace PKHeX.Core
                 {
                     if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
                         return false;
+                    if (pkm.OT_Friendship > EggCycles) // Dizzy Punch eggs start with below-normal hatch counters.
+                        return false;
                 }
                 else
                 {

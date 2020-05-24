@@ -208,7 +208,7 @@ namespace PKHeX.Core
             var HatchCycles = EncounterMatch is EncounterStatic s ? s.EggCycles : 0;
             if (HatchCycles == 0) // no value set
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
-            if (pkm.CurrentFriendship > HatchCycles)
+            if (pkm.OT_Friendship > HatchCycles)
                 data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
             if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
