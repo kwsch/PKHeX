@@ -149,29 +149,9 @@ namespace PKHeX.Core
 
         private static int GetActiveBlock(byte[] data, int begin, int length)
         {
-            // Check to see if the save is initialized completely
-            // if the block is not initialized, fall back to the other save.
-            var start = begin;
-            if (data.IsRangeAll((byte)0, start, 10) || data.IsRangeAll((byte)0xFF, start, 10))
-                return 1;
-            start += PartitionSize; // check other save
-            if (data.IsRangeAll((byte)0, start, 10) || data.IsRangeAll((byte)0xFF, start, 10))
-                return 0;
-
-            // Fall back to highest value save counter
-            return GetActiveBlockViaCounter(data, begin, length);
+            int offset = begin + length - 0x14;
+            return SAV4BlockDetection.CompareFooters(data, offset, offset + PartitionSize);
         }
-
-        private static int GetActiveBlockViaCounter(byte[] data, int begin, int length)
-        {
-            int ofs = GetBlockSaveCounterOffset(begin, length);
-            var block0 = BitConverter.ToUInt16(data, ofs);
-            var block1 = BitConverter.ToUInt16(data, ofs + PartitionSize);
-            bool first = block0 >= block1;
-            return first ? 0 : 1;
-        }
-
-        private static int GetBlockSaveCounterOffset(int start, int length) => start + length - 0x10;
 
         protected int WondercardFlags = int.MinValue;
         protected int AdventureInfo = int.MinValue;
