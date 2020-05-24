@@ -717,24 +717,20 @@ namespace PKHeX.WinForms
         {
             if (sav == null || sav.Version == GameVersion.Invalid)
             {
-                // temporary swsh fix for initial release broken saves
-                // remove any time after November
-                if (sav is SAV8SWSH z)
-                {
-                    var shift = z.Game + (GameVersion.SW - GameVersion.SN);
-                    if (shift == (int) GameVersion.SW || shift == (int) GameVersion.SH)
-                        z.Game = shift;
-                }
-                else
-                {
-                    WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
-                    return true;
-                }
+                WinFormsUtil.Error(MsgFileLoadSaveLoadFail, path);
+                return true;
             }
 
             sav.SetFileInfo(path);
             if (!SanityCheckSAV(ref sav))
                 return true;
+
+            if (C_SAV.SAV?.Edited == true && Settings.Default.ModifyUnset)
+            {
+                var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramSaveFileConfirm);
+                if (prompt != DialogResult.Yes)
+                    return true;
+            }
 
             PKME_Tabs.Focus(); // flush any pending changes
             StoreLegalSaveGameData(sav);
