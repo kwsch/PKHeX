@@ -52,7 +52,7 @@ namespace PKHeX.Core
             var p2 = BitConverter.ToInt16(Data, Offset + 0xEC + (index * 2));
 
             var a1 = (sbyte)Data[Offset + 0x154 + index];
-            var a2 = (sbyte)Data[Offset + 0x1B8 + index];
+            var a2 = (sbyte)Data[Offset + 0x186 + index];
 
             var poke1 = new BattleTreePokemon(p1, a1);
             var poke2 = new BattleTreePokemon(p2, a2);
@@ -69,7 +69,7 @@ namespace PKHeX.Core
             BitConverter.GetBytes(tr.Poke2.ID).CopyTo(Data, Offset + 0xEC + (index * 2));
 
             Data[Offset + 0x154 + index] = (byte)tr.Poke1.AbilityIndex;
-            Data[Offset + 0x1B8 + index] = (byte)tr.Poke2.AbilityIndex;
+            Data[Offset + 0x186 + index] = (byte)tr.Poke2.AbilityIndex;
         }
 
         public int Music
