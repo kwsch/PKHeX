@@ -97,19 +97,16 @@ namespace PKHeX.Core
         private static int GetDexFormBitIndex(int species, int formct, int start, IReadOnlyList<ushort> formtable)
         {
             int formindex = start;
-            int f = 0;
             for (int i = 0; i < formtable.Count; i += 2)
             {
                 int s = formtable[i];
-                f = formtable[i + 1];
+                int f = formtable[i + 1];
                 if (s == species)
-                    break;
+                    return f > formct ? -1 : formindex;
 
                 formindex += f - 1;
             }
-            if (f > formct)
-                return -1;
-            return formindex;
+            return -1;
         }
 
         private static int GetDexFormCount(int species, IReadOnlyList<ushort> formtable)

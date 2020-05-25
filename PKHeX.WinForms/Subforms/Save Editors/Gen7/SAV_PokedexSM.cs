@@ -152,8 +152,9 @@ namespace PKHeX.WinForms
                 if (f < 0)
                     return true; // bit index valid
 
-                if (f > fspecies - LB_Forms.Items.Count - 1)
-                    LB_Forms.SelectedIndex = fspecies - f - 1;
+                var findex = fspecies - f - 1;
+                if (findex < LB_Forms.Items.Count)
+                    LB_Forms.SelectedIndex = findex;
                 else
                     LB_Forms.SelectedIndex = -1;
             }

@@ -197,12 +197,13 @@ namespace PKHeX.Core
         public IList<string> GetEntryNames(IReadOnlyList<string> Species)
         {
             var names = new List<string>();
-            for (int i = 1; i <= SAV.MaxSpeciesID; i++)
+            var max = SAV.MaxSpeciesID;
+            for (int i = 1; i <= max; i++)
                 names.Add($"{i:000} - {Species[i]}");
 
             // Add Formes
-            int ctr = SAV.MaxSpeciesID;
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
+            int ctr = max + 1;
+            for (int spec = 1; spec <= max; spec++)
             {
                 int c = SAV.Personal[spec].FormeCount;
                 for (int f = 1; f < c; f++)
