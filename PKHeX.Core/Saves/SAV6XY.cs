@@ -81,6 +81,7 @@ namespace PKHeX.Core
         public Fashion6XY Fashion => Blocks.Fashion;
         public SubEventLog6 SUBE => Blocks.SUBE;
         public ConfigSave6 Config => Blocks.Config;
+        public Encount6 Encount => Blocks.Encount;
         #endregion
 
         protected override void SetDex(PKM pkm) => Blocks.Zukan.SetDex(pkm);

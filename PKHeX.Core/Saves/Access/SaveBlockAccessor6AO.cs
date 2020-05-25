@@ -90,6 +90,7 @@ namespace PKHeX.Core
         public MaisonBlock Maison { get; }
         public SubEventLog6 SUBE { get; }
         public ConfigSave6 Config { get; }
+        public Encount6 Encount { get; }
 
         public SaveBlockAccessor6AO(SAV6AO sav)
         {
@@ -106,6 +107,7 @@ namespace PKHeX.Core
             Zukan = new Zukan6AO(sav, 0x15000, 0x400);
             Config = new ConfigSave6(sav, 0x16C00);
             OPower = new OPower6(sav, 0x17400);
+            Encount = new Encount6(sav, 0x18800);
             Maison = new MaisonBlock(sav, 0x1BA00);
             MysteryGift = new MysteryBlock6(sav, 0x1CC00);
             SUBE = new SubEventLog6AO(sav, 0x1E800);

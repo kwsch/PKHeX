@@ -75,6 +75,7 @@ namespace PKHeX.Core
         public RecordBlock6 Records { get; }
         public SubEventLog6 SUBE { get; }
         public ConfigSave6 Config { get; }
+        public Encount6 Encount { get; }
 
         public SaveBlockAccessor6XY(SAV6XY sav)
         {
@@ -92,6 +93,7 @@ namespace PKHeX.Core
             Zukan = new Zukan6XY(sav, 0x15000, 0x3C8);
             Config = new ConfigSave6(sav, 0x16200);
             OPower = new OPower6(sav, 0x16A00);
+            Encount = new Encount6(sav, 0x17E00);
             MysteryGift = new MysteryBlock6(sav, 0x1BC00);
             SUBE = new SubEventLog6XY(sav, 0x1D800);
             Records = new RecordBlock6(sav, 0x1E400);

@@ -9,5 +9,6 @@
         SuperTrainBlock SuperTrain { get; }
         MaisonBlock Maison { get; }
         SubEventLog6 SUBE { get; }
+        Encount6 Encount { get; }
     }
 }
