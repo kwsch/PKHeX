@@ -11,7 +11,7 @@
         {
             if (pkm.IsEgg)
                 return false;
-            if (pkm.Species >= (int)Species.Zacian)
+            if (pkm.Species >= (int)Species.Zacian && pkm.Species <= (int)Species.Eternatus)
                 return false;
             return true;
         }
