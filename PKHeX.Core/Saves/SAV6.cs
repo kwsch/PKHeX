@@ -64,6 +64,8 @@ namespace PKHeX.Core
         public override int SubRegion { get => Status.SubRegion; set => Status.SubRegion = value; }
         public override int Country { get => Status.Country; set => Status.Country = value; }
         public override int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
+        public override int GameSyncIDSize => MyStatus6.GameSyncIDSize; // 64 bits
+        public override string GameSyncID { get => Status.GameSyncID; set => Status.GameSyncID = value; }
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
