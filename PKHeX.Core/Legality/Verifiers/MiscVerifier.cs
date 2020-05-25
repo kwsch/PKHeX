@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
@@ -43,12 +44,21 @@ namespace PKHeX.Core
                 VerifyMiscMovePP(data);
             }
 
-            if (pkm is PK7 pk7 && pk7.ResortEventStatus >= 20)
-                data.AddLine(GetInvalid(LTransferBad));
-            if (pkm is PB7 pb7)
-                VerifyBelugaStats(data, pb7);
-            if (pkm is PK8 pk8)
-                VerifySWSHStats(data, pk8);
+            switch (pkm)
+            {
+                case PK7 pk7 when pk7.ResortEventStatus >= 20:
+                    data.AddLine(GetInvalid(LTransferBad));
+                    break;
+                case PB7 pb7:
+                    VerifyBelugaStats(data, pb7);
+                    break;
+                case PK8 pk8:
+                    VerifySWSHStats(data, pk8);
+                    break;
+            }
+
+            if (pkm.Format >= 6)
+                VerifyFullness(data, pkm);
 
             VerifyMiscFatefulEncounter(data);
         }
@@ -298,6 +308,41 @@ namespace PKHeX.Core
                     break;
             }
         }
+
+        private static void VerifyFullness(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm.Format >= 8 || pkm.IsEgg)
+            {
+                if (pkm.Fullness != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                if (pkm.Enjoyment != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                return;
+            }
+
+            if (pkm.Format != 6 || !pkm.IsUntraded || pkm.XY)
+                return;
+
+            // OR/AS PK6
+            if (pkm.Fullness == 0)
+                return;
+            if (pkm.Species != data.EncounterMatch.Species)
+                return; // evolved
+
+            if (Unfeedable.Contains(pkm.Species))
+                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+        }
+
+        private static readonly HashSet<int> Unfeedable = new HashSet<int>
+        {
+            (int)Species.Metapod,
+            (int)Species.Kakuna,
+            (int)Species.Pineco,
+            (int)Species.Silcoon,
+            (int)Species.Cascoon,
+            (int)Species.Shedinja,
+            (int)Species.Spewpa,
+        };
 
         private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
         {

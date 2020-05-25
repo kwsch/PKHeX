@@ -309,6 +309,9 @@ namespace PKHeX.Core
         public static string LMemoryStatFriendshipHT0 { get; set; } = "Untraded: Handling Trainer Friendship should be 0.";
         public static string LMemoryStatFriendshipOTBaseEvent { get; set; } = "Event OT Friendship does not match base friendship.";
 
+        public static string LMemoryStatFullness { get; set; } = "Fullness should be {0}.";
+        public static string LMemoryStatEnjoyment { get; set; } = "Enjoyment should be {0}.";
+
         public static string LMoveEggFIncompatible0_1 { get; set; } = "{0} Inherited Move. Incompatible with {1} inherited moves.";
         public static string LMoveEggIncompatible { get; set; } = "Egg Move. Incompatible with event Egg moves.";
         public static string LMoveEggIncompatibleEvent { get; set; } = "Event Egg Move. Incompatible with normal Egg moves.";
