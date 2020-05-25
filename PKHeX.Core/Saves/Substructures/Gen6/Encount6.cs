@@ -34,7 +34,7 @@ namespace PKHeX.Core
         // 4 bytes at end??
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
+    [TypeConverter(typeof(ValueTypeTypeConverter))]
     public sealed class PokeRadar6
     {
         public const int SIZE = 2 + (RecordCount * PokeRadarRecord.SIZE); // 0x18
@@ -72,7 +72,7 @@ namespace PKHeX.Core
         public PokeRadarRecord Record5 { get => GetRecord(4); set => SetRecord(value, 4); }
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
+    [TypeConverter(typeof(ValueTypeTypeConverter))]
     public sealed class PokeRadarRecord
     {
         public const int SIZE = 4;
@@ -101,7 +101,7 @@ namespace PKHeX.Core
         }
     }
 
-    [TypeConverter(typeof(ExpandableObjectConverter))]
+    [TypeConverter(typeof(ValueTypeTypeConverter))]
     public sealed class Roamer6
     {
         public const int SIZE = 0x28;
