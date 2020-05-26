@@ -38,7 +38,6 @@ namespace PKHeX.WinForms
         /// For application exceptions, continuing is not possible, so the button should not be shown.</remarks>
         private bool ShowContinue
         {
-            get => B_Continue.Visible;
             set => B_Continue.Visible = value;
         }
 

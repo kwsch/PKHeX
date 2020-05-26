@@ -55,8 +55,8 @@ namespace PKHeX.Core
         public override int SID { get => BigEndian.ToUInt16(Data, 0x14); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x14); }
         public override int TID { get => BigEndian.ToUInt16(Data, 0x16); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public override string OT_Name { get => GetString(0x18, 20); set => SetString(value, 10).CopyTo(Data, 0x18); } // +2 terminator
-        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
+        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); NicknameCopy = value; } } // +2 terminator
+        public string NicknameCopy { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
         public override uint EXP { get => BigEndian.ToUInt32(Data, 0x5C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x5C); }
         public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
 

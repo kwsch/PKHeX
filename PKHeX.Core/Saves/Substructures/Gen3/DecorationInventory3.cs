@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
+#pragma warning disable CA1815 // Override equals and operator equals on value types
 namespace PKHeX.Core
 {
     [StructLayout(LayoutKind.Sequential)]

@@ -73,7 +73,7 @@ namespace PKHeX.WinForms.Controls
         private void NUD_HeightScalar_ValueChanged(object sender, EventArgs e)
         {
             ss.HeightScalar = (byte) NUD_HeightScalar.Value;
-            L_SizeH.Text = SizeClass[(int)PokeSizeExtensions.GetSizeRating(ss.HeightScalar)];
+            L_SizeH.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.HeightScalar)];
 
             if (!CHK_Auto.Checked || Loading || pkm == null)
                 return;
@@ -84,7 +84,7 @@ namespace PKHeX.WinForms.Controls
         private void NUD_WeightScalar_ValueChanged(object sender, EventArgs e)
         {
             ss.WeightScalar = (byte) NUD_WeightScalar.Value;
-            L_SizeW.Text = SizeClass[(int)PokeSizeExtensions.GetSizeRating(ss.WeightScalar)];
+            L_SizeW.Text = SizeClass[(int)PokeSizeUtil.GetSizeRating(ss.WeightScalar)];
 
             if (!CHK_Auto.Checked || Loading || pkm == null)
                 return;

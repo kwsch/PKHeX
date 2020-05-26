@@ -355,11 +355,11 @@ namespace PKHeX.WinForms.Controls
                 return;
             if (!tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition)))
                 return;
-            if (!e.Button.HasFlag(MouseButtons.Right))
+            if ((e.Button & MouseButtons.Right) == 0)
             {
-                if (ModifierKeys.HasFlag(Keys.Alt))
+                if ((ModifierKeys & Keys.Alt) != 0)
                     SortMenu.Clear();
-                else if (ModifierKeys.HasFlag(Keys.Control))
+                else if ((ModifierKeys & Keys.Control) != 0)
                     SortMenu.Sort();
                 return;
             }

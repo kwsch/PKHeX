@@ -51,6 +51,7 @@ namespace PKHeX.Core
             }
         }
 
+#pragma warning disable IDE0052 // Remove unread private members
         private FlagPairG1 FlagMewtwo { get; }
         private FlagPairG1 FlagArticuno { get; }
         private FlagPairG1 FlagZapdos { get; }
@@ -72,6 +73,7 @@ namespace PKHeX.Core
         private FlagPairG1? FlagBulbasaur { get; }
         private FlagPairG1? FlagSquirtle { get; }
         private FlagPairG1? FlagCharmander { get; }
+#pragma warning restore IDE0052 // Remove unread private members
 
         public void Save()
         {

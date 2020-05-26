@@ -50,7 +50,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new BK4((byte[])Data.Clone()){Identifier = Identifier};
 
         public string GetString(int Offset, int Count) => StringConverter4.GetBEString4(Data, Offset, Count);
-        public byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter4.SetBEString4(value, maxLength);
 
         // Structure
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x00); set => BigEndian.GetBytes(value).CopyTo(Data, 0x00); }
@@ -137,7 +137,7 @@ namespace PKHeX.Core
         public override int Move2_PPUps { get => Data[0x35]; set => Data[0x35] = (byte)value; }
         public override int Move3_PPUps { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x37]; set => Data[0x37] = (byte)value; }
-        public uint IV32 { get => BigEndian.ToUInt32(Data, 0x38); set => BigEndian.GetBytes(value).CopyTo(Data, 0x38); }
+        private uint IV32 { get => BigEndian.ToUInt32(Data, 0x38); set => BigEndian.GetBytes(value).CopyTo(Data, 0x38); }
         public override int IV_SPD { get => (int)(IV32 >> 02) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 02)) | ((value > 31 ? 31u : (uint)value) << 02)); }
         public override int IV_SPA { get => (int)(IV32 >> 07) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 07)) | ((value > 31 ? 31u : (uint)value) << 07)); }
         public override int IV_SPE { get => (int)(IV32 >> 12) & 0x1F; set => IV32 = ((IV32 & ~(0x1Fu << 12)) | ((value > 31 ? 31u : (uint)value) << 12)); }

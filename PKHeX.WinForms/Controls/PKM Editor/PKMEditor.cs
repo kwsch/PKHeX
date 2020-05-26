@@ -580,7 +580,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickPPUps(object sender, EventArgs e)
         {
-            bool min = ModifierKeys.HasFlag(Keys.Control);
+            bool min = (ModifierKeys & Keys.Control) != 0;
             static int getValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
             CB_PPu1.SelectedIndex = getValue(CB_Move1, min);
             CB_PPu2.SelectedIndex = getValue(CB_Move2, min);
@@ -620,12 +620,12 @@ namespace PKHeX.WinForms.Controls
         private void ClickBall(object sender, EventArgs e)
         {
             Entity.Ball = WinFormsUtil.GetIndex(CB_Ball);
-            if (ModifierKeys.HasFlag(Keys.Alt))
+            if ((ModifierKeys & Keys.Alt) != 0)
             {
                 CB_Ball.SelectedValue = (int)Ball.Poke;
                 return;
             }
-            if (ModifierKeys.HasFlag(Keys.Shift))
+            if ((ModifierKeys & Keys.Shift) != 0)
             {
                 CB_Ball.SelectedValue = BallApplicator.ApplyBallLegalByColor(Entity);
                 return;

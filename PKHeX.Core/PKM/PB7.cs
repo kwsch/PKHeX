@@ -120,13 +120,13 @@ namespace PKHeX.Core
         public int AV_SPE { get => Data[0x27]; set => Data[0x27] = (byte)value; }
         public int AV_SPA { get => Data[0x28]; set => Data[0x28] = (byte)value; }
         public int AV_SPD { get => Data[0x29]; set => Data[0x29] = (byte)value; }
-        public byte _0x2A { get => Data[0x2A]; set => Data[0x2A] = value; }
+        // 0x2A Unused
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
         public float HeightAbsolute { get => BitConverter.ToSingle(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
-        public byte _0x38 { get => Data[0x38]; set => Data[0x38] = value; }
-        public byte _0x39 { get => Data[0x39]; set => Data[0x39] = value; }
+        // 0x38 Unused
+        // 0x39 Unused
         public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
@@ -195,8 +195,8 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70);
         }
 
-        public byte _0x72 { get => Data[0x72]; set => Data[0x72] = value; }
-        public byte _0x73 { get => Data[0x73]; set => Data[0x73] = value; }
+        // 0x72 Unused
+        // 0x73 Unused
         private uint IV32 { get => BitConverter.ToUInt32(Data, 0x74); set => BitConverter.GetBytes(value).CopyTo(Data, 0x74); }
         public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
@@ -211,29 +211,29 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public byte _0x94 { get => Data[0x94]; set => Data[0x94] = value; }
-        public byte _0x95 { get => Data[0x95]; set => Data[0x95] = value; }
-        public byte _0x96 { get => Data[0x96]; set => Data[0x96] = value; }
-        public byte _0x97 { get => Data[0x97]; set => Data[0x97] = value; }
-        public byte _0x98 { get => Data[0x98]; set => Data[0x98] = value; }
-        public byte _0x99 { get => Data[0x99]; set => Data[0x99] = value; }
-        public byte _0x9A { get => Data[0x9A]; set => Data[0x9A] = value; }
-        public byte _0x9B { get => Data[0x9B]; set => Data[0x9B] = value; }
-        public byte _0x9C { get => Data[0x9C]; set => Data[0x9C] = value; }
-        public byte _0x9D { get => Data[0x9D]; set => Data[0x9D] = value; }
-        public byte _0x9E { get => Data[0x9E]; set => Data[0x9E] = value; }
-        public byte _0x9F { get => Data[0x9F]; set => Data[0x9F] = value; }
-        public byte _0xA0 { get => Data[0xA0]; set => Data[0xA0] = value; }
-        public byte _0xA1 { get => Data[0xA1]; set => Data[0xA1] = value; }
+        // 0x94 Unused
+        // 0x95 Unused
+        // 0x96 Unused
+        // 0x97 Unused
+        // 0x98 Unused
+        // 0x99 Unused
+        // 0x9A Unused
+        // 0x9B Unused
+        // 0x9C Unused
+        // 0x9D Unused
+        // 0x9E Unused
+        // 0x9F Unused
+        // 0xA0 Unused
+        // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
         public override int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
         public override int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public override int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
-        public byte _0xA7 { get => Data[0xA7]; set => Data[0xA7] = value; }
+        // 0xA7 Unused
         public override int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
-        public byte _0xAA { get => Data[0xAA]; set => Data[0xAA] = value; }
-        public byte _0xAB { get => Data[0xAB]; set => Data[0xAB] = value; }
+        // 0xAA Unused
+        // 0xAB Unused
         public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
         public byte FieldEventFatigue2 { get => Data[0xAD]; set => Data[0xAD] = value; }
         public override byte Fullness { get => Data[0xAE]; set => Data[0xAE] = value; }
@@ -242,12 +242,12 @@ namespace PKHeX.Core
         #region Block D
         public override string OT_Name { get => GetString(0xB0, 24); set => SetString(value, 12).CopyTo(Data, 0xB0); }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public int _0xCB { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
-        public int _0xCC { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
-        public int _0xCD { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public int _0xCE { get => Data[0xCE]; set => Data[0xCE] = (byte)value; }
-        public int _0xCF { get => Data[0xCF]; set => Data[0xCF] = (byte)value; }
-        public int _0xD0 { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        // 0xCB Unused
+        // 0xCC Unused
+        // 0xCD Unused
+        // 0xCE Unused
+        // 0xCF Unused
+        // 0xD0 Unused
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
         public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
@@ -268,9 +268,9 @@ namespace PKHeX.Core
         public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
         public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public int _0xE0 { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public int _0xE1 { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public int _0xE2 { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
+        // 0xE0 Unused
+        // 0xE1 Unused
+        // 0xE2 Unused
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         public float WeightAbsolute { get => BitConverter.ToSingle(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
         #endregion

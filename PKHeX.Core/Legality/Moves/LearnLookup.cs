@@ -6,7 +6,7 @@ using static PKHeX.Core.Legal;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// LevelUp Lookup object
+    /// Level-Up Lookup object
     /// </summary>
     public sealed class LearnLookup
     {
@@ -92,7 +92,7 @@ namespace PKHeX.Core
             if (index == 0)
                 return LearnNONE;
 
-            // No relearner -- have to be learned on levelup
+            // No Move re-learner -- have to be learned on level-up
             var lv = Learn[index].GetLevelLearnMove(move, min);
             if (lv >= 0 && lv <= max)
                 return new LearnVersion(lv, Version);

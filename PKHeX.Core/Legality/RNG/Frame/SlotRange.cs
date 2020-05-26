@@ -139,7 +139,9 @@ namespace PKHeX.Core
             return slot.LevelMin + adjust;
         }
 
+#pragma warning disable IDE0060, RCS1163 // Unused parameter.
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+#pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
             if (slot.Type.IsSweetScentType())
                 return true;
@@ -147,7 +149,8 @@ namespace PKHeX.Core
             //return GetCanEncounter(slot, frameType, rand, lead);
         }
 
-        private static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
+        // ReSharper disable once UnusedMember.Global
+        public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
             if ((slot.Type & SlotType.Rock_Smash) != 0)

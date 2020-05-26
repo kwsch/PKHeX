@@ -302,9 +302,7 @@ namespace PKHeX.Core
                 var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
                 return expectForm == pkm.AltForm;
             }
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
-                return false;
-            return true;
+            return Form == pkm.AltForm || Legal.IsFormChangeable(pkm, Species, Form);
         }
 
         private bool IsMatchEggLocation(PKM pkm, ref int lvl)
@@ -413,13 +411,11 @@ namespace PKHeX.Core
             if (!pkm.HasOriginalMetLocation)
                 return lvl >= Level;
 
-            if (lvl == Level)
-                return true;
-            if (!(pkm.Format == 3 && EggEncounter && lvl == 0))
-                return false;
-
-            return true;
+            return lvl == Level || IsGen3EggEncounter(pkm, lvl);
         }
+
+        // met level 0, origin level 5
+        private bool IsGen3EggEncounter(PKM pkm, int lvl) => pkm.Format == 3 && EggEncounter && lvl == 0;
 
         public virtual bool IsMatchDeferred(PKM pkm)
         {

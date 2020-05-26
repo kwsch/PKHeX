@@ -393,8 +393,8 @@ namespace PKHeX.Core
                 SetEggMetData(pk);
             pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-            pk.HeightScalar = PokeSizeExtensions.GetRandomScalar();
-            pk.WeightScalar = PokeSizeExtensions.GetRandomScalar();
+            pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
+            pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
 
             pk.RefreshChecksum();
             return pk;

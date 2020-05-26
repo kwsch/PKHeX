@@ -9,7 +9,7 @@
         XL,
     }
 
-    public static class PokeSizeExtensions
+    public static class PokeSizeUtil
     {
         /// <summary>
         /// Compares the sizing scalar to different thresholds to determine the size rating.

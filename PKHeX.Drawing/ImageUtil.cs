@@ -28,9 +28,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ChangeOpacity(Image img, double trans)
         {
-            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
-                return (Bitmap)img;
-
             var bmp = (Bitmap)img.Clone();
             GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
@@ -44,9 +41,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ChangeAllColorTo(Image img, Color c)
         {
-            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
-                return (Bitmap)img;
-
             var bmp = (Bitmap)img.Clone();
             GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 
@@ -60,9 +54,6 @@ namespace PKHeX.Drawing
 
         public static Bitmap ToGrayscale(Image img)
         {
-            if (img.PixelFormat.HasFlag(PixelFormat.Indexed))
-                return (Bitmap)img;
-
             var bmp = (Bitmap)img.Clone();
             GetBitmapData(bmp, out BitmapData bmpData, out IntPtr ptr, out byte[] data);
 

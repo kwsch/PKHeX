@@ -85,28 +85,26 @@ namespace PKHeX.Core
 
         private const uint MysteryGiftDPSlotActive = 0xEDB88320;
 
-        private bool[] MysteryGiftDPSlotActiveFlags
+        public bool[] GetMysteryGiftDPSlotActiveFlags()
         {
-            get
-            {
-                int ofs = WondercardFlags + 0x100; // skip over flags
-                bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
-                for (int i = 0; i < active.Length; i++)
-                    active[i] = BitConverter.ToUInt32(General, ofs + (4 * i)) == MysteryGiftDPSlotActive;
+            int ofs = WondercardFlags + 0x100; // skip over flags
+            bool[] active = new bool[GiftCountMax]; // 8 PGT, 3 PCD
+            for (int i = 0; i < active.Length; i++)
+                active[i] = BitConverter.ToUInt32(General, ofs + (4 * i)) == MysteryGiftDPSlotActive;
 
-                return active;
-            }
-            set
-            {
-                if (value.Length != GiftCountMax)
-                    return;
+            return active;
+        }
 
-                int ofs = WondercardFlags + 0x100; // skip over flags
-                for (int i = 0; i < value.Length; i++)
-                {
-                    byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
-                    SetData(General, magic, ofs + (4 * i));
-                }
+        public void SetMysteryGiftDPSlotActiveFlags(bool[] value)
+        {
+            if (value.Length != GiftCountMax)
+                return;
+
+            int ofs = WondercardFlags + 0x100; // skip over flags
+            for (int i = 0; i < value.Length; i++)
+            {
+                byte[] magic = BitConverter.GetBytes(value[i] ? MysteryGiftDPSlotActive : 0); // 4 bytes
+                SetData(General, magic, ofs + (4 * i));
             }
         }
 
@@ -120,12 +118,12 @@ namespace PKHeX.Core
             }
         }
 
-        private void SetActiveGiftFlags(MysteryGift[] gifts)
+        private void SetActiveGiftFlags(IReadOnlyList<MysteryGift> gifts)
         {
-            var arr = new bool[gifts.Length];
+            var arr = new bool[gifts.Count];
             for (int i = 0; i < arr.Length; i++)
                 arr[i] = !gifts[i].Empty;
-            MysteryGiftDPSlotActiveFlags = arr;
+            SetMysteryGiftDPSlotActiveFlags(arr);
         }
     }
 }

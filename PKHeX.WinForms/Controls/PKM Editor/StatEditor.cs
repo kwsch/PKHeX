@@ -63,21 +63,27 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is MaskedTextBox t))
                 return;
 
-            if (ModifierKeys.HasFlag(Keys.Alt)) // Min
+            switch (ModifierKeys)
             {
-                t.Text = 0.ToString();
-            }
-            else if (ModifierKeys.HasFlag(Keys.Control))
-            {
-                var index = Array.IndexOf(MT_IVs, t);
-                t.Text = Entity.GetMaximumIV(index, true).ToString();
-            }
-            else if (Entity is IHyperTrain h && ModifierKeys.HasFlag(Keys.Shift))
-            {
-                var index = Array.IndexOf(MT_IVs, t);
-                bool flag = h.HyperTrainInvert(index);
-                UpdateHyperTrainingFlag(index, flag);
-                UpdateStats();
+                case Keys.Alt: // Min
+                    t.Text = 0.ToString();
+                    break;
+
+                case Keys.Control: // Max
+                {
+                    var index = Array.IndexOf(MT_IVs, t);
+                    t.Text = Entity.GetMaximumIV(index, true).ToString();
+                    break;
+                }
+
+                case Keys.Shift when Entity is IHyperTrain h: // HT
+                {
+                    var index = Array.IndexOf(MT_IVs, t);
+                    bool flag = h.HyperTrainInvert(index);
+                    UpdateHyperTrainingFlag(index, flag);
+                    UpdateStats();
+                    break;
+                }
             }
         }
 
@@ -86,16 +92,16 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is MaskedTextBox t))
                 return;
 
-            if (!ModifierKeys.HasFlag(Keys.Control)) // Max
+            if ((ModifierKeys & Keys.Control) != 0) // Max
             {
-                if (ModifierKeys.HasFlag(Keys.Alt)) // Min
-                    t.Text = 0.ToString();
-                return;
+                int index = Array.IndexOf(MT_EVs, t);
+                int newEV = Entity.GetMaximumEV(index);
+                t.Text = newEV.ToString();
             }
-
-            int index = Array.IndexOf(MT_EVs, t);
-            int newEV = Entity.GetMaximumEV(index);
-            t.Text = newEV.ToString();
+            else if ((ModifierKeys & Keys.Alt) != 0) // Min
+            {
+                t.Text = 0.ToString();
+            }
         }
 
         private void ClickAV(object sender, EventArgs e)
@@ -103,14 +109,15 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is MaskedTextBox t))
                 return;
 
-            if (!ModifierKeys.HasFlag(Keys.Control)) // Max
+            if ((ModifierKeys & Keys.Control) != 0) // Max
             {
-                if (ModifierKeys.HasFlag(Keys.Alt)) // Min
-                    t.Text = 0.ToString();
-                return;
+                var max = Legal.AwakeningMax.ToString();
+                t.Text = t.Text == max ? 0.ToString() : max;
             }
-            var max = Legal.AwakeningMax.ToString();
-            t.Text = t.Text == max ? 0.ToString() : max;
+            else if ((ModifierKeys & Keys.Alt) != 0) // Min
+            {
+                t.Text = 0.ToString();
+            }
         }
 
         public void UpdateIVs(object sender, EventArgs e)
@@ -205,7 +212,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
-            bool zero = ModifierKeys.HasFlag(Keys.Control);
+            bool zero = (ModifierKeys & Keys.Control) != 0;
             var evs = zero ? new int[6] : PKX.GetRandomEVs(Entity.Format);
             LoadEVs(evs);
             UpdateEVs(null, EventArgs.Empty);
@@ -256,7 +263,7 @@ namespace PKHeX.WinForms.Controls
                 sender = Label_SPA;
 
             int index = Array.IndexOf(L_Stats, sender as Label);
-            if (ModifierKeys.HasFlag(Keys.Alt)) // EV
+            if ((ModifierKeys & Keys.Alt) != 0) // EV
             {
                 bool min = e.Button != MouseButtons.Left;
                 if (Entity is PB7)
@@ -270,7 +277,7 @@ namespace PKHeX.WinForms.Controls
                     MT_EVs[index].Text = value.ToString();
                 }
             }
-            else if (ModifierKeys.HasFlag(Keys.Control)) // IV
+            else if ((ModifierKeys & Keys.Control) != 0) // IV
             {
                 var value = e.Button != MouseButtons.Left ? 0 : Entity.GetMaximumIV(index, true);
                 MT_IVs[index].Text = value.ToString();
@@ -345,8 +352,8 @@ namespace PKHeX.WinForms.Controls
 
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
-            int? flawless = ModifierKeys.HasFlag(Keys.Control) ? (int?)6 : null;
-            var IVs = Entity.SetRandomIVs(flawless);
+            var flawless = (ModifierKeys & Keys.Control) != 0;
+            var IVs = flawless ? Entity.SetRandomIVs(6) : Entity.SetRandomIVs();
             LoadIVs(IVs);
         }
 

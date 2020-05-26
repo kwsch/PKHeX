@@ -127,6 +127,10 @@ namespace PKHeX.WinForms.Controls
         private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
         private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
 
-        public bool InitializeFromSAV(SaveFile sav) => InitializeGrid();
+        public bool InitializeFromSAV(SaveFile sav)
+        {
+            Visible = sav.HasParty;
+            return InitializeGrid();
+        }
     }
 }

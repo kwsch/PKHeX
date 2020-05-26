@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
 
         private void B_ActivateAll_Click(object sender, EventArgs e)
         {
-            bool export = ModifierKeys.HasFlag(Keys.Alt);
+            bool export = (ModifierKeys & Keys.Alt) != 0;
             if (export)
             {
                 var txt = Raids.DumpAll();
@@ -48,8 +48,8 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            bool rare = ModifierKeys.HasFlag(Keys.Control);
-            bool isEvent = ModifierKeys.HasFlag(Keys.Shift);
+            bool rare = (ModifierKeys & Keys.Control) != 0;
+            bool isEvent = (ModifierKeys & Keys.Shift) != 0;
             Raids.ActivateAllRaids(rare, isEvent);
             LoadDen(CB_Den.SelectedIndex);
         }

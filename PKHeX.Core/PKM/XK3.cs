@@ -94,8 +94,8 @@ namespace PKHeX.Core
         public int OriginalRegion { get => Data[0x36]; set => Data[0x36] = (byte)value; }
         public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x37]); set => Data[0x37] = Core.Language.GetGCLangIDfromMain((byte)value); }
         public override string OT_Name { get => GetString(0x38, 20); set => SetString(value, 10).CopyTo(Data, 0x38); } // +2 terminator
-        public override string Nickname { get => GetString(0x4E, 20); set { SetString(value, 10).CopyTo(Data, 0x4E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
+        public override string Nickname { get => GetString(0x4E, 20); set { SetString(value, 10).CopyTo(Data, 0x4E); NicknameCopy = value; } } // +2 terminator
+        public string NicknameCopy { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get => BigEndian.ToUInt16(Data, 0x7C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x7C); }
         public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (ushort)(value ? 1 << 15 : 0)); }

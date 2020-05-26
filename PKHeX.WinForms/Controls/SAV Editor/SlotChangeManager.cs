@@ -78,7 +78,7 @@ namespace PKHeX.WinForms.Controls
 
         public void DragEnter(object sender, DragEventArgs e)
         {
-            if (e.AllowedEffect.HasFlag(DragDropEffects.Copy)) // external file
+            if ((e.AllowedEffect & DragDropEffects.Copy) != 0) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
                 e.Effect = DragDropEffects.Move;
