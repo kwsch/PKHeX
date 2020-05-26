@@ -216,6 +216,18 @@
             new EncounterStatic8ND(50,08,4) { Species = 133, Ability = A4, Moves = new[]{ 038, 203, 204, 231 }, CanGigantamax = true }, // Eevee
             new EncounterStatic8ND(60,10,5) { Species = 133, Ability = A4, Moves = new[]{ 038, 270, 204, 231 }, CanGigantamax = true }, // Eevee
             new EncounterStatic8ND(60,10,5) { Species = 133, Ability = A4, Moves = new[]{ 387, 203, 204, 231 }, CanGigantamax = true }, // Eevee
+
+            // 5/25 - Gigantamax Meowth
+            new EncounterStatic8ND(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 252, 044, 010, 364 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 044, 010, 364 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 252, 044, 269, 154 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 044, 269, 154 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 252, 044, 417, 163 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 044, 417, 163 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 252, 583, 417, 163 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 417, 163 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 252, 583, 417, 034 }, CanGigantamax = true }, // Meowth
+            new EncounterStatic8ND(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 417, 034 }, CanGigantamax = true }, // Meowth
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
