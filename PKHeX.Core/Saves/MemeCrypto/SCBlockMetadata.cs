@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -20,6 +22,7 @@ namespace PKHeX.Core
 
             BlockList = aType.GetAllPropertiesOfType<SaveBlock>(accessor);
             ValueList = aType.GetAllConstantsOfType<uint>();
+            AddExtraKeyNames(ValueList);
             Accessor = accessor;
         }
 
@@ -30,6 +33,27 @@ namespace PKHeX.Core
                 .OrderBy(z => !z.Text.StartsWith("*"))
                 .ThenBy(z => GetSortKey(z));
             return list;
+        }
+
+        public static void AddExtraKeyNames(IDictionary<uint, string> names, string extra = "SCBlocks.txt")
+        {
+            if (!File.Exists(extra))
+                return;
+
+            var lines = File.ReadLines(extra);
+            foreach (var line in lines)
+            {
+                var split = line.IndexOf('\t');
+                if (split < 0)
+                    continue;
+                var hex = line.Substring(0, split);
+                if (!ulong.TryParse(hex, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var value))
+                    continue;
+
+                var name = line.Substring(split + 1);
+                if (!names.ContainsKey((uint)value))
+                    names[(uint)value] = name;
+            }
         }
 
         private static string GetSortKey(in ComboItem item)

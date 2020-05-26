@@ -10,17 +10,26 @@ namespace PKHeX.Core
         private readonly List<string> TypesChanged = new List<string>();
         private readonly List<string> ValueChanged = new List<string>();
 
+        private readonly Dictionary<uint, string> KeyNames;
+        private string GetKeyName(uint key) => KeyNames.TryGetValue(key, out var val) ? val : $"{key:X8}";
+
         public SCBlockCompare(SCBlockAccessor s1, SCBlockAccessor s2)
         {
             var b1 = s1.BlockInfo;
             var b2 = s2.BlockInfo;
-            var names = GetKeyNames(s1, b1, b2);
-
-            string GetKeyName(uint key) => names.TryGetValue(key, out var val) ? val : $"{key:X8}";
+            KeyNames = GetKeyNames(s1, b1, b2);
+            SCBlockMetadata.AddExtraKeyNames(KeyNames);
 
             var hs1 = new HashSet<uint>(b1.Select(z => z.Key));
             var hs2 = new HashSet<uint>(b2.Select(z => z.Key));
 
+            LoadAddRemove(s1, s2, hs1, hs2);
+            hs1.IntersectWith(hs2);
+            LoadChanged(s1, s2, hs1);
+        }
+
+        private void LoadAddRemove(SCBlockAccessor s1, SCBlockAccessor s2, ICollection<uint> hs1, IEnumerable<uint> hs2)
+        {
             var unique = new HashSet<uint>(hs1);
             unique.SymmetricExceptWith(hs2);
             foreach (var k in unique)
@@ -37,9 +46,11 @@ namespace PKHeX.Core
                     AddedKeys.Add($"{name} - {b.Type}");
                 }
             }
+        }
 
-            hs1.IntersectWith(hs2);
-            foreach (var k in hs1)
+        private void LoadChanged(SCBlockAccessor s1, SCBlockAccessor s2, IEnumerable<uint> shared)
+        {
+            foreach (var k in shared)
             {
                 var x1 = s1.GetBlock(k);
                 var x2 = s2.GetBlock(k);
@@ -106,7 +117,7 @@ namespace PKHeX.Core
 
             return result;
 
-            static void AddIfPresent(List<string> result, IList<string> list, string hdr)
+            static void AddIfPresent(List<string> result, ICollection<string> list, string hdr)
             {
                 if (list.Count == 0)
                     return;
