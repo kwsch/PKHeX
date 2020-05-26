@@ -29,54 +29,53 @@
         private void InitializeComponent()
         {
             this.L_Status = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.L_Site = new System.Windows.Forms.Label();
+            this.PB_Icon = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).BeginInit();
             this.SuspendLayout();
             // 
             // L_Status
             // 
             this.L_Status.AutoSize = true;
-            this.L_Status.Location = new System.Drawing.Point(70, 16);
+            this.L_Status.Location = new System.Drawing.Point(40, 3);
             this.L_Status.Name = "L_Status";
             this.L_Status.Size = new System.Drawing.Size(105, 13);
             this.L_Status.TabIndex = 0;
             this.L_Status.Text = "Starting up PKHeX...";
             // 
-            // label2
+            // L_Site
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(71, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "ProjectPokemon.org";
+            this.L_Site.AutoSize = true;
+            this.L_Site.Location = new System.Drawing.Point(40, 21);
+            this.L_Site.Name = "L_Site";
+            this.L_Site.Size = new System.Drawing.Size(103, 13);
+            this.L_Site.TabIndex = 1;
+            this.L_Site.Text = "ProjectPokemon.org";
             // 
-            // pictureBox1
+            // PB_Icon
             // 
-            this.pictureBox1.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.SplashIcon;
-            this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.pictureBox1.Location = new System.Drawing.Point(2, 3);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
+            this.PB_Icon.BackgroundImage = global::PKHeX.WinForms.Properties.Resources.Icon.ToBitmap();
+            this.PB_Icon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PB_Icon.Location = new System.Drawing.Point(2, 3);
+            this.PB_Icon.Name = "PB_Icon";
+            this.PB_Icon.Size = new System.Drawing.Size(32, 32);
+            this.PB_Icon.TabIndex = 2;
+            this.PB_Icon.TabStop = false;
             // 
             // SplashScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(181, 69);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.label2);
+            this.ClientSize = new System.Drawing.Size(150, 38);
+            this.Controls.Add(this.PB_Icon);
+            this.Controls.Add(this.L_Site);
             this.Controls.Add(this.L_Status);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Name = "SplashScreen";
             this.Opacity = 0.5D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Loading...";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_Icon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,8 +83,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Label L_Site;
+        private System.Windows.Forms.PictureBox PB_Icon;
         public System.Windows.Forms.Label L_Status;
     }
 }
