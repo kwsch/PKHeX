@@ -731,6 +731,7 @@
     <None Remove="Resources\text\script\flags_e_es.txt" />
     <None Remove="Resources\text\script\flags_frlg_en.txt" />
     <None Remove="Resources\text\script\flags_frlg_es.txt" />
+    <None Remove="Resources\text\script\flags_frlg_zh.txt" />
     <None Remove="Resources\text\script\flags_gg_en.txt" />
     <None Remove="Resources\text\script\flags_gg_es.txt" />
     <None Remove="Resources\text\script\flags_gg_ko.txt" />
@@ -1545,6 +1546,7 @@
     <EmbeddedResource Include="Resources\text\script\flags_e_es.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_frlg_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_frlg_es.txt" />
+    <EmbeddedResource Include="Resources\text\script\flags_frlg_zh.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_gg_en.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_gg_es.txt" />
     <EmbeddedResource Include="Resources\text\script\flags_gg_ko.txt" />
