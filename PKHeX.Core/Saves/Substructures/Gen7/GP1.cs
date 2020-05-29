@@ -113,13 +113,13 @@ namespace PKHeX.Core
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {NickStr} -  lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP})";
+                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV1:00}.{IV2:00}.{IV3:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
             }
         }
 
-        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
-        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
+        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
+        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
         public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
 
