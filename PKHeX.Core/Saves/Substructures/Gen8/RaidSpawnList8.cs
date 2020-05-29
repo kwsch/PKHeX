@@ -80,7 +80,7 @@ namespace PKHeX.Core
             set => Data[Offset + 0x10] = value;
         }
 
-        [Category(General), Description("Random value which picks out the encounter from the Raid data table (0-99).")]
+        [Category(General), Description("Random value which picks out the encounter from the Raid data table (1-100).")]
         public byte RandRoll
         {
             get => Data[Offset + 0x11];
