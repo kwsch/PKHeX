@@ -28,7 +28,7 @@ namespace PKHeX.Core
                 if (i == 16) // Watchtower, special
                     continue;
                 var star = (byte)rnd.Next(0, 5);
-                var rand = (byte)rnd.Next(0, 100);
+                var rand = (byte)rnd.Next(1, 101);
                 GetRaid(i).Activate(star, rand, rare, isEvent);
             }
         }
