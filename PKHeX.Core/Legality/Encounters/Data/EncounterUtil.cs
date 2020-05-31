@@ -13,7 +13,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="source">Table of valid encounters that appear for the game pairing</param>
         /// <param name="game">Game to filter for</param>
-        /// <returns>Array of encounter objects that are encounterable on the input game</returns>
+        /// <returns>Array of encounter objects that can be encountered in the input game</returns>
         internal static EncounterStatic[] GetStaticEncounters(IEnumerable<EncounterStatic> source, GameVersion game)
         {
             return source.Where(s => s.Version.Contains(game)).ToArray();
@@ -35,7 +35,7 @@ namespace PKHeX.Core
         /// Direct fetch for <see cref="EncounterArea"/> data; can also be used to fetch supplementary encounter streams.
         /// </summary>
         /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
-        /// <param name="resource">Resource name (will be prefixed with "encounter_"</param>
+        /// <param name="resource">Resource name (will be prefixed with "encounter_")</param>
         /// <returns>Array of encounter areas</returns>
         internal static T[] GetEncounterTables8<T>(string ident, string resource) where T : EncounterAreaSH, new()
         {
@@ -61,13 +61,13 @@ namespace PKHeX.Core
         /// Marks Encounter Slots for party lead's ability slot influencing.
         /// </summary>
         /// <remarks>Magnet Pull attracts Steel type slots, and Static attracts Electric</remarks>
-        /// <param name="Areas">Encounter Area array for game</param>
+        /// <param name="areas">Encounter Area array for game</param>
         /// <param name="t">Personal data for use with a given species' type</param>
-        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> Areas, PersonalTable t)
+        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> areas, PersonalTable t)
         {
-            foreach (EncounterArea Area in Areas)
+            foreach (EncounterArea area in areas)
             {
-                foreach (var grp in Area.Slots.GroupBy(z => z.Type))
+                foreach (var grp in area.Slots.GroupBy(z => z.Type))
                     MarkEncountersStaticMagnetPull(grp, t);
             }
         }
@@ -148,46 +148,46 @@ namespace PKHeX.Core
         /// Sets the <see cref="EncounterSlot1.Version"/> value, for use in determining split-generation origins.
         /// </summary>
         /// <remarks>Only used for Gen 1 &amp; 2, as <see cref="PKM.Version"/> data is not present.</remarks>
-        /// <param name="Areas">Ingame encounter data</param>
-        /// <param name="Version">Version ID to set</param>
-        internal static void MarkEncountersVersion(IEnumerable<EncounterArea> Areas, GameVersion Version)
+        /// <param name="areas">In-game encounter data</param>
+        /// <param name="game">Version ID to set</param>
+        internal static void MarkEncountersVersion(IEnumerable<EncounterArea> areas, GameVersion game)
         {
-            foreach (EncounterArea Area in Areas)
+            foreach (EncounterArea area in areas)
             {
-                foreach (var Slot in Area.Slots)
-                    Slot.Version = Version;
+                foreach (var Slot in area.Slots)
+                    Slot.Version = game;
             }
         }
 
         /// <summary>
         /// Sets the <see cref="IGenerationSet.Generation"/> value.
         /// </summary>
-        /// <param name="Generation">Generation number to set</param>
-        /// <param name="Encounters">Ingame encounter data</param>
-        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<IGenerationSet>[] Encounters)
+        /// <param name="generation">Generation number to set</param>
+        /// <param name="encounters">In-game encounter data</param>
+        internal static void MarkEncountersGeneration(int generation, params IEnumerable<IGenerationSet>[] encounters)
         {
-            foreach (var table in Encounters)
-                MarkEncountersGeneration(Generation, table);
+            foreach (var table in encounters)
+                MarkEncountersGeneration(generation, table);
         }
 
         /// <summary>
         /// Sets the <see cref="IGenerationSet.Generation"/> value, for use in determining split-generation origins.
         /// </summary>
-        /// <param name="Generation">Generation number to set</param>
-        /// <param name="Areas">Ingame encounter data</param>
-        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<EncounterArea>[] Areas)
+        /// <param name="generation">Generation number to set</param>
+        /// <param name="areas">In-game encounter data</param>
+        internal static void MarkEncountersGeneration(int generation, params IEnumerable<EncounterArea>[] areas)
         {
-            foreach (var table in Areas)
+            foreach (var table in areas)
             {
                 foreach (var area in table)
-                    MarkEncountersGeneration(Generation, area.Slots);
+                    MarkEncountersGeneration(generation, area.Slots);
             }
         }
 
-        private static void MarkEncountersGeneration(int Generation, IEnumerable<IGenerationSet> Encounters)
+        private static void MarkEncountersGeneration(int generation, IEnumerable<IGenerationSet> encounters)
         {
-            foreach (var enc in Encounters)
-                enc.Generation = Generation;
+            foreach (var enc in encounters)
+                enc.Generation = generation;
         }
 
         /// <summary>

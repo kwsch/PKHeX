@@ -6,7 +6,7 @@ namespace PKHeX.Core
     internal class MoveParseSource
     {
         private static readonly int[] Empty = Array.Empty<int>();
-        public int[] CurrentMoves { get; set; } = Empty;
+        public IReadOnlyList<int> CurrentMoves { get; set; } = Empty;
         public IReadOnlyList<int> SpecialSource { get; set; } = Empty;
         public int[] NonTradeBackLevelUpMoves { get; set; } = Empty;
 

@@ -103,8 +103,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots,
-            GameVersion Gen1Version, bool RBDragonair)
+        private static IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, GameVersion Gen1Version, bool RBDragonair)
         {
             int gen = pkm.GenNumber;
             switch (gen)

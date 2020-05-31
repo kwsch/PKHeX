@@ -19,7 +19,12 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             int gen = pkm.GenNumber;
-            int maxID = gen == 2 ? MaxSpeciesID_2 : gen == 1 ? MaxSpeciesID_1 : -1;
+            int maxID = gen switch
+            {
+                1 => MaxSpeciesID_1,
+                2 => MaxSpeciesID_2,
+                _ => -1
+            };
             var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxID);
             return GetPossible(pkm, dl, gameSource);
         }

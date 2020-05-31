@@ -6,12 +6,10 @@ namespace PKHeX.Core
 {
     internal class EggInfoSource
     {
-        public EggInfoSource(PKM pkm, IReadOnlyList<int> specialMoves, EncounterEgg e)
+        public EggInfoSource(PKM pkm, EncounterEgg e)
         {
             // Eggs with special moves cannot inherit levelup moves as the current moves are predefined.
-            Special = specialMoves;
-            bool notSpecial = Special.Count == 0;
-            AllowInherited = notSpecial && !pkm.WasGiftEgg && pkm.Species != 489 && pkm.Species != 490;
+            AllowInherited = e.Species != 489 && e.Species != 490;
 
             // Level up moves can only be inherited if ditto is not the mother.
             bool AllowLevelUp = Legal.GetCanInheritMoves(e.Species);
@@ -22,14 +20,14 @@ namespace PKHeX.Core
                 ? Legal.GetBaseEggMoves(pkm, e.Species,  e.Form, e.Version, 100).Except(Base).ToList()
                 : (IReadOnlyList<int>)Array.Empty<int>();
             Tutor = e.Version == GameVersion.C
-                ? MoveTutor.GetTutorMoves(pkm, pkm.Species, pkm.AltForm, false, 2).ToList()
+                ? MoveTutor.GetTutorMoves(pkm, e.Species, 0, false, 2).ToList()
                 : (IReadOnlyList<int>)Array.Empty<int>();
 
             // Only TM/HM moves from the source game of the egg, not any other games from the same generation
-            TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.AltForm, pkm.GenNumber, e.Version).ToList();
+            TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.AltForm, e.Generation, e.Version).ToList();
 
             // Non-Base moves that can magically appear in the regular movepool
-            bool volt = notSpecial && (pkm.GenNumber > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
+            bool volt = (e.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
             if (volt)
             {
                 Egg = Egg.ToList(); // array->list
@@ -39,7 +37,6 @@ namespace PKHeX.Core
 
         public bool AllowInherited { get; }
         public IReadOnlyList<int> Base { get; }
-        public IReadOnlyList<int> Special { get; }
         public IList<int> Egg { get; }
         public IReadOnlyList<int> Tutor { get; }
         public IReadOnlyList<int> TMHM { get; }
@@ -51,7 +48,7 @@ namespace PKHeX.Core
                 return false;
             if (Base.Contains(m))
                 return false;
-            return Special.Contains(m) || Egg.Contains(m) || LevelUp.Contains(m) || TMHM.Contains(m) || Tutor.Contains(m);
+            return Egg.Contains(m) || LevelUp.Contains(m) || TMHM.Contains(m) || Tutor.Contains(m);
         }
     }
 }
