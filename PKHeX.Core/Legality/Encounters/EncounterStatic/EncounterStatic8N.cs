@@ -52,20 +52,31 @@ namespace PKHeX.Core
             if (rank > MaxRank)
                 return false;
             if (rank < MinRank) // down-leveled
-            {
-                if (metLevel % 5 != 0)
-                    return false;
-
-                // shared nests can be down-leveled to any
-                if (pkm.Met_Location == SharedNest)
-                    return met >= 20;
-
-                // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
-                return ((MinRank <= 1 && 1 <= MaxRank && met == 25)
-                     || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pkm.IsShiny;
-            }
+                return IsDownLeveled(pkm, metLevel, met);
 
             return metLevel % 10 <= 5;
+        }
+
+        public bool IsDownLeveled(PKM pkm)
+        {
+            var met = pkm.Met_Level;
+            var metLevel = met - 15;
+            var rank = ((uint)metLevel) / 10;
+            return rank < MinRank && IsDownLeveled(pkm, metLevel, met);
+        }
+
+        private bool IsDownLeveled(PKM pkm, int metLevel, int met)
+        {
+            if (metLevel % 5 != 0)
+                return false;
+
+            // shared nests can be down-leveled to any
+            if (pkm.Met_Location == SharedNest)
+                return met >= 20;
+
+            // native down-levels: only allow 1 rank down (1 badge 2star -> 25), (3badge 3star -> 35)
+            return ((MinRank <= 1 && 1 <= MaxRank && met == 25)
+                 || (MinRank <= 2 && 2 <= MaxRank && met == 35)) && !pkm.IsShiny;
         }
 
         protected override bool IsMatchLocation(PKM pkm)
