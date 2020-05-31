@@ -311,10 +311,17 @@ namespace PKHeX.Core
 
         private static void VerifyFullness(LegalityAnalysis data, PKM pkm)
         {
-            if (pkm.Format >= 8 || pkm.IsEgg)
+            if (pkm.IsEgg)
             {
                 if (pkm.Fullness != 0)
                     data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                if (pkm.Enjoyment != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                return;
+            }
+
+            if (pkm.Format >= 8)
+            {
                 if (pkm.Enjoyment != 0)
                     data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
                 return;
