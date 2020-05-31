@@ -49,7 +49,7 @@ namespace PKHeX.Core
         {
             Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG2SAV(Data);
             Japanese = SaveUtil.GetIsG2SAVJ(Data) != GameVersion.Invalid;
-            if (!Japanese)
+            if (Version != GameVersion.C && !Japanese)
                 Korean = SaveUtil.GetIsG2SAVK(Data) != GameVersion.Invalid;
 
             Offsets = new SAV2Offsets(this);
