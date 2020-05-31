@@ -12,6 +12,8 @@
         public bool Valid => Judgement >= Severity.Fishy;
         public string Rating => Judgement.Description();
 
+        public override string ToString() => $"{Identifier}: {Comment}";
+
         internal CheckResult(CheckIdentifier i)
         {
             Judgement = Severity.Valid;
