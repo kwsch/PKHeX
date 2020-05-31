@@ -86,7 +86,7 @@ namespace PKHeX.Core
                 bool eggEdge = pkm.IsEgg ? pkm.IsTradedEgg || pkm.Format == 3 : pkm.WasTradedEgg;
                 if (!eggEdge)
                     return false;
-                var len = Legal.GetMaxLengthOT(pkm.GenNumber, LanguageID.English); // max case
+                var len = Legal.GetMaxLengthOT(e.Generation, LanguageID.English); // max case
                 return ot.Length <= len;
             }
 

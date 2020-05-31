@@ -92,7 +92,7 @@ namespace PKHeX.Core
                         else
                             Trackers.Add(tracker, cp);
                     }
-                    else if (cp.GenNumber < 8)
+                    else if (ca.Info.Generation < 8)
                     {
                         AddLine(cp, "Missing tracker.", Encounter);
                     }

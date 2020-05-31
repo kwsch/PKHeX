@@ -337,17 +337,17 @@ namespace PKHeX.Core
             };
         }
 
-        internal static ICollection<int> GetWildBalls(PKM pkm)
+        internal static ICollection<int> GetWildBalls(int gen, GameVersion game)
         {
-            return pkm.GenNumber switch
+            return gen switch
             {
                 1 => WildPokeBalls1,
                 2 => WildPokeBalls2,
                 3 => WildPokeBalls3,
-                4 => (pkm.HGSS ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt),
+                4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
                 5 => WildPokeBalls5,
                 6 => WildPokeballs6,
-                7 => (pkm.GG ? WildPokeballs7b : WildPokeballs7),
+                7 => GameVersion.GG.Contains(game) ? WildPokeballs7b : WildPokeballs7,
                 8 => WildPokeballs8,
                 _ => Array.Empty<int>()
             };

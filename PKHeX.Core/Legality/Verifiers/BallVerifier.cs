@@ -71,7 +71,7 @@ namespace PKHeX.Core
         {
             if (s.Location == 75 && s.Generation == 5) // Entree Forest (Dream World)
                 return VerifyBallEquals(data, Legal.DreamWorldBalls);
-            return VerifyBallEquals(data, Legal.GetWildBalls(data.pkm));
+            return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
         }
 
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
@@ -88,7 +88,7 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, (int)Safari); // Safari Ball
             if (Info.Generation == 4 && w.Type == SlotType.BugContest)
                 return VerifyBallEquals(data, (int)Sport); // Sport Ball
-            return VerifyBallEquals(data, Legal.GetWildBalls(data.pkm));
+            return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
         }
 
         private CheckResult VerifyBallEgg(LegalityAnalysis data)

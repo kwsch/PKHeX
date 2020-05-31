@@ -28,18 +28,12 @@ namespace PKHeX.Core
             Version = game;
         }
 
-
         public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
 
         public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
         {
-            int gen = Version.GetGeneration();
+            int gen = Generation;
             var version = Version;
-            if (gen < 2)
-            {
-                gen = 2;
-                version = GameVersion.C;
-            }
             var pk = PKMConverter.GetBlank(gen, version);
 
             SAV.ApplyToPKM(pk);
@@ -48,26 +42,26 @@ namespace PKHeX.Core
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, SAV.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
-            pk.Ball = 4;
+            pk.Ball = (int)Ball.Poke;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             int[] moves = SetEncounterMoves(pk, version);
             SetPINGA(pk, criteria);
 
-            if (pk.Format <= 2 && version != GameVersion.C)
+            if (gen <= 2 && version != GameVersion.C)
                 return pk;
 
             SetMetData(pk);
 
-            if (pk.Format < 3)
+            if (gen < 3)
                 return pk;
 
-            if (pk.GenNumber >= 4)
+            if (gen >= 4)
                 pk.SetEggMetData(version, (GameVersion)SAV.Game);
 
-            if (pk.Format < 6)
+            if (gen < 6)
                 return pk;
-            if (pk.Format == 6)
+            if (gen == 6)
                 pk.SetHatchMemory6();
 
             SetAltForm(pk, SAV);

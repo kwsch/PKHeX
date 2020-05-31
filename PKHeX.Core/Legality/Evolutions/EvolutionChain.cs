@@ -44,20 +44,23 @@ namespace PKHeX.Core
 
             int lvl = pkm.CurrentLevel;
             int maxLevel = lvl;
-            int pkGen = pkm.GenNumber;
+            int pkGen = Encounter.Generation;
 
             // Iterate generations backwards
             // Maximum level of an earlier generation (GenX) will never be greater than a later generation (GenX+Y).
-            int mingen = (pkm is PK2 || pkm.VC2) && !pkm.Gen2_NotTradeback ? 1 : pkGen;
+            int mingen = pkGen >= 3 ? pkGen : pkm.Gen2_NotTradeback ? 2 : 1;
             bool noxfrDecremented = true;
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
-                if (pkGen == 1 && pkm.Gen1_NotTradeback && g == 2)
-                    continue;
-                if (pkGen <= 2 && 3 <= g && g <= 6)
-                    continue;
+                if (pkGen <= 2)
+                {
+                    if (3 <= g && g <= 6)
+                        continue;
+                    if (g == 2 && pkm.Gen1_NotTradeback)
+                        continue;
+                }
 
-                if (g <= 4 && 2 < pkm.Format && g < pkm.Format && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
+                if (g <= 4 && pkm.Format > 2 && pkm.Format > g && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
                 {
                     // Met location was lost at this point but it also means the pokemon existed in generations 1 to 4 with maximum level equals to met level
                     lvl = pkm.Met_Level;
