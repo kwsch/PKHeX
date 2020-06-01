@@ -62,7 +62,7 @@ namespace PKHeX.Core
             var met = pkm.Met_Level;
             var metLevel = met - 15;
             var rank = ((uint)metLevel) / 10;
-            return rank < MinRank && IsDownLeveled(pkm, metLevel, met);
+            return rank != MaxRank && IsDownLeveled(pkm, metLevel, met);
         }
 
         private bool IsDownLeveled(PKM pkm, int metLevel, int met)
