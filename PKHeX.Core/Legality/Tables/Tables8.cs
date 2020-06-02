@@ -320,9 +320,6 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>
         {
             // No wild encounter with Hidden, so can't breed a hidden yet.
-            (int)Species.Grookey, (int)Species.Thwackey, (int)Species.Rillaboom,
-            (int)Species.Scorbunny, (int)Species.Raboot, (int)Species.Cinderace,
-            (int)Species.Sobble, (int)Species.Drizzile, (int)Species.Inteleon,
             (int)Species.Slowpoke | 1 << 11,
 
             (int)Species.Skwovet, (int)Species.Greedent,
@@ -377,7 +374,7 @@ namespace PKHeX.Core
             // 1281, // ★And337 (Corviknight)
             // 1282, // ★And603 (Eiscue)
             // 1283, // ★And390 (Stonjourner)
-            1284, // ★Sgr6879
+            1284, // ★Sgr6879 (Copperajah)
             1285, // ★Sgr6859
             1286, // ★Sgr6913
             1287, // ★Sgr7348
