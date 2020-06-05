@@ -374,7 +374,7 @@ namespace PKHeX.Core
             // 1281, // ★And337 (Corviknight)
             // 1282, // ★And603 (Eiscue)
             // 1283, // ★And390 (Stonjourner)
-            1284, // ★Sgr6879 (Copperajah)
+            // 1284, // ★Sgr6879 (Copperajah)
             1285, // ★Sgr6859
             1286, // ★Sgr6913
             1287, // ★Sgr7348
