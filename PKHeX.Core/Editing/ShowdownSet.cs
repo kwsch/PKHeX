@@ -399,7 +399,7 @@ namespace PKHeX.Core
             }
             else
             {
-                ParseFirstLineNoItem(first.Trim());
+                ParseFirstLineNoItem(first);
             }
         }
 
@@ -472,10 +472,11 @@ namespace PKHeX.Core
             // failure to parse, check edge cases
             foreach (var e in DashedSpecies)
             {
-                if (!spec.StartsWith(Strings.Species[e].Replace("♂", "-M").Replace("♀", "-F")))
+                var sn = Strings.Species[e];
+                if (!spec.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
-                Form = spec.Substring(Strings.Species[e].Length);
+                Form = spec.Substring(sn.Length);
                 return true;
             }
 
@@ -503,7 +504,7 @@ namespace PKHeX.Core
             {
                 int end = line.IndexOf(')');
                 n2 = line.Substring(index + 1, end - 1);
-                n1 = line.Substring(end + 2);
+                n1 = end < line.Length - 2 ? line.Substring(end + 2) : n2;
             }
 
             if (ParseSpeciesForm(n2))
