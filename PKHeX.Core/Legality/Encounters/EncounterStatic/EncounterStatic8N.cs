@@ -38,10 +38,6 @@ namespace PKHeX.Core
             55, 60, // 4
         };
 
-        public static bool IsHighestLevelTier(int lvl) => ArrayUtil.WithinRange(lvl, 55, 60);
-
-        protected override int GetMinimalLevel() => LevelCaps[MinRank * 2];
-
         protected override bool IsMatchLevel(PKM pkm, int lvl)
         {
             var met = pkm.Met_Level;
@@ -61,8 +57,7 @@ namespace PKHeX.Core
         {
             var met = pkm.Met_Level;
             var metLevel = met - 15;
-            var rank = ((uint)metLevel) / 10;
-            return rank != MaxRank && IsDownLeveled(pkm, metLevel, met);
+            return met != LevelMax && IsDownLeveled(pkm, metLevel, met);
         }
 
         private bool IsDownLeveled(PKM pkm, int metLevel, int met)
