@@ -145,7 +145,7 @@ namespace PKHeX.WinForms
             string[] formNames = GetFormNames4Dex(species);
 
             var seen = forms.Where(z => z >= 0 && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
-            var not = formNames.Where(z => !seen.Contains(z)).ToArray();
+            var not = formNames.Except(seen).ToArray();
 
             LB_Form.Items.AddRange(seen);
             LB_NForm.Items.AddRange(not);
