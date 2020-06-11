@@ -109,27 +109,34 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="rnd">RNG to use</param>
         /// <param name="species">National Dex ID</param>
-        /// <param name="cg">Current Gender</param>
+        /// <param name="gender">Current Gender</param>
         /// <param name="origin">Origin Generation</param>
         /// <param name="nature">Nature</param>
         /// <param name="form">AltForm</param>
-        /// <param name="OLDPID">Current PID</param>
+        /// <param name="oldPID">Current PID</param>
         /// <remarks>Used to retain ability bits.</remarks>
         /// <returns>Rerolled PID.</returns>
-        public static uint GetRandomPID(Random rnd, int species, int cg, int origin, int nature, int form, uint OLDPID)
+        public static uint GetRandomPID(Random rnd, int species, int gender, int origin, int nature, int form, uint oldPID)
         {
-            uint bits = OLDPID & 0x00010001;
-            int gt = Personal[species].Gender;
+            // Gen6+ (and VC) PIDs do not tie PID to Nature/Gender/Ability
             if (origin >= 24)
                 return Util.Rand32(rnd);
 
+            // Below logic handles Gen3-5.
+
+            int gt = Personal[species].Gender;
+            bool g34 = origin <= 15;
+            bool g5 = 20 <= origin && origin <= 23; // bw/b2w2
+            uint abilBitVal = g5 ? oldPID & 0x0001_0000 : oldPID & 0x0000_0001;
+
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
+            bool singleGender = gt == 255 || gt == 254 || gt == 0; // skip gender check
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.Rand32(rnd);
 
                 // Gen 3/4: Nature derived from PID
-                if (origin <= 15 && pid%25 != nature)
+                if (g34 && pid%25 != nature)
                     continue;
 
                 // Gen 3 Unown: Letter/form derived from PID
@@ -139,16 +146,22 @@ namespace PKHeX.Core
                     if (pidLetter != form)
                         continue;
                 }
-                else if (bits != (pid & 0x00010001)) // keep ability bits
+                else if (g34)
                 {
-                    continue;
+                    if (abilBitVal != (pid & 0x0000_0001)) // keep ability bits
+                        continue;
+                }
+                else if (g5)
+                {
+                    if (abilBitVal != (pid & 0x0001_0000)) // keep ability bits
+                        continue;
                 }
 
-                if (gt == 255 || gt == 254 || gt == 0) // Set Gender(less)
+                if (singleGender) // Set Gender(less)
                     return pid; // PID can be anything
 
                 // Gen 3/4/5: Gender derived from PID
-                if (cg == GetGenderFromPIDAndRatio(pid, gt))
+                if (gender == GetGenderFromPIDAndRatio(pid, gt))
                     return pid;
             }
         }
