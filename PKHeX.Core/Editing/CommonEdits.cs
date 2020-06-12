@@ -134,22 +134,25 @@ namespace PKHeX.Core
         /// Makes a <see cref="PKM"/> shiny.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="xor0">Square shiny</param>
+        /// <param name="type">Shiny type to force. Only use Always* or Random</param>
         /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
-        public static bool SetShiny(PKM pk, bool xor0 = false)
+        public static bool SetShiny(PKM pk, Shiny type = Shiny.Random)
         {
             if (pk.IsShiny)
                 return false;
+
+            if (pk.FatefulEncounter || type == Shiny.Random)
+            {
+                pk.SetShiny();
+                return true;
+            }
 
             while (true)
             {
                 pk.SetShiny();
 
-                if (pk.Format <= 7)
-                    return true;
-
                 var xor = pk.ShinyXor;
-                if (xor0 ? xor == 0 : xor != 0)
+                if (type == Shiny.AlwaysSquare ? xor == 0 : xor != 0)
                     return true;
             }
         }

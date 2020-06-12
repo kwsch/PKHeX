@@ -501,7 +501,7 @@ namespace PKHeX.Core
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
                 pk.EncryptionConstant = pk.PID;
             else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture))
-                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0"));
+                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0") ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
                 Array.Clear(pk.Data, 0, pk.Data.Length);
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)

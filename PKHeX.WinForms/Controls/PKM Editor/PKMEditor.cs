@@ -1435,7 +1435,7 @@ namespace PKHeX.WinForms.Controls
             {
                 if (PID)
                 {
-                    CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift);
+                    CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     int gen = Entity.GenNumber;
