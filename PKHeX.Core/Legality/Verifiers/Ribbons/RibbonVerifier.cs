@@ -380,6 +380,10 @@ namespace PKHeX.Core
                 bool hasChampMemory = (pkm.Format == 8 && pkm.HT_Memory == memChampion) || (pkm.Gen8 && pkm.OT_Memory == memChampion);
                 if (hasChampMemory && !s8.RibbonChampionGalar)
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+
+                // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
+                if (s8.RibbonMasterRank && Legal.Legends.Contains(pkm.Species))
+                    yield return new RibbonResult(nameof(s8.RibbonMasterRank));
             }
         }
 
