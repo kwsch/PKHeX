@@ -896,6 +896,9 @@
         Zacian,
         Zamazenta,
         Eternatus,
+        Kubfu,
+        Urshifu,
+        Zarude,
         MAX_COUNT,
     }
 }
