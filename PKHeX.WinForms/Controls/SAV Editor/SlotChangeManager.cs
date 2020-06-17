@@ -214,6 +214,12 @@ namespace PKHeX.WinForms.Controls
         private void HandleDropPKM(PictureBox pb, DragEventArgs e, DropModifier mod)
         {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null)
+            {
+                Drag.Reset();
+                return;
+            }
+
             if (Directory.Exists(files[0])) // folder
             {
                 SE.LoadBoxes(out string _, files[0]);
