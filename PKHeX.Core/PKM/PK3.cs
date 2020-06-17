@@ -76,7 +76,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
 
         public override uint EXP { get => BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes(value).CopyTo(Data, 0x24); }
@@ -312,7 +312,7 @@ namespace PKHeX.Core
 
             if (HeldItem > 0)
             {
-                ushort item = ItemConverter.GetG4Item((ushort)HeldItem);
+                ushort item = ItemConverter.GetItemFuture3((ushort)HeldItem);
                 if (ItemConverter.IsItemTransferable34(item))
                     pk4.HeldItem = item;
             }

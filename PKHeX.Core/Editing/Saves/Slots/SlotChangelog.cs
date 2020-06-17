@@ -78,10 +78,10 @@ namespace PKHeX.Core
 
         private class SingleSlotReversion : SlotReversion
         {
-            private readonly PKM pkm;
-            public SingleSlotReversion(ISlotInfo info, SaveFile sav) : base(info) => pkm = info.Read(sav);
+            private readonly PKM Entity;
+            public SingleSlotReversion(ISlotInfo info, SaveFile sav) : base(info) => Entity = info.Read(sav);
 
-            public override void Revert(SaveFile sav) => Info.WriteTo(sav, pkm, PKMImportSetting.Skip);
+            public override void Revert(SaveFile sav) => Info.WriteTo(sav, Entity, PKMImportSetting.Skip);
         }
     }
 }

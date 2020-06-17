@@ -15,13 +15,13 @@ namespace PKHeX.Core
         /// <param name="data">Encoded data</param>
         /// <param name="generation">Generation string format</param>
         /// <param name="jp">Encoding is Japanese</param>
-        /// <param name="bigendian">Encoding is BigEndian</param>
+        /// <param name="isBigEndian">Encoding is Big Endian</param>
         /// <param name="count">Length of data to read.</param>
         /// <param name="offset">Offset to read from</param>
         /// <returns>Decoded string.</returns>
-        public static string GetString(byte[] data, int generation, bool jp, bool bigendian, int count, int offset = 0)
+        public static string GetString(byte[] data, int generation, bool jp, bool isBigEndian, int count, int offset = 0)
         {
-            if (bigendian)
+            if (isBigEndian)
                 return generation == 3 ? StringConverter3.GetBEString3(data, offset, count) : StringConverter4.GetBEString4(data, offset, count);
 
             switch (generation)
@@ -42,15 +42,15 @@ namespace PKHeX.Core
         /// <param name="value">Decoded string.</param>
         /// <param name="generation">Generation string format</param>
         /// <param name="jp">Encoding is Japanese</param>
-        /// <param name="bigendian">Encoding is BigEndian</param>
+        /// <param name="isBigEndian">Encoding is Big Endian</param>
         /// <param name="maxLength"></param>
         /// <param name="language"></param>
         /// <param name="padTo">Pad to given length</param>
         /// <param name="padWith">Pad with value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetString(string value, int generation, bool jp, bool bigendian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetString(string value, int generation, bool jp, bool isBigEndian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
         {
-            if (bigendian)
+            if (isBigEndian)
                 return generation == 3 ? StringConverter3.SetBEString3(value, maxLength, padTo, padWith) : StringConverter4.SetBEString4(value, maxLength, padTo, padWith);
 
             switch (generation)
@@ -168,36 +168,35 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Converts a Unicode string to Generation 7 in-game chinese string.
+        /// Converts a Unicode string to Generation 7 in-game Chinese string.
         /// </summary>
-        /// <param name="inputstr">Unicode string.</param>
+        /// <param name="input">Unicode string.</param>
         /// <param name="lang">Detection of language for Traditional Chinese check</param>
-        /// <returns>In-game chinese string.</returns>
-        private static string ConvertString2BinG7_zh(string inputstr, int lang)
+        /// <returns>In-game Chinese string.</returns>
+        private static string ConvertString2BinG7_zh(string input, int lang)
         {
             var str = new StringBuilder();
 
-            bool cht = lang == 10;
             // A string cannot contain a mix of CHS and CHT characters.
-            bool IsCHT = inputstr.Any(chr => G7_CHT.ContainsKey(chr) && !G7_CHS.ContainsKey(chr));
-            IsCHT |= cht && !inputstr.Any(chr => G7_CHT.ContainsKey(chr) ^ G7_CHS.ContainsKey(chr)); // CHS and CHT have the same display name
-            var table = IsCHT ? G7_CHT : G7_CHS;
+            bool traditional = input.Any(chr => G7_CHT.ContainsKey(chr) && !G7_CHS.ContainsKey(chr))
+            || (lang == 10 && !input.Any(chr => G7_CHT.ContainsKey(chr) ^ G7_CHS.ContainsKey(chr))); // CHS and CHT have the same display name
+            var table = traditional ? G7_CHT : G7_CHS;
 
-            foreach (char chr in inputstr)
+            foreach (char chr in input)
                 str.Append(table.TryGetValue(chr, out int index) ? (char)(index + Gen7_ZH_Ofs) : chr);
             return str.ToString();
         }
 
         /// <summary>
-        /// Converts a Generation 7 in-game chinese string to Unicode string.
+        /// Converts a Generation 7 in-game Chinese string to Unicode string.
         /// </summary>
-        /// <param name="inputstr">In-game chinese string.</param>
+        /// <param name="input">In-game Chinese string.</param>
         /// <returns>Unicode string.</returns>
-        private static string ConvertBin2StringG7_zh(string inputstr)
+        private static string ConvertBin2StringG7_zh(string input)
         {
             var str = new StringBuilder();
-            foreach (var val in inputstr)
-                str.Append((char)Getg7zhChar(val));
+            foreach (var val in input)
+                str.Append((char)GetGen7ChineseChar(val));
             return str.ToString();
         }
 
@@ -206,7 +205,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="val">Input value to shift</param>
         /// <returns>Shifted character</returns>
-        private static ushort Getg7zhChar(ushort val)
+        private static ushort GetGen7ChineseChar(ushort val)
         {
             if (Gen7_ZH_Ofs <= val && val < Gen7_ZH_Ofs + Gen7_ZH.Length)
                 return Gen7_ZH[val - Gen7_ZH_Ofs];
@@ -240,7 +239,7 @@ namespace PKHeX.Core
         {
             if (str.Length == 0)
                 return str;
-            var s = str.Replace('’', '\''); // farfetch'd
+            var s = str.Replace('’', '\''); // Farfetch'd
 
             // remap custom glyphs to unicode
             s = s.Replace('\uE08F', '♀'); // ♀ (gen6+)
@@ -257,7 +256,7 @@ namespace PKHeX.Core
         private static string UnSanitizeString7b(string str)
         {
             // gender chars always full width
-            return str.Replace('\'', '’'); // farfetch'd
+            return str.Replace('\'', '’'); // Farfetch'd
         }
 
         /// <summary>
@@ -270,7 +269,7 @@ namespace PKHeX.Core
         {
             var s = str;
             if (generation >= 6)
-                s = str.Replace('\'', '’'); // farfetch'd
+                s = str.Replace('\'', '’'); // Farfetch'd
 
             if (generation <= 5)
             {
@@ -278,8 +277,8 @@ namespace PKHeX.Core
                 return s.Replace('\u2642', '\u246D'); // ♂
             }
 
-            var langcontext = str.Except(FullToHalf);
-            bool fullwidth = langcontext.Select(c => c >> 12) // select the group the char belongs to
+            var context = str.Except(FullToHalf);
+            bool fullwidth = context.Select(c => c >> 12) // select the group the char belongs to
                 .Any(c => c != 0 /* Latin */ && c != 0xE /* Special Symbols */);
 
             if (fullwidth) // jp/ko/zh strings

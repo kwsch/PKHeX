@@ -116,10 +116,10 @@ namespace PKHeX.Core
             var colors = (PersonalColor[])Enum.GetValues(typeof(PersonalColor));
             foreach (var c in colors)
             {
-                var vals = BallColors[c];
-                var extra = allBalls.Except(vals).ToArray();
+                var matchingColors = BallColors[c];
+                var extra = allBalls.Except(matchingColors).ToArray();
                 Util.Shuffle(extra);
-                BallColors[c] = vals.Concat(extra).Concat(end).ToArray();
+                BallColors[c] = matchingColors.Concat(extra).Concat(end).ToArray();
             }
         }
 

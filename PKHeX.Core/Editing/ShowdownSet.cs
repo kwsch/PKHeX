@@ -383,8 +383,8 @@ namespace PKHeX.Core
                 Form = string.Empty;
                 return;
             }
-            var Forms = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            Form = FormIndex >= Forms.Length ? string.Empty : Forms[index];
+            var forms = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
+            Form = FormIndex >= forms.Length ? string.Empty : forms[index];
         }
 
         private void ParseFirstLine(string first)
@@ -392,9 +392,9 @@ namespace PKHeX.Core
             if (first.Contains(" @ "))
             {
                 string[] pieces = first.Split(ItemSplit, StringSplitOptions.None);
-                string itemstr = pieces[pieces.Length - 1].Trim();
+                string itemName = pieces[pieces.Length - 1].Trim();
 
-                ParseItemStr(itemstr);
+                ParseItemName(itemName);
                 ParseFirstLineNoItem(pieces[0]);
             }
             else
@@ -403,20 +403,20 @@ namespace PKHeX.Core
             }
         }
 
-        private void ParseItemStr(string itemstr)
+        private void ParseItemName(string itemName)
         {
-            if (tryGetItem(Format))
+            if (TrySetItem(Format))
                 return;
-            if (tryGetItem(3))
+            if (TrySetItem(3))
                 return;
-            if (tryGetItem(2))
+            if (TrySetItem(2))
                 return;
-            InvalidLines.Add($"Unknown Item: {itemstr}");
+            InvalidLines.Add($"Unknown Item: {itemName}");
 
-            bool tryGetItem(int format)
+            bool TrySetItem(int format)
             {
-                var items = (string[])Strings.GetItemStrings(format); // ireadonlylist->string[] must be possible for the provided strings
-                int item = StringUtil.FindIndexIgnoreCase(items, itemstr);
+                var items = (string[])Strings.GetItemStrings(format); // IReadOnlyList<string>->string[] must be possible for the provided strings
+                int item = StringUtil.FindIndexIgnoreCase(items, itemName);
                 if (item < 0)
                     return false;
                 HeldItem = item;
@@ -458,7 +458,7 @@ namespace PKHeX.Core
             if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec)) >= 0) // success, nothing else!
                 return true;
 
-            // Forme string present.
+            // Form string present.
             int end = spec.LastIndexOf('-');
             if (end < 0)
                 return false;
@@ -576,8 +576,8 @@ namespace PKHeX.Core
             {
                 int pos = i * 2;
                 int index = StringUtil.FindIndexIgnoreCase(StatNames, list[pos + 1]);
-                if (index >= 0 && byte.TryParse(list[pos + 0], out var IV))
-                    IVs[index] = IV;
+                if (index >= 0 && byte.TryParse(list[pos + 0], out var iv))
+                    IVs[index] = iv;
                 else
                     InvalidLines.Add($"Unknown IV stat: {list[pos]}");
             }

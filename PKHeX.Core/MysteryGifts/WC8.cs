@@ -296,7 +296,7 @@ namespace PKHeX.Core
 
         private bool IsHOMEGift => PIDType == Shiny.FixedValue && PID == 0 && EncryptionConstant == 0;
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
@@ -304,7 +304,7 @@ namespace PKHeX.Core
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
-            var OT = GetOT(SAV.Language);
+            var OT = GetOT(sav.Language);
 
             var pk = new PK8
             {
@@ -329,13 +329,13 @@ namespace PKHeX.Core
                 RelearnMove3 = RelearnMove3,
                 RelearnMove4 = RelearnMove4,
 
-                Version = OriginGame != 0 ? OriginGame : SAV.Game,
+                Version = OriginGame != 0 ? OriginGame : sav.Game,
 
-                OT_Name = OT.Length > 0 ? OT : SAV.OT,
-                OT_Gender = OTGender < 2 ? OTGender : SAV.Gender,
-                HT_Name = GetHasOT(Language) ? SAV.OT : string.Empty,
-                HT_Gender = GetHasOT(Language) ? SAV.Gender : 0,
-                HT_Language = GetHasOT(Language) ? SAV.Language : 0,
+                OT_Name = OT.Length > 0 ? OT : sav.OT,
+                OT_Gender = OTGender < 2 ? OTGender : sav.Gender,
+                HT_Name = GetHasOT(Language) ? sav.OT : string.Empty,
+                HT_Gender = GetHasOT(Language) ? sav.Gender : 0,
+                HT_Language = GetHasOT(Language) ? sav.Language : 0,
                 CurrentHandler = GetHasOT(Language) ? 1 : 0,
                 OT_Friendship = pi.BaseFriendship,
 
@@ -355,7 +355,7 @@ namespace PKHeX.Core
             };
             pk.SetMaximumPPCurrent();
 
-            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
                 var rnd = Util.Rand;
@@ -365,8 +365,8 @@ namespace PKHeX.Core
 
             if (OTGender >= 2)
             {
-                pk.TID = SAV.TID;
-                pk.SID = SAV.SID;
+                pk.TID = sav.TID;
+                pk.SID = sav.SID;
             }
 
             // Official code explicitly corrects for meowstic
@@ -375,8 +375,8 @@ namespace PKHeX.Core
 
             pk.MetDate = DateTime.Now;
 
-            var nickname_language = GetNicknameLanguage(SAV.Language);
-            pk.Language = nickname_language != 0 ? nickname_language : SAV.Language;
+            var nickname_language = GetNicknameLanguage(sav.Language);
+            pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
             pk.IsNicknamed = GetIsNicknamed(pk.Language);
             pk.Nickname = pk.IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
@@ -387,7 +387,7 @@ namespace PKHeX.Core
                     pk.SetRibbon(ribbon);
             }
 
-            SetPINGA(pk, SAV, criteria);
+            SetPINGA(pk, sav, criteria);
 
             if (IsEgg)
                 SetEggMetData(pk);
@@ -408,7 +408,7 @@ namespace PKHeX.Core
             pk.IsNicknamed = true;
         }
 
-        private void SetPINGA(PKM pk, ITrainerInfo SAV, EncounterCriteria criteria)
+        private void SetPINGA(PKM pk, ITrainerInfo sav, EncounterCriteria criteria)
         {
             var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
@@ -416,7 +416,7 @@ namespace PKHeX.Core
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria, pi);
             pk.RefreshAbility(av);
-            SetPID(pk, SAV);
+            SetPID(pk, sav);
             SetIVs(pk);
         }
 
@@ -436,21 +436,21 @@ namespace PKHeX.Core
             }
         }
 
-        private uint GetFixedPID(ITrainerInfo SAV)
+        private uint GetFixedPID(ITrainerInfo sav)
         {
             uint pid = PID;
             var val = Data[CardStart + 0x248];
             if (val == 4)
                 return pid;
-            return (uint)((pid & 0xFFFF) | ((SAV.SID ^ SAV.TID ^ (pid & 0xFFFF) ^ (val == 2 ? 1 : 0)) << 16));
+            return (uint)((pid & 0xFFFF) | ((sav.SID ^ sav.TID ^ (pid & 0xFFFF) ^ (val == 2 ? 1 : 0)) << 16));
         }
 
-        private void SetPID(PKM pk, ITrainerInfo SAV)
+        private void SetPID(PKM pk, ITrainerInfo sav)
         {
             switch (PIDType)
             {
                 case Shiny.FixedValue: // Specified
-                    pk.PID = GetFixedPID(SAV);
+                    pk.PID = GetFixedPID(sav);
                     break;
                 case Shiny.Random: // Random
                     pk.PID = Util.Rand32();

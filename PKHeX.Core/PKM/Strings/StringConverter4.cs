@@ -45,29 +45,29 @@ namespace PKHeX.Core
                 .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
                 .PadRight(padTo, (char)padWith); // Padding
 
-            var strdata = new byte[temp.Length * 2];
+            var data = new byte[temp.Length * 2];
             for (int i = 0; i < temp.Length; i++)
             {
                 var chr = temp[i];
                 var val = ConvertChar2ValueG4(chr);
-                BitConverter.GetBytes(val).CopyTo(strdata, i * 2);
+                BitConverter.GetBytes(val).CopyTo(data, i * 2);
             }
-            return strdata;
+            return data;
         }
 
         /// <summary>
         /// Converts Generation 4 Big Endian encoded character data to string.
         /// </summary>
-        /// <param name="strdata">Byte array containing encoded character data.</param>
+        /// <param name="data">Byte array containing encoded character data.</param>
         /// <param name="offset">Offset to read from</param>
         /// <param name="count">Length of data to read.</param>
         /// <returns>Converted string.</returns>
-        public static string GetBEString4(byte[] strdata, int offset, int count)
+        public static string GetBEString4(byte[] data, int offset, int count)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < count; i += 2)
             {
-                var val = BigEndian.ToUInt16(strdata, offset + i);
+                var val = BigEndian.ToUInt16(data, offset + i);
                 if (val == 0xFFFF)
                     break;
                 var chr = ConvertValue2CharG4(val);
@@ -95,14 +95,14 @@ namespace PKHeX.Core
                 .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
                 .PadRight(padTo, (char)padWith); // Padding
 
-            var strdata = new byte[temp.Length * 2];
+            var data = new byte[temp.Length * 2];
             for (int i = 0; i < temp.Length; i++)
             {
                 var chr = temp[i];
                 var val = ConvertChar2ValueG4(chr);
-                BigEndian.GetBytes(val).CopyTo(strdata, i * 2);
+                BigEndian.GetBytes(val).CopyTo(data, i * 2);
             }
-            return strdata;
+            return data;
         }
 
         /// <summary>

@@ -22,10 +22,10 @@ namespace PKHeX.Core
         /// <returns>Decoded <see cref="PKM"/> object, null if invalid.</returns>
         public static PKM? GetPKM(string message, int format)
         {
-            var pkdata = DecodeMessagePKM(message);
-            if (pkdata == null)
+            var data = DecodeMessagePKM(message);
+            if (data == null)
                 return null;
-            return PKMConverter.GetPKMfromBytes(pkdata, format);
+            return PKMConverter.GetPKMfromBytes(data, format);
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace PKHeX.Core
 
         public static string GetMessageBase64(byte[] data, string server)
         {
-            string qrdata = Convert.ToBase64String(data);
-            return server + qrdata;
+            string payload = Convert.ToBase64String(data);
+            return server + payload;
         }
 
         private static byte[]? DecodeMessagePKM(string message)

@@ -61,10 +61,10 @@ namespace PKHeX.Core
             set
             {
                 _pk = value;
-                var pkdata = value.Data.All(z => z == 0)
+                var data = value.Data.All(z => z == 0)
                     ? value.Data
                     : PokeCrypto.EncryptArray45(value.Data);
-                pkdata.CopyTo(Data, 8);
+                data.CopyTo(Data, 8);
             }
         }
 
@@ -118,7 +118,7 @@ namespace PKHeX.Core
         public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
         public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
@@ -127,18 +127,18 @@ namespace PKHeX.Core
             PK4 pk4 = new PK4((byte[])PK.Data.Clone()) { Sanity = 0 };
             if (!IsHatched && Detail == 0)
             {
-                pk4.OT_Name = SAV.OT;
-                pk4.TID = SAV.TID;
-                pk4.SID = SAV.SID;
-                pk4.OT_Gender = SAV.Gender;
-                pk4.Language = SAV.Language;
+                pk4.OT_Name = sav.OT;
+                pk4.TID = sav.TID;
+                pk4.SID = sav.SID;
+                pk4.OT_Gender = sav.Gender;
+                pk4.Language = sav.Language;
             }
 
             if (IsManaphyEgg)
                 SetDefaultManaphyEggDetails(pk4);
 
             SetPINGA(pk4, criteria);
-            SetMetData(pk4, SAV);
+            SetMetData(pk4, sav);
 
             var pi = pk4.PersonalInfo;
             pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;

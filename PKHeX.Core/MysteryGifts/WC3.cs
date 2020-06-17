@@ -70,7 +70,7 @@ namespace PKHeX.Core
             set => _metLevel = value;
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             PK3 pk = new PK3
             {
@@ -88,24 +88,24 @@ namespace PKHeX.Core
                 RibbonChampionNational = RibbonChampionNational,
 
                 FatefulEncounter = Fateful,
-                Version = GetVersion(SAV),
+                Version = GetVersion(sav),
             };
             pk.EXP = Experience.GetEXP(Level, pk.PersonalInfo.EXPGrowth);
             SetMoves(pk);
 
-            bool hatchedEgg = IsEgg && SAV.Generation != 3;
+            bool hatchedEgg = IsEgg && sav.Generation != 3;
             if (hatchedEgg)
             {
-                SetForceHatchDetails(pk, SAV);
+                SetForceHatchDetails(pk, sav);
             }
             else
             {
-                pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : SAV.Gender;
+                pk.OT_Gender = OT_Gender != 3 ? OT_Gender & 1 : sav.Gender;
                 pk.TID = TID;
                 pk.SID = SID;
 
-                pk.Language = (int)GetSafeLanguage((LanguageID)SAV.Language);
-                pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : SAV.OT;
+                pk.Language = (int)GetSafeLanguage((LanguageID)sav.Language);
+                pk.OT_Name = !string.IsNullOrWhiteSpace(OT_Name) ? OT_Name : sav.OT;
                 if (IsEgg)
                     pk.IsEgg = true; // lang should be set to japanese already
             }
@@ -116,7 +116,7 @@ namespace PKHeX.Core
 
             // Generate PIDIV
             SetPINGA(pk, criteria);
-            pk.HeldItem = 0; // clear, only random for Jirachis(?), no loss
+            pk.HeldItem = 0; // clear, only random for Jirachi (?), no loss
 
             if (Version == GameVersion.XD)
                 pk.FatefulEncounter = true; // pk3 is already converted from xk3
@@ -125,25 +125,25 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private static void SetForceHatchDetails(PK3 pk, ITrainerInfo SAV)
+        private static void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
         {
             // ugly workaround for character table interactions
             pk.Language = (int)LanguageID.English;
             pk.OT_Name = "PKHeX";
-            pk.OT_Gender = SAV.Gender;
-            pk.TID = SAV.TID;
-            pk.SID = SAV.SID;
+            pk.OT_Gender = sav.Gender;
+            pk.TID = sav.TID;
+            pk.SID = sav.SID;
             pk.Met_Location = pk.FRLG ? 146 /* Four Island */ : 32; // Route 117
             pk.FatefulEncounter &= pk.FRLG; // clear flag for RSE
             pk.Met_Level = 0; // hatched
         }
 
-        private int GetVersion(ITrainerInfo SAV)
+        private int GetVersion(ITrainerInfo sav)
         {
             if (Version != 0)
                 return (int) GetRandomVersion(Version);
-            bool gen3 = SAV.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)SAV.Game);
-            return gen3 ? SAV.Game : (int)GameVersion.R;
+            bool gen3 = sav.Game <= 15 && GameVersion.Gen3.Contains((GameVersion)sav.Game);
+            return gen3 ? sav.Game : (int)GameVersion.R;
         }
 
         private void SetMoves(PK3 pk)
@@ -225,7 +225,7 @@ namespace PKHeX.Core
                 var wcOT = OT_Name;
                 if (!string.IsNullOrEmpty(wcOT))
                 {
-                    if (wcOT.Length > 7) // Colosseum Mattle Ho-Oh
+                    if (wcOT.Length > 7) // Colosseum MATTLE Ho-Oh
                     {
                         if (!GetIsValidOTMattleHoOh(wcOT, pkm.OT_Name, pkm is CK3))
                             return false;

@@ -126,8 +126,7 @@ namespace PKHeX.Core
 
             int gt = Personal[species].Gender;
             bool g34 = origin <= 15;
-            bool g5 = 20 <= origin && origin <= 23; // bw/b2w2
-            uint abilBitVal = g5 ? oldPID & 0x0001_0000 : oldPID & 0x0000_0001;
+            uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
             bool singleGender = gt == 255 || gt == 254 || gt == 0; // skip gender check
@@ -151,7 +150,7 @@ namespace PKHeX.Core
                     if (abilBitVal != (pid & 0x0000_0001)) // keep ability bits
                         continue;
                 }
-                else if (g5)
+                else
                 {
                     if (abilBitVal != (pid & 0x0001_0000)) // keep ability bits
                         continue;
@@ -182,23 +181,23 @@ namespace PKHeX.Core
         /// Gets the gender ID of the species based on the Personality ID.
         /// </summary>
         /// <param name="species">National Dex ID.</param>
-        /// <param name="PID">Personality ID.</param>
+        /// <param name="pid">Personality ID.</param>
         /// <returns>Gender ID (0/1/2)</returns>
         /// <remarks>This method should only be used for Generations 3-5 origin.</remarks>
-        public static int GetGenderFromPID(int species, uint PID)
+        public static int GetGenderFromPID(int species, uint pid)
         {
             int gt = Personal[species].Gender;
-            return GetGenderFromPIDAndRatio(PID, gt);
+            return GetGenderFromPIDAndRatio(pid, gt);
         }
 
-        public static int GetGenderFromPIDAndRatio(uint PID, int gr)
+        public static int GetGenderFromPIDAndRatio(uint pid, int gr)
         {
             return gr switch
             {
                 255 => 2,
                 254 => 1,
                 0 => 0,
-                _ => ((PID & 0xFF) < gr ? 1 : 0)
+                _ => ((pid & 0xFF) < gr ? 1 : 0)
             };
         }
 

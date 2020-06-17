@@ -101,7 +101,7 @@ namespace PKHeX.Core
         public override int Version { get => (int)GameVersion.RBY; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
-        public override bool CanHoldItem(IReadOnlyList<ushort> ValidArray) => false;
+        public override bool CanHoldItem(IReadOnlyList<ushort> valid) => false;
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -116,7 +116,7 @@ namespace PKHeX.Core
             otname.CopyTo(pk2.otname, 0);
             nick.CopyTo(pk2.nick, 0);
 
-            pk2.HeldItem = ItemConverter.GetG2ItemTransfer(pk2.HeldItem);
+            pk2.HeldItem = ItemConverter.GetItemFuture1(pk2.HeldItem);
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
             pk2.Stat_Level = CurrentLevel;
 

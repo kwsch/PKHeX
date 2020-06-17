@@ -114,18 +114,18 @@ namespace PKHeX.Core
         /// Checks if the <see cref="MysteryGift"/> data is compatible with the <see cref="SaveFile"/>. Sets appropriate data to the save file in order to receive the gift.
         /// </summary>
         /// <param name="g">Gift data to potentially insert to the save file.</param>
-        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="sav">Save file receiving the gift data.</param>
         /// <param name="message">Error message if incompatible.</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public static bool IsCardCompatible(this MysteryGift g, SaveFile SAV, out string message)
+        public static bool IsCardCompatible(this MysteryGift g, SaveFile sav, out string message)
         {
-            if (g.Format != SAV.Generation)
+            if (g.Format != sav.Generation)
             {
                 message = MsgMysteryGiftSlotSpecialReject;
                 return false;
             }
 
-            if (!SAV.CanReceiveGift(g))
+            if (!sav.CanReceiveGift(g))
             {
                 message = MsgMysteryGiftTypeDetails;
                 return false;
@@ -133,7 +133,7 @@ namespace PKHeX.Core
 
             if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!(SAV is SAV6AO))
+                if (!(sav is SAV6AO))
                 {
                     message = MsgMysteryGiftSlotSpecialReject;
                     return false;
@@ -147,16 +147,16 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the gift values are receivable by the game.
         /// </summary>
-        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="sav">Save file receiving the gift data.</param>
         /// <param name="gift">Gift data to potentially insert to the save file.</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public static bool CanReceiveGift(this SaveFile SAV, MysteryGift gift)
+        public static bool CanReceiveGift(this SaveFile sav, MysteryGift gift)
         {
-            if (gift.Species > SAV.MaxSpeciesID)
+            if (gift.Species > sav.MaxSpeciesID)
                 return false;
-            if (gift.Moves.Any(move => move > SAV.MaxMoveID))
+            if (gift.Moves.Any(move => move > sav.MaxMoveID))
                 return false;
-            if (gift.HeldItem > SAV.MaxItemID)
+            if (gift.HeldItem > sav.MaxItemID)
                 return false;
             return true;
         }

@@ -192,11 +192,11 @@ namespace PKHeX.Core
         private static void PopulateGen3Tutors()
         {
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
-            var TMHM = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
             for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
             {
-                E[i].AddTMHM(TMHM[i]);
+                E[i].AddTMHM(machine[i]);
                 E[i].AddTypeTutors(tutors[i]);
             }
         }
@@ -352,12 +352,12 @@ namespace PKHeX.Core
                 result[i] = species[i];
                 if (AltForms[i].Length == 0)
                     continue;
-                int altformpointer = this[i].FormStatsIndex;
-                if (altformpointer <= 0)
+                int basePtr = this[i].FormStatsIndex;
+                if (basePtr <= 0)
                     continue;
                 for (int j = 1; j < AltForms[i].Length; j++)
                 {
-                    int ptr = altformpointer + j - 1;
+                    int ptr = basePtr + j - 1;
                     baseForm[ptr] = i;
                     formVal[ptr] = j;
                     result[ptr] = AltForms[i][j];
@@ -370,12 +370,12 @@ namespace PKHeX.Core
         /// Checks to see if either of the input type combinations exist in the table.
         /// </summary>
         /// <remarks>Only useful for checking Generation 1 <see cref="PK1.Type_A"/> and <see cref="PK1.Type_B"/> properties.</remarks>
-        /// <param name="Type1">First type</param>
-        /// <param name="Type2">Second type</param>
+        /// <param name="type1">First type</param>
+        /// <param name="type2">Second type</param>
         /// <returns>Indication that the combination exists in the table.</returns>
-        public bool IsValidTypeCombination(int Type1, int Type2)
+        public bool IsValidTypeCombination(int type1, int type2)
         {
-            return Table.Any(p => p.IsValidTypeCombination(Type1, Type2));
+            return Table.Any(p => p.IsValidTypeCombination(type1, type2));
         }
     }
 }

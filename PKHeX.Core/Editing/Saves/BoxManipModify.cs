@@ -12,6 +12,6 @@ namespace PKHeX.Core
         public override string GetFail(bool all) => string.Empty;
         public override string GetSuccess(bool all) => string.Empty;
 
-        public override int Execute(SaveFile SAV, BoxManipParam param) => SAV.ModifyBoxes(Action, param.Start, param.Stop);
+        public override int Execute(SaveFile sav, BoxManipParam param) => sav.ModifyBoxes(Action, param.Start, param.Stop);
     }
 }

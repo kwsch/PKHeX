@@ -111,11 +111,11 @@ namespace PKHeX.Core
             switch (format)
             {
                 case 1:
-                    var PL1 = new PokeList1(data);
-                    return PL1[0];
+                    var list1 = new PokeList1(data);
+                    return list1[0];
                 case 2:
-                    var PL2 = new PokeList2(data);
-                    return PL2[0];
+                    var list2 = new PokeList2(data);
+                    return list2[0];
                 case 3:
                     return data.Length switch
                     {
@@ -223,24 +223,24 @@ namespace PKHeX.Core
         /// Converts a PKM from one Generation format to another. If it matches the destination format, the conversion will automatically return.
         /// </summary>
         /// <param name="pk">PKM to convert</param>
-        /// <param name="PKMType">Format/Type to convert to</param>
+        /// <param name="destType">Format/Type to convert to</param>
         /// <param name="comment">Comments regarding the transfer's success/failure</param>
         /// <returns>Converted PKM</returns>
-        public static PKM? ConvertToType(PKM pk, Type PKMType, out string comment)
+        public static PKM? ConvertToType(PKM pk, Type destType, out string comment)
         {
             Type fromType = pk.GetType();
-            if (fromType == PKMType)
+            if (fromType == destType)
             {
                 comment = "No need to convert, current format matches requested format.";
                 return pk;
             }
 
-            var pkm = ConvertPKM(pk, PKMType, fromType, out comment);
+            var pkm = ConvertPKM(pk, destType, fromType, out comment);
             if (!AllowIncompatibleConversion || pkm != null)
                 return pkm;
 
             // Try Incompatible Conversion
-            pkm = GetBlank(PKMType);
+            pkm = GetBlank(destType);
             pk.TransferPropertiesWithReflection(pkm);
             if (!IsPKMCompatibleWithModifications(pkm))
                 return null;
@@ -248,54 +248,54 @@ namespace PKHeX.Core
             return pkm;
         }
 
-        private static PKM? ConvertPKM(PKM pk, Type PKMType, Type fromType, out string comment)
+        private static PKM? ConvertPKM(PKM pk, Type destType, Type srcType, out string comment)
         {
             if (IsNotTransferable(pk, out comment))
                 return null;
 
-            string toName = PKMType.Name;
-            string fromName = fromType.Name;
-            Debug.WriteLine($"Trying to convert {fromName} to {toName}.");
+            string destName = destType.Name;
+            string srcName = srcType.Name;
+            Debug.WriteLine($"Trying to convert {srcName} to {destName}.");
 
-            int toFormat = toName.Last() - '0';
-            var pkm = ConvertPKM(pk, PKMType, toFormat, ref comment);
+            int destGeneration = destName.Last() - '0';
+            var pkm = ConvertPKM(pk, destType, destGeneration, ref comment);
             var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
-            var formatted = string.Format(msg, fromName, toName);
+            var formatted = string.Format(msg, srcName, destName);
             comment = comment == null ? formatted : string.Concat(formatted, Environment.NewLine, comment);
             return pkm;
         }
 
-        private static PKM? ConvertPKM(PKM pk, Type PKMType, int toFormat, ref string comment)
+        private static PKM? ConvertPKM(PKM pk, Type destType, int destGeneration, ref string comment)
         {
             PKM? pkm = pk.Clone();
             if (pkm.IsEgg)
                 pkm.ForceHatchPKM();
             while (true)
             {
-                pkm = IntermediaryConvert(pkm, PKMType, toFormat, ref comment);
+                pkm = IntermediaryConvert(pkm, destType, destGeneration, ref comment);
                 if (pkm == null) // fail convert
                     return null;
-                if (pkm.GetType() == PKMType) // finish convert
+                if (pkm.GetType() == destType) // finish convert
                     return pkm;
             }
         }
 
-        private static PKM? IntermediaryConvert(PKM pk, Type PKMType, int toFormat, ref string comment)
+        private static PKM? IntermediaryConvert(PKM pk, Type destType, int destGeneration, ref string comment)
         {
             switch (pk)
             {
                 // Non-sequential
-                case PK1 pk1 when toFormat > 2: return pk1.ConvertToPK7();
-                case PK2 pk2 when toFormat > 2: return pk2.ConvertToPK7();
-                case PK3 pk3 when PKMType == typeof(CK3): return pk3.ConvertToCK3();
-                case PK3 pk3 when PKMType == typeof(XK3): return pk3.ConvertToXK3();
-                case PK4 pk4 when PKMType == typeof(BK4): return pk4.ConvertToBK4();
+                case PK1 pk1 when destGeneration > 2: return pk1.ConvertToPK7();
+                case PK2 pk2 when destGeneration > 2: return pk2.ConvertToPK7();
+                case PK3 pk3 when destType == typeof(CK3): return pk3.ConvertToCK3();
+                case PK3 pk3 when destType == typeof(XK3): return pk3.ConvertToXK3();
+                case PK4 pk4 when destType == typeof(BK4): return pk4.ConvertToBK4();
 
                 // Invalid
                 case PK2 pk2 when pk.Species > Legal.MaxSpeciesID_1:
                     var lang = pk2.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
                     var name = SpeciesName.GetSpeciesName(pk2.Species, lang);
-                    comment = string.Format(MsgPKMConvertFailFormat, name, PKMType.Name);
+                    comment = string.Format(MsgPKMConvertFailFormat, name, destType.Name);
                     return null;
 
                 // Sequential
@@ -411,25 +411,25 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static string GetIncompatibleGBMessage(PKM pk, bool destJP)
+        public static string GetIncompatibleGBMessage(PKM pk, bool destJapanese)
         {
-            var src = destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
-            var dest = !destJP ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
+            var src = destJapanese ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
+            var dest = !destJapanese ? MsgPKMConvertInternational : MsgPKMConvertJapanese;
             return string.Format(MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
         }
 
-        public static bool IsIncompatibleGB(int format, bool destJP, bool srcJP) => format <= 2 && destJP != srcJP;
+        public static bool IsIncompatibleGB(int format, bool destJapanese, bool srcJapanese) => format <= 2 && destJapanese != srcJapanese;
 
         /// <summary>
         /// Gets a Blank <see cref="PKM"/> object of the specified type.
         /// </summary>
-        /// <param name="t">Type of <see cref="PKM"/> instance desired.</param>
+        /// <param name="type">Type of <see cref="PKM"/> instance desired.</param>
         /// <returns>New instance of a blank <see cref="PKM"/> object.</returns>
-        public static PKM GetBlank(Type t)
+        public static PKM GetBlank(Type type)
         {
-            var constructors = t.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
+            var constructors = type.GetTypeInfo().DeclaredConstructors.Where(z => !z.IsStatic);
             var argCount = constructors.Min(z => z.GetParameters().Length);
-            return (PKM)Activator.CreateInstance(t, new object[argCount]);
+            return (PKM)Activator.CreateInstance(type, new object[argCount]);
         }
 
         public static PKM GetBlank(int gen, GameVersion ver)

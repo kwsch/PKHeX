@@ -23,7 +23,7 @@ namespace PKHeX.Core
                 break;
             }
 
-            foreach (var len in new[] { memeLen, memeLen - 2 }) // Account for Pokedex QR Edge case
+            foreach (var len in new[] { memeLen, memeLen - 2 }) // Account for Pokédex QR Edge case
             {
                 if (VerifyMemeData(input, out output, 0, len, memeIndex))
                     return true;
@@ -54,18 +54,18 @@ namespace PKHeX.Core
                 output = input;
                 return false;
             }
-            var memekey = new MemeKey(keyIndex);
+            var key = new MemeKey(keyIndex);
             output = (byte[])input.Clone();
 
             var sigBuffer = new byte[0x60];
             Array.Copy(input, input.Length - 0x60, sigBuffer, 0, 0x60);
-            sigBuffer = memekey.RsaPublic(sigBuffer);
+            sigBuffer = key.RsaPublic(sigBuffer);
             using var sha1 = SHA1.Create();
             foreach (var orVal in new byte[] { 0, 0x80 })
             {
                 sigBuffer[0x0] |= orVal;
                 sigBuffer.CopyTo(output, output.Length - 0x60);
-                memekey.AesDecrypt(output).CopyTo(output, 0);
+                key.AesDecrypt(output).CopyTo(output, 0);
                 // Check for 8-byte equality.
                 var computed = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
                 var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
@@ -112,8 +112,8 @@ namespace PKHeX.Core
             // Validate Input
             if (input.Length < 0x60)
                 throw new ArgumentException("Cannot memesign a buffer less than 0x60 bytes in size!");
-            var memekey = new MemeKey(keyIndex);
-            if (!memekey.CanResign)
+            var key = new MemeKey(keyIndex);
+            if (!key.CanResign)
                 throw new ArgumentException("Cannot sign with the specified memekey!");
 
             var output = (byte[])input.Clone();
@@ -125,11 +125,11 @@ namespace PKHeX.Core
             }
 
             // Perform AES operations
-            output = memekey.AesEncrypt(output);
+            output = key.AesEncrypt(output);
             var sigBuffer = new byte[0x60];
             Array.Copy(output, output.Length - 0x60, sigBuffer, 0, 0x60);
             sigBuffer[0] &= 0x7F;
-            sigBuffer = memekey.RsaPrivate(sigBuffer);
+            sigBuffer = key.RsaPrivate(sigBuffer);
             sigBuffer.CopyTo(output, output.Length - 0x60);
             return output;
         }
@@ -151,23 +151,23 @@ namespace PKHeX.Core
             var ChecksumSignatureLength = isUSUM ? 0x150 : 0x140;
             const int MemeCryptoSignatureLength = 0x80;
 
-            var outSav = (byte[])sav7.Clone();
+            var result = (byte[])sav7.Clone();
 
             using (var sha256 = SHA256.Create())
             {
                 // Store current signature
-                var CurSig = new byte[MemeCryptoSignatureLength];
-                Buffer.BlockCopy(sav7, MemeCryptoOffset, CurSig, 0, MemeCryptoSignatureLength);
+                var oldSig = new byte[MemeCryptoSignatureLength];
+                Buffer.BlockCopy(sav7, MemeCryptoOffset, oldSig, 0, MemeCryptoSignatureLength);
 
                 var newSig = sha256.ComputeHash(sav7, ChecksumTableOffset, ChecksumSignatureLength);
                 Array.Resize(ref newSig, MemeCryptoSignatureLength);
 
-                if (VerifyMemeData(CurSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
+                if (VerifyMemeData(oldSig, out var memeSig, MemeKeyIndex.PokedexAndSaveFile))
                     Buffer.BlockCopy(memeSig, 0x20, newSig, 0x20, 0x60);
 
-                SignMemeData(newSig).CopyTo(outSav, MemeCryptoOffset);
+                SignMemeData(newSig).CopyTo(result, MemeCryptoOffset);
             }
-            return outSav;
+            return result;
         }
     }
 }

@@ -49,20 +49,20 @@ namespace PKHeX.Core
         public const char SplitInstruction = '=';
 
         // Extra Functionality
-        private int Min, Max;
+        private int RandomMinimum, RandomMaximum;
         public bool Random { get; private set; }
-        public int RandomValue => Util.Rand.Next(Min, Max + 1);
+        public int RandomValue => Util.Rand.Next(RandomMinimum, RandomMaximum + 1);
 
         public void SetRandRange(string pv)
         {
             string str = pv.Substring(1);
             var split = str.Split(SplitRange);
-            int.TryParse(split[0], out Min);
-            int.TryParse(split[1], out Max);
+            int.TryParse(split[0], out RandomMinimum);
+            int.TryParse(split[1], out RandomMaximum);
 
-            if (Min == Max)
+            if (RandomMinimum == RandomMaximum)
             {
-                PropertyValue = Min.ToString();
+                PropertyValue = RandomMinimum.ToString();
                 Debug.WriteLine(PropertyName + " randomization range Min/Max same?");
             }
             else

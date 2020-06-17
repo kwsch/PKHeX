@@ -57,15 +57,15 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the location name for the specified parameters.
         /// </summary>
-        /// <param name="eggmet">Location is from the <see cref="PKM.Egg_Location"/></param>
-        /// <param name="locval">Location value</param>
+        /// <param name="isEggLocation">Location is from the <see cref="PKM.Egg_Location"/></param>
+        /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
         /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
         /// <returns>Location name</returns>
-        public static string GetLocationName(bool eggmet, int locval, int format, int generation, GameVersion version)
+        public static string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
-            return Strings.GetLocationName(eggmet, locval, format, generation, version);
+            return Strings.GetLocationName(isEggLocation, location, format, generation, version);
         }
 
         /// <summary>

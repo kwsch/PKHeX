@@ -78,7 +78,7 @@ namespace PKHeX.Core
         public override int Move4_PP { get => Data[0x86]; set => Data[0x86] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x87]; set => Data[0x87] = (byte)value; }
 
-        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x88); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x88); }
 
         // More party stats

@@ -115,7 +115,7 @@ namespace PKHeX.Core.Searching
                 res = FilterResultEgg(res);
 
             if (Level != null)
-                res = SearchUtil.FilterByLVL(res, SearchLevel, (int)Level);
+                res = SearchUtil.FilterByLevel(res, SearchLevel, (int)Level);
 
             if (SearchLegal != null)
                 res = res.Where(pk => new LegalityAnalysis(pk).Valid == SearchLegal);
@@ -135,27 +135,27 @@ namespace PKHeX.Core.Searching
             return res.Where(pk => pk.IsEgg);
         }
 
-        public IReadOnlyList<GameVersion> GetVersions(SaveFile SAV) => GetVersions(SAV, GetFallbackVersion(SAV));
+        public IReadOnlyList<GameVersion> GetVersions(SaveFile sav) => GetVersions(sav, GetFallbackVersion(sav));
 
-        public IReadOnlyList<GameVersion> GetVersions(SaveFile SAV, GameVersion fallback)
+        public IReadOnlyList<GameVersion> GetVersions(SaveFile sav, GameVersion fallback)
         {
             if (Version > 0)
                 return new[] {(GameVersion) Version};
             if (Generation != 0)
             {
                 return fallback.GetGeneration() == Generation
-                    ? GameUtil.GetVersionsWithinRange(SAV, Generation).ToArray()
+                    ? GameUtil.GetVersionsWithinRange(sav, Generation).ToArray()
                     : GameUtil.GameVersions;
             }
 
             return GameUtil.GameVersions;
         }
 
-        private static GameVersion GetFallbackVersion(SaveFile SAV)
+        private static GameVersion GetFallbackVersion(ITrainerInfo sav)
         {
-            var parent = GameUtil.GetMetLocationVersionGroup((GameVersion)SAV.Game);
+            var parent = GameUtil.GetMetLocationVersionGroup((GameVersion)sav.Game);
             if (parent == GameVersion.Invalid)
-                parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(SAV.Generation));
+                parent = GameUtil.GetMetLocationVersionGroup(GameUtil.GetVersion(sav.Generation));
             return parent;
         }
     }

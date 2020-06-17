@@ -6,16 +6,16 @@ namespace PKHeX.Core
     {
         public static IReadOnlyList<PKM> GetAllPKM(this SaveFile sav)
         {
-            var pkms = new List<PKM>();
+            var result = new List<PKM>();
             if (sav.HasBox)
-                pkms.AddRange(sav.BoxData);
+                result.AddRange(sav.BoxData);
             if (sav.HasParty)
-                pkms.AddRange(sav.PartyData);
+                result.AddRange(sav.PartyData);
 
             var extra = sav.GetExtraPKM();
-            pkms.AddRange(extra);
-            pkms.RemoveAll(z => z.Species == 0);
-            return pkms;
+            result.AddRange(extra);
+            result.RemoveAll(z => z.Species == 0);
+            return result;
         }
 
         public static PKM[] GetExtraPKM(this SaveFile sav) => sav.GetExtraPKM(sav.GetExtraSlots());

@@ -13,41 +13,41 @@ namespace PKHeX.Drawing
         // QR Utility
         private const string DecodeAPI = "http://api.qrserver.com/v1/read-qr-code/?fileurl=";
 
-        public static QRDecodeMsg GetQRData(string address, out byte[] result)
+        public static QRDecodeResult GetQRData(string address, out byte[] result)
         {
             result = Array.Empty<byte>();
             // Fetch data from QR code...
 
             if (!address.StartsWith("http"))
-                return QRDecodeMsg.BadPath;
+                return QRDecodeResult.BadPath;
 
-            string webURL = DecodeAPI + WebUtility.UrlEncode(address);
+            string url = DecodeAPI + WebUtility.UrlEncode(address);
             string data;
             try
             {
-                var str = NetUtil.GetStringFromURL(webURL);
+                var str = NetUtil.GetStringFromURL(url);
                 if (str is null)
-                    return QRDecodeMsg.BadConnection;
+                    return QRDecodeResult.BadConnection;
 
                 data = str;
                 if (data.Contains("could not find"))
-                    return QRDecodeMsg.BadImage;
+                    return QRDecodeResult.BadImage;
 
                 if (data.Contains("filetype not supported"))
-                    return QRDecodeMsg.BadType;
+                    return QRDecodeResult.BadType;
             }
-            catch { return QRDecodeMsg.BadConnection; }
+            catch { return QRDecodeResult.BadConnection; }
 
             // Quickly convert the json response to a data string
             try
             {
                 result = DecodeQRJson(data);
-                return QRDecodeMsg.Success;
+                return QRDecodeResult.Success;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return QRDecodeMsg.BadConversion;
+                return QRDecodeResult.BadConversion;
             }
         }
 
@@ -78,28 +78,18 @@ namespace PKHeX.Drawing
             return Convert.FromBase64String(pkstr);
         }
 
-        public static string ConvertMsg(this QRDecodeMsg msg)
+        public static string ConvertMsg(this QRDecodeResult result)
         {
-            return msg switch
+            return result switch
             {
-                QRDecodeMsg.Success => string.Empty,
-                QRDecodeMsg.BadPath => MessageStrings.MsgQRUrlFailPath,
-                QRDecodeMsg.BadImage => MessageStrings.MsgQRUrlFailImage,
-                QRDecodeMsg.BadType => MessageStrings.MsgQRUrlFailType,
-                QRDecodeMsg.BadConnection => MessageStrings.MsgQRUrlFailConnection,
-                QRDecodeMsg.BadConversion => MessageStrings.MsgQRUrlFailConvert,
-                _ => throw new ArgumentOutOfRangeException(nameof(msg), msg, null)
+                QRDecodeResult.Success => string.Empty,
+                QRDecodeResult.BadPath => MessageStrings.MsgQRUrlFailPath,
+                QRDecodeResult.BadImage => MessageStrings.MsgQRUrlFailImage,
+                QRDecodeResult.BadType => MessageStrings.MsgQRUrlFailType,
+                QRDecodeResult.BadConnection => MessageStrings.MsgQRUrlFailConnection,
+                QRDecodeResult.BadConversion => MessageStrings.MsgQRUrlFailConvert,
+                _ => throw new ArgumentOutOfRangeException(nameof(result), result, null)
             };
         }
-    }
-
-    public enum QRDecodeMsg
-    {
-        Success,
-        BadPath,
-        BadImage,
-        BadType,
-        BadConnection,
-        BadConversion,
     }
 }

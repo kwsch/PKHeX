@@ -48,9 +48,9 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="len">Length, in bytes, of the data of which to determine validity.</param>
         /// <returns>A boolean indicating whether or not the given length is valid for a mystery gift.</returns>
-        public static bool IsMysteryGift(long len) => MGSizes.Contains((int)len);
+        public static bool IsMysteryGift(long len) => Sizes.Contains((int)len);
 
-        private static readonly HashSet<int> MGSizes = new HashSet<int>{ WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
+        private static readonly HashSet<int> Sizes = new HashSet<int>{ WC8.Size, WC6Full.Size, WC6.Size, PGF.Size, PGT.Size, PCD.Size };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
@@ -129,8 +129,8 @@ namespace PKHeX.Core
         public string FileName => $"{CardHeader}.{Extension}";
         public abstract int Format { get; }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
-        public abstract PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
+        public abstract PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
 
         protected abstract bool IsMatchExact(PKM pkm);
         protected abstract bool IsMatchDeferred(PKM pkm);
@@ -158,7 +158,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.
         /// </summary>
-        public string Name => $"Event Gift";
+        public string Name => "Event Gift";
 
         /// <summary>
         /// Gets a friendly name for the underlying <see cref="MysteryGift"/> type for the <see cref="IEncounterable"/> interface.

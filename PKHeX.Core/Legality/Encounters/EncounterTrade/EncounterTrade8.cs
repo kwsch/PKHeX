@@ -31,14 +31,14 @@ namespace PKHeX.Core
             return base.IsMatch(pkm, lvl);
         }
 
-        protected override void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            base.ApplyDetails(SAV, criteria, pk);
+            base.ApplyDetails(sav, criteria, pk);
             pk.SetRelearnMoves(Relearn);
 
             var pk8 = (PK8)pk;
             pk8.DynamaxLevel = DynamaxLevel;
-            pk8.HT_Language = SAV.Language;
+            pk8.HT_Language = sav.Language;
             pk8.OT_Memory = OT_Memory;
             pk8.OT_TextVar = OT_TextVar;
             pk8.OT_Feeling = OT_Feeling;

@@ -11,7 +11,7 @@ namespace PKHeX.Core
     public static class SaveFinder
     {
         /// <summary>
-        /// Gets the 3DS's root folder, usually from an inserted SD card.
+        /// Searches the provided <see cref="drives"/> to find a valid 3DS drive, usually from an inserted SD card.
         /// </summary>
         /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.
@@ -21,7 +21,7 @@ namespace PKHeX.Core
             FindConsoleRootFolder(drives, "Nintendo 3DS", skipFirstDrive);
 
         /// <summary>
-        /// Gets the Switch's root folder, usually from an inserted SD card.
+        /// Searches the provided <see cref="drives"/> to find a valid Switch drive, usually from an inserted SD card.
         /// </summary>
         /// <param name="drives">List of drives on the host machine.</param>
         /// <param name="skipFirstDrive">Optional parameter to skip the first drive.

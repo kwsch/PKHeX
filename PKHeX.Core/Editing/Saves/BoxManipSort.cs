@@ -13,10 +13,10 @@ namespace PKHeX.Core
         public override string GetFail(bool all) => all ? MessageStrings.MsgSaveBoxSortAllFailBattle: MessageStrings.MsgSaveBoxSortCurrentFailBattle;
         public override string GetSuccess(bool all) => all ? MessageStrings.MsgSaveBoxSortAllSuccess : MessageStrings.MsgSaveBoxSortCurrentSuccess;
 
-        public override int Execute(SaveFile SAV, BoxManipParam param)
+        public override int Execute(SaveFile sav, BoxManipParam param)
         {
             IEnumerable<PKM> Method(IEnumerable<PKM> p) => Sorter(p);
-            return SAV.SortBoxes(param.Start, param.Stop, Method, param.Reverse);
+            return sav.SortBoxes(param.Start, param.Stop, Method, param.Reverse);
         }
     }
 }

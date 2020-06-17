@@ -265,7 +265,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
@@ -283,12 +283,12 @@ namespace PKHeX.Core
                 Met_Level = currentLevel,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-                Version = OriginGame != 0 ? OriginGame : SAV.Game,
-                Language = Language != 0 ? Language : SAV.Language,
+                Version = OriginGame != 0 ? OriginGame : sav.Game,
+                Language = Language != 0 ? Language : sav.Language,
                 Ball = Ball,
-                Country = SAV.Country,
-                Region = SAV.SubRegion,
-                ConsoleRegion = SAV.ConsoleRegion,
+                Country = sav.Country,
+                Region = sav.SubRegion,
+                ConsoleRegion = sav.ConsoleRegion,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
@@ -301,10 +301,10 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                OT_Name = OT_Name.Length > 0 ? OT_Name : SAV.OT,
-                OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
-                HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
+                OT_Name = OT_Name.Length > 0 ? OT_Name : sav.OT,
+                OT_Gender = OTGender != 3 ? OTGender % 2 : sav.Gender,
+                HT_Name = OT_Name.Length > 0 ? sav.OT : string.Empty,
+                HT_Gender = OT_Name.Length > 0 ? sav.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
                 EXP = Experience.GetEXP(Level, pi.EXPGrowth),
@@ -341,7 +341,7 @@ namespace PKHeX.Core
 
             pk.MetDate = Date ?? DateTime.Now;
 
-            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
                 do { pk.Version = (int)GameVersion.X + rnd.Next(4); }
@@ -519,7 +519,7 @@ namespace PKHeX.Core
             switch (CardID)
             {
                 case 0525 when IV_HP == 0xFE: // Diancie was distributed with no IV enforcement & 3IVs
-                case 0504 when RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // magmar with/without classic
+                case 0504 when RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // Magmar with/without classic
                     return true;
             }
             if (RestrictLanguage != 0 && RestrictLanguage != pkm.Language)

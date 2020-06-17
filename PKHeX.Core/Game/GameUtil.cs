@@ -28,13 +28,13 @@ namespace PKHeX.Core
         public const GameVersion HighestGameID = RB - 1;
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
-        /// <param name="Version">Version of which to determine the group</param>
+        /// <param name="version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion GetMetLocationVersionGroup(GameVersion Version)
+        public static GameVersion GetMetLocationVersionGroup(GameVersion version)
         {
-            switch (Version)
+            switch (version)
             {
-                // Sidegame
+                // Side games
                 case CXD:
                     return CXD;
                 case GO:
@@ -267,12 +267,13 @@ namespace PKHeX.Core
         {
             if (obj.MaxGameID == Legal.MaxGameID_7b) // edge case
                 return new[] {GO, GP, GE};
-            var vers = GameVersions.Where(z => z >= (GameVersion)obj.MinGameID && z <= (GameVersion)obj.MaxGameID);
+            var versions = GameVersions
+                .Where(version => (GameVersion)obj.MinGameID <= version && version <= (GameVersion)obj.MaxGameID);
             if (generation < 0)
-                return vers;
+                return versions;
             if (obj.MaxGameID == Legal.MaxGameID_7 && generation == 7)
-                vers = vers.Where(z => z != GO);
-            return vers.Where(z => z.GetGeneration() <= generation);
+                versions = versions.Where(version => version != GO);
+            return versions.Where(version => version.GetGeneration() <= generation);
         }
     }
 }

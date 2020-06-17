@@ -405,7 +405,7 @@ namespace PKHeX.WinForms.Controls
 
         public void SetATKIVGender(int gender)
         {
-            Entity.SetATKIVGender(gender);
+            Entity.SetAttackIVFromGender(gender);
             TB_IVATK.Text = Entity.IV_ATK.ToString();
         }
 

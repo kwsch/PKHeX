@@ -56,20 +56,20 @@ namespace PKHeX.Core
         public string Name => _name;
         public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
-        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             var pk = PKMConverter.GetBlank(Generation, Version);
-            SAV.ApplyToPKM(pk);
+            sav.ApplyTo(pk);
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             pk.AltForm = Form;
 
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
             int level = GetMinimalLevel();
-            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
+            var version = this.GetCompatibleVersion((GameVersion)sav.Game);
             SanityCheckVersion(ref version);
 
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
@@ -84,7 +84,7 @@ namespace PKHeX.Core
             var today = DateTime.Today;
             SetMetData(pk, level, today);
             if (EggEncounter)
-                SetEggMetData(pk, SAV, today);
+                SetEggMetData(pk, sav, today);
 
             SetPINGA(pk, criteria);
             SetEncounterMoves(pk, version, level);
@@ -115,7 +115,7 @@ namespace PKHeX.Core
                 return pk;
 
             pk.SetRelearnMoves(Relearn);
-            SAV.ApplyHandlingTrainerInfo(pk);
+            sav.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
             if (this is IGigantamax g && pk is IGigantamax pg)

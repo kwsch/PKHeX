@@ -27,7 +27,7 @@ namespace PKHeX.Core
             gender = Math.Min(2, Math.Max(0, gender));
             if (pk.Format <= 2)
             {
-                pk.SetATKIVGender(gender);
+                pk.SetAttackIVFromGender(gender);
             }
             else if (pk.Format <= 5)
             {
@@ -64,7 +64,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="gender">Desired <see cref="PKM.Gender"/>.</param>
-        public static void SetATKIVGender(this PKM pk, int gender)
+        public static void SetAttackIVFromGender(this PKM pk, int gender)
         {
             var rnd = Util.Rand;
             while (pk.Gender != gender)

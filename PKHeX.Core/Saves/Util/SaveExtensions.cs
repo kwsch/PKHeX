@@ -47,7 +47,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets suggested export options for the savefile.
+        /// Gets suggested export options for the save file.
         /// </summary>
         /// <param name="sav">SaveFile to be exported</param>
         /// <param name="ext">Selected export extension</param>

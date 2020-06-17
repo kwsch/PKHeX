@@ -14,8 +14,8 @@
         int LevelMax { get; }
         int Generation { get; }
 
-        PKM ConvertToPKM(ITrainerInfo SAV);
-        PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria);
+        PKM ConvertToPKM(ITrainerInfo sav);
+        PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
     }
 
     public static partial class Extensions

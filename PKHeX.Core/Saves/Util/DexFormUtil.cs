@@ -3,13 +3,13 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Logic for interacting with Pokedex AltForm flags
+    /// Logic for interacting with Pokédex AltForm flags
     /// </summary>
     public static class DexFormUtil
     {
-        public static int GetDexFormIndexSM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_SM);
-        public static int GetDexFormIndexUSUM(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_USUM);
-        public static int GetDexFormIndexGG(int species, int formct, int start) => GetDexFormBitIndex(species, formct, start, formtable_GG);
+        public static int GetDexFormIndexSM(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_SM);
+        public static int GetDexFormIndexUSUM(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_USUM);
+        public static int GetDexFormIndexGG(int species, int formCount, int start) => GetDexFormBitIndex(species, formCount, start, formtable_GG);
         public static int GetDexFormCountSM(int species) => GetDexFormCount(species, formtable_SM);
         public static int GetDexFormCountUSUM(int species) => GetDexFormCount(species, formtable_USUM);
         public static int GetDexFormCountGG(int species) => GetDexFormCount(species, formtable_GG);
@@ -94,34 +94,34 @@ namespace PKHeX.Core
             0x007F, 0x0002, 0x0082, 0x0002, 0x008E, 0x0002, 0x0096, 0x0003,
         };
 
-        private static int GetDexFormBitIndex(int species, int formct, int start, IReadOnlyList<ushort> formtable)
+        private static int GetDexFormBitIndex(int species, int formCount, int start, IReadOnlyList<ushort> formTable)
         {
-            int formindex = start;
-            for (int i = 0; i < formtable.Count; i += 2)
+            int formIndex = start;
+            for (int i = 0; i < formTable.Count; i += 2)
             {
-                int s = formtable[i];
-                int f = formtable[i + 1];
+                int s = formTable[i];
+                int f = formTable[i + 1];
                 if (s == species)
-                    return f > formct ? -1 : formindex;
+                    return f > formCount ? -1 : formIndex;
 
-                formindex += f - 1;
+                formIndex += f - 1;
             }
             return -1;
         }
 
-        private static int GetDexFormCount(int species, IReadOnlyList<ushort> formtable)
+        private static int GetDexFormCount(int species, IReadOnlyList<ushort> formTable)
         {
-            for (int i = 0; i < formtable.Count; i += 2)
+            for (int i = 0; i < formTable.Count; i += 2)
             {
-                if (formtable[i] == species)
-                    return formtable[i + 1];
+                if (formTable[i] == species)
+                    return formTable[i + 1];
             }
             return 0;
         }
 
-        public static int GetDexFormIndexBW(int species, int formct)
+        public static int GetDexFormIndexBW(int species, int formCount)
         {
-            if (formct < 1 || species < 0)
+            if (formCount < 1 || species < 0)
                 return -1; // invalid
             return species switch
             {
@@ -145,9 +145,9 @@ namespace PKHeX.Core
             };
         }
 
-        public static int GetDexFormIndexB2W2(int species, int formct)
+        public static int GetDexFormIndexB2W2(int species, int formCount)
         {
-            if (formct < 1 || species < 0)
+            if (formCount < 1 || species < 0)
                 return -1; // invalid
             return species switch
             {
@@ -156,13 +156,13 @@ namespace PKHeX.Core
                 642 => 077, // 2 Thundurus
                 641 => 079, // 2 Tornadus
                 645 => 081, // 2 Landorus
-                _ => GetDexFormIndexBW(species, formct)
+                _ => GetDexFormIndexBW(species, formCount)
             };
         }
 
-        public static int GetDexFormIndexXY(int species, int formct)
+        public static int GetDexFormIndexXY(int species, int formCount)
         {
-            if (formct < 1 || species < 0)
+            if (formCount < 1 || species < 0)
                 return -1; // invalid
             return species switch
             {
@@ -202,13 +202,13 @@ namespace PKHeX.Core
                 445 => 183, // 2 Garchomp
                 448 => 185, // 2 Lucario
                 460 => 187, // 2 Abomasnow
-                _ => GetDexFormIndexB2W2(species, formct)
+                _ => GetDexFormIndexB2W2(species, formCount)
             };
         }
 
-        public static int GetDexFormIndexORAS(int species, int formct)
+        public static int GetDexFormIndexORAS(int species, int formCount)
         {
-            if (formct < 1 || species < 0)
+            if (formCount < 1 || species < 0)
                 return -1; // invalid
             return species switch
             {
@@ -237,7 +237,7 @@ namespace PKHeX.Core
                 493 => 238, // 18 Arceus
                 649 => 256, // 5 Genesect
                 676 => 261, // 10 Furfrou
-                _ => GetDexFormIndexXY(species, formct)
+                _ => GetDexFormIndexXY(species, formCount)
             };
         }
     }

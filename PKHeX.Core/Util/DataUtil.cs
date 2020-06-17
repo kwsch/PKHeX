@@ -144,17 +144,17 @@ namespace PKHeX.Core
         {
             if (txt == null)
                 return Array.Empty<string>();
-            string[] rawlist = txt.Split('\n');
-            for (int i = 0; i < rawlist.Length; i++)
-                rawlist[i] = rawlist[i].TrimEnd('\r');
+            string[] raw = txt.Split('\n');
+            for (int i = 0; i < raw.Length; i++)
+                raw[i] = raw[i].TrimEnd('\r');
 
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache
             {
                 if (!stringListCache.ContainsKey(file)) // Check cache again in case of race condition
-                    stringListCache.Add(file, rawlist);
+                    stringListCache.Add(file, raw);
             }
 
-            return (string[])rawlist.Clone();
+            return (string[])raw.Clone();
         }
 
         public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList($"{type}_{fileName}_{lang2char}");
@@ -169,16 +169,16 @@ namespace PKHeX.Core
 
         public static string? GetStringResource(string name)
         {
-            if (!resourceNameMap.TryGetValue(name, out var resname))
+            if (!resourceNameMap.TryGetValue(name, out var resourceName))
             {
                 bool Match(string x) => x.StartsWith("PKHeX.Core.Resources.text.") && x.EndsWith($"{name}.txt", StringComparison.OrdinalIgnoreCase);
-                resname = Array.Find(manifestResourceNames, Match);
-                if (resname == null)
+                resourceName = Array.Find(manifestResourceNames, Match);
+                if (resourceName == null)
                     return null;
-                resourceNameMap.Add(name, resname);
+                resourceNameMap.Add(name, resourceName);
             }
 
-            using var resource = thisAssembly.GetManifestResourceStream(resname);
+            using var resource = thisAssembly.GetManifestResourceStream(resourceName);
             if (resource == null)
                 return null;
             using var reader = new StreamReader(resource);
@@ -284,9 +284,9 @@ namespace PKHeX.Core
 
         private static readonly string[] CountryRegionLanguages = {"ja", "en", "fr", "de", "it", "es", "zh", "ko"};
 
-        public static List<ComboItem> GetCountryRegionList(string textfile, string lang)
+        public static List<ComboItem> GetCountryRegionList(string textFile, string lang)
         {
-            string[] inputCSV = GetStringList(textfile);
+            string[] inputCSV = GetStringList(textFile);
             int index = Array.IndexOf(CountryRegionLanguages, lang);
             return GetCBListCSVSorted(inputCSV, index);
         }
@@ -298,9 +298,9 @@ namespace PKHeX.Core
             return list;
         }
 
-        public static List<ComboItem> GetCSVUnsortedCBList(string textfile)
+        public static List<ComboItem> GetCSVUnsortedCBList(string textFile)
         {
-            string[] inputCSV = GetStringList(textfile);
+            string[] inputCSV = GetStringList(textFile);
             return GetCBListFromCSV(inputCSV, 0);
         }
 

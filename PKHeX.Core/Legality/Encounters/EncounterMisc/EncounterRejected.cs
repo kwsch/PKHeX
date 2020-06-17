@@ -27,7 +27,7 @@ namespace PKHeX.Core
             Check = check;
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
-        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria) => throw new ArgumentException($"Cannot convert an {nameof(EncounterRejected)} to PKM.");
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria) => throw new ArgumentException($"Cannot convert an {nameof(EncounterRejected)} to PKM.");
     }
 }

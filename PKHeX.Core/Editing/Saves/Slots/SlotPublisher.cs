@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public ISlotInfo? Previous { get; private set; }
         public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;
-        public PKM? PreviousPKM { get; private set; }
+        public PKM? PreviousEntity { get; private set; }
 
         /// <summary>
         /// Notifies all <see cref="Subscribers"/> with the latest slot change details.
@@ -28,7 +28,7 @@ namespace PKHeX.Core
                 ResetView(sub, slot, type, pkm);
             Previous = slot;
             PreviousType = type;
-            PreviousPKM = pkm;
+            PreviousEntity = pkm;
         }
 
         private void ResetView(ISlotViewer<T> sub, ISlotInfo slot, SlotTouchType type, PKM pkm)
@@ -42,9 +42,9 @@ namespace PKHeX.Core
 
         public void ResetView(ISlotViewer<T> sub)
         {
-            if (Previous == null || PreviousPKM == null)
+            if (Previous == null || PreviousEntity == null)
                 return;
-            ResetView(sub, Previous, PreviousType, PreviousPKM);
+            ResetView(sub, Previous, PreviousType, PreviousEntity);
         }
     }
 }

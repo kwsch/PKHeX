@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         #region Stored Attributes
         public override int Species { get => Data[0]; set => Data[0] = (byte)value; }
-        public override int SpriteItem => ItemConverter.GetG4Item((byte)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
         public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
         public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
         public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }

@@ -12,10 +12,10 @@ namespace PKHeX.Core
         public override string GetFail(bool all) => all ? MessageStrings.MsgSaveBoxClearAllFailBattle : MessageStrings.MsgSaveBoxClearCurrentFailBattle;
         public override string GetSuccess(bool all) => all ? MessageStrings.MsgSaveBoxClearAllSuccess : MessageStrings.MsgSaveBoxClearCurrentSuccess;
 
-        public override int Execute(SaveFile SAV, BoxManipParam param)
+        public override int Execute(SaveFile sav, BoxManipParam param)
         {
-            bool Method(PKM p) => param.Reverse ^ Criteria(p, SAV);
-            return SAV.ClearBoxes(param.Start, param.Stop, Method);
+            bool Method(PKM p) => param.Reverse ^ Criteria(p, sav);
+            return sav.ClearBoxes(param.Start, param.Stop, Method);
         }
     }
 }

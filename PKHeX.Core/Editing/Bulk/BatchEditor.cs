@@ -13,7 +13,7 @@ namespace PKHeX.Core
     {
         private int Modified { get; set; }
         private int Iterated { get; set; }
-        private int Errored { get; set; }
+        private int Failed { get; set; }
 
         /// <summary>
         /// Tries to modify the <see cref="PKM"/>.
@@ -22,7 +22,7 @@ namespace PKHeX.Core
         /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
         /// <param name="modifications">Modifications to perform on the <see cref="pkm"/>.</param>
         /// <returns>Result of the attempted modification.</returns>
-        public bool ProcessPKM(PKM pkm, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
+        public bool Process(PKM pkm, IEnumerable<StringInstruction> filters, IEnumerable<StringInstruction> modifications)
         {
             if (pkm.Species <= 0)
                 return false;
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             if (result != ModifyResult.Invalid)
                 Iterated++;
             if (result == ModifyResult.Error)
-                Errored++;
+                Failed++;
             if (result != ModifyResult.Modified)
                 return false;
 
@@ -60,8 +60,8 @@ namespace PKHeX.Core
             int len = Iterated / sets.Count;
             string maybe = sets.Count == 1 ? string.Empty : "~";
             string result = string.Format(MsgBEModifySuccess, maybe, ctr, len);
-            if (Errored > 0)
-                result += Environment.NewLine + maybe + string.Format(MsgBEModifyFailError, Errored);
+            if (Failed > 0)
+                result += Environment.NewLine + maybe + string.Format(MsgBEModifyFailError, Failed);
             return result;
         }
 
@@ -72,7 +72,7 @@ namespace PKHeX.Core
             foreach (var pk in data)
             {
                 foreach (var set in sets)
-                    editor.ProcessPKM(pk, set.Filters, set.Instructions);
+                    editor.Process(pk, set.Filters, set.Instructions);
             }
 
             return editor;

@@ -78,21 +78,21 @@ namespace PKHeX.Core
             Locations.LinkTrade6NPC, // 8 is same as 6
         };
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
-        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             var pk = PKMConverter.GetBlank(Generation, Version);
-            SAV.ApplyToPKM(pk);
+            sav.ApplyTo(pk);
 
-            ApplyDetails(SAV, criteria, pk);
+            ApplyDetails(sav, criteria, pk);
             return pk;
         }
 
-        protected virtual void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        protected virtual void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            var version = this.GetCompatibleVersion((GameVersion)sav.Game);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
             int level = CurrentLevel > 0 ? CurrentLevel : LevelMin;
             if (level == 0)
                 level = Math.Max(1, LevelMin);
@@ -105,8 +105,8 @@ namespace PKHeX.Core
             pk.Species = species;
             pk.AltForm = Form;
             pk.Language = lang;
-            pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : HasTrainerName ? GetOT(lang) : SAV.OT;
-            pk.OT_Gender = HasTrainerName ? Math.Max(0, OTGender) : SAV.Gender;
+            pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : HasTrainerName ? GetOT(lang) : sav.OT;
+            pk.OT_Gender = HasTrainerName ? Math.Max(0, OTGender) : sav.Gender;
             pk.SetNickname(GetNickname(lang));
 
             pk.CurrentLevel = level;
@@ -143,7 +143,7 @@ namespace PKHeX.Core
             if (pk.Format < 6)
                 return;
 
-            SAV.ApplyHandlingTrainerInfo(pk, force: true);
+            sav.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
 
             if (pk.Format == 6)
@@ -416,9 +416,9 @@ namespace PKHeX.Core
             OT_TextVar = v;
         }
 
-        protected override void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            base.ApplyDetails(SAV, criteria, pk);
+            base.ApplyDetails(sav, criteria, pk);
             pk.OT_Memory = OT_Memory;
             pk.OT_Intensity = OT_Intensity;
             pk.OT_Feeling = OT_Feeling;
@@ -433,9 +433,9 @@ namespace PKHeX.Core
         public int OT_Feeling => 5;
         public int OT_TextVar => 40;
 
-        protected override void ApplyDetails(ITrainerInfo SAV, EncounterCriteria criteria, PKM pk)
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
-            base.ApplyDetails(SAV, criteria, pk);
+            base.ApplyDetails(sav, criteria, pk);
             pk.OT_Memory = OT_Memory;
             pk.OT_Intensity = OT_Intensity;
             pk.OT_Feeling = OT_Feeling;

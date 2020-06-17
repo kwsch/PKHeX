@@ -84,15 +84,15 @@ namespace PKHeX.Core
             }
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
-        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            var version = this.GetCompatibleVersion((GameVersion)SAV.Game);
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)SAV.Language);
+            var version = this.GetCompatibleVersion((GameVersion)sav.Game);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
             int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation, Version);
-            SAV.ApplyToPKM(pk);
+            sav.ApplyTo(pk);
 
             pk.Species = Species;
             pk.Language = lang;
@@ -102,7 +102,7 @@ namespace PKHeX.Core
             pk.Ball = (int)Type.GetBall();
             pk.Language = lang;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
-            pk.AltForm = GetWildAltForm(pk, Form, SAV);
+            pk.AltForm = GetWildAltForm(pk, Form, sav);
 
             SetMetData(pk, level, Location);
             SetPINGA(pk, criteria);
@@ -113,7 +113,7 @@ namespace PKHeX.Core
             if (pk.Format < 6)
                 return pk;
 
-            SAV.ApplyHandlingTrainerInfo(pk);
+            sav.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
             return pk;
@@ -191,7 +191,7 @@ namespace PKHeX.Core
                 pk.MetDate = DateTime.Today;
         }
 
-        private static int GetWildAltForm(PKM pk, int form, ITrainerInfo SAV)
+        private static int GetWildAltForm(PKM pk, int form, ITrainerInfo sav)
         {
             if (form < 30) // specified form
             {
@@ -204,7 +204,7 @@ namespace PKHeX.Core
 
             int spec = pk.Species;
             if (spec == (int)Core.Species.Scatterbug || spec == (int)Core.Species.Spewpa || spec == (int)Core.Species.Vivillon)
-                return Legal.GetVivillonPattern((byte)SAV.Country, (byte)SAV.SubRegion);
+                return Legal.GetVivillonPattern((byte)sav.Country, (byte)sav.SubRegion);
             return 0;
         }
 

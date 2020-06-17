@@ -293,7 +293,7 @@ namespace PKHeX.Core
             return 0xEE + (index * 0x1A);
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
@@ -303,7 +303,7 @@ namespace PKHeX.Core
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
-            var OT = GetOT(SAV.Language);
+            var OT = GetOT(sav.Language);
 
             var pk = new PB7
             {
@@ -314,12 +314,12 @@ namespace PKHeX.Core
                 Met_Level = metLevel,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-                Version = OriginGame != 0 ? OriginGame : SAV.Game,
-                Language = SAV.Language,
+                Version = OriginGame != 0 ? OriginGame : sav.Game,
+                Language = sav.Language,
                 Ball = Ball,
-                Country = SAV.Country,
-                Region = SAV.SubRegion,
-                ConsoleRegion = SAV.ConsoleRegion,
+                Country = sav.Country,
+                Region = sav.SubRegion,
+                ConsoleRegion = sav.ConsoleRegion,
                 Move1 = Move1,
                 Move2 = Move2,
                 Move3 = Move3,
@@ -337,10 +337,10 @@ namespace PKHeX.Core
                 AV_SPA = AV_SPA,
                 AV_SPD = AV_SPD,
 
-                OT_Name = OT.Length > 0 ? OT : SAV.OT,
-                OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
-                HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
+                OT_Name = OT.Length > 0 ? OT : sav.OT,
+                OT_Gender = OTGender != 3 ? OTGender % 2 : sav.Gender,
+                HT_Name = OT_Name.Length > 0 ? sav.OT : string.Empty,
+                HT_Gender = OT_Name.Length > 0 ? sav.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
                 EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
@@ -350,7 +350,7 @@ namespace PKHeX.Core
             };
             pk.SetMaximumPPCurrent();
 
-            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
                 do { pk.Version = (int)GameVersion.GP + rnd.Next(2); }
@@ -359,8 +359,8 @@ namespace PKHeX.Core
 
             if (OTGender == 3)
             {
-                pk.TID = SAV.TID;
-                pk.SID = SAV.SID;
+                pk.TID = sav.TID;
+                pk.SID = sav.SID;
             }
 
             pk.MetDate = Date ?? DateTime.Now;

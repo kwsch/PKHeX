@@ -323,7 +323,7 @@ namespace PKHeX.Core
                 if (index == -1)
                     continue;
                 int len = chunkLength[index];
-                ushort chk = Checksums.CRC32(Data, ofs, len);
+                ushort chk = Checksums.CheckSum32(Data, ofs, len);
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
 
@@ -332,11 +332,11 @@ namespace PKHeX.Core
 
             // Hall of Fame Checksums
             {
-                ushort chk = Checksums.CRC32(Data, 0x1C000, SIZE_BLOCK_USED);
+                ushort chk = Checksums.CheckSum32(Data, 0x1C000, SIZE_BLOCK_USED);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1CFF4);
             }
             {
-                ushort chk = Checksums.CRC32(Data, 0x1D000, SIZE_BLOCK_USED);
+                ushort chk = Checksums.CheckSum32(Data, 0x1D000, SIZE_BLOCK_USED);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1DFF4);
             }
         }
@@ -364,7 +364,7 @@ namespace PKHeX.Core
 
         private bool IsChunkValidHoF(int ofs)
         {
-            ushort chk = Checksums.CRC32(Data, ofs, SIZE_BLOCK_USED);
+            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_BLOCK_USED);
             return chk == BitConverter.ToUInt16(Data, ofs + 0xFF4);
         }
 
@@ -372,7 +372,7 @@ namespace PKHeX.Core
         {
             int ofs = ABO + (i * SIZE_BLOCK);
             int len = chunkLength[BlockOrder[i]];
-            ushort chk = Checksums.CRC32(Data, ofs, len);
+            ushort chk = Checksums.CheckSum32(Data, ofs, len);
             return chk == BitConverter.ToUInt16(Data, ofs + 0xFF6);
         }
 

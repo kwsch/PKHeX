@@ -26,7 +26,7 @@ namespace PKHeX.Core.Searching
 
             if (format <= 2) // 1-2
                 return res.Where(pk => pk.Format <= 2);
-            if (format >= 3 && format <= 6) // 3-6
+            if (format <= 6) // 3-6
                 return res.Where(pk => pk.Format >= 3);
 
             return res;
@@ -42,7 +42,7 @@ namespace PKHeX.Core.Searching
             };
         }
 
-        public static IEnumerable<PKM> FilterByLVL(IEnumerable<PKM> res, SearchComparison option, int level)
+        public static IEnumerable<PKM> FilterByLevel(IEnumerable<PKM> res, SearchComparison option, int level)
         {
             if (level > 100)
                 return res;
@@ -82,9 +82,9 @@ namespace PKHeX.Core.Searching
             };
         }
 
-        public static IEnumerable<PKM> FilterByMoves(IEnumerable<PKM> res, IEnumerable<int> Moves)
+        public static IEnumerable<PKM> FilterByMoves(IEnumerable<PKM> res, IEnumerable<int> requiredMoves)
         {
-            var moves = new HashSet<int>(Moves);
+            var moves = new HashSet<int>(requiredMoves);
             int count = moves.Count;
             return res.Where(pk =>
                 pk.Moves.Where(z => z > 0)
@@ -92,20 +92,20 @@ namespace PKHeX.Core.Searching
             );
         }
 
-        public static IEnumerable<PKM> FilterByBatchInstruction(IEnumerable<PKM> res, IList<string> BatchInstructions)
+        public static IEnumerable<PKM> FilterByBatchInstruction(IEnumerable<PKM> res, IList<string> inputInstructions)
         {
-            if (BatchInstructions.All(string.IsNullOrWhiteSpace))
+            if (inputInstructions.All(string.IsNullOrWhiteSpace))
                 return res; // none specified;
 
-            var lines = BatchInstructions.Where(z => !string.IsNullOrWhiteSpace(z));
+            var lines = inputInstructions.Where(z => !string.IsNullOrWhiteSpace(z));
             var filters = StringInstruction.GetFilters(lines).ToArray();
             BatchEditing.ScreenStrings(filters);
             return res.Where(pkm => BatchEditing.IsFilterMatch(filters, pkm)); // Compare across all filters
         }
 
-        public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod Clones)
+        public static Func<PKM, string> GetCloneDetectMethod(CloneDetectionMethod method)
         {
-            return Clones switch
+            return method switch
             {
                 CloneDetectionMethod.HashPID => HashByPID,
                 _ => HashByDetails,

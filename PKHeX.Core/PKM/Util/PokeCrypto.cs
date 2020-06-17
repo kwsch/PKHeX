@@ -268,9 +268,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Shuffles an 80 byte format Generation 3 Pokémon byte array.
         /// </summary>
-        /// <param name="data">Unshuffled data.</param>
+        /// <param name="data">Un-shuffled data.</param>
         /// <param name="sv">Block order shuffle value</param>
-        /// <returns>Unshuffled  data.</returns>
+        /// <returns>Un-shuffled  data.</returns>
         private static byte[] ShuffleArray3(byte[] data, uint sv)
         {
             byte[] sdata = (byte[])data.Clone();

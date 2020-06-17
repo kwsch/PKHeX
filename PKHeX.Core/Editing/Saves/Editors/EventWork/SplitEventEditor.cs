@@ -17,23 +17,23 @@ namespace PKHeX.Core
         {
             Block = block;
             // load lines
-            var worklines = work.Where(z => !string.IsNullOrWhiteSpace(z) && z.Length > 5);
-            Work = EventWorkUtil.GetVars(worklines, (index, t, data) => new EventWork<T>(index, t, data));
-            var flaglines = flag.Where(z => !string.IsNullOrWhiteSpace(z) && z.Length > 5);
-            Flag = EventWorkUtil.GetVars(flaglines, (index, t, data) => new EventFlag(index, t, data));
+            var workLines = work.Where(z => !string.IsNullOrWhiteSpace(z) && z.Length > 5);
+            Work = EventWorkUtil.GetVars(workLines, (index, t, data) => new EventWork<T>(index, t, data));
+            var flagLines = flag.Where(z => !string.IsNullOrWhiteSpace(z) && z.Length > 5);
+            Flag = EventWorkUtil.GetVars(flagLines, (index, t, data) => new EventFlag(index, t, data));
 
             // initialize lines
-            foreach (var g in Work)
+            foreach (var group in Work)
             {
-                foreach (var item in g.Vars)
+                foreach (var item in group.Vars)
                 {
                     item.RawIndex = block.GetWorkRawIndex(item.Type, item.RelativeIndex);
                     ((EventWork<T>)item).Value = block.GetWork(item.RawIndex);
                 }
             }
-            foreach (var g in Flag)
+            foreach (var group in Flag)
             {
-                foreach (var item in g.Vars)
+                foreach (var item in group.Vars)
                 {
                     item.RawIndex = block.GetFlagRawIndex(item.Type, item.RelativeIndex);
                     ((EventFlag)item).Flag = block.GetFlag(item.RawIndex);

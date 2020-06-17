@@ -630,37 +630,37 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.
         /// </summary>
-        /// <param name="Generation">Set of games.</param>
+        /// <param name="generation">Set of games.</param>
         /// <param name="species"></param>
         /// <returns>True if could inhabit, False if not.</returns>
-        public bool InhabitedGeneration(int Generation, int species = -1)
+        public bool InhabitedGeneration(int generation, int species = -1)
         {
             if (species < 0)
                 species = Species;
 
-            if (Format == Generation)
+            if (Format == generation)
                 return true;
 
             if (!IsOriginValid)
                 return false;
 
             // Sanity Check Species ID
-            if (Legal.GetMaxSpeciesOrigin(Generation) < species && !Legal.GetFutureGenEvolutions(Generation).Contains(species))
+            if (Legal.GetMaxSpeciesOrigin(generation) < species && !Legal.GetFutureGenEvolutions(generation).Contains(species))
                 return false;
 
             // Trade generation 1 -> 2
-            if (Format == 2 && Generation == 1 && !Gen2_NotTradeback)
+            if (Format == 2 && generation == 1 && !Gen2_NotTradeback)
                 return true;
 
             // Trade generation 2 -> 1
-            if (Format == 1 && Generation == 2 && !Gen1_NotTradeback)
+            if (Format == 1 && generation == 2 && !Gen1_NotTradeback)
                 return true;
 
-            if (Format < Generation)
+            if (Format < generation)
                 return false; // Future
 
             int gen = GenNumber;
-            return Generation switch
+            return generation switch
             {
                 1 => (Format == 1 || VC), // species compat checked via sanity above
                 2 => (Format == 2 || VC),
@@ -883,9 +883,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.
         /// </summary>
-        /// <param name="ValidArray">Items that the <see cref="PKM"/> can hold.</param>
+        /// <param name="valid">Items that the <see cref="PKM"/> can hold.</param>
         /// <returns>True/False if the <see cref="PKM"/> can hold its <see cref="HeldItem"/>.</returns>
-        public virtual bool CanHoldItem(IReadOnlyList<ushort> ValidArray) => ValidArray.Contains((ushort)HeldItem);
+        public virtual bool CanHoldItem(IReadOnlyList<ushort> valid) => valid.Contains((ushort)HeldItem);
 
         /// <summary>
         /// Deep clones the <see cref="PKM"/> object. The clone will not have any shared resources with the source.
@@ -923,10 +923,10 @@ namespace PKHeX.Core
         /// <returns>Amount of PP the move has by default (no PP Ups).</returns>
         private int GetBasePP(int move)
         {
-            var pptable = Legal.GetPPTable(this, Format);
-            if (move >= pptable.Count)
+            var table = Legal.GetPPTable(this, Format);
+            if (move >= table.Count)
                 move = 0;
-            return pptable[move];
+            return table[move];
         }
 
         /// <summary>
@@ -1087,13 +1087,13 @@ namespace PKHeX.Core
         public void TransferPropertiesWithReflection(PKM Destination)
         {
             // Only transfer declared properties not defined in PKM.cs but in the actual type
-            var src_t = GetType();
-            var dst_t = Destination.GetType();
-            var SourceProperties = ReflectUtil.GetAllPropertyInfoPublic(src_t).Select(z => z.Name);
-            var DestinationProperties = ReflectUtil.GetAllPropertyInfoPublic(dst_t).Where(z => z.SetMethod != null).Select(z => z.Name);
+            var srcType = GetType();
+            var destType = Destination.GetType();
+            var srcProperties = ReflectUtil.GetAllPropertyInfoPublic(srcType).Select(z => z.Name);
+            var destProperties = ReflectUtil.GetAllPropertyInfoPublic(destType).Where(z => z.SetMethod != null).Select(z => z.Name);
 
             // Transfer properties in the order they are defined in the destination PKM format for best conversion
-            var shared = DestinationProperties.Intersect(SourceProperties);
+            var shared = destProperties.Intersect(srcProperties);
             foreach (string property in shared)
             {
                 BatchEditing.TryGetHasProperty(this, property, out var src);

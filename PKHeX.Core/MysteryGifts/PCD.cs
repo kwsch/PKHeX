@@ -122,9 +122,9 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            return Gift.ConvertToPKM(SAV, criteria);
+            return Gift.ConvertToPKM(sav, criteria);
         }
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;

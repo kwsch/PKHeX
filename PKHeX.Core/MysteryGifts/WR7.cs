@@ -125,7 +125,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             // this method shouldn't really be called, use the WB7 data not the WR7 data.
             if (!IsPokémon)
@@ -133,8 +133,8 @@ namespace PKHeX.Core
 
             // we'll just generate something as close as we can, since we must return something!
             var pk = new PB7();
-            SAV.ApplyToPKM(pk);
-            if (!GameVersion.GG.Contains((GameVersion) SAV.Game))
+            sav.ApplyTo(pk);
+            if (!GameVersion.GG.Contains((GameVersion) sav.Game))
                 pk.Version = (int) GameVersion.GP;
 
             pk.Species = Species;

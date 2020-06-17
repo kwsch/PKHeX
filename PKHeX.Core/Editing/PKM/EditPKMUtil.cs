@@ -10,18 +10,18 @@ namespace PKHeX.Core
     /// </summary>
     public static class EditPKMUtil
     {
-        public static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
+        public static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minimumLevel)
         {
             var suggestion = new List<string> { MsgPKMSuggestionStart };
             if (pkm.Format >= 3)
             {
-                var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.First(loc => loc.Value == location).Text;
-                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
+                var metList = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
+                var locationName = metList.First(loc => loc.Value == location).Text;
+                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locationName}");
                 suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
             }
-            if (pkm.CurrentLevel < minlvl)
-                suggestion.Add($"{MsgPKMSuggestionLevel} {minlvl}");
+            if (pkm.CurrentLevel < minimumLevel)
+                suggestion.Add($"{MsgPKMSuggestionLevel} {minimumLevel}");
             return suggestion;
         }
 

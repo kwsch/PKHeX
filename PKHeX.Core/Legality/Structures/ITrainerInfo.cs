@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
     public static partial class Extensions
     {
-        public static void ApplyToPKM(this ITrainerInfo info, PKM pk)
+        public static void ApplyTo(this ITrainerInfo info, PKM pk)
         {
             pk.OT_Name = info.OT;
             pk.TID = info.TID;
@@ -35,21 +35,21 @@ namespace PKHeX.Core
             pk.ConsoleRegion = info.ConsoleRegion;
         }
 
-        public static void ApplyHandlingTrainerInfo(this ITrainerInfo SAV, PKM pk, bool force = false)
+        public static void ApplyHandlingTrainerInfo(this ITrainerInfo sav, PKM pk, bool force = false)
         {
-            if (pk.Format == SAV.Generation && !force)
+            if (pk.Format == sav.Generation && !force)
                 return;
 
-            pk.HT_Name = SAV.OT;
-            pk.HT_Gender = SAV.Gender;
+            pk.HT_Name = sav.OT;
+            pk.HT_Gender = sav.Gender;
             pk.HT_Friendship = pk.OT_Friendship;
             pk.CurrentHandler = 1;
 
             if (pk.Format == 6)
             {
                 var g = (IGeoTrack) pk;
-                g.Geo1_Country = SAV.Country;
-                g.Geo1_Region = SAV.SubRegion;
+                g.Geo1_Country = sav.Country;
+                g.Geo1_Region = sav.SubRegion;
                 ((PK6)pk).TradeMemory(true);
             }
         }

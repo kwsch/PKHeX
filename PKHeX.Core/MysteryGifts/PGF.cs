@@ -161,7 +161,7 @@ namespace PKHeX.Core
         public override bool IsItem { get => CardType == 2; set { if (value) CardType = 2; } }
         public bool IsPower { get => CardType == 3; set { if (value) CardType = 3; } }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
                 throw new ArgumentException(nameof(IsPokémon));
@@ -185,8 +185,8 @@ namespace PKHeX.Core
                 Met_Level = currentLevel,
                 Nature = Nature != -1 ? Nature : rnd.Next(25),
                 AltForm = Form,
-                Version = OriginGame == 0 ? SAV.Game : OriginGame,
-                Language = Language == 0 ? SAV.Language : Language,
+                Version = OriginGame == 0 ? sav.Game : OriginGame,
+                Language = Language == 0 ? sav.Language : Language,
                 Ball = Ball,
                 Move1 = Move1,
                 Move2 = Move2,
@@ -224,7 +224,7 @@ namespace PKHeX.Core
 
                 FatefulEncounter = true,
             };
-            if (SAV.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
+            if (sav.Generation > 5 && OriginGame == 0) // Gen6+, give random gen5 game
                 pk.Version = (int)GameVersion.W + rnd.Next(4);
 
             if (Move1 == 0) // No moves defined
@@ -234,17 +234,17 @@ namespace PKHeX.Core
 
             if (IsEgg) // User's
             {
-                pk.TID = SAV.TID;
-                pk.SID = SAV.SID;
-                pk.OT_Name = SAV.OT;
-                pk.OT_Gender = SAV.Gender;
+                pk.TID = sav.TID;
+                pk.SID = sav.SID;
+                pk.OT_Name = sav.OT;
+                pk.OT_Gender = sav.Gender;
             }
             else // Hardcoded
             {
                 pk.TID = TID;
                 pk.SID = SID;
                 pk.OT_Name = OT_Name;
-                pk.OT_Gender = (OTGender == 3 ? SAV.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
+                pk.OT_Gender = (OTGender == 3 ? sav.Gender : OTGender) & 1; // some events have variable gender based on receiving SaveFile
             }
 
             pk.IsNicknamed = IsNicknamed;
@@ -362,7 +362,7 @@ namespace PKHeX.Core
                 }
                 else if (PIDType == 0 && pkm.IsShiny)
                 {
-                    return false; // can't be traded away for unshiny
+                    return false; // can't be traded away for un-shiny
                 }
 
                 if (pkm.IsEgg && !pkm.IsNative)

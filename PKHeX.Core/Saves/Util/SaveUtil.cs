@@ -54,12 +54,12 @@ namespace PKHeX.Core
         public const int SIZE_G4RANCH = 0x54000;
         public const int SIZE_G4RANCH_PLAT = 0x7C000;
 
-        private static readonly HashSet<int> SIZES_2 = new HashSet<int>
+        private static readonly HashSet<int> SizesGen2 = new HashSet<int>
         {
             SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
         };
 
-        private static readonly HashSet<int> SIZES = new HashSet<int>(SIZES_2)
+        private static readonly HashSet<int> Sizes = new HashSet<int>(SizesGen2)
         {
             SIZE_G8SWSH, SIZE_G8SWSH_1,
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
@@ -175,7 +175,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG2SAV(byte[] data)
         {
-            if (!SIZES_2.Contains(data.Length))
+            if (!SizesGen2.Contains(data.Length))
                 return Invalid;
 
             // Check if it's not an International, Japanese, or Korean save file
@@ -237,26 +237,26 @@ namespace PKHeX.Core
             int count = data.Length/SIZE_G3RAWHALF;
             for (int s = 0; s < count; s++)
             {
-                const int blockcount = 14;
-                const int blocksize = 0x1000;
-                int ofs = blockcount * blocksize * s;
-                int[] BlockOrder = new int[blockcount];
-                for (int i = 0; i < BlockOrder.Length; i++)
-                    BlockOrder[i] = BitConverter.ToUInt16(data, (i * blocksize) + 0xFF4 + ofs);
+                const int blockCount = 14;
+                const int blockSize = 0x1000;
+                int ofs = blockCount * blockSize * s;
+                int[] order = new int[blockCount];
+                for (int i = 0; i < order.Length; i++)
+                    order[i] = BitConverter.ToUInt16(data, (i * blockSize) + 0xFF4 + ofs);
 
-                if (Array.FindIndex(BlockOrder, i => i > 0xD) >= 0) // invalid block ID
+                if (Array.FindIndex(order, i => i > 0xD) >= 0) // invalid block ID
                     continue;
 
-                int Block0 = Array.IndexOf(BlockOrder, 0);
+                int block0 = Array.IndexOf(order, 0);
 
                 // Sometimes not all blocks are present (start of game), yielding multiple block0's.
                 // Real 0th block comes before block1.
-                if (BlockOrder[0] == 1 && Block0 != BlockOrder.Length - 1)
+                if (order[0] == 1 && block0 != order.Length - 1)
                     continue;
-                if (Array.FindIndex(BlockOrder, v => v != 0) < 0) // all blocks are 0
+                if (Array.FindIndex(order, v => v != 0) < 0) // all blocks are 0
                     continue;
                 // Detect RS/E/FRLG
-                return SAV3.GetVersion(data, (blocksize * Block0) + ofs);
+                return SAV3.GetVersion(data, (blockSize  * block0) + ofs);
             }
             return Invalid;
         }
@@ -333,7 +333,7 @@ namespace PKHeX.Core
                 return Invalid;
 
             // The block footers contain a u32 'size' followed by a u32 binary-coded-decimal timestamp(?)
-            // Korean savegames have a different timestamp from other localizations.
+            // Korean saves have a different timestamp from other localizations.
             bool validSequence(int offset)
             {
                 var size = BitConverter.ToUInt32(data, offset - 0xC);
@@ -679,14 +679,14 @@ namespace PKHeX.Core
             {
                 var searchOption = deep ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
                 // force evaluation so that an invalid path will throw before we return true/false.
-                // EnumerateFiles throws an exception while iterating, which won't be caught by the trycatch here.
+                // EnumerateFiles throws an exception while iterating, which won't be caught by the try-catch here.
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                static int safelen(string file)
+                static int GetFileSize(string file)
                 {
                     try { return (int) new FileInfo(file).Length; }
                     catch { return -1; } // Bad File / Locked
                 }
-                result = files.Where(f => IsSizeValid(safelen(f)));
+                result = files.Where(f => IsSizeValid(GetFileSize(f)));
                 return true;
             }
             catch (ArgumentException)
@@ -697,11 +697,11 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Determines whether the save data size is valid for autodetecting saves.
+        /// Determines whether the save data size is valid for automatically detecting saves.
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        public static bool IsSizeValid(int size) => SIZES.Contains(size);
+        public static bool IsSizeValid(int size) => Sizes.Contains(size);
 
         /// <summary>
         /// Checks the provided <see cref="input"/> and pulls out any <see cref="header"/> and/or <see cref="footer"/> arrays.

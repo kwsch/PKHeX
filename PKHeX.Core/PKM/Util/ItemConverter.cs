@@ -21,40 +21,40 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts a Generation 3 Item ID to Generation 4+ Item ID.
         /// </summary>
-        /// <param name="g3val">Generation 3 Item ID.</param>
+        /// <param name="item">Generation 3 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        internal static ushort GetG4Item(ushort g3val) => g3val > arr3.Length ? NaN : arr3[g3val];
+        internal static ushort GetItemFuture3(ushort item) => item > arr3.Length ? NaN : arr3[item];
 
         /// <summary>
         /// Converts a Generation 2 Item ID to Generation 4+ Item ID.
         /// </summary>
-        /// <param name="g2val">Generation 2 Item ID.</param>
+        /// <param name="item">Generation 2 Item ID.</param>
         /// <returns>Generation 4+ Item ID.</returns>
-        internal static ushort GetG4Item(byte g2val) => g2val > arr2.Length ? NaN : arr2[g2val];
+        internal static ushort GetItemFuture2(byte item) => item > arr2.Length ? NaN : arr2[item];
 
         /// <summary>
         /// Converts a Generation 4+ Item ID to Generation 3 Item ID.
         /// </summary>
-        /// <param name="g4val">Generation 4+ Item ID.</param>
+        /// <param name="item">Generation 4+ Item ID.</param>
         /// <returns>Generation 3 Item ID.</returns>
-        private static ushort GetG3Item(ushort g4val)
+        private static ushort GetItemOld3(ushort item)
         {
-            if (g4val == NaN)
+            if (item == NaN)
                 return 0;
-            int index = Array.IndexOf(arr3, g4val);
+            int index = Array.IndexOf(arr3, item);
             return (ushort)Math.Max(0, index);
         }
 
         /// <summary>
         /// Converts a Generation 4+ Item ID to Generation 2 Item ID.
         /// </summary>
-        /// <param name="g4val">Generation 4+ Item ID.</param>
+        /// <param name="item">Generation 4+ Item ID.</param>
         /// <returns>Generation 2 Item ID.</returns>
-        private static byte GetG2Item(ushort g4val)
+        private static byte GetItemOld2(ushort item)
         {
-            if (g4val == NaN)
+            if (item == NaN)
                 return 0;
-            int index = Array.IndexOf(arr2, g4val);
+            int index = Array.IndexOf(arr2, item);
             return (byte)Math.Max(0, index);
         }
 
@@ -134,12 +134,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts a Generation 1 (Teru-sama) Item ID to Generation 2 Item ID.
         /// </summary>
-        /// <param name="g1val">Gen1 Item ID</param>
+        /// <param name="value">Gen1 Item ID</param>
         /// <returns>Gen2 Item ID</returns>
         /// <remarks>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</remarks>
-        private static int GetTeruSamaItem(int g1val)
+        private static int GetTeruSamaItem(int value)
         {
-            switch (g1val)
+            switch (value)
             {
                 case 0x19: return 0x92; // Leftovers
                 case 0x2D: return 0x53; // Bitter Berry
@@ -156,15 +156,20 @@ namespace PKHeX.Core
                 case 0xFF:
                     return 0xAD; // Berry
 
-                default: return g1val;
+                default: return value;
             }
         }
 
-        internal static int GetG2ItemTransfer(int g1val)
+        /// <summary>
+        /// Converts a Gen1 Item to Gen2 Item.
+        /// </summary>
+        /// <param name="value">Gen1 Item</param>
+        /// <returns>Gen2 Item</returns>
+        internal static int GetItemFuture1(int value)
         {
-            if (!IsItemTransferable12((ushort) g1val))
-                return GetTeruSamaItem(g1val);
-            return g1val;
+            if (!IsItemTransferable12((ushort) value))
+                return GetTeruSamaItem(value);
+            return value;
         }
 
         private static bool IsItemTransferable12(ushort item) => ((IList<ushort>) Legal.HeldItems_GSC).Contains(item);
@@ -172,38 +177,39 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a format specific <see cref="PKM.HeldItem"/> value depending on the desired format and the provided item index &amp; origin format.
         /// </summary>
-        /// <param name="item">Held Item to apply</param>
+        /// <param name="srcItem">Held Item to apply</param>
         /// <param name="srcFormat">Format from importing</param>
         /// <param name="destFormat">Format required for holder</param>
-        internal static int GetFormatHeldItemID(int item, int srcFormat, int destFormat)
+        /// <returns>destItem</returns>
+        internal static int GetItemForFormat(int srcItem, int srcFormat, int destFormat)
         {
-            if (item <= 0)
+            if (srcItem <= 0)
                 return 0;
 
             if (destFormat == srcFormat)
-                return item;
+                return srcItem;
 
             if (destFormat != srcFormat && srcFormat <= 3) // past gen items
             {
                 if (destFormat > 3) // try remapping
-                    return srcFormat == 2 ? GetG4Item((byte)item) : GetG4Item((ushort)item);
+                    return srcFormat == 2 ? GetItemFuture2((byte)srcItem) : GetItemFuture3((ushort)srcItem);
 
                 if (destFormat > srcFormat) // can't set past gen items
                     return 0;
 
                 // ShowdownSet checks gen3 then gen2. For gen2 collisions (if any?) remap 3->4->2.
-                item = GetG4Item((ushort)item);
-                item = GetG2Item((ushort)item);
-                if (item <= 0)
+                srcItem = GetItemFuture3((ushort)srcItem);
+                srcItem = GetItemOld2((ushort)srcItem);
+                if (srcItem <= 0)
                     return 0;
             }
 
             return destFormat switch
             {
                 1 => 0,
-                2 => (byte) item,
-                3 => GetG3Item((ushort) item),
-                _ => item
+                2 => (byte) srcItem,
+                3 => GetItemOld3((ushort) srcItem),
+                _ => srcItem
             };
         }
 

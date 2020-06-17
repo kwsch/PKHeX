@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < data.Count; i++)
             {
-                editor.ProcessPKM(data[i], Filters, Instructions);
+                editor.Process(data[i], Filters, Instructions);
                 b.ReportProgress(i);
             }
         }
@@ -256,7 +256,7 @@ namespace PKHeX.WinForms
                 int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 byte[] data = File.ReadAllBytes(file);
                 var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (editor.ProcessPKM(pk, Filters, Instructions))
+                if (editor.Process(pk, Filters, Instructions))
                     File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedPartyData);
 
                 b.ReportProgress(i);

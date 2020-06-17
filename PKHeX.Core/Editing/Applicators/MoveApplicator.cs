@@ -23,7 +23,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the individual PP Up count values depending if a Move is present in the moveslot or not.
+        /// Sets the individual PP Up count values depending if a Move is present in the move slot or not.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetMaximumPPUps(this PKM pk) => pk.SetMaximumPPUps(pk.Moves);
@@ -50,7 +50,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Updates the individual PP count values for each moveslot based on the maximum possible value.
+        /// Updates the individual PP count values for each move slot based on the maximum possible value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="moves"><see cref="PKM.Moves"/> to use (if already known). Will fetch the current <see cref="PKM.Moves"/> if not provided.</param>
@@ -63,7 +63,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Updates the individual PP count values for each moveslot based on the maximum possible value.
+        /// Updates the individual PP count values for each move slot based on the maximum possible value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetMaximumPPCurrent(this PKM pk) => pk.SetMaximumPPCurrent(pk.Moves);

@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public abstract string GetPrompt(bool all);
         public abstract string GetFail(bool all);
         public abstract string GetSuccess(bool all);
-        public abstract int Execute(SaveFile SAV, BoxManipParam param);
+        public abstract int Execute(SaveFile sav, BoxManipParam param);
 
         public static readonly IReadOnlyList<BoxManipBase> SortCommon = new List<BoxManipBase>
         {

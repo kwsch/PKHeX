@@ -388,22 +388,22 @@ namespace PKHeX.Core
                     if (Legal.EReaderBerryIsEnigma)
                         return g3items;
 
-                    var g3itemsEBerry = (string[])g3items.Clone();
-                    g3itemsEBerry[175] = Legal.EReaderBerryDisplayName;
-                    return g3itemsEBerry;
+                    var g3ItemsWithEBerry = (string[])g3items.Clone();
+                    g3ItemsWithEBerry[175] = Legal.EReaderBerryDisplayName;
+                    return g3ItemsWithEBerry;
             }
         }
 
         /// <summary>
         /// Gets the location name for the specified parameters.
         /// </summary>
-        /// <param name="eggmet">Location is from the <see cref="PKM.Egg_Location"/></param>
-        /// <param name="locval">Location value</param>
+        /// <param name="isEggLocation">Location is from the <see cref="PKM.Egg_Location"/></param>
+        /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
         /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
         /// <returns>Location name</returns>
-        public string GetLocationName(bool eggmet, int locval, int format, int generation, GameVersion version)
+        public string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
             int gen = -1;
             int bankID = 0;
@@ -416,17 +416,17 @@ namespace PKHeX.Core
             {
                 gen = 3;
             }
-            else if (generation == 4 && (eggmet || format == 4)) // 4
+            else if (generation == 4 && (isEggLocation || format == 4)) // 4
             {
                 const int size = 1000;
-                bankID = locval / size;
+                bankID = location / size;
                 gen = 4;
-                locval %= size;
+                location %= size;
             }
             else // 5-7+
             {
                 const int size = 10000;
-                bankID = locval / size;
+                bankID = location / size;
 
                 int g = generation;
                 if (g >= 5)
@@ -434,15 +434,15 @@ namespace PKHeX.Core
                 else if (format >= 5)
                     gen = format;
 
-                locval %= size;
+                location %= size;
                 if (bankID >= 3) // 30000 and onwards don't use 0th index, shift down 1
-                    locval--;
+                    location--;
             }
 
             var bank = GetLocationNames(gen, bankID, version);
-            if (bank.Count <= locval)
+            if (bank.Count <= location)
                 return string.Empty;
-            return bank[locval];
+            return bank[location];
         }
 
         /// <summary>

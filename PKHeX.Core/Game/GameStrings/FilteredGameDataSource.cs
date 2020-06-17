@@ -78,24 +78,24 @@ namespace PKHeX.Core
 
         public IReadOnlyList<ComboItem> GetAbilityList(PKM pkm)
         {
-            var abils = pkm.PersonalInfo.Abilities;
+            var abilities = pkm.PersonalInfo.Abilities;
             int format = pkm.Format;
-            return GetAbilityList(abils, format);
+            return GetAbilityList(abilities, format);
         }
 
-        public IReadOnlyList<ComboItem> GetAbilityList(int[] abils, int format)
+        public IReadOnlyList<ComboItem> GetAbilityList(IReadOnlyList<int> abilities, int format)
         {
-            var count = format == 3 && (abils[1] == 0 || abils[1] == abils[0]) ? 1 : abils.Length;
+            var count = format == 3 && (abilities[1] == 0 || abilities[1] == abilities[0]) ? 1 : abilities.Count;
             var list = new ComboItem[count];
             for (int i = 0; i < list.Length; i++)
             {
-                var ability = abils[i];
-                list[i] = new ComboItem(Source.Source.Ability[ability] + abilIdentifier[i], ability);
+                var ability = abilities[i];
+                list[i] = new ComboItem(Source.Source.Ability[ability] + AbilityIndexSuffixes[i], ability);
             }
 
             return list;
         }
 
-        private static readonly string[] abilIdentifier = { " (1)", " (2)", " (H)" };
+        private static readonly string[] AbilityIndexSuffixes = { " (1)", " (2)", " (H)" };
     }
 }

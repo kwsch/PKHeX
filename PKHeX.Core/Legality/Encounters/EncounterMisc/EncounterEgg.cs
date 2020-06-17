@@ -28,18 +28,18 @@ namespace PKHeX.Core
             Version = game;
         }
 
-        public PKM ConvertToPKM(ITrainerInfo SAV) => ConvertToPKM(SAV, EncounterCriteria.Unrestricted);
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
-        public PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             int gen = Generation;
             var version = Version;
             var pk = PKMConverter.GetBlank(gen, version);
 
-            SAV.ApplyToPKM(pk);
+            sav.ApplyTo(pk);
 
             pk.Species = Species;
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, SAV.Language, gen);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
             pk.Ball = (int)Ball.Poke;
@@ -57,14 +57,14 @@ namespace PKHeX.Core
                 return pk;
 
             if (gen >= 4)
-                pk.SetEggMetData(version, (GameVersion)SAV.Game);
+                pk.SetEggMetData(version, (GameVersion)sav.Game);
 
             if (gen < 6)
                 return pk;
             if (gen == 6)
                 pk.SetHatchMemory6();
 
-            SetAltForm(pk, SAV);
+            SetAltForm(pk, sav);
 
             pk.SetRandomEC();
             pk.RelearnMoves = moves;
@@ -72,7 +72,7 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private void SetAltForm(PKM pk, ITrainerInfo SAV)
+        private void SetAltForm(PKM pk, ITrainerInfo sav)
         {
             switch (Species)
             {
@@ -82,7 +82,7 @@ namespace PKHeX.Core
                 case (int)Core.Species.Scatterbug:
                 case (int)Core.Species.Spewpa:
                 case (int)Core.Species.Vivillon:
-                    pk.AltForm = Legal.GetVivillonPattern((byte)SAV.Country, (byte)SAV.SubRegion);
+                    pk.AltForm = Legal.GetVivillonPattern((byte)sav.Country, (byte)sav.SubRegion);
                     break;
             }
         }

@@ -80,23 +80,23 @@ namespace PKHeX.Core
             if (abil < 0)
                 return;
             var abilities = pk.PersonalInfo.Abilities;
-            int abilIndex = Array.IndexOf(abilities, abil);
-            abilIndex = Math.Max(0, abilIndex);
-            pk.SetAbilityIndex(abilIndex);
+            int index = Array.IndexOf(abilities, abil);
+            index = Math.Max(0, index);
+            pk.SetAbilityIndex(index);
         }
 
         /// <summary>
         /// Sets the <see cref="PKM.Ability"/> value based on the provided ability index (0-2)
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="abilIndex">Desired <see cref="PKM.AbilityNumber"/> (shifted by 1) to set.</param>
-        public static void SetAbilityIndex(this PKM pk, int abilIndex)
+        /// <param name="index">Desired <see cref="PKM.AbilityNumber"/> (shifted by 1) to set.</param>
+        public static void SetAbilityIndex(this PKM pk, int index)
         {
-            if (pk is PK5 pk5 && abilIndex == 2)
+            if (pk is PK5 pk5 && index == 2)
                 pk5.HiddenAbility = true;
             else if (pk.Format <= 5)
-                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(abilIndex * 0x10001));
-            pk.RefreshAbility(abilIndex);
+                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(index * 0x10001));
+            pk.RefreshAbility(index);
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace PKHeX.Core
             int wIndex = WurmpleUtil.GetWurmpleEvoGroup(pk.Species);
             if (wIndex != -1)
             {
-                pk.EncryptionConstant = WurmpleUtil.GetWurmpleEC(wIndex);
+                pk.EncryptionConstant = WurmpleUtil.GetWurmpleEncryptionConstant(wIndex);
                 return;
             }
             pk.EncryptionConstant = Util.Rand32();
@@ -252,7 +252,7 @@ namespace PKHeX.Core
         /// <param name="format">Format required for importing</param>
         public static void ApplyHeldItem(this PKM pk, int item, int format)
         {
-            item = ItemConverter.GetFormatHeldItemID(item, format, pk.Format);
+            item = ItemConverter.GetItemForFormat(item, format, pk.Format);
             pk.HeldItem = ((uint)item > pk.MaxItemID) ? 0 : item;
         }
 
@@ -309,9 +309,7 @@ namespace PKHeX.Core
             if (pk.Format < 3)
                 return ushort.MaxValue;
 
-            var EVs = pk.EVs;
-            EVs[index] = 0;
-            var sum = EVs.Sum();
+            var sum = pk.EVTotal - pk.GetEV(index);
             int remaining = 510 - sum;
             return Math.Min(Math.Max(remaining, 0), 252);
         }
@@ -321,7 +319,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to fetch for</param>
-        /// <param name="allow30">Causes the returned value to be dropped down -1 if the value is already at a maxmimum.</param>
+        /// <param name="allow30">Causes the returned value to be dropped down -1 if the value is already at a maximum.</param>
         /// <returns>Highest value the value can be.</returns>
         public static int GetMaximumIV(this PKM pk, int index, bool allow30 = false)
         {
@@ -439,8 +437,8 @@ namespace PKHeX.Core
             if (pk.Format < 2)
                 return string.Empty;
 
-            int locval = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, locval, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
+            int location = eggmet ? pk.Egg_Location : pk.Met_Location;
+            return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
         }
     }
 }

@@ -123,7 +123,7 @@ namespace PKHeX.Core
         public abstract int CatchRate { get; set; }
 
         /// <summary>
-        /// Evolution Stage value (or equivalent for unevolved).
+        /// Evolution Stage value (or equivalent for un-evolved).
         /// </summary>
         public virtual int EvoStage { get; set; }
 
@@ -133,7 +133,7 @@ namespace PKHeX.Core
         public abstract int[] Items { get; set; }
 
         /// <summary>
-        /// Gender Ratio value determining if the entry is a fixed gender or bigendered.
+        /// Gender Ratio value determining if the entry is a fixed gender or bi-gendered.
         /// </summary>
         public abstract int Gender { get; set; }
 
@@ -183,7 +183,7 @@ namespace PKHeX.Core
         public abstract int BaseEXP { get; set; }
 
         /// <summary>
-        /// Main color ID of the entry. The majority of the pkm's color is of this color, usually.
+        /// Main color ID of the entry. The majority of the Pokémon's color is of this color, usually.
         /// </summary>
         public abstract int Color { get; set; }
 

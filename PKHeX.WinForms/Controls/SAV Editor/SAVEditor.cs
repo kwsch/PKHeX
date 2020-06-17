@@ -1219,12 +1219,13 @@ namespace PKHeX.WinForms.Controls
                 sav => (ModifierKeys & Keys.Control) != 0 ? sav.BoxData : sav.GetBoxData(CurrentBox));
         }
 
-        private static void ExportShowdownText(SaveFile SAV, string success, Func<SaveFile, IEnumerable<PKM>> func)
+        private static void ExportShowdownText(SaveFile sav, string success, Func<SaveFile, IEnumerable<PKM>> fetch)
         {
-            var pkms = func(SAV);
-            var str = ShowdownSet.GetShowdownSets(pkms, Environment.NewLine + Environment.NewLine);
-            if (string.IsNullOrWhiteSpace(str)) return;
-            if (WinFormsUtil.SetClipboardText(str))
+            var list = fetch(sav);
+            var result = ShowdownSet.GetShowdownSets(list, Environment.NewLine + Environment.NewLine);
+            if (string.IsNullOrWhiteSpace(result))
+                return;
+            if (WinFormsUtil.SetClipboardText(result))
                 WinFormsUtil.Alert(success);
         }
 

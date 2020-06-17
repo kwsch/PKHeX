@@ -958,7 +958,7 @@ namespace PKHeX.Core
                 // iterate downwards using form0 as pattern ref, replacing on final loop
                 for (int i = deco - 1; i >= 0; i--)
                 {
-                    result[start + i] = $"{result[start]} ({((AlcremieDecoration)i).ToString()})";
+                    result[start + i] = $"{result[start]} ({(AlcremieDecoration)i})";
                 }
             }
 

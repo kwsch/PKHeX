@@ -8,11 +8,11 @@ namespace PKHeX.Core
 {
     public static class NetUtil
     {
-        public static string? GetStringFromURL(string webURL)
+        public static string? GetStringFromURL(string url)
         {
             try
             {
-                var stream = GetStreamFromURL(webURL);
+                var stream = GetStreamFromURL(url);
                 using var reader = new StreamReader(stream);
                 return reader.ReadToEnd();
             }
@@ -23,9 +23,9 @@ namespace PKHeX.Core
             }
         }
 
-        private static Stream GetStreamFromURL(string webURL)
+        private static Stream GetStreamFromURL(string url)
         {
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create(webURL);
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
             // The GitHub API will fail if no user agent is provided
             httpWebRequest.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36";
