@@ -11,6 +11,9 @@ namespace PKHeX.Core
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
         {
             int species = pkm.Species;
+            if (species == (int) Species.MrRime || species == (int) Species.Sirfetchd)
+                yield break;
+
             int form = pkm.AltForm;
 
             if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
