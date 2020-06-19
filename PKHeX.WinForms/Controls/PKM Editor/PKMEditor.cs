@@ -1463,7 +1463,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateTSV(object sender, EventArgs e)
         {
-            if (Entity.Format < 6)
+            if (Entity.Format <= 2)
                 return;
 
             TID_Trainer.UpdateTSV();
