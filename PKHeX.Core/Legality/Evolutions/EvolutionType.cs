@@ -52,6 +52,8 @@ namespace PKHeX.Core
         SpinType, // Alcremie
         LevelUpNatureAmped, // Toxtricity
         LevelUpNatureLowKey, // Toxtricity
+        TowerOfDarkness, // Urshifu
+        TowerOfWaters, // Urshifu
     }
 
     public static class EvolutionTypeExtensions

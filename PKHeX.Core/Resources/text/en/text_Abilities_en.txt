@@ -257,3 +257,5 @@ Gorilla Tactics
 Neutralizing Gas
 Pastel Veil
 Hunger Switch
+Quick Draw
+Unseen Fist

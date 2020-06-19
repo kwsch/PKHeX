@@ -889,3 +889,6 @@ Dragapult
 Zacian
 Zamazenta
 Eternatus
+Kubfu
+Urshifu
+Zarude

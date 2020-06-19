@@ -6,12 +6,13 @@ namespace PKHeX.Core
     /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
     public sealed class PK8 : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8,
-        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack
+        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion
     {
         private static readonly ushort[] Unused =
         {
             // Alignment bytes
             0x17, 0x1A, 0x1B, 0x23, 0x33, 0x3E, 0x3F,
+            0xE0, 0xE1,
             0xC5, 0x115, 0x11F,
         };
 
@@ -481,9 +482,9 @@ namespace PKHeX.Core
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
         public override int Version { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
-        public override int Country { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
+        public int BattleVersion { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
+        // public override int Region { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
+        // public override int ConsoleRegion { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
         public override int Language { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
         public int UnkE3 { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }

@@ -77,6 +77,7 @@ namespace PKHeX.Drawing
             (int)Species.Mimikyu,
             (int)Species.Sinistea,
             (int)Species.Polteageist,
+            (int)Species.Urshifu,
         };
 
         /// <summary>

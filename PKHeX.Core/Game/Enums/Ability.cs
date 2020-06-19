@@ -264,6 +264,8 @@
         NeutralizingGas,
         PastelVeil,
         HungerSwitch,
+        QuickDraw,
+        UnseenFist,
         MAX_COUNT,
     }
 }

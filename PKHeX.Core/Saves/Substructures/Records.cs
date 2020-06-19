@@ -583,6 +583,10 @@ namespace PKHeX.Core
           /* 47 */ {G8BattleTowerSingleWin, "battle_tower_single_win"},
           /* 48 */ {G8BattleTowerDoubleWin, "battle_tower_double_win"},
             {49, "now_money"},
+
+            // DLC
+            {50, "cormorant_robo"},
+            {51, "battle_rom_mark"},
         };
 
         public const int G8BattleTowerSingleWin = 47;

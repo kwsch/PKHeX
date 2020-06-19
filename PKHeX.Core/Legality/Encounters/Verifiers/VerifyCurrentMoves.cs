@@ -247,12 +247,25 @@ namespace PKHeX.Core
             bool AllParsed() => res.All(z => z != null);
             var required = pkm.Format != 1 ? 1 : GBRestrictions.GetRequiredMoveCount(pkm, source.CurrentMoves, info, source.Base);
 
+            // Special considerations!
+            int reset = 0;
+            if (pkm is IBattleVersion v && v.BattleVersion != 0)
+            {
+                reset = ((GameVersion) v.BattleVersion).GetGeneration();
+                source.EggEventSource = Array.Empty<int>();
+                source.Base = Array.Empty<int>();
+                source.EggLevelUpSource = Array.Empty<int>();
+                source.EggMoveSource = Array.Empty<int>();
+                source.NonTradeBackLevelUpMoves = Array.Empty<int>();
+                source.SpecialSource = Array.Empty<int>();
+            }
+
             // Check empty moves and relearn moves before generation specific moves
             for (int m = 0; m < 4; m++)
             {
                 if (source.CurrentMoves[m] == 0)
                     res[m] = new CheckMoveResult(None, pkm.Format, m < required ? Fishy : Valid, LMoveSourceEmpty, Move);
-                else if (info.EncounterMoves.Relearn.Contains(source.CurrentMoves[m]))
+                else if (reset == 0 && info.EncounterMoves.Relearn.Contains(source.CurrentMoves[m]))
                     res[m] = new CheckMoveResult(Relearn, info.Generation, Valid, LMoveSourceRelearn, Move) { Flag = true };
             }
 
@@ -265,6 +278,8 @@ namespace PKHeX.Core
             int[] generations = GetGenMovesCheckOrder(pkm);
             if (pkm.Format <= 2)
                 generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
+            if (reset != 0)
+                generations = generations.Where(z => z >= reset).ToArray();
 
             int lastgen = generations.LastOrDefault();
             foreach (var gen in generations)

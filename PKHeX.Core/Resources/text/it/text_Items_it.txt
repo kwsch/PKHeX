@@ -28,7 +28,7 @@ Superpozione
 Cura totale
 Revitalizzante
 Revitalizz. Max
-Acqua Fresca
+Acqua fresca
 Gassosa
 Lemonsucco
 Latte Mumu
@@ -1577,3 +1577,14 @@ Catalogo Rotom
 ★Aql7525
 ★Aql7602
 ★Aql7235
+Mielemax
+Fungomax
+Ramo Galarnoce
+Fascia Galarnoce
+Tessera chic
+Pass Armatura
+Bici Rotom
+Bici Rotom
+Esperienzamuleto
+Rocciarmatura
+Emblemamuleto

@@ -56,7 +56,7 @@ namespace PKHeX.WinForms.Controls
             {
                 CB_Nature, CB_StatNature,
                 CB_Country, CB_SubRegion, CB_3DSReg, CB_Language, CB_Ball, CB_HeldItem, CB_Species, DEV_Ability,
-                CB_EncounterType, CB_GameOrigin, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
+                CB_EncounterType, CB_GameOrigin, CB_BattleVersion, CB_Ability, CB_MetLocation, CB_EggLocation, CB_Language, CB_HTLanguage,
             };
             foreach (var cb in cbs.Concat(Moves.Concat(Relearn)))
                 cb.InitializeBinding();
@@ -444,7 +444,7 @@ namespace PKHeX.WinForms.Controls
 
             // Set the Controls
             BTN_Shinytize.Visible = BTN_Shinytize.Enabled = !isShiny;
-            if (Entity.Format >= 8 && (Entity.ShinyXor == 0 || Entity.FatefulEncounter))
+            if (Entity.Format >= 8 && (Entity.ShinyXor == 0 || Entity.FatefulEncounter || Entity.Version == (int)GameVersion.GO))
             {
                 Label_IsShiny.Visible = false;
                 Label_IsShiny2.Visible = isShiny;
@@ -1722,6 +1722,7 @@ namespace PKHeX.WinForms.Controls
             if (sizeCP)
                 SizeCP.ToggleVisibility(t);
             PB_Favorite.Visible = t is IFavorite;
+            PB_BattleVersion.Visible = FLP_BattleVersion.Visible = t is IBattleVersion;
             BTN_History.Visible = gen >= 6 && !pb7;
             BTN_Ribbons.Visible = gen >= 3 && !pb7;
             BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
@@ -1853,6 +1854,15 @@ namespace PKHeX.WinForms.Controls
             PopulateFields(pk);
         }
 
+        private void CB_BattleVersion_SelectedValueChanged(object sender, EventArgs e)
+        {
+            static double getOpacity(bool b) => b ? 1 : 0.175;
+            static Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
+                : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
+
+            PB_BattleVersion.Image = changeOpacity(PB_BattleVersion, getOpacity(Entity is IBattleVersion b && b.BattleVersion != 0));
+        }
+
         public void ChangeLanguage(ITrainerInfo sav, PKM pk)
         {
             // Force an update to the met locations
@@ -1897,6 +1907,9 @@ namespace PKHeX.WinForms.Controls
 
             var langWith0 = new[] {GameInfo.Sources.Empty}.Concat(source.Languages).ToArray();
             CB_HTLanguage.DataSource = new BindingSource(langWith0, null);
+
+            var gamesWith0 = new[] {GameInfo.Sources.Empty}.Concat(source.Games).ToArray();
+            CB_BattleVersion.DataSource = new BindingSource(gamesWith0, null);
 
             CB_Ball.DataSource = new BindingSource(source.Balls, null);
             CB_Species.DataSource = new BindingSource(source.Species, null);

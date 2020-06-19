@@ -264,19 +264,18 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
+            if (722 <= species && species <= 730) // G7 Starters
+                return VerifyBallEquals(data, (int)Poke);
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // G8 Starters
                 return VerifyBallEquals(data, (int)Poke);
 
-            if (IsGalarBreed(species))
+            if (IsGalarCatchAndBreed(species))
             {
                 if (Legal.WildPokeballs8.Contains(pkm.Ball))
                     return GetValid(LBallSpeciesPass);
                 if (species >= (int)Species.Grookey)
                     return GetInvalid(LBallSpecies);
             }
-
-            if (722 <= species && species <= 730) // G7 Starters
-                return VerifyBallEquals(data, (int)Poke);
 
             Ball ball = (Ball)pkm.Ball;
 
@@ -346,12 +345,26 @@ namespace PKHeX.Core
             return NONE;
         }
 
-        public static bool IsGalarBreed(int species)
+        public static bool IsGalarCatchAndBreed(int species)
         {
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
                 return false;
             var pt = PersonalTable.SWSH;
-            return ((PersonalInfoSWSH)pt.GetFormeEntry(species, 0)).PokeDexIndex != 0;
+            var pi = ((PersonalInfoSWSH) pt.GetFormeEntry(species, 0));
+            bool galar = pi.PokeDexIndex != 0;
+            if (galar)
+                return true;
+            var armor = pi.ArmorDexIndex != 0;
+            if (armor)
+            {
+                if (722 <= species && species <= 730) // G7 Starters
+                    return false;
+                if ((int) Species.Porygon == species)
+                    return false;
+                return true;
+            }
+
+            return true;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);

@@ -161,3 +161,43 @@ im Kampfturm
 am Rose Tower
 
 Ein Pokémon-Nest
+[~ 163]
+im Grußgefilde
+auf der Rüstungsinsel
+im Balsamsumpf
+auf der Rüstungsinsel
+im Fokusforst
+auf der Rüstungsinsel
+am Strand der Prüfung
+auf der Rüstungsinsel
+in der Kämpfergrotte
+auf der Rüstungsinsel
+auf dem Pfad der Prüfung
+auf der Rüstungsinsel
+in der Tapferkeitshöhle
+auf der Rüstungsinsel
+bei der Ringbucht
+auf der Rüstungsinsel
+auf der Fleißebene
+auf der Rüstungsinsel
+im Aufwärmtunnel
+auf der Rüstungsinsel
+in der Wüstensenke
+auf der Rüstungsinsel
+am Fitnessmeer
+bei der Rüstungsinsel
+am Inselkettenmeer
+bei der Rüstungsinsel
+beim Fernarchipel
+bei der Rüstungsinsel
+am Wabenmeer
+bei der Rüstungsinsel
+auf der Wabeninsel
+bei der Rüstungsinsel
+im Master-Dojo
+
+am Turm des Unlichts
+
+am Turm des Wassers
+
+in der Rüstungs-Station

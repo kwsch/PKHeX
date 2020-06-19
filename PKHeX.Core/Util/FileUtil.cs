@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             if (length <= 0x100000)
                 return false;
-            if (length == SaveUtil.SIZE_G4BR || length == SaveUtil.SIZE_G8SWSH ||length == SaveUtil.SIZE_G8SWSH_1)
+            if (length == SaveUtil.SIZE_G4BR || length == SaveUtil.SIZE_G8SWSH || length == SaveUtil.SIZE_G8SWSH_1 || length == SaveUtil.SIZE_G8SWSH_2)
                 return false;
             if (SAV3GCMemoryCard.IsMemoryCardSize(length))
                 return false; // pbr/GC have size > 1MB

@@ -77,6 +77,8 @@ namespace PKHeX.Core
                 case Crit3:
                 case HPDownBy49:
                 case SpinType:
+                case TowerOfDarkness:
+                case TowerOfWaters:
                     return true;
                 case UseItemMale:
                     return pkm.Gender == 0;

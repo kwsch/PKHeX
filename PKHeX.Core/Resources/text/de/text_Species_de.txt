@@ -889,3 +889,6 @@ Katapuldra
 Zacian
 Zamazenta
 Endynalos
+Dakuma
+Wulaosu
+Zarude

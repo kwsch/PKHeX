@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class PersonalInfoSWSH : PersonalInfo
     {
-        public const int SIZE = 0xA8;
+        public const int SIZE = 0xB0;
 
         public PersonalInfoSWSH(byte[] data) : base(data)
         {
@@ -23,6 +23,15 @@ namespace PKHeX.Core
             for (int i = 0; i < typeTutors.Length; i++)
                 typeTutors[i] = FlagUtil.GetFlag(Data, 0x38, i);
             TypeTutors = typeTutors;
+
+            // 0xA8-0xAF are armor type tutors, one bit for each type
+            var armorTutors = new bool[18];
+            for (int i = 0; i < armorTutors.Length; i++)
+                armorTutors[i] = FlagUtil.GetFlag(Data, 0xA8 + (i >> 3), i);
+            SpecialTutors = new[]
+            {
+                armorTutors,
+            };
         }
 
         public override byte[] Write()
@@ -34,6 +43,8 @@ namespace PKHeX.Core
             }
             for (int i = 0; i < TypeTutors.Length; i++)
                 FlagUtil.SetFlag(Data, 0x38, i, TypeTutors[i]);
+            for (int i = 0; i < SpecialTutors[0].Length; i++)
+                FlagUtil.SetFlag(Data, 0xA8 + (i >> 3), i, SpecialTutors[0][i]);
             return Data;
         }
 
@@ -108,5 +119,7 @@ namespace PKHeX.Core
         public int Flags { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A); } // not sure
         public int PokeDexIndex { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
         public int FormIndex { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); } // form index of this entry
+        public int ArmorDexIndex { get => BitConverter.ToUInt16(Data, 0xAC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAC); }
+        public int CrownDexIndex { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }
     }
 }

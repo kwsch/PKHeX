@@ -170,6 +170,8 @@ namespace PKHeX.Core
             BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax g && g.CanGigantamax) || pkm.Gen8 || pkm.GG);
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
 
+            BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Gen8);
+            BanEvo((int)Species.Marowak, 1, pkm => pkm.Gen8);
             BanEvo((int)Species.Weezing, 0, pkm => pkm.Gen8);
             BanEvo((int)Species.MrMime, 0, pkm => pkm.Gen8);
 

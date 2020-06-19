@@ -161,3 +161,43 @@ Torre Batalla
 Torre Rose
 
 Nido Pokémon
+[~ 163]
+Prado Reverencia
+Isla de la Armadura
+Humedal Frescor
+Isla de la Armadura
+Bosque Concentración
+Isla de la Armadura
+Playa Desafío
+Isla de la Armadura
+Cueva Contienda
+Isla de la Armadura
+Ruta Desafío
+Isla de la Armadura
+Cueva Tenacidad
+Isla de la Armadura
+Bahía Circular
+Isla de la Armadura
+Llano Entrenamiento
+Isla de la Armadura
+Gruta Calentamiento
+Isla de la Armadura
+Cuenca Arenosa
+Isla de la Armadura
+Mar Gimnástico
+Isla de la Armadura
+Mar Andana
+Isla de la Armadura
+Mar Islejos
+Isla de la Armadura
+Mar Meloso
+Isla de la Armadura
+Isla Melosa
+Isla de la Armadura
+Dojo Maestro
+
+Torre de las Sombras
+
+Torre de las Aguas
+
+Estación Armadura

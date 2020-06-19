@@ -58,6 +58,7 @@ namespace PKHeX.Core
             773, // Silvally
 
             800, // Necrozma
+            891, // Urshifu
         };
 
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
@@ -177,8 +178,10 @@ namespace PKHeX.Core
             (int)Species.Zacian,
             (int)Species.Zamazenta,
             (int)Species.Eternatus,
-            // 891, // mythical1?
-            // 892, // mythical2?
+            
+            (int)Species.Kubfu,
+            (int)Species.Urshifu,
+            (int)Species.Zarude,
         };
 
         public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
@@ -294,6 +297,7 @@ namespace PKHeX.Core
             647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
             791, 792, 800, 801, 802, 807, 808, 809,
             (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus,
+            (int)Species.Zarude,
         };
 
         public static readonly HashSet<int> SubLegends = new HashSet<int>
@@ -302,6 +306,7 @@ namespace PKHeX.Core
             480, 481, 482, 485, 486, 488, 638, 639, 640, 641, 642,
             645, 772, 773, 787, 788, 785, 786, 793, 794, 795, 796,
             797, 798, 799, 803, 804, 805, 806,
+            (int)Species.Kubfu, (int)Species.Urshifu,
         };
 
         public static readonly ushort[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};

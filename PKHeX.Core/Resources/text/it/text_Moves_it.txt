@@ -373,7 +373,7 @@ Rivincita
 Garanzia
 Divieto
 Lancio
-Psicotrasfer
+Psicotransfer
 Asso
 Anticura
 Strizzata
@@ -795,3 +795,25 @@ Supplicolpo
 Sfolgorassalto
 Raggio Infinito
 Raggio d’Acciaio
+Vastenergia
+Ferrorullo
+Squamacolpo
+Raggiometeora
+Armaguscio
+Nebbioscoppio
+Erboscivolata
+Elettroimpennata
+Campopulsar
+Strisciacolpo
+Fiamminvidia
+Sfogarabbia
+Poltergeist
+Gas Corrosivo
+Coaching
+Virata
+Triplo Axel
+Doppia Ala
+Sabbiardente
+Giunglacura
+Pugnotenebra
+Idroraffica

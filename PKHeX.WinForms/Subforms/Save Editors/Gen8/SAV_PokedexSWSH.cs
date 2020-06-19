@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -13,11 +14,11 @@ namespace PKHeX.WinForms
         private readonly Zukan8 Dex;
         private readonly CheckBox[] CL;
         private readonly CheckedListBox[] CHK;
+        private readonly IReadOnlyList<Zukan8.Zukan8EntryInfo> Indexes;
 
-        private int entry = -1;
-        private int CurrentSpecies => Zukan8.DexLookup.FirstOrDefault(z => z.Value == entry).Key;
+        private int lastIndex = -1;
         private readonly bool CanSave;
-        private readonly bool Loading = true;
+        private readonly bool Loading;
 
         public SAV_PokedexSWSH(SAV8SWSH sav)
         {
@@ -25,9 +26,13 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)(Origin = sav).Clone();
             Dex = SAV.Blocks.Zukan;
+            var indexes = Dex.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision());
+            var speciesNames = GameInfo.Strings.Species;
+            Indexes = indexes.OrderBy(z => z.GetEntryName(speciesNames)).ToArray();
             CL = new[] {CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9};
             CHK = new[] {CLB_1, CLB_2, CLB_3, CLB_4};
 
+            Loading = true;
             // Clear Listbox and ComboBox
             LB_Species.Items.Clear();
             CB_Species.Items.Clear();
@@ -36,16 +41,15 @@ namespace PKHeX.WinForms
                 c.Items.Clear();
                 for (int j = 0; j < 63; j++)
                     c.Items.Add($"{j:00} - N/A");
-                c.Items.Add("Gigantamax");
+                c.Items.Add("Gigantamax (0)");
             }
 
             // Fill List
             CB_Species.InitializeBinding();
-            var species = GameInfo.FilteredSources.Species.Where(z => Zukan8.DexLookup.ContainsKey(z.Value)).ToArray();
+            var species = GameInfo.FilteredSources.Species.Where(z => Dex.DexLookup.ContainsKey(z.Value)).ToArray();
             CB_Species.DataSource = new BindingSource(species, null);
 
-            var Species = GameInfo.Strings.Species;
-            var names = Zukan8.GetEntryNames(Species);
+            var names = Indexes.Select(z => z.GetEntryName(speciesNames) + (Dex.DexLookup[z.Species].DexType == z.Entry.DexType ? string.Empty : "***"));
             foreach (var n in names)
                 LB_Species.Items.Add(n);
 
@@ -61,32 +65,32 @@ namespace PKHeX.WinForms
                 return;
 
             var spec = WinFormsUtil.GetIndex(CB_Species);
-            if (!Zukan8.DexLookup.TryGetValue(spec, out var index))
+            if (!Dex.DexLookup.TryGetValue(spec, out var info))
                 throw new ArgumentException(nameof(spec));
 
-            --index;
-
+            var index = info.AbsoluteIndex - 1;
             if (LB_Species.SelectedIndex != index)
                 LB_Species.SelectedIndex = index; // trigger event
         }
 
         private void ChangeLBSpecies(object sender, EventArgs e)
         {
-            if (Loading)
+            if (Loading || LB_Species.SelectedIndex < 0)
                 return;
 
-            SetEntry();
-            entry = LB_Species.SelectedIndex + 1;
-            GetEntry();
+            SetEntry(lastIndex);
+            lastIndex = LB_Species.SelectedIndex;
+            GetEntry(lastIndex);
         }
 
-        private void GetEntry()
+        private void GetEntry(int index)
         {
-            var s = CurrentSpecies;
-            if (s <= 0)
+            var entry = Indexes[index].Entry;
+            if (entry.DexType == Zukan8Type.None)
                 return;
 
-            var forms = GetFormList(s);
+            var species = Indexes[index].Species;
+            var forms = GetFormList(species);
             if (forms[0].Length == 0)
                 forms[0] = GameInfo.Strings.Types[0];
 
@@ -97,23 +101,34 @@ namespace PKHeX.WinForms
                 {
                     if (j < 63)
                         c.Items[j] = $"{j:00} - {(j < forms.Length ? forms[j] : "N/A")}";
-                    var val = Dex.GetSeenRegion(s, j, i);
+                    var val = Dex.GetSeenRegion(entry, j, i);
                     c.SetItemChecked(j, val);
+                }
+
+                if (species == (int) Species.Urshifu)
+                {
+                    c.Items[62] = $"Gmax-{forms[1]}";
+                    c.Items[63] = $"Gmax-{forms[0]}";
+                }
+                else
+                {
+
+                    c.Items[63] = "Gigantamax";
                 }
             }
 
             for (int i = 0; i < CL.Length; i++)
-                CL[i].Checked = Dex.GetIsLanguageIndexObtained(s, i);
+                CL[i].Checked = Dex.GetIsLanguageIndexObtained(entry, i);
 
-            NUD_Form.Value = Dex.GetAltFormDisplayed(s);
+            NUD_Form.Value = Dex.GetAltFormDisplayed(entry);
 
-            CHK_Caught.Checked = Dex.GetCaught(s);
-            CHK_Gigantamaxed.Checked = Dex.GetCaughtGigantamaxed(s);
-            CHK_G.Checked = Dex.GetDisplayDynamaxInstead(s);
-            CHK_S.Checked = Dex.GetDisplayShiny(s);
-            CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(s);
+            CHK_Caught.Checked = Dex.GetCaught(entry);
+            CHK_Gigantamaxed.Checked = Dex.GetCaughtGigantamaxed(entry);
+            CHK_G.Checked = Dex.GetDisplayDynamaxInstead(entry);
+            CHK_S.Checked = Dex.GetDisplayShiny(entry);
+            CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(entry);
 
-            NUD_Battled.Value = Dex.GetBattledCount(s);
+            NUD_Battled.Value = Dex.GetBattledCount(entry);
         }
 
         private static string[] GetFormList(in int species)
@@ -124,13 +139,13 @@ namespace PKHeX.WinForms
             return FormConverter.GetFormList(species, s.Types, s.forms, GameInfo.GenderSymbolASCII, 8).ToArray();
         }
 
-        private void SetEntry()
+        private void SetEntry(int index)
         {
-            if (!CanSave || Loading)
+            if (!CanSave || Loading || index < 0)
                 return;
 
-            var s = CurrentSpecies;
-            if (s <= 0)
+            var entry = Indexes[index].Entry;
+            if (entry.DexType == Zukan8Type.None)
                 return;
 
             for (int i = 0; i < CHK.Length; i++)
@@ -139,22 +154,22 @@ namespace PKHeX.WinForms
                 for (int j = 0; j < 64; j++)
                 {
                     var val = c.GetItemChecked(j);
-                    Dex.SetSeenRegion(s, j, i, val);
+                    Dex.SetSeenRegion(entry, j, i, val);
                 }
             }
 
             for (int i = 0; i < CL.Length; i++)
-                Dex.SetIsLanguageIndexObtained(s, i, CL[i].Checked);
+                Dex.SetIsLanguageIndexObtained(entry, i, CL[i].Checked);
 
-            Dex.SetAltFormDisplayed(s, (uint)NUD_Form.Value);
+            Dex.SetAltFormDisplayed(entry, (uint)NUD_Form.Value);
 
-            Dex.SetCaught(s, CHK_Caught.Checked);
-            Dex.SetCaughtGigantamax(s, CHK_Gigantamaxed.Checked);
-            Dex.SetGenderDisplayed(s, (uint)CB_Gender.SelectedIndex);
-            Dex.SetDisplayDynamaxInstead(s, CHK_G.Checked);
-            Dex.SetDisplayShiny(s, CHK_S.Checked);
+            Dex.SetCaught(entry, CHK_Caught.Checked);
+            Dex.SetCaughtGigantamax(entry, CHK_Gigantamaxed.Checked);
+            Dex.SetGenderDisplayed(entry, (uint)CB_Gender.SelectedIndex);
+            Dex.SetDisplayDynamaxInstead(entry, CHK_G.Checked);
+            Dex.SetDisplayShiny(entry, CHK_S.Checked);
 
-            Dex.SetBattledCount(s, (uint)NUD_Battled.Value);
+            Dex.SetBattledCount(entry, (uint)NUD_Battled.Value);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -164,18 +179,19 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             Origin.CopyChangesFrom(SAV);
             Close();
         }
 
         private void B_GiveAll_Click(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             bool shiny = ModifierKeys == Keys.Shift;
-            Dex.SetDexEntryAll(CurrentSpecies, shiny);
+            var species = Indexes[lastIndex].Species;
+            Dex.SetDexEntryAll(species, shiny);
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void B_Modify_Click(object sender, EventArgs e)
@@ -186,53 +202,53 @@ namespace PKHeX.WinForms
 
         private void SeenNone(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             Dex.SeenNone();
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void SeenAll(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             bool shiny = ModifierKeys == Keys.Shift;
             Dex.SeenAll(shiny);
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void CaughtNone(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             Dex.CaughtNone();
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void CaughtAll(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             bool shiny = ModifierKeys == Keys.Shift;
             Dex.CaughtAll(shiny);
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void CompleteDex(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             bool shiny = ModifierKeys == Keys.Shift;
             Dex.CompleteDex(shiny);
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
 
         private void ChangeAllCounts(object sender, EventArgs e)
         {
-            SetEntry();
+            SetEntry(lastIndex);
             Dex.SetAllBattledCount((uint)NUD_Battled.Value);
             System.Media.SystemSounds.Asterisk.Play();
-            GetEntry();
+            GetEntry(lastIndex);
         }
     }
 }

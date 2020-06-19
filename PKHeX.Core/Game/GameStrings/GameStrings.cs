@@ -212,6 +212,8 @@ namespace PKHeX.Core
 
             itemlist[1081] += " (1)"; // Rotom Bike
             itemlist[1266] += " (2)"; // Rotom Bike
+            itemlist[1585] += " (3)"; // Rotom Bike
+            itemlist[1586] += " (4)"; // Rotom Bike
 
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
@@ -342,6 +344,9 @@ namespace PKHeX.Core
             }
 
             for (int i = 121; i <= 155; i+=2)
+                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
+
+            for (int i = 165; i <= 195; i += 2)
                 metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
 
             metSWSH_00000_good.CopyTo(metSWSH_00000, 0);

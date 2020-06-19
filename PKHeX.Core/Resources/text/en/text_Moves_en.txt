@@ -795,3 +795,25 @@ False Surrender
 Meteor Assault
 Eternabeam
 Steel Beam
+Expanding Force
+Steel Roller
+Scale Shot
+Meteor Beam
+Shell Side Arm
+Misty Explosion
+Grassy Glide
+Rising Voltage
+Terrain Pulse
+Skitter Smack
+Burning Jealousy
+Lash Out
+Poltergeist
+Corrosive Gas
+Coaching
+Flip Turn
+Triple Axel
+Dual Wingbeat
+Scorching Sands
+Jungle Healing
+Wicked Blow
+Surging Strikes

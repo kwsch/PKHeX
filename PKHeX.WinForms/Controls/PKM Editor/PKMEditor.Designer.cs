@@ -136,6 +136,9 @@
             this.FLP_OriginGame = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_OriginGame = new System.Windows.Forms.Label();
             this.CB_GameOrigin = new System.Windows.Forms.ComboBox();
+            this.FLP_BattleVersion = new System.Windows.Forms.FlowLayoutPanel();
+            this.L_BattleVersion = new System.Windows.Forms.Label();
+            this.CB_BattleVersion = new System.Windows.Forms.ComboBox();
             this.FLP_MetLocation = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_MetLocation = new System.Windows.Forms.Label();
             this.CB_MetLocation = new System.Windows.Forms.ComboBox();
@@ -224,6 +227,7 @@
             this.SpeciesIDTip = new System.Windows.Forms.ToolTip(this.components);
             this.NatureTip = new System.Windows.Forms.ToolTip(this.components);
             this.Tip3 = new System.Windows.Forms.ToolTip(this.components);
+            this.PB_BattleVersion = new System.Windows.Forms.PictureBox();
             this.ShinyLeaf = new PKHeX.WinForms.Controls.ShinyLeaf();
             this.CR_PK1 = new PKHeX.WinForms.Controls.CatchRate();
             this.SizeCP = new PKHeX.WinForms.Controls.SizeCP();
@@ -275,6 +279,7 @@
             this.GB_EggConditions.SuspendLayout();
             this.FLP_Met.SuspendLayout();
             this.FLP_OriginGame.SuspendLayout();
+            this.FLP_BattleVersion.SuspendLayout();
             this.FLP_MetLocation.SuspendLayout();
             this.FLP_Ball.SuspendLayout();
             this.FLP_BallLeft.SuspendLayout();
@@ -312,6 +317,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.PB_Mark4)).BeginInit();
             this.GB_ExtraBytes.SuspendLayout();
             this.GB_OT.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_BattleVersion)).BeginInit();
             this.SuspendLayout();
             // 
             // tabMain
@@ -1479,7 +1485,7 @@
             // 
             this.TB_HomeTracker.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.TB_HomeTracker.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_HomeTracker.Location = new System.Drawing.Point(110, 302);
+            this.TB_HomeTracker.Location = new System.Drawing.Point(110, 296);
             this.TB_HomeTracker.MaxLength = 16;
             this.TB_HomeTracker.Name = "TB_HomeTracker";
             this.TB_HomeTracker.Size = new System.Drawing.Size(118, 20);
@@ -1489,7 +1495,7 @@
             // 
             // L_HomeTracker
             // 
-            this.L_HomeTracker.Location = new System.Drawing.Point(-13, 304);
+            this.L_HomeTracker.Location = new System.Drawing.Point(-13, 298);
             this.L_HomeTracker.Name = "L_HomeTracker";
             this.L_HomeTracker.Size = new System.Drawing.Size(120, 13);
             this.L_HomeTracker.TabIndex = 9;
@@ -1499,7 +1505,7 @@
             // CHK_AsEgg
             // 
             this.CHK_AsEgg.AutoSize = true;
-            this.CHK_AsEgg.Location = new System.Drawing.Point(110, 204);
+            this.CHK_AsEgg.Location = new System.Drawing.Point(110, 198);
             this.CHK_AsEgg.Name = "CHK_AsEgg";
             this.CHK_AsEgg.Size = new System.Drawing.Size(60, 17);
             this.CHK_AsEgg.TabIndex = 2;
@@ -1514,7 +1520,7 @@
             this.GB_EggConditions.Controls.Add(this.Label_EggDate);
             this.GB_EggConditions.Controls.Add(this.Label_EggLocation);
             this.GB_EggConditions.Enabled = false;
-            this.GB_EggConditions.Location = new System.Drawing.Point(39, 226);
+            this.GB_EggConditions.Location = new System.Drawing.Point(39, 220);
             this.GB_EggConditions.Name = "GB_EggConditions";
             this.GB_EggConditions.Size = new System.Drawing.Size(200, 67);
             this.GB_EggConditions.TabIndex = 3;
@@ -1567,6 +1573,7 @@
             // FLP_Met
             // 
             this.FLP_Met.Controls.Add(this.FLP_OriginGame);
+            this.FLP_Met.Controls.Add(this.FLP_BattleVersion);
             this.FLP_Met.Controls.Add(this.FLP_MetLocation);
             this.FLP_Met.Controls.Add(this.FLP_Ball);
             this.FLP_Met.Controls.Add(this.FLP_MetLevel);
@@ -1576,7 +1583,7 @@
             this.FLP_Met.Controls.Add(this.FLP_TimeOfDay);
             this.FLP_Met.Location = new System.Drawing.Point(0, 24);
             this.FLP_Met.Name = "FLP_Met";
-            this.FLP_Met.Size = new System.Drawing.Size(272, 175);
+            this.FLP_Met.Size = new System.Drawing.Size(272, 189);
             this.FLP_Met.TabIndex = 1;
             // 
             // FLP_OriginGame
@@ -1611,12 +1618,44 @@
             this.CB_GameOrigin.TabIndex = 1;
             this.CB_GameOrigin.SelectedIndexChanged += new System.EventHandler(this.UpdateOriginGame);
             // 
+            // FLP_BattleVersion
+            // 
+            this.FLP_BattleVersion.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_BattleVersion.Controls.Add(this.L_BattleVersion);
+            this.FLP_BattleVersion.Controls.Add(this.CB_BattleVersion);
+            this.FLP_BattleVersion.Location = new System.Drawing.Point(0, 21);
+            this.FLP_BattleVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_BattleVersion.Name = "FLP_BattleVersion";
+            this.FLP_BattleVersion.Size = new System.Drawing.Size(272, 21);
+            this.FLP_BattleVersion.TabIndex = 8;
+            // 
+            // L_BattleVersion
+            // 
+            this.L_BattleVersion.Location = new System.Drawing.Point(0, 0);
+            this.L_BattleVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.L_BattleVersion.Name = "L_BattleVersion";
+            this.L_BattleVersion.Size = new System.Drawing.Size(110, 21);
+            this.L_BattleVersion.TabIndex = 0;
+            this.L_BattleVersion.Text = "Battle Version:";
+            this.L_BattleVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // CB_BattleVersion
+            // 
+            this.CB_BattleVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_BattleVersion.FormattingEnabled = true;
+            this.CB_BattleVersion.Location = new System.Drawing.Point(110, 0);
+            this.CB_BattleVersion.Margin = new System.Windows.Forms.Padding(0);
+            this.CB_BattleVersion.Name = "CB_BattleVersion";
+            this.CB_BattleVersion.Size = new System.Drawing.Size(126, 21);
+            this.CB_BattleVersion.TabIndex = 1;
+            this.CB_BattleVersion.SelectedValueChanged += new System.EventHandler(this.CB_BattleVersion_SelectedValueChanged);
+            // 
             // FLP_MetLocation
             // 
             this.FLP_MetLocation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_MetLocation.Controls.Add(this.Label_MetLocation);
             this.FLP_MetLocation.Controls.Add(this.CB_MetLocation);
-            this.FLP_MetLocation.Location = new System.Drawing.Point(0, 21);
+            this.FLP_MetLocation.Location = new System.Drawing.Point(0, 42);
             this.FLP_MetLocation.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLocation.Name = "FLP_MetLocation";
             this.FLP_MetLocation.Size = new System.Drawing.Size(272, 21);
@@ -1653,7 +1692,7 @@
             this.FLP_Ball.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Ball.Controls.Add(this.FLP_BallLeft);
             this.FLP_Ball.Controls.Add(this.CB_Ball);
-            this.FLP_Ball.Location = new System.Drawing.Point(0, 42);
+            this.FLP_Ball.Location = new System.Drawing.Point(0, 63);
             this.FLP_Ball.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Ball.Name = "FLP_Ball";
             this.FLP_Ball.Size = new System.Drawing.Size(272, 21);
@@ -1715,7 +1754,7 @@
             this.FLP_MetLevel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_MetLevel.Controls.Add(this.Label_MetLevel);
             this.FLP_MetLevel.Controls.Add(this.TB_MetLevel);
-            this.FLP_MetLevel.Location = new System.Drawing.Point(0, 63);
+            this.FLP_MetLevel.Location = new System.Drawing.Point(0, 84);
             this.FLP_MetLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetLevel.Name = "FLP_MetLevel";
             this.FLP_MetLevel.Size = new System.Drawing.Size(272, 21);
@@ -1747,7 +1786,7 @@
             this.FLP_MetDate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_MetDate.Controls.Add(this.Label_MetDate);
             this.FLP_MetDate.Controls.Add(this.CAL_MetDate);
-            this.FLP_MetDate.Location = new System.Drawing.Point(0, 84);
+            this.FLP_MetDate.Location = new System.Drawing.Point(0, 105);
             this.FLP_MetDate.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_MetDate.Name = "FLP_MetDate";
             this.FLP_MetDate.Size = new System.Drawing.Size(272, 21);
@@ -1781,7 +1820,7 @@
             this.FLP_Fateful.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Fateful.Controls.Add(this.PAN_Fateful);
             this.FLP_Fateful.Controls.Add(this.CHK_Fateful);
-            this.FLP_Fateful.Location = new System.Drawing.Point(0, 105);
+            this.FLP_Fateful.Location = new System.Drawing.Point(0, 126);
             this.FLP_Fateful.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Fateful.Name = "FLP_Fateful";
             this.FLP_Fateful.Size = new System.Drawing.Size(272, 21);
@@ -1811,7 +1850,7 @@
             this.FLP_EncounterType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_EncounterType.Controls.Add(this.Label_EncounterType);
             this.FLP_EncounterType.Controls.Add(this.CB_EncounterType);
-            this.FLP_EncounterType.Location = new System.Drawing.Point(0, 126);
+            this.FLP_EncounterType.Location = new System.Drawing.Point(0, 147);
             this.FLP_EncounterType.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_EncounterType.Name = "FLP_EncounterType";
             this.FLP_EncounterType.Size = new System.Drawing.Size(272, 21);
@@ -1843,7 +1882,7 @@
             this.FLP_TimeOfDay.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_TimeOfDay.Controls.Add(this.L_MetTimeOfDay);
             this.FLP_TimeOfDay.Controls.Add(this.CB_MetTimeOfDay);
-            this.FLP_TimeOfDay.Location = new System.Drawing.Point(0, 147);
+            this.FLP_TimeOfDay.Location = new System.Drawing.Point(0, 168);
             this.FLP_TimeOfDay.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_TimeOfDay.Name = "FLP_TimeOfDay";
             this.FLP_TimeOfDay.Size = new System.Drawing.Size(272, 21);
@@ -2287,6 +2326,7 @@
             // Tab_OTMisc
             // 
             this.Tab_OTMisc.AllowDrop = true;
+            this.Tab_OTMisc.Controls.Add(this.PB_BattleVersion);
             this.Tab_OTMisc.Controls.Add(this.PB_Origin);
             this.Tab_OTMisc.Controls.Add(this.PB_Favorite);
             this.Tab_OTMisc.Controls.Add(this.FLP_PKMEditors);
@@ -2670,6 +2710,17 @@
             this.Label_EncryptionConstant.Text = "Encryption Constant:";
             this.Label_EncryptionConstant.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // PB_BattleVersion
+            // 
+            this.PB_BattleVersion.Image = global::PKHeX.WinForms.Properties.Resources.icon_btlrom;
+            this.PB_BattleVersion.InitialImage = global::PKHeX.WinForms.Properties.Resources.icon_btlrom;
+            this.PB_BattleVersion.Location = new System.Drawing.Point(251, 228);
+            this.PB_BattleVersion.Name = "PB_BattleVersion";
+            this.PB_BattleVersion.Size = new System.Drawing.Size(40, 40);
+            this.PB_BattleVersion.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.PB_BattleVersion.TabIndex = 12;
+            this.PB_BattleVersion.TabStop = false;
+            // 
             // ShinyLeaf
             // 
             this.ShinyLeaf.Location = new System.Drawing.Point(110, 0);
@@ -2793,6 +2844,7 @@
             this.GB_EggConditions.ResumeLayout(false);
             this.FLP_Met.ResumeLayout(false);
             this.FLP_OriginGame.ResumeLayout(false);
+            this.FLP_BattleVersion.ResumeLayout(false);
             this.FLP_MetLocation.ResumeLayout(false);
             this.FLP_Ball.ResumeLayout(false);
             this.FLP_BallLeft.ResumeLayout(false);
@@ -2839,6 +2891,7 @@
             this.GB_ExtraBytes.PerformLayout();
             this.GB_OT.ResumeLayout(false);
             this.GB_OT.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PB_BattleVersion)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -3046,5 +3099,9 @@
         private System.Windows.Forms.ComboBox CB_FormArgument;
         private System.Windows.Forms.TextBox TB_HomeTracker;
         private System.Windows.Forms.Label L_HomeTracker;
+        private System.Windows.Forms.FlowLayoutPanel FLP_BattleVersion;
+        private System.Windows.Forms.Label L_BattleVersion;
+        private System.Windows.Forms.ComboBox CB_BattleVersion;
+        private System.Windows.Forms.PictureBox PB_BattleVersion;
     }
 }

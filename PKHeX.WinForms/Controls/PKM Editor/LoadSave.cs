@@ -402,6 +402,7 @@ namespace PKHeX.WinForms.Controls
             Stats.CHK_Gigantamax.Checked = pk8.CanGigantamax;
             CB_HTLanguage.SelectedValue = pk8.HT_Language;
             TB_HomeTracker.Text = pk8.Tracker.ToString("X16");
+            CB_BattleVersion.SelectedValue = pk8.BattleVersion;
         }
 
         private void SaveMisc8(PK8 pk8)
@@ -410,6 +411,7 @@ namespace PKHeX.WinForms.Controls
             pk8.DynamaxLevel = (byte)Math.Max(0, Stats.CB_DynamaxLevel.SelectedIndex);
             pk8.CanGigantamax = Stats.CHK_Gigantamax.Checked;
             pk8.HT_Language = WinFormsUtil.GetIndex(CB_HTLanguage);
+            pk8.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
         }
     }
 }

@@ -5,16 +5,23 @@ namespace PKHeX.Core
 {
     public sealed class RaidSpawnList8 : SaveBlock
     {
-        public RaidSpawnList8(SaveFile sav, SCBlock block) : base(sav, block.Data) { }
+        public readonly int CountAll;
+        public readonly int CountUsed;
 
-        public const int RaidCountLegal = 100;
-        public const int RaidCount = 111;
+        public RaidSpawnList8(SaveFile sav, SCBlock block, int legal) : base(sav, block.Data)
+        {
+            CountAll = block.Data.Length / RaidSpawnDetail.SIZE;
+            CountUsed = legal;
+        }
+
+        public const int RaidCountLegal_O0 = 93;
+        public const int RaidCountLegal_R1 = 59;
 
         public RaidSpawnDetail GetRaid(int entry) => new RaidSpawnDetail(Data, entry * RaidSpawnDetail.SIZE);
 
         public RaidSpawnDetail[] GetAllRaids()
         {
-            var result = new RaidSpawnDetail[RaidCount];
+            var result = new RaidSpawnDetail[CountAll];
             for (int i = 0; i < result.Length; i++)
                 result[i] = GetRaid(i);
             return result;
@@ -23,7 +30,7 @@ namespace PKHeX.Core
         public void ActivateAllRaids(bool rare, bool isEvent)
         {
             var rnd = Util.Rand;
-            for (int i = 0; i < RaidCountLegal; i++)
+            for (int i = 0; i < CountUsed; i++)
             {
                 if (i == 16) // Watchtower, special
                     continue;
@@ -36,7 +43,7 @@ namespace PKHeX.Core
         public string[] DumpAll()
         {
             var raids = GetAllRaids();
-            var result = new string[RaidCount];
+            var result = new string[CountAll];
             for (int i = 0; i < result.Length; i++)
                 result[i] = raids[i].Dump();
             return result;

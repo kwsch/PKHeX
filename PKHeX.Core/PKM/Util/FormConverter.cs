@@ -114,6 +114,9 @@ namespace PKHeX.Core
                 case Farfetchd when generation >= 8:
                     return GetFormsGalar(types, forms);
 
+                case Slowbro when generation >= 8:
+                    return GetFormsGalarSlowbro(types, forms);
+
                 default:
                     return GetFormsAlolan(generation, types, forms, species);
             }
@@ -617,6 +620,18 @@ namespace PKHeX.Core
                         types[0], // Normal
                         forms[Eternamax],
                     };
+                case Urshifu:
+                    return new[]
+                    {
+                        forms[SingleStrike],
+                        forms[RapidStrike],
+                    };
+                case Zarude:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[Dada],
+                    };
             }
         }
 
@@ -654,6 +669,7 @@ namespace PKHeX.Core
                 case Grimer:
                 case Muk:
                 case Exeggutor:
+                case Marowak: // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
                     return new[]
                     {
                         types[000],
@@ -696,6 +712,18 @@ namespace PKHeX.Core
                     };
 
                 case 7:
+                    return new[]
+                    {
+                        types[000], // Normal
+                        forms[813], // Original
+                        forms[814], // Hoenn
+                        forms[815], // Sinnoh
+                        forms[816], // Unova
+                        forms[817], // Kalos
+                        forms[818], // Alola
+                        forms[1063], // Partner
+                        Starter,
+                    };
                 case 8:
                     return new[]
                     {
@@ -707,6 +735,8 @@ namespace PKHeX.Core
                         forms[817], // Kalos
                         forms[818], // Alola
                         forms[1063], // Partner
+                        Starter,
+                        forms[1085], // World
                     };
             }
         }
@@ -915,6 +945,16 @@ namespace PKHeX.Core
             };
         }
 
+        private static string[] GetFormsGalarSlowbro(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return new[]
+            {
+                types[000], // Normal
+                forms[804], // Mega
+                forms[Galarian], // Galarian
+            };
+        }
+
         private const int Galarian = 1068;
         // private const int Gigantamax = 1069;
         private const int Gulping = 1070;
@@ -935,6 +975,10 @@ namespace PKHeX.Core
 
         private const int Crowned = 1083;
         private const int Eternamax = 1084;
+
+        private const int SingleStrike = 1086;
+        private const int RapidStrike = 1087;
+        private const int Dada = 1088;
 
         public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
         {

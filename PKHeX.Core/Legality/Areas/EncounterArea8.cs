@@ -30,7 +30,7 @@ namespace PKHeX.Core
         protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
         {
             var loc = Location;
-            if (IsWildArea8(loc)) // wild area gets boosted up to level 60 post-game
+            if (IsWildArea8(loc) || IsWildArea8Armor(loc)) // wild area gets boosted up to level 60 post-game
             {
                 const int boostTo = 60;
                 if (pkm.Met_Level == boostTo)
@@ -59,6 +59,7 @@ namespace PKHeX.Core
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
 
         public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
+        public static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
 
         // Location, and areas that can feed encounters into it.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>

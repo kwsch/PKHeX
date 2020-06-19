@@ -22,6 +22,7 @@ namespace PKHeX.Core
         public TrainerCard8 TrainerCard{ get; }
         public FashionUnlock8 Fashion { get; }
         public RaidSpawnList8 Raid { get; }
+        public RaidSpawnList8 RaidArmor { get; }
         public TitleScreen8 TitleScreen { get; }
         public TeamIndexes8 TeamIndexes { get; }
         public HallOfFameTime8 FameTime { get; }
@@ -32,7 +33,7 @@ namespace PKHeX.Core
             BoxInfo = new Box8(sav, GetBlock(KBox));
             PartyInfo = new Party8(sav, GetBlock(KParty));
             Items = new MyItem8(sav, GetBlock(KItem));
-            Zukan = new Zukan8(sav, GetBlock(KZukan));
+            Zukan = new Zukan8(sav, GetBlock(KZukan), GetBlockSafe(KZukanR1), GetBlockSafe(KZukanR2));
             MyStatus = new MyStatus8(sav, GetBlock(KMyStatus));
             Misc = new Misc8(sav, GetBlock(KMisc));
             BoxLayout = new BoxLayout8(sav, GetBlock(KBoxLayout));
@@ -42,7 +43,8 @@ namespace PKHeX.Core
             Daycare = new Daycare8(sav, GetBlock(KDaycare));
             Records = new Record8(sav, GetBlock(KRecord), Core.Records.MaxType_SWSH);
             Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
-            Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList));
+            Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
+            RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
             TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
             TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
             FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
@@ -69,11 +71,14 @@ namespace PKHeX.Core
         private const uint KDaycare = 0x2d6fba6a; // Daycare slots (2 daycares)
         private const uint KTeamIndexes = 0x33F39467; // Team Indexes for competition
         private const uint KRecord = 0x37da95a3;
-        private const uint KZukan = 0x4716c404; // PokeDex
+        private const uint KZukan = 0x4716c404; // ZukanData_Pokemon
+        private const uint KZukanR1 = 0x3F936BA9; // ZukanData_PokemonR1 (Armor)
+        private const uint KZukanR2 = 0x3C9366F0; // ZukanData_PokemonR2 (Crown)
         private const uint KCurryDex = 0x6EB72940; // Curry Dex
         private const uint KTrainerCard = 0x874da6fa; // Trainer Card
         private const uint KPlayTime = 0x8cbbfd90; // Time Played
         private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
+        private const uint KRaidSpawnListR1 = 0x158DA896; // Raid Data for DLC1
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details

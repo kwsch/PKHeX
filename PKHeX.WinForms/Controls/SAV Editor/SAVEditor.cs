@@ -614,7 +614,8 @@ namespace PKHeX.WinForms.Controls
         {
             if (!(SAV is SAV8SWSH swsh))
                 return;
-            using var form = new SAV_Raid8(swsh);
+            var raids = sender == B_Raids ? swsh.Raid : swsh.RaidArmor;
+            using var form = new SAV_Raid8(swsh, raids);
             form.ShowDialog();
         }
 

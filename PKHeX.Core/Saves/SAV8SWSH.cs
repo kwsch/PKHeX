@@ -64,6 +64,7 @@ namespace PKHeX.Core
         public override Record8 Records => Blocks.Records;
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
         public override RaidSpawnList8 Raid => Blocks.Raid;
+        public override RaidSpawnList8 RaidArmor => Blocks.RaidArmor;
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
         public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 
@@ -87,12 +88,13 @@ namespace PKHeX.Core
         #endregion
         public override SaveFile Clone() => new SAV8SWSH(BAK, AllBlocks.Select(z => z.Clone()).ToArray());
 
-        public override int MaxMoveID => Legal.MaxMoveID_8;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_8;
-        public override int MaxItemID => Legal.MaxItemID_8;
+        private int m_spec, m_item, m_move, m_abil;
+        public override int MaxMoveID => m_move;
+        public override int MaxSpeciesID => m_spec;
+        public override int MaxItemID => m_item;
         public override int MaxBallID => Legal.MaxBallID_8;
         public override int MaxGameID => Legal.MaxGameID_8;
-        public override int MaxAbilityID => Legal.MaxAbilityID_8;
+        public override int MaxAbilityID => m_abil;
 
         private void Initialize()
         {
@@ -100,6 +102,22 @@ namespace PKHeX.Core
             Party = 0;
             PokeDex = 0;
             TeamIndexes.LoadBattleTeams();
+
+            int rev = Zukan.GetRevision();
+            if (rev == 0)
+            {
+                m_move = Legal.MaxMoveID_8_O0;
+                m_spec = Legal.MaxSpeciesID_8_O0;
+                m_item = Legal.MaxItemID_8_O0;
+                m_abil = Legal.MaxAbilityID_8_O0;
+            }
+            else
+            {
+                m_move = Legal.MaxMoveID_8_R1;
+                m_spec = Legal.MaxSpeciesID_8_R1;
+                m_item = Legal.MaxItemID_8_R1;
+                m_abil = Legal.MaxAbilityID_8_R1;
+            }
         }
 
         public int GetRecord(int recordID) => Records.GetRecord(recordID);

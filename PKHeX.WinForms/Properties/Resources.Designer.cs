@@ -493,6 +493,16 @@ namespace PKHeX.WinForms.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap icon_btlrom {
+            get {
+                object obj = ResourceManager.GetObject("icon_btlrom", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap icon_favo {
             get {
                 object obj = ResourceManager.GetObject("icon_favo", resourceCulture);
@@ -568,20 +578,20 @@ namespace PKHeX.WinForms.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to About=Acerca de
-        ///BatchEditor=Editor por lotes
+        ///BatchEditor=Editor por Lotes
         ///ErrorWindow=Error
         ///KChart=KChart
         ///Main=PKHeX
-        ///MemoryAmie=Editor de memorias / Poké Recreo
-        ///RibbonEditor=Editor de cintas
+        ///MemoryAmie=Editor de Memorias / Poké Recreo
+        ///RibbonEditor=Editor de Cintas
         ///SAV_Apricorn=Editor de Bonguri
-        ///SAV_BerryField=Visor de campos de bayas
+        ///SAV_BerryField=Visor de Campos de Bayas
         ///SAV_BlockDump8=Respaldo de bloques
-        ///SAV_BoxLayout=Editor de fondos de cajas
-        ///SAV_BoxList=Visor de almacenamiento
+        ///SAV_BoxLayout=Editor de fondos de Cajas
+        ///SAV_BoxList=Visor de Almacenamiento
         ///SAV_CGearSkin=Editor de la apariencia C-Gear
-        ///SAV_Database=Base de datos
-        ///SAV_Encounters=Base de datos
+        ///SAV_Database=Base de Datos
+        ///SAV_Encounters=Base de Datos
         ///SAV_EventFlags=Editor de marca de eventos
         ///SAV_Event [rest of string was truncated]&quot;;.
         /// </summary>

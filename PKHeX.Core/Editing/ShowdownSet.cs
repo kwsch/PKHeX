@@ -634,7 +634,7 @@ namespace PKHeX.Core
 
         private static string ConvertFormFromShowdown(string form, int spec, int ability)
         {
-            if (form.Length == 0)
+            if (form.Length != 0)
                 form = form.Replace(' ', '-'); // inconsistencies are great
 
             switch (spec)
@@ -676,6 +676,10 @@ namespace PKHeX.Core
                     if (form == "Galar-Zen")
                         return "Galar Zen";
                     return form;
+
+                // Urshifu
+                case (int)Core.Species.Urshifu:
+                    return form.Replace('-', ' ');
 
                 default:
                     if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))

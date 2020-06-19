@@ -5,10 +5,24 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        internal const int MaxSpeciesID_8 = 890; // Eternatus
-        internal const int MaxMoveID_8 = 796; // Steel Beam (jet fuel)
-        internal const int MaxItemID_8 = 1278; // Rotom Catalog, or 1578 for all catalog parts?
-        internal const int MaxAbilityID_8 = 258;
+        // Current Binaries
+        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R1;
+        internal const int MaxMoveID_8 = MaxMoveID_8_R1;
+        internal const int MaxItemID_8 = MaxItemID_8_R1;
+        internal const int MaxAbilityID_8 = MaxAbilityID_8_R1;
+
+        // Orion (No DLC)
+        internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
+        internal const int MaxMoveID_8_O0 = 796; // Steel Beam (jet fuel)
+        internal const int MaxItemID_8_O0 = 1278; // Rotom Catalog, ignore all catalog parts
+        internal const int MaxAbilityID_8_O0 = 258;
+
+        // Rigel 1 (DLC 1: Isle of Armor)
+        internal const int MaxSpeciesID_8_R1 = 893; // Zarude
+        internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
+        internal const int MaxItemID_8_R1 = 1589; // Mark Charm
+        internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
         internal const int MaxGameID_8 = 45;
 
@@ -31,7 +45,11 @@ namespace PKHeX.Core
             130, 132, 134, 136, 138,
             140, 142, 144, 146, 148,
             150, 152, 154, 156, 158,
-            160, 162,
+            160, 162, 164, 166, 168,
+            170, 172, 174, 176, 178,
+            180, 182, 184, 186, 188,
+            190, 192, 194, 196, 198,
+            200, 202,
         };
 
         internal static readonly int[] Met_SWSH_3 =
@@ -58,16 +76,17 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Regular_SWSH =
         {
             045, 046, 047, 048, 049, 050, 051, 052, 053, 076, 077, 079, 080, 081, 082, 083, 084, 085, 107, 108, 109,
-            116, 117, 118, 119, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 228, 229, 230, 231, 232, 233,
-            234, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 253, 254, 255, 257,
-            259, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284,
-            285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305,
-            306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 325, 326, 537, 538, 539,
-            540, 541, 542, 543, 544, 545, 546, 547, 564, 565, 566, 567, 568, 569, 570, 639, 640, 644, 645, 646, 647,
-            648, 649, 650, 846, 849, 879, 880, 881, 882, 883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913,
-            914, 915, 916, 917, 918, 919, 920, 1103, 1104, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118,
-            1119, 1120, 1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1231, 1232, 1233, 1234, 1235, 1236, 1237,
-            1238, 1239, 1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254,
+            110, 112, 116, 117, 118, 119, 135, 136, 213, 214, 215, 217, 218, 219, 220, 221, 222, 223, 224, 225, 228,
+            229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249,
+            250, 251, 252, 253, 254, 255, 257, 258, 259, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276,
+            277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297,
+            298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318,
+            319, 320, 321, 322, 323, 324, 325, 326, 485, 486, 487, 488, 489, 490, 491, 537, 538, 539, 540, 541, 542,
+            543, 544, 545, 546, 547, 564, 565, 566, 567, 568, 569, 570, 639, 640, 644, 645, 646, 647, 648, 649, 650,
+            846, 849, 879, 880, 881, 882, 883, 884, 904, 905, 906, 907, 908, 909, 910, 911, 912, 913, 914, 915, 916,
+            917, 918, 919, 920, 1103, 1104, 1109, 1110, 1111, 1112, 1113, 1114, 1115, 1116, 1117, 1118, 1119, 1120,
+            1121, 1122, 1123, 1124, 1125, 1126, 1127, 1128, 1129, 1231, 1232, 1233, 1234, 1235, 1236, 1237, 1238, 1239,
+            1240, 1241, 1242, 1243, 1244, 1245, 1246, 1247, 1248, 1249, 1250, 1251, 1252, 1253, 1254,
 
             1279,
             1280, 1281, 1282, 1283, 1284, 1285, 1286, 1287, 1288, 1289, 1290, 1291, 1292, 1293, 1294, 1295, 1296, 1297,
@@ -86,7 +105,7 @@ namespace PKHeX.Core
             1514, 1515, 1516, 1517, 1518, 1519, 1520, 1521, 1522, 1523, 1524, 1525, 1526, 1527, 1528, 1529, 1530, 1531,
             1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549,
             1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567,
-            1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578,
+            1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1581, 1582, 1588,
         };
 
         internal static readonly ushort[] Pouch_Ball_SWSH =
@@ -99,7 +118,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Battle_SWSH =
         {
-            055, 056, 057, 058, 059, 060, 061, 062, 063,
+            055, 056, 057, 058, 059, 060, 061, 062, 063, 1580
         };
 
         internal static readonly ushort[] Pouch_Items_SWSH = Pouch_Regular_SWSH.Concat(Pouch_Ball_SWSH).Concat(Pouch_Battle_SWSH).ToArray();
@@ -107,11 +126,12 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Key_SWSH =
         {
             078,
-            628, 629, 631, 632,
+            628, 629, 631, 632, 638,
             703,
+            847,
             943, 944, 945, 946,
-            1074, 1075, 1076, 1077, 1080, 1081, 1100,
-            1255, 1266, 1267, 1269, 1270, 1271, 1278,
+            1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
+            1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
         };
 
         internal static readonly ushort[] TM_SWSH =
@@ -154,6 +174,7 @@ namespace PKHeX.Core
             504, 591,
             708, 709,
             852, 903,
+            1579,
         };
 
         internal static readonly ushort[] Pouch_Berries_SWSH =
@@ -209,6 +230,55 @@ namespace PKHeX.Core
             (int)Ball.Moon,
             (int)Ball.Dream,
             (int)Ball.Beast,
+
+            // DLC 1 Additions
+            (int)Ball.Safari,
+            (int)Ball.Sport,
+            // no cherish ball
+        };
+
+        internal static readonly int[] Tutors_SWSH_1 =
+        {
+            805, 807, 812, 804,
+            803, 813, 811, 810,
+            815, 814, 797, 806,
+            800, 809, 799, 808,
+            798, 802,
+        };
+
+        public static readonly HashSet<int> CanEatMaxSoup = new HashSet<int>
+        {
+            (int)Species.Venusaur,
+            (int)Species.Charizard,
+            (int)Species.Blastoise,
+            (int)Species.Rillaboom,
+            (int)Species.Cinderace,
+            (int)Species.Inteleon,
+            (int)Species.Butterfree,
+            (int)Species.Pikachu,
+            (int)Species.Meowth,
+            (int)Species.Machamp,
+            (int)Species.Gengar,
+            (int)Species.Lapras,
+            (int)Species.Eevee,
+            (int)Species.Snorlax,
+            (int)Species.Garbodor,
+            (int)Species.Drednaw,
+            (int)Species.Corviknight,
+            (int)Species.Toxtricity,
+            (int)Species.Alcremie,
+            (int)Species.Duraludon,
+            (int)Species.Orbeetle,
+            (int)Species.Coalossal,
+            (int)Species.Sandaconda,
+            (int)Species.Grimmsnarl,
+            (int)Species.Flapple,
+            (int)Species.Appletun,
+            (int)Species.Hatterene,
+            (int)Species.Copperajah,
+            (int)Species.Kingler,
+            (int)Species.Centiskorch,
+            (int)Species.Urshifu
         };
 
         internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
@@ -314,24 +384,14 @@ namespace PKHeX.Core
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
-            10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05,
+            10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
+            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05
+
         };
 
         internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>
         {
-            // No wild encounter with Hidden, so can't breed a hidden yet.
-            (int)Species.Slowpoke | 1 << 11,
-
-            (int)Species.Skwovet, (int)Species.Greedent,
-            (int)Species.Nickit, (int)Species.Thievul,
-            (int)Species.Wooloo, (int)Species.Dubwool,
-            (int)Species.Yamper, (int)Species.Boltund,
-
-            // Average & Super forms have hidden abilities available via raids.
-            710 + (1 << 11), //Pumpkaboo-Small
-            711 + (1 << 11), //Gourgeist-Small
-            710 + (2 << 11), //Pumpkaboo-Large
-            711 + (2 << 11), //Gourgeist-Large
+            // none as of DLC 1!
         };
 
         internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
@@ -346,10 +406,14 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {
+            112, // Griseous Orb
             116, // Douse Drive
             117, // Shock Drive
             118, // Burn Drive
             119, // Chill Drive
+            135, // Adamant Orb
+            136, // Lustrous Orb
+            225, // Soul Dew
 
             298, // Flame Plate
             299, // Splash Plate
@@ -368,6 +432,9 @@ namespace PKHeX.Core
             312, // Dread Plate
             313, // Iron Plate
             // 644, // Pixie Plate
+
+            322, // Electirizer
+            323, // Magmarizer
 
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
@@ -670,9 +737,7 @@ namespace PKHeX.Core
             1577, // ★Aql7602
             1578, // ★Aql7235
 
-            005, // Safari Ball
             016, // Cherish Ball
-            499, // Sport Ball
             500, // Park Ball
 
             193, // Payapa Berry

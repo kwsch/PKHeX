@@ -222,6 +222,10 @@ namespace PKHeX.Core
                 return false;
             if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
                 return false; // this one is OK, Galarian non-Zen
+            if (species == (int) Species.Slowbro && form == 2 && format >= 8)
+                return false; // this one is OK, Galarian Slowbro (not a Mega)
+            if (species == (int) Species.Necrozma && form != 3)
+                return false; // Only mark Ultra Necrozma as Battle Only
             return true;
         }
 

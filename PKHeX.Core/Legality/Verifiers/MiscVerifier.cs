@@ -377,9 +377,27 @@ namespace PKHeX.Core
             if (pk8.Favorite)
                 data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
 
-            var gflag = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
-            if (gflag != pk8.CanGigantamax)
-                data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+            var sn = pk8.StatNature;
+            if (sn != pk8.Nature)
+            {
+                // Only allow Serious nature (0); disallow all other neutral natures.
+                if (sn != 0 && (sn > 24 || sn % 6 == 0))
+                    data.AddLine(GetInvalid(LStatNatureInvalid));
+            }
+
+            var bv = pk8.BattleVersion;
+            if (bv != 0)
+            {
+                if (bv != (int)GameVersion.SW && bv != (int)GameVersion.SH || pk8.SWSH)
+                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            }
+
+            bool originGMax = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
+            if (originGMax != pk8.CanGigantamax)
+            {
+                if (!Legal.CanEatMaxSoup.Contains(pk8.Species))
+                    data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+            }
 
             if (pk8.DynamaxLevel != 0)
             {

@@ -109,10 +109,6 @@ namespace PKHeX.Core
             {
                 data.AddLine(GetInvalid(LTransferBad));
             }
-            else if (pkm.AltForm == 0 && (species == (int)Species.Slowpoke || species == (int)Species.Slowbro))
-            {
-                data.AddLine(GetInvalid(LTransferBad)); // can't get regular slowpoke/slowbro yet
-            }
             else if (data.Info.Generation < 8 && pkm.Format >= 8)
             {
                 if (!pkm.GG && pkm is IScaledSize s)

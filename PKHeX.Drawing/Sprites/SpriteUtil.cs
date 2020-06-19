@@ -92,7 +92,8 @@ namespace PKHeX.Drawing
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
         {
             var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter));
+            bool alt = pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO);
+            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
             if (pk is IShadowPKM s && s.Purification > 0)
             {
                 const int Lugia = 249;

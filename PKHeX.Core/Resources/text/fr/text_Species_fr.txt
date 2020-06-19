@@ -889,3 +889,6 @@ Lanssorien
 Zacian
 Zamazenta
 Éthernatos
+Wushours
+Shifours
+Zarude

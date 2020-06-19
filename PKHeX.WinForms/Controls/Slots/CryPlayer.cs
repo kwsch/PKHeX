@@ -36,6 +36,9 @@ namespace PKHeX.WinForms.Controls
 
         private static string GetCryFileName(PKM pk)
         {
+            if (pk.Species == (int)Species.Urshifu && pk.AltForm == 1) // same sprite for both forms, but different cries
+                return "892-1";
+
             // don't grab sprite of pkm, no gender specific cries
             var res = SpriteName.GetResourceStringSprite(pk.Species, pk.AltForm, 0, 0, pk.Format);
             return res.Replace('_', '-') // people like - instead of _ file names ;)

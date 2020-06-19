@@ -11,13 +11,13 @@ namespace PKHeX.WinForms
         private readonly SAV8SWSH SAV;
         private readonly RaidSpawnList8 Raids;
 
-        public SAV_Raid8(SaveFile sav)
+        public SAV_Raid8(SaveFile sav, RaidSpawnList8 raid)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)(Origin = sav).Clone();
-            Raids = SAV.Blocks.Raid;
-            CB_Den.Items.AddRange(Enumerable.Range(1, RaidSpawnList8.RaidCount).Select(z => (object)$"Den {z:000}").ToArray());
+            Raids = raid;
+            CB_Den.Items.AddRange(Enumerable.Range(1, raid.CountUsed).Select(z => (object)$"Den {z:000}").ToArray());
             CB_Den.SelectedIndex = 0;
         }
 

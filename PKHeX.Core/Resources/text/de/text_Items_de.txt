@@ -1,4 +1,4 @@
-﻿Kein
+Kein
 Meisterball
 Hyperball
 Superball
@@ -1577,3 +1577,14 @@ Rotom-Katalog
 ★Aql7525
 ★Aql7602
 ★Aql7235
+Dyna-Honig
+Dyna-Pilz
+Galarnuss-Zweig
+Galarnuss-Reif
+Style-Karte
+Rüstungspass
+Rotom-Rad
+Rotom-Rad
+EP-Pin
+Rüstungserz
+Zeichenpin

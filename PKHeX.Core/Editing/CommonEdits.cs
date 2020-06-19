@@ -141,7 +141,7 @@ namespace PKHeX.Core
             if (pk.IsShiny)
                 return false;
 
-            if (pk.FatefulEncounter || type == Shiny.Random)
+            if (pk.FatefulEncounter || pk.Version == (int)GameVersion.GO || type == Shiny.Random)
             {
                 pk.SetShiny();
                 return true;

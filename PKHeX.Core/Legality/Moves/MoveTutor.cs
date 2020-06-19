@@ -181,6 +181,12 @@ namespace PKHeX.Core
                 if (arr[i] == move && pi.TypeTutors[i])
                     return GameVersion.Gen8;
             }
+            var tutors = Tutors_SWSH_1;
+            for (int i = 0; i < tutors.Length; i++)
+            {
+                if (tutors[i] == move && pi.SpecialTutors[0][i])
+                    return GameVersion.USUM;
+            }
 
             return NONE;
         }
@@ -272,6 +278,8 @@ namespace PKHeX.Core
             if (!pi.IsPresentInGame)
                 return;
             moves.AddRange(TypeTutor8.Where((_, i) => pi.TypeTutors[i]));
+            if (specialTutors)
+                moves.AddRange(GetTutors(pi, Tutors_SWSH_1));
         }
 
         private static IEnumerable<int> GetTutors(PersonalInfo pi, params int[][] tutors)

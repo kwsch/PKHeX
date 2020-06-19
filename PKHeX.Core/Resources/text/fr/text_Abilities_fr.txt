@@ -257,3 +257,5 @@ Entêtement
 Gaz Inhibiteur
 Voile Pastel
 Déclic Fringale
+Tir Vif
+Poing Invisible
