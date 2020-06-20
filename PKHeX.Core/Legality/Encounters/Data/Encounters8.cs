@@ -531,6 +531,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 589, Level = 36, Location = 180 }, // Escavalier in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 616, Level = 26, Location = 180 }, // Shelmet in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 588, Level = 26, Location = 180 }, // Karrablast in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 847, Level = 60, Location = 180 }, // Barraskewda in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 553, Level = 50, Location = 184 }, // Krookodile in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 464, Level = 50, Location = 184 }, // Rhyperior in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 105, Level = 42, Location = 184 }, // Marowak in the Potbottom Desert (on the Isle of Armor)
