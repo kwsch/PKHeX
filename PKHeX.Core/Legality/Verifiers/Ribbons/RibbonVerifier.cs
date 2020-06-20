@@ -178,7 +178,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon8 s8)
             {
                 bool inhabited8 = gen <= 8;
-                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, gen) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -363,7 +363,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, int gen)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
             {
@@ -382,7 +382,8 @@ namespace PKHeX.Core
                     yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
-                if (s8.RibbonMasterRank && Legal.Legends.Contains(pkm.Species))
+                // Past gen Pokemon can get the ribbon only if they've been reset.
+                if (s8.RibbonMasterRank && (Legal.Legends.Contains(pkm.Species) || gen != 8 && pkm is IBattleVersion v && v.BattleVersion == 0))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
             }
         }
