@@ -14,7 +14,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
             var species = pkm.Species;
-            if ((int)Zacian <= species && species <= (int)Eternatus)
+            if (species == (int)Zacian || species == (int)Zamazenta || species == (int)Eternatus)
                 return false;
             return true;
         }
