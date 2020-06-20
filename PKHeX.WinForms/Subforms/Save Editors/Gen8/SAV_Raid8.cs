@@ -25,12 +25,13 @@ namespace PKHeX.WinForms
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
+            // We've been editing the original save file blocks. Restore the clone's data.
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
