@@ -1,7 +1,45 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/04/14 - New Update:
+20/06/19 - New Update:
+ - Introducing Isle of Armor support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack for troubleshooting prior to release!
+ - Legality:
+ - - Added: New checking rules for gaining/losing the ability to Gigantamax.
+ - - Added: New checking rules when a past-generation-origin Pokémon's battle version has been set in order to participate in ranked.
+ - - Changed: New checking rules for new Pokéball inheritance, now that Safari and Sport balls can be obtained for regular use.
+ - - Changed: New checking rules for new Hidden Ability availability, as the Isle of Armor raids have vastly simplified restrictions.
+ - Added: Battle Version -- by resetting a past-generation Pokémon's moves, they can participate in ranked. The game saves the version this was performed on.
+ - Added: Isle of Armor Raid Seed / Detail editor; separate from the mainland raids.
+ - Added: Isle of Armor Pokédex editing is now available in the same Pokédex editor. Keep in mind that the game uses the first dex that has the Species-Form.
+ - Added: Isle of Armor trainer records (2 new stats are tracked).
+ ===
+ - Legality:
+ - - Added: Fullness checking rules.
+ - - Fixed: Gen8: Level comparison for down-leveled raids has been updated to reflect game behavior. Thanks @Lusamine!
+ - - Fixed: Gen6: Removed edge case static encounter Kecleon that was mismatching a dexnav wild encounter. Thanks @KR1dude!
+ - - Fixed: Gen5: Contest stats are now verified rather than ignored.
+ - - Fixed: Gen4 Tower ribbons are no longer recognized as valid on Gen5 origin Pokémon.
+ - - Fixed: Gen8 Master Rank ribbon is no longer recognized as valid on Pokémon that can't participate in ranked.
+ - Added: Generic [Block Editor] now exposes Gen5-Gen7 save files so you can edit many properties directly from a PropertyGrid.
+ - Added: Gen8 Box Backgrounds are now displayed and can be changed from the Box Layout Editor. Thanks @sora10pls!
+ - Added: Loading a new save file will ask for confirmation if the currently loaded save file hasn't been saved yet.
+ - Added: Battle Tree scout editor. Thanks @sora10pls!
+ - Added: AHTB (hash) names can now be loaded into the block editor via a text file located in the same folder as the executable.
+ - - This is a research feature; only a few people need this.
+ - Added: Gen3 Chinese Event Flag localizations. Thanks @kamisama6866!
+ - Changed: Updated Spanish localization. Thanks @XxPhoenix1996xX!
+ - Changed: IVersion and IGeneration are now implemented into IEncounterable.
+ - Changed: Dynamax Level is now automatically set to 10 (if appropriate) when importing a Showdown Set. Thanks @Mikewando!
+ - Changed: Loading a detected save file is now twice as fast.
+ - Fixed: Sorting Boxes or Modifying Pokémon via the shortcut dropdown will no longer add to trainer stat records or the Pokédex.
+ - Fixed: Gen6 GameSync ID is now displayed rather than hidden. Thanks @sora10pls!
+ - Fixed: Gen6 XY Trainer Nickname is now set correctly, rather than truncated.
+ - Fixed: Gen4 Save Files will now correctly detect the correct save data to edit, rather than the backup. Thanks @Ammako!
+ - Fixed: Gen3 Ruby/Sapphire trainer editor no longer shows unavailable fields like BP.
+ - Fixed: Gen2 Save loading should no longer incorrectly recognize some save files as Korean.
+ - Fixed: Requests for setting square shiny for past-generation-origin Pokémon will now be honored (if allowed), rather than skipped.
+
+20/04/14 - New Update: (163231) [2762220]
  - Legality:
  - - Added: Latest raid news data.
  - - Fixed: HOME gifts now recognized.
