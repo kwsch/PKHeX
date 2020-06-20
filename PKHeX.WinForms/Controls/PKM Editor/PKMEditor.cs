@@ -104,12 +104,35 @@ namespace PKHeX.WinForms.Controls
         public bool FieldsLoaded { get; private set; }
         public bool ChangingFields { get; set; }
 
+        /// <summary>
+        /// Currently loaded met location group that is populating Met and Egg location comboboxes
+        /// </summary>
         private GameVersion origintrack;
+
+        /// <summary>
+        /// Action to perform when loading a PKM to the editor GUI.
+        /// </summary>
         private Action GetFieldsfromPKM;
+
+        /// <summary>
+        /// Function that returns a <see cref="PKM"/> from the loaded fields.
+        /// </summary>
         private Func<PKM> GetPKMfromFields;
+
+        /// <summary>
+        /// Latest legality check result used to show legality indication.
+        /// </summary>
         private LegalityAnalysis Legality;
-        private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
+
+        /// <summary>
+        /// List of legal moves for the latest <see cref="Legality"/>.
+        /// </summary>
         private readonly LegalMoveSource LegalMoveSource = new LegalMoveSource();
+
+        /// <summary>
+        /// Gender Symbols for showing Genders
+        /// </summary>
+        private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
 
         public event EventHandler LegalityChanged;
         public event EventHandler UpdatePreviewSprite;
@@ -256,7 +279,7 @@ namespace PKHeX.WinForms.Controls
 
             if (HaX) // Load original values from pk not pkm
             {
-                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : Experience.GetLevel(pk.EXP, pk.PersonalInfo.EXPGrowth)).ToString();
+                MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : pk.CurrentLevel).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
                 MT_Form.Text = Math.Max(0, pk.AltForm).ToString();
                 if (pk.PartyStatsPresent) // stats present
@@ -461,19 +484,15 @@ namespace PKHeX.WinForms.Controls
 
         private void SetMarkings()
         {
-            static double getOpacity(bool b) => b ? 1 : 0.175;
-            static Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
-                : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
-
             var pba = Markings;
             var markings = Entity.Markings;
             for (int i = 0; i < pba.Length; i++)
-                pba[i].Image = changeOpacity(pba[i], getOpacity(markings[i] != 0));
+                pba[i].Image = GetMarkSprite(pba[i], markings[i] != 0);
 
-            PB_MarkShiny.Image = changeOpacity(PB_MarkShiny, getOpacity(!BTN_Shinytize.Enabled));
-            PB_MarkCured.Image = changeOpacity(PB_MarkCured, getOpacity(CHK_Cured.Checked));
+            PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
+            PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
 
-            PB_Favorite.Image = changeOpacity(PB_Favorite, getOpacity(Entity is IFavorite pb7 && pb7.Favorite));
+            PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite f && f.Favorite);
             PB_Origin.Image = GetOriginSprite(Entity);
 
             // Colored Markings
@@ -513,18 +532,18 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateGender()
         {
-            int Gender = Entity.GetSaneGender();
-            Label_Gender.Text = gendersymbols[Gender];
-            Label_Gender.ForeColor = Draw.GetGenderColor(Gender);
+            int gender = Entity.GetSaneGender();
+            Label_Gender.Text = gendersymbols[gender];
+            Label_Gender.ForeColor = Draw.GetGenderColor(gender);
         }
 
-        private static void SetCountrySubRegion(ComboBox CB, string type)
+        private static void SetCountrySubRegion(ComboBox cb, string type)
         {
-            int index = CB.SelectedIndex;
-            CB.DataSource = Util.GetCountryRegionList(type, GameInfo.CurrentLanguage);
+            int oldIndex = cb.SelectedIndex;
+            cb.DataSource = Util.GetCountryRegionList(type, GameInfo.CurrentLanguage);
 
-            if (index > 0 && index < CB.Items.Count)
-                CB.SelectedIndex = index;
+            if (oldIndex > 0 && oldIndex < cb.Items.Count)
+                cb.SelectedIndex = oldIndex;
         }
 
         // Prompted Updates of PKM //
@@ -581,11 +600,11 @@ namespace PKHeX.WinForms.Controls
         private void ClickPPUps(object sender, EventArgs e)
         {
             bool min = (ModifierKeys & Keys.Control) != 0;
-            static int getValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
-            CB_PPu1.SelectedIndex = getValue(CB_Move1, min);
-            CB_PPu2.SelectedIndex = getValue(CB_Move2, min);
-            CB_PPu3.SelectedIndex = getValue(CB_Move3, min);
-            CB_PPu4.SelectedIndex = getValue(CB_Move4, min);
+            static int GetValue(ListControl cb, bool zero) => zero || WinFormsUtil.GetIndex(cb) == 0 ? 0 : 3;
+            CB_PPu1.SelectedIndex = GetValue(CB_Move1, min);
+            CB_PPu2.SelectedIndex = GetValue(CB_Move2, min);
+            CB_PPu3.SelectedIndex = GetValue(CB_Move3, min);
+            CB_PPu4.SelectedIndex = GetValue(CB_Move4, min);
         }
 
         private void ClickMarking(object sender, EventArgs e)
@@ -1017,16 +1036,16 @@ namespace PKHeX.WinForms.Controls
         private void RefreshMovePP(int index)
         {
             int move = WinFormsUtil.GetIndex(Moves[index]);
-            var ppctrl = PPUps[index];
-            int ppups = ppctrl.SelectedIndex;
+            var ppUpControl = PPUps[index];
+            int ppUpCount = ppUpControl.SelectedIndex;
             if (move <= 0)
             {
-                ppctrl.SelectedIndex = 0;
+                ppUpControl.SelectedIndex = 0;
                 MovePP[index].Text = 0.ToString();
             }
             else
             {
-                MovePP[index].Text = Entity.GetMovePP(move, ppups).ToString();
+                MovePP[index].Text = Entity.GetMovePP(move, ppUpCount).ToString();
             }
         }
 
@@ -1150,15 +1169,14 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateOriginGame(object sender, EventArgs e)
         {
-            GameVersion Version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
+            GameVersion version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
             if (FieldsLoaded)
-                Entity.Version = (int)Version;
+                Entity.Version = (int)version;
 
-            // check if differs
-            var group = GameUtil.GetMetLocationVersionGroup(Version);
-
+            // Does the list of locations need to be changed to another group?
+            var group = GameUtil.GetMetLocationVersionGroup(version);
             if (group != origintrack)
-                ReloadMetLocations(Version);
+                ReloadMetLocations(version);
             origintrack = group;
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
@@ -1177,19 +1195,13 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality();
         }
 
-        private void ReloadMetLocations(GameVersion Version)
+        private void ReloadMetLocations(GameVersion version)
         {
-            var met_list = GameInfo.GetLocationList(Version, Entity.Format, egg: false);
-            CB_MetLocation.DataSource = new BindingSource(met_list, null);
+            var metList = GameInfo.GetLocationList(version, Entity.Format, egg: false);
+            CB_MetLocation.DataSource = new BindingSource(metList, null);
 
-            var egg_list = GameInfo.GetLocationList(Version, Entity.Format, egg: true);
-            CB_EggLocation.DataSource = new BindingSource(egg_list, null);
-
-            // Stretch C/XD met location dropdowns
-            int width = CB_EggLocation.DropDownWidth;
-            if (Version == GameVersion.CXD && Entity.Format == 3)
-                width *= 2;
-            CB_MetLocation.DropDownWidth = width;
+            var eggList = GameInfo.GetLocationList(version, Entity.Format, egg: true);
+            CB_EggLocation.DataSource = new BindingSource(eggList, null);
 
             if (FieldsLoaded)
             {
@@ -1856,11 +1868,13 @@ namespace PKHeX.WinForms.Controls
 
         private void CB_BattleVersion_SelectedValueChanged(object sender, EventArgs e)
         {
-            static double getOpacity(bool b) => b ? 1 : 0.175;
-            static Image changeOpacity(PictureBox p, double opacity) => opacity == 1 ? p.InitialImage
-                : ImageUtil.ChangeOpacity(p.InitialImage, opacity);
+            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, Entity is IBattleVersion b && b.BattleVersion != 0);
+        }
 
-            PB_BattleVersion.Image = changeOpacity(PB_BattleVersion, getOpacity(Entity is IBattleVersion b && b.BattleVersion != 0));
+        private static Image GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
+        {
+            var sprite = p.InitialImage;
+            return opaque ? sprite : ImageUtil.ChangeOpacity(sprite, trans);
         }
 
         public void ChangeLanguage(ITrainerInfo sav, PKM pk)
