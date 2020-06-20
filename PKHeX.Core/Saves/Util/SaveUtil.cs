@@ -16,10 +16,10 @@ namespace PKHeX.Core
     {
         public const int BEEF = 0x42454546;
 
-        public const int SIZE_G8SWSH = 0x1716B3;
-        public const int SIZE_G8SWSH_1 = 0x17195E;
-        public const int SIZE_G8SWSH_2 = 0x180B19;
-        public const int SIZE_G8SWSH_2B = 0x180AD0; // dwarf
+        public const int SIZE_G8SWSH = 0x1716B3; // 1.0
+        public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
+        public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
+        public const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
