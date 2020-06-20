@@ -27,8 +27,8 @@
 0x278	Received Hitmonchan/Hitmonlee
 0x2DA	Received Togepi Egg
 
-0x2A7	Received Mystic Ticket from Mystery Gift
-0x2A8	Received Aurora Ticket from Mystery Gift
+0x2A7	Received Aurora Ticket from Mystery Gift
+0x2A8	Received Mystic Ticket from Mystery Gift
 
 0x2F0	Shown Mystic Ticket
 0x2F1	Shown Aurora Ticket

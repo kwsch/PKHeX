@@ -27,8 +27,8 @@
 0x278	Recibido Hitmonchan/Hitmonlee
 0x2DA	Recibido Huevo Togepi
 
-0x2A7	Recibido Misti-Ticket desde Regalo Misterioso
-0x2A8	Recibido Ori-Ticket desde Regalo Misterioso
+0x2A7	Recibido Ori-Ticket desde Regalo Misterioso
+0x2A8	Recibido Misti-Ticket desde Regalo Misterioso
 
 0x2F0	Muestra Misti-Ticket
 0x2F1	Muestra Ori-Ticket
