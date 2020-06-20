@@ -395,14 +395,20 @@ namespace PKHeX.Core
 
             // Clamp to permitted species
             var spec = pkm.Species;
+           
+            if (638 <= spec && spec <= 640)
+                return true; // Sub Legends
             if (722 <= spec && spec <= 730)
                 return true; // Gen7 starters
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH[spec];
             var galarDex = pi.PokeDexIndex;
-            if (0 == galarDex || galarDex > 210)
-                return false;
+            var armorDex = pi.ArmorDexIndex;
+            if (1 <= galarDex && galarDex <= 397)
+                return true;
+            if (1 <= armorDex && armorDex <= 210)
+                return true;
 
-            return true;
+            return false;
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, object encounterContent)
