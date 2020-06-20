@@ -507,6 +507,9 @@ namespace PKHeX.Core
                 SeenAll(species, form, value, pi, shinyToo);
             }
 
+            if (species == (int)Species.Slowbro) // Clear Mega Slowbro always
+                SeenAll(species, 1, false, pt[species], shinyToo);
+
             if (!value)
                 ClearGigantamaxFlags(species);
         }
