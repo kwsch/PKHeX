@@ -1138,6 +1138,7 @@ namespace PKHeX.WinForms.Controls
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 B_Raids.Enabled = sav is SAV8SWSH;
+                B_RaidArmor.Enabled = sav is SAV8SWSH swsh && swsh.MaxSpeciesID >= (int) Species.Zarude;
                 B_Blocks.Enabled = true;
 
                 SL_Extra.SAV = sav;
