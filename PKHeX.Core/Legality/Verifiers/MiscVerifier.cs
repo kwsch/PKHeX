@@ -380,8 +380,8 @@ namespace PKHeX.Core
             var sn = pk8.StatNature;
             if (sn != pk8.Nature)
             {
-                // Only allow Serious nature (0); disallow all other neutral natures.
-                if (sn != 0 && (sn > 24 || sn % 6 == 0))
+                // Only allow Serious nature (12); disallow all other neutral natures.
+                if (sn != 12 && (sn > 24 || sn % 6 == 0))
                     data.AddLine(GetInvalid(LStatNatureInvalid));
             }
 
