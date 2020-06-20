@@ -472,7 +472,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 214, Level = 26, Location = 174, Version = SH }, // Heracross on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 744, Level = 22, Location = 174 }, // Rockruff on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 127, Level = 26, Location = 174, Version = SW }, // Pinsir on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8 { Species = 227, Level = 26, Location = 174 }, // Skarmory on Challenge Road (on the Isle of Armor)
+            new EncounterStatic8S { Species = 227, Level = 26, Locations = new[] {174, 180} }, // Skarmory on Challenge Road (on the Isle of Armor), in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 426, Level = 26, Location = 174 }, // Drifblim on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 630, Level = 26, Location = 174, Version = SH }, // Mandibuzz on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 628, Level = 26, Location = 174, Version = SW }, // Braviary on Challenge Road (on the Isle of Armor)
@@ -538,7 +538,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 112, Level = 42, Location = 184 }, // Rhydon in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 324, Level = 42, Location = 184 }, // Torkoal in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 844, Level = 42, Location = 184 }, // Sandaconda in the Potbottom Desert (on the Isle of Armor)
-            new EncounterStatic8 { Species = 637, Level = 50, Location = -01 }, // Volcarona
+            new EncounterStatic8 { Species = 637, Level = 50, Location = 184 }, // Volcarona in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 628, Level = 42, Location = 184, Version = SW }, // Braviary in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 630, Level = 42, Location = 184, Version = SH }, // Mandibuzz in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 103, Level = 50, Location = 190 }, // Exeggutor in the Insular Sea (on the Isle of Armor)
