@@ -412,8 +412,8 @@ namespace PKHeX.Core
         public static string LStatIncorrectWeight { get; set; } = "Calculated Weight does not match stored value.";
         public static string LStatIncorrectCP { get; set; } = "Calculated CP does not match stored value.";
         public static string LStatGigantamaxInvalid { get; set; } = "Gigantamax Flag mismatch.";
-        public static string LStatNatureInvalid { get; set; } = "Stat Nature is not within the expected range";
-        public static string LStatBattleVersionInvalid { get; set; } = "Battle Version is not within the expected range";
+        public static string LStatNatureInvalid { get; set; } = "Stat Nature is not within the expected range.";
+        public static string LStatBattleVersionInvalid { get; set; } = "Battle Version is not within the expected range.";
 
         public static string LSuperComplete { get; set; } = "Super Training complete flag mismatch.";
         public static string LSuperDistro { get; set; } = "Distribution Super Training missions are not released.";
