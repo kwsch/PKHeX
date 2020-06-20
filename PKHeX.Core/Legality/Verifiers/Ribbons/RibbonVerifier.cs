@@ -178,7 +178,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon8 s8)
             {
                 bool inhabited8 = gen <= 8;
-                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, gen) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -363,7 +363,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
             {
@@ -383,9 +383,26 @@ namespace PKHeX.Core
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
-                if (s8.RibbonMasterRank && (Legal.Legends.Contains(pkm.Species) || gen != 8 && pkm is IBattleVersion v && v.BattleVersion == 0))
+                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
             }
+        }
+
+        private static bool CanParticipateInRankedSWSH(PKM pkm)
+        {
+            if (!pkm.SWSH && pkm is IBattleVersion v && v.BattleVersion == 0)
+                return false;
+
+            // Clamp to permitted species
+            var spec = pkm.Species;
+            if (722 <= spec && spec <= 730)
+                return true; // Gen7 starters
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[spec];
+            var galarDex = pi.PokeDexIndex;
+            if (0 == galarDex || galarDex > 210)
+                return false;
+
+            return true;
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, object encounterContent)
