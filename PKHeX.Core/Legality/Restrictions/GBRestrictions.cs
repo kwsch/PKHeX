@@ -302,7 +302,7 @@ namespace PKHeX
         private static List<int> GetRequiredMoveCountLevel(PKM pk)
         {
             int species = pk.Species;
-            int basespecies = GetBaseSpecies(pk).Species;
+            int basespecies = EvoBase.GetBaseSpecies(pk).Species;
             int maxlevel = 1;
             int minlevel = 1;
 

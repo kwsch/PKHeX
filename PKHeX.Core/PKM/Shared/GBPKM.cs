@@ -278,10 +278,10 @@ namespace PKHeX.Core
             return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
         }
 
-        public override int GetMovePP(int move, int ppup)
+        public override int GetMovePP(int move, int ppUpCount)
         {
             var pp = base.GetMovePP(move, 0);
-            return pp + (ppup * Math.Min(7, pp / 5));
+            return pp + (ppUpCount * Math.Min(7, pp / 5));
         }
 
         /// <summary>

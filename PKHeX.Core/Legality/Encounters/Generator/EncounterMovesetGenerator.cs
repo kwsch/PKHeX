@@ -136,7 +136,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> dl, int generation)
         {
-            IEnumerable<int> moves = Legal.GetValidMoves(pk, dl, generation);
+            IEnumerable<int> moves = MoveList.GetValidMoves(pk, dl, generation);
             if (pk.Format >= 8)
             {
                 // Shared Egg Moves via daycare

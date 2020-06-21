@@ -79,7 +79,7 @@ namespace PKHeX.Core
             {
                 if (!Parsed)
                     return new int[4];
-                return _allSuggestedRelearnMoves ??= Legal.GetValidRelearn(pkm, Info.EncounterMatch.Species, Info.EncounterMatch.Form, (GameVersion)pkm.Version).ToArray();
+                return _allSuggestedRelearnMoves ??= MoveList.GetValidRelearn(pkm, Info.EncounterMatch.Species, Info.EncounterMatch.Form, (GameVersion)pkm.Version).ToArray();
             }
         }
 
@@ -470,7 +470,7 @@ namespace PKHeX.Core
             if (!Parsed)
                 return new int[4];
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
-                return Legal.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
+                return MoveList.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
 
             if (!tm && !tutor && !reminder)
             {
@@ -487,7 +487,7 @@ namespace PKHeX.Core
                 }
             }
             var evos = Info.EvoChainsAllGens;
-            return Legal.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            return MoveList.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
         }
     }
 }

@@ -109,11 +109,11 @@ namespace PKHeX.Core
             var pi = pkm.PersonalInfo;
             var AllowLevelUp = notEvent && !pi.Genderless && !(pi.OnlyMale && Legal.MixedGenderBreeding.Contains(e.Species));
             int BaseLevel = AllowLevelUp ? 100 : e.LevelMin;
-            var LevelUp = Legal.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, BaseLevel);
+            var LevelUp = MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, BaseLevel);
 
             var TradebackPreevo = pkm.Format == 2 && info.EncounterMatch.Species > 151;
             var NonTradebackLvlMoves = TradebackPreevo
-                ? Legal.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
+                ? MoveList.GetExclusivePreEvolutionMoves(pkm, info.EncounterMatch.Species, info.EvoChainsAllGens[2], 2, e.Version).Where(m => m > Legal.MaxMoveID_1).ToArray()
                 : Array.Empty<int>();
 
             var Egg = MoveEgg.GetEggMoves(pkm, e.Species, e.Form, e.Version);
@@ -601,7 +601,7 @@ namespace PKHeX.Core
                     continue; // Was definitively evolved in Gen3
 
                 var maxLevel = pkm.CurrentLevel;
-                var ninjaskMoves = Legal.GetShedinjaEvolveMoves(pkm, gen, maxLevel);
+                var ninjaskMoves = MoveList.GetShedinjaEvolveMoves(pkm, gen, maxLevel);
                 bool native = gen == format;
                 for (int m = 0; m < 4; m++)
                 {
@@ -630,7 +630,7 @@ namespace PKHeX.Core
             // Double check that the Ninjask move level isn't less than any Nincada move level
             int move = ShedinjaEvoMovesLearned[0];
             int g = res[move].Generation;
-            int levelJ = Legal.GetShedinjaMoveLevel((int)Species.Ninjask, currentMoves[move], g);
+            int levelJ = MoveList.GetShedinjaMoveLevel((int)Species.Ninjask, currentMoves[move], g);
 
             for (int m = 0; m < 4; m++)
             {
@@ -638,11 +638,11 @@ namespace PKHeX.Core
                     continue;
                 if (res[m].Source != LevelUp)
                     continue;
-                int levelS = Legal.GetShedinjaMoveLevel((int)Species.Shedinja, currentMoves[m], res[m].Generation);
+                int levelS = MoveList.GetShedinjaMoveLevel((int)Species.Shedinja, currentMoves[m], res[m].Generation);
                 if (levelS > 0)
                     continue;
 
-                int levelN = Legal.GetShedinjaMoveLevel((int)Species.Nincada, currentMoves[m], res[m].Generation);
+                int levelN = MoveList.GetShedinjaMoveLevel((int)Species.Nincada, currentMoves[m], res[m].Generation);
                 if (levelN > levelJ)
                     res[m] = new CheckMoveResult(res[m], Invalid, string.Format(LMoveEvoFHigher, SpeciesStrings[(int)Species.Nincada], SpeciesStrings[(int)Species.Ninjask]), Move);
             }
@@ -658,7 +658,7 @@ namespace PKHeX.Core
             if (!res.All(r => r?.Valid ?? false) || currentMoves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
                 return;
 
-            var ValidMoves = Legal.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
+            var ValidMoves = MoveList.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
 
             // Add the evolution moves to valid moves in case some of these moves could not be learned after evolving
             switch (pkm.Species)
@@ -835,7 +835,7 @@ namespace PKHeX.Core
             var lvlG1 = info.EncounterMatch.LevelMin + 1;
             if (lvlG1 == defaultLvlG1)
                 return;
-            EncounterMoves.LevelUpMoves[1] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+            EncounterMoves.LevelUpMoves[1] = MoveList.GetValidMoves(pkm, info.EvoChainsAllGens[1], generation: 1, minLvLG1: lvlG1, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
         }
 
         private static void UpdateGen2LevelUpMoves(PKM pkm, ValidEncounterMoves EncounterMoves, int defaultLvlG2, int generation, LegalInfo info)
@@ -845,7 +845,7 @@ namespace PKHeX.Core
             var lvlG2 = info.EncounterMatch.LevelMin + 1;
             if (lvlG2 == defaultLvlG2)
                 return;
-            EncounterMoves.LevelUpMoves[2] = Legal.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
+            EncounterMoves.LevelUpMoves[2] = MoveList.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, LVL: true, Tutor: false, Machine: false, MoveReminder: false).ToList();
         }
 
         /// <summary>

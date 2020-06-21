@@ -136,7 +136,7 @@ namespace PKHeX.Core
                 return moves;
 
             // Sprinkle in some default level up moves
-            var lvl = Legal.GetBaseEggMoves(pk, Species, Form, version, Level);
+            var lvl = MoveList.GetBaseEggMoves(pk, Species, Form, version, Level);
             return lvl.Concat(moves).ToArray();
         }
     }

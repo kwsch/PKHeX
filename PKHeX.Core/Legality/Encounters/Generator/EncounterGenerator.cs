@@ -41,7 +41,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<IEncounterable> GetEncounters12(PKM pkm, LegalInfo info)
         {
-            int baseSpecies = GetBaseSpecies(pkm).Species;
+            int baseSpecies = EvoBase.GetBaseSpecies(pkm).Species;
 
             if ((pkm.Format == 1 && baseSpecies > MaxSpeciesID_1) || baseSpecies > MaxSpeciesID_2)
                 yield break;
@@ -189,10 +189,10 @@ namespace PKHeX.Core
                 var canBeEgg = GetCanBeEgg(pkm);
                 if (canBeEgg)
                 {
-                    int eggspec = GetBaseEggSpecies(pkm).Species;
+                    int species = EvoBase.GetBaseSpecies(pkm, generation: pkm.Format == 1 ? 2 : -1, maxSpeciesOrigin: MaxSpeciesID_2).Species;
                     if (ParseSettings.AllowGen2Crystal(pkm))
-                        yield return new EncounterEgg(eggspec, 0, 5, 2, GameVersion.C); // gen2 egg
-                    yield return new EncounterEgg(eggspec, 0, 5, 2, GameVersion.GS); // gen2 egg
+                        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
+                    yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
                 }
             }
 

@@ -149,7 +149,7 @@ namespace PKHeX.Core
         private void SetMoves(PK3 pk)
         {
             if (Moves.Count == 0) // not completely defined
-                Moves = Legal.GetBaseEggMoves(pk, Species, Form, (GameVersion)pk.Version, Level);
+                Moves = MoveList.GetBaseEggMoves(pk, Species, Form, (GameVersion)pk.Version, Level);
             if (Moves.Count != 4)
             {
                 var moves = Moves.ToArray();
