@@ -130,23 +130,14 @@ namespace PKHeX.Core
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            int gender = criteria.GetGender(Gender, pk.PersonalInfo);
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(Gender, pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = GetRandomAbility(); // use criteria?
+            int ability = criteria.GetAbility(Ability, pi);
 
             var pidtype = GetPIDType();
             PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
             SetIVs(pk);
-        }
-
-        private int GetRandomAbility()
-        {
-            return Ability switch
-            {
-                 0 => Util.Rand.Next(2),
-                -1 => Util.Rand.Next(3),
-                _ => (Ability >> 1)
-            };
         }
 
         private void SetEggMetData(PKM pk, ITrainerInfo tr, DateTime today)

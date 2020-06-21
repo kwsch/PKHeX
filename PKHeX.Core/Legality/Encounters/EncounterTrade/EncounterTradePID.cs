@@ -16,9 +16,10 @@
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pk.PersonalInfo);
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = Ability >> 1;
+            int ability = criteria.GetAbility(Ability, pi);
 
             pk.PID = PID;
             pk.Nature = nature;

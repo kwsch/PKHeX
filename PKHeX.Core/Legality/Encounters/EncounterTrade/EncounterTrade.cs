@@ -153,9 +153,10 @@ namespace PKHeX.Core
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            int gender = criteria.GetGender(Gender, pk.PersonalInfo);
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(Gender, pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = Ability >> 1;
+            int ability = criteria.GetAbility(Ability, pi);
 
             PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
             pk.Nature = nature;
