@@ -472,7 +472,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 214, Level = 26, Location = 174, Version = SH }, // Heracross on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 744, Level = 22, Location = 174 }, // Rockruff on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 127, Level = 26, Location = 174, Version = SW }, // Pinsir on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8S { Species = 227, Level = 26, Locations = new[] {174, 180} }, // Skarmory on Challenge Road (on the Isle of Armor), in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 227, Level = 26, Locations = new[] {174, 180} }, // Skarmory on Challenge Road (on the Isle of Armor), in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 426, Level = 26, Location = 174 }, // Drifblim on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 630, Level = 26, Location = 174, Version = SH }, // Mandibuzz on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 628, Level = 26, Location = 174, Version = SW }, // Braviary on Challenge Road (on the Isle of Armor)
@@ -552,7 +552,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 415, Level = 40, Location = 194 }, // Combee on Honeycalm Island (on the Isle of Armor)
             new EncounterStatic8 { Species = 028, Level = 42, Location = 184 }, // Sandslash in the Potbottom Desert (on the Isle of Armor)
             new EncounterStatic8 { Species = 587, Level = 20, Location = 168 }, // Emolga in the Forest of Focus (on the Isle of Armor)
-            new EncounterStatic8 { Species = 847, Level = 42, Location = 170 }, // Barraskewda on Challenge Beach (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 847, Level = 42, Locations = new[] {170, 180} }, // Barraskewda on Challenge Beach (on the Isle of Armor) and Training Lowlands
             new EncounterStatic8 { Species = 224, Level = 45, Location = 170 }, // Octillery on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 171, Level = 42, Location = 170 }, // Lanturn on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 593, Level = 42, Location = 170 }, // Jellicent on Challenge Beach (on the Isle of Armor)
