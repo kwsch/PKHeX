@@ -152,6 +152,9 @@ namespace PKHeX.Core
         public const uint KOptionAutoSave = 0xB027F396; // U32 OptOut AutoSave=0
         public const uint KOptionShowNicknames = 0xCA8A8CEE; // U32 OptOut Show=0
         public const uint KOptionShowMoves = 0x9C781AE2; // U32 OptOut Show=0
+        public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
+        public const uint KDiggingPaWattStreak = 0x68BBA8B1; // U32 Most Watts dug up by the Digging Pa
+        public const uint KAlolanDiglettFound = 0x4AEA5A7E; // U32 Amount of Alolan Diglett found on Isle of Armor
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
