@@ -133,7 +133,8 @@ namespace PKHeX.Core
         public const uint KDiggingDuoStreakStamina = 0x066F38F5; // U32
         public const uint KBirthMonth = 0x0D987D50; // U32
         public const uint KBirthDay = 0x355C8314; // U32
-        public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed
+        public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed in Galar Dex
+        public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokedex entry viewed in Armor Dex
 
         public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10
         public const uint KVolumeSoundEffects = 0x62F05895; // U32 0-10

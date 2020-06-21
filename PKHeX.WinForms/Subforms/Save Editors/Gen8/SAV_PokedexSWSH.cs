@@ -128,6 +128,16 @@ namespace PKHeX.WinForms
             CHK_S.Checked = Dex.GetDisplayShiny(entry);
             CB_Gender.SelectedIndex = (int)Dex.GetGenderDisplayed(entry);
 
+            if (species == (int) Species.Urshifu)
+            {
+                CHK_Gigantamaxed1.Visible = true;
+                CHK_Gigantamaxed1.Checked = Dex.GetCaughtGigantamax1(entry);
+            }
+            else
+            {
+                CHK_Gigantamaxed1.Visible = false;
+            }
+
             NUD_Battled.Value = Dex.GetBattledCount(entry);
         }
 
@@ -170,6 +180,9 @@ namespace PKHeX.WinForms
             Dex.SetDisplayShiny(entry, CHK_S.Checked);
 
             Dex.SetBattledCount(entry, (uint)NUD_Battled.Value);
+
+            if (CHK_Gigantamaxed1.Visible)
+                Dex.SetCaughtGigantamax1(entry, CHK_Gigantamaxed1.Checked);
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)

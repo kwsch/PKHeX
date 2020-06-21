@@ -176,8 +176,10 @@ namespace PKHeX.Core
         // Next 4 bytes are Battled Count (u32)
         private const int OFS_BATTLED = 0x24;
 
-        // Next 4 bytes are Unused(?)
+        // Next 4 bytes are unused/reserved for future updates.
         private const int OFS_UNK1 = 0x28;
+        // Seen Gigantamax-1 AltForm:1 (Urshifu)
+
         // Next 4 bytes are Unused(?)
         private const int OFS_UNK2 = 0x2C;
 
@@ -382,10 +384,43 @@ namespace PKHeX.Core
         public void SetCaughtFlags32(int species, uint value) => SetU32(species, value, OFS_CAUGHT);
         public uint GetBattledCount(int species) => GetU32(species, OFS_BATTLED);
         public void SetBattledCount(int species, uint value) => SetU32(species, value, OFS_BATTLED);
+
         public uint GetUnk1Count(int species) => GetU32(species, OFS_UNK1);
         public void SetUnk1Count(int species, uint value) => SetU32(species, value, OFS_UNK1);
         public uint GetUnk2Count(int species) => GetU32(species, OFS_UNK2);
         public void SetUnk2Count(int species, uint value) => SetU32(species, value, OFS_UNK2);
+        public bool GetCaughtGigantamax1(int species) => GetFlag28(species, 0);
+        public void SetCaughtGigantamax1(int species, bool value = true) => SetFlag28(species, 0, value);
+        public bool GetCaughtGigantamax1(Zukan8Index entry) => GetFlag28(entry, 1);
+        public void SetCaughtGigantamax1(Zukan8Index entry, bool value = true) => SetFlag28(entry, 1, value);
+
+        private bool GetFlag28(int species, int bit)
+        {
+            if (!GetEntry(species, out var entry))
+                return false;
+
+            return GetFlag28(entry, bit);
+        }
+
+        public void SetFlag28(int species, int bit, bool value = true)
+        {
+            if (!GetEntry(species, out var entry))
+                return;
+
+            SetFlag28(entry, bit, value);
+        }
+
+        private bool GetFlag28(Zukan8Index entry, int bit)
+        {
+            var data = GetDexBlock(entry.DexType);
+            return GetFlag(data, entry.Offset + OFS_UNK1, bit);
+        }
+
+        public void SetFlag28(Zukan8Index entry, int bit, bool value = true)
+        {
+            var data = GetDexBlock(entry.DexType);
+            SetFlag(data, entry.Offset + OFS_UNK1, bit, value);
+        }
 
         public bool GetDisplayDynamaxInstead(Zukan8Index entry) => GetCaughtFlagID(entry, 28);
         public void SetDisplayDynamaxInstead(Zukan8Index entry, bool value = true) => SetCaughtFlagID(entry, 28, value);
@@ -611,7 +646,10 @@ namespace PKHeX.Core
             {
                 SeenAll(species, 63, value, pi, shinyToo);
                 if (species == (int)Species.Urshifu)
+                {
                     SeenAll(species, 62, value, pi, shinyToo);
+                    SetCaughtGigantamax1(species);
+                }
                 SetCaughtGigantamax(species);
             }
         }
