@@ -438,7 +438,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 528, Level = 27, Location = 170 }, // Swoobat on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 279, Level = 26, Location = 170 }, // Pelipper on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 082, Level = 26, Location = 170 }, // Magneton on Challenge Beach (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 782, Level = 22, Locations = new[] {174, 180}, Version = SW }, // Jangmo-o on Challenge Road, in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 782, Level = 22, Locations = new[] {172, 174, 180}, Version = SW }, // Jangmo-o on Challenge Road, in the Training Lowlands (on the Isle of Armor) and in Brawlers' Cave
             new EncounterStatic8 { Species = 426, Level = 26, Location = 170 }, // Drifblim on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 768, Level = 36, Location = 170 }, // Golisopod on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 662, Level = 26, Location = 170 }, // Fletchinder on Challenge Beach (on the Isle of Armor)
@@ -461,16 +461,16 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 526, Level = 42, Location = 172 }, // Gigalith in Brawlers’ Cave (on the Isle of Armor)
             new EncounterStatic8 { Species = 620, Level = 28, Location = 174 }, // Mienshao on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 625, Level = 36, Location = 174 }, // Bisharp on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 454, Level = 26, Locations = new[] {174, 180}, Version = SH }, // Toxicroak on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 560, Level = 26, Locations = new[] {174, 180}, Version = SW }, // Scrafty on Challenge Road, in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 454, Level = 26, Locations = new[] {172, 174, 180}, Version = SH }, // Toxicroak on Challenge Road (on the Isle of Armor) and in Brawlers’ Cave
+            new EncounterStatic8S{ Species = 560, Level = 26, Locations = new[] {172, 174, 180}, Version = SW }, // Scrafty on Challenge Road, in the Training Lowlands (on the Isle of Armor) and in Brawlers’ Cave
             new EncounterStatic8 { Species = 758, Level = 28, Location = 174, Gender = 1 }, // Salazzle on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 558, Level = 26, Locations = new[] {174, 180} }, // Crustle on Challenge Road, in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 558, Level = 26, Locations = new[] {172, 174, 180} }, // Crustle on Challenge Road, in the Training Lowlands (on the Isle of Armor) and in Brawlers’ Cave
             new EncounterStatic8 { Species = 475, Level = 32, Location = 174 }, // Gallade on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 745, Level = 32, Location = 174 }, // Lycanroc on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 745, Level = 32, Location = 174, Form = 01 }, // Lycanroc-1 on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 212, Level = 40, Location = 174 }, // Scizor on Challenge Road (on the Isle of Armor)
             new EncounterStatic8 { Species = 214, Level = 26, Location = 174, Version = SH }, // Heracross on Challenge Road (on the Isle of Armor)
-            new EncounterStatic8 { Species = 744, Level = 22, Location = 174 }, // Rockruff on Challenge Road (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 744, Level = 22, Locations = new[] {172,  174} }, // Rockruff on Challenge Road (on the Isle of Armor) and in Brawlers' Cave
             new EncounterStatic8 { Species = 127, Level = 26, Location = 174, Version = SW }, // Pinsir on Challenge Road (on the Isle of Armor)
             new EncounterStatic8S{ Species = 227, Level = 26, Locations = new[] {174, 180} }, // Skarmory on Challenge Road (on the Isle of Armor), in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 426, Level = 26, Location = 174 }, // Drifblim on Challenge Road (on the Isle of Armor)
