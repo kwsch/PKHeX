@@ -85,7 +85,7 @@
 
         public int GetAbility(int abilityType, PersonalInfo pkPersonalInfo)
         {
-            if (abilityType < 3)
+            if ((uint)abilityType < 3)
                 return abilityType;
 
             var abils = pkPersonalInfo.Abilities;
