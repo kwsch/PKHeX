@@ -1,7 +1,16 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/06/19 - New Update:
+20/06/22 - New Update:
+ - Legality:
+ - - Handled edge cases from various reports, and added the event gift data from the recent events.
+ - - Fixed: Verification for Neutral nature mint, IoA hatch location, Galarian Slowbro, raid Hidden Ability, Master Rank ribbon.
+ - Added: SWSH save file size recognition for 1.0 saves that were directly upgraded to 1.2 (skipped 1.1 unused block additions).
+ - Added: Urshifu-1 Gigantamax form now can be toggled in the Pokédex editor. Thanks @sora10pls!
+ - Fixed: Raid details now save correctly when clicking Save, and show the correct amount of raids.
+ - Changed: Spanish and Chinese translations have been updated. Thanks @XxPhoenix1996xX, @easyworld, @gjfkkk!
+
+20/06/19 - New Update: (21816) [2784036]
  - Introducing Isle of Armor support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack for troubleshooting prior to release!
  - Legality:
  - - Added: New checking rules for gaining/losing the ability to Gigantamax.
