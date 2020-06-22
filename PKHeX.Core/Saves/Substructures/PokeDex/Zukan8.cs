@@ -391,8 +391,8 @@ namespace PKHeX.Core
         public void SetUnk2Count(int species, uint value) => SetU32(species, value, OFS_UNK2);
         public bool GetCaughtGigantamax1(int species) => GetFlag28(species, 0);
         public void SetCaughtGigantamax1(int species, bool value = true) => SetFlag28(species, 0, value);
-        public bool GetCaughtGigantamax1(Zukan8Index entry) => GetFlag28(entry, 1);
-        public void SetCaughtGigantamax1(Zukan8Index entry, bool value = true) => SetFlag28(entry, 1, value);
+        public bool GetCaughtGigantamax1(Zukan8Index entry) => GetFlag28(entry, 0);
+        public void SetCaughtGigantamax1(Zukan8Index entry, bool value = true) => SetFlag28(entry, 0, value);
 
         private bool GetFlag28(int species, int bit)
         {
