@@ -17,7 +17,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc == SharedNest || EncounterArea8.IsWildArea8(loc);
+            return loc == SharedNest || EncounterArea8.IsWildArea8(loc) || EncounterArea8.IsWildArea8Armor(loc);
         }
 
         public override bool IsMatch(PKM pkm, int lvl)
