@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public static class EvoBase
+    /// <summary>
+    /// Logic for determining the least-evolved species (baby/seed).
+    /// </summary>
+    internal static class EvoBase
     {
         internal static EvoCriteria GetBaseSpecies(PKM pkm, int skipOption = 0)
         {
@@ -36,7 +39,7 @@ namespace PKHeX.Core
             if (species == (int)Species.Shedinja) // Shedinja
                 return Nincada; // Nincada
 
-            // skip n from end, return species if invalid index
+            // skip n from end, return empty if invalid index
             int index = evolutions.Count - 1 - skipOption;
             return (uint)index >= evolutions.Count ? EvoEmpty : evolutions[index];
         }

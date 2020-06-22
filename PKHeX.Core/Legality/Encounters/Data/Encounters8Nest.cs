@@ -99,11 +99,11 @@ namespace PKHeX.Core
         private const byte Nest090 = 90;
         private const byte Nest091 = 91;
         private const byte Nest092 = 92;
-        private const byte Nest093 = 93;
-        private const byte Nest094 = 94;
-        private const byte Nest095 = 95;
-        private const byte Nest096 = 96;
-        private const byte Nest097 = 97;
+      //private const byte Nest093 = 93;
+      //private const byte Nest094 = 94;
+      //private const byte Nest095 = 95;
+      //private const byte Nest096 = 96;
+      //private const byte Nest097 = 97;
         private const byte Nest098 = 98;
         private const byte Nest099 = 99;
         private const byte Nest100 = 100;

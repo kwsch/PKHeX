@@ -437,7 +437,7 @@ namespace PKHeX.Core
         public static string GetG5OT_NSparkle(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
 
         public const string Stadium1JP = "スタジアム";
-        
+
         public static int GetGBStadiumOTID_JPN(GameVersion s)
         {
             return s == GameVersion.Stadium2 ? 2000 : 1999;

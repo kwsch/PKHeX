@@ -5,7 +5,10 @@ using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core
 {
-    public static class MoveList
+    /// <summary>
+    /// Logic for obtaining a list of moves.
+    /// </summary>
+    internal static class MoveList
     {
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
