@@ -195,7 +195,7 @@ namespace PKHeX.Core
             IsEvent = isEvent;
         }
 
-        public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType:X2}\t{Flags:X2}";
+        public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType}\t{Flags:X2}";
 
         // The games use a xoroshiro RNG to create the PKM from the stored seed.
     }
