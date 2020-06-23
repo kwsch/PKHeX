@@ -367,9 +367,12 @@ namespace PKHeX.Core
             {
                 pk.TID = sav.TID;
                 pk.SID = sav.SID;
+
+                if (IsHOMEGift)
+                    pk.TrainerSID7 = 0;
             }
 
-            // Official code explicitly corrects for meowstic
+            // Official code explicitly corrects for Meowstic
             if (pk.Species == (int)Core.Species.Meowstic)
                 pk.AltForm = pk.Gender;
 
@@ -516,6 +519,9 @@ namespace PKHeX.Core
                         return false;
                     if (IsShiny)
                         return false;
+
+                    if (OTGender >= 2 && pkm.TrainerSID7 != 0)
+                        return false;
                 }
             }
 
@@ -553,7 +559,7 @@ namespace PKHeX.Core
             if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;
 
-            if (!(pkm is IGigantamax g && g.CanGigantamax == CanGigantamax))
+            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !Legal.CanEatMaxSoup.Contains(Species))
                 return false;
 
             if (!(pkm is IDynamaxLevel dl && dl.DynamaxLevel >= DynamaxLevel))
