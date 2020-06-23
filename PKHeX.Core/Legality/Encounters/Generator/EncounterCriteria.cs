@@ -86,7 +86,7 @@
         public int GetAbilityFromNumber(int num, PersonalInfo pkPersonalInfo)
         {
             if (num > 0) // fixed number
-                return num;
+                return num >> 1;
 
             var abils = pkPersonalInfo.Abilities;
             if (num == -1 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
