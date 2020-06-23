@@ -440,7 +440,7 @@ namespace PKHeX.Core
                     return AbilityType;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    return criteria.GetAbility(AbilityType, pi); // 3 or 2
+                    return criteria.GetAbilityFromType(AbilityType, pi); // 3 or 2
                 default:
                     throw new ArgumentException(nameof(AbilityType));
             }

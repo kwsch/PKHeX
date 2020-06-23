@@ -164,7 +164,7 @@ namespace PKHeX.Core
             const int av = 3;
             pk.Gender = criteria.GetGender(Gender, pi);
             pk.Nature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbility(av, pi));
+            pk.RefreshAbility(criteria.GetAbilityFromType(av, pi));
 
             if (IsShiny)
                 pk.SetShiny();

@@ -133,7 +133,7 @@ namespace PKHeX.Core
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(Gender, pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = criteria.GetAbility(Ability, pi);
+            int ability = criteria.GetAbilityFromNumber(Ability, pi);
 
             var pidtype = GetPIDType();
             PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);

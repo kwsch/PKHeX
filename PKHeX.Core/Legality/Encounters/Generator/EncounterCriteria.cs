@@ -83,17 +83,30 @@
             return pkPersonalInfo.RandomGender();
         }
 
-        public int GetAbility(int abilityType, PersonalInfo pkPersonalInfo)
+        public int GetAbilityFromNumber(int num, PersonalInfo pkPersonalInfo)
         {
-            if ((uint)abilityType < 3)
-                return abilityType;
+            if (num > 0) // fixed number
+                return num;
 
             var abils = pkPersonalInfo.Abilities;
-            if (abilityType == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+            if (num == -1 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
                 return 2;
-            if (abils[1] == Ability)
-                return 1;
-            return 0;
+            if (abils[0] == Ability)
+                return 0;
+            return 1;
+        }
+
+        public int GetAbilityFromType(int type, PersonalInfo pkPersonalInfo)
+        {
+            if ((uint)type < 3)
+                return type;
+
+            var abils = pkPersonalInfo.Abilities;
+            if (type == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+                return 2;
+            if (abils[0] == Ability)
+                return 0;
+            return 1;
         }
     }
 }

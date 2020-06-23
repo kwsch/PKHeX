@@ -156,7 +156,7 @@ namespace PKHeX.Core
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(Gender, pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = criteria.GetAbility(Ability, pi);
+            int ability = criteria.GetAbilityFromNumber(Ability, pi);
 
             PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
             pk.Nature = nature;
