@@ -551,8 +551,8 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 549, Level = 45, Location = 194 }, // Lilligant on Honeycalm Island (on the Isle of Armor)
             new EncounterStatic8 { Species = 415, Level = 40, Location = 194 }, // Combee on Honeycalm Island (on the Isle of Armor)
             new EncounterStatic8 { Species = 028, Level = 42, Location = 184 }, // Sandslash in the Potbottom Desert (on the Isle of Armor)
-            new EncounterStatic8 { Species = 587, Level = 20, Location = 168 }, // Emolga in the Forest of Focus (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 847, Level = 42, Locations = new[] {170, 180} }, // Barraskewda on Challenge Beach (on the Isle of Armor) and Training Lowlands
+            new EncounterStatic8S{ Species = 587, Level = 20, Locations = new[] {166, 168} }, // Emolga in the Soothing Wetlands and in the Forest of Focus (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 847, Level = 42, Locations = new[] {166, 170, 176, 180} }, // Barraskewda in the Soothing Wetlands, on Challenge Beach, in Courageous Cavern, and Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 224, Level = 45, Location = 170 }, // Octillery on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 171, Level = 42, Location = 170 }, // Lanturn on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 593, Level = 42, Location = 170 }, // Jellicent on Challenge Beach (on the Isle of Armor)
