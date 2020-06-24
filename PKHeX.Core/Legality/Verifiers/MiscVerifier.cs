@@ -395,8 +395,9 @@ namespace PKHeX.Core
             bool originGMax = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
             if (originGMax != pk8.CanGigantamax)
             {
-                if (!Legal.CanEatMaxSoup.Contains(pk8.Species))
-                    data.AddLine(GetInvalid(LStatGigantamaxInvalid));
+                bool ok = pk8.CanToggleGigantamax(pk8.Species, data.EncounterMatch.Species);
+                var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
+                data.AddLine(chk);
             }
 
             if (pk8.DynamaxLevel != 0)

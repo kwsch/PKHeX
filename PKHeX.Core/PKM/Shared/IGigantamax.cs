@@ -10,4 +10,13 @@
         /// </summary>
         bool CanGigantamax { get; set; }
     }
+
+    public static class GigantamaxExtensions
+    {
+        public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int originSpecies)
+        {
+            var soup = Legal.CanEatMaxSoup;
+            return soup.Contains(currentSpecies) || soup.Contains(originSpecies);
+        }
+    }
 }

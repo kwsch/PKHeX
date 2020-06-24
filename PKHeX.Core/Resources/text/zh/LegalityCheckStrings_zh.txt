@@ -330,6 +330,7 @@ LRibbonMarkingFInvalid_0 = 无效标记: {0}
 LStatBattleVersionInvalid = 对战版本不在期望范围内.
 LStatDynamaxInvalid = 极巨等级不在预期范围内.
 LStatGigantamaxInvalid = 超级极巨标志不匹配.
+LStatGigantamaxValid = Gigantamax Flag was changed via Max Soup.
 LStatIncorrectCP = 计算的CP值与存储值不匹配.
 LStatIncorrectHeight = 计算的高度与存储值不匹配
 LStatIncorrectWeight = 计算的重量与存储值不匹配
