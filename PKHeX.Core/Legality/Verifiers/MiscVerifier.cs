@@ -298,7 +298,7 @@ namespace PKHeX.Core
             // No point using the evolution tree. Just handle certain species.
             switch (pkm.Species)
             {
-                case (int)Species.Lycanroc when (pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun()):
+                case (int)Species.Lycanroc when pkm.Format == 7 && ((pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun())):
                 case (int)Species.Solgaleo when Moon():
                 case (int)Species.Lunala when Sun():
                     bool Sun() => (pkm.Version & 1) == 0;
