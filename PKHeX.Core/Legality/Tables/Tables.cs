@@ -292,20 +292,25 @@ namespace PKHeX.Core
 
         public static readonly HashSet<int> Legends = new HashSet<int>
         {
-            150, 151, 249, 250, 251, 382, 383, 384, 385, 386, 483,
-            484, 487, 489, 490, 491, 492, 493, 494, 643, 644, 646,
-            647, 648, 649, 716, 717, 718, 719, 720, 721, 789, 790,
-            791, 792, 800, 801, 802, 807, 808, 809,
-            (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus,
-            (int)Species.Zarude,
+            (int)Species.Mew, (int)Species.Mewtwo,
+            (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi,
+            (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza,(int)Species.Jirachi, (int)Species.Deoxys,
+            (int)Species.Dialga, (int)Species.Palkia, (int)Species.Giratina, (int)Species.Phione, (int)Species.Manaphy, (int)Species.Darkrai, (int)Species.Shaymin, (int)Species.Arceus, (int)Species.Victini,
+            (int)Species.Reshiram, (int)Species.Zekrom, (int)Species.Kyurem, (int)Species.Keldeo, (int)Species.Meloetta, (int)Species.Genesect,
+            (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde,  (int)Species.Diancie, (int)Species.Hoopa,(int)Species.Volcanion,
+            (int)Species.Cosmog, (int)Species.Cosmoem, (int)Species.Solgaleo, (int)Species.Lunala,(int)Species.Necrozma, (int)Species.Magearna, (int)Species.Marshadow, (int)Species.Zeraora,
+            (int)Species.Meltan, (int)Species.Melmetal, (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus, (int)Species.Zarude,
         };
 
         public static readonly HashSet<int> SubLegends = new HashSet<int>
         {
-            144, 145, 146, 243, 244, 245, 377, 378, 379, 380, 381,
-            480, 481, 482, 485, 486, 488, 638, 639, 640, 641, 642,
-            645, 772, 773, 787, 788, 785, 786, 793, 794, 795, 796,
-            797, 798, 799, 803, 804, 805, 806,
+            (int)Species.Articuno, (int)Species.Zapdos, (int)Species.Moltres,
+            (int)Species.Raikou, (int)Species.Entei, (int)Species.Suicune,
+            (int)Species.Regirock, (int)Species.Regice, (int)Species.Registeel, (int)Species.Latias, (int)Species.Latios,
+            (int)Species.Uxie, (int)Species.Mesprit, (int)Species.Azelf, (int)Species.Heatran, (int)Species.Regigigas, (int)Species.Cresselia,
+            (int)Species.Cobalion, (int)Species.Terrakion, (int)Species.Virizion, (int)Species.Tornadus, (int)Species.Thundurus, (int)Species.Landorus,
+            (int)Species.TypeNull, (int)Species.Silvally, (int)Species.TapuBulu, (int)Species.TapuFini, (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.Nihilego,
+            (int)Species.Buzzwole, (int)Species.Pheromosa, (int)Species.Xurkitree, (int)Species.Celesteela, (int)Species.Kartana, (int)Species.Guzzlord, (int)Species.Poipole, (int)Species.Naganadel, (int)Species.Stakataka, (int)Species.Blacephalon,
             (int)Species.Kubfu, (int)Species.Urshifu,
         };
 
