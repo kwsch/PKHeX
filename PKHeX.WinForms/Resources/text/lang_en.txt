@@ -954,6 +954,7 @@ SAV_PokedexSWSH.B_Save=Save
 SAV_PokedexSWSH.CHK_Caught=Owned
 SAV_PokedexSWSH.CHK_G=Gigantamax
 SAV_PokedexSWSH.CHK_Gigantamaxed=Gigantamaxed
+SAV_PokedexSWSH.CHK_Gigantamaxed1=Gigantamaxed 1
 SAV_PokedexSWSH.CHK_L1=Japanese
 SAV_PokedexSWSH.CHK_L2=English
 SAV_PokedexSWSH.CHK_L3=French

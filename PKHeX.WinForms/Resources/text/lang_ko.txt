@@ -954,6 +954,7 @@ SAV_PokedexSWSH.B_Save=저장
 SAV_PokedexSWSH.CHK_Caught=소유함
 SAV_PokedexSWSH.CHK_G=거다이맥스
 SAV_PokedexSWSH.CHK_Gigantamaxed=거다이맥스 상태
+SAV_PokedexSWSH.CHK_Gigantamaxed1=거다이맥스 상태 1
 SAV_PokedexSWSH.CHK_L1=일본어
 SAV_PokedexSWSH.CHK_L2=영어
 SAV_PokedexSWSH.CHK_L3=프랑스어

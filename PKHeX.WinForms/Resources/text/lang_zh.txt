@@ -954,6 +954,7 @@ SAV_PokedexSWSH.B_Save=保存
 SAV_PokedexSWSH.CHK_Caught=已捕获
 SAV_PokedexSWSH.CHK_G=超级极巨
 SAV_PokedexSWSH.CHK_Gigantamaxed=超级极巨
+SAV_PokedexSWSH.CHK_Gigantamaxed1=超级极巨 1
 SAV_PokedexSWSH.CHK_L1=日语
 SAV_PokedexSWSH.CHK_L2=英语
 SAV_PokedexSWSH.CHK_L3=法语

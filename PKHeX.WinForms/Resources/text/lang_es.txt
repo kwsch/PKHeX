@@ -954,6 +954,7 @@ SAV_PokedexSWSH.B_Save=Guardar
 SAV_PokedexSWSH.CHK_Caught=Capturado
 SAV_PokedexSWSH.CHK_G=Gigamax
 SAV_PokedexSWSH.CHK_Gigantamaxed=Gigamaxizó
+SAV_PokedexSWSH.CHK_Gigantamaxed1=Gigamaxizó 1
 SAV_PokedexSWSH.CHK_L1=Japonés
 SAV_PokedexSWSH.CHK_L2=Inglés
 SAV_PokedexSWSH.CHK_L3=Francés
