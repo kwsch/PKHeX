@@ -240,6 +240,8 @@ namespace PKHeX.Core
             }
             if ((pkm.Species == (int)Species.Meowstic || pkm.Species == (int)Species.Indeedee) && pkm.Gender == 1)
                 return pkm.AltForm == 1;
+            if (pkm.Species == (int)Species.Lycanroc)
+                return pkm.AltForm < 3;
             return pkm.Species == 773;
         }
 
