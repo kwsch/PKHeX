@@ -69,7 +69,7 @@ namespace PKHeX.Core
             {
                 if (!Parsed)
                     return new int[4];
-                return _allSuggestedMoves ??= GetSuggestedMoves(true, true, true);
+                return _allSuggestedMoves ??= GetSuggestedCurrentMoves(true, true, true);
             }
         }
 
@@ -441,7 +441,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
-        public IReadOnlyList<int> GetSuggestedRelearn()
+        public IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter()
         {
             if (Info.RelearnBase.Count == 0 || Info.Generation < 6)
                 return new int[4];
@@ -465,29 +465,11 @@ namespace PKHeX.Core
         /// <param name="tm">Allow TM moves</param>
         /// <param name="tutor">Allow Tutor moves</param>
         /// <param name="reminder">Allow Move Reminder</param>
-        public int[] GetSuggestedMoves(bool tm, bool tutor, bool reminder)
+        public int[] GetSuggestedCurrentMoves(bool tm, bool tutor, bool reminder)
         {
             if (!Parsed)
                 return new int[4];
-            if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
-                return MoveList.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
-
-            if (!tm && !tutor && !reminder)
-            {
-                // try to give current moves
-                if (Info.Generation <= 2)
-                {
-                    var lvl = pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
-                    var ver = EncounterOriginal.Version;
-                    return MoveLevelUp.GetEncounterMoves(EncounterOriginal.Species, 0, lvl, ver);
-                }
-                if (pkm.Species == EncounterOriginal.Species)
-                {
-                    return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.AltForm, pkm.CurrentLevel, (GameVersion)pkm.Version);
-                }
-            }
-            var evos = Info.EvoChainsAllGens;
-            return MoveList.GetValidMoves(pkm, evos, Tutor: tutor, Machine: tm, MoveReminder: reminder).Skip(1).ToArray(); // skip move 0
+            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, tm, tutor, reminder, EncounterOriginal);
         }
     }
 }

@@ -14,6 +14,6 @@ namespace PKHeX.Core
         internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
         public bool Legal => Legality.Valid;
-        internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearn();
+        internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
     }
 }

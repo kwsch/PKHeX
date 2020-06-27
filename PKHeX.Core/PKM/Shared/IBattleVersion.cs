@@ -28,5 +28,13 @@
             pk.FixMoves();
             v.BattleVersion = (int) version;
         }
+
+        public static int GetMinGeneration(this IBattleVersion v)
+        {
+            var ver = v.BattleVersion;
+            if (ver == 0)
+                return 1;
+            return ((GameVersion)ver).GetGeneration();
+        }
     }
 }

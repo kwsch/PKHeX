@@ -36,7 +36,7 @@ namespace PKHeX.Core
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this LegalityAnalysis la, bool random = false)
         {
-            int[] m = la.GetSuggestedMoves(tm: random, tutor: random, reminder: random);
+            int[] m = la.GetSuggestedCurrentMoves(tm: random, tutor: random, reminder: random);
 
             var learn = la.AllSuggestedMovesAndRelearn();
             if (!m.All(z => learn.Contains(z)))
@@ -57,7 +57,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk) => new LegalityAnalysis(pk).GetSuggestedRelearnMoves();
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk));
 
         /// <summary>
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
@@ -66,7 +66,7 @@ namespace PKHeX.Core
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
         public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal)
         {
-            var m = legal.GetSuggestedRelearn();
+            var m = legal.GetSuggestedRelearnMovesFromEncounter();
             if (m.Any(z => z != 0))
                 return m;
 

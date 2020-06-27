@@ -165,25 +165,22 @@ namespace PKHeX.Core
             }
             return Array.Empty<int>();
         }
+
         internal static IReadOnlyList<int>[] GetValidMovesAllGens(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
         {
-            var Moves = new IReadOnlyList<int>[evoChains.Length];
-            for (int i = 1; i < evoChains.Length; i++)
-            {
-                if (evoChains[i].Count != 0)
-                    Moves[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
-                else
-                    Moves[i] = Array.Empty<int>();
-            }
-            return Moves;
-        }
+            var result = new IReadOnlyList<int>[evoChains.Length];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = Array.Empty<int>();
 
-        internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
-        {
-            GameVersion version = (GameVersion)pkm.Version;
-            if (!pkm.IsUntraded)
-                version = GameVersion.Any;
-            return GetValidMoves(pkm, version, evoChains, minLvLG1: 1, minLvLG2: 1, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM);
+            var min = pkm is IBattleVersion b ? b.GetMinGeneration() : 1;
+            for (int i = min; i < evoChains.Length; i++)
+            {
+                if (evoChains[i].Count == 0)
+                    continue;
+
+                result[i] = GetValidMoves(pkm, evoChains[i], i, minLvLG1, minLvLG2, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM).ToList();
+            }
+            return result;
         }
 
         internal static IEnumerable<int> GetValidMoves(PKM pkm, IReadOnlyList<EvoCriteria> evoChain, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = true, bool Tutor = true, bool Machine = true, bool MoveReminder = true, bool RemoveTransferHM = true)
@@ -241,25 +238,6 @@ namespace PKHeX.Core
                 list.AddRange(moves);
             }
             return preevomoves.Except(evomoves).Distinct();
-        }
-
-        private static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<IReadOnlyList<EvoCriteria>> vs, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
-        {
-            var r = new List<int> { 0 };
-            if (Relearn && pkm.Format >= 6)
-                r.AddRange(pkm.RelearnMoves);
-
-            int start = pkm.GenNumber;
-            if (start < 0)
-                start = pkm.Format; // be generous instead of returning nothing
-
-            for (int generation = start; generation <= pkm.Format; generation++)
-            {
-                if (vs[generation].Count != 0)
-                    r.AddRange(GetValidMoves(pkm, version, vs[generation], generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, LVL: LVL, Relearn: false, Tutor: Tutor, Machine: Machine, MoveReminder: MoveReminder, RemoveTransferHM: RemoveTransferHM));
-            }
-
-            return r.Distinct();
         }
 
         internal static IEnumerable<int> GetValidMoves(PKM pkm, GameVersion version, IReadOnlyList<EvoCriteria> vs, int generation, int minLvLG1 = 1, int minLvLG2 = 1, bool LVL = false, bool Relearn = false, bool Tutor = false, bool Machine = false, bool MoveReminder = true, bool RemoveTransferHM = true)
