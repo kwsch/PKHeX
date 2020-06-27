@@ -107,7 +107,7 @@ namespace PKHeX.Core
                     return GameVersion.Gen5;
             }
 
-            if (specialTutors && pkm.HasVisitedB2W2())
+            if (specialTutors && pkm.HasVisitedB2W2(species))
             {
                 var tutors = Tutors_B2W2;
                 for (int i = 0; i < tutors.Length; i++)
@@ -133,7 +133,7 @@ namespace PKHeX.Core
                     return GameVersion.Gen6;
             }
 
-            if (specialTutors && pkm.HasVisitedORAS())
+            if (specialTutors && pkm.HasVisitedORAS(species))
             {
                 var tutors = Tutors_AO;
                 for (int i = 0; i < tutors.Length; i++)
@@ -159,7 +159,7 @@ namespace PKHeX.Core
                     return GameVersion.Gen7;
             }
 
-            if (specialTutors && pkm.HasVisitedUSUM())
+            if (specialTutors && pkm.HasVisitedUSUM(species))
             {
                 var tutors = Tutors_USUM;
                 for (int i = 0; i < tutors.Length; i++)
@@ -258,7 +258,7 @@ namespace PKHeX.Core
         {
             var pi = PersonalTable.AO[species];
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
-            if (specialTutors && pkm.HasVisitedORAS())
+            if (specialTutors && pkm.HasVisitedORAS(species))
                 moves.AddRange(GetTutors(PersonalTable.AO.GetFormeEntry(species, form), Tutors_AO));
         }
 
@@ -268,7 +268,7 @@ namespace PKHeX.Core
                 return;
             var pi = PersonalTable.USUM.GetFormeEntry(species, form);
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));
-            if (specialTutors && pkm.HasVisitedUSUM())
+            if (specialTutors && pkm.HasVisitedUSUM(species))
                 moves.AddRange(GetTutors(pi, Tutors_USUM));
         }
 
