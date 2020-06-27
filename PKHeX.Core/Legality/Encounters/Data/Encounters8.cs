@@ -520,7 +520,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 128, Level = 28, Location = 180 }, // Tauros in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 687, Level = 28, Location = 180 }, // Malamar in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 214, Level = 28, Location = 180 }, // Heracross in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 507, Level = 28, Location = 180 }, // Herdier in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 507, Level = 28, Locations = new[] {174, 180} }, // Herdier on Challenge Road and in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 549, Level = 28, Location = 180 }, // Lilligant in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 426, Level = 28, Location = 180 }, // Drifblim in the Training Lowlands (on the Isle of Armor
             new EncounterStatic8 { Species = 055, Level = 26, Location = 180 }, // Golduck in the Training Lowlands (on the Isle of Armor)
