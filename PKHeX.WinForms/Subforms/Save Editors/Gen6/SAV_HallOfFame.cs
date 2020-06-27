@@ -356,27 +356,25 @@ namespace PKHeX.WinForms
         {
             // Get Gender Threshold
             int species = WinFormsUtil.GetIndex(CB_Species);
-            int gt = SAV.Personal[species].Gender;
+            var pi = SAV.Personal[species];
 
-            if (gt == 255)
-                Label_Gender.Text = gendersymbols[2];
-            else if (gt == 254)
-                Label_Gender.Text = gendersymbols[1];
-            else if (gt == 0)
-                Label_Gender.Text = gendersymbols[0];
-
-            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless abort
-                return;
-
-            if (gt < 256) // If not a single gender(less) species:
+            var fg = pi.FixedGender;
+            if (fg == -1) // dual gender
             {
-                Label_Gender.Text = PKX.GetGenderFromString(Label_Gender.Text) == 0 ? gendersymbols[1] : gendersymbols[0];
-
-                if (PKX.GetGenderFromString(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
-                    CB_Form.SelectedIndex = 1;
-                else if (PKX.GetGenderFromString(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
-                    CB_Form.SelectedIndex = 0;
+                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                fg = (fg ^ 1) & 1;
+                Label_Gender.Text = Main.GenderSymbols[fg];
             }
+            else
+            {
+                Label_Gender.Text = Main.GenderSymbols[fg];
+                return;
+            }
+
+            if (PKX.GetGenderFromString(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
+                CB_Form.SelectedIndex = 1;
+            else if (PKX.GetGenderFromString(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
+                CB_Form.SelectedIndex = 0;
 
             if (species == (int)Species.Pyroar)
                 CB_Form.SelectedIndex = PKX.GetGenderFromString(Label_Gender.Text);

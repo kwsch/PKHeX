@@ -122,17 +122,17 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CL.Length; i++)
                 CL[i].Checked = Zukan.GetLanguageFlag(species - 1, i);
 
-            int gt = SAV.Personal[pk].Gender;
+            var pi = SAV.Personal[pk];
 
-            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
-            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
+            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = !pi.OnlyFemale;
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(pi.OnlyMale || pi.Genderless);
 
             MT_Count.Text = Zukan.GetEncounterCount(species - 1).ToString();
 
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = pi.FormeCount;
             int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;

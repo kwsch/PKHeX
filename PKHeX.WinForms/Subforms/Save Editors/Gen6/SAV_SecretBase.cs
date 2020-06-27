@@ -482,14 +482,15 @@ namespace PKHeX.WinForms
 
         private void Label_Gender_Click(object sender, EventArgs e)
         {
-            // Get Gender Threshold
-            int gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].Gender;
-
-            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
-                return;
-
-            if (gt < 256) // If not a single gender(less) species:
-                Label_Gender.Text = Main.GenderSymbols[PKX.GetGenderFromString(Label_Gender.Text) ^ 1];
+            var species = WinFormsUtil.GetIndex(CB_Species);
+            var pi = SAV.Personal[species];
+            var fg = pi.FixedGender;
+            if (fg == -1) // dual gender
+            {
+                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                fg = (fg ^ 1) & 1;
+            }
+            Label_Gender.Text = Main.GenderSymbols[fg];
         }
 
         private void SetGenderLabel()

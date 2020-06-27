@@ -273,7 +273,7 @@ namespace PKHeX.Core
         {
             var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature((Nature)Nature);
-            pk.Gender = pi.Gender == 255 ? 2 : Gender != 2 ? Gender : criteria.GetGender(-1, pi);
+            pk.Gender = pi.Genderless ? 2 : Gender != 2 ? Gender : criteria.GetGender(-1, pi);
             var av = GetAbilityIndex(criteria, pi);
             SetPID(pk, av);
             pk.RefreshAbility(av);
