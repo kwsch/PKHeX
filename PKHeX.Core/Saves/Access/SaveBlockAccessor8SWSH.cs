@@ -119,6 +119,8 @@ namespace PKHeX.Core
         private const uint KNormalEncount = 0xAD9DFA6A; // normal_encount
         private const uint KBonusRewards = 0xEFCAE04E; // bonus_rewards
 
+        private const int KNormalEncountRigel = 0x0E615A8C; // normal_encount_rigel
+
         // Values
         public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
         public const uint KGameLanguage = 0x0BFDEBA1; // U32 Game Language
