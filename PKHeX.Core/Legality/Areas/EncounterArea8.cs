@@ -141,6 +141,10 @@ namespace PKHeX.Core
             // Brawler's Cave
             {174, new byte[] {172}},
 
+            // Courageous Cavern
+            // Loop Lagoon
+            {176, new byte[] {178}},
+
             // Warm-Up Tunnel
             // Training Lowlands, Potbottom Desert
             {182, new byte[] {180, 184}},
