@@ -138,6 +138,7 @@ namespace PKHeX.Core
             var pidtype = GetPIDType();
             PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
             SetIVs(pk);
+            pk.StatNature = pk.Nature;
         }
 
         private void SetEggMetData(PKM pk, ITrainerInfo tr, DateTime today)

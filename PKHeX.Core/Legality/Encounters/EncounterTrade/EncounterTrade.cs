@@ -67,7 +67,7 @@ namespace PKHeX.Core
         public bool HasNickname => Nicknames.Count != 0;
         public bool HasTrainerName => TrainerNames.Count != 0;
 
-        public static readonly int[] DefaultMetLocation =
+        private static readonly int[] DefaultMetLocation =
         {
             0,
             Locations.LinkTrade2NPC,
@@ -159,7 +159,7 @@ namespace PKHeX.Core
             int ability = criteria.GetAbilityFromNumber(Ability, pi);
 
             PIDGenerator.SetRandomWildPID(pk, Generation, nature, ability, gender);
-            pk.Nature = nature;
+            pk.Nature = pk.StatNature = nature;
             pk.Gender = gender;
             pk.RefreshAbility(ability);
 
@@ -256,7 +256,7 @@ namespace PKHeX.Core
             if (EggLocation != pkm.Egg_Location)
                 return false;
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
-            //    countinue;
+            //    continue;
             if (!Version.Contains((GameVersion)pkm.Version))
                 return false;
 

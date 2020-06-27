@@ -111,6 +111,7 @@ namespace PKHeX.Core
                 pk.Gender = gender;
                 pk.RefreshAbility(Util.Rand.Next(2));
             }
+            pk.StatNature = nature;
         }
 
         private static void SetMetData(PKM pk)

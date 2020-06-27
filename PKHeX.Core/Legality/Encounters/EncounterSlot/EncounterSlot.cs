@@ -177,6 +177,7 @@ namespace PKHeX.Core
             else
                 PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
             pk.Gender = gender;
+            pk.StatNature = nature;
         }
 
         private void SetMetData(PKM pk, int level, int location)
