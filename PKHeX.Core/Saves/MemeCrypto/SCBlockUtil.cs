@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
@@ -12,17 +11,14 @@ namespace PKHeX.Core
             using var stream = new MemoryStream();
             using var bw = new BinaryWriter(stream);
 
-            if (fakeHeader)
+            for (var i = 0; i < blocks.Count; i++)
             {
-                for (int i = 0; i < blocks.Count; i++)
-                    blocks[i].ID = (uint)i;
-            }
+                var b = blocks[i];
+                if (dataOnly && b.Data.Length == 0)
+                    continue;
 
-            var iterate = dataOnly ? blocks.Where(z => z.Data.Length != 0) : blocks;
-            foreach (var b in iterate)
-            {
                 if (fakeHeader)
-                    bw.Write($"BLOCK{b.ID:0000} {b.Key:X8}");
+                    bw.Write($"BLOCK{i:0000} {b.Key:X8}");
                 if (key)
                     bw.Write(b.Key);
                 if (typeInfo)

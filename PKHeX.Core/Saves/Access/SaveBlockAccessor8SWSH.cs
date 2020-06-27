@@ -50,11 +50,6 @@ namespace PKHeX.Core
             FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
         }
 
-        /* To dump key list of current format, use the following in the immediate window, and update Meta8
-        var blocks = BlockInfo.Where(z => z.Data.Length != 0).Select(z => new KeyValuePair<uint, int>(z.Key, z.Data.Length)).Select(z => $"{z.Key:X8}, {z.Value:X5},");
-        System.IO.File.WriteAllLines("blank.txt", blocks.ToArray());
-        */
-
         // Arrays (Blocks)
         private const uint KTeamNames = 0x1920C1E4; // Team 1, 2...6 ((10 + terminator)*6 char16 strings)
         private const uint KBoxLayout = 0x19722c89; // Box Names

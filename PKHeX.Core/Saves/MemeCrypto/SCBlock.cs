@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Block of <see cref="Data"/> obtained from a <see cref="SwishCrypto"/> encrypted block storage binary.
     /// </summary>
-    public sealed class SCBlock : BlockInfo
+    public sealed class SCBlock
     {
         /// <summary>
         /// Used to encrypt the rest of the block.
@@ -30,8 +30,6 @@ namespace PKHeX.Core
         public byte[] Data = Array.Empty<byte>();
 
         internal SCBlock(uint key) => Key = key;
-        protected override bool ChecksumValid(byte[] data) => true;
-        protected override void SetChecksum(byte[] data) { }
 
         public bool HasValue() => Type > SCTypeCode.Array;
         public object GetValue() => Type.GetValue(Data);
