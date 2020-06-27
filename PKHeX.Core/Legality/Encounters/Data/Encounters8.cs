@@ -572,6 +572,14 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 039, Level = 20, Location = 168 }, // Jigglypuff in the Forest of Focus (on the Isle of Armor)
             new EncounterStatic8 { Species = 764, Level = 50, Location = 190 }, // Comfey in the Insular Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 621, Level = 42, Location = 176 }, // Druddigon in Courageous Cavern (on the Isle of Armor)
+
+            // Coming from Underground Staryu (similar to past gen Crabrawler berry piles?)
+            new EncounterStatic8 { Species = 120, Level = 13, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 120, Level = 14, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 120, Level = 15, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 120, Level = 16, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 120, Level = 17, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
+            new EncounterStatic8 { Species = 120, Level = 18, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
             #endregion
         };
 
