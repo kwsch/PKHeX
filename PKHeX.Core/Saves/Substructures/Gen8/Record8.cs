@@ -24,7 +24,8 @@ namespace PKHeX.Core
 
         public override void SetRecord(int recordID, int value)
         {
-            Debug.Assert(recordID < RecordCount);
+            if ((uint)recordID >= RecordCount)
+                throw new ArgumentOutOfRangeException(nameof(recordID));
             int ofs = GetRecordOffset(recordID);
             int max = GetRecordMax(recordID);
             if (value > max)

@@ -70,7 +70,7 @@ namespace PKHeX.Core
             if (generation == 2 && lang == (int)LanguageID.Korean)
                 return StringConverter2KOR.LocalizeKOR2(nick);
 
-            if (generation < 5 && (generation != 4 || species != 0)) // All caps GenIV and previous, except GenIV eggs.
+            if (generation != 4 || species != 0) // All caps GenIV and previous, except GenIV eggs.
             {
                 nick = nick.ToUpper();
                 if (lang == (int)LanguageID.French)

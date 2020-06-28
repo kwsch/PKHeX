@@ -47,7 +47,7 @@ namespace PKHeX.Core
             var Gen1Version = GameVersion.RBY;
             bool RBDragonair = false;
 
-            if (minLevel != 0 && !FilterGBSlotsCatchRate(pkm, ref chain, ref Gen1Version, ref RBDragonair))
+            if (!FilterGBSlotsCatchRate(pkm, ref chain, ref Gen1Version, ref RBDragonair))
                 return Enumerable.Empty<EncounterSlot>();
 
             var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);

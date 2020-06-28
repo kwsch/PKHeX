@@ -188,7 +188,7 @@ namespace PKHeX.Core
                 return false;
 
             if ((pkm.VC || pkm.Gen7) && memory != 4) // Generation 7 - Trade memory or nothing
-                return memory == 4;
+                return false;
 
             if (origin < 6) // NDS/3DS
                 return false;

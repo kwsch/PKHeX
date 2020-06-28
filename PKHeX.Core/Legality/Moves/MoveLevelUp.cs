@@ -182,14 +182,14 @@ namespace PKHeX.Core
                     return LearnGG.GetIsLevelUp(species, form, move);
 
                 case Any:
-                    if (species > MaxSpeciesID_7)
-                        return LearnNONE;
-                    var first = LearnSM.GetIsLevelUp(species, form, move);
-                    if (first.IsLevelUp)
-                        return first;
                     if (species > MaxSpeciesID_7_USUM)
                         return LearnNONE;
-                    return LearnUSUM.GetIsLevelUp(species, form, move);
+                    var first = LearnUSUM.GetIsLevelUp(species, form, move);
+                    if (first.IsLevelUp)
+                        return first;
+                    if (species > MaxSpeciesID_7)
+                        return LearnNONE;
+                    return LearnSM.GetIsLevelUp(species, form, move);
 
                 case SN: case MN: case SM:
                     if (species > MaxSpeciesID_7)

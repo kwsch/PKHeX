@@ -57,9 +57,6 @@ namespace PKHeX.WinForms
 
         private void B_Export_Click(object sender, EventArgs e)
         {
-            if (LinkInfo.Data == null)
-                return;
-
             using var sfd = new SaveFileDialog {Filter = PL6.Filter};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
