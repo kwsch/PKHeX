@@ -25,16 +25,16 @@ namespace PKHeX.Core
                 2 => MaxSpeciesID_2,
                 _ => -1
             };
-            var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxID);
+            var dl = EvolutionChain.GetOriginChain(pkm, maxID);
             return GetPossible(pkm, dl, gameSource);
         }
 
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var encs = GetStaticEncounters(pkm, vs, gameSource);
+            var encs = GetStaticEncounters(pkm, chain, gameSource);
             return encs.Where(e => ParseSettings.AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
 
@@ -42,7 +42,7 @@ namespace PKHeX.Core
         {
             var poss = GetPossible(pkm, gameSource: gameSource);
 
-            int lvl = GetMinLevelEncounter(pkm);
+            int lvl = GetMaxLevelEncounter(pkm);
             if (lvl < 0)
                 return Enumerable.Empty<EncounterStatic>();
 
@@ -50,11 +50,11 @@ namespace PKHeX.Core
             return GetMatchingStaticEncounters(pkm, poss, lvl);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
-            var poss = GetPossible(pkm, vs, gameSource: gameSource);
+            var poss = GetPossible(pkm, chain, gameSource: gameSource);
 
-            int lvl = GetMinLevelEncounter(pkm);
+            int lvl = GetMaxLevelEncounter(pkm);
             if (lvl < 0)
                 return Enumerable.Empty<EncounterStatic>();
 
@@ -160,7 +160,7 @@ namespace PKHeX.Core
                 case 2:
                     return GetGSStaticTransfer(species, pkm.Met_Level);
                 default:
-                    var dl = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, skipChecks: true);
+                    var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
                     return GetPossible(pkm, dl).FirstOrDefault();
             }
         }

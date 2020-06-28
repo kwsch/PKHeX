@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterAreaFake : EncounterArea
     {
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
             => Enumerable.Empty<EncounterSlot>();
 
         protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)

@@ -251,7 +251,7 @@ namespace PKHeX.Core
             var min = curr.FindLast(z => z.Species == minSpecies);
             if (min != null && min.Level < minLevel)
                 return false;
-            var poss = EvolutionChain.GetValidPreEvolutions(pkm, lvl: 100, minLevel: minLevel, skipChecks: true);
+            var poss = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, minLevel: minLevel, skipChecks: true);
 
             if (minSpecies != -1)
             {
@@ -398,7 +398,7 @@ namespace PKHeX.Core
             return pkm.CurrentLevel;
         }
 
-        internal static int GetMinLevelEncounter(PKM pkm)
+        internal static int GetMaxLevelEncounter(PKM pkm)
         {
             // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
             if (pkm.Format == 3 && pkm.WasEgg)

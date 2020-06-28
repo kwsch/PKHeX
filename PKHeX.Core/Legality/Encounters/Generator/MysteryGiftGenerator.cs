@@ -9,11 +9,11 @@ namespace PKHeX.Core
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
             int maxSpecies = Legal.GetMaxSpeciesOrigin(pkm.Format);
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies);
-            return GetPossible(pkm, vs);
+            var chain = EvolutionChain.GetOriginChain(pkm, maxSpecies);
+            return GetPossible(pkm, chain);
         }
 
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
             int gen = pkm.GenNumber;
@@ -21,7 +21,7 @@ namespace PKHeX.Core
                 yield return RangerManaphy;
 
             var table = GetTable(gen, pkm);
-            var possible = table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            var possible = table.Where(wc => chain.Any(dl => dl.Species == wc.Species));
             foreach (var enc in possible)
                 yield return enc;
         }
@@ -66,14 +66,14 @@ namespace PKHeX.Core
 
         private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB)
         {
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetMatchingGifts(pkm, DB, vs);
+            var chain = EvolutionChain.GetOriginChain(pkm);
+            return GetMatchingGifts(pkm, DB, chain);
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB, IReadOnlyList<DexLevel> vs)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
         {
             var deferred = new List<MysteryGift>();
-            var gifts = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            var gifts = DB.Where(wc => chain.Any(dl => dl.Species == wc.Species));
             foreach (var mg in gifts)
             {
                 var result = mg.IsMatch(pkm);

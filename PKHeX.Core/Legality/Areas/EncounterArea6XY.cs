@@ -71,14 +71,14 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSlot> GetValidFriendSafari(PKM pkm)
         {
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetValidFriendSafari(vs);
+            var chain = EvolutionChain.GetValidPreEvolutions(pkm);
+            return GetValidFriendSafari(chain);
         }
 
-        public static IEnumerable<EncounterSlot> GetValidFriendSafari(IEnumerable<EvoCriteria> vs)
+        public static IEnumerable<EncounterSlot> GetValidFriendSafari(IReadOnlyList<DexLevel> chain)
         {
-            var evos = vs.Where(d => d.Level >= 30);
-            return evos.SelectMany(z => Encounters6.FriendSafari[z.Species]);
+            var valid = chain.Where(d => d.Level >= 30);
+            return valid.SelectMany(z => Encounters6.FriendSafari[z.Species]);
         }
     }
 }

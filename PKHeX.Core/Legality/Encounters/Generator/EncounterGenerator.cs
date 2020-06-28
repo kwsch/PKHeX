@@ -142,10 +142,10 @@ namespace PKHeX.Core
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
             var maxspeciesorigin = gsc ? MaxSpeciesID_2 : MaxSpeciesID_1;
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
+            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
 
             var deferred = new List<IEncounterable>();
-            foreach (var t in GetValidEncounterTrades(pkm, vs, game))
+            foreach (var t in GetValidEncounterTrades(pkm, chain, game))
             {
                 // some OTs are longer than the keyboard entry; don't defer these
                 if (pkm.Format >= 7 && pkm.OT_Name.Length <= (pkm.Japanese || pkm.Korean ? 5 : 7))
@@ -155,7 +155,7 @@ namespace PKHeX.Core
                 }
                 yield return t;
             }
-            foreach (var s in GetValidStaticEncounter(pkm, vs, game))
+            foreach (var s in GetValidStaticEncounter(pkm, chain, game))
             {
                 // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
                 switch (s.Version)
@@ -179,7 +179,7 @@ namespace PKHeX.Core
                 }
                 yield return s;
             }
-            foreach (var e in GetValidWildEncounters12(pkm, vs, game))
+            foreach (var e in GetValidWildEncounters12(pkm, chain, game))
             {
                 yield return e;
             }

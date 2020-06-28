@@ -27,7 +27,7 @@ namespace PKHeX.Core
             return others.Contains((byte)location);
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
         {
             var loc = Location;
             if (IsWildArea8(loc) || IsWildArea8Armor(loc)) // wild area gets boosted up to level 60 post-game
@@ -35,11 +35,11 @@ namespace PKHeX.Core
                 const int boostTo = 60;
                 if (pkm.Met_Level == boostTo)
                 {
-                    var boost = Slots.Where(slot => vs.Any(evo => IsMatch(evo, slot) && evo.Level >= boostTo));
+                    var boost = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= boostTo));
                     return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
                 }
             }
-            var slots = Slots.Where(slot => vs.Any(evo => IsMatch(evo, slot) && evo.Level >= slot.LevelMin));
+            var slots = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= slot.LevelMin));
 
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(s => s.IsLevelWithinRange(minLevel));

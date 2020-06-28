@@ -13,9 +13,9 @@ namespace PKHeX.Core
         private const int FluteBoostMax = 4; // Black Flute increases levels.
         private const int DexNavBoost = 30; // Maximum DexNav chain
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
         {
-            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - FluteBoostMax)));
+            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= (slot.LevelMin - FluteBoostMax)));
 
             // note: it's probably possible to determine a reduced DexNav boost based on the flawless IV count (no flawless = not chained)
             // if someone wants to implement that logic to have the below method return a calculated max DexNavBoost, send a pull request :)

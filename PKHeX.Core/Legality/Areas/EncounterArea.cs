@@ -48,21 +48,21 @@ namespace PKHeX.Core
         /// Gets the slots contained in the area that match the provided data.
         /// </summary>
         /// <param name="pkm">Pokémon Data</param>
-        /// <param name="vs">Evolution lineage</param>
+        /// <param name="chain">Evolution lineage</param>
         /// <param name="minLevel">Minimum level of the encounter</param>
         /// <returns>Enumerable list of encounters</returns>
-        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> vs, int minLevel = 0)
+        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
         {
             if (minLevel == 0) // any
-                return Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species));
+                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
 
-            var slots = GetMatchFromEvoLevel(pkm, vs, minLevel);
+            var slots = GetMatchFromEvoLevel(pkm, chain, minLevel);
             return GetFilteredSlots(pkm, slots, minLevel);
         }
 
-        protected virtual IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IEnumerable<EvoCriteria> vs, int minLevel)
+        protected virtual IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
         {
-            var slots = Slots.Where(slot => vs.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
             // Get slots where pokemon can exist with respect to level constraints
             return slots.Where(slot => slot.IsLevelWithinRange(minLevel));
         }

@@ -19,17 +19,17 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-            return GetPossible(pkm, vs, gameSource);
+            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            return GetPossible(pkm, chain, gameSource);
         }
 
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             var possibleAreas = GetEncounterSlots(pkm, gameSource);
-            return possibleAreas.SelectMany(area => area.Slots).Where(z => vs.Any(v => v.Species == z.Species));
+            return possibleAreas.SelectMany(area => area.Slots).Where(z => chain.Any(v => v.Species == z.Species));
         }
 
-        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource)
+        private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, int lvl, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
             if (pkm.Egg_Location != 0)
                 yield break;
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
             foreach (var area in possibleAreas)
             {
-                var slots = area.GetMatchingSlots(pkm, vs, lvl);
+                var slots = area.GetMatchingSlots(pkm, chain, lvl);
                 foreach (var s in slots)
                     yield return s;
             }
@@ -54,7 +54,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            int lvl = GetMinLevelEncounter(pkm);
+            int lvl = GetMaxLevelEncounter(pkm);
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
 
@@ -62,33 +62,33 @@ namespace PKHeX.Core
                 gameSource = (GameVersion)pkm.Version;
 
             int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-            var s = GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            var slots = GetRawEncounterSlots(pkm, lvl, chain, gameSource);
 
-            return s; // defer deferrals to the method consuming this collection
+            return slots; // defer deferrals to the method consuming this collection
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters12(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = GameVersion.Any)
         {
-            int lvl = GetMinLevelEncounter(pkm);
+            int lvl = GetMaxLevelEncounter(pkm);
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
 
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            return GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+            return GetRawEncounterSlots(pkm, lvl, chain, gameSource);
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> vs, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            int lvl = GetMinLevelEncounter(pkm);
+            int lvl = GetMaxLevelEncounter(pkm);
             if (lvl <= 0)
                 return Enumerable.Empty<EncounterSlot>();
-            var s = GetRawEncounterSlots(pkm, lvl, vs, gameSource);
+            var s = GetRawEncounterSlots(pkm, lvl, chain, gameSource);
 
             bool IsSafariBall = pkm.Ball == (int)Ball.Safari;
             bool IsSportBall = pkm.Ball == (int)Ball.Sport;
@@ -101,8 +101,8 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxspeciesorigin: maxspeciesorigin);
-            return GetValidWildEncounters(pkm, vs, gameSource);
+            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            return GetValidWildEncounters(pkm, chain, gameSource);
         }
 
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
@@ -131,11 +131,11 @@ namespace PKHeX.Core
         private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
 
-        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IReadOnlyList<EvoCriteria> vs, int lvl)
+        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IReadOnlyList<EvoCriteria> chain, int lvl)
         {
             if (pkm.Egg_Location != 0)
                 return Enumerable.Empty<EncounterSlot>();
-            return loc.GetMatchingSlots(pkm, vs, lvl);
+            return loc.GetMatchingSlots(pkm, chain, lvl);
         }
 
         public static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)
@@ -166,9 +166,9 @@ namespace PKHeX.Core
 
         internal static EncounterArea? GetCaptureLocation(PKM pkm)
         {
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
+            var chain = EvolutionChain.GetOriginChain(pkm);
             return (from area in GetEncounterSlots(pkm)
-                let slots = GetValidEncounterSlots(pkm, area, vs, lvl: 0).ToArray()
+                let slots = GetValidEncounterSlots(pkm, area, chain, lvl: 0).ToArray()
                 where slots.Length != 0
                 select new EncounterAreaFake
                 {
