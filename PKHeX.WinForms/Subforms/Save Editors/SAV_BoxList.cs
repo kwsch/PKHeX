@@ -54,8 +54,12 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < sav.BoxCount; i++)
             {
-                var boxEditor = new BoxEditor { Name = $"BE_Box{i:00}", Margin = new Padding(1) };
-                boxEditor.Editor = new BoxEdit(sav);
+                var boxEditor = new BoxEditor
+                {
+                    Name = $"BE_Box{i:00}",
+                    Margin = new Padding(1),
+                    Editor = new BoxEdit(sav),
+                };
                 boxEditor.Setup(m);
                 boxEditor.InitializeGrid();
                 boxEditor.Reset();

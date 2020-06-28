@@ -13,7 +13,7 @@ namespace PKHeX.Core
         public readonly int GenderLow;
         public readonly bool DPPt;
         public readonly bool AllowLeads;
-        public readonly FrameType FrameType = FrameType.None;
+        public readonly FrameType FrameType;
         public readonly RNG RNG = RNG.LCRNG;
         public readonly bool Safari3;
 

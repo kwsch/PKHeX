@@ -37,8 +37,8 @@ namespace PKHeX.Core
             var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
             foreach (var ver in vers)
             {
-                var encs = GenerateVersionEncounters(pk, m, ver);
-                foreach (var enc in encs)
+                var encounters = GenerateVersionEncounters(pk, m, ver);
+                foreach (var enc in encounters)
                 {
                     var result = enc.ConvertToPKM(info);
 #if VERIFY_GEN
@@ -233,8 +233,8 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs)
         {
-            var encs = EncounterStaticGenerator.GetPossible(pk);
-            foreach (var enc in encs)
+            var encounters = EncounterStaticGenerator.GetPossible(pk);
+            foreach (var enc in encounters)
             {
                 if (enc.IsUnobtainable(pk))
                     continue;

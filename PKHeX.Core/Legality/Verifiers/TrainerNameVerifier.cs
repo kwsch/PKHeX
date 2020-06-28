@@ -73,7 +73,7 @@ namespace PKHeX.Core
                 if (WordFilter.IsFiltered(pkm.HT_Name, out bad))
                     data.AddLine(GetInvalid($"Wordfilter: {bad}"));
                 if (ContainsTooManyNumbers(ot, data.Info.Generation))
-                    data.AddLine(GetInvalid($"Wordfilter: Too many numbers."));
+                    data.AddLine(GetInvalid("Wordfilter: Too many numbers."));
             }
         }
 

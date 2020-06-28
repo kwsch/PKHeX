@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Media;
 using PKHeX.Core;
 using PKHeX.Drawing;
@@ -20,7 +21,7 @@ namespace PKHeX.WinForms.Controls
 
             Sounds.SoundLocation = path;
             try { Sounds.Play(); }
-            catch { }
+            catch { Debug.WriteLine("Failed to play sound."); }
         }
 
         public void Stop() => Sounds.Stop();

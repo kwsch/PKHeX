@@ -5,8 +5,8 @@ namespace PKHeX.Core
 {
     public sealed class InventoryPouch7 : InventoryPouch
     {
-        public InventoryPouch7(InventoryType type, ushort[] legal, int maxcount, int offset)
-            : base(type, legal, maxcount, offset)
+        public InventoryPouch7(InventoryType type, ushort[] legal, int maxCount, int offset)
+            : base(type, legal, maxCount, offset)
         {
             OriginalItems = Array.Empty<InventoryItem>();
         }

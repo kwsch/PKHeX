@@ -86,8 +86,7 @@ namespace PKHeX.Core
                 t.HyperTrainFlags = 0;
                 return;
             }
-            if (IVs == null)
-                IVs = pkm.IVs;
+            IVs ??= pkm.IVs;
 
             t.HT_HP = IVs[0] != 31;
             t.HT_ATK = IVs[1] != 31 && IVs[1] > 2;

@@ -3,7 +3,7 @@
     public static class HiddenPowerApplicator
     {
         /// <summary>
-        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hptype"/>.
+        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hiddenPowerType"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="hptype">Desired Hidden Power typing.</param>
@@ -15,7 +15,7 @@
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hptype"/>.
+        /// Sets the <see cref="PKM.IVs"/> to match a provided <see cref="hiddenPowerType"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="hiddenPowerType">Desired Hidden Power typing.</param>

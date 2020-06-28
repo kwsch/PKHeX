@@ -34,8 +34,10 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var encs = GetStaticEncounters(pkm, chain, gameSource);
-            return encs.Where(e => ParseSettings.AllowGBCartEra || !GameVersion.GBCartEraOnly.Contains(e.Version));
+            var encounters = GetStaticEncounters(pkm, chain, gameSource);
+            if (ParseSettings.AllowGBCartEra)
+                return encounters;
+            return encounters.Where(e => !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
 
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)

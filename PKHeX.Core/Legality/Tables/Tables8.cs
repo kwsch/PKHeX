@@ -392,10 +392,7 @@ namespace PKHeX.Core
 
         };
 
-        internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>
-        {
-            // none as of DLC 1!
-        };
+        internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>(); // none as of DLC 1!
 
         internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
         {

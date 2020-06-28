@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -173,7 +174,10 @@ namespace PKHeX.WinForms
                 {
                     var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
                 }
-                catch { }
+                catch
+                {
+                    Debug.Write($"Failed to create a new form {t}");
+                }
             }
         }
 

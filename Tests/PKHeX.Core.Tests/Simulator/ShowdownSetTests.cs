@@ -30,11 +30,11 @@ namespace PKHeX.Tests.Simulator
         {
             var set = new ShowdownSet(SetGlaceonUSUMTutor);
             var pk7 = new PK7 {Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves};
-            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            Assert.True(!encs.Any());
+            var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            Assert.True(!encounters.Any());
             pk7.HT_Name = "PKHeX";
-            encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            var first = encs.FirstOrDefault();
+            encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            var first = encounters.FirstOrDefault();
             Assert.NotNull(first);
 
             var egg = (EncounterEgg)first;

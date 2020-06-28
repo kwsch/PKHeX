@@ -34,17 +34,15 @@ namespace PKHeX.Drawing
         private static Bitmap ExtendImage(Font font, Image qr, int width, int height, Image pic, string[] lines, string extraText)
         {
             var newpic = new Bitmap(width, height);
-            using (Graphics g = Graphics.FromImage(newpic))
-            {
-                g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
-                g.DrawImage(pic, 0, 0);
+            using Graphics g = Graphics.FromImage(newpic);
+            g.FillRectangle(new SolidBrush(Color.White), 0, 0, newpic.Width, newpic.Height);
+            g.DrawImage(pic, 0, 0);
 
-                g.DrawString(GetLine(lines, 0), font, Brushes.Black, new PointF(18, qr.Height - 5));
-                g.DrawString(GetLine(lines, 1), font, Brushes.Black, new PointF(18, qr.Height + 8));
-                g.DrawString(GetLine(lines, 2).Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font,
-                    Brushes.Black, new PointF(18, qr.Height + 20));
-                g.DrawString(GetLine(lines, 3) + extraText, font, Brushes.Black, new PointF(18, qr.Height + 32));
-            }
+            g.DrawString(GetLine(lines, 0), font, Brushes.Black, new PointF(18, qr.Height - 5));
+            g.DrawString(GetLine(lines, 1), font, Brushes.Black, new PointF(18, qr.Height + 8));
+            g.DrawString(GetLine(lines, 2).Replace(Environment.NewLine, "/").Replace("//", "   ").Replace(":/", ": "), font,
+                Brushes.Black, new PointF(18, qr.Height + 20));
+            g.DrawString(GetLine(lines, 3) + extraText, font, Brushes.Black, new PointF(18, qr.Height + 32));
             return newpic;
         }
 

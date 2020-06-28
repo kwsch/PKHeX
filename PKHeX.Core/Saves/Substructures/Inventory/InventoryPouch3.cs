@@ -6,8 +6,8 @@ namespace PKHeX.Core
     {
         public uint SecurityKey { private get; set; } // = 0 // Gen3 Only
 
-        public InventoryPouch3(InventoryType type, ushort[] legal, int maxcount, int offset, int size)
-            : base(type, legal, maxcount, offset, size)
+        public InventoryPouch3(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
+            : base(type, legal, maxCount, offset, size)
         {
         }
 

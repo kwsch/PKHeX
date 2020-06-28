@@ -420,7 +420,7 @@ namespace PKHeX
             if (!matchAny)
                 return TradebackType.WasTradeback;
 
-            if (catch_rate == 0 || HeldItems_GSC.Contains((ushort)catch_rate))
+            if (HeldItems_GSC.Contains((ushort)catch_rate))
                 return TradebackType.Any;
 
             return TradebackType.Gen1_NotTradeback;

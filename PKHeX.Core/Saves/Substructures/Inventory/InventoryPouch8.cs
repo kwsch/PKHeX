@@ -8,8 +8,8 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class InventoryPouch8 : InventoryPouch
     {
-        public InventoryPouch8(InventoryType type, ushort[] legal, int maxcount, int offset, int size)
-            : base(type, legal, maxcount, offset, size)
+        public InventoryPouch8(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
+            : base(type, legal, maxCount, offset, size)
         {
         }
 

@@ -95,11 +95,12 @@ namespace PKHeX.WinForms
         {
             try
             {
-                if (e.ColumnIndex != 1) return;
+                if (e.ColumnIndex != 1)
+                    return;
                 ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
                 comboBox.DroppedDown = true;
             }
-            catch { }
+            catch { Console.WriteLine("Failed to modify item."); }
         }
 
         private bool loading = true;

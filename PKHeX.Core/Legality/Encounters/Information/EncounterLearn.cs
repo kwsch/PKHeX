@@ -22,8 +22,8 @@ namespace PKHeX.Core
         /// </summary>
         public static bool CanLearn(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
-            var encs = GetLearn(species, moves, lang);
-            return encs.Any();
+            var encounters = GetLearn(species, moves, lang);
+            return encounters.Any();
         }
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace PKHeX.Core
         /// </summary>
         public static IEnumerable<string> GetLearnSummary(string species, IEnumerable<string> moves, string lang = GameLanguage.DefaultLanguage)
         {
-            var encs = GetLearn(species, moves, lang);
-            var msg = Summarize(encs).ToList();
+            var encounters = GetLearn(species, moves, lang);
+            var msg = Summarize(encounters).ToList();
             if (msg.Count == 0)
                 msg.Add(NoMatches);
             return msg;

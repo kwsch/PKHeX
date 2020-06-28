@@ -294,8 +294,7 @@ namespace PKHeX.Core
 
             for (int m = 0; m < 4; m++)
             {
-                if (res[m] == null)
-                    res[m] = new CheckMoveResult(Unknown, info.Generation, Invalid, LMoveSourceInvalid, Move);
+                res[m] ??= new CheckMoveResult(Unknown, info.Generation, Invalid, LMoveSourceInvalid, Move);
             }
             return res;
         }

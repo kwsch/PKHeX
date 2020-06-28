@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
             return control switch
             {
                 CheckBox cb => cb.Checked,
-                _ => (object)null
+                _ => null
             };
         }
 
