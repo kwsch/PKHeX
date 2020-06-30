@@ -44,10 +44,7 @@ namespace PKHeX.Core
             LevelUpMoves = levelup;
         }
 
-        public ValidEncounterMoves()
-        {
-            LevelUpMoves = Array.Empty<int[]>();
-        }
+        public ValidEncounterMoves() : this(Empty) { }
     }
 
     public sealed class LevelUpRestriction

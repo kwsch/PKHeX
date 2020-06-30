@@ -232,6 +232,37 @@
             // 6/2 - Gigantamax
             new EncounterStatic8ND(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 044, 280, 523 }, CanGigantamax = true }, // Snorlax
           //new EncounterStatic8ND(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
+
+            new EncounterStatic8ND(17,01,1) { Species = 878, Ability = A4, Moves = new[]{ 523, 205, 045, 249 } }, // Cufant
+            new EncounterStatic8ND(17,01,1) { Species = 208, Ability = A4, Moves = new[]{ 242, 442, 106, 422 } }, // Steelix
+            new EncounterStatic8ND(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 232, 006, 242, 045 }, Form = 2 }, // Meowth-2
+            new EncounterStatic8ND(17,01,1) { Species = 837, Ability = A4, Moves = new[]{ 229, 261, 479, 108 } }, // Rolycoly
+            new EncounterStatic8ND(17,01,1) { Species = 111, Ability = A4, Moves = new[]{ 479, 523, 196, 182 } }, // Rhyhorn
+            new EncounterStatic8ND(17,01,1) { Species = 095, Ability = A4, Moves = new[]{ 174, 225, 034, 106 } }, // Onix
+            new EncounterStatic8ND(30,03,2) { Species = 878, Ability = A4, Moves = new[]{ 523, 023, 334, 249 } }, // Cufant
+            new EncounterStatic8ND(30,03,2) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 } }, // Steelix
+            new EncounterStatic8ND(30,03,2) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 242, 269 } }, // Perrserker
+            new EncounterStatic8ND(30,03,2) { Species = 838, Ability = A4, Moves = new[]{ 229, 488, 157, 108 } }, // Carkol
+            new EncounterStatic8ND(30,03,2) { Species = 111, Ability = A4, Moves = new[]{ 350, 523, 196, 182 } }, // Rhyhorn
+            new EncounterStatic8ND(30,03,2) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 034, 106 } }, // Onix
+            new EncounterStatic8ND(40,05,3) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, CanGigantamax = true }, // Copperajah
+            new EncounterStatic8ND(40,05,3) { Species = 208, Ability = A4, Moves = new[]{ 157, 442, 328, 422 } }, // Steelix
+            new EncounterStatic8ND(40,05,3) { Species = 863, Ability = A4, Moves = new[]{ 442, 006, 154, 269 } }, // Perrserker
+            new EncounterStatic8ND(40,05,3) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 108 }, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8ND(40,05,3) { Species = 112, Ability = A4, Moves = new[]{ 036, 529, 008, 182 } }, // Rhydon
+            new EncounterStatic8ND(40,05,3) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 021, 201 } }, // Onix
+            new EncounterStatic8ND(50,08,4) { Species = 879, Ability = A4, Moves = new[]{ 070, 523, 334, 442 }, CanGigantamax = true }, // Copperajah
+            new EncounterStatic8ND(50,08,4) { Species = 208, Ability = A4, Moves = new[]{ 157, 231, 328, 422 } }, // Steelix
+            new EncounterStatic8ND(50,08,4) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 154, 269 } }, // Perrserker
+            new EncounterStatic8ND(50,08,4) { Species = 839, Ability = A4, Moves = new[]{ 025, 488, 157, 115 }, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8ND(50,08,4) { Species = 464, Ability = A4, Moves = new[]{ 350, 089, 008, 182 } }, // Rhyperior
+            new EncounterStatic8ND(50,08,4) { Species = 095, Ability = A4, Moves = new[]{ 776, 225, 784, 201 } }, // Onix
+            new EncounterStatic8ND(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 276, 089, 583, 442 }, CanGigantamax = true }, // Copperajah
+            new EncounterStatic8ND(60,10,5) { Species = 208, Ability = A4, Moves = new[]{ 038, 231, 529, 422 } }, // Steelix
+            new EncounterStatic8ND(60,10,5) { Species = 863, Ability = A4, Moves = new[]{ 442, 583, 370, 269 } }, // Perrserker
+            new EncounterStatic8ND(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 076, 682, 157, 115 }, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8ND(60,10,5) { Species = 464, Ability = A4, Moves = new[]{ 444, 089, 008, 224 } }, // Rhyperior
+            new EncounterStatic8ND(60,10,5) { Species = 095, Ability = A4, Moves = new[]{ 776, 444, 784, 201 } }, // Onix
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
