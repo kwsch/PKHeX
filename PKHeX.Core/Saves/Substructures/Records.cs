@@ -161,7 +161,6 @@ namespace PKHeX.Core
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0,
         };
 
         public static readonly Dictionary<int, string> RecordList_6 = new Dictionary<int, string>
@@ -584,9 +583,12 @@ namespace PKHeX.Core
           /* 48 */ {G8BattleTowerDoubleWin, "battle_tower_double_win"},
             {49, "now_money"},
 
+            // The Records Block only stores 50 entries.
+            // Record IDs for future expansion content is instead handled separately.
+
             // DLC
-            {50, "cormorant_robo"},
-            {51, "battle_rom_mark"},
+            {50, "cormorant_robo"}, // saved in B9C0ECFC 
+            {51, "battle_rom_mark"}, // saved in BB1DE8EF
         };
 
         public const int G8BattleTowerSingleWin = 47;
