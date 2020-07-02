@@ -35,10 +35,10 @@ namespace PKHeX.Core
 
         private static int CompareCounters(uint counter1, uint counter2)
         {
-            // Uninitialized
-            if (counter1 == uint.MaxValue && counter2 == 0)
+            // Uninitialized -- only continue if a rollover case (humanly impossible)
+            if (counter1 == uint.MaxValue && counter2 != uint.MaxValue - 1)
                 return Second;
-            if (counter1 == 0 && counter2 == uint.MaxValue)
+            if (counter2 == uint.MaxValue && counter1 != uint.MaxValue - 1)
                 return First;
 
             // Different
