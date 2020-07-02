@@ -294,7 +294,7 @@ namespace PKHeX.Core
             return 0x12C + (index * 0x1C);
         }
 
-        private bool IsHOMEGift => PIDType == Shiny.FixedValue && PID == 0 && EncryptionConstant == 0;
+        private bool IsHOMEGift => Location == 30018 || GetOT(2) == "HOME";
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
@@ -396,8 +396,11 @@ namespace PKHeX.Core
                 SetEggMetData(pk);
             pk.CurrentFriendship = pk.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
 
-            pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
-            pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            if (!IsHOMEGift)
+            {
+                pk.HeightScalar = PokeSizeUtil.GetRandomScalar();
+                pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
+            }
 
             pk.RefreshChecksum();
             return pk;
@@ -564,6 +567,14 @@ namespace PKHeX.Core
 
             if (!(pkm is IDynamaxLevel dl && dl.DynamaxLevel >= DynamaxLevel))
                 return false;
+
+            if (IsHOMEGift && pkm is IScaledSize s)
+            {
+                if (s.HeightScalar != 0)
+                    return false;
+                if (s.WeightScalar != 0)
+                    return false;
+            }
 
             return PIDType != 0 || pkm.PID == PID;
         }
