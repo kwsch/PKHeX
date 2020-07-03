@@ -558,7 +558,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 091, Level = 42, Location = 170 }, // Cloyster on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 130, Level = 50, Location = 170 }, // Gyarados on Challenge Beach (on the Isle of Armor)
             new EncounterStatic8 { Species = 073, Level = 42, Location = 176 }, // Tentacruel in Courageous Cavern (on the Isle of Armor)
-            new EncounterStatic8S{ Species = 340, Level = 42, Locations = new[] {172, 176} }, // Whiscash in Brawlers’ Cave, in Courageous Cavern (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 340, Level = 42, Locations = new[] {168, 172, 176} }, // Whiscash in the Forest of Focus, in Brawlers’ Cave, in Courageous Cavern (on the Isle of Armor)
             new EncounterStatic8 { Species = 342, Level = 42, Location = 180 }, // Crawdaunt in the Training Lowlands (on the Isle of Armor)
             // new EncounterStatic8 { Species = 479, Level = 50, Location = 186, FlawlessIVCount = 3 }, // Rotom in the Workout Sea (on the Isle of Armor) -- collision with subsequent static Rotom
             new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {315,435,506,268}, Form = 01 }, // Rotom-1 in the Workout Sea (on the Isle of Armor)
