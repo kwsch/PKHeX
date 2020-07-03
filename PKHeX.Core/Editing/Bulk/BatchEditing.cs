@@ -454,6 +454,7 @@ namespace PKHeX.Core
         private static ModifyResult SetMoves(PKM pk, int[] moves)
         {
             pk.SetMoves(moves);
+            pk.HealPP();
             return ModifyResult.Modified;
         }
 
