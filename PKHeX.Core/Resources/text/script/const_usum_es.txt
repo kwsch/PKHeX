@@ -5,3 +5,4 @@
 404	Tapu Fini	03:Luchable,04:Derrotado,05:Capturado
 755	Zygarde	01:Luchable,02:Derrotado,05:Capturado
 867	Dominantes conseguidos por Dominsignias 00:Ninguno,01:Conseguido uno,02:Conseguidos dos,03:Conseguidos tres,04:Conseguidos cuatro,05:Conseguidos cinco,06:Todos conseguidos
+084	Pikachu Seen in Pikachu Valley
