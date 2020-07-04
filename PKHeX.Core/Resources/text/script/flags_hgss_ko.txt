@@ -20,3 +20,7 @@
 0767	꼬부기 스타팅 몬스터볼 사라짐
 0768	파이리 스타팅 몬스터볼 사라짐
 0789	교환 기능 비활성화됨 (포켓몬센터)
+0501	Team Rocket HQ Electrode (1) Disappeared
+0502	Team Rocket HQ Electrode (2) Disappeared
+0503	Team Rocket HQ Electrode (3) Disappeared
+0609	Sleeping Snorlax Disappeared

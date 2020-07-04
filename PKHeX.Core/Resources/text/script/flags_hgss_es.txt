@@ -20,3 +20,7 @@
 0767	Bola Inicial de Squirtle Desaparecida
 0768	Bola Inicial de Charmander Desaparecida
 0789	Funcionalidad de Intercambio Deshabilitada (Centro Pokémon)
+0501	Team Rocket HQ Electrode (1) Disappeared
+0502	Team Rocket HQ Electrode (2) Disappeared
+0503	Team Rocket HQ Electrode (3) Disappeared
+0609	Sleeping Snorlax Disappeared

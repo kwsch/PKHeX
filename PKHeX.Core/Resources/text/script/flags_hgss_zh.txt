@@ -20,3 +20,7 @@
 0767	Squirtle Starter Ball Disappeared
 0768	Charmander Starter Ball Disappeared
 0789	Trading Functionality Disabled (Pokecenter)
+0501	Team Rocket HQ Electrode (1) Disappeared
+0502	Team Rocket HQ Electrode (2) Disappeared
+0503	Team Rocket HQ Electrode (3) Disappeared
+0609	Sleeping Snorlax Disappeared

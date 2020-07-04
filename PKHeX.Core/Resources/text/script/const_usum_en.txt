@@ -5,3 +5,4 @@
 404	Tapu Fini	03:Battleable,04:Defeated,05:Captured
 755	Zygarde	01:Battleable,02:Defeated,05:Captured
 867	Totem-Sized Gifts	00:None Received,01:One Received,02:Two Received,03:Three Received,04:Four Received,05:Five Received,06:All Received
+084	Pikachu Seen in Pikachu Valley
