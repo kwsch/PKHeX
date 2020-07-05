@@ -456,11 +456,11 @@
             new EncounterStatic8ND(60,10,5) { Species = 884, Ability = A4, Moves = new[]{ 430, 406, 085, 334 }, CanGigantamax = true }, // Duraludon
 
             // 4/27 - Meta
-            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 315, 084, 109 }, Form = 1 }, // Rotom-1
-            new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 315, 085, 109 }, Form = 1 }, // Rotom-1
-            new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 315, 085, 506 }, Form = 1 }, // Rotom-1
-            new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 315, 085, 261 }, Form = 1 }, // Rotom-1
-            new EncounterStatic8ND(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 521, 315, 435, 261 }, Form = 1 }, // Rotom-1
+            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 084, 109 }, Form = 1 }, // Rotom-1
+            new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 085, 109 }, Form = 1 }, // Rotom-1
+            new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 085, 506 }, Form = 1 }, // Rotom-1
+            new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 085, 261 }, Form = 1 }, // Rotom-1
+            new EncounterStatic8ND(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 261 }, Form = 1 }, // Rotom-1
 
             // 6/2 - Gigantamax
             new EncounterStatic8ND(17,01,1) { Species = 869, Ability = A4, Moves = new[]{ 033, 186, 577, 230 }, CanGigantamax = true }, // Alcremie
@@ -676,11 +676,11 @@
             // 4/27 - Meta
             new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 435, 084, 109 }, Form = 2 }, // Rotom-2 // From initial revision: Discharge @lv17 isn't legal, but they distributed it!
             // new EncounterStatic8ND(17,01,1) { Species = 529, Ability = A4, Moves = new[]{ 189, 232, 056, 468 } }, // Drilbur // From initial revision: treat this as illegal.
-            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 056, 084, 109 }, Form = 2 }, // Rotom-2
-            new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 056, 085, 109 }, Form = 2 }, // Rotom-2
-            new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 085, 056 }, Form = 2 }, // Rotom-2
-            new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 247, 056 }, Form = 2 }, // Rotom-2
-            new EncounterStatic8ND(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 521, 056, 247, 261 }, Form = 2 }, // Rotom-2
+            new EncounterStatic8ND(17,01,1) { Species = 479, Ability = A4, Moves = new[]{ 104, 084, 109 }, Form = 2 }, // Rotom-2
+            new EncounterStatic8ND(30,03,2) { Species = 479, Ability = A4, Moves = new[]{ 104, 085, 109 }, Form = 2 }, // Rotom-2
+            new EncounterStatic8ND(40,05,3) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 085 }, Form = 2 }, // Rotom-2
+            new EncounterStatic8ND(50,08,4) { Species = 479, Ability = A4, Moves = new[]{ 521, 435, 247 }, Form = 2 }, // Rotom-2
+            new EncounterStatic8ND(60,10,5) { Species = 479, Ability = A4, Moves = new[]{ 521, 247, 261 }, Form = 2 }, // Rotom-2
 
             // 6/2 - Gigantamax
           //new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, CanGigantamax = true }, // Butterfree
