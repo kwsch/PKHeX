@@ -561,25 +561,17 @@ namespace PKHeX.Core
             new EncounterStatic8S{ Species = 340, Level = 42, Locations = new[] {168, 172, 176} }, // Whiscash in the Forest of Focus, in Brawlers’ Cave, in Courageous Cavern (on the Isle of Armor)
             new EncounterStatic8 { Species = 342, Level = 42, Location = 180 }, // Crawdaunt in the Training Lowlands (on the Isle of Armor)
             // new EncounterStatic8 { Species = 479, Level = 50, Location = 186, FlawlessIVCount = 3 }, // Rotom in the Workout Sea (on the Isle of Armor) -- collision with subsequent static Rotom
-            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {315,435,506,268}, Form = 01 }, // Rotom-1 in the Workout Sea (on the Isle of Armor)
-            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {056,435,506,268}, Form = 02 }, // Rotom-2 in the Workout Sea (on the Isle of Armor)
-            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {059,435,506,268}, Form = 03 }, // Rotom-3 in the Workout Sea (on the Isle of Armor)
-            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {403,435,506,268}, Form = 04 }, // Rotom-4 in the Workout Sea (on the Isle of Armor)
-            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {437,435,506,268}, Form = 05 }, // Rotom-5 in the Workout Sea (on the Isle of Armor)
+            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {435,506,268}, Form = 01 }, // Rotom-1 in the Workout Sea (on the Isle of Armor)
+            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {435,506,268}, Form = 02 }, // Rotom-2 in the Workout Sea (on the Isle of Armor)
+            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {435,506,268}, Form = 03 }, // Rotom-3 in the Workout Sea (on the Isle of Armor)
+            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {435,506,268}, Form = 04 }, // Rotom-4 in the Workout Sea (on the Isle of Armor)
+            new EncounterStatic8 { Species = 479, Level = 50, Location = 186, Moves = new[] {435,506,268}, Form = 05 }, // Rotom-5 in the Workout Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 230, Level = 60, Location = 192 }, // Kingdra in the Honeycalm Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 117, Level = 45, Location = 192 }, // Seadra in the Honeycalm Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 321, Level = 80, Location = 186 }, // Wailord in the Workout Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 039, Level = 20, Location = 168 }, // Jigglypuff in the Forest of Focus (on the Isle of Armor)
             new EncounterStatic8 { Species = 764, Level = 50, Location = 190 }, // Comfey in the Insular Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 621, Level = 42, Location = 176 }, // Druddigon in Courageous Cavern (on the Isle of Armor)
-
-            // Coming from Underground Staryu (similar to past gen Crabrawler berry piles?)
-            new EncounterStatic8 { Species = 120, Level = 13, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 120, Level = 14, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 120, Level = 15, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 120, Level = 16, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 120, Level = 17, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 120, Level = 18, Location = 180}, // Staryu in the Training Lowlands (on the Isle of Armor)
             #endregion
         };
 
