@@ -1370,11 +1370,16 @@ namespace PKHeX.WinForms.Controls
                 CAL_MetDate.Value = new DateTime(2000, 01, 01);
 
                 // if egg wasn't originally obtained by OT => Link Trade, else => None
-                bool isTraded = false;
-                var sav = SaveFileRequested?.Invoke(this, e);
-                if (sav != null)
-                    isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                CB_MetLocation.SelectedIndex = isTraded ? 2 : 0;
+                if (Entity.Format >= 4)
+                {
+                    var sav = SaveFileRequested?.Invoke(this, e);
+                    if (sav != null)
+                    {
+                        bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
+                        var loc = isTraded ? Locations.TradedEggLocation(sav.Generation) : 0;
+                        CB_MetLocation.SelectedValue = loc;
+                    }
+                }
 
                 if (!CHK_Nicknamed.Checked)
                 {
