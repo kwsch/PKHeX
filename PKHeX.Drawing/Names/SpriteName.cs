@@ -46,7 +46,7 @@ namespace PKHeX.Drawing
                         sb.Append(GGStarter);
                 }
             }
-            else if (gender == 1 && SpeciesGenderedSprite.Contains(species))
+            if (gender == 1 && SpeciesGenderedSprite.Contains(species))
             {
                 sb.Append('f');
             }
@@ -85,6 +85,7 @@ namespace PKHeX.Drawing
         /// </summary>
         private static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
         {
+            (int)Species.Pikachu,
             (int)Species.Hippopotas,
             (int)Species.Hippowdon,
             (int)Species.Unfezant,
