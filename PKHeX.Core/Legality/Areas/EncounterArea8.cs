@@ -157,6 +157,10 @@ namespace PKHeX.Core
             // Fields of Honor
             {188, new byte[] {170}},
 
+            // Insular Sea
+            // Honeycalm Sea
+            {190, new byte[] {192}},
+
             // Honeycalm Sea
             // Honeycalm Island
             {192, new byte[] {194}},
