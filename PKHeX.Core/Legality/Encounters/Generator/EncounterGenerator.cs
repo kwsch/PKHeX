@@ -189,7 +189,10 @@ namespace PKHeX.Core
                 var canBeEgg = GetCanBeEgg(pkm);
                 if (canBeEgg)
                 {
-                    int species = EvoBase.GetBaseSpecies(pkm, generation: pkm.Format == 1 ? 2 : -1, maxSpeciesOrigin: MaxSpeciesID_2).Species;
+                    var baseID = chain[chain.Count - 1];
+                    if ((baseID.Species >= MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
+                        baseID = chain[chain.Count - 2];
+                    int species = baseID.Species;
                     if (ParseSettings.AllowGen2Crystal(pkm))
                         yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
                     yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
