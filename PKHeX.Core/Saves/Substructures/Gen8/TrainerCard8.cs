@@ -205,6 +205,12 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, 0xB0);
         }
 
+        public ulong MomSkin // aka the base model
+        {
+            get => BitConverter.ToUInt64(Data, 0xC0);
+            set => BitConverter.GetBytes(value).CopyTo(Data, 0xC0);
+        }
+
         // Trainer Card Pokemon
         // 0xC8 - 0xE3 (0x1C)
         // 0xE4
