@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+﻿using System.Linq;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -44,7 +45,7 @@ namespace PKHeX.Core
                     return;
                 }
 
-                var reqEXP = EncounterMatch is EncounterStatic s && s.Version == GameVersion.C
+                var reqEXP = EncounterMatch is EncounterStatic s && s.Version == GameVersion.C && pkm.Moves.Contains(146)
                     ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                     : Experience.GetEXP(elvl, pkm.PersonalInfo.EXPGrowth);
                 if (reqEXP != pkm.EXP)
