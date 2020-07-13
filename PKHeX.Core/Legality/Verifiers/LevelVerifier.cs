@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
             if (pkm.IsEgg)
             {
-                int elvl = Legal.GetEggHatchLevel(pkm);
+                int elvl = EncounterMatch.LevelMin;
                 if (elvl != pkm.CurrentLevel)
                 {
                     data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
@@ -67,7 +67,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterOriginal;
             if (pkm.IsEgg)
             {
-                int elvl = Legal.GetEggHatchLevel(pkm);
+                const int elvl = 5;
                 if (elvl != pkm.CurrentLevel)
                     data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
                 return;

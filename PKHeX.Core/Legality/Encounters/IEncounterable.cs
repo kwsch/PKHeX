@@ -30,7 +30,7 @@
             if (!pkm.HasOriginalMetLocation)
                 return encounter.IsWithinRange(pkm.CurrentLevel);
             if (encounter.EggEncounter)
-                return pkm.CurrentLevel == Legal.GetEggHatchLevel(pkm);
+                return pkm.CurrentLevel == encounter.LevelMin;
             if (encounter is MysteryGift g)
                 return pkm.CurrentLevel == g.Level;
             return pkm.CurrentLevel == pkm.Met_Level;

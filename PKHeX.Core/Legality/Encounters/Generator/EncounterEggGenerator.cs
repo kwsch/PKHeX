@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
             // version is a true indicator for all generation 3-5 origins
             var ver = (GameVersion)pkm.Version;
-            int lvl = GetEggHatchLevel(gen);
+            int lvl = gen <= 3 ? 5 : 1;
             int max = GetMaxSpeciesOrigin(gen);
 
             var e = EvoBase.GetBaseSpecies(chain, 0);

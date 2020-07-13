@@ -86,7 +86,7 @@ namespace PKHeX.Core
         #endregion
 
         public override bool IsEgg { get; set; }
-
+        public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
         public override bool HasOriginalMetLocation => CaughtData != 0;
         public override int Version { get => (int)GameVersion.GSC; set { } }
 

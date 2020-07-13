@@ -119,9 +119,6 @@ namespace PKHeX.Core
             };
         }
 
-        internal static int GetEggHatchLevel(PKM pkm) => GetEggHatchLevel(pkm.Format);
-        internal static int GetEggHatchLevel(int gen) => gen <= 3 ? 5 : 1;
-
         internal static ICollection<int> GetSplitBreedGeneration(int generation)
         {
             switch (generation)
