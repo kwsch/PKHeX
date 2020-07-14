@@ -45,6 +45,9 @@ namespace PKHeX.Core
                 yield break; // no other possible species
 
             var o = EvoBase.GetBaseSpecies(chain, 1);
+            if (o.Species == e.Species)
+                yield break;
+
             if (o.Species <= max && !NoHatchFromEggFormGen(o.Species, o.Form, ver))
             {
                 yield return new EncounterEggSplit(o.Species, o.Form, lvl, gen, ver, e.Species);
@@ -71,7 +74,7 @@ namespace PKHeX.Core
             // Sanity check form for origin
             var gameInfo = GameData.GetPersonal(game);
             var entry = gameInfo.GetFormeEntry(species, form);
-            return form >= entry.FormeCount;
+            return form >= entry.FormeCount && !(species == (int)Species.Rotom && form <= 5);
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A
