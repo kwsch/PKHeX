@@ -284,7 +284,6 @@ namespace PKHeX.Core
             (int)Species.Spearow, (int)Species.Fearow,
             (int)Species.Vulpix, (int)Species.Ninetales,
             (int)Species.Paras, (int)Species.Parasect,
-            (int)Species.Bellsprout, (int)Species.Weepinbell, (int)Species.Victreebel,
             (int)Species.Slowpoke, (int)Species.Slowbro,
             (int)Species.Doduo, (int)Species.Dodrio,
             (int)Species.Hitmonlee, (int)Species.Hitmonchan,
