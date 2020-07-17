@@ -697,6 +697,38 @@
             new EncounterStatic8ND(60,10,5) { Species = 839, Ability = A4, Moves = new[]{ 246, 053, 157, 523 }, CanGigantamax = true }, // Coalossal
             new EncounterStatic8ND(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 238, 007, 008, 089 }, CanGigantamax = true }, // Machamp
             new EncounterStatic8ND(60,10,5) { Species = 879, Ability = A4, Moves = new[]{ 442, 583, 438, 089 }, CanGigantamax = true }, // Copperajah
+
+            // 7/16 Sea Pokémon Invasion
+            new EncounterStatic8ND(17,01,1) { Species = 320, Ability = A4, Moves = new[]{ 362, 034, 310, 054 } }, // Wailmer
+            new EncounterStatic8ND(17,01,1) { Species = 098, Ability = A4, Moves = new[]{ 055, 341, 043, 232 } }, // Krabby
+            new EncounterStatic8ND(17,01,1) { Species = 771, Ability = A4, Moves = new[]{ 240, 219, 213, 269 } }, // Pyukumuku
+            new EncounterStatic8ND(17,01,1) { Species = 592, Ability = A4, Moves = new[]{ 352, 101, 071, 240 } }, // Frillish
+            new EncounterStatic8ND(17,01,1) { Species = 458, Ability = A4, Moves = new[]{ 033, 017, 352, 469 } }, // Mantyke
+            new EncounterStatic8ND(17,01,1) { Species = 318, Ability = A4, Moves = new[]{ 453, 305, 116, 044 } }, // Carvanha
+            new EncounterStatic8ND(30,03,2) { Species = 320, Ability = A4, Moves = new[]{ 362, 034, 310, 054 } }, // Wailmer
+            new EncounterStatic8ND(30,03,2) { Species = 098, Ability = A4, Moves = new[]{ 061, 341, 023, 232 } }, // Krabby
+            new EncounterStatic8ND(30,03,2) { Species = 771, Ability = A4, Moves = new[]{ 240, 219, 213, 174 } }, // Pyukumuku
+            new EncounterStatic8ND(30,03,2) { Species = 592, Ability = A4, Moves = new[]{ 362, 101, 071, 240 } }, // Frillish
+            new EncounterStatic8ND(30,03,2) { Species = 458, Ability = A4, Moves = new[]{ 029, 017, 061, 469 } }, // Mantyke
+            new EncounterStatic8ND(30,03,2) { Species = 319, Ability = A4, Moves = new[]{ 453, 400, 423, 044 } }, // Sharpedo
+            new EncounterStatic8ND(40,05,3) { Species = 321, Ability = A4, Moves = new[]{ 362, 034, 340, 568 } }, // Wailord
+            new EncounterStatic8ND(40,05,3) { Species = 099, Ability = A4, Moves = new[]{ 534, 341, 021, 014 } }, // Kingler
+            new EncounterStatic8ND(40,05,3) { Species = 771, Ability = A4, Moves = new[]{ 240, 219, 213, 174 } }, // Pyukumuku
+            new EncounterStatic8ND(40,05,3) { Species = 593, Ability = A4, Moves = new[]{ 362, 247, 071, 151 } }, // Jellicent
+            new EncounterStatic8ND(40,05,3) { Species = 226, Ability = A4, Moves = new[]{ 029, 403, 060, 331 } }, // Mantine
+            new EncounterStatic8ND(40,05,3) { Species = 319, Ability = A4, Moves = new[]{ 453, 242, 423, 044 } }, // Sharpedo
+            new EncounterStatic8ND(50,08,4) { Species = 321, Ability = A4, Moves = new[]{ 056, 034, 340, 133 } }, // Wailord
+            new EncounterStatic8ND(50,08,4) { Species = 099, Ability = A4, Moves = new[]{ 534, 341, 359, 014 }, CanGigantamax = true }, // Kingler
+            new EncounterStatic8ND(50,08,4) { Species = 771, Ability = A4, Moves = new[]{ 240, 219, 213, 174 } }, // Pyukumuku
+            new EncounterStatic8ND(50,08,4) { Species = 593, Ability = A4, Moves = new[]{ 056, 247, 071, 151 } }, // Jellicent
+            new EncounterStatic8ND(50,08,4) { Species = 226, Ability = A4, Moves = new[]{ 036, 403, 060, 331 } }, // Mantine
+            new EncounterStatic8ND(50,08,4) { Species = 319, Ability = A4, Moves = new[]{ 057, 242, 423, 044 } }, // Sharpedo
+            new EncounterStatic8ND(60,10,5) { Species = 321, Ability = A4, Moves = new[]{ 503, 034, 340, 133 }, Shiny = Shiny.Always }, // Wailord
+            new EncounterStatic8ND(60,10,5) { Species = 321, Ability = A4, Moves = new[]{ 056, 034, 340, 133 } }, // Wailord
+            new EncounterStatic8ND(60,10,5) { Species = 771, Ability = A4, Moves = new[]{ 092, 599, 213, 174 } }, // Pyukumuku
+            new EncounterStatic8ND(60,10,5) { Species = 593, Ability = A4, Moves = new[]{ 056, 058, 605, 433 } }, // Jellicent
+            new EncounterStatic8ND(60,10,5) { Species = 226, Ability = A4, Moves = new[]{ 036, 403, 060, 331 } }, // Mantine
+            new EncounterStatic8ND(60,10,5) { Species = 319, Ability = A4, Moves = new[]{ 057, 242, 423, 305 } }, // Sharpedo
         };
     }
 }
