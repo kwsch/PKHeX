@@ -43,7 +43,7 @@ namespace PKHeX.Core
         {
             if (base.IsMatchDeferred(pkm))
                 return true;
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !Legal.CanEatMaxSoup.Contains(Species))
+            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, Species))
                 return true;
             if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument a && a.FormArgument != 0)
                 return true;
