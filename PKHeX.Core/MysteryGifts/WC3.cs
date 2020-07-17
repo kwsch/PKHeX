@@ -199,6 +199,7 @@ namespace PKHeX.Core
             {
                 case GameVersion.FRLG:
                     return GameVersion.FR + rand; // or LG
+                case GameVersion.RSE:
                 case GameVersion.RS:
                     return GameVersion.S + rand; // or R
 
@@ -213,7 +214,7 @@ namespace PKHeX.Core
         protected override bool IsMatchExact(PKM pkm)
         {
             // Gen3 Version MUST match.
-            if (Version != 0 && !(Version).Contains((GameVersion)pkm.Version))
+            if (Version != 0 && !Version.Contains((GameVersion)pkm.Version))
                 return false;
 
             bool hatchedEgg = IsEgg && !pkm.IsEgg;
