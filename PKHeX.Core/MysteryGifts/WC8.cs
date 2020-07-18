@@ -84,7 +84,23 @@ namespace PKHeX.Core
 
         // Pokémon Properties
         public override bool IsPokémon { get => CardType == GiftType.Pokemon; set { if (value) CardType = GiftType.Pokemon; } }
-        public override bool IsShiny => PIDType == Shiny.Always;
+
+        public override bool IsShiny
+        {
+            get
+            {
+                var type = PIDType;
+                if (type == Shiny.AlwaysStar || type == Shiny.AlwaysSquare)
+                    return true;
+                if (type != Shiny.FixedValue)
+                    return false;
+
+                var pid = PID;
+                var psv = (int)((pid >> 16 ^ (pid & 0xFFFF)) >> 4);
+                var tsv = (TID ^ SID) >> 4;
+                return (psv ^ tsv) == 0;
+            }
+        }
 
         public override int TID
         {
@@ -520,7 +536,7 @@ namespace PKHeX.Core
                     // HOME gifts -- PID and EC are zeroes...
                     if (EncryptionConstant != pkm.EncryptionConstant)
                         return false;
-                    if (IsShiny)
+                    if (IsShiny != pkm.IsShiny)
                         return false;
 
                     if (OTGender >= 2 && pkm.TrainerSID7 != 0)
