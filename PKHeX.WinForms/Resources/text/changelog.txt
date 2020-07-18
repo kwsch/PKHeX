@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/06/22 - New Update:
+20/07/18 - New Update:
+ - Legality:
+ - - Added latest HOME gifts (Shiny Zeraora)
+ - - Handled GMax state toggling edge cases.
+ - - Fixed: Gen2 Dizzy Punch egg recognition, DP Rotom egg recognition.
+ - - Fixed: Gen3 event gift encounters should now check the allowed Versions.
+ - - Fixed: Gen8 Memory Check for "Defeated Strongest Trainer" now no longer flags Skillful Battler ribbon.
+ - - Fixed: Den Detail Exporting no longer throws an exception.
+ - Fixed: Gen8 Generating encounters from the Encounter Database will now set the Stat Nature value.
+ - Fixed: Gen4 save file detection should now work better for new saves.
+
+20/06/22 - New Update: (83657) [2867693]
  - Legality:
  - - Handled edge cases from various reports, and added the event gift data from the recent events.
  - - Fixed: Verification for Neutral nature mint, IoA hatch location, Galarian Slowbro, raid Hidden Ability, Master Rank ribbon.
