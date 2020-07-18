@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
             int lvl = IsNotTrade(pkm);
             if (lvl <= 0)
-                return Enumerable.Empty<EncounterTrade>();
+                return Array.Empty<EncounterTrade>();
 
             var poss = GetPossibleNonVC(pkm, chain, gameSource);
             return poss.Where(z => z.IsMatch(pkm, lvl));
@@ -47,26 +47,26 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            if (pkm.VC || pkm.Format <= 2)
+            if (GetIsFromGB(pkm))
                 return GetValidEncounterTradesVC(pkm, chain, gameSource);
 
             var table = GetEncounterTradeTable(pkm);
             return table.Where(f => chain.Any(r => r.Species == f.Species));
         }
 
-        private static IEnumerable<EncounterTrade> GetPossibleVC(IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTradeGB> GetPossibleVC(IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             var table = GetEncounterTradeTableVC(gameSource);
-            return table.Where(f => chain.Any(r => r.Species == f.Species));
+            return table.Where(f => chain.Any(r => r.Species == f.Species && r.Form == 0));
         }
 
-        private static IEnumerable<EncounterTrade> GetEncounterTradeTableVC(GameVersion gameSource)
+        private static IEnumerable<EncounterTradeGB> GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
                 return !ParseSettings.AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
             if (GameVersion.GSC.Contains(gameSource))
                 return Encounters2.TradeGift_GSC;
-            return Array.Empty<EncounterTrade>();
+            return Array.Empty<EncounterTradeGB>();
         }
 
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
@@ -83,12 +83,10 @@ namespace PKHeX.Core
             };
         }
 
-        private static IEnumerable<EncounterTrade> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        private static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
             var poss = GetPossibleVC(chain, gameSource);
-            if (gameSource == GameVersion.RBY)
-                return poss.Where(z => z.IsMatchVC1(pkm));
-            return poss.Where(z => z.IsMatchVC2(pkm));
+            return poss.Where(z => z.IsMatch(pkm));
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;

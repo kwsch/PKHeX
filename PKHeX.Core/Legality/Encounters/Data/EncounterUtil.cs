@@ -252,7 +252,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal static void MarkEncounterTradeStrings(EncounterTrade[] table, string[][] strings)
+        internal static void MarkEncounterTradeStrings<T>(T[] table, string[][] strings) where T : EncounterTrade
         {
             int half = strings[1].Length / 2;
             for (int i = 0; i < half; i++)

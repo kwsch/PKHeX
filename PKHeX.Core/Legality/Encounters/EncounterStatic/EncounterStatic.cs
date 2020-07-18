@@ -156,18 +156,15 @@ namespace PKHeX.Core
             pk.EggMetDate = today;
         }
 
-        private void SetMetData(PKM pk, int level, DateTime today)
+        protected virtual void SetMetData(PKM pk, int level, DateTime today)
         {
-            if (pk.Format > 2 || Version == GameVersion.C)
-            {
-                pk.Met_Location = Location;
-                pk.Met_Level = level;
-                if (Version == GameVersion.C && pk is PK2 pk2)
-                    pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+            if (pk.Format <= 2) 
+                return;
 
-                if (pk.Format >= 4)
-                    pk.MetDate = today;
-            }
+            pk.Met_Location = Location;
+            pk.Met_Level = level;
+            if (pk.Format >= 4)
+                pk.MetDate = today;
         }
 
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
@@ -297,42 +294,12 @@ namespace PKHeX.Core
             return Form == pkm.AltForm || Legal.IsFormChangeable(pkm, Species, Form);
         }
 
-        private bool IsMatchEggLocation(PKM pkm, ref int lvl)
+        protected virtual bool IsMatchEggLocation(PKM pkm, ref int lvl)
         {
             if (Generation == 3 && EggLocation != 0) // Gen3 Egg
             {
                 if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
                     return false;
-            }
-            else if (Generation <= 2 && EggLocation != 0) // Gen2 Egg
-            {
-                if (pkm.Format > 2)
-                    return true;
-
-                if (pkm.IsEgg)
-                {
-                    if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
-                        return false;
-                    if (pkm.OT_Friendship > EggCycles) // Dizzy Punch eggs start with below-normal hatch counters.
-                        return false;
-                }
-                else
-                {
-                    switch (pkm.Met_Level)
-                    {
-                        case 0 when pkm.Met_Location != 0:
-                            return false;
-                        case 1 when pkm.Met_Location == 0:
-                            return false;
-                        default:
-                            if (pkm.Met_Location == 0 && pkm.Met_Level != 0)
-                                return false;
-                            break;
-                    }
-                }
-
-                if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
-                    lvl = 5;
             }
             else if (EggLocation != pkm.Egg_Location)
             {
@@ -353,7 +320,7 @@ namespace PKHeX.Core
                         if (!Locations.IsPtHGSSLocationEgg(EggLocation)) // non-Pt/HGSS egg gift
                             return false;
                         // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
-                        if (pkm.Egg_Location != 3002) // Faraway Place
+                        if (pkm.Egg_Location != Locations.Faraway4) // Faraway Place
                             return false;
                     }
                 }

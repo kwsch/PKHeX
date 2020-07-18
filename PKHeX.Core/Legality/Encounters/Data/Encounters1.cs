@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -19,7 +18,7 @@ namespace PKHeX.Core
             MarkEncountersGeneration(1, SlotsRBY);
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
 
-            var trades = TradeGift_RBY_Common.Concat(TradeGift_RBY_NoTradeback).Concat(TradeGift_RBY_Tradeback);
+            var trades = ArrayUtil.ConcatAll(TradeGift_RBY_Common, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
             foreach (var t in trades)
             {
                 t.TrainerNames = TradeOTG1;
@@ -136,74 +135,73 @@ namespace PKHeX.Core
             new EncounterStatic { Species = 151, Level = 5, IVs = new [] {15,15,15,15,15,15}, Version = GameVersion.VCEvents }, // Event Mew
         };
 
-        internal static readonly EncounterTrade[] TradeGift_RBY_Common =
+        internal static readonly EncounterTrade1[] TradeGift_RBY_Common =
         {
             // Species & Minimum level (legal) possible to acquire at.
             //new EncounterTrade { Species = 122, Level = 06 }, // Mr. Mime - Game Corner Abra
-            new EncounterTrade { Species = 032, Level = 02, Version = GameVersion.RD }, // Nidoran♂ - Wild Nidoran♀
-            new EncounterTrade { Species = 029, Level = 02, Version = GameVersion.BU }, // Nidoran♀ - Wild Nidoran♂
-            new EncounterTrade { Species = 030, Level = 16, Version = GameVersion.RB }, // Nidorina - Evolve Nidorino
-            new EncounterTrade { Species = 030, Level = 16, Version = GameVersion.YW }, // Nidorina - Evolve Nidorino (Different initial moves)
-            new EncounterTrade { Species = 108, Level = 15, Version = GameVersion.RBY }, // Lickitung - Surf Slowbro
-            new EncounterTrade { Species = 083, Level = 02, Version = GameVersion.RBY }, // Farfetch’d - Wild Spearow
-            new EncounterTrade { Species = 101, Level = 03, Version = GameVersion.RBY }, // Electrode - Wild Raichu
+            new EncounterTrade1(032, 02) { Version = GameVersion.RD }, // Nidoran♂ - Wild Nidoran♀
+            new EncounterTrade1(029, 02) { Version = GameVersion.BU }, // Nidoran♀ - Wild Nidoran♂
+            new EncounterTrade1(030, 16) { Version = GameVersion.RB }, // Nidorina - Evolve Nidorino
+            new EncounterTrade1(030, 16) { Version = GameVersion.YW }, // Nidorina - Evolve Nidorino (Different initial moves)
+            new EncounterTrade1(108, 15) { Version = GameVersion.RBY }, // Lickitung - Surf Slowbro
+            new EncounterTrade1(083, 02) { Version = GameVersion.RBY }, // Farfetch’d - Wild Spearow
+            new EncounterTrade1(101, 03) { Version = GameVersion.RBY }, // Electrode - Wild Raichu
 
-            new EncounterTrade { Species = 122, Level = 03, Version = GameVersion.RBY }, // Mr. Mime - Wild Jigglypuff
-            new EncounterTrade { Species = 060, Level = 02, Version = GameVersion.RBY }, // Poliwag - Wild Rattata
+            new EncounterTrade1(122, 03) { Version = GameVersion.RBY }, // Mr. Mime - Wild Jigglypuff
+            new EncounterTrade1(060, 02) { Version = GameVersion.RBY }, // Poliwag - Wild Rattata
             //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Pidgey
 
-            new EncounterTradeCatchRate { Species = 093, Level = 28, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Evolve Machop->Machoke
-            new EncounterTradeCatchRate { Species = 075, Level = 16, Catch_Rate = 45, EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Abra->Kadabra
+            new EncounterTrade1(093, 28, 45) { EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Evolve Machop->Machoke
+            new EncounterTrade1(075, 16, 45) { EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Abra->Kadabra
         };
 
-        internal static readonly EncounterTrade[] TradeGift_RBY_NoTradeback = TradeGift_RBY_Common.Concat(new[]
+        internal static readonly EncounterTrade1[] TradeGift_RBY_NoTradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
             // Species & Minimum level (legal) possible to acquire at.
-            new EncounterTrade { Species = 124, Level = 15, Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (GSC: 10)
-            new EncounterTrade { Species = 114, Level = 13, Version = GameVersion.RBY }, // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
-            new EncounterTrade { Species = 086, Level = 28, Version = GameVersion.RBY }, // Seel - Wild Ponyta (GSC: 5)
+            new EncounterTrade1(124, 15) { Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (GSC: 10)
+            new EncounterTrade1(114, 13) { Version = GameVersion.RBY }, // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
+            new EncounterTrade1(086, 28) { Version = GameVersion.RBY }, // Seel - Wild Ponyta (GSC: 5)
 
-            new EncounterTrade { Species = 115, Level = 15, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (GSC: 10)
-            new EncounterTrade { Species = 128, Level = 28, Version = GameVersion.RBY }, // Tauros - Evolve Persian (GSC: 18)
-            new EncounterTradeCatchRate { Species = 098, Level = 15, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(115, 15) { Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (GSC: 10)
+            new EncounterTrade1(128, 28) { Version = GameVersion.RBY }, // Tauros - Evolve Persian (GSC: 18)
+            new EncounterTrade1(098, 15, 204) { Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
 
             //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (GSC: 6)
-            new EncounterTrade { Species = 067, Level = 16, Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
-            new EncounterTrade { Species = 112, Level = 15, Version = GameVersion.RBY }, // Rhydon - Surf Golduck (GSC: 10)
-            new EncounterTrade { Species = 087, Level = 15, Version = GameVersion.RBY }, // Dewgong - Wild Growlithe (GSC: 5)
-            new EncounterTrade { Species = 089, Level = 25, Version = GameVersion.RBY }, // Muk - Wild Kangaskhan (GSC: 5)
+            new EncounterTrade1(067, 16) { Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
+            new EncounterTrade1(112, 15) { Version = GameVersion.RBY }, // Rhydon - Surf Golduck (GSC: 10)
+            new EncounterTrade1(087, 15) { Version = GameVersion.RBY }, // Dewgong - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(089, 25) { Version = GameVersion.RBY }, // Muk - Wild Kangaskhan (GSC: 5)
+            new EncounterTrade1(079, 22) { Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 15) { Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 13) { Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
+        });
 
-            new EncounterTrade { Species = 079, Level = 22, Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade { Species = 051, Level = 15, Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade { Species = 047, Level = 13, Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
-        }).ToArray();
-
-        internal static readonly EncounterTrade[] TradeGift_RBY_Tradeback = TradeGift_RBY_Common.Concat(new[]
+        internal static readonly EncounterTrade1[] TradeGift_RBY_Tradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
             // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
-            new EncounterTrade { Species = 124, Level = 10, Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (RBY: 15)
-            new EncounterTrade { Species = 114, Level = 05, Version = GameVersion.RBY }, // Tangela - Wild Venonat (RBY: 13)
-            new EncounterTrade { Species = 086, Level = 05, Version = GameVersion.RBY }, // Seel - Egg Ponyta (RBY: 28)
+            new EncounterTrade1(124, 10) { Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (RBY: 15)
+            new EncounterTrade1(114, 05) { Version = GameVersion.RBY }, // Tangela - Wild Venonat (RBY: 13)
+            new EncounterTrade1(086, 05) { Version = GameVersion.RBY }, // Seel - Egg Ponyta (RBY: 28)
 
-            new EncounterTrade { Species = 115, Level = 10, Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (RBY: 42)
-            new EncounterTrade { Species = 128, Level = 18, Version = GameVersion.RBY }, // Tauros - Evolve Persian (RBY: 28)
-            new EncounterTradeCatchRate { Species = 098, Level = 05, Catch_Rate = 204, Version = GameVersion.RBY }, // Krabby - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(115, 10) { Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (RBY: 42)
+            new EncounterTrade1(128, 18) { Version = GameVersion.RBY }, // Tauros - Evolve Persian (RBY: 28)
+            new EncounterTrade1(098, 05, 204) { Version = GameVersion.RBY }, // Krabby - Egg Growlithe (RBY: 15)
 
-          //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (RBY: 6)
-            new EncounterTrade { Species = 067, Level = 05, Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
-            new EncounterTrade { Species = 112, Level = 10, Version = GameVersion.RBY }, // Rhydon - Surf Golduck (RBY: 15)
-            new EncounterTrade { Species = 087, Level = 05, Version = GameVersion.RBY }, // Dewgong - Egg Growlithe (RBY: 15)
-            new EncounterTrade { Species = 089, Level = 05, Version = GameVersion.RBY }, // Muk - Egg Kangaskhan (RBY: 25)
+          //new EncounterTrade1(122, 08), // Mr. Mime - Wild Clefairy (RBY: 6)
+            new EncounterTrade1(067, 05) { Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
+            new EncounterTrade1(112, 10) { Version = GameVersion.RBY }, // Rhydon - Surf Golduck (RBY: 15)
+            new EncounterTrade1(087, 05) { Version = GameVersion.RBY }, // Dewgong - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(089, 05) { Version = GameVersion.RBY }, // Muk - Egg Kangaskhan (RBY: 25)
 
-            new EncounterTrade { Species = 079, Level = 05, Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade { Species = 051, Level = 05, Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade { Species = 047, Level = 05, Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
-        }).ToArray();
+            new EncounterTrade1(079, 05) { Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 05) { Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 05) { Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
+        });
 
         private static readonly EncounterArea1 FishOldGood_RBY = new EncounterArea1
         {
             Location = -1,
-            Slots = new[]
+            Slots = new EncounterSlot[]
             {
                 new EncounterSlot1 {Species = 129, LevelMin = 05, LevelMax = 05, Type = SlotType.Old_Rod,  Rate = -1, Version = GameVersion.RBY }, // Magikarp
                 new EncounterSlot1 {Species = 118, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, Version = GameVersion.RBY }, // Goldeen
