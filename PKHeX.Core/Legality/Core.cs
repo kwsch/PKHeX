@@ -64,7 +64,7 @@ namespace PKHeX.Core
         internal static bool GetCanBeEgg23(PKM pkm)
         {
             if (pkm.IsEgg)
-                return true;
+                return IsEvolutionValid(pkm);
             if (pkm.Format > 2 && pkm.Ball != 4)
                 return false;
 
