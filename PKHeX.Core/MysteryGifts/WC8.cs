@@ -95,6 +95,10 @@ namespace PKHeX.Core
                 if (type != Shiny.FixedValue)
                     return false;
 
+                // Player owned anti-shiny fixed PID
+                if (TID == 0 && SID == 0)
+                    return false;
+
                 var pid = PID;
                 var psv = (int)((pid >> 16 ^ (pid & 0xFFFF)) >> 4);
                 var tsv = (TID ^ SID) >> 4;
