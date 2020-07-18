@@ -254,7 +254,7 @@ namespace PKHeX.Core
             return met == Locations.LinkTrade4 || met == 0;
         }
 
-        protected override bool IsMatchExact(PKM pkm) => false;
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterEvent;
 
@@ -30,15 +31,15 @@ namespace PKHeX.Core
         {
             int gen = pkm.GenNumber;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
-                return Enumerable.Empty<MysteryGift>();
+                return Array.Empty<MysteryGift>();
 
-            if (gen == 4) // check for manaphy gift
+            if (gen == 4) // check for Manaphy gift
                 return GetMatchingPCD(pkm, MGDB_G4);
             var table = GetTable(gen, pkm);
             return GetMatchingGifts(pkm, table);
         }
 
-        private static IEnumerable<MysteryGift> GetTable(int generation, PKM pkm)
+        private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm)
         {
             return generation switch
             {
@@ -46,13 +47,13 @@ namespace PKHeX.Core
                 4 => MGDB_G4,
                 5 => MGDB_G5,
                 6 => MGDB_G6,
-                7 => (pkm.LGPE ? (IEnumerable<MysteryGift>)MGDB_G7GG : MGDB_G7),
+                7 => pkm.LGPE ? (IReadOnlyList<MysteryGift>)MGDB_G7GG : MGDB_G7,
                 8 => MGDB_G8,
-                _ => Enumerable.Empty<MysteryGift>()
+                _ => Array.Empty<MysteryGift>()
             };
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<PCD> DB)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB)
         {
             if (PGT.IsRangerManaphy(pkm))
             {
@@ -64,25 +65,28 @@ namespace PKHeX.Core
                 yield return g;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB)
         {
             var chain = EvolutionChain.GetOriginChain(pkm);
             return GetMatchingGifts(pkm, DB, chain);
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
         {
             var deferred = new List<MysteryGift>();
-            var gifts = DB.Where(wc => chain.Any(dl => dl.Species == wc.Species));
-            foreach (var mg in gifts)
+            foreach (var mg in DB)
             {
-                var result = mg.IsMatch(pkm);
-                if (result == EncounterMatchRating.None)
-                    continue;
-                if (result == EncounterMatchRating.Match)
-                    yield return mg;
-                else if (result == EncounterMatchRating.Deferred)
-                    deferred.Add(mg);
+                foreach (var dl in chain)
+                {
+                    if (dl.Species != mg.Species)
+                        continue;
+                    var result = mg.IsMatch(pkm, dl);
+                    if (result == EncounterMatchRating.Match)
+                        yield return mg;
+                    else if (result == EncounterMatchRating.Deferred)
+                        deferred.Add(mg);
+                    break;
+                }
             }
             foreach (var z in deferred)
                 yield return z;

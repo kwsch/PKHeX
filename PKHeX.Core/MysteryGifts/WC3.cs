@@ -211,7 +211,7 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool IsMatchExact(PKM pkm)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             // Gen3 Version MUST match.
             if (Version != 0 && !Version.Contains((GameVersion)pkm.Version))
@@ -237,6 +237,9 @@ namespace PKHeX.Core
                     }
                 }
             }
+
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+                return false;
 
             if (Language != -1 && Language != pkm.Language) return false;
             if (Ball != pkm.Ball) return false;

@@ -458,7 +458,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -474,7 +474,7 @@ namespace PKHeX.Core
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
             }
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
                 return false;
 
             if (IsEgg)

@@ -129,7 +129,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        protected override bool IsMatchExact(PKM pkm)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)
@@ -161,7 +161,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, wc.AltForm))
+            if (wc.AltForm != evo.Form && !Legal.IsFormChangeable(pkm, Species, wc.AltForm))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;

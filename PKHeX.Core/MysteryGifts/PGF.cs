@@ -336,7 +336,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (!IsEgg)
             {
@@ -369,7 +369,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
                 return false;
 
             if (Level != pkm.Met_Level) return false;

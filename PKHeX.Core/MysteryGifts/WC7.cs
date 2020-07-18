@@ -493,7 +493,7 @@ namespace PKHeX.Core
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
         }
 
-        protected override bool IsMatchExact(PKM pkm)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -509,17 +509,8 @@ namespace PKHeX.Core
                 if (Language != 0 && Language != pkm.Language) return false;
             }
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
-            {
-                if (Species == (int)Core.Species.Rockruff && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
-                {
-                    // Rockruff gift edge case; has altform 1 then evolves to altform 2
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+                return false;
 
             if (IsEgg)
             {
