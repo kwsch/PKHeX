@@ -540,8 +540,17 @@ namespace PKHeX.Core
                     // HOME gifts -- PID and EC are zeroes...
                     if (EncryptionConstant != pkm.EncryptionConstant)
                         return false;
-                    if (IsShiny != pkm.IsShiny)
-                        return false;
+
+                    if (IsShiny)
+                    {
+                        if (!pkm.IsShiny)
+                            return false;
+                    }
+                    else
+                    {
+                        if (pkm.IsShiny && !(TID == 0 && SID == 0 && PID != 0))
+                            return false;
+                    }
 
                     if (OTGender >= 2 && pkm.TrainerSID7 != 0)
                         return false;
