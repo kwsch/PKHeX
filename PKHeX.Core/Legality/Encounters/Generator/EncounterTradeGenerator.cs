@@ -39,7 +39,22 @@ namespace PKHeX.Core
                 return Array.Empty<EncounterTrade>();
 
             var poss = GetPossibleNonVC(pkm, chain, gameSource);
-            return poss.Where(z => z.IsMatch(pkm, lvl));
+            return GetValidEncounterTrades(pkm, chain, poss, lvl);
+        }
+
+        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, IEnumerable<EncounterTrade> poss, int lvl)
+        {
+            foreach (var p in poss)
+            {
+                foreach (var evo in chain)
+                {
+                    if (evo.Species != p.Species)
+                        continue;
+                    if (p.IsMatch(pkm, evo, lvl))
+                        yield return p;
+                    break;
+                }
+            }
         }
 
         private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)

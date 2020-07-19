@@ -225,7 +225,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatch(PKM pkm, int lvl)
+        public virtual bool IsMatch(PKM pkm, DexLevel evo, int lvl)
         {
             if (IVs.Count != 0)
             {
@@ -246,7 +246,7 @@ namespace PKHeX.Core
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
                 return false;
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
                 return false;
             if (OTGender != -1 && OTGender != pkm.OT_Gender)
                 return false;

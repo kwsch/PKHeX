@@ -24,13 +24,13 @@ namespace PKHeX.Core
             OT_Intensity = i;
         }
 
-        public override bool IsMatch(PKM pkm, int lvl)
+        public override bool IsMatch(PKM pkm, DexLevel evo, int lvl)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
-            return base.IsMatch(pkm, lvl);
+            return base.IsMatch(pkm, evo, lvl);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
