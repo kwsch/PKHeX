@@ -335,16 +335,16 @@ namespace PKHeX.Core
             return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
         }
 
-        internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
+        internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
-            return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true).Contains(move);
         }
 
-        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
+        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Species.Smeargle)
                 return !InvalidSketch.Contains(move);
-            return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
         private static int GetMaxLevelGeneration(PKM pkm)

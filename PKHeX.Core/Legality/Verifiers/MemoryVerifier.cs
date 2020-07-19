@@ -20,7 +20,7 @@ namespace PKHeX.Core
             VerifyHTMemory(data);
         }
 
-        private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen)
+        private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info)
         {
             var memory = MemoryVariableSet.Read(pkm, handler);
 
@@ -39,12 +39,12 @@ namespace PKHeX.Core
                 case 21 when gen != 6 || !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormeIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 when memory.Variable == 0 && !GetIsMoveKnowable(pkm, gen, memory.Variable):
-                case 48 when memory.Variable == 0 && !GetIsMoveKnowable(pkm, gen, memory.Variable):
+                case 16 when memory.Variable == 0 && !Legal.GetCanKnowMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
+                case 48 when memory.Variable == 0 && !Legal.GetCanKnowMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                case 49 when memory.Variable == 0 && !GetIsMoveLearnable(pkm, gen, memory.Variable):
+                case 49 when memory.Variable == 0 && !Legal.GetCanRelearnMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
@@ -62,9 +62,6 @@ namespace PKHeX.Core
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
-
-        private static bool GetIsMoveKnowable(PKM pkm, int gen, int move) => Legal.GetCanKnowMove(pkm, move, gen);
-        private static bool GetIsMoveLearnable(PKM pkm, int gen, int move) => Legal.GetCanRelearnMove(pkm, move, gen);
 
         /// <summary>
         /// Used for enforcing a fixed memory detail.
@@ -179,7 +176,7 @@ namespace PKHeX.Core
                     return;
             }
 
-            data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation));
+            data.AddLine(VerifyCommonMemory(pkm, 0, Info.Generation, Info));
         }
 
         private static bool CanHaveMemory(PKM pkm, int origin, int memory)
@@ -273,7 +270,7 @@ namespace PKHeX.Core
                     return;
             }
 
-            var commonResult = VerifyCommonMemory(pkm, 1, memoryGen);
+            var commonResult = VerifyCommonMemory(pkm, 1, memoryGen, Info);
             data.AddLine(commonResult);
         }
 
