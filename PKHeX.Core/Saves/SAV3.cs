@@ -192,12 +192,12 @@ namespace PKHeX.Core
             SeenFlagOffsets = SeenFlagOffsets.Where(z => z >= 0).ToArray();
         }
 
-        private void LoadBlocks(out int[] blockOrder, out int[] blockOfs)
+        private void LoadBlocks(out short[] blockOrder, out int[] blockOfs)
         {
-            int[] o1 = GetBlockOrder(0);
+            var o1 = GetBlockOrder(0);
             if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
             {
-                int[] o2 = GetBlockOrder(0xE000);
+                var o2 = GetBlockOrder(0xE000);
                 ActiveSAV = GetActiveSaveIndex(o1, o2);
                 blockOrder = ActiveSAV == 0 ? o1 : o2;
             }
@@ -215,15 +215,15 @@ namespace PKHeX.Core
             }
         }
 
-        private int[] GetBlockOrder(int ofs)
+        private short[] GetBlockOrder(int ofs)
         {
-            int[] order = new int[BLOCK_COUNT];
+            short[] order = new short[BLOCK_COUNT];
             for (int i = 0; i < BLOCK_COUNT; i++)
                 order[i] = BitConverter.ToInt16(Data, ofs + (i * SIZE_BLOCK) + 0xFF4);
             return order;
         }
 
-        private int GetActiveSaveIndex(int[] BlockOrder1, int[] BlockOrder2)
+        private int GetActiveSaveIndex(short[] BlockOrder1, short[] BlockOrder2)
         {
             int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
             int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
@@ -276,7 +276,7 @@ namespace PKHeX.Core
 
         private int ActiveSAV;
         private int ABO => ActiveSAV*SIZE_BLOCK*0xE;
-        private readonly int[] BlockOrder;
+        private readonly short[] BlockOrder;
         private readonly int[] BlockOfs;
         public int GetBlockOffset(int block) => BlockOfs[block];
 

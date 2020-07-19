@@ -388,7 +388,7 @@ namespace PKHeX.Core
             var bv = pk8.BattleVersion;
             if (bv != 0)
             {
-                if (bv != (int)GameVersion.SW && bv != (int)GameVersion.SH || pk8.SWSH)
+                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pk8.SWSH)
                     data.AddLine(GetInvalid(LStatBattleVersionInvalid));
             }
 

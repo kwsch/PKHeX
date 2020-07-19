@@ -170,14 +170,14 @@ namespace PKHeX.Core
         private static List<EncounterArea2> GetAreas2Fishing(byte[] data, ref int ofs)
         {
             var areas = new List<EncounterArea2>();
-            var types = new[] { SlotType.Old_Rod, SlotType.Good_Rod, SlotType.Super_Rod };
             while (ofs != 0x18C)
             {
+                var old = GetSlots2Fishing(data, ref ofs, SlotType.Old_Rod);
+                var good = GetSlots2Fishing(data, ref ofs, SlotType.Good_Rod);
+                var super = GetSlots2Fishing(data, ref ofs, SlotType.Super_Rod);
                 areas.Add(new EncounterArea2
                 {
-                    Slots = GetSlots2Fishing(data, ref ofs, types[0])
-                        .Concat(GetSlots2Fishing(data, ref ofs, types[1]))
-                        .Concat(GetSlots2Fishing(data, ref ofs, types[2])).ToArray()
+                    Slots = ArrayUtil.ConcatAll(old, good, super),
                 });
             }
 

@@ -97,5 +97,7 @@
         public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;
         public static bool IsPtHGSSLocationEgg(int location) => 2010 < location && location < 3000;
         public static bool IsEventLocation5(int location) => 40000 < location && location < 50000;
+
+        public static bool IsSafariZoneLocation4(int loc) => loc == 52 || loc == 202;
     }
 }

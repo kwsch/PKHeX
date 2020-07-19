@@ -884,7 +884,7 @@ namespace PKHeX.Core
                     // TypeEncounter TallGrass discard any cave or city
                     var ver = (GameVersion)pkm.Version;
                     var IsDPPt = ver == GameVersion.D || ver == GameVersion.P || ver == GameVersion.Pt;
-                    return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Encounters4.SafariZoneLocation_4.Contains(sl.Location);
+                    return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
                 case PGT _: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 case PCD d when d.Gift.PK.PID != 1:

@@ -452,9 +452,9 @@ namespace PKHeX.Core
             return false;
         }
 
-        private int[] MatchMysteryGifts(DataMysteryGift[] value)
+        private byte[] MatchMysteryGifts(DataMysteryGift[] value)
         {
-            int[] cardMatch = new int[8];
+            byte[] cardMatch = new byte[8];
             for (int i = 0; i < 8; i++)
             {
                 if (!(value[i] is PGT pgt))

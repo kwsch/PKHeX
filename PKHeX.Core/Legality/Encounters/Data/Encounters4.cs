@@ -1058,16 +1058,11 @@ namespace PKHeX.Core
 
         #region Alt Slots
 
-        internal static readonly int[] SafariZoneLocation_4 =
-        {
-            52, 202
-        };
-
         private static readonly EncounterArea4DPPt[] DPPt_Unown =
         {
             new EncounterArea4DPPt {
                 Location = 53, // Solaceon Ruins
-                Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+                Slots = Enumerable.Range(1, 25).Select(i => new EncounterSlot { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
         };
 
@@ -1488,7 +1483,7 @@ namespace PKHeX.Core
             SlotsHGSS_BCC,
             new EncounterArea4HGSS {
                 Location = 209, // Ruins of Alph
-                Slots = new int[25].Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i+1 }).ToArray() // B->?, Unown A is loaded from encounters raw file
+                Slots = Enumerable.Range(1, 25).Select((_, i) => new EncounterSlot { Species = 201, LevelMin = 5, LevelMax = 5, Type = SlotType.Grass, Form = i }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
             SlotsHGSS_SafariZone,
             //Some edge cases

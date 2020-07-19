@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
             int tabcount = lines[0].Count(c => c == '\t');
 
             newlines[0] = lines[0].Replace('\t', '|');
-            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(_ => '|')); // 2 pipes for each end
+            newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end
             for (int i = 1; i < lines.Length; i++)
                 newlines[i + 1] = lines[i].Replace('\t', '|');
             return newlines;
