@@ -26,10 +26,10 @@ namespace PKHeX.Core
 
         private static EncounterArea1[] GetAreas()
         {
-            var red_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_red.pkl"));
-            var blu_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_blue.pkl"));
-            var ylw_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_yellow.pkl"));
-            var rb_fish = EncounterArea1.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"));
+            var red_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_red.pkl"), 248);
+            var blu_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_blue.pkl"), 248);
+            var ylw_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_yellow.pkl"), 249);
+            var rb_fish = EncounterArea1.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"), 33);
             var ylw_fish = EncounterArea1.GetArray1FishingYellow(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
             MarkEncountersVersion(red_gw, RD);

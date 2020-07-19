@@ -13,16 +13,16 @@ namespace PKHeX.Core
         private static EncounterSlot1[] ReadSlots1FishingYellow(byte[] data, ref int ofs, int count, SlotType t, int rate)
         {
             // Convert byte to actual number
-            int[] Levelbytelist = { 0xFF, 0x15, 0x67, 0x1D, 0x3B, 0x5C, 0x72, 0x16, 0x71, 0x18, 0x00, 0x6D, 0x80, };
-            int[] dexbytelist = { 0x47, 0x6E, 0x18, 0x9B, 0x17, 0x4E, 0x8A, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x85, 0x16, 0x58, 0x59, };
-            int[] specieslist = { 060, 061, 072, 073, 090, 098, 099, 116, 117, 118, 119, 120, 129, 130, 147, 148, };
+            byte[] levels = { 0xFF, 0x15, 0x67, 0x1D, 0x3B, 0x5C, 0x72, 0x16, 0x71, 0x18, 0x00, 0x6D, 0x80, };
+            byte[] g1DexIDs = { 0x47, 0x6E, 0x18, 0x9B, 0x17, 0x4E, 0x8A, 0x5C, 0x5D, 0x9D, 0x9E, 0x1B, 0x85, 0x16, 0x58, 0x59, };
+            int[] speciesIDs = { 060, 061, 072, 073, 090, 098, 099, 116, 117, 118, 119, 120, 129, 130, 147, 148, };
 
-            EncounterSlot1[] slots = new EncounterSlot1[count];
-            for (int i = 0; i < count; i++)
+            var slots = new EncounterSlot1[count];
+            for (int slot = 0; slot < count; slot++)
             {
-                int spec = specieslist[Array.IndexOf(dexbytelist, data[ofs++])];
-                int lvl = Array.IndexOf(Levelbytelist, data[ofs++]) * 5;
-                slots[i] = new EncounterSlot1(spec, lvl, lvl, rate, t, i);
+                int species = speciesIDs[Array.IndexOf(g1DexIDs, data[ofs++])];
+                int lvl = Array.IndexOf(levels, data[ofs++]) * 5;
+                slots[slot] = new EncounterSlot1(species, lvl, lvl, rate, t, slot);
             }
             return slots;
         }
@@ -31,27 +31,16 @@ namespace PKHeX.Core
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 1 Grass/Water data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
+        /// <param name="count">Count of areas in the binary.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea1[] GetArray1GrassWater(byte[] data)
+        public static EncounterArea1[] GetArray1GrassWater(byte[] data, int count)
         {
-            // RBY Format
-            var ptr = new int[255];
-            int count = 0;
-            for (int i = 0; i < ptr.Length; i++)
-            {
-                ptr[i] = BitConverter.ToInt16(data, i * 2);
-                if (ptr[i] != -1)
-                    continue;
-
-                count = i;
-                break;
-            }
-
             EncounterArea1[] areas = new EncounterArea1[count];
             for (int i = 0; i < areas.Length; i++)
             {
-                var grass = GetSlots1GrassWater(data, ref ptr[i], SlotType.Grass);
-                var water = GetSlots1GrassWater(data, ref ptr[i], SlotType.Surf);
+                int ptr = BitConverter.ToInt16(data, i * 2);
+                var grass = GetSlots1GrassWater(data, ref ptr, SlotType.Grass);
+                var water = GetSlots1GrassWater(data, ref ptr, SlotType.Surf);
                 areas[i] = new EncounterArea1
                 {
                     Location = i,
@@ -87,30 +76,19 @@ namespace PKHeX.Core
         /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 1 Fishing data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
+        /// <param name="count">Count of areas in the binary.</param>
         /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea1[] GetArray1Fishing(byte[] data)
+        public static EncounterArea1[] GetArray1Fishing(byte[] data, int count)
         {
-            var ptr = new int[255];
-            var map = new int[255];
-            int count = 0;
-            for (int i = 0; i < ptr.Length; i++)
-            {
-                map[i] = data[(i * 3) + 0];
-                if (map[i] == 0xFF)
-                {
-                    count = i;
-                    break;
-                }
-                ptr[i] = BitConverter.ToInt16(data, (i * 3) + 1);
-            }
-
             EncounterArea1[] areas = new EncounterArea1[count];
             for (int i = 0; i < areas.Length; i++)
             {
+                int loc = data[(i * 3) + 0];
+                int ptr = BitConverter.ToInt16(data, (i * 3) + 1);
                 areas[i] = new EncounterArea1
                 {
-                    Location = map[i],
-                    Slots = GetSlots1Fishing(data, ref ptr[i])
+                    Location = loc,
+                    Slots = GetSlots1Fishing(data, ptr)
                 };
             }
             return areas;
@@ -122,7 +100,7 @@ namespace PKHeX.Core
             return rate == 0 ? Array.Empty<EncounterSlot1>() : EncounterSlot1.ReadSlots(data, ref ofs, 10, t, rate);
         }
 
-        private static EncounterSlot1[] GetSlots1Fishing(byte[] data, ref int ofs)
+        private static EncounterSlot1[] GetSlots1Fishing(byte[] data, int ofs)
         {
             int count = data[ofs++];
             return EncounterSlot1.ReadSlots(data, ref ofs, count, SlotType.Super_Rod, -1);
