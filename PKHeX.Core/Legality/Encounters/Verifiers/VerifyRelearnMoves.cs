@@ -118,8 +118,8 @@ namespace PKHeX.Core
             // Inherited moves appear after the required base moves.
             // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.
             bool splitInvalid = FlagInvalidInheritedMoves(result, reqBase, RelearnMoves, inheritMoves, splitMoves);
-            if (splitInvalid)
-                FlagSplitbreedMoves(result, reqBase, e, pkm);
+            if (splitInvalid && e is EncounterEggSplit x)
+                FlagSplitbreedMoves(result, reqBase, x);
 
             info.RelearnBase = baseMoves;
             return result;
@@ -167,17 +167,15 @@ namespace PKHeX.Core
             return splitInvalid;
         }
 
-        private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEgg e, PKM pkm)
+        private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEggSplit x)
         {
-            if (!(e is EncounterEggSplit x))
-                return;
             var other = x.OtherSpecies;
             for (int i = required; i < 4; i++)
             {
                 if (res[i] != null)
                     continue;
 
-                string message = string.Format(LMoveEggFIncompatible0_1, SpeciesStrings[other], SpeciesStrings[e.Species]);
+                string message = string.Format(LMoveEggFIncompatible0_1, SpeciesStrings[other], SpeciesStrings[x.Species]);
                 res[i] = new CheckResult(Severity.Invalid, message, CheckIdentifier.RelearnMove);
             }
         }

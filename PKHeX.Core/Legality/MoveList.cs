@@ -18,7 +18,7 @@ namespace PKHeX.Core
             var r = new List<int>();
             r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 1, form, version));
 
-            if (pkm.Format == 6 && pkm.Species != 678)
+            if (pkm.Format == 6 && pkm.Species != (int)Species.Meowstic)
                 form = 0;
 
             r.AddRange(MoveEgg.GetEggMoves(pkm, species, form, version));
@@ -59,13 +59,13 @@ namespace PKHeX.Core
                 case GameVersion.GSC:
                 case GameVersion.GS:
                     // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
-                    int[] getRBYCompatibleMoves(int[] moves) => pkm.Format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
+                    static int[] getRBYCompatibleMoves(int format, int[] moves) => format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
                     if (pkm.InhabitedGeneration(2))
-                        return getRBYCompatibleMoves(LevelUpGS[species].GetMoves(lvl));
+                        return getRBYCompatibleMoves(pkm.Format, LevelUpGS[species].GetMoves(lvl));
                     break;
                 case GameVersion.C:
                     if (pkm.InhabitedGeneration(2))
-                        return getRBYCompatibleMoves(LevelUpC[species].GetMoves(lvl));
+                        return getRBYCompatibleMoves(pkm.Format, LevelUpC[species].GetMoves(lvl));
                     break;
 
                 case GameVersion.R:
