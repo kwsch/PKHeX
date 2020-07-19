@@ -707,10 +707,7 @@ namespace PKHeX.WinForms
         private static void StoreLegalSaveGameData(SaveFile sav)
         {
             if (sav is SAV3 sav3)
-            {
-                Legal.EReaderBerryIsEnigma = sav3.IsEBerryIsEnigma;
-                Legal.EReaderBerryName = sav3.EBerryName;
-            }
+                EReaderBerrySettings.LoadFrom(sav3);
         }
 
         private bool OpenSAV(SaveFile sav, string path)

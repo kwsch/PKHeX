@@ -390,11 +390,11 @@ namespace PKHeX.Core
                 case GameVersion.XD:
                     return g3xditems;
                 default:
-                    if (Legal.EReaderBerryIsEnigma)
+                    if (EReaderBerrySettings.IsEnigma)
                         return g3items;
 
                     var g3ItemsWithEBerry = (string[])g3items.Clone();
-                    g3ItemsWithEBerry[175] = Legal.EReaderBerryDisplayName;
+                    g3ItemsWithEBerry[175] = EReaderBerrySettings.DisplayName;
                     return g3ItemsWithEBerry;
             }
         }

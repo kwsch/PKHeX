@@ -6,15 +6,6 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        /// <summary> e-Reader Berry is Enigma or special berry </summary>
-        public static bool EReaderBerryIsEnigma { get; set; } = true;
-
-        /// <summary> e-Reader Berry Name </summary>
-        public static string EReaderBerryName { get; set; } = string.Empty;
-
-        /// <summary> e-Reader Berry Name formatted in Title Case </summary>
-        public static string EReaderBerryDisplayName => string.Format(LegalityCheckStrings.L_XEnigmaBerry_0, Util.ToTitleCase(EReaderBerryName.ToLower()));
-
         // Gen 1
         internal static readonly Learnset[] LevelUpRB = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_rb.pkl"), MaxSpeciesID_1);
         internal static readonly Learnset[] LevelUpY = LearnsetReader.GetArray(Util.GetBinaryResource("lvlmove_y.pkl"), MaxSpeciesID_1);
@@ -220,7 +211,7 @@ namespace PKHeX.Core
                 return pkm.AltForm == 1;
             if (pkm.Species == (int)Species.Lycanroc)
                 return pkm.AltForm < 3;
-            return pkm.Species == 773;
+            return pkm.Species == (int)Species.Silvally;
         }
 
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
