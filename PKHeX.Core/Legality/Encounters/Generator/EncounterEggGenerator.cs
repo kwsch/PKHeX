@@ -92,4 +92,66 @@ namespace PKHeX.Core
             return ver < GameVersion.GP; // lgpe and sw/sh don't have a sister pair
         }
     }
+
+    /// <summary>
+    /// Specialized Egg Generator for Gen2
+    /// </summary>
+    internal static class EncounterEggGenerator2
+    {
+        public static IEnumerable<IEncounterable> GenerateEggs(PKM pkm, List<EvoCriteria> chain)
+        {
+            var canBeEgg = GetCanBeEgg(pkm);
+            if (!canBeEgg)
+                yield break;
+
+            var baseID = chain[chain.Count - 1];
+            if ((baseID.Species >= MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
+                baseID = chain[chain.Count - 2];
+            int species = baseID.Species;
+            if (ParseSettings.AllowGen2Crystal(pkm))
+                yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
+            yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
+        }
+
+        private static bool GetCanBeEgg(PKM pkm)
+        {
+            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg2(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+            if (!canBeEgg)
+                return false;
+
+            if (!IsEvolutionValid(pkm))
+                return false;
+
+            return true;
+        }
+
+        private static bool GetCanBeEgg2(PKM pkm)
+        {
+            if (pkm.IsEgg)
+                return pkm.Format == 2;
+
+            if (pkm.Format > 2)
+            {
+                if (pkm.Met_Level < 5)
+                    return false;
+                if (pkm.FatefulEncounter)
+                    return false;
+                if (pkm.Ball != 4)
+                    return false;
+            }
+            else
+            {
+                if (pkm.Met_Location != 0 && pkm.Met_Level != 1) // 2->1->2 clears met info
+                    return false;
+                if (pkm.CurrentLevel < 5)
+                    return false;
+            }
+
+            int lvl = pkm.CurrentLevel;
+            if (lvl < 5)
+                return false;
+
+            return true;
+        }
+    }
 }

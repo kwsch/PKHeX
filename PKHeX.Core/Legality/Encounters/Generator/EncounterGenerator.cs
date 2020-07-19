@@ -136,13 +136,10 @@ namespace PKHeX.Core
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters12(PKM pkm, GameVersion game)
         {
-            bool gsc = GameVersion.GSC.Contains(game);
-
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
-            var maxspeciesorigin = gsc ? MaxSpeciesID_2 : MaxSpeciesID_1;
-            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            var chain = EvolutionChain.GetOriginChain(pkm, game);
 
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, chain, game))
@@ -170,7 +167,7 @@ namespace PKHeX.Core
                         if (pkm.Japanese)
                             deferred.Add(s);
                         continue;
-                    case GameVersion.C when gsc && pkm.Format == 2: // Crystal specific data needs to be present
+                    case GameVersion.C when pkm.Format == 2: // Crystal specific data needs to be present
                         if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
                             continue;
                         if (s.Species == 251 && ParseSettings.AllowGBCartEra) // no celebi, the GameVersion.EventsGBGen2 will pass thru
@@ -184,39 +181,14 @@ namespace PKHeX.Core
                 yield return e;
             }
 
-            if (gsc)
+            if (GameVersion.GSC.Contains(game))
             {
-                var canBeEgg = GetCanBeEgg(pkm);
-                if (canBeEgg)
-                {
-                    var baseID = chain[chain.Count - 1];
-                    if ((baseID.Species >= MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
-                        baseID = chain[chain.Count - 2];
-                    int species = baseID.Species;
-                    if (ParseSettings.AllowGen2Crystal(pkm))
-                        yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
-                    yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
-                }
+                foreach (var e in EncounterEggGenerator2.GenerateEggs(pkm, chain))
+                    yield return e;
             }
 
             foreach (var d in deferred)
                 yield return d;
-        }
-
-        private static bool GetCanBeEgg(PKM pkm)
-        {
-            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg23(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
-            if (!canBeEgg)
-                return false;
-
-            // Further Filtering
-            if (pkm.Format < 3)
-            {
-                canBeEgg &= pkm.Met_Location == 0 || pkm.Met_Level == 1; // 2->1->2 clears met info
-                canBeEgg &= pkm.CurrentLevel >= 5;
-            }
-
-            return canBeEgg;
         }
 
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
@@ -255,14 +227,14 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters1(PKM pkm, bool crystal)
         {
             return pkm.Gen2_NotTradeback || crystal
-                ? Enumerable.Empty<IEncounterable>()
+                ? Array.Empty<IEncounterable>()
                 : GenerateRawEncounters12(pkm, GameVersion.RBY);
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters2(PKM pkm, bool crystal)
         {
             return pkm.Gen1_NotTradeback
-                ? Enumerable.Empty<IEncounterable>()
+                ? Array.Empty<IEncounterable>()
                 : GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC);
         }
 
@@ -393,8 +365,8 @@ namespace PKHeX.Core
                 yield return z;
 
             var deferIncompat = new Queue<IEncounterable>();
-            bool sport = pkm.Ball == 0x18; // never static encounters (conflict with non bcc / bcc)
-            bool safari = pkm.Ball == 0x05; // never static encounters
+            bool sport = pkm.Ball == (int)Ball.Sport; // never static encounters (conflict with non bcc / bcc)
+            bool safari = pkm.Ball == (int)Ball.Safari; // never static encounters
             bool safariSport = safari || sport;
             if (!safariSport)
             {

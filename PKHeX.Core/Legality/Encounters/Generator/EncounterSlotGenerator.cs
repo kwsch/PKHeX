@@ -18,8 +18,7 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            var chain = EvolutionChain.GetOriginChain(pkm, gameSource);
             return GetPossible(pkm, chain, gameSource);
         }
 
@@ -43,15 +42,6 @@ namespace PKHeX.Core
             }
         }
 
-        private static int GetMaxSpecies(GameVersion gameSource)
-        {
-            if (gameSource == GameVersion.RBY)
-                return MaxSpeciesID_1;
-            if (GameVersion.GSC.Contains(gameSource))
-                return MaxSpeciesID_2;
-            return -1;
-        }
-
         public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             int lvl = GetMaxLevelEncounter(pkm);
@@ -61,8 +51,7 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            var chain = EvolutionChain.GetOriginChain(pkm);
             var slots = GetRawEncounterSlots(pkm, lvl, chain, gameSource);
 
             return slots; // defer deferrals to the method consuming this collection
@@ -100,8 +89,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
-            int maxspeciesorigin = GetMaxSpecies(gameSource);
-            var chain = EvolutionChain.GetOriginChain(pkm, maxspeciesorigin: maxspeciesorigin);
+            var chain = EvolutionChain.GetOriginChain(pkm);
             return GetValidWildEncounters(pkm, chain, gameSource);
         }
 

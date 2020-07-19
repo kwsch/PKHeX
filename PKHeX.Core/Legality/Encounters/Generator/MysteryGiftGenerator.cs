@@ -9,8 +9,7 @@ namespace PKHeX.Core
     {
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
-            int maxSpecies = Legal.GetMaxSpeciesOrigin(pkm.Format);
-            var chain = EvolutionChain.GetOriginChain(pkm, maxSpecies);
+            var chain = EvolutionChain.GetOriginChain(pkm);
             return GetPossible(pkm, chain);
         }
 

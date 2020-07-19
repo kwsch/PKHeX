@@ -61,25 +61,6 @@ namespace PKHeX.Core
         internal static readonly EggMoves7[] EggMovesSWSH = EggMoves7.GetArray(BinLinker.Unpack(Util.GetBinaryResource("eggmove_swsh.pkl"), "ss"));
         internal static readonly Learnset[] LevelUpSWSH = LearnsetReader.GetArray(BinLinker.Unpack(Util.GetBinaryResource("lvlmove_swsh.pkl"), "ss"));
 
-        internal static bool GetCanBeEgg23(PKM pkm)
-        {
-            if (pkm.IsEgg)
-                return IsEvolutionValid(pkm);
-            if (pkm.Format > 2 && pkm.Ball != 4)
-                return false;
-
-            int lvl = pkm.CurrentLevel;
-            if (lvl < 5)
-                return false;
-
-            if (pkm.Format > 3 && pkm.Met_Level < 5)
-                return false;
-            if (pkm.Format > 3 && pkm.FatefulEncounter)
-                return false;
-
-            return IsEvolutionValid(pkm);
-        }
-
         public static IReadOnlyList<byte> GetPPTable(PKM pkm, int format)
         {
             if (format != 7)
@@ -299,7 +280,7 @@ namespace PKHeX.Core
             // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
             // VC pokemon: minimum level is one level after transfer to generation 7
             // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
-            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && pkm.Gen3) || pkm.VC || pkm.Species == (int)Species.Sylveon)
+            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && gen == 3) || pkm.VC || pkm.Species == (int)Species.Sylveon)
                 LearnLevel = Math.Max(pkm.Met_Level + 1, LearnLevel);
 
             // Current level must be at least one the minimum learn level
