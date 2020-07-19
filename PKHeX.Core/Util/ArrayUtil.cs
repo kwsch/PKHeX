@@ -21,6 +21,12 @@ namespace PKHeX.Core
             return true;
         }
 
+        public static byte[] Truncate(byte[] data, int newSize)
+        {
+            Array.Resize(ref data, newSize);
+            return data;
+        }
+
         public static byte[] Slice(this byte[] src, int offset, int length)
         {
             byte[] data = new byte[length];

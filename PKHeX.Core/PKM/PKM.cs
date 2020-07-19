@@ -22,17 +22,10 @@ namespace PKHeX.Core
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
 
-        public virtual byte[] EncryptedPartyData => Truncate(Encrypt(), SIZE_PARTY);
-        public virtual byte[] EncryptedBoxData => Truncate(Encrypt(), SIZE_STORED);
-        public virtual byte[] DecryptedPartyData => Truncate(Write(), SIZE_PARTY);
-        public virtual byte[] DecryptedBoxData => Truncate(Write(), SIZE_STORED);
-
-        private static byte[] Truncate(byte[] data, int newSize)
-        {
-            if (data.Length != newSize)
-                Array.Resize(ref data, newSize);
-            return data;
-        }
+        public virtual byte[] EncryptedPartyData => ArrayUtil.Truncate(Encrypt(), SIZE_PARTY);
+        public virtual byte[] EncryptedBoxData => ArrayUtil.Truncate(Encrypt(), SIZE_STORED);
+        public virtual byte[] DecryptedPartyData => ArrayUtil.Truncate(Write(), SIZE_PARTY);
+        public virtual byte[] DecryptedBoxData => ArrayUtil.Truncate(Write(), SIZE_STORED);
 
         public virtual bool Valid { get => ChecksumValid && Sanity == 0; set { if (!value) return; Sanity = 0; RefreshChecksum(); } }
 
