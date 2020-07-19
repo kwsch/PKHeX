@@ -8,10 +8,10 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.GSC"/> encounter area
     /// </summary>
-    public sealed class EncounterArea2 : EncounterAreaGB
+    public sealed class EncounterArea2 : EncounterArea
     {
         /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 2 Grass/Water data.
+        /// Gets the encounter areas with <see cref="EncounterSlot2"/> information from Generation 2 Grass/Water data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
@@ -43,7 +43,7 @@ namespace PKHeX.Core
         };
 
         /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 2 Grass/Water data.
+        /// Gets the encounter areas with <see cref="EncounterSlot2"/> information from Generation 2 Grass/Water data.
         /// </summary>
         /// <param name="data">Input raw data.</param>
         /// <returns>Array of encounter areas.</returns>
@@ -73,13 +73,13 @@ namespace PKHeX.Core
             return GetAreas2Headbutt(data, ref ofs).ToArray();
         }
 
-        private static EncounterSlot1[] GetSlots2GrassWater(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
+        private static EncounterSlot2[] GetSlots2GrassWater(byte[] data, ref int ofs, SlotType t, int slotSets, int slotCount)
         {
             byte[] rates = new byte[slotSets];
             for (int i = 0; i < rates.Length; i++)
                 rates[i] = data[ofs++];
 
-            var slots = ReadSlots1(data, ref ofs, slotSets * slotCount, t, rates[0]);
+            var slots = EncounterSlot2.ReadSlots(data, ref ofs, slotSets * slotCount, t, rates[0]);
             if (slotSets <= 1)
                 return slots;
 
@@ -101,7 +101,7 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static EncounterSlot1[] GetSlots2Fishing(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot2[] GetSlots2Fishing(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends with final slot having 0xFF 0x** 0x**
             const int size = 3;
@@ -109,32 +109,25 @@ namespace PKHeX.Core
             while (data[end] != 0xFF)
                 end += size;
             var count = ((end - ofs) / size) + 1;
-            var slots = new EncounterSlot1[count];
+            var slots = new EncounterSlot2[count];
             for (int i = 0; i < slots.Length; i++)
             {
                 int rate = data[ofs++];
                 int species = data[ofs++];
                 int level = data[ofs++];
-
-                slots[i] = new EncounterSlot1
-                {
-                    Rate = rate,
-                    Species = species,
-                    LevelMin = level,
-                    LevelMax = level,
-                    SlotNumber = i,
-                    Type = species == 0 ? SlotType.Special : t // day/night specific
-                };
+                var type = species == 0 ? SlotType.Special : t; // day/night specific;
+                slots[i] = new EncounterSlot2(species, level, level, rate, type, i);
             }
             return slots;
         }
 
-        private static EncounterSlot1[] GetSlots2Headbutt(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot2[] GetSlots2Headbutt(byte[] data, ref int ofs, SlotType t)
         {
             // slot set ends in 0xFF
-            var slots = new List<EncounterSlot1>();
+            var slots = new List<EncounterSlot2>();
             int tableCount = t == SlotType.Headbutt ? 2 : 1;
             SlotType slottype = t;
+            int slot = 0;
             while (tableCount != 0)
             {
                 if (t == SlotType.Headbutt)
@@ -149,14 +142,7 @@ namespace PKHeX.Core
                 int species = data[ofs++];
                 int level = data[ofs++];
 
-                slots.Add(new EncounterSlot1
-                {
-                    Rate = rate,
-                    Species = species,
-                    LevelMin = level,
-                    LevelMax = level,
-                    Type = slottype
-                });
+                slots.Add(new EncounterSlot2(species, level, level, rate, slottype, slot++));
             }
             return slots.ToArray();
         }
@@ -216,7 +202,7 @@ namespace PKHeX.Core
                     int index = slot.LevelMin * 2;
                     for (int j = 0; j < 2; j++) // load special slot info
                     {
-                        var s = (EncounterSlot1)slots[i + j];
+                        var s = (EncounterSlot2)slots[i + j];
                         s.Species = dl[index + j].Species;
                         s.LevelMin = s.LevelMax = dl[index + j].Level;
                         s.Type = slots[i - 1].Type; // special slots are never first in a set, so copy previous type
@@ -290,6 +276,31 @@ namespace PKHeX.Core
             }
 
             return head.Concat(rock);
+        }
+
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        {
+            if (minLevel == 0) // any
+                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+
+            var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);
+            return GetFilteredSlots(pkm, encounterSlots).OrderBy(slot => slot.LevelMin); // prefer lowest levels
+        }
+
+        private static IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots)
+        {
+            if (pkm is PK2 pk2 && pk2.Met_TimeOfDay != 0)
+                return slots.Where(slot => ((EncounterSlot2)slot).Time.Contains(pk2.Met_TimeOfDay));
+            return slots;
+        }
+
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        {
+            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+
+            if (pkm.Format >= 7 || !(pkm is PK2 pk2 && pk2.CaughtData != 0)) // transferred to Gen7+, or does not have Crystal met data
+                return slots.Where(slot => slot.LevelMin <= minLevel);
+            return slots.Where(s => s.IsLevelWithinRange(minLevel));
         }
     }
 }

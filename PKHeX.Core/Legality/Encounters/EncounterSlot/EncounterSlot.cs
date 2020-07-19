@@ -88,12 +88,17 @@ namespace PKHeX.Core
 
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            var version = this.GetCompatibleVersion((GameVersion)sav.Game);
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
-            int level = LevelMin;
             var pk = PKMConverter.GetBlank(Generation, Version);
             sav.ApplyTo(pk);
+            ApplyDetails(sav, criteria, pk);
+            return pk;
+        }
 
+        protected virtual void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            var version = this.GetCompatibleVersion((GameVersion) sav.Game);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID) sav.Language);
+            int level = LevelMin;
             pk.Species = Species;
             pk.Language = lang;
             pk.CurrentLevel = level;
@@ -111,12 +116,10 @@ namespace PKHeX.Core
             SetFormatSpecificData(pk);
 
             if (pk.Format < 6)
-                return pk;
+                return;
 
             sav.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
-
-            return pk;
         }
 
         private void SetEncounterMoves(PKM pk, GameVersion version, int level)
@@ -128,21 +131,7 @@ namespace PKHeX.Core
 
         private void SetFormatSpecificData(PKM pk)
         {
-            if (pk is PK1 pk1)
-            {
-                if (Species == (int)Core.Species.Kadabra && Version == GameVersion.YW) // Kadabra
-                    pk1.Catch_Rate = 96;
-                else if (Species == 148 && Version == GameVersion.YW) // Dragonair
-                    pk1.Catch_Rate = 27;
-                else
-                    pk1.Catch_Rate = PersonalTable.RB[Species].CatchRate; // RB
-            }
-            else if (pk is PK2 pk2)
-            {
-                if (Version == GameVersion.C && this is EncounterSlot1 slot)
-                    pk2.Met_TimeOfDay = slot.Time.RandomValidTime();
-            }
-            else if (pk is XK3 xk3)
+            if (pk is XK3 xk3)
             {
                 xk3.FatefulEncounter = true; // PokeSpot
             }

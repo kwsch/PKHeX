@@ -157,10 +157,11 @@ namespace PKHeX.Core
             PKMConverter.SetConsoleRegionData3DS(pk7);
             PKMConverter.SetFirstCountryRegion(pk7);
             pk7.HealPP();
-            pk7.Language = TransferLanguage(PKMConverter.Language);
-            pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
-                pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
+            var lang = TransferLanguage(PKMConverter.Language);
+            pk7.Language = lang;
+            pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
+            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs

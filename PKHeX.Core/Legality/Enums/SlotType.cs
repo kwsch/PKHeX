@@ -98,7 +98,7 @@ namespace PKHeX.Core
         BugContest   = 1 << 15,
 
         /// <summary>
-        /// Slot is encountered via the Bug Catching Contest.
+        /// Slot is encountered via the Go Park.
         /// </summary>
         GoPark = 1 << 16,
 

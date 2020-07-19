@@ -41,25 +41,20 @@ namespace PKHeX.Core
         {
             var EncounterMatch = info.EncounterMatch;
             if (EncounterMatch.EggEncounter)
-            {
                 return VerifyEncounterEgg(pkm);
-            }
-            if (EncounterMatch is EncounterSlot1 l)
-            {
-                if (info.Generation == 2)
-                    return VerifyWildEncounterGen2(pkm, l);
-                return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
-            }
-            if (EncounterMatch is EncounterStatic s)
-                return VerifyEncounterStatic(pkm, s);
-            if (EncounterMatch is EncounterTrade t)
-                return VerifyEncounterTrade(pkm, t);
 
-            return new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter);
+            return EncounterMatch switch
+            {
+                EncounterSlot1 _ => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
+                EncounterSlot2 s2 => VerifyWildEncounterGen2(pkm, s2),
+                EncounterStatic s => VerifyEncounterStatic(pkm, s),
+                EncounterTrade t => VerifyEncounterTrade(pkm, t),
+                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+            };
         }
 
         // Gen2 Wild Encounters
-        private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot1 encounter)
+        private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot2 encounter)
         {
             switch (encounter.Type)
             {

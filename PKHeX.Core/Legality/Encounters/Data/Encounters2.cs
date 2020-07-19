@@ -98,16 +98,16 @@ namespace PKHeX.Core
             Location = 19,
             Slots = new EncounterSlot[]
             {
-                new EncounterSlot1 {Species = 010, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 0}, // Caterpie
-                new EncounterSlot1 {Species = 013, LevelMin = 07, LevelMax = 18, Rate = 20, SlotNumber = 1}, // Weedle
-                new EncounterSlot1 {Species = 011, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 2}, // Metapod
-                new EncounterSlot1 {Species = 014, LevelMin = 09, LevelMax = 18, Rate = 10, SlotNumber = 3}, // Kakuna
-                new EncounterSlot1 {Species = 012, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 4}, // Butterfree
-                new EncounterSlot1 {Species = 015, LevelMin = 12, LevelMax = 15, Rate = 05, SlotNumber = 5}, // Beedrill
-                new EncounterSlot1 {Species = 048, LevelMin = 10, LevelMax = 16, Rate = 10, SlotNumber = 6}, // Venonat
-                new EncounterSlot1 {Species = 046, LevelMin = 10, LevelMax = 17, Rate = 10, SlotNumber = 7}, // Paras
-                new EncounterSlot1 {Species = 123, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 8}, // Scyther
-                new EncounterSlot1 {Species = 127, LevelMin = 13, LevelMax = 14, Rate = 05, SlotNumber = 9}, // Pinsir
+                new EncounterSlot2(010, 07, 18, 20, SlotType.BugContest, 0), // Caterpie
+                new EncounterSlot2(013, 07, 18, 20, SlotType.BugContest, 1), // Weedle
+                new EncounterSlot2(011, 09, 18, 10, SlotType.BugContest, 2), // Metapod
+                new EncounterSlot2(014, 09, 18, 10, SlotType.BugContest, 3), // Kakuna
+                new EncounterSlot2(012, 12, 15, 05, SlotType.BugContest, 4), // Butterfree
+                new EncounterSlot2(015, 12, 15, 05, SlotType.BugContest, 5), // Beedrill
+                new EncounterSlot2(048, 10, 16, 10, SlotType.BugContest, 6), // Venonat
+                new EncounterSlot2(046, 10, 17, 10, SlotType.BugContest, 7), // Paras
+                new EncounterSlot2(123, 13, 14, 05, SlotType.BugContest, 8), // Scyther
+                new EncounterSlot2(127, 13, 14, 05, SlotType.BugContest, 9), // Pinsir
             }
         }};
 
@@ -115,16 +115,16 @@ namespace PKHeX.Core
             Location = 81,
             Slots = new EncounterSlot[]
             {
-                new EncounterSlot1 {Species = 129, LevelMin = 10, LevelMax = 10, Type = SlotType.Old_Rod_Safari}, // Magikarp
-                new EncounterSlot1 {Species = 098, LevelMin = 10, LevelMax = 10, Type = SlotType.Old_Rod_Safari}, // Krabby
-                new EncounterSlot1 {Species = 098, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Krabby
-                new EncounterSlot1 {Species = 129, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Magikarp
-                new EncounterSlot1 {Species = 222, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Corsola
-                new EncounterSlot1 {Species = 120, LevelMin = 20, LevelMax = 20, Type = SlotType.Good_Rod_Safari}, // Staryu
-                new EncounterSlot1 {Species = 098, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Krabby
-                new EncounterSlot1 {Species = 222, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Corsola
-                new EncounterSlot1 {Species = 120, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Staryu
-                new EncounterSlot1 {Species = 121, LevelMin = 40, LevelMax = 40, Type = SlotType.Super_Rod_Safari}, // Kingler
+                new EncounterSlot2(129, 10, 10, 100, SlotType.Old_Rod_Safari, 0), // Magikarp
+                new EncounterSlot2(098, 10, 10, 100, SlotType.Old_Rod_Safari, 1), // Krabby
+                new EncounterSlot2(098, 20, 20, 100, SlotType.Good_Rod_Safari, 0), // Krabby
+                new EncounterSlot2(129, 20, 20, 100, SlotType.Good_Rod_Safari, 1), // Magikarp
+                new EncounterSlot2(222, 20, 20, 100, SlotType.Good_Rod_Safari, 2), // Corsola
+                new EncounterSlot2(120, 20, 20, 100, SlotType.Good_Rod_Safari, 3), // Staryu
+                new EncounterSlot2(098, 40, 40, 100, SlotType.Super_Rod_Safari, 0), // Krabby
+                new EncounterSlot2(222, 40, 40, 100, SlotType.Super_Rod_Safari, 1), // Corsola
+                new EncounterSlot2(120, 40, 40, 100, SlotType.Super_Rod_Safari, 2), // Staryu
+                new EncounterSlot2(121, 40, 40, 100, SlotType.Super_Rod_Safari, 3), // Kingler
             }
         }};
 

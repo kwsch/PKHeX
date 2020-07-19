@@ -4,7 +4,8 @@
     /// Trade Encounter data with a fixed Catch Rate
     /// </summary>
     /// <remarks>
-    /// Generation 1 specific value used in detecting unmodified/untraded Generation 1 Trade Encounter data.
+    /// Generation 1 specific value used in detecting unmodified/un-traded Generation 1 Trade Encounter data.
+    /// Species & Minimum level (legal) possible to acquire at.
     /// </remarks>
     public sealed class EncounterTrade1 : EncounterTradeGB
     {
@@ -19,8 +20,8 @@
 
         private bool HasOddCatchRate => Catch_Rate != 0;
 
-        public EncounterTrade1(int species, int level, byte rate) : this(species, level) => Catch_Rate = rate;
-        public EncounterTrade1(int species, int level) : base(species, level) { }
+        public EncounterTrade1(int species, int level, GameVersion game, byte rate) : this(species, level, game) => Catch_Rate = rate;
+        public EncounterTrade1(int species, int level, GameVersion game) : base(species, level) => Version = game;
 
         public byte GetInitialCatchRate()
         {
@@ -36,6 +37,16 @@
             base.ApplyDetails(sav, criteria, pk);
             var pk1 = (PK1)pk;
             pk1.Catch_Rate = GetInitialCatchRate();
+        }
+
+        internal bool IsEncounterTrade1Valid(PKM pkm)
+        {
+            string ot = pkm.OT_Name;
+            if (pkm.Format <= 2)
+                return ot == StringConverter12.G1TradeOTStr;
+            // Converted string 1/2->7 to language specific value
+            var tr = GetOT(pkm.Language);
+            return ot == tr;
         }
 
         public override bool IsMatch(PKM pkm)

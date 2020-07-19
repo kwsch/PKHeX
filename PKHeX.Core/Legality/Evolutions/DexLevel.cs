@@ -15,5 +15,7 @@
             Species = species;
             Form = form;
         }
+
+        public override string ToString() => $"{(Species) Species} [{Level}]";
     }
 }

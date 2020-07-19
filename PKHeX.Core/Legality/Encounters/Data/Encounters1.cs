@@ -1,5 +1,6 @@
 ﻿using System;
 using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -9,7 +10,7 @@ namespace PKHeX.Core
     internal static class Encounters1
     {
         internal static readonly EncounterArea1[] SlotsRBY;
-        internal static readonly EncounterStatic[] StaticRBY;
+        internal static readonly EncounterStatic1[] StaticRBY;
 
         static Encounters1()
         {
@@ -18,19 +19,10 @@ namespace PKHeX.Core
             MarkEncountersGeneration(1, SlotsRBY);
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
 
-            var trades = ArrayUtil.ConcatAll(TradeGift_RBY_Common, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
+            var trades = ArrayUtil.ConcatAll(TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
             foreach (var t in trades)
-            {
-                t.TrainerNames = TradeOTG1;
-                if (t.Version == GameVersion.Any)
-                    t.Version = GameVersion.RBY;
-            }
-
-            SlotsRBY.SetVersion(GameVersion.RBY);
-            StaticRBY.SetVersion(GameVersion.RBY);
+                t.TrainerNames = StringConverter12.G1TradeOTName;
         }
-
-        internal static readonly string[] TradeOTG1 = {string.Empty, "トレーナー", "Trainer", "Dresseur", "Allenatore", "Trainer", string.Empty, "Entrenador", "트레이너"};
 
         private static EncounterArea1[] GetAreas()
         {
@@ -40,11 +32,11 @@ namespace PKHeX.Core
             var rb_fish = EncounterArea1.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"));
             var ylw_fish = EncounterArea1.GetArray1FishingYellow(Util.GetBinaryResource("encounter_yellow_f.pkl"));
 
-            MarkEncountersVersion(red_gw, GameVersion.RD);
-            MarkEncountersVersion(blu_gw, GameVersion.BU);
-            MarkEncountersVersion(ylw_gw, GameVersion.YW);
-            MarkEncountersVersion(rb_fish, GameVersion.RB);
-            MarkEncountersVersion(ylw_fish, GameVersion.YW);
+            MarkEncountersVersion(red_gw, RD);
+            MarkEncountersVersion(blu_gw, BU);
+            MarkEncountersVersion(ylw_gw, YW);
+            MarkEncountersVersion(rb_fish, RB);
+            MarkEncountersVersion(ylw_fish, YW);
 
             var table = AddExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
             Array.Resize(ref table, table.Length + 1);
@@ -59,143 +51,142 @@ namespace PKHeX.Core
             return table;
         }
 
-        private static readonly EncounterStatic[] Encounter_RBY =
+        private static readonly EncounterStatic1[] Encounter_RBY =
         {
-            // Gameversion is RBY for pokemon with the same catch rate and initial moves in all games
-            // If there are differents in moves or catch rate they will have different encounters defined
-            new EncounterStatic { Species = 001, Level = 05, Version = GameVersion.RBY }, // Bulbasaur
-            new EncounterStatic { Species = 004, Level = 05, Version = GameVersion.RBY }, // Charmander
-            new EncounterStatic { Species = 007, Level = 05, Version = GameVersion.RBY }, // Squirtle
-            new EncounterStatic { Species = 025, Level = 05, Version = GameVersion.YW }, // Pikachu
+            // GameVersion is RBY for Pokemon with the same catch rate and initial moves in all games
+            // If there are any differences in moves or catch rate, they will be defined as different encounters (GameVersion)
+            new EncounterStatic1(001, 05, RBY), // Bulbasaur
+            new EncounterStatic1(004, 05, RBY), // Charmander
+            new EncounterStatic1(007, 05, RBY), // Squirtle
+            new EncounterStatic1(025, 05, YW), // Pikachu
 
             // Game Corner
-            new EncounterStatic { Species = 030, Level = 17, Version = GameVersion.RB }, // Nidorina (Red Game Corner)
-            new EncounterStatic { Species = 033, Level = 17, Version = GameVersion.BU }, // Nidorino (Blue[EN] / Green[JP] Game Corner)
-            new EncounterStatic { Species = 035, Level = 08, Version = GameVersion.RBY }, // Clefairy (Red Game Corner)
-            new EncounterStatic { Species = 036, Level = 24, Version = GameVersion.BU }, // Clefable (Blue[JP] Game Corner)
-            new EncounterStatic { Species = 037, Level = 18, Version = GameVersion.RBY }, // Vulpix (Yellow Game Corner)
-            new EncounterStatic { Species = 040, Level = 22, Version = GameVersion.RBY }, // Wigglytuff (Yellow Game Corner)
-            new EncounterStatic { Species = 063, Level = 06, Version = GameVersion.BU }, // Abra (Blue[EN] / Green[JP] Game Corner)
-            new EncounterStatic { Species = 116, Level = 18, Version = GameVersion.BU }, // Horsea (Blue[JP] Game Corner)
-            new EncounterStatic { Species = 123, Level = 25, Version = GameVersion.RBY }, // Scyther (Red Game Corner)
-            new EncounterStatic { Species = 127, Level = 20, Version = GameVersion.BU }, // Pinsir (Blue[EN] / Green[JP] Game Corner)
-            new EncounterStatic { Species = 127, Level = 30, Version = GameVersion.YW }, // Pinsir (Yellow Game Corner) (Different initial moves)
-            new EncounterStatic { Species = 137, Level = 18, Version = GameVersion.BU }, // Porygon (Blue[EN] / Green[JP] Game Corner)
-            new EncounterStatic { Species = 147, Level = 18, Version = GameVersion.RBY }, // Dratini (Red Game Corner)
-            new EncounterStatic { Species = 148, Level = 30, Version = GameVersion.BU }, // Dragonair (Blue[JP] Game Corner)
-            new EncounterStatic { Species = 025, Level = 12, Version = GameVersion.BU }, // Pikachu (Blue[JP] Game Corner) (Different catch rate)
+            new EncounterStatic1(030, 17, RB), // Nidorina (Red Game Corner)
+            new EncounterStatic1(033, 17, BU), // Nidorino (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic1(035, 08, RBY), // Clefairy (Red Game Corner)
+            new EncounterStatic1(036, 24, BU), // Clefable (Blue[JP] Game Corner)
+            new EncounterStatic1(037, 18, RBY), // Vulpix (Yellow Game Corner)
+            new EncounterStatic1(040, 22, RBY), // Wigglytuff (Yellow Game Corner)
+            new EncounterStatic1(063, 06, BU), // Abra (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic1(116, 18, BU), // Horsea (Blue[JP] Game Corner)
+            new EncounterStatic1(123, 25, RBY), // Scyther (Red Game Corner)
+            new EncounterStatic1(127, 20, BU), // Pinsir (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic1(127, 30, YW), // Pinsir (Yellow Game Corner) (Different initial moves)
+            new EncounterStatic1(137, 18, BU), // Porygon (Blue[EN] / Green[JP] Game Corner)
+            new EncounterStatic1(147, 18, RBY), // Dratini (Red Game Corner)
+            new EncounterStatic1(148, 30, BU), // Dragonair (Blue[JP] Game Corner)
+            new EncounterStatic1(025, 12, BU), // Pikachu (Blue[JP] Game Corner) (Different catch rate)
 
             // Lower level less ideal matches; best match is from above.
-            // new EncounterStatic { Species = 035, Level = 12 }, // Clefairy (Blue[EN] / Green[JP] Game Corner)
-            // new EncounterStatic { Species = 063, Level = 09 }, // Abra (Red Game Corner)
-            // new EncounterStatic { Species = 063, Level = 08 }, // Abra (Blue[JP] Game Corner)
-            // new EncounterStatic { Species = 063, Level = 15 }, // Abra (Yellow Game Corner)
-            // new EncounterStatic { Species = 123, Level = 30 }, // Scyther (Yellow Game Corner)
-            // new EncounterStatic { Species = 137, Level = 22 }, // Porygon (Blue[JP] Game Corner)
-            // new EncounterStatic { Species = 137, Level = 26 }, // Porygon (Red Game Corner)
-            // new EncounterStatic { Species = 137, Level = 26 }, // Porygon (Yellow Game Corner)
-            // new EncounterStatic { Species = 147, Level = 24 }, // Dratini (Blue[EN] / Green[JP] Game Corner)
+            // new EncounterStatic1(035, 12), // Clefairy (Blue[EN] / Green[JP] Game Corner)
+            // new EncounterStatic1(063, 09), // Abra (Red Game Corner)
+            // new EncounterStatic1(063, 08), // Abra (Blue[JP] Game Corner)
+            // new EncounterStatic1(063, 15), // Abra (Yellow Game Corner)
+            // new EncounterStatic1(123, 30), // Scyther (Yellow Game Corner)
+            // new EncounterStatic1(137, 22), // Porygon (Blue[JP] Game Corner)
+            // new EncounterStatic1(137, 26), // Porygon (Red Game Corner)
+            // new EncounterStatic1(137, 26), // Porygon (Yellow Game Corner)
+            // new EncounterStatic1(147, 24), // Dratini (Blue[EN] / Green[JP] Game Corner)
 
-            new EncounterStatic { Species = 129, Level = 05, Version = GameVersion.RBY }, // Magikarp
-            new EncounterStatic { Species = 143, Level = 30, Version = GameVersion.RBY }, // Snorlax
-            new EncounterStatic { Species = 106, Level = 30, Version = GameVersion.RBY }, // Hitmonlee
-            new EncounterStatic { Species = 107, Level = 30, Version = GameVersion.RBY }, // Hitmonchan
+            new EncounterStatic1(129, 05, RBY), // Magikarp
+            new EncounterStatic1(143, 30, RBY), // Snorlax
+            new EncounterStatic1(106, 30, RBY), // Hitmonlee
+            new EncounterStatic1(107, 30, RBY), // Hitmonchan
 
-            new EncounterStatic { Species = 131, Level = 15, Version = GameVersion.RBY }, // Lapras
-            new EncounterStatic { Species = 138, Level = 30, Version = GameVersion.RBY }, // Omanyte
-            new EncounterStatic { Species = 140, Level = 30, Version = GameVersion.RBY }, // Kabuto
-            new EncounterStatic { Species = 142, Level = 30, Version = GameVersion.RBY }, // Aerodactyl
+            new EncounterStatic1(131, 15, RBY), // Lapras
+            new EncounterStatic1(138, 30, RBY), // Omanyte
+            new EncounterStatic1(140, 30, RBY), // Kabuto
+            new EncounterStatic1(142, 30, RBY), // Aerodactyl
 
-            new EncounterStatic { Species = 144, Level = 50, Version = GameVersion.RBY }, // Articuno
-            new EncounterStatic { Species = 145, Level = 50, Version = GameVersion.RBY }, // Zapdos
-            new EncounterStatic { Species = 146, Level = 50, Version = GameVersion.RBY }, // Moltres
+            new EncounterStatic1(144, 50, RBY), // Articuno
+            new EncounterStatic1(145, 50, RBY), // Zapdos
+            new EncounterStatic1(146, 50, RBY), // Moltres
 
-            new EncounterStatic { Species = 150, Level = 70, Version = GameVersion.RBY }, // Mewtwo
+            new EncounterStatic1(150, 70, RBY), // Mewtwo
 
-            new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.RB }, // Eevee
-            new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.YW }, // Eevee (Different initial moves)
+            new EncounterStatic1(133, 25, RB), // Eevee
+            new EncounterStatic1(133, 25, YW), // Eevee (Different initial moves)
 
-            new EncounterStatic { Species = 100, Level = 40, Version = GameVersion.RBY }, // Voltorb (Power Plant)
-            new EncounterStatic { Species = 101, Level = 43, Version = GameVersion.RBY }, // Electrode (Power Plant)
+            new EncounterStatic1(100, 40, RBY), // Voltorb (Power Plant)
+            new EncounterStatic1(101, 43, RBY), // Electrode (Power Plant)
 
             // Yellow Only -- duplicate encounters with a higher level
-            // new EncounterStatic { Species = 001, Level = 10, Version = GameVersion.YW }, // Bulbasaur (Cerulean City)
-            // new EncounterStatic { Species = 004, Level = 10, Version = GameVersion.YW }, // Charmander (Route 24)
-            // new EncounterStatic { Species = 007, Level = 10, Version = GameVersion.YW }, // Squirtle (Vermillion City)
+            // new EncounterStatic1(001, 10, YW), // Bulbasaur (Cerulean City)
+            // new EncounterStatic1(004, 10, YW), // Charmander (Route 24)
+            // new EncounterStatic1(007, 10, YW), // Squirtle (Vermillion City)
 
-            new EncounterStatic { Species = 054, Level = 15, Moves = new [] { 133, 10 }, Version = GameVersion.Stadium }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic { Species = 001, Level = 05, Version = GameVersion.Stadium }, // Bulbasaur
-            new EncounterStatic { Species = 004, Level = 05, Version = GameVersion.Stadium }, // Charmander
-            new EncounterStatic { Species = 071, Level = 05, Version = GameVersion.Stadium }, // Squirtle
-            new EncounterStatic { Species = 106, Level = 20, Version = GameVersion.Stadium }, // Hitmonlee
-            new EncounterStatic { Species = 107, Level = 20, Version = GameVersion.Stadium }, // Hitmonchan
-            new EncounterStatic { Species = 133, Level = 25, Version = GameVersion.Stadium }, // Eevee
-            new EncounterStatic { Species = 138, Level = 20, Version = GameVersion.Stadium }, // Omanyte
-            new EncounterStatic { Species = 140, Level = 20, Version = GameVersion.Stadium }, // Kabuto
-            new EncounterStatic { Species = 151, Level = 5, IVs = new [] {15,15,15,15,15,15}, Version = GameVersion.VCEvents }, // Event Mew
+            new EncounterStatic1(001, 05, Stadium), // Bulbasaur
+            new EncounterStatic1(004, 05, Stadium), // Charmander
+            new EncounterStatic1(071, 05, Stadium), // Squirtle
+            new EncounterStatic1(106, 20, Stadium), // Hitmonlee
+            new EncounterStatic1(107, 20, Stadium), // Hitmonchan
+            new EncounterStatic1(133, 25, Stadium), // Eevee
+            new EncounterStatic1(138, 20, Stadium), // Omanyte
+            new EncounterStatic1(140, 20, Stadium), // Kabuto
+            new EncounterStatic1(054, 15, Stadium) { Moves = new [] { 133, 10 } }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic1(151, 5, VCEvents) { IVs = new [] {15,15,15,15,15,15} }, // Event Mew
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_Common =
         {
             // Species & Minimum level (legal) possible to acquire at.
-            //new EncounterTrade { Species = 122, Level = 06 }, // Mr. Mime - Game Corner Abra
-            new EncounterTrade1(032, 02) { Version = GameVersion.RD }, // Nidoran♂ - Wild Nidoran♀
-            new EncounterTrade1(029, 02) { Version = GameVersion.BU }, // Nidoran♀ - Wild Nidoran♂
-            new EncounterTrade1(030, 16) { Version = GameVersion.RB }, // Nidorina - Evolve Nidorino
-            new EncounterTrade1(030, 16) { Version = GameVersion.YW }, // Nidorina - Evolve Nidorino (Different initial moves)
-            new EncounterTrade1(108, 15) { Version = GameVersion.RBY }, // Lickitung - Surf Slowbro
-            new EncounterTrade1(083, 02) { Version = GameVersion.RBY }, // Farfetch’d - Wild Spearow
-            new EncounterTrade1(101, 03) { Version = GameVersion.RBY }, // Electrode - Wild Raichu
+          //new EncounterTrade1(122, 06, RBY), // Mr. Mime - Game Corner Abra
+            new EncounterTrade1(032, 02, RD), // Nidoran♂ - Wild Nidoran♀
+            new EncounterTrade1(029, 02, BU), // Nidoran♀ - Wild Nidoran♂
+            new EncounterTrade1(030, 16, RB), // Nidorina - Evolve Nidorino
+            new EncounterTrade1(030, 16, YW), // Nidorina - Evolve Nidorino (Different initial moves)
+            new EncounterTrade1(108, 15, RBY), // Lickitung - Surf Slowbro
+            new EncounterTrade1(083, 02, RBY), // Farfetch’d - Wild Spearow
+            new EncounterTrade1(101, 03, RBY), // Electrode - Wild Raichu
 
-            new EncounterTrade1(122, 03) { Version = GameVersion.RBY }, // Mr. Mime - Wild Jigglypuff
-            new EncounterTrade1(060, 02) { Version = GameVersion.RBY }, // Poliwag - Wild Rattata
-            //new EncounterTrade { Species = 083, Level = 02 }, // Farfetch’d - Wild Pidgey
+            new EncounterTrade1(122, 03, RBY), // Mr. Mime - Wild Jigglypuff
+            new EncounterTrade1(060, 02, RBY), // Poliwag - Wild Rattata
+          //new EncounterTrade1(083, 02, RBY), // Farfetch’d - Wild Pidgey
 
-            new EncounterTrade1(093, 28, 45) { EvolveOnTrade = true, Version = GameVersion.RBY }, // Haunter - Evolve Machop->Machoke
-            new EncounterTrade1(075, 16, 45) { EvolveOnTrade = true, Version = GameVersion.RBY }, // Graveler - Evolve Abra->Kadabra
+            new EncounterTrade1(093, 28, RBY, 45) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
+            new EncounterTrade1(075, 16, RBY, 45) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_NoTradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
-            // Species & Minimum level (legal) possible to acquire at.
-            new EncounterTrade1(124, 15) { Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (GSC: 10)
-            new EncounterTrade1(114, 13) { Version = GameVersion.RBY }, // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
-            new EncounterTrade1(086, 28) { Version = GameVersion.RBY }, // Seel - Wild Ponyta (GSC: 5)
+            new EncounterTrade1(124, 15, RBY), // Jynx - Fish Poliwhirl (GSC: 10)
+            new EncounterTrade1(114, 13, RBY), // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
+            new EncounterTrade1(086, 28, RBY), // Seel - Wild Ponyta (GSC: 5)
 
-            new EncounterTrade1(115, 15) { Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (GSC: 10)
-            new EncounterTrade1(128, 28) { Version = GameVersion.RBY }, // Tauros - Evolve Persian (GSC: 18)
-            new EncounterTrade1(098, 15, 204) { Version = GameVersion.RBY }, // Krabby - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(115, 15, RBY), // Kangaskhan - Trade Rhydon (GSC: 10)
+            new EncounterTrade1(128, 28, RBY), // Tauros - Evolve Persian (GSC: 18)
+            new EncounterTrade1(098, 15, RBY, 204), // Krabby - Wild Growlithe (GSC: 5)
 
-            //new EncounterTrade { Species = 122, Level = 08 }, // Mr. Mime - Wild Clefairy (GSC: 6)
-            new EncounterTrade1(067, 16) { Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
-            new EncounterTrade1(112, 15) { Version = GameVersion.RBY }, // Rhydon - Surf Golduck (GSC: 10)
-            new EncounterTrade1(087, 15) { Version = GameVersion.RBY }, // Dewgong - Wild Growlithe (GSC: 5)
-            new EncounterTrade1(089, 25) { Version = GameVersion.RBY }, // Muk - Wild Kangaskhan (GSC: 5)
-            new EncounterTrade1(079, 22) { Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 15) { Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 13) { Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
+          //new EncounterTrade1(122, 08, RBY), // Mr. Mime - Wild Clefairy (GSC: 6)
+            new EncounterTrade1(067, 16, RBY) { EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
+            new EncounterTrade1(112, 15, RBY), // Rhydon - Surf Golduck (GSC: 10)
+            new EncounterTrade1(087, 15, RBY), // Dewgong - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(089, 25, RBY), // Muk - Wild Kangaskhan (GSC: 5)
+            new EncounterTrade1(079, 22, RBY), // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 15, RBY), // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 13, RBY), // Parasect - Trade Tangela (GSC 5)
         });
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_Tradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
             // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
-            new EncounterTrade1(124, 10) { Version = GameVersion.RBY }, // Jynx - Fish Poliwhirl (RBY: 15)
-            new EncounterTrade1(114, 05) { Version = GameVersion.RBY }, // Tangela - Wild Venonat (RBY: 13)
-            new EncounterTrade1(086, 05) { Version = GameVersion.RBY }, // Seel - Egg Ponyta (RBY: 28)
+            new EncounterTrade1(124, 10, RBY), // Jynx - Fish Poliwhirl (RBY: 15)
+            new EncounterTrade1(114, 05, RBY), // Tangela - Wild Venonat (RBY: 13)
+            new EncounterTrade1(086, 05, RBY), // Seel - Egg Ponyta (RBY: 28)
 
-            new EncounterTrade1(115, 10) { Version = GameVersion.RBY }, // Kangaskhan - Trade Rhydon (RBY: 42)
-            new EncounterTrade1(128, 18) { Version = GameVersion.RBY }, // Tauros - Evolve Persian (RBY: 28)
-            new EncounterTrade1(098, 05, 204) { Version = GameVersion.RBY }, // Krabby - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(115, 10, RBY), // Kangaskhan - Trade Rhydon (RBY: 42)
+            new EncounterTrade1(128, 18, RBY), // Tauros - Evolve Persian (RBY: 28)
+            new EncounterTrade1(098, 05, RBY, 204), // Krabby - Egg Growlithe (RBY: 15)
 
           //new EncounterTrade1(122, 08), // Mr. Mime - Wild Clefairy (RBY: 6)
-            new EncounterTrade1(067, 05) { Version = GameVersion.RBY, EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
-            new EncounterTrade1(112, 10) { Version = GameVersion.RBY }, // Rhydon - Surf Golduck (RBY: 15)
-            new EncounterTrade1(087, 05) { Version = GameVersion.RBY }, // Dewgong - Egg Growlithe (RBY: 15)
-            new EncounterTrade1(089, 05) { Version = GameVersion.RBY }, // Muk - Egg Kangaskhan (RBY: 25)
+            new EncounterTrade1(067, 05, RBY) { EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
+            new EncounterTrade1(112, 10, RBY), // Rhydon - Surf Golduck (RBY: 15)
+            new EncounterTrade1(087, 05, RBY), // Dewgong - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(089, 05, RBY), // Muk - Egg Kangaskhan (RBY: 25)
 
-            new EncounterTrade1(079, 05) { Version = GameVersion.RBY }, // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 05) { Version = GameVersion.RBY }, // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 05) { Version = GameVersion.RBY }, // Parasect - Trade Tangela (GSC 5)
+            new EncounterTrade1(079, 05, RBY), // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 05, RBY), // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 05, RBY), // Parasect - Trade Tangela (GSC 5)
         });
 
         private static readonly EncounterArea1 FishOldGood_RBY = new EncounterArea1
@@ -203,9 +194,9 @@ namespace PKHeX.Core
             Location = -1,
             Slots = new EncounterSlot[]
             {
-                new EncounterSlot1 {Species = 129, LevelMin = 05, LevelMax = 05, Type = SlotType.Old_Rod,  Rate = -1, Version = GameVersion.RBY }, // Magikarp
-                new EncounterSlot1 {Species = 118, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, Version = GameVersion.RBY }, // Goldeen
-                new EncounterSlot1 {Species = 060, LevelMin = 10, LevelMax = 10, Type = SlotType.Good_Rod, Rate = -1, Version = GameVersion.RBY }, // Poliwag
+                new EncounterSlot1(129, 05, 05, -1, SlotType.Old_Rod, 0) { Version = RBY }, // Magikarp
+                new EncounterSlot1(118, 10, 10, -1, SlotType.Good_Rod, 1) { Version = RBY }, // Goldeen
+                new EncounterSlot1(060, 10, 10, -1, SlotType.Good_Rod, 2) { Version = RBY }, // Poliwag
             }
         };
     }

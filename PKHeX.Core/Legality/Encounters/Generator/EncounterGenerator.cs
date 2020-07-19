@@ -211,7 +211,7 @@ namespace PKHeX.Core
                 var obj = move.Peek();
                 int gen = obj.Generation;
 
-                if (gen == 1 && (pkm.Korean || (obj is EncounterTrade t && !IsEncounterTrade1Valid(pkm, t))))
+                if (gen == 1 && (pkm.Korean || (obj is EncounterTrade1 t && !t.IsEncounterTrade1Valid(pkm))))
                     deferred.Add(obj);
                 else if (gen == 2 && ((pkm.Korean && obj.Version == GameVersion.C) || kadabra))
                     deferred.Add(obj);
@@ -253,8 +253,10 @@ namespace PKHeX.Core
         {
             switch (Encounter)
             {
-                case EncounterTrade t:
-                    return t.Generation == 2 ? GBEncounterPriority.TradeEncounterG2 : GBEncounterPriority.TradeEncounterG1;
+                case EncounterTrade1 _:
+                    return GBEncounterPriority.TradeEncounterG1;
+                case EncounterTrade2 _:
+                    return GBEncounterPriority.TradeEncounterG2;
                 case EncounterStatic s:
                     if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
                         return GBEncounterPriority.SpecialEncounter;
@@ -495,16 +497,6 @@ namespace PKHeX.Core
                 EncounterSlot w => w.TypeEncounter.Contains(type),
                 _ => (type == 0)
             };
-        }
-
-        internal static bool IsEncounterTrade1Valid(PKM pkm, EncounterTrade t)
-        {
-            string ot = pkm.OT_Name;
-            if (pkm.Format <= 2)
-                return ot == StringConverter12.G1TradeOTStr;
-            // Converted string 1/2->7 to language specific value
-            var tr = t.GetOT(pkm.Language);
-            return ot == tr;
         }
 
         /// <summary>

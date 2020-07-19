@@ -17,6 +17,19 @@ namespace PKHeX.Core
         public const char G1TradeOT = '*';
         public const string G1TradeOTStr = "*";
 
+        public static readonly IReadOnlyList<string> G1TradeOTName = new []
+        {
+            string.Empty,
+            "トレーナー",
+            "Trainer",
+            "Dresseur",
+            "Allenatore",
+            "Trainer",
+            string.Empty,
+            "Entrenador",
+            "트레이너",
+        };
+
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
         /// </summary>

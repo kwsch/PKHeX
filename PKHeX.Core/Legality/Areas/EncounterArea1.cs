@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.RBY"/> encounter area
     /// </summary>
-    public sealed class EncounterArea1 : EncounterAreaGB
+    public sealed class EncounterArea1 : EncounterArea
     {
         private static EncounterSlot1[] ReadSlots1FishingYellow(byte[] data, ref int ofs, int count, SlotType t, int rate)
         {
@@ -22,16 +22,7 @@ namespace PKHeX.Core
             {
                 int spec = specieslist[Array.IndexOf(dexbytelist, data[ofs++])];
                 int lvl = Array.IndexOf(Levelbytelist, data[ofs++]) * 5;
-
-                slots[i] = new EncounterSlot1
-                {
-                    LevelMax = lvl,
-                    LevelMin = lvl,
-                    Species = spec,
-                    Type = t,
-                    Rate = rate,
-                    SlotNumber = i,
-                };
+                slots[i] = new EncounterSlot1(spec, lvl, lvl, rate, t, i);
             }
             return slots;
         }
@@ -64,7 +55,7 @@ namespace PKHeX.Core
                 areas[i] = new EncounterArea1
                 {
                     Location = i,
-                    Slots = grass.Concat(water).ToArray()
+                    Slots = ArrayUtil.ConcatAll(grass, water),
                 };
             }
             return areas.Where(area => area.Slots.Length != 0).ToArray();
@@ -125,16 +116,42 @@ namespace PKHeX.Core
             return areas;
         }
 
-        private static IEnumerable<EncounterSlot1> GetSlots1GrassWater(byte[] data, ref int ofs, SlotType t)
+        private static EncounterSlot1[] GetSlots1GrassWater(byte[] data, ref int ofs, SlotType t)
         {
             int rate = data[ofs++];
-            return rate == 0 ? Enumerable.Empty<EncounterSlot1>() : ReadSlots1(data, ref ofs, 10, t, rate);
+            return rate == 0 ? Array.Empty<EncounterSlot1>() : EncounterSlot1.ReadSlots(data, ref ofs, 10, t, rate);
         }
 
         private static EncounterSlot1[] GetSlots1Fishing(byte[] data, ref int ofs)
         {
             int count = data[ofs++];
-            return ReadSlots1(data, ref ofs, count, SlotType.Super_Rod, -1);
+            return EncounterSlot1.ReadSlots(data, ref ofs, count, SlotType.Super_Rod, -1);
+        }
+
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        {
+            if (minLevel == 0) // any
+                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+
+            var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);
+            if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
+                encounterSlots = FilterByCatchRate(encounterSlots, pk1.Catch_Rate);
+
+            return encounterSlots.OrderBy(slot => slot.LevelMin); // prefer lowest levels
+        }
+
+        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        {
+            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            if (pkm.Format >= 7) // transferred to Gen7+
+                return slots.Where(slot => slot.LevelMin <= minLevel);
+            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+        }
+
+        private static IEnumerable<EncounterSlot> FilterByCatchRate(IEnumerable<EncounterSlot> slots, int rate)
+        {
+            return slots.Where(z =>
+                rate == (z.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[z.Species].CatchRate);
         }
     }
 }
