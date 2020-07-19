@@ -45,12 +45,13 @@ namespace PKHeX.Core
             // 15bit itemID
             // 15bit count
             // 1 bit new flag
-            // 1 bit reserved
+            // 1 bit favorite flag
             return new InventoryItem
             {
                 Index = (int)(val & 0x7FF),
                 Count = (int)(val >> 15 & 0x3FF), // clamp to sane values
                 New = (val & 0x40000000) != 0, // 30th bit is "NEW"
+                FreeSpace = (val & 0x80000000) != 0, // 31th bit is "FAVORITE"
             };
         }
 
@@ -59,7 +60,7 @@ namespace PKHeX.Core
             // 15bit itemID
             // 15bit count
             // 1 bit new flag
-            // 1 bit reserved
+            // 1 bit favorite flag
             uint val = 0;
             val |= (uint)(item.Index & 0x7FF);
             val |= (uint)(item.Count & 0x3FF) << 15; // clamped to sane limit
@@ -67,6 +68,8 @@ namespace PKHeX.Core
                 item.New |= OriginalItems.All(z => z.Index != item.Index);
             if (item.New)
                 val |= 0x40000000;
+            if (item.FreeSpace)
+                val |= 0x80000000;
             return val;
         }
 
@@ -86,6 +89,8 @@ namespace PKHeX.Core
         {
             return t switch
             {
+                // TMs are clamped to 1, let TRs be whatever
+                InventoryType.TMHMs => 1130 <= item && item <= 1229 ? requestVal : 1,
                 _ => requestVal
             };
         }

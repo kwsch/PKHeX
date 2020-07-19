@@ -204,6 +204,8 @@ namespace PKHeX.Core
         {
             if (sav is SAV7b) // mixed pouch count caps
                 return InventoryPouch7b.GetSuggestedCount(Type, item, requestVal);
+            if (sav is SAV8SWSH)
+                return InventoryPouch8.GetSuggestedCount(Type, item, requestVal);
             if (ItemConverter.IsItemHM((ushort)item, sav.Generation))
                 return 1;
             return Math.Min(MaxCount, requestVal);
