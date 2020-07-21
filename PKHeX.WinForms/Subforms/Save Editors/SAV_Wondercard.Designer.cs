@@ -1,4 +1,4 @@
-﻿namespace PKHeX.WinForms
+namespace PKHeX.WinForms
 {
     partial class SAV_Wondercard
     {
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Wondercard));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Output = new System.Windows.Forms.Button();
@@ -60,7 +59,7 @@
             this.B_Save.Location = new System.Drawing.Point(391, 326);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(75, 23);
-            this.B_Save.TabIndex = 0;
+            this.B_Save.TabIndex = 9;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
             this.B_Save.Click += new System.EventHandler(this.B_Save_Click);
@@ -71,7 +70,7 @@
             this.B_Cancel.Location = new System.Drawing.Point(320, 326);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(71, 23);
-            this.B_Cancel.TabIndex = 1;
+            this.B_Cancel.TabIndex = 8;
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
             this.B_Cancel.Click += new System.EventHandler(this.B_Cancel_Click);
@@ -106,9 +105,11 @@
             this.LB_Received.FormattingEnabled = true;
             this.LB_Received.Location = new System.Drawing.Point(12, 31);
             this.LB_Received.Name = "LB_Received";
+            this.LB_Received.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.LB_Received.Size = new System.Drawing.Size(78, 316);
             this.LB_Received.Sorted = true;
-            this.LB_Received.TabIndex = 5;
+            this.LB_Received.TabIndex = 1;
+            this.LB_Received.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LB_Received_KeyDown);
             // 
             // mnuDel
             // 
@@ -122,7 +123,7 @@
             this.flagDel.Name = "flagDel";
             this.flagDel.Size = new System.Drawing.Size(107, 22);
             this.flagDel.Text = "Delete";
-            this.flagDel.Click += new System.EventHandler(this.ClearRecievedFlag);
+            this.flagDel.Click += new System.EventHandler(this.ClearReceivedFlag);
             // 
             // L_Received
             // 
@@ -130,7 +131,7 @@
             this.L_Received.Location = new System.Drawing.Point(12, 13);
             this.L_Received.Name = "L_Received";
             this.L_Received.Size = new System.Drawing.Size(75, 13);
-            this.L_Received.TabIndex = 7;
+            this.L_Received.TabIndex = 0;
             this.L_Received.Text = "Received List:";
             // 
             // RTB
@@ -141,7 +142,7 @@
             this.RTB.Name = "RTB";
             this.RTB.ReadOnly = true;
             this.RTB.Size = new System.Drawing.Size(355, 100);
-            this.RTB.TabIndex = 10;
+            this.RTB.TabIndex = 4;
             this.RTB.Text = "";
             // 
             // L_Details
@@ -150,7 +151,7 @@
             this.L_Details.Location = new System.Drawing.Point(108, 43);
             this.L_Details.Name = "L_Details";
             this.L_Details.Size = new System.Drawing.Size(42, 13);
-            this.L_Details.TabIndex = 11;
+            this.L_Details.TabIndex = 2;
             this.L_Details.Text = "Details:";
             // 
             // L_QR
@@ -212,7 +213,7 @@
             this.FLP_Gifts.Location = new System.Drawing.Point(111, 164);
             this.FLP_Gifts.Name = "FLP_Gifts";
             this.FLP_Gifts.Size = new System.Drawing.Size(355, 153);
-            this.FLP_Gifts.TabIndex = 92;
+            this.FLP_Gifts.TabIndex = 5;
             // 
             // B_UnusedAll
             // 
@@ -220,7 +221,7 @@
             this.B_UnusedAll.Location = new System.Drawing.Point(111, 326);
             this.B_UnusedAll.Name = "B_UnusedAll";
             this.B_UnusedAll.Size = new System.Drawing.Size(71, 23);
-            this.B_UnusedAll.TabIndex = 94;
+            this.B_UnusedAll.TabIndex = 6;
             this.B_UnusedAll.Text = "All Unused";
             this.B_UnusedAll.UseVisualStyleBackColor = true;
             this.B_UnusedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
@@ -231,7 +232,7 @@
             this.B_UsedAll.Location = new System.Drawing.Point(182, 326);
             this.B_UsedAll.Name = "B_UsedAll";
             this.B_UsedAll.Size = new System.Drawing.Size(75, 23);
-            this.B_UsedAll.TabIndex = 93;
+            this.B_UsedAll.TabIndex = 7;
             this.B_UsedAll.Text = "All Used";
             this.B_UsedAll.UseVisualStyleBackColor = true;
             this.B_UsedAll.Click += new System.EventHandler(this.B_ModifyAll_Click);
@@ -241,7 +242,7 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 361);
+            this.ClientSize = new System.Drawing.Size(492, 369);
             this.Controls.Add(this.B_UnusedAll);
             this.Controls.Add(this.B_UsedAll);
             this.Controls.Add(this.FLP_Gifts);
@@ -255,7 +256,7 @@
             this.Controls.Add(this.B_Output);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(700, 600);
             this.MinimizeBox = false;

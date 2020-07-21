@@ -1,25 +1,18 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core
 {
     public abstract class EggMoves
     {
-        protected int Count;
-        public int[] Moves;
-        public int FormTableIndex;
-
+        public readonly int[] Moves;
+        protected EggMoves(int[] moves) => Moves = moves;
         public bool GetHasEggMove(int move) => Moves.Contains(move);
     }
 
     public sealed class EggMoves2 : EggMoves
     {
-        private EggMoves2(byte[] data)
-        {
-            Count = data.Length;
-            Moves = data.Select(i => (int) i).ToArray();
-        }
+        private EggMoves2(byte[] data) : base(data.Select(i => (int)i).ToArray()) { }
 
         public static EggMoves[] GetArray(byte[] data, int count)
         {
@@ -42,48 +35,56 @@ namespace PKHeX.Core
 
     public sealed class EggMoves6 : EggMoves
     {
-        private EggMoves6(byte[] data)
+        private static readonly EggMoves6 None = new EggMoves6(Array.Empty<int>());
+
+        private EggMoves6(int[] moves) : base(moves) { }
+
+        private static EggMoves6 Get(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = Array.Empty<int>(); return; }
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-            {
-                Moves = new int[Count = br.ReadUInt16()];
-                for (int i = 0; i < Count; i++)
-                    Moves[i] = br.ReadUInt16();
-            }
+                return None;
+
+            int count = BitConverter.ToInt16(data, 0);
+            var moves = new int[count];
+            for (int i = 0; i < moves.Length; i++)
+                moves[i] = BitConverter.ToInt16(data, 2 + (i * 2));
+            return new EggMoves6(moves);
         }
 
-        public static EggMoves[] GetArray(byte[][] entries)
+        public static EggMoves6[] GetArray(byte[][] entries)
         {
-            EggMoves[] data = new EggMoves[entries.Length];
+            EggMoves6[] data = new EggMoves6[entries.Length];
             for (int i = 0; i < data.Length; i++)
-                data[i] = new EggMoves6(entries[i]);
+                data[i] = Get(entries[i]);
             return data;
         }
     }
 
     public sealed class EggMoves7 : EggMoves
     {
-        private EggMoves7(byte[] data)
+        private static readonly EggMoves7 None = new EggMoves7(Array.Empty<int>());
+        public readonly int FormTableIndex;
+
+        private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;
+
+        private static EggMoves7 Get(byte[] data)
         {
             if (data.Length < 2 || data.Length % 2 != 0)
-            { Count = 0; Moves = Array.Empty<int>(); return; }
-            using (BinaryReader br = new BinaryReader(new MemoryStream(data)))
-            {
-                FormTableIndex = br.ReadUInt16();
-                Count = br.ReadUInt16();
-                Moves = new int[Count];
-                for (int i = 0; i < Count; i++)
-                    Moves[i] = br.ReadUInt16();
-            }
+                return None;
+
+            int formIndex = BitConverter.ToInt16(data, 0);
+            int count = BitConverter.ToInt16(data, 2);
+            var moves = new int[count];
+            for (int i = 0; i < moves.Length; i++)
+                moves[i] = BitConverter.ToInt16(data, 4 + (i * 2));
+            return new EggMoves7(moves, formIndex);
         }
 
-        public static EggMoves[] GetArray(byte[][] entries)
+        public static EggMoves7[] GetArray(byte[][] entries)
         {
-            EggMoves[] data = new EggMoves[entries.Length];
+            EggMoves7[] data = new EggMoves7[entries.Length];
             for (int i = 0; i < data.Length; i++)
-                data[i] = new EggMoves7(entries[i]);
+                data[i] = Get(entries[i]);
             return data;
         }
     }

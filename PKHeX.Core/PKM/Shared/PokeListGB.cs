@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public byte Count { get => Data[0]; private set => Data[0] = value > Capacity ? Capacity : value; }
 
-        protected PokeListGB(byte[] d, PokeListType c = PokeListType.Single, bool jp = false)
+        protected PokeListGB(byte[]? d, PokeListType c = PokeListType.Single, bool jp = false)
         {
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         private int GetOffsetPKMOT(int base_ofs, int i) => GetOffsetPKMData(base_ofs, Capacity) + (StringLength * i);
         private int GetOffsetPKMNickname(int base_ofs, int i) => GetOffsetPKMOT(base_ofs, Capacity) + (StringLength * i);
 
-        private static int GetStringLength(bool jp) => jp ? _K12.STRLEN_J : _K12.STRLEN_U;
+        private static int GetStringLength(bool jp) => jp ? GBPKM.STRLEN_J : GBPKM.STRLEN_U;
         protected bool IsFormatParty => IsCapacityPartyFormat((PokeListType)Capacity);
         protected static bool IsCapacityPartyFormat(PokeListType Capacity) => Capacity == PokeListType.Single || Capacity == PokeListType.Party;
 
@@ -69,14 +69,11 @@ namespace PKHeX.Core
         {
             get
             {
-                if (i > Capacity || i < 0) throw new ArgumentOutOfRangeException($"Invalid {nameof(PokeListGB<T>)} Access: {i}");
+                if ((uint)i > Capacity)
+                    throw new ArgumentOutOfRangeException($"Invalid {nameof(PokeListGB<T>)} Access: {i}");
                 return Pokemon[i];
             }
-            set
-            {
-                if (value == null) return;
-                Pokemon[i] = (T)value.Clone();
-            }
+            set => Pokemon[i] = (T)value.Clone();
         }
 
         private T[] Read()
@@ -104,15 +101,14 @@ namespace PKHeX.Core
 
         private T GetEntry(int base_ofs, int i)
         {
-            byte[] dat = new byte[Entry_Size];
-            byte[] otname = new byte[StringLength];
-            byte[] nick = new byte[StringLength];
             int pkOfs = GetOffsetPKMData(base_ofs, i);
             int otOfs = GetOffsetPKMOT(base_ofs, i);
             int nkOfs = GetOffsetPKMNickname(base_ofs, i);
-            Buffer.BlockCopy(Data, pkOfs, dat, 0, Entry_Size);
-            Buffer.BlockCopy(Data, otOfs, otname, 0, StringLength);
-            Buffer.BlockCopy(Data, nkOfs, nick, 0, StringLength);
+
+            var dat = Data.Slice(pkOfs, Entry_Size);
+            var otname = Data.Slice(otOfs, StringLength);
+            var nick = Data.Slice(nkOfs, StringLength);
+
             return GetEntry(dat, otname, nick, Data[1 + i] == 0xFD);
         }
 

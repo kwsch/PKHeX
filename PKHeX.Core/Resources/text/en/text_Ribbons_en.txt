@@ -101,3 +101,51 @@ RibbonChampionAlola	Alola Champion
 RibbonBattleRoyale	Battle Royal Champion
 RibbonBattleTreeGreat	Battle Tree Great
 RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionGalar	Galar Champion
+RibbonTowerMaster	Tower Master
+RibbonMasterRank	Master Rank
+RibbonMarkLunchtime	Lunchtime Mark
+RibbonMarkSleepyTime	Sleepy-Time Mark
+RibbonMarkDusk	Dusk Mark
+RibbonMarkDawn	Dawn Mark
+RibbonMarkCloudy	Cloudy Mark
+RibbonMarkRainy	Rainy Mark
+RibbonMarkStormy	Stormy Mark
+RibbonMarkSnowy	Snowy Mark
+RibbonMarkBlizzard	Blizzard Mark
+RibbonMarkDry	Dry Mark
+RibbonMarkSandstorm	Sandstorm Mark
+RibbonMarkMisty	Misty Mark
+RibbonMarkDestiny	Destiny Mark
+RibbonMarkFishing	Fishing Mark
+RibbonMarkCurry	Curry Mark
+RibbonMarkUncommon	Uncommon Mark
+RibbonMarkRare	Rare Mark
+RibbonMarkRowdy	Rowdy Mark
+RibbonMarkAbsentMinded	Absent-Minded Mark
+RibbonMarkJittery	Jittery Mark
+RibbonMarkExcited	Excited Mark
+RibbonMarkCharismatic	Charismatic Mark
+RibbonMarkCalmness	Calmness Mark
+RibbonMarkIntense	Intense Mark
+RibbonMarkZonedOut	Zoned-Out Mark
+RibbonMarkJoyful	Joyful Mark
+RibbonMarkAngry	Angry Mark
+RibbonMarkSmiley	Smiley Mark
+RibbonMarkTeary	Teary Mark
+RibbonMarkUpbeat	Upbeat Mark
+RibbonMarkPeeved	Peeved Mark
+RibbonMarkIntellectual	Intellectual Mark
+RibbonMarkFerocious	Ferocious Mark
+RibbonMarkCrafty	Crafty Mark
+RibbonMarkScowling	Scowling Mark
+RibbonMarkKindly	Kindly Mark
+RibbonMarkFlustered	Flustered Mark
+RibbonMarkPumpedUp	Pumped-Up Mark
+RibbonMarkZeroEnergy	Zero Energy Mark
+RibbonMarkPrideful	Prideful Mark
+RibbonMarkUnsure	Unsure Mark
+RibbonMarkHumble	Humble Mark
+RibbonMarkThorny	Thorny Mark
+RibbonMarkVigor	Vigor Mark
+RibbonMarkSlump	Slump Mark

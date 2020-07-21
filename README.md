@@ -18,23 +18,23 @@ The interface can be translated with resource/external text files so that differ
 
 Pokémon Showdown sets and QR codes can be imported/exported to assist in sharing.
 
-Nintendo 3DS savedata containers use an AES MAC that cannot be emulated without the 3DS's keys, thus a resigning service is required ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
+PKHeX expects save files that are not encrypted with console-specific keys. Use a savedata manager to import and export savedata from the console ([Checkpoint](https://github.com/FlagBrew/Checkpoint), save_manager, [JKSM](https://github.com/J-D-K/JKSM), or SaveDataFiler).
 
 **We do not support or condone cheating at the expense of others. Do not use significantly hacked Pokémon in battle or in trades with those who are unaware hacked Pokémon are in use.**
 
 ## Screenshots
 
-![Main Window](https://i.imgur.com/BkmHYB2.png)
+![Main Window](https://i.imgur.com/MLaQkqx.png)
 
 ## Building
 
-PKHeX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137).
+PKHeX is a Windows Forms application which requires [.NET Framework v4.6](https://www.microsoft.com/en-us/download/details.aspx?id=48137), with experimental support for [.NET Core 3](https://dotnet.microsoft.com/download/dotnet-core/3.0).
 
-The executable can be built with any compiler that supports C# 7.
+The executable can be built with any compiler that supports C# 8.
 
 ### Build Configurations
 
-Use the Debug or Release build configurations when building using the .NET Framework.  Use the Mono-Debug or Mono-Release build configurations when building using Mono.
+Use the Debug or Release build configurations when building. There isn't any platform specific code to worry about!
 
 ## Dependencies
 
@@ -44,8 +44,8 @@ PKHeX's shiny sprite collection is taken from [pokesprite](https://github.com/ms
 
 ### IDE
 
-PKHeX can be opened with IDEs such as [Visual Studio](https://www.visualstudio.com/) or [MonoDevelop](http://www.monodevelop.com/) by opening the .sln or .csproj file.
+PKHeX can be opened with IDEs such as [Visual Studio](https://visualstudio.microsoft.com/downloads/) by opening the .sln or .csproj file.
 
 ### GNU/Linux
 
-Install [MonoDevelop](http://www.monodevelop.com/) and [Mono Runtime](http://www.mono-project.com/) with `flatpak install --user --from https://download.mono-project.com/repo/monodevelop.flatpakref`. GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono (so developers using \*BSD, Windows and macOS should be able to reproduce them).
+GNU/Linux is not the main Operating System of developers of this program so there may be bugs; some may come from non GNU/Linux specific code of Mono/Wine, so other users may not be able to reproduce the error you are experiencing.

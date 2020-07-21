@@ -16,19 +16,19 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts Generation 2 Korean encoded data into a string.
         /// </summary>
-        /// <param name="strdata">Encoded data.</param>
+        /// <param name="data">Encoded data.</param>
         /// <param name="offset">Offset to read from</param>
         /// <param name="count"></param>
         /// <returns>Decoded string.</returns>
-        public static string GetString2KOR(byte[] strdata, int offset, int count)
+        public static string GetString2KOR(byte[] data, int offset, int count)
         {
             var s = new StringBuilder();
             for (int i = 0; i < count; i++)
             {
-                var val = strdata[offset + i];
+                var val = data[offset + i];
                 var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
                 if (val <= 0xB && val != 0)
-                    val = strdata[offset + ++i];
+                    val = data[offset + ++i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
                 if (c == '\0') // Stop if Terminator

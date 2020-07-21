@@ -47,8 +47,8 @@ namespace PKHeX.Core
 
         private void VerifyIVsMystery(LegalityAnalysis data, MysteryGift g)
         {
-            int[] IVs = g.IVs;
-            if (IVs == null)
+            var IVs = g.IVs;
+            if (IVs.Length == 0)
                 return;
 
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
@@ -71,21 +71,22 @@ namespace PKHeX.Core
             {
                 case 6: VerifyIVsGen6(data, w); break;
                 case 7: VerifyIVsGen7(data); break;
+                case 8: VerifyIVsGen8(data); break;
             }
+        }
+
+        private void VerifyIVsGen8(LegalityAnalysis data)
+        {
+            // todo special rules
         }
 
         private void VerifyIVsGen7(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (pkm.GG)
-            {
-                if (pkm.Version == (int)GameVersion.GO)
-                    VerifyIVsGoTransfer(data);
-            }
+            if (pkm.GO)
+                VerifyIVsGoTransfer(data);
             else if (pkm.AbilityNumber == 4)
-            {
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
-            }
         }
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)

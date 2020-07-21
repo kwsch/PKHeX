@@ -1,8 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.Windows.Forms;
 #if !DEBUG
+using System.Reflection;
 using System.IO;
 using System.Threading;
 #endif
@@ -27,57 +26,15 @@ namespace PKHeX.WinForms
             // Add the event handler for handling non-UI thread exceptions to the event.
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 #endif
-            if (!CheckNETFramework())
-                return;
             // Run the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Main());
         }
 
-        private static bool CheckNETFramework()
-        {
-            if (IsOnWindows())
-            {
-                #if MONO
-                Error("Mono version should not be used on a Windows system.");
-                #endif
-                if (GetFrameworkVersion() >= 393295)
-                    return true;
-                Error(".NET Framework 4.6 needs to be installed for this version of PKHeX to run.");
-                Process.Start("https://www.microsoft.com/download/details.aspx?id=48130");
-                return false;
-            }
-
-            //CLR Version 4.0.30319.42000 is equivalent to .NET Framework version 4.6
-            if (Environment.Version.CompareTo(Version.Parse("4.0.30319.42000")) >= 0)
-                return true;
-            Error("Your version of Mono needs to target the .NET Framework 4.6 or higher for this version of PKHeX to run.");
-            return false;
-        }
-
-        private static bool IsOnWindows()
-        {
-            // 4 -> UNIX, 6 -> Mac OSX, 128 -> UNIX (old)
-            int p = (int)Environment.OSVersion.Platform;
-            return p != 4 && p != 6 && p != 128;
-        }
-
-        private static int GetFrameworkVersion()
-        {
-            const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
-            using (RegistryKey ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey))
-            {
-                if (ndpKey == null)
-                    return 0;
-                int releaseKey = (int)ndpKey.GetValue("Release");
-                return releaseKey;
-            }
-        }
-
+#if !DEBUG
         private static void Error(string msg) => MessageBox.Show(msg, "PKHeX Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 
-#if !DEBUG
         // Handle the UI exceptions by showing a dialog box, and asking the user whether or not they wish to abort execution.
         private static void UIThreadException(object sender, ThreadExceptionEventArgs t)
         {
@@ -105,7 +62,11 @@ namespace PKHeX.WinForms
             var ex = e.ExceptionObject as Exception;
             try
             {
-                if (ex != null)
+                if (IsOldPkhexCorePresent(ex))
+                {
+                    Error("You have upgraded PKHeX incorrectly. Please delete PKHeX.Core.dll.");
+                }
+                else if (ex != null)
                 {
                     ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nPKHeX must now close.", ex, false);
                 }
@@ -157,6 +118,13 @@ namespace PKHeX.WinForms
                 return false;
             }
             return true;
+        }
+
+        private static bool IsOldPkhexCorePresent(Exception ex)
+        {
+            return ex is MissingMethodException
+                && File.Exists("PKHeX.Core.dll")
+                && AssemblyName.GetAssemblyName("PKHeX.Core.dll").Version < Assembly.GetExecutingAssembly().GetName().Version;
         }
 #endif
     }

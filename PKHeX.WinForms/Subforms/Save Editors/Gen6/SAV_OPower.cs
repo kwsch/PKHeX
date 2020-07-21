@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             Origin = (SaveFile)sav;
             SAV = Origin.Clone();
-            Data = ((IOPower)SAV).OPowerBlock;
+            Data = ((IOPower)SAV).OPower;
 
             Current = Types[0];
             foreach (var z in Types)
@@ -57,15 +57,15 @@ namespace PKHeX.WinForms
             Current = Types[CB_Type.SelectedIndex];
 
             CB_Value.Items.Clear();
-            int count = Data.GetOPowerCount(Current);
+            int count = OPower6.GetOPowerCount(Current);
             for (int i = 0; i <= count; i++)
                 CB_Value.Items.Add(Values[i]);
 
             CB_Value.SelectedIndex = Data.GetOPowerLevel(Current);
 
-            CHK_S.Enabled = Data.GetHasOPowerS(Current);
+            CHK_S.Enabled = OPower6.GetHasOPowerS(Current);
             CHK_S.Checked = Data.GetOPowerS(Current);
-            CHK_MAX.Enabled = Data.GetHasOPowerMAX(Current);
+            CHK_MAX.Enabled = OPower6.GetHasOPowerMAX(Current);
             CHK_MAX.Checked = Data.GetOPowerMAX(Current);
         }
 

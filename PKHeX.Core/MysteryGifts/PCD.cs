@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -13,7 +12,7 @@ namespace PKHeX.Core
     /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
     /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
     /// </remarks>
-    public sealed class PCD : MysteryGift
+    public sealed class PCD : DataMysteryGift
     {
         public const int Size = 0x358; // 856
         public override int Format => 4;
@@ -30,33 +29,30 @@ namespace PKHeX.Core
             set => Gift.Ball = value;
         }
 
-        public PCD() => Data = new byte[Size];
-        public PCD(byte[] data) => Data = data;
+        public PCD() : this(new byte[Size]) { }
+        public PCD(byte[] data) : base(data) { }
+
+        public override byte[] Write()
+        {
+            // Ensure PGT content is encrypted
+            var clone = (PCD)Clone();
+            if (clone.Gift.VerifyPKEncryption())
+                clone.Gift = clone.Gift;
+            return clone.Data;
+        }
 
         public PGT Gift
         {
-            get
-            {
-                if (_gift != null)
-                    return _gift;
-                byte[] giftData = new byte[PGT.Size];
-                Array.Copy(Data, 0, giftData, 0, PGT.Size);
-                return _gift = new PGT(giftData);
-            }
-            set => (_gift = value)?.Data.CopyTo(Data, 0);
+            get => _gift ??= new PGT(Data.Slice(0, PGT.Size));
+            set => (_gift = value).Data.CopyTo(Data, 0);
         }
 
-        private PGT _gift;
+        private PGT? _gift;
 
         public byte[] Information
         {
-            get
-            {
-                var data = new byte[Data.Length - PGT.Size];
-                Array.Copy(Data, PGT.Size, data, 0, data.Length);
-                return data;
-            }
-            set => value?.CopyTo(Data, Data.Length - PGT.Size);
+            get => Data.SliceEnd(PGT.Size);
+            set => value.CopyTo(Data, Data.Length - PGT.Size);
         }
 
         public override object Content => Gift.PK;
@@ -90,7 +86,7 @@ namespace PKHeX.Core
         public ushort CardCompatibility => BitConverter.ToUInt16(Data, 0x14C); // rest of bytes we don't really care about
 
         public override int Species { get => Gift.IsManaphyEgg ? 490 : Gift.Species; set => Gift.Species = value; }
-        public override int[] Moves { get => Gift.Moves; set => Gift.Moves = value; }
+        public override IReadOnlyList<int> Moves { get => Gift.Moves; set => Gift.Moves = value; }
         public override int HeldItem { get => Gift.HeldItem; set => Gift.HeldItem = value; }
         public override bool IsShiny => Gift.IsShiny;
         public override bool IsEgg { get => Gift.IsEgg; set => Gift.IsEgg = value; }
@@ -126,14 +122,14 @@ namespace PKHeX.Core
             return true;
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            return Gift.ConvertToPKM(SAV, criteria);
+            return Gift.ConvertToPKM(sav, criteria);
         }
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)
@@ -165,7 +161,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
+            if (wc.AltForm != evo.Form && !Legal.IsFormChangeable(pkm, Species, wc.AltForm))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;

@@ -1,0 +1,12 @@
+0669	Guía del Equipo Plasma Desaparecido (Centro Pokémon de la Liga Pokémon)
+0661	Reshiram/Zekrom Desaparecido (Castillo de N)
+0766	Reshiram/Zekrom Desaparecido (Torre Duodraco)
+0801	Kyurem Desaparecido
+0810	Volcarona Desaparecido
+0649	Cobalion Desaparecido
+0650	Terrakion Desaparecido
+0651	Virizion Desaparecido
+0652	Obstáculo Pasado (Camino Victoria)
+0653	Obstáculo Pasado (Bosque Azulejo)
+2403	Tiene las Deportivas
+0115	Funcionabilidad de Intercambio Habilitada (Centro Pokémon)

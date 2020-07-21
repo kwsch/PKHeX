@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class Zukan5 : Zukan
+    public sealed class Zukan5 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
         protected override int OFS_CAUGHT => 0x8;
@@ -10,11 +10,17 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 7;
         protected override int DexLangIDCount => 7;
 
-        public Zukan5(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan5(SAV5B2W2 sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            var wrap = SAV is SAV5BW ? DexFormUtil.GetDexFormIndexBW : (Func<int, int, int>)DexFormUtil.GetDexFormIndexB2W2;
-            DexFormIndexFetcher = (spec, form, _) => wrap(spec, form);
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexB2W2;
         }
+
+        public Zukan5(SAV5BW sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexBW;
+        }
+
+        public readonly Func<int, int, int> DexFormIndexFetcher;
 
         protected override int GetDexLangFlag(int lang)
         {
@@ -52,7 +58,7 @@ namespace PKHeX.Core
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
-            SetDexFlags(baseBit, 0, gender, shiny);
+            SetDexFlags(baseBit, baseBit, gender, shiny);
             SetFormFlags(baseBit + 1, altform, shiny, value);
         }
 
@@ -76,9 +82,17 @@ namespace PKHeX.Core
 
         protected override void SetDisplayedFlag(int baseBit, int formBit, bool value, int shift)
         {
+            if (!value)
+            {
+                SetDisplayed(baseBit, shift, false);
+                return;
+            }
+
             bool displayed = GetIsSpeciesAnyDisplayed(baseBit);
-            if (!displayed || !value)
-                SetFlag(OFS_SEEN + ((4 + shift) * BitSeenSize), baseBit, value);
+            if (displayed)
+                return; // no need to set another bit
+
+            SetDisplayed(baseBit, shift, true);
         }
 
         private bool GetIsSpeciesAnyDisplayed(int baseBit)
@@ -106,7 +120,7 @@ namespace PKHeX.Core
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
             int fc = SAV.Personal[species].FormeCount;
-            int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+            int f = DexFormIndexFetcher(species, fc);
             if (f < 0)
                 return;
 

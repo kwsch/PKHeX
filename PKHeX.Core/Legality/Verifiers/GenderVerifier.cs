@@ -16,7 +16,7 @@ namespace PKHeX.Core
             if (pi.Genderless != (pkm.Gender == 2))
             {
                 // DP/HGSS shedinja glitch -- only generation 4 spawns
-                bool ignore = pkm.Format == 4 && pkm.Species == 292 && pkm.Met_Level != pkm.CurrentLevel;
+                bool ignore = pkm.Format == 4 && pkm.Species == (int)Species.Shedinja && pkm.Met_Level != pkm.CurrentLevel;
                 if (!ignore)
                     data.AddLine(GetInvalid(LGenderInvalidNone));
                 return;

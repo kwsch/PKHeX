@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class Roamer3 : IContestStats
+    public sealed class Roamer3 : IContestStats
     {
         private readonly SaveFile SAV;
         private readonly int Offset;
@@ -77,7 +77,7 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }

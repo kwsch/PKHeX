@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Event number storage for more complex logic events.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class EventWork<T> : EventVar
+    public sealed class EventWork<T> : EventVar where T : struct
     {
         public T Value;
         public readonly IList<EventWorkVal> Options = new List<EventWorkVal> { new EventWorkVal() };

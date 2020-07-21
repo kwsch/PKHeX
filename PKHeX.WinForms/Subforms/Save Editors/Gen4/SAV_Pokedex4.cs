@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             LB_Species.SelectedIndex = 0;
 
             string[] dexMode = { "not given", "simple mode", "detect forms", "national dex", "other languages" };
-            if (SAV.HGSS) dexMode = dexMode.Where((_, i) => i != 2).ToArray();
+            if (SAV is SAV4HGSS) dexMode = dexMode.Where((_, i) => i != 2).ToArray();
             foreach (string mode in dexMode)
                 CB_DexUpgraded.Items.Add(mode);
             if (SAV.DexUpgraded < CB_DexUpgraded.Items.Count)
@@ -103,11 +103,11 @@ namespace PKHeX.WinForms
                     CL[i].Enabled = CL[i].Checked = false;
             }
 
-            bool bit2 = (SAV.Data[ofs + (brSize * 2)] & mask) != 0;
-            bool bit3 = (SAV.Data[ofs + (brSize * 3)] & mask) != 0;
+            bool bit2 = (SAV.General[ofs + (brSize * 2)] & mask) != 0;
+            bool bit3 = (SAV.General[ofs + (brSize * 3)] & mask) != 0;
 
-            CHK_Seen.Checked = (SAV.Data[ofs + (brSize * 1)] & mask) != 0;
-            CHK_Caught.Checked = (SAV.Data[ofs + (brSize * 0)] & mask) != 0;
+            CHK_Seen.Checked = (SAV.General[ofs + (brSize * 1)] & mask) != 0;
+            CHK_Caught.Checked = (SAV.General[ofs + (brSize * 0)] & mask) != 0;
 
             // Genders
             LB_Gender.Items.Clear();
@@ -145,7 +145,7 @@ namespace PKHeX.WinForms
             string[] formNames = GetFormNames4Dex(species);
 
             var seen = forms.Where(z => z >= 0 && z < forms.Length).Distinct().Select((_, i) => formNames[forms[i]]).ToArray();
-            var not = formNames.Where(z => !seen.Contains(z)).ToArray();
+            var not = formNames.Except(seen).ToArray();
 
             LB_Form.Items.AddRange(seen);
             LB_NForm.Items.AddRange(not);
@@ -153,8 +153,8 @@ namespace PKHeX.WinForms
 
         private static string[] GetFormNames4Dex(int species)
         {
-            string[] formNames = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
-            if (species == 172)
+            string[] formNames = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 4);
+            if (species == (int)Species.Pichu)
                 formNames = new[] { MALE, FEMALE, formNames[1] }; // Spiky
             return formNames;
         }
@@ -171,39 +171,39 @@ namespace PKHeX.WinForms
             // Check if already Seen
             if (!CHK_Seen.Checked || LB_Gender.Items.Count == 0)
             {
-                SAV.Data[ofs + (brSize * 0)] &= (byte)~mask;
-                SAV.Data[ofs + (brSize * 1)] &= (byte)~mask;
-                SAV.Data[ofs + (brSize * 2)] &= (byte)~mask;
-                SAV.Data[ofs + (brSize * 3)] &= (byte)~mask;
+                SAV.General[ofs + (brSize * 0)] &= (byte)~mask;
+                SAV.General[ofs + (brSize * 1)] &= (byte)~mask;
+                SAV.General[ofs + (brSize * 2)] &= (byte)~mask;
+                SAV.General[ofs + (brSize * 3)] &= (byte)~mask;
             }
             else // Is Seen
             {
                 // Set the Species Owned Flag
                 if (CHK_Caught.Checked)
-                    SAV.Data[ofs + (brSize * 0)] |= mask;
+                    SAV.General[ofs + (brSize * 0)] |= mask;
                 else
-                    SAV.Data[ofs + (brSize * 0)] &= (byte)~mask;
+                    SAV.General[ofs + (brSize * 0)] &= (byte)~mask;
 
-                SAV.Data[ofs + (brSize * 1)] |= mask;
+                SAV.General[ofs + (brSize * 1)] |= mask;
                 switch ((string)LB_Gender.Items[0])
                 {
                     case GENDERLESS:
-                        SAV.Data[ofs + (brSize * 2)] &= (byte)~mask;
-                        SAV.Data[ofs + (brSize * 3)] &= (byte)~mask;
+                        SAV.General[ofs + (brSize * 2)] &= (byte)~mask;
+                        SAV.General[ofs + (brSize * 3)] &= (byte)~mask;
                         break;
                     case FEMALE:
-                        SAV.Data[ofs + (brSize * 2)] |= mask; // set
+                        SAV.General[ofs + (brSize * 2)] |= mask; // set
                         if (LB_Gender.Items.Count != 1) // Male present
-                            SAV.Data[ofs + (brSize * 3)] &= (byte)~mask; // unset
+                            SAV.General[ofs + (brSize * 3)] &= (byte)~mask; // unset
                         else
-                            SAV.Data[ofs + (brSize * 3)] |= mask; // set
+                            SAV.General[ofs + (brSize * 3)] |= mask; // set
                         break;
                     case MALE:
-                        SAV.Data[ofs + (brSize * 2)] &= (byte)~mask; // unset
+                        SAV.General[ofs + (brSize * 2)] &= (byte)~mask; // unset
                         if (LB_Gender.Items.Count != 1) // Female present
-                            SAV.Data[ofs + (brSize * 3)] |= mask; // set
+                            SAV.General[ofs + (brSize * 3)] |= mask; // set
                         else
-                            SAV.Data[ofs + (brSize * 3)] &= (byte)~mask; // unset
+                            SAV.General[ofs + (brSize * 3)] &= (byte)~mask; // unset
                         break;
                     default:
                         throw new ArgumentException("Invalid Gender???");
@@ -221,7 +221,7 @@ namespace PKHeX.WinForms
             }
 
             var forms = SAV.GetForms(species);
-            if (forms != null)
+            if (forms.Length > 0)
             {
                 int[] arr = new int[LB_Form.Items.Count];
                 string[] formNames = GetFormNames4Dex(species);
@@ -244,7 +244,7 @@ namespace PKHeX.WinForms
             int s = CB_DexUpgraded.SelectedIndex;
             if (s >= 0) SAV.DexUpgraded = s;
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

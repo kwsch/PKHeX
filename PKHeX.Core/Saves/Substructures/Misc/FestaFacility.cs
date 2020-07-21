@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class FestaFacility
+    public sealed class FestaFacility
     {
         private const int SIZE = 0x48;
         private readonly byte[] Data;
@@ -12,7 +11,7 @@ namespace PKHeX.Core
 
         public FestaFacility(SAV7 sav, int index)
         {
-            ofs = (index * SIZE) + sav.JoinFestaData + 0x310;
+            ofs = (index * SIZE) + sav.Festa.Offset + 0x310;
             Data = sav.GetData(ofs, SIZE);
             Language = sav.Language;
         }
@@ -35,19 +34,19 @@ namespace PKHeX.Core
         public uint UsedRandStat { get => BitConverter.ToUInt32(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
 
         public int NPC { get => Math.Max(0, BitConverter.ToInt32(Data, 0x30)); set => BitConverter.GetBytes(Math.Max(0, value)).CopyTo(Data, 0x30); }
-        public byte[] TrainerFesID { get => Data.Skip(0x34).Take(12).ToArray(); set => value.CopyTo(Data, 0x34); }
+        public byte[] TrainerFesID { get => Data.Slice(0x34, 0xC); set => value.CopyTo(Data, 0x34); }
         public int ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = (byte)value; } // used when Type=Exchange
 
         public int GetMessage(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return MessageMeet;
-                case 1: return MessagePart;
-                case 2: return MessageMoved;
-                case 3: return MessageDisappointed;
-                default: return 0;
-            }
+                0 => MessageMeet,
+                1 => MessagePart,
+                2 => MessageMoved,
+                3 => MessageDisappointed,
+                _ => 0
+            };
         }
 
         public void SetMessage(int index, ushort value)

@@ -19,8 +19,7 @@ namespace PKHeX.WinForms
             Loading = true;
             if (Main.Unicode)
             {
-                try { TB_OTName.Font = FontUtil.GetPKXFont(11); }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = FontUtil.GetPKXFont();
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
@@ -70,7 +69,7 @@ namespace PKHeX.WinForms
 
             L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
 
             if (!(SAV is SAV7USUM))
                 BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
@@ -111,13 +110,13 @@ namespace PKHeX.WinForms
             CB_Region.SelectedValue = SAV.SubRegion;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
-            var time = SAV.GameTime.AlolaTime;
-            if (time == 0)
-                time = 24 * 60 * 60; // Patch up any bad times from previous program versions.
-            if (time == 9_999_999)
+            var timeA = SAV.GameTime.AlolaTime;
+            if (timeA == 0)
+                timeA = 24 * 60 * 60; // Patch up any bad times from previous program versions.
+            if (timeA == 9_999_999)
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
-                CB_AlolaTime.SelectedValue = (int)time;
+                CB_AlolaTime.SelectedValue = (int)timeA;
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
@@ -147,13 +146,15 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            var epoch = new DateTime(2000, 1, 1);
-            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
 
-            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.MiscBlock.BP);
+            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
+
+            NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.Misc.BP);
             NUD_FC.Value = Math.Min(NUD_FC.Maximum, SAV.Festa.FestaCoins);
 
             // Poké Finder
@@ -165,7 +166,7 @@ namespace PKHeX.WinForms
             CHK_Gyro.Checked = SAV.PokeFinder.GyroFlag;
 
             // Battle Tree
-            var bt = SAV.BattleTreeBlock;
+            var bt = SAV.BattleTree;
             NUD_RCStreak0.Value = Math.Min(NUD_RCStreak0.Maximum, bt.GetTreeStreak(0, super: false, max: false));
             NUD_RCStreak1.Value = Math.Min(NUD_RCStreak1.Maximum, bt.GetTreeStreak(1, super: false, max: false));
             NUD_RCStreak2.Value = Math.Min(NUD_RCStreak2.Maximum, bt.GetTreeStreak(2, super: false, max: false));
@@ -183,8 +184,8 @@ namespace PKHeX.WinForms
             CB_SkinColor.SelectedIndex = SAV.MyStatus.DressUpSkinColor;
             TB_PlazaName.Text = SAV.Festa.FestivalPlazaName;
 
-            CB_Vivillon.SelectedIndex = (SAV.MiscBlock.Vivillon < CB_Vivillon.Items.Count) ? SAV.MiscBlock.Vivillon : -1;
-            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.MiscBlock.DaysFromRefreshed);
+            CB_Vivillon.SelectedIndex = (SAV.Misc.Vivillon < CB_Vivillon.Items.Count) ? SAV.Misc.Vivillon : -1;
+            NUD_DaysFromRefreshed.Value = Math.Min(NUD_DaysFromRefreshed.Maximum, SAV.Misc.DaysFromRefreshed);
 
             if (SAV.MyStatus.BallThrowType >= 0 && SAV.MyStatus.BallThrowType < CB_BallThrowType.Items.Count)
                 CB_BallThrowType.SelectedIndex = SAV.MyStatus.BallThrowType;
@@ -194,7 +195,7 @@ namespace PKHeX.WinForms
             else
                 CB_BallThrowTypeListMode.Visible = LB_BallThrowTypeLearned.Visible = LB_BallThrowTypeUnlocked.Visible = false;
 
-            uint stampBits = SAV.MiscBlock.Stamps;
+            uint stampBits = SAV.Misc.Stamps;
             for (int i = 0; i < LB_Stamps.Items.Count; i++)
                 LB_Stamps.SetSelected(i, (stampBits & (1 << i)) != 0);
 
@@ -290,10 +291,10 @@ namespace PKHeX.WinForms
 
         private void LoadUltraData()
         {
-            NUD_Surf0.Value = SAV.MiscBlock.GetSurfScore(0);
-            NUD_Surf1.Value = SAV.MiscBlock.GetSurfScore(1);
-            NUD_Surf2.Value = SAV.MiscBlock.GetSurfScore(2);
-            NUD_Surf3.Value = SAV.MiscBlock.GetSurfScore(3);
+            NUD_Surf0.Value = SAV.Misc.GetSurfScore(0);
+            NUD_Surf1.Value = SAV.Misc.GetSurfScore(1);
+            NUD_Surf2.Value = SAV.Misc.GetSurfScore(2);
+            NUD_Surf3.Value = SAV.Misc.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
             TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
         }
@@ -304,13 +305,13 @@ namespace PKHeX.WinForms
             SavePokeFinder();
             SaveBattleTree();
             SaveTrainerAppearance();
-            SAV.MiscBlock.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
+            SAV.Misc.DaysFromRefreshed = (byte)NUD_DaysFromRefreshed.Value;
             SaveThrowType();
 
             SAV.Festa.FestivalPlazaName = TB_PlazaName.Text;
 
             // Vivillon
-            if (CB_Vivillon.SelectedIndex >= 0) SAV.MiscBlock.Vivillon = CB_Vivillon.SelectedIndex;
+            if (CB_Vivillon.SelectedIndex >= 0) SAV.Misc.Vivillon = CB_Vivillon.SelectedIndex;
 
             SaveFlags();
 
@@ -329,7 +330,7 @@ namespace PKHeX.WinForms
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
             if (CB_AlolaTime.Enabled)
-            SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
+                SAV.GameTime.AlolaTime = (ulong)WinFormsUtil.GetIndex(CB_AlolaTime);
 
             SAV.OT = TB_OTName.Text;
 
@@ -349,21 +350,13 @@ namespace PKHeX.WinForms
             SAV.PlayedMinutes = ushort.Parse(MT_Minutes.Text)%60;
             SAV.PlayedSeconds = ushort.Parse(MT_Seconds.Text)%60;
 
-            var epoch = new DateTime(2000, 1, 1);
-            uint seconds = (uint)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
-            seconds -= seconds%86400;
-            seconds += (uint)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
-            SAV.SecondsToStart = seconds;
-
-            uint fame = (uint)(CAL_HoFDate.Value - epoch).TotalSeconds;
-            fame -= fame % 86400;
-            fame += (uint)(CAL_HoFTime.Value - epoch).TotalSeconds;
-            SAV.SecondsToFame = fame;
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
 
-            SAV.MiscBlock.BP = (uint)NUD_BP.Value;
+            SAV.Misc.BP = (uint)NUD_BP.Value;
             SAV.Festa.FestaCoins = (int)NUD_FC.Value;
         }
 
@@ -379,7 +372,7 @@ namespace PKHeX.WinForms
 
         private void SaveBattleTree()
         {
-            var bt = SAV.BattleTreeBlock;
+            var bt = SAV.BattleTree;
             bt.SetTreeStreak((int)NUD_RCStreak0.Value, 0, super:false, max:false);
             bt.SetTreeStreak((int)NUD_RCStreak1.Value, 1, super:false, max:false);
             bt.SetTreeStreak((int)NUD_RCStreak2.Value, 2, super:false, max:false);
@@ -428,7 +421,7 @@ namespace PKHeX.WinForms
 
         private void SaveFlags()
         {
-            SAV.MiscBlock.Stamps = GetBits(LB_Stamps);
+            SAV.Misc.Stamps = GetBits(LB_Stamps);
 
             SAV.SetEventFlag(333, CHK_UnlockSuperSingles.Checked);
             SAV.SetEventFlag(334, CHK_UnlockSuperDoubles.Checked);
@@ -445,10 +438,10 @@ namespace PKHeX.WinForms
 
         private void SaveUltraData()
         {
-            SAV.MiscBlock.SetSurfScore(0, (int)NUD_Surf0.Value);
-            SAV.MiscBlock.SetSurfScore(1, (int)NUD_Surf1.Value);
-            SAV.MiscBlock.SetSurfScore(2, (int)NUD_Surf2.Value);
-            SAV.MiscBlock.SetSurfScore(3, (int)NUD_Surf3.Value);
+            SAV.Misc.SetSurfScore(0, (int)NUD_Surf0.Value);
+            SAV.Misc.SetSurfScore(1, (int)NUD_Surf1.Value);
+            SAV.Misc.SetSurfScore(2, (int)NUD_Surf2.Value);
+            SAV.Misc.SetSurfScore(3, (int)NUD_Surf3.Value);
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
@@ -494,7 +487,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -503,13 +496,6 @@ namespace PKHeX.WinForms
             MaskedTextBox box = (MaskedTextBox)sender;
             if (box.Text.Length == 0) box.Text = "0";
             if (Util.ToInt32(box.Text) > 255) box.Text = "255";
-        }
-
-        private void ChangeFFFF(object sender, EventArgs e)
-        {
-            MaskedTextBox box = (MaskedTextBox)sender;
-            if (box.Text.Length == 0) box.Text = "0";
-            if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
         }
 
         private void ChangeMapValue(object sender, EventArgs e)
@@ -532,38 +518,28 @@ namespace PKHeX.WinForms
                 return;
 
             // Clear Block
-            SAV.FashionBlock.Clear();
+            SAV.Fashion.Clear();
 
             // Write Payload
-            // Every fashion item is 2 bits, New Flag (high) & Owned Flag (low)
 
             switch (CB_Fashion.SelectedIndex)
             {
                 case 0: // Base Fashion
                 {
-                    var list = SAV is SAV7USUM
-                        ? (SAV.Gender == 0
-                            ? new[] {0x03A, 0x109, 0x1DA, 0x305, 0x3D9, 0x4B1, 0x584}   // M
-                            : new[] {0x05E, 0x208, 0x264, 0x395, 0x3B4, 0x4F9, 0x5A8})  // F
-                        : (SAV.Gender == 0
-                            ? new[] {0x000, 0x0FB, 0x124, 0x28F, 0x3B4, 0x452, 0x517}   // M
-                            : new[] {0x000, 0x100, 0x223, 0x288, 0x3B4, 0x452, 0x517}); // F
-
-                    foreach (var ofs in list)
-                        SAV.Data[SAV.Fashion + ofs] = 3;
+                    SAV.Fashion.Reset();
                     break;
                 }
                 case 1: // Full Legal
                     byte[] data1 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu : Properties.Resources.fashion_f_uu
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm : Properties.Resources.fashion_f_sm;
-                    data1.CopyTo(SAV.Data, SAV.Fashion);
+                    SAV.SetData(data1, SAV.Fashion.Offset);
                     break;
                 case 2: // Everything
                     byte[] data2 = SAV is SAV7USUM
                         ? SAV.Gender == 0 ? Properties.Resources.fashion_m_uu_illegal : Properties.Resources.fashion_f_uu_illegal
                         : SAV.Gender == 0 ? Properties.Resources.fashion_m_sm_illegal : Properties.Resources.fashion_f_sm_illegal;
-                    data2.CopyTo(SAV.Data, SAV.Fashion);
+                    SAV.SetData(data2, SAV.Fashion.Offset);
                     break;
                 default:
                     return;
@@ -576,25 +552,11 @@ namespace PKHeX.WinForms
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    int seconds = (int)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    seconds -= seconds % 86400;
-                    seconds += (int)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }
-        }
-
-        private static string ConvertDateValueToString(int value, int secondsBias = -1)
-        {
-            const int spd = 86400; // seconds per day
-            string tip = string.Empty;
-            if (value >= spd)
-                tip += (value / spd) + "d ";
-            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
-            if (secondsBias >= 0)
-                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
-            return tip;
         }
 
         private void UpdateBattleStyle(object sender, EventArgs e)

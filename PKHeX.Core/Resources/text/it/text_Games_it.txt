@@ -42,3 +42,5 @@ Argento
 Cristallo
 Let's Go, Pikachu!
 Let's Go, Eevee!
+Spada
+Scudo

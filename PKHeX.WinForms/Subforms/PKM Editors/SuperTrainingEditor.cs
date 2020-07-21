@@ -10,7 +10,7 @@ namespace PKHeX.WinForms
     {
         public SuperTrainingEditor(PKM pk)
         {
-            pkm = pk;
+            pkm = (ISuperTrain)pk;
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             int vertScrollWidth = SystemInformation.VerticalScrollBarWidth;
@@ -51,8 +51,7 @@ namespace PKHeX.WinForms
 
         private readonly List<RegimenInfo> reglist = new List<RegimenInfo>();
         private readonly List<RegimenInfo> distlist = new List<RegimenInfo>();
-        private readonly PKM pkm;
-        private const string PrefixLabel = "L_";
+        private readonly ISuperTrain pkm;
         private const string PrefixCHK = "CHK_";
 
         private void B_Cancel_Click(object sender, EventArgs e) => Close();

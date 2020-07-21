@@ -7,15 +7,10 @@ namespace PKHeX.Core
     /// </summary>
     public class PersonalInfoBW : PersonalInfo
     {
-        protected PersonalInfoBW() { }
         public const int SIZE = 0x3C;
 
-        public PersonalInfoBW(byte[] data)
+        public PersonalInfoBW(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);
@@ -75,7 +70,7 @@ namespace PKHeX.Core
             get => new[] { Item1, Item2, Item3 };
             set
             {
-                if (value?.Length != 3) return;
+                if (value.Length != 3) return;
                 Item1 = value[0];
                 Item2 = value[1];
                 Item3 = value[2];
@@ -87,7 +82,7 @@ namespace PKHeX.Core
             get => new[] { Ability1, Ability2, AbilityH };
             set
             {
-                if (value?.Length != 3) return;
+                if (value.Length != 3) return;
                 Ability1 = (byte)value[0];
                 Ability2 = (byte)value[1];
                 AbilityH = (byte)value[2];

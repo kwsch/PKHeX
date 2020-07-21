@@ -15,24 +15,15 @@ namespace PKHeX.Core
             int species = BitConverter.ToUInt16(data, offset + 4);
 
             if (method == 0)
-                return null;
+                throw new ArgumentException(nameof(data));
 
             // To have the same structure as gen 6
             // Gen 4 Method 6 is Gen 6 Method 7, G4 7 = G6 8, and so on
             if (method > 6)
                 method++;
 
-            var evo = new EvolutionMethod
-            {
-                Method = method,
-                Argument = arg,
-                Species = species,
-                Level = arg,
-            };
-
-            if (EvolutionSet6.EvosWithArg.Contains(method))
-                evo.Level = 0;
-            return evo;
+            var lvl = EvolutionSet6.EvosWithArg.Contains(method) ? 0 : arg;
+            return new EvolutionMethod(method, species, argument: arg, level: lvl);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data)

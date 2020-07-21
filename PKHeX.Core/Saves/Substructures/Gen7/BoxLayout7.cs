@@ -4,10 +4,13 @@ namespace PKHeX.Core
 {
     public sealed class BoxLayout7 : SaveBlock
     {
+        private const int BoxCount = 32;
+
         private const int BattleBoxFlags      = 0x4C4;
         private const int PCBackgrounds       = 0x5C0;
-        private const int LastViewedBoxOffset = 0x5E3;
         private const int PCFlags             = 0x5E0;
+        private const int Unlocked            = 0x5E1;
+        private const int LastViewedBoxOffset = 0x5E3;
 
         private const int strlen = SAV6.LongStringLength / 2;
 
@@ -15,7 +18,8 @@ namespace PKHeX.Core
         private const int NONE_SELECTED = -1;
         public readonly int[] TeamSlots = new int[TeamCount * 6];
 
-        public BoxLayout7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public BoxLayout7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int GetBoxWallpaperOffset(int box) => Offset + PCBackgrounds + box;
 
@@ -43,7 +47,7 @@ namespace PKHeX.Core
         public void SetBoxName(int box, string value)
         {
             var data = SAV.SetString(value, strlen, strlen, 0);
-            var offset = GetBoxNameOffset(box) + (SAV6.LongStringLength * box);
+            var offset = GetBoxNameOffset(box - 1) + (SAV6.LongStringLength);
             SAV.SetData(data, offset);
         }
 
@@ -58,7 +62,16 @@ namespace PKHeX.Core
             }
         }
 
-        public int BoxesUnlocked { get => Data[Offset + PCFlags + 1] - 1; set => Data[Offset + PCFlags + 1] = (byte)(value + 1); }
+        public int BoxesUnlocked
+        {
+            get => Data[Offset + Unlocked];
+            set
+            {
+                if (value > BoxCount)
+                    value = BoxCount;
+                Data[Offset + Unlocked] = (byte)value;
+            }
+        }
 
         public int CurrentBox { get => Data[Offset + LastViewedBoxOffset]; set => Data[Offset + LastViewedBoxOffset] = (byte)value; }
 
@@ -99,8 +112,7 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                int box = index / SAV.BoxSlotCount;
-                int slot = index % SAV.BoxSlotCount;
+                SAV.GetBoxSlotFromIndex(index, out var box, out var slot);
                 int val = (box << 8) | slot;
                 BitConverter.GetBytes((short)val).CopyTo(Data, Offset + BattleBoxFlags + (i * 2));
             }

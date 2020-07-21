@@ -1,4 +1,6 @@
-﻿0196	디아루가	0:배틀 가능,1:사라짐
+﻿0048	스타팅 포켓몬	0:없음,387:모부기,390:불꽃숭이,393:팽도리
+0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
+0196	디아루가	0:배틀 가능,1:사라짐
 0197	펄기아	0:배틀 가능,1:사라짐
 0085	기라티나 (깨어진세계)	13:배틀 가능,14:사라짐
 0158	히드런	00:활성화되지 않음,01:배틀 가능,02:사라짐
@@ -11,3 +13,6 @@
 0069	천계의 피리	0:활성화되지 않음,4387:활성화됨
 0087	미정 이벤트 (224번도로)	0:활성화되지 않음,1:활성화 가능,2:활성화됨
 0133	미정 (224번도로)	0:활성화되지 않음,1:활성화됨,2:나타남
+0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0106	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0107	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught

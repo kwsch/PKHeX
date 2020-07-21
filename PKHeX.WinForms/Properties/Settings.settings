@@ -51,7 +51,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DefaultSaveVersion" Type="PKHeX.Core.GameVersion" Scope="User">
-      <Value Profile="(Default)">GP</Value>
+      <Value Profile="(Default)">SW</Value>
     </Setting>
     <Setting Name="DetectSaveOnStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -70,6 +70,21 @@
     </Setting>
     <Setting Name="Draw" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PlaySoundSAVLoad" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="PlaySoundLegalityCheck" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="FlagMissingTracker" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ApplyNature" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="UseLargeSprites" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -1,35 +1,37 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format. </summary>
-    public sealed class PK3 : _K3
+    public sealed class PK3 : G3PKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x2A, 0x2B
         };
 
-        public override int SIZE_PARTY => PKX.SIZE_3PARTY;
-        public override int SIZE_STORED => PKX.SIZE_3STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public PK3() => Data = new byte[PKX.SIZE_3PARTY];
+        public override byte[] Data { get; }
+        public PK3() => Data = new byte[PokeCrypto.SIZE_3PARTY];
 
-        public PK3(byte[] decryptedData)
+        public PK3(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PokeCrypto.DecryptIfEncrypted3(ref data);
+            if (data.Length != PokeCrypto.SIZE_3PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_3PARTY);
+            Data = data;
         }
 
         public override PKM Clone()
         {
-            // Don't use the byte[] constructor, the CheckEncrypted call is based on checksum.
+            // Don't use the byte[] constructor, the DecryptIfEncrypted call is based on checksum.
             // An invalid checksum will shuffle the data; we already know it's un-shuffled. Set up manually.
             var pk = new PK3 {Identifier = Identifier};
             Data.CopyTo(pk.Data, 0);
@@ -42,8 +44,8 @@ namespace PKHeX.Core
         private const string EggNameJapanese = "タマゴ";
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value?.Length == 10) value.CopyTo(Data, 0x08); } }
-        public override byte[] OT_Trash { get => GetData(0x14, 7); set { if (value?.Length == 7) value.CopyTo(Data, 0x14); } }
+        public override byte[] Nickname_Trash { get => GetData(0x08, 10); set { if (value.Length == 10) value.CopyTo(Data, 0x08); } }
+        public override byte[] OT_Trash { get => GetData(0x14, 7); set { if (value.Length == 7) value.CopyTo(Data, 0x14); } }
 
         // At top for System.Reflection execution order hack
 
@@ -74,7 +76,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
         public override int HeldItem { get => BitConverter.ToUInt16(Data, 0x22); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x22); }
 
         public override uint EXP { get => BitConverter.ToUInt32(Data, 0x24); set => BitConverter.GetBytes(value).CopyTo(Data, 0x24); }
@@ -194,7 +196,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray3(Data);
+            return PokeCrypto.EncryptArray3(Data);
         }
 
         public override void RefreshChecksum()
@@ -211,7 +213,7 @@ namespace PKHeX.Core
                 Species = Species,
                 TID = TID,
                 SID = SID,
-                EXP = IsEgg ? Experience.GetEXP(5, Species, 0) : EXP,
+                EXP = IsEgg ? Experience.GetEXP(5, PersonalInfo.EXPGrowth) : EXP,
                 Gender = PKX.GetGenderFromPID(Species, PID),
                 AltForm = AltForm,
                 // IsEgg = false, -- already false
@@ -301,7 +303,7 @@ namespace PKHeX.Core
             var trash = StringConverter345.G4TransferTrashBytes;
             if (pk4.Language < trash.Length)
                 trash[pk4.Language].CopyTo(pk4.Data, 0x48 + 4);
-            pk4.Nickname = IsEgg ? PKX.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
+            pk4.Nickname = IsEgg ? SpeciesName.GetSpeciesNameGeneration(pk4.Species, pk4.Language, 4) : Nickname;
             pk4.IsNicknamed = !IsEgg && IsNicknamed;
 
             // Trash from the current string (Nickname) is in our string buffer. Slap the OT name over-top.
@@ -310,7 +312,7 @@ namespace PKHeX.Core
 
             if (HeldItem > 0)
             {
-                ushort item = ItemConverter.GetG4Item((ushort)HeldItem);
+                ushort item = ItemConverter.GetItemFuture3((ushort)HeldItem);
                 if (ItemConverter.IsItemTransferable34(item))
                     pk4.HeldItem = item;
             }

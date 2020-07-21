@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Trainer7));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TB_OTName = new System.Windows.Forms.TextBox();
@@ -1003,7 +1002,7 @@
             // 
             // CAL_HoFTime
             // 
-            this.CAL_HoFTime.CustomFormat = "hh:mm tt";
+            this.CAL_HoFTime.CustomFormat = "HH:mm:ss";
             this.CAL_HoFTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_HoFTime.Location = new System.Drawing.Point(115, 91);
             this.CAL_HoFTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
@@ -1036,7 +1035,7 @@
             // 
             // CAL_AdventureStartTime
             // 
-            this.CAL_AdventureStartTime.CustomFormat = "hh:mm tt";
+            this.CAL_AdventureStartTime.CustomFormat = "HH:mm:ss";
             this.CAL_AdventureStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_AdventureStartTime.Location = new System.Drawing.Point(115, 54);
             this.CAL_AdventureStartTime.MaxDate = new System.DateTime(2050, 12, 31, 0, 0, 0, 0);
@@ -1049,7 +1048,7 @@
             // 
             // CAL_LastSavedTime
             // 
-            this.CAL_LastSavedTime.CustomFormat = "hh:mm tt";
+            this.CAL_LastSavedTime.CustomFormat = "HH:mm:ss";
             this.CAL_LastSavedTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.CAL_LastSavedTime.Location = new System.Drawing.Point(115, 129);
             this.CAL_LastSavedTime.MaxDate = new System.DateTime(4095, 12, 31, 0, 0, 0, 0);
@@ -2135,7 +2134,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_Trainer7";

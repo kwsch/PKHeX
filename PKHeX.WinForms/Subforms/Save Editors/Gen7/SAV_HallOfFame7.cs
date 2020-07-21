@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             }
 
             if (SAV is SAV7USUM)
-                TB_EC.Text = SAV.MiscBlock.StarterEncryptionConstant.ToString("X8");
+                TB_EC.Text = SAV.Misc.StarterEncryptionConstant.ToString("X8");
             else
                 TB_EC.Visible = L_EC.Visible = false;
         }
@@ -72,9 +72,9 @@ namespace PKHeX.WinForms
             }
 
             if (SAV is SAV7USUM)
-                SAV.MiscBlock.StarterEncryptionConstant = Util.GetHexValue(TB_EC.Text);
+                SAV.Misc.StarterEncryptionConstant = Util.GetHexValue(TB_EC.Text);
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
     }

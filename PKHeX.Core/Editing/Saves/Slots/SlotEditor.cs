@@ -1,32 +1,33 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
-
     /// <summary>
     /// Facilitates interaction with a <see cref="SaveFile"/> or other data location's slot data.
     /// </summary>
-    public sealed class SlotEditor
+    public sealed class SlotEditor<T>
     {
         private readonly SaveFile SAV;
-        public SlotPublisher Publisher { get; } = new SlotPublisher();
+        public readonly SlotChangelog Changelog;
+        public readonly SlotPublisher<T> Publisher;
 
-        private readonly Stack<SlotChange> UndoStack = new Stack<SlotChange>();
-        private readonly Stack<SlotChange> RedoStack = new Stack<SlotChange>();
+        public SlotEditor(SaveFile sav)
+        {
+            SAV = sav;
+            Changelog = new SlotChangelog(sav);
+            Publisher = new SlotPublisher<T>();
+        }
 
-        public SlotEditor(SaveFile sav) => SAV = sav;
-        private void NotifySlotChanged(SlotChange slot, SlotTouchType type) => Publisher.NotifySlotChanged(slot, type);
+        private void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm) => Publisher.NotifySlotChanged(slot, type, pkm);
 
         /// <summary>
         /// Gets data from a slot.
         /// </summary>
         /// <param name="slot">Slot to retrieve from.</param>
         /// <returns>Operation succeeded or not via enum value.</returns>
-        public PKM Get(SlotChange slot)
+        public PKM Get(ISlotInfo slot)
         {
             // Reading from a slot is always allowed.
-            var pk = ReadSlot(slot);
-            NotifySlotChanged(slot, SlotTouchType.Get);
+            var pk = slot.Read(SAV);
+            NotifySlotChanged(slot, SlotTouchType.Get, pk);
             return pk;
         }
 
@@ -36,13 +37,13 @@ namespace PKHeX.Core
         /// <param name="slot">Slot to be set to.</param>
         /// <param name="pkm">Data to set.</param>
         /// <returns>Operation succeeded or not via enum value.</returns>
-        public SlotTouchResult Set(SlotChange slot, PKM pkm)
+        public SlotTouchResult Set(ISlotInfo slot, PKM pkm)
         {
-            if (CantWrite(slot))
+            if (!slot.CanWriteTo(SAV))
                 return SlotTouchResult.FailWrite;
 
             WriteSlot(slot, pkm);
-            NotifySlotChanged(slot, SlotTouchType.Set);
+            NotifySlotChanged(slot, SlotTouchType.Set, pkm);
 
             return SlotTouchResult.Success;
         }
@@ -52,13 +53,13 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="slot">Slot to be deleted.</param>
         /// <returns>Operation succeeded or not via enum value.</returns>
-        public SlotTouchResult Delete(SlotChange slot)
+        public SlotTouchResult Delete(ISlotInfo slot)
         {
-            if (CantWrite(slot))
+            if (!slot.CanWriteTo(SAV))
                 return SlotTouchResult.FailDelete;
 
-            DeleteSlot(slot);
-            NotifySlotChanged(slot, SlotTouchType.Delete);
+            var pk = DeleteSlot(slot);
+            NotifySlotChanged(slot, SlotTouchType.Delete, pk);
 
             return SlotTouchResult.Success;
         }
@@ -69,97 +70,48 @@ namespace PKHeX.Core
         /// <param name="source">Source slot to be switched with <see cref="dest"/>.</param>
         /// <param name="dest">Destination slot to be switched with <see cref="source"/>.</param>
         /// <returns>Operation succeeded or not via enum value.</returns>
-        public SlotTouchResult Swap(SlotChange source, SlotChange dest)
+        public SlotTouchResult Swap(ISlotInfo source, ISlotInfo dest)
         {
-            if (CantWrite(source))
+            if (!source.CanWriteTo(SAV))
                 return SlotTouchResult.FailSource;
-            if (CantWrite(dest))
+            if (!dest.CanWriteTo(SAV))
                 return SlotTouchResult.FailDestination;
 
-            NotifySlotChanged(source, SlotTouchType.None);
-            NotifySlotChanged(dest, SlotTouchType.Swap);
+            NotifySlotChanged(source, SlotTouchType.None, source.Read(SAV));
+            NotifySlotChanged(dest, SlotTouchType.Swap, dest.Read(SAV));
 
             return SlotTouchResult.Success;
         }
 
-        public bool CantWrite(SlotChange c)
+        private void WriteSlot(ISlotInfo slot, PKM pkm, SlotTouchType type = SlotTouchType.Set)
         {
-            if (c.Type > StorageSlotType.Party)
-                return true;
-            return SAV.IsSlotOverwriteProtected(c.Box, c.Slot);
+            Changelog.AddNewChange(slot);
+            var result = slot.WriteTo(SAV, pkm);
+            if (result)
+                NotifySlotChanged(slot, type, pkm);
         }
 
-        private PKM ReadSlot(StorageSlotOffset slot) => SAV.GetPKM(slot);
-
-        private void WriteSlot(SlotChange slot, PKM pkm)
+        private PKM DeleteSlot(ISlotInfo slot)
         {
-            if (slot.IsParty)
-            {
-                int count = SAV.PartyCount;
-                if (slot.Slot > count)
-                    slot.Slot = count;
-                SAV.SetPartySlot(pkm, slot.Offset);
-            }
-            else
-            {
-                AddUndo(slot);
-                SAV.SetStoredSlot(pkm, slot.Offset);
-            }
+            var pkm = SAV.BlankPKM;
+            WriteSlot(slot, pkm, SlotTouchType.Delete);
+            return pkm;
         }
-
-        private void DeleteSlot(SlotChange slot)
-        {
-            var pkm = slot.PKM;
-            if (slot.IsParty)
-            {
-                SAV.SetPartySlot(pkm, slot.Offset);
-                slot.Slot = SAV.PartyCount;
-            }
-            else
-            {
-                AddUndo(slot);
-                SAV.SetStoredSlot(pkm, slot.Offset);
-            }
-        }
-
-        public bool CanUndo => UndoStack.Count != 0;
-        public bool CanRedo => RedoStack.Count != 0;
 
         public void Undo()
         {
-            if (UndoStack.Count == 0)
+            if (!Changelog.CanUndo)
                 return;
-
-            var change = UndoStack.Pop();
-            if (change.Box < 0)
-                return;
-            AddRedo(change);
-            NotifySlotChanged(change, SlotTouchType.Set);
+            var slot = Changelog.Undo();
+            NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
         }
 
         public void Redo()
         {
-            if (RedoStack.Count == 0)
+            if (!Changelog.CanRedo)
                 return;
-
-            var change = RedoStack.Pop();
-            if (change.Box < 0)
-                return;
-            AddUndo(change);
-            NotifySlotChanged(change, SlotTouchType.Set);
-        }
-
-        private void AddRedo(SlotChange change)
-        {
-            var slotChange = change.GetInverseData(SAV);
-            RedoStack.Push(slotChange);
-        }
-
-        private void AddUndo(SlotChange change)
-        {
-            var slotChange = change.GetInverseData(SAV);
-            UndoStack.Push(slotChange);
-            RedoStack.Clear();
+            var slot = Changelog.Redo();
+            NotifySlotChanged(slot, SlotTouchType.Set, slot.Read(SAV));
         }
     }
 }

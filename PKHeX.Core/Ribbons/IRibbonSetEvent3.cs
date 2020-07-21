@@ -21,8 +21,6 @@
 
         internal static bool[] RibbonBits(this IRibbonSetEvent3 set)
         {
-            if (set == null)
-                return new bool[6];
             return new[]
             {
                 set.RibbonEarth,

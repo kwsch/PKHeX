@@ -13,7 +13,7 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            throw new NotImplementedException();
+            throw new Exception("Don't call via this.");
         }
 
         public void VerifyTransferLegalityG12(LegalityAnalysis data)
@@ -47,17 +47,16 @@ namespace PKHeX.Core
         private static bool VerifyVCNature(int growth, int nature)
         {
             // exp % 25 with a limited amount of EXP does not allow for every nature
-            switch (growth)
+            return growth switch
             {
-                case 0: // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-                    return nature < (int)Nature.Brave || nature > (int)Nature.Relaxed;
-                case 4: // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-                    return nature < (int)Nature.Gentle && nature > (int)Nature.Bold;
-                case 5: // Slow -- Can't be Impish or Lax
-                    return nature != (int)Nature.Impish && nature != (int)Nature.Lax;
-                default:
-                    return true;
-            }
+                0 => // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+                (nature < (int) Nature.Brave || nature > (int) Nature.Relaxed),
+                4 => // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+                (nature < (int) Nature.Gentle && nature > (int) Nature.Bold),
+                5 => // Slow -- Can't be Impish or Lax
+                (nature != (int) Nature.Impish && nature != (int) Nature.Lax),
+                _ => true
+            };
         }
 
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
@@ -101,16 +100,56 @@ namespace PKHeX.Core
             }
         }
 
+        public void VerifyTransferLegalityG8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            int species = pkm.Species;
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
+            if (!pi.IsPresentInGame) // Can't transfer
+            {
+                data.AddLine(GetInvalid(LTransferBad));
+            }
+            else if (data.Info.Generation < 8 && pkm.Format >= 8)
+            {
+                if (!pkm.GG && pkm is IScaledSize s)
+                {
+                    if (s.HeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+                    if (s.WeightScalar != 0)
+                        data.AddLine(GetInvalid(LTransferBad));
+
+                    var enc = data.EncounterMatch;
+                    if (data.Info.Generation == 7 && FormConverter.IsTotemForm(enc.Species, enc.Form, 7))
+                    {
+                        if (Legal.Totem_NoTransfer.Contains(data.EncounterMatch.Species))
+                            data.AddLine(GetInvalid(LTransferBad));
+                        if (pkm.AltForm != FormConverter.GetTotemBaseForm(enc.Species, enc.Form))
+                            data.AddLine(GetInvalid(LTransferBad));
+                    }
+                }
+
+                // Tracker value is set via Transfer across HOME.
+                // Can't validate the actual values (we aren't the server), so we can only check against zero.
+                if (pkm is IHomeTrack home && home.Tracker == 0)
+                {
+                    data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+                    // To the reader: It seems like the best course of action for setting a tracker is:
+                    // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
+                    // - Don't make one up.
+                }
+            }
+        }
+
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
             // Check existing EncounterMatch
-            if (encounter is EncounterInvalid || transfer == null)
-                yield break; // Avoid duplicate invaild message
+            if (encounter is EncounterInvalid)
+                yield break; // Avoid duplicate invalid message
 
             if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
             {
                 bool exceptions = false;
-                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == 151 && pkm.TID == 22796;
+                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == (int)Species.Mew && pkm.TID == 22796;
                 if (!exceptions)
                     yield return GetInvalid(LG1GBEncounter);
             }

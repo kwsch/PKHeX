@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -5,14 +7,13 @@ namespace PKHeX.Core
     /// </summary>
     internal sealed class PKMInfo
     {
-        internal PKM pkm { get; }
-        internal PKMInfo(PKM pk) { pkm = pk; }
+        internal PKM Entity { get; }
+        internal PKMInfo(PKM pk) { Entity = pk; }
 
-        private LegalityAnalysis la;
-        internal LegalityAnalysis Legality => la ?? (la = new LegalityAnalysis(pkm));
+        private LegalityAnalysis? la;
+        internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);
 
         public bool Legal => Legality.Valid;
-        internal int[] SuggestedRelearn => Legality.GetSuggestedRelearn();
-        internal EncounterStatic SuggestedEncounter => Legality.GetSuggestedMetInfo();
+        internal IReadOnlyList<int> SuggestedRelearn => Legality.GetSuggestedRelearnMoves();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
@@ -11,23 +12,17 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets a list of formes that the species can have.
         /// </summary>
-        /// <param name="species">National Dex number of the Pokémon.</param>
+        /// <param name="species"><see cref="Species"/> of the Pokémon.</param>
         /// <param name="types">List of type names</param>
         /// <param name="forms">List of form names</param>
         /// <param name="genders">List of genders names</param>
         /// <param name="generation">Generation number for exclusive formes</param>
         /// <returns>A list of strings corresponding to the formes that a Pokémon can have.</returns>
-        internal static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
+        public static string[] GetFormList(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders, int generation)
         {
             // Mega List
-            if (IsFormListSingleMega(species))
-            {
-                return new[]
-                {
-                    types[000], // Normal
-                    forms[804], // Mega
-                };
-            }
+            if (generation < 8 && IsFormListSingleMega(species))
+                return GetMegaSingle(types, forms);
 
             if (generation == 7 && Legal.Totem_USUM.Contains(species))
                 return GetFormsTotem(species, types, forms);
@@ -37,20 +32,22 @@ namespace PKHeX.Core
             if (species <= Legal.MaxSpeciesID_2)
                 return GetFormsGen2(species, types, forms, generation);
             if (species <= Legal.MaxSpeciesID_3)
-                return GetFormsGen3(species, types, forms);
+                return GetFormsGen3(species, types, forms, generation);
             if (species <= Legal.MaxSpeciesID_4)
                 return GetFormsGen4(species, types, forms, generation);
             if (species <= Legal.MaxSpeciesID_5)
-                return GetFormsGen5(species, types, forms);
+                return GetFormsGen5(species, types, forms, generation);
             if (species <= Legal.MaxSpeciesID_6)
                 return GetFormsGen6(species, types, forms, genders);
-            //if (species <= Legal.MaxSpeciesID_7)
+            if (species <= Legal.MaxSpeciesID_7_USUM)
                 return GetFormsGen7(species, types, forms);
+            return GetFormsGen8(species, types, forms, genders);
         }
 
-        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Trainer.Game);
+        // this is a hack; depends on currently loaded SaveFile's Game ID
+        private static bool IsGG() => GameVersion.GG.Contains(PKMConverter.Game);
 
-        public static bool IsTotemForm(int species, int form, int generation = 7)
+        public static bool IsTotemForm(int species, int form, int generation)
         {
             if (generation != 7)
                 return false;
@@ -95,14 +92,9 @@ namespace PKHeX.Core
         {
             switch ((Species)species)
             {
-                case Charizard:
-                case Mewtwo:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[805], // Mega X
-                        forms[806], // Mega Y
-                    };
+                case Charizard when generation < 8:
+                case Mewtwo when generation < 8:
+                    return GetMegaXY(types, forms);
 
                 case Eevee when IsGG():
                     return new[]
@@ -114,6 +106,17 @@ namespace PKHeX.Core
                 case Pikachu:
                     return GetFormsPikachu(generation, types, forms);
 
+                case Weezing when generation >= 8:
+                case Ponyta when generation >= 8:
+                case Rapidash when generation >= 8:
+                case Slowpoke when generation >= 8:
+                case MrMime when generation >= 8:
+                case Farfetchd when generation >= 8:
+                    return GetFormsGalar(types, forms);
+
+                case Slowbro when generation >= 8:
+                    return GetFormsGalarSlowbro(types, forms);
+
                 default:
                     return GetFormsAlolan(generation, types, forms, species);
             }
@@ -121,26 +124,27 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return species switch
             {
-                default:
-                    return EMPTY;
-
-                case Pichu:
-                    return GetFormsPichu(generation, types, forms);
-                case Unown:
-                    return GetFormsUnown(generation);
-            }
+                (int)Pichu when generation == 4 => GetFormsPichu(types, forms),
+                (int)Unown => GetFormsUnown(generation),
+                (int)Corsola when generation >= 8 => GetFormsGalar(types, forms),
+                _ => EMPTY
+            };
         }
 
-        private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch ((Species)species)
             {
                 default:
                     return EMPTY;
 
-                case Castform: // Casftorm
+                case Zigzagoon when generation >= 8:
+                case Linoone when generation >= 8:
+                    return GetFormsGalar(types, forms);
+
+                case Castform: // Castform
                     return new[]
                     {
                         types[000], // Normal
@@ -229,7 +233,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
             switch ((Species)species)
             {
@@ -243,12 +247,30 @@ namespace PKHeX.Core
                         forms[942], // Blue
                     };
 
+                case Darumaka when generation >= 8:
+                    return GetFormsGalar(types, forms);
+
                 case Darmanitan:
+                {
+                    if (generation <= 7)
+                    {
+                        return new[]
+                        {
+                            forms[555], // Standard
+                            forms[943], // Zen
+                        };
+                    }
                     return new[]
                     {
                         forms[555], // Standard
                         forms[943], // Zen
+                        forms[Galarian], // Standard
+                        forms[Galarian] + " " + forms[943], // Zen
                     };
+                }
+
+                case Yamask when generation >= 8:
+                    return GetFormsGalar(types, forms);
 
                 case Deerling:
                 case Sawsbuck:
@@ -259,6 +281,9 @@ namespace PKHeX.Core
                         forms[948], // Autumn
                         forms[949], // Winter
                     };
+
+                case Stunfisk when generation >= 8:
+                    return GetFormsGalar(types, forms);
 
                 case Tornadus:
                 case Thundurus:
@@ -337,7 +362,7 @@ namespace PKHeX.Core
                         forms[973], // Sandstorm
                         forms[974], // River
                         forms[975], // Monsoon
-                        forms[976], // Savannah
+                        forms[976], // Savanna
                         forms[977], // Sun
                         forms[978], // Ocean
                         forms[979], // Jungle
@@ -374,7 +399,7 @@ namespace PKHeX.Core
                         forms[995], // Heart
                         forms[996], // Star
                         forms[997], // Diamond
-                        forms[998], // Deputante
+                        forms[998], // Debutante
                         forms[999], // Matron
                         forms[1000], // Dandy
                         forms[1001], // La Reine
@@ -491,6 +516,13 @@ namespace PKHeX.Core
                         forms[1057], // "V-Core", // Core Violet
                     };
 
+                case Mimikyu:
+                    return new[]
+                    {
+                        forms[778], // Disguised
+                        forms[1058], // Busted
+                    };
+
                 case Necrozma:
                     return new[]
                     {
@@ -509,6 +541,100 @@ namespace PKHeX.Core
             }
         }
 
+        private static string[] GetFormsGen8(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
+        {
+            switch ((Species)species)
+            {
+                default:
+                    return EMPTY;
+
+                case Cramorant:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[Gulping],
+                        forms[Gorging],
+                    };
+
+                case Toxtricity:
+                    return new[]
+                    {
+                        forms[(int)Toxtricity], // Amped
+                        forms[LowKey],
+                    };
+
+                case Indeedee:
+                    return new[]
+                    {
+                        genders[000], // Male
+                        genders[001], // Female
+                    };
+
+                case Sinistea:
+                case Polteageist:
+                    return new[]
+                    {
+                        "Phony",
+                        "Antique",
+                    };
+
+                case Alcremie:
+                    return new[]
+                    {
+                        forms[(int)Alcremie], // Vanilla Cream
+                        forms[RubyCream],
+                        forms[MatchaCream],
+                        forms[MintCream],
+                        forms[LemonCream],
+                        forms[SaltedCream],
+                        forms[RubySwirl],
+                        forms[CaramelSwirl],
+                        forms[RainbowSwirl],
+                    };
+
+                case Morpeko:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[HangryMode],
+                    };
+
+                case Eiscue:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[NoiceFace],
+                    };
+
+                case Zacian:
+                case Zamazenta:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[Crowned],
+                    };
+
+                case Eternatus:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[Eternamax],
+                    };
+                case Urshifu:
+                    return new[]
+                    {
+                        forms[SingleStrike],
+                        forms[RapidStrike],
+                    };
+                case Zarude:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[Dada],
+                    };
+            }
+        }
+
         private static string[] GetFormsAlolan (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
         {
             if (generation < 7)
@@ -518,6 +644,14 @@ namespace PKHeX.Core
             {
                 default:
                     return EMPTY;
+
+                case Meowth when generation >= 8:
+                    return new[]
+                    {
+                        types[000],
+                        forms[810], // Alolan
+                        forms[Galarian], // Alolan
+                    };
 
                 case Rattata:
                 case Raichu:
@@ -535,6 +669,7 @@ namespace PKHeX.Core
                 case Grimer:
                 case Muk:
                 case Exeggutor:
+                case Marowak: // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
                     return new[]
                     {
                         types[000],
@@ -561,8 +696,9 @@ namespace PKHeX.Core
                         forms[733], // Libre
                         forms[734], // Cosplay
                     };
-                case 7:
-                    var arr = new[]
+
+                case 7 when IsGG():
+                    return new[]
                     {
                         types[000], // Normal
                         forms[813], // Original
@@ -571,28 +707,47 @@ namespace PKHeX.Core
                         forms[816], // Unova
                         forms[817], // Kalos
                         forms[818], // Alola
-                        forms[1063] // Partner
+                        forms[1063], // Partner
+                        Starter,
                     };
-                    if (!IsGG())
-                        return arr;
-                    System.Array.Resize(ref arr, arr.Length + 1);
-                    arr[arr.Length - 1] = Starter;
-                    return arr;
+
+                case 7:
+                    return new[]
+                    {
+                        types[000], // Normal
+                        forms[813], // Original
+                        forms[814], // Hoenn
+                        forms[815], // Sinnoh
+                        forms[816], // Unova
+                        forms[817], // Kalos
+                        forms[818], // Alola
+                        forms[1063], // Partner
+                        Starter,
+                    };
+                case 8:
+                    return new[]
+                    {
+                        types[000], // Normal
+                        forms[813], // Original
+                        forms[814], // Hoenn
+                        forms[815], // Sinnoh
+                        forms[816], // Unova
+                        forms[817], // Kalos
+                        forms[818], // Alola
+                        forms[1063], // Partner
+                        Starter,
+                        forms[1085], // World
+                    };
             }
         }
 
-        private static string[] GetFormsPichu  (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsPichu  (IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            if (generation == 4)
+            return new[]
             {
-                return new[]
-                {
-                    types[000], // Normal
-                    forms[000], // Spiky
-                };
-            }
-
-            return EMPTY;
+                types[000], // Normal
+                forms[000], // Spiky
+            };
         }
 
         private static string[] GetFormsArceus (int generation, IReadOnlyList<string> types)
@@ -667,7 +822,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static string[] GetFormsTotem  (int species,    IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsTotem  (int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             if ((Species)species == Mimikyu) // Mimikyu
             {
@@ -699,31 +854,29 @@ namespace PKHeX.Core
 
         private static string[] GetFormsUnown(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 2:
-                    return new[]
-                    {
-                        "A", "B", "C", "D", "E",
-                        "F", "G", "H", "I", "J",
-                        "K", "L", "M", "N", "O",
-                        "P", "Q", "R", "S", "T",
-                        "U", "V", "W", "X", "Y",
-                        "Z",
-                        // "!", "?", not in Gen II
-                    };
-                default:
-                    return new[]
-                    {
-                        "A", "B", "C", "D", "E",
-                        "F", "G", "H", "I", "J",
-                        "K", "L", "M", "N", "O",
-                        "P", "Q", "R", "S", "T",
-                        "U", "V", "W", "X", "Y",
-                        "Z",
-                        "!", "?",
-                    };
-            }
+                2 => new[]
+                {
+                    "A", "B", "C", "D", "E",
+                    "F", "G", "H", "I", "J",
+                    "K", "L", "M", "N", "O",
+                    "P", "Q", "R", "S", "T",
+                    "U", "V", "W", "X", "Y",
+                    "Z",
+                    // "!", "?", not in Gen II
+                },
+                _ => new[]
+                {
+                    "A", "B", "C", "D", "E",
+                    "F", "G", "H", "I", "J",
+                    "K", "L", "M", "N", "O",
+                    "P", "Q", "R", "S", "T",
+                    "U", "V", "W", "X", "Y",
+                    "Z",
+                    "!", "?",
+                }
+            };
         }
 
         private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);
@@ -742,12 +895,12 @@ namespace PKHeX.Core
         /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.AltForm"/> value.
         /// </summary>
         /// <param name="pi">Game specific personal info</param>
-        /// <param name="species"><see cref="PKM.Species"/> ID</param>
+        /// <param name="species"><see cref="Species"/> ID</param>
         /// <param name="format"><see cref="PKM.AltForm"/> ID</param>
         /// <returns>True if has formes that can be provided by <see cref="GetFormList"/>, otherwise false for none.</returns>
         public static bool HasFormSelection(PersonalInfo pi, int species, int format)
         {
-            if (format <= 3 && species != 201)
+            if (format <= 3 && species != (int)Unown)
                 return false;
 
             if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
@@ -759,9 +912,125 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
         {
-            201, // Unown
-            414, // Mothim (Burmy forme carried over, not cleared)
-            664, 665, // Vivillon pre-evos
+            (int)Unown,
+            (int)Mothim, // (Burmy forme carried over, not cleared)
+            (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
         };
+
+        private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return new[]
+            {
+                types[000], // Normal
+                forms[804], // Mega
+            };
+        }
+
+        private static string[] GetMegaXY(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return new[]
+            {
+                types[000], // Normal
+                forms[805], // Mega X
+                forms[806], // Mega Y
+            };
+        }
+
+        private static string[] GetFormsGalar(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return new[]
+            {
+                types[000], // Normal
+                forms[Galarian], // Galarian
+            };
+        }
+
+        private static string[] GetFormsGalarSlowbro(IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        {
+            return new[]
+            {
+                types[000], // Normal
+                forms[804], // Mega
+                forms[Galarian], // Galarian
+            };
+        }
+
+        private const int Galarian = 1068;
+        // private const int Gigantamax = 1069;
+        private const int Gulping = 1070;
+        private const int Gorging = 1071;
+        private const int LowKey = 1072;
+
+        private const int RubyCream = 1073;
+        private const int MatchaCream = 1074;
+        private const int MintCream = 1075;
+        private const int LemonCream = 1076;
+        private const int SaltedCream = 1077;
+        private const int RubySwirl = 1078;
+        private const int CaramelSwirl = 1079;
+        private const int RainbowSwirl = 1080;
+
+        private const int NoiceFace = 1081;
+        private const int HangryMode = 1082;
+
+        private const int Crowned = 1083;
+        private const int Eternamax = 1084;
+
+        private const int SingleStrike = 1086;
+        private const int RapidStrike = 1087;
+        private const int Dada = 1088;
+
+        public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
+        {
+            var result = new string[63];
+            // seed form0 with the pattern
+            result[0 * 7] = forms[(int) Alcremie]; // Vanilla Cream
+            result[1 * 7] = forms[RubyCream];
+            result[2 * 7] = forms[MatchaCream];
+            result[3 * 7] = forms[MintCream];
+            result[4 * 7] = forms[LemonCream];
+            result[5 * 7] = forms[SaltedCream];
+            result[6 * 7] = forms[RubySwirl];
+            result[7 * 7] = forms[CaramelSwirl];
+            result[8 * 7] = forms[RainbowSwirl];
+
+            const int deco = 7;
+            const int fc = 9;
+            for (int f = 0; f < fc; f++)
+            {
+                int start = f * deco;
+                // iterate downwards using form0 as pattern ref, replacing on final loop
+                for (int i = deco - 1; i >= 0; i--)
+                {
+                    result[start + i] = $"{result[start]} ({(AlcremieDecoration)i})";
+                }
+            }
+
+            return result;
+        }
+
+        public static string[] GetFormArgumentStrings(int species, int form, int generation)
+        {
+            if (generation <= 5)
+                return EMPTY;
+
+            static string[] GetBlank(int count)
+            {
+                var result = new string[count];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = i.ToString();
+                return result;
+            }
+
+            return species switch
+            {
+                (int) Furfrou when form != 0 => new[] {"0", "1", "2", "3", "4", "5"},
+                (int) Hoopa when form == 1 => new[] {"0", "1", "2", "3"},
+                (int) Yamask when form == 1 => GetBlank(320),
+                (int) Runerigus when form == 0 => GetBlank(320), // max Runerigus HP
+                (int) Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
+                _ => EMPTY
+            };
+        }
     }
 }

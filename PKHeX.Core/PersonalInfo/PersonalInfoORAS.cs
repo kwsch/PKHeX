@@ -3,16 +3,12 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from the OR &amp; AS games.
     /// </summary>
-    public class PersonalInfoORAS : PersonalInfoXY
+    public sealed class PersonalInfoORAS : PersonalInfoXY
     {
         public new const int SIZE = 0x50;
 
-        public PersonalInfoORAS(byte[] data)
+        public PersonalInfoORAS(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x28, 0x10);
             TypeTutors = GetBits(Data, 0x38, 0x4);

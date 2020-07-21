@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Misc3));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -103,11 +102,11 @@
             this.BTN_SymbolA = new System.Windows.Forms.Button();
             this.CHK_ActivatePass = new System.Windows.Forms.CheckBox();
             this.Tab_Records = new System.Windows.Forms.TabPage();
+            this.NUD_FameH = new System.Windows.Forms.NumericUpDown();
+            this.NUD_FameM = new System.Windows.Forms.NumericUpDown();
+            this.NUD_FameS = new System.Windows.Forms.NumericUpDown();
             this.NUD_RecordValue = new System.Windows.Forms.NumericUpDown();
             this.CB_Record = new System.Windows.Forms.ComboBox();
-            this.NUD_FameS = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FameM = new System.Windows.Forms.NumericUpDown();
-            this.NUD_FameH = new System.Windows.Forms.NumericUpDown();
             this.tabControl1.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_BPEarned)).BeginInit();
@@ -127,10 +126,10 @@
             this.GB_FrontierPass.SuspendLayout();
             this.GB_Icons.SuspendLayout();
             this.Tab_Records.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RecordValue)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameS)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FameH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameM)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RecordValue)).BeginInit();
             this.SuspendLayout();
             // 
             // B_Save
@@ -990,6 +989,45 @@
             this.Tab_Records.Text = "Records";
             this.Tab_Records.UseVisualStyleBackColor = true;
             // 
+            // NUD_FameH
+            // 
+            this.NUD_FameH.Location = new System.Drawing.Point(44, 59);
+            this.NUD_FameH.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUD_FameH.Name = "NUD_FameH";
+            this.NUD_FameH.Size = new System.Drawing.Size(56, 20);
+            this.NUD_FameH.TabIndex = 2;
+            this.NUD_FameH.Visible = false;
+            // 
+            // NUD_FameM
+            // 
+            this.NUD_FameM.Location = new System.Drawing.Point(106, 59);
+            this.NUD_FameM.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.NUD_FameM.Name = "NUD_FameM";
+            this.NUD_FameM.Size = new System.Drawing.Size(41, 20);
+            this.NUD_FameM.TabIndex = 3;
+            this.NUD_FameM.Visible = false;
+            // 
+            // NUD_FameS
+            // 
+            this.NUD_FameS.Location = new System.Drawing.Point(153, 59);
+            this.NUD_FameS.Maximum = new decimal(new int[] {
+            59,
+            0,
+            0,
+            0});
+            this.NUD_FameS.Name = "NUD_FameS";
+            this.NUD_FameS.Size = new System.Drawing.Size(41, 20);
+            this.NUD_FameS.TabIndex = 4;
+            this.NUD_FameS.Visible = false;
+            // 
             // NUD_RecordValue
             // 
             this.NUD_RecordValue.Location = new System.Drawing.Point(74, 33);
@@ -1006,42 +1044,6 @@
             this.CB_Record.Size = new System.Drawing.Size(188, 21);
             this.CB_Record.TabIndex = 0;
             // 
-            // NUD_FameS
-            // 
-            this.NUD_FameS.Location = new System.Drawing.Point(153, 59);
-            this.NUD_FameS.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.NUD_FameS.Name = "NUD_FameS";
-            this.NUD_FameS.Size = new System.Drawing.Size(41, 20);
-            this.NUD_FameS.TabIndex = 4;
-            // 
-            // NUD_FameM
-            // 
-            this.NUD_FameM.Location = new System.Drawing.Point(106, 59);
-            this.NUD_FameM.Maximum = new decimal(new int[] {
-            59,
-            0,
-            0,
-            0});
-            this.NUD_FameM.Name = "NUD_FameM";
-            this.NUD_FameM.Size = new System.Drawing.Size(41, 20);
-            this.NUD_FameM.TabIndex = 3;
-            // 
-            // NUD_FameH
-            // 
-            this.NUD_FameH.Location = new System.Drawing.Point(44, 59);
-            this.NUD_FameH.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUD_FameH.Name = "NUD_FameH";
-            this.NUD_FameH.Size = new System.Drawing.Size(56, 20);
-            this.NUD_FameH.TabIndex = 2;
-            // 
             // SAV_Misc3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1050,7 +1052,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(200, 150);
             this.Name = "SAV_Misc3";
@@ -1082,10 +1084,10 @@
             this.GB_FrontierPass.PerformLayout();
             this.GB_Icons.ResumeLayout(false);
             this.Tab_Records.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_RecordValue)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameS)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_FameH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameM)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_FameS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUD_RecordValue)).EndInit();
             this.ResumeLayout(false);
 
         }

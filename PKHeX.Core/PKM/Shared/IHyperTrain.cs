@@ -23,16 +23,16 @@ namespace PKHeX.Core
         /// <returns>Final Hyper Training Flag value</returns>
         public static bool HyperTrainInvert(this IHyperTrain t, int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return t.HT_HP ^= true;
-                case 1: return t.HT_ATK ^= true;
-                case 2: return t.HT_DEF ^= true;
-                case 3: return t.HT_SPE ^= true;
-                case 4: return t.HT_SPA ^= true;
-                case 5: return t.HT_SPD ^= true;
-            }
-            return false;
+                0 => (t.HT_HP ^= true),
+                1 => (t.HT_ATK ^= true),
+                2 => (t.HT_DEF ^= true),
+                3 => (t.HT_SPE ^= true),
+                4 => (t.HT_SPA ^= true),
+                5 => (t.HT_SPD ^= true),
+                _ => false
+            };
         }
 
         public static bool IsHyperTrainedAll(this IHyperTrain t) => t.HyperTrainFlags == 0x3F;
@@ -41,17 +41,16 @@ namespace PKHeX.Core
 
         public static bool IsHyperTrained(this IHyperTrain t, int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return t.HT_HP;
-                case 1: return t.HT_ATK;
-                case 2: return t.HT_DEF;
-                case 3: return t.HT_SPE;
-                case 4: return t.HT_SPA;
-                case 5: return t.HT_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => t.HT_HP,
+                1 => t.HT_ATK,
+                2 => t.HT_DEF,
+                3 => t.HT_SPE,
+                4 => t.HT_SPA,
+                5 => t.HT_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         /// <summary>
@@ -61,17 +60,16 @@ namespace PKHeX.Core
         /// <param name="index">Index to get</param>
         public static bool GetHT(this IHyperTrain pk, int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return pk.HT_HP;
-                case 1: return pk.HT_ATK;
-                case 2: return pk.HT_DEF;
-                case 3: return pk.HT_SPE;
-                case 4: return pk.HT_SPA;
-                case 5: return pk.HT_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => pk.HT_HP,
+                1 => pk.HT_ATK,
+                2 => pk.HT_DEF,
+                3 => pk.HT_SPE,
+                4 => pk.HT_SPA,
+                5 => pk.HT_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         /// <summary>
@@ -79,7 +77,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm"></param>
         /// <param name="IVs"><see cref="PKM.IVs"/> to use (if already known). Will fetch the current <see cref="PKM.IVs"/> if not provided.</param>
-        public static void SetSuggestedHyperTrainingData(this PKM pkm, int[] IVs = null)
+        public static void SetSuggestedHyperTrainingData(this PKM pkm, int[]? IVs = null)
         {
             if (!(pkm is IHyperTrain t))
                 return;
@@ -88,8 +86,7 @@ namespace PKHeX.Core
                 t.HyperTrainFlags = 0;
                 return;
             }
-            if (IVs == null)
-                IVs = pkm.IVs;
+            IVs ??= pkm.IVs;
 
             t.HT_HP = IVs[0] != 31;
             t.HT_ATK = IVs[1] != 31 && IVs[1] > 2;

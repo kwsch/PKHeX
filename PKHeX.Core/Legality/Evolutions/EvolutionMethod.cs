@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.EvolutionType;
 
 namespace PKHeX.Core
@@ -10,17 +7,58 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EvolutionMethod
     {
-        public int Method;
-        public int Species;
-        public int Argument;
-        public int Form = -1;
-        public int Level;
+        /// <summary>
+        /// Evolution Method
+        /// </summary>
+        public readonly int Method;
+
+        /// <summary>
+        /// Evolve to Species
+        /// </summary>
+        public readonly int Species;
+
+        /// <summary>
+        /// Conditional Argument (different from <see cref="Level"/>)
+        /// </summary>
+        public readonly int Argument;
+
+        /// <summary>
+        /// Conditional Argument (different from <see cref="Argument"/>)
+        /// </summary>
+        public readonly int Level;
+
+        /// <summary>
+        /// Destination Form
+        /// </summary>
+        /// <remarks>Is <see cref="AnyForm"/> if the evolved form isn't modified. Special consideration for <see cref="LevelUpFormFemale1"/>, which forces 1.</remarks>
+        public readonly int Form;
+
+        private const int AnyForm = -1;
 
         // Not stored in binary data
-        public bool RequiresLevelUp; // tracks if this method requires a Level Up
-        internal IReadOnlyCollection<GameVersion> Banlist = Array.Empty<GameVersion>();
+        public bool RequiresLevelUp; // tracks if this method requires a Level Up, lazily set
 
-        internal static readonly IReadOnlyCollection<GameVersion> BanSM = new[] {GameVersion.SN, GameVersion.MN};
+        public EvolutionMethod(int method, int species, int argument = 0, int level = 0, int form = AnyForm)
+        {
+            Method = method;
+            Species = species;
+            Argument = argument;
+            Form = form;
+            Level = level;
+        }
+
+        /// <summary>
+        /// Returns the form that the Pokémon will have after evolution.
+        /// </summary>
+        /// <param name="form">Un-evolved Form ID</param>
+        public int GetDestinationForm(int form)
+        {
+            if (Method == (int)LevelUpFormFemale1)
+                return 1;
+            if (Form == AnyForm)
+                return form;
+            return Form;
+        }
 
         /// <summary>
         /// Checks the <see cref="EvolutionMethod"/> for validity by comparing against the <see cref="PKM"/> data.
@@ -28,25 +66,19 @@ namespace PKHeX.Core
         /// <param name="pkm">Entity to check</param>
         /// <param name="lvl">Current level</param>
         /// <param name="skipChecks">Option to skip some comparisons to return a 'possible' evolution.</param>
-        /// <returns></returns>
+        /// <returns>True if a evolution criteria is valid.</returns>
         public bool Valid(PKM pkm, int lvl, bool skipChecks)
         {
             RequiresLevelUp = false;
-            if (Form > -1)
-            {
-                if (!skipChecks && pkm.AltForm != Form)
-                    return false;
-            }
-
-            // Check for unavailable evolution methods for an un-traded specimen.
-            // Example: Sun/Moon lack Ultra's Kantonian evolution methods.
-            if (!skipChecks && Banlist.Count > 0 && Banlist.Contains((GameVersion)pkm.Version) && pkm.IsUntraded)
-                return false;
-
             switch ((EvolutionType)Method)
             {
                 case UseItem:
                 case UseItemWormhole:
+                case Crit3:
+                case HPDownBy49:
+                case SpinType:
+                case TowerOfDarkness:
+                case TowerOfWaters:
                     return true;
                 case UseItemMale:
                     return pkm.Gender == 0;
@@ -59,6 +91,10 @@ namespace PKHeX.Core
                     return !pkm.IsUntraded || skipChecks;
 
                 // Special Level Up Cases -- return false if invalid
+                case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                    return false;
+
                 case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
                     return skipChecks;
                 case LevelUpMale when pkm.Gender != 0:
@@ -106,33 +142,27 @@ namespace PKHeX.Core
                 case 5: // Bank keeps current level
                 case 6:
                 case 7:
+                case 8:
                     return lvl >= Level && (!pkm.IsNative || pkm.Met_Level < lvl);
 
                 default: return false;
             }
         }
 
-        public EvoCriteria GetEvoCriteria(int species, int lvl)
+        public EvoCriteria GetEvoCriteria(int species, int form, int lvl)
         {
-            return new EvoCriteria
+            return new EvoCriteria(species, form)
             {
-                Species = species,
                 Level = lvl,
-                Form = Form,
                 Method = Method,
             };
         }
 
-        public EvolutionMethod Copy(int species)
+        public static int GetAmpLowKeyResult(int n)
         {
-            return new EvolutionMethod
-            {
-                Method = Method,
-                Species = species,
-                Argument = Argument,
-                Form = Form,
-                Level = Level
-            };
+            if ((uint)(n - 1) > 22)
+                return 0;
+            return (0x5BCA51 >> (n - 1)) & 1;
         }
     }
 }

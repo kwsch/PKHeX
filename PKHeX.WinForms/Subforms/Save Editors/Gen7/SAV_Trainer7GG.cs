@@ -23,8 +23,7 @@ namespace PKHeX.WinForms
 
             if (Main.Unicode)
             {
-                try { TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont(11); }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = TB_RivalName.Font = FontUtil.GetPKXFont();
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
@@ -65,9 +64,9 @@ namespace PKHeX.WinForms
         {
             // Get Data
             TB_OTName.Text = SAV.OT;
-            TB_RivalName.Text = SAV.Misc.Rival;
+            TB_RivalName.Text = SAV.Blocks.Misc.Rival;
             CB_Language.SelectedValue = SAV.Language;
-            MT_Money.Text = SAV.Misc.Money.ToString();
+            MT_Money.Text = SAV.Blocks.Misc.Money.ToString();
 
             CB_Game.SelectedValue = SAV.Game;
             CB_Gender.SelectedIndex = SAV.Gender;
@@ -93,7 +92,7 @@ namespace PKHeX.WinForms
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);
 
             SAV.OT = TB_OTName.Text;
-            SAV.Misc.Rival = TB_RivalName.Text;
+            SAV.Blocks.Misc.Rival = TB_RivalName.Text;
 
             // Save PlayTime
             SAV.PlayedHours = ushort.Parse(MT_Hours.Text);
@@ -122,7 +121,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -141,7 +140,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");
                 return;
             }
-            Clipboard.SetText(string.Join(Environment.NewLine, summary));
+            WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, summary));
             System.Media.SystemSounds.Asterisk.Play();
         }
 
@@ -153,19 +152,19 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");
                 return;
             }
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
             var folder = fbd.SelectedPath;
             foreach (var gpk in gofiles)
-                File.WriteAllBytes(Path.Combine(folder, gpk.FileName), gpk.Data);
+                File.WriteAllBytes(Path.Combine(folder, Util.CleanFileName(gpk.FileName)), gpk.Data);
             WinFormsUtil.Alert($"Dumped {gofiles.Length} files to {folder}");
         }
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            var sfd = new OpenFileDialog
+            using var sfd = new OpenFileDialog
             {
                 Filter = GoFilter,
                 FilterIndex = 0,
@@ -209,7 +208,7 @@ namespace PKHeX.WinForms
             index = Math.Min(GoParkStorage.Count - 1, Math.Max(0, index));
             var data = Park[index];
 
-            var sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 FileName = data.FileName,
                 Filter = GoFilter,
@@ -225,7 +224,7 @@ namespace PKHeX.WinForms
 
         private void B_ImportGoFiles_Click(object sender, EventArgs e)
         {
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 

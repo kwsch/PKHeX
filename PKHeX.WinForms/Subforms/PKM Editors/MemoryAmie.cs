@@ -7,12 +7,14 @@ namespace PKHeX.WinForms
     public partial class MemoryAmie : Form
     {
         private readonly TextMarkup TextArgs;
+        private readonly MemoryStrings MemStrings;
 
         public MemoryAmie(PKM pk)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             pkm = pk;
+            MemStrings = new MemoryStrings(GameInfo.Strings, pkm.Format);
             PrevCountries = new[] { CB_Country0, CB_Country1, CB_Country2, CB_Country3, CB_Country4 };
             PrevRegions = new[] { CB_Region0, CB_Region1, CB_Region2, CB_Region3, CB_Region4, };
             string[] arguments = L_Arguments.Text.Split(new[] {" ; "}, StringSplitOptions.None);
@@ -27,6 +29,9 @@ namespace PKHeX.WinForms
                 region.InitializeBinding();
             GetLangStrings();
             LoadFields();
+
+            if (!(pkm is IGeoTrack))
+                tabControl1.TabPages.Remove(Tab_Residence);
         }
 
         private bool init;
@@ -129,6 +134,9 @@ namespace PKHeX.WinForms
             // Manually load the Memory Parse
             RTB_CT.Text = GetMemoryString(CB_CTMemory, CB_CTVar, CB_CTQual, CB_CTFeel, pkm.HT_Name);
             RTB_OT.Text = GetMemoryString(CB_OTMemory, CB_OTVar, CB_OTQual, CB_OTFeel, pkm.OT_Name);
+
+            // Affection no longer stored in gen8+, so only show in gen6/7.
+            L_OT_Affection.Visible = L_CT_Affection.Visible = M_OT_Affection.Visible = M_CT_Affection.Visible = pkm.Format <= 7;
         }
 
         private void SaveFields()
@@ -182,7 +190,7 @@ namespace PKHeX.WinForms
 
         private void GetLangStrings()
         {
-            var strings = GameInfo.FilteredSources.Source.Memories;
+            var strings = MemStrings;
             CB_OTMemory.InitializeBinding();
             CB_CTMemory.InitializeBinding();
             CB_OTMemory.DataSource = new BindingSource(strings.Memory, null);
@@ -196,7 +204,7 @@ namespace PKHeX.WinForms
             }
 
             // Feeling Chooser
-            foreach (var q in strings.GetMemoryFeelings())
+            foreach (var q in strings.GetMemoryFeelings(pkm.Format))
             {
                 CB_CTFeel.Items.Add(q);
                 CB_OTFeel.Items.Add(q);
@@ -205,21 +213,24 @@ namespace PKHeX.WinForms
 
         private void UpdateMemoryDisplay(object sender)
         {
-            int memory = WinFormsUtil.GetIndex((ComboBox) sender);
-            var memIndex = Memories.GetMemoryArgType(memory);
-            var argvals = GameInfo.Sources.Memories.GetArgumentStrings(memIndex);
             if (sender == CB_CTMemory)
             {
+                int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.GenNumber);
+                var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
-                LCTV.Text = TextArgs.GetMemoryCategory(memIndex);
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.GenNumber);
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else
             {
+                int memory = WinFormsUtil.GetIndex((ComboBox)sender);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.Format);
+                var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_OTVar.InitializeBinding();
                 CB_OTVar.DataSource = new BindingSource(argvals, null);
-                LOTV.Text = TextArgs.GetMemoryCategory(memIndex);
+                LOTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Format);
                 LOTV.Visible = CB_OTVar.Visible = CB_OTVar.Enabled = argvals.Count > 1;
             }
         }
@@ -231,7 +242,8 @@ namespace PKHeX.WinForms
             int mem = WinFormsUtil.GetIndex(m);
             if (mem == 0)
             {
-                result = GameInfo.Strings.memories[38];
+                string nn = pkm.Nickname;
+                result = string.Format(GameInfo.Strings.memories[mem + 38], nn);
                 enabled = false;
             }
             else
@@ -345,17 +357,17 @@ namespace PKHeX.WinForms
                 if (args[9] != null) Location = args[9] + ":";
             }
 
-            public string GetMemoryCategory(MemoryArgType type)
+            public string GetMemoryCategory(MemoryArgType type, int format)
             {
-                switch (type)
+                return type switch
                 {
-                    default: return string.Empty;
-                    case MemoryArgType.GeneralLocation: return Area;
-                    case MemoryArgType.SpecificLocation: return Location;
-                    case MemoryArgType.Species: return Species;
-                    case MemoryArgType.Move: return Move;
-                    case MemoryArgType.Item: return Item;
-                }
+                    MemoryArgType.GeneralLocation => Area,
+                    MemoryArgType.SpecificLocation when format == 6 => Location,
+                    MemoryArgType.Species => Species,
+                    MemoryArgType.Move => Move,
+                    MemoryArgType.Item => Item,
+                    _ => string.Empty
+                };
             }
         }
     }

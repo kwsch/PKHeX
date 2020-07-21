@@ -9,7 +9,7 @@
         private const int Berry = Medicine + (4 * 64); // 72 (Case 3)
         private const int ZCrystals = Berry + (4 * 72); // 30 (Case 5)
 
-        public MyItem7SM(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
+        public MyItem7SM(SAV7SM SAV, int offset) : base(SAV) => Offset = offset;
 
         public override InventoryPouch[] Inventory
         {

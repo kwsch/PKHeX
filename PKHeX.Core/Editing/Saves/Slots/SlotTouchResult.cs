@@ -11,6 +11,11 @@
         Success,
 
         /// <summary>
+        /// Slot interaction failed to do anything.
+        /// </summary>
+        FailNone,
+
+        /// <summary>
         /// Slot interaction failed to apply the data.
         /// </summary>
         FailWrite,

@@ -15,3 +15,5 @@
 0900	Heatran Disappeared
 0924	Regigigas Disappeared
 0897	Cresselia Disappeared
+0106	Trading Functionality Enabled (PokeCenter)
+2403	Has Running Shoes

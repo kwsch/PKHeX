@@ -16,13 +16,14 @@ namespace PKHeX.Core
     {
         public static readonly Type[] Types =
         {
+            typeof (PK8),
             typeof (PB7),
             typeof (PK7), typeof (PK6), typeof (PK5), typeof (PK4), typeof(BK4),
             typeof (PK3), typeof (XK3), typeof (CK3),
             typeof (PK2), typeof (PK1),
         };
 
-        public static readonly string[] CustomProperties = { PROP_LEGAL };
+        public static readonly string[] CustomProperties = { PROP_LEGAL, PROP_RIBBONS };
         public static readonly string[][] Properties = GetPropArray();
 
         private static readonly Dictionary<string, PropertyInfo>[] Props = Types.Select(z => ReflectUtil.GetAllPropertyInfoPublic(z)
@@ -35,6 +36,7 @@ namespace PKHeX.Core
         private const string CONST_BYTES = "$[]";
 
         private const string PROP_LEGAL = "Legal";
+        private const string PROP_RIBBONS = "Ribbons";
         private const string IdentifierContains = nameof(PKM.Identifier) + "Contains";
 
         private static string[][] GetPropArray()
@@ -78,7 +80,7 @@ namespace PKHeX.Core
         /// <param name="propertyName">Property Name to fetch the type for</param>
         /// <param name="typeIndex">Type index (within <see cref="Types"/>. Leave empty (0) for a nonspecific format.</param>
         /// <returns>Short name of the property's type.</returns>
-        public static string GetPropertyType(string propertyName, int typeIndex = 0)
+        public static string? GetPropertyType(string propertyName, int typeIndex = 0)
         {
             if (CustomProperties.Contains(propertyName))
                 return "Custom";
@@ -93,7 +95,7 @@ namespace PKHeX.Core
                 return null;
             }
 
-            int index = typeIndex -1 >= Props.Length ? 0 : typeIndex - 1; // All vs Specific
+            int index = typeIndex - 1 >= Props.Length ? 0 : typeIndex - 1; // All vs Specific
             var pr = Props[index];
             if (!pr.TryGetValue(propertyName, out var info))
                 return null;
@@ -163,6 +165,8 @@ namespace PKHeX.Core
                     return false;
                 try
                 {
+                    if (pi == null)
+                        continue;
                     if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
                         continue;
                 }
@@ -240,14 +244,14 @@ namespace PKHeX.Core
         /// <returns>True if filtered, else false.</returns>
         private static ModifyResult SetPKMProperty(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
-            var pk = info.pkm;
+            var pk = info.Entity;
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
                 return SetByteArrayProperty(pk, cmd);
 
-            if (cmd.PropertyValue == CONST_SUGGEST)
-                return SetSuggestedPKMProperty(cmd.PropertyName, info);
+            if (cmd.PropertyValue.StartsWith(CONST_SUGGEST, true, CultureInfo.CurrentCulture))
+                return SetSuggestedPKMProperty(cmd.PropertyName, info, cmd.PropertyValue);
             if (cmd.PropertyValue == CONST_RAND && cmd.PropertyName == nameof(PKM.Moves))
-                return SetMoves(pk, pk.GetMoveSet(true, info.Legality));
+                return SetMoves(pk, info.Legality.GetMoveSet(true));
 
             if (SetComplexProperty(pk, cmd))
                 return ModifyResult.Modified;
@@ -274,7 +278,7 @@ namespace PKHeX.Core
         {
             if (IsLegalFiltered(cmd, () => info.Legal))
                 return true;
-            return IsPropertyFiltered(cmd, info.pkm, props);
+            return IsPropertyFiltered(cmd, info.Entity, props);
         }
 
         /// <summary>
@@ -320,7 +324,7 @@ namespace PKHeX.Core
             if (cmd.PropertyName != IdentifierContains)
                 return false;
 
-            bool result = pk.Identifier.Contains(cmd.PropertyValue);
+            bool result = pk.Identifier?.Contains(cmd.PropertyValue) ?? false;
             return result == cmd.Evaluator;
         }
 
@@ -345,9 +349,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="name">Property to modify.</param>
         /// <param name="info">Cached info storing Legal data.</param>
-        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info)
+        /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
+        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info, string propValue)
         {
-            var pk = info.pkm;
+            static bool IsAll(string p) => p.EndsWith("All", true, CultureInfo.CurrentCulture);
+            static bool IsNone(string p) => p.EndsWith("None", true, CultureInfo.CurrentCulture);
+            var pk = info.Entity;
             switch (name)
             {
                 // pb7 only
@@ -361,6 +368,20 @@ namespace PKHeX.Core
                     pb7.WeightAbsolute = pb7.CalcWeightAbsolute;
                     return ModifyResult.Modified;
 
+                // Date Copy
+                case nameof(PKM.EggMetDate):
+                    pk.EggMetDate = pk.MetDate;
+                    return ModifyResult.Modified;
+                case nameof(PKM.MetDate):
+                    pk.MetDate = pk.EggMetDate;
+                    return ModifyResult.Modified;
+
+                case nameof(PKM.Nature) when pk.Format >= 8:
+                    pk.Nature = pk.StatNature;
+                    return ModifyResult.Modified;
+                case nameof(PKM.StatNature) when pk.Format >= 8:
+                    pk.StatNature = pk.Nature;
+                    return ModifyResult.Modified;
                 case nameof(PKM.Stats):
                     pk.ResetPartyStats();
                     return ModifyResult.Modified;
@@ -368,25 +389,57 @@ namespace PKHeX.Core
                     pk.SetSuggestedHyperTrainingData();
                     return ModifyResult.Modified;
                 case nameof(PKM.RelearnMoves):
-                    pk.RelearnMoves = info.SuggestedRelearn;
+                    if (pk.Format >= 8)
+                    {
+                        pk.ClearRecordFlags();
+                        if (IsAll(propValue))
+                            pk.SetRecordFlags(); // all
+                        else if (!IsNone(propValue))
+                            pk.SetRecordFlags(pk.Moves); // whatever fit the current moves
+                    }
+                    pk.SetRelearnMoves(info.SuggestedRelearn);
+                    return ModifyResult.Modified;
+                case PROP_RIBBONS:
+                    if (IsNone(propValue))
+                        RibbonApplicator.RemoveAllValidRibbons(pk);
+                    else // All
+                        RibbonApplicator.SetAllValidRibbons(pk);
                     return ModifyResult.Modified;
                 case nameof(PKM.Met_Location):
-                    var encounter = info.SuggestedEncounter;
+                    var encounter = EncounterSuggestion.GetSuggestedMetInfo(pk);
                     if (encounter == null)
                         return ModifyResult.Error;
 
-                    int level = encounter.Level;
+                    int level = encounter.LevelMin;
                     int location = encounter.Location;
-                    int minlvl = Legal.GetLowestLevel(pk, encounter.LevelMin);
+                    int minimumLevel = EncounterSuggestion.GetLowestLevel(pk, encounter.LevelMin);
 
                     pk.Met_Level = level;
                     pk.Met_Location = location;
-                    pk.CurrentLevel = Math.Max(minlvl, level);
+                    pk.CurrentLevel = Math.Max(minimumLevel, level);
 
                     return ModifyResult.Modified;
 
+                case nameof(PKM.Heal):
+                    pk.Heal();
+                    return ModifyResult.Modified;
+                case nameof(PKM.HealPP):
+                    pk.HealPP();
+                    return ModifyResult.Modified;
+
+                case nameof(PKM.Move1_PP):
+                case nameof(PKM.Move2_PP):
+                case nameof(PKM.Move3_PP):
+                case nameof(PKM.Move4_PP):
+                    pk.SetSuggestedMovePP(name[4] - '1'); // 0-3 int32
+                    return ModifyResult.Modified;
+
                 case nameof(PKM.Moves):
-                    return SetMoves(pk, pk.GetMoveSet(la: info.Legality));
+                    return SetMoves(pk, info.Legality.GetMoveSet());
+
+                case nameof(PKM.Ball):
+                    BallApplicator.ApplyBallLegalByColor(pk);
+                    return ModifyResult.Modified;
 
                 default:
                     return ModifyResult.Error;
@@ -401,11 +454,12 @@ namespace PKHeX.Core
         private static ModifyResult SetMoves(PKM pk, int[] moves)
         {
             pk.SetMoves(moves);
+            pk.HealPP();
             return ModifyResult.Modified;
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM"/> byte array propery to a specified value.
+        /// Sets the <see cref="PKM"/> byte array property to a specified value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="cmd">Modification</param>
@@ -414,15 +468,15 @@ namespace PKHeX.Core
             switch (cmd.PropertyName)
             {
                 case nameof(PKM.Nickname_Trash):
-                    pk.Nickname_Trash = string2arr(cmd.PropertyValue);
+                    pk.Nickname_Trash = ConvertToBytes(cmd.PropertyValue);
                     return ModifyResult.Modified;
                 case nameof(PKM.OT_Trash):
-                    pk.OT_Trash = string2arr(cmd.PropertyValue);
+                    pk.OT_Trash = ConvertToBytes(cmd.PropertyValue);
                     return ModifyResult.Modified;
                 default:
                     return ModifyResult.Error;
             }
-            byte[] string2arr(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
+            static byte[] ConvertToBytes(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
         }
 
         /// <summary>
@@ -433,12 +487,12 @@ namespace PKHeX.Core
         /// <returns>True if modified, false if no modifications done.</returns>
         private static bool SetComplexProperty(PKM pk, StringInstruction cmd)
         {
-            DateTime parseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
+            static DateTime ParseDate(string val) => DateTime.ParseExact(val, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None);
 
             if (cmd.PropertyName == nameof(PKM.MetDate))
-                pk.MetDate = parseDate(cmd.PropertyValue);
+                pk.MetDate = ParseDate(cmd.PropertyValue);
             else if (cmd.PropertyName == nameof(PKM.EggMetDate))
-                pk.EggMetDate = parseDate(cmd.PropertyValue);
+                pk.EggMetDate = ParseDate(cmd.PropertyValue);
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == CONST_RAND)
                pk.EncryptionConstant = Util.Rand32();
             else if ((cmd.PropertyName == nameof(PKM.Ability) || cmd.PropertyName == nameof(PKM.AbilityNumber)) && cmd.PropertyValue.StartsWith("$"))
@@ -447,10 +501,10 @@ namespace PKHeX.Core
                 pk.SetPIDGender(pk.Gender);
             else if (cmd.PropertyName == nameof(PKM.EncryptionConstant) && cmd.PropertyValue == nameof(PKM.PID))
                 pk.EncryptionConstant = pk.PID;
-            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue == CONST_SHINY)
-                pk.SetShiny();
+            else if (cmd.PropertyName == nameof(PKM.PID) && cmd.PropertyValue.StartsWith(CONST_SHINY, true, CultureInfo.CurrentCulture))
+                CommonEdits.SetShiny(pk, cmd.PropertyValue.EndsWith("0") ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
             else if (cmd.PropertyName == nameof(PKM.Species) && cmd.PropertyValue == "0")
-                pk.Data = new byte[pk.Data.Length];
+                Array.Clear(pk.Data, 0, pk.Data.Length);
             else if (cmd.PropertyName.StartsWith("IV") && cmd.PropertyValue == CONST_RAND)
                 SetRandomIVs(pk, cmd);
             else if (cmd.PropertyName == nameof(PKM.IsNicknamed) && string.Equals(cmd.PropertyValue, "false", StringComparison.OrdinalIgnoreCase))

@@ -40,9 +40,9 @@
             this.FLP_Weight = new System.Windows.Forms.FlowLayoutPanel();
             this.NUD_WeightScalar = new System.Windows.Forms.NumericUpDown();
             this.TB_WeightAbs = new System.Windows.Forms.TextBox();
+            this.L_SizeW = new System.Windows.Forms.Label();
             this.FLP_Height = new System.Windows.Forms.FlowLayoutPanel();
             this.L_SizeH = new System.Windows.Forms.Label();
-            this.L_SizeW = new System.Windows.Forms.Label();
             this.FLP_CP.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_HeightScalar)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -55,10 +55,10 @@
             // 
             this.FLP_CP.Controls.Add(this.MT_CP);
             this.FLP_CP.Controls.Add(this.CHK_Auto);
-            this.FLP_CP.Location = new System.Drawing.Point(63, 0);
+            this.FLP_CP.Location = new System.Drawing.Point(63, 48);
             this.FLP_CP.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_CP.Name = "FLP_CP";
-            this.FLP_CP.Size = new System.Drawing.Size(140, 23);
+            this.FLP_CP.Size = new System.Drawing.Size(140, 20);
             this.FLP_CP.TabIndex = 1;
             // 
             // MT_CP
@@ -68,7 +68,7 @@
             this.MT_CP.Mask = "00000";
             this.MT_CP.Name = "MT_CP";
             this.MT_CP.Size = new System.Drawing.Size(36, 20);
-            this.MT_CP.TabIndex = 3;
+            this.MT_CP.TabIndex = 5;
             this.MT_CP.TextChanged += new System.EventHandler(this.MT_CP_TextChanged);
             // 
             // CHK_Auto
@@ -77,7 +77,7 @@
             this.CHK_Auto.Location = new System.Drawing.Point(39, 3);
             this.CHK_Auto.Name = "CHK_Auto";
             this.CHK_Auto.Size = new System.Drawing.Size(48, 17);
-            this.CHK_Auto.TabIndex = 4;
+            this.CHK_Auto.TabIndex = 6;
             this.CHK_Auto.Text = "Auto";
             this.CHK_Auto.UseVisualStyleBackColor = true;
             this.CHK_Auto.CheckedChanged += new System.EventHandler(this.UpdateFlagState);
@@ -85,7 +85,7 @@
             // L_CP
             // 
             this.L_CP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_CP.Location = new System.Drawing.Point(3, 0);
+            this.L_CP.Location = new System.Drawing.Point(3, 48);
             this.L_CP.Name = "L_CP";
             this.L_CP.Size = new System.Drawing.Size(57, 20);
             this.L_CP.TabIndex = 0;
@@ -95,9 +95,9 @@
             // L_Height
             // 
             this.L_Height.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Height.Location = new System.Drawing.Point(3, 23);
+            this.L_Height.Location = new System.Drawing.Point(3, 0);
             this.L_Height.Name = "L_Height";
-            this.L_Height.Size = new System.Drawing.Size(57, 20);
+            this.L_Height.Size = new System.Drawing.Size(57, 13);
             this.L_Height.TabIndex = 1;
             this.L_Height.Text = "Height:";
             this.L_Height.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -105,7 +105,7 @@
             // L_Weight
             // 
             this.L_Weight.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_Weight.Location = new System.Drawing.Point(3, 46);
+            this.L_Weight.Location = new System.Drawing.Point(3, 24);
             this.L_Weight.Name = "L_Weight";
             this.L_Weight.Size = new System.Drawing.Size(57, 20);
             this.L_Weight.TabIndex = 2;
@@ -123,7 +123,7 @@
             0});
             this.NUD_HeightScalar.Name = "NUD_HeightScalar";
             this.NUD_HeightScalar.Size = new System.Drawing.Size(40, 20);
-            this.NUD_HeightScalar.TabIndex = 5;
+            this.NUD_HeightScalar.TabIndex = 1;
             this.NUD_HeightScalar.Value = new decimal(new int[] {
             255,
             0,
@@ -137,7 +137,7 @@
             this.TB_HeightAbs.Margin = new System.Windows.Forms.Padding(0);
             this.TB_HeightAbs.Name = "TB_HeightAbs";
             this.TB_HeightAbs.Size = new System.Drawing.Size(67, 20);
-            this.TB_HeightAbs.TabIndex = 7;
+            this.TB_HeightAbs.TabIndex = 2;
             this.TB_HeightAbs.Text = "123.456789";
             this.TB_HeightAbs.TextChanged += new System.EventHandler(this.TB_HeightAbs_TextChanged);
             // 
@@ -146,19 +146,18 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69F));
-            this.tableLayoutPanel1.Controls.Add(this.FLP_Weight, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.FLP_CP, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.L_Weight, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.FLP_Height, 1, 1);
-            this.tableLayoutPanel1.Controls.Add(this.L_Height, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.L_CP, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.FLP_Weight, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.L_Weight, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.FLP_Height, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.L_Height, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.L_CP, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.FLP_CP, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(204, 68);
             this.tableLayoutPanel1.TabIndex = 2;
@@ -168,7 +167,7 @@
             this.FLP_Weight.Controls.Add(this.NUD_WeightScalar);
             this.FLP_Weight.Controls.Add(this.TB_WeightAbs);
             this.FLP_Weight.Controls.Add(this.L_SizeW);
-            this.FLP_Weight.Location = new System.Drawing.Point(63, 46);
+            this.FLP_Weight.Location = new System.Drawing.Point(63, 24);
             this.FLP_Weight.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Weight.Name = "FLP_Weight";
             this.FLP_Weight.Size = new System.Drawing.Size(140, 21);
@@ -185,7 +184,7 @@
             0});
             this.NUD_WeightScalar.Name = "NUD_WeightScalar";
             this.NUD_WeightScalar.Size = new System.Drawing.Size(40, 20);
-            this.NUD_WeightScalar.TabIndex = 5;
+            this.NUD_WeightScalar.TabIndex = 3;
             this.NUD_WeightScalar.Value = new decimal(new int[] {
             255,
             0,
@@ -199,16 +198,26 @@
             this.TB_WeightAbs.Margin = new System.Windows.Forms.Padding(0);
             this.TB_WeightAbs.Name = "TB_WeightAbs";
             this.TB_WeightAbs.Size = new System.Drawing.Size(67, 20);
-            this.TB_WeightAbs.TabIndex = 7;
+            this.TB_WeightAbs.TabIndex = 4;
             this.TB_WeightAbs.Text = "123.456789";
             this.TB_WeightAbs.TextChanged += new System.EventHandler(this.TB_WeightAbs_TextChanged);
+            // 
+            // L_SizeW
+            // 
+            this.L_SizeW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.L_SizeW.Location = new System.Drawing.Point(110, 0);
+            this.L_SizeW.Name = "L_SizeW";
+            this.L_SizeW.Size = new System.Drawing.Size(24, 20);
+            this.L_SizeW.TabIndex = 9;
+            this.L_SizeW.Text = "XS";
+            this.L_SizeW.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FLP_Height
             // 
             this.FLP_Height.Controls.Add(this.NUD_HeightScalar);
             this.FLP_Height.Controls.Add(this.TB_HeightAbs);
             this.FLP_Height.Controls.Add(this.L_SizeH);
-            this.FLP_Height.Location = new System.Drawing.Point(63, 23);
+            this.FLP_Height.Location = new System.Drawing.Point(63, 0);
             this.FLP_Height.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Height.Name = "FLP_Height";
             this.FLP_Height.Size = new System.Drawing.Size(140, 21);
@@ -223,16 +232,6 @@
             this.L_SizeH.TabIndex = 8;
             this.L_SizeH.Text = "XL";
             this.L_SizeH.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // L_SizeW
-            // 
-            this.L_SizeW.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.L_SizeW.Location = new System.Drawing.Point(110, 0);
-            this.L_SizeW.Name = "L_SizeW";
-            this.L_SizeW.Size = new System.Drawing.Size(24, 20);
-            this.L_SizeW.TabIndex = 9;
-            this.L_SizeW.Text = "XS";
-            this.L_SizeW.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SizeCP
             // 

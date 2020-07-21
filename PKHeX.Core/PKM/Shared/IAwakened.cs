@@ -88,17 +88,16 @@ namespace PKHeX.Core
         /// <param name="index">Index to get</param>
         public static int GetAV(this IAwakened pk, int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return pk.AV_HP;
-                case 1: return pk.AV_ATK;
-                case 2: return pk.AV_DEF;
-                case 3: return pk.AV_SPE;
-                case 4: return pk.AV_SPA;
-                case 5: return pk.AV_SPD;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
+                0 => pk.AV_HP,
+                1 => pk.AV_ATK,
+                2 => pk.AV_DEF,
+                3 => pk.AV_SPE,
+                4 => pk.AV_SPA,
+                5 => pk.AV_SPD,
+                _ => throw new ArgumentOutOfRangeException(nameof(index))
+            };
         }
 
         /// <summary>
@@ -108,11 +107,12 @@ namespace PKHeX.Core
         /// <param name="pk">Retriever for IVs</param>
         public static void SetSuggestedAwakenedValues(this IAwakened a, PKM pk)
         {
-            for (int i = 0; i < 6; i++)
-            {
-                if (pk.GetIV(i) > 2)
-                    a.SetAV(i, 200);
-            }
+            a.AV_HP  = Legal.AwakeningMax;
+            a.AV_ATK = pk.IV_ATK == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_DEF = Legal.AwakeningMax;
+            a.AV_SPE = pk.IV_SPE == 0 ? 0 : Legal.AwakeningMax;
+            a.AV_SPA = Legal.AwakeningMax;
+            a.AV_SPD = Legal.AwakeningMax;
         }
 
         public static bool IsAwakeningBelow(this IAwakened current, IAwakened initial) => !current.IsAwakeningAboveOrEqual(initial);

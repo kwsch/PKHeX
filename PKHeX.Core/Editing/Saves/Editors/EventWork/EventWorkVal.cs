@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a known value for a <see cref="EventWork{T}"/> of type <see cref="int"/>.
     /// </summary>
-    public class EventWorkVal
+    public sealed class EventWorkVal
     {
         public readonly bool Custom;
         public readonly string Text;

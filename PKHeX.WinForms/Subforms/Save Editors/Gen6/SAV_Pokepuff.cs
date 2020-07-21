@@ -15,16 +15,15 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (IPokePuff)sav;
 
-            var puffs = SAV.PuffBlock.Puffs;
+            var puffs = SAV.Puff.Puffs;
             Setup(puffs.Length);
             LoadPuffs(puffs);
 
-            new ToolTip().SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
-            new ToolTip().SetToolTip(B_All, "Hold CTRL to best instead of varied.");
+            toolTip1.SetToolTip(B_Sort, "Hold CTRL to reverse sort.");
+            toolTip2.SetToolTip(B_All, "Hold CTRL to best instead of varied.");
         }
 
         private readonly string[] pfa = GameInfo.Strings.puffs;
-        private int PuffCount { get; set; }
 
         private void Setup(int rowCount)
         {
@@ -58,7 +57,6 @@ namespace PKHeX.WinForms
 
         private void LoadPuffs(byte[] Puffs)
         {
-            PuffCount = Puffs.Length;
             for (int i = 0; i < Puffs.Length; i++)
             {
                 dgv.Rows[i].Cells[0].Value = (i + 1).ToString();
@@ -86,20 +84,20 @@ namespace PKHeX.WinForms
 
         private void B_All_Click(object sender, EventArgs e)
         {
-            SAV.PuffBlock.MaxCheat(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.PuffBlock.Puffs);
+            SAV.Puff.MaxCheat(ModifierKeys == Keys.Control);
+            LoadPuffs(SAV.Puff.Puffs);
         }
 
         private void B_None_Click(object sender, EventArgs e)
         {
-            SAV.PuffBlock.Reset();
-            LoadPuffs(SAV.PuffBlock.Puffs);
+            SAV.Puff.Reset();
+            LoadPuffs(SAV.Puff.Puffs);
         }
 
         private void B_Sort_Click(object sender, EventArgs e)
         {
-            SAV.PuffBlock.Sort(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.PuffBlock.Puffs);
+            SAV.Puff.Sort(ModifierKeys == Keys.Control);
+            LoadPuffs(SAV.Puff.Puffs);
         }
 
         private byte[] GetPuffs()
@@ -117,8 +115,8 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             var puffs = GetPuffs();
-            SAV.PuffBlock.Puffs = puffs;
-            SAV.PuffBlock.PuffCount = puffs.Length;
+            SAV.Puff.Puffs = puffs;
+            SAV.Puff.PuffCount = puffs.Length;
             Close();
         }
     }

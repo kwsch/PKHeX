@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SuperTrain));
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -308,7 +307,7 @@
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(600, 630);
             this.MinimizeBox = false;

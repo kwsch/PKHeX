@@ -4,7 +4,8 @@ namespace PKHeX.Core
 {
     public sealed class Situation7 : SaveBlock
     {
-        public Situation7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public Situation7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public Situation7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         // "StartLocation"
         public int M { get => BitConverter.ToUInt16(Data, Offset + 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0x00); }
@@ -15,7 +16,7 @@ namespace PKHeX.Core
 
         public void UpdateOverworldCoordinates()
         {
-            var o = ((SAV7) SAV).OverworldBlock;
+            var o = ((SAV7)SAV).Overworld;
             o.M = M;
             o.X = X;
             o.Z = Z;

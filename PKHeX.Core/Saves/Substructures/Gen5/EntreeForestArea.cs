@@ -5,6 +5,7 @@ namespace PKHeX.Core
     [Flags]
     public enum EntreeForestArea
     {
+        None,
         Deepest = 1 << 0,
         First =   1 << 1,
         Second =  1 << 2,

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Legal Move information for a single <see cref="PKM"/>, for indicating if a move is legal or not.
     /// </summary>
-    public class LegalMoveSource
+    public sealed class LegalMoveSource
     {
         public readonly IList<bool> IsMoveBoxOrdered = new bool[4];
         public IReadOnlyList<ComboItem> DataSource => (ComboItem[])MoveDataAllowed.Clone();
@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         public void ReloadMoves(IReadOnlyList<int> moves)
         {
-            // check prior movepool to not needlessly refresh the dataset
+            // check prior move-pool to not needlessly refresh the data set
             if (AllowedMoves.Count == moves.Count && AllowedMoves.SetEquals(moves))
                 return;
 
@@ -28,7 +28,7 @@ namespace PKHeX.Core
             Array.Sort(MoveDataAllowed, Compare);
             // MoveDataAllowed = MoveDataAllowed.OrderByDescending(m => AllowedMoves.Contains(m.Value)).ToArray();
 
-            // defer repop until dropdown is opened; handled by dropdown event
+            // defer re-population until dropdown is opened; handled by dropdown event
             for (int i = 0; i < IsMoveBoxOrdered.Count; i++)
                 IsMoveBoxOrdered[i] = false;
         }

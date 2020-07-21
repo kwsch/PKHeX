@@ -12,7 +12,6 @@ namespace PKHeX.WinForms.Controls
 
         private int Format = -1;
         private ITrainerID Trainer;
-        private readonly ToolTip TSVTooltip = new ToolTip();
 
         public void UpdateTSV()
         {

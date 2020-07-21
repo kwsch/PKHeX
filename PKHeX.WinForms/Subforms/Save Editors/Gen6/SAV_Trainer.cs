@@ -1,8 +1,8 @@
 using System;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
@@ -18,13 +18,9 @@ namespace PKHeX.WinForms
             SAV = (SAV6)(Origin = sav).Clone();
             if (Main.Unicode)
             {
-                try
-                {
-                    TB_OTName.Font = FontUtil.GetPKXFont(11);
-                    if (SAV is SAV6XY)
-                        TB_TRNick.Font = TB_OTName.Font;
-                }
-                catch (Exception e) { WinFormsUtil.Alert("Font loading failed...", e.ToString()); }
+                TB_OTName.Font = FontUtil.GetPKXFont();
+                if (SAV is SAV6XY)
+                    TB_TRNick.Font = TB_OTName.Font;
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = "9,999,999";
@@ -44,7 +40,6 @@ namespace PKHeX.WinForms
                 TB_MCMN,TB_MCMS,TB_MBMN,TB_MBMS,
             };
             cba = new[] { CHK_Badge1, CHK_Badge2, CHK_Badge3, CHK_Badge4, CHK_Badge5, CHK_Badge6, CHK_Badge7, CHK_Badge8, };
-            pba = new [] { PB_Badge1, PB_Badge2, PB_Badge3, PB_Badge4, PB_Badge5, PB_Badge6, PB_Badge7, PB_Badge8, };
 
             L_MultiplayerSprite.Enabled = CB_MultiplayerSprite.Enabled =
             L_MultiplayerSprite.Visible = CB_MultiplayerSprite.Visible =
@@ -53,14 +48,15 @@ namespace PKHeX.WinForms
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
             if (!(SAV is SAV6XY))
                 TC_Editor.TabPages.Remove(Tab_Appearance);
-            if (SAV is SAV6AO)
-                TC_Editor.TabPages.Remove(Tab_Multiplayer);
+
             if (SAV is SAV6AODemo)
+            {
+                TC_Editor.TabPages.Remove(Tab_Multiplayer);
                 TC_Editor.TabPages.Remove(Tab_Maison);
+            }
 
             GetComboBoxes();
             GetTextBoxes();
-            GetBadges();
             editing = false;
 
             var status = SAV.Status;
@@ -68,11 +64,9 @@ namespace PKHeX.WinForms
             CHK_MegaRayquazaUnlocked.Checked = status.IsMegaRayquazaUnlocked;
         }
 
-        private readonly bool editing = true;
-        private readonly ToolTip Tip1 = new ToolTip(), Tip2 = new ToolTip();
+        private readonly bool editing;
         private readonly MaskedTextBox[] MaisonRecords;
         private readonly CheckBox[] cba;
-        private readonly PictureBox[] pba;
         private bool MapUpdated;
 
         private void GetComboBoxes()
@@ -97,35 +91,7 @@ namespace PKHeX.WinForms
 
             L_Vivillon.Text = GameInfo.Strings.specieslist[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();
-            CB_Vivillon.DataSource = PKX.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6).ToList();
-        }
-
-        private void GetBadges()
-        {
-            var bma = GetGen6BadgeSprites(SAV is SAV6AO);
-            for (int i = 0; i < 8; i++)
-                pba[i].Image = ImageUtil.ChangeOpacity(bma[i], cba[i].Checked ? 1 : 0.1);
-        }
-
-        private static Bitmap[] GetGen6BadgeSprites(bool ORAS)
-        {
-            if (ORAS)
-            {
-                return new[]
-                {
-                    Properties.Resources.badge_01, Properties.Resources.badge_02,
-                    Properties.Resources.badge_03, Properties.Resources.badge_04,
-                    Properties.Resources.badge_05, Properties.Resources.badge_06,
-                    Properties.Resources.badge_07, Properties.Resources.badge_08
-                };
-            }
-            return new[] // XY
-            {
-                Properties.Resources.badge_1, Properties.Resources.badge_2,
-                Properties.Resources.badge_3, Properties.Resources.badge_4,
-                Properties.Resources.badge_5, Properties.Resources.badge_6,
-                Properties.Resources.badge_7, Properties.Resources.badge_8,
-            };
+            CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, 6);
         }
 
         private void GetTextBoxes()
@@ -160,10 +126,10 @@ namespace PKHeX.WinForms
             CB_Language.SelectedValue = SAV.Language;
 
             // Maison Data
-            if (SAV.MaisonStats > -1)
+            if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    MaisonRecords[i].Text = SAV.GetMaisonStat(i).ToString();
+                    MaisonRecords[i].Text = xyao.Maison.GetMaisonStat(i).ToString();
             }
 
             var sit = SAV.Situation;
@@ -201,7 +167,7 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV6XY xy)
             {
-                var xystat = ((MyStatus6XY) xy.Status);
+                var xystat = (MyStatus6XY)xy.Status;
                 PG_CurrentAppearance.SelectedObject = xystat.Fashion;
                 TB_TRNick.Text = xystat.OT_Nick;
             }
@@ -217,11 +183,13 @@ namespace PKHeX.WinForms
                 L_LastSaved.Visible = CAL_LastSavedDate.Visible = CAL_LastSavedTime.Visible = false;
             }
 
-            var epoch = new DateTime(2000, 1, 1);
-            CAL_AdventureStartDate.Value = epoch.AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = epoch.AddSeconds(SAV.SecondsToStart % 86400);
-            CAL_HoFDate.Value = epoch.AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = epoch.AddSeconds(SAV.SecondsToFame % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
+
+            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
         }
 
         private void Save()
@@ -247,10 +215,10 @@ namespace PKHeX.WinForms
             status.Saying5 = TB_Saying5.Text;
 
             // Copy Maison Data in
-            if (SAV.MaisonStats > -1)
+            if (SAV is ISaveBlock6Main xyao)
             {
                 for (int i = 0; i < MaisonRecords.Length; i++)
-                    SAV.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
+                    xyao.Maison.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
             }
 
             // Copy Position
@@ -264,9 +232,9 @@ namespace PKHeX.WinForms
             }
 
             SAV.BP = ushort.Parse(TB_BP.Text);
-            // Set Current PokéMiles
+            // Set Current PokÃ©Miles
             SAV.SetRecord(63, Util.ToInt32(TB_PM.Text));
-            // Set Max Obtained Pokémiles
+            // Set Max Obtained PokÃ©miles
             SAV.SetRecord(64, Util.ToInt32(TB_PM.Text));
             sit.Style = byte.Parse(TB_Style.Text);
 
@@ -295,15 +263,8 @@ namespace PKHeX.WinForms
             // Vivillon
             SAV.Vivillon = CB_Vivillon.SelectedIndex;
 
-            uint seconds = (uint)(CAL_AdventureStartDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            seconds -= seconds%86400;
-            seconds += (uint)(CAL_AdventureStartTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            SAV.SecondsToStart = seconds;
-
-            uint fame = (uint)(CAL_HoFDate.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            fame -= fame % 86400;
-            fame += (uint)(CAL_HoFTime.Value - new DateTime(2000, 1, 1)).TotalSeconds;
-            SAV.SecondsToFame = fame;
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             if (SAV.Played.LastSavedDate.HasValue)
                 SAV.Played.LastSavedDate = new DateTime(CAL_LastSavedDate.Value.Year, CAL_LastSavedDate.Value.Month, CAL_LastSavedDate.Value.Day, CAL_LastSavedTime.Value.Hour, CAL_LastSavedTime.Value.Minute, 0);
@@ -341,13 +302,8 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             Save();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
-        }
-
-        private void ChangeBadge(object sender, EventArgs e)
-        {
-            GetBadges();
         }
 
         private void Change255(object sender, EventArgs e)
@@ -360,14 +316,16 @@ namespace PKHeX.WinForms
         private void ChangeFFFF(object sender, EventArgs e)
         {
             MaskedTextBox box = (MaskedTextBox)sender;
-            if (box.Text.Length == 0) box.Text = "0";
-            if (Util.ToInt32(box.Text) > 65535) box.Text = "65535";
+            if (box.Text.Length == 0)
+                box.Text = "0";
+            else if (Util.ToInt32(box.Text) > 65535)
+                box.Text = "65535";
         }
 
         private void GiveAllAccessories(object sender, EventArgs e)
         {
             if (SAV is SAV6XY xy)
-                xy.UnlockAllAccessories();
+                xy.Blocks.Fashion.UnlockAllAccessories();
         }
 
         private void UpdateCountry(object sender, EventArgs e)
@@ -375,11 +333,6 @@ namespace PKHeX.WinForms
             int index;
             if (sender is ComboBox c && (index = WinFormsUtil.GetIndex(c)) > 0)
                 Main.SetCountrySubRegion(CB_Region, $"sr_{index:000}");
-        }
-
-        private void ToggleBadge(object sender, EventArgs e)
-        {
-            cba[Array.IndexOf(pba, sender)].Checked ^= true;
         }
 
         private void ChangeMapValue(object sender, EventArgs e)
@@ -401,26 +354,11 @@ namespace PKHeX.WinForms
             switch (index)
             {
                 case 2: // Storyline Completed Time
-                    var epoch = new DateTime(2000, 1, 1);
-                    int seconds = (int)(CAL_AdventureStartDate.Value - epoch).TotalSeconds;
-                    seconds -= seconds % 86400;
-                    seconds += (int)(CAL_AdventureStartTime.Value - epoch).TotalSeconds;
-                    return ConvertDateValueToString(SAV.GetRecord(index), seconds);
+                    var seconds = Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+                    return Util.ConvertDateValueToString(SAV.GetRecord(index), seconds);
                 default:
                     return null;
             }
-        }
-
-        private static string ConvertDateValueToString(int value, int secondsBias = -1)
-        {
-            const int spd = 86400; // seconds per day
-            string tip = string.Empty;
-            if (value >= spd)
-                tip += (value / spd) + "d ";
-            tip += new DateTime(0).AddSeconds(value).ToString("HH:mm:ss");
-            if (secondsBias >= 0)
-                tip += Environment.NewLine + $"Date: {new DateTime(2000, 1, 1).AddSeconds(value + secondsBias)}";
-            return tip;
         }
     }
 }

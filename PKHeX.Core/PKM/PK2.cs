@@ -3,19 +3,19 @@
 namespace PKHeX.Core
 {
     /// <summary> Generation 2 <see cref="PKM"/> format. </summary>
-    public sealed class PK2 : _K12
+    public sealed class PK2 : GBPKM
     {
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 
         public override bool Valid => Species <= 252;
 
-        public override int SIZE_PARTY => PKX.SIZE_2PARTY;
-        public override int SIZE_STORED => PKX.SIZE_2STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;
         public override bool Korean => !Japanese && otname[0] <= 0xB;
 
         public override int Format => 2;
 
-        public PK2(bool jp = false) : base(new byte[PKX.SIZE_2PARTY], jp) { }
+        public PK2(bool jp = false) : base(new byte[PokeCrypto.SIZE_2PARTY], jp) { }
         public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
         public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         #region Stored Attributes
         public override int Species { get => Data[0]; set => Data[0] = (byte)value; }
-        public override int SpriteItem => ItemConverter.GetG4Item((byte)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture2((byte)HeldItem);
         public override int HeldItem { get => Data[0x1]; set => Data[0x1] = (byte)value; }
         public override int Move1 { get => Data[2]; set => Data[2] = (byte)value; }
         public override int Move2 { get => Data[3]; set => Data[3] = (byte)value; }
@@ -86,7 +86,7 @@ namespace PKHeX.Core
         #endregion
 
         public override bool IsEgg { get; set; }
-
+        public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
         public override bool HasOriginalMetLocation => CaughtData != 0;
         public override int Version { get => (int)GameVersion.GSC; set { } }
 
@@ -145,36 +145,34 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Move1_PP = Move1_PP,
-                Move2_PP = Move2_PP,
-                Move3_PP = Move3_PP,
-                Move4_PP = Move4_PP,
                 Met_Location = Legal.Transfer2, // "Johto region", hardcoded.
                 Gender = Gender,
                 IsNicknamed = false,
                 AltForm = AltForm,
 
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,
                 HT_Gender = PKMConverter.OT_Gender,
-                Geo1_Country = PKMConverter.Country,
-                Geo1_Region = PKMConverter.Region
             };
-            pk7.Language = TransferLanguage(PKMConverter.Language);
-            pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
-                pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
+            PKMConverter.SetConsoleRegionData3DS(pk7);
+            PKMConverter.SetFirstCountryRegion(pk7);
+            pk7.HealPP();
+            var lang = TransferLanguage(PKMConverter.Language);
+            pk7.Language = lang;
+            pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
+            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
             var special = Species == 151 || Species == 251;
             var new_ivs = new int[6];
             int flawless = special ? 5 : 3;
-            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = Util.Rand.Next(pk7.MaxIV + 1);
-            for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
+            var rnd = Util.Rand;
+            for (var i = 0; i < new_ivs.Length; i++)
+                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+            for (var i = 0; i < flawless; i++)
+                new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 

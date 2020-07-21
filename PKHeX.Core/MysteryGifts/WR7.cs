@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace PKHeX.Core
@@ -11,12 +10,12 @@ namespace PKHeX.Core
     /// A full <see cref="WB7"/> is not stored in the <see cref="SAV7b"/> structure, as it is immediately converted to <see cref="PKM"/> upon receiving from server.
     /// The save file just stores a summary of the received data for the user to look back at.
     /// </remarks>
-    public class WR7 : MysteryGift
+    public sealed class WR7 : DataMysteryGift
     {
         public const int Size = 0x140;
 
-        public WR7() => Data = new byte[Size];
-        public WR7(byte[] data) => Data = data;
+        public WR7() : this(new byte[Size]) { }
+        public WR7(byte[] data) : base(data) { }
 
         public uint Epoch
         {
@@ -98,7 +97,7 @@ namespace PKHeX.Core
 
         // Mystery Gift implementation
         public override int Format => 7;
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         public override int Location { get; set; }
         public override int EggLocation { get; set; }
@@ -126,16 +125,16 @@ namespace PKHeX.Core
             }
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             // this method shouldn't really be called, use the WB7 data not the WR7 data.
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             // we'll just generate something as close as we can, since we must return something!
             var pk = new PB7();
-            SAV.ApplyToPKM(pk);
-            if (!GameVersion.GG.Contains((GameVersion) SAV.Game))
+            sav.ApplyTo(pk);
+            if (!GameVersion.GG.Contains((GameVersion) sav.Game))
                 pk.Version = (int) GameVersion.GP;
 
             pk.Species = Species;

@@ -6,22 +6,23 @@ namespace PKHeX.Core
     /// <summary>
     /// Level Up Learn Movepool Information
     /// </summary>
-    public abstract class Learnset
+    public sealed class Learnset
     {
-        /// <summary>
-        /// Amount of moves present.
-        /// </summary>
-        protected int Count;
-
         /// <summary>
         /// Moves that can be learned.
         /// </summary>
-        protected int[] Moves;
+        private readonly int[] Moves;
 
         /// <summary>
         /// Levels at which a move at a given index can be learned.
         /// </summary>
-        protected int[] Levels;
+        private readonly int[] Levels;
+
+        public Learnset(int[] moves, int[] levels)
+        {
+            Moves = moves;
+            Levels = levels;
+        }
 
         /// <summary>
         /// Returns the moves a Pokémon can learn between the specified level range.
@@ -147,7 +148,7 @@ namespace PKHeX.Core
             return Math.Max(end - 4, 1);
         }
 
-        private Dictionary<int, int> Learn;
+        private Dictionary<int, int>? Learn;
 
         private Dictionary<int, int> GetDictionary()
         {
@@ -165,7 +166,7 @@ namespace PKHeX.Core
         /// <returns>Level the move is learned at. If the result is below 0, the move cannot be learned by leveling up.</returns>
         public int GetLevelLearnMove(int move)
         {
-            return (Learn ?? (Learn = GetDictionary())).TryGetValue(move, out var level) ? level : -1;
+            return (Learn ??= GetDictionary()).TryGetValue(move, out var level) ? level : -1;
         }
 
         /// <summary>Returns the level that a Pokémon can learn the specified move.</summary>

@@ -13,25 +13,19 @@ namespace PKHeX.Core
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => "PbrSaveData|*";
         public override string Extension => string.Empty;
+        public override PersonalTable Personal => PersonalTable.DP;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 
         private const int SAVE_COUNT = 4;
 
         public SAV4BR() : base(SaveUtil.SIZE_G4BR)
         {
             ClearBoxes();
-            Initialize();
         }
 
         public SAV4BR(byte[] data) : base(data)
         {
             InitializeData(data);
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Personal = PersonalTable.DP;
-            HeldItems = Legal.HeldItems_DP;
         }
 
         private void InitializeData(byte[] data)
@@ -94,8 +88,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override int SIZE_STORED => PKX.SIZE_4STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_4STORED + 4;
+        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
         public override PKM BlankPKM => new BK4();
         public override Type PKMType => typeof(BK4);
 
@@ -214,7 +208,7 @@ namespace PKHeX.Core
         {
             if (data.Length != SIZE_STORED)
                 Array.Resize(ref data, SIZE_STORED);
-            return new BK4(data);
+            return BK4.ReadUnshuffle(data);
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;

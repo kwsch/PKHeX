@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class GameInfo
     {
-        private static readonly GameStrings[] Languages = new GameStrings[GameLanguage.LanguageCount];
+        private static readonly GameStrings?[] Languages = new GameStrings[GameLanguage.LanguageCount];
 
         public static string CurrentLanguage { get; set; } = GameLanguage.DefaultLanguage;
         public static readonly IReadOnlyList<string> GenderSymbolUnicode = new[] {"♂", "♀", "-"};
@@ -22,22 +22,17 @@ namespace PKHeX.Core
 
         public static GameStrings GetStrings(int index)
         {
-            return Languages[index] ?? (Languages[index] = new GameStrings(GameLanguage.Language2Char(index)));
+            return Languages[index] ??= new GameStrings(GameLanguage.Language2Char(index));
         }
 
         public static GameStrings Strings
         {
             get => _strings;
-            set
-            {
-                _strings = value;
-                Sources = new GameDataSource(_strings);
-                FilteredSources = null;
-            }
+            set => Sources = new GameDataSource(_strings = value);
         }
 
-        public static GameDataSource Sources { get; set; }
-        public static FilteredGameDataSource FilteredSources { get; set; }
+        public static GameDataSource Sources { get; private set; } = new GameDataSource(_strings);
+        public static FilteredGameDataSource FilteredSources { get; set; } = new FilteredGameDataSource(FakeSaveFile.Default, Sources, false);
 
         public static string GetVersionName(GameVersion version)
         {
@@ -62,15 +57,15 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the location name for the specified parameters.
         /// </summary>
-        /// <param name="eggmet">Location is from the <see cref="PKM.Egg_Location"/></param>
-        /// <param name="locval">Location value</param>
+        /// <param name="isEggLocation">Location is from the <see cref="PKM.Egg_Location"/></param>
+        /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
         /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
         /// <returns>Location name</returns>
-        public static string GetLocationName(bool eggmet, int locval, int format, int generation, GameVersion version)
+        public static string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
-            return Strings.GetLocationName(eggmet, locval, format, generation, version);
+            return Strings.GetLocationName(isEggLocation, location, format, generation, version);
         }
 
         /// <summary>

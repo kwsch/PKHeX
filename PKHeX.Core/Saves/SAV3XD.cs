@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -12,7 +13,7 @@ namespace PKHeX.Core
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
+        private readonly SAV3GCMemoryCard? MC;
 
         private const int SLOT_SIZE = 0x28000;
         private const int SLOT_START = 0x6000;
@@ -20,29 +21,36 @@ namespace PKHeX.Core
 
         private int SaveCount = -1;
         private int SaveIndex = -1;
+        private int Trainer1;
         private int Memo;
         private int Shadow;
-        private StrategyMemo StrategyMemo;
-        private ShadowInfoTableXD ShadowInfo;
+        private readonly StrategyMemo StrategyMemo;
+        private readonly ShadowInfoTableXD ShadowInfo;
         public int MaxShadowID => ShadowInfo.Count;
-        private int OFS_PouchCologne;
-        private int OFS_PouchDisc;
+        private int OFS_PouchHeldItem, OFS_PouchKeyItem, OFS_PouchBalls, OFS_PouchTMHM, OFS_PouchBerry, OFS_PouchCologne, OFS_PouchDisc;
         private readonly int[] subOffsets = new int[16];
-        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3XD(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3XD(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3XD() : base(SaveUtil.SIZE_G3XD)
         {
+            // create fake objects
+            StrategyMemo = new StrategyMemo();
+            ShadowInfo = new ShadowInfoTableXD();
             Initialize();
             ClearBoxes();
         }
 
-        public SAV3XD(byte[] data) : base(data)
+        private SAV3XD(byte[] data, byte[] bak) : base(data, bak)
         {
-            InitializeData();
+            InitializeData(out StrategyMemo, out ShadowInfo);
             Initialize();
         }
 
-        private void InitializeData()
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_XD;
+
+        private void InitializeData(out StrategyMemo memo, out ShadowInfoTableXD info)
         {
             // Scan all 3 save slots for the highest counter
             for (int i = 0; i < SLOT_COUNT; i++)
@@ -82,13 +90,13 @@ namespace PKHeX.Core
             Trainer1 = subOffsets[1] + 0xA8;
             Party = Trainer1 + 0x30;
             Box = subOffsets[2] + 0xA8;
-            Daycare = subOffsets[4] + 0xA8;
+            DaycareOffset = subOffsets[4] + 0xA8;
             Memo = subOffsets[5] + 0xA8;
             Shadow = subOffsets[7] + 0xA8;
             // Purifier = subOffsets[14] + 0xA8;
 
-            StrategyMemo = new StrategyMemo(Data, Memo, xd: true);
-            ShadowInfo = new ShadowInfoTableXD(Data.Skip(Shadow).Take(subLength[7]).ToArray());
+            memo = new StrategyMemo(Data, Memo, xd: true);
+            info = new ShadowInfoTableXD(Data.Slice(Shadow, subLength[7]));
         }
 
         private void Initialize()
@@ -100,14 +108,12 @@ namespace PKHeX.Core
             OFS_PouchBerry = Trainer1 + 0x72C;
             OFS_PouchCologne = Trainer1 + 0x7E4;
             OFS_PouchDisc = Trainer1 + 0x7F0;
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_XD;
 
             // Since PartyCount is not stored in the save file,
             // Count up how many party slots are active.
             for (int i = 0; i < 6; i++)
             {
-                if (GetPartySlot(GetPartyOffset(i)).Species != 0)
+                if (GetPartySlot(Data, GetPartyOffset(i)).Species != 0)
                     PartyCount++;
             }
         }
@@ -120,15 +126,15 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
         private byte[] GetInnerData()
         {
             // Set Memo Back
-            StrategyMemo.FinalData.CopyTo(Data, Memo);
-            ShadowInfo.FinalData.CopyTo(Data, Shadow);
+            StrategyMemo.Write().CopyTo(Data, Memo);
+            ShadowInfo.Write().CopyTo(Data, Shadow);
             SetChecksums();
 
             // Get updated save slot data
@@ -147,13 +153,13 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3XD(data, MC) : new SAV3XD(data);
+            var sav = IsMemoryCardSave ? new SAV3XD(data, MC!) : new SAV3XD(data);
             sav.Header = (byte[]) Header.Clone();
             return sav;
         }
 
-        public override int SIZE_STORED => PKX.SIZE_3XSTORED;
-        protected override int SIZE_PARTY => PKX.SIZE_3XSTORED; // unused
+        public override int SIZE_STORED => PokeCrypto.SIZE_3XSTORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_3XSTORED; // unused
         public override PKM BlankPKM => new XK3();
         public override Type PKMType => typeof(XK3);
 
@@ -173,7 +179,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 8;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGC(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(Data, offset);
 
         // Checksums
         protected override void SetChecksums()
@@ -270,12 +276,12 @@ namespace PKHeX.Core
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;
-        public override PKM GetPartySlot(int offset) => GetStoredSlot(offset);
+        public override PKM GetPartySlot(byte[] data, int offset) => GetStoredSlot(data, offset);
 
-        public override PKM GetStoredSlot(int offset)
+        public override PKM GetStoredSlot(byte[] data, int offset)
         {
             // Get Shadow Data
-            var pk = (XK3)base.GetStoredSlot(offset);
+            var pk = (XK3)base.GetStoredSlot(data, offset);
             if (pk.ShadowID > 0 && pk.ShadowID < ShadowInfo.Count)
                 pk.Purification = ShadowInfo[pk.ShadowID].Purification;
             return pk;
@@ -345,7 +351,7 @@ namespace PKHeX.Core
         // 0x01 -- Deposited Level
         // 0x02-0x03 -- unused?
         // 0x04-0x07 -- Initial EXP
-        public override int GetDaycareSlotOffset(int loc, int slot) { return Daycare + 8; }
+        public override int GetDaycareSlotOffset(int loc, int slot) { return DaycareOffset + 8; }
         public override uint? GetDaycareEXP(int loc, int slot) { return null; }
         public override bool? IsDaycareOccupied(int loc, int slot) { return null; }
         public override void SetDaycareEXP(int loc, int slot, uint EXP) { /* todo */ }

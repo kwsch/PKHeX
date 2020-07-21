@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    public class HallFame3Entry
+    public sealed class HallFame3Entry
     {
         private readonly byte[] Parent;
         private readonly bool Japanese;
@@ -64,7 +64,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class HallFame3PKM
+    public sealed class HallFame3PKM
     {
         public const int SIZE = 20;
 

@@ -4,7 +4,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class GameStrings : IBasicStrings
+    /// <summary>
+    /// Repository of localized game strings for a given <see cref="LanguageID"/>.
+    /// </summary>
+    public sealed class GameStrings : IBasicStrings
     {
         // PKM Info
         public readonly string[] specieslist, movelist, itemlist, abilitylist, types, natures, forms,
@@ -20,6 +23,7 @@ namespace PKHeX.Core
         public readonly string[] metXY_00000, metXY_30000, metXY_40000, metXY_60000;
         public readonly string[] metSM_00000, metSM_30000, metSM_40000, metSM_60000;
         public readonly string[] metGG_00000, metGG_30000, metGG_40000, metGG_60000;
+        public readonly string[] metSWSH_00000, metSWSH_30000, metSWSH_40000, metSWSH_60000;
 
         // Misc
         public readonly string[] wallpapernames, puffs;
@@ -36,7 +40,6 @@ namespace PKHeX.Core
 
         private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
         private const string NPC = "NPC";
-        private static readonly string[] LanguageNames = GameDataSource.LanguageList.GetArray();
 
         public GameStrings(string l)
         {
@@ -122,6 +125,11 @@ namespace PKHeX.Core
             metGG_40000 = Get("gg_40000");
             metGG_60000 = metSM_60000;
 
+            metSWSH_00000 = Get("swsh_00000");
+            metSWSH_30000 = Get("swsh_30000");
+            metSWSH_40000 = Get("swsh_40000");
+            metSWSH_60000 = Get("swsh_60000");
+
             Sanitize();
 
             g4items = (string[])itemlist.Clone();
@@ -197,6 +205,16 @@ namespace PKHeX.Core
             foreach (var i in Legal.Pouch_ZCrystal_USUM)
                 itemlist[i] += " [Z]";
 
+            itemlist[0121] += " (1)"; // Pokémon Box Link
+            itemlist[1075] += " (2)"; // Pokémon Box Link
+
+            itemlist[1080] += " (SW/SH)"; // Fishing Rod
+
+            itemlist[1081] += " (1)"; // Rotom Bike
+            itemlist[1266] += " (2)"; // Rotom Bike
+            itemlist[1585] += " (3)"; // Rotom Bike
+            itemlist[1586] += " (4)"; // Rotom Bike
+
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
             // differentiate G3 Card Key from Colo
@@ -210,6 +228,7 @@ namespace PKHeX.Core
             SanitizeMetG5BW();
             SanitizeMetG6XY();
             SanitizeMetG7SM();
+            SanitizeMetG8SWSH();
 
             if (lang == "es" || lang == "it")
             {
@@ -313,17 +332,53 @@ namespace PKHeX.Core
                 metGG_40000[i] += " (-)";
         }
 
+        private void SanitizeMetG8SWSH()
+        {
+            // SWSH duplicates -- elaborate!
+            var metSWSH_00000_good = (string[])metSWSH_00000.Clone();
+            for (int i = 2; i < metSWSH_00000_good.Length; i += 2)
+            {
+                var nextLoc = metSWSH_00000[i + 1];
+                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
+                    metSWSH_00000_good[i] += $" ({nextLoc})";
+            }
+
+            for (int i = 121; i <= 155; i+=2)
+                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
+
+            for (int i = 165; i <= 195; i += 2)
+                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
+
+            metSWSH_00000_good.CopyTo(metSWSH_00000, 0);
+
+            metSWSH_30000[0] += $" ({NPC})";      // Anything from an NPC
+            metSWSH_30000[1] += $" ({EggName})";  // Egg From Link Trade
+            for (int i = 2; i <= 5; i++) // distinguish first set of regions (unused) from second (used)
+                metSWSH_30000[i] += " (-)";
+            metSWSH_30000[18] += " (?)"; // Kanto for the third time
+
+            for (int i = 54; i < 60; i++) // distinguish Event year duplicates
+                metSWSH_40000[i] += " (-)";
+            metSWSH_40000[29] += " (-)"; // a Video game Event (in spanish etc) -- duplicate with line 39
+            metSWSH_40000[52] += " (-)"; // a Pokémon event -- duplicate with line 37
+
+            metSWSH_40000[80] += " (-)"; // Pokémon GO -- duplicate with 30000's entry
+            metSWSH_40000[85] += " (-)"; // Pokémon HOME -- duplicate with 30000's entry
+            // metSWSH_30000[11] += " (-)"; // Pokémon GO -- duplicate with 40000's entry
+            // metSWSH_30000[17] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
+        }
+
         public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)
         {
-            switch (generation)
+            return generation switch
             {
-                case 0: return Array.Empty<string>();
-                case 1: return g1items;
-                case 2: return g2items;
-                case 3: return GetItemStrings3(game);
-                case 4: return g4items; // mail names changed 4->5
-                default: return itemlist;
-            }
+                0 => Array.Empty<string>(),
+                1 => g1items,
+                2 => g2items,
+                3 => GetItemStrings3(game),
+                4 => g4items, // mail names changed 4->5
+                _ => itemlist
+            };
         }
 
         private string[] GetItemStrings3(GameVersion game)
@@ -335,25 +390,25 @@ namespace PKHeX.Core
                 case GameVersion.XD:
                     return g3xditems;
                 default:
-                    if (Legal.EReaderBerryIsEnigma)
+                    if (EReaderBerrySettings.IsEnigma)
                         return g3items;
 
-                    var g3itemsEBerry = (string[])g3items.Clone();
-                    g3itemsEBerry[175] = Legal.EReaderBerryDisplayName;
-                    return g3itemsEBerry;
+                    var g3ItemsWithEBerry = (string[])g3items.Clone();
+                    g3ItemsWithEBerry[175] = EReaderBerrySettings.DisplayName;
+                    return g3ItemsWithEBerry;
             }
         }
 
         /// <summary>
         /// Gets the location name for the specified parameters.
         /// </summary>
-        /// <param name="eggmet">Location is from the <see cref="PKM.Egg_Location"/></param>
-        /// <param name="locval">Location value</param>
+        /// <param name="isEggLocation">Location is from the <see cref="PKM.Egg_Location"/></param>
+        /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
         /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
         /// <returns>Location name</returns>
-        public string GetLocationName(bool eggmet, int locval, int format, int generation, GameVersion version)
+        public string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
             int gen = -1;
             int bankID = 0;
@@ -366,17 +421,17 @@ namespace PKHeX.Core
             {
                 gen = 3;
             }
-            else if (generation == 4 && (eggmet || format == 4)) // 4
+            else if (generation == 4 && (isEggLocation || format == 4)) // 4
             {
                 const int size = 1000;
-                bankID = locval / size;
+                bankID = location / size;
                 gen = 4;
-                locval %= size;
+                location %= size;
             }
             else // 5-7+
             {
                 const int size = 10000;
-                bankID = locval / size;
+                bankID = location / size;
 
                 int g = generation;
                 if (g >= 5)
@@ -384,15 +439,15 @@ namespace PKHeX.Core
                 else if (format >= 5)
                     gen = format;
 
-                locval %= size;
+                location %= size;
                 if (bankID >= 3) // 30000 and onwards don't use 0th index, shift down 1
-                    locval--;
+                    location--;
             }
 
             var bank = GetLocationNames(gen, bankID, version);
-            if (bank.Count <= locval)
+            if (bank.Count <= location)
                 return string.Empty;
-            return bank[locval];
+            return bank[location];
         }
 
         /// <summary>
@@ -408,7 +463,7 @@ namespace PKHeX.Core
             {
                 case 2: return metGSC_00000;
                 case 3:
-                    return version == GameVersion.CXD ? metCXD_00000 : metRSEFRLG_00000;
+                    return GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000;
                 case 4: return GetLocationNames4(bankID);
                 case 5: return GetLocationNames5(bankID);
                 case 6: return GetLocationNames6(bankID);
@@ -416,6 +471,8 @@ namespace PKHeX.Core
                     if (GameVersion.GG.Contains(version))
                         return GetLocationNames7GG(bankID);
                     return GetLocationNames7(bankID);
+                case 8:
+                    return GetLocationNames8(bankID);
                 default:
                     return Array.Empty<string>();
             }
@@ -423,61 +480,73 @@ namespace PKHeX.Core
 
         private IReadOnlyList<string> GetLocationNames4(int bankID)
         {
-            switch (bankID)
+            return bankID switch
             {
-                case 0: return metHGSS_00000;
-                case 2: return metHGSS_02000;
-                case 3: return metHGSS_03000;
-                default: return Array.Empty<string>();
-            }
+                0 => metHGSS_00000,
+                2 => metHGSS_02000,
+                3 => metHGSS_03000,
+                _ => Array.Empty<string>()
+            };
         }
 
         public IReadOnlyList<string> GetLocationNames5(int bankID)
         {
-            switch (bankID)
+            return bankID switch
             {
-                case 0: return metBW2_00000;
-                case 3: return metBW2_30000;
-                case 4: return metBW2_40000;
-                case 6: return metBW2_60000;
-                default: return Array.Empty<string>();
-            }
+                0 => metBW2_00000,
+                3 => metBW2_30000,
+                4 => metBW2_40000,
+                6 => metBW2_60000,
+                _ => Array.Empty<string>()
+            };
         }
 
         public IReadOnlyList<string> GetLocationNames6(int bankID)
         {
-            switch (bankID)
+            return bankID switch
             {
-                case 0: return metXY_00000;
-                case 3: return metXY_30000;
-                case 4: return metXY_40000;
-                case 6: return metXY_60000;
-                default: return Array.Empty<string>();
-            }
+                0 => metXY_00000,
+                3 => metXY_30000,
+                4 => metXY_40000,
+                6 => metXY_60000,
+                _ => Array.Empty<string>()
+            };
         }
 
         public IReadOnlyList<string> GetLocationNames7(int bankID)
         {
-            switch (bankID)
+            return bankID switch
             {
-                case 0: return metSM_00000;
-                case 3: return metSM_30000;
-                case 4: return metSM_40000;
-                case 6: return metSM_60000;
-                default: return Array.Empty<string>();
-            }
+                0 => metSM_00000,
+                3 => metSM_30000,
+                4 => metSM_40000,
+                6 => metSM_60000,
+                _ => Array.Empty<string>()
+            };
         }
 
         public IReadOnlyList<string> GetLocationNames7GG(int bankID)
         {
-            switch (bankID)
+            return bankID switch
             {
-                case 0: return metGG_00000;
-                case 3: return metGG_30000;
-                case 4: return metGG_40000;
-                case 6: return metGG_60000;
-                default: return Array.Empty<string>();
-            }
+                0 => metGG_00000,
+                3 => metGG_30000,
+                4 => metGG_40000,
+                6 => metGG_60000,
+                _ => Array.Empty<string>()
+            };
+        }
+
+        public IReadOnlyList<string> GetLocationNames8(int bankID)
+        {
+            return bankID switch
+            {
+                0 => metSWSH_00000,
+                3 => metSWSH_30000,
+                4 => metSWSH_40000,
+                6 => metSWSH_60000,
+                _ => Array.Empty<string>()
+            };
         }
     }
 }

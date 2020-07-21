@@ -1,4 +1,4 @@
-﻿———
+———
 Pound
 Karate Chop
 Double Slap
@@ -9,7 +9,7 @@ Fire Punch
 Ice Punch
 Thunder Punch
 Scratch
-Vice Grip
+Vise Grip
 Guillotine
 Razor Wind
 Swords Dance
@@ -741,3 +741,79 @@ Freezy Frost
 Sparkly Swirl
 Veevee Volley
 Double Iron Bash
+Max Guard
+Dynamax Cannon
+Snipe Shot
+Jaw Lock
+Stuff Cheeks
+No Retreat
+Tar Shot
+Magic Powder
+Dragon Darts
+Teatime
+Octolock
+Bolt Beak
+Fishious Rend
+Court Change
+Max Flare
+Max Flutterby
+Max Lightning
+Max Strike
+Max Knuckle
+Max Phantasm
+Max Hailstorm
+Max Ooze
+Max Geyser
+Max Airstream
+Max Starfall
+Max Wyrmwind
+Max Mindstorm
+Max Rockfall
+Max Quake
+Max Darkness
+Max Overgrowth
+Max Steelspike
+Clangorous Soul
+Body Press
+Decorate
+Drum Beating
+Snap Trap
+Pyro Ball
+Behemoth Blade
+Behemoth Bash
+Aura Wheel
+Breaking Swipe
+Branch Poke
+Overdrive
+Apple Acid
+Grav Apple
+Spirit Break
+Strange Steam
+Life Dew
+Obstruct
+False Surrender
+Meteor Assault
+Eternabeam
+Steel Beam
+Expanding Force
+Steel Roller
+Scale Shot
+Meteor Beam
+Shell Side Arm
+Misty Explosion
+Grassy Glide
+Rising Voltage
+Terrain Pulse
+Skitter Smack
+Burning Jealousy
+Lash Out
+Poltergeist
+Corrosive Gas
+Coaching
+Flip Turn
+Triple Axel
+Dual Wingbeat
+Scorching Sands
+Jungle Healing
+Wicked Blow
+Surging Strikes

@@ -2,11 +2,11 @@
 
 namespace PKHeX.Core
 {
-    public class SangoInfoBlock : SaveBlock
+    public sealed class SangoInfoBlock : SaveBlock
     {
         public SangoInfoBlock(SaveFile SAV, int offset) : base(SAV) => Offset = offset;
 
-        private const uint EON_MAGIC = 0x225D73C2;
+        private const uint EON_MAGIC = WC6.EonTicketConst;
 
         public uint EonTicketReceivedMagic // 0x319B8
         {

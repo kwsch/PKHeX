@@ -91,7 +91,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < beans.Length; i++)
                 beans[i] = (int)dgv.Rows[i].Cells[1].Value;
             Pouch.Beans = beans;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
     }

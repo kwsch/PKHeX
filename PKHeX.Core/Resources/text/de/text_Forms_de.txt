@@ -847,6 +847,7 @@ Mega
 
 
 
+Hoch
 
 
 
@@ -866,8 +867,7 @@ Mega
 
 
 
-
-
+Vanille-Creme
 
 
 Mega
@@ -1066,3 +1066,24 @@ Abend
 Abend
 Morgen
 Ultra
+Galar
+Gigadynamax
+Schlingform
+Stopfform
+Tief
+Ruby
+Matcha
+Minz
+Zitronen
+Salz
+Ruby
+Karamell
+Trio
+Wohlfühlkopf
+Kohldampfmuster
+König
+Unendynamax
+Weltreise-Kappe
+Fokussierter
+Fließender
+Papa

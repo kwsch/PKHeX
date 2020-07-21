@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class InventoryItem
+    public sealed class InventoryItem
     {
         public bool New;
         public bool FreeSpace;

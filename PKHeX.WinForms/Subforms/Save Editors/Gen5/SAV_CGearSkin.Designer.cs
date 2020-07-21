@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_CGearSkin));
             this.PB_Background = new System.Windows.Forms.PictureBox();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
@@ -133,7 +132,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.PB_Background);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.Name = "SAV_CGearSkin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

@@ -1,14 +1,25 @@
 namespace PKHeX.Core
 {
-    public class TeamLock
+    public sealed class TeamLock
     {
-        public int Species;
-        public string Comment;
-        public NPCLock[] Locks;
+        public readonly int Species;
+        public readonly string Comment;
+        public readonly NPCLock[] Locks;
 
-        internal TeamLock Clone()
+        internal TeamLock Clone() => new TeamLock(Species, Comment, (NPCLock[])Locks.Clone());
+
+        public TeamLock(int species, NPCLock[] locks)
         {
-            return new TeamLock { Comment = Comment, Locks = (NPCLock[])Locks.Clone() };
+            Species = species;
+            Locks = locks;
+            Comment = string.Empty;
+        }
+
+        public TeamLock(int species, string comment, NPCLock[] locks)
+        {
+            Species = species;
+            Locks = locks;
+            Comment = comment;
         }
     }
 }

@@ -31,7 +31,7 @@ namespace PKHeX.WinForms
             L_Coins.Visible = B_MaxCoins.Visible = MT_Coins.Visible = SAV.Generation < 3;
             CB_Gender.Visible = SAV.Generation > 1;
 
-            L_PikaFriend.Visible = MT_PikaFriend.Visible = SAV.Generation == 1;
+            L_PikaFriend.Visible = MT_PikaFriend.Visible = L_PikaBeach.Visible = MT_PikaBeach.Visible = SAV.Generation == 1;
 
             TB_OTName.Text = SAV.OT;
             CB_Gender.SelectedIndex = SAV.Gender;
@@ -63,9 +63,11 @@ namespace PKHeX.WinForms
                 CB_TextSpeed.SelectedIndex = sav1.TextSpeed;
 
                 MT_PikaFriend.Text = sav1.PikaFriendship.ToString();
+                MT_PikaBeach.Text = sav1.PikaBeachScore.ToString();
                 if (!sav1.Version.Contains(GameVersion.YW))
                 {
                     L_PikaFriend.Visible = MT_PikaFriend.Visible = false;
+                    L_PikaBeach.Visible = MT_PikaBeach.Visible = false;
                     CB_SoundType.Visible = LBL_SoundType.Visible = false;
                 }
             }
@@ -119,9 +121,9 @@ namespace PKHeX.WinForms
                 NUD_Y.Value = sav4.Y;
 
                 badgeval = sav4.Badges;
-                if (sav4.Version == GameVersion.HGSS)
+                if (sav4 is SAV4HGSS hgss)
                 {
-                    badgeval |= sav4.Badges16 << 8;
+                    badgeval |= hgss.Badges16 << 8;
                     cba = cba.Concat(new[] { CHK_H1, CHK_H2, CHK_H3, CHK_H4, CHK_H5, CHK_H6, CHK_H7, CHK_H8 }).ToArray();
                 }
             }
@@ -135,14 +137,14 @@ namespace PKHeX.WinForms
                     control.Visible = true;
                 }
                 L_Coins.Text = "BP"; // no translation boo
-                MT_Coins.Text = s.BattleSubwayBlock.BP.ToString();
+                MT_Coins.Text = s.BattleSubway.BP.ToString();
 
                 var pd = s.PlayerData;
                 NUD_M.Value = pd.M;
                 NUD_X.Value = pd.X;
                 NUD_Z.Value = pd.Z;
                 NUD_Y.Value = pd.Y;
-                badgeval = s.MiscBlock.Badges;
+                badgeval = s.Misc.Badges;
             }
 
             for (int i = 0; i < cba.Length; i++)
@@ -151,10 +153,13 @@ namespace PKHeX.WinForms
                 cba[i].Checked = (badgeval & 1 << i) != 0;
             }
 
-            CAL_HoFDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame);
-            CAL_HoFTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToFame % 86400);
-            CAL_AdventureStartDate.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart);
-            CAL_AdventureStartTime.Value = new DateTime(2000, 1, 1).AddSeconds(SAV.SecondsToStart % 86400);
+            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            CAL_AdventureStartDate.Value = date;
+            CAL_AdventureStartTime.Value = time;
+
+            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            CAL_HoFDate.Value = date;
+            CAL_HoFTime.Value = time;
 
             Loading = false;
         }
@@ -201,6 +206,7 @@ namespace PKHeX.WinForms
                 sav1.Coin = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
                 sav1.Badges = badgeval & 0xFF;
                 sav1.PikaFriendship = (byte)Math.Min(255, Util.ToUInt32(MT_PikaFriend.Text));
+                sav1.PikaBeachScore = (byte)Math.Min(9999, Util.ToUInt32(MT_PikaBeach.Text));
                 sav1.BattleEffects = CHK_BattleEffects.Checked;
                 sav1.BattleStyleSwitch = CB_BattleStyle.SelectedIndex == 0;
                 sav1.Sound = CB_SoundType.SelectedIndex;
@@ -233,9 +239,9 @@ namespace PKHeX.WinForms
                     sav4.Y = (int)NUD_Y.Value;
                 }
                 sav4.Badges = badgeval & 0xFF;
-                if (sav4.Version == GameVersion.HGSS)
+                if (sav4 is SAV4HGSS hgss)
                 {
-                    sav4.Badges16 = badgeval >> 8;
+                    hgss.Badges16 = badgeval >> 8;
                 }
             }
             else if (SAV is SAV5 s)
@@ -248,29 +254,20 @@ namespace PKHeX.WinForms
                     pd.Z = (int)NUD_Z.Value;
                     pd.Y = (int)NUD_Y.Value;
                 }
-                s.MiscBlock.Badges = badgeval & 0xFF;
-                s.BattleSubwayBlock.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
+                s.Misc.Badges = badgeval & 0xFF;
+                s.BattleSubway.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
-            SAV.SecondsToStart = GetSeconds(CAL_AdventureStartDate, CAL_AdventureStartTime);
-            SAV.SecondsToFame = GetSeconds(CAL_HoFDate, CAL_HoFTime);
+            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private static uint GetSeconds(DateTimePicker date, DateTimePicker time)
-        {
-            var epoch = new DateTime(2000, 1, 1);
-            uint val = (uint)(date.Value - epoch).TotalSeconds;
-            val -= val % 86400;
-            val += (uint)(time.Value - epoch).TotalSeconds;
-            return val;
         }
 
         private void ChangeMapValue(object sender, EventArgs e)

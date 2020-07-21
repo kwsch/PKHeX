@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Bindable summary object that can fetch strings that summarize a <see cref="PKM"/>.
     /// </summary>
-    public class PKMSummary
+    public class PKMSummary // do NOT seal, allow inheritance
     {
         private static readonly IReadOnlyList<string> GenderSymbols = GameInfo.GenderSymbolASCII;
 
@@ -13,10 +13,10 @@ namespace PKHeX.Core
         private readonly ushort[] Stats;
         protected readonly PKM pkm; // protected for children generating extra properties
 
-        public string Position => pkm.Identifier;
+        public string? Position => pkm.Identifier;
         public string Nickname => pkm.Nickname;
         public string Species => Get(Strings.specieslist, pkm.Species);
-        public string Nature => Get(Strings.natures, pkm.Nature);
+        public string Nature => Get(Strings.natures, pkm.StatNature);
         public string Gender => Get(GenderSymbols, pkm.Gender);
         public string ESV => pkm.PSV.ToString("0000");
         public string HP_Type => Get(Strings.types, pkm.HPType + 1);
@@ -25,7 +25,7 @@ namespace PKHeX.Core
         public string Move2 => Get(Strings.movelist, pkm.Move2);
         public string Move3 => Get(Strings.movelist, pkm.Move3);
         public string Move4 => Get(Strings.movelist, pkm.Move4);
-        public string HeldItem => Get(Strings.itemlist, pkm.HeldItem);
+        public string HeldItem => Get(Strings.GetItemStrings(pkm.Format), pkm.HeldItem);
         public string HP => Stats[0].ToString();
         public string ATK => Stats[1].ToString();
         public string DEF => Stats[2].ToString();
@@ -37,7 +37,7 @@ namespace PKHeX.Core
         public string Ball => Get(Strings.balllist, pkm.Ball);
         public string OT => pkm.OT_Name;
         public string Version => Get(Strings.gamelist, pkm.Version);
-        public string OTLang => Get(GameDataSource.Languages, pkm.Language) ?? $"UNK {pkm.Language}";
+        public string OTLang => Get(GameDataSource.Languages, pkm.Language);
         public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
         public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
         public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
@@ -124,6 +124,6 @@ namespace PKHeX.Core
         /// <param name="arr">Array of strings</param>
         /// <param name="val">Index to fetch</param>
         /// <returns>Null if array is null</returns>
-        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr?.Count ? arr[val] : null;
+        private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr.Count ? arr[val] : string.Empty;
     }
 }

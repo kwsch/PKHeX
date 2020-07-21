@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ReportGrid));
             this.dgData = new System.Windows.Forms.DataGridView();
             this.BoxBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
@@ -64,7 +63,7 @@
             this.ClientSize = new System.Drawing.Size(812, 461);
             this.Controls.Add(this.BoxBar);
             this.Controls.Add(this.dgData);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Name = "ReportGrid";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Box Data Report";

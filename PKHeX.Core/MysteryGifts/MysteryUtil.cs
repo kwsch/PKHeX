@@ -1,12 +1,35 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility logic for dealing with <see cref="MysteryGift"/> objects.
+    /// </summary>
     public static class MysteryUtil
     {
+        /// <summary>
+        /// Gets <see cref="MysteryGift"/> objects from a folder.
+        /// </summary>
+        /// <param name="folder">Folder path</param>
+        /// <returns>Consumable list of gifts.</returns>
+        public static IEnumerable<MysteryGift> GetGiftsFromFolder(string folder)
+        {
+            foreach (var file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+            {
+                var fi = new FileInfo(file);
+                if (!MysteryGift.IsMysteryGift(fi.Length))
+                    continue;
+
+                var gift = MysteryGift.GetMysteryGift(File.ReadAllBytes(file), fi.Extension);
+                if (gift != null)
+                    yield return gift;
+            }
+        }
+
         /// <summary>
         /// Gets a description of the <see cref="MysteryGift"/> using the current default string data.
         /// </summary>
@@ -60,14 +83,12 @@ namespace PKHeX.Core
         private static void AddLinesItem(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
             result.Add($"Item: {strings.Item[gift.ItemID]} (Quantity: {gift.Quantity})");
-            if (gift is WC7 wc7)
+            if (!(gift is WC7 wc7))
+                return;
+
+            for (var ind = 1; wc7.GetItem(ind) != 0; ind++)
             {
-                var ind = 1;
-                while (wc7.GetItem(ind) != 0)
-                {
-                    result.Add($"Item: {strings.Item[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
-                    ind++;
-                }
+                result.Add($"Item: {strings.Item[wc7.GetItem(ind)]} (Quantity: {wc7.GetQuantity(ind)})");
             }
         }
 
@@ -93,18 +114,18 @@ namespace PKHeX.Core
         /// Checks if the <see cref="MysteryGift"/> data is compatible with the <see cref="SaveFile"/>. Sets appropriate data to the save file in order to receive the gift.
         /// </summary>
         /// <param name="g">Gift data to potentially insert to the save file.</param>
-        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="sav">Save file receiving the gift data.</param>
         /// <param name="message">Error message if incompatible.</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public static bool IsCardCompatible(this MysteryGift g, SaveFile SAV, out string message)
+        public static bool IsCardCompatible(this MysteryGift g, SaveFile sav, out string message)
         {
-            if (g.Format != SAV.Generation)
+            if (g.Format != sav.Generation)
             {
                 message = MsgMysteryGiftSlotSpecialReject;
                 return false;
             }
 
-            if (!SAV.CanRecieveGift(g))
+            if (!sav.CanReceiveGift(g))
             {
                 message = MsgMysteryGiftTypeDetails;
                 return false;
@@ -112,30 +133,30 @@ namespace PKHeX.Core
 
             if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!(SAV is SAV6AO))
+                if (!(sav is SAV6AO))
                 {
                     message = MsgMysteryGiftSlotSpecialReject;
                     return false;
                 }
             }
 
-            message = null;
+            message = string.Empty;
             return true;
         }
 
         /// <summary>
         /// Checks if the gift values are receivable by the game.
         /// </summary>
-        /// <param name="SAV">Save file receiving the gift data.</param>
+        /// <param name="sav">Save file receiving the gift data.</param>
         /// <param name="gift">Gift data to potentially insert to the save file.</param>
         /// <returns>True if compatible, false if incompatible.</returns>
-        public static bool CanRecieveGift(this SaveFile SAV, MysteryGift gift)
+        public static bool CanReceiveGift(this SaveFile sav, MysteryGift gift)
         {
-            if (gift.Species > SAV.MaxSpeciesID)
+            if (gift.Species > sav.MaxSpeciesID)
                 return false;
-            if (gift.Moves.Any(move => move > SAV.MaxMoveID))
+            if (gift.Moves.Any(move => move > sav.MaxMoveID))
                 return false;
-            if (gift.HeldItem > SAV.MaxItemID)
+            if (gift.HeldItem > sav.MaxItemID)
                 return false;
             return true;
         }

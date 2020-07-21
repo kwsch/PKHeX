@@ -9,6 +9,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SAV6 SAV;
+        private readonly SuperTrainBlock STB;
 
         public SAV_SuperTrain(SaveFile sav)
         {
@@ -17,9 +18,11 @@ namespace PKHeX.WinForms
             SAV = (SAV6)(Origin = sav).Clone();
             trba = GameInfo.Strings.trainingbags;
             trba[0] = "---";
-            offsetTime = SAV.SuperTrain + 0x08;
-            offsetSpec = SAV.SuperTrain + 0x188;
-            offsetVal = SAV.SuperTrain + 0x18A;
+            STB = ((ISaveBlock6Main) SAV).SuperTrain;
+            var ofs = STB.Offset;
+            offsetTime = ofs + 0x08;
+            offsetSpec = ofs + 0x188;
+            offsetVal = ofs + 0x18A;
             string[] stages = GameInfo.Strings.trainingstage;
             listBox1.Items.Clear();
             for (int i = 0; i < 32; i++)
@@ -81,11 +84,10 @@ namespace PKHeX.WinForms
             dataGridView1.Columns.Add(dgvBag);
 
             dataGridView1.Rows.Add(12);
-            int offset = SAV.SuperTrain + 0x308;
             for (int i = 0; i < 12; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = (i + 1).ToString();
-                dataGridView1.Rows[i].Cells[1].Value = trba[SAV.Data[offset + i]];
+                dataGridView1.Rows[i].Cells[1].Value = trba[STB.GetBag(i)];
             }
         }
 
@@ -93,11 +95,12 @@ namespace PKHeX.WinForms
         {
             try
             {
-                if (e.ColumnIndex != 1) return;
+                if (e.ColumnIndex != 1)
+                    return;
                 ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
                 comboBox.DroppedDown = true;
             }
-            catch { }
+            catch { Console.WriteLine("Failed to modify item."); }
         }
 
         private bool loading = true;
@@ -105,7 +108,8 @@ namespace PKHeX.WinForms
         private void ChangeListRecordSelection(object sender, EventArgs e)
         {
             int index = listBox1.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0)
+                return;
             loading = true;
             TB_Time.Text = BitConverter.ToSingle(SAV.Data, offsetTime + (4 * index)).ToString();
             TB_Unk.Text = BitConverter.ToUInt16(SAV.Data, offsetVal + (4 * index)).ToString();
@@ -116,7 +120,6 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             // Copy Bags
-            byte[] bagarray = new byte[12];
             int emptyslots = 0;
             for (int i = 0; i < 12; i++)
             {
@@ -126,15 +129,16 @@ namespace PKHeX.WinForms
                     emptyslots++;
                     continue;
                 }
-                bagarray[i - emptyslots] = (byte)Array.IndexOf(trba, bag);
+                STB.SetBag(i - emptyslots, (byte)Array.IndexOf(trba, bag));
             }
+
             if (float.TryParse(TB_Time1.Text, out var t1))
                 SAV.SetData(BitConverter.GetBytes(t1), offsetTime + (4 * 30));
             if (float.TryParse(TB_Time2.Text, out var t2))
                 SAV.SetData(BitConverter.GetBytes(t2), offsetTime + (4 * 31));
             SAV.SetData(BitConverter.GetBytes((ushort)WinFormsUtil.GetIndex(CB_S2)), offsetSpec + (4 * 30));
-            bagarray.CopyTo(SAV.Data, SAV.SuperTrain + 0x308);
-            Origin.SetData(SAV.Data, 0);
+
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

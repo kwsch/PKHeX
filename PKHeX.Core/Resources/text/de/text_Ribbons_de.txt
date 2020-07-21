@@ -1,4 +1,4 @@
-﻿RibbonChampionKalos	Kalos Champion
+RibbonChampionKalos	Kalos Champion
 RibbonChampionG3Hoenn	Hoenn Champion (RSE)
 RibbonChampionSinnoh	Sinnoh Champion
 RibbonBestFriends	Beste Freunde
@@ -43,7 +43,7 @@ RibbonMasterCoolness	Coolness Meister
 RibbonMasterBeauty	Schönheit Meister
 RibbonMasterCuteness	Putzigkeit Meister
 RibbonMasterCleverness	Klugheit Meister
-RibbonMasterToughness = Stärke Meister
+RibbonMasterToughness	Stärke Meister
 RibbonG3Cool	Coolness (G3)
 RibbonG3CoolSuper	Coolness Super
 RibbonG3CoolHyper	Coolness Hyper
@@ -96,8 +96,56 @@ RibbonCountG3Cool	Coolness
 RibbonCountG3Beauty	Schönheit
 RibbonCountG3Cute	Anmut
 RibbonCountG3Smart	Klugheit
-RibbonCountG3Tough = Stärke
+RibbonCountG3Tough	Stärke
 RibbonChampionAlola	Alola Champion
 RibbonBattleRoyale	Battle Royal Champion
 RibbonBattleTreeGreat	Battle Tree Great
 RibbonBattleTreeMaster	Battle Tree Master
+RibbonChampionGalar	Galar-Champs
+RibbonTowerMaster	Turmmeister
+RibbonMasterRank	Meisterrang
+RibbonMarkLunchtime	Mittags-Zeichen
+RibbonMarkSleepyTime	Mitternachts-Zeichen
+RibbonMarkDusk	Abenddämmerungs-Zeichen
+RibbonMarkDawn	Morgendämmerungs-Zeichen
+RibbonMarkCloudy	Wolken-Zeichen
+RibbonMarkRainy	Regen-Zeichen
+RibbonMarkStormy	Gewitter-Zeichen
+RibbonMarkSnowy	Schneefall-Zeichen
+RibbonMarkBlizzard	Schneesturm-Zeichen
+RibbonMarkDry	Dürre-Zeichen
+RibbonMarkSandstorm	Sandsturm-Zeichen
+RibbonMarkMisty	Nebel-Zeichen
+RibbonMarkDestiny	Schicksals-Zeichen
+RibbonMarkFishing	Angel-Zeichen
+RibbonMarkCurry	Curry-Zeichen
+RibbonMarkUncommon	Gängigkeits-Zeichen
+RibbonMarkRare	Raritäts-Zeichen
+RibbonMarkRowdy	Raufbold-Zeichen
+RibbonMarkAbsentMinded	Sorglos-Zeichen
+RibbonMarkJittery	Spannungs-Zeichen
+RibbonMarkExcited	Vorfreude-Zeichen
+RibbonMarkCharismatic	Charisma-Zeichen
+RibbonMarkCalmness	Gelassenheits-Zeichen
+RibbonMarkIntense	Hitzkopf-Zeichen
+RibbonMarkZonedOut	Achtlos-Zeichen
+RibbonMarkJoyful	Glücklichkeits-Zeichen
+RibbonMarkAngry	Wut-Zeichen
+RibbonMarkSmiley	Lächel-Zeichen
+RibbonMarkTeary	Trübsal-Zeichen
+RibbonMarkUpbeat	Heiterkeits-Zeichen
+RibbonMarkPeeved	Missmut-Zeichen
+RibbonMarkIntellectual	Verstands-Zeichen
+RibbonMarkFerocious	Impulsiv-Zeichen
+RibbonMarkCrafty	Listigkeits-Zeichen
+RibbonMarkScowling	Grimmig-Zeichen
+RibbonMarkKindly	Sanftmut-Zeichen
+RibbonMarkFlustered	Panik-Zeichen
+RibbonMarkPumpedUp	Ansporn-Zeichen
+RibbonMarkZeroEnergy	Lustlos-Zeichen
+RibbonMarkPrideful	Selbstvertrauens-Zeichen
+RibbonMarkUnsure	Selbstzweifel-Zeichen
+RibbonMarkHumble	Arglos-Zeichen
+RibbonMarkThorny	Scheinheilig-Zeichen
+RibbonMarkVigor	Elan-Zeichen
+RibbonMarkSlump	Formtief-Zeichen

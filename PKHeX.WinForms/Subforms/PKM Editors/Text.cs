@@ -23,10 +23,11 @@ namespace PKHeX.WinForms
             if (raw != null)
                 AddTrashEditing(raw.Length);
 
-            AddCharEditing();
+            var f = FontUtil.GetPKXFont();
+            AddCharEditing(f);
             TB_Text.MaxLength = TB_NN.MaxLength;
             TB_Text.Text = TB_NN.Text;
-            TB_Text.Font = pkxFont;
+            TB_Text.Font = f;
 
             if (FLP_Characters.Controls.Count == 0)
             {
@@ -44,7 +45,6 @@ namespace PKHeX.WinForms
         }
 
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
-        private readonly Font pkxFont = FontUtil.GetPKXFont(12F);
         public string FinalString;
         public byte[] FinalBytes { get; private set; }
         private readonly byte[] Raw;
@@ -59,7 +59,7 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void AddCharEditing()
+        private void AddCharEditing(Font f)
         {
             ushort[] chars = GetChars(SAV.Generation);
             if (chars.Length == 0)
@@ -69,7 +69,7 @@ namespace PKHeX.WinForms
             foreach (ushort c in chars)
             {
                 var l = GetLabel(((char)c).ToString());
-                l.Font = pkxFont;
+                l.Font = f;
                 l.AutoSize = false;
                 l.Size = new Size(20, 20);
                 l.Click += (s, e) => { if (TB_Text.Text.Length < TB_Text.MaxLength) TB_Text.AppendText(l.Text); };
@@ -82,11 +82,10 @@ namespace PKHeX.WinForms
             FLP_Hex.Visible = true;
             GB_Trash.Visible = true;
             NUD_Generation.Value = SAV.Generation;
-            Font courier = new Font("Courier New", 8);
             for (int i = 0; i < count; i++)
             {
                 var l = GetLabel($"${i:X2}");
-                l.Font = courier;
+                l.Font = NUD_Generation.Font;
                 var n = GetNUD(min: 0, max: 255, hex: true);
                 n.Click += (s, e) =>
                 {
@@ -122,8 +121,7 @@ namespace PKHeX.WinForms
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 
-            string str = GetString();
-            TB_Text.Text = str;
+            TB_Text.Text = GetString();
             editing = false;
         }
 
@@ -142,7 +140,7 @@ namespace PKHeX.WinForms
 
         private void B_ApplyTrash_Click(object sender, EventArgs e)
         {
-            string species = PKX.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
+            string species = SpeciesName.GetSpeciesNameGeneration(WinFormsUtil.GetIndex(CB_Species),
                 WinFormsUtil.GetIndex(CB_Language), (int) NUD_Generation.Value);
 
             if (string.IsNullOrEmpty(species)) // no result
@@ -190,13 +188,12 @@ namespace PKHeX.WinForms
 
         private static ushort[] GetChars(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 6:
-                case 7:
-                    return chars67;
-                default: return Array.Empty<ushort>();
-            }
+                6 => chars67,
+                7 => chars67,
+                _ => Array.Empty<ushort>()
+            };
         }
 
         private static readonly ushort[] chars67 =

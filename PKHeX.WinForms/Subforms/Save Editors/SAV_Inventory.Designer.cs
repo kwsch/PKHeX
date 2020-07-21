@@ -92,7 +92,7 @@
             // 
             // IL_Pouch
             // 
-            this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("IL_Pouch.ImageStream")));
+            this.IL_Pouch.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject($"IL_Pouch.ImageStream")));
             this.IL_Pouch.TransparentColor = System.Drawing.Color.Transparent;
             this.IL_Pouch.Images.SetKeyName(0, "Bag_Items.png");
             this.IL_Pouch.Images.SetKeyName(1, "Bag_Key.png");
@@ -106,6 +106,8 @@
             this.IL_Pouch.Images.SetKeyName(9, "Bag_Free.png");
             this.IL_Pouch.Images.SetKeyName(10, "Bag_Z.png");
             this.IL_Pouch.Images.SetKeyName(11, "Bag_Candy.png");
+            this.IL_Pouch.Images.SetKeyName(12, "Bag_Treasure.png");
+            this.IL_Pouch.Images.SetKeyName(13, "Bag_Ingredient.png");
             // 
             // B_GiveAll
             // 
@@ -277,7 +279,7 @@
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(330, 450);

@@ -1,0 +1,16 @@
+0963	Mewtwo Derrotado
+0115	Mewtwo Capturado
+0114	Zygarde Capturado
+0790	Zygarde Derrotado
+0285	Indiv. Statuette
+0286	Dobles Statuette
+0287	Triples Statuette
+0288	Rotación Statuette
+0289	Multi Statuette
+0290	Super Indiv. Desbloqueado
+0291	Super Dobles Desbloqueado
+0292	Super Triples Desbloqueado
+0293	Super Rotación Desbloqueado
+0294	Super Multi Desbloqueado
+0675	Racha de 50: Derrota Dama del Combate
+2546	PokéDex Obtenida

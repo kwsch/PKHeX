@@ -2,10 +2,22 @@
 
 namespace PKHeX.Core
 {
-    public struct SeedInfo
+    public readonly struct SeedInfo
     {
-        public uint Seed;
-        public bool Charm3;
+        public readonly uint Seed;
+        public readonly bool Charm3;
+
+        private SeedInfo(uint seed, bool charm3 = false)
+        {
+            Seed = seed;
+            Charm3 = charm3;
+        }
+
+        public override bool Equals(object obj) => obj is SeedInfo s && Equals(s);
+        public bool Equals(SeedInfo s) => s.Charm3 == Charm3 && s.Seed == Seed;
+        public override int GetHashCode() => -1;
+        public static bool operator ==(SeedInfo left, SeedInfo right) => left.Equals(right);
+        public static bool operator !=(SeedInfo left, SeedInfo right) => !(left == right);
 
         /// <summary>
         /// Yields an enumerable list of seeds until another valid PID breaks the chain.
@@ -18,10 +30,10 @@ namespace PKHeX.Core
             bool charm3 = false;
 
             var seed = pidiv.OriginSeed;
-            yield return new SeedInfo { Seed = seed };
+            yield return new SeedInfo(seed);
 
             var s1 = seed;
-            var s2 = pidiv.RNG.Prev(s1);
+            var s2 = RNG.LCRNG.Prev(s1);
             while (true)
             {
                 var a = s2 >> 16;
@@ -39,10 +51,10 @@ namespace PKHeX.Core
                         break;
                 }
 
-                s1 = pidiv.RNG.Prev(s2);
-                s2 = pidiv.RNG.Prev(s1);
+                s1 = RNG.LCRNG.Prev(s2);
+                s2 = RNG.LCRNG.Prev(s1);
 
-                yield return new SeedInfo { Seed = s1, Charm3 = charm3 };
+                yield return new SeedInfo(s1, charm3);
             }
         }
 
@@ -56,10 +68,10 @@ namespace PKHeX.Core
         public static IEnumerable<SeedInfo> GetSeedsUntilUnownForm(PIDIV pidiv, FrameGenerator info, int form)
         {
             var seed = pidiv.OriginSeed;
-            yield return new SeedInfo { Seed = seed };
+            yield return new SeedInfo(seed);
 
             var s1 = seed;
-            var s2 = pidiv.RNG.Prev(s1);
+            var s2 = RNG.LCRNG.Prev(s1);
             while (true)
             {
                 var a = s2 >> 16;
@@ -69,16 +81,18 @@ namespace PKHeX.Core
 
                 // Process Conditions
                 if (PKX.GetUnownForm(pid) == form) // matches form, does it match nature?
-                switch (VerifyPIDCriteria(pid, info))
                 {
-                    case LockInfo.Pass: // yes
-                        yield break;
+                    switch (VerifyPIDCriteria(pid, info))
+                    {
+                        case LockInfo.Pass: // yes
+                            yield break;
+                    }
                 }
 
-                s1 = pidiv.RNG.Prev(s2);
-                s2 = pidiv.RNG.Prev(s1);
+                s1 = RNG.LCRNG.Prev(s2);
+                s2 = RNG.LCRNG.Prev(s1);
 
-                yield return new SeedInfo { Seed = s1 };
+                yield return new SeedInfo(s1);
             }
         }
 

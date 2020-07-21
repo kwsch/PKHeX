@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -9,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters7
     {
-        internal static readonly EncounterArea[] SlotsSN, SlotsMN, SlotsUS, SlotsUM;
+        internal static readonly EncounterArea7[] SlotsSN, SlotsMN, SlotsUS, SlotsUM;
         internal static readonly EncounterStatic[] StaticSN, StaticMN, StaticUS, StaticUM;
 
         static Encounters7()
@@ -19,32 +18,34 @@ namespace PKHeX.Core
             StaticUS = GetStaticEncounters(Encounter_USUM, GameVersion.US);
             StaticUM = GetStaticEncounters(Encounter_USUM, GameVersion.UM);
 
-            var REG_SN = GetEncounterTables(GameVersion.SN);
-            var REG_MN = GetEncounterTables(GameVersion.MN);
-            var SOS_SN = GetEncounterTables("sm", "sn_sos");
-            var SOS_MN = GetEncounterTables("sm", "mn_sos");
+            var REG_SN = GetEncounterTables<EncounterArea7>("sm", "sn");
+            var REG_MN = GetEncounterTables<EncounterArea7>("sm", "mn");
+            var SOS_SN = GetEncounterTables<EncounterArea7>("sm", "sn_sos");
+            var SOS_MN = GetEncounterTables<EncounterArea7>("sm", "mn_sos");
             MarkG7REGSlots(ref REG_SN);
             MarkG7REGSlots(ref REG_MN);
             MarkG7SMSlots(ref SOS_SN);
             MarkG7SMSlots(ref SOS_MN);
-            InitializePelagoAreas();
-            SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, Encounter_Pelago_SN);
-            SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, Encounter_Pelago_MN);
+            int[] pelagoMin = { 1, 11, 21, 37, 49 };
+            InitializePelagoSM(pelagoMin, out var p_sn, out var p_mn);
+            InitializePelagoUltra(pelagoMin, out var p_us, out var p_um);
+            SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, p_sn);
+            SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, p_mn);
 
-            var REG_US = GetEncounterTables(GameVersion.US);
-            var REG_UM = GetEncounterTables(GameVersion.UM);
-            var SOS_US = GetEncounterTables("uu", "us_sos");
-            var SOS_UM = GetEncounterTables("uu", "um_sos");
+            var REG_US = GetEncounterTables<EncounterArea7>("uu", "us");
+            var REG_UM = GetEncounterTables<EncounterArea7>("uu", "um");
+            var SOS_US = GetEncounterTables<EncounterArea7>("uu", "us_sos");
+            var SOS_UM = GetEncounterTables<EncounterArea7>("uu", "um_sos");
             MarkG7REGSlots(ref REG_US);
             MarkG7REGSlots(ref REG_UM);
             MarkG7SMSlots(ref SOS_US);
             MarkG7SMSlots(ref SOS_UM);
-            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, Encounter_Pelago_US);
-            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, Encounter_Pelago_UM);
+            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, p_us);
+            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, p_um);
 
             MarkEncounterAreaArray(SOS_SN, SOS_MN, SOS_US, SOS_UM,
-                Encounter_Pelago_SN, Encounter_Pelago_MN,
-                Encounter_Pelago_US, Encounter_Pelago_UM);
+                p_sn, p_mn,
+                p_us, p_um);
 
             MarkEncountersGeneration(7, SlotsSN, SlotsMN, SlotsUS, SlotsUM);
             MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
@@ -62,12 +63,12 @@ namespace PKHeX.Core
             TradeGift_USUM.SetVersion(GameVersion.USUM);
         }
 
-        private static void MarkG7REGSlots(ref EncounterArea[] Areas)
+        private static void MarkG7REGSlots(ref EncounterArea7[] Areas)
         {
             ReduceAreasSize(ref Areas);
         }
 
-        private static void MarkG7SMSlots(ref EncounterArea[] Areas)
+        private static void MarkG7SMSlots(ref EncounterArea7[] Areas)
         {
             foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
                 s.Type = SlotType.SOS;
@@ -180,13 +181,13 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_SM = // @ a\1\5\5
         {
             // Trades - 4.bin
-            new EncounterTrade { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
-            new EncounterTrade { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
-            new EncounterTrade { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
-            new EncounterTrade { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm, }, // Happiny
-            new EncounterTrade { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
-            new EncounterTrade { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
-            new EncounterTrade { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
+            new EncounterTrade7 { Species = 066, Form = 0, Level = 09, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Machop
+            new EncounterTrade7 { Species = 761, Form = 0, Level = 16, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Adamant, }, // Bounsweet
+            new EncounterTrade7 { Species = 061, Form = 0, Level = 22, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Naughty, }, // Poliwhirl
+            new EncounterTrade7 { Species = 440, Form = 0, Level = 27, Ability = 2, TID = 10913, SID = 00000, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 1, Gender = 1, Nature = Nature.Calm, }, // Happiny
+            new EncounterTrade7 { Species = 075, Form = 1, Level = 32, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Impish, EvolveOnTrade = true }, // Graveler-1
+            new EncounterTrade7 { Species = 762, Form = 0, Level = 43, Ability = 1, TID = 20679, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 1, Gender = 1, Nature = Nature.Careful, }, // Steenee
+            new EncounterTrade7 { Species = 663, Form = 0, Level = 59, Ability = 4, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Talonflame
         };
 
         private static readonly EncounterStatic[] Encounter_USUM =
@@ -394,50 +395,22 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_USUM =
         {
             // Trades - 4.bin
-            new EncounterTrade { Species = 701, Form = 0, Level = 08, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Hawlucha
-            new EncounterTrade { Species = 714, Form = 0, Level = 19, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 0, Nature = Nature.Modest, }, // Noibat
-            new EncounterTrade { Species = 339, Form = 0, Level = 21, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty, }, // Barboach
-            new EncounterTrade { Species = 024, Form = 0, Level = 22, Ability = 1, TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish, }, // Arbok
-            new EncounterTrade { Species = 708, Form = 0, Level = 33, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
-            new EncounterTrade { Species = 422, Form = 0, Level = 44, Ability = 2, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet, }, // Shellos
-            new EncounterTrade { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
+            new EncounterTrade7 { Species = 701, Form = 0, Level = 08, Ability = 2, TID = 00410, SID = 00000, IVs = new[] {-1,31,-1,-1,-1,-1}, OTGender = 1, Gender = 0, Nature = Nature.Brave, }, // Hawlucha
+            new EncounterTrade7 { Species = 714, Form = 0, Level = 19, Ability = 1, TID = 20683, SID = 00009, IVs = new[] {-1,-1,-1,-1,31,-1}, OTGender = 0, Gender = 0, Nature = Nature.Modest, }, // Noibat
+            new EncounterTrade7 { Species = 339, Form = 0, Level = 21, Ability = 2, TID = 01092, SID = 00009, IVs = new[] {31,-1,-1,-1,-1,-1}, OTGender = 0, Gender = 1, Nature = Nature.Naughty, }, // Barboach
+            new EncounterTrade7 { Species = 024, Form = 0, Level = 22, Ability = 1, TID = 10913, SID = 00000, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Impish, }, // Arbok
+            new EncounterTrade7 { Species = 708, Form = 0, Level = 33, Ability = 1, TID = 20778, SID = 00009, IVs = new[] {-1,-1,-1,-1,-1,31}, OTGender = 0, Gender = 0, Nature = Nature.Calm, EvolveOnTrade = true }, // Phantump
+            new EncounterTrade7 { Species = 422, Form = 0, Level = 44, Ability = 2, TID = 20679, SID = 00009, IVs = new[] {-1,-1,31,-1,-1,-1}, OTGender = 1, Gender = 1, Nature = Nature.Quiet, }, // Shellos
+            new EncounterTrade7 { Species = 128, Form = 0, Level = 59, Ability = 1, TID = 56734, SID = 00008, IVs = new[] {-1,-1,-1,31,-1,-1}, OTGender = 0, Gender = 0, Nature = Nature.Jolly, }, // Tauros
         };
 
-        private static readonly string[][] TradeSM =
-        {
-            Array.Empty<string>(),               // 0 - None
-            Util.GetStringList("tradesm", "ja"), // 1
-            Util.GetStringList("tradesm", "en"), // 2
-            Util.GetStringList("tradesm", "fr"), // 3
-            Util.GetStringList("tradesm", "it"), // 4
-            Util.GetStringList("tradesm", "de"), // 5
-            Array.Empty<string>(),               // 6 - None
-            Util.GetStringList("tradesm", "es"), // 7
-            Util.GetStringList("tradesm", "ko"), // 8
-            Util.GetStringList("tradesm", "zh"), // 9
-            Util.GetStringList("tradesm", "zh"), // 10
-        };
+        private const string tradeSM = "tradesm";
+        private const string tradeUSUM = "tradeusum";
+        private static readonly string[][] TradeSM = Util.GetLanguageStrings10(tradeSM);
+        private static readonly string[][] TradeUSUM = Util.GetLanguageStrings10(tradeUSUM);
 
-        private static readonly string[][] TradeUSUM =
+        private static void InitializePelagoSM(int[] minLevels, out EncounterArea7[] sn, out EncounterArea7[] mn)
         {
-            Array.Empty<string>(),                 // 0 - None
-            Util.GetStringList("tradeusum", "ja"), // 1
-            Util.GetStringList("tradeusum", "en"), // 2
-            Util.GetStringList("tradeusum", "fr"), // 3
-            Util.GetStringList("tradeusum", "it"), // 4
-            Util.GetStringList("tradeusum", "de"), // 5
-            Array.Empty<string>(),                 // 6 - None
-            Util.GetStringList("tradeusum", "es"), // 7
-            Util.GetStringList("tradeusum", "ko"), // 8
-            Util.GetStringList("tradeusum", "zh"), // 9
-            Util.GetStringList("tradeusum", "zh"), // 10
-        };
-
-        private static EncounterArea[] Encounter_Pelago_SN, Encounter_Pelago_MN, Encounter_Pelago_US, Encounter_Pelago_UM;
-
-        private static void InitializePelagoAreas()
-        {
-            int[] minLevels = { 1, 11, 21, 37, 49 };
             int[][] speciesSM =
             {
                 new[] {627/*SN*/, 021, 041, 090, 278, 731}, // 1-7
@@ -446,10 +419,13 @@ namespace PKHeX.Core
                 new[] {227, 375, 707},                      // 37-43
                 new[] {123, 131, 429, 587},                 // 49-55
             };
-            Encounter_Pelago_SN = GetPelagoArea(speciesSM, minLevels);
+            sn = GetPelagoArea(speciesSM, minLevels);
             speciesSM[0][0] = 629; // Rufflet -> Vullaby
-            Encounter_Pelago_MN = GetPelagoArea(speciesSM, minLevels);
+            mn = GetPelagoArea(speciesSM, minLevels);
+        }
 
+        private static void InitializePelagoUltra(int[] minLevels, out EncounterArea7[] us, out EncounterArea7[] um)
+        {
             int[][] speciesUU =
             {
                 new[] {731, 278, 041, 742, 086},        // 1-7
@@ -458,15 +434,15 @@ namespace PKHeX.Core
                 new[] {131, 354, 200, /* US  */ 228},   // 37-43
                 new[] {209, 667, 357, 430},             // 49-55
             };
-            Encounter_Pelago_US = GetPelagoArea(speciesUU, minLevels);
+            us = GetPelagoArea(speciesUU, minLevels);
             speciesUU[3][3] = 309; // Houndour -> Electrike
-            Encounter_Pelago_UM = GetPelagoArea(speciesUU, minLevels);
+            um = GetPelagoArea(speciesUU, minLevels);
         }
 
-        private static EncounterArea[] GetPelagoArea(int[][] species, int[] min)
+        private static EncounterArea7[] GetPelagoArea(int[][] species, int[] min)
         {
             // Species that appear at a lower level than the current table show up too.
-            var area = new EncounterArea
+            var area = new EncounterArea7
             {
                 Location = 30016,
                 Slots = species.SelectMany((_, i) =>

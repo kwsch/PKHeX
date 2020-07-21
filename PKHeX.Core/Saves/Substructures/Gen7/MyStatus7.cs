@@ -3,12 +3,13 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class MyStatus7 : SaveBlock
+    public sealed class MyStatus7 : SaveBlock
     {
         public const int GameSyncIDSize = 16; // 64 bits
         public const int NexUniqueIDSize = 32; // 128 bits
 
-        public MyStatus7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public MyStatus7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int TID
         {
@@ -39,10 +40,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x10, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x10);
@@ -54,10 +53,8 @@ namespace PKHeX.Core
             get => Util.GetHexStringFromBytes(Data, Offset + 0x18, NexUniqueIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != NexUniqueIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x18);
@@ -69,7 +66,7 @@ namespace PKHeX.Core
             get => Data.Skip(Offset + 0x28).Take(4).Concat(Data.Skip(Offset + 0x18).Take(8)).ToArray();
             set
             {
-                if (value?.Length != 12)
+                if (value.Length != 12)
                     return;
                 Array.Copy(value, 0, Data, Offset + 0x28, 4);
                 Array.Copy(value, 4, Data, Offset + 0x18, 8);
@@ -117,7 +114,6 @@ namespace PKHeX.Core
             get => Data[Offset + 0x58];
             set => Data[Offset + 0x58] = (byte)value;
         }
-
 
         public bool MegaUnlocked
         {

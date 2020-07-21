@@ -1,31 +1,33 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 4 <see cref="PKM"/> format. </summary>
-    public sealed class PK4 : _K4
+    public sealed class PK4 : G4PKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x42, 0x43, 0x5E, 0x63, 0x64, 0x65, 0x66, 0x67, 0x87
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_4PARTY;
-        public override int SIZE_STORED => PKX.SIZE_4STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
-        public PK4() => Data = new byte[PKX.SIZE_4PARTY];
+        public override byte[] Data { get; }
+        public PK4() => Data = new byte[PokeCrypto.SIZE_4PARTY];
 
-        public PK4(byte[] decryptedData)
+        public PK4(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PokeCrypto.DecryptIfEncrypted45(ref data);
+            if (data.Length != PokeCrypto.SIZE_4PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_4PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};
@@ -324,14 +326,14 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
-        public byte[] HeldMailData { get => Data.Skip(0x9C).Take(0x38).ToArray(); set => value.CopyTo(Data, 0x9C); }
+        public byte[] HeldMailData { get => Data.Slice(0x9C, 0x38); set => value.CopyTo(Data, 0x9C); }
         #endregion
 
         // Methods
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray45(Data);
+            return PokeCrypto.EncryptArray45(Data);
         }
 
         // Synthetic Trading Logic
@@ -375,7 +377,7 @@ namespace PKHeX.Core
             };
 
             // Arceus Type Changing -- Plate forcibly removed.
-            if (pk5.Species == 493)
+            if (pk5.Species == (int)Core.Species.Arceus)
             {
                 pk5.AltForm = 0;
                 pk5.HeldItem = 0;

@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using PKHeX.Core;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace PKHeX.Tests.Legality
@@ -46,18 +48,34 @@ namespace PKHeX.Tests.Legality
                 PKX.IsPKM(fi.Length).Should().BeTrue($"the test file '{file}' should have a valid file length");
 
                 var data = File.ReadAllBytes(file);
-                var format = PKX.GetPKMFormatFromExtension(file[file.Length - 1], -1);
+                var format = PKX.GetPKMFormatFromExtension(file[^1], -1);
                 format.Should().BeLessOrEqualTo(PKX.Generation, "filename is expected to have a valid extension");
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
 
                 ParseSettings.AllowGBCartEra = fi.DirectoryName.Contains("GBCartEra");
                 ParseSettings.AllowGen1Tradeback = fi.DirectoryName.Contains("1 Tradeback");
+                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
+                pkm.Should().NotBeNull($"the PKM '{new FileInfo(file).Name}' should have been loaded");
+                if (pkm == null)
+                    continue;
                 var legality = new LegalityAnalysis(pkm);
-                legality.Valid.Should().Be(isValid, $"because the file '{fi.Directory.Name}\\{fi.Name}' should be {(isValid ? "Valid" : "Invalid")}");
-                ctr++;
-            }
+                if (legality.Valid == isValid)
+                {
+                    ctr++;
+                    continue;
+                }
 
+                var fn = Path.Combine(fi.Directory.Name, fi.Name);
+                if (isValid)
+                {
+                    var invalid = legality.Results.Where(z => !z.Valid);
+                    var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
+                    legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
+                }
+                else
+                {
+                    legality.Valid.Should().BeFalse($"because the file '{fn}' should be invalid, but found Valid.");
+                }
+            }
             ctr.Should().BeGreaterThan(0);
         }
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PKHeX.Core
 {
-    public class BV7 : BattleVideo
+    public sealed class BV7 : BattleVideo
     {
         internal const int SIZE = 0x2BC0;
 
@@ -33,8 +33,8 @@ namespace PKHeX.Core
                     Teams[t] = new PKM[6];
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
-                        Teams[t][p] = new PK7(Data.Skip(offset).Take(PKX.SIZE_6STORED).ToArray()) {Identifier = $"Team {t}, Slot {p}"};
+                        int offset = offsets[t] + (PokeCrypto.SIZE_6PARTY * p);
+                        Teams[t][p] = new PK7(Data.Slice(offset, PokeCrypto.SIZE_6STORED)) {Identifier = $"Team {t}, Slot {p}"};
                     }
                 }
                 return Teams;
@@ -47,7 +47,7 @@ namespace PKHeX.Core
                 {
                     for (int p = 0; p < 6; p++)
                     {
-                        int offset = offsets[t] + (PKX.SIZE_6PARTY * p);
+                        int offset = offsets[t] + (PokeCrypto.SIZE_6PARTY * p);
                         Teams[t][p].EncryptedPartyData.CopyTo(Data, offset);
                     }
                 }
@@ -71,7 +71,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != 4)
+                if (value.Length != 4)
                     return;
 
                 for (int i = 0; i < 4; i++)

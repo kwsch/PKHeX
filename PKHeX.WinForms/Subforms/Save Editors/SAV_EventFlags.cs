@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
             SAV.EventConsts = Constants;
 
             HandleSpecialFlags();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -406,7 +406,7 @@ namespace PKHeX.WinForms
 
         private void OpenSAV(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
+            using var ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == DialogResult.OK)
                 LoadSAV(sender, ofd.FileName);
         }
@@ -438,7 +438,7 @@ namespace PKHeX.WinForms
             }
 
             if (DialogResult.Yes == WinFormsUtil.Prompt(MessageBoxButtons.YesNo, "Copy Event Constant diff to clipboard?"))
-                Clipboard.SetText(string.Join(Environment.NewLine, diff.WorkDiff));
+                WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, diff.WorkDiff));
         }
 
         private static void Main_DragEnter(object sender, DragEventArgs e)

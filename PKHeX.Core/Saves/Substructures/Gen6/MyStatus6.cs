@@ -42,17 +42,15 @@ namespace PKHeX.Core
             set => Data[Offset + 7] = (byte)value;
         }
 
-        public int GameSyncIDSize => 16; // 64 bits
+        public const int GameSyncIDSize = 16; // 64 bits
 
         public string GameSyncID
         {
             get => Util.GetHexStringFromBytes(Data, Offset + 0x08, GameSyncIDSize / 2);
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length != GameSyncIDSize)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 var data = Util.GetBytesFromHexString(value);
                 SAV.SetData(data, Offset + 0x08);

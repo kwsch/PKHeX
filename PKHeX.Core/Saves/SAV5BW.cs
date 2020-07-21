@@ -1,9 +1,23 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
-    public class SAV5BW : SAV5
+    public sealed class SAV5BW : SAV5
     {
-        public SAV5BW() : base(SaveUtil.SIZE_G5RAW) => Initialize();
-        public SAV5BW(byte[] data) : base(data) => Initialize();
+        public SAV5BW() : base(SaveUtil.SIZE_G5RAW)
+        {
+            Blocks = new SaveBlockAccessor5BW(this);
+            Initialize();
+        }
+
+        public SAV5BW(byte[] data) : base(data)
+        {
+            Blocks = new SaveBlockAccessor5BW(this);
+            Initialize();
+        }
+
+        public override PersonalTable Personal => PersonalTable.BW;
+        public SaveBlockAccessor5BW Blocks { get; }
         public override SaveFile Clone() => new SAV5BW((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
         protected override int EventConstMax => 0x13E;
         protected override int EventFlagMax => 0xB60;
@@ -11,27 +25,25 @@
 
         private void Initialize()
         {
-            Blocks = BlockInfoNDS.BlocksBW;
-            Personal = PersonalTable.BW;
-
-            Items = new MyItem5BW(this, 0x18400);
-
-            BattleBox = 0x20A00;
-            Trainer2 = 0x21200;
+            BattleBoxOffset = 0x20A00;
             EventConst = 0x20100;
             EventFlag = EventConst + 0x27C;
-            Daycare = 0x20E00;
-            PokeDex = 0x21600;
-            PokeDexLanguageFlags = 0x320;
-            BattleSubway = 0x21D00;
             CGearInfoOffset = 0x1C000;
             CGearDataOffset = 0x52000;
             EntreeForestOffset = 0x22C00;
-            MiscBlock = new Misc5(this, Trainer2);
-            Zukan = new Zukan5(this, PokeDex, PokeDexLanguageFlags);
-            DaycareBlock = new Daycare5(this, Daycare);
-            BattleSubwayBlock = new BattleSubway5(this, BattleSubway);
-            // Inventory offsets are the same for each game.
+            PokeDex = Blocks.Zukan.PokeDex;
+            WondercardData = Blocks.Mystery.Offset;
+            DaycareOffset = Blocks.Daycare.Offset;
         }
+
+        public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;
+        public override MyItem Items => Blocks.Items;
+        public override Zukan5 Zukan => Blocks.Zukan;
+        public override Misc5 Misc => Blocks.Misc;
+        public override MysteryBlock5 Mystery => Blocks.Mystery;
+        public override Daycare5 Daycare => Blocks.Daycare;
+        public override BoxLayout5 BoxLayout => Blocks.BoxLayout;
+        public override PlayerData5 PlayerData => Blocks.PlayerData;
+        public override BattleSubway5 BattleSubway => Blocks.BattleSubway;
     }
 }

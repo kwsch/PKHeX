@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 3 <see cref="PKM"/> format, exclusively for Pokémon Colosseum. </summary>
-    public sealed class CK3 : _K3, IShadowPKM
+    public sealed class CK3 : G3PKM, IShadowPKM
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x11, 0x12, 0x13,
             0x61, 0x62, 0x63, 0x64,
@@ -14,14 +15,14 @@ namespace PKHeX.Core
             // 0xFC onwards unused?
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_3CSTORED;
-        public override int SIZE_STORED => PKX.SIZE_3CSTORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_3CSTORED;
+        public override int SIZE_STORED => PokeCrypto.SIZE_3CSTORED;
         public override int Format => 3;
         public override PersonalInfo PersonalInfo => PersonalTable.RS[Species];
-
-        public CK3(byte[] decryptedData) => Data = decryptedData;
+        public override byte[] Data { get; }
+        public CK3(byte[] data) => Data = data;
         public CK3() => Data = new byte[SIZE_PARTY];
         public override PKM Clone() => new CK3((byte[])Data.Clone()) {Identifier = Identifier};
 
@@ -29,8 +30,8 @@ namespace PKHeX.Core
         private byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x2E); } }
-        public override byte[] OT_Trash { get => GetData(0x18, 20); set { if (value?.Length == 20) value.CopyTo(Data, 0x18); } }
+        public override byte[] Nickname_Trash { get => GetData(0x2E, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x2E); } }
+        public override byte[] OT_Trash { get => GetData(0x18, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x18); } }
 
         // Future Attributes
 
@@ -46,7 +47,7 @@ namespace PKHeX.Core
         public override int Version { get => GetGBAVersionID(Data[0x08]); set => Data[0x08] = GetGCVersionID(value); }
         public int CurrentRegion { get => Data[0x09]; set => Data[0x09] = (byte)value; }
         public int OriginalRegion { get => Data[0x0A]; set => Data[0x0A] = (byte)value; }
-        public override int Language { get => PKX.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = PKX.GetGCLangIDfromMain((byte)value); }
+        public override int Language { get => Core.Language.GetMainLangIDfromGC(Data[0x0B]); set => Data[0x0B] = Core.Language.GetGCLangIDfromMain((byte)value); }
         public override int Met_Location { get => BigEndian.ToUInt16(Data, 0x0C); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x0C); }
         public override int Met_Level { get => Data[0x0E]; set => Data[0x0E] = (byte)value; }
         public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
@@ -54,8 +55,8 @@ namespace PKHeX.Core
         public override int SID { get => BigEndian.ToUInt16(Data, 0x14); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x14); }
         public override int TID { get => BigEndian.ToUInt16(Data, 0x16); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x16); }
         public override string OT_Name { get => GetString(0x18, 20); set => SetString(value, 10).CopyTo(Data, 0x18); } // +2 terminator
-        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); Nickname2 = value; } } // +2 terminator
-        private string Nickname2 { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
+        public override string Nickname { get => GetString(0x2E, 20); set { SetString(value, 10).CopyTo(Data, 0x2E); NicknameCopy = value; } } // +2 terminator
+        public string NicknameCopy { get => GetString(0x44, 20); set => SetString(value, 10).CopyTo(Data, 0x44); } // +2 terminator
         public override uint EXP { get => BigEndian.ToUInt32(Data, 0x5C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x5C); }
         public override int Stat_Level { get => Data[0x60]; set => Data[0x60] = (byte)value; }
 
@@ -77,7 +78,7 @@ namespace PKHeX.Core
         public override int Move4_PP { get => Data[0x86]; set => Data[0x86] = (byte)value; }
         public override int Move4_PPUps { get => Data[0x87]; set => Data[0x87] = (byte)value; }
 
-        public override int SpriteItem => ItemConverter.GetG4Item((ushort)HeldItem);
+        public override int SpriteItem => ItemConverter.GetItemFuture3((ushort)HeldItem);
         public override int HeldItem { get => BigEndian.ToUInt16(Data, 0x88); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x88); }
 
         // More party stats

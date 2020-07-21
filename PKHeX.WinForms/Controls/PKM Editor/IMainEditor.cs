@@ -5,7 +5,7 @@ namespace PKHeX.WinForms.Controls
     public interface IMainEditor : IPKMView
     {
         void UpdateIVsGB(bool skipForm);
-        PKM pkm { get; }
+        PKM Entity { get; }
         SaveFile RequestSaveFile { get; }
     }
 }

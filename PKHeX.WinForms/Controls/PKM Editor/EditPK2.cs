@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,28 +7,28 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK2()
         {
-            if (!(pkm is PK2 pk2))
-                return;
+            if (!(Entity is PK2 pk2))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk2);
             LoadMisc2(pk2);
 
-            TID_Trainer.LoadIDValues(pkm);
+            TID_Trainer.LoadIDValues(pk2);
             TB_MetLevel.Text = pk2.Met_Level.ToString();
             CB_MetLocation.SelectedValue = pk2.Met_Location;
             CB_MetTimeOfDay.SelectedIndex = pk2.Met_TimeOfDay;
 
             // Attempt to detect language
-            CB_Language.SelectedValue = PKX.GetVCLanguage(pk2);
+            CB_Language.SelectedValue = pk2.GuessedLanguage();
 
             LoadPartyStats(pk2);
             UpdateStats();
         }
 
-        private PKM PreparePK2()
+        private PK2 PreparePK2()
         {
-            if (!(pkm is PK2 pk2))
-                return null;
+            if (!(Entity is PK2 pk2))
+                throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk2);
             SaveMisc2(pk2);

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Frame List used to cache <see cref="RNG"/> results.
     /// </summary>
-    public class FrameCache
+    public sealed class FrameCache
     {
         private const int DefaultSize = 32;
         private readonly List<uint> Seeds = new List<uint>(DefaultSize);

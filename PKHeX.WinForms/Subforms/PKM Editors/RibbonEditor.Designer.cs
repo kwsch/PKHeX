@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonEditor));
+            this.components = new System.ComponentModel.Container();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_None = new System.Windows.Forms.Button();
@@ -37,6 +37,7 @@
             this.SPLIT_Ribbons = new System.Windows.Forms.SplitContainer();
             this.FLP_Ribbons = new System.Windows.Forms.FlowLayoutPanel();
             this.TLP_Ribbons = new System.Windows.Forms.TableLayoutPanel();
+            this.tipName = new System.Windows.Forms.ToolTip(this.components);
             this.PAN_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SPLIT_Ribbons)).BeginInit();
             this.SPLIT_Ribbons.Panel1.SuspendLayout();
@@ -160,7 +161,7 @@
             this.Controls.Add(this.B_All);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(540, 320);
             this.Name = "RibbonEditor";
@@ -184,5 +185,6 @@
         private System.Windows.Forms.TableLayoutPanel TLP_Ribbons;
         private System.Windows.Forms.FlowLayoutPanel FLP_Ribbons;
         private System.Windows.Forms.SplitContainer SPLIT_Ribbons;
+        private System.Windows.Forms.ToolTip tipName;
     }
 }

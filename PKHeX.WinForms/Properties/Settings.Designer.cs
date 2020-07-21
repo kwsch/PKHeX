@@ -12,7 +12,7 @@ namespace PKHeX.WinForms.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -217,7 +217,7 @@ namespace PKHeX.WinForms.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("GP")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SW")]
         public global::PKHeX.Core.GameVersion DefaultSaveVersion {
             get {
                 return ((global::PKHeX.Core.GameVersion)(this["DefaultSaveVersion"]));
@@ -296,6 +296,66 @@ namespace PKHeX.WinForms.Properties {
             }
             set {
                 this["Draw"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlaySoundSAVLoad {
+            get {
+                return ((bool)(this["PlaySoundSAVLoad"]));
+            }
+            set {
+                this["PlaySoundSAVLoad"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool PlaySoundLegalityCheck {
+            get {
+                return ((bool)(this["PlaySoundLegalityCheck"]));
+            }
+            set {
+                this["PlaySoundLegalityCheck"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool FlagMissingTracker {
+            get {
+                return ((bool)(this["FlagMissingTracker"]));
+            }
+            set {
+                this["FlagMissingTracker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool ApplyNature {
+            get {
+                return ((bool)(this["ApplyNature"]));
+            }
+            set {
+                this["ApplyNature"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseLargeSprites {
+            get {
+                return ((bool)(this["UseLargeSprites"]));
+            }
+            set {
+                this["UseLargeSprites"] = value;
             }
         }
     }

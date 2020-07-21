@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public class GP1
+    public sealed class GP1
     {
         public const int SIZE = 0x1B0;
         public byte[] Data { get; }
@@ -50,7 +50,8 @@ namespace PKHeX.Core
         public int CP => BitConverter.ToInt32(Data, 0x2C);
         public float LevelF => BitConverter.ToSingle(Data, 0x30);
         public int Level => Math.Max(1, (int)Math.Round(LevelF));
-
+        public int Stat_HP => BitConverter.ToInt32(Data, 0x34);
+        // geolocation data 0x38-0x47?
         public float HeightF => BitConverter.ToSingle(Data, 0x48);
         public float WeightF => BitConverter.ToSingle(Data, 0x4C);
 
@@ -103,7 +104,7 @@ namespace PKHeX.Core
         public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
         public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
-        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? PKX.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
+        private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
         public string FileName => $"{FileNameWithoutExtension}.gp1";
 
         public string FileNameWithoutExtension
@@ -112,13 +113,13 @@ namespace PKHeX.Core
             {
                 string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {NickStr} -  lv{Level} - {IV1:00}.{IV2:00}.{IV3:00}, Move1 {Move1}, Move2 {Move2} (CP {CP})";
+                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV1:00}.{IV2:00}.{IV3:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
             }
         }
 
-        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month}/{Day}";
-        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, Move1 {Move1}, Move2 {Move2}, CP={CP}";
-        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ lv{Level} - {StatMove}, {GeoTime}.";
+        public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
+        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+        public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
         public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
 
@@ -151,7 +152,7 @@ namespace PKHeX.Core
             }
             else
             {
-                pk.Nickname = PKX.GetSpeciesNameGeneration(Species, sav.Language, 7);
+                pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
             }
 
             pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
@@ -160,10 +161,10 @@ namespace PKHeX.Core
             pk.IV_SPE = Util.Rand.Next(32);
 
             var pi = pk.PersonalInfo;
-            int av = 3;
+            const int av = 3;
             pk.Gender = criteria.GetGender(Gender, pi);
             pk.Nature = (int)criteria.GetNature(Nature.Random);
-            pk.RefreshAbility(criteria.GetAbility(av, pi));
+            pk.RefreshAbility(criteria.GetAbilityFromType(av, pi));
 
             if (IsShiny)
                 pk.SetShiny();

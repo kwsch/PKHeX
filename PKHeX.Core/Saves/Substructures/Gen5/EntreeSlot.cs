@@ -2,7 +2,10 @@ using System;
 
 namespace PKHeX.Core
 {
-    public class EntreeSlot
+    /// <summary>
+    /// Generation 5 <see cref="EntreeForest"/> slot
+    /// </summary>
+    public sealed class EntreeSlot
     {
         /// <summary>
         /// <see cref="PKM.Species"/> index

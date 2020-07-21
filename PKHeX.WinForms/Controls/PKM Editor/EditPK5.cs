@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,15 +7,15 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK5()
         {
-            if (!(pkm is PK5 pk5))
-                return;
+            if (!(Entity is PK5 pk5))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk5);
             LoadMisc2(pk5);
             LoadMisc3(pk5);
             LoadMisc4(pk5);
             CB_EncounterType.SelectedValue = pk5.Gen4 ? pk5.EncounterType : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pk5.Gen4;
             CHK_NSparkle.Checked = pk5.NPokémon;
 
             if (HaX)
@@ -28,10 +29,10 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private PKM PreparePK5()
+        private PK5 PreparePK5()
         {
-            if (!(pkm is PK5 pk5))
-                return null;
+            if (!(Entity is PK5 pk5))
+                throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk5);
             SaveMisc2(pk5);

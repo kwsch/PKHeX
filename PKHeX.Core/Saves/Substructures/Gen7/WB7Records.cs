@@ -2,12 +2,9 @@
 
 namespace PKHeX.Core
 {
-    public class WB7Records : SaveBlock
+    public sealed class WB7Records : SaveBlock
     {
-        public WB7Records(SaveFile sav) : base(sav)
-        {
-            Offset = ((SAV7b) sav).GetBlockOffset(BelugaBlockIndex.WB7Record);
-        }
+        public WB7Records(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         private const int RecordMax = 10; // 0xE90 > (0x140 * 0xA = 0xC80), not sure what final 0x210 bytes are used for
         private const int FlagCountMax = 0x1C00; // (7168) end of the block?

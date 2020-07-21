@@ -4,19 +4,19 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
-    public sealed class PK1 : _K12
+    public sealed class PK1 : GBPKM
     {
         public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 
         public override bool Valid => Species <= 151 && (Data[0] == 0 || Species != 0);
 
-        public override int SIZE_PARTY => PKX.SIZE_1PARTY;
-        public override int SIZE_STORED => PKX.SIZE_1STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_1PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_1STORED;
         public override bool Korean => false;
 
         public override int Format => 1;
 
-        public PK1(bool jp = false) : base(new byte[PKX.SIZE_1PARTY], jp) { }
+        public PK1(bool jp = false) : base(new byte[PokeCrypto.SIZE_1PARTY], jp) { }
         public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
 
         public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
@@ -88,7 +88,7 @@ namespace PKHeX.Core
             if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
             {
                 int Rate = Catch_Rate;
-                int baseSpecies = Legal.GetBaseSpecies(this);
+                int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
                 for (int z = baseSpecies; z <= value; z++)
                 {
                     if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
@@ -101,7 +101,7 @@ namespace PKHeX.Core
         public override int Version { get => (int)GameVersion.RBY; set { } }
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
-        public override bool CanHoldItem(IList<ushort> ValidArray) => false;
+        public override bool CanHoldItem(IReadOnlyList<ushort> valid) => false;
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -116,7 +116,7 @@ namespace PKHeX.Core
             otname.CopyTo(pk2.otname, 0);
             nick.CopyTo(pk2.nick, 0);
 
-            pk2.HeldItem = ItemConverter.GetG2ItemTransfer(pk2.HeldItem);
+            pk2.HeldItem = ItemConverter.GetItemFuture1(pk2.HeldItem);
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
             pk2.Stat_Level = CurrentLevel;
 
@@ -146,35 +146,33 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Move1_PP = Move1_PP,
-                Move2_PP = Move2_PP,
-                Move3_PP = Move3_PP,
-                Move4_PP = Move4_PP,
                 Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
                 OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
 
-                Country = PKMConverter.Country,
-                Region = PKMConverter.Region,
-                ConsoleRegion = PKMConverter.ConsoleRegion,
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,
                 HT_Gender = PKMConverter.OT_Gender,
-                Geo1_Country = PKMConverter.Country,
-                Geo1_Region = PKMConverter.Region
             };
-            pk7.Language = TransferLanguage(PKMConverter.Language);
-            pk7.Nickname = PKX.GetSpeciesNameGeneration(pk7.Species, pk7.Language, pk7.Format);
-            if (otname[0] == StringConverter12.G1TradeOTCode) // Ingame Trade
-                pk7.OT_Name = Encounters1.TradeOTG1[pk7.Language];
+            PKMConverter.SetConsoleRegionData3DS(pk7);
+            PKMConverter.SetFirstCountryRegion(pk7);
+            pk7.HealPP();
+            var lang = TransferLanguage(PKMConverter.Language);
+            pk7.Language = lang;
+            pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
+            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
             var new_ivs = new int[6];
-            int flawless = Species == 151 ? 5 : 3;
-            for (var i = 0; i < new_ivs.Length; i++) new_ivs[i] = Util.Rand.Next(pk7.MaxIV + 1);
-            for (var i = 0; i < flawless; i++) new_ivs[i] = 31;
+            int flawless = Species == (int)Core.Species.Mew ? 5 : 3;
+            var rnd = Util.Rand;
+            for (var i = 0; i < new_ivs.Length; i++)
+                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+            for (var i = 0; i < flawless; i++)
+                new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
@@ -186,7 +184,7 @@ namespace PKHeX.Core
                 abil = 0; // Reset
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
-            if (Species == 151) // Mew gets special treatment.
+            if (Species == (int)Core.Species.Mew) // Mew gets special treatment.
             {
                 pk7.FatefulEncounter = true;
             }

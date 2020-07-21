@@ -14,20 +14,21 @@ namespace PKHeX.Core
     {
         internal static readonly WC3[] Encounter_Event3_Special =
         {
-            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "アゲト", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
-            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "アゲト", CardTitle = "Agate Celebi", Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "コロシアム", CardTitle = "Colosseum Pikachu", Shiny = Shiny.Never, Language = (int)LanguageID.Japanese },
 
-            new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Method = PIDType.BACD_R, Language = (int)LanguageID.English },
-            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, OT_Name = "AGATE", CardTitle = "Agate Celebi", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
-            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Method = PIDType.CXD, Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
+            new WC3 { Species = 251, Level = 10, TID = 31121, OT_Gender = 1, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "AGATE", CardTitle = "Agate Celebi", Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
+            new WC3 { Species = 025, Level = 10, TID = 31121, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.CXD, OT_Name = "COLOS", CardTitle = "Colosseum Pikachu", Shiny = Shiny.Never, Language = (int)LanguageID.English, NotDistributed = true },
+
+            new WC3 { Species = 385, Level = 05, TID = 20043, OT_Gender = 0, Version = GameVersion.R, Method = PIDType.BACD_R, OT_Name = "WISHMKR", CardTitle = "Wishmaker Jirachi", Language = (int)LanguageID.English },
         };
 
         private static IEnumerable<WC3> GetIngameCXDData()
         {
             var langs = new[]{LanguageID.Japanese, LanguageID.English, LanguageID.French, LanguageID.Italian, LanguageID.German, LanguageID.Spanish};
-            var h = new[] {null, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", null, "HORDEL"};
-            var d = new[] {null, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", null, "GERMÁN"};
-            var m = new[] {null, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG﻿", null, "ERNESTO"}; // truncated on ck3->pk3 transfer
+            string[] h = {string.Empty, "ダニー", "HORDEL", "VOLKER", "ODINO", "HORAZ", string.Empty, "HORDEL"};
+            string[] d = {string.Empty, "ギンザル", "DUKING", "DOKING", "RODRIGO", "GRAND", string.Empty, "GERMÁN"};
+            string[] m = {string.Empty, "バトルやま", "MATTLE", "MT BATAILL", "MONTE LOTT", "DUELLBERG﻿", string.Empty, "ERNESTO"}; // truncated on ck3->pk3 transfer
 
             return langs.SelectMany(l => GetIngame((int)l));
             IEnumerable<WC3> GetIngame(int l)
@@ -37,7 +38,7 @@ namespace PKHeX.Core
                 {
                     new WC3 { Species = 239, Level = 20, Language = l, Location = 164, TID = 41400, SID = -1, OT_Gender = 0, OT_Name = h[l], Version = GameVersion.XD,   CardTitle = $"Trade Togepi ({id})",     Method = PIDType.CXD, Moves = new[] { 008, 007, 009, 238 }, Fateful = true }, // Elekid @ Snagem Hideout
                     new WC3 { Species = 307, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Trapinch ({id})",   Method = PIDType.CXD, Moves = new[] { 223, 093, 247, 197 }, Fateful = true }, // Meditite @ Pyrite Town
-                    new WC3 { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new[] { 092, 164, 188, 277 }, Fateful = true }, // Shuckle @ Pyrite Town
+                    new WC3 { Species = 213, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Surskit ({id})",    Method = PIDType.CXD, Moves = new[] { 092, 164, 188, 227 }, Fateful = true }, // Shuckle @ Pyrite Town
                     new WC3 { Species = 246, Level = 20, Language = l, Location = 116, TID = 37149, SID = -1, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.XD,   CardTitle = $"Trade Wooper ({id})",     Method = PIDType.CXD, Moves = new[] { 201, 349, 044, 200 }, Fateful = true }, // Larvitar @ Pyrite Town
                     new WC3 { Species = 311, Level = 13, Language = l, Location = 254, TID = 37149, SID =  0, OT_Gender = 0, OT_Name = d[l], Version = GameVersion.COLO, CardTitle = $"Special Gift ({id})",     Method = PIDType.CXD, Moves = new[] { 045, 086, 098, 270 }, Shiny = Shiny.Never }, // Plusle @ Ingame Trade
                     new WC3 { Species = 250, Level = 70, Language = l, Location = 255, TID = 10048, SID =  0, OT_Gender = 0, OT_Name = m[l], Version = GameVersion.S,    CardTitle = $"Mt. Battle Ho-Oh ({id})", Method = PIDType.CXD, Moves = new[] { 105, 126, 241, 129 }, Shiny = Shiny.Never }, // Ho-oh @ Mt. Battle
@@ -232,11 +233,16 @@ namespace PKHeX.Core
 
         internal static readonly WC3[] Encounter_Event3_Common =
         {
-            // Pokémon Box
-            new WC3 { Species = 333, IsEgg = true, Level = 05, Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Swablu Egg with False Swipe
-            new WC3 { Species = 263, IsEgg = true, Level = 05, Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Zigzagoon Egg with Extreme Speed
-            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Skitty Egg with Pay Day
-            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ" }, // Pichu Egg with Surf
+            // Pokémon Box -- RSE Recipient
+            new WC3 { Species = 333, IsEgg = true, Level = 05, Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Swablu Egg with False Swipe
+            new WC3 { Species = 263, IsEgg = true, Level = 05, Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Zigzagoon Egg with Extreme Speed
+            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Skitty Egg with Pay Day
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.RSE }, // Pichu Egg with Surf
+            // Pokémon Box -- FRLG Recipient
+            new WC3 { Species = 333, IsEgg = true, Level = 05, Moves = new[]{206}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Swablu Egg with False Swipe
+            new WC3 { Species = 263, IsEgg = true, Level = 05, Moves = new[]{245}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Zigzagoon Egg with Extreme Speed
+            new WC3 { Species = 300, IsEgg = true, Level = 05, Moves = new[]{006}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Skitty Egg with Pay Day
+            new WC3 { Species = 172, IsEgg = true, Level = 05, Moves = new[]{057}, Method = PIDType.BACD_U, OT_Gender = 1, OT_Name = "ＡＺＵＳＡ", Version = GameVersion.FRLG }, // Pichu Egg with Surf
 
             // PokePark Eggs - DS Download Play
             new WC3 { Species = 054, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new[]{300}, Method = PIDType.BACD_R }, // Psyduck with Mud Sport
@@ -256,6 +262,6 @@ namespace PKHeX.Core
             new WC3 { Species = 360, IsEgg = true, Level = 05, Met_Level = 05, TID = 50318, OT_Gender = 0, OT_Name = "ポケパーク", Version = GameVersion.R, Moves = new[]{321}, Method = PIDType.BACD_R }, // Wynaut with Tickle
         };
 
-        internal static readonly WC3[] Encounter_WC3 = EncounterUtil.ConcatAll(Encounter_Event3, Encounter_Event3_RS, Encounter_Event3_FRLG, Encounter_Event3_Common);
+        internal static readonly WC3[] Encounter_WC3 = ArrayUtil.ConcatAll(Encounter_Event3, Encounter_Event3_RS, Encounter_Event3_FRLG, Encounter_Event3_Common);
     }
 }

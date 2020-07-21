@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,8 +7,8 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK6()
         {
-            if (!(pkm is PK6 pk6))
-                return;
+            if (!(Entity is PK6 pk6))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk6);
             LoadMisc2(pk6);
@@ -16,22 +17,23 @@ namespace PKHeX.WinForms.Controls
             LoadMisc6(pk6);
 
             CB_EncounterType.SelectedValue = pk6.Gen4 ? pk6.EncounterType : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = pk6.Gen4;
 
             LoadPartyStats(pk6);
             UpdateStats();
         }
-        private PKM PreparePK6()
-        {
-            if (!(pkm is PK6 pk6))
-                return null;
 
-            CheckTransferPIDValid();
+        private PK6 PreparePK6()
+        {
+            if (!(Entity is PK6 pk6))
+                throw new FormatException(nameof(Entity));
+
             SaveMisc1(pk6);
             SaveMisc2(pk6);
             SaveMisc3(pk6);
             SaveMisc4(pk6);
             SaveMisc6(pk6);
+            CheckTransferPIDValid(pk6);
 
             pk6.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
 

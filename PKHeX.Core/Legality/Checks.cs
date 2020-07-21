@@ -15,7 +15,7 @@ namespace PKHeX.Core
         private static readonly Verifier ConsoleRegion = new ConsoleRegionVerifier();
         private static readonly Verifier Ability = new AbilityVerifier();
         private static readonly Verifier Medal = new MedalVerifier();
-        private static readonly Verifier Ribbon = new RibbonVerifier();
+        public static readonly Verifier Ribbon = new RibbonVerifier();
         private static readonly Verifier Item = new ItemVerifier();
         private static readonly Verifier EncounterType = new EncounterTypeVerifier();
         private static readonly Verifier HyperTraining = new HyperTrainingVerifier();
@@ -24,14 +24,17 @@ namespace PKHeX.Core
         private static readonly Verifier NHarmonia = new NHarmoniaVerifier();
         private static readonly Verifier CXD = new CXDVerifier();
         private static readonly Verifier Memory = new MemoryVerifier();
+        private static readonly Verifier History = new HistoryVerifier();
+        private static readonly Verifier Contest = new ContestStatVerifier();
 
         private static readonly TrainerNameVerifier Trainer = new TrainerNameVerifier();
         private static readonly LevelVerifier Level = new LevelVerifier();
         private static readonly MiscVerifier Misc = new MiscVerifier();
         private static readonly TransferVerifier Transfer = new TransferVerifier();
+        private static readonly MarkVerifier Mark = new MarkVerifier();
 
-        public static string[] MoveStrings { internal get; set; } = Util.GetMovesList("en");
-        public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList("en");
-        internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => m >= MoveStrings.Length ? L_AError : MoveStrings[m]);
+        public static string[] MoveStrings { internal get; set; } = Util.GetMovesList(GameLanguage.DefaultLanguage);
+        public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
+        internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Length ? L_AError : MoveStrings[m]);
     }
 }

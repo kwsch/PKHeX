@@ -65,3 +65,4 @@
 0291	Super Trio Débloqué
 0292	Super Rotatif Débloqué
 0293	Super Multi Débloqué
+2642	Foreign DexNav Encounters Unlocked

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace PKHeX.WinForms
 {
-    public class PropertyComparer<T> : IComparer<T>
+    public sealed class PropertyComparer<T> : IComparer<T>
     {
         private readonly IComparer comparer;
         private PropertyDescriptor propertyDescriptor;

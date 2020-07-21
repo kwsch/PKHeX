@@ -1,0 +1,129 @@
+0x089	Recibido MO01 Corte
+0x06E	Recibido MO02 Vuelo
+0x07A	Recibido MO03 Surf
+0x06A	Recibido MO04 Fuerza
+0x06D	Recibido MO05 Restello
+0x06B	Recibido MO06 Rompe Roca
+0x138	Recibido MO07 Cascada
+0x07B	Recibido MO08 Buceo
+0x05A	Recibida Bici Carrera/Acrobática
+
+0x867	Recibida Medalla Piedra
+0x868	Recibida Medalla Puño 
+0x869	Recibida Medalla Dinamo 
+0x86A	Recibida Medalla Calor 
+0x86B	Recibida Medalla Equilibrio 
+0x86C	Recibida Medalla Pluma
+0x86D	Recibida Medalla Mente
+0x86E	Recibida Medalla Lluvia
+
+0x099	Intercambio en Ciudad Férrica
+0x09A	Intercambio en Pueblo Oromar
+0x09B	Intercambio en Ciudad Arborada
+0x09C	Intercambio en Frontera Batalla
+
+0x097	Recibido Castform
+0x10A	Recibido Huevo de Wynaut
+0x12A	Recibido Beldum
+
+0x13A	Recibido Ori-Ticket desde Regalo Misterioso
+0x13B	Recibido Misti-Ticket desde Regalo Misterioso
+0x13C	Recibido Mapa Viejo desde Regalo Misterioso
+
+0x1AE	Mostrado Ticket Eón
+0x1AF	Mostrado Ori-Ticket
+0x1B0	Mostrado Mapa Viejo
+0x1DB	Mostrado Misti-Ticket
+
+0x8B3	Puede ir a Isla del Sur
+0x8D5	Puede ir a Isla Origen
+0x8D6	Puede ir a Isla Suprema
+0x8E0	Puede ir a Roca Ombligo
+
+0x0FF	Latios/Latias Errante
+
+0x1CA	Capturado/Derrotado Mew
+0x091	Capturado/Derrotado Lugia
+0x092	Capturado/Derrotado Ho-Oh
+0x1BB	Capturado/Derrotado Regirock
+0x1BC	Capturado/Derrotado Regice
+0x1BD	Capturado/Derrotado Registeel
+0x1C9	Capturado/Derrotado Lati@s
+0x1BE	Capturado/Derrotado Kyogre
+0x1BF	Capturado/Derrotado Groudon
+0x1C0	Capturado/Derrotado Rayquaza
+0x1AD	Capturado/Derrotado Deoxys
+
+0x2CE	Oculto en el mundo (Mew)
+0x320	Oculto en el mundo (Lugia)
+0x321	Oculto en el mundo (Ho-Oh)
+0x3A7	Oculto en el mundo (Regirock)
+0x3A8	Oculto en el mundo (Regice)
+0x3A9	Oculto en el mundo (Registeel)
+0x30E	Oculto en el mundo (Kyogre)
+0x30F	Oculto en el mundo (Groudon)
+0x305	Oculto en el mundo (Rayquaza)
+0x2FB	Oculto en el mundo (Deoxys)
+0x2FC	Oculto en el mundo (Triángulo de Deoxys)
+
+0x3C9	Descubierto Kecleon (Ciudad Arborada)
+0x3CA	Descubierto Kecleon (Ruta 120, Puente)
+0x3D5	Descubierto Kecleon (Ruta 120, Puente)
+0x3D6	Descubierto Kecleon (Ruta 120, Escaleras)
+0x3D9	Descubierto Kecleon (Ruta 120, Detrás de la Señaln)
+0x3DA	Descubierto Kecleon (Ruta 120, detrás de los Árboles de Bayas)
+0x3DB	Descubierto Kecleon (Ruta 120, Izquierda del Laberiento de Hierba Alta)
+0x3DC	Descubierto Kecleon (Ruta 120, Detrás de la Tumba Antigua)
+0x3DD	Descubierto Kecleon (Ruta 119, Derecha del Niño Ninja)
+0x3DE	Descubierto Kecleon (Ruta 119, Izquierda del Niño Ninja)
+
+0x1B1	Usado el Tutor de Movimientos en Ciudad Portual (Contoneo)
+0x1B2	Usado el Tutor de Movimientos en Ciudad Malvalona (Desenrollar)
+0x1B3	Usado el Tutor de Movimientos en Pueblo Verdegal (Corte Furia)
+0x1B4	Usado el Tutor de Movimientos en Pueblo Lavacalda (Mimético)
+0x1B5	Usado el Tutor de Movimientos en Pueblo Pardal (Metrónomo)
+0x1B6	Usado el Tutor de Movimientos en Ciudad Arborada (Sonámbulo)
+0x1B7	Usado el Tutor de Movimientos en Ciudad Calagua (Sustituto)
+0x1B8	Usado el Tutor de Movimientos en Ciudad Algaria (Puño dinámico)
+0x1B9	Usado el Tutor de Movimientos en Ciudad Arrecípolis (Doble Filo)
+0x1BA	Usado el Tutor de Movimientos en Pueblo Oromar (Explosión)
+
+0x860	Recibido Pokémon Inicial
+0x861	Recibida PokéDex
+0x862	Recibido PokeNav
+0x864	Entrada al Hall de la Fama
+0x866	Encontrar al Fardón
+0x890	Vista TV en Casa
+0x894	Mixed Records
+0x895	Poner Reloj
+0x896	Recibida PokéDex Nacional
+0x89A	Marea de Cueva Cardumen
+0x89B	Recibido un Listón
+0x8AB	Debloqueada PC de Aredia
+0x8AD	Usada Flauta Blanca
+0x8AE	Usada Flauta Negra
+0x8AF	Completado Puzzle de la Camara Sellada
+0x8B0	Completado Puzzle de Regirock
+0x8B1	Completado Puzzle de Regice
+0x8B2	Completado Puzzle de Registeel
+0x8BF	Puede Recibir Camp. Concha
+0x8C0	Recibidas Deportivas
+0x8C2	Reinicio de RTR Habilitado
+0x8DB	Regalo Misterioso Habilitado
+0x8E4	Recibida PokéDex
+
+0x8C4	Recibido Símbolo de Plata de Destreza (Torre Batalla)
+0x8C5	Recibido Símbolo de Oro de Destreza (Torre Batalla)
+0x8C6	Recibido Símbolo de Plata de Táctica  (Cúpula Batalla)
+0x8C7	Recibido Símbolo de Oro de Táctica  (Cúpula Batalla)
+0x8C8	Recibido Símbolo de Plata del Ánimo (Palacio Batalla)
+0x8C9	Recibido Símbolo de Oro del Ánimo (Palacio Batalla)
+0x8CA	Recibido Símbolo de Plata de Coraje (Dojo Batalla)
+0x8CB	Recibido Símbolo de Oro de Coraje (Dojo Batalla)
+0x8CC	Recibido Símbolo de Plata del Saber (Fábrica Batalla)
+0x8CD	Recibido Símbolo de Oro del Saber (Fábrica Batalla)
+0x8CE	Recibido Símbolo de Plata de la Fortuna (Sierpe Batalla)
+0x8CF	Recibido Símbolo de Oro de la Fortuna (Sierpe Batalla)
+0x8D0	Recibido Símbolo de Plata de Valentía (Pirámide Batalla)
+0x8D1	Recibido Símbolo de Oro de Valentía (Pirámide Batalla)
+0x8D2	Recibido Pase Frontera

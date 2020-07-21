@@ -1,0 +1,67 @@
+0x089	Recibido MO01 Corte
+0x06E	Recibido MO02 Vuelo
+0x07A	Recibido MO03 Surf
+0x06A	Recibido MO04 Fuerza
+0x06D	Recibido MO05 Restello
+0x06B	Recibido MO06 Rompe Roca
+0x423	Recibido MO07 Cascada
+0x07B	Recibido MO08 Buceo
+0x05A	Recibida Bici Carrera/Acrobática
+
+0x807	Recibida Medalla Piedra
+0x808	Recibida Medalla Puño
+0x809	Recibida Medalla Dinamo
+0x80A	Recibida Medalla Calor
+0x80B	Recibida Medalla Equilibrio
+0x80C	Recibida Medalla Pluma 
+0x80D	Recibida Medalla Mente 
+0x80E	Recibida Medalla Lluvia 
+
+0x099	Intercambio en Ciudad Férrica
+0x09A	Intercambio en Pueblo Oromar
+0x09B	Intercambio en Ciudad Arborada
+
+0x097	Recibido Castform
+0x10A	Recibido Huevo de Wynaut
+0x12A	Recibido Beldum
+
+0x853	Recibido Ticket Eón
+
+0x0FF	Latios/Latias Errante
+
+0x71	Capturado/Derrotado Groudon/Kyogre
+0xCE	Capturado/Derrotado Latios/Latias (Isla del Sur)
+
+0x339	Oculto en el mundo (Groudon/Kyogre)
+0x305	Oculto en el mundo (Rayquaza)
+0x3A7	Oculto en el mundo (Regirock)
+0x3A8	Oculto en el mundo (Regice)
+0x3A9	Oculto en el mundo (Registeel)
+
+0x3D1	Oculto en el mundo (Electrode 1 in Hideout)
+0x3D2	Oculto en el mundo (Electrode 2 in Hideout)
+
+0x800	Recibido Pokémon Inicial
+0x801	Recibida PokéDex
+0x802	Recibido PokeNav
+0x804	Entrada al Hall de la Fama
+0x805	Usado Easy Chat
+0x806	Encontrar al Fardón
+0x80D	Entrada sellada a la Guarida Magma/Aqua
+0x830	Vista TV en Casa
+0x834	Mixed Records
+0x835	Poner Reloj
+0x836	Recibida PokéDex Nacional
+0x83A	Marea de Cueva Cardumen
+0x83B	Recibido un Listón
+0x84B	Debloqueada PC de Aredia
+0x84C	Regalo Misterioso Habilitado
+0x84D	Usada Flauta Blanca
+0x84E	Usada Flauta Negra
+0x84F	Completado Puzzle de la Camara Sellada
+0x850	Completado Puzzle de Regirock
+0x851	Completado Puzzle de Regice
+0x852	Completado Puzzle de Registeel
+0x85F	Puede Recibir Camp. Concha
+0x860	Recibidas Deportivas
+0x862	Reinicio de RTR Habilitado

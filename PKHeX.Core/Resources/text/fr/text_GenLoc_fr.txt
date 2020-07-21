@@ -1,7 +1,7 @@
-﻿quelque part
+quelque part
 dans la ville de départ
-dans sa maison
-chez un ami
+à la maison
+chez des amis
 chez quelqu’un
 dans une ville animée
 dans une boutique
@@ -10,32 +10,32 @@ dans une ville ordinaire
 dans un Centre Pokémon
 dans un château
 dans un hôtel
-dans une ville mystérieuse
+dans une ville étrange
 dans une ville très venteuse
-à une porte
-dans une ville en bord de rivière
+près d’une entrée
+dans une ville au bord d’une rivière
 dans un laboratoire
 dans un aquarium
 dans une ville près d’une falaise
-dans une ville resplendissante
+dans une ville magnifique
 dans une Arène Pokémon
 dans une école
-dans une ville immense
+dans une grande ville
 dans un immeuble
 dans un café à la mode
 dans une planque
 dans un musée
-dans un studio vidéo
+dans un studio
 dans une gare
-dans un lieu où l’on se bat
-dans un salon de beauté
+dans une zone de combat
+dans un salon Salle à Mèches
 dans un restaurant
 dans un grand restaurant
 dans une ville en bord de mer
-dans un bâtiment élevé
-dans une ville mystérieuse
-dans une ville au bord de l’eau
-dans une ville enneigée
+dans un immeuble très imposant
+dans un quartier étrange
+dans un quartier au bord de l’eau
+dans une ville sous la neige
 à la Ligue Pokémon
 dans un palais
 dans une grotte
@@ -46,8 +46,8 @@ sur un chemin tranquille
 sur un chemin fleuri
 à la Pension Pokémon
 sur un chemin escarpé
-dans un champ de pierres levées
-sur un chemin surplombant la mer
+dans un lieu où se dressent des rochers
+sur un chemin près de la mer
 sur un chemin boueux
 sur un chemin balayé par le sable
 sur un chemin couvert de feuilles
@@ -60,12 +60,21 @@ dans un champ
 dans des ruines
 dans un Chenal
 au cours d’un safari
-dans une Base Secrète
-au Concours Pokémon
-tout au fond de la mer
-dans un endroit irréel
-dans un grand bateau
-sur une route pleine de cendres
-sur un tout petit îlot
-dans un lieu très impressionnant
+sur un grand bateau
 dans le Grand Ciel
+dans une Salle Concours
+dans un lieu mystérieux
+sur une petite île
+sur un chemin recouvert de cendres
+dans une Base Secrète
+dans les profondeurs de la mer
+dans un Mirage
+sur une route près d’un lac
+dans une vaste prairie
+dans un stade
+à la Garderie
+dans une mine
+dans une petite ville de montagne
+dans une ville déserte
+dans un tunnel
+dans un lieu dangereux

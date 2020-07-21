@@ -15,6 +15,7 @@ namespace PKHeX.Core
         public static string MsgProgramUpdateAvailable { get; set; } = "New Update Available!";
         public static string MsgProgramCloseUnsaved { get; set; } = "Any unsaved changes will be lost.";
         public static string MsgProgramCloseConfirm { get; set; } = "Are you sure you want to close PKHeX?";
+        public static string MsgProgramSaveFileConfirm { get; set; } = "Are you sure you want to load a new save file?";
         public static string MsgProgramError { get; set; } = "ERROR";
         public static string MsgProgramErrorExpectedHex { get; set; } = "Expected Text containing only the following characters (0-9, A-F).";
 
@@ -51,8 +52,6 @@ namespace PKHeX.Core
         public static string MsgFileLoadVersionDetect { get; set; } = "Generation {0} Save File detected.";
         public static string MsgFileLoadEncrypted { get; set; } = "PKHeX only edits decrypted save files.";
         public static string MsgFileLoadEncryptedFail { get; set; } = "This save file is not decrypted.";
-        public static string MsgFileLoadXorpad1 { get; set; } = "Press Yes to load the sav at 0x3000.";
-        public static string MsgFileLoadXorpad2 { get; set; } = "Press No to load the sav at 0x82000.";
         public static string MsgFileLoadIncompatible { get; set; } = "Binary is not compatible with save file.";
 
         public static string MsgFileLoadSaveFail { get; set; } = "The data file is not a valid save file.";
@@ -296,7 +295,7 @@ namespace PKHeX.Core
         public static string MsgMysteryGiftSlotFailSwap { get; set; } = "Can't swap a {0} with a {1}.";
 
         public static string MsgMysteryGiftQRTypeLength { get; set; } = "Decoded data length not valid for loaded save file.";
-        public static string MsgMysteryGiftQRRecieved { get; set; } = "QR Gift Type:";
+        public static string MsgMysteryGiftQRReceived { get; set; } = "QR Gift Type:";
         public static string MsgMysteryGiftQREonTicket { get; set; } = "Eon Ticket Mystery Gift will not import correctly when received via QR.";
         public static string MsgMysteryGiftQREonTicketAdvice { get; set; } = "Inject the Eon Ticket Mystery Gift to the save file instead.";
 

@@ -21,8 +21,8 @@ namespace PKHeX.Core
             pi.SetValue(obj, c, null);
         }
 
-        public static object GetValue(object obj, string name) => GetPropertyInfo(obj?.GetType().GetTypeInfo(), name)?.GetValue(obj);
-        public static void SetValue(object obj, string name, object value) => GetPropertyInfo(obj?.GetType().GetTypeInfo(), name)?.SetValue(obj, value, null);
+        public static object? GetValue(object obj, string name) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.GetValue(obj);
+        public static void SetValue(object obj, string name, object value) => GetPropertyInfo(obj.GetType().GetTypeInfo(), name)?.SetValue(obj, value, null);
         public static object GetValue(Type t, string propertyName) => t.GetTypeInfo().GetDeclaredProperty(propertyName).GetValue(null);
         public static void SetValue(Type t, string propertyName, object value) => t.GetTypeInfo().GetDeclaredProperty(propertyName).SetValue(null, value);
 
@@ -70,7 +70,7 @@ namespace PKHeX.Core
                 ;
         }
 
-        private static object ConvertValue(object value, Type type)
+        private static object? ConvertValue(object value, Type type)
         {
             if (type == typeof(DateTime?)) // Used for PKM.MetDate and other similar properties
             {
@@ -104,7 +104,7 @@ namespace PKHeX.Core
         public static IEnumerable<PropertyInfo> GetAllProperties(this TypeInfo typeInfo)
             => GetAll(typeInfo, ti => ti.DeclaredProperties);
 
-        public static IEnumerable<TypeInfo> GetAllTypeInfo(this TypeInfo typeInfo)
+        public static IEnumerable<TypeInfo> GetAllTypeInfo(this TypeInfo? typeInfo)
         {
             while (typeInfo != null)
             {
@@ -113,9 +113,9 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool HasProperty(object obj, string name, out PropertyInfo pi) => (pi = GetPropertyInfo(obj?.GetType().GetTypeInfo(), name)) != null;
+        public static bool HasProperty(object obj, string name, out PropertyInfo? pi) => (pi = GetPropertyInfo(obj.GetType().GetTypeInfo(), name)) != null;
 
-        public static PropertyInfo GetPropertyInfo(this TypeInfo typeInfo, string name)
+        public static PropertyInfo? GetPropertyInfo(this TypeInfo typeInfo, string name)
         {
             return typeInfo.GetAllTypeInfo().Select(t => t.GetDeclaredProperty(name)).FirstOrDefault(pi => pi != null);
         }
@@ -123,6 +123,20 @@ namespace PKHeX.Core
         private static IEnumerable<T> GetAll<T>(this TypeInfo typeInfo, Func<TypeInfo, IEnumerable<T>> accessor)
         {
             return GetAllTypeInfo(typeInfo).SelectMany(_ => accessor(typeInfo));
+        }
+
+        public static Dictionary<T, string> GetAllConstantsOfType<T>(this Type type)
+        {
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+            var consts = fields.Where(fi => fi.IsLiteral && !fi.IsInitOnly && fi.FieldType == typeof(T));
+            return consts.ToDictionary(x => (T)x.GetRawConstantValue(), z => z.Name);
+        }
+
+        public static Dictionary<T, string> GetAllPropertiesOfType<T>(this Type type, object obj)
+        {
+            var props = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+            var ofType = props.Where(fi => typeof(T).IsAssignableFrom(fi.PropertyType));
+            return ofType.ToDictionary(x => (T)x.GetValue(obj), z => z.Name);
         }
     }
 }

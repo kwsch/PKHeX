@@ -308,7 +308,7 @@ namespace PKHeX.Core
 
         public string GCISaveName => GCISaveGameName();
         public byte[] SelectedSaveData { get => ReadSaveGameData(); set => WriteSaveGameData(value); }
-        public byte[] Data { get; private set; }
+        public readonly byte[] Data;
 
         private string GCISaveGameName()
         {

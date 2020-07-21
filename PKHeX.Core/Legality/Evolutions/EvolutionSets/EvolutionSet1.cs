@@ -13,12 +13,9 @@ namespace PKHeX.Core
             int method = data[offset];
             int species = data[offset + 1];
             int arg = data[offset + 2];
-            var obj = new EvolutionMethod {Method = method, Species = species};
-            if (method == 1)
-                obj.Level = arg;
-            else
-                obj.Argument = arg;
-            return obj;
+            return (method == 1)
+                ? new EvolutionMethod(method, species, level: arg)
+                : new EvolutionMethod(method, species, argument: arg);
         }
 
         public static IReadOnlyList<EvolutionMethod[]> GetArray(byte[] data, int maxSpecies)

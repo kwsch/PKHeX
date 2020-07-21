@@ -29,7 +29,7 @@ namespace PKHeX.WinForms
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).ToList(), null);
 
-            Dex = SAV.Zukan;
+            Dex = SAV.Blocks.Zukan;
 
             var Species = GameInfo.Strings.Species;
             var names = Dex.GetEntryNames(Species);
@@ -130,7 +130,7 @@ namespace PKHeX.WinForms
             bool hasForms = FormConverter.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
-            var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             {
                 // empty
@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
             if (!hasRecord)
                 return;
 
-            int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
+            static int get(NumericUpDown nud, CheckBox ck) => !ck.Checked ? Zukan7b.DefaultEntryValue : (int) Math.Max(0, Math.Min(255, nud.Value));
 
             Dex.SetSizeData(DexSizeType.MinHeight, index, get(NUD_RHeightMin, CHK_RMinHeight), get(NUD_RHeightMinWeight, CHK_RMinHeight));
             Dex.SetSizeData(DexSizeType.MaxHeight, index, get(NUD_RHeightMax, CHK_RMaxHeight), get(NUD_RHeightMaxWeight, CHK_RMaxHeight));
@@ -308,7 +308,7 @@ namespace PKHeX.WinForms
         {
             SetEntry();
 
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

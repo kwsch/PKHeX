@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using static PKHeX.Core.MessageStrings;
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     /// </summary>
     public class EventBlockDiff
     {
-        public string Message { get; private set; }
+        public string Message { get; protected set; } = string.Empty;
         public readonly List<int> SetFlags = new List<int>();
         public readonly List<int> ClearedFlags = new List<int>();
         public readonly List<string> WorkDiff = new List<string>();
@@ -24,6 +25,11 @@ namespace PKHeX.Core
                 return;
             var s1 = SaveUtil.GetVariantSAV(f1);
             var s2 = SaveUtil.GetVariantSAV(f2);
+            if (s1 == null || s2 == null || s1.GetType() != s2.GetType())
+            {
+                Message = MsgSaveDifferentTypes;
+                return;
+            }
             Diff(s1, s2);
         }
 
@@ -80,10 +86,10 @@ namespace PKHeX.Core
         }
     }
 
-    public class EventWorkDiff7b : EventBlockDiff
+    public sealed class EventWorkDiff7b : EventBlockDiff
     {
         public readonly List<int> WorkChanged = new List<int>();
-        private SaveFile S1;
+        private SaveFile? S1;
 
         public EventWorkDiff7b(string f1, string f2)
         {
@@ -91,6 +97,11 @@ namespace PKHeX.Core
                 return;
             var s1 = SaveUtil.GetVariantSAV(f1);
             var s2 = SaveUtil.GetVariantSAV(f2);
+            if (s1 == null || s2 == null || s1.GetType() != s2.GetType())
+            {
+                Message = MsgSaveDifferentTypes;
+                return;
+            }
             Diff(s1, s2);
         }
 
@@ -101,14 +112,16 @@ namespace PKHeX.Core
             if (!SanityCheckSaveInfo(s1, s2))
                 return;
 
-            EventWorkUtil.DiffSavesFlag(((SAV7b)s1).EventWork, ((SAV7b)s2).EventWork, SetFlags, ClearedFlags);
-            EventWorkUtil.DiffSavesWork(((SAV7b)s1).EventWork, ((SAV7b)s2).EventWork, WorkChanged, WorkDiff);
+            EventWorkUtil.DiffSavesFlag(((SAV7b)s1).Blocks.EventWork, ((SAV7b)s2).Blocks.EventWork, SetFlags, ClearedFlags);
+            EventWorkUtil.DiffSavesWork(((SAV7b)s1).Blocks.EventWork, ((SAV7b)s2).Blocks.EventWork, WorkChanged, WorkDiff);
             S1 = s1;
         }
 
-        public List<string> Summarize()
+        public IReadOnlyList<string> Summarize()
         {
-            var ew = ((SAV7b)S1).EventWork;
+            if (S1 == null)
+                return Array.Empty<string>();
+            var ew = ((SAV7b)S1).Blocks.EventWork;
 
             var fOn = SetFlags.Select(z => new { Type = ew.GetFlagType(z, out var subIndex), Index = subIndex, Raw = z })
                 .Select(z => $"{z.Raw:0000}\t{true }\t{z.Index:0000}\t{z.Type}").ToArray();

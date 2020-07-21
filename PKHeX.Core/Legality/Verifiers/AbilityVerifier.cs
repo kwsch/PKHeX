@@ -43,8 +43,13 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return VerifyAbility345(data, abilities, abilval);
 
+            // Check AbilityNumber is a single set bit
+            var num = pkm.AbilityNumber;
+            if (num == 0 || num == 0b101 || num == 0b110 || num == 0b011)
+                return GetInvalid(LAbilityMismatchFlag);
+
             // Check AbilityNumber points to ability
-            int an = pkm.AbilityNumber >> 1;
+            int an = num >> 1;
             if (an >= abilities.Length || abilities[an] != ability)
                 return GetInvalid(LAbilityMismatchFlag);
 
@@ -64,14 +69,14 @@ namespace PKHeX.Core
             }
 
             var gen = data.Info.Generation;
-            switch (gen)
+            return gen switch
             {
-                case 5: return VerifyAbility5(data, abilities);
-                case 6: return VerifyAbility6(data);
-                case 7: return VerifyAbility7(data);
-            }
-
-            return CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch);
+                5 => VerifyAbility5(data, abilities),
+                6 => VerifyAbility6(data),
+                7 => VerifyAbility7(data),
+                8 => VerifyAbility8(data),
+                _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch)
+            };
         }
 
         private CheckResult VerifyAbility345(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
@@ -101,7 +106,7 @@ namespace PKHeX.Core
         private CheckResult VerifyFixedAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, AbilityState state, int EncounterAbility, int abilval)
         {
             var pkm = data.pkm;
-            if (data.Info.EncounterMatch is IGeneration g && g.Generation >= 6)
+            if (data.Info.EncounterMatch.Generation >= 6)
             {
                 if (IsAbilityCapsuleModified(pkm, abilities, EncounterAbility))
                     return GetValid(LAbilityCapsuleUsed);
@@ -296,6 +301,18 @@ namespace PKHeX.Core
             return VALID;
         }
 
+        private CheckResult VerifyAbility8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            var EncounterMatch = data.EncounterMatch;
+            if (EncounterMatch is EncounterSlot && pkm.AbilityNumber == 4)
+                return GetInvalid(LAbilityHiddenUnavailable);
+            if (Legal.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+                return GetInvalid(LAbilityHiddenUnavailable);
+
+            return VALID;
+        }
+
         /// <summary>
         /// Final checks assuming nothing else has flagged the ability.
         /// </summary>
@@ -331,12 +348,12 @@ namespace PKHeX.Core
 
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
         {
-            switch (enc)
+            return enc switch
             {
-                case EncounterStatic s: return s.Ability;
-                case EncounterTrade t: return t.Ability;
-                default: return -1;
-            }
+                EncounterStatic s => s.Ability,
+                EncounterTrade t => t.Ability,
+                _ => -1
+            };
         }
     }
 }

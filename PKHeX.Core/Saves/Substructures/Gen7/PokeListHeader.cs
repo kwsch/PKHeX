@@ -26,9 +26,9 @@ namespace PKHeX.Core
         private const int MAX_SLOTS = 1000;
         private const int SLOT_EMPTY = 1001;
 
-        public PokeListHeader(SaveFile sav) : base(sav)
+        public PokeListHeader(SAV7b sav, int offset) : base(sav)
         {
-            Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.PokeListHeader);
+            Offset = offset;
             PokeListInfo = LoadPointerData();
             if (!sav.Exportable)
             {

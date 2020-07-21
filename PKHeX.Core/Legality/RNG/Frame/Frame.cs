@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class Frame
+    public sealed class Frame
     {
         /// <summary>
         /// Ending seed value for the frame (prior to nature call).
@@ -9,7 +9,6 @@
         public readonly LeadRequired Lead;
 
         private readonly FrameType FrameType;
-        private readonly RNG RNG;
 
         /// <summary>
         /// Starting seed for the frame (to generate the frame).
@@ -28,12 +27,11 @@
 
         public bool LevelSlotModified => Lead.IsLevelOrSlotModified() || (Lead & LeadRequired.UsesLevelCall) != 0;
 
-        public Frame(uint seed, FrameType type, RNG rng, LeadRequired lead)
+        public Frame(uint seed, FrameType type, LeadRequired lead)
         {
             Seed = seed;
             Lead = lead;
             FrameType = type;
-            RNG = rng;
         }
 
         /// <summary>

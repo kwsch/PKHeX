@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -58,7 +59,7 @@ namespace PKHeX.WinForms
             var strings = GameInfo.Strings;
             foreach (PKM pkm in Data.Where(pkm => pkm.ChecksumValid && pkm.Species != 0))
             {
-                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.Species, pkm.AltForm); // recalc Level
+                pkm.Stat_Level = Experience.GetLevel(pkm.EXP, pkm.PersonalInfo.EXPGrowth); // recalc Level
                 PL.Add(new PKMSummaryImage(pkm, strings));
                 BoxBar.PerformStep();
             }
@@ -90,7 +91,7 @@ namespace PKHeX.WinForms
 
         private void Data_Sorted(object sender, EventArgs e)
         {
-            int height = SpriteUtil.GetSprite(1, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
+            int height = SpriteUtil.GetSprite(1, 0, 0, 0, 0, false, false).Height + 1; // dummy sprite, max height of a row
             for (int i = 0; i < dgData.Rows.Count; i++)
                 dgData.Rows[i].Height = height;
         }
@@ -99,7 +100,7 @@ namespace PKHeX.WinForms
         {
             if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportCSV) != DialogResult.Yes)
                 return;
-            SaveFileDialog savecsv = new SaveFileDialog
+            using var savecsv = new SaveFileDialog
             {
                 Filter = "Spreadsheet|*.csv",
                 FileName = "Box Data Dump.csv"
@@ -131,15 +132,14 @@ namespace PKHeX.WinForms
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgReportExportTable);
             if (dr != DialogResult.Yes)
             {
-                Clipboard.SetText(data);
+                WinFormsUtil.SetClipboardText(data);
                 return true;
             }
 
             // Reformat datagrid clipboard content
             string[] lines = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
             string[] newlines = ConvertTabbedToRedditTable(lines);
-            Clipboard.SetText(string.Join(Environment.NewLine, newlines));
-
+            WinFormsUtil.SetClipboardText(string.Join(Environment.NewLine, newlines));
             return true;
         }
 
@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
             int tabcount = lines[0].Count(c => c == '\t');
 
             newlines[0] = lines[0].Replace('\t', '|');
-            newlines[1] = string.Join(":--:", new int[tabcount + 2].Select(_ => '|')); // 2 pipes for each end
+            newlines[1] = string.Join(":--:", Enumerable.Repeat('|', tabcount + 2)); // 2 pipes for each end
             for (int i = 1; i < lines.Length; i++)
                 newlines[i + 1] = lines[i].Replace('\t', '|');
             return newlines;

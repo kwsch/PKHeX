@@ -101,3 +101,51 @@ RibbonChampionAlola	Campeón de Alola
 RibbonBattleRoyale	Maestro Battle Royale
 RibbonBattleTreeGreat	As del Árbol
 RibbonBattleTreeMaster	Maestro del Árbol
+RibbonChampionGalar	Campeón de Galar
+RibbonTowerMaster	Maestro de la Torre
+RibbonMasterRank	Rango Maestro
+RibbonMarkLunchtime	Emblema Almuerzo
+RibbonMarkSleepyTime	Emblema Noche
+RibbonMarkDusk	Emblema Ocaso
+RibbonMarkDawn	Emblema Alba
+RibbonMarkCloudy	Emblema Nube
+RibbonMarkRainy	Emblema Lluvia
+RibbonMarkStormy	Emblema Tormenta
+RibbonMarkSnowy	Emblema Nieve
+RibbonMarkBlizzard	Emblema Nevasca
+RibbonMarkDry	Emblema Sequedad
+RibbonMarkSandstorm	Emblema Polvareda
+RibbonMarkMisty	Emblema Niebla
+RibbonMarkDestiny	Emblema Destino
+RibbonMarkFishing	Emblema Pesca
+RibbonMarkCurry	Emblema Curri
+RibbonMarkUncommon	Emblema Familiaridad
+RibbonMarkRare	Emblema Rareza
+RibbonMarkRowdy	Emblema Travesura
+RibbonMarkAbsentMinded	Emblema Despreocupación
+RibbonMarkJittery	Emblema Nerviosismo
+RibbonMarkExcited	Emblema Ilusión
+RibbonMarkCharismatic	Emblema Carisma
+RibbonMarkCalmness	Emblema Compostura
+RibbonMarkIntense	Emblema Pasión
+RibbonMarkZonedOut	Emblema Distracción
+RibbonMarkJoyful	Emblema Felicidad
+RibbonMarkAngry	Emblema Cólera
+RibbonMarkSmiley	Emblema Sonrisa
+RibbonMarkTeary	Emblema Llanto
+RibbonMarkUpbeat	Emblema Buen Humor
+RibbonMarkPeeved	Emblema Mal Humor
+RibbonMarkIntellectual	Emblema Intelecto
+RibbonMarkFerocious	Emblema Impulsividad
+RibbonMarkCrafty	Emblema Astucia
+RibbonMarkScowling	Emblema Intimidación
+RibbonMarkKindly	Emblema Amabilidad
+RibbonMarkFlustered	Emblema Desconcierto
+RibbonMarkPumpedUp	Emblema Motivación
+RibbonMarkZeroEnergy	Emblema Desgana
+RibbonMarkPrideful	Emblema Confianza
+RibbonMarkUnsure	Emblema Inseguridad
+RibbonMarkHumble	Emblema Sencillez
+RibbonMarkThorny	Emblema Altanería
+RibbonMarkVigor	Emblema Vigor
+RibbonMarkSlump	Emblema Extenuación

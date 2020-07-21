@@ -16,21 +16,14 @@ namespace PKHeX.Core
             var evos = new EvolutionMethod[data.Length / SIZE];
             for (int i = 0; i < data.Length; i += SIZE)
             {
-                var evo = new EvolutionMethod
-                {
-                    Method = BitConverter.ToUInt16(data, i + 0),
-                    Argument = BitConverter.ToUInt16(data, i + 2),
-                    Species = BitConverter.ToUInt16(data, i + 4),
-
-                    // Copy
-                    Level = BitConverter.ToUInt16(data, i + 2),
-                };
+                var method = BitConverter.ToUInt16(data, i + 0);
+                var arg = BitConverter.ToUInt16(data, i + 2);
+                var spec = BitConverter.ToUInt16(data, i + 4);
 
                 // Argument is used by both Level argument and Item/Move/etc. Clear if appropriate.
-                if (EvosWithArg.Contains(evo.Method))
-                    evo.Level = 0;
+                var lvl = EvosWithArg.Contains(method) ? 0 : arg;
 
-                evos[i/SIZE] = evo;
+                evos[i/SIZE] = new EvolutionMethod(method, spec, argument: arg, level: lvl);
             }
             return evos;
         }

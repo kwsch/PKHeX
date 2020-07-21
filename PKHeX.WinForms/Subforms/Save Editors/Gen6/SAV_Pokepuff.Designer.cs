@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Pokepuff));
+            this.components = new System.ComponentModel.Container();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_All = new System.Windows.Forms.Button();
             this.B_Sort = new System.Windows.Forms.Button();
             this.B_None = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             this.SuspendLayout();
             // 
@@ -124,7 +126,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.dgv);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(240, 750);
             this.MinimizeBox = false;
@@ -145,5 +147,7 @@
         private System.Windows.Forms.Button B_All;
         private System.Windows.Forms.Button B_Sort;
         private System.Windows.Forms.Button B_None;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
     }
 }

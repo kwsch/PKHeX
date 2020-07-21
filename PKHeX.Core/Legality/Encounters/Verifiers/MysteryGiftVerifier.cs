@@ -6,11 +6,11 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftVerifier
     {
-        private static readonly Dictionary<int, MysteryGiftRestriction>[] RestrictionSet = Get();
+        private static readonly Dictionary<int, MysteryGiftRestriction>?[] RestrictionSet = Get();
 
-        private static Dictionary<int, MysteryGiftRestriction>[] Get()
+        private static Dictionary<int, MysteryGiftRestriction>?[] Get()
         {
-            var s = new Dictionary<int, MysteryGiftRestriction>[PKX.Generation + 1];
+            var s = new Dictionary<int, MysteryGiftRestriction>?[PKX.Generation + 1];
             for (int i = 3; i < s.Length; i++)
                 s[i] = GetRestriction(i);
             return s;
@@ -39,7 +39,7 @@ namespace PKHeX.Core
                 return new CheckResult(CheckIdentifier.GameOrigin);
 
             var ver = (int)val >> 16;
-            if (ver != 0 && !CanVersionRecieveGift(g.Format, ver, pk.Version))
+            if (ver != 0 && !CanVersionReceiveGift(g.Format, ver, pk.Version))
                 return new CheckResult(Severity.Invalid, LEncGiftVersionNotDistributed, CheckIdentifier.GameOrigin);
 
             var lang = val & MysteryGiftRestriction.LangRestrict;
@@ -72,14 +72,12 @@ namespace PKHeX.Core
             return CurrentOTMatchesReplaced(g.Format, pk.OT_Name);
         }
 
-        private static bool CanVersionRecieveGift(int format, int version4bit, int version)
+        private static bool CanVersionReceiveGift(int format, int version4bit, int version)
         {
-            switch (format)
+            return format switch
             {
-                // todo
-                default:
-                    return false;
-            }
+                _ => false
+            };
         }
 
         private static bool CurrentOTMatchesReplaced(int format, string pkOtName)
@@ -97,12 +95,10 @@ namespace PKHeX.Core
 
         private static bool IsMatchName(string pkOtName, int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                // todo
-                default:
-                    return false;
-            }
+                _ => false
+            };
         }
     }
 }

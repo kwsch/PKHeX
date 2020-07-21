@@ -47,10 +47,18 @@ namespace PKHeX.Core
         LevelUpDusk = 40,
         LevelUpWormhole = 41,
         UseItemWormhole = 42,
+        Crit3, // Sirfetch'd
+        HPDownBy49, // Runerigus
+        SpinType, // Alcremie
+        LevelUpNatureAmped, // Toxtricity
+        LevelUpNatureLowKey, // Toxtricity
+        TowerOfDarkness, // Urshifu
+        TowerOfWaters, // Urshifu
     }
 
     public static class EvolutionTypeExtensions
     {
         public static bool IsTrade(this EvolutionType t) => t == Trade || t == TradeHeldItem || t == TradeSpecies;
+        public static bool IsLevelUpRequired(this EvolutionType t) => t.ToString().StartsWith("LevelUp"); // don't use this
     }
 }

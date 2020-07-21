@@ -33,6 +33,11 @@
         PKM PreparePKM(bool click = true);
 
         /// <summary>
+        /// Indicates if the currently loaded <see cref="PKM"/> data is ready for exporting.
+        /// </summary>
+        bool EditsComplete { get; }
+
+        /// <summary>
         /// Loads a given <see cref="PKM"/> data to the viewer.
         /// </summary>
         /// <param name="pk">Pokémon data to load.</param>

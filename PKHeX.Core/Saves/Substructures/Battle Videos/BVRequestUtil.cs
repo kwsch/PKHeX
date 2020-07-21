@@ -11,7 +11,7 @@ namespace PKHeX.Core
             Debug.Assert(code.Length == 16);
             var video_id = StrToU64(code, out bool valid);
             if (!valid)
-                return null;
+                return string.Empty;
             return $"https://ctr-bnda-live.s3.amazonaws.com/10.CTR_BNDA_datastore/ds/1/data/{video_id:D11}-00001"; // Sun datastore
         }
 
@@ -72,15 +72,16 @@ namespace PKHeX.Core
 
         private static char Set5BitToChar(char c)
         {
-            c += c > 9 ? '7' : '0';
-            switch (c)
+            var shift = c > 9 ? '7' : '0';
+            c += shift;
+            return c switch
             {
-                case '0': return 'W';
-                case '1': return 'X';
-                case 'I': return 'Y';
-                case 'O': return 'Z';
-                default: return c;
-            }
+                '0' => 'W',
+                '1' => 'X',
+                'I' => 'Y',
+                'O' => 'Z',
+                _ => c
+            };
         }
 
         private static uint Get5BitFromChar(char c)
@@ -92,7 +93,8 @@ namespace PKHeX.Core
                 case 'Y': c = 'I'; break;
                 case 'Z': c = 'O'; break;
             }
-            return c - c >='A' ? '7' : '0';
+            var shift = c >= 'A' ? '7' : '0';
+            return (uint)(c - shift);
         }
     }
 }

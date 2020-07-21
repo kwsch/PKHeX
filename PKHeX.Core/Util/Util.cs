@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -17,21 +18,21 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            bool negative = false;
+            foreach (var c in value)
             {
-                var c = value[i];
                 if (IsNum(c))
                 {
                     result *= 10;
                     result += c;
                     result -= '0';
                 }
-                else if (c == '-')
+                else if (c == '-' && result == 0)
                 {
-                    result = -result;
+                    negative = true;
                 }
             }
-            return result;
+            return negative ? -result : result;
         }
 
         /// <summary>
@@ -45,15 +46,13 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            foreach (var c in value)
             {
-                var c = value[i];
-                if (IsNum(c))
-                {
-                    result *= 10;
-                    result += c;
-                    result -= '0';
-                }
+                if (!IsNum(c))
+                    continue;
+                result *= 10;
+                result += c;
+                result -= '0';
             }
             return result;
         }
@@ -69,9 +68,40 @@ namespace PKHeX.Core
             if (string.IsNullOrEmpty(value))
                 return result;
 
-            for (int i = 0; i < value.Length; i++)
+            foreach (var c in value)
             {
-                var c = value[i];
+                if (IsNum(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - '0');
+                }
+                else if (IsHexUpper(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'A' + 10);
+                }
+                else if (IsHexLower(c))
+                {
+                    result <<= 4;
+                    result += (uint)(c - 'a' + 10);
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Parses the hex string into a <see cref="ulong"/>, skipping all characters except for valid digits.
+        /// </summary>
+        /// <param name="value">Hex String to parse</param>
+        /// <returns>Parsed value</returns>
+        public static ulong GetHexValue64(string value)
+        {
+            ulong result = 0;
+            if (string.IsNullOrEmpty(value))
+                return result;
+
+            foreach (var c in value)
+            {
                 if (IsNum(c))
                 {
                     result <<= 4;
@@ -105,9 +135,9 @@ namespace PKHeX.Core
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 
-        private static bool IsNum(char c) => c >= '0' && c <= '9';
-        private static bool IsHexUpper(char c) => c >= 'A' && c <= 'F';
-        private static bool IsHexLower(char c) => c >= 'a' && c <= 'f';
+        private static bool IsNum(char c) => (uint)(c - '0') <= 9;
+        private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
+        private static bool IsHexLower(char c) => (uint)(c - 'a') <= 5;
         private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
         private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
 
@@ -144,29 +174,17 @@ namespace PKHeX.Core
             return index < 0 ? input : input.Substring(0, index);
         }
 
-
-        public static bool[] GitBitFlagArray(byte[] data, int offset, int count)
+        public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray)
         {
-            bool[] result = new bool[count];
+            var result = new Dictionary<string, int>[nameArray.Count];
             for (int i = 0; i < result.Length; i++)
-                result[i] = (data[offset + (i >> 3)] >> (i & 7) & 0x1) == 1;
-            return result;
-        }
-
-        public static void SetBitFlagArray(byte[] data, int offset, bool[] value)
-        {
-            for (int i = 0; i < value.Length; i++)
             {
-                if (value[i])
-                    data[offset + (i >> 3)] |= (byte)(1 << (i & 7));
+                var dict = result[i] = new Dictionary<string, int>();
+                var names = nameArray[i];
+                for (int j = 0; j < names.Count; j++)
+                    dict.Add(names[j], j);
             }
-        }
-
-        public static byte[] SetBitFlagArray(bool[] value)
-        {
-            byte[] data = new byte[value.Length / 8];
-            SetBitFlagArray(data, 0, value);
-            return data;
+            return result;
         }
     }
 }

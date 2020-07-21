@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
+using PKHeX.WinForms.Properties;
 using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
@@ -22,13 +24,7 @@ namespace PKHeX.WinForms
         {
             InitializeComponent();
 
-            ToolStripMenuItem mnuView = new ToolStripMenuItem { Name = "mnuView", Text = "View" };
-            ToolStripMenuItem mnuSaveMG = new ToolStripMenuItem { Name = "mnuSaveMG", Text = "Save Gift" };
-            ToolStripMenuItem mnuSavePK = new ToolStripMenuItem { Name = "mnuSavePK", Text = "Save PKM" };
-
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            ContextMenuStrip mnu = new ContextMenuStrip();
-            mnu.Items.AddRange(new ToolStripItem[] { mnuView, mnuSaveMG, mnuSavePK });
 
             SAV = sav.SAV;
             BoxView = sav;
@@ -37,21 +33,21 @@ namespace PKHeX.WinForms
             // Preset Filters to only show PKM available for loaded save
             CB_FormatComparator.SelectedIndex = 3; // <=
 
-            PKXBOXES = new[]
-            {
-                bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
+            var grid = MysteryPokeGrid;
+            var smallWidth = grid.Width;
+            var smallHeight = grid.Height;
+            grid.InitializeGrid(6, 11, SpriteUtil.Spriter);
+            grid.SetBackground(Resources.box_wp_clean);
+            var newWidth = grid.Width;
+            var newHeight = grid.Height;
+            var wdelta = newWidth - smallWidth;
+            if (wdelta != 0)
+                Width += wdelta;
+            var hdelta = newHeight - smallHeight;
+            if (hdelta != 0)
+                Height += hdelta;
 
-                bpkx31,bpkx32,bpkx33,bpkx34,bpkx35,bpkx36,
-                bpkx37,bpkx38,bpkx39,bpkx40,bpkx41,bpkx42,
-                bpkx43,bpkx44,bpkx45,bpkx46,bpkx47,bpkx48,
-                bpkx49,bpkx50,bpkx51,bpkx52,bpkx53,bpkx54,
-                bpkx55,bpkx56,bpkx57,bpkx58,bpkx59,bpkx60,
-                bpkx61,bpkx62,bpkx63,bpkx64,bpkx65,bpkx66,
-            };
+            PKXBOXES = grid.Entries.ToArray();
 
             // Enable Scrolling when hovered over
             foreach (var slot in PKXBOXES)
@@ -62,33 +58,20 @@ namespace PKHeX.WinForms
                     if (ModifierKeys == Keys.Control)
                         ClickView(sender, e);
                 };
+
+                slot.ContextMenuStrip = mnu;
             }
 
             Counter = L_Count.Text;
             Viewed = L_Viewed.Text;
             L_Viewed.Text = string.Empty; // invis for now
-            var hover = new ToolTip();
             L_Viewed.MouseEnter += (sender, e) => hover.SetToolTip(L_Viewed, L_Viewed.Text);
-
-            // Assign event handlers
-            mnuView.Click += ClickView;
-            mnuSaveMG.Click += ClickSaveMG;
-            mnuSavePK.Click += ClickSavePK;
-
-            // Assign to datagridview
-            foreach (PictureBox p in PKXBOXES)
-                p.ContextMenuStrip = mnu;
 
             // Load Data
             B_Search.Enabled = false;
             L_Count.Text = "Loading...";
             new Task(LoadDatabase).Start();
 
-            Menu_SearchSettings.DropDown.Closing += (sender, e) =>
-            {
-                if (e.CloseReason == ToolStripDropDownCloseReason.ItemClicked)
-                    e.Cancel = true;
-            };
             CB_Format.Items[0] = MsgAny;
             CenterToParent();
         }
@@ -113,7 +96,7 @@ namespace PKHeX.WinForms
                 return;
             PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
             slotSelected = index;
-            slotColor = Properties.Resources.slotView;
+            slotColor = SpriteUtil.Spriter.View;
             UpdateSlotColor(SCR_Box.Value);
             L_Viewed.Text = string.Format(Viewed, Results[index].FileName);
         }
@@ -134,18 +117,18 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             var gift = Results[index];
-            if (gift.Data == null) // WC3
+            if (!(gift is DataMysteryGift g)) // e.g. WC3
             {
                 WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;
             }
-            WinFormsUtil.ExportMGDialog(gift, SAV.Version);
+            WinFormsUtil.ExportMGDialog(g, SAV.Version);
         }
 
         private int GetSenderIndex(object sender)
         {
-            sender = WinFormsUtil.GetUnderlyingControl(sender);
-            int index = Array.IndexOf(PKXBOXES, sender);
+            var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            int index = Array.IndexOf(PKXBOXES, pb);
             if (index >= RES_MAX)
             {
                 System.Media.SystemSounds.Exclamation.Play();
@@ -209,14 +192,25 @@ namespace PKHeX.WinForms
 
         private void LoadDatabase()
         {
-            RawDB = new List<MysteryGift>(EncounterEvent.GetAllEvents());
+            var db = EncounterEvent.GetAllEvents();
+
+            // when all sprites in new size are available, remove this filter
+            db = SAV is SAV8SWSH ? db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => !(z is WC8));
+
+            RawDB = new List<MysteryGift>(db);
             foreach (var mg in RawDB)
                 mg.GiftUsed = false;
-            BeginInvoke(new MethodInvoker(delegate
+
+            try
             {
-                SetResults(RawDB);
-                PopulateComboBoxes();
-            }));
+                while (!IsHandleCreated) { }
+                BeginInvoke(new MethodInvoker(delegate
+                {
+                    SetResults(RawDB);
+                    PopulateComboBoxes();
+                }));
+            }
+            catch { /* Window Closed? */ }
         }
 
         // IO Usage
@@ -234,15 +228,15 @@ namespace PKHeX.WinForms
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
                 return;
 
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (DialogResult.OK != fbd.ShowDialog())
                 return;
 
             string path = fbd.SelectedPath;
             Directory.CreateDirectory(path);
 
-            foreach (var gift in Results.Where(g => g.Data != null)) // WC3 have no data
-                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Data);
+            foreach (var gift in Results.OfType<DataMysteryGift>()) // WC3 have no data
+                File.WriteAllBytes(Path.Combine(path, Util.CleanFileName(gift.FileName)), gift.Write());
         }
 
         // View Updates
@@ -337,22 +331,9 @@ namespace PKHeX.WinForms
         private void UpdateSlotColor(int start)
         {
             for (int i = 0; i < RES_MAX; i++)
-                PKXBOXES[i].BackgroundImage = Properties.Resources.slotTrans;
+                PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= RES_MIN * start && slotSelected < (RES_MIN * start) + RES_MAX)
-                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? Properties.Resources.slotView;
-        }
-
-        private void Menu_SearchAdvanced_Click(object sender, EventArgs e)
-        {
-            if (!Menu_SearchAdvanced.Checked)
-            {
-                Size = MinimumSize;
-                RTB_Instructions.Clear();
-            }
-            else
-            {
-                Size = MaximumSize;
-            }
+                PKXBOXES[slotSelected - (start * RES_MIN)].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
         }
 
         private void Menu_Import_Click(object sender, EventArgs e)
@@ -377,7 +358,7 @@ namespace PKHeX.WinForms
 
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            if (!PAN_Box.RectangleToScreen(PAN_Box.ClientRectangle).Contains(MousePosition))
+            if (!MysteryPokeGrid.RectangleToScreen(MysteryPokeGrid.ClientRectangle).Contains(MousePosition))
                 return;
             int oldval = SCR_Box.Value;
             int newval = oldval + (e.Delta < 0 ? 1 : -1);

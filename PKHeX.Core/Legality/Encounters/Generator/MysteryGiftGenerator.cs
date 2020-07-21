@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterEvent;
 
@@ -8,48 +9,52 @@ namespace PKHeX.Core
     {
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
         {
-            int maxSpecies = Legal.GetMaxSpeciesOrigin(pkm.Format);
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies);
-            return GetPossible(pkm, vs);
+            var chain = EvolutionChain.GetOriginChain(pkm);
+            return GetPossible(pkm, chain);
         }
 
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> vs)
+        public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
-            var table = GetTable(pkm.GenNumber, pkm);
-            return table.Where(wc => vs.Any(dl => dl.Species == wc.Species));
+            // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
+            int gen = pkm.GenNumber;
+            if (gen == 4 && pkm.Species == (int) Species.Manaphy)
+                yield return RangerManaphy;
+
+            var table = GetTable(gen, pkm);
+            var possible = table.Where(wc => chain.Any(dl => dl.Species == wc.Species));
+            foreach (var enc in possible)
+                yield return enc;
         }
 
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
         {
             int gen = pkm.GenNumber;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
-                return Enumerable.Empty<MysteryGift>();
+                return Array.Empty<MysteryGift>();
 
-            if (gen == 4) // check for manaphy gift
+            if (gen == 4) // check for Manaphy gift
                 return GetMatchingPCD(pkm, MGDB_G4);
-            var table = GetTable(pkm.GenNumber, pkm);
+            var table = GetTable(gen, pkm);
             return GetMatchingGifts(pkm, table);
         }
 
-        private static IEnumerable<MysteryGift> GetTable(int generation, PKM pkm)
+        private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm)
         {
-            switch (generation)
+            return generation switch
             {
-                case 3: return MGDB_G3;
-                case 4: return MGDB_G4;
-                case 5: return MGDB_G5;
-                case 6: return MGDB_G6;
-                case 7:
-                    if (pkm.GG)
-                        return MGDB_G7GG;
-                    return MGDB_G7;
-                default: return Enumerable.Empty<MysteryGift>();
-            }
+                3 => MGDB_G3,
+                4 => MGDB_G4,
+                5 => MGDB_G5,
+                6 => MGDB_G6,
+                7 => pkm.LGPE ? (IReadOnlyList<MysteryGift>)MGDB_G7GG : MGDB_G7,
+                8 => MGDB_G8,
+                _ => Array.Empty<MysteryGift>()
+            };
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IEnumerable<PCD> DB)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB)
         {
-            if (IsRangerManaphy(pkm))
+            if (PGT.IsRangerManaphy(pkm))
             {
                 yield return RangerManaphy;
                 yield break;
@@ -59,25 +64,28 @@ namespace PKHeX.Core
                 yield return g;
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB)
         {
-            var vs = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetMatchingGifts(pkm, DB, vs);
+            var chain = EvolutionChain.GetOriginChain(pkm);
+            return GetMatchingGifts(pkm, DB, chain);
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IEnumerable<MysteryGift> DB, IReadOnlyList<DexLevel> vs)
+        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
         {
             var deferred = new List<MysteryGift>();
-            var gifts = DB.Where(wc => vs.Any(dl => dl.Species == wc.Species));
-            foreach (var mg in gifts)
+            foreach (var mg in DB)
             {
-                var result = mg.IsMatch(pkm, vs);
-                if (result == EncounterMatchRating.None)
-                    continue;
-                if (result == EncounterMatchRating.Match)
-                    yield return mg;
-                else if (result == EncounterMatchRating.Deferred)
-                    deferred.Add(mg);
+                foreach (var dl in chain)
+                {
+                    if (dl.Species != mg.Species)
+                        continue;
+                    var result = mg.IsMatch(pkm, dl);
+                    if (result == EncounterMatchRating.Match)
+                        yield return mg;
+                    else if (result == EncounterMatchRating.Deferred)
+                        deferred.Add(mg);
+                    break;
+                }
             }
             foreach (var z in deferred)
                 yield return z;
@@ -85,20 +93,5 @@ namespace PKHeX.Core
 
         // Utility
         private static readonly PGT RangerManaphy = new PGT {Data = {[0] = 7, [8] = 1}};
-
-        private static bool IsRangerManaphy(PKM pkm)
-        {
-            var egg = pkm.Egg_Location;
-            if (!pkm.IsEgg) // Link Trade Egg or Ranger
-                return egg == Locations.LinkTrade4 || egg == Locations.Ranger4;
-            if (egg != Locations.Ranger4)
-                return false;
-
-            if (pkm.Language == (int)LanguageID.Korean) // never korean
-                return false;
-
-            var met = pkm.Met_Location;
-            return met == Locations.LinkTrade4 || met == 0;
-        }
     }
 }

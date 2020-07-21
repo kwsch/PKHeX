@@ -1,3 +1,5 @@
+0048	Starter	387:Turtwig,390:Chimchar,393:Piplup
+0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
 0196	Dialga	0:Battleable,1:Disappeared
 0197	Palkia	0:Battleable,1:Disappeared
 0085	Giratina (Distortion World)	13:Battleable,14:Disappeared
@@ -11,3 +13,6 @@
 0069	Azure Flute	0:Not Activated,4387:Activated
 0087	Event Marley (Route 224)	0:Not Activated,1:Can be Activated,2:Activated
 0133	Marley (Route 224)	0:Not Activated,1:Activated,2:Appeared
+0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0106	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0107	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught

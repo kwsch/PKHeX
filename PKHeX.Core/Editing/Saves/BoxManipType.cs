@@ -41,5 +41,6 @@ namespace PKHeX.Core
         ModifyHyperTrain,
         ModifyRemoveNicknames,
         ModifyRemoveItem,
+        ModifyHeal,
     }
 }

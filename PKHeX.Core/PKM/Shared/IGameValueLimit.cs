@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Metadata indicating the maximums (and minimums) a type of value can be.
+    /// </summary>
     public interface IGameValueLimit
     {
         int MaxMoveID { get; }

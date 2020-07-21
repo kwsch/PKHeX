@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BerryFieldXY));
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.L_Unfinished = new System.Windows.Forms.Label();
             this.L_Field = new System.Windows.Forms.Label();
@@ -304,7 +303,7 @@
             this.Controls.Add(this.L_Unfinished);
             this.Controls.Add(this.listBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_BerryField";

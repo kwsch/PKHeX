@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,8 +7,8 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK3()
         {
-            if (!(pkm is _K3 pk3))
-                return;
+            if (!(Entity is G3PKM pk3))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk3);
             LoadMisc2(pk3);
@@ -21,17 +22,17 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private PKM PreparePK3()
+        private G3PKM PreparePK3()
         {
-            if (!(pkm is _K3 pk3))
-                return null;
+            if (!(Entity is G3PKM pk3))
+                throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk3);
             SaveMisc2(pk3);
             SaveMisc3(pk3);
 
             pk3.AbilityBit = CB_Ability.SelectedIndex != 0;
-            if (pkm is IShadowPKM ck3)
+            if (Entity is IShadowPKM ck3)
                 SaveShadow3(ck3);
 
             SavePartyStats(pk3);

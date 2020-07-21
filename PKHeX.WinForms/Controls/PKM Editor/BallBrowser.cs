@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Forms;
 
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms
 {
@@ -28,7 +28,7 @@ namespace PKHeX.WinForms
 
         public void LoadBalls(PKM pkm)
         {
-            var legal = BallRandomizer.GetLegalBalls(pkm).ToArray();
+            var legal = BallApplicator.GetLegalBalls(pkm).ToArray();
             var poss = ((Ball[])Enum.GetValues(typeof(Ball))).Skip(1)
                 .TakeWhile(z => (int)z <= pkm.MaxBallID).ToArray();
             var names = GameInfo.BallDataSource;
@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
             {
                 Size = img.Size,
                 Image = img,
-                BackgroundImage = legal.Contains(b) ? Resources.slotSet : Resources.slotDel,
+                BackgroundImage = legal.Contains(b) ? SpriteUtil.Spriter.Set : SpriteUtil.Spriter.Delete,
                 BackgroundImageLayout = ImageLayout.Tile
             };
             pb.MouseEnter += (_, __) => Text = names.First(z => z.Value == (int)b).Text;

@@ -8,12 +8,13 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core
 {
-    public class BulkAnalysis
+    public sealed class BulkAnalysis
     {
         public readonly IReadOnlyList<PKM> AllData;
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
         public readonly ITrainerInfo Trainer;
         public readonly List<CheckResult> Parse = new List<CheckResult>();
+        public readonly Dictionary<ulong, PKM> Trackers = new Dictionary<ulong, PKM>();
         public readonly bool Valid;
 
         private readonly bool[] CloneFlags;
@@ -55,9 +56,18 @@ namespace PKHeX.Core
 
         private void AddLine(PKM first, PKM second, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
         {
-            string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
+            static string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
 
             var c = $"{msg}{Environment.NewLine}{GetSummary(first)}{Environment.NewLine}{GetSummary(second)}";
+            var chk = new CheckResult(s, c, i);
+            Parse.Add(chk);
+        }
+
+        private void AddLine(PKM first, string msg, CheckIdentifier i, Severity s = Severity.Invalid)
+        {
+            static string GetSummary(PKM pk) => $"[{pk.Box:00}, {pk.Slot:00}] {pk.FileName}";
+
+            var c = $"{msg}{Environment.NewLine}{GetSummary(first)}";
             var chk = new CheckResult(s, c, i);
             Parse.Add(chk);
         }
@@ -71,6 +81,24 @@ namespace PKHeX.Core
                 var ca = AllAnalysis[i];
                 Debug.Assert(cp.Format == Trainer.Generation);
 
+                // Check the upload tracker to see if there's any duplication.
+                if (cp is IHomeTrack home)
+                {
+                    if (home.Tracker != 0)
+                    {
+                        var tracker = home.Tracker;
+                        if (Trackers.TryGetValue(tracker, out var clone))
+                            AddLine(clone, cp, "Clone detected (Duplicate Tracker).", Encounter);
+                        else
+                            Trackers.Add(tracker, cp);
+                    }
+                    else if (ca.Info.Generation < 8)
+                    {
+                        AddLine(cp, "Missing tracker.", Encounter);
+                    }
+                }
+
+                // Hash Details like EC/IV to see if there's any duplication.
                 var identity = SearchUtil.HashByDetails(cp);
                 if (!dict.TryGetValue(identity, out var pa))
                 {
@@ -79,7 +107,7 @@ namespace PKHeX.Core
                 }
 
                 CloneFlags[i] = true;
-                AddLine(pa.pkm, cp, "Clone detected.", Encounter);
+                AddLine(pa.pkm, cp, "Clone detected (Details).", Encounter);
             }
         }
 
@@ -206,7 +234,6 @@ namespace PKHeX.Core
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
                 AddLine(pa.pkm, ca.pkm, "EC sharing across RNG encounters detected.", ident);
-                return;
             }
         }
 
@@ -236,7 +263,6 @@ namespace PKHeX.Core
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
                 AddLine(pa.pkm, ca.pkm, "PID sharing across RNG encounters detected.", ident);
-                return;
             }
         }
 

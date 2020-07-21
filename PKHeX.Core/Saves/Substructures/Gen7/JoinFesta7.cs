@@ -5,7 +5,8 @@ namespace PKHeX.Core
 {
     public sealed class JoinFesta7 : SaveBlock
     {
-        public JoinFesta7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public JoinFesta7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public JoinFesta7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int FestaCoins
         {
@@ -20,7 +21,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int TotalFestaCoins
+        public int TotalFestaCoins
         {
             get => BitConverter.ToInt32(Data, Offset + 0x50C);
             set

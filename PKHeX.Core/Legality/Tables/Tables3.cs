@@ -51,7 +51,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] Pouch_Key_E = Pouch_Key_FRLG.Concat(new ushort[] { 375, 376 }).ToArray();
 
         internal static readonly ushort[] Pouch_TMHM_RS = Pouch_TM_RS.Concat(Pouch_HM_RS).ToArray();
-        internal static readonly ushort[] HeldItems_RS = new ushort[1].Concat(Pouch_Items_RS).Concat(Pouch_Ball_RS).Concat(Pouch_Berries_RS).Concat(Pouch_TM_RS).ToArray();
+        internal static readonly ushort[] HeldItems_RS = ArrayUtil.ConcatAll(Pouch_Items_RS, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
         #endregion
 
         internal static readonly byte[] MovePP_RS =
@@ -69,7 +69,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Cologne_COLO = {543, 544, 545};
         internal static readonly ushort[] Pouch_Items_COLO = Pouch_Items_RS.Concat(new ushort[] {537}).ToArray(); // Time Flute
-        internal static readonly ushort[] HeldItems_COLO = new ushort[1].Concat(Pouch_Items_COLO).Concat(Pouch_Ball_RS).Concat(Pouch_Berries_RS).Concat(Pouch_TM_RS).ToArray();
+        internal static readonly ushort[] HeldItems_COLO = ArrayUtil.ConcatAll(Pouch_Items_COLO, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
         internal static readonly ushort[] Pouch_Key_COLO =
         {
@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] Pouch_Cologne_XD = {513, 514, 515};
         internal static readonly ushort[] Pouch_Items_XD = Pouch_Items_RS.Concat(new ushort[] {511}).ToArray(); // Poké Snack
-        internal static readonly ushort[] HeldItems_XD = new ushort[1].Concat(Pouch_Items_XD).Concat(Pouch_Ball_RS).Concat(Pouch_Berries_RS).Concat(Pouch_TM_RS).ToArray();
+        internal static readonly ushort[] HeldItems_XD = ArrayUtil.ConcatAll(Pouch_Items_XD, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
         internal static readonly ushort[] Pouch_Key_XD =
         {

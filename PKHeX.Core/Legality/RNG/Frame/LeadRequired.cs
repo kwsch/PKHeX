@@ -27,12 +27,11 @@ namespace PKHeX.Core
         PressureHustleSpiritFail = PressureHustleSpirit | Fail,
 
         AllFlags = UsesLevelCall | Fail,
-        NoFlags = ~AllFlags,
     }
 
     public static partial class Extensions
     {
         internal static bool IsLevelOrSlotModified(this LeadRequired Lead) => Lead.RemoveFlags() > LeadRequired.Synchronize;
-        internal static LeadRequired RemoveFlags(this LeadRequired Lead) => Lead & LeadRequired.NoFlags;
+        internal static LeadRequired RemoveFlags(this LeadRequired Lead) => Lead & ~LeadRequired.AllFlags;
     }
 }

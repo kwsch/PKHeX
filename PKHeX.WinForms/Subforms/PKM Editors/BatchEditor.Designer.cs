@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BatchEditor));
+            this.components = new System.ComponentModel.Container();
             this.RB_Boxes = new System.Windows.Forms.RadioButton();
             this.RB_Path = new System.Windows.Forms.RadioButton();
             this.FLP_RB = new System.Windows.Forms.FlowLayoutPanel();
+            this.RB_Party = new System.Windows.Forms.RadioButton();
             this.TB_Folder = new System.Windows.Forms.TextBox();
             this.RTB_Instructions = new System.Windows.Forms.RichTextBox();
             this.B_Go = new System.Windows.Forms.Button();
@@ -42,7 +43,10 @@
             this.B_Add = new System.Windows.Forms.Button();
             this.L_PropType = new System.Windows.Forms.Label();
             this.L_PropValue = new System.Windows.Forms.Label();
-            this.RB_Party = new System.Windows.Forms.RadioButton();
+            this.b = new System.ComponentModel.BackgroundWorker();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip2 = new System.Windows.Forms.ToolTip(this.components);
+            this.toolTip3 = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_RB.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +92,19 @@
             this.FLP_RB.Name = "FLP_RB";
             this.FLP_RB.Size = new System.Drawing.Size(370, 24);
             this.FLP_RB.TabIndex = 2;
+            // 
+            // RB_Party
+            // 
+            this.RB_Party.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.RB_Party.Appearance = System.Windows.Forms.Appearance.Button;
+            this.RB_Party.AutoSize = true;
+            this.RB_Party.Location = new System.Drawing.Point(46, 0);
+            this.RB_Party.Margin = new System.Windows.Forms.Padding(0);
+            this.RB_Party.Name = "RB_Party";
+            this.RB_Party.Size = new System.Drawing.Size(41, 23);
+            this.RB_Party.TabIndex = 5;
+            this.RB_Party.Text = "Party";
+            this.RB_Party.UseVisualStyleBackColor = true;
             // 
             // TB_Folder
             // 
@@ -199,18 +216,9 @@
             this.L_PropValue.TabIndex = 13;
             this.L_PropValue.Text = "PropertyValue";
             // 
-            // RB_Party
+            // b
             // 
-            this.RB_Party.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.RB_Party.Appearance = System.Windows.Forms.Appearance.Button;
-            this.RB_Party.AutoSize = true;
-            this.RB_Party.Location = new System.Drawing.Point(46, 0);
-            this.RB_Party.Margin = new System.Windows.Forms.Padding(0);
-            this.RB_Party.Name = "RB_Party";
-            this.RB_Party.Size = new System.Drawing.Size(41, 23);
-            this.RB_Party.TabIndex = 5;
-            this.RB_Party.Text = "Party";
-            this.RB_Party.UseVisualStyleBackColor = true;
+            this.b.WorkerReportsProgress = true;
             // 
             // BatchEditor
             // 
@@ -229,7 +237,7 @@
             this.Controls.Add(this.RTB_Instructions);
             this.Controls.Add(this.FLP_RB);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(410, 300);
             this.Name = "BatchEditor";
@@ -258,5 +266,9 @@
         private System.Windows.Forms.Label L_PropType;
         private System.Windows.Forms.Label L_PropValue;
         private System.Windows.Forms.RadioButton RB_Party;
+        private System.ComponentModel.BackgroundWorker b;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ToolTip toolTip2;
+        private System.Windows.Forms.ToolTip toolTip3;
     }
 }

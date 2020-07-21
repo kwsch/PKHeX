@@ -43,27 +43,27 @@ namespace PKHeX.Core
         /// <returns>Hidden Power Type of the <see cref="IVs"/></returns>
         public static int GetTypeGB(IReadOnlyList<int> IVs)
         {
-            var IV_ATK = IVs[1];
-            var IV_DEF = IVs[2];
-            return ((IV_ATK & 3) << 2) | (IV_DEF & 3);
+            var atk = IVs[1];
+            var def = IVs[2];
+            return ((atk & 3) << 2) | (def & 3);
         }
 
         /// <summary>
-        /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hpVal"/>.
+        /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hiddenPowerType"/>.
         /// </summary>
-        /// <param name="hpVal">Hidden Power Type</param>
+        /// <param name="hiddenPowerType">Hidden Power Type</param>
         /// <param name="IVs">Current IVs (6 total)</param>
         /// <param name="format">Generation format</param>
         /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
-        public static bool SetIVsForType(int hpVal, int[] IVs, int format)
+        public static bool SetIVsForType(int hiddenPowerType, int[] IVs, int format)
         {
             if (format <= 2)
             {
-                IVs[1] = (IVs[1] & ~3) | (hpVal >> 2);
-                IVs[2] = (IVs[2] & ~3) | (hpVal  & 3);
+                IVs[1] = (IVs[1] & ~3) | (hiddenPowerType >> 2);
+                IVs[2] = (IVs[2] & ~3) | (hiddenPowerType & 3);
                 return true;
             }
-            return SetIVsForType(hpVal, IVs);
+            return SetIVsForType(hiddenPowerType, IVs);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace PKHeX.Core
                 return true; // no mods necessary
 
             // Required HP type doesn't match IVs. Make currently-flawless IVs flawed.
-            int[] best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
+            int[]? best = GetSuggestedHiddenPowerIVs(hpVal, IVs);
             if (best == null)
                 return false; // can't force hidden power?
 
@@ -95,12 +95,12 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static int[] GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
+        private static int[]? GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
         {
             var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
             var permutations = GetPermutations(flawless, flawless.Length);
             int flawedCount = 0;
-            int[] best = null;
+            int[]? best = null;
             foreach (var permute in permutations)
             {
                 var ivs = (int[])IVs.Clone();

@@ -19,10 +19,8 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
         protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-        public Zukan7b(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexGG;
-            LoadDexList();
         }
 
         public override void SetDex(PKM pkm)
@@ -40,7 +38,7 @@ namespace PKHeX.Core
             base.SetDex(species, bit, form, gender, shiny, lang);
         }
 
-        private static bool IsBuddy(int species, int form) => (species == 25 && form == 8) || (species == 133 && form == 1);
+        private static bool IsBuddy(int species, int form) => (species == (int)Species.Pikachu && form == 8) || (species == (int)Species.Eevee && form == 1);
 
         public const int DefaultEntryValue = 0x7F;
 
@@ -106,7 +104,7 @@ namespace PKHeX.Core
             }
         }
 
-        private int GetDexSizeOffset(DexSizeType group, int index) => 0x3978 + (index * 6) + ((int)group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
+        private static int GetDexSizeOffset(DexSizeType group, int index) => 0x3978 + (index * 6) + ((int)group * 0x45C); // blockofs + 0xF78 + ([186*6]*n) + x*6
 
         private void SetSizeData(PB7 pkm, DexSizeType group)
         {

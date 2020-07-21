@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -7,11 +9,11 @@ namespace PKHeX.Core
     /// </summary>
     public static class EncounterSuggestion
     {
-        public static EncounterStatic GetSuggestedMetInfo(PKM pkm)
+        /// <summary>
+        /// Gets an object containing met data properties that might be legal.
+        /// </summary>
+        public static EncounterSuggestionData? GetSuggestedMetInfo(PKM pkm)
         {
-            if (pkm == null)
-                return null;
-
             int loc = GetSuggestedTransferLocation(pkm);
 
             if (pkm.WasEgg)
@@ -19,24 +21,20 @@ namespace PKHeX.Core
 
             var w = EncounterSlotGenerator.GetCaptureLocation(pkm);
             if (w != null)
-                return GetSuggestedEncounterWild(w, loc);
+                return GetSuggestedEncounterWild(pkm, w, loc);
 
             var s = EncounterStaticGenerator.GetStaticLocation(pkm);
             if (s != null)
-                return GetSuggestedEncounterStatic(s, loc);
+                return GetSuggestedEncounterStatic(pkm, s, loc);
 
             return null;
         }
 
-        private static EncounterStatic GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterEgg(PKM pkm, int loc = -1)
         {
             int lvl = GetSuggestedEncounterEggMetLevel(pkm);
-            return new EncounterStatic
-            {
-                Species = Legal.GetBaseSpecies(pkm),
-                Location = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm),
-                Level = lvl,
-            };
+            var met = loc != -1 ? loc : GetSuggestedEggMetLocation(pkm);
+            return new EncounterSuggestionData(pkm, met, lvl);
         }
 
         public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
@@ -65,26 +63,18 @@ namespace PKHeX.Core
             }
         }
 
-        private static EncounterStatic GetSuggestedEncounterWild(EncounterArea area, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterArea area, int loc = -1)
         {
             var slots = area.Slots.OrderBy(s => s.LevelMin);
             var first = slots.First();
-            return new EncounterStatic
-            {
-                Location = loc != -1 ? loc : area.Location,
-                Species = first.Species,
-                Level = first.LevelMin,
-            };
+            var met = loc != -1 ? loc : area.Location;
+            return new EncounterSuggestionData(pkm, first, met);
         }
 
-        private static EncounterStatic GetSuggestedEncounterStatic(EncounterStatic s, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterStatic(PKM pkm, EncounterStatic s, int loc = -1)
         {
-            if (loc == -1)
-                loc = s.Location;
-
-            // don't leak out the original EncounterStatic object
-            var encounter = s.Clone(loc);
-            return encounter;
+            var met = loc != -1 ? loc : s.Location;
+            return new EncounterSuggestionData(pkm, s, met);
         }
 
         /// <summary>
@@ -101,49 +91,50 @@ namespace PKHeX.Core
                 case GameVersion.E:
                 case GameVersion.FR:
                 case GameVersion.LG:
-                    switch (pkm.Format)
+                    return pkm.Format switch
                     {
-                        case 3:
-                            return pkm.FRLG ? 146 /* Four Island */ : 32; // Route 117
-                        case 4:
-                            return Locations.Transfer3; // Pal Park
-                        default:
-                            return Locations.Transfer4; // Transporter
-                    }
+                        3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
+                        4 => Locations.Transfer3, // Pal Park
+                        _ => Locations.Transfer4,
+                    };
 
                 case GameVersion.D:
                 case GameVersion.P:
                 case GameVersion.Pt:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 4; // Solaceon Town
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationDPPt;
                 case GameVersion.HG:
                 case GameVersion.SS:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : 182; // Route 34
+                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationHGSS;
 
                 case GameVersion.B:
                 case GameVersion.W:
                 case GameVersion.B2:
                 case GameVersion.W2:
-                    return 16; // Route 3
+                    return Locations.HatchLocation5;
 
                 case GameVersion.X:
                 case GameVersion.Y:
-                    return 38; // Route 7
+                    return Locations.HatchLocation6XY;
                 case GameVersion.AS:
                 case GameVersion.OR:
-                    return 318; // Battle Resort
+                    return Locations.HatchLocation6AO;
 
                 case GameVersion.SN:
                 case GameVersion.MN:
                 case GameVersion.US:
                 case GameVersion.UM:
-                    return 50; // Route 4
+                    return Locations.HatchLocation7;
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                    return Locations.HatchLocation8;
 
                 case GameVersion.GD:
                 case GameVersion.SV:
                 case GameVersion.C:
                 case GameVersion.GSC:
                 case GameVersion.RBY:
-                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : 16; // Goldenrod City (if crystal)
+                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
             }
             return -1;
         }
@@ -175,5 +166,75 @@ namespace PKHeX.Core
                 return Legal.GetTransfer45MetLocation(pkm);
             return -1;
         }
+
+        public static int GetLowestLevel(PKM pkm, int startLevel)
+        {
+            if (startLevel == -1)
+                startLevel = 100;
+
+            var table = EvolutionTree.GetEvolutionTree(pkm, pkm.Format);
+            int count = 1;
+            for (int i = 100; i >= startLevel; i--)
+            {
+                var evos = table.GetValidPreEvolutions(pkm, maxLevel: i, minLevel: startLevel, skipChecks: true);
+                if (evos.Count < count) // lost an evolution, prior level was minimum current level
+                    return evos.Max(evo => evo.Level) + 1;
+                count = evos.Count;
+            }
+            return startLevel;
+        }
+
+        public static int GetSuggestedMetLevel(PKM pkm, int minLevel)
+        {
+            var clone = pkm.Clone();
+            int minMove = -1;
+            for (int i = clone.CurrentLevel; i >= minLevel; i--)
+            {
+                clone.Met_Level = i;
+                var la = new LegalityAnalysis(clone);
+                if (la.Valid)
+                    return i;
+                if (la.Info.Moves.All(z => z.Valid))
+                    minMove = i;
+            }
+            return Math.Max(minMove, minLevel);
+        }
+    }
+
+    public sealed class EncounterSuggestionData : IRelearn
+    {
+        private readonly IEncounterable? Encounter;
+
+        public IReadOnlyList<int> Relearn => Encounter is IRelearn r ? r.Relearn : Array.Empty<int>();
+
+        public EncounterSuggestionData(PKM pkm, IEncounterable enc, int met)
+        {
+            Encounter = enc;
+            Species = pkm.Species;
+            Form = pkm.AltForm;
+            Location = met;
+
+            LevelMin = enc.LevelMin;
+            LevelMax = enc.LevelMax;
+        }
+
+        public EncounterSuggestionData(PKM pkm, int met, int lvl)
+        {
+            Species = pkm.Species;
+            Form = pkm.AltForm;
+            Location = met;
+
+            LevelMin = lvl;
+            LevelMax = lvl;
+        }
+
+        public int Species { get; }
+        public int Form { get; }
+        public int Location { get; }
+
+        public int LevelMin { get; }
+        public int LevelMax { get; }
+
+        public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
     }
 }

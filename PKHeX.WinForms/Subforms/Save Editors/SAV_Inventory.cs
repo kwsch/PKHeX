@@ -26,8 +26,8 @@ namespace PKHeX.WinForms
                     itemlist[i] = $"(Item #{i:000})";
             }
 
-            HasFreeSpace = SAV.Generation == 7 && !(SAV is SAV7b);
-            HasNew = CHK_NEW.Visible = SAV.Generation == 7;
+            HasFreeSpace = SAV.Generation >= 7 && !(SAV is SAV7b);
+            HasNew = CHK_NEW.Visible = SAV.Generation >= 7;
             Pouches = SAV.Inventory;
             CreateBagViews();
             LoadAllBags();
@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
         {
             SetBags();
             SAV.Inventory = Pouches;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
             dgv.Columns.Add(item);
             dgv.Columns.Add(GetCountColumn(pouch, Main.HaX, ColumnCount = dgv.Columns.Count));
             if (HasFreeSpace)
-                dgv.Columns.Add(GetFreeSpaceColumn(ColumnFreeSpace = dgv.Columns.Count));
+                dgv.Columns.Add(GetFreeSpaceColumn(ColumnFreeSpace = dgv.Columns.Count, SAV.Generation >= 8 ? "Fav" : "Free"));
             if (HasNew)
                 dgv.Columns.Add(GetNewColumn(ColumnNEW = dgv.Columns.Count));
 
@@ -122,11 +122,11 @@ namespace PKHeX.WinForms
             };
         }
 
-        private static DataGridViewComboBoxColumn GetItemColumn(int c)
+        private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item")
         {
             return new DataGridViewComboBoxColumn
             {
-                HeaderText = "Item",
+                HeaderText = name,
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
                 DisplayIndex = c,
                 Width = 135,
@@ -134,11 +134,11 @@ namespace PKHeX.WinForms
             };
         }
 
-        private static DataGridViewColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c)
+        private static DataGridViewColumn GetCountColumn(InventoryPouch pouch, bool HaX, int c, string name = "Count")
         {
             var dgvIndex = new DataGridViewTextBoxColumn
             {
-                HeaderText = "Count",
+                HeaderText = name,
                 DisplayIndex = c,
                 Width = 45,
                 DefaultCellStyle = {Alignment = DataGridViewContentAlignment.MiddleCenter},
@@ -148,22 +148,22 @@ namespace PKHeX.WinForms
             return dgvIndex;
         }
 
-        private static DataGridViewColumn GetFreeSpaceColumn(int c)
+        private static DataGridViewColumn GetFreeSpaceColumn(int c, string name = "Free")
         {
             return new DataGridViewCheckBoxColumn
             {
-                HeaderText = "Free",
+                HeaderText = name,
                 DisplayIndex = c,
                 Width = 40,
                 FlatStyle = FlatStyle.Flat
             };
         }
 
-        private static DataGridViewColumn GetNewColumn(int c)
+        private static DataGridViewColumn GetNewColumn(int c, string name = "NEW")
         {
             return new DataGridViewCheckBoxColumn
             {
-                HeaderText = "NEW",
+                HeaderText = name,
                 DisplayIndex = c,
                 Width = 40,
                 FlatStyle = FlatStyle.Flat
@@ -263,9 +263,9 @@ namespace PKHeX.WinForms
             NUD_Count.Value = Math.Max(1, pouch.MaxCount - 4);
         }
 
-        private static int GetMax(ITrainerInfo sav, InventoryPouch pouch, bool haX)
+        private static int GetMax(ITrainerInfo sav, InventoryPouch pouch, bool HaX)
         {
-            if (haX)
+            if (HaX)
                 return pouch.MaxCount;
 
             // Cap at absolute maximum

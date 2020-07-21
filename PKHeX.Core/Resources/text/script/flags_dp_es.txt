@@ -1,0 +1,29 @@
+0511	Uxie Desaparecido
+0509	Mesprit Desaparecido (Caverna Veraz)
+0510	Azelf Desaparecido
+0621	Cresselia Desaparecida (Isla Plenilunio)
+0288	Heatran Desaparecido
+0609	Regigigas Desaparecido
+0622	Giratina Desaparecido
+0606	Darkrai Desaparecido
+0623	Shaymin Desaparecido (Paraiso Floral)
+0620	Arceus Desaparecido
+0286	Sala de Origen Desaparecida
+0307	Ferry a Isla Plenilunio Accesible
+0316	Ferry a Isla Lunanueva Accesible
+0301	Professor Oak Desaparecido (Ruta 224)
+0634	Shaymin Desaparecido
+2404	Entrada al Hall de la Fama (Mejora de Tarjeta Entrenador)
+2408	Maestro de Concurso Carisma
+2409	Maestro de Concurso de Belleza
+2410	Maestro de Concurso de Dulzura
+2411	Maestro de Concurso de Ingenio
+2412	Maestro de Concurso de Dureza
+0329	Rotom Capturado
+0665	Encontrado Mayordomo Fantasma en la Vieja Mansión
+0666	Encontrada Niña Fantasma en la Vieja Mansión
+0897	Encontrado Antidoto (escondido) en la Vieja Mansión
+1008	Encontrada Barrita Plus en la Vieja Mansión
+1233	Encontrada Tabla Oscura en la Vieja Mansión
+1234	Encontrada MT90 en la Vieja Mansión
+2736	Rotom desaparecido en la TV de la Vieja Mansión

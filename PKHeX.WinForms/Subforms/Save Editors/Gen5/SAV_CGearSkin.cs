@@ -22,14 +22,14 @@ namespace PKHeX.WinForms
             byte[] data = SAV.CGearSkinData;
             bg = new CGearBackground(data);
 
-            PB_Background.Image = CGearExtensions.GetBitmap(bg);
+            PB_Background.Image = CGearImage.GetBitmap(bg);
         }
 
         private CGearBackground bg;
 
         private void B_ImportPNG_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog
+            using var ofd = new OpenFileDialog
             {
                 Filter = "PNG File|*.png",
                 FileName = "Background.png",
@@ -42,8 +42,8 @@ namespace PKHeX.WinForms
 
             try
             {
-                bg = CGearExtensions.GetCGearBackground(img);
-                PB_Background.Image = CGearExtensions.GetBitmap(bg);
+                bg = CGearImage.GetCGearBackground(img);
+                PB_Background.Image = CGearImage.GetBitmap(bg);
             }
             catch (Exception ex)
             {
@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
         private void B_ExportPNG_Click(object sender, EventArgs e)
         {
             Image png = PB_Background.Image;
-            SaveFileDialog sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 Filter = "PNG File|*.png",
                 FileName = "Background.png",
@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
 
         private void B_ImportCGB_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog
+            using var ofd = new OpenFileDialog
             {
                 Filter = CGearBackground.Filter + "|PokeStock C-Gear Skin|*.psk"
             };
@@ -86,12 +86,12 @@ namespace PKHeX.WinForms
 
             byte[] data = File.ReadAllBytes(path);
             bg = new CGearBackground(data);
-            PB_Background.Image = CGearExtensions.GetBitmap(bg);
+            PB_Background.Image = CGearImage.GetBitmap(bg);
         }
 
         private void B_ExportCGB_Click(object sender, EventArgs e)
         {
-            SaveFileDialog sfd = new SaveFileDialog
+            using var sfd = new SaveFileDialog
             {
                 Filter = CGearBackground.Filter,
             };
@@ -109,7 +109,7 @@ namespace PKHeX.WinForms
             if (bgdata.Any(z => z != 0))
             {
                 SAV.CGearSkinData = bgdata;
-                Origin.SetData(SAV.Data, 0);
+                Origin.CopyChangesFrom(SAV);
             }
             Close();
         }

@@ -14,11 +14,17 @@ namespace PKHeX.Core
     /// <see cref="Exclude"/>
     /// <see cref="Require"/>
     /// <see cref="Apply"/>
-    public class StringInstruction
+    public sealed class StringInstruction
     {
-        public string PropertyName { get; private set; }
+        public string PropertyName { get; }
         public string PropertyValue { get; private set; }
         public bool Evaluator { get; private set; }
+
+        public StringInstruction(string name, string value)
+        {
+            PropertyName = name;
+            PropertyValue = value;
+        }
 
         public void SetScreenedValue(string[] arr)
         {
@@ -43,20 +49,20 @@ namespace PKHeX.Core
         public const char SplitInstruction = '=';
 
         // Extra Functionality
-        private int Min, Max;
+        private int RandomMinimum, RandomMaximum;
         public bool Random { get; private set; }
-        public int RandomValue => Util.Rand.Next(Min, Max + 1);
+        public int RandomValue => Util.Rand.Next(RandomMinimum, RandomMaximum + 1);
 
         public void SetRandRange(string pv)
         {
             string str = pv.Substring(1);
             var split = str.Split(SplitRange);
-            int.TryParse(split[0], out Min);
-            int.TryParse(split[1], out Max);
+            int.TryParse(split[0], out RandomMinimum);
+            int.TryParse(split[1], out RandomMaximum);
 
-            if (Min == Max)
+            if (RandomMinimum == RandomMaximum)
             {
-                PropertyValue = Min.ToString();
+                PropertyValue = RandomMinimum.ToString();
                 Debug.WriteLine(PropertyName + " randomization range Min/Max same?");
             }
             else
@@ -72,7 +78,7 @@ namespace PKHeX.Core
                 let eval = line[0] == Require
                 let split = line.Substring(1).Split(SplitInstruction)
                 where split.Length == 2 && !string.IsNullOrWhiteSpace(split[0])
-                select new StringInstruction { PropertyName = split[0], PropertyValue = split[1], Evaluator = eval };
+                select new StringInstruction(split[0], split[1]) { Evaluator = eval };
         }
 
         public static IEnumerable<StringInstruction> GetInstructions(IEnumerable<string> lines)
@@ -81,7 +87,7 @@ namespace PKHeX.Core
             return from line in raw
                 select line.Split(SplitInstruction) into split
                 where split.Length == 2
-                select new StringInstruction { PropertyName = split[0], PropertyValue = split[1] };
+                select new StringInstruction(split[0], split[1]);
         }
 
         /// <summary>

@@ -17,6 +17,19 @@ namespace PKHeX.Core
         public const char G1TradeOT = '*';
         public const string G1TradeOTStr = "*";
 
+        public static readonly IReadOnlyList<string> G1TradeOTName = new []
+        {
+            string.Empty,
+            "トレーナー",
+            "Trainer",
+            "Dresseur",
+            "Allenatore",
+            "Trainer",
+            string.Empty,
+            "Entrenador",
+            "트레이너",
+        };
+
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
         /// </summary>
@@ -27,26 +40,26 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks if the input byte array is definitely of German origin (any ÄÖÜäöü)
         /// </summary>
-        /// <param name="data">Input string</param>
+        /// <param name="value">Input string</param>
         /// <returns>Indication if the data is from a definitely-german string</returns>
-        public static bool IsG12German(string data) => IsG12German(SetString1(data, data.Length, false));
+        public static bool IsG12German(string value) => IsG12German(SetString1(value, value.Length, false));
 
         /// <summary>
         /// Converts Generation 1 encoded data into a string.
         /// </summary>
-        /// <param name="strdata">Encoded data.</param>
+        /// <param name="data">Encoded data.</param>
         /// <param name="offset">Offset to read from</param>
         /// <param name="count"></param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetString1(byte[] strdata, int offset, int count, bool jp)
+        public static string GetString1(byte[] data, int offset, int count, bool jp)
         {
             var dict = jp ? RBY2U_J : RBY2U_U;
 
             var s = new StringBuilder();
             for (int i = 0; i < count; i++)
             {
-                var val = strdata[offset + i];
+                var val = data[offset + i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
                 if (c == '\0') // Stop if Terminator
@@ -59,13 +72,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts Generation 1 encoded data the same way Bank converts.
         /// </summary>
-        /// <param name="strdata">Generation 1 encoded data.</param>
+        /// <param name="data">Generation 1 encoded data.</param>
         /// <param name="jp">Data source is Japanese.</param>
         /// <returns>Decoded string.</returns>
-        public static string GetG1ConvertedString(byte[] strdata, bool jp)
+        public static string GetG1ConvertedString(byte[] data, bool jp)
         {
             var table = jp ? jp_table : us_table;
-            return string.Concat(strdata.TakeWhile(b => b != 0).Select(b => (char)table[b]).TakeWhile(b => b != 0));
+            return string.Concat(data.TakeWhile(b => b != 0).Select(b => (char)table[b]).TakeWhile(b => b != 0));
         }
 
         /// <summary>
@@ -223,7 +236,7 @@ namespace PKHeX.Core
             {0xB7, 'x'},
             {0xB8, 'y'},
             {0xB9, 'z'},
-            
+
             // unused characters
             {0xBA, 'à'},
             {0xBB, 'è'},
@@ -516,7 +529,7 @@ namespace PKHeX.Core
             {'x', 0xB7},
             {'y', 0xB8},
             {'z', 0xB9},
-            
+
             // unused characters
             {'à', 0xBA},
             {'è', 0xBB},

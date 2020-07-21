@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -10,7 +9,7 @@ namespace PKHeX.WinForms
 {
     public sealed partial class SAV_BoxList : Form
     {
-        private readonly List<BoxEditor> Boxes = new List<BoxEditor>();
+        private readonly BoxEditor[] Boxes;
 
         public SAV_BoxList(SAVEditor p, SlotChangeManager m)
         {
@@ -20,6 +19,7 @@ namespace PKHeX.WinForms
             // initialize boxes dynamically
             var sav = p.SAV;
 
+            Boxes = new BoxEditor[sav.BoxCount];
             AddControls(p, m, sav);
             SetWindowDimensions(sav.BoxCount);
 
@@ -27,10 +27,15 @@ namespace PKHeX.WinForms
             AddEvents();
             CenterToParent();
             Owner = p.ParentForm;
+            foreach (var b in Boxes)
+                m.Env.Slots.Publisher.Subscribers.Add(b);
             FormClosing += (sender, e) =>
             {
                 foreach (var b in Boxes)
+                {
                     b.M.Boxes.Remove(b);
+                    m.Env.Slots.Publisher.Subscribers.Remove(b);
+                }
             };
         }
 
@@ -49,16 +54,22 @@ namespace PKHeX.WinForms
         {
             for (int i = 0; i < sav.BoxCount; i++)
             {
-                var boxEditor = new BoxEditor { Name = $"BE_Box{i:00}", Margin = new Padding(1) };
+                var boxEditor = new BoxEditor
+                {
+                    Name = $"BE_Box{i:00}",
+                    Margin = new Padding(1),
+                    Editor = new BoxEdit(sav),
+                };
+                boxEditor.Setup(m);
+                boxEditor.InitializeGrid();
+                boxEditor.Reset();
                 foreach (PictureBox pb in boxEditor.SlotPictureBoxes)
                     pb.ContextMenuStrip = p.SlotPictureBoxes[0].ContextMenuStrip;
-                boxEditor.Setup(m);
-                boxEditor.Reset();
                 boxEditor.CurrentBox = i;
                 boxEditor.CB_BoxSelect.Enabled = false;
-                Boxes.Add(boxEditor);
-                FLP_Boxes.Controls.Add(Boxes[i]);
+                Boxes[i] = boxEditor;
             }
+            FLP_Boxes.Controls.AddRange(Boxes);
 
             // Setup swapping
             foreach (var box in Boxes)
@@ -66,15 +77,15 @@ namespace PKHeX.WinForms
                 box.ClearEvents();
                 box.B_BoxLeft.Click += (s, e) =>
                 {
-                    int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
-                    int other = (index + Boxes.Count - 1) % Boxes.Count;
-                    m.SwapBoxes(index, other);
+                    int index = Array.FindIndex(Boxes, z => z == ((Button)s).Parent);
+                    int other = (index + Boxes.Length - 1) % Boxes.Length;
+                    m.SwapBoxes(index, other, p.SAV);
                 };
                 box.B_BoxRight.Click += (s, e) =>
                 {
-                    int index = Boxes.FindIndex(z => z == ((Button)s).Parent);
-                    int other = (index + 1) % Boxes.Count;
-                    m.SwapBoxes(index, other);
+                    int index = Array.FindIndex(Boxes, z => z == ((Button)s).Parent);
+                    int other = (index + 1) % Boxes.Length;
+                    m.SwapBoxes(index, other, p.SAV);
                 };
             }
         }

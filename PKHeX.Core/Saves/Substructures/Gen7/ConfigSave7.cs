@@ -14,7 +14,8 @@ namespace PKHeX.Core
          * everything else: unknown
          */
 
-        public ConfigSave7(SAV7 sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave7(SAV7SM sav, int offset) : base(sav) => Offset = offset;
+        public ConfigSave7(SAV7USUM sav, int offset) : base(sav) => Offset = offset;
 
         public int ConfigValue
         {
@@ -28,18 +29,18 @@ namespace PKHeX.Core
             set => ConfigValue = (ConfigValue & ~3) | (value & 3);
         }
 
-        public int BattleAnimation
+        public BattleAnimationSetting BattleAnimation
         {
             // Effects OFF = 1, Effects ON = 0
-            get => (ConfigValue >> 2) & 1;
-            set => ConfigValue = (ConfigValue & ~(1 << 2)) | (value << 2);
+            get => (BattleAnimationSetting)((ConfigValue >> 2) & 1);
+            set => ConfigValue = (ConfigValue & ~(1 << 2)) | ((byte)value << 2);
         }
 
-        public int BattleStyle
+        public BattleStyleSetting BattleStyle
         {
             // SET = 1, SWITCH = 0
-            get => (ConfigValue >> 3) & 1;
-            set => ConfigValue = (ConfigValue & ~(1 << 3)) | (value << 3);
+            get => (BattleStyleSetting)((ConfigValue >> 3) & 1);
+            set => ConfigValue = (ConfigValue & ~(1 << 3)) | ((byte)value << 3);
         }
 
         // UNKNOWN?
@@ -79,8 +80,8 @@ namespace PKHeX.Core
 
         public enum BattleStyleSetting
         {
-            SET,
             SWITCH,
+            SET,
         }
     }
 }

@@ -16,7 +16,7 @@ namespace PKHeX.WinForms
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6XY)(Origin = sav).Clone();
-            Zukan = (Zukan6XY)SAV.Zukan;
+            Zukan = SAV.Zukan;
             CP = new[] { CHK_P1, CHK_P2, CHK_P3, CHK_P4, CHK_P5, CHK_P6, CHK_P7, CHK_P8, CHK_P9, };
             CL = new[] { CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, };
 
@@ -132,19 +132,19 @@ namespace PKHeX.WinForms
                 CHK_F1.Enabled = CHK_F1.Checked = false;
             }
 
-            int gt = SAV.Personal[pk].Gender;
+            var pi = SAV.Personal[pk];
 
-            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
-            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(gt == 0 || (gt == 255)); // Not Male-Only and Not Genderless
+            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = !pi.OnlyFemale;
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(pi.OnlyMale || pi.Genderless);
 
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = pi.FormeCount;
             int f = DexFormUtil.GetDexFormIndexXY(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+            string[] forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
 
@@ -182,17 +182,17 @@ namespace PKHeX.WinForms
             if (f < 0)
                 return;
 
-            for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++) // Seen
-                Zukan.SetFormFlag(f, 0, CLB_FormsSeen.GetItemChecked(i));
-            for (int i = 0; i < CLB_FormsSeen.Items.Count / 2; i++)  // Seen Shiny
-                Zukan.SetFormFlag(f, 1, CLB_FormsSeen.GetItemChecked(i + (CLB_FormsSeen.Items.Count / 2)));
+            var seen = CLB_FormsSeen;
+            for (int i = 0; i < seen.Items.Count / 2; i++) // Seen
+                Zukan.SetFormFlag(f + i, 0, seen.GetItemChecked(i));
+            for (int i = 0; i < seen.Items.Count / 2; i++)  // Seen Shiny
+                Zukan.SetFormFlag(f + i, 1, seen.GetItemChecked(i + (seen.Items.Count / 2)));
 
-            editing = true;
-            for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++) // Displayed
-                Zukan.SetFormFlag(f, 2, CLB_FormDisplayed.GetItemChecked(i));
-            for (int i = 0; i < CLB_FormDisplayed.Items.Count / 2; i++)  // Displayed Shiny
-                Zukan.SetFormFlag(f, 3, CLB_FormDisplayed.GetItemChecked(i + (CLB_FormDisplayed.Items.Count / 2)));
-            editing = false;
+            var display = CLB_FormDisplayed;
+            for (int i = 0; i < display.Items.Count / 2; i++) // Displayed
+                Zukan.SetFormFlag(f + i, 2, display.GetItemChecked(i));
+            for (int i = 0; i < display.Items.Count / 2; i++)  // Displayed Shiny
+                Zukan.SetFormFlag(f + i, 3, display.GetItemChecked(i + (display.Items.Count / 2)));
         }
 
         private void B_Cancel_Click(object sender, EventArgs e)
@@ -204,7 +204,7 @@ namespace PKHeX.WinForms
         {
             SetEntry();
             Zukan.SpindaPID = Util.GetHexValue(TB_Spinda.Text);
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

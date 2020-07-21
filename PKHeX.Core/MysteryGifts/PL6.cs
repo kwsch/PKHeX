@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace PKHeX.Core
@@ -11,7 +10,7 @@ namespace PKHeX.Core
     /// This Template object is very similar to the <see cref="PCD"/> structure in that it stores more data than just the gift.
     /// This template object is only present in Generation 6 save files.
     /// </remarks>
-    public class PL6
+    public sealed class PL6
     {
         public const int Size = 0xA47;
         public const string Filter = "Pokémon Link Data|*.pl6|All Files (*.*)|*.*";
@@ -44,12 +43,12 @@ namespace PKHeX.Core
         public uint Flags_6 { get => BitConverter.ToUInt32(Data, 0x3E1); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3E1); }
 
         // Pokémon
-        public PL6_PKM Poke_1 { get => new PL6_PKM(Data.Skip(0x09D).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x09D); }
-        public PL6_PKM Poke_2 { get => new PL6_PKM(Data.Skip(0x145).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x145); }
-        public PL6_PKM Poke_3 { get => new PL6_PKM(Data.Skip(0x1ED).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x1ED); }
-        public PL6_PKM Poke_4 { get => new PL6_PKM(Data.Skip(0x295).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x295); }
-        public PL6_PKM Poke_5 { get => new PL6_PKM(Data.Skip(0x33D).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x33D); }
-        public PL6_PKM Poke_6 { get => new PL6_PKM(Data.Skip(0x3E5).Take(PL6_PKM.Size).ToArray()); set => value.Data.CopyTo(Data, 0x3E5); }
+        public PL6_PKM Poke_1 { get => new PL6_PKM(Data.Slice(0x09D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x09D); }
+        public PL6_PKM Poke_2 { get => new PL6_PKM(Data.Slice(0x145, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x145); }
+        public PL6_PKM Poke_3 { get => new PL6_PKM(Data.Slice(0x1ED, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x1ED); }
+        public PL6_PKM Poke_4 { get => new PL6_PKM(Data.Slice(0x295, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x295); }
+        public PL6_PKM Poke_5 { get => new PL6_PKM(Data.Slice(0x33D, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x33D); }
+        public PL6_PKM Poke_6 { get => new PL6_PKM(Data.Slice(0x3E5, PL6_PKM.Size)); set => value.Data.CopyTo(Data, 0x3E5); }
 
         // Item Properties
         public int Item_1     { get => BitConverter.ToUInt16(Data, 0x489); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x489); }
@@ -131,16 +130,14 @@ namespace PKHeX.Core
     /// This Template object is very similar to the <see cref="WC6"/> structure and similar objects, in that the structure offsets are ordered the same.
     /// This template object is only present in Generation 6 save files.
     /// </remarks>
-    public class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4
+    public sealed class PL6_PKM : IRibbonSetEvent3, IRibbonSetEvent4
     {
         internal const int Size = 0xA0;
 
         public readonly byte[] Data;
 
-        public PL6_PKM(byte[] data = null)
-        {
-            Data = data ?? new byte[Size];
-        }
+        public PL6_PKM() : this(new byte[Size]) { }
+        public PL6_PKM(byte[] data) => Data = data;
 
         public int TID { get => BitConverter.ToUInt16(Data, 0x00); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x00); }
         public int SID { get => BitConverter.ToUInt16(Data, 0x02); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x02); }
@@ -250,9 +247,5 @@ namespace PKHeX.Core
                 if (value.Length > 3) RelearnMove4 = value[3];
             }
         }
-
-        public bool EggEncounter => IsEgg;
-
-        public string Name => "Pokémon Link";
     }
 }

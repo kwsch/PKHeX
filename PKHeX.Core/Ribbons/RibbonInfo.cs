@@ -28,15 +28,12 @@ namespace PKHeX.Core
             {
                 if (RibbonCount < 0)
                     return -1;
-                switch (Name)
+                return Name switch
                 {
-                    case nameof(IRibbonSetCommon6.RibbonCountMemoryContest):
-                        return 40;
-                    case nameof(IRibbonSetCommon6.RibbonCountMemoryBattle):
-                        return 8;
-                    default:
-                        return 4; // g3 contest ribbons
-                }
+                    nameof(IRibbonSetCommon6.RibbonCountMemoryContest) => 40,
+                    nameof(IRibbonSetCommon6.RibbonCountMemoryBattle) => 8,
+                    _ => 4
+                };
             }
         }
 
@@ -47,7 +44,7 @@ namespace PKHeX.Core
             var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
             foreach (var name in names)
             {
-                object RibbonValue = ReflectUtil.GetValue(pkm, name);
+                object? RibbonValue = ReflectUtil.GetValue(pkm, name);
                 if (RibbonValue is int x)
                     riblist.Add(new RibbonInfo(name, x));
                 if (RibbonValue is bool b)

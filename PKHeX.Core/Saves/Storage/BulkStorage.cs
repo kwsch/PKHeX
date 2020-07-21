@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Simple Storage Binary wrapper for a concatenated list of <see cref="PKM"/> data.
     /// </summary>
-    public class BulkStorage : SaveFile
+    public abstract class BulkStorage : SaveFile
     {
         protected BulkStorage(byte[] data, Type t, int start, int slotsPerBox = 30) : base(data)
         {
@@ -22,7 +22,6 @@ namespace PKHeX.Core
         protected readonly int SlotsPerBox;
 
         protected override string BAKText => $"{Checksums.CRC16(Data, Box, Data.Length - Box):X4}";
-        public override SaveFile Clone() => new BulkStorage((byte[])Data.Clone(), PKMType, Box, SlotsPerBox);
         public override string Filter { get; } = "All Files|*.*";
         public override string Extension { get; } = ".bin";
         public override bool ChecksumsValid { get; } = true;
@@ -32,7 +31,7 @@ namespace PKHeX.Core
         public override Type PKMType => blank.GetType();
         public override PKM BlankPKM => blank.Clone();
 
-        protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation);
+        protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation) ?? blank;
         protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data;
 
         public override int SIZE_STORED => blank.SIZE_STORED;
@@ -50,7 +49,7 @@ namespace PKHeX.Core
         public bool IsBigEndian => blank is BK4 || blank is XK3 || blank is CK3;
 
         private readonly Func<byte[], int, bool> GetIsPKMPresent;
-        public override bool IsPKMPresent(int offset) => GetIsPKMPresent(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);
 
         public override int BoxCount { get; }
         protected override void SetChecksums() { }

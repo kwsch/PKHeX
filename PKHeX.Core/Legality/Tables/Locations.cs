@@ -23,9 +23,37 @@
         public const int Ranger4 = 3001;
         public const int Faraway4 = 3002;
 
-        /// <summary>
-        /// Generation 3 -> Generation 4 Transfer Location (Pal Park)
-        /// </summary>
+        /// <summary> Goldenrod City in <see cref="GameVersion.C"/> </summary>
+        public const int HatchLocationC = 16;
+
+        /// <summary> Route 117 in <see cref="GameVersion.RSE"/> </summary>
+        public const int HatchLocationRSE = 32;
+
+        /// <summary> Route 17 in <see cref="GameVersion.FRLG"/> </summary>
+        public const int HatchLocationFRLG = 117;
+
+        /// <summary> Solaceon Town in <see cref="GameVersion.DPPt"/> </summary>
+        public const int HatchLocationDPPt = 4;
+
+        /// <summary> Route 34 in <see cref="GameVersion.HGSS"/> </summary>
+        public const int HatchLocationHGSS = 182;
+
+        /// <summary> Skyarrow Bridge in <see cref="GameVersion.Gen5"/> </summary>
+        public const int HatchLocation5 = 64;
+
+        /// <summary> Route 7 in <see cref="GameVersion.XY"/> </summary>
+        public const int HatchLocation6XY = 38;
+
+        /// <summary> Battle Resort in <see cref="GameVersion.ORAS"/> </summary>
+        public const int HatchLocation6AO = 318;
+
+        /// <summary> Paniola Ranch in <see cref="GameVersion.Gen7"/> </summary>
+        public const int HatchLocation7 = 78;
+
+        /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
+        public const int HatchLocation8 = 40;
+
+        /// <summary> Generation 3 -> Generation 4 Transfer Location (Pal Park) </summary>
         public const int Transfer3 = 0x37;
 
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Poké Transporter) </summary>
@@ -42,32 +70,34 @@
 
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
         public const int Transfer4_CrownUsed = 30013;
-        
+
         public static int TradedEggLocationNPC(int gen)
         {
-            switch (gen)
+            return gen switch
             {
-                case 1:
-                case 2: return LinkTrade2NPC;
-                case 3: return LinkTrade3NPC;
-                case 4: return LinkTrade4NPC;
-                case 5: return LinkTrade5NPC;
-                default: return LinkTrade6NPC;
-            }
+                1 => LinkTrade2NPC,
+                2 => LinkTrade2NPC,
+                3 => LinkTrade3NPC,
+                4 => LinkTrade4NPC,
+                5 => LinkTrade5NPC,
+                _ => LinkTrade6NPC
+            };
         }
 
         public static int TradedEggLocation(int gen)
         {
-            switch (gen)
+            return gen switch
             {
-                case 4: return LinkTrade4;
-                case 5: return LinkTrade5;
-                default: return LinkTrade6;
-            }
+                4 => LinkTrade4,
+                5 => LinkTrade5,
+                _ => LinkTrade6
+            };
         }
 
         public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;
         public static bool IsPtHGSSLocationEgg(int location) => 2010 < location && location < 3000;
         public static bool IsEventLocation5(int location) => 40000 < location && location < 50000;
+
+        public static bool IsSafariZoneLocation4(int loc) => loc == 52 || loc == 202;
     }
 }

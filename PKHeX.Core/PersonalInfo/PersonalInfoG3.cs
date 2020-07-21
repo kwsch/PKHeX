@@ -7,15 +7,10 @@ namespace PKHeX.Core
     /// </summary>
     public class PersonalInfoG3 : PersonalInfo
     {
-        protected PersonalInfoG3() { }
         public const int SIZE = 0x1C;
 
-        public PersonalInfoG3(byte[] data)
+        public PersonalInfoG3(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-
-            Data = data;
         }
 
         public override byte[] Write() => Data;
@@ -56,7 +51,7 @@ namespace PKHeX.Core
             get => new[] { Item1, Item2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Item1 = value[0];
                 Item2 = value[1];
             }
@@ -67,7 +62,7 @@ namespace PKHeX.Core
             get => new[] { Ability1, Ability2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Ability1 = (byte)value[0];
                 Ability2 = (byte)value[1];
             }

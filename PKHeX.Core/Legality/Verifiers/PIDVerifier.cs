@@ -16,7 +16,7 @@ namespace PKHeX.Core
                 VerifyEC(data);
 
             var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch.Species == 265)
+            if (EncounterMatch.Species == (int)Species.Wurmple)
                 VerifyECPIDWurmple(data);
 
             if (pkm.PID == 0)
@@ -26,7 +26,16 @@ namespace PKHeX.Core
 
             var Info = data.Info;
             if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
-                data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+            {
+                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 &&wc8.EncryptionConstant == 0)
+                {
+                    // We'll allow this to pass.
+                }
+                else
+                {
+                    data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                }
+            }
 
             VerifyShiny(data);
         }
@@ -49,7 +58,7 @@ namespace PKHeX.Core
                         break;
                     if (s.Gift || s.Roaming || s.Ability != 4)
                         break;
-                    if (s is EncounterStaticN p && p.NSparkle)
+                    if (s is EncounterStatic5N)
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
@@ -65,6 +74,7 @@ namespace PKHeX.Core
                     if (d.Gift.PK.PID != 1 && pkm.EncryptionConstant != d.Gift.PK.PID)
                         data.AddLine(GetInvalid(LEncGiftPIDMismatch, CheckIdentifier.Shiny));
                     break;
+
                 case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm) && pkm.IsShiny:
                         data.AddLine(GetInvalid(LEncGiftShinyMismatch, CheckIdentifier.Shiny));
                     break;
@@ -84,7 +94,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
 
-            if (pkm.Species == 265)
+            if (pkm.Species == (int)Species.Wurmple)
             {
                 // Indicate what it will evolve into
                 uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
@@ -105,6 +115,7 @@ namespace PKHeX.Core
 
             if (pkm.EncryptionConstant == 0)
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
+
             if (3 <= Info.Generation && Info.Generation <= 5)
             {
                 VerifyTransferEC(data);
@@ -125,11 +136,9 @@ namespace PKHeX.Core
             // If the PID is nonshiny->shiny, the top bit is flipped.
 
             // Check to see if the PID and EC are properly configured.
-            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(pkm.PID & 0xFFFF) ^ (int)(pkm.PID >> 16)) & ~0x7) == 8;
-            bool valid = xorPID
-                ? pkm.EncryptionConstant == (pkm.PID ^ 0x80000000)
-                : pkm.EncryptionConstant == pkm.PID;
-
+            var ec = pkm.EncryptionConstant; // should be original PID
+            bool xorPID = ((pkm.TID ^ pkm.SID ^ (int)(ec & 0xFFFF) ^ (int)(ec >> 16)) & ~0x7) == 8;
+            bool valid = pkm.PID == (xorPID ? (ec ^ 0x80000000) : ec);
             if (valid)
                 return;
 

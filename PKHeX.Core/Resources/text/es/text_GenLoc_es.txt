@@ -1,4 +1,4 @@
-﻿algún lugar
+algún lugar
 el pueblo de partida
 casa
 casa de un amigo
@@ -28,13 +28,13 @@ un museo
 un estudio de grabación
 una estación
 un terreno de combate
-un salón de belleza
+una peluquería
 un restaurante
 un restaurante refinado
 una ciudad costera
 un edificio alto
 una ciudad misteriosa
-una ciudad a la orilla del río
+una ciudad a la orilla de un río
 una ciudad cubierta de nieve
 la Liga Pokémon
 un palacio
@@ -60,12 +60,21 @@ un huerto
 unas ruinas
 unas alcantarillas
 un safari
-una Base Secreta
-un Auditorio del Gran Concurso
-el fondo del mar
-un paraje irreal
 un gran navío
-una ruta cubierta de ceniza
-un islote
-un lugar misterioso
 el firmamento
+un Auditorio
+un lugar misterioso
+un islote
+una ruta cubierta de ceniza
+una Base Secreta
+el fondo del mar
+un Paraje Espejismo
+un camino con vistas al mar
+una extensa pradera
+un estadio
+Cuidados Pokémon
+una mina
+un pueblo de montaña
+un pueblo destartalado
+un túnel
+un lugar peligroso

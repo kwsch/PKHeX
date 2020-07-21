@@ -1,126 +1,129 @@
-0x1B1	Slateport Move Tutor Used
-0x1B2	Mauville Move Tutor Used
-0x1B3	Verdanturf Move Tutor Used
-0x1B4	Lavaridge Move Tutor Used
-0x1B5	Fallarbor Move Tutor Used
-0x1B6	Fortree Move Tutor Used
-0x1B7	Lilycove Move Tutor Used
-0x1B8	Mossdeep Move Tutor Used
-0x1B9	Sootopolis Move Tutor Used
-0x1BA	Pacifidlog Move Tutor Used
+0x089	Received HM01 Cut
+0x06E	Received HM02 Fly
+0x07A	Received HM03 Surf
+0x06A	Received HM04 Strength
+0x06D	Received HM05 Flash
+0x06B	Received HM06 Rock Smash
+0x138	Received HM07 Waterfall
+0x07B	Received HM08 Dive
+0x05A	Received Mach Bike/Acro Bike
 
-0x099	Traded in Rustboro
-0x09A	Traded in Pacifidlog
-0x09B	Traded in Fortree
+0x867	Received Stone Badge
+0x868	Received Knuckle Badge
+0x869	Received Dynamo Badge
+0x86A	Received Heat Badge
+0x86B	Received Balance Badge
+0x86C	Received Feather Badge
+0x86D	Received Mind Badge
+0x86E	Received Rain Badge
+
+0x099	Traded in Rustboro City
+0x09A	Traded in Pacifidlog Town
+0x09B	Traded in Fortree City
 0x09C	Traded in Battle Frontier
 
-0x097	Castform Received
-0x10A	Wynaut Received
-0x12A	Beldum Received
+0x097	Received Castform
+0x10A	Received Wynaut Egg
+0x12A	Received Beldum
 
-0x1A3	Eon Ticket Used
-0x1AF	Aurora Ticket Used
-0x1B0	Old Sea Map Used
+0x13A	Received Aurora Ticket from Mystery Gift
+0x13B	Received Mystic Ticket from Mystery Gift
+0x13C	Received Old Sea Map from Mystery Gift
 
-0x091	Lugia Captured
-0x092	Ho-Oh Captured
-0x1AD	Deoxys Captured
-0x1BB	Regirock Captured
-0x1BC	Regice Captured
-0x1BD	Registeel Captured
-0x1BE	Kyogre Captured
-0x1BF	Groudon Captured
-0x1C0	Rayquaza Captured
-0x1C9	Lati@s Captured
-0x1CA	Mew Captured
+0x1AE	Shown Eon Ticket
+0x1AF	Shown Aurora Ticket
+0x1B0	Shown Old Sea Map
+0x1DB	Shown Mystic Ticket
 
-0x2CE	Mew Overworld Hidden
-0x2FB	Deoxys Overworld Hidden
-0x2FC	Deoxys Triangle Overworld Hidden
-0x305	Rayquaza Overworld Hidden
-0x30E	Kyogre Overworld Hidden
-0x30F	Groundon Overworld Hidden
-0x320	Lugia Overworld Hidden
-0x321	Ho-Oh Overworld Hidden
-0x3A7	Regirock Overworld Hidden
-0x3A8	Regice Overworld Hidden
-0x3A9	Registeel Overworld Hidden
+0x8B3	Can Travel to Southern Island
+0x8D5	Can Travel to Birth Island
+0x8D6	Can Travel to Faraway Island
+0x8E0	Can Travel to Navel Rock
 
-0x3D6	Kecleon Route 120 1 Overworld Hidden
-0x3D9	Kecleon Route 120 2 Overworld Hidden
-0x3DA	Kecleon Route 120 3 Overworld Hidden
-0x3DB	Kecleon Route 120 4 Overworld Hidden
-0x3DC	Kecleon Route 120 5 Overworld Hidden
-0x3DD	Kecleon Route 119 1 Overworld Hidden
-0x3DE	Kecleon Route 119 2 Overworld Hidden
+0x0FF	Lati@s Roaming
 
-0x860	SYS_POKEMON_GET
-0x861	SYS_POKEDEX_GET
-0x862	SYS_POKENAV_GET
-0x864	SYS_GAME_CLEAR
-0x865	SYS_CHAT_USED
-0x866	SYS_HIPSTER_MEET
+0x1CA	Captured/Defeated Mew
+0x091	Captured/Defeated Lugia
+0x092	Captured/Defeated Ho-Oh
+0x1BB	Captured/Defeated Regirock
+0x1BC	Captured/Defeated Regice
+0x1BD	Captured/Defeated Registeel
+0x1C9	Captured/Defeated Lati@s
+0x1BE	Captured/Defeated Kyogre
+0x1BF	Captured/Defeated Groudon
+0x1C0	Captured/Defeated Rayquaza
+0x1AD	Captured/Defeated Deoxys
 
-0x867	BADGE01_GET
-0x868	BADGE02_GET
-0x869	BADGE03_GET
-0x86A	BADGE04_GET
-0x86B	BADGE05_GET
-0x86C	BADGE06_GET
-0x86D	BADGE07_GET
-0x86E	BADGE08_GET
+0x2CE	Overworld Hidden (Mew)
+0x320	Overworld Hidden (Lugia)
+0x321	Overworld Hidden (Ho-Oh)
+0x3A7	Overworld Hidden (Regirock)
+0x3A8	Overworld Hidden (Regice)
+0x3A9	Overworld Hidden (Registeel)
+0x30E	Overworld Hidden (Kyogre)
+0x30F	Overworld Hidden (Groudon)
+0x305	Overworld Hidden (Rayquaza)
+0x2FB	Overworld Hidden (Deoxys)
+0x2FC	Overworld Hidden (Deoxys Triangle)
 
-0x888	SYS_USE_FLASH
-0x889	SYS_USE_STRENGTH
-0x88A	SYS_WEATHER_CTRL
-0x88B	SYS_CYCLING_ROAD
-0x88C	SYS_SAFARI_MODE
-0x88D	SYS_CRUISE_MODE
+0x3C9	Uncovered Kecleon (Fortree City)
+0x3CA	Uncovered Kecleon (Route 120, Bridge)
+0x3D5	Uncovered Kecleon (Route 120, Bridge)
+0x3D6	Uncovered Kecleon (Route 120, Stairs)
+0x3D9	Uncovered Kecleon (Route 120, Behind Sign)
+0x3DA	Uncovered Kecleon (Route 120, Behind Berry Trees)
+0x3DB	Uncovered Kecleon (Route 120, Left of Long Grass Maze)
+0x3DC	Uncovered Kecleon (Route 120, Behind Ancient Tomb)
+0x3DD	Uncovered Kecleon (Route 119, Right of Ninja Boy)
+0x3DE	Uncovered Kecleon (Route 119, Left of Ninja Boy)
 
-0x890	SYS_TV_HOME
-0x891	SYS_TV_WATCH
-0x892	SYS_TV_START
-0x893	SYS_POPWORD_INPUT
-0x894	SYS_MIX_RECORD
-0x895	SYS_CLOCK_SET
-0x896	SYS_NATIONAL_DEX
-0x897	SYS_CAVE_SHIP
-0x898	SYS_CAVE_WONDER
-0x899	SYS_CAVE_BATTLE
-0x89A	SYS_SHOAL_TIDE
-0x89B	SYS_RIBBON_GET
+0x1B1	Used Move Tutor in Slateport City (Swagger)
+0x1B2	Used Move Tutor in Mauville City (Rollout)
+0x1B3	Used Move Tutor in Verdanturf Town (Fury Cutter)
+0x1B4	Used Move Tutor in Lavaridge Town (Mimic)
+0x1B5	Used Move Tutor in Fallarbor Town (Metronome)
+0x1B6	Used Move Tutor in Fortree City (Sleep Talk)
+0x1B7	Used Move Tutor in Lilycove City (Substitute)
+0x1B8	Used Move Tutor in Mossdeep City (Dynamic Punch)
+0x1B9	Used Move Tutor in Sootopolis City (Double-Edge)
+0x1BA	Used Move Tutor in Pacifidlog Town (Explosion)
 
-0x8AB	SYS_PC_LANETTE
-0x8AC	SYS_MYSTERY_EVENT_ENABLE
-0x8AD	SYS_ENC_UP_ITEM
-0x8AE	SYS_ENC_DOWN_ITEM
-0x8AF	SYS_BRAILLE_DIG
-0x8B0	SYS_BRAILLE_STRENGTH
-0x8B1	SYS_BRAILLE_WAIT
-0x8B2	SYS_BRAILLE_FLY
-0x8B3	SYS_HAS_EON_TICKET
+0x860	Received Starter Pokemon
+0x861	Received Pokedex
+0x862	Received PokeNav
+0x864	Entered Hall of Fame
+0x866	Met The Hipster
+0x890	Watched TV at Home
+0x894	Mixed Records
+0x895	Set Clock
+0x896	Received National Dex
+0x89A	Shoal Cave Tide
+0x89B	Received a Ribbon
+0x8AB	Unlocked Lanette's PC
+0x8AD	Used White Flute
+0x8AE	Used Black Flute
+0x8AF	Completed Sealed Chamber Puzzle
+0x8B0	Completed Regirock Puzzle
+0x8B1	Completed Regice Puzzle
+0x8B2	Completed Registeel Puzzle
+0x8BF	Can Receive Shell Bell
+0x8C0	Received Running Shoes
+0x8C2	Reset RTC Enabled
+0x8DB	Mystery Gift Enabled
+0x8E4	Received Pokedex
 
-0x8BD	SYS_TV_LATI
-
-0x8BF	SYS_SHOAL_ITEM
-0x8C0	SYS_B_DASH
-0x8C1	SYS_CTRL_OBJ_DELETE
-0x8C2	SYS_RESET_RTC_ENABLE
-
-0x8C4	SYS_TOWER_SILVER
-0x8C5	SYS_TOWER_GOLD
-0x8C6	SYS_DOME_SILVER
-0x8C7	SYS_DOME_GOLD
-0x8C8	SYS_PALACE_SILVER
-0x8C9	SYS_PALACE_GOLD
-0x8CA	SYS_ARENA_SILVER
-0x8CB	SYS_ARENA_GOLD
-0x8CC	SYS_FACTORY_SILVER
-0x8CD	SYS_FACTORY_GOLD
-0x8CE	SYS_PIKE_SILVER
-0x8CF	SYS_PIKE_GOLD
-0x8D0	SYS_PYRAMID_SILVER
-0x8D1	SYS_PYRAMID_GOLD
-0x8D2	SYS_FRONTIER_PASS
-
-0x8DB	SYS_MYSTERY_GIFT_ENABLE
+0x8C4	Received Silver Ability Symbol (Battle Tower)
+0x8C5	Received Gold Ability Symbol (Battle Tower)
+0x8C6	Received Silver Tactics Symbol (Battle Dome)
+0x8C7	Received Gold Tactics Symbol (Battle Dome)
+0x8C8	Received Silver Spirits Symbol (Battle Palace)
+0x8C9	Received Gold Spirits Symbol (Battle Palace)
+0x8CA	Received Silver Guts Symbol (Battle Arena)
+0x8CB	Received Gold Guts Symbol (Battle Arena)
+0x8CC	Received Silver Knowledge Symbol (Battle Factory)
+0x8CD	Received Gold Knowledge Symbol (Battle Factory)
+0x8CE	Received Silver Luck Symbol (Battle Pike)
+0x8CF	Received Gold Luck Symbol (Battle Pike)
+0x8D0	Received Silver Brave Symbol (Battle Pyramid)
+0x8D1	Received Gold Brave Symbol (Battle Pyramid)
+0x8D2	Received Frontier Pass

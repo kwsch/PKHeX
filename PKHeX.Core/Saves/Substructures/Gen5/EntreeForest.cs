@@ -2,7 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class EntreeForest
+    /// <summary>
+    /// Generation 5 Entree Forest
+    /// </summary>
+    public sealed class EntreeForest
     {
         /// <summary>
         /// Areas 1 thru 8 have 20 slots.
@@ -28,13 +31,13 @@ namespace PKHeX.Core
         public EntreeForest(byte[] data)
         {
             Data = data;
-            PKX.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
+            PokeCrypto.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
         }
 
         public byte[] Write()
         {
             byte[] data = (byte[])Data.Clone();
-            PKX.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
+            PokeCrypto.CryptArray(data, EncryptionSeed, 0, EncryptionSeedOffset);
             return data;
         }
 
@@ -66,8 +69,8 @@ namespace PKHeX.Core
         /// </summary>
         public int Unlock38Areas
         {
-            get => Data[0x849];
-            set => Data[0x849] = (byte)Math.Min(MaxUnlock38Areas, value);
+            get => Data[0x849] & 7;
+            set => Data[0x849] = (byte)((Data[0x849] & ~7) | Math.Min(MaxUnlock38Areas, value));
         }
 
         public uint EncryptionSeed
@@ -110,13 +113,13 @@ namespace PKHeX.Core
 
         private static EntreeForestArea GetSlotPosition(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return EntreeForestArea.Center;
-                case 1: return EntreeForestArea.Left;
-                case 2: return EntreeForestArea.Right;
-                default: throw new ArgumentOutOfRangeException();
-            }
+                0 => EntreeForestArea.Center,
+                1 => EntreeForestArea.Left,
+                2 => EntreeForestArea.Right,
+                _ => throw new ArgumentOutOfRangeException()
+            };
         }
     }
 }

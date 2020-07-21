@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
             LB_Forms.Enabled = hasForms;
             if (!hasForms)
                 return false;
-            var ds = PKX.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
             if (ds.Count == 1 && string.IsNullOrEmpty(ds[0]))
             {
                 // empty
@@ -152,8 +152,9 @@ namespace PKHeX.WinForms
                 if (f < 0)
                     return true; // bit index valid
 
-                if (f > fspecies - LB_Forms.Items.Count - 1)
-                    LB_Forms.SelectedIndex = fspecies - f - 1;
+                var findex = fspecies - f - 1;
+                if (findex < LB_Forms.Items.Count)
+                    LB_Forms.SelectedIndex = findex;
                 else
                     LB_Forms.SelectedIndex = -1;
             }
@@ -251,7 +252,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

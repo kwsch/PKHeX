@@ -8,34 +8,16 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 Mystery Gift Template File
     /// </summary>
-    public sealed class WC7 : MysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats
+    public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IMemoryOT
     {
         public const int Size = 0x108;
-        public const int SizeFull = 0x310;
         public override int Format => 7;
 
-        public WC7() => Data = new byte[Size];
+        public WC7() : this(new byte[Size]) { }
+        public WC7(byte[] data) : base(data) { }
 
-        public WC7(byte[] data)
-        {
-            Data = data;
-            if (Data.Length != SizeFull)
-                return;
-
-            // Load Restrictions
-            RestrictVersion = Data[0x000];
-            RestrictLanguage = Data[0x1FF];
-
-            byte[] wcx = new byte[Size];
-            Array.Copy(Data, SizeFull - Size, wcx, 0, wcx.Length);
-            Data = wcx;
-
-            DateTime now = DateTime.Now;
-            RawDate = SetDate((uint) now.Year, (uint) now.Month, (uint) now.Day);
-        }
-
-        public int RestrictLanguage { get; set; } = 0; // None
-        public byte RestrictVersion { get; set; } = 0; // Permit All
+        public int RestrictLanguage { get; set; } // None
+        public byte RestrictVersion { get; set; } // Permit All
 
         public bool CanBeReceivedByVersion(int v)
         {
@@ -62,7 +44,7 @@ namespace PKHeX.Core
             set => Encoding.Unicode.GetBytes(value.PadRight(36, '\0')).CopyTo(Data, 2);
         }
 
-        private uint RawDate
+        internal uint RawDate
         {
             get => BitConverter.ToUInt32(Data, 0x4C);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x4C);
@@ -86,7 +68,7 @@ namespace PKHeX.Core
             set => RawDate = SetDate(Year, Month, value);
         }
 
-        private static uint SetDate(uint year, uint month, uint day) => (Math.Max(0, year - 2000) * 10000) + (month * 100) + day;
+        public static uint SetDate(uint year, uint month, uint day) => (Math.Max(0, year - 2000) * 10000) + (month * 100) + day;
 
         /// <summary>
         /// Gets or sets the date of the card.
@@ -282,7 +264,7 @@ namespace PKHeX.Core
             get => new[] { IV_HP, IV_ATK, IV_DEF, IV_SPE, IV_SPA, IV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 IV_HP = value[0]; IV_ATK = value[1]; IV_DEF = value[2];
                 IV_SPE = value[3]; IV_SPA = value[4]; IV_SPD = value[5];
             }
@@ -293,7 +275,7 @@ namespace PKHeX.Core
             get => new[] { EV_HP, EV_ATK, EV_DEF, EV_SPE, EV_SPA, EV_SPD };
             set
             {
-                if (value?.Length != 6) return;
+                if (value.Length != 6) return;
                 EV_HP = value[0]; EV_ATK = value[1]; EV_DEF = value[2];
                 EV_SPE = value[3]; EV_SPA = value[4]; EV_SPD = value[5];
             }
@@ -302,36 +284,38 @@ namespace PKHeX.Core
         public bool IsNicknamed => Nickname.Length > 0 || IsEgg;
         public override int Location { get => MetLocation; set => MetLocation = (ushort)value; }
 
-        public override int[] Moves
+        public override IReadOnlyList<int> Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
             set
             {
-                if (value.Length > 0) Move1 = value[0];
-                if (value.Length > 1) Move2 = value[1];
-                if (value.Length > 2) Move3 = value[2];
-                if (value.Length > 3) Move4 = value[3];
+                if (value.Count > 0) Move1 = value[0];
+                if (value.Count > 1) Move2 = value[1];
+                if (value.Count > 2) Move3 = value[2];
+                if (value.Count > 3) Move4 = value[3];
             }
         }
 
-        public override int[] RelearnMoves
+        public override IReadOnlyList<int> Relearn
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
             set
             {
-                if (value.Length > 0) RelearnMove1 = value[0];
-                if (value.Length > 1) RelearnMove2 = value[1];
-                if (value.Length > 2) RelearnMove3 = value[2];
-                if (value.Length > 3) RelearnMove4 = value[3];
+                if (value.Count > 0) RelearnMove1 = value[0];
+                if (value.Count > 1) RelearnMove2 = value[1];
+                if (value.Count > 2) RelearnMove3 = value[2];
+                if (value.Count > 3) RelearnMove4 = value[3];
             }
         }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
-            int currentLevel = Level > 0 ? Level : Util.Rand.Next(100) + 1;
+            var rnd = Util.Rand;
+
+            int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
             PK7 pk = new PK7
@@ -343,12 +327,12 @@ namespace PKHeX.Core
                 Met_Level = metLevel,
                 AltForm = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-                Version = OriginGame != 0 ? OriginGame : SAV.Game,
-                Language = Language != 0 ? Language : SAV.Language,
+                Version = OriginGame != 0 ? OriginGame : sav.Game,
+                Language = Language != 0 ? Language : sav.Language,
                 Ball = Ball,
-                Country = SAV.Country,
-                Region = SAV.SubRegion,
-                ConsoleRegion = SAV.ConsoleRegion,
+                Country = sav.Country,
+                Region = sav.SubRegion,
+                ConsoleRegion = sav.ConsoleRegion,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
@@ -361,13 +345,13 @@ namespace PKHeX.Core
                 CNT_Tough = CNT_Tough,
                 CNT_Sheen = CNT_Sheen,
 
-                OT_Name = OT_Name.Length > 0 ? OT_Name : SAV.OT,
-                OT_Gender = OTGender != 3 ? OTGender % 2 : SAV.Gender,
-                HT_Name = OT_Name.Length > 0 ? SAV.OT : string.Empty,
-                HT_Gender = OT_Name.Length > 0 ? SAV.Gender : 0,
+                OT_Name = OT_Name.Length > 0 ? OT_Name : sav.OT,
+                OT_Gender = OTGender != 3 ? OTGender % 2 : sav.Gender,
+                HT_Name = OT_Name.Length > 0 ? sav.OT : string.Empty,
+                HT_Gender = OT_Name.Length > 0 ? sav.Gender : 0,
                 CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
 
-                EXP = Experience.GetEXP(currentLevel, Species, 0),
+                EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
                 // Ribbons
                 RibbonCountry = RibbonCountry,
@@ -399,23 +383,23 @@ namespace PKHeX.Core
             };
             pk.SetMaximumPPCurrent();
 
-            if ((SAV.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
-                do { pk.Version = (int)GameVersion.SN + Util.Rand.Next(4); }
+                do { pk.Version = (int)GameVersion.SN + rnd.Next(4); }
                 while (!CanBeReceivedByVersion(pk.Version));
             }
 
             if (OTGender == 3)
             {
-                pk.TID = SAV.TID;
-                pk.SID = SAV.SID;
+                pk.TID = sav.TID;
+                pk.SID = sav.SID;
             }
 
             pk.MetDate = Date ?? DateTime.Now;
 
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : PKX.GetSpeciesNameGeneration(Species, pk.Language, Format);
+            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
 
             SetPINGA(pk, criteria);
 
@@ -431,7 +415,7 @@ namespace PKHeX.Core
         {
             pk.IsEgg = true;
             pk.EggMetDate = Date;
-            pk.Nickname = PKX.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Format);
             pk.IsNicknamed = true;
         }
 
@@ -456,7 +440,7 @@ namespace PKHeX.Core
                     return AbilityType;
                 case 03: // 0/1
                 case 04: // 0/1/H
-                    return criteria.GetAbility(AbilityType, pi); // 3 or 2
+                    return criteria.GetAbilityFromType(AbilityType, pi); // 3 or 2
                 default:
                     throw new ArgumentException(nameof(AbilityType));
             }
@@ -487,18 +471,19 @@ namespace PKHeX.Core
         {
             int[] finalIVs = new int[6];
             var ivflag = Array.Find(IVs, iv => (byte)(iv - 0xFC) < 3);
+            var rng = Util.Rand;
             if (ivflag == 0) // Random IVs
             {
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = IVs[i] > 31 ? Util.Rand.Next(pk.MaxIV + 1) : IVs[i];
+                    finalIVs[i] = IVs[i] > 31 ? rng.Next(32) : IVs[i];
             }
             else // 1/2/3 perfect IVs
             {
                 int IVCount = ivflag - 0xFB;
-                do { finalIVs[Util.Rand.Next(6)] = 31; }
+                do { finalIVs[rng.Next(6)] = 31; }
                 while (finalIVs.Count(iv => iv == 31) < IVCount);
                 for (int i = 0; i < 6; i++)
-                    finalIVs[i] = finalIVs[i] == 31 ? pk.MaxIV : Util.Rand.Next(pk.MaxIV + 1);
+                    finalIVs[i] = finalIVs[i] == 31 ? 31 : rng.Next(32);
             }
             pk.IVs = finalIVs;
         }
@@ -508,7 +493,7 @@ namespace PKHeX.Core
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs)
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -524,17 +509,8 @@ namespace PKHeX.Core
                 if (Language != 0 && Language != pkm.Language) return false;
             }
 
-            if (Form != pkm.AltForm && vs.All(dl => !Legal.IsFormChangeable(pkm, dl.Species)))
-            {
-                if (Species == 744 && Form == 1 && pkm.Species == 745 && pkm.AltForm == 2)
-                {
-                    // Rockruff gift edge case; has altform 1 then evolves to altform 2
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+                return false;
 
             if (IsEgg)
             {
@@ -545,7 +521,7 @@ namespace PKHeX.Core
                 }
                 else if (PIDType == 0 && pkm.IsShiny)
                 {
-                    return false; // can't be traded away for unshiny
+                    return false; // can't be traded away for un-shiny
                 }
 
                 if (pkm.IsEgg && !pkm.IsNative)
@@ -561,7 +537,7 @@ namespace PKHeX.Core
             if (MetLevel != pkm.Met_Level) return false;
             if (Ball != pkm.Ball) return false;
             if (OTGender < 3 && OTGender != pkm.OT_Gender) return false;
-            if (Nature != -1 && Nature != pkm.Nature) return false;
+            if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(this))
@@ -569,9 +545,8 @@ namespace PKHeX.Core
 
             if (CardID == 2046) // Greninja WC has variant PID and can arrive @ 36 or 37
                 return pkm.SM; // not USUM
-            if (PIDType == 0 && pkm.PID != PID)
-                return false;
-            return true;
+
+            return PIDType != 0 || pkm.PID == PID;
         }
 
         protected override bool IsMatchDeferred(PKM pkm)

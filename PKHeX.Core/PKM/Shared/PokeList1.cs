@@ -8,10 +8,10 @@ namespace PKHeX.Core
 
         public PokeList1(byte[] d, PokeListType c = PokeListType.Single, bool jp = false) : base(d, c, jp) { }
         public PokeList1(PokeListType c = PokeListType.Single, bool jp = false) : base(c, jp) { }
-        public PokeList1(byte[] d) : base(d, PokeListType.Single, d.Length == PKX.SIZE_1JLIST) { }
+        public PokeList1(byte[] d) : base(d, PokeListType.Single, d.Length == PokeCrypto.SIZE_1JLIST) { }
         public PokeList1(PK1 pk) : base(pk) { }
 
-        private static int GetEntrySize(bool party) => party ? PKX.SIZE_1PARTY : PKX.SIZE_1STORED;
+        private static int GetEntrySize(bool party) => party ? PokeCrypto.SIZE_1PARTY : PokeCrypto.SIZE_1STORED;
         public static int GetDataLength(PokeListType c, bool jp) => GetDataSize(c, jp, GetEntrySize(IsCapacityPartyFormat(c)));
     }
 }

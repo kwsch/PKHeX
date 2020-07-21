@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class SecretBase3
+    public sealed class SecretBase3
     {
         private readonly byte[] Data;
         private readonly int Offset;
@@ -35,7 +34,7 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 9);
         }
 
-        public int OT_Class { get => Data[Offset + 9] % 5; }
+        public int OT_Class => Data[Offset + 9] % 5;
         public int Language { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
         public int _E       { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = (byte)value; }
         public int _F       { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = (byte)value; }
@@ -44,19 +43,19 @@ namespace PKHeX.Core
 
         public byte[] Decorations
         {
-            get => Data.Skip(Offset + 0x12).Take(0x10).ToArray();
+            get => Data.Slice(Offset + 0x12, 0x10);
             set => value.CopyTo(Data, Offset + 0x12);
         }
 
         public byte[] DecorationCoordinates
         {
-            get => Data.Skip(Offset + 0x22).Take(0x10).ToArray();
+            get => Data.Slice(Offset + 0x22, 0x10);
             set => value.CopyTo(Data, Offset + 0x22);
         }
 
         public SecretBase3Team Team
         {
-            get => new SecretBase3Team(Data.Skip(Offset + 50).Take(72).ToArray());
+            get => new SecretBase3Team(Data.Slice(Offset + 50, 72));
             set => value.Write().CopyTo(Data, Offset + 50);
         }
 

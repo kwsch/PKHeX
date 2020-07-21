@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_Misc4));
+            this.components = new System.ComponentModel.Container();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.B_Save = new System.Windows.Forms.Button();
             this.TC_Misc = new System.Windows.Forms.TabControl();
@@ -105,6 +105,10 @@
             this.B_AllSealsLegal = new System.Windows.Forms.Button();
             this.Tab_Poffins = new System.Windows.Forms.TabPage();
             this.poffinCase4Editor1 = new PKHeX.WinForms.PoffinCase4Editor();
+            this.Tab_PokeGear = new System.Windows.Forms.TabPage();
+            this.pokeGear4Editor1 = new PKHeX.WinForms.PokeGear4Editor();
+            this.tip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.tip2 = new System.Windows.Forms.ToolTip(this.components);
             this.TC_Misc.SuspendLayout();
             this.TAB_Main.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUD_Coin)).BeginInit();
@@ -146,6 +150,7 @@
             this.TAB_Walker.SuspendLayout();
             this.Tab_Misc.SuspendLayout();
             this.Tab_Poffins.SuspendLayout();
+            this.Tab_PokeGear.SuspendLayout();
             this.SuspendLayout();
             // 
             // B_Cancel
@@ -180,6 +185,7 @@
             this.TC_Misc.Controls.Add(this.TAB_Walker);
             this.TC_Misc.Controls.Add(this.Tab_Misc);
             this.TC_Misc.Controls.Add(this.Tab_Poffins);
+            this.TC_Misc.Controls.Add(this.Tab_PokeGear);
             this.TC_Misc.Location = new System.Drawing.Point(12, 13);
             this.TC_Misc.Name = "TC_Misc";
             this.TC_Misc.SelectedIndex = 0;
@@ -1212,6 +1218,25 @@
             this.poffinCase4Editor1.Size = new System.Drawing.Size(367, 233);
             this.poffinCase4Editor1.TabIndex = 0;
             // 
+            // Tab_PokeGear
+            // 
+            this.Tab_PokeGear.Controls.Add(this.pokeGear4Editor1);
+            this.Tab_PokeGear.Location = new System.Drawing.Point(4, 22);
+            this.Tab_PokeGear.Name = "Tab_PokeGear";
+            this.Tab_PokeGear.Padding = new System.Windows.Forms.Padding(3);
+            this.Tab_PokeGear.Size = new System.Drawing.Size(373, 239);
+            this.Tab_PokeGear.TabIndex = 5;
+            this.Tab_PokeGear.Text = "PokeGear";
+            this.Tab_PokeGear.UseVisualStyleBackColor = true;
+            // 
+            // pokeGear4Editor1
+            // 
+            this.pokeGear4Editor1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pokeGear4Editor1.Location = new System.Drawing.Point(3, 3);
+            this.pokeGear4Editor1.Name = "pokeGear4Editor1";
+            this.pokeGear4Editor1.Size = new System.Drawing.Size(367, 233);
+            this.pokeGear4Editor1.TabIndex = 0;
+            // 
             // SAV_Misc4
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1220,7 +1245,7 @@
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TC_Misc);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Name = "SAV_Misc4";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Misc Editor";
@@ -1268,6 +1293,7 @@
             this.TAB_Walker.ResumeLayout(false);
             this.Tab_Misc.ResumeLayout(false);
             this.Tab_Poffins.ResumeLayout(false);
+            this.Tab_PokeGear.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1350,5 +1376,9 @@
         private System.Windows.Forms.Button B_AllSealsLegal;
         private System.Windows.Forms.TabPage Tab_Poffins;
         private PoffinCase4Editor poffinCase4Editor1;
+        private System.Windows.Forms.TabPage Tab_PokeGear;
+        private PokeGear4Editor pokeGear4Editor1;
+        private System.Windows.Forms.ToolTip tip1;
+        private System.Windows.Forms.ToolTip tip2;
     }
 }

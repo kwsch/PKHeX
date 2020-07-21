@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class MysteryBlock6 : SaveBlock
+    public sealed class MysteryBlock6 : SaveBlock
     {
         private const int FlagStart = 0;
         private const int MaxReceivedFlag = 2048;
@@ -10,25 +10,26 @@ namespace PKHeX.Core
         // private const int FlagRegionSize = (MaxReceivedFlag / 8); // 0x100
         private const int CardStart = FlagStart + (MaxReceivedFlag / 8);
 
-        public MysteryBlock6(SAV6 sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;
+        public MysteryBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public bool[] MysteryGiftReceivedFlags
         {
-            get => Util.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
+            get => ArrayUtil.GitBitFlagArray(Data, Offset + FlagStart, MaxReceivedFlag);
             set
             {
-                if (value?.Length != MaxReceivedFlag)
+                if (value.Length != MaxReceivedFlag)
                     return;
-                Util.SetBitFlagArray(Data, Offset + FlagStart, value);
+                ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
                 SAV.Edited = true;
             }
         }
 
-        public MysteryGift[] MysteryGiftCards
+        public DataMysteryGift[] MysteryGiftCards
         {
             get
             {
-                var cards = new MysteryGift[MaxCardsPresent];
+                var cards = new DataMysteryGift[MaxCardsPresent];
                 for (int i = 0; i < cards.Length; i++)
                     cards[i] = GetGift(i);
                 return cards;
@@ -43,7 +44,7 @@ namespace PKHeX.Core
             }
         }
 
-        public MysteryGift GetGift(int index)
+        public DataMysteryGift GetGift(int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -55,7 +56,7 @@ namespace PKHeX.Core
 
         private int GetGiftOffset(int index) => Offset + CardStart + (index * WC6.Size);
 
-        public void SetGift(MysteryGift wc6, int index)
+        public void SetGift(DataMysteryGift wc6, int index)
         {
             if ((uint)index > MaxCardsPresent)
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -67,7 +68,7 @@ namespace PKHeX.Core
                 if (!(SAV is SAV6AO ao))
                     return;
                 // Set the special received data
-                var info = ao.Sango;
+                var info = ao.Blocks.Sango;
                 info.ReceiveEon();
                 info.EnableSendEon();
             }

@@ -2,9 +2,10 @@
 
 namespace PKHeX.Core
 {
-    public class PlayerData5 : SaveBlock
+    public sealed class PlayerData5 : SaveBlock
     {
-        public PlayerData5(SAV5 sav, int offset) : base(sav) => Offset = offset;
+        public PlayerData5(SAV5BW sav, int offset) : base(sav) => Offset = offset;
+        public PlayerData5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 
         public string OT
         {

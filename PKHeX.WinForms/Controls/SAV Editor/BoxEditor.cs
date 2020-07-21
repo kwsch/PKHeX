@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 using static PKHeX.Core.MessageStrings;
 
@@ -11,26 +12,49 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     {
-        private SaveFile SAV => M?.SE.SAV;
+        public IList<PictureBox> SlotPictureBoxes { get; private set; }
+        public SaveFile SAV => M?.SE.SAV;
 
-        public IList<PictureBox> SlotPictureBoxes { get; }
-        public int BoxSlotCount { get; }
+        public int BoxSlotCount { get; private set; }
         public SlotChangeManager M { get; set; }
         public bool FlagIllegal { get; set; }
         public bool CanSetCurrentBox { get; set; }
-        private const int SlotCount = 30;
 
         public BoxEditor()
         {
             InitializeComponent();
-            SlotPictureBoxes = new List<PictureBox>
-            {
-                bpkx1, bpkx2, bpkx3, bpkx4, bpkx5, bpkx6,
-                bpkx7, bpkx8, bpkx9, bpkx10,bpkx11,bpkx12,
-                bpkx13,bpkx14,bpkx15,bpkx16,bpkx17,bpkx18,
-                bpkx19,bpkx20,bpkx21,bpkx22,bpkx23,bpkx24,
-                bpkx25,bpkx26,bpkx27,bpkx28,bpkx29,bpkx30,
-            };
+        }
+
+        internal bool InitializeGrid()
+        {
+            var count = SAV.BoxSlotCount;
+            var width = count / 5;
+            var height = count / width;
+            if (!BoxPokeGrid.InitializeGrid(width, height, SpriteUtil.Spriter))
+                return false;
+            RecenterControls();
+            InitializeSlots();
+            return true;
+        }
+
+        public void RecenterControls()
+        {
+            if (Width < BoxPokeGrid.Width)
+                Width = BoxPokeGrid.Width;
+            BoxPokeGrid.HorizontallyCenter(this);
+            int p1 = CB_BoxSelect.Location.X;
+            CB_BoxSelect.HorizontallyCenter(this);
+            int p2 = CB_BoxSelect.Location.X;
+            if (p1 == p2)
+                return;
+
+            B_BoxLeft.Location = new Point(B_BoxLeft.Location.X + p2 - p1, B_BoxLeft.Location.Y);
+            B_BoxRight.Location = new Point(B_BoxRight.Location.X + p2 - p1, B_BoxRight.Location.Y);
+        }
+
+        private void InitializeSlots()
+        {
+            SlotPictureBoxes = BoxPokeGrid.Entries;
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
@@ -49,24 +73,39 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public SlotChange GetSlotData(PictureBox view)
+        public void NotifySlotOld(ISlotInfo previous)
         {
-            int slot = GetSlot(view);
-            return new SlotChange
-            {
-                Slot = GetSlot(view),
-                Box = ViewIndex,
-                Offset = GetSlotOffset(slot),
-                Type = StorageSlotType.Box,
-                IsPartyFormat = false,
-                Editable = true,
-                Parent = FindForm(),
-            };
+            if (!(previous is SlotInfoBox b) || b.Box != CurrentBox)
+                return;
+
+            var pb = SlotPictureBoxes[previous.Slot];
+            pb.BackgroundImage = null;
         }
 
-        private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(WinFormsUtil.GetUnderlyingControl(sender) as PictureBox);
-        public int GetSlotOffset(int box, int slot) => GetOffset(slot, box);
-        public int GetSlotOffset(int slot) => GetSlotOffset(CurrentBox, slot);
+        public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
+        {
+            int index = GetViewIndex(slot);
+            if (index < 0)
+                return;
+
+            var pb = SlotPictureBoxes[index];
+            SlotUtil.UpdateSlot(pb, slot, pkm, SAV, FlagIllegal, type);
+        }
+
+        public int GetViewIndex(ISlotInfo slot)
+        {
+            if (!(slot is SlotInfoBox b) || b.Box != CurrentBox)
+                return -1;
+            return slot.Slot;
+        }
+
+        public ISlotInfo GetSlotData(PictureBox view)
+        {
+            int slot = GetSlot(view);
+            return new SlotInfoBox(ViewIndex, slot);
+        }
+
+        private int GetSlot(PictureBox sender) => SlotPictureBoxes.IndexOf(sender);
         public int ViewIndex => CurrentBox;
 
         public bool ControlsVisible
@@ -84,44 +123,22 @@ namespace PKHeX.WinForms.Controls
         public int CurrentBox
         {
             get => CB_BoxSelect.SelectedIndex;
-            set => CB_BoxSelect.SelectedIndex = value;
+            set
+            {
+                CB_BoxSelect.SelectedIndex = value;
+                if (value < 0)
+                    return;
+                Editor.LoadBox(value);
+            }
         }
 
         public string CurrentBoxName => CB_BoxSelect.Text;
-
-        public int GetOffset(int slot, int box)
-        {
-            if (box < 0)
-                box = CurrentBox;
-            return SAV.GetBoxOffset(box) + (slot * SAV.SIZE_STORED);
-        }
 
         public void Setup(SlotChangeManager m)
         {
             M = m;
             M.Boxes.Add(this);
             FlagIllegal = M.SE.FlagIllegal;
-        }
-
-        public void SetSlotFiller(PKM p, int box = -1, int slot = -1, PictureBox pb = null)
-        {
-            if (pb == null)
-                pb = SlotPictureBoxes[slot];
-            if (!p.Valid) // Invalid
-            {
-                // Bad Egg present in slot.
-                pb.Image = null;
-                pb.BackColor = Color.Red;
-                pb.Visible = true;
-                return;
-            }
-
-            pb.Image = p.Sprite(SAV, box, slot, FlagIllegal);
-            pb.BackColor = Color.Transparent;
-            pb.Visible = true;
-
-            if (M != null && M.ColorizedBox == box && M.ColorizedSlot == slot)
-                pb.BackgroundImage = M.ColorizedColor;
         }
 
         public void ResetBoxNames(int box = -1)
@@ -138,7 +155,7 @@ namespace PKHeX.WinForms.Controls
                 catch { getBoxNamesDefault(); }
             }
 
-            if (box < 0 && SAV.CurrentBox < CB_BoxSelect.Items.Count)
+            if (box < 0 && (uint)SAV.CurrentBox < CB_BoxSelect.Items.Count)
                 CurrentBox = SAV.CurrentBox; // restore selected box
             else
                 CurrentBox = box;
@@ -159,23 +176,26 @@ namespace PKHeX.WinForms.Controls
 
         public void ResetSlots()
         {
+            Editor.Reload();
             int box = CurrentBox;
-            int boxoffset = SAV.GetBoxOffset(box);
-            PAN_Box.BackgroundImage = SAV.WallpaperImage(box);
-            M?.HoverWorker?.Stop();
-
-            int slot = M?.ColorizedBox == box ? M.ColorizedSlot : -1;
+            BoxPokeGrid.SetBackground(SAV.WallpaperImage(box));
+            M.Hover.Stop();
 
             int index = box * SAV.BoxSlotCount;
             for (int i = 0; i < BoxSlotCount; i++)
             {
                 var pb = SlotPictureBoxes[i];
-                if (i < SAV.BoxSlotCount && index + i < SAV.SlotCount)
-                    GetSlotFiller(boxoffset + (SAV.SIZE_STORED * i), pb, box, i);
-                else
+                if (i >= SAV.BoxSlotCount || index + i >= SAV.SlotCount)
+                {
                     pb.Visible = false;
-                pb.BackgroundImage = slot == i ? M?.ColorizedColor : null;
+                    continue;
+                }
+                pb.Visible = true;
+                SlotUtil.UpdateSlot(pb, (SlotInfoBox) GetSlotData(pb), Editor[i], SAV, FlagIllegal);
             }
+
+            if (M.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
+                SlotPictureBoxes[b.Slot].BackgroundImage = SlotUtil.GetTouchTypeBackground(M.Env.Slots.Publisher.PreviousType);
         }
 
         public bool SaveBoxBinary()
@@ -187,15 +207,15 @@ namespace PKHeX.WinForms.Controls
 
             if (dr == DialogResult.Yes)
             {
-                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
+                using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = "pcdata.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
-                File.WriteAllBytes(sfd.FileName, SAV.PCBinary);
+                File.WriteAllBytes(sfd.FileName, SAV.GetPCBinary());
                 return true;
             }
             if (dr == DialogResult.No)
             {
-                var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
+                using var sfd = new SaveFileDialog { Filter = "Box Data|*.bin", FileName = $"boxdata {CurrentBoxName}.bin" };
                 if (sfd.ShowDialog() != DialogResult.OK)
                     return false;
                 File.WriteAllBytes(sfd.FileName, SAV.GetBoxBinary(CurrentBox));
@@ -219,39 +239,17 @@ namespace PKHeX.WinForms.Controls
 
         private void GetBox(object sender, EventArgs e)
         {
+            CurrentBox = CB_BoxSelect.SelectedIndex;
             if (SAV.CurrentBox != CurrentBox && CanSetCurrentBox)
                 SAV.CurrentBox = CurrentBox;
             ResetSlots();
-            M?.RefreshHoverSlot(this);
+            M?.Hover.Stop();
         }
 
-        private void ClickBoxLeft(object sender, EventArgs e) => MoveLeft(ModifierKeys == Keys.Control);
+        private void ClickBoxLeft(object sender, EventArgs e) => CurrentBox = Editor.MoveLeft(ModifierKeys == Keys.Control);
+        private void ClickBoxRight(object sender, EventArgs e) => CurrentBox = Editor.MoveRight(ModifierKeys == Keys.Control);
 
-        public void MoveLeft(bool max = false)
-        {
-            CurrentBox = max ? 0 : (CurrentBox + SAV.BoxCount - 1) % SAV.BoxCount;
-        }
-
-        private void ClickBoxRight(object sender, EventArgs e) => MoveRight(ModifierKeys == Keys.Control);
-
-        public void MoveRight(bool max = false)
-        {
-            CurrentBox = max ? SAV.BoxCount - 1 : (CurrentBox + 1) % SAV.BoxCount;
-        }
-
-        private void GetSlotFiller(int offset, PictureBox pb, int box = -1, int slot = -1)
-        {
-            if (!SAV.IsPKMPresent(offset))
-            {
-                // 00s present in slot.
-                pb.Image = null;
-                pb.BackColor = Color.Transparent;
-                pb.Visible = true;
-                return;
-            }
-            PKM p = SAV.GetStoredSlot(offset);
-            SetSlotFiller(p, box, slot, pb);
-        }
+        public BoxEdit Editor { get; set; }
 
         // Drag & Drop Handling
         private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
@@ -263,5 +261,18 @@ namespace PKHeX.WinForms.Controls
         private void BoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
         private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
         private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
+
+        public bool InitializeFromSAV(SaveFile sav)
+        {
+            Editor = new BoxEdit(sav);
+            bool result = InitializeGrid();
+
+            int box = sav.CurrentBox;
+            if ((uint)box >= sav.BoxCount)
+                box = 0;
+            Editor.LoadBox(box);
+            ResetBoxNames();   // Display the Box Names
+            return result;
+        }
     }
 }

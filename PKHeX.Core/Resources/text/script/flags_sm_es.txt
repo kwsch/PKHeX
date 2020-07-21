@@ -1,0 +1,14 @@
+3100	Es Campeón de Alola + Evento de Magearna Activo
+3487	Recibido Magearna de Regalo
+0493	Recibido Porygon de Regalo
+0504	Recibido Aerodactyl de Regalo
+1216	Recibido Cosmog de Regalo
+0499	Recibido Type: Null de Regalo
+0160	Moone [0] / Sunne Portal [1]
+3114	Desbloqueado Carga Tauros
+3115	Desbloqueado Olfateo Stoutland
+3116	Desbloqueado Empuje Machamp
+3117	Desbloqueado Todoterreno Mudsdale
+3118	Desbloqueado Nado Lapras
+3119	Desbloqueado Propulsión Sharpedo
+3120	Desbloqueado Vuelo Charizard

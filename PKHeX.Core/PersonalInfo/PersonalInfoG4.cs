@@ -5,16 +5,12 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 4 games.
     /// </summary>
-    public class PersonalInfoG4 : PersonalInfoG3
+    public sealed class PersonalInfoG4 : PersonalInfoG3
     {
         public new const int SIZE = 0x2C;
 
-        public PersonalInfoG4(byte[] data)
+        public PersonalInfoG4(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-            Data = data;
-
             // Unpack TMHM & Tutors
             TMHM = GetBits(Data, 0x1C, 0x0D);
             TypeTutors = Array.Empty<bool>(); // not stored in personal

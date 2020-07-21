@@ -10,18 +10,18 @@ namespace PKHeX.Core
     /// </summary>
     public static class EditPKMUtil
     {
-        public static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minlvl)
+        public static List<string> GetSuggestionMessage(PKM pkm, int level, int location, int minimumLevel)
         {
             var suggestion = new List<string> { MsgPKMSuggestionStart };
             if (pkm.Format >= 3)
             {
-                var met_list = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
-                var locstr = met_list.First(loc => loc.Value == location).Text;
-                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locstr}");
+                var metList = GameInfo.GetLocationList((GameVersion)pkm.Version, pkm.Format, egg: false);
+                var locationName = metList.First(loc => loc.Value == location).Text;
+                suggestion.Add($"{MsgPKMSuggestionMetLocation} {locationName}");
                 suggestion.Add($"{MsgPKMSuggestionMetLevel} {level}");
             }
-            if (pkm.CurrentLevel < minlvl)
-                suggestion.Add($"{MsgPKMSuggestionLevel} {minlvl}");
+            if (pkm.CurrentLevel < minimumLevel)
+                suggestion.Add($"{MsgPKMSuggestionLevel} {minimumLevel}");
             return suggestion;
         }
 
@@ -47,6 +47,7 @@ namespace PKHeX.Core
             if (lang <= 0)
                 lang = (int)LanguageID.English;
             pk.Language = lang;
+            pk.Gender = pk.GetSaneGender();
 
             pk.ClearNickname();
 
@@ -54,7 +55,7 @@ namespace PKHeX.Core
             pk.OT_Gender = tr.Gender;
             pk.TID = tr.TID;
             pk.SID = tr.SID;
-            if (tr.ConsoleRegion != 0)
+            if (tr.ConsoleRegion >= 0)
             {
                 pk.ConsoleRegion = tr.ConsoleRegion;
                 pk.Country = tr.Country;
@@ -62,7 +63,7 @@ namespace PKHeX.Core
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)
-            if (pk is _K12 pk12)
+            if (pk is GBPKM pk12)
             {
                 switch (tr)
                 {

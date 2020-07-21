@@ -6,11 +6,13 @@ namespace PKHeX.Core
     {
         public static bool IsAllShadowLockValid(EncounterStaticShadow s, PIDIV pv, PKM pkm)
         {
+            if (s.Version == GameVersion.XD && pkm.IsShiny)
+                return false; // no xd shiny shadow mons
             var teams = s.Locks;
             if (teams.Length == 0)
                 return true;
 
-            var tsv = s.Version == GameVersion.XD ? pkm.TSV : -1; // no xd shiny shadow mons
+            var tsv = s.Version == GameVersion.XD ? (pkm.TID ^ pkm.SID) >> 3 : -1; // no xd shiny shadow mons
             return IsAllShadowLockValid(pv, teams, tsv);
         }
 
@@ -38,7 +40,7 @@ namespace PKHeX.Core
         {
             // reverse the seed the bare minimum
             int rev = 2;
-            if (species == 196)
+            if (species == (int)Species.Espeon)
                 rev += 7;
 
             var rng = RNG.XDRNG;
@@ -57,7 +59,7 @@ namespace PKHeX.Core
 
             // generate Umbreon
             var PIDIV = GenerateValidColoStarterPID(ref next, TID, SID);
-            if (species == 196) // need espeon, which is immediately next
+            if (species == (int)Species.Espeon) // need Espeon, which is immediately next
                 PIDIV = GenerateValidColoStarterPID(ref next, TID, SID);
 
             if (!PIDIV.Equals(pkPID, IV1, IV2))
@@ -66,11 +68,18 @@ namespace PKHeX.Core
             return true;
         }
 
-        private struct PIDIVGroup
+        private readonly struct PIDIVGroup
         {
-            public uint PID;
-            public uint IV1;
-            public uint IV2;
+            private readonly uint PID;
+            private readonly uint IV1;
+            private readonly uint IV2;
+
+            public PIDIVGroup(uint pid, uint iv1, uint iv2)
+            {
+                PID = pid;
+                IV1 = iv1;
+                IV2 = iv2;
+            }
 
             public bool Equals(uint pid, uint iv1, uint iv2) => PID == pid && IV1 == iv1 && IV2 == iv2;
         }
@@ -78,19 +87,18 @@ namespace PKHeX.Core
         private static PIDIVGroup GenerateValidColoStarterPID(ref uint uSeed, int TID, int SID)
         {
             var rng = RNG.XDRNG;
-            PIDIVGroup group = new PIDIVGroup();
 
             uSeed = rng.Advance(uSeed, 2); // skip fakePID
-            group.IV1 = (uSeed >> 16) & 0x7FFF;
+            var IV1 = (uSeed >> 16) & 0x7FFF;
             uSeed = rng.Next(uSeed);
-            group.IV2 = (uSeed >> 16) & 0x7FFF;
+            var IV2 = (uSeed >> 16) & 0x7FFF;
             uSeed = rng.Next(uSeed);
             uSeed = rng.Advance(uSeed, 1); // skip ability call
-            group.PID = GenerateStarterPID(ref uSeed, TID, SID);
+            var PID = GenerateStarterPID(ref uSeed, TID, SID);
 
             uSeed = rng.Advance(uSeed, 2); // PID calls consumed
 
-            return group;
+            return new PIDIVGroup(PID, IV1, IV2);
         }
 
         private static bool IsShiny(int TID, int SID, uint PID) => (TID ^ SID ^ (PID >> 16) ^ (PID & 0xFFFF)) < 8;

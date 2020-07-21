@@ -47,7 +47,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets suggested export options for the savefile.
+        /// Gets suggested export options for the save file.
         /// </summary>
         /// <param name="sav">SaveFile to be exported</param>
         /// <param name="ext">Selected export extension</param>
@@ -75,16 +75,19 @@ namespace PKHeX.Core
         private static IReadOnlyList<string> GetSaveFileErrata(this SaveFile sav, PKM pkm, IBasicStrings strings)
         {
             var errata = new List<string>();
-            if (sav.Generation > 1)
+            ushort held = (ushort)pkm.HeldItem;
+            if (sav.Generation > 1 && held != 0)
             {
-                ushort held = (ushort)pkm.HeldItem;
-                var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion) pkm.Version);
-                if (held > itemstr.Count)
-                    errata.Add($"{MsgIndexItemRange} {held}");
-                else if (held > sav.MaxItemID)
-                    errata.Add($"{MsgIndexItemGame} {itemstr[held]}");
+                string? msg = null;
+                if (held > sav.MaxItemID)
+                    msg = MsgIndexItemGame;
                 else if (!pkm.CanHoldItem(sav.HeldItems))
-                    errata.Add($"{MsgIndexItemHeld} {itemstr[held]}");
+                    msg = MsgIndexItemHeld;
+                if (msg != null)
+                {
+                    var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion)pkm.Version);
+                    errata.Add($"{msg} {(held >= itemstr.Count ? held.ToString() : itemstr[held])}");
+                }
             }
 
             if (pkm.Species > strings.Species.Count)
@@ -183,18 +186,15 @@ namespace PKHeX.Core
         /// <param name="sav">SaveFile to receive the compatible <see cref="pk"/></param>
         /// <param name="pk">Current Pokémon being edited</param>
         /// <returns>Current Pokémon, assuming conversion is possible. If conversion is not possible, a blank <see cref="PKM"/> will be obtained from the <see cref="sav"/>.</returns>
-        public static PKM GetCompatiblePKM(this SaveFile sav, PKM pk = null)
+        public static PKM GetCompatiblePKM(this SaveFile sav, PKM pk)
         {
-            if (pk == null)
+            if (pk.Format >= 3 || sav.Generation >= 7)
+                return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
+            // gen1-2 compatibility check
+            if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
                 return sav.BlankPKM;
-            if (pk.Format < 3 && sav.Generation < 7)
-            {
-                // gen1-2 compatibility check
-                if (pk.Japanese != ((ILangDeviantSave)sav).Japanese)
-                    return sav.BlankPKM;
-                if (sav is SAV2 s2 && s2.Korean != pk.Korean)
-                    return sav.BlankPKM;
-            }
+            if (sav is SAV2 s2 && s2.Korean != pk.Korean)
+                return sav.BlankPKM;
             return PKMConverter.ConvertToType(pk, sav.PKMType, out _) ?? sav.BlankPKM;
         }
 
@@ -202,22 +202,31 @@ namespace PKHeX.Core
         /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.
         /// </summary>
         /// <param name="sav">Save File to fetch a template for</param>
+        /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
+        public static PKM LoadTemplate(this SaveFile sav) => sav.BlankPKM;
+
+        /// <summary>
+        /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.
+        /// </summary>
+        /// <param name="sav">Save File to fetch a template for</param>
         /// <param name="templatePath">Path to look for a template in</param>
         /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
-        public static PKM LoadTemplate(this SaveFile sav, string templatePath = null)
+        public static PKM LoadTemplate(this SaveFile sav, string templatePath)
         {
-            var blank = sav.BlankPKM;
             if (!Directory.Exists(templatePath))
-                return blank;
+                return LoadTemplate(sav);
 
             var di = new DirectoryInfo(templatePath);
-            string path = Path.Combine(templatePath, $"{di.Name}.{blank.Extension}");
+            string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLower()}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
-                return blank;
+                return LoadTemplate(sav);
 
-            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: blank.Format);
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? blank;
+            var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
+            if (pk == null)
+                return LoadTemplate(sav);
+
+            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplate(sav);
         }
     }
 }

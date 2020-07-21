@@ -9,7 +9,7 @@ namespace PKHeX.WinForms
         public static DialogResult ShowErrorDialog(string friendlyMessage, Exception ex, bool allowContinue)
         {
             var lang = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName;
-            var dialog = new ErrorWindow(lang)
+            using var dialog = new ErrorWindow(lang)
             {
                 ShowContinue = allowContinue,
                 Message = friendlyMessage,
@@ -38,7 +38,6 @@ namespace PKHeX.WinForms
         /// For application exceptions, continuing is not possible, so the button should not be shown.</remarks>
         private bool ShowContinue
         {
-            get => B_Continue.Visible;
             set => B_Continue.Visible = value;
         }
 
@@ -97,7 +96,7 @@ namespace PKHeX.WinForms
             T_ExceptionDetails.Text = details.ToString();
         }
 
-        private void ClickCopyException(object sender, EventArgs e) => Clipboard.SetText(T_ExceptionDetails.Text);
+        private void ClickCopyException(object sender, EventArgs e) => WinFormsUtil.SetClipboardText(T_ExceptionDetails.Text);
 
         private void ClickContinue(object sender, EventArgs e)
         {

@@ -19,3 +19,11 @@
 2410	Cute Contest Master
 2411	Smart Contest Master
 2412	Tough Contest Master
+0329	Rotom Caught
+0665	Encountered Ghost Butler in Old Chateau
+0666	Encountered Ghost Girl in Old Chateau
+0897	Found Antidote (hidden) in Old Chateau
+1008	Found Old Gateau in Old Chateau
+1233	Found Dread Plate in Old Chateau
+1234	Found TM90 in Old Chateau
+2736	Rotom disappeared in Old Chateau TV

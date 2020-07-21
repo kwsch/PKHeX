@@ -1,3 +1,5 @@
+﻿0048	御三家	0:无,387:草苗龟,390:小火焰猴,393:波加曼
+0122	Togepi Egg	0:Visited Statue,1:Received HM01,2:Cynthia Disappeared,3:Cynthia Gives Egg,4:Egg Pending,5:Egg Received
 0196	帝牙卢卡	0:可对战,1:消失了
 0197	帕路奇亚	0:可对战,1:消失了
 0085	骑拉帝纳 (毁坏的世界)	13:可对战,14:消失了
@@ -11,3 +13,6 @@
 0069	天界之笛	0:未解锁,4387:已解锁
 0087	事件米依 (224号道路)	0:未解锁,1:可被解锁,2:已解锁
 0133	米依 (224号道路)	0:未解锁,1:已解锁,2:出现了
+0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0106	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0107	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught

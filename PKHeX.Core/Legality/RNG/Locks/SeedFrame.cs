@@ -3,9 +3,15 @@
     /// <summary>
     /// Message Passing for frame results.
     /// </summary>
-    internal struct SeedFrame
+    internal readonly struct SeedFrame
     {
-        public uint PID;
-        public int FrameID;
+        public readonly uint PID;
+        public readonly int FrameID;
+
+        internal SeedFrame(uint pid, int frame)
+        {
+            PID = pid;
+            FrameID = frame;
+        }
     }
 }

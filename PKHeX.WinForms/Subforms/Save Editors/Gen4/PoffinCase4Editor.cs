@@ -11,7 +11,7 @@ namespace PKHeX.WinForms
         private int CurrentIndex = -1;
         private bool Updating;
 
-        public void Initialize(SAV4 sav)
+        public void Initialize(SAV4Sinnoh sav)
         {
             Case = new PoffinCase4(sav);
 
@@ -75,7 +75,6 @@ namespace PKHeX.WinForms
 
         private void B_PoffinDel_Click(object sender, EventArgs e)
         {
-
             Case.DeleteAll();
             PG_Poffins.Refresh();
             RefreshList();

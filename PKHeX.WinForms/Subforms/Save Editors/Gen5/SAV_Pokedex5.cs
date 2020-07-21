@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
             int pk = species;
 
             // Load Partitions
-            var Dex = (Zukan5)SAV.Zukan;
+            var Dex = SAV.Zukan;
             CP[0].Checked = Dex.GetCaught(species);
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.GetSeen(species, i);
@@ -128,19 +128,19 @@ namespace PKHeX.WinForms
                 GB_Language.Enabled = true;
             }
 
-            int gt = SAV.Personal[pk].Gender;
+            var pi = SAV.Personal[pk];
 
-            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
-            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(gt == 0 || (gt == 255)); // Not Male-Only and Not Genderless
+            CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = !pi.OnlyFemale;
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = !(pi.OnlyMale || pi.Genderless);
 
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = pi.FormeCount;
             int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
-            string[] forms = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
+            string[] forms = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
             if (forms.Length < 1)
                 return;
 
@@ -160,7 +160,7 @@ namespace PKHeX.WinForms
             if (species < 0)
                 return;
 
-            var Dex = (Zukan5)SAV.Zukan;
+            var Dex = SAV.Zukan;
             Dex.SetCaught(species, CP[0].Checked);
             for (int i = 0; i < 4; i++)
                 Dex.SetSeen(species, i, CP[i + 1].Checked);
@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetEntry();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

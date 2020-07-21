@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class SecretBase3PKM
+    public sealed class SecretBase3PKM
     {
         public uint PID { get; set; }
         public int Move1 { get; set; }

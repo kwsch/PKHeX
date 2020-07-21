@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord
+    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -20,27 +20,17 @@ namespace PKHeX.Core
             return gen <= 7 && f[1] != 'b'; // ignore PB7
         }).ToArray();
 
-        protected SAV7(byte[] data, BlockInfo[] blocks, int biOffset) : base(data, blocks, biOffset)
+        protected SAV7(byte[] data, int biOffset) : base(data, biOffset)
         {
-            Initialize();
-            ClearMemeCrypto();
         }
 
-        protected SAV7(int size, BlockInfo[] blocks, int biOffset) : base(size, blocks, biOffset)
+        protected SAV7(int size, int biOffset) : base(size, biOffset)
         {
-            Initialize();
-            ClearBoxes();
         }
 
-        private void Initialize()
+        protected void ReloadBattleTeams()
         {
-            GetSAVOffsets();
-            ReloadBattleTeams();
-        }
-
-        private void ReloadBattleTeams()
-        {
-            var demo = this is SAV7SM && Data.Skip(PCLayout).Take(0x4C4).All(z => z == 0); // up to Battle Box values
+            var demo = this is SAV7SM && Data.IsRangeAll((byte)0, BoxLayout.Offset, 0x4C4); // up to Battle Box values
             if (demo || !Exportable)
             {
                 BoxLayout.ClearBattleTeams();
@@ -51,9 +41,31 @@ namespace PKHeX.Core
             }
         }
 
+        #region Blocks
+        public abstract MyItem Items { get; }
+        public abstract MysteryBlock7 MysteryGift { get; }
+        public abstract PokeFinder7 PokeFinder { get; }
+        public abstract JoinFesta7 Festa { get; }
+        public abstract Daycare7 Daycare { get; }
+        public abstract RecordBlock6 Records { get; }
+        public abstract PlayTime6 Played { get; }
+        public abstract MyStatus7 MyStatus { get; }
+        public abstract FieldMoveModelSave7 Overworld { get; }
+        public abstract Situation7 Situation { get; }
+        public abstract ConfigSave7 Config { get; }
+        public abstract GameTime7 GameTime { get; }
+        public abstract Misc7 Misc { get; }
+        public abstract Zukan7 Zukan { get; }
+        public abstract BoxLayout7 BoxLayout { get; }
+        public abstract BattleTree7 BattleTree { get; }
+        public abstract ResortSave7 ResortSave { get; }
+        public abstract FieldMenu7 FieldMenu { get; }
+        public abstract FashionBlock7 Fashion { get; }
+        #endregion
+
         // Configuration
-        public override int SIZE_STORED => PKX.SIZE_6STORED;
-        protected override int SIZE_PARTY => PKX.SIZE_6PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
         public override Type PKMType => typeof(PK7);
 
@@ -69,22 +81,22 @@ namespace PKHeX.Core
         public override int MaxBallID => Legal.MaxBallID_7; // 26
         public override int MaxGameID => Legal.MaxGameID_7;
         protected override PKM GetPKM(byte[] data) => new PK7(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
 
         // Feature Overrides
 
         // Blocks & Offsets
         private const int MemeCryptoBlock = 36;
 
-        private void ClearMemeCrypto()
+        protected void ClearMemeCrypto()
         {
-            new byte[0x80].CopyTo(Data, Blocks[MemeCryptoBlock].Offset + 0x100);
+            new byte[0x80].CopyTo(Data, AllBlocks[MemeCryptoBlock].Offset + 0x100);
         }
 
         protected override void SetChecksums()
         {
             BoxLayout.SaveBattleTeams();
-            Blocks.SetChecksums(Data);
+            AllBlocks.SetChecksums(Data);
         }
 
         protected override byte[] GetFinalData()
@@ -95,133 +107,23 @@ namespace PKHeX.Core
             return result;
         }
 
-        private void GetSAVOffsets()
-        {
-            /* 00 */ Bag            = Blocks[00].Offset; // 0x00000  // [DE0]    MyItem
-            /* 01 */ Trainer1       = Blocks[01].Offset; // 0x00E00  // [07C]    Situation
-            /* 02 */            //  = Blocks[02].Offset; // 0x01000  // [014]    RandomGroup
-            /* 03 */ TrainerCard    = Blocks[03].Offset; // 0x01200  // [0C0]    MyStatus
-            /* 04 */ Party          = Blocks[04].Offset; // 0x01400  // [61C]    PokePartySave
-            /* 05 */ EventConst     = Blocks[05].Offset; // 0x01C00  // [E00]    EventWork
-            /* 06 */ PokeDex        = Blocks[06].Offset; // 0x02A00  // [F78]    ZukanData
-            /* 07 */ GTS            = Blocks[07].Offset; // 0x03A00  // [228]    GtsData
-            /* 08 */ Fused          = Blocks[08].Offset; // 0x03E00  // [104]    UnionPokemon
-            /* 09 */ Misc           = Blocks[09].Offset; // 0x04000  // [200]    Misc
-            /* 10 */ Trainer2       = Blocks[10].Offset; // 0x04200  // [020]    FieldMenu
-            /* 11 */ ConfigSave     = Blocks[11].Offset; // 0x04400  // [004]    ConfigSave
-            /* 12 */ AdventureInfo  = Blocks[12].Offset; // 0x04600  // [058]    GameTime
-            /* 13 */ PCLayout       = Blocks[13].Offset; // 0x04800  // [5E6]    BOX
-            /* 14 */ Box            = Blocks[14].Offset; // 0x04E00  // [36600]  BoxPokemon
-            /* 15 */ Resort         = Blocks[15].Offset; // 0x3B400  // [572C]   ResortSave
-            /* 16 */ PlayTime       = Blocks[16].Offset; // 0x40C00  // [008]    PlayTime
-            /* 17 */ Overworld      = Blocks[17].Offset; // 0x40E00  // [1080]   FieldMoveModelSave
-            /* 18 */ Fashion        = Blocks[18].Offset; // 0x42000  // [1A08]   Fashion
-            /* 19 */            //  = Blocks[19].Offset; // 0x43C00  // [6408]   JoinFestaPersonalSave
-            /* 20 */            //  = Blocks[20].Offset; // 0x4A200  // [6408]   JoinFestaPersonalSave
-            /* 21 */ JoinFestaData  = Blocks[21].Offset; // 0x50800  // [3998]   JoinFestaDataSave
-            /* 22 */            //  = Blocks[22].Offset; // 0x54200  // [100]    BerrySpot
-            /* 23 */            //  = Blocks[23].Offset; // 0x54400  // [100]    FishingSpot
-            /* 24 */            //  = Blocks[24].Offset; // 0x54600  // [10528]  LiveMatchData
-            /* 25 */            //  = Blocks[25].Offset; // 0x64C00  // [204]    BattleSpotData
-            /* 26 */ PokeFinderSave = Blocks[26].Offset; // 0x65000  // [B60]    PokeFinderSave
-            /* 27 */ WondercardFlags= Blocks[27].Offset; // 0x65C00  // [3F50]   MysteryGiftSave
-            /* 28 */ Record         = Blocks[28].Offset; // 0x69C00  // [358]    Record
-            /* 29 */            //  = Blocks[29].Offset; // 0x6A000  // [728]    ValidationSave
-            /* 30 */            //  = Blocks[30].Offset; // 0x6A800  // [200]    GameSyncSave
-            /* 31 */            //  = Blocks[31].Offset; // 0x6AA00  // [718]    PokeDiarySave
-            /* 32 */ BattleTree     = Blocks[32].Offset; // 0x6B200  // [1FC]    BattleInstSave
-            /* 33 */ Daycare        = Blocks[33].Offset; // 0x6B400  // [200]    Sodateya
-            /* 34 */            //  = Blocks[34].Offset; // 0x6B600  // [120]    WeatherSave
-            /* 35 */ QRSaveData     = Blocks[35].Offset; // 0x6B800  // [1C8]    QRReaderSaveData
-            /* 36 */            //  = Blocks[36].Offset; // 0x6BA00  // [200]    TurtleSalmonSave
-
-            // USUM only
-            /* 37 */            //  = Blocks[37].Offset;   BattleFesSave
-            /* 38 */            //  = Blocks[38].Offset;   FinderStudioSave
-
-            EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
-            HoF = EventFlag + (EventFlagMax / 8); // After Event Flags (1b)*(1u8/8b)*n
-
-            PokeDexLanguageFlags = 0x550;
-            WondercardData = WondercardFlags + 0x100;
-
-            Played = new PlayTime6(this, PlayTime);
-            MysteryBlock = new MysteryBlock7(this, WondercardFlags);
-            PokeFinder = new PokeFinder7(this, PokeFinderSave);
-            Festa = new JoinFesta7(this, JoinFestaData);
-            DaycareBlock = new Daycare7(this, Daycare);
-            Situation = new Situation7(this, Overworld);
-            MyStatus = new MyStatus7(this, TrainerCard);
-            OverworldBlock = new FieldMoveModelSave7(this, Overworld);
-            Config = new ConfigSave7(this, ConfigSave);
-            GameTime = new GameTime7(this, AdventureInfo);
-            MiscBlock = new Misc7(this, Misc);
-            BoxLayout = new BoxLayout7(this, PCLayout);
-            BattleTreeBlock = new BattleTree7(this, BattleTree);
-            ResortSave = new ResortSave7(this, Resort);
-            FieldMenu = new FieldMenu7(this, Trainer2);
-            FashionBlock = new FashionBlock7(this, Fashion);
-
-            TeamSlots = BoxLayout.TeamSlots;
-        }
-
-        // Private Only
-        protected int Bag { get; set; }
-        private int AdventureInfo { get; set; }
-        private int Trainer2 { get; set; }
-        public int Misc { get; private set; }
-        private int WondercardFlags { get; set; }
-        private int PlayTime { get; set; }
-        private int Overworld { get; set; }
-        public int JoinFestaData { get; private set; }
-        private int PokeFinderSave { get; set; }
-        private int BattleTree { get; set; }
-        private int ConfigSave { get; set; }
-        public int QRSaveData { get; set; }
-
-        protected MyItem Items { private get; set; }
-        protected MysteryBlock7 MysteryBlock { private get; set; }
-        public PokeFinder7 PokeFinder { get; private set; }
-        public JoinFesta7 Festa { get; private set; }
-        private Daycare7 DaycareBlock { get; set; }
-        protected Record6 Records { get; set; }
-        public PlayTime6 Played { get; set; }
-        public MyStatus7 MyStatus { get; private set; }
-        public FieldMoveModelSave7 OverworldBlock { get; private set; }
-        public Situation7 Situation { get; private set; }
-        public ConfigSave7 Config { get; private set; }
-        public GameTime7 GameTime { get; private set; }
-        public Misc7 MiscBlock { get; private set; }
-        public Zukan7 Zukan { get; protected set; }
-        private BoxLayout7 BoxLayout { get; set; }
-        public BattleTree7 BattleTreeBlock { get; private set; }
-        public ResortSave7 ResortSave { get; private set; }
-        public FieldMenu7 FieldMenu { get; private set; }
-        public FashionBlock7 FashionBlock { get; private set; }
-
-        // Accessible as SAV7
-        private int TrainerCard { get; set; } = 0x14000;
-        private int Resort { get; set; }
-        public int PokeDexLanguageFlags { get; private set; }
-        public int Fashion { get; set; } = int.MinValue;
-        protected int Record { get; set; } = int.MinValue;
+        public int HoF { get; protected set; }
 
         public override GameVersion Version
         {
             get
             {
-                switch (Game)
+                return Game switch
                 {
-                    case 30: return GameVersion.SN;
-                    case 31: return GameVersion.MN;
-                    case 32: return GameVersion.US;
-                    case 33: return GameVersion.UM;
-                }
-                return GameVersion.Invalid;
+                    30 => GameVersion.SN,
+                    31 => GameVersion.MN,
+                    32 => GameVersion.US,
+                    33 => GameVersion.UM,
+                    _ => GameVersion.Invalid
+                };
             }
         }
 
-        public override string MiscSaveInfo() => string.Join(Environment.NewLine, Blocks.Select(b => b.Summary));
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
@@ -244,8 +146,8 @@ namespace PKHeX.Core
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }
-        public override uint Money { get => MiscBlock.Money; set => MiscBlock.Money = value; }
-        
+        public override uint Money { get => Misc.Money; set => Misc.Money = value; }
+
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
         public override int PlayedMinutes { get => Played.PlayedMinutes; set => Played.PlayedMinutes = value; }
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
@@ -272,6 +174,7 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
+        public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
 
         protected override void SetPKM(PKM pkm)
         {
@@ -304,19 +207,21 @@ namespace PKHeX.Core
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
             base.SetPartyValues(pkm, isParty);
-            ((PK7)pkm).FormDuration = GetFormDuration(pkm, isParty);
+            ((PK7)pkm).FormArgument = GetFormArgument(pkm);
         }
 
-        private static uint GetFormDuration(PKM pkm, bool isParty)
+        private static uint GetFormArgument(PKM pkm)
         {
-            if (!isParty || pkm.AltForm == 0)
+            if (pkm.AltForm == 0)
                 return 0;
-            switch (pkm.Species)
+            // Gen7 allows forms to be stored in the box with the current duration & form
+            // Just cap out the form duration anyways
+            return pkm.Species switch
             {
-                case 676: return 5; // Furfrou
-                case 720: return 3; // Hoopa
-                default: return 0;
-            }
+                (int)Species.Furfrou => 5u, // Furfrou
+                (int)Species.Hoopa => 3u, // Hoopa
+                _ => 0u
+            };
         }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
@@ -346,21 +251,21 @@ namespace PKHeX.Core
 
         public int GetFusedSlotOffset(int slot)
         {
-            if (Fused < 0 || slot < 0 || slot >= FusedCount)
+            if ((uint)slot >= FusedCount)
                 return -1;
-            return Fused + (PKX.SIZE_6PARTY * slot); // 0x104*slot
+            return AllBlocks[08].Offset + (PokeCrypto.SIZE_6PARTY * slot); // 0x104*slot
         }
 
         public override int DaycareSeedSize => Daycare7.DaycareSeedSize; // 128 bits
-        public override int GetDaycareSlotOffset(int loc, int slot) => DaycareBlock.GetDaycareSlotOffset(slot);
-        public override bool? IsDaycareOccupied(int loc, int slot) => DaycareBlock.GetIsOccupied(slot);
-        public override string GetDaycareRNGSeed(int loc) => DaycareBlock.RNGSeed;
-        public override bool? IsDaycareHasEgg(int loc) => DaycareBlock.HasEgg;
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => DaycareBlock.SetOccupied(slot, occupied);
-        public override void SetDaycareRNGSeed(int loc, string seed) => DaycareBlock.RNGSeed = seed;
-        public override void SetDaycareHasEgg(int loc, bool hasEgg) => DaycareBlock.HasEgg = hasEgg;
+        public override int GetDaycareSlotOffset(int loc, int slot) => Daycare.GetDaycareSlotOffset(slot);
+        public override bool? IsDaycareOccupied(int loc, int slot) => Daycare.GetIsOccupied(slot);
+        public override string GetDaycareRNGSeed(int loc) => Daycare.RNGSeed;
+        public override bool? IsDaycareHasEgg(int loc) => Daycare.HasEgg;
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Daycare.SetOccupied(slot, occupied);
+        public override void SetDaycareRNGSeed(int loc, string seed) => Daycare.RNGSeed = seed;
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Daycare.HasEgg = hasEgg;
 
-        protected override bool[] MysteryGiftReceivedFlags { get => MysteryBlock.MysteryGiftReceivedFlags; set => MysteryBlock.MysteryGiftReceivedFlags = value; }
-        protected override MysteryGift[] MysteryGiftCards { get => MysteryBlock.MysteryGiftCards; set => MysteryBlock.MysteryGiftCards = value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => MysteryGift.MysteryGiftReceivedFlags; set => MysteryGift.MysteryGiftReceivedFlags = value; }
+        protected override DataMysteryGift[] MysteryGiftCards { get => MysteryGift.MysteryGiftCards; set => MysteryGift.MysteryGiftCards = value; }
     }
 }

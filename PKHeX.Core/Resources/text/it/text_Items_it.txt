@@ -1,4 +1,4 @@
-﻿Niente
+Niente
 Master Ball
 Ultra Ball
 Mega Ball
@@ -465,7 +465,7 @@ Depochiave
 Pozione Segreta
 Registradati
 Gracidea
-Chiave Segreta
+Chiave segreta
 Ghicobox
 UnownBloc
 Piantabacche
@@ -1056,3 +1056,535 @@ Caramella Mewtwo
 Caramella Mew
 Caramella Meltan
 Caramella Magmar
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+???
+Referenze
+Box Pokémon
+Desiostella
+Polsino Dynamax
+???
+???
+Amo
+Bici Rotom
+???
+???
+Salsicce
+Lattina Gustavo
+Scatoletta Bach
+Lattina fagioli
+Pan carré
+Pasta
+Funghi
+Coda affumicata
+Grosso porro
+Mela prelibata
+Ossi sottili
+Patate
+Erbe acquatiche
+Verdure
+Fritto misto
+Uovo sodo
+Kit da campeggio
+???
+???
+Spada rovinata
+Scudo rovinato
+Ornitofossile
+Ittiofossile
+Dracofossile
+Plesiofossile
+Bonbonfragola
+Bonboncuore
+Bonbonbosco
+Bonbonfoglio
+Bonbonfiore
+Bonbonstella
+Bonbonfiocco
+Dolcepomo
+Aspropomo
+Spray gola
+Zainofuga
+Scarponi robusti
+Fiascopolizza
+Distorservizio
+Superombrello
+Caram. Esp. XS
+Caram. Esp. S
+Caram. Esp. M
+Caram. Esp. L
+Caram. Esp. XL
+Caram. Dynamax
+DT00
+DT01
+DT02
+DT03
+DT04
+DT05
+DT06
+DT07
+DT08
+DT09
+DT10
+DT11
+DT12
+DT13
+DT14
+DT15
+DT16
+DT17
+DT18
+DT19
+DT20
+DT21
+DT22
+DT23
+DT24
+DT25
+DT26
+DT27
+DT28
+DT29
+DT30
+DT31
+DT32
+DT33
+DT34
+DT35
+DT36
+DT37
+DT38
+DT39
+DT40
+DT41
+DT42
+DT43
+DT44
+DT45
+DT46
+DT47
+DT48
+DT49
+DT50
+DT51
+DT52
+DT53
+DT54
+DT55
+DT56
+DT57
+DT58
+DT59
+DT60
+DT61
+DT62
+DT63
+DT64
+DT65
+DT66
+DT67
+DT68
+DT69
+DT70
+DT71
+DT72
+DT73
+DT74
+DT75
+DT76
+DT77
+DT78
+DT79
+DT80
+DT81
+DT82
+DT83
+DT84
+DT85
+DT86
+DT87
+DT88
+DT89
+DT90
+DT91
+DT92
+DT93
+DT94
+DT95
+DT96
+DT97
+DT98
+DT99
+MT00
+Menta Schiva
+Menta Decisa
+Menta Birbona
+Menta Audace
+Menta Sicura
+Menta Scaltra
+Menta Fiacca
+Menta Placida
+Menta Modesta
+Menta Mite
+Menta Ardente
+Menta Quieta
+Menta Calma
+Menta Gentile
+Menta Cauta
+Menta Vivace
+Menta Timida
+Menta Lesta
+Menta Allegra
+Menta Ingenua
+Menta Seria
+Desioblocco
+Teiera rotta
+Teiera crepata
+Supertappi
+Frutti
+Formaggio Mumu
+Spezie assortite
+Panna da cucina
+Curry precotto
+Latte di cocco
+Noodle precotti
+Hamburger
+Gigaspezia
+Desioframmento
+Bici Rotom
+Catturamuleto
+???
+Vecchia lettera
+Autografo band
+Libro di Sonia
+???
+???
+???
+???
+???
+???
+Catalogo Rotom
+★And458
+★And15
+★And337
+★And603
+★And390
+★Sgr6879
+★Sgr6859
+★Sgr6913
+★Sgr7348
+★Sgr7121
+★Sgr6746
+★Sgr7194
+★Sgr7337
+★Sgr7343
+★Sgr6812
+★Sgr7116
+★Sgr7264
+★Sgr7597
+★Del7882
+★Del7906
+★Del7852
+★Psc596
+★Psc361
+★Psc510
+★Psc437
+★Psc8773
+★Lep1865
+★Lep1829
+★Boo5340
+★Boo5506
+★Boo5435
+★Boo5602
+★Boo5733
+★Boo5235
+★Boo5351
+★Hya3748
+★Hya3903
+★Hya3418
+★Hya3482
+★Hya3845
+★Eri1084
+★Eri472
+★Eri1666
+★Eri897
+★Eri1231
+★Eri874
+★Eri1298
+★Eri1325
+★Eri984
+★Eri1464
+★Eri1393
+★Eri850
+★Tau1409
+★Tau1457
+★Tau1165
+★Tau1791
+★Tau1910
+★Tau1346
+★Tau1373
+★Tau1412
+★CMa2491
+★CMa2693
+★CMa2294
+★CMa2827
+★CMa2282
+★CMa2618
+★CMa2657
+★CMa2646
+★UMa4905
+★UMa4301
+★UMa5191
+★UMa5054
+★UMa4295
+★UMa4660
+★UMa4554
+★UMa4069
+★UMa3569
+★UMa3323
+★UMa4033
+★UMa4377
+★UMa4375
+★UMa4518
+★UMa3594
+★Vir5056
+★Vir4825
+★Vir4932
+★Vir4540
+★Vir4689
+★Vir5338
+★Vir4910
+★Vir5315
+★Vir5359
+★Vir5409
+★Vir5107
+★Ari617
+★Ari553
+★Ari546
+★Ari951
+★Ori1713
+★Ori2061
+★Ori1790
+★Ori1903
+★Ori1948
+★Ori2004
+★Ori1852
+★Ori1879
+★Ori1899
+★Ori1543
+★Cas21
+★Cas168
+★Cas403
+★Cas153
+★Cas542
+★Cas219
+★Cas265
+★Cnc3572
+★Cnc3208
+★Cnc3461
+★Cnc3449
+★Cnc3429
+★Cnc3627
+★Cnc3268
+★Cnc3249
+★Com4968
+★Crv4757
+★Crv4623
+★Crv4662
+★Crv4786
+★Aur1708
+★Aur2088
+★Aur1605
+★Aur2095
+★Aur1577
+★Aur1641
+★Aur1612
+★Pav7790
+★Cet911
+★Cet681
+★Cet188
+★Cet539
+★Cet804
+★Cep8974
+★Cep8162
+★Cep8238
+★Cep8417
+★Cen5267
+★Cen5288
+★Cen551
+★Cen5459
+★Cen5460
+★CMi2943
+★CMi2845
+★Equ8131
+★Vul7405
+★UMi424
+★UMi5563
+★UMi5735
+★UMi6789
+★Crt4287
+★Lyr7001
+★Lyr7178
+★Lyr7106
+★Lyr7298
+★Ara6585
+★Sco6134
+★Sco6527
+★Sco6553
+★Sco5953
+★Sco5984
+★Sco6508
+★Sco6084
+★Sco5944
+★Sco6630
+★Sco6027
+★Sco6247
+★Sco6252
+★Sco5928
+★Sco6241
+★Sco6165
+★Tri544
+★Leo3982
+★Leo4534
+★Leo4357
+★Leo4057
+★Leo4359
+★Leo4031
+★Leo3852
+★Leo3905
+★Leo3773
+★Gru8425
+★Gru8636
+★Gru8353
+★Lib5685
+★Lib5531
+★Lib5787
+★Lib5603
+★Pup3165
+★Pup3185
+★Pup3045
+★Cyg7924
+★Cyg7417
+★Cyg7796
+★Cyg8301
+★Cyg7949
+★Cyg7528
+★Oct7228
+★Col1956
+★Col2040
+★Col2177
+★Gem2990
+★Gem2891
+★Gem2421
+★Gem2473
+★Gem2216
+★Gem2777
+★Gem2650
+★Gem2286
+★Gem2484
+★Gem2930
+★Peg8775
+★Peg8781
+★Peg39
+★Peg8308
+★Peg8650
+★Peg8634
+★Peg8684
+★Peg8450
+★Peg8880
+★Peg8905
+★Oph6556
+★Oph6378
+★Oph6603
+★Oph6149
+★Oph6056
+★Oph6075
+★Ser5854
+★Ser7141
+★Ser5879
+★Her6406
+★Her6148
+★Her6410
+★Her6526
+★Her6117
+★Her6008
+★Per936
+★Per1017
+★Per1131
+★Per1228
+★Per834
+★Per941
+★Phe99
+★Phe338
+★Vel3634
+★Vel3485
+★Vel3734
+★Aqr8232
+★Aqr8414
+★Aqr8709
+★Aqr8518
+★Aqr7950
+★Aqr8499
+★Aqr8610
+★Aqr8264
+★Cru4853
+★Cru4730
+★Cru4763
+★Cru4700
+★Cru4656
+★PsA8728
+★TrA6217
+★Cap7776
+★Cap7754
+★Cap8278
+★Cap8322
+★Cap7773
+★Sge7479
+★Car2326
+★Car3685
+★Car3307
+★Car3699
+★Dra5744
+★Dra5291
+★Dra6705
+★Dra6536
+★Dra7310
+★Dra6688
+★Dra4434
+★Dra6370
+★Dra7462
+★Dra6396
+★Dra6132
+★Dra6636
+★CVn4915
+★CVn4785
+★CVn4846
+★Aql7595
+★Aql7557
+★Aql7525
+★Aql7602
+★Aql7235
+Mielemax
+Fungomax
+Ramo Galarnoce
+Fascia Galarnoce
+Tessera chic
+Pass Armatura
+Bici Rotom
+Bici Rotom
+Esperienzamuleto
+Rocciarmatura
+Emblemamuleto

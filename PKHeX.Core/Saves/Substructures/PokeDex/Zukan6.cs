@@ -8,11 +8,21 @@ namespace PKHeX.Core
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
         protected override int OFS_CAUGHT => 0x8;
         protected override int BitSeenSize => 0x60;
-        protected override int DexLangFlagByteCount => 7;
+        protected override int DexLangFlagByteCount => 631; // 721 * 7, rounded up
         protected override int DexLangIDCount => 7;
         protected int SpindaOffset { get; set; }
 
-        protected Zukan6(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag) { }
+        protected Zukan6(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexXY;
+        }
+
+        private Func<int, int, int> DexFormIndexFetcher { get; }
+
+        protected Zukan6(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
+        {
+            DexFormIndexFetcher = DexFormUtil.GetDexFormIndexORAS;
+        }
 
         protected override int GetDexLangFlag(int lang)
         {
@@ -49,7 +59,7 @@ namespace PKHeX.Core
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
-            SetDexFlags(baseBit, 0, gender, shiny);
+            SetDexFlags(baseBit, baseBit, gender, shiny);
             SetFormFlags(baseBit + 1, altform, shiny, value);
         }
 
@@ -91,7 +101,7 @@ namespace PKHeX.Core
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
             int fc = SAV.Personal[species].FormeCount;
-            int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+            int f = DexFormIndexFetcher(species, fc);
             if (f < 0)
                 return;
 
@@ -168,11 +178,10 @@ namespace PKHeX.Core
         }
     }
 
-    public class Zukan6AO : Zukan6
+    public sealed class Zukan6AO : Zukan6
     {
-        public Zukan6AO(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan6AO(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexORAS(spec, form);
             SpindaOffset = 0x680;
         }
 
@@ -197,11 +206,10 @@ namespace PKHeX.Core
         }
     }
 
-    public class Zukan6XY : Zukan6
+    public sealed class Zukan6XY : Zukan6
     {
-        public Zukan6XY(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan6XY(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = (spec, form, _) => DexFormUtil.GetDexFormIndexXY(spec, form);
             SpindaOffset = 0x648;
         }
 

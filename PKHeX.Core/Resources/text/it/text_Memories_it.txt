@@ -1,4 +1,4 @@
-
+﻿
 
 Il Pokémon ricorda ancora
 Il Pokémon ricorda ancora
@@ -36,73 +36,93 @@ quanto sonno gli era venuto
 certo strumento
 una certa mossa
 Pokémon
-Questo Pokémon ha dei bei ricordi, ma adesso non è possibile richiamarli...
-Un giorno {0} ha incontrato {1} {2}. {1} ha lanciato una Poké Ball per catturarlo e da quel momento hanno iniziato a viaggiare insieme. {4} {3}.
-{0} uscì dal suo Uovo incontrando {1} per la prima volta {2}. {4} {3}.
-{0} ha incontrato {1} {2}. {4} {3}.
-{0} ha fatto amicizia con {1} {2} grazie a uno scambio di Pokémon. {4} {3}.
-Una volta {0} ha visitato con {1} il Centro Pokémon per comprare {2}. {4} {3}.
-Una volta {0} ha visitato con {1} il Centro Pokémon di {2} per rimettersi in forze. {4} {3}.
-Quando {1} ha pescato {2}, {0} era con (lui/lei). {4} {3}.
-Una volta {0} stava pescando con {1}, ma si è lasciato sfuggire il Pokémon che aveva trovato. {4} {3}.
-Una volta {0} ha visto {1} colmare di attenzioni {2}. {4} {3}.
-Una volta {0} ha ricevuto un dolcetto da {1}. {4} {3}.
-Una volta {0} è andato a comprare dei vestiti con {1}. {4} {3}.
-Una volta {0} ha imparato {2} grazie a {1}. {4} {3}.
-Una volta {0} ha aiutato {1} a far schiudere un Uovo di {2}. {4} {3}.
-Quando {1} ha catturato {2}, {0} era con (lui/lei). {4} {3}.
-Una volta {1} ha usato {2} quando {0} era in difficoltà. {4} {3}.
-Una volta {0} ha usato {2} seguendo le indicazioni di {1}, ma la mossa non ha avuto effetto. {4} {3}.
-Una volta {0} ha lottato insieme a {1} e ha sconfitto {2}. {4} {3}.
-Una volta {0}, lottando contro {2}, è stato sconfitto ed è fuggito con {1}. {4} {3}.
-{0} si è allenato con {1} fino a evolversi {2}. {4} {3}.
-Una volta {0} ha usato Surf trasportando sul dorso {1}. {4} {3}.
-Una volta {0} ha visto {2} portare sul dorso {1}. {4} {3}.
-Una volta {0}, lottando con {1}, ha sconfitto la squadra di un Capopalestra. {4} {3}.
-Una volta {0} ha affrontato le sfide della Villa Lotta con {1} in un’atmosfera di grande tensione. {4} {3}.
-Una volta {0} ha usato Volo per trasportare {1} {2}. {4} {3}.
-Una volta {0} e {1} si sono presi un bello spavento quando è sbucato fuori all’improvviso {2}. {4} {3}.
-Una volta {0} ha visto {1} usare {2}. {4} {3}.
-Una volta {0} ha lottato insieme a {1} e ha sconfitto la Campionessa. {4} {3}.
-Quando {1} ha completato il Pokédex, {0} era con (lui/lei). {4} {3}.
-Mentre era con {1}, {0} ha incontrato {2}. {4} {3}.
-Una volta {0}, lottando insieme a {1}, ha sconfitto la squadra di una Dama della lotta. {4} {3}.
-{0} e {1} una volta hanno usato il Ricerca Strumenti {2}. {4} {3}.
-Una volta {1} ha portato {0} in Bicicletta {2}. {4} {3}.
-Una volta {0} ha controllato la mappa con {1} {2}. {4} {3}.
-{0} ha piantato con {1} {2} ed è impaziente di vederne spuntare i frutti. {4} {3}.
-Una volta {0}, su indicazione di {1}, ha usato Forza, la sua mossa migliore, {2}. {4} {3}.
-Una volta {0}, su indicazione di {1}, ha usato fieramente Taglio {2}. {4} {3}.
-Una volta {0}, su indicazione di {1}, ha spaccato una roccia {2}. {4} {3}.
-Una volta {0} ha usato Cascata mentre trasportava {1} {2}. {4} {3}.
-Una volta {0} ha visto {1} raccogliere di nascosto qualcosa {2}. {4} {3}.
-Una volta {1} ha dato a{0} {2}. {4} {3}.
-Una volta {0} si è diretto verso Via Vittoria assieme a {1}. {4} {3}.
-Una volta {0} ha letto un cartello insieme a {1} {2}. {4} {3}.
-Una volta {0} ha preso il treno con {1} ed è rimasto colpito dalla velocità a cui sfrecciava. {4} {3}.
-Una volta {0} ha incontrato {2} con {1} usando il Poké Radar. {4} {3}.
-Una volta {0} e {1} sono fuggiti via spaventati da {2} sbucato fuori all’improvviso. {4} {3}.
-Una volta {0} ha affrontato la Casa Esami con {1} e ha ottenuto un ottimo punteggio. {4} {3}.
-Una volta {0} è stato attentamente esaminato da un Giudice da cui lo aveva portato {1}. {4} {3}.
-Una volta {0} ha dimenticato {2} grazie ad Amnesio, il Cancellamosse presentatogli da {1}. {4} {3}.
-Una volta {0} ha ricordato {2} su indicazione di {1}. {4} {3}.
-Una volta {1} ha affidato {0} alla Pensione Pokémon assieme a {2}. {4} {3}.
-Una volta {0} ha visto {1} vincere {2} al Centro Lotteria ID. {4} {3}.
-Una volta {1} ha usato un Repellente {2} quando {0} era con (lui/lei). {4} {3}.
-Una volta {0} ha fatto un allenamento faticoso con {1}. {4} {3}.
-Una volta {0} ha preso l’ascensore con {1}. {4} {3}.
-Una volta {1} ha portato {0} dal Giudice Onomastico per dargli un nome significativo. {4} {3}.
-Una volta {0} e {1} sono andati in un negozio di vestiti. {1} ha provato degli abiti, ma non ha comprato nulla. {4} {3}.
-Una volta {0} è andato con {1} in un bel ristorante dove hanno mangiato a volontà. {4} {3}.
-Una volta {1} ha portato {0} da una signorina molto carina che lo ha riempito di coccole. {4} {3}.
-Una volta {0} e {1} hanno esaminato insieme un cestino dei rifiuti {2}. {4} {3}.
-Una volta {0} ha lottato duramente insieme a {1} contro {2} fino a dover usare la mossa Scontro. {4} {3}.
-Una volta {0} è salito su una torre altissima con {1} e insieme hanno guardato il mondo da lassù. {4} {3}.
-Una volta {0} è andato con {1} in una grotta piena di specchi e ha visto la propria immagine riflessa. {4} {3}.
-Una volta {0} e {1} hanno smarrito la strada durante un’escursione nel bosco. {4} {3}.
-Una volta {0} è andato con {1} in una fabbrica dove c’erano un sacco di macchinari complicati. {4} {3}.
-Una volta {0} e {1} hanno costruito una Base Segreta. {4} {3}.
-Una volta {0} e {1} hanno partecipato a una gara con un’esibizione che ha conquistato il pubblico. {4} {3}.
-Una volta {0} e {1} hanno partecipato a una gara riportando una splendida vittoria. {4} {3}.
-Una volta {0} e {1} hanno visitato posti meravigliosi usando Ipervolo. {4} {3}.
-Una volta {0}, su indicazione di {1}, si è immerso negli abissi e ha esplorato il fondale marino. {4} {3}.
+{0} ha dei bei ricordi, ma adesso non è possibile richiamarli...
+{0} ha incontrato {1} {2}. Ha lanciato una Poké Ball per catturarlo e da quel momento hanno iniziato a viaggiare insieme. {4} {3}
+{0} ha incontrato {1} per la prima volta quando il Pokémon è nato da un Uovo {2}. {4} {3}
+{0} ha incontrato {1} {2}. {4} {3}
+{0} e {1} hanno fatto amicizia grazie a uno scambio di Pokémon {2}. {4} {3}
+Una volta {0} ha visitato con {1} il Centro Pokémon per comprare {2}. {4} {3}
+Una volta {0}, per rimettersi in forze, ha visitato con {1} un Centro Pokémon. {4} {3}
+Quando {1} ha pescato {2}, era insieme a {0}. {4} {3}
+Una volta {0} stava pescando con {1}, ma il Pokémon che aveva abboccato è riuscito a fuggire. {4} {3}
+Una volta {0} ha visto {1} colmare di attenzioni {2}. {4} {3}
+Una volta {0} ha ricevuto un dolcetto da {1}. {4} {3}
+Una volta {0} è andato a comprare dei vestiti con {1}. {4} {3}
+{0} ha imparato la mossa {2} grazie a {1}. {4} {3}
+Una volta {0} ha aiutato {1} a far schiudere un Uovo di {2}. {4} {3}
+Quando {1} ha catturato {2}, era insieme a {0}. {4} {3}
+Una volta {1} ha usato {2} quando {0} era in difficoltà. {4} {3}
+Una volta, seguendo le indicazioni di {1}, {0} ha usato {2}, ma la mossa non ha avuto effetto. {4} {3}
+Una volta {0} ha lottato insieme a {1} e ha sconfitto {2}. {4} {3}
+Una volta {0}, lottando contro {2}, è stato sconfitto ed è fuggito con {1}. {4} {3}
+Grazie all’allenamento svolto con {1}, {0} si è evoluto mentre si trovava {2}. {4} {3}
+Una volta {0} ha usato Surf trasportando sul dorso {1}. {4} {3}
+Una volta {0} ha visto {2} portare sul dorso {1}. {4} {3}
+Una volta {0}, lottando al fianco di {1}, ha sconfitto la squadra di un Capopalestra. {4} {3}
+Una volta {0} ha affrontato le sfide della Villa Lotta con {1} in un’atmosfera di grande tensione. {4} {3}
+Una volta {0} ha usato Volo per trasportare {1} {2}. {4} {3}
+Una volta {2} è sbucato fuori all’improvviso, facendo prendere uno spavento a {0} e {1}! {4} {3}
+Un giorno {0} ha visto {1} usare {2}. {4} {3}
+Una volta, lottando insieme a {1}, {0} è entrato nella Sala d’Onore. {4} {3}
+Quando {1} ha completato il Pokédex, era insieme a {0}. {4} {3}
+Mentre era con {1}, {0} ha incontrato {2}. {4} {3}
+Una volta {0}, lottando insieme a {1}, ha riportato un sensazionale trionfo nella lotta. {4} {3}
+Una volta {0} e {1} hanno usato insieme il Ricerca strumenti {2}. {4} {3}
+Una volta {1} e {0} hanno fatto insieme un giro in bicicletta {2}. {4} {3}
+Una volta {0} ha controllato la Mappa città con {1} {2}. {4} {3}
+{0} ha piantato con {1} {2} ed è impaziente di vederne spuntare i frutti. {4} {3}
+Una volta, su indicazione di {1}, {0} ha usato Forza, mossa di cui va fiero, {2}. {4} {3}
+Una volta {0}, su indicazione di {1}, ha usato fieramente Taglio {2}. {4} {3}
+Una volta {0}, su indicazione di {1}, ha usato Spaccaroccia {2}. {4} {3}
+Una volta, mentre trasportava sul dorso {1}, {0} ha usato Cascata {2}. {4} {3}
+Una volta {0} ha visto {1} raccogliere di nascosto qualcosa {2}. {4} {3}
+{1} ha dato a {0} {2} una volta. {4} {3}
+Una volta {0} si è diretto verso Via Vittoria assieme a {1}. {4} {3}
+Una volta {0} ha letto un cartello insieme a {1} {2}. {4} {3}
+Una volta {0} ha preso il treno con {1} ed è rimasto colpito dalla velocità a cui sfrecciava. {4} {3}
+Una volta {0} ha incontrato {2} con {1} usando il Poké Radar. {4} {3}
+Una volta {0} e {1} sono fuggiti via spaventati da {2} sbucato fuori all’improvviso. {4} {3}
+Una volta {0} ha affrontato la Casa Esami con {1} e ha ottenuto un ottimo punteggio. {4} {3}
+Una volta {0} è stato attentamente osservato da un Giudice da cui lo aveva portato {1}. {4} {3}
+Una volta {0} ha dimenticato {2} grazie al Cancellamosse presentatogli da {1}. {4} {3}
+Una volta {0} ha ricordato {2} su indicazione di {1}. {4} {3}
+Una volta {1} ha affidato {0} alla Pensione Pokémon assieme a {2}. {4} {3}
+Una volta, al Centro Lotteria ID, {0} ha visto {1} vincere {2}. {4} {3}
+Una volta {1} ha usato un Repellente {2} quando era insieme a {0}. {4} {3}
+Una volta {0} ha fatto un allenamento faticoso con {1}. {4} {3}
+Una volta {0} ha preso l’ascensore con {1}. {4} {3}
+Una volta {1} ha portato {0} dal Giudice Onomastico per dargli un nome significativo. {4} {3}
+Una volta {0} e {1} sono andati in un negozio di abbigliamento. {1} ha provato degli abiti, ma non ha comprato nulla. {4} {3}
+Una volta {0} è andato con {1} in un bel ristorante dove hanno mangiato a volontà. {4} {3}
+Una volta {1} ha portato {0} da una ragazza molto carina che lo ha riempito di coccole. {4} {3}
+Una volta {0} e {1} hanno esaminato un cestino dei rifiuti {2}. {4} {3}
+Una volta, mentre era insieme a {1}, {0} ha lottato così duramente contro {2} da dover ricorrere alla mossa Scontro. {4} {3}
+Una volta {0} è salito su una torre altissima con {1} e insieme hanno guardato il mondo da lassù. {4} {3}
+Una volta {0} è andato con {1} in una grotta piena di specchi e ha visto la propria immagine riflessa. {4} {3}
+Una volta {0} e {1} hanno smarrito la strada durante un’escursione nel bosco. {4} {3}
+Una volta {0} è andato con {1} in una fabbrica piena di macchinari complicati. {4} {3}
+Una volta {0} e {1} hanno costruito una Base Segreta. {4} {3}
+Una volta {0} e {1} hanno partecipato a una Gara con un’esibizione che ha conquistato il pubblico. {4} {3}
+Una volta {0} e {1} hanno partecipato a una Gara riportando una splendida vittoria. {4} {3}
+Una volta {0} e {1} hanno visitato posti fantastici usando l’Ipervolo. {4} {3}
+Una volta {0}, su indicazione di {1}, si è immerso negli abissi e ha esplorato il fondale marino. {4} {3}
+Una volta {0} si è seduto insieme a {1} su una panchina {2}. {4} {3}
+Una volta {0} si è dynamaxizzato e ha lottato contro {2} insieme a {1}. {4} {3}
+Una volta {0} si è dynamaxizzato su istruzioni di {1} e ha lottato contro {2}. {4} {3}
+Una volta {0} si è accampato con {1}. {4} {3}
+Una volta {0} ha cucinato insieme a {1}. {4} {3}
+Una volta {1} ha affidato {0} all’Ostello Pokémon assieme a {2}. {4} {3}
+Una volta {0} ha festeggiato il compleanno di {1} in un Centro Pokémon. {4} {3}
+Una volta {0} ha accompagnato {1} a farsi rifare l’acconciatura e ha notato la sua indecisione. {4} {3}
+Una volta {0} e {1} si sono inzuppati di pioggia mentre camminavano insieme. {4} {3}
+Una volta {0} e {1} hanno partecipato a un rally correndo a velocità folle. {4} {3}
+Mentre era in un Box, {0} si è messo a studiare la mossa {2} per usarla assieme a {1}. {4} {3}
+Mentre era in un Box, {0} si è allenato a usare la mossa {2} sperando di ricevere le lodi di {1}. {4} {3}
+Una volta {0} ha parlato di {1} con {2} che era in un Box insieme a lui. {4} {3}
+Una volta {0} ha fatto amicizia con {2} nei Box. I due hanno studiato delle mosse insieme, parlando di come un giorno {1} avrebbe riconosciuto il loro valore. {4} {3}
+Una volta {0} si è chiesto se {2} che aveva con sé nel Box servissero a {1}. {4} {3}
+Una volta {0} si è agitato così tanto quando {1} ha controllato il suo Box, che non riusciva neanche a incrociare il suo sguardo. {4} {3}
+Una volta, mentre era in un Box, {0} ha sentito parlare dell’arrivo di {1} {2} e si è immaginato la scena. {4} {3}
+Una volta {0} ha litigato con {2}, suo compagno di Box, a proposito di {1}. {4} {3}
+Una volta, mentre era in un Box, {0} ha riflettuto sul perché {1} gli avesse dato {2}. {4} {3}
+Una volta, mentre era in un Box, {0} ha fatto uno strano sogno in cui {1} usava la mossa {2}. {4} {3}

@@ -4,5 +4,6 @@ namespace PKHeX.Core
     {
         public abstract InventoryPouch[] Inventory { get; set; }
         protected MyItem(SaveFile SAV) : base(SAV) { }
+        protected MyItem(SaveFile SAV, byte[] data) : base(SAV, data) { }
     }
 }

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
     /// </summary>
-    public sealed class PGT : MysteryGift
+    public sealed class PGT : DataMysteryGift
     {
         public const int Size = 0x104; // 260
         public override int Format => 4;
@@ -46,8 +46,8 @@ namespace PKHeX.Core
         public override bool GiftUsed { get => false; set { } }
         public override object Content => PK;
 
-        public PGT() => Data = new byte[Size];
-        public PGT(byte[] data) => Data = data;
+        public PGT() : this(new byte[Size]) { }
+        public PGT(byte[] data) : base(data) { }
 
         public byte CardType { get => Data[0]; set => Data[0] = value; }
         // Unused 0x01
@@ -57,27 +57,26 @@ namespace PKHeX.Core
 
         public PK4 PK
         {
-            get
-            {
-                if (_pk != null)
-                    return _pk;
-                byte[] ekdata = new byte[PKX.SIZE_4PARTY];
-                Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-                return _pk = new PK4(ekdata);
-            }
+            get => _pk ??= new PK4(Data.Slice(8, PokeCrypto.SIZE_4PARTY));
             set
             {
-                if ((_pk = value) == null)
-                    return;
-
-                var pkdata = value.Data.All(z => z == 0)
+                _pk = value;
+                var data = value.Data.All(z => z == 0)
                     ? value.Data
-                    : PKX.EncryptArray45(value.Data);
-                pkdata.CopyTo(Data, 8);
+                    : PokeCrypto.EncryptArray45(value.Data);
+                data.CopyTo(Data, 8);
             }
         }
 
-        private PK4 _pk;
+        public override byte[] Write()
+        {
+            // Ensure PGT content is encrypted
+            var clone = (PGT)Clone();
+            clone.VerifyPKEncryption();
+            return clone.Data;
+        }
+
+        private PK4? _pk;
 
         /// <summary>
         /// Double checks the encryption of the gift data for Pokemon data.
@@ -93,22 +92,22 @@ namespace PKHeX.Core
 
         private void EncryptPK()
         {
-            byte[] ekdata = new byte[PKX.SIZE_4PARTY];
+            byte[] ekdata = new byte[PokeCrypto.SIZE_4PARTY];
             Array.Copy(Data, 8, ekdata, 0, ekdata.Length);
-            ekdata = PKX.EncryptArray45(ekdata);
+            ekdata = PokeCrypto.EncryptArray45(ekdata);
             ekdata.CopyTo(Data, 8);
         }
 
         private GiftType PGTGiftType { get => (GiftType)Data[0]; set => Data[0] = (byte)value; }
         public bool IsHatched => PGTGiftType == GiftType.Pokémon;
-        public override bool IsEgg { get => PGTGiftType == GiftType.PokémonEgg; set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
+        public override bool IsEgg { get => PGTGiftType == GiftType.PokémonEgg || IsManaphyEgg; set { if (value) { PGTGiftType = GiftType.PokémonEgg; PK.IsEgg = true; } } }
         public bool IsManaphyEgg { get => PGTGiftType == GiftType.ManaphyEgg; set { if (value) PGTGiftType = GiftType.ManaphyEgg; } }
-        public override bool EggEncounter => IsEgg || IsManaphyEgg;
+        public override bool EggEncounter => IsEgg;
         public override bool IsItem { get => PGTGiftType == GiftType.Item; set { if (value) PGTGiftType = GiftType.Item; } }
         public override bool IsPokémon { get => PGTGiftType == GiftType.Pokémon || PGTGiftType == GiftType.PokémonEgg || PGTGiftType == GiftType.ManaphyEgg; set { } }
 
         public override int Species { get => IsManaphyEgg ? 490 : PK.Species; set => PK.Species = value; }
-        public override int[] Moves { get => PK.Moves; set => PK.Moves = value; }
+        public override IReadOnlyList<int> Moves { get => PK.Moves; set => PK.SetMoves(value); }
         public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
         public override bool IsShiny => PK.IsShiny;
         public override int Gender { get => PK.Gender; set => PK.Gender = value; }
@@ -119,27 +118,27 @@ namespace PKHeX.Core
         public override int Location { get => PK.Met_Location; set => PK.Met_Location = value; }
         public override int EggLocation { get => PK.Egg_Location; set => PK.Egg_Location = value; }
 
-        public override PKM ConvertToPKM(ITrainerInfo SAV, EncounterCriteria criteria)
+        public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)
-                return null;
+                throw new ArgumentException(nameof(IsPokémon));
 
             // template is already filled out, only minor mutations required
             PK4 pk4 = new PK4((byte[])PK.Data.Clone()) { Sanity = 0 };
             if (!IsHatched && Detail == 0)
             {
-                pk4.OT_Name = SAV.OT;
-                pk4.TID = SAV.TID;
-                pk4.SID = SAV.SID;
-                pk4.OT_Gender = SAV.Gender;
-                pk4.Language = SAV.Language;
+                pk4.OT_Name = sav.OT;
+                pk4.TID = sav.TID;
+                pk4.SID = sav.SID;
+                pk4.OT_Gender = sav.Gender;
+                pk4.Language = sav.Language;
             }
 
             if (IsManaphyEgg)
                 SetDefaultManaphyEggDetails(pk4);
 
             SetPINGA(pk4, criteria);
-            SetMetData(pk4, SAV);
+            SetMetData(pk4, sav);
 
             var pi = pk4.PersonalInfo;
             pk4.CurrentFriendship = pk4.IsEgg ? pi.HatchCycles : pi.BaseFriendship;
@@ -205,7 +204,7 @@ namespace PKHeX.Core
             if (pk4.IV32 == 0)
             {
                 uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
-                uint iv2 = ((_ = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
+                uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 pk4.IV32 = iv1 | iv2 << 15;
             }
         }
@@ -221,7 +220,7 @@ namespace PKHeX.Core
         {
             pk4.IsEgg = true;
             pk4.IsNicknamed = false;
-            pk4.Nickname = PKX.GetSpeciesNameGeneration(0, pk4.Language, Format);
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Format);
             pk4.MetDate = DateTime.Now;
         }
 
@@ -240,7 +239,22 @@ namespace PKHeX.Core
             return seed;
         }
 
-        protected override bool IsMatchExact(PKM pkm, IEnumerable<DexLevel> vs) => false;
+        public static bool IsRangerManaphy(PKM pkm)
+        {
+            var egg = pkm.Egg_Location;
+            if (!pkm.IsEgg) // Link Trade Egg or Ranger
+                return egg == Locations.LinkTrade4 || egg == Locations.Ranger4;
+            if (egg != Locations.Ranger4)
+                return false;
+
+            if (pkm.Language == (int)LanguageID.Korean) // never korean
+                return false;
+
+            var met = pkm.Met_Location;
+            return met == Locations.LinkTrade4 || met == 0;
+        }
+
+        protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
     }
 }

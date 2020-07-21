@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class PWTBlock5 : SaveBlock
+    public sealed class PWTBlock5 : SaveBlock
     {
         public PWTBlock5(SAV5B2W2 sav, int offset) : base(sav) => Offset = offset;
 

@@ -3,7 +3,7 @@
     /// <summary>
     /// Object that can be fed to a <see cref="IEncounterable"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
     /// </summary>
-    public class EncounterCriteria
+    public sealed class EncounterCriteria
     {
         public static readonly EncounterCriteria Unrestricted = new EncounterCriteria();
 
@@ -43,9 +43,9 @@
             return true;
         }
 
-        public static EncounterCriteria GetCriteria(ShowdownSet s)
+        public static EncounterCriteria GetCriteria(IBattleTemplate s)
         {
-            int gender = s.Gender == null ? -1 : PKX.GetGenderFromString(s.Gender);
+            int gender = string.IsNullOrWhiteSpace(s.Gender) ? -1 : PKX.GetGenderFromString(s.Gender);
             return new EncounterCriteria
             {
                 Gender = gender,
@@ -83,17 +83,30 @@
             return pkPersonalInfo.RandomGender();
         }
 
-        public int GetAbility(int abilityType, PersonalInfo pkPersonalInfo)
+        public int GetAbilityFromNumber(int num, PersonalInfo pkPersonalInfo)
         {
-            if (abilityType < 3)
-                return abilityType;
+            if (num > 0) // fixed number
+                return num >> 1;
 
             var abils = pkPersonalInfo.Abilities;
-            if (abilityType == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+            if (num == -1 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
                 return 2;
-            if (abils[1] == Ability)
-                return 1;
-            return 0;
+            if (abils[0] == Ability)
+                return 0;
+            return 1;
+        }
+
+        public int GetAbilityFromType(int type, PersonalInfo pkPersonalInfo)
+        {
+            if ((uint)type < 3)
+                return type;
+
+            var abils = pkPersonalInfo.Abilities;
+            if (type == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+                return 2;
+            if (abils[0] == Ability)
+                return 0;
+            return 1;
         }
     }
 }

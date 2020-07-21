@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -15,21 +16,22 @@ namespace PKHeX.Core
         public override int BoxCount { get; }
         public override int SlotCount { get; }
 
+        public override PersonalTable Personal => PersonalTable.Pt;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
+        public override SaveFile Clone() => new SAV4Ranch((byte[])Data.Clone());
         public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
         protected override string BAKText => $"{OT} {PlayTimeString}";
         public override string Extension => ".bin";
         public override string Filter { get; } = "Ranch G4 Storage|*.bin*";
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
-        protected override byte[] DecryptPKM(byte[] data) => PKX.DecryptArray45(data);
+        protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
         public override StorageSlotFlag GetSlotFlags(int index) => index >= SlotCount ? StorageSlotFlag.Locked : StorageSlotFlag.None;
         protected override bool IsSlotSwapProtected(int box, int slot) => IsSlotOverwriteProtected(box, slot);
 
         public SAV4Ranch(byte[] data) : base(data, typeof(PK4), 0)
         {
-            Personal = PersonalTable.Pt;
             Version = Data.Length == SaveUtil.SIZE_G4RANCH_PLAT ? GameVersion.Pt : GameVersion.DP;
-            HeldItems = Legal.HeldItems_Pt;
 
             OT = GetString(0x770, 0x12);
 
@@ -77,11 +79,9 @@ namespace PKHeX.Core
             Array.Clear(Data, goodlen, Data.Length - goodlen);
 
             // 20 byte SHA checksum at the top of the file, which covers all data that follows.
-            using (var hash = SHA1.Create())
-            {
-                var result = hash.ComputeHash(Data, 20, Data.Length - 20);
-                SetData(result, 0);
-            }
+            using var hash = SHA1.Create();
+            var result = hash.ComputeHash(Data, 20, Data.Length - 20);
+            SetData(result, 0);
         }
 
         public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));

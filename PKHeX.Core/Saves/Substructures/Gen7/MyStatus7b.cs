@@ -5,10 +5,7 @@ namespace PKHeX.Core
 {
     public sealed class MyStatus7b : SaveBlock
     {
-        public MyStatus7b(SaveFile sav) : base(sav)
-        {
-            Offset = ((SAV7b)sav).GetBlockOffset(BelugaBlockIndex.MyStatus);
-        }
+        public MyStatus7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         // Player Information
 
@@ -49,10 +46,8 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value == null)
-                    return;
                 if (value.Length > 16)
-                    return;
+                    throw new ArgumentException(nameof(value));
 
                 Enumerable.Range(0, value.Length)
                     .Where(x => x % 2 == 0)

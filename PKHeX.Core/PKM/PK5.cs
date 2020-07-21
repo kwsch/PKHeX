@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -6,7 +7,7 @@ namespace PKHeX.Core
     /// <summary> Generation 5 <see cref="PKM"/> format. </summary>
     public sealed class PK5 : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
-        private static readonly byte[] Unused =
+        private static readonly ushort[] Unused =
         {
             0x87, // PokeStar Fame -- this is first to prevent 0x42 from being the first ExtraByte as this byte has GUI functionality
             0x42, // Hidden Ability/NPokemon
@@ -17,21 +18,22 @@ namespace PKHeX.Core
             0x86, // unused
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
-        public override int SIZE_PARTY => PKX.SIZE_5PARTY;
-        public override int SIZE_STORED => PKX.SIZE_5STORED;
+        public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
+        public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
         public override int Format => 5;
         public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
 
-        public PK5() => Data = new byte[PKX.SIZE_5PARTY];
+        public override byte[] Data { get; }
+        public PK5() => Data = new byte[PokeCrypto.SIZE_5PARTY];
 
-        public PK5(byte[] decryptedData)
+        public PK5(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, Format);
-            if (Data.Length != SIZE_PARTY)
-                Array.Resize(ref Data, SIZE_PARTY);
+            PokeCrypto.DecryptIfEncrypted45(ref data);
+            if (data.Length != PokeCrypto.SIZE_5PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_5PARTY);
+            Data = data;
         }
 
         public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};
@@ -40,8 +42,8 @@ namespace PKHeX.Core
         private byte[] SetString(string value, int maxLength) => StringConverter.SetString5(value, maxLength);
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value?.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value?.Length == 16) value.CopyTo(Data, 0x68); } }
+        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }
+        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
         public override uint EncryptionConstant { get => PID; set { } }
@@ -299,7 +301,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt()
         {
             RefreshChecksum();
-            return PKX.EncryptArray45(Data);
+            return PokeCrypto.EncryptArray45(Data);
         }
 
         // Synthetic Trading Logic
@@ -385,8 +387,8 @@ namespace PKHeX.Core
             pk6.Nature = Nature;
 
             // Apply trash bytes for species name of current app language -- default to PKM's language if no match
-            int curLang = PKX.GetSpeciesNameLanguage(Species, Nickname, Format);
-            pk6.Nickname = PKX.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
+            int curLang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
+            pk6.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, curLang < 0 ? Language : curLang, pk6.Format);
             if (IsNicknamed)
                 pk6.Nickname = Nickname;
 
@@ -478,16 +480,13 @@ namespace PKHeX.Core
             pk6.RibbonChampionWorld = RibbonChampionWorld;
 
             // Write Transfer Location - location is dependent on 3DS system that transfers.
-            pk6.Country = PKMConverter.Country;
-            pk6.Region = PKMConverter.Region;
-            pk6.ConsoleRegion = PKMConverter.ConsoleRegion;
+            PKMConverter.SetConsoleRegionData3DS(pk6);
+            PKMConverter.SetFirstCountryRegion(pk6);
 
             // Write the Memories, Friendship, and Origin!
             pk6.CurrentHandler = 1;
             pk6.HT_Name = PKMConverter.OT_Name;
             pk6.HT_Gender = PKMConverter.OT_Gender;
-            pk6.Geo1_Region = PKMConverter.Region;
-            pk6.Geo1_Country = PKMConverter.Country;
             pk6.HT_Intensity = 1;
             pk6.HT_Memory = 4;
             pk6.HT_Feeling = Memories.GetRandomFeeling(pk6.HT_Memory);

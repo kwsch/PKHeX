@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -69,7 +68,11 @@ namespace PKHeX.WinForms
                 case SAV3 sav3:
                     m = new Mail3[6 + 10];
                     for (int i = 0; i < m.Length; i++)
-                        m[i] = new Mail3(sav3, i);
+                    {
+                        var ofs = sav3.GetMailOffset(i);
+                        var data = sav.GetData(ofs, Mail3.SIZE);
+                        m[i] = new Mail3(data, ofs, sav3.Japanese);
+                    }
 
                     MailItemID = Enumerable.Range(0x79, 12).ToArray();
                     PartyBoxCount = 6;
@@ -79,8 +82,11 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail4(((PK4)p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                        m[i] = new Mail4(sav4, j);
-                    var l4 = m.Last() as Mail4;
+                    {
+                        int ofs = sav4.GetMailOffset(j);
+                        m[i] = new Mail4(sav4.GetMailData(ofs), ofs);
+                    }
+                    var l4 = (Mail4)m.Last();
                     ResetVer = l4.AuthorVersion;
                     ResetLang = l4.AuthorLanguage;
                     MailItemID = Enumerable.Range(0x89, 12).ToArray();
@@ -91,8 +97,12 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < p.Count; i++)
                         m[i] = new Mail5(((PK5)p[i]).HeldMailData);
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
-                        m[i] = new Mail5(sav5, j);
-                    var l5 = m.Last() as Mail5;
+                    {
+                        int ofs = SAV5.GetMailOffset(j);
+                        var data = sav5.GetMailData(ofs);
+                        m[i] = new Mail5(data, ofs);
+                    }
+                    var l5 = (Mail5)m.Last();
                     ResetVer = l5.AuthorVersion;
                     ResetLang = l5.AuthorLanguage;
                     MailItemID = Enumerable.Range(0x89, 12).ToArray();
@@ -106,11 +116,11 @@ namespace PKHeX.WinForms
             {
                 CB_AppearPKM1.Items.Clear();
                 CB_AppearPKM1.InitializeBinding();
-                CB_AppearPKM1.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList(), null);
+                CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
             }
             else if (Gen == 4 || Gen == 5)
             {
-                var species = GameInfo.SpeciesDataSource.Where(id => id.Value <= sav.MaxSpeciesID).ToList();
+                var species = GameInfo.FilteredSources.Species.ToList();
                 foreach (ComboBox a in AppearPKMs)
                 {
                     a.Items.Clear();
@@ -127,13 +137,13 @@ namespace PKHeX.WinForms
                         new ComboItem("Platinum", (int)GameVersion.Pt),
                         new ComboItem("HeartGold", (int)GameVersion.HG),
                         new ComboItem("SoulSilver", (int)GameVersion.SS),
-                    }.ToList()
+                    }
                     : new[] {
                         new ComboItem("Black", (int)GameVersion.B),
                         new ComboItem("White", (int)GameVersion.W),
                         new ComboItem("Black2", (int)GameVersion.B2),
                         new ComboItem("White2", (int)GameVersion.W2),
-                    }.ToList(), null);
+                    }, null);
 
                 CB_AuthorLang.Items.Clear();
                 CB_AuthorLang.InitializeBinding();
@@ -146,7 +156,7 @@ namespace PKHeX.WinForms
                     new ComboItem("GER", 5),
                     new ComboItem("ESP", 7),
                     new ComboItem("KOR", 8),
-                }.ToList(), null);
+                }, null);
             }
 
             var ItemList = GameInfo.Strings.GetItemStrings(Gen, SAV.Version);
@@ -185,7 +195,7 @@ namespace PKHeX.WinForms
             LB_PartyHeld.BeginUpdate();
             LB_PartyHeld.Items.Clear();
             for (int i = 0; i < PartyBoxCount; i++)
-                LB_PartyHeld.Items.Add(getLBLabel(i));
+                LB_PartyHeld.Items.Add(GetLBLabel(i));
             LB_PartyHeld.EndUpdate();
         }
 
@@ -198,13 +208,13 @@ namespace PKHeX.WinForms
                 for (int i = PartyBoxCount, j = 0, boxsize = (int)NUD_BoxSize.Value; i < m.Length; i++, j++)
                 {
                     if (j < boxsize)
-                        LB_PCBOX.Items.Add(getLBLabel(i));
+                        LB_PCBOX.Items.Add(GetLBLabel(i));
                 }
             }
             else
             {
                 for (int i = PartyBoxCount; i < m.Length; i++)
-                    LB_PCBOX.Items.Add(getLBLabel(i));
+                    LB_PCBOX.Items.Add(GetLBLabel(i));
             }
             LB_PCBOX.EndUpdate();
         }
@@ -302,7 +312,7 @@ namespace PKHeX.WinForms
             }
             mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
             mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
-            mail.AuthorGender = (byte)(mail.AuthorGender & 0xFE | (LabelValue_GenderF ? 1 : 0));
+            mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
             switch (mail)
             {
                 case Mail4 m4:
@@ -405,11 +415,11 @@ namespace PKHeX.WinForms
             var Err = CheckValid();
             if (Err.Count != 0 && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"{Err.Aggregate($"Validation Error. Save?{Environment.NewLine}", (tmp, v) => $"{tmp}{Environment.NewLine}{v}")}"))
                 return;
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
-        private string getLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
+        private string GetLBLabel(int index) => m[index].IsEmpty != true ? $"{index}: From {m[index].AuthorName}" : $"{index}:  (empty)";
         private bool ItemIsMail(int itemID) => Array.IndexOf(MailItemID, itemID) >= 0;
         private int MailTypeToCBIndex(Mail mail) => Gen <= 3 ? 1 + Array.IndexOf(MailItemID, mail.MailType) : (mail.IsEmpty == false ? 1 + mail.MailType : 0);
         private int CBIndexToMailType(int cbindex) => Gen <= 3 ? (cbindex > 0 ? MailItemID[cbindex - 1] : 0) : (cbindex > 0 ? cbindex - 1 : 0xFF);
@@ -431,7 +441,8 @@ namespace PKHeX.WinForms
             if (s.Count(v => v != null) == 0)
                 return ret;
             System.Media.SystemSounds.Question.Play();
-            ret = MessageBox.Show($"{s.Select((v, i) => v != null ? $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}" : string.Empty).Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail", "Prompt", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button3);
+            var msg = $"{s.Select((v, i) => v == null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";
+            ret = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, msg);
             if (ret != DialogResult.Yes)
                 return ret;
             foreach (PKM pkm in s)
@@ -449,10 +460,12 @@ namespace PKHeX.WinForms
 
         private void B_Delete_Click(object sender, EventArgs e)
         {
-            if (entry < 0) return;
+            if (entry < 0)
+                return;
             if (entry < p.Count)
             {
-                if (ModifyHeldItem() == DialogResult.Cancel) return;
+                if (ModifyHeldItem() == DialogResult.Cancel)
+                    return;
             }
             switch (m[entry])
             {
@@ -473,7 +486,7 @@ namespace PKHeX.WinForms
             if (entry >= 0)
             {
                 TempSave();
-                if (getLBLabel(entry) != loadedLBItemLabel)
+                if (GetLBLabel(entry) != loadedLBItemLabel)
                     LoadList();
             }
             if (sender == LB_PartyHeld && partyIndex >= 0)
@@ -496,7 +509,7 @@ namespace PKHeX.WinForms
             if (entry >= 0)
             {
                 LoadMail();
-                loadedLBItemLabel = getLBLabel(entry);
+                loadedLBItemLabel = GetLBLabel(entry);
             }
         }
 
@@ -560,7 +573,7 @@ namespace PKHeX.WinForms
         private void LoadOTlabel()
         {
             Label_OTGender.Text = gendersymbols[LabelValue_GenderF ? 1 : 0];
-            Label_OTGender.ForeColor = LabelValue_GenderF ? Color.Red : Color.Blue;
+            Label_OTGender.ForeColor = Main.Draw.GetGenderColor(LabelValue_GenderF ? 1 : 0);
         }
 
         private void Label_OTGender_Click(object sender, EventArgs e)

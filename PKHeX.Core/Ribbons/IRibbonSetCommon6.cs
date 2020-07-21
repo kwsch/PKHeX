@@ -40,8 +40,6 @@
 
         internal static bool[] RibbonBits(this IRibbonSetCommon6 set)
         {
-            if (set == null)
-                return new bool[11];
             return new[]
             {
                 set.RibbonChampionKalos,
@@ -62,8 +60,6 @@
 
         internal static bool[] RibbonBitsContest(this IRibbonSetCommon6 set)
         {
-            if (set == null)
-                return new bool[5];
             return new[]
             {
                 set.RibbonMasterCoolness,

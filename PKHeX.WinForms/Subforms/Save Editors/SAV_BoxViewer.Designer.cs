@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_BoxViewer));
             this.PB_BoxSwap = new System.Windows.Forms.PictureBox();
             this.Box = new PKHeX.WinForms.Controls.BoxEditor();
             ((System.ComponentModel.ISupportInitialize)(this.PB_BoxSwap)).BeginInit();
@@ -47,13 +46,17 @@
             // Box
             // 
             this.Box.AllowDrop = true;
+            this.Box.CanSetCurrentBox = false;
+            this.Box.ControlsEnabled = true;
+            this.Box.ControlsVisible = true;
             this.Box.CurrentBox = -1;
             this.Box.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Box.Editor = null;
             this.Box.FlagIllegal = false;
             this.Box.Location = new System.Drawing.Point(0, 0);
             this.Box.M = null;
             this.Box.Name = "Box";
-            this.Box.Size = new System.Drawing.Size(250, 185);
+            this.Box.Size = new System.Drawing.Size(249, 183);
             this.Box.TabIndex = 68;
             // 
             // SAV_BoxViewer
@@ -61,11 +64,11 @@
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 185);
+            this.ClientSize = new System.Drawing.Size(249, 183);
             this.Controls.Add(this.PB_BoxSwap);
             this.Controls.Add(this.Box);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_BoxViewer";

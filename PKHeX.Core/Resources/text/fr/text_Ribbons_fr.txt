@@ -101,3 +101,51 @@ RibbonCountG3Beauty	Beauty
 RibbonCountG3Cute	Cute
 RibbonCountG3Smart	Smart
 RibbonCountG3Tough	Tough
+RibbonChampionGalar	Maître de Galar
+RibbonTowerMaster	Maître de la Tour
+RibbonMasterRank	Top du Classement
+RibbonMarkLunchtime	Insigne Appétit
+RibbonMarkSleepyTime	Insigne Minuit
+RibbonMarkDusk	Insigne Crépuscule
+RibbonMarkDawn	Insigne Aube
+RibbonMarkCloudy	Insigne Nuages
+RibbonMarkRainy	Insigne Pluie
+RibbonMarkStormy	Insigne Tonnerre
+RibbonMarkSnowy	Insigne Neige
+RibbonMarkBlizzard	Insigne Blizzard
+RibbonMarkDry	Insigne Sécheresse
+RibbonMarkSandstorm	Insigne Tempête de Sable
+RibbonMarkMisty	Insigne Brume
+RibbonMarkDestiny	Insigne Destin
+RibbonMarkFishing	Insigne Pêche
+RibbonMarkCurry	Insigne Curry
+RibbonMarkUncommon	Insigne Sociabilité
+RibbonMarkRare	Insigne Rareté
+RibbonMarkRowdy	Insigne Espièglerie
+RibbonMarkAbsentMinded	Insigne Insouciance
+RibbonMarkJittery	Insigne Nervosité
+RibbonMarkExcited	Insigne Enthousiasme
+RibbonMarkCharismatic	Insigne Charisme
+RibbonMarkCalmness	Insigne Sang-Froid
+RibbonMarkIntense	Insigne Sang Chaud
+RibbonMarkZonedOut	Insigne Inattention
+RibbonMarkJoyful	Insigne Bonheur
+RibbonMarkAngry	Insigne Colère
+RibbonMarkSmiley	Insigne Rire
+RibbonMarkTeary	Insigne Pleurs
+RibbonMarkUpbeat	Insigne Bonne Humeur
+RibbonMarkPeeved	Insigne Saute d’Humeur
+RibbonMarkIntellectual	Insigne Réflexion
+RibbonMarkFerocious	Insigne Impulsivité
+RibbonMarkCrafty	Insigne Ruse
+RibbonMarkScowling	Insigne Menace
+RibbonMarkKindly	Insigne Gentillesse
+RibbonMarkFlustered	Insigne Panique
+RibbonMarkPumpedUp	Insigne Entrain
+RibbonMarkZeroEnergy	Insigne Nonchalance
+RibbonMarkPrideful	Insigne Fierté
+RibbonMarkUnsure	Insigne Abattement
+RibbonMarkHumble	Insigne Discrétion
+RibbonMarkThorny	Insigne Frime
+RibbonMarkVigor	Insigne Énergie
+RibbonMarkSlump	Insigne Blessure

@@ -13,38 +13,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="source">Table of valid encounters that appear for the game pairing</param>
         /// <param name="game">Game to filter for</param>
-        /// <returns>Array of encounter objects that are encounterable on the input game</returns>
+        /// <returns>Array of encounter objects that can be encountered in the input game</returns>
         internal static EncounterStatic[] GetStaticEncounters(IEnumerable<EncounterStatic> source, GameVersion game)
         {
             return source.Where(s => s.Version.Contains(game)).ToArray();
-        }
-
-        /// <summary>
-        /// Gets the <see cref="EncounterArea"/> data for the input game via the program's resource streams.
-        /// </summary>
-        /// <param name="game">Game to fetch for</param>
-        /// <remarks> <see cref="EncounterSlot.SlotNumber"/> data is not marked, as the RNG seed is 64 bits (permitting sufficient randomness).</remarks>
-        /// <returns>Array of areas that are encounterable on the input game.</returns>
-        internal static EncounterArea[] GetEncounterTables(GameVersion game)
-        {
-            switch (game)
-            {
-                case GameVersion.B:  return GetEncounterTables("51", "b");
-                case GameVersion.W:  return GetEncounterTables("51", "w");
-                case GameVersion.B2: return GetEncounterTables("52", "b2");
-                case GameVersion.W2: return GetEncounterTables("52", "w2");
-                case GameVersion.X:  return GetEncounterTables("xy", "x");
-                case GameVersion.Y:  return GetEncounterTables("xy", "y");
-                case GameVersion.AS: return GetEncounterTables("ao", "a");
-                case GameVersion.OR: return GetEncounterTables("ao", "o");
-                case GameVersion.SN: return GetEncounterTables("sm", "sn");
-                case GameVersion.MN: return GetEncounterTables("sm", "mn");
-                case GameVersion.US: return GetEncounterTables("uu", "us");
-                case GameVersion.UM: return GetEncounterTables("uu", "um");
-                case GameVersion.GP: return GetEncounterTables("gg", "gp");
-                case GameVersion.GE: return GetEncounterTables("gg", "ge");
-            }
-            return null; // bad request
         }
 
         /// <summary>
@@ -53,10 +25,22 @@ namespace PKHeX.Core
         /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
         /// <param name="resource">Resource name (will be prefixed with "encounter_"</param>
         /// <returns>Array of encounter areas</returns>
-        internal static EncounterArea[] GetEncounterTables(string ident, string resource)
+        internal static T[] GetEncounterTables<T>(string ident, string resource) where T : EncounterArea32, new()
         {
             byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
-            return EncounterArea.GetArray(Data.UnpackMini(mini, ident));
+            return EncounterArea32.GetArray<T>(BinLinker.Unpack(mini, ident));
+        }
+
+        /// <summary>
+        /// Direct fetch for <see cref="EncounterArea"/> data; can also be used to fetch supplementary encounter streams.
+        /// </summary>
+        /// <param name="ident">Unpacking identification ASCII characters (first two bytes of binary)</param>
+        /// <param name="resource">Resource name (will be prefixed with "encounter_")</param>
+        /// <returns>Array of encounter areas</returns>
+        internal static T[] GetEncounterTables8<T>(string ident, string resource) where T : EncounterAreaSH, new()
+        {
+            byte[] mini = Util.GetBinaryResource($"encounter_{resource}.pkl");
+            return EncounterAreaSH.GetArray<T>(BinLinker.Unpack(mini, ident));
         }
 
         /// <summary>
@@ -64,12 +48,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="tables">Input encounter areas to combine</param>
         /// <returns>Combined Array of encounter areas. No duplicate location IDs will be present.</returns>
-        internal static EncounterArea[] AddExtraTableSlots(params EncounterArea[][] tables)
+        internal static T[] AddExtraTableSlots<T>(params T[][] tables) where T : EncounterArea, new()
         {
             return tables.SelectMany(s => s).GroupBy(l => l.Location)
                 .Select(t => t.Count() == 1
                     ? t.First() // only one table, just return the area
-                    : new EncounterArea { Location = t.Key, Slots = t.SelectMany(s => s.Slots).ToArray() })
+                    : new T { Location = t.Key, Slots = t.SelectMany(s => s.Slots).ToArray() })
                 .ToArray();
         }
 
@@ -77,13 +61,13 @@ namespace PKHeX.Core
         /// Marks Encounter Slots for party lead's ability slot influencing.
         /// </summary>
         /// <remarks>Magnet Pull attracts Steel type slots, and Static attracts Electric</remarks>
-        /// <param name="Areas">Encounter Area array for game</param>
+        /// <param name="areas">Encounter Area array for game</param>
         /// <param name="t">Personal data for use with a given species' type</param>
-        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> Areas, PersonalTable t)
+        internal static void MarkEncountersStaticMagnetPull(IEnumerable<EncounterArea> areas, PersonalTable t)
         {
-            foreach (EncounterArea Area in Areas)
+            foreach (EncounterArea area in areas)
             {
-                foreach (var grp in Area.Slots.GroupBy(z => z.Type))
+                foreach (var grp in area.Slots.GroupBy(z => z.Type))
                     MarkEncountersStaticMagnetPull(grp, t);
             }
         }
@@ -164,56 +148,56 @@ namespace PKHeX.Core
         /// Sets the <see cref="EncounterSlot1.Version"/> value, for use in determining split-generation origins.
         /// </summary>
         /// <remarks>Only used for Gen 1 &amp; 2, as <see cref="PKM.Version"/> data is not present.</remarks>
-        /// <param name="Areas">Ingame encounter data</param>
-        /// <param name="Version">Version ID to set</param>
-        internal static void MarkEncountersVersion(IEnumerable<EncounterArea> Areas, GameVersion Version)
+        /// <param name="areas">In-game encounter data</param>
+        /// <param name="game">Version ID to set</param>
+        internal static void MarkEncountersVersion(IEnumerable<EncounterArea> areas, GameVersion game)
         {
-            foreach (EncounterArea Area in Areas)
+            foreach (EncounterArea area in areas)
             {
-                foreach (var Slot in Area.Slots)
-                    Slot.Version = Version;
+                foreach (var Slot in area.Slots)
+                    Slot.Version = game;
             }
         }
 
         /// <summary>
-        /// Sets the <see cref="IGeneration.Generation"/> value.
+        /// Sets the <see cref="IGenerationSet.Generation"/> value.
         /// </summary>
-        /// <param name="Generation">Generation number to set</param>
-        /// <param name="Encounters">Ingame encounter data</param>
-        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<IGeneration>[] Encounters)
+        /// <param name="generation">Generation number to set</param>
+        /// <param name="encounters">In-game encounter data</param>
+        internal static void MarkEncountersGeneration(int generation, params IEnumerable<IGenerationSet>[] encounters)
         {
-            foreach (var table in Encounters)
-                MarkEncountersGeneration(Generation, table);
+            foreach (var table in encounters)
+                MarkEncountersGeneration(generation, table);
         }
 
         /// <summary>
-        /// Sets the <see cref="IGeneration.Generation"/> value, for use in determining split-generation origins.
+        /// Sets the <see cref="IGenerationSet.Generation"/> value, for use in determining split-generation origins.
         /// </summary>
-        /// <param name="Generation">Generation number to set</param>
-        /// <param name="Areas">Ingame encounter data</param>
-        internal static void MarkEncountersGeneration(int Generation, params IEnumerable<EncounterArea>[] Areas)
+        /// <param name="generation">Generation number to set</param>
+        /// <param name="areas">In-game encounter data</param>
+        internal static void MarkEncountersGeneration(int generation, params IEnumerable<EncounterArea>[] areas)
         {
-            foreach (var table in Areas)
+            foreach (var table in areas)
             {
                 foreach (var area in table)
-                    MarkEncountersGeneration(Generation, area.Slots);
+                    MarkEncountersGeneration(generation, area.Slots);
             }
         }
 
-        private static void MarkEncountersGeneration(int Generation, IEnumerable<IGeneration> Encounters)
+        private static void MarkEncountersGeneration(int generation, IEnumerable<IGenerationSet> encounters)
         {
-            foreach (IGeneration enc in Encounters)
-                enc.Generation = Generation;
+            foreach (var enc in encounters)
+                enc.Generation = generation;
         }
 
         /// <summary>
         /// Groups areas by location id, raw data has areas with different slots but the same location id.
         /// </summary>
-        /// <remarks>Similar to <see cref="AddExtraTableSlots"/>, this method combines a single array.</remarks>
+        /// <remarks>Similar to <see cref="AddExtraTableSlots{T}"/>, this method combines a single array.</remarks>
         /// <param name="Areas">Ingame encounter data</param>
-        internal static void ReduceAreasSize(ref EncounterArea[] Areas)
+        internal static void ReduceAreasSize<T>(ref T[] Areas) where T : EncounterArea, new()
         {
-            Areas = Areas.GroupBy(a => a.Location).Select(a => new EncounterArea
+            Areas = Areas.GroupBy(a => a.Location).Select(a => new T
             {
                 Location = a.Key,
                 Slots = a.SelectMany(m => m.Slots).ToArray()
@@ -222,13 +206,13 @@ namespace PKHeX.Core
 
         internal static T[] ConcatAll<T>(params IEnumerable<T>[] arr) => arr.SelectMany(z => z).ToArray();
 
-        internal static void MarkEncounterAreaArray(params EncounterArea[][] areas)
+        internal static void MarkEncounterAreaArray<T>(params T[][] areas) where T : EncounterArea
         {
             foreach (var area in areas)
                 MarkEncounterAreas(area);
         }
 
-        private static void MarkEncounterAreas(params EncounterArea[] areas)
+        private static void MarkEncounterAreas<T>(params T[] areas) where T : EncounterArea
         {
             foreach (var area in areas)
             {
@@ -268,22 +252,22 @@ namespace PKHeX.Core
             return result;
         }
 
-        internal static void MarkEncounterTradeStrings(EncounterTrade[] table, string[][] strings)
+        internal static void MarkEncounterTradeStrings<T>(T[] table, string[][] strings) where T : EncounterTrade
         {
             int half = strings[1].Length / 2;
-            for (var i = 0; i < half; i++)
+            for (int i = 0; i < half; i++)
             {
                 var t = table[i];
                 t.Nicknames = getNames(i, strings);
                 t.TrainerNames = getNames(i + half, strings);
             }
-            string[] getNames(int i, IEnumerable<string[]> names) => names?.Select(z => z?.Length > i ? z[i] : null).ToArray();
+            string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
         }
 
-        internal static void MarkEncounterGame(IEnumerable<IVersion> table, GameVersion version)
+        internal static void MarkEncounterGame<T>(IEnumerable<T> table, GameVersion version) where T: IVersion, IVersionSet
         {
-            foreach (var t in table.Where(z => z.Version == GameVersion.Any))
-                t.Version = version;
+            foreach (var t in table.Where(z => ((IVersion)z).Version == GameVersion.Any))
+                ((IVersionSet)t).Version = version;
         }
     }
 }

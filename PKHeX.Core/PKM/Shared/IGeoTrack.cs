@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Tracks Geolocation history of a <see cref="PKM"/>
+    /// </summary>
     public interface IGeoTrack
     {
         int Geo1_Region { get; set; }

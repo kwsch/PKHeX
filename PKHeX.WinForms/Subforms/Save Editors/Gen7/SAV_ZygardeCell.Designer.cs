@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_ZygardeCell));
             this.dgv = new System.Windows.Forms.DataGridView();
             this.dgv_ref = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgv_location = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -184,7 +183,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.dgv);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(520, 380);
             this.Name = "SAV_ZygardeCell";

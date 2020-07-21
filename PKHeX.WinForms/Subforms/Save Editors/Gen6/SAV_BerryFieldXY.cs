@@ -6,13 +6,13 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_BerryFieldXY : Form
     {
-        private readonly SAV6 SAV;
+        private readonly SAV6XY SAV;
 
-        public SAV_BerryFieldXY(SaveFile sav)
+        public SAV_BerryFieldXY(SAV6XY sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV6)sav;
+            SAV = sav;
             listBox1.SelectedIndex = 0;
         }
 

@@ -3,17 +3,12 @@
     /// <summary>
     /// <see cref="PersonalInfo"/> class with values from Generation 2 games.
     /// </summary>
-    public class PersonalInfoG2 : PersonalInfo
+    public sealed class PersonalInfoG2 : PersonalInfo
     {
-        protected PersonalInfoG2() { }
         public const int SIZE = 0x20;
 
-        public PersonalInfoG2(byte[] data)
+        public PersonalInfoG2(byte[] data) : base(data)
         {
-            if (data.Length != SIZE)
-                return;
-
-            Data = data;
             TMHM = GetBits(Data, 0x18, 0x8);
         }
 
@@ -47,7 +42,7 @@
             get => new[] { Item1, Item2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Item1 = value[0];
                 Item2 = value[1];
             }

@@ -214,7 +214,13 @@ namespace PKHeX.Core
             15, 19, 57, 70, 127,
         };
 
-        internal static readonly int[] TypeTutor6 = {520, 519, 518, 338, 307, 308, 434, 620};
+        internal static readonly int[] TypeTutor6 =
+        {
+            520, 519, 518, // Pledge
+            338, 307, 308, // Elemental Beam
+            434, // Draco Meteor
+            620, // Dragon Ascent
+        };
 
         internal static readonly int[][] Tutors_AO =
         {
@@ -286,6 +292,11 @@ namespace PKHeX.Core
             710 + (2 << 11), //Pumpkaboo-Large
             711 + (2 << 11), //Gourgeist-Large
             //Super Size can be obtained as a Pumpkaboo from event distributions
+
+            // Same abilities (1/2/H), not available as H
+            (int)Species.Honedge,
+            (int)Species.Doublade,
+            (int)Species.Aegislash,
         };
         #region Ball Table
         internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>

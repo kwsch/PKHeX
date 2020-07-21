@@ -10,7 +10,9 @@ namespace PKHeX.Core
         /// <summary>
         /// Raw Data
         /// </summary>
-        protected byte[] Data;
+        protected readonly byte[] Data;
+
+        protected PersonalInfo(byte[] data) => Data = data;
 
         /// <summary>
         /// Writes entry to raw bytes.
@@ -121,7 +123,7 @@ namespace PKHeX.Core
         public abstract int CatchRate { get; set; }
 
         /// <summary>
-        /// Evolution Stage value (or equivalent for unevolved).
+        /// Evolution Stage value (or equivalent for un-evolved).
         /// </summary>
         public virtual int EvoStage { get; set; }
 
@@ -131,7 +133,7 @@ namespace PKHeX.Core
         public abstract int[] Items { get; set; }
 
         /// <summary>
-        /// Gender Ratio value determining if the entry is a fixed gender or bigendered.
+        /// Gender Ratio value determining if the entry is a fixed gender or bi-gendered.
         /// </summary>
         public abstract int Gender { get; set; }
 
@@ -181,7 +183,7 @@ namespace PKHeX.Core
         public abstract int BaseEXP { get; set; }
 
         /// <summary>
-        /// Main color ID of the entry. The majority of the pkm's color is of this color, usually.
+        /// Main color ID of the entry. The majority of the Pokémon's color is of this color, usually.
         /// </summary>
         public abstract int Color { get; set; }
 
@@ -203,7 +205,7 @@ namespace PKHeX.Core
             get => new[] { Type1, Type2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 Type1 = value[0];
                 Type2 = value[1];
             }
@@ -217,7 +219,7 @@ namespace PKHeX.Core
             get => new[] { EggGroup1, EggGroup2 };
             set
             {
-                if (value?.Length != 2) return;
+                if (value.Length != 2) return;
                 EggGroup1 = (byte)value[0];
                 EggGroup2 = (byte)value[1];
             }
@@ -226,12 +228,12 @@ namespace PKHeX.Core
         /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TMHM { get; protected set; }
+        public bool[] TMHM { get; protected set; } = Array.Empty<bool>();
 
         /// <summary>
         /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TypeTutors { get; protected set; }
+        public bool[] TypeTutors { get; protected set; } = Array.Empty<bool>();
 
         /// <summary>
         /// Special tutor learn compatibility flags for individual moves.

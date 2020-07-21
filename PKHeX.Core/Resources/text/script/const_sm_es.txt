@@ -1,0 +1,5 @@
+148	Inicial	00:Rowlet,01:Litten,02:Popplio
+432	Tapu Koko	03:Luchable,04:Derrotado,05:Capturado
+433	Tapu Lele	01:Luchable,02:Derrotado,03:Capturado
+434	Tapu Bulu	01:Luchable,02:Derrotado,03:Capturado
+404	Tapu Fini	03:Luchable,04:Derrotado,05:Capturado

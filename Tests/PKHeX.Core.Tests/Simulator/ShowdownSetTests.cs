@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
 
@@ -29,15 +30,15 @@ namespace PKHeX.Tests.Simulator
         {
             var set = new ShowdownSet(SetGlaceonUSUMTutor);
             var pk7 = new PK7 {Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves};
-            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            Assert.True(!encs.Any());
+            var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            Assert.True(!encounters.Any());
             pk7.HT_Name = "PKHeX";
-            encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
-            var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
+            var first = encounters.FirstOrDefault();
+            Assert.NotNull(first);
 
             var egg = (EncounterEgg)first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = egg.ConvertToPKM(info);
             Assert.True(pk.Species != set.Species);
 
@@ -61,10 +62,10 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
             var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            Assert.NotNull(first);
 
             var wc3 = (WC3)first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.R);
             var pk = wc3.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
@@ -80,10 +81,10 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
             var first = encs.FirstOrDefault();
-            Assert.True(first != null);
+            Assert.NotNull(first);
 
             var enc = first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
@@ -99,7 +100,7 @@ namespace PKHeX.Tests.Simulator
             Assert.True(encs.Count > 0);
             Assert.True(encs.All(z => z.Species > 150));
 
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
@@ -115,7 +116,7 @@ namespace PKHeX.Tests.Simulator
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
             Assert.True(encs.Count > 0);
 
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var enc = encs[0];
             var pk = enc.ConvertToPKM(info);
 
@@ -135,7 +136,7 @@ namespace PKHeX.Tests.Simulator
             Assert.NotNull(first);
 
             var enc = first;
-            var info = new SimpleTrainerInfo();
+            var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 
             var la = new LegalityAnalysis(pk);
@@ -156,6 +157,51 @@ namespace PKHeX.Tests.Simulator
             sets = ShowdownSet.GetShowdownSets(new [] {"", "   ", " "});
             Assert.True(!sets.Any());
         }
+
+        [Theory]
+        [InlineData(SetDuplicateMoves, 3)]
+        public void SimulatorParseDuplicate(string text, int moveCount)
+        {
+            var set = new ShowdownSet(text);
+            var actual = set.Moves.Count(z => z != 0);
+            actual.Should().Be(moveCount);
+        }
+
+        [Theory]
+        [InlineData(LowLevelElectrode)]
+        public void SimulatorParseEncounter(string text)
+        {
+            var set = new ShowdownSet(text);
+            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, CurrentLevel = set.Level };
+            var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
+            var tr3 = encs.First(z => z is EncounterTrade t && t.Generation == 3);
+            var pk3 = tr3.ConvertToPKM(new SAV3());
+
+            var la = new LegalityAnalysis(pk3);
+            la.Valid.Should().BeTrue();
+        }
+
+        private const string LowLevelElectrode =
+@"BOLICHI (Electrode)
+IVs: 19 HP / 16 Atk / 18 Def / 25 SpA / 19 SpD / 25 Spe
+Ability: Static
+Level: 3
+Hasty Nature
+- Charge
+- Tackle
+- Screech
+- Sonic Boom";
+
+        private const string SetDuplicateMoves =
+@"Kingler-Gmax @ Master Ball
+Ability: Sheer Force
+Shiny: Yes
+EVs: 252 Atk / 4 SpD / 252 Spe
+Jolly Nature
+- Crabhammer
+- Rock Slide
+- Rock Slide
+- X-Scissor";
 
         private const string SetROCKSMetang =
 @"Metang

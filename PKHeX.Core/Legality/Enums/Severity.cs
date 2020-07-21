@@ -40,14 +40,14 @@ namespace PKHeX.Core
         /// <returns>Localized <see cref="string"/>.</returns>
         public static string Description(this Severity s)
         {
-            switch (s)
+            return s switch
             {
-                case Severity.Indeterminate: return L_SIndeterminate;
-                case Severity.Invalid: return L_SInvalid;
-                case Severity.Fishy: return L_SFishy;
-                case Severity.Valid: return L_SValid;
-                default: return L_SNotImplemented;
-            }
+                Severity.Indeterminate => L_SIndeterminate,
+                Severity.Invalid => L_SInvalid,
+                Severity.Fishy => L_SFishy,
+                Severity.Valid => L_SValid,
+                _ => L_SNotImplemented
+            };
         }
     }
 }

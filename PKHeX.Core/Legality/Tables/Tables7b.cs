@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,7 +12,7 @@ namespace PKHeX.Core
         internal const int MaxBallID_7b = (int)Ball.Beast;
         internal const int MaxGameID_7b = (int)GameVersion.GE;
         internal const int MaxAbilityID_7b = MaxAbilityID_7_USUM;
-        internal static readonly ushort[] HeldItems_GG = new ushort[1];
+        internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
         public const int AwakeningMax = 200;
 
         internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
@@ -280,58 +281,19 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
         {
-            013, // Weedle
-            014, // Kakuna
-            015, // Beedrill
-            021, // Spearow
-            022, // Fearow
-            037, // Vulpix
-            038, // Ninetales
-            043, // Oddish
-            044, // Gloom
-            045, // Vileplume
-            046, // Paras
-            047, // Parasect
-            048, // Venonat
-            049, // Venomoth
-            052, // Meowth
-            053, // Persian
-            060, // Poliwag
-            061, // Poliwhirl
-            062, // Poliwrath
-            069, // Bellsprout
-            070, // Weepinbell
-            071, // Victreebel
-            072, // Tentacool
-            073, // Tentacruel
-            079, // Slowpoke
-            080, // Slowbro
-            083, // Farfetch'd
-            084, // Doduo
-            085, // Dodrio
-            100, // Voltorb
-            101, // Electrode
-            102, // Exeggcute
-            103, // Exeggutor
-            106, // Hitmonlee
-            107, // Hitmonchan
-            108, // Lickitung
-            111, // Rhyhorn
-            112, // Rhydon
-            113, // Chansey
-            114, // Tangela
-            115, // Kangaskhan
-            118, // Goldeen
-            119, // Seaking
-            120, // Staryu
-            121, // Starmie
-            122, // Mr. Mime
-            128, // Tauros
-            132, // Ditto
-            137, // Porygon
-            143, // Snorlax
-            150, // Mewtwo
-            151, // Mew
+            (int)Species.Spearow, (int)Species.Fearow,
+            (int)Species.Vulpix, (int)Species.Ninetales,
+            (int)Species.Paras, (int)Species.Parasect,
+            (int)Species.Slowpoke, (int)Species.Slowbro,
+            (int)Species.Doduo, (int)Species.Dodrio,
+            (int)Species.Hitmonlee, (int)Species.Hitmonchan,
+            (int)Species.Tangela,
+            (int)Species.Goldeen, (int)Species.Seaking,
+            (int)Species.Staryu, (int)Species.Starmie,
+            (int)Species.Ditto,
+            (int)Species.Porygon,
+            (int)Species.Snorlax,
+            (int)Species.Mew
         };
     }
 }

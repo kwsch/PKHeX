@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.CheckIdentifier;
@@ -38,11 +39,26 @@ namespace PKHeX.Core
                         break;
                 }
             }
+            else
+            {
+                VerifyMiscMovePP(data);
+            }
 
-            if (pkm is PK7 pk7 && pk7.ResortEventStatus >= 20)
-                data.AddLine(GetInvalid(LTransferBad));
-            if (pkm is PB7 pb7)
-                VerifyBelugaStats(data, pb7);
+            switch (pkm)
+            {
+                case PK7 pk7 when pk7.ResortEventStatus >= 20:
+                    data.AddLine(GetInvalid(LTransferBad));
+                    break;
+                case PB7 pb7:
+                    VerifyBelugaStats(data, pb7);
+                    break;
+                case PK8 pk8:
+                    VerifySWSHStats(data, pk8);
+                    break;
+            }
+
+            if (pkm.Format >= 6)
+                VerifyFullness(data, pkm);
 
             VerifyMiscFatefulEncounter(data);
         }
@@ -119,7 +135,7 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback()
             {
-                if ((e as EncounterStatic)?.Version == GameVersion.Stadium || e is EncounterTradeCatchRate)
+                if ((e is EncounterStatic s && s.Version == GameVersion.Stadium) || e is EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
                 if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
                     return GetInvalid(LG1CatchRateEvo);
@@ -148,10 +164,11 @@ namespace PKHeX.Core
                     if (w.IsEgg)
                     {
                         // Eggs hatched in RS clear the obedience flag!
+                        // Hatching in Gen3 doesn't change the origin version.
                         if (pkm.Format != 3)
                             return; // possible hatched in either game, don't bother checking
-                        if (pkm.Met_Location <= 087) // hatched in RS
-                            break; // ensure fateful is not active
+                        if (pkm.Met_Location <= 087) // hatched in RS or Emerald
+                            return; // possible hatched in either game, don't bother checking
                         // else, ensure fateful is active (via below)
                     }
                     VerifyFatefulIngameActive(data);
@@ -176,6 +193,19 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LFatefulInvalid, Fateful));
         }
 
+        private static void VerifyMiscMovePP(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.Move1_PP > pkm.GetMovePP(pkm.Move1, pkm.Move1_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), Move));
+            if (pkm.Move2_PP > pkm.GetMovePP(pkm.Move2, pkm.Move2_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 2), Move));
+            if (pkm.Move3_PP > pkm.GetMovePP(pkm.Move3, pkm.Move3_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 3), Move));
+            if (pkm.Move4_PP > pkm.GetMovePP(pkm.Move4, pkm.Move4_PPUps))
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 4), Move));
+        }
+
         private static void VerifyMiscEggCommon(LegalityAnalysis data)
         {
             var pkm = data.pkm;
@@ -185,10 +215,10 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LEggPP, Egg));
 
             var EncounterMatch = data.EncounterOriginal;
-            var HatchCycles = (EncounterMatch as EncounterStatic)?.EggCycles;
-            if (HatchCycles == 0 || HatchCycles == null)
+            var HatchCycles = EncounterMatch is EncounterStatic s ? s.EggCycles : 0;
+            if (HatchCycles == 0) // no value set
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
-            if (pkm.CurrentFriendship > HatchCycles)
+            if (pkm.OT_Friendship > HatchCycles)
                 data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
             if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
@@ -196,6 +226,14 @@ namespace PKHeX.Core
                 var moves = string.Join(", ", LegalityAnalysis.GetMoveNames(pkm.Moves));
                 var msg = string.Format(LMoveFExpect_0, moves);
                 data.AddLine(GetInvalid(msg, Egg));
+            }
+
+            if (pkm is PK8 pk8)
+            {
+                if (pk8.HasAnyMoveRecordFlag())
+                    data.AddLine(GetInvalid(LEggRelearnFlags, Egg));
+                if (pk8.StatNature != pk8.Nature)
+                    data.AddLine(GetInvalid(LEggNature, Egg));
             }
         }
 
@@ -223,13 +261,14 @@ namespace PKHeX.Core
             {
                 case WC6 wc6 when !wc6.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                 case WC7 wc7 when !wc7.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
+                case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
                 case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
                 case WC7 wc7 when wc7.RestrictLanguage != 0 && wc7.Language != wc7.RestrictLanguage:
-                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), Language));
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
             }
         }
@@ -259,16 +298,58 @@ namespace PKHeX.Core
             // No point using the evolution tree. Just handle certain species.
             switch (pkm.Species)
             {
-                case 745 when (pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun()): // Lycanroc
-                case 791 when Moon(): // Solgaleo
-                case 792 when Sun(): // Lunala
-                    bool Sun() => pkm.Version == (int)GameVersion.SN || pkm.Version == (int)GameVersion.US;
-                    bool Moon() => pkm.Version == (int)GameVersion.MN || pkm.Version == (int)GameVersion.UM;
+                case (int)Species.Lycanroc when pkm.Format == 7 && ((pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun())):
+                case (int)Species.Solgaleo when Moon():
+                case (int)Species.Lunala when Sun():
+                    bool Sun() => (pkm.Version & 1) == 0;
+                    bool Moon() => (pkm.Version & 1) == 1;
                     if (pkm.IsUntraded)
                         data.AddLine(GetInvalid(LEvoTradeRequired, Evolution));
                     break;
             }
         }
+
+        private static void VerifyFullness(LegalityAnalysis data, PKM pkm)
+        {
+            if (pkm.IsEgg)
+            {
+                if (pkm.Fullness != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+                if (pkm.Enjoyment != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                return;
+            }
+
+            if (pkm.Format >= 8)
+            {
+                if (pkm.Enjoyment != 0)
+                    data.AddLine(GetInvalid(string.Format(LMemoryStatEnjoyment, 0), Encounter));
+                return;
+            }
+
+            if (pkm.Format != 6 || !pkm.IsUntraded || pkm.XY)
+                return;
+
+            // OR/AS PK6
+            if (pkm.Fullness == 0)
+                return;
+            if (pkm.Species != data.EncounterMatch.Species)
+                return; // evolved
+
+            if (Unfeedable.Contains(pkm.Species))
+                data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
+        }
+
+        private static readonly HashSet<int> Unfeedable = new HashSet<int>
+        {
+            (int)Species.Metapod,
+            (int)Species.Kakuna,
+            (int)Species.Pineco,
+            (int)Species.Silcoon,
+            (int)Species.Cascoon,
+            (int)Species.Shedinja,
+            (int)Species.Spewpa,
+        };
 
         private static void VerifyBelugaStats(LegalityAnalysis data, PB7 pb7)
         {
@@ -280,13 +361,6 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LStatIncorrectWeight, Encounter));
             if (pb7.Stat_CP != pb7.CalcCP && !IsStarter(pb7))
                 data.AddLine(GetInvalid(LStatIncorrectCP, Encounter));
-
-            if (IsTradeEvoRequired7b(data.EncounterOriginal, pb7))
-            {
-                var unevolved = LegalityAnalysis.SpeciesStrings[pb7.Species];
-                var evolved = LegalityAnalysis.SpeciesStrings[pb7.Species + 1];
-                data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved), Evolution));
-            }
         }
 
         private static bool IsCloseEnough(float a, float b)
@@ -296,24 +370,52 @@ namespace PKHeX.Core
             return Math.Abs(ia - ib) <= 7;
         }
 
-        private static bool IsTradeEvoRequired7b(IEncounterable enc, PKM pb7)
-        {
-            // There's no everstone! All Trade evolutions must evolve.
-            // Anything with current level == met level, having a HT, and being a trade-evolvable species must be evolved.
-            // Kadabra → Alakazam
-            // Machoke → Machamp
-            // Graveler → Golem
-            // Haunter → Gengar
-            if (pb7.Species != enc.Species)
-                return false;
-            if (!tradeEvo7b.Contains(enc.Species))
-                return false;
-            if (pb7.Met_Level != pb7.CurrentLevel)
-                return false;
-            return !pb7.IsUntraded;
-        }
+        private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.AltForm == 8) || (pb7.Species == (int)Species.Eevee && pb7.AltForm == 1);
 
-        private static readonly int[] tradeEvo7b = { 064, 067, 075, 093 };
-        private static bool IsStarter(PKM pb7) => (pb7.Species == 25 && pb7.AltForm == 8) || (pb7.Species == 133 && pb7.AltForm == 1);
+        private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
+        {
+            if (pk8.Favorite)
+                data.AddLine(GetInvalid(LFavoriteMarkingUnavailable, Encounter));
+
+            var sn = pk8.StatNature;
+            if (sn != pk8.Nature)
+            {
+                // Only allow Serious nature (12); disallow all other neutral natures.
+                if (sn != 12 && (sn > 24 || sn % 6 == 0))
+                    data.AddLine(GetInvalid(LStatNatureInvalid));
+            }
+
+            var bv = pk8.BattleVersion;
+            if (bv != 0)
+            {
+                if ((bv != (int)GameVersion.SW && bv != (int)GameVersion.SH) || pk8.SWSH)
+                    data.AddLine(GetInvalid(LStatBattleVersionInvalid));
+            }
+
+            bool originGMax = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
+            if (originGMax != pk8.CanGigantamax)
+            {
+                bool ok = pk8.CanToggleGigantamax(pk8.Species, data.EncounterMatch.Species);
+                var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
+                data.AddLine(chk);
+            }
+
+            if (pk8.DynamaxLevel != 0)
+            {
+                if (!pk8.CanHaveDynamaxLevel(pk8) || pk8.DynamaxLevel > 10)
+                    data.AddLine(GetInvalid(LStatDynamaxInvalid));
+            }
+
+            PersonalInfo? pi = null;
+            for (int i = 0; i < 100; i++)
+            {
+                if (!pk8.GetMoveRecordFlag(i))
+                    continue;
+                if (!(pi ??= pk8.PersonalInfo).TMHM[i + 100])
+                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalysis.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
+            }
+
+            // weight/height scalars can be legally 0 (1:65536) so don't bother checking
+        }
     }
 }

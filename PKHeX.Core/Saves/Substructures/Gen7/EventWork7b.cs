@@ -4,9 +4,9 @@ namespace PKHeX.Core
 {
     public sealed class EventWork7b : SaveBlock, IEventWork<int>
     {
-        public EventWork7b(SAV7b sav) : base(sav)
+        public EventWork7b(SAV7b sav, int offset) : base(sav)
         {
-            Offset = sav.GetBlockOffset(BelugaBlockIndex.EventWork);
+            Offset = offset;
             // Zone @ 0x21A0 - 0x21AF (128 flags)
             // System @ 0x21B0 - 0x21EF (512 flags) -- is this really 256 instead, with another 256 region after for the small vanish?
             // Vanish @ 0x21F0 - 0x22AF (1536 flags)
@@ -14,7 +14,6 @@ namespace PKHeX.Core
 
             // time flags (39 used flags of 42) = 6 bytes 0x22F0-0x22F5
             // trainer flags (???) = 0x22F6 - end?
-
         }
 
         // Overall Layout
@@ -134,50 +133,50 @@ namespace PKHeX.Core
 
         private int GetFlagStart(EventVarType type)
         {
-            switch (type)
+            return type switch
             {
-                case EventVarType.Zone: return ZoneFlagStart;
-                case EventVarType.System: return SystemFlagStart;
-                case EventVarType.Vanish: return VanishFlagStart;
-                case EventVarType.Event: return EventFlagStart;
-            }
-            throw new ArgumentException(nameof(type));
+                EventVarType.Zone => ZoneFlagStart,
+                EventVarType.System => SystemFlagStart,
+                EventVarType.Vanish => VanishFlagStart,
+                EventVarType.Event => EventFlagStart,
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
 
         private int GetWorkStart(EventVarType type)
         {
-            switch (type)
+            return type switch
             {
-                case EventVarType.Zone: return ZoneWorkStart;
-                case EventVarType.System: return SystemWorkStart;
-                case EventVarType.Scene: return SceneWorkStart;
-                case EventVarType.Event: return EventWorkStart;
-            }
-            throw new ArgumentException(nameof(type));
+                EventVarType.Zone => ZoneWorkStart,
+                EventVarType.System => SystemWorkStart,
+                EventVarType.Scene => SceneWorkStart,
+                EventVarType.Event => EventWorkStart,
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
 
         private int GetFlagCount(EventVarType type)
         {
-            switch (type)
+            return type switch
             {
-                case EventVarType.Zone: return ZoneFlagCount;
-                case EventVarType.System: return SystemFlagCount;
-                case EventVarType.Vanish: return VanishFlagCount;
-                case EventVarType.Event: return EventFlagCount;
-            }
-            throw new ArgumentException(nameof(type));
+                EventVarType.Zone => ZoneFlagCount,
+                EventVarType.System => SystemFlagCount,
+                EventVarType.Vanish => VanishFlagCount,
+                EventVarType.Event => EventFlagCount,
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
 
         private int GetWorkCount(EventVarType type)
         {
-            switch (type)
+            return type switch
             {
-                case EventVarType.Zone: return ZoneWorkCount;
-                case EventVarType.System: return SystemWorkCount;
-                case EventVarType.Scene: return SceneWorkCount;
-                case EventVarType.Event: return EventWorkCount;
-            }
-            throw new ArgumentException(nameof(type));
+                EventVarType.Zone => ZoneWorkCount,
+                EventVarType.System => SystemWorkCount,
+                EventVarType.Scene => SceneWorkCount,
+                EventVarType.Event => EventWorkCount,
+                _ => throw new ArgumentException(nameof(type))
+            };
         }
     }
 }

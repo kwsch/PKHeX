@@ -8,13 +8,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class InventoryPouch7b : InventoryPouch
     {
-        public InventoryPouch7b(InventoryType type, ushort[] legal, int maxcount, int offset, int size)
-            : base(type, legal, maxcount, offset, size)
+        public InventoryPouch7b(InventoryType type, ushort[] legal, int maxCount, int offset, int size)
+            : base(type, legal, maxCount, offset, size)
         {
         }
 
         public bool SetNew { get; set; }
-        private InventoryItem[] OriginalItems;
+        private InventoryItem[] OriginalItems = Array.Empty<InventoryItem>();
 
         public override void GetPouch(byte[] Data)
         {

@@ -4,12 +4,17 @@ namespace PKHeX.Core
 {
     public interface IVersion
     {
-        GameVersion Version { get; set; }
+        GameVersion Version { get; }
+    }
+
+    internal interface IVersionSet
+    {
+        GameVersion Version { set; }
     }
 
     public static partial class Extensions
     {
-        public static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
+        private static bool CanBeReceivedBy(this IVersion ver, GameVersion game) => ver.Version.Contains(game);
 
         public static GameVersion GetCompatibleVersion(this IVersion ver, GameVersion prefer)
         {
@@ -18,12 +23,12 @@ namespace PKHeX.Core
             return ver.GetSingleVersion();
         }
 
-        internal static void SetVersion(this IEnumerable<IVersion> arr, GameVersion game)
+        internal static void SetVersion<T>(this IEnumerable<T> arr, GameVersion game) where T : IVersion, IVersionSet
         {
             foreach (var z in arr)
             {
-                if (z.Version <= 0)
-                    z.Version = game;
+                if (((IVersion)z).Version <= 0)
+                    ((IVersionSet)z).Version = game;
             }
         }
 
@@ -38,9 +43,10 @@ namespace PKHeX.Core
             const int max = (int) GameVersion.RB;
             if ((int)ver.Version < max)
                 return ver.Version;
+            var rnd = Util.Rand;
             while (true) // this isn't optimal, but is low maintenance
             {
-                var game = (GameVersion)Util.Rand.Next(1, max);
+                var game = (GameVersion)rnd.Next(1, max);
                 if (ver.CanBeReceivedBy(game))
                     return game;
             }

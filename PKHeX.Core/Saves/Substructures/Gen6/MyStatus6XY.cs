@@ -18,8 +18,8 @@ namespace PKHeX.Core
 
         public string OT_Nick
         {
-            get => SAV.GetString(Offset + 0x62, SAV6.ShortStringLength / 2);
-            set => SAV.SetData(SAV.SetString(value, SAV6.ShortStringLength / 2), Offset + 0x62);
+            get => SAV.GetString(Offset + 0x62, SAV6.ShortStringLength);
+            set => SAV.SetData(SAV.SetString(value, 12), Offset + 0x62);
         }
 
         public short EyeColor

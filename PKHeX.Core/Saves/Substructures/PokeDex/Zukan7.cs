@@ -19,22 +19,26 @@ namespace PKHeX.Core
         protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
         protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
-        private IList<int> FormBaseSpecies;
+        private readonly IList<int> FormBaseSpecies;
 
-        public Zukan7(SaveFile sav, int dex, int langflag) : base(sav, dex, langflag)
+        public Zukan7(SAV7SM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexSM) { }
+        public Zukan7(SAV7USUM sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexUSUM) { }
+        protected Zukan7(SAV7b sav, int dex, int langflag) : this(sav, dex, langflag, DexFormUtil.GetDexFormIndexGG) { }
+
+        private Zukan7(SaveFile sav, int dex, int langflag, Func<int, int, int, int> form) : base(sav, dex, langflag)
         {
-            DexFormIndexFetcher = SAV is SAV7USUM ? (Func<int, int, int, int>)DexFormUtil.GetDexFormIndexUSUM : DexFormUtil.GetDexFormIndexSM;
-            LoadDexList();
+            DexFormIndexFetcher = form;
+            FormBaseSpecies = GetFormIndexBaseSpeciesList();
             Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
-        protected void LoadDexList() => FormBaseSpecies = GetFormIndexBaseSpeciesList();
+        public Func<int, int, int, int> DexFormIndexFetcher { get; }
 
         protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             int species = baseBit + 1;
 
-            if (species == 351) // castform
+            if (species == (int)Species.Castform)
                 isShiny = false;
 
             // Starting with Gen7, form bits are stored in the same region as the species flags.
@@ -193,12 +197,13 @@ namespace PKHeX.Core
         public IList<string> GetEntryNames(IReadOnlyList<string> Species)
         {
             var names = new List<string>();
-            for (int i = 1; i <= SAV.MaxSpeciesID; i++)
+            var max = SAV.MaxSpeciesID;
+            for (int i = 1; i <= max; i++)
                 names.Add($"{i:000} - {Species[i]}");
 
             // Add Formes
-            int ctr = SAV.MaxSpeciesID;
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
+            int ctr = max + 1;
+            for (int spec = 1; spec <= max; spec++)
             {
                 int c = SAV.Personal[spec].FormeCount;
                 for (int f = 1; f < c; f++)

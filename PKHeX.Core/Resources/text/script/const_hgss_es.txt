@@ -1,0 +1,11 @@
+0048	Incial	0:Sin Elegir,152:Chikorita,155:Cyndaquil,158:Totodile
+0299	Pichu Picoreja (Encinar)	0:No aparecido,2:Desaparecido
+0161	Bestias (Torre Quemada)	0:Aparecido,1:Errante/Escapado
+0304	Latias/Latios Errante	0:No aaparecido,1:Listo para errar,2:Errante
+0067	Piedra Enigma	0:No Activa,1778:Activa
+0249	Torre Oculta	0:Sin recibir Inicial de Kanto,1:Obtenido Inicial de Kanto,2:Orbe Obtenida,3:Kyogre/Groudon Activado,4:Kyogre/Groudon Desaparecido,6:Rayquaza Activado,7:Rayquaza Capturado,9:Rayquaza Desaparecido
+0251	Ruinas Sinjoh	1:No entrado,4:Teleportado (1ra),5:Ido Afuera,6:Cynthia hablable (cabaña),7:Cynthia hablable,8:Antes de elegir Legendario,10: Obtenido Primer Legendario,13:Teleportado (2da),14:Obtenido Segundo Legendario
+0259	Legendario de Sinnoh (1er)	1:Dialga,2:Palkia,3:Giratina
+0258	Teleportable (2do) Arceus	1:Sala Origen,2:Encuentro Fatídico
+0305	Iniciales de Kanto	0:No Activado,1:Activado,2:Pendiente,3:Bulbasaur,4:Squirtle,5:Charmander
+0116	Togepi de Regalo	0:No Activado,1:Activado,2:Pendiente,3:Obtenido,4:Completo

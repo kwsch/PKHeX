@@ -16,7 +16,7 @@
         int Priority { get; }
 
         /// <summary>
-        /// Entrypoint for the parent to initialize the plugin with provided arguments.
+        /// Entry point for the parent to initialize the plugin with provided arguments.
         /// </summary>
         /// <param name="args">Arguments containing objects useful for initializing the plugin.</param>
         void Initialize(params object[] args);

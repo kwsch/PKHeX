@@ -5,11 +5,11 @@
         /// <summary>
         /// Gets the Wurmple Evolution Value for a given <see cref="PKM.EncryptionConstant"/>
         /// </summary>
-        /// <param name="EC">Encryption Constant</param>
+        /// <param name="encryptionConstant">Encryption Constant</param>
         /// <returns>Wurmple Evolution Value</returns>
-        public static uint GetWurmpleEvoVal(uint EC)
+        public static uint GetWurmpleEvoVal(uint encryptionConstant)
         {
-            var evoVal = EC >> 16;
+            var evoVal = encryptionConstant >> 16;
             return evoVal % 10 / 5;
         }
 
@@ -32,16 +32,16 @@
         /// <param name="evoVal">Wurmple Evolution Value</param>
         /// <remarks>0 = Silcoon, 1 = Cascoon</remarks>
         /// <returns>Encryption Constant</returns>
-        public static uint GetWurmpleEC(int evoVal)
+        public static uint GetWurmpleEncryptionConstant(int evoVal)
         {
-            uint EC;
-            do EC = Util.Rand32();
-            while (evoVal != GetWurmpleEvoVal(EC));
-            return EC;
+            uint result;
+            do result = Util.Rand32();
+            while (evoVal != GetWurmpleEvoVal(result));
+            return result;
         }
 
         /// <summary>
-        /// Checks to see if the input <see cref="pkm"/>, with species being that of Wurmple's evo chain, is valid. 
+        /// Checks to see if the input <see cref="pkm"/>, with species being that of Wurmple's evo chain, is valid.
         /// </summary>
         /// <param name="pkm">Pokémon data</param>
         /// <returns>True if valid, false if invalid</returns>

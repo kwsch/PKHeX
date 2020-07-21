@@ -1,4 +1,5 @@
-﻿using PKHeX.Core;
+﻿using System;
+using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -6,9 +7,8 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK4()
         {
-            var pk4 = pkm;
-            if (pk4?.Format != 4)
-                return;
+            if (!(Entity is G4PKM pk4))
+                throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk4);
             LoadMisc2(pk4);
@@ -16,7 +16,7 @@ namespace PKHeX.WinForms.Controls
             LoadMisc4(pk4);
 
             CB_EncounterType.SelectedValue = pk4.Gen4 ? pk4.EncounterType : 0;
-            CB_EncounterType.Visible = Label_EncounterType.Visible = pkm.Gen4;
+            CB_EncounterType.Visible = Label_EncounterType.Visible = Entity.Gen4;
 
             if (HaX)
                 DEV_Ability.SelectedValue = pk4.Ability;
@@ -24,23 +24,16 @@ namespace PKHeX.WinForms.Controls
                 LoadAbility4(pk4);
 
             // Minor properties
-            switch (pk4)
-            {
-                case PK4 p4: ShinyLeaf.Value = p4.ShinyLeaf;
-                    break;
-                case BK4 b4: ShinyLeaf.Value = b4.ShinyLeaf;
-                    break;
-            }
+            ShinyLeaf.SetValue(pk4.ShinyLeaf);
 
             LoadPartyStats(pk4);
             UpdateStats();
         }
 
-        private PKM PreparePK4()
+        private G4PKM PreparePK4()
         {
-            var pk4 = pkm;
-            if (pk4?.Format != 4)
-                return null;
+            if (!(Entity is G4PKM pk4))
+                throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk4);
             SaveMisc2(pk4);
@@ -50,15 +43,7 @@ namespace PKHeX.WinForms.Controls
             pk4.EncounterType = WinFormsUtil.GetIndex(CB_EncounterType);
 
             // Minor properties
-            switch (pk4)
-            {
-                case PK4 p4:
-                    p4.ShinyLeaf = ShinyLeaf.Value;
-                    break;
-                case BK4 b4:
-                    b4.ShinyLeaf = ShinyLeaf.Value;
-                    break;
-            }
+            pk4.ShinyLeaf = ShinyLeaf.GetValue();
 
             SavePartyStats(pk4);
             pk4.FixMoves();

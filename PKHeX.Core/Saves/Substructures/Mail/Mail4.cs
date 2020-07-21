@@ -2,35 +2,22 @@ using System;
 
 namespace PKHeX.Core
 {
-    public class Mail4 : Mail
+    public sealed class Mail4 : Mail
     {
-        private const int SIZE = 0x38;
+        public const int SIZE = 0x38;
 
-        public Mail4(SAV4 sav, int index)
-        {
-            switch (sav.Version)
-            {
-                case GameVersion.DP: DataOffset = (index * SIZE) + 0x4BEC + sav.GBO; break;
-                case GameVersion.Pt: DataOffset = (index * SIZE) + 0x4E80 + sav.GBO; break;
-                case GameVersion.HGSS: DataOffset = (index * SIZE) + 0x3FA8 + sav.GBO; break;
-            }
-            Data = sav.GetData(DataOffset, SIZE);
-        }
+        public Mail4(byte[] data, int ofs) : base(data, ofs) { }
 
-        public Mail4(byte[] data)
-        {
-            Data = data;
-            DataOffset = -1;
-        }
+        public Mail4(byte[] data) : base(data, -1) { }
 
-        public Mail4(byte? lang = null, byte? ver = null)
+        public Mail4(byte? lang, byte? ver) : base(new byte[SIZE])
         {
-            Data = new byte[SIZE];
-            DataOffset = -1;
             if (lang != null) AuthorLanguage = (byte)lang;
             if (ver != null) AuthorVersion = (byte)ver;
             ResetData();
         }
+
+        public override void CopyTo(SaveFile sav) => sav.SetData(((SAV4)sav).General, Data, DataOffset);
 
         private void ResetData()
         {
@@ -71,7 +58,13 @@ namespace PKHeX.Core
             }
         }
 
-        public override void SetBlank() => SetBlank(null, null);
-        public void SetBlank(byte? lang, byte? ver) => new Mail4(lang: lang, ver: ver).Data.CopyTo(Data, 0);
+        public override void SetBlank() => SetBlank(0, 0);
+
+        public void SetBlank(byte lang, byte ver)
+        {
+            Array.Clear(Data, 0, Data.Length);
+            AuthorLanguage = lang;
+            AuthorVersion = ver;
+        }
     }
 }

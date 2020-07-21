@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TrashEditor));
             this.TB_Text = new System.Windows.Forms.TextBox();
             this.CB_Species = new System.Windows.Forms.ComboBox();
             this.B_Cancel = new System.Windows.Forms.Button();
@@ -176,6 +175,7 @@
             // 
             // NUD_Generation
             // 
+            this.NUD_Generation.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NUD_Generation.Location = new System.Drawing.Point(115, 70);
             this.NUD_Generation.Name = "NUD_Generation";
             this.NUD_Generation.Size = new System.Drawing.Size(47, 20);
@@ -227,7 +227,7 @@
             this.Controls.Add(this.B_Save);
             this.Controls.Add(this.TB_Text);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "TrashEditor";

@@ -20,12 +20,12 @@ namespace PKHeX.Core
         /// <param name="message">QR Message</param>
         /// <param name="format">Preferred <see cref="PKM.Format"/> to expect.</param>
         /// <returns>Decoded <see cref="PKM"/> object, null if invalid.</returns>
-        public static PKM GetPKM(string message, int format)
+        public static PKM? GetPKM(string message, int format)
         {
-            var pkdata = DecodeMessagePKM(message);
-            if (pkdata == null)
+            var data = DecodeMessagePKM(message);
+            if (data == null)
                 return null;
-            return PKMConverter.GetPKMfromBytes(pkdata, format);
+            return PKMConverter.GetPKMfromBytes(data, format);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace PKHeX.Core
             if (pkm is PK7 pk7)
             {
                 byte[] payload = QR7.GenerateQRData(pk7);
-                return string.Concat(payload.Select(z => (char)z));
+                return GetMessage(payload);
             }
 
             var server = GetExploitURLPrefixPKM(pkm.Format);
@@ -47,24 +47,31 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Gets a QR Message from the input <see cref="byte"/> data.
+        /// </summary>
+        /// <param name="payload">Data to encode</param>
+        /// <returns>QR Message</returns>
+        public static string GetMessage(byte[] payload) => string.Concat(payload.Select(z => (char) z));
+
+        /// <summary>
         /// Gets a QR Message from the input <see cref="MysteryGift"/> data.
         /// </summary>
         /// <param name="mg">Gift data to encode</param>
         /// <returns>QR Message</returns>
-        public static string GetMessage(MysteryGift mg)
+        public static string GetMessage(DataMysteryGift mg)
         {
             var server = GetExploitURLPrefixWC(mg.Format);
-            var data = mg.Data;
+            var data = mg.Write();
             return GetMessageBase64(data, server);
         }
 
         public static string GetMessageBase64(byte[] data, string server)
         {
-            string qrdata = Convert.ToBase64String(data);
-            return server + qrdata;
+            string payload = Convert.ToBase64String(data);
+            return server + payload;
         }
 
-        private static byte[] DecodeMessagePKM(string message)
+        private static byte[]? DecodeMessagePKM(string message)
         {
             if (message.Length < 32) // arbitrary length check; everything should be greater than this
                 return null;
@@ -77,7 +84,7 @@ namespace PKHeX.Core
             return null;
         }
 
-        private static byte[] DecodeMessageDataBase64(string url)
+        private static byte[]? DecodeMessageDataBase64(string url)
         {
             try
             {

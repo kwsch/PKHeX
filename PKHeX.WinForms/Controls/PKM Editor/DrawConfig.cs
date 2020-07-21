@@ -74,12 +74,12 @@ namespace PKHeX.WinForms
 
         public Color GetGenderColor(int gender)
         {
-            switch (gender)
+            return gender switch
             {
-                case 0: return Male;
-                case 1: return Female;
-                default: return TextColor;
-            }
+                0 => Male,
+                1 => Female,
+                _ => TextColor
+            };
         }
 
         public bool GetMarkingColor(int markval, out Color c)
@@ -108,27 +108,6 @@ namespace PKHeX.WinForms
 
         public void Dispose() => Brushes.Dispose();
 
-        public sealed class BrushSet : IDisposable
-        {
-            public Brush Text { get; set; }
-            public Brush BackLegal { get; set; }
-            public Brush BackDefault { get; set; }
-            public Brush TextHighlighted { get; set; }
-            public Brush BackHighlighted { get; set; }
-
-            public Brush GetText(bool highlight) => highlight ? TextHighlighted : Text;
-            public Brush GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackDefault);
-
-            public void Dispose()
-            {
-                Text.Dispose();
-                BackLegal.Dispose();
-                BackDefault.Dispose();
-                TextHighlighted.Dispose();
-                BackHighlighted.Dispose();
-            }
-        }
-
         public override string ToString()
         {
             var props = ReflectUtil.GetAllPropertyInfoCanWritePublic(typeof(DrawConfig));
@@ -139,11 +118,7 @@ namespace PKHeX.WinForms
                     continue;
 
                 var name = p.Name;
-                object value;
-                if (p.PropertyType == typeof(Color))
-                    value = ((Color)p.GetValue(this)).ToArgb();
-                else
-                    value = p.GetValue(this);
+                var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)).ToArgb() : p.GetValue(this);
                 lines.Add($"{name}\t{value}");
             }
             return string.Join("\n", lines);
@@ -172,6 +147,8 @@ namespace PKHeX.WinForms
             try
             {
                 var pi = t.GetProperty(name);
+                if (pi == null)
+                    throw new ArgumentNullException(name);
                 if (pi.PropertyType == typeof(Color))
                 {
                     var color = Color.FromArgb(int.Parse(value));
@@ -187,6 +164,27 @@ namespace PKHeX.WinForms
                 Debug.WriteLine($"Failed to write {name} to {value}!");
                 Debug.WriteLine(e.Message);
             }
+        }
+    }
+
+    public sealed class BrushSet : IDisposable
+    {
+        public Brush Text { get; set; }
+        public Brush BackLegal { get; set; }
+        public Brush BackDefault { get; set; }
+        public Brush TextHighlighted { get; set; }
+        public Brush BackHighlighted { get; set; }
+
+        public Brush GetText(bool highlight) => highlight ? TextHighlighted : Text;
+        public Brush GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackDefault);
+
+        public void Dispose()
+        {
+            Text.Dispose();
+            BackLegal.Dispose();
+            BackDefault.Dispose();
+            TextHighlighted.Dispose();
+            BackHighlighted.Dispose();
         }
     }
 }

@@ -1,2 +1,3 @@
+0048	Starter	0:Snivy,1:Tepig,2:Oshawott
 0077	Entralink	6:Finished Tutorial
 0268	Latias/Latios	5:Battleable,6:Disappeared

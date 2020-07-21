@@ -1,0 +1,203 @@
+－
+
+un lugar misterioso
+
+un lugar lejano
+
+Pueblo Yarda
+
+Bosque Oniria
+
+[~ 10]
+[~ 11]
+Ruta 1
+
+Pueblo Par
+
+Estación de Par
+
+Ruta 2
+
+Ciudad Pistón
+
+Estación de Pistón
+
+Estadio de Pistón
+
+[~ 26]
+[~ 27]
+Ruta 3
+
+Mina de Galar
+
+Ruta 4
+
+Pueblo Hoyuelo
+
+Estadio de Hoyuelo
+
+[~ 38]
+[~ 39]
+Ruta 5
+
+[~ 42]
+[~ 43]
+Pueblo Amura
+
+Estación de Amura
+
+Estadio de Amura
+
+[~ 50]
+[~ 51]
+Afueras de Pistón
+
+Mina de Galar n.º 2
+
+Ciudad Artejo
+
+Estación de Artejo
+
+Estadio de Artejo
+
+[~ 62]
+[~ 63]
+Planta Eléctrica
+
+Corona de la Torre
+
+Ruta 6
+
+Pueblo Ladera
+
+Estadio de Ladera
+
+[~ 74]
+[~ 75]
+Bosque Lumirinto
+
+Pueblo Plié
+
+Estadio de Plié
+
+[~ 82]
+[~ 83]
+Ruta 7
+
+Ruta 8
+
+Ruta 8
+Senda Vaporosa
+Ruta 9
+
+Ruta 9
+Bahía de Auriga
+Ruta 9
+Afueras de Crampón
+Pueblo Auriga
+
+Estadio de Auriga
+
+[~ 100]
+[~ 101]
+Pueblo Crampón
+
+Túnel de la Ruta 9
+
+Ruta 10
+
+Est. Colinablanca
+
+Ciudad Puntera
+
+Estación de Puntera
+
+Estadio de Puntera
+Sede de la Liga
+Estadio de Puntera
+Antesala
+Estadio de Puntera
+
+Punto de Encuentro
+Área Silvestre
+Pradera Radiante
+Área Silvestre
+Arboleda Claroscuro
+Área Silvestre
+Antigua Atalaya
+Área Silvestre
+Lago Axew (este)
+Área Silvestre
+Lago Axew (oeste)
+Área Silvestre
+Ojo de Axew
+Área Silvestre
+Lago Milotic (sur)
+Área Silvestre
+Silla del Gigante
+Área Silvestre
+Lago Milotic (norte)
+Área Silvestre
+Ribera de Pistón
+Área Silvestre
+Valle Entrepuentes
+Área Silvestre
+Llanura Pétrea
+Área Silvestre
+Cuenca Polvorienta
+Área Silvestre
+Espejo del Gigante
+Área Silvestre
+Cornisa de Artejo
+Área Silvestre
+Gorro del Gigante
+Área Silvestre
+Lago del Enfado
+Área Silvestre
+Est. Área Silvestre
+
+Torre Batalla
+
+Torre Rose
+
+Nido Pokémon
+[~ 163]
+Prado Reverencia
+Isla de la Armadura
+Humedal Frescor
+Isla de la Armadura
+Bosque Concentración
+Isla de la Armadura
+Playa Desafío
+Isla de la Armadura
+Cueva Contienda
+Isla de la Armadura
+Ruta Desafío
+Isla de la Armadura
+Cueva Tenacidad
+Isla de la Armadura
+Bahía Circular
+Isla de la Armadura
+Llano Entrenamiento
+Isla de la Armadura
+Gruta Calentamiento
+Isla de la Armadura
+Cuenca Arenosa
+Isla de la Armadura
+Mar Gimnástico
+Isla de la Armadura
+Mar Andana
+Isla de la Armadura
+Mar Islejos
+Isla de la Armadura
+Mar Meloso
+Isla de la Armadura
+Isla Melosa
+Isla de la Armadura
+Dojo Maestro
+
+Torre de las Sombras
+
+Torre de las Aguas
+
+Estación Armadura

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -13,12 +12,14 @@ namespace PKHeX.WinForms
     public partial class BatchEditor : Form
     {
         private readonly SaveFile SAV;
+        private readonly PKM pkm;
+        private int currentFormat = -1;
 
         public BatchEditor(PKM pk, SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            pkmref = pk;
+            pkm = pk;
             SAV = sav;
             DragDrop += TabMain_DragDrop;
             DragEnter += TabMain_DragEnter;
@@ -30,19 +31,15 @@ namespace PKHeX.WinForms
             CB_Format.Items.Add(MsgAll);
 
             CB_Format.SelectedIndex = CB_Require.SelectedIndex = 0;
-            new ToolTip().SetToolTip(CB_Property, MsgBEToolTipPropName);
-            new ToolTip().SetToolTip(L_PropType, MsgBEToolTipPropType);
-            new ToolTip().SetToolTip(L_PropValue, MsgBEToolTipPropValue);
+            toolTip1.SetToolTip(CB_Property, MsgBEToolTipPropName);
+            toolTip2.SetToolTip(L_PropType, MsgBEToolTipPropType);
+            toolTip3.SetToolTip(L_PropValue, MsgBEToolTipPropValue);
         }
-
-        private readonly PKM pkmref;
-
-        private int currentFormat = -1;
 
         private void B_Open_Click(object sender, EventArgs e)
         {
             if (!B_Go.Enabled) return;
-            var fbd = new FolderBrowserDialog();
+            using var fbd = new FolderBrowserDialog();
             if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -89,9 +86,9 @@ namespace PKHeX.WinForms
         private void CB_Property_SelectedIndexChanged(object sender, EventArgs e)
         {
             L_PropType.Text = BatchEditing.GetPropertyType(CB_Property.Text, CB_Format.SelectedIndex);
-            if (BatchEditing.TryGetHasProperty(pkmref, CB_Property.Text, out var pi))
+            if (BatchEditing.TryGetHasProperty(pkm, CB_Property.Text, out var pi))
             {
-                L_PropValue.Text = pi.GetValue(pkmref)?.ToString();
+                L_PropValue.Text = pi.GetValue(pkm)?.ToString();
                 L_PropType.ForeColor = L_PropValue.ForeColor; // reset color
             }
             else // no property, flag
@@ -119,8 +116,6 @@ namespace PKHeX.WinForms
             RB_Path.Checked = true;
         }
 
-        private BackgroundWorker b;
-
         private void RunBackgroundWorker()
         {
             if (RTB_Instructions.Lines.Any(line => line.Length == 0))
@@ -146,7 +141,7 @@ namespace PKHeX.WinForms
             if (RB_Path.Checked)
             {
                 WinFormsUtil.Alert(MsgExportFolder, MsgExportFolderAdvice);
-                var fbd = new FolderBrowserDialog();
+                using var fbd = new FolderBrowserDialog();
                 var dr = fbd.ShowDialog();
                 if (dr != DialogResult.OK)
                     return;
@@ -167,36 +162,40 @@ namespace PKHeX.WinForms
         private void RunBatchEdit(StringInstructionSet[] sets, string source, string destination)
         {
             editor = new Core.BatchEditor();
-            b = new BackgroundWorker { WorkerReportsProgress = true };
+            bool finished = false, displayed = false; // hack cuz DoWork event isn't cleared after completion
             b.DoWork += (sender, e) =>
             {
+                if (finished)
+                    return;
                 if (RB_Boxes.Checked)
                     RunBatchEditSaveFile(sets, boxes: true);
                 else if (RB_Party.Checked)
                     RunBatchEditSaveFile(sets, party: true);
                 else
                     RunBatchEditFolder(sets, source, destination);
+                finished = true;
             };
             b.ProgressChanged += (sender, e) => SetProgressBar(e.ProgressPercentage);
             b.RunWorkerCompleted += (sender, e) =>
             {
                 string result = editor.GetEditorResults(sets);
-                WinFormsUtil.Alert(result);
+                if (!displayed) WinFormsUtil.Alert(result);
+                displayed = true;
                 FLP_RB.Enabled = RTB_Instructions.Enabled = B_Go.Enabled = true;
                 SetupProgressBar(0);
             };
             b.RunWorkerAsync();
         }
 
-        private void RunBatchEditFolder(IList<StringInstructionSet> sets, string source, string destination)
+        private void RunBatchEditFolder(IReadOnlyCollection<StringInstructionSet> sets, string source, string destination)
         {
             var files = Directory.GetFiles(source, "*", SearchOption.AllDirectories);
             SetupProgressBar(files.Length * sets.Count);
             foreach (var set in sets)
-            ProcessFolder(files, set.Filters, set.Instructions, destination);
+                ProcessFolder(files, set.Filters, set.Instructions, destination);
         }
 
-        private void RunBatchEditSaveFile(IList<StringInstructionSet> sets, bool boxes = false, bool party = false)
+        private void RunBatchEditSaveFile(IReadOnlyCollection<StringInstructionSet> sets, bool boxes = false, bool party = false)
         {
             IList<PKM> data;
             if (party && SAV.HasParty && process(data = SAV.PartyData))
@@ -207,7 +206,7 @@ namespace PKHeX.WinForms
             {
                 SetupProgressBar(d.Count * sets.Count);
                 foreach (var set in sets)
-                ProcessSAV(d, set.Filters, set.Instructions);
+                    ProcessSAV(d, set.Filters, set.Instructions);
                 return d.Count != 0;
             }
         }
@@ -233,16 +232,16 @@ namespace PKHeX.WinForms
         // Mass Editing
         private Core.BatchEditor editor = new Core.BatchEditor();
 
-        private void ProcessSAV(IList<PKM> data, IList<StringInstruction> Filters, IList<StringInstruction> Instructions)
+        private void ProcessSAV(IList<PKM> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {
             for (int i = 0; i < data.Count; i++)
             {
-                editor.ProcessPKM(data[i], Filters, Instructions);
+                editor.Process(data[i], Filters, Instructions);
                 b.ReportProgress(i);
             }
         }
 
-        private void ProcessFolder(IReadOnlyList<string> files, IList<StringInstruction> Filters, IList<StringInstruction> Instructions, string destPath)
+        private void ProcessFolder(IReadOnlyList<string> files, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions, string destPath)
         {
             for (int i = 0; i < files.Count; i++)
             {
@@ -256,9 +255,9 @@ namespace PKHeX.WinForms
 
                 int format = PKX.GetPKMFormatFromExtension(fi.Extension, SAV.Generation);
                 byte[] data = File.ReadAllBytes(file);
-                var pkm = PKMConverter.GetPKMfromBytes(data, prefer: format);
-                if (editor.ProcessPKM(pkm, Filters, Instructions))
-                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pkm.DecryptedBoxData);
+                var pk = PKMConverter.GetPKMfromBytes(data, prefer: format);
+                if (editor.Process(pk, Filters, Instructions))
+                    File.WriteAllBytes(Path.Combine(destPath, Path.GetFileName(file)), pk.DecryptedPartyData);
 
                 b.ReportProgress(i);
             }

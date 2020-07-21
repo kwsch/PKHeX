@@ -13,6 +13,11 @@ namespace PKHeX.Core
     public class PersonalTable
     {
         /// <summary>
+        /// Personal Table used in <see cref="GameVersion.SWSH"/>.
+        /// </summary>
+        public static readonly PersonalTable SWSH = GetTable("swsh", GameVersion.SWSH); // todo
+
+        /// <summary>
         /// Personal Table used in <see cref="GameVersion.GG"/>.
         /// </summary>
         public static readonly PersonalTable GG = GetTable("gg", GameVersion.GG);
@@ -107,17 +112,6 @@ namespace PKHeX.Core
             return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
         }
 
-        private static byte[][] SplitBytes(byte[] data, int size)
-        {
-            byte[][] result = new byte[data.Length / size][];
-            for (int i = 0; i < data.Length; i += size)
-            {
-                result[i / size] = new byte[size];
-                Array.Copy(data, i, result[i / size], 0, size);
-            }
-            return result;
-        }
-
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
         {
             switch (format)
@@ -138,10 +132,12 @@ namespace PKHeX.Core
                     return z => new PersonalInfoXY(z);
                 case GameVersion.ORAS:
                     return z => new PersonalInfoORAS(z);
+                case GameVersion.SM: case GameVersion.USUM:
+                    return z => new PersonalInfoSM(z);
                 case GameVersion.GG:
                     return z => new PersonalInfoGG(z);
                 default:
-                    return z => new PersonalInfoSM(z);
+                    return z => new PersonalInfoSWSH(z);
             }
         }
 
@@ -168,6 +164,7 @@ namespace PKHeX.Core
                 case GameVersion.SM:
                 case GameVersion.USUM:
                 case GameVersion.GG: return PersonalInfoSM.SIZE;
+                case GameVersion.SWSH: return PersonalInfoSWSH.SIZE;
 
                 default: return -1;
             }
@@ -178,6 +175,7 @@ namespace PKHeX.Core
             FixPersonalTableG1();
             PopulateGen3Tutors();
             PopulateGen4Tutors();
+            CopyDexitGenders();
         }
 
         private static void FixPersonalTableG1()
@@ -194,28 +192,42 @@ namespace PKHeX.Core
         private static void PopulateGen3Tutors()
         {
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
-            var TMHM = Data.UnpackMini(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
+            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
             for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
             {
-                E[i].AddTMHM(TMHM[i]);
+                E[i].AddTMHM(machine[i]);
                 E[i].AddTypeTutors(tutors[i]);
             }
         }
 
         private static void PopulateGen4Tutors()
         {
-            var tutors = Data.UnpackMini(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
             for (int i = 0; i < tutors.Length; i++)
                 HGSS[i].AddTypeTutors(tutors[i]);
+        }
+
+        /// <summary>
+        /// Sword/Shield do not contain personal data (stubbed) for all species that are not allowed to visit the game.
+        /// Copy all the genders from <see cref="USUM"/>'s table for all past species, since we need it for <see cref="PKX.Personal"/> gender lookups for all generations.
+        /// </summary>
+        private static void CopyDexitGenders()
+        {
+            for (int i = 1; i <= 807; i++)
+            {
+                var ss = SWSH[i];
+                if (ss.HP == 0)
+                    ss.Gender = USUM[i].Gender;
+            }
         }
 
         public PersonalTable(byte[] data, GameVersion format)
         {
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
-            byte[][] entries = SplitBytes(data, size);
-            Table = new PersonalInfo[data.Length / size];
+            byte[][] entries = data.Split(size);
+            Table = new PersonalInfo[entries.Length];
             for (int i = 0; i < Table.Length; i++)
                 Table[i] = get(entries[i]);
 
@@ -310,7 +322,9 @@ namespace PKHeX.Core
             {
                 int FormCount = this[i].FormeCount;
                 FormList[i] = new string[FormCount];
-                if (FormCount <= 0) continue;
+                if (FormCount <= 0)
+                    continue;
+
                 FormList[i][0] = species[i];
                 for (int j = 1; j < FormCount; j++)
                     FormList[i][j] = $"{species[i]} {j}";
@@ -336,12 +350,14 @@ namespace PKHeX.Core
             for (int i = 0; i <= MaxSpecies; i++)
             {
                 result[i] = species[i];
-                if (AltForms[i].Length == 0) continue;
-                int altformpointer = this[i].FormStatsIndex;
-                if (altformpointer <= 0) continue;
+                if (AltForms[i].Length == 0)
+                    continue;
+                int basePtr = this[i].FormStatsIndex;
+                if (basePtr <= 0)
+                    continue;
                 for (int j = 1; j < AltForms[i].Length; j++)
                 {
-                    int ptr = altformpointer + j - 1;
+                    int ptr = basePtr + j - 1;
                     baseForm[ptr] = i;
                     formVal[ptr] = j;
                     result[ptr] = AltForms[i][j];
@@ -354,12 +370,12 @@ namespace PKHeX.Core
         /// Checks to see if either of the input type combinations exist in the table.
         /// </summary>
         /// <remarks>Only useful for checking Generation 1 <see cref="PK1.Type_A"/> and <see cref="PK1.Type_B"/> properties.</remarks>
-        /// <param name="Type1">First type</param>
-        /// <param name="Type2">Second type</param>
+        /// <param name="type1">First type</param>
+        /// <param name="type2">Second type</param>
         /// <returns>Indication that the combination exists in the table.</returns>
-        public bool IsValidTypeCombination(int Type1, int Type2)
+        public bool IsValidTypeCombination(int type1, int type2)
         {
-            return Table.Any(p => p.IsValidTypeCombination(Type1, Type2));
+            return Table.Any(p => p.IsValidTypeCombination(type1, type2));
         }
     }
 }

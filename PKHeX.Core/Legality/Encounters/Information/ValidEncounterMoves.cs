@@ -7,30 +7,47 @@ namespace PKHeX.Core
     /// <summary>
     /// Object which stores information useful for analyzing a moveset relative to the encounter data.
     /// </summary>
-    public class ValidEncounterMoves
+    public sealed class ValidEncounterMoves
     {
-        public List<int>[] LevelUpMoves { get; } = Empty;
-        public List<int>[] TMHMMoves { get; } = Empty;
-        public List<int>[] TutorMoves { get; } = Empty;
+        public IReadOnlyList<int>[] LevelUpMoves { get; }
+        public IReadOnlyList<int>[] TMHMMoves { get; } = Empty;
+        public IReadOnlyList<int>[] TutorMoves { get; } = Empty;
         public int[] Relearn = Array.Empty<int>();
 
-        private const int EmptyCount = 7;
-        private static readonly List<int>[] Empty = new int[EmptyCount].Select(_ => new List<int>()).ToArray();
+        private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)
+        private static readonly IReadOnlyList<int>[] Empty = Enumerable.Repeat((IReadOnlyList<int>)new List<int>(), EmptyCount).ToArray();
 
-        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict)
+        public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterable encounter)
         {
-            LevelUpMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
-            TMHMMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
-            TutorMoves = Legal.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
+            var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
+
+            if (level[encounter.Generation] is List<int> x)
+                AddEdgeCaseMoves(x, encounter, pkm);
+
+            LevelUpMoves = level;
+            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
+            TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
         }
 
-        public ValidEncounterMoves(List<int>[] levelup)
+        private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)
+        {
+            switch (encounter)
+            {
+                case EncounterStatic8N r when r.IsDownLeveled(pkm): // Downleveled Raid can happen for shared raids and self-hosted raids.
+                    moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, -1, -1, r.LevelMax, r.Form, GameVersion.SW, false, 8));
+                    break;
+            }
+        }
+
+        public ValidEncounterMoves(IReadOnlyList<int>[] levelup)
         {
             LevelUpMoves = levelup;
         }
+
+        public ValidEncounterMoves() : this(Empty) { }
     }
 
-    public class LevelUpRestriction
+    public sealed class LevelUpRestriction
     {
         public readonly IReadOnlyList<EvoCriteria>[] EvolutionChains;
         public readonly int MinimumLevelGen1;

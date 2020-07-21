@@ -1,21 +1,21 @@
-﻿―――――
+―――――
 Écras’Face
-Poing-Karaté
+Poing Karaté
 Torgnoles
 Poing Comète
 Ultimapoing
 Jackpot
-Poing de Feu
-Poing-Glace
-Poing-Éclair
+Poing Feu
+Poing Glace
+Poing Éclair
 Griffe
 Force Poigne
 Guillotine
 Coupe-Vent
-Danse-Lames
+Danse Lames
 Coupe
 Tornade
-Cru-Aile
+Cru-Ailes
 Cyclone
 Vol
 Étreinte
@@ -39,7 +39,7 @@ Mania
 Damoclès
 Mimi-Queue
 Dard-Venin
-Double-Dard
+Double Dard
 Dard-Nuée
 Groz’Yeux
 Morsure
@@ -47,7 +47,7 @@ Rugissement
 Hurlement
 Berceuse
 Ultrason
-Sonicboom
+Sonic Boom
 Entrave
 Acide
 Flammèche
@@ -69,7 +69,7 @@ Balayage
 Riposte
 Frappe Atlas
 Force
-Vol-Vie
+Vole-Vie
 Méga-Sangsue
 Vampigraine
 Croissance
@@ -78,13 +78,13 @@ Lance-Soleil
 Poudre Toxik
 Para-Spore
 Poudre Dodo
-Danse-Fleur
+Danse Fleurs
 Sécrétion
 Draco-Rage
-Danse Flamme
+Danse Flammes
 Éclair
 Tonnerre
-Cage-Éclair
+Cage Éclair
 Fatal-Foudre
 Jet-Pierres
 Séisme
@@ -119,7 +119,7 @@ Patience
 Métronome
 Mimique
 Destruction
-Bomb’Œuf
+Bombe Œuf
 Léchouille
 Purédpois
 Détritus
@@ -173,7 +173,7 @@ Cauchemar
 Roue de Feu
 Ronflement
 Malédiction
-Fléau
+Gigotage
 Conversion 2
 Aéroblast
 Spore Coton
@@ -186,17 +186,17 @@ Grimace
 Feinte
 Doux Baiser
 Cognobidon
-Bomb-Beurk
+Bombe Beurk
 Coud’Boue
 Octazooka
 Picots
 Élecanon
 Clairvoyance
-Prélèvem. Destin
+Lien du Destin
 Requiem
 Vent Glace
 Détection
-Charge-Os
+Charge Os
 Verrouillage
 Colère
 Tempête de Sable
@@ -209,7 +209,7 @@ Vantardise
 Lait à Boire
 Étincelle
 Taillade
-Aile d’Acier
+Ailes d’Acier
 Regard Noir
 Attraction
 Blabla Dodo
@@ -221,9 +221,9 @@ Rune Protect
 Balance
 Feu Sacré
 Ampleur
-Dynamopoing
+Dynamo-Poing
 Mégacorne
-Dracosouffle
+Draco-Souffle
 Relais
 Encore
 Poursuite
@@ -236,7 +236,7 @@ Aurore
 Synthèse
 Rayon Lune
 Puissance Cachée
-Coup-Croix
+Coup Croix
 Ouragan
 Danse Pluie
 Zénith
@@ -265,11 +265,11 @@ Façade
 Mitra-Poing
 Stimulant
 Par Ici
-Force-Nature
+Force Nature
 Chargeur
 Provoc
 Coup d’Main
-Tourmagik
+Tour de Magie
 Imitation
 Vœu
 Assistance
@@ -292,11 +292,11 @@ Force Cachée
 Plongée
 Cogne
 Camouflage
-Lumiqueue
+Lumi-Queue
 Lumi-Éclat
 Ball’Brume
-Danse-Plume
-Danse-Folle
+Danse Plumes
+Danse Folle
 Pied Brûleur
 Lance-Boue
 Ball’Glace
@@ -320,7 +320,7 @@ Vent Argenté
 Strido-Son
 Siffl’Herbe
 Chatouille
-Force Cosmik
+Force Cosmique
 Giclédo
 Rayon Signal
 Poing Ombre
@@ -331,12 +331,12 @@ Glaciation
 Ocroupi
 Balle Graine
 Aéropique
-Stalagtite
+Stalactite
 Mur de Fer
 Barrage
 Grondement
-Dracogriffe
-Végé-Attak
+Draco-Griffe
+Végé-Attaque
 Gonflette
 Rebond
 Tir de Boue
@@ -346,13 +346,13 @@ Implore
 Feuille Magik
 Tourniquet
 Plénitude
-Lame-Feuille
+Lame Feuille
 Danse Draco
 Boule Roc
 Onde de Choc
 Vibraqua
-Carnareket
-Psycho Boost
+Vœu Destructeur
+Psycho-Boost
 Atterrissage
 Gravité
 Œil Miracle
@@ -399,15 +399,15 @@ Poliroche
 Direct Toxik
 Vibrobscur
 Tranche-Nuit
-Hydroqueue
+Hydro-Queue
 Canon Graine
 Lame d’Air
-Plaie-Croix
+Plaie Croix
 Bourdon
-Dracochoc
-Dracocharge
+Draco-Choc
+Draco-Charge
 Rayon Gemme
-Vampipoing
+Vampi-Poing
 Onde Vide
 Exploforce
 Éco-Sphère
@@ -432,16 +432,16 @@ Luminocanon
 Escalade
 Anti-Brume
 Distorsion
-Draco Météore
+Draco-Météore
 Coup d’Jus
 Ébullilave
 Tempête Verte
 Mégafouet
 Roc-Boulet
-Poison-Croix
+Poison Croix
 Détricanon
 Tête de Fer
-Bombaimant
+Bombe Aimant
 Lame de Roc
 Séduction
 Piège de Roc
@@ -459,7 +459,7 @@ Fracass’Tête
 Coup Double
 Hurle-Temps
 Spatio-Rift
-Danse-Lune
+Danse Lune
 Presse
 Vortex Magma
 Trou Noir
@@ -492,7 +492,7 @@ Balayette
 Bombe Acide
 Tricherie
 Rayon Simple
-Ten-danse
+Ten-Danse
 Après Vous
 Chant Canon
 Écho
@@ -511,7 +511,7 @@ Projection
 Calcination
 À la Queue
 Acrobatie
-Copie Type
+Copie-Type
 Vengeance
 Tout ou Rien
 Passe-Cadeau
@@ -532,7 +532,7 @@ Double Baffe
 Crève-Cœur
 Encornebois
 Lame Sainte
-Coquilame
+Coqui-Lame
 Tacle Feu
 Phytomixeur
 Bulldoboule
@@ -567,7 +567,7 @@ Dard Mortel
 Hantise
 Halloween
 Râle Mâle
-DélugePlasmique
+Déluge Plasmique
 Parabocharge
 Maléfice Sylvain
 Tempête Florale
@@ -611,14 +611,14 @@ Frotte-Frimousse
 Retenue
 Harcèlement
 Poing Boost
-Mort-Ailes
+Mort’Ailes
 Myria-Flèches
 Myria-Vagues
 Force Chtonienne
 Lumière du Néant
 Onde Originelle
 Lame Pangéenne
-Draco Ascension
+Draco-Ascension
 Furie Dimension
 Turbo-Charge Bulldozer
 Turbo-Charge Bulldozer
@@ -666,7 +666,7 @@ Aria de l’Écume
 Marteau de Glace
 Soin Floral
 Cavalerie Lourde
-Vol-Force
+Vole-Force
 Lame Solaire
 Feuillage
 Projecteur
@@ -706,7 +706,7 @@ Carapiège
 Canon Floral
 Psycho-Croc
 Trépignement
-Os’Ombre
+Os Ombre
 Vif Roc
 Aqua-Brèche
 Laser Prisme
@@ -741,3 +741,79 @@ Pika-Fracas
 Évo-Fabulo
 Évo-Chardasso
 Écrous d’Poing
+Gardomax
+Canon Dynamax
+Tir de Précision
+Croque Fort
+Garde-à-Joues
+Ultime Bastion
+Goudronnage
+Poudre Magique
+Draco-Flèches
+Thérémonie
+Octoprise
+Prise de Bec
+Branchicrok
+Change-Côté
+Pyromax
+Insectomax
+Fulguromax
+Normalomax
+Pugilomax
+Spectromax
+Cryomax
+Toxinomax
+Hydromax
+Aéromax
+Enchantomax
+Dracomax
+Psychomax
+Lithomax
+Sismomax
+Sinistromax
+Phytomax
+Métallomax
+Dracacophonie
+Big Splash
+Nappage
+Tambour Battant
+Troquenard
+Ballon Brûlant
+Gladius Maximus
+Aegis Maxima
+Roue Libre
+Abattage
+Tapotige
+Overdrive
+Acide Malique
+Force G
+Choc Émotionnel
+Vapeur Féérique
+Fontaine de Vie
+Blocage
+Fourbette
+Joute Astrale
+Laser Infinimax
+Métalaser
+Vaste Pouvoir
+Métalliroue
+Rafale Écailles
+Laser Météore
+Kokiyarme
+Explo-Brume
+Gliss’Herbe
+Monte-Tension
+Champlification
+Ravage Rampant
+Feu Envieux
+Cent Rancunes
+Esprit Frappeur
+Gaz Corrosif
+Coaching
+Eau Revoir
+Triple Axel
+Double Volée
+Sable Ardent
+Selve Salvatrice
+Poing Obscur
+Torrent de Coups

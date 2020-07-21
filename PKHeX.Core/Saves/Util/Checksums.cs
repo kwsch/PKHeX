@@ -102,7 +102,7 @@ namespace PKHeX.Core
         /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC32(byte[] data, int start, int length, uint initial = 0)
+        public static ushort CheckSum32(byte[] data, int start, int length, uint initial = 0)
         {
             uint val = initial;
             for (int i = start; i < start + length; i += 4)
@@ -114,6 +114,6 @@ namespace PKHeX.Core
         /// <param name="data">Input byte array</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC32(byte[] data, uint initial = 0) => CRC32(data, 0, data.Length, initial);
+        public static ushort CheckSum32(byte[] data, uint initial = 0) => CheckSum32(data, 0, data.Length, initial);
     }
 }

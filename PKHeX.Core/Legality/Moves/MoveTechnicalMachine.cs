@@ -5,9 +5,9 @@ namespace PKHeX.Core
 {
     internal static class MoveTechnicalMachine
     {
-        internal static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false)
+        internal static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false, bool allowBit = false)
         {
-            if (pkm.IsMovesetRestricted())
+            if (pkm.IsMovesetRestricted(generation))
                 ver = (GameVersion) pkm.Version;
             switch (generation)
             {
@@ -21,6 +21,7 @@ namespace PKHeX.Core
                 case 5: return GetIsMachine5(species, move, form);
                 case 6: return GetIsMachine6(species, move, form, ver);
                 case 7: return GetIsMachine7(species, move, form, ver);
+                case 8: return GetIsMachine8(pkm, species, move, form, ver, allowBit);
                 default:
                     return Legal.NONE;
             }
@@ -218,10 +219,39 @@ namespace PKHeX.Core
             return Legal.NONE;
         }
 
+        private static GameVersion GetIsMachine8(PKM pkm, int species, int move, int form, GameVersion ver, bool allowBit)
+        {
+            if (GameVersion.SWSH.Contains(ver))
+            {
+                for (int i = 0; i < 100; i++)
+                {
+                    if (Legal.TMHM_SWSH[i] != move)
+                        continue;
+                    if (PersonalTable.SWSH.GetFormeEntry(species, form).TMHM[i])
+                        return GameVersion.SWSH;
+                    break;
+                }
+                for (int i = 0; i < 100; i++)
+                {
+                    if (Legal.TMHM_SWSH[i + 100] != move)
+                        continue;
+                    if (!PersonalTable.SWSH.GetFormeEntry(species, form).TMHM[i + 100])
+                        break;
+                    if (allowBit)
+                        return GameVersion.SWSH;
+                    if (((PK8) pkm).GetMoveRecordFlag(i))
+                        return GameVersion.SWSH;
+                    break;
+                }
+            }
+
+            return Legal.NONE;
+        }
+
         internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
         {
             var r = new List<int>();
-            if (pkm.IsMovesetRestricted())
+            if (pkm.IsMovesetRestricted(generation))
                 ver = (GameVersion)pkm.Version;
 
             switch (generation)
@@ -236,6 +266,7 @@ namespace PKHeX.Core
                 case 5: AddMachine5(r, species, form); break;
                 case 6: AddMachine6(r, species, form, ver); break;
                 case 7: AddMachine7(r, species, form, ver); break;
+                case 8: AddMachine8(r, species, form, pkm, ver); break;
             }
             return r.Distinct();
         }
@@ -349,6 +380,19 @@ namespace PKHeX.Core
             }
         }
 
+        private static void AddMachine8(List<int> r, int species, int form, PKM pkm, GameVersion ver = GameVersion.Any)
+        {
+            switch (ver)
+            {
+                case GameVersion.Any:
+                case GameVersion.SW:
+                case GameVersion.SH:
+                case GameVersion.SWSH:
+                    AddMachineSWSH(r, species, form, pkm);
+                    return;
+            }
+        }
+
         private static void AddMachine6XY(List<int> r, int species, int form)
         {
             var pi = PersonalTable.XY.GetFormeEntry(species, form);
@@ -381,6 +425,30 @@ namespace PKHeX.Core
                 return;
             var pi = PersonalTable.GG.GetFormeEntry(species, form);
             r.AddRange(Legal.TMHM_GG.Where((_, m) => pi.TMHM[m]));
+        }
+
+        private static void AddMachineSWSH(List<int> r, int species, int form, PKM pkm)
+        {
+            if (species > Legal.MaxSpeciesID_8)
+                return;
+            var pi = PersonalTable.SWSH.GetFormeEntry(species, form);
+            var tmhm = pi.TMHM;
+            for (int i = 0; i < 100; i++)
+            {
+                if (!tmhm[i])
+                    continue;
+                r.Add(Legal.TMHM_SWSH[i]);
+            }
+
+            var pk8 = (PK8)pkm;
+            for (int i = 0; i < 100; i++)
+            {
+                if (!tmhm[i + 100])
+                    continue;
+                if (!pk8.GetMoveRecordFlag(i))
+                    continue;
+                r.Add(Legal.TMHM_SWSH[i + 100]);
+            }
         }
     }
 }

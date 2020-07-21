@@ -9,7 +9,7 @@ namespace PKHeX.Core
         internal static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {
             int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
-            if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Gender == 255 && !FixedGenderFromBiGender.Contains(species)))
+            if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
                 return Array.Empty<int>();
 
             if (pkm.Version == 15 || pkm.GG)
@@ -20,7 +20,7 @@ namespace PKHeX.Core
             return GetEggMoves(gen, species, formnum, version);
         }
 
-        private static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        internal static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
         {
             switch (gen)
             {
@@ -30,45 +30,45 @@ namespace PKHeX.Core
                 case 3:
                     return EggMovesRS[species].Moves;
                 case 4:
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.HG:
-                        case GameVersion.SS:
-                            return EggMovesHGSS[species].Moves;
-                        default:
-                            return EggMovesDPPt[species].Moves;
-                    }
+                        GameVersion.HG => EggMovesHGSS[species].Moves,
+                        GameVersion.SS => EggMovesHGSS[species].Moves,
+                        _ => EggMovesDPPt[species].Moves
+                    };
                 case 5:
                     return EggMovesBW[species].Moves;
                 case 6: // entries per species
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.OR:
-                        case GameVersion.AS:
-                            return EggMovesAO[species].Moves;
-                        default:
-                            return EggMovesXY[species].Moves;
-                    }
+                        GameVersion.OR => EggMovesAO[species].Moves,
+                        GameVersion.AS => EggMovesAO[species].Moves,
+                        _ => EggMovesXY[species].Moves
+                    };
 
                 case 7: // entries per form if required
-                    switch (version)
+                    return version switch
                     {
-                        case GameVersion.US:
-                        case GameVersion.UM:
-                            return GetFormEggMoves(species, formnum, EggMovesUSUM);
-                        default:
-                            return GetFormEggMoves(species, formnum, EggMovesSM);
-                    }
+                        GameVersion.US => GetFormEggMoves(species, formnum, EggMovesUSUM),
+                        GameVersion.UM => GetFormEggMoves(species, formnum, EggMovesUSUM),
+                        _ => GetFormEggMoves(species, formnum, EggMovesSM)
+                    };
+
+                case 8:
+                    return version switch
+                    {
+                        _ => GetFormEggMoves(species, formnum, EggMovesSWSH)
+                    };
 
                 default:
                     return Array.Empty<int>();
             }
         }
 
-        private static int[] GetFormEggMoves(int species, int formnum, EggMoves[] table)
+        private static int[] GetFormEggMoves(int species, int formnum, IReadOnlyList<EggMoves7> table)
         {
             var entry = table[species];
-            if (formnum > 0 && AlolanOriginForms.Contains(species))
+            if (formnum > 0 && entry.FormTableIndex > species)
                 entry = table[entry.FormTableIndex + formnum - 1];
             return entry.Moves;
         }
@@ -96,10 +96,31 @@ namespace PKHeX.Core
                 case GameVersion.US:
                 case GameVersion.UM:
                     return getMoves(LevelUpUSUM, PersonalTable.USUM);
+
+                case GameVersion.SW:
+                case GameVersion.SH:
+                    return getMoves(LevelUpSWSH, PersonalTable.SWSH);
             }
             return Array.Empty<int>();
 
             int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
+        }
+
+        public static bool GetIsSharedEggMove(PKM pkm, int gen, int move)
+        {
+            if (gen < 8 || pkm.IsEgg)
+                return false;
+            var table = PersonalTable.SWSH;
+            var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
+            var baseSpecies = entry.BaseSpecies;
+            var baseForm = entry.FormIndex;
+
+            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
+            if (pkm.Species == (int)Species.Indeedee)
+                baseForm = pkm.AltForm;
+
+            var egg = GetEggMoves(8, baseSpecies, baseForm, GameVersion.SW);
+            return Array.Exists(egg, z => z == move);
         }
     }
 }

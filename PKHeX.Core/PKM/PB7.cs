@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format used for <see cref="GameVersion.GG"/>. </summary>
-    public sealed class PB7 : _K6, IHyperTrain, IAwakened
+    public sealed class PB7 : G6PKM, IHyperTrain, IAwakened, IScaledSize, IFavorite, IFormArgument
     {
-        public static readonly byte[] Unused =
+        public static readonly ushort[] Unused =
         {
             0x2A, // Old Marking Value (PelagoEventStatus)
             0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, // Unused Ribbons
@@ -19,22 +20,22 @@ namespace PKHeX.Core
             0xC8, 0xC9, // OT Terminator
         };
 
-        public override byte[] ExtraBytes => Unused;
+        public override IReadOnlyList<ushort> ExtraBytes => Unused;
 
         public override int SIZE_PARTY => SIZE;
         public override int SIZE_STORED => SIZE;
         private const int SIZE = 260;
         public override int Format => 7;
         public override PersonalInfo PersonalInfo => PersonalTable.GG.GetFormeEntry(Species, AltForm);
-
+        public override byte[] Data { get; }
         public PB7() => Data = new byte[SIZE];
 
-        public PB7(byte[] decryptedData)
+        public PB7(byte[] data)
         {
-            Data = decryptedData;
-            PKX.CheckEncrypted(ref Data, 7);
-            if (Data.Length != SIZE)
-                Array.Resize(ref Data, SIZE);
+            PokeCrypto.DecryptIfEncrypted67(ref data);
+            if (data.Length != SIZE)
+                Array.Resize(ref data, SIZE);
+            Data = data;
         }
 
         public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};
@@ -119,16 +120,16 @@ namespace PKHeX.Core
         public int AV_SPE { get => Data[0x27]; set => Data[0x27] = (byte)value; }
         public int AV_SPA { get => Data[0x28]; set => Data[0x28] = (byte)value; }
         public int AV_SPD { get => Data[0x29]; set => Data[0x29] = (byte)value; }
-        public byte _0x2A { get => Data[0x2A]; set => Data[0x2A] = value; }
+        // 0x2A Unused
         private byte PKRS { get => Data[0x2B]; set => Data[0x2B] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }
         public float HeightAbsolute { get => BitConverter.ToSingle(Data, 0x2C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x2C); }
-        public byte _0x38 { get => Data[0x38]; set => Data[0x38] = value; }
-        public byte _0x39 { get => Data[0x39]; set => Data[0x39] = value; }
+        // 0x38 Unused
+        // 0x39 Unused
         public int HeightScalar { get => Data[0x3A]; set => Data[0x3A] = (byte)value; }
         public int WeightScalar { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
-        public uint FormDuration { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
         #endregion
         #region Block B
         public override string Nickname
@@ -194,8 +195,8 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70);
         }
 
-        public byte _0x72 { get => Data[0x72]; set => Data[0x72] = value; }
-        public byte _0x73 { get => Data[0x73]; set => Data[0x73] = value; }
+        // 0x72 Unused
+        // 0x73 Unused
         private uint IV32 { get => BitConverter.ToUInt32(Data, 0x74); set => BitConverter.GetBytes(value).CopyTo(Data, 0x74); }
         public override int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 00)) | ((value > 31 ? 31u : (uint)value) << 00); }
         public override int IV_ATK { get => (int)(IV32 >> 05) & 0x1F; set => IV32 = (IV32 & ~(0x1Fu << 05)) | ((value > 31 ? 31u : (uint)value) << 05); }
@@ -210,29 +211,29 @@ namespace PKHeX.Core
         public override string HT_Name { get => GetString(0x78, 24); set => SetString(value, 12).CopyTo(Data, 0x78); }
         public override int HT_Gender { get => Data[0x92]; set => Data[0x92] = (byte)value; }
         public override int CurrentHandler { get => Data[0x93]; set => Data[0x93] = (byte)value; }
-        public byte _0x94 { get => Data[0x94]; set => Data[0x94] = value; }
-        public byte _0x95 { get => Data[0x95]; set => Data[0x95] = value; }
-        public byte _0x96 { get => Data[0x96]; set => Data[0x96] = value; }
-        public byte _0x97 { get => Data[0x97]; set => Data[0x97] = value; }
-        public byte _0x98 { get => Data[0x98]; set => Data[0x98] = value; }
-        public byte _0x99 { get => Data[0x99]; set => Data[0x99] = value; }
-        public byte _0x9A { get => Data[0x9A]; set => Data[0x9A] = value; }
-        public byte _0x9B { get => Data[0x9B]; set => Data[0x9B] = value; }
-        public byte _0x9C { get => Data[0x9C]; set => Data[0x9C] = value; }
-        public byte _0x9D { get => Data[0x9D]; set => Data[0x9D] = value; }
-        public byte _0x9E { get => Data[0x9E]; set => Data[0x9E] = value; }
-        public byte _0x9F { get => Data[0x9F]; set => Data[0x9F] = value; }
-        public byte _0xA0 { get => Data[0xA0]; set => Data[0xA0] = value; }
-        public byte _0xA1 { get => Data[0xA1]; set => Data[0xA1] = value; }
+        // 0x94 Unused
+        // 0x95 Unused
+        // 0x96 Unused
+        // 0x97 Unused
+        // 0x98 Unused
+        // 0x99 Unused
+        // 0x9A Unused
+        // 0x9B Unused
+        // 0x9C Unused
+        // 0x9D Unused
+        // 0x9E Unused
+        // 0x9F Unused
+        // 0xA0 Unused
+        // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
         public override int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
         public override int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public override int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
-        public byte _0xA7 { get => Data[0xA7]; set => Data[0xA7] = value; }
+        // 0xA7 Unused
         public override int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
-        public byte _0xAA { get => Data[0xAA]; set => Data[0xAA] = value; }
-        public byte _0xAB { get => Data[0xAB]; set => Data[0xAB] = value; }
+        // 0xAA Unused
+        // 0xAB Unused
         public byte FieldEventFatigue1 { get => Data[0xAC]; set => Data[0xAC] = value; }
         public byte FieldEventFatigue2 { get => Data[0xAD]; set => Data[0xAD] = value; }
         public override byte Fullness { get => Data[0xAE]; set => Data[0xAE] = value; }
@@ -241,12 +242,12 @@ namespace PKHeX.Core
         #region Block D
         public override string OT_Name { get => GetString(0xB0, 24); set => SetString(value, 12).CopyTo(Data, 0xB0); }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public int _0xCB { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
-        public int _0xCC { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
-        public int _0xCD { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public int _0xCE { get => Data[0xCE]; set => Data[0xCE] = (byte)value; }
-        public int _0xCF { get => Data[0xCF]; set => Data[0xCF] = (byte)value; }
-        public int _0xD0 { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        // 0xCB Unused
+        // 0xCC Unused
+        // 0xCD Unused
+        // 0xCE Unused
+        // 0xCF Unused
+        // 0xD0 Unused
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
         public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
@@ -267,9 +268,9 @@ namespace PKHeX.Core
         public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
         public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public int _0xE0 { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public int _0xE1 { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public int _0xE2 { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
+        // 0xE0 Unused
+        // 0xE1 Unused
+        // 0xE2 Unused
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         public float WeightAbsolute { get => BitConverter.ToSingle(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
         #endregion
@@ -357,7 +358,7 @@ namespace PKHeX.Core
             int nature = Nature;
             int friend = CurrentFriendship; // stats +10% depending on friendship!
             int scalar = (int)(((friend / 255.0f / 10.0f) + 1.0f) * 100.0f);
-            ushort[] stats =
+            return new[]
             {
                 (ushort)(AV_HP  + GetStat(p.HP,  HT_HP  ? 31 : IV_HP,  level) + 10 + level),
                 (ushort)(AV_ATK + (scalar * GetStat(p.ATK, HT_ATK ? 31 : IV_ATK, level, nature, 0) / 100)),
@@ -366,9 +367,6 @@ namespace PKHeX.Core
                 (ushort)(AV_SPA + (scalar * GetStat(p.SPA, HT_SPA ? 31 : IV_SPA, level, nature, 2) / 100)),
                 (ushort)(AV_SPD + (scalar * GetStat(p.SPD, HT_SPD ? 31 : IV_SPD, level, nature, 3) / 100)),
             };
-            if (Species == 292)
-                stats[0] = 1;
-            return stats;
         }
 
         /// <summary>
@@ -397,12 +395,12 @@ namespace PKHeX.Core
 
         private static int AmplifyStat(int nature, int index, int initial)
         {
-            switch (GetNatureAmp(nature, index))
+            return GetNatureAmp(nature, index) switch
             {
-                case 1: return 110 * initial / 100; // 110%
-                case -1: return 90 * initial / 100; // 90%
-                default: return initial;            // 100%
-            }
+                 1 => (110 * initial / 100), // 110%
+                -1 => (90 * initial / 100), // 90%
+                _ => initial
+            };
         }
 
         private static sbyte GetNatureAmp(int nature, int index)
@@ -532,19 +530,6 @@ namespace PKHeX.Core
                 WeightAbsolute = updated;
         }
 
-        public static int GetSizeRating(int scalar)
-        {
-            if (scalar < 0x10)
-                return 0; // 1/16 = XS
-            if (scalar < 0x30u)
-                return 1; // 2/16 = S
-            if (scalar < 0xD0u)
-                return 2; // average (10/16)
-            if (scalar < 0xF0u)
-                return 3; // 2/16 = L
-            return 4; // 1/16 = XL
-        }
-
         [MethodImpl(MethodImplOptions.NoOptimization | MethodImplOptions.NoInlining)]
         private static float GetHeightRatio(int heightScalar)
         {
@@ -611,6 +596,83 @@ namespace PKHeX.Core
             int value = (int)result;
             int unsigned = value & ~(value >> 31);
             return (byte)Math.Min(255, unsigned);
+        }
+
+        public PK8 ConvertToPK8()
+        {
+            var pk8 = new PK8()
+            {
+                EncryptionConstant = EncryptionConstant,
+                Species = Species,
+                TID = TID,
+                SID = SID,
+                EXP = EXP,
+                PID = PID,
+                Ability = Ability,
+                AbilityNumber = AbilityNumber,
+                Markings = Markings,
+                Language = Language,
+                EV_HP = EV_HP,
+                EV_ATK = EV_ATK,
+                EV_DEF = EV_DEF,
+                EV_SPA = EV_SPA,
+                EV_SPD = EV_SPD,
+                EV_SPE = EV_SPE,
+                Move1 = Move1,
+                Move2 = Move2,
+                Move3 = Move3,
+                Move4 = Move4,
+                Move1_PPUps = Move1_PPUps,
+                Move2_PPUps = Move2_PPUps,
+                Move3_PPUps = Move3_PPUps,
+                Move4_PPUps = Move4_PPUps,
+                RelearnMove1 = RelearnMove1,
+                RelearnMove2 = RelearnMove2,
+                RelearnMove3 = RelearnMove3,
+                RelearnMove4 = RelearnMove4,
+                IV_HP = IV_HP,
+                IV_ATK = IV_ATK,
+                IV_DEF = IV_DEF,
+                IV_SPA = IV_SPA,
+                IV_SPD = IV_SPD,
+                IV_SPE = IV_SPE,
+                IsNicknamed = IsNicknamed,
+                FatefulEncounter = FatefulEncounter,
+                Gender = Gender,
+                AltForm = AltForm,
+                Nature = Nature,
+                Nickname = Nickname,
+                Version = Version,
+                OT_Name = OT_Name,
+                MetDate = MetDate,
+                Met_Location = Met_Location,
+                Ball = Ball,
+                Met_Level = Met_Level,
+                OT_Gender = OT_Gender,
+                HyperTrainFlags = HyperTrainFlags,
+
+                // Memories don't exist in LGPE, and no memories are set on transfer.
+                OT_Memory = OT_Memory,
+                OT_TextVar = OT_TextVar,
+                OT_Feeling = OT_Feeling,
+                OT_Intensity = OT_Intensity,
+
+                OT_Friendship = OT_Friendship,
+
+                // No Ribbons or Markings on transfer.
+
+                StatNature = Nature,
+                HeightScalar = HeightScalar,
+                WeightScalar = WeightScalar,
+            };
+
+            // Fix PP and Stats
+            pk8.Heal();
+
+            // Fix Checksum
+            pk8.RefreshChecksum();
+
+            return pk8; // Done!
         }
     }
 }

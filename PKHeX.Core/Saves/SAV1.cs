@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -14,6 +15,9 @@ namespace PKHeX.Core
         public bool Japanese { get; }
         public bool Korean => false;
 
+        public override PersonalTable Personal { get; }
+        public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
+
         public override string[] PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
@@ -25,19 +29,20 @@ namespace PKHeX.Core
             Version = version;
             Japanese = japanese;
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
-
+            Personal = version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
             Initialize(version);
             ClearBoxes();
         }
 
         public SAV1(byte[] data, GameVersion versionOverride = GameVersion.Any) : base(data)
         {
-            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
-            if (Version == GameVersion.Invalid)
-                return;
-
             Japanese = SaveUtil.GetIsG1SAVJ(Data);
             Offsets = Japanese ? SAV1Offsets.JPN : SAV1Offsets.INT;
+
+            Version = versionOverride != GameVersion.Any ? versionOverride : SaveUtil.GetIsG1SAV(data);
+            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            if (Version == GameVersion.Invalid)
+                return;
 
             Initialize(versionOverride);
         }
@@ -51,8 +56,6 @@ namespace PKHeX.Core
             Box = Data.Length;
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED);
             Party = GetPartyOffset(0);
-
-            Personal = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
 
             // Stash boxes after the save file's end.
             int stored = SIZE_STOREDBOX;
@@ -100,12 +103,12 @@ namespace PKHeX.Core
             Array.Copy(Data, Offsets.Daycare, rawDC, 0, rawDC.Length);
             byte[] TempDaycare = new byte[PokeList1.GetDataLength(PokeListType.Single, Japanese)];
             TempDaycare[0] = rawDC[0];
-            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY + StringLength, StringLength);
-            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PKX.SIZE_1PARTY, StringLength);
-            Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PKX.SIZE_1STORED);
+            Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength);
+            Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength);
+            Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PokeCrypto.SIZE_1STORED);
             PokeList1 daycareList = new PokeList1(TempDaycare, PokeListType.Single, Japanese);
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
-            Daycare = GetPartyOffset(7);
+            DaycareOffset = GetPartyOffset(7);
 
             EventFlag = Offsets.EventFlag;
 
@@ -157,11 +160,11 @@ namespace PKHeX.Core
 
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
             byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
-            byte[] dc = new byte[1 + (2 * StringLength) + PKX.SIZE_1STORED];
+            byte[] dc = new byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
             dc[0] = rawDC[0];
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY + StringLength, dc, 1, StringLength);
-            Array.Copy(rawDC, 2 + 1 + PKX.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
-            Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PKX.SIZE_1STORED);
+            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, dc, 1, StringLength);
+            Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
+            Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PokeCrypto.SIZE_1STORED);
             dc.CopyTo(Data, Offsets.Daycare);
 
             SetChecksums();
@@ -180,8 +183,8 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() => new SAV1(Write(), Version);
 
-        public override int SIZE_STORED => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
-        protected override int SIZE_PARTY => Japanese ? PKX.SIZE_1JLIST : PKX.SIZE_1ULIST;
+        public override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
+        protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_1JLIST : PokeCrypto.SIZE_1ULIST;
         private int SIZE_BOX => BoxSlotCount*SIZE_STORED;
         private int SIZE_STOREDBOX => PokeList1.GetDataLength(Japanese ? PokeListType.StoredJP : PokeListType.Stored, Japanese);
         private int SIZE_STOREDPARTY => PokeList1.GetDataLength(PokeListType.Party, Japanese);
@@ -208,9 +211,9 @@ namespace PKHeX.Core
         public override int BoxSlotCount => Japanese ? 30 : 20;
 
         public override bool HasParty => true;
-        private int StringLength => Japanese ? _K12.STRLEN_J : _K12.STRLEN_U;
+        private int StringLength => Japanese ? GBPKM.STRLEN_J : GBPKM.STRLEN_U;
 
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGB(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGB(data, offset);
 
         // Checksums
         protected override void SetChecksums() => Data[Offsets.ChecksumOfs] = GetRBYChecksum(Offsets.OT, Offsets.ChecksumOfs);
@@ -235,7 +238,7 @@ namespace PKHeX.Core
             set => SetString(value, OTLength).CopyTo(Data, Offsets.OT);
         }
 
-        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value?.Length == StringLength) SetData(value, Offsets.OT); } }
+        public byte[] OT_Trash { get => GetData(Offsets.OT, StringLength); set { if (value.Length == StringLength) SetData(value, Offsets.OT); } }
 
         public override int Gender
         {
@@ -258,6 +261,12 @@ namespace PKHeX.Core
         {
             get => Data[Offsets.PikaFriendship];
             set => Data[Offsets.PikaFriendship] = value;
+        }
+
+        public int PikaBeachScore
+        {
+            get => BigEndian.BCDToInt32(Data, Offsets.PikaBeachScore, 2);
+            set => SetData(BigEndian.Int32ToBCD(Math.Min(9999, value), 2), Offsets.PikaBeachScore);
         }
 
         public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
@@ -379,7 +388,7 @@ namespace PKHeX.Core
 
         public override int GetDaycareSlotOffset(int loc, int slot)
         {
-            return Daycare;
+            return DaycareOffset;
         }
 
         public override uint? GetDaycareEXP(int loc, int slot)
@@ -491,12 +500,20 @@ namespace PKHeX.Core
             SetFlag(region + ofs, bit & 7, value);
         }
 
-        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
         {
             // pkm that have never been boxed have yet to save the 'current level' for box indication
             // set this value at this time
             ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
-            base.SetStoredSlot(pkm, offset, trade, dex);
+            base.WriteSlotFormatStored(pkm, Data, offset);
+        }
+
+        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
+        {
+            // pkm that have never been boxed have yet to save the 'current level' for box indication
+            // set this value at this time
+            ((PK1)pkm).Stat_LevelBox = pkm.CurrentLevel;
+            base.WriteBoxSlot(pkm, Data, offset);
         }
 
         private const int SpawnFlagCount = 0xF0;
@@ -513,7 +530,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value?.Length != SpawnFlagCount)
+                if (value.Length != SpawnFlagCount)
                     return;
                 for (int i = 0; i < value.Length; i++)
                     SetFlag(Offsets.ObjectSpawnFlags + i >> 3, i & 7, value[i]);

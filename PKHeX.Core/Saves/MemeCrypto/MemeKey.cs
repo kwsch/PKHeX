@@ -23,19 +23,19 @@ namespace PKHeX.Core
         // Constructor
         public MemeKey(MemeKeyIndex key)
         {
-            GetMemeData(key, out byte[] d, out byte[] der);
-            DER = der;
+            DER = GetMemeData(key);
             var _N = new byte[0x61];
             var _E = new byte[0x3];
-            Array.Copy(der, 0x18, _N, 0, 0x61);
-            Array.Copy(der, 0x7B, _E, 0, 3);
+            Array.Copy(DER, 0x18, _N, 0, 0x61);
+            Array.Copy(DER, 0x7B, _E, 0, 3);
             Array.Reverse(_N);
             N = new BigInteger(_N);
             Array.Reverse(_E);
             E = new BigInteger(_E);
-            if (d != null)
+
+            if (key == MemeKeyIndex.PokedexAndSaveFile)
             {
-                var _D = (byte[])d.Clone();
+                var _D = (byte[])D_3.Clone();
                 Array.Reverse(_D);
                 D = new BigInteger(_D);
             }
@@ -59,16 +59,15 @@ namespace PKHeX.Core
         {
             if (data.Length < 0x60)
                 throw new ArgumentException("Memebuffers must be atleast 0x60 bytes long!");
+
             var key = new byte[0x10];
             var buffer = new byte[DER.Length + data.Length - 0x60];
             Array.Copy(DER, 0, buffer, 0, DER.Length);
             Array.Copy(data, 0, buffer, DER.Length, buffer.Length - DER.Length);
 
-            using (var sha1 = SHA1.Create())
-            {
-                Array.Copy(sha1.ComputeHash(buffer), 0, key, 0, 0x10);
-                return key;
-            }
+            using var sha1 = SHA1.Create();
+            Array.Copy(sha1.ComputeHash(buffer), 0, key, 0, 0x10);
+            return key;
         }
 
         /// <summary>
@@ -232,99 +231,57 @@ namespace PKHeX.Core
                 Array.Copy(rawSig, outSig, 0x60);
             return outSig;
         }
-        // Helper Method to retrieve data for loading
-        private static void GetMemeData(MemeKeyIndex key, out byte[] d, out byte[] der)
-        {
-            d = null;
 
-            switch (key)
+        private static byte[] GetMemeData(MemeKeyIndex key)
+        {
+            return key switch
             {
-                case MemeKeyIndex.LocalWireless:
-                    der = DER_LW;
-                    break;
-                case MemeKeyIndex.FriendlyCompetition:
-                    der = DER_0;
-                    break;
-                case MemeKeyIndex.LiveCompetition:
-                    der = DER_1;
-                    break;
-                case MemeKeyIndex.RentalTeam:
-                    der = DER_2;
-                    break;
-                case MemeKeyIndex.PokedexAndSaveFile:
-                    der = DER_3;
-                    d = D_3;
-                    break;
-                case MemeKeyIndex.GaOle:
-                    der = DER_4;
-                    break;
-                case MemeKeyIndex.MagearnaEvent:
-                    der = DER_5;
-                    break;
-                case MemeKeyIndex.MoncolleGet:
-                    der = DER_6;
-                    break;
-                case MemeKeyIndex.IslandScanEventSpecial:
-                    der = DER_7;
-                    break;
-                case MemeKeyIndex.TvTokyoDataBroadcasting:
-                    der = DER_8;
-                    break;
-                case MemeKeyIndex.CapPikachuEvent:
-                    der = DER_9;
-                    break;
-                case MemeKeyIndex.Unknown10:
-                    der = DER_A;
-                    break;
-                case MemeKeyIndex.Unknown11:
-                    der = DER_B;
-                    break;
-                case MemeKeyIndex.Unknown12:
-                    der = DER_C;
-                    break;
-                case MemeKeyIndex.Unknown13:
-                    der = DER_D;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(key), key, null);
-            }
+                MemeKeyIndex.LocalWireless => DER_LW,
+                MemeKeyIndex.FriendlyCompetition => DER_0,
+                MemeKeyIndex.LiveCompetition => DER_1,
+                MemeKeyIndex.RentalTeam => DER_2,
+                MemeKeyIndex.PokedexAndSaveFile => DER_3,
+                MemeKeyIndex.GaOle => DER_4,
+                MemeKeyIndex.MagearnaEvent => DER_5,
+                MemeKeyIndex.MoncolleGet => DER_6,
+                MemeKeyIndex.IslandScanEventSpecial => DER_7,
+                MemeKeyIndex.TvTokyoDataBroadcasting => DER_8,
+                MemeKeyIndex.CapPikachuEvent => DER_9,
+                MemeKeyIndex.Unknown10 => DER_A,
+                MemeKeyIndex.Unknown11 => DER_B,
+                MemeKeyIndex.Unknown12 => DER_C,
+                MemeKeyIndex.Unknown13 => DER_D,
+                _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+            };
         }
 
         // Helper Method to perform AES ECB Encryption
         private static byte[] AesEcbEncrypt(byte[] key, byte[] data)
         {
-            using (var ms = new MemoryStream())
-            using (var aes = Aes.Create())
-            {
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.None;
+            using var ms = new MemoryStream();
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.None;
 
-                using (var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                {
-                    cs.Write(data, 0, data.Length);
-                    cs.FlushFinalBlock();
+            using var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
 
-                    return ms.ToArray();
-                }
-            }
+            return ms.ToArray();
         }
         // Helper Method to perform AES ECB Decryption
         private static byte[] AesEcbDecrypt(byte[] key, byte[] data)
         {
-            using (var ms = new MemoryStream())
-            using (var aes = Aes.Create())
-            {
-                aes.Mode = CipherMode.ECB;
-                aes.Padding = PaddingMode.None;
+            using var ms = new MemoryStream();
+            using var aes = Aes.Create();
+            aes.Mode = CipherMode.ECB;
+            aes.Padding = PaddingMode.None;
 
-                using (var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write))
-                {
-                    cs.Write(data, 0, data.Length);
-                    cs.FlushFinalBlock();
+            using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            cs.Write(data, 0, data.Length);
+            cs.FlushFinalBlock();
 
-                    return ms.ToArray();
-                }
-            }
+            return ms.ToArray();
         }
 
         public static bool IsValidPokeKeyIndex(int index)

@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             SetupComboBoxes();
             PopFavorite();
             PopFavorite();
-            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = LB_Favorite.Font = FontUtil.GetPKXFont(11);
+            TB_FOT.Font = TB_FT1.Font = TB_FT2.Font = TB_FSay1.Font = TB_FSay2.Font = TB_FSay3.Font = TB_FSay4.Font = LB_Favorite.Font = FontUtil.GetPKXFont();
             CB_Ability.InitializeBinding();
 
             LB_Favorite.SelectedIndex = 0;
@@ -81,7 +81,8 @@ namespace PKHeX.WinForms
         {
             loading = true;
             int index = LB_Favorite.SelectedIndex;
-            if (index < 0) return;
+            if (index < 0)
+                return;
             var offset = GetSecretBaseOffset(index);
 
             var bdata = new SecretBase6(SAV.Data, offset);
@@ -156,10 +157,16 @@ namespace PKHeX.WinForms
             var name = LB_Favorite.Items[index].ToString();
             if (name == "* " || name == $"{index} Empty")
             { WinFormsUtil.Error("Sorry, no overwriting an empty base with someone else's."); return; }
-            if (index < 0) return;
+            if (index < 0)
+                return;
             int offset = GetSecretBaseOffset(index);
 
             var bdata = new SecretBase6(SAV.Data, offset);
+
+            int baseloc = (int)NUD_FBaseLocation.Value;
+            if (baseloc < 3)
+                baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
+            bdata.BaseLocation = baseloc;
 
             bdata.TrainerName = TB_FOT.Text;
             bdata.FlavorText1 = TB_FT1.Text;
@@ -169,10 +176,6 @@ namespace PKHeX.WinForms
             bdata.Saying2 = TB_FSay2.Text;
             bdata.Saying3 = TB_FSay3.Text;
             bdata.Saying4 = TB_FSay4.Text;
-
-            int baseloc = (int)NUD_FBaseLocation.Value;
-            if (baseloc < 3) baseloc = 0; // skip 1/2 baselocs as they are dummied out ingame.
-            bdata.BaseLocation = baseloc;
 
             // Copy back Objects
             for (int i = 0; i < 25; i++)
@@ -207,7 +210,7 @@ namespace PKHeX.WinForms
             uint flags = Util.ToUInt32(MT_Flags.Text);
             SAV.Records.SetRecord(080, (int)flags);
             Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 
@@ -443,7 +446,7 @@ namespace PKHeX.WinForms
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();
-            CB_Form.DataSource = PKX.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
+            CB_Form.DataSource = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
         }
 
         private void UpdateSpecies(object sender, EventArgs e)
@@ -479,14 +482,15 @@ namespace PKHeX.WinForms
 
         private void Label_Gender_Click(object sender, EventArgs e)
         {
-            // Get Gender Threshold
-            int gt = SAV.Personal[WinFormsUtil.GetIndex(CB_Species)].Gender;
-
-            if (gt == 255 || gt == 0 || gt == 254) // Single gender/genderless
-                return;
-
-            if (gt < 256) // If not a single gender(less) species:
-                Label_Gender.Text = Main.GenderSymbols[PKX.GetGenderFromString(Label_Gender.Text) ^ 1];
+            var species = WinFormsUtil.GetIndex(CB_Species);
+            var pi = SAV.Personal[species];
+            var fg = pi.FixedGender;
+            if (fg == -1) // dual gender
+            {
+                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                fg = (fg ^ 1) & 1;
+            }
+            Label_Gender.Text = Main.GenderSymbols[fg];
         }
 
         private void SetGenderLabel()
@@ -518,7 +522,7 @@ namespace PKHeX.WinForms
 
         private void B_Import_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog();
+            using var ofd = new OpenFileDialog();
             if (ofd.ShowDialog() != DialogResult.OK)
                 return;
             var path = ofd.FileName;
@@ -541,7 +545,7 @@ namespace PKHeX.WinForms
             var tr = sb.TrainerName;
             if (string.IsNullOrWhiteSpace(tr))
                 tr = "Trainer";
-            var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
+            using var sfd = new SaveFileDialog {Filter = "Secret Base Data|*.sb6", FileName = $"{sb.BaseLocation:D2} - {Util.CleanFileName(tr)}.sb6"};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
 
@@ -549,69 +553,5 @@ namespace PKHeX.WinForms
             var data = SAV.GetData(ofs, SecretBase6.SIZE);
             File.WriteAllBytes(path, data);
         }
-    }
-
-
-    public class SecretBase6
-    {
-        private readonly byte[] Data;
-        private readonly int Offset;
-        public const int SIZE = 0x3E0;
-
-        public int BaseLocation
-        {
-            get => BitConverter.ToInt16(Data, Offset);
-            set => BitConverter.GetBytes((short)value).CopyTo(Data, Offset);
-        }
-
-        public SecretBase6(byte[] data, int offset = 0)
-        {
-            Data = data;
-            Offset = offset;
-        }
-
-        public string TrainerName
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x218, 0x1A);
-            set => StringConverter.SetString6(TrainerName, 0x1A / 2).CopyTo(Data, Offset + 0x218);
-        }
-
-        public string FlavorText1
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 0), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 0));
-        }
-        public string FlavorText2
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x232 + (0x22 * 1), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x232 + (0x22 * 1));
-        }
-
-        public string Saying1
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 0), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 0));
-        }
-
-        public string Saying2
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 1), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 1));
-        }
-
-        public string Saying3
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 2), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 2));
-        }
-
-        public string Saying4
-        {
-            get => StringConverter.GetString6(Data, Offset + 0x276 + (0x22 * 3), 0x22);
-            set => StringConverter.SetString6(value, 0x22 / 2).CopyTo(Data, Offset + 0x276 + (0x22 * 3));
-        }
-
-        public bool IsDummiedBaseLocation => !IsEmpty && BaseLocation < 3;
-        public bool IsEmpty => BaseLocation == 0;
     }
 }

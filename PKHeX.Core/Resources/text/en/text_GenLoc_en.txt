@@ -1,71 +1,80 @@
-﻿somewhere
-the first town
-home
-a friend’s house
-someone’s house
-a lively town
-a boutique
-a shop
-a simple town
-a Pokémon Center
-a castle
-a hotel
-a town with a mysterious air
-a windswept town
-a gate
-a town on a river
-a lab
-an aquarium
-a town on a cliff
-a gorgeous city
-a Pokémon Gym
-a school
-a large city
-a building
-a stylish café
-a hideout
-a museum
-a studio
-a train station
-a battling spot
-a beauty salon
-a restaurant
-a high-class restaurant
-a seaside city
-the inside of a tall building
-a city with a mysterious air
-a riverside city
-a snowcapped city
-the Pokémon League
-a palace
-a cave
-a forest
-a tree-lined road
-a riverside road
-a tranquil road
-a road in bloom
-the Pokémon Day Care
-a rugged mountain pass
-a stone-lined area
-a road above the sea
-a mired road
-a sand-swept road
-a leaf-strewn road
-a snow-swept road
-a factory
-Victory Road
-a snowy mountain
-a power plant
-a field
-a ruin
-a watery route
-a safari
-a Secret Base
-a Contest Spectacular Hall
-a place deep in the ocean
-a Mirage spot
-a large ship
-an ash-covered path
-a tiny island
-a mystical place
-oh, while soaring in the sky
+somewhere
+in the first town
+at home
+at a friend’s house
+at someone’s house
+in a lively town
+in a boutique
+in a shop
+in a simple town
+in a Pokémon Center
+in a castle
+in a hotel
+in a town with a mysterious air
+in a windswept town
+at a gate
+in a town on a river
+in a lab
+in an aquarium
+in a town on a cliff
+in a gorgeous town
+in a Pokémon Gym
+in a school
+in a large town
+in a building
+in a stylish café
+in a hideout
+in a museum
+in a studio
+at a train station
+in a battling spot
+in a hair salon
+in a restaurant
+in a high-class restaurant
+in a seaside town
+in a tall building
+in a town with a mysterious air
+in a riverside town
+in a snowcapped town
+at the Pokémon League
+in a palace
+in a cave
+in a forest
+on a treelined road
+on a riverside road
+on a tranquil road
+on a road in bloom
+in a Pokémon Day Care
+on a rugged mountain pass
+in a stone-lined area
+on a seaside road
+on a muddy road
+on a sand-swept road
+on a leaf-strewn road
+on a snow-swept road
+in a factory
+on Victory Road
+on a snowy mountain
+in a power plant
+in a field
+in a ruin
+on a watery route
+on a safari
+on a large ship
+in the sky
+in a Contest Spectacular Hall
+in a mystical place
+on a tiny island
+on an ash-covered path
+in a Secret Base
+in a place deep in the ocean
+at a Mirage spot
+on a lakeside road
+in a vast field
+at a stadium
+at a Pokémon Nursery
+in a mine
+in a town in the mountains
+in a run-down town
+in a tunnel
+in a dangerous place

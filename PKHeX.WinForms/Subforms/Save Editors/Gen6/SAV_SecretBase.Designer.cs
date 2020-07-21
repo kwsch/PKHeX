@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SAV_SecretBase));
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LB_Favorite = new System.Windows.Forms.ListBox();
@@ -1181,7 +1180,7 @@
             this.Controls.Add(this.L_Favorite);
             this.Controls.Add(this.LB_Favorite);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SAV_SecretBase";

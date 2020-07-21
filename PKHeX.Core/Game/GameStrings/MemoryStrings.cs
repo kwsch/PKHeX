@@ -4,20 +4,27 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class MemoryStrings
+    public sealed class MemoryStrings
     {
         private readonly GameStrings s;
 
-        public MemoryStrings(GameStrings strings)
+        public MemoryStrings(GameStrings strings, int format)
         {
             s = strings;
             memories = new Lazy<List<ComboItem>>(GetMemories);
             none = new Lazy<List<ComboItem>>(() => Util.GetCBList(new[] {string.Empty}));
-            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist.Take(Legal.MaxSpeciesID_6 + 1).ToArray()));
-            item = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.itemlist, Memories.MemoryItems));
+            species = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.specieslist));
+            item = new Lazy<List<ComboItem>>(() => GetItems(format));
             genloc = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.genloc));
-            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist.Take(622).ToArray())); // Hyperspace Fury
+            moves = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.movelist)); // Hyperspace Fury
             specific = new Lazy<List<ComboItem>>(() => Util.GetCBList(s.metXY_00000, Legal.Met_XY_0));
+        }
+
+        private List<ComboItem> GetItems(int format)
+        {
+            var permit = format < 8 ? Legal.HeldItem_AO : Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct();
+            var asInt = permit.Select(z => (int) z).ToArray();
+            return Util.GetCBList(s.itemlist, asInt);
         }
 
         private readonly Lazy<List<ComboItem>> memories;
@@ -48,39 +55,20 @@ namespace PKHeX.Core
             return memory_list1;
         }
 
-        public string[] GetMemoryQualities()
-        {
-            var list = new string[7];
-            for (int i = 0; i < list.Length; i++)
-                list[i] = s.memories[2 + i];
-            return list;
-        }
-
-        public string[] GetMemoryFeelings()
-        {
-            var list = new string[24];
-            for (int i = 0; i < 24; i++)
-                list[i] = s.memories[10 + i];
-            return list;
-        }
+        public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
+        public string[] GetMemoryFeelings(int format) => format >= 8 ? s.memories.Slice(9, 25) : s.memories.Slice(10, 24); // empty line for 0 in gen8+
 
         public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
         {
-            switch (memIndex)
+            return memIndex switch
             {
-                default:
-                    return None;
-                case MemoryArgType.Species:
-                    return Species;
-                case MemoryArgType.GeneralLocation:
-                    return GeneralLocations;
-                case MemoryArgType.Item:
-                    return Items;
-                case MemoryArgType.Move:
-                    return Moves;
-                case MemoryArgType.SpecificLocation:
-                    return SpecificLocations;
-            }
+                MemoryArgType.Species => Species,
+                MemoryArgType.GeneralLocation => GeneralLocations,
+                MemoryArgType.Item => Items,
+                MemoryArgType.Move => Moves,
+                MemoryArgType.SpecificLocation => SpecificLocations,
+                _ => None
+            };
         }
     }
 }

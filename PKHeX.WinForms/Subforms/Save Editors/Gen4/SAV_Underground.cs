@@ -7,13 +7,13 @@ namespace PKHeX.WinForms
     public partial class SAV_Underground : Form
     {
         private readonly SaveFile Origin;
-        private readonly SAV4 SAV;
+        private readonly SAV4Sinnoh SAV;
 
         public SAV_Underground(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (SAV4)(Origin = sav).Clone();
+            SAV = (SAV4Sinnoh)(Origin = sav).Clone();
 
             GetUGScores();
         }
@@ -31,19 +31,19 @@ namespace PKHeX.WinForms
 
         private void SetUGScores()
         {
-            SAV.UG_PlayersMet = (int)U_PlayersMet.Value;
-            SAV.UG_Gifts = (int)U_Gifts.Value;
-            SAV.UG_Spheres = (int)U_Spheres.Value;
-            SAV.UG_Fossils = (int)U_Fossils.Value;
-            SAV.UG_TrapsAvoided = (int)U_TrapsA.Value;
-            SAV.UG_TrapsTriggered = (int)U_TrapsT.Value;
-            SAV.UG_Flags = (int)U_Flags.Value;
+            SAV.UG_PlayersMet = (uint)U_PlayersMet.Value;
+            SAV.UG_Gifts = (uint)U_Gifts.Value;
+            SAV.UG_Spheres = (uint)U_Spheres.Value;
+            SAV.UG_Fossils = (uint)U_Fossils.Value;
+            SAV.UG_TrapsAvoided = (uint)U_TrapsA.Value;
+            SAV.UG_TrapsTriggered = (uint)U_TrapsT.Value;
+            SAV.UG_Flags = (uint)U_Flags.Value;
         }
 
         private void B_Save_Click(object sender, EventArgs e)
         {
             SetUGScores();
-            Origin.SetData(SAV.Data, 0);
+            Origin.CopyChangesFrom(SAV);
             Close();
         }
 

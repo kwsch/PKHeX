@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -11,40 +12,30 @@ namespace PKHeX.Core
         protected override string BAKText => $"{Version} #{SaveCount:0000}";
         public override string Filter => this.GCFilter();
         public override string Extension => this.GCExtension();
+        public override PersonalTable Personal => PersonalTable.RS;
+        public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
         public bool IsMemoryCardSave => MC != null;
-        private readonly SAV3GCMemoryCard MC;
-        public readonly bool Japanese; // todo?
+        private readonly SAV3GCMemoryCard? MC;
+        public readonly bool Japanese = false; // todo?
 
-        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data) { this.MC = MC; BAK = MC.Data; }
+        public SAV3RSBox(byte[] data, SAV3GCMemoryCard MC) : this(data, MC.Data) { this.MC = MC; }
+        public SAV3RSBox(byte[] data) : this(data, (byte[])data.Clone()) { }
 
         public SAV3RSBox() : base(SaveUtil.SIZE_G3BOX)
         {
             Box = 0;
+            Blocks = Array.Empty<BlockInfoRSBOX>();
             ClearBoxes();
-            Initialize();
         }
 
-        public SAV3RSBox(byte[] data) : base(data)
+        private SAV3RSBox(byte[] data, byte[] bak) : base(data, bak)
         {
+            Blocks = ReadBlocks(data);
             InitializeData();
-            Initialize();
-        }
-
-        private void Initialize()
-        {
-            Personal = PersonalTable.RS;
-            HeldItems = Legal.HeldItems_RS;
         }
 
         private void InitializeData()
         {
-            Blocks = new BlockInfoRSBOX[2 * BLOCK_COUNT];
-            for (int i = 0; i < Blocks.Length; i++)
-            {
-                int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
-                Blocks[i] = new BlockInfoRSBOX(Data, offset);
-            }
-
             // Detect active save
             int[] SaveCounts = Blocks.Select(block => (int) block.SaveCount).ToArray();
             SaveCount = SaveCounts.Max();
@@ -61,6 +52,18 @@ namespace PKHeX.Core
                 Array.Copy(Data, b.Offset + 0xC, Data, (int) (Box + (b.ID * copySize)), copySize);
         }
 
+        private static BlockInfoRSBOX[] ReadBlocks(byte[] data)
+        {
+            var blocks = new BlockInfoRSBOX[2 * BLOCK_COUNT];
+            for (int i = 0; i < blocks.Length; i++)
+            {
+                int offset = BLOCK_SIZE + (i * BLOCK_SIZE);
+                blocks[i] = new BlockInfoRSBOX(data, offset);
+            }
+
+            return blocks;
+        }
+
         private BlockInfoRSBOX[] Blocks;
         private int SaveCount;
         private const int BLOCK_COUNT = 23;
@@ -75,7 +78,7 @@ namespace PKHeX.Core
             if (!IsMemoryCardSave)
                 return newFile;
 
-            MC.SelectedSaveData = newFile;
+            MC!.SelectedSaveData = newFile;
             return MC.Data;
         }
 
@@ -95,13 +98,13 @@ namespace PKHeX.Core
         public override SaveFile Clone()
         {
             var data = GetInnerData();
-            var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC) : new SAV3RSBox(data);
+            var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC!) : new SAV3RSBox(data);
             sav.Header = (byte[])Header.Clone();
             return sav;
         }
 
-        public override int SIZE_STORED => PKX.SIZE_3STORED + 4;
-        protected override int SIZE_PARTY => PKX.SIZE_3PARTY; // unused
+        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
+        protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);
 
@@ -122,7 +125,7 @@ namespace PKHeX.Core
 
         public override int BoxCount => 50;
         public override bool HasParty => false;
-        public override bool IsPKMPresent(int offset) => PKX.IsPKMPresentGBA(Data, offset);
+        public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGBA(data, offset);
 
         // Checksums
         protected override void SetChecksums() => Blocks.SetChecksums(Data);
@@ -174,25 +177,25 @@ namespace PKHeX.Core
 
         protected override PKM GetPKM(byte[] data)
         {
-            if (data.Length != PKX.SIZE_3STORED)
-                Array.Resize(ref data, PKX.SIZE_3STORED);
+            if (data.Length != PokeCrypto.SIZE_3STORED)
+                Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
             return new PK3(data);
         }
 
         protected override byte[] DecryptPKM(byte[] data)
         {
-            if (data.Length != PKX.SIZE_3STORED)
-                Array.Resize(ref data, PKX.SIZE_3STORED);
-            return PKX.DecryptArray3(data);
+            if (data.Length != PokeCrypto.SIZE_3STORED)
+                Array.Resize(ref data, PokeCrypto.SIZE_3STORED);
+            return PokeCrypto.DecryptArray3(data);
         }
 
         protected override void SetDex(PKM pkm) { /* No Pokedex for this game, do nothing */ }
 
-        public override void SetStoredSlot(PKM pkm, int offset, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
+        public override void WriteBoxSlot(PKM pkm, byte[] data, int offset)
         {
-            base.SetStoredSlot(pkm, offset, trade, dex);
-            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(Data, offset + PKX.SIZE_3STORED + 0);
-            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(Data, offset + PKX.SIZE_3STORED + 2);
+            base.WriteBoxSlot(pkm, data, offset);
+            BitConverter.GetBytes((ushort)pkm.TID).CopyTo(data, offset + PokeCrypto.SIZE_3STORED + 0);
+            BitConverter.GetBytes((ushort)pkm.SID).CopyTo(data, offset + PokeCrypto.SIZE_3STORED + 2);
         }
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter3.GetString3(data, offset, length, Japanese);

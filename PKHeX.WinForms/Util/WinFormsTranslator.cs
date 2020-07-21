@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -63,7 +64,10 @@ namespace PKHeX.WinForms
                 catch { /* In use? Just return the internal resource. */ }
             }
 
-            return Util.GetStringList(file);
+            if (Util.IsStringListCached(file, out var result))
+                return result;
+            var txt = (string)Properties.Resources.ResourceManager.GetObject(file);
+            return Util.LoadStringList(file, txt);
         }
 
         private static IEnumerable<object> GetTranslatableControls(Control f)
@@ -81,7 +85,7 @@ namespace PKHeX.WinForms
                         if (string.IsNullOrWhiteSpace(z.Name))
                             break;
 
-                        if (z.ContextMenuStrip != null) // control has attached menustrip
+                        if (z.ContextMenuStrip != null) // control has attached MenuStrip
                         {
                             foreach (var obj in GetToolStripMenuItems(z.ContextMenuStrip))
                                 yield return obj;
@@ -134,11 +138,11 @@ namespace PKHeX.WinForms
 
         public static void UpdateAll(string baseLanguage, IEnumerable<string> others)
         {
-            var basecontext = GetContext(baseLanguage);
+            var baseContext = GetContext(baseLanguage);
             foreach (var lang in others)
             {
                 var c = GetContext(lang);
-                c.UpdateFrom(basecontext);
+                c.UpdateFrom(baseContext);
             }
         }
 
@@ -170,7 +174,10 @@ namespace PKHeX.WinForms
                 {
                     var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
                 }
-                catch { }
+                catch
+                {
+                    Debug.Write($"Failed to create a new form {t}");
+                }
             }
         }
 
@@ -199,7 +206,7 @@ namespace PKHeX.WinForms
         }
     }
 
-    public class TranslationContext
+    public sealed class TranslationContext
     {
         public bool AddNew { private get; set; }
         public bool RemoveUsedKeys { private get; set; }

@@ -3,50 +3,13 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class Mail3 : Mail
+    public sealed class Mail3 : Mail
     {
-        private const int SIZE = 0x24;
+        public const int SIZE = 0x24;
         private readonly bool JP;
-        public Mail3(SAV3 sav, int index)
-        {
-            JP = sav.Japanese;
-            GetMailBlockOffset(sav.Version, ref index, out int block, out int offset);
-            DataOffset = (index * SIZE) + sav.GetBlockOffset(block) + offset;
-            Data = sav.GetData(DataOffset, SIZE);
-        }
 
-        private static void GetMailBlockOffset(GameVersion game, ref int index, out int block, out int offset)
-        {
-            block = 3;
-            if (game == GameVersion.E)
-            {
-                offset = 0xCE0;
-            }
-            else if (GameVersion.RS.Contains(game))
-            {
-                offset = 0xC4C;
-            }
-            else // FRLG
-            {
-                if (index >= 12)
-                {
-                    block = 4;
-                    offset = 0;
-                    index -= 12;
-                }
-                else
-                {
-                    offset = 0xDD0;
-                }
-            }
-        }
-
-        public Mail3()
-        {
-            Data = new byte[SIZE];
-            DataOffset = -1;
-            ResetData();
-        }
+        public Mail3() : base(new byte[SIZE], -1) => ResetData();
+        public Mail3(byte[] data, int ofs, bool japanese) : base(data, ofs) => JP = japanese;
 
         private void ResetData()
         {

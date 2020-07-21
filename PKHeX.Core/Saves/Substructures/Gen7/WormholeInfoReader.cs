@@ -1,6 +1,6 @@
 namespace PKHeX.Core
 {
-    public class WormholeInfoReader
+    public sealed class WormholeInfoReader
     {
         public readonly SAV7 SAV;
         public WormholeInfoReader(SAV7 sav) => SAV = sav;
@@ -9,8 +9,8 @@ namespace PKHeX.Core
         // https://projectpokemon.org/home/forums/topic/39433-gen-7-save-research-thread/?page=3&tab=comments#comment-239090
         public bool WormholeShininess // 0x4535 = Misc (0x4400 in USUM) + 0x0135
         {
-            get => SAV.Data[SAV.Misc + 0x0135] == 1;
-            set => SAV.Data[SAV.Misc + 0x0135] = (byte)(value ? 1 : 0);
+            get => SAV.Data[SAV.Misc.Offset + 0x0135] == 1;
+            set => SAV.Data[SAV.Misc.Offset + 0x0135] = (byte)(value ? 1 : 0);
         }
 
         public const int WormholeSlotMax = 15;
@@ -132,14 +132,14 @@ namespace PKHeX.Core
             if (slot < 1 || slot > WormholeSlotMax)
                 return -1;
 
-            switch (mapid)
+            return mapid switch
             {
-                case 256: return WormholeSlotsRed[slot];
-                case 257: return WormholeSlotsGreen[slot];
-                case 258: return WormholeSlotsYellow[slot];
-                case 259: return WormholeSlotsBlue[slot];
-                default: return -1;
-            }
+                256 => WormholeSlotsRed[slot],
+                257 => WormholeSlotsGreen[slot],
+                258 => WormholeSlotsYellow[slot],
+                259 => WormholeSlotsBlue[slot],
+                _ => -1
+            };
         }
     }
 }
