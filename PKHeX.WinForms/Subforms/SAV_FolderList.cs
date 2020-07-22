@@ -353,7 +353,7 @@ namespace PKHeX.WinForms
         {
             dgData.SuspendLayout();
             dgData.AutoResizeColumns();
-            dgData.Invalidate();
+            dgData.ResumeLayout(true);
         }
 
         private static void LoadEntryInitial(DataGridView dgData, ICollection<SavePreview> list, SavePreview sav)
