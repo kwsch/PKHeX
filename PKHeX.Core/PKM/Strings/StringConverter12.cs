@@ -12,6 +12,7 @@ namespace PKHeX.Core
         public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z));
         public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z));
 
+        public const byte G1TerminatorCode = 0x50;
         public const char G1Terminator = '\0';
         public const byte G1TradeOTCode = 0x5D;
         public const char G1TradeOT = '*';

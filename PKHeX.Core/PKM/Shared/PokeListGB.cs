@@ -1,10 +1,20 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     public abstract class PokeListGB<T> where T : PKM
     {
+        // Structure:
+        // u8               Count of slots filled
+        // s8[capacity+1]   GB Species ID in Slot (-1 = no species)
+        // pkx[capacity]    GB PKM data (no strings)
+        // str[capacity]    Trainer Name
+        // str[capacity]    Nickname
+        // 
+        // where,
+        // - str has variable size (jp/int)
+        // - pkx is different size for gen1/gen2
+
         private readonly int StringLength;
         private readonly byte[] Data;
         private readonly byte Capacity;
@@ -12,18 +22,23 @@ namespace PKHeX.Core
 
         public readonly T[] Pokemon;
 
+        /// <summary>
+        /// Count of slots filled in the list
+        /// </summary>
         public byte Count { get => Data[0]; private set => Data[0] = value > Capacity ? Capacity : value; }
+
+        private const int SLOT_NONE = byte.MaxValue;
 
         protected PokeListGB(byte[]? d, PokeListType c = PokeListType.Single, bool jp = false)
         {
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
             StringLength = GetStringLength(jp);
-            Data = d ?? GetEmptyList(c, jp);
-            var dataSize = 2 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
+            var data = d ?? GetEmptyList(c, jp);
+            var dataSize = 1 + 1 + (Capacity * (Entry_Size + 1 + (2 * StringLength)));
 
-            if (Data.Length != dataSize)
-                Array.Resize(ref Data, dataSize);
+            Array.Resize(ref data, dataSize);
+            Data = data;
 
             Pokemon = Read();
         }
@@ -41,10 +56,20 @@ namespace PKHeX.Core
         private byte[] GetEmptyList(PokeListType c, bool jp = false)
         {
             int capacity = (byte)c;
-            var intro = Enumerable.Repeat((byte) 0xFF, capacity + 1);
-            var pkm = Enumerable.Repeat((byte) 0, GetEntrySize() * capacity);
-            var strings = Enumerable.Repeat((byte) 0x50, GetStringLength(jp) * 2 * capacity);
-            return new[] { (byte)0 }.Concat(intro).Concat(pkm).Concat(strings).ToArray();
+
+            int size_intro = capacity + 1;
+            int size_pkm = GetEntrySize() * capacity;
+            int size_str = 2 * GetStringLength(jp) * capacity;
+
+            var result = new byte[1 + size_intro + size_pkm + size_str];
+
+            for (int i = 1; i <= size_intro; i++)
+                result[i] = SLOT_NONE;
+
+            for (int i = 1 + size_intro + size_pkm; i < result.Length; i++)
+                result[i] = StringConverter12.G1TerminatorCode; // terminator
+
+            return result;
         }
 
         private int GetOffsetPKMData(int base_ofs, int i) => base_ofs + (Entry_Size * i);
@@ -87,15 +112,16 @@ namespace PKHeX.Core
 
         public byte[] Write()
         {
+            // Rebuild GB Species ID table
             int count = Array.FindIndex(Pokemon, pk => pk.Species == 0);
             Count = count < 0 ? Capacity : (byte)count;
-            int base_ofs = 2 + Capacity;
+            int base_ofs = 1 + 1 + Capacity;
             for (int i = 0; i < Count; i++)
             {
                 Data[1 + i] = GetSpeciesBoxIdentifier(Pokemon[i]);
                 SetEntry(base_ofs, i);
             }
-            Data[1 + Count] = byte.MaxValue;
+            Data[1 + Count] = SLOT_NONE;
             return Data;
         }
 
