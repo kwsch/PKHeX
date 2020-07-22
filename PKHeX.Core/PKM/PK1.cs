@@ -29,7 +29,7 @@ namespace PKHeX.Core
         protected override byte[] Encrypt() => new PokeList1(this).Write();
 
         #region Stored Attributes
-        public int SpeciesID1 { get => Data[0]; set => Data[0] = (byte)value; } // raw access
+        public byte SpeciesID1 { get => Data[0]; set => Data[0] = value; } // raw access
         public override int Species { get => SpeciesConverter.GetG1Species(SpeciesID1); set => SetSpeciesValues(value); }
         public override int Stat_HPCurrent { get => BigEndian.ToUInt16(Data, 0x1); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x1); }
         public int Stat_LevelBox { get => Data[3];set => Data[3] = (byte)value; }
@@ -75,7 +75,7 @@ namespace PKHeX.Core
 
         private void SetSpeciesValues(int value)
         {
-            var updated = (byte)SpeciesConverter.SetG1Species(value);
+            var updated = SpeciesConverter.SetG1Species(value);
             if (SpeciesID1 == updated)
                 return;
 
