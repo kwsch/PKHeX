@@ -287,7 +287,6 @@ namespace PKHeX.Core
             (int)Species.Slowpoke, (int)Species.Slowbro,
             (int)Species.Doduo, (int)Species.Dodrio,
             (int)Species.Hitmonlee, (int)Species.Hitmonchan,
-            (int)Species.Tangela,
             (int)Species.Goldeen, (int)Species.Seaking,
             (int)Species.Staryu, (int)Species.Starmie,
             (int)Species.Ditto,
