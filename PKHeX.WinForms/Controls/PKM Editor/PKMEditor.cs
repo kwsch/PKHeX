@@ -1882,6 +1882,15 @@ namespace PKHeX.WinForms.Controls
             return opaque ? sprite : ImageUtil.ChangeOpacity(sprite, trans);
         }
 
+        private void ClickVersionMarking(object sender, EventArgs e)
+        {
+            tabMain.SelectedTab = Tab_Met;
+            if (sender == PB_BattleVersion)
+                CB_BattleVersion.DroppedDown = true;
+            else
+                CB_GameOrigin.DroppedDown = true;
+        }
+
         public void ChangeLanguage(ITrainerInfo sav, PKM pk)
         {
             // Force an update to the met locations
