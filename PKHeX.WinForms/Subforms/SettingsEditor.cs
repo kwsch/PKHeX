@@ -108,6 +108,7 @@ namespace PKHeX.WinForms
                 var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
                 if (File.Exists(path))
                     File.Delete(path);
+                System.Diagnostics.Process.Start(Application.ExecutablePath);
                 Environment.Exit(0);
             }
             catch (Exception ex)
