@@ -34,7 +34,7 @@ namespace PKHeX.Core
                 return pidiv;
             if (GetColoStarterMatch(pk, top, bot, IVs, out pidiv))
                 return pidiv;
-            if (GetXDRNGMatch(top, bot, IVs, out pidiv))
+            if (GetXDRNGMatch(pk, top, bot, IVs, out pidiv))
                 return pidiv;
 
             // Special cases
@@ -234,7 +234,7 @@ namespace PKHeX.Core
             return GetNonMatch(out pidiv);
         }
 
-        private static bool GetXDRNGMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv)
+        private static bool GetXDRNGMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
             var xdc = GetSeedsFromPIDEuclid(RNG.XDRNG, top, bot);
             foreach (var seed in xdc)
@@ -244,42 +244,33 @@ namespace PKHeX.Core
 
                 var hi = A >> 16;
                 var lo = B >> 16;
-                if (!IVsMatch(hi, lo, IVs))
+                if (IVsMatch(hi, lo, IVs))
                 {
-                    // check for antishiny
-                    // allow 2 different TSVs to proc antishiny for XD
-                    var tsv1 = (int)((hi ^ lo) >> 3);
-                    var tsv2 = -1;
-                    while (true)
-                    {
-                        B = RNG.XDRNG.Prev(A);
-                        A = RNG.XDRNG.Prev(B);
-                        hi = A >> 16;
-                        lo = B >> 16;
-                        if (!IVsMatch(hi, lo, IVs))
-                        {
-                            var anti = (int)(hi ^ lo) >> 3;
-                            if (anti == tsv1)
-                                continue;
-                            if (anti == tsv2)
-                                continue;
-                            if (tsv2 >= 0) // already set
-                                break; // can't have this many shiny TSVs
-                            tsv2 = anti;
-                            continue;
-                        }
-                        pidiv = new PIDIVTSV
-                        {
-                            OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXDAnti,
-                            TSV1 = tsv1, TSV2 = tsv2,
-                        };
-                        return true;
-                    }
-                    continue;
+                    pidiv = new PIDIV { OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXD };
+                    return true;
                 }
 
-                pidiv = new PIDIV {OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXD};
-                return true;
+                // check for anti-shiny against player TSV
+                var tsv = (pk.TID ^ pk.SID) >> 3;
+                var psv = (int)((hi ^ lo) >> 3);
+                if (psv != tsv)
+                    continue;
+
+                do
+                {
+                    B = RNG.XDRNG.Prev(A);
+                    A = RNG.XDRNG.Prev(B);
+                    hi = A >> 16;
+                    lo = B >> 16;
+                    psv = (int)((hi ^ lo) >> 3);
+                }
+                while (psv == tsv);
+
+                if (IVsMatch(hi, lo, IVs))
+                {
+                    pidiv = new PIDIV { OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXDAnti };
+                    return true;
+                }
             }
             return GetNonMatch(out pidiv);
         }
