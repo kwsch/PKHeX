@@ -122,19 +122,18 @@ namespace PKHeX.Core
                 088, // Grimer
                 089, // Muk
                 103, // Exeggutor
-
-                // Level 20+
-                026, // Raichu
                 105, // Marowak
+
+                // Level 15+
+                026, // Raichu
             };
 
             var regular = obtainable.Select(z => GetSlot(z, 0));
             var alolan = AlolanKanto.Select(z => GetSlot(z, 1));
             var slots = regular.Concat(alolan).ToArray();
 
-            slots[slots.Length - 2].LevelMin = 20; // Raichu
-            slots[slots.Length - 1].LevelMin = 20; // Marowak
-            slots[(int)Species.Mewtwo - 1].LevelMin = 20;
+            slots[slots.Length - 1].LevelMin = 15; // Raichu
+            slots[(int)Species.Mewtwo - 1].LevelMin = 15;
             slots[(int)Species.Articuno - 1].LevelMin = 15;
             slots[(int)Species.Zapdos - 1].LevelMin = 15;
             slots[(int)Species.Moltres - 1].LevelMin = 15;
