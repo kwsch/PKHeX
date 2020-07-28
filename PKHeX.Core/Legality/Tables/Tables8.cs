@@ -705,7 +705,6 @@ namespace PKHeX.Core
             016, // Cherish Ball
             500, // Park Ball
 
-            193, // Payapa Berry
             208, // Enigma Berry
             209, // Micle Berry
             210, // Custap Berry
