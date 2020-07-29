@@ -305,11 +305,17 @@ namespace PKHeX.Core
             entry.Purification = pk.Purification;
             entry.Species = pk.Species;
             entry.PID = pk.PID;
-            entry.IsPurified = pk.Purification == 0;
+            entry.IV_HP  = pk.IV_HP ;
+            entry.IV_ATK = pk.IV_ATK;
+            entry.IV_DEF = pk.IV_DEF;
+            entry.IV_SPA = pk.IV_SPA;
+            entry.IV_SPD = pk.IV_SPD;
+            entry.IV_SPE = pk.IV_SPE;
         }
 
         protected override void SetDex(PKM pkm)
         {
+            /*
             // Dex Related
             var entry = StrategyMemo.GetEntry(pkm.Species);
             if (entry.IsEmpty) // Populate
@@ -325,6 +331,7 @@ namespace PKHeX.Core
                 entry.Owned = true;
             }
             StrategyMemo.SetEntry(entry);
+            */
         }
 
         public override InventoryPouch[] Inventory
