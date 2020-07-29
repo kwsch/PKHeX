@@ -137,7 +137,7 @@ namespace PKHeX.Core
             Array.Resize(ref Data, Data.Length + SIZE_RESERVED); // More than enough empty space.
 
             // Copy chunk to the allocated location
-            for (int i = 5; i < BLOCK_COUNT; i++)
+            for (short i = 5; i < BLOCK_COUNT; i++)
             {
                 int blockIndex = Array.IndexOf(BlockOrder, i);
                 if (blockIndex == -1) // block empty
@@ -208,7 +208,7 @@ namespace PKHeX.Core
             }
 
             blockOfs = new int[BLOCK_COUNT];
-            for (int i = 0; i < BLOCK_COUNT; i++)
+            for (short i = 0; i < BLOCK_COUNT; i++)
             {
                 int index = Array.IndexOf(blockOrder, i);
                 blockOfs[i] = index < 0 ? int.MinValue : (index * SIZE_BLOCK) + ABO;
@@ -225,8 +225,8 @@ namespace PKHeX.Core
 
         private int GetActiveSaveIndex(short[] BlockOrder1, short[] BlockOrder2)
         {
-            int zeroBlock1 = Array.IndexOf(BlockOrder1, 0);
-            int zeroBlock2 = Array.IndexOf(BlockOrder2, 0);
+            int zeroBlock1 = Array.IndexOf(BlockOrder1, (short)0);
+            int zeroBlock2 = Array.IndexOf(BlockOrder2, (short)0);
             if (zeroBlock2 < 0)
                 return 0;
             if (zeroBlock1 < 0)
@@ -260,7 +260,7 @@ namespace PKHeX.Core
         protected override byte[] GetFinalData()
         {
             // Copy Box data back
-            for (int i = 5; i < BLOCK_COUNT; i++)
+            for (short i = 5; i < BLOCK_COUNT; i++)
             {
                 int blockIndex = Array.IndexOf(BlockOrder, i);
                 if (blockIndex == -1) // block empty
