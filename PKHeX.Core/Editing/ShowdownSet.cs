@@ -172,6 +172,7 @@ namespace PKHeX.Core
             {
                 case "Trait": case "Ability": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
                 case "Shiny": return Shiny = value.Trim() == "Yes";
+                case "Gigantamax": return CanGigantamax = value.Trim() == "Yes";
                 case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
                 case "EV": case "EVs": ParseLineEVs(value); return true;
                 case "IV": case "IVs": ParseLineIVs(value); return true;
@@ -250,6 +251,8 @@ namespace PKHeX.Core
                 result.Add($"Ability: {Strings.Ability[Ability]}");
             if (Level != 100)
                 result.Add($"Level: {Level}");
+            if (CanGigantamax)
+                result.Add("Gigantamax: Yes");
             if (Shiny)
                 result.Add("Shiny: Yes");
 
@@ -270,9 +273,6 @@ namespace PKHeX.Core
                 specForm = specForm.Replace("♂", "-M");
             else if (Species == (int)Core.Species.NidoranF)
                 specForm = specForm.Replace("♀", "-F");
-
-            if (CanGigantamax)
-                specForm += Gmax;
 
             string result = GetSpeciesNickname(specForm);
             if (Gender.Length != 0)
