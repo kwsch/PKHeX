@@ -323,7 +323,9 @@ namespace PKHeX.Core
             if (pkm.Format < 6)
                 return;
 
-            ConsoleRegion.Verify(this);
+            if (pkm.Format < 8)
+                ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
+
             History.Verify(this);
             Memory.Verify(this);
             if (pkm is ISuperTrain)

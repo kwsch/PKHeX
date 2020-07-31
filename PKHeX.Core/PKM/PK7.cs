@@ -377,9 +377,9 @@ namespace PKHeX.Core
         public bool HT_SPD { get => ((HyperTrainFlags >> 4) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 4)) | ((value ? 1 : 0) << 4); }
         public bool HT_SPE { get => ((HyperTrainFlags >> 5) & 1) == 1; set => HyperTrainFlags = (HyperTrainFlags & ~(1 << 5)) | ((value ? 1 : 0) << 5); }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public override int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public override int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public override int ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
+        public int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
+        public int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
+        public int ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats

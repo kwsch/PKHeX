@@ -39,9 +39,6 @@ namespace PKHeX.Core
         public string Version => Get(Strings.gamelist, pkm.Version);
         public string OTLang => Get(GameDataSource.Languages, pkm.Language);
         public string Legal { get { var la = new LegalityAnalysis(pkm); return la.Parsed ? la.Valid.ToString() : "-"; } }
-        public string CountryID => pkm.Format > 5 ? pkm.Country.ToString() : "N/A";
-        public string RegionID => pkm.Format > 5 ? pkm.Region.ToString() : "N/A";
-        public string DSRegionID => pkm.Format > 5 ? pkm.ConsoleRegion.ToString() : "N/A";
 
         #region Extraneous
         public string EC => pkm.EncryptionConstant.ToString("X8");

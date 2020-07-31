@@ -193,7 +193,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Compares the <see cref="PKM.ConsoleRegion"/> and <see cref="PKM.Country"/> to determine if the country is available within that region.
+        /// Compares the <see cref="IGeoTrack.ConsoleRegion"/> and <see cref="IGeoTrack.Country"/> to determine if the country is available within that region.
         /// </summary>
         /// <param name="consoleRegion">Console region.</param>
         /// <param name="country">Country of nationality</param>

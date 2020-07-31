@@ -345,9 +345,9 @@ namespace PKHeX.Core
         public override int OT_Gender { get => Data[0xDD] >> 7; set => Data[0xDD] = (byte)((Data[0xDD] & ~0x80) | (value << 7)); }
         public override int EncounterType { get => Data[0xDE]; set => Data[0xDE] = (byte)value; }
         public override int Version { get => Data[0xDF]; set => Data[0xDF] = (byte)value; }
-        public override int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
-        public override int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
-        public override int ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
+        public int Country { get => Data[0xE0]; set => Data[0xE0] = (byte)value; }
+        public int Region { get => Data[0xE1]; set => Data[0xE1] = (byte)value; }
+        public int ConsoleRegion { get => Data[0xE2]; set => Data[0xE2] = (byte)value; }
         public override int Language { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         #endregion
         #region Battle Stats

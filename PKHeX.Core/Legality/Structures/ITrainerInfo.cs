@@ -28,11 +28,11 @@ namespace PKHeX.Core
             pk.Language = info.Language;
             pk.Version = info.Game;
 
-            if (pk.Format >= 8 || pk is PB7)
+            if (!(pk is IGeoTrack tr))
                 return;
-            pk.Country = info.Country;
-            pk.Region = info.SubRegion;
-            pk.ConsoleRegion = info.ConsoleRegion;
+            tr.Country = info.Country;
+            tr.Region = info.SubRegion;
+            tr.ConsoleRegion = info.ConsoleRegion;
         }
 
         public static void ApplyHandlingTrainerInfo(this ITrainerInfo sav, PKM pk, bool force = false)

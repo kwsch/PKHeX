@@ -55,11 +55,11 @@ namespace PKHeX.Core
             pk.OT_Gender = tr.Gender;
             pk.TID = tr.TID;
             pk.SID = tr.SID;
-            if (tr.ConsoleRegion >= 0)
+            if (tr.ConsoleRegion >= 0 && pk is IGeoTrack gt)
             {
-                pk.ConsoleRegion = tr.ConsoleRegion;
-                pk.Country = tr.Country;
-                pk.Region = tr.SubRegion;
+                gt.ConsoleRegion = tr.ConsoleRegion;
+                gt.Country = tr.Country;
+                gt.Region = tr.SubRegion;
             }
 
             // Copy OT trash bytes for sensitive games (Gen1/2)

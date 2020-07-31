@@ -5,6 +5,10 @@
     /// </summary>
     public interface IGeoTrack
     {
+        int ConsoleRegion { get; set; }
+        int Country { get; set; }
+        int Region { get; set; }
+
         int Geo1_Region { get; set; }
         int Geo2_Region { get; set; }
         int Geo3_Region { get; set; }

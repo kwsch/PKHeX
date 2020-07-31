@@ -159,9 +159,6 @@ namespace PKHeX.Core
         public virtual byte Enjoyment { get; set; }
         public virtual byte Fullness { get; set; }
         public virtual int AbilityNumber { get; set; }
-        public virtual int Country { get; set; }
-        public virtual int Region { get; set; }
-        public virtual int ConsoleRegion { get; set; }
 
         /// <summary>
         /// The date the Pokémon was met.

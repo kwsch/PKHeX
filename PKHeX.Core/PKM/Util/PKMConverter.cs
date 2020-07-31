@@ -28,7 +28,7 @@ namespace PKHeX.Core
         public static int Game => Trainer.Game;
         public static bool AllowIncompatibleConversion { private get; set; }
 
-        public static void SetConsoleRegionData3DS(PKM pkm)
+        public static void SetConsoleRegionData3DS(IGeoTrack pkm)
         {
             var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
             pkm.ConsoleRegion = trainer.ConsoleRegion;
