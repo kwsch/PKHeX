@@ -10,10 +10,6 @@ namespace PKHeX.Core
         int Game { get; }
         int Language { get; }
 
-        int Country { get; }
-        int SubRegion { get; }
-        int ConsoleRegion { get; }
-
         int Generation { get; }
     }
 
@@ -30,9 +26,12 @@ namespace PKHeX.Core
 
             if (!(pk is IGeoTrack tr))
                 return;
-            tr.Country = info.Country;
-            tr.Region = info.SubRegion;
-            tr.ConsoleRegion = info.ConsoleRegion;
+
+            if (!(info is IRegionOrigin o))
+                return;
+            tr.Country = o.Country;
+            tr.Region = o.Region;
+            tr.ConsoleRegion = o.ConsoleRegion;
         }
 
         public static void ApplyHandlingTrainerInfo(this ITrainerInfo sav, PKM pk, bool force = false)
@@ -45,11 +44,11 @@ namespace PKHeX.Core
             pk.HT_Friendship = pk.OT_Friendship;
             pk.CurrentHandler = 1;
 
-            if (pk.Format == 6)
+            if (pk.Format == 6 && sav is IRegionOrigin o)
             {
                 var g = (IGeoTrack) pk;
-                g.Geo1_Country = sav.Country;
-                g.Geo1_Region = sav.SubRegion;
+                g.Geo1_Country = o.Country;
+                g.Geo1_Region = o.Region;
                 ((PK6)pk).TradeMemory(true);
             }
         }

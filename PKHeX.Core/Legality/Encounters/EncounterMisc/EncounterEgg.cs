@@ -82,7 +82,9 @@ namespace PKHeX.Core
                 case (int)Core.Species.Scatterbug:
                 case (int)Core.Species.Spewpa:
                 case (int)Core.Species.Vivillon:
-                    pk.AltForm = Legal.GetVivillonPattern((byte)sav.Country, (byte)sav.SubRegion);
+                    if (sav is IRegionOrigin o)
+                        pk.AltForm = Legal.GetVivillonPattern((byte)o.Country, (byte)o.Region);
+                    // else 0
                     break;
             }
         }

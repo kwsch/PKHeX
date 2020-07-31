@@ -193,8 +193,11 @@ namespace PKHeX.Core
                 return Util.Rand.Next(pk.PersonalInfo.FormeCount);
 
             int spec = pk.Species;
-            if (spec == (int)Core.Species.Scatterbug || spec == (int)Core.Species.Spewpa || spec == (int)Core.Species.Vivillon)
-                return Legal.GetVivillonPattern((byte)sav.Country, (byte)sav.SubRegion);
+            if ((int) Core.Species.Scatterbug <= spec && spec <= (int) Core.Species.Vivillon)
+            {
+                if (sav is IRegionOrigin o)
+                    return Legal.GetVivillonPattern((byte)o.Country, (byte)o.Region);
+            }
             return 0;
         }
 

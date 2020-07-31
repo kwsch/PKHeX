@@ -570,12 +570,8 @@ namespace PKHeX.Core
             SAV.Language = (int)LanguageID.English; // English
 
             // Only set geolocation data for 3DS titles
-            if (6 <= SAV.Generation && SAV.Generation <= 7 && !(SAV is SAV7b))
-            {
-                SAV.Country = 49; // USA
-                SAV.SubRegion = 7; // CA
-                SAV.ConsoleRegion = 1; // Americas
-            }
+            if (SAV is IRegionOrigin o)
+                o.SetDefaultRegionOrigins();
 
             return SAV;
         }

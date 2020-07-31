@@ -15,12 +15,12 @@ namespace PKHeX.Core
         public static void SetPrimaryTrainer(ITrainerInfo t)
         {
             Trainer = t;
-            if (t.ConsoleRegion != 0)
-                Trainer67 = t;
+            if (t is IRegionOrigin o)
+                Trainer67 = o;
         }
 
         private static ITrainerInfo Trainer { get; set; } = new SimpleTrainerInfo();
-        private static ITrainerInfo Trainer67 { get; set; } = new SimpleTrainerInfo(GameVersion.SN);
+        private static IRegionOrigin Trainer67 { get; set; } = new SimpleTrainerInfo(GameVersion.SN);
         public static string OT_Name => Trainer.OT;
         public static int OT_Gender => Trainer.Gender;
         public static int Language => Trainer.Language;
@@ -30,17 +30,17 @@ namespace PKHeX.Core
 
         public static void SetConsoleRegionData3DS(IGeoTrack pkm)
         {
-            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            var trainer = Trainer is IRegionOrigin r ? r : Trainer67;
             pkm.ConsoleRegion = trainer.ConsoleRegion;
             pkm.Country = trainer.Country;
-            pkm.Region = trainer.SubRegion;
+            pkm.Region = trainer.Region;
         }
 
         public static void SetFirstCountryRegion(IGeoTrack pkm)
         {
-            var trainer = Trainer.ConsoleRegion != 0 ? Trainer : Trainer67;
+            var trainer = Trainer is IRegionOrigin r ? r : Trainer67;
             pkm.Geo1_Country = trainer.Country;
-            pkm.Geo1_Region = trainer.SubRegion;
+            pkm.Geo1_Region = trainer.Region;
         }
 
         /// <summary>

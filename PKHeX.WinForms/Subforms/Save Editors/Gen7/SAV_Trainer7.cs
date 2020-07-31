@@ -107,7 +107,7 @@ namespace PKHeX.WinForms
             MT_Money.Text = SAV.Money.ToString();
 
             CB_Country.SelectedValue = SAV.Country;
-            CB_Region.SelectedValue = SAV.SubRegion;
+            CB_Region.SelectedValue = SAV.Region;
             CB_3DSReg.SelectedValue = SAV.ConsoleRegion;
             CB_Language.SelectedValue = SAV.Language;
             var timeA = SAV.GameTime.AlolaTime;
@@ -325,7 +325,7 @@ namespace PKHeX.WinForms
             SAV.Gender = (byte)CB_Gender.SelectedIndex;
 
             SAV.Money = Util.ToUInt32(MT_Money.Text);
-            SAV.SubRegion = WinFormsUtil.GetIndex(CB_Region);
+            SAV.Region = WinFormsUtil.GetIndex(CB_Region);
             SAV.Country = WinFormsUtil.GetIndex(CB_Country);
             SAV.ConsoleRegion = WinFormsUtil.GetIndex(CB_3DSReg);
             SAV.Language = WinFormsUtil.GetIndex(CB_Language);

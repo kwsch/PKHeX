@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main
+    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -140,9 +140,9 @@ namespace PKHeX.Core
         public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
         public override int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
         public override string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
-        public override int SubRegion { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
-        public override int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
-        public override int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
+        public int Region { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
+        public int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
+        public int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }
         public override int Language { get => MyStatus.Language; set => MyStatus.Language = value; }
         public override string OT { get => MyStatus.OT; set => MyStatus.OT = value; }
         public override int MultiplayerSpriteID { get => MyStatus.MultiplayerSpriteID; set => MyStatus.MultiplayerSpriteID = value; }

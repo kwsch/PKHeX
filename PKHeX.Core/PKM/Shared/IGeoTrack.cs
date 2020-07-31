@@ -3,12 +3,8 @@
     /// <summary>
     /// Tracks Geolocation history of a <see cref="PKM"/>
     /// </summary>
-    public interface IGeoTrack
+    public interface IGeoTrack : IRegionOrigin
     {
-        int ConsoleRegion { get; set; }
-        int Country { get; set; }
-        int Region { get; set; }
-
         int Geo1_Region { get; set; }
         int Geo2_Region { get; set; }
         int Geo3_Region { get; set; }

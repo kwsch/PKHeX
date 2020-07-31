@@ -410,8 +410,11 @@ namespace PKHeX.Core
                 return false;
 
             CurrentHandler = 0;
-            if (!IsUntraded && (tr.Country != Geo1_Country || tr.SubRegion != Geo1_Region))
-                this.TradeGeoLocation(tr.Country, tr.SubRegion);
+            if (tr is IRegionOrigin o)
+            {
+                if (!IsUntraded && (o.Country != Geo1_Country || o.Region != Geo1_Region))
+                    this.TradeGeoLocation(o.Country, o.Region);
+            }
 
             return true;
         }
@@ -419,7 +422,10 @@ namespace PKHeX.Core
         protected override void TradeHT(ITrainerInfo tr)
         {
             if (tr.OT != HT_Name || tr.Gender != HT_Gender || (Geo1_Country == 0 && Geo1_Region == 0 && !IsUntradedEvent6))
-                this.TradeGeoLocation(tr.Country, tr.SubRegion);
+            {
+                if (tr is IRegionOrigin o)
+                    this.TradeGeoLocation(o.Country, o.Region);
+            }
 
             if (tr.OT != HT_Name)
             {

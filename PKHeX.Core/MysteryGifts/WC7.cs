@@ -330,9 +330,6 @@ namespace PKHeX.Core
                 Version = OriginGame != 0 ? OriginGame : sav.Game,
                 Language = Language != 0 ? Language : sav.Language,
                 Ball = Ball,
-                Country = sav.Country,
-                Region = sav.SubRegion,
-                ConsoleRegion = sav.ConsoleRegion,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
                 RelearnMove3 = RelearnMove3, RelearnMove4 = RelearnMove4,
@@ -381,6 +378,18 @@ namespace PKHeX.Core
 
                 EVs = EVs,
             };
+
+            if (sav is IRegionOrigin o)
+            {
+                pk.Country = o.Country;
+                pk.Region = o.Region;
+                pk.ConsoleRegion = o.ConsoleRegion;
+            }
+            else
+            {
+                pk.SetDefaultRegionOrigins();
+            }
+
             pk.SetMaximumPPCurrent();
 
             if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))

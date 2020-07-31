@@ -250,9 +250,6 @@ namespace PKHeX.Core
         public virtual int MultiplayerSpriteID { get => 0; set { } }
         public int TrainerID7 { get => (int)((uint)(TID | (SID << 16)) % 1000000); set => SetID7(TrainerSID7, value); }
         public int TrainerSID7 { get => (int)((uint)(TID | (SID << 16)) / 1000000); set => SetID7(value, TrainerID7); }
-        public virtual int Country { get => -1; set { } }
-        public virtual int ConsoleRegion { get => -1; set { } }
-        public virtual int SubRegion { get => -1; set { } }
         public virtual int MaxMoney => 9999999;
         public virtual int MaxCoins => 9999;
 

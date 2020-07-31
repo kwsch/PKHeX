@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 6 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core
+    public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IRegionOrigin
     {
         // Save Data Attributes
         protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
@@ -61,9 +61,9 @@ namespace PKHeX.Core
         public override int Gender { get => Status.Gender; set => Status.Gender = value; }
         public override int Language { get => Status.Language; set => Status.Language = value; }
         public override string OT { get => Status.OT; set => Status.OT = value; }
-        public override int SubRegion { get => Status.SubRegion; set => Status.SubRegion = value; }
-        public override int Country { get => Status.Country; set => Status.Country = value; }
-        public override int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
+        public int Region { get => Status.SubRegion; set => Status.SubRegion = value; }
+        public int Country { get => Status.Country; set => Status.Country = value; }
+        public int ConsoleRegion { get => Status.ConsoleRegion; set => Status.ConsoleRegion = value; }
         public override int GameSyncIDSize => MyStatus6.GameSyncIDSize; // 64 bits
         public override string GameSyncID { get => Status.GameSyncID; set => Status.GameSyncID = value; }
         public override int PlayedHours { get => Played.PlayedHours; set => Played.PlayedHours = value; }
