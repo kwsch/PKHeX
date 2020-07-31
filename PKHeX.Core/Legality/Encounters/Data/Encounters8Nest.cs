@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -259,11 +260,11 @@ namespace PKHeX.Core
             new byte[] {130, 134},           // 090 : West Lake Axewell, South Lake Miloch
             new byte[] {142, 124},           // 091 : Bridge Field, Dappled Grove
             new byte[] {146},                // 092 : Dusty Bowl
-            new byte[] {},                   // 093 : None
-            new byte[] {},                   // 094 : None
-            new byte[] {},                   // 095 : None
-            new byte[] {},                   // 096 : None
-            new byte[] {},                   // 097 : None
+            Array.Empty<byte>(),             // 093 : None
+            Array.Empty<byte>(),             // 094 : None
+            Array.Empty<byte>(),             // 095 : None
+            Array.Empty<byte>(),             // 096 : None
+            Array.Empty<byte>(),             // 097 : None
             new byte[] {164, 166, 188, 190}, // 098 : Fields of Honor, Soothing Wetlands, Stepping-Stone Sea, Insular Sea
             new byte[] {164, 166, 188, 190}, // 099 : Fields of Honor, Soothing Wetlands, Stepping-Stone Sea, Insular Sea
             new byte[] {166, 176, 180},      // 100 : Soothing Wetlands, Courageous Cavern, Training Lowlands
@@ -306,8 +307,8 @@ namespace PKHeX.Core
             new byte[] {164, 170, 178},      // 137 : Fields of Honor, Challenge Beach, Loop Lagoon
             new byte[] {186, 188, 190, 192}, // 138 : Workout Sea, Stepping-Stone Sea, Insular Sea, Honeycalm Sea
             new byte[] {186, 188, 190, 192}, // 139 : Workout Sea, Stepping-Stone Sea, Insular Sea, Honeycalm Sea
-            new byte[] {},                   // 140 : None
-            new byte[] {},                   // 141 : None
+            Array.Empty<byte>(),             // 140 : None
+            Array.Empty<byte>(),             // 141 : None
             new byte[] {194},                // 142 : Honeycalm Island
             new byte[] {194},                // 143 : Honeycalm Island
             new byte[] {168, 180},           // 144 : Forest of Focus, Training Lowlands

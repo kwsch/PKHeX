@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
         private void DiffSaves()
         {
             var diff7b = new EventWorkDiff7b(TB_OldSAV.Text, TB_NewSAV.Text);
-            if (diff7b.Message != string.Empty)
+            if (diff7b.Message.Length != 0)
             {
                 WinFormsUtil.Alert(diff7b.Message);
                 return;

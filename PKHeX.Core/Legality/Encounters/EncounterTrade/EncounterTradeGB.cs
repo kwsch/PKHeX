@@ -2,7 +2,7 @@
 {
     public abstract class EncounterTradeGB : EncounterTrade
     {
-        public EncounterTradeGB(int species, int level)
+        protected EncounterTradeGB(int species, int level)
         {
             Species = species;
             Level = level;

@@ -69,24 +69,7 @@ namespace PKHeX.Core
                     }
                     else if (z is EncounterStaticShadow s)
                     {
-                        bool valid = false;
-                        if (s.IVs.Count == 0) // not ereader
-                        {
-                            valid = LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
-                        }
-                        else
-                        {
-                            var possible = MethodFinder.GetColoEReaderMatches(pkm.EncryptionConstant);
-                            foreach (var poss in possible)
-                            {
-                                if (!LockFinder.IsAllShadowLockValid(s, poss, pkm))
-                                    continue;
-                                valid = true;
-                                info.PIDIV = poss;
-                                break;
-                            }
-                        }
-
+                        bool valid = GetIsShadowLockValid(pkm, info, s);
                         if (!valid)
                         {
                             deferred.Add(s);
@@ -105,6 +88,24 @@ namespace PKHeX.Core
             info.PIDIVMatches = false;
             foreach (var z in deferred)
                 yield return z;
+        }
+
+        private static bool GetIsShadowLockValid(PKM pkm, LegalInfo info, EncounterStaticShadow s)
+        {
+            if (s.IVs.Count == 0) // not E-Reader
+                return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
+            
+            // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
+            var possible = MethodFinder.GetColoEReaderMatches(pkm.EncryptionConstant);
+            foreach (var poss in possible)
+            {
+                if (!LockFinder.IsAllShadowLockValid(s, poss, pkm))
+                    continue;
+                info.PIDIV = poss;
+                return true;
+            }
+
+            return false;
         }
 
         private static IEnumerable<IEncounterable> GetEncounters4(PKM pkm, LegalInfo info)
