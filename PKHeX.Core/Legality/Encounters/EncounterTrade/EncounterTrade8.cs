@@ -8,10 +8,10 @@ namespace PKHeX.Core
         public byte DynamaxLevel { get; set; }
         public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
 
-        public int OT_Memory { get; }
-        public int OT_TextVar { get; }
-        public int OT_Feeling { get; }
-        public int OT_Intensity { get; }
+        public int OT_Memory { get; set; }
+        public int OT_TextVar { get; set; }
+        public int OT_Feeling { get; set; }
+        public int OT_Intensity { get; set; }
 
         public EncounterTrade8(int species, int level, int m, int a, int f, int i)
         {

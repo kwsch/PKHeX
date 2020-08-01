@@ -264,7 +264,7 @@ namespace PKHeX.Core
             }
 
             const int memChatelaine = 30;
-            bool hasChampMemory = pkm.Format <= 7 && (pkm.HT_Memory == memChatelaine || pkm.OT_Memory == memChatelaine);
+            bool hasChampMemory = pkm.Format <= 7 && pkm is ITrainerMemories m && (m.HT_Memory == memChatelaine || m.OT_Memory == memChatelaine);
             if (!IsAllowedBattleFrontier(pkm.Species))
             {
                 if (hasChampMemory || s6.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
@@ -341,7 +341,7 @@ namespace PKHeX.Core
             }
 
             const int memChampion = 27;
-            bool hasChampMemory = (pkm.Format < 8 && pkm.HT_Memory == memChampion) || (pkm.Gen6 && pkm.OT_Memory == memChampion);
+            bool hasChampMemory = pkm is ITrainerMemories m && ((pkm.Format < 8 && m.HT_Memory == memChampion) || (pkm.Gen6 && m.OT_Memory == memChampion));
             if (!hasChampMemory || s6.RibbonChampionKalos || s6.RibbonChampionG6Hoenn)
                 yield break;
 
@@ -377,9 +377,11 @@ namespace PKHeX.Core
             else
             {
                 const int memChampion = 27;
-                bool hasChampMemory = (pkm.Format == 8 && pkm.HT_Memory == memChampion) || (pkm.Gen8 && pkm.OT_Memory == memChampion);
-                if (hasChampMemory && !s8.RibbonChampionGalar)
-                    yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+                {
+                    bool hasChampMemory = (pkm.Format == 8 && pkm is IMemoryHT h && h.HT_Memory == memChampion) || (pkm.Gen8 && pkm is IMemoryOT o && o.OT_Memory == memChampion);
+                    if (hasChampMemory && !s8.RibbonChampionGalar)
+                        yield return new RibbonResult(nameof(s8.RibbonChampionGalar));
+                }
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
@@ -396,7 +398,7 @@ namespace PKHeX.Core
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                     const int strongest = 30;
-                    if (pkm.OT_Memory == strongest || pkm.HT_Memory == strongest)
+                    if (pkm is IMemoryOT o && o.OT_Memory == strongest || pkm is IMemoryHT h && h.HT_Memory == strongest)
                     {
                         if (pkm.Gen8 || !IsAllowedBattleFrontier(pkm.Species) || (pkm is IRibbonSetCommon6 s6 && !s6.RibbonBattlerSkillful))
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));

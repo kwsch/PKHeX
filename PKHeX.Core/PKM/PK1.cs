@@ -194,7 +194,7 @@ namespace PKHeX.Core
                 pk7.Nickname = StringConverter12.GetG1ConvertedString(nick, Japanese);
             }
 
-            pk7.TradeMemory(Bank:true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT(bank:true); // oh no, memories on gen7 pkm
 
             pk7.RefreshChecksum();
             return pk7;
