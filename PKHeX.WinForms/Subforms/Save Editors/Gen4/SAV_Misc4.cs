@@ -138,6 +138,8 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV4Sinnoh)
                 ReadPoketch();
+            if (SAV is SAV4HGSS)
+                ReadWalker();
 
             if (ofsUGFlagCount > 0)
             {
@@ -178,6 +180,8 @@ namespace PKHeX.WinForms
 
             if (SAV is SAV4Sinnoh)
                 SavePoketch();
+            if (SAV is SAV4HGSS)
+                SaveWalker();
 
             if (ofsUGFlagCount > 0)
                 BitConverter.GetBytes((BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.General, ofsUGFlagCount);
@@ -776,9 +780,31 @@ namespace PKHeX.WinForms
         }
         #endregion
 
-        private void B_UnlockCourses_Click(object sender, EventArgs e)
+        private void ReadWalker() {
+            string[] walkercourses = GameInfo.Sources.Source.walkercourses;
+            bool[] isChecked = ((SAV4HGSS)SAV).PokewalkerCoursesUnlocked;
+            CLB_WalkerCourses.Items.Clear();
+            for (int i = 0; i < walkercourses.Length; i++) {
+                CLB_WalkerCourses.Items.Add(walkercourses[i], isChecked[i]);
+            }
+            NUD_Watts.Value = ((SAV4HGSS)SAV).PokewalkerWatts;
+            NUD_Steps.Value = ((SAV4HGSS)SAV).PokewalkerSteps;
+        }
+
+        private void SaveWalker() {
+            bool[] courses = new bool[32];
+            for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++) {
+                courses[i] = CLB_WalkerCourses.GetItemChecked(i);
+            }
+            ((SAV4HGSS)SAV).PokewalkerCoursesUnlocked = courses;
+            ((SAV4HGSS)SAV).PokewalkerWatts = (uint)NUD_Watts.Value;
+            ((SAV4HGSS)SAV).PokewalkerSteps = (uint)NUD_Steps.Value;
+        }
+
+        private void B_AllWalkerCourses_Click(object sender, EventArgs e)
         {
-            ((SAV4HGSS)SAV).PokewalkerCoursesUnlockAll();
+            for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
+                CLB_WalkerCourses.SetItemChecked(i, true);
         }
 
         private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
