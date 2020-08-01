@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <see cref="SaveFile"/> format for <see cref="GameVersion.HGSS"/>
     /// </summary>
     public sealed class SAV4HGSS : SAV4
-        {
+    {
         public SAV4HGSS() => Initialize();
         public SAV4HGSS(byte[] data) : base(data) => Initialize();
         protected override SAV4 CloneInternal() => Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
@@ -20,13 +20,13 @@ namespace PKHeX.Core
         protected override int FooterSize => 0x10;
 
         private void Initialize()
-            {
+        {
             Version = GameVersion.HGSS;
             GetSAVOffsets();
         }
 
         private void GetSAVOffsets()
-            {
+        {
             AdventureInfo = 0;
             Trainer1 = 0x64;
             Party = 0x98;
@@ -66,19 +66,19 @@ namespace PKHeX.Core
 
         // 8 bytes current box (align 32) & (stored count?)
         public override int CurrentBox
-            {
+        {
             get => Storage[BOX_END];
             set => Storage[BOX_END] = (byte)value;
         }
 
         public override byte[] BoxFlags
-            {
+        {
             get => new[] { Storage[BOX_FLAGS] };
             set => Storage[BOX_FLAGS] = value[0];
         }
 
         public int Counter
-            {
+        {
             get => BitConverter.ToInt32(Storage, BOX_END + 4);
             set => SetData(Storage, BitConverter.GetBytes(value), BOX_END + 4);
         }
@@ -86,7 +86,7 @@ namespace PKHeX.Core
         public override string GetBoxName(int box) => GetString(Storage, GetBoxNameOffset(box), BOX_NAME_LEN);
 
         public override void SetBoxName(int box, string value)
-            {
+        {
             const int maxlen = 8;
             if (value.Length > maxlen)
                 value = value.Substring(0, maxlen); // Hard cap
@@ -96,7 +96,7 @@ namespace PKHeX.Core
         }
 
         private static int AdjustWallpaper(int value, int shift)
-            {
+        {
             // Pt's  Special Wallpapers 1-8 are shifted by +0x8
             // HG/SS Special Wallpapers 1-8 (Primo Phrases) are shifted by +0x10
             if (value >= 0x10) // special
@@ -105,23 +105,23 @@ namespace PKHeX.Core
         }
 
         public override int GetBoxWallpaper(int box)
-            {
+        {
             int offset = GetBoxWallpaperOffset(box);
             int value = Storage[offset];
             return AdjustWallpaper(value, -0x10);
         }
 
         public override void SetBoxWallpaper(int box, int value)
-            {
+        {
             value = AdjustWallpaper(value, 0x10);
             Storage[GetBoxWallpaperOffset(box)] = (byte)value;
         }
         #endregion
 
         public override InventoryPouch[] Inventory
-            {
+        {
             get
-                {
+            {
                 InventoryPouch[] pouch =
                 {
                     new InventoryPouch4(InventoryType.Items, Legal.Pouch_Items_HGSS, 999, 0x644), // 0x644-0x8D7 (0x8CB)
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         }
 
         public int Badges16
-            {
+        {
             get => General[Trainer1 + 0x1F];
             set => General[Trainer1 + 0x1F] = (byte)value;
         }
@@ -151,35 +151,35 @@ namespace PKHeX.Core
         public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
         public PokegearNumber[] PokeGearRoloDex
-            {
+        {
             get
-                {
+            {
                 var arr = new PokegearNumber[GearMaxCallers];
                 for (int i = 0; i < arr.Length; i++)
                     arr[i] = GetCallerAtIndex(i);
                 return arr;
             }
             set
-                {
+            {
                 for (int i = 0; i < value.Length; i++)
                     SetCallerAtIndex(i, value[i]);
             }
         }
 
         public void PokeGearUnlockAllCallers()
-            {
+        {
             for (int i = 0; i < GearMaxCallers; i++)
                 SetCallerAtIndex(i, (PokegearNumber)i);
         }
 
         public void PokeGearClearAllCallers(int start = 0)
-            {
+        {
             for (int i = start; i < GearMaxCallers; i++)
                 SetCallerAtIndex(i, PokegearNumber.None);
         }
 
         public void PokeGearUnlockAllCallersNoTrainers()
-            {
+        {
             var nonTrainers = new[]
             {
                 PokegearNumber.Mother,
