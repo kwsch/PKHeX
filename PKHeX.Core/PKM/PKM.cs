@@ -148,14 +148,6 @@ namespace PKHeX.Core
         public virtual int HT_Gender { get; set; }
         public virtual int HT_Affection { get; set; }
         public virtual int HT_Friendship { get; set; }
-        public virtual int HT_Memory { get; set; }
-        public virtual int HT_TextVar { get; set; }
-        public virtual int HT_Feeling { get; set; }
-        public virtual int HT_Intensity { get; set; }
-        public virtual int OT_Memory { get; set; }
-        public virtual int OT_TextVar { get; set; }
-        public virtual int OT_Feeling { get; set; }
-        public virtual int OT_Intensity { get; set; }
         public virtual byte Enjoyment { get; set; }
         public virtual byte Fullness { get; set; }
         public virtual int AbilityNumber { get; set; }

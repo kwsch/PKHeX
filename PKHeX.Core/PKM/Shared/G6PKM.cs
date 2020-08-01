@@ -109,15 +109,6 @@ namespace PKHeX.Core
         protected abstract bool TradeOT(ITrainerInfo tr);
         protected abstract void TradeHT(ITrainerInfo tr);
 
-        // Misc Updates
-        public virtual void TradeMemory(bool Bank)
-        {
-            HT_Memory = 4; // Link trade to [VAR: General Location]
-            HT_TextVar = Bank ? 0 : 9; // Somewhere (Bank) : Pokécenter (Trade)
-            HT_Intensity = 1;
-            HT_Feeling = Memories.GetRandomFeeling(HT_Memory, Bank ? 10 : 20); // 0-9 Bank, 0-19 Trade
-        }
-
         // Legality Properties
         public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;

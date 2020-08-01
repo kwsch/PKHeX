@@ -144,8 +144,8 @@ namespace PKHeX.Core
             sav.ApplyHandlingTrainerInfo(pk, force: true);
             pk.SetRandomEC();
 
-            if (pk.Format == 6)
-                pk.SetRandomMemory6();
+            if (pk is PK6 pk6)
+                pk6.SetRandomMemory6();
         }
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)

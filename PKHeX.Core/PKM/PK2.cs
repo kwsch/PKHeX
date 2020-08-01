@@ -198,7 +198,7 @@ namespace PKHeX.Core
                 : StringConverter12.GetG1ConvertedString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
 
-            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
 
             // Dizzy Punch cannot be transferred
             {

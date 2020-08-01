@@ -61,21 +61,26 @@ namespace PKHeX.WinForms
             M_Fullness.Text = pkm.Fullness.ToString();
             M_Enjoyment.Text = pkm.Enjoyment.ToString();
 
-            // Load the CT Memories
-            M_CT_Friendship.Text = pkm.HT_Friendship.ToString();
-            M_CT_Affection.Text = pkm.HT_Affection.ToString();
-            CB_CTQual.SelectedIndex = Math.Max(0, pkm.HT_Intensity - 1);
-            CB_CTMemory.SelectedValue = pkm.HT_Memory;
-            CB_CTVar.SelectedValue = pkm.HT_TextVar;
-            CB_CTFeel.SelectedIndex = pkm.HT_Feeling;
-
-            // Load the OT Memories
             M_OT_Friendship.Text = pkm.OT_Friendship.ToString();
             M_OT_Affection.Text = pkm.OT_Affection.ToString();
-            CB_OTQual.SelectedIndex = Math.Max(0, pkm.OT_Intensity - 1);
-            CB_OTMemory.SelectedValue = pkm.OT_Memory;
-            CB_OTVar.SelectedValue = pkm.OT_TextVar;
-            CB_OTFeel.SelectedIndex = pkm.OT_Feeling;
+            M_CT_Friendship.Text = pkm.HT_Friendship.ToString();
+            M_CT_Affection.Text = pkm.HT_Affection.ToString();
+
+            if (pkm is ITrainerMemories m)
+            {
+                // Load the OT Memories
+                CB_OTQual.SelectedIndex = Math.Max(0, m.OT_Intensity - 1);
+                CB_OTMemory.SelectedValue = m.OT_Memory;
+                CB_OTVar.SelectedValue = m.OT_TextVar;
+                CB_OTFeel.SelectedIndex = m.OT_Feeling;
+
+                // Load the HT Memories
+                CB_CTQual.SelectedIndex = Math.Max(0, m.HT_Intensity - 1);
+                CB_CTMemory.SelectedValue = m.HT_Memory;
+                CB_CTVar.SelectedValue = m.HT_TextVar;
+                CB_CTFeel.SelectedIndex = m.HT_Feeling;
+            }
+
 
             CB_Handler.Items.Clear();
             CB_Handler.Items.Add($"{pkm.OT_Name} ({TextArgs.OT})"); // OTNAME : OT
@@ -165,15 +170,18 @@ namespace PKHeX.WinForms
             pkm.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
 
             // Save Memories
-            pkm.HT_Memory = WinFormsUtil.GetIndex(CB_CTMemory);
-            pkm.HT_TextVar = CB_CTVar.Enabled ? WinFormsUtil.GetIndex(CB_CTVar) : 0;
-            pkm.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
-            pkm.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
+            if (pkm is ITrainerMemories m)
+            {
+                m.OT_Memory = WinFormsUtil.GetIndex(CB_OTMemory);
+                m.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.GetIndex(CB_OTVar) : 0;
+                m.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
+                m.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
 
-            pkm.OT_Memory = WinFormsUtil.GetIndex(CB_OTMemory);
-            pkm.OT_TextVar = CB_OTVar.Enabled ? WinFormsUtil.GetIndex(CB_OTVar) : 0;
-            pkm.OT_Intensity = CB_OTFeel.Enabled ? CB_OTQual.SelectedIndex + 1 : 0;
-            pkm.OT_Feeling = CB_OTFeel.Enabled ? CB_OTFeel.SelectedIndex : 0;
+                m.HT_Memory = WinFormsUtil.GetIndex(CB_CTMemory);
+                m.HT_TextVar = CB_CTVar.Enabled ? WinFormsUtil.GetIndex(CB_CTVar) : 0;
+                m.HT_Intensity = CB_CTFeel.Enabled ? CB_CTQual.SelectedIndex + 1 : 0;
+                m.HT_Feeling = CB_CTFeel.Enabled ? CB_CTFeel.SelectedIndex : 0;
+            }
         }
 
         // Event Actions

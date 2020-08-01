@@ -147,7 +147,7 @@ namespace PKHeX.Core
                     if (eggMoves.Length > 0)
                         pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
                 }
-                pk.SetRandomMemory6();
+                pk6.SetRandomMemory6();
             }
         }
 

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary> Generation 8 <see cref="PKM"/> format. </summary>
     public sealed class PK8 : PKM,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8,
-        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion
+        IContestStats, IHyperTrain, IScaledSize, IGigantamax, IFavorite, IDynamaxLevel, IRibbonIndex, IHandlerLanguage, IFormArgument, IHomeTrack, IBattleVersion, ITrainerMemories
     {
         private static readonly ushort[] Unused =
         {
@@ -460,10 +460,10 @@ namespace PKHeX.Core
         // 0xC5 unused (alignment)
         public int HT_TrainerID { get => BitConverter.ToUInt16(Data, 0xC6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xC6); } // unused?
         public override int HT_Friendship { get => Data[0xC8]; set => Data[0xC8] = (byte)value; }
-        public override int HT_Intensity { get => Data[0xC9]; set => Data[0xC9] = (byte)value; }
-        public override int HT_Memory { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public override int HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
-        public override int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xCC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCC); }
+        public int HT_Intensity { get => Data[0xC9]; set => Data[0xC9] = (byte)value; }
+        public int HT_Memory { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
+        public int HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
+        public int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xCC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCC); }
 
         public byte GetFromArrayC1(int index)
         {
@@ -508,11 +508,11 @@ namespace PKHeX.Core
         #region Block D
         public override string OT_Name { get => GetString(0xF8, 24); set => SetString(value, 12).CopyTo(Data, 0xF8); }
         public override int OT_Friendship { get => Data[0x112]; set => Data[0x112] = (byte)value; }
-        public override int OT_Intensity { get => Data[0x113]; set => Data[0x113] = (byte)value; }
-        public override int OT_Memory { get => Data[0x114]; set => Data[0x114] = (byte)value; }
+        public int OT_Intensity { get => Data[0x113]; set => Data[0x113] = (byte)value; }
+        public int OT_Memory { get => Data[0x114]; set => Data[0x114] = (byte)value; }
         // 0x115 unused align
-        public override int OT_TextVar { get => BitConverter.ToUInt16(Data, 0x116); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x116); }
-        public override int OT_Feeling { get => Data[0x118]; set => Data[0x118] = (byte)value; }
+        public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0x116); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x116); }
+        public int OT_Feeling { get => Data[0x118]; set => Data[0x118] = (byte)value; }
         public override int Egg_Year { get => Data[0x119]; set => Data[0x119] = (byte)value; }
         public override int Egg_Month { get => Data[0x11A]; set => Data[0x11A] = (byte)value; }
         public override int Egg_Day { get => Data[0x11B]; set => Data[0x11B] = (byte)value; }

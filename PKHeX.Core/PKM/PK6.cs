@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
-    public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IContestStats, IGeoTrack, ISuperTrain, IFormArgument
+    public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories
     {
         private static readonly ushort[] Unused =
         {
@@ -311,11 +311,11 @@ namespace PKHeX.Core
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
         public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
-        public override int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
-        public override int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
-        public override int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
+        public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
+        public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
+        public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
         // 0xA7 Unused
-        public override int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
+        public int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xA8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA8); }
         // 0xAA Unused
         // 0xAB Unused
         // 0xAC Unused
@@ -327,10 +327,10 @@ namespace PKHeX.Core
         public override string OT_Name { get => GetString(0xB0, 24); set => SetString(value, 12).CopyTo(Data, 0xB0); }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
         public override int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
-        public override int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
-        public override int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
-        public override int OT_TextVar { get => BitConverter.ToUInt16(Data, 0xCE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); }
-        public override int OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
+        public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
+        public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
+        public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0xCE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); }
+        public int OT_Feeling { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
         public override int Egg_Year { get => Data[0xD1]; set => Data[0xD1] = (byte)value; }
         public override int Egg_Month { get => Data[0xD2]; set => Data[0xD2] = (byte)value; }
         public override int Egg_Day { get => Data[0xD3]; set => Data[0xD3] = (byte)value; }
@@ -438,7 +438,7 @@ namespace PKHeX.Core
 
             // Make a memory if no memory already exists. Pretty terrible way of doing this but I'd rather not overwrite existing memories.
             if (HT_Memory == 0)
-                TradeMemory(false);
+                this.SetTradeMemory(false);
         }
 
         // Maximums
@@ -468,7 +468,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            pk7.TradeMemory(Bank: true); // oh no, memories on gen7 pkm
+            pk7.SetTradeMemory(bank: true); // oh no, memories on gen7 pkm
             PKMConverter.SetFirstCountryRegion(pk7);
 
             // Bank-accurate data zeroing

@@ -218,9 +218,7 @@ namespace PKHeX.Core
             Feeling = f;
         }
 
-        public static MemoryVariableSet Read(PKM pkm) => Read(pkm, pkm.CurrentHandler);
-
-        public static MemoryVariableSet Read(PKM pkm, int handler)
+        public static MemoryVariableSet Read(ITrainerMemories pkm, int handler)
         {
             return handler switch
             {

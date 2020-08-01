@@ -8,7 +8,7 @@ using static PKHeX.Core.Encounters8;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Verifies the <see cref="PKM.OT_Memory"/>, <see cref="PKM.HT_Memory"/>, and associated values.
+    /// Verifies the <see cref="IMemoryOT.OT_Memory"/>, <see cref="IMemoryHT.HT_Memory"/>, and associated values.
     /// </summary>
     public sealed class MemoryVerifier : Verifier
     {
@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyCommonMemory(PKM pkm, int handler, int gen, LegalInfo info)
         {
-            var memory = MemoryVariableSet.Read(pkm, handler);
+            var memory = MemoryVariableSet.Read((ITrainerMemories)pkm, handler);
 
             // Actionable HM moves
             int matchingMoveMemory = Array.IndexOf(Memories.MoveSpecificMemories[0], memory.MemoryID);
@@ -73,7 +73,7 @@ namespace PKHeX.Core
         /// <param name="f">Feeling</param>
         private void VerifyOTMemoryIs(LegalityAnalysis data, int m, int i, int t, int f)
         {
-            var pkm = data.pkm;
+            var pkm = (ITrainerMemories)data.pkm;
             if (pkm.OT_Memory != m)
                 data.AddLine(GetInvalid(string.Format(LMemoryIndexID, L_XOT, m)));
             if (pkm.OT_Intensity != i)
@@ -84,7 +84,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMemoryIndexFeel, L_XOT, f)));
         }
 
-        private void VerifyHTMemoryNone(LegalityAnalysis data, PKM pkm)
+        private void VerifyHTMemoryNone(LegalityAnalysis data, ITrainerMemories pkm)
         {
             if (pkm.HT_Memory != 0 || pkm.HT_TextVar != 0 || pkm.HT_Intensity != 0 || pkm.HT_Feeling != 0)
                 data.AddLine(GetInvalid(string.Format(LMemoryCleared, L_XHT)));
@@ -93,6 +93,7 @@ namespace PKHeX.Core
         private void VerifyOTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+            var mem = (ITrainerMemories)pkm;
             var Info = data.Info;
 
             switch (data.EncounterMatch)
@@ -113,7 +114,7 @@ namespace PKHeX.Core
             }
 
             int memoryGen = Info.Generation;
-            int memory = pkm.OT_Memory;
+            int memory = mem.OT_Memory;
 
             if (pkm.IsEgg)
             {
@@ -160,16 +161,16 @@ namespace PKHeX.Core
                     return;
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation((GameVersion)pkm.Version, pkm.OT_TextVar):
+                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation((GameVersion)pkm.Version, mem.OT_TextVar):
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
                     return;
-                case 6 when memoryGen == 8 && pkm.OT_TextVar != 0:
+                case 6 when memoryGen == 8 && mem.OT_TextVar != 0:
                     data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
                 case 14:
-                    var result = GetCanBeCaptured(pkm.OT_TextVar, Info.Generation, (GameVersion)pkm.Version) // Any Game in the Handling Trainer's generation
+                    var result = GetCanBeCaptured(mem.OT_TextVar, Info.Generation, (GameVersion)pkm.Version) // Any Game in the Handling Trainer's generation
                         ? GetValid(string.Format(LMemoryArgSpecies, L_XOT))
                         : GetInvalid(string.Format(LMemoryArgBadSpecies, L_XOT));
                     data.AddLine(result);
@@ -199,9 +200,10 @@ namespace PKHeX.Core
         private void VerifyHTMemory(LegalityAnalysis data)
         {
             var pkm = data.pkm;
+            var mem = (ITrainerMemories)pkm;
             var Info = data.Info;
 
-            var memory = pkm.HT_Memory;
+            var memory = mem.HT_Memory;
 
             if (pkm.IsUntraded)
             {
@@ -212,7 +214,7 @@ namespace PKHeX.Core
                 }
                 else
                 {
-                    VerifyHTMemoryNone(data, pkm);
+                    VerifyHTMemoryNone(data, mem);
                     return;
                 }
             }
@@ -240,7 +242,7 @@ namespace PKHeX.Core
                 // No Memory
                 case 0: // SWSH trades don't set HT memories immediately, which is hilarious.
                     data.AddLine(Get(LMemoryMissingHT, memoryGen == 8 ? Severity.Fishy : Severity.Invalid));
-                    VerifyHTMemoryNone(data, pkm);
+                    VerifyHTMemoryNone(data, mem);
                     return;
 
                 // {0} met {1} at... {2}. {1} threw a Poké Ball at it, and they started to travel together. {4} that {3}.
@@ -254,16 +256,16 @@ namespace PKHeX.Core
                     return;
 
                 // {0} went to the Pokémon Center in {2} with {1} and had its tired body healed there. {4} that {3}.
-                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation(GameVersion.Gen6, pkm.HT_TextVar):
+                case 6 when memoryGen == 6 && !Memories.GetHasPokeCenterLocation(GameVersion.Gen6, mem.HT_TextVar):
                     data.AddLine(GetInvalid(string.Format(LMemoryArgBadLocation, L_XOT)));
                     return;
-                case 6 when memoryGen == 8 && pkm.HT_TextVar != 0:
+                case 6 when memoryGen == 8 && mem.HT_TextVar != 0:
                     data.AddLine(Get(string.Format(LMemoryArgBadLocation, L_XOT), ParseSettings.Gen8MemoryLocationTextVariable));
                     return;
 
                 // {0} was with {1} when {1} caught {2}. {4} that {3}.
                 case 14:
-                    var result = GetCanBeCaptured(pkm.HT_TextVar, memoryGen, GameVersion.Any) // Any Game in the Handling Trainer's generation
+                    var result = GetCanBeCaptured(mem.HT_TextVar, memoryGen, GameVersion.Any) // Any Game in the Handling Trainer's generation
                         ? GetValid(string.Format(LMemoryArgSpecies, L_XHT))
                         : GetInvalid(string.Format(LMemoryArgBadSpecies, L_XHT));
                     data.AddLine(result);
@@ -278,11 +280,12 @@ namespace PKHeX.Core
 
         private void VerifyHTMemoryTransferTo7(LegalityAnalysis data, PKM pkm, LegalInfo Info)
         {
+            var mem = (ITrainerMemories)pkm;
             // Bank Transfer adds in the Link Trade Memory.
             // Trading 7<->7 between games (not Bank) clears this data.
-            if (pkm.HT_Memory == 0)
+            if (mem.HT_Memory == 0)
             {
-                VerifyHTMemoryNone(data, pkm);
+                VerifyHTMemoryNone(data, mem);
                 return;
             }
 
@@ -292,13 +295,13 @@ namespace PKHeX.Core
             if (3 <= gen && gen < 7 && pkm.CurrentHandler == 1)
                 return;
 
-            if (pkm.HT_Memory != 4)
+            if (mem.HT_Memory != 4)
                 data.AddLine(Severity.Invalid, LMemoryIndexLinkHT, CheckIdentifier.Memory);
-            if (pkm.HT_TextVar != 0)
+            if (mem.HT_TextVar != 0)
                 data.AddLine(Severity.Invalid, LMemoryIndexArgHT, CheckIdentifier.Memory);
-            if (pkm.HT_Intensity != 1)
+            if (mem.HT_Intensity != 1)
                 data.AddLine(Severity.Invalid, LMemoryIndexIntensityHT1, CheckIdentifier.Memory);
-            if (pkm.HT_Feeling > 10)
+            if (mem.HT_Feeling > 10)
                 data.AddLine(Severity.Invalid, LMemoryIndexFeelHT09, CheckIdentifier.Memory);
         }
 

@@ -44,12 +44,11 @@ namespace PKHeX.Core
             pk.HT_Friendship = pk.OT_Friendship;
             pk.CurrentHandler = 1;
 
-            if (pk.Format == 6 && sav is IRegionOrigin o)
+            if (pk is PK6 pk6 && sav is IRegionOrigin o)
             {
-                var g = (IGeoTrack) pk;
-                g.Geo1_Country = o.Country;
-                g.Geo1_Region = o.Region;
-                ((PK6)pk).TradeMemory(true);
+                pk6.Geo1_Country = o.Country;
+                pk6.Geo1_Region = o.Region;
+                pk6.SetTradeMemoryHT(true);
             }
         }
 

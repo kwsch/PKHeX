@@ -61,8 +61,8 @@ namespace PKHeX.Core
 
             if (gen < 6)
                 return pk;
-            if (gen == 6)
-                pk.SetHatchMemory6();
+            if (pk is PK6 pk6)
+                pk6.SetHatchMemory6();
 
             SetAltForm(pk, sav);
 
