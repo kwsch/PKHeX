@@ -216,5 +216,7 @@ namespace PKHeX.Core
             get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32); 
             set => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
         }
+
+        public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
     }
 }
