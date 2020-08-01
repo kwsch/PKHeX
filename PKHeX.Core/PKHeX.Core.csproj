@@ -148,6 +148,7 @@
     <None Remove="Resources\text\de\text_hgss_00000_de.txt" />
     <None Remove="Resources\text\de\text_hgss_02000_de.txt" />
     <None Remove="Resources\text\de\text_hgss_03000_de.txt" />
+    <None Remove="Resources\text\de\text_hgss_walkercourses_de.txt" />
     <None Remove="Resources\text\de\text_Items_de.txt" />
     <None Remove="Resources\text\de\text_Mail4_de.txt" />
     <None Remove="Resources\text\de\text_Memories_de.txt" />
@@ -202,6 +203,7 @@
     <None Remove="Resources\text\en\text_hgss_00000_en.txt" />
     <None Remove="Resources\text\en\text_hgss_02000_en.txt" />
     <None Remove="Resources\text\en\text_hgss_03000_en.txt" />
+    <None Remove="Resources\text\en\text_hgss_walkercourses_en.txt" />
     <None Remove="Resources\text\en\text_Items_en.txt" />
     <None Remove="Resources\text\en\text_Mail4_en.txt" />
     <None Remove="Resources\text\en\text_Memories_en.txt" />
@@ -256,6 +258,7 @@
     <None Remove="Resources\text\es\text_hgss_00000_es.txt" />
     <None Remove="Resources\text\es\text_hgss_02000_es.txt" />
     <None Remove="Resources\text\es\text_hgss_03000_es.txt" />
+    <None Remove="Resources\text\es\text_hgss_walkercourses_es.txt" />
     <None Remove="Resources\text\es\text_Items_es.txt" />
     <None Remove="Resources\text\es\text_Mail4_es.txt" />
     <None Remove="Resources\text\es\text_Memories_es.txt" />
@@ -310,6 +313,7 @@
     <None Remove="Resources\text\fr\text_hgss_00000_fr.txt" />
     <None Remove="Resources\text\fr\text_hgss_02000_fr.txt" />
     <None Remove="Resources\text\fr\text_hgss_03000_fr.txt" />
+    <None Remove="Resources\text\fr\text_hgss_walkercourses_fr.txt" />
     <None Remove="Resources\text\fr\text_Items_fr.txt" />
     <None Remove="Resources\text\fr\text_Mail4_fr.txt" />
     <None Remove="Resources\text\fr\text_Memories_fr.txt" />
@@ -388,6 +392,7 @@
     <None Remove="Resources\text\it\text_hgss_00000_it.txt" />
     <None Remove="Resources\text\it\text_hgss_02000_it.txt" />
     <None Remove="Resources\text\it\text_hgss_03000_it.txt" />
+    <None Remove="Resources\text\it\text_hgss_walkercourses_it.txt" />
     <None Remove="Resources\text\it\text_Items_it.txt" />
     <None Remove="Resources\text\it\text_Mail4_it.txt" />
     <None Remove="Resources\text\it\text_Memories_it.txt" />
@@ -442,6 +447,7 @@
     <None Remove="Resources\text\ja\text_hgss_00000_ja.txt" />
     <None Remove="Resources\text\ja\text_hgss_02000_ja.txt" />
     <None Remove="Resources\text\ja\text_hgss_03000_ja.txt" />
+    <None Remove="Resources\text\ja\text_hgss_walkercourses_ja.txt" />
     <None Remove="Resources\text\ja\text_Items_ja.txt" />
     <None Remove="Resources\text\ja\text_Mail4_ja.txt" />
     <None Remove="Resources\text\ja\text_Memories_ja.txt" />
@@ -496,6 +502,7 @@
     <None Remove="Resources\text\ko\text_hgss_00000_ko.txt" />
     <None Remove="Resources\text\ko\text_hgss_02000_ko.txt" />
     <None Remove="Resources\text\ko\text_hgss_03000_ko.txt" />
+    <None Remove="Resources\text\ko\text_hgss_walkercourses_ko.txt" />
     <None Remove="Resources\text\ko\text_Items_ko.txt" />
     <None Remove="Resources\text\ko\text_Mail4_ko.txt" />
     <None Remove="Resources\text\ko\text_Memories_ko.txt" />
@@ -798,6 +805,7 @@
     <None Remove="Resources\text\zh\text_hgss_00000_zh.txt" />
     <None Remove="Resources\text\zh\text_hgss_02000_zh.txt" />
     <None Remove="Resources\text\zh\text_hgss_03000_zh.txt" />
+    <None Remove="Resources\text\zh\text_hgss_walkercourses_zh.txt" />
     <None Remove="Resources\text\zh\text_Items_zh.txt" />
     <None Remove="Resources\text\zh\text_Memories_zh.txt" />
     <None Remove="Resources\text\zh\text_Moves_zh.txt" />
@@ -965,6 +973,7 @@
     <EmbeddedResource Include="Resources\text\de\text_hgss_00000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_hgss_02000_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_hgss_03000_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_hgss_walkercourses_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Items_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Mail4_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_Memories_de.txt" />
@@ -1019,6 +1028,7 @@
     <EmbeddedResource Include="Resources\text\en\text_hgss_00000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_hgss_02000_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_hgss_03000_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_hgss_walkercourses_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Items_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Mail4_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_Memories_en.txt" />
@@ -1073,6 +1083,7 @@
     <EmbeddedResource Include="Resources\text\es\text_hgss_00000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_hgss_02000_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_hgss_03000_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_hgss_walkercourses_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Items_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Mail4_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_Memories_es.txt" />
@@ -1127,6 +1138,7 @@
     <EmbeddedResource Include="Resources\text\fr\text_hgss_00000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_hgss_02000_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_hgss_03000_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_hgss_walkercourses_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Items_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Mail4_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_Memories_fr.txt" />
@@ -1205,6 +1217,7 @@
     <EmbeddedResource Include="Resources\text\it\text_hgss_00000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_hgss_02000_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_hgss_03000_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_hgss_walkercourses_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Items_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Mail4_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_Memories_it.txt" />
@@ -1259,6 +1272,7 @@
     <EmbeddedResource Include="Resources\text\ja\text_hgss_00000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_hgss_02000_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_hgss_03000_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_hgss_walkercourses_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Items_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Mail4_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_Memories_ja.txt" />
@@ -1313,6 +1327,7 @@
     <EmbeddedResource Include="Resources\text\ko\text_hgss_00000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_hgss_02000_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_hgss_03000_ko.txt" />
+    <EmbeddedResource Include="Resources\text\ko\text_hgss_walkercourses_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Items_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Mail4_ko.txt" />
     <EmbeddedResource Include="Resources\text\ko\text_Memories_ko.txt" />
@@ -1614,6 +1629,7 @@
     <EmbeddedResource Include="Resources\text\zh\text_hgss_00000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_hgss_02000_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_hgss_03000_zh.txt" />
+    <EmbeddedResource Include="Resources\text\zh\text_hgss_walkercourses_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Items_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Memories_zh.txt" />
     <EmbeddedResource Include="Resources\text\zh\text_Moves_zh.txt" />

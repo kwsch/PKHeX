@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public readonly string[] metSWSH_00000, metSWSH_30000, metSWSH_40000, metSWSH_60000;
 
         // Misc
-        public readonly string[] wallpapernames, puffs;
+        public readonly string[] wallpapernames, puffs, walkercourses;
         private readonly string lang;
         private readonly int LanguageIndex;
 
@@ -102,6 +102,8 @@ namespace PKHeX.Core
             puffs = Get("puff");
             Array.Resize(ref puffs, puffs.Length + 1); // shift all down, 0th will be 'none' -- applied later
             Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
+
+            walkercourses = Get("hgss_walkercourses");
 
             EggName = specieslist[0];
             metHGSS_00000 = Get("hgss_00000");

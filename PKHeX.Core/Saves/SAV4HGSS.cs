@@ -206,28 +206,17 @@ namespace PKHeX.Core
         public void SetApricornCount(int i, int count) => General[0xE558 + i] = (byte)count;
 
         // Pokewalker
-        private const int OFS_WALKER = 0xE70C;
+        private const int OFS_WALKER = 0xE704;
+
+        public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
+        public uint PokewalkerWatts { get => BitConverter.ToUInt32(General, OFS_WALKER + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x4); }
 
         public bool[] PokewalkerCoursesUnlocked
         {
-            get
-            {
-                var val = BitConverter.ToUInt32(General, OFS_WALKER);
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    courses[i] = ((val >> i) & 1) == 1;
-                return courses;
-            }
-            set
-            {
-                uint val = 0;
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    val |= value[i] ? 1u << i : 0;
-                SetData(General, BitConverter.GetBytes(val), OFS_WALKER);
-            }
+            get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32); 
+            set => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
         }
 
-        public void PokewalkerCoursesUnlockAll() => SetData(General, BitConverter.GetBytes(0x07FF_FFFFu), OFS_WALKER);
+        public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
     }
 }

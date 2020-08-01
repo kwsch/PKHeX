@@ -136,8 +136,10 @@ namespace PKHeX.WinForms
             uint valBP = BitConverter.ToUInt16(SAV.General, ofsBP);
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 
-            if (SAV is SAV4Sinnoh)
-                ReadPoketch();
+            if (SAV is SAV4Sinnoh sinnoh)
+                ReadPoketch(sinnoh);
+            if (SAV is SAV4HGSS hgss)
+                ReadWalker(hgss);
 
             if (ofsUGFlagCount > 0)
             {
@@ -176,8 +178,10 @@ namespace PKHeX.WinForms
             BitConverter.GetBytes(valFly).CopyTo(SAV.General, ofsFly);
             BitConverter.GetBytes((ushort)NUD_BP.Value).CopyTo(SAV.General, ofsBP);
 
-            if (SAV is SAV4Sinnoh)
-                SavePoketch();
+            if (SAV is SAV4Sinnoh sinnoh)
+                SavePoketch(sinnoh);
+            if (SAV is SAV4HGSS hgss)
+                SaveWalker(hgss);
 
             if (ofsUGFlagCount > 0)
                 BitConverter.GetBytes((BitConverter.ToUInt32(SAV.General, ofsUGFlagCount) & ~0xFFFFFu) | (uint)NUD_UGFlags.Value).CopyTo(SAV.General, ofsUGFlagCount);
@@ -199,10 +203,9 @@ namespace PKHeX.WinForms
         private byte[] DotArtistByte;
         private byte[] ColorTable;
 
-        private void ReadPoketch()
+        private void ReadPoketch(SAV4Sinnoh s)
         {
             string[] PoketchTitle = Enum.GetNames(typeof(PoketchApp));
-            var s = (SAV4Sinnoh) SAV;
 
             CB_CurrentApp.Items.AddRange(PoketchTitle);
             CB_CurrentApp.SelectedIndex = s.CurrentPoketchApp;
@@ -226,9 +229,8 @@ namespace PKHeX.WinForms
             TAB_Main.AllowDrop = true;
         }
 
-        private void SavePoketch()
+        private void SavePoketch(SAV4Sinnoh s)
         {
-            var s = (SAV4Sinnoh)SAV;
             s.CurrentPoketchApp = (sbyte)CB_CurrentApp.SelectedIndex;
             for (int i = 0; i < CLB_Poketch.Items.Count; i++)
             {
@@ -776,9 +778,31 @@ namespace PKHeX.WinForms
         }
         #endregion
 
-        private void B_UnlockCourses_Click(object sender, EventArgs e)
+        private void ReadWalker(SAV4HGSS s)
         {
-            ((SAV4HGSS)SAV).PokewalkerCoursesUnlockAll();
+            string[] walkercourses = GameInfo.Sources.Source.walkercourses;
+            bool[] isChecked = s.PokewalkerCoursesUnlocked;
+            CLB_WalkerCourses.Items.Clear();
+            for (int i = 0; i < walkercourses.Length; i++)
+                CLB_WalkerCourses.Items.Add(walkercourses[i], isChecked[i]);
+            NUD_Watts.Value = s.PokewalkerWatts;
+            NUD_Steps.Value = s.PokewalkerSteps;
+        }
+
+        private void SaveWalker(SAV4HGSS s)
+        {
+            bool[] courses = new bool[32];
+            for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
+                courses[i] = CLB_WalkerCourses.GetItemChecked(i);
+            s.PokewalkerCoursesUnlocked = courses;
+            s.PokewalkerWatts = (uint)NUD_Watts.Value;
+            s.PokewalkerSteps = (uint)NUD_Steps.Value;
+        }
+
+        private void B_AllWalkerCourses_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
+                CLB_WalkerCourses.SetItemChecked(i, true);
         }
 
         private void OnBAllSealsLegalOnClick(object sender, EventArgs e)
