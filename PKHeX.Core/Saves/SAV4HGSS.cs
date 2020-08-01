@@ -211,21 +211,10 @@ namespace PKHeX.Core
         public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
         public uint PokewalkerWatts { get => BitConverter.ToUInt32(General, OFS_WALKER + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x4); }
 
-        public bool[] PokewalkerCoursesUnlocked {
-            get {
-                var val = BitConverter.ToUInt32(General, OFS_WALKER + 0x8);
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    courses[i] = ((val >> i) & 1) == 1;
-                return courses;
-            }
-            set {
-                uint val = 0;
-                bool[] courses = new bool[32];
-                for (int i = 0; i < courses.Length; i++)
-                    val |= value[i] ? 1u << i : 0;
-                SetData(General, BitConverter.GetBytes(val), OFS_WALKER + 0x8);
-            }
+        public bool[] PokewalkerCoursesUnlocked
+        {
+            get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32); 
+            set => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
         }
     }
 }
