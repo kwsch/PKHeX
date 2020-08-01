@@ -133,7 +133,7 @@ namespace PKHeX.Core
         private byte[] GetInnerData()
         {
             // Set Memo Back
-            StrategyMemo.Write().CopyTo(Data, Memo);
+            // StrategyMemo.Write().CopyTo(Data, Memo);
             ShadowInfo.Write().CopyTo(Data, Shadow);
             SetChecksums();
 
