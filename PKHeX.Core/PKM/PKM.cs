@@ -146,7 +146,6 @@ namespace PKHeX.Core
         public virtual int Met_Day { get => 0; set { } }
         public virtual string HT_Name { get; set; } = string.Empty;
         public virtual int HT_Gender { get; set; }
-        public virtual int HT_Affection { get; set; }
         public virtual int HT_Friendship { get; set; }
         public virtual byte Enjoyment { get; set; }
         public virtual byte Fullness { get; set; }
@@ -234,7 +233,6 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual int OT_Affection { get => 0; set { } }
         public virtual int RelearnMove1 { get => 0; set { } }
         public virtual int RelearnMove2 { get => 0; set { } }
         public virtual int RelearnMove3 { get => 0; set { } }

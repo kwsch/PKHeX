@@ -62,9 +62,13 @@ namespace PKHeX.WinForms
             M_Enjoyment.Text = pkm.Enjoyment.ToString();
 
             M_OT_Friendship.Text = pkm.OT_Friendship.ToString();
-            M_OT_Affection.Text = pkm.OT_Affection.ToString();
             M_CT_Friendship.Text = pkm.HT_Friendship.ToString();
-            M_CT_Affection.Text = pkm.HT_Affection.ToString();
+
+            if (pkm is IAffection a)
+            {
+                M_OT_Affection.Text = a.OT_Affection.ToString();
+                M_CT_Affection.Text = a.HT_Affection.ToString();
+            }
 
             if (pkm is ITrainerMemories m)
             {
@@ -163,9 +167,13 @@ namespace PKHeX.WinForms
 
             // Save 0-255 stats
             pkm.HT_Friendship = Util.ToInt32(M_CT_Friendship.Text);
-            pkm.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
             pkm.OT_Friendship = Util.ToInt32(M_OT_Friendship.Text);
-            pkm.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
+
+            if (pkm is IAffection a)
+            {
+                a.OT_Affection = Util.ToInt32(M_OT_Affection.Text);
+                a.HT_Affection = Util.ToInt32(M_CT_Affection.Text);
+            }
             pkm.Fullness = (byte)Util.ToInt32(M_Fullness.Text);
             pkm.Enjoyment = (byte)Util.ToInt32(M_Enjoyment.Text);
 

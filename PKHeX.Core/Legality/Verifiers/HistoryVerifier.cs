@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
             else if (pkm.HT_Friendship != 0)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipHT0));
-            else if (pkm.HT_Affection != 0)
+            else if (pkm is IAffection a && a.HT_Affection != 0)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionHT0));
 
             // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.
@@ -96,16 +96,14 @@ namespace PKHeX.Core
 
         private void VerifyOTAffection(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
         {
+            if (!(pkm is IAffection a))
+                return;
+
             if (origin < 6)
             {
                 // Can gain affection in Gen6 via the Contest glitch applying affection to OT rather than HT.
                 // VC encounters cannot obtain OT affection since they can't visit Gen6.
-                if ((origin <= 2 && pkm.OT_Affection != 0) || IsInvalidContestAffection(pkm))
-                    data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
-            }
-            else if (origin == 8)
-            {
-                if (pkm.OT_Affection != 0)
+                if ((origin <= 2 && a.OT_Affection != 0) || IsInvalidContestAffection(a))
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
             }
             else if (neverOT)
@@ -114,17 +112,17 @@ namespace PKHeX.Core
                 {
                     if (pkm.IsUntraded && pkm.XY)
                     {
-                        if (pkm.OT_Affection != 0)
+                        if (a.OT_Affection != 0)
                             data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                     }
-                    else if (IsInvalidContestAffection(pkm))
+                    else if (IsInvalidContestAffection(a))
                     {
                         data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                     }
                 }
                 else
                 {
-                    if (pkm.OT_Affection != 0)
+                    if (a.OT_Affection != 0)
                         data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionOT0));
                 }
             }
@@ -171,7 +169,7 @@ namespace PKHeX.Core
         }
 
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
-        private static bool IsInvalidContestAffection(PKM pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
+        private static bool IsInvalidContestAffection(IAffection pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
         public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int gen)
         {

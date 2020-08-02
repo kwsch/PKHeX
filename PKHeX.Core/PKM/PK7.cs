@@ -4,7 +4,8 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 7 <see cref="PKM"/> format. </summary>
-    public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories
+    public sealed class PK7 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, 
+        IContestStats, IHyperTrain, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection
     {
         private static readonly ushort[] Unused =
         {
@@ -336,7 +337,7 @@ namespace PKHeX.Core
         // 0xA0 Unused
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
-        public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
+        public int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
         public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
         public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
@@ -352,7 +353,7 @@ namespace PKHeX.Core
         #region Block D
         public override string OT_Name { get => GetString(0xB0, 24); set => SetString(value, 12).CopyTo(Data, 0xB0); }
         public override int OT_Friendship { get => Data[0xCA]; set => Data[0xCA] = (byte)value; }
-        public override int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
+        public int OT_Affection { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
         public int OT_Intensity { get => Data[0xCC]; set => Data[0xCC] = (byte)value; }
         public int OT_Memory { get => Data[0xCD]; set => Data[0xCD] = (byte)value; }
         public int OT_TextVar { get => BitConverter.ToUInt16(Data, 0xCE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCE); }

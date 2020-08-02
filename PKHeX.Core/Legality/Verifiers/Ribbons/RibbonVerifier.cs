@@ -153,9 +153,9 @@ namespace PKHeX.Core
                 }
 
                 // Gen8+ replaced with Max Friendship. Gen6/7 uses affection.
-                if (pkm.Format <= 7 && s6.RibbonBestFriends) // can't lower affection
+                if (pkm is IAffection a && s6.RibbonBestFriends) // can't lower affection
                 {
-                    if (pkm.OT_Affection < 255 && pkm.IsUntraded)
+                    if (a.OT_Affection < 255 && pkm.IsUntraded)
                         yield return new RibbonResult(nameof(s6.RibbonBestFriends));
                 }
             }
@@ -253,9 +253,9 @@ namespace PKHeX.Core
 
             // Each contest victory requires a contest participation; each participation gives 20 OT affection (not current trainer).
             // Affection is discarded on PK7->PK8 in favor of friendship, which can be lowered.
-            if (pkm.Format <= 7)
+            if (pkm is IAffection a)
             {
-                var affect = pkm.OT_Affection;
+                var affect = a.OT_Affection;
                 var contMemory = s6.RibbonNamesContest();
                 int contCount = 0;
                 var present = contMemory.Where((_, i) => contest[i] && affect < 20 * ++contCount);

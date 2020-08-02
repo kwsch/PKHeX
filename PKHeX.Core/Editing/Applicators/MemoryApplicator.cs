@@ -8,7 +8,8 @@
         /// <param name="pk">Pokémon to modify.</param>
         public static void ClearMemories(this PKM pk)
         {
-            pk.OT_Affection = pk.HT_Affection = 0;
+            if (pk is IAffection a)
+                a.OT_Affection = a.HT_Affection = 0;
             if (pk is IMemoryOT o)
                 o.ClearMemoriesOT();
             if (pk is IMemoryHT h)
@@ -28,7 +29,8 @@
                 o.OT_Intensity = 1;
                 o.OT_TextVar = pk.XY ? 43 : 27; // riverside road : battling spot
             }
-            pk.OT_Affection = 0;
+            if (pk is IAffection a)
+                a.OT_Affection = 0;
         }
 
         /// <summary>

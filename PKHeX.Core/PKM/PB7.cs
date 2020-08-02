@@ -226,7 +226,7 @@ namespace PKHeX.Core
         // 0xA0 Unused
         // 0xA1 Unused
         public override int HT_Friendship { get => Data[0xA2]; set => Data[0xA2] = (byte)value; }
-        public override int HT_Affection { get => Data[0xA3]; set => Data[0xA3] = (byte)value; }
+        // 0xA1 HT_Affection Unused
         public int HT_Intensity { get => Data[0xA4]; set => Data[0xA4] = (byte)value; }
         public int HT_Memory { get => Data[0xA5]; set => Data[0xA5] = (byte)value; }
         public int HT_Feeling { get => Data[0xA6]; set => Data[0xA6] = (byte)value; }
@@ -329,7 +329,6 @@ namespace PKHeX.Core
             if (HT_Name != tr.OT)
             {
                 HT_Friendship = CurrentFriendship; // copy friendship instead of resetting (don't alter CP)
-                HT_Affection = 0;
                 HT_Name = tr.OT;
             }
             CurrentHandler = 1;
@@ -339,7 +338,7 @@ namespace PKHeX.Core
         public void FixMemories()
         {
             if (IsUntraded)
-                HT_Friendship = HT_Affection = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
+                HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
         }
 
         // Maximums

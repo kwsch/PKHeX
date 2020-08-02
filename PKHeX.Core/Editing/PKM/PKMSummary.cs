@@ -97,7 +97,6 @@ namespace PKHeX.Core
         public string Relearn4 => Get(Strings.movelist, pkm.RelearnMove4);
         public ushort Checksum => pkm.Checksum;
         public int Friendship => pkm.OT_Friendship;
-        public int OT_Affection => pkm.OT_Affection;
         public int Egg_Year => pkm.EggMetDate.GetValueOrDefault().Year;
         public int Egg_Month => pkm.EggMetDate.GetValueOrDefault().Month;
         public int Egg_Day => pkm.EggMetDate.GetValueOrDefault().Day;
