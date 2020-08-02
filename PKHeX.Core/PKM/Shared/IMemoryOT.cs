@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Exposes memory details for the Original Trainer.
+    /// </summary>
     public interface IMemoryOT
     {
         int OT_Memory { get; set; }
@@ -10,9 +13,12 @@
 
     public static partial class Extensions
     {
-        public static void ClearMemoriesOT(this IMemoryOT ht)
+        /// <summary>
+        /// Sets all values to zero.
+        /// </summary>
+        public static void ClearMemoriesOT(this IMemoryOT ot)
         {
-            ht.OT_Memory = ht.OT_Feeling = ht.OT_Intensity = ht.OT_TextVar = 0;
+            ot.OT_Memory = ot.OT_Feeling = ot.OT_Intensity = ot.OT_TextVar = 0;
         }
     }
 }

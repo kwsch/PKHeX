@@ -25,8 +25,7 @@ namespace PKHeX.Core
         public PK7(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted67(ref data);
-            if (data.Length != PokeCrypto.SIZE_6PARTY)
-                Array.Resize(ref data, PokeCrypto.SIZE_6PARTY);
+            Array.Resize(ref data, PokeCrypto.SIZE_6PARTY);
             Data = data;
         }
 

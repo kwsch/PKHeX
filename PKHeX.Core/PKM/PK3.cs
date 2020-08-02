@@ -24,8 +24,7 @@ namespace PKHeX.Core
         public PK3(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted3(ref data);
-            if (data.Length != PokeCrypto.SIZE_3PARTY)
-                Array.Resize(ref data, PokeCrypto.SIZE_3PARTY);
+            Array.Resize(ref data, PokeCrypto.SIZE_3PARTY);
             Data = data;
         }
 

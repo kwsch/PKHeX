@@ -12,8 +12,20 @@ namespace PKHeX.Core
         {
             // Alignment bytes
             0x17, 0x1A, 0x1B, 0x23, 0x33, 0x3E, 0x3F,
-            0xE0, 0xE1,
-            0xC5, 0x115, 0x11F,
+            0x4C, 0x4D, 0x4E, 0x4F,
+            0x52, 0x53, 0x54, 0x55, 0x56, 0x57,
+
+            0x90, 0x91, 0x92, 0x93,
+            0x9C, 0x9D, 0x9E, 0x9F, 0xA0, 0xA1, 0xA2, 0xA3, 0xA4, 0xA5, 0xA6, 0xA7,
+
+            0xC5, 
+            0xCE, 0xCF, 0xD0, 0xD1, 0xD2, 0xD3, 0xD4, 0xD5, 0xD6, 0xD7, 0xD8, 0xD9, 0xDA, 0xDB, 0xDC, 0xDD,
+            0xE0, 0xE1, // Old Console Region / Region
+            0xE9, 0xEA, 0xEB, 0xEC, 0xED, 0xEE, 0xEF, 0xF0, 0xF1, 0xF2, 0xF3, 0xF4, 0xF5, 0xF6, 0xF7,
+            0x115, 0x11F, // Alignment
+
+            0x13D, 0x13E, 0x13F,
+            0x140, 0x141, 0x142, 0x143, 0x144, 0x145, 0x146, 0x147,
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
@@ -52,8 +64,7 @@ namespace PKHeX.Core
         public PK8(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted8(ref data);
-            if (data.Length != PokeCrypto.SIZE_8PARTY)
-                Array.Resize(ref data, PokeCrypto.SIZE_8PARTY);
+            Array.Resize(ref data, PokeCrypto.SIZE_8PARTY);
             Data = data;
         }
 
@@ -348,36 +359,13 @@ namespace PKHeX.Core
 
         public uint U48 { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
 
-        public byte GetFromArrayA1(int index)
-        {
-            if ((uint)index >= 4)
-                throw new ArgumentException(nameof(index));
-            return Data[0x4C + index];
-        }
-
-        public void SetFromArrayA1(int index, byte value)
-        {
-            if ((uint)index >= 4)
-                throw new ArgumentException(nameof(index));
-            Data[0x4C + index] = value;
-        }
+        // 0x4C-0x4F unused
 
         public int HeightScalar { get => Data[0x50]; set => Data[0x50] = (byte)value; }
         public int WeightScalar { get => Data[0x51]; set => Data[0x51] = (byte)value; }
 
-        public byte GetFromArrayA2(int index)
-        {
-            if ((uint)index >= 6)
-                throw new ArgumentException(nameof(index));
-            return Data[0x52 + index];
-        }
+        // 0x52-0x57 unused
 
-        public void SetFromArrayA2(int index, byte value)
-        {
-            if ((uint)index >= 6)
-                throw new ArgumentException(nameof(index));
-            Data[0x52 + index] = value;
-        }
         #endregion
         #region Block B
         public override string Nickname
@@ -421,36 +409,13 @@ namespace PKHeX.Core
 
         public byte DynamaxLevel { get => Data[0x90]; set => Data[0x90] = value; }
 
-        public byte GetFromArrayB1(int index)
-        {
-            if ((uint)index >= 3)
-                throw new ArgumentException(nameof(index));
-            return Data[0x90 + index];
-        }
-
-        public void SetFromArrayB1(int index, byte value)
-        {
-            if ((uint)index >= 3)
-                throw new ArgumentException(nameof(index));
-            Data[0x90 + index] = value;
-        }
+        // 0x90-0x93 unused
 
         public override int Status_Condition { get => BitConverter.ToInt32(Data, 0x94); set => BitConverter.GetBytes(value).CopyTo(Data, 0x94); }
         public int Unk98 { get => BitConverter.ToInt32(Data, 0x98); set => BitConverter.GetBytes(value).CopyTo(Data, 0x98); }
 
-        public byte GetFromArrayB2(int index)
-        {
-            if ((uint)index >= 14)
-                throw new ArgumentException(nameof(index));
-            return Data[0x9C + index];
-        }
+        // 0x9C-0xA7 unused
 
-        public void SetFromArrayB2(int index, byte value)
-        {
-            if ((uint)index >= 14)
-                throw new ArgumentException(nameof(index));
-            Data[0x9C + index] = value;
-        }
         #endregion
         #region Block C
         public override string HT_Name { get => GetString(0xA8, 24); set => SetString(value, 12).CopyTo(Data, 0xA8); }
@@ -465,19 +430,7 @@ namespace PKHeX.Core
         public int HT_Feeling { get => Data[0xCB]; set => Data[0xCB] = (byte)value; }
         public int HT_TextVar { get => BitConverter.ToUInt16(Data, 0xCC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xCC); }
 
-        public byte GetFromArrayC1(int index)
-        {
-            if ((uint)index >= 14)
-                throw new ArgumentException(nameof(index));
-            return Data[0xCE + index];
-        }
-
-        public void SetFromArrayC1(int index, byte value)
-        {
-            if ((uint)index >= 14)
-                throw new ArgumentException(nameof(index));
-            Data[0xCE + index] = value;
-        }
+        // 0xCE-0xDB unused
 
         public override byte Fullness { get => Data[0xDC]; set => Data[0xDC] = value; }
         public override byte Enjoyment { get => Data[0xDD]; set => Data[0xDD] = value; }
@@ -489,20 +442,7 @@ namespace PKHeX.Core
         public int UnkE3 { get => Data[0xE3]; set => Data[0xE3] = (byte)value; }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0xE4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE4); }
         public sbyte AffixedRibbon { get => (sbyte)Data[0xE8]; set => Data[0xE8] = (byte)value; } // selected ribbon
-
-        public byte GetFromArrayC2(int index)
-        {
-            if ((uint)index >= 15)
-                throw new ArgumentException(nameof(index));
-            return Data[0xE9 + index];
-        }
-
-        public void SetFromArrayC2(int index, byte value)
-        {
-            if ((uint)index >= 15)
-                throw new ArgumentException(nameof(index));
-            Data[0xE9 + index] = value;
-        }
+        // remainder unused
 
         #endregion
         #region Block D
@@ -549,34 +489,13 @@ namespace PKHeX.Core
             FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
         }
 
-        public bool HasAnyMoveRecordFlag()
-        {
-            for (int i = 0x127; i < 0x127 + 14; i++)
-            {
-                if (Data[i] != 0)
-                    return true;
-            }
-            return false;
-        }
+        public bool HasAnyMoveRecordFlag() => Array.FindIndex(Data, 0x127, 0x14, z => z != 0) >= 0;
 
+        // Why did you mis-align this field, GameFreak?
         public ulong Tracker
         {
             get => BitConverter.ToUInt64(Data, 0x135);
             set => BitConverter.GetBytes(value).CopyTo(Data, 0x135);
-        }
-
-        public byte GetFromArrayD1(int index)
-        {
-            if ((uint)index >= 19)
-                throw new ArgumentException(nameof(index));
-            return Data[0x135 + index];
-        }
-
-        public void SetFromArrayD1(int index, byte value)
-        {
-            if ((uint)index >= 19)
-                throw new ArgumentException(nameof(index));
-            Data[0x135 + index] = value;
         }
 
         #endregion
@@ -627,15 +546,12 @@ namespace PKHeX.Core
 
             if (IsUntraded)
                 HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
-            if (GenNumber < 6)
-            {
-                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
-            }
 
-            if (GenNumber < 8) // must be transferred via HOME, and must have memories
-            {
+            int gen = GenNumber;
+            if (gen < 6)
+                OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
+            if (gen != 8) // must be transferred via HOME, and must have memories
                 TradeMemory();
-            }
         }
 
         private bool TradeOT(ITrainerInfo tr)
@@ -650,12 +566,6 @@ namespace PKHeX.Core
 
         private void TradeHT(ITrainerInfo tr)
         {
-            if (tr.OT != HT_Name || tr.Gender != HT_Gender)
-            {
-                // No geolocations are set ingame -- except for bank transfers. Don't emulate bank transfers
-                // this.TradeGeoLocation(tr.Country, tr.SubRegion);
-            }
-
             if (HT_Name != tr.OT)
             {
                 HT_Friendship = 50;
