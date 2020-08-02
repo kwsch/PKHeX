@@ -32,7 +32,7 @@ namespace PKHeX.Core
         // Trash Bytes
         public abstract byte[] Nickname_Trash { get; set; }
         public abstract byte[] OT_Trash { get; set; }
-        public virtual byte[] HT_Trash { get; set; } = Array.Empty<byte>();
+        public virtual byte[] HT_Trash { get => Array.Empty<byte>(); set { } }
 
         protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
 
@@ -138,18 +138,17 @@ namespace PKHeX.Core
         public abstract int OT_Friendship { get; set; }
         public virtual bool Japanese => Language == (int)LanguageID.Japanese;
         public virtual bool Korean => Language == (int)LanguageID.Korean;
-        public virtual bool Chinese => Language == (int)LanguageID.ChineseS || Language == (int)LanguageID.ChineseT;
 
         // Future Properties
         public virtual int Met_Year { get => 0; set { } }
         public virtual int Met_Month { get => 0; set { } }
         public virtual int Met_Day { get => 0; set { } }
-        public virtual string HT_Name { get; set; } = string.Empty;
-        public virtual int HT_Gender { get; set; }
-        public virtual int HT_Friendship { get; set; }
-        public virtual byte Enjoyment { get; set; }
-        public virtual byte Fullness { get; set; }
-        public virtual int AbilityNumber { get; set; }
+        public virtual string HT_Name { get => string.Empty; set { } }
+        public virtual int HT_Gender { get => 0; set { } }
+        public virtual int HT_Friendship { get => 0; set { } }
+        public virtual byte Enjoyment { get => 0; set { } }
+        public virtual byte Fullness { get => 0; set { } }
+        public virtual int AbilityNumber { get => 0; set { } }
 
         /// <summary>
         /// The date the Pokémon was met.
