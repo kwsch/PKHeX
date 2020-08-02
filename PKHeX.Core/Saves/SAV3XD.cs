@@ -133,7 +133,7 @@ namespace PKHeX.Core
         private byte[] GetInnerData()
         {
             // Set Memo Back
-            // StrategyMemo.Write().CopyTo(Data, Memo);
+            StrategyMemo.Write(); // .CopyTo(Data, Memo);
             ShadowInfo.Write().CopyTo(Data, Shadow);
             SetChecksums();
 
@@ -209,7 +209,7 @@ namespace PKHeX.Core
 
         private static byte[] SetChecksums(byte[] input, int subOffset0)
         {
-            if (input.Length != 0x28000)
+            if (input.Length != SLOT_SIZE)
                 throw new ArgumentException("Input should be a slot, not the entire save binary.");
 
             byte[] data = (byte[])input.Clone();
