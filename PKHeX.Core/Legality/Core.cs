@@ -261,7 +261,7 @@ namespace PKHeX.Core
                 LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
 
             // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
-            if (info.EncounterMatch is EncounterEgg)
+            if (info.EncounterMatch is EncounterEgg && allowegg)
             {
                 if (IsMoveInherited(pkm, info, moves))
                     LearnLevel = Math.Min(LearnLevel, gen <= 3 ? 6 : 2);
