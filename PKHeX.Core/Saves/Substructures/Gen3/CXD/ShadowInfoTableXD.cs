@@ -14,7 +14,6 @@ namespace PKHeX.Core
         {
             MaxLength = data.Length;
             int eCount = data.Length/SIZE_ENTRY;
-            Debug.Assert(MaxCount == eCount);
             Entries = new ShadowInfoEntryXD[eCount];
             for (int i = 0; i < eCount; i++)
             {

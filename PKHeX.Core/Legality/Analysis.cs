@@ -327,7 +327,9 @@ namespace PKHeX.Core
                 ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
 
             History.Verify(this);
-            Memory.Verify(this);
+
+            if (pkm is ITrainerMemories)
+                Memory.Verify(this);
             if (pkm is ISuperTrain)
                 Medal.Verify(this);
 

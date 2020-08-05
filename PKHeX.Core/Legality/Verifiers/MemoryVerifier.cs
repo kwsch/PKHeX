@@ -276,7 +276,7 @@ namespace PKHeX.Core
             data.AddLine(commonResult);
         }
 
-        private static bool WasTradedSWSHEgg(PKM pkm) => pkm.Gen8 && (pkm.WasTradedEgg || pkm.WasBredEgg);
+        private static bool WasTradedSWSHEgg(PKM pkm) => pkm.Gen8 && pkm.WasBredEgg;
 
         private void VerifyHTMemoryTransferTo7(LegalityAnalysis data, PKM pkm, LegalInfo Info)
         {

@@ -306,7 +306,7 @@ namespace PKHeX.Core
             ParseMovesByGeneration(pkm, res, gen, info, learnInfo);
 
             if (gen == last)
-                ParseMovesByGenerationLast(pkm, res, gen, learnInfo);
+                ParseMovesByGenerationLast(pkm, res, gen, learnInfo, info.EncounterMatch);
 
             switch (gen)
             {
@@ -403,11 +403,11 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo)
+        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo, IEncounterable enc)
         {
             ParseEggMovesInherited(pkm, res, gen, learnInfo);
             ParseEggMoves(pkm, res, gen, learnInfo);
-            ParseEggMovesRemaining(pkm, res, learnInfo);
+            ParseEggMovesRemaining(pkm, res, learnInfo, enc);
         }
 
         private static void ParseEggMovesInherited(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo)
@@ -492,7 +492,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseEggMovesRemaining(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo)
+        private static void ParseEggMovesRemaining(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterable enc)
         {
             // A pokemon could have normal egg moves and regular egg moves
             // Only if all regular egg moves are event egg moves or all event egg moves are regular egg moves
@@ -513,7 +513,7 @@ namespace PKHeX.Core
                         res[m] = new CheckMoveResult(res[m], Invalid, LMoveEventEggLevelUp, Move);
                 }
             }
-            else if (RegularEggMovesLearned.Count != 0 && (pkm.WasGiftEgg || pkm.WasEventEgg))
+            else if (!(enc is EncounterEgg))
             {
                 // Event eggs cannot inherit moves from parents; they are not bred.
                 foreach (int m in RegularEggMovesLearned)
