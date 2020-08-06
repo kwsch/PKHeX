@@ -327,6 +327,34 @@
             new EncounterStatic8ND(60,10,5) { Species = 844, Ability = A4, Moves = new[]{ 693, 529, 201, 091 }, CanGigantamax = true }, // Sandaconda
             new EncounterStatic8ND(60,10,5) { Species = 450, Ability = A4, Moves = new[]{ 089, 422, 231, 242 } }, // Hippowdon
             new EncounterStatic8ND(60,10,5) { Species = 423, Ability = A4, Moves = new[]{ 414, 503, 311, 352 }, Form = 1 }, // Gastrodon-1
+
+            // 8/5 - Pikachu Mass Appearance
+            new EncounterStatic8ND(17,01,1) { Species = 025, Ability = A4, Moves = new[]{ 084, 098, 204, 086 } }, // Pikachu
+            new EncounterStatic8ND(17,01,1) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 } }, // Raichu
+            new EncounterStatic8ND(17,01,1) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 }, Form = 1 }, // Raichu-1
+            new EncounterStatic8ND(17,01,1) { Species = 172, Ability = A4, Moves = new[]{ 589, 609, 085, 186 } }, // Pichu
+            new EncounterStatic8ND(17,01,1) { Species = 778, Ability = A4, Moves = new[]{ 086, 452, 425, 010 } }, // Mimikyu
+            new EncounterStatic8ND(30,03,2) { Species = 025, Ability = A4, Moves = new[]{ 209, 097, 204, 086 } }, // Pikachu
+            new EncounterStatic8ND(30,03,2) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 } }, // Raichu
+            new EncounterStatic8ND(30,03,2) { Species = 026, Ability = A4, Moves = new[]{ 009, 129, 280, 204 }, Form = 1 }, // Raichu-1
+            new EncounterStatic8ND(30,03,2) { Species = 172, Ability = A4, Moves = new[]{ 204, 609, 085, 186 } }, // Pichu
+            new EncounterStatic8ND(30,03,2) { Species = 778, Ability = A4, Moves = new[]{ 086, 452, 425, 608 } }, // Mimikyu
+            new EncounterStatic8ND(40,05,3) { Species = 025, Ability = A4, Moves = new[]{ 085, 231, 583, 086 } }, // Pikachu
+            new EncounterStatic8ND(40,05,3) { Species = 026, Ability = A4, Moves = new[]{ 085, 034, 411, 583 } }, // Raichu
+            new EncounterStatic8ND(40,05,3) { Species = 026, Ability = A4, Moves = new[]{ 085, 034, 057, 583 }, Form = 1 }, // Raichu-1
+            new EncounterStatic8ND(40,05,3) { Species = 172, Ability = A4, Moves = new[]{ 204, 609, 085, 583 } }, // Pichu
+            new EncounterStatic8ND(40,05,3) { Species = 778, Ability = A4, Moves = new[]{ 085, 452, 421, 608 } }, // Mimikyu
+            new EncounterStatic8ND(50,08,4) { Species = 025, Ability = A4, Moves = new[]{ 087, 231, 583, 086 } }, // Pikachu
+            new EncounterStatic8ND(50,08,4) { Species = 026, Ability = A4, Moves = new[]{ 087, 034, 411, 583 } }, // Raichu
+            new EncounterStatic8ND(50,08,4) { Species = 026, Ability = A4, Moves = new[]{ 087, 034, 057, 583 }, Form = 1 }, // Raichu-1
+            new EncounterStatic8ND(50,08,4) { Species = 172, Ability = A4, Moves = new[]{ 253, 609, 085, 583 } }, // Pichu
+            new EncounterStatic8ND(50,08,4) { Species = 778, Ability = A4, Moves = new[]{ 085, 452, 261, 204 } }, // Mimikyu
+            new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 231, 583, 086 } }, // Pikachu
+            new EncounterStatic8ND(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 231, 583, 086 }, Shiny = Shiny.Always }, // Pikachu
+            new EncounterStatic8ND(60,10,5) { Species = 026, Ability = A4, Moves = new[]{ 087, 034, 411, 583 } }, // Raichu
+            new EncounterStatic8ND(60,10,5) { Species = 026, Ability = A4, Moves = new[]{ 087, 034, 057, 583 }, Form = 1 }, // Raichu-1
+            new EncounterStatic8ND(60,10,5) { Species = 172, Ability = A4, Moves = new[]{ 253, 609, 085, 583 } }, // Pichu
+            new EncounterStatic8ND(60,10,5) { Species = 778, Ability = A4, Moves = new[]{ 087, 452, 261, 583 } }, // Mimikyu
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
