@@ -147,7 +147,7 @@ namespace PKHeX.Core
         /// <returns>Updated PKM if actually PK7</returns>
         private static G6PKM CheckPKMFormat7(PK6 pk, int prefer)
         {
-            if (GameVersion.GG.Contains(pk.Version))
+            if (GameVersion.Gen7b.Contains(pk.Version))
                 return new PB7(pk.Data);
             if (IsPK6FormatReallyPK7(pk, prefer))
                 return new PK7(pk.Data);
@@ -434,7 +434,7 @@ namespace PKHeX.Core
 
         public static PKM GetBlank(int gen, GameVersion ver)
         {
-            if (gen == 7 && GameVersion.GG.Contains(ver))
+            if (gen == 7 && GameVersion.Gen7b.Contains(ver))
                 return new PB7();
             return GetBlank(gen);
         }

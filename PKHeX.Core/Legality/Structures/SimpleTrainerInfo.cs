@@ -18,7 +18,7 @@
         public SimpleTrainerInfo(GameVersion game = GameVersion.SW)
         {
             Game = (int) game;
-            if (GameVersion.GG.Contains(game) || game.GetGeneration() >= 8)
+            if (GameVersion.Gen7b.Contains(game) || game.GetGeneration() >= 8)
                 ConsoleRegion = Region = Country = 0;
         }
     }

@@ -12,7 +12,7 @@ namespace PKHeX.Core
             LearnSWSH = new LearnLookup(PersonalTable.SWSH, LevelUpSWSH, SWSH),
             LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM),
             LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM),
-            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, GG),
+            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, Gen7b),
             LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY),
             LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS),
             LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW),

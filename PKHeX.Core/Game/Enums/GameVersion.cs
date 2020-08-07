@@ -369,7 +369,6 @@
         /// <remarks>Used to lump data from the associated games as data assets are shared.</remarks>
         /// <see cref="GP"/>
         /// <see cref="GE"/>
-        /// <see cref="GO"/>
         GG,
 
         /// <summary>
@@ -421,12 +420,18 @@
         Gen6,
 
         /// <summary>
-        /// Generation 7 Games
+        /// Generation 7 Games on the Nintendo 3DS
         /// </summary>
         /// <see cref="SM"/>
         /// <see cref="USUM"/>
-        /// <see cref="GG"/>
         Gen7,
+
+        /// <summary>
+        /// Generation 7 Games on the Nintendo Switch
+        /// </summary>
+        /// <see cref="GG"/>
+        /// <see cref="GO"/>
+        Gen7b,
 
         /// <summary>
         /// Generation 8 Games

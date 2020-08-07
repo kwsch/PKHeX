@@ -180,7 +180,7 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine7(int species, int move, int form, GameVersion ver)
         {
-            if (GameVersion.GG.Contains(ver))
+            if (GameVersion.Gen7b.Contains(ver))
             {
                 for (int i = 0; i < Legal.TMHM_GG.Length; i++)
                 {

@@ -85,7 +85,7 @@ namespace PKHeX.Core
                 4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
                 5 => WildPokeBalls5,
                 6 => WildPokeballs6,
-                7 => GameVersion.GG.Contains(game) ? WildPokeballs7b : WildPokeballs7,
+                7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
                 8 => WildPokeballs8,
                 _ => Array.Empty<int>()
             };

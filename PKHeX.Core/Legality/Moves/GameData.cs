@@ -80,6 +80,7 @@ namespace PKHeX.Core
             { GameVersion.Gen5, Legal.LevelUpB2W2 },
             { GameVersion.Gen6, Legal.LevelUpAO },
             { GameVersion.Gen7, Legal.LevelUpSM },
+            { GameVersion.Gen7b, Legal.LevelUpGG },
             { GameVersion.Gen8, Legal.LevelUpSWSH },
             { GameVersion.VCEvents, Legal.LevelUpY },
 
@@ -161,7 +162,8 @@ namespace PKHeX.Core
             { GameVersion.Gen4, PersonalTable.HGSS },
             { GameVersion.Gen5, PersonalTable.B2W2 },
             { GameVersion.Gen6, PersonalTable.AO },
-            { GameVersion.Gen7, PersonalTable.SM },
+            { GameVersion.Gen7, PersonalTable.USUM },
+            { GameVersion.Gen7b, PersonalTable.GG },
             { GameVersion.Gen8, PersonalTable.SWSH },
             { GameVersion.VCEvents, PersonalTable.Y },
 

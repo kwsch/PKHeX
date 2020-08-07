@@ -61,7 +61,7 @@ namespace PKHeX.Core
         /// <param name="location">Location value</param>
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.GenNumber"/> of origin</param>
-        /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.GG"/> differentiation)</param>
+        /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
         /// <returns>Location name</returns>
         public static string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {

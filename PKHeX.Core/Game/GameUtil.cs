@@ -146,14 +146,13 @@ namespace PKHeX.Core
             if (Gen4.Contains(game)) return Legal.MaxSpeciesID_4;
             if (Gen5.Contains(game)) return Legal.MaxSpeciesID_5;
             if (Gen6.Contains(game)) return Legal.MaxSpeciesID_6;
+            if (Gen7b.Contains(game)) return Legal.MaxSpeciesID_7b;
             if (Gen7.Contains(game))
             {
                 if (SM.Contains(game))
                     return Legal.MaxSpeciesID_7;
                 if (USUM.Contains(game))
                     return Legal.MaxSpeciesID_7_USUM;
-                if (GG.Contains(game))
-                    return Legal.MaxSpeciesID_7b;
                 return Legal.MaxSpeciesID_7_USUM;
             }
             if (Gen8.Contains(game)) return Legal.MaxSpeciesID_8;
@@ -233,9 +232,11 @@ namespace PKHeX.Core
                 case USUM:
                     return g2 == US || g2 == UM;
                 case GG:
-                    return g2 == GP || g2 == GE || g2 == GO;
+                    return g2 == GP || g2 == GE;
                 case Gen7:
-                    return SM.Contains(g2) || USUM.Contains(g2) || GG.Contains(g2);
+                    return SM.Contains(g2) || USUM.Contains(g2);
+                case Gen7b:
+                    return GG.Contains(g2) || GO == g2;
 
                 case SWSH:
                     return g2 == SW || g2 == SH;
@@ -253,7 +254,7 @@ namespace PKHeX.Core
         /// <param name="pkVersion"></param>
         public static GameVersion[] GetVersionsInGeneration(int generation, int pkVersion)
         {
-            if (GG.Contains(pkVersion))
+            if (Gen7b.Contains(pkVersion))
                 return new[] {GO, GP, GE};
             return GameVersions.Where(z => z.GetGeneration() == generation).ToArray();
         }

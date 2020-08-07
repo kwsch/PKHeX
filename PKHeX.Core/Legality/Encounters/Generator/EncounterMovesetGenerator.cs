@@ -181,7 +181,7 @@ namespace PKHeX.Core
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
         private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, GameVersion version)
         {
-            if (GameVersion.CXD.Contains(version) || GameVersion.GG.Contains(version))
+            if (GameVersion.CXD.Contains(version) || GameVersion.Gen7b.Contains(version))
                 yield break; // no eggs from these games
 
             var eggs = EncounterEggGenerator.GenerateEggs(pk, all: true);

@@ -57,7 +57,7 @@ namespace PKHeX.WinForms
             CB_Language.InitializeBinding();
             CB_Language.DataSource = GameInfo.LanguageDataSource(SAV.Generation);
             CB_Game.InitializeBinding();
-            CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.GG.Contains(z.Value)).ToList(), null);
+            CB_Game.DataSource = new BindingSource(GameInfo.VersionDataSource.Where(z => GameVersion.Gen7b.Contains(z.Value)).ToList(), null);
         }
 
         private void LoadTrainerInfo()
