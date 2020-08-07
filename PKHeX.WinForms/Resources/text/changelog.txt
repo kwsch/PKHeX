@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/07/18 - New Update:
+20/08/07 - New Update:
+ - Legality:
+ - - Added Zarude and Shiny Celebi event data.
+ - - Changed: Payapa berry is now recognized as a legal held item in Gen8.
+ - - Changed: XD antishiny logic simplified slightly. Thanks Admiral-Fish!
+ - Added: Gen8 Inventory editing now preserves and shows the "NEW" flag.
+ - Added: Clicking on the Battle Version / Version sprite on the OT tab will now jump to the Met tab and drop-down the corresponding list.
+ - Added: Gen4 Pokewalker editing now has a GUI in the Misc Edits. Thanks @PlasticJustice!
+ - Fixed: Resizing the recent SaveFile Folder browsing now displays the window correctly for the all-saves tab.
+ - Changed: Spanish translation updated. Thanks @ajtudela!
+
+20/07/18 - New Update: (51597) [2919290]
  - Legality:
  - - Added latest HOME gifts (Shiny Zeraora)
  - - Handled GMax state toggling edge cases.
