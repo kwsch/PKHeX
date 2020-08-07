@@ -103,7 +103,7 @@ namespace PKHeX.Core
             return sav;
         }
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED + 4;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY; // unused
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);

@@ -17,7 +17,7 @@ namespace PKHeX.Core
         protected SAV6(int size, int biOffset) : base(size, biOffset) { }
 
         // Configuration
-        public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override PKM BlankPKM => new PK6();
         public override Type PKMType => typeof(PK6);

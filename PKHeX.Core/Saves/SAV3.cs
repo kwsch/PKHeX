@@ -283,7 +283,7 @@ namespace PKHeX.Core
         // Configuration
         public override SaveFile Clone() => new SAV3(Write(), Version);
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
         public override PKM BlankPKM => new PK3();
         public override Type PKMType => typeof(PK3);

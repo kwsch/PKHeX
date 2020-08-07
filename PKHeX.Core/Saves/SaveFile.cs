@@ -423,8 +423,9 @@ namespace PKHeX.Core
         protected abstract PKM GetPKM(byte[] data);
         protected abstract byte[] DecryptPKM(byte[] data);
         public abstract PKM BlankPKM { get; }
-        public abstract int SIZE_STORED { get; }
+        protected abstract int SIZE_STORED { get; }
         protected abstract int SIZE_PARTY { get; }
+        public virtual int SIZE_BOXSLOT => SIZE_STORED;
         public abstract int MaxEV { get; }
         public virtual int MaxIV => 31;
         public abstract IReadOnlyList<ushort> HeldItems { get; }
@@ -608,7 +609,7 @@ namespace PKHeX.Core
 
         #region Storage Offsets and Indexing
         public abstract int GetBoxOffset(int box);
-        public virtual int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_STORED);
+        public int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_BOXSLOT);
         public PKM GetBoxSlotAtIndex(int box, int slot) => GetBoxSlot(GetBoxSlotOffset(box, slot));
 
         public void GetBoxSlotFromIndex(int index, out int box, out int slot)
@@ -658,7 +659,7 @@ namespace PKHeX.Core
             int min = Math.Min(pos1, pos2);
             int max = Math.Max(pos1, pos2);
 
-            int len = BoxSlotCount * SIZE_STORED;
+            int len = BoxSlotCount * SIZE_BOXSLOT;
             byte[] boxdata = storage.Slice(GetBoxOffset(0), len * BoxCount); // get all boxes
             string[] boxNames = new int[BoxCount].Select((_, i) => GetBoxName(i)).ToArray();
             int[] boxWallpapers = new int[BoxCount].Select((_, i) => GetBoxWallpaper(i)).ToArray();
@@ -703,7 +704,7 @@ namespace PKHeX.Core
         {
             int b1o = GetBoxOffset(box1);
             int b2o = GetBoxOffset(box2);
-            int len = BoxSlotCount * SIZE_STORED;
+            int len = BoxSlotCount * SIZE_BOXSLOT;
             byte[] b1 = new byte[len];
             Buffer.BlockCopy(boxData, b1o, b1, 0, len);
             Buffer.BlockCopy(boxData, b2o, boxData, b1o, len);
@@ -921,7 +922,7 @@ namespace PKHeX.Core
             bool shiftedSlots = false;
 
             ushort ctr = 0;
-            int size = sav.SIZE_STORED;
+            int size = sav.SIZE_BOXSLOT;
             int count = sav.BoxSlotCount * sav.BoxCount;
             for (int i = 0; i < count; i++)
             {

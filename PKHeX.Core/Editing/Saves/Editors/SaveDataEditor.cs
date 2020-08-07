@@ -81,7 +81,7 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => BlankPKM;
         protected override byte[] DecryptPKM(byte[] data) => data;
         public override PKM BlankPKM => new PK3();
-        public override int SIZE_STORED => 0;
+        protected override int SIZE_STORED => 0;
         protected override int SIZE_PARTY => 0;
     }
 }

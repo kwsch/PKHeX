@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public override string Extension => ".sav";
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
-        public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override PKM BlankPKM => new PK5();
         public override Type PKMType => typeof(PK5);

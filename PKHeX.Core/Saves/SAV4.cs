@@ -78,7 +78,7 @@ namespace PKHeX.Core
             SetData(Storage, s4.Storage, 0);
         }
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
         public override PKM BlankPKM => new PK4();
         public override Type PKMType => typeof(PK4);

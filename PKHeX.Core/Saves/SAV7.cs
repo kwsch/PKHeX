@@ -64,7 +64,7 @@ namespace PKHeX.Core
         #endregion
 
         // Configuration
-        public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override PKM BlankPKM => new PK7();
         public override Type PKMType => typeof(PK7);

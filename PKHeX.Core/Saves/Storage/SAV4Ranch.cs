@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4Ranch : BulkStorage
     {
-        public override int SIZE_STORED => 0x88 + 0x1C;
+        protected override int SIZE_STORED => 0x88 + 0x1C;
         protected override int SIZE_PARTY => SIZE_STORED;
 
         public override int BoxCount { get; }

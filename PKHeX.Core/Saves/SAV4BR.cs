@@ -88,7 +88,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_4STORED + 4;
         public override PKM BlankPKM => new BK4();
         public override Type PKMType => typeof(BK4);

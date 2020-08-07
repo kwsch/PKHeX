@@ -23,8 +23,9 @@ namespace PKHeX.Core
         protected SAV8() { }
 
         // Configuration
-        public override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_8STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_8PARTY;
+        public override int SIZE_BOXSLOT => PokeCrypto.SIZE_8PARTY;
         public override PKM BlankPKM => new PK8();
         public override Type PKMType => typeof(PK8);
 
@@ -140,7 +141,6 @@ namespace PKHeX.Core
 
         protected override byte[] BoxBuffer => BoxInfo.Data;
         protected override byte[] PartyBuffer => PartyInfo.Data;
-        public override int GetBoxSlotOffset(int box, int slot) => GetBoxOffset(box) + (slot * SIZE_PARTY); // party format in boxes!
         public override PKM GetDecryptedPKM(byte[] data) => GetPKM(DecryptPKM(data));
         public override PKM GetBoxSlot(int offset) => GetDecryptedPKM(GetData(BoxInfo.Data, offset, SIZE_PARTY)); // party format in boxes!
     }
