@@ -88,7 +88,9 @@ namespace PKHeX.Core
             bool artist = false;
             if (pkm is IRibbonSetOnly3 o3)
             {
-                artist = o3.RibbonCounts().Any(z => z == 4);
+                artist = o3.ShouldHaveArtistRibbon();
+                if (o3.RibbonWorld) // is a part of Event4, but O3 doesn't have the others
+                    yield return new RibbonResult(nameof(o3.RibbonWorld));
             }
             if (pkm is IRibbonSetUnique3 u3)
             {

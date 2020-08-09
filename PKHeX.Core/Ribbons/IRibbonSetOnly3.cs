@@ -28,17 +28,11 @@
             nameof(IRibbonSetOnly3.Unused3), nameof(IRibbonSetOnly3.Unused4),
         };
 
-        internal static int[] RibbonCounts(this IRibbonSetOnly3 set)
-        {
-            return new[]
-            {
-                set.RibbonCountG3Cool,
-                set.RibbonCountG3Beauty,
-                set.RibbonCountG3Cute,
-                set.RibbonCountG3Smart,
-                set.RibbonCountG3Tough,
-            };
-        }
+        internal static bool ShouldHaveArtistRibbon(this IRibbonSetOnly3 set) => set.RibbonCountG3Cool == 4
+                                                                        || set.RibbonCountG3Beauty == 4
+                                                                        || set.RibbonCountG3Cute == 4
+                                                                        || set.RibbonCountG3Smart == 4
+                                                                        || set.RibbonCountG3Tough == 4;
 
         internal static string[] RibbonNames(this IRibbonSetOnly3 _) => RibbonSetNamesOnly3;
     }
