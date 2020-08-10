@@ -36,7 +36,10 @@ namespace PKHeX.Drawing
                 if (species == (int) Species.Pikachu)
                 {
                     if (generation == 6)
+                    {
                         sb.Append(Cosplay);
+                        gender = 1; // Cosplay Pikachu gift can only be Female, but personal entries are set to be either Gender
+                    }
                     else if (form == 8)
                         sb.Append(GGStarter);
                 }
