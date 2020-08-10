@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         public override int Level
         {
-            get => IsPokémon ? PK.Met_Level : 0;
+            get => IsManaphyEgg ? 1 : IsPokémon ? PK.Met_Level : 0;
             set { if (IsPokémon) PK.Met_Level = value; }
         }
 
