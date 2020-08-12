@@ -62,7 +62,7 @@ namespace PKHeX.Core
             {
                 if (pkm.Version == (int)GameVersion.CXD) // C/XD
                 {
-                    if (z is EncounterSlot w)
+                    if (z is EncounterSlot3PokeSpot w)
                     {
                         var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault();
                         info.PIDIV = seeds ?? info.PIDIV;
@@ -94,7 +94,7 @@ namespace PKHeX.Core
         {
             if (s.IVs.Count == 0) // not E-Reader
                 return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
-            
+
             // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
             var possible = MethodFinder.GetColoEReaderMatches(pkm.EncryptionConstant);
             foreach (var poss in possible)
@@ -305,9 +305,9 @@ namespace PKHeX.Core
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
 
-            if (EncounterArea6XY.WasFriendSafari(pkm))
+            if (EncounterArea6XYFriendSafari.WasFriendSafari(pkm))
             {
-                foreach (var z in EncounterArea6XY.GetValidFriendSafari(pkm))
+                foreach (var z in EncounterArea6XYFriendSafari.GetValidFriendSafari(pkm))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
@@ -389,7 +389,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters34(pkm))
             {
                 bool defer = z.IsDeferred4(species, pkm, safari, sport);
-                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile((EncounterSlot4)z, pkm));
                 if (defer)
                 {
                     if (frame != null)
@@ -450,7 +450,7 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters34(pkm))
             {
                 bool defer = z.IsDeferred3(species, pkm, safari);
-                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile((EncounterSlot3)z, pkm));
                 if (defer)
                 {
                     if (frame != null)
@@ -495,7 +495,7 @@ namespace PKHeX.Core
             return e switch
             {
                 EncounterStaticTyped t => t.TypeEncounter.Contains(type),
-                EncounterSlot w => w.TypeEncounter.Contains(type),
+                EncounterSlot4 w => w.TypeEncounter.Contains(type),
                 _ => (type == 0)
             };
         }

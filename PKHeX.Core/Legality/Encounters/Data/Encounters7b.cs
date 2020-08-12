@@ -7,8 +7,8 @@ namespace PKHeX.Core
 {
     internal static class Encounters7b
     {
-        internal static readonly EncounterArea7b[] SlotsGP = GetEncounterTables<EncounterArea7b>("gg", "gp");
-        internal static readonly EncounterArea7b[] SlotsGE = GetEncounterTables<EncounterArea7b>("gg", "ge");
+        internal static readonly EncounterArea7b[] SlotsGP = GetEncounterTables<EncounterArea7b, EncounterSlot7b>("gg", "gp");
+        internal static readonly EncounterArea7b[] SlotsGE = GetEncounterTables<EncounterArea7b, EncounterSlot7b>("gg", "ge");
         internal static readonly EncounterStatic[] StaticGP, StaticGE;
         internal static readonly EncounterArea7g[] SlotsGO_GG = GetGoParkArea();
 
@@ -23,7 +23,6 @@ namespace PKHeX.Core
             SlotsGE.SetVersion(GameVersion.GE);
             Encounter_GG.SetVersion(GameVersion.GG);
             TradeGift_GG.SetVersion(GameVersion.GG);
-            MarkEncountersGeneration(7, SlotsGP, SlotsGE);
             MarkEncountersGeneration(7, StaticGP, StaticGE, TradeGift_GG);
         }
 
@@ -89,10 +88,9 @@ namespace PKHeX.Core
             var area = new EncounterArea7g { Location = 50 };
             EncounterSlot GetSlot(int species, int form)
             {
-                return new EncounterSlot
+                return new EncounterSlot7GO
                 {
                     Area = area,
-                    Generation = 7,
                     Species = species,
                     LevelMin = 1,
                     LevelMax = 40,
@@ -190,7 +188,7 @@ namespace PKHeX.Core
                 var slots = table.Slots;
                 var first = slots[0];
                 var extra = species
-                    .Select(z => new EncounterSlot
+                    .Select(z => new EncounterSlot7b
                     {
                         Area = table,
                         Species = z,

@@ -864,7 +864,7 @@ namespace PKHeX.Core
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return true;
                     return val == PIDType.Method_1;
-                case EncounterSlot sl:
+                case EncounterSlot4 sl:
                     if (val == PIDType.Method_1)
                         return true;
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))

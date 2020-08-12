@@ -20,12 +20,12 @@ namespace PKHeX.Core
             return loc == SharedNest || EncounterArea8.IsWildArea8(loc) || EncounterArea8.IsWildArea8Armor(loc);
         }
 
-        public override bool IsMatch(PKM pkm, int lvl)
+        public override bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            return base.IsMatch(pkm, lvl);
+            return base.IsMatch(pkm, evo);
         }
     }
 }

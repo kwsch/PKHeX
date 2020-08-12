@@ -275,7 +275,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             if (EncounterMatch is EncounterSlot slot)
             {
-                bool valid = slot.Permissions.DexNav || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde;
+                bool valid = (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }

@@ -30,7 +30,7 @@ namespace PKHeX.Core
                 if (species <= 0)
                     continue;
 
-                slots.Add(new EncounterSlot
+                slots.Add(new EncounterSlot3
                 {
                     LevelMin = data[o + 2],
                     LevelMax = data[o + 3],
@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 if (Species <= 0)
                     continue;
 
-                var slot = new EncounterSlot
+                var slot = new EncounterSlot3
                 {
                     LevelMin = data[ofs + 2 + (i * 4)],
                     LevelMax = data[ofs + 3 + (i * 4)],
@@ -125,20 +125,27 @@ namespace PKHeX.Core
             return entries.Select(GetArea3).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        continue;
+                    if (!IsMatch(pkm, slot, evo))
+                        continue;
 
-            if (pkm.Format != 3) // transferred to Gen4+
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+                    yield return slot;
+                }
+            }
         }
 
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
+        protected override bool IsMatch(PKM pkm, EncounterSlot slot, EvoCriteria evo)
         {
-            if (pkm.Species == (int) Species.Unown)
-                return slots.Where(z => z.Form == pkm.AltForm);
-            return slots;
+            return evo.Form == slot.Form;
         }
     }
 }

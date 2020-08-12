@@ -22,9 +22,9 @@ namespace PKHeX.Core
         /// <param name="ReplacedSlots">Slots from regular encounter table that end up replaced by in-game conditions</param>
         /// <param name="slotnums">Slot indexes to replace with read species IDs</param>
         /// <param name="t">Slot type of the special encounter</param>
-        protected static List<EncounterSlot> GetSlots4GrassSlotReplace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
+        protected static List<EncounterSlot4> GetSlots4GrassSlotReplace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
-            var slots = new List<EncounterSlot>();
+            var slots = new List<EncounterSlot4>();
 
             int numslots = slotnums.Length;
             for (int i = 0; i < numslots; i++)
@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 if (species <= 0 || baseSlot.Species == species) // Empty or duplicate
                     continue;
 
-                var slot = baseSlot.Clone();
+                var slot = (EncounterSlot4)baseSlot.Clone();
                 slot.Species = species;
                 slot.Type = t;
                 slot.SlotNumber = i;
@@ -46,26 +46,40 @@ namespace PKHeX.Core
             return slots;
         }
 
-        protected static IEnumerable<EncounterSlot> MarkStaticMagnetExtras(IEnumerable<IEnumerable<List<EncounterSlot>>> product)
+        protected static IEnumerable<EncounterSlot4> MarkStaticMagnetExtras(IEnumerable<IEnumerable<List<EncounterSlot4>>> product)
         {
-            var trackPermute = new List<EncounterSlot>();
+            var trackPermute = new List<EncounterSlot4>();
             foreach (var p in product)
                 MarkStaticMagnetPermute(p.SelectMany(z => z), trackPermute);
             return trackPermute;
         }
 
-        protected static void MarkStaticMagnetPermute(IEnumerable<EncounterSlot> grp, List<EncounterSlot> trackPermute)
+        protected static void MarkStaticMagnetPermute(IEnumerable<EncounterSlot4> grp, List<EncounterSlot4> trackPermute)
         {
             EncounterUtil.MarkEncountersStaticMagnetPullPermutation(grp, PersonalTable.HGSS, trackPermute);
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        continue;
+                    if (!IsMatch(pkm, slot, evo))
+                        continue;
 
-            if (pkm.Format != 4) // transferred to Gen5+
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+                    yield return slot;
+                }
+            }
+        }
+
+        protected override bool IsMatch(PKM pkm, EncounterSlot slot, EvoCriteria evo)
+        {
+            return evo.Form == slot.Form;
         }
     }
 }

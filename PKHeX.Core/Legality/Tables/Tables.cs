@@ -178,7 +178,7 @@ namespace PKHeX.Core
             (int)Species.Zacian,
             (int)Species.Zamazenta,
             (int)Species.Eternatus,
-            
+
             (int)Species.Kubfu,
             (int)Species.Urshifu,
             (int)Species.Zarude,

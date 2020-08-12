@@ -278,29 +278,34 @@ namespace PKHeX.Core
             return head.Concat(rock);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (minLevel == 0) // any
-                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+            var time = pkm is PK2 pk2t ? pk2t.Met_TimeOfDay : 0;
+            var lvl = pkm is PK2 pk2l ? pk2l.Met_Level : -1;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        continue;
 
-            var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);
-            return GetFilteredSlots(pkm, encounterSlots).OrderBy(slot => slot.LevelMin); // prefer lowest levels
-        }
+                    if (time != 0)
+                    {
+                        var expect = ((EncounterSlot2) slot).Time;
+                        if (!expect.Contains(time))
+                            continue;
+                    }
 
-        private static IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots)
-        {
-            if (pkm is PK2 pk2 && pk2.Met_TimeOfDay != 0)
-                return slots.Where(slot => ((EncounterSlot2)slot).Time.Contains(pk2.Met_TimeOfDay));
-            return slots;
-        }
-
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
-        {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
-
-            if (pkm.Format >= 7 || !(pkm is PK2 pk2 && pk2.CaughtData != 0)) // transferred to Gen7+, or does not have Crystal met data
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+                    if (lvl != -1)
+                    {
+                        if (slot.IsLevelWithinRange(lvl))
+                            continue;
+                    }
+                    yield return slot;
+                }
+            }
         }
     }
 }

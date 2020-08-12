@@ -3,11 +3,14 @@
     /// <summary>
     /// Generation 1 Wild Encounter Slot data
     /// </summary>
-    public sealed class EncounterSlot1 : EncounterSlot
+    public sealed class EncounterSlot1 : EncounterSlot<EncounterArea1>, INumberedSlot
     {
+        public override int Generation => 1;
+        public int SlotNumber { get; set; }
+
         public readonly int Rate;
 
-        public EncounterSlot1(int species, int min, int max, int rate, SlotType type, int slot)
+        public EncounterSlot1(EncounterArea1 area, int species, int min, int max, int rate, SlotType type, int slot) : base(area)
         {
             Species = species;
             LevelMin = min;
@@ -15,29 +18,6 @@
             Rate = rate;
             Type = type;
             SlotNumber = slot;
-        }
-
-        /// <summary>
-        /// Deserializes Gen1 Encounter Slots from data.
-        /// </summary>
-        /// <param name="data">Byte array containing complete slot data table.</param>
-        /// <param name="ofs">Offset to start reading from.</param>
-        /// <param name="count">Amount of slots to read.</param>
-        /// <param name="type">Type of encounter slot table.</param>
-        /// <param name="rate">Slot type encounter rate.</param>
-        /// <returns>Array of encounter slots.</returns>
-        public static EncounterSlot1[] ReadSlots(byte[] data, ref int ofs, int count, SlotType type, int rate)
-        {
-            var bump = type == SlotType.Surf ? 4 : 0;
-            var slots = new EncounterSlot1[count];
-            for (int slot = 0; slot < count; slot++)
-            {
-                int min = data[ofs++];
-                int species = data[ofs++];
-                int max = min + bump;
-                slots[slot] = new EncounterSlot1(species, min, max, rate, type, slot);
-            }
-            return slots;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

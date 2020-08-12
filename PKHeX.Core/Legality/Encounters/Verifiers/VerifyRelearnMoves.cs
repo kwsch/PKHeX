@@ -22,7 +22,7 @@ namespace PKHeX.Core
             {
                 IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
                 EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
-                EncounterSlot z when pkm.RelearnMove1 != 0 && z.Permissions.DexNav => VerifyRelearnDexNav(pkm, info),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.DexNav => VerifyRelearnDexNav(pkm, info),
                 _ => VerifyRelearnNone(pkm, info)
             };
         }

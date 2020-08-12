@@ -27,36 +27,28 @@ namespace PKHeX.Core
             return others.Contains((byte)location);
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             var loc = Location;
-            if (IsWildArea8(loc) || IsWildArea8Armor(loc)) // wild area gets boosted up to level 60 post-game
+            bool canBoostTo60 = IsWildArea8(loc) || IsWildArea8Armor(loc); // wild area gets boosted up to level 60 post-game
+            foreach (var slot in Slots)
             {
-                const int boostTo = 60;
-                if (pkm.Met_Level == boostTo)
+                foreach (var evo in chain)
                 {
-                    var boost = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= boostTo));
-                    return boost.Where(s => s.LevelMax < boostTo || s.IsLevelWithinRange(minLevel));
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    {
+                        if (!canBoostTo60 || pkm.Met_Level != 60)
+                            continue;
+                    }
+                    if (slot.Form != evo.Form && !Legal.FormChange.Contains(evo.Species))
+                        continue;
+
+                    yield return slot;
                 }
             }
-            var slots = Slots.Where(slot => chain.Any(evo => IsMatch(evo, slot) && evo.Level >= slot.LevelMin));
-
-            // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
         }
-
-        private static bool IsMatch(DexLevel evo, EncounterSlot slot)
-        {
-            if (evo.Species != slot.Species)
-                return false;
-            if (evo.Form == slot.Form)
-                return true;
-            if (Legal.FormChange.Contains(evo.Species))
-                return true;
-            return false;
-        }
-
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel) => slots;
 
         public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
         public static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
@@ -249,6 +241,7 @@ namespace PKHeX.Core
     {
         public readonly AreaWeather8 Weather;
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
+        public override int Generation => 8;
 
         public EncounterSlot8(int specForm, int min, int max, AreaWeather8 weather)
         {

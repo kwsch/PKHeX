@@ -158,7 +158,7 @@ namespace PKHeX.Core
 
         protected virtual void SetMetData(PKM pk, int level, DateTime today)
         {
-            if (pk.Format <= 2) 
+            if (pk.Format <= 2)
                 return;
 
             pk.Met_Location = Location;
@@ -233,7 +233,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatch(PKM pkm, int lvl)
+        public virtual bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (Nature != Nature.Random && pkm.Nature != (int) Nature)
                 return false;
@@ -241,11 +241,11 @@ namespace PKHeX.Core
             if (Generation > 3 && pkm.Format > 3 && pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && !pkm.IsEgg)
                 return false;
 
-            if (!IsMatchEggLocation(pkm, ref lvl))
+            if (!IsMatchEggLocation(pkm))
                 return false;
             if (!IsMatchLocation(pkm))
                 return false;
-            if (!IsMatchLevel(pkm, lvl))
+            if (!IsMatchLevel(pkm, evo))
                 return false;
             if (!IsMatchGender(pkm))
                 return false;
@@ -294,7 +294,7 @@ namespace PKHeX.Core
             return Form == pkm.AltForm || Legal.IsFormChangeable(pkm, Species, Form);
         }
 
-        protected virtual bool IsMatchEggLocation(PKM pkm, ref int lvl)
+        protected virtual bool IsMatchEggLocation(PKM pkm)
         {
             if (Generation == 3 && EggLocation != 0) // Gen3 Egg
             {
@@ -365,12 +365,12 @@ namespace PKHeX.Core
             return Location == pkm.Met_Location;
         }
 
-        protected virtual bool IsMatchLevel(PKM pkm, int lvl)
+        protected virtual bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             if (!pkm.HasOriginalMetLocation)
-                return lvl >= Level;
+                return Level <= evo.Level;
 
-            return lvl == Level || IsGen3EggEncounter(pkm, lvl);
+            return pkm.Met_Level == Level || IsGen3EggEncounter(pkm, evo.Level);
         }
 
         // met level 0, origin level 5

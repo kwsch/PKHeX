@@ -36,48 +36,42 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             var poss = GetPossible(pkm, gameSource: gameSource);
-
-            int lvl = GetMaxLevelEncounter(pkm);
-            if (lvl < 0)
-                return Enumerable.Empty<EncounterStatic>();
-
-            // Back Check against pkm
-            return GetMatchingStaticEncounters(pkm, poss, lvl);
+            var chain = EvolutionChain.GetOriginChain(pkm, gameSource);
+            return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
             var poss = GetPossible(pkm, chain, gameSource: gameSource);
 
-            int lvl = GetMaxLevelEncounter(pkm);
-            if (lvl < 0)
-                return Enumerable.Empty<EncounterStatic>();
-
             // Back Check against pkm
-            return GetMatchingStaticEncounters(pkm, poss, lvl);
+            return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
-        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
+        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<DexLevel> evos)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
             var deferred = new List<EncounterStatic>();
             foreach (EncounterStatic e in poss)
             {
-                if (!GetIsMatchStatic(pkm, e, lvl))
-                    continue;
+                foreach (var dl in evos)
+                {
+                    if (!GetIsMatchStatic(pkm, e, dl))
+                        continue;
 
-                if (e.IsMatchDeferred(pkm))
-                    deferred.Add(e);
-                else
-                    yield return e;
+                    if (e.IsMatchDeferred(pkm))
+                        deferred.Add(e);
+                    else
+                        yield return e;
+                }
             }
             foreach (var e in deferred)
                 yield return e;
         }
 
-        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, int lvl)
+        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, DexLevel evo)
         {
-            if (!e.IsMatch(pkm, lvl))
+            if (!e.IsMatch(pkm, evo))
                 return false;
 
             if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))

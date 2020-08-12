@@ -30,7 +30,7 @@ namespace PKHeX.Core
             {
                 EncounterEgg _ => VerifyEncounterEgg(pkm),
                 EncounterTrade t => VerifyEncounterTrade(pkm, t),
-                EncounterSlot w => VerifyEncounterWild(pkm, w),
+                EncounterSlot w => VerifyEncounterWild(w),
                 EncounterStatic s => VerifyEncounterStatic(pkm, s),
                 MysteryGift g => VerifyEncounterEvent(pkm, g),
                 _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
@@ -255,10 +255,10 @@ namespace PKHeX.Core
         }
 
         // Other
-        private static CheckResult VerifyEncounterWild(PKM pkm, EncounterSlot slot)
+        private static CheckResult VerifyEncounterWild(EncounterSlot slot)
         {
             // Check for Unreleased Encounters / Collisions
-            switch (pkm.GenNumber)
+            switch (slot.Generation)
             {
                 case 4:
                     if (slot.Location == 193 && slot.Type == SlotType.Surf) // surfing in Johto Route 45
@@ -266,33 +266,8 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (slot.Permissions.IsNormalLead)
-            {
-                return slot.Permissions.Pressure
-                    ? new CheckResult(Severity.Valid, LEncConditionLead, CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
-            }
-
-            // Decreased Level Encounters
-            if (slot.Permissions.WhiteFlute)
-            {
-                return slot.Permissions.Pressure
-                    ? new CheckResult(Severity.Valid, LEncConditionWhiteLead, CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, LEncConditionWhite, CheckIdentifier.Encounter);
-            }
-
-            // Increased Level Encounters
-            if (slot.Permissions.BlackFlute)
-            {
-                return slot.Permissions.Pressure
-                    ? new CheckResult(Severity.Valid, LEncConditionBlackLead, CheckIdentifier.Encounter)
-                    : new CheckResult(Severity.Valid, LEncConditionBlack, CheckIdentifier.Encounter);
-            }
-
-            if (slot.Permissions.Pressure)
-                return new CheckResult(Severity.Valid, LEncConditionLead, CheckIdentifier.Encounter);
-
-            return new CheckResult(Severity.Valid, LEncConditionDexNav, CheckIdentifier.Encounter);
+            var summary = slot.GetConditionString(out bool valid);
+            return new CheckResult(valid ? Severity.Valid : Severity.Invalid, summary, CheckIdentifier.Encounter);
         }
 
         private static CheckResult VerifyEncounterStatic(PKM pkm, EncounterStatic s)

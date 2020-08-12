@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -11,17 +10,22 @@ namespace PKHeX.Core
     {
         private const int CatchComboBonus = 1;
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Form == slot.Form && evo.Level >= (slot.LevelMin - CatchComboBonus)));
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level, CatchComboBonus))
+                        continue;
+                    if (slot.Form != evo.Form)
+                        continue;
 
-            // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(s => s.IsLevelWithinRange(minLevel, minLevel, 0, CatchComboBonus));
-        }
-
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
-        {
-            return slots;
+                    yield return slot;
+                }
+            }
         }
     }
 }

@@ -225,7 +225,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatch(PKM pkm, DexLevel evo, int lvl)
+        public virtual bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (IVs.Count != 0)
             {
@@ -240,7 +240,7 @@ namespace PKHeX.Core
             if (SID != pkm.SID)
                 return false;
 
-            if (!IsMatchLevel(pkm, lvl))
+            if (!IsMatchLevel(pkm, evo))
                 return false;
 
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
@@ -263,7 +263,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMatchLevel(PKM pkm, int lvl)
+        private bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             if (pkm.HasOriginalMetLocation)
             {
@@ -273,15 +273,15 @@ namespace PKHeX.Core
 
                 if (pkm.Format < 5)
                 {
-                    if (Level > lvl)
+                    if (Level > evo.Level)
                         return false;
                 }
-                else if (Level != lvl)
+                else if (Level != evo.Level)
                 {
                     return false;
                 }
             }
-            else if (Level > lvl)
+            else if (Level > evo.Level)
             {
                 return false;
             }

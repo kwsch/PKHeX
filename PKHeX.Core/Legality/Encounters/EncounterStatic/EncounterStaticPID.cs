@@ -22,11 +22,11 @@
             pk.RefreshAbility(ability >> 1);
         }
 
-        public override bool IsMatch(PKM pkm, int lvl)
+        public override bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (PID != pkm.PID)
                 return false;
-            return base.IsMatch(pkm, lvl);
+            return base.IsMatch(pkm, evo);
         }
     }
 

@@ -34,15 +34,17 @@ namespace PKHeX.Core
             if (GetIsFromGB(pkm))
                 return GetValidEncounterTradesVC(pkm, chain, gameSource);
 
-            int lvl = IsNotTrade(pkm);
-            if (lvl <= 0)
+            int lang = pkm.Language;
+            if (lang == (int)LanguageID.UNUSED_6) // invalid language
+                return Array.Empty<EncounterTrade>();
+            if (lang == (int)LanguageID.Hacked && !IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return Array.Empty<EncounterTrade>();
 
             var poss = GetPossibleNonVC(pkm, chain, gameSource);
-            return GetValidEncounterTrades(pkm, chain, poss, lvl);
+            return GetValidEncounterTrades(pkm, chain, poss);
         }
 
-        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, IEnumerable<EncounterTrade> poss, int lvl)
+        private static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, IEnumerable<EncounterTrade> poss)
         {
             foreach (var p in poss)
             {
@@ -50,7 +52,7 @@ namespace PKHeX.Core
                 {
                     if (evo.Species != p.Species)
                         continue;
-                    if (p.IsMatch(pkm, evo, lvl))
+                    if (p.IsMatch(pkm, evo))
                         yield return p;
                     break;
                 }
@@ -105,16 +107,5 @@ namespace PKHeX.Core
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;
-
-        private static int IsNotTrade(PKM pkm)
-        {
-            int lang = pkm.Language;
-            if (lang == (int)LanguageID.UNUSED_6) // invalid language
-                return 0;
-            if (lang == (int)LanguageID.Hacked && !IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
-                return 0;
-
-            return GetMaxLevelEncounter(pkm);
-        }
     }
 }

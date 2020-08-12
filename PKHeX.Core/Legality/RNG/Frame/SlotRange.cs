@@ -188,18 +188,18 @@ namespace PKHeX.Core
         /// <param name="slot">Slot Data</param>
         /// <param name="ESV">Rand16 value for the call</param>
         /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
-        internal static int GetSlotStaticMagnet(EncounterSlot slot, uint ESV)
+        internal static int GetSlotStaticMagnet<T>(T slot, uint ESV) where T : EncounterSlot, IMagnetStatic, INumberedSlot
         {
-            if (slot.Permissions.StaticIndex >= 0)
+            if (slot.StaticIndex >= 0)
             {
-                var index = ESV % slot.Permissions.StaticCount;
-                if (index == slot.Permissions.StaticIndex)
+                var index = ESV % slot.StaticCount;
+                if (index == slot.StaticIndex)
                     return slot.SlotNumber;
             }
-            if (slot.Permissions.MagnetPullIndex >= 0)
+            if (slot.MagnetPullIndex >= 0)
             {
-                var index = ESV % slot.Permissions.MagnetPullCount;
-                if (index == slot.Permissions.MagnetPullIndex)
+                var index = ESV % slot.MagnetPullCount;
+                if (index == slot.MagnetPullIndex)
                     return slot.SlotNumber;
             }
             return -1;

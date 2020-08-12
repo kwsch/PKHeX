@@ -5,18 +5,31 @@ namespace PKHeX.Core
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
-    public class EncounterSlot : IEncounterable, IGenerationSet, ILocation, IVersionSet
+    public abstract class EncounterSlot<T> : IEncounterable, ILocation, IVersionSet where T : IEncounterArea<EncounterSlot<T>>
     {
         public int Species { get; set; }
         public int Form { get; set; }
         public int LevelMin { get; set; }
         public int LevelMax { get; set; }
         public GameVersion Version { get; set; }
-        public int Generation { get; set; } = -1;
-        internal EncounterArea? Area { private get; set; }
-        public int Location { get => Area?.Location ?? 0; set { } }
+        public abstract int Generation { get; }
         public bool EggEncounter => false;
         public int EggLocation { get => 0; set { } }
+        public override string ToString() => $"{(Species) Species} @ {LevelMin}-{LevelMax}";
+
+        protected EncounterSlot(T area) => Area = area;
+
+        internal readonly T Area;
+        public int Location { get => Area?.Location ?? 0; set { } }
+
+        public SlotType Type { get; set; } = SlotType.Any;
+
+        public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
+
+        public bool FixedLevel => LevelMin == LevelMax;
+
+        private protected const string wild = "Wild Encounter";
+        public string Name => wild;
 
         /// <summary>
         /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
@@ -31,7 +44,7 @@ namespace PKHeX.Core
         /// <param name="min">Highest value the low end of levels can be</param>
         /// <param name="max">Lowest value the high end of levels can be</param>
         /// <returns>True if within slot's range, false if impossible.</returns>
-        public bool IsLevelWithinRange(int min, int max) => LevelMin <= min && max <= LevelMax;
+        public bool IsLevelWithinRange(int min, int max) => LevelMin <= max && min <= LevelMax;
 
         /// <summary>
         /// Gets if the specified level inputs are within range of the <see cref="LevelMin"/> and <see cref="LevelMax"/>
@@ -50,29 +63,7 @@ namespace PKHeX.Core
         /// <param name="minDecrease">Highest value the low end of levels can be</param>
         /// <param name="maxIncrease">Lowest value the high end of levels can be</param>
         /// <returns>True if within slot's range, false if impossible.</returns>
-        public bool IsLevelWithinRange(int min, int max, int minDecrease, int maxIncrease) => LevelMin - minDecrease <= min && max <= LevelMax + maxIncrease;
-
-        public SlotType Type { get; set; } = SlotType.Any;
-        public EncounterType TypeEncounter { get; set; } = EncounterType.None;
-        public int SlotNumber { get; set; }
-        private EncounterSlotPermissions? _perm;
-        public EncounterSlotPermissions Permissions => _perm ??= new EncounterSlotPermissions();
-
-        public EncounterSlot Clone()
-        {
-            var slot = (EncounterSlot) MemberwiseClone();
-            if (_perm != null)
-                slot._perm = Permissions.Clone();
-            return slot;
-        }
-
-        public bool FixedLevel => LevelMin == LevelMax;
-
-        public bool IsMatchStatic(int index, int count) => index == Permissions.StaticIndex && count == Permissions.StaticCount;
-        public bool IsMatchMagnet(int index, int count) => index == Permissions.MagnetPullIndex && count == Permissions.MagnetPullCount;
-
-        private protected const string wild = "Wild Encounter";
-        public string Name => wild;
+        public bool IsLevelWithinRange(int min, int max, int minDecrease, int maxIncrease) => LevelMin - minDecrease <= max && min <= LevelMax + maxIncrease;
 
         public virtual string LongName
         {
@@ -122,36 +113,16 @@ namespace PKHeX.Core
             pk.SetRandomEC();
         }
 
-        private void SetEncounterMoves(PKM pk, GameVersion version, int level)
+        protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
-            var moves = this is IMoveset m ? m.Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
+            var moves = MoveLevelUp.GetEncounterMoves(pk, level, version);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }
 
-        private void SetFormatSpecificData(PKM pk)
-        {
-            if (pk is XK3 xk3)
-            {
-                xk3.FatefulEncounter = true; // PokeSpot
-            }
-            else if (pk is PK4 pk4)
-            {
-                pk4.EncounterType = TypeEncounter.GetIndex();
-            }
-            else if (pk is PK6 pk6)
-            {
-                if (Permissions.IsDexNav)
-                {
-                    var eggMoves = MoveEgg.GetEggMoves(pk, Species, Form, Version);
-                    if (eggMoves.Length > 0)
-                        pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
-                }
-                pk6.SetRandomMemory6();
-            }
-        }
+        protected virtual void SetFormatSpecificData(PKM pk) { }
 
-        private void SetPINGA(PKM pk, EncounterCriteria criteria)
+        protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(-1, pk.PersonalInfo);
             int nature = (int)criteria.GetNature(Nature.Random);
@@ -160,11 +131,7 @@ namespace PKHeX.Core
             if (Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
                 ability = 2;
 
-            var pidtype = GetPIDType();
-            if (pidtype == PIDType.PokeSpot)
-                PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
-            else
-                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender, pidtype);
+            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
             pk.Gender = gender;
             pk.StatNature = nature;
         }
@@ -201,11 +168,10 @@ namespace PKHeX.Core
             return 0;
         }
 
-        private PIDType GetPIDType()
+        public virtual string GetConditionString(out bool valid)
         {
-            if (Version == GameVersion.XD)
-                return PIDType.PokeSpot;
-            return PIDType.None; // depends on format, let the program auto-detect.
+            valid = true;
+            return LegalityCheckStrings.LEncCondition;
         }
     }
 }

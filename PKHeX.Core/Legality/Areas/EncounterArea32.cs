@@ -16,18 +16,20 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="entries">Simplified raw format of an Area</param>
         /// <returns>Array of areas</returns>
-        public static T[] GetArray<T>(byte[][] entries) where T : EncounterArea32, new()
+        public static A[] GetArray<A, S>(byte[][] entries)
+            where A : EncounterArea32, new()
+            where S : EncounterSlot, new()
         {
-            T[] data = new T[entries.Length];
+            var data = new A[entries.Length];
             for (int i = 0; i < data.Length; i++)
             {
-                var loc = data[i] = new T();
-                loc.LoadSlots(entries[i]);
+                var loc = data[i] = new A();
+                loc.LoadSlots<S>(entries[i]);
             }
             return data;
         }
 
-        private void LoadSlots(byte[] areaData)
+        private void LoadSlots<S>(byte[] areaData) where S : EncounterSlot, new()
         {
             var count = (areaData.Length - 2) / 4;
             Location = BitConverter.ToUInt16(areaData, 0);
@@ -36,7 +38,7 @@ namespace PKHeX.Core
             {
                 int ofs = 2 + (i * 4);
                 ushort SpecForm = BitConverter.ToUInt16(areaData, ofs);
-                Slots[i] = new EncounterSlot
+                Slots[i] = new S
                 {
                     Species = SpecForm & 0x7FF,
                     Form = SpecForm >> 11,
@@ -46,14 +48,6 @@ namespace PKHeX.Core
             }
             foreach (var slot in Slots)
                 slot.Area = this;
-        }
-
-        protected static EncounterSlot GetPressureSlot(EncounterSlot s, PKM pkm)
-        {
-            var max = s.Clone();
-            max.Permissions.Pressure = true;
-            max.Form = pkm.AltForm;
-            return max;
         }
     }
 }

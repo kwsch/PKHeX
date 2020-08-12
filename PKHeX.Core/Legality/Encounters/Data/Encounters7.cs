@@ -18,10 +18,10 @@ namespace PKHeX.Core
             StaticUS = GetStaticEncounters(Encounter_USUM, GameVersion.US);
             StaticUM = GetStaticEncounters(Encounter_USUM, GameVersion.UM);
 
-            var REG_SN = GetEncounterTables<EncounterArea7>("sm", "sn");
-            var REG_MN = GetEncounterTables<EncounterArea7>("sm", "mn");
-            var SOS_SN = GetEncounterTables<EncounterArea7>("sm", "sn_sos");
-            var SOS_MN = GetEncounterTables<EncounterArea7>("sm", "mn_sos");
+            var REG_SN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "sn");
+            var REG_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn");
+            var SOS_SN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "sn_sos");
+            var SOS_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn_sos");
             MarkG7REGSlots(ref REG_SN);
             MarkG7REGSlots(ref REG_MN);
             MarkG7SMSlots(ref SOS_SN);
@@ -32,10 +32,10 @@ namespace PKHeX.Core
             SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, p_sn);
             SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, p_mn);
 
-            var REG_US = GetEncounterTables<EncounterArea7>("uu", "us");
-            var REG_UM = GetEncounterTables<EncounterArea7>("uu", "um");
-            var SOS_US = GetEncounterTables<EncounterArea7>("uu", "us_sos");
-            var SOS_UM = GetEncounterTables<EncounterArea7>("uu", "um_sos");
+            var REG_US = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "us");
+            var REG_UM = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "um");
+            var SOS_US = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "us_sos");
+            var SOS_UM = GetEncounterTables<EncounterArea7, EncounterSlot7> ("uu", "um_sos");
             MarkG7REGSlots(ref REG_US);
             MarkG7REGSlots(ref REG_UM);
             MarkG7SMSlots(ref SOS_US);
@@ -47,7 +47,6 @@ namespace PKHeX.Core
                 p_sn, p_mn,
                 p_us, p_um);
 
-            MarkEncountersGeneration(7, SlotsSN, SlotsMN, SlotsUS, SlotsUM);
             MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
 
             MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
@@ -447,7 +446,7 @@ namespace PKHeX.Core
                 Location = 30016,
                 Slots = species.SelectMany((_, i) =>
                     species.Take(1 + i).SelectMany(z => // grab current row & above
-                    z.Select(s => new EncounterSlot // get slot data for each species
+                    z.Select(s => new EncounterSlot7 // get slot data for each species
                     {
                         Species = s,
                         LevelMin = min[i],

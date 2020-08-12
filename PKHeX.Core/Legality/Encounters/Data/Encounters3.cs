@@ -49,7 +49,7 @@ namespace PKHeX.Core
             MarkG3SlotsSafariZones(ref FR_Slots, SafariLocation_FRLG);
             MarkG3SlotsSafariZones(ref LG_Slots, SafariLocation_FRLG);
 
-            MarkEncountersStaticMagnetPull(E_Slots, PersonalTable.SM);
+            MarkEncountersStaticMagnetPull<EncounterSlot3>(E_Slots, PersonalTable.E);
 
             SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
             SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);
@@ -57,7 +57,6 @@ namespace PKHeX.Core
             SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGUnown);
             SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGUnown);
 
-            MarkEncountersGeneration(3, SlotsR, SlotsS, SlotsE, SlotsFR, SlotsLG, SlotsXD);
             MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
 
             MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
@@ -327,7 +326,7 @@ namespace PKHeX.Core
                 Location = 34, // Route 119
                 Slots = new[]
                 {
-                    new EncounterSlot { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
+                    new EncounterSlot3 { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
                 },},
         };
 
@@ -347,7 +346,7 @@ namespace PKHeX.Core
             return new EncounterArea3
             {
                 Location = location,
-                Slots = SlotForms.Select((_, i) => new EncounterSlot
+                Slots = SlotForms.Select((_, i) => new EncounterSlot3
                 {
                     Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass,
                     SlotNumber = i,
@@ -488,7 +487,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow { Fateful = true, Species = 179, Level = 17, Gauge = 01500, Moves = new[] {034,215,084,086}, Location = 011, }, // Mareep: Cipher Peon Yellosix @ Cipher Lab
             new EncounterStaticShadow { Fateful = true, Species = 318, Level = 15, Gauge = 01700, Moves = new[] {352,287,184,044}, Location = 008, }, // Carvanha: Cipher Peon Cabol @ Cipher Lab
             new EncounterStaticShadow { Fateful = true, Species = 175, Level = 25, Gauge = 04500, Moves = new[] {266,161,246,270}, Location = 164, Gift = true }, // Togepi: Pokémon Trainer Hordel @ Outskirt Stand
-            
+
             // Phenac City Hexagon Brothers
             new EncounterStaticShadow { Fateful = true, Species = 228, Level = 17, Gauge = 01500, Moves = new[] {185,204,052,046}, Location = 096, }, // Houndour: Cipher Peon Resix  @ Phenac City
             new EncounterStaticShadow { Fateful = true, Species = 343, Level = 17, Gauge = 01500, Moves = new[] {317,287,189,060}, Location = 096, }, // Baltoy: Cipher Peon Browsix  @ Phenac City
@@ -604,23 +603,23 @@ namespace PKHeX.Core
         {
             new EncounterArea3 { Location = 090, Slots = new[] // Rock
                 {
-                    new EncounterSlot {Species = 027, LevelMin = 10, LevelMax = 23, SlotNumber = 0}, // Sandshrew
-                    new EncounterSlot {Species = 207, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Gligar
-                    new EncounterSlot {Species = 328, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Trapinch
+                    new EncounterSlot3PokeSpot(027, 10, 23, 0), // Sandshrew
+                    new EncounterSlot3PokeSpot(207, 10, 20, 1), // Gligar
+                    new EncounterSlot3PokeSpot(328, 10, 20, 2), // Trapinch
                 }
             },
             new EncounterArea3 { Location = 091, Slots = new[] // Oasis
                 {
-                    new EncounterSlot {Species = 187, LevelMin = 10, LevelMax = 20, SlotNumber = 0}, // Hoppip
-                    new EncounterSlot {Species = 231, LevelMin = 10, LevelMax = 20, SlotNumber = 1}, // Phanpy
-                    new EncounterSlot {Species = 283, LevelMin = 10, LevelMax = 20, SlotNumber = 2}, // Surskit
+                    new EncounterSlot3PokeSpot(187, 10, 20, 0), // Hoppip
+                    new EncounterSlot3PokeSpot(231, 10, 20, 1), // Phanpy
+                    new EncounterSlot3PokeSpot(283, 10, 20, 2), // Surskit
                 }
             },
             new EncounterArea3 { Location = 092, Slots = new[] // Cave
                 {
-                    new EncounterSlot {Species = 041, LevelMin = 10, LevelMax = 21, SlotNumber = 0}, // Zubat
-                    new EncounterSlot {Species = 304, LevelMin = 10, LevelMax = 21, SlotNumber = 1}, // Aron
-                    new EncounterSlot {Species = 194, LevelMin = 10, LevelMax = 21, SlotNumber = 2}, // Wooper
+                    new EncounterSlot3PokeSpot(041, 10, 21, 0), // Zubat
+                    new EncounterSlot3PokeSpot(304, 10, 21, 1), // Aron
+                    new EncounterSlot3PokeSpot(194, 10, 21, 2), // Wooper
                 }
             },
         };
