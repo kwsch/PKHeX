@@ -4,21 +4,12 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="TSlot"/> data.
+    /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
     /// </summary>
-    public interface IEncounterArea<out TSlot> where TSlot : EncounterSlot<IEncounterArea<TSlot>>
-    {
-        int Location { get; }
-        IReadOnlyList<TSlot> Slots { get; }
-
-        bool IsMatchLocation(int location);
-        IEnumerable<TSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain);
-    }
-
-    public abstract class EncounterArea<TSlot> where TSlot : EncounterSlot, new()
+    public class EncounterArea
     {
         public int Location;
-        public TSlot[] Slots = Array.Empty<TSlot>();
+        public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
 
         /// <summary>
         /// Gets the encounter areas for species with same level range and same slot type at same location
@@ -28,8 +19,9 @@ namespace PKHeX.Core
         /// <param name="location">Location index of the encounter area.</param>
         /// <param name="t">Encounter slot type of the encounter area.</param>
         /// <returns>Encounter area with slots</returns>
-        public static TArea[] GetSimpleEncounterArea<TArea>(int[] species, int[] lvls, int location, SlotType t)
-            where TArea : EncounterArea<TSlot>, new()
+        public static TArea[] GetSimpleEncounterArea<TArea, TSlot>(int[] species, int[] lvls, int location, SlotType t)
+            where TArea : EncounterArea, new()
+            where TSlot : EncounterSlot, new()
         {
             if ((lvls.Length & 1) != 0) // levels data not paired; expect multiple of 2
                 throw new ArgumentException(nameof(lvls));

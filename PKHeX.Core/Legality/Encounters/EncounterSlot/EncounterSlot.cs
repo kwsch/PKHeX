@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
-    public abstract class EncounterSlot<T> : IEncounterable, ILocation, IVersionSet where T : IEncounterArea<EncounterSlot<T>>
+    public abstract class EncounterSlot : IEncounterable, ILocation, IVersionSet
     {
         public int Species { get; set; }
         public int Form { get; set; }
@@ -17,9 +17,7 @@ namespace PKHeX.Core
         public int EggLocation { get => 0; set { } }
         public override string ToString() => $"{(Species) Species} @ {LevelMin}-{LevelMax}";
 
-        protected EncounterSlot(T area) => Area = area;
-
-        internal readonly T Area;
+        internal EncounterArea? Area { get; set; }
         public int Location { get => Area?.Location ?? 0; set { } }
 
         public SlotType Type { get; set; } = SlotType.Any;
