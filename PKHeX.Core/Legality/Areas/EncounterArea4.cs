@@ -76,7 +76,7 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
-                    if (slot.Form != evo.Form)
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                         continue;
                     if (!slot.IsLevelWithinRange(lvl))
                         continue;
@@ -94,7 +94,7 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
-                    if (slot.Form != evo.Form)
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                         continue;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         continue;

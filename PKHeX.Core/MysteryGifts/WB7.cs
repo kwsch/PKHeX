@@ -471,7 +471,7 @@ namespace PKHeX.Core
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
             }
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, Generation))
                 return false;
 
             if (IsEgg)

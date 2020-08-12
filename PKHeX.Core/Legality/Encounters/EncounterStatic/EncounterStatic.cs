@@ -249,7 +249,7 @@ namespace PKHeX.Core
                 return false;
             if (!IsMatchGender(pkm))
                 return false;
-            if (!IsMatchForm(pkm))
+            if (!IsMatchForm(pkm, evo))
                 return false;
 
             if (EggLocation == Locations.Daycare5 && Relearn.Count == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
@@ -282,16 +282,16 @@ namespace PKHeX.Core
             return Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm);
         }
 
-        private bool IsMatchForm(PKM pkm)
+        private bool IsMatchForm(PKM pkm, DexLevel evo)
         {
             if (SkipFormCheck)
                 return true;
             if (FormConverter.IsTotemForm(Species, Form, Generation))
             {
                 var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
-                return expectForm == pkm.AltForm;
+                return expectForm == evo.Form;
             }
-            return Form == pkm.AltForm || Legal.IsFormChangeable(pkm, Species, Form);
+            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, Generation);
         }
 
         protected virtual bool IsMatchEggLocation(PKM pkm)

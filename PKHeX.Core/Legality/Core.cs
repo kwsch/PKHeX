@@ -295,16 +295,14 @@ namespace PKHeX.Core
         }
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
-        /// <param name="pkm">Pokémon</param>
         /// <param name="species">Original species</param>
         /// <param name="form">Original form</param>
-        internal static bool IsFormChangeable(PKM pkm, int species, int form)
+        /// <param name="format">Current format</param>
+        internal static bool IsFormChangeable(int species, int form, int format)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (species != pkm.Species && IsEvolvedFormChange(pkm, form))
-                return true;
-            if (species == (int)Species.Zygarde && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
+            if (species == (int)Species.Zygarde && format >= 7 && form > 1)
                 return true;
             return false;
         }

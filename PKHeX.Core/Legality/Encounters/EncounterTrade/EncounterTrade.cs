@@ -246,7 +246,7 @@ namespace PKHeX.Core
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
                 return false;
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, Generation))
                 return false;
             if (OTGender != -1 && OTGender != pkm.OT_Gender)
                 return false;

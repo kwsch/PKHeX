@@ -117,7 +117,7 @@ namespace PKHeX.Core
                         continue;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         continue;
-                    if (!IsMatch(pkm, slot, evo))
+                    if (slot.Form != evo.Form)
                         continue;
 
                     if (rate != -1)

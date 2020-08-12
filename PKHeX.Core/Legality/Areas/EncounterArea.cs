@@ -61,18 +61,11 @@ namespace PKHeX.Core
                         continue;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         continue;
-                    if (!IsMatch(pkm, slot, evo))
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                         continue;
                     yield return slot;
                 }
             }
-        }
-
-        protected virtual bool IsMatch(PKM pkm, EncounterSlot slot, EvoCriteria evo)
-        {
-            if (Legal.WildForms.Contains(pkm.Species))
-                return slot.Form == pkm.AltForm;
-            return true;
         }
 
         /// <summary>

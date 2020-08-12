@@ -23,6 +23,14 @@ namespace PKHeX.Core
             669, 670, 671 // Flabébé
         };
 
+        public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
+        {
+            412, // Burmy
+            479, // Rotom
+            676, // Furfrou
+            741, // Oricorio
+        };
+
         public static readonly HashSet<int> SplitBreed = new HashSet<int>
         {
             // Incense
@@ -37,12 +45,9 @@ namespace PKHeX.Core
             358, // Chimecho
         };
 
-        public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
+        public static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter) // Pokémon that can change between all forms
         {
             386, // Deoxys
-            412, // Burmy
-            421, // Cherrim
-            479, // Rotom
             487, // Giratina
             492, // Shaymin
             493, // Arceus
@@ -52,13 +57,9 @@ namespace PKHeX.Core
             646, // Kyurem
             647, // Keldeo
             649, // Genesect
-            676, // Furfrou
             720, // Hoopa
-            741, // Oricorio
             773, // Silvally
-
             800, // Necrozma
-            891, // Urshifu
         };
 
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>

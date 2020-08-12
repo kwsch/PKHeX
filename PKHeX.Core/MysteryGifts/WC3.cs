@@ -238,7 +238,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, Generation))
                 return false;
 
             if (Language != -1 && Language != pkm.Language) return false;
