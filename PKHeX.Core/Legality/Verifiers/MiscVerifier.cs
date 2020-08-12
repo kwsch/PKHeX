@@ -38,6 +38,9 @@ namespace PKHeX.Core
                         data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pkm.Language), Egg));
                         break;
                 }
+
+                if (pkm is IHomeTrack home && home.Tracker != 0)
+                    data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
             }
             else
             {

@@ -489,7 +489,7 @@ namespace PKHeX.Core
             FlagUtil.SetFlag(Data, 0x127 + ofs, index & 7, value);
         }
 
-        public bool HasAnyMoveRecordFlag() => Array.FindIndex(Data, 0x127, 0x14, z => z != 0) >= 0;
+        public bool HasAnyMoveRecordFlag() => Array.FindIndex(Data, 0x127, 14, z => z != 0) >= 0;
 
         // Why did you mis-align this field, GameFreak?
         public ulong Tracker

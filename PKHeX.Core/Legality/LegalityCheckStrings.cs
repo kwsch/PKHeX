@@ -440,6 +440,7 @@ namespace PKHeX.Core
         public static string LTransferPIDECEquals { get; set; } = "PID should be equal to EC!";
         public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";
         public static string LTransferTrackerMissing { get; set; } = "Pokémon HOME Transfer Tracker is missing.";
+        public static string LTransferTrackerShouldBeZero { get; set; } = "Pokémon HOME Transfer Tracker should be 0.";
         #endregion
 
     }
