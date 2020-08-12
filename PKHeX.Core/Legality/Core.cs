@@ -183,37 +183,6 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool IsEvolvedFormChange(PKM pkm, int expected)
-        {
-            if (pkm.IsEgg)
-                return false;
-
-            if (pkm.Format >= 7 && (AlolanVariantEvolutions12.Contains(pkm.Species) || GalarVariantFormEvolutions.Contains(pkm.Species)))
-                return pkm.AltForm == 1;
-            if (pkm.Format >= 8)
-            {
-                if (GalarVariantFormEvolutions.Contains(pkm.Species))
-                    return pkm.AltForm == 1;
-                if (GalarForm0Evolutions.TryGetValue(pkm.Species, out var orig))
-                    return pkm.AltForm != orig; // bad compare?
-                if ((int) Species.Darmanitan == pkm.Species)
-                    return pkm.AltForm == (expected == 1 ? 2 : 0);
-                if ((int) Species.MrMime == pkm.Species)
-                    return pkm.AltForm == (expected == 0 ? 1 : 0);
-                if ((int) Species.Slowbro == pkm.Species)
-                    return pkm.AltForm == (expected == 1 ? 2 : 0);
-                if ((int) Species.Toxtricity == pkm.Species)
-                    return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
-                if ((int) Species.Alcremie == pkm.Species)
-                    return true;
-            }
-            if ((pkm.Species == (int)Species.Meowstic || pkm.Species == (int)Species.Indeedee) && pkm.Gender == 1)
-                return pkm.AltForm == 1;
-            if (pkm.Species == (int)Species.Lycanroc)
-                return pkm.AltForm < 3;
-            return pkm.Species == (int)Species.Silvally;
-        }
-
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
             var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);

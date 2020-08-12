@@ -222,7 +222,7 @@ namespace PKHeX.Core
 
         public static bool IsBattleOnlyForm(int species, int form, int format)
         {
-            if (!BattleOnly.Contains(species)) 
+            if (!BattleOnly.Contains(species))
                 return false;
             if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
                 return false; // this one is OK, Galarian non-Zen

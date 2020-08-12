@@ -279,8 +279,6 @@ namespace PKHeX.Core
             {(int)Species.Cursola, 1},
         };
 
-        internal static readonly HashSet<int> EvolveToGalarForms = new HashSet<int>(GalarVariantFormEvolutions.Concat(GalarOriginForms));
-
         internal static readonly int[] EggLocations8 = {Locations.Daycare5, Locations.LinkTrade6};
 
         internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>
