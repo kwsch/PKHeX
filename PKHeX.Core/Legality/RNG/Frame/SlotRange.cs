@@ -190,13 +190,13 @@ namespace PKHeX.Core
         /// <returns>Slot number from the slot data if the slot is selected on this frame, else an invalid slot value.</returns>
         internal static int GetSlotStaticMagnet<T>(T slot, uint ESV) where T : EncounterSlot, IMagnetStatic, INumberedSlot
         {
-            if (slot.StaticIndex >= 0)
+            if (slot.StaticCount > 0 && slot.StaticIndex >= 0)
             {
                 var index = ESV % slot.StaticCount;
                 if (index == slot.StaticIndex)
                     return slot.SlotNumber;
             }
-            if (slot.MagnetPullIndex >= 0)
+            if (slot.MagnetPullCount > 0 && slot.MagnetPullIndex >= 0)
             {
                 var index = ESV % slot.MagnetPullCount;
                 if (index == slot.MagnetPullIndex)

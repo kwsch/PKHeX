@@ -4,8 +4,8 @@ namespace PKHeX.Core
     {
         public override int Generation => 3;
 
-        public int StaticIndex { get; set; }
-        public int MagnetPullIndex { get; set; }
+        public int StaticIndex { get; set; } = -1;
+        public int MagnetPullIndex { get; set; } = -1;
         public int StaticCount { get; set; }
         public int MagnetPullCount { get; set; }
 
