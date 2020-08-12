@@ -8,7 +8,7 @@
     /// </remarks>
     public sealed class EncounterSlot2 : EncounterSlot, INumberedSlot
     {
-        public override int Generation => 1;
+        public override int Generation => 2;
         public int SlotNumber { get; set; }
 
         public int Rate;
