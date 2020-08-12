@@ -280,8 +280,36 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var time = pkm is PK2 pk2t ? pk2t.Met_TimeOfDay : 0;
-            var lvl = pkm is PK2 pk2l ? pk2l.Met_Level : -1;
+            if (!(pkm is PK2 pk2) || pk2.CaughtData == 0)
+                return GetSlots(chain);
+
+            if (pk2.Met_Location != Location)
+                return Array.Empty<EncounterSlot>();
+            return GetSlots(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
+        }
+
+        private IEnumerable<EncounterSlot> GetSlots(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (!slot.IsLevelWithinRange(lvl))
+                        continue;
+
+                    var expect = ((EncounterSlot2)slot).Time;
+                    if (!expect.Contains(time))
+                        continue;
+
+                    yield return slot;
+                }
+            }
+        }
+
+        private IEnumerable<EncounterSlot> GetSlots(IReadOnlyList<EvoCriteria> chain)
+        {
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
@@ -290,19 +318,6 @@ namespace PKHeX.Core
                         continue;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         continue;
-
-                    if (time != 0)
-                    {
-                        var expect = ((EncounterSlot2) slot).Time;
-                        if (!expect.Contains(time))
-                            continue;
-                    }
-
-                    if (lvl != -1)
-                    {
-                        if (slot.IsLevelWithinRange(lvl))
-                            continue;
-                    }
                     yield return slot;
                 }
             }
