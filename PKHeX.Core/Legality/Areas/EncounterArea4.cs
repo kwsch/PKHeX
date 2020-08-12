@@ -61,15 +61,24 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
+            if (pkm.Format != 4) // Met Location and Met Level are changed on PK4->PK5
+                return GetSlotsFuzzy(chain);
+            if (pkm.Met_Location != Location)
+                return Array.Empty<EncounterSlot>();
+            return GetSlotsMatching(chain, pkm.Met_Level);
+        }
+
+        private IEnumerable<EncounterSlot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        {
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
                 {
                     if (slot.Species != evo.Species)
                         continue;
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (slot.Form != evo.Form)
                         continue;
-                    if (!IsMatch(pkm, slot, evo))
+                    if (!slot.IsLevelWithinRange(lvl))
                         continue;
 
                     yield return slot;
@@ -77,9 +86,22 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool IsMatch(PKM pkm, EncounterSlot slot, EvoCriteria evo)
+        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
-            return evo.Form == slot.Form;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+                    if (slot.Form != evo.Form)
+                        continue;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        continue;
+
+                    yield return slot;
+                }
+            }
         }
     }
 }

@@ -281,20 +281,22 @@ namespace PKHeX.Core
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             if (!(pkm is PK2 pk2) || pk2.CaughtData == 0)
-                return GetSlots(chain);
+                return GetSlotsFuzzy(chain);
 
             if (pk2.Met_Location != Location)
                 return Array.Empty<EncounterSlot>();
-            return GetSlots(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
+            return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
         }
 
-        private IEnumerable<EncounterSlot> GetSlots(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
+        private IEnumerable<EncounterSlot> GetSlotsSpecificLevelTime(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
         {
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
                 {
                     if (slot.Species != evo.Species)
+                        continue;
+                    if (slot.Form != evo.Form)
                         continue;
                     if (!slot.IsLevelWithinRange(lvl))
                         continue;
@@ -308,7 +310,7 @@ namespace PKHeX.Core
             }
         }
 
-        private IEnumerable<EncounterSlot> GetSlots(IReadOnlyList<EvoCriteria> chain)
+        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
             {
@@ -316,8 +318,11 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+                    if (slot.Form != evo.Form)
+                        continue;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         continue;
+
                     yield return slot;
                 }
             }

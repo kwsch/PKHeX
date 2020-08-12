@@ -29,10 +29,10 @@ namespace PKHeX.Core
                         if (maxLevel != pkm.Met_Level)
                             continue;
 
-                        var s = (EncounterSlot6XY)slot.Clone();
-                        s.Form = pkm.AltForm;
-                        s.Pressure = true;
-                        yield return s;
+                        var clone = (EncounterSlot6XY)slot.Clone();
+                        clone.Form = pkm.AltForm;
+                        clone.Pressure = true;
+                        yield return clone;
                         continue;
                     }
 

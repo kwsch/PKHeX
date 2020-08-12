@@ -35,25 +35,25 @@ namespace PKHeX.Core
                         if (maxLevel != pkm.Met_Level)
                             continue;
 
-                        var s = (EncounterSlot6AO)slot.Clone();
-                        s.Form = pkm.AltForm;
-                        s.Pressure = true;
-                        MarkSlotDetails(pkm, (EncounterSlot6AO)slot, s, evo);
-                        yield return s;
+                        var clone = (EncounterSlot6AO)slot.Clone();
+                        clone.Form = pkm.AltForm;
+                        clone.Pressure = true;
+                        MarkSlotDetails(pkm, clone, evo);
+                        yield return clone;
                     }
                     else
                     {
-                        var s = (EncounterSlot6AO)slot.Clone();
-                        MarkSlotDetails(pkm, (EncounterSlot6AO)slot, s, evo);
-                        yield return s;
+                        var clone = (EncounterSlot6AO)slot.Clone();
+                        MarkSlotDetails(pkm, clone, evo);
+                        yield return clone;
                     }
                 }
             }
         }
 
-        private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO original, EncounterSlot6AO clone, EvoCriteria evo)
+        private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO clone, EvoCriteria evo)
         {
-            bool nav = original.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
+            bool nav = clone.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
             clone.DexNav = nav;
 
             if (clone.LevelMin > evo.MinLevel)
