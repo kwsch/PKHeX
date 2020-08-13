@@ -121,7 +121,8 @@ namespace PKHeX.Core
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 
-            return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type));
+            var chain = EvolutionChain.GetOriginChain(pk, version);
+            return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
         }
 
         private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> dl)
@@ -159,15 +160,15 @@ namespace PKHeX.Core
             return moves;
         }
 
-        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type)
+        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type, IReadOnlyList<EvoCriteria> chain)
         {
             return type switch
             {
                 EncounterOrder.Egg => GetEggs(pk, needs, version),
-                EncounterOrder.Mystery => GetGifts(pk, needs),
-                EncounterOrder.Static => GetStatic(pk, needs),
-                EncounterOrder.Trade => GetTrades(pk, needs),
-                EncounterOrder.Slot => GetSlots(pk, needs),
+                EncounterOrder.Mystery => GetGifts(pk, needs, chain),
+                EncounterOrder.Static => GetStatic(pk, needs, chain),
+                EncounterOrder.Trade => GetTrades(pk, needs, chain),
+                EncounterOrder.Slot => GetSlots(pk, needs, chain),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }
@@ -206,10 +207,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
+        /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs)
+        private static IEnumerable<MysteryGift> GetGifts(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
-            var gifts = MysteryGiftGenerator.GetPossible(pk);
+            var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
             foreach (var gift in gifts)
             {
                 if (gift is WC3 wc3 && wc3.NotDistributed)
@@ -230,10 +232,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
+        /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs)
+        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
-            var encounters = EncounterStaticGenerator.GetPossible(pk);
+            var encounters = EncounterStaticGenerator.GetPossible(pk, chain);
             foreach (var enc in encounters)
             {
                 if (enc.IsUnobtainable(pk))
@@ -256,10 +259,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
+        /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs)
+        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
-            var trades = EncounterTradeGenerator.GetPossible(pk);
+            var trades = EncounterTradeGenerator.GetPossible(pk, chain);
             foreach (var trade in trades)
             {
                 if (needs.Count == 0)
@@ -278,10 +282,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
+        /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyCollection<int> needs)
+        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = EncounterSlotGenerator.GetPossible(pk);
+            var slots = EncounterSlotGenerator.GetPossible(pk, chain);
             foreach (var slot in slots)
             {
                 if (slot.IsUnobtainable(pk))

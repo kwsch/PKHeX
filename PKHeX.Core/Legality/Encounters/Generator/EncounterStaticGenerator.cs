@@ -16,12 +16,6 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var dl = EvolutionChain.GetOriginChain(pkm);
-            return GetPossible(pkm, dl, gameSource);
-        }
-
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -33,14 +27,7 @@ namespace PKHeX.Core
             return encounters.Where(e => !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var poss = GetPossible(pkm, gameSource: gameSource);
-            var chain = EvolutionChain.GetOriginChain(pkm, gameSource);
-            return GetMatchingStaticEncounters(pkm, poss, chain);
-        }
-
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             var poss = GetPossible(pkm, chain, gameSource: gameSource);
 

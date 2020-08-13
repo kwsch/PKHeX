@@ -16,12 +16,6 @@ namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
     {
-        public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var chain = EvolutionChain.GetOriginChain(pkm, gameSource);
-            return GetPossible(pkm, chain, gameSource);
-        }
-
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             var possibleAreas = GetEncounterSlots(pkm, gameSource);
@@ -42,12 +36,11 @@ namespace PKHeX.Core
             }
         }
 
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterSlot> GetValidWildEncounters34(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var chain = EvolutionChain.GetOriginChain(pkm);
             var slots = GetRawEncounterSlots(pkm, chain, gameSource);
 
             return slots; // defer deferrals to the method consuming this collection
@@ -74,12 +67,6 @@ namespace PKHeX.Core
             int species = pkm.Species;
 
             return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
-        }
-
-        public static IEnumerable<EncounterSlot> GetValidWildEncounters(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var chain = EvolutionChain.GetOriginChain(pkm);
-            return GetValidWildEncounters(pkm, chain, gameSource);
         }
 
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)

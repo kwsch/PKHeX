@@ -7,12 +7,6 @@ namespace PKHeX.Core
 {
     public static class EncounterTradeGenerator
     {
-        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var p = EvolutionChain.GetOriginChain(pkm);
-            return GetPossible(pkm, p, gameSource);
-        }
-
         public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -21,12 +15,6 @@ namespace PKHeX.Core
             if (pkm.VC || pkm.Format <= 2)
                 return GetPossibleVC(chain, gameSource);
             return GetPossibleNonVC(pkm, chain, gameSource);
-        }
-
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var p = EvolutionChain.GetOriginChain(pkm);
-            return GetValidEncounterTrades(pkm, p, gameSource);
         }
 
         public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
