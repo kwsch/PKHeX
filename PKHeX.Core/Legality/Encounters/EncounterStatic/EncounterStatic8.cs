@@ -4,7 +4,7 @@
     {
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (evo.Level == Level)
+            if (pkm.Met_Level == Level)
                 return true;
             if (EncounterArea8.IsWildArea8(Location) || EncounterArea8.IsWildArea8Armor(Location))
                 return evo.Level == 60;
