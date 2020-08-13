@@ -140,7 +140,7 @@ namespace PKHeX.Core
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
-            var chain = EvolutionChain.GetOriginChain(pkm, game);
+            var chain = EncounterOrigin.GetOriginChain(pkm, game);
 
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, chain, game))
@@ -287,7 +287,7 @@ namespace PKHeX.Core
         {
             int ctr = 0;
 
-            var chain = EvolutionChain.GetOriginChain(pkm);
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (pkm.WasEvent || pkm.WasEventEgg || pkm.WasLink)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
@@ -325,7 +325,7 @@ namespace PKHeX.Core
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
             int ctr = 0;
 
-            var chain = EvolutionChain.GetOriginChain(pkm);
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (pkm.WasEvent || pkm.WasEventEgg)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
@@ -354,7 +354,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
-            var chain = EvolutionChain.GetOriginChain(pkm);
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (wasEvent)
             {
                 int ctr = 0;
@@ -428,7 +428,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
-            var chain = EvolutionChain.GetOriginChain(pkm);
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             foreach (var z in GetValidGifts(pkm, chain))
                 yield return z;
             foreach (var z in GetValidEncounterTrades(pkm, chain))

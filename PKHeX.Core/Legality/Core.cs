@@ -305,48 +305,6 @@ namespace PKHeX.Core
             return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
-        private static int GetMaxLevelGeneration(PKM pkm)
-        {
-            return GetMaxLevelGeneration(pkm, pkm.GenNumber);
-        }
-
-        private static int GetMaxLevelGeneration(PKM pkm, int generation)
-        {
-            if (!pkm.InhabitedGeneration(generation))
-                return pkm.Met_Level;
-
-            if (pkm.Format <= 2)
-            {
-                if (generation == 1 && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                    return pkm.CurrentLevel - 1;
-                return pkm.CurrentLevel;
-            }
-
-            if ((int)Species.Sylveon == pkm.Species && generation == 5)
-                return pkm.CurrentLevel - 1;
-
-            if (generation == 3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUpGen4.Contains(pkm.Species))
-                return pkm.Met_Level - 1;
-
-            if (!pkm.HasOriginalMetLocation)
-                return pkm.Met_Level;
-
-            return pkm.CurrentLevel;
-        }
-
-        internal static int GetMaxLevelEncounter(PKM pkm)
-        {
-            // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
-            if (pkm.Format == 3 && pkm.WasEgg)
-                return 5;
-
-            // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
-            if (pkm.Format == 4 && pkm.Gen4 && pkm.WasEgg)
-                return 1;
-
-            return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);
-        }
-
         internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
 
         internal const GameVersion NONE = GameVersion.Invalid;

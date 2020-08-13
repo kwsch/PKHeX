@@ -121,7 +121,7 @@ namespace PKHeX.Core
             var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, dl);
 
-            var chain = EvolutionChain.GetOriginChain(pk, version);
+            var chain = EncounterOrigin.GetOriginChain(pk, version);
             return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
         }
 
@@ -248,7 +248,9 @@ namespace PKHeX.Core
                 }
 
                 // Some rare encounters have special moves hidden in the Relearn section (Gen7 Wormhole Ho-Oh). Include relearn moves
-                var em = enc.Moves.Concat(enc.Relearn);
+                IEnumerable<int> em = enc.Moves;
+                if (enc is IRelearn r)
+                    em = em.Concat(r.Relearn);
                 if (!needs.Except(em).Any())
                     yield return enc;
             }
