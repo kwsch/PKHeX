@@ -237,7 +237,9 @@ namespace PKHeX.Core
         internal static List<EvoCriteria> GetOriginChain(PKM pkm, GameVersion gameSource)
         {
             var max = GetMaxSpecies(gameSource);
-            return GetOriginChain(pkm, maxspeciesorigin: max);
+            var minLevel = pkm.CurrentLevel;
+            var maxLevel = Math.Max(1, GetMaxLevelEncounter(pkm));
+            return GetOriginChain(pkm, maxspeciesorigin: max, maxLevel, minLevel);
         }
 
         private static int GetMaxSpecies(GameVersion gameSource)
@@ -249,7 +251,14 @@ namespace PKHeX.Core
             return -1;
         }
 
-        internal static List<EvoCriteria> GetOriginChain(PKM pkm, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
+        internal static List<EvoCriteria> GetOriginChain(PKM pkm)
+        {
+            var minLevel = pkm.CurrentLevel;
+            var maxLevel = Math.Max(1, GetMaxLevelEncounter(pkm));
+            return GetOriginChain(pkm, maxspeciesorigin: -1, maxLevel, minLevel);
+        }
+
+        internal static List<EvoCriteria> GetOriginChain(PKM pkm, int maxspeciesorigin, int maxLevel, int minLevel, bool skipChecks = false)
         {
             var chain = GetValidPreEvolutions(pkm, maxspeciesorigin, maxLevel, minLevel, skipChecks);
             if (!pkm.HasOriginalMetLocation)
