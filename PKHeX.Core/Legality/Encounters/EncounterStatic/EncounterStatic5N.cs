@@ -1,13 +1,14 @@
 ﻿namespace PKHeX.Core
 {
-    internal class EncounterStaticPID : EncounterStatic
+    internal sealed class EncounterStatic5N : EncounterStatic5
     {
         public readonly uint PID;
-        public sealed override Shiny Shiny { get; set; } = Shiny.FixedValue;
+        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
+        public const bool NSparkle = true;
 
-        internal EncounterStaticPID(uint pid) => PID = pid;
+        internal EncounterStatic5N(uint pid) => PID = pid;
 
-        protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pk.PersonalInfo);
             int nature = (int)(PID % 25);
@@ -28,13 +29,6 @@
                 return false;
             return base.IsMatch(pkm, evo);
         }
-    }
-
-    internal sealed class EncounterStatic5N : EncounterStaticPID
-    {
-        public const bool NSparkle = true;
-
-        public EncounterStatic5N(uint pid) : base(pid) { }
 
         internal void SetNPokemonData(PK5 pk5, int lang)
         {

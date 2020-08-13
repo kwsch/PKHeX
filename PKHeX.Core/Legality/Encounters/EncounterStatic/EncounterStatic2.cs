@@ -50,6 +50,25 @@ namespace PKHeX.Core
             if (Version == GameVersion.C && pk is PK2 pk2)
                 pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
         }
+
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        {
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return pkm.Met_Level == Level;
+
+            return Level <= evo.Level;
+        }
+
+        protected override bool IsMatchLocation(PKM pkm)
+        {
+            if (EggEncounter)
+                return true;
+            if (Location == 0)
+                return true;
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return Location == pkm.Met_Location;
+            return true;
+        }
     }
 
     public sealed class EncounterStatic2Odd : EncounterStatic2

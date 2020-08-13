@@ -16,10 +16,10 @@ namespace PKHeX.Core
 
         static Encounters6()
         {
-            StaticX = GetStaticEncounters(Encounter_XY, GameVersion.X);
-            StaticY = GetStaticEncounters(Encounter_XY, GameVersion.Y);
-            StaticA = GetStaticEncounters(Encounter_AO, GameVersion.AS);
-            StaticO = GetStaticEncounters(Encounter_AO, GameVersion.OR);
+            StaticX = GetEncounters(Encounter_XY, GameVersion.X);
+            StaticY = GetEncounters(Encounter_XY, GameVersion.Y);
+            StaticA = GetEncounters(Encounter_AO, GameVersion.AS);
+            StaticO = GetEncounters(Encounter_AO, GameVersion.OR);
 
             var XSlots = GetEncounterTables<EncounterArea6XY, EncounterSlot6XY>("xy", "x");
             var YSlots = GetEncounterTables<EncounterArea6XY, EncounterSlot6XY>("xy", "y");
@@ -254,7 +254,7 @@ namespace PKHeX.Core
 
             // Gift
             new EncounterStatic { Species = 374, Level = 01, Location = 196, Ability = 1, IVs = new[] {-1,-1,31,-1,-1,31}, Gift = true }, // Beldum
-            new EncounterStatic { Species = 351, Level = 30, Location = 240, Ability = 1, IVs = new[] {-1,-1,-1,-1,31,-1}, Contest = new[] {0,100,0,0,0,0}, Gender = 1, Nature = Nature.Lax, Gift = true }, // Castform
+            new EncounterStatic6 { Species = 351, Level = 30, Location = 240, Ability = 1, IVs = new[] {-1,-1,-1,-1,31,-1}, Contest = new[] {0,100,0,0,0,0}, Gender = 1, Nature = Nature.Lax, Gift = true }, // Castform
             new EncounterStatic { Species = 319, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
             new EncounterStatic { Species = 323, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
             new EncounterStatic { Species = 380, Level = 30, Location = 320, Ability = 1, Version = GameVersion.AS, Gift = true, FlawlessIVCount = 3 }, // Latias
@@ -324,7 +324,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
         {
-            var CosplayPikachu = new EncounterStatic
+            var CosplayPikachu = new EncounterStatic6
             {
                 Species = 25, Level = 20, Gender = 1, Ability = 4, FlawlessIVCount = 3,
                 Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never

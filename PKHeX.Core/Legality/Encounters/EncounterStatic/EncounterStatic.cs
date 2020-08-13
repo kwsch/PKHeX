@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public class EncounterStatic : IEncounterable, IMoveset, IGenerationSet, ILocation, IContestStats, IRelearn, IVersionSet
+    public class EncounterStatic : IEncounterable, IMoveset, IGenerationSet, ILocation, IVersionSet
     {
         public int Species { get; set; }
         public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
@@ -23,7 +22,6 @@ namespace PKHeX.Core
         public int Ability { get; set; }
         public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
-        public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;
@@ -33,19 +31,10 @@ namespace PKHeX.Core
         public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }
 
-        internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
-        public int CNT_Cool { get; set; }
-        public int CNT_Beauty { get; set; }
-        public int CNT_Cute { get; set; }
-        public int CNT_Smart { get; set; }
-        public int CNT_Tough { get; set; }
-        public int CNT_Sheen { get; set; }
-
         public int HeldItem { get; set; }
         public int EggCycles { get; set; }
 
         public bool Fateful { get; set; }
-        public bool RibbonWishing { get; set; }
         public bool SkipFormCheck { get; set; }
         public bool Roaming { get; set; }
         public bool EggEncounter => EggLocation > 0;
@@ -102,19 +91,21 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (RibbonWishing && pk is IRibbonSetEvent4 e4)
+            if (this is EncounterStatic7 s7 && s7.RibbonWishing && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
             if (this is EncounterStatic5N n)
                 n.SetNPokemonData((PK5)pk, lang);
-            if (pk is IContestStats s)
-                this.CopyContestStatsTo(s);
+            if (this is EncounterStatic6 s6 && pk is IContestStats s)
+                s6.CopyContestStatsTo(s);
             if (Fateful)
                 pk.FatefulEncounter = true;
 
             if (pk.Format < 6)
                 return pk;
 
-            pk.SetRelearnMoves(Relearn);
+            if (this is IRelearn relearn)
+                pk.SetRelearnMoves(relearn.Relearn);
+
             sav.ApplyHandlingTrainerInfo(pk);
             pk.SetRandomEC();
 
@@ -238,9 +229,6 @@ namespace PKHeX.Core
             if (Nature != Nature.Random && pkm.Nature != (int) Nature)
                 return false;
 
-            if (Generation > 3 && pkm.Format > 3 && pkm.WasEgg != EggEncounter && pkm.Egg_Location == 0 && !pkm.IsEgg)
-                return false;
-
             if (!IsMatchEggLocation(pkm))
                 return false;
             if (!IsMatchLocation(pkm))
@@ -251,14 +239,10 @@ namespace PKHeX.Core
                 return false;
             if (!IsMatchForm(pkm, evo))
                 return false;
-
-            if (EggLocation == Locations.Daycare5 && Relearn.Count == 0 && pkm.RelearnMoves.Any(z => z != 0)) // gen7 eevee edge case
-                return false;
-
             if (!IsMatchIVs(pkm))
                 return false;
 
-            if (pkm is IContestStats s && s.IsContestBelow(this))
+            if (this is IContestStats es && pkm is IContestStats s && s.IsContestBelow(es))
                 return false;
 
             // Defer to EC/PID check
@@ -282,65 +266,27 @@ namespace PKHeX.Core
             return Legal.GetIsFixedIVSequenceValidSkipRand(IVs, pkm);
         }
 
-        private bool IsMatchForm(PKM pkm, DexLevel evo)
+        protected virtual bool IsMatchForm(PKM pkm, DexLevel evo)
         {
             if (SkipFormCheck)
                 return true;
-            if (FormConverter.IsTotemForm(Species, Form, Generation))
-            {
-                var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
-                return expectForm == evo.Form;
-            }
             return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
 
         protected virtual bool IsMatchEggLocation(PKM pkm)
         {
-            if (Generation == 3 && EggLocation != 0) // Gen3 Egg
+            if (pkm.IsEgg) // unhatched
             {
-                if (pkm.Format == 3 && pkm.IsEgg && EggLocation != pkm.Met_Location)
+                if (EggLocation != pkm.Met_Location)
                     return false;
-            }
-            else if (EggLocation != pkm.Egg_Location)
-            {
-                if (pkm.IsEgg) // unhatched
-                {
-                    if (EggLocation != pkm.Met_Location)
-                        return false;
-                    if (pkm.Egg_Location != 0)
-                        return false;
-                }
-                else if (Generation == 4)
-                {
-                    if (pkm.Egg_Location != Locations.LinkTrade4) // Link Trade
-                    {
-                        // check Pt/HGSS data
-                        if (pkm.Format <= 4)
-                            return false;
-                        if (!Locations.IsPtHGSSLocationEgg(EggLocation)) // non-Pt/HGSS egg gift
-                            return false;
-                        // transferring 4->5 clears pt/hgss location value and keeps Faraway Place
-                        if (pkm.Egg_Location != Locations.Faraway4) // Faraway Place
-                            return false;
-                    }
-                }
-                else
-                {
-                    if (!EggEncounter || pkm.Egg_Location != Locations.LinkTrade6) // Link Trade
-                        return false;
-                }
-            }
-            else if (EggLocation != 0 && Generation == 4)
-            {
-                // Check the inverse scenario for 4->5 eggs
-                if (Locations.IsPtHGSSLocationEgg(EggLocation)) // egg gift
-                {
-                    if (pkm.Format > 4)
-                        return false;
-                }
+                return pkm.Egg_Location == 0;
             }
 
-            return true;
+            if (EggLocation == pkm.Egg_Location)
+                return true;
+
+            // Only way to mismatch is to be a Link Traded egg.
+            return EggEncounter && pkm.Egg_Location == Locations.LinkTrade6;
         }
 
         private bool IsMatchGender(PKM pkm)
@@ -367,12 +313,6 @@ namespace PKHeX.Core
 
         protected virtual bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (!pkm.HasOriginalMetLocation)
-                return Level <= evo.Level;
-
-            if (EggEncounter && Generation == 3)
-                return pkm.Met_Level == 0 && pkm.CurrentLevel >= 5; // met level 0, origin level 5
-
             return pkm.Met_Level == Level;
         }
 
@@ -380,9 +320,18 @@ namespace PKHeX.Core
         {
             if (pkm.FatefulEncounter != Fateful)
                 return true;
-            if (Ability == 4 && pkm.AbilityNumber != 4) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
-                return true;
             return false;
         }
+    }
+
+    public sealed class EncounterStatic6 : EncounterStatic, IContestStats
+    {
+        internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
+        public int CNT_Cool { get; set; }
+        public int CNT_Beauty { get; set; }
+        public int CNT_Cute { get; set; }
+        public int CNT_Smart { get; set; }
+        public int CNT_Tough { get; set; }
+        public int CNT_Sheen { get; set; }
     }
 }

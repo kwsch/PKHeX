@@ -14,8 +14,8 @@ namespace PKHeX.Core
 
         static Encounters7b()
         {
-            StaticGP = GetStaticEncounters(Encounter_GG, GameVersion.GP);
-            StaticGE = GetStaticEncounters(Encounter_GG, GameVersion.GE);
+            StaticGP = GetEncounters(Encounter_GG, GameVersion.GP);
+            StaticGE = GetEncounters(Encounter_GG, GameVersion.GE);
 
             ManuallyAddRareSpawns(SlotsGP);
             ManuallyAddRareSpawns(SlotsGE);

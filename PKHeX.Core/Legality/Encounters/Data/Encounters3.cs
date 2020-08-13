@@ -12,19 +12,19 @@ namespace PKHeX.Core
     {
         internal static readonly EncounterArea3[] SlotsR, SlotsS, SlotsE;
         internal static readonly EncounterArea3[] SlotsFR, SlotsLG;
-        internal static readonly EncounterStatic[] StaticR, StaticS, StaticE;
-        internal static readonly EncounterStatic[] StaticFR, StaticLG;
+        internal static readonly EncounterStatic3[] StaticR, StaticS, StaticE;
+        internal static readonly EncounterStatic3[] StaticFR, StaticLG;
 
         private const int SafariLocation_RSE = 57;
         private const int SafariLocation_FRLG = 136;
 
         static Encounters3()
         {
-            StaticR = GetStaticEncounters(Encounter_RSE, GameVersion.R);
-            StaticS = GetStaticEncounters(Encounter_RSE, GameVersion.S);
-            StaticE = GetStaticEncounters(Encounter_RSE, GameVersion.E);
-            StaticFR = GetStaticEncounters(Encounter_FRLG, GameVersion.FR);
-            StaticLG = GetStaticEncounters(Encounter_FRLG, GameVersion.LG);
+            StaticR = GetEncounters(Encounter_RSE, GameVersion.R);
+            StaticS = GetEncounters(Encounter_RSE, GameVersion.S);
+            StaticE = GetEncounters(Encounter_RSE, GameVersion.E);
+            StaticFR = GetEncounters(Encounter_FRLG, GameVersion.FR);
+            StaticLG = GetEncounters(Encounter_FRLG, GameVersion.LG);
 
             static EncounterArea3[] get(string resource, string ident)
                 => EncounterArea3.GetArray3(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
@@ -116,122 +116,122 @@ namespace PKHeX.Core
             46, 47, 48, 49,
         };
 
-        private static readonly EncounterStatic[] Encounter_RSE_Roam =
+        private static readonly EncounterStatic3[] Encounter_RSE_Roam =
         {
-            new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.S, Roaming = true }, // Latias
-            new EncounterStatic { Species = 380, Level = 40, Version = GameVersion.E, Roaming = true }, // Latias
-            new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.R, Roaming = true }, // Latios
-            new EncounterStatic { Species = 381, Level = 40, Version = GameVersion.E, Roaming = true }, // Latios
+            new EncounterStatic3 { Species = 380, Level = 40, Version = GameVersion.S, Roaming = true }, // Latias
+            new EncounterStatic3 { Species = 380, Level = 40, Version = GameVersion.E, Roaming = true }, // Latias
+            new EncounterStatic3 { Species = 381, Level = 40, Version = GameVersion.R, Roaming = true }, // Latios
+            new EncounterStatic3 { Species = 381, Level = 40, Version = GameVersion.E, Roaming = true }, // Latios
         };
 
-        private static readonly EncounterStatic[] Encounter_RSE_Regular =
+        private static readonly EncounterStatic3[] Encounter_RSE_Regular =
         {
             // Starters
-            new EncounterStatic { Gift = true, Species = 152, Level = 05, Location = 000, Version = GameVersion.E, }, // Chikorita @ Littleroot Town
-            new EncounterStatic { Gift = true, Species = 155, Level = 05, Location = 000, Version = GameVersion.E, }, // Cyndaquil
-            new EncounterStatic { Gift = true, Species = 158, Level = 05, Location = 000, Version = GameVersion.E, }, // Totodile
-            new EncounterStatic { Gift = true, Species = 252, Level = 05, Location = 016, }, // Treecko @ Route 101
-            new EncounterStatic { Gift = true, Species = 255, Level = 05, Location = 016, }, // Torchic
-            new EncounterStatic { Gift = true, Species = 258, Level = 05, Location = 016, }, // Mudkip
+            new EncounterStatic3 { Gift = true, Species = 152, Level = 05, Location = 000, Version = GameVersion.E, }, // Chikorita @ Littleroot Town
+            new EncounterStatic3 { Gift = true, Species = 155, Level = 05, Location = 000, Version = GameVersion.E, }, // Cyndaquil
+            new EncounterStatic3 { Gift = true, Species = 158, Level = 05, Location = 000, Version = GameVersion.E, }, // Totodile
+            new EncounterStatic3 { Gift = true, Species = 252, Level = 05, Location = 016, }, // Treecko @ Route 101
+            new EncounterStatic3 { Gift = true, Species = 255, Level = 05, Location = 016, }, // Torchic
+            new EncounterStatic3 { Gift = true, Species = 258, Level = 05, Location = 016, }, // Mudkip
 
             // Fossil @ Rustboro City
-            new EncounterStatic { Gift = true, Species = 345, Level = 20, Location = 010, }, // Lileep
-            new EncounterStatic { Gift = true, Species = 347, Level = 20, Location = 010, }, // Anorith
+            new EncounterStatic3 { Gift = true, Species = 345, Level = 20, Location = 010, }, // Lileep
+            new EncounterStatic3 { Gift = true, Species = 347, Level = 20, Location = 010, }, // Anorith
 
             // Gift
-            new EncounterStatic { Gift = true, Species = 351, Level = 25, Location = 034, }, // Castform @ Weather Institute
-            new EncounterStatic { Gift = true, Species = 374, Level = 05, Location = 013, }, // Beldum @ Mossdeep City
-            new EncounterStatic { Gift = true, Species = 360, Level = 05, EggLocation = 253}, // Wynaut Egg
+            new EncounterStatic3 { Gift = true, Species = 351, Level = 25, Location = 034, }, // Castform @ Weather Institute
+            new EncounterStatic3 { Gift = true, Species = 374, Level = 05, Location = 013, }, // Beldum @ Mossdeep City
+            new EncounterStatic3 { Gift = true, Species = 360, Level = 05, EggLocation = 253}, // Wynaut Egg
 
             // Stationary
-            new EncounterStatic { Species = 352, Level = 30, Location = 034, }, // Kecleon @ Route 119
-            new EncounterStatic { Species = 352, Level = 30, Location = 035, }, // Kecleon @ Route 120
-            new EncounterStatic { Species = 101, Level = 30, Location = 066, Version = GameVersion.RS, }, // Electrode @ Hideout (R:Magma Hideout/S:Aqua Hideout)
-            new EncounterStatic { Species = 101, Level = 30, Location = 197, Version = GameVersion.E,  }, // Electrode @ Aqua Hideout
-            new EncounterStatic { Species = 185, Level = 40, Location = 058, Version = GameVersion.E,  }, // Sudowoodo @ Battle Frontier
+            new EncounterStatic3 { Species = 352, Level = 30, Location = 034, }, // Kecleon @ Route 119
+            new EncounterStatic3 { Species = 352, Level = 30, Location = 035, }, // Kecleon @ Route 120
+            new EncounterStatic3 { Species = 101, Level = 30, Location = 066, Version = GameVersion.RS, }, // Electrode @ Hideout (R:Magma Hideout/S:Aqua Hideout)
+            new EncounterStatic3 { Species = 101, Level = 30, Location = 197, Version = GameVersion.E,  }, // Electrode @ Aqua Hideout
+            new EncounterStatic3 { Species = 185, Level = 40, Location = 058, Version = GameVersion.E,  }, // Sudowoodo @ Battle Frontier
 
             // Stationary Lengendary
-            new EncounterStatic { Species = 377, Level = 40, Location = 082, }, // Regirock @ Desert Ruins
-            new EncounterStatic { Species = 378, Level = 40, Location = 081, }, // Regice @ Island Cave
-            new EncounterStatic { Species = 379, Level = 40, Location = 083, }, // Registeel @ Ancient Tomb
-            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.R }, // Latias @ Southern Island
-            new EncounterStatic { Species = 380, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latias @ Southern Island
-            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.S }, // Latios @ Southern Island
-            new EncounterStatic { Species = 381, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latios @ Southern Island
-            new EncounterStatic { Species = 382, Level = 45, Location = 072, Version = GameVersion.S, }, // Kyogre @ Cave of Origin
-            new EncounterStatic { Species = 382, Level = 70, Location = 203, Version = GameVersion.E, }, // Kyogre @ Marine Cave
-            new EncounterStatic { Species = 383, Level = 45, Location = 072, Version = GameVersion.R, }, // Groudon @ Cave of Origin
-            new EncounterStatic { Species = 383, Level = 70, Location = 205, Version = GameVersion.E, }, // Groudon @ Terra Cave
-            new EncounterStatic { Species = 384, Level = 70, Location = 085, }, // Rayquaza @ Sky Pillar
+            new EncounterStatic3 { Species = 377, Level = 40, Location = 082, }, // Regirock @ Desert Ruins
+            new EncounterStatic3 { Species = 378, Level = 40, Location = 081, }, // Regice @ Island Cave
+            new EncounterStatic3 { Species = 379, Level = 40, Location = 083, }, // Registeel @ Ancient Tomb
+            new EncounterStatic3 { Species = 380, Level = 50, Location = 073, Version = GameVersion.R }, // Latias @ Southern Island
+            new EncounterStatic3 { Species = 380, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latias @ Southern Island
+            new EncounterStatic3 { Species = 381, Level = 50, Location = 073, Version = GameVersion.S }, // Latios @ Southern Island
+            new EncounterStatic3 { Species = 381, Level = 50, Location = 073, Version = GameVersion.E, Fateful = true }, // Latios @ Southern Island
+            new EncounterStatic3 { Species = 382, Level = 45, Location = 072, Version = GameVersion.S, }, // Kyogre @ Cave of Origin
+            new EncounterStatic3 { Species = 382, Level = 70, Location = 203, Version = GameVersion.E, }, // Kyogre @ Marine Cave
+            new EncounterStatic3 { Species = 383, Level = 45, Location = 072, Version = GameVersion.R, }, // Groudon @ Cave of Origin
+            new EncounterStatic3 { Species = 383, Level = 70, Location = 205, Version = GameVersion.E, }, // Groudon @ Terra Cave
+            new EncounterStatic3 { Species = 384, Level = 70, Location = 085, }, // Rayquaza @ Sky Pillar
 
             // Event
-            new EncounterStatic { Species = 151, Level = 30, Location = 201, Version = GameVersion.E, Fateful = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
-            new EncounterStatic { Species = 249, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Lugia @ Navel Rock
-            new EncounterStatic { Species = 250, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Ho-Oh @ Navel Rock
-            new EncounterStatic { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Fateful = true, Form = 3 }, // Deoxys @ Birth Island
+            new EncounterStatic3 { Species = 151, Level = 30, Location = 201, Version = GameVersion.E, Fateful = true }, // Mew @ Faraway Island (Unreleased outside of Japan)
+            new EncounterStatic3 { Species = 249, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Lugia @ Navel Rock
+            new EncounterStatic3 { Species = 250, Level = 70, Location = 211, Version = GameVersion.E, Fateful = true }, // Ho-Oh @ Navel Rock
+            new EncounterStatic3 { Species = 386, Level = 30, Location = 200, Version = GameVersion.E, Fateful = true, Form = 3 }, // Deoxys @ Birth Island
         };
 
-        private static readonly EncounterStatic[] Encounter_FRLG_Roam =
+        private static readonly EncounterStatic3[] Encounter_FRLG_Roam =
         {
-            new EncounterStatic { Species = 243, Level = 50, Roaming = true, }, // Raikou
-            new EncounterStatic { Species = 244, Level = 50, Roaming = true, }, // Entei
-            new EncounterStatic { Species = 245, Level = 50, Roaming = true, }, // Suicune
+            new EncounterStatic3 { Species = 243, Level = 50, Roaming = true, }, // Raikou
+            new EncounterStatic3 { Species = 244, Level = 50, Roaming = true, }, // Entei
+            new EncounterStatic3 { Species = 245, Level = 50, Roaming = true, }, // Suicune
         };
 
-        private static readonly EncounterStatic[] Encounter_FRLG_Stationary =
+        private static readonly EncounterStatic3[] Encounter_FRLG_Stationary =
         {
             // Starters @ Pallet Town
-            new EncounterStatic { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur
-            new EncounterStatic { Gift = true, Species = 4, Level = 05, Location = 088, }, // Charmander
-            new EncounterStatic { Gift = true, Species = 7, Level = 05, Location = 088, }, // Squirtle
+            new EncounterStatic3 { Gift = true, Species = 1, Level = 05, Location = 088, }, // Bulbasaur
+            new EncounterStatic3 { Gift = true, Species = 4, Level = 05, Location = 088, }, // Charmander
+            new EncounterStatic3 { Gift = true, Species = 7, Level = 05, Location = 088, }, // Squirtle
 
             // Fossil @ Cinnabar Island
-            new EncounterStatic { Gift = true, Species = 138, Level = 05, Location = 096, }, // Omanyte
-            new EncounterStatic { Gift = true, Species = 140, Level = 05, Location = 096, }, // Kabuto
-            new EncounterStatic { Gift = true, Species = 142, Level = 05, Location = 096, }, // Aerodactyl
+            new EncounterStatic3 { Gift = true, Species = 138, Level = 05, Location = 096, }, // Omanyte
+            new EncounterStatic3 { Gift = true, Species = 140, Level = 05, Location = 096, }, // Kabuto
+            new EncounterStatic3 { Gift = true, Species = 142, Level = 05, Location = 096, }, // Aerodactyl
 
             // Gift
-            new EncounterStatic { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
-            new EncounterStatic { Gift = true, Species = 107, Level = 25, Location = 098, }, // Hitmonchan @ Saffron City
-            new EncounterStatic { Gift = true, Species = 129, Level = 05, Location = 099, }, // Magikarp @ Route 4
-            new EncounterStatic { Gift = true, Species = 131, Level = 25, Location = 134, }, // Lapras @ Silph Co.
-            new EncounterStatic { Gift = true, Species = 133, Level = 25, Location = 094, }, // Eevee @ Celadon City
-            new EncounterStatic { Gift = true, Species = 175, Level = 05, EggLocation = 253 }, // Togepi Egg
+            new EncounterStatic3 { Gift = true, Species = 106, Level = 25, Location = 098, }, // Hitmonlee @ Saffron City
+            new EncounterStatic3 { Gift = true, Species = 107, Level = 25, Location = 098, }, // Hitmonchan @ Saffron City
+            new EncounterStatic3 { Gift = true, Species = 129, Level = 05, Location = 099, }, // Magikarp @ Route 4
+            new EncounterStatic3 { Gift = true, Species = 131, Level = 25, Location = 134, }, // Lapras @ Silph Co.
+            new EncounterStatic3 { Gift = true, Species = 133, Level = 25, Location = 094, }, // Eevee @ Celadon City
+            new EncounterStatic3 { Gift = true, Species = 175, Level = 05, EggLocation = 253 }, // Togepi Egg
 
             // Celadon City Game Corner
-            new EncounterStatic { Gift = true, Species = 063, Level = 09, Location = 94, Version = GameVersion.FR }, // Abra
-            new EncounterStatic { Gift = true, Species = 035, Level = 08, Location = 94, Version = GameVersion.FR }, // Clefairy
-            new EncounterStatic { Gift = true, Species = 123, Level = 25, Location = 94, Version = GameVersion.FR }, // Scyther
-            new EncounterStatic { Gift = true, Species = 147, Level = 18, Location = 94, Version = GameVersion.FR }, // Dratini
-            new EncounterStatic { Gift = true, Species = 137, Level = 26, Location = 94, Version = GameVersion.FR }, // Porygon
+            new EncounterStatic3 { Gift = true, Species = 063, Level = 09, Location = 94, Version = GameVersion.FR }, // Abra
+            new EncounterStatic3 { Gift = true, Species = 035, Level = 08, Location = 94, Version = GameVersion.FR }, // Clefairy
+            new EncounterStatic3 { Gift = true, Species = 123, Level = 25, Location = 94, Version = GameVersion.FR }, // Scyther
+            new EncounterStatic3 { Gift = true, Species = 147, Level = 18, Location = 94, Version = GameVersion.FR }, // Dratini
+            new EncounterStatic3 { Gift = true, Species = 137, Level = 26, Location = 94, Version = GameVersion.FR }, // Porygon
 
-            new EncounterStatic { Gift = true, Species = 063, Level = 07, Location = 94, Version = GameVersion.LG }, // Abra
-            new EncounterStatic { Gift = true, Species = 035, Level = 12, Location = 94, Version = GameVersion.LG }, // Clefairy
-            new EncounterStatic { Gift = true, Species = 127, Level = 18, Location = 94, Version = GameVersion.LG }, // Pinsir
-            new EncounterStatic { Gift = true, Species = 147, Level = 24, Location = 94, Version = GameVersion.LG }, // Dratini
-            new EncounterStatic { Gift = true, Species = 137, Level = 18, Location = 94, Version = GameVersion.LG }, // Porygon
+            new EncounterStatic3 { Gift = true, Species = 063, Level = 07, Location = 94, Version = GameVersion.LG }, // Abra
+            new EncounterStatic3 { Gift = true, Species = 035, Level = 12, Location = 94, Version = GameVersion.LG }, // Clefairy
+            new EncounterStatic3 { Gift = true, Species = 127, Level = 18, Location = 94, Version = GameVersion.LG }, // Pinsir
+            new EncounterStatic3 { Gift = true, Species = 147, Level = 24, Location = 94, Version = GameVersion.LG }, // Dratini
+            new EncounterStatic3 { Gift = true, Species = 137, Level = 18, Location = 94, Version = GameVersion.LG }, // Porygon
 
             // Stationary
-            new EncounterStatic { Species = 143, Level = 30, Location = 112, }, // Snorlax @ Route 12
-            new EncounterStatic { Species = 143, Level = 30, Location = 116, }, // Snorlax @ Route 16
-            new EncounterStatic { Species = 101, Level = 34, Location = 142, }, // Electrode @ Power Plant
-            new EncounterStatic { Species = 097, Level = 30, Location = 176, }, // Hypno @ Berry Forest
+            new EncounterStatic3 { Species = 143, Level = 30, Location = 112, }, // Snorlax @ Route 12
+            new EncounterStatic3 { Species = 143, Level = 30, Location = 116, }, // Snorlax @ Route 16
+            new EncounterStatic3 { Species = 101, Level = 34, Location = 142, }, // Electrode @ Power Plant
+            new EncounterStatic3 { Species = 097, Level = 30, Location = 176, }, // Hypno @ Berry Forest
 
             // Stationary Legendary
-            new EncounterStatic { Species = 144, Level = 50, Location = 139, }, // Articuno @ Seafoam Islands
-            new EncounterStatic { Species = 145, Level = 50, Location = 142, }, // Zapdos @ Power Plant
-            new EncounterStatic { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember.
-            new EncounterStatic { Species = 150, Level = 70, Location = 141, }, // Mewtwo @ Cerulean Cave
+            new EncounterStatic3 { Species = 144, Level = 50, Location = 139, }, // Articuno @ Seafoam Islands
+            new EncounterStatic3 { Species = 145, Level = 50, Location = 142, }, // Zapdos @ Power Plant
+            new EncounterStatic3 { Species = 146, Level = 50, Location = 175, }, // Moltres @ Mt. Ember.
+            new EncounterStatic3 { Species = 150, Level = 70, Location = 141, }, // Mewtwo @ Cerulean Cave
 
             // Event
-            new EncounterStatic { Species = 249, Level = 70, Location = 174, Fateful = true }, // Lugia @ Navel Rock
-            new EncounterStatic { Species = 250, Level = 70, Location = 174, Fateful = true }, // Ho-Oh @ Navel Rock
-            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.FR, Form = 1, Fateful = true }, // Deoxys @ Birth Island
-            new EncounterStatic { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
+            new EncounterStatic3 { Species = 249, Level = 70, Location = 174, Fateful = true }, // Lugia @ Navel Rock
+            new EncounterStatic3 { Species = 250, Level = 70, Location = 174, Fateful = true }, // Ho-Oh @ Navel Rock
+            new EncounterStatic3 { Species = 386, Level = 30, Location = 187, Version = GameVersion.FR, Form = 1, Fateful = true }, // Deoxys @ Birth Island
+            new EncounterStatic3 { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        private static readonly EncounterStatic[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
-        private static readonly EncounterStatic[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
+        private static readonly EncounterStatic3[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
+        private static readonly EncounterStatic3[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
 
         private static readonly int[] TradeContest_Cool =   { 30, 05, 05, 05, 05, 10 };
         private static readonly int[] TradeContest_Beauty = { 05, 30, 05, 05, 05, 10 };
@@ -357,11 +357,11 @@ namespace PKHeX.Core
         #endregion
 
         #region Colosseum
-        private static readonly EncounterStatic[] Encounter_Colo =
+        private static readonly EncounterStatic3[] Encounter_Colo =
         {
             // Colosseum Starters: Gender locked to male
-            new EncounterStatic { Gift = true, Species = 196, Level = 25, Location = 254, Gender = 0 }, // Espeon
-            new EncounterStatic { Gift = true, Species = 197, Level = 26, Location = 254, Gender = 0, Moves = new[] {044} }, // Umbreon (Bite)
+            new EncounterStatic3 { Gift = true, Species = 196, Level = 25, Location = 254, Gender = 0 }, // Espeon
+            new EncounterStatic3 { Gift = true, Species = 197, Level = 26, Location = 254, Gender = 0, Moves = new[] {044} }, // Umbreon (Bite)
 
             new EncounterStaticShadow(ColoMakuhita) { Species = 296, Level = 30, Gauge = 03000, Moves = new[] {193,116,233,238}, Location = 005 }, // Makuhita: Miror B.Peon Trudly @ Phenac City
 
@@ -474,12 +474,12 @@ namespace PKHeX.Core
             059, // Realgam Tower
         };
 
-        private static readonly EncounterStatic[] Encounter_XD = new[]
+        private static readonly EncounterStatic3[] Encounter_XD = new[]
         {
-            new EncounterStatic { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
-            new EncounterStatic { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
-            new EncounterStatic { Fateful = true, Gift = true, Species = 155, Level = 05, Location = 016, Moves = new[] {179,033,043,307} }, // Cyndaquil
-            new EncounterStatic { Fateful = true, Gift = true, Species = 158, Level = 05, Location = 016, Moves = new[] {242,010,043,308} }, // Totodile
+            new EncounterStatic3 { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
+            new EncounterStatic3 { Fateful = true, Gift = true, Species = 152, Level = 05, Location = 016, Moves = new[] {246,033,045,338} }, // Chikorita
+            new EncounterStatic3 { Fateful = true, Gift = true, Species = 155, Level = 05, Location = 016, Moves = new[] {179,033,043,307} }, // Cyndaquil
+            new EncounterStatic3 { Fateful = true, Gift = true, Species = 158, Level = 05, Location = 016, Moves = new[] {242,010,043,308} }, // Totodile
 
             new EncounterStaticShadow { Fateful = true, Species = 216, Level = 11, Gauge = 03000, Moves = new[] {216,287,122,232}, Location = 143 }, // Teddiursa: Cipher Peon Naps @ Pokémon HQ Lab
             new EncounterStaticShadow { Fateful = true, Species = 228, Level = 17, Gauge = 01500, Moves = new[] {185,204,052,046}, Location = 011, }, // Houndour: Cipher Peon Resix @ Cipher Lab
@@ -624,13 +624,15 @@ namespace PKHeX.Core
             },
         };
 
-        internal static readonly EncounterStatic[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);
+        internal static readonly EncounterStatic3[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);
 
-        private static IEnumerable<EncounterStatic> CloneMirorB(EncounterStatic arg)
+        private static IEnumerable<EncounterStatic3> CloneMirorB(EncounterStatic3 arg)
         {
             yield return arg;
+            if (!(arg is EncounterStaticShadow s))
+                yield break;
             foreach (int loc in MirorBXDLocations)
-                yield return arg.Clone(loc);
+                yield return (EncounterStatic3)s.Clone(loc);
         }
 
         #endregion

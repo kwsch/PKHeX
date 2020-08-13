@@ -14,5 +14,15 @@
             Level = level;
             Version = ver;
         }
+
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        {
+            return Level <= evo.Level;
+        }
+
+        protected override bool IsMatchLocation(PKM pkm)
+        {
+            return true;
+        }
     }
 }
