@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
             MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
 
-            FriendSafari = GetFriendSafariArea();
+            FriendSafari = EncounterArea6XYFriendSafari.GetArea();
             MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
 
@@ -49,26 +49,6 @@ namespace PKHeX.Core
             Encounter_AO.SetVersion(GameVersion.ORAS);
             TradeGift_XY.SetVersion(GameVersion.XY);
             TradeGift_AO.SetVersion(GameVersion.ORAS);
-        }
-
-        private static ILookup<int, EncounterSlot6XY> GetFriendSafariArea()
-        {
-            var area = new EncounterAreaFake { Location = 148 };
-            EncounterSlot6XY FriendSafariSlot(int d)
-            {
-                return new EncounterSlot6XY
-                {
-                    Area = area,
-                    Species = d,
-                    LevelMin = 30,
-                    LevelMax = 30,
-                    Form = 0,
-                    Type = SlotType.FriendSafari,
-                    Version = GameVersion.XY,
-                };
-            }
-            area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
-            return area.Slots.Cast<EncounterSlot6XY>().ToLookup(s => s.Species);
         }
 
         private static void MarkG6XYSlots(ref EncounterArea6XY[] Areas)

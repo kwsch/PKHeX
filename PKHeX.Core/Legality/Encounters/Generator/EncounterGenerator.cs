@@ -307,7 +307,7 @@ namespace PKHeX.Core
 
             if (EncounterArea6XYFriendSafari.WasFriendSafari(pkm))
             {
-                foreach (var z in EncounterArea6XYFriendSafari.GetValidFriendSafari(pkm))
+                foreach (var z in EncounterArea6XYFriendSafari.GetValidSafariEncounters(pkm))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }

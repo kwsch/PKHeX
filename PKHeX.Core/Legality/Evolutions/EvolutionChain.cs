@@ -249,19 +249,19 @@ namespace PKHeX.Core
             return -1;
         }
 
-        internal static List<EvoCriteria> GetOriginChain(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, int minLevel = 1, bool skipChecks = false)
+        internal static List<EvoCriteria> GetOriginChain(PKM pkm, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
         {
-            var chain = GetValidPreEvolutions(pkm, maxspeciesorigin, lvl, minLevel, skipChecks);
+            var chain = GetValidPreEvolutions(pkm, maxspeciesorigin, maxLevel, minLevel, skipChecks);
             if (!pkm.HasOriginalMetLocation)
             {
-                var maxLevel = Legal.GetMaxLevelEncounter(pkm);
-                if (maxLevel < 0)
+                var maxEncounter = Legal.GetMaxLevelEncounter(pkm);
+                if (maxEncounter < 0)
                 {
                     chain.Clear();
                     return chain;
                 }
                 foreach (var c in chain)
-                    c.Level = Math.Min(maxLevel, c.Level);
+                    c.Level = Math.Min(maxEncounter, c.Level);
             }
             return chain;
         }
