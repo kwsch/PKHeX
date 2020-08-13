@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            var lvl = evo.Level;
+            var lvl = pkm.Met_Level;
             if (lvl == Level)
                 return true;
 
