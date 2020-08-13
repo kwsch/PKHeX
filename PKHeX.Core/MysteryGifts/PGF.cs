@@ -369,7 +369,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, Generation))
+            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, pkm.Format))
                 return false;
 
             if (Level != pkm.Met_Level) return false;

@@ -291,7 +291,7 @@ namespace PKHeX.Core
                 var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;
             }
-            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, Generation);
+            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
 
         protected virtual bool IsMatchEggLocation(PKM pkm)

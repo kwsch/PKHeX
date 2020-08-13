@@ -557,7 +557,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Form != pkm.AltForm && !Legal.IsFormChangeable(Species, Form, Generation))
+            if (Form != pkm.AltForm && !Legal.IsFormChangeable(Species, Form, pkm.Format))
                 return false;
 
             if (IsEgg)

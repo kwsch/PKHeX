@@ -271,7 +271,7 @@ namespace PKHeX.Core
         {
             if (FormChange.Contains(species))
                 return true;
-            if (species == (int)Species.Zygarde && format >= 7 && form > 1)
+            if (species == (int)Species.Zygarde && format >= 7 && form == 0)
                 return true;
             return false;
         }
