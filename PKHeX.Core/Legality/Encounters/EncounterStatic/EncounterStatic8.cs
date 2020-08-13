@@ -4,10 +4,11 @@
     {
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (pkm.Met_Level == Level)
+            var met = pkm.Met_Level;
+            if (met == Level)
                 return true;
             if (EncounterArea8.IsWildArea8(Location) || EncounterArea8.IsWildArea8Armor(Location))
-                return evo.Level == 60;
+                return met == 60;
             return false;
         }
     }

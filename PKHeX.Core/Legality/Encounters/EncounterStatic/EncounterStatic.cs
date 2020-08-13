@@ -370,11 +370,11 @@ namespace PKHeX.Core
             if (!pkm.HasOriginalMetLocation)
                 return Level <= evo.Level;
 
-            return pkm.Met_Level == Level || IsGen3EggEncounter(pkm, evo.Level);
-        }
+            if (EggEncounter && Generation == 3)
+                return pkm.Met_Level == 0 && pkm.CurrentLevel >= 5; // met level 0, origin level 5
 
-        // met level 0, origin level 5
-        private bool IsGen3EggEncounter(PKM pkm, int lvl) => pkm.Format == 3 && EggEncounter && lvl == 0;
+            return pkm.Met_Level == Level;
+        }
 
         public virtual bool IsMatchDeferred(PKM pkm)
         {
