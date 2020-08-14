@@ -6,6 +6,12 @@ namespace PKHeX.Core
 {
     public static class EncounterOrigin
     {
+        /// <summary>
+        /// Gets possible evolution details for the input <see cref="pkm"/>
+        /// </summary>
+        /// <param name="pkm">Current state of the Pokémon</param>
+        /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
+        /// <remarks>Use <see cref="GetOriginChain12"/> if the <see cref="pkm"/> originated from Generation 1 or 2.</remarks>
         public static IReadOnlyList<EvoCriteria> GetOriginChain(PKM pkm)
         {
             bool hasOriginMet = pkm.HasOriginalMetLocation;
@@ -14,6 +20,12 @@ namespace PKHeX.Core
             return GetOriginChain(pkm, -1, maxLevel, minLevel, hasOriginMet);
         }
 
+        /// <summary>
+        /// Gets possible evolution details for the input <see cref="pkm"/> originating from Generation 1 or 2.
+        /// </summary>
+        /// <param name="pkm">Current state of the Pokémon</param>
+        /// <param name="gameSource">Game/group the <see cref="pkm"/> originated from. If <see cref="GameVersion.RBY"/>, it assumes Gen 1, otherwise Gen 2.</param>
+        /// <returns>Possible origin species-form-levels to match against encounter data.</returns>
         public static IReadOnlyList<EvoCriteria> GetOriginChain12(PKM pkm, GameVersion gameSource)
         {
             bool rby = gameSource == GameVersion.RBY;
@@ -57,30 +69,31 @@ namespace PKHeX.Core
             if (hasOriginMet)
                 return EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies, maxLevel, minLevel);
 
-            var bMax = pkm.CurrentLevel;
-            var bMin = minLevel;
-            var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies, bMax, bMin);
+            // Permit the maximum to be all the way up to Current Level; we'll trim these impossible evolutions out later.
+            var tempMax = pkm.CurrentLevel;
+            var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies, tempMax, minLevel);
 
             for (int i = chain.Count - 1; i >= 0; i--)
             {
                 var evo = chain[i];
                 if (evo.MinLevel > maxLevel)
-                {
                     chain.RemoveAt(i);
-                    continue;
-                }
-                evo.Level = Math.Min(maxLevel, evo.Level);
-                evo.MinLevel = Math.Max(minLevel, evo.MinLevel);
+                else if (evo.Level > maxLevel)
+                    evo.Level = maxLevel;
             }
             return chain;
         }
 
         private static int GetLevelOriginMin(PKM pkm, bool hasMet)
         {
+            if (pkm.Format == 3)
+            {
+                if (pkm.IsEgg)
+                    return 5;
+                return Math.Max(2, pkm.Met_Level);
+            }
             if (!hasMet)
                 return 1;
-            if (pkm.Format == 3 && pkm.IsEgg)
-                return 5;
             return Math.Max(1, pkm.Met_Level);
         }
 
