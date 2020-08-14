@@ -140,7 +140,7 @@ namespace PKHeX.Core
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
-            var chain = EncounterOrigin.GetOriginChain(pkm, game);
+            var chain = EncounterOrigin.GetOriginChain12(pkm, game);
 
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, chain, game))
