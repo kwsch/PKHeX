@@ -118,31 +118,30 @@ namespace PKHeX.Core
         {
             pk.Version = (int)version;
             var et = EvolutionTree.GetEvolutionTree(pk.Format);
-            var dl = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
-            int[] needs = GetNeededMoves(pk, moves, dl);
+            var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
+            int[] needs = GetNeededMoves(pk, moves, chain);
 
-            var chain = EncounterOrigin.GetOriginChain(pk, version);
             return PriorityList.SelectMany(type => GetPossibleOfType(pk, needs, version, type, chain));
         }
 
-        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> dl)
+        private static int[] GetNeededMoves(PKM pk, IEnumerable<int> moves, IReadOnlyList<EvoCriteria> chain)
         {
             if (pk.Species == (int)Species.Smeargle)
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
             var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
-            var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, dl, z));
+            var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
             return moves.Except(canlearn).ToArray();
         }
 
-        private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> dl, int generation)
+        private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
         {
-            IEnumerable<int> moves = MoveList.GetValidMoves(pk, dl, generation);
+            IEnumerable<int> moves = MoveList.GetValidMoves(pk, chain, generation);
             if (pk.Format >= 8)
             {
                 // Shared Egg Moves via daycare
                 // Any egg move can be obtained
-                var evo = dl[dl.Count - 1];
+                var evo = chain[chain.Count - 1];
                 var shared = MoveEgg.GetEggMoves(8, evo.Species, evo.Form, GameVersion.SW);
                 if (shared.Length != 0)
                     moves = moves.Concat(shared);
