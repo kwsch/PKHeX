@@ -336,6 +336,7 @@ namespace PKHeX.Core
             473, // Mamoswine (Piloswine with Ancient Power)
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
+            (int)Species.Grapploct // (Clobbopus with Taunt)
         };
 
         internal static readonly int[] FairyMoves =
@@ -377,6 +378,7 @@ namespace PKHeX.Core
             new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
             FairyMoves, // Sylveon (Eevee with Fairy Move)
             new [] { 023 }, // Tsareena (Steenee with Stomp)
+            new [] { 269 }, // Grapploct (Clobbopus with Taunt)
         };
 
         // Min level for any species for every generation to learn the move for evolution by move
@@ -401,6 +403,8 @@ namespace PKHeX.Core
             new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
             // Tsareena (Steenee with Stomp)
             new [] { 0, 0, 0, 0, 0, 0, 0, 2, 28 },
+            // Grapploct (Clobbopus with Taunt)
+            new [] { 0, 0, 0, 0, 0, 0, 0, 0, 35 },
         };
 
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
@@ -424,6 +428,8 @@ namespace PKHeX.Core
             new [] { false, false, true, true, true, true, true, true, true },
             // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false, false },
+            // Grapploct (Clobbopus with Taunt)
+            new [] { false, false, false, false, false, false, false, false, true },
         };
 
         internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
