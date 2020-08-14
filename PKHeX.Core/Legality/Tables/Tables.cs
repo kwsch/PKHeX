@@ -364,6 +364,13 @@ namespace PKHeX.Core
             698, // Guardian of Alola
             705, // Fleur Cannon
             717, // Nature's Madness
+            726, // Let's Snuggle Forever
+            740, // Sparkly Swirl
+            767, // Max Starfall
+            777, // Decorate
+            789, // Spirit Break
+            790, // Strange Steam
+            802, // Misty Explosion
         };
 
         // Moves that trigger the evolution by move
