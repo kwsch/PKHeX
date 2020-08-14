@@ -4,6 +4,9 @@ using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains logic that calculates the evolution chain of a <see cref="PKM"/>, only considering the generation it originated in.
+    /// </summary>
     public static class EncounterOrigin
     {
         /// <summary>
