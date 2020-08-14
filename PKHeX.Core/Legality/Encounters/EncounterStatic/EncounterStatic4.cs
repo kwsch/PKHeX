@@ -42,7 +42,7 @@
             if (pkm.Format != 4) // Met Level lost on PK3=>PK4
                 return Level <= evo.Level;
 
-            return pkm.Met_Level == Level;
+            return pkm.Met_Level == (EggEncounter ? 0 : Level);
         }
 
         protected override bool IsMatchLocation(PKM pkm)
