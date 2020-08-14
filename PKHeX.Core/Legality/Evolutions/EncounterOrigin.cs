@@ -79,7 +79,7 @@ namespace PKHeX.Core
         {
             if (!hasMet)
                 return 1;
-            if (pkm.Format <= 3 && pkm.IsEgg)
+            if (pkm.Format == 3 && pkm.IsEgg)
                 return 5;
             return Math.Max(1, pkm.Met_Level);
         }
@@ -91,9 +91,6 @@ namespace PKHeX.Core
                 return pkm.CurrentLevel;
 
             int generation = pkm.GenNumber;
-            if (!pkm.InhabitedGeneration(generation))
-                return met;
-
             if (generation >= 4)
                 return met;
 
