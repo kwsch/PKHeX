@@ -202,7 +202,11 @@ namespace PKHeX.Core
             pk.IVs = Set.IVs;
             pk.EVs = Set.EVs;
 
-            pk.SetSuggestedHyperTrainingData(Set.IVs);
+            // IVs have no side effects such as hidden power type in gen 8
+            // therefore all specified IVs are deliberate and should not be HT'd over for pokemon met in gen 8
+            if (!pk.Gen8)
+                pk.SetSuggestedHyperTrainingData(Set.IVs);
+
             if (ShowdownSetIVMarkings)
                 pk.SetMarkings();
 
