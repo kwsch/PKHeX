@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -32,7 +31,8 @@ namespace PKHeX.Core
                         if (!Legal.WildForms.Contains(slot.Species))
                             break;
 
-                        if (!ExistsPressureSlot(evo, out var maxLevel))
+                        var maxLevel = slot.LevelMax;
+                        if (!ExistsPressureSlot(evo, ref maxLevel))
                             break;
 
                         if (maxLevel != pkm.Met_Level)
@@ -55,9 +55,8 @@ namespace PKHeX.Core
             }
         }
 
-        private bool ExistsPressureSlot(DexLevel evo, out int maxLevel)
+        private bool ExistsPressureSlot(DexLevel evo, ref int level)
         {
-            maxLevel = 0;
             bool existsForm = false;
             foreach (var z in Slots)
             {
@@ -65,7 +64,9 @@ namespace PKHeX.Core
                     continue;
                 if (z.Form == evo.Form)
                     continue;
-                maxLevel = Math.Max(maxLevel, z.LevelMax);
+                if (z.LevelMax < level)
+                    continue;
+                level = z.LevelMax;
                 existsForm = true;
             }
             return existsForm;
