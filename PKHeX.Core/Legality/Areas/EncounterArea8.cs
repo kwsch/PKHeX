@@ -31,21 +31,22 @@ namespace PKHeX.Core
         {
             var loc = Location;
             bool canBoostTo60 = IsWildArea8(loc) || IsWildArea8Armor(loc); // wild area gets boosted up to level 60 post-game
+            bool isBoosted = canBoostTo60 && pkm.Met_Location == 60;
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
                 {
                     if (slot.Species != evo.Species)
                         continue;
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
-                    {
-                        if (!canBoostTo60 || pkm.Met_Level != 60)
-                            continue;
-                    }
-                    if (slot.Form != evo.Form && !Legal.FormChange.Contains(evo.Species))
-                        continue;
+
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level) && !isBoosted)
+                        break;
+
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(evo.Species))
+                        break;
 
                     yield return slot;
+                    break;
                 }
             }
         }

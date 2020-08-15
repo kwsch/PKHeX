@@ -76,12 +76,14 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
-                        continue;
+                        break;
                     if (!slot.IsLevelWithinRange(lvl))
-                        continue;
+                        break;
 
                     yield return slot;
+                    break;
                 }
             }
         }
@@ -95,11 +97,12 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
-                        continue;
+                        break;
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
-                        continue;
+                        break;
 
                     yield return slot;
+                    break;
                 }
             }
         }

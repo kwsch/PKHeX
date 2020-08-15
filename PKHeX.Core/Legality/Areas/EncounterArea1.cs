@@ -115,18 +115,20 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
-                        continue;
+                        break;
                     if (slot.Form != evo.Form)
-                        continue;
+                        break;
 
                     if (rate != -1)
                     {
                         var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
                         if (expect != rate)
-                            continue;
+                            break;
                     }
                     yield return slot;
+                    break;
                 }
             }
         }

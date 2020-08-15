@@ -59,11 +59,15 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
-                        continue;
+                        break;
+
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
-                        continue;
+                        break;
+
                     yield return slot;
+                    break;
                 }
             }
         }

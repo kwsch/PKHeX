@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -25,23 +24,14 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
-                        continue;
+                        break;
 
-                    if (slot.Form != evo.Form)
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                     {
-                        if (!Legal.WildForms.Contains(pkm.Species))
-                            continue;
-
-                        var maxLevel = Slots.Where(z => z.Species == evo.Species).Max(z => z.LevelMax);
-                        if (maxLevel != pkm.Met_Level)
-                            continue;
-
-                        var s = (EncounterSlot7)slot.Clone();
-                        s.Form = pkm.AltForm;
-                        s.Pressure = true;
-                        yield return s;
-                        continue;
+                        if (Legal.WildForms.Contains(slot.Species))
+                            break;
                     }
 
                     yield return slot;
