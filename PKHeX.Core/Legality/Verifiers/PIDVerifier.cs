@@ -24,19 +24,6 @@ namespace PKHeX.Core
             if (pkm.Nature >= 25) // out of range
                 data.AddLine(GetInvalid(LPIDNatureMismatch));
 
-            var Info = data.Info;
-            if ((Info.Generation >= 6 || (Info.Generation < 3 && pkm.Format >= 7)) && pkm.PID == pkm.EncryptionConstant)
-            {
-                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 &&wc8.EncryptionConstant == 0)
-                {
-                    // We'll allow this to pass.
-                }
-                else
-                {
-                    data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
-                }
-            }
-
             VerifyShiny(data);
         }
 
@@ -51,14 +38,14 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
-                    // gen5 correlation
-                    if (Info.Generation != 5)
+                    // gen5 correlation, with some exclusions
+                    if (s.Generation != 5)
                         break;
                     if (s.Location == 75) // Entree Forest
                         break;
-                    if (s.Gift || s.Roaming || s.Ability != 4)
+                    if (s.Gift || s.Ability == 4)
                         break;
-                    if (s is EncounterStatic5N)
+                    if (s is EncounterStatic5N || (s is EncounterStatic5 s5 && s5.Roaming))
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
@@ -98,7 +85,8 @@ namespace PKHeX.Core
             {
                 // Indicate what it will evolve into
                 uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
-                var spec = evoVal == 0 ? LegalityAnalysis.SpeciesStrings[267] : LegalityAnalysis.SpeciesStrings[269];
+                var evolvesTo = evoVal == 0 ? (int)Species.Beautifly : (int)Species.Dustox;
+                var spec = LegalityAnalysis.SpeciesStrings[evolvesTo];
                 var msg = string.Format(L_XWurmpleEvo_0, spec);
                 data.AddLine(GetValid(msg, CheckIdentifier.EC));
             }
@@ -114,16 +102,31 @@ namespace PKHeX.Core
             var Info = data.Info;
 
             if (pkm.EncryptionConstant == 0)
+            {
+                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 && wc8.EncryptionConstant == 0)
+                    return; // HOME Gifts
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
+            }
 
+            // Gen3-5 => Gen6 have PID==EC with an edge case exception.
             if (3 <= Info.Generation && Info.Generation <= 5)
             {
                 VerifyTransferEC(data);
+                return;
             }
-            else
+
+            // Gen1-2, Gen6+ should have PID != EC
+            if (pkm.PID == pkm.EncryptionConstant)
+            {
+                data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                return;
+            }
+
+            // Check for Gen3-5 => Gen6 edge case being incorrectly applied here.
+            if ((pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
             {
                 int xor = pkm.TSV ^ pkm.PSV;
-                if (xor < 16 && xor >= 8 && (pkm.PID ^ 0x80000000) == pkm.EncryptionConstant)
+                if (xor >> 3 == 1) // 8 <= x <= 15
                     data.AddLine(Get(LTransferPIDECXor, Severity.Fishy, CheckIdentifier.EC));
             }
         }

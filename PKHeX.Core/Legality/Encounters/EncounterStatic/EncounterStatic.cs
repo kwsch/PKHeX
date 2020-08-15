@@ -36,7 +36,6 @@ namespace PKHeX.Core
 
         public bool Fateful { get; set; }
         public bool SkipFormCheck { get; set; }
-        public bool Roaming { get; set; }
         public bool EggEncounter => EggLocation > 0;
 
         internal EncounterStatic Clone() => (EncounterStatic)MemberwiseClone();
@@ -210,7 +209,7 @@ namespace PKHeX.Core
         {
             switch (Generation)
             {
-                case 3 when Roaming && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
+                case 3 when this is EncounterStatic3 s3 && s3.Roaming && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;

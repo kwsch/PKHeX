@@ -2,6 +2,8 @@
 {
     public class EncounterStatic5 : EncounterStatic
     {
+        public bool Roaming { get; set; }
+
         public sealed override bool IsMatchDeferred(PKM pkm)
         {
             if (pkm.FatefulEncounter != Fateful)

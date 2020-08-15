@@ -2,6 +2,8 @@
 {
     public class EncounterStatic3 : EncounterStatic
     {
+        public bool Roaming { get; set; }
+
         protected override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm.Format == 3)
