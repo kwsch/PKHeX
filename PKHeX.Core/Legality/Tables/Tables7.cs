@@ -472,6 +472,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> Totem_NoTransfer = new HashSet<int>
         {
+            105, // Marowak
             752, // Araquanid
             777, // Togedemaru
             743, // Ribombee

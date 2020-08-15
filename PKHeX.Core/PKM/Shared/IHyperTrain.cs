@@ -91,9 +91,13 @@ namespace PKHeX.Core
             t.HT_HP = IVs[0] != 31;
             t.HT_ATK = IVs[1] != 31 && IVs[1] > 2;
             t.HT_DEF = IVs[2] != 31;
-            t.HT_SPE = IVs[3] != 31 && IVs[3] > 2;
             t.HT_SPA = IVs[4] != 31;
             t.HT_SPD = IVs[5] != 31;
+
+            // sometimes unusual speed IVs are desirable for competitive reasons
+            // if nothing else was HT'd and the IV isn't too high, it was probably intentional
+            t.HT_SPE = IVs[3] != 31 && IVs[3] > 2 &&
+                (IVs[3] > 17 || t.HT_HP || t.HT_ATK || t.HT_DEF || t.HT_SPA || t.HT_SPD);
 
             if (pkm is PB7 pb)
                 pb.ResetCP();
