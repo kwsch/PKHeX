@@ -12,6 +12,8 @@ namespace PKHeX.Core
         private const int FluteBoostMax = 4; // Black Flute increases levels.
         private const int DexNavBoost = 30; // Maximum DexNav chain
 
+        private const int RandomForm = 31;
+
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
@@ -26,63 +28,28 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level, boostMin, boostMax))
                         break;
 
-                    if (slot.Form != evo.Form)
-                    {
-                        if (!Legal.WildForms.Contains(slot.Species))
-                            break;
+                    if (slot.Form != evo.Form && slot.Form != RandomForm)
+                        break;
 
-                        var maxLevel = slot.LevelMax;
-                        if (!ExistsPressureSlot(evo, ref maxLevel))
-                            break;
-
-                        if (maxLevel != pkm.Met_Level)
-                            break;
-
-                        var clone = (EncounterSlot6AO)slot.Clone();
-                        clone.Form = pkm.AltForm;
-                        clone.Pressure = true;
-                        MarkSlotDetails(pkm, clone, evo);
-                        yield return clone;
-                    }
-                    else
-                    {
-                        var clone = (EncounterSlot6AO)slot.Clone();
-                        MarkSlotDetails(pkm, clone, evo);
-                        yield return clone;
-                    }
+                    var clone = (EncounterSlot6AO)slot.Clone();
+                    MarkSlotDetails(pkm, clone, evo);
+                    yield return clone;
                     break;
                 }
             }
         }
 
-        private bool ExistsPressureSlot(DexLevel evo, ref int level)
+        private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO slot, EvoCriteria evo)
         {
-            bool existsForm = false;
-            foreach (var z in Slots)
-            {
-                if (z.Species != evo.Species)
-                    continue;
-                if (z.Form == evo.Form)
-                    continue;
-                if (z.LevelMax < level)
-                    continue;
-                level = z.LevelMax;
-                existsForm = true;
-            }
-            return existsForm;
-        }
+            bool nav = slot.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
+            slot.DexNav = nav;
 
-        private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO clone, EvoCriteria evo)
-        {
-            bool nav = clone.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
-            clone.DexNav = nav;
-
-            if (clone.LevelMin > evo.MinLevel)
-                clone.WhiteFlute = true;
-            if (clone.LevelMax + 1 <= evo.MinLevel && evo.MinLevel <= clone.LevelMax + FluteBoostMax)
-                clone.BlackFlute = true;
-            if (clone.LevelMax != evo.MinLevel && clone.AllowDexNav)
-                clone.DexNav = true;
+            if (slot.LevelMin > evo.MinLevel)
+                slot.WhiteFlute = true;
+            if (slot.LevelMax + 1 <= evo.MinLevel && evo.MinLevel <= slot.LevelMax + FluteBoostMax)
+                slot.BlackFlute = true;
+            if (slot.LevelMax != evo.MinLevel && slot.AllowDexNav)
+                slot.DexNav = true;
         }
     }
 }

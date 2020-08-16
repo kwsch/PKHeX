@@ -8,6 +8,9 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea6XY : EncounterArea32
     {
+        private const int RandomForm = 31;
+        private const int RandomFormVivillon = RandomForm - 1;
+
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             foreach (var slot in Slots)
@@ -20,9 +23,9 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         break;
 
-                    if (slot.Form != evo.Form)
+                    if (slot.Form != evo.Form && slot.Form < RandomFormVivillon)
                     {
-                        if (!Legal.WildForms.Contains(slot.Species))
+                        if (slot.Species != (int)Species.Flabébé)
                             break;
 
                         var maxLevel = slot.LevelMax;
