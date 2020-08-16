@@ -38,14 +38,20 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
-                    // gen5 correlation, with some exclusions
                     if (s.Generation != 5)
                         break;
+
+                    // Generation 5 has a correlation for wild captures.
+                    // Certain static encounter types are just generated straightforwardly.
                     if (s.Location == 75) // Entree Forest
                         break;
+
+                    // Not wild / forced ability
                     if (s.Gift || s.Ability == 4)
                         break;
-                    if (s is EncounterStatic5N || (s is EncounterStatic5 s5 && s5.Roaming))
+
+                    // Forced PID or generated without an encounter
+                    if (s is EncounterStatic5N || (s is EncounterStatic5 s5 && s5.Roaming) || s.Shiny == Shiny.Never)
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
