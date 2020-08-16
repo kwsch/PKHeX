@@ -297,13 +297,13 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
                     if (slot.Form != evo.Form)
-                        continue;
+                        break;
                     if (!slot.IsLevelWithinRange(lvl))
-                        continue;
+                        break;
 
                     var expect = ((EncounterSlot2)slot).Time;
                     if (!expect.Contains(time))
-                        continue;
+                        break;
 
                     yield return slot;
                 }
@@ -320,7 +320,10 @@ namespace PKHeX.Core
                         continue;
 
                     if (slot.Form != evo.Form)
-                        break;
+                    {
+                        if (slot.Species != (int) Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                            break;
+                    }
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         break;
 

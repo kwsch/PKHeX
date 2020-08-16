@@ -143,11 +143,12 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
                     if (slot.Form != evo.Form)
-                        continue;
+                        break;
                     if (!slot.IsLevelWithinRange(lvl))
-                        continue;
+                        break;
 
                     yield return slot;
+                    break;
                 }
             }
         }

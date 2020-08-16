@@ -1061,7 +1061,7 @@ namespace PKHeX.Core
         {
             new EncounterArea4DPPt {
                 Location = 53, // Solaceon Ruins
-                Slots = Enumerable.Range(1, 25).Select(i => new EncounterSlot4 { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i }).ToArray() // B->?, Unown A is loaded from encounters raw file
+                Slots = Enumerable.Range(1, 27).Select(i => new EncounterSlot4 { Species = 201, LevelMin = 14, LevelMax = 30, Type = SlotType.Grass, Form = i }).ToArray() // B->?, Unown A is loaded from encounters raw file
             },
         };
 
