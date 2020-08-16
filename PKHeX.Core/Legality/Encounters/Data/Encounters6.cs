@@ -118,7 +118,7 @@ namespace PKHeX.Core
                     new EncounterSlot6XY { Species = 314, LevelMin = 14, LevelMax = 15, Form = 0 }, // Illumise
                     new EncounterSlot6XY { Species = 412, LevelMin = 14, LevelMax = 15, Form = 0 }, // Burmy
                     new EncounterSlot6XY { Species = 415, LevelMin = 14, LevelMax = 15, Form = 0 }, // Combee
-                    new EncounterSlot6XY { Species = 665, LevelMin = 14, LevelMax = 15, Form = 0 }, // Spewpa
+                    new EncounterSlot6XY { Species = 665, LevelMin = 14, LevelMax = 15, Form = 30 }, // Spewpa
                 },},
 
             new EncounterArea6XY { Location = 88, // Route 18
