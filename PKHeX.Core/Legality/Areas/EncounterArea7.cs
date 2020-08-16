@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                     {
-                        if (!Legal.WildForms.Contains(slot.Species))
+                        if (slot.Species != (int)Species.Minior) // Random Color, edge case
                             break;
                     }
 

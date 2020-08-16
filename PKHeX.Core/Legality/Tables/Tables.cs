@@ -16,13 +16,6 @@ namespace PKHeX.Core
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
         public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
 
-        public static readonly HashSet<int> WildForms = new HashSet<int>
-        {
-            422, 423, // Shellos
-            550, // Basculin
-            669, 670, 671 // Flabébé
-        };
-
         public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
         {
             412, // Burmy
