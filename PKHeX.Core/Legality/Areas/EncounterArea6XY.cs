@@ -23,7 +23,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
                         break;
 
-                    if (slot.Form != evo.Form && slot.Form < RandomFormVivillon)
+                    if (slot.Form != evo.Form && slot.Form < RandomFormVivillon && !Legal.WildChangeFormAfter.Contains(slot.Species))
                     {
                         if (slot.Species != (int)Species.Flabébé)
                             break;
