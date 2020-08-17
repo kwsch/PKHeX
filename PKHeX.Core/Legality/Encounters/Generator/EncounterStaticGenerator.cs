@@ -50,6 +50,7 @@ namespace PKHeX.Core
                         deferred.Add(e);
                     else
                         yield return e;
+                    break;
                 }
             }
             foreach (var e in deferred)

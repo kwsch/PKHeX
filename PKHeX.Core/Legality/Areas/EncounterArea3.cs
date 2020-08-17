@@ -142,6 +142,7 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (slot.Form != evo.Form)
                         break;
                     if (!slot.IsLevelWithinRange(lvl))

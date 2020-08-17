@@ -35,6 +35,7 @@ namespace PKHeX.Core
                     }
 
                     yield return slot;
+                    break;
                 }
             }
         }
