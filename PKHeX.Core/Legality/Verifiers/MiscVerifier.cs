@@ -395,10 +395,11 @@ namespace PKHeX.Core
                     data.AddLine(GetInvalid(LStatBattleVersionInvalid));
             }
 
-            bool originGMax = data.EncounterMatch is IGigantamax g && g.CanGigantamax;
+            var enc = data.EncounterMatch;
+            bool originGMax = enc is IGigantamax g && g.CanGigantamax;
             if (originGMax != pk8.CanGigantamax)
             {
-                bool ok = pk8.CanToggleGigantamax(pk8.Species, data.EncounterMatch.Species);
+                bool ok = pk8.CanToggleGigantamax(pk8.Species, pk8.AltForm, enc.Species, enc.Form);
                 var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
                 data.AddLine(chk);
             }

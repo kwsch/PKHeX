@@ -20,10 +20,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="_">Unnecessary, just needed for extension method usage.</param>
         /// <param name="currentSpecies">The current species</param>
+        /// <param name="currentForm">The current form of the species</param>
         /// <param name="originSpecies">The original species (what species it was encountered as)</param>
+        /// <param name="originForm">The original form of the original species</param>
         /// <returns>True if either species can toggle Gigantamax potential</returns>
-        public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int originSpecies)
+        public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm, int originSpecies, int originForm)
         {
+            if (currentSpecies == (int)Species.Meowth)
+                return currentForm == 0;
+
             var soup = CanEatMaxSoup;
             return soup.Contains(currentSpecies) || (currentSpecies != originSpecies && soup.Contains(originSpecies));
         }
@@ -33,9 +38,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="_">Unnecessary, just needed for extension method usage.</param>
         /// <param name="currentSpecies">The current species</param>
+        /// <param name="currentForm">The current form of the species</param>
         /// <returns>True if the species can toggle Gigantamax potential</returns>
-        public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies)
+        public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm)
         {
+            if (currentSpecies == (int)Species.Meowth)
+                return currentForm == 0;
             var soup = CanEatMaxSoup;
             return soup.Contains(currentSpecies);
         }

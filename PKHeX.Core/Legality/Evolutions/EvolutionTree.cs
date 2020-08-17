@@ -169,6 +169,8 @@ namespace PKHeX.Core
             BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
             BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax g && g.CanGigantamax) || pkm.Version >= (int)GP || pkm.Version == (int)GO);
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Persian, 1, pkm => pkm is IGigantamax g && g.CanGigantamax);
+            BanEvo((int)Species.Perrserker, 0, pkm => pkm is IGigantamax g && g.CanGigantamax);
 
             BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Version >= (int)GP || pkm.Version == (int)GO);
             BanEvo((int)Species.Marowak, 1, pkm => pkm.Version >= (int)GP || pkm.Version == (int)GO);
