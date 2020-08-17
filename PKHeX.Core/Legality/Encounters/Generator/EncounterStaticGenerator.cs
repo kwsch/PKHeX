@@ -80,12 +80,12 @@ namespace PKHeX.Core
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
-        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm)
+        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)
         {
             if (pkm.VC1)
-                return GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
+                return GetRBYStaticTransfer(pkm.Species > MaxSpeciesID_1 ? enc.Species : pkm.Species, pkm.Met_Level);
             if (pkm.VC2)
-                return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
+                return GetGSStaticTransfer(pkm.Species > MaxSpeciesID_2 ? enc.Species : pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
 
