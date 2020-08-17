@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
@@ -80,8 +81,15 @@ namespace PKHeX.Core
             {
                 var evo = chain[i];
                 if (evo.MinLevel > maxLevel)
+                {
                     chain.RemoveAt(i);
-                else if (evo.Level > maxLevel)
+                    if (chain.Any(z => z.Level >= maxLevel))
+                        continue;
+                    chain.Clear();
+                    break;
+                }
+
+                if (evo.Level > maxLevel)
                     evo.Level = maxLevel;
             }
             return chain;
