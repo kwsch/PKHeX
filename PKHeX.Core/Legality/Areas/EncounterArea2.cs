@@ -296,8 +296,13 @@ namespace PKHeX.Core
                 {
                     if (slot.Species != evo.Species)
                         continue;
+
                     if (slot.Form != evo.Form)
-                        break;
+                    {
+                        if (slot.Species != (int)Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                            break;
+                    }
+
                     if (!slot.IsLevelWithinRange(lvl))
                         break;
 
@@ -306,6 +311,7 @@ namespace PKHeX.Core
                         break;
 
                     yield return slot;
+                    break;
                 }
             }
         }
