@@ -1083,6 +1083,11 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
+        /// </summary>
+        public bool HasMove(int move) => Move1 == move || Move2 == move || Move3 == move || Move4 == move;
+
+        /// <summary>
         /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
         /// </summary>
         public void ClearInvalidMoves()

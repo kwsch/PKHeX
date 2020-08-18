@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -13,10 +14,10 @@ namespace PKHeX.Core
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return gen == 8; // future: change to <= when HOME released
+            return gen <= 8; // future: change to <= when HOME released
         }).ToArray();
 
         protected SAV8(byte[] data) : base(data) { }

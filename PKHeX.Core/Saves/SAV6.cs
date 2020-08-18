@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -112,9 +111,9 @@ namespace PKHeX.Core
             if (CT != pk6.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
-                if (pk6.Moves.Contains(216)) // Return
+                if (pk6.HasMove(216)) // Return
                     pk6.CurrentFriendship = pk6.OppositeFriendship;
-                else if (pk6.Moves.Contains(218)) // Frustration
+                else if (pk6.HasMove(218)) // Frustration
                     pkm.CurrentFriendship = pk6.OppositeFriendship;
             }
             pkm.RefreshChecksum();

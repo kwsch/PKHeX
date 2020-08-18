@@ -48,7 +48,7 @@ namespace PKHeX.Core
         public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
         public abstract string Extension { get; }
 
-        public virtual string[] PKMExtensions => PKM.Extensions.Where(f =>
+        public virtual IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
             return 3 <= gen && gen <= Generation;

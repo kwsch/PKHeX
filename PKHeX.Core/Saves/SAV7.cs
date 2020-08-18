@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace PKHeX.Core
         public override string Filter => "Main SAV|*.*";
         public override string Extension => string.Empty;
 
-        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
             return gen <= 7 && f[1] != 'b'; // ignore PB7
@@ -186,9 +187,9 @@ namespace PKHeX.Core
             if (CT != pk7.CurrentHandler) // Logic updated Friendship
             {
                 // Copy over the Friendship Value only under certain circumstances
-                if (pk7.Moves.Contains(216)) // Return
+                if (pk7.HasMove(216)) // Return
                     pk7.CurrentFriendship = pk7.OppositeFriendship;
-                else if (pk7.Moves.Contains(218)) // Frustration
+                else if (pk7.HasMove(218)) // Frustration
                     pkm.CurrentFriendship = pk7.OppositeFriendship;
             }
             pkm.RefreshChecksum();
