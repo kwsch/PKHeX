@@ -259,7 +259,7 @@ namespace PKHeX.Core
                 case EncounterTrade2 _:
                     return GBEncounterPriority.TradeEncounterG2;
                 case EncounterStatic s:
-                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.HasMove(s.Moves[0]))
                         return GBEncounterPriority.SpecialEncounter;
                     return GBEncounterPriority.StaticEncounter;
                 case EncounterSlot _:
