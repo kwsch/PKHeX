@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();
-        protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_6PARTY;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
