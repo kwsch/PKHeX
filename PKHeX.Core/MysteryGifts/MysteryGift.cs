@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -218,5 +219,10 @@ namespace PKHeX.Core
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);
         public int TrainerSID7 => (int)((uint)(TID | (SID << 16)) / 1000000);
+
+        /// <summary>
+        /// Checks if the <see cref="PKM"/> has the <see cref="move"/> in its current move list.
+        /// </summary>
+        public bool HasMove(int move) => Moves.Contains(move);
     }
 }

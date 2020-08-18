@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public override PersonalTable Personal { get; }
         public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
 
-        public override string[] PKMExtensions => PKM.Extensions.Where(f =>
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
             return 1 <= gen && gen <= 2;

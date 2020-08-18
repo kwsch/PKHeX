@@ -12,12 +12,13 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
         public override string Extension => ".bin";
-        public override string[] PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();
-        protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected override int SIZE_STORED => PokeCrypto.SIZE_6PARTY;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+        public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
         public override PersonalTable Personal => PersonalTable.GG;
@@ -86,17 +87,8 @@ namespace PKHeX.Core
         {
             var pk = (PB7)pkm;
             // Apply to this Save File
-            int CT = pk.CurrentHandler;
             var Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
-            if (CT != pk.CurrentHandler) // Logic updated Friendship
-            {
-                // Copy over the Friendship Value only under certain circumstances
-                if (pk.Moves.Contains(216)) // Return
-                    pk.CurrentFriendship = pk.OppositeFriendship;
-                else if (pk.Moves.Contains(218)) // Frustration
-                    pk.CurrentFriendship = pk.OppositeFriendship;
-            }
             pk.RefreshChecksum();
         }
 
@@ -106,7 +98,7 @@ namespace PKHeX.Core
 
         protected override PKM GetPKM(byte[] data) => new PB7(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
-        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_PARTY);
+        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_BOXSLOT);
         protected override IList<int>[] SlotPointers => new[] { Blocks.Storage.PokeListInfo };
 
         public override int GetPartyOffset(int slot) => Blocks.Storage.GetPartyOffset(slot);
