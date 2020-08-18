@@ -18,6 +18,7 @@ namespace PKHeX.Core
         public override PKM BlankPKM => new PB7();
         protected override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
+        public override int SIZE_BOXSLOT => PokeCrypto.SIZE_6PARTY;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
         public override PersonalTable Personal => PersonalTable.GG;
@@ -106,7 +107,7 @@ namespace PKHeX.Core
 
         protected override PKM GetPKM(byte[] data) => new PB7(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray6(data);
-        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_PARTY);
+        public override int GetBoxOffset(int box) => Box + (box * BoxSlotCount * SIZE_BOXSLOT);
         protected override IList<int>[] SlotPointers => new[] { Blocks.Storage.PokeListInfo };
 
         public override int GetPartyOffset(int slot) => Blocks.Storage.GetPartyOffset(slot);
