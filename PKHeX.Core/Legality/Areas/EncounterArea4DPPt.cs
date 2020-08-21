@@ -21,16 +21,16 @@ namespace PKHeX.Core
             return entries.Select(z => GetArea4DPPt(z, pt)).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
-        private static EncounterSlot[] GetSlots4GrassDPPt(byte[] data, int ofs, int numslots, SlotType t)
+        private static EncounterSlot4[] GetSlots4GrassDPPt(byte[] data, int ofs, int numslots, SlotType t)
         {
-            var slots = new EncounterSlot[numslots];
+            var slots = new EncounterSlot4[numslots];
 
             for (int i = 0; i < numslots; i++)
             {
                 int o = ofs + (i * 8);
                 int level = data[o];
                 int species = BitConverter.ToInt32(data, o + 4);
-                slots[i] = new EncounterSlot
+                slots[i] = new EncounterSlot4
                 {
                     LevelMax = level,
                     LevelMin = level,
@@ -42,9 +42,9 @@ namespace PKHeX.Core
             return slots;
         }
 
-        private static IEnumerable<EncounterSlot> GetSlots4WaterFishingDPPt(byte[] data, int ofs, int numslots, SlotType t)
+        private static IEnumerable<EncounterSlot4> GetSlots4WaterFishingDPPt(byte[] data, int ofs, int numslots, SlotType t)
         {
-            var slots = new List<EncounterSlot>();
+            var slots = new List<EncounterSlot4>();
             for (int i = 0; i < numslots; i++)
             {
                 // max, min, unused, unused, [32bit species]
@@ -53,7 +53,7 @@ namespace PKHeX.Core
                     continue;
                 // Fishing and Surf slots without a species ID are not added
                 // DPPt does not have fishing or surf swarms, and does not have any Rock Smash encounters.
-                slots.Add(new EncounterSlot
+                slots.Add(new EncounterSlot4
                 {
                     LevelMax = data[ofs + 0 + (i * 8)],
                     LevelMin = data[ofs + 1 + (i * 8)],
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             var GrassRatio = BitConverter.ToInt32(data, 0x02);
             if (GrassRatio > 0)
             {
-                EncounterSlot[] GrassSlots = GetSlots4GrassDPPt(data, 0x06, 12, SlotType.Grass);
+                var GrassSlots = GetSlots4GrassDPPt(data, 0x06, 12, SlotType.Grass);
                 //Swarming slots replace slots 0 and 1
                 var swarm = GetSlots4GrassSlotReplace(data, 0x66, 4, GrassSlots, Legal.Slot4_Swarm, SlotType.Swarm);
                 //Morning and Night slots replace slots 2 and 3
@@ -107,11 +107,11 @@ namespace PKHeX.Core
                 // Permute Static-Magnet Pull combinations
                 // [None/Swarm]-[None/Morning/Night]-[None/Radar]-[None/R/S/E/F/L] [None/TrophyGarden]
                 // 2 * 3 * 2 * 6 = 72 different combinations of slots (more with trophy garden)
-                var regular = new List<List<EncounterSlot>> { GrassSlots.Where(z => z.SlotNumber == 6 || z.SlotNumber == 7).ToList() }; // every other slot is in the product
-                var pair0 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Swarm.Contains(z.SlotNumber)).ToList() };
-                var pair1 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Time.Contains(z.SlotNumber)).ToList() };
-                var pair2 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Radar.Contains(z.SlotNumber)).ToList() };
-                var pair3 = new List<List<EncounterSlot>> { GrassSlots.Where(z => Legal.Slot4_Dual.Contains(z.SlotNumber)).ToList() };
+                var regular = new List<List<EncounterSlot4>> { GrassSlots.Where(z => z.SlotNumber == 6 || z.SlotNumber == 7).ToList() }; // every other slot is in the product
+                var pair0 = new List<List<EncounterSlot4>> { GrassSlots.Where(z => Legal.Slot4_Swarm.Contains(z.SlotNumber)).ToList() };
+                var pair1 = new List<List<EncounterSlot4>> { GrassSlots.Where(z => Legal.Slot4_Time.Contains(z.SlotNumber)).ToList() };
+                var pair2 = new List<List<EncounterSlot4>> { GrassSlots.Where(z => Legal.Slot4_Radar.Contains(z.SlotNumber)).ToList() };
+                var pair3 = new List<List<EncounterSlot4>> { GrassSlots.Where(z => Legal.Slot4_Dual.Contains(z.SlotNumber)).ToList() };
                 if (swarm.Count != 0) pair0.Add(swarm);
                 if (morning.Count != 0) pair1.Add(morning); if (night.Count != 0) pair1.Add(night);
                 if (radar.Count != 0) pair2.Add(radar);
@@ -121,14 +121,14 @@ namespace PKHeX.Core
                 {
                     // Occupy Slots 6 & 7
                     var species = pt ? Encounters4.TrophyPt : Encounters4.TrophyDP;
-                    var slots = new List<EncounterSlot>();
+                    var slots = new List<EncounterSlot4>();
                     foreach (var s in species)
                     {
-                        var slot = regular[0][0].Clone();
+                        var slot = (EncounterSlot4)regular[0][0].Clone();
                         slot.Species = s;
                         slots.Add(slot);
 
-                        slot = regular[0][1].Clone();
+                        slot = (EncounterSlot4)regular[0][1].Clone();
                         slot.Species = s;
                         slots.Add(slot);
                     }
@@ -138,7 +138,7 @@ namespace PKHeX.Core
                     for (int i = 0; i < trophy.Length; i++)
                     {
                         for (int j = i + 1; j < trophy.Length; j++)
-                            regular.Add(new List<EncounterSlot> { trophy[i], trophy[j] });
+                            regular.Add(new List<EncounterSlot4> { trophy[i], trophy[j] });
                     }
                 }
 

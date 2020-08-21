@@ -6,8 +6,11 @@
     /// <remarks>
     /// Contains Time data which is present in <see cref="GameVersion.C"/> origin data.
     /// </remarks>
-    public sealed class EncounterSlot2 : EncounterSlot
+    public sealed class EncounterSlot2 : EncounterSlot, INumberedSlot
     {
+        public override int Generation => 2;
+        public int SlotNumber { get; set; }
+
         public int Rate;
         internal EncounterTime Time;
 

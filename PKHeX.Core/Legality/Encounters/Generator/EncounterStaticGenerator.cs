@@ -16,12 +16,6 @@ namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var dl = EvolutionChain.GetOriginChain(pkm);
-            return GetPossible(pkm, dl, gameSource);
-        }
-
         public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -33,51 +27,39 @@ namespace PKHeX.Core
             return encounters.Where(e => !GameVersion.GBCartEraOnly.Contains(e.Version));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, GameVersion gameSource = GameVersion.Any)
-        {
-            var poss = GetPossible(pkm, gameSource: gameSource);
-
-            int lvl = GetMaxLevelEncounter(pkm);
-            if (lvl < 0)
-                return Enumerable.Empty<EncounterStatic>();
-
-            // Back Check against pkm
-            return GetMatchingStaticEncounters(pkm, poss, lvl);
-        }
-
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
             var poss = GetPossible(pkm, chain, gameSource: gameSource);
 
-            int lvl = GetMaxLevelEncounter(pkm);
-            if (lvl < 0)
-                return Enumerable.Empty<EncounterStatic>();
-
             // Back Check against pkm
-            return GetMatchingStaticEncounters(pkm, poss, lvl);
+            return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
-        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, int lvl)
+        private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<DexLevel> evos)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
             var deferred = new List<EncounterStatic>();
             foreach (EncounterStatic e in poss)
             {
-                if (!GetIsMatchStatic(pkm, e, lvl))
-                    continue;
+                foreach (var dl in evos)
+                {
+                    if (!GetIsMatchStatic(pkm, e, dl))
+                        continue;
 
-                if (e.IsMatchDeferred(pkm))
-                    deferred.Add(e);
-                else
-                    yield return e;
+                    if (e.IsMatchDeferred(pkm))
+                        deferred.Add(e);
+                    else
+                        yield return e;
+                    break;
+                }
             }
             foreach (var e in deferred)
                 yield return e;
         }
 
-        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, int lvl)
+        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, DexLevel evo)
         {
-            if (!e.IsMatch(pkm, lvl))
+            if (!e.IsMatch(pkm, evo))
                 return false;
 
             if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))
@@ -98,12 +80,12 @@ namespace PKHeX.Core
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
-        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm)
+        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)
         {
             if (pkm.VC1)
-                return GetRBYStaticTransfer(pkm.Species, pkm.Met_Level);
+                return GetRBYStaticTransfer(pkm.Species > MaxSpeciesID_1 ? enc.Species : pkm.Species, pkm.Met_Level);
             if (pkm.VC2)
-                return GetGSStaticTransfer(pkm.Species, pkm.Met_Level);
+                return GetGSStaticTransfer(pkm.Species > MaxSpeciesID_2 ? enc.Species : pkm.Species, pkm.Met_Level);
             return new EncounterInvalid(pkm);
         }
 

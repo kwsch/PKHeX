@@ -16,11 +16,12 @@ namespace PKHeX.Core
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
         public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
 
-        public static readonly HashSet<int> WildForms = new HashSet<int>
+        public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
         {
-            422, 423, // Shellos
-            550, // Basculin
-            669, 670, 671 // Flabébé
+            412, // Burmy
+            479, // Rotom
+            676, // Furfrou
+            741, // Oricorio
         };
 
         public static readonly HashSet<int> SplitBreed = new HashSet<int>
@@ -37,12 +38,9 @@ namespace PKHeX.Core
             358, // Chimecho
         };
 
-        public static readonly HashSet<int> FormChange = new HashSet<int> // Pokémon that can change form and retain it
+        public static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter) // Pokémon that can change between all forms
         {
             386, // Deoxys
-            412, // Burmy
-            421, // Cherrim
-            479, // Rotom
             487, // Giratina
             492, // Shaymin
             493, // Arceus
@@ -52,13 +50,9 @@ namespace PKHeX.Core
             646, // Kyurem
             647, // Keldeo
             649, // Genesect
-            676, // Furfrou
             720, // Hoopa
-            741, // Oricorio
             773, // Silvally
-
             800, // Necrozma
-            891, // Urshifu
         };
 
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
@@ -178,7 +172,7 @@ namespace PKHeX.Core
             (int)Species.Zacian,
             (int)Species.Zamazenta,
             (int)Species.Eternatus,
-            
+
             (int)Species.Kubfu,
             (int)Species.Urshifu,
             (int)Species.Zarude,
@@ -335,6 +329,7 @@ namespace PKHeX.Core
             473, // Mamoswine (Piloswine with Ancient Power)
             700, // Sylveon (Eevee with Fairy Move)
             763, // Tsareena (Steenee with Stomp)
+            (int)Species.Grapploct // (Clobbopus with Taunt)
         };
 
         internal static readonly int[] FairyMoves =
@@ -362,6 +357,13 @@ namespace PKHeX.Core
             698, // Guardian of Alola
             705, // Fleur Cannon
             717, // Nature's Madness
+            726, // Let's Snuggle Forever
+            740, // Sparkly Swirl
+            767, // Max Starfall
+            777, // Decorate
+            789, // Spirit Break
+            790, // Strange Steam
+            802, // Misty Explosion
         };
 
         // Moves that trigger the evolution by move
@@ -376,6 +378,7 @@ namespace PKHeX.Core
             new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
             FairyMoves, // Sylveon (Eevee with Fairy Move)
             new [] { 023 }, // Tsareena (Steenee with Stomp)
+            new [] { 269 }, // Grapploct (Clobbopus with Taunt)
         };
 
         // Min level for any species for every generation to learn the move for evolution by move
@@ -400,6 +403,8 @@ namespace PKHeX.Core
             new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
             // Tsareena (Steenee with Stomp)
             new [] { 0, 0, 0, 0, 0, 0, 0, 2, 28 },
+            // Grapploct (Clobbopus with Taunt)
+            new [] { 0, 0, 0, 0, 0, 0, 0, 0, 35 },
         };
 
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
@@ -423,6 +428,8 @@ namespace PKHeX.Core
             new [] { false, false, true, true, true, true, true, true, true },
             // Tsareena (Steenee with Stomp)
             new [] { false, false, false, false, false, false, false, false, false },
+            // Grapploct (Clobbopus with Taunt)
+            new [] { false, false, false, false, false, false, false, false, true },
         };
 
         internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>

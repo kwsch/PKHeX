@@ -234,37 +234,6 @@ namespace PKHeX.Core
             }
         }
 
-        internal static List<EvoCriteria> GetOriginChain(PKM pkm, GameVersion gameSource)
-        {
-            var max = GetMaxSpecies(gameSource);
-            return GetOriginChain(pkm, maxspeciesorigin: max);
-        }
-
-        private static int GetMaxSpecies(GameVersion gameSource)
-        {
-            if (gameSource == GameVersion.RBY)
-                return MaxSpeciesID_1;
-            if (GameVersion.GSC.Contains(gameSource))
-                return MaxSpeciesID_2;
-            return -1;
-        }
-
-        internal static List<EvoCriteria> GetOriginChain(PKM pkm, int maxspeciesorigin = -1, int lvl = -1, int minLevel = 1, bool skipChecks = false)
-        {
-            var chain = GetValidPreEvolutions(pkm, maxspeciesorigin, lvl, minLevel, skipChecks);
-            if (!pkm.HasOriginalMetLocation)
-            {
-                var maxLevel = Legal.GetMaxLevelEncounter(pkm);
-                if (maxLevel < 0)
-                {
-                    chain.Clear();
-                    return chain;
-                }
-                foreach (var c in chain)
-                    c.Level = Math.Min(maxLevel, c.Level);
-            }
-            return chain;
-        }
 
         internal static List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
         {

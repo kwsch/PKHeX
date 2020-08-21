@@ -8,36 +8,22 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea7g : EncounterArea32
     {
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            int species = pkm.Species;
-            if (species == (int) Species.MrRime || species == (int) Species.Sirfetchd)
-                yield break;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
 
-            int form = pkm.AltForm;
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                        break;
+                    if (slot.Form != evo.Form)
+                        break;
 
-            if (Legal.AlolanVariantEvolutions12.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(species)) // match form if same species, else form 0.
-            {
-                foreach (var slot in slots)
-                {
-                    if (species == slot.Species ? slot.Form == form : slot.Form == 0)
-                        yield return slot;
-                }
-            }
-            else if (Legal.AlolanOriginForms.Contains(species)) // match slot form
-            {
-                foreach (var slot in slots)
-                {
-                    if (slot.Form == form)
-                        yield return slot;
-                }
-            }
-            else if (form == 0)
-            {
-                // enforce no form
-                foreach (var slot in slots)
-                {
                     yield return slot;
+                    break;
                 }
             }
         }

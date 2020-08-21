@@ -278,29 +278,65 @@ namespace PKHeX.Core
             return head.Concat(rock);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (minLevel == 0) // any
-                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+            if (!(pkm is PK2 pk2) || pk2.CaughtData == 0)
+                return GetSlotsFuzzy(chain);
 
-            var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);
-            return GetFilteredSlots(pkm, encounterSlots).OrderBy(slot => slot.LevelMin); // prefer lowest levels
+            if (pk2.Met_Location != Location)
+                return Array.Empty<EncounterSlot>();
+            return GetSlotsSpecificLevelTime(chain, pk2.Met_TimeOfDay, pk2.Met_Level);
         }
 
-        private static IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots)
+        private IEnumerable<EncounterSlot> GetSlotsSpecificLevelTime(IReadOnlyList<EvoCriteria> chain, int time, int lvl)
         {
-            if (pkm is PK2 pk2 && pk2.Met_TimeOfDay != 0)
-                return slots.Where(slot => ((EncounterSlot2)slot).Time.Contains(pk2.Met_TimeOfDay));
-            return slots;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (slot.Form != evo.Form)
+                    {
+                        if (slot.Species != (int)Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                            break;
+                    }
+
+                    if (!slot.IsLevelWithinRange(lvl))
+                        break;
+
+                    var expect = ((EncounterSlot2)slot).Time;
+                    if (!expect.Contains(time))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
 
-            if (pkm.Format >= 7 || !(pkm is PK2 pk2 && pk2.CaughtData != 0)) // transferred to Gen7+, or does not have Crystal met data
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+                    if (slot.Form != evo.Form)
+                    {
+                        if (slot.Species != (int) Species.Unown || evo.Form >= 26) // Don't yield !? forms
+                            break;
+                    }
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 }

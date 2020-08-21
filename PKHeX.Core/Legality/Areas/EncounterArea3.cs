@@ -30,7 +30,7 @@ namespace PKHeX.Core
                 if (species <= 0)
                     continue;
 
-                slots.Add(new EncounterSlot
+                slots.Add(new EncounterSlot3
                 {
                     LevelMin = data[o + 2],
                     LevelMax = data[o + 3],
@@ -60,7 +60,7 @@ namespace PKHeX.Core
                 if (Species <= 0)
                     continue;
 
-                var slot = new EncounterSlot
+                var slot = new EncounterSlot3
                 {
                     LevelMin = data[ofs + 2 + (i * 4)],
                     LevelMax = data[ofs + 3 + (i * 4)],
@@ -125,20 +125,53 @@ namespace PKHeX.Core
             return entries.Select(GetArea3).Where(Area => Area.Slots.Length != 0).ToArray();
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
-
-            if (pkm.Format != 3) // transferred to Gen4+
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+            if (pkm.Format != 3) // Met Location and Met Level are changed on PK3->PK4
+                return GetSlotsFuzzy(chain);
+            if (pkm.Met_Location != Location)
+                return Array.Empty<EncounterSlot>();
+            return GetSlotsMatching(chain, pkm.Met_Level);
         }
 
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
+        private IEnumerable<EncounterSlot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
         {
-            if (pkm.Species == (int) Species.Unown)
-                return slots.Where(z => z.Form == pkm.AltForm);
-            return slots;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (slot.Form != evo.Form)
+                        break;
+                    if (!slot.IsLevelWithinRange(lvl))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
+        }
+
+        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (slot.Form != evo.Form)
+                        break;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 }

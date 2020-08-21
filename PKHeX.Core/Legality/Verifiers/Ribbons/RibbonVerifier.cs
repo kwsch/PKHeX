@@ -466,7 +466,7 @@ namespace PKHeX.Core
             var sb = set2.RibbonBits();
             var eb = encounterContent is IRibbonSetEvent4 e4 ? e4.RibbonBits() : new bool[sb.Length];
 
-            if (encounterContent is EncounterStatic s && s.RibbonWishing)
+            if (encounterContent is EncounterStatic7 s && s.RibbonWishing)
                 eb[1] = true; // require Wishing Ribbon
 
             for (int i = 0; i < sb.Length; i++)

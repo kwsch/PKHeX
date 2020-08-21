@@ -115,7 +115,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] FutureEvolutionsGen5 =
         {
-            700
+            (int)Species.Sylveon,
         };
 
         internal static readonly HashSet<int> UnreleasedItems_5 = new HashSet<int>

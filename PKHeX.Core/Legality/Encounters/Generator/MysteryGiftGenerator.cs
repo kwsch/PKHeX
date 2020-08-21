@@ -7,12 +7,6 @@ namespace PKHeX.Core
 {
     public static class MysteryGiftGenerator
     {
-        public static IEnumerable<MysteryGift> GetPossible(PKM pkm)
-        {
-            var chain = EvolutionChain.GetOriginChain(pkm);
-            return GetPossible(pkm, chain);
-        }
-
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
@@ -26,16 +20,16 @@ namespace PKHeX.Core
                 yield return enc;
         }
 
-        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm)
+        public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
             int gen = pkm.GenNumber;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
                 return Array.Empty<MysteryGift>();
 
             if (gen == 4) // check for Manaphy gift
-                return GetMatchingPCD(pkm, MGDB_G4);
+                return GetMatchingPCD(pkm, MGDB_G4, chain);
             var table = GetTable(gen, pkm);
-            return GetMatchingGifts(pkm, table);
+            return GetMatchingGifts(pkm, table, chain);
         }
 
         private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm)
@@ -52,7 +46,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB)
+        private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB, IReadOnlyList<DexLevel> chain)
         {
             if (PGT.IsRangerManaphy(pkm))
             {
@@ -60,14 +54,8 @@ namespace PKHeX.Core
                 yield break;
             }
 
-            foreach (var g in GetMatchingGifts(pkm, DB))
+            foreach (var g in GetMatchingGifts(pkm, DB, chain))
                 yield return g;
-        }
-
-        private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB)
-        {
-            var chain = EvolutionChain.GetOriginChain(pkm);
-            return GetMatchingGifts(pkm, DB, chain);
         }
 
         private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB, IReadOnlyList<DexLevel> chain)

@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
     /// </summary>
-    public sealed class EncounterStaticShadow : EncounterStatic
+    public sealed class EncounterStaticShadow : EncounterStatic3
     {
         /// <summary>
         /// Team Specification with required <see cref="Species"/>, <see cref="Nature"/> and Gender.

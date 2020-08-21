@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
     /// </summary>
-    public abstract class EncounterArea
+    public class EncounterArea
     {
         public int Location;
         public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
@@ -20,19 +19,21 @@ namespace PKHeX.Core
         /// <param name="location">Location index of the encounter area.</param>
         /// <param name="t">Encounter slot type of the encounter area.</param>
         /// <returns>Encounter area with slots</returns>
-        public static T[] GetSimpleEncounterArea<T>(int[] species, int[] lvls, int location, SlotType t) where T : EncounterArea, new()
+        public static TArea[] GetSimpleEncounterArea<TArea, TSlot>(int[] species, int[] lvls, int location, SlotType t)
+            where TArea : EncounterArea, new()
+            where TSlot : EncounterSlot, new()
         {
             if ((lvls.Length & 1) != 0) // levels data not paired; expect multiple of 2
                 throw new ArgumentException(nameof(lvls));
 
             var count = species.Length * (lvls.Length / 2);
-            var slots = new EncounterSlot[count];
+            var slots = new TSlot[count];
             int ctr = 0;
             foreach (var s in species)
             {
                 for (int i = 0; i < lvls.Length;)
                 {
-                    slots[ctr++] = new EncounterSlot
+                    slots[ctr++] = new TSlot
                     {
                         LevelMin = lvls[i++],
                         LevelMax = lvls[i++],
@@ -41,7 +42,7 @@ namespace PKHeX.Core
                     };
                 }
             }
-            return new[] { new T { Location = location, Slots = slots } };
+            return new[] { new TArea { Location = location, Slots = slots } };
         }
 
         /// <summary>
@@ -49,29 +50,26 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Pokémon Data</param>
         /// <param name="chain">Evolution lineage</param>
-        /// <param name="minLevel">Minimum level of the encounter</param>
         /// <returns>Enumerable list of encounters</returns>
-        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        public virtual IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (minLevel == 0) // any
-                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
 
-            var slots = GetMatchFromEvoLevel(pkm, chain, minLevel);
-            return GetFilteredSlots(pkm, slots, minLevel);
-        }
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                        break;
 
-        protected virtual IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
-        {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
-            // Get slots where pokemon can exist with respect to level constraints
-            return slots.Where(slot => slot.IsLevelWithinRange(minLevel));
-        }
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
+                        break;
 
-        protected virtual IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
-        {
-            return Legal.WildForms.Contains(pkm.Species)
-                ? slots.Where(slot => slot.Form == pkm.AltForm)
-                : slots;
+                    yield return slot;
+                    break;
+                }
+            }
         }
 
         /// <summary>

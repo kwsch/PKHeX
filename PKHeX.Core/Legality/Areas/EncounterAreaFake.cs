@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -9,10 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterAreaFake : EncounterArea
     {
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
-            => Enumerable.Empty<EncounterSlot>();
-
-        protected override IEnumerable<EncounterSlot> GetFilteredSlots(PKM pkm, IEnumerable<EncounterSlot> slots, int minLevel)
-            => Enumerable.Empty<EncounterSlot>();
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain) =>
+            Array.Empty<EncounterSlot>();
     }
 }

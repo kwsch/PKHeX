@@ -22,9 +22,9 @@ namespace PKHeX.Core
         /// <param name="ReplacedSlots">Slots from regular encounter table that end up replaced by in-game conditions</param>
         /// <param name="slotnums">Slot indexes to replace with read species IDs</param>
         /// <param name="t">Slot type of the special encounter</param>
-        protected static List<EncounterSlot> GetSlots4GrassSlotReplace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
+        protected static List<EncounterSlot4> GetSlots4GrassSlotReplace(byte[] data, int ofs, int slotSize, EncounterSlot[] ReplacedSlots, int[] slotnums, SlotType t = SlotType.Grass)
         {
-            var slots = new List<EncounterSlot>();
+            var slots = new List<EncounterSlot4>();
 
             int numslots = slotnums.Length;
             for (int i = 0; i < numslots; i++)
@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 if (species <= 0 || baseSlot.Species == species) // Empty or duplicate
                     continue;
 
-                var slot = baseSlot.Clone();
+                var slot = (EncounterSlot4)baseSlot.Clone();
                 slot.Species = species;
                 slot.Type = t;
                 slot.SlotNumber = i;
@@ -46,26 +46,66 @@ namespace PKHeX.Core
             return slots;
         }
 
-        protected static IEnumerable<EncounterSlot> MarkStaticMagnetExtras(IEnumerable<IEnumerable<List<EncounterSlot>>> product)
+        protected static IEnumerable<EncounterSlot4> MarkStaticMagnetExtras(IEnumerable<IEnumerable<List<EncounterSlot4>>> product)
         {
-            var trackPermute = new List<EncounterSlot>();
+            var trackPermute = new List<EncounterSlot4>();
             foreach (var p in product)
                 MarkStaticMagnetPermute(p.SelectMany(z => z), trackPermute);
             return trackPermute;
         }
 
-        protected static void MarkStaticMagnetPermute(IEnumerable<EncounterSlot> grp, List<EncounterSlot> trackPermute)
+        protected static void MarkStaticMagnetPermute(IEnumerable<EncounterSlot4> grp, List<EncounterSlot4> trackPermute)
         {
             EncounterUtil.MarkEncountersStaticMagnetPullPermutation(grp, PersonalTable.HGSS, trackPermute);
         }
 
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
+            if (pkm.Format != 4) // Met Location and Met Level are changed on PK4->PK5
+                return GetSlotsFuzzy(chain);
+            if (pkm.Met_Location != Location)
+                return Array.Empty<EncounterSlot>();
+            return GetSlotsMatching(chain, pkm.Met_Level);
+        }
 
-            if (pkm.Format != 4) // transferred to Gen5+
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
+        private IEnumerable<EncounterSlot> GetSlotsMatching(IReadOnlyList<EvoCriteria> chain, int lvl)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
+                        break;
+                    if (!slot.IsLevelWithinRange(lvl))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
+        }
+
+        private IEnumerable<EncounterSlot> GetSlotsFuzzy(IReadOnlyList<EvoCriteria> chain)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
+                        break;
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 }

@@ -106,30 +106,31 @@ namespace PKHeX.Core
             return EncounterSlot1.ReadSlots(data, ref ofs, count, SlotType.Super_Rod, -1);
         }
 
-        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel = 0)
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (minLevel == 0) // any
-                return Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species));
+            int rate = pkm is PK1 pk1 && pkm.Gen1_NotTradeback ? pk1.Catch_Rate : -1;
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
 
-            var encounterSlots = GetMatchFromEvoLevel(pkm, chain, minLevel);
-            if (pkm is PK1 pk1 && pkm.Gen1_NotTradeback)
-                encounterSlots = FilterByCatchRate(encounterSlots, pk1.Catch_Rate);
+                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                        break;
+                    if (slot.Form != evo.Form)
+                        break;
 
-            return encounterSlots.OrderBy(slot => slot.LevelMin); // prefer lowest levels
-        }
-
-        protected override IEnumerable<EncounterSlot> GetMatchFromEvoLevel(PKM pkm, IReadOnlyList<DexLevel> chain, int minLevel)
-        {
-            var slots = Slots.Where(slot => chain.Any(evo => evo.Species == slot.Species && evo.Level >= slot.LevelMin));
-            if (pkm.Format >= 7) // transferred to Gen7+
-                return slots.Where(slot => slot.LevelMin <= minLevel);
-            return slots.Where(s => s.IsLevelWithinRange(minLevel));
-        }
-
-        private static IEnumerable<EncounterSlot> FilterByCatchRate(IEnumerable<EncounterSlot> slots, int rate)
-        {
-            return slots.Where(z =>
-                rate == (z.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[z.Species].CatchRate);
+                    if (rate != -1)
+                    {
+                        var expect = (slot.Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB)[slot.Species].CatchRate;
+                        if (expect != rate)
+                            break;
+                    }
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 }

@@ -213,12 +213,12 @@ namespace PKHeX.Core
             }
 
             // Shedinja's evolution case can be a little tricky; hard-code handling.
-            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || pkm.Met_Level + 1 <= maxLevel))
+            if (pkm.Species == (int)Species.Shedinja && maxLevel >= 20 && (!pkm.HasOriginalMetLocation || minLevel < maxLevel))
             {
                 return new List<EvoCriteria>(2)
                 {
                     new EvoCriteria((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
-                    new EvoCriteria((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = 1 },
+                    new EvoCriteria((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
                 };
             }
 

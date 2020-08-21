@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public class EncounterTrade : IEncounterable, IGenerationSet, IMoveset, ILocation, IContestStats, IVersionSet
+    public abstract class EncounterTrade : IEncounterable, IGenerationSet, IMoveset, ILocation, IContestStats, IVersionSet
     {
         public int Species { get; set; }
         public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
@@ -225,7 +225,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatch(PKM pkm, DexLevel evo, int lvl)
+        public virtual bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (IVs.Count != 0)
             {
@@ -240,13 +240,13 @@ namespace PKHeX.Core
             if (SID != pkm.SID)
                 return false;
 
-            if (!IsMatchLevel(pkm, lvl))
+            if (!IsMatchLevel(pkm, evo))
                 return false;
 
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
                 return false;
 
-            if (Form != evo.Form && !Legal.IsFormChangeable(pkm, Species, Form))
+            if (Form != evo.Form && !Legal.IsFormChangeable(Species, Form, pkm.Format))
                 return false;
             if (OTGender != -1 && OTGender != pkm.OT_Gender)
                 return false;
@@ -263,30 +263,19 @@ namespace PKHeX.Core
             return true;
         }
 
-        private bool IsMatchLevel(PKM pkm, int lvl)
+        private bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (pkm.HasOriginalMetLocation)
-            {
-                var loc = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
-                if (loc != pkm.Met_Location)
-                    return false;
+            if (!pkm.HasOriginalMetLocation)
+                return Level <= evo.Level;
 
-                if (pkm.Format < 5)
-                {
-                    if (Level > lvl)
-                        return false;
-                }
-                else if (Level != lvl)
-                {
-                    return false;
-                }
-            }
-            else if (Level > lvl)
-            {
+            var loc = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
+            if (loc != pkm.Met_Location)
                 return false;
-            }
 
-            return true;
+            if (pkm.Format < 5)
+                return Level <= evo.Level;
+
+            return Level == pkm.Met_Level;
         }
 
         protected virtual bool IsMatchNatureGenderShiny(PKM pkm)

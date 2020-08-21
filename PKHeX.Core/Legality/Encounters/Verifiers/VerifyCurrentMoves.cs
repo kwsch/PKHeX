@@ -177,8 +177,6 @@ namespace PKHeX.Core
         {
             var res = new CheckMoveResult[4];
             var G1Encounter = info.EncounterMatch;
-            if (G1Encounter == null)
-                return ParseMovesSpecialMoveset(pkm, currentMoves, info);
             var InitialMoves = Array.Empty<int>();
             var SpecialMoves = GetSpecialMoves(info.EncounterMatch);
             var games = info.EncounterMatch.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);

@@ -62,7 +62,7 @@ namespace PKHeX.Core
             {
                 if (pkm.Version == (int)GameVersion.CXD) // C/XD
                 {
-                    if (z is EncounterSlot w)
+                    if (z is EncounterSlot3PokeSpot w)
                     {
                         var seeds = MethodFinder.GetPokeSpotSeeds(pkm, w.SlotNumber).FirstOrDefault();
                         info.PIDIV = seeds ?? info.PIDIV;
@@ -94,7 +94,7 @@ namespace PKHeX.Core
         {
             if (s.IVs.Count == 0) // not E-Reader
                 return LockFinder.IsAllShadowLockValid(s, info.PIDIV, pkm);
-            
+
             // E-Reader have fixed IVs, and aren't recognized as CXD (no PID-IV correlation).
             var possible = MethodFinder.GetColoEReaderMatches(pkm.EncryptionConstant);
             foreach (var poss in possible)
@@ -140,7 +140,7 @@ namespace PKHeX.Core
             // Since encounter matching is super weak due to limited stored data in the structure
             // Calculate all 3 at the same time and pick the best result (by species).
             // Favor special event move gifts as Static Encounters when applicable
-            var chain = EvolutionChain.GetOriginChain(pkm, game);
+            var chain = EncounterOrigin.GetOriginChain12(pkm, game);
 
             var deferred = new List<IEncounterable>();
             foreach (var t in GetValidEncounterTrades(pkm, chain, game))
@@ -259,7 +259,7 @@ namespace PKHeX.Core
                 case EncounterTrade2 _:
                     return GBEncounterPriority.TradeEncounterG2;
                 case EncounterStatic s:
-                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.Moves.Contains(s.Moves[0]))
+                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.HasMove(s.Moves[0]))
                         return GBEncounterPriority.SpecialEncounter;
                     return GBEncounterPriority.StaticEncounter;
                 case EncounterSlot _:
@@ -287,9 +287,10 @@ namespace PKHeX.Core
         {
             int ctr = 0;
 
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (pkm.WasEvent || pkm.WasEventEgg || pkm.WasLink)
             {
-                foreach (var z in GetValidGifts(pkm))
+                foreach (var z in GetValidGifts(pkm, chain))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
@@ -301,21 +302,21 @@ namespace PKHeX.Core
                 if (ctr == 0) yield break;
             }
 
-            foreach (var z in GetValidStaticEncounter(pkm))
+            foreach (var z in GetValidStaticEncounter(pkm, chain))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
 
-            if (EncounterArea6XY.WasFriendSafari(pkm))
+            if (EncounterArea6XYFriendSafari.WasFriendSafari(pkm))
             {
-                foreach (var z in EncounterArea6XY.GetValidFriendSafari(pkm))
+                foreach (var z in EncounterArea6XYFriendSafari.GetValidSafariEncounters(pkm))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
 
-            foreach (var z in GetValidWildEncounters(pkm))
+            foreach (var z in GetValidWildEncounters(pkm, chain))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
-            foreach (var z in GetValidEncounterTrades(pkm))
+            foreach (var z in GetValidEncounterTrades(pkm, chain))
             { yield return z; ++ctr; }
         }
 
@@ -324,9 +325,10 @@ namespace PKHeX.Core
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
             int ctr = 0;
 
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (pkm.WasEvent || pkm.WasEventEgg)
             {
-                foreach (var z in GetValidGifts(pkm))
+                foreach (var z in GetValidGifts(pkm, chain))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
@@ -338,24 +340,25 @@ namespace PKHeX.Core
                 if (ctr == 0) yield break;
             }
 
-            foreach (var z in GetValidStaticEncounter(pkm))
+            foreach (var z in GetValidStaticEncounter(pkm, chain))
             { yield return z; ++ctr; }
             // if (ctr != 0) yield break;
-            foreach (var z in GetValidWildEncounters(pkm))
+            foreach (var z in GetValidWildEncounters(pkm, chain))
             { yield return z; ++ctr; }
 
             if (ctr != 0) yield break;
-            foreach (var z in GetValidEncounterTrades(pkm))
+            foreach (var z in GetValidEncounterTrades(pkm, chain))
             { yield return z; ++ctr; }
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters4(PKM pkm, LegalInfo info)
         {
             bool wasEvent = pkm.WasEvent || pkm.WasEventEgg; // egg events?
+            var chain = EncounterOrigin.GetOriginChain(pkm);
             if (wasEvent)
             {
                 int ctr = 0;
-                foreach (var z in GetValidGifts(pkm))
+                foreach (var z in GetValidGifts(pkm, chain))
                 { yield return z; ++ctr; }
                 if (ctr != 0) yield break;
             }
@@ -364,7 +367,7 @@ namespace PKHeX.Core
                 foreach (var z in GenerateEggs(pkm))
                     yield return z;
             }
-            foreach (var z in GetValidEncounterTrades(pkm))
+            foreach (var z in GetValidEncounterTrades(pkm, chain))
                 yield return z;
 
             var deferIncompat = new Queue<IEncounterable>();
@@ -373,7 +376,7 @@ namespace PKHeX.Core
             bool safariSport = safari || sport;
             if (!safariSport)
             {
-                foreach (var z in GetValidStaticEncounter(pkm))
+                foreach (var z in GetValidStaticEncounter(pkm, chain))
                 {
                     if (z.Gift && pkm.Ball != 4)
                         deferIncompat.Enqueue(z);
@@ -386,10 +389,10 @@ namespace PKHeX.Core
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters34(pkm))
+            foreach (var z in GetValidWildEncounters34(pkm, chain))
             {
                 bool defer = z.IsDeferred4(species, pkm, safari, sport);
-                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile((EncounterSlot4)z, pkm));
                 if (defer)
                 {
                     if (frame != null)
@@ -419,22 +422,23 @@ namespace PKHeX.Core
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (!safariSport)
                 yield break;
-            foreach (var z in GetValidStaticEncounter(pkm))
+            foreach (var z in GetValidStaticEncounter(pkm, chain))
                 yield return z;
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
         {
-            foreach (var z in GetValidGifts(pkm))
+            var chain = EncounterOrigin.GetOriginChain(pkm);
+            foreach (var z in GetValidGifts(pkm, chain))
                 yield return z;
-            foreach (var z in GetValidEncounterTrades(pkm))
+            foreach (var z in GetValidEncounterTrades(pkm, chain))
                 yield return z;
 
             var deferIncompat = new Queue<IEncounterable>();
             bool safari = pkm.Ball == 0x05; // never static encounters
             if (!safari)
             {
-                foreach (var z in GetValidStaticEncounter(pkm))
+                foreach (var z in GetValidStaticEncounter(pkm, chain))
                 {
                     if (z.Gift && pkm.Ball != 4)
                         deferIncompat.Enqueue(z);
@@ -447,10 +451,10 @@ namespace PKHeX.Core
             var deferNoFrame = new Queue<IEncounterable>();
             var deferFrame = new Queue<IEncounterable>();
             var slots = FrameFinder.GetFrames(info.PIDIV, pkm).ToList();
-            foreach (var z in GetValidWildEncounters34(pkm))
+            foreach (var z in GetValidWildEncounters34(pkm, chain))
             {
                 bool defer = z.IsDeferred3(species, pkm, safari);
-                var frame = slots.Find(s => s.IsSlotCompatibile(z, pkm));
+                var frame = slots.Find(s => s.IsSlotCompatibile((EncounterSlot3)z, pkm));
                 if (defer)
                 {
                     if (frame != null)
@@ -485,7 +489,7 @@ namespace PKHeX.Core
             // do static encounters if they were deferred to end, spit out any possible encounters for invalid pkm
             if (!safari)
                 yield break;
-            foreach (var z in GetValidStaticEncounter(pkm))
+            foreach (var z in GetValidStaticEncounter(pkm, chain))
                 yield return z;
         }
 
@@ -495,7 +499,7 @@ namespace PKHeX.Core
             return e switch
             {
                 EncounterStaticTyped t => t.TypeEncounter.Contains(type),
-                EncounterSlot w => w.TypeEncounter.Contains(type),
+                EncounterSlot4 w => w.TypeEncounter.Contains(type),
                 _ => (type == 0)
             };
         }

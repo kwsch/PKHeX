@@ -3,8 +3,11 @@
     /// <summary>
     /// Generation 1 Wild Encounter Slot data
     /// </summary>
-    public sealed class EncounterSlot1 : EncounterSlot
+    public sealed class EncounterSlot1 : EncounterSlot, INumberedSlot
     {
+        public override int Generation => 1;
+        public int SlotNumber { get; set; }
+
         public readonly int Rate;
 
         public EncounterSlot1(int species, int min, int max, int rate, SlotType type, int slot)

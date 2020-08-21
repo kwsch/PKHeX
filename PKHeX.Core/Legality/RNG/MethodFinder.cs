@@ -818,7 +818,7 @@ namespace PKHeX.Core
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
-                case EncounterStatic s:
+                case EncounterStatic3 s:
                     switch (pkm.Version)
                     {
                         case (int)GameVersion.CXD: return val == PIDType.CXD || val == PIDType.CXD_ColoStarter || val == PIDType.CXDAnti;
@@ -864,7 +864,7 @@ namespace PKHeX.Core
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return true;
                     return val == PIDType.Method_1;
-                case EncounterSlot sl:
+                case EncounterSlot4 sl:
                     if (val == PIDType.Method_1)
                         return true;
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))

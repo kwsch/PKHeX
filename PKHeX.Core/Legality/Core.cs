@@ -183,37 +183,6 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool IsEvolvedFormChange(PKM pkm, int expected)
-        {
-            if (pkm.IsEgg)
-                return false;
-
-            if (pkm.Format >= 7 && (AlolanVariantEvolutions12.Contains(pkm.Species) || GalarVariantFormEvolutions.Contains(pkm.Species)))
-                return pkm.AltForm == 1;
-            if (pkm.Format >= 8)
-            {
-                if (GalarVariantFormEvolutions.Contains(pkm.Species))
-                    return pkm.AltForm == 1;
-                if (GalarForm0Evolutions.TryGetValue(pkm.Species, out var orig))
-                    return pkm.AltForm != orig; // bad compare?
-                if ((int) Species.Darmanitan == pkm.Species)
-                    return pkm.AltForm == (expected == 1 ? 2 : 0);
-                if ((int) Species.MrMime == pkm.Species)
-                    return pkm.AltForm == (expected == 0 ? 1 : 0);
-                if ((int) Species.Slowbro == pkm.Species)
-                    return pkm.AltForm == (expected == 1 ? 2 : 0);
-                if ((int) Species.Toxtricity == pkm.Species)
-                    return pkm.AltForm == EvolutionMethod.GetAmpLowKeyResult(pkm.Nature);
-                if ((int) Species.Alcremie == pkm.Species)
-                    return true;
-            }
-            if ((pkm.Species == (int)Species.Meowstic || pkm.Species == (int)Species.Indeedee) && pkm.Gender == 1)
-                return pkm.AltForm == 1;
-            if (pkm.Species == (int)Species.Lycanroc)
-                return pkm.AltForm < 3;
-            return pkm.Species == (int)Species.Silvally;
-        }
-
         internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
         {
             var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
@@ -295,16 +264,14 @@ namespace PKHeX.Core
         }
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
-        /// <param name="pkm">Pokémon</param>
         /// <param name="species">Original species</param>
         /// <param name="form">Original form</param>
-        internal static bool IsFormChangeable(PKM pkm, int species, int form)
+        /// <param name="format">Current format</param>
+        internal static bool IsFormChangeable(int species, int form, int format)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (species != pkm.Species && IsEvolvedFormChange(pkm, form))
-                return true;
-            if (species == (int)Species.Zygarde && pkm.InhabitedGeneration(7) && pkm.AltForm > 1)
+            if (species == (int)Species.Zygarde && format >= 7 && form == 0)
                 return true;
             return false;
         }
@@ -336,48 +303,6 @@ namespace PKHeX.Core
             if (pkm.Species == (int)Species.Smeargle)
                 return !InvalidSketch.Contains(move);
             return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
-        }
-
-        private static int GetMaxLevelGeneration(PKM pkm)
-        {
-            return GetMaxLevelGeneration(pkm, pkm.GenNumber);
-        }
-
-        private static int GetMaxLevelGeneration(PKM pkm, int generation)
-        {
-            if (!pkm.InhabitedGeneration(generation))
-                return pkm.Met_Level;
-
-            if (pkm.Format <= 2)
-            {
-                if (generation == 1 && FutureEvolutionsGen1_Gen2LevelUp.Contains(pkm.Species))
-                    return pkm.CurrentLevel - 1;
-                return pkm.CurrentLevel;
-            }
-
-            if (pkm.Species == (int)Species.Sylveon && generation == 5)
-                return pkm.CurrentLevel - 1;
-
-            if (pkm.Gen3 && pkm.Format > 4 && pkm.Met_Level == pkm.CurrentLevel && FutureEvolutionsGen3_LevelUpGen4.Contains(pkm.Species))
-                return pkm.Met_Level - 1;
-
-            if (!pkm.HasOriginalMetLocation)
-                return pkm.Met_Level;
-
-            return pkm.CurrentLevel;
-        }
-
-        internal static int GetMaxLevelEncounter(PKM pkm)
-        {
-            // Only for gen 3 pokemon in format 3, after transfer to gen 4 it should return transfer level
-            if (pkm.Format == 3 && pkm.WasEgg)
-                return 5;
-
-            // Only for gen 4 pokemon in format 4, after transfer to gen 5 it should return transfer level
-            if (pkm.Format == 4 && pkm.Gen4 && pkm.WasEgg)
-                return 1;
-
-            return pkm.HasOriginalMetLocation ? pkm.Met_Level : GetMaxLevelGeneration(pkm);
         }
 
         internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);

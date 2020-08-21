@@ -98,7 +98,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class EncounterEggGenerator2
     {
-        public static IEnumerable<IEncounterable> GenerateEggs(PKM pkm, List<EvoCriteria> chain)
+        public static IEnumerable<IEncounterable> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             var canBeEgg = GetCanBeEgg(pkm);
             if (!canBeEgg)

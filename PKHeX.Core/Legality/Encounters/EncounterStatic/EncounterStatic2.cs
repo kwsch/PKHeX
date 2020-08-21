@@ -13,7 +13,7 @@ namespace PKHeX.Core
             Level = level;
         }
 
-        protected override bool IsMatchEggLocation(PKM pkm, ref int lvl)
+        protected override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm.Format > 2)
                 return true;
@@ -40,9 +40,6 @@ namespace PKHeX.Core
                 }
             }
 
-            if (pkm.Met_Level == 1) // Gen2 Eggs are met at 1, and hatch at level 5.
-                lvl = 5;
-
             return true;
         }
 
@@ -52,6 +49,25 @@ namespace PKHeX.Core
             pk.Met_Level = level;
             if (Version == GameVersion.C && pk is PK2 pk2)
                 pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+        }
+
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        {
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return pkm.Met_Level == (EggEncounter ? 1 : Level);
+
+            return Level <= evo.Level;
+        }
+
+        protected override bool IsMatchLocation(PKM pkm)
+        {
+            if (EggEncounter)
+                return true;
+            if (Location == 0)
+                return true;
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+                return Location == pkm.Met_Location;
+            return true;
         }
     }
 
@@ -68,7 +84,7 @@ namespace PKHeX.Core
             EggCycles = 20;
         }
 
-        public override bool IsMatch(PKM pkm, int lvl)
+        public override bool IsMatch(PKM pkm, DexLevel evo)
         {
             // Let it get picked up as regular EncounterEgg under other conditions.
             if (pkm.Format > 2)
@@ -77,7 +93,7 @@ namespace PKHeX.Core
                 return false;
             if (pkm.IsEgg && pkm.EXP != 125)
                 return false;
-            return base.IsMatch(pkm, lvl);
+            return base.IsMatch(pkm, evo);
         }
     }
 
