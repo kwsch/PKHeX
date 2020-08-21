@@ -19,7 +19,8 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level, CatchComboBonus))
+                    var met = pkm.Met_Level;
+                    if (!slot.IsLevelWithinRange(met, 0, CatchComboBonus))
                         break;
                     if (slot.Form != evo.Form)
                         break;

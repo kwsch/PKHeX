@@ -20,7 +20,7 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
                     if (slot.Form != evo.Form && slot.Form < RandomFormVivillon && !Legal.WildChangeFormAfter.Contains(slot.Species))

@@ -25,7 +25,7 @@ namespace PKHeX.Core
 
                     var boostMax = slot.Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
                     const int boostMin = FluteBoostMin;
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level, boostMin, boostMax))
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level, boostMin, boostMax))
                         break;
 
                     if (slot.Form != evo.Form && slot.Form != RandomForm)

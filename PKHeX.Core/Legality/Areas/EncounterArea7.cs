@@ -10,14 +10,6 @@ namespace PKHeX.Core
     {
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            // Edge Case Handling
-            switch (pkm.Species)
-            {
-                case 744 when pkm.AltForm == 1: // Rockruff Event
-                case 745 when pkm.AltForm == 2: // Lycanroc Event
-                    yield break;
-            }
-
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
@@ -25,7 +17,7 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
