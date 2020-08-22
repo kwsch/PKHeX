@@ -30,8 +30,15 @@ namespace PKHeX.Core
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             // wild area gets boosted up to level 60 post-game
-            bool isBoosted = pkm.Met_Level == 60 && (IsWildArea8(Location) || IsWildArea8Armor(Location));
+            var met = pkm.Met_Level;
+            bool isBoosted = met == 60 && (IsWildArea8(Location) || IsWildArea8Armor(Location));
+            if (isBoosted)
+                return GetBoostedMatches(chain);
+            return GetUnboostedMatches(chain, met);
+        }
 
+        private IEnumerable<EncounterSlot> GetUnboostedMatches(IReadOnlyList<EvoCriteria> chain, int met)
+        {
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
@@ -39,8 +46,28 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (!slot.IsLevelWithinRange(pkm.Met_Level) && !isBoosted)
+                    if (!slot.IsLevelWithinRange(met))
                         break;
+
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(evo.Species))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
+        }
+
+        private IEnumerable<EncounterSlot> GetBoostedMatches(IReadOnlyList<EvoCriteria> chain)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    // Ignore met level comparison; we already know it is permissible to boost to level 60.
 
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(evo.Species))
                         break;
