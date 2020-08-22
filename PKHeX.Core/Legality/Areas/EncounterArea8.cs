@@ -29,9 +29,9 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var loc = Location;
-            bool canBoostTo60 = IsWildArea8(loc) || IsWildArea8Armor(loc); // wild area gets boosted up to level 60 post-game
-            bool isBoosted = canBoostTo60 && pkm.Met_Location == 60;
+            // wild area gets boosted up to level 60 post-game
+            bool isBoosted = pkm.Met_Level == 60 && (IsWildArea8(Location) || IsWildArea8Armor(Location));
+
             foreach (var slot in Slots)
             {
                 foreach (var evo in chain)
