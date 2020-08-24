@@ -1,5 +1,4 @@
-﻿using System;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
@@ -15,39 +14,20 @@ namespace PKHeX.Core
         static Encounters1()
         {
             StaticRBY = Encounter_RBY;
-            SlotsRBY = GetAreas();
+
+            var s_r = BinLinker.Unpack(Util.GetBinaryResource("encounter_red.pkl"), "g1");
+            var s_b = BinLinker.Unpack(Util.GetBinaryResource("encounter_blue.pkl"), "g1");
+            var s_y = BinLinker.Unpack(Util.GetBinaryResource("encounter_yellow.pkl"), "g1");
+            var slot_r = EncounterArea1.GetAreas(s_r, RD);
+            var slot_b = EncounterArea1.GetAreas(s_b, BU);
+            var slot_y = EncounterArea1.GetAreas(s_y, YW);
+            SlotsRBY = ArrayUtil.ConcatAll(slot_r, slot_b, slot_y);
+
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
 
             var trades = ArrayUtil.ConcatAll(TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
             foreach (var t in trades)
                 t.TrainerNames = StringConverter12.G1TradeOTName;
-        }
-
-        private static EncounterArea1[] GetAreas()
-        {
-            var red_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_red.pkl"), 248);
-            var blu_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_blue.pkl"), 248);
-            var ylw_gw = EncounterArea1.GetArray1GrassWater(Util.GetBinaryResource("encounter_yellow.pkl"), 249);
-            var rb_fish = EncounterArea1.GetArray1Fishing(Util.GetBinaryResource("encounter_rb_f.pkl"), 33);
-            var ylw_fish = EncounterArea1.GetArray1FishingYellow(Util.GetBinaryResource("encounter_yellow_f.pkl"));
-
-            MarkEncountersVersion(red_gw, RD);
-            MarkEncountersVersion(blu_gw, BU);
-            MarkEncountersVersion(ylw_gw, YW);
-            MarkEncountersVersion(rb_fish, RB);
-            MarkEncountersVersion(ylw_fish, YW);
-
-            var table = AddExtraTableSlots(red_gw, blu_gw, ylw_gw, rb_fish, ylw_fish);
-            Array.Resize(ref table, table.Length + 1);
-            table[table.Length - 1] = FishOldGood_RBY;
-
-            foreach (var arr in table)
-            {
-                foreach (var slot in arr.Slots)
-                    slot.Area = arr;
-            }
-
-            return table;
         }
 
         private static readonly EncounterStatic1[] Encounter_RBY =
@@ -187,16 +167,5 @@ namespace PKHeX.Core
             new EncounterTrade1(051, 05, RBY), // Dugtrio - Trade Lickitung (GSC 5)
             new EncounterTrade1(047, 05, RBY), // Parasect - Trade Tangela (GSC 5)
         });
-
-        private static readonly EncounterArea1 FishOldGood_RBY = new EncounterArea1
-        {
-            Location = -1,
-            Slots = new EncounterSlot[]
-            {
-                new EncounterSlot1(129, 05, 05, -1, SlotType.Old_Rod, 0) { Version = RBY }, // Magikarp
-                new EncounterSlot1(118, 10, 10, -1, SlotType.Good_Rod, 1) { Version = RBY }, // Goldeen
-                new EncounterSlot1(060, 10, 10, -1, SlotType.Good_Rod, 2) { Version = RBY }, // Poliwag
-            }
-        };
     }
 }
