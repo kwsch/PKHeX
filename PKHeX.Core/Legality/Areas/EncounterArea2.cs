@@ -330,7 +330,7 @@ namespace PKHeX.Core
                         if (slot.Species != (int) Species.Unown || evo.Form >= 26) // Don't yield !? forms
                             break;
                     }
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (slot.LevelMin > evo.Level)
                         break;
 
                     yield return slot;

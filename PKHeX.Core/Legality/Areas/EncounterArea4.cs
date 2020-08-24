@@ -99,7 +99,7 @@ namespace PKHeX.Core
 
                     if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
                         break;
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (slot.LevelMin > evo.Level)
                         break;
 
                     yield return slot;
