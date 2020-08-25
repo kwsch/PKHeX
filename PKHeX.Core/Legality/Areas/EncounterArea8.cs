@@ -228,11 +228,9 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
-                    Slots[ctr] = new EncounterSlot8(specForm, min, max, flags);
+                    Slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags);
                 }
             } while (ctr != Slots.Length);
-            foreach (var slot in Slots)
-                slot.Area = this;
         }
     }
 
@@ -271,8 +269,9 @@ namespace PKHeX.Core
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(int specForm, int min, int max, AreaWeather8 weather)
+        public EncounterSlot8(EncounterAreaSH area, int specForm, int min, int max, AreaWeather8 weather)
         {
+            Area = area;
             Species = specForm & 0x7FF;
             Form = specForm >> 11;
             LevelMin = min;

@@ -40,14 +40,13 @@ namespace PKHeX.Core
                 ushort SpecForm = BitConverter.ToUInt16(areaData, ofs);
                 Slots[i] = new S
                 {
+                    Area = this,
                     Species = SpecForm & 0x7FF,
                     Form = SpecForm >> 11,
                     LevelMin = areaData[ofs + 2],
                     LevelMax = areaData[ofs + 3],
                 };
             }
-            foreach (var slot in Slots)
-                slot.Area = this;
         }
     }
 }
