@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.Gen5"/> encounter area
     /// </summary>
-    public sealed class EncounterArea5 : EncounterArea32
+    public sealed class EncounterArea5 : EncounterArea
     {
         public static EncounterArea5[] GetAreas(byte[][] input, GameVersion game)
         {

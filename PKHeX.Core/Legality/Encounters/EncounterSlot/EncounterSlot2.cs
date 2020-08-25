@@ -11,9 +11,8 @@
         public override int Generation => 2;
         public int SlotNumber { get; set; }
 
-        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, int slot, GameVersion game)
+        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, int slot, GameVersion game) : base(area)
         {
-            Area = area;
             Species = species;
             LevelMin = min;
             LevelMax = max;

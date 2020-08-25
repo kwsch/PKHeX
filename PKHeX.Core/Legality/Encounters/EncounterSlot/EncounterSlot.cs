@@ -17,8 +17,10 @@ namespace PKHeX.Core
         public int EggLocation { get => 0; set { } }
         public override string ToString() => $"{(Species) Species} @ {LevelMin}-{LevelMax}";
 
-        internal EncounterArea? Area { get; set; }
-        public int Location { get => Area?.Location ?? 0; set { } }
+        internal readonly EncounterArea Area;
+        public int Location { get => Area.Location; set { } }
+
+        protected EncounterSlot(EncounterArea area) => Area = area;
 
         public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
 

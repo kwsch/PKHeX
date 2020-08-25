@@ -310,11 +310,11 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 2:
-                    if ((slot.Area!.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
+                    if ((slot.Area.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
                         return Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree;
                     break;
                 case 4:
-                    if (slot.Location == 193 && slot.Area!.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
                         return true;
                     break;
             }

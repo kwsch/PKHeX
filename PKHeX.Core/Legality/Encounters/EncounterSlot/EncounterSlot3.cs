@@ -11,9 +11,8 @@ namespace PKHeX.Core
 
         public int SlotNumber { get; set; }
 
-        public EncounterSlot3(EncounterArea3 area, int species, int min, int max, int slot, int mpi, int mpc, int sti, int stc, GameVersion game)
+        public EncounterSlot3(EncounterArea3 area, int species, int min, int max, int slot, int mpi, int mpc, int sti, int stc, GameVersion game) : base(area)
         {
-            Area = area;
             Species = species;
             LevelMin = min;
             LevelMax = max;

@@ -139,7 +139,7 @@ namespace PKHeX.Core
             switch (item)
             {
                 case EncounterSlot s:
-                    var type = s.Area!.Type;
+                    var type = s.Area.Type;
                     if (type == 0)
                     {
                         yield return new EncounterSummary(item);

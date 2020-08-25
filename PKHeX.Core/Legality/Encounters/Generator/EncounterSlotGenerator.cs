@@ -87,7 +87,7 @@ namespace PKHeX.Core
         }
 
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
-        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Area!.Type & SlotType.Safari) != 0);
+        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Area.Type & SlotType.Safari) != 0);
         private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
 
@@ -121,7 +121,7 @@ namespace PKHeX.Core
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
-            return (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area!.Type == SlotType.FriendSafari || slot.Area!.Type == SlotType.Horde || slot.Area!.Type == SlotType.SOS;
+            return (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
         }
 
         internal static EncounterArea? GetCaptureLocation(PKM pkm)

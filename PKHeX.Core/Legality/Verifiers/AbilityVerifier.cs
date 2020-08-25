@@ -250,7 +250,7 @@ namespace PKHeX.Core
             {
                 case EncounterSlot w:
                     // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
-                    bool grotto = w.Area!.Type == SlotType.HiddenGrotto;
+                    bool grotto = w.Area.Type == SlotType.HiddenGrotto;
                     if (pkm.AbilityNumber == 4 ^ grotto)
                         return GetInvalid(grotto ? LAbilityMismatchGrotto : LAbilityHiddenFail);
                     break;
@@ -275,7 +275,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             if (EncounterMatch is EncounterSlot slot)
             {
-                bool valid = (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area!.Type == SlotType.FriendSafari || slot.Area!.Type == SlotType.Horde;
+                bool valid = (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }
@@ -291,7 +291,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             if (EncounterMatch is EncounterSlot slot && pkm.AbilityNumber == 4)
             {
-                bool valid = slot.Area!.Type == SlotType.SOS;
+                bool valid = slot.Area.Type == SlotType.SOS;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchSOS);
             }

@@ -198,19 +198,20 @@ namespace PKHeX.Core
         /// Gets an array of areas from an array of raw area data
         /// </summary>
         /// <param name="entries">Simplified raw format of an Area</param>
+        /// <param name="game">Game of origin</param>
         /// <returns>Array of areas</returns>
-        public static T[] GetArray<T>(byte[][] entries) where T : EncounterAreaSH, new()
+        public static T[] GetArray<T>(byte[][] entries, GameVersion game) where T : EncounterAreaSH, new()
         {
             T[] data = new T[entries.Length];
             for (int i = 0; i < data.Length; i++)
             {
                 var loc = data[i] = new T();
-                loc.LoadSlots(entries[i]);
+                loc.LoadSlots(entries[i], game);
             }
             return data;
         }
 
-        private void LoadSlots(byte[] areaData)
+        private void LoadSlots(byte[] areaData, GameVersion game)
         {
             Location = areaData[0];
             Slots = new EncounterSlot[areaData[1]];
@@ -228,7 +229,7 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
-                    Slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags);
+                    Slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags, game);
                 }
             } while (ctr != Slots.Length);
         }
@@ -269,15 +270,15 @@ namespace PKHeX.Core
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterAreaSH area, int specForm, int min, int max, AreaWeather8 weather)
+        public EncounterSlot8(EncounterAreaSH area, int specForm, int min, int max, AreaWeather8 weather, GameVersion game) : base(area)
         {
-            Area = area;
             Species = specForm & 0x7FF;
             Form = specForm >> 11;
             LevelMin = min;
             LevelMax = max;
 
             Weather = weather;
+            Version = game;
         }
     }
 }

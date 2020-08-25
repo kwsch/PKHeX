@@ -64,7 +64,7 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot encounter)
         {
-            switch (encounter.Area!.Type)
+            switch (encounter.Area.Type)
             {
                 case SlotType.Headbutt:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
@@ -251,7 +251,7 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 4:
-                    if (slot.Location == 193 && slot.Area!.Type == SlotType.Surf) // surfing in Johto Route 45
+                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
             }

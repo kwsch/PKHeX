@@ -171,7 +171,7 @@ namespace PKHeX.Core
             if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
                 return TreeEncounterAvailable.Impossible;
 
-            var table = Area.GetTrees(encounter.Area!.Type);
+            var table = Area.GetTrees(encounter.Area.Type);
             var trainerpivot = TID % 10;
             return table[trainerpivot];
         }

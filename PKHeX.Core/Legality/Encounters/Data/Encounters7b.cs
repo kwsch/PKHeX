@@ -7,20 +7,15 @@ namespace PKHeX.Core
 {
     internal static class Encounters7b
     {
-        internal static readonly EncounterArea7b[] SlotsGP = GetEncounterTables<EncounterArea7b, EncounterSlot7b>("gg", "gp");
-        internal static readonly EncounterArea7b[] SlotsGE = GetEncounterTables<EncounterArea7b, EncounterSlot7b>("gg", "ge");
-        internal static readonly EncounterStatic[] StaticGP, StaticGE;
-        internal static readonly EncounterArea7g[] SlotsGO_GG = GetGoParkArea();
+        internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gg", "gp"), GameVersion.GP);
+        internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("gg", "ge"), GameVersion.GE);
+        internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea();
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters7b()
         {
-            StaticGP = GetEncounters(Encounter_GG, GameVersion.GP);
-            StaticGE = GetEncounters(Encounter_GG, GameVersion.GE);
-
             ManuallyAddRareSpawns(SlotsGP);
             ManuallyAddRareSpawns(SlotsGE);
-            SlotsGP.SetVersion(GameVersion.GP);
-            SlotsGE.SetVersion(GameVersion.GE);
             Encounter_GG.SetVersion(GameVersion.GG);
             TradeGift_GG.SetVersion(GameVersion.GG);
             MarkEncountersGeneration(7, StaticGP, StaticGE, TradeGift_GG);
@@ -83,62 +78,7 @@ namespace PKHeX.Core
             new EncounterTrade7b { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Geodude @ Vermilion City, AV rand [0-5)
         };
 
-        private static EncounterArea7g[] GetGoParkArea()
-        {
-            var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
-            EncounterSlot GetSlot(int species, int form)
-            {
-                return new EncounterSlot7GO
-                {
-                    Area = area,
-                    Species = species,
-                    LevelMin = 1,
-                    LevelMax = 40,
-                    Form = form,
-                    Version = GameVersion.GO,
-                };
-            }
-
-            var obtainable = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
-            var AlolanKanto = new byte[]
-            {
-                // Level 1+
-                019, // Rattata
-                020, // Raticate
-                027, // Sandshrew
-                028, // Sandslash
-                037, // Vulpix
-                038, // Ninetales
-                050, // Diglett
-                051, // Dugtrio
-                052, // Meowth
-                053, // Persian
-                074, // Geodude
-                075, // Graveler
-                076, // Golem
-                088, // Grimer
-                089, // Muk
-                103, // Exeggutor
-                105, // Marowak
-
-                // Level 15+
-                026, // Raichu
-            };
-
-            var regular = obtainable.Select(z => GetSlot(z, 0));
-            var alolan = AlolanKanto.Select(z => GetSlot(z, 1));
-            var slots = regular.Concat(alolan).ToArray();
-
-            slots[slots.Length - 1].LevelMin = 15; // Raichu
-            slots[(int)Species.Mewtwo - 1].LevelMin = 15;
-            slots[(int)Species.Articuno - 1].LevelMin = 15;
-            slots[(int)Species.Zapdos - 1].LevelMin = 15;
-            slots[(int)Species.Moltres - 1].LevelMin = 15;
-
-            area.Slots = slots;
-            return new[] {area};
-        }
-
+        
         private class RareSpawn
         {
             public readonly int Species;
@@ -176,7 +116,7 @@ namespace PKHeX.Core
             new RareSpawn(149, Sky),
         };
 
-        private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea> areas)
+        private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea7b> areas)
         {
             foreach (var table in areas)
             {
@@ -187,13 +127,7 @@ namespace PKHeX.Core
                 var slots = table.Slots;
                 var first = slots[0];
                 var extra = species
-                    .Select(z => new EncounterSlot7b
-                    {
-                        Area = table,
-                        Species = z,
-                        LevelMin = (z == 006 || z >= 144) ? 03 : first.LevelMin,
-                        LevelMax = (z == 006 || z >= 144) ? 56 : first.LevelMax,
-                    }).ToArray();
+                    .Select(z => new EncounterSlot7b(table, z, (z == 006 || z >= 144) ? 03 : first.LevelMin, (z == 006 || z >= 144) ? 56 : first.LevelMax, GameVersion.GG)).ToArray();
 
                 int count = slots.Length;
                 Array.Resize(ref slots, count + extra.Length);
@@ -201,5 +135,8 @@ namespace PKHeX.Core
                 table.Slots = slots;
             }
         }
+
+        internal static readonly EncounterStatic[] StaticGP = GetEncounters(Encounter_GG, GameVersion.GP);
+        internal static readonly EncounterStatic[] StaticGE = GetEncounters(Encounter_GG, GameVersion.GE);
     }
 }

@@ -5,9 +5,8 @@ namespace PKHeX.Core
         public override int Generation => 6;
         public bool Pressure { get; set; }
 
-        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max, GameVersion game)
+        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max, GameVersion game) : base(area)
         {
-            Area = area;
             Species = species;
             Form = form;
             LevelMin = min;
@@ -15,9 +14,8 @@ namespace PKHeX.Core
             Version = game;
         }
 
-        public EncounterSlot6XY(EncounterArea6XYFriendSafari area, int species, int form, int min, int max, GameVersion game)
+        public EncounterSlot6XY(EncounterArea6XYFriendSafari area, int species, int form, int min, int max, GameVersion game) : base(area)
         {
-            Area = area;
             Species = species;
             Form = form;
             LevelMin = min;
