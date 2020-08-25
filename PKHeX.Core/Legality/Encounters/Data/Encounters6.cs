@@ -53,29 +53,38 @@ namespace PKHeX.Core
 
         private static void MarkG6XYSlots(ref EncounterArea6XY[] Areas)
         {
+            var extra = new List<EncounterArea6XY>();
             foreach (var area in Areas)
             {
-                int slotct = area.Slots.Length;
-                for (int i = slotct - 15; i < slotct; i++)
-                    area.Slots[i].Type = SlotType.Horde;
+                var horde = area.Slots.Skip(area.Slots.Length - 15).ToArray();
+                var hordeA = new EncounterArea6XY {Location = area.Location, Type = SlotType.Horde, Slots = horde};
+                extra.Add(hordeA);
+                area.Slots = area.Slots.Take(area.Slots.Length - horde.Length).ToArray();
             }
-            ReduceAreasSize(ref Areas);
+
+            Areas = ArrayUtil.ConcatAll(Areas, extra.ToArray());
         }
 
         private static void MarkG6AOSlots(ref EncounterArea6AO[] Areas)
         {
+            var extra = new List<EncounterArea6AO>();
             foreach (var area in Areas)
             {
-                for (int i = 32; i < 37; i++)
-                    area.Slots[i].Type = SlotType.Rock_Smash;
-                int slotct = area.Slots.Length;
-                for (int i = slotct - 15; i < slotct; i++)
-                    area.Slots[i].Type = SlotType.Horde;
+                var rock = area.Slots.Skip(32).Take(5).ToArray();
+                var rockA = new EncounterArea6AO { Location = area.Location, Type = SlotType.Rock_Smash, Slots = rock };
+                extra.Add(rockA);
 
-                for (int i = 0; i < slotct; i++)
-                    ((EncounterSlot6AO)area.Slots[i]).AllowDexNav = area.Slots[i].Type != SlotType.Rock_Smash;
+                var horde = area.Slots.Skip(area.Slots.Length - 15).ToArray();
+                var hordeA = new EncounterArea6AO { Location = area.Location, Type = SlotType.Horde, Slots = horde };
+                extra.Add(hordeA);
+                area.Slots = area.Slots.Take(32).Concat(area.Slots.Skip(37)).ToArray();
+                area.Slots = area.Slots.Take(area.Slots.Length - horde.Length).ToArray();
+
+                foreach (var slot in area.Slots.Concat(horde))
+                    ((EncounterSlot6AO) slot).AllowDexNav = true;
             }
-            ReduceAreasSize(ref Areas);
+
+            Areas = ArrayUtil.ConcatAll(Areas, extra.ToArray());
         }
 
         private const string tradeXY = "tradexy";
@@ -88,6 +97,7 @@ namespace PKHeX.Core
         {
             new EncounterArea6XY {
                 Location = 104, // Victory Road
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Drops
@@ -102,6 +112,7 @@ namespace PKHeX.Core
                 },},
             new EncounterArea6XY {
                 Location = 34, // Route 6
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Rustling Bush
@@ -110,6 +121,7 @@ namespace PKHeX.Core
                 },},
 
             new EncounterArea6XY { Location = 38, // Route 7
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Berry Field
@@ -122,6 +134,7 @@ namespace PKHeX.Core
                 },},
 
             new EncounterArea6XY { Location = 88, // Route 18
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Rustling Bush
@@ -130,6 +143,7 @@ namespace PKHeX.Core
                 },},
 
             new EncounterArea6XY { Location = 132, // Glittering Cave
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Drops
@@ -138,6 +152,7 @@ namespace PKHeX.Core
                 },},
 
             new EncounterArea6XY { Location = 56, // Reflection Cave
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Drops
@@ -146,6 +161,7 @@ namespace PKHeX.Core
                 },},
 
             new EncounterArea6XY { Location = 140, // Terminus Cave
+                Type = SlotType.Grass,
                 Slots = new[]
                 {
                     // Drops

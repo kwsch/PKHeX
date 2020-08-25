@@ -65,24 +65,33 @@ namespace PKHeX.Core
 
         private static void MarkBWSwarmSlots(EncounterArea5[] Areas)
         {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
+            foreach (var area in Areas)
             {
-                s.LevelMin = 15; s.LevelMax = 55; s.Type = SlotType.Swarm;
+                area.Type = SlotType.Swarm;
+                foreach (var s in area.Slots)
+                {
+                    s.LevelMin = 15;
+                    s.LevelMax = 55;
+                }
             }
         }
 
         private static void MarkB2W2SwarmSlots(EncounterArea5[] Areas)
         {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
+            foreach (var area in Areas)
             {
-                s.LevelMin = 40; s.LevelMax = 55; s.Type = SlotType.Swarm;
+                area.Type = SlotType.Swarm;
+                foreach (var s in area.Slots)
+                {
+                    s.LevelMin = 40;
+                    s.LevelMax = 55;
+                }
             }
         }
 
         private static void MarkG5HiddenGrottoSlots(EncounterArea5[] Areas)
         {
-            foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
-                s.Type = SlotType.HiddenGrotto;
+            Areas[0].Type = SlotType.HiddenGrotto;
         }
 
         private static void MarkG5DreamWorld(ref EncounterStatic5[] t)
@@ -118,35 +127,32 @@ namespace PKHeX.Core
 
         private static void MarkG5Slots(ref EncounterArea5[] Areas)
         {
+            List<EncounterArea5> areas = new List<EncounterArea5>();
             foreach (var area in Areas)
             {
                 int ctr = 0;
                 do
                 {
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Single
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Grass, Slots = area.Slots.Skip(ctr).Take(12).ToArray() }); // Single
+                    ctr += 12;
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Grass, Slots = area.Slots.Skip(ctr).Take(12).ToArray() }); // Double
+                    ctr += 12;
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Grass, Slots = area.Slots.Skip(ctr).Take(5).ToArray() }); // Shaking
+                    ctr += 12;
 
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Double
-
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Shaking
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf Spot
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish Spot
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Surf, Slots = area.Slots.Skip(ctr).Take(5).ToArray() }); // Surf
+                    ctr += 5;
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Surf, Slots = area.Slots.Skip(ctr).Take(5).ToArray() }); // Surf Spot
+                    ctr += 5;
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Super_Rod, Slots = area.Slots.Skip(ctr).Take(5).ToArray() }); // Fish
+                    ctr += 5;
+                    areas.Add(new EncounterArea5 { Location = area.Location, Type = SlotType.Super_Rod, Slots = area.Slots.Skip(ctr).Take(5).ToArray() }); // Fish Spot
+                    ctr += 5;
                 } while (ctr != area.Slots.Length);
                 area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
             }
-            ReduceAreasSize(ref Areas);
+
+            Areas = areas.ToArray();
         }
 
         #region Dream Radar Tables

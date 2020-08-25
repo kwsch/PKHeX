@@ -22,8 +22,6 @@ namespace PKHeX.Core
             var REG_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn");
             var SOS_SN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "sn_sos");
             var SOS_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn_sos");
-            MarkG7REGSlots(ref REG_SN);
-            MarkG7REGSlots(ref REG_MN);
             MarkG7SMSlots(ref SOS_SN);
             MarkG7SMSlots(ref SOS_MN);
             int[] pelagoMin = { 1, 11, 21, 37, 49 };
@@ -36,8 +34,6 @@ namespace PKHeX.Core
             var REG_UM = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "um");
             var SOS_US = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "us_sos");
             var SOS_UM = GetEncounterTables<EncounterArea7, EncounterSlot7> ("uu", "um_sos");
-            MarkG7REGSlots(ref REG_US);
-            MarkG7REGSlots(ref REG_UM);
             MarkG7SMSlots(ref SOS_US);
             MarkG7SMSlots(ref SOS_UM);
             SlotsUS = AddExtraTableSlots(REG_US, SOS_US, p_us);
@@ -62,16 +58,10 @@ namespace PKHeX.Core
             TradeGift_USUM.SetVersion(GameVersion.USUM);
         }
 
-        private static void MarkG7REGSlots(ref EncounterArea7[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-
         private static void MarkG7SMSlots(ref EncounterArea7[] Areas)
         {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-                s.Type = SlotType.SOS;
-            ReduceAreasSize(ref Areas);
+            foreach (var area in Areas)
+                area.Type = SlotType.SOS;
         }
 
         private static readonly EncounterStatic7[] Encounter_SM = // @ a\1\5\5

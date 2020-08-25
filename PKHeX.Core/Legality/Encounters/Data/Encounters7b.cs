@@ -85,7 +85,7 @@ namespace PKHeX.Core
 
         private static EncounterArea7g[] GetGoParkArea()
         {
-            var area = new EncounterArea7g { Location = 50 };
+            var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
             EncounterSlot GetSlot(int species, int form)
             {
                 return new EncounterSlot7GO
@@ -95,7 +95,6 @@ namespace PKHeX.Core
                     LevelMin = 1,
                     LevelMax = 40,
                     Form = form,
-                    Type = SlotType.GoPark,
                     Version = GameVersion.GO,
                 };
             }

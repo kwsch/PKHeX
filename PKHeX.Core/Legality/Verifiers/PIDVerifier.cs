@@ -57,9 +57,9 @@ namespace PKHeX.Core
                     break;
 
                 case EncounterSlot w:
-                    if (pkm.IsShiny && w.Type == SlotType.HiddenGrotto)
+                    if (pkm.IsShiny && w.Area!.Type == SlotType.HiddenGrotto)
                         data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
-                    if (Info.Generation == 5 && w.Type != SlotType.HiddenGrotto)
+                    if (Info.Generation == 5 && w.Area!.Type != SlotType.HiddenGrotto)
                         VerifyG5PID_IDCorrelation(data);
                     break;
 

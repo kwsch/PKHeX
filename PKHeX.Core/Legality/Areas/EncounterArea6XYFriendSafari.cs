@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public static ILookup<int, EncounterSlot6XY> GetArea()
         {
-            var area = new EncounterArea6XYFriendSafari { Location = 148 };
+            var area = new EncounterArea6XYFriendSafari { Location = 148, Type = SlotType.FriendSafari };
             EncounterSlot6XY FriendSafariSlot(int d)
             {
                 return new EncounterSlot6XY
@@ -30,7 +30,6 @@ namespace PKHeX.Core
                     LevelMin = 30,
                     LevelMax = 30,
                     Form = 0,
-                    Type = SlotType.FriendSafari,
                     Version = GameVersion.XY,
                 };
             }

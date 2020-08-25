@@ -9,7 +9,6 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea3 : EncounterArea
     {
-        public readonly SlotType Type;
         public readonly int Rate;
 
         internal EncounterArea3() { }

@@ -8,7 +8,6 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea1 : EncounterArea
     {
-        public readonly SlotType Type;
         public readonly int Rate;
 
         public static EncounterArea1[] GetAreas(byte[][] input, GameVersion game)

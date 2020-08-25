@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
                 // For Gen4 Safari Zones and BCC, we've already deferred partial match encounters.
                 4 when Locations.IsSafariZoneLocation4(w.Location) => VerifyBallEquals(data, (int)Safari),// Safari Ball
-                4 when w.Type == SlotType.BugContest => VerifyBallEquals(data, (int)Sport),// Sport Ball
+                4 when Locations.BugCatchingContest4 == w.Location => VerifyBallEquals(data, (int)Sport),// Sport Ball
 
                 // Poké Pelago
                 7 when w.Location == 30016 => VerifyBallEquals(data, (int)Poke),// Pokeball

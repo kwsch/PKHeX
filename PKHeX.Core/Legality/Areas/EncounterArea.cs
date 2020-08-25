@@ -9,6 +9,7 @@ namespace PKHeX.Core
     public class EncounterArea
     {
         public int Location;
+        public SlotType Type { get; set; } = SlotType.Any;
         public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
 
         /// <summary>
@@ -38,11 +39,10 @@ namespace PKHeX.Core
                         LevelMin = lvls[i++],
                         LevelMax = lvls[i++],
                         Species = s,
-                        Type = t
                     };
                 }
             }
-            return new[] { new TArea { Location = location, Slots = slots } };
+            return new[] { new TArea { Location = location, Type = t, Slots = slots } };
         }
 
         /// <summary>

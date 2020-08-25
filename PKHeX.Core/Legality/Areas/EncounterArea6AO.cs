@@ -23,7 +23,7 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    var boostMax = slot.Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
+                    var boostMax = Type != SlotType.Rock_Smash ? DexNavBoost : FluteBoostMax;
                     const int boostMin = FluteBoostMin;
                     if (!slot.IsLevelWithinRange(pkm.Met_Level, boostMin, boostMax))
                         break;

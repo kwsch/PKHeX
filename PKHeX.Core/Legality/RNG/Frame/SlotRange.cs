@@ -140,7 +140,7 @@ namespace PKHeX.Core
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
 #pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
-            if (slot.Type.IsSweetScentType())
+            if (slot.Area!.Type.IsSweetScentType())
                 return true;
             return true; // todo
             //return GetCanEncounter(slot, frameType, rand, lead);
@@ -150,27 +150,27 @@ namespace PKHeX.Core
         public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
-            if ((slot.Type & SlotType.Rock_Smash) != 0)
+            if ((slot.Area!.Type & SlotType.Rock_Smash) != 0)
                 return proc < 60;
             if (frameType == FrameType.MethodH)
                 return true; // fishing encounters are disjointed by the hooked message.
 
             // fishing
-            if ((slot.Type & SlotType.Old_Rod) != 0)
+            if ((slot.Area!.Type & SlotType.Old_Rod) != 0)
             {
                 if (proc < 25)
                     return true;
                 if (proc < 50)
                     return lead == LeadRequired.None;
             }
-            else if ((slot.Type & SlotType.Good_Rod) != 0)
+            else if ((slot.Area!.Type & SlotType.Good_Rod) != 0)
             {
                 if (proc < 50)
                     return true;
                 if (proc < 75 && lead == LeadRequired.None)
                     return lead == LeadRequired.None;
             }
-            else if ((slot.Type & SlotType.Super_Rod) != 0)
+            else if ((slot.Area!.Type & SlotType.Super_Rod) != 0)
             {
                 if (proc < 75)
                     return true;

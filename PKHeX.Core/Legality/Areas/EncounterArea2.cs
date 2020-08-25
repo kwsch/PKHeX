@@ -14,7 +14,6 @@ namespace PKHeX.Core
         private static readonly byte[] RatesSurf = { 60, 30, 10 };
 
         internal readonly EncounterTime Time;
-        public readonly SlotType Type;
         public readonly int Rate;
         public readonly IReadOnlyList<byte> Rates;
 

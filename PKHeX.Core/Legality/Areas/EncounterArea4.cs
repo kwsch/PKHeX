@@ -10,7 +10,6 @@ namespace PKHeX.Core
     public sealed class EncounterArea4 : EncounterArea
     {
         public readonly EncounterType TypeEncounter;
-        public readonly SlotType Type;
         public readonly int Rate;
 
         public static EncounterArea4[] GetAreas(byte[][] input, GameVersion game)

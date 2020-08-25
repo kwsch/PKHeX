@@ -71,6 +71,8 @@
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
         public const int Transfer4_CrownUsed = 30013;
 
+        public const int BugCatchingContest4 = 207;
+
         public static int TradedEggLocationNPC(int gen)
         {
             return gen switch
