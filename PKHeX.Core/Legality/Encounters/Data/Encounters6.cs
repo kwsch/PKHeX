@@ -9,82 +9,25 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters6
     {
-        internal static readonly EncounterArea6XY[] SlotsX, SlotsY;
-        internal static readonly EncounterArea6AO[] SlotsA, SlotsO;
-        internal static readonly EncounterStatic[] StaticX, StaticY, StaticA, StaticO;
-        internal static readonly ILookup<int, EncounterSlot6XY> FriendSafari;
+        internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(get("x", "xy"), GameVersion.X);
+        internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(get("y", "xy"), GameVersion.Y);
+        internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(get("a", "ao"), GameVersion.AS);
+        internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(get("o", "ao"), GameVersion.OR);
+        private static byte[][] get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+
+        internal static readonly EncounterArea6XYFriendSafari FriendSafari = new EncounterArea6XYFriendSafari(Legal.FriendSafari);
 
         static Encounters6()
         {
-            StaticX = GetEncounters(Encounter_XY, GameVersion.X);
-            StaticY = GetEncounters(Encounter_XY, GameVersion.Y);
-            StaticA = GetEncounters(Encounter_AO, GameVersion.AS);
-            StaticO = GetEncounters(Encounter_AO, GameVersion.OR);
-
-            var XSlots = GetEncounterTables<EncounterArea6XY, EncounterSlot6XY>("xy", "x");
-            var YSlots = GetEncounterTables<EncounterArea6XY, EncounterSlot6XY>("xy", "y");
-            MarkG6XYSlots(ref XSlots);
-            MarkG6XYSlots(ref YSlots);
-            MarkEncounterAreaArray(SlotsXYAlt);
-            SlotsX = AddExtraTableSlots(XSlots, SlotsXYAlt);
-            SlotsY = AddExtraTableSlots(YSlots, SlotsXYAlt);
-
-            SlotsA = GetEncounterTables<EncounterArea6AO, EncounterSlot6AO>("ao", "a");
-            SlotsO = GetEncounterTables<EncounterArea6AO, EncounterSlot6AO>("ao", "o");
-            MarkG6AOSlots(ref SlotsA);
-            MarkG6AOSlots(ref SlotsO);
-
             MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
 
-            FriendSafari = EncounterArea6XYFriendSafari.GetArea();
             MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);
 
-            SlotsXYAlt.SetVersion(GameVersion.XY);
-            SlotsX.SetVersion(GameVersion.X);
-            SlotsY.SetVersion(GameVersion.Y);
-            SlotsA.SetVersion(GameVersion.AS);
-            SlotsO.SetVersion(GameVersion.OR);
             Encounter_XY.SetVersion(GameVersion.XY);
             Encounter_AO.SetVersion(GameVersion.ORAS);
             TradeGift_XY.SetVersion(GameVersion.XY);
             TradeGift_AO.SetVersion(GameVersion.ORAS);
-        }
-
-        private static void MarkG6XYSlots(ref EncounterArea6XY[] Areas)
-        {
-            var extra = new List<EncounterArea6XY>();
-            foreach (var area in Areas)
-            {
-                var horde = area.Slots.Skip(area.Slots.Length - 15).ToArray();
-                var hordeA = new EncounterArea6XY {Location = area.Location, Type = SlotType.Horde, Slots = horde};
-                extra.Add(hordeA);
-                area.Slots = area.Slots.Take(area.Slots.Length - horde.Length).ToArray();
-            }
-
-            Areas = ArrayUtil.ConcatAll(Areas, extra.ToArray());
-        }
-
-        private static void MarkG6AOSlots(ref EncounterArea6AO[] Areas)
-        {
-            var extra = new List<EncounterArea6AO>();
-            foreach (var area in Areas)
-            {
-                var rock = area.Slots.Skip(32).Take(5).ToArray();
-                var rockA = new EncounterArea6AO { Location = area.Location, Type = SlotType.Rock_Smash, Slots = rock };
-                extra.Add(rockA);
-
-                var horde = area.Slots.Skip(area.Slots.Length - 15).ToArray();
-                var hordeA = new EncounterArea6AO { Location = area.Location, Type = SlotType.Horde, Slots = horde };
-                extra.Add(hordeA);
-                area.Slots = area.Slots.Take(32).Concat(area.Slots.Skip(37)).ToArray();
-                area.Slots = area.Slots.Take(area.Slots.Length - horde.Length).ToArray();
-
-                foreach (var slot in area.Slots.Concat(horde))
-                    ((EncounterSlot6AO) slot).AllowDexNav = true;
-            }
-
-            Areas = ArrayUtil.ConcatAll(Areas, extra.ToArray());
         }
 
         private const string tradeXY = "tradexy";
@@ -92,84 +35,6 @@ namespace PKHeX.Core
         private static readonly string[][] TradeXY = Util.GetLanguageStrings8(tradeXY);
         private static readonly string[][] TradeAO = Util.GetLanguageStrings8(tradeAO);
 
-        #region XY Alt Slots
-        private static readonly EncounterArea6XY[] SlotsXYAlt =
-        {
-            new EncounterArea6XY {
-                Location = 104, // Victory Road
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Drops
-                    new EncounterSlot6XY { Species = 075, LevelMin = 57, LevelMax = 57, Form = 0 }, // Graveler
-                    new EncounterSlot6XY { Species = 168, LevelMin = 58, LevelMax = 59, Form = 0 }, // Ariados
-                    new EncounterSlot6XY { Species = 714, LevelMin = 57, LevelMax = 59, Form = 0 }, // Noibat
-
-                    // Swoops
-                    new EncounterSlot6XY { Species = 022, LevelMin = 57, LevelMax = 59, Form = 0 }, // Fearow
-                    new EncounterSlot6XY { Species = 227, LevelMin = 57, LevelMax = 59, Form = 0 }, // Skarmory
-                    new EncounterSlot6XY { Species = 635, LevelMin = 59, LevelMax = 59, Form = 0 }, // Hydreigon
-                },},
-            new EncounterArea6XY {
-                Location = 34, // Route 6
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Rustling Bush
-                    new EncounterSlot6XY { Species = 543, LevelMin = 10, LevelMax = 12, Form = 0 }, // Venipede
-                    new EncounterSlot6XY { Species = 531, LevelMin = 10, LevelMax = 12, Form = 0 }, // Audino
-                },},
-
-            new EncounterArea6XY { Location = 38, // Route 7
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Berry Field
-                    new EncounterSlot6XY { Species = 165, LevelMin = 14, LevelMax = 15, Form = 0 }, // Ledyba
-                    new EncounterSlot6XY { Species = 313, LevelMin = 14, LevelMax = 15, Form = 0 }, // Volbeat
-                    new EncounterSlot6XY { Species = 314, LevelMin = 14, LevelMax = 15, Form = 0 }, // Illumise
-                    new EncounterSlot6XY { Species = 412, LevelMin = 14, LevelMax = 15, Form = 0 }, // Burmy
-                    new EncounterSlot6XY { Species = 415, LevelMin = 14, LevelMax = 15, Form = 0 }, // Combee
-                    new EncounterSlot6XY { Species = 665, LevelMin = 14, LevelMax = 15, Form = 30 }, // Spewpa
-                },},
-
-            new EncounterArea6XY { Location = 88, // Route 18
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Rustling Bush
-                    new EncounterSlot6XY { Species = 632, LevelMin = 44, LevelMax = 46, Form = 0 }, // Durant
-                    new EncounterSlot6XY { Species = 631, LevelMin = 45, LevelMax = 45, Form = 0 }, // Heatmor
-                },},
-
-            new EncounterArea6XY { Location = 132, // Glittering Cave
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Drops
-                    new EncounterSlot6XY { Species = 527, LevelMin = 15, LevelMax = 17, Form = 0 }, // Woobat
-                    new EncounterSlot6XY { Species = 597, LevelMin = 15, LevelMax = 17, Form = 0 }, // Ferroseed
-                },},
-
-            new EncounterArea6XY { Location = 56, // Reflection Cave
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Drops
-                    new EncounterSlot6XY { Species = 527, LevelMin = 21, LevelMax = 23, Form = 0 }, // Woobat
-                    new EncounterSlot6XY { Species = 597, LevelMin = 21, LevelMax = 23, Form = 0 }, // Ferroseed
-                },},
-
-            new EncounterArea6XY { Location = 140, // Terminus Cave
-                Type = SlotType.Grass,
-                Slots = new[]
-                {
-                    // Drops
-                    new EncounterSlot6XY { Species = 168, LevelMin = 44, LevelMax = 46, Form = 0 }, // Ariados
-                    new EncounterSlot6XY { Species = 714, LevelMin = 44, LevelMax = 46, Form = 0 }, // Noibat
-                },},
-        };
-        #endregion
         #region Static Encounter/Gift Tables
         private static readonly EncounterStatic[] Encounter_XY =
         {
@@ -378,5 +243,10 @@ namespace PKHeX.Core
             new EncounterTrade6(07,4,10,319) { Species = 222, Level = 50, Ability = 4, TID = 00325, IVs = new[] {31,-1,-1,-1,-1,31}, Gender = 1, Nature = Nature.Calm, }, // Corsola
         };
         #endregion
+
+        internal static readonly EncounterStatic[] StaticX = GetEncounters(Encounter_XY, GameVersion.X);
+        internal static readonly EncounterStatic[] StaticY = GetEncounters(Encounter_XY, GameVersion.Y);
+        internal static readonly EncounterStatic[] StaticA = GetEncounters(Encounter_AO, GameVersion.AS);
+        internal static readonly EncounterStatic[] StaticO = GetEncounters(Encounter_AO, GameVersion.OR);
     }
 }

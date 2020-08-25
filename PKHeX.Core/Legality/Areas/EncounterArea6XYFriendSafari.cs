@@ -1,10 +1,22 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
     public class EncounterArea6XYFriendSafari : EncounterArea
     {
+        public EncounterArea6XYFriendSafari(ICollection<int> species)
+        {
+            Location = 148;
+            Type = SlotType.FriendSafari;
+
+            var slots = new EncounterSlot6XY[species.Count];
+            int ctr = 0;
+            foreach (var s in species)
+                slots[ctr++] = new EncounterSlot6XY(this, s, 0, 30, 30, GameVersion.XY);
+            Slots = slots;
+        }
+
         public static bool WasFriendSafari(PKM pkm)
         {
             if (!pkm.XY)
@@ -18,35 +30,11 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static ILookup<int, EncounterSlot6XY> GetArea()
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            var area = new EncounterArea6XYFriendSafari { Location = 148, Type = SlotType.FriendSafari };
-            EncounterSlot6XY FriendSafariSlot(int d)
-            {
-                return new EncounterSlot6XY
-                {
-                    Area = area,
-                    Species = d,
-                    LevelMin = 30,
-                    LevelMax = 30,
-                    Form = 0,
-                    Version = GameVersion.XY,
-                };
-            }
-            area.Slots = Legal.FriendSafari.Select(FriendSafariSlot).ToArray();
-            return area.Slots.Cast<EncounterSlot6XY>().ToLookup(s => s.Species);
-        }
-
-        public static IEnumerable<EncounterSlot> GetValidSafariEncounters(PKM pkm)
-        {
-            var chain = EvolutionChain.GetValidPreEvolutions(pkm);
-            return GetValidSafariEncounters(chain);
-        }
-
-        public static IEnumerable<EncounterSlot> GetValidSafariEncounters(IReadOnlyList<DexLevel> chain)
-        {
-            var valid = chain.Where(d => d.Level >= 30);
-            return valid.SelectMany(z => Encounters6.FriendSafari[z.Species]);
+            if (!WasFriendSafari(pkm))
+                return Array.Empty<EncounterSlot>();
+            return base.GetMatchingSlots(pkm, chain);
         }
     }
 }

@@ -9,27 +9,18 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters2
     {
-        internal static readonly EncounterArea2[] SlotsGSC, SlotsGS, SlotsC;
-        internal static readonly EncounterStatic2[] StaticGSC, StaticGS, StaticC;
+        private static readonly EncounterArea2[] SlotsG = Get("gold", "g2", GameVersion.GD);
+        private static readonly EncounterArea2[] SlotsS = Get("silver", "g2", GameVersion.SV);
+        internal static readonly EncounterArea2[] SlotsC = Get("crystal", "g2", GameVersion.C);
+
+        internal static readonly EncounterArea2[] SlotsGS = ArrayUtil.ConcatAll(SlotsG, SlotsS);
+        internal static readonly EncounterArea2[] SlotsGSC = ArrayUtil.ConcatAll(SlotsGS, SlotsC);
         private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(BinLinker.Unpack(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
+        private static EncounterArea2[] Get(string name, string ident, GameVersion game) =>
+            EncounterArea2.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
         static Encounters2()
         {
-            StaticGS = Encounter_GS;
-            StaticC = Encounter_C;
-            StaticGSC = Encounter_GSC;
-
-            var s_g = BinLinker.Unpack(Util.GetBinaryResource("encounter_gold.pkl"), "g2");
-            var s_s = BinLinker.Unpack(Util.GetBinaryResource("encounter_silver.pkl"), "g2");
-            var s_c = BinLinker.Unpack(Util.GetBinaryResource("encounter_crystal.pkl"), "g2");
-            var slot_g = EncounterArea2.GetAreas(s_g, GameVersion.GD);
-            var slot_s = EncounterArea2.GetAreas(s_s, GameVersion.SV);
-            var slot_c = EncounterArea2.GetAreas(s_c, GameVersion.C);
-
-            SlotsGSC = ArrayUtil.ConcatAll(slot_g, slot_s, slot_c);
-            SlotsGS = ArrayUtil.ConcatAll(slot_g, slot_s);
-            SlotsC = slot_c;
-
             MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC, TradeGift_GSC);
 
             MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
@@ -184,5 +175,9 @@ namespace PKHeX.Core
             var trainerpivot = TID % 10;
             return table[trainerpivot];
         }
+
+        internal static readonly EncounterStatic2[] StaticGSC = Encounter_GSC;
+        internal static readonly EncounterStatic2[] StaticGS = Encounter_GS;
+        internal static readonly EncounterStatic2[] StaticC = Encounter_C;
     }
 }

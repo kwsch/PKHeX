@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <inheritdoc />
     /// <summary>
@@ -6,5 +8,39 @@
     /// </summary>
     public sealed class EncounterArea5 : EncounterArea32
     {
+        public static EncounterArea5[] GetAreas(byte[][] input, GameVersion game)
+        {
+            var result = new EncounterArea5[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea5(input[i], game);
+            return result;
+        }
+
+        private EncounterArea5(byte[] data, GameVersion game)
+        {
+            Location = data[0] | (data[1] << 8);
+            Type = (SlotType)data[2];
+
+            Slots = ReadSlots(data, game);
+        }
+
+        private EncounterSlot5[] ReadSlots(byte[] data, GameVersion game)
+        {
+            const int size = 4;
+            int count = (data.Length - 4) / size;
+            var slots = new EncounterSlot5[count];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                int offset = 4 + (size * i);
+                ushort SpecForm = BitConverter.ToUInt16(data, offset);
+                int species = SpecForm & 0x3FF;
+                int form = SpecForm >> 11;
+                int min = data[offset + 2];
+                int max = data[offset + 3];
+                slots[i] = new EncounterSlot5(this, species, form, min, max, game);
+            }
+
+            return slots;
+        }
     }
 }

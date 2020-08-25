@@ -8,21 +8,16 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters1
     {
-        internal static readonly EncounterArea1[] SlotsRBY;
-        internal static readonly EncounterStatic1[] StaticRBY;
+        private static readonly EncounterArea1[] SlotsR = Get("red", "g1", RD);
+        private static readonly EncounterArea1[] SlotsB = Get("blue", "g1", BU);
+        private static readonly EncounterArea1[] SlotsY = Get("yellow", "g1", YW);
+        internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsR, SlotsB, SlotsY);
+
+        private static EncounterArea1[] Get(string name, string ident, GameVersion game) =>
+            EncounterArea1.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
         static Encounters1()
         {
-            StaticRBY = Encounter_RBY;
-
-            var s_r = BinLinker.Unpack(Util.GetBinaryResource("encounter_red.pkl"), "g1");
-            var s_b = BinLinker.Unpack(Util.GetBinaryResource("encounter_blue.pkl"), "g1");
-            var s_y = BinLinker.Unpack(Util.GetBinaryResource("encounter_yellow.pkl"), "g1");
-            var slot_r = EncounterArea1.GetAreas(s_r, RD);
-            var slot_b = EncounterArea1.GetAreas(s_b, BU);
-            var slot_y = EncounterArea1.GetAreas(s_y, YW);
-            SlotsRBY = ArrayUtil.ConcatAll(slot_r, slot_b, slot_y);
-
             MarkEncountersGeneration(1, StaticRBY, TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
 
             var trades = ArrayUtil.ConcatAll(TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
@@ -30,7 +25,7 @@ namespace PKHeX.Core
                 t.TrainerNames = StringConverter12.G1TradeOTName;
         }
 
-        private static readonly EncounterStatic1[] Encounter_RBY =
+        internal static readonly EncounterStatic1[] StaticRBY =
         {
             // GameVersion is RBY for Pokemon with the same catch rate and initial moves in all games
             // If there are any differences in moves or catch rate, they will be defined as different encounters (GameVersion)

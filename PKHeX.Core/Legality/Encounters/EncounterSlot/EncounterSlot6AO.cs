@@ -4,6 +4,16 @@ namespace PKHeX.Core
     {
         public override int Generation => 6;
 
+        public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max, GameVersion game)
+        {
+            Area = area;
+            Species = species;
+            Form = form;
+            LevelMin = min;
+            LevelMax = max;
+            Version = game;
+        }
+
         public bool Pressure { get; set; }
         public bool AllowDexNav { get; set; }
         public bool DexNav { get; set; }

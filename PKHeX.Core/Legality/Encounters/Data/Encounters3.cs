@@ -10,32 +10,17 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters3
     {
-        internal static readonly EncounterArea3[] SlotsR, SlotsS, SlotsE;
-        internal static readonly EncounterArea3[] SlotsFR, SlotsLG;
-        internal static readonly EncounterStatic3[] StaticR, StaticS, StaticE;
-        internal static readonly EncounterStatic3[] StaticFR, StaticLG;
+        private static readonly EncounterArea3[] SlotsSwarmRSE = Get("rse_swarm", "rs", GameVersion.RSE);
+        internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(Get("r", "ru", GameVersion.R), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(Get("s", "sa", GameVersion.S), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(Get("e", "em", GameVersion.E), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsFR = Get("fr", "fr", GameVersion.FR);
+        internal static readonly EncounterArea3[] SlotsLG = Get("lg", "lg", GameVersion.LG);
+        private static EncounterArea3[] Get(string resource, string ident, GameVersion game) 
+            => EncounterArea3.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident), game);
 
         static Encounters3()
         {
-            StaticR = GetEncounters(Encounter_RSE, GameVersion.R);
-            StaticS = GetEncounters(Encounter_RSE, GameVersion.S);
-            StaticE = GetEncounters(Encounter_RSE, GameVersion.E);
-            StaticFR = GetEncounters(Encounter_FRLG, GameVersion.FR);
-            StaticLG = GetEncounters(Encounter_FRLG, GameVersion.LG);
-
-            static byte[][] GetFile(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
-
-            SlotsR =  EncounterArea3.GetAreas(GetFile("r", "ru"), GameVersion.R);
-            SlotsS =  EncounterArea3.GetAreas(GetFile("s", "sa"), GameVersion.S);
-            SlotsE =  EncounterArea3.GetAreas(GetFile("e", "em"), GameVersion.E);
-            SlotsFR = EncounterArea3.GetAreas(GetFile("fr", "fr"), GameVersion.FR);
-            SlotsLG = EncounterArea3.GetAreas(GetFile("lg", "lg"), GameVersion.LG);
-
-            var rseSwarm = EncounterArea3.GetAreasSwarm(GetFile("rse_swarm", "rs"), GameVersion.RSE);
-            SlotsR = ArrayUtil.ConcatAll(SlotsR, rseSwarm);
-            SlotsS = ArrayUtil.ConcatAll(SlotsS, rseSwarm);
-            SlotsE = ArrayUtil.ConcatAll(SlotsE, rseSwarm);
-
             MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
 
             MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
@@ -486,5 +471,11 @@ namespace PKHeX.Core
         }
 
         #endregion
+
+        internal static readonly EncounterStatic3[] StaticR = GetEncounters(Encounter_RSE, GameVersion.R);
+        internal static readonly EncounterStatic3[] StaticS = GetEncounters(Encounter_RSE, GameVersion.S);
+        internal static readonly EncounterStatic3[] StaticE = GetEncounters(Encounter_RSE, GameVersion.E);
+        internal static readonly EncounterStatic3[] StaticFR = GetEncounters(Encounter_FRLG, GameVersion.FR);
+        internal static readonly EncounterStatic3[] StaticLG = GetEncounters(Encounter_FRLG, GameVersion.LG);
     }
 }
