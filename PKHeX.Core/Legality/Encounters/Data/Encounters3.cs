@@ -36,8 +36,6 @@ namespace PKHeX.Core
             SlotsS = ArrayUtil.ConcatAll(SlotsS, rseSwarm);
             SlotsE = ArrayUtil.ConcatAll(SlotsE, rseSwarm);
 
-            MarkEncounterAreaArray(SlotsXD);
-
             MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
 
             MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
@@ -49,7 +47,6 @@ namespace PKHeX.Core
             TradeGift_FRLG.SetVersion(GameVersion.FRLG);
             Encounter_Colo.SetVersion(GameVersion.COLO);
             Encounter_XD.SetVersion(GameVersion.XD);
-            SlotsXD.SetVersion(GameVersion.XD);
         }
 
         private static readonly int[] Roaming_MetLocation_FRLG =
@@ -470,29 +467,11 @@ namespace PKHeX.Core
             new EncounterStaticShadow(Dragonite) { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162, }, // Dragonite: Wanderer Miror B. @ Gateon Port
         }.SelectMany(CloneMirorB).ToArray();
 
-        internal static readonly EncounterArea3[] SlotsXD =
+        internal static readonly EncounterArea3XD[] SlotsXD =
         {
-            new EncounterArea3 { Location = 090, Slots = new[] // Rock
-                {
-                    new EncounterSlot3PokeSpot(027, 10, 23, 0), // Sandshrew
-                    new EncounterSlot3PokeSpot(207, 10, 20, 1), // Gligar
-                    new EncounterSlot3PokeSpot(328, 10, 20, 2), // Trapinch
-                }
-            },
-            new EncounterArea3 { Location = 091, Slots = new[] // Oasis
-                {
-                    new EncounterSlot3PokeSpot(187, 10, 20, 0), // Hoppip
-                    new EncounterSlot3PokeSpot(231, 10, 20, 1), // Phanpy
-                    new EncounterSlot3PokeSpot(283, 10, 20, 2), // Surskit
-                }
-            },
-            new EncounterArea3 { Location = 092, Slots = new[] // Cave
-                {
-                    new EncounterSlot3PokeSpot(041, 10, 21, 0), // Zubat
-                    new EncounterSlot3PokeSpot(304, 10, 21, 1), // Aron
-                    new EncounterSlot3PokeSpot(194, 10, 21, 2), // Wooper
-                }
-            },
+            new EncounterArea3XD(90, 027, 23, 207, 20, 328, 20), // Rock (Sandshrew, Gligar, Trapinch)
+            new EncounterArea3XD(91, 187, 20, 231, 20, 283, 20), // Oasis (Hoppip, Phanpy, Surskit)
+            new EncounterArea3XD(92, 041, 21, 304, 21, 194, 21), // Cave (Zubat, Aron, Wooper)
         };
 
         internal static readonly EncounterStatic3[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);

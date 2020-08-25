@@ -6,12 +6,14 @@ namespace PKHeX.Core
 
         public int SlotNumber { get; set; }
 
-        public EncounterSlot3PokeSpot(int species, int min, int max, int slot)
+        public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, int min, int max, int slot)
         {
+            Area = area;
             Species = species;
             LevelMin = min;
             LevelMax = max;
             SlotNumber = slot;
+            Version = GameVersion.XD;
         }
 
         // PokeSpot encounters always have Fateful Encounter set.
