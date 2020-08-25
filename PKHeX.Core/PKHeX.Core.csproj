@@ -50,6 +50,7 @@
     <None Remove="Resources\byte\encounter_r.pkl" />
     <None Remove="Resources\byte\encounter_rb_f.pkl" />
     <None Remove="Resources\byte\encounter_red.pkl" />
+    <None Remove="Resources\byte\encounter_rse_swarm.pkl" />
     <None Remove="Resources\byte\encounter_s.pkl" />
     <None Remove="Resources\byte\encounter_sh_hidden.pkl" />
     <None Remove="Resources\byte\encounter_sh_symbol.pkl" />
@@ -875,6 +876,7 @@
     <EmbeddedResource Include="Resources\byte\encounter_r.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_rb_f.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_red.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_rse_swarm.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_s.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_sh_hidden.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_sh_symbol.pkl" />

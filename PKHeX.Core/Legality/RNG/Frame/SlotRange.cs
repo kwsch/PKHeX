@@ -38,7 +38,6 @@ namespace PKHeX.Core
                 SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
                 SlotType.Super_Rod_Safari => CalcSlot(ESV, H_SuperRod),
                 SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
-                SlotType.Rock_Smash_Safari => CalcSlot(ESV, H_Surf),
                 SlotType.Surf =>        CalcSlot(ESV, H_Surf),
                 SlotType.Surf_Safari => CalcSlot(ESV, H_Surf),
                 SlotType.Swarm => (ESV < 50 ? 0 : -1),
@@ -65,10 +64,8 @@ namespace PKHeX.Core
                 case SlotType.Old_Rod_Safari:
                 case SlotType.Good_Rod_Safari:
                 case SlotType.Super_Rod_Safari:
-                case SlotType.Rock_Smash_Safari:
                     return 0; // (int)(rand % 10); /* Block Slot Priority not implemented */
                 case SlotType.Headbutt:
-                case SlotType.Headbutt_Special:
                     return CalcSlot(ESV, K_Headbutt);
                 default:
                     return CalcSlot(ESV, H_Regular);

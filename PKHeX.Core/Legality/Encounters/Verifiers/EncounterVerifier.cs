@@ -76,7 +76,6 @@ namespace PKHeX.Core
             switch (encounter.Type)
             {
                 case SlotType.Headbutt:
-                case SlotType.Headbutt_Special:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
 
                 case SlotType.Old_Rod:

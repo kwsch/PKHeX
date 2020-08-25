@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
-            if (pkm.Egg_Location != 0)
+            if (pkm.Egg_Location != 0 || pkm.IsEgg)
                 yield break;
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
