@@ -7,11 +7,11 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters7
     {
-        internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(get("sn", "sm"), GameVersion.SN);
-        internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(get("mn", "sm"), GameVersion.MN);
-        internal static readonly EncounterArea7[] SlotsUS = EncounterArea7.GetAreas(get("us", "uu"), GameVersion.US);
-        internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(get("um", "uu"), GameVersion.UM);
-        private static byte[][] get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+        internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(Get("sn", "sm"), GameVersion.SN);
+        internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"), GameVersion.MN);
+        internal static readonly EncounterArea7[] SlotsUS = EncounterArea7.GetAreas(Get("us", "uu"), GameVersion.US);
+        internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(Get("um", "uu"), GameVersion.UM);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters7()
         {
@@ -24,12 +24,6 @@ namespace PKHeX.Core
             Encounter_USUM.SetVersion(GameVersion.USUM);
             TradeGift_SM.SetVersion(GameVersion.SM);
             TradeGift_USUM.SetVersion(GameVersion.USUM);
-        }
-
-        private static void MarkG7SMSlots(ref EncounterArea7[] Areas)
-        {
-            foreach (var area in Areas)
-                area.Type = SlotType.SOS;
         }
 
         private static readonly EncounterStatic7[] Encounter_SM = // @ a\1\5\5

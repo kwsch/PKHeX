@@ -9,11 +9,11 @@ namespace PKHeX.Core
     /// </summary>
     public static class Encounters5
     {
-        internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(get("b", "51"), GameVersion.B);
-        internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(get("w", "51"), GameVersion.W);
-        internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(get("b2", "52"), GameVersion.B2);
-        internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(get("w2", "52"), GameVersion.W2);
-        private static byte[][] get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+        internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"), GameVersion.B);
+        internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), GameVersion.W);
+        internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"), GameVersion.B2);
+        internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"), GameVersion.W2);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters5()
         {

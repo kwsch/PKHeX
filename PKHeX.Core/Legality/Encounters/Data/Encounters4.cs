@@ -10,12 +10,12 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters4
     {
-        internal static readonly EncounterArea4[] SlotsD = EncounterArea4.GetAreas(get("d", "da"), D);
-        internal static readonly EncounterArea4[] SlotsP = EncounterArea4.GetAreas(get("p", "pe"), P);
-        internal static readonly EncounterArea4[] SlotsPt = EncounterArea4.GetAreas(get("pt", "pt"), Pt);
-        internal static readonly EncounterArea4[] SlotsHG = EncounterArea4.GetAreas(get("hg", "hg"), HG);
-        internal static readonly EncounterArea4[] SlotsSS = EncounterArea4.GetAreas(get("ss", "ss"), SS);
-        private static byte[][] get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+        internal static readonly EncounterArea4[] SlotsD = EncounterArea4.GetAreas(Get("d", "da"), D);
+        internal static readonly EncounterArea4[] SlotsP = EncounterArea4.GetAreas(Get("p", "pe"), P);
+        internal static readonly EncounterArea4[] SlotsPt = EncounterArea4.GetAreas(Get("pt", "pt"), Pt);
+        internal static readonly EncounterArea4[] SlotsHG = EncounterArea4.GetAreas(Get("hg", "hg"), HG);
+        internal static readonly EncounterArea4[] SlotsSS = EncounterArea4.GetAreas(Get("ss", "ss"), SS);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters4()
         {
