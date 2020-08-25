@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Encounters3Teams;
 
 namespace PKHeX.Core
@@ -300,15 +298,6 @@ namespace PKHeX.Core
 
         #region XD
 
-        private static readonly int[] MirorBXDLocations =
-        {
-            090, // Rock
-            091, // Oasis
-            092, // Cave
-            113, // Pyrite Town
-            059, // Realgam Tower
-        };
-
         private static readonly EncounterStatic3[] Encounter_XD = new[]
         {
             new EncounterStatic3 { Fateful = true, Gift = true, Species = 133, Level = 10, Location = 000, Moves = new[] {044} }, // Eevee (Bite)
@@ -432,7 +421,7 @@ namespace PKHeX.Core
             new EncounterStaticShadow(Articuno)  { Fateful = true, Species = 144, Level = 50, Gauge = 10000, Moves = new[] {326,215,114,058}, Location = 074, }, // Articuno: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow(Zapdos)    { Fateful = true, Species = 145, Level = 50, Gauge = 10000, Moves = new[] {326,226,319,085}, Location = 074, }, // Zapdos: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow(Dragonite) { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162, }, // Dragonite: Wanderer Miror B. @ Gateon Port
-        }.SelectMany(CloneMirorB).ToArray();
+        };
 
         internal static readonly EncounterArea3XD[] SlotsXD =
         {
@@ -442,15 +431,6 @@ namespace PKHeX.Core
         };
 
         internal static readonly EncounterStatic3[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);
-
-        private static IEnumerable<EncounterStatic3> CloneMirorB(EncounterStatic3 arg)
-        {
-            yield return arg;
-            if (!(arg is EncounterStaticShadow s))
-                yield break;
-            foreach (int loc in MirorBXDLocations)
-                yield return (EncounterStatic3)s.Clone(loc);
-        }
 
         #endregion
 
