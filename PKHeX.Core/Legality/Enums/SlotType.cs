@@ -64,7 +64,7 @@ namespace PKHeX.Core
         GoPark = 11,
         FriendSafari = 12,
         Horde = 13,
-        Pokeradar = 14,
+        // Pokeradar = 14,
         SOS = 15,
         // always used as a modifier to another slot type
 
@@ -81,7 +81,14 @@ namespace PKHeX.Core
 
         internal static bool IsSweetScentType(this SlotType t)
         {
-            return !(t.IsFishingRodType() || t == SlotType.Rock_Smash || t == SlotType.Headbutt);
+            return t switch
+            {
+                SlotType.Grass => true,
+                SlotType.Surf => true,
+                SlotType.BugContest => true,
+
+                _ => false,
+            };
         }
     }
 }
