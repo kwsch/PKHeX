@@ -40,7 +40,7 @@ namespace PKHeX.Core
         Beast = 26,
     }
 
-    public static partial class Extensions
+    public static class BallExtensions
     {
         /// <summary>
         /// Checks if the <see cref="ball"/> is an Apricorn Ball (HG/SS)
@@ -48,5 +48,23 @@ namespace PKHeX.Core
         /// <param name="ball">Ball ID</param>
         /// <returns>True if Apricorn, false if not.</returns>
         public static bool IsApricornBall(this Ball ball) => Ball.Fast <= ball && ball <= Ball.Moon;
+
+        public static Ball GetRequiredBallValueWild(int gen, int loc)
+        {
+            return gen switch
+            {
+                // For Gen3 Safari Zones, we've already deferred partial match encounters.
+                3 when Locations.IsSafariZoneLocation3(loc) => Ball.Safari,
+
+                // For Gen4 Safari Zones and BCC, we've already deferred partial match encounters.
+                4 when Locations.IsSafariZoneLocation4(loc) => Ball.Safari,
+                4 when Locations.BugCatchingContest4 == loc => Ball.Sport,
+
+                // Poké Pelago
+                7 when loc == 30016 => Ball.Poke,
+
+                _ => Ball.None,
+            };
+        }
     }
 }

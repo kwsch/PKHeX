@@ -1,14 +1,11 @@
-﻿using System;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     /// <summary>
     /// Wild Encounter data <see cref="EncounterSlot"/> Type
     /// </summary>
     /// <remarks>
     /// Different from <see cref="EncounterType"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
-    [Flags]
-    public enum SlotType : ushort
+    public enum SlotType : byte
     {
         /// <summary>
         /// Default (un-assigned) encounter slot type.
@@ -68,43 +65,21 @@ namespace PKHeX.Core
         SOS = 15,
         // always used as a modifier to another slot type
 
-        Special = 1 << 6,
         Swarm = 1 << 7,
-
-        /// <summary>
-        /// Slot is encountered in the Safari Zone.
-        /// </summary>
-        Safari = 1 << 15,
-
-        Grass_Safari = Grass | Safari,
-        Surf_Safari = Surf | Safari,
-        Old_Rod_Safari = Old_Rod | Safari,
-        Good_Rod_Safari = Good_Rod | Safari,
-        Super_Rod_Safari = Super_Rod | Safari,
     }
 
     public static partial class Extensions
     {
-        internal static bool IsSafariType(this SlotType t) => (t & SlotType.Safari) != 0;
-
         internal static bool IsFishingRodType(this SlotType t)
         {
+            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             t &= (SlotType)0xF;
             return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
         }
 
         internal static bool IsSweetScentType(this SlotType t)
         {
-            return !(t.IsFishingRodType() || (t & SlotType.Rock_Smash) != 0);
-        }
-
-        public static Ball GetBall(this SlotType t)
-        {
-            if (t == SlotType.BugContest)
-                return Ball.Sport;
-            if (t.IsSafariType())
-                return Ball.Safari;
-            return Ball.Poke;
+            return !(t.IsFishingRodType() || t == SlotType.Rock_Smash || t == SlotType.Headbutt);
         }
     }
 }

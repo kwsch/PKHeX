@@ -70,13 +70,13 @@ namespace PKHeX.Core
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
         {
             return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari(IsSafariBall);
+                || slot.IsDeferredSafari3(IsSafariBall);
         }
 
         public static bool IsDeferred4(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall)
         {
             return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari(IsSafariBall)
+                || slot.IsDeferredSafari4(IsSafariBall)
                 || slot.IsDeferredSport(IsSportBall);
         }
 
@@ -87,7 +87,8 @@ namespace PKHeX.Core
         }
 
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
-        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Area.Type & SlotType.Safari) != 0);
+        private static bool IsDeferredSafari3(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(slot.Location);
+        private static bool IsDeferredSafari4(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation4(slot.Location);
         private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
 

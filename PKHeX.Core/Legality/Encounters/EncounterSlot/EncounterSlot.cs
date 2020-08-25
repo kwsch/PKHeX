@@ -93,7 +93,9 @@ namespace PKHeX.Core
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
-            pk.Ball = (int)Area!.Type.GetBall();
+
+            var ball = BallExtensions.GetRequiredBallValueWild(Generation, Location);
+            pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.AltForm = GetWildAltForm(pk, Form, sav);
