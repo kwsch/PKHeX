@@ -310,7 +310,7 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 2:
-                    if ((slot.Area.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
+                    if (slot.Area.Type == SlotType.Headbutt) // Unreachable Headbutt Trees.
                         return Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree;
                     break;
                 case 4:

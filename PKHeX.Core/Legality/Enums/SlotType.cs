@@ -1,10 +1,13 @@
-﻿namespace PKHeX.Core
+﻿using System;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Wild Encounter data <see cref="EncounterSlot"/> Type
     /// </summary>
     /// <remarks>
     /// Different from <see cref="EncounterType"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
+    [Flags]
     public enum SlotType : byte
     {
         /// <summary>
@@ -72,7 +75,6 @@
     {
         internal static bool IsFishingRodType(this SlotType t)
         {
-            // ReSharper disable once BitwiseOperatorOnEnumWithoutFlags
             t &= (SlotType)0xF;
             return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
         }
