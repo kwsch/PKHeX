@@ -16,7 +16,7 @@ namespace PKHeX.Core
         internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(Get("e", "em", GameVersion.E), SlotsSwarmRSE);
         internal static readonly EncounterArea3[] SlotsFR = Get("fr", "fr", GameVersion.FR);
         internal static readonly EncounterArea3[] SlotsLG = Get("lg", "lg", GameVersion.LG);
-        private static EncounterArea3[] Get(string resource, string ident, GameVersion game) 
+        private static EncounterArea3[] Get(string resource, string ident, GameVersion game)
             => EncounterArea3.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident), game);
 
         static Encounters3()
@@ -33,24 +33,6 @@ namespace PKHeX.Core
             Encounter_Colo.SetVersion(GameVersion.COLO);
             Encounter_XD.SetVersion(GameVersion.XD);
         }
-
-        private static readonly int[] Roaming_MetLocation_FRLG =
-        {
-            //Route 1-25 encounter is possible either in grass or on water
-            101,102,103,104,105,106,107,108,109,110,
-            111,112,113,114,115,116,117,118,119,120,
-            121,122,123,124,125
-        };
-
-        private static readonly int[] Roaming_MetLocation_RSE =
-        {
-            //Roaming encounter is possible in tall grass and on water
-            //Route 101-138
-            16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-            26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-            36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
-            46, 47, 48, 49,
-        };
 
         private static readonly EncounterStatic3[] Encounter_RSE_Roam =
         {
@@ -166,8 +148,8 @@ namespace PKHeX.Core
             new EncounterStatic3 { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        private static readonly EncounterStatic3[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
-        private static readonly EncounterStatic3[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
+        private static readonly EncounterStatic3[] Encounter_RSE = ArrayUtil.ConcatAll(Encounter_RSE_Roam, Encounter_RSE_Regular);
+        private static readonly EncounterStatic3[] Encounter_FRLG = ArrayUtil.ConcatAll(Encounter_FRLG_Roam, Encounter_FRLG_Stationary);
 
         private static readonly int[] TradeContest_Cool =   { 30, 05, 05, 05, 05, 10 };
         private static readonly int[] TradeContest_Beauty = { 05, 30, 05, 05, 05, 10 };
