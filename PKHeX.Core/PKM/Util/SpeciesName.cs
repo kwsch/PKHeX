@@ -63,11 +63,14 @@ namespace PKHeX.Core
             if (generation >= 5)
                 return GetSpeciesName(species, lang);
 
-            if (generation == 3 && species == 0)
-                return "タマゴ";
+            if (species == 0)
+            {
+                if (generation == 3)
+                    return "タマゴ"; // All Gen3 eggs are treated as JPN eggs.
 
-            if (generation == 4 && species == 0 && lang == (int)LanguageID.French)
-                return "Oeuf";
+                if (lang == (int)LanguageID.French)
+                    return "Oeuf"; // Gen2 & Gen4 don't use Œuf like in future games
+            }
 
             string nick = GetSpeciesName(species, lang);
             if (generation == 2 && lang == (int)LanguageID.Korean)
