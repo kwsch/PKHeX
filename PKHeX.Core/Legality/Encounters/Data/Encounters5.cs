@@ -17,9 +17,6 @@ namespace PKHeX.Core
 
         static Encounters5()
         {
-            MarkG5DreamWorld(ref BW_DreamWorld);
-            MarkG5DreamWorld(ref B2W2_DreamWorld);
-
             MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2, TradeGift_BW, TradeGift_B2W2);
 
             MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
@@ -35,20 +32,17 @@ namespace PKHeX.Core
             TradeGift_B2W2.SetVersion(GameVersion.B2W2);
         }
 
-        private static void MarkG5DreamWorld(ref EncounterStatic5[] t)
+        private static EncounterStatic5[] MarkG5DreamWorld(EncounterStatic5[] t)
         {
+            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
+            var list = new List<EncounterStatic5>();
             foreach (EncounterStatic5 s in t)
             {
                 s.Location = 075; // Entree Forest
                 var p = (PersonalInfoBW)PersonalTable.B2W2[s.Species];
                 s.Ability = p.HasHiddenAbility ? 4 : 1;
                 s.Shiny = Shiny.Never;
-            }
 
-            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
-            var list = new List<EncounterStatic5>();
-            foreach (EncounterStatic5 s in t)
-            {
                 if (s.Moves.Count <= 1) // no special moves
                 {
                     list.Add(s);
@@ -63,7 +57,7 @@ namespace PKHeX.Core
                     list.Add(clone);
                 }
             }
-            t = list.ToArray();
+            return list.ToArray();
         }
 
         #region Dream Radar Tables
@@ -277,7 +271,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 376, Level = 45, Moves = new[]{038}, Gender = 2, }, // Metagross
         };
 
-        public static readonly EncounterStatic5[] BW_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] BW_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 029, Level = 10, Moves = new[]{010, 389, 162}, }, // Nidoran♀
@@ -376,9 +370,9 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 242, Level = 10 }, // Blissey
             new EncounterStatic5 { Species = 448, Level = 10, Moves = new[]{418}, Gender = 0, }, // Lucario
             new EncounterStatic5 { Species = 189, Level = 27, Moves = new[]{206}, Gender = 0, }, // Jumpluff
-        }).ToArray();
+        }).ToArray());
 
-        public static readonly EncounterStatic5[] B2W2_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] B2W2_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 535, Level = 10, Moves = new[]{496, 414, 352}, }, // Tympole
@@ -440,7 +434,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 390, Level = 10, Moves = new[]{252}, Gender = 0, }, // Chimchar
             new EncounterStatic5 { Species = 393, Level = 10, Moves = new[]{297}, Gender = 0, }, // Piplup
             new EncounterStatic5 { Species = 575, Level = 32, Moves = new[]{286}, Gender = 0, }, // Gothorita
-        }).ToArray();
+        }).ToArray());
 
         #endregion
         #region Static Encounter/Gift Tables
