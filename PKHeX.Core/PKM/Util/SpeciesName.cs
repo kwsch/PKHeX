@@ -66,6 +66,9 @@ namespace PKHeX.Core
             if (generation == 3 && species == 0)
                 return "タマゴ";
 
+            if (generation == 4 && species == 0 && lang == (int)LanguageID.French)
+                return "Oeuf";
+
             string nick = GetSpeciesName(species, lang);
             if (generation == 2 && lang == (int)LanguageID.Korean)
                 return StringConverter2KOR.LocalizeKOR2(nick);
