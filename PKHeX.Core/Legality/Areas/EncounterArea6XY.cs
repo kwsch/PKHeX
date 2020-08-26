@@ -17,6 +17,18 @@ namespace PKHeX.Core
             return result;
         }
 
+        public EncounterArea6XY(ICollection<int> species)
+        {
+            Location = 148;
+            Type = SlotType.FriendSafari;
+
+            var slots = new EncounterSlot6XY[species.Count];
+            int ctr = 0;
+            foreach (var s in species)
+                slots[ctr++] = new EncounterSlot6XY(this, s, 0, 30, 30, GameVersion.XY);
+            Slots = slots;
+        }
+
         private EncounterArea6XY(byte[] data, GameVersion game)
         {
             Location = data[0] | (data[1] << 8);

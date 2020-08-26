@@ -14,15 +14,6 @@ namespace PKHeX.Core
             Version = game;
         }
 
-        public EncounterSlot6XY(EncounterArea6XYFriendSafari area, int species, int form, int min, int max, GameVersion game) : base(area)
-        {
-            Species = species;
-            Form = form;
-            LevelMin = min;
-            LevelMax = max;
-            Version = game;
-        }
-
         protected override void SetFormatSpecificData(PKM pk)
         {
             var pk6 = (PK6)pk;

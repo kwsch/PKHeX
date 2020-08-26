@@ -9,13 +9,13 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters6
     {
-        internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X);
-        internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y);
+        private static readonly EncounterArea6XY FriendSafari = new EncounterArea6XY(Legal.FriendSafari);
+        internal static readonly EncounterArea6XY[] SlotsX = ArrayUtil.ConcatAll(EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X), new[] { FriendSafari });
+        internal static readonly EncounterArea6XY[] SlotsY = ArrayUtil.ConcatAll(EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y), new[] { FriendSafari });
         internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("a", "ao"), GameVersion.AS);
         internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("o", "ao"), GameVersion.OR);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
-        internal static readonly EncounterArea6XYFriendSafari FriendSafari = new EncounterArea6XYFriendSafari(Legal.FriendSafari);
 
         static Encounters6()
         {
