@@ -77,14 +77,17 @@ namespace PKHeX.Core
 
         private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO slot, EvoCriteria evo)
         {
-            bool nav = slot.AllowDexNav && (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4);
-            slot.DexNav = nav;
-
             if (slot.LevelMin > evo.MinLevel)
                 slot.WhiteFlute = true;
             if (slot.LevelMax + 1 <= evo.MinLevel && evo.MinLevel <= slot.LevelMax + FluteBoostMax)
                 slot.BlackFlute = true;
-            if (slot.LevelMax != evo.MinLevel && slot.AllowDexNav)
+
+            if (!slot.CanDexNav)
+                return;
+
+            if (slot.LevelMax != evo.MinLevel)
+                slot.DexNav = true;
+            if (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4)
                 slot.DexNav = true;
         }
     }

@@ -14,17 +14,16 @@ namespace PKHeX.Core
         }
 
         public bool Pressure { get; set; }
-        public bool AllowDexNav { get; set; }
         public bool DexNav { get; set; }
         public bool WhiteFlute { get; set; }
         public bool BlackFlute { get; set; }
 
-        private bool IsDexNav => AllowDexNav && DexNav;
+        public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
 
         protected override void SetFormatSpecificData(PKM pk)
         {
             var pk6 = (PK6)pk;
-            if (IsDexNav)
+            if (CanDexNav)
             {
                 var eggMoves = MoveEgg.GetEggMoves(pk, Species, Form, Version);
                 if (eggMoves.Length > 0)
