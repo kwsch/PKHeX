@@ -57,7 +57,7 @@ namespace PKHeX.Core
                 int offset = 4 + (size * i);
 
                 int species = BitConverter.ToUInt16(data, offset + 0);
-                // form always 0
+                int form = data[offset + 2];
                 int slotNum = data[offset + 3];
                 int min = data[offset + 4];
                 int max = data[offset + 5];
@@ -66,7 +66,7 @@ namespace PKHeX.Core
                 int mpc = data[offset + 7];
                 int sti = data[offset + 8];
                 int stc = data[offset + 9];
-                slots[i] = new EncounterSlot3(this, species, min, max, slotNum, mpi, mpc, sti, stc, game);
+                slots[i] = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc, game);
             }
 
             return slots;

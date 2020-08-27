@@ -93,7 +93,7 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species) && slot.Species != (int)Species.Unown)
                         break;
                     if (slot.LevelMin > evo.Level)
                         break;
