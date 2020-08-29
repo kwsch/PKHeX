@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -41,6 +42,27 @@ namespace PKHeX.Core
             }
 
             return slots;
+        }
+
+        public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        {
+            foreach (var slot in Slots)
+            {
+                foreach (var evo in chain)
+                {
+                    if (slot.Species != evo.Species)
+                        continue;
+
+                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                        break;
+
+                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(slot.Species))
+                        break;
+
+                    yield return slot;
+                    break;
+                }
+            }
         }
     }
 }

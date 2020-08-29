@@ -125,17 +125,10 @@ namespace PKHeX.Core
             return (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
         }
 
-        internal static EncounterArea? GetCaptureLocation(PKM pkm)
+        internal static EncounterSlot? GetCaptureLocation(PKM pkm)
         {
             var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
-            return (from area in GetEncounterSlots(pkm)
-                let slots = GetValidEncounterSlots(pkm, area, chain).ToArray()
-                where slots.Length != 0
-                select new EncounterAreaFake
-                {
-                    Location = area.Location,
-                    Slots = slots,
-                }).OrderBy(area => area.Slots.Min(x => x.LevelMin)).FirstOrDefault();
+            return GetPossible(pkm, chain).OrderBy(z => z.LevelMin).FirstOrDefault();
         }
 
         private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
