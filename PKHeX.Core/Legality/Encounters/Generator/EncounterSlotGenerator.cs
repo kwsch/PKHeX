@@ -90,7 +90,7 @@ namespace PKHeX.Core
         private static bool IsDeferredSafari3(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(slot.Location);
         private static bool IsDeferredSafari4(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation4(slot.Location);
         private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
-        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
+        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden && !slot.IsHiddenAbilitySlot();
 
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IReadOnlyList<EvoCriteria> chain)
         {
@@ -122,7 +122,7 @@ namespace PKHeX.Core
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
-            return (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
+            return (slot is EncounterSlot6AO ao && ao.CanDexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
         }
 
         internal static EncounterSlot? GetCaptureLocation(PKM pkm)
