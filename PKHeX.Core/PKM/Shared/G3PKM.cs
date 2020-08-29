@@ -29,7 +29,7 @@
         public override uint EncryptionConstant { get => PID; set { } }
         public override int Nature { get => (int)(PID % 25); set { } }
         public override int AltForm { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
-        public override bool IsNicknamed { get => SpeciesName.IsNicknamedAnyLanguage(Species, Nickname, Format); set { } }
+        public override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
         public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
         public override int Characteristic => -1;
         public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
