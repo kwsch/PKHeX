@@ -102,7 +102,20 @@ namespace PKHeX.Core
                 return false;
 
             var langs = Language.GetAvailableGameLanguages(generation);
-            return langs.All(lang => GetSpeciesNameGeneration(species, lang, generation) != nick);
+            return langs.All(lang => IsNicknamed(species, nick, lang, generation));
+        }
+
+        /// <summary>
+        /// Checks if a nickname matches the species name of any language.
+        /// </summary>
+        /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
+        /// <param name="nick">Current name</param>
+        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <param name="generation">Generation specific formatting option</param>
+        /// <returns>True if it does not match any language name, False if not nicknamed</returns>
+        public static bool IsNicknamed(int species, string nick, int lang, int generation = PKX.Generation)
+        {
+            return GetSpeciesNameGeneration(species, lang, generation) != nick;
         }
 
         /// <summary>

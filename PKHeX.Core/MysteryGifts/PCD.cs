@@ -166,10 +166,26 @@ namespace PKHeX.Core
 
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
-            if (wc.PID == 1 && pkm.IsShiny) return false;
-            if (wc.Gender != 3 && wc.Gender != pkm.Gender) return false;
 
-            if (pkm is IContestStats s && s.IsContestBelow(wc))
+            if (wc.PID == 1)
+            {
+                // Random PID, never shiny
+                // PID=0 was never used (pure random).
+                if (pkm.IsShiny)
+                    return false;
+
+                // Don't check gender. All gifts that have PID=1 are genderless, with one exception.
+                // The KOR Arcanine can end up with either gender, even though the template may have a specified gender.
+            }
+            else
+            {
+                // Fixed PID
+                if (wc.Gender != pkm.Gender)
+                    return false;
+            }
+
+            // Milotic is the only gift to come with Contest stats.
+            if (wc.Species == (int)Core.Species.Milotic && pkm is IContestStats s && s.IsContestBelow(wc))
                 return false;
 
             return true;
