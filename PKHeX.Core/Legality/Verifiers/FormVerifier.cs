@@ -42,7 +42,7 @@ namespace PKHeX.Core
             if (!PersonalInfo.IsFormeWithinRange(form) && !FormConverter.IsValidOutOfBoundsForme(species, form, Info.Generation))
                 return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
-            if (EncounterMatch is EncounterSlot w && w.Type == SlotType.FriendSafari)
+            if (EncounterMatch is EncounterSlot w && w.Area.Type == SlotType.FriendSafari)
             {
                 VerifyFormFriendSafari(data);
             }

@@ -15,19 +15,17 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters8
     {
-        internal static readonly EncounterArea8[] SlotsSW_Symbol = GetEncounterTables8<EncounterArea8>("sw", "sw_symbol");
-        internal static readonly EncounterArea8[] SlotsSH_Symbol = GetEncounterTables8<EncounterArea8>("sh", "sh_symbol");
-        internal static readonly EncounterArea8[] SlotsSW_Hidden = GetEncounterTables8<EncounterArea8>("sw", "sw_hidden");
-        internal static readonly EncounterArea8[] SlotsSH_Hidden = GetEncounterTables8<EncounterArea8>("sh", "sh_hidden");
-        internal static readonly EncounterArea8[] SlotsSW, SlotsSH;
-        internal static readonly EncounterStatic[] StaticSW, StaticSH;
+        private static readonly EncounterArea8[] SlotsSW_Symbol = EncounterAreaSH.GetArray<EncounterArea8>(Get("sw_symbol", "sw"), SW);
+        private static readonly EncounterArea8[] SlotsSH_Symbol = EncounterAreaSH.GetArray<EncounterArea8>(Get("sh_symbol", "sh"), SH);
+        private static readonly EncounterArea8[] SlotsSW_Hidden = EncounterAreaSH.GetArray<EncounterArea8>(Get("sw_hidden", "sw"), SW);
+        private static readonly EncounterArea8[] SlotsSH_Hidden = EncounterAreaSH.GetArray<EncounterArea8>(Get("sh_hidden", "sh"), SH);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
+
+        internal static readonly EncounterArea8[] SlotsSW = ArrayUtil.ConcatAll(SlotsSW_Symbol, SlotsSW_Hidden);
+        internal static readonly EncounterArea8[] SlotsSH = ArrayUtil.ConcatAll(SlotsSH_Symbol, SlotsSH_Hidden);
 
         static Encounters8()
         {
-            SlotsSW = ArrayUtil.ConcatAll(SlotsSW_Symbol, SlotsSW_Hidden);
-            SlotsSH = ArrayUtil.ConcatAll(SlotsSH_Symbol, SlotsSH_Hidden);
-            SlotsSW.SetVersion(SW);
-            SlotsSH.SetVersion(SH);
             foreach (var area in SlotsSW_Symbol)
                 area.PermitCrossover = true;
             foreach (var area in SlotsSH_Symbol)
@@ -46,12 +44,7 @@ namespace PKHeX.Core
             Crystal_SWSH.SetVersion(SWSH);
             MarkEncounterTradeStrings(TradeGift_SWSH, TradeSWSH);
 
-            StaticSW = GetEncounters(Encounter_SWSH, SW);
-            StaticSH = GetEncounters(Encounter_SWSH, SH);
-
             // Include Nest Tables for both versions -- online play can share them across versions! In the IsMatch method we check if it's a valid share.
-            StaticSW = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SW), StaticSW);
-            StaticSH = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SH), StaticSH);
 
             MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
 
@@ -610,5 +603,8 @@ namespace PKHeX.Core
         };
 
         internal static readonly EncounterTrade[] TradeGift_SWSH = TradeGift_Regular.Concat(TradeGift_R1).ToArray();
+
+        internal static readonly EncounterStatic[] StaticSW = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SW), GetEncounters(Encounter_SWSH, SW));
+        internal static readonly EncounterStatic[] StaticSH = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SH), GetEncounters(Encounter_SWSH, SH));
     }
 }

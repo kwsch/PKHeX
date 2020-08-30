@@ -9,41 +9,14 @@ namespace PKHeX.Core
     /// </summary>
     public static class Encounters5
     {
-        internal static readonly EncounterArea5[] SlotsB, SlotsW, SlotsB2, SlotsW2;
-        internal static readonly EncounterStatic5[] StaticB, StaticW, StaticB2, StaticW2;
+        internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"), GameVersion.B);
+        internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), GameVersion.W);
+        internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"), GameVersion.B2);
+        internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"), GameVersion.W2);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters5()
         {
-            MarkG5DreamWorld(ref BW_DreamWorld);
-            MarkG5DreamWorld(ref B2W2_DreamWorld);
-            var staticbw = Encounter_BW.Concat(BW_DreamWorld).ToArray();
-            var staticb2w2 = Encounter_B2W2.Concat(B2W2_DreamWorld).ToArray();
-            StaticB = GetEncounters(staticbw, GameVersion.B);
-            StaticW = GetEncounters(staticbw, GameVersion.W);
-            StaticB2 = GetEncounters(staticb2w2, GameVersion.B2);
-            StaticW2 = GetEncounters(staticb2w2, GameVersion.W2);
-
-            var BSlots = GetEncounterTables<EncounterArea5, EncounterSlot5>("51", "b");
-            var WSlots = GetEncounterTables<EncounterArea5, EncounterSlot5>("51", "w");
-            var B2Slots = GetEncounterTables<EncounterArea5, EncounterSlot5>("52", "b2");
-            var W2Slots = GetEncounterTables<EncounterArea5, EncounterSlot5>("52", "w2");
-            MarkG5Slots(ref BSlots);
-            MarkG5Slots(ref WSlots);
-            MarkG5Slots(ref B2Slots);
-            MarkG5Slots(ref W2Slots);
-            MarkBWSwarmSlots(SlotsB_Swarm);
-            MarkBWSwarmSlots(SlotsW_Swarm);
-            MarkB2W2SwarmSlots(SlotsB2_Swarm);
-            MarkB2W2SwarmSlots(SlotsW2_Swarm);
-            MarkG5HiddenGrottoSlots(SlotsB2_HiddenGrotto);
-            MarkG5HiddenGrottoSlots(SlotsW2_HiddenGrotto);
-            MarkEncounterAreaArray(SlotsB_Swarm, SlotsW_Swarm, SlotsB2_Swarm, SlotsW2_Swarm, SlotsB2_HiddenGrotto, SlotsW2_HiddenGrotto, WhiteForestSlot);
-
-            SlotsB = AddExtraTableSlots(BSlots, SlotsB_Swarm);
-            SlotsW = AddExtraTableSlots(WSlots, SlotsW_Swarm, WhiteForestSlot);
-            SlotsB2 = AddExtraTableSlots(B2Slots, SlotsB2_Swarm, SlotsB2_HiddenGrotto);
-            SlotsW2 = AddExtraTableSlots(W2Slots, SlotsW2_Swarm, SlotsW2_HiddenGrotto);
-
             MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2, TradeGift_BW, TradeGift_B2W2);
 
             MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
@@ -53,52 +26,23 @@ namespace PKHeX.Core
 
             BW_DreamWorld.SetVersion(GameVersion.BW);
             B2W2_DreamWorld.SetVersion(GameVersion.B2W2);
-            SlotsB.SetVersion(GameVersion.B);
-            SlotsW.SetVersion(GameVersion.W);
-            SlotsB2.SetVersion(GameVersion.B2);
-            SlotsW2.SetVersion(GameVersion.W2);
             Encounter_BW.SetVersion(GameVersion.BW);
             Encounter_B2W2.SetVersion(GameVersion.B2W2);
             TradeGift_BW.SetVersion(GameVersion.BW);
             TradeGift_B2W2.SetVersion(GameVersion.B2W2);
         }
 
-        private static void MarkBWSwarmSlots(EncounterArea5[] Areas)
+        private static EncounterStatic5[] MarkG5DreamWorld(EncounterStatic5[] t)
         {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-            {
-                s.LevelMin = 15; s.LevelMax = 55; s.Type = SlotType.Swarm;
-            }
-        }
-
-        private static void MarkB2W2SwarmSlots(EncounterArea5[] Areas)
-        {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-            {
-                s.LevelMin = 40; s.LevelMax = 55; s.Type = SlotType.Swarm;
-            }
-        }
-
-        private static void MarkG5HiddenGrottoSlots(EncounterArea5[] Areas)
-        {
-            foreach (EncounterSlot s in Areas[0].Slots) //Only 1 area
-                s.Type = SlotType.HiddenGrotto;
-        }
-
-        private static void MarkG5DreamWorld(ref EncounterStatic5[] t)
-        {
+            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
+            var list = new List<EncounterStatic5>();
             foreach (EncounterStatic5 s in t)
             {
                 s.Location = 075; // Entree Forest
                 var p = (PersonalInfoBW)PersonalTable.B2W2[s.Species];
                 s.Ability = p.HasHiddenAbility ? 4 : 1;
                 s.Shiny = Shiny.Never;
-            }
 
-            // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
-            var list = new List<EncounterStatic5>();
-            foreach (EncounterStatic5 s in t)
-            {
                 if (s.Moves.Count <= 1) // no special moves
                 {
                     list.Add(s);
@@ -113,40 +57,7 @@ namespace PKHeX.Core
                     list.Add(clone);
                 }
             }
-            t = list.ToArray();
-        }
-
-        private static void MarkG5Slots(ref EncounterArea5[] Areas)
-        {
-            foreach (var area in Areas)
-            {
-                int ctr = 0;
-                do
-                {
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Single
-
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Double
-
-                    for (int i = 0; i < 12; i++)
-                        area.Slots[ctr++].Type = SlotType.Grass; // Shaking
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Surf; // Surf Spot
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish
-
-                    for (int i = 0; i < 5; i++) // 5
-                        area.Slots[ctr++].Type = SlotType.Super_Rod; // Fish Spot
-                } while (ctr != area.Slots.Length);
-                area.Slots = area.Slots.Where(slot => slot.Species != 0).ToArray();
-            }
-            ReduceAreasSize(ref Areas);
+            return list.ToArray();
         }
 
         #region Dream Radar Tables
@@ -360,7 +271,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 376, Level = 45, Moves = new[]{038}, Gender = 2, }, // Metagross
         };
 
-        public static readonly EncounterStatic5[] BW_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] BW_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 029, Level = 10, Moves = new[]{010, 389, 162}, }, // Nidoran♀
@@ -459,9 +370,9 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 242, Level = 10 }, // Blissey
             new EncounterStatic5 { Species = 448, Level = 10, Moves = new[]{418}, Gender = 0, }, // Lucario
             new EncounterStatic5 { Species = 189, Level = 27, Moves = new[]{206}, Gender = 0, }, // Jumpluff
-        }).ToArray();
+        }).ToArray());
 
-        public static readonly EncounterStatic5[] B2W2_DreamWorld = DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] B2W2_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 535, Level = 10, Moves = new[]{496, 414, 352}, }, // Tympole
@@ -523,7 +434,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 390, Level = 10, Moves = new[]{252}, Gender = 0, }, // Chimchar
             new EncounterStatic5 { Species = 393, Level = 10, Moves = new[]{297}, Gender = 0, }, // Piplup
             new EncounterStatic5 { Species = 575, Level = 32, Moves = new[]{286}, Gender = 0, }, // Gothorita
-        }).ToArray();
+        }).ToArray());
 
         #endregion
         #region Static Encounter/Gift Tables
@@ -750,233 +661,10 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_B2W2 = TradeGift_B2W2_Regular.Concat(TradeGift_B2W2_YancyCurtis).ToArray();
 
         #endregion
-        #region Alt Slots
 
-        // White forest white version only
-
-        private static readonly int[] WhiteForest_GrassSpecies =
-        {
-            016, 029, 032, 043, 063, 066, 069, 081, 092, 111,
-            137, 175, 179, 187, 239, 240, 265, 270, 273, 280,
-            287, 293, 298, 304, 328, 371, 396, 403, 406, 440,
-        };
-
-        private static readonly int[] WhiteForest_SurfSpecies =
-        {
-            194, 270, 283, 341,
-        };
-
-        private static readonly EncounterArea5[] WhiteForestSlot = EncounterArea.GetSimpleEncounterArea<EncounterArea5, EncounterSlot5>(WhiteForest_GrassSpecies, new[] { 5, 5 }, 51, SlotType.Grass).Concat(
-            EncounterArea.GetSimpleEncounterArea<EncounterArea5, EncounterSlot5>(WhiteForest_SurfSpecies, new[] { 5, 5 }, 51, SlotType.Surf)).ToArray();
-
-        private static readonly EncounterArea5[] SlotsBW_Swarm =
-        {
-            // Level Range and Slot Type will be marked later
-            new EncounterArea5 { Location = 014, Slots = new[]{new EncounterSlot5 { Species = 083 }, }, }, // Farfetch'd @ Route 1
-            new EncounterArea5 { Location = 015, Slots = new[]{new EncounterSlot5 { Species = 360 }, }, }, // Wynaut @ Route 2
-            new EncounterArea5 { Location = 017, Slots = new[]{new EncounterSlot5 { Species = 449 }, }, }, // Hippopotas @ Route 4
-            new EncounterArea5 { Location = 018, Slots = new[]{new EncounterSlot5 { Species = 235 }, }, }, // Smeargle @ Route 5
-            new EncounterArea5 { Location = 020, Slots = new[]{new EncounterSlot5 { Species = 161 }, }, }, // Sentret @ Route 7
-            new EncounterArea5 { Location = 021, Slots = new[]{new EncounterSlot5 { Species = 453 }, }, }, // Croagunk @ Route 8
-            new EncounterArea5 { Location = 023, Slots = new[]{new EncounterSlot5 { Species = 236 }, }, }, // Tyrogue @ Route 10
-            new EncounterArea5 { Location = 025, Slots = new[]{new EncounterSlot5 { Species = 084 }, }, }, // Doduo @ Route 12
-            new EncounterArea5 { Location = 026, Slots = new[]{new EncounterSlot5 { Species = 353 }, }, }, // Shuppet @ Route 13
-            new EncounterArea5 { Location = 027, Slots = new[]{new EncounterSlot5 { Species = 193 }, }, }, // Yanma @ Route 14
-            new EncounterArea5 { Location = 028, Slots = new[]{new EncounterSlot5 { Species = 056 }, }, }, // Mankey @ Route 15
-            new EncounterArea5 { Location = 029, Slots = new[]{new EncounterSlot5 { Species = 204 }, }, }, // Pineco @ Route 16
-            new EncounterArea5 { Location = 031, Slots = new[]{new EncounterSlot5 { Species = 102 }, }, }, // Exeggcute @ Route 18
-        };
-
-        private static readonly EncounterArea5[] SlotsB_Swarm = SlotsBW_Swarm.Concat(new[] {
-            new EncounterArea5 { Location = 016, Slots = new[]{new EncounterSlot5 { Species = 313 }, }, }, // Volbeat @ Route 3
-            new EncounterArea5 { Location = 019, Slots = new[]{new EncounterSlot5 { Species = 311 }, }, }, // Plusle @ Route 6
-            new EncounterArea5 { Location = 022, Slots = new[]{new EncounterSlot5 { Species = 228 }, }, }, // Houndour @ Route 9
-            new EncounterArea5 { Location = 024, Slots = new[]{new EncounterSlot5 { Species = 285 }, }, }, // Shroomish @ Route 11
-        }).ToArray();
-
-        private static readonly EncounterArea5[] SlotsW_Swarm = SlotsBW_Swarm.Concat(new[] {
-            new EncounterArea5 { Location = 016, Slots = new[]{new EncounterSlot5 { Species = 314 }, }, }, // Illumise @ Route 3
-            new EncounterArea5 { Location = 019, Slots = new[]{new EncounterSlot5 { Species = 312 }, }, }, // Minun @ Route 6
-            new EncounterArea5 { Location = 022, Slots = new[]{new EncounterSlot5 { Species = 261 }, }, }, // Poochyena @ Route 9
-            new EncounterArea5 { Location = 024, Slots = new[]{new EncounterSlot5 { Species = 046 }, }, }, // Paras @ Route 11
-        }).ToArray();
-
-        private static readonly EncounterArea5[] SlotsB2W2_Swarm =
-        {
-            // Level Range and Slot Type will be marked later
-            new EncounterArea5 { Location = 014, Slots = new[]{new EncounterSlot5 { Species = 083 }, }, }, // Farfetch'd @ Route 1
-            new EncounterArea5 { Location = 018, Slots = new[]{new EncounterSlot5 { Species = 177 }, }, }, // Natu @ Route 5
-            new EncounterArea5 { Location = 020, Slots = new[]{new EncounterSlot5 { Species = 162 }, }, }, // Furret @ Route 7
-            new EncounterArea5 { Location = 021, Slots = new[]{new EncounterSlot5 { Species = 195 }, }, }, // Quagsire @ Route 8
-            new EncounterArea5 { Location = 022, Slots = new[]{new EncounterSlot5 { Species = 317 }, }, }, // Swalot @ Route 9
-            new EncounterArea5 { Location = 024, Slots = new[]{new EncounterSlot5 { Species = 284 }, }, }, // Masquerain @ Route 11
-            new EncounterArea5 { Location = 025, Slots = new[]{new EncounterSlot5 { Species = 084 }, }, }, // Doduo @ Route 12
-            new EncounterArea5 { Location = 026, Slots = new[]{new EncounterSlot5 { Species = 277 }, }, }, // Swellow @ Route 13
-            new EncounterArea5 { Location = 028, Slots = new[]{new EncounterSlot5 { Species = 022 }, }, }, // Fearow @ Route 15
-            new EncounterArea5 { Location = 029, Slots = new[]{new EncounterSlot5 { Species = 204 }, }, }, // Pineco @ Route 16
-            new EncounterArea5 { Location = 031, Slots = new[]{new EncounterSlot5 { Species = 187 }, }, }, // Hoppip @ Route 18
-            new EncounterArea5 { Location = 032, Slots = new[]{new EncounterSlot5 { Species = 097 }, }, }, // Hypno @ Dreamyard
-            new EncounterArea5 { Location = 034, Slots = new[]{new EncounterSlot5 { Species = 450 }, }, }, // Hippowdon @ Desert Resort
-            new EncounterArea5 { Location = 070, Slots = new[]{new EncounterSlot5 { Species = 079 }, }, }, // Slowpoke @ Abundant shrine
-            new EncounterArea5 { Location = 132, Slots = new[]{new EncounterSlot5 { Species = 332 }, }, }, // Cacturne @ Reaversal Mountian
-        };
-
-        private static readonly EncounterArea5[] SlotsB2_Swarm = SlotsB2W2_Swarm.Concat(new[] {
-            new EncounterArea5 { Location = 016, Slots = new[]{new EncounterSlot5 { Species = 313 }, }, }, // Volbeat @ Route 3
-            new EncounterArea5 { Location = 019, Slots = new[]{new EncounterSlot5 { Species = 311 }, }, }, // Plusle @ Route 6
-            new EncounterArea5 { Location = 125, Slots = new[]{new EncounterSlot5 { Species = 185 }, }, }, // Sudowoodo @ Route 20
-            new EncounterArea5 { Location = 127, Slots = new[]{new EncounterSlot5 { Species = 168 }, }, }, // Ariados @ Route 22
-        }).ToArray();
-
-        private static readonly EncounterArea5[] SlotsW2_Swarm = SlotsB2W2_Swarm.Concat(new[] {
-            new EncounterArea5 { Location = 016, Slots = new[]{new EncounterSlot5 { Species = 314 }, }, }, // Illumise @ Route 3
-            new EncounterArea5 { Location = 019, Slots = new[]{new EncounterSlot5 { Species = 312 }, }, }, // Minun @ Route 6
-            new EncounterArea5 { Location = 125, Slots = new[]{new EncounterSlot5 { Species = 122 }, }, }, // Mr. Mime @ Route 20
-            new EncounterArea5 { Location = 127, Slots = new[]{new EncounterSlot5 { Species = 166 }, }, }, // Ledian @ Route 22
-        }).ToArray();
-
-        private static readonly EncounterSlot[] SlotsB2W2_HiddenGrottoEncounterSlots =
-        {
-            // reference http://bulbapedia.bulbagarden.net/wiki/Hidden_Grotto
-            // Route 2
-            new EncounterSlot5 { Species = 029, LevelMin = 55, LevelMax = 60, }, // Nidoran♀
-            new EncounterSlot5 { Species = 032, LevelMin = 55, LevelMax = 60, }, // Nidoran♂
-            new EncounterSlot5 { Species = 210, LevelMin = 55, LevelMax = 60, }, // Granbull
-            new EncounterSlot5 { Species = 505, LevelMin = 55, LevelMax = 60, }, // Watchog
-
-            // Route 3
-            new EncounterSlot5 { Species = 310, LevelMin = 55, LevelMax = 60, }, // Manectric @ Dark Grass
-            new EncounterSlot5 { Species = 417, LevelMin = 55, LevelMax = 60, }, // Pachirisu @ Dark Grass
-            new EncounterSlot5 { Species = 523, LevelMin = 55, LevelMax = 60, }, // Zebstrika @ Dark Grass
-            new EncounterSlot5 { Species = 048, LevelMin = 55, LevelMax = 60, }, // Venonat @ Pond
-            new EncounterSlot5 { Species = 271, LevelMin = 55, LevelMax = 60, }, // Lombre @ Pond
-            new EncounterSlot5 { Species = 400, LevelMin = 55, LevelMax = 60, }, // Bibarel @ Pond
-
-            // Route 5
-            new EncounterSlot5 { Species = 510, LevelMin = 20, LevelMax = 25, }, // Liepard
-            new EncounterSlot5 { Species = 572, LevelMin = 20, LevelMax = 25, }, // Minccino
-            new EncounterSlot5 { Species = 590, LevelMin = 20, LevelMax = 25, }, // Foongus
-
-            // Route 6
-            new EncounterSlot5 { Species = 206, LevelMin = 25, LevelMax = 30, }, // Dunsparce @ Near PKM Breeder
-            new EncounterSlot5 { Species = 299, LevelMin = 25, LevelMax = 30, }, // Nosepass @ Mistralton Cave
-            new EncounterSlot5 { Species = 527, LevelMin = 25, LevelMax = 30, }, // Woobat @ Both
-            new EncounterSlot5 { Species = 590, LevelMin = 25, LevelMax = 30, }, // Foongus @ Both
-
-            // Route 7
-            new EncounterSlot5 { Species = 335, LevelMin = 30, LevelMax = 35, }, // Zangoose
-            new EncounterSlot5 { Species = 336, LevelMin = 30, LevelMax = 35, }, // Seviper
-            new EncounterSlot5 { Species = 505, LevelMin = 30, LevelMax = 35, }, // Watchog
-            new EncounterSlot5 { Species = 613, LevelMin = 30, LevelMax = 35, }, // Cubchoo
-
-            // Route 9
-            new EncounterSlot5 { Species = 089, LevelMin = 35, LevelMax = 40, }, // Muk
-            new EncounterSlot5 { Species = 510, LevelMin = 35, LevelMax = 40, }, // Liepard
-            new EncounterSlot5 { Species = 569, LevelMin = 35, LevelMax = 40, }, // Garbodor
-            new EncounterSlot5 { Species = 626, LevelMin = 35, LevelMax = 40, }, // Bouffalant
-
-            // Route 13
-            new EncounterSlot5 { Species = 114, LevelMin = 35, LevelMax = 40, }, // Tangela @ Gaint Chasm
-            new EncounterSlot5 { Species = 363, LevelMin = 35, LevelMax = 40, }, // Spheal @ Stairs
-            new EncounterSlot5 { Species = 425, LevelMin = 35, LevelMax = 40, }, // Drifloon @ Stairs
-            new EncounterSlot5 { Species = 451, LevelMin = 35, LevelMax = 40, }, // Skorupi @ Gaint Chasm
-            new EncounterSlot5 { Species = 590, LevelMin = 35, LevelMax = 40, }, // Foongus @ Both
-
-            // Route 18
-            new EncounterSlot5 { Species = 099, LevelMin = 55, LevelMax = 60, }, // Kingler
-            new EncounterSlot5 { Species = 149, LevelMin = 55, LevelMax = 60, }, // Dragonite
-            new EncounterSlot5 { Species = 222, LevelMin = 55, LevelMax = 60, }, // Corsola
-            new EncounterSlot5 { Species = 441, LevelMin = 55, LevelMax = 60, }, // Chatot
-
-            // Pinwheel Forest
-            new EncounterSlot5 { Species = 061, LevelMin = 55, LevelMax = 60, }, // Poliwhirl @ Outer
-            new EncounterSlot5 { Species = 198, LevelMin = 55, LevelMax = 60, }, // Murkrow @ Inner
-            new EncounterSlot5 { Species = 286, LevelMin = 55, LevelMax = 60, }, // Breloom @ Inner
-            new EncounterSlot5 { Species = 297, LevelMin = 55, LevelMax = 60, }, // Hariyama @ Outer
-            new EncounterSlot5 { Species = 308, LevelMin = 55, LevelMax = 60, }, // Medicham @ Outer
-            new EncounterSlot5 { Species = 371, LevelMin = 55, LevelMax = 60, }, // Bagon @ Outer
-            new EncounterSlot5 { Species = 591, LevelMin = 55, LevelMax = 60, }, // Amoonguss @ Inner
-
-            // Giant Chasm
-            new EncounterSlot5 { Species = 035, LevelMin = 45, LevelMax = 50, }, // Clefairy
-            new EncounterSlot5 { Species = 132, LevelMin = 45, LevelMax = 50, }, // Ditto
-            new EncounterSlot5 { Species = 215, LevelMin = 45, LevelMax = 50, }, // Sneasel
-            new EncounterSlot5 { Species = 375, LevelMin = 45, LevelMax = 50, }, // Metang
-
-            // Abundant Shrine
-            new EncounterSlot5 { Species = 037, LevelMin = 35, LevelMax = 40, }, // Vulpix @ Near Youngster
-            new EncounterSlot5 { Species = 055, LevelMin = 35, LevelMax = 40, }, // Golduck @ Shrine
-            new EncounterSlot5 { Species = 333, LevelMin = 35, LevelMax = 40, }, // Swablu @ Shrine
-            new EncounterSlot5 { Species = 436, LevelMin = 35, LevelMax = 40, }, // Bronzor @ Near Youngster
-            new EncounterSlot5 { Species = 591, LevelMin = 35, LevelMax = 40, }, // Amoonguss @ Both
-
-            // Lostlorn Forest
-            new EncounterSlot5 { Species = 127, LevelMin = 20, LevelMax = 25, }, // Pinsir
-            new EncounterSlot5 { Species = 214, LevelMin = 20, LevelMax = 25, }, // Heracross
-            new EncounterSlot5 { Species = 415, LevelMin = 20, LevelMax = 25, }, // Combee
-            new EncounterSlot5 { Species = 542, LevelMin = 20, LevelMax = 25, }, // Leavanny
-
-            // Route 22
-            new EncounterSlot5 { Species = 279, LevelMin = 40, LevelMax = 45, }, // Pelipper
-            new EncounterSlot5 { Species = 591, LevelMin = 40, LevelMax = 45, }, // Amoonguss
-            new EncounterSlot5 { Species = 619, LevelMin = 40, LevelMax = 45, }, // Mienfoo
-
-            // Route 23
-            new EncounterSlot5 { Species = 055, LevelMin = 50, LevelMax = 55, }, // Golduck
-            new EncounterSlot5 { Species = 207, LevelMin = 50, LevelMax = 55, }, // Gligar
-            new EncounterSlot5 { Species = 335, LevelMin = 50, LevelMax = 55, }, // Zangoose
-            new EncounterSlot5 { Species = 336, LevelMin = 50, LevelMax = 55, }, // Seviper
-            new EncounterSlot5 { Species = 359, LevelMin = 50, LevelMax = 55, }, // Absol
-
-            // Floccesy Ranch
-            new EncounterSlot5 { Species = 183, LevelMin = 10, LevelMax = 15, }, // Marill
-            new EncounterSlot5 { Species = 206, LevelMin = 10, LevelMax = 15, }, // Dunsparce
-            new EncounterSlot5 { Species = 507, LevelMin = 10, LevelMax = 15, }, // Herdier
-
-            // Funfest Missions
-            // todo : check the level
-            new EncounterSlot5 { Species = 133, LevelMin = 15, LevelMax = 60, }, // Eevee
-            new EncounterSlot5 { Species = 134, LevelMin = 15, LevelMax = 60, }, // Vaporeon
-            new EncounterSlot5 { Species = 135, LevelMin = 15, LevelMax = 60, }, // Jolteon
-            new EncounterSlot5 { Species = 136, LevelMin = 15, LevelMax = 60, }, // Flareon
-            new EncounterSlot5 { Species = 196, LevelMin = 15, LevelMax = 60, }, // Espeon
-            new EncounterSlot5 { Species = 197, LevelMin = 15, LevelMax = 60, }, // Umbreon
-            new EncounterSlot5 { Species = 470, LevelMin = 15, LevelMax = 60, }, // Leafeon
-            new EncounterSlot5 { Species = 471, LevelMin = 15, LevelMax = 60, }, // Glaceon
-
-            // Funfest Week 3
-            // new EncounterSlot5 { Species = 060, LevelMin = 15, LevelMax = 60, }, // Poliwag
-            new EncounterSlot5 { Species = 113, LevelMin = 15, LevelMax = 60, }, // Chansey
-            new EncounterSlot5 { Species = 176, LevelMin = 15, LevelMax = 60, }, // Togetic
-            new EncounterSlot5 { Species = 082, LevelMin = 15, LevelMax = 60, }, // Magneton
-            new EncounterSlot5 { Species = 148, LevelMin = 15, LevelMax = 60, }, // Dragonair
-            new EncounterSlot5 { Species = 372, LevelMin = 15, LevelMax = 60, }, // Shelgon                      
-        };
-
-        private static readonly EncounterArea5[] SlotsB2_HiddenGrotto =
-        {
-            new EncounterArea5
-            {
-                Location = 143, // Hidden Grotto
-                Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
-                    new EncounterSlot5 { Species = 015, LevelMin = 55, LevelMax = 60 }, // Beedrill @ Pinwheel Forest
-                    new EncounterSlot5 { Species = 434, LevelMin = 15, LevelMax = 60 }, // Stunky from Funfest Missions
-                }).ToArray(),
-            }
-        };
-
-        private static readonly EncounterArea5[] SlotsW2_HiddenGrotto =
-        {
-            new EncounterArea5
-            {
-                Location = 143, // Hidden Grotto
-                Slots = SlotsB2W2_HiddenGrottoEncounterSlots.Concat(new[]{
-                    new EncounterSlot5 { Species = 012, LevelMin = 55, LevelMax = 60 }, // Butterfree @ Pinwheel Forest
-                    new EncounterSlot5 { Species = 431, LevelMin = 15, LevelMax = 60 }, // Glameow from Funfest Missions
-                }).ToArray(),
-            }
-        };
-
-        #endregion
+        internal static readonly EncounterStatic5[] StaticB = GetEncounters(ArrayUtil.ConcatAll(Encounter_BW, BW_DreamWorld), GameVersion.B);
+        internal static readonly EncounterStatic5[] StaticW = GetEncounters(ArrayUtil.ConcatAll(Encounter_BW, BW_DreamWorld), GameVersion.W);
+        internal static readonly EncounterStatic5[] StaticB2 = GetEncounters(ArrayUtil.ConcatAll(Encounter_B2W2, B2W2_DreamWorld), GameVersion.B2);
+        internal static readonly EncounterStatic5[] StaticW2 = GetEncounters(ArrayUtil.ConcatAll(Encounter_B2W2, B2W2_DreamWorld), GameVersion.W2);
     }
 }

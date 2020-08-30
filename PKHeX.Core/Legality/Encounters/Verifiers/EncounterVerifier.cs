@@ -56,15 +56,6 @@ namespace PKHeX.Core
         // Gen2 Wild Encounters
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot2 encounter)
         {
-            switch (encounter.Type)
-            {
-                // Fishing in the beta gen 2 Safari Zone
-                case SlotType.Old_Rod_Safari:
-                case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari:
-                    return new CheckResult(Severity.Invalid, LG2InvalidTileSafari, CheckIdentifier.Encounter);
-            }
-
             if (encounter.Version == GameVersion.C)
                 return VerifyWildEncounterCrystal(pkm, encounter);
 
@@ -73,10 +64,9 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot encounter)
         {
-            switch (encounter.Type)
+            switch (encounter.Area.Type)
             {
                 case SlotType.Headbutt:
-                case SlotType.Headbutt_Special:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
 
                 case SlotType.Old_Rod:
@@ -261,7 +251,7 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 4:
-                    if (slot.Location == 193 && slot.Type == SlotType.Surf) // surfing in Johto Route 45
+                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
             }

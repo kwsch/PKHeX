@@ -138,21 +138,11 @@ namespace PKHeX.Core
         {
             switch (item)
             {
-                case EncounterSlot s:
-                    var type = s.Type;
-                    if (type == 0)
-                    {
-                        yield return new EncounterSummary(item);
-                        break;
-                    }
-                    for (int i = 0; i < sizeof(SlotType) * 8; i++)
-                    {
-                        var flag = (SlotType)(1 << i);
-                        if ((type & flag) != 0)
-                            yield return new EncounterSummary(item, flag.ToString());
-                    }
-
+                case EncounterSlot s when s.Area.Type != 0:
+                {
+                    yield return new EncounterSummary(item, s.Area.Type.ToString());
                     break;
+                }
 
                 default:
                     yield return new EncounterSummary(item);

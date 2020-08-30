@@ -9,123 +9,27 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters2
     {
-        internal static readonly EncounterArea2[] SlotsGSC, SlotsGS, SlotsC;
-        internal static readonly EncounterStatic2[] StaticGSC, StaticGS, StaticC;
+        private static readonly EncounterArea2[] SlotsG = Get("gold", "g2", GameVersion.GD);
+        private static readonly EncounterArea2[] SlotsS = Get("silver", "g2", GameVersion.SV);
+        internal static readonly EncounterArea2[] SlotsC = Get("crystal", "g2", GameVersion.C);
+
+        internal static readonly EncounterArea2[] SlotsGS = ArrayUtil.ConcatAll(SlotsG, SlotsS);
+        internal static readonly EncounterArea2[] SlotsGSC = ArrayUtil.ConcatAll(SlotsGS, SlotsC);
         private static readonly TreesArea[] HeadbuttTreesC = TreesArea.GetArray(BinLinker.Unpack(Util.GetBinaryResource("trees_h_c.pkl"), "ch"));
+        private static EncounterArea2[] Get(string name, string ident, GameVersion game) =>
+            EncounterArea2.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
         static Encounters2()
         {
-            StaticGS = Encounter_GS;
-            StaticC = Encounter_C;
-            StaticGSC = Encounter_GSC;
-            SlotsGS = GetTables2(GameVersion.GS);
-            SlotsC = GetTables2(GameVersion.C);
-            SlotsGSC = GetTables2(GameVersion.GSC);
-            MarkEncounterAreaArray(SlotsGS, SlotsC, SlotsGSC, EncounterSafari_GSC, EncounterBCC_GSC);
-            ReduceAreasSize(ref SlotsGS);
-            ReduceAreasSize(ref SlotsC);
-            ReduceAreasSize(ref SlotsGSC);
             MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC, TradeGift_GSC);
 
             MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
 
-            SlotsGSC.SetVersion(GameVersion.GSC);
-            SlotsGS.SetVersion(GameVersion.GS);
-            SlotsC.SetVersion(GameVersion.C);
             StaticGSC.SetVersion(GameVersion.GSC);
             StaticGS.SetVersion(GameVersion.GS);
             StaticC.SetVersion(GameVersion.C);
             TradeGift_GSC.SetVersion(GameVersion.GSC);
         }
-
-        private static EncounterArea2[] GetTables2(GameVersion Version)
-        {
-            // Fishing
-            var f = EncounterArea2.GetArray2Fishing(Util.GetBinaryResource("encounter_gsc_f.pkl"));
-
-            var Slots = Array.Empty<EncounterArea2>();
-            if (Version.Contains(GameVersion.GS))
-                Slots = GetSlots_GS(f);
-            if (Version.Contains(GameVersion.C))
-                Slots = AddExtraTableSlots(Slots, GetSlots_C(f));
-
-            return Slots;
-        }
-
-        private static EncounterArea2[] GetSlots_GS(EncounterArea2[] f)
-        {
-            // Grass/Water
-            var g = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_gold.pkl"));
-            var s = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_silver.pkl"));
-            // Headbutt/Rock Smash
-            var h_g = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_gold_h.pkl"));
-            var h_s = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_silver_h.pkl"));
-            var safari_gs = EncounterSafari_GSC;
-            var bcc_gs = EncounterBCC_GSC;
-
-            MarkEncountersVersion(bcc_gs, GameVersion.GS);
-            MarkEncountersVersion(f, GameVersion.GS);
-            MarkEncountersVersion(g, GameVersion.GD);
-            MarkEncountersVersion(s, GameVersion.SV);
-            MarkEncountersVersion(h_g, GameVersion.GD);
-            MarkEncountersVersion(h_s, GameVersion.SV);
-            MarkEncountersVersion(safari_gs, GameVersion.GS);
-
-            return AddExtraTableSlots(g, s, h_g, h_s, f, bcc_gs, safari_gs);
-        }
-
-        private static EncounterArea2[] GetSlots_C(EncounterArea2[] f)
-        {
-            // Grass/Water
-            var c = EncounterArea2.GetArray2GrassWater(Util.GetBinaryResource("encounter_crystal.pkl"));
-            // Headbutt/Rock Smash
-            var h_c = EncounterArea2.GetArray2Headbutt(Util.GetBinaryResource("encounter_crystal_h.pkl"));
-            var safari_c = EncounterSafari_GSC;
-            var bcc_c = EncounterBCC_GSC;
-
-            MarkEncountersVersion(bcc_c, GameVersion.C);
-            MarkEncountersVersion(safari_c, GameVersion.C);
-            MarkEncountersVersion(f, GameVersion.C);
-            MarkEncountersVersion(c, GameVersion.C);
-            MarkEncountersVersion(h_c, GameVersion.C);
-
-            var extra = AddExtraTableSlots(c, h_c, f, bcc_c, safari_c);
-            return extra;
-        }
-
-        private static readonly EncounterArea2[] EncounterBCC_GSC = { new EncounterArea2 {
-            Location = 19,
-            Slots = new EncounterSlot[]
-            {
-                new EncounterSlot2(010, 07, 18, 20, SlotType.BugContest, 0), // Caterpie
-                new EncounterSlot2(013, 07, 18, 20, SlotType.BugContest, 1), // Weedle
-                new EncounterSlot2(011, 09, 18, 10, SlotType.BugContest, 2), // Metapod
-                new EncounterSlot2(014, 09, 18, 10, SlotType.BugContest, 3), // Kakuna
-                new EncounterSlot2(012, 12, 15, 05, SlotType.BugContest, 4), // Butterfree
-                new EncounterSlot2(015, 12, 15, 05, SlotType.BugContest, 5), // Beedrill
-                new EncounterSlot2(048, 10, 16, 10, SlotType.BugContest, 6), // Venonat
-                new EncounterSlot2(046, 10, 17, 10, SlotType.BugContest, 7), // Paras
-                new EncounterSlot2(123, 13, 14, 05, SlotType.BugContest, 8), // Scyther
-                new EncounterSlot2(127, 13, 14, 05, SlotType.BugContest, 9), // Pinsir
-            }
-        }};
-
-        private static readonly EncounterArea2[] EncounterSafari_GSC = { new EncounterArea2 {
-            Location = 81,
-            Slots = new EncounterSlot[]
-            {
-                new EncounterSlot2(129, 10, 10, 100, SlotType.Old_Rod_Safari, 0), // Magikarp
-                new EncounterSlot2(098, 10, 10, 100, SlotType.Old_Rod_Safari, 1), // Krabby
-                new EncounterSlot2(098, 20, 20, 100, SlotType.Good_Rod_Safari, 0), // Krabby
-                new EncounterSlot2(129, 20, 20, 100, SlotType.Good_Rod_Safari, 1), // Magikarp
-                new EncounterSlot2(222, 20, 20, 100, SlotType.Good_Rod_Safari, 2), // Corsola
-                new EncounterSlot2(120, 20, 20, 100, SlotType.Good_Rod_Safari, 3), // Staryu
-                new EncounterSlot2(098, 40, 40, 100, SlotType.Super_Rod_Safari, 0), // Krabby
-                new EncounterSlot2(222, 40, 40, 100, SlotType.Super_Rod_Safari, 1), // Corsola
-                new EncounterSlot2(120, 40, 40, 100, SlotType.Super_Rod_Safari, 2), // Staryu
-                new EncounterSlot2(121, 40, 40, 100, SlotType.Super_Rod_Safari, 3), // Kingler
-            }
-        }};
 
         private static readonly EncounterStatic2[] Encounter_GSC_Common =
         {
@@ -267,9 +171,13 @@ namespace PKHeX.Core
             if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
                 return TreeEncounterAvailable.Impossible;
 
-            var table = Area.GetTrees(encounter.Type);
+            var table = Area.GetTrees(encounter.Area.Type);
             var trainerpivot = TID % 10;
             return table[trainerpivot];
         }
+
+        internal static readonly EncounterStatic2[] StaticGSC = Encounter_GSC;
+        internal static readonly EncounterStatic2[] StaticGS = Encounter_GS;
+        internal static readonly EncounterStatic2[] StaticC = Encounter_C;
     }
 }

@@ -94,7 +94,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.XY && PersonalTable.XY[data.EncounterMatch.Species].IsEggGroup(15)) // Undiscovered
                 VerifyIVsFlawless(data, 3);
-            else if (w.Type == SlotType.FriendSafari)
+            else if (w.Area.Type == SlotType.FriendSafari)
                 VerifyIVsFlawless(data, 2);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -6,8 +7,40 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.GG"/> encounter area
     /// </summary>
-    public sealed class EncounterArea7b : EncounterArea32
+    public sealed class EncounterArea7b : EncounterArea
     {
+        public static EncounterArea7b[] GetAreas(byte[][] input, GameVersion game)
+        {
+            var result = new EncounterArea7b[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea7b(input[i], game);
+            return result;
+        }
+
+        private EncounterArea7b(byte[] data, GameVersion game)
+        {
+            Location = data[0] | (data[1] << 8);
+            Slots = ReadSlots(data, game);
+        }
+
+        private EncounterSlot7b[] ReadSlots(byte[] data, GameVersion game)
+        {
+            const int size = 4;
+            int count = (data.Length - 2) / size;
+            var slots = new EncounterSlot7b[count];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                int offset = 2 + (size * i);
+                ushort SpecForm = BitConverter.ToUInt16(data, offset);
+                int species = SpecForm & 0x3FF;
+                int min = data[offset + 2];
+                int max = data[offset + 3];
+                slots[i] = new EncounterSlot7b(this, species, min, max, game);
+            }
+
+            return slots;
+        }
+
         private const int CatchComboBonus = 1;
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)

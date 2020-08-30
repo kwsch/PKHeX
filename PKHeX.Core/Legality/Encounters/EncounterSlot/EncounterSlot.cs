@@ -17,10 +17,10 @@ namespace PKHeX.Core
         public int EggLocation { get => 0; set { } }
         public override string ToString() => $"{(Species) Species} @ {LevelMin}-{LevelMax}";
 
-        internal EncounterArea? Area { get; set; }
-        public int Location { get => Area?.Location ?? 0; set { } }
+        internal readonly EncounterArea Area;
+        public int Location { get => Area.Location; set { } }
 
-        public SlotType Type { get; set; } = SlotType.Any;
+        protected EncounterSlot(EncounterArea area) => Area = area;
 
         public EncounterSlot Clone() => (EncounterSlot)MemberwiseClone();
 
@@ -67,9 +67,9 @@ namespace PKHeX.Core
         {
             get
             {
-                if (Type == SlotType.Any)
+                if (Area!.Type == SlotType.Any)
                     return wild;
-                return $"{wild} {Type.ToString().Replace('_', ' ')}";
+                return $"{wild} {Area!.Type.ToString().Replace('_', ' ')}";
             }
         }
 
@@ -93,7 +93,9 @@ namespace PKHeX.Core
             pk.CurrentLevel = level;
             pk.Version = (int)version;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
-            pk.Ball = (int)Type.GetBall();
+
+            var ball = BallExtensions.GetRequiredBallValueWild(Generation, Location);
+            pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.AltForm = GetWildAltForm(pk, Form, sav);
@@ -126,7 +128,7 @@ namespace PKHeX.Core
             int nature = (int)criteria.GetNature(Nature.Random);
 
             var ability = Util.Rand.Next(2);
-            if (Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
+            if (Area!.Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
                 ability = 2;
 
             PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);

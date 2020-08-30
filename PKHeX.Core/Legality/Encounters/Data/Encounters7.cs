@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -8,70 +7,23 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters7
     {
-        internal static readonly EncounterArea7[] SlotsSN, SlotsMN, SlotsUS, SlotsUM;
-        internal static readonly EncounterStatic7[] StaticSN, StaticMN, StaticUS, StaticUM;
+        internal static readonly EncounterArea7[] SlotsSN = EncounterArea7.GetAreas(Get("sn", "sm"), GameVersion.SN);
+        internal static readonly EncounterArea7[] SlotsMN = EncounterArea7.GetAreas(Get("mn", "sm"), GameVersion.MN);
+        internal static readonly EncounterArea7[] SlotsUS = EncounterArea7.GetAreas(Get("us", "uu"), GameVersion.US);
+        internal static readonly EncounterArea7[] SlotsUM = EncounterArea7.GetAreas(Get("um", "uu"), GameVersion.UM);
+        private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters7()
         {
-            StaticSN = GetEncounters(Encounter_SM, GameVersion.SN);
-            StaticMN = GetEncounters(Encounter_SM, GameVersion.MN);
-            StaticUS = GetEncounters(Encounter_USUM, GameVersion.US);
-            StaticUM = GetEncounters(Encounter_USUM, GameVersion.UM);
-
-            var REG_SN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "sn");
-            var REG_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn");
-            var SOS_SN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "sn_sos");
-            var SOS_MN = GetEncounterTables<EncounterArea7, EncounterSlot7>("sm", "mn_sos");
-            MarkG7REGSlots(ref REG_SN);
-            MarkG7REGSlots(ref REG_MN);
-            MarkG7SMSlots(ref SOS_SN);
-            MarkG7SMSlots(ref SOS_MN);
-            int[] pelagoMin = { 1, 11, 21, 37, 49 };
-            InitializePelagoSM(pelagoMin, out var p_sn, out var p_mn);
-            InitializePelagoUltra(pelagoMin, out var p_us, out var p_um);
-            SlotsSN = AddExtraTableSlots(REG_SN, SOS_SN, p_sn);
-            SlotsMN = AddExtraTableSlots(REG_MN, SOS_MN, p_mn);
-
-            var REG_US = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "us");
-            var REG_UM = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "um");
-            var SOS_US = GetEncounterTables<EncounterArea7, EncounterSlot7>("uu", "us_sos");
-            var SOS_UM = GetEncounterTables<EncounterArea7, EncounterSlot7> ("uu", "um_sos");
-            MarkG7REGSlots(ref REG_US);
-            MarkG7REGSlots(ref REG_UM);
-            MarkG7SMSlots(ref SOS_US);
-            MarkG7SMSlots(ref SOS_UM);
-            SlotsUS = AddExtraTableSlots(REG_US, SOS_US, p_us);
-            SlotsUM = AddExtraTableSlots(REG_UM, SOS_UM, p_um);
-
-            MarkEncounterAreaArray(SOS_SN, SOS_MN, SOS_US, SOS_UM,
-                p_sn, p_mn,
-                p_us, p_um);
-
             MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
 
             MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
             MarkEncounterTradeStrings(TradeGift_USUM, TradeUSUM);
 
-            SlotsSN.SetVersion(GameVersion.SN);
-            SlotsMN.SetVersion(GameVersion.MN);
-            SlotsUS.SetVersion(GameVersion.US);
-            SlotsUM.SetVersion(GameVersion.UM);
             Encounter_SM.SetVersion(GameVersion.SM);
             Encounter_USUM.SetVersion(GameVersion.USUM);
             TradeGift_SM.SetVersion(GameVersion.SM);
             TradeGift_USUM.SetVersion(GameVersion.USUM);
-        }
-
-        private static void MarkG7REGSlots(ref EncounterArea7[] Areas)
-        {
-            ReduceAreasSize(ref Areas);
-        }
-
-        private static void MarkG7SMSlots(ref EncounterArea7[] Areas)
-        {
-            foreach (EncounterSlot s in Areas.SelectMany(area => area.Slots))
-                s.Type = SlotType.SOS;
-            ReduceAreasSize(ref Areas);
         }
 
         private static readonly EncounterStatic7[] Encounter_SM = // @ a\1\5\5
@@ -408,53 +360,9 @@ namespace PKHeX.Core
         private static readonly string[][] TradeSM = Util.GetLanguageStrings10(tradeSM);
         private static readonly string[][] TradeUSUM = Util.GetLanguageStrings10(tradeUSUM);
 
-        private static void InitializePelagoSM(int[] minLevels, out EncounterArea7[] sn, out EncounterArea7[] mn)
-        {
-            int[][] speciesSM =
-            {
-                new[] {627/*SN*/, 021, 041, 090, 278, 731}, // 1-7
-                new[] {064, 081, 092, 198, 426, 703},       // 11-17
-                new[] {060, 120, 127, 661, 709, 771},       // 21-27
-                new[] {227, 375, 707},                      // 37-43
-                new[] {123, 131, 429, 587},                 // 49-55
-            };
-            sn = GetPelagoArea(speciesSM, minLevels);
-            speciesSM[0][0] = 629; // Rufflet -> Vullaby
-            mn = GetPelagoArea(speciesSM, minLevels);
-        }
-
-        private static void InitializePelagoUltra(int[] minLevels, out EncounterArea7[] us, out EncounterArea7[] um)
-        {
-            int[][] speciesUU =
-            {
-                new[] {731, 278, 041, 742, 086},        // 1-7
-                new[] {079, 120, 222, 122, 180, 124},   // 11-17
-                new[] {127, 177, 764, 163, 771, 701},   // 21-27
-                new[] {131, 354, 200, /* US  */ 228},   // 37-43
-                new[] {209, 667, 357, 430},             // 49-55
-            };
-            us = GetPelagoArea(speciesUU, minLevels);
-            speciesUU[3][3] = 309; // Houndour -> Electrike
-            um = GetPelagoArea(speciesUU, minLevels);
-        }
-
-        private static EncounterArea7[] GetPelagoArea(int[][] species, int[] min)
-        {
-            // Species that appear at a lower level than the current table show up too.
-            var area = new EncounterArea7
-            {
-                Location = 30016,
-                Slots = species.SelectMany((_, i) =>
-                    species.Take(1 + i).SelectMany(z => // grab current row & above
-                    z.Select(s => new EncounterSlot7 // get slot data for each species
-                    {
-                        Species = s,
-                        LevelMin = min[i],
-                        LevelMax = min[i] + 6
-                    }
-                    ))).ToArray(),
-            };
-            return new[] {area};
-        }
+        internal static readonly EncounterStatic7[] StaticSN = GetEncounters(Encounter_SM, GameVersion.SN);
+        internal static readonly EncounterStatic7[] StaticMN = GetEncounters(Encounter_SM, GameVersion.MN);
+        internal static readonly EncounterStatic7[] StaticUS = GetEncounters(Encounter_USUM, GameVersion.US);
+        internal static readonly EncounterStatic7[] StaticUM = GetEncounters(Encounter_USUM, GameVersion.UM);
     }
 }

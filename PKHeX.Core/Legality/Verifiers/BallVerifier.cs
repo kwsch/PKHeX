@@ -74,20 +74,30 @@ namespace PKHeX.Core
             return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
         }
 
+        private static Ball GetRequiredBallValue(int gen, int loc)
+        {
+            return gen switch
+            {
+                // For Gen3 Safari Zones, we've already deferred partial match encounters.
+                3 when Locations.IsSafariZoneLocation3(loc) => Safari,
+
+                // For Gen4 Safari Zones and BCC, we've already deferred partial match encounters.
+                4 when Locations.IsSafariZoneLocation4(loc) => Safari,
+                4 when Locations.BugCatchingContest4 == loc => Sport,
+
+                // Poké Pelago
+                7 when loc == 30016 => Poke,
+
+                _ => None,
+            };
+        }
+
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
-            if (w.Location == 30016 && w.Generation == 7) // Poké Pelago
-                return VerifyBallEquals(data, (int)Poke); // Pokeball
+            var req = BallExtensions.GetRequiredBallValueWild(w.Generation, w.Location);
+            if (req != None)
+                return VerifyBallEquals(data, (int) req);
 
-            var Info = data.Info;
-
-            // For gen3/4 Safari Zones and BCC getValidWildEncounters already filter to not return
-            // mixed possible encounters between safari, BCC and other encounters
-            // That means is the first encounter is not safari then there is no safari encounter in the array
-            if (3 <= Info.Generation && Info.Generation <= 4 && w.Type.IsSafariType())
-                return VerifyBallEquals(data, (int)Safari); // Safari Ball
-            if (Info.Generation == 4 && w.Type == SlotType.BugContest)
-                return VerifyBallEquals(data, (int)Sport); // Sport Ball
             return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
         }
 

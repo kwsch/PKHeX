@@ -310,14 +310,11 @@ namespace PKHeX.Core
             switch (slot.Generation)
             {
                 case 2:
-                    if ((slot.Type & SlotType.Safari) != 0) // Safari Zone is unavailable in Gen 2.
-                        return true;
-
-                    if ((slot.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
+                    if (slot.Area.Type == SlotType.Headbutt) // Unreachable Headbutt Trees.
                         return Encounters2.GetGSCHeadbuttAvailability(slot, pk.TID) != TreeEncounterAvailable.ValidTree;
                     break;
                 case 4:
-                    if (slot.Location == 193 && slot.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                    if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
                         return true;
                     break;
             }

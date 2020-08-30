@@ -306,16 +306,10 @@ namespace PKHeX.Core
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
 
-            if (EncounterArea6XYFriendSafari.WasFriendSafari(pkm))
-            {
-                foreach (var z in EncounterArea6XYFriendSafari.GetValidSafariEncounters(pkm))
-                { yield return z; ++ctr; }
-                if (ctr != 0) yield break;
-            }
-
             foreach (var z in GetValidWildEncounters(pkm, chain))
             { yield return z; ++ctr; }
             if (ctr != 0) yield break;
+
             foreach (var z in GetValidEncounterTrades(pkm, chain))
             { yield return z; ++ctr; }
         }

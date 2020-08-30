@@ -24,7 +24,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {
-            if (pkm.Egg_Location != 0)
+            if (pkm.Egg_Location != 0 || pkm.IsEgg)
                 yield break;
 
             var possibleAreas = GetEncounterAreas(pkm, gameSource);
@@ -61,39 +61,36 @@ namespace PKHeX.Core
 
             var s = GetRawEncounterSlots(pkm, chain, gameSource);
 
-            bool IsSafariBall = pkm.Ball == (int)Ball.Safari;
-            bool IsSportBall = pkm.Ball == (int)Ball.Sport;
             bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
             int species = pkm.Species;
 
-            return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsSafariBall, IsSportBall, IsHidden)); // non-deferred first
+            return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsHidden)); // non-deferred first
         }
 
         public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
         {
             return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari(IsSafariBall);
+                || slot.IsDeferredSafari3(IsSafariBall);
         }
 
         public static bool IsDeferred4(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall)
         {
             return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari(IsSafariBall)
+                || slot.IsDeferredSafari4(IsSafariBall)
                 || slot.IsDeferredSport(IsSportBall);
         }
 
-        private static bool IsDeferred(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall, bool IsHidden)
+        private static bool IsDeferred(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsHidden)
         {
             return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredHiddenAbility(IsHidden)
-                || slot.IsDeferredSafari(IsSafariBall)
-                || slot.IsDeferredSport(IsSportBall);
+                || slot.IsDeferredHiddenAbility(IsHidden);
         }
 
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
-        private static bool IsDeferredSafari(this EncounterSlot slot, bool IsSafariBall) => IsSafariBall != ((slot.Type & SlotType.Safari) != 0);
-        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != ((slot.Type & SlotType.BugContest) != 0);
-        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden != slot.IsHiddenAbilitySlot();
+        private static bool IsDeferredSafari3(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(slot.Location);
+        private static bool IsDeferredSafari4(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation4(slot.Location);
+        private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
+        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden && !slot.IsHiddenAbilitySlot();
 
         private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IReadOnlyList<EvoCriteria> chain)
         {
@@ -125,20 +122,13 @@ namespace PKHeX.Core
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
-            return (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde || slot.Type == SlotType.SOS;
+            return (slot is EncounterSlot6AO ao && ao.CanDexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
         }
 
-        internal static EncounterArea? GetCaptureLocation(PKM pkm)
+        internal static EncounterSlot? GetCaptureLocation(PKM pkm)
         {
             var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
-            return (from area in GetEncounterSlots(pkm)
-                let slots = GetValidEncounterSlots(pkm, area, chain).ToArray()
-                where slots.Length != 0
-                select new EncounterAreaFake
-                {
-                    Location = area.Location,
-                    Slots = slots,
-                }).OrderBy(area => area.Slots.Min(x => x.LevelMin)).FirstOrDefault();
+            return GetPossible(pkm, chain).OrderBy(z => z.LevelMin).FirstOrDefault();
         }
 
         private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)

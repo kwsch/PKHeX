@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -10,119 +9,96 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea3 : EncounterArea
     {
-        private static IEnumerable<EncounterSlot> GetSlots3(byte[] data, ref int ofs, int numslots, SlotType t)
+        public readonly int Rate;
+
+        internal EncounterArea3() { }
+
+        public static EncounterArea3[] GetAreas(byte[][] input, GameVersion game)
         {
-            var slots = new List<EncounterSlot>();
-            int Ratio = data[ofs];
-            //1 byte padding
-            if (Ratio > 0)
-                ReadInSlots(data, ofs, numslots, t, slots);
-            ofs += 2 + (numslots * 4);
-            return slots;
+            var result = new EncounterArea3[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea3(input[i], game);
+            return result;
         }
 
-        private static void ReadInSlots(byte[] data, int ofs, int numslots, SlotType t, List<EncounterSlot> slots)
+        public static EncounterArea3[] GetAreasSwarm(byte[][] input, GameVersion game)
         {
-            for (int i = 0; i < numslots; i++)
-            {
-                int o = ofs + (i * 4);
-                int species = BitConverter.ToInt16(data, o + 4);
-                if (species <= 0)
-                    continue;
+            var result = new EncounterArea3[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea3(input[i], game, false);
+            return result;
+        }
 
-                slots.Add(new EncounterSlot3
-                {
-                    LevelMin = data[o + 2],
-                    LevelMax = data[o + 3],
-                    Species = species,
-                    SlotNumber = i,
-                    Type = t
-                });
+        private EncounterArea3(byte[] data, GameVersion game)
+        {
+            Location = data[0] | (data[1] << 8);
+            Type = (SlotType)data[2];
+            Rate = data[3];
+
+            Slots = ReadRegularSlots(data, game);
+        }
+
+        private EncounterArea3(byte[] data, GameVersion game, bool _)
+        {
+            Location = data[0] | (data[1] << 8);
+            Type = SlotType.Swarm | SlotType.Grass;
+            Rate = data[3];
+
+            Slots = ReadSwarmSlots(data, game);
+        }
+
+        private EncounterSlot3[] ReadRegularSlots(byte[] data, GameVersion game)
+        {
+            const int size = 10;
+            int count = (data.Length - 4) / size;
+            var slots = new EncounterSlot3[count];
+            for (int i = 0; i < slots.Length; i++)
+            {
+                int offset = 4 + (size * i);
+
+                int species = BitConverter.ToUInt16(data, offset + 0);
+                int form = data[offset + 2];
+                int slotNum = data[offset + 3];
+                int min = data[offset + 4];
+                int max = data[offset + 5];
+
+                int mpi = data[offset + 6];
+                int mpc = data[offset + 7];
+                int sti = data[offset + 8];
+                int stc = data[offset + 9];
+                slots[i] = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc, game);
             }
-        }
 
-        private static IEnumerable<EncounterSlot> GetSlots3Fishing(byte[] data, ref int ofs, int numslots)
-        {
-            var slots = new List<EncounterSlot>();
-            int Ratio = data[ofs];
-            //1 byte padding
-            if (Ratio > 0)
-                ReadFishingSlots(data, ofs, numslots, slots);
-            ofs += 2 + (numslots * 4);
             return slots;
         }
 
-        private static void ReadFishingSlots(byte[] data, int ofs, int numslots, List<EncounterSlot> slots)
+        private EncounterSlot3[] ReadSwarmSlots(byte[] data, GameVersion game)
         {
-            for (int i = 0; i < numslots; i++)
+            const int size = 14;
+            int count = (data.Length - 4) / size;
+            var slots = new EncounterSlot3[count];
+            for (int i = 0; i < slots.Length; i++)
             {
-                int Species = BitConverter.ToInt16(data, ofs + 4 + (i * 4));
-                if (Species <= 0)
-                    continue;
+                int offset = 4 + (size * i);
 
-                var slot = new EncounterSlot3
+                int species = BitConverter.ToUInt16(data, offset + 0);
+                // form always 0
+                int slotNum = data[offset + 3];
+                int min = data[offset + 4];
+                int max = data[offset + 5];
+
+                int[] moves =
                 {
-                    LevelMin = data[ofs + 2 + (i * 4)],
-                    LevelMax = data[ofs + 3 + (i * 4)],
-                    Species = Species,
+                    BitConverter.ToUInt16(data, offset + 6),
+                    BitConverter.ToUInt16(data, offset + 8),
+                    BitConverter.ToUInt16(data, offset + 10),
+                    BitConverter.ToUInt16(data, offset + 12),
                 };
-                if (i < 2)
-                {
-                    slot.Type = SlotType.Old_Rod;
-                    slot.SlotNumber = i; // 0,1
-                }
-                else if (i < 5)
-                {
-                    slot.Type = SlotType.Good_Rod;
-                    slot.SlotNumber = i - 2; // 0,1,2
-                }
-                else
-                {
-                    slot.Type = SlotType.Super_Rod;
-                    slot.SlotNumber = i - 5; // 0,1,2,3,4
-                }
 
-                slots.Add(slot);
+                slots[i] = new EncounterSlot3Swarm(this, species, min, max, slotNum, game, moves);
             }
-        }
 
-        private static EncounterArea3 GetArea3(byte[] data)
-        {
-            var HaveGrassSlots = data[1] == 1;
-            var HaveSurfSlots = data[2] == 1;
-            var HaveRockSmashSlots = data[3] == 1;
-            var HaveFishingSlots = data[4] == 1;
-
-            int offset = 5;
-            var slots = new List<EncounterSlot>();
-            if (HaveGrassSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 12, SlotType.Grass));
-            if (HaveSurfSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Surf));
-            if (HaveRockSmashSlots)
-                slots.AddRange(GetSlots3(data, ref offset, 5, SlotType.Rock_Smash));
-            if (HaveFishingSlots)
-                slots.AddRange(GetSlots3Fishing(data, ref offset, 10));
-
-            var area = new EncounterArea3
-            {
-                Location = data[0],
-                Slots = slots.ToArray()
-            };
-            foreach (var slot in area.Slots)
-                slot.Area = area;
-
-            return area;
-        }
-
-        /// <summary>
-        /// Gets the encounter areas with <see cref="EncounterSlot"/> information from Generation 3 data.
-        /// </summary>
-        /// <param name="entries">Raw data, one byte array per encounter area</param>
-        /// <returns>Array of encounter areas.</returns>
-        public static EncounterArea3[] GetArray3(byte[][] entries)
-        {
-            return entries.Select(GetArea3).Where(Area => Area.Slots.Length != 0).ToArray();
+            return slots;
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
@@ -165,7 +141,7 @@ namespace PKHeX.Core
 
                     if (slot.Form != evo.Form)
                         break;
-                    if (!slot.IsLevelWithinRange(evo.MinLevel, evo.Level))
+                    if (slot.LevelMin > evo.Level)
                         break;
 
                     yield return slot;

@@ -63,11 +63,9 @@ namespace PKHeX.Core
             }
         }
 
-        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterArea area, int loc = -1)
+        private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterSlot first, int loc = -1)
         {
-            var slots = area.Slots.OrderBy(s => s.LevelMin);
-            var first = slots.First();
-            var met = loc != -1 ? loc : area.Location;
+            var met = loc != -1 ? loc : first.Location;
             return new EncounterSuggestionData(pkm, first, met);
         }
 

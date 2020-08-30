@@ -32,15 +32,10 @@ namespace PKHeX.Core
             return type switch
             {
                 SlotType.Old_Rod =>        CalcSlot(ESV, H_OldRod),
-                SlotType.Old_Rod_Safari => CalcSlot(ESV, H_OldRod),
                 SlotType.Good_Rod =>        CalcSlot(ESV, H_GoodRod),
-                SlotType.Good_Rod_Safari => CalcSlot(ESV, H_GoodRod),
                 SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
-                SlotType.Super_Rod_Safari => CalcSlot(ESV, H_SuperRod),
                 SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
-                SlotType.Rock_Smash_Safari => CalcSlot(ESV, H_Surf),
                 SlotType.Surf =>        CalcSlot(ESV, H_Surf),
-                SlotType.Surf_Safari => CalcSlot(ESV, H_Surf),
                 SlotType.Swarm => (ESV < 50 ? 0 : -1),
                 _ => CalcSlot(ESV, H_Regular)
             };
@@ -60,15 +55,7 @@ namespace PKHeX.Core
                     return CalcSlot(ESV, K_SuperRod);
                 case SlotType.BugContest:
                     return CalcSlot(ESV, K_BCC);
-                case SlotType.Grass_Safari:
-                case SlotType.Surf_Safari:
-                case SlotType.Old_Rod_Safari:
-                case SlotType.Good_Rod_Safari:
-                case SlotType.Super_Rod_Safari:
-                case SlotType.Rock_Smash_Safari:
-                    return 0; // (int)(rand % 10); /* Block Slot Priority not implemented */
                 case SlotType.Headbutt:
-                case SlotType.Headbutt_Special:
                     return CalcSlot(ESV, K_Headbutt);
                 default:
                     return CalcSlot(ESV, H_Regular);
@@ -143,7 +130,7 @@ namespace PKHeX.Core
         public static bool GetIsEncounterable(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
 #pragma warning restore IDE0060, RCS1163 // Unused parameter.
         {
-            if (slot.Type.IsSweetScentType())
+            if (slot.Area.Type.IsSweetScentType())
                 return true;
             return true; // todo
             //return GetCanEncounter(slot, frameType, rand, lead);
@@ -153,27 +140,28 @@ namespace PKHeX.Core
         public static bool GetCanEncounter(EncounterSlot slot, FrameType frameType, int rand, LeadRequired lead)
         {
             int proc = frameType == FrameType.MethodJ ? rand / 656 : rand % 100;
-            if ((slot.Type & SlotType.Rock_Smash) != 0)
+            var stype = slot.Area.Type;
+            if (stype == SlotType.Rock_Smash)
                 return proc < 60;
             if (frameType == FrameType.MethodH)
                 return true; // fishing encounters are disjointed by the hooked message.
 
             // fishing
-            if ((slot.Type & SlotType.Old_Rod) != 0)
+            if (stype == SlotType.Old_Rod)
             {
                 if (proc < 25)
                     return true;
                 if (proc < 50)
                     return lead == LeadRequired.None;
             }
-            else if ((slot.Type & SlotType.Good_Rod) != 0)
+            else if (stype == SlotType.Good_Rod)
             {
                 if (proc < 50)
                     return true;
                 if (proc < 75 && lead == LeadRequired.None)
                     return lead == LeadRequired.None;
             }
-            else if ((slot.Type & SlotType.Super_Rod) != 0)
+            else if (stype == SlotType.Super_Rod)
             {
                 if (proc < 75)
                     return true;

@@ -37,11 +37,12 @@ namespace PKHeX.Core
             if (abilval < 0)
                 return GetInvalid(LAbilityUnexpected);
 
-            if (data.EncounterMatch is MysteryGift g && g.Format >= 4)
-                return VerifyAbilityMG(data, abilities, g.AbilityType);
+            var enc = data.EncounterMatch;
+            if (enc is MysteryGift g && g.Format >= 4)
+                return VerifyAbilityMG(data, g, abilities);
 
             if (pkm.Format < 6)
-                return VerifyAbility345(data, abilities, abilval);
+                return VerifyAbility345(data, enc, abilities, abilval);
 
             // Check AbilityNumber is a single set bit
             var num = pkm.AbilityNumber;
@@ -58,8 +59,8 @@ namespace PKHeX.Core
 
         private CheckResult VerifyAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
         {
-            var EncounterMatch = data.EncounterMatch;
-            var eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
+            var enc = data.EncounterMatch;
+            var eabil = GetEncounterFixedAbilityNumber(enc);
             if (eabil >= 0)
             {
                 if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
@@ -71,15 +72,15 @@ namespace PKHeX.Core
             var gen = data.Info.Generation;
             return gen switch
             {
-                5 => VerifyAbility5(data, abilities),
-                6 => VerifyAbility6(data),
-                7 => VerifyAbility7(data),
-                8 => VerifyAbility8(data),
+                5 => VerifyAbility5(data, enc, abilities),
+                6 => VerifyAbility6(data, enc),
+                7 => VerifyAbility7(data, enc),
+                8 => VerifyAbility8(data, enc),
                 _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch)
             };
         }
 
-        private CheckResult VerifyAbility345(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
+        private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities, int abilnum)
         {
             var pkm = data.pkm;
             var state = AbilityState.MustMatch;
@@ -98,7 +99,7 @@ namespace PKHeX.Core
 
             int gen = data.Info.Generation;
             if (gen == 5)
-                return VerifyAbility5(data, abilities);
+                return VerifyAbility5(data, enc, abilities);
 
             return CheckMatch(pkm, abilities, gen, state);
         }
@@ -188,29 +189,30 @@ namespace PKHeX.Core
             return AbilityState.CanMismatch;
         }
 
-        private CheckResult VerifyAbilityMG(LegalityAnalysis data, IReadOnlyList<int> abilities, int cardtype)
+        private CheckResult VerifyAbilityMG(LegalityAnalysis data, MysteryGift g, IReadOnlyList<int> abilities)
         {
-            if (data.EncounterMatch is PCD d)
+            if (g is PCD d)
                 return VerifyAbilityPCD(data, abilities, d);
 
             var pkm = data.pkm;
-            if (data.EncounterMatch is PGT) // Ranger Manaphy
+            if (g is PGT) // Ranger Manaphy
                 return (pkm.Format >= 6 ? (pkm.AbilityNumber == 1) : (pkm.AbilityNumber < 4)) ? VALID : GetInvalid(LAbilityMismatchGift);
 
-            int abilNumber = pkm.AbilityNumber;
-            if (cardtype == 4) // 1/2/H
+            var cardType = g.AbilityType;
+            if (cardType == 4) // 1/2/H
                 return VALID;
-            if (cardtype == 3) // 1/2
+            int abilNumber = pkm.AbilityNumber;
+            if (cardType == 3) // 1/2
                 return abilNumber == 4 ? GetInvalid(LAbilityMismatchGift) : VALID;
 
             // Only remaining matches are fixed index abilities
-            int cardAbilIndex = 1 << cardtype;
+            int cardAbilIndex = 1 << cardType;
             if (abilNumber == cardAbilIndex)
                 return VALID;
 
             // Can still match if the ability was changed via ability capsule...
             // However, it can't change to/from Hidden Abilities.
-            if (abilNumber == 4 || cardtype == 2)
+            if (abilNumber == 4 || cardType == 2)
                 return GetInvalid(LAbilityHiddenFail);
 
             // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
@@ -243,14 +245,14 @@ namespace PKHeX.Core
             return pkm.Ability == pcd.Gift.PK.Ability ? VALID : INVALID;
         }
 
-        private CheckResult VerifyAbility5(LegalityAnalysis data, IReadOnlyList<int> abilities)
+        private CheckResult VerifyAbility5(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities)
         {
             var pkm = data.pkm;
-            switch (data.EncounterMatch)
+            switch (enc)
             {
                 case EncounterSlot w:
                     // Hidden Abilities for Wild Encounters are only available at a Hidden Grotto
-                    bool grotto = w.Type == SlotType.HiddenGrotto;
+                    bool grotto = w.Area.Type == SlotType.HiddenGrotto;
                     if (pkm.AbilityNumber == 4 ^ grotto)
                         return GetInvalid(grotto ? LAbilityMismatchGrotto : LAbilityHiddenFail);
                     break;
@@ -265,17 +267,16 @@ namespace PKHeX.Core
             return CheckMatch(data.pkm, abilities, 5, state);
         }
 
-        private CheckResult VerifyAbility6(LegalityAnalysis data)
+        private CheckResult VerifyAbility6(LegalityAnalysis data, IEncounterable enc)
         {
             var pkm = data.pkm;
             if (pkm.AbilityNumber != 4)
                 return VALID;
 
             // hidden abilities
-            var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch is EncounterSlot slot)
+            if (enc is EncounterSlot slot)
             {
-                bool valid = (slot is EncounterSlot6AO ao && ao.DexNav) || slot.Type == SlotType.FriendSafari || slot.Type == SlotType.Horde;
+                bool valid = (slot is EncounterSlot6AO ao && ao.CanDexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }
@@ -285,13 +286,12 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private CheckResult VerifyAbility7(LegalityAnalysis data)
+        private CheckResult VerifyAbility7(LegalityAnalysis data, IEncounterable enc)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch is EncounterSlot slot && pkm.AbilityNumber == 4)
+            if (enc is EncounterSlot slot && pkm.AbilityNumber == 4)
             {
-                bool valid = slot.Type == SlotType.SOS;
+                bool valid = slot.Area.Type == SlotType.SOS;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchSOS);
             }
@@ -301,11 +301,10 @@ namespace PKHeX.Core
             return VALID;
         }
 
-        private CheckResult VerifyAbility8(LegalityAnalysis data)
+        private CheckResult VerifyAbility8(LegalityAnalysis data, IEncounterable enc)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch is EncounterSlot && pkm.AbilityNumber == 4)
+            if (enc is EncounterSlot && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
             if (Legal.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);

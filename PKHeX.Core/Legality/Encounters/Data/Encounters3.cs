@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Encounters3Teams;
 
 namespace PKHeX.Core
@@ -10,111 +8,29 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters3
     {
-        internal static readonly EncounterArea3[] SlotsR, SlotsS, SlotsE;
-        internal static readonly EncounterArea3[] SlotsFR, SlotsLG;
-        internal static readonly EncounterStatic3[] StaticR, StaticS, StaticE;
-        internal static readonly EncounterStatic3[] StaticFR, StaticLG;
-
-        private const int SafariLocation_RSE = 57;
-        private const int SafariLocation_FRLG = 136;
+        private static readonly EncounterArea3[] SlotsSwarmRSE = Get("rse_swarm", "rs", GameVersion.RSE);
+        internal static readonly EncounterArea3[] SlotsR = ArrayUtil.ConcatAll(Get("r", "ru", GameVersion.R), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsS = ArrayUtil.ConcatAll(Get("s", "sa", GameVersion.S), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsE = ArrayUtil.ConcatAll(Get("e", "em", GameVersion.E), SlotsSwarmRSE);
+        internal static readonly EncounterArea3[] SlotsFR = Get("fr", "fr", GameVersion.FR);
+        internal static readonly EncounterArea3[] SlotsLG = Get("lg", "lg", GameVersion.LG);
+        private static EncounterArea3[] Get(string resource, string ident, GameVersion game)
+            => EncounterArea3.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident), game);
 
         static Encounters3()
         {
-            StaticR = GetEncounters(Encounter_RSE, GameVersion.R);
-            StaticS = GetEncounters(Encounter_RSE, GameVersion.S);
-            StaticE = GetEncounters(Encounter_RSE, GameVersion.E);
-            StaticFR = GetEncounters(Encounter_FRLG, GameVersion.FR);
-            StaticLG = GetEncounters(Encounter_FRLG, GameVersion.LG);
-
-            static EncounterArea3[] get(string resource, string ident)
-                => EncounterArea3.GetArray3(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident));
-
-            var R_Slots = get("r", "ru");
-            var S_Slots = get("s", "sa");
-            var E_Slots = get("e", "em");
-            var FR_Slots = get("fr", "fr");
-            var LG_Slots = get("lg", "lg");
-
-            MarkEncounterAreaArray(SlotsRSEAlt, SlotsFRLGUnown, SlotsXD);
-
-            ReduceAreasSize(ref R_Slots);
-            ReduceAreasSize(ref S_Slots);
-            ReduceAreasSize(ref E_Slots);
-            MarkG3Slots_FRLG(ref FR_Slots);
-            MarkG3Slots_FRLG(ref LG_Slots);
-
-            MarkG3SlotsSafariZones(ref R_Slots, SafariLocation_RSE);
-            MarkG3SlotsSafariZones(ref S_Slots, SafariLocation_RSE);
-            MarkG3SlotsSafariZones(ref E_Slots, SafariLocation_RSE);
-            MarkG3SlotsSafariZones(ref FR_Slots, SafariLocation_FRLG);
-            MarkG3SlotsSafariZones(ref LG_Slots, SafariLocation_FRLG);
-
-            MarkEncountersStaticMagnetPull<EncounterSlot3>(E_Slots, PersonalTable.E);
-
-            SlotsR = AddExtraTableSlots(R_Slots, SlotsRSEAlt);
-            SlotsS = AddExtraTableSlots(S_Slots, SlotsRSEAlt);
-            SlotsE = AddExtraTableSlots(E_Slots, SlotsRSEAlt);
-            SlotsFR = AddExtraTableSlots(FR_Slots, SlotsFRLGUnown);
-            SlotsLG = AddExtraTableSlots(LG_Slots, SlotsFRLGUnown);
-
             MarkEncountersGeneration(3, StaticR, StaticS, StaticE, StaticFR, StaticLG, Encounter_CXD, TradeGift_RSE, TradeGift_FRLG);
 
             MarkEncounterTradeStrings(TradeGift_RSE, TradeRSE);
             MarkEncounterTradeStrings(TradeGift_FRLG, TradeFRLG);
 
-            SlotsRSEAlt.SetVersion(GameVersion.RSE);
-            SlotsFRLGUnown.SetVersion(GameVersion.FRLG);
-            SlotsR.SetVersion(GameVersion.R);
-            SlotsS.SetVersion(GameVersion.S);
-            SlotsE.SetVersion(GameVersion.E);
-            SlotsFR.SetVersion(GameVersion.FR);
-            SlotsLG.SetVersion(GameVersion.LG);
             Encounter_RSE.SetVersion(GameVersion.RSE);
             Encounter_FRLG.SetVersion(GameVersion.FRLG);
             TradeGift_RSE.SetVersion(GameVersion.RSE);
             TradeGift_FRLG.SetVersion(GameVersion.FRLG);
             Encounter_Colo.SetVersion(GameVersion.COLO);
             Encounter_XD.SetVersion(GameVersion.XD);
-            SlotsXD.SetVersion(GameVersion.XD);
         }
-
-        private static void MarkG3Slots_FRLG(ref EncounterArea3[] Areas)
-        {
-            // Remove slots for unown, those slots does not contains alt form info, it will be added manually in SlotsRFLGAlt
-            // Group areas by location id, the raw data have areas with different slots but the same location id
-            Areas = Areas.Where(a => a.Location < 188 || a.Location > 194).GroupBy(a => a.Location).Select(a => new EncounterArea3
-            {
-                Location = a.First().Location,
-                Slots = a.SelectMany(m => m.Slots).ToArray()
-            }).ToArray();
-        }
-
-        private static void MarkG3SlotsSafariZones(ref EncounterArea3[] Areas, int location)
-        {
-            foreach (var Area in Areas.Where(a => a.Location == location))
-            {
-                foreach (EncounterSlot Slot in Area.Slots)
-                    Slot.Type |= SlotType.Safari;
-            }
-        }
-
-        private static readonly int[] Roaming_MetLocation_FRLG =
-        {
-            //Route 1-25 encounter is possible either in grass or on water
-            101,102,103,104,105,106,107,108,109,110,
-            111,112,113,114,115,116,117,118,119,120,
-            121,122,123,124,125
-        };
-
-        private static readonly int[] Roaming_MetLocation_RSE =
-        {
-            //Roaming encounter is possible in tall grass and on water
-            //Route 101-138
-            16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-            26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
-            36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
-            46, 47, 48, 49,
-        };
 
         private static readonly EncounterStatic3[] Encounter_RSE_Roam =
         {
@@ -230,8 +146,8 @@ namespace PKHeX.Core
             new EncounterStatic3 { Species = 386, Level = 30, Location = 187, Version = GameVersion.LG, Form = 2, Fateful = true }, // Deoxys @ Birth Island
         };
 
-        private static readonly EncounterStatic3[] Encounter_RSE = Encounter_RSE_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_RSE)).Concat(Encounter_RSE_Regular).ToArray();
-        private static readonly EncounterStatic3[] Encounter_FRLG = Encounter_FRLG_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_FRLG)).Concat(Encounter_FRLG_Stationary).ToArray();
+        private static readonly EncounterStatic3[] Encounter_RSE = ArrayUtil.ConcatAll(Encounter_RSE_Roam, Encounter_RSE_Regular);
+        private static readonly EncounterStatic3[] Encounter_FRLG = ArrayUtil.ConcatAll(Encounter_FRLG_Roam, Encounter_FRLG_Stationary);
 
         private static readonly int[] TradeContest_Cool =   { 30, 05, 05, 05, 05, 10 };
         private static readonly int[] TradeContest_Beauty = { 05, 30, 05, 05, 05, 10 };
@@ -272,89 +188,6 @@ namespace PKHeX.Core
         private const string tradeFRLG = "tradefrlg";
         private static readonly string[][] TradeRSE = Util.GetLanguageStrings7(tradeRSE);
         private static readonly string[][] TradeFRLG = Util.GetLanguageStrings7(tradeFRLG);
-
-        private static readonly int[] MoveSwarmSurskit = { 145, 098 }; /* Bubble, Quick Attack */
-        private static readonly int[] MoveSwarmSeedot = { 117, 106, 073 };  /* Bide, Harden, Leech Seed */
-        private static readonly int[] MoveSwarmNuzleaf = { 106, 074, 267, 073 }; /* Harden, Growth, Nature Power, Leech Seed */
-        private static readonly int[] MoveSwarmSeedotF = { 202, 218, 076, 073 }; /* Giga Drain, Frustration, Solar Beam, Leech Seed */
-        private static readonly int[] MoveSwarmSkittyRS = { 045, 033 }; /* Growl, Tackle */
-        private static readonly int[] MoveSwarmSkittyE = { 045, 033, 039, 213 }; /* Growl, Tackle, Tail Whip, Attract */
-
-        #region AltSlots
-        private static readonly EncounterArea3[] SlotsRSEAlt =
-        {
-            // Swarm can be passed from R/S<->E via mixing records
-            // Encounter Percent is a 50% call
-            new EncounterArea3 {
-                Location = 17, // Route 102
-                Slots = new EncounterSlot[]
-                {
-                    new EncounterSlot3Swarm(MoveSwarmSurskit) { Species = 283, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm },
-                    new EncounterSlot3Swarm(MoveSwarmSeedot) { Species = 273, LevelMin = 03, LevelMax = 03, Type = SlotType.Swarm },
-                },},
-            new EncounterArea3 {
-                Location = 29, // Route 114
-                Slots = new EncounterSlot[]
-                {
-                    new EncounterSlot3Swarm(MoveSwarmSurskit) { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm },
-                    new EncounterSlot3Swarm(MoveSwarmNuzleaf) { Species = 274, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm },
-                },},
-            new EncounterArea3 {
-                Location = 31, // Route 116
-                Slots = new EncounterSlot[]
-                {
-                    new EncounterSlot3Swarm(MoveSwarmSkittyRS) { Species = 300, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm },
-                    new EncounterSlot3Swarm(MoveSwarmSkittyE) { Species = 300, LevelMin = 08, LevelMax = 08, Type = SlotType.Swarm },
-                },},
-            new EncounterArea3 {
-                Location = 32, // Route 117
-                Slots = new EncounterSlot[]
-                {
-                    new EncounterSlot3Swarm(MoveSwarmSurskit) { Species = 283, LevelMin = 15, LevelMax = 15, Type = SlotType.Swarm },
-                    new EncounterSlot3Swarm(MoveSwarmNuzleaf) { Species = 273, LevelMin = 13, LevelMax = 13, Type = SlotType.Swarm }, // Has same moves as Nuzleaf
-                },},
-            new EncounterArea3 {
-                Location = 35, // Route 120
-                Slots = new EncounterSlot[]
-                {
-                    new EncounterSlot3Swarm(MoveSwarmSurskit) { Species = 283, LevelMin = 28, LevelMax = 28, Type = SlotType.Swarm },
-                    new EncounterSlot3Swarm(MoveSwarmSeedotF) { Species = 273, LevelMin = 25, LevelMax = 25, Type = SlotType.Swarm },
-                },},
-
-            // Feebas fishing spot
-            new EncounterArea3 {
-                Location = 34, // Route 119
-                Slots = new[]
-                {
-                    new EncounterSlot3 { Species = 349, LevelMin = 20, LevelMax = 25, Type = SlotType.Swarm } // Feebas with any Rod (50%)
-                },},
-        };
-
-        private static readonly EncounterArea3[] SlotsFRLGUnown =
-        {
-            GetUnownArea(188, new[] { 00,00,00,00,00,00,00,00,00,00,00,27 }), // 188 = Monean Chamber
-            GetUnownArea(189, new[] { 02,02,02,03,03,03,07,07,07,20,20,14 }), // 189 = Liptoo Chamber
-            GetUnownArea(190, new[] { 13,13,13,13,18,18,18,18,08,08,04,04 }), // 190 = Weepth Chamber
-            GetUnownArea(191, new[] { 15,15,11,11,09,09,17,17,17,16,16,16 }), // 191 = Dilford Chamber
-            GetUnownArea(192, new[] { 24,24,19,19,06,06,06,05,05,05,10,10 }), // 192 = Scufib Chamber
-            GetUnownArea(193, new[] { 21,21,21,22,22,22,23,23,12,12,01,01 }), // 193 = Rixy Chamber
-            GetUnownArea(194, new[] { 25,25,25,25,25,25,25,25,25,25,25,26 }), // 194 = Viapois Chamber
-        };
-
-        private static EncounterArea3 GetUnownArea(int location, IReadOnlyList<int> SlotForms)
-        {
-            return new EncounterArea3
-            {
-                Location = location,
-                Slots = SlotForms.Select((_, i) => new EncounterSlot3
-                {
-                    Species = 201, LevelMin = 25, LevelMax = 25, Type = SlotType.Grass,
-                    SlotNumber = i,
-                    Form = SlotForms[i]
-                }).ToArray()
-            };
-        }
-        #endregion
 
         #region Colosseum
         private static readonly EncounterStatic3[] Encounter_Colo =
@@ -464,15 +297,6 @@ namespace PKHeX.Core
         #endregion
 
         #region XD
-
-        private static readonly int[] MirorBXDLocations =
-        {
-            090, // Rock
-            091, // Oasis
-            092, // Cave
-            113, // Pyrite Town
-            059, // Realgam Tower
-        };
 
         private static readonly EncounterStatic3[] Encounter_XD = new[]
         {
@@ -597,44 +421,23 @@ namespace PKHeX.Core
             new EncounterStaticShadow(Articuno)  { Fateful = true, Species = 144, Level = 50, Gauge = 10000, Moves = new[] {326,215,114,058}, Location = 074, }, // Articuno: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow(Zapdos)    { Fateful = true, Species = 145, Level = 50, Gauge = 10000, Moves = new[] {326,226,319,085}, Location = 074, }, // Zapdos: Grand Master Greevil @ Citadark Isle
             new EncounterStaticShadow(Dragonite) { Fateful = true, Species = 149, Level = 55, Gauge = 09000, Moves = new[] {063,215,349,089}, Location = 162, }, // Dragonite: Wanderer Miror B. @ Gateon Port
-        }.SelectMany(CloneMirorB).ToArray();
+        };
 
-        internal static readonly EncounterArea3[] SlotsXD =
+        internal static readonly EncounterArea3XD[] SlotsXD =
         {
-            new EncounterArea3 { Location = 090, Slots = new[] // Rock
-                {
-                    new EncounterSlot3PokeSpot(027, 10, 23, 0), // Sandshrew
-                    new EncounterSlot3PokeSpot(207, 10, 20, 1), // Gligar
-                    new EncounterSlot3PokeSpot(328, 10, 20, 2), // Trapinch
-                }
-            },
-            new EncounterArea3 { Location = 091, Slots = new[] // Oasis
-                {
-                    new EncounterSlot3PokeSpot(187, 10, 20, 0), // Hoppip
-                    new EncounterSlot3PokeSpot(231, 10, 20, 1), // Phanpy
-                    new EncounterSlot3PokeSpot(283, 10, 20, 2), // Surskit
-                }
-            },
-            new EncounterArea3 { Location = 092, Slots = new[] // Cave
-                {
-                    new EncounterSlot3PokeSpot(041, 10, 21, 0), // Zubat
-                    new EncounterSlot3PokeSpot(304, 10, 21, 1), // Aron
-                    new EncounterSlot3PokeSpot(194, 10, 21, 2), // Wooper
-                }
-            },
+            new EncounterArea3XD(90, 027, 23, 207, 20, 328, 20), // Rock (Sandshrew, Gligar, Trapinch)
+            new EncounterArea3XD(91, 187, 20, 231, 20, 283, 20), // Oasis (Hoppip, Phanpy, Surskit)
+            new EncounterArea3XD(92, 041, 21, 304, 21, 194, 21), // Cave (Zubat, Aron, Wooper)
         };
 
         internal static readonly EncounterStatic3[] Encounter_CXD = ArrayUtil.ConcatAll(Encounter_Colo, Encounter_XD);
 
-        private static IEnumerable<EncounterStatic3> CloneMirorB(EncounterStatic3 arg)
-        {
-            yield return arg;
-            if (!(arg is EncounterStaticShadow s))
-                yield break;
-            foreach (int loc in MirorBXDLocations)
-                yield return (EncounterStatic3)s.Clone(loc);
-        }
-
         #endregion
+
+        internal static readonly EncounterStatic3[] StaticR = GetEncounters(Encounter_RSE, GameVersion.R);
+        internal static readonly EncounterStatic3[] StaticS = GetEncounters(Encounter_RSE, GameVersion.S);
+        internal static readonly EncounterStatic3[] StaticE = GetEncounters(Encounter_RSE, GameVersion.E);
+        internal static readonly EncounterStatic3[] StaticFR = GetEncounters(Encounter_FRLG, GameVersion.FR);
+        internal static readonly EncounterStatic3[] StaticLG = GetEncounters(Encounter_FRLG, GameVersion.LG);
     }
 }
