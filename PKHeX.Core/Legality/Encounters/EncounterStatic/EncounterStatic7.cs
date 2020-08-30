@@ -29,6 +29,5 @@ namespace PKHeX.Core
 
             return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
-
     }
 }

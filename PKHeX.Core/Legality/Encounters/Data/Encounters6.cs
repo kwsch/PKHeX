@@ -16,7 +16,6 @@ namespace PKHeX.Core
         internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("o", "ao"), GameVersion.OR);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
-
         static Encounters6()
         {
             MarkEncounterTradeStrings(TradeGift_XY, TradeXY);

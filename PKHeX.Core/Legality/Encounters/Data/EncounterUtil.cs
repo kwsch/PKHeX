@@ -19,23 +19,6 @@ namespace PKHeX.Core
             return source.Where(s => s.Version.Contains(game)).ToArray();
         }
 
-        /// <summary>
-        /// Sets the <see cref="IGenerationSet.Generation"/> value.
-        /// </summary>
-        /// <param name="generation">Generation number to set</param>
-        /// <param name="encounters">In-game encounter data</param>
-        internal static void MarkEncountersGeneration(int generation, params IEnumerable<IGenerationSet>[] encounters)
-        {
-            foreach (var table in encounters)
-                MarkEncountersGeneration(generation, table);
-        }
-
-        private static void MarkEncountersGeneration(int generation, IEnumerable<IGenerationSet> encounters)
-        {
-            foreach (var enc in encounters)
-                enc.Generation = generation;
-        }
-
         internal static T[] ConcatAll<T>(params IEnumerable<T>[] arr) => arr.SelectMany(z => z).ToArray();
 
         internal static EncounterStatic Clone(this EncounterStatic s, int location)
@@ -61,7 +44,7 @@ namespace PKHeX.Core
 
         private static EncounterStatic5 DreamRadarClone(this EncounterStatic5 s, int level)
         {
-            var result = (EncounterStatic5)(s.Clone(level));
+            var result = (EncounterStatic5)s.Clone(level);
             result.Level = level;
             result.Location = 30015;// Pokemon Dream Radar
             result.Gift = true;     // Only

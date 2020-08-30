@@ -77,7 +77,6 @@ namespace PKHeX.Core
             new EncounterTrade7b { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Geodude @ Vermilion City, AV rand [0-5)
         };
 
-        
         private class RareSpawn
         {
             public readonly int Species;
