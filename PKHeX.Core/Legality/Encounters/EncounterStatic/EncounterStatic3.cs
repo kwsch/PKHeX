@@ -5,6 +5,7 @@ namespace PKHeX.Core
 {
     public class EncounterStatic3 : EncounterStatic
     {
+        public override int Generation => 3;
         public bool Roaming { get; set; }
 
         protected override bool IsMatchEggLocation(PKM pkm)

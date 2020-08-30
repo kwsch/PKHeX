@@ -18,8 +18,6 @@ namespace PKHeX.Core
 
         static Encounters1()
         {
-            MarkEncountersGeneration(1, StaticRBY);
-
             var trades = ArrayUtil.ConcatAll(TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
             foreach (var t in trades)
                 t.TrainerNames = StringConverter12.G1TradeOTName;

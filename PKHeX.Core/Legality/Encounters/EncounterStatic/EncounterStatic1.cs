@@ -2,6 +2,8 @@
 {
     public sealed class EncounterStatic1 : EncounterStatic
     {
+        public override int Generation => 1;
+
         public EncounterStatic1(int species, int level)
         {
             Species = species;

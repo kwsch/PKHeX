@@ -2,6 +2,7 @@
 {
     public class EncounterStatic5 : EncounterStatic
     {
+        public override int Generation => 5;
         public bool Roaming { get; set; }
 
         public sealed override bool IsMatchDeferred(PKM pkm)

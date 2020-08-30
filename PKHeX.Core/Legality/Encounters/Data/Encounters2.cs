@@ -21,8 +21,6 @@ namespace PKHeX.Core
 
         static Encounters2()
         {
-            MarkEncountersGeneration(2, StaticGS, StaticC, StaticGSC);
-
             MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
 
             StaticGSC.SetVersion(GameVersion.GSC);

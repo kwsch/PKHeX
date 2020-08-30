@@ -5,6 +5,7 @@ namespace PKHeX.Core
 {
     public abstract class EncounterStatic8Nest<T> : EncounterStatic, IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
     {
+        public override int Generation => 8;
         public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
         public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 

@@ -2,6 +2,8 @@
 {
     public class EncounterStatic4 : EncounterStatic
     {
+        public override int Generation => 4;
+
         protected sealed override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm.Egg_Location == EggLocation)

@@ -89,10 +89,10 @@ namespace PKHeX.Core
             return new EncounterInvalid(pkm);
         }
 
-        private static EncounterStatic GetRBYStaticTransfer(int species, int pkmMetLevel)
+        private static EncounterStatic7 GetRBYStaticTransfer(int species, int pkmMetLevel)
         {
             bool mew = species == (int)Species.Mew;
-            return new EncounterStatic
+            return new EncounterStatic7
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
@@ -100,19 +100,17 @@ namespace PKHeX.Core
                 Shiny = mew ? Shiny.Never : Shiny.Random,
                 Fateful = mew,
                 Location = Transfer1,
-                EggLocation = 0,
                 Level = pkmMetLevel,
-                Generation = 7,
                 Version = GameVersion.RBY,
                 FlawlessIVCount = mew ? 5 : 3,
             };
         }
 
-        private static EncounterStatic GetGSStaticTransfer(int species, int pkmMetLevel)
+        private static EncounterStatic7 GetGSStaticTransfer(int species, int pkmMetLevel)
         {
             bool mew = species == (int) Species.Mew;
             bool fateful = mew || species == (int) Species.Celebi;
-            return new EncounterStatic
+            return new EncounterStatic7
             {
                 Species = species,
                 Gift = true, // Forces Poké Ball
@@ -120,9 +118,7 @@ namespace PKHeX.Core
                 Shiny = mew ? Shiny.Never : Shiny.Random,
                 Fateful = fateful,
                 Location = Transfer2,
-                EggLocation = 0,
                 Level = pkmMetLevel,
-                Generation = 7,
                 Version = GameVersion.GSC,
                 FlawlessIVCount = fateful ? 5 : 3
             };

@@ -17,8 +17,6 @@ namespace PKHeX.Core
 
         static Encounters5()
         {
-            MarkEncountersGeneration(5, StaticB, StaticW, StaticB2, StaticW2);
-
             MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
             MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
             foreach (var t in TradeGift_B2W2_YancyCurtis)

@@ -21,8 +21,6 @@ namespace PKHeX.Core
         {
             MarkG4PokeWalker(Encounter_PokeWalker);
 
-            MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS);
-
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
 
@@ -35,9 +33,9 @@ namespace PKHeX.Core
             TradeGift_HGSS.SetVersion(HGSS);
         }
 
-        private static void MarkG4PokeWalker(IEnumerable<EncounterStatic> t)
+        private static void MarkG4PokeWalker(IEnumerable<EncounterStatic4> t)
         {
-            foreach (EncounterStatic s in t)
+            foreach (EncounterStatic4 s in t)
             {
                 s.Location = 233;  //Pokéwalker
                 s.Gift = true;    //Pokeball only
