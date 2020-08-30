@@ -2,10 +2,13 @@
 {
     public sealed class EncounterTrade5 : EncounterTrade
     {
+        public override int Generation => 5;
     }
 
     public sealed class EncounterTrade5PID : EncounterTrade
     {
+        public override int Generation => 5;
+
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.
         /// </summary>

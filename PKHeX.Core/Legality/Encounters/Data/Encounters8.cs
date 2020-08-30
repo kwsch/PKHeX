@@ -46,7 +46,7 @@ namespace PKHeX.Core
 
             // Include Nest Tables for both versions -- online play can share them across versions! In the IsMatch method we check if it's a valid share.
 
-            MarkEncountersGeneration(8, StaticSW, StaticSH, TradeGift_SWSH);
+            MarkEncountersGeneration(8, StaticSW, StaticSH);
 
             CopyBerryTreeFromBridgeFieldToStony(SlotsSW_Hidden, 26);
             CopyBerryTreeFromBridgeFieldToStony(SlotsSH_Hidden, 25);

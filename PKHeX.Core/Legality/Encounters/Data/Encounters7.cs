@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         static Encounters7()
         {
-            MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM, TradeGift_SM, TradeGift_USUM);
+            MarkEncountersGeneration(7, StaticSN, StaticMN, StaticUS, StaticUM);
 
             MarkEncounterTradeStrings(TradeGift_SM, TradeSM);
             MarkEncounterTradeStrings(TradeGift_USUM, TradeUSUM);

@@ -5,6 +5,8 @@ namespace PKHeX.Core
 {
     public class EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
+        public override int Generation => 8;
+
         public byte DynamaxLevel { get; set; }
         public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
 

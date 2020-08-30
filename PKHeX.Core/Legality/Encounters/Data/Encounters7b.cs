@@ -18,7 +18,7 @@ namespace PKHeX.Core
             ManuallyAddRareSpawns(SlotsGE);
             Encounter_GG.SetVersion(GameVersion.GG);
             TradeGift_GG.SetVersion(GameVersion.GG);
-            MarkEncountersGeneration(7, StaticGP, StaticGE, TradeGift_GG);
+            MarkEncountersGeneration(7, StaticGP, StaticGE);
         }
 
         private static readonly EncounterStatic[] Encounter_GG =

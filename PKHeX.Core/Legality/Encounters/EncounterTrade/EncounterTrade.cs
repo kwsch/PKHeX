@@ -10,40 +10,35 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public abstract class EncounterTrade : IEncounterable, IGenerationSet, IMoveset, ILocation, IContestStats, IVersionSet
+    public abstract class EncounterTrade : IEncounterable, IMoveset, ILocation, IVersionSet
     {
         public int Species { get; set; }
-        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
+        public int Form { get; set; }
         public int Level { get; set; }
         public int LevelMin => Level;
         public int LevelMax => 100;
-        public int Generation { get; set; } = -1;
+        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
+        public abstract int Generation { get; }
 
+        public int CurrentLevel { get; set; } = -1;
         public int Location { get; set; } = -1;
         public int Ability { get; set; }
+        public int Gender { get; set; } = -1;
         public Nature Nature = Nature.Random;
+        public virtual Shiny Shiny { get; set; } = Shiny.Never;
+        public int Ball { get; set; } = 4;
+
         public int TID { get; set; }
         public int SID { get; set; }
-        public GameVersion Version { get; set; } = GameVersion.Any;
+        public int OTGender { get; set; } = -1;
+        public GameVersion Version { get; set; }
+
         public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }
-        public int Form { get; set; }
-        public virtual Shiny Shiny { get; set; } = Shiny.Never;
-        public int Gender { get; set; } = -1;
-        public int OTGender { get; set; } = -1;
+
         public bool EggEncounter => false;
         public int EggLocation { get; set; }
         public bool EvolveOnTrade { get; set; }
-        public int Ball { get; set; } = 4;
-        public int CurrentLevel { get; set; } = -1;
-
-        internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
-        public int CNT_Cool { get; set; }
-        public int CNT_Beauty { get; set; }
-        public int CNT_Cute { get; set; }
-        public int CNT_Smart { get; set; }
-        public int CNT_Tough { get; set; }
-        public int CNT_Sheen { get; set; }
 
         public int TID7
         {
@@ -129,9 +124,6 @@ namespace PKHeX.Core
 
             if (EggLocation != 0)
                 SetEggMetData(pk, time);
-
-            if (pk is IContestStats s)
-                this.CopyContestStatsTo(s);
 
             if (Fateful)
                 pk.FatefulEncounter = true;
@@ -255,9 +247,6 @@ namespace PKHeX.Core
             // if (z.Ability == 4 ^ pkm.AbilityNumber == 4) // defer to Ability
             //    continue;
             if (!Version.Contains((GameVersion)pkm.Version))
-                return false;
-
-            if (pkm is IContestStats s && s.IsContestBelow(this))
                 return false;
 
             return true;

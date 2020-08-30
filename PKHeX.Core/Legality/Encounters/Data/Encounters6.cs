@@ -19,7 +19,7 @@ namespace PKHeX.Core
 
         static Encounters6()
         {
-            MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO, TradeGift_XY, TradeGift_AO);
+            MarkEncountersGeneration(6, StaticX, StaticY, StaticA, StaticO);
 
             MarkEncounterTradeStrings(TradeGift_XY, TradeXY);
             MarkEncounterTradeStrings(TradeGift_AO, TradeAO);

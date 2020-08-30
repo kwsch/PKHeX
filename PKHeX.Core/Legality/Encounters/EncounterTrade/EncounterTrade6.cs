@@ -2,6 +2,7 @@
 {
     public sealed class EncounterTrade6 : EncounterTrade, IMemoryOT
     {
+        public override int Generation => 6;
         public int OT_Memory { get; set; }
         public int OT_Intensity { get; set; }
         public int OT_Feeling { get; set; }

@@ -21,7 +21,7 @@ namespace PKHeX.Core
         {
             MarkG4PokeWalker(Encounter_PokeWalker);
 
-            MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS, TradeGift_DPPt, TradeGift_HGSS);
+            MarkEncountersGeneration(4, StaticD, StaticP, StaticPt, StaticHG, StaticSS);
 
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);

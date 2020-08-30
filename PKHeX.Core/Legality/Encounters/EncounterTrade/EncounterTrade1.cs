@@ -9,6 +9,8 @@
     /// </remarks>
     public sealed class EncounterTrade1 : EncounterTradeGB
     {
+        public override int Generation => 1;
+
         /// <summary>
         /// <see cref="PK1.Catch_Rate"/> value the encounter is found with.
         /// </summary>
