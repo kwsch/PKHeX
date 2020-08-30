@@ -17,8 +17,8 @@ namespace PKHeX.Core
 
         internal readonly EncounterArea Area;
         public GameVersion Version => Area.Version;
-        public int Location { get => Area.Location; set { } }
-        public int EggLocation { get => 0; set { } }
+        public int Location => Area.Location;
+        public int EggLocation => 0;
 
         protected EncounterSlot(EncounterArea area) => Area = area;
 

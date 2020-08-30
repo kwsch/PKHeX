@@ -2,8 +2,8 @@
 {
     public interface ILocation
     {
-        int Location { get; set; }
-        int EggLocation { get; set; }
+        int Location { get; }
+        int EggLocation { get; }
     }
 
     public static partial class Extensions
