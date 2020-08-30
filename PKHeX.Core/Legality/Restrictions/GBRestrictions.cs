@@ -369,11 +369,18 @@ namespace PKHeX
         /// <returns>true if can inhabit, false if not.</returns>
         private static bool CanInhabitGen1(this PKM pkm)
         {
-            // Korean Gen2 games can't tradeback because there are no Gen1 Korean games released
+            // Korean Gen2 games can't trade-back because there are no Gen1 Korean games released
             if (pkm.Korean || pkm.IsEgg)
                 return false;
-            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+
+            // Gen2 format with met data can't receive Gen1 moves, unless Stadium 2 is used (Oak's PC).
+            // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen I game to teach it TMs
+            // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
+            // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
+            if (pkm is PK2 pk2 && pk2.CaughtData != 0 && !ParseSettings.AllowGBCartEra)
                 return false;
+
+            // Sanity check species, if it could have existed as a pre-evolution.
             int species = pkm.Species;
             if (species <= MaxSpeciesID_1)
                 return true;
