@@ -194,7 +194,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
         {
-            bool crystal = (pkm.Format == 2 && pkm.Met_Location != 0) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
+            bool crystal = (pkm is PK2 pk2 && pk2.CaughtData != 0) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
             bool kadabra = pkm.Species == 64 && pkm is PK1 pk1
                            && (pk1.Catch_Rate == PersonalTable.RB[64].CatchRate
                             || pk1.Catch_Rate == PersonalTable.Y[64].CatchRate); // catch rate outsider, return gen1 first always
