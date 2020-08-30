@@ -144,7 +144,8 @@ namespace PKHeX.Core
             var metSanitize = (string[])cxd.Clone();
             for (int i = 0; i < metSanitize.Length; i++)
             {
-                if (cxd.Count(z => z == metSanitize[i]) > 1)
+                var met = metSanitize[i];
+                if (cxd.Count(z => z == met) > 1)
                     metSanitize[i] += $" [{i:000}]";
             }
 
@@ -316,8 +317,10 @@ namespace PKHeX.Core
                 var nextLoc = metSM_00000[i + 1];
                 if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
                     metSM_00000_good[i] += $" ({nextLoc})";
-                if (i > 0 && !string.IsNullOrWhiteSpace(metSM_00000_good[i]) && metSM_00000_good.Take(i - 1).Contains(metSM_00000_good[i]))
-                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == metSM_00000_good[i]) + 1})";
+
+                var name = metSM_00000_good[i];
+                if (i > 0 && !string.IsNullOrWhiteSpace(name) && metSM_00000_good.Take(i - 1).Contains(name))
+                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == name) + 1})";
             }
             Array.Copy(metSM_00000, 194, metSM_00000_good, 194, 4); // Restore Island Names (unused)
             metSM_00000_good.CopyTo(metSM_00000, 0);

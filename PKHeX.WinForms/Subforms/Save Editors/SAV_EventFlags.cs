@@ -252,14 +252,14 @@ namespace PKHeX.WinForms
                     Width = 50,
                 };
 
-                var map = new[] { new { Text = "Custom", Value = -1 } }.ToList();
+                var map = new[] { new ComboItem("Custom", -1 ) }.ToList();
 
                 if (!string.IsNullOrWhiteSpace(enums[i]))
                 {
                     foreach (var entry in enums[i].Split(','))
                     {
                         var spl = entry.Split(':');
-                        map.Add(new { Text = spl[1], Value = Convert.ToInt32(spl[0])});
+                        map.Add(new ComboItem(spl[1], Convert.ToInt32(spl[0])));
                     }
                 }
                 var cb = new ComboBox
@@ -279,10 +279,10 @@ namespace PKHeX.WinForms
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
                 TLP_Const.Controls.Add(mtb, 2, i);
-                if (map.Any(val => val.Value == Constants[num[i]]))
-                {
-                    cb.SelectedValue = (int)Constants[num[i]];
-                }
+
+                int cid = Constants[num[i]];
+                if (map.Any(val => val.Value == cid))
+                    cb.SelectedValue = cid;
             }
         }
 

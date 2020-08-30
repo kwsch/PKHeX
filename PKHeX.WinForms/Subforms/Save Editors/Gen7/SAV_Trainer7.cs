@@ -253,12 +253,10 @@ namespace PKHeX.WinForms
             CLB_FlyDest.Items.Clear();
             for (int i = 0, u = 0, m = FlyDestNameIndex.Length - (SAV is SAV7USUM ? 0 : 6); i < m; i++)
             {
-                CLB_FlyDest.Items.Add(
-                    FlyDestNameIndex[i] < 0
-                    ? FlyDestAltName[u++]
-                    : metLocationList.First(v => v.Value == FlyDestNameIndex[i]).Text
-                    , SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i])
-                );
+                var dest = FlyDestNameIndex[i];
+                var name = dest < 0 ? FlyDestAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
+                var state = SAV.GetEventFlag(SkipFlag + FlyDestFlagOfs[i]);
+                CLB_FlyDest.Items.Add(name, state);
             }
             int[] MapUnmaskNameIndex = {
                 6,8,24,-1,18,-1,20,22,12,10,14,
@@ -280,12 +278,10 @@ namespace PKHeX.WinForms
             CLB_MapUnmask.Items.Clear();
             for (int i = 0, u = 0, m = MapUnmaskNameIndex.Length - (SAV is SAV7USUM ? 0 : 4); i < m; i++)
             {
-                CLB_MapUnmask.Items.Add(
-                    MapUnmaskNameIndex[i] < 0
-                    ? MapUnmaskAltName[u++]
-                    : metLocationList.First(v => v.Value == MapUnmaskNameIndex[i]).Text
-                    , SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i])
-                );
+                var dest = MapUnmaskNameIndex[i];
+                var name = dest < 0 ? MapUnmaskAltName[u++] : metLocationList.First(v => v.Value == dest).Text;
+                var state = SAV.GetEventFlag(SkipFlag + MapUnmaskFlagOfs[i]);
+                CLB_MapUnmask.Items.Add(name, state);
             }
         }
 

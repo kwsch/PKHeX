@@ -138,13 +138,15 @@ namespace PKHeX
                     for (int i = 0; i < ExclusiveMoves[0].Count; i++)
                     {
                         // There is a evolution move with a lower level that current eevee move
-                        if (EvoLevels.Any(ev => ev < EeveeLevels[i]))
+                        var el = EeveeLevels[i];
+                        if (EvoLevels.Any(ev => ev < el))
                             incompatible_previous.Add(ExclusiveMoves[0][i]);
                     }
                     for (int i = 0; i < ExclusiveMoves[1].Count; i++)
                     {
                         // There is a eevee move with a greather level that current evolution move
-                        if (EeveeLevels.Any(ev => ev > EvoLevels[i]))
+                        var el = EvoLevels[i];
+                        if (EeveeLevels.Any(ev => ev > el))
                             incompatible_current.Add(ExclusiveMoves[1][i]);
                     }
                     return;
