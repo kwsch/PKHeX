@@ -18,7 +18,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea1(byte[] data, GameVersion game)
+        private EncounterArea1(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0];
             // 1 byte unused
@@ -34,7 +34,7 @@ namespace PKHeX.Core
                 int slotNum = data[offset + 1];
                 int min = data[offset + 2];
                 int max = data[offset + 3];
-                slots[i] = new EncounterSlot1(this, species, min, max, slotNum, game);
+                slots[i] = new EncounterSlot1(this, species, min, max, slotNum);
             }
             Slots = slots;
         }

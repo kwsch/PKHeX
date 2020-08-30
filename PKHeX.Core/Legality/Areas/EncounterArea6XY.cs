@@ -17,7 +17,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        public EncounterArea6XY(ICollection<int> species)
+        public EncounterArea6XY(ICollection<int> species) : base(GameVersion.XY)
         {
             Location = 148;
             Type = SlotType.FriendSafari;
@@ -25,19 +25,19 @@ namespace PKHeX.Core
             var slots = new EncounterSlot6XY[species.Count];
             int ctr = 0;
             foreach (var s in species)
-                slots[ctr++] = new EncounterSlot6XY(this, s, 0, 30, 30, GameVersion.XY);
+                slots[ctr++] = new EncounterSlot6XY(this, s, 0, 30, 30);
             Slots = slots;
         }
 
-        private EncounterArea6XY(byte[] data, GameVersion game)
+        private EncounterArea6XY(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
 
-            Slots = ReadSlots(data, game);
+            Slots = ReadSlots(data);
         }
 
-        private EncounterSlot6XY[] ReadSlots(byte[] data, GameVersion game)
+        private EncounterSlot6XY[] ReadSlots(byte[] data)
         {
             const int size = 4;
             int count = (data.Length - 4) / size;
@@ -50,7 +50,7 @@ namespace PKHeX.Core
                 int form = SpecForm >> 11;
                 int min = data[offset + 2];
                 int max = data[offset + 3];
-                slots[i] = new EncounterSlot6XY(this, species, form, min, max, game);
+                slots[i] = new EncounterSlot6XY(this, species, form, min, max);
             }
 
             return slots;
@@ -83,10 +83,7 @@ namespace PKHeX.Core
                         if (maxLevel != pkm.Met_Level)
                             break;
 
-                        var clone = (EncounterSlot6XY)slot.Clone();
-                        clone.Form = evo.Form;
-                        clone.Pressure = true;
-                        yield return clone;
+                        yield return ((EncounterSlot6XY)slot).CreatePressureFormCopy(evo.Form);
                         break;
                     }
 

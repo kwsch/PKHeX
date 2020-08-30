@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.SWSH"/> encounter area
     /// </summary>
-    public sealed class EncounterArea8 : EncounterAreaSH
+    public sealed class EncounterArea8 : EncounterArea
     {
         /// <inheritdoc />
         public override bool IsMatchLocation(int location)
@@ -185,42 +185,35 @@ namespace PKHeX.Core
             // Honeycalm Island
             {192, new byte[] {194}},
         };
-    }
 
-    public abstract class EncounterAreaSH : EncounterArea
-    {
         /// <summary>
         /// Slots from this area can cross over to another area, resulting in a different met location.
         /// </summary>
         public bool PermitCrossover { get; internal set; }
 
-        /// <summary>
-        /// Gets an array of areas from an array of raw area data
-        /// </summary>
-        /// <param name="entries">Simplified raw format of an Area</param>
-        /// <param name="game">Game of origin</param>
-        /// <returns>Array of areas</returns>
-        public static T[] GetArray<T>(byte[][] entries, GameVersion game) where T : EncounterAreaSH, new()
+        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game)
         {
-            T[] data = new T[entries.Length];
-            for (int i = 0; i < data.Length; i++)
-            {
-                var loc = data[i] = new T();
-                loc.LoadSlots(entries[i], game);
-            }
-            return data;
+            var result = new EncounterArea8[input.Length];
+            for (int i = 0; i < input.Length; i++)
+                result[i] = new EncounterArea8(input[i], game);
+            return result;
         }
 
-        private void LoadSlots(byte[] areaData, GameVersion game)
+        private EncounterArea8(byte[] areaData, GameVersion game) : base(game)
         {
             Location = areaData[0];
-            Slots = new EncounterSlot[areaData[1]];
+            Slots = ReadSlots(areaData, areaData[1]);
+        }
+
+        private EncounterSlot[] ReadSlots(byte[] areaData, byte slotCount)
+        {
+            var slots = new EncounterSlot[slotCount];
 
             int ctr = 0;
             int ofs = 2;
             do
             {
-                var flags = (AreaWeather8)BitConverter.ToUInt16(areaData, ofs);
+                var flags = (AreaWeather8) BitConverter.ToUInt16(areaData, ofs);
                 var min = areaData[ofs + 2];
                 var max = areaData[ofs + 3];
                 var count = areaData[ofs + 4];
@@ -229,9 +222,11 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
-                    Slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags, game);
+                    slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags);
                 }
-            } while (ctr != Slots.Length);
+            } while (ctr != slots.Length);
+
+            return slots;
         }
     }
 
@@ -270,7 +265,7 @@ namespace PKHeX.Core
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterAreaSH area, int specForm, int min, int max, AreaWeather8 weather, GameVersion game) : base(area)
+        public EncounterSlot8(EncounterArea8 area, int specForm, int min, int max, AreaWeather8 weather) : base(area)
         {
             Species = specForm & 0x7FF;
             Form = specForm >> 11;
@@ -278,7 +273,6 @@ namespace PKHeX.Core
             LevelMax = max;
 
             Weather = weather;
-            Version = game;
         }
     }
 }

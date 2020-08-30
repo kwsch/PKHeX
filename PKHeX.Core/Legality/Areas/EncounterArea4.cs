@@ -20,17 +20,17 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea4(byte[] data, GameVersion game)
+        private EncounterArea4(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
             Rate = data[3];
             TypeEncounter = (EncounterType) BitConverter.ToUInt16(data, 4);
 
-            Slots = ReadRegularSlots(data, game);
+            Slots = ReadRegularSlots(data);
         }
 
-        private EncounterSlot4[] ReadRegularSlots(byte[] data, GameVersion game)
+        private EncounterSlot4[] ReadRegularSlots(byte[] data)
         {
             const int size = 10;
             int count = (data.Length - 6) / size;
@@ -49,7 +49,7 @@ namespace PKHeX.Core
                 int mpc = data[offset + 7];
                 int sti = data[offset + 8];
                 int stc = data[offset + 9];
-                slots[i] = new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc, game);
+                slots[i] = new EncounterSlot4(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
             }
 
             return slots;

@@ -4,12 +4,11 @@ namespace PKHeX.Core
     {
         public override int Generation => 7;
 
-        public EncounterSlot7b(EncounterArea7b area, int species, int min, int max, GameVersion game) : base(area)
+        public EncounterSlot7b(EncounterArea7b area, int species, int min, int max) : base(area)
         {
             Species = species;
             LevelMin = min;
             LevelMax = max;
-            Version = game;
         }
     }
 }

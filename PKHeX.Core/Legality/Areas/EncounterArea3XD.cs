@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea3XD : EncounterArea
     {
-        public EncounterArea3XD(int loc, int s0, int l0, int s1, int l1, int s2, int l2)
+        public EncounterArea3XD(int loc, int s0, int l0, int s1, int l1, int s2, int l2) : base(GameVersion.XD)
         {
             Location = loc;
             Type = SlotType.Grass;

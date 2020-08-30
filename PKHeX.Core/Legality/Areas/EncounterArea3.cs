@@ -11,8 +11,6 @@ namespace PKHeX.Core
     {
         public readonly int Rate;
 
-        internal EncounterArea3() { }
-
         public static EncounterArea3[] GetAreas(byte[][] input, GameVersion game)
         {
             var result = new EncounterArea3[input.Length];
@@ -29,25 +27,25 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea3(byte[] data, GameVersion game)
+        private EncounterArea3(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = (SlotType)data[2];
             Rate = data[3];
 
-            Slots = ReadRegularSlots(data, game);
+            Slots = ReadRegularSlots(data);
         }
 
-        private EncounterArea3(byte[] data, GameVersion game, bool _)
+        private EncounterArea3(byte[] data, GameVersion game, bool _) : base(game)
         {
             Location = data[0] | (data[1] << 8);
             Type = SlotType.Swarm | SlotType.Grass;
             Rate = data[3];
 
-            Slots = ReadSwarmSlots(data, game);
+            Slots = ReadSwarmSlots(data);
         }
 
-        private EncounterSlot3[] ReadRegularSlots(byte[] data, GameVersion game)
+        private EncounterSlot3[] ReadRegularSlots(byte[] data)
         {
             const int size = 10;
             int count = (data.Length - 4) / size;
@@ -66,13 +64,13 @@ namespace PKHeX.Core
                 int mpc = data[offset + 7];
                 int sti = data[offset + 8];
                 int stc = data[offset + 9];
-                slots[i] = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc, game);
+                slots[i] = new EncounterSlot3(this, species, form, min, max, slotNum, mpi, mpc, sti, stc);
             }
 
             return slots;
         }
 
-        private EncounterSlot3[] ReadSwarmSlots(byte[] data, GameVersion game)
+        private EncounterSlot3[] ReadSwarmSlots(byte[] data)
         {
             const int size = 14;
             int count = (data.Length - 4) / size;
@@ -95,7 +93,7 @@ namespace PKHeX.Core
                     BitConverter.ToUInt16(data, offset + 12),
                 };
 
-                slots[i] = new EncounterSlot3Swarm(this, species, min, max, slotNum, game, moves);
+                slots[i] = new EncounterSlot3Swarm(this, species, min, max, slotNum, moves);
             }
 
             return slots;

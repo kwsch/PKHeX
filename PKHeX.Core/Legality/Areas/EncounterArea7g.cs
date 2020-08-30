@@ -9,12 +9,14 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea7g : EncounterArea
     {
+        private EncounterArea7g() : base(GameVersion.GO) { }
+
         internal static EncounterArea7g[] GetArea()
         {
             var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
-            static EncounterSlot GetSlot(EncounterArea7g area, int species, int form)
+            static EncounterSlot7GO GetSlot(EncounterArea7g area, int species, int form)
             {
-                return new EncounterSlot7GO(area, species, form, 1, 40, GameVersion.GO);
+                return new EncounterSlot7GO(area, species, form, 1, 40);
             }
 
             var obtainable = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
@@ -47,11 +49,11 @@ namespace PKHeX.Core
             var alolan = AlolanKanto.Select(z => GetSlot(area, z, 1));
             var slots = regular.Concat(alolan).ToArray();
 
-            slots[slots.Length - 1].LevelMin = 15; // Raichu
-            slots[(int)Species.Mewtwo - 1].LevelMin = 15;
-            slots[(int)Species.Articuno - 1].LevelMin = 15;
-            slots[(int)Species.Zapdos - 1].LevelMin = 15;
-            slots[(int)Species.Moltres - 1].LevelMin = 15;
+            slots[slots.Length - 1].ClampMinRaid(15); // Raichu
+            slots[(int)Species.Mewtwo - 1].ClampMinRaid(15);
+            slots[(int)Species.Articuno - 1].ClampMinRaid(15);
+            slots[(int)Species.Zapdos - 1].ClampMinRaid(15);
+            slots[(int)Species.Moltres - 1].ClampMinRaid(15);
 
             area.Slots = slots;
             return new[] { area };

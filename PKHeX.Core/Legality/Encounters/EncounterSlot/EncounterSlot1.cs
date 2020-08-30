@@ -8,13 +8,12 @@
         public override int Generation => 1;
         public int SlotNumber { get; set; }
 
-        public EncounterSlot1(EncounterArea1 area, int species, int min, int max, int slot, GameVersion game) : base(area)
+        public EncounterSlot1(EncounterArea1 area, int species, int min, int max, int slot) : base(area)
         {
             Species = species;
             LevelMin = min;
             LevelMax = max;
             SlotNumber = slot;
-            Version = game;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

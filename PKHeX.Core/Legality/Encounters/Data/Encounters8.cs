@@ -15,10 +15,10 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters8
     {
-        private static readonly EncounterArea8[] SlotsSW_Symbol = EncounterAreaSH.GetArray<EncounterArea8>(Get("sw_symbol", "sw"), SW);
-        private static readonly EncounterArea8[] SlotsSH_Symbol = EncounterAreaSH.GetArray<EncounterArea8>(Get("sh_symbol", "sh"), SH);
-        private static readonly EncounterArea8[] SlotsSW_Hidden = EncounterAreaSH.GetArray<EncounterArea8>(Get("sw_hidden", "sw"), SW);
-        private static readonly EncounterArea8[] SlotsSH_Hidden = EncounterAreaSH.GetArray<EncounterArea8>(Get("sh_hidden", "sh"), SH);
+        private static readonly EncounterArea8[] SlotsSW_Symbol = EncounterArea8.GetAreas(Get("sw_symbol", "sw"), SW);
+        private static readonly EncounterArea8[] SlotsSH_Symbol = EncounterArea8.GetAreas(Get("sh_symbol", "sh"), SH);
+        private static readonly EncounterArea8[] SlotsSW_Hidden = EncounterArea8.GetAreas(Get("sw_hidden", "sw"), SW);
+        private static readonly EncounterArea8[] SlotsSH_Hidden = EncounterArea8.GetAreas(Get("sh_hidden", "sh"), SH);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         internal static readonly EncounterArea8[] SlotsSW = ArrayUtil.ConcatAll(SlotsSW_Symbol, SlotsSW_Hidden);

@@ -12,7 +12,6 @@ namespace PKHeX.Core
             LevelMin = min;
             LevelMax = max;
             SlotNumber = slot;
-            Version = GameVersion.XD;
         }
 
         // PokeSpot encounters always have Fateful Encounter set.

@@ -32,12 +32,6 @@ namespace PKHeX.Core
             }
         }
 
-        internal static void SetVersion(this IEnumerable<EncounterArea> arr, GameVersion game)
-        {
-            foreach (var area in arr)
-                area.Slots.SetVersion(game);
-        }
-
         private static GameVersion GetSingleVersion(this IVersion ver)
         {
             const int max = (int) GameVersion.RB;

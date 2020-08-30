@@ -5,13 +5,12 @@ namespace PKHeX.Core
         public override int Generation => 6;
         public bool Pressure { get; set; }
 
-        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max, GameVersion game) : base(area)
+        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max) : base(area)
         {
             Species = species;
             Form = form;
             LevelMin = min;
             LevelMax = max;
-            Version = game;
         }
 
         protected override void SetFormatSpecificData(PKM pk)
@@ -24,6 +23,14 @@ namespace PKHeX.Core
         {
             valid = true;
             return Pressure ? LegalityCheckStrings.LEncConditionLead : LegalityCheckStrings.LEncCondition;
+        }
+
+        public EncounterSlot6XY CreatePressureFormCopy(int evoForm)
+        {
+            var clone = (EncounterSlot6XY)Clone();
+            clone.Form = evoForm;
+            clone.Pressure = true;
+            return clone;
         }
     }
 }

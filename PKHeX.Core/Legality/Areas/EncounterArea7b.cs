@@ -17,13 +17,13 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea7b(byte[] data, GameVersion game)
+        private EncounterArea7b(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0] | (data[1] << 8);
-            Slots = ReadSlots(data, game);
+            Slots = ReadSlots(data);
         }
 
-        private EncounterSlot7b[] ReadSlots(byte[] data, GameVersion game)
+        private EncounterSlot7b[] ReadSlots(byte[] data)
         {
             const int size = 4;
             int count = (data.Length - 2) / size;
@@ -35,7 +35,7 @@ namespace PKHeX.Core
                 int species = SpecForm & 0x3FF;
                 int min = data[offset + 2];
                 int max = data[offset + 3];
-                slots[i] = new EncounterSlot7b(this, species, min, max, game);
+                slots[i] = new EncounterSlot7b(this, species, min, max);
             }
 
             return slots;

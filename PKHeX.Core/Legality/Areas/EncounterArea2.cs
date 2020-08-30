@@ -25,7 +25,7 @@ namespace PKHeX.Core
             return result;
         }
 
-        private EncounterArea2(byte[] data, GameVersion game)
+        private EncounterArea2(byte[] data, GameVersion game) : base(game)
         {
             Location = data[0];
             Time = (EncounterTime)data[1];
@@ -42,7 +42,7 @@ namespace PKHeX.Core
                     rates[i] = data[4 + i];
 
                 Rates = rates;
-                Slots = ReadSlots(data, count, 4 + count, game);
+                Slots = ReadSlots(data, count, 4 + count);
             }
             else
             {
@@ -51,11 +51,11 @@ namespace PKHeX.Core
                 const int size = 4;
                 int count = (data.Length - 4) / size;
                 Rates = type == SlotType.BugContest ? BCC_SlotRates : (type == SlotType.Grass) ? RatesGrass : RatesSurf;
-                Slots = ReadSlots(data, count, 4, game);
+                Slots = ReadSlots(data, count, 4);
             }
         }
 
-        private EncounterSlot2[] ReadSlots(byte[] data, int count, int start, GameVersion game)
+        private EncounterSlot2[] ReadSlots(byte[] data, int count, int start)
         {
             var slots = new EncounterSlot2[count];
             for (int i = 0; i < slots.Length; i++)
@@ -65,7 +65,7 @@ namespace PKHeX.Core
                 int slotNum = data[offset + 1];
                 int min = data[offset + 2];
                 int max = data[offset + 3];
-                slots[i] = new EncounterSlot2(this, species, min, max, slotNum, game);
+                slots[i] = new EncounterSlot2(this, species, min, max, slotNum);
             }
 
             return slots;
