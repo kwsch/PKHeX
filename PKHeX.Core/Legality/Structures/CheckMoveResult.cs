@@ -48,5 +48,10 @@
             : this(Org.Source, Org.Generation, s, c, i)
         {
         }
+
+        internal CheckMoveResult(CheckMoveResult Org, Severity s, string c)
+            : this(Org.Source, Org.Generation, s, c, Org.Identifier)
+        {
+        }
     }
 }

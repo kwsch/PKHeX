@@ -817,12 +817,44 @@ namespace PKHeX.Core
             bool emptySlot = false;
             for (int i = 0; i < 4; i++)
             {
-                if (moves[i] == 0)
+                var move = moves[i];
+                if (move == 0)
+                {
                     emptySlot = true;
-                else if (emptySlot)
-                    res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceEmpty, res[i].Identifier);
-                else if (moves.Count(m => m == moves[i]) > 1)
-                    res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceDuplicate, res[i].Identifier);
+                    continue;
+                }
+
+                // If an empty slot was noted for a prior move, flag the empty slots.
+                if (emptySlot)
+                {
+                    FlagEmptySlotsBeforeIndex(moves, res, i);
+                    emptySlot = false;
+                    continue;
+                }
+
+                // Check for same move in next move slots
+                FlagDuplicateMovesAfterIndex(moves, res, i, move);
+            }
+        }
+
+        private static void FlagDuplicateMovesAfterIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int i, int move)
+        {
+            for (int j = i + 1; j < 4; j++)
+            {
+                if (moves[j] != move)
+                    continue;
+                res[i] = new CheckMoveResult(res[i], Invalid, LMoveSourceDuplicate);
+                return;
+            }
+        }
+
+        private static void FlagEmptySlotsBeforeIndex(IReadOnlyList<int> moves, CheckMoveResult[] res, int i)
+        {
+            for (int k = i - 1; k >= 0; k--)
+            {
+                if (moves[k] != 0)
+                    return;
+                res[k] = new CheckMoveResult(res[k], Invalid, LMoveSourceEmpty);
             }
         }
 
