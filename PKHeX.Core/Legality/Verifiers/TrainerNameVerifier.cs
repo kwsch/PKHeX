@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Trainer;
 
-        private readonly string[] SuspiciousOTNames =
+        private static readonly string[] SuspiciousOTNames =
         {
             "PKHeX",
         };
@@ -51,7 +51,11 @@ namespace PKHeX.Core
             {
                 data.AddLine(Get(LOT_SID0, Severity.Fishy));
             }
-            else if ((pkm.TID == 12345 && pkm.SID == 54321) || IsOTNameSuspicious(ot))
+            else if (IsOTNameSuspicious(ot))
+            {
+                data.AddLine(Get(LOTSuspicious, Severity.Fishy));
+            }
+            else if (IsOTIDSuspicious(pkm.TID, pkm.SID))
             {
                 data.AddLine(Get(LOTSuspicious, Severity.Fishy));
             }
@@ -169,9 +173,21 @@ namespace PKHeX.Core
             return GetInvalid(LG1Stadium);
         }
 
-        private bool IsOTNameSuspicious(string name)
+        private static bool IsOTNameSuspicious(string name)
         {
             return SuspiciousOTNames.Any(name.StartsWith);
+        }
+
+        public static bool IsOTIDSuspicious(int tid16, int sid16)
+        {
+            if (tid16 == 12345 && sid16 == 54321)
+                return true;
+
+            // 1234_123456 (SID7_TID7)
+            if (tid16 == 15040 && sid16 == 18831)
+                return true;
+
+            return false;
         }
 
         public static bool ContainsTooManyNumbers(string str, int originalGeneration)
