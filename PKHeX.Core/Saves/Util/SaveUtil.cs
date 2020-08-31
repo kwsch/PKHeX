@@ -565,8 +565,16 @@ namespace PKHeX.Core
             SAV.OT = trainerName;
 
             // Secondary Properties may not be used but can be filled in as template.
-            SAV.TID = 12345;
-            SAV.SID = 54321;
+            if (SAV.Generation >= 7)
+            {
+                SAV.TrainerID7 = 123456;
+                SAV.TrainerSID7 = 1234;
+            }
+            else
+            {
+                SAV.TID = 12345;
+                SAV.SID = 54321;
+            }
             SAV.Language = (int)LanguageID.English; // English
 
             // Only set geolocation data for 3DS titles
