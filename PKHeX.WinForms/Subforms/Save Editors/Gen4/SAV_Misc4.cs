@@ -132,7 +132,14 @@ namespace PKHeX.WinForms
             uint valFly = BitConverter.ToUInt32(SAV.General, ofsFly);
             CLB_FlyDest.Items.Clear();
             for (int i = 0; i < FlyDestD.Length; i++)
-                CLB_FlyDest.Items.Add(metLocationList.First(v => v.Value == FlyDestD[i]).Text, FlyDestC[i] < 32 ? (valFly & 1u << FlyDestC[i]) != 0 : (SAV.General[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0);
+            {
+                var dest = FlyDestD[i];
+                var name = metLocationList.First(v => v.Value == dest).Text;
+                var state = FlyDestC[i] < 32
+                    ? (valFly & 1u << FlyDestC[i]) != 0
+                    : (SAV.General[ofsFly + (FlyDestC[i] >> 3)] & 1 << (FlyDestC[i] & 7)) != 0;
+                CLB_FlyDest.Items.Add(name, state);
+            }
             uint valBP = BitConverter.ToUInt16(SAV.General, ofsBP);
             NUD_BP.Value = valBP > 9999 ? 9999 : valBP;
 

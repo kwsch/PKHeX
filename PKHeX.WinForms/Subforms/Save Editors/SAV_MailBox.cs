@@ -357,9 +357,10 @@ namespace PKHeX.WinForms
                 }
                 for (int i = 0; i < 6; i++)
                 {
-                    if (heldMailIDs.Count(v => v == i) > 1) //D
+                    var index = i;
+                    if (heldMailIDs.Count(v => v == index) > 1) //D
                         ret.Add($"MailID{i} duplicated");
-                    if (m[i].IsEmpty == false && heldMailIDs.All(v => v != i)) //E
+                    if (m[i].IsEmpty == false && heldMailIDs.All(v => v != index)) //E
                         ret.Add($"MailID{i} not referred");
                 }
             }
