@@ -217,43 +217,7 @@ namespace PKHeX.Core
         };
         #endregion
         #region Static Encounter/Gift Tables
-        private static readonly int[] Roaming_MetLocation_DPPt_Grass =
-        {
-            // Routes 201-218, 221-222 can be encountered in grass
-            16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
-            26, 27, 28, 29, 30, 31, 32, 33, 36, 37,
-            47,     // Valley Windworks
-            49,     // Fuego Ironworks
-        };
-
-        private static readonly int[] Roaming_MetLocation_DPPt_Surf =
-        {
-            // Routes 203-205, 208-210, 212-214, 218-222 can be encountered in water
-            18, 19, 20, 23, 24, 25, 27, 28, 29, 33,
-            34, 35, 36, 37,
-            47,     // Valley Windworks
-            49,     // Fuego Ironworks
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_DPPt_Roam_Grass =
-        {
-            new EncounterStaticTyped { Species = 481, Level = 50, Roaming = true, TypeEncounter = EncounterType.TallGrass }, // Mesprit
-            new EncounterStaticTyped { Species = 488, Level = 50, Roaming = true, TypeEncounter = EncounterType.TallGrass }, // Cresselia
-            new EncounterStaticTyped { Species = 144, Level = 60, Roaming = true, TypeEncounter = EncounterType.TallGrass, Version = Pt }, // Articuno
-            new EncounterStaticTyped { Species = 145, Level = 60, Roaming = true, TypeEncounter = EncounterType.TallGrass, Version = Pt }, // Zapdos
-            new EncounterStaticTyped { Species = 146, Level = 60, Roaming = true, TypeEncounter = EncounterType.TallGrass, Version = Pt }, // Moltres
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_DPPt_Roam_Surf =
-        {
-            new EncounterStaticTyped { Species = 481, Level = 50, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, // Mesprit
-            new EncounterStaticTyped { Species = 488, Level = 50, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing }, // Cresselia
-            new EncounterStaticTyped { Species = 144, Level = 60, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, Version = Pt }, // Articuno
-            new EncounterStaticTyped { Species = 145, Level = 60, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, Version = Pt }, // Zapdos
-            new EncounterStaticTyped { Species = 146, Level = 60, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, Version = Pt }, // Moltres
-        };
-
-        private static readonly EncounterStatic4[] Encounter_DPPt_Regular =
+        private static readonly EncounterStatic4[] Encounter_DPPt =
         {
             // Starters
             new EncounterStaticTyped { Gift = true, Species = 387, Level = 5, Location = 076, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, Version = DP }, // Turtwig @ Lake Verity
@@ -318,69 +282,13 @@ namespace PKHeX.Core
             new EncounterStatic4 { Species = 492, Form = 0, Level = 30, Location = 063, Version = Pt, Fateful = true }, // Shaymin @ Flower Paradise
             new EncounterStatic4 { Species = 492, Form = 0, Level = 30, Location = 063, Version = DP, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 493, Form = 0, Level = 80, Location = 086, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Arceus @ Hall of Origin (Unreleased)
-        };
 
-        private static readonly EncounterStatic4[] Encounter_DPPt = Encounter_DPPt_Roam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Grass)).Concat(
-            Encounter_DPPt_Roam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_DPPt_Surf))).Concat(
-            Encounter_DPPt_Regular).ToArray();
-
-        // Grass 29-39, 42-46, 47, 48
-        // Surf 30-32 34-35, 40-45, 47
-        // Route 45 innacesible surf
-        private static readonly int[] Roaming_MetLocation_HGSS_Johto_Grass =
-        {
-            // Routes 29-48 can be encountered in grass
-            // Won't go to routes 40,41,47,48
-            177, 178, 179, 180, 181, 182, 183, 184, 185, 186,
-            187,                     190, 191, 192, 193, 194,
-        };
-
-        private static readonly int[] Roaming_MetLocation_HGSS_Johto_Surf =
-        {
-            // Routes 30-32,34-35,40-45 and 47 can be encountered in water
-            // Won't go to routes 40,41,47,48
-            178, 179, 180, 182, 183, 190, 191, 192, 193
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_HGSS_JohtoRoam_Grass =
-        {
-            new EncounterStaticTyped { Species = 243, Level = 40, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Raikou
-            new EncounterStaticTyped { Species = 244, Level = 40, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Entei
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_HGSS_JohtoRoam_Surf =
-        {
-            new EncounterStaticTyped { Species = 243, Level = 40, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Raikou
-            new EncounterStaticTyped { Species = 244, Level = 40, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Entei
-        };
-
-        private static readonly int[] Roaming_MetLocation_HGSS_Kanto_Grass =
-        {
-            // Route 01-18,21,22,24,26 and 28 can be encountered in grass
-            // Won't go to route 23 25 27
-            149, 150, 151, 152, 153, 154, 155, 156, 157, 158,
-            159, 160, 161, 162, 163, 164, 165, 166,
-            169, 170,      172,      174,      176,
-        };
-
-        private static readonly int[] Roaming_MetLocation_HGSS_Kanto_Surf =
-        {
-            // Route 4,6,9,10,12,13,19-22,24,26 and 28 can be encountered in water
-            // Won't go to route 23 25 27
-            152, 154, 157, 158, 160, 161, 167, 168, 169, 170,
-            172,      174,      176,
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_HGSS_KantoRoam_Grass =
-        {
-            new EncounterStaticTyped { Species = 380, Level = 35, Version = HG, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Latias
-            new EncounterStaticTyped { Species = 381, Level = 35, Version = SS, Roaming = true, TypeEncounter = EncounterType.TallGrass, }, // Latios
-        };
-
-        private static readonly EncounterStaticTyped[] Encounter_HGSS_KantoRoam_Surf =
-        {
-            new EncounterStaticTyped { Species = 380, Level = 35, Version = HG, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Latias
-            new EncounterStaticTyped { Species = 381, Level = 35, Version = SS, Roaming = true, TypeEncounter = EncounterType.Surfing_Fishing, }, // Latios
+            // Roamers
+            new EncounterStaticTyped { Roaming = true, Species = 481, Level = 50, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = DPPt }, // Mesprit
+            new EncounterStaticTyped { Roaming = true, Species = 488, Level = 50, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = DPPt }, // Cresselia
+            new EncounterStaticTyped { Roaming = true, Species = 144, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = Pt }, // Articuno
+            new EncounterStaticTyped { Roaming = true, Species = 145, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = Pt }, // Zapdos
+            new EncounterStaticTyped { Roaming = true, Species = 146, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = Pt }, // Moltres
         };
 
         internal static readonly EncounterStaticTyped SpikyEaredPichu = new EncounterStaticTyped // Spiky-Eared Pichu @ Ilex Forest
@@ -396,7 +304,7 @@ namespace PKHeX.Core
             Shiny = Shiny.Never
         };
 
-        private static readonly EncounterStatic4[] Encounter_HGSS_Regular =
+        private static readonly EncounterStatic4[] Encounter_HGSS =
         {
             // Starters
             new EncounterStaticTyped { Gift = true, Species = 001, Level = 05, Location = 138, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Bulbasaur @ Pallet Town
@@ -472,14 +380,15 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 483, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Dialga @ Sinjoh Ruins
             new EncounterStaticTyped { Species = 484, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Palkia @ Sinjoh Ruins
             new EncounterStaticTyped { Species = 487, Level = 01, Location = 231, Gift = true, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Form = 1, HeldItem = 112 }, // Giratina @ Sinjoh Ruins
-        };
 
-        private static readonly EncounterStatic4[] Encounter_HGSS = ConcatAll(
-            Encounter_HGSS_KantoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Grass)),
-            Encounter_HGSS_KantoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Kanto_Surf)),
-            Encounter_HGSS_JohtoRoam_Grass.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Grass)),
-            Encounter_HGSS_JohtoRoam_Surf.SelectMany(e => e.Clone(Roaming_MetLocation_HGSS_Johto_Surf)),
-            Encounter_HGSS_Regular);
+            // Johto Roamers
+            new EncounterStaticTyped { Roaming = true, Species = 243, Level = 40, Version = HGSS, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Raikou
+            new EncounterStaticTyped { Roaming = true, Species = 244, Level = 40, Version = HGSS, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Entei
+
+            // Kanto Roamers
+            new EncounterStaticTyped { Roaming = true, Species = 380, Level = 35, Version = HG, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Latias
+            new EncounterStaticTyped { Roaming = true, Species = 381, Level = 35, Version = SS, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, }, // Latios
+        };
         #endregion
         #region Trade Tables
         private static readonly string[] RanchOTNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
 {
@@ -92,6 +90,19 @@ namespace PKHeX.Core
             new EncounterStatic6 { Species = 144, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Articuno
             new EncounterStatic6 { Species = 145, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Zapdos
             new EncounterStatic6 { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
+        };
+
+        private static readonly EncounterStatic6 CosplayPikachu = new EncounterStatic6
+        {
+            Location = 178, // Or 180, 186, 194
+            Species = 025,
+            Level = 20,
+            Gender = 1,
+            Ability = 4,
+            FlawlessIVCount = 3,
+            Contest = new[] {70, 70, 70, 70, 70, 0},
+            Gift = true,
+            Shiny = Shiny.Never
         };
 
         private static readonly EncounterStatic6[] Encounter_AO_Regular =
@@ -196,26 +207,25 @@ namespace PKHeX.Core
             new EncounterStatic6 { Species = 333, Level = 40, Location = 348 }, // Swablu
             new EncounterStatic6 { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic6 { Species = 628, Level = 45, Location = 348 }, // Braviary
+
+            CosplayPikachu,
+            PermuteCosplay(1),
+            PermuteCosplay(2),
+            PermuteCosplay(3),
+            PermuteCosplay(4),
+            PermuteCosplay(5),
+            PermuteCosplay(6),
         };
 
-        private static readonly EncounterStatic[] Encounter_AO = ArrayUtil.ConcatAll(Encounter_AO_Regular, PermuteCosplayPikachu().ToArray());
-
-        private static IEnumerable<EncounterStatic> PermuteCosplayPikachu()
+        private static EncounterStatic6 PermuteCosplay(int form)
         {
-            var CosplayPikachu = new EncounterStatic6
-            {
-                Species = 25, Level = 20, Gender = 1, Ability = 4, FlawlessIVCount = 3,
-                Contest = new[] { 70, 70, 70, 70, 70, 0 }, Gift = true, Shiny = Shiny.Never
-            };
-            foreach (int loc in new[] { 178, 180, 186, 194 })
-            {
-                for (int f = 1; f <= 6; f++)
-                {
-                    var pk = CosplayPikachu.Clone(loc); pk.Form = f;
-                    yield return pk;
-                }
-            }
+            var clone = (EncounterStatic6)CosplayPikachu.Clone();
+            clone.Form = form;
+            return clone;
         }
+
+        private static readonly EncounterStatic[] Encounter_AO = Encounter_AO_Regular;
+
         #endregion
         #region Trade Tables
         internal static readonly EncounterTrade[] TradeGift_XY =

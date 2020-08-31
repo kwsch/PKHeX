@@ -60,34 +60,34 @@ namespace PKHeX.Core
 
         #region Dream Radar Tables
 
-        private static readonly EncounterStatic5[] Encounter_DreamRadar =
+        private static readonly EncounterStatic5DR[] Encounter_DreamRadar =
         {
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 120, Ability = 4 }, // Staryu
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 137, Ability = 4 }, // Porygon
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 174, Ability = 4 }, // Igglybuff
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 175, Ability = 4 }, // Togepi
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 213, Ability = 4 }, // Shuckle
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 238, Ability = 4 }, // Smoochum
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 280, Ability = 4 }, // Ralts
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 333, Ability = 4 }, // Swablu
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 425, Ability = 4 }, // Drifloon
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 436, Ability = 4 }, // Bronzor
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 442, Ability = 4 }, // Spiritomb
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 447, Ability = 4 }, // Riolu
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 479, }, // Rotom (no HA)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 517, Ability = 4 }, // Munna
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 561, Ability = 4 }, // Sigilyph
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 641, Ability = 4, Form = 1}, // Therian Tornadus
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 642, Ability = 4, Form = 1}, // Therian Thundurus
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 645, Ability = 4, Form = 1}, // Therian Landorus
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 249, Ability = 4 }, // Lugia (SoulSilver cart)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 250, Ability = 4 }, // Ho-Oh (HeartGold cart)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 483, Ability = 4 }, // Dialga (Diamond cart)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 484, Ability = 4 }, // Palkia (Pearl cart)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 487, Ability = 4 }, // Giratina (Platinum cart)
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 079, Ability = 4 }, // Slowpoke
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 163, Ability = 4 }, // Hoothoot
-            new EncounterStatic5 { Shiny = Shiny.Never, Species = 374, Ability = 4 }, // Beldum
+            new EncounterStatic5DR(120, 0), // Staryu
+            new EncounterStatic5DR(137, 0), // Porygon
+            new EncounterStatic5DR(174, 0), // Igglybuff
+            new EncounterStatic5DR(175, 0), // Togepi
+            new EncounterStatic5DR(213, 0), // Shuckle
+            new EncounterStatic5DR(238, 0), // Smoochum
+            new EncounterStatic5DR(280, 0), // Ralts
+            new EncounterStatic5DR(333, 0), // Swablu
+            new EncounterStatic5DR(425, 0), // Drifloon
+            new EncounterStatic5DR(436, 0), // Bronzor
+            new EncounterStatic5DR(442, 0), // Spiritomb
+            new EncounterStatic5DR(447, 0), // Riolu
+            new EncounterStatic5DR(479, 0, 0), // Rotom (no HA)
+            new EncounterStatic5DR(517, 0), // Munna
+            new EncounterStatic5DR(561, 0), // Sigilyph
+            new EncounterStatic5DR(641, 1), // Therian Tornadus
+            new EncounterStatic5DR(642, 1), // Therian Thundurus
+            new EncounterStatic5DR(645, 1), // Therian Landorus
+            new EncounterStatic5DR(249, 0), // Lugia (SoulSilver cart)
+            new EncounterStatic5DR(250, 0), // Ho-Oh (HeartGold cart)
+            new EncounterStatic5DR(483, 0), // Dialga (Diamond cart)
+            new EncounterStatic5DR(484, 0), // Palkia (Pearl cart)
+            new EncounterStatic5DR(487, 0), // Giratina (Platinum cart)
+            new EncounterStatic5DR(079, 0), // Slowpoke
+            new EncounterStatic5DR(163, 0), // Hoothoot
+            new EncounterStatic5DR(374, 0), // Beldum
         };
 
         #endregion
@@ -436,23 +436,7 @@ namespace PKHeX.Core
 
         #endregion
         #region Static Encounter/Gift Tables
-
-        private static readonly int[] Roaming_MetLocation_BW =
-        {
-            25,26,27,28, // Route 12, 13, 14, 15 Night latter half
-            15,16,31,    // Route 2, 3, 18 Morning
-            17,18,29,    // Route 4, 5, 16 Daytime
-            19,20,21,    // Route 6, 7, 8 Evening
-            22,23,24,    // Route 9, 10, 11 Night former half
-        };
-
-        private static readonly EncounterStatic5[] Encounter_BW_Roam =
-        {
-            new EncounterStatic5 { Species = 641, Level = 40, Version = GameVersion.B, Roaming = true }, // Tornadus
-            new EncounterStatic5 { Species = 642, Level = 40, Version = GameVersion.W, Roaming = true }, // Thundurus
-        };
-
-        private static readonly EncounterStatic5[] Encounter_BW_Regular =
+        private static readonly EncounterStatic5[] Encounter_BW =
         {
             // Starters @ Nuvema Town
             new EncounterStatic5 { Gift = true, Species = 495, Level = 5, Location = 004, }, // Snivy
@@ -500,9 +484,11 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 494, Level = 15, Location = 062, Shiny = Shiny.Never}, // Victini @ Liberty Garden
             new EncounterStatic5 { Species = 570, Level = 10, Location = 008, Shiny = Shiny.Never, Gender = 0, }, // Zorua @ Castelia City
             new EncounterStatic5 { Species = 571, Level = 25, Location = 072, Shiny = Shiny.Never, Gender = 1, }, // Zoroark @ Lostlorn Forest
-        };
 
-        private static readonly EncounterStatic5[] Encounter_BW = Encounter_BW_Roam.SelectMany(e => e.Clone(Roaming_MetLocation_BW)).Concat(Encounter_BW_Regular).ToArray();
+            // Roamer
+            new EncounterStatic5 { Roaming = true, Species = 641, Level = 40, Version = GameVersion.B, Location = 25, }, // Tornadus
+            new EncounterStatic5 { Roaming = true, Species = 642, Level = 40, Version = GameVersion.W, Location = 25, }, // Thundurus
+        };
 
         private static readonly EncounterStatic5[] Encounter_B2W2_Regular =
         {
@@ -588,7 +574,7 @@ namespace PKHeX.Core
             new EncounterStatic5N(0xFF00001F) { Species = 570, Level = 25, Location = 010, Ability = 1, Nature = Nature.Hasty, Gift = true } // N's Zorua @ Driftveil City
         };
 
-        private static readonly EncounterStatic5[] Encounter_B2W2 = Encounter_DreamRadar.SelectMany(e => e.DreamRadarClone()).Concat(Encounter_B2W2_Regular).ToArray();
+        private static readonly EncounterStatic5[] Encounter_B2W2 = ArrayUtil.ConcatAll(Encounter_B2W2_Regular, Encounter_DreamRadar);
 
         #endregion
         #region Trade Tables

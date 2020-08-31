@@ -31,7 +31,7 @@ namespace PKHeX.Core
         public int TID { get; set; }
         public int SID { get; set; }
         public int OTGender { get; set; } = -1;
-        public GameVersion Version { get; set; }
+        public GameVersion Version { get; set; } = GameVersion.Any;
 
         public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }

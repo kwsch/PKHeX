@@ -51,8 +51,6 @@
         {
             if (EggEncounter)
                 return true;
-            if (Location == 0)
-                return true;
             if (pkm.Format == 4)
                 return Location == pkm.Met_Location;
             return true; // transfer location verified later

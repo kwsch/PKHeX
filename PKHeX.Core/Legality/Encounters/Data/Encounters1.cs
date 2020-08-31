@@ -1,5 +1,4 @@
-﻿using static PKHeX.Core.EncounterUtil;
-using static PKHeX.Core.GameVersion;
+﻿using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
