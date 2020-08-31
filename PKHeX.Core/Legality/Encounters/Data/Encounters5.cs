@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -33,7 +34,7 @@ namespace PKHeX.Core
         private static EncounterStatic5[] MarkG5DreamWorld(EncounterStatic5[] t)
         {
             // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
-            var count = t.Sum(z => z.Moves.Count);
+            var count = t.Sum(z => Math.Max(1, z.Moves.Count));
             var result = new EncounterStatic5[count];
 
             int ctr = 0;
@@ -96,7 +97,7 @@ namespace PKHeX.Core
         #endregion
         #region DreamWorld Encounter
 
-        public static readonly EncounterStatic5[] DreamWorld_Common =
+        public static readonly EncounterStatic5[] DreamWorld_Common = MarkG5DreamWorld(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 019, Level = 10, Moves = new[]{098, 382, 231}, }, // Rattata
@@ -270,9 +271,9 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 149, Level = 55, Moves = new[]{245}, Gender = 0, }, // Dragonite
             new EncounterStatic5 { Species = 248, Level = 55, Moves = new[]{069}, Gender = 0, }, // Tyranitar
             new EncounterStatic5 { Species = 376, Level = 45, Moves = new[]{038}, Gender = 2, }, // Metagross
-        };
+        });
 
-        public static readonly EncounterStatic5[] DreamWorld_BW =
+        public static readonly EncounterStatic5[] DreamWorld_BW = MarkG5DreamWorld(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 029, Level = 10, Moves = new[]{010, 389, 162}, }, // Nidoran♀
@@ -371,9 +372,9 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 242, Level = 10 }, // Blissey
             new EncounterStatic5 { Species = 448, Level = 10, Moves = new[]{418}, Gender = 0, }, // Lucario
             new EncounterStatic5 { Species = 189, Level = 27, Moves = new[]{206}, Gender = 0, }, // Jumpluff
-        };
+        });
 
-        public static readonly EncounterStatic5[] DreamWorld_B2W2 =
+        public static readonly EncounterStatic5[] DreamWorld_B2W2 = MarkG5DreamWorld(new[]
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 535, Level = 10, Moves = new[]{496, 414, 352}, }, // Tympole
@@ -435,7 +436,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 390, Level = 10, Moves = new[]{252}, Gender = 0, }, // Chimchar
             new EncounterStatic5 { Species = 393, Level = 10, Moves = new[]{297}, Gender = 0, }, // Piplup
             new EncounterStatic5 { Species = 575, Level = 32, Moves = new[]{286}, Gender = 0, }, // Gothorita
-        };
+        });
 
         #endregion
         #region Static Encounter/Gift Tables

@@ -7,7 +7,6 @@ namespace PKHeX.Core
     {
         public override int Generation => 7;
         public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
-        public bool RibbonWishing { get; set; }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

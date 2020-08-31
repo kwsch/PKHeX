@@ -285,7 +285,7 @@ namespace PKHeX.Core
             if (enc is EncounterInvalid)
                 return;
             var updated = Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm, enc);
-            if (!(updated is EncounterStatic s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
+            if (!(updated is EncounterStatic7 s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
             { AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter); return; }
 
             foreach (var z in Transfer.VerifyVCEncounter(pkm, enc, s, Info.Moves))

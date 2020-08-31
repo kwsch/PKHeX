@@ -90,7 +90,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (this is EncounterStatic7 s7 && s7.RibbonWishing && pk is IRibbonSetEvent4 e4)
+            if (this is EncounterStatic7 s7 && s7.Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
             if (this is EncounterStatic5N n)
                 n.SetNPokemonData((PK5)pk, lang);

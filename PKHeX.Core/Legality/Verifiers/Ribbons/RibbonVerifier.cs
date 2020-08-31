@@ -111,7 +111,7 @@ namespace PKHeX.Core
                         yield return z;
                 }
 
-                var c3 = u4.RibbonBitsContest3(); 
+                var c3 = u4.RibbonBitsContest3();
                 var c3n = u4.RibbonNamesContest3();
                 var iter3 = gen == 3 ? GetMissingContestRibbons(c3, c3n) : GetInvalidRibbonsNone(c3, c3n);
                 foreach (var z in iter3)
@@ -400,7 +400,7 @@ namespace PKHeX.Core
                     // If the Tower Master ribbon is not present but a memory hint implies it should...
                     // This memory can also be applied in Gen6/7 via defeating the Chatelaines, where legends are disallowed.
                     const int strongest = 30;
-                    if (pkm is IMemoryOT o && o.OT_Memory == strongest || pkm is IMemoryHT h && h.HT_Memory == strongest)
+                    if ((pkm is IMemoryOT o && o.OT_Memory == strongest) || (pkm is IMemoryHT h && h.HT_Memory == strongest))
                     {
                         if (pkm.Gen8 || !IsAllowedBattleFrontier(pkm.Species) || (pkm is IRibbonSetCommon6 s6 && !s6.RibbonBattlerSkillful))
                             yield return new RibbonResult(nameof(s8.RibbonTowerMaster));
@@ -416,7 +416,7 @@ namespace PKHeX.Core
 
             // Clamp to permitted species
             var spec = pkm.Species;
-           
+
             if (638 <= spec && spec <= 640)
                 return true; // Sub Legends
             if (722 <= spec && spec <= 730)
@@ -466,7 +466,7 @@ namespace PKHeX.Core
             var sb = set2.RibbonBits();
             var eb = encounterContent is IRibbonSetEvent4 e4 ? e4.RibbonBits() : new bool[sb.Length];
 
-            if (encounterContent is EncounterStatic7 s && s.RibbonWishing)
+            if (encounterContent is EncounterStatic7 s && s.Species == (int)Species.Magearna)
                 eb[1] = true; // require Wishing Ribbon
 
             for (int i = 0; i < sb.Length; i++)
