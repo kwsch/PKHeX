@@ -19,13 +19,6 @@ namespace PKHeX.Core
             return source.Where(s => s.Version.Contains(game)).ToArray();
         }
 
-        internal static EncounterStatic Clone(this EncounterStatic s, int location)
-        {
-            var result = s.Clone();
-            result.Location = location;
-            return result;
-        }
-
         internal static void MarkEncounterTradeStrings<T>(T[] table, string[][] strings) where T : EncounterTrade
         {
             int half = strings[1].Length / 2;

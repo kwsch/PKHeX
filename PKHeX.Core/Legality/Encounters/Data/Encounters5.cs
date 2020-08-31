@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 
 namespace PKHeX.Core
@@ -22,8 +21,9 @@ namespace PKHeX.Core
             foreach (var t in TradeGift_B2W2_YancyCurtis)
                 t.TrainerNames = t.OTGender == 0 ? TradeOT_B2W2_M : TradeOT_B2W2_F;
 
-            BW_DreamWorld.SetVersion(GameVersion.BW);
-            B2W2_DreamWorld.SetVersion(GameVersion.B2W2);
+            DreamWorld_Common.SetVersion(GameVersion.Gen5);
+            DreamWorld_BW.SetVersion(GameVersion.BW);
+            DreamWorld_B2W2.SetVersion(GameVersion.B2W2);
             Encounter_BW.SetVersion(GameVersion.BW);
             Encounter_B2W2.SetVersion(GameVersion.B2W2);
             TradeGift_BW.SetVersion(GameVersion.BW);
@@ -33,29 +33,32 @@ namespace PKHeX.Core
         private static EncounterStatic5[] MarkG5DreamWorld(EncounterStatic5[] t)
         {
             // Split encounters with multiple permitted special moves -- a pkm can only be obtained with 1 of the special moves!
-            var list = new List<EncounterStatic5>();
-            foreach (EncounterStatic5 s in t)
+            var count = t.Sum(z => z.Moves.Count);
+            var result = new EncounterStatic5[count];
+
+            int ctr = 0;
+            foreach (var s in t)
             {
                 s.Location = 075; // Entree Forest
                 var p = (PersonalInfoBW)PersonalTable.B2W2[s.Species];
                 s.Ability = p.HasHiddenAbility ? 4 : 1;
                 s.Shiny = Shiny.Never;
 
-                if (s.Moves.Count <= 1) // no special moves
+                var moves = s.Moves;
+                if (moves.Count <= 1) // no special moves
                 {
-                    list.Add(s);
+                    result[ctr++] = s;
                     continue;
                 }
 
-                var loc = s.Location;
-                for (int i = 0; i < s.Moves.Count; i++)
+                foreach (var move in moves)
                 {
-                    var clone = (EncounterStatic5)s.Clone(loc);
-                    clone.Moves = new[] { s.Moves[i] };
-                    list.Add(clone);
+                    var clone = (EncounterStatic5)s.Clone();
+                    clone.Moves = new[] { move };
+                    result[ctr++] = clone;
                 }
             }
-            return list.ToArray();
+            return result;
         }
 
         #region Dream Radar Tables
@@ -93,7 +96,7 @@ namespace PKHeX.Core
         #endregion
         #region DreamWorld Encounter
 
-        private static readonly EncounterStatic5[] DreamWorld_Common =
+        public static readonly EncounterStatic5[] DreamWorld_Common =
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 019, Level = 10, Moves = new[]{098, 382, 231}, }, // Rattata
@@ -269,7 +272,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 376, Level = 45, Moves = new[]{038}, Gender = 2, }, // Metagross
         };
 
-        public static readonly EncounterStatic5[] BW_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] DreamWorld_BW =
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 029, Level = 10, Moves = new[]{010, 389, 162}, }, // Nidoran♀
@@ -368,9 +371,9 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 242, Level = 10 }, // Blissey
             new EncounterStatic5 { Species = 448, Level = 10, Moves = new[]{418}, Gender = 0, }, // Lucario
             new EncounterStatic5 { Species = 189, Level = 27, Moves = new[]{206}, Gender = 0, }, // Jumpluff
-        }).ToArray());
+        };
 
-        public static readonly EncounterStatic5[] B2W2_DreamWorld = MarkG5DreamWorld(DreamWorld_Common.Concat(new[]
+        public static readonly EncounterStatic5[] DreamWorld_B2W2 =
         {
             // Pleasant Forest
             new EncounterStatic5 { Species = 535, Level = 10, Moves = new[]{496, 414, 352}, }, // Tympole
@@ -432,7 +435,7 @@ namespace PKHeX.Core
             new EncounterStatic5 { Species = 390, Level = 10, Moves = new[]{252}, Gender = 0, }, // Chimchar
             new EncounterStatic5 { Species = 393, Level = 10, Moves = new[]{297}, Gender = 0, }, // Piplup
             new EncounterStatic5 { Species = 575, Level = 32, Moves = new[]{286}, Gender = 0, }, // Gothorita
-        }).ToArray());
+        };
 
         #endregion
         #region Static Encounter/Gift Tables
@@ -642,13 +645,13 @@ namespace PKHeX.Core
         private static readonly string[] TradeOT_B2W2_F = {string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리"};
         private static readonly string[] TradeOT_B2W2_M = {string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권"};
 
-        internal static readonly EncounterTrade[] TradeGift_B2W2 = TradeGift_B2W2_Regular.Concat(TradeGift_B2W2_YancyCurtis).ToArray();
+        internal static readonly EncounterTrade[] TradeGift_B2W2 = ArrayUtil.ConcatAll(TradeGift_B2W2_Regular, TradeGift_B2W2_YancyCurtis);
 
         #endregion
 
-        internal static readonly EncounterStatic5[] StaticB = GetEncounters(ArrayUtil.ConcatAll(Encounter_BW, BW_DreamWorld), GameVersion.B);
-        internal static readonly EncounterStatic5[] StaticW = GetEncounters(ArrayUtil.ConcatAll(Encounter_BW, BW_DreamWorld), GameVersion.W);
-        internal static readonly EncounterStatic5[] StaticB2 = GetEncounters(ArrayUtil.ConcatAll(Encounter_B2W2, B2W2_DreamWorld), GameVersion.B2);
-        internal static readonly EncounterStatic5[] StaticW2 = GetEncounters(ArrayUtil.ConcatAll(Encounter_B2W2, B2W2_DreamWorld), GameVersion.W2);
+        internal static readonly EncounterStatic5[] StaticB = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, GameVersion.B), DreamWorld_Common, DreamWorld_BW);
+        internal static readonly EncounterStatic5[] StaticW = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, GameVersion.W), DreamWorld_Common, DreamWorld_BW);
+        internal static readonly EncounterStatic5[] StaticB2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, GameVersion.B2), DreamWorld_Common, DreamWorld_B2W2);
+        internal static readonly EncounterStatic5[] StaticW2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, GameVersion.W2), DreamWorld_Common, DreamWorld_B2W2);
     }
 }
