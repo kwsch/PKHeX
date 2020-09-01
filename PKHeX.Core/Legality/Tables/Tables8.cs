@@ -405,7 +405,7 @@ namespace PKHeX.Core
             // 1282, // ★And603 (Eiscue)
             // 1283, // ★And390 (Stonjourner)
             // 1284, // ★Sgr6879 (Copperajah)
-            1285, // ★Sgr6859
+            // 1285, // ★Sgr6859 (Centiskorch)
             1286, // ★Sgr6913
             1287, // ★Sgr7348
             1288, // ★Sgr7121
