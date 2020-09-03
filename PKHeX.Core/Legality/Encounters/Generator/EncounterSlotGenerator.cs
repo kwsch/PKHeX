@@ -92,13 +92,6 @@ namespace PKHeX.Core
         private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden && !slot.IsHiddenAbilitySlot();
 
-        private static IEnumerable<EncounterSlot> GetValidEncounterSlots(PKM pkm, EncounterArea loc, IReadOnlyList<EvoCriteria> chain)
-        {
-            if (pkm.Egg_Location != 0)
-                return Enumerable.Empty<EncounterSlot>();
-            return loc.GetMatchingSlots(pkm, chain);
-        }
-
         public static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)

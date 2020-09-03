@@ -317,9 +317,7 @@ namespace PKHeX.Core
 
         public virtual bool IsMatchDeferred(PKM pkm)
         {
-            if (pkm.FatefulEncounter != Fateful)
-                return true;
-            return false;
+            return pkm.FatefulEncounter != Fateful;
         }
     }
 }

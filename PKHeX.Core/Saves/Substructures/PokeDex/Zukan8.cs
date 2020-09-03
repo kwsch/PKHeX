@@ -76,21 +76,7 @@ namespace PKHeX.Core
             return lookup;
         }
 
-        public class Zukan8EntryInfo
-        {
-            public readonly int Species;
-            public readonly Zukan8Index Entry;
-
-            public Zukan8EntryInfo(int species, Zukan8Index entry)
-            {
-                Species = species;
-                Entry = entry;
-            }
-
-            public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
-        }
-
-        public List<Zukan8EntryInfo> GetRawIndexes(PersonalTable pt, int dexRevision)
+        public static List<Zukan8EntryInfo> GetRawIndexes(PersonalTable pt, int dexRevision)
         {
             var result = new List<Zukan8EntryInfo>();
             for (int i = 1; i <= pt.MaxSpeciesID; i++)
@@ -738,11 +724,11 @@ namespace PKHeX.Core
             if (index < 1)
                 throw new IndexOutOfRangeException();
 
-            return (index - 1);
+            return index - 1;
         }
 
         public int Offset => GetSavedIndex() * Zukan8.EntrySize;
-        
+
         private const int GalarCount = 400;
         private const int Rigel1Count = 211;
         private const int Rigel2Count = 2;
@@ -787,6 +773,26 @@ namespace PKHeX.Core
         {
             return $"{DexPrefix}.{Index:000} - {speciesNames[species]}";
         }
+
+        public override bool Equals(object obj) => obj is Zukan8Index x && x.Equals(this);
+        public bool Equals(Zukan8Index obj) => obj.Index == Index && obj.DexType == DexType;
+        public override int GetHashCode() => (int)DexType ^ (Index << 3);
+        public static bool operator ==(Zukan8Index left, Zukan8Index right) => left.Equals(right);
+        public static bool operator !=(Zukan8Index left, Zukan8Index right) => !(left == right);
+    }
+
+    public class Zukan8EntryInfo
+    {
+        public readonly int Species;
+        public readonly Zukan8Index Entry;
+
+        public Zukan8EntryInfo(int species, Zukan8Index entry)
+        {
+            Species = species;
+            Entry = entry;
+        }
+
+        public string GetEntryName(IReadOnlyList<string> speciesNames) => Entry.GetEntryName(speciesNames, Species);
     }
 
     public enum Zukan8Type : sbyte

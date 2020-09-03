@@ -41,7 +41,9 @@ namespace PKHeX.Drawing
                         gender = 1; // Cosplay Pikachu gift can only be Female, but personal entries are set to be either Gender
                     }
                     else if (form == 8)
+                    {
                         sb.Append(GGStarter);
+                    }
                 }
                 else if (species == (int) Species.Eevee)
                 {

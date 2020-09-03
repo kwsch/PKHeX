@@ -90,5 +90,20 @@ namespace PKHeX.Core
                 _ => false,
             };
         }
+
+        public static Ball GetRequiredBallValueWild(this SlotType t, int gen, int loc)
+        {
+            return gen switch
+            {
+                3 when Locations.IsSafariZoneLocation3(loc) => Ball.Safari,
+                4 when Locations.IsSafariZoneLocation4(loc) => Ball.Safari,
+                4 when t == SlotType.BugContest => Ball.Sport,
+
+                // Poké Pelago
+                7 when loc == 30016 => Ball.Poke,
+
+                _ => Ball.None,
+            };
+        }
     }
 }

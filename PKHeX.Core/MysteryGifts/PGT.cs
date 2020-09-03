@@ -201,7 +201,7 @@ namespace PKHeX.Core
                 seed = Util.Rand32(); // reseed, do not have method 1 correlation
 
             // Generate IVs
-            if (pk4.IV32 == 0)
+            if (pk4.IV32 == 0) // Ignore Nickname/Egg flag bits; none are set for varied-IV gifts.
             {
                 uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;

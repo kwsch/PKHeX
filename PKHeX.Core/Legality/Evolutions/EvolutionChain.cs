@@ -234,7 +234,6 @@ namespace PKHeX.Core
             }
         }
 
-
         internal static List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxspeciesorigin = -1, int maxLevel = -1, int minLevel = 1, bool skipChecks = false)
         {
             if (maxLevel < 0)

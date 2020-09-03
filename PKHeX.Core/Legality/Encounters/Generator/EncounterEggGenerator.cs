@@ -134,24 +134,14 @@ namespace PKHeX.Core
             {
                 if (pkm.Met_Level < 5)
                     return false;
-                if (pkm.FatefulEncounter)
-                    return false;
-                if (pkm.Ball != 4)
-                    return false;
             }
             else
             {
                 if (pkm.Met_Location != 0 && pkm.Met_Level != 1) // 2->1->2 clears met info
                     return false;
-                if (pkm.CurrentLevel < 5)
-                    return false;
             }
 
-            int lvl = pkm.CurrentLevel;
-            if (lvl < 5)
-                return false;
-
-            return true;
+            return pkm.CurrentLevel >= 5;
         }
     }
 }

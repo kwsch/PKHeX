@@ -213,7 +213,7 @@ namespace PKHeX.Core
 
         public bool[] PokewalkerCoursesUnlocked
         {
-            get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32); 
+            get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32);
             set => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
         }
 

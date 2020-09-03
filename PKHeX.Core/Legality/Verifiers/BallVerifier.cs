@@ -74,27 +74,9 @@ namespace PKHeX.Core
             return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
         }
 
-        private static Ball GetRequiredBallValue(int gen, int loc)
-        {
-            return gen switch
-            {
-                // For Gen3 Safari Zones, we've already deferred partial match encounters.
-                3 when Locations.IsSafariZoneLocation3(loc) => Safari,
-
-                // For Gen4 Safari Zones and BCC, we've already deferred partial match encounters.
-                4 when Locations.IsSafariZoneLocation4(loc) => Safari,
-                4 when Locations.BugCatchingContest4 == loc => Sport,
-
-                // Poké Pelago
-                7 when loc == 30016 => Poke,
-
-                _ => None,
-            };
-        }
-
         private CheckResult VerifyBallWild(LegalityAnalysis data, EncounterSlot w)
         {
-            var req = BallExtensions.GetRequiredBallValueWild(w.Generation, w.Location);
+            var req = w.Area.Type.GetRequiredBallValueWild(w.Generation, w.Location);
             if (req != None)
                 return VerifyBallEquals(data, (int) req);
 

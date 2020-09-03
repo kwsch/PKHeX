@@ -62,14 +62,10 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private void PopulateRegimens(string Type, TableLayoutPanel TLP, List<RegimenInfo> list)
+        private void PopulateRegimens(string propertyPrefix, TableLayoutPanel TLP, List<RegimenInfo> list)
         {
             // Get a list of all Regimen Attregutes in the PKM
-            var RegimenNames = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), Type);
-            list.AddRange(from RegimenName in RegimenNames
-                          let RegimenValue = ReflectUtil.GetValue(pkm, RegimenName)
-                          where RegimenValue is bool
-                          select new RegimenInfo(RegimenName, (bool) RegimenValue));
+            list.AddRange(GetBooleanRegimenNames(pkm, propertyPrefix));
             TLP.ColumnCount = 1;
             TLP.RowCount = 0;
 
@@ -82,6 +78,17 @@ namespace PKHeX.WinForms
                 style.SizeType = SizeType.AutoSize;
             foreach (ColumnStyle style in TLP.ColumnStyles)
                 style.SizeType = SizeType.AutoSize;
+        }
+
+        private static IEnumerable<RegimenInfo> GetBooleanRegimenNames(ISuperTrain pkm, string propertyPrefix)
+        {
+            var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), propertyPrefix);
+            foreach (var name in names)
+            {
+                var value = ReflectUtil.GetValue(pkm, name);
+                if (value is bool state)
+                    yield return new RegimenInfo(name, state);
+            }
         }
 
         private static void AddRegimenChoice(RegimenInfo reg, TableLayoutPanel TLP)

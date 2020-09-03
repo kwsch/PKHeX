@@ -157,7 +157,7 @@ namespace PKHeX.Core
         public const uint KDojoWattDonationTotal = 0xC7161487; // U32 Amount of Watts donated to Master Dojo
         public const uint KDiggingPaWattStreak = 0x68BBA8B1; // U32 Most Watts dug up by the Digging Pa
         public const uint KAlolanDiglettFound = 0x4AEA5A7E; // U32 Amount of Alolan Diglett found on Isle of Armor
-        
+
         public const uint KSparringStreakNormal = 0xDB5E16CB; // U32 Best Normal-Type Restricted Sparring Streak
         public const uint KSparringNormalPartySlot1Species = 0x7BF09DD3; // U16 Species ID of 1st PKM used in party
         public const uint KSparringNormalPartySlot2Species = 0x7AF09C40; // U16 Species ID of 2nd PKM used in party
@@ -171,7 +171,7 @@ namespace PKHeX.Core
         public const uint KSparringNormalPartySlot1EC = 0xE95199D1; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringNormalPartySlot2EC = 0xE851983E; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringNormalPartySlot3EC = 0xE75196AB; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakFire = 0xD25E08A0; // U32 Best Fire-Type Restricted Sparring Streak
         public const uint KSparringFirePartySlot1Species = 0x455C523A; // U16 Species ID of 1st PKM used in party
         public const uint KSparringFirePartySlot2Species = 0x465C53CD; // U16 Species ID of 2nd PKM used in party
@@ -185,7 +185,7 @@ namespace PKHeX.Core
         public const uint KSparringFirePartySlot1EC = 0x1F637658; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringFirePartySlot2EC = 0x206377EB; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringFirePartySlot3EC = 0x2163797E; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakWater = 0xD55BCEC2; // U32 Best Water-Type Restricted Sparring Streak
         public const uint KSparringWaterPartySlot1Species = 0x30396510; // U16 Species ID of 1st PKM used in party
         public const uint KSparringWaterPartySlot2Species = 0x313966A3; // U16 Species ID of 2nd PKM used in party
@@ -199,7 +199,7 @@ namespace PKHeX.Core
         public const uint KSparringWaterPartySlot1EC = 0x1DE9496E; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringWaterPartySlot2EC = 0x1EE94B01; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringWaterPartySlot3EC = 0x1BE94648; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakElectric = 0xD35BCB9C; // U32 Best Electric-Type Restricted Sparring Streak
         public const uint KSparringElectricPartySlot1Species = 0x1E5FB12E; // U16 Species ID of 1st PKM used in party
         public const uint KSparringElectricPartySlot2Species = 0x1F5FB2C1; // U16 Species ID of 2nd PKM used in party
@@ -213,7 +213,7 @@ namespace PKHeX.Core
         public const uint KSparringElectricPartySlot1EC = 0x2FC2FD50; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringElectricPartySlot2EC = 0x30C2FEE3; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringElectricPartySlot3EC = 0x31C30076; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakGrass = 0xD65BD055; // U32 Best Grass-Type Restricted Sparring Streak
         public const uint KSparringGrassPartySlot1Species = 0x70973021; // U16 Species ID of 1st PKM used in party
         public const uint KSparringGrassPartySlot2Species = 0x6F972E8E; // U16 Species ID of 2nd PKM used in party
@@ -255,7 +255,7 @@ namespace PKHeX.Core
         public const uint KSparringFightingPartySlot1EC = 0x62A0A180; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringFightingPartySlot2EC = 0x63A0A313; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringFightingPartySlot3EC = 0x64A0A4A6; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakPoison = 0xDC5E185E; // U32 Best Poison-Type Restricted Sparring Streak
         public const uint KSparringPoisonPartySlot1Species = 0x3BFF8084; // U16 Species ID of 1st PKM used in party
         public const uint KSparringPoisonPartySlot2Species = 0x3CFF8217; // U16 Species ID of 2nd PKM used in party
@@ -269,7 +269,7 @@ namespace PKHeX.Core
         public const uint KSparringPoisonPartySlot1EC = 0x171AE45E; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringPoisonPartySlot2EC = 0x181AE5F1; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringPoisonPartySlot3EC = 0x151AE138; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakGround = 0xDF5E1D17; // U32 Best Ground-Type Restricted Sparring Streak
         public const uint KSparringGroundPartySlot1Species = 0x29BC6D6F; // U16 Species ID of 1st PKM used in party
         public const uint KSparringGroundPartySlot2Species = 0x28BC6BDC; // U16 Species ID of 2nd PKM used in party
@@ -283,7 +283,7 @@ namespace PKHeX.Core
         public const uint KSparringGroundPartySlot1EC = 0xBA495F35; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringGroundPartySlot2EC = 0xB9495DA2; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringGroundPartySlot3EC = 0xB8495C0F; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakFlying = 0xDD5E19F1; // U32 Best Flying-Type Restricted Sparring Streak
         public const uint KSparringFlyingPartySlot1Species = 0xA17311F5; // U16 Species ID of 1st PKM used in party
         public const uint KSparringFlyingPartySlot2Species = 0xA0731062; // U16 Species ID of 2nd PKM used in party
@@ -297,7 +297,7 @@ namespace PKHeX.Core
         public const uint KSparringFlyingPartySlot1EC = 0x4292BAAF; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringFlyingPartySlot2EC = 0x4192B91C; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringFlyingPartySlot3EC = 0x4492BDD5; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakPsychic = 0xD45BCD2F; // U32 Best Psychic-Type Restricted Sparring Streak
         public const uint KSparringPsychicPartySlot1Species = 0x04C18EBF; // U16 Species ID of 1st PKM used in party
         public const uint KSparringPsychicPartySlot2Species = 0x03C18D2C; // U16 Species ID of 2nd PKM used in party
@@ -311,7 +311,7 @@ namespace PKHeX.Core
         public const uint KSparringPsychicPartySlot1EC = 0x896D7D61; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringPsychicPartySlot2EC = 0x886D7BCE; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringPsychicPartySlot3EC = 0x876D7A3B; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakBug = 0xE15E203D; // U32 Best Bug-Type Restricted Sparring Streak
         public const uint KSparringBugPartySlot1Species = 0xE9C80191; // U16 Species ID of 1st PKM used in party
         public const uint KSparringBugPartySlot2Species = 0xE8C7FFFE; // U16 Species ID of 2nd PKM used in party
@@ -325,7 +325,7 @@ namespace PKHeX.Core
         public const uint KSparringBugPartySlot1EC = 0x7B7A3613; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringBugPartySlot2EC = 0x7A7A3480; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringBugPartySlot3EC = 0x7D7A3939; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakRock = 0xDE5E1B84; // U32 Best Rock-Type Restricted Sparring Streak
         public const uint KSparringRockPartySlot1Species = 0xFE44971E; // U16 Species ID of 1st PKM used in party
         public const uint KSparringRockPartySlot2Species = 0xFF4498B1; // U16 Species ID of 2nd PKM used in party
@@ -339,7 +339,7 @@ namespace PKHeX.Core
         public const uint KSparringRockPartySlot1EC = 0x54D5CDC4; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringRockPartySlot2EC = 0x55D5CF57; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringRockPartySlot3EC = 0x56D5D0EA; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakGhost = 0xE05E1EAA; // U32 Best Ghost-Type Restricted Sparring Streak
         public const uint KSparringGhostPartySlot1Species = 0x63170940; // U16 Species ID of 1st PKM used in party
         public const uint KSparringGhostPartySlot2Species = 0x64170AD3; // U16 Species ID of 2nd PKM used in party
@@ -353,7 +353,7 @@ namespace PKHeX.Core
         public const uint KSparringGhostPartySlot1EC = 0x14C97022; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringGhostPartySlot2EC = 0x15C971B5; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringGhostPartySlot3EC = 0x12C96CFC; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakDragon = 0xD25BCA09; // U32 Best Dragon-Type Restricted Sparring Streak
         public const uint KSparringDragonPartySlot1Species = 0xC18E2C05; // U16 Species ID of 1st PKM used in party
         public const uint KSparringDragonPartySlot2Species = 0xC08E2A72; // U16 Species ID of 2nd PKM used in party
@@ -367,7 +367,7 @@ namespace PKHeX.Core
         public const uint KSparringDragonPartySlot1EC = 0x1B9619A3; // U32 Encryption Constant of 1st PKM used in party
         public const uint KSparringDragonPartySlot2EC = 0x1A961810; // U32 Encryption Constant of 2nd PKM used in party
         public const uint KSparringDragonPartySlot3EC = 0x1D961CC9; // U32 Encryption Constant of 3rd PKM used in party
-        
+
         public const uint KSparringStreakDark = 0xCF5BC550; // U32 Best Dark-Type Restricted Sparring Streak
         public const uint KSparringDarkPartySlot1Species = 0xD6F84432; // U16 Species ID of 1st PKM used in party
         public const uint KSparringDarkPartySlot2Species = 0xD7F845C5; // U16 Species ID of 2nd PKM used in party

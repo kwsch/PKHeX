@@ -4,10 +4,20 @@ using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// 32 Bit Linear Congruential Random Number Generator
+    /// </summary>
+    /// <remarks>
+    /// Provides common RNG algorithms used by Generation 3 &amp; 4.
+    /// https://en.wikipedia.org/wiki/Linear_congruential_generator
+    /// </remarks>
     public sealed class RNG
     {
+        /// <summary> LCRNG used for Encryption and mainline game RNG calls. </summary>
         public static readonly RNG LCRNG = new RNG(0x41C64E6D, 0x00006073, 0xEEB9EB65, 0x0A3561A1);
+        /// <summary> LCRNG used by Colosseum & XD for game RNG calls. </summary>
         public static readonly RNG XDRNG = new RNG(0x000343FD, 0x00269EC3, 0xB9B33155, 0xA170F641);
+        /// <summary> Alternate LCRNG used by mainline game RNG calls to disassociate the seed from the <see cref="LCRNG"/>, for anti-shiny and other purposes. </summary>
         public static readonly RNG ARNG  = new RNG(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
 
         private readonly uint Mult, Add, rMult, rAdd;
@@ -69,12 +79,28 @@ namespace PKHeX.Core
             // now the search only has to access the flags array once per loop.
         }
 
+        /// <summary>
+        /// Advances the RNG seed to the next state value.
+        /// </summary>
+        /// <param name="seed">Current seed</param>
+        /// <returns>Seed advanced a single time.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Next(uint seed) => (seed * Mult) + Add;
 
+        /// <summary>
+        /// Reverses the RNG seed to the previous state value.
+        /// </summary>
+        /// <param name="seed">Current seed</param>
+        /// <returns>Seed reversed a single time.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Prev(uint seed) => (seed * rMult) + rAdd;
 
+        /// <summary>
+        /// Advances the RNG seed to the next state value a specified amount of times.
+        /// </summary>
+        /// <param name="seed">Current seed</param>
+        /// <param name="frames">Amount of times to advance.</param>
+        /// <returns>Seed advanced the specified amount of times.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Advance(uint seed, int frames)
         {
@@ -83,6 +109,12 @@ namespace PKHeX.Core
             return seed;
         }
 
+        /// <summary>
+        /// Reverses the RNG seed to the previous state value a specified amount of times.
+        /// </summary>
+        /// <param name="seed">Current seed</param>
+        /// <param name="frames">Amount of times to reverse.</param>
+        /// <returns>Seed reversed the specified amount of times.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public uint Reverse(uint seed, int frames)
         {
@@ -95,7 +127,7 @@ namespace PKHeX.Core
         /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
         /// </summary>
         /// <param name="seed">RNG seed</param>
-        /// <returns>Array of 6 IVs</returns>
+        /// <returns>Array of 6 IVs as <see cref="uint"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal uint[] GetSequentialIVsUInt32(uint seed)
         {
@@ -108,6 +140,11 @@ namespace PKHeX.Core
             return ivs;
         }
 
+        /// <summary>
+        /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
+        /// </summary>
+        /// <param name="seed">RNG seed</param>
+        /// <returns>Array of 6 IVs as <see cref="int"/>.</returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal int[] GetSequentialIVsInt32(uint seed)
         {
@@ -223,9 +260,16 @@ namespace PKHeX.Core
 
     public enum RNGType
     {
+        /// <summary> No RNG type specified </summary>
         None,
+
+        /// <summary> <see cref="RNG.LCRNG"/> </summary>
         LCRNG,
+
+        /// <summary> <see cref="RNG.XDRNG"/> </summary>
         XDRNG,
+
+        /// <summary> <see cref="RNG.ARNG"/> </summary>
         ARNG,
     }
 

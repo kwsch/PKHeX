@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
         private readonly Zukan8 Dex;
         private readonly CheckBox[] CL;
         private readonly CheckedListBox[] CHK;
-        private readonly IReadOnlyList<Zukan8.Zukan8EntryInfo> Indexes;
+        private readonly IReadOnlyList<Zukan8EntryInfo> Indexes;
 
         private int lastIndex = -1;
         private readonly bool CanSave;
@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV8SWSH)(Origin = sav).Clone();
             Dex = SAV.Blocks.Zukan;
-            var indexes = Dex.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision());
+            var indexes = Zukan8.GetRawIndexes(PersonalTable.SWSH, Dex.GetRevision());
             var speciesNames = GameInfo.Strings.Species;
             Indexes = indexes.OrderBy(z => z.GetEntryName(speciesNames)).ToArray();
             CL = new[] {CHK_L1, CHK_L2, CHK_L3, CHK_L4, CHK_L5, CHK_L6, CHK_L7, CHK_L8, CHK_L9};
@@ -112,7 +112,6 @@ namespace PKHeX.WinForms
                 }
                 else
                 {
-
                     c.Items[63] = "Gigantamax";
                 }
             }

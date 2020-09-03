@@ -167,6 +167,10 @@ namespace PKHeX.Core
             if (wc.Ball != pkm.Ball) return false;
             if (wc.OT_Gender < 3 && wc.OT_Gender != pkm.OT_Gender) return false;
 
+            // Milotic is the only gift to come with Contest stats.
+            if (wc.Species == (int)Core.Species.Milotic && pkm is IContestStats s && s.IsContestBelow(wc))
+                return false;
+
             if (wc.PID == 1)
             {
                 // Random PID, never shiny
@@ -183,10 +187,6 @@ namespace PKHeX.Core
                 if (wc.Gender != pkm.Gender)
                     return false;
             }
-
-            // Milotic is the only gift to come with Contest stats.
-            if (wc.Species == (int)Core.Species.Milotic && pkm is IContestStats s && s.IsContestBelow(wc))
-                return false;
 
             return true;
         }

@@ -85,7 +85,6 @@ namespace PKHeX.WinForms
                 CB_CTFeel.SelectedIndex = m.HT_Feeling;
             }
 
-
             CB_Handler.Items.Clear();
             CB_Handler.Items.Add($"{pkm.OT_Name} ({TextArgs.OT})"); // OTNAME : OT
 

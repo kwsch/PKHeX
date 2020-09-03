@@ -415,7 +415,7 @@ namespace PKHeX.WinForms
 
         private void ChangeNickname(object sender, MouseEventArgs e)
         {
-            TextBox tb = !(sender is TextBox) ? TB_Nickname : (TextBox) sender;
+            TextBox tb = sender is TextBox box ? box : TB_Nickname;
             // Special Character Form
             if (ModifierKeys != Keys.Control)
                 return;
