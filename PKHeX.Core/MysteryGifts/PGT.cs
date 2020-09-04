@@ -181,6 +181,7 @@ namespace PKHeX.Core
             pk4.Version = 10; // Diamond
             pk4.Language = (int)LanguageID.English; // English
             pk4.Nickname = "MANAPHY";
+            pk4.Met_Location = Locations.HatchLocationDPPt;
             pk4.Egg_Location = 1; // Ranger (will be +3000 later)
             pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
             pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);

@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public IReadOnlyList<string> TrainerNames { get; internal set; } = Array.Empty<string>();
         public string GetNickname(int language) => (uint)language < Nicknames.Count ? Nicknames[language] : string.Empty;
         public string GetOT(int language) => (uint)language < TrainerNames.Count ? TrainerNames[language] : string.Empty;
-        public bool HasNickname => Nicknames.Count != 0;
+        public bool HasNickname => Nicknames.Count != 0 && IsNicknamed;
         public bool HasTrainerName => TrainerNames.Count != 0;
 
         private static readonly int[] DefaultMetLocation =
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             pk.Language = lang;
             pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : HasTrainerName ? GetOT(lang) : sav.OT;
             pk.OT_Gender = HasTrainerName ? Math.Max(0, OTGender) : sav.Gender;
-            pk.SetNickname(GetNickname(lang));
+            pk.SetNickname(HasNickname ? GetNickname(lang) : string.Empty);
 
             pk.CurrentLevel = level;
             pk.Version = (int) version;
@@ -120,6 +120,10 @@ namespace PKHeX.Core
             {
                 var location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
                 SetMetData(pk, level, location, time);
+            }
+            else
+            {
+                pk.OT_Gender = 0;
             }
 
             if (EggLocation != 0)

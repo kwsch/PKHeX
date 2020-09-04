@@ -89,7 +89,7 @@ namespace PKHeX.Core
         private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
         private static bool IsDeferredSafari3(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(slot.Location);
         private static bool IsDeferredSafari4(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation4(slot.Location);
-        private static bool IsDeferredSport(this ILocation slot, bool IsSportBall) => IsSportBall != (slot.Location == Locations.BugCatchingContest4);
+        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != (slot.Area.Type == SlotType.BugContest);
         private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden && !slot.IsHiddenAbilitySlot();
 
         public static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)

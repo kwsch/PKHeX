@@ -736,11 +736,7 @@ namespace PKHeX.Core
             AbilityNumber = 1 << n;
             int[] abilities = PersonalInfo.Abilities;
             if ((uint)n < abilities.Length)
-            {
-                if (abilities[n] == abilities[0])
-                    n = 0;
                 Ability = abilities[n];
-            }
             if (this is PK5 pk5)
                 pk5.HiddenAbility = n == 2;
         }
@@ -1049,10 +1045,10 @@ namespace PKHeX.Core
                 return 3;
             if (XY)
             {
-                if (Met_Location == 148 && Met_Level == 30) // Friend Safari
-                    return 2;
                 if (PersonalInfo.EggGroup1 == 15) // Undiscovered
                     return 3;
+                if (Met_Location == 148 && Met_Level == 30) // Friend Safari
+                    return 2;
             }
             if (VC)
                 return Species == (int)Core.Species.Mew || Species == (int)Core.Species.Celebi ? 5 : 3;

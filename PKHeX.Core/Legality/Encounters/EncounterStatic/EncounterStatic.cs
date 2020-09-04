@@ -82,9 +82,6 @@ namespace PKHeX.Core
                 case PK3 pk3 when this is EncounterStaticShadow:
                     pk3.RibbonNational = true;
                     break;
-                case PK4 pk4 when this is EncounterStaticTyped t:
-                    pk4.EncounterType = t.TypeEncounter.GetIndex();
-                    break;
                 case PK6 pk6:
                     pk6.SetRandomMemory6();
                     break;

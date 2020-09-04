@@ -11,15 +11,14 @@
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pk.PersonalInfo);
-            int nature = (int)(PID % 25);
+            int nature = (int)Nature;
             int ability = Ability;
 
             pk.PID = PID;
             pk.Gender = gender;
             SetIVs(pk);
 
-            if (Generation >= 5)
-                pk.Nature = nature;
+            pk.Nature = nature;
             pk.RefreshAbility(ability >> 1);
         }
 

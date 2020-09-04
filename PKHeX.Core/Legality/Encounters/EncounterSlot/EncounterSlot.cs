@@ -131,7 +131,19 @@ namespace PKHeX.Core
             if (Area!.Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
                 ability = 2;
 
-            PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
+            if (Generation == 3 && Species == (int) Core.Species.Unown)
+            {
+                do
+                {
+                    PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
+                    ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
+                } while (pk.AltForm != Form);
+            }
+            else
+            {
+                PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
+            }
+
             pk.Gender = gender;
             pk.StatNature = nature;
         }

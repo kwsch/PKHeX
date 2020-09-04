@@ -208,7 +208,6 @@ namespace PKHeX.Core
             new EncounterStatic6 { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic6 { Species = 628, Level = 45, Location = 348 }, // Braviary
 
-            CosplayPikachu,
             PermuteCosplay(1),
             PermuteCosplay(2),
             PermuteCosplay(3),

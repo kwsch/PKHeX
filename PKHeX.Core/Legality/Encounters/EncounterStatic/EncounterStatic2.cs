@@ -46,10 +46,12 @@ namespace PKHeX.Core
 
         protected override void SetMetData(PKM pk, int level, DateTime today)
         {
-            pk.Met_Location = Location;
-            pk.Met_Level = level;
-            if (Version == GameVersion.C && pk is PK2 pk2)
-                pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+            if (Version != GameVersion.C)
+                return;
+            var pk2 = (PK2)pk;
+            pk2.Met_Location = Location;
+            pk2.Met_Level = level;
+            pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
         }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)

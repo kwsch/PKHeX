@@ -267,10 +267,10 @@ namespace PKHeX.Core
                 case WC8 wc8 when !wc8.CanBeReceivedByVersion(pkm.Version) && !pkm.WasTradedEgg:
                     data.AddLine(GetInvalid(LEncGiftVersionNotDistributed, GameOrigin));
                     return;
-                case WC6 wc6 when wc6.RestrictLanguage != 0 && wc6.Language != wc6.RestrictLanguage:
+                case WC6 wc6 when wc6.RestrictLanguage != 0 && pkm.Language != wc6.RestrictLanguage:
                     data.AddLine(GetInvalid(string.Format(LOTLanguage, wc6.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
-                case WC7 wc7 when wc7.RestrictLanguage != 0 && wc7.Language != wc7.RestrictLanguage:
+                case WC7 wc7 when wc7.RestrictLanguage != 0 && pkm.Language != wc7.RestrictLanguage:
                     data.AddLine(GetInvalid(string.Format(LOTLanguage, wc7.RestrictLanguage, pkm.Language), CheckIdentifier.Language));
                     return;
             }

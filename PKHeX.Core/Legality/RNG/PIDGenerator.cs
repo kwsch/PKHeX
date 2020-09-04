@@ -157,10 +157,12 @@ namespace PKHeX.Core
                 case PIDType.BACD_R:
                 case PIDType.BACD_R_A:
                 case PIDType.BACD_R_S:
+                case PIDType.BACD_R_AX:
                     return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed & 0xFFFF);
                 case PIDType.BACD_U:
                 case PIDType.BACD_U_A:
                 case PIDType.BACD_U_S:
+                case PIDType.BACD_U_AX:
                     return (pk, seed) => SetValuesFromSeedBACD(pk, t, seed);
 
                 case PIDType.PokeSpot:

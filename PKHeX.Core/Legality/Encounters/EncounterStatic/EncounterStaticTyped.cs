@@ -24,6 +24,15 @@ namespace PKHeX.Core
             return locs.Contains(pkm.Met_Location);
         }
 
+        protected override void SetMetData(PKM pk, int level, DateTime today)
+        {
+            var pk4 = (PK4)pk;
+            var type = pk4.EncounterType = TypeEncounter.GetIndex();
+            pk.Met_Location = Roaming ? GetRoamLocations(Species, type)[0] : Location;
+            pk.Met_Level = level;
+            pk.MetDate = today;
+        }
+
         private int[] GetRoamLocations(int species, int type)
         {
             switch (species)
