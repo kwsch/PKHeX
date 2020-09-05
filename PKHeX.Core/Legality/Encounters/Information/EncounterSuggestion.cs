@@ -132,7 +132,7 @@ namespace PKHeX.Core
                 case GameVersion.C:
                 case GameVersion.GSC:
                 case GameVersion.RBY:
-                    return pkm.Format > 2 ? Legal.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
+                    return pkm.Format > 2 ? Locations.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
             }
             return -1;
         }
@@ -151,9 +151,9 @@ namespace PKHeX.Core
             if (pkm.Version == (int) GameVersion.GO)
                 return 30012;
             if (pkm.VC1)
-                return Legal.Transfer1;
+                return Locations.Transfer1;
             if (pkm.VC2)
-                return Legal.Transfer2;
+                return Locations.Transfer2;
             if (pkm.Format == 4) // Pal Park
                 return Locations.Transfer3;
 

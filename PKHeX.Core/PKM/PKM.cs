@@ -1083,6 +1083,42 @@ namespace PKHeX.Core
         /// </summary>
         public bool HasMove(int move) => Move1 == move || Move2 == move || Move3 == move || Move4 == move;
 
+        public int GetMoveIndex(int move) => Move1 == move ? 0 : Move2 == move ? 1 : Move3 == move ? 2 : Move4 == move ? 3 : -1;
+
+        public int GetMove(int index)
+        {
+            switch (index)
+            {
+                case 0: return Move1;
+                case 1: return Move2;
+                case 2: return Move3;
+                case 3: return Move4;
+                default:
+                    throw new IndexOutOfRangeException(nameof(index));
+            }
+        }
+
+        public void SetMove(int index, int value)
+        {
+            switch (index)
+            {
+                case 0:
+                    Move1 = value;
+                    return;
+                case 1:
+                    Move2 = value;
+                    return;
+                case 2:
+                    Move3 = value;
+                    return;
+                case 3:
+                    Move4 = value;
+                    return;
+                default:
+                    throw new IndexOutOfRangeException(nameof(index));
+            }
+        }
+
         /// <summary>
         /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
         /// </summary>

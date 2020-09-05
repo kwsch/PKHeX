@@ -111,7 +111,7 @@ namespace PKHeX.Core
             // Dream ball not usable in wild
         };
 
-        internal static readonly HashSet<int> DreamWorldBalls = new HashSet<int> (WildPokeBalls5.Concat(new[] { 25 }));
+        internal static readonly HashSet<int> DreamWorldBalls = new HashSet<int>(WildPokeBalls5) {(int)Ball.Dream};
 
         internal static readonly int[] FutureEvolutionsGen5 =
         {

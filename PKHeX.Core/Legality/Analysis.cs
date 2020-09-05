@@ -154,7 +154,10 @@ namespace PKHeX.Core
                 Parsed = true;
             }
 #if SUPPRESS
+            // We want to swallow any error from malformed input data from the user. The Valid state is all that we really need.
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
                 Info = new LegalInfo(pkm);
@@ -284,11 +287,10 @@ namespace PKHeX.Core
             var enc = (Info.EncounterOriginalGB = EncounterMatch);
             if (enc is EncounterInvalid)
                 return;
-            var updated = Info.EncounterMatch = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm, enc);
-            if (!(updated is EncounterStatic7 s) || !EncounterStaticGenerator.IsVCStaticTransferEncounterValid(pkm, s))
-            { AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter); return; }
+            var vc = EncounterStaticGenerator.GetVCStaticTransferEncounter(pkm, enc);
+            Info.EncounterMatch = vc;
 
-            foreach (var z in Transfer.VerifyVCEncounter(pkm, enc, s, Info.Moves))
+            foreach (var z in Transfer.VerifyVCEncounter(pkm, enc, vc, Info.Moves))
                 AddLine(z);
 
             Transfer.VerifyTransferLegalityG12(this);

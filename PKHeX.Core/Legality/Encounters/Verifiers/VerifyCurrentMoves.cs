@@ -243,7 +243,7 @@ namespace PKHeX.Core
         {
             var res = new CheckMoveResult[4];
             bool AllParsed() => res.All(z => z != null);
-            var required = pkm.Format != 1 ? 1 : GBRestrictions.GetRequiredMoveCount(pkm, source.CurrentMoves, info, source.Base);
+            var required = !(pkm is PK1 pk1) ? 1 : GBRestrictions.GetRequiredMoveCount(pk1, source.CurrentMoves, info, source.Base);
 
             // Special considerations!
             int reset = 0;

@@ -122,10 +122,6 @@ namespace PKHeX.Core
                     int minlvl = GetMinLevelGeneration(pkm, g);
                     GensEvoChains[g].RemoveAll(e => e.Level < minlvl);
                 }
-                else if (g == 2 && pkm.TradebackStatus == TradebackType.Gen1_NotTradeback)
-                {
-                    GensEvoChains[2] = NONE;
-                }
                 else if (g == 1)
                 {
                     // Remove Gen2 post-evolutions (Scizor, Blissey...)

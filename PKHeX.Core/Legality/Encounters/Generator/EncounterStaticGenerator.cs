@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -43,7 +44,7 @@ namespace PKHeX.Core
             {
                 foreach (var dl in evos)
                 {
-                    if (!GetIsMatchStatic(pkm, e, dl))
+                    if (!e.IsMatch(pkm, dl))
                         continue;
 
                     if (e.IsMatchDeferred(pkm))
@@ -57,20 +58,6 @@ namespace PKHeX.Core
                 yield return e;
         }
 
-        private static bool GetIsMatchStatic(PKM pkm, EncounterStatic e, DexLevel evo)
-        {
-            if (!e.IsMatch(pkm, evo))
-                return false;
-
-            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsValidCatchRatePK1(e, pk1))
-                return false;
-
-            if (!ParseSettings.AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(e.Version))
-                return false;
-
-            return true;
-        }
-
         private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IReadOnlyList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
         {
             if (gameSource == GameVersion.Any)
@@ -80,48 +67,17 @@ namespace PKHeX.Core
             return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
-        internal static IEncounterable GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)
+        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)
         {
+            var species = pkm.Species;
+            var met = pkm.Met_Level;
             if (pkm.VC1)
-                return GetRBYStaticTransfer(pkm.Species > MaxSpeciesID_1 ? enc.Species : pkm.Species, pkm.Met_Level);
+                return EncounterStatic7.GetVC1(species > MaxSpeciesID_1 ? enc.Species : species, met);
             if (pkm.VC2)
-                return GetGSStaticTransfer(pkm.Species > MaxSpeciesID_2 ? enc.Species : pkm.Species, pkm.Met_Level);
-            return new EncounterInvalid(pkm);
-        }
+                return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
 
-        private static EncounterStatic7 GetRBYStaticTransfer(int species, int pkmMetLevel)
-        {
-            bool mew = species == (int)Species.Mew;
-            return new EncounterStatic7
-            {
-                Species = species,
-                Gift = true, // Forces Poké Ball
-                Ability = TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = mew ? Shiny.Never : Shiny.Random,
-                Fateful = mew,
-                Location = Transfer1,
-                Level = pkmMetLevel,
-                Version = GameVersion.RBY,
-                FlawlessIVCount = mew ? 5 : 3,
-            };
-        }
-
-        private static EncounterStatic7 GetGSStaticTransfer(int species, int pkmMetLevel)
-        {
-            bool mew = species == (int) Species.Mew;
-            bool fateful = mew || species == (int) Species.Celebi;
-            return new EncounterStatic7
-            {
-                Species = species,
-                Gift = true, // Forces Poké Ball
-                Ability = TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
-                Shiny = mew ? Shiny.Never : Shiny.Random,
-                Fateful = fateful,
-                Location = Transfer2,
-                Level = pkmMetLevel,
-                Version = GameVersion.GSC,
-                FlawlessIVCount = fateful ? 5 : 3
-            };
+            // Should never reach here.
+            throw new ArgumentException(nameof(pkm.Version));
         }
 
         internal static EncounterStatic? GetStaticLocation(PKM pkm, int species = -1)
@@ -129,44 +85,13 @@ namespace PKHeX.Core
             switch (pkm.GenNumber)
             {
                 case 1:
-                    return GetRBYStaticTransfer(species, pkm.Met_Level);
+                    return EncounterStatic7.GetVC1(species, pkm.Met_Level);
                 case 2:
-                    return GetGSStaticTransfer(species, pkm.Met_Level);
+                    return EncounterStatic7.GetVC2(species, pkm.Met_Level);
                 default:
                     var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
                     return GetPossible(pkm, dl).FirstOrDefault();
             }
-        }
-
-        internal static bool IsVCStaticTransferEncounterValid(PKM pkm, EncounterStatic e)
-        {
-            return pkm.Met_Location == e.Location && pkm.Egg_Location == e.EggLocation;
-        }
-
-        private static bool IsValidCatchRatePK1(EncounterStatic e, PK1 pk1)
-        {
-            var catch_rate = pk1.Catch_Rate;
-            // Pure gen 1, trades can be filter by catch rate
-            if (pk1.Species == (int)Species.Pikachu || pk1.Species == (int)Species.Raichu)
-            {
-                if (catch_rate == 190) // Red Blue Pikachu, is not a static encounter
-                    return false;
-                if (catch_rate == 163 && e.Level == 5) // Light Ball (Yellow) starter
-                    return true;
-            }
-
-            if (e.Version == GameVersion.Stadium)
-            {
-                // Amnesia Psyduck has different catch rates depending on language
-                if (e.Species == (int)Species.Psyduck)
-                    return catch_rate == (pk1.Japanese ? 167 : 168);
-                return GBRestrictions.Stadium_CatchRate.Contains(catch_rate);
-            }
-
-            // Encounters can have different Catch Rates (RBG vs Y)
-            var table = e.Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
-            var rate = table[e.Species].CatchRate;
-            return catch_rate == rate;
         }
 
         // Generation Specific Fetching

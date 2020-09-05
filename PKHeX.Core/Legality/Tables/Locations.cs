@@ -53,6 +53,12 @@
         /// <summary> Route 5 in <see cref="GameVersion.SWSH"/> </summary>
         public const int HatchLocation8 = 40;
 
+        /// <summary> Generation 1 -> Generation 7 Transfer Location (Kanto) </summary>
+        public const int Transfer1 = 30013;
+
+        /// <summary> Generation 2 -> Generation 7 Transfer Location (Johto) </summary>
+        public const int Transfer2 = 30017;
+
         /// <summary> Generation 3 -> Generation 4 Transfer Location (Pal Park) </summary>
         public const int Transfer3 = 0x37;
 

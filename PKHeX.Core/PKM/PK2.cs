@@ -145,7 +145,7 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Met_Location = Legal.Transfer2, // "Johto region", hardcoded.
+                Met_Location = Locations.Transfer2, // "Johto region", hardcoded.
                 Gender = Gender,
                 IsNicknamed = false,
                 AltForm = AltForm,
@@ -170,7 +170,7 @@ namespace PKHeX.Core
             int flawless = special ? 5 : 3;
             var rnd = Util.Rand;
             for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+                new_ivs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
                 new_ivs[i] = 31;
             Util.Shuffle(new_ivs);
@@ -191,23 +191,19 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = Korean ? Nickname
-                    : StringConverter12.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = Korean ? Nickname : StringConverter12.GetG1ConvertedString(nick, Japanese);
             }
-            pk7.OT_Name = Korean ? OT_Name
-                : StringConverter12.GetG1ConvertedString(otname, Japanese);
+            pk7.OT_Name = Korean ? OT_Name : StringConverter12.GetG1ConvertedString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
 
             pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
 
             // Dizzy Punch cannot be transferred
             {
-                var moves = pk7.Moves;
-                var index = Array.IndexOf(moves, 146); // Dizzy Punch
+                var index = pk7.GetMoveIndex(146); // Dizzy Punch
                 if (index != -1)
                 {
-                    moves[index] = 0;
-                    pk7.Moves = moves;
+                    pk7.SetMove(index, 0);
                     pk7.FixMoves();
                 }
             }

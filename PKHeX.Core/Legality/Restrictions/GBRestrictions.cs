@@ -156,7 +156,7 @@ namespace PKHeX
             previousspecies = 0;
         }
 
-        internal static int GetRequiredMoveCount(PKM pk, IReadOnlyList<int> moves, LegalInfo info, IReadOnlyList<int> initialmoves)
+        internal static int GetRequiredMoveCount(PK1 pk, IReadOnlyList<int> moves, LegalInfo info, IReadOnlyList<int> initialmoves)
         {
             if (!pk.Gen1_NotTradeback) // No Move Deleter in Gen 1
                 return 1; // Move Deleter exits, slots from 2 onwards can always be empty

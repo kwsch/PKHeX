@@ -267,11 +267,11 @@ namespace PKHeX.Core
             2000, 2002, 2009, 2010, 2011, 2013, 2014
         };
 
-        internal static int GetTransfer45MetLocation(PKM pk5)
+        internal static int GetTransfer45MetLocation(PKM pkm)
         {
-            if (pk5.Gen4 && pk5.FatefulEncounter)
+            if (pkm.Gen4 && pkm.FatefulEncounter)
             {
-                var spec = pk5.Species;
+                var spec = pkm.Species;
                 if (spec == 251) // Celebi
                     return Locations.Transfer4_CelebiUnused;
                 if (243 <= spec && spec <= 245) // Beast

@@ -146,7 +146,7 @@ namespace PKHeX.Core
                 Move2_PPUps = Move2_PPUps,
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
-                Met_Location = Legal.Transfer1, // "Kanto region", hardcoded.
+                Met_Location = Locations.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
                 OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
                 IsNicknamed = false,
@@ -170,7 +170,7 @@ namespace PKHeX.Core
             int flawless = Species == (int)Core.Species.Mew ? 5 : 3;
             var rnd = Util.Rand;
             for (var i = 0; i < new_ivs.Length; i++)
-                new_ivs[i] = rnd.Next(pk7.MaxIV + 1);
+                new_ivs[i] = rnd.Next(32);
             for (var i = 0; i < flawless; i++)
                 new_ivs[i] = 31;
             Util.Shuffle(new_ivs);

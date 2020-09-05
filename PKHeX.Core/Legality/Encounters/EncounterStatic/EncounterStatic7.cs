@@ -28,5 +28,40 @@ namespace PKHeX.Core
 
             return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
+
+        public static EncounterStatic7 GetVC1(int species, int metLevel)
+        {
+            bool mew = species == (int)Core.Species.Mew;
+            return new EncounterStatic7
+            {
+                Species = species,
+                Gift = true, // Forces Poké Ball
+                Ability = Legal.TransferSpeciesDefaultAbility_1.Contains(species) ? 1 : 4, // Hidden by default, else first
+                Shiny = mew ? Shiny.Never : Shiny.Random,
+                Fateful = mew,
+                Location = Locations.Transfer1,
+                Level = metLevel,
+                Version = GameVersion.RBY,
+                FlawlessIVCount = mew ? 5 : 3,
+            };
+        }
+
+        public static EncounterStatic7 GetVC2(int species, int metLevel)
+        {
+            bool mew = species == (int)Core.Species.Mew;
+            bool fateful = mew || species == (int)Core.Species.Celebi;
+            return new EncounterStatic7
+            {
+                Species = species,
+                Gift = true, // Forces Poké Ball
+                Ability = Legal.TransferSpeciesDefaultAbility_2.Contains(species) ? 1 : 4, // Hidden by default, else first
+                Shiny = mew ? Shiny.Never : Shiny.Random,
+                Fateful = fateful,
+                Location = Locations.Transfer2,
+                Level = metLevel,
+                Version = GameVersion.GSC,
+                FlawlessIVCount = fateful ? 5 : 3
+            };
+        }
     }
 }
