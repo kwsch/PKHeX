@@ -29,7 +29,7 @@ namespace PKHeX.Core
             return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
 
-        public static EncounterStatic7 GetVC1(int species, int metLevel)
+        internal static EncounterStatic7 GetVC1(int species, int metLevel)
         {
             bool mew = species == (int)Core.Species.Mew;
             return new EncounterStatic7
@@ -46,7 +46,7 @@ namespace PKHeX.Core
             };
         }
 
-        public static EncounterStatic7 GetVC2(int species, int metLevel)
+        internal static EncounterStatic7 GetVC2(int species, int metLevel)
         {
             bool mew = species == (int)Core.Species.Mew;
             bool fateful = mew || species == (int)Core.Species.Celebi;
