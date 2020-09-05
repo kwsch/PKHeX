@@ -169,23 +169,18 @@ namespace PKHeX.Core
         private static void SetDefaultManaphyEggDetails(PK4 pk4)
         {
             // Since none of this data is populated, fill in default info.
-            pk4.Species = 490;
+            pk4.Species = (int)Core.Species.Manaphy;
             pk4.Gender = 2;
             // Level 1 Moves
-            pk4.Move1 = 294;
-            pk4.Move2 = 145;
-            pk4.Move3 = 346;
-            pk4.Ability = pk4.PersonalInfo.Abilities[0];
+            pk4.Move1 = 294; pk4.Move1_PP = 20;
+            pk4.Move2 = 145; pk4.Move2_PP = 30;
+            pk4.Move3 = 346; pk4.Move3_PP = 15;
+            pk4.Ability = (int)Ability.Hydration;
             pk4.FatefulEncounter = true;
-            pk4.Ball = 4;
-            pk4.Version = 10; // Diamond
-            pk4.Language = (int)LanguageID.English; // English
-            pk4.Nickname = "MANAPHY";
-            pk4.Met_Location = Locations.HatchLocationDPPt;
+            pk4.Ball = (int)Core.Ball.Poke;
+            pk4.Version = (int)GameVersion.D;
+            pk4.Language = (int)LanguageID.English;
             pk4.Egg_Location = 1; // Ranger (will be +3000 later)
-            pk4.Move1_PP = pk4.GetMovePP(pk4.Move1, 0);
-            pk4.Move2_PP = pk4.GetMovePP(pk4.Move2, 0);
-            pk4.Move3_PP = pk4.GetMovePP(pk4.Move3, 0);
         }
 
         private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
@@ -213,7 +208,7 @@ namespace PKHeX.Core
         private static void SetHatchedEggDetails(PK4 pk4)
         {
             pk4.IsEgg = false;
-            // Met Location is modified when transferred to pk5; don't worry about it.
+            // Met Location & Date is modified when transferred to pk5; don't worry about it.
             pk4.EggMetDate = DateTime.Now;
         }
 
@@ -222,7 +217,7 @@ namespace PKHeX.Core
             pk4.IsEgg = true;
             pk4.IsNicknamed = false;
             pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Format);
-            pk4.MetDate = DateTime.Now;
+            pk4.EggMetDate = DateTime.Now;
         }
 
         private static uint GeneratePID(uint seed, PK4 pk4)
