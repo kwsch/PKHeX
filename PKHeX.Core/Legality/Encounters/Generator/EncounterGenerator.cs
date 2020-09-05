@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.Legal;
-
 using static PKHeX.Core.MysteryGiftGenerator;
 using static PKHeX.Core.EncounterTradeGenerator;
 using static PKHeX.Core.EncounterSlotGenerator;
@@ -31,26 +29,11 @@ namespace PKHeX.Core
             switch (info.Generation)
             {
                 case 1:
-                case 2: return GetEncounters12(pkm, info);
+                case 2: return EncounterGenerator12.GetEncounters12(pkm, info);
                 case 3: return GetEncounters3(pkm, info);
                 case 4: return GetEncounters4(pkm, info);
                 case 8: return GenerateRawEncounters8(pkm);
                 default: return GenerateRawEncounters(pkm);
-            }
-        }
-
-        private static IEnumerable<IEncounterable> GetEncounters12(PKM pkm, LegalInfo info)
-        {
-            int baseSpecies = EvoBase.GetBaseSpecies(pkm).Species;
-
-            if ((pkm.Format == 1 && baseSpecies > MaxSpeciesID_1) || baseSpecies > MaxSpeciesID_2)
-                yield break;
-
-            foreach (var z in GenerateFilteredEncounters12(pkm))
-            {
-                info.Generation = z.Generation;
-                info.Game = z.Version;
-                yield return z;
             }
         }
 
@@ -133,154 +116,6 @@ namespace PKHeX.Core
             info.PIDIVMatches = false;
             foreach (var z in deferredPIDIV)
                 yield return z;
-        }
-
-        private static IEnumerable<IEncounterable> GenerateRawEncounters12(PKM pkm, GameVersion game)
-        {
-            // Since encounter matching is super weak due to limited stored data in the structure
-            // Calculate all 3 at the same time and pick the best result (by species).
-            // Favor special event move gifts as Static Encounters when applicable
-            var chain = EncounterOrigin.GetOriginChain12(pkm, game);
-
-            var deferred = new List<IEncounterable>();
-            foreach (var t in GetValidEncounterTrades(pkm, chain, game))
-            {
-                // some OTs are longer than the keyboard entry; don't defer these
-                if (pkm.Format >= 7 && pkm.OT_Name.Length <= (pkm.Japanese || pkm.Korean ? 5 : 7))
-                {
-                    deferred.Add(t);
-                    continue;
-                }
-                yield return t;
-            }
-            foreach (var s in GetValidStaticEncounter(pkm, chain, game))
-            {
-                // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
-                switch (s.Version)
-                {
-                    case GameVersion.Stadium:
-                    case GameVersion.Stadium2:
-                        deferred.Add(s);
-                        continue;
-                    case GameVersion.EventsGBGen2:
-                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
-                            continue;
-                        if (pkm.Japanese)
-                            deferred.Add(s);
-                        continue;
-                    case GameVersion.C when pkm.Format == 2: // Crystal specific data needs to be present
-                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
-                            continue;
-                        if (s.Species == 251 && ParseSettings.AllowGBCartEra) // no celebi, the GameVersion.EventsGBGen2 will pass thru
-                            continue;
-                        break;
-                }
-                yield return s;
-            }
-            foreach (var e in GetValidWildEncounters12(pkm, chain, game))
-            {
-                yield return e;
-            }
-
-            if (GameVersion.GSC.Contains(game))
-            {
-                foreach (var e in EncounterEggGenerator2.GenerateEggs(pkm, chain))
-                    yield return e;
-            }
-
-            foreach (var d in deferred)
-                yield return d;
-        }
-
-        private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
-        {
-            bool crystal = (pkm is PK2 pk2 && pk2.CaughtData != 0) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
-            bool kadabra = pkm.Species == 64 && pkm is PK1 pk1
-                           && (pk1.Catch_Rate == PersonalTable.RB[64].CatchRate
-                            || pk1.Catch_Rate == PersonalTable.Y[64].CatchRate); // catch rate outsider, return gen1 first always
-
-            // iterate over both games, consuming from one list at a time until the other list has higher priority encounters
-            var get1 = GenerateRawEncounters1(pkm, crystal);
-            var get2 = GenerateRawEncounters2(pkm, crystal);
-            using var g1i = new PeekEnumerator<IEncounterable>(get1);
-            using var g2i = new PeekEnumerator<IEncounterable>(get2);
-
-            var deferred = new List<IEncounterable>();
-            while (g2i.PeekIsNext() || g1i.PeekIsNext())
-            {
-                var move = GetPreferredGBIterator(pkm, g1i, g2i);
-                var obj = move.Peek();
-                int gen = obj.Generation;
-
-                if (gen == 1 && (pkm.Korean || (obj is EncounterTrade1 t && !t.IsEncounterTrade1Valid(pkm))))
-                    deferred.Add(obj);
-                else if (gen == 2 && ((pkm.Korean && obj.Version == GameVersion.C) || kadabra))
-                    deferred.Add(obj);
-                else
-                    yield return obj;
-
-                move.MoveNext();
-            }
-            foreach (var z in deferred)
-                yield return z;
-        }
-
-        private static IEnumerable<IEncounterable> GenerateRawEncounters1(PKM pkm, bool crystal)
-        {
-            return pkm.Gen2_NotTradeback || crystal
-                ? Array.Empty<IEncounterable>()
-                : GenerateRawEncounters12(pkm, GameVersion.RBY);
-        }
-
-        private static IEnumerable<IEncounterable> GenerateRawEncounters2(PKM pkm, bool crystal)
-        {
-            return pkm.Gen1_NotTradeback
-                ? Array.Empty<IEncounterable>()
-                : GenerateRawEncounters12(pkm, crystal ? GameVersion.C : GameVersion.GSC);
-        }
-
-        private static PeekEnumerator<IEncounterable> GetPreferredGBIterator(PKM pkm, PeekEnumerator<IEncounterable> g1i, PeekEnumerator<IEncounterable> g2i)
-        {
-            if (!g1i.PeekIsNext())
-                return g2i;
-            if (!g2i.PeekIsNext())
-                return g1i;
-            var p1 = GetGBEncounterPriority(pkm, g1i.Current);
-            var p2 = GetGBEncounterPriority(pkm, g2i.Current);
-            return p1 > p2 ? g1i : g2i;
-        }
-
-        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable Encounter)
-        {
-            switch (Encounter)
-            {
-                case EncounterTrade1 _:
-                    return GBEncounterPriority.TradeEncounterG1;
-                case EncounterTrade2 _:
-                    return GBEncounterPriority.TradeEncounterG2;
-                case EncounterStatic s:
-                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.HasMove(s.Moves[0]))
-                        return GBEncounterPriority.SpecialEncounter;
-                    return GBEncounterPriority.StaticEncounter;
-                case EncounterSlot _:
-                    return GBEncounterPriority.WildEncounter;
-
-                default:
-                    return GBEncounterPriority.EggEncounter;
-            }
-        }
-
-        /// <summary>
-        /// Generation 1/2 Encounter Data type, which serves as a 'best match' priority rating when returning from a list.
-        /// </summary>
-        private enum GBEncounterPriority
-        {
-            EggEncounter,
-            WildEncounter,
-            StaticEncounter,
-            SpecialEncounter,
-            TradeEncounterG1,
-            TradeEncounterG2,
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters(PKM pkm)
