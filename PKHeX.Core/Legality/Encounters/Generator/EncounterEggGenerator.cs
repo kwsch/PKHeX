@@ -107,6 +107,9 @@ namespace PKHeX.Core
             var baseID = chain[chain.Count - 1];
             if ((baseID.Species >= MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
                 baseID = chain[chain.Count - 2];
+            if (baseID.Form != 0)
+                yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
+
             int species = baseID.Species;
             if (ParseSettings.AllowGen2Crystal(pkm))
                 yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
