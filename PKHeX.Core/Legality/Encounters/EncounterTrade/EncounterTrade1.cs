@@ -23,7 +23,12 @@
         private bool HasOddCatchRate => Catch_Rate != 0;
 
         public EncounterTrade1(int species, int level, GameVersion game, byte rate) : this(species, level, game) => Catch_Rate = rate;
-        public EncounterTrade1(int species, int level, GameVersion game) : base(species, level) => Version = game;
+
+        public EncounterTrade1(int species, int level, GameVersion game) : base(species, level)
+        {
+            Version = game;
+            TrainerNames = StringConverter12.G1TradeOTName;
+        }
 
         public byte GetInitialCatchRate()
         {

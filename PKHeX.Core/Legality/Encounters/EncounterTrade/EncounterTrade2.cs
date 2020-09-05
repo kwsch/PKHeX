@@ -9,6 +9,7 @@ namespace PKHeX.Core
         public EncounterTrade2(int species, int level, int tid) : base(species, level)
         {
             TID = tid;
+            Version = GameVersion.GSC; // All share the same details
         }
 
         public override bool IsMatch(PKM pkm)

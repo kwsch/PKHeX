@@ -19,15 +19,7 @@ namespace PKHeX.Core
         private static EncounterArea2[] Get(string name, string ident, GameVersion game) =>
             EncounterArea2.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
-        static Encounters2()
-        {
-            MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
-
-            StaticGSC.SetVersion(GameVersion.GSC);
-            StaticGS.SetVersion(GameVersion.GS);
-            StaticC.SetVersion(GameVersion.C);
-            TradeGift_GSC.SetVersion(GameVersion.GSC);
-        }
+        static Encounters2() => MarkEncounterTradeStrings(TradeGift_GSC, TradeGift_GSC_OTs);
 
         private static readonly EncounterStatic2[] Encounter_GSC_Common =
         {
@@ -143,7 +135,7 @@ namespace PKHeX.Core
         private static readonly EncounterStatic2[] Encounter_C = Encounter_GSC_Common.Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam.Slice(0, 2)).ToArray();
         private static readonly EncounterStatic2[] Encounter_GSC = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam).ToArray();
 
-        internal static readonly EncounterTradeGB[] TradeGift_GSC =
+        internal static readonly EncounterTrade2[] TradeGift_GSC =
         {
             new EncounterTrade2(095, 03, 48926) { Gender = 0, IVs = new[] {08, 09, 06, 06, 06, 06} }, // Onix @ Violet City for Bellsprout [wild]
             new EncounterTrade2(066, 05, 37460) { Gender = 1, IVs = new[] {12, 03, 07, 06, 06, 06} }, // Machop @ Goldenrod City for Drowzee [wild 9, hatched egg 5]
@@ -163,14 +155,14 @@ namespace PKHeX.Core
         private const string tradeGSC = "tradegsc";
         private static readonly string[][] TradeGift_GSC_OTs = Util.GetLanguageStrings8(tradeGSC);
 
-        internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int TID)
+        internal static TreeEncounterAvailable GetGSCHeadbuttAvailability(EncounterSlot encounter, int trainerID)
         {
-            var Area = Array.Find(HeadbuttTreesC, a => a.Location == encounter.Location);
-            if (Area == null) // Failsafe, every area with headbutt encounters has a tree area
+            var area = Array.Find(HeadbuttTreesC, a => a.Location == encounter.Location);
+            if (area == null) // Failsafe, every area with headbutt encounters has a tree area
                 return TreeEncounterAvailable.Impossible;
 
-            var table = Area.GetTrees(encounter.Area.Type);
-            var trainerpivot = TID % 10;
+            var table = area.GetTrees(encounter.Area.Type);
+            var trainerpivot = trainerID % 10;
             return table[trainerpivot];
         }
 

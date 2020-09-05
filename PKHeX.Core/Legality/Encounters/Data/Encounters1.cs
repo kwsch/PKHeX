@@ -15,13 +15,6 @@ namespace PKHeX.Core
         private static EncounterArea1[] Get(string name, string ident, GameVersion game) =>
             EncounterArea1.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
-        static Encounters1()
-        {
-            var trades = ArrayUtil.ConcatAll(TradeGift_RBY_NoTradeback, TradeGift_RBY_Tradeback);
-            foreach (var t in trades)
-                t.TrainerNames = StringConverter12.G1TradeOTName;
-        }
-
         internal static readonly EncounterStatic1[] StaticRBY =
         {
             // GameVersion is RBY for Pokemon with the same catch rate and initial moves in all games
