@@ -135,7 +135,7 @@ namespace PKHeX.Core
             }
 
             if (IsManaphyEgg)
-                SetDefaultManaphyEggDetails(pk4);
+                SetDefaultManaphyEggDetails(pk4, sav);
 
             SetPINGA(pk4, criteria);
             SetMetData(pk4, sav);
@@ -166,7 +166,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void SetDefaultManaphyEggDetails(PK4 pk4)
+        private static void SetDefaultManaphyEggDetails(PK4 pk4, ITrainerInfo trainer)
         {
             // Since none of this data is populated, fill in default info.
             pk4.Species = (int)Core.Species.Manaphy;
@@ -178,8 +178,8 @@ namespace PKHeX.Core
             pk4.Ability = (int)Ability.Hydration;
             pk4.FatefulEncounter = true;
             pk4.Ball = (int)Core.Ball.Poke;
-            pk4.Version = (int)GameVersion.D;
-            pk4.Language = (int)LanguageID.English;
+            pk4.Version = GameVersion.Gen4.Contains(trainer.Game) ? trainer.Game : (int)GameVersion.D;
+            pk4.Language = trainer.Language < (int)LanguageID.Korean ? trainer.Language : (int)LanguageID.English;
             pk4.Egg_Location = 1; // Ranger (will be +3000 later)
         }
 
