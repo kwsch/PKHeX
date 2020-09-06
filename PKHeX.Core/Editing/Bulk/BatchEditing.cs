@@ -230,7 +230,13 @@ namespace PKHeX.Core
                     if (tmp != ModifyResult.Modified)
                         result = tmp;
                 }
-                catch (Exception ex) { Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue); }
+#pragma warning disable CA1031 // Do not catch general exception types
+                // Swallow any error because this can be malformed user input.
+                catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
+                {
+                    Debug.WriteLine(MsgBEModifyFail + " " + ex.Message, cmd.PropertyName, cmd.PropertyValue);
+                }
             }
             return result;
         }

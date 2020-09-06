@@ -8,6 +8,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Different from <see cref="EncounterType"/>, this corresponds to the method that the <see cref="IEncounterable"/> may be encountered.</remarks>
     [Flags]
+#pragma warning disable RCS1191 // Declare enum value as combination of names.
     public enum SlotType : byte
     {
         /// <summary>

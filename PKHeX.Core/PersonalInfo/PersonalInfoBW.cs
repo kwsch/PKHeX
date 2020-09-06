@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -53,6 +54,7 @@ namespace PKHeX.Core
         public int Ability1 { get => Data[0x18]; set => Data[0x18] = (byte)value; }
         public int Ability2 { get => Data[0x19]; set => Data[0x19] = (byte)value; }
         public int AbilityH { get => Data[0x1A]; set => Data[0x1A] = (byte)value; }
+
         public override int EscapeRate { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         protected internal override int FormStatsIndex { get => BitConverter.ToUInt16(Data, 0x1C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1C); }
         public override int FormeSprite { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x1E); }
@@ -65,29 +67,31 @@ namespace PKHeX.Core
         public override int Height { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Weight { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public override int[] Items
+        public override IReadOnlyList<int> Items
         {
             get => new[] { Item1, Item2, Item3 };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Item1 = value[0];
                 Item2 = value[1];
                 Item3 = value[2];
             }
         }
 
-        public override int[] Abilities
+        public override IReadOnlyList<int> Abilities
         {
             get => new[] { Ability1, Ability2, AbilityH };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Ability1 = (byte)value[0];
                 Ability2 = (byte)value[1];
                 AbilityH = (byte)value[2];
             }
         }
+
+        public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
 
         public bool HasHiddenAbility => AbilityH != Ability1;
     }

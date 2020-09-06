@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -88,29 +89,31 @@ namespace PKHeX.Core
         public override int Height { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int Weight { get => BitConverter.ToUInt16(Data, 0x26); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x26); }
 
-        public override int[] Items
+        public override IReadOnlyList<int> Items
         {
             get => new[] { Item1, Item2, Item3 };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Item1 = value[0];
                 Item2 = value[1];
                 Item3 = value[2];
             }
         }
 
-        public override int[] Abilities
+        public override IReadOnlyList<int> Abilities
         {
             get => new[] { Ability1, Ability2, AbilityH };
             set
             {
-                if (value.Length != 3) return;
+                if (value.Count != 3) return;
                 Ability1 = value[0];
                 Ability2 = value[1];
                 AbilityH = value[2];
             }
         }
+
+        public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : abilityID == AbilityH ? 2 : -1;
 
         public int Species { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
 

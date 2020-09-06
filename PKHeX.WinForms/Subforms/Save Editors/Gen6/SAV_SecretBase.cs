@@ -433,7 +433,7 @@ namespace PKHeX.WinForms
             int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = WinFormsUtil.GetIndex(CB_Species);
             int formnum = CB_Form.SelectedIndex;
-            int[] abils = PersonalTable.AO.GetAbilities(species, formnum);
+            var abils = PersonalTable.AO.GetFormeEntry(species, formnum).Abilities;
 
             CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abils, 6);
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;

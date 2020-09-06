@@ -100,10 +100,13 @@ namespace PKHeX.Core
 
         // 2 bytes for alarm clock time setting
 
-        public byte[] PoketchDotArtistData
+        public byte[] GetPoketchDotArtistData() => General.Slice(PoketchStart + 0x2A, 120);
+
+        public void SetPoketchDotArtistData(byte[] value)
         {
-            get => General.Slice(PoketchStart + 0x2A, 120);
-            set => SetData(General, value, PoketchStart + 0x2A);
+            if (value.Length != 120)
+                throw new ArgumentException($"Expected {120} bytes.", nameof(value.Length));
+            SetData(General, value, PoketchStart + 0x2A);
         }
 
         // map marking stuff is at the end, unimportant
@@ -127,25 +130,25 @@ namespace PKHeX.Core
                 SetData(General, tree.Data, OFS_HONEY + (HONEY_SIZE * index));
         }
 
-        public int[] MunchlaxTrees
+        public int[] GetMunchlaxTrees() => CalculateMunchlaxTrees(TID, SID);
+
+        private static int[] CalculateMunchlaxTrees(int tid, int sid)
         {
-            get
-            {
-                int A = (TID >> 8) % 21;
-                int B = (TID & 0x00FF) % 21;
-                int C = (SID >> 8) % 21;
-                int D = (SID & 0x00FF) % 21;
+            int A = (tid >> 8) % 21;
+            int B = (tid & 0x00FF) % 21;
+            int C = (sid >> 8) % 21;
+            int D = (sid & 0x00FF) % 21;
 
-                if (A == B) B = (B + 1) % 21;
-                if (A == C) C = (C + 1) % 21;
-                if (B == C) C = (C + 1) % 21;
-                if (A == D) D = (D + 1) % 21;
-                if (B == D) D = (D + 1) % 21;
-                if (C == D) D = (D + 1) % 21;
+            if (A == B) B = (B + 1) % 21;
+            if (A == C) C = (C + 1) % 21;
+            if (B == C) C = (C + 1) % 21;
+            if (A == D) D = (D + 1) % 21;
+            if (B == D) D = (D + 1) % 21;
+            if (C == D) D = (D + 1) % 21;
 
-                return new[] { A, B, C, D };
-            }
+            return new[] {A, B, C, D};
         }
+
         #endregion
 
         public int OFS_PoffinCase { get; protected set; }

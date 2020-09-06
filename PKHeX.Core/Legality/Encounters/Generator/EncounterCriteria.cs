@@ -89,9 +89,9 @@
                 return num >> 1;
 
             var abils = pkPersonalInfo.Abilities;
-            if (num == -1 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+            if (abils.Count > 2 && abils[2] == Ability && num == -1) // hidden allowed
                 return 2;
-            if (abils[0] == Ability)
+            if (abils.Count > 0 && abils[0] == Ability)
                 return 0;
             return 1;
         }
@@ -102,7 +102,7 @@
                 return type;
 
             var abils = pkPersonalInfo.Abilities;
-            if (type == 4 && abils.Length > 2 && abils[2] == Ability) // hidden allowed
+            if (type == 4 && abils.Count > 2 && abils[2] == Ability) // hidden allowed
                 return 2;
             if (abils[0] == Ability)
                 return 0;

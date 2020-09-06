@@ -52,13 +52,8 @@ namespace PKHeX.Core
             bool noxfrDecremented = true;
             for (int g = GensEvoChains.Length - 1; g >= mingen; g--)
             {
-                if (pkGen <= 2)
-                {
-                    if (3 <= g && g <= 6)
-                        continue;
-                    if (g == 2 && pkm.Gen1_NotTradeback)
-                        continue;
-                }
+                if (pkGen <= 2 && g == 6)
+                    g = 2;
 
                 if (g <= 4 && pkm.Format > 2 && pkm.Format > g && !pkm.HasOriginalMetLocation && lvl > pkm.Met_Level)
                 {

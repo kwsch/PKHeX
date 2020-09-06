@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -46,27 +47,29 @@ namespace PKHeX.Core
         public override int Color { get => Data[0x19] & 0x7F; set => Data[0x19] = (byte)((Data[0x19] & 0x80) | value); }
         public bool NoFlip { get => Data[0x19] >> 7 == 1; set => Data[0x19] = (byte)(Color | (value ? 0x80 : 0)); }
 
-        public override int[] Items
+        public override IReadOnlyList<int> Items
         {
             get => new[] { Item1, Item2 };
             set
             {
-                if (value.Length != 2) return;
+                if (value.Count != 2) return;
                 Item1 = value[0];
                 Item2 = value[1];
             }
         }
 
-        public override int[] Abilities
+        public override IReadOnlyList<int> Abilities
         {
             get => new[] { Ability1, Ability2 };
             set
             {
-                if (value.Length != 2) return;
+                if (value.Count != 2) return;
                 Ability1 = (byte)value[0];
                 Ability2 = (byte)value[1];
             }
         }
+
+        public override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : -1;
 
         public bool HasSecondAbility => Ability1 != Ability2;
     }

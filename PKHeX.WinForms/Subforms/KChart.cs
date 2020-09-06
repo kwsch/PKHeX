@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -69,11 +70,19 @@ namespace PKHeX.WinForms
             row.Cells[r++].Value = p.SPD.ToString("000");
             row.Cells[r].Style.BackColor = ImageUtil.ColorBaseStat(p.SPE);
             row.Cells[r++].Value = p.SPE.ToString("000");
-            row.Cells[r++].Value = abilities[p.Abilities[0]];
-            row.Cells[r++].Value = abilities[p.Abilities[1]];
-            row.Cells[r].Value = abilities[p.Abilities.Length <= 2 ? 0 : p.Abilities[2]];
+            var abils = p.Abilities;
+            row.Cells[r++].Value = GetAbility(abils, 0);
+            row.Cells[r++].Value = GetAbility(abils, 1);
+            row.Cells[r].Value = GetAbility(abils, 2);
             row.Height = SpriteUtil.Spriter.Height + 1;
             DGV.Rows.Add(row);
+        }
+
+        private string GetAbility(IReadOnlyList<int> abilityIDs, int index)
+        {
+            if ((uint)index > abilityIDs.Count)
+                return abilities[0];
+            return abilities[abilityIDs[index]];
         }
 
         private static bool GetIsNative(PersonalInfo personalInfo, int s)

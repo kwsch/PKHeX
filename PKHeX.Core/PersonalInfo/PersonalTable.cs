@@ -260,17 +260,6 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the abilities possible for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
-        /// </summary>
-        /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
-        /// <returns>Array of possible abilities</returns>
-        public int[] GetAbilities(int species, int forme)
-        {
-            return GetFormeEntry(species, forme).Abilities;
-        }
-
-        /// <summary>
         /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>

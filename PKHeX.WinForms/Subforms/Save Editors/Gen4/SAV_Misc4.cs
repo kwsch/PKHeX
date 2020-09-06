@@ -224,7 +224,7 @@ namespace PKHeX.WinForms
                 CLB_Poketch.Items.Add(title, val);
             }
 
-            DotArtistByte = s.PoketchDotArtistData;
+            DotArtistByte = s.GetPoketchDotArtistData();
             ColorTable = new byte[] { 248, 168, 88, 8 };
             SetPictureBoxFromFlags(DotArtistByte);
             string tip = "Guide about D&D ImageFile Format";
@@ -244,7 +244,7 @@ namespace PKHeX.WinForms
                 var b = CLB_Poketch.GetItemChecked(i);
                 s.SetPoketchAppUnlocked((PoketchApp)i, b);
             }
-            s.PoketchDotArtistData = DotArtistByte;
+            s.SetPoketchDotArtistData(DotArtistByte);
         }
 
         private void SetPictureBoxFromFlags(byte[] inp)

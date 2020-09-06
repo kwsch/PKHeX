@@ -261,11 +261,11 @@ namespace PKHeX.Core
             return GameData.GetLearnsets(ver)[index];
         }
 
-        public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int Generation)
+        public static IEnumerable<int> GetMovesLevelUp(PKM pkm, int species, int minlvlG1, int minlvlG2, int lvl, int form, GameVersion version, bool MoveReminder, int generation)
         {
-            if (pkm.IsMovesetRestricted(Generation))
+            if (pkm.IsMovesetRestricted(generation))
                 version = (GameVersion)pkm.Version;
-            return Generation switch
+            return generation switch
             {
                 1 => GetMovesLevelUp1(species, form, lvl, minlvlG1, version),
                 2 => GetMovesLevelUp2(species, form, lvl, minlvlG2, pkm.Korean, pkm.LearnMovesNew2Disallowed(), version),

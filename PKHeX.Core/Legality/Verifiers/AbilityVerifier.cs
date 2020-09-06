@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
@@ -29,15 +28,16 @@ namespace PKHeX.Core
         private CheckResult VerifyAbility(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var abilities = pkm.PersonalInfo.Abilities;
+            var pi = data.PersonalInfo;
 
             // Check ability is possible (within bounds)
             int ability = pkm.Ability;
-            int abilval = Array.IndexOf(abilities, ability);
+            int abilval = pi.GetAbilityIndex(ability);
             if (abilval < 0)
                 return GetInvalid(LAbilityUnexpected);
 
             var enc = data.EncounterMatch;
+            var abilities = data.PersonalInfo.Abilities;
             if (enc is MysteryGift g && g.Format >= 4)
                 return VerifyAbilityMG(data, g, abilities);
 
@@ -51,7 +51,7 @@ namespace PKHeX.Core
 
             // Check AbilityNumber points to ability
             int an = num >> 1;
-            if (an >= abilities.Length || abilities[an] != ability)
+            if (an >= abilities.Count || abilities[an] != ability)
                 return GetInvalid(LAbilityMismatchFlag);
 
             return VerifyAbility(data, abilities, abilval);

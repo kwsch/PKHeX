@@ -33,8 +33,14 @@ namespace PKHeX.Core
         private static readonly TransferVerifier Transfer = new TransferVerifier();
         private static readonly MarkVerifier Mark = new MarkVerifier();
 
-        public static string[] MoveStrings { internal get; set; } = Util.GetMovesList(GameLanguage.DefaultLanguage);
-        public static string[] SpeciesStrings { internal get; set; } = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
-        internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Length ? L_AError : MoveStrings[m]);
+        internal static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
+        internal static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
+        internal static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Count ? L_AError : MoveStrings[m]);
+
+        public static void ChangeLocalizationStrings(IReadOnlyList<string> moves, IReadOnlyList<string> species)
+        {
+            SpeciesStrings = species;
+            MoveStrings = moves;
+        }
     }
 }

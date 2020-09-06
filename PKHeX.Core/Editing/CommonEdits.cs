@@ -79,8 +79,7 @@ namespace PKHeX.Core
         {
             if (abil < 0)
                 return;
-            var abilities = pk.PersonalInfo.Abilities;
-            int index = Array.IndexOf(abilities, abil);
+            var index = pk.PersonalInfo.GetAbilityIndex(abil);
             index = Math.Max(0, index);
             pk.SetAbilityIndex(index);
         }

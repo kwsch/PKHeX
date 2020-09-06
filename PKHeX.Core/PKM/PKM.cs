@@ -470,7 +470,7 @@ namespace PKHeX.Core
                     return -1;
 
                 if (Version == (int) GameVersion.CXD)
-                    return Array.IndexOf(PersonalInfo.Abilities, Ability);
+                    return PersonalInfo.GetAbilityIndex(Ability); // Can mismatch; not tied to PID
                 return (int)((Gen5 ? PID >> 16 : PID) & 1);
             }
         }
@@ -734,8 +734,8 @@ namespace PKHeX.Core
         public void RefreshAbility(int n)
         {
             AbilityNumber = 1 << n;
-            int[] abilities = PersonalInfo.Abilities;
-            if ((uint)n < abilities.Length)
+            var abilities = PersonalInfo.Abilities;
+            if ((uint)n < abilities.Count)
                 Ability = abilities[n];
             if (this is PK5 pk5)
                 pk5.HiddenAbility = n == 2;

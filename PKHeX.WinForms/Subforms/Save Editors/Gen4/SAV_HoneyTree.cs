@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
                 Table = HoneyTree.TablePt;
 
             // Get Munchlax tree for this savegame in screen
-            MunchlaxTrees = SAV.MunchlaxTrees;
+            MunchlaxTrees = SAV.GetMunchlaxTrees();
 
             const string sep = "- ";
             L_Tree0.Text = string.Join(Environment.NewLine, MunchlaxTrees.Select(z => sep + CB_TreeList.Items[z]));

@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
                 case SAV5 sav5:
                     m = new Mail5[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail5(((PK5)p[i]).HeldMailData);
+                        m[i] = new Mail5(((PK5)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                     {
                         int ofs = SAV5.GetMailOffset(j);

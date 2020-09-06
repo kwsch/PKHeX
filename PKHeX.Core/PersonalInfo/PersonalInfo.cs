@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -130,7 +131,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Held Items the entry can be randomly encountered with.
         /// </summary>
-        public abstract int[] Items { get; set; }
+        public abstract IReadOnlyList<int> Items { get; set; }
 
         /// <summary>
         /// Gender Ratio value determining if the entry is a fixed gender or bi-gendered.
@@ -155,7 +156,14 @@ namespace PKHeX.Core
         /// <summary>
         /// Full list of <see cref="PKM.Ability"/> values the entry can have.
         /// </summary>
-        public abstract int [] Abilities { get; set; }
+        public abstract IReadOnlyList<int> Abilities { get; set; }
+
+        /// <summary>
+        /// Gets the ability index without creating an array and looking through it.
+        /// </summary>
+        /// <param name="abilityID">Ability ID</param>
+        /// <returns>Ability Index</returns>
+        public abstract int GetAbilityIndex(int abilityID);
 
         /// <summary>
         /// Escape factor used for fleeing the Safari Zone or calling for help in SOS Battles.

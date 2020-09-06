@@ -17,8 +17,7 @@ namespace PKHeX.Core
                 GameInfo.FilteredSources = new FilteredGameDataSource(sav, GameInfo.Sources, hax);
 
             // Update Legality Analysis strings
-            LegalityAnalysis.MoveStrings = str.movelist;
-            LegalityAnalysis.SpeciesStrings = str.specieslist;
+            LegalityAnalysis.ChangeLocalizationStrings(str.movelist, str.specieslist);
 
             // Update Legality Strings
             Task.Run(() =>
