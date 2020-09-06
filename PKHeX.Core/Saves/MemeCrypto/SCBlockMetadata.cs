@@ -83,11 +83,14 @@ namespace PKHeX.Core
         public string? GetBlockName(SCBlock block, out SaveBlock? saveBlock)
         {
             // See if we have a Block object for this block
-            var obj = BlockList.FirstOrDefault(z => ReferenceEquals(z.Key.Data, block.Data));
-            if (obj.Key != null)
+            if (block.Data.Length != 0)
             {
-                saveBlock = obj.Key;
-                return obj.Value;
+                var obj = BlockList.FirstOrDefault(z => ReferenceEquals(z.Key.Data, block.Data));
+                if (obj.Key != null)
+                {
+                    saveBlock = obj.Key;
+                    return obj.Value;
+                }
             }
 
             // See if it's a single-value declaration
