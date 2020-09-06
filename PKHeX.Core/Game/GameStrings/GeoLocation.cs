@@ -6,7 +6,7 @@ namespace PKHeX.Core
     {
         private static readonly string[][] CountryList = GetCountryList();
         private static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
-        private static readonly string[][][] RegionList = new string[CountryList.Length][][];
+        private static readonly string[][]?[] RegionList = new string[CountryList.Length][][];
 
         private const string INVALID = nameof(INVALID);
 

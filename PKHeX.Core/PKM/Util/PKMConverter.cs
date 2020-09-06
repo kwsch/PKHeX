@@ -261,7 +261,7 @@ namespace PKHeX.Core
             var pkm = ConvertPKM(pk, destType, destGeneration, ref comment);
             var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
             var formatted = string.Format(msg, srcName, destName);
-            comment = comment == null ? formatted : string.Concat(formatted, Environment.NewLine, comment);
+            comment = comment.Length != 0 ? formatted : string.Concat(formatted, Environment.NewLine, comment);
             return pkm;
         }
 

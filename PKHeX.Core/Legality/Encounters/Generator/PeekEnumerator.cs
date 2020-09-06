@@ -38,7 +38,7 @@ namespace PKHeX.Core
             didPeek = false;
         }
 
-        object? IEnumerator.Current => Current;
+        object IEnumerator.Current => Current;
         public void Dispose() => Enumerator.Dispose();
         public T Current => didPeek ? peek! : Enumerator.Current;
 

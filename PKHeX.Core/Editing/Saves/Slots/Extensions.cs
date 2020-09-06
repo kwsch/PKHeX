@@ -22,7 +22,6 @@ namespace PKHeX.Core
 
         public static PKM[] GetExtraPKM(this SaveFile sav, IList<SlotInfoMisc> slots)
         {
-            slots ??= sav.GetExtraSlots();
             var arr = new PKM[slots.Count];
             for (int i = 0; i < slots.Count; i++)
                 arr[i] = slots[i].Read(sav);

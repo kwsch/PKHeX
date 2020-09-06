@@ -678,7 +678,7 @@ namespace PKHeX.Core
         {
             if (!Directory.Exists(folderPath))
             {
-                result = Enumerable.Empty<string>();
+                result = Array.Empty<string>();
                 return false;
             }
             try

@@ -62,9 +62,6 @@ namespace PKHeX.Core
         /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
         public static DataMysteryGift? GetMysteryGift(byte[] data, string ext)
         {
-            if (ext == null)
-                return GetMysteryGift(data);
-
             switch (data.Length)
             {
                 case WC8.Size when ext == ".wc8":

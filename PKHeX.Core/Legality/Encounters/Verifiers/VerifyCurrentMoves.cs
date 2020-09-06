@@ -292,6 +292,7 @@ namespace PKHeX.Core
 
             for (int m = 0; m < 4; m++)
             {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (res[m] == null)
                     res[m] = new CheckMoveResult(Unknown, info.Generation, Invalid, LMoveSourceInvalid, Move);
             }
@@ -714,8 +715,8 @@ namespace PKHeX.Core
         }
 
         private static bool IsDefogWhirl(int move) => move == 250 || move == 432;
-        private static bool IsCheckInvalid(CheckResult chk) => !(chk?.Valid ?? false);
-        private static bool IsCheckValid(CheckResult chk) => chk?.Valid ?? false;
+        private static bool IsCheckInvalid(CheckResult? chk) => !(chk?.Valid ?? false);
+        private static bool IsCheckValid(CheckResult? chk) => chk?.Valid ?? false;
 
         private static void FlagIncompatibleTransferHMs45(CheckMoveResult[] res, IReadOnlyList<int> currentMoves, int gen, IReadOnlyList<bool> HMLearned, bool KnowDefogWhirlpool)
         {

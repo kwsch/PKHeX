@@ -158,7 +158,7 @@ namespace PKHeX.Core
             {
                 if (proc < 50)
                     return true;
-                if (proc < 75 && lead == LeadRequired.None)
+                if (proc < 75)
                     return lead == LeadRequired.None;
             }
             else if (stype == SlotType.Super_Rod)

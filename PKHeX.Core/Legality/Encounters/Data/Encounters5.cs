@@ -64,7 +64,7 @@ namespace PKHeX.Core
 
         #region Dream Radar Tables
 
-        private static readonly EncounterStatic5DR[] Encounter_DreamRadar =
+        private static readonly EncounterStatic5[] Encounter_DreamRadar =
         {
             new EncounterStatic5DR(120, 0), // Staryu
             new EncounterStatic5DR(137, 0), // Porygon

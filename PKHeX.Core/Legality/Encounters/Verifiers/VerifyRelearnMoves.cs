@@ -172,6 +172,7 @@ namespace PKHeX.Core
             var other = x.OtherSpecies;
             for (int i = required; i < 4; i++)
             {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (res[i] != null)
                     continue;
 

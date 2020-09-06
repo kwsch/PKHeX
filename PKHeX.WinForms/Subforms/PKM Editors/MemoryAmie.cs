@@ -258,7 +258,7 @@ namespace PKHeX.WinForms
             if (mem == 0)
             {
                 string nn = pkm.Nickname;
-                result = string.Format(GameInfo.Strings.memories[mem + 38], nn);
+                result = string.Format(GameInfo.Strings.memories[38], nn);
                 enabled = false;
             }
             else

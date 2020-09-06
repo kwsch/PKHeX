@@ -602,7 +602,7 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade[] TradeGift_SWSH = TradeGift_Regular.Concat(TradeGift_R1).ToArray();
 
-        internal static readonly EncounterStatic[] StaticSW = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SW), GetEncounters(Encounter_SWSH, SW));
-        internal static readonly EncounterStatic[] StaticSH = ArrayUtil.ConcatAll(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SH), GetEncounters(Encounter_SWSH, SH));
+        internal static readonly EncounterStatic[] StaticSW = ArrayUtil.ConcatAll<EncounterStatic>(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SW), GetEncounters(Encounter_SWSH, SW));
+        internal static readonly EncounterStatic[] StaticSH = ArrayUtil.ConcatAll<EncounterStatic>(Nest_Common, Nest_SW, Nest_SH, Dist_Common, Dist_SW, Dist_SH, GetEncounters(Crystal_SWSH, SH), GetEncounters(Encounter_SWSH, SH));
     }
 }

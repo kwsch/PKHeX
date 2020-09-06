@@ -120,7 +120,7 @@ namespace PKHeX.Core.Searching
             if (SearchLegal != null)
                 res = res.Where(pk => new LegalityAnalysis(pk).Valid == SearchLegal);
 
-            if (BatchInstructions != null)
+            if (BatchInstructions.Count != 0)
                 res = SearchUtil.FilterByBatchInstruction(res, BatchInstructions);
 
             return res;

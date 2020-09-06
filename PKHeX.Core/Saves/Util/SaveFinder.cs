@@ -154,8 +154,7 @@ namespace PKHeX.Core
                     possible = msg;
                     return false;
                 }
-                if (files != null)
-                    possiblePaths.AddRange(files);
+                possiblePaths.AddRange(files);
             }
             possible = possiblePaths;
             return true;
