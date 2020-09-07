@@ -210,14 +210,17 @@ namespace PKHeX.Core
             set { }
         }
 
+        public abstract int EV_SPC { get; set; }
+        public sealed override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
+        public sealed override int EV_SPD { get => EV_SPC; set { } }
         public abstract ushort DV16 { get; set; }
-        public override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
-        public override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
-        public override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
-        public override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
+        public sealed override int IV_HP { get => ((IV_ATK & 1) << 3) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 1) | ((IV_SPC & 1) << 0); set { } }
+        public sealed override int IV_ATK { get => (DV16 >> 12) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 12)) | (ushort)((value > 0xF ? 0xF : value) << 12)); }
+        public sealed override int IV_DEF { get => (DV16 >> 8) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 8)) | (ushort)((value > 0xF ? 0xF : value) << 8)); }
+        public sealed override int IV_SPE { get => (DV16 >> 4) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 4)) | (ushort)((value > 0xF ? 0xF : value) << 4)); }
         public int IV_SPC { get => (DV16 >> 0) & 0xF; set => DV16 = (ushort)((DV16 & ~(0xF << 0)) | (ushort)((value > 0xF ? 0xF : value) << 0)); }
-        public override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
-        public override int IV_SPD { get => IV_SPC; set { } }
+        public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
+        public sealed override int IV_SPD { get => IV_SPC; set { } }
 
         public void SetNotNicknamed() => nick = GetNonNickname(GuessedLanguage()).ToArray();
         public void SetNotNicknamed(int language) => nick = GetNonNickname(language).ToArray();

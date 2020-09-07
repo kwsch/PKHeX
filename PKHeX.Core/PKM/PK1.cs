@@ -47,9 +47,7 @@ namespace PKHeX.Core
         public override int EV_ATK { get => BigEndian.ToUInt16(Data, 0x13); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x13); }
         public override int EV_DEF { get => BigEndian.ToUInt16(Data, 0x15); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x15); }
         public override int EV_SPE { get => BigEndian.ToUInt16(Data, 0x17); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x17); }
-        public int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
-        public override int EV_SPA { get => EV_SPC; set => EV_SPC = value; }
-        public override int EV_SPD { get => EV_SPC; set { } }
+        public override int EV_SPC { get => BigEndian.ToUInt16(Data, 0x19); set => BigEndian.GetBytes((ushort)value).CopyTo(Data, 0x19); }
         public override ushort DV16 { get => BigEndian.ToUInt16(Data, 0x1B); set => BigEndian.GetBytes(value).CopyTo(Data, 0x1B); }
         public override int Move1_PP { get => Data[0x1D] & 0x3F; set => Data[0x1D] = (byte)((Data[0x1D] & 0xC0) | Math.Min(63, value)); }
         public override int Move2_PP { get => Data[0x1E] & 0x3F; set => Data[0x1E] = (byte)((Data[0x1E] & 0xC0) | Math.Min(63, value)); }
