@@ -199,7 +199,13 @@ namespace PKHeX.Core
             pk.CurrentLevel = Set.Level;
             pk.CurrentFriendship = Set.Friendship;
             pk.IVs = Set.IVs;
-            pk.EVs = Set.EVs;
+
+            // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
+            // Under this scenario, just apply maximum EVs (65535).
+            if (pk is GBPKM gb && Set.EVs.All(z => z == 0))
+                gb.EV_HP = gb.EV_ATK = gb.EV_DEF = gb.EV_SPC = gb.EV_SPE = gb.MaxEV;
+            else
+                pk.EVs = Set.EVs;
 
             // IVs have no side effects such as hidden power type in gen 8
             // therefore all specified IVs are deliberate and should not be HT'd over for pokemon met in gen 8
