@@ -96,7 +96,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ValueTypeTypeConverter))]
-    public class BattleTreeTrainer
+    public sealed class BattleTreeTrainer
     {
         public short ID { get; set; }
         public BattleTreePokemon Poke1 { get; set; }
@@ -113,7 +113,7 @@ namespace PKHeX.Core
     }
 
     [TypeConverter(typeof(ValueTypeTypeConverter))]
-    public class BattleTreePokemon
+    public sealed class BattleTreePokemon
     {
         public short ID { get; set; }
         public sbyte AbilityIndex { get; set; }

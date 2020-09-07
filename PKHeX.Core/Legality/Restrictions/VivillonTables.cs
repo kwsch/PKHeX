@@ -6,7 +6,7 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        private class CountryTable
+        private sealed class CountryTable
         {
             public readonly byte BaseForm;
             public readonly byte CountryID;
@@ -20,7 +20,7 @@ namespace PKHeX.Core
             }
         }
 
-        private class FormSubregionTable
+        private sealed class FormSubregionTable
         {
             public readonly byte Form;
             public readonly byte[] Regions;

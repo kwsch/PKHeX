@@ -2,7 +2,7 @@
 {
     public class EncounterStatic8 : EncounterStatic, IGigantamax
     {
-        public override int Generation => 8;
+        public sealed override int Generation => 8;
         public bool CanGigantamax { get; set; }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)

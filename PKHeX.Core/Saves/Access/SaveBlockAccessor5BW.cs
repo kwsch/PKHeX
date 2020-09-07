@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessor5BW : ISaveBlockAccessor<BlockInfoNDS>, ISaveBlock5BW
+    public sealed class SaveBlockAccessor5BW : ISaveBlockAccessor<BlockInfoNDS>, ISaveBlock5BW
     {
         // Offset, Length, chkOffset, ChkMirror
         public static readonly BlockInfoNDS[] BlocksBW =

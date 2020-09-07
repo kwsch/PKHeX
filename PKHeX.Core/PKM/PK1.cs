@@ -100,6 +100,13 @@ namespace PKHeX.Core
         public override int PKRS_Strain { get => 0; set { } }
         public override int PKRS_Days { get => 0; set { } }
         public override bool CanHoldItem(IReadOnlyList<ushort> valid) => false;
+        public override int Met_Location { get => 0; set { } }
+        public override int OT_Gender { get => 0; set { } }
+        public override int Met_Level { get => 0; set { } }
+        public override int CurrentFriendship { get => 0; set { } }
+        public override bool IsEgg { get => false; set { } }
+        public override int HeldItem { get => 0; set { } }
+        public override int OT_Friendship { get => 0; set { } }
 
         // Maximums
         public override int MaxMoveID => Legal.MaxMoveID_1;

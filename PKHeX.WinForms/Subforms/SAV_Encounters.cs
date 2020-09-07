@@ -198,7 +198,7 @@ namespace PKHeX.WinForms
             return results;
         }
 
-        private class ReferenceComparer<T> : IEqualityComparer<T>
+        private sealed class ReferenceComparer<T> : IEqualityComparer<T>
         {
             public bool Equals(T x, T y) => RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
             public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);

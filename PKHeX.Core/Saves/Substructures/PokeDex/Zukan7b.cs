@@ -5,20 +5,8 @@ namespace PKHeX.Core
     /// <summary>
     /// Beluga specific Dex manipulator, slightly modified from Gen7.
     /// </summary>
-    public class Zukan7b : Zukan7
+    public sealed class Zukan7b : Zukan7
     {
-        private const int SIZE_MAGIC = 4; // 0x2F120F17 magic
-        private const int SIZE_FLAGS = 4;
-        private const int SIZE_MISC = 0x80; // Misc Data (1024 bits)
-        private const int SIZE_CAUGHT = 0x68; // 832 bits
-
-        protected override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
-        protected override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
-
-        protected override int BitSeenSize => 0x8C; // 1120 bits
-        protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
-        protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
-
         public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)
         {
         }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    internal class EggInfoSource
+    internal sealed class EggInfoSource
     {
         public EggInfoSource(PKM pkm, EncounterEgg e)
         {

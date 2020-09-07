@@ -341,7 +341,7 @@ namespace PKHeX.WinForms
                 PrevCountries[i].SelectedValue = 0;
         }
 
-        private class TextMarkup
+        private sealed class TextMarkup
         {
             public string Disabled { get; } = nameof(Disabled);
             public string NeverLeft { get; } = "Never left";

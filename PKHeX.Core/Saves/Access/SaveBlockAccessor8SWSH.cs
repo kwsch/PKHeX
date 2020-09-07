@@ -5,7 +5,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
+    public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     {
         public override IReadOnlyList<SCBlock> BlockInfo { get; }
         public Box8 BoxInfo { get; }

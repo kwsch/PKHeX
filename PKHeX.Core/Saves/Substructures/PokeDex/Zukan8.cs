@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     // I wish I could replace this with raw pointers via Span :)
-    public class Zukan8 : ZukanBase
+    public sealed class Zukan8 : ZukanBase
     {
         private readonly SCBlock Galar;
         private readonly SCBlock Rigel1;
@@ -781,7 +781,7 @@ namespace PKHeX.Core
         public static bool operator !=(Zukan8Index left, Zukan8Index right) => !(left == right);
     }
 
-    public class Zukan8EntryInfo
+    public sealed class Zukan8EntryInfo
     {
         public readonly int Species;
         public readonly Zukan8Index Entry;

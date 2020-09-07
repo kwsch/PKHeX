@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public class PIDIV
+    public sealed class PIDIV
     {
         public static readonly PIDIV None = new PIDIV { NoSeed = true, Type = PIDType.None };
 
@@ -16,11 +16,5 @@
 
         /// <summary> Type of PIDIV correlation </summary>
         public PIDType Type;
-    }
-
-    public sealed class PIDIVTSV : PIDIV
-    {
-        public int TSV1 { get; internal set; } = -1;
-        public int TSV2 { get; internal set; } = -1;
     }
 }

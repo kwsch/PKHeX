@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public class EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
+    public sealed class EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public override int Generation => 8;
 

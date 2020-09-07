@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>
+    public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>
     {
         private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)
 

@@ -32,7 +32,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class TitleScreen8Poke
+    public sealed class TitleScreen8Poke
     {
         public const int SIZE = 0x28;
         private readonly byte[] Data;

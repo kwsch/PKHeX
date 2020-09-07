@@ -3,21 +3,21 @@
     public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
         // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_4;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
-        public override int MaxAbilityID => Legal.MaxAbilityID_4;
-        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
-        public override int MaxBallID => Legal.MaxBallID_4;
-        public override int MaxGameID => Legal.MaxGameID_4;
-        public override int MaxIV => 31;
-        public override int MaxEV => 255;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
+        public sealed override int MaxMoveID => Legal.MaxMoveID_4;
+        public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_4;
+        public sealed override int MaxAbilityID => Legal.MaxAbilityID_4;
+        public sealed override int MaxItemID => Legal.MaxItemID_4_HGSS;
+        public sealed override int MaxBallID => Legal.MaxBallID_4;
+        public sealed override int MaxGameID => Legal.MaxGameID_4;
+        public sealed override int MaxIV => 31;
+        public sealed override int MaxEV => 255;
+        public sealed override int OTLength => 7;
+        public sealed override int NickLength => 10;
 
-        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
-        public override int TSV => (TID ^ SID) >> 3;
+        public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
+        public sealed override int TSV => (TID ^ SID) >> 3;
 
-        public override int Characteristic
+        public sealed override int Characteristic
         {
             get
             {
@@ -35,19 +35,19 @@
         }
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }
-        public override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data, 0x68); } }
+        public sealed override byte[] Nickname_Trash { get => GetData(0x48, 22); set { if (value.Length == 22) value.CopyTo(Data, 0x48); } }
+        public sealed override byte[] OT_Trash { get => GetData(0x68, 16); set { if (value.Length == 16) value.CopyTo(Data, 0x68); } }
 
         // Future Attributes
-        public override uint EncryptionConstant { get => PID; set { } }
-        public override int Nature { get => (int)(PID % 25); set { } }
-        public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int AbilityNumber { get => 1 << PIDAbility; set { } }
+        public sealed override uint EncryptionConstant { get => PID; set { } }
+        public sealed override int Nature { get => (int)(PID % 25); set { } }
+        public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+        public sealed override int CurrentHandler { get => 0; set { } }
+        public sealed override int AbilityNumber { get => 1 << PIDAbility; set { } }
 
         // Legality Extensions
-        public override bool WasEvent => (Met_Location >= 3000 && Met_Location <= 3076) || FatefulEncounter;
-        public override bool WasEventEgg => WasEgg && Species == (int)Core.Species.Manaphy; // Manaphy was the only generation 4 released event egg
+        public sealed override bool WasEvent => (Met_Location >= 3000 && Met_Location <= 3076) || FatefulEncounter;
+        public sealed override bool WasEventEgg => WasEgg && Species == (int)Core.Species.Manaphy; // Manaphy was the only generation 4 released event egg
 
         public abstract int ShinyLeaf { get; set; }
 

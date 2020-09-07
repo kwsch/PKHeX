@@ -126,7 +126,7 @@ namespace PKHeX.WinForms.Controls
             };
         }
 
-        private class LabelType : Label
+        private sealed class LabelType : Label
         {
             public StorageSlotType Type;
         }

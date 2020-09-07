@@ -50,7 +50,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class RaidSpawnDetail
+    public sealed class RaidSpawnDetail
     {
         public const int SIZE = 0x18;
 
@@ -209,34 +209,5 @@ namespace PKHeX.Core
         RareWish = 4,
         Event = 5,
         DynamaxCrystal = 6,
-    }
-
-    public class TypeConverterU64 : TypeConverter
-    {
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
-        {
-            return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
-        }
-
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
-        {
-            return destinationType == typeof(string) || base.CanConvertTo(context, destinationType);
-        }
-
-        public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
-        {
-            if (destinationType == typeof(string) && value is ulong)
-                return $"{value:X16}"; // no 0x prefix
-            return base.ConvertTo(context, culture, value, destinationType);
-        }
-
-        public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
-        {
-            if (!(value is string input))
-                return base.ConvertFrom(context, culture, value);
-            if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                input = input.Substring(2);
-            return ulong.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0ul;
-        }
     }
 }

@@ -6,37 +6,37 @@
     public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
     {
         // Maximums
-        public override int MaxMoveID => Legal.MaxMoveID_3;
-        public override int MaxSpeciesID => Legal.MaxSpeciesID_3;
-        public override int MaxAbilityID => Legal.MaxAbilityID_3;
-        public override int MaxItemID => Legal.MaxItemID_3;
-        public override int MaxBallID => Legal.MaxBallID_3;
-        public override int MaxGameID => Legal.MaxGameID_3;
-        public override int MaxIV => 31;
-        public override int MaxEV => 255;
-        public override int OTLength => 7;
-        public override int NickLength => 10;
+        public sealed override int MaxMoveID => Legal.MaxMoveID_3;
+        public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_3;
+        public sealed override int MaxAbilityID => Legal.MaxAbilityID_3;
+        public sealed override int MaxItemID => Legal.MaxItemID_3;
+        public sealed override int MaxBallID => Legal.MaxBallID_3;
+        public sealed override int MaxGameID => Legal.MaxGameID_3;
+        public sealed override int MaxIV => 31;
+        public sealed override int MaxEV => 255;
+        public sealed override int OTLength => 7;
+        public sealed override int NickLength => 10;
 
         // Generated Attributes
-        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
-        public override int TSV => (TID ^ SID) >> 3;
-        public override bool Japanese => Language == (int)LanguageID.Japanese;
-        public override bool WasEvent => Met_Location == 255; // Fateful
-        public override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
-        public override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
+        public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 3);
+        public sealed override int TSV => (TID ^ SID) >> 3;
+        public sealed override bool Japanese => Language == (int)LanguageID.Japanese;
+        public sealed override bool WasEvent => Met_Location == 255; // Fateful
+        public sealed override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
+        public sealed override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
-        public override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return AbilityBit && pi.Ability2 != 0 ? pi.Ability2 : pi.Ability1; } set { } }
-        public override uint EncryptionConstant { get => PID; set { } }
-        public override int Nature { get => (int)(PID % 25); set { } }
-        public override int AltForm { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
-        public override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
-        public override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
-        public override int Characteristic => -1;
-        public override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int Egg_Location { get => 0; set { } }
+        public sealed override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return AbilityBit && pi.Ability2 != 0 ? pi.Ability2 : pi.Ability1; } set { } }
+        public sealed override uint EncryptionConstant { get => PID; set { } }
+        public sealed override int Nature { get => (int)(PID % 25); set { } }
+        public sealed override int AltForm { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
+        public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
+        public sealed override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
+        public sealed override int Characteristic => -1;
+        public sealed override int CurrentFriendship { get => OT_Friendship; set => OT_Friendship = value; }
+        public sealed override int CurrentHandler { get => 0; set { } }
+        public sealed override int Egg_Location { get => 0; set { } }
 
-        public override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // [0,1]->[1,2] ; [1,x]->[0,1]
+        public sealed override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // [0,1]->[1,2] ; [1,x]->[0,1]
         public abstract bool AbilityBit { get; set; }
 
         public abstract bool RibbonEarth { get; set; }

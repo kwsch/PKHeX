@@ -172,7 +172,7 @@ namespace PKHeX.Drawing
     /// <summary>
     /// 30 high, 40 wide sprite builder
     /// </summary>
-    public class SpriteBuilder3040 : SpriteBuilder
+    public sealed class SpriteBuilder3040 : SpriteBuilder
     {
         public override int Height => 30;
         public override int Width => 40;
@@ -196,7 +196,7 @@ namespace PKHeX.Drawing
     /// <summary>
     /// 56 high, 68 wide sprite builder
     /// </summary>
-    public class SpriteBuilder5668 : SpriteBuilder
+    public sealed class SpriteBuilder5668 : SpriteBuilder
     {
         public override int Height => 56;
         public override int Width => 68;

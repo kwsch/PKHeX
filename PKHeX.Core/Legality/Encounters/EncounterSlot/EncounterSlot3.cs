@@ -2,7 +2,7 @@ namespace PKHeX.Core
 {
     public class EncounterSlot3 : EncounterSlot, IMagnetStatic, INumberedSlot
     {
-        public override int Generation => 3;
+        public sealed override int Generation => 3;
 
         public int StaticIndex { get; set; }
         public int MagnetPullIndex { get; set; }

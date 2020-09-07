@@ -9,11 +9,11 @@ namespace PKHeX.Core
         public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x40); } }
-        public override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x78); } }
-        public override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xB0); } }
+        public sealed override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x40); } }
+        public sealed override byte[] HT_Trash { get => GetData(0x78, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x78); } }
+        public sealed override byte[] OT_Trash { get => GetData(0xB0, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xB0); } }
 
-        protected override ushort CalculateChecksum()
+        protected sealed override ushort CalculateChecksum()
         {
             ushort chk = 0;
             for (int i = 8; i < PokeCrypto.SIZE_6STORED; i += 2) // don't use SIZE_STORED property; pb7 overrides stored size
@@ -22,7 +22,7 @@ namespace PKHeX.Core
         }
 
         // Simple Generated Attributes
-        public override int CurrentFriendship
+        public sealed override int CurrentFriendship
         {
             get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
             set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
@@ -34,12 +34,12 @@ namespace PKHeX.Core
             set { if (CurrentHandler == 1) OT_Friendship = value; else HT_Friendship = value; }
         }
 
-        public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
-        public override int TSV => (TID ^ SID) >> 4;
-        public override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
+        public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
+        public sealed override int TSV => (TID ^ SID) >> 4;
+        public sealed override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
 
         // Complex Generated Attributes
-        public override int Characteristic
+        public sealed override int Characteristic
         {
             get
             {
@@ -57,7 +57,7 @@ namespace PKHeX.Core
         }
 
         // Methods
-        protected override byte[] Encrypt()
+        protected sealed override byte[] Encrypt()
         {
             RefreshChecksum();
             return PokeCrypto.EncryptArray6(Data);
@@ -110,15 +110,15 @@ namespace PKHeX.Core
         protected abstract void TradeHT(ITrainerInfo tr);
 
         // Legality Properties
-        public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
-        public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
+        public sealed override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
+        public sealed override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
+        public sealed override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
         // Maximums
-        public override int MaxIV => 31;
-        public override int MaxEV => 252;
-        public override int OTLength => 12;
-        public override int NickLength => 12;
+        public sealed override int MaxIV => 31;
+        public sealed override int MaxEV => 252;
+        public sealed override int OTLength => 12;
+        public sealed override int NickLength => 12;
     }
 
     public interface ISuperTrain

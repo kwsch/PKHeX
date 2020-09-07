@@ -188,7 +188,7 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            File.WriteAllBytes(path, pk.Data.Take(pk.SIZE_STORED).ToArray());
+            File.WriteAllBytes(path, pk.DecryptedBoxData);
             pk.Identifier = path;
 
             int pre = RawDB.Count;

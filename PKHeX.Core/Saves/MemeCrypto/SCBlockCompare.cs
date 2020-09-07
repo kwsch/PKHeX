@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class SCBlockCompare
+    public sealed class SCBlockCompare
     {
         private readonly List<string> AddedKeys = new List<string>();
         private readonly List<string> RemovedKeys = new List<string>();

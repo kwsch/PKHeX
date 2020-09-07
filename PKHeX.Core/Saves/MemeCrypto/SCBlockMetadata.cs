@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Provides reflection utility for manipulating blocks, providing block names and value wrapping.
     /// </summary>
-    public class SCBlockMetadata
+    public sealed class SCBlockMetadata
     {
         private readonly Dictionary<SaveBlock, string> BlockList;
         private readonly Dictionary<uint, string> ValueList;
@@ -128,7 +128,7 @@ namespace PKHeX.Core
             };
         }
 
-        private class WrappedValueView<T> where T : struct
+        private sealed class WrappedValueView<T> where T : struct
         {
             private readonly SCBlock Parent;
             private T _value;

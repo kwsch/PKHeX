@@ -24,40 +24,40 @@ namespace PKHeX.Core
         protected override string BAKText => $"{Checksums.CRC16(Data, Box, Data.Length - Box):X4}";
         public override string Filter { get; } = "All Files|*.*";
         public override string Extension { get; } = ".bin";
-        public override bool ChecksumsValid { get; } = true;
-        public override string ChecksumInfo { get; } = "No Info.";
+        public sealed override bool ChecksumsValid { get; } = true;
+        public sealed override string ChecksumInfo { get; } = "No Info.";
 
         private readonly PKM blank;
-        public override Type PKMType => blank.GetType();
-        public override PKM BlankPKM => blank.Clone();
+        public sealed override Type PKMType => blank.GetType();
+        public sealed override PKM BlankPKM => blank.Clone();
 
         protected override PKM GetPKM(byte[] data) => PKMConverter.GetPKMfromBytes(data, prefer: Generation) ?? blank;
         protected override byte[] DecryptPKM(byte[] data) => GetPKM(data).Data;
 
         protected override int SIZE_STORED => blank.SIZE_STORED;
         protected override int SIZE_PARTY => blank.SIZE_PARTY;
-        public override int MaxEV => blank.MaxEV;
-        public override int Generation => blank.Format;
-        public override int MaxMoveID => blank.MaxMoveID;
-        public override int MaxSpeciesID => blank.MaxSpeciesID;
-        public override int MaxAbilityID => blank.MaxAbilityID;
-        public override int MaxItemID => blank.MaxItemID;
-        public override int MaxBallID => blank.MaxBallID;
-        public override int MaxGameID => blank.MaxGameID;
-        public override int OTLength => blank.OTLength;
-        public override int NickLength => blank.NickLength;
+        public sealed override int MaxEV => blank.MaxEV;
+        public sealed override int Generation => blank.Format;
+        public sealed override int MaxMoveID => blank.MaxMoveID;
+        public sealed override int MaxSpeciesID => blank.MaxSpeciesID;
+        public sealed override int MaxAbilityID => blank.MaxAbilityID;
+        public sealed override int MaxItemID => blank.MaxItemID;
+        public sealed override int MaxBallID => blank.MaxBallID;
+        public sealed override int MaxGameID => blank.MaxGameID;
+        public sealed override int OTLength => blank.OTLength;
+        public sealed override int NickLength => blank.NickLength;
         public bool IsBigEndian => blank is BK4 || blank is XK3 || blank is CK3;
 
         private readonly Func<byte[], int, bool> GetIsPKMPresent;
-        public override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);
+        public sealed override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);
 
         public override int BoxCount { get; }
         protected override void SetChecksums() { }
 
         public override int GetBoxOffset(int box) => Box + (box * (SlotsPerBox * SIZE_STORED));
         public override string GetBoxName(int box) => $"Box {box + 1:d2}";
-        public override void SetBoxName(int box, string value) { }
-        public override int GetPartyOffset(int slot) => int.MinValue;
+        public sealed override void SetBoxName(int box, string value) { }
+        public sealed override int GetPartyOffset(int slot) => int.MinValue;
 
         public override string GetString(byte[] data, int offset, int length)
             => StringConverter.GetString(data, Generation, blank.Japanese, IsBigEndian, length, offset);

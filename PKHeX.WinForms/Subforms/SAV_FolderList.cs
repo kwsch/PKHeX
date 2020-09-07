@@ -169,7 +169,7 @@ namespace PKHeX.WinForms
             return paths.Select(z => new CustomFolderPath(z));
         }
 
-        private class CustomFolderPath
+        private sealed class CustomFolderPath
         {
             public readonly string Path;
             public readonly string DisplayText;

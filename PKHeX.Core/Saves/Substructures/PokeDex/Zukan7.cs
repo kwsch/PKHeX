@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 Dex manipulator
+    /// </summary>
     public class Zukan7 : Zukan
     {
         private const int MAGIC = 0x2F120F17;
@@ -12,12 +15,12 @@ namespace PKHeX.Core
         private const int SIZE_MISC = 0x80; // Misc Data (1024 bits)
         private const int SIZE_CAUGHT = 0x68; // 832 bits
 
-        protected override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
-        protected override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
+        protected sealed override int OFS_CAUGHT => SIZE_MAGIC + SIZE_FLAGS + SIZE_MISC;
+        protected sealed override int OFS_SEEN => OFS_CAUGHT + SIZE_CAUGHT;
 
-        protected override int BitSeenSize => 0x8C; // 1120 bits
-        protected override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
-        protected override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
+        protected sealed override int BitSeenSize => 0x8C; // 1120 bits
+        protected sealed override int DexLangFlagByteCount => 920; // 0x398 = 817*9, top off the savedata block.
+        protected sealed override int DexLangIDCount => 9; // CHT, skipping langID 6 (unused)
 
         private readonly IList<int> FormBaseSpecies;
 
@@ -34,7 +37,7 @@ namespace PKHeX.Core
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }
 
-        protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
+        protected sealed override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
         {
             int species = baseBit + 1;
 
@@ -123,7 +126,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override int GetDexLangFlag(int lang)
+        protected sealed override int GetDexLangFlag(int lang)
         {
             if (lang > 10 || lang == 6 || lang <= 0)
                 return -1; // invalid language
@@ -134,7 +137,7 @@ namespace PKHeX.Core
             return lang;
         }
 
-        protected override void SetSpindaDexData(PKM pkm, bool alreadySeen)
+        protected sealed override void SetSpindaDexData(PKM pkm, bool alreadySeen)
         {
             int shift = (pkm.Gender & 1) | (pkm.IsShiny ? 2 : 0);
             if (alreadySeen) // update?
@@ -259,7 +262,7 @@ namespace PKHeX.Core
             return FormBaseSpecies[index - SAV.MaxSpeciesID - 1];
         }
 
-        protected override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
+        protected sealed override void SetAllDexFlagsLanguage(int bit, int lang, bool value = true)
         {
             lang = GetDexLangFlag(lang);
             if (lang < 0)

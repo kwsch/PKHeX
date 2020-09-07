@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    internal class LearnInfo
+    internal sealed class LearnInfo
     {
         public bool MixedGen12NonTradeback { get; set; }
         public List<int> Gen1Moves { get; } = new List<int>();

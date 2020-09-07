@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
-    internal class OPowerFlagSet
+    internal sealed class OPowerFlagSet
     {
         public readonly OPower6Type Identifier;
         public readonly int Count;

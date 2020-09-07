@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    internal class MoveParseSource
+    internal sealed class MoveParseSource
     {
         private static readonly int[] Empty = Array.Empty<int>();
         public IReadOnlyList<int> CurrentMoves { get; set; } = Empty;

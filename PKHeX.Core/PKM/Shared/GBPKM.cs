@@ -9,16 +9,16 @@ namespace PKHeX.Core
         internal const int STRLEN_J = 6;
         internal const int STRLEN_U = 11;
 
-        public override int MaxBallID => -1;
-        public override int MaxGameID => -1;
-        public override int MaxIV => 15;
-        public override int MaxEV => ushort.MaxValue;
-        public override int OTLength => Japanese ? 5 : 7;
-        public override int NickLength => Japanese ? 5 : 10;
+        public sealed override int MaxBallID => -1;
+        public sealed override int MaxGameID => -1;
+        public sealed override int MaxIV => 15;
+        public sealed override int MaxEV => ushort.MaxValue;
+        public sealed override int OTLength => Japanese ? 5 : 7;
+        public sealed override int NickLength => Japanese ? 5 : 10;
 
-        public override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
+        public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
-        public override string FileNameWithoutExtension
+        public sealed override string FileNameWithoutExtension
         {
             get
             {
@@ -29,8 +29,8 @@ namespace PKHeX.Core
         }
 
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
-        public override bool Japanese => otname.Length == STRLEN_J;
-        public override byte[] Data { get; }
+        public sealed override bool Japanese => otname.Length == STRLEN_J;
+        public sealed override byte[] Data { get; }
 
         protected GBPKM(byte[] data, bool jp = false)
         {
@@ -51,17 +51,17 @@ namespace PKHeX.Core
         internal byte[] nick;
 
         // Trash Bytes
-        public override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) nick = value; } }
-        public override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) otname = value; } }
+        public sealed override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) nick = value; } }
+        public sealed override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) otname = value; } }
 
-        public override byte[] EncryptedPartyData => Encrypt();
-        public override byte[] EncryptedBoxData => Encrypt();
-        public override byte[] DecryptedBoxData => Encrypt();
-        public override byte[] DecryptedPartyData => Encrypt();
+        public sealed override byte[] EncryptedPartyData => Encrypt();
+        public sealed override byte[] EncryptedBoxData => Encrypt();
+        public sealed override byte[] DecryptedBoxData => Encrypt();
+        public sealed override byte[] DecryptedPartyData => Encrypt();
 
         private bool? _isnicknamed;
 
-        public override bool IsNicknamed
+        public sealed override bool IsNicknamed
         {
             get => _isnicknamed ??= !nick.SequenceEqual(GetNonNickname(GuessedLanguage()));
             set
@@ -81,7 +81,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int Language
+        public sealed override int Language
         {
             get
             {
@@ -109,7 +109,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string Nickname
+        public sealed override string Nickname
         {
             get
             {
@@ -126,7 +126,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override string OT_Name
+        public sealed override string OT_Name
         {
             get
             {
@@ -137,7 +137,7 @@ namespace PKHeX.Core
             set => GetStringSpecial(value, StringLength).CopyTo(otname, 0);
         }
 
-        public override int Gender
+        public sealed override int Gender
         {
             get
             {
@@ -154,37 +154,30 @@ namespace PKHeX.Core
         }
 
         #region Future, Unused Attributes
-        public override bool IsGenderValid() => true; // not a separate property, derived via IVs
-        public override uint EncryptionConstant { get => 0; set { } }
-        public override uint PID { get => 0; set { } }
-        public override int Met_Level { get => 0; set { } }
-        public override int Nature { get => 0; set { } }
-        public override bool IsEgg { get => false; set { } }
-        public override int HeldItem { get => 0; set { } }
-        public override ushort Sanity { get => 0; set { } }
-        public override bool ChecksumValid => true;
-        public override ushort Checksum { get => 0; set { } }
-        public override bool FatefulEncounter { get => false; set { } }
-        public override int TSV => 0x0000;
-        public override int PSV => 0xFFFF;
-        public override int Characteristic => -1;
-        public override int MarkValue { get => 0; protected set { } }
-        public override int CurrentFriendship { get => 0; set { } }
-        public override int Ability { get => -1; set { } }
-        public override int CurrentHandler { get => 0; set { } }
-        public override int Met_Location { get => 0; set { } }
-        public override int Egg_Location { get => 0; set { } }
-        public override int OT_Friendship { get => 0; set { } }
-        public override int OT_Gender { get => 0; set { } }
-        public override int Ball { get => 0; set { } }
-        public override int SID { get => 0; set { } }
+        public sealed override bool IsGenderValid() => true; // not a separate property, derived via IVs
+        public sealed override uint EncryptionConstant { get => 0; set { } }
+        public sealed override uint PID { get => 0; set { } }
+        public sealed override int Nature { get => 0; set { } }
+        public sealed override ushort Sanity { get => 0; set { } }
+        public sealed override bool ChecksumValid => true;
+        public sealed override ushort Checksum { get => 0; set { } }
+        public sealed override bool FatefulEncounter { get => false; set { } }
+        public sealed override int TSV => 0x0000;
+        public sealed override int PSV => 0xFFFF;
+        public sealed override int Characteristic => -1;
+        public sealed override int MarkValue { get => 0; protected set { } }
+        public sealed override int Ability { get => -1; set { } }
+        public sealed override int CurrentHandler { get => 0; set { } }
+        public sealed override int Egg_Location { get => 0; set { } }
+        public sealed override int Ball { get => 0; set { } }
+        public sealed override int SID { get => 0; set { } }
         #endregion
 
-        public override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
+        public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
         private int HPVal => GetHiddenPowerBitVal(new[] { IV_SPC, IV_SPE, IV_DEF, IV_ATK });
-        public override int HPPower => (((5 * HPVal) + (IV_SPC % 4)) / 2) + 31;
+        public sealed override int HPPower => (((5 * HPVal) + (IV_SPC % 4)) / 2) + 31;
 
-        public override int HPType
+        public sealed override int HPType
         {
             get => ((IV_ATK & 3) << 2) | (IV_DEF & 3); set
             {
@@ -193,7 +186,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override int AltForm
+        public sealed override int AltForm
         {
             get
             {
@@ -259,7 +252,7 @@ namespace PKHeX.Core
             return GuessedLanguage(destLanguage);
         }
 
-        public override ushort[] GetStats(PersonalInfo p)
+        public sealed override ushort[] GetStats(PersonalInfo p)
         {
             var lv = Stat_Level;
             ushort[] stats =
@@ -281,7 +274,7 @@ namespace PKHeX.Core
             return (ushort)((((2 * (BV + IV)) + EV) * LV / 100) + 5);
         }
 
-        public override int GetMovePP(int move, int ppUpCount)
+        public sealed override int GetMovePP(int move, int ppUpCount)
         {
             var pp = base.GetMovePP(move, 0);
             return pp + (ppUpCount * Math.Min(7, pp / 5));
@@ -290,7 +283,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
         /// </summary>
-        public override void SetShiny()
+        public sealed override void SetShiny()
         {
             IV_ATK |= 2;
             IV_DEF = 10;

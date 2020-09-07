@@ -4,7 +4,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public class SaveBlockMetadata<T>
+    public sealed class SaveBlockMetadata<T>
     {
         private readonly Dictionary<SaveBlock, string> BlockList;
 

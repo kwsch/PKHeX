@@ -2,7 +2,7 @@
 {
     public class EncounterStatic4 : EncounterStatic
     {
-        public override int Generation => 4;
+        public sealed override int Generation => 4;
 
         protected sealed override bool IsMatchEggLocation(PKM pkm)
         {

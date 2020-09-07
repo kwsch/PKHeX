@@ -68,7 +68,7 @@ namespace PKHeX.Core
             public abstract void Revert(SaveFile sav);
         }
 
-        private class PartyReversion : SlotReversion
+        private sealed class PartyReversion : SlotReversion
         {
             private readonly IList<PKM> Party;
             public PartyReversion(ISlotInfo info, SaveFile s) : base(info) => Party = s.PartyData;
@@ -76,7 +76,7 @@ namespace PKHeX.Core
             public override void Revert(SaveFile sav) => sav.PartyData = Party;
         }
 
-        private class SingleSlotReversion : SlotReversion
+        private sealed class SingleSlotReversion : SlotReversion
         {
             private readonly PKM Entity;
             public SingleSlotReversion(ISlotInfo info, SaveFile sav) : base(info) => Entity = info.Read(sav);

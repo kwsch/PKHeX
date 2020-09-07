@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     public class EncounterStatic2 : EncounterStatic
     {
-        public override int Generation => 2;
+        public sealed override int Generation => 2;
         public sealed override int Level { get; set; }
 
         public EncounterStatic2(int species, int level)

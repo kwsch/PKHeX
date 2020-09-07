@@ -189,9 +189,6 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x62); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x62); }
         #endregion
 
-        // Generated Attributes
-        public override bool Japanese => IsEgg || Language == (int)LanguageID.Japanese;
-
         protected override byte[] Encrypt()
         {
             RefreshChecksum();

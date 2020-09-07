@@ -25,7 +25,7 @@
         }
     }
 
-    public class EncryptedMysteryGiftAlbum : MysteryGiftAlbum
+    public sealed class EncryptedMysteryGiftAlbum : MysteryGiftAlbum
     {
         /// <summary>
         /// Encryption Seed (only used in Generation 5 to encrypt the stored data)

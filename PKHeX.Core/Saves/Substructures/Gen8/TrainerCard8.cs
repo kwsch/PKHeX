@@ -266,7 +266,7 @@ namespace PKHeX.Core
         }
     }
 
-    public class TrainerCard8Poke
+    public sealed class TrainerCard8Poke
     {
         public const int SIZE = 0x1C;
         private readonly byte[] Data;

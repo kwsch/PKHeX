@@ -353,7 +353,7 @@ namespace PKHeX.Core
         protected override ushort CalculateChecksum()
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_STORED; i += 2)
+            for (int i = 8; i < PokeCrypto.SIZE_4STORED; i += 2)
                 chk += BigEndian.ToUInt16(Data, i);
             return chk;
         }

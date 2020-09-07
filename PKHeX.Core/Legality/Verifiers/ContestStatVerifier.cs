@@ -3,7 +3,7 @@
     /// <summary>
     /// Verifies the Contest stat details.
     /// </summary>
-    public class ContestStatVerifier : Verifier
+    public sealed class ContestStatVerifier : Verifier
     {
         protected override CheckIdentifier Identifier => CheckIdentifier.Memory;
         public override void Verify(LegalityAnalysis data)
