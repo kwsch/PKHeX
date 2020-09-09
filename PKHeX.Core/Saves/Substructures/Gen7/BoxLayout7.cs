@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class BoxLayout7 : SaveBlock
+    public sealed class BoxLayout7 : SaveBlock, IBoxDetailName, IBoxDetailWallpaper, ITeamIndexSet
     {
         private const int BoxCount = 32;
 
@@ -116,6 +116,12 @@ namespace PKHeX.Core
                 int val = (box << 8) | slot;
                 BitConverter.GetBytes((short)val).CopyTo(Data, Offset + BattleBoxFlags + (i * 2));
             }
+        }
+
+        public void UnlockAllTeams()
+        {
+            for (int i = 0; i < TeamCount; i++)
+                SetIsTeamLocked(i, false);
         }
 
         public bool GetIsTeamLocked(int team) => Data[Offset + PCBackgrounds - TeamCount - team] == 1;

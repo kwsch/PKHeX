@@ -92,7 +92,10 @@ namespace PKHeX.WinForms
                 PB_Preview.Image = g.Sprite();
                 mg = g;
             }
+            // Some user input mystery gifts can have out-of-bounds values. Just swallow any exception.
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 WinFormsUtil.Error(MsgMysteryGiftParseTypeUnknown, e);
                 RTB.Clear();
@@ -392,7 +395,10 @@ namespace PKHeX.WinForms
                 File.WriteAllBytes(newfile, gift.Write());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
+            // Sometimes the drag-drop is canceled or ends up at a bad location. Don't bother recovering from an exception; just display a safe error message.
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception x)
+#pragma warning restore CA1031 // Do not catch general exception types
             { WinFormsUtil.Error("Drag & Drop Error", x); }
             File.Delete(newfile);
             wc_slot = -1;
@@ -409,15 +415,19 @@ namespace PKHeX.WinForms
 
             if (wc_slot == -1) // dropped
             {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-
-                if (files.Length < 1)
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files == null || files.Length == 0)
                     return;
-                if (!MysteryGift.IsMysteryGift(new FileInfo(files[0]).Length))
-                { WinFormsUtil.Alert(MsgFileUnsupported, files[0]); return; }
 
-                byte[] data = File.ReadAllBytes(files[0]);
-                MysteryGift gift = MysteryGift.GetMysteryGift(data, new FileInfo(files[0]).Extension);
+                var first = files[0];
+                var fi = new FileInfo(first);
+                if (!MysteryGift.IsMysteryGift(fi.Length))
+                { WinFormsUtil.Alert(MsgFileUnsupported, first); return; }
+
+                byte[] data = File.ReadAllBytes(first);
+                var gift = MysteryGift.GetMysteryGift(data, fi.Extension);
+                if (gift == null)
+                { WinFormsUtil.Alert(MsgFileUnsupported, first); return; }
 
                 if (gift is PCD pcd && mga.Gifts[index] is PGT)
                 {

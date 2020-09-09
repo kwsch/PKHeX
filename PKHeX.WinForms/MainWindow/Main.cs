@@ -231,16 +231,18 @@ namespace PKHeX.WinForms
             L_UpdateAvailable.Click += (sender, e) => Process.Start(ThreadPath);
             Task.Run(() =>
             {
-                try
-                {
-                    var latestVersion = NetUtil.GetLatestPKHeXVersion();
-                    if (latestVersion > CurrentProgramVersion)
-                        Invoke((MethodInvoker)(() => NotifyNewVersionAvailable(latestVersion)));
-                }
+                Version latestVersion;
+                // User might not be connected to the internet or with a flaky connection.
+                try { latestVersion = NetUtil.GetLatestPKHeXVersion(); }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     Debug.WriteLine($"Exception while checking for latest version: {ex}");
+                    return;
                 }
+                if (latestVersion > CurrentProgramVersion)
+                    Invoke((MethodInvoker)(() => NotifyNewVersionAvailable(latestVersion)));
             });
         }
 
@@ -565,14 +567,18 @@ namespace PKHeX.WinForms
                 return;
             }
             byte[] input; try { input = File.ReadAllBytes(path); }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e) { WinFormsUtil.Error(MsgFileInUse + path, e); return; }
+#pragma warning restore CA1031 // Do not catch general exception types
 
             string ext = fi.Extension;
             #if DEBUG
                 OpenFile(input, path, ext);
             #else
                 try { OpenFile(input, path, ext); }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception e) { WinFormsUtil.Error(MsgFileLoadFail + "\nPath: " + path, e); }
+#pragma warning restore CA1031 // Do not catch general exception types
             #endif
         }
 

@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains information pertaining to Inventory Pouch capacity in Generation 8.
+    /// </summary>
     public static class PouchSize8
     {
         /// <summary>
@@ -35,12 +38,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Pouch5 Item Max Capacity
         /// </summary>
-        public const int Treasures = 100; // todo
+        public const int Treasures = 100;
 
         /// <summary>
         /// Pouch5 Item Max Capacity
         /// </summary>
-        public const int Ingredients = 100; // todo
+        public const int Ingredients = 100;
 
         /// <summary>
         /// Pouch5 Item Max Capacity

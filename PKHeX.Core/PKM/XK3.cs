@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public override PKM Clone() => new XK3((byte[])Data.Clone()){Identifier = Identifier, Purification = Purification};
 
         private string GetString(int Offset, int Count) => StringConverter3.GetBEString3(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
+        private static byte[] SetString(string value, int maxLength) => StringConverter3.SetBEString3(value, maxLength);
 
         // Trash Bytes
         public override byte[] Nickname_Trash { get => GetData(0x4E, 20); set { if (value.Length == 20) value.CopyTo(Data, 0x4E); } }

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
-    public abstract class SaveFile : ITrainerInfo, IGameValueLimit
+    public abstract class SaveFile : ITrainerInfo, IGameValueLimit, IBoxDetailWallpaper, IBoxDetailName
     {
         // General Object Properties
         public byte[] Data;

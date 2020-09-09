@@ -45,7 +45,7 @@ namespace PKHeX.WinForms
         private readonly bool Loading;
         private bool MapUpdated;
 
-        private static readonly string[] AllStyles = Enum.GetNames(typeof(BattleStyle7));
+        private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
         private readonly List<string> BattleStyles = new List<string>(AllStyles);
 
         private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
             Main.SetCountrySubRegion(CB_Country, "countries");
 
             CB_SkinColor.Items.Clear();
-            CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(SkinColor7)));
+            CB_SkinColor.Items.AddRange(Enum.GetNames(typeof(PlayerSkinColor7)));
 
             L_Vivillon.Text = GameInfo.Strings.Species[(int)Species.Vivillon] + ":";
             CB_Vivillon.InitializeBinding();

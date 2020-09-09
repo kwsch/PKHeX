@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public enum BattleStyle7
+    public enum PlayerBattleStyle7
     {
         Normal,
         Elegant,

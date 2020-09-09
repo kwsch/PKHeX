@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public enum BattleStyle
+    public enum BattleStyle6
     {
         Single,
         Double,

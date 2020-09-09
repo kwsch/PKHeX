@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class TeamIndexes8 : SaveBlock
+    public sealed class TeamIndexes8 : SaveBlock, ITeamIndexSet
     {
         private const int TeamCount = 6;
         private const int NONE_SELECTED = -1;

@@ -431,13 +431,7 @@ namespace PKHeX.Core
         public int[] Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
-            set
-            {
-                Move1 = value.Length > 0 ? value[0] : 0;
-                Move2 = value.Length > 1 ? value[1] : 0;
-                Move3 = value.Length > 2 ? value[2] : 0;
-                Move4 = value.Length > 3 ? value[3] : 0;
-            }
+            set => SetMoves(value);
         }
 
         public void SetMoves(IReadOnlyList<int> value)

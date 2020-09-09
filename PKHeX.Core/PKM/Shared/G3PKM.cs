@@ -104,7 +104,7 @@
                 SID = SID,
                 EXP = EXP,
                 HeldItem = HeldItem,
-                AbilityNumber = AbilityNumber,
+                AbilityBit = AbilityBit,
                 IsEgg = IsEgg,
                 FatefulEncounter = FatefulEncounter,
 

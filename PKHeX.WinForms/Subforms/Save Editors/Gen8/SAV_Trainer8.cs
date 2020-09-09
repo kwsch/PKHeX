@@ -22,7 +22,7 @@ namespace PKHeX.WinForms
             }
 
             B_MaxCash.Click += (sender, e) => MT_Money.Text = SAV.MaxMoney.ToString();
-            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = SAV.MyStatus.MaxWatt.ToString();
+            B_MaxWatt.Click += (sender, e) => MT_Watt.Text = MyStatus8.MaxWatt.ToString();
 
             CB_Gender.Items.Clear();
             CB_Gender.Items.AddRange(Main.GenderSymbols.Take(2).ToArray()); // m/f depending on unicode selection

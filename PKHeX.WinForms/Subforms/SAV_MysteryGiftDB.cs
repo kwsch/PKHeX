@@ -210,7 +210,9 @@ namespace PKHeX.WinForms
                     PopulateComboBoxes();
                 }));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch { /* Window Closed? */ }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         // IO Usage

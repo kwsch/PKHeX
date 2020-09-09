@@ -159,7 +159,9 @@ namespace PKHeX.WinForms
                     pi.SetValue(this, value);
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine($"Failed to write {name} to {value}!");
                 Debug.WriteLine(e.Message);

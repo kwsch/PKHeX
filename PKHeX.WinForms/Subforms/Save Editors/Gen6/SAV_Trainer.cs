@@ -128,7 +128,7 @@ namespace PKHeX.WinForms
             // Maison Data
             if (SAV is ISaveBlock6Main xyao)
             {
-                for (int i = 0; i < MaisonRecords.Length; i++)
+                for (int i = 0; i < MaisonBlock.MaisonStatCount; i++)
                     MaisonRecords[i].Text = xyao.Maison.GetMaisonStat(i).ToString();
             }
 
@@ -147,7 +147,10 @@ namespace PKHeX.WinForms
                     NUD_Z.Value = (decimal)sit.Z;
                     NUD_Y.Value = (decimal)sit.Y;
                 }
+                // If we can't accurately represent the coordinates, don't allow them to be changed.
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch { GB_Map.Enabled = false; }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             // Load BP and PokeMiles
@@ -217,7 +220,7 @@ namespace PKHeX.WinForms
             // Copy Maison Data in
             if (SAV is ISaveBlock6Main xyao)
             {
-                for (int i = 0; i < MaisonRecords.Length; i++)
+                for (int i = 0; i < MaisonBlock.MaisonStatCount; i++)
                     xyao.Maison.SetMaisonStat(i, ushort.Parse(MaisonRecords[i].Text));
             }
 

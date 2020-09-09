@@ -102,7 +102,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyEC(LegalityAnalysis data)
+        private static void VerifyEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var Info = data.Info;
@@ -124,7 +124,7 @@ namespace PKHeX.Core
             // Gen1-2, Gen6+ should have PID != EC
             if (pkm.PID == pkm.EncryptionConstant)
             {
-                data.AddLine(GetInvalid(LPIDEqualsEC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
+                data.AddLine(GetInvalid(LPIDEqualsEC, CheckIdentifier.EC)); // better to flag than 1:2^32 odds since RNG is not feasible to yield match
                 return;
             }
 
@@ -137,7 +137,7 @@ namespace PKHeX.Core
             }
         }
 
-        private void VerifyTransferEC(LegalityAnalysis data)
+        private static void VerifyTransferEC(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             // When transferred to Generation 6, the Encryption Constant is copied from the PID.

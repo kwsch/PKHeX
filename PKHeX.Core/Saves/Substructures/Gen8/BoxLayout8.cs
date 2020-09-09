@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class BoxLayout8 : SaveBlock
+    public sealed class BoxLayout8 : SaveBlock, IBoxDetailName
     {
         public const int BoxCount = 32;
 

@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public enum SkinColor7
+    public enum PlayerSkinColor7
     {
         M_Pale,
         F_Pale,

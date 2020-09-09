@@ -151,7 +151,9 @@ namespace PKHeX.WinForms
                     num.Add(n);
                     desc.Add(split[1]);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     // Ignore bad user values
                     Debug.WriteLine(string.Concat(split));

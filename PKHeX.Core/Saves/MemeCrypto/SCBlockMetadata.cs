@@ -140,6 +140,7 @@ namespace PKHeX.Core
                 set => Parent.SetValue(_value = value);
             }
 
+            // ReSharper disable once UnusedMember.Local
             [Description("Type of Value this Block stores")]
             public string ValueType => typeof(T).Name;
 

@@ -3,10 +3,15 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public sealed class RentalTeam8
+    /// <summary>
+    /// Container block for Generation 8 saved Rental Teams
+    /// </summary>
+    public sealed class RentalTeam8 : IRentalTeam<PK8>
     {
         private const int LEN_META = 0x56;
-        private const int LEN_POKE = PokeCrypto.SIZE_8PARTY;
+        private const int LEN_STORED = PokeCrypto.SIZE_8STORED; // 0x148
+        private const int LEN_POKE = PokeCrypto.SIZE_8PARTY; // 0x158
+        private const int LEN_PARTYSTAT = LEN_POKE - PokeCrypto.SIZE_8STORED; // 0x10
         private const int COUNT_POKE = 6;
 
         private const int OFS_META = 0;
@@ -35,7 +40,8 @@ namespace PKHeX.Core
         {
             var ofs = GetSlotOffset(slot);
             var data = pkm.EncryptedPartyData;
-            Array.Clear(data, LEN_POKE - 0x10, 0x10);
+            // Wipe Party Stats
+            Array.Clear(data, LEN_STORED, LEN_PARTYSTAT);
             data.CopyTo(Data, ofs);
         }
 
