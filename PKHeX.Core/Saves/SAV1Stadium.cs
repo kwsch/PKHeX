@@ -105,7 +105,7 @@ namespace PKHeX.Core
         public static bool IsStadiumU(byte[] data)
         {
             if (data.Length != SaveUtil.SIZE_G1STAD)
-                return true;
+                return false;
 
             for (int i = 0; i < 10; i++)
             {
@@ -118,7 +118,7 @@ namespace PKHeX.Core
         public static bool IsStadiumJ(byte[] data)
         {
             if (data.Length != SaveUtil.SIZE_G1STAD)
-                return true;
+                return false;
 
             for (int i = 0; i < 10; i++)
             {
