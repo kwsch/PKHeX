@@ -47,6 +47,7 @@ namespace PKHeX.Core
         public const int SIZE_G2VC_J = 0x10010;
         public const int SIZE_G2BAT_J = 0x1002C;
         public const int SIZE_G2EMU_J = 0x10030;
+        public const int SIZE_G1STAD = 0x20000; // same as G3RAW_U
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
 
@@ -120,6 +121,8 @@ namespace PKHeX.Core
                 return Gen3;
             if (GetIsRanch4(data)) // ranch
                 return DPPt;
+            if (SAV1Stadium.IsStadiumU(data) || SAV1Stadium.IsStadiumJ(data))
+                return Stadium;
 
             if ((ver = GetIsG8SAV(data)) != Invalid)
                 return ver;
@@ -524,6 +527,7 @@ namespace PKHeX.Core
                 case DPPt: return new SAV4Ranch(data);
                 case Gen4: return new Bank4(data);
                 case Gen7: return Bank7.GetBank7(data);
+                case Stadium: return new SAV1Stadium(data);
 
                 // No pattern matched
                 default: return null;
