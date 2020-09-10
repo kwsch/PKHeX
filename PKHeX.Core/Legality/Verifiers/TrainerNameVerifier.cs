@@ -104,6 +104,12 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             string tr = pkm.OT_Name;
 
+            if (tr.Length == 0)
+            {
+                data.AddLine(GetInvalid(LOTShort));
+                return;
+            }
+
             VerifyG1OTWithinBounds(data, tr);
             if (data.EncounterOriginal is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
                 data.AddLine(VerifyG1OTStadium(pkm, tr, s));
