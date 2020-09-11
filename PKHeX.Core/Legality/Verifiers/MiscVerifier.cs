@@ -70,11 +70,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (pkm.IsEgg)
-            {
                 VerifyMiscEggCommon(data);
-                if (pkm.PKRS_Cured || pkm.PKRS_Infected)
-                    data.AddLine(GetInvalid(LEggPokerus, Egg));
-            }
 
             if (!(pkm is PK1 pk1))
                 return;
