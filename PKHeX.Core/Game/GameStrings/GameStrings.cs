@@ -27,6 +27,7 @@ namespace PKHeX.Core
 
         // Misc
         public readonly string[] wallpapernames, puffs, walkercourses;
+        public readonly string[] uggoods, ugspheres, ugtraps, ugtreasures;
         private readonly string lang;
         private readonly int LanguageIndex;
 
@@ -104,6 +105,11 @@ namespace PKHeX.Core
             Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
 
             walkercourses = Get("hgss_walkercourses");
+
+            uggoods = Get("dppt_uggoods");
+            ugspheres = Get("dppt_ugspheres");
+            ugtraps = Get("dppt_ugtraps");
+            ugtreasures = Get("dppt_ugtreasures");
 
             EggName = specieslist[0];
             metHGSS_00000 = Get("hgss_00000");

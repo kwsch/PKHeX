@@ -37,6 +37,7 @@ namespace PKHeX.Core
             OFS_HONEY = 0x7F38;
 
             OFS_UG_Stats = 0x3CB4;
+            OFS_UG_Items = 0x4538;
 
             PoketchStart = 0x1160;
 

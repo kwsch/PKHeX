@@ -1,0 +1,139 @@
+(Ninguno)
+
+
+
+
+
+
+Cojín Amarillo
+Cojín Azul
+Silla Madera
+Mesa Grande
+Mesa Común
+Mesa Pequeña
+Mesa Larga
+Mesa Ancha
+Mesa Pokémon
+Estante Grande
+Estante Pequeño
+Estante Estudio
+Estante Bici
+Estante Tienda
+Estante Muestra
+Armario
+Mueble Madera
+Mueble Rosa
+Televisor
+Frigorífico
+Lavabo Bonito
+Cama Plumas
+Cubo Basura
+Caja Cartón
+Caja
+Contenedor
+Bidón Aceite
+Bidón Ac. Gr.
+Barra Hierro
+Maceta
+Flor Pokémon
+Máq. Curación
+Máq. Laborat.
+Máquina Pruebas
+Consola Juegos
+Máq. Expended.
+Bici Roja
+Bici Verde
+Prismáticos
+Globo Terr.
+Estatua Gimn.
+Tienda Roja
+Tienda Azul
+Tienda Transp.
+Bloque Laber. 1
+Bloque Laber. 2
+Bloque Laber. 3
+Bloque Laber. 4
+Bloque Laber. 5
+Herram. Agujero
+Herram. Fosa
+Herram. Humo
+Herr. Humo Gr.
+Herram. Piedras
+Herram. Rocas
+Herram. Espuma
+Herram. Burbuja
+Herr. Alerta 1
+Herr. Alerta 2
+Herr. Alerta 3
+Herr. Alerta 4
+Herram. Hoja
+Herram. Flor
+Herram. Brasas
+Herram. Fuego
+Copa Dulzura
+Copa Carisma
+Copa Belleza
+Copa Dureza
+Copa Ingenio
+Cristal Azul
+Cristal Rosa
+Cristal Rojo
+Cristal Amar.
+Joya Preciosa
+Joya Brillante
+Joya Mística
+Joya Reluciente
+Trofeo Bronce
+Trofeo Plata
+Trofeo Oro
+Gran Trofeo
+Adorno Ball
+Adorno Redondo
+Adorno Transp.
+Muñ. CHARMANDER
+Muñ. BULBASAUR
+Muñeco SQUIRTLE
+Muñ. CYNDAQUIL
+Muñ. CHIKORITA
+Muñ. TOTODILE
+Muñeco TORCHIC
+Muñeco TREECKO
+Muñeco MUDKIP
+Muñeco CHIMCHAR
+Muñeco TURTWIG
+Muñeco PIPLUP
+Muñeco PIKACHU
+Muñeco PLUSLE
+Muñeco MINUN
+Muñeco CLEFAIRY
+Muñ. JIGGLYPUFF
+Muñ. WOBBUFFET
+Muñeco MEOWTH
+Muñeco SKITTY
+Muñeco GLAMEOW
+Muñeco BUNEARY
+Muñeco WEAVILE
+Muñeco MUNCHLAX
+Muñeco BONSLY
+Muñeco MIME JR.
+Muñeco LUCARIO
+Muñeco MANTYKE
+Muñeco BUIZEL
+Muñeco CHATOT
+Muñeco MANAPHY
+Muñeco SNORLAX
+Muñeco WAILORD
+Muñ. MAGNEZONE
+Muñeco DRIFLOON
+Muñeco HAPPINY
+Muñ. PACHIRISU
+
+
+
+
+Sofá Grande
+Bonsái
+Flores Sublimes
+Flores Hermosas
+Flores Bonitas
+Flores Vistosas
