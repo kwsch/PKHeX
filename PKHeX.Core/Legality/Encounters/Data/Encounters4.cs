@@ -402,7 +402,6 @@ namespace PKHeX.Core
             new EncounterTrade4PID(323977579) { Species = 114, Level = 01, Moves = new[] {437,438,079,246}, TID = 1000, SID = 49497, OTGender = 1, Version = D, Location = 3000, Gender = 1, Ability = 2, }, // Tangela
             new EncounterTrade4PID(323977675) { Species = 133, Level = 16, Moves = new[] {363,270,098,247}, TID = 1000, SID = 47710, OTGender = 1, Version = D, Location = 0068, Gender = 0, Ability = 2, CurrentLevel = 30, }, // Eevee
             new EncounterTrade4PID(323977588) { Species = 142, Level = 20, Moves = new[] {363,089,444,332}, TID = 1000, SID = 43066, OTGender = 1, Version = D, Location = 0094, Gender = 0, Ability = 1, CurrentLevel = 50, }, // Aerodactyl
-            new EncounterTrade4     { Species = 151, Level = 50, Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Version = D, Location = 3000, Gender = 2, Fateful = true, Ball = 0x10, }, // Mew
             new EncounterTrade4PID(232975554) { Species = 193, Level = 22, Moves = new[] {318,095,246,138}, TID = 1000, SID = 42301, OTGender = 1, Version = D, Location = 0052, Gender = 0, Ability = 1, CurrentLevel = 45, Ball = 0x05, }, // Yanma
             new EncounterTrade4PID(323975570) { Species = 241, Level = 16, Moves = new[] {208,215,360,359}, TID = 1000, SID = 02707, OTGender = 1, Version = D, Location = 3000, Gender = 1, Ability = 1, CurrentLevel = 48, }, // Miltank
             new EncounterTrade4PID(323975563) { Species = 285, Level = 22, Moves = new[] {402,147,206,078}, TID = 1000, SID = 02788, OTGender = 1, Version = D, Location = 3000, Gender = 0, Ability = 2, CurrentLevel = 45, Ball = 0x05, }, // Shroomish
@@ -416,7 +415,8 @@ namespace PKHeX.Core
             new EncounterTrade4PID(323975579) { Species = 453, Level = 22, Moves = new[] {310,207,426,389}, TID = 1000, SID = 41342, OTGender = 1, Version = D, Location = 0052, Gender = 0, Ability = 2, CurrentLevel = 31, Ball = 0x05, }, // Croagunk
             new EncounterTrade4PID(323977566) { Species = 456, Level = 15, Moves = new[] {213,352,219,392}, TID = 1000, SID = 48348, OTGender = 1, Version = D, Location = 0020, Gender = 1, Ability = 1, CurrentLevel = 35, }, // Finneon
             new EncounterTrade4PID(323975582) { Species = 459, Level = 32, Moves = new[] {452,420,275,059}, TID = 1000, SID = 23360, OTGender = 1, Version = D, Location = 0031, Gender = 0, Ability = 1, CurrentLevel = 41, }, // Snover
-            new EncounterTrade4    { Species = 489, Level = 01, Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Version = D, Location = 3000, Gender = 2, Fateful = true, CurrentLevel = 50, Ball = 0x10, EggLocation = 3000, }, // Phione
+            new EncounterTrade4Ranch(151, 50) { Moves = new[] {235,216,095,100}, TID = 1000, SID = 59228, OTGender = 1, Version = D, Location = 3000, Gender = 2, }, // Mew
+            new EncounterTrade4Ranch(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Version = D, Location = 3000, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
         };
 
         internal static readonly EncounterTrade[] TradeGift_DPPt = new []

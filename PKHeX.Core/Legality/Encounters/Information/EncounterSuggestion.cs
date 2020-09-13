@@ -182,6 +182,13 @@ namespace PKHeX.Core
             return startLevel;
         }
 
+        /// <summary>
+        /// Gets the suggested <see cref="PKM.Met_Level"/> based on a baseline <see cref="minLevel"/> and the <see cref="pkm"/>'s current moves.
+        /// </summary>
+        /// <param name="pkm">Entity to calculate for</param>
+        /// <param name="minLevel">Encounter minimum level to calculate for</param>
+        /// <returns>Minimum level the <see cref="pkm"/> can have for its <see cref="PKM.Met_Level"/></returns>
+        /// <remarks>Brute-forces the value by cloning the <see cref="pkm"/> and adjusting the <see cref="PKM.Met_Level"/> and returning the lowest valid value.</remarks>
         public static int GetSuggestedMetLevel(PKM pkm, int minLevel)
         {
             var clone = pkm.Clone();

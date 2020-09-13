@@ -61,8 +61,21 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterTrade4 : EncounterTrade
+    public sealed class EncounterTrade4Ranch : EncounterTrade
     {
         public override int Generation => 4;
+
+        public EncounterTrade4Ranch(int species, int level)
+        {
+            Species = species;
+            Level = level;
+            Ball = 0x10;
+        }
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            pk.FatefulEncounter = true;
+        }
     }
 }

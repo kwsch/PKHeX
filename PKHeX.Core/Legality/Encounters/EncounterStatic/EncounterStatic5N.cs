@@ -29,7 +29,13 @@
             return base.IsMatch(pkm, evo);
         }
 
-        internal void SetNPokemonData(PK5 pk5, int lang)
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            SetNPokemonData((PK5)pk, pk.Language);
+        }
+
+        private static void SetNPokemonData(PK5 pk5, int lang)
         {
             pk5.IV_HP = pk5.IV_ATK = pk5.IV_DEF = pk5.IV_SPA = pk5.IV_SPD = pk5.IV_SPE = 30;
             pk5.NPokémon = NSparkle;

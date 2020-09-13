@@ -6,6 +6,7 @@ using static PKHeX.Core.Legal;
 using static PKHeX.Core.Encounters1;
 using static PKHeX.Core.Encounters2;
 using static PKHeX.Core.Encounters3;
+using static PKHeX.Core.Encounters3GC;
 using static PKHeX.Core.Encounters4;
 using static PKHeX.Core.Encounters5;
 using static PKHeX.Core.Encounters6;

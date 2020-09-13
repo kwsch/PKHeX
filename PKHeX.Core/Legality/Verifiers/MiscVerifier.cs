@@ -83,7 +83,8 @@ namespace PKHeX.Core
         {
             var Type_A = pk1.Type_A;
             var Type_B = pk1.Type_B;
-            if (pk1.Species == (int)Species.Porygon)
+            var species = pk1.Species;
+            if (species == (int)Species.Porygon)
             {
                 // Can have any type combination of any species by using Conversion.
                 if (!GBRestrictions.TypeIDExists(Type_A))
@@ -94,7 +95,7 @@ namespace PKHeX.Core
                 {
                     data.AddLine(GetInvalid(LG1TypePorygonFail2));
                 }
-                else // Both match a type, ensure a gen1 species has this combo
+                else // Both types exist, ensure a Gen1 species has this combination
                 {
                     var TypesAB_Match = PersonalTable.RB.IsValidTypeCombination(Type_A, Type_B);
                     var result = TypesAB_Match ? GetValid(LG1TypeMatchPorygon) : GetInvalid(LG1TypePorygonFail);
@@ -103,11 +104,12 @@ namespace PKHeX.Core
             }
             else // Types must match species types
             {
-                var Type_A_Match = Type_A == PersonalTable.RB[pk1.Species].Type1;
-                var Type_B_Match = Type_B == PersonalTable.RB[pk1.Species].Type2;
+                var pi = PersonalTable.RB[species];
+                var Type_A_Match = Type_A == pi.Type1;
+                var Type_B_Match = Type_B == pi.Type2;
 
                 var first = Type_A_Match ? GetValid(LG1TypeMatch1) : GetInvalid(LG1Type1Fail);
-                var second = Type_B_Match || (ParseSettings.AllowGBCartEra && ((pk1.Species == (int)Species.Magnemite || pk1.Species == (int)Species.Magneton) && Type_B == 9)) // Steel Magnemite via Stadium2
+                var second = Type_B_Match || (ParseSettings.AllowGBCartEra && ((species == (int)Species.Magnemite || species == (int)Species.Magneton) && Type_B == 9)) // Steel Magnemite via Stadium2
                     ? GetValid(LG1TypeMatch2) : GetInvalid(LG1Type2Fail);
                 data.AddLine(first);
                 data.AddLine(second);
@@ -135,9 +137,11 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback()
             {
-                if ((e is EncounterStatic s && s.Version == GameVersion.Stadium) || e is EncounterTrade1)
+                if ((e is EncounterStatic1 s && s.Version == GameVersion.Stadium) || e is EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
-                if ((pk1.Species == 149 && catch_rate == PersonalTable.Y[149].CatchRate) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(pk1.Species) && catch_rate == PersonalTable.RB[pk1.Species].CatchRate))
+
+                int species = pk1.Species;
+                if ((species == (int)Species.Dragonite && catch_rate == 9) || (GBRestrictions.Species_NotAvailable_CatchRate.Contains(species) && catch_rate == PersonalTable.RB[species].CatchRate))
                     return GetInvalid(LG1CatchRateEvo);
                 if (!data.Info.EvoChainsAllGens[1].Any(c => RateMatchesEncounter(c.Species)))
                     return GetInvalid(pk1.Gen1_NotTradeback ? LG1CatchRateChain : LG1CatchRateNone);
@@ -184,8 +188,8 @@ namespace PKHeX.Core
                     VerifyFatefulMysteryGift(data, g);
                     return;
                 case EncounterStatic s when s.Fateful: // ingame fateful
-                case EncounterSlot x when x.Version == GameVersion.XD: // ingame pokespot
-                case EncounterTrade t when t.Fateful:
+                case EncounterSlot3PokeSpot _: // ingame pokespot
+                case EncounterTrade4Ranch _: // ranch varied PID
                     VerifyFatefulIngameActive(data);
                     return;
             }

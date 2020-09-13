@@ -11,8 +11,11 @@ namespace PKHeX.Tests.Legality
     {
         static LegalityTest()
         {
-            if (!EncounterEvent.Initialized)
-                EncounterEvent.RefreshMGDB();
+            if (EncounterEvent.Initialized)
+                return;
+
+            RibbonStrings.ResetDictionary(GameInfo.Strings.ribbons);
+            EncounterEvent.RefreshMGDB();
         }
 
         [Theory]
@@ -69,7 +72,7 @@ namespace PKHeX.Tests.Legality
                 {
                     var info = legality.Info;
                     var result = legality.Results.Concat(info.Moves).Concat(info.Relearn);
-                    var invalid = result.Where(z => !z.Valid);
+                    var invalid = result.Where(z => z != null && !z.Valid);
                     var msg = string.Join(Environment.NewLine, invalid.Select(z => z.Comment));
                     legality.Valid.Should().BeTrue($"because the file '{fn}' should be Valid, but found:{Environment.NewLine}{msg}");
                 }

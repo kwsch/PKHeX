@@ -29,6 +29,13 @@ namespace PKHeX.Core
             return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
+                e4.RibbonWishing = true;
+        }
+
         internal static EncounterStatic7 GetVC1(int species, int metLevel)
         {
             bool mew = species == (int)Core.Species.Mew;

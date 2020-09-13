@@ -3,10 +3,17 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class EncounterStatic3 : EncounterStatic
+    public sealed class EncounterStatic3 : EncounterStatic
     {
-        public sealed override int Generation => 3;
+        public override int Generation => 3;
         public bool Roaming { get; set; }
+
+        public EncounterStatic3(int species, int level, GameVersion game)
+        {
+            Species = species;
+            Level = level;
+            Version = game;
+        }
 
         protected override bool IsMatchEggLocation(PKM pkm)
         {

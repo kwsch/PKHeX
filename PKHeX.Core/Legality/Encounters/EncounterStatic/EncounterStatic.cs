@@ -12,22 +12,23 @@ namespace PKHeX.Core
     public abstract class EncounterStatic : IEncounterable, IMoveset, ILocation, IVersionSet
     {
         public int Species { get; set; }
-        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
+        public int Form { get; set; }
         public virtual int Level { get; set; }
-
         public virtual int LevelMin => Level;
         public virtual int LevelMax => Level;
         public abstract int Generation { get; }
+        public GameVersion Version { get; set; } = GameVersion.Any;
+
         public virtual int Location { get; set; }
         public int Ability { get; set; }
-        public int Form { get; set; }
         public virtual Shiny Shiny { get; set; } = Shiny.Random;
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;
         public bool Gift { get; set; }
         public int Ball { get; set; } = 4; // Only checked when is Gift
-        public GameVersion Version { get; set; } = GameVersion.Any;
+
+        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
         public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
         public int FlawlessIVCount { get; set; }
 
@@ -51,6 +52,12 @@ namespace PKHeX.Core
             var pk = PKMConverter.GetBlank(Generation, Version);
             sav.ApplyTo(pk);
 
+            ApplyDetails(sav, criteria, pk);
+            return pk;
+        }
+
+        protected virtual void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
             pk.AltForm = Form;
@@ -77,27 +84,11 @@ namespace PKHeX.Core
             SetPINGA(pk, criteria);
             SetEncounterMoves(pk, version, level);
 
-            switch (pk)
-            {
-                case PK3 pk3 when this is EncounterStaticShadow:
-                    pk3.RibbonNational = true;
-                    break;
-                case PK6 pk6:
-                    pk6.SetRandomMemory6();
-                    break;
-            }
-
-            if (this is EncounterStatic7 s7 && s7.Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
-                e4.RibbonWishing = true;
-            if (this is EncounterStatic5N n)
-                n.SetNPokemonData((PK5)pk, lang);
-            if (this is EncounterStatic6 s6 && pk is IContestStats s)
-                s6.CopyContestStatsTo(s);
             if (Fateful)
                 pk.FatefulEncounter = true;
 
             if (pk.Format < 6)
-                return pk;
+                return;
 
             if (this is IRelearn relearn)
                 pk.SetRelearnMoves(relearn.Relearn);
@@ -109,8 +100,6 @@ namespace PKHeX.Core
                 pg.CanGigantamax = g.CanGigantamax;
             if (this is IDynamaxLevel d && pk is IDynamaxLevel pd)
                 pd.DynamaxLevel = d.DynamaxLevel;
-
-            return pk;
         }
 
         protected virtual int GetMinimalLevel() => LevelMin;

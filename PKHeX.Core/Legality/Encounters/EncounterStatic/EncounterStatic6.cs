@@ -26,5 +26,13 @@ namespace PKHeX.Core
             var loc = pkm.Met_Location;
             return loc == 180 || loc == 186 || loc == 194;
         }
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            var pk6 = (PK6)pk;
+            this.CopyContestStatsTo(pk6);
+            pk6.SetRandomMemory6();
+        }
     }
 }

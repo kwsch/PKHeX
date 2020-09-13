@@ -818,6 +818,8 @@ namespace PKHeX.Core
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
+                case EncounterStaticShadow _:
+                    return pkm.Version == (int)GameVersion.CXD && (val == PIDType.CXD || val == PIDType.CXDAnti);
                 case EncounterStatic3 s:
                     switch (pkm.Version)
                     {

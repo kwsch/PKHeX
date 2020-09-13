@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public abstract int Generation { get; }
 
         public int CurrentLevel { get; set; } = -1;
-        public int Location { get; set; } = -1;
+        public int Location { get; set; }
         public int Ability { get; set; }
         public int Gender { get; set; } = -1;
         public Nature Nature = Nature.Random;
@@ -52,7 +52,6 @@ namespace PKHeX.Core
         private const string _name = "In-game Trade";
         public string Name => _name;
         public string LongName => _name;
-        public bool Fateful { get; set; }
         public bool IsNicknamed { get; set; } = true;
 
         public IReadOnlyList<string> Nicknames { get; internal set; } = Array.Empty<string>();
@@ -62,17 +61,21 @@ namespace PKHeX.Core
         public bool HasNickname => Nicknames.Count != 0 && IsNicknamed;
         public bool HasTrainerName => TrainerNames.Count != 0;
 
-        private static readonly int[] DefaultMetLocation =
+        private static int GetDefaultMetLocation(int generation)
         {
-            0,
-            Locations.LinkTrade2NPC,
-            Locations.LinkTrade3NPC,
-            Locations.LinkTrade4NPC,
-            Locations.LinkTrade5NPC,
-            Locations.LinkTrade6NPC,
-            Locations.LinkTrade6NPC, // 7 is same as 6
-            Locations.LinkTrade6NPC, // 8 is same as 6
-        };
+            return generation switch
+            {
+                1 => 0,
+                2 => Locations.LinkTrade2NPC,
+                3 => Locations.LinkTrade3NPC,
+                4 => Locations.LinkTrade4NPC,
+                5 => Locations.LinkTrade5NPC,
+                6 => Locations.LinkTrade6NPC,
+                7 => Locations.LinkTrade6NPC, // 7 is same as 6
+                8 => Locations.LinkTrade6NPC, // 8 is same as 6
+                _ => throw new IndexOutOfRangeException(nameof(generation)),
+            };
+        }
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
@@ -118,7 +121,7 @@ namespace PKHeX.Core
             var time = DateTime.Now;
             if (pk.Format != 2 || version == GameVersion.C)
             {
-                var location = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
+                var location = Location != 0 ? Location : GetDefaultMetLocation(Generation);
                 SetMetData(pk, level, location, time);
             }
             else
@@ -128,9 +131,6 @@ namespace PKHeX.Core
 
             if (EggLocation != 0)
                 SetEggMetData(pk, time);
-
-            if (Fateful)
-                pk.FatefulEncounter = true;
 
             UpdateEdgeCase(pk);
 
@@ -261,7 +261,7 @@ namespace PKHeX.Core
             if (!pkm.HasOriginalMetLocation)
                 return Level <= evo.Level;
 
-            var loc = Location > 0 ? Location : DefaultMetLocation[Generation - 1];
+            var loc = Location != 0 ? Location : GetDefaultMetLocation(Generation);
             if (loc != pkm.Met_Location)
                 return false;
 
