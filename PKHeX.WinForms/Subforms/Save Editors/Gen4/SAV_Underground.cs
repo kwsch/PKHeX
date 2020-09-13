@@ -17,7 +17,6 @@ namespace PKHeX.WinForms
 
         public SAV_Underground(SaveFile sav)
         {
-
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV4Sinnoh)(Origin = sav).Clone();
@@ -26,7 +25,6 @@ namespace PKHeX.WinForms
 
             GetUGScores();
             ReadUGData();
-
         }
 
         private void InitializeDGV()
@@ -81,7 +79,7 @@ namespace PKHeX.WinForms
                 DGV_UGGoods.Rows[i].Cells[0].Value = ugGoods[goodsList[i]].ToString();
             }
 
-            //Spheres (split in two, first 40 positions are the sphere type, last 40 are their 1=1 size)
+            //Spheres (split in two, first 40 positions are the sphere type, last 40 are their size)
             for (int i = 0; i < (spheresList.Length / 2); i++)
             {
                 DGV_UGSpheres.Rows[i].Cells[0].Value = ugSpheres[spheresList[i]].ToString();
