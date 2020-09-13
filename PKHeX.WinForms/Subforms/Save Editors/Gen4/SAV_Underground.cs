@@ -10,7 +10,7 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SAV4Sinnoh SAV;
 
-        private const int MAX_SIZE = 0x28; // 0x28 max length for each of the inventory pouches
+        private const int MAX_SIZE = SAV4Sinnoh.UG_POUCH_SIZE;
         private string[] ugGoods, ugSpheres, ugTraps, ugTreasures;
         private string[] ugGoodsSorted, ugTrapsSorted, ugTreasuresSorted;
 
@@ -33,22 +33,22 @@ namespace PKHeX.WinForms
             ugTraps = GameInfo.Strings.ugtraps;
             ugTreasures = GameInfo.Strings.ugtreasures;
 
-            //Goods
+            // Goods
             ugGoodsSorted = SanitizeList(ugGoods);
-            DGV_UGGoods.Rows.Add(MAX_SIZE); 
-            
+            DGV_UGGoods.Rows.Add(SAV4Sinnoh.UG_POUCH_SIZE);
+
             Item_Goods.DataSource = new BindingSource(ugGoodsSorted, null);
             Item_Goods.DisplayIndex = 0;
             DGV_UGGoods.CancelEdit();
 
-            //Spheres
+            // Spheres
             DGV_UGSpheres.Rows.Add(MAX_SIZE);
 
             Item_Spheres.DataSource = new BindingSource(ugSpheres, null);
             Item_Spheres.DisplayIndex = 0;
             DGV_UGSpheres.CancelEdit();
 
-            //Traps
+            // Traps
             ugTrapsSorted = SanitizeList(ugTraps);
             DGV_UGTraps.Rows.Add(MAX_SIZE);
 
@@ -56,7 +56,7 @@ namespace PKHeX.WinForms
             Item_Traps.DisplayIndex = 0;
             DGV_UGTraps.CancelEdit();
 
-            //Treasures
+            // Treasures
             ugTreasuresSorted = SanitizeList(ugTreasures);
             DGV_UGTreasures.Rows.Add(MAX_SIZE);
 
@@ -72,29 +72,30 @@ namespace PKHeX.WinForms
             byte[] trapsList = SAV.UGI_Traps;
             byte[] treasuresList = SAV.UGI_Treasures;
 
-            //Goods
+            // Goods
             for (int i = 0; i < goodsList.Length; i++)
-            {   
-                DGV_UGGoods.Rows[i].Cells[0].Value = ugGoods[goodsList[i]].ToString();
+            {
+                DGV_UGGoods.Rows[i].Cells[0].Value = ugGoods[goodsList[i]];
             }
 
-            //Spheres (split in two, first 40 positions are the sphere type, last 40 are their size)
+            // Spheres (split in two, first 40 positions are the sphere type, last 40 are their size)
             for (int i = 0; i < (spheresList.Length / 2); i++)
             {
-                DGV_UGSpheres.Rows[i].Cells[0].Value = ugSpheres[spheresList[i]].ToString();
-                DGV_UGSpheres.Rows[i].Cells[1].Value = spheresList[i + MAX_SIZE].ToString();
+                var row = DGV_UGSpheres.Rows[i];
+                row.Cells[0].Value = ugSpheres[spheresList[i]];
+                row.Cells[1].Value = spheresList[i + MAX_SIZE].ToString();
             }
 
-            //Traps
+            // Traps
             for (int i = 0; i < trapsList.Length; i++)
             {
-                DGV_UGTraps.Rows[i].Cells[0].Value = ugTraps[trapsList[i]].ToString();
+                DGV_UGTraps.Rows[i].Cells[0].Value = ugTraps[trapsList[i]];
             }
 
-            //Treasures
+            // Treasures
             for (int i = 0; i < treasuresList.Length; i++)
             {
-                DGV_UGTreasures.Rows[i].Cells[0].Value = ugTreasures[treasuresList[i]].ToString();
+                DGV_UGTreasures.Rows[i].Cells[0].Value = ugTreasures[treasuresList[i]];
             }
         }
 
@@ -105,7 +106,7 @@ namespace PKHeX.WinForms
             byte[] trapsList = new byte[SAV.UGI_Traps.Length];
             byte[] treasuresList = new byte[SAV.UGI_Treasures.Length];
 
-            //Goods
+            // Goods
             int ctr = 0;
             for (int i = 0; i < DGV_UGGoods.Rows.Count; i++)
             {
@@ -113,30 +114,30 @@ namespace PKHeX.WinForms
                 var itemindex = Array.IndexOf(ugGoods, str);
 
                 if (itemindex <= 0)
-                    continue; //ignore empty slot
+                    continue; // ignore empty slot
 
                 goodsList[ctr] = (byte)itemindex;
                 ctr++;
             }
 
-            //Spheres
-            int itemcnt;
+            // Spheres
             ctr = 0;
             for (int i = 0; i < DGV_UGSpheres.Rows.Count; i++)
             {
-                var str = DGV_UGSpheres.Rows[i].Cells[0].Value.ToString();
+                var row = DGV_UGSpheres.Rows[i];
+                var str = row.Cells[0].Value.ToString();
                 var itemindex = Array.IndexOf(ugSpheres, str);
-                
-                bool success = int.TryParse(DGV_UGSpheres.Rows[i].Cells[1].Value?.ToString(), out itemcnt);
+
+                bool success = int.TryParse(row.Cells[1].Value?.ToString(), out var itemcnt);
                 if (!success || itemindex <= 0)
-                    continue;  //ignore empty slot or non-numeric values
+                    continue;  // ignore empty slot or non-numeric values
 
                 spheresList[ctr] = (byte)itemindex;
                 spheresList[ctr + MAX_SIZE] = (byte)itemcnt;
                 ctr++;
             }
 
-            //Traps
+            // Traps
             ctr = 0;
             for (int i = 0; i < DGV_UGTraps.Rows.Count; i++)
             {
@@ -144,13 +145,13 @@ namespace PKHeX.WinForms
                 var itemindex = Array.IndexOf(ugTraps, str);
 
                 if (itemindex <= 0)
-                    continue; //ignore empty slot
+                    continue; // ignore empty slot
 
                 trapsList[ctr] = (byte)itemindex;
                 ctr++;
             }
 
-            //Treasures
+            // Treasures
             ctr = 0;
             for (int i = 0; i < DGV_UGTreasures.Rows.Count; i++)
             {
@@ -158,7 +159,7 @@ namespace PKHeX.WinForms
                 var itemindex = Array.IndexOf(ugTreasures, str);
 
                 if (itemindex <= 0)
-                    continue; //ignore empty slot
+                    continue; // ignore empty slot
 
                 treasuresList[ctr] = (byte)itemindex;
                 ctr++;
