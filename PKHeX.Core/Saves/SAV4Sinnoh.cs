@@ -153,6 +153,7 @@ namespace PKHeX.Core
 
         public int OFS_PoffinCase { get; protected set; }
 
+        #region Underground
         //Underground Scores
         protected int OFS_UG_Stats;
         public uint UG_PlayersMet { get => BitConverter.ToUInt32(General, OFS_UG_Stats); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats); }
@@ -162,6 +163,31 @@ namespace PKHeX.Core
         public uint UG_TrapsAvoided { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x18); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x18); }
         public uint UG_TrapsTriggered { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x1C); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x1C); }
         public uint UG_Flags { get => BitConverter.ToUInt32(General, OFS_UG_Stats + 0x34); set => SetData(General, BitConverter.GetBytes(value), OFS_UG_Stats + 0x34); }
+
+        //Underground Items
+        protected int OFS_UG_Items;
+        public byte[] UGI_Traps
+        {
+            get => General.Slice(OFS_UG_Items, 0x28);
+            set => SetData(General, value, OFS_UG_Items);
+        }
+        public byte[] UGI_Goods
+        {
+            get => General.Slice(OFS_UG_Items + 0x28, 0x28);
+            set => SetData(General, value, OFS_UG_Items + 0x28);
+        }
+        public byte[] UGI_Treasures
+        {
+            get => General.Slice(OFS_UG_Items + 0x50, 0x28);
+            set => SetData(General, value, OFS_UG_Items + 0x50);
+        }
+        public byte[] UGI_Spheres
+        {
+            get => General.Slice(OFS_UG_Items + 0x78, 0x50);
+            set => SetData(General, value, OFS_UG_Items + 0x78);
+        }
+        #endregion
+
     }
 
     public enum PoketchColor
