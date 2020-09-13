@@ -82,7 +82,7 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(468, 248);
+            this.B_Save.Location = new System.Drawing.Point(472, 248);
             this.B_Save.Margin = new System.Windows.Forms.Padding(4);
             this.B_Save.Name = "B_Save";
             this.B_Save.Size = new System.Drawing.Size(100, 28);
@@ -94,7 +94,7 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(360, 248);
+            this.B_Cancel.Location = new System.Drawing.Point(364, 248);
             this.B_Cancel.Margin = new System.Windows.Forms.Padding(4);
             this.B_Cancel.Name = "B_Cancel";
             this.B_Cancel.Size = new System.Drawing.Size(100, 28);
@@ -494,13 +494,15 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(578, 286);
+            this.ClientSize = new System.Drawing.Size(582, 286);
             this.Controls.Add(this.TC_UGItems);
             this.Controls.Add(this.GB_UScores);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MaximizeBox = false;
             this.Name = "SAV_Underground";
             this.Text = "Underground Editor";
             ((System.ComponentModel.ISupportInitialize)(this.U_PlayersMet)).EndInit();
