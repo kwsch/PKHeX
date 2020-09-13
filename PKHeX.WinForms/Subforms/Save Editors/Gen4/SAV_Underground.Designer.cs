@@ -45,21 +45,21 @@
             this.U_TrapsT = new System.Windows.Forms.NumericUpDown();
             this.LU_Flags = new System.Windows.Forms.Label();
             this.U_Flags = new System.Windows.Forms.NumericUpDown();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.GB_UScores = new System.Windows.Forms.GroupBox();
             this.TC_UGItems = new System.Windows.Forms.TabControl();
             this.TB_UGGoods = new System.Windows.Forms.TabPage();
             this.DGV_UGGoods = new System.Windows.Forms.DataGridView();
+            this.Item_Goods = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.TB_UGSpheres = new System.Windows.Forms.TabPage();
             this.DGV_UGSpheres = new System.Windows.Forms.DataGridView();
-            this.TB_UGTraps = new System.Windows.Forms.TabPage();
-            this.DGV_UGTraps = new System.Windows.Forms.DataGridView();
-            this.TB_UGTreasures = new System.Windows.Forms.TabPage();
-            this.DGV_UGTreasures = new System.Windows.Forms.DataGridView();
-            this.Item_Traps = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Item_Goods = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Item_Treasures = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Item_Spheres = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Size_Spheres = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TB_UGTraps = new System.Windows.Forms.TabPage();
+            this.DGV_UGTraps = new System.Windows.Forms.DataGridView();
+            this.Item_Traps = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.TB_UGTreasures = new System.Windows.Forms.TabPage();
+            this.DGV_UGTreasures = new System.Windows.Forms.DataGridView();
+            this.Item_Treasures = new System.Windows.Forms.DataGridViewComboBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.U_PlayersMet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Gifts)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Spheres)).BeginInit();
@@ -67,7 +67,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.U_TrapsA)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_TrapsT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Flags)).BeginInit();
-            this.groupBox1.SuspendLayout();
+            this.GB_UScores.SuspendLayout();
             this.TC_UGItems.SuspendLayout();
             this.TB_UGGoods.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_UGGoods)).BeginInit();
@@ -257,28 +257,28 @@
             this.U_Flags.Size = new System.Drawing.Size(95, 22);
             this.U_Flags.TabIndex = 7;
             // 
-            // groupBox1
+            // GB_UScores
             // 
-            this.groupBox1.Controls.Add(this.U_Flags);
-            this.groupBox1.Controls.Add(this.LU_Flags);
-            this.groupBox1.Controls.Add(this.U_TrapsT);
-            this.groupBox1.Controls.Add(this.LU_TrapsT);
-            this.groupBox1.Controls.Add(this.U_TrapsA);
-            this.groupBox1.Controls.Add(this.LU_TrapsA);
-            this.groupBox1.Controls.Add(this.U_Fossils);
-            this.groupBox1.Controls.Add(this.LU_Fossils);
-            this.groupBox1.Controls.Add(this.U_Spheres);
-            this.groupBox1.Controls.Add(this.LU_Spheres);
-            this.groupBox1.Controls.Add(this.U_Gifts);
-            this.groupBox1.Controls.Add(this.LU_Gifts);
-            this.groupBox1.Controls.Add(this.U_PlayersMet);
-            this.groupBox1.Controls.Add(this.LU_PlayersMet);
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(264, 223);
-            this.groupBox1.TabIndex = 27;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Scores";
+            this.GB_UScores.Controls.Add(this.U_Flags);
+            this.GB_UScores.Controls.Add(this.LU_Flags);
+            this.GB_UScores.Controls.Add(this.U_TrapsT);
+            this.GB_UScores.Controls.Add(this.LU_TrapsT);
+            this.GB_UScores.Controls.Add(this.U_TrapsA);
+            this.GB_UScores.Controls.Add(this.LU_TrapsA);
+            this.GB_UScores.Controls.Add(this.U_Fossils);
+            this.GB_UScores.Controls.Add(this.LU_Fossils);
+            this.GB_UScores.Controls.Add(this.U_Spheres);
+            this.GB_UScores.Controls.Add(this.LU_Spheres);
+            this.GB_UScores.Controls.Add(this.U_Gifts);
+            this.GB_UScores.Controls.Add(this.LU_Gifts);
+            this.GB_UScores.Controls.Add(this.U_PlayersMet);
+            this.GB_UScores.Controls.Add(this.LU_PlayersMet);
+            this.GB_UScores.Location = new System.Drawing.Point(13, 13);
+            this.GB_UScores.Name = "GB_UScores";
+            this.GB_UScores.Size = new System.Drawing.Size(264, 223);
+            this.GB_UScores.TabIndex = 27;
+            this.GB_UScores.TabStop = false;
+            this.GB_UScores.Text = "Scores";
             // 
             // TC_UGItems
             // 
@@ -327,6 +327,17 @@
             this.DGV_UGGoods.Size = new System.Drawing.Size(265, 180);
             this.DGV_UGGoods.TabIndex = 0;
             // 
+            // Item_Goods
+            // 
+            this.Item_Goods.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Item_Goods.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.Item_Goods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Item_Goods.HeaderText = "Item";
+            this.Item_Goods.MinimumWidth = 6;
+            this.Item_Goods.Name = "Item_Goods";
+            this.Item_Goods.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Item_Goods.Width = 175;
+            // 
             // TB_UGSpheres
             // 
             this.TB_UGSpheres.Controls.Add(this.DGV_UGSpheres);
@@ -363,6 +374,30 @@
             this.DGV_UGSpheres.Size = new System.Drawing.Size(265, 180);
             this.DGV_UGSpheres.TabIndex = 1;
             // 
+            // Item_Spheres
+            // 
+            this.Item_Spheres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Item_Spheres.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.Item_Spheres.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Item_Spheres.HeaderText = "Sphere";
+            this.Item_Spheres.MinimumWidth = 6;
+            this.Item_Spheres.Name = "Item_Spheres";
+            this.Item_Spheres.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Item_Spheres.Width = 150;
+            // 
+            // Size_Spheres
+            // 
+            this.Size_Spheres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Size_Spheres.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Size_Spheres.HeaderText = "Size";
+            this.Size_Spheres.MaxInputLength = 2;
+            this.Size_Spheres.MinimumWidth = 6;
+            this.Size_Spheres.Name = "Size_Spheres";
+            this.Size_Spheres.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Size_Spheres.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Size_Spheres.Width = 75;
+            // 
             // TB_UGTraps
             // 
             this.TB_UGTraps.Controls.Add(this.DGV_UGTraps);
@@ -397,6 +432,17 @@
             this.DGV_UGTraps.ShowEditingIcon = false;
             this.DGV_UGTraps.Size = new System.Drawing.Size(265, 180);
             this.DGV_UGTraps.TabIndex = 1;
+            // 
+            // Item_Traps
+            // 
+            this.Item_Traps.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Item_Traps.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            this.Item_Traps.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Item_Traps.HeaderText = "Item";
+            this.Item_Traps.MinimumWidth = 6;
+            this.Item_Traps.Name = "Item_Traps";
+            this.Item_Traps.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Item_Traps.Width = 175;
             // 
             // TB_UGTreasures
             // 
@@ -433,28 +479,6 @@
             this.DGV_UGTreasures.Size = new System.Drawing.Size(265, 180);
             this.DGV_UGTreasures.TabIndex = 1;
             // 
-            // Item_Traps
-            // 
-            this.Item_Traps.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Item_Traps.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.Item_Traps.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Item_Traps.HeaderText = "Item";
-            this.Item_Traps.MinimumWidth = 6;
-            this.Item_Traps.Name = "Item_Traps";
-            this.Item_Traps.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Item_Traps.Width = 175;
-            // 
-            // Item_Goods
-            // 
-            this.Item_Goods.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Item_Goods.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.Item_Goods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Item_Goods.HeaderText = "Item";
-            this.Item_Goods.MinimumWidth = 6;
-            this.Item_Goods.Name = "Item_Goods";
-            this.Item_Goods.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Item_Goods.Width = 175;
-            // 
             // Item_Treasures
             // 
             this.Item_Treasures.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -466,37 +490,13 @@
             this.Item_Treasures.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Item_Treasures.Width = 175;
             // 
-            // Item_Spheres
-            // 
-            this.Item_Spheres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Item_Spheres.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            this.Item_Spheres.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Item_Spheres.HeaderText = "Sphere";
-            this.Item_Spheres.MinimumWidth = 6;
-            this.Item_Spheres.Name = "Item_Spheres";
-            this.Item_Spheres.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Item_Spheres.Width = 150;
-            // 
-            // Size_Spheres
-            // 
-            this.Size_Spheres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Size_Spheres.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Size_Spheres.HeaderText = "Size";
-            this.Size_Spheres.MaxInputLength = 2;
-            this.Size_Spheres.MinimumWidth = 6;
-            this.Size_Spheres.Name = "Size_Spheres";
-            this.Size_Spheres.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Size_Spheres.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Size_Spheres.Width = 75;
-            // 
             // SAV_Underground
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(578, 286);
             this.Controls.Add(this.TC_UGItems);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.GB_UScores);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
@@ -510,7 +510,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.U_TrapsA)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_TrapsT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Flags)).EndInit();
-            this.groupBox1.ResumeLayout(false);
+            this.GB_UScores.ResumeLayout(false);
             this.TC_UGItems.ResumeLayout(false);
             this.TB_UGGoods.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DGV_UGGoods)).EndInit();
@@ -541,7 +541,7 @@
         private System.Windows.Forms.NumericUpDown U_TrapsT;
         private System.Windows.Forms.Label LU_Flags;
         private System.Windows.Forms.NumericUpDown U_Flags;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox GB_UScores;
         private System.Windows.Forms.TabControl TC_UGItems;
         private System.Windows.Forms.TabPage TB_UGGoods;
         private System.Windows.Forms.TabPage TB_UGSpheres;

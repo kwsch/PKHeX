@@ -111,7 +111,6 @@ namespace PKHeX.Core
             ugtraps = Get("dppt_ugtraps");
             ugtreasures = Get("dppt_ugtreasures");
 
-
             EggName = specieslist[0];
             metHGSS_00000 = Get("hgss_00000");
             metHGSS_02000 = Get("hgss_02000");
