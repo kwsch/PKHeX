@@ -265,14 +265,27 @@ namespace PKHeX.Core
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
         /// <param name="species">Original species</param>
-        /// <param name="form">Original form</param>
+        /// <param name="oldForm">Original form</param>
+        /// <param name="newForm">Current form</param>
         /// <param name="format">Current format</param>
-        internal static bool IsFormChangeable(int species, int form, int format)
+        internal static bool IsFormChangeable(int species, int oldForm, int newForm, int format)
         {
             if (FormChange.Contains(species))
                 return true;
-            if (species == (int)Species.Zygarde && format >= 7 && form == 0)
-                return true;
+
+            // Zygarde Form Changing
+            // Gen6: Introduced; no form changing.
+            // Gen7: Form changing introduced; can only change to Form 2/3 (Power Construct), never to 0/1 (Aura Break). A form-1 can be boosted to form-0.
+            // Gen8: Form changing improved; can pick any Form & Ability combination.
+            if (species == (int)Species.Zygarde)
+            {
+                return format switch
+                {
+                    6 => false,
+                    7 => newForm >= 2 || (oldForm == 1 && newForm == 0),
+                    _ => true,
+                };
+            }
             return false;
         }
 

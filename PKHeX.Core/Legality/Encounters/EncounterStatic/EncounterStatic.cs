@@ -255,7 +255,7 @@ namespace PKHeX.Core
         {
             if (SkipFormCheck)
                 return true;
-            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.Format);
+            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format);
         }
 
         protected virtual bool IsMatchEggLocation(PKM pkm)
