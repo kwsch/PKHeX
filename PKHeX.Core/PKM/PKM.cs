@@ -491,15 +491,19 @@ namespace PKHeX.Core
 
         protected static int GetHiddenPowerBitVal(int[] ivs)
         {
+            return GetHiddenPowerBitVal(ivs, 0);
+        }
+        protected static int GetHiddenPowerBitVal(int[] ivs, int bit)
+        {
             int sum = 0;
             for (int i = 0; i < ivs.Length; i++)
-                sum |= (ivs[i] & 1) << i;
+                sum |= (ivs[i] >> bit & 1) << i;
             return sum;
         }
 
         private int HPVal => GetHiddenPowerBitVal(IVs);
-        public virtual int HPPower => Format < 6 ? (40 *HPVal/63) + 30 : 60;
-
+        private int HPPowerVal => GetHiddenPowerBitVal(IVs, 1);
+        public virtual int HPPower => Format < 6 ? (40 * HPPowerVal/63) + 30 : 60;
         public virtual int HPType
         {
             get => 15 * HPVal / 63;
