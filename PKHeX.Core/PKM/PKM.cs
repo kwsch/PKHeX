@@ -497,7 +497,7 @@ namespace PKHeX.Core
         {
             int sum = 0;
             for (int i = 0; i < ivs.Length; i++)
-                sum |= (ivs[i] >> bit & 1) << i;
+                sum |= ((ivs[i] >> bit) & 1) << i;
             return sum;
         }
 
