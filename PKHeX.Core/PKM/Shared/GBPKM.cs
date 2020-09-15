@@ -174,12 +174,13 @@ namespace PKHeX.Core
         #endregion
 
         public sealed override bool IsShiny => IV_DEF == 10 && IV_SPE == 10 && IV_SPC == 10 && (IV_ATK & 2) == 2;
-        private int HPVal => GetHiddenPowerBitVal(new[] { IV_SPC, IV_SPE, IV_DEF, IV_ATK });
-        public sealed override int HPPower => (((5 * HPVal) + (IV_SPC % 4)) / 2) + 31;
+        private int HPBitValPower => ((IV_ATK & 8) >> 0) | ((IV_DEF & 8) >> 1) | ((IV_SPE & 8) >> 2) | ((IV_SPC & 8) >> 3);
+        public sealed override int HPPower => (((5 * HPBitValPower) + (IV_SPC & 3)) >> 1) + 31;
 
         public sealed override int HPType
         {
-            get => ((IV_ATK & 3) << 2) | (IV_DEF & 3); set
+            get => ((IV_ATK & 3) << 2) | (IV_DEF & 3);
+            set
             {
                 IV_DEF = ((IV_DEF >> 2) << 2) | (value & 3);
                 IV_DEF = ((IV_ATK >> 2) << 2) | ((value >> 2) & 3);

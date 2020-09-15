@@ -152,6 +152,7 @@ namespace PKHeX.WinForms.Controls
             {
                 ChangingFields = true;
                 CB_HPType.SelectedValue = Entity.HPType;
+                Label_HiddenPowerPower.Text = Entity.HPPower.ToString();
                 ChangingFields = false;
             }
 
@@ -476,6 +477,7 @@ namespace PKHeX.WinForms.Controls
             FLP_StatsTotal.Visible = gen >= 3;
             FLP_Characteristic.Visible = gen >= 3;
             FLP_HPType.Visible = gen <= 7;
+            FLP_HPPower.Visible = gen <= 5;
             FLP_DynamaxLevel.Visible = gen >= 8;
 
             switch (gen)

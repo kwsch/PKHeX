@@ -489,20 +489,14 @@ namespace PKHeX.Core
             }
         }
 
-        protected static int GetHiddenPowerBitVal(int[] ivs)
-        {
-            int sum = 0;
-            for (int i = 0; i < ivs.Length; i++)
-                sum |= (ivs[i] & 1) << i;
-            return sum;
-        }
+        private int HPBitValPower => ((IV_HP & 2) >> 1) | ((IV_ATK & 2) >> 0) | ((IV_DEF & 2) << 1) | ((IV_SPE & 2) << 2) | ((IV_SPA & 2) << 3) | ((IV_SPD & 2) << 4);
+        public virtual int HPPower => Format < 6 ? ((40 * HPBitValPower) / 63) + 30 : 60;
 
-        private int HPVal => GetHiddenPowerBitVal(IVs);
-        public virtual int HPPower => Format < 6 ? (40 *HPVal/63) + 30 : 60;
+        private int HPBitValType =>  ((IV_HP & 1) >> 0) | ((IV_ATK & 1) << 1) | ((IV_DEF & 1) << 2) | ((IV_SPE & 1) << 3) | ((IV_SPA & 1) << 4) | ((IV_SPD & 1) << 5);
 
         public virtual int HPType
         {
-            get => 15 * HPVal / 63;
+            get => 15 * HPBitValType / 63;
             set
             {
                 IV_HP =  (IV_HP  & ~1) + HiddenPower.DefaultLowBits[value, 0];
