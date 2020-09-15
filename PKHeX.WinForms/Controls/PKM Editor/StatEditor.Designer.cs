@@ -98,9 +98,9 @@
             this.TB_AVTotal = new System.Windows.Forms.TextBox();
             this.L_Potential = new System.Windows.Forms.Label();
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
-            this.FLP_HPPower = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
             this.CB_HPType = new System.Windows.Forms.ComboBox();
+            this.FLP_HPPower = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPowerPrefix = new System.Windows.Forms.Label();
             this.Label_HiddenPowerPower = new System.Windows.Forms.Label();
             this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
@@ -110,11 +110,11 @@
             this.BTN_RandomAVs = new System.Windows.Forms.Button();
             this.BTN_RandomIVs = new System.Windows.Forms.Button();
             this.BTN_RandomEVs = new System.Windows.Forms.Button();
-            this.EVTip = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_DynamaxLevel = new System.Windows.Forms.FlowLayoutPanel();
             this.L_DynamaxLevel = new System.Windows.Forms.Label();
-            this.CHK_Gigantamax = new System.Windows.Forms.CheckBox();
             this.CB_DynamaxLevel = new System.Windows.Forms.ComboBox();
+            this.CHK_Gigantamax = new System.Windows.Forms.CheckBox();
+            this.EVTip = new System.Windows.Forms.ToolTip(this.components);
             this.FLP_Stats.SuspendLayout();
             this.FLP_StatHeader.SuspendLayout();
             this.FLP_HackedStats.SuspendLayout();
@@ -1045,7 +1045,7 @@
             this.FLP_HPPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPowerPrefix);
             this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPower);
-            this.FLP_HPPower.Location = new System.Drawing.Point(0, 169);
+            this.FLP_HPPower.Location = new System.Drawing.Point(0, 190);
             this.FLP_HPPower.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_HPPower.Name = "FLP_HPPower";
             this.FLP_HPPower.Size = new System.Drawing.Size(272, 21);
@@ -1063,10 +1063,12 @@
             // 
             // Label_HiddenPowerPower
             // 
+            this.Label_HiddenPowerPower.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.Label_HiddenPowerPower.Location = new System.Drawing.Point(174, 0);
             this.Label_HiddenPowerPower.Margin = new System.Windows.Forms.Padding(0);
             this.Label_HiddenPowerPower.Name = "Label_HiddenPowerPower";
-            this.Label_HiddenPowerPower.Size = new System.Drawing.Size(174, 21);
+            this.Label_HiddenPowerPower.Size = new System.Drawing.Size(98, 21);
             this.Label_HiddenPowerPower.TabIndex = 29;
             this.Label_HiddenPowerPower.Text = "60";
             this.Label_HiddenPowerPower.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1076,7 +1078,7 @@
             this.FLP_Characteristic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.FLP_Characteristic.Controls.Add(this.Label_CharacteristicPrefix);
             this.FLP_Characteristic.Controls.Add(this.L_Characteristic);
-            this.FLP_Characteristic.Location = new System.Drawing.Point(0, 190);
+            this.FLP_Characteristic.Location = new System.Drawing.Point(0, 211);
             this.FLP_Characteristic.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_Characteristic.Name = "FLP_Characteristic";
             this.FLP_Characteristic.Size = new System.Drawing.Size(272, 21);
@@ -1108,7 +1110,7 @@
             this.PAN_BTN.Controls.Add(this.BTN_RandomAVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomIVs);
             this.PAN_BTN.Controls.Add(this.BTN_RandomEVs);
-            this.PAN_BTN.Location = new System.Drawing.Point(3, 214);
+            this.PAN_BTN.Location = new System.Drawing.Point(3, 235);
             this.PAN_BTN.Name = "PAN_BTN";
             this.PAN_BTN.Size = new System.Drawing.Size(267, 31);
             this.PAN_BTN.TabIndex = 132;
@@ -1149,7 +1151,7 @@
             this.FLP_DynamaxLevel.Controls.Add(this.L_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CB_DynamaxLevel);
             this.FLP_DynamaxLevel.Controls.Add(this.CHK_Gigantamax);
-            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 248);
+            this.FLP_DynamaxLevel.Location = new System.Drawing.Point(0, 269);
             this.FLP_DynamaxLevel.Margin = new System.Windows.Forms.Padding(0);
             this.FLP_DynamaxLevel.Name = "FLP_DynamaxLevel";
             this.FLP_DynamaxLevel.Size = new System.Drawing.Size(272, 21);
@@ -1165,17 +1167,7 @@
             this.L_DynamaxLevel.Text = "Dynamax Level:";
             this.L_DynamaxLevel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // checkBox1
-            // 
-            this.CHK_Gigantamax.AutoSize = true;
-            this.CHK_Gigantamax.Location = new System.Drawing.Point(163, 3);
-            this.CHK_Gigantamax.Name = "CHK_Gigantamax";
-            this.CHK_Gigantamax.Size = new System.Drawing.Size(82, 17);
-            this.CHK_Gigantamax.TabIndex = 44;
-            this.CHK_Gigantamax.Text = "Gigantamax";
-            this.CHK_Gigantamax.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
+            // CB_DynamaxLevel
             // 
             this.CB_DynamaxLevel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_DynamaxLevel.FormattingEnabled = true;
@@ -1196,6 +1188,16 @@
             this.CB_DynamaxLevel.Name = "CB_DynamaxLevel";
             this.CB_DynamaxLevel.Size = new System.Drawing.Size(40, 21);
             this.CB_DynamaxLevel.TabIndex = 44;
+            // 
+            // CHK_Gigantamax
+            // 
+            this.CHK_Gigantamax.AutoSize = true;
+            this.CHK_Gigantamax.Location = new System.Drawing.Point(163, 3);
+            this.CHK_Gigantamax.Name = "CHK_Gigantamax";
+            this.CHK_Gigantamax.Size = new System.Drawing.Size(82, 17);
+            this.CHK_Gigantamax.TabIndex = 44;
+            this.CHK_Gigantamax.Text = "Gigantamax";
+            this.CHK_Gigantamax.UseVisualStyleBackColor = true;
             // 
             // StatEditor
             // 
