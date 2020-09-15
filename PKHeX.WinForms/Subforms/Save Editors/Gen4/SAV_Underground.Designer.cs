@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             this.B_Save = new System.Windows.Forms.Button();
             this.B_Cancel = new System.Windows.Forms.Button();
             this.LU_PlayersMet = new System.Windows.Forms.Label();
@@ -82,10 +82,9 @@
             // B_Save
             // 
             this.B_Save.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Save.Location = new System.Drawing.Point(472, 248);
-            this.B_Save.Margin = new System.Windows.Forms.Padding(4);
+            this.B_Save.Location = new System.Drawing.Point(352, 201);
             this.B_Save.Name = "B_Save";
-            this.B_Save.Size = new System.Drawing.Size(100, 28);
+            this.B_Save.Size = new System.Drawing.Size(75, 23);
             this.B_Save.TabIndex = 26;
             this.B_Save.Text = "Save";
             this.B_Save.UseVisualStyleBackColor = true;
@@ -94,10 +93,9 @@
             // B_Cancel
             // 
             this.B_Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.B_Cancel.Location = new System.Drawing.Point(364, 248);
-            this.B_Cancel.Margin = new System.Windows.Forms.Padding(4);
+            this.B_Cancel.Location = new System.Drawing.Point(271, 201);
             this.B_Cancel.Name = "B_Cancel";
-            this.B_Cancel.Size = new System.Drawing.Size(100, 28);
+            this.B_Cancel.Size = new System.Drawing.Size(75, 23);
             this.B_Cancel.TabIndex = 25;
             this.B_Cancel.Text = "Cancel";
             this.B_Cancel.UseVisualStyleBackColor = true;
@@ -105,160 +103,169 @@
             // 
             // LU_PlayersMet
             // 
-            this.LU_PlayersMet.Location = new System.Drawing.Point(10, 24);
+            this.LU_PlayersMet.Location = new System.Drawing.Point(8, 20);
+            this.LU_PlayersMet.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_PlayersMet.Name = "LU_PlayersMet";
-            this.LU_PlayersMet.Size = new System.Drawing.Size(142, 22);
+            this.LU_PlayersMet.Size = new System.Drawing.Size(106, 18);
             this.LU_PlayersMet.TabIndex = 3;
             this.LU_PlayersMet.Text = "Players Met";
             this.LU_PlayersMet.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_PlayersMet
             // 
-            this.U_PlayersMet.Location = new System.Drawing.Point(158, 24);
-            this.U_PlayersMet.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_PlayersMet.Location = new System.Drawing.Point(118, 20);
+            this.U_PlayersMet.Margin = new System.Windows.Forms.Padding(2);
             this.U_PlayersMet.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_PlayersMet.Name = "U_PlayersMet";
-            this.U_PlayersMet.Size = new System.Drawing.Size(95, 22);
+            this.U_PlayersMet.Size = new System.Drawing.Size(71, 20);
             this.U_PlayersMet.TabIndex = 1;
             // 
             // LU_Gifts
             // 
-            this.LU_Gifts.Location = new System.Drawing.Point(10, 52);
+            this.LU_Gifts.Location = new System.Drawing.Point(8, 42);
+            this.LU_Gifts.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_Gifts.Name = "LU_Gifts";
-            this.LU_Gifts.Size = new System.Drawing.Size(142, 22);
+            this.LU_Gifts.Size = new System.Drawing.Size(106, 18);
             this.LU_Gifts.TabIndex = 5;
             this.LU_Gifts.Text = "Gifts Given";
             this.LU_Gifts.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Gifts
             // 
-            this.U_Gifts.Location = new System.Drawing.Point(158, 52);
-            this.U_Gifts.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_Gifts.Location = new System.Drawing.Point(118, 42);
+            this.U_Gifts.Margin = new System.Windows.Forms.Padding(2);
             this.U_Gifts.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_Gifts.Name = "U_Gifts";
-            this.U_Gifts.Size = new System.Drawing.Size(95, 22);
+            this.U_Gifts.Size = new System.Drawing.Size(71, 20);
             this.U_Gifts.TabIndex = 2;
             // 
             // LU_Spheres
             // 
-            this.LU_Spheres.Location = new System.Drawing.Point(10, 80);
+            this.LU_Spheres.Location = new System.Drawing.Point(8, 65);
+            this.LU_Spheres.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_Spheres.Name = "LU_Spheres";
-            this.LU_Spheres.Size = new System.Drawing.Size(142, 22);
+            this.LU_Spheres.Size = new System.Drawing.Size(106, 18);
             this.LU_Spheres.TabIndex = 7;
             this.LU_Spheres.Text = "Spheres Obtained";
             this.LU_Spheres.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Spheres
             // 
-            this.U_Spheres.Location = new System.Drawing.Point(158, 80);
-            this.U_Spheres.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_Spheres.Location = new System.Drawing.Point(118, 65);
+            this.U_Spheres.Margin = new System.Windows.Forms.Padding(2);
             this.U_Spheres.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_Spheres.Name = "U_Spheres";
-            this.U_Spheres.Size = new System.Drawing.Size(95, 22);
+            this.U_Spheres.Size = new System.Drawing.Size(71, 20);
             this.U_Spheres.TabIndex = 3;
             // 
             // LU_Fossils
             // 
-            this.LU_Fossils.Location = new System.Drawing.Point(10, 108);
+            this.LU_Fossils.Location = new System.Drawing.Point(8, 88);
+            this.LU_Fossils.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_Fossils.Name = "LU_Fossils";
-            this.LU_Fossils.Size = new System.Drawing.Size(142, 22);
+            this.LU_Fossils.Size = new System.Drawing.Size(106, 18);
             this.LU_Fossils.TabIndex = 9;
             this.LU_Fossils.Text = "Fossils Obtained";
             this.LU_Fossils.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Fossils
             // 
-            this.U_Fossils.Location = new System.Drawing.Point(158, 108);
-            this.U_Fossils.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_Fossils.Location = new System.Drawing.Point(118, 88);
+            this.U_Fossils.Margin = new System.Windows.Forms.Padding(2);
             this.U_Fossils.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_Fossils.Name = "U_Fossils";
-            this.U_Fossils.Size = new System.Drawing.Size(95, 22);
+            this.U_Fossils.Size = new System.Drawing.Size(71, 20);
             this.U_Fossils.TabIndex = 4;
             // 
             // LU_TrapsA
             // 
-            this.LU_TrapsA.Location = new System.Drawing.Point(10, 136);
+            this.LU_TrapsA.Location = new System.Drawing.Point(8, 110);
+            this.LU_TrapsA.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_TrapsA.Name = "LU_TrapsA";
-            this.LU_TrapsA.Size = new System.Drawing.Size(142, 22);
+            this.LU_TrapsA.Size = new System.Drawing.Size(106, 18);
             this.LU_TrapsA.TabIndex = 11;
             this.LU_TrapsA.Text = "Traps Avoided";
             this.LU_TrapsA.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_TrapsA
             // 
-            this.U_TrapsA.Location = new System.Drawing.Point(158, 136);
-            this.U_TrapsA.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_TrapsA.Location = new System.Drawing.Point(118, 110);
+            this.U_TrapsA.Margin = new System.Windows.Forms.Padding(2);
             this.U_TrapsA.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_TrapsA.Name = "U_TrapsA";
-            this.U_TrapsA.Size = new System.Drawing.Size(95, 22);
+            this.U_TrapsA.Size = new System.Drawing.Size(71, 20);
             this.U_TrapsA.TabIndex = 5;
             // 
             // LU_TrapsT
             // 
-            this.LU_TrapsT.Location = new System.Drawing.Point(10, 164);
+            this.LU_TrapsT.Location = new System.Drawing.Point(8, 133);
+            this.LU_TrapsT.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_TrapsT.Name = "LU_TrapsT";
-            this.LU_TrapsT.Size = new System.Drawing.Size(142, 22);
+            this.LU_TrapsT.Size = new System.Drawing.Size(106, 18);
             this.LU_TrapsT.TabIndex = 13;
             this.LU_TrapsT.Text = "Traps Triggered";
             this.LU_TrapsT.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_TrapsT
             // 
-            this.U_TrapsT.Location = new System.Drawing.Point(158, 164);
-            this.U_TrapsT.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_TrapsT.Location = new System.Drawing.Point(118, 133);
+            this.U_TrapsT.Margin = new System.Windows.Forms.Padding(2);
             this.U_TrapsT.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_TrapsT.Name = "U_TrapsT";
-            this.U_TrapsT.Size = new System.Drawing.Size(95, 22);
+            this.U_TrapsT.Size = new System.Drawing.Size(71, 20);
             this.U_TrapsT.TabIndex = 6;
             // 
             // LU_Flags
             // 
-            this.LU_Flags.Location = new System.Drawing.Point(10, 191);
+            this.LU_Flags.Location = new System.Drawing.Point(8, 155);
+            this.LU_Flags.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LU_Flags.Name = "LU_Flags";
-            this.LU_Flags.Size = new System.Drawing.Size(142, 22);
+            this.LU_Flags.Size = new System.Drawing.Size(106, 18);
             this.LU_Flags.TabIndex = 15;
             this.LU_Flags.Text = "Flags Captured";
             this.LU_Flags.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // U_Flags
             // 
-            this.U_Flags.Location = new System.Drawing.Point(158, 191);
-            this.U_Flags.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.U_Flags.Location = new System.Drawing.Point(118, 155);
+            this.U_Flags.Margin = new System.Windows.Forms.Padding(2);
             this.U_Flags.Maximum = new decimal(new int[] {
             999999,
             0,
             0,
             0});
             this.U_Flags.Name = "U_Flags";
-            this.U_Flags.Size = new System.Drawing.Size(95, 22);
+            this.U_Flags.Size = new System.Drawing.Size(71, 20);
             this.U_Flags.TabIndex = 7;
             // 
             // GB_UScores
             // 
+            this.GB_UScores.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.GB_UScores.Controls.Add(this.U_Flags);
             this.GB_UScores.Controls.Add(this.LU_Flags);
             this.GB_UScores.Controls.Add(this.U_TrapsT);
@@ -273,32 +280,39 @@
             this.GB_UScores.Controls.Add(this.LU_Gifts);
             this.GB_UScores.Controls.Add(this.U_PlayersMet);
             this.GB_UScores.Controls.Add(this.LU_PlayersMet);
-            this.GB_UScores.Location = new System.Drawing.Point(13, 13);
+            this.GB_UScores.Location = new System.Drawing.Point(10, 11);
+            this.GB_UScores.Margin = new System.Windows.Forms.Padding(2);
             this.GB_UScores.Name = "GB_UScores";
-            this.GB_UScores.Size = new System.Drawing.Size(264, 223);
+            this.GB_UScores.Padding = new System.Windows.Forms.Padding(2);
+            this.GB_UScores.Size = new System.Drawing.Size(198, 181);
             this.GB_UScores.TabIndex = 27;
             this.GB_UScores.TabStop = false;
             this.GB_UScores.Text = "Scores";
             // 
             // TC_UGItems
             // 
+            this.TC_UGItems.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.TC_UGItems.Controls.Add(this.TB_UGGoods);
             this.TC_UGItems.Controls.Add(this.TB_UGSpheres);
             this.TC_UGItems.Controls.Add(this.TB_UGTraps);
             this.TC_UGItems.Controls.Add(this.TB_UGTreasures);
-            this.TC_UGItems.Location = new System.Drawing.Point(287, 13);
+            this.TC_UGItems.Location = new System.Drawing.Point(215, 11);
+            this.TC_UGItems.Margin = new System.Windows.Forms.Padding(2);
             this.TC_UGItems.Name = "TC_UGItems";
             this.TC_UGItems.SelectedIndex = 0;
-            this.TC_UGItems.Size = new System.Drawing.Size(284, 223);
+            this.TC_UGItems.Size = new System.Drawing.Size(213, 181);
             this.TC_UGItems.TabIndex = 28;
             // 
             // TB_UGGoods
             // 
             this.TB_UGGoods.Controls.Add(this.DGV_UGGoods);
-            this.TB_UGGoods.Location = new System.Drawing.Point(4, 25);
+            this.TB_UGGoods.Location = new System.Drawing.Point(4, 22);
+            this.TB_UGGoods.Margin = new System.Windows.Forms.Padding(2);
             this.TB_UGGoods.Name = "TB_UGGoods";
-            this.TB_UGGoods.Padding = new System.Windows.Forms.Padding(3);
-            this.TB_UGGoods.Size = new System.Drawing.Size(276, 194);
+            this.TB_UGGoods.Padding = new System.Windows.Forms.Padding(2);
+            this.TB_UGGoods.Size = new System.Drawing.Size(205, 155);
             this.TB_UGGoods.TabIndex = 0;
             this.TB_UGGoods.Text = "Goods";
             this.TB_UGGoods.UseVisualStyleBackColor = true;
@@ -314,8 +328,10 @@
             this.DGV_UGGoods.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_UGGoods.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item_Goods});
+            this.DGV_UGGoods.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DGV_UGGoods.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.DGV_UGGoods.Location = new System.Drawing.Point(5, 7);
+            this.DGV_UGGoods.Location = new System.Drawing.Point(2, 2);
+            this.DGV_UGGoods.Margin = new System.Windows.Forms.Padding(2);
             this.DGV_UGGoods.MultiSelect = false;
             this.DGV_UGGoods.Name = "DGV_UGGoods";
             this.DGV_UGGoods.RowHeadersVisible = false;
@@ -324,7 +340,7 @@
             this.DGV_UGGoods.RowTemplate.Height = 24;
             this.DGV_UGGoods.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_UGGoods.ShowEditingIcon = false;
-            this.DGV_UGGoods.Size = new System.Drawing.Size(265, 180);
+            this.DGV_UGGoods.Size = new System.Drawing.Size(201, 151);
             this.DGV_UGGoods.TabIndex = 0;
             // 
             // Item_Goods
@@ -341,10 +357,11 @@
             // TB_UGSpheres
             // 
             this.TB_UGSpheres.Controls.Add(this.DGV_UGSpheres);
-            this.TB_UGSpheres.Location = new System.Drawing.Point(4, 25);
+            this.TB_UGSpheres.Location = new System.Drawing.Point(4, 22);
+            this.TB_UGSpheres.Margin = new System.Windows.Forms.Padding(2);
             this.TB_UGSpheres.Name = "TB_UGSpheres";
-            this.TB_UGSpheres.Padding = new System.Windows.Forms.Padding(3);
-            this.TB_UGSpheres.Size = new System.Drawing.Size(276, 194);
+            this.TB_UGSpheres.Padding = new System.Windows.Forms.Padding(2);
+            this.TB_UGSpheres.Size = new System.Drawing.Size(205, 155);
             this.TB_UGSpheres.TabIndex = 1;
             this.TB_UGSpheres.Text = "Spheres";
             this.TB_UGSpheres.UseVisualStyleBackColor = true;
@@ -361,8 +378,10 @@
             this.DGV_UGSpheres.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item_Spheres,
             this.Size_Spheres});
+            this.DGV_UGSpheres.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DGV_UGSpheres.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.DGV_UGSpheres.Location = new System.Drawing.Point(5, 7);
+            this.DGV_UGSpheres.Location = new System.Drawing.Point(2, 2);
+            this.DGV_UGSpheres.Margin = new System.Windows.Forms.Padding(2);
             this.DGV_UGSpheres.MultiSelect = false;
             this.DGV_UGSpheres.Name = "DGV_UGSpheres";
             this.DGV_UGSpheres.RowHeadersVisible = false;
@@ -371,7 +390,7 @@
             this.DGV_UGSpheres.RowTemplate.Height = 24;
             this.DGV_UGSpheres.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_UGSpheres.ShowEditingIcon = false;
-            this.DGV_UGSpheres.Size = new System.Drawing.Size(265, 180);
+            this.DGV_UGSpheres.Size = new System.Drawing.Size(201, 151);
             this.DGV_UGSpheres.TabIndex = 1;
             // 
             // Item_Spheres
@@ -388,8 +407,8 @@
             // Size_Spheres
             // 
             this.Size_Spheres.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Size_Spheres.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Size_Spheres.DefaultCellStyle = dataGridViewCellStyle5;
             this.Size_Spheres.HeaderText = "Size";
             this.Size_Spheres.MaxInputLength = 2;
             this.Size_Spheres.MinimumWidth = 6;
@@ -401,10 +420,11 @@
             // TB_UGTraps
             // 
             this.TB_UGTraps.Controls.Add(this.DGV_UGTraps);
-            this.TB_UGTraps.Location = new System.Drawing.Point(4, 25);
+            this.TB_UGTraps.Location = new System.Drawing.Point(4, 22);
+            this.TB_UGTraps.Margin = new System.Windows.Forms.Padding(2);
             this.TB_UGTraps.Name = "TB_UGTraps";
-            this.TB_UGTraps.Padding = new System.Windows.Forms.Padding(3);
-            this.TB_UGTraps.Size = new System.Drawing.Size(276, 194);
+            this.TB_UGTraps.Padding = new System.Windows.Forms.Padding(2);
+            this.TB_UGTraps.Size = new System.Drawing.Size(205, 155);
             this.TB_UGTraps.TabIndex = 2;
             this.TB_UGTraps.Text = "Traps";
             this.TB_UGTraps.UseVisualStyleBackColor = true;
@@ -420,8 +440,10 @@
             this.DGV_UGTraps.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_UGTraps.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item_Traps});
+            this.DGV_UGTraps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DGV_UGTraps.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.DGV_UGTraps.Location = new System.Drawing.Point(5, 7);
+            this.DGV_UGTraps.Location = new System.Drawing.Point(2, 2);
+            this.DGV_UGTraps.Margin = new System.Windows.Forms.Padding(2);
             this.DGV_UGTraps.MultiSelect = false;
             this.DGV_UGTraps.Name = "DGV_UGTraps";
             this.DGV_UGTraps.RowHeadersVisible = false;
@@ -430,7 +452,7 @@
             this.DGV_UGTraps.RowTemplate.Height = 24;
             this.DGV_UGTraps.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_UGTraps.ShowEditingIcon = false;
-            this.DGV_UGTraps.Size = new System.Drawing.Size(265, 180);
+            this.DGV_UGTraps.Size = new System.Drawing.Size(201, 151);
             this.DGV_UGTraps.TabIndex = 1;
             // 
             // Item_Traps
@@ -447,10 +469,11 @@
             // TB_UGTreasures
             // 
             this.TB_UGTreasures.Controls.Add(this.DGV_UGTreasures);
-            this.TB_UGTreasures.Location = new System.Drawing.Point(4, 25);
+            this.TB_UGTreasures.Location = new System.Drawing.Point(4, 22);
+            this.TB_UGTreasures.Margin = new System.Windows.Forms.Padding(2);
             this.TB_UGTreasures.Name = "TB_UGTreasures";
-            this.TB_UGTreasures.Padding = new System.Windows.Forms.Padding(3);
-            this.TB_UGTreasures.Size = new System.Drawing.Size(276, 194);
+            this.TB_UGTreasures.Padding = new System.Windows.Forms.Padding(2);
+            this.TB_UGTreasures.Size = new System.Drawing.Size(205, 155);
             this.TB_UGTreasures.TabIndex = 3;
             this.TB_UGTreasures.Text = "Treasures";
             this.TB_UGTreasures.UseVisualStyleBackColor = true;
@@ -466,8 +489,10 @@
             this.DGV_UGTreasures.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_UGTreasures.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Item_Treasures});
+            this.DGV_UGTreasures.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DGV_UGTreasures.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.DGV_UGTreasures.Location = new System.Drawing.Point(5, 7);
+            this.DGV_UGTreasures.Location = new System.Drawing.Point(2, 2);
+            this.DGV_UGTreasures.Margin = new System.Windows.Forms.Padding(2);
             this.DGV_UGTreasures.MultiSelect = false;
             this.DGV_UGTreasures.Name = "DGV_UGTreasures";
             this.DGV_UGTreasures.RowHeadersVisible = false;
@@ -476,7 +501,7 @@
             this.DGV_UGTreasures.RowTemplate.Height = 24;
             this.DGV_UGTreasures.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.DGV_UGTreasures.ShowEditingIcon = false;
-            this.DGV_UGTreasures.Size = new System.Drawing.Size(265, 180);
+            this.DGV_UGTreasures.Size = new System.Drawing.Size(201, 151);
             this.DGV_UGTreasures.TabIndex = 1;
             // 
             // Item_Treasures
@@ -492,18 +517,19 @@
             // 
             // SAV_Underground
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(582, 286);
+            this.ClientSize = new System.Drawing.Size(434, 231);
             this.Controls.Add(this.TC_UGItems);
             this.Controls.Add(this.GB_UScores);
             this.Controls.Add(this.B_Cancel);
             this.Controls.Add(this.B_Save);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = global::PKHeX.WinForms.Properties.Resources.Icon;
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(450, 270);
             this.Name = "SAV_Underground";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Underground Editor";
             ((System.ComponentModel.ISupportInitialize)(this.U_PlayersMet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.U_Gifts)).EndInit();
