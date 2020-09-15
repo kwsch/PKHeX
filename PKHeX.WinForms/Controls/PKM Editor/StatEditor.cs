@@ -152,6 +152,7 @@ namespace PKHeX.WinForms.Controls
             {
                 ChangingFields = true;
                 CB_HPType.SelectedValue = Entity.HPType;
+                Label_HiddenPowerPower.Text = Entity.HPPower.ToString();
                 ChangingFields = false;
             }
 

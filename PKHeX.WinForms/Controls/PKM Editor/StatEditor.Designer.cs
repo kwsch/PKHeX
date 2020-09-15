@@ -98,8 +98,11 @@
             this.TB_AVTotal = new System.Windows.Forms.TextBox();
             this.L_Potential = new System.Windows.Forms.Label();
             this.FLP_HPType = new System.Windows.Forms.FlowLayoutPanel();
+            this.FLP_HPPower = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_HiddenPowerPrefix = new System.Windows.Forms.Label();
             this.CB_HPType = new System.Windows.Forms.ComboBox();
+            this.Label_HiddenPowerPowerPrefix = new System.Windows.Forms.Label();
+            this.Label_HiddenPowerPower = new System.Windows.Forms.Label();
             this.FLP_Characteristic = new System.Windows.Forms.FlowLayoutPanel();
             this.Label_CharacteristicPrefix = new System.Windows.Forms.Label();
             this.L_Characteristic = new System.Windows.Forms.Label();
@@ -132,6 +135,7 @@
             this.FLP_StatsTotal.SuspendLayout();
             this.FLP_StatsTotalRight.SuspendLayout();
             this.FLP_HPType.SuspendLayout();
+            this.FLP_HPPower.SuspendLayout();
             this.FLP_Characteristic.SuspendLayout();
             this.PAN_BTN.SuspendLayout();
             this.FLP_DynamaxLevel.SuspendLayout();
@@ -148,6 +152,7 @@
             this.FLP_Stats.Controls.Add(this.FLP_Spe);
             this.FLP_Stats.Controls.Add(this.FLP_StatsTotal);
             this.FLP_Stats.Controls.Add(this.FLP_HPType);
+            this.FLP_Stats.Controls.Add(this.FLP_HPPower);
             this.FLP_Stats.Controls.Add(this.FLP_Characteristic);
             this.FLP_Stats.Controls.Add(this.PAN_BTN);
             this.FLP_Stats.Controls.Add(this.FLP_DynamaxLevel);
@@ -1035,6 +1040,37 @@
             this.CB_HPType.TabIndex = 44;
             this.CB_HPType.SelectedIndexChanged += new System.EventHandler(this.UpdateHPType);
             // 
+            // FLP_HPPower
+            // 
+            this.FLP_HPPower.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPowerPrefix);
+            this.FLP_HPPower.Controls.Add(this.Label_HiddenPowerPower);
+            this.FLP_HPPower.Location = new System.Drawing.Point(0, 169);
+            this.FLP_HPPower.Margin = new System.Windows.Forms.Padding(0);
+            this.FLP_HPPower.Name = "FLP_HPPower";
+            this.FLP_HPPower.Size = new System.Drawing.Size(272, 21);
+            this.FLP_HPPower.TabIndex = 130;
+            // 
+            // Label_HiddenPowerPowerPrefix
+            // 
+            this.Label_HiddenPowerPowerPrefix.Location = new System.Drawing.Point(0, 0);
+            this.Label_HiddenPowerPowerPrefix.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_HiddenPowerPowerPrefix.Name = "Label_HiddenPowerPowerPrefix";
+            this.Label_HiddenPowerPowerPrefix.Size = new System.Drawing.Size(174, 21);
+            this.Label_HiddenPowerPowerPrefix.TabIndex = 29;
+            this.Label_HiddenPowerPowerPrefix.Text = "Hidden Power Power:";
+            this.Label_HiddenPowerPowerPrefix.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // Label_HiddenPowerPower
+            // 
+            this.Label_HiddenPowerPower.Location = new System.Drawing.Point(174, 0);
+            this.Label_HiddenPowerPower.Margin = new System.Windows.Forms.Padding(0);
+            this.Label_HiddenPowerPower.Name = "Label_HiddenPowerPower";
+            this.Label_HiddenPowerPower.Size = new System.Drawing.Size(174, 21);
+            this.Label_HiddenPowerPower.TabIndex = 29;
+            this.Label_HiddenPowerPower.Text = "60";
+            this.Label_HiddenPowerPower.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FLP_Characteristic
             // 
             this.FLP_Characteristic.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
@@ -1194,6 +1230,7 @@
             this.FLP_StatsTotalRight.ResumeLayout(false);
             this.FLP_StatsTotalRight.PerformLayout();
             this.FLP_HPType.ResumeLayout(false);
+            this.FLP_HPPower.ResumeLayout(false);
             this.FLP_Characteristic.ResumeLayout(false);
             this.PAN_BTN.ResumeLayout(false);
             this.FLP_DynamaxLevel.ResumeLayout(false);
@@ -1257,7 +1294,10 @@
         private System.Windows.Forms.TextBox TB_EVTotal;
         private System.Windows.Forms.Label L_Potential;
         private System.Windows.Forms.FlowLayoutPanel FLP_HPType;
+        private System.Windows.Forms.FlowLayoutPanel FLP_HPPower;
         private System.Windows.Forms.Label Label_HiddenPowerPrefix;
+        private System.Windows.Forms.Label Label_HiddenPowerPowerPrefix;
+        private System.Windows.Forms.Label Label_HiddenPowerPower;
         private System.Windows.Forms.ComboBox CB_HPType;
         private System.Windows.Forms.FlowLayoutPanel FLP_Characteristic;
         private System.Windows.Forms.Label Label_CharacteristicPrefix;
