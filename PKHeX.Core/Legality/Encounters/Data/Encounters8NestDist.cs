@@ -379,6 +379,38 @@
             new EncounterStatic8ND(60,10,5) { Species = 695, Ability = A4, Moves = new[]{ 085, 304, 447, 523 } }, // Heliolisk
             new EncounterStatic8ND(60,10,5) { Species = 598, Ability = A4, Moves = new[]{ 360, 438, 398, 014 } }, // Ferrothorn
             new EncounterStatic8ND(60,10,5) { Species = 830, Ability = A4, Moves = new[]{ 536, 304, 063, 437 } }, // Eldegoss
+
+            // 9/18 Fairy
+            new EncounterStatic8ND(17,01,1) { Species = 036, Ability = A4, Moves = new[]{ 574, 001, 204, 045 } }, // Clefable
+            new EncounterStatic8ND(17,01,1) { Species = 040, Ability = A4, Moves = new[]{ 497, 574, 001, 111 } }, // Wigglytuff
+            new EncounterStatic8ND(17,01,1) { Species = 044, Ability = A4, Moves = new[]{ 078, 079, 230, 051 } }, // Gloom
+            new EncounterStatic8ND(17,01,1) { Species = 518, Ability = A4, Moves = new[]{ 060, 236, 111, 000 } }, // Musharna
+            new EncounterStatic8ND(17,01,1) { Species = 547, Ability = A4, Moves = new[]{ 412, 585, 073, 178 } }, // Whimsicott
+            new EncounterStatic8ND(17,01,1) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
+            new EncounterStatic8ND(30,03,2) { Species = 036, Ability = A4, Moves = new[]{ 574, 001, 236, 045 } }, // Clefable
+            new EncounterStatic8ND(30,03,2) { Species = 040, Ability = A4, Moves = new[]{ 497, 574, 001, 034 } }, // Wigglytuff
+            new EncounterStatic8ND(30,03,2) { Species = 182, Ability = A4, Moves = new[]{ 585, 572, 236, 051 } }, // Bellossom
+            new EncounterStatic8ND(30,03,2) { Species = 518, Ability = A4, Moves = new[]{ 428, 060, 236, 111 } }, // Musharna
+            new EncounterStatic8ND(30,03,2) { Species = 547, Ability = A4, Moves = new[]{ 412, 585, 073, 178 } }, // Whimsicott
+            new EncounterStatic8ND(30,03,2) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
+            new EncounterStatic8ND(40,05,3) { Species = 036, Ability = A4, Moves = new[]{ 585, 309, 236, 345 } }, // Clefable
+            new EncounterStatic8ND(40,05,3) { Species = 040, Ability = A4, Moves = new[]{ 304, 583, 360, 034 } }, // Wigglytuff
+            new EncounterStatic8ND(40,05,3) { Species = 182, Ability = A4, Moves = new[]{ 585, 572, 236, 051 } }, // Bellossom
+            new EncounterStatic8ND(40,05,3) { Species = 518, Ability = A4, Moves = new[]{ 585, 094, 236, 360 } }, // Musharna
+            new EncounterStatic8ND(40,05,3) { Species = 547, Ability = A4, Moves = new[]{ 412, 585, 073, 366 } }, // Whimsicott
+            new EncounterStatic8ND(40,05,3) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
+            new EncounterStatic8ND(50,08,4) { Species = 036, Ability = A4, Moves = new[]{ 585, 309, 236, 345 } }, // Clefable
+            new EncounterStatic8ND(50,08,4) { Species = 040, Ability = A4, Moves = new[]{ 304, 583, 360, 034 } }, // Wigglytuff
+            new EncounterStatic8ND(50,08,4) { Species = 182, Ability = A4, Moves = new[]{ 585, 572, 236, 051 } }, // Bellossom
+            new EncounterStatic8ND(50,08,4) { Species = 518, Ability = A4, Moves = new[]{ 585, 094, 236, 360 } }, // Musharna
+            new EncounterStatic8ND(50,08,4) { Species = 547, Ability = A4, Moves = new[]{ 538, 585, 073, 366 } }, // Whimsicott
+            new EncounterStatic8ND(50,08,4) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
+            new EncounterStatic8ND(60,10,5) { Species = 036, Ability = A4, Moves = new[]{ 585, 309, 236, 345 } }, // Clefable
+            new EncounterStatic8ND(60,10,5) { Species = 040, Ability = A4, Moves = new[]{ 304, 583, 360, 034 } }, // Wigglytuff
+            new EncounterStatic8ND(60,10,5) { Species = 182, Ability = A4, Moves = new[]{ 585, 572, 236, 051 } }, // Bellossom
+            new EncounterStatic8ND(60,10,5) { Species = 518, Ability = A4, Moves = new[]{ 585, 094, 236, 360 } }, // Musharna
+            new EncounterStatic8ND(60,10,5) { Species = 036, Ability = A4, Moves = new[]{ 585, 309, 236, 345 }, Shiny = Shiny.Always }, // Clefable
+            new EncounterStatic8ND(60,10,5) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
