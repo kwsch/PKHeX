@@ -24,20 +24,34 @@ namespace PKHeX.Core
         /// Clears all values.
         /// </summary>
         /// <param name="pk">Data to clear from</param>
-        public static void AwakeningClear(this IAwakened pk) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = 0;
+        public static void AwakeningClear(this IAwakened pk) => pk.AwakeningSetAllTo(0);
 
         /// <summary>
         /// Sets all values to the maximum value.
         /// </summary>
-        /// <param name="pk">Data to clear from</param>
+        /// <param name="pk">Data to set values for</param>
         public static void AwakeningMax(this IAwakened pk) => pk.AwakeningSetAllTo(Legal.AwakeningMax);
 
         /// <summary>
         /// Sets all values to the specified value.
         /// </summary>
-        /// <param name="pk">Data to clear from</param>
+        /// <param name="pk">Data to set values for</param>
         /// <param name="value">Value to set all to</param>
         public static void AwakeningSetAllTo(this IAwakened pk, int value) => pk.AV_HP = pk.AV_ATK = pk.AV_DEF = pk.AV_SPE = pk.AV_SPA = pk.AV_SPD = value;
+
+        /// <summary>
+        /// Sets all values to the specified value.
+        /// </summary>
+        /// <param name="pk">Data to set values for</param>
+        /// <param name="min">Minimum value to set</param>
+        /// <param name="max">Maximum value to set</param>
+        public static void AwakeningSetRandom(this IAwakened pk, int min = 0, int max = Legal.AwakeningMax)
+        {
+            var rnd = Util.Rand;
+            int randClamp = max + 1;
+            for (int index = 0; index < 6; index++)
+                pk.SetAV(index, rnd.Next(min, randClamp));
+        }
 
         /// <summary>
         /// Gets if all values are within legal limits.

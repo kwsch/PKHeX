@@ -239,12 +239,13 @@ namespace PKHeX.WinForms.Controls
                 tb.Text = "65535";
         }
 
-        private void UpdateHyperTrainingFlag(int i, bool value)
+        private void UpdateHyperTrainingFlag(int index, bool value)
         {
+            var tb = MT_IVs[index];
             if (value)
-                MT_IVs[i].BackColor = StatHyperTrained;
+                tb.BackColor = StatHyperTrained;
             else
-                MT_IVs[i].ResetBackColor();
+                tb.ResetBackColor();
         }
 
         private void UpdateHPType(object sender, EventArgs e)
@@ -267,7 +268,7 @@ namespace PKHeX.WinForms.Controls
             if ((ModifierKeys & Keys.Alt) != 0) // EV
             {
                 bool min = e.Button != MouseButtons.Left;
-                if (Entity is PB7)
+                if (Entity is IAwakened)
                 {
                     var value = min ? 0 : 200;
                     MT_AVs[index].Text = value.ToString();
@@ -328,7 +329,10 @@ namespace PKHeX.WinForms.Controls
         public void UpdateStats()
         {
             // Generate the stats.
-            if (!CHK_HackedStats.Checked || Entity.Stat_HPCurrent == 0) // no stats when initially loaded from non-partyformat slot
+            // Some entity formats don't store stat values regardless of Box/Party/Etc format.
+            // If its attack stat is zero, we need to generate party stats.
+            // PK1 format stores Current HP in the compact format, so we have to use attack stat!
+            if (!CHK_HackedStats.Checked || Entity.Stat_ATK == 0)
             {
                 var pt = MainEditor.RequestSaveFile.Personal;
                 var pi = pt.GetFormeEntry(Entity.Species, Entity.AltForm);
@@ -369,12 +373,10 @@ namespace PKHeX.WinForms.Controls
                     a.SetSuggestedAwakenedValues(Entity);
                     break;
                 case Keys.Alt:
-                    a.AwakeningSetAllTo(0);
+                    a.AwakeningClear();
                     break;
                 default:
-                    var rnd = Util.Rand;
-                    foreach (var index in Enumerable.Range(0, 6))
-                        a.SetAV(index, rnd.Next(Legal.AwakeningMax + 1));
+                    a.AwakeningSetRandom();
                     break;
             }
             LoadAVs(a);
