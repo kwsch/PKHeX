@@ -178,6 +178,9 @@ namespace PKHeX.Core
             (int)Species.Zarude,
         };
 
+        /// <summary>
+        /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Species.Pichu"/> with Form 1 (Spiky).
+        /// </summary>
         public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
         {
             150, // Mewtwo

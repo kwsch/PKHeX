@@ -2,8 +2,13 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Provides ribbon information about the state of a given ribbon.
+    /// </summary>
     public sealed class RibbonInfo
     {
+        public const string PropertyPrefix = "Ribbon";
+
         public readonly string Name;
         public bool HasRibbon { get; set; }
         public int RibbonCount { get; set; }
@@ -41,7 +46,7 @@ namespace PKHeX.Core
         {
             // Get a list of all Ribbon Attributes in the PKM
             var riblist = new List<RibbonInfo>();
-            var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), "Ribbon");
+            var names = ReflectUtil.GetPropertiesStartWithPrefix(pkm.GetType(), PropertyPrefix);
             foreach (var name in names)
             {
                 object? RibbonValue = ReflectUtil.GetValue(pkm, name);

@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// https://projectpokemon.org/home/forums/topic/5870-pok%C3%A9mon-mystery-gift-editor-v143-now-with-bw-support/
     /// See also: http://tccphreak.shiny-clique.net/debugger/pcdfiles.htm
     /// </remarks>
-    public sealed class PCD : DataMysteryGift
+    public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x358; // 856
         public override int Format => 4;
@@ -55,7 +55,6 @@ namespace PKHeX.Core
             set => value.CopyTo(Data, Data.Length - PGT.Size);
         }
 
-        public override object Content => Gift.PK;
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
         public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
         public override bool IsItem { get => Gift.IsItem; set => Gift.IsItem = value; }
@@ -197,5 +196,21 @@ namespace PKHeX.Core
                 return false;
             return Species != pkm.Species;
         }
+
+        public bool RibbonEarth { get => Gift.RibbonEarth; set => Gift.RibbonEarth = value; }
+        public bool RibbonNational { get => Gift.RibbonNational; set => Gift.RibbonNational = value; }
+        public bool RibbonCountry { get => Gift.RibbonCountry; set => Gift.RibbonCountry = value; }
+        public bool RibbonChampionBattle { get => Gift.RibbonChampionBattle; set => Gift.RibbonChampionBattle = value; }
+        public bool RibbonChampionRegional { get => Gift.RibbonChampionRegional; set => Gift.RibbonChampionRegional = value; }
+        public bool RibbonChampionNational { get => Gift.RibbonChampionNational; set => Gift.RibbonChampionNational = value; }
+        public bool RibbonClassic { get => Gift.RibbonClassic; set => Gift.RibbonClassic = value; }
+        public bool RibbonWishing { get => Gift.RibbonWishing; set => Gift.RibbonWishing = value; }
+        public bool RibbonPremier { get => Gift.RibbonPremier; set => Gift.RibbonPremier = value; }
+        public bool RibbonEvent { get => Gift.RibbonEvent; set => Gift.RibbonEvent = value; }
+        public bool RibbonBirthday { get => Gift.RibbonBirthday; set => Gift.RibbonBirthday = value; }
+        public bool RibbonSpecial { get => Gift.RibbonSpecial; set => Gift.RibbonSpecial = value; }
+        public bool RibbonWorld { get => Gift.RibbonWorld; set => Gift.RibbonWorld = value; }
+        public bool RibbonChampionWorld { get => Gift.RibbonChampionWorld; set => Gift.RibbonChampionWorld = value; }
+        public bool RibbonSouvenir { get => Gift.RibbonSouvenir; set => Gift.RibbonSouvenir = value; }
     }
 }

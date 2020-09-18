@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 Mystery Gift Template File (Inner Gift Data, no card data)
     /// </summary>
-    public sealed class PGT : DataMysteryGift
+    public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x104; // 260
         public override int Format => 4;
@@ -44,7 +44,6 @@ namespace PKHeX.Core
         public override string CardTitle { get => "Raw Gift (PGT)"; set { } }
         public override int CardID { get => -1; set { } }
         public override bool GiftUsed { get => false; set { } }
-        public override object Content => PK;
 
         public PGT() : this(new byte[Size]) { }
         public PGT(byte[] data) : base(data) { }
@@ -252,5 +251,20 @@ namespace PKHeX.Core
 
         protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
+        public bool RibbonEarth { get => PK.RibbonEarth; set => PK.RibbonEarth = value; }
+        public bool RibbonNational { get => PK.RibbonNational; set => PK.RibbonNational = value; }
+        public bool RibbonCountry { get => PK.RibbonCountry; set => PK.RibbonCountry = value; }
+        public bool RibbonChampionBattle { get => PK.RibbonChampionBattle; set => PK.RibbonChampionBattle = value; }
+        public bool RibbonChampionRegional { get => PK.RibbonChampionRegional; set => PK.RibbonChampionRegional = value; }
+        public bool RibbonChampionNational { get => PK.RibbonChampionNational; set => PK.RibbonChampionNational = value; }
+        public bool RibbonClassic { get => PK.RibbonClassic; set => PK.RibbonClassic = value; }
+        public bool RibbonWishing { get => PK.RibbonWishing; set => PK.RibbonWishing = value; }
+        public bool RibbonPremier { get => PK.RibbonPremier; set => PK.RibbonPremier = value; }
+        public bool RibbonEvent { get => PK.RibbonEvent; set => PK.RibbonEvent = value; }
+        public bool RibbonBirthday { get => PK.RibbonBirthday; set => PK.RibbonBirthday = value; }
+        public bool RibbonSpecial { get => PK.RibbonSpecial; set => PK.RibbonSpecial = value; }
+        public bool RibbonWorld { get => PK.RibbonWorld; set => PK.RibbonWorld = value; }
+        public bool RibbonChampionWorld { get => PK.RibbonChampionWorld; set => PK.RibbonChampionWorld = value; }
+        public bool RibbonSouvenir { get => PK.RibbonSouvenir; set => PK.RibbonSouvenir = value; }
     }
 }
