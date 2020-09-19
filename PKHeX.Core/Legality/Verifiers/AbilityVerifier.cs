@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 return GetInvalid(LAbilityUnexpected);
 
             var enc = data.EncounterMatch;
-            var abilities = data.PersonalInfo.Abilities;
+            var abilities = pi.Abilities;
             if (enc is MysteryGift g && g.Format >= 4)
                 return VerifyAbilityMG(data, g, abilities);
 
