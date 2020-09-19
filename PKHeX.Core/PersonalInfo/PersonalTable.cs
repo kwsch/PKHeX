@@ -180,10 +180,6 @@ namespace PKHeX.Core
 
         private static void FixPersonalTableG1()
         {
-            // Update Yellow's catch rates; currently matches Red/Blue's values.
-            Y[25].CatchRate = 163; // Pikachu
-            Y[64].CatchRate = 96; // Kadabra
-
             // Load Gen2 Gender Ratios into Gen1
             for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
                 RB[i].Gender = Y[i].Gender = GS[i].Gender;
@@ -214,11 +210,14 @@ namespace PKHeX.Core
         /// </summary>
         private static void CopyDexitGenders()
         {
-            for (int i = 1; i <= 807; i++)
+            var swsh = SWSH;
+            var usum = USUM;
+
+            for (int i = 1; i <= Legal.MaxSpeciesID_7_USUM; i++)
             {
-                var ss = SWSH[i];
+                var ss = swsh[i];
                 if (ss.HP == 0)
-                    ss.Gender = USUM[i].Gender;
+                    ss.Gender = usum[i].Gender;
             }
         }
 
