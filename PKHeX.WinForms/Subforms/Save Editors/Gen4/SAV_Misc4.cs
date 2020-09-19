@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
@@ -278,19 +277,16 @@ namespace PKHeX.WinForms
 
         private void SetFlagsFromFileName(string inpFileName)
         {
-            if (new FileInfo(inpFileName).Length > 2058) return; // 24*20*4(ARGB)=1920
-            Bitmap bmp;
-            FileStream fs = new FileStream(inpFileName, FileMode.Open, FileAccess.Read);
-            try
-            {
-                bmp = (Bitmap)Image.FromStream(fs);
-            }
-            catch
-            {
-                bmp = null;
-            }
-            fs.Close();
-            if (bmp == null || bmp.Width != 24 || bmp.Height != 20) return;
+            if (FileUtil.GetFileSize(inpFileName) > 2058)
+                return; // 24*20*4(ARGB)=1920
+
+            Bitmap bmp; try { bmp = (Bitmap)Image.FromFile(inpFileName); }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch { return; }
+#pragma warning restore CA1031 // Do not catch general exception types
+
+            if (bmp.Width != 24 || bmp.Height != 20)
+                return;
 
             byte[] BrightMap = new byte[480];
             byte[] BrightCount = new byte[0x100];
@@ -306,7 +302,8 @@ namespace PKHeX.WinForms
             }
 
             int ColorCount = BrightCount.Count(v => v > 0);
-            if (ColorCount > 4 || ColorCount == 0) return;
+            if (ColorCount > 4 || ColorCount == 0)
+                return;
             int errmin = int.MaxValue;
             byte[] LCT = new byte[4];
             byte[] mLCT = new byte[4];

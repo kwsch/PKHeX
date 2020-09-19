@@ -321,7 +321,9 @@ namespace PKHeX.WinForms
                 while (!IsHandleCreated) { }
                 BeginInvoke(new MethodInvoker(() => SetResults(RawDB)));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch { /* Window Closed? */ }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static List<PKM> LoadPKMSaves(string pkmdb, string savdb, string EXTERNAL_SAV, SaveFile SAV)
@@ -635,8 +637,14 @@ namespace PKHeX.WinForms
             var clones = SearchUtil.GetExtraClones(db);
             foreach (var pk in clones)
             {
-                try { File.Delete(pk.Identifier); ++deleted; }
+                var path = pk.Identifier;
+                if (path == null || !File.Exists(path))
+                    continue;
+
+                try { File.Delete(path); ++deleted; }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex) { WinFormsUtil.Error(MsgDBDeleteCloneFail + Environment.NewLine + ex.Message + Environment.NewLine + pk.Identifier); }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
 
             if (deleted == 0)

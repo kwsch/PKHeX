@@ -85,7 +85,9 @@ namespace PKHeX.Core
                     var data = File.ReadAllBytes(f);
                     data.CopyTo(block.Data, 0);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch
+#pragma warning restore CA1031 // Do not catch general exception types
                 {
                     failed.Add(fn);
                 }

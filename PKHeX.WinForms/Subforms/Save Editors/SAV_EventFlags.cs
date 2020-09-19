@@ -223,11 +223,13 @@ namespace PKHeX.WinForms
                     desc.Add(split[1]);
                     enums.Add(split.Length == 3 ? split[2] : string.Empty);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch
                 {
                     // Ignore bad user values
                     Debug.WriteLine(string.Concat(split));
                 }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
             if (num.Count == 0)
             {

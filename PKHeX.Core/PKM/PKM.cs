@@ -1075,15 +1075,14 @@ namespace PKHeX.Core
 
         public int GetMove(int index)
         {
-            switch (index)
+            return index switch
             {
-                case 0: return Move1;
-                case 1: return Move2;
-                case 2: return Move3;
-                case 3: return Move4;
-                default:
-                    throw new IndexOutOfRangeException(nameof(index));
-            }
+                0 => Move1,
+                1 => Move2,
+                2 => Move3,
+                3 => Move4,
+                _ => throw new IndexOutOfRangeException(nameof(index)),
+            };
         }
 
         public void SetMove(int index, int value)

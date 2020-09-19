@@ -36,7 +36,9 @@ namespace PKHeX.Drawing
                 if (data.Contains("filetype not supported"))
                     return QRDecodeResult.BadType;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch { return QRDecodeResult.BadConnection; }
+#pragma warning restore CA1031 // Do not catch general exception types
 
             // Quickly convert the json response to a data string
             try
@@ -44,7 +46,9 @@ namespace PKHeX.Drawing
                 result = DecodeQRJson(data);
                 return QRDecodeResult.Success;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine(e.Message);
                 return QRDecodeResult.BadConversion;

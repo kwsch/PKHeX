@@ -49,7 +49,10 @@ namespace PKHeX.WinForms
                 var types = z.GetTypes();
                 return types.Where(type => IsTypePlugin(type, pluginType));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // User plugins can be out of date, with mismatching API surfaces.
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 System.Diagnostics.Debug.WriteLine($"Unable to load plugin [{pluginType.Name}]: {z.FullName}", ex.Message);
                 return Enumerable.Empty<Type>();

@@ -691,15 +691,12 @@ namespace PKHeX.Core
                 // force evaluation so that an invalid path will throw before we return true/false.
                 // EnumerateFiles throws an exception while iterating, which won't be caught by the try-catch here.
                 var files = Directory.GetFiles(folderPath, "*", searchOption);
-                static int GetFileSize(string file)
-                {
-                    try { return (int) new FileInfo(file).Length; }
-                    catch { return -1; } // Bad File / Locked
-                }
-                result = files.Where(f => IsSizeValid(GetFileSize(f)));
+                result = files.Where(f => IsSizeValid(FileUtil.GetFileSize(f)));
                 return true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (ArgumentException)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 result = new[] { MsgFileLoadFailAuto + Environment.NewLine + folderPath, MsgFileLoadFailAutoAdvise + Environment.NewLine + MsgFileLoadFailAutoCause };
                 return false;

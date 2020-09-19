@@ -129,7 +129,10 @@ namespace PKHeX.WinForms
                 NUD_Y.Value = (decimal)SAV.Situation.Y;
                 NUD_R.Value = (decimal)SAV.Situation.R;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Sometimes the coordinates aren't really decimal/float coordinates?
             catch { GB_Map.Enabled = false; }
+#pragma warning restore CA1031 // Do not catch general exception types
 
             // Load Play Time
             MT_Hours.Text = SAV.PlayedHours.ToString();

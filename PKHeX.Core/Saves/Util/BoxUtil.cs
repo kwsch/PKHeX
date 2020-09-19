@@ -198,5 +198,32 @@ namespace PKHeX.Core
                 }
             }
         }
+
+        /// <summary>
+        /// Gets box names for all boxes in the save file.
+        /// </summary>
+        /// <param name="sav"><see cref="SaveFile"/> that box names are being dumped for.</param>
+        /// <returns>Returns default English box names in the event the save file does not have names (not exportable), or fails to return a box name.</returns>
+        public static string[] GetBoxNames(SaveFile sav)
+        {
+            int count = sav.BoxCount;
+            var result = new string[count];
+            if (!sav.Exportable)
+            {
+                for (int i = 0; i < count; i++)
+                    result[i] = $"Box {i + 1}";
+                return result;
+            }
+
+            for (int i = 0; i < count; i++)
+            {
+                try { result[i] = sav.GetBoxName(i); }
+#pragma warning disable CA1031 // Do not catch general exception types
+                catch { result[i] = $"Box {i + 1}"; }
+#pragma warning restore CA1031 // Do not catch general exception types
+            }
+
+            return result;
+        }
     }
 }

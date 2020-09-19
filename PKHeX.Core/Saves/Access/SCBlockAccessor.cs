@@ -16,10 +16,17 @@ namespace PKHeX.Core
         // Binary Search doesn't require extra memory like a Dictionary would; also, we only need to find a few blocks.
         public SCBlock GetBlock(uint key) => BinarySearch(BlockInfo, key);
 
+        /// <summary>
+        /// Tries to grab the actual block, and returns a new dummy if the block does not exist.
+        /// </summary>
+        /// <param name="key">Block Key</param>
+        /// <returns>Block if exists, dummy if not. Dummy key will not match requested key.</returns>
         public SCBlock GetBlockSafe(uint key)
         {
             try { return GetBlock(key); }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (KeyNotFoundException) { return new SCBlock(0); }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private static SCBlock BinarySearch(IReadOnlyList<SCBlock> arr, uint key)

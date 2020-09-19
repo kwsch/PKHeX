@@ -113,6 +113,13 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary>
+        /// Checks if the <see cref="obj"/> has the requested property <see cref="name"/>.
+        /// </summary>
+        /// <param name="obj">Object to check for property existence.</param>
+        /// <param name="name">Name of the property.</param>
+        /// <param name="pi">Reference to the property info for the object, if it exists.</param>
+        /// <returns>True if has property, and false if does not have property. <see cref="pi"/> is null when returning false.</returns>
         public static bool HasProperty(object obj, string name, out PropertyInfo? pi) => (pi = GetPropertyInfo(obj.GetType().GetTypeInfo(), name)) != null;
 
         public static PropertyInfo? GetPropertyInfo(this TypeInfo typeInfo, string name)

@@ -837,17 +837,11 @@ namespace PKHeX.WinForms
             if (sav.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
                 File.WriteAllBytes(backupName, sav.BAK);
 
-            if (!IsFileLocked(path))
+            if (!FileUtil.IsFileLocked(path))
                 return true;
 
             WinFormsUtil.Alert(MsgFileWriteProtected + Environment.NewLine + path, MsgFileWriteProtectedAdvice);
             return false;
-        }
-
-        private static bool IsFileLocked(string path)
-        {
-            try { return (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0; }
-            catch { return true; }
         }
 
         private static bool SanityCheckSAV(ref SaveFile sav)
@@ -1121,7 +1115,10 @@ namespace PKHeX.WinForms
                     C_SAV.M.Drag.Info.Cursor = Cursor = new Cursor(((Bitmap)pb.Image).GetHicon());
                 DoDragDrop(new DataObject(DataFormats.FileDrop, new[] { newfile }), DragDropEffects.Move);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // Tons of things can happen with drag & drop; don't try to handle things, just indicate failure.
             catch (Exception x)
+#pragma warning restore CA1031 // Do not catch general exception types
             { WinFormsUtil.Error("Drag && Drop Error", x); }
             C_SAV.M.Drag.ResetCursor(this);
             File.Delete(newfile);
@@ -1174,7 +1171,10 @@ namespace PKHeX.WinForms
                 settings.Draw = Draw.ToString();
                 settings.Save();
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception x)
+            // Config might be corrupted, or their dotnet runtime is insufficient (<4.6?)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 File.WriteAllLines("config error.txt", new[] {x.ToString()});
             }
@@ -1191,11 +1191,11 @@ namespace PKHeX.WinForms
 
         private void ClickExportSAV(object sender, EventArgs e)
         {
-            if (Menu_ExportSAV.Enabled)
-            {
-                C_SAV.ExportSaveFile();
-                Text = GetProgramTitle(C_SAV.SAV);
-            }
+            if (!Menu_ExportSAV.Enabled)
+                return; // hot-keys can't cheat the system!
+
+            C_SAV.ExportSaveFile();
+            Text = GetProgramTitle(C_SAV.SAV);
         }
 
         private void ClickSaveFileName(object sender, EventArgs e)
@@ -1227,7 +1227,11 @@ namespace PKHeX.WinForms
                 Directory.CreateDirectory(BackupPath);
                 WinFormsUtil.Alert(MsgBackupSuccess, string.Format(MsgBackupDelete, BackupPath));
             }
-            catch (Exception ex) { WinFormsUtil.Error($"{MsgBackupUnable} @ {BackupPath}", ex); }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch (Exception ex)
+            // Maybe they put their exe in a folder that we can't create files/folders to.
+#pragma warning restore CA1031 // Do not catch general exception types
+            { WinFormsUtil.Error($"{MsgBackupUnable} @ {BackupPath}", ex); }
         }
 
         private void ClickUndo(object sender, EventArgs e) => C_SAV.ClickUndo();

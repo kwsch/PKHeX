@@ -145,33 +145,14 @@ namespace PKHeX.WinForms.Controls
         {
             if (!SAV.HasBox)
                 return;
-            if (!SAV.Exportable)
-            {
-                getBoxNamesDefault();
-            }
-            else
-            {
-                try { getBoxNamesFromSave(); }
-                catch { getBoxNamesDefault(); }
-            }
+
+            CB_BoxSelect.Items.Clear();
+            CB_BoxSelect.Items.AddRange(BoxUtil.GetBoxNames(SAV));
 
             if (box < 0 && (uint)SAV.CurrentBox < CB_BoxSelect.Items.Count)
                 CurrentBox = SAV.CurrentBox; // restore selected box
             else
                 CurrentBox = box;
-
-            void getBoxNamesFromSave()
-            {
-                CB_BoxSelect.Items.Clear();
-                for (int i = 0; i < SAV.BoxCount; i++)
-                    CB_BoxSelect.Items.Add(SAV.GetBoxName(i));
-            }
-            void getBoxNamesDefault()
-            {
-                CB_BoxSelect.Items.Clear();
-                for (int i = 0; i < SAV.BoxCount; i++)
-                    CB_BoxSelect.Items.Add($"Box {i+1}");
-            }
         }
 
         public void ResetSlots()

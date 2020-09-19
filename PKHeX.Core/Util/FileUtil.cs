@@ -28,7 +28,10 @@ namespace PKHeX.Core
                 var ext = Path.GetExtension(path);
                 return GetSupportedFile(data, ext, reference);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
+            // User input data can be fuzzed; if anything blows up, just fail safely.
             catch (Exception e)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 Debug.WriteLine(MessageStrings.MsgFileInUse);
                 Debug.WriteLine(e.Message);
@@ -62,6 +65,28 @@ namespace PKHeX.Core
             return null;
         }
 
+        public static bool IsFileLocked(string path)
+        {
+            try { return (File.GetAttributes(path) & FileAttributes.ReadOnly) != 0; }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch { return true; }
+#pragma warning restore CA1031 // Do not catch general exception types
+        }
+
+        public static int GetFileSize(string path)
+        {
+            try
+            {
+                var size = new FileInfo(path).Length;
+                if (size > int.MaxValue)
+                    return -1;
+                return (int)size;
+            }
+#pragma warning disable CA1031 // Do not catch general exception types
+            catch { return -1; } // Bad File / Locked
+#pragma warning restore CA1031 // Do not catch general exception types
+        }
+
         private static bool TryGetGP1(byte[] data, out GP1? gp1)
         {
             gp1 = null;
@@ -77,7 +102,7 @@ namespace PKHeX.Core
         /// <param name="length">File size</param>
         public static bool IsFileTooBig(long length)
         {
-            if (length <= 0x100000)
+            if (length <= 0x10_0000) // 10 MB
                 return false;
             if (length == SaveUtil.SIZE_G4BR || length == SaveUtil.SIZE_G8SWSH || length == SaveUtil.SIZE_G8SWSH_1 || length == SaveUtil.SIZE_G8SWSH_2 || length == SaveUtil.SIZE_G8SWSH_2B)
                 return false;
@@ -90,7 +115,7 @@ namespace PKHeX.Core
         /// Checks if the length is too small to be a detectable file.
         /// </summary>
         /// <param name="length">File size</param>
-        public static bool IsFileTooSmall(long length) => length < 0x20;
+        public static bool IsFileTooSmall(long length) => length < 0x20; // bigger than PK1
 
         /// <summary>
         /// Tries to get an <see cref="SaveFile"/> object from the input parameters.

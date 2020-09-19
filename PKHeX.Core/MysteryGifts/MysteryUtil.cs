@@ -59,7 +59,9 @@ namespace PKHeX.Core
                 {
                     AddLinesPKM(gift, strings, result);
                 }
+#pragma warning disable CA1031 // Do not catch general exception types
                 catch { result.Add(MsgMysteryGiftParseFail); }
+#pragma warning restore CA1031 // Do not catch general exception types
             }
             else if (gift.IsBP)
             {

@@ -100,7 +100,9 @@ namespace PKHeX.WinForms
                 ComboBox comboBox = (ComboBox)dataGridView1.EditingControl;
                 comboBox.DroppedDown = true;
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch { Console.WriteLine("Failed to modify item."); }
+#pragma warning restore CA1031 // Do not catch general exception types
         }
 
         private bool loading = true;
