@@ -289,7 +289,6 @@ namespace PKHeX.Core
             (int)Species.Hitmonlee, (int)Species.Hitmonchan,
             (int)Species.Goldeen, (int)Species.Seaking,
             (int)Species.Ditto,
-            (int)Species.Porygon,
             (int)Species.Snorlax,
             (int)Species.Mew
         };
