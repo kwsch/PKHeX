@@ -285,7 +285,6 @@ namespace PKHeX.Core
             (int)Species.Vulpix, (int)Species.Ninetales,
             (int)Species.Paras, (int)Species.Parasect,
             (int)Species.Slowpoke, (int)Species.Slowbro,
-            (int)Species.Doduo, (int)Species.Dodrio,
             (int)Species.Hitmonlee, (int)Species.Hitmonchan,
             (int)Species.Goldeen, (int)Species.Seaking,
             (int)Species.Ditto,
