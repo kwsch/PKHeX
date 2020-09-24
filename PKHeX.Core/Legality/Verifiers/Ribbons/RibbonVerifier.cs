@@ -84,10 +84,8 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc, int gen)
         {
-            bool artist = false;
             if (pkm is IRibbonSetOnly3 o3)
             {
-                artist = o3.ShouldHaveArtistRibbon();
                 if (o3.RibbonWorld) // is a part of Event4, but O3 doesn't have the others
                     yield return new RibbonResult(nameof(o3.RibbonWorld));
             }
@@ -123,9 +121,6 @@ namespace PKHeX.Core
                 foreach (var z in iter3)
                     yield return z;
 
-                for (int i = 0; i < 5; ++i)
-                    artist |= c3[3 | i << 2]; // any master rank ribbon
-
                 var c4 = u4.RibbonBitsContest4();
                 var c4n = u4.RibbonNamesContest4();
                 var iter4 = (gen == 3 || gen == 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
@@ -143,7 +138,6 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                artist = s6.RibbonCountMemoryContest >= 4;
                 bool inhabited6 = 3 <= gen && gen <= 6;
 
                 var iterate = inhabited6
@@ -178,7 +172,7 @@ namespace PKHeX.Core
             {
                 if (s3.RibbonChampionG3Hoenn && gen != 3)
                     yield return new RibbonResult(nameof(s3.RibbonChampionG3Hoenn)); // RSE HoF
-                if (s3.RibbonArtist && (gen != 3 || !artist))
+                if (s3.RibbonArtist && gen != 3)
                     yield return new RibbonResult(nameof(s3.RibbonArtist)); // RSE Master Rank Portrait
                 if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5
                     yield return new RibbonResult(nameof(s3.RibbonEffort));
