@@ -45,6 +45,8 @@ namespace PKHeX.Core
             {
                 foreach (var dl in evos)
                 {
+                    if (dl.Species != e.Species)
+                        continue;
                     if (!e.IsMatch(pkm, dl))
                         continue;
 
