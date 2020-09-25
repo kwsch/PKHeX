@@ -410,7 +410,7 @@ namespace PKHeX.Core
                     pk.SetRibbon(ribbon);
             }
 
-            SetPINGA(pk, sav, criteria);
+            SetPINGA(pk, criteria);
 
             if (IsEgg)
                 SetEggMetData(pk);
@@ -434,7 +434,7 @@ namespace PKHeX.Core
             pk.IsNicknamed = true;
         }
 
-        private void SetPINGA(PKM pk, ITrainerInfo sav, EncounterCriteria criteria)
+        private void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
@@ -442,7 +442,7 @@ namespace PKHeX.Core
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria, pi);
             pk.RefreshAbility(av);
-            SetPID(pk, sav);
+            SetPID(pk);
             SetIVs(pk);
         }
 
@@ -462,38 +462,32 @@ namespace PKHeX.Core
             }
         }
 
-        private uint GetFixedPID(ITrainerInfo sav)
+        private uint GetPID(ITrainerID tr, byte type)
         {
-            uint pid = PID;
-            var val = Data[CardStart + 0x248];
-            if (val == 4)
-                return pid;
-            return (uint)((pid & 0xFFFF) | ((sav.SID ^ sav.TID ^ (pid & 0xFFFF) ^ (val == 2 ? 1 : 0)) << 16));
+            switch (type)
+            {
+                case 0: // Random, Never Shiny
+                    var pid = Util.Rand32();
+                    if (tr.IsShiny(pid, 8))
+                        return pid ^ 0x1000_0000;
+                    return pid;
+                case 1: // Random, Any
+                    return Util.Rand32();
+                case 2: // Fixed, Force Star
+                    return (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF));
+                case 3: // Fixed, Force Square
+                    return (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF));
+                case 4: // Fixed, Force Value
+                    return PID;
+                default:
+                    throw new ArgumentException();
+            }
         }
 
-        private void SetPID(PKM pk, ITrainerInfo sav)
+        private void SetPID(PKM pk)
         {
-            switch (PIDType)
-            {
-                case Shiny.FixedValue: // Specified
-                    pk.PID = GetFixedPID(sav);
-                    break;
-                case Shiny.Random: // Random
-                    pk.PID = Util.Rand32();
-                    break;
-                case Shiny.AlwaysStar: // Random Shiny
-                    pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 1) << 16) | (pk.PID & 0xFFFF));
-                    break;
-                case Shiny.AlwaysSquare: // Random Shiny
-                    pk.PID = Util.Rand32();
-                    pk.PID = (uint)(((pk.TID ^ pk.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
-                    break;
-                case Shiny.Never: // Random Nonshiny
-                    pk.PID = Util.Rand32();
-                    if (pk.IsShiny) pk.PID ^= 0x10000000;
-                    break;
-            }
+            var val = Data[CardStart + 0x248];
+            pk.PID = GetPID(pk, val);
         }
 
         private void SetIVs(PKM pk)
@@ -605,7 +599,13 @@ namespace PKHeX.Core
                     return false;
             }
 
-            return PIDType != 0 || pkm.PID == PID;
+            // PID Types 0 and 1 do not use the fixed PID value.
+            // Values 2,3 are specific shiny states, and 4 is fixed value.
+            // 2,3,4 can change if it is a traded egg to ensure the same shiny state.
+            var type = Data[CardStart + 0x248];
+            if (type <= 1)
+                return true;
+            return pkm.PID == GetPID(pkm, type);
         }
 
         protected override bool IsMatchDeferred(PKM pkm)
