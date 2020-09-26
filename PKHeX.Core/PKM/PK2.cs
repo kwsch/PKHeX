@@ -174,8 +174,15 @@ namespace PKHeX.Core
             Util.Shuffle(new_ivs);
             pk7.IVs = new_ivs;
 
-            if (IsShiny)
-                pk7.SetShiny();
+            switch (IsShiny ? Shiny.Always : Shiny.Never)
+            {
+                case Shiny.Always when !pk7.IsShiny: // Force Square
+                    pk7.PID = (uint)(((pk7.TID ^ 0 ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF));
+                    break;
+                case Shiny.Never when pk7.IsShiny: // Force Not Shiny
+                    pk7.PID ^= 0x1000_0000;
+                    break;
+            }
 
             int abil = 2; // Hidden
             if (Legal.TransferSpeciesDefaultAbility_2.Contains(Species))
