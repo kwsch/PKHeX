@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 <see cref="SaveFile"/> object for <see cref="GameVersion.SWSH"/> games.
     /// </summary>
-    public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord
+    public sealed class SAV8SWSH : SAV8, ISaveBlock8SWSH, ITrainerStatRecord, ISaveFileRevision
     {
         public SAV8SWSH(byte[] data) : this(data, SwishCrypto.Decrypt(data))
         {
@@ -18,6 +18,7 @@ namespace PKHeX.Core
             Data = Array.Empty<byte>();
             AllBlocks = blocks;
             Blocks = new SaveBlockAccessor8SWSH(this);
+            SaveRevision = Zukan.GetRevision();
             Initialize();
         }
 
@@ -25,6 +26,7 @@ namespace PKHeX.Core
         {
             AllBlocks = Meta8.GetBlankDataSWSH();
             Blocks = new SaveBlockAccessor8SWSH(this);
+            SaveRevision = Zukan.GetRevision();
             Initialize();
             ClearBoxes();
         }
@@ -39,6 +41,16 @@ namespace PKHeX.Core
                 newB[i].Data.CopyTo(mine[i].Data, 0);
             Edited = true;
         }
+
+        public int SaveRevision { get; }
+
+        public string SaveRevisionString => SaveRevision switch
+        {
+            0 => "-Base", // Vanilla
+            1 => "-IoA", // DLC 1: Isle of Armor
+            2 => "-CT", // DLC 2: Crown Tundra
+            _ => throw new ArgumentOutOfRangeException(nameof(SaveRevision)),
+        };
 
         public IReadOnlyList<SCBlock> AllBlocks { get; }
         public override bool ChecksumsValid => true;
@@ -103,7 +115,7 @@ namespace PKHeX.Core
             PokeDex = 0;
             TeamIndexes.LoadBattleTeams();
 
-            int rev = Zukan.GetRevision();
+            int rev = SaveRevision;
             if (rev == 0)
             {
                 m_move = Legal.MaxMoveID_8_O0;

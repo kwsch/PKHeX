@@ -819,6 +819,8 @@ namespace PKHeX.WinForms
         private static string GetProgramTitle(SaveFile sav)
         {
             string title = GetProgramTitle() + $" - {sav.GetType().Name}: ";
+            if (sav is ISaveFileRevision rev)
+                title = title.Insert(title.Length - 2, rev.SaveRevisionString);
             var ver = GameInfo.GetVersionName(sav.Version);
             if (Settings.Default.HideSAVDetails)
                 return title + $"[{ver}]";
