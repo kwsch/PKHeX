@@ -19,6 +19,7 @@ namespace PKHeX.Core
         private readonly byte[] Data;
         private readonly byte Capacity;
         private readonly int Entry_Size;
+        protected readonly bool Japanese;
 
         public readonly T[] Pokemon;
 
@@ -31,6 +32,7 @@ namespace PKHeX.Core
 
         protected PokeListGB(byte[]? d, PokeListType c = PokeListType.Single, bool jp = false)
         {
+            Japanese = jp;
             Capacity = (byte)c;
             Entry_Size = GetEntrySize();
             StringLength = GetStringLength(jp);

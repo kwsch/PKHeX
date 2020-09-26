@@ -33,12 +33,14 @@ namespace PKHeX.Core
         public override int Format => 8;
         public override PersonalInfo PersonalInfo => PersonalTable.SWSH.GetFormeEntry(Species, AltForm);
 
-        public override byte[] Data { get; }
+        public PK8() : base(PokeCrypto.SIZE_8PARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+        public PK8(byte[] data) : base(DecryptParty(data)) { }
 
-        public PK8()
+        private static byte[] DecryptParty(byte[] data)
         {
-            Data = new byte[PokeCrypto.SIZE_8PARTY];
-            AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
+            PokeCrypto.DecryptIfEncrypted8(ref data);
+            Array.Resize(ref data, PokeCrypto.SIZE_8PARTY);
+            return data;
         }
 
         protected override ushort CalculateChecksum()
@@ -54,13 +56,6 @@ namespace PKHeX.Core
         {
             get => CurrentHandler == 0 ? OT_Friendship : HT_Friendship;
             set { if (CurrentHandler == 0) OT_Friendship = value; else HT_Friendship = value; }
-        }
-
-        public PK8(byte[] data)
-        {
-            PokeCrypto.DecryptIfEncrypted8(ref data);
-            Array.Resize(ref data, PokeCrypto.SIZE_8PARTY);
-            Data = data;
         }
 
         public override PKM Clone() => new PK8((byte[])Data.Clone()) { Identifier = Identifier };

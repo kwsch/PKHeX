@@ -26,8 +26,6 @@ namespace PKHeX.Core
 
         public override bool Valid => ChecksumValid || (Sanity == 0 && Species <= MaxSpeciesID);
 
-        public override byte[] Data { get; }
-
         public static BK4 ReadUnshuffle(byte[] data)
         {
             var PID = BigEndian.ToUInt32(data, 0);
@@ -38,9 +36,8 @@ namespace PKHeX.Core
             return result;
         }
 
-        public BK4(byte[] data)
+        public BK4(byte[] data) : base(data)
         {
-            Data = data;
             Sanity = 0x4000;
             ResetPartyStats();
         }

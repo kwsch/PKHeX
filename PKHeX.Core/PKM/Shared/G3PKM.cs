@@ -5,6 +5,9 @@
     /// </summary>
     public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
     {
+        protected G3PKM(byte[] data) : base(data) { }
+        protected G3PKM(int size) : base(size) { }
+
         // Maximums
         public sealed override int MaxMoveID => Legal.MaxMoveID_3;
         public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_3;

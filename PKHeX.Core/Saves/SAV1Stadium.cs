@@ -55,7 +55,7 @@ namespace PKHeX.Core
             int len = StringLength;
             var nick = data.Slice(0x21, len);
             var ot = data.Slice(0x21 + len, len);
-            return new PK1(data, Japanese) {otname = ot, nick = nick};
+            return new PK1(data, Japanese) {OT_Trash = ot, Nickname_Trash = nick};
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;

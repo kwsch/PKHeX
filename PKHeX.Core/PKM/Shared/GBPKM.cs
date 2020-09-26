@@ -31,14 +31,9 @@ namespace PKHeX.Core
 
         private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public sealed override bool Japanese => otname.Length == STRLEN_J;
-        public sealed override byte[] Data { get; }
 
-        protected GBPKM(byte[] data, bool jp = false)
+        protected GBPKM(int size, bool jp = false) : base(size)
         {
-            int partySize = SIZE_PARTY;
-            if (data.Length != partySize)
-                Array.Resize(ref data, partySize);
-            Data = data;
             int strLen = jp ? STRLEN_J : STRLEN_U;
 
             // initialize string buffers
@@ -48,12 +43,23 @@ namespace PKHeX.Core
                 otname[i] = nick[i] = 0x50;
         }
 
-        internal byte[] otname;
-        internal byte[] nick;
+        protected GBPKM(byte[] data, bool jp = false) : base(data)
+        {
+            int strLen = jp ? STRLEN_J : STRLEN_U;
+
+            // initialize string buffers
+            otname = new byte[strLen];
+            nick = new byte[strLen];
+            for (int i = 0; i < otname.Length; i++)
+                otname[i] = nick[i] = 0x50;
+        }
+
+        internal readonly byte[] otname;
+        internal readonly byte[] nick;
 
         // Trash Bytes
-        public sealed override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) nick = value; } }
-        public sealed override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) otname = value; } }
+        public sealed override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) value.CopyTo(nick, 0); } }
+        public sealed override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) value.CopyTo(otname, 0); } }
 
         public sealed override byte[] EncryptedPartyData => Encrypt();
         public sealed override byte[] EncryptedBoxData => Encrypt();
@@ -217,8 +223,8 @@ namespace PKHeX.Core
         public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
         public sealed override int IV_SPD { get => IV_SPC; set { } }
 
-        public void SetNotNicknamed() => nick = GetNonNickname(GuessedLanguage()).ToArray();
-        public void SetNotNicknamed(int language) => nick = GetNonNickname(language).ToArray();
+        public void SetNotNicknamed() => GetNonNickname(GuessedLanguage()).CopyTo(nick);
+        public void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(nick);
 
         private IEnumerable<byte> GetNonNickname(int language)
         {

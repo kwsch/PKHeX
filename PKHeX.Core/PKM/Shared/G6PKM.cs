@@ -7,6 +7,8 @@ namespace PKHeX.Core
     {
         public override int SIZE_PARTY => PokeCrypto.SIZE_6PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_6STORED;
+        protected G6PKM(byte[] data) : base(data) { }
+        protected G6PKM(int size) : base(size) { }
 
         // Trash Bytes
         public sealed override byte[] Nickname_Trash { get => GetData(0x40, 24); set { if (value.Length == 24) value.CopyTo(Data, 0x40); } }

@@ -17,15 +17,14 @@ namespace PKHeX.Core
         public override int Format => 6;
         public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
 
-        public PK6() => Data = new byte[PokeCrypto.SIZE_6PARTY];
+        public PK6() : base(PokeCrypto.SIZE_6PARTY) { }
+        public PK6(byte[] data) : base(DecryptParty(data)) { }
 
-        public override byte[] Data { get; }
-
-        public PK6(byte[] data)
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted67(ref data);
             Array.Resize(ref data, PokeCrypto.SIZE_6PARTY);
-            Data = data;
+            return data;
         }
 
         public override PKM Clone() => new PK6((byte[])Data.Clone()){Identifier = Identifier};

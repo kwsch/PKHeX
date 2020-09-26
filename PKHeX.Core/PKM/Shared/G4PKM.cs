@@ -2,6 +2,9 @@
 {
     public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
     {
+        protected G4PKM(byte[] data) : base(data) { }
+        protected G4PKM(int size) : base(size) { }
+
         // Maximums
         public sealed override int MaxMoveID => Legal.MaxMoveID_4;
         public sealed override int MaxSpeciesID => Legal.MaxSpeciesID_4;

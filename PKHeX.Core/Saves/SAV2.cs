@@ -151,7 +151,7 @@ namespace PKHeX.Core
             Array.Copy(Data, offset, ot, 0, ot.Length); offset += ot.Length;
             Array.Copy(Data, offset, pk, 0, pk.Length);
 
-            return new PK2(pk, jp: Japanese) { otname = ot, nick = nick };
+            return new PK2(pk, jp: Japanese) { OT_Trash = ot, Nickname_Trash = nick };
         }
 
         private const int SIZE_RESERVED = 0x8000; // unpacked box data

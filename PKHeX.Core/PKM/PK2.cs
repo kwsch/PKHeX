@@ -15,14 +15,21 @@ namespace PKHeX.Core
 
         public override int Format => 2;
 
-        public PK2(bool jp = false) : base(new byte[PokeCrypto.SIZE_2PARTY], jp) { }
-        public PK2(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK2(bool jp = false) : base(PokeCrypto.SIZE_2PARTY, jp) { }
+        public PK2(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+        private static byte[] EnsurePartySize(byte[] data)
+        {
+            if (data.Length != PokeCrypto.SIZE_2PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_2PARTY);
+            return data;
+        }
 
         public override PKM Clone() => new PK2((byte[])Data.Clone(), Japanese)
         {
             Identifier = Identifier,
-            otname = (byte[])otname.Clone(),
-            nick = (byte[])nick.Clone(),
+            OT_Trash = otname,
+            Nickname_Trash = nick,
             IsEgg = IsEgg,
         };
 
@@ -112,8 +119,8 @@ namespace PKHeX.Core
                 pk1.Stat_Level = Stat_Level;
             }
             // Status = 0
-            pk1.otname = (byte[])otname.Clone();
-            pk1.nick = (byte[])nick.Clone();
+            pk1.OT_Trash = otname;
+            pk1.Nickname_Trash = nick;
 
             pk1.ClearInvalidMoves();
 

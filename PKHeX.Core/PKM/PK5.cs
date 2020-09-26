@@ -24,14 +24,14 @@ namespace PKHeX.Core
         public override int Format => 5;
         public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
 
-        public override byte[] Data { get; }
-        public PK5() => Data = new byte[PokeCrypto.SIZE_5PARTY];
+        public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
+        public PK5(byte[] data) : base(DecryptParty(data)) { }
 
-        public PK5(byte[] data)
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted45(ref data);
             Array.Resize(ref data, PokeCrypto.SIZE_5PARTY);
-            Data = data;
+            return data;
         }
 
         public override PKM Clone() => new PK5((byte[])Data.Clone()){Identifier = Identifier};

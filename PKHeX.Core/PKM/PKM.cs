@@ -17,10 +17,13 @@ namespace PKHeX.Core
         public virtual IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
         // Internal Attributes set on creation
-        public abstract byte[] Data { get; } // Raw Storage
+        public readonly byte[] Data; // Raw Storage
         public string? Identifier; // User or Form Custom Attribute
         public int Box { get; set; } = -1; // Batch Editor
         public int Slot { get; set; } = -1; // Batch Editor
+
+        protected PKM(byte[] data) => Data = data;
+        protected PKM(int size) => Data = new byte[size];
 
         public virtual byte[] EncryptedPartyData => ArrayUtil.Truncate(Encrypt(), SIZE_PARTY);
         public virtual byte[] EncryptedBoxData => ArrayUtil.Truncate(Encrypt(), SIZE_STORED);

@@ -19,14 +19,14 @@ namespace PKHeX.Core
         public override int Format => 4;
         public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
 
-        public override byte[] Data { get; }
-        public PK4() => Data = new byte[PokeCrypto.SIZE_4PARTY];
+        public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
+        public PK4(byte[] data) : base(DecryptParty(data)) { }
 
-        public PK4(byte[] data)
+        private static byte[] DecryptParty(byte[] data)
         {
             PokeCrypto.DecryptIfEncrypted45(ref data);
             Array.Resize(ref data, PokeCrypto.SIZE_4PARTY);
-            Data = data;
+            return data;
         }
 
         public override PKM Clone() => new PK4((byte[])Data.Clone()){Identifier = Identifier};

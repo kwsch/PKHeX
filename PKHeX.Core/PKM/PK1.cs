@@ -16,14 +16,21 @@ namespace PKHeX.Core
 
         public override int Format => 1;
 
-        public PK1(bool jp = false) : base(new byte[PokeCrypto.SIZE_1PARTY], jp) { }
-        public PK1(byte[] decryptedData, bool jp = false) : base(decryptedData, jp) { }
+        public PK1(bool jp = false) : base(PokeCrypto.SIZE_1PARTY, jp) { }
+        public PK1(byte[] decryptedData, bool jp = false) : base(EnsurePartySize(decryptedData), jp) { }
+
+        private static byte[] EnsurePartySize(byte[] data)
+        {
+            if (data.Length != PokeCrypto.SIZE_1PARTY)
+                Array.Resize(ref data, PokeCrypto.SIZE_1PARTY);
+            return data;
+        }
 
         public override PKM Clone() => new PK1((byte[])Data.Clone(), Japanese)
         {
             Identifier = Identifier,
-            otname = (byte[])otname.Clone(),
-            nick = (byte[])nick.Clone(),
+            OT_Trash = otname,
+            Nickname_Trash = nick,
         };
 
         protected override byte[] Encrypt() => new PokeList1(this).Write();
