@@ -19,6 +19,7 @@ namespace PKHeX.Core
         public void VerifyTransferLegalityG12(LegalityAnalysis data)
         {
             VerifyTransferVCNatureEXP(data);
+            VerifyShinyXorIfShiny(data);
         }
 
         private void VerifyTransferVCNatureEXP(LegalityAnalysis data)
@@ -57,6 +58,15 @@ namespace PKHeX.Core
                 (nature != (int) Nature.Impish && nature != (int) Nature.Lax),
                 _ => true
             };
+        }
+
+        private static void VerifyShinyXorIfShiny(LegalityAnalysis data)
+        {
+            // Star, not square. Requires transferring a shiny and having the initially random PID to already be a Star shiny.
+            // (15:65536, ~1:4096) odds on a given shiny transfer!
+            var xor = data.pkm.ShinyXor;
+            if (xor < 16 && xor != 0)
+                data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
         }
 
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
