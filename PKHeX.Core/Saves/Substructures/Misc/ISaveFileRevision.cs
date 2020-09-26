@@ -2,7 +2,7 @@
 {
     public interface ISaveFileRevision
     {
-        public int SaveRevision { get; }
+        int SaveRevision { get; }
         string SaveRevisionString { get; }
     }
 }

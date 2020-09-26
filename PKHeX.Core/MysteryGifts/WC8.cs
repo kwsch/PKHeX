@@ -314,7 +314,7 @@ namespace PKHeX.Core
             return 0x12C + (index * 0x1C);
         }
 
-        public bool IsHOMEGift => Location == 30018 || GetOT(2) == "HOME";
+        public bool IsHOMEGift => Location == Locations.HOME8 || GetOT(2) == "HOME";
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {

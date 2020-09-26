@@ -8,7 +8,6 @@
         public const int LinkTrade4 = 2002;
         public const int LinkTrade5 = 30003;
         public const int LinkTrade6 = 30002;
-        public const int LinkGift6 = 30011;
 
         public const int Daycare4 = 2000;
         public const int Daycare5 = 60002;
@@ -76,6 +75,12 @@
 
         /// <summary> Generation 4 -> Generation 5 Transfer Location (Crown Beast - Event activated in Gen 5) </summary>
         public const int Transfer4_CrownUsed = 30013;
+
+        /// <summary> Generation 6 Gift from Pokémon Link </summary>
+        public const int LinkGift6 = 30011;
+
+        /// <summary> Generation 8 Gift from Pokémon HOME </summary>
+        public const int HOME8 = 30018;
 
         public const int BugCatchingContest4 = 207;
 

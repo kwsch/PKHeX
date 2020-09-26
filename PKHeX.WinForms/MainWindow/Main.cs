@@ -305,7 +305,7 @@ namespace PKHeX.WinForms
             #endif
             Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
             foreach (var p in Plugins.OrderBy(z => z.Priority))
-                p.Initialize(C_SAV, PKME_Tabs, menuStrip1);
+                p.Initialize(C_SAV, PKME_Tabs, menuStrip1, CurrentProgramVersion);
         }
 
         private static void DeleteConfig(string settingsFilename)
