@@ -54,6 +54,14 @@ namespace PKHeX.Core
 
                 hasOne = true;
             }
+
+            if (m is PK8 pk8 && pk8.AffixedRibbon != -1)
+            {
+                if (pk8.AffixedRibbon > (int)RibbonIndex.MarkSlump)
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, pk8.AffixedRibbon)));
+                else if (!hasOne)
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex)pk8.AffixedRibbon)));
+            }
         }
 
         private static bool VerifyMarking(LegalityAnalysis data, RibbonIndex mark)
