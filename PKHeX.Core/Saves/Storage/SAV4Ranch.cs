@@ -8,10 +8,13 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 4 <see cref="SaveFile"/> object for My Pokémon Ranch saves.
     /// </summary>
-    public sealed class SAV4Ranch : BulkStorage
+    public sealed class SAV4Ranch : BulkStorage, ISaveFileRevision
     {
         protected override int SIZE_STORED => 0x88 + 0x1C;
         protected override int SIZE_PARTY => SIZE_STORED;
+
+        public int SaveRevision => Version == GameVersion.DP ? 0 : 1;
+        public string SaveRevisionString => Version == GameVersion.DP ? "-DP" : "-Pt";
 
         public override int BoxCount { get; }
         public override int SlotCount { get; }

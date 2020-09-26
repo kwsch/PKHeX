@@ -7,12 +7,16 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object.
     /// </summary>
-    public sealed class SAV3 : SaveFile
+    public sealed class SAV3 : SaveFile, ILangDeviantSave
     {
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
-        public readonly bool Japanese;
+
+        public int SaveRevision => Japanese ? 0 : 1;
+        public string SaveRevisionString => Japanese ? "J" : "U";
+        public bool Japanese { get; }
+        public bool Korean => false;
         public bool IndeterminateGame => Version == GameVersion.Unknown;
 
         /* SAV3 Structure:

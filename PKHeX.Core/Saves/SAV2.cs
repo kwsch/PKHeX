@@ -12,6 +12,9 @@ namespace PKHeX.Core
         protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+
+        public int SaveRevision => Japanese ? 0 : !Korean ? 1 : 2;
+        public string SaveRevisionString => Japanese ? "J" : !Korean ? "U" : "K";
         public bool Japanese { get; }
         public bool Korean { get; }
 
