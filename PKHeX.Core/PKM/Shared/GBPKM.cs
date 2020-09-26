@@ -10,7 +10,8 @@ namespace PKHeX.Core
         internal const int STRLEN_U = 11;
 
         public sealed override int MaxBallID => -1;
-        public sealed override int MaxGameID => -1;
+        public sealed override int MinGameID => (int)GameVersion.RD;
+        public sealed override int MaxGameID => (int)GameVersion.C;
         public sealed override int MaxIV => 15;
         public sealed override int MaxEV => ushort.MaxValue;
         public sealed override int OTLength => Japanese ? 5 : 7;
