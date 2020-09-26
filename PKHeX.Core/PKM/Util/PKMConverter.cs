@@ -257,7 +257,8 @@ namespace PKHeX.Core
             string srcName = srcType.Name;
             Debug.WriteLine($"Trying to convert {srcName} to {destName}.");
 
-            int destGeneration = destName.Last() - '0';
+            // All types that inherit PKM have the generation specifier as the last char in their class name.
+            int destGeneration = destName[destName.Length - 1] - '0';
             var pkm = ConvertPKM(pk, destType, destGeneration, ref comment);
             var msg = pkm == null ? MsgPKMConvertFailFormat : MsgPKMConvertSuccess;
             var formatted = string.Format(msg, srcName, destName);
@@ -367,11 +368,19 @@ namespace PKHeX.Core
             if (pk.Moves.Any(move => move > limit.MaxMoveID))
                 pk.ClearInvalidMoves();
 
-            if (pk.EVs.Any(ev => ev > limit.MaxEV))
-                pk.EVs = pk.EVs.Select(ev => Math.Min(limit.MaxEV, ev)).ToArray();
+            int maxEV = pk.MaxEV;
+            for (int i = 0; i < 6; i++)
+            {
+                if (pk.GetEV(i) > maxEV)
+                    pk.SetEV(i, maxEV);
+            }
 
-            if (pk.IVs.Any(iv => iv > limit.MaxIV))
-                pk.IVs = pk.IVs.Select(iv => Math.Min(limit.MaxIV, iv)).ToArray();
+            int maxIV = pk.MaxIV;
+            for (int i = 0; i < 6; i++)
+            {
+                if (pk.GetIV(i) > maxIV)
+                    pk.SetIV(i, maxIV);
+            }
 
             return true;
         }
