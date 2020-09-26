@@ -7,14 +7,24 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public sealed class GP1
+    public sealed class GP1 : IEncounterable
     {
         public const int SIZE = 0x1B0;
-        public byte[] Data { get; }
-        public GP1() => Data = (byte[])Blank.Clone();
-        public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
+        public readonly byte[] Data;
+
+        public GameVersion Version => GameVersion.GO;
+        public string Name => "GO Park";
+        public string LongName => Name;
+        public bool EggEncounter => false;
+        public int LevelMin => Level;
+        public int LevelMax => Level;
+        public int Generation => 7;
+        public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPB7(sav);
+        public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria) => ConvertToPB7(sav, criteria);
 
         public GP1(byte[] data) => Data = data;
+        public GP1() : this((byte[])Blank.Clone()) { }
+        public void WriteTo(byte[] data, int offset) => Data.CopyTo(data, offset);
 
         public static GP1 FromData(byte[] data, int offset)
         {
@@ -60,7 +70,7 @@ namespace PKHeX.Core
             get
             {
                 var height = HeightF * 100f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
                 var avgHeight = pi.Height;
                 return PB7.GetHeightScalar(height, avgHeight);
             }
@@ -72,7 +82,7 @@ namespace PKHeX.Core
             {
                 var height = HeightF * 100f;
                 var weight = WeightF * 10f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, AltForm);
+                var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
                 var avgHeight = pi.Height;
                 var avgWeight = pi.Weight;
                 return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
@@ -89,7 +99,7 @@ namespace PKHeX.Core
 
         public int Gender => Data[0x70] - 1; // M=1, F=2, G=3 ;; shift down by 1.
 
-        public int AltForm => Data[0x72];
+        public int Form => Data[0x72];
         public bool IsShiny => Data[0x73] == 1;
 
         // https://bulbapedia.bulbagarden.net/wiki/List_of_moves_in_Pok%C3%A9mon_GO
@@ -103,7 +113,7 @@ namespace PKHeX.Core
         public static readonly IReadOnlyList<string> Genders = GameInfo.GenderSymbolASCII;
         public string GenderString => (uint) Gender >= Genders.Count ? string.Empty : Genders[Gender];
         public string ShinyString => IsShiny ? "★ " : string.Empty;
-        public string FormString => AltForm != 0 ? $"-{AltForm}" : string.Empty;
+        public string FormString => Form != 0 ? $"-{Form}" : string.Empty;
         private string NickStr => string.IsNullOrWhiteSpace(Nickname) ? SpeciesName.GetSpeciesNameGeneration(Species, (int)LanguageID.English, 7) : Nickname;
         public string FileName => $"{FileNameWithoutExtension}.gp1";
 
@@ -111,7 +121,7 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
                 return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV1:00}.{IV2:00}.{IV3:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
             }
@@ -129,7 +139,7 @@ namespace PKHeX.Core
             {
                 Version = (int) GameVersion.GO,
                 Species = Species,
-                AltForm = AltForm,
+                AltForm = Form,
                 Met_Location = 50, // Go complex
                 Met_Year = Year - 2000,
                 Met_Month = Month,
