@@ -19,6 +19,8 @@ namespace PKHeX.Core
                 VerifyNoMarksPresent(data, m);
             else
                 VerifyMarksPresent(data, m);
+
+            VerifyAffixedRibbonMark(data, m);
         }
 
         private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
@@ -54,14 +56,6 @@ namespace PKHeX.Core
 
                 hasOne = true;
             }
-
-            if (m is PK8 pk8 && pk8.AffixedRibbon != -1)
-            {
-                if (pk8.AffixedRibbon > (int)RibbonIndex.MarkSlump)
-                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, pk8.AffixedRibbon)));
-                else if (!hasOne)
-                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex)pk8.AffixedRibbon)));
-            }
         }
 
         private static bool VerifyMarking(LegalityAnalysis data, RibbonIndex mark)
@@ -78,6 +72,21 @@ namespace PKHeX.Core
                 }
             }
             return true;
+        }
+
+        private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
+        {
+            if (!(m is PK8 pk8))
+                return;
+
+            var affix = pk8.AffixedRibbon;
+            if (affix == -1) // None
+                return;
+
+            if ((byte)affix > (int)RibbonIndex.MarkSlump)
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, affix)));
+            else if (!pk8.GetRibbonIndex((RibbonIndex)affix))
+                data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex)affix)));
         }
     }
 }
