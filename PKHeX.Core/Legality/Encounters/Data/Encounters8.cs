@@ -93,11 +93,11 @@ namespace PKHeX.Core
             new EncounterStatic8 { Gift = true, Species = 137, Level = 25, Location = 196, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Porygon
             new EncounterStatic8 { Gift = true, Species = 891, Level = 10, Location = 196, Shiny = Never, FlawlessIVCount = 3 }, // Kubfu
 
-            new EncounterStatic8 { Gift = true, Species = 026, Level = 30, Location = 164, Shiny = Never, FlawlessIVCount = 3, Form = 01 },   // Raichu-1
             new EncounterStatic8 { Gift = true, Species = 079, Level = 10, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Slowpoke
             new EncounterStatic8 { Gift = true, Species = 722, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Rowlet
             new EncounterStatic8 { Gift = true, Species = 725, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Litten
             new EncounterStatic8 { Gift = true, Species = 728, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3 }, // Popplio
+            new EncounterStatic8 { Gift = true, Species = 026, Level = 30, Location = 164, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Form = 01 }, // Raichu-1
             new EncounterStatic8 { Gift = true, Species = 027, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Sandshrew-1
             new EncounterStatic8 { Gift = true, Species = 037, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Vulpix-1
             new EncounterStatic8 { Gift = true, Species = 052, Level = 05, Location = 164, Shiny = Never, Ability = 4, FlawlessIVCount = 3, Form = 01 }, // Meowth-1
