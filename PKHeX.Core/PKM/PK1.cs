@@ -121,6 +121,9 @@ namespace PKHeX.Core
         public override int MaxAbilityID => Legal.MaxAbilityID_1;
         public override int MaxItemID => Legal.MaxItemID_1;
 
+        // Extra
+        public int Gen2Item => ItemConverter.GetItemFuture1(Catch_Rate);
+
         public PK2 ConvertToPK2()
         {
             PK2 pk2 = new PK2(Japanese) {Species = Species};
