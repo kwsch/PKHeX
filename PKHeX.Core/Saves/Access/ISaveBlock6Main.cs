@@ -1,7 +1,10 @@
 ﻿namespace PKHeX.Core
 {
-    public interface ISaveBlock6Main : ISaveBlock6Core, IPokePuff, IOPower, ILink
+    public interface ISaveBlock6Main : ISaveBlock6Core
     {
+        Puff6 Puff { get; }
+        OPower6 OPower { get; }
+        LinkBlock6 Link { get; }
         BoxLayout6 BoxLayout { get; }
         BattleBox6 BattleBox { get; }
         ConfigSave6 Config { get; }

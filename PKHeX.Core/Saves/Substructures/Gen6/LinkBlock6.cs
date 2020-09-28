@@ -2,21 +2,6 @@ using System;
 
 namespace PKHeX.Core
 {
-    public interface IPokePuff
-    {
-        Puff6 Puff { get; }
-    }
-
-    public interface IOPower
-    {
-        OPower6 OPower { get; }
-    }
-
-    public interface ILink
-    {
-        LinkBlock6 Link { get; }
-    }
-
     public sealed class LinkBlock6 : SaveBlock
     {
         public LinkBlock6(SAV6XY sav, int offset) : base(sav) => Offset = offset;

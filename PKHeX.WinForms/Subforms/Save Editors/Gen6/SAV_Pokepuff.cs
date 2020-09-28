@@ -7,13 +7,13 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_Pokepuff : Form
     {
-        private readonly IPokePuff SAV;
+        private readonly ISaveBlock6Main SAV;
 
         public SAV_Pokepuff(SaveFile sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
-            SAV = (IPokePuff)sav;
+            SAV = (ISaveBlock6Main)sav;
 
             var puffs = SAV.Puff.Puffs;
             Setup(puffs.Length);
