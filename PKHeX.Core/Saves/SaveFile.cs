@@ -16,14 +16,14 @@ namespace PKHeX.Core
         public readonly bool Exportable;
         public readonly byte[] BAK;
 
-        protected SaveFile(byte[] data, byte[] bak)
+        protected SaveFile(byte[] data, byte[] bak, bool exportable = true)
         {
             Data = data;
             BAK = bak;
-            Exportable = true;
+            Exportable = exportable;
         }
 
-        protected SaveFile(byte[] data) : this(data, (byte[])data.Clone()) { }
+        protected SaveFile(byte[] data, bool exportable = true) : this(data, (byte[])data.Clone(), exportable) { }
 
         protected SaveFile()
         {

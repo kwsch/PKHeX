@@ -70,7 +70,7 @@ namespace PKHeX.Core
 
         public SAV1Stadium(byte[] data) : this(data, IsStadiumJ(data)) { }
 
-        public SAV1Stadium(byte[] data, bool japanese) : base(data)
+        public SAV1Stadium(byte[] data, bool japanese) : base(data, false)
         {
             Japanese = japanese;
             Box = 0;
@@ -113,7 +113,7 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 10; i++)
             {
-                if (BitConverter.ToUInt32(data, 0x15A + (i * SAV1Stadium.TeamSizeU)) != 0x454B4F50) // POKE
+                if (BitConverter.ToUInt32(data, 0x15A + (i * TeamSizeU)) != 0x454B4F50) // POKE
                     return false;
             }
             return true;
@@ -126,7 +126,7 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 10; i++)
             {
-                if (BitConverter.ToUInt32(data, 0x122 + (i * SAV1Stadium.TeamSizeJ)) != 0x454B4F50) // POKE
+                if (BitConverter.ToUInt32(data, 0x122 + (i * TeamSizeJ)) != 0x454B4F50) // POKE
                     return false;
             }
             return true;
