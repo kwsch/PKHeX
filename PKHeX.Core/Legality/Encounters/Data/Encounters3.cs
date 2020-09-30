@@ -26,10 +26,10 @@ namespace PKHeX.Core
 
         private static readonly EncounterStatic3[] Encounter_RSE_Roam =
         {
-            new EncounterStatic3(380, 40, S) { Roaming = true, }, // Latias
-            new EncounterStatic3(380, 40, E) { Roaming = true, }, // Latias
-            new EncounterStatic3(381, 40, R) { Roaming = true, }, // Latios
-            new EncounterStatic3(381, 40, E) { Roaming = true, }, // Latios
+            new EncounterStatic3(380, 40, S) { Roaming = true, Location = 016 }, // Latias
+            new EncounterStatic3(380, 40, E) { Roaming = true, Location = 016 }, // Latias
+            new EncounterStatic3(381, 40, R) { Roaming = true, Location = 016 }, // Latios
+            new EncounterStatic3(381, 40, E) { Roaming = true, Location = 016 }, // Latios
         };
 
         private static readonly EncounterStatic3[] Encounter_RSE_Regular =
@@ -81,9 +81,9 @@ namespace PKHeX.Core
 
         private static readonly EncounterStatic3[] Encounter_FRLG_Roam =
         {
-            new EncounterStatic3(243, 50, FRLG) { Roaming = true, }, // Raikou
-            new EncounterStatic3(244, 50, FRLG) { Roaming = true, }, // Entei
-            new EncounterStatic3(245, 50, FRLG) { Roaming = true, }, // Suicune
+            new EncounterStatic3(243, 50, FRLG) { Roaming = true, Location = 16 }, // Raikou
+            new EncounterStatic3(244, 50, FRLG) { Roaming = true, Location = 16 }, // Entei
+            new EncounterStatic3(245, 50, FRLG) { Roaming = true, Location = 16 }, // Suicune
         };
 
         private static readonly EncounterStatic3[] Encounter_FRLG_Stationary =
