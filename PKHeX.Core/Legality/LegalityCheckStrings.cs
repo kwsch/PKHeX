@@ -64,6 +64,7 @@ namespace PKHeX.Core
         public static string L_XWurmpleEvo_0 { get; set; } = "Wurmple Evolution: {0}";
 
         public static string LAbilityCapsuleUsed { get; set; } = "Ability modified with Ability Capsule.";
+        public static string LAbilityPatchUsed { get; set; } = "Ability modified with Ability Patch.";
         public static string LAbilityFlag { get; set; } = "Ability matches ability number.";
         public static string LAbilityHiddenFail { get; set; } = "Hidden Ability mismatch for encounter type.";
         public static string LAbilityHiddenUnavailable { get; set; } = "Hidden Ability not available.";

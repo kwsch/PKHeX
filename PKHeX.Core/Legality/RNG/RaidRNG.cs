@@ -111,8 +111,15 @@ namespace PKHeX.Core
                 abil = ability_param;
             abil <<= 1; // 1/2/4
 
-            if ((pk.AbilityNumber == 4) != (abil == 4))
+            var current = pk.AbilityNumber;
+            if (current == 4 && abil != 4)
+            {
+                // Defer for Ability Checks
+            }
+            else if (abil == 4)
+            {
                 return false;
+            }
 
             switch (gender_ratio)
             {

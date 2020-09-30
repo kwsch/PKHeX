@@ -36,23 +36,33 @@ namespace PKHeX.Core
             if (abilval < 0)
                 return GetInvalid(LAbilityUnexpected);
 
-            var enc = data.EncounterMatch;
             var abilities = pi.Abilities;
+            int format = pkm.Format;
+            if (format >= 6)
+            {
+                // Check AbilityNumber is a single set bit
+                var num = pkm.AbilityNumber;
+                if (!(num != 0 && (num & (num - 1)) == 0)) // not [!zero, and power of 2]
+                    return GetInvalid(LAbilityMismatchFlag);
+
+                // Check AbilityNumber points to ability
+                int an = num >> 1;
+                if (an >= abilities.Count || abilities[an] != ability)
+                    return GetInvalid(LAbilityMismatchFlag);
+            }
+
+            if (format >= 8) // Ability Patch
+            {
+                if (pkm.AbilityNumber == 4 && CanAbilityPatch(format, abilities))
+                    return GetValid(LAbilityPatchUsed);
+            }
+
+            var enc = data.EncounterMatch;
             if (enc is MysteryGift g && g.Format >= 4)
                 return VerifyAbilityMG(data, g, abilities);
 
-            if (pkm.Format < 6)
+            if (format < 6)
                 return VerifyAbility345(data, enc, abilities, abilval);
-
-            // Check AbilityNumber is a single set bit
-            var num = pkm.AbilityNumber;
-            if (num == 0 || num == 0b101 || num == 0b110 || num == 0b011)
-                return GetInvalid(LAbilityMismatchFlag);
-
-            // Check AbilityNumber points to ability
-            int an = num >> 1;
-            if (an >= abilities.Count || abilities[an] != ability)
-                return GetInvalid(LAbilityMismatchFlag);
 
             return VerifyAbility(data, abilities, abilval);
         }
@@ -225,9 +235,10 @@ namespace PKHeX.Core
         private CheckResult VerifyAbilityPCD(LegalityAnalysis data, IReadOnlyList<int> abilities, PCD pcd)
         {
             var pkm = data.pkm;
-            if (pkm.Format >= 6)
+            var format = pkm.Format;
+            if (format >= 6)
             {
-                if (abilities[0] == abilities[1])
+                if (CanAbilityCapsule(format, abilities))
                 {
                     // Gen3-5 transfer with same ability -> 1st ability that matches
                     if (pkm.AbilityNumber == 1)
@@ -334,15 +345,28 @@ namespace PKHeX.Core
         // Ability Capsule can change between 1/2
         private static bool IsAbilityCapsuleModified(PKM pkm, IReadOnlyList<int> abilities, int EncounterAbility)
         {
-            if (pkm.Format < 6)
-                return false; // Ability Capsule does not exist
-            if (abilities[0] == abilities[1])
-                return false; // Cannot alter ability index if it is the same as the other ability.
+            if (!CanAbilityCapsule(pkm.Format, abilities))
+                return false;
             if (pkm.AbilityNumber == 4)
                 return false; // Cannot alter to hidden ability.
             if (EncounterAbility == 4)
                 return false; // Cannot alter from hidden ability.
             return true;
+        }
+
+        private static bool CanAbilityCapsule(int format, IReadOnlyList<int> abilities)
+        {
+            if (format < 6) // Ability Capsule does not exist
+                return false;
+            return abilities[0] == abilities[1]; // Cannot alter ability index if it is the same as the other ability.
+        }
+
+        public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities)
+        {
+            if (format < 8) // Ability Patch does not exist
+                return false;
+            var h = abilities[2];
+            return h != abilities[0] || h != abilities[1]; // Cannot alter ability index if it is the same as the other abilities.
         }
 
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
