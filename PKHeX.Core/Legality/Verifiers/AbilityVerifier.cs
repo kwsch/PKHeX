@@ -358,7 +358,7 @@ namespace PKHeX.Core
         {
             if (format < 6) // Ability Capsule does not exist
                 return false;
-            return abilities[0] == abilities[1]; // Cannot alter ability index if it is the same as the other ability.
+            return abilities[0] != abilities[1]; // Cannot alter ability index if it is the same as the other ability.
         }
 
         public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities)
