@@ -449,6 +449,12 @@
         GBCartEraOnly,
 
         /// <summary>
+        /// Pocket Monsters Stadium data origin identifier
+        /// </summary>
+        /// <see cref="GBCartEraOnly"/>
+        StadiumJ,
+
+        /// <summary>
         /// Pokémon Stadium data origin identifier
         /// </summary>
         /// <see cref="GBCartEraOnly"/>

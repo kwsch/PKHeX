@@ -123,6 +123,8 @@ namespace PKHeX.Core
                 return DPPt;
             if (SAV1Stadium.IsStadiumU(data) || SAV1Stadium.IsStadiumJ(data))
                 return Stadium;
+            if (SAV1StadiumJ.IsStadiumJ(data))
+                return StadiumJ;
 
             if ((ver = GetIsG8SAV(data)) != Invalid)
                 return ver;
@@ -528,6 +530,7 @@ namespace PKHeX.Core
                 case Gen4: return new Bank4(data);
                 case Gen7: return Bank7.GetBank7(data);
                 case Stadium: return new SAV1Stadium(data);
+                case StadiumJ: return new SAV1StadiumJ(data);
 
                 // No pattern matched
                 default: return null;
