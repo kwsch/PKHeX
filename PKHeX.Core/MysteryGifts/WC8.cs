@@ -389,7 +389,13 @@ namespace PKHeX.Core
                 pk.SID = sav.SID;
 
                 if (IsHOMEGift)
+                {
                     pk.TrainerSID7 = 0;
+                    while (pk.TSV == 0)
+                    {
+                        pk.TrainerID7 = Util.Rand.Next(16, 999_999);
+                    }
+                }
             }
 
             // Official code explicitly corrects for Meowstic
@@ -533,6 +539,9 @@ namespace PKHeX.Core
                 {
                     // HOME gifts -- PID and EC are zeroes...
                     if (EncryptionConstant != pkm.EncryptionConstant)
+                        return false;
+
+                    if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                         return false;
 
                     if (IsShiny)
