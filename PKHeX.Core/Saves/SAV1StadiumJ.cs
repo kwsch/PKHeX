@@ -14,7 +14,7 @@ namespace PKHeX.Core
 
         // Required since PK1 logic comparing a save file assumes the save file can be U/J
         public int SaveRevision => 0;
-        public string SaveRevisionString => string.Empty;
+        public string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
         public bool Japanese => true;
         public bool Korean => false;
 
@@ -53,6 +53,16 @@ namespace PKHeX.Core
         public override int MaxCoins => 9999;
 
         public override int GetPartyOffset(int slot) => -1;
+
+        private readonly bool IsPairSwapped;
+
+        protected override byte[] GetFinalData()
+        {
+            var result = base.GetFinalData();
+            if (IsPairSwapped)
+                BigEndian.SwapBytes32(result = (byte[])result.Clone());
+            return result;
+        }
 
         public override bool ChecksumsValid => GetBoxChecksumsValid();
         protected override void SetChecksums() => SetBoxChecksums();
@@ -102,6 +112,12 @@ namespace PKHeX.Core
 
         public SAV1StadiumJ(byte[] data) : base(data)
         {
+            var swap = StadiumUtil.IsMagicPresentSwap(data, TeamSizeJ, MAGIC_POKE);
+            if (swap)
+            {
+                BigEndian.SwapBytes32(Data);
+                IsPairSwapped = true;
+            }
             Box = 0x2500;
         }
 
@@ -156,20 +172,13 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        private const int MAGIC_POKE = 0x454B4F50;
+        private const uint MAGIC_POKE = 0x454B4F50;
 
         public static bool IsStadiumJ(byte[] data)
         {
             if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;
-
-            // Check footers of first few teams to see if the magic value is there.
-            for (int i = 0; i < 10; i++)
-            {
-                if (BitConverter.ToUInt32(data, TeamSizeJ - ListFooterSize + (i * TeamSizeJ)) != MAGIC_POKE) // POKE
-                    return false;
-            }
-            return true;
+            return StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, MAGIC_POKE);
         }
     }
 }

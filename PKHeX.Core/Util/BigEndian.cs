@@ -76,6 +76,24 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Swaps byte ordering in a byte array based on 32bit value writes.
+        /// </summary>
+        /// <remarks>The <see cref="data"/> is reversed in-place.</remarks>
+        public static void SwapBytes32(byte[] data)
+        {
+            for (int i = 0; i < data.Length; i += 4)
+            {
+                byte tmp = data[0 + i];
+                data[0 + i] = data[3 + i];
+                data[3 + i] = tmp;
+
+                byte tmp1 = data[1 + i];
+                data[1 + i] = data[2 + i];
+                data[2 + i] = tmp1;
+            }
+        }
+
+        /// <summary>
         /// Returns a 32-bit signed integer converted from bytes in a Binary Coded Decimal format byte array.
         /// </summary>
         /// <param name="input">Input byte array to read from.</param>
