@@ -411,6 +411,38 @@
             new EncounterStatic8ND(60,10,5) { Species = 518, Ability = A4, Moves = new[]{ 585, 094, 236, 360 } }, // Musharna
             new EncounterStatic8ND(60,10,5) { Species = 036, Ability = A4, Moves = new[]{ 585, 309, 236, 345 }, Shiny = Shiny.Always }, // Clefable
             new EncounterStatic8ND(60,10,5) { Species = 549, Ability = A4, Moves = new[]{ 412, 241, 437, 263 } }, // Lilligant
+
+            // 10/1 - Spooky
+            new EncounterStatic8ND(17,01,1) { Species = 093, Ability = A4, Moves = new[]{ 371, 122, 095, 325 } }, // Haunter
+            new EncounterStatic8ND(17,01,1) { Species = 425, Ability = A4, Moves = new[]{ 016, 506, 310, 371 } }, // Drifloon
+            new EncounterStatic8ND(17,01,1) { Species = 355, Ability = A4, Moves = new[]{ 310, 425, 043, 506 } }, // Duskull
+            new EncounterStatic8ND(17,01,1) { Species = 859, Ability = A4, Moves = new[]{ 372, 313, 260, 044 } }, // Impidimp
+            new EncounterStatic8ND(17,01,1) { Species = 633, Ability = A4, Moves = new[]{ 225, 033, 399, 044 } }, // Deino
+            new EncounterStatic8ND(17,01,1) { Species = 877, Ability = A4, Moves = new[]{ 084, 098, 681, 043 } }, // Morpeko
+            new EncounterStatic8ND(30,03,2) { Species = 094, Ability = A4, Moves = new[]{ 371, 389, 095, 325 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(30,03,2) { Species = 426, Ability = A4, Moves = new[]{ 016, 247, 310, 371 } }, // Drifblim
+            new EncounterStatic8ND(30,03,2) { Species = 355, Ability = A4, Moves = new[]{ 310, 425, 371, 506 } }, // Duskull
+            new EncounterStatic8ND(30,03,2) { Species = 859, Ability = A4, Moves = new[]{ 259, 389, 207, 044 } }, // Impidimp
+            new EncounterStatic8ND(30,03,2) { Species = 633, Ability = A4, Moves = new[]{ 225, 021, 399, 029 } }, // Deino
+            new EncounterStatic8ND(30,03,2) { Species = 877, Ability = A4, Moves = new[]{ 209, 098, 044, 043 } }, // Morpeko
+            new EncounterStatic8ND(40,05,3) { Species = 094, Ability = A4, Moves = new[]{ 506, 389, 095, 325 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(40,05,3) { Species = 426, Ability = A4, Moves = new[]{ 016, 247, 360, 371 } }, // Drifblim
+            new EncounterStatic8ND(40,05,3) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 371, 157 } }, // Dusknoir
+            new EncounterStatic8ND(40,05,3) { Species = 860, Ability = A4, Moves = new[]{ 417, 793, 421, 399 } }, // Morgrem
+            new EncounterStatic8ND(40,05,3) { Species = 633, Ability = A4, Moves = new[]{ 406, 021, 399, 423 } }, // Deino
+            new EncounterStatic8ND(40,05,3) { Species = 877, Ability = A4, Moves = new[]{ 209, 098, 044, 402 } }, // Morpeko
+            new EncounterStatic8ND(50,08,4) { Species = 094, Ability = A4, Moves = new[]{ 247, 399, 094, 085 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(50,08,4) { Species = 426, Ability = A4, Moves = new[]{ 366, 247, 360, 371 } }, // Drifblim
+            new EncounterStatic8ND(50,08,4) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 280, 157 } }, // Dusknoir
+            new EncounterStatic8ND(50,08,4) { Species = 861, Ability = A4, Moves = new[]{ 789, 492, 421, 399 }, CanGigantamax = true }, // Grimmsnarl
+            new EncounterStatic8ND(50,08,4) { Species = 634, Ability = A4, Moves = new[]{ 406, 304, 399, 423 } }, // Zweilous
+            new EncounterStatic8ND(50,08,4) { Species = 877, Ability = A4, Moves = new[]{ 783, 098, 242, 402 } }, // Morpeko
+            new EncounterStatic8ND(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 399, 605, 085 }, CanGigantamax = true }, // Gengar
+            new EncounterStatic8ND(60,10,5) { Species = 426, Ability = A4, Moves = new[]{ 366, 247, 360, 693 } }, // Drifblim
+            new EncounterStatic8ND(60,10,5) { Species = 477, Ability = A4, Moves = new[]{ 247, 009, 280, 089 } }, // Dusknoir
+            new EncounterStatic8ND(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 492, 421, 417 }, CanGigantamax = true }, // Grimmsnarl
+            new EncounterStatic8ND(60,10,5) { Species = 635, Ability = A4, Moves = new[]{ 406, 304, 399, 056 } }, // Hydreigon
+            new EncounterStatic8ND(60,10,5) { Species = 877, Ability = A4, Moves = new[]{ 783, 037, 242, 402 } }, // Morpeko
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
