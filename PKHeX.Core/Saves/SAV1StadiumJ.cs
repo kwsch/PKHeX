@@ -6,11 +6,17 @@ namespace PKHeX.Core
     /// <summary>
     /// Pocket Monsters Stadium
     /// </summary>
-    public class SAV1StadiumJ : SaveFile
+    public class SAV1StadiumJ : SaveFile, ILangDeviantSave
     {
-        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
+        protected override string BAKText => $"{OT} ({Version})";
         public override string Filter => "SAV File|*.sav|All Files|*.*";
         public override string Extension => ".sav";
+
+        // Required since PK1 logic comparing a save file assumes the save file can be U/J
+        public int SaveRevision => 0;
+        public string SaveRevisionString => string.Empty;
+        public bool Japanese => true;
+        public bool Korean => false;
 
         public override PersonalTable Personal => PersonalTable.Y;
         public override int MaxEV => ushort.MaxValue;
@@ -19,8 +25,7 @@ namespace PKHeX.Core
 
         public override SaveFile Clone() => new SAV1StadiumJ((byte[])Data.Clone());
 
-        public override bool ChecksumsValid => true;
-        public override string ChecksumInfo => string.Empty;
+        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
         public override int Generation => 1;
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, true);
@@ -32,7 +37,7 @@ namespace PKHeX.Core
             return StringConverter12.SetString1(value, maxLength, true, PadToSize, PadWith);
         }
 
-        private int StringLength => 5;
+        private const int StringLength = 6; // Japanese Only
         public override int OTLength => StringLength;
         public override int NickLength => StringLength;
         public override int BoxCount => 8;
@@ -48,25 +53,54 @@ namespace PKHeX.Core
         public override int MaxCoins => 9999;
 
         public override int GetPartyOffset(int slot) => -1;
-        protected override void SetChecksums() { } // todo
+
+        public override bool ChecksumsValid => GetBoxChecksumsValid();
+        protected override void SetChecksums() => SetBoxChecksums();
+
+        private bool GetBoxChecksumsValid()
+        {
+            for (int i = 0; i < BoxCount; i++)
+            {
+                var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+                const int size = BoxSizeJ - 2;
+                var chk = Checksums.CheckSum16(Data, boxOfs, size);
+                var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+                if (chk != actual)
+                    return false;
+            }
+            return true;
+        }
+
+        private void SetBoxChecksums()
+        {
+            for (int i = 0; i < BoxCount; i++)
+            {
+                var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+                const int size = BoxSizeJ - 2;
+                var chk = Checksums.CheckSum16(Data, boxOfs, size);
+                BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            }
+        }
 
         public override Type PKMType => typeof(PK1);
 
         protected override PKM GetPKM(byte[] data)
         {
-            int len = StringLength;
+            const int len = StringLength;
             var nick = data.Slice(0x21, len);
             var ot = data.Slice(0x21 + len, len);
+            data = data.Slice(0, 0x21);
             return new PK1(data, true) { OT_Trash = ot, Nickname_Trash = nick };
         }
 
         protected override byte[] DecryptPKM(byte[] data) => data;
 
         public override PKM BlankPKM => new PK1(true);
-        protected override int SIZE_STORED => 0x2D;
-        protected override int SIZE_PARTY => 0x2D;
+        private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLength); // 0x2D
+        protected override int SIZE_STORED => SIZE_PK1J;
+        protected override int SIZE_PARTY => SIZE_PK1J;
 
-        public SAV1StadiumJ(byte[] data) : base(data, false)
+        public SAV1StadiumJ(byte[] data) : base(data)
         {
             Box = 0x2500;
         }
@@ -77,9 +111,32 @@ namespace PKHeX.Core
             ClearBoxes();
         }
 
-        private const int TeamSizeJ = 0x128;
+        private const int ListHeaderSize = 0x14;
+        private const int ListFooterSize = 6; // POKE + 2byte checksum
+
+        private const int TeamCount = 86; // todo
+        private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
+        public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
+        public static string GetTeamName(int team) => $"Team {team + 1}";
+
+        public BattleTeam<PK1> GetTeam(int team)
+        {
+            if ((uint)team >= TeamCount)
+                throw new ArgumentOutOfRangeException(nameof(team));
+
+            var name = GetTeamName(team);
+            var members = new PK1[6];
+            var ofs = GetTeamOffset(team);
+            for (int i = 0; i < 6; i++)
+            {
+                var rel = ofs + (i * SIZE_STORED);
+                members[i] = (PK1)GetStoredSlot(Data, rel);
+            }
+            return new BattleTeam<PK1>(name, members);
+        }
+
         private const int BoxSizeJ = 0x560;
-        public override int GetBoxOffset(int box) => (box * BoxSizeJ) + 0x14;
+        public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
         public override string GetBoxName(int box) => $"Box {box + 1}";
         public override void SetBoxName(int box, string value) { }
 
@@ -99,14 +156,17 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
+        private const int MAGIC_POKE = 0x454B4F50;
+
         public static bool IsStadiumJ(byte[] data)
         {
-            if (data.Length != SaveUtil.SIZE_G1STAD)
+            if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;
 
+            // Check footers of first few teams to see if the magic value is there.
             for (int i = 0; i < 10; i++)
             {
-                if (BitConverter.ToUInt32(data, 0x11A + (i * TeamSizeJ)) != 0x454B4F50) // POKE
+                if (BitConverter.ToUInt32(data, TeamSizeJ - ListFooterSize + (i * TeamSizeJ)) != MAGIC_POKE) // POKE
                     return false;
             }
             return true;

@@ -48,6 +48,7 @@ namespace PKHeX.Core
         public const int SIZE_G2BAT_J = 0x1002C;
         public const int SIZE_G2EMU_J = 0x10030;
         public const int SIZE_G1STAD = 0x20000; // same as G3RAW_U
+        public const int SIZE_G1STADJ = 0x8000; // same as G1RAW
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
 

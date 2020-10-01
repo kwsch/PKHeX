@@ -110,6 +110,20 @@ namespace PKHeX.Core
             return (ushort)(val + (val >> 16));
         }
 
+        /// <summary>Calculates the 16bit checksum over an input byte array. Used in N64 Stadium save files.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="length">Length of array to checksum</param>
+        /// <param name="initial">Initial value for checksum</param>
+        /// <returns>Checksum</returns>
+        public static ushort CheckSum16(byte[] data, int start, int length, ushort initial = 0)
+        {
+            ushort acc = initial;
+            for (int i = 0; i < length; i++)
+                acc += data[start + i];
+            return acc;
+        }
+
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
         /// <param name="initial">Initial value for checksum</param>
