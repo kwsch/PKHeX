@@ -608,11 +608,17 @@ namespace PKHeX.Core
                 case RD: case BU: case GN: case YW:
                 case RBY:
                     return new SAV1(version: game);
+                case StadiumJ:
+                    return new SAV1StadiumJ();
+                case Stadium:
+                    return new SAV1Stadium();
 
                 case GS: case GD: case SV:
                     return new SAV2(version: GS);
                 case GSC: case C:
                     return new SAV2(version: C);
+                case Stadium2:
+                    return new SAV2Stadium();
 
                 case R: case S: case E: case FR: case LG:
                     return new SAV3(version: game);
