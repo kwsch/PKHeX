@@ -17,7 +17,7 @@ namespace PKHeX.Core
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
 
-            if (!(pkm is PK4 pk4))
+            if (!(pkm is G4PKM pk4))
                 return true;
 
             var locs = GetRoamLocations(Species, pk4.EncounterType);
