@@ -133,12 +133,97 @@ namespace PKHeX.Core
         private int ListHeaderSize => Japanese ? 0x0C : 0x10;
         private const int ListFooterSize = 6; // POKE + 2byte checksum
 
-        private const int TeamCount = 86; // todo
+        private const int TeamCountU = 10;
+        private const int TeamCountJ = 12;
+        private const int TeamCountTypeU = 6;
+        private const int TeamCountTypeJ = 8;
+        private int TeamCount => Japanese ? TeamCountJ * TeamCountTypeJ : TeamCountU * TeamCountTypeU;
         private int TeamSize => Japanese ? TeamSizeJ : TeamSizeU;
         private const int TeamSizeJ = 0x0C + (SIZE_PK1J * 6) + ListFooterSize; // 0x120
         private const int TeamSizeU = 0x10 + (SIZE_PK1U * 6) + ListFooterSize; // 0x160
-        public int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSize);
-        public static string GetTeamName(int team) => $"Team {team + 1}";
+
+        public int GetTeamOffset(int team) => Japanese ? GetTeamOffsetJ(team) : GetTeamOffsetU(team);
+
+        private int GetTeamOffsetJ(int team)
+        {
+            if ((uint) team > TeamCount)
+                throw new ArgumentOutOfRangeException(nameof(team));
+            return GetTeamTypeOffsetJ(team / TeamCountJ) + (TeamSizeJ * (team % TeamCountJ));
+        }
+
+        private int GetTeamOffsetU(int team)
+        {
+            if ((uint)team > TeamCount)
+                throw new ArgumentOutOfRangeException(nameof(team));
+            return GetTeamTypeOffsetU(team / TeamCountU) + (TeamSizeU * (team % TeamCountU));
+        }
+
+        private static int GetTeamTypeOffsetJ(int team) => team switch
+        {
+            0 => 0x0000, // Anything Goes
+            1 => 0x0D80, // Nintendo Cup '97
+            2 => 0x1B00, // Nintendo Cup '98
+            3 => 0x2880, // Nintendo Cup '99
+            4 => 0x4000, // Petit Cup
+            5 => 0x4D80, // Pika Cup
+            6 => 0x5B00, // Prime Cup
+            7 => 0x6880, // Gym Leader Castle
+            8 => 0x8000, // Vs. Mewtwo
+            _ => throw new ArgumentOutOfRangeException(nameof(team)),
+        };
+
+        private static int GetTeamTypeOffsetU(int team) => team switch
+        {
+            0 => 0x0000, // Anything Goes
+            1 => 0x0D80, // Unused
+            2 => 0x1B00, // Unused
+            3 => 0x2880, // Poke Cup
+            4 => 0x4000, // Petit Cup
+            5 => 0x4D80, // Pika Cup
+            6 => 0x5B00, // Prime Cup
+            7 => 0x6880, // Gym Leader Castle
+            8 => 0x8000, // Vs. Mewtwo
+            _ => throw new ArgumentOutOfRangeException(nameof(team)),
+        };
+
+        public int GetTeamOffset(Stadium2TeamType type, int team)
+        {
+            if (Japanese)
+               return GetTeamTypeOffsetJ((int)type) + (TeamSizeJ * team);
+            return GetTeamTypeOffsetU((int)type) + (TeamSizeU * team);
+        }
+
+        public string GetTeamName(int team)
+        {
+            if ((uint)team >= TeamCount)
+                throw new ArgumentOutOfRangeException(nameof(team));
+
+            var teamsPerType = Japanese ? TeamCountJ : TeamCountU;
+            var type = team / teamsPerType;
+            var index = team % teamsPerType;
+            return $"{GetTeamTypeName(type)} {index + 1}";
+        }
+
+        private string GetTeamTypeName(int type)
+        {
+            if (Japanese)
+                return ((Stadium1TeamType) type).ToString();
+            return type switch
+            {
+                1 => "Unused1",
+                2 => "Unused2",
+                3 => "PokeCup",
+                _ => ((Stadium1TeamType)type).ToString(),
+            };
+        }
+
+        public BattleTeam<PK1>[] GetRegisteredTeams()
+        {
+            var result = new BattleTeam<PK1>[TeamCount];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = GetTeam(i);
+            return result;
+        }
 
         public BattleTeam<PK1> GetTeam(int team)
         {
@@ -194,6 +279,19 @@ namespace PKHeX.Core
                 return false;
             return StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, MAGIC_POKE);
         }
+    }
+
+    public enum Stadium1TeamType
+    {
+        AnythingGoes = 0,
+        NintendoCup97 = 1, // unused in non-JP
+        NintendoCup98 = 2, // unused in non-JP
+        NintendoCup99 = 3, // Poke Cup in non-JP
+        PetitCup = 4,
+        PikaCup = 5,
+        PrimeCup = 6,
+        GymLeaderCastle = 7,
+        VsMewtwo = 8,
     }
 
     public class BattleTeam<T> where T : PKM

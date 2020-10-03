@@ -122,10 +122,36 @@ namespace PKHeX.Core
         private const int ListHeaderSizeBox = 0x20;
         private const int ListFooterSize = 6; // POKE + 2byte checksum
 
-        private const int TeamCount = 40;
+        private const int TeamCount = 60;
+        private const int TeamCountType = 10;
         private const int TeamSize = ListHeaderSizeTeam + (SIZE_SK2 * 6) + 2 + ListFooterSize; // 0x180
-        public static int GetTeamOffset(int team) => 0 + ListHeaderSizeTeam + (team * TeamSize);
-        public static string GetTeamName(int team) => $"Team {team + 1}";
+
+        public static int GetTeamOffset(Stadium2TeamType type, int team)
+        {
+            if ((uint)team >= TeamCountType)
+                throw new ArgumentOutOfRangeException(nameof(team));
+
+            var index = (TeamCountType * (int)type) + team;
+            return GetTeamOffset(index);
+        }
+
+        public static int GetTeamOffset(int team)
+        {
+            if (team < 40)
+                return 0 + (team * TeamSize);
+            // Teams 41-60 are in a separate chunk
+            return 0x4000 + ((team - 40) * TeamSize);
+        }
+
+        public static string GetTeamName(int team) => $"{(Stadium2TeamType)(team / TeamCountType)} {(team % 10) + 1}";
+
+        public BattleTeam<SK2>[] GetRegisteredTeams()
+        {
+            var result = new BattleTeam<SK2>[TeamCount];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = GetTeam(i);
+            return result;
+        }
 
         public BattleTeam<SK2> GetTeam(int team)
         {
@@ -137,7 +163,7 @@ namespace PKHeX.Core
             var ofs = GetTeamOffset(team);
             for (int i = 0; i < 6; i++)
             {
-                var rel = ofs + (i * SIZE_STORED);
+                var rel = ofs + ListHeaderSizeTeam + (i * SIZE_STORED);
                 members[i] = (SK2)GetStoredSlot(Data, rel);
             }
             return new BattleTeam<SK2>(name, members);
@@ -172,5 +198,15 @@ namespace PKHeX.Core
 
         // Check Box 1's footer magic.
         private static bool IsJapanese(byte[] data) => StadiumUtil.IsMagicPresentAbsolute(data, BoxStart + BoxSizeJ - ListFooterSize, MAGIC_POKE);
+    }
+
+    public enum Stadium2TeamType
+    {
+        AnythingGoes = 0,
+        LittleCup = 1,
+        PokéCup = 2,
+        PrimeCup = 3,
+        GymLeaderCastle = 4,
+        VsRival = 5,
     }
 }
