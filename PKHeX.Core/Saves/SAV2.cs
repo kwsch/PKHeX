@@ -283,7 +283,7 @@ namespace PKHeX.Core
 
         public override bool HasParty => true;
         public override bool HasNamableBoxes => true;
-        private int StringLength => Japanese ? GBPKM.STRLEN_J : GBPKM.STRLEN_U;
+        private int StringLength => Japanese ? GBPKML.STRLEN_J : GBPKML.STRLEN_U;
 
         // Checksums
         private ushort GetChecksum()

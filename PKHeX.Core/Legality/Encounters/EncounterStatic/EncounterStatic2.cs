@@ -56,7 +56,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+            if (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0)
                 return pkm.Met_Level == (EggEncounter ? 1 : Level);
 
             return Level <= evo.Level;
@@ -68,7 +68,7 @@ namespace PKHeX.Core
                 return true;
             if (Location == 0)
                 return true;
-            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+            if (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0)
                 return Location == pkm.Met_Location;
             return true;
         }

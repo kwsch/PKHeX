@@ -37,11 +37,11 @@ namespace PKHeX.Core
 
             bool hasOriginMet;
             int maxLevel, minLevel;
-            if (pkm is PK2 pk2)
+            if (pkm is ICaughtData2 pk2)
             {
                 hasOriginMet = pk2.CaughtData != 0;
-                maxLevel = rby && Future_LevelUp2.Contains(pk2.Species) ? pkm.CurrentLevel - 1 : pkm.CurrentLevel;
-                minLevel = !hasOriginMet ? 2 : pkm.IsEgg ? 5 : pkm.Met_Level;
+                maxLevel = rby && Future_LevelUp2.Contains(pkm.Species) ? pkm.CurrentLevel - 1 : pkm.CurrentLevel;
+                minLevel = !hasOriginMet ? 2 : pkm.IsEgg ? 5 : pk2.Met_Level;
             }
             else if (pkm is PK1 pk1)
             {

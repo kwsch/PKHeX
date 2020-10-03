@@ -39,6 +39,7 @@ namespace PKHeX.Core
         public const int SIZE_G3XDGCI = SIZE_G3XD + 0x40; // GCI data
         public const int SIZE_G3RAW = 0x20000;
         public const int SIZE_G3RAWHALF = 0x10000;
+        public const int SIZE_G2STAD = 0x20000; // same as G3RAW_U
         public const int SIZE_G2RAW_U = 0x8000;
         public const int SIZE_G2VC_U = 0x8010;
         public const int SIZE_G2BAT_U = 0x802C;
@@ -122,6 +123,8 @@ namespace PKHeX.Core
                 return Gen3;
             if (GetIsRanch4(data)) // ranch
                 return DPPt;
+            if (SAV2Stadium.IsStadium(data))
+                return Stadium2;
             if (SAV1Stadium.IsStadiumU(data) || SAV1Stadium.IsStadiumJ(data))
                 return Stadium;
             if (SAV1StadiumJ.IsStadiumJ(data))
@@ -524,14 +527,15 @@ namespace PKHeX.Core
                 case XD:     return new SAV3XD(data);
                 case RSBOX:  return new SAV3RSBox(data);
                 case BATREV: return new SAV4BR(data);
+                case Stadium2: return new SAV2Stadium(data);
+                case Stadium:  return new SAV1Stadium(data);
+                case StadiumJ: return new SAV1StadiumJ(data);
 
                 // Bulk Storage
                 case Gen3: return new Bank3(data);
                 case DPPt: return new SAV4Ranch(data);
                 case Gen4: return new Bank4(data);
                 case Gen7: return Bank7.GetBank7(data);
-                case Stadium: return new SAV1Stadium(data);
-                case StadiumJ: return new SAV1StadiumJ(data);
 
                 // No pattern matched
                 default: return null;

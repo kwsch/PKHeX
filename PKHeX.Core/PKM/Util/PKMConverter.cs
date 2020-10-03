@@ -60,6 +60,7 @@ namespace PKHeX.Core
                     return 1;
                 case PokeCrypto.SIZE_2ULIST:
                 case PokeCrypto.SIZE_2JLIST:
+                case PokeCrypto.SIZE_2STADIUM:
                     return 2;
                 case PokeCrypto.SIZE_3PARTY:
                 case PokeCrypto.SIZE_3STORED:
@@ -114,6 +115,9 @@ namespace PKHeX.Core
                     var list1 = new PokeList1(data);
                     return list1[0];
                 case 2:
+                    if (data.Length == PokeCrypto.SIZE_2STADIUM)
+                        return new SK2(data);
+
                     var list2 = new PokeList2(data);
                     return list2[0];
                 case 3:
@@ -288,6 +292,7 @@ namespace PKHeX.Core
                 // Non-sequential
                 case PK1 pk1 when destGeneration > 2: return pk1.ConvertToPK7();
                 case PK2 pk2 when destGeneration > 2: return pk2.ConvertToPK7();
+                case PK2 pk2 when destType == typeof(SK2): return pk2.ConvertToSK2();
                 case PK3 pk3 when destType == typeof(CK3): return pk3.ConvertToCK3();
                 case PK3 pk3 when destType == typeof(XK3): return pk3.ConvertToXK3();
                 case PK4 pk4 when destType == typeof(BK4): return pk4.ConvertToBK4();
@@ -302,6 +307,7 @@ namespace PKHeX.Core
                 // Sequential
                 case PK1 pk1: return pk1.ConvertToPK2();
                 case PK2 pk2: return pk2.ConvertToPK1();
+                case SK2 sk2: return sk2.ConvertToPK2();
                 case CK3 ck3: return ck3.ConvertToPK3();
                 case XK3 xk3: return xk3.ConvertToPK3();
                 case PK3 pk3: return pk3.ConvertToPK4();

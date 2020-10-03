@@ -9,8 +9,28 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter12
     {
-        public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z));
-        public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z));
+        public static bool GetIsG1Japanese(string str) => AllCharsInDictionary(str, U2RBY_J);
+        public static bool GetIsG1English(string str) => AllCharsInDictionary(str, U2RBY_U);
+        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
+
+        public static bool GetIsG1Japanese(byte[] data, int start, int length)
+        {
+            var d = RBY2U_J;
+            return AllCharsInDictionary(data, start, length, d);
+        }
+
+        private static bool AllCharsInDictionary(IReadOnlyList<byte> data, int start, int length, IReadOnlyDictionary<byte, char> d)
+        {
+            for (int i = start; i < start + length; i++)
+            {
+                var c = data[i];
+                if (c == 0)
+                    break;
+                if (!d.ContainsKey(c))
+                    return false;
+            }
+            return true;
+        }
 
         public const byte G1TerminatorCode = 0x50;
         public const char G1Terminator = '\0';

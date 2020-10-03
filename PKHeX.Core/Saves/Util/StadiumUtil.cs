@@ -44,5 +44,24 @@ namespace PKHeX.Core
             }
             return true;
         }
+
+        public static bool IsMagicPresentAbsolute(byte[] data, int offset, uint magic)
+        {
+            var actual = BitConverter.ToUInt32(data, offset);
+            if (actual == magic) // POKE
+                return true;
+
+            var left = (ushort)magic;
+            var right = (ushort)(magic >> 16);
+            left = (ushort)((left >> 8) | (left << 8));
+            right = (ushort)((right >> 8) | (right << 8));
+
+            if (BitConverter.ToUInt16(data, offset - 2) != left) // OP
+                return false;
+            if (BitConverter.ToUInt16(data, offset + 4) != right) // EK
+                return false;
+
+            return true;
+        }
     }
 }
