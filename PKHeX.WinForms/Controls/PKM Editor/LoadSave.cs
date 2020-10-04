@@ -284,7 +284,7 @@ namespace PKHeX.WinForms.Controls
             LoadRelearnMoves(pk);
             LoadHandlingTrainer(pk);
 
-            if (pk is IGeoTrack tr)
+            if (pk is IRegionOrigin tr)
                 LoadGeolocation(tr);
         }
 
@@ -296,18 +296,18 @@ namespace PKHeX.WinForms.Controls
             SaveRelearnMoves(pk);
             SaveHandlingTrainer(pk);
 
-            if (pk is IGeoTrack tr)
+            if (pk is IRegionOrigin tr)
                 SaveGeolocation(tr);
         }
 
-        private void LoadGeolocation(IGeoTrack pk)
+        private void LoadGeolocation(IRegionOrigin pk)
         {
             CB_Country.SelectedValue = pk.Country;
             CB_SubRegion.SelectedValue = pk.Region;
             CB_3DSReg.SelectedValue = pk.ConsoleRegion;
         }
 
-        private void SaveGeolocation(IGeoTrack pk)
+        private void SaveGeolocation(IRegionOrigin pk)
         {
             pk.Country = WinFormsUtil.GetIndex(CB_Country);
             pk.Region = WinFormsUtil.GetIndex(CB_SubRegion);

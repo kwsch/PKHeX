@@ -24,7 +24,7 @@ namespace PKHeX.Core
             pk.Language = info.Language;
             pk.Version = info.Game;
 
-            if (!(pk is IGeoTrack tr))
+            if (!(pk is IRegionOrigin tr))
                 return;
 
             if (!(info is IRegionOrigin o))

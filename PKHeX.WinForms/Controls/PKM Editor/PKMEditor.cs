@@ -1743,7 +1743,7 @@ namespace PKHeX.WinForms.Controls
             BTN_History.Visible = gen >= 6 && !pb7;
             BTN_Ribbons.Visible = gen >= 3 && !pb7;
             BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
-            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IGeoTrack;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
             FLP_OriginalNature.Visible = gen >= 8;
             B_Records.Visible = gen >= 8;
             CB_HTLanguage.Visible = gen >= 8;
