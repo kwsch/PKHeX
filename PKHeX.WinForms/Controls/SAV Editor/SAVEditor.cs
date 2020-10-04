@@ -570,12 +570,8 @@ namespace PKHeX.WinForms.Controls
                 form.Show();
             }
 
-            if (SAV is SAV1StadiumJ s0)
+            if (SAV is SAV_STADIUM s0)
                 TryOpen(s0, s0.GetRegisteredTeams());
-            else if (SAV is SAV1Stadium s1)
-                TryOpen(s1, s1.GetRegisteredTeams());
-            else if (SAV is SAV2Stadium s2)
-                TryOpen(s2, s2.GetRegisteredTeams());
         }
 
         private void B_Blocks_Click(object sender, EventArgs e)

@@ -107,7 +107,7 @@ namespace PKHeX.Core
 
             if (tr.Length == 0)
             {
-                if (pkm is SK2 sk2 && sk2.OT_Trash[0] == 0)
+                if (pkm is SK2 sk2 && sk2.TID == 0 && sk2.OT_Trash[0] == 0)
                 {
                     data.AddLine(Get(LOTShort, Severity.Fishy));
                 }
