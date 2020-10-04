@@ -250,12 +250,7 @@ namespace PKHeX.Core
             if (pkm is IBattleVersion v && v.BattleVersion != 0)
             {
                 reset = ((GameVersion) v.BattleVersion).GetGeneration();
-                source.EggEventSource = Array.Empty<int>();
-                source.Base = Array.Empty<int>();
-                source.EggLevelUpSource = Array.Empty<int>();
-                source.EggMoveSource = Array.Empty<int>();
-                source.NonTradeBackLevelUpMoves = Array.Empty<int>();
-                source.SpecialSource = Array.Empty<int>();
+                source.ResetSources();
             }
 
             // Check empty moves and relearn moves before generation specific moves

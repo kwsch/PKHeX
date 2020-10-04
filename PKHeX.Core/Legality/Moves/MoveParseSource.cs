@@ -18,5 +18,18 @@ namespace PKHeX.Core
         public int[] EggLevelUpSource { get; set; } = Empty;
         public int[] EggMoveSource { get; set; } = Empty;
         public IReadOnlyList<int> EggEventSource { get; set; } = Empty;
+
+        /// <summary>
+        /// Clears all sources except for the <see cref="CurrentMoves"/>.
+        /// </summary>
+        public void ResetSources()
+        {
+            EggEventSource = Empty;
+            Base = Empty;
+            EggLevelUpSource = Empty;
+            EggMoveSource = Empty;
+            NonTradeBackLevelUpMoves = Empty;
+            SpecialSource = Empty;
+        }
     }
 }
