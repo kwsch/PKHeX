@@ -143,7 +143,7 @@ namespace PKHeX.Core
             return 0x4000 + ((team - 40) * TeamSize);
         }
 
-        public static string GetTeamName(int team) => $"{(Stadium2TeamType)(team / TeamCountType)} {(team % 10) + 1}";
+        public static string GetTeamName(int team) => $"{((Stadium2TeamType)(team / TeamCountType)).ToString().Replace('_', ' ')} {(team % 10) + 1}";
 
         public SlotGroup[] GetRegisteredTeams()
         {
@@ -202,11 +202,11 @@ namespace PKHeX.Core
 
     public enum Stadium2TeamType
     {
-        AnythingGoes = 0,
-        LittleCup = 1,
-        PokéCup = 2,
-        PrimeCup = 3,
-        GymLeaderCastle = 4,
-        VsRival = 5,
+        Anything_Goes = 0,
+        Little_Cup = 1,
+        Poké_Cup = 2,
+        Prime_Cup = 3,
+        GymLeader_Castle = 4,
+        Vs_Rival = 5,
     }
 }

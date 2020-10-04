@@ -205,7 +205,7 @@ namespace PKHeX.Core
             var teamsPerType = Japanese ? TeamCountJ : TeamCountU;
             var type = team / teamsPerType;
             var index = team % teamsPerType;
-            return $"{GetTeamTypeName(type)} {index + 1}";
+            return $"{GetTeamTypeName(type).Replace('_', ' ')} {index + 1}";
         }
 
         private string GetTeamTypeName(int type)
@@ -216,7 +216,7 @@ namespace PKHeX.Core
             {
                 1 => "Unused1",
                 2 => "Unused2",
-                3 => "PokeCup",
+                3 => "Poké_Cup",
                 _ => ((Stadium1TeamType)type).ToString(),
             };
         }
@@ -226,7 +226,13 @@ namespace PKHeX.Core
             var result = new SlotGroup[TeamCount];
             for (int i = 0; i < result.Length; i++)
                 result[i] = GetTeam(i);
-            return result;
+            if (Japanese)
+                return result;
+
+            var noUnused = new SlotGroup[result.Length - 2];
+            noUnused[0] = result[0];
+            Array.Copy(result, 3, noUnused, 1, result.Length - 3);
+            return noUnused;
         }
 
         public SlotGroup GetTeam(int team)
@@ -287,14 +293,14 @@ namespace PKHeX.Core
 
     public enum Stadium1TeamType
     {
-        AnythingGoes = 0,
-        NintendoCup97 = 1, // unused in non-JP
-        NintendoCup98 = 2, // unused in non-JP
-        NintendoCup99 = 3, // Poke Cup in non-JP
-        PetitCup = 4,
-        PikaCup = 5,
-        PrimeCup = 6,
-        GymLeaderCastle = 7,
-        VsMewtwo = 8,
+        Anything_Goes = 0,
+        Nintendo_Cup97 = 1, // unused in non-JP
+        Nintendo_Cup98 = 2, // unused in non-JP
+        Nintendo_Cup99 = 3, // Poke Cup in non-JP
+        Petit_Cup = 4,
+        Pika_Cup = 5,
+        Prime_Cup = 6,
+        Gym_Leader_Castle = 7,
+        Vs_Mewtwo = 8,
     }
 }

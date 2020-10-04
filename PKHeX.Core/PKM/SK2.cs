@@ -79,7 +79,20 @@ namespace PKHeX.Core
         public override int Met_Location { get => CaughtData & 0x7F; set => CaughtData = (CaughtData & 0xFF80) | (value & 0x7F); }
 
         public override string Nickname { get => GetString(0x24, StringLength); set => StringConverter12.SetString1(value, 12, Japanese).CopyTo(Data, 0x24); }
-        public override string OT_Name { get => GetString(0x30, StringLength); set => SetString(value, StringLength).CopyTo(Data, 0x30); }
+
+        public override string OT_Name
+        {
+            get => GetString(0x30, StringLength);
+            set
+            {
+                if (value.Length == 0) // Rental
+                {
+                    Array.Clear(Data, 0x30, StringLength);
+                    return;
+                }
+                SetString(value, StringLength).CopyTo(Data, 0x30);
+            }
+        }
 
         public override byte[] Nickname_Trash { get => GetData(0x24, 12); set { if (value.Length == 12) value.CopyTo(Data, 0x24); } }
         public override byte[] OT_Trash { get => GetData(0x30, 12); set { if (value.Length == 12) value.CopyTo(Data, 0x30); } }

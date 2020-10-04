@@ -106,8 +106,15 @@ namespace PKHeX.Core
 
             if (tr.Length == 0)
             {
-                data.AddLine(GetInvalid(LOTShort));
-                return;
+                if (pkm is SK2 sk2 && sk2.OT_Trash[0] == 0)
+                {
+                    data.AddLine(Get(LOTShort, Severity.Fishy));
+                }
+                else
+                {
+                    data.AddLine(GetInvalid(LOTShort));
+                    return;
+                }
             }
 
             VerifyG1OTWithinBounds(data, tr);
