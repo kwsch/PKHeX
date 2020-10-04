@@ -54,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\SAV Editor\PartyEditor.cs" />
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -65,10 +64,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Update="Subforms\PKM Editors\TechRecordEditor.cs" />
-    <Compile Update="Subforms\Save Editors\Misc\SAV_Accessor.cs" />
-    <Compile Update="Subforms\Save Editors\Gen8\SAV_BlockDump8.cs" />
-    <Compile Update="Subforms\Save Editors\Gen8\SAV_Trainer8.cs" />
   </ItemGroup>
 
   <ItemGroup>
