@@ -63,6 +63,7 @@ namespace PKHeX.Core
         public override int CurrentFriendship { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
 
         public override int Stat_Level { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
+        public override bool IsEgg { get => Data[0x1E] != 0; set => Data[0x1E] = (byte)(value ? 1 : 0); }
 
         // 0x1E, 0x1F
 
@@ -109,7 +110,6 @@ namespace PKHeX.Core
         public override int Stat_SPD { get; set; }
         #endregion
 
-        public override bool IsEgg { get; set; }
         public override int OT_Friendship { get => CurrentFriendship; set => CurrentFriendship = value; }
         public override bool HasOriginalMetLocation => CaughtData != 0;
         public override int Version { get => (int)GameVersion.GSC; set { } }
@@ -164,6 +164,7 @@ namespace PKHeX.Core
                 Move4_PPUps = Move4_PPUps,
                 CurrentFriendship = CurrentFriendship,
                 Stat_Level = Stat_Level,
+                IsEgg = IsEgg,
                 PKRS_Days = PKRS_Days,
                 PKRS_Strain = PKRS_Strain,
                 CaughtData = CaughtData,

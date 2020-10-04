@@ -251,6 +251,7 @@ namespace PKHeX.Core
                 Move3_PPUps = Move3_PPUps,
                 Move4_PPUps = Move4_PPUps,
                 CurrentFriendship = CurrentFriendship,
+                IsEgg = IsEgg,
                 Stat_Level = Stat_Level,
                 PKRS_Days = PKRS_Days,
                 PKRS_Strain = PKRS_Strain,
