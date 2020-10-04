@@ -83,11 +83,29 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < BoxCount; i++)
             {
+                SetBoxMetadata(i);
                 var boxOfs = GetBoxOffset(i) - ListHeaderSize;
                 var size = BoxSize - 2;
                 var chk = Checksums.CheckSum16(Data, boxOfs, size);
                 BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
             }
+        }
+
+        private void SetBoxMetadata(int i)
+        {
+            var bdata = GetBoxOffset(i);
+
+            // Set box count
+            int count = 0;
+            for (int s = 0; s < BoxSlotCount; s++)
+            {
+                var rel = bdata + (SIZE_STORED * s);
+                if (Data[rel] != 0) // Species present
+                    count++;
+            }
+
+            // Last byte of header
+            Data[bdata - 1] = (byte)count;
         }
 
         public override Type PKMType => typeof(PK1);
@@ -229,9 +247,10 @@ namespace PKHeX.Core
             if (Japanese)
                 return result;
 
-            var noUnused = new SlotGroup[result.Length - 2];
-            noUnused[0] = result[0];
-            Array.Copy(result, 3, noUnused, 1, result.Length - 3);
+            // Trim out the teams that aren't accessible
+            var noUnused = new SlotGroup[result.Length - (2 * TeamCountU)];
+            Array.Copy(result, 0, noUnused, 0, TeamCountU);
+            Array.Copy(result, 2 * TeamCountU, noUnused, TeamCountU, result.Length - TeamCountU);
             return noUnused;
         }
 
@@ -252,6 +271,7 @@ namespace PKHeX.Core
         }
 
         private int BoxSize => Japanese ? BoxSizeJ : BoxSizeU;
+        private int ListHeaderSizeBox => Japanese ? 0x0C : 0x10;
         private const int BoxSizeJ = 0x0C + (SIZE_PK1J * 30) + ListFooterSize; // 0x558
         private const int BoxSizeU = 0x10 + (SIZE_PK1U * 20) + 6 + ListFooterSize; // 0x468 (6 bytes alignment)
         public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSize);

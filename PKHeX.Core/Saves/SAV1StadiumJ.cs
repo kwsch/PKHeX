@@ -40,7 +40,7 @@ namespace PKHeX.Core
         private const int StringLength = 6; // Japanese Only
         public override int OTLength => StringLength;
         public override int NickLength => StringLength;
-        public override int BoxCount => 8;
+        public override int BoxCount => 4; // 8 boxes stored sequentially; latter 4 are backups
         public override int BoxSlotCount => 30;
 
         public override int MaxMoveID => Legal.MaxMoveID_1;
@@ -130,7 +130,7 @@ namespace PKHeX.Core
         private const int ListHeaderSize = 0x14;
         private const int ListFooterSize = 6; // POKE + 2byte checksum
 
-        private const int TeamCount = 32; // todo
+        private const int TeamCount = 16; // 32 teams stored sequentially; latter 16 are backups
         private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
         public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
         public static string GetTeamName(int team) => $"Team {team + 1}";

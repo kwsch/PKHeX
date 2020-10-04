@@ -81,10 +81,38 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < BoxCount; i++)
             {
+                SetBoxMetadata(i);
                 var boxOfs = GetBoxOffset(i) - ListHeaderSizeBox;
                 var size = BoxSize - 2;
                 var chk = Checksums.CheckSum16(Data, boxOfs, size);
                 BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+            }
+        }
+
+        private void SetBoxMetadata(int i)
+        {
+            var bdata = GetBoxOffset(i);
+
+            // Set box count
+            int count = 0;
+            for (int s = 0; s < BoxSlotCount; s++)
+            {
+                var rel = bdata + (SIZE_STORED * s);
+                if (Data[rel] != 0) // Species present
+                    count++;
+            }
+
+            var boxOfs = bdata - ListHeaderSizeBox;
+            if (Data[boxOfs] == 0)
+            {
+                Data[boxOfs] = 1;
+                Data[boxOfs + 1] = (byte) count;
+                Data[boxOfs + 4] = StringConverter12.G1TerminatorCode;
+                StringConverter12.SetString1("1234", 4, Japanese).CopyTo(Data, boxOfs + 0x10);
+            }
+            else
+            {
+                Data[boxOfs + 1] = (byte) count;
             }
         }
 
