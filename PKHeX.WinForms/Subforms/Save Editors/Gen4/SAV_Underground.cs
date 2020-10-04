@@ -193,7 +193,7 @@ namespace PKHeX.WinForms
             SAV.UG_Flags = (uint)U_Flags.Value;
         }
 
-        private string[] SanitizeList(string[] inputlist)
+        private static string[] SanitizeList(string[] inputlist)
         {
             string[] listSorted = inputlist.Where(x => !string.IsNullOrEmpty(x)).ToArray();
             Array.Sort(listSorted);
