@@ -175,5 +175,7 @@ namespace PKHeX.Core
         }
 
         private static bool IsJapanese(byte[] data) => StringConverter12.GetIsG1Japanese(data, 0x24, StringLength) && StringConverter12.GetIsG1Japanese(data, 0x30, StringLength);
+        private static bool IsEnglish(byte[] data) => StringConverter12.GetIsG1English(data, 0x24, StringLength) && StringConverter12.GetIsG1English(data, 0x30, StringLength);
+        public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
     }
 }

@@ -11,13 +11,10 @@ namespace PKHeX.Core
     {
         public static bool GetIsG1Japanese(string str) => AllCharsInDictionary(str, U2RBY_J);
         public static bool GetIsG1English(string str) => AllCharsInDictionary(str, U2RBY_U);
-        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
+        public static bool GetIsG1Japanese(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_J);
+        public static bool GetIsG1English(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_U);
 
-        public static bool GetIsG1Japanese(byte[] data, int start, int length)
-        {
-            var d = RBY2U_J;
-            return AllCharsInDictionary(data, start, length, d);
-        }
+        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
 
         private static bool AllCharsInDictionary(IReadOnlyList<byte> data, int start, int length, IReadOnlyDictionary<byte, char> d)
         {

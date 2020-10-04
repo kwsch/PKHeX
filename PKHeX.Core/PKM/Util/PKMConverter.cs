@@ -408,7 +408,7 @@ namespace PKHeX.Core
                 if (!AllowIncompatibleConversion)
                     return false;
             }
-            if (IsIncompatibleGB(target.Format, target.Japanese, pk.Japanese))
+            if (IsIncompatibleGB(target, target.Japanese, pk.Japanese))
             {
                 pkm = target;
                 c = GetIncompatibleGBMessage(pk, target.Japanese);
@@ -433,7 +433,7 @@ namespace PKHeX.Core
             return string.Format(MsgPKMConvertIncompatible, src, pk.GetType().Name, dest);
         }
 
-        public static bool IsIncompatibleGB(int format, bool destJapanese, bool srcJapanese) => format <= 2 && destJapanese != srcJapanese;
+        public static bool IsIncompatibleGB(PKM pk, bool destJapanese, bool srcJapanese) => pk.Format <= 2 && destJapanese != srcJapanese && !(pk is SK2 sk2 && sk2.IsPossible(srcJapanese));
 
         /// <summary>
         /// Gets a Blank <see cref="PKM"/> object of the specified type.
