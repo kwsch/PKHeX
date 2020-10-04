@@ -6,17 +6,11 @@ namespace PKHeX.Core
     /// <summary>
     /// Pocket Monsters Stadium
     /// </summary>
-    public class SAV1StadiumJ : SaveFile, ILangDeviantSave
+    public sealed class SAV1StadiumJ : SAV_STADIUM
     {
-        protected override string BAKText => $"{OT} ({Version})";
-        public override string Filter => "SAV File|*.sav|All Files|*.*";
-        public override string Extension => ".sav";
-
         // Required since PK1 logic comparing a save file assumes the save file can be U/J
-        public int SaveRevision => 0;
-        public string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
-        public bool Japanese => true;
-        public bool Korean => false;
+        public override int SaveRevision => 0;
+        public override string SaveRevisionString => "0"; // so we're different from Japanese SAV1Stadium naming...
 
         public override PersonalTable Personal => PersonalTable.Y;
         public override int MaxEV => ushort.MaxValue;
@@ -25,18 +19,7 @@ namespace PKHeX.Core
 
         public override SaveFile Clone() => new SAV1StadiumJ((byte[])Data.Clone());
 
-        public override string ChecksumInfo => ChecksumsValid ? "Checksum valid." : "Checksum invalid";
         public override int Generation => 1;
-
-        public override string GetString(byte[] data, int offset, int length) => StringConverter12.GetString1(data, offset, length, true);
-
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-        {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            return StringConverter12.SetString1(value, maxLength, true, PadToSize, PadWith);
-        }
-
         private const int StringLength = 6; // Japanese Only
         public override int OTLength => StringLength;
         public override int NickLength => StringLength;
@@ -47,52 +30,53 @@ namespace PKHeX.Core
         public override int MaxSpeciesID => Legal.MaxSpeciesID_1;
         public override int MaxAbilityID => Legal.MaxAbilityID_1;
         public override int MaxItemID => Legal.MaxItemID_1;
-        public override int MaxBallID => 0; // unused
-        public override int MaxGameID => 99; // unused
-        public override int MaxMoney => 999999;
-        public override int MaxCoins => 9999;
-
-        public override int GetPartyOffset(int slot) => -1;
-
-        private readonly bool IsPairSwapped;
-
-        protected override byte[] GetFinalData()
-        {
-            var result = base.GetFinalData();
-            if (IsPairSwapped)
-                BigEndian.SwapBytes32(result = (byte[])result.Clone());
-            return result;
-        }
-
-        public override bool ChecksumsValid => GetBoxChecksumsValid();
-        protected override void SetChecksums() => SetBoxChecksums();
-
-        private bool GetBoxChecksumsValid()
-        {
-            for (int i = 0; i < BoxCount; i++)
-            {
-                var boxOfs = GetBoxOffset(i) - ListHeaderSize;
-                const int size = BoxSizeJ - 2;
-                var chk = Checksums.CheckSum16(Data, boxOfs, size);
-                var actual = BigEndian.ToUInt16(Data, boxOfs + size);
-                if (chk != actual)
-                    return false;
-            }
-            return true;
-        }
-
-        private void SetBoxChecksums()
-        {
-            for (int i = 0; i < BoxCount; i++)
-            {
-                var boxOfs = GetBoxOffset(i) - ListHeaderSize;
-                const int size = BoxSizeJ - 2;
-                var chk = Checksums.CheckSum16(Data, boxOfs, size);
-                BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
-            }
-        }
+        private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLength); // 0x2D
+        protected override int SIZE_STORED => SIZE_PK1J;
+        protected override int SIZE_PARTY => SIZE_PK1J;
 
         public override Type PKMType => typeof(PK1);
+        public override PKM BlankPKM => new PK1(true);
+
+        private const int ListHeaderSize = 0x14;
+        private const int ListFooterSize = 6; // POKE + 2byte checksum
+        private const uint FOOTER_MAGIC = 0x454B4F50; // POKE
+
+        protected override int TeamCount => 16; // 32 teams stored sequentially; latter 16 are backups
+        private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
+        private const int BoxSizeJ = 0x560;
+
+        public SAV1StadiumJ(byte[] data) : base(data, true, StadiumUtil.IsMagicPresentSwap(data, TeamSizeJ, FOOTER_MAGIC))
+        {
+            Box = 0x2500;
+        }
+
+        public SAV1StadiumJ() : base(true, SaveUtil.SIZE_G1STAD)
+        {
+            Box = 0x2500;
+            ClearBoxes();
+        }
+
+        protected override bool GetIsBoxChecksumValid(int i)
+        {
+            var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+            const int size = BoxSizeJ - 2;
+            var chk = Checksums.CheckSum16(Data, boxOfs, size);
+            var actual = BigEndian.ToUInt16(Data, boxOfs + size);
+            return chk == actual;
+        }
+
+        protected override void SetBoxChecksum(int i)
+        {
+            var boxOfs = GetBoxOffset(i) - ListHeaderSize;
+            const int size = BoxSizeJ - 2;
+            var chk = Checksums.CheckSum16(Data, boxOfs, size);
+            BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
+        }
+
+        protected override void SetBoxMetadata(int i)
+        {
+            // Not implemented
+        }
 
         protected override PKM GetPKM(byte[] data)
         {
@@ -103,47 +87,11 @@ namespace PKHeX.Core
             return new PK1(data, true) { OT_Trash = ot, Nickname_Trash = nick };
         }
 
-        protected override byte[] DecryptPKM(byte[] data) => data;
-
-        public override PKM BlankPKM => new PK1(true);
-        private const int SIZE_PK1J = PokeCrypto.SIZE_1STORED + (2 * StringLength); // 0x2D
-        protected override int SIZE_STORED => SIZE_PK1J;
-        protected override int SIZE_PARTY => SIZE_PK1J;
-
-        public SAV1StadiumJ(byte[] data) : base(data)
-        {
-            var swap = StadiumUtil.IsMagicPresentSwap(data, TeamSizeJ, MAGIC_POKE);
-            if (swap)
-            {
-                BigEndian.SwapBytes32(Data);
-                IsPairSwapped = true;
-            }
-            Box = 0x2500;
-        }
-
-        public SAV1StadiumJ() : base(SaveUtil.SIZE_G1STAD)
-        {
-            Box = 0x2500;
-            ClearBoxes();
-        }
-
-        private const int ListHeaderSize = 0x14;
-        private const int ListFooterSize = 6; // POKE + 2byte checksum
-
-        private const int TeamCount = 16; // 32 teams stored sequentially; latter 16 are backups
-        private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
+        public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
         public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
         public static string GetTeamName(int team) => $"Team {team + 1}";
 
-        public SlotGroup[] GetRegisteredTeams()
-        {
-            var result = new SlotGroup[TeamCount];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = GetTeam(i);
-            return result;
-        }
-
-        public SlotGroup GetTeam(int team)
+        public override SlotGroup GetTeam(int team)
         {
             if ((uint)team >= TeamCount)
                 throw new ArgumentOutOfRangeException(nameof(team));
@@ -158,11 +106,6 @@ namespace PKHeX.Core
             }
             return new SlotGroup(name, members);
         }
-
-        private const int BoxSizeJ = 0x560;
-        public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
-        public override string GetBoxName(int box) => $"Box {box + 1}";
-        public override void SetBoxName(int box, string value) { }
 
         public override void WriteSlotFormatStored(PKM pkm, byte[] data, int offset)
         {
@@ -180,13 +123,11 @@ namespace PKHeX.Core
             base.WriteBoxSlot(pkm, Data, offset);
         }
 
-        private const uint MAGIC_POKE = 0x454B4F50;
-
-        public static bool IsStadiumJ(byte[] data)
+        public static bool IsStadium(byte[] data)
         {
             if (data.Length != SaveUtil.SIZE_G1STADJ)
                 return false;
-            return StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, MAGIC_POKE);
+            return StadiumUtil.IsMagicPresentEither(data, TeamSizeJ, FOOTER_MAGIC);
         }
     }
 }

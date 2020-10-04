@@ -125,9 +125,9 @@ namespace PKHeX.Core
                 return DPPt;
             if (SAV2Stadium.IsStadium(data))
                 return Stadium2;
-            if (SAV1Stadium.IsStadiumU(data) || SAV1Stadium.IsStadiumJ(data))
+            if (SAV1Stadium.IsStadium(data))
                 return Stadium;
-            if (SAV1StadiumJ.IsStadiumJ(data))
+            if (SAV1StadiumJ.IsStadium(data))
                 return StadiumJ;
 
             if ((ver = GetIsG8SAV(data)) != Invalid)
