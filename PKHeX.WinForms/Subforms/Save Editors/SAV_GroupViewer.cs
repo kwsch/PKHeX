@@ -116,8 +116,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < group.Slots.Length; i++)
                 Box.Entries[i].Image = group.Slots[i].Sprite(sav, -1, -1, true);
 
-            if (groupSelected == index && slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
-                Box.Entries[slotSelected].BackgroundImage = null;
+            if (slotSelected != -1 && (uint)slotSelected < Box.Entries.Count)
+                Box.Entries[slotSelected].BackgroundImage = groupSelected != index ? null : SpriteUtil.Spriter.View;
 
             CurrentGroup = index;
         }

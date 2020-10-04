@@ -135,8 +135,8 @@ namespace PKHeX.Core
 
         private const int TeamCountU = 10;
         private const int TeamCountJ = 12;
-        private const int TeamCountTypeU = 6;
-        private const int TeamCountTypeJ = 8;
+        private const int TeamCountTypeU = 9; // team-types 1 & 2 are unused
+        private const int TeamCountTypeJ = 9;
         private int TeamCount => Japanese ? TeamCountJ * TeamCountTypeJ : TeamCountU * TeamCountTypeU;
         private int TeamSize => Japanese ? TeamSizeJ : TeamSizeU;
         private const int TeamSizeJ = 0x0C + (SIZE_PK1J * 6) + ListFooterSize; // 0x120
