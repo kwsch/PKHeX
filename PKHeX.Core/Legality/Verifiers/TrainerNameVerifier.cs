@@ -13,6 +13,7 @@ namespace PKHeX.Core
         private static readonly string[] SuspiciousOTNames =
         {
             "PKHeX",
+            "ＰＫＨｅＸ",
         };
 
         public override void Verify(LegalityAnalysis data)

@@ -575,6 +575,15 @@ namespace PKHeX.Core
         };
 
         /// <summary>
+        /// Returns a Trainer Name that feels best for the save file's language.
+        /// </summary>
+        public static string GetSafeTrainerName(SaveFile? sav, LanguageID lang) => lang switch
+        {
+            LanguageID.Japanese => sav?.Generation >= 3 ? "ＰＫＨｅＸ" : "1337",
+            _ => "PKHeX",
+        };
+
+        /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
         /// <param name="game">Version to create the save file for.</param>

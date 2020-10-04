@@ -125,11 +125,17 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private static void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
+        private void SetForceHatchDetails(PK3 pk, ITrainerInfo sav)
         {
+            pk.Language = (int)GetSafeLanguageNotEgg((LanguageID)sav.Language);
+            pk.OT_Name = sav.OT;
             // ugly workaround for character table interactions
-            pk.Language = (int)LanguageID.English;
-            pk.OT_Name = "PKHeX";
+            if (string.IsNullOrWhiteSpace(pk.OT_Name))
+            {
+                pk.Language = (int)LanguageID.English;
+                pk.OT_Name = "PKHeX";
+            }
+
             pk.OT_Gender = sav.Gender;
             pk.TID = sav.TID;
             pk.SID = sav.SID;
@@ -182,8 +188,13 @@ namespace PKHeX.Core
         {
             if (IsEgg)
                 return LanguageID.Japanese;
+            return GetSafeLanguageNotEgg(hatchLang);
+        }
+
+        private LanguageID GetSafeLanguageNotEgg(LanguageID hatchLang)
+        {
             if (Language != -1)
-                return (LanguageID)Language;
+                return (LanguageID) Language;
             if (hatchLang < LanguageID.Korean && hatchLang != LanguageID.Hacked)
                 return hatchLang;
             return LanguageID.English; // fallback

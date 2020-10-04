@@ -219,8 +219,9 @@ namespace PKHeX.WinForms
 
         private void LoadBlankSaveFile(GameVersion ver)
         {
-            var lang = SaveUtil.GetSafeLanguage(C_SAV?.SAV);
-            var tr = lang != LanguageID.Japanese ? "PKHeX" : "1337";
+            var current = C_SAV?.SAV;
+            var lang = SaveUtil.GetSafeLanguage(current);
+            var tr = SaveUtil.GetSafeTrainerName(current, lang);
             var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
             if (sav.Version == GameVersion.Invalid) // will fail to load
                 sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), tr, lang);
