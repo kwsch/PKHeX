@@ -145,15 +145,15 @@ namespace PKHeX.Core
 
         public static string GetTeamName(int team) => $"{(Stadium2TeamType)(team / TeamCountType)} {(team % 10) + 1}";
 
-        public BattleTeam<SK2>[] GetRegisteredTeams()
+        public SlotGroup[] GetRegisteredTeams()
         {
-            var result = new BattleTeam<SK2>[TeamCount];
+            var result = new SlotGroup[TeamCount];
             for (int i = 0; i < result.Length; i++)
                 result[i] = GetTeam(i);
             return result;
         }
 
-        public BattleTeam<SK2> GetTeam(int team)
+        public SlotGroup GetTeam(int team)
         {
             if ((uint)team >= TeamCount)
                 throw new ArgumentOutOfRangeException(nameof(team));
@@ -166,7 +166,7 @@ namespace PKHeX.Core
                 var rel = ofs + ListHeaderSizeTeam + (i * SIZE_STORED);
                 members[i] = (SK2)GetStoredSlot(Data, rel);
             }
-            return new BattleTeam<SK2>(name, members);
+            return new SlotGroup(name, members);
         }
 
         private int BoxSize => Japanese ? BoxSizeJ : BoxSizeU;

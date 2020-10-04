@@ -619,6 +619,27 @@ namespace PKHeX.WinForms.Controls
             form.ShowDialog();
         }
 
+        private void B_OtherSlots_Click(object sender, EventArgs e)
+        {
+            void TryOpen(SaveFile sav, IReadOnlyList<SlotGroup> g)
+            {
+                var form = WinFormsUtil.FirstFormOfType<SAV_GroupViewer>();
+                if (form != null)
+                    form.CenterToForm(ParentForm);
+                else
+                    form = new SAV_GroupViewer(sav, M.Env.PKMEditor, g);
+                form.BringToFront();
+                form.Show();
+            }
+
+            if (SAV is SAV1StadiumJ s0)
+                TryOpen(s0, s0.GetRegisteredTeams());
+            else if (SAV is SAV1Stadium s1)
+                TryOpen(s1, s1.GetRegisteredTeams());
+            else if (SAV is SAV2Stadium s2)
+                TryOpen(s2, s2.GetRegisteredTeams());
+        }
+
         private void B_Blocks_Click(object sender, EventArgs e)
         {
             var form = GetAccessorForm(SAV);
@@ -1128,6 +1149,7 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
+                B_OtherSlots.Enabled = sav is SAV1StadiumJ || sav is SAV1Stadium || sav is SAV2Stadium;
                 B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
                 B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
                 B_Roamer.Enabled = sav is SAV3;

@@ -130,12 +130,20 @@ namespace PKHeX.Core
         private const int ListHeaderSize = 0x14;
         private const int ListFooterSize = 6; // POKE + 2byte checksum
 
-        private const int TeamCount = 86; // todo
+        private const int TeamCount = 32; // todo
         private const int TeamSizeJ = 0x14 + (SIZE_PK1J * 6) + ListFooterSize; // 0x128
         public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
         public static string GetTeamName(int team) => $"Team {team + 1}";
 
-        public BattleTeam<PK1> GetTeam(int team)
+        public SlotGroup[] GetRegisteredTeams()
+        {
+            var result = new SlotGroup[TeamCount];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = GetTeam(i);
+            return result;
+        }
+
+        public SlotGroup GetTeam(int team)
         {
             if ((uint)team >= TeamCount)
                 throw new ArgumentOutOfRangeException(nameof(team));
@@ -145,10 +153,10 @@ namespace PKHeX.Core
             var ofs = GetTeamOffset(team);
             for (int i = 0; i < 6; i++)
             {
-                var rel = ofs + (i * SIZE_STORED);
+                var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
                 members[i] = (PK1)GetStoredSlot(Data, rel);
             }
-            return new BattleTeam<PK1>(name, members);
+            return new SlotGroup(name, members);
         }
 
         private const int BoxSizeJ = 0x560;

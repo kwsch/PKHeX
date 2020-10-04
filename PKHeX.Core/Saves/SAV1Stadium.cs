@@ -164,24 +164,28 @@ namespace PKHeX.Core
             1 => 0x0D80, // Nintendo Cup '97
             2 => 0x1B00, // Nintendo Cup '98
             3 => 0x2880, // Nintendo Cup '99
+
             4 => 0x4000, // Petit Cup
             5 => 0x4D80, // Pika Cup
             6 => 0x5B00, // Prime Cup
             7 => 0x6880, // Gym Leader Castle
+
             8 => 0x8000, // Vs. Mewtwo
             _ => throw new ArgumentOutOfRangeException(nameof(team)),
         };
 
         private static int GetTeamTypeOffsetU(int team) => team switch
         {
-            0 => 0x0000, // Anything Goes
-            1 => 0x0D80, // Unused
-            2 => 0x1B00, // Unused
-            3 => 0x2880, // Poke Cup
+            0 => 0x0000,
+            1 => 0x0DC0, // Unused
+            2 => 0x1B80, // Unused
+            3 => 0x2940, // Poke Cup
+
             4 => 0x4000, // Petit Cup
-            5 => 0x4D80, // Pika Cup
-            6 => 0x5B00, // Prime Cup
-            7 => 0x6880, // Gym Leader Castle
+            5 => 0x4DC0, // Pika Cup
+            6 => 0x5B80, // Prime Cup
+            7 => 0x6940, // Gym Leader Castle
+
             8 => 0x8000, // Vs. Mewtwo
             _ => throw new ArgumentOutOfRangeException(nameof(team)),
         };
@@ -217,15 +221,15 @@ namespace PKHeX.Core
             };
         }
 
-        public BattleTeam<PK1>[] GetRegisteredTeams()
+        public SlotGroup[] GetRegisteredTeams()
         {
-            var result = new BattleTeam<PK1>[TeamCount];
+            var result = new SlotGroup[TeamCount];
             for (int i = 0; i < result.Length; i++)
                 result[i] = GetTeam(i);
             return result;
         }
 
-        public BattleTeam<PK1> GetTeam(int team)
+        public SlotGroup GetTeam(int team)
         {
             if ((uint)team >= TeamCount)
                 throw new ArgumentOutOfRangeException(nameof(team));
@@ -235,10 +239,10 @@ namespace PKHeX.Core
             var ofs = GetTeamOffset(team);
             for (int i = 0; i < 6; i++)
             {
-                var rel = ofs + (i * SIZE_STORED);
+                var rel = ofs + ListHeaderSize + (i * SIZE_STORED);
                 members[i] = (PK1)GetStoredSlot(Data, rel);
             }
-            return new BattleTeam<PK1>(name, members);
+            return new SlotGroup(name, members);
         }
 
         private int BoxSize => Japanese ? BoxSizeJ : BoxSizeU;
@@ -292,17 +296,5 @@ namespace PKHeX.Core
         PrimeCup = 6,
         GymLeaderCastle = 7,
         VsMewtwo = 8,
-    }
-
-    public class BattleTeam<T> where T : PKM
-    {
-        public readonly string TeamName;
-        public readonly T[] Team;
-
-        public BattleTeam(string name, T[] team)
-        {
-            TeamName = name;
-            Team = team;
-        }
     }
 }
