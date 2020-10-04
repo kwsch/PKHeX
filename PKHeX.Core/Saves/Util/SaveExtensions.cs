@@ -165,7 +165,7 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+                if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
                 {
                     c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                     Debug.WriteLine(c);

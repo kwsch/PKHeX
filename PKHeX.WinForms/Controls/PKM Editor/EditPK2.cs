@@ -10,6 +10,11 @@ namespace PKHeX.WinForms.Controls
             if (!(Entity is GBPKM pk2) || !(Entity is ICaughtData2 c2))
                 throw new FormatException(nameof(Entity));
 
+            if (Entity is SK2 sk2)
+            {
+                var sav = RequestSaveFile;
+                CoerceStadium2Language(sk2, sav);
+            }
             LoadMisc1(pk2);
             LoadMisc2(pk2);
 
@@ -23,6 +28,21 @@ namespace PKHeX.WinForms.Controls
 
             LoadPartyStats(pk2);
             UpdateStats();
+        }
+
+        private static void CoerceStadium2Language(SK2 sk2, SaveFile sav)
+        {
+            if (sk2.Japanese == (sav.Language == 1))
+                return;
+
+            var la = new LegalityAnalysis(sk2);
+            if (la.Valid || !sk2.IsPossible(sav.Language == 1))
+                return;
+
+            sk2.SwapLanguage();
+            la = new LegalityAnalysis(sk2);
+            if (!la.Valid) // fail
+                sk2.SwapLanguage();
         }
 
         private GBPKM PreparePK2()

@@ -12,7 +12,8 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_2STADIUM;
         public override int SIZE_STORED => PokeCrypto.SIZE_2STADIUM;
-        public override bool Japanese { get; }
+        private bool _jp { get; set; }
+        public override bool Japanese => _jp;
         public override bool Korean => false;
         private const int StringLength = 12;
 
@@ -22,11 +23,11 @@ namespace PKHeX.Core
 
         public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM)
         {
-            Japanese = jp;
+            _jp = jp;
         }
 
         public SK2(byte[] data) : this(data, IsJapanese(data)) { }
-        public SK2(byte[] data, bool jp) : base(data) => Japanese = jp;
+        public SK2(byte[] data, bool jp) : base(data) => _jp = jp;
 
         public override PKM Clone() => new SK2((byte[])Data.Clone(), Japanese)
         {
@@ -175,8 +176,25 @@ namespace PKHeX.Core
             };
         }
 
-        private static bool IsJapanese(byte[] data) => StringConverter12.GetIsG1Japanese(data, 0x24, StringLength) && StringConverter12.GetIsG1Japanese(data, 0x30, StringLength);
+        private static bool IsJapanese(byte[] data)
+        {
+            if (!StringConverter12.GetIsG1Japanese(data, 0x24, StringLength))
+                return false;
+            if (!StringConverter12.GetIsG1Japanese(data, 0x30, StringLength))
+                return false;
+
+            for (int i = 6; i < 0xC; i++)
+            {
+                if (data[0x24 + i] != 0 && data[0x24 + i] != StringConverter12.G1TerminatorCode)
+                    return false;
+                if (data[0x30 + i] != 0 && data[0x30 + i] != StringConverter12.G1TerminatorCode)
+                    return false;
+            }
+            return true;
+        }
+
         private static bool IsEnglish(byte[] data) => StringConverter12.GetIsG1English(data, 0x24, StringLength) && StringConverter12.GetIsG1English(data, 0x30, StringLength);
         public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
+        public void SwapLanguage() => _jp ^= true;
     }
 }

@@ -286,7 +286,7 @@ namespace PKHeX.WinForms.Controls
             if (badDest && (pk.Species == 0 || pk.IsEgg))
                 return false;
 
-            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(pk, il.Japanese, pk.Japanese))
+            if (sav is ILangDeviantSave il && PKMConverter.IsIncompatibleGB(temp, il.Japanese, pk.Japanese))
             {
                 c = PKMConverter.GetIncompatibleGBMessage(pk, il.Japanese);
                 WinFormsUtil.Error(c);
