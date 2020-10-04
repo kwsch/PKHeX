@@ -250,7 +250,7 @@ namespace PKHeX.Core
             // Trim out the teams that aren't accessible
             var noUnused = new SlotGroup[result.Length - (2 * TeamCountU)];
             Array.Copy(result, 0, noUnused, 0, TeamCountU);
-            Array.Copy(result, 2 * TeamCountU, noUnused, TeamCountU, result.Length - TeamCountU);
+            Array.Copy(result, 3 * TeamCountU, noUnused, TeamCountU, noUnused.Length - TeamCountU);
             return noUnused;
         }
 
