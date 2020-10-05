@@ -132,6 +132,15 @@ namespace PKHeX.Core
 
         public static string GetTeamName(int team) => $"{((Stadium2TeamType)(team / TeamCountType)).ToString().Replace('_', ' ')} {(team % 10) + 1}";
 
+        public override string GetBoxName(int box)
+        {
+            var ofs = GetBoxOffset(box) - 0x10;
+            var str = GetString(ofs, 0x10);
+            if (string.IsNullOrWhiteSpace(str))
+                return $"Box {box + 1}";
+            return str;
+        }
+
         public override SlotGroup GetTeam(int team)
         {
             if ((uint)team >= TeamCount)

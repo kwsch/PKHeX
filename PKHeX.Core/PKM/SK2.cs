@@ -64,9 +64,25 @@ namespace PKHeX.Core
         public override int CurrentFriendship { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
 
         public override int Stat_Level { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override bool IsEgg { get => Data[0x1E] != 0; set => Data[0x1E] = (byte)(value ? 1 : 0); }
+        public override bool IsEgg { get => (Data[0x1E] & 1) == 1; set => Data[0x1E] = (byte)(Data[0x1E] & ~1 | (value ? 1 : 0)); }
 
-        // 0x1E, 0x1F
+        public bool IsRental
+        {
+            get => (Data[0x1E] & 4) == 4;
+            set
+            {
+                if (!value)
+                {
+                    Data[0x1E] &= 0xFB;
+                    return;
+                }
+
+                Data[0x1E] |= 4;
+                OT_Name = string.Empty;
+            }
+        }
+
+        // 0x1F
 
         private byte PKRS { get => Data[0x20]; set => Data[0x20] = value; }
         // Crystal only Caught Data
@@ -87,7 +103,7 @@ namespace PKHeX.Core
             get => GetString(0x30, StringLength);
             set
             {
-                if (value.Length == 0) // Rental
+                if (IsRental)
                 {
                     Array.Clear(Data, 0x30, StringLength);
                     return;
@@ -172,7 +188,7 @@ namespace PKHeX.Core
 
                 // Only copies until first 0x50 terminator, but just copy everything
                 Nickname = Nickname,
-                OT_Name = OT_Name,
+                OT_Name = IsRental ? Japanese ? "1337" : "PKHeX" : OT_Name,
             };
         }
 
