@@ -428,6 +428,7 @@ namespace PKHeX.Core
                 pk.WeightScalar = PokeSizeUtil.GetRandomScalar();
             }
 
+            pk.ResetPartyStats();
             pk.RefreshChecksum();
             return pk;
         }
