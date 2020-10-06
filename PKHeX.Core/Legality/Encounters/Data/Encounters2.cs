@@ -69,7 +69,7 @@ namespace PKHeX.Core
             new EncounterStatic2(004, 05) { Moves = new [] { 242 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Charmander Crunch
             new EncounterStatic2(158, 05) { Moves = new [] { 066 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Totodile Submission
             new EncounterStatic2(163, 05) { Moves = new [] { 101 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Hoot-Hoot Night Shade
-            new EncounterStatic2(158, 05) { Moves = new [] { 047 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Pichu Sing
+            new EncounterStatic2(172, 05) { Moves = new [] { 047 }, Version = GameVersion.EventsGBGen2, EggLocation = 256 }, // Pichu Sing
         };
 
         private static readonly EncounterStatic2[] Encounter_GS_Exclusive =
