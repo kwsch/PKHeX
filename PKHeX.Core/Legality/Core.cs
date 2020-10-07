@@ -342,8 +342,6 @@ namespace PKHeX.Core
             return pkm.Format == 5 && pkm.BW;
         }
 
-        public static string GetG5OT_NSparkle(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
-
         public static int GetMaxLengthOT(int gen, LanguageID lang)
         {
             switch (lang)
