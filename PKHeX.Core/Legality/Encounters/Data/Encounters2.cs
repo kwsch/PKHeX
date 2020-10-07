@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
@@ -155,19 +155,82 @@ namespace PKHeX.Core
         {
             // Stadium 2 Baton Pass Farfetch'd
             new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2000, OT_Name = "スタジアム"},
-            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2000, OT_Name = "Stadium", Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stade",   Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stadion", Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stadio",  Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Estadio", Language = EncounterGBLanguage.Any},
+            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2000, OT_Name = "Stadium", Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stade",   Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stadion", Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Stadio",  Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(083, 05, GS) {Moves = Farfetchd, TID = 2001, OT_Name = "Estadio", Language = EncounterGBLanguage.International},
 
             // Stadium 2 Earthquake Gligar
             new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2000, OT_Name = "スタジアム"},
-            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2000, OT_Name = "Stadium", Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stade",   Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stadion", Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stadio",  Language = EncounterGBLanguage.Any},
-            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Estadio", Language = EncounterGBLanguage.Any},
+            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2000, OT_Name = "Stadium", Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stade",   Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stadion", Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Stadio",  Language = EncounterGBLanguage.International},
+            new EncounterStatic2E(207, 05, GS) {Moves = Gligar, TID = 2001, OT_Name = "Estadio", Language = EncounterGBLanguage.International},
+
+            //New York Pokémon Center Events
+
+            // Christmas Week (December 21 to 27, 2001)
+            // Pay Day Delibird
+
+            // The Initial Three Set (December 28, 2001 to January 31, 2002)
+            new EncounterStatic2E(001, 05, GS) {Moves = new[] {246}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Bulbasaur Ancientpower
+            new EncounterStatic2E(004, 05, GS) {Moves = new[] {242}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Charmander Crunch
+            new EncounterStatic2E(007, 05, GS) {Moves = new[] {192}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Squirtle Zap Cannon
+            new EncounterStatic2E(152, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Chikorita Petal Dance
+            new EncounterStatic2E(155, 05, GS) {Moves = new[] {038}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Cyndaquil Double-Edge
+            new EncounterStatic2E(158, 05, GS) {Moves = new[] {066}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Totodile Submission
+
+            // Valentine Week (February 1 to 14, 2002)
+            new EncounterStatic2E(029, 05, GS) {Moves = new[] {142}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Nidoran (F) Lovely Kiss
+            new EncounterStatic2E(029, 05, GS) {Moves = new[] {186}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Nidoran (F) Sweet Kiss
+            new EncounterStatic2E(032, 05, GS) {Moves = new[] {142}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Nidoran (M) Lovely Kiss
+            new EncounterStatic2E(032, 05, GS) {Moves = new[] {186}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Nidoran (M) Sweet Kiss
+            new EncounterStatic2E(069, 05, GS) {Moves = new[] {142}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Bellsprout Lovely Kiss
+            new EncounterStatic2E(069, 05, GS) {Moves = new[] {186}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Bellsprout Sweet Kiss
+
+            // Swarm Week (February 22 to March 14, 2002)
+            new EncounterStatic2E(183, 05, GS) {Moves = new[] {056}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Marill Hydro Pump
+            new EncounterStatic2E(193, 05, GS) {Moves = new[] {211}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Yanma Steel Wing
+            new EncounterStatic2E(206, 05, GS) {Moves = new[] {032}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Dunsparce Horn Drill
+            new EncounterStatic2E(209, 05, GS) {Moves = new[] {142}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Snubbull Lovely Kiss
+            new EncounterStatic2E(211, 05, GS) {Moves = new[] {038}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Qwilfish Double-Edge
+            new EncounterStatic2E(223, 05, GS) {Moves = new[] {133}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Remoraid Amnesia
+
+            // Babies Week (March 22 to April 11, 2002)
+            new EncounterStatic2E(172, 05, GS) {Moves = new[] {047}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Pichu Sing
+            new EncounterStatic2E(173, 05, GS) {Moves = new[] {129}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Cleffa Swift
+            new EncounterStatic2E(174, 05, GS) {Moves = new[] {102}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Igglybuff Mimic
+            new EncounterStatic2E(238, 05, GS) {Moves = new[] {118}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Smoochum Metronome
+            new EncounterStatic2E(239, 05, GS) {Moves = new[] {228}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Elekid Pursuit
+            new EncounterStatic2E(240, 05, GS) {Moves = new[] {185}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Magby Faint Attack
+
+            // Spring Into Spring (April 12 to May 4, 2002)
+            new EncounterStatic2E(054, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Psyduck Petal Dance
+            new EncounterStatic2E(152, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Chikorita Petal Dance
+            new EncounterStatic2E(172, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Pichu Petal Dance
+            new EncounterStatic2E(173, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Cleffa Petal Dance
+            new EncounterStatic2E(174, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Igglybuff Petal Dance
+            new EncounterStatic2E(238, 05, GS) {Moves = new[] {080}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Smoochum Petal Dance
+
+            // Baby Weeks (May 5 to June 7, 2002)
+            new EncounterStatic2E(194, 05, GS) {Moves = new[] {187}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Wooper Belly Drum
+          
+            // Tropical Promotion to Summer Festival 1 (June 8 to 21, 2002)
+            new EncounterStatic2E(060, 05, GS) {Moves = new[] {074}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Poliwag Growth
+            new EncounterStatic2E(116, 05, GS) {Moves = new[] {114}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Horsea Haze
+            new EncounterStatic2E(118, 05, GS) {Moves = new[] {014}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Goldeen Swords Dance
+            new EncounterStatic2E(129, 05, GS) {Moves = new[] {179}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Magikarp Reversal
+            new EncounterStatic2E(183, 05, GS) {Moves = new[] {146}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Marill Dizzy Punch
+            
+            // Tropical Promotion to Summer Festival 2 (July 12 to August 8, 2002)
+            new EncounterStatic2E(054, 05, GS) {Moves = new[] {161}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Psyduck Tri Attack
+            new EncounterStatic2E(072, 05, GS) {Moves = new[] {109}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Tentacool Confuse Ray
+            new EncounterStatic2E(131, 05, GS) {Moves = new[] {044}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Lapras Bite
+            new EncounterStatic2E(170, 05, GS) {Moves = new[] {113}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Chinchou Light Screen
+            new EncounterStatic2E(223, 05, GS) {Moves = new[] {054}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Remoraid Mist
+            new EncounterStatic2E(226, 05, GS) {Moves = new[] {016}, EggLocation = 256, Language = EncounterGBLanguage.International}, // Mantine Gust
 
             // Japanese Only (all below)
             new EncounterStatic2E(251, 30, GSC) {Location = 014}, // Celebi @ Ilex Forest (GBC)
@@ -175,13 +238,14 @@ namespace PKHeX.Core
             // Gen2 Events
             // Pokémon Center Mystery Egg #1 (December 15, 2001 to January 14, 2002)
             new EncounterStatic2E(152, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Chikorita Petal Dance
+            new EncounterStatic2E(172, 05, GS) {Moves = new[] {047}, EggLocation = 256}, // Pichu Sing
             new EncounterStatic2E(173, 05, GS) {Moves = new[] {129}, EggLocation = 256}, // Cleffa Swift
             new EncounterStatic2E(194, 05, GS) {Moves = new[] {187}, EggLocation = 256}, // Wooper Belly Drum
             new EncounterStatic2E(231, 05, GS) {Moves = new[] {227}, EggLocation = 256}, // Phanpy Encore
             new EncounterStatic2E(238, 05, GS) {Moves = new[] {118}, EggLocation = 256}, // Smoochum Metronome
 
             // Pokémon Center Mystery Egg #2 (March 16 to April 7, 2002)
-            new EncounterStatic2E(047, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Psyduck Petal Dance
+            new EncounterStatic2E(054, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Psyduck Petal Dance
             new EncounterStatic2E(152, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Chikorita Petal Dance
             new EncounterStatic2E(172, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Pichu Petal Dance
             new EncounterStatic2E(173, 05, GS) {Moves = new[] {080}, EggLocation = 256}, // Cleffa Petal Dance
@@ -193,7 +257,6 @@ namespace PKHeX.Core
             new EncounterStatic2E(004, 05, GS) {Moves = new[] {242}, EggLocation = 256}, // Charmander Crunch
             new EncounterStatic2E(158, 05, GS) {Moves = new[] {066}, EggLocation = 256}, // Totodile Submission
             new EncounterStatic2E(163, 05, GS) {Moves = new[] {101}, EggLocation = 256}, // Hoot-Hoot Night Shade
-            new EncounterStatic2E(172, 05, GS) {Moves = new[] {047}, EggLocation = 256}, // Pichu Sing
         };
     }
 }
