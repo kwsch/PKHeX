@@ -115,7 +115,7 @@ namespace PKHeX.Core
 
             var dict = jp ? U2RBY_J : U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
-                return new[] { dict[G1TradeOT], dict[G1Terminator] };
+                return new[] { G1TradeOTCode, G1TerminatorCode };
 
             var arr = new List<byte>(padTo);
             foreach (char c in value)
@@ -124,8 +124,7 @@ namespace PKHeX.Core
                     break;
                 arr.Add(val);
             }
-            var term = dict[G1Terminator]; // terminator
-            arr.Add(term);
+            arr.Add(G1TerminatorCode);
             while (arr.Count < padTo)
                 arr.Add((byte)padWith);
             return arr.ToArray();

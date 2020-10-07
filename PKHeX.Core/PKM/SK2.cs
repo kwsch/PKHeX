@@ -12,8 +12,8 @@ namespace PKHeX.Core
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_2STADIUM;
         public override int SIZE_STORED => PokeCrypto.SIZE_2STADIUM;
-        private bool _jp { get; set; }
-        public override bool Japanese => _jp;
+        private bool IsEncodingJapanese { get; set; }
+        public override bool Japanese => IsEncodingJapanese;
         public override bool Korean => false;
         private const int StringLength = 12;
 
@@ -21,13 +21,9 @@ namespace PKHeX.Core
         public override int OTLength => StringLength;
         public override int NickLength => StringLength;
 
-        public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM)
-        {
-            _jp = jp;
-        }
-
+        public SK2(bool jp = false) : base(PokeCrypto.SIZE_2STADIUM) => IsEncodingJapanese = jp;
         public SK2(byte[] data) : this(data, IsJapanese(data)) { }
-        public SK2(byte[] data, bool jp) : base(data) => _jp = jp;
+        public SK2(byte[] data, bool jp) : base(data) => IsEncodingJapanese = jp;
 
         public override PKM Clone() => new SK2((byte[])Data.Clone(), Japanese)
         {
@@ -64,7 +60,7 @@ namespace PKHeX.Core
         public override int CurrentFriendship { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
 
         public override int Stat_Level { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public override bool IsEgg { get => (Data[0x1E] & 1) == 1; set => Data[0x1E] = (byte)(Data[0x1E] & ~1 | (value ? 1 : 0)); }
+        public override bool IsEgg { get => (Data[0x1E] & 1) == 1; set => Data[0x1E] = (byte)((Data[0x1E] & ~1) | (value ? 1 : 0)); }
 
         public bool IsRental
         {
@@ -211,6 +207,6 @@ namespace PKHeX.Core
 
         private static bool IsEnglish(byte[] data) => StringConverter12.GetIsG1English(data, 0x24, StringLength) && StringConverter12.GetIsG1English(data, 0x30, StringLength);
         public bool IsPossible(bool japanese) => japanese ? IsJapanese(Data) : IsEnglish(Data);
-        public void SwapLanguage() => _jp ^= true;
+        public void SwapLanguage() => IsEncodingJapanese ^= true;
     }
 }
