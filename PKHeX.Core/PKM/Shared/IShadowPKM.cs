@@ -8,5 +8,7 @@ namespace PKHeX.Core
     {
         int ShadowID { get; set; }
         int Purification { get; set; }
+
+        bool IsShadow { get; }
     }
 }

@@ -202,6 +202,8 @@ namespace PKHeX.Core
         // stored in the data, offset undocumented
         public override int Status_Condition { get; set; }
 
+        public bool IsShadow => Purification != 0;
+
         protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();

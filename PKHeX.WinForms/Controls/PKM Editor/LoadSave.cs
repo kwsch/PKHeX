@@ -112,7 +112,7 @@ namespace PKHeX.WinForms.Controls
                     value = (int)NUD_Purification.Minimum;
 
                 NUD_Purification.Value = value;
-                CHK_Shadow.Checked = value > 0;
+                CHK_Shadow.Checked = ck3.IsShadow;
 
                 NUD_ShadowID.Value = Math.Max(ck3.ShadowID, 0);
             }
