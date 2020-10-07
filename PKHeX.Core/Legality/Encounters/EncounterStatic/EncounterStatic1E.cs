@@ -40,6 +40,17 @@
                 return true;
             return !ParseSettings.AllowGBCartEra;
         }
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+
+            if (TID != -1)
+                pk.TID = TID;
+
+            if (OT_Name.Length != 0)
+                pk.OT_Name = OT_Name;
+        }
     }
 
     /// <summary>
