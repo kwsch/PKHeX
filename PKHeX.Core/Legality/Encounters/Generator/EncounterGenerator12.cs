@@ -65,6 +65,9 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game)
         {
+            if (pkm.Korean) // only GS; no events
+                yield break;
+
             foreach (var e in EncounterStaticGenerator.GetValidGBGifts(pkm, chain, game))
             {
                 foreach (var evo in chain)

@@ -152,15 +152,6 @@ namespace PKHeX.Core
 
         public IEnumerable<CheckResult> VerifyVCEncounter(PKM pkm, IEncounterable encounter, ILocation transfer, IList<CheckMoveResult> Moves)
         {
-            // Check existing EncounterMatch
-            if (encounter is EncounterStatic v && (GameVersion.GBCartEraOnly.Contains(v.Version) || v.Version == GameVersion.VCEvents))
-            {
-                bool exceptions = false;
-                exceptions |= v.Version == GameVersion.VCEvents && encounter.Species == (int)Species.Mew && pkm.TID == 22796;
-                if (!exceptions)
-                    yield return GetInvalid(LG1GBEncounter);
-            }
-
             if (pkm.Met_Location != transfer.Location)
                 yield return GetInvalid(LTransferMetLocation);
             if (pkm.Egg_Location != transfer.EggLocation)

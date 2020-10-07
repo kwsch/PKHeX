@@ -73,11 +73,6 @@ namespace PKHeX.Core
                 return Location == pkm.Met_Location;
             return true;
         }
-
-        public override bool IsMatchDeferred(PKM pkm)
-        {
-            return !ParseSettings.AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(Version);
-        }
     }
 
     public sealed class EncounterStatic2Odd : EncounterStatic2

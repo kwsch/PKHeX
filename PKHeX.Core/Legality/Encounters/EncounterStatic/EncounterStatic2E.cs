@@ -13,11 +13,6 @@
         /// <summary> Trainer ID for the event. </summary>
         public int TID { get; set; } = -1;
 
-        /// <summary>
-        /// Indicates if the event was distributed to Japanese games or International games.
-        /// </summary>
-        public bool Japanese { get; set; }
-
         public EncounterStatic2E(int species, int level, GameVersion ver) : base(species, level, ver)
         {
         }

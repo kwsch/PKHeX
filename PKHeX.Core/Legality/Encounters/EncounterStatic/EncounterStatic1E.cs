@@ -13,11 +13,6 @@
         /// <summary> Trainer ID for the event. </summary>
         public int TID { get; set; } = -1;
 
-        /// <summary>
-        /// Indicates if the event was distributed to Japanese games or International games.
-        /// </summary>
-        public bool Japanese { get; set; }
-
         public EncounterStatic1E(int species, int level, GameVersion ver) : base(species, level, ver)
         {
         }
@@ -47,10 +42,13 @@
         }
     }
 
+    /// <summary>
+    /// Generations 1 &amp; 2 cannot communicate between Japanese &amp; International versions.
+    /// </summary>
     public enum EncounterGBLanguage
     {
         Japanese,
-        English,
+        International,
         Any,
     }
 }
