@@ -23,10 +23,25 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var encounters = GetStaticEncounters(pkm, chain, gameSource);
-            if (ParseSettings.AllowGBCartEra)
-                return encounters;
-            return encounters.Where(e => !GameVersion.GBCartEraOnly.Contains(e.Version));
+            var table = GetEncounterStaticTable(pkm, gameSource);
+            return table.Where(e => chain.Any(d => d.Species == e.Species));
+        }
+
+        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            static IEnumerable<EncounterStatic> GetEvents(GameVersion g)
+            {
+                if (g == GameVersion.RBY)
+                    return !ParseSettings.AllowGBCartEra ? Encounters1.StaticEventsVC : Encounters1.StaticEventsGB;
+
+                return !ParseSettings.AllowGBCartEra ? Encounters2.StaticEventsVC : Encounters2.StaticEventsGB;
+            }
+
+            var table = GetEvents(gameSource);
+            return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
@@ -35,6 +50,26 @@ namespace PKHeX.Core
 
             // Back Check against pkm
             return GetMatchingStaticEncounters(pkm, poss, chain);
+        }
+
+        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        {
+            if (gameSource == GameVersion.Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            var poss = GetPossibleGBGifts(pkm, chain, gameSource: gameSource);
+            foreach (EncounterStatic e in poss)
+            {
+                foreach (var dl in chain)
+                {
+                    if (dl.Species != e.Species)
+                        continue;
+                    if (!e.IsMatch(pkm, dl))
+                        continue;
+
+                    yield return e;
+                }
+            }
         }
 
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<DexLevel> evos)
@@ -59,15 +94,6 @@ namespace PKHeX.Core
             }
             foreach (var e in deferred)
                 yield return e;
-        }
-
-        private static IEnumerable<EncounterStatic> GetStaticEncounters(PKM pkm, IReadOnlyList<DexLevel> dl, GameVersion gameSource = GameVersion.Any)
-        {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            var table = GetEncounterStaticTable(pkm, gameSource);
-            return table.Where(e => dl.Any(d => d.Species == e.Species));
         }
 
         internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)

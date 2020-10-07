@@ -253,6 +253,23 @@ namespace PKHeX.Core
                 if (!needs.Except(em).Any())
                     yield return enc;
             }
+
+            if (pk.GenNumber > 2)
+                yield break;
+
+            var gifts = EncounterStaticGenerator.GetPossibleGBGifts(pk, chain);
+            foreach (var enc in gifts)
+            {
+                if (needs.Count == 0)
+                {
+                    yield return enc;
+                    continue;
+                }
+
+                var em = enc.Moves;
+                if (!needs.Except(em).Any())
+                    yield return enc;
+            }
         }
 
         /// <summary>

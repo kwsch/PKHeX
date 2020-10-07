@@ -42,26 +42,6 @@ namespace PKHeX.Core
             }
             foreach (var s in EncounterStaticGenerator.GetValidStaticEncounter(pkm, chain, game))
             {
-                // Valid stadium and non-stadium encounters, return only non-stadium encounters, they are less restrictive
-                switch (s.Version)
-                {
-                    case GameVersion.Stadium:
-                    case GameVersion.Stadium2:
-                        deferred.Add(s);
-                        continue;
-                    case GameVersion.EventsGBGen2:
-                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
-                            continue;
-                        if (pkm.Japanese)
-                            deferred.Add(s);
-                        continue;
-                    case GameVersion.C when pkm.Format == 2: // Crystal specific data needs to be present
-                        if (!s.EggEncounter && !pkm.HasOriginalMetLocation)
-                            continue;
-                        if (s.Species == (int)Species.Celebi && ParseSettings.AllowGBCartEra) // no Celebi, the GameVersion.EventsGBGen2 will pass thru
-                            continue;
-                        break;
-                }
                 yield return s;
             }
             foreach (var e in EncounterSlotGenerator.GetValidWildEncounters12(pkm, chain, game))
@@ -74,8 +54,25 @@ namespace PKHeX.Core
                     yield return e;
             }
 
+            foreach (var s in GenerateGBEvents(pkm, chain, game))
+            {
+                yield return s;
+            }
+
             foreach (var d in deferred)
                 yield return d;
+        }
+
+        private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game)
+        {
+            foreach (var e in EncounterStaticGenerator.GetValidGBGifts(pkm, chain, game))
+            {
+                foreach (var evo in chain)
+                {
+                    if (e.IsMatch(pkm, evo))
+                        yield return e;
+                }
+            }
         }
 
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)

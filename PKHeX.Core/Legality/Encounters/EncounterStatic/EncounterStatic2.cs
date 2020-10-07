@@ -8,10 +8,11 @@ namespace PKHeX.Core
         public sealed override int Generation => 2;
         public sealed override int Level { get; set; }
 
-        public EncounterStatic2(int species, int level)
+        public EncounterStatic2(int species, int level, GameVersion ver)
         {
             Species = species;
             Level = level;
+            Version = ver;
         }
 
         protected override bool IsMatchEggLocation(PKM pkm)
@@ -84,9 +85,8 @@ namespace PKHeX.Core
         private const int Dizzy = 146;
         private static readonly int[] _dizzy = { Dizzy };
 
-        public EncounterStatic2Odd(int species) : base(species, 5)
+        public EncounterStatic2Odd(int species) : base(species, 5, GameVersion.C)
         {
-            Version = GameVersion.C;
             Moves = _dizzy;
             EggLocation = 256;
             EggCycles = 20;
@@ -116,7 +116,7 @@ namespace PKHeX.Core
 
         public override int Location => Roaming_MetLocation_GSC_Grass[0];
 
-        public EncounterStatic2Roam(int species, int level) : base(species, level) { }
+        public EncounterStatic2Roam(int species, int level, GameVersion ver) : base(species, level, ver) { }
 
         protected override bool IsMatchLocation(PKM pkm)
         {
