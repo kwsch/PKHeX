@@ -166,9 +166,9 @@ namespace PKHeX.Core
         {
             // Stadium 1: Psyduck
             new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM","Stade","Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "Stade", "Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
 
-            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = new[]{"YOSHIRA","YOSHIRAB"}, Language = International }, // Yoshira US Mew
+            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = new[]{"YOSHIRA", "YOSHIRAB"}, Language = International }, // Yoshira US Mew
         };
     }
 }
