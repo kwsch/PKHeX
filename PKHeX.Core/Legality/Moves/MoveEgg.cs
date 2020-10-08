@@ -112,13 +112,8 @@ namespace PKHeX.Core
                 return false;
             var table = PersonalTable.SWSH;
             var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
-            var baseSpecies = entry.BaseSpecies;
-            var baseForm = entry.FormIndex;
-
-            // since we aren't storing entry->seed_poke_index, there's oddballs we can't handle with just personal data (?)
-            if (pkm.Species == (int)Species.Indeedee)
-                baseForm = pkm.AltForm;
-
+            var baseSpecies = entry.HatchSpecies;
+            var baseForm = entry.HatchFormIndexEverstone;
             var egg = GetEggMoves(8, baseSpecies, baseForm, GameVersion.SW);
             return Array.Exists(egg, z => z == move);
         }

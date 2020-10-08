@@ -117,12 +117,18 @@ namespace PKHeX.Core
 
         public int Species { get => BitConverter.ToUInt16(Data, 0x4C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4C); }
 
-        public int BaseSpecies { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
-        public int BaseSpeciesForm { get => BitConverter.ToUInt16(Data, 0x58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x58); } // local region base form
-        public int Flags { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5A); } // not sure
+        public int HatchSpecies { get => BitConverter.ToUInt16(Data, 0x56); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x56); }
+        public int LocalFormIndex { get => BitConverter.ToUInt16(Data, 0x58); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x58); } // local region base form
+        public ushort RegionalFlags { get => BitConverter.ToUInt16(Data, 0x5A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x5A); }
+        public bool IsRegionalForm { get => (RegionalFlags & 1) == 1; set => BitConverter.GetBytes((ushort)((RegionalFlags & 0xFFFE) | (value ? 1 : 0))).CopyTo(Data, 0x5A); }
         public int PokeDexIndex { get => BitConverter.ToUInt16(Data, 0x5C); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5C); }
-        public int FormIndex { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); } // form index of this entry
+        public int RegionalFormIndex { get => BitConverter.ToUInt16(Data, 0x5E); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x5E); } // form index of this entry
         public int ArmorDexIndex { get => BitConverter.ToUInt16(Data, 0xAC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAC); }
         public int CrownDexIndex { get => BitConverter.ToUInt16(Data, 0xAE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xAE); }
+
+        /// <summary>
+        /// Gets the Forme that any offspring will hatch with, assuming it is holding an Everstone.
+        /// </summary>
+        public int HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
     }
 }
