@@ -36,15 +36,15 @@ namespace PKHeX.Core
         /// Gets a Pokémon's default name for the desired language ID.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <param name="language">Language ID of the Pokémon</param>
         /// <returns>The Species name if within expected range, else an empty string.</returns>
         /// <remarks>Should only be used externally for message displays; for accurate in-game names use <see cref="GetSpeciesNameGeneration"/>.</remarks>
-        public static string GetSpeciesName(int species, int lang)
+        public static string GetSpeciesName(int species, int language)
         {
-            if ((uint)lang >= SpeciesLang.Count)
+            if ((uint)language >= SpeciesLang.Count)
                 return string.Empty;
 
-            var arr = SpeciesLang[lang];
+            var arr = SpeciesLang[language];
             if ((uint)species >= arr.Count)
                 return string.Empty;
 
@@ -55,31 +55,31 @@ namespace PKHeX.Core
         /// Gets a Pokémon's default name for the desired language ID and generation.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <param name="language">Language ID of the Pokémon</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Generation specific default species name</returns>
-        public static string GetSpeciesNameGeneration(int species, int lang, int generation)
+        public static string GetSpeciesNameGeneration(int species, int language, int generation)
         {
             if (generation >= 5)
-                return GetSpeciesName(species, lang);
+                return GetSpeciesName(species, language);
 
             if (species == 0)
             {
                 if (generation == 3)
                     return "タマゴ"; // All Gen3 eggs are treated as JPN eggs.
 
-                if (lang == (int)LanguageID.French)
+                if (language == (int)LanguageID.French)
                     return "Oeuf"; // Gen2 & Gen4 don't use Œuf like in future games
             }
 
-            string nick = GetSpeciesName(species, lang);
-            if (generation == 2 && lang == (int)LanguageID.Korean)
+            string nick = GetSpeciesName(species, language);
+            if (generation == 2 && language == (int)LanguageID.Korean)
                 return StringConverter2KOR.LocalizeKOR2(nick);
 
             if (generation != 4 || species != 0) // All caps GenIV and previous, except GenIV eggs.
             {
                 nick = nick.ToUpper();
-                if (lang == (int)LanguageID.French)
+                if (language == (int)LanguageID.French)
                     nick = StringConverter4.StripDiacriticsFR4(nick); // strips accents on E and I
             }
             if (generation < 3)
@@ -91,31 +91,31 @@ namespace PKHeX.Core
         /// Checks if a nickname matches the species name of any language.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="nick">Current name</param>
+        /// <param name="nickname">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool IsNicknamedAnyLanguage(int species, string nick, int generation = PKX.Generation)
+        public static bool IsNicknamedAnyLanguage(int species, string nickname, int generation = PKX.Generation)
         {
-            if (species == (int)Species.Farfetchd && string.Equals(nick, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
+            if (species == (int)Species.Farfetchd && string.Equals(nickname, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
                 return false;
-            if (species == (int)Species.Sirfetchd && string.Equals(nick, "Sirfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
+            if (species == (int)Species.Sirfetchd && string.Equals(nickname, "Sirfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
                 return false;
 
             var langs = Language.GetAvailableGameLanguages(generation);
-            return langs.All(lang => IsNicknamed(species, nick, lang, generation));
+            return langs.All(language => IsNicknamed(species, nickname, language, generation));
         }
 
         /// <summary>
         /// Checks if a nickname matches the species name of any language.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="nick">Current name</param>
-        /// <param name="lang">Language ID of the Pokémon</param>
+        /// <param name="nickname">Current name</param>
+        /// <param name="language">Language ID of the Pokémon</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
-        public static bool IsNicknamed(int species, string nick, int lang, int generation = PKX.Generation)
+        public static bool IsNicknamed(int species, string nickname, int language, int generation = PKX.Generation)
         {
-            return GetSpeciesNameGeneration(species, lang, generation) != nick;
+            return GetSpeciesNameGeneration(species, language, generation) != nickname;
         }
 
         /// <summary>
@@ -123,51 +123,51 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="priorityLanguage">Language ID with a higher priority</param>
-        /// <param name="nick">Current name</param>
+        /// <param name="nickname">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, int priorityLanguage, string nick, int generation = PKX.Generation)
+        public static int GetSpeciesNameLanguage(int species, int priorityLanguage, string nickname, int generation = PKX.Generation)
         {
             var langs = Language.GetAvailableGameLanguages(generation);
-            if (langs.Contains(priorityLanguage) && GetSpeciesNameGeneration(species, priorityLanguage, generation) == nick)
+            if (langs.Contains(priorityLanguage) && GetSpeciesNameGeneration(species, priorityLanguage, generation) == nickname)
                 return priorityLanguage;
 
-            return GetSpeciesNameLanguage(species, nick, generation, langs);
+            return GetSpeciesNameLanguage(species, nickname, generation, langs);
         }
 
         /// <summary>
         /// Gets the Species name Language ID for the current name and generation.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
-        /// <param name="nick">Current name</param>
+        /// <param name="nickname">Current name</param>
         /// <param name="generation">Generation specific formatting option</param>
         /// <returns>Language ID if it does not match any language name, -1 if no matches</returns>
-        public static int GetSpeciesNameLanguage(int species, string nick, int generation = PKX.Generation)
+        public static int GetSpeciesNameLanguage(int species, string nickname, int generation = PKX.Generation)
         {
             var langs = Language.GetAvailableGameLanguages(generation);
-            return GetSpeciesNameLanguage(species, nick, generation, langs);
+            return GetSpeciesNameLanguage(species, nickname, generation, langs);
         }
 
-        private static int GetSpeciesNameLanguage(int species, string nick, int generation, IReadOnlyList<int> langs)
+        private static int GetSpeciesNameLanguage(int species, string nickname, int generation, IReadOnlyList<int> langs)
         {
             foreach (var lang in langs)
             {
-                if (GetSpeciesNameGeneration(species, lang, generation) == nick)
+                if (GetSpeciesNameGeneration(species, lang, generation) == nickname)
                     return lang;
             }
             return -1;
         }
 
         /// <summary>
-        /// Gets the Species ID for the specified <see cref="specName"/> and <see cref="language"/>.
+        /// Gets the Species ID for the specified <see cref="speciesName"/> and <see cref="language"/>.
         /// </summary>
-        /// <param name="specName">Species Name</param>
+        /// <param name="speciesName">Species Name</param>
         /// <param name="language">Language the name is from</param>
         /// <returns>Species ID</returns>
         /// <remarks>Only use this for modern era name -> ID fetching.</remarks>
-        public static int GetSpeciesID(string specName, int language = (int)LanguageID.English)
+        public static int GetSpeciesID(string speciesName, int language = (int)LanguageID.English)
         {
-            return SpeciesDict[language].TryGetValue(specName, out var val) ? val : -1;
+            return SpeciesDict[language].TryGetValue(speciesName, out var val) ? val : -1;
         }
     }
 }
