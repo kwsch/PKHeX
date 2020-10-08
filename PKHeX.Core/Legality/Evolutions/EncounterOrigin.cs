@@ -118,7 +118,8 @@ namespace PKHeX.Core
             if (generation >= 4)
                 return met;
 
-            return GetLevelOriginMaxTransfer(pkm, met, generation);
+            var downLevel = GetLevelOriginMaxTransfer(pkm, pkm.CurrentLevel, generation);
+            return Math.Min(met, downLevel);
         }
 
         private static int GetLevelOriginMaxTransfer(PKM pkm, int met, int generation)
