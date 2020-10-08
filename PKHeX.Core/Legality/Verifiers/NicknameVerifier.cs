@@ -29,17 +29,12 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (pkm.Format <= 7) // can nickname afterwards
+            if (pkm.Format <= 7 && pkm.IsNicknamed) // can nickname afterwards
             {
-                if (pkm.VC && pkm.IsNicknamed)
-                {
+                if (pkm.VC)
                     VerifyG1NicknameWithinBounds(data, pkm.Nickname);
-                }
-                else if (EncounterMatch is MysteryGift m)
-                {
-                    if (pkm.IsNicknamed && !m.IsEgg)
-                        data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
-                }
+                else if (EncounterMatch is MysteryGift m && !m.IsEgg)
+                    data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 
             if (EncounterMatch is EncounterTrade t)
@@ -112,13 +107,18 @@ namespace PKHeX.Core
 
         private static bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
         {
-            if (SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, pkm.Format) == nickname)
+            int species = pkm.Species;
+            int format = pkm.Format;
+            int language = pkm.Language;
+            if (SpeciesName.GetSpeciesNameGeneration(species, language, format) == nickname)
                 return true;
 
             // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-            bool evolved = EncounterMatch.Species != pkm.Species;
-            bool canHaveAnyLanguage = evolved || pkm.WasTradedEgg;
-            if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+            bool evolved = EncounterMatch.Species != species;
+            // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
+            // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
+            bool canHaveAnyLanguage = evolved || (pkm.WasTradedEgg && pkm.Format <= 7);
+            if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                 return true;
 
             switch (EncounterMatch)
@@ -126,7 +126,7 @@ namespace PKHeX.Core
                 case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm):
                     return true;
                 case ILangNick loc:
-                    if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, pkm.Format))
+                    if (loc.Language != 0 && !loc.IsNicknamed && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                         return true; // fixed language without nickname, nice job event maker!
                     break;
             }
@@ -134,8 +134,8 @@ namespace PKHeX.Core
             if (pkm.Format == 5 && !pkm.IsNative) // transfer
             {
                 if (canHaveAnyLanguage)
-                   return !SpeciesName.IsNicknamedAnyLanguage(pkm.Species, nickname, 4);
-                return SpeciesName.GetSpeciesNameGeneration(pkm.Species, pkm.Language, 4) == nickname;
+                   return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
+                return SpeciesName.GetSpeciesNameGeneration(species, language, 4) == nickname;
             }
 
             return false;
