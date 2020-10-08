@@ -114,10 +114,10 @@ namespace PKHeX.Core
                 return true;
 
             // Can't have another language name if it hasn't evolved or wasn't a language-traded egg.
-            bool evolved = EncounterMatch.Species != species;
             // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
+            // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
             // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
-            bool canHaveAnyLanguage = evolved || (pkm.WasTradedEgg && pkm.Format <= 7);
+            bool canHaveAnyLanguage = pkm.Format <= 7 && (EncounterMatch.Species != species || pkm.WasTradedEgg);
             if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                 return true;
 
