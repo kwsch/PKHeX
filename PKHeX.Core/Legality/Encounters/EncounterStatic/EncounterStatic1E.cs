@@ -1,4 +1,9 @@
-﻿namespace PKHeX.Core
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Event data for Generation 1
@@ -9,6 +14,8 @@
 
         /// <summary> Trainer name for the event. </summary>
         public string OT_Name { get; set; } = string.Empty;
+
+        public IReadOnlyList<string> OT_Names { get; set; } = Array.Empty<string>();
 
         /// <summary> Trainer ID for the event. </summary>
         public int TID { get; set; } = -1;
@@ -25,11 +32,19 @@
             if (Language != EncounterGBLanguage.Any && pkm.Japanese != (Language == EncounterGBLanguage.Japanese))
                 return false;
 
-            if (OT_Name.Length != 0 && pkm.OT_Name != OT_Name)
-                return false;
-
             if (TID != -1 && pkm.TID != TID)
                 return false;
+
+            if (OT_Name.Length != 0)
+            {
+                if (pkm.OT_Name != OT_Name)
+                    return false;
+            }
+            else if (OT_Names.Count != 0)
+            {
+                if (!OT_Names.Contains(pkm.OT_Name))
+                    return false;
+            }
 
             return true;
         }
@@ -50,6 +65,8 @@
 
             if (OT_Name.Length != 0)
                 pk.OT_Name = OT_Name;
+            else if (OT_Names.Count != 0)
+                pk.OT_Name = OT_Names[Util.Rand.Next(OT_Names.Count)];
         }
     }
 

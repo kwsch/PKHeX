@@ -1,4 +1,5 @@
 ﻿using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.EncounterGBLanguage;
 
 namespace PKHeX.Core
 {
@@ -151,7 +152,8 @@ namespace PKHeX.Core
             new EncounterTrade1(047, 05, RBY), // Parasect - Trade Tangela (GSC 5)
         });
 
-        private static readonly int[] Flawless15 = {15, 15, 15, 15, 15, 15};
+        private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
+        private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
 
         internal static readonly EncounterStatic1E[] StaticEventsVC =
         {
@@ -164,10 +166,9 @@ namespace PKHeX.Core
         {
             // Stadium 1: Psyduck
             new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Name = "STADIUM", Language = EncounterGBLanguage.International }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Name = "STADE", Language = EncounterGBLanguage.International }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Name = "STADIO", Language = EncounterGBLanguage.International }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Name = "ESTADIO", Language = EncounterGBLanguage.International }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "Stade", "Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
+
+            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = new[]{"YOSHIRA", "YOSHIRAB"}, Language = International }, // Yoshira US Mew
         };
     }
 }
