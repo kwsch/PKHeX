@@ -128,7 +128,7 @@ namespace PKHeX.Core
             if (Future_LevelUp.TryGetValue(species | (pkm.AltForm << 11), out var delta))
                 return met - delta;
 
-            if (generation < 4 && Future_LevelUp4.Contains(species))
+            if (generation < 4 && Future_LevelUp4.Contains(species) && (pkm.Format <= 7 || !Future_LevelUp4_Not8.Contains(species)))
                 return met - 1;
 
             return met;
@@ -161,6 +161,16 @@ namespace PKHeX.Core
             (int)Mamoswine,
             (int)Gliscor,
             (int)Probopass,
+        };
+
+        /// <summary>
+        /// Species introduced in Generation 4 that used to require a level up to evolve prior to Generation 8.
+        /// </summary>
+        private static readonly HashSet<int> Future_LevelUp4_Not8 = new HashSet<int>
+        {
+            (int)Magnezone, // Thunder Stone
+            (int)Leafeon, // Leaf Stone
+            (int)Glaceon, // Ice Stone
         };
 
         /// <summary>
