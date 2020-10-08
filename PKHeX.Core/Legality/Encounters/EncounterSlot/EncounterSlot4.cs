@@ -1,6 +1,6 @@
 namespace PKHeX.Core
 {
-    public sealed class EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot
+    public sealed class EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IEncounterTypeTile
     {
         public override int Generation => 4;
         public EncounterType TypeEncounter => ((EncounterArea4)Area).TypeEncounter;

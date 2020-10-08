@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterStaticTyped : EncounterStatic4
+    public sealed class EncounterStaticTyped : EncounterStatic4, IEncounterTypeTile
     {
         public bool Roaming { get; set; }
 
@@ -33,7 +33,7 @@ namespace PKHeX.Core
             pk.MetDate = today;
         }
 
-        private int[] GetRoamLocations(int species, int type)
+        private static int[] GetRoamLocations(int species, int type)
         {
             switch (species)
             {
