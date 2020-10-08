@@ -541,7 +541,7 @@ namespace PKHeX.Core
                 Gender = Gender,
                 AltForm = AltForm,
                 Nature = Nature,
-                Nickname = Nickname,
+                Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, Language, 8),
                 Version = Version,
                 OT_Name = OT_Name,
                 MetDate = MetDate,
