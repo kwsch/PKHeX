@@ -29,16 +29,23 @@ namespace PKHeX.Core
         private int GetTransferredOffset(int index) => Offset + TransferredOffset + (index * 4);
         public uint GetCapturedCountIndex(int index) => BitConverter.ToUInt32(Data, GetCapturedOffset(index));
         public uint GetTransferredCountIndex(int index) => BitConverter.ToUInt32(Data, GetTransferredOffset(index));
-        public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, Offset + GetCapturedOffset(index));
-        public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, Offset + GetTransferredOffset(index));
+        public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, GetCapturedOffset(index));
+        public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, GetTransferredOffset(index));
 
-        private static int GetSpeciesIndex(int species)
+        public static int GetSpeciesIndex(int species)
         {
             if (species <= (int)Species.Mew)
                 return species - 1;
             if (species == (int)Species.Meltan || species == (int)Species.Melmetal)
                 return species - 657; // 151, 152
             return -1;
+        }
+
+        public static int GetIndexSpecies(int index)
+        {
+            if (index < (int) Species.Mew)
+                return index + 1;
+            return index + 657;
         }
 
         public uint GetCapturedCount(int species)
@@ -101,12 +108,18 @@ namespace PKHeX.Core
             return total;
         }
 
-        public void SetAllCaptured(uint count = MAX_COUNT_ENTRY)
+        public void SetAllCaptured(uint count = MAX_COUNT_ENTRY, Zukan7b? dex = null)
         {
             uint total = 0;
             count = Math.Min(count, MAX_COUNT_ENTRY);
             for (int i = 0; i < ENTRY_COUNT; i++)
             {
+                int species = GetIndexSpecies(i);
+                if (count != 0 && dex?.GetCaught(species) == false)
+                {
+                    total += GetCapturedCountIndex(i);
+                    continue;
+                }
                 SetCapturedCountIndex(i, count);
                 total += count;
             }
@@ -114,12 +127,18 @@ namespace PKHeX.Core
                 TotalCaptured = total;
         }
 
-        public void SetAllTransferred(uint count = MAX_COUNT_ENTRY)
+        public void SetAllTransferred(uint count = MAX_COUNT_ENTRY, Zukan7b? dex = null)
         {
             uint total = 0;
             count = Math.Min(count, MAX_COUNT_ENTRY);
             for (int i = 0; i < ENTRY_COUNT; i++)
             {
+                int species = GetIndexSpecies(i);
+                if (count != 0 && dex?.GetCaught(species) == false)
+                {
+                    total += GetTransferredCountIndex(i);
+                    continue;
+                }
                 SetTransferredCountIndex(i, count);
                 total += count;
             }

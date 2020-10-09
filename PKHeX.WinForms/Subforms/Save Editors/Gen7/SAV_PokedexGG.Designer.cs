@@ -87,6 +87,7 @@
             this.NUD_RWeightMinHeight = new System.Windows.Forms.NumericUpDown();
             this.NUD_RHeightMax = new System.Windows.Forms.NumericUpDown();
             this.NUD_RHeightMin = new System.Windows.Forms.NumericUpDown();
+            this.B_Counts = new System.Windows.Forms.Button();
             this.GB_Language.SuspendLayout();
             this.GB_Encountered.SuspendLayout();
             this.GB_Owned.SuspendLayout();
@@ -429,40 +430,40 @@
             this.mnuCaughtAll,
             this.mnuComplete});
             this.modifyMenu.Name = "modifyMenu";
-            this.modifyMenu.Size = new System.Drawing.Size(149, 114);
+            this.modifyMenu.Size = new System.Drawing.Size(150, 114);
             // 
             // mnuSeenNone
             // 
             this.mnuSeenNone.Name = "mnuSeenNone";
-            this.mnuSeenNone.Size = new System.Drawing.Size(148, 22);
+            this.mnuSeenNone.Size = new System.Drawing.Size(149, 22);
             this.mnuSeenNone.Text = "Seen none";
             this.mnuSeenNone.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuSeenAll
             // 
             this.mnuSeenAll.Name = "mnuSeenAll";
-            this.mnuSeenAll.Size = new System.Drawing.Size(148, 22);
+            this.mnuSeenAll.Size = new System.Drawing.Size(149, 22);
             this.mnuSeenAll.Text = "Seen all";
             this.mnuSeenAll.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuCaughtNone
             // 
             this.mnuCaughtNone.Name = "mnuCaughtNone";
-            this.mnuCaughtNone.Size = new System.Drawing.Size(148, 22);
+            this.mnuCaughtNone.Size = new System.Drawing.Size(149, 22);
             this.mnuCaughtNone.Text = "Caught none";
             this.mnuCaughtNone.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuCaughtAll
             // 
             this.mnuCaughtAll.Name = "mnuCaughtAll";
-            this.mnuCaughtAll.Size = new System.Drawing.Size(148, 22);
+            this.mnuCaughtAll.Size = new System.Drawing.Size(149, 22);
             this.mnuCaughtAll.Text = "Caught all";
             this.mnuCaughtAll.Click += new System.EventHandler(this.ModifyAll);
             // 
             // mnuComplete
             // 
             this.mnuComplete.Name = "mnuComplete";
-            this.mnuComplete.Size = new System.Drawing.Size(148, 22);
+            this.mnuComplete.Size = new System.Drawing.Size(149, 22);
             this.mnuComplete.Text = "Complete Dex";
             this.mnuComplete.Click += new System.EventHandler(this.ModifyAll);
             // 
@@ -751,11 +752,22 @@
             0,
             0});
             // 
+            // B_Counts
+            // 
+            this.B_Counts.Location = new System.Drawing.Point(244, 11);
+            this.B_Counts.Name = "B_Counts";
+            this.B_Counts.Size = new System.Drawing.Size(97, 23);
+            this.B_Counts.TabIndex = 53;
+            this.B_Counts.Text = "Counts";
+            this.B_Counts.UseVisualStyleBackColor = true;
+            this.B_Counts.Click += new System.EventHandler(this.B_Counts_Click);
+            // 
             // SAV_PokedexGG
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(417, 423);
+            this.Controls.Add(this.B_Counts);
             this.Controls.Add(this.GB_SizeRecords);
             this.Controls.Add(this.LB_Forms);
             this.Controls.Add(this.GB_Displayed);
@@ -860,5 +872,6 @@
         private System.Windows.Forms.NumericUpDown NUD_RWeightMinHeight;
         private System.Windows.Forms.NumericUpDown NUD_RHeightMax;
         private System.Windows.Forms.NumericUpDown NUD_RHeightMin;
+        private System.Windows.Forms.Button B_Counts;
     }
 }
