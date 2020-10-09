@@ -294,6 +294,10 @@ namespace PKHeX.Core
                 bool valid = slot.Area.Type == SlotType.SOS;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchSOS);
+
+                var pi = PersonalTable.USUM[slot.Species];
+                if (pi.EscapeRate == 0) // Can't SOS
+                    return GetInvalid(LAbilityHiddenFail);
             }
             if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
