@@ -10,7 +10,7 @@
         public static void SetHiddenPower(this PKM pk, int hiddenPowerType)
         {
             var IVs = pk.IVs;
-            HiddenPower.SetIVsForType(hiddenPowerType, pk.IVs, pk.Format);
+            HiddenPower.SetIVsForType(hiddenPowerType, IVs, pk.Format);
             pk.IVs = IVs;
         }
 
