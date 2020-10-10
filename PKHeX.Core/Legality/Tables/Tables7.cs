@@ -552,13 +552,14 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> Ban_NoHidden7 = new HashSet<int>
         {
             // SOS slots have 0 call rate
-            767, // Wimpod
-            768, // Golisopod
+            (int)Species.Wimpod,
+            (int)Species.Golisopod,
+            (int)Species.Komala,
 
             // No Encounter
             774, // Minior
 
-            //Pre-Gen
+            // Pre-Gen
             710 + (1 << 11), //Pumpkaboo-Small
             711 + (1 << 11), //Gourgeist-Small
             710 + (2 << 11), //Pumpkaboo-Large
@@ -568,6 +569,16 @@ namespace PKHeX.Core
             (int)Species.Honedge,
             (int)Species.Doublade,
             (int)Species.Aegislash,
+            (int)Species.Carnivine,
+            (int)Species.Cryogonal,
+            (int)Species.Archen,
+            (int)Species.Archeops,
+            (int)Species.Rotom,
+            (int)Species.Rotom + (1 << 11),
+            (int)Species.Rotom + (2 << 11),
+            (int)Species.Rotom + (3 << 11),
+            (int)Species.Rotom + (4 << 11),
+            (int)Species.Rotom + (5 << 11),
         };
 
         internal static readonly HashSet<int> Ban_NoHidden7Apricorn = new HashSet<int>

@@ -297,6 +297,19 @@ namespace PKHeX.Core
             (int)Species.Honedge,
             (int)Species.Doublade,
             (int)Species.Aegislash,
+            (int)Species.Carnivine,
+            (int)Species.Cryogonal,
+            (int)Species.Archen,
+            (int)Species.Archeops,
+            (int)Species.Rotom,
+            (int)Species.Rotom + (1 << 11),
+            (int)Species.Rotom + (2 << 11),
+            (int)Species.Rotom + (3 << 11),
+            (int)Species.Rotom + (4 << 11),
+            (int)Species.Rotom + (5 << 11),
+
+            (int)Species.Castform,
+            (int)Species.Furfrou,
         };
         #region Ball Table
         internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>
