@@ -105,7 +105,7 @@ namespace PKHeX.Core
         public override byte[] GetDataForBox(PKM pkm) => GetDataForFormatStored(pkm);
 
         public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
-        public static int GetTeamOffset(int team) => 0 + (team * TeamSizeJ);
+        public static int GetTeamOffset(int team) => 0 + (team * 2 * TeamSizeJ); // backups are after each team
 
         public string GetTeamName(int team)
         {
