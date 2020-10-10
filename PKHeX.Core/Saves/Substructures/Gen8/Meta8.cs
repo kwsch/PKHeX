@@ -20,7 +20,7 @@ namespace PKHeX.Core
         }
 
 #if DEBUG
-        internal static IEnumerable<string> RipSizes(IReadOnlyCollection<SCBlock> blocks)
+        public static IEnumerable<string> RipSizes(IReadOnlyCollection<SCBlock> blocks)
         {
             int ctr = 0;
             foreach (var block in blocks)

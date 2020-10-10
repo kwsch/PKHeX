@@ -20,6 +20,10 @@ namespace PKHeX.Core
         public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
         public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
         public const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
+        public const int SIZE_G8SWSH_3 = -1; // 1.0 -> 1.1 -> 1.2 -> 1.3 todo
+        public const int SIZE_G8SWSH_3B = -2; // 1.0 -> 1.2 -> 1.3 todo
+        public const int SIZE_G8SWSH_3C = -3; // 1.0 -> 1.3 todo
+
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
         public const int SIZE_G7SM = 0x6BE00;
@@ -59,20 +63,25 @@ namespace PKHeX.Core
         public const int SIZE_G4RANCH = 0x54000;
         public const int SIZE_G4RANCH_PLAT = 0x7C000;
 
+        internal static readonly HashSet<int> SizesSWSH = new HashSet<int>
+        {
+            SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
+        };
+
         private static readonly HashSet<int> SizesGen2 = new HashSet<int>
         {
             SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
         };
 
-        private static readonly HashSet<int> Sizes = new HashSet<int>(SizesGen2)
+        private static readonly HashSet<int> Sizes = new HashSet<int>(SizesGen2.Concat(SizesSWSH))
         {
-            SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B,
+            // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
             SIZE_G4BR, SIZE_G4RAW,
             SIZE_G3BOX, SIZE_G3BOXGCI, SIZE_G3COLO, SIZE_G3COLOGCI, SIZE_G3XD, SIZE_G3XDGCI, SIZE_G3RAW, SIZE_G3RAWHALF,
-            // SIZES_2 covers gen2 sizes since there's so many
+            // SizesGen2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT,
 
             SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
@@ -455,7 +464,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG8SAV(byte[] data)
         {
-            if (data.Length != SIZE_G8SWSH && data.Length != SIZE_G8SWSH_1 && data.Length != SIZE_G8SWSH_2 && data.Length != SIZE_G8SWSH_2B)
+            if (!SizesSWSH.Contains(data.Length))
                 return Invalid;
 
             return SwishCrypto.GetIsHashValid(data) ? SWSH : Invalid;

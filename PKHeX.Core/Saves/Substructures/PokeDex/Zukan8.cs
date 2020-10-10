@@ -23,8 +23,10 @@ namespace PKHeX.Core
         public int GetRevision()
         {
             if (Rigel1.Data.Length == 0)
-                return 0; // No DLC data allocated
-            return 1;
+                return 0; // No DLC1 data allocated
+            if (Rigel2.Data.Length == 0)
+                return 1; // No DLC2 data allocated
+            return 2;
         }
 
         private byte[] GetDexBlock(Zukan8Type infoDexType)

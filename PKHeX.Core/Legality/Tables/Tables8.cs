@@ -6,10 +6,10 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         // Current Binaries
-        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R1;
-        internal const int MaxMoveID_8 = MaxMoveID_8_R1;
-        internal const int MaxItemID_8 = MaxItemID_8_R1;
-        internal const int MaxAbilityID_8 = MaxAbilityID_8_R1;
+        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R2;
+        internal const int MaxMoveID_8 = MaxMoveID_8_R2;
+        internal const int MaxItemID_8 = MaxItemID_8_R2;
+        internal const int MaxAbilityID_8 = MaxAbilityID_8_R2;
 
         // Orion (No DLC)
         internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
@@ -22,6 +22,12 @@ namespace PKHeX.Core
         internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
         internal const int MaxItemID_8_R1 = 1589; // Mark Charm
         internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
+        // Rigel 2 (DLC 2: Crown Tundra)
+        internal const int MaxSpeciesID_8_R2 = 893; // todo
+        internal const int MaxMoveID_8_R2 = 818; // todo
+        internal const int MaxItemID_8_R2 = 1589; // todo
+        internal const int MaxAbilityID_8_R2 = 260; // todo
 
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
         internal const int MaxGameID_8 = 45;
