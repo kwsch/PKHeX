@@ -176,7 +176,7 @@ namespace PKHeX.Core
 
         public static bool IsStadium(byte[] data)
         {
-            if (data.Length != SaveUtil.SIZE_G1STAD)
+            if (data.Length != SaveUtil.SIZE_G2STAD)
                 return false;
             return StadiumUtil.IsMagicPresentEither(data, TeamSize, MAGIC_FOOTER);
         }
