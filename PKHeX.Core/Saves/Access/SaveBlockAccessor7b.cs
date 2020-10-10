@@ -44,6 +44,7 @@ namespace PKHeX.Core
             Misc = new Misc7b(sav, GetBlockOffset(BelugaBlockIndex.Misc));
             EventWork = new EventWork7b(sav, GetBlockOffset(BelugaBlockIndex.EventWork));
             GiftRecords = new WB7Records(sav, GetBlockOffset(BelugaBlockIndex.WB7Record));
+            Captured = new CaptureRecords(sav, GetBlockOffset(BelugaBlockIndex.CaptureRecord));
         }
 
         public readonly MyItem Items;
@@ -55,6 +56,7 @@ namespace PKHeX.Core
         public readonly EventWork7b EventWork;
         public readonly PokeListHeader Storage;
         public readonly WB7Records GiftRecords;
+        public readonly CaptureRecords Captured;
         public BlockInfo GetBlock(BelugaBlockIndex index) => BlockInfo[(int)index];
         public int GetBlockOffset(BelugaBlockIndex index) => GetBlock(index).Offset;
     }

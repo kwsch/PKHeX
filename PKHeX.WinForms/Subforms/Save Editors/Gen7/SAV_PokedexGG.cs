@@ -54,6 +54,12 @@ namespace PKHeX.WinForms
         private readonly CheckBox[] RecordUsed;
         private readonly NumericUpDown[] RecordHeight, RecordWeight;
 
+        private void B_Counts_Click(object sender, EventArgs e)
+        {
+            SetEntry();
+            new SAV_Capture7GG(SAV).ShowDialog();
+        }
+
         private void ChangeCBSpecies(object sender, EventArgs e)
         {
             if (editing) return;

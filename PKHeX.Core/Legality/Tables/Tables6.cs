@@ -279,25 +279,49 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> Ban_NoHidden6 = new HashSet<int>
         {
-            //Not avaliable at Friend Safari or Horde Encounter
-            669 + (2 << 11), //Flabébé-Orange
-            670 + (2 << 11), //Floette-Orange
-            671 + (2 << 11), //Florges-Orange
-            669 + (4 << 11), //Flabébé-White
-            670 + (4 << 11), //Floette-White
-            671 + (4 << 11), //Florges-White
+            // Not available at Friend Safari or Horde Encounter
+            (int)Species.Flabébé + (2 << 11), // Orange
+            (int)Species.Floette + (2 << 11), // Orange
+            (int)Species.Florges + (2 << 11), // Orange
+            (int)Species.Flabébé + (4 << 11), // White
+            (int)Species.Floette + (4 << 11), // White
+            (int)Species.Florges + (4 << 11), // White
 
-            710 + (1 << 11), //Pumpkaboo-Small
-            711 + (1 << 11), //Gourgeist-Small
-            710 + (2 << 11), //Pumpkaboo-Large
-            711 + (2 << 11), //Gourgeist-Large
-            //Super Size can be obtained as a Pumpkaboo from event distributions
+            // Super Size can be obtained as a Pumpkaboo from event distributions
+            (int)Species.Pumpkaboo + (1 << 11), // Small
+            (int)Species.Gourgeist + (1 << 11), // Small
+            (int)Species.Pumpkaboo + (2 << 11), // Large
+            (int)Species.Gourgeist + (2 << 11), // Large
 
             // Same abilities (1/2/H), not available as H
             (int)Species.Honedge,
             (int)Species.Doublade,
             (int)Species.Aegislash,
+            (int)Species.Carnivine,
+            (int)Species.Cryogonal,
+            (int)Species.Archen,
+            (int)Species.Archeops,
+            (int)Species.Rotom,
+            (int)Species.Rotom + (1 << 11),
+            (int)Species.Rotom + (2 << 11),
+            (int)Species.Rotom + (3 << 11),
+            (int)Species.Rotom + (4 << 11),
+            (int)Species.Rotom + (5 << 11),
+
+            (int)Species.Castform,
+            (int)Species.Furfrou,
+            (int)Species.Furfrou,
+            (int)Species.Furfrou + (1 << 11),
+            (int)Species.Furfrou + (2 << 11),
+            (int)Species.Furfrou + (3 << 11),
+            (int)Species.Furfrou + (4 << 11),
+            (int)Species.Furfrou + (5 << 11),
+            (int)Species.Furfrou + (6 << 11),
+            (int)Species.Furfrou + (7 << 11),
+            (int)Species.Furfrou + (8 << 11),
+            (int)Species.Furfrou + (9 << 11),
         };
+
         #region Ball Table
         internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>
         {

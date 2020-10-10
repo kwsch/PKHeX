@@ -130,7 +130,17 @@ namespace PKHeX.Core
             return 0x4000 + ((team - 40) * TeamSize);
         }
 
-        public static string GetTeamName(int team) => $"{((Stadium2TeamType)(team / TeamCountType)).ToString().Replace('_', ' ')} {(team % 10) + 1}";
+        public string GetTeamName(int team)
+        {
+            var name = $"{((Stadium2TeamType) (team / TeamCountType)).ToString().Replace('_', ' ')} {(team % 10) + 1}";
+
+            var ofs = GetTeamOffset(team);
+            var str = GetString(ofs + 4, 7);
+            if (string.IsNullOrWhiteSpace(str))
+                return name;
+            var id = BigEndian.ToUInt16(Data, ofs + 2);
+            return $"{name} [{id:D5}:{str}]";
+        }
 
         public override string GetBoxName(int box)
         {
