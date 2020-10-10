@@ -41,7 +41,7 @@
             // B_BoxRight
             // 
             this.B_BoxRight.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxRight.Location = new System.Drawing.Point(194, 3);
+            this.B_BoxRight.Location = new System.Drawing.Point(206, 3);
             this.B_BoxRight.Name = "B_BoxRight";
             this.B_BoxRight.Size = new System.Drawing.Size(27, 23);
             this.B_BoxRight.TabIndex = 68;
@@ -52,7 +52,7 @@
             // B_BoxLeft
             // 
             this.B_BoxLeft.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.B_BoxLeft.Location = new System.Drawing.Point(28, 3);
+            this.B_BoxLeft.Location = new System.Drawing.Point(16, 3);
             this.B_BoxLeft.Name = "B_BoxLeft";
             this.B_BoxLeft.Size = new System.Drawing.Size(27, 23);
             this.B_BoxLeft.TabIndex = 67;
@@ -63,10 +63,11 @@
             // CB_BoxSelect
             // 
             this.CB_BoxSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_BoxSelect.DropDownWidth = 252;
             this.CB_BoxSelect.FormattingEnabled = true;
-            this.CB_BoxSelect.Location = new System.Drawing.Point(61, 4);
+            this.CB_BoxSelect.Location = new System.Drawing.Point(48, 4);
             this.CB_BoxSelect.Name = "CB_BoxSelect";
-            this.CB_BoxSelect.Size = new System.Drawing.Size(127, 21);
+            this.CB_BoxSelect.Size = new System.Drawing.Size(152, 21);
             this.CB_BoxSelect.TabIndex = 66;
             this.CB_BoxSelect.SelectedIndexChanged += new System.EventHandler(this.CB_BoxSelect_SelectedIndexChanged);
             // 

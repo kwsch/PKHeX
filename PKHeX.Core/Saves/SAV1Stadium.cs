@@ -177,7 +177,16 @@ namespace PKHeX.Core
             var teamsPerType = Japanese ? TeamCountJ : TeamCountU;
             var type = team / teamsPerType;
             var index = team % teamsPerType;
-            return $"{GetTeamTypeName(type).Replace('_', ' ')} {index + 1}";
+            var name = $"{GetTeamTypeName(type).Replace('_', ' ')} {index + 1}";
+
+            var ofs = GetTeamOffset(team);
+            var otOfs = ofs + (Japanese ? 2 : 1);
+            var str = GetString(otOfs, Japanese ? 5 : 7);
+            if (string.IsNullOrWhiteSpace(str))
+                return name;
+            var idOfs = ofs + (Japanese ? 0xC : 0x8);
+            var id = BigEndian.ToUInt16(Data, idOfs);
+            return $"{name} [{id:D5}:{str}]";
         }
 
         private string GetTeamTypeName(int type)

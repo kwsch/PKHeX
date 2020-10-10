@@ -89,7 +89,18 @@ namespace PKHeX.Core
 
         public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
         public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
-        public static string GetTeamName(int team) => $"Team {team + 1}";
+
+        public string GetTeamName(int team)
+        {
+            var name = $"Team {team + 1}";
+
+            var ofs = GetTeamOffset(team);
+            var str = GetString(ofs + 2, 5);
+            if (string.IsNullOrWhiteSpace(str))
+                return name;
+            var id = BigEndian.ToUInt16(Data, ofs + 8);
+            return $"{name} [{id:D5}:{str}]";
+        }
 
         public override SlotGroup GetTeam(int team)
         {
