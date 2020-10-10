@@ -156,14 +156,14 @@ namespace PKHeX.Core
         internal static readonly EncounterStatic2E[] StaticEventsGB =
         {
             // Stadium 2 Baton Pass Farfetch'd
-            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, TID = 2000, OT_Name = "スタジアム"},
-            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, TID = 2000, OT_Name = "Stadium", Language = International},
-            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
+            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, Location = 127, TID = 2000, OT_Name = "スタジアム"},
+            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, Location = 127, TID = 2000, OT_Name = "Stadium", Language = International},
+            new EncounterStatic2E(083, 05, C) {Moves = Farfetchd, Location = 127, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
 
             // Stadium 2 Earthquake Gligar
-            new EncounterStatic2E(207, 05, C) {Moves = Gligar, TID = 2000, OT_Name = "スタジアム"},
-            new EncounterStatic2E(207, 05, C) {Moves = Gligar, TID = 2000, OT_Name = "Stadium", Language = International},
-            new EncounterStatic2E(207, 05, C) {Moves = Gligar, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
+            new EncounterStatic2E(207, 05, C) {Moves = Gligar, Location = 127, TID = 2000, OT_Name = "スタジアム"},
+            new EncounterStatic2E(207, 05, C) {Moves = Gligar, Location = 127, TID = 2000, OT_Name = "Stadium", Language = International},
+            new EncounterStatic2E(207, 05, C) {Moves = Gligar, Location = 127, TID = 2001, OT_Names = new[]{"Stade", "Stadion", "Stadio", "Estadio"}, Language = International},
 
             //New York Pokémon Center Events
 
