@@ -560,7 +560,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 117, Level = 45, Location = 192 }, // Seadra in the Honeycalm Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 321, Level = 80, Location = 186 }, // Wailord in the Workout Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 039, Level = 20, Location = 168 }, // Jigglypuff in the Forest of Focus (on the Isle of Armor)
-            new EncounterStatic8 { Species = 764, Level = 50, Location = 190 }, // Comfey in the Insular Sea (on the Isle of Armor)
+            new EncounterStatic8S{ Species = 764, Level = 50, Locations = new[] {190, 194} }, // Comfey in the Insular Sea and in the Honeycalm Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 621, Level = 42, Location = 176 }, // Druddigon in Courageous Cavern (on the Isle of Armor)
             #endregion
         };
