@@ -184,7 +184,7 @@ namespace PKHeX.Core
             var str = GetString(otOfs, Japanese ? 5 : 7);
             if (string.IsNullOrWhiteSpace(str))
                 return name;
-            var idOfs = ofs + (Japanese ? 0xC : 0x8);
+            var idOfs = ofs + (Japanese ? 0x8 : 0xC);
             var id = BigEndian.ToUInt16(Data, idOfs);
             return $"{name} [{id:D5}:{str}]";
         }
