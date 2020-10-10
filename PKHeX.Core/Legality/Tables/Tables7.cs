@@ -557,13 +557,19 @@ namespace PKHeX.Core
             (int)Species.Komala,
 
             // No Encounter
-            774, // Minior
+            (int)Species.Minior + (07 << 11),
+            (int)Species.Minior + (08 << 11),
+            (int)Species.Minior + (09 << 11),
+            (int)Species.Minior + (10 << 11),
+            (int)Species.Minior + (11 << 11),
+            (int)Species.Minior + (12 << 11),
+            (int)Species.Minior + (13 << 11),
 
-            // Pre-Gen
-            710 + (1 << 11), //Pumpkaboo-Small
-            711 + (1 << 11), //Gourgeist-Small
-            710 + (2 << 11), //Pumpkaboo-Large
-            711 + (2 << 11), //Gourgeist-Large
+            // Previous-Gen
+            (int)Species.Pumpkaboo + (1 << 11), // Small
+            (int)Species.Gourgeist + (1 << 11), // Small
+            (int)Species.Pumpkaboo + (2 << 11), // Large
+            (int)Species.Gourgeist + (2 << 11), // Large
 
             // Same abilities (1/2/H), not available as H
             (int)Species.Honedge,
