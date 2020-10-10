@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
 {
-    public static partial class Legal
+    /// <summary>
+    /// Provides information for Vivillon origins with respect to the 3DS game data.
+    /// </summary>
+    public static class Vivillon3DS
     {
         private sealed class CountryTable
         {
@@ -151,7 +153,7 @@ namespace PKHeX.Core
         /// <param name="country">Country ID</param>
         /// <param name="region">Console Region ID</param>
         /// <returns></returns>
-        public static bool CheckVivillonPattern(int form, byte country, byte region)
+        public static bool IsPatternValid(int form, byte country, byte region)
         {
             if (!VivillonCountryTable[form].Contains(country))
                 return false; // Country mismatch
@@ -171,11 +173,11 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="country">Country ID</param>
         /// <param name="region">Console Region ID</param>
-        public static int GetVivillonPattern(byte country, byte region)
+        public static int GetPattern(byte country, byte region)
         {
             var ct = Array.Find(RegionFormTable, t => t.CountryID == country);
             if (ct == default(CountryTable)) // empty = no forms referenced
-                return GetVivillonPattern(country);
+                return GetPattern(country);
 
             foreach (var sub in ct.SubRegionForms)
             {
@@ -186,33 +188,10 @@ namespace PKHeX.Core
             return ct.BaseForm;
         }
 
-        private static int GetVivillonPattern(byte country)
+        private static int GetPattern(byte country)
         {
             var form = Array.FindIndex(VivillonCountryTable, z => z.Contains(country));
             return Math.Max(0, form);
         }
-
-        /// <summary>
-        /// Compares the <see cref="IGeoTrack.ConsoleRegion"/> and <see cref="IGeoTrack.Country"/> to determine if the country is available within that region.
-        /// </summary>
-        /// <param name="consoleRegion">Console region.</param>
-        /// <param name="country">Country of nationality</param>
-        /// <returns>Country is within Console Region</returns>
-        public static bool IsConsoleRegionCountryValid(int consoleRegion, int country)
-        {
-            return consoleRegion switch
-            {
-                0 => (country == 1), // Japan
-                1 => ((8 <= country && country <= 52) || ExtendedAmericas.Contains(country)), // Americas
-                2 => ((64 <= country && country <= 127) || ExtendedEurope.Contains(country)), // Europe
-                4 => (country == 144 || country == 160), // China
-                5 => (country == 136), // Korea
-                6 => (country == 144 || country == 128), // Taiwan
-                _ => false
-            };
-        }
-
-        private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> {153, 156, 168, 174, 186};
-        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> {169, 184, 185};
     }
 }

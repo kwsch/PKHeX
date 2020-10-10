@@ -175,12 +175,11 @@ namespace PKHeX.Core
         {
             switch (pk.Format)
             {
-                case 1 when Species == (int)Core.Species.Mew && Version == GameVersion.VCEvents: // VC Mew
-                    pk.TID = 22796;
-                    pk.OT_Name = Legal.GetG1OT_GFMew(lang);
-                    return lang;
-                case 1 when Version == GameVersion.EventsGBGen1:
-                case 2 when Version == GameVersion.EventsGBGen2:
+                case 1 when this is EncounterStatic1E e1:
+                    return e1.Language == EncounterGBLanguage.Japanese ? 1 : 2;
+                case 1 when this is EncounterStatic2E e2:
+                    return e2.Language == EncounterGBLanguage.Japanese ? 1 : 2;
+
                 case 3 when this is EncounterStaticShadow s && s.EReader:
                 case 3 when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";

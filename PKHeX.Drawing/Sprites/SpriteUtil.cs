@@ -94,7 +94,7 @@ namespace PKHeX.Drawing
             var formarg = pk is IFormArgument f ? f.FormArgument : 0;
             bool alt = pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO);
             var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
-            if (pk is IShadowPKM s && s.Purification > 0)
+            if (pk is IShadowPKM s && s.IsShadow)
             {
                 const int Lugia = 249;
                 if (pk.Species == Lugia) // show XD shadow sprite

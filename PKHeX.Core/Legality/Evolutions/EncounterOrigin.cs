@@ -37,11 +37,11 @@ namespace PKHeX.Core
 
             bool hasOriginMet;
             int maxLevel, minLevel;
-            if (pkm is PK2 pk2)
+            if (pkm is ICaughtData2 pk2)
             {
                 hasOriginMet = pk2.CaughtData != 0;
-                maxLevel = rby && Future_LevelUp2.Contains(pk2.Species) ? pkm.CurrentLevel - 1 : pkm.CurrentLevel;
-                minLevel = !hasOriginMet ? 2 : pkm.IsEgg ? 5 : pkm.Met_Level;
+                maxLevel = rby && Future_LevelUp2.Contains(pkm.Species) ? pkm.CurrentLevel - 1 : pkm.CurrentLevel;
+                minLevel = !hasOriginMet ? 2 : pkm.IsEgg ? 5 : pk2.Met_Level;
             }
             else if (pkm is PK1 pk1)
             {
@@ -118,7 +118,8 @@ namespace PKHeX.Core
             if (generation >= 4)
                 return met;
 
-            return GetLevelOriginMaxTransfer(pkm, met, generation);
+            var downLevel = GetLevelOriginMaxTransfer(pkm, pkm.CurrentLevel, generation);
+            return Math.Min(met, downLevel);
         }
 
         private static int GetLevelOriginMaxTransfer(PKM pkm, int met, int generation)
@@ -128,7 +129,7 @@ namespace PKHeX.Core
             if (Future_LevelUp.TryGetValue(species | (pkm.AltForm << 11), out var delta))
                 return met - delta;
 
-            if (generation < 4 && Future_LevelUp4.Contains(species))
+            if (generation < 4 && Future_LevelUp4.Contains(species) && (pkm.Format <= 7 || !Future_LevelUp4_Not8.Contains(species)))
                 return met - 1;
 
             return met;
@@ -161,6 +162,16 @@ namespace PKHeX.Core
             (int)Mamoswine,
             (int)Gliscor,
             (int)Probopass,
+        };
+
+        /// <summary>
+        /// Species introduced in Generation 4 that used to require a level up to evolve prior to Generation 8.
+        /// </summary>
+        private static readonly HashSet<int> Future_LevelUp4_Not8 = new HashSet<int>
+        {
+            (int)Magnezone, // Thunder Stone
+            (int)Leafeon, // Leaf Stone
+            (int)Glaceon, // Ice Stone
         };
 
         /// <summary>

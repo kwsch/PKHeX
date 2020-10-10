@@ -18,6 +18,7 @@ namespace PKHeX.Core
         internal const int SIZE_2JLIST = 63;
         internal const int SIZE_2PARTY = 48;
         internal const int SIZE_2STORED = 32;
+        internal const int SIZE_2STADIUM = 60;
 
         internal const int SIZE_3CSTORED = 312;
         internal const int SIZE_3XSTORED = 196;

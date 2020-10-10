@@ -39,9 +39,11 @@
         {
             pk5.IV_HP = pk5.IV_ATK = pk5.IV_DEF = pk5.IV_SPA = pk5.IV_SPD = pk5.IV_SPE = 30;
             pk5.NPokémon = NSparkle;
-            pk5.OT_Name = Legal.GetG5OT_NSparkle(lang);
+            pk5.OT_Name = GetOT(lang);
             pk5.TID = 00002;
             pk5.SID = 00000;
         }
+
+        public static string GetOT(int lang) => lang == (int)LanguageID.Japanese ? "Ｎ" : "N";
     }
 }

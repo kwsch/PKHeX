@@ -1,4 +1,5 @@
 ﻿using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.EncounterGBLanguage;
 
 namespace PKHeX.Core
 {
@@ -87,8 +88,6 @@ namespace PKHeX.Core
             new EncounterStatic1(133, 25, Stadium), // Eevee
             new EncounterStatic1(138, 20, Stadium), // Omanyte
             new EncounterStatic1(140, 20, Stadium), // Kabuto
-            new EncounterStatic1(054, 15, Stadium) { Moves = new [] { 133, 10 } }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1(151, 5, VCEvents) { IVs = new [] {15,15,15,15,15,15} }, // Event Mew
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_Common =
@@ -152,5 +151,24 @@ namespace PKHeX.Core
             new EncounterTrade1(051, 05, RBY), // Dugtrio - Trade Lickitung (GSC 5)
             new EncounterTrade1(047, 05, RBY), // Parasect - Trade Tangela (GSC 5)
         });
+
+        private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
+        private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
+
+        internal static readonly EncounterStatic1E[] StaticEventsVC =
+        {
+            // Event Mew
+            new EncounterStatic1E(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "GF", Language = EncounterGBLanguage.International },
+            new EncounterStatic1E(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "ゲーフリ" },
+        };
+
+        internal static readonly EncounterStatic1E[] StaticEventsGB =
+        {
+            // Stadium 1: Psyduck
+            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "Stade", "Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
+
+            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = new[]{"YOSHIRA", "YOSHIRAB"}, Language = International }, // Yoshira US Mew
+        };
     }
 }

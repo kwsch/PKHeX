@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary> Generation 1 <see cref="PKM"/> format. </summary>
-    public sealed class PK1 : GBPKM
+    public sealed class PK1 : GBPKML
     {
         public override PersonalInfo PersonalInfo => PersonalTable.Y[Species];
 

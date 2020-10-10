@@ -42,7 +42,7 @@ namespace PKHeX.Core
             var ot = pkm.OT_Name;
             if (ot.Length != 1)
                 return false;
-            var c = Legal.GetG5OT_NSparkle(pkm.Language);
+            var c = EncounterStatic5N.GetOT(pkm.Language);
             return c == ot;
         }
     }

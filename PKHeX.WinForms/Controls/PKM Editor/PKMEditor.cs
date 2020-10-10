@@ -792,7 +792,10 @@ namespace PKHeX.WinForms.Controls
                 minlvl = level;
 
             if (Entity.CurrentLevel >= minlvl && Entity.Met_Level == level && Entity.Met_Location == location)
-                return false;
+            {
+                if (!encounter.HasEncounterType(Entity.Format) || WinFormsUtil.GetIndex(CB_EncounterType) == encounter.GetSuggestedEncounterType())
+                    return false;
+            }
             if (minlvl < level)
                 minlvl = level;
 
@@ -812,6 +815,9 @@ namespace PKHeX.WinForms.Controls
                 Entity.Met_Location = location;
                 TB_MetLevel.Text = encounter.GetSuggestedMetLevel(Entity).ToString();
                 CB_MetLocation.SelectedValue = location;
+
+                if (encounter.HasEncounterType(Entity.Format))
+                    CB_EncounterType.SelectedValue = encounter.GetSuggestedEncounterType();
 
                 if (Entity.Gen6 && Entity.WasEgg && ModifyPKM)
                     Entity.SetHatchMemory6();
@@ -1539,7 +1545,8 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
             FieldsLoaded = false;
-            CHK_Shadow.Checked = NUD_Purification.Value > 0;
+            var value = NUD_Purification.Value;
+            CHK_Shadow.Checked = Entity is CK3 ? value != CK3.Purified : value > 0;
             FieldsLoaded = true;
         }
 
@@ -1548,7 +1555,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
             FieldsLoaded = false;
-            NUD_Purification.Value = CHK_Shadow.Checked ? NUD_Purification.Maximum : 0;
+            NUD_Purification.Value = CHK_Shadow.Checked ? 1 : Entity is CK3 && NUD_ShadowID.Value != 0 ? CK3.Purified : 0;
             ((IShadowPKM)Entity).Purification = (int)NUD_Purification.Value;
             UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
             FieldsLoaded = true;
@@ -1743,7 +1750,7 @@ namespace PKHeX.WinForms.Controls
             BTN_History.Visible = gen >= 6 && !pb7;
             BTN_Ribbons.Visible = gen >= 3 && !pb7;
             BTN_Medals.Visible = gen >= 6 && gen <= 7 && !pb7;
-            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IGeoTrack;
+            FLP_Country.Visible = FLP_SubRegion.Visible = FLP_3DSRegion.Visible = t is IRegionOrigin;
             FLP_OriginalNature.Visible = gen >= 8;
             B_Records.Visible = gen >= 8;
             CB_HTLanguage.Visible = gen >= 8;

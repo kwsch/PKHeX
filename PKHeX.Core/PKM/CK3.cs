@@ -192,6 +192,9 @@ namespace PKHeX.Core
             set => EncounterInfo = (byte)((EncounterInfo & ~(1 << 0)) | (value ? 1 << 0 : 0));
         }
 
+        public const int Purified = -100;
+        public bool IsShadow => ShadowID != 0 && Purification != Purified;
+
         protected override byte[] Encrypt()
         {
             return (byte[])Data.Clone();

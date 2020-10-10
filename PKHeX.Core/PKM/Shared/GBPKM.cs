@@ -6,16 +6,11 @@ namespace PKHeX.Core
 {
     public abstract class GBPKM : PKM
     {
-        internal const int STRLEN_J = 6;
-        internal const int STRLEN_U = 11;
-
         public sealed override int MaxBallID => -1;
         public sealed override int MinGameID => (int)GameVersion.RD;
         public sealed override int MaxGameID => (int)GameVersion.C;
         public sealed override int MaxIV => 15;
         public sealed override int MaxEV => ushort.MaxValue;
-        public sealed override int OTLength => Japanese ? 5 : 7;
-        public sealed override int NickLength => Japanese ? 5 : 10;
 
         public sealed override IReadOnlyList<ushort> ExtraBytes => Array.Empty<ushort>();
 
@@ -29,48 +24,21 @@ namespace PKHeX.Core
             }
         }
 
-        private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
-        public sealed override bool Japanese => otname.Length == STRLEN_J;
-
-        protected GBPKM(int size, bool jp = false) : base(size)
-        {
-            int strLen = jp ? STRLEN_J : STRLEN_U;
-
-            // initialize string buffers
-            otname = new byte[strLen];
-            nick = new byte[strLen];
-            for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = 0x50;
-        }
-
-        protected GBPKM(byte[] data, bool jp = false) : base(data)
-        {
-            int strLen = jp ? STRLEN_J : STRLEN_U;
-
-            // initialize string buffers
-            otname = new byte[strLen];
-            nick = new byte[strLen];
-            for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = 0x50;
-        }
-
-        internal readonly byte[] otname;
-        internal readonly byte[] nick;
-
-        // Trash Bytes
-        public sealed override byte[] Nickname_Trash { get => nick; set { if (value.Length == nick.Length) value.CopyTo(nick, 0); } }
-        public sealed override byte[] OT_Trash { get => otname; set { if (value.Length == otname.Length) value.CopyTo(otname, 0); } }
+        protected GBPKM(int size) : base(size) { }
+        protected GBPKM(byte[] data) : base(data) { }
 
         public sealed override byte[] EncryptedPartyData => Encrypt();
         public sealed override byte[] EncryptedBoxData => Encrypt();
         public sealed override byte[] DecryptedBoxData => Encrypt();
         public sealed override byte[] DecryptedPartyData => Encrypt();
 
+        protected abstract IEnumerable<byte> GetNonNickname(int language);
+
         private bool? _isnicknamed;
 
         public sealed override bool IsNicknamed
         {
-            get => _isnicknamed ??= !nick.SequenceEqual(GetNonNickname(GuessedLanguage()));
+            get => _isnicknamed ??= !Nickname_Trash.SequenceEqual(GetNonNickname(GuessedLanguage()));
             set
             {
                 _isnicknamed = value;
@@ -96,7 +64,7 @@ namespace PKHeX.Core
                     return (int)LanguageID.Japanese;
                 if (Korean)
                     return (int)LanguageID.Korean;
-                if (StringConverter12.IsG12German(otname))
+                if (StringConverter12.IsG12German(OT_Trash))
                     return (int)LanguageID.German; // german
                 int lang = SpeciesName.GetSpeciesNameLanguage(Species, Nickname, Format);
                 if (lang > 0)
@@ -114,34 +82,6 @@ namespace PKHeX.Core
                     return;
                 SetNotNicknamed(value);
             }
-        }
-
-        public sealed override string Nickname
-        {
-            get
-            {
-                if (Korean)
-                    return StringConverter2KOR.GetString2KOR(nick, 0, nick.Length);
-                return StringConverter12.GetString1(nick, 0, nick.Length, Japanese);
-            }
-            set
-            {
-                if (!IsNicknamed && Nickname == value)
-                    return;
-
-                GetStringSpecial(value, StringLength).CopyTo(nick, 0);
-            }
-        }
-
-        public sealed override string OT_Name
-        {
-            get
-            {
-                if (Korean)
-                    return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
-                return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
-            }
-            set => GetStringSpecial(value, StringLength).CopyTo(otname, 0);
         }
 
         public sealed override int Gender
@@ -223,18 +163,8 @@ namespace PKHeX.Core
         public sealed override int IV_SPA { get => IV_SPC; set => IV_SPC = value; }
         public sealed override int IV_SPD { get => IV_SPC; set { } }
 
-        public void SetNotNicknamed() => GetNonNickname(GuessedLanguage()).CopyTo(nick);
-        public void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(nick);
-
-        private IEnumerable<byte> GetNonNickname(int language)
-        {
-            var name = SpeciesName.GetSpeciesNameGeneration(Species, language, Format);
-            var bytes = SetString(name, StringLength);
-            var data = bytes.Concat(Enumerable.Repeat((byte)0x50, nick.Length - bytes.Length));
-            if (!Korean)
-                data = data.Select(b => (byte)(b == 0xF2 ? 0xE8 : b)); // Decimal point<->period fix
-            return data;
-        }
+        public void SetNotNicknamed() => SetNotNicknamed(GuessedLanguage());
+        public abstract void SetNotNicknamed(int language);
 
         public int GuessedLanguage(int fallback = (int)LanguageID.English)
         {
@@ -297,36 +227,6 @@ namespace PKHeX.Core
             IV_DEF = 10;
             IV_SPE = 10;
             IV_SPA = 10;
-        }
-
-        protected string GetString(int Offset, int Count)
-        {
-            if (Korean)
-                return StringConverter2KOR.GetString2KOR(Data, Offset, Count);
-            return StringConverter12.GetString1(Data, Offset, Count, Japanese);
-        }
-
-        private byte[] SetString(string value, int maxLength)
-        {
-            if (Korean)
-                return StringConverter2KOR.SetString2KOR(value, maxLength - 1);
-            return StringConverter12.SetString1(value, maxLength - 1, Japanese);
-        }
-
-        private byte[] GetStringSpecial(string value, int length)
-        {
-            byte[] strdata = SetString(value, length);
-            if (nick.All(b => b != 0) || nick[length - 1] != 0x50 || Array.FindIndex(nick, b => b == 0) != strdata.Length - 1)
-                return strdata;
-
-            int firstInd = Array.FindIndex(nick, b => b == 0);
-            for (int i = firstInd; i < length - 1; i++)
-            {
-                if (nick[i] != 0)
-                    break;
-            }
-
-            return strdata.Take(strdata.Length - 1).ToArray();
         }
     }
 }

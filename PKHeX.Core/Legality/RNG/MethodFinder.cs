@@ -251,9 +251,15 @@ namespace PKHeX.Core
                 }
 
                 // check for anti-shiny against player TSV
-                var tsv = (pk.TID ^ pk.SID) >> 3;
-                var psv = (int)((hi ^ lo) >> 3);
-                if (psv != tsv)
+                var tsv = (uint)(pk.TID ^ pk.SID) >> 3;
+                var psv = (top ^ bot) >> 3;
+                if (psv == tsv) // already shiny, wouldn't be anti-shiny
+                    continue;
+
+                var p2 = seed;
+                var p1 = B;
+                psv = ((p2 ^ p1) >> 19);
+                if (psv != tsv) // prior PID must be shiny
                     continue;
 
                 do
@@ -262,15 +268,17 @@ namespace PKHeX.Core
                     A = RNG.XDRNG.Prev(B);
                     hi = A >> 16;
                     lo = B >> 16;
-                    psv = (int)((hi ^ lo) >> 3);
+                    if (IVsMatch(hi, lo, IVs))
+                    {
+                        pidiv = new PIDIV { OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXDAnti };
+                        return true;
+                    }
+
+                    p2 = RNG.XDRNG.Prev(p1);
+                    p1 = RNG.XDRNG.Prev(p2);
+                    psv = (p2 ^ p1) >> 19;
                 }
                 while (psv == tsv);
-
-                if (IVsMatch(hi, lo, IVs))
-                {
-                    pidiv = new PIDIV { OriginSeed = RNG.XDRNG.Prev(A), RNG = RNGType.XDRNG, Type = PIDType.CXDAnti };
-                    return true;
-                }
             }
             return GetNonMatch(out pidiv);
         }

@@ -46,7 +46,7 @@ namespace PKHeX.Core
             if (lang != 0 && !lang.HasFlagFast((MysteryGiftRestriction) (1 << pk.Language)))
                 return new CheckResult(Severity.Invalid, string.Format(LOTLanguage, lang.GetSuggestedLanguage(), pk.Language), CheckIdentifier.GameOrigin);
 
-            if (pk is IGeoTrack tr)
+            if (pk is IRegionOrigin tr)
             {
                 var region = val & MysteryGiftRestriction.RegionRestrict;
                 if (region != 0 && !region.HasFlagFast((MysteryGiftRestriction)((int)MysteryGiftRestriction.RegionBase << tr.ConsoleRegion)))

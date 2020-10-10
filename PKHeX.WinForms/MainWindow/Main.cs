@@ -219,9 +219,12 @@ namespace PKHeX.WinForms
 
         private void LoadBlankSaveFile(GameVersion ver)
         {
-            var sav = SaveUtil.GetBlankSAV(ver, "PKHeX");
+            var current = C_SAV?.SAV;
+            var lang = SaveUtil.GetSafeLanguage(current);
+            var tr = SaveUtil.GetSafeTrainerName(current, lang);
+            var sav = SaveUtil.GetBlankSAV(ver, tr, lang);
             if (sav.Version == GameVersion.Invalid) // will fail to load
-                sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), "PKHeX");
+                sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), tr, lang);
             OpenSAV(sav, null);
             C_SAV.SAV.Edited = false; // Prevents form close warning from showing until changes are made
         }

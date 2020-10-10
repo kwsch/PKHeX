@@ -282,7 +282,6 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
         {
             (int)Species.Spearow, (int)Species.Fearow,
-            (int)Species.Vulpix, (int)Species.Ninetales,
             (int)Species.Paras, (int)Species.Parasect,
             (int)Species.Slowpoke, (int)Species.Slowbro,
             (int)Species.Hitmonlee, (int)Species.Hitmonchan,

@@ -175,7 +175,7 @@ namespace PKHeX.Core
             if ((int) Core.Species.Scatterbug <= spec && spec <= (int) Core.Species.Vivillon)
             {
                 if (sav is IRegionOrigin o)
-                    return Legal.GetVivillonPattern((byte)o.Country, (byte)o.Region);
+                    return Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
             }
             return 0;
         }

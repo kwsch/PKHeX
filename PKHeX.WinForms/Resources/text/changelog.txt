@@ -1,7 +1,47 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/08/07 - New Update:
+20/10/10 - New Update:
+ - Added: Pokémon Stadium save file support!
+ - - Supports all 3 game types: Pocket Monsters Stadium, Pokémon Stadium, and Pokémon Stadium 2.
+ - - Added a new PKM format: SK2. Special format used by Stadium 2, different from PK2.
+ - - Added a team viewer for registered teams; each slot on the team can be viewed into the PKM Editor.
+ - - Due to endianness inconsistencies with emulators and storage media, PKHeX will automatically save-swap endianness for these saves!
+ - - With the addition of Stadium support, every playable game that stores PKM data can now be edited!
+ - Legality:
+ - - Refactored: IEncounterable objects use inheritance rather than having a single base class for each type.
+ - - Refactored: EncounterSlot objects are now pre-computed by another project in order to simplify data loading.
+ - - Added: Gen1/2 GB Era event data is now recognized for most events that were distributed. Thanks @ShadowMario3!
+ - - Added: Gen8 Affixed Ribbon is now legality checked. The value can be changed in the Extra Bytes editor.
+ - - Fixed: Gen8 HOME gifts are now disallowed from having a TSV of 0.
+ - - Fixed: Gen8 PIDs for Mystery Gifts are now generated correctly, and are verified by the legality checks.
+ - - Fixed: Gen8 Shared Egg moves are now verified correctly. Thanks @Lusamine!
+ - - Fixed: Gen8 Gigantamax Forms are now correctly prevented for special forms like Cap Pikachu.
+ - - Fixed: Gen8 transfers from Gen7 without nicknames now re-sync their names. Mismatched Language-NotNicknames are now flagged. Thanks @Lusamine!
+ - - Fixed: Gen7 transfers from VC now generate with the official PID creation method. Star shinies are double shinies!
+ - - Fixed: Gen4 French Egg names are now recognized correctly. Thanks @ReignOfComputer!
+ - - Fixed: Gen4 Korean Arcanine PCD now generates correctly. Thanks @Lusamine!
+ - - Fixed: Gen3 Winning/Victory ribbons are now verified. Thanks @Atrius97!
+ - - Fixed: Gen3 Artist ribbon no longer requires a Master ribbon in any contest due to Link Contests. Thanks @sarahlicity!
+ - - Fixed: Gen3 Shadow Teddiursa is now treated as a "Gift", which only allows it being in a Poké Ball (forced capture, no other balls).
+ - - Fixed: Gen2 eggs are now allowed to have Pokérus.
+ - - Fixed: Gen1 level up moves are now allowed on PK2s with met data when using Stadium 2. Thanks @MrPerson0!
+ - - Fixed: Gen1 Magnemite Types can now have "Steel" as a valid type when using Stadium 2. Thanks @MrPerson0!
+ - Added: Save Files with different revisions (DLC patches) now indicate the patch version they were saved with.
+ - Added: Catch Rate is now shown in KChart. Thanks @sora10pls!
+ - Added: Hidden Power's move power is now shown next to the type. Thanks @soopercool101!
+ - Added: Gen8 SWSH Block Labels have been added for Restricted Sparring. Thanks @CanoeHope!
+ - Added: Gen7 LGPE catch count records can now be edited in the Pokedex Editor. Click labels to min-max the counts. Thanks @sora10pls!
+ - Added: Gen4 Underground Items are now editable. Thanks @egzn!
+ - Changed: Default TID/SID for Gen7+ blank save files is now 123456 (SID 1234).
+ - Changed: Blank Save files will try to initialize with the current save file's language. For Japanese saves, the blank OT will be ＰＫＨｅＸ if possible.
+ - Fixed: The Gen6 font file will no longer throw errors under certain scenarios. Thanks @foohyfooh!
+ - Fixed: Gen1 Pikachu Beach score editing reads & writes correctly now. Thanks @ShadowMario3!
+ - Showdown Set Imports:
+ - - Importing to a Gen8+ format will retain the specified IVs and not Hyper Train them. Thanks @rat01!
+ - - Importing a set to Gen1/2 format will try to set the EVs to max (65535). Thanks @soopercool101
+
+20/08/07 - New Update: (127790) [3047080]
  - Legality:
  - - Added Zarude and Shiny Celebi event data.
  - - Changed: Payapa berry is now recognized as a legal held item in Gen8.

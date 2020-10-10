@@ -200,12 +200,24 @@ namespace PKHeX.Core
             pk.CurrentFriendship = Set.Friendship;
             pk.IVs = Set.IVs;
 
-            // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
-            // Under this scenario, just apply maximum EVs (65535).
-            if (pk is GBPKM gb && Set.EVs.All(z => z == 0))
-                gb.EV_HP = gb.EV_ATK = gb.EV_DEF = gb.EV_SPC = gb.EV_SPE = gb.MaxEV;
+            if (pk is GBPKM gb)
+            {
+                // In Generation 1/2 Format sets, when IVs are not specified with a Hidden Power set, we might not have the hidden power type.
+                // Under this scenario, just force the Hidden Power type.
+                if (Set.Moves.Contains(237) && pk.HPType != Set.HiddenPowerType && Set.IVs.Any(z => z >= 30))
+                    pk.SetHiddenPower(Set.HiddenPowerType);
+
+                // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
+                // Under this scenario, just apply maximum EVs (65535).
+                if (Set.EVs.All(z => z == 0))
+                    gb.EV_HP = gb.EV_ATK = gb.EV_DEF = gb.EV_SPC = gb.EV_SPE = gb.MaxEV;
+                else
+                    pk.EVs = Set.EVs;
+            }
             else
+            {
                 pk.EVs = Set.EVs;
+            }
 
             // IVs have no side effects such as hidden power type in gen 8
             // therefore all specified IVs are deliberate and should not be HT'd over for pokemon met in gen 8

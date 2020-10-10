@@ -14,7 +14,7 @@ namespace PKHeX.Core
         private static readonly HashSet<int> Sizes = new HashSet<int>
         {
             PokeCrypto.SIZE_1JLIST,   PokeCrypto.SIZE_1ULIST,
-            PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,
+            PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,
             PokeCrypto.SIZE_3STORED,  PokeCrypto.SIZE_3PARTY,
             PokeCrypto.SIZE_3CSTORED, PokeCrypto.SIZE_3XSTORED,
             PokeCrypto.SIZE_4STORED,  PokeCrypto.SIZE_4PARTY,

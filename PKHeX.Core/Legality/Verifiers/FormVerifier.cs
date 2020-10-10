@@ -117,9 +117,9 @@ namespace PKHeX.Core
                 case (int)Species.Spewpa:
                     if (form > 17) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
-                    if (!(pkm is IGeoTrack tr))
+                    if (!(pkm is IRegionOrigin tr))
                         break;
-                    if (!Legal.CheckVivillonPattern(form, (byte)tr.Country, (byte)tr.Region))
+                    if (!Vivillon3DS.IsPatternValid(form, (byte)tr.Country, (byte)tr.Region))
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
                 case (int)Species.Vivillon:
@@ -131,7 +131,7 @@ namespace PKHeX.Core
                     }
                     if (!(pkm is IGeoTrack trv))
                         break;
-                    if (!Legal.CheckVivillonPattern(form, (byte)trv.Country, (byte)trv.Region))
+                    if (!Vivillon3DS.IsPatternValid(form, (byte)trv.Country, (byte)trv.Region))
                         data.AddLine(Get(LFormVivillonInvalid, Severity.Fishy));
                     break;
 

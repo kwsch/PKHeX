@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class EncounterStatic1 : EncounterStatic
+    public class EncounterStatic1 : EncounterStatic
     {
         public override int Generation => 1;
 
@@ -29,10 +29,13 @@
 
         public override bool IsMatchDeferred(PKM pkm)
         {
-            if (pkm is PK1 pk1 && pk1.Gen1_NotTradeback && !IsCatchRateValid(pk1))
-                return true;
-
-            return !ParseSettings.AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(Version);
+            if (!(pkm is PK1 pk1))
+                return false;
+            if (!pk1.Gen1_NotTradeback)
+                return false;
+            if (IsCatchRateValid(pk1))
+                return false;
+            return true;
         }
 
         private bool IsCatchRateValid(PK1 pk1)

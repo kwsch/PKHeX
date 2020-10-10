@@ -83,7 +83,7 @@ namespace PKHeX.Core
                 case (int)Core.Species.Spewpa:
                 case (int)Core.Species.Vivillon:
                     if (sav is IRegionOrigin o)
-                        pk.AltForm = Legal.GetVivillonPattern((byte)o.Country, (byte)o.Region);
+                        pk.AltForm = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
                     // else 0
                     break;
             }

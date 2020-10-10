@@ -39,6 +39,7 @@ namespace PKHeX.Core
         public const int SIZE_G3XDGCI = SIZE_G3XD + 0x40; // GCI data
         public const int SIZE_G3RAW = 0x20000;
         public const int SIZE_G3RAWHALF = 0x10000;
+        public const int SIZE_G2STAD = 0x20000; // same as G3RAW_U
         public const int SIZE_G2RAW_U = 0x8000;
         public const int SIZE_G2VC_U = 0x8010;
         public const int SIZE_G2BAT_U = 0x802C;
@@ -48,6 +49,7 @@ namespace PKHeX.Core
         public const int SIZE_G2BAT_J = 0x1002C;
         public const int SIZE_G2EMU_J = 0x10030;
         public const int SIZE_G1STAD = 0x20000; // same as G3RAW_U
+        public const int SIZE_G1STADJ = 0x8000; // same as G1RAW
         public const int SIZE_G1RAW = 0x8000;
         public const int SIZE_G1BAT = 0x802C;
 
@@ -121,9 +123,11 @@ namespace PKHeX.Core
                 return Gen3;
             if (GetIsRanch4(data)) // ranch
                 return DPPt;
-            if (SAV1Stadium.IsStadiumU(data) || SAV1Stadium.IsStadiumJ(data))
+            if (SAV2Stadium.IsStadium(data))
+                return Stadium2;
+            if (SAV1Stadium.IsStadium(data))
                 return Stadium;
-            if (SAV1StadiumJ.IsStadiumJ(data))
+            if (SAV1StadiumJ.IsStadium(data))
                 return StadiumJ;
 
             if ((ver = GetIsG8SAV(data)) != Invalid)
@@ -523,14 +527,15 @@ namespace PKHeX.Core
                 case XD:     return new SAV3XD(data);
                 case RSBOX:  return new SAV3RSBox(data);
                 case BATREV: return new SAV4BR(data);
+                case Stadium2: return new SAV2Stadium(data);
+                case Stadium:  return new SAV1Stadium(data);
+                case StadiumJ: return new SAV1StadiumJ(data);
 
                 // Bulk Storage
                 case Gen3: return new Bank3(data);
                 case DPPt: return new SAV4Ranch(data);
                 case Gen4: return new Bank4(data);
                 case Gen7: return Bank7.GetBank7(data);
-                case Stadium: return new SAV1Stadium(data);
-                case StadiumJ: return new SAV1StadiumJ(data);
 
                 // No pattern matched
                 default: return null;
@@ -560,14 +565,34 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Returns a <see cref="LanguageID"/> that feels best for the save file's language.
+        /// </summary>
+        public static LanguageID GetSafeLanguage(SaveFile? sav) => sav switch
+        {
+            null => LanguageID.English,
+            ILangDeviantSave s => s.Japanese ? LanguageID.Japanese : s.Korean ? LanguageID.Korean : LanguageID.English,
+            _ => sav.Language <= Legal.GetMaxLanguageID(sav.Generation) ? (LanguageID)sav.Language : LanguageID.English,
+        };
+
+        /// <summary>
+        /// Returns a Trainer Name that feels best for the save file's language.
+        /// </summary>
+        public static string GetSafeTrainerName(SaveFile? sav, LanguageID lang) => lang switch
+        {
+            LanguageID.Japanese => sav?.Generation >= 3 ? "ＰＫＨｅＸ" : "1337",
+            _ => "PKHeX",
+        };
+
+        /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
         /// <param name="game">Version to create the save file for.</param>
         /// <param name="trainerName">Trainer Name</param>
+        /// <param name="language">Language to initialize with</param>
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-        public static SaveFile GetBlankSAV(GameVersion game, string trainerName)
+        public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
         {
-            var SAV = GetBlankSAV(game);
+            var SAV = GetBlankSAV(game, language);
             SAV.Game = (int)game;
             SAV.OT = trainerName;
 
@@ -582,7 +607,7 @@ namespace PKHeX.Core
                 SAV.TID = 12345;
                 SAV.SID = 54321;
             }
-            SAV.Language = (int)LanguageID.English; // English
+            SAV.Language = (int)language;
 
             // Only set geolocation data for 3DS titles
             if (SAV is IRegionOrigin o)
@@ -595,28 +620,35 @@ namespace PKHeX.Core
         /// Creates an instance of a SaveFile with a blank base.
         /// </summary>
         /// <param name="game">Version to create the save file for.</param>
+        /// <param name="language">Save file language to initialize for</param>
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-        private static SaveFile GetBlankSAV(GameVersion game)
+        private static SaveFile GetBlankSAV(GameVersion game, LanguageID language)
         {
             switch (game)
             {
                 case RD: case BU: case GN: case YW:
                 case RBY:
                     return new SAV1(version: game);
+                case StadiumJ:
+                    return new SAV1StadiumJ();
+                case Stadium:
+                    return new SAV1Stadium(language == LanguageID.Japanese);
 
                 case GS: case GD: case SV:
-                    return new SAV2(version: GS);
+                    return new SAV2(version: GS, lang: language);
                 case GSC: case C:
-                    return new SAV2(version: C);
+                    return new SAV2(version: C, lang: language);
+                case Stadium2:
+                    return new SAV2Stadium();
 
                 case R: case S: case E: case FR: case LG:
-                    return new SAV3(version: game);
+                    return new SAV3(version: game, language == LanguageID.Japanese);
                 case FRLG:
-                    return new SAV3(version: FR);
+                    return new SAV3(version: FR, language == LanguageID.Japanese);
                 case RS:
-                    return new SAV3(version: R);
+                    return new SAV3(version: R, language == LanguageID.Japanese);
                 case RSE:
-                    return new SAV3(version: E);
+                    return new SAV3(version: E, language == LanguageID.Japanese);
 
                 case CXD:
                 case COLO:
@@ -667,11 +699,12 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="generation">Generation of the Save File.</param>
         /// <param name="trainerName">Trainer Name</param>
+        /// <param name="language">Save file language to initialize for</param>
         /// <returns>Save File for that generation.</returns>
-        public static SaveFile GetBlankSAV(int generation, string trainerName)
+        public static SaveFile GetBlankSAV(int generation, string trainerName, LanguageID language = LanguageID.English)
         {
             var ver = GameUtil.GetVersion(generation);
-            return GetBlankSAV(ver, trainerName);
+            return GetBlankSAV(ver, trainerName, language);
         }
 
         /// <summary>

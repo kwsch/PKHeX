@@ -180,8 +180,8 @@
                 Unused4 = Unused4,
             };
 
-            if (pk is CK3 ck3)
-                ck3.Purification = -100; // purified
+            if (pk is CK3 ck3 && ck3.ShadowID != 0)
+                ck3.Purification = CK3.Purified; // purified
             return pk;
         }
     }

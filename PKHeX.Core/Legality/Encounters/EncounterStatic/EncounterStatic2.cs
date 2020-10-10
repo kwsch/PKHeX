@@ -8,10 +8,11 @@ namespace PKHeX.Core
         public sealed override int Generation => 2;
         public sealed override int Level { get; set; }
 
-        public EncounterStatic2(int species, int level)
+        public EncounterStatic2(int species, int level, GameVersion ver)
         {
             Species = species;
             Level = level;
+            Version = ver;
         }
 
         protected override bool IsMatchEggLocation(PKM pkm)
@@ -21,6 +22,8 @@ namespace PKHeX.Core
 
             if (pkm.IsEgg)
             {
+                if (!EggEncounter)
+                    return false;
                 if (pkm.Met_Location != 0 && pkm.Met_Level != 0)
                     return false;
                 if (pkm.OT_Friendship > EggCycles) // Dizzy Punch eggs start with below-normal hatch counters.
@@ -56,7 +59,7 @@ namespace PKHeX.Core
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
-            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+            if (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0)
                 return pkm.Met_Level == (EggEncounter ? 1 : Level);
 
             return Level <= evo.Level;
@@ -68,14 +71,9 @@ namespace PKHeX.Core
                 return true;
             if (Location == 0)
                 return true;
-            if (pkm is PK2 pk2 && pk2.CaughtData != 0)
+            if (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0)
                 return Location == pkm.Met_Location;
             return true;
-        }
-
-        public override bool IsMatchDeferred(PKM pkm)
-        {
-            return !ParseSettings.AllowGBCartEra && GameVersion.GBCartEraOnly.Contains(Version);
         }
     }
 
@@ -84,9 +82,8 @@ namespace PKHeX.Core
         private const int Dizzy = 146;
         private static readonly int[] _dizzy = { Dizzy };
 
-        public EncounterStatic2Odd(int species) : base(species, 5)
+        public EncounterStatic2Odd(int species) : base(species, 5, GameVersion.C)
         {
-            Version = GameVersion.C;
             Moves = _dizzy;
             EggLocation = 256;
             EggCycles = 20;
@@ -116,7 +113,7 @@ namespace PKHeX.Core
 
         public override int Location => Roaming_MetLocation_GSC_Grass[0];
 
-        public EncounterStatic2Roam(int species, int level) : base(species, level) { }
+        public EncounterStatic2Roam(int species, int level, GameVersion ver) : base(species, level, ver) { }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

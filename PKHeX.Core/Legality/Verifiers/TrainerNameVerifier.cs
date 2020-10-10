@@ -13,6 +13,7 @@ namespace PKHeX.Core
         private static readonly string[] SuspiciousOTNames =
         {
             "PKHeX",
+            "ＰＫＨｅＸ",
         };
 
         public override void Verify(LegalityAnalysis data)
@@ -106,21 +107,18 @@ namespace PKHeX.Core
 
             if (tr.Length == 0)
             {
-                data.AddLine(GetInvalid(LOTShort));
-                return;
+                if (pkm is SK2 sk2 && sk2.TID == 0 && sk2.IsRental)
+                {
+                    data.AddLine(Get(LOTShort, Severity.Fishy));
+                }
+                else
+                {
+                    data.AddLine(GetInvalid(LOTShort));
+                    return;
+                }
             }
 
             VerifyG1OTWithinBounds(data, tr);
-            if (data.EncounterOriginal is EncounterStatic s && (s.Version == GameVersion.Stadium || s.Version == GameVersion.Stadium2))
-                data.AddLine(VerifyG1OTStadium(pkm, tr, s));
-
-            if (pkm.Species == (int)Species.Mew)
-            {
-                var OTMatch = (tr == Legal.GetG1OT_GFMew((int)LanguageID.Japanese))
-                              || (tr == Legal.GetG1OT_GFMew((int)LanguageID.English));
-                if (!OTMatch || pkm.TID != 22796)
-                    data.AddLine(GetInvalid(LG1OTEvent));
-            }
 
             if (pkm.OT_Gender == 1 && ((pkm.Format == 2 && pkm.Met_Location == 0) || (pkm.Format > 2 && pkm.VC1)))
                 data.AddLine(GetInvalid(LG1OTGender));
@@ -147,36 +145,6 @@ namespace PKHeX.Core
             {
                 data.AddLine(GetInvalid(LG1CharOT));
             }
-        }
-
-        private CheckResult VerifyG1OTStadium(PKM pkm, string tr, IVersion s)
-        {
-            if (pkm.OT_Gender != 0)
-                return GetInvalid(LG1OTGender);
-
-            int tid = pkm.TID;
-            if (pkm.Japanese)
-            {
-                if (tid == Legal.GetGBStadiumOTID_JPN(s.Version) && Legal.Stadium1JP == tr)
-                    return GetValid(LG1StadiumJapanese);
-            }
-            else
-            {
-                if (s.Version == GameVersion.Stadium && tid == 2000)
-                {
-                    if (tr == "STADIUM" || tr == "STADE" || tr == "STADIO" || tr == "ESTADIO")
-                        return GetValid(LG1StadiumInternational);
-                }
-                else // Stadium2
-                {
-                    if (tid == 2000 && tr == "Stadium")
-                        return GetValid(LG1StadiumInternational);
-
-                    if (tid == 2001 && (tr == "Stade" || tr == "Stadion" || tr == "Stadio" || tr == "Estadio"))
-                        return GetValid(LG1StadiumInternational);
-                }
-            }
-            return GetInvalid(LG1Stadium);
         }
 
         private static bool IsOTNameSuspicious(string name)

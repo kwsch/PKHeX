@@ -9,8 +9,25 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter12
     {
-        public static bool GetIsG1Japanese(string str) => str.All(z => U2RBY_J.ContainsKey(z));
-        public static bool GetIsG1English(string str) => str.All(z => U2RBY_U.ContainsKey(z));
+        public static bool GetIsG1Japanese(string str) => AllCharsInDictionary(str, U2RBY_J);
+        public static bool GetIsG1English(string str) => AllCharsInDictionary(str, U2RBY_U);
+        public static bool GetIsG1Japanese(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_J);
+        public static bool GetIsG1English(byte[] data, int start, int length) => AllCharsInDictionary(data, start, length, RBY2U_U);
+
+        private static bool AllCharsInDictionary(IEnumerable<char> c, IReadOnlyDictionary<char, byte> d) => c.All(d.ContainsKey);
+
+        private static bool AllCharsInDictionary(IReadOnlyList<byte> data, int start, int length, IReadOnlyDictionary<byte, char> d)
+        {
+            for (int i = start; i < start + length; i++)
+            {
+                var c = data[i];
+                if (c == 0)
+                    break;
+                if (!d.ContainsKey(c))
+                    return false;
+            }
+            return true;
+        }
 
         public const byte G1TerminatorCode = 0x50;
         public const char G1Terminator = '\0';
@@ -98,7 +115,7 @@ namespace PKHeX.Core
 
             var dict = jp ? U2RBY_J : U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
-                return new[] { dict[G1TradeOT], dict[G1Terminator] };
+                return new[] { G1TradeOTCode, G1TerminatorCode };
 
             var arr = new List<byte>(padTo);
             foreach (char c in value)
@@ -107,8 +124,7 @@ namespace PKHeX.Core
                     break;
                 arr.Add(val);
             }
-            var term = dict[G1Terminator]; // terminator
-            arr.Add(term);
+            arr.Add(G1TerminatorCode);
             while (arr.Count < padTo)
                 arr.Add((byte)padWith);
             return arr.ToArray();

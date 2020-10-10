@@ -241,5 +241,7 @@ namespace PKHeX.Core
         public int LevelMax { get; }
 
         public int GetSuggestedMetLevel(PKM pkm) => EncounterSuggestion.GetSuggestedMetLevel(pkm, LevelMin);
+        public int GetSuggestedEncounterType() => Encounter is IEncounterTypeTile t ? t.TypeEncounter.GetIndex() : 0;
+        public bool HasEncounterType(int format) => Encounter is IEncounterTypeTile t && t.HasTypeEncounter(format);
     }
 }

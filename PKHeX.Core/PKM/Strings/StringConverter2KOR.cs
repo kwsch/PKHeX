@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
             var dict = U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
-                return new[] { dict[G1TradeOT], dict[G1Terminator] };
+                return new[] { G1TradeOTCode, G1TerminatorCode };
 
             var arr = new List<byte>(padTo);
             foreach (char c in value)

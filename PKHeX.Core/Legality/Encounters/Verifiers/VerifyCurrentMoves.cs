@@ -250,12 +250,7 @@ namespace PKHeX.Core
             if (pkm is IBattleVersion v && v.BattleVersion != 0)
             {
                 reset = ((GameVersion) v.BattleVersion).GetGeneration();
-                source.EggEventSource = Array.Empty<int>();
-                source.Base = Array.Empty<int>();
-                source.EggLevelUpSource = Array.Empty<int>();
-                source.EggMoveSource = Array.Empty<int>();
-                source.NonTradeBackLevelUpMoves = Array.Empty<int>();
-                source.SpecialSource = Array.Empty<int>();
+                source.ResetSources();
             }
 
             // Check empty moves and relearn moves before generation specific moves
@@ -305,7 +300,7 @@ namespace PKHeX.Core
             ParseMovesByGeneration(pkm, res, gen, info, learnInfo);
 
             if (gen == last)
-                ParseMovesByGenerationLast(pkm, res, gen, learnInfo, info.EncounterMatch);
+                ParseMovesByGenerationLast(pkm, res, learnInfo, info.EncounterMatch);
 
             switch (gen)
             {
@@ -402,8 +397,9 @@ namespace PKHeX.Core
             }
         }
 
-        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo, IEncounterable enc)
+        private static void ParseMovesByGenerationLast(PKM pkm, CheckMoveResult[] res, LearnInfo learnInfo, IEncounterable enc)
         {
+            int gen = enc.Generation;
             ParseEggMovesInherited(pkm, res, gen, learnInfo);
             ParseEggMoves(pkm, res, gen, learnInfo);
             ParseEggMovesRemaining(pkm, res, learnInfo, enc);
@@ -416,14 +412,20 @@ namespace PKHeX.Core
             // Also check if the base egg moves is a non tradeback move
             for (int m = 0; m < 4; m++)
             {
-                if (IsCheckValid(res[m])) // already validated
+                var r = res[m];
+                if (IsCheckValid(r)) // already validated
+                {
+                    if (gen == 2 && r.Generation != 1)
+                        continue;
+                }
+
+                int move = moves[m];
+                if (move == 0)
                     continue;
-                if (moves[m] == 0)
-                    continue;
-                if (!learnInfo.Source.EggLevelUpSource.Contains(moves[m])) // Check if contains level-up egg moves from parents
+                if (!learnInfo.Source.EggLevelUpSource.Contains(move)) // Check if contains level-up egg moves from parents
                     continue;
 
-                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && moves[m] > Legal.MaxMoveID_1)
+                if (learnInfo.IsGen2Pkm && learnInfo.Gen1Moves.Count != 0 && move > Legal.MaxMoveID_1)
                 {
                     res[m] = new CheckMoveResult(InheritLevelUp, gen, Invalid, LG1MoveTradeback, Move);
                     learnInfo.MixedGen12NonTradeback = true;
@@ -433,9 +435,12 @@ namespace PKHeX.Core
                     res[m] = new CheckMoveResult(InheritLevelUp, gen, Valid, LMoveEggLevelUp, Move);
                 }
                 learnInfo.LevelUpEggMoves.Add(m);
-                if (pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber == 1)
-                    pkm.TradebackStatus = TradebackType.WasTradeback;
+                if (gen == 2 && learnInfo.Gen1Moves.Contains(m))
+                    learnInfo.Gen1Moves.Remove(m);
             }
+
+            if (gen <= 2 && learnInfo.Gen1Moves.Count == 0)
+                pkm.TradebackStatus = TradebackType.Any;
         }
 
         private static void ParseEggMoves(PKM pkm, CheckMoveResult[] res, int gen, LearnInfo learnInfo)
