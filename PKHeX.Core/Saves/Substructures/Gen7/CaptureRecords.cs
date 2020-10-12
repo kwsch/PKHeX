@@ -103,10 +103,10 @@ namespace PKHeX.Core
 
         public uint CalculateTotalTransferred()
         {
-            uint total = 0;
+            ulong total = 0;
             for (int i = 0; i < ENTRY_COUNT; i++)
                 total += GetTransferredCountIndex(i);
-            return Math.Min(total, MAX_COUNT_TOTAL);
+            return (uint)Math.Min(total, MAX_COUNT_TOTAL);
         }
 
         public void SetAllCaptured(uint count = MAX_COUNT_ENTRY_CAPTURE, Zukan7b? dex = null)
