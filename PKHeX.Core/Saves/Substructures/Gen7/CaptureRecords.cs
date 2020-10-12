@@ -7,7 +7,8 @@ namespace PKHeX.Core
         public CaptureRecords(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
         private const int ENTRY_COUNT = 153;
-        private const int MAX_COUNT_ENTRY = 9_999;
+        private const int MAX_COUNT_ENTRY_CAPTURE = 9_999;
+        private const int MAX_COUNT_ENTRY_TRANSFER = 999_999_999;
         private const int MAX_COUNT_TOTAL = 999_999_999;
 
         // 0x468A8 to 0x46B0B contains 153 entries (u32) denoting how many of said Species you've caught (each cap out at 9,999).
@@ -29,8 +30,8 @@ namespace PKHeX.Core
         private int GetTransferredOffset(int index) => Offset + TransferredOffset + (index * 4);
         public uint GetCapturedCountIndex(int index) => BitConverter.ToUInt32(Data, GetCapturedOffset(index));
         public uint GetTransferredCountIndex(int index) => BitConverter.ToUInt32(Data, GetTransferredOffset(index));
-        public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, GetCapturedOffset(index));
-        public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY, value)).CopyTo(Data, GetTransferredOffset(index));
+        public void SetCapturedCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_CAPTURE, value)).CopyTo(Data, GetCapturedOffset(index));
+        public void SetTransferredCountIndex(int index, uint value) => BitConverter.GetBytes(Math.Min(MAX_COUNT_ENTRY_TRANSFER, value)).CopyTo(Data, GetTransferredOffset(index));
 
         public static int GetSpeciesIndex(int species)
         {
@@ -108,10 +109,10 @@ namespace PKHeX.Core
             return total;
         }
 
-        public void SetAllCaptured(uint count = MAX_COUNT_ENTRY, Zukan7b? dex = null)
+        public void SetAllCaptured(uint count = MAX_COUNT_ENTRY_CAPTURE, Zukan7b? dex = null)
         {
             uint total = 0;
-            count = Math.Min(count, MAX_COUNT_ENTRY);
+            count = Math.Min(count, MAX_COUNT_ENTRY_CAPTURE);
             for (int i = 0; i < ENTRY_COUNT; i++)
             {
                 int species = GetIndexSpecies(i);
@@ -127,10 +128,10 @@ namespace PKHeX.Core
                 TotalCaptured = total;
         }
 
-        public void SetAllTransferred(uint count = MAX_COUNT_ENTRY, Zukan7b? dex = null)
+        public void SetAllTransferred(uint count = MAX_COUNT_ENTRY_TRANSFER, Zukan7b? dex = null)
         {
             uint total = 0;
-            count = Math.Min(count, MAX_COUNT_ENTRY);
+            count = Math.Min(count, MAX_COUNT_ENTRY_TRANSFER);
             for (int i = 0; i < ENTRY_COUNT; i++)
             {
                 int species = GetIndexSpecies(i);
