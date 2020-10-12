@@ -51,7 +51,7 @@ namespace PKHeX.Core
                         break;
 
                     // Forced PID or generated without an encounter
-                    if (s is EncounterStatic5N || (s is EncounterStatic5 s5 && s5.Roaming) || s.Shiny == Shiny.Never)
+                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random))
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;

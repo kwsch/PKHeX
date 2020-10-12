@@ -21,7 +21,7 @@ namespace PKHeX.Core
 
         public virtual int Location { get; set; }
         public int Ability { get; set; }
-        public virtual Shiny Shiny { get; set; } = Shiny.Random;
+        public Shiny Shiny { get; set; } = Shiny.Random;
         public int Gender { get; set; } = -1;
         public int EggLocation { get; set; }
         public Nature Nature { get; set; } = Nature.Random;

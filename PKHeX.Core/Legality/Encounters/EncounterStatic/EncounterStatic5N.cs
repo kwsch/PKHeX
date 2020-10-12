@@ -3,10 +3,13 @@
     internal sealed class EncounterStatic5N : EncounterStatic5
     {
         public readonly uint PID;
-        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
         public const bool NSparkle = true;
 
-        internal EncounterStatic5N(uint pid) => PID = pid;
+        internal EncounterStatic5N(uint pid)
+        {
+            Shiny = Shiny.FixedValue;
+            PID = pid;
+        }
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
