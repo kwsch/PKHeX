@@ -740,10 +740,15 @@ namespace PKHeX.Core
                 return true;
             }
 #pragma warning disable CA1031 // Do not catch general exception types
-            catch (ArgumentException)
+            catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types
             {
-                result = new[] { MsgFileLoadFailAuto + Environment.NewLine + folderPath, MsgFileLoadFailAutoAdvise + Environment.NewLine + MsgFileLoadFailAutoCause };
+                result = new[]
+                {
+                    MsgFileLoadFailAuto + Environment.NewLine + folderPath,
+                    MsgFileLoadFailAutoAdvise + Environment.NewLine + MsgFileLoadFailAutoCause,
+                    ex.Message,
+                };
                 return false;
             }
         }
