@@ -98,7 +98,7 @@ namespace PKHeX.Core
             uint total = 0;
             for (int i = 0; i < ENTRY_COUNT; i++)
                 total += GetCapturedCountIndex(i);
-            return total;
+            return Math.Min(total, MAX_COUNT_TOTAL);
         }
 
         public uint CalculateTotalTransferred()
@@ -106,7 +106,7 @@ namespace PKHeX.Core
             uint total = 0;
             for (int i = 0; i < ENTRY_COUNT; i++)
                 total += GetTransferredCountIndex(i);
-            return total;
+            return Math.Min(total, MAX_COUNT_TOTAL);
         }
 
         public void SetAllCaptured(uint count = MAX_COUNT_ENTRY_CAPTURE, Zukan7b? dex = null)
