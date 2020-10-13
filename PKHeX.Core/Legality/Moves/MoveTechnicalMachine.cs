@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     internal static class MoveTechnicalMachine
     {
-        internal static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false, bool allowBit = false)
+        public static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false, bool allowBit = false)
         {
             if (pkm.IsMovesetRestricted(generation))
                 ver = (GameVersion) pkm.Version;
@@ -248,7 +248,7 @@ namespace PKHeX.Core
             return Legal.NONE;
         }
 
-        internal static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
+        public static IEnumerable<int> GetTMHM(PKM pkm, int species, int form, int generation, GameVersion ver = GameVersion.Any, bool RemoveTransfer = true)
         {
             var r = new List<int>();
             if (pkm.IsMovesetRestricted(generation))
