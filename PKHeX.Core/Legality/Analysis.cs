@@ -456,7 +456,7 @@ namespace PKHeX.Core
                 return Info.RelearnBase;
 
             List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
-            window.AddRange(pkm.Moves.Where((_, i) => !Info.Moves[i].Valid || Info.Moves[i].Flag));
+            window.AddRange(pkm.Moves.Where((z, i) => z != 0 && !Info.Moves[i].Valid || Info.Moves[i].Flag));
             window = window.Distinct().ToList();
             int[] moves = new int[4];
             int start = Math.Max(0, window.Count - 4);
@@ -475,7 +475,9 @@ namespace PKHeX.Core
         {
             if (!Parsed)
                 return new int[4];
-            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, tm, tutor, reminder, EncounterOriginal);
+            if (pkm.IsEgg && pkm.Format >= 6)
+                return pkm.RelearnMoves;
+            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, tm, !pkm.IsEgg && tutor, reminder, EncounterOriginal);
         }
     }
 }
