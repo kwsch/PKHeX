@@ -528,7 +528,7 @@ namespace PKHeX.Core
                 // RB uses 0xE4 (0xE8) flags, Yellow uses 0xF0 flags. Just grab 0xF0
                 bool[] data = new bool[SpawnFlagCount];
                 for (int i = 0; i < data.Length; i++)
-                    data[i] = GetFlag(Offsets.ObjectSpawnFlags + i >> 3, i & 7);
+                    data[i] = GetFlag(Offsets.ObjectSpawnFlags + (i >> 3), i & 7);
                 return data;
             }
             set
@@ -536,7 +536,7 @@ namespace PKHeX.Core
                 if (value.Length != SpawnFlagCount)
                     return;
                 for (int i = 0; i < value.Length; i++)
-                    SetFlag(Offsets.ObjectSpawnFlags + i >> 3, i & 7, value[i]);
+                    SetFlag(Offsets.ObjectSpawnFlags + (i >> 3), i & 7, value[i]);
             }
         }
 
