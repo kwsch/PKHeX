@@ -26,9 +26,26 @@
     /// </summary>
     public sealed class CheckMoveResult : CheckResult
     {
+        /// <summary>
+        /// Method of learning the move.
+        /// </summary>
         public readonly MoveSource Source;
+
+        /// <summary>
+        /// Generation the move was learned in.
+        /// </summary>
         public readonly int Generation;
-        public bool Flag;
+
+        /// <summary>
+        /// Indicates if the source of the move was validated from the <see cref="PKM.RelearnMoves"/>
+        /// </summary>
+        public bool IsRelearn => Source == MoveSource.Relearn;
+
+        /// <summary>
+        /// Checks if the Move should be present in a Relearn move pool (assuming Gen6+ origins).
+        /// </summary>
+        /// <remarks>Invalid moves that can't be validated should be here, hence the inclusion.</remarks>
+        public bool ShouldBeInRelearnMoves() => Source != MoveSource.None && (!Valid || IsRelearn);
 
         internal CheckMoveResult(MoveSource m, int g, CheckIdentifier i)
             : base(i)
