@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
 
-        public SAV_Wondercard(SaveFile sav, DataMysteryGift g = null)
+        public SAV_Wondercard(SaveFile sav, DataMysteryGift? g = null)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -55,13 +55,13 @@ namespace PKHeX.WinForms
             DragDrop += Main_DragDrop;
 
             if (g == null)
-                ClickView(pba[0], null);
+                ClickView(pba[0], EventArgs.Empty);
             else
                 ViewGiftData(g);
         }
 
         private readonly MysteryGiftAlbum mga;
-        private DataMysteryGift mg;
+        private DataMysteryGift? mg;
         private readonly PictureBox[] pba;
 
         // Repopulation Functions
@@ -143,6 +143,8 @@ namespace PKHeX.WinForms
 
         private void B_Output_Click(object sender, EventArgs e)
         {
+            if (mg == null)
+                return;
             WinFormsUtil.ExportMGDialog(mg, SAV.Version);
         }
 
@@ -170,6 +172,9 @@ namespace PKHeX.WinForms
 
         private void ClickSet(object sender, EventArgs e)
         {
+            if (mg == null)
+                return;
+
             if (!mg.IsCardCompatible(SAV, out var msg))
             {
                 WinFormsUtil.Alert(MsgMysteryGiftSlotFail, msg);
@@ -239,7 +244,13 @@ namespace PKHeX.WinForms
             // Make sure all of the Received Flags are flipped!
             bool[] flags = new bool[mga.Flags.Length];
             foreach (var o in LB_Received.Items)
-                flags[Util.ToUInt32(o.ToString())] = true;
+            {
+                var value = o?.ToString();
+                if (value == null)
+                    continue;
+                var flag = Util.ToUInt32(value);
+                flags[flag] = true;
+            }
 
             flags.CopyTo(mga.Flags, 0);
             SAV.GiftAlbum = mga;
@@ -323,6 +334,8 @@ namespace PKHeX.WinForms
 
         private void ExportQRFromView()
         {
+            if (mg == null)
+                return;
             if (mg.Empty)
             {
                 WinFormsUtil.Alert(MsgMysteryGiftSlotNone);
@@ -356,6 +369,9 @@ namespace PKHeX.WinForms
 
             string[] types = mga.Gifts.Select(g => g.Type).Distinct().ToArray();
             var gift = MysteryGift.GetMysteryGift(data);
+            if (gift == null)
+                return;
+
             string giftType = gift.Type;
 
             if (mga.Gifts.All(card => card.Data.Length != data.Length))
@@ -406,6 +422,9 @@ namespace PKHeX.WinForms
 
         private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
+            if (mg == null)
+                return;
+
             int index = Array.IndexOf(pba, sender);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
@@ -415,7 +434,7 @@ namespace PKHeX.WinForms
 
             if (wc_slot == -1) // dropped
             {
-                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
                 if (files == null || files.Length == 0)
                     return;
 
@@ -453,7 +472,7 @@ namespace PKHeX.WinForms
                 {
                     // set the PGT to the PGT slot instead
                     ViewGiftData(s2);
-                    ClickSet(pba[index], null);
+                    ClickSet(pba[index], EventArgs.Empty);
                     { WinFormsUtil.Alert(string.Format(MsgMysteryGiftSlotAlternate, s2.Type, s1.Type)); return; }
                 }
                 if (s1.Type != s2.Type)

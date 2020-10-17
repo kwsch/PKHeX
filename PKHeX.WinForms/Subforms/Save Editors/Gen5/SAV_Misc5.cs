@@ -41,9 +41,9 @@ namespace PKHeX.WinForms
             Close();
         }
 
-        private ComboBox[] cbr;
+        private ComboBox[] cbr = null!;
         private int ofsFly;
-        private int[] FlyDestC;
+        private int[] FlyDestC = null!;
         private const int ofsRoamer = 0x21B00;
         private const int ofsLibPass = 0x212BC;
         private const uint keyLibPass = 0x0132B536;
@@ -59,12 +59,12 @@ namespace PKHeX.WinForms
             0x93389, 0x22843, 0x34771, 0xAB031, 0xB3818 // Unlocked(EasyMode, Challenge, City, Iron, Iceberg)
         };
 
-        private uint[] valKS;
-        private bool[] bKS;
+        private uint[] valKS = null!;
+        private bool[] bKS = null!;
 
         private void ReadMain()
         {
-            string[] FlyDestA = null;
+            string[]? FlyDestA = null;
             switch (SAV.Version)
             {
                 case GameVersion.B:
@@ -249,7 +249,7 @@ namespace PKHeX.WinForms
                 CLB_KeySystem.SetItemChecked(i, true);
         }
 
-        private readonly int[][] FMUnlockConditions = {
+        private readonly int[]?[] FMUnlockConditions = {
             null, // 00
             null, // 01
             new[] { 2444 }, // 02
@@ -293,9 +293,9 @@ namespace PKHeX.WinForms
 
         private bool editing;
         private const int ofsFM = 0x25900;
-        private NumericUpDown[] nudaE, nudaF;
-        private ComboBox[] cba;
-        private ToolTip[] ta;
+        private NumericUpDown[] nudaE = null!, nudaF = null!;
+        private ComboBox[] cba = null!;
+        private ToolTip[] ta = null!;
 
         private void ReadEntralink()
         {
@@ -524,10 +524,12 @@ namespace PKHeX.WinForms
         {
             const int FunfestFlag = 2438;
             SAV.Data[0x2025E + (FunfestFlag >> 3)] |= 1 << (FunfestFlag & 7);
-            foreach (int[] ia in FMUnlockConditions)
+            foreach (var ia in FMUnlockConditions)
             {
-                for (int i = 0; i < ia?.Length; i++)
-                    SAV.Data[0x2025E + (ia[i] >> 3)] |= (byte)(1 << (ia[i] & 7));
+                if (ia == null)
+                    continue;
+                foreach (var index in ia)
+                    SAV.Data[0x2025E + (index >> 3)] |= (byte)(1 << (index & 7));
             }
 
             L_FMUnlocked.Visible = true;
@@ -560,8 +562,8 @@ namespace PKHeX.WinForms
             SetEntreeExpTooltip(isBlack: false);
         }
 
-        private EntreeForest Forest;
-        private IList<EntreeSlot> AllSlots;
+        private EntreeForest Forest = null!;
+        private IList<EntreeSlot> AllSlots = null!;
 
         private void LoadForest()
         {
@@ -591,7 +593,7 @@ namespace PKHeX.WinForms
             SAV.EntreeData = Forest;
         }
 
-        private IList<EntreeSlot> CurrentSlots;
+        private IList<EntreeSlot> CurrentSlots = null!;
         private int currentIndex = -1;
 
         private void ChangeArea(object sender, EventArgs e)
@@ -620,7 +622,7 @@ namespace PKHeX.WinForms
             SetSprite(current);
         }
 
-        private EntreeSlot CurrentSlot;
+        private EntreeSlot? CurrentSlot;
 
         private void UpdateSlotValue(object sender, EventArgs e)
         {
@@ -683,7 +685,7 @@ namespace PKHeX.WinForms
                 s.Move = slot.Moves.Count > 0 ? slot.Moves[rnd.Next(slot.Moves.Count)] : 0;
                 s.Gender = slot.Gender == -1 ? PersonalTable.B2W2[slot.Species].RandomGender() : slot.Gender;
             }
-            ChangeArea(null, EventArgs.Empty); // refresh
+            ChangeArea(this, EventArgs.Empty); // refresh
             NUD_Unlocked.Value = 8;
             CHK_Area9.Checked = true;
             System.Media.SystemSounds.Asterisk.Play();
@@ -717,7 +719,7 @@ namespace PKHeX.WinForms
         }
 
         // Subway
-        private BattleSubway5 sw;
+        private BattleSubway5 sw = null!;
 
         private void ReadSubway()
         {

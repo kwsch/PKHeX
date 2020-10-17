@@ -10,12 +10,12 @@ namespace PKHeX.WinForms
 {
     public partial class QR : Form
     {
-        private readonly PKM pkm;
+        private readonly PKM? pkm;
         private readonly Image icon;
         private Image qr;
 
         private readonly string[] Lines;
-        private string extraText;
+        private string extraText = string.Empty;
 
         public QR(Image qr, Image icon, params string[] lines)
         {

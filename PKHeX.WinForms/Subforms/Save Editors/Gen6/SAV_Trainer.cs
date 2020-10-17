@@ -283,7 +283,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -352,7 +352,7 @@ namespace PKHeX.WinForms
             PB_Sprite.Image = SAV.Sprite();
         }
 
-        private string UpdateTip(int index)
+        private string? UpdateTip(int index)
         {
             switch (index)
             {

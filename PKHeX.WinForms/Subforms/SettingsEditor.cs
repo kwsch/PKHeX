@@ -13,7 +13,7 @@ namespace PKHeX.WinForms
 {
     public partial class SettingsEditor : Form
     {
-        public SettingsEditor(object obj, params string[] blacklist)
+        public SettingsEditor(object? obj, params string[] blacklist)
         {
             InitializeComponent();
             SettingsObject = obj ?? Settings.Default;
@@ -88,7 +88,7 @@ namespace PKHeX.WinForms
             return control switch
             {
                 CheckBox cb => cb.Checked,
-                _ => null
+                _ => throw new Exception(nameof(control)),
             };
         }
 

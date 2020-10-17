@@ -51,7 +51,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="sav">SaveFile to be exported</param>
         /// <param name="ext">Selected export extension</param>
-        public static ExportFlags GetSuggestedFlags(this SaveFile sav, string ext)
+        public static ExportFlags GetSuggestedFlags(this SaveFile sav, string? ext = null)
         {
             var flags = ExportFlags.None;
             if (ext == ".dsv")

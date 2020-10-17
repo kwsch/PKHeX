@@ -37,8 +37,8 @@ namespace PKHeX.WinForms
 
             foreach (PictureBox pb in Box.Entries)
             {
-                pb.Click += OmniClick;
-                pb.MouseHover += HoverSlot;
+                pb.Click += (o, args) => OmniClick(pb, args);
+                pb.MouseHover += (o, args) => HoverSlot(pb, args);
                 pb.ContextMenuStrip = mnu;
             }
         }
@@ -142,6 +142,8 @@ namespace PKHeX.WinForms
         private void ClickView(object sender, EventArgs e)
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            if (pb == null)
+                return;
             int index = Box.Entries.IndexOf(pb);
 
             var group = Groups[CurrentGroup];

@@ -7,8 +7,8 @@ namespace PKHeX.WinForms
     public partial class PokeGear4Editor : UserControl
     {
         public PokeGear4Editor() => InitializeComponent();
-        private PokegearNumber[] Rolodex;
-        private SAV4HGSS SAV;
+        private PokegearNumber[] Rolodex = null!;
+        private SAV4HGSS SAV = null!;
 
         public void Initialize(SAV4HGSS sav)
         {

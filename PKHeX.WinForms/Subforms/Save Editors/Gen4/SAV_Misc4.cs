@@ -106,7 +106,7 @@ namespace PKHeX.WinForms
         private readonly int ofsBP;
         private readonly int ofsMap = -1;
         private readonly int ofsUGFlagCount = -1;
-        private int[] FlyDestC;
+        private int[] FlyDestC = null!;
 
         private void ReadMain()
         {
@@ -206,8 +206,8 @@ namespace PKHeX.WinForms
         }
 
         #region Poketch
-        private byte[] DotArtistByte;
-        private byte[] ColorTable;
+        private byte[] DotArtistByte = null!;
+        private byte[] ColorTable = null!;
 
         private void ReadPoketch(SAV4Sinnoh s)
         {
@@ -419,19 +419,19 @@ namespace PKHeX.WinForms
         #endregion
 
         #region BattleFrontier
-        private int[] Prints;
+        private int[] Prints = null!;
         private readonly int ofsPrints = -1;
-        private Color[] PrintColorA;
-        private Button[] PrintButtonA;
+        private Color[] PrintColorA = null!;
+        private Button[] PrintButtonA = null!;
         private bool editing;
-        private RadioButton[] StatRBA;
-        private NumericUpDown[] StatNUDA;
-        private Label[] StatLabelA;
-        private readonly int[][] BFF;
-        private string[][] BFT;
-        private int[][] BFV;
-        private string[] BFN;
-        private NumericUpDown[] HallNUDA;
+        private RadioButton[] StatRBA = null!;
+        private NumericUpDown[] StatNUDA = null!;
+        private Label[] StatLabelA = null!;
+        private readonly int[][] BFF = null!;
+        private string[][] BFT = null!;
+        private int[][] BFV = null!;
+        private string[] BFN = null!;
+        private NumericUpDown[] HallNUDA = null!;
         private bool HallStatUpdated;
         private int ofsHallStat = -1;
 

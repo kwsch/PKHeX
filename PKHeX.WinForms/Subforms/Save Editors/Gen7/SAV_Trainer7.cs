@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
         private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
         private readonly List<string> BattleStyles = new List<string>(AllStyles);
 
-        private int[] FlyDestFlagOfs, MapUnmaskFlagOfs;
+        private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
         private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768
 
         private void GetComboBoxes()
@@ -117,6 +117,8 @@ namespace PKHeX.WinForms
                 CB_AlolaTime.Enabled = false; // alola time doesn't exist yet
             else
                 CB_AlolaTime.SelectedValue = (int)timeA;
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (CB_AlolaTime.SelectedValue == null)
                 CB_AlolaTime.Enabled = false;
 
@@ -392,8 +394,8 @@ namespace PKHeX.WinForms
             // Skin changed && (gender matches || override)
             int gender = CB_Gender.SelectedIndex & 1;
             int skin = CB_SkinColor.SelectedIndex & 1;
-            string gStr = CB_Gender.Items[gender].ToString();
-            string sStr = CB_Gender.Items[skin].ToString();
+            var gStr = CB_Gender.Items[gender].ToString();
+            var sStr = CB_Gender.Items[skin].ToString();
 
             if (SAV.MyStatus.DressUpSkinColor == CB_SkinColor.SelectedIndex)
                 return;
@@ -473,7 +475,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -546,7 +548,7 @@ namespace PKHeX.WinForms
             System.Media.SystemSounds.Asterisk.Play();
         }
 
-        private string UpdateTip(int index)
+        private string? UpdateTip(int index)
         {
             switch (index)
             {

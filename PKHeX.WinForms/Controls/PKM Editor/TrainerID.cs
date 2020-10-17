@@ -8,10 +8,10 @@ namespace PKHeX.WinForms.Controls
     public partial class TrainerID : UserControl
     {
         public TrainerID() => InitializeComponent();
-        public event EventHandler UpdatedID;
+        public event EventHandler? UpdatedID;
 
         private int Format = -1;
-        private ITrainerID Trainer;
+        private ITrainerID Trainer = null!;
 
         public void UpdateTSV()
         {

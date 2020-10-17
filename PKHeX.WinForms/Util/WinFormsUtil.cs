@@ -22,8 +22,10 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="child"></param>
         /// <param name="parent"></param>
-        internal static void CenterToForm(this Control child, Control parent)
+        internal static void CenterToForm(this Control child, Control? parent)
         {
+            if (parent == null)
+                return;
             int x = parent.Location.X + ((parent.Width - child.Width) / 2);
             int y = parent.Location.Y + ((parent.Height - child.Height) / 2);
             child.Location = new Point(Math.Max(x, 0), Math.Max(y, 0));
@@ -38,9 +40,9 @@ namespace PKHeX.WinForms
             child.Location = new Point(x, child.Location.Y);
         }
 
-        public static T FirstFormOfType<T>() where T : Form => (T)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
+        public static T? FirstFormOfType<T>() where T : Form => (T?)Application.OpenForms.Cast<Form>().FirstOrDefault(form => form is T);
 
-        public static T FindFirstControlOfType<T>(Control aParent) where T : class
+        public static T? FindFirstControlOfType<T>(Control aParent) where T : class
         {
             while (true)
             {
@@ -54,7 +56,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        public static T GetUnderlyingControl<T>(object sender)
+        public static T? GetUnderlyingControl<T>(object sender) where T : class
         {
             while (true)
             {
@@ -156,7 +158,7 @@ namespace PKHeX.WinForms
         /// <param name="cb">ComboBox to retrieve value for.</param>
         internal static int GetIndex(ListControl cb)
         {
-            return (int)(cb?.SelectedValue ?? 0);
+            return (int)(cb.SelectedValue ?? 0);
         }
 
         public static void PanelScroll(object sender, ScrollEventArgs e)
@@ -180,7 +182,9 @@ namespace PKHeX.WinForms
         public static void DoubleBuffered(this DataGridView dgv, bool setting)
         {
             Type dgvType = dgv.GetType();
-            PropertyInfo pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            var pi = dgvType.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic);
+            if (pi == null)
+                throw new Exception(nameof(dgv));
             pi.SetValue(dgv, setting, null);
         }
 
@@ -248,7 +252,7 @@ namespace PKHeX.WinForms
         /// <param name="extensions">Misc extensions of <see cref="PKM"/> files supported by the Save File.</param>
         /// <param name="path">Output result path</param>
         /// <returns>Result of whether or not a file is to be loaded from the output path.</returns>
-        public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string path)
+        public static bool OpenSAVPKMDialog(IEnumerable<string> extensions, out string? path)
         {
             string supported = string.Join(";", extensions.Select(s => $"*.{s}").Concat(new[] { "*.pkm" }));
             using var ofd = new OpenFileDialog
@@ -262,8 +266,8 @@ namespace PKHeX.WinForms
             };
 
             // Detect main
-            string msg = null;
-            SaveFile sav = null;
+            var msg = string.Empty;
+            SaveFile? sav = null;
             if (DetectSaveFileOnFileOpen)
                 sav = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
             if (sav == null && !string.IsNullOrWhiteSpace(msg))
@@ -347,10 +351,14 @@ namespace PKHeX.WinForms
 
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
-            var path = sfd.FileName;
 
+            // Set box now that we're saving
             if (sav.HasBox)
                 sav.CurrentBox = currentBox;
+
+            var path = sfd.FileName;
+            if (path == null)
+                throw new ArgumentNullException(nameof(sfd.FileName));
 
             ExportSAV(sav, path);
             return true;
@@ -358,7 +366,7 @@ namespace PKHeX.WinForms
 
         private static void ExportSAV(SaveFile sav, string path)
         {
-            var ext = Path.GetExtension(path)?.ToLower();
+            var ext = Path.GetExtension(path).ToLower();
             var flags = sav.GetSuggestedFlags(ext);
 
             try

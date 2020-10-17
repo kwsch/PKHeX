@@ -20,6 +20,8 @@
             base.Dispose(disposing);
             SortMenu?.Dispose();
             menu?.Dispose();
+            Menu_Undo = null;
+            Menu_Redo = null;
         }
 
         #region Component Designer generated code

@@ -10,6 +10,8 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile SAV;
 
+        public TrashEditor(TextBoxBase TB_NN, SaveFile sav) : this(TB_NN, Array.Empty<byte>(), sav) { }
+
         public TrashEditor(TextBoxBase TB_NN, byte[] raw, SaveFile sav)
         {
             InitializeComponent();
@@ -20,7 +22,7 @@ namespace PKHeX.WinForms
             Raw = FinalBytes = raw;
 
             editing = true;
-            if (raw != null)
+            if (raw.Length != 0)
                 AddTrashEditing(raw.Length);
 
             var f = FontUtil.GetPKXFont();
@@ -46,7 +48,7 @@ namespace PKHeX.WinForms
 
         private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
         public string FinalString;
-        public byte[] FinalBytes { get; private set; }
+        public byte[] FinalBytes { get; private set; } = Array.Empty<byte>();
         private readonly byte[] Raw;
         private bool editing;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
@@ -54,7 +56,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             FinalString = TB_Text.Text;
-            if (FinalBytes != null)
+            if (FinalBytes.Length == 0)
                 FinalBytes = Raw;
             Close();
         }
@@ -96,13 +98,13 @@ namespace PKHeX.WinForms
                     }
                 };
                 n.Value = Raw[i];
-                n.ValueChanged += UpdateNUD;
+                n.ValueChanged += (o, args) => UpdateNUD(n, args);
 
                 FLP_Hex.Controls.Add(l);
                 FLP_Hex.Controls.Add(n);
                 Bytes.Add(n);
             }
-            TB_Text.TextChanged += UpdateString;
+            TB_Text.TextChanged += (o, args) => UpdateString(TB_Text, args);
 
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource, null);
@@ -117,7 +119,8 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             // build bytes
-            var nud = sender as NumericUpDown;
+            if (!(sender is NumericUpDown nud))
+                throw new Exception();
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;
 

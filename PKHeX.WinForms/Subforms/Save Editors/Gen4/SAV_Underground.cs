@@ -11,8 +11,11 @@ namespace PKHeX.WinForms
         private readonly SAV4Sinnoh SAV;
 
         private const int MAX_SIZE = SAV4Sinnoh.UG_POUCH_SIZE;
-        private string[] ugGoods, ugSpheres, ugTraps, ugTreasures;
-        private string[] ugGoodsSorted, ugTrapsSorted, ugTreasuresSorted;
+        private readonly string[] ugGoods, ugSpheres, ugTraps, ugTreasures;
+
+        private readonly string[] ugGoodsSorted;
+        private readonly string[] ugTrapsSorted;
+        private readonly string[] ugTreasuresSorted;
 
         public SAV_Underground(SaveFile sav)
         {
@@ -20,21 +23,23 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV4Sinnoh)(Origin = sav).Clone();
 
-            InitializeDGV();
+            ugGoods = GameInfo.Strings.uggoods;
+            ugSpheres = GameInfo.Strings.ugspheres;
+            ugTraps = GameInfo.Strings.ugtraps;
+            ugTreasures = GameInfo.Strings.ugtreasures;
 
+            ugGoodsSorted = SanitizeList(ugGoods);
+            ugTrapsSorted = SanitizeList(ugTraps);
+            ugTreasuresSorted = SanitizeList(ugTreasures);
+
+            InitializeDGV();
             GetUGScores();
             ReadUGData();
         }
 
         private void InitializeDGV()
         {
-            ugGoods = GameInfo.Strings.uggoods;
-            ugSpheres = GameInfo.Strings.ugspheres;
-            ugTraps = GameInfo.Strings.ugtraps;
-            ugTreasures = GameInfo.Strings.ugtreasures;
-
             // Goods
-            ugGoodsSorted = SanitizeList(ugGoods);
             DGV_UGGoods.Rows.Add(SAV4Sinnoh.UG_POUCH_SIZE);
 
             Item_Goods.DataSource = new BindingSource(ugGoodsSorted, null);
@@ -49,7 +54,6 @@ namespace PKHeX.WinForms
             DGV_UGSpheres.CancelEdit();
 
             // Traps
-            ugTrapsSorted = SanitizeList(ugTraps);
             DGV_UGTraps.Rows.Add(MAX_SIZE);
 
             Item_Traps.DataSource = new BindingSource(ugTrapsSorted, null);
@@ -57,7 +61,6 @@ namespace PKHeX.WinForms
             DGV_UGTraps.CancelEdit();
 
             // Treasures
-            ugTreasuresSorted = SanitizeList(ugTreasures);
             DGV_UGTreasures.Rows.Add(MAX_SIZE);
 
             Item_Treasures.DataSource = new BindingSource(ugTreasuresSorted, null);

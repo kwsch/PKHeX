@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
             int emptyslots = 0;
             for (int i = 0; i < 12; i++)
             {
-                string bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
+                var bag = dataGridView1.Rows[i].Cells[1].Value.ToString();
                 if (Array.IndexOf(trba, bag) == 0)
                 {
                     emptyslots++;

@@ -12,7 +12,7 @@ namespace PKHeX.WinForms.Controls
     /// </summary>
     public sealed class SlotHoverHandler : IDisposable
     {
-        public DrawConfig Draw { private get; set; }
+        public DrawConfig Draw { private get; set; } = new DrawConfig();
         public bool GlowHover { private get; set; } = true;
 
         public static readonly CryPlayer CryPlayer = new CryPlayer();
@@ -21,12 +21,14 @@ namespace PKHeX.WinForms.Controls
 
         private readonly BitmapAnimator HoverWorker = new BitmapAnimator();
 
-        private PictureBox Slot;
-        private SlotTrackerImage LastSlot;
+        private PictureBox? Slot;
+        private SlotTrackerImage? LastSlot;
 
         public void Start(PictureBox pb, SlotTrackerImage lastSlot)
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
+            if (view == null)
+                throw new ArgumentNullException(nameof(view));
             var data = view.GetSlotData(pb);
             var pk = data.Read(view.SAV);
             Slot = pb;
@@ -67,7 +69,7 @@ namespace PKHeX.WinForms.Controls
                 if (HoverWorker.Enabled)
                     HoverWorker.Stop();
                 else
-                    Slot.BackgroundImage = LastSlot.OriginalBackground;
+                    Slot.BackgroundImage = LastSlot?.OriginalBackground;
                 Slot = null;
                 LastSlot = null;
             }
@@ -77,9 +79,9 @@ namespace PKHeX.WinForms.Controls
 
         public void Dispose()
         {
-            HoverWorker?.Dispose();
-            Slot?.Dispose();
-            Draw?.Dispose();
+            HoverWorker.Dispose();
+            Slot = null;
+            Draw.Dispose();
         }
     }
 }

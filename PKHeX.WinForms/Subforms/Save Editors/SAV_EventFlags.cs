@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
             SAV.EventFlags = flags;
 
             // Copy back Constants
-            ChangeConstantIndex(null, EventArgs.Empty); // Trigger Saving
+            ChangeConstantIndex(sender, EventArgs.Empty); // Trigger Saving
             SAV.EventConsts = Constants;
 
             HandleSpecialFlags();
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
 
         private void AddFlagList(string[] list)
         {
-            if (list == null || list.Length == 0)
+            if (list.Length == 0)
             {
                 TLP_Flags.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Flags_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
@@ -182,7 +182,7 @@ namespace PKHeX.WinForms
                     Checked = flags[num[i]],
                     AutoSize = true
                 };
-                chk.CheckStateChanged += ToggleFlag;
+                chk.CheckStateChanged += (o, args) => ToggleFlag(chk, args);
                 lbl.Click += (sender, e) => chk.Checked ^= true;
                 TLP_Flags.Controls.Add(chk, 0, i);
                 TLP_Flags.Controls.Add(lbl, 1, i);
@@ -199,7 +199,7 @@ namespace PKHeX.WinForms
 
         private void AddConstList(string[] list)
         {
-            if (list == null || list.Length == 0)
+            if (list.Length == 0)
             {
                 TLP_Const.Controls.Add(new Label { Text = MsgResearchRequired, Name = "TLP_Const_Research", ForeColor = Color.Red, AutoSize = true }, 0, 0);
                 return;
@@ -278,8 +278,8 @@ namespace PKHeX.WinForms
                 cb.InitializeBinding();
                 cb.DataSource = map;
                 cb.SelectedIndex = 0;
-                cb.SelectedValueChanged += ToggleConst;
-                mtb.TextChanged += ToggleConst;
+                cb.SelectedValueChanged += (o, args) => ToggleConst(cb, args);
+                mtb.TextChanged += (o, args) => ToggleConst(mtb, args);
                 TLP_Const.Controls.Add(lbl, 0, i);
                 TLP_Const.Controls.Add(cb, 1, i);
                 TLP_Const.Controls.Add(mtb, 2, i);
@@ -333,10 +333,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private void ChangeCustomFlag(object sender, KeyEventArgs e)
-        {
-            ChangeCustomFlag(null, (EventArgs)e);
-        }
+        private void ChangeCustomFlag(object sender, KeyEventArgs e) => ChangeCustomFlag(sender, (EventArgs)e);
 
         private void ToggleFlag(object sender, EventArgs e)
         {
