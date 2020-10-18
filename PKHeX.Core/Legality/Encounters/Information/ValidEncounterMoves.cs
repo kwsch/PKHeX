@@ -9,9 +9,9 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class ValidEncounterMoves
     {
-        public IReadOnlyList<int>[] LevelUpMoves { get; }
-        public IReadOnlyList<int>[] TMHMMoves { get; } = Empty;
-        public IReadOnlyList<int>[] TutorMoves { get; } = Empty;
+        public readonly IReadOnlyList<int>[] LevelUpMoves;
+        public readonly IReadOnlyList<int>[] TMHMMoves = Empty;
+        public readonly IReadOnlyList<int>[] TutorMoves = Empty;
         public int[] Relearn = Array.Empty<int>();
 
         private const int EmptyCount = PKX.Generation + 1; // one for each generation index (and 0th)

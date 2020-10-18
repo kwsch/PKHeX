@@ -313,12 +313,12 @@ namespace PKHeX.Core
         /// Gets the checksum of a 232 byte array.
         /// </summary>
         /// <param name="data">Decrypted Pokémon data.</param>
-        public static ushort GetCHK(byte[] data)
+        /// <param name="partyStart">Offset at which the Stored data ends and the Party data starts.</param>
+        public static ushort GetCHK(byte[] data, int partyStart)
         {
             ushort chk = 0;
-            for (int i = 8; i < SIZE_6STORED; i += 2)
+            for (int i = 8; i < partyStart; i += 2)
                 chk += BitConverter.ToUInt16(data, i);
-
             return chk;
         }
 

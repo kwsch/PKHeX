@@ -345,12 +345,12 @@ namespace PKHeX.WinForms.Controls
         private void LoadBST(PersonalInfo pi)
         {
             var stats = pi.Stats;
-            for (int i = 0; i < stats.Length; i++)
+            for (int i = 0; i < stats.Count; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
                 MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
             }
-            var bst = pi.BST;
+            var bst = pi.Stats.Sum();
             TB_BST.Text = bst.ToString("000");
             TB_BST.BackColor = ImageUtil.ColorBaseStatTotal(bst);
         }

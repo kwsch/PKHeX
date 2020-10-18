@@ -48,7 +48,7 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        public static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
+        internal static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)
         {
             if (move > MaxMoveID_1)
                 return LearnNONE;

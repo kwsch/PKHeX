@@ -78,7 +78,7 @@ namespace PKHeX.Core
                 case PokeCrypto.SIZE_6PARTY: // collision with PGT, same size.
                     if (BitConverter.ToUInt16(data, 0x4) != 0) // Bad Sanity?
                         return -1;
-                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data))
+                    if (BitConverter.ToUInt32(data, 0x06) == PokeCrypto.GetCHK(data, PokeCrypto.SIZE_6STORED))
                         return 6;
                     if (BitConverter.ToUInt16(data, 0x58) != 0) // Encrypted?
                     {
