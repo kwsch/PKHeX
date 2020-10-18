@@ -36,6 +36,10 @@ namespace PKHeX.Core
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
                 return false;
 
+            // EC/PID check doesn't exist for these, so check Shiny state here.
+            if ((Shiny == Shiny.Always) != pkm.IsShiny && Location != 14) // Celebi is the only Wild "event", can be either.
+                return false;
+
             if (EggEncounter && !pkm.IsEgg)
                 return true;
 
