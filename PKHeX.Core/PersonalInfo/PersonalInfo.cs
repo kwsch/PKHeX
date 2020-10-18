@@ -54,19 +54,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Base Stat values
         /// </summary>
-        public int[] Stats
-        {
-            get => new[] { HP, ATK, DEF, SPE, SPA, SPD };
-            set
-            {
-                HP = value[0];
-                ATK = value[1];
-                DEF = value[2];
-                SPE = value[3];
-                SPA = value[4];
-                SPD = value[5];
-            }
-        }
+        public IReadOnlyList<int> Stats => new[] { HP, ATK, DEF, SPE, SPA, SPD };
 
         /// <summary>
         /// Amount of HP Effort Values to yield when defeating this entry.
@@ -206,47 +194,19 @@ namespace PKHeX.Core
         public virtual int Weight { get; set; } = 0;
 
         /// <summary>
-        /// Dual Type IDs used for same-type attack bonuses, weakness, etc.
-        /// </summary>
-        public int[] Types
-        {
-            get => new[] { Type1, Type2 };
-            set
-            {
-                if (value.Length != 2) return;
-                Type1 = value[0];
-                Type2 = value[1];
-            }
-        }
-
-        /// <summary>
-        /// Dual Egg Group IDs used to determine if an egg should be created as a result of both parents sharing at least one group ID.
-        /// </summary>
-        public int[] EggGroups
-        {
-            get => new[] { EggGroup1, EggGroup2 };
-            set
-            {
-                if (value.Length != 2) return;
-                EggGroup1 = (byte)value[0];
-                EggGroup2 = (byte)value[1];
-            }
-        }
-
-        /// <summary>
         /// TM/HM learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TMHM { get; protected set; } = Array.Empty<bool>();
+        public bool[] TMHM = Array.Empty<bool>();
 
         /// <summary>
         /// Grass-Fire-Water-Etc typed learn compatibility flags for individual moves.
         /// </summary>
-        public bool[] TypeTutors { get; protected set; } = Array.Empty<bool>();
+        public bool[] TypeTutors = Array.Empty<bool>();
 
         /// <summary>
         /// Special tutor learn compatibility flags for individual moves.
         /// </summary>
-        public bool[][] SpecialTutors { get; protected set; } = Array.Empty<bool[]>();
+        public bool[][] SpecialTutors = Array.Empty<bool[]>();
 
         protected static bool[] GetBits(byte[] data, int start = 0, int length = -1)
         {

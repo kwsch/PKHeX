@@ -32,9 +32,9 @@ namespace PKHeX.WinForms
         private void SAV_GameSelect_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                B_OK_Click(null, EventArgs.Empty);
+                B_OK_Click(sender, EventArgs.Empty);
             if (e.KeyCode == Keys.Escape)
-                B_Cancel_Click(null, EventArgs.Empty);
+                B_Cancel_Click(sender, EventArgs.Empty);
         }
     }
 }

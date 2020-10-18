@@ -31,6 +31,10 @@ namespace PKHeX.Core
             if (Language != EncounterGBLanguage.Any && pkm.Japanese != (Language == EncounterGBLanguage.Japanese))
                 return false;
 
+            // EC/PID check doesn't exist for these, so check Shiny state here.
+            if ((Shiny == Shiny.Always) != pkm.IsShiny)
+                return false;
+
             if (TID != -1 && pkm.TID != TID)
                 return false;
 

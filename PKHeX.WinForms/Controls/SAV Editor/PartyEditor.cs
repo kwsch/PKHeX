@@ -8,11 +8,11 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class PartyEditor : UserControl, ISlotViewer<PictureBox>
     {
-        public IList<PictureBox> SlotPictureBoxes { get; private set; }
-        public SaveFile SAV => M?.SE.SAV;
+        public IList<PictureBox> SlotPictureBoxes { get; private set; } = Array.Empty<PictureBox>();
+        public SaveFile SAV => M?.SE.SAV ?? throw new ArgumentNullException(nameof(SAV));
 
         public int BoxSlotCount { get; private set; }
-        public SlotChangeManager M { get; set; }
+        public SlotChangeManager? M { get; set; }
         public bool FlagIllegal { get; set; }
 
         public PartyEditor()
@@ -39,8 +39,8 @@ namespace PKHeX.WinForms.Controls
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
-                pb.MouseEnter += BoxSlot_MouseEnter;
-                pb.MouseLeave += BoxSlot_MouseLeave;
+                pb.MouseEnter += (o, args) => BoxSlot_MouseEnter(pb, args);
+                pb.MouseLeave += (o, args) => BoxSlot_MouseLeave(pb, args);
                 pb.MouseClick += BoxSlot_MouseClick;
                 pb.MouseMove += BoxSlot_MouseMove;
                 pb.MouseDown += BoxSlot_MouseDown;
@@ -104,7 +104,7 @@ namespace PKHeX.WinForms.Controls
         public void ResetSlots()
         {
             //pokeGrid1.SetBackground(SAV.WallpaperImage(0));
-            M.Hover.Stop();
+            M?.Hover.Stop();
 
             foreach (var pb in SlotPictureBoxes)
             {
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms.Controls
                 SlotUtil.UpdateSlot(pb, slot, slot.Read(SAV), SAV, FlagIllegal);
             }
 
-            if (M.Env.Slots.Publisher.Previous is SlotInfoParty p)
+            if (M?.Env.Slots.Publisher.Previous is SlotInfoParty p)
                 SlotPictureBoxes[p.Slot].BackgroundImage = SlotUtil.GetTouchTypeBackground(M.Env.Slots.Publisher.PreviousType);
         }
 

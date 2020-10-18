@@ -12,7 +12,7 @@ namespace PKHeX.WinForms.Controls
         private readonly List<PictureBox> slots = new List<PictureBox>();
         private List<SlotInfoMisc> SlotOffsets = new List<SlotInfoMisc>();
         public int SlotCount { get; private set; }
-        public SaveFile SAV { get; set; }
+        public SaveFile SAV { get; set; } = null!;
         public bool FlagIllegal { get; set; }
 
         public SlotList()
@@ -36,7 +36,7 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// Hides all slots from the <see cref="SlotList"/>.
         /// </summary>
-        public void HideAllSlots() => LoadSlots(0, null);
+        public void HideAllSlots() => LoadSlots(0, _ => { });
 
         public void NotifySlotOld(ISlotInfo previous)
         {
@@ -71,7 +71,15 @@ namespace PKHeX.WinForms.Controls
         public ISlotInfo GetSlotData(int slot) => SlotOffsets[slot];
 
         public IList<PictureBox> SlotPictureBoxes => slots;
-        public int GetSlot(PictureBox sender) => slots.IndexOf(WinFormsUtil.GetUnderlyingControl<PictureBox>(sender));
+
+        public int GetSlot(PictureBox sender)
+        {
+            var view = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
+            if (view == null)
+                return -1;
+            return slots.IndexOf(view);
+        }
+
         public int GetSlotOffset(int slot) => SlotOffsets[slot].Offset;
         public int ViewIndex { get; set; } = -1;
 

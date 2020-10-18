@@ -6,7 +6,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    public partial class SAV_Accessor<T> : Form where T : ISaveBlockAccessor<BlockInfo>
+    public partial class SAV_Accessor<T> : Form where T : class, ISaveBlockAccessor<BlockInfo>
     {
         private readonly SaveBlockMetadata<BlockInfo> Metadata;
 

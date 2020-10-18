@@ -185,12 +185,9 @@ namespace PKHeX.Core
         private void SetPINGA(PK4 pk4, EncounterCriteria criteria)
         {
             // Ability is forced already, can't force anything
-            // todo: loop force the Nature/Gender
 
-            // Generate IV
-            uint seed = Util.Rand32();
-            if (pk4.PID == 1 || IsManaphyEgg) // Create Nonshiny
-                seed = GeneratePID(seed, pk4);
+            // Generate PID
+            var seed = SetPID(pk4, criteria);
 
             if (!IsManaphyEgg)
                 seed = Util.Rand32(); // reseed, do not have method 1 correlation
@@ -201,6 +198,25 @@ namespace PKHeX.Core
                 uint iv1 = ((seed = RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 uint iv2 = ((RNG.LCRNG.Next(seed)) >> 16) & 0x7FFF;
                 pk4.IV32 = iv1 | iv2 << 15;
+            }
+        }
+
+        private uint SetPID(PK4 pk4, EncounterCriteria criteria)
+        {
+            uint seed = Util.Rand32();
+            if (pk4.PID != 1 && !IsManaphyEgg)
+                return seed; // PID is already set.
+
+            // The games don't decide the Nature/Gender up-front, but we can try to honor requests.
+            // Pre-determine the result values, and generate something.
+            var n = (int)criteria.GetNature(Nature.Random);
+            // Gender is already pre-determined in the template.
+            while (true)
+            {
+                seed = GeneratePID(seed, pk4);
+                if (pk4.Nature != n)
+                    continue;
+                return seed;
             }
         }
 

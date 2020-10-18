@@ -40,7 +40,7 @@ namespace PKHeX.WinForms
                 NUD_BagHits.Value = pk6.TrainingBagHits;
 
                 if (!CHK_SecretUnlocked.Checked) // force update to disable checkboxes
-                    CHK_Secret_CheckedChanged(null, EventArgs.Empty);
+                    CHK_Secret_CheckedChanged(this, EventArgs.Empty);
             }
             else
             {
@@ -74,9 +74,9 @@ namespace PKHeX.WinForms
                 AddRegimenChoice(reg, TLP);
 
             // Force auto-size
-            foreach (RowStyle style in TLP.RowStyles)
+            foreach (var style in TLP.RowStyles.OfType<RowStyle>())
                 style.SizeType = SizeType.AutoSize;
-            foreach (ColumnStyle style in TLP.ColumnStyles)
+            foreach (var style in TLP.ColumnStyles.OfType<ColumnStyle>())
                 style.SizeType = SizeType.AutoSize;
         }
 

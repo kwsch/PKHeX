@@ -55,9 +55,9 @@ namespace PKHeX.WinForms
                 AddRibbonChoice(rib);
 
             // Force auto-size
-            foreach (RowStyle style in TLP_Ribbons.RowStyles)
+            foreach (var style in TLP_Ribbons.RowStyles.OfType<RowStyle>())
                 style.SizeType = SizeType.AutoSize;
-            foreach (ColumnStyle style in TLP_Ribbons.ColumnStyles)
+            foreach (var style in TLP_Ribbons.ColumnStyles.OfType<ColumnStyle>())
                 style.SizeType = SizeType.AutoSize;
         }
 
@@ -66,7 +66,7 @@ namespace PKHeX.WinForms
             var name = rib.Name;
             var pb = new PictureBox { AutoSize = false, Size = new Size(40,40), BackgroundImageLayout = ImageLayout.Center, Visible = false, Name = PrefixPB + name };
             var img = SpriteUtil.GetRibbonSprite(name);
-            pb.BackgroundImage = (Bitmap)img;
+            pb.BackgroundImage = img;
 
             var display = RibbonStrings.GetName(name);
             pb.MouseEnter += (s, e) => tipName.SetToolTip(pb, display);

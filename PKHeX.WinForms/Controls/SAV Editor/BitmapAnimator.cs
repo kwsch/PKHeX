@@ -16,13 +16,13 @@ namespace PKHeX.WinForms.Controls
 
         private int imgWidth;
         private int imgHeight;
-        private byte[] GlowData;
-        private Image ExtraLayer;
-        private Image[] GlowCache;
-        public Image OriginalBackground;
+        private byte[]? GlowData;
+        private Image? ExtraLayer;
+        private Image?[]? GlowCache;
+        public Image? OriginalBackground;
         private readonly object Lock = new object();
 
-        private PictureBox pb;
+        private PictureBox? pb;
         private int GlowInterval;
         private int GlowCounter;
 
@@ -44,6 +44,8 @@ namespace PKHeX.WinForms.Controls
             }
 
             // reset logic
+            if (GlowCache == null)
+                throw new ArgumentNullException(nameof(GlowCache));
             GlowCounter = 0;
             for (int i = 0; i < GlowCache.Length; i++)
                 GlowCache[i] = null;
@@ -79,6 +81,9 @@ namespace PKHeX.WinForms.Controls
             {
                 if (!Enabled)
                     return;
+
+                if (pb == null)
+                    return;
                 try { pb.BackgroundImage = GetFrame(frameIndex); } // drawing GDI can be silly sometimes #2072
                 catch (AccessViolationException ex) { System.Diagnostics.Debug.WriteLine(ex.Message); }
             }
@@ -86,12 +91,17 @@ namespace PKHeX.WinForms.Controls
 
         private Image GetFrame(int frameIndex)
         {
+            if (GlowCache == null)
+                throw new ArgumentNullException(nameof(GlowCache));
             var frame = GlowCache[frameIndex];
             if (frame != null)
                 return frame;
 
             var elapsedFraction = (double)frameIndex / GlowInterval;
             var frameColor = GetFrameColor(elapsedFraction);
+
+            if (GlowData == null)
+                throw new ArgumentNullException(nameof(GlowData));
             var frameData = (byte[])GlowData.Clone();
             ImageUtil.ChangeAllColorTo(frameData, frameColor);
 

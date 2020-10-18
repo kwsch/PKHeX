@@ -12,13 +12,15 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class BoxEditor : UserControl, ISlotViewer<PictureBox>
     {
-        public IList<PictureBox> SlotPictureBoxes { get; private set; }
-        public SaveFile SAV => M?.SE.SAV;
+        public IList<PictureBox> SlotPictureBoxes { get; private set; } = Array.Empty<PictureBox>();
+        public SaveFile SAV => M?.SE.SAV ?? throw new ArgumentNullException(nameof(SAV));
 
         public int BoxSlotCount { get; private set; }
-        public SlotChangeManager M { get; set; }
+        public SlotChangeManager? M { get; set; }
         public bool FlagIllegal { get; set; }
         public bool CanSetCurrentBox { get; set; }
+
+        public BoxEdit Editor { get; set; } = null!;
 
         public BoxEditor()
         {
@@ -58,8 +60,8 @@ namespace PKHeX.WinForms.Controls
             BoxSlotCount = SlotPictureBoxes.Count;
             foreach (var pb in SlotPictureBoxes)
             {
-                pb.MouseEnter += BoxSlot_MouseEnter;
-                pb.MouseLeave += BoxSlot_MouseLeave;
+                pb.MouseEnter += (o, args) => BoxSlot_MouseEnter(pb, args);
+                pb.MouseLeave += (o, args) => BoxSlot_MouseLeave(pb, args);
                 pb.MouseClick += BoxSlot_MouseClick;
                 pb.MouseMove += BoxSlot_MouseMove;
                 pb.MouseDown += BoxSlot_MouseDown;
@@ -160,7 +162,7 @@ namespace PKHeX.WinForms.Controls
             Editor.Reload();
             int box = CurrentBox;
             BoxPokeGrid.SetBackground(SAV.WallpaperImage(box));
-            M.Hover.Stop();
+            M?.Hover.Stop();
 
             int index = box * SAV.BoxSlotCount;
             for (int i = 0; i < BoxSlotCount; i++)
@@ -175,7 +177,7 @@ namespace PKHeX.WinForms.Controls
                 SlotUtil.UpdateSlot(pb, (SlotInfoBox) GetSlotData(pb), Editor[i], SAV, FlagIllegal);
             }
 
-            if (M.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
+            if (M?.Env.Slots.Publisher.Previous is SlotInfoBox b && b.Box == CurrentBox)
                 SlotPictureBoxes[b.Slot].BackgroundImage = SlotUtil.GetTouchTypeBackground(M.Env.Slots.Publisher.PreviousType);
         }
 
@@ -207,9 +209,11 @@ namespace PKHeX.WinForms.Controls
 
         public void ClearEvents()
         {
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
             B_BoxRight.Click -= ClickBoxRight;
             B_BoxLeft.Click -= ClickBoxLeft;
             CB_BoxSelect.SelectedIndexChanged -= GetBox;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
         }
 
         public void Reset()
@@ -229,8 +233,6 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickBoxLeft(object sender, EventArgs e) => CurrentBox = Editor.MoveLeft(ModifierKeys == Keys.Control);
         private void ClickBoxRight(object sender, EventArgs e) => CurrentBox = Editor.MoveRight(ModifierKeys == Keys.Control);
-
-        public BoxEdit Editor { get; set; }
 
         // Drag & Drop Handling
         private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);

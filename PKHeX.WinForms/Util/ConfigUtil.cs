@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
             }
             catch (ConfigurationErrorsException e)
             {
-                string path = (e.InnerException as ConfigurationErrorsException)?.Filename;
+                var path = (e.InnerException as ConfigurationErrorsException)?.Filename;
                 if (path != null && File.Exists(path))
                     File.Delete(path);
                 return false;

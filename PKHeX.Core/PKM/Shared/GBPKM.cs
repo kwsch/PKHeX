@@ -4,6 +4,13 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Base format for Generation 1 &amp; 2 <see cref="PKM"/> objects.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="SK2"/> store text buffers with the rest of the data.
+    /// <see cref="PK1"/> and <see cref="PK2"/> store them separately; see <see cref="GBPKML"/>.
+    /// </remarks>
     public abstract class GBPKM : PKM
     {
         public sealed override int MaxBallID => -1;

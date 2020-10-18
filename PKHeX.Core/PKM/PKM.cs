@@ -39,21 +39,7 @@ namespace PKHeX.Core
 
         protected byte[] GetData(int Offset, int Length) => Data.Slice(Offset, Length);
 
-        protected virtual ushort CalculateChecksum()
-        {
-            ushort chk = 0;
-            switch (Format)
-            {
-                case 3:
-                    for (int i = 32; i < SIZE_STORED; i += 2)
-                        chk += BitConverter.ToUInt16(Data, i);
-                    return chk;
-                default: // 4+
-                    for (int i = 8; i < SIZE_STORED; i += 2)
-                        chk += BitConverter.ToUInt16(Data, i);
-                    return chk;
-            }
-        }
+        protected virtual ushort CalculateChecksum() => PokeCrypto.GetCHK(Data, SIZE_STORED);
 
         protected abstract byte[] Encrypt();
         public abstract int Format { get; }

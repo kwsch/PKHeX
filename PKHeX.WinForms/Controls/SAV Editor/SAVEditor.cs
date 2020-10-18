@@ -13,7 +13,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class SAVEditor : UserControl, ISlotViewer<PictureBox>, ISaveFileProvider
     {
-        public SaveDataEditor<PictureBox> EditEnv;
+        public SaveDataEditor<PictureBox> EditEnv = null!;
 
         public void SetEditEnvironment(SaveDataEditor<PictureBox> value)
         {
@@ -27,18 +27,20 @@ namespace PKHeX.WinForms.Controls
             value.Slots.Publisher.Subscribers.Add(SL_Extra);
         }
 
-        public SaveFile SAV { get; private set; }
+        public SaveFile SAV { get; private set; } = new FakeSaveFile();
         public int CurrentBox => Box.CurrentBox;
-        public SlotChangeManager M { get; }
+        public SlotChangeManager M { get; set; }
         public readonly ContextMenuSAV menu;
         public readonly BoxMenuStrip SortMenu;
 
         public bool  HaX;
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
-        public bool HideSecretDetails { private get => _hideSecret; set { if (SAV != null) ToggleSecrets(SAV, _hideSecret = value); } }
-        public ToolStripMenuItem Menu_Redo;
-        public ToolStripMenuItem Menu_Undo;
+        public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
+#pragma warning disable CA2213
+        public ToolStripMenuItem Menu_Redo { get; set; } = null!;
+        public ToolStripMenuItem Menu_Undo { get; set; } = null!;
+#pragma warning restore CS8622
         private bool FieldsLoaded;
 
         public IList<PictureBox> SlotPictureBoxes { get; }
@@ -51,8 +53,9 @@ namespace PKHeX.WinForms.Controls
             set
             {
                 SL_Extra.FlagIllegal = SL_Party.FlagIllegal = Box.FlagIllegal = value && !HaX;
-                if (SAV != null)
-                    ReloadSlots();
+                if (SAV is FakeSaveFile)
+                    return;
+                ReloadSlots();
             }
         }
 
@@ -97,15 +100,17 @@ namespace PKHeX.WinForms.Controls
                 Box.CurrentBox = e.Delta > 1 ? Box.Editor.MoveLeft() : Box.Editor.MoveRight();
             };
 
-            GB_Daycare.Click += SwitchDaycare;
+            GB_Daycare.Click += (o, args) => SwitchDaycare(GB_Daycare, args);
             FLP_SAVtools.Scroll += WinFormsUtil.PanelScroll;
             SortMenu.Opening += (s, x) => x.Cancel = !tabBoxMulti.GetTabRect(tabBoxMulti.SelectedIndex).Contains(PointToClient(MousePosition));
         }
 
         private void InitializeDragDrop(Control pb)
         {
+#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
             pb.MouseEnter += M.MouseEnter;
             pb.MouseLeave += M.MouseLeave;
+#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
             pb.MouseClick += M.MouseClick;
             pb.MouseMove += M.MouseMove;
             pb.MouseDown += M.MouseDown;
@@ -120,16 +125,16 @@ namespace PKHeX.WinForms.Controls
         }
 
         /// <summary>Occurs when the Control Collection requests a cloning operation to the current box.</summary>
-        public event EventHandler RequestCloneData;
+        public event EventHandler? RequestCloneData;
 
         /// <summary>Occurs when the Control Collection requests a save to be reloaded.</summary>
-        public event EventHandler RequestReloadSave;
+        public event EventHandler? RequestReloadSave;
 
         public void EnableDragDrop(DragEventHandler enter, DragEventHandler drop)
         {
             AllowDrop = true;
             DragDrop += drop;
-            foreach (TabPage tab in tabBoxMulti.TabPages)
+            foreach (var tab in tabBoxMulti.TabPages.OfType<TabPage>())
             {
                 tab.AllowDrop = true;
                 tab.DragEnter += enter;
@@ -522,7 +527,6 @@ namespace PKHeX.WinForms.Controls
             {
                 SAV1 s => (Form) new SAV_EventReset1(s),
                 SAV7b s => new SAV_EventWork(s),
-                SAV8 s => new SAV_EventWork(s),
                 _ => new SAV_EventFlags(SAV)
             };
             form.ShowDialog();
@@ -577,8 +581,6 @@ namespace PKHeX.WinForms.Controls
         private void B_Blocks_Click(object sender, EventArgs e)
         {
             var form = GetAccessorForm(SAV);
-            if (form == null)
-                return;
             form.ShowDialog();
             form.Dispose();
         }
@@ -637,7 +639,7 @@ namespace PKHeX.WinForms.Controls
                 SAV7 s7 => new SAV_PokedexSM(s7),
                 SAV7b b7 => new SAV_PokedexGG(b7),
                 SAV8SWSH swsh => new SAV_PokedexSWSH(swsh),
-                _ => (Form)null
+                _ => (Form?)null
             };
             form?.ShowDialog();
         }
@@ -649,7 +651,7 @@ namespace PKHeX.WinForms.Controls
                 3 => new SAV_Misc3(SAV),
                 4 => new SAV_Misc4((SAV4) SAV),
                 5 => new SAV_Misc5(SAV),
-                _ => (Form)null,
+                _ => (Form?)null,
             };
             form?.ShowDialog();
         }
@@ -689,7 +691,7 @@ namespace PKHeX.WinForms.Controls
             {
                 SAV6 s6 => new SAV_HallOfFame(s6),
                 SAV7 s7 => new SAV_HallOfFame7(s7),
-                _ => (Form)null,
+                _ => (Form?)null,
             };
             form?.ShowDialog();
         }
@@ -855,7 +857,7 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        public bool DumpBoxes(out string result, string path = null, bool separate = false)
+        public bool DumpBoxes(out string result, string? path = null, bool separate = false)
         {
             if (path == null && !IsFolderPath(out path))
             {
@@ -873,7 +875,7 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        public bool DumpBox(out string result, string path = null)
+        public bool DumpBox(out string result, string? path = null)
         {
             if (path == null && !IsFolderPath(out path))
             {
@@ -891,7 +893,7 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        public bool LoadBoxes(out string result, string path = null)
+        public bool LoadBoxes(out string result, string? path = null)
         {
             result = string.Empty;
             if (!SAV.HasBox)

@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
         public Color StatDecreased { get; set; } = Color.Blue;
         public Color StatHyperTrained { get; set; } = Color.LightGreen;
 
-        public IMainEditor MainEditor { private get; set; }
+        public IMainEditor MainEditor { private get; set; } = null!;
         public bool HaX { set => CHK_HackedStats.Enabled = CHK_HackedStats.Visible = value; }
 
         public bool Valid
@@ -138,14 +138,14 @@ namespace PKHeX.WinForms.Controls
             UpdateStats();
         }
 
-        private void RefreshDerivedValues(object sender)
+        private void RefreshDerivedValues(object _)
         {
             if (Entity.Format < 3)
             {
                 TB_IVHP.Text = Entity.IV_HP.ToString();
                 TB_IVSPD.Text = Entity.IV_SPD.ToString();
 
-                MainEditor.UpdateIVsGB(sender == null);
+                MainEditor.UpdateIVsGB(false);
             }
 
             if (!ChangingFields)
@@ -216,7 +216,7 @@ namespace PKHeX.WinForms.Controls
             bool zero = (ModifierKeys & Keys.Control) != 0;
             var evs = zero ? new int[6] : PKX.GetRandomEVs(Entity.Format);
             LoadEVs(evs);
-            UpdateEVs(null, EventArgs.Empty);
+            UpdateEVs(sender, EventArgs.Empty);
         }
 
         private void UpdateHackedStats(object sender, EventArgs e)
@@ -345,12 +345,12 @@ namespace PKHeX.WinForms.Controls
         private void LoadBST(PersonalInfo pi)
         {
             var stats = pi.Stats;
-            for (int i = 0; i < stats.Length; i++)
+            for (int i = 0; i < stats.Count; i++)
             {
                 MT_Base[i].Text = stats[i].ToString("000");
                 MT_Base[i].BackColor = ImageUtil.ColorBaseStat(stats[i]);
             }
-            var bst = pi.BST;
+            var bst = pi.Stats.Sum();
             TB_BST.Text = bst.ToString("000");
             TB_BST.BackColor = ImageUtil.ColorBaseStatTotal(bst);
         }

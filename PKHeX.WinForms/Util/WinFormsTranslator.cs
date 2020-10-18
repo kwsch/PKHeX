@@ -68,7 +68,7 @@ namespace PKHeX.WinForms
 
             if (Util.IsStringListCached(file, out var result))
                 return result;
-            var txt = (string)Properties.Resources.ResourceManager.GetObject(file);
+            var txt = (string?)Properties.Resources.ResourceManager.GetObject(file);
             return Util.LoadStringList(file, txt);
         }
 
@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<T> GetChildrenOfType<T>(this Control control) where T : class
         {
-            foreach (Control child in control.Controls)
+            foreach (var child in control.Controls.OfType<Control>())
             {
                 if (child is T childOfT)
                     yield return childOfT;
@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
                 var argCount = constructors[0].GetParameters().Length;
                 try
                 {
-                    var _ = (Form)System.Activator.CreateInstance(t, new object[argCount]);
+                    var _ = (Form?)System.Activator.CreateInstance(t, new object[argCount]);
                 }
 #pragma warning disable CA1031 // Do not catch general exception types
                 // This is a debug utility method, will always be logging. Shouldn't ever fail.
@@ -225,7 +225,7 @@ namespace PKHeX.WinForms
                 Translation.Add(kvp[0], kvp[1]);
         }
 
-        public string GetTranslatedText(string val, string fallback)
+        public string? GetTranslatedText(string val, string? fallback)
         {
             if (RemoveUsedKeys)
                 Translation.Remove(val);

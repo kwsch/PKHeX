@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 
 namespace PKHeX.WinForms
 {
-    public sealed class PropertyComparer<T> : IComparer<T>
+    public sealed class PropertyComparer<T> : IComparer<T> where T : class
     {
         private readonly IComparer comparer;
         private PropertyDescriptor propertyDescriptor;
@@ -16,14 +17,17 @@ namespace PKHeX.WinForms
         {
             propertyDescriptor = property;
             Type comparerForPropertyType = typeof(Comparer<>).MakeGenericType(property.PropertyType);
-            comparer = (IComparer)comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
+            var ci = comparerForPropertyType.InvokeMember("Default", BindingFlags.Static | BindingFlags.GetProperty | BindingFlags.Public, null, null, null);
+            comparer = ci == null ? new Comparer(CultureInfo.InvariantCulture) : (IComparer) ci;
             SetListSortDirection(direction);
         }
 
         #region IComparer<T> Members
 
-        public int Compare(T x, T y)
+        public int Compare(T? x, T? y)
         {
+            if (x == null) throw new ArgumentNullException(nameof(x));
+            if (y == null) throw new ArgumentNullException(nameof(y));
             return reverse * comparer.Compare(propertyDescriptor.GetValue(x), propertyDescriptor.GetValue(y));
         }
 
