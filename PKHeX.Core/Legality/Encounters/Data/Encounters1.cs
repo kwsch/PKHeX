@@ -154,6 +154,8 @@ namespace PKHeX.Core
 
         private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
         private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
+        private static readonly string[] YoshiOT = new[] { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
+        private static readonly string[] TourOT = new[] { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
 
         internal static readonly EncounterStatic1E[] StaticEventsVC =
         {
@@ -168,7 +170,8 @@ namespace PKHeX.Core
             new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
             new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "Stade", "Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
 
-            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = new[]{"YOSHIRA", "YOSHIRAB"}, Language = International }, // Yoshira US Mew
+            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = International }, // Yoshira Mew Events
+            new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = TourOT, Language = International }, // Pokémon 2000 Stadium Tour Mew
         };
     }
 }
