@@ -403,8 +403,7 @@ namespace PKHeX.Core
         {
             if (loc == 0 && slot == 0)
                 return Data[Offsets.Daycare] == 0x01;
-            else
-                return null;
+            return null;
         }
 
         public override void SetDaycareEXP(int loc, int slot, uint EXP)

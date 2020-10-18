@@ -4,6 +4,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Mainline format for Generation 1 &amp; 2 <see cref="PKM"/> objects.
+    /// </summary>
+    /// <remarks>This format stores <see cref="PKM.Nickname"/> and <see cref="PKM.OT_Name"/> in buffers separate from the rest of the details.</remarks>
     public abstract class GBPKML : GBPKM
     {
         internal const int STRLEN_J = 6;

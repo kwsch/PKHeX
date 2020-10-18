@@ -49,11 +49,8 @@ namespace PKHeX.Core
 
         private PGT? _gift;
 
-        public byte[] Information
-        {
-            get => Data.SliceEnd(PGT.Size);
-            set => value.CopyTo(Data, Data.Length - PGT.Size);
-        }
+        public byte[] GetMetadata() => Data.SliceEnd(PGT.Size);
+        public void SetMetadata(byte[] data) => data.CopyTo(Data, Data.Length - PGT.Size);
 
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }
         public override bool IsPokémon { get => Gift.IsPokémon; set => Gift.IsPokémon = value; }
