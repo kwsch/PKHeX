@@ -115,9 +115,9 @@
             // 
             // B_Modify
             // 
-            this.B_Modify.Location = new System.Drawing.Point(143, 17);
+            this.B_Modify.Location = new System.Drawing.Point(164, 17);
             this.B_Modify.Name = "B_Modify";
-            this.B_Modify.Size = new System.Drawing.Size(64, 41);
+            this.B_Modify.Size = new System.Drawing.Size(47, 41);
             this.B_Modify.TabIndex = 25;
             this.B_Modify.Text = "Set All";
             this.B_Modify.UseVisualStyleBackColor = true;
@@ -140,7 +140,7 @@
             // 
             // NUD_SpeciesCaptured
             // 
-            this.NUD_SpeciesCaptured.Location = new System.Drawing.Point(92, 17);
+            this.NUD_SpeciesCaptured.Location = new System.Drawing.Point(86, 17);
             this.NUD_SpeciesCaptured.Maximum = new decimal(new int[] {
             9999,
             0,
@@ -157,24 +157,24 @@
             // 
             // NUD_SpeciesTransferred
             // 
-            this.NUD_SpeciesTransferred.Location = new System.Drawing.Point(92, 40);
+            this.NUD_SpeciesTransferred.Location = new System.Drawing.Point(86, 40);
             this.NUD_SpeciesTransferred.Maximum = new decimal(new int[] {
-            9999,
+            999999999,
             0,
             0,
             0});
             this.NUD_SpeciesTransferred.Name = "NUD_SpeciesTransferred";
-            this.NUD_SpeciesTransferred.Size = new System.Drawing.Size(45, 20);
+            this.NUD_SpeciesTransferred.Size = new System.Drawing.Size(75, 20);
             this.NUD_SpeciesTransferred.TabIndex = 54;
             this.NUD_SpeciesTransferred.Value = new decimal(new int[] {
-            9999,
+            123456789,
             0,
             0,
             0});
             // 
             // NUD_TotalTransferred
             // 
-            this.NUD_TotalTransferred.Location = new System.Drawing.Point(92, 42);
+            this.NUD_TotalTransferred.Location = new System.Drawing.Point(84, 42);
             this.NUD_TotalTransferred.Maximum = new decimal(new int[] {
             999999999,
             0,
@@ -191,7 +191,7 @@
             // 
             // NUD_TotalCaptured
             // 
-            this.NUD_TotalCaptured.Location = new System.Drawing.Point(92, 19);
+            this.NUD_TotalCaptured.Location = new System.Drawing.Point(84, 19);
             this.NUD_TotalCaptured.Maximum = new decimal(new int[] {
             999999999,
             0,
@@ -208,7 +208,7 @@
             // 
             // L_SpeciesCaptured
             // 
-            this.L_SpeciesCaptured.Location = new System.Drawing.Point(6, 17);
+            this.L_SpeciesCaptured.Location = new System.Drawing.Point(4, 17);
             this.L_SpeciesCaptured.Name = "L_SpeciesCaptured";
             this.L_SpeciesCaptured.Size = new System.Drawing.Size(80, 20);
             this.L_SpeciesCaptured.TabIndex = 61;
@@ -218,7 +218,7 @@
             // 
             // L_SpeciesTransferred
             // 
-            this.L_SpeciesTransferred.Location = new System.Drawing.Point(6, 38);
+            this.L_SpeciesTransferred.Location = new System.Drawing.Point(4, 38);
             this.L_SpeciesTransferred.Name = "L_SpeciesTransferred";
             this.L_SpeciesTransferred.Size = new System.Drawing.Size(80, 20);
             this.L_SpeciesTransferred.TabIndex = 62;
@@ -228,7 +228,7 @@
             // 
             // L_TotalTransferred
             // 
-            this.L_TotalTransferred.Location = new System.Drawing.Point(6, 40);
+            this.L_TotalTransferred.Location = new System.Drawing.Point(2, 40);
             this.L_TotalTransferred.Name = "L_TotalTransferred";
             this.L_TotalTransferred.Size = new System.Drawing.Size(80, 20);
             this.L_TotalTransferred.TabIndex = 64;
@@ -238,7 +238,7 @@
             // 
             // L_TotalCaptured
             // 
-            this.L_TotalCaptured.Location = new System.Drawing.Point(6, 19);
+            this.L_TotalCaptured.Location = new System.Drawing.Point(2, 19);
             this.L_TotalCaptured.Name = "L_TotalCaptured";
             this.L_TotalCaptured.Size = new System.Drawing.Size(80, 20);
             this.L_TotalCaptured.TabIndex = 63;
@@ -262,9 +262,9 @@
             // 
             // B_SumTotal
             // 
-            this.B_SumTotal.Location = new System.Drawing.Point(170, 19);
+            this.B_SumTotal.Location = new System.Drawing.Point(164, 19);
             this.B_SumTotal.Name = "B_SumTotal";
-            this.B_SumTotal.Size = new System.Drawing.Size(37, 43);
+            this.B_SumTotal.Size = new System.Drawing.Size(47, 43);
             this.B_SumTotal.TabIndex = 66;
             this.B_SumTotal.Text = "Σ";
             this.B_SumTotal.UseVisualStyleBackColor = true;

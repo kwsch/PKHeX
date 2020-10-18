@@ -122,7 +122,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Safari.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4)
+                if (IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -130,7 +130,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn6.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4)
+                if (IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -138,13 +138,13 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4)
+                if (IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
             if (ball == Dream) // Dream Ball
             {
-                if (pkm.AbilityNumber == 4 && Legal.Ban_DreamHidden.Contains(species))
+                if (Legal.Ban_DreamHidden.Contains(species) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 if (Legal.Inherit_Dream.Contains(species))
                     return GetValid(LBallSpeciesPass);
@@ -160,7 +160,7 @@ namespace PKHeX.Core
             {
                 if (Legal.Ban_Gen3Ball.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm))
+                if (Legal.Ban_Gen3BallHidden.Contains(pkm.SpecForm) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -191,7 +191,7 @@ namespace PKHeX.Core
             {
                 if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_SafariBallHidden_7.Contains(species))
+                if (Legal.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -199,7 +199,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
+                if (Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -207,7 +207,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && (species == (int)Species.Volbeat || species == (int)Species.Illumise)) // Volbeat/Illumise
+                if ((species == (int)Species.Volbeat || species == (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -232,9 +232,9 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
-                if (species == (int)Species.Voltorb && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Voltorb && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
                 if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
@@ -275,7 +275,7 @@ namespace PKHeX.Core
             {
                 if (!(Legal.Inherit_Safari.Contains(species) || Legal.Inherit_SafariMale.Contains(species)))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_SafariBallHidden_7.Contains(species))
+                if (Legal.Ban_SafariBallHidden_7.Contains(species) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -283,7 +283,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.AltForm << 11)) // lineage is 3->2->origin
+                if (Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.AltForm << 11) && IsHiddenAndNotPossible(pkm)) // lineage is 3->2->origin
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -291,7 +291,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (pkm.AbilityNumber == 4 && (species == (int)Species.Volbeat || species == (int)Species.Illumise)) // Volbeat/Illumise
+                if ((species == (int)Species.Volbeat || species == (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -316,7 +316,7 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && pkm.AbilityNumber == 4)
+                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
                 if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
@@ -335,6 +335,13 @@ namespace PKHeX.Core
                 return GetInvalid(LBallUnavailable);
 
             return NONE;
+        }
+
+        private static bool IsHiddenAndNotPossible(PKM pkm)
+        {
+            if (pkm.AbilityNumber != 4)
+                return false;
+            return !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities);
         }
 
         public static bool IsGalarCatchAndBreed(int species)

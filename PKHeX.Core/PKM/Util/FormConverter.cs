@@ -112,6 +112,9 @@ namespace PKHeX.Core
                 case Slowpoke when generation >= 8:
                 case MrMime when generation >= 8:
                 case Farfetchd when generation >= 8:
+                case Articuno when generation >= 8:
+                case Zapdos when generation >= 8:
+                case Moltres when generation >= 8:
                     return GetFormsGalar(types, forms);
 
                 case Slowbro when generation >= 8:
@@ -127,6 +130,7 @@ namespace PKHeX.Core
             return species switch
             {
                 (int)Pichu when generation == 4 => GetFormsPichu(types, forms),
+                (int)Slowking when generation >= 8 => GetFormsGalar(types, forms),
                 (int)Unown => GetFormsUnown(generation),
                 (int)Corsola when generation >= 8 => GetFormsGalar(types, forms),
                 _ => EMPTY

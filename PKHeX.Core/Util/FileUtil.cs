@@ -102,9 +102,11 @@ namespace PKHeX.Core
         /// <param name="length">File size</param>
         public static bool IsFileTooBig(long length)
         {
-            if (length <= 0x10_0000) // 10 MB
+            if (length <= 0x10_0000) // 1 MB
                 return false;
-            if (length == SaveUtil.SIZE_G4BR || length == SaveUtil.SIZE_G8SWSH || length == SaveUtil.SIZE_G8SWSH_1 || length == SaveUtil.SIZE_G8SWSH_2 || length == SaveUtil.SIZE_G8SWSH_2B)
+            if (length > int.MaxValue)
+                return true;
+            if (SaveUtil.IsSizeValid((int)length))
                 return false;
             if (SAV3GCMemoryCard.IsMemoryCardSize(length))
                 return false; // pbr/GC have size > 1MB

@@ -232,7 +232,7 @@ namespace PKHeX.Core
             var relearn = pkm.RelearnMoves;
             for (int i = 0; i < 4; i++)
             {
-                if ((pkm.IsEgg || res[i].Flag) && !relearn.Contains(currentMoves[i]))
+                if ((pkm.IsEgg || res[i].IsRelearn) && !relearn.Contains(currentMoves[i]))
                     res[i] = new CheckMoveResult(res[i], Invalid, string.Format(LMoveRelearnFMiss_0, res[i].Comment), res[i].Identifier);
             }
 
@@ -259,7 +259,7 @@ namespace PKHeX.Core
                 if (source.CurrentMoves[m] == 0)
                     res[m] = new CheckMoveResult(None, pkm.Format, m < required ? Fishy : Valid, LMoveSourceEmpty, Move);
                 else if (reset == 0 && info.EncounterMoves.Relearn.Contains(source.CurrentMoves[m]))
-                    res[m] = new CheckMoveResult(Relearn, info.Generation, Valid, LMoveSourceRelearn, Move) { Flag = true };
+                    res[m] = new CheckMoveResult(Relearn, info.Generation, Valid, LMoveSourceRelearn, Move);
             }
 
             if (AllParsed())
@@ -468,7 +468,7 @@ namespace PKHeX.Core
                     }
                     else
                     {
-                        res[m] = new CheckMoveResult(EggMove, gen, Valid, LMoveSourceEgg, Move) { Flag = true };
+                        res[m] = new CheckMoveResult(EggMove, gen, Valid, LMoveSourceEgg, Move);
                     }
 
                     learnInfo.EggMovesLearned.Add(m);

@@ -123,12 +123,19 @@ namespace PKHeX.Core
                 m_item = Legal.MaxItemID_8_O0;
                 m_abil = Legal.MaxAbilityID_8_O0;
             }
-            else
+            else if (rev == 1)
             {
                 m_move = Legal.MaxMoveID_8_R1;
                 m_spec = Legal.MaxSpeciesID_8_R1;
                 m_item = Legal.MaxItemID_8_R1;
                 m_abil = Legal.MaxAbilityID_8_R1;
+            }
+            else
+            {
+                m_move = Legal.MaxMoveID_8_R2;
+                m_spec = Legal.MaxSpeciesID_8_R2;
+                m_item = Legal.MaxItemID_8_R2;
+                m_abil = Legal.MaxAbilityID_8_R2;
             }
         }
 

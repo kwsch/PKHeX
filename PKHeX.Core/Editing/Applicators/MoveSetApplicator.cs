@@ -42,7 +42,7 @@ namespace PKHeX.Core
             if (!m.All(z => learn.Contains(z)))
                 m = m.Intersect(learn).ToArray();
 
-            if (random)
+            if (random && !la.pkm.IsEgg)
                 Util.Shuffle(m);
 
             const int count = 4;
@@ -76,7 +76,7 @@ namespace PKHeX.Core
 
             var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
             if (encounter is IRelearn r && r.Relearn.Count > 0)
-                m = r.Relearn;
+                return r.Relearn;
 
             return m;
         }

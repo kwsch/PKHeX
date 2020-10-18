@@ -71,7 +71,7 @@ namespace PKHeX.Core
         /// <returns>True if hash matches</returns>
         public static bool GetIsHashValid(byte[] data)
         {
-            if (data.Length != SaveUtil.SIZE_G8SWSH && data.Length != SaveUtil.SIZE_G8SWSH_1 && data.Length != SaveUtil.SIZE_G8SWSH_2 && data.Length != SaveUtil.SIZE_G8SWSH_2B)
+            if (!SaveUtil.SizesSWSH.Contains(data.Length))
                 return false;
 
             var hash = ComputeHash(data);

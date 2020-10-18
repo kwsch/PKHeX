@@ -194,7 +194,7 @@ namespace PKHeX.Core
             switch (IsShiny ? Shiny.Always : Shiny.Never)
             {
                 case Shiny.Always when !pk7.IsShiny: // Force Square
-                    pk7.PID = (uint)(((pk7.TID ^ 0 ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF));
+                    pk7.PID = (uint)(((pk7.TID ^ 0 ^ (pk7.PID & 0xFFFF) ^ 0) << 16) | (pk7.PID & 0xFFFF));
                     break;
                 case Shiny.Never when pk7.IsShiny: // Force Not Shiny
                     pk7.PID ^= 0x1000_0000;

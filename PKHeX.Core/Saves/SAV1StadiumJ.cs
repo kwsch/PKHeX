@@ -87,8 +87,25 @@ namespace PKHeX.Core
             return new PK1(data, true) { OT_Trash = ot, Nickname_Trash = nick };
         }
 
+        public override byte[] GetDataForFormatStored(PKM pkm)
+        {
+            byte[] result = new byte[SIZE_STORED];
+            var gb = (PK1)pkm;
+
+            var data = pkm.Data;
+            const int len = StringLength;
+            data.CopyTo(result, 0);
+            gb.nick.CopyTo(result, PokeCrypto.SIZE_1STORED);
+            gb.otname.CopyTo(result, PokeCrypto.SIZE_1STORED + len);
+            return result;
+        }
+
+        public override byte[] GetDataForFormatParty(PKM pkm) => GetDataForFormatStored(pkm);
+        public override byte[] GetDataForParty(PKM pkm) => GetDataForFormatStored(pkm);
+        public override byte[] GetDataForBox(PKM pkm) => GetDataForFormatStored(pkm);
+
         public override int GetBoxOffset(int box) => Box + ListHeaderSize + (box * BoxSizeJ);
-        public static int GetTeamOffset(int team) => 0 + ListHeaderSize + (team * TeamSizeJ);
+        public static int GetTeamOffset(int team) => 0 + (team * 2 * TeamSizeJ); // backups are after each team
 
         public string GetTeamName(int team)
         {

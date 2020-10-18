@@ -111,8 +111,13 @@ namespace PKHeX.Core
                 abil = ability_param;
             abil <<= 1; // 1/2/4
 
-            if ((pk.AbilityNumber == 4) != (abil == 4))
-                return false;
+            var current = pk.AbilityNumber;
+            if (abil == 4)
+            {
+                if (current != 4)
+                    return false;
+            }
+            // else, for things that were made Hidden Ability, defer to Ability Checks (Ability Patch)
 
             switch (gender_ratio)
             {

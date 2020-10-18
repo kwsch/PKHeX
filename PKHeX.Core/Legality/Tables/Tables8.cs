@@ -6,10 +6,10 @@ namespace PKHeX.Core
     public static partial class Legal
     {
         // Current Binaries
-        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R1;
-        internal const int MaxMoveID_8 = MaxMoveID_8_R1;
-        internal const int MaxItemID_8 = MaxItemID_8_R1;
-        internal const int MaxAbilityID_8 = MaxAbilityID_8_R1;
+        internal const int MaxSpeciesID_8 = MaxSpeciesID_8_R2;
+        internal const int MaxMoveID_8 = MaxMoveID_8_R2;
+        internal const int MaxItemID_8 = MaxItemID_8_R2;
+        internal const int MaxAbilityID_8 = MaxAbilityID_8_R2;
 
         // Orion (No DLC)
         internal const int MaxSpeciesID_8_O0 = 890; // Eternatus
@@ -22,6 +22,12 @@ namespace PKHeX.Core
         internal const int MaxMoveID_8_R1 = 818; // Surging Strikes
         internal const int MaxItemID_8_R1 = 1589; // Mark Charm
         internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
+
+        // Rigel 2 (DLC 2: Crown Tundra)
+        internal const int MaxSpeciesID_8_R2 = 893; // todo
+        internal const int MaxMoveID_8_R2 = 818; // todo
+        internal const int MaxItemID_8_R2 = 1589; // todo
+        internal const int MaxAbilityID_8_R2 = 260; // todo
 
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
         internal const int MaxGameID_8 = 45;
@@ -106,6 +112,9 @@ namespace PKHeX.Core
             1532, 1533, 1534, 1535, 1536, 1537, 1538, 1539, 1540, 1541, 1542, 1543, 1544, 1545, 1546, 1547, 1548, 1549,
             1550, 1551, 1552, 1553, 1554, 1555, 1556, 1557, 1558, 1559, 1560, 1561, 1562, 1563, 1564, 1565, 1566, 1567,
             1568, 1569, 1570, 1571, 1572, 1573, 1574, 1575, 1576, 1577, 1578, 1581, 1582, 1588,
+
+            // DLC 2
+            1592, 1604, 1606
         };
 
         internal static readonly ushort[] Pouch_Ball_SWSH =
@@ -132,6 +141,9 @@ namespace PKHeX.Core
             943, 944, 945, 946,
             1074, 1075, 1076, 1077, 1080, 1081, 1100, 1255, 1266, 1267,
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
+
+            // DLC 2
+            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605
         };
 
         internal static readonly ushort[] TM_SWSH =

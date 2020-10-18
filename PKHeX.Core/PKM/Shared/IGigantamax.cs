@@ -26,7 +26,7 @@ namespace PKHeX.Core
         /// <returns>True if either species can toggle Gigantamax potential</returns>
         public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm, int originSpecies, int originForm)
         {
-            if (currentSpecies == (int)Species.Meowth)
+            if (currentSpecies == (int)Species.Meowth || currentSpecies == (int)Species.Pikachu)
                 return currentForm == 0;
 
             var soup = CanEatMaxSoup;
@@ -53,9 +53,6 @@ namespace PKHeX.Core
             (int)Species.Venusaur,
             (int)Species.Charizard,
             (int)Species.Blastoise,
-            (int)Species.Rillaboom,
-            (int)Species.Cinderace,
-            (int)Species.Inteleon,
             (int)Species.Butterfree,
             (int)Species.Pikachu,
             (int)Species.Meowth,
@@ -65,6 +62,9 @@ namespace PKHeX.Core
             (int)Species.Eevee,
             (int)Species.Snorlax,
             (int)Species.Garbodor,
+            (int)Species.Rillaboom,
+            (int)Species.Cinderace,
+            (int)Species.Inteleon,
             (int)Species.Drednaw,
             (int)Species.Corviknight,
             (int)Species.Toxtricity,
