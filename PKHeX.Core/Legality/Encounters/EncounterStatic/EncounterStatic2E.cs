@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 return false;
 
             // EC/PID check doesn't exist for these, so check Shiny state here.
-            if ((Shiny == Shiny.Always) != pkm.IsShiny && Location != 14) // Celebi is the only Wild "event", can be either.
+            if (!IsShinyValid(pkm))
                 return false;
 
             if (EggEncounter && !pkm.IsEgg)
@@ -60,6 +60,13 @@ namespace PKHeX.Core
 
             return true;
         }
+
+        private bool IsShinyValid(PKM pkm) => Shiny switch
+        {
+            Shiny.Never => !pkm.IsShiny,
+            Shiny.Always => pkm.IsShiny,
+            _ => true
+        };
 
         public override bool IsMatchDeferred(PKM pkm)
         {
