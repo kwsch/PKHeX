@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
         private readonly SAV8SWSH SAV;
         private readonly SCBlockMetadata Metadata;
 
-        private SCBlock CurrentBlock;
+        private SCBlock CurrentBlock = null!;
 
         public SAV_BlockDump8(SaveFile sav)
         {
@@ -38,7 +38,9 @@ namespace PKHeX.WinForms
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
 
-            CB_TypeToggle.SelectedIndexChanged += CB_TypeToggle_SelectedIndexChanged;
+            CB_TypeToggle.SelectedIndexChanged += (o, args) => CB_TypeToggle_SelectedIndexChanged(CB_TypeToggle, args);
+
+            CB_Key.SelectedIndex = 0;
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
@@ -63,7 +65,7 @@ namespace PKHeX.WinForms
             L_Detail_R.Text = GetBlockSummary(block);
             RTB_Hex.Text = string.Join(" ", block.Data.Select(z => $"{z:X2}"));
 
-            string blockName = Metadata.GetBlockName(block, out SaveBlock obj);
+            var blockName = Metadata.GetBlockName(block, out var obj);
             if (blockName != null)
             {
                 L_BlockName.Visible = true;
@@ -101,11 +103,12 @@ namespace PKHeX.WinForms
 
         private void CB_TypeToggle_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var cType = CurrentBlock.Type;
+            var block = CurrentBlock;
+            var cType = block.Type;
             var cValue = (SCTypeCode)WinFormsUtil.GetIndex(CB_TypeToggle);
             if (cType == cValue)
                 return;
-            CurrentBlock.Type = cValue;
+            block.Type = cValue;
             UpdateBlockSummaryControls();
         }
 

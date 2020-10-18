@@ -78,10 +78,10 @@ namespace PKHeX.WinForms
 
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
-        private List<MysteryGift> Results;
-        private List<MysteryGift> RawDB;
+        private List<MysteryGift> Results = new List<MysteryGift>();
+        private List<MysteryGift> RawDB = new List<MysteryGift>();
         private int slotSelected = -1; // = null;
-        private Image slotColor;
+        private Image? slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
@@ -172,7 +172,7 @@ namespace PKHeX.WinForms
             }
 
             // Trigger a Reset
-            ResetFilters(null, EventArgs.Empty);
+            ResetFilters(this, EventArgs.Empty);
             B_Search.Enabled = true;
         }
 
@@ -186,7 +186,7 @@ namespace PKHeX.WinForms
             CB_Move1.SelectedIndex = CB_Move2.SelectedIndex = CB_Move3.SelectedIndex = CB_Move4.SelectedIndex = 0;
             RTB_Instructions.Clear();
 
-            if (sender != null)
+            if (sender != this)
                 System.Media.SystemSounds.Asterisk.Play();
         }
 
@@ -224,7 +224,7 @@ namespace PKHeX.WinForms
 
         private void Menu_Export_Click(object sender, EventArgs e)
         {
-            if (Results == null || Results.Count == 0)
+            if (Results.Count == 0)
             { WinFormsUtil.Alert(MsgDBCreateReportFail); return; }
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBExportResultsPrompt))
@@ -315,10 +315,13 @@ namespace PKHeX.WinForms
 
         private void FillPKXBoxes(int start)
         {
-            if (Results == null)
+            if (Results.Count == 0)
             {
                 for (int i = 0; i < RES_MAX; i++)
+                {
                     PKXBOXES[i].Image = null;
+                    PKXBOXES[i].BackgroundImage = null;
+                }
                 return;
             }
             int begin = start * RES_MIN;

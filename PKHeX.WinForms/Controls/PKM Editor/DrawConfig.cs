@@ -118,7 +118,7 @@ namespace PKHeX.WinForms
                     continue;
 
                 var name = p.Name;
-                var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)).ToArgb() : p.GetValue(this);
+                var value = p.PropertyType == typeof(Color) ? ((Color)p.GetValue(this)!).ToArgb() : p.GetValue(this);
                 lines.Add($"{name}\t{value}");
             }
             return string.Join("\n", lines);
@@ -171,11 +171,11 @@ namespace PKHeX.WinForms
 
     public sealed class BrushSet : IDisposable
     {
-        public Brush Text { get; set; }
-        public Brush BackLegal { get; set; }
-        public Brush BackDefault { get; set; }
-        public Brush TextHighlighted { get; set; }
-        public Brush BackHighlighted { get; set; }
+        public Brush Text { get; set; } = Brushes.Black;
+        public Brush BackLegal { get; set; } = Brushes.DarkSeaGreen;
+        public Brush BackDefault { get; set; } = Brushes.White;
+        public Brush TextHighlighted { get; set; } = Brushes.White;
+        public Brush BackHighlighted { get; set; } = Brushes.Blue;
 
         public Brush GetText(bool highlight) => highlight ? TextHighlighted : Text;
         public Brush GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackDefault);

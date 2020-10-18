@@ -43,7 +43,7 @@ namespace PKHeX.WinForms
 
         private void Main_DragDrop(object sender, DragEventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            var files = (string[]?)e.Data.GetData(DataFormats.FileDrop);
             if (files == null || files.Length == 0)
                 return;
             ImportGP1From(files[0]);
@@ -108,7 +108,7 @@ namespace PKHeX.WinForms
             TextBox tb = sender as TextBox ?? TB_OTName;
 
             // Special Character Form
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }

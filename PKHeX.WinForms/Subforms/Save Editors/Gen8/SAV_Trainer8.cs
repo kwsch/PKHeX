@@ -36,8 +36,8 @@ namespace PKHeX.WinForms
 
             TC_Editor.TabPages.Remove(Tab_BadgeMap); // needs more work
 
-            ChangeTitleScreenIndex(null, EventArgs.Empty);
-            ChangeTrainerCardIndex(null, EventArgs.Empty);
+            ChangeTitleScreenIndex(this, EventArgs.Empty);
+            ChangeTrainerCardIndex(this, EventArgs.Empty);
 
             //Loading = false;
         }
@@ -182,7 +182,7 @@ namespace PKHeX.WinForms
             if (ModifierKeys != Keys.Control)
                 return;
 
-            var d = new TrashEditor(tb, null, SAV);
+            var d = new TrashEditor(tb, SAV);
             d.ShowDialog();
             tb.Text = d.FinalString;
         }
@@ -228,14 +228,14 @@ namespace PKHeX.WinForms
         {
             SAV.Blocks.TrainerCard.SetPartyData();
             System.Media.SystemSounds.Asterisk.Play();
-            ChangeTrainerCardIndex(null, EventArgs.Empty);
+            ChangeTrainerCardIndex(this, EventArgs.Empty);
         }
 
         private void B_CopyFromPartyToTitleScreen_Click(object sender, EventArgs e)
         {
             SAV.Blocks.TitleScreen.SetPartyData();
             System.Media.SystemSounds.Asterisk.Play();
-            ChangeTitleScreenIndex(null, EventArgs.Empty);
+            ChangeTitleScreenIndex(this, EventArgs.Empty);
         }
 
         //private string UpdateTip(int index)

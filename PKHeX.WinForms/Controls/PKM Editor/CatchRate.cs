@@ -6,7 +6,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class CatchRate : UserControl
     {
-        private PK1 pk1;
+        private PK1 pk1 = new PK1();
         public CatchRate() => InitializeComponent();
 
         public void LoadPK1(PK1 pk) => NUD_CatchRate.Value = (pk1 = pk).Catch_Rate;
@@ -15,7 +15,9 @@ namespace PKHeX.WinForms.Controls
 
         private void Reset(object sender, EventArgs e)
         {
-            var sav = WinFormsUtil.FindFirstControlOfType<IMainEditor>(this).RequestSaveFile;
+            var sav = WinFormsUtil.FindFirstControlOfType<IMainEditor>(this)?.RequestSaveFile;
+            if (sav == null)
+                return;
             NUD_CatchRate.Value = CatchRateApplicator.GetSuggestedCatchRate(pk1, sav);
         }
     }

@@ -7,7 +7,7 @@ namespace PKHeX.WinForms
     public partial class PoffinCase4Editor : UserControl
     {
         public PoffinCase4Editor() => InitializeComponent();
-        private PoffinCase4 Case;
+        private PoffinCase4 Case = null!; // initialized on load
         private int CurrentIndex = -1;
         private bool Updating;
 

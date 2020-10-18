@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
             dgData.ContextMenuStrip = mnu;
         }
 
-        private sealed class PokemonList<T> : SortableBindingList<T> { }
+        private sealed class PokemonList<T> : SortableBindingList<T> where T : class { }
 
         public void PopulateData(IList<PKM> Data)
         {
@@ -84,7 +84,7 @@ namespace PKHeX.WinForms
                 dgData.Columns[i].Width = w;
             }
             dgData.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
-            Data_Sorted(null, EventArgs.Empty); // trigger row resizing
+            Data_Sorted(this, EventArgs.Empty); // trigger row resizing
 
             ResumeLayout();
         }

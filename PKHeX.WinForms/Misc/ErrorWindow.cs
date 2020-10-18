@@ -52,11 +52,11 @@ namespace PKHeX.WinForms
             set => L_Message.Text = value;
         }
 
-        private Exception _error;
+        private Exception? _error;
 
         public Exception Error
         {
-            get => _error;
+            get => _error ?? throw new ArgumentNullException(nameof(_error));
             set
             {
                 _error = value;

@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
             editing = false;
         }
 
-        private readonly Mail[] m;
+        private readonly Mail[] m = null!;
         private bool editing;
         private int entry;
         private readonly NumericUpDown[][] Messages;
@@ -246,9 +246,9 @@ namespace PKHeX.WinForms
         private readonly int Gen;
         private readonly byte ResetVer, ResetLang;
         private readonly int PartyBoxCount;
-        private string loadedLBItemLabel;
+        private string loadedLBItemLabel = null!;
         private bool LabelValue_GenderF;
-        private readonly int[] MailItemID;
+        private readonly int[] MailItemID = null!;
         private readonly IList<PKM> p;
 
         private void Save()
@@ -292,6 +292,7 @@ namespace PKHeX.WinForms
             mail.AuthorName = TB_AuthorName.Text;
             mail.AuthorTID = (ushort)NUD_AuthorTID.Value;
             mail.MailType = CBIndexToMailType(CB_MailType.SelectedIndex);
+            // ReSharper disable once ConstantNullCoalescingCondition
             int v = (int?)CB_AppearPKM1.SelectedValue ?? 0;
             if (Gen == 2)
             {
@@ -310,8 +311,13 @@ namespace PKHeX.WinForms
                 mail.AppearPKM = v < 252 ? v : HoennListMixed[v - 252];
                 return;
             }
+
+            // ReSharper disable once ConstantNullCoalescingCondition
             mail.AuthorVersion = (byte)((int?)CB_AuthorVersion.SelectedValue ?? 0);
+
+            // ReSharper disable once ConstantNullCoalescingCondition
             mail.AuthorLanguage = (byte)((int?)CB_AuthorLang.SelectedValue ?? 0);
+
             mail.AuthorGender = (byte)((mail.AuthorGender & 0xFE) | (LabelValue_GenderF ? 1 : 0));
             switch (mail)
             {
@@ -427,7 +433,7 @@ namespace PKHeX.WinForms
 
         private string GetSpeciesNameFromCB(int index)
         {
-            foreach (ComboItem i in CB_AppearPKM1.Items)
+            foreach (var i in CB_AppearPKM1.Items.OfType<ComboItem>())
             {
                 if (index == i.Value)
                     return i.Text;
@@ -446,14 +452,14 @@ namespace PKHeX.WinForms
             ret = WinFormsUtil.Prompt(MessageBoxButtons.YesNoCancel, msg);
             if (ret != DialogResult.Yes)
                 return ret;
-            foreach (PKM pkm in s)
+            foreach (var pkm in s)
             {
-                if (pkm != null)
-                {
-                    pkm.HeldItem = 0;
-                    if (Gen == 3)
-                        ((PK3)pkm).HeldMailID = -1;
-                }
+                if (pkm == null)
+                    continue;
+
+                pkm.HeldItem = 0;
+                if (Gen == 3)
+                    ((PK3)pkm).HeldMailID = -1;
             }
             LoadPKM(false);
             return ret;

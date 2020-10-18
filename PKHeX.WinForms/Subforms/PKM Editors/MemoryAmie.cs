@@ -358,18 +358,18 @@ namespace PKHeX.WinForms
             public TextMarkup(string[] args)
             {
                 Array.Resize(ref args, 10);
-                if (args[0] != null) Disabled = args[0];
-                if (args[1] != null) NeverLeft = args[1];
-                if (args[2] != null) OT = args[2];
-                if (args[3] != null) PastGen = args[3];
-                if (args[4] != null) MemoriesWith = args[4];
+                if (!string.IsNullOrWhiteSpace(args[0])) Disabled = args[0];
+                if (!string.IsNullOrWhiteSpace(args[1])) NeverLeft = args[1];
+                if (!string.IsNullOrWhiteSpace(args[2])) OT = args[2];
+                if (!string.IsNullOrWhiteSpace(args[3])) PastGen = args[3];
+                if (!string.IsNullOrWhiteSpace(args[4])) MemoriesWith = args[4];
 
                 // Pokémon ; Area ; Item(s) ; Move ; Location
-                if (args[5] != null) Species = args[5] + ":";
-                if (args[6] != null) Area = args[6] + ":";
-                if (args[7] != null) Item = args[7] + ":";
-                if (args[8] != null) Move = args[8] + ":";
-                if (args[9] != null) Location = args[9] + ":";
+                if (!string.IsNullOrWhiteSpace(args[5])) Species = args[5] + ":";
+                if (!string.IsNullOrWhiteSpace(args[6])) Area = args[6] + ":";
+                if (!string.IsNullOrWhiteSpace(args[7])) Item = args[7] + ":";
+                if (!string.IsNullOrWhiteSpace(args[8])) Move = args[8] + ":";
+                if (!string.IsNullOrWhiteSpace(args[9])) Location = args[9] + ":";
             }
 
             public string GetMemoryCategory(MemoryArgType type, int format)

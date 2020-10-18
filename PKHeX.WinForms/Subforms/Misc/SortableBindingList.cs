@@ -4,12 +4,12 @@ using System.ComponentModel;
 
 namespace PKHeX.WinForms
 {
-    public abstract class SortableBindingList<T> : BindingList<T>
+    public abstract class SortableBindingList<T> : BindingList<T> where T : class
     {
         private readonly Dictionary<Type, PropertyComparer<T>> comparers;
         private bool isSorted;
         private ListSortDirection listSortDirection;
-        private PropertyDescriptor propertyDescriptor;
+        private PropertyDescriptor? propertyDescriptor;
 
         protected SortableBindingList() : base(new List<T>())
         {
@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
 
         protected override bool IsSortedCore => isSorted;
 
-        protected override PropertyDescriptor SortPropertyCore => propertyDescriptor;
+        protected override PropertyDescriptor? SortPropertyCore => propertyDescriptor;
 
         protected override ListSortDirection SortDirectionCore => listSortDirection;
 
@@ -31,7 +31,7 @@ namespace PKHeX.WinForms
             List<T> itemsList = (List<T>)Items;
 
             Type propertyType = prop.PropertyType;
-            if (!comparers.TryGetValue(propertyType, out PropertyComparer<T> comparer))
+            if (!comparers.TryGetValue(propertyType, out var comparer))
             {
                 comparer = new PropertyComparer<T>(prop, direction);
                 comparers.Add(propertyType, comparer);

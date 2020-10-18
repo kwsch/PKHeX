@@ -14,14 +14,17 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed partial class PKMEditor : UserControl, IMainEditor
     {
+        public bool IsInitialized { get; set; }
+
         public PKMEditor()
         {
             InitializeComponent();
 
-            GB_OT.Click += ClickGT;
-            GB_nOT.Click += ClickGT;
-            GB_CurrentMoves.Click += ClickMoves;
-            GB_RelearnMoves.Click += ClickMoves;
+            // Groupbox doesn't show Click event in Designer...
+            GB_OT.Click += (_, args) => ClickGT(GB_OT, args);
+            GB_nOT.Click += (_, args) => ClickGT(GB_nOT, args);
+            GB_CurrentMoves.Click += (_, args) => ClickMoves(GB_CurrentMoves, args);
+            GB_RelearnMoves.Click += (_, args) => ClickMoves(GB_RelearnMoves, args);
 
             TB_Nickname.Font = FontUtil.GetPKXFont();
             TB_OT.Font = (Font)TB_Nickname.Font.Clone();
@@ -47,7 +50,7 @@ namespace PKHeX.WinForms.Controls
 
             Stats.MainEditor = this;
             LoadShowdownSet = LoadShowdownSetDefault;
-            TID_Trainer.UpdatedID += Update_ID;
+            TID_Trainer.UpdatedID += (_, args) => Update_ID(TID_Trainer, args);
         }
 
         public void InitializeBinding()
@@ -88,19 +91,18 @@ namespace PKHeX.WinForms.Controls
             {
                 _hideSecret = value;
                 var sav = RequestSaveFile;
-                if (sav != null)
-                    ToggleSecrets(_hideSecret, sav.Generation);
+                ToggleSecrets(_hideSecret, sav.Generation);
             }
         }
 
-        public DrawConfig Draw { private get; set; }
+        public DrawConfig Draw { private get; set; } = null!;
         public bool Unicode { get; set; } = true;
         private bool _hax;
         public bool HaX { get => _hax; set => _hax = Stats.HaX = value; }
         private byte[] LastData = Array.Empty<byte>();
 
         public PKM Data { get => Entity; set => Entity = value; }
-        public PKM Entity { get; private set; }
+        public PKM Entity { get; private set; } = null!;
         public bool FieldsLoaded { get; private set; }
         public bool ChangingFields { get; set; }
 
@@ -112,17 +114,17 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// Action to perform when loading a PKM to the editor GUI.
         /// </summary>
-        private Action GetFieldsfromPKM;
+        private Action GetFieldsfromPKM = null!;
 
         /// <summary>
         /// Function that returns a <see cref="PKM"/> from the loaded fields.
         /// </summary>
-        private Func<PKM> GetPKMfromFields;
+        private Func<PKM> GetPKMfromFields = null!;
 
         /// <summary>
         /// Latest legality check result used to show legality indication.
         /// </summary>
-        private LegalityAnalysis Legality;
+        private LegalityAnalysis Legality = null!;
 
         /// <summary>
         /// List of legal moves for the latest <see cref="Legality"/>.
@@ -134,15 +136,15 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private IReadOnlyList<string> gendersymbols = GameInfo.GenderSymbolUnicode;
 
-        public event EventHandler LegalityChanged;
-        public event EventHandler UpdatePreviewSprite;
-        public event EventHandler RequestShowdownImport;
-        public event EventHandler RequestShowdownExport;
-        public event ReturnSAVEventHandler SaveFileRequested;
+        public event EventHandler? LegalityChanged;
+        public event EventHandler? UpdatePreviewSprite;
+        public event EventHandler? RequestShowdownImport;
+        public event EventHandler? RequestShowdownExport;
+        public event ReturnSAVEventHandler SaveFileRequested = null!;
         public delegate SaveFile ReturnSAVEventHandler(object sender, EventArgs e);
 
         private readonly PictureBox[] movePB, relearnPB;
-        public SaveFile RequestSaveFile => SaveFileRequested?.Invoke(this, EventArgs.Empty);
+        public SaveFile RequestSaveFile => SaveFileRequested.Invoke(this, EventArgs.Empty);
         public bool PKMIsUnsaved => FieldsLoaded && LastData.Any(b => b != 0) && !LastData.SequenceEqual(CurrentPKM.Data);
 
         private readonly ComboBox[] Moves, Relearn, ValidationRequired, PPUps;
@@ -252,7 +254,7 @@ namespace PKHeX.WinForms.Controls
 
         public void PopulateFields(PKM pk, bool focus = true, bool skipConversionCheck = false) => LoadFieldsFromPKM(pk, focus, skipConversionCheck);
 
-        private void LoadFieldsFromPKM(PKM pk, bool focus = true, bool skipConversionCheck = true)
+        private void LoadFieldsFromPKM(PKM? pk, bool focus = true, bool skipConversionCheck = true)
         {
             if (pk == null) { WinFormsUtil.Error(MsgPKMLoadNull); return; }
             if (focus)
@@ -272,9 +274,9 @@ namespace PKHeX.WinForms.Controls
             GetFieldsfromPKM();
 #endif
 
-            Stats.UpdateIVs(null, EventArgs.Empty);
-            UpdatePKRSInfected(null, EventArgs.Empty);
-            UpdatePKRSCured(null, EventArgs.Empty);
+            Stats.UpdateIVs(this, EventArgs.Empty);
+            UpdatePKRSInfected(this, EventArgs.Empty);
+            UpdatePKRSCured(this, EventArgs.Empty);
             UpdateNatureModification(CB_StatNature);
 
             if (HaX) // Load original values from pk not pkm
@@ -293,7 +295,7 @@ namespace PKHeX.WinForms.Controls
             LastData = PreparePKM().Data;
         }
 
-        public void UpdateLegality(LegalityAnalysis la = null, bool skipMoveRepop = false)
+        public void UpdateLegality(LegalityAnalysis? la = null, bool skipMoveRepop = false)
         {
             if (!FieldsLoaded)
                 return;
@@ -313,7 +315,7 @@ namespace PKHeX.WinForms.Controls
             {
                 bool invalid = !Legality.Info.Moves[i].Valid;
 
-                Bitmap img;
+                Bitmap? img;
                 if (invalid)
                     img = Resources.warn;
                 else if (Entity.Format >= 8 && Legal.DummiedMoves_SWSH.Contains(moves[i]))
@@ -405,7 +407,7 @@ namespace PKHeX.WinForms.Controls
                  if (tr is SAV1 s1 && Entity is PK1 p1) p1.OT_Trash = s1.OT_Trash;
             else if (tr is SAV2 s2 && Entity is PK2 p2) p2.OT_Trash = s2.OT_Trash;
 
-            UpdateNickname(null, EventArgs.Empty);
+            UpdateNickname(this, EventArgs.Empty);
         }
 
         private void SetDetailsHT(ITrainerInfo tr)
@@ -424,7 +426,7 @@ namespace PKHeX.WinForms.Controls
         private void SetForms()
         {
             int species = Entity.Species;
-            var pi = RequestSaveFile?.Personal[species] ?? Entity.PersonalInfo;
+            var pi = RequestSaveFile.Personal[species];
             bool hasForms = FormConverter.HasFormSelection(pi, species, Entity.Format);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
@@ -506,7 +508,7 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        private static Image GetOriginSprite(PKM pkm)
+        private static Image? GetOriginSprite(PKM pkm)
         {
             if (pkm.Format < 6)
                 return null;
@@ -588,7 +590,7 @@ namespace PKHeX.WinForms.Controls
             if (PKX.GetGenderFromString(CB_Form.Text) < 2) // Gendered Forms
                 CB_Form.SelectedIndex = Math.Min(newGender, CB_Form.Items.Count - 1);
 
-            UpdatePreviewSprite(Label_Gender, EventArgs.Empty);
+            UpdatePreviewSprite?.Invoke(Label_Gender, EventArgs.Empty);
         }
 
         private void ClickPP(object sender, EventArgs e)
@@ -621,8 +623,8 @@ namespace PKHeX.WinForms.Controls
             SetMarkings();
         }
 
-        private void ClickOT(object sender, EventArgs e) => SetDetailsOT(SaveFileRequested?.Invoke(this, e));
-        private void ClickCT(object sender, EventArgs e) => SetDetailsHT(SaveFileRequested?.Invoke(this, e));
+        private void ClickOT(object sender, EventArgs e) => SetDetailsOT(SaveFileRequested.Invoke(this, e));
+        private void ClickCT(object sender, EventArgs e) => SetDetailsHT(SaveFileRequested.Invoke(this, e));
 
         private void ClickTRGender(object sender, EventArgs e)
         {
@@ -745,7 +747,7 @@ namespace PKHeX.WinForms.Controls
             Entity.SetMoves(m);
             FieldsLoaded = false;
             LoadMoves(Entity);
-            ClickPP(null, EventArgs.Empty);
+            ClickPP(this, EventArgs.Empty);
             FieldsLoaded = true;
             return true;
         }
@@ -974,7 +976,7 @@ namespace PKHeX.WinForms.Controls
                     while (Entity.AltForm != desiredForm)
                     {
                         FieldsLoaded = false;
-                        Stats.UpdateRandomIVs(null, EventArgs.Empty);
+                        Stats.UpdateRandomIVs(sender, EventArgs.Empty);
                         FieldsLoaded = true;
                     }
                 }
@@ -1154,7 +1156,7 @@ namespace PKHeX.WinForms.Controls
             SpeciesIDTip.SetToolTip(CB_Species, Entity.Species.ToString("000"));
             SetAbilityList();
             SetForms();
-            UpdateForm(null, EventArgs.Empty);
+            UpdateForm(sender, EventArgs.Empty);
 
             if (!FieldsLoaded)
                 return;
@@ -1312,8 +1314,6 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             var sav = RequestSaveFile;
-            if (sav == null) // form did not provide the needed info
-                return;
 
             if (tb == TB_Nickname)
             {
@@ -1345,7 +1345,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (string.IsNullOrWhiteSpace(TB_OTt2.Text))
             {
-                ClickGT(GB_OT, null); // Switch CT over to OT.
+                ClickGT(GB_OT, EventArgs.Empty); // Switch CT over to OT.
                 Label_CTGender.Text = string.Empty;
                 TB_Friendship.Text = Entity.CurrentFriendship.ToString();
             }
@@ -1378,13 +1378,10 @@ namespace PKHeX.WinForms.Controls
                 // if egg wasn't originally obtained by OT => Link Trade, else => None
                 if (Entity.Format >= 4)
                 {
-                    var sav = SaveFileRequested?.Invoke(this, e);
-                    if (sav != null)
-                    {
-                        bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
-                        var loc = isTraded ? Locations.TradedEggLocation(sav.Generation) : 0;
-                        CB_MetLocation.SelectedValue = loc;
-                    }
+                    var sav = SaveFileRequested.Invoke(this, e);
+                    bool isTraded = sav.OT != TB_OT.Text || sav.TID != Entity.TID || sav.SID != Entity.SID;
+                    var loc = isTraded ? Locations.TradedEggLocation(sav.Generation) : 0;
+                    CB_MetLocation.SelectedValue = loc;
                 }
 
                 if (!CHK_Nicknamed.Checked)
@@ -1401,7 +1398,7 @@ namespace PKHeX.WinForms.Controls
             else // Not Egg
             {
                 if (!CHK_Nicknamed.Checked)
-                    UpdateNickname(null, EventArgs.Empty);
+                    UpdateNickname(this, EventArgs.Empty);
 
                 TB_Friendship.Text = Entity.PersonalInfo.BaseFriendship.ToString();
 
@@ -1416,7 +1413,7 @@ namespace PKHeX.WinForms.Controls
                     CHK_Nicknamed.Checked = false;
             }
 
-            UpdateNickname(null, EventArgs.Empty);
+            UpdateNickname(this, EventArgs.Empty);
             UpdateSprite();
         }
 
@@ -1476,7 +1473,7 @@ namespace PKHeX.WinForms.Controls
             {
                 Entity.SetShiny();
                 Stats.LoadIVs(Entity.IVs);
-                Stats.UpdateIVs(null, EventArgs.Empty);
+                Stats.UpdateIVs(this, EventArgs.Empty);
             }
 
             UpdateIsShiny();
@@ -1585,7 +1582,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            ValidateComboBox(sender, null);
+            ValidateComboBox(sender, new CancelEventArgs());
             if (sender == CB_Ability)
             {
                 if (Entity.Format >= 6)
@@ -1600,14 +1597,14 @@ namespace PKHeX.WinForms.Controls
                     UpdateRandomPID(sender, e);
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
                 UpdateNatureModification(CB_Nature);
-                Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
+                Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }
             else if (sender == CB_StatNature)
             {
                 Entity.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
                 UpdateNatureModification(CB_StatNature);
-                Stats.UpdateIVs(null, EventArgs.Empty); // updating Nature will trigger stats to update as well
+                Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }
             else if (sender == CB_HeldItem)
@@ -1846,7 +1843,7 @@ namespace PKHeX.WinForms.Controls
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (Entity.Format == 2)
-                UpdateOriginGame(null, EventArgs.Empty);
+                UpdateOriginGame(this, EventArgs.Empty);
             return TranslationRequired;
         }
 
@@ -1860,7 +1857,7 @@ namespace PKHeX.WinForms.Controls
         {
             AllowDrop = true;
             DragDrop += drop;
-            foreach (TabPage tab in tabMain.TabPages)
+            foreach (var tab in tabMain.TabPages.OfType<TabPage>())
             {
                 tab.AllowDrop = true;
                 tab.DragEnter += enter;

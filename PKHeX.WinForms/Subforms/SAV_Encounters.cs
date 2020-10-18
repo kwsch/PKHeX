@@ -93,9 +93,9 @@ namespace PKHeX.WinForms
         }
 
         private readonly PictureBox[] PKXBOXES;
-        private List<IEncounterable> Results;
+        private List<IEncounterable> Results = new List<IEncounterable>();
         private int slotSelected = -1; // = null;
-        private Image slotColor;
+        private Image? slotColor;
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
@@ -152,7 +152,7 @@ namespace PKHeX.WinForms
             DS_Version.Insert(0, Any); CB_GameOrigin.DataSource = DS_Version;
 
             // Trigger a Reset
-            ResetFilters(null, EventArgs.Empty);
+            ResetFilters(this, EventArgs.Empty);
         }
 
         private void ResetFilters(object sender, EventArgs e)
@@ -162,7 +162,7 @@ namespace PKHeX.WinForms
             CB_GameOrigin.SelectedIndex = 0;
 
             RTB_Instructions.Clear();
-            if (sender == null)
+            if (sender == this)
                 return; // still starting up
             foreach (var chk in TypeFilters.Controls.OfType<CheckBox>())
                 chk.Checked = true;
@@ -198,10 +198,22 @@ namespace PKHeX.WinForms
             return results;
         }
 
-        private sealed class ReferenceComparer<T> : IEqualityComparer<T>
+        private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
         {
-            public bool Equals(T x, T y) => RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
-            public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
+            public bool Equals(T? x, T? y)
+            {
+                if (x == null)
+                    return false;
+                if (y == null)
+                    return false;
+                return RuntimeHelpers.GetHashCode(x).Equals(RuntimeHelpers.GetHashCode(y));
+            }
+
+            public int GetHashCode(T obj)
+            {
+                if (obj == null) throw new ArgumentNullException(nameof(obj));
+                return RuntimeHelpers.GetHashCode(obj);
+            }
         }
 
         private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
@@ -274,10 +286,13 @@ namespace PKHeX.WinForms
 
         private void FillPKXBoxes(int start)
         {
-            if (Results == null)
+            if (Results.Count == 0)
             {
                 for (int i = 0; i < RES_MAX; i++)
+                {
                     PKXBOXES[i].Image = null;
+                    PKXBOXES[i].BackgroundImage = null;
+                }
                 return;
             }
             int begin = start*RES_MIN;

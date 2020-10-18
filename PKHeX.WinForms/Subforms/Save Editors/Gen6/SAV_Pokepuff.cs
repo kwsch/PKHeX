@@ -105,7 +105,7 @@ namespace PKHeX.WinForms
             var puffs = new List<byte>();
             for (int i = 0; i < dgv.Rows.Count; i++)
             {
-                string puff = dgv.Rows[i].Cells[1].Value.ToString();
+                var puff = dgv.Rows[i].Cells[1].Value?.ToString();
                 int index = (byte)Array.IndexOf(pfa, puff);
                 puffs.Add((byte)index);
             }

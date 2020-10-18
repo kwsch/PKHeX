@@ -153,8 +153,10 @@ namespace PKHeX.WinForms
         {
             var path3DS = SaveFinder.Get3DSLocation(drives);
             if (path3DS == null)
-                return Enumerable.Empty<CustomFolderPath>();
+                return Array.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(path3DS);
+            if (root == null)
+                return Array.Empty<CustomFolderPath>();
             var paths = SaveFinder.Get3DSBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
@@ -163,8 +165,10 @@ namespace PKHeX.WinForms
         {
             var pathNX = SaveFinder.GetSwitchLocation(drives);
             if (pathNX == null)
-                return Enumerable.Empty<CustomFolderPath>();
+                return Array.Empty<CustomFolderPath>();
             var root = Path.GetPathRoot(pathNX);
+            if (root == null)
+                return Array.Empty<CustomFolderPath>();
             var paths = SaveFinder.GetSwitchBackupPaths(root);
             return paths.Select(z => new CustomFolderPath(z));
         }
@@ -207,11 +211,11 @@ namespace PKHeX.WinForms
 
         private string GetParentFolderName(SaveFile first)
         {
-            var parent = Paths.Find(z => first.FileFolder.StartsWith(z.Path));
+            var parent = Paths.Find(z => first.FileFolder?.StartsWith(z.Path) == true);
             return parent?.DisplayText ?? "???";
         }
 
-        private sealed class SaveList<T> : SortableBindingList<T> { }
+        private sealed class SaveList<T> : SortableBindingList<T> where T : class { }
 
         private sealed class SavePreview
         {
@@ -237,7 +241,7 @@ namespace PKHeX.WinForms
             // ReSharper disable once UnusedAutoPropertyAccessor.Local
             public string Folder { get; }
 
-            public string Name => Path.GetFileName(Save.FilePath);
+            public string? Name => Path.GetFileName(Save.FilePath);
         }
 
         private ContextMenuStrip GetContextMenu(DataGridView dgv)
@@ -289,7 +293,7 @@ namespace PKHeX.WinForms
             Process.Start("explorer.exe", $"/select, \"{path}\"");
         }
 
-        private SavePreview GetSaveFile(DataGridView dgData)
+        private SavePreview? GetSaveFile(DataGridView dgData)
         {
             var c = dgData.SelectedCells;
             if (c.Count != 1)
@@ -334,8 +338,6 @@ namespace PKHeX.WinForms
                 while (enumerator.MoveNext())
                 {
                     var next = enumerator.Current;
-                    if (next == null)
-                        continue;
                     var sav = new SavePreview(next, GetParentFolderName(next));
                     dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
                     ctr++;
@@ -415,7 +417,12 @@ namespace PKHeX.WinForms
                 return;
             }
             var cell = row.Cells[column];
-            var value = cell.Value.ToString();
+            var value = cell.Value?.ToString();
+            if (value == null)
+            {
+                row.Visible = false;
+                return;
+            }
             row.Visible = value.IndexOf(text, StringComparison.CurrentCultureIgnoreCase) >= 0; // case insensitive contains
         }
     }
