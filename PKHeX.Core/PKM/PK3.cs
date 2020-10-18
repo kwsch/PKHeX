@@ -201,6 +201,8 @@ namespace PKHeX.Core
             base.RefreshChecksum();
         }
 
+        protected override ushort CalculateChecksum() => PokeCrypto.GetCHK3(Data);
+
         public PK4 ConvertToPK4()
         {
             PK4 pk4 = new PK4 // Convert away!
