@@ -118,8 +118,11 @@ namespace PKHeX.Core
                 case 2:
                     return EncounterStatic7.GetVC2(species, pkm.Met_Level);
                 default:
-                    var dl = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
-                    return GetPossible(pkm, dl).FirstOrDefault();
+                    var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
+                    return GetPossible(pkm, chain)
+                        .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
+                        .ThenBy(z => z.LevelMin)
+                        .FirstOrDefault();
             }
         }
 
