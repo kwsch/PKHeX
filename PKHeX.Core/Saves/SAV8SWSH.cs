@@ -77,6 +77,7 @@ namespace PKHeX.Core
         public override TrainerCard8 TrainerCard => Blocks.TrainerCard;
         public override RaidSpawnList8 Raid => Blocks.Raid;
         public override RaidSpawnList8 RaidArmor => Blocks.RaidArmor;
+        public override RaidSpawnList8 RaidCrown => Blocks.RaidCrown;
         public override TitleScreen8 TitleScreen => Blocks.TitleScreen;
         public override TeamIndexes8 TeamIndexes => Blocks.TeamIndexes;
 

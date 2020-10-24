@@ -56,6 +56,7 @@ namespace PKHeX.Core
         public abstract TrainerCard8 TrainerCard { get; }
         public abstract RaidSpawnList8 Raid { get; }
         public abstract RaidSpawnList8 RaidArmor { get; }
+        public abstract RaidSpawnList8 RaidCrown { get; }
         public abstract TitleScreen8 TitleScreen { get; }
         public abstract TeamIndexes8 TeamIndexes { get; }
         #endregion

@@ -23,6 +23,7 @@ namespace PKHeX.Core
         public FashionUnlock8 Fashion { get; }
         public RaidSpawnList8 Raid { get; }
         public RaidSpawnList8 RaidArmor { get; }
+        public RaidSpawnList8 RaidCrown { get; }
         public TitleScreen8 TitleScreen { get; }
         public TeamIndexes8 TeamIndexes { get; }
         public HallOfFameTime8 FameTime { get; }
@@ -45,6 +46,7 @@ namespace PKHeX.Core
             Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
             Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
             RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
+            RaidCrown = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
             TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
             TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
             FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
@@ -74,6 +76,7 @@ namespace PKHeX.Core
         private const uint KPlayTime = 0x8cbbfd90; // Time Played
         private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
         private const uint KRaidSpawnListR1 = 0x158DA896; // Raid Data for DLC1
+        private const uint KRaidSpawnListR2 = 0x148DA703; // Raid Data for DLC2
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details

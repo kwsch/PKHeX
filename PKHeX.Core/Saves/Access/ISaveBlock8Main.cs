@@ -16,6 +16,7 @@
         TrainerCard8 TrainerCard { get; }
         RaidSpawnList8 Raid { get; }
         RaidSpawnList8 RaidArmor { get; }
+        RaidSpawnList8 RaidCrown { get; }
         TitleScreen8 TitleScreen { get; }
         TeamIndexes8 TeamIndexes { get; }
     }

@@ -556,9 +556,12 @@ namespace PKHeX.WinForms.Controls
         {
             if (!(SAV is SAV8SWSH swsh))
                 return;
-            var raids = sender == B_Raids ? swsh.Raid : swsh.RaidArmor;
-            using var form = new SAV_Raid8(swsh, raids);
-            form.ShowDialog();
+            if (sender == B_Raids)
+                OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
+            else if (sender == B_RaidArmor)
+                OpenDialog(new SAV_Raid8(swsh, swsh.RaidArmor));
+            else
+                OpenDialog(new SAV_Raid8(swsh, swsh.RaidCrown));
         }
 
         private void B_OtherSlots_Click(object sender, EventArgs e)
@@ -1078,7 +1081,8 @@ namespace PKHeX.WinForms.Controls
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 B_Raids.Enabled = sav is SAV8SWSH;
-                B_RaidArmor.Enabled = sav is SAV8SWSH swsh && swsh.SaveRevision >= 1;
+                B_RaidArmor.Enabled = sav is SAV8SWSH ss1 && ss1.SaveRevision >= 1;
+                B_RaidCrown.Enabled = sav is SAV8SWSH ss2 && ss2.SaveRevision >= 2;
                 B_Blocks.Enabled = true;
 
                 SL_Extra.SAV = sav;
