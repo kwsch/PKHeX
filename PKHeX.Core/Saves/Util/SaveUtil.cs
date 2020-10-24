@@ -20,9 +20,10 @@ namespace PKHeX.Core
         public const int SIZE_G8SWSH_1 = 0x17195E; // 1.0 -> 1.1
         public const int SIZE_G8SWSH_2 = 0x180B19; // 1.0 -> 1.1 -> 1.2
         public const int SIZE_G8SWSH_2B = 0x180AD0; // 1.0 -> 1.2
-        public const int SIZE_G8SWSH_3 = -1; // 1.0 -> 1.1 -> 1.2 -> 1.3 todo
-        public const int SIZE_G8SWSH_3B = -2; // 1.0 -> 1.2 -> 1.3 todo
-        public const int SIZE_G8SWSH_3C = -3; // 1.0 -> 1.3 todo
+        public const int SIZE_G8SWSH_3 = 0x1876B1; // 1.0 -> 1.1 -> 1.2 -> 1.3
+        public const int SIZE_G8SWSH_3A = 0x187693; // 1.0 -> 1.1 -> 1.3
+        public const int SIZE_G8SWSH_3B = 0x187668; // 1.0 -> 1.2 -> 1.3
+        public const int SIZE_G8SWSH_3C = 0x18764A; // 1.0 -> 1.3
 
         public const int SIZE_G7GG = 0x100000;
         public const int SIZE_G7USUM = 0x6CC00;
@@ -65,7 +66,7 @@ namespace PKHeX.Core
 
         internal static readonly HashSet<int> SizesSWSH = new HashSet<int>
         {
-            SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
+            SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
         };
 
         private static readonly HashSet<int> SizesGen2 = new HashSet<int>

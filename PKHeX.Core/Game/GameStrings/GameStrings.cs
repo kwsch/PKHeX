@@ -163,6 +163,10 @@ namespace PKHeX.Core
             SanitizeItemNames();
             SanitizeMetLocations();
 
+            // De-duplicate the Calyrex ability names
+            abilitylist[(int)Core.Ability.AsOneI] += $" ({specieslist[(int)Core.Species.Glastrier]})";
+            abilitylist[(int)Core.Ability.AsOneG] += $" ({specieslist[(int)Core.Species.Spectrier]})";
+
             // Replace the Egg Name with ---; egg name already stored to eggname
             specieslist[0] = "---";
             // Fix (None) tags
@@ -223,6 +227,10 @@ namespace PKHeX.Core
             itemlist[1266] += " (2)"; // Rotom Bike
             itemlist[1585] += " (3)"; // Rotom Bike
             itemlist[1586] += " (4)"; // Rotom Bike
+
+            itemlist[1590] += " (1)"; // Reins of Unity
+            itemlist[1591] += " (2)"; // Reins of Unity
+            itemlist[1607] += " (3)"; // Reins of Unity
 
             for (int i = 12; i <= 29; i++) // Differentiate DNA Samples
                 g3coloitems[500 + i] += $" ({i - 11:00})";
@@ -358,6 +366,9 @@ namespace PKHeX.Core
                 metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
 
             for (int i = 165; i <= 195; i += 2)
+                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
+
+            for (int i = 205; i <= 235; i += 2)
                 metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
 
             metSWSH_00000_good.CopyTo(metSWSH_00000, 0);

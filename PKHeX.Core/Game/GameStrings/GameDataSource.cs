@@ -71,15 +71,15 @@ namespace PKHeX.Core
         {
             var list = s.gamelist;
             var ver = Util.GetCBList(list,
-                Legal.Games_8swsh,
-                Legal.Games_7gg,
-                Legal.Games_7usum, Legal.Games_7sm,
-                Legal.Games_6oras, Legal.Games_6xy,
-                Legal.Games_5, Legal.Games_4, Legal.Games_4e, Legal.Games_4r,
-                Legal.Games_3, Legal.Games_3e, Legal.Games_3r, Legal.Games_3s);
-            ver.AddRange(Util.GetCBList(list, Legal.Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
-            ver.AddRange(Util.GetCBList(list, Legal.Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
-            ver.AddRange(Util.GetCBList(list, Legal.Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
+                Games_8swsh,
+                Games_7gg,
+                Games_7usum, Games_7sm,
+                Games_6oras, Games_6xy,
+                Games_5, Games_4, Games_4e, Games_4r,
+                Games_3, Games_3e, Games_3r, Games_3s);
+            ver.AddRange(Util.GetCBList(list, Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
+            ver.AddRange(Util.GetCBList(list, Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
+            ver.AddRange(Util.GetCBList(list, Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
             return ver;
         }
 
@@ -315,5 +315,27 @@ namespace PKHeX.Core
                 languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
             return languages;
         }
+
+        #region Games
+
+        private static readonly int[] Games_8swsh = { 44, 45 };
+        private static readonly int[] Games_7gg = { 42, 43 };
+        private static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
+        private static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow
+        private static readonly int[] Games_7go = { 34 };
+        private static readonly int[] Games_7usum = { 32, 33 };
+        private static readonly int[] Games_7sm = { 30, 31 };
+        private static readonly int[] Games_6xy = { 24, 25 };
+        private static readonly int[] Games_6oras = { 26, 27 };
+        private static readonly int[] Games_5 = { 20, 21, 22, 23 };
+        private static readonly int[] Games_4 = { 10, 11, };
+        private static readonly int[] Games_4e = { 12 };
+        private static readonly int[] Games_4r = { 7, 8 };
+        private static readonly int[] Games_3 = { 1, 2 };
+        private static readonly int[] Games_3e = { 3 };
+        private static readonly int[] Games_3r = { 4, 5 };
+        private static readonly int[] Games_3s = { 15 };
+
+        #endregion
     }
 }

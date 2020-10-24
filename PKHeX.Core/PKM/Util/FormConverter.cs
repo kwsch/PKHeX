@@ -636,6 +636,14 @@ namespace PKHeX.Core
                         types[0], // Normal
                         forms[Dada],
                     };
+
+                case Calyrex:
+                    return new[]
+                    {
+                        types[0], // Normal
+                        forms[CalyIce],
+                        forms[CalyGhost],
+                    };
             }
         }
 
@@ -983,6 +991,8 @@ namespace PKHeX.Core
         private const int SingleStrike = 1086;
         private const int RapidStrike = 1087;
         private const int Dada = 1088;
+        private const int CalyIce = 1089; // Ice
+        private const int CalyGhost = 1090; // Shadow
 
         public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
         {
