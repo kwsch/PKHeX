@@ -16,7 +16,7 @@ namespace PKHeX.Core
 
         public const int RaidCountLegal_O0 = 100;
         public const int RaidCountLegal_R1 = 90;
-        public const int RaidCountLegal_R2 = 90;
+        public const int RaidCountLegal_R2 = 86;
 
         public RaidSpawnDetail GetRaid(int entry) => new RaidSpawnDetail(Data, entry * RaidSpawnDetail.SIZE);
 
