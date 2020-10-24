@@ -85,6 +85,7 @@
             this.B_OpenApricorn = new System.Windows.Forms.Button();
             this.B_Raids = new System.Windows.Forms.Button();
             this.B_RaidArmor = new System.Windows.Forms.Button();
+            this.B_RaidCrown = new System.Windows.Forms.Button();
             this.B_Blocks = new System.Windows.Forms.Button();
             this.B_OtherSlots = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
@@ -97,7 +98,6 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_RaidCrown = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -710,6 +710,16 @@
             this.B_RaidArmor.UseVisualStyleBackColor = true;
             this.B_RaidArmor.Click += new System.EventHandler(this.B_OpenRaids_Click);
             // 
+            // B_RaidCrown
+            // 
+            this.B_RaidCrown.Location = new System.Drawing.Point(96, 206);
+            this.B_RaidCrown.Name = "B_RaidCrown";
+            this.B_RaidCrown.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidCrown.TabIndex = 4;
+            this.B_RaidCrown.Text = "Raids (DLC 2)";
+            this.B_RaidCrown.UseVisualStyleBackColor = true;
+            this.B_RaidCrown.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
             // B_Blocks
             // 
             this.B_Blocks.Location = new System.Drawing.Point(189, 206);
@@ -832,15 +842,6 @@
             this.B_VerifyCHK.Text = "Verify Checksums";
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
-            // 
-            // B_RaidCrown
-            // 
-            this.B_RaidCrown.Location = new System.Drawing.Point(96, 206);
-            this.B_RaidCrown.Name = "B_RaidCrown";
-            this.B_RaidCrown.Size = new System.Drawing.Size(87, 23);
-            this.B_RaidCrown.TabIndex = 4;
-            this.B_RaidCrown.Text = "Raids (DLC 2)";
-            this.B_RaidCrown.UseVisualStyleBackColor = true;
             // 
             // SAVEditor
             // 
