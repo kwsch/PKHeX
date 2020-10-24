@@ -490,6 +490,7 @@ namespace PKHeX.Core
                 SetAltFormDisplayed(species, (byte)form);
                 if (shiny)
                     SetDisplayShiny(species);
+                SetGenderDisplayed(species, (uint)g);
             }
 
             var count = GetBattledCount(species);
