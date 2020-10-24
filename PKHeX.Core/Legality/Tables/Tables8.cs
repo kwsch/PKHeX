@@ -24,10 +24,10 @@ namespace PKHeX.Core
         internal const int MaxAbilityID_8_R1 = 260; // Unseen Fist
 
         // Rigel 2 (DLC 2: Crown Tundra)
-        internal const int MaxSpeciesID_8_R2 = 893; // todo
-        internal const int MaxMoveID_8_R2 = 818; // todo
-        internal const int MaxItemID_8_R2 = 1589; // todo
-        internal const int MaxAbilityID_8_R2 = 260; // todo
+        internal const int MaxSpeciesID_8_R2 = 898; // Calyrex
+        internal const int MaxMoveID_8_R2 = 826; // Eerie Spell
+        internal const int MaxItemID_8_R2 = 1607; // Reins of Unity
+        internal const int MaxAbilityID_8_R2 = 267; // As One
 
         internal const int MaxBallID_8 = 0x1A; // 26 Beast
         internal const int MaxGameID_8 = 45;
@@ -55,7 +55,13 @@ namespace PKHeX.Core
             170, 172, 174, 176, 178,
             180, 182, 184, 186, 188,
             190, 192, 194, 196, 198,
-            200, 202,
+            200, 202, 
+
+                      204, 206, 208,
+            210, 212, 214, 216, 218,
+            220, 222, 224, 226, 228,
+            230, 232, 234, 236, 238,
+            240, 242, 244, 246,
         };
 
         internal static readonly int[] Met_SWSH_3 =
@@ -143,7 +149,7 @@ namespace PKHeX.Core
             1269, 1270, 1271, 1278, 1583, 1584, 1585, 1586, 1587, 1589,
 
             // DLC 2
-            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605
+            1590, 1591, 1593, 1594, 1595, 1596, 1597, 1598, 1599, 1600, 1601, 1602, 1603, 1605, 1607,
         };
 
         internal static readonly ushort[] TM_SWSH =
@@ -315,7 +321,13 @@ namespace PKHeX.Core
             170, 172, 174, 176, 178,
             180, 182, 184, 186, 188,
             190, 192, 194, 196, 198,
-            200
+            200,
+
+            202, 204, 206, 208, 210,
+            212, 214, 216, 218, 220,
+            222, 224, 226, 228, 230,
+            232, 234, 236, 238, 240,
+            242, 244, 246,
         };
 
         public static readonly int[] TMHM_SWSH =
@@ -364,15 +376,15 @@ namespace PKHeX.Core
             01, 01, 01, 01, 01, 01, 01, 01, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 40, 15, 20, 30, 20, 15, 15, 20, 10, 15, 15, 10, 05, 10, 10, 20, 15, 10, 15, 15, 15, 05, 15, 20, 20, 01, 01, 01, 01, 01, 01,
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
             10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
-            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05
+            10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
         };
 
         internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>(); // none as of DLC 1!
 
         internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
         {
-            029, // Nidoran
-            032, // Nidoran
+            // 029, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
+            // 032, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
             100, // Voltorb
             // 436, // Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
             669 + (3 << 11), // Flabébé-Blue
@@ -381,15 +393,6 @@ namespace PKHeX.Core
         #region Unreleased Items
         internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
         {
-            112, // Griseous Orb
-            116, // Douse Drive
-            117, // Shock Drive
-            118, // Burn Drive
-            119, // Chill Drive
-            135, // Adamant Orb
-            136, // Lustrous Orb
-            225, // Soul Dew
-
             298, // Flame Plate
             299, // Splash Plate
             300, // Zap Plate
@@ -407,9 +410,6 @@ namespace PKHeX.Core
             312, // Dread Plate
             313, // Iron Plate
             // 644, // Pixie Plate
-
-            322, // Electirizer
-            323, // Magmarizer
 
             // 1279, // ★And458 (Jangmo-o)
             // 1280, // ★And15 (Larvitar)
@@ -714,12 +714,6 @@ namespace PKHeX.Core
 
             016, // Cherish Ball
             500, // Park Ball
-
-            208, // Enigma Berry
-            209, // Micle Berry
-            210, // Custap Berry
-            211, // Jaboca Berry
-            212, // Rowap Berry
         };
         #endregion
         internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8+1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();

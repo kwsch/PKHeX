@@ -328,16 +328,19 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case (int)Species.Rotom when Generation >= 4: // rotom
-                    r.Add(RotomMoves[pkm.AltForm]);
+                case (int)Species.Rotom when Generation >= 4:
+                    var formMoves = RotomMoves;
+                    var form = pkm.AltForm - 1;
+                    if ((uint)form < formMoves.Length)
+                        r.Add(RotomMoves[form]);
                     break;
-                case (int)Species.Zygarde when Generation == 7: // zygarde
+                case (int)Species.Zygarde when Generation == 7:
                     r.AddRange(ZygardeMoves);
                     break;
-                case (int)Species.Necrozma when pkm.AltForm == 1: // Sun Necrozma
+                case (int)Species.Necrozma when pkm.AltForm == 1: // Sun
                     r.Add(713);
                     break;
-                case (int)Species.Necrozma when pkm.AltForm == 2: // Moon Necrozma
+                case (int)Species.Necrozma when pkm.AltForm == 2: // Moon
                     r.Add(714);
                     break;
             }
