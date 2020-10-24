@@ -193,10 +193,10 @@
             // 
             this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
             this.SL_Extra.FlagIllegal = false;
-            this.SL_Extra.Location = new System.Drawing.Point(366, 0);
+            this.SL_Extra.Location = new System.Drawing.Point(341, 0);
             this.SL_Extra.Name = "SL_Extra";
             this.SL_Extra.SAV = null;
-            this.SL_Extra.Size = new System.Drawing.Size(75, 337);
+            this.SL_Extra.Size = new System.Drawing.Size(100, 337);
             this.SL_Extra.TabIndex = 30;
             this.SL_Extra.ViewIndex = -1;
             // 

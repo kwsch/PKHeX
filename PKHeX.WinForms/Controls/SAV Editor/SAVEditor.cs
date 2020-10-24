@@ -1023,7 +1023,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
-            if (!sav.HasDaycare || !sav.Exportable)
+            if ((!sav.HasDaycare && SL_Extra.SlotCount == 0) || !sav.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_Other))
                     tabBoxMulti.TabPages.Remove(Tab_Other);
