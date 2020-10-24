@@ -241,6 +241,8 @@ namespace PKHeX.Core
                         return GameVersion.SWSH;
                     if (((PK8) pkm).GetMoveRecordFlag(i))
                         return GameVersion.SWSH;
+                    if (i == 12 && species == (int)Species.Calyrex && form == 0) // TR12
+                        return GameVersion.SWSH; // Agility Calyrex without TR glitch.
                     break;
                 }
             }
@@ -446,7 +448,18 @@ namespace PKHeX.Core
                 if (!tmhm[i + 100])
                     continue;
                 if (!pk8.GetMoveRecordFlag(i))
-                    continue;
+                {
+                    if (i == 12 && species == (int) Species.Calyrex && form == 0) // TR12
+                    {
+                        // Unfuse logic does not check if the currently known TR move has the flag or not.
+                        // Agility can be learned via Level Up while fused, but only via TR when Unfused.
+                        // We'll let Agility be a legal TR move without the flag, only for Calyrex!
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 r.Add(Legal.TMHM_SWSH[i + 100]);
             }
         }
