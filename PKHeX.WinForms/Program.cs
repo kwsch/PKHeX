@@ -43,7 +43,9 @@ namespace PKHeX.WinForms
             {
                 result = ErrorWindow.ShowErrorDialog("An unhandled exception has occurred.\nYou can continue running PKHeX, but please report this error.", t.Exception, true);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception reportingException)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 HandleReportingException(t.Exception, reportingException);
             }
@@ -75,7 +77,9 @@ namespace PKHeX.WinForms
                     Error("A fatal non-UI error has occurred in PKHeX, and the details could not be displayed.  Please report this to the author.");
                 }
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception reportingException)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 HandleReportingException(ex, reportingException);
             }
@@ -83,7 +87,7 @@ namespace PKHeX.WinForms
 
         private static void HandleReportingException(Exception? ex, Exception reportingException)
         {
-            if (reportingException is FileNotFoundException x && x.FileName.StartsWith("PKHeX.Core"))
+            if (reportingException is FileNotFoundException x && x.FileName?.StartsWith("PKHeX.Core") == true)
             {
                 Error("Could not locate PKHeX.Core.dll. Make sure you're running PKHeX together with its code library. Usually caused when all files are not extracted.");
                 return;
@@ -112,7 +116,9 @@ namespace PKHeX.WinForms
                 var message = (originalException?.ToString() ?? "null first exception") + Environment.NewLine + errorHandlingException;
                 File.WriteAllText($"PKHeX_Error_Report {DateTime.Now:yyyyMMddHHmmss}.txt", message);
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 // We've failed to save the error details twice now. There's nothing else we can do.
                 return false;
