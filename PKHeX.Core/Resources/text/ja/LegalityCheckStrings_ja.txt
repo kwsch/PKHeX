@@ -201,7 +201,6 @@ LHyperPerfectAll = 全ての個体値は31のため王冠は使用できませ�
 LHyperPerfectOne = 個体値31には王冠は使用できません
 LItemEgg = タマゴはアイテムを持てません
 LItemUnreleased = この持ち物は解禁されていません
-LIVAllEqual = All IVs are equal.
 LIVF_COUNT0_31 = Should have at least {0} IVs = 31.
 LIVNotCorrect = IVs do not match encounter requirements.
 LLevelEXPThreshold = Current experience matches level threshold.

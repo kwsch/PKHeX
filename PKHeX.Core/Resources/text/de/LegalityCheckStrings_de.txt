@@ -201,7 +201,6 @@ LHyperPerfectAll = Can't Hyper Train a Pokémon with perfect IVs.
 LHyperPerfectOne = Can't Hyper Train a perfect IV.
 LItemEgg = Eggs cannot hold items.
 LItemUnreleased = Held item is unreleased.
-LIVAllEqual = All IVs are equal.
 LIVF_COUNT0_31 = Should have at least {0} IVs = 31.
 LIVNotCorrect = IVs do not match encounter requirements.
 LLevelEXPThreshold = Current experience matches level threshold.

@@ -201,7 +201,6 @@ LHyperPerfectAll = Impossible de faire subir l'Entraînement Ultime à un Pokém
 LHyperPerfectOne = Impossible de faire subir l'Entraînement Ultime à une statistique aux IVs parfaits.
 LItemEgg = Les Œufs ne peuvent pas tenir d'objet.
 LItemUnreleased = L'objet tenu n'a pas encore été dévoilé.
-LIVAllEqual = Tous les IVs sont égaux.
 LIVF_COUNT0_31 = Ce Pokémon doit avoir au moins {0} IVs parfaits.
 LIVNotCorrect = IVs do not match encounter requirements.
 LLevelEXPThreshold = Le montant d'Expérience actuel équivaut le palier du niveau défini.

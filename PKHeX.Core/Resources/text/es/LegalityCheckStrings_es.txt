@@ -201,7 +201,6 @@ LHyperPerfectAll = No se puede usar el Hiper Entrenamiento con IVs perfectos.
 LHyperPerfectOne = No se puede usar el Hiper Entrenamiento con un IV perfecto.
 LItemEgg = Los Huevos no pueden tener objetos equipados.
 LItemUnreleased = El Objeto Equipado aún no está disponible.
-LIVAllEqual = Todos los IVs son iguales.
 LIVF_COUNT0_31 = Debería tener al menos {0} IVs = 31.
 LIVNotCorrect = Los IVs no coinciden con los requerimientos del encuentro.
 LLevelEXPThreshold = La experiencia actual coincide con la del umbral de nivel.

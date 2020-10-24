@@ -201,7 +201,6 @@ LHyperPerfectAll = 모든 IV가 31인 포켓몬은 대단한 특훈을 받을 �
 LHyperPerfectOne = IV 31은 대단한 특훈을 시킬 수 없습니다.
 LItemEgg = 알은 물건을 지닐 수 없습니다.
 LItemUnreleased = 지닌 물건이 배포되지 않은 물건입니다.
-LIVAllEqual = 모든 IV가 동일합니다.
 LIVF_COUNT0_31 = 최소 {0}가지의 IV가 31이어야 합니다.
 LIVNotCorrect = IV가 인카운터 요구 조건과 일치하지 않습니다.
 LLevelEXPThreshold = 현재 경험치가 레벨 한계와 일치합니다.

@@ -267,7 +267,7 @@ namespace PKHeX.Core
         public static string LItemEgg { get; set; } = "Eggs cannot hold items.";
         public static string LItemUnreleased { get; set; } = "Held item is unreleased.";
 
-        public static string LIVAllEqual { get; set; } = "All IVs are equal.";
+        public static string LIVAllEqual_0 { get; set; } = "All IVs are {0}.";
         public static string LIVNotCorrect { get; set; } = "IVs do not match encounter requirements.";
         public static string LIVF_COUNT0_31 { get; set; } = "Should have at least {0} IVs = 31.";
 
