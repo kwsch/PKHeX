@@ -489,7 +489,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 748, Level = 26, Location = 178 }, // Toxapex in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 853, Level = 32, Location = 178 }, // Grapploct in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 770, Level = 32, Location = 178 }, // Palossand in Loop Lagoon (on the Isle of Armor)
-            new EncounterStatic8 { Species = 065, Level = 50, Location = 178 }, // Alakazam in Loop Lagoon (on the Isle of Armor)
+            new EncounterStatic8S { Species = 065, Level = 50, Locations = new[] { 178, 190 } }, // Alakazam in Loop Lagoon (on the Isle of Armor) and in the Insular Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 571, Level = 50, Location = 178 }, // Zoroark in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 462, Level = 50, Location = 178 }, // Magnezone in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 744, Level = 40, Location = 178 }, // Rockruff in Loop Lagoon (on the Isle of Armor)
