@@ -81,7 +81,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static void HandleReportingException(Exception ex, Exception reportingException)
+        private static void HandleReportingException(Exception? ex, Exception reportingException)
         {
             if (reportingException is FileNotFoundException x && x.FileName.StartsWith("PKHeX.Core"))
             {
@@ -104,7 +104,7 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="originalException"></param>
         /// <param name="errorHandlingException"></param>
-        private static bool EmergencyErrorLog(Exception originalException, Exception errorHandlingException)
+        private static bool EmergencyErrorLog(Exception? originalException, Exception errorHandlingException)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        private static bool IsOldPkhexCorePresent(Exception ex)
+        private static bool IsOldPkhexCorePresent(Exception? ex)
         {
             return ex is MissingMethodException
                 && File.Exists("PKHeX.Core.dll")

@@ -1,7 +1,20 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/10/10 - New Update:
+20/10/24 - New Update:
+ - Introducing Crown Tundra support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack, and @ReignOfComputer for troubleshooting prior to release!
+ - Legality:
+ - - Changed: New checking rules for all added content in the latest DLC.
+ - - Added: More Gen1/2-era Event Data has been added, along with shiny checks. Thanks @ShadowMario3!
+ - - Fixed: Gen5 PID bit checking for static encounters now gets flagged correctly. Thanks @LegoFigure11 && Princess Emily#4650!
+ - - Fixed: Gen3 ability bit checking is now done for Gen3 format PKM files.
+ - Added: Crown Tundra Raid Seed / Detail editor; separate from the mainland raids.
+ - Added: Crown Tundra Pokédex editing is now available in the same Pokédex editor. Keep in mind that the game uses the first dex that has the Species-Form.
+ - Changed: Suggested encounters now try to match the current AltForm. Thanks @CScorpion-h!
+ - Changed: Nullable compiler checks enabled for PKHeX.WinForms; all sub-projects now have this feature enabled.
+ - Updated: Spanish GUI localization files updated. Thanks @XxPhoenix1996xX!
+
+20/10/10 - New Update: (44027) [3091107]
  - Added: Pokémon Stadium save file support!
  - - Supports all 3 game types: Pocket Monsters Stadium, Pokémon Stadium, and Pokémon Stadium 2.
  - - Added a new PKM format: SK2. Special format used by Stadium 2, different from PK2.
