@@ -66,15 +66,21 @@ namespace PKHeX.Core
                 // For a Gen7 species name request, return the old species name (hardcoded... yay).
                 // In an updated Gen8 game, the species nickname will automatically reset to the correct localization (on save/load ?), fixing existing entries.
                 // We don't differentiate patch revisions, just generation; Gen8 will return the latest localization.
+                // Gen8 did revise CHT species names, but only for Barraskewda, Urshifu, and Zarude. These species are new (Gen8); we can just use the latest.
                 if (generation == 7 && language == (int) LanguageID.ChineseS)
                 {
                     switch (species)
                     {
+                        // Revised in DLC1 - Isle of Armor
+                        // https://cn.portal-pokemon.com/topics/event/200323190120_post_19.html
                         case (int)Species.Porygon2: return "多边兽Ⅱ"; // Later changed to 多边兽２型
                         case (int)Species.PorygonZ: return "多边兽Ｚ"; // Later changed to 多边兽乙型
+                        case (int)Species.Mimikyu: return "谜拟Ｑ"; // Later changed to 谜拟丘
+
+                        // Revised in DLC2 - Crown Tundra
+                        //  https://cn.portal-pokemon.com/topics/event/201020170000_post_21.html
                         case (int)Species.Cofagrigus: return "死神棺"; // Later changed to 迭失棺
                         case (int)Species.Pangoro: return "流氓熊猫"; // Later changed to 霸道熊猫
-                        case (int)Species.Mimikyu: return "谜拟Ｑ"; // Later changed to 谜拟丘
                         case (int)Species.Nickit: return "偷儿狐"; // Later changed to 狡小狐
                         case (int)Species.Thievul: return "狐大盗"; // Later changed to 猾大狐
                         case (int)Species.Toxel: return "毒电婴"; // Later changed to 电音婴
