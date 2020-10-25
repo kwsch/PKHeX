@@ -130,5 +130,10 @@ namespace PKHeX.Core
         /// Gets the Forme that any offspring will hatch with, assuming it is holding an Everstone.
         /// </summary>
         public int HatchFormIndexEverstone => IsRegionalForm ? RegionalFormIndex : LocalFormIndex;
+
+        /// <summary>
+        /// Checks if the entry shows up in any of the built-in Pokédex.
+        /// </summary>
+        public bool IsInDex => PokeDexIndex != 0 || ArmorDexIndex != 0 || CrownDexIndex != 0;
     }
 }

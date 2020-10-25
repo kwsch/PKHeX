@@ -344,27 +344,15 @@ namespace PKHeX.Core
             return !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities);
         }
 
-        public static bool IsGalarCatchAndBreed(int species)
+        private static bool IsGalarCatchAndBreed(int species)
         {
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
                 return false;
 
+            // Everything breed-able that is in the Galar Dex can be captured in-game.
             var pt = PersonalTable.SWSH;
             var pi = (PersonalInfoSWSH) pt.GetFormeEntry(species, 0);
-
-            bool galar = pi.PokeDexIndex != 0;
-            if (galar)
-                return true;
-
-            var armor = pi.ArmorDexIndex != 0;
-            if (armor)
-                return true;
-
-            var crown = pi.CrownDexIndex != 0;
-            if (crown)
-                return true;
-
-            return false;
+            return pi.IsInDex;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
