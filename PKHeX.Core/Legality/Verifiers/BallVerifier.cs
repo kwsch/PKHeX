@@ -358,7 +358,7 @@ namespace PKHeX.Core
 
             var armor = pi.ArmorDexIndex != 0;
             if (armor)
-                return species != (int)Species.Porygon;
+                return true;
 
             var crown = pi.CrownDexIndex != 0;
             if (crown)
