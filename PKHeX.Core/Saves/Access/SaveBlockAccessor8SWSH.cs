@@ -419,9 +419,9 @@ namespace PKHeX.Core
         public const uint KSparringFairyPartySlot3Sweet = 0xB3462825; // U32 Alcremie Sweet ID if 3rd PKM used in party, otherwise -1
         
         public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
-        public const uint KTerrakionFootprintPercentage = 0x4D50B655; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
-        public const uint KVirizionFootprintPercentage = 0x4D50B655; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
-        public const uint KPlayersInteractedOnline = 0x4D50B655; // U32 Number of Players interacted with online        
+        public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
+        public const uint KVirizionFootprintPercentage = 0xAD67A297; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
+        public const uint KPlayersInteractedOnline = 0x31A13425; // U32 Number of Players interacted with online        
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
