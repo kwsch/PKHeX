@@ -173,22 +173,16 @@ namespace PKHeX.Core
                     if (form != 0 && pkm.Box > -1 && pkm.Format <= 6) // has form but stored in box
                         return GetInvalid(LFormParty);
                     break;
-
-                // Battle only Forms with other legal forms allowed
-                case (int)Species.Zygarde when form >= 4: // Zygarde Complete
-                case (int)Species.Minior when form < 7: // Minior Shield
-                case (int)Species.Necrozma when form == 3: // Ultra Necrozma
-                    return GetInvalid(LFormBattle);
-                case (int)Species.Necrozma when form < 3: // Necrozma Fused forms & default
-                case (int)Species.Mimikyu when form == 2: // Totem disguise Mimikyu
-                    return VALID;
             }
+
+            var format = pkm.Format;
+            if (AltFormInfo.IsBattleOnlyForm(species, form, format))
+                return GetInvalid(LFormBattle);
 
             if (form == 0)
                 return VALID;
 
             // everything below here is currently an altform
-            var format = pkm.Format;
             if (format >= 7 && Info.Generation < 7)
             {
                 if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
@@ -214,23 +208,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (IsBattleOnlyForm(species, form, format))
-                return GetInvalid(LFormBattle);
-
             return VALID;
-        }
-
-        public static bool IsBattleOnlyForm(int species, int form, int format)
-        {
-            if (!BattleOnly.Contains(species))
-                return false;
-            if (species == (int) Species.Darmanitan && form == 2 && format >= 8)
-                return false; // this one is OK, Galarian non-Zen
-            if (species == (int) Species.Slowbro && form == 2 && format >= 8)
-                return false; // this one is OK, Galarian Slowbro (not a Mega)
-            if (species == (int) Species.Necrozma && form != 3)
-                return false; // Only mark Ultra Necrozma as Battle Only
-            return true;
         }
 
         public static int GetArceusFormFromHeldItem(int item, int format)
@@ -258,17 +236,6 @@ namespace PKHeX.Core
             if (116 <= item && item <= 119)
                 return item - 115;
             return 0;
-        }
-
-        private static readonly HashSet<int> BattleOnly = GetBattleFormSet();
-
-        private static HashSet<int> GetBattleFormSet()
-        {
-            var hs = new HashSet<int>();
-            hs.UnionWith(Legal.BattleForms);
-            hs.UnionWith(Legal.BattleMegas);
-            hs.UnionWith(Legal.BattlePrimals);
-            return hs;
         }
 
         private static readonly HashSet<int> SafariFloette = new HashSet<int> { 0, 1, 3 }; // 0/1/3 - RBY

@@ -257,58 +257,6 @@ namespace PKHeX.Core
             809, // Melmetal
         };
 
-        /// <summary>
-        /// Species that have an alternate form that cannot exist outside of battle.
-        /// </summary>
-        public static readonly HashSet<int> BattleForms = new HashSet<int>
-        {
-            351, // Castform
-            421, // Cherrim
-            555, // Darmanitan
-            648, // Meloetta
-            681, // Aegislash
-            716, // Xerneas
-            746, // Wishiwashi
-            778, // Mimikyu
-
-            (int)Species.Cramorant,
-            (int)Species.Morpeko,
-            (int)Species.Eiscue,
-
-            (int)Species.Zacian,
-            (int)Species.Zamazenta,
-            (int)Species.Eternatus,
-        };
-
-        /// <summary>
-        /// Species that have a mega form that cannot exist outside of battle.
-        /// </summary>
-        public static readonly HashSet<int> BattleMegas = new HashSet<int>
-        {
-            // XY
-            3,6,9,65,80,
-            115,127,130,142,150,181,
-            212,214,229,248,282,
-            303,306,308,310,354,359,380,381,
-            445,448,460,
-
-            // AO
-            15,18,94,
-            208,254,257,260,
-            302,319,323,334,362,373,376,384,
-            428,475,
-            531,
-            719,
-
-            // USUM
-            800, // Ultra Necrozma
-        };
-
-        /// <summary>
-        /// Species that have a primal form that cannot exist outside of battle.
-        /// </summary>
-        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
-
         public static readonly HashSet<int> Z_Moves = new HashSet<int>
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
