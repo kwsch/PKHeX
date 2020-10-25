@@ -61,7 +61,29 @@ namespace PKHeX.Core
         public static string GetSpeciesNameGeneration(int species, int language, int generation)
         {
             if (generation >= 5)
+            {
+                // Species Names for Chinese (Simplified) were revised during Generation 8 Crown Tundra DLC (#2).
+                // For a Gen7 species name request, return the old species name (hardcoded... yay).
+                // In an updated Gen8 game, the species nickname will automatically reset to the correct localization (on save/load ?), fixing existing entries.
+                // We don't differentiate patch revisions, just generation; Gen8 will return the latest localization.
+                if (generation == 7 && language == (int) LanguageID.ChineseS)
+                {
+                    switch (species)
+                    {
+                        case (int)Species.Porygon2: return "多边兽Ⅱ"; // Later changed to 多边兽２型
+                        case (int)Species.PorygonZ: return "多边兽Ｚ"; // Later changed to 多边兽乙型
+                        case (int)Species.Cofagrigus: return "死神棺"; // Later changed to 迭失棺
+                        case (int)Species.Pangoro: return "流氓熊猫"; // Later changed to 霸道熊猫
+                        case (int)Species.Mimikyu: return "谜拟Ｑ"; // Later changed to 谜拟丘
+                        case (int)Species.Nickit: return "偷儿狐"; // Later changed to 狡小狐
+                        case (int)Species.Thievul: return "狐大盗"; // Later changed to 猾大狐
+                        case (int)Species.Toxel: return "毒电婴"; // Later changed to 电音婴
+                        case (int)Species.Runerigus: return "死神板"; // Later changed to 迭失板
+                    }
+                }
+
                 return GetSpeciesName(species, language);
+            }
 
             if (species == 0)
             {
