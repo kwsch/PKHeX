@@ -400,7 +400,7 @@ namespace PKHeX.Core
             bool originGMax = enc is IGigantamax g && g.CanGigantamax;
             if (originGMax != pk8.CanGigantamax)
             {
-                bool ok = pk8.CanToggleGigantamax(pk8.Species, pk8.AltForm, enc.Species, enc.Form);
+                bool ok = !pk8.IsEgg && pk8.CanToggleGigantamax(pk8.Species, pk8.AltForm, enc.Species, enc.Form);
                 var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
                 data.AddLine(chk);
             }
