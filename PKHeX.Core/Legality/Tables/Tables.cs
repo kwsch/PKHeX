@@ -268,6 +268,7 @@ namespace PKHeX.Core
             648, // Meloetta
             681, // Aegislash
             716, // Xerneas
+            718, // Zygarde
             746, // Wishiwashi
             778, // Mimikyu
 
