@@ -416,11 +416,30 @@ namespace PKHeX.Core
             {
                 if (!pk8.GetMoveRecordFlag(i))
                     continue;
-                if (!(pi ??= pk8.PersonalInfo).TMHM[i + 100])
-                    data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalysis.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
+                if ((pi ??= pk8.PersonalInfo).TMHM[i + 100])
+                    continue;
+
+                // Calyrex-0 can have TR flags for Calyrex-1/2 after it has force unlearned them.
+                // Re-fusing can be reacquire the move via relearner, rather than needing another TR.
+                // Calyrex-0 cannot reacquire the move via relearner, even though the TR is checked off in the TR list.
+                if (pk8.Species == (int) Species.Calyrex)
+                {
+                    var form = pk8.AltForm;
+                    // Check if another alt form can learn the TR
+                    if ((form != 1 && CanLearnTR((int) Species.Calyrex, 1, i)) || (form != 2 && CanLearnTR((int) Species.Calyrex, 2, i)))
+                        continue;
+                }
+
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalysis.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
             }
 
             // weight/height scalars can be legally 0 (1:65536) so don't bother checking
+        }
+
+        private static bool CanLearnTR(int species, int form, int tr)
+        {
+            var pi = PersonalTable.SWSH.GetFormeEntry(species, form);
+            return pi.TMHM[tr + 100];
         }
     }
 }
