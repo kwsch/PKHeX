@@ -91,7 +91,9 @@ namespace PKHeX.Core
             get
             {
                 var enc = EncounterOriginal;
-                return $"{enc.LongName} ({SpeciesStrings[enc.Species]})";
+                var str = SpeciesStrings;
+                var name = (uint) enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
+                return $"{enc.LongName} ({name})";
             }
         }
 
