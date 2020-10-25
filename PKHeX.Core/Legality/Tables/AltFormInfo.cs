@@ -32,7 +32,7 @@ namespace PKHeX.Core
                     return false;
 
                 default:
-                    return true;
+                    return form != 0;
             }
         }
 
