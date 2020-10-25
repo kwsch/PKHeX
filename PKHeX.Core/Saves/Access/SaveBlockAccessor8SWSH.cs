@@ -85,6 +85,7 @@ namespace PKHeX.Core
         private const uint KFriendLeagueCards = 0x28e707f5; // League Cards received from other players
         private const uint KNPCLeagueCards = 0xb1c26fb0; // League Cards received from NPCs
         private const uint KNPCLeagueCardsR1 = 0xb868ee77; // League Cards received from NPCs on The Isle of Armor
+        private const uint KNPCLeagueCardsR2 = 0xB968F00A; // League Cards received from NPCs on The Crown Tundra
 
         // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
         private const uint KRentalTeam1 = 0x149A1DD0;
@@ -136,6 +137,7 @@ namespace PKHeX.Core
         public const uint KBirthDay = 0x355C8314; // U32
         public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed in Galar Dex
         public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokedex entry viewed in Armor Dex
+        public const uint KCurrentDexEntryR2 = 0x759FF274; // U16 Species ID of last Pokedex entry viewed in Crown Dex
 
         public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10
         public const uint KVolumeSoundEffects = 0x62F05895; // U32 0-10
@@ -415,6 +417,11 @@ namespace PKHeX.Core
         public const uint KSparringFairyPartySlot1Sweet = 0xB14624FF; // U32 Alcremie Sweet ID if 1st PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot2Sweet = 0xB046236C; // U32 Alcremie Sweet ID if 2nd PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot3Sweet = 0xB3462825; // U32 Alcremie Sweet ID if 3rd PKM used in party, otherwise -1
+        
+        public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
+        public const uint KTerrakionFootprintPercentage = 0x4D50B655; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
+        public const uint KVirizionFootprintPercentage = 0x4D50B655; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
+        public const uint KPlayersInteractedOnline = 0x4D50B655; // U32 Number of Players interacted with online        
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
