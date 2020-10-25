@@ -1439,11 +1439,11 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateShinyPID(object sender, EventArgs e)
         {
-            var ShinyPID = Entity.Format <= 2 || ModifierKeys != Keys.Control;
-            UpdateShiny(ShinyPID);
+            var changePID = Entity.Format >= 3 && (ModifierKeys & Keys.Alt) == 0;
+            UpdateShiny(changePID);
         }
 
-        private void UpdateShiny(bool PID)
+        private void UpdateShiny(bool changePID)
         {
             Entity.PID = Util.GetHexValue(TB_PID.Text);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
@@ -1453,9 +1453,15 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.Format > 2)
             {
-                if (PID)
+                var type = (ModifierKeys & ~Keys.Alt) switch
                 {
-                    CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
+                    Keys.Shift => Shiny.AlwaysSquare,
+                    Keys.Control => Shiny.AlwaysStar,
+                    _ => Shiny.Random
+                };
+                if (changePID)
+                {
+                    CommonEdits.SetShiny(Entity, type);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     int gen = Entity.GenNumber;
@@ -1465,7 +1471,7 @@ namespace PKHeX.WinForms.Controls
                 }
                 else
                 {
-                    Entity.SetShinySID();
+                    Entity.SetShinySID(type);
                     TID_Trainer.UpdateSID();
                 }
             }

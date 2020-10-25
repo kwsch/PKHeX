@@ -900,12 +900,20 @@ namespace PKHeX.Core
         /// <summary>
         /// Applies a shiny <see cref="SID"/> to the <see cref="PKM"/>.
         /// </summary>
-        public void SetShinySID()
+        public void SetShinySID(Shiny shiny = Shiny.Random)
         {
-            if (IsShiny)
+            if (IsShiny && shiny.IsValid(this))
                 return;
+
             var xor = TID ^ (PID >> 16) ^ (PID & 0xFFFF);
-            SID = (int)(xor & 0xFFF8) | Util.Rand.Next(8);
+            var bits = shiny switch
+            {
+                Shiny.AlwaysSquare => 0,
+                Shiny.AlwaysStar => 1,
+                _ => Util.Rand.Next(8)
+            };
+
+            SID = (int)xor ^ bits;
         }
 
         /// <summary>

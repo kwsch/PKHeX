@@ -137,23 +137,19 @@ namespace PKHeX.Core
         /// <returns>Returns true if the <see cref="PKM"/> data was modified.</returns>
         public static bool SetShiny(PKM pk, Shiny type = Shiny.Random)
         {
-            if (pk.IsShiny)
+            if (pk.IsShiny && type.IsValid(pk))
                 return false;
 
-            if (pk.FatefulEncounter || pk.Version == (int)GameVersion.GO || type == Shiny.Random)
+            if (type == Shiny.Random || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO || pk.Format <= 2)
             {
                 pk.SetShiny();
                 return true;
             }
 
-            while (true)
-            {
-                pk.SetShiny();
+            do { pk.SetShiny(); }
+            while (!type.IsValid(pk));
 
-                var xor = pk.ShinyXor;
-                if (type == Shiny.AlwaysSquare ? xor == 0 : xor != 0)
-                    return true;
-            }
+            return true;
         }
 
         /// <summary>
