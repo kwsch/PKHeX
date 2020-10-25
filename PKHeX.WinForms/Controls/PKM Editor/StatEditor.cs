@@ -534,5 +534,11 @@ namespace PKHeX.WinForms.Controls
             CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
             ChangingFields = false;
         }
+
+        private void CHK_Gigantamax_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!ChangingFields)
+                ((PKMEditor) MainEditor).UpdateSprite();
+        }
     }
 }

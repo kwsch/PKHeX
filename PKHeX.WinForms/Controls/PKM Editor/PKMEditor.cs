@@ -371,7 +371,7 @@ namespace PKHeX.WinForms.Controls
 
         private static void ReloadGender(Label l, IReadOnlyList<string> genders) => l.Text = ReloadGender(l.Text, genders);
 
-        private void UpdateSprite()
+        internal void UpdateSprite()
         {
             if (FieldsLoaded && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
