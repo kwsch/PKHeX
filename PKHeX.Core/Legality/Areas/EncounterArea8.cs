@@ -188,6 +188,10 @@ namespace PKHeX.Core
             // Honeycalm Sea
             // Honeycalm Island
             {192, new byte[] {194}},
+
+            // Roaring-Sea Caves
+            // Giant’s Foot
+            {224, new byte[] {222}},
         };
 
         /// <summary>
