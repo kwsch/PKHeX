@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains logic for Alternate Form information.
+    /// </summary>
     public static class AltFormInfo
     {
         /// <summary>
@@ -19,12 +23,12 @@ namespace PKHeX.Core
             // Some species have battle only forms as well as out-of-battle forms (other than base form).
             switch (species)
             {
-                case (int)Species.Slowbro when form == 2 && format >= 8: // Only mark Ultra Necrozma as Battle Only
-                case (int)Species.Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
-                case (int)Species.Zygarde when form < 4: // Zygarde Complete
-                case (int)Species.Mimikyu when form == 2: // Totem disguise Mimikyu
-                case (int)Species.Necrozma when form < 3: // this one is OK, Galarian non-Zen
-                case (int)Species.Minior when form >= 7: // Minior Shields-Down
+                case (int)Slowbro when form == 2 && format >= 8: // Only mark Ultra Necrozma as Battle Only
+                case (int)Darmanitan when form == 2 && format >= 8: // this one is OK, Galarian Slowbro (not a Mega)
+                case (int)Zygarde when form < 4: // Zygarde Complete
+                case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
+                case (int)Necrozma when form < 3: // this one is OK, Galarian non-Zen
+                case (int)Minior when form >= 7: // Minior Shields-Down
                     return false;
 
                 default:
@@ -44,9 +48,9 @@ namespace PKHeX.Core
         {
             return species switch
             {
-                (int)Species.Darmanitan => form & 2,
-                (int)Species.Zygarde when format > 6 => 3,
-                (int)Species.Minior => form + 7,
+                (int)Darmanitan => form & 2,
+                (int)Zygarde when format > 6 => 3,
+                (int)Minior => form + 7,
                 _ => 0
             };
         }
@@ -62,9 +66,9 @@ namespace PKHeX.Core
         {
             return species switch
             {
-                (int)Species.Kyurem when form != 0 && format >= 5 => true,
-                (int)Species.Necrozma when form != 0 && format >= 7 => true,
-                (int)Species.Calyrex when form != 0 && format >= 8 => true,
+                (int)Kyurem when form != 0 && format >= 5 => true,
+                (int)Necrozma when form != 0 && format >= 7 => true,
+                (int)Calyrex when form != 0 && format >= 8 => true,
                 _ => false
             };
         }
@@ -74,24 +78,24 @@ namespace PKHeX.Core
         /// </summary>
         private static readonly HashSet<int> BattleForms = new HashSet<int>
         {
-            (int)Species.Castform,
-            (int)Species.Cherrim,
-            (int)Species.Darmanitan,
-            (int)Species.Meloetta,
-            (int)Species.Aegislash,
-            (int)Species.Xerneas,
-            (int)Species.Zygarde,
+            (int)Castform,
+            (int)Cherrim,
+            (int)Darmanitan,
+            (int)Meloetta,
+            (int)Aegislash,
+            (int)Xerneas,
+            (int)Zygarde,
 
-            (int)Species.Wishiwashi,
-            (int)Species.Mimikyu,
+            (int)Wishiwashi,
+            (int)Mimikyu,
 
-            (int)Species.Cramorant,
-            (int)Species.Morpeko,
-            (int)Species.Eiscue,
+            (int)Cramorant,
+            (int)Morpeko,
+            (int)Eiscue,
 
-            (int)Species.Zacian,
-            (int)Species.Zamazenta,
-            (int)Species.Eternatus,
+            (int)Zacian,
+            (int)Zamazenta,
+            (int)Eternatus,
         };
 
         /// <summary>
@@ -101,36 +105,36 @@ namespace PKHeX.Core
         private static readonly HashSet<int> BattleMegas = new HashSet<int>
         {
             // XY
-            (int)Species.Venusaur, (int)Species.Charizard, (int)Species.Blastoise,
-            (int)Species.Alakazam, (int)Species.Gengar, (int)Species.Kangaskhan, (int)Species.Pinsir,
-            (int)Species.Gyarados, (int)Species.Aerodactyl, (int)Species.Mewtwo,
+            (int)Venusaur, (int)Charizard, (int)Blastoise,
+            (int)Alakazam, (int)Gengar, (int)Kangaskhan, (int)Pinsir,
+            (int)Gyarados, (int)Aerodactyl, (int)Mewtwo,
 
-            (int)Species.Ampharos, (int)Species.Scizor, (int)Species.Heracross, (int)Species.Houndoom, (int)Species.Tyranitar,
+            (int)Ampharos, (int)Scizor, (int)Heracross, (int)Houndoom, (int)Tyranitar,
 
-            (int)Species.Blaziken, (int)Species.Gardevoir, (int)Species.Mawile, (int)Species.Aggron, (int)Species.Medicham,
-            (int)Species.Manectric, (int)Species.Banette, (int)Species.Absol, (int)Species.Latios, (int)Species.Latias,
+            (int)Blaziken, (int)Gardevoir, (int)Mawile, (int)Aggron, (int)Medicham,
+            (int)Manectric, (int)Banette, (int)Absol, (int)Latios, (int)Latias,
 
-            (int)Species.Garchomp, (int)Species.Lucario, (int)Species.Abomasnow,
+            (int)Garchomp, (int)Lucario, (int)Abomasnow,
 
             // AO
-            (int)Species.Beedrill, (int)Species.Pidgeot, (int)Species.Slowbro,
+            (int)Beedrill, (int)Pidgeot, (int)Slowbro,
 
-            (int)Species.Steelix,
+            (int)Steelix,
 
-            (int)Species.Sceptile, (int)Species.Swampert, (int)Species.Sableye, (int)Species.Sharpedo, (int)Species.Camerupt,
-            (int)Species.Altaria, (int)Species.Glalie, (int)Species.Salamence, (int)Species.Metagross, (int)Species.Rayquaza,
+            (int)Sceptile, (int)Swampert, (int)Sableye, (int)Sharpedo, (int)Camerupt,
+            (int)Altaria, (int)Glalie, (int)Salamence, (int)Metagross, (int)Rayquaza,
 
-            (int)Species.Lopunny, (int)Species.Gallade,
-            (int)Species.Audino, (int)Species.Diancie,
+            (int)Lopunny, (int)Gallade,
+            (int)Audino, (int)Diancie,
 
             // USUM
-            (int)Species.Necrozma, // Ultra Necrozma
+            (int)Necrozma, // Ultra Necrozma
         };
 
         /// <summary>
         /// Species that have a primal form that cannot exist outside of battle.
         /// </summary>
-        private static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
+        private static readonly HashSet<int> BattlePrimals = new HashSet<int> { (int)Kyogre, (int)Groudon };
 
         private static readonly HashSet<int> BattleOnly = GetBattleFormSet();
 
