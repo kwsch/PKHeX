@@ -573,8 +573,8 @@ namespace PKHeX.Core
 
             #region R2 Static Encounters
             new EncounterStatic8S { Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Articuno-1 in the Crown Tundra
-            new EncounterStatic8S { Species = 145, Level = 70, Locations = new[] {122, 124, 128}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
-            new EncounterStatic8S { Species = 146, Level = 70, Locations = new[] {164, 186, 188, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
+            new EncounterStatic8S { Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
+            new EncounterStatic8S { Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
             new EncounterStatic8 { Species = 377, Level = 70, Location = 236, Moves = new[] {276,444,359,174}, FlawlessIVCount = 3, Ability = 1 }, // Regirock
             new EncounterStatic8 { Species = 378, Level = 70, Location = 238, Moves = new[] {058,192,133,196}, FlawlessIVCount = 3, Ability = 1 }, // Regice
             new EncounterStatic8 { Species = 379, Level = 70, Location = 240, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = 1 }, // Registeel
