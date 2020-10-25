@@ -617,7 +617,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 437, Level = 63, Location = 210 }, // Bronzong in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 470, Level = 63, Location = 210 }, // Leafeon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 034, Level = 65, Locations = new[] {208, 210}, }, // Nidoking in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
-            new EncounterStatic8 { Species = 030, Level = 63, Location = 210 }, // Nidorina in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S { Species = 030, Level = 63, Locations = new[] {208, 210}, }, // Nidorina in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 033, Level = 63, Location = 210 }, // Nidorino in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 534, Level = 65, Location = 210 }, // Conkeldurr in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 874, Level = 63, Location = 210 }, // Stonjourner in the Giant’s Bed (in the Crown Tundra)
