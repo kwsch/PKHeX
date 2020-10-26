@@ -352,7 +352,14 @@ namespace PKHeX.Core
             // Everything breed-able that is in the Galar Dex can be captured in-game.
             var pt = PersonalTable.SWSH;
             var pi = (PersonalInfoSWSH) pt.GetFormeEntry(species, 0);
-            return pi.IsInDex;
+            if (pi.IsInDex)
+                return true;
+
+            // Foreign Captures
+            if ((int)Species.Treecko <= species && species <= (int)Species.Swampert) // Dynamax Adventures
+                return true;
+
+            return false;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);
