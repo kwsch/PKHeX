@@ -86,6 +86,10 @@ namespace PKHeX.Core
         private const uint KNPCLeagueCards = 0xb1c26fb0; // League Cards received from NPCs
         private const uint KNPCLeagueCardsR1 = 0xb868ee77; // League Cards received from NPCs on The Isle of Armor
         private const uint KNPCLeagueCardsR2 = 0xB968F00A; // League Cards received from NPCs on The Crown Tundra
+        private const uint KTrainer1EndlessRecordData = 0x79D787CB; // Trainer 1's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer2EndlessRecordData = 0x78D78638; // Trainer 2's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
 
         // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
         private const uint KRentalTeam1 = 0x149A1DD0;
@@ -421,7 +425,12 @@ namespace PKHeX.Core
         public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
         public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
         public const uint KVirizionFootprintPercentage = 0xAD67A297; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
-        public const uint KPlayersInteractedOnline = 0x31A13425; // U32 Number of Players interacted with online        
+        public const uint KPlayersInteractedOnline = 0x31A13425; // U32 Number of Players interacted with online
+        public const uint KMaxLairSpeciesID1Noted = 0xF26B9151; // U32 Max Lair Species 1 Noted
+        public const uint KMaxLairSpeciesID2Noted = 0x6F66951C; // U32 Max Lair Species 2 Noted
+        public const uint KMaxLairSpeciesID3Noted = 0x6F6696CF; // U32 Max Lair Species 3 Noted
+        public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
+        public const uint KMaxLairDisconnectStreak = 0x8EAEB8FF; // U32 Value of 3 will have you pay a Dynite Ore fee upon entry
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
