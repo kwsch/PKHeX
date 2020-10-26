@@ -234,7 +234,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 823, Level = 39, Location =  -1, }, // Corviknight
             new EncounterStatic8 { Species = 573, Level = 46, Location = 152, }, // Cinccino near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 826, Level = 41, Location = 152, }, // Orbeetle near the Giant’s Cap (in a Wild Area)
-            new EncounterStatic8 { Species = 834, Level = 36, Location =  -1, }, // Drednaw
+            new EncounterStatic8 { Species = 834, Level = 36, Location = 152, }, // Drednaw near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 680, Level = 56, Location = 152, }, // Doublade near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 711, Level = 41, Location = 150, }, // Gourgeist on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 600, Level = 46, Location = 150, }, // Klang on the Hammerlocke Hills (in a Wild Area)
@@ -489,7 +489,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 748, Level = 26, Location = 178 }, // Toxapex in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 853, Level = 32, Location = 178 }, // Grapploct in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 770, Level = 32, Location = 178 }, // Palossand in Loop Lagoon (on the Isle of Armor)
-            new EncounterStatic8 { Species = 065, Level = 50, Location = 178 }, // Alakazam in Loop Lagoon (on the Isle of Armor)
+            new EncounterStatic8S { Species = 065, Level = 50, Locations = new[] { 178, 190 } }, // Alakazam in Loop Lagoon (on the Isle of Armor) and in the Insular Sea (on the Isle of Armor)
             new EncounterStatic8 { Species = 571, Level = 50, Location = 178 }, // Zoroark in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 462, Level = 50, Location = 178 }, // Magnezone in Loop Lagoon (on the Isle of Armor)
             new EncounterStatic8 { Species = 744, Level = 40, Location = 178 }, // Rockruff in Loop Lagoon (on the Isle of Armor)
@@ -573,8 +573,8 @@ namespace PKHeX.Core
 
             #region R2 Static Encounters
             new EncounterStatic8S { Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Articuno-1 in the Crown Tundra
-            new EncounterStatic8S { Species = 145, Level = 70, Locations = new[] {122, 124, 128}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
-            new EncounterStatic8S { Species = 146, Level = 70, Locations = new[] {164, 186, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
+            new EncounterStatic8S { Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
+            new EncounterStatic8S { Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
             new EncounterStatic8 { Species = 377, Level = 70, Location = 236, Moves = new[] {276,444,359,174}, FlawlessIVCount = 3, Ability = 1 }, // Regirock
             new EncounterStatic8 { Species = 378, Level = 70, Location = 238, Moves = new[] {058,192,133,196}, FlawlessIVCount = 3, Ability = 1 }, // Regice
             new EncounterStatic8 { Species = 379, Level = 70, Location = 240, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = 1 }, // Registeel
@@ -617,7 +617,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 437, Level = 63, Location = 210 }, // Bronzong in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 470, Level = 63, Location = 210 }, // Leafeon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 034, Level = 65, Locations = new[] {208, 210}, }, // Nidoking in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
-            new EncounterStatic8 { Species = 030, Level = 63, Location = 210 }, // Nidorina in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S { Species = 030, Level = 63, Locations = new[] {208, 210}, }, // Nidorina in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 033, Level = 63, Location = 210 }, // Nidorino in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 534, Level = 65, Location = 210 }, // Conkeldurr in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 874, Level = 63, Location = 210 }, // Stonjourner in the Giant’s Bed (in the Crown Tundra)
@@ -639,13 +639,13 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 197, Level = 63, Location = 210 }, // Umbreon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 196, Level = 63, Location = 210 }, // Espeon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 478, Level = 65, Locations = new[] {210, 212, 216}, }, // Froslass in the Giant’s Bed, in the Old Cemetery, in the Tunnel to the Top (in the Crown Tundra)
-            new EncounterStatic8 { Species = 362, Level = 65, Location = 210 }, // Glalie in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S { Species = 362, Level = 65, Locations = new[] {210, 214}, }, // Glalie in the Giant’s Bed (in the Crown Tundra), on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 359, Level = 65, Location = 210 }, // Absol in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 471, Level = 63, Location = 210 }, // Glaceon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 700, Level = 63, Location = 210 }, // Sylveon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 036, Level = 63, Location = 210 }, // Clefable in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 855, Level = 63, Locations = new[] {210, 212}, }, // Polteageist in the Giant’s Bed, in the Old Cemetery (in the Crown Tundra)
-            new EncounterStatic8 { Species = 887, Level = 65, Location = 212 }, // Dragapult in the Old Cemetery (in the Crown Tundra)
+            new EncounterStatic8S { Species = 887, Level = 65, Locations = new[] {210, 212 }, }, // Dragapult in the Giant’s Bed (in the Crown Tundra), in the Old Cemetery (in the Crown Tundra)
             new EncounterStatic8 { Species = 872, Level = 62, Location = 214 }, // Snom on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 698, Level = 62, Location = 214 }, // Amaura on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8S{ Species = 621, Level = 65, Locations = new[] {214, 216, 218}, }, // Druddigon on Snowslide Slope, in the Tunnel to the Top, on the Path to the Peak (in the Crown Tundra)
