@@ -426,7 +426,7 @@ namespace PKHeX.Core
         public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
         public const uint KVirizionFootprintPercentage = 0xAD67A297; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
         public const uint KPlayersInteractedOnline = 0x31A13425; // U32 Number of Players interacted with online
-        public const uint KMaxLairSpeciesID1Noted = 0xF26B9151; // U32 Max Lair Species 1 Noted
+        public const uint KMaxLairSpeciesID1Noted = 0x6F669A35; // U32 Max Lair Species 1 Noted
         public const uint KMaxLairSpeciesID2Noted = 0x6F66951C; // U32 Max Lair Species 2 Noted
         public const uint KMaxLairSpeciesID3Noted = 0x6F6696CF; // U32 Max Lair Species 3 Noted
         public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
