@@ -265,8 +265,12 @@ namespace PKHeX.Core
                 case 3:
                     if (s is EncounterStaticShadow w && w.EReader && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
+
                     if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
+
+                    if (pkm.Species == (int)Species.Deoxys && s.Location == 200 && pkm.Language == (int)LanguageID.Japanese) // JP Deoxys (Birth Island)
+                        return new CheckResult(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
                     break;
                 case 4:
                     switch (pkm.Species)
