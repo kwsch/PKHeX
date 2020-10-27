@@ -4,7 +4,7 @@ using static PKHeX.Core.Legal;
 
 namespace PKHeX.Core
 {
-    internal static class MoveEgg
+    public static class MoveEgg
     {
         public static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {

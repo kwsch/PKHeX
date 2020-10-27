@@ -6,7 +6,7 @@ using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
-    internal static class MoveLevelUp
+    public static class MoveLevelUp
     {
         private static readonly LearnLookup
             LearnSWSH = new LearnLookup(PersonalTable.SWSH, LevelUpSWSH, SWSH),
