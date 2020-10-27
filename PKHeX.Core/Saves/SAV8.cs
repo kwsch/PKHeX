@@ -78,7 +78,7 @@ namespace PKHeX.Core
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+            return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
         }
 
         // Player Information
