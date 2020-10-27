@@ -431,6 +431,7 @@ namespace PKHeX.Core
         public const uint KMaxLairSpeciesID3Noted = 0x6F6696CF; // U32 Max Lair Species 3 Noted
         public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
         public const uint KMaxLairDisconnectStreak = 0x8EAEB8FF; // U32 Value of 3 will have you pay a Dynite Ore fee upon entry
+        public const uint KMaxLairPeoniaSpeciesHint = 0xF26B9151; // U32 Species ID for Peonia to hint
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
