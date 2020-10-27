@@ -192,6 +192,10 @@ namespace PKHeX.Core
             // Roaring-Sea Caves
             // Giant’s Foot
             {224, new byte[] {222}},
+
+            // Old Cemetery
+            // Giant’s Bed
+            {212, new byte[] {210}},
         };
 
         /// <summary>
