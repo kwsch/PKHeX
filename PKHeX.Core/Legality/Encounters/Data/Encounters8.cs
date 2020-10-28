@@ -572,9 +572,9 @@ namespace PKHeX.Core
             #endregion
 
             #region R2 Static Encounters
-            new EncounterStatic8S { Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Articuno-1 in the Crown Tundra
-            new EncounterStatic8S { Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
-            new EncounterStatic8S { Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
+            new EncounterStatic8S{ Species = 144, Level = 70, Locations = new[] {208, 210, 212, 214}, Moves = new[] {821,542,427,375}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Articuno-1 in the Crown Tundra
+            new EncounterStatic8S{ Species = 145, Level = 70, Locations = new[] {122, 124, 126, 128, 130}, Moves = new[] {823,065,179,116}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Zapdos-1 in a Wild Area
+            new EncounterStatic8S{ Species = 146, Level = 70, Locations = new[] {164, 166, 170, 178, 186, 188, 190}, Moves = new[] {822,542,389,417}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01 }, // Moltres-1 on the Isle of Armor
             new EncounterStatic8 { Species = 377, Level = 70, Location = 236, Moves = new[] {276,444,359,174}, FlawlessIVCount = 3, Ability = 1 }, // Regirock
             new EncounterStatic8 { Species = 378, Level = 70, Location = 238, Moves = new[] {058,192,133,196}, FlawlessIVCount = 3, Ability = 1 }, // Regice
             new EncounterStatic8 { Species = 379, Level = 70, Location = 240, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = 1 }, // Registeel
@@ -614,10 +614,10 @@ namespace PKHeX.Core
             new EncounterStatic8S{ Species = 143, Level = 65, Locations = new[] {204, 208}, }, // Snorlax on Slippery Slope, in Frostpoint Field (in the Crown Tundra)
             new EncounterStatic8S{ Species = 861, Level = 65, Locations = new[] {204, 210}, }, // Grimmsnarl on Slippery Slope, in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 709, Level = 63, Location = 212 }, // Trevenant in the Old Cemetery (in the Crown Tundra)
-            new EncounterStatic8 { Species = 437, Level = 63, Location = 210 }, // Bronzong in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 437, Level = 63, Locations = new[] {210, 214} }, // Bronzong in the Giant’s Bed, on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 470, Level = 63, Location = 210 }, // Leafeon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 034, Level = 65, Locations = new[] {208, 210}, }, // Nidoking in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
-            new EncounterStatic8S { Species = 030, Level = 63, Locations = new[] {208, 210}, }, // Nidorina in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 030, Level = 63, Locations = new[] {208, 210}, }, // Nidorina in Frostpoint Field, in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 033, Level = 63, Location = 210 }, // Nidorino in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 534, Level = 65, Location = 210 }, // Conkeldurr in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 874, Level = 63, Location = 210 }, // Stonjourner in the Giant’s Bed (in the Crown Tundra)
@@ -639,18 +639,18 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 197, Level = 63, Location = 210 }, // Umbreon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 196, Level = 63, Location = 210 }, // Espeon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 478, Level = 65, Locations = new[] {210, 212, 216}, }, // Froslass in the Giant’s Bed, in the Old Cemetery, in the Tunnel to the Top (in the Crown Tundra)
-            new EncounterStatic8S { Species = 362, Level = 65, Locations = new[] {210, 214}, }, // Glalie in the Giant’s Bed (in the Crown Tundra), on Snowslide Slope (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 362, Level = 65, Locations = new[] {210, 214}, }, // Glalie in the Giant’s Bed (in the Crown Tundra), on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 359, Level = 65, Location = 210 }, // Absol in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 471, Level = 63, Location = 210 }, // Glaceon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 700, Level = 63, Location = 210 }, // Sylveon in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 036, Level = 63, Location = 210 }, // Clefable in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8S{ Species = 855, Level = 63, Locations = new[] {210, 212}, }, // Polteageist in the Giant’s Bed, in the Old Cemetery (in the Crown Tundra)
-            new EncounterStatic8S { Species = 887, Level = 65, Locations = new[] {210, 212 }, }, // Dragapult in the Giant’s Bed (in the Crown Tundra), in the Old Cemetery (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 887, Level = 65, Locations = new[] {210, 212 }, }, // Dragapult in the Giant’s Bed (in the Crown Tundra), in the Old Cemetery (in the Crown Tundra)
             new EncounterStatic8 { Species = 872, Level = 62, Location = 214 }, // Snom on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 698, Level = 62, Location = 214 }, // Amaura on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8S{ Species = 621, Level = 65, Locations = new[] {214, 216, 218}, }, // Druddigon on Snowslide Slope, in the Tunnel to the Top, on the Path to the Peak (in the Crown Tundra)
             new EncounterStatic8 { Species = 832, Level = 65, Location = 214 }, // Dubwool on Snowslide Slope (in the Crown Tundra)
-            new EncounterStatic8 { Species = 375, Level = 63, Location = 214 }, // Metang on Snowslide Slope (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 375, Level = 63, Locations = new[] {214, 216 } }, // Metang on Snowslide Slope, in the Tunnel to the Top (in the Crown Tundra)
             new EncounterStatic8 { Species = 699, Level = 65, Location = 214 }, // Aurorus on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 376, Level = 68, Location = 214 }, // Metagross on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 461, Level = 65, Location = 214 }, // Weavile on Snowslide Slope (in the Crown Tundra)
@@ -659,7 +659,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 467, Level = 67, Location = 214 }, // Magmortar on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8 { Species = 362, Level = 67, Location = 214 }, // Glalie on Snowslide Slope (in the Crown Tundra)
             new EncounterStatic8S{ Species = 615, Level = 65, Locations = new[] {214, 222, 230}, }, // Cryogonal on Snowslide Slope, at the Giant’s Foot, at Ballimere Lake (in the Crown Tundra)
-            new EncounterStatic8S{ Species = 614, Level = 67, Locations = new[] {214, 226}, }, // Beartic on Snowslide Slope, at the Frigid Sea (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 614, Level = 67, Locations = new[] {214, 226, 228}, }, // Beartic on Snowslide Slope, at the Frigid Sea, in Three-Point Pass (in the Crown Tundra)
             new EncounterStatic8S{ Species = 584, Level = 67, Locations = new[] {214, 230}, }, // Vanilluxe on Snowslide Slope, at Ballimere Lake (in the Crown Tundra)
             new EncounterStatic8S{ Species = 478, Level = 65, Locations = new[] {214, 216}, }, // Froslass on Snowslide Slope, in the Tunnel to the Top (in the Crown Tundra)
             new EncounterStatic8S{ Species = 359, Level = 67, Locations = new[] {214, 218, 222}, }, // Absol on Snowslide Slope, on the Path to the Peak, at the Giant’s Foot (in the Crown Tundra)
@@ -680,8 +680,8 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 879, Level = 67, Location = 222 }, // Copperajah at the Giant’s Foot (in the Crown Tundra)
             new EncounterStatic8 { Species = 534, Level = 67, Location = 222 }, // Conkeldurr at the Giant’s Foot (in the Crown Tundra)
             new EncounterStatic8 { Species = 566, Level = 63, Location = 222 }, // Archen at the Giant’s Foot (in the Crown Tundra)
-            new EncounterStatic8 { Species = 344, Level = 65, Location = 222 }, // Claydol at the Giant’s Foot (in the Crown Tundra)
-            new EncounterStatic8 { Species = 437, Level = 65, Location = 222 }, // Bronzong at the Giant’s Foot (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 344, Level = 65, Locations = new[] {210, 222 } }, // Claydol in the Giant’s Bed, at the Giant’s Foot (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 437, Level = 65, Locations = new[] {208, 222 } }, // Bronzong at the Giant’s Foot, in Frostpoint Field (in the Crown Tundra)
             new EncounterStatic8S{ Species = 752, Level = 67, Locations = new[] {222, 230}, }, // Araquanid at Ballimere Lake, at the Giant’s Foot (in the Crown Tundra)
             new EncounterStatic8S{ Species = 125, Level = 65, Locations = new[] {222, 230}, }, // Electabuzz at the Giant’s Foot, at Ballimere Lake (in the Crown Tundra)
             new EncounterStatic8S{ Species = 466, Level = 68, Locations = new[] {226, 228, 230}, }, // Electivire at the Frigid Sea, in Three-Point Pass, at Ballimere Lake (in the Crown Tundra)
@@ -700,7 +700,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 565, Level = 67, Location = 226 }, // Carracosta at the Frigid Sea (in the Crown Tundra)
             new EncounterStatic8 { Species = 871, Level = 65, Location = 226 }, // Pincurchin at the Frigid Sea (in the Crown Tundra)
             new EncounterStatic8 { Species = 875, Level = 65, Location = 226, Version = SH }, // Eiscue at the Frigid Sea (in the Crown Tundra)
-            new EncounterStatic8 { Species = 623, Level = 65, Location = 228 }, // Golurk in Three-Point Pass (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 623, Level = 65, Locations = new[] {226, 228} }, // Golurk at the Frigid Sea, in Three-Point Pass (in the Crown Tundra)
             new EncounterStatic8 { Species = 887, Level = 68, Location = 228 }, // Dragapult in Three-Point Pass (in the Crown Tundra)
             new EncounterStatic8 { Species = 141, Level = 68, Location = 224, Version = SH }, // Kabutops in Roaring-Sea Caves (in the Crown Tundra)
             new EncounterStatic8 { Species = 139, Level = 68, Location = 224, Version = SW }, // Omastar in Roaring-Sea Caves (in the Crown Tundra)
@@ -727,7 +727,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 305, Level = 63, Location = 232 }, // Lairon in Lakeside Cave (in the Crown Tundra)
             new EncounterStatic8 { Species = 348, Level = 67, Location = 230 }, // Armaldo at Ballimere Lake (in the Crown Tundra)
             new EncounterStatic8 { Species = 340, Level = 65, Location = 210 }, // Whiscash in the Giant’s Bed (in the Crown Tundra)
-            new EncounterStatic8 { Species = 130, Level = 67, Location = 210 }, // Gyarados in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8S{ Species = 130, Level = 67, Locations = new[] {210, 230 } }, // Gyarados in the Giant’s Bed, at Ballimere Lake (in the Crown Tundra)
             new EncounterStatic8 { Species = 350, Level = 67, Location = 210 }, // Milotic in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 140, Level = 63, Location = 222, Version = SH }, // Kabuto at the Giant’s Foot (in the Crown Tundra)
             new EncounterStatic8 { Species = 138, Level = 63, Location = 222, Version = SW }, // Omanyte at the Giant’s Foot (in the Crown Tundra)
