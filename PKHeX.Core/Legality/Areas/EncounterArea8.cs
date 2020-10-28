@@ -189,13 +189,17 @@ namespace PKHeX.Core
             // Honeycalm Island
             {192, new byte[] {194}},
 
-            // Roaring-Sea Caves
-            // Giant’s Foot
-            {224, new byte[] {222}},
+            // Frostpoint Field
+            // Freezington
+            {208, new byte[] {206}},
 
             // Old Cemetery
             // Giant’s Bed
             {212, new byte[] {210}},
+
+            // Roaring-Sea Caves
+            // Giant’s Foot
+            {224, new byte[] {222}},
         };
 
         /// <summary>
