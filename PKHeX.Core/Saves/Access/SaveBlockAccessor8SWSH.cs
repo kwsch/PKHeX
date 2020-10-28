@@ -432,6 +432,28 @@ namespace PKHeX.Core
         public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
         public const uint KMaxLairDisconnectStreak = 0x8EAEB8FF; // U32 Value of 3 will have you pay a Dynite Ore fee upon entry
         public const uint KMaxLairPeoniaSpeciesHint = 0xF26B9151; // U32 Species ID for Peonia to hint
+        
+        public const uint KGSTVictoriesTotal = 0x9D6727F6; // U32 Total Galarian Star Tournament victories
+        public const uint KGSTVictoriesAvery = 0x3934BEC0; // U32 Galarian Star Tournament victories with Avery
+        public const uint KGSTVictoriesKlara = 0xE9131991; // U32 Galarian Star Tournament victories with Klara
+        public const uint KGSTVictoriesMustard = 0x7742B542; // U32 Galarian Star Tournament victories with Mustard
+        public const uint KGSTVictoriesPeony = 0x9A535FA0; // U32 Galarian Star Tournament victories with Peony
+        public const uint KGSTVictoriesLeon = 0xFEE68CE1; // U32 Galarian Star Tournament victories with Leon
+        public const uint KGSTVictoriesBede = 0x2D0520CD; // U32 Galarian Star Tournament victories with Bede
+        public const uint KGSTVictoriesMarnie = 0xFB5133BC; // U32 Galarian Star Tournament victories with Marnie
+        public const uint KGSTVictoriesMilo = 0x24B9E3CC; // U32 Galarian Star Tournament victories with Milo
+        public const uint KGSTVictoriesNessa = 0xB19386DE; // U32 Galarian Star Tournament victories with Nessa
+        public const uint KGSTVictoriesKabu = 0x3576EE34; // U32 Galarian Star Tournament victories with Kabu
+        public const uint KGSTVictoriesPiers = 0xB95B1BB9; // U32 Galarian Star Tournament victories with Piers
+        public const uint KGSTVictoriesRaihan = 0x343E6FC1; // U32 Galarian Star Tournament victories with Raihan
+        public const uint KGSTVictoriesBea = 0x6371183B; // U32 Galarian Star Tournament victories with Bea
+        public const uint KGSTVictoriesGordie = 0xA2C094C7; // U32 Galarian Star Tournament victories with Gordie
+        public const uint KGSTVictoriesAllister = 0x9E32AE34; // U32 Galarian Star Tournament victories with Allister
+        public const uint KGSTVictoriesMelony = 0x06C0FBC8; // U32 Galarian Star Tournament victories with Melony
+        public const uint KGSTVictoriesSordward = 0xE3ED8F16; // U32 Galarian Star Tournament victories with Sordward
+        public const uint KGSTVictoriesShielbert = 0xC0D49E2D; // U32 Galarian Star Tournament victories with Shielbert
+        public const uint KGSTVictoriesHop = 0xEB07C276; // U32 Galarian Star Tournament victories with Hop
+        public const uint KGSTVictoriesOpal = 0xDBE374D7; // U32 Galarian Star Tournament victories with Opal
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members
