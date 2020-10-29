@@ -26,9 +26,6 @@ namespace PKHeX.WinForms
 
         public Main()
         {
-            Form? splash = null; // popup a splash screen in another thread
-            new Task(() => (splash = new SplashScreen()).ShowDialog()).Start();
-            new Task(() => EncounterEvent.RefreshMGDB(MGDatabasePath)).Start();
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
@@ -46,11 +43,6 @@ namespace PKHeX.WinForms
             FormLoadCheckForUpdates();
             FormLoadPlugins();
 
-            BringToFront();
-            WindowState = FormWindowState.Minimized;
-            Show();
-            WindowState = FormWindowState.Normal;
-            splash?.Invoke((MethodInvoker)(() => splash.Close())); // splash closes
             if (HaX)
             {
                 PKMConverter.AllowIncompatibleConversion = true;
@@ -63,6 +55,11 @@ namespace PKHeX.WinForms
 
             if (BAKprompt && !Directory.Exists(BackupPath))
                 PromptBackup();
+
+            BringToFront();
+            WindowState = FormWindowState.Minimized;
+            Show();
+            WindowState = FormWindowState.Normal;
         }
 
         #region Important Variables

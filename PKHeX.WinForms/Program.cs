@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
+using PKHeX.Core;
+
 #if !DEBUG
 using System.Reflection;
 using System.IO;
@@ -29,7 +32,12 @@ namespace PKHeX.WinForms
             // Run the application
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main());
+            var splash = new SplashScreen();
+            new Task(() => splash.ShowDialog()).Start();
+            new Task(() => EncounterEvent.RefreshMGDB(WinForms.Main.MGDatabasePath)).Start();
+            var main = new Main();
+            splash.Invoke((MethodInvoker)(() => splash.Close()));
+            Application.Run(main);
         }
 
 #if !DEBUG
