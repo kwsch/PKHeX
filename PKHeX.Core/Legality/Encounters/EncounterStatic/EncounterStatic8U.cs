@@ -26,5 +26,8 @@ namespace PKHeX.Core
 
             return base.IsMatch(pkm, evo);
         }
+
+        // no downleveling, unlike all other raids
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo) => pkm.Met_Level == Level;
     }
 }
