@@ -422,6 +422,7 @@ namespace PKHeX.Core
         public const uint KSparringFairyPartySlot2Sweet = 0xB046236C; // U32 Alcremie Sweet ID if 2nd PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot3Sweet = 0xB3462825; // U32 Alcremie Sweet ID if 3rd PKM used in party, otherwise -1
         
+        public const uint KRegielekiOrRegidragoPattern = 0xCF90B39A; // U32 Chosen Pattern for Split-Decision Ruins (0 = not chosen, 1 = electric, 2 = dragon)
         public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
         public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
         public const uint KVirizionFootprintPercentage = 0xAD67A297; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
