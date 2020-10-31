@@ -1,7 +1,26 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/10/24 - New Update:
+20/10/31 - New Update:
+ - Legality:
+ - - Added: Gen8 static encounters now permit more met locations (roamers, strong encounters). Thanks @Lusamine & @ReignOfComputer!
+ - - Fixed: Gen8 breeds of Gen3 Starters and Porygon now allow the Gen8 wild balls.
+ - - Fixed: Gen8 unavailable Alolan evolutions are now recognized correctly.
+ - - Fixed: Gen8 Keldeo now requires a Fateful Encounter Flag.
+ - - Fixed: Gen8 Calyrex fuse-unfuse TR flag edge case is handled correctly, allowing Agility and fused-TR flags when unfused.
+ - - Fixed: Gen6 Friend Safari Vivillon is now recognized correctly.
+ - - Fixed: Gen3 Birth Island Deoxys is now disallowed for Japanese Emerald.
+ - - Fixed: Nicknames can now be set for Gen6+ EncounterTrades that did not originally have a nickname, when in Gen8 format.
+ - Added: Can now control-click the Shiny button to force a Star shiny, and use .PID=$shiny1 in the batch editor for the same effect.
+ - Added: Gen8 now has more block key labels for CT content, like event flags and important stored values. Thanks @CanoeHope, @sora10pls!
+ - Fixed: Gen8 Nidoran♂/♀ strings no longer result in ? for the gender symbol.
+ - Fixed: Gen8 Registering new Pokédex entries on setting a PKM will set female gender if appropriate instead of skipping gender set. Thanks @xXAquaNightXx
+ - Fixed: Gen8 CT raid den list is now clamped at the valid amount of raids. All unused dens are hidden. Thanks @Leanny!
+- Fixed: Stat tooltips for nature (+/-) now show on both StatNature and Nature. Thanks @ReignOfComputer!
+ - Changed: Dropping a PKM file into the PKM Editor will now try to adapt it to the save file (Handling Trainer details), reducing legality issues.
+ - Changed: Updated Chinese translations. Thanks @easyworld!
+
+20/10/24 - New Update: (50004) [3141111]
  - Introducing Crown Tundra support! Thanks @SciresM, @sora10pls, @architdate, @Lusamine, @Bappsack, and @ReignOfComputer for troubleshooting prior to release!
  - Legality:
  - - Changed: New checking rules for all added content in the latest DLC.
@@ -47,7 +66,7 @@ http://projectpokemon.org/pkhex/
  - Added: Gen7 LGPE catch count records can now be edited in the Pokedex Editor. Click labels to min-max the counts. Thanks @sora10pls!
  - Added: Gen4 Underground Items are now editable. Thanks @egzn!
  - Changed: Default TID/SID for Gen7+ blank save files is now 123456 (SID 1234).
- - Changed: Blank Save files will try to initialize with the current save file's language. For Japanese saves, the blank OT will be ＰＫＨｅＸ if possible.
+ - Changed: Blank Save files will try to initialize with the current save file's language. For Japanese saves, the blank OT will be [a fullwidth PKHeX] if possible.
  - Fixed: The Gen6 font file will no longer throw errors under certain scenarios. Thanks @foohyfooh!
  - Fixed: Gen1 Pikachu Beach score editing reads & writes correctly now. Thanks @ShadowMario3!
  - Showdown Set Imports:
