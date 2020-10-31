@@ -61,7 +61,8 @@ namespace PKHeX.Core
                         break;
 
                     // Forced PID or generated without an encounter
-                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random))
+                    // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
+                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random || s5.Species == (int)Species.Crustle))
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;
