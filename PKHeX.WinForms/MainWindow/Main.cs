@@ -627,6 +627,7 @@ namespace PKHeX.WinForms
             Debug.WriteLine(c);
             if (tmp == null)
                 return false;
+            C_SAV.SAV.AdaptPKM(tmp);
             PKME_Tabs.PopulateFields(tmp);
             return true;
         }
@@ -656,6 +657,7 @@ namespace PKHeX.WinForms
                 return true;
             }
 
+            C_SAV.SAV.AdaptPKM(pk);
             PKME_Tabs.PopulateFields(pk);
             Debug.WriteLine(c);
             return true;

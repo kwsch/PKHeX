@@ -457,10 +457,20 @@ namespace PKHeX.Core
             pkm.Stat_Level = pkm.CurrentLevel;
         }
 
-        protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
+        /// <summary>
+        /// Conditions a <see cref="pkm"/> for this save file as if it was traded to it.
+        /// </summary>
+        /// <param name="pkm">Entity to adapt</param>
+        /// <param name="trade">Setting on whether or not to adapt</param>
+        public void AdaptPKM(PKM pkm, PKMImportSetting trade = PKMImportSetting.UseDefault)
         {
             if (GetTradeUpdateSetting(trade))
                 SetPKM(pkm);
+        }
+
+        protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
+        {
+            AdaptPKM(pkm, trade);
             if (GetDexUpdateSetting(dex))
                 SetDex(pkm);
         }
