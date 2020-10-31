@@ -349,7 +349,7 @@ namespace PKHeX.Core
         private static CheckResult CheckTradeOTOnly(LegalityAnalysis data, IReadOnlyList<string> validOT)
         {
             var pkm = data.pkm;
-            if (pkm.IsNicknamed && pkm.Format < 8)
+            if (pkm.IsNicknamed && (pkm.Format < 8 || pkm.FatefulEncounter))
                 return GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname);
             int lang = pkm.Language;
             if (validOT.Count <= lang)
@@ -363,7 +363,10 @@ namespace PKHeX.Core
         {
             var ot = t.GetOT(language);
             var nick = t.GetNickname(language);
-            VerifyTradeOTNick(data, t, nick, ot);
+            if (string.IsNullOrEmpty(nick))
+                VerifyTradeOTOnly(data, t);
+            else
+                VerifyTradeOTNick(data, t, nick, ot);
         }
 
         private static void VerifyTradeOTNick(LegalityAnalysis data, EncounterTrade t, string nick, string OT)
