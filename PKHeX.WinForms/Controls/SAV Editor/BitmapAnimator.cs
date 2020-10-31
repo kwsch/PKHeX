@@ -108,7 +108,8 @@ namespace PKHeX.WinForms.Controls
             frame = ImageUtil.GetBitmap(frameData, imgWidth, imgHeight);
             if (ExtraLayer != null)
                 frame = ImageUtil.LayerImage(frame, ExtraLayer, 0, 0);
-            frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);
+            if (OriginalBackground != null)
+                frame = ImageUtil.LayerImage(OriginalBackground, frame, 0, 0);
             return GlowCache[frameIndex] = frame;
         }
 
