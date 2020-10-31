@@ -462,10 +462,10 @@ namespace PKHeX.WinForms.Controls
                 SAV.SetDaycareRNGSeed(SAV.DaycareIndex, value);
                 SAV.Edited = true;
             }
-            else if (tb == TB_GameSync)
+            else if (tb == TB_GameSync && SAV is IGameSync sync)
             {
-                var value = filterText.PadLeft(SAV.GameSyncIDSize, '0');
-                SAV.GameSyncID = value;
+                var value = filterText.PadLeft(sync.GameSyncIDSize, '0');
+                sync.GameSyncID = value;
                 SAV.Edited = true;
             }
             else if (SAV is ISecureValueStorage s)
@@ -1122,23 +1122,20 @@ namespace PKHeX.WinForms.Controls
                 TB_Secure2.Text = s.TimeStampPrevious.ToString("X16");
             }
 
-            switch (sav.Generation)
+            if (sav is IGameSync sync)
             {
-                case 6:
-                case 7:
-                    var gsid = sav.GameSyncID;
-                    TB_GameSync.Enabled = !string.IsNullOrEmpty(gsid);
-                    TB_GameSync.MaxLength = sav.GameSyncIDSize;
-                    TB_GameSync.Text = (string.IsNullOrEmpty(gsid) ? 0.ToString() : gsid).PadLeft(sav.GameSyncIDSize, '0');
-                    break;
+                var gsid = sync.GameSyncID;
+                TB_GameSync.Enabled = !string.IsNullOrEmpty(gsid);
+                TB_GameSync.MaxLength = sync.GameSyncIDSize;
+                TB_GameSync.Text = (string.IsNullOrEmpty(gsid) ? 0.ToString() : gsid).PadLeft(sync.GameSyncIDSize, '0');
             }
         }
 
         private void ToggleSecrets(SaveFile sav, bool hide)
         {
-            var g67 = 6 <= sav.Generation && sav.Generation <= 7;
-            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = sav.Exportable && g67 && !hide;
-            TB_GameSync.Visible = L_GameSync.Visible = sav.Exportable && g67 && !hide;
+            var shouldShow = sav.Exportable && !hide;
+            TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = shouldShow && sav is ISecureValueStorage;
+            TB_GameSync.Visible = L_GameSync.Visible = shouldShow && sav is IGameSync;
         }
 
         // DragDrop

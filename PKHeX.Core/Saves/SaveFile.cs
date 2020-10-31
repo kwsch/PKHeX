@@ -317,8 +317,6 @@ namespace PKHeX.Core
 
         // Varied Methods
         protected abstract void SetChecksums();
-        public virtual int GameSyncIDSize { get; } = 8;
-        public virtual string GameSyncID { get => string.Empty; set { } }
 
         #region Daycare
         public bool HasDaycare => DaycareOffset > -1;

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object for <see cref="GameVersion.GG"/> games.
     /// </summary>
-    public sealed class SAV7b : SAV_BEEF
+    public sealed class SAV7b : SAV_BEEF, IGameSync
     {
         protected override string BAKText => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Filter => "savedata|*.bin";
@@ -172,7 +172,7 @@ namespace PKHeX.Core
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.Flags; set => Blocks.GiftRecords.Flags = value; }
         protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.Records; set => Blocks.GiftRecords.Records = (WR7[])value; }
 
-        public override int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
-        public override string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }
+        public int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
+        public string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }
     }
 }
