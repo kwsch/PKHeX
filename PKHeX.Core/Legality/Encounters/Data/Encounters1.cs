@@ -98,58 +98,62 @@ namespace PKHeX.Core
             new EncounterTrade1(029, 02, BU), // Nidoran♀ - Wild Nidoran♂
             new EncounterTrade1(030, 16, RB), // Nidorina - Evolve Nidorino
             new EncounterTrade1(030, 16, YW), // Nidorina - Evolve Nidorino (Different initial moves)
-            new EncounterTrade1(108, 15, RBY), // Lickitung - Surf Slowbro
-            new EncounterTrade1(083, 02, RBY), // Farfetch’d - Wild Spearow
-            new EncounterTrade1(101, 03, RBY), // Electrode - Wild Raichu
+            new EncounterTrade1(108, 15, RB), // Lickitung - Surf Slowbro
+            new EncounterTrade1(083, 02, RB), // Farfetch’d - Wild Spearow
+            new EncounterTrade1(101, 03, RB), // Electrode - Wild Raichu
 
-            new EncounterTrade1(122, 03, RBY), // Mr. Mime - Wild Jigglypuff
-            new EncounterTrade1(060, 02, RBY), // Poliwag - Wild Rattata
-          //new EncounterTrade1(083, 02, RBY), // Farfetch’d - Wild Pidgey
-
-            new EncounterTrade1(093, 28, RBY, 90) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
-            new EncounterTrade1(075, 16, RBY, 120) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
+            new EncounterTrade1(122, 03, BU), // Mr. Mime - Wild Jigglypuff
+            new EncounterTrade1(060, 02, BU), // Poliwag - Wild Rattata
+          //new EncounterTrade1(083, 02, BU), // Farfetch’d - Wild Pidgey
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_NoTradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
-            new EncounterTrade1(124, 15, RBY), // Jynx - Fish Poliwhirl (GSC: 10)
-            new EncounterTrade1(114, 13, RBY), // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
-            new EncounterTrade1(086, 28, RBY), // Seel - Wild Ponyta (GSC: 5)
+            new EncounterTrade1(124, 15, RB), // Jynx - Fish Poliwhirl (GSC: 10)
+            new EncounterTrade1(114, 13, RB), // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
+            new EncounterTrade1(086, 28, RB), // Seel - Wild Ponyta (GSC: 5)
 
-            new EncounterTrade1(115, 15, RBY), // Kangaskhan - Trade Rhydon (GSC: 10)
-            new EncounterTrade1(128, 28, RBY), // Tauros - Evolve Persian (GSC: 18)
-            new EncounterTrade1(098, 15, RBY, 204), // Krabby - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(115, 15, BU), // Kangaskhan - Trade Rhydon (GSC: 10)
+            new EncounterTrade1(128, 28, BU), // Tauros - Evolve Persian (GSC: 18)
+            new EncounterTrade1(098, 15, BU), // Krabby - Wild Growlithe (GSC: 5)
 
-          //new EncounterTrade1(122, 08, RBY), // Mr. Mime - Wild Clefairy (GSC: 6)
-            new EncounterTrade1(067, 16, RBY) { EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
-            new EncounterTrade1(112, 15, RBY), // Rhydon - Surf Golduck (GSC: 10)
-            new EncounterTrade1(087, 15, RBY), // Dewgong - Wild Growlithe (GSC: 5)
-            new EncounterTrade1(089, 25, RBY), // Muk - Wild Kangaskhan (GSC: 5)
-            new EncounterTrade1(079, 22, RBY), // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 15, RBY), // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 13, RBY), // Parasect - Trade Tangela (GSC 5)
+          //new EncounterTrade1(122, 08, YW), // Mr. Mime - Wild Clefairy (GSC: 6)
+            new EncounterTrade1(067, 16, YW) { EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
+            new EncounterTrade1(112, 15, YW), // Rhydon - Surf Golduck (GSC: 10)
+            new EncounterTrade1(087, 15, YW), // Dewgong - Wild Growlithe (GSC: 5)
+            new EncounterTrade1(089, 25, YW), // Muk - Wild Kangaskhan (GSC: 5)
+            new EncounterTrade1(079, 22, YW), // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 15, YW), // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 13, YW), // Parasect - Trade Tangela (GSC 5)
+
+            new EncounterTrade1(093, 28, BU) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
+            new EncounterTrade1(075, 16, BU) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
         });
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_Tradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
         {
             // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
-            new EncounterTrade1(124, 10, RBY), // Jynx - Fish Poliwhirl (RBY: 15)
-            new EncounterTrade1(114, 05, RBY), // Tangela - Wild Venonat (RBY: 13)
-            new EncounterTrade1(086, 05, RBY), // Seel - Egg Ponyta (RBY: 28)
+            new EncounterTrade1(124, 10, RB), // Jynx - Fish Poliwhirl (RBY: 15)
+            new EncounterTrade1(114, 05, RB), // Tangela - Wild Venonat (RBY: 13)
+            new EncounterTrade1(086, 05, RB), // Seel - Egg Ponyta (RBY: 28)
 
-            new EncounterTrade1(115, 10, RBY), // Kangaskhan - Trade Rhydon (RBY: 42)
-            new EncounterTrade1(128, 18, RBY), // Tauros - Evolve Persian (RBY: 28)
-            new EncounterTrade1(098, 05, RBY, 204), // Krabby - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(115, 10, BU), // Kangaskhan - Trade Rhydon (RBY: 42)
+            new EncounterTrade1(128, 18, BU), // Tauros - Evolve Persian (RBY: 28)
+            new EncounterTrade1(098, 05, BU), // Krabby - Egg Growlithe (RBY: 15)
 
-          //new EncounterTrade1(122, 08), // Mr. Mime - Wild Clefairy (RBY: 6)
-            new EncounterTrade1(067, 05, RBY) { EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
-            new EncounterTrade1(112, 10, RBY), // Rhydon - Surf Golduck (RBY: 15)
-            new EncounterTrade1(087, 05, RBY), // Dewgong - Egg Growlithe (RBY: 15)
-            new EncounterTrade1(089, 05, RBY), // Muk - Egg Kangaskhan (RBY: 25)
+          //new EncounterTrade1(122, 08, YW), // Mr. Mime - Wild Clefairy (RBY: 6)
+            new EncounterTrade1(067, 05, YW) { EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
+            new EncounterTrade1(112, 10, YW), // Rhydon - Surf Golduck (RBY: 15)
+            new EncounterTrade1(087, 05, YW), // Dewgong - Egg Growlithe (RBY: 15)
+            new EncounterTrade1(089, 05, YW), // Muk - Egg Kangaskhan (RBY: 25)
 
-            new EncounterTrade1(079, 05, RBY), // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 05, RBY), // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 05, RBY), // Parasect - Trade Tangela (GSC 5)
+            new EncounterTrade1(079, 05, YW), // Slowpoke - Wild Seel (GSC 5)
+            new EncounterTrade1(051, 05, YW), // Dugtrio - Trade Lickitung (GSC 5)
+            new EncounterTrade1(047, 05, YW), // Parasect - Trade Tangela (GSC 5)
+
+            // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing unevolved outsiders
+            new EncounterTrade1(093, 14, BU) { EvolveOnTrade = true, GBEra = true }, // Haunter - Evolve Machop->Machoke
+            new EncounterTrade1(075, 15, BU) { EvolveOnTrade = true, GBEra = true }, // Graveler - Evolve Abra->Kadabra
         });
 
         private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };

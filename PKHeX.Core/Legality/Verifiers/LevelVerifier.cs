@@ -89,13 +89,17 @@ namespace PKHeX.Core
 
         private void VerifyG1TradeEvo(LegalityAnalysis data)
         {
-            if (ParseSettings.ActiveTrainer.Generation >= 3)
-                return; // context check is only applicable to gen1/2; transferring to gen2 is a trade.
+            // Context check is only applicable to gen1/2; transferring to Gen2 is a trade.
+            // Stadium 2 can transfer across game/generation boundaries without initiating a trade.
+            if (ParseSettings.ActiveTrainer.Generation >= 3 || ParseSettings.AllowGBCartEra)
+                return;
+
             var pkm = data.pkm;
             var mustevolve = pkm.TradebackStatus == TradebackType.WasTradeback || (pkm.Format == 1 && !ParseSettings.IsFromActiveTrainer(pkm)) || GBRestrictions.IsTradedKadabraG1(pkm);
             if (!mustevolve)
                 return;
-            // Pokemon have been traded but it is not evolved, trade evos are sequential dex numbers
+
+            // Pokemon have been traded but it is not evolved, trade evolutions are sequential dex numbers
             var evolved = LegalityAnalysis.SpeciesStrings[pkm.Species + 1];
             var unevolved = LegalityAnalysis.SpeciesStrings[pkm.Species];
             data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));

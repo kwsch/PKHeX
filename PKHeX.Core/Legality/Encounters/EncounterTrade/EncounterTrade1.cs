@@ -10,19 +10,7 @@
     public sealed class EncounterTrade1 : EncounterTradeGB
     {
         public override int Generation => 1;
-
-        /// <summary>
-        /// <see cref="PK1.Catch_Rate"/> value the encounter is found with.
-        /// </summary>
-        /// <remarks>
-        /// Gen1 Pokémon have a Catch Rate value when created by the game; depends on the origin version.
-        /// Few encounters use a value not from the game's Personal data.
-        /// </remarks>
-        private readonly byte Catch_Rate;
-
-        private bool HasOddCatchRate => Catch_Rate != 0;
-
-        public EncounterTrade1(int species, int level, GameVersion game, byte rate) : this(species, level, game) => Catch_Rate = rate;
+        public bool GBEra { private get; set; }
 
         public EncounterTrade1(int species, int level, GameVersion game) : base(species, level)
         {
@@ -32,9 +20,6 @@
 
         public byte GetInitialCatchRate()
         {
-            if (HasOddCatchRate)
-                return Catch_Rate;
-
             var pt = Version == GameVersion.YW ? PersonalTable.Y : PersonalTable.RB;
             return (byte)pt[Species].CatchRate;
         }
@@ -62,6 +47,16 @@
                 return false;
             if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
                 return true;
+
+            if (Version == GameVersion.BU)
+            {
+                // Encounters with this version have to originate from the Japanese Blue game.
+                if (!pkm.Japanese)
+                    return false;
+                // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing un-evolved outsiders
+                if (GBEra && !ParseSettings.AllowGBCartEra)
+                    return false;
+            }
 
             var req = GetInitialCatchRate();
             return req == pk1.Catch_Rate;
