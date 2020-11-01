@@ -106,8 +106,8 @@ namespace PKHeX.Core
             new EncounterTrade1(060, 02, RBY), // Poliwag - Wild Rattata
           //new EncounterTrade1(083, 02, RBY), // Farfetch’d - Wild Pidgey
 
-            new EncounterTrade1(093, 28, RBY, 45) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
-            new EncounterTrade1(075, 16, RBY, 45) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
+            new EncounterTrade1(093, 28, RBY, 90) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
+            new EncounterTrade1(075, 16, RBY, 120) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY_NoTradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
