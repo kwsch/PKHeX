@@ -421,7 +421,7 @@ namespace PKHeX.Core
         public const uint KSparringFairyPartySlot1Sweet = 0xB14624FF; // U32 Alcremie Sweet ID if 1st PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot2Sweet = 0xB046236C; // U32 Alcremie Sweet ID if 2nd PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot3Sweet = 0xB3462825; // U32 Alcremie Sweet ID if 3rd PKM used in party, otherwise -1
-        
+
         public const uint KRegielekiOrRegidragoPattern = 0xCF90B39A; // U32 Chosen Pattern for Split-Decision Ruins (0 = not chosen, 1 = electric, 2 = dragon)
         public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
         public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
@@ -433,7 +433,8 @@ namespace PKHeX.Core
         public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
         public const uint KMaxLairDisconnectStreak = 0x8EAEB8FF; // U32 Value of 3 will have you pay a Dynite Ore fee upon entry
         public const uint KMaxLairPeoniaSpeciesHint = 0xF26B9151; // U32 Species ID for Peonia to hint
-        
+        public const uint KMaxLairRentalChoiceSeed = 0x0D74AA40; // U64 seed used to pick Dynamax Adventure rental and encounter templates
+
         public const uint KGSTVictoriesTotal = 0x9D6727F6; // U32 Total Galarian Star Tournament victories
         public const uint KGSTVictoriesAvery = 0x3934BEC0; // U32 Galarian Star Tournament victories with Avery
         public const uint KGSTVictoriesKlara = 0xE9131991; // U32 Galarian Star Tournament victories with Klara
