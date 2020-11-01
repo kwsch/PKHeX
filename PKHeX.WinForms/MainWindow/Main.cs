@@ -26,9 +26,6 @@ namespace PKHeX.WinForms
 
         public Main()
         {
-            Form? splash = null; // popup a splash screen in another thread
-            new Task(() => (splash = new SplashScreen()).ShowDialog()).Start();
-            new Task(() => EncounterEvent.RefreshMGDB(MGDatabasePath)).Start();
             string[] args = Environment.GetCommandLineArgs();
             FormLoadInitialSettings(args, out bool showChangelog, out bool BAKprompt);
 
@@ -46,11 +43,6 @@ namespace PKHeX.WinForms
             FormLoadCheckForUpdates();
             FormLoadPlugins();
 
-            BringToFront();
-            WindowState = FormWindowState.Minimized;
-            Show();
-            WindowState = FormWindowState.Normal;
-            splash?.Invoke((MethodInvoker)(() => splash.Close())); // splash closes
             if (HaX)
             {
                 PKMConverter.AllowIncompatibleConversion = true;
@@ -63,6 +55,11 @@ namespace PKHeX.WinForms
 
             if (BAKprompt && !Directory.Exists(BackupPath))
                 PromptBackup();
+
+            BringToFront();
+            WindowState = FormWindowState.Minimized;
+            Show();
+            WindowState = FormWindowState.Normal;
         }
 
         #region Important Variables
@@ -187,13 +184,16 @@ namespace PKHeX.WinForms
                 try
                 #endif
                 {
-                    string? path = null;
+                    string path = string.Empty;
                     SaveFile? sav = null;
-                    if (Settings.Default.DetectSaveOnStartup && !DetectSaveFile(out path, out sav))
-                        WinFormsUtil.Error(path); // `path` contains the error message
+                    if (Settings.Default.DetectSaveOnStartup && !SaveFinder.DetectSaveFile(out path, out sav))
+                    {
+                        if (!string.IsNullOrWhiteSpace(path))
+                            WinFormsUtil.Error(path); // `path` contains the error message
+                    }
 
                     bool savLoaded = false;
-                    if (sav != null && path != null)
+                    if (sav != null && path.Length != 0)
                     {
                         savLoaded = OpenSAV(sav, path);
                     }
@@ -627,6 +627,7 @@ namespace PKHeX.WinForms
             Debug.WriteLine(c);
             if (tmp == null)
                 return false;
+            C_SAV.SAV.AdaptPKM(tmp);
             PKME_Tabs.PopulateFields(tmp);
             return true;
         }
@@ -656,6 +657,7 @@ namespace PKHeX.WinForms
                 return true;
             }
 
+            C_SAV.SAV.AdaptPKM(pk);
             PKME_Tabs.PopulateFields(pk);
             Debug.WriteLine(c);
             return true;
@@ -1204,28 +1206,15 @@ namespace PKHeX.WinForms
 
         private void ClickSaveFileName(object sender, EventArgs e)
         {
-            if (!DetectSaveFile(out string path, out var sav))
-                return;
-            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
-                LoadFile(sav, path); // load save
-        }
-
-        private static bool DetectSaveFile(out string path, out SaveFile? sav)
-        {
-            string msg = string.Empty;
-            var result = SaveFinder.FindMostRecentSaveFile(Environment.GetLogicalDrives(), ref msg);
-            if (result == null)
+            if (!SaveFinder.DetectSaveFile(out string path, out var sav))
             {
-                if (!string.IsNullOrWhiteSpace(msg))
-                    WinFormsUtil.Error(msg);
-                path = string.Empty;
-                sav = null;
-                return false;
+                if (!string.IsNullOrWhiteSpace(path))
+                    WinFormsUtil.Error(path); // `path` contains the error message
+                return;
             }
 
-            path = result.FilePath!;
-            sav = result;
-            return File.Exists(path);
+            if (WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgFileLoadSaveDetectReload, path) == DialogResult.Yes)
+                LoadFile(sav, path); // load save
         }
 
         private static void PromptBackup()

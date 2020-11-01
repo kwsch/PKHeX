@@ -159,5 +159,23 @@ namespace PKHeX.Core
             possible = possiblePaths;
             return true;
         }
+
+        public static bool DetectSaveFile(out string path, out SaveFile? sav) => DetectSaveFile(out path, out sav, Environment.GetLogicalDrives());
+
+        public static bool DetectSaveFile(out string path, out SaveFile? sav, IReadOnlyList<string> drives)
+        {
+            string errorMsg = string.Empty;
+            var result = FindMostRecentSaveFile(drives, ref errorMsg);
+            if (result == null)
+            {
+                path = errorMsg;
+                sav = null;
+                return false;
+            }
+
+            path = result.FilePath!;
+            sav = result;
+            return File.Exists(path);
+        }
     }
 }

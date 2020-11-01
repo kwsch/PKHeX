@@ -38,6 +38,16 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
+                    if (s is EncounterStatic8U u && u.Shiny == Shiny.Random)
+                    {
+						// Underground Raids are originally anti-shiny on encounter.
+						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
+                        var xor = pkm.ShinyXor;
+                        if (xor <= 15 && xor != 1)
+                            data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
+                        break;
+                    }
+
                     if (s.Generation != 5)
                         break;
 
@@ -51,7 +61,8 @@ namespace PKHeX.Core
                         break;
 
                     // Forced PID or generated without an encounter
-                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random))
+                    // Crustle has 0x80 for its StartWildBattle flag; dunno what it does, but sometimes it doesn't align with the expected PID xor.
+                    if (s is EncounterStatic5 s5 && (s5.Roaming || s5.Shiny != Shiny.Random || s5.Species == (int)Species.Crustle))
                         break;
                     VerifyG5PID_IDCorrelation(data);
                     break;

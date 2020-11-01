@@ -23,6 +23,7 @@ namespace PKHeX.Core
         public FashionUnlock8 Fashion { get; }
         public RaidSpawnList8 Raid { get; }
         public RaidSpawnList8 RaidArmor { get; }
+        public RaidSpawnList8 RaidCrown { get; }
         public TitleScreen8 TitleScreen { get; }
         public TeamIndexes8 TeamIndexes { get; }
         public HallOfFameTime8 FameTime { get; }
@@ -45,6 +46,7 @@ namespace PKHeX.Core
             Fashion = new FashionUnlock8(sav, GetBlock(KFashionUnlock));
             Raid = new RaidSpawnList8(sav, GetBlock(KRaidSpawnList), RaidSpawnList8.RaidCountLegal_O0);
             RaidArmor = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR1), RaidSpawnList8.RaidCountLegal_R1);
+            RaidCrown = new RaidSpawnList8(sav, GetBlockSafe(KRaidSpawnListR2), RaidSpawnList8.RaidCountLegal_R2);
             TitleScreen = new TitleScreen8(sav, GetBlock(KTitleScreenTeam));
             TeamIndexes = new TeamIndexes8(sav, GetBlock(KTeamIndexes));
             FameTime = new HallOfFameTime8(sav, GetBlock(KEnteredHallOfFame));
@@ -74,6 +76,7 @@ namespace PKHeX.Core
         private const uint KPlayTime = 0x8cbbfd90; // Time Played
         private const uint KRaidSpawnList = 0x9033eb7b; // Nest current values (hash, seed, meta)
         private const uint KRaidSpawnListR1 = 0x158DA896; // Raid Data for DLC1
+        private const uint KRaidSpawnListR2 = 0x148DA703; // Raid Data for DLC2
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
@@ -82,6 +85,11 @@ namespace PKHeX.Core
         private const uint KFriendLeagueCards = 0x28e707f5; // League Cards received from other players
         private const uint KNPCLeagueCards = 0xb1c26fb0; // League Cards received from NPCs
         private const uint KNPCLeagueCardsR1 = 0xb868ee77; // League Cards received from NPCs on The Isle of Armor
+        private const uint KNPCLeagueCardsR2 = 0xB968F00A; // League Cards received from NPCs on The Crown Tundra
+        private const uint KTrainer1EndlessRecordData = 0x79D787CB; // Trainer 1's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer2EndlessRecordData = 0x78D78638; // Trainer 2's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer3EndlessRecordData = 0x7BD78AF1; // Trainer 3's Data of Best Endless Dynamax Adventure Record
+        private const uint KTrainer4EndlessRecordData = 0x7AD7895E; // Trainer 4's Data of Best Endless Dynamax Adventure Record
 
         // Rental Teams - Objects (Blocks) (Incrementing internal names?) 
         private const uint KRentalTeam1 = 0x149A1DD0;
@@ -133,6 +141,7 @@ namespace PKHeX.Core
         public const uint KBirthDay = 0x355C8314; // U32
         public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed in Galar Dex
         public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokedex entry viewed in Armor Dex
+        public const uint KCurrentDexEntryR2 = 0x759FF274; // U16 Species ID of last Pokedex entry viewed in Crown Dex
 
         public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10
         public const uint KVolumeSoundEffects = 0x62F05895; // U32 0-10
@@ -412,6 +421,40 @@ namespace PKHeX.Core
         public const uint KSparringFairyPartySlot1Sweet = 0xB14624FF; // U32 Alcremie Sweet ID if 1st PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot2Sweet = 0xB046236C; // U32 Alcremie Sweet ID if 2nd PKM used in party, otherwise -1
         public const uint KSparringFairyPartySlot3Sweet = 0xB3462825; // U32 Alcremie Sweet ID if 3rd PKM used in party, otherwise -1
+        
+        public const uint KRegielekiOrRegidragoPattern = 0xCF90B39A; // U32 Chosen Pattern for Split-Decision Ruins (0 = not chosen, 1 = electric, 2 = dragon)
+        public const uint KCobalionFootprintPercentage = 0x4D50B655; // U32 Footprints of Cobalion collected on Crown Tundra; values go from 0-100
+        public const uint KTerrakionFootprintPercentage = 0x771E4C88; // U32 Footprints of Terrakion collected on Crown Tundra; values from 0-100
+        public const uint KVirizionFootprintPercentage = 0xAD67A297; // U32 Footprints of Virizion collected on Crown Tundra; values go from 0-100
+        public const uint KPlayersInteractedOnline = 0x31A13425; // U32 Number of Players interacted with online
+        public const uint KMaxLairSpeciesID1Noted = 0x6F669A35; // U32 Max Lair Species 1 Noted
+        public const uint KMaxLairSpeciesID2Noted = 0x6F66951C; // U32 Max Lair Species 2 Noted
+        public const uint KMaxLairSpeciesID3Noted = 0x6F6696CF; // U32 Max Lair Species 3 Noted
+        public const uint KMaxLairEndlessStreak = 0x7F4B4B10; // U32 Endless Dynamax Adventure Best Streak
+        public const uint KMaxLairDisconnectStreak = 0x8EAEB8FF; // U32 Value of 3 will have you pay a Dynite Ore fee upon entry
+        public const uint KMaxLairPeoniaSpeciesHint = 0xF26B9151; // U32 Species ID for Peonia to hint
+        
+        public const uint KGSTVictoriesTotal = 0x9D6727F6; // U32 Total Galarian Star Tournament victories
+        public const uint KGSTVictoriesAvery = 0x3934BEC0; // U32 Galarian Star Tournament victories with Avery
+        public const uint KGSTVictoriesKlara = 0xE9131991; // U32 Galarian Star Tournament victories with Klara
+        public const uint KGSTVictoriesMustard = 0x7742B542; // U32 Galarian Star Tournament victories with Mustard
+        public const uint KGSTVictoriesPeony = 0x9A535FA0; // U32 Galarian Star Tournament victories with Peony
+        public const uint KGSTVictoriesLeon = 0xFEE68CE1; // U32 Galarian Star Tournament victories with Leon
+        public const uint KGSTVictoriesBede = 0x2D0520CD; // U32 Galarian Star Tournament victories with Bede
+        public const uint KGSTVictoriesMarnie = 0xFB5133BC; // U32 Galarian Star Tournament victories with Marnie
+        public const uint KGSTVictoriesMilo = 0x24B9E3CC; // U32 Galarian Star Tournament victories with Milo
+        public const uint KGSTVictoriesNessa = 0xB19386DE; // U32 Galarian Star Tournament victories with Nessa
+        public const uint KGSTVictoriesKabu = 0x3576EE34; // U32 Galarian Star Tournament victories with Kabu
+        public const uint KGSTVictoriesPiers = 0xB95B1BB9; // U32 Galarian Star Tournament victories with Piers
+        public const uint KGSTVictoriesRaihan = 0x343E6FC1; // U32 Galarian Star Tournament victories with Raihan
+        public const uint KGSTVictoriesBea = 0x6371183B; // U32 Galarian Star Tournament victories with Bea
+        public const uint KGSTVictoriesGordie = 0xA2C094C7; // U32 Galarian Star Tournament victories with Gordie
+        public const uint KGSTVictoriesAllister = 0x9E32AE34; // U32 Galarian Star Tournament victories with Allister
+        public const uint KGSTVictoriesMelony = 0x06C0FBC8; // U32 Galarian Star Tournament victories with Melony
+        public const uint KGSTVictoriesSordward = 0xE3ED8F16; // U32 Galarian Star Tournament victories with Sordward
+        public const uint KGSTVictoriesShielbert = 0xC0D49E2D; // U32 Galarian Star Tournament victories with Shielbert
+        public const uint KGSTVictoriesHop = 0xEB07C276; // U32 Galarian Star Tournament victories with Hop
+        public const uint KGSTVictoriesOpal = 0xDBE374D7; // U32 Galarian Star Tournament victories with Opal
     }
 }
 #pragma warning restore IDE0051 // Remove unused private members

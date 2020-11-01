@@ -94,7 +94,12 @@ namespace PKHeX.WinForms
             int index = GetSenderIndex(sender);
             if (index < 0)
                 return;
-            PKME_Tabs.PopulateFields(Results[index].ConvertToPKM(SAV), false);
+            var pk = Results[index].ConvertToPKM(SAV);
+            pk = PKMConverter.ConvertToType(pk, SAV.PKMType, out _);
+            if (pk == null)
+                throw new ArgumentNullException(nameof(pk)); // shouldn't happen
+            SAV.AdaptPKM(pk);
+            PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
             slotColor = SpriteUtil.Spriter.View;
             UpdateSlotColor(SCR_Box.Value);

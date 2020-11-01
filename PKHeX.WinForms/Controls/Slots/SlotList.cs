@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using PKHeX.Core;
+using PKHeX.Drawing;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -113,20 +114,18 @@ namespace PKHeX.WinForms.Controls
         private void AddSlots(int count)
         {
             for (int i = 0; i < count; i++)
-                slots.Add(GetPictureBox(i));
+                slots.Add(GetPictureBox(i, SpriteUtil.Spriter));
         }
 
         private const int PadPixels = 2;
-        private const int SlotWidth = 40;
-        private const int SlotHeight = 30;
 
-        private static PictureBox GetPictureBox(int index)
+        private static PictureBox GetPictureBox(int index, SpriteBuilder s)
         {
             return new PictureBox
             {
                 BorderStyle = BorderStyle.FixedSingle,
-                Width = SlotWidth + 2,
-                Height = SlotHeight + 2,
+                Width = s.Width + 2,
+                Height = s.Height + 2,
                 AllowDrop = true,
                 Margin = new Padding(PadPixels),
                 SizeMode = PictureBoxSizeMode.CenterImage,

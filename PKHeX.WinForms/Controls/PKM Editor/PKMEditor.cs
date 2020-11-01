@@ -277,7 +277,7 @@ namespace PKHeX.WinForms.Controls
             Stats.UpdateIVs(this, EventArgs.Empty);
             UpdatePKRSInfected(this, EventArgs.Empty);
             UpdatePKRSCured(this, EventArgs.Empty);
-            UpdateNatureModification(CB_StatNature);
+            UpdateNatureModification(CB_StatNature, 1);
 
             if (HaX) // Load original values from pk not pkm
             {
@@ -371,7 +371,7 @@ namespace PKHeX.WinForms.Controls
 
         private static void ReloadGender(Label l, IReadOnlyList<string> genders) => l.Text = ReloadGender(l.Text, genders);
 
-        private void UpdateSprite()
+        internal void UpdateSprite()
         {
             if (FieldsLoaded && !forceValidation)
                 UpdatePreviewSprite?.Invoke(this, EventArgs.Empty);
@@ -1245,9 +1245,10 @@ namespace PKHeX.WinForms.Controls
             TB_ExtraByte.Text = Entity.Data[Convert.ToInt32(CB_ExtraBytes.Text, 16)].ToString();
         }
 
-        private void UpdateNatureModification(ComboBox cb)
+        private void UpdateNatureModification(ComboBox cb, int type)
         {
-            string text = Stats.UpdateNatureModification(Entity.StatNature);
+            // 0 = Nature, 1 = Stat Nature
+            string text = Stats.UpdateNatureModification((type == 0) ? Entity.Nature : Entity.StatNature);
             NatureTip.SetToolTip(cb, text);
         }
 
@@ -1439,11 +1440,11 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateShinyPID(object sender, EventArgs e)
         {
-            var ShinyPID = Entity.Format <= 2 || ModifierKeys != Keys.Control;
-            UpdateShiny(ShinyPID);
+            var changePID = Entity.Format >= 3 && (ModifierKeys & Keys.Alt) == 0;
+            UpdateShiny(changePID);
         }
 
-        private void UpdateShiny(bool PID)
+        private void UpdateShiny(bool changePID)
         {
             Entity.PID = Util.GetHexValue(TB_PID.Text);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
@@ -1453,9 +1454,15 @@ namespace PKHeX.WinForms.Controls
 
             if (Entity.Format > 2)
             {
-                if (PID)
+                var type = (ModifierKeys & ~Keys.Alt) switch
                 {
-                    CommonEdits.SetShiny(Entity, ModifierKeys == Keys.Shift ? Shiny.AlwaysSquare : Shiny.AlwaysStar);
+                    Keys.Shift => Shiny.AlwaysSquare,
+                    Keys.Control => Shiny.AlwaysStar,
+                    _ => Shiny.Random
+                };
+                if (changePID)
+                {
+                    CommonEdits.SetShiny(Entity, type);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
                     int gen = Entity.GenNumber;
@@ -1465,7 +1472,7 @@ namespace PKHeX.WinForms.Controls
                 }
                 else
                 {
-                    Entity.SetShinySID();
+                    Entity.SetShinySID(type);
                     TID_Trainer.UpdateSID();
                 }
             }
@@ -1596,14 +1603,14 @@ namespace PKHeX.WinForms.Controls
                 if (Entity.Format <= 4)
                     UpdateRandomPID(sender, e);
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-                UpdateNatureModification(CB_Nature);
+                UpdateNatureModification(CB_Nature, 0);
                 Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }
             else if (sender == CB_StatNature)
             {
                 Entity.StatNature = WinFormsUtil.GetIndex(CB_StatNature);
-                UpdateNatureModification(CB_StatNature);
+                UpdateNatureModification(CB_StatNature, 1);
                 Stats.UpdateIVs(sender, EventArgs.Empty); // updating Nature will trigger stats to update as well
                 UpdateLegality();
             }

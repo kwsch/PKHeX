@@ -1198,6 +1198,7 @@
             this.CHK_Gigantamax.TabIndex = 44;
             this.CHK_Gigantamax.Text = "Gigantamax";
             this.CHK_Gigantamax.UseVisualStyleBackColor = true;
+            this.CHK_Gigantamax.CheckedChanged += new System.EventHandler(this.CHK_Gigantamax_CheckedChanged);
             // 
             // StatEditor
             // 

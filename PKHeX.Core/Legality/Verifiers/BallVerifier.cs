@@ -344,26 +344,22 @@ namespace PKHeX.Core
             return !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities);
         }
 
-        public static bool IsGalarCatchAndBreed(int species)
+        private static bool IsGalarCatchAndBreed(int species)
         {
             if ((int)Species.Grookey <= species && species <= (int)Species.Inteleon) // starter
                 return false;
-            var pt = PersonalTable.SWSH;
-            var pi = ((PersonalInfoSWSH) pt.GetFormeEntry(species, 0));
-            bool galar = pi.PokeDexIndex != 0;
-            if (galar)
-                return true;
-            var armor = pi.ArmorDexIndex != 0;
-            if (armor)
-            {
-                if (722 <= species && species <= 730) // G7 Starters
-                    return false;
-                if ((int) Species.Porygon == species)
-                    return false;
-                return true;
-            }
 
-            return true;
+            // Everything breed-able that is in the Galar Dex can be captured in-game.
+            var pt = PersonalTable.SWSH;
+            var pi = (PersonalInfoSWSH) pt.GetFormeEntry(species, 0);
+            if (pi.IsInDex)
+                return true;
+
+            // Foreign Captures
+            if ((int)Species.Treecko <= species && species <= (int)Species.Swampert) // Dynamax Adventures
+                return true;
+
+            return false;
         }
 
         private CheckResult VerifyBallEquals(LegalityAnalysis data, int ball) => GetResult(ball == data.pkm.Ball);

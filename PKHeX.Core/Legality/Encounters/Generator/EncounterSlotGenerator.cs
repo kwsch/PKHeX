@@ -122,7 +122,10 @@ namespace PKHeX.Core
         internal static EncounterSlot? GetCaptureLocation(PKM pkm)
         {
             var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
-            return GetPossible(pkm, chain).OrderBy(z => z.LevelMin).FirstOrDefault();
+            return GetPossible(pkm, chain)
+                .OrderBy(z => !chain.Any(s => s.Species == z.Species && s.Form == z.Form))
+                .ThenBy(z => z.LevelMin)
+                .FirstOrDefault();
         }
 
         private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)

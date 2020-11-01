@@ -1588,3 +1588,21 @@ Rotom-Rad
 EP-Pin
 Rüstungserz
 Zeichenpin
+Zügel des Bundes
+Zügel des Bundes
+Galarnuss-Kranz
+Legenden-Notiz 1
+Legenden-Notiz 2
+Legenden-Notiz 3
+Legenden-Notiz X
+Kronenpass
+Holzkrone
+Kronblatt
+Helles Rosshaar
+Dunkles Rosshaar
+Polarkarotte
+Phantomkarotte
+Dyna-Erz
+Karottensamen
+Fähigk.-Pflaster
+Zügel des Bundes

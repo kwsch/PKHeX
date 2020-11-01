@@ -31,7 +31,7 @@ namespace PKHeX.Core
         {
             // wild area gets boosted up to level 60 post-game
             var met = pkm.Met_Level;
-            bool isBoosted = met == 60 && (IsWildArea8(Location) || IsWildArea8Armor(Location));
+            bool isBoosted = met == 60 && IsBoostedArea60(Location);
             if (isBoosted)
                 return GetBoostedMatches(chain);
             return GetUnboostedMatches(chain, met);
@@ -78,8 +78,12 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
-        public static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
+        public static bool IsWildArea(int loc) => IsWildArea8(loc) || IsWildArea8Armor(loc) || IsWildArea8Crown(loc);
+        public static bool IsBoostedArea60(int loc) => IsWildArea(loc);
+
+        private static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
+        private static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
+        private static bool IsWildArea8Crown(int loc) => 204 <= loc && loc <= 234 && loc != 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
         // Location, and areas that it can feed encounters to.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
@@ -184,6 +188,22 @@ namespace PKHeX.Core
             // Honeycalm Sea
             // Honeycalm Island
             {192, new byte[] {194}},
+
+            // Frostpoint Field
+            // Freezington
+            {208, new byte[] {206}},
+
+            // Old Cemetery
+            // Giant’s Bed
+            {212, new byte[] {210}},
+
+            // Roaring-Sea Caves
+            // Giant’s Foot
+            {224, new byte[] {222}},
+
+            // Ballimere Lake
+            // Lakeside Cave
+            {230, new byte[] {232}},
         };
 
         /// <summary>

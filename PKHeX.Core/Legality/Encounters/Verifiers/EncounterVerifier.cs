@@ -28,7 +28,7 @@ namespace PKHeX.Core
         {
             return info.EncounterMatch switch
             {
-                EncounterEgg _ => VerifyEncounterEgg(pkm),
+                EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
                 EncounterTrade t => VerifyEncounterTrade(pkm, t),
                 EncounterSlot w => VerifyEncounterWild(w),
                 EncounterStatic s => VerifyEncounterStatic(pkm, s),
@@ -41,7 +41,7 @@ namespace PKHeX.Core
         {
             var EncounterMatch = info.EncounterMatch;
             if (EncounterMatch.EggEncounter)
-                return VerifyEncounterEgg(pkm);
+                return VerifyEncounterEgg(pkm, EncounterMatch.Generation);
 
             return EncounterMatch switch
             {
@@ -97,26 +97,23 @@ namespace PKHeX.Core
         }
 
         // Eggs
-        private static CheckResult VerifyEncounterEgg(PKM pkm, bool checkSpecies = true)
+        private static CheckResult VerifyEncounterEgg(PKM pkm, int gen, bool checkSpecies = true)
         {
             // Check Species
             if (checkSpecies && Legal.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
 
-            switch (pkm.GenNumber)
+            return gen switch
             {
-                case 1:
-                case 2: return new CheckResult(CheckIdentifier.Encounter); // valid -- no met location info
-                case 3: return pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm);
-                case 4: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm);
-                case 5: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm);
-                case 6: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm);
-                case 7: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm);
-                case 8: return pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm);
-
-                default: // none of the above
-                    return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
-            }
+                2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
+                3 => pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm),
+                4 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm),
+                5 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm),
+                6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
+                7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
+                8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
+                _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
+            };
         }
 
         private static CheckResult VerifyEncounterEgg3(PKM pkm)
@@ -263,13 +260,17 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterStatic(PKM pkm, EncounterStatic s)
         {
             // Check for Unreleased Encounters / Collisions
-            switch (pkm.GenNumber)
+            switch (s.Generation)
             {
                 case 3:
                     if (s is EncounterStaticShadow w && w.EReader && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
+
                     if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
                         return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
+
+                    if (pkm.Species == (int)Species.Deoxys && s.Location == 200 && pkm.Language == (int)LanguageID.Japanese) // JP Deoxys (Birth Island)
+                        return new CheckResult(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
                     break;
                 case 4:
                     switch (pkm.Species)
@@ -291,7 +292,7 @@ namespace PKHeX.Core
             }
             if (s.EggEncounter && !pkm.IsEgg) // hatched
             {
-                var hatchCheck = VerifyEncounterEgg(pkm);
+                var hatchCheck = VerifyEncounterEgg(pkm, s.Generation);
                 if (!hatchCheck.Valid)
                     return hatchCheck;
             }
@@ -324,7 +325,7 @@ namespace PKHeX.Core
             }
             if (!pkm.IsEgg && MatchedGift.IsEgg) // hatched
             {
-                var hatchCheck = VerifyEncounterEgg(pkm, false);
+                var hatchCheck = VerifyEncounterEgg(pkm, MatchedGift.Generation, false);
                 if (!hatchCheck.Valid)
                     return hatchCheck;
             }

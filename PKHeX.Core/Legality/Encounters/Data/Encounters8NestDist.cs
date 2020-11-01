@@ -443,6 +443,38 @@
             new EncounterStatic8ND(60,10,5) { Species = 861, Ability = A4, Moves = new[]{ 789, 492, 421, 417 }, CanGigantamax = true }, // Grimmsnarl
             new EncounterStatic8ND(60,10,5) { Species = 635, Ability = A4, Moves = new[]{ 406, 304, 399, 056 } }, // Hydreigon
             new EncounterStatic8ND(60,10,5) { Species = 877, Ability = A4, Moves = new[]{ 783, 037, 242, 402 } }, // Morpeko
+
+            // 10/30 - Halloween
+            new EncounterStatic8ND(17,01,1) { Species = 562, Ability = A4, Moves = new[]{ 261, 114, 310, 101 } }, // Yamask
+          //new EncounterStatic8ND(17,01,1) { Species = 778, Ability = A4, Moves = new[]{ 086, 452, 425, 010 } }, // Mimikyu
+            new EncounterStatic8ND(17,01,1) { Species = 709, Ability = A4, Moves = new[]{ 785, 421, 261, 310 } }, // Trevenant
+            new EncounterStatic8ND(17,01,1) { Species = 855, Ability = A4, Moves = new[]{ 597, 110, 668, 310 } }, // Polteageist
+            new EncounterStatic8ND(30,03,2) { Species = 710, Ability = A4, Moves = new[]{ 567, 425, 310, 331 } }, // Pumpkaboo
+            new EncounterStatic8ND(30,03,2) { Species = 563, Ability = A4, Moves = new[]{ 578, 421, 310, 261 } }, // Cofagrigus
+          //new EncounterStatic8ND(30,03,2) { Species = 778, Ability = A4, Moves = new[]{ 086, 452, 425, 608 } }, // Mimikyu
+            new EncounterStatic8ND(30,03,2) { Species = 709, Ability = A4, Moves = new[]{ 785, 506, 261, 310 } }, // Trevenant
+            new EncounterStatic8ND(30,03,2) { Species = 855, Ability = A4, Moves = new[]{ 597, 110, 389, 310 } }, // Polteageist
+            new EncounterStatic8ND(40,05,3) { Species = 710, Ability = A4, Moves = new[]{ 567, 247, 310, 402 } }, // Pumpkaboo
+            new EncounterStatic8ND(40,05,3) { Species = 563, Ability = A4, Moves = new[]{ 578, 421, 310, 261 } }, // Cofagrigus
+          //new EncounterStatic8ND(40,05,3) { Species = 778, Ability = A4, Moves = new[]{ 085, 452, 421, 608 } }, // Mimikyu
+            new EncounterStatic8ND(40,05,3) { Species = 709, Ability = A4, Moves = new[]{ 785, 506, 261, 310 } }, // Trevenant
+            new EncounterStatic8ND(40,05,3) { Species = 855, Ability = A4, Moves = new[]{ 597, 110, 389, 310 } }, // Polteageist
+            new EncounterStatic8ND(50,08,4) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 585, 402 } }, // Gourgeist
+            new EncounterStatic8ND(50,08,4) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 585, 402 }, Form = 1 }, // Gourgeist-1
+            new EncounterStatic8ND(50,08,4) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 585, 402 }, Form = 2 }, // Gourgeist-2
+            new EncounterStatic8ND(50,08,4) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 585, 402 }, Form = 3 }, // Gourgeist-3
+            new EncounterStatic8ND(50,08,4) { Species = 563, Ability = A4, Moves = new[]{ 578, 247, 399, 261 } }, // Cofagrigus
+          //new EncounterStatic8ND(50,08,4) { Species = 778, Ability = A4, Moves = new[]{ 085, 452, 261, 204 } }, // Mimikyu
+            new EncounterStatic8ND(50,08,4) { Species = 709, Ability = A4, Moves = new[]{ 452, 506, 261, 310 } }, // Trevenant
+            new EncounterStatic8ND(50,08,4) { Species = 855, Ability = A4, Moves = new[]{ 247, 417, 389, 310 } }, // Polteageist
+            new EncounterStatic8ND(60,10,5) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 433, 402 } }, // Gourgeist
+            new EncounterStatic8ND(60,10,5) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 433, 402 }, Form = 1, Shiny = Shiny.Always }, // Gourgeist-1
+            new EncounterStatic8ND(60,10,5) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 433, 402 }, Form = 2 }, // Gourgeist-2
+            new EncounterStatic8ND(60,10,5) { Species = 711, Ability = A4, Moves = new[]{ 567, 247, 433, 402 }, Form = 3, Shiny = Shiny.Always }, // Gourgeist-3
+            new EncounterStatic8ND(60,10,5) { Species = 563, Ability = A4, Moves = new[]{ 578, 247, 399, 261 } }, // Cofagrigus
+          //new EncounterStatic8ND(60,10,5) { Species = 778, Ability = A4, Moves = new[]{ 087, 452, 261, 583 } }, // Mimikyu
+            new EncounterStatic8ND(60,10,5) { Species = 709, Ability = A4, Moves = new[]{ 452, 506, 261, 310 } }, // Trevenant
+            new EncounterStatic8ND(60,10,5) { Species = 855, Ability = A4, Moves = new[]{ 247, 417, 389, 310 } }, // Polteageist
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =

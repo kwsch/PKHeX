@@ -97,6 +97,12 @@ namespace PKHeX.Core
             get => Data[Offset + 0x1B4] == 1;
             set => Data[Offset + 0x1B4] = (byte)(value ? 1 : 0);
         }
+        
+        public bool CrownDexComplete
+        {
+            get => Data[Offset + 0x1B5] == 1;
+            set => Data[Offset + 0x1B5] = (byte)(value ? 1 : 0);
+        }
 
         public int Gender
         {

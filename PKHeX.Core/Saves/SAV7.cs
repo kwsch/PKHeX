@@ -139,8 +139,8 @@ namespace PKHeX.Core
         public override int SID { get => MyStatus.SID; set => MyStatus.SID = value; }
         public override int Game { get => MyStatus.Game; set => MyStatus.Game = value; }
         public override int Gender { get => MyStatus.Gender; set => MyStatus.Gender = value; }
-        public override int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
-        public override string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
+        public int GameSyncIDSize => MyStatus7.GameSyncIDSize; // 64 bits
+        public string GameSyncID { get => MyStatus.GameSyncID; set => MyStatus.GameSyncID = value; }
         public int Region { get => MyStatus.SubRegion; set => MyStatus.SubRegion = value; }
         public int Country { get => MyStatus.Country; set => MyStatus.Country = value; }
         public int ConsoleRegion { get => MyStatus.ConsoleRegion; set => MyStatus.ConsoleRegion = value; }

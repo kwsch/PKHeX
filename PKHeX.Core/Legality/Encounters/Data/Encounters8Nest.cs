@@ -164,6 +164,46 @@ namespace PKHeX.Core
         private const byte Nest154 = 154;
         private const byte Nest155 = 155;
         private const byte Nest156 = 156;
+        private const byte Nest157 = 157;
+        private const byte Nest158 = 158;
+        private const byte Nest159 = 159;
+        private const byte Nest160 = 160;
+        private const byte Nest161 = 161;
+        private const byte Nest162 = 162;
+        private const byte Nest163 = 163;
+        private const byte Nest164 = 164;
+        private const byte Nest165 = 165;
+        private const byte Nest166 = 166;
+        private const byte Nest167 = 167;
+        private const byte Nest168 = 168;
+        private const byte Nest169 = 169;
+        private const byte Nest170 = 170;
+        private const byte Nest171 = 171;
+        private const byte Nest172 = 172;
+        private const byte Nest173 = 173;
+        private const byte Nest174 = 174;
+        private const byte Nest175 = 175;
+        private const byte Nest176 = 176;
+        private const byte Nest177 = 177;
+        private const byte Nest178 = 178;
+        private const byte Nest179 = 179;
+        private const byte Nest180 = 180;
+        private const byte Nest181 = 181;
+        private const byte Nest182 = 182;
+        private const byte Nest183 = 183;
+        private const byte Nest184 = 184;
+        private const byte Nest185 = 185;
+        private const byte Nest186 = 186;
+        private const byte Nest187 = 187;
+        private const byte Nest188 = 188;
+        private const byte Nest189 = 189;
+        private const byte Nest190 = 190;
+        private const byte Nest191 = 191;
+        private const byte Nest192 = 192;
+        private const byte Nest193 = 193;
+        private const byte Nest194 = 194;
+        private const byte Nest195 = 195;
+        private const byte Nest196 = 196;
 
         internal static readonly IReadOnlyList<IReadOnlyList<byte>> NestLocations = new []
         {
@@ -324,15 +364,59 @@ namespace PKHeX.Core
             new byte[] {186, 188},           // 154 : Workout Sea, Stepping-Stone Sea
             new byte[] {174},                // 155 : Challenge Road
             new byte[] {174},                // 156 : Challenge Road
+
+            new byte[] {204,210,222,230},    // 157 : Slippery Slope, Giant's Bed, Giant's Foot, Ballimere Lake
+            new byte[] {204,210,222,230},    // 158 : Slippery Slope, Giant's Bed, Giant's Foot, Ballimere Lake
+            new byte[] {210,214,222,230},    // 159 : Giant's Bed, Snowslide Slope, Giant's Foot, Ballimere Lake
+            new byte[] {210,214,222,230},    // 160 : Giant's Bed, Snowslide Slope, Giant's Foot, Ballimere Lake
+            new byte[] {210,222,226,230},    // 161 : Giant's Bed, Giant's Foot, Frigid Sea, Ballimere Lake
+            new byte[] {210,222,226,230},    // 162 : Giant's Bed, Giant's Foot, Frigid Sea, Ballimere Lake
+            new byte[] {208,210,226,228,230},// 163 : Frostpoint Field, Giant's Bed, Frigid Sea, Three-Point Pass, Ballimere Lake
+            new byte[] {208,210,226,228,230},// 164 : Frostpoint Field, Giant's Bed, Frigid Sea, Three-Point Pass, Ballimere Lake
+            new byte[] {204,210,220,222,230},// 165 : Slippery Slope, Giant's Bed, Crown Shrine, Giant's Foot, Ballimere Lake
+            new byte[] {204,210,220,222,230},// 166 : Slippery Slope, Giant's Bed, Crown Shrine, Giant's Foot, Ballimere Lake
+            new byte[] {204,214,226},        // 167 : Slippery Slope, Snowslide Slope, Frigid Sea
+            new byte[] {204,214,226},        // 168 : Slippery Slope, Snowslide Slope, Frigid Sea
+            new byte[] {210,226},            // 169 : Giant's Bed, Frigid Sea
+            new byte[] {210,226},            // 170 : Giant's Bed, Frigid Sea
+            new byte[] {208,210,214,226,230},// 171 : Frostpoint Field, Giant's Bed, Snowslide Slope, Frigid Sea, Ballimere Lake
+            new byte[] {208,210,214,226,230},// 172 : Frostpoint Field, Giant's Bed, Snowslide Slope, Frigid Sea, Ballimere Lake
+            new byte[] {210,226,230},        // 173 : Giant's Bed, Frigid Sea, Ballimere Lake
+            new byte[] {210,226,230},        // 174 : Giant's Bed, Frigid Sea, Ballimere Lake
+            new byte[] {210,226,230,234},    // 175 : Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
+            new byte[] {210,226,230,234},    // 176 : Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
+            new byte[] {210,214,218,230},    // 177 : Giant's Bed, Snowslide Slope, Path to the Peak, Ballimere Lake
+            new byte[] {210,214,218,230},    // 178 : Giant's Bed, Snowslide Slope, Path to the Peak, Ballimere Lake
+            new byte[] {204,210,214,230},    // 179 : Slippery Slope, Giant's Bed, Snowslide Slope, Ballimere Lake
+            new byte[] {204,210,214,230},    // 180 : Slippery Slope, Giant's Bed, Snowslide Slope, Ballimere Lake
+            new byte[] {204,212,222,226,230},// 181 : Slippery Slope, Old Cemetery, Giant's Foot, Frigid Sea, Ballimere Lake
+            new byte[] {204,212,222,226,230},// 182 : Slippery Slope, Old Cemetery, Giant's Foot, Frigid Sea, Ballimere Lake
+            new byte[] {210,218,226,228,230},// 183 : Giant's Bed, Path to the Peak, Frigid Sea, Three-Point Pass, Ballimere Lake
+            new byte[] {210,218,226,228,230},// 184 : Giant's Bed, Path to the Peak, Frigid Sea, Three-Point Pass, Ballimere Lake
+            new byte[] {208,210,214,222,226},// 185 : Frostpoint Field, Giant's Bed, Snowslide Slope, Giant's Foot, Frigid Sea
+            new byte[] {208,210,214,222,226},// 186 : Frostpoint Field, Giant's Bed, Snowslide Slope, Giant's Foot, Frigid Sea
+            new byte[] {210,214,218,226},    // 187 : Giant's Bed, Snowslide Slope, Path to the Peak, Frigid Sea
+            new byte[] {210,214,218,226},    // 188 : Giant's Bed, Snowslide Slope, Path to the Peak, Frigid Sea
+            new byte[] {208,210,214,226,230},// 189 : Frostpoint Field, Giant's Bed, Snowslide Slope, Frigid Sea, Ballimere Lake
+            new byte[] {208,210,214,226,230},// 190 : Frostpoint Field, Giant's Bed, Snowslide Slope, Frigid Sea, Ballimere Lake
+            new byte[] {210,212,230},        // 191 : Giant's Bed, Old Cemetery, Ballimere Lake
+            new byte[] {210,212,230},        // 192 : Giant's Bed, Old Cemetery, Ballimere Lake
+            new byte[] {230},                // 193 : Ballimere Lake
+            new byte[] {230},                // 194 : Ballimere Lake
+            new byte[] {214},                // 195 : Snowslide Slope
+            new byte[] {214},                // 196 : Snowslide Slope 
         };
 
         // Abilities Allowed
+        private const int A0 = 1; // 1 only
+        private const int A1 = 2; // 2 only
         private const int A2 = 4; // Ability 4 only
         private const int A3 = 0; // 1/2 only
         private const int A4 = -1; // 1/2/H
 
         internal const int SharedNest = 162;
         internal const int Watchtower = 126;
+        internal const int MaxLair = 244;
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
@@ -1771,7 +1855,8 @@ namespace PKHeX.Core
             new EncounterStatic8N(Nest149,4,4,4) { Species = 844, Ability = A2, CanGigantamax = true }, // Sandaconda
             new EncounterStatic8N(Nest150,2,4,4) { Species = 242, Ability = A2 }, // Blissey
             new EncounterStatic8N(Nest150,0,1,1) { Species = 840, Ability = A2 }, // Applin
-            new EncounterStatic8N(Nest150,0,1,1) { Species = 420, Ability = A2 }, // Cherubi
+            new EncounterStatic8N(Nest150,0,1,1) { Species = 420, Ability = A2 }, // Cherubi (DLC1)
+            new EncounterStatic8N(Nest150,0,1,1) { Species = 761, Ability = A2 }, // Bounsweet (DLC2)
             new EncounterStatic8N(Nest150,1,2,2) { Species = 420, Ability = A2 }, // Cherubi
             new EncounterStatic8N(Nest150,1,2,2) { Species = 840, Ability = A2 }, // Applin
             new EncounterStatic8N(Nest150,2,3,3) { Species = 762, Ability = A2 }, // Steenee
@@ -1834,6 +1919,388 @@ namespace PKHeX.Core
             new EncounterStatic8N(Nest156,4,4,4) { Species = 745, Ability = A2 }, // Lycanroc
             new EncounterStatic8N(Nest156,4,4,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
             new EncounterStatic8N(Nest156,3,4,4) { Species = 745, Ability = A2, Form = 2 }, // Lycanroc-2
+            new EncounterStatic8N(Nest157,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest157,0,1,1) { Species = 333, Ability = A3 }, // Swablu
+            new EncounterStatic8N(Nest157,0,1,1) { Species = 831, Ability = A3 }, // Wooloo
+            new EncounterStatic8N(Nest157,1,2,2) { Species = 333, Ability = A3 }, // Swablu
+            new EncounterStatic8N(Nest157,1,2,2) { Species = 446, Ability = A3 }, // Munchlax
+            new EncounterStatic8N(Nest157,2,3,3) { Species = 820, Ability = A3 }, // Greedent
+            new EncounterStatic8N(Nest157,2,3,3) { Species = 832, Ability = A3 }, // Dubwool
+            new EncounterStatic8N(Nest157,3,4,4) { Species = 334, Ability = A4 }, // Altaria
+            new EncounterStatic8N(Nest157,3,4,4) { Species = 832, Ability = A4 }, // Dubwool
+            new EncounterStatic8N(Nest157,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
+            new EncounterStatic8N(Nest158,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest158,0,1,2) { Species = 333, Ability = A2 }, // Swablu
+            new EncounterStatic8N(Nest158,0,1,2) { Species = 819, Ability = A2 }, // Skwovet
+            new EncounterStatic8N(Nest158,1,2,3) { Species = 333, Ability = A2 }, // Swablu
+            new EncounterStatic8N(Nest158,1,2,3) { Species = 820, Ability = A2 }, // Greedent
+            new EncounterStatic8N(Nest158,2,3,4) { Species = 820, Ability = A2 }, // Greedent
+            new EncounterStatic8N(Nest158,2,3,4) { Species = 832, Ability = A2 }, // Dubwool
+            new EncounterStatic8N(Nest158,3,4,5) { Species = 334, Ability = A2 }, // Altaria
+            new EncounterStatic8N(Nest158,3,4,5) { Species = 832, Ability = A2 }, // Dubwool
+            new EncounterStatic8N(Nest158,4,4,5) { Species = 143, Ability = A2 }, // Snorlax
+            new EncounterStatic8N(Nest158,4,4,5) { Species = 143, Ability = A2, CanGigantamax = true }, // Snorlax
+            new EncounterStatic8N(Nest159,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest159,0,1,1) { Species = 240, Ability = A3 }, // Magby
+            new EncounterStatic8N(Nest159,0,1,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new EncounterStatic8N(Nest159,1,2,2) { Species = 240, Ability = A3 }, // Magby
+            new EncounterStatic8N(Nest159,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new EncounterStatic8N(Nest159,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new EncounterStatic8N(Nest159,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new EncounterStatic8N(Nest159,3,4,4) { Species = 126, Ability = A4 }, // Magmar
+            new EncounterStatic8N(Nest159,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new EncounterStatic8N(Nest159,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new EncounterStatic8N(Nest159,4,4,4) { Species = 126, Ability = A4 }, // Magmar
+            new EncounterStatic8N(Nest159,4,4,4) { Species = 467, Ability = A4 }, // Magmortar
+            new EncounterStatic8N(Nest160,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest160,0,1,2) { Species = 240, Ability = A2 }, // Magby
+            new EncounterStatic8N(Nest160,1,2,3) { Species = 126, Ability = A2 }, // Magmar
+            new EncounterStatic8N(Nest160,1,2,3) { Species = 631, Ability = A2 }, // Heatmor
+            new EncounterStatic8N(Nest160,2,3,4) { Species = 126, Ability = A2 }, // Magmar
+            new EncounterStatic8N(Nest160,2,3,4) { Species = 851, Ability = A2 }, // Centiskorch
+            new EncounterStatic8N(Nest160,3,4,5) { Species = 609, Ability = A2 }, // Chandelure
+            new EncounterStatic8N(Nest160,3,4,5) { Species = 467, Ability = A2 }, // Magmortar
+            new EncounterStatic8N(Nest160,4,4,5) { Species = 467, Ability = A2 }, // Magmortar
+            new EncounterStatic8N(Nest160,4,4,5) { Species = 851, Ability = A2, CanGigantamax = true }, // Centiskorch
+            new EncounterStatic8N(Nest161,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest161,0,1,1) { Species = 349, Ability = A3 }, // Feebas
+            new EncounterStatic8N(Nest161,1,2,2) { Species = 349, Ability = A3 }, // Feebas
+            new EncounterStatic8N(Nest161,2,3,3) { Species = 340, Ability = A3 }, // Whiscash
+            new EncounterStatic8N(Nest161,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new EncounterStatic8N(Nest161,4,4,4) { Species = 350, Ability = A4 }, // Milotic
+            new EncounterStatic8N(Nest161,4,4,4) { Species = 369, Ability = A4 }, // Relicanth
+            new EncounterStatic8N(Nest162,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest162,0,1,2) { Species = 349, Ability = A2 }, // Feebas
+            new EncounterStatic8N(Nest162,1,2,3) { Species = 349, Ability = A2 }, // Feebas
+            new EncounterStatic8N(Nest162,1,2,3) { Species = 369, Ability = A2 }, // Relicanth
+            new EncounterStatic8N(Nest162,2,3,4) { Species = 099, Ability = A2 }, // Kingler
+            new EncounterStatic8N(Nest162,3,4,5) { Species = 369, Ability = A2 }, // Relicanth
+            new EncounterStatic8N(Nest162,3,4,5) { Species = 350, Ability = A2 }, // Milotic
+            new EncounterStatic8N(Nest162,4,4,5) { Species = 130, Ability = A2 }, // Gyarados
+            new EncounterStatic8N(Nest162,4,4,5) { Species = 099, Ability = A2, CanGigantamax = true }, // Kingler
+            new EncounterStatic8N(Nest163,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest163,0,1,1) { Species = 239, Ability = A3 }, // Elekid
+            new EncounterStatic8N(Nest163,0,1,1) { Species = 595, Ability = A3 }, // Joltik
+            new EncounterStatic8N(Nest163,1,2,2) { Species = 239, Ability = A3 }, // Elekid
+            new EncounterStatic8N(Nest163,1,2,2) { Species = 871, Ability = A3 }, // Pincurchin
+            new EncounterStatic8N(Nest163,2,3,3) { Species = 125, Ability = A3 }, // Electabuzz
+            new EncounterStatic8N(Nest163,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
+            new EncounterStatic8N(Nest163,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
+            new EncounterStatic8N(Nest163,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
+            new EncounterStatic8N(Nest163,3,4,4) { Species = 836, Ability = A4 }, // Boltund
+            new EncounterStatic8N(Nest163,4,4,4) { Species = 125, Ability = A4 }, // Electabuzz
+            new EncounterStatic8N(Nest163,4,4,4) { Species = 466, Ability = A4 }, // Electivire
+            new EncounterStatic8N(Nest164,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest164,0,1,2) { Species = 239, Ability = A2 }, // Elekid
+            new EncounterStatic8N(Nest164,1,2,3) { Species = 702, Ability = A2 }, // Dedenne
+            new EncounterStatic8N(Nest164,1,2,3) { Species = 596, Ability = A2 }, // Galvantula
+            new EncounterStatic8N(Nest164,2,3,4) { Species = 125, Ability = A2 }, // Electabuzz
+            new EncounterStatic8N(Nest164,2,3,4) { Species = 836, Ability = A2 }, // Boltund
+            new EncounterStatic8N(Nest164,3,4,5) { Species = 871, Ability = A2 }, // Pincurchin
+            new EncounterStatic8N(Nest164,3,4,5) { Species = 466, Ability = A2 }, // Electivire
+            new EncounterStatic8N(Nest164,4,4,5) { Species = 466, Ability = A2 }, // Electivire
+            new EncounterStatic8N(Nest165,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest165,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new EncounterStatic8N(Nest165,1,2,2) { Species = 347, Ability = A3 }, // Anorith
+            new EncounterStatic8N(Nest165,1,2,2) { Species = 345, Ability = A3 }, // Lileep
+            new EncounterStatic8N(Nest165,2,3,3) { Species = 830, Ability = A3 }, // Eldegoss
+            new EncounterStatic8N(Nest165,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new EncounterStatic8N(Nest165,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new EncounterStatic8N(Nest165,4,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
+            new EncounterStatic8N(Nest166,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest166,0,1,2) { Species = 347, Ability = A2 }, // Anorith
+            new EncounterStatic8N(Nest166,0,1,2) { Species = 345, Ability = A2 }, // Lileep
+            new EncounterStatic8N(Nest166,1,2,3) { Species = 347, Ability = A2 }, // Anorith
+            new EncounterStatic8N(Nest166,1,2,3) { Species = 345, Ability = A2 }, // Lileep
+            new EncounterStatic8N(Nest166,2,3,4) { Species = 752, Ability = A2 }, // Araquanid
+            new EncounterStatic8N(Nest166,2,3,4) { Species = 012, Ability = A2 }, // Butterfree
+            new EncounterStatic8N(Nest166,3,4,5) { Species = 348, Ability = A2 }, // Armaldo
+            new EncounterStatic8N(Nest166,3,4,5) { Species = 346, Ability = A2 }, // Cradily
+            new EncounterStatic8N(Nest166,3,4,5) { Species = 830, Ability = A2 }, // Eldegoss
+            new EncounterStatic8N(Nest166,4,4,5) { Species = 012, Ability = A2, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8N(Nest167,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest167,0,1,1) { Species = 238, Ability = A3 }, // Smoochum
+            new EncounterStatic8N(Nest167,1,2,2) { Species = 238, Ability = A3 }, // Smoochum
+            new EncounterStatic8N(Nest167,1,2,2) { Species = 698, Ability = A3 }, // Amaura
+            new EncounterStatic8N(Nest167,2,3,3) { Species = 221, Ability = A3 }, // Piloswine
+            new EncounterStatic8N(Nest167,2,3,3) { Species = 460, Ability = A3 }, // Abomasnow
+            new EncounterStatic8N(Nest167,3,4,4) { Species = 124, Ability = A4 }, // Jynx
+            new EncounterStatic8N(Nest167,3,4,4) { Species = 873, Ability = A4 }, // Frosmoth
+            new EncounterStatic8N(Nest167,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new EncounterStatic8N(Nest167,4,4,4) { Species = 362, Ability = A4 }, // Glalie
+            new EncounterStatic8N(Nest168,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest168,0,1,2) { Species = 361, Ability = A2 }, // Snorunt
+            new EncounterStatic8N(Nest168,1,2,3) { Species = 238, Ability = A2 }, // Smoochum
+            new EncounterStatic8N(Nest168,1,2,3) { Species = 698, Ability = A2 }, // Amaura
+            new EncounterStatic8N(Nest168,2,3,4) { Species = 362, Ability = A2 }, // Glalie
+            new EncounterStatic8N(Nest168,2,3,4) { Species = 460, Ability = A2 }, // Abomasnow
+            new EncounterStatic8N(Nest168,3,4,5) { Species = 124, Ability = A2 }, // Jynx
+            new EncounterStatic8N(Nest168,3,4,5) { Species = 873, Ability = A2 }, // Frosmoth
+            new EncounterStatic8N(Nest168,4,4,5) { Species = 699, Ability = A2 }, // Aurorus
+            new EncounterStatic8N(Nest168,4,4,5) { Species = 473, Ability = A2 }, // Mamoswine
+            new EncounterStatic8N(Nest169,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest169,0,1,1) { Species = 363, Ability = A3 }, // Spheal
+            new EncounterStatic8N(Nest169,1,2,2) { Species = 363, Ability = A3 }, // Spheal
+            new EncounterStatic8N(Nest169,2,3,3) { Species = 364, Ability = A3 }, // Sealeo
+            new EncounterStatic8N(Nest169,2,3,3) { Species = 615, Ability = A3 }, // Cryogonal
+            new EncounterStatic8N(Nest169,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new EncounterStatic8N(Nest169,3,4,4) { Species = 614, Ability = A4 }, // Beartic
+            new EncounterStatic8N(Nest169,3,4,4) { Species = 365, Ability = A4 }, // Walrein
+            new EncounterStatic8N(Nest169,4,4,4) { Species = 713, Ability = A4 }, // Avalugg
+            new EncounterStatic8N(Nest169,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new EncounterStatic8N(Nest170,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest170,0,1,2) { Species = 131, Ability = A2 }, // Lapras
+            new EncounterStatic8N(Nest170,0,1,2) { Species = 363, Ability = A2 }, // Spheal
+            new EncounterStatic8N(Nest170,1,2,3) { Species = 364, Ability = A2 }, // Sealeo
+            new EncounterStatic8N(Nest170,2,3,4) { Species = 713, Ability = A2 }, // Avalugg
+            new EncounterStatic8N(Nest170,2,3,4) { Species = 615, Ability = A2 }, // Cryogonal
+            new EncounterStatic8N(Nest170,3,4,5) { Species = 365, Ability = A2 }, // Walrein
+            new EncounterStatic8N(Nest170,3,4,5) { Species = 131, Ability = A2 }, // Lapras
+            new EncounterStatic8N(Nest170,3,4,5) { Species = 584, Ability = A2 }, // Vanilluxe
+            new EncounterStatic8N(Nest170,4,4,5) { Species = 365, Ability = A2 }, // Walrein
+            new EncounterStatic8N(Nest171,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest171,0,1,1) { Species = 532, Ability = A3 }, // Timburr
+            new EncounterStatic8N(Nest171,0,1,1) { Species = 622, Ability = A3 }, // Golett
+            new EncounterStatic8N(Nest171,1,2,2) { Species = 622, Ability = A3 }, // Golett
+            new EncounterStatic8N(Nest171,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new EncounterStatic8N(Nest171,2,3,3) { Species = 533, Ability = A3 }, // Gurdurr
+            new EncounterStatic8N(Nest171,2,3,3) { Species = 623, Ability = A3 }, // Golurk
+            new EncounterStatic8N(Nest171,3,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new EncounterStatic8N(Nest171,3,4,4) { Species = 623, Ability = A4 }, // Golurk
+            new EncounterStatic8N(Nest171,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new EncounterStatic8N(Nest171,4,4,4) { Species = 623, Ability = A4 }, // Golurk
+            new EncounterStatic8N(Nest171,4,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new EncounterStatic8N(Nest172,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest172,0,1,2) { Species = 870, Ability = A2 }, // Falinks
+            new EncounterStatic8N(Nest172,0,1,2) { Species = 236, Ability = A2 }, // Tyrogue
+            new EncounterStatic8N(Nest172,1,2,3) { Species = 533, Ability = A2 }, // Gurdurr
+            new EncounterStatic8N(Nest172,2,3,4) { Species = 870, Ability = A2 }, // Falinks
+            new EncounterStatic8N(Nest172,2,3,4) { Species = 623, Ability = A2 }, // Golurk
+            new EncounterStatic8N(Nest172,3,4,5) { Species = 534, Ability = A2 }, // Conkeldurr
+            new EncounterStatic8N(Nest172,4,4,5) { Species = 237, Ability = A2 }, // Hitmontop
+            new EncounterStatic8N(Nest173,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest173,0,1,1) { Species = 041, Ability = A3 }, // Zubat
+            new EncounterStatic8N(Nest173,1,2,2) { Species = 029, Ability = A3 }, // Nidoran♀
+            new EncounterStatic8N(Nest173,1,2,2) { Species = 032, Ability = A3 }, // Nidoran♂
+            new EncounterStatic8N(Nest173,2,3,3) { Species = 030, Ability = A3 }, // Nidorina
+            new EncounterStatic8N(Nest173,2,3,3) { Species = 033, Ability = A3 }, // Nidorino
+            new EncounterStatic8N(Nest173,3,4,4) { Species = 042, Ability = A4 }, // Golbat
+            new EncounterStatic8N(Nest173,4,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
+            new EncounterStatic8N(Nest173,4,4,4) { Species = 034, Ability = A4 }, // Nidoking
+            new EncounterStatic8N(Nest174,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest174,0,1,2) { Species = 041, Ability = A2 }, // Zubat
+            new EncounterStatic8N(Nest174,0,1,2) { Species = 568, Ability = A2 }, // Trubbish
+            new EncounterStatic8N(Nest174,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new EncounterStatic8N(Nest174,2,3,4) { Species = 042, Ability = A2 }, // Golbat
+            new EncounterStatic8N(Nest174,2,3,4) { Species = 569, Ability = A2 }, // Garbodor
+            new EncounterStatic8N(Nest174,3,4,5) { Species = 031, Ability = A2 }, // Nidoqueen
+            new EncounterStatic8N(Nest174,3,4,5) { Species = 034, Ability = A2 }, // Nidoking
+            new EncounterStatic8N(Nest174,4,4,5) { Species = 169, Ability = A2 }, // Crobat
+            new EncounterStatic8N(Nest174,4,4,5) { Species = 569, Ability = A2, CanGigantamax = true }, // Garbodor
+            new EncounterStatic8N(Nest175,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest175,0,1,1) { Species = 041, Ability = A3 }, // Zubat
+            new EncounterStatic8N(Nest175,0,1,1) { Species = 714, Ability = A3 }, // Noibat
+            new EncounterStatic8N(Nest175,1,2,2) { Species = 333, Ability = A3 }, // Swablu
+            new EncounterStatic8N(Nest175,1,2,2) { Species = 042, Ability = A3 }, // Golbat
+            new EncounterStatic8N(Nest175,2,3,3) { Species = 042, Ability = A3 }, // Golbat
+            new EncounterStatic8N(Nest175,2,3,3) { Species = 822, Ability = A3 }, // Corvisquire
+            new EncounterStatic8N(Nest175,3,4,4) { Species = 042, Ability = A4 }, // Golbat
+            new EncounterStatic8N(Nest175,3,4,4) { Species = 334, Ability = A4 }, // Altaria
+            new EncounterStatic8N(Nest175,3,4,4) { Species = 715, Ability = A4 }, // Noivern
+            new EncounterStatic8N(Nest175,4,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new EncounterStatic8N(Nest175,4,4,4) { Species = 169, Ability = A4 }, // Crobat
+            new EncounterStatic8N(Nest176,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest176,0,1,2) { Species = 041, Ability = A2 }, // Zubat
+            new EncounterStatic8N(Nest176,0,1,2) { Species = 527, Ability = A2 }, // Woobat
+            new EncounterStatic8N(Nest176,1,2,3) { Species = 822, Ability = A2 }, // Corvisquire
+            new EncounterStatic8N(Nest176,1,2,3) { Species = 042, Ability = A2 }, // Golbat
+            new EncounterStatic8N(Nest176,2,3,4) { Species = 528, Ability = A2 }, // Swoobat
+            new EncounterStatic8N(Nest176,2,3,4) { Species = 823, Ability = A2 }, // Corviknight
+            new EncounterStatic8N(Nest176,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
+            new EncounterStatic8N(Nest176,3,4,5) { Species = 334, Ability = A2 }, // Altaria
+            new EncounterStatic8N(Nest176,3,4,5) { Species = 169, Ability = A2 }, // Crobat
+            new EncounterStatic8N(Nest176,4,4,5) { Species = 715, Ability = A2 }, // Noivern
+            new EncounterStatic8N(Nest176,4,4,5) { Species = 823, Ability = A2, CanGigantamax = true }, // Corviknight
+            new EncounterStatic8N(Nest177,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest177,0,1,1) { Species = 439, Ability = A3 }, // Mime Jr.
+            new EncounterStatic8N(Nest177,1,2,2) { Species = 436, Ability = A3 }, // Bronzor
+            new EncounterStatic8N(Nest177,1,2,2) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new EncounterStatic8N(Nest177,2,3,3) { Species = 344, Ability = A3 }, // Claydol
+            new EncounterStatic8N(Nest177,4,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new EncounterStatic8N(Nest177,4,4,4) { Species = 437, Ability = A4 }, // Bronzong
+            new EncounterStatic8N(Nest178,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest178,1,2,3) { Species = 122, Ability = A2, Form = 1 }, // Mr. Mime-1
+            new EncounterStatic8N(Nest178,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new EncounterStatic8N(Nest178,2,3,4) { Species = 375, Ability = A2 }, // Metang
+            new EncounterStatic8N(Nest178,3,4,5) { Species = 866, Ability = A2 }, // Mr. Rime
+            new EncounterStatic8N(Nest178,4,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new EncounterStatic8N(Nest179,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest179,0,1,1) { Species = 304, Ability = A3 }, // Aron
+            new EncounterStatic8N(Nest179,1,2,2) { Species = 304, Ability = A3 }, // Aron
+            new EncounterStatic8N(Nest179,2,3,3) { Species = 305, Ability = A3 }, // Lairon
+            new EncounterStatic8N(Nest179,3,4,4) { Species = 305, Ability = A4 }, // Lairon
+            new EncounterStatic8N(Nest179,3,4,4) { Species = 703, Ability = A4 }, // Carbink
+            new EncounterStatic8N(Nest179,4,4,4) { Species = 306, Ability = A4 }, // Aggron
+            new EncounterStatic8N(Nest179,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new EncounterStatic8N(Nest180,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest180,0,1,2) { Species = 304, Ability = A2 }, // Aron
+            new EncounterStatic8N(Nest180,1,2,3) { Species = 305, Ability = A2 }, // Lairon
+            new EncounterStatic8N(Nest180,2,3,4) { Species = 213, Ability = A2 }, // Shuckle
+            new EncounterStatic8N(Nest180,3,4,5) { Species = 839, Ability = A2 }, // Coalossal
+            new EncounterStatic8N(Nest180,3,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new EncounterStatic8N(Nest180,4,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new EncounterStatic8N(Nest181,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest181,0,1,1) { Species = 885, Ability = A3 }, // Dreepy
+            new EncounterStatic8N(Nest181,0,1,1) { Species = 708, Ability = A3 }, // Phantump
+            new EncounterStatic8N(Nest181,1,2,2) { Species = 778, Ability = A3 }, // Mimikyu
+            new EncounterStatic8N(Nest181,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
+            new EncounterStatic8N(Nest181,2,3,3) { Species = 886, Ability = A3 }, // Drakloak
+            new EncounterStatic8N(Nest181,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
+            new EncounterStatic8N(Nest181,3,4,4) { Species = 362, Ability = A4 }, // Glalie
+            new EncounterStatic8N(Nest181,3,4,4) { Species = 478, Ability = A4 }, // Froslass
+            new EncounterStatic8N(Nest181,4,4,4) { Species = 709, Ability = A4 }, // Trevenant
+            new EncounterStatic8N(Nest181,4,4,4) { Species = 778, Ability = A4 }, // Mimikyu
+            new EncounterStatic8N(Nest182,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest182,0,1,2) { Species = 885, Ability = A2 }, // Dreepy
+            new EncounterStatic8N(Nest182,1,2,3) { Species = 885, Ability = A2 }, // Dreepy
+            new EncounterStatic8N(Nest182,2,3,4) { Species = 709, Ability = A2 }, // Trevenant
+            new EncounterStatic8N(Nest182,3,4,5) { Species = 887, Ability = A2 }, // Dragapult
+            new EncounterStatic8N(Nest182,4,4,5) { Species = 887, Ability = A2 }, // Dragapult
+            new EncounterStatic8N(Nest183,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest183,0,1,1) { Species = 621, Ability = A3 }, // Druddigon
+            new EncounterStatic8N(Nest183,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
+            new EncounterStatic8N(Nest183,2,3,3) { Species = 147, Ability = A3 }, // Dratini
+            new EncounterStatic8N(Nest183,3,4,4) { Species = 621, Ability = A4 }, // Druddigon
+            new EncounterStatic8N(Nest183,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new EncounterStatic8N(Nest184,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest184,0,1,2) { Species = 884, Ability = A2 }, // Duraludon
+            new EncounterStatic8N(Nest184,1,2,3) { Species = 696, Ability = A2 }, // Tyrunt
+            new EncounterStatic8N(Nest184,2,3,4) { Species = 884, Ability = A2 }, // Duraludon
+            new EncounterStatic8N(Nest184,3,4,5) { Species = 149, Ability = A2 }, // Dragonite
+            new EncounterStatic8N(Nest184,3,4,5) { Species = 697, Ability = A2 }, // Tyrantrum
+            new EncounterStatic8N(Nest184,4,4,5) { Species = 884, Ability = A2, CanGigantamax = true }, // Duraludon
+            new EncounterStatic8N(Nest185,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest185,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new EncounterStatic8N(Nest185,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new EncounterStatic8N(Nest185,1,2,2) { Species = 859, Ability = A3 }, // Impidimp
+            new EncounterStatic8N(Nest185,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
+            new EncounterStatic8N(Nest185,2,3,3) { Species = 215, Ability = A3 }, // Sneasel
+            new EncounterStatic8N(Nest185,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new EncounterStatic8N(Nest185,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new EncounterStatic8N(Nest185,3,4,4) { Species = 359, Ability = A4 }, // Absol
+            new EncounterStatic8N(Nest185,3,4,4) { Species = 862, Ability = A4 }, // Obstagoon
+            new EncounterStatic8N(Nest185,4,4,4) { Species = 359, Ability = A4 }, // Absol
+            new EncounterStatic8N(Nest185,4,4,4) { Species = 461, Ability = A4 }, // Weavile
+            new EncounterStatic8N(Nest186,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest186,0,1,2) { Species = 859, Ability = A2 }, // Impidimp
+            new EncounterStatic8N(Nest186,0,1,2) { Species = 359, Ability = A2 }, // Absol
+            new EncounterStatic8N(Nest186,1,2,3) { Species = 215, Ability = A2 }, // Sneasel
+            new EncounterStatic8N(Nest186,2,3,4) { Species = 828, Ability = A2 }, // Thievul
+            new EncounterStatic8N(Nest186,2,3,4) { Species = 510, Ability = A2 }, // Liepard
+            new EncounterStatic8N(Nest186,3,4,5) { Species = 359, Ability = A2 }, // Absol
+            new EncounterStatic8N(Nest186,3,4,5) { Species = 861, Ability = A2 }, // Grimmsnarl
+            new EncounterStatic8N(Nest186,3,4,5) { Species = 461, Ability = A2 }, // Weavile
+            new EncounterStatic8N(Nest186,4,4,5) { Species = 359, Ability = A2 }, // Absol
+            new EncounterStatic8N(Nest186,4,4,5) { Species = 861, Ability = A2, CanGigantamax = true }, // Grimmsnarl
+            new EncounterStatic8N(Nest187,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest187,0,1,1) { Species = 304, Ability = A3 }, // Aron
+            new EncounterStatic8N(Nest187,0,1,1) { Species = 632, Ability = A3 }, // Durant
+            new EncounterStatic8N(Nest187,1,2,2) { Species = 304, Ability = A3 }, // Aron
+            new EncounterStatic8N(Nest187,1,2,2) { Species = 374, Ability = A3 }, // Beldum
+            new EncounterStatic8N(Nest187,2,3,3) { Species = 305, Ability = A3 }, // Lairon
+            new EncounterStatic8N(Nest187,2,3,3) { Species = 375, Ability = A3 }, // Metang
+            new EncounterStatic8N(Nest187,3,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new EncounterStatic8N(Nest187,3,4,4) { Species = 632, Ability = A4 }, // Durant
+            new EncounterStatic8N(Nest187,3,4,4) { Species = 879, Ability = A4 }, // Copperajah
+            new EncounterStatic8N(Nest187,4,4,4) { Species = 306, Ability = A4 }, // Aggron
+            new EncounterStatic8N(Nest188,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest188,0,1,2) { Species = 304, Ability = A2 }, // Aron
+            new EncounterStatic8N(Nest188,0,1,2) { Species = 052, Ability = A2, Form = 2 }, // Meowth-2
+            new EncounterStatic8N(Nest188,1,2,3) { Species = 632, Ability = A2 }, // Durant
+            new EncounterStatic8N(Nest188,1,2,3) { Species = 305, Ability = A2 }, // Lairon
+            new EncounterStatic8N(Nest188,2,3,4) { Species = 863, Ability = A2 }, // Perrserker
+            new EncounterStatic8N(Nest188,3,4,5) { Species = 879, Ability = A2 }, // Copperajah
+            new EncounterStatic8N(Nest188,3,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new EncounterStatic8N(Nest188,3,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new EncounterStatic8N(Nest188,4,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new EncounterStatic8N(Nest188,4,4,5) { Species = 879, Ability = A2, CanGigantamax = true }, // Copperajah
+            new EncounterStatic8N(Nest189,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest189,0,1,1) { Species = 173, Ability = A3 }, // Cleffa
+            new EncounterStatic8N(Nest189,0,1,1) { Species = 703, Ability = A3 }, // Carbink
+            new EncounterStatic8N(Nest189,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
+            new EncounterStatic8N(Nest189,1,2,2) { Species = 173, Ability = A3 }, // Cleffa
+            new EncounterStatic8N(Nest189,2,3,3) { Species = 857, Ability = A3 }, // Hattrem
+            new EncounterStatic8N(Nest189,2,3,3) { Species = 035, Ability = A3 }, // Clefairy
+            new EncounterStatic8N(Nest189,3,4,4) { Species = 703, Ability = A4 }, // Carbink
+            new EncounterStatic8N(Nest189,3,4,4) { Species = 036, Ability = A4 }, // Clefable
+            new EncounterStatic8N(Nest189,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
+            new EncounterStatic8N(Nest189,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
+            new EncounterStatic8N(Nest190,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest190,0,1,2) { Species = 703, Ability = A2 }, // Carbink
+            new EncounterStatic8N(Nest190,0,1,2) { Species = 546, Ability = A2 }, // Cottonee
+            new EncounterStatic8N(Nest190,1,2,3) { Species = 035, Ability = A2 }, // Clefairy
+            new EncounterStatic8N(Nest190,1,2,3) { Species = 703, Ability = A2 }, // Carbink
+            new EncounterStatic8N(Nest190,2,3,4) { Species = 703, Ability = A2 }, // Carbink
+            new EncounterStatic8N(Nest190,2,3,4) { Species = 547, Ability = A2 }, // Whimsicott
+            new EncounterStatic8N(Nest190,3,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
+            new EncounterStatic8N(Nest190,3,4,5) { Species = 858, Ability = A2 }, // Hatterene
+            new EncounterStatic8N(Nest190,3,4,5) { Species = 036, Ability = A2 }, // Clefable
+            new EncounterStatic8N(Nest190,4,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
+            new EncounterStatic8N(Nest190,4,4,5) { Species = 858, Ability = A2, CanGigantamax = true }, // Hatterene
+            new EncounterStatic8N(Nest191,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest191,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
+            new EncounterStatic8N(Nest191,1,2,2) { Species = 854, Ability = A3 }, // Sinistea
+            new EncounterStatic8N(Nest191,2,3,3) { Species = 854, Ability = A3 }, // Sinistea
+            new EncounterStatic8N(Nest191,3,4,4) { Species = 854, Ability = A4 }, // Sinistea
+            new EncounterStatic8N(Nest191,4,4,4) { Species = 854, Ability = A4 }, // Sinistea
+            new EncounterStatic8N(Nest191,2,4,4) { Species = 854, Ability = A4, Form = 1 }, // Sinistea-1
+            new EncounterStatic8N(Nest192,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest192,0,0,2) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest192,1,1,2) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest192,1,1,3) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest192,2,2,4) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest192,3,3,4) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest192,0,3,5) { Species = 854, Ability = A2, Form = 1 }, // Sinistea-1
+            new EncounterStatic8N(Nest192,4,4,5) { Species = 855, Ability = A2 }, // Polteageist
+            new EncounterStatic8N(Nest192,4,4,5) { Species = 855, Ability = A2, Form = 1 }, // Polteageist-1
+            new EncounterStatic8N(Nest192,4,4,5) { Species = 869, Ability = A2, CanGigantamax = true }, // Alcremie
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest193,0,1,1) { Species = 133, Ability = A3 }, // Eevee
+            new EncounterStatic8N(Nest193,0,4,2) { Species = 133, Ability = A3 }, // Eevee
+            new EncounterStatic8N(Nest193,0,4,3) { Species = 133, Ability = A3 }, // Eevee
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 136, Ability = A3 }, // Flareon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 135, Ability = A3 }, // Jolteon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 134, Ability = A3 }, // Vaporeon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 196, Ability = A4 }, // Espeon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 197, Ability = A4 }, // Umbreon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 470, Ability = A4 }, // Leafeon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 471, Ability = A4 }, // Glaceon
+            new EncounterStatic8N(Nest193,2,4,4) { Species = 700, Ability = A4 }, // Sylveon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest194,0,1,2) { Species = 133, Ability = A2 }, // Eevee
+            new EncounterStatic8N(Nest194,0,4,3) { Species = 133, Ability = A2 }, // Eevee
+            new EncounterStatic8N(Nest194,0,4,4) { Species = 133, Ability = A2, Gender = 1 }, // Eevee
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 136, Ability = A2 }, // Flareon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 135, Ability = A2 }, // Jolteon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 134, Ability = A2 }, // Vaporeon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 196, Ability = A2 }, // Espeon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 197, Ability = A2 }, // Umbreon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 470, Ability = A2 }, // Leafeon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 471, Ability = A2 }, // Glaceon
+            new EncounterStatic8N(Nest194,2,4,5) { Species = 700, Ability = A2 }, // Sylveon
+            new EncounterStatic8N(Nest195,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new EncounterStatic8N(Nest195,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
+            new EncounterStatic8N(Nest195,1,2,2) { Species = 698, Ability = A3 }, // Amaura
+            new EncounterStatic8N(Nest195,2,3,3) { Species = 348, Ability = A3 }, // Armaldo
+            new EncounterStatic8N(Nest195,2,3,3) { Species = 346, Ability = A3 }, // Cradily
+            new EncounterStatic8N(Nest195,4,4,4) { Species = 142, Ability = A4 }, // Aerodactyl
+            new EncounterStatic8N(Nest196,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new EncounterStatic8N(Nest196,2,2,3) { Species = 142, Ability = A2 }, // Aerodactyl
+            new EncounterStatic8N(Nest196,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
+            new EncounterStatic8N(Nest196,4,4,5) { Species = 880, Ability = A2 }, // Dracozolt
+            new EncounterStatic8N(Nest196,4,4,5) { Species = 882, Ability = A2 }, // Dracovish
+            new EncounterStatic8N(Nest196,3,4,5) { Species = 881, Ability = A2 }, // Arctozolt
+            new EncounterStatic8N(Nest196,3,4,5) { Species = 883, Ability = A2 }, // Arctovish
         };
 
         internal static readonly EncounterStatic8N[] Nest_SW =
@@ -2108,6 +2575,83 @@ namespace PKHeX.Core
             new EncounterStatic8N(Nest150,3,4,4) { Species = 841, Ability = A2 }, // Flapple
             new EncounterStatic8N(Nest150,4,4,4) { Species = 841, Ability = A2, CanGigantamax = true }, // Flapple
             new EncounterStatic8N(Nest155,4,4,4) { Species = 745, Ability = A4 }, // Lycanroc
+            new EncounterStatic8N(Nest160,3,4,5) { Species = 038, Ability = A2 }, // Ninetales
+            new EncounterStatic8N(Nest161,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
+            new EncounterStatic8N(Nest161,1,2,2) { Species = 138, Ability = A3 }, // Omanyte
+            new EncounterStatic8N(Nest161,2,3,3) { Species = 550, Ability = A3 }, // Basculin
+            new EncounterStatic8N(Nest161,3,4,4) { Species = 139, Ability = A4 }, // Omastar
+            new EncounterStatic8N(Nest161,3,4,4) { Species = 550, Ability = A4 }, // Basculin
+            new EncounterStatic8N(Nest162,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
+            new EncounterStatic8N(Nest162,2,3,4) { Species = 550, Ability = A2 }, // Basculin
+            new EncounterStatic8N(Nest162,3,4,5) { Species = 139, Ability = A2 }, // Omastar
+            new EncounterStatic8N(Nest164,3,4,5) { Species = 849, Ability = A2 }, // Toxtricity
+            new EncounterStatic8N(Nest164,4,4,5) { Species = 849, Ability = A2, CanGigantamax = true }, // Toxtricity
+            new EncounterStatic8N(Nest165,0,1,1) { Species = 347, Ability = A3 }, // Anorith
+            new EncounterStatic8N(Nest165,2,3,3) { Species = 347, Ability = A3 }, // Anorith
+            new EncounterStatic8N(Nest165,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new EncounterStatic8N(Nest165,4,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new EncounterStatic8N(Nest166,4,4,5) { Species = 348, Ability = A2 }, // Armaldo
+            new EncounterStatic8N(Nest167,0,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new EncounterStatic8N(Nest167,3,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new EncounterStatic8N(Nest168,0,1,2) { Species = 554, Ability = A2, Form = 1 }, // Darumaka-1
+            new EncounterStatic8N(Nest168,3,4,5) { Species = 555, Ability = A2, Form = 2 }, // Darmanitan-2
+            new EncounterStatic8N(Nest169,0,1,1) { Species = 613, Ability = A3 }, // Cubchoo
+            new EncounterStatic8N(Nest169,1,2,2) { Species = 712, Ability = A3 }, // Bergmite
+            new EncounterStatic8N(Nest170,4,4,5) { Species = 131, Ability = A2 }, // Lapras
+            new EncounterStatic8N(Nest172,1,2,3) { Species = 083, Ability = A2, Form = 1 }, // Farfetch’d-1
+            new EncounterStatic8N(Nest172,3,4,5) { Species = 865, Ability = A2 }, // Sirfetch’d
+            new EncounterStatic8N(Nest172,3,4,5) { Species = 106, Ability = A2 }, // Hitmonlee
+            new EncounterStatic8N(Nest172,4,4,5) { Species = 068, Ability = A2, CanGigantamax = true }, // Machamp
+            new EncounterStatic8N(Nest173,0,1,1) { Species = 029, Ability = A3 }, // Nidoran♀
+            new EncounterStatic8N(Nest173,3,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
+            new EncounterStatic8N(Nest174,1,2,3) { Species = 030, Ability = A2 }, // Nidorina
+            new EncounterStatic8N(Nest177,0,1,1) { Species = 343, Ability = A3 }, // Baltoy
+            new EncounterStatic8N(Nest177,2,3,3) { Species = 575, Ability = A3 }, // Gothorita
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 576, Ability = A4 }, // Gothitelle
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 344, Ability = A4 }, // Claydol
+            new EncounterStatic8N(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new EncounterStatic8N(Nest178,0,1,2) { Species = 574, Ability = A2 }, // Gothita
+            new EncounterStatic8N(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new EncounterStatic8N(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new EncounterStatic8N(Nest178,3,4,5) { Species = 576, Ability = A2 }, // Gothitelle
+            new EncounterStatic8N(Nest178,4,4,5) { Species = 576, Ability = A2 }, // Gothitelle
+            new EncounterStatic8N(Nest179,0,1,1) { Species = 874, Ability = A3 }, // Stonjourner
+            new EncounterStatic8N(Nest179,1,2,2) { Species = 874, Ability = A3 }, // Stonjourner
+            new EncounterStatic8N(Nest179,2,3,3) { Species = 874, Ability = A3 }, // Stonjourner
+            new EncounterStatic8N(Nest179,3,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new EncounterStatic8N(Nest180,0,1,2) { Species = 303, Ability = A2 }, // Mawile
+            new EncounterStatic8N(Nest180,2,3,4) { Species = 303, Ability = A2 }, // Mawile
+            new EncounterStatic8N(Nest180,3,4,5) { Species = 303, Ability = A2 }, // Mawile
+            new EncounterStatic8N(Nest180,4,4,5) { Species = 839, Ability = A2, CanGigantamax = true }, // Coalossal
+            new EncounterStatic8N(Nest181,3,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new EncounterStatic8N(Nest182,1,2,3) { Species = 093, Ability = A2 }, // Haunter
+            new EncounterStatic8N(Nest182,2,3,4) { Species = 303, Ability = A2 }, // Mawile
+            new EncounterStatic8N(Nest182,3,4,5) { Species = 709, Ability = A2 }, // Trevenant
+            new EncounterStatic8N(Nest182,3,4,5) { Species = 303, Ability = A2 }, // Mawile
+            new EncounterStatic8N(Nest182,4,4,5) { Species = 094, Ability = A2 }, // Gengar
+            new EncounterStatic8N(Nest183,0,1,1) { Species = 371, Ability = A3 }, // Bagon
+            new EncounterStatic8N(Nest183,1,2,2) { Species = 371, Ability = A3 }, // Bagon
+            new EncounterStatic8N(Nest183,2,3,3) { Species = 372, Ability = A3 }, // Shelgon
+            new EncounterStatic8N(Nest183,3,4,4) { Species = 372, Ability = A4 }, // Shelgon
+            new EncounterStatic8N(Nest183,4,4,4) { Species = 373, Ability = A4 }, // Salamence
+            new EncounterStatic8N(Nest184,0,1,2) { Species = 371, Ability = A2 }, // Bagon
+            new EncounterStatic8N(Nest184,1,2,3) { Species = 776, Ability = A2 }, // Turtonator
+            new EncounterStatic8N(Nest184,2,3,4) { Species = 372, Ability = A2 }, // Shelgon
+            new EncounterStatic8N(Nest184,3,4,5) { Species = 373, Ability = A2 }, // Salamence
+            new EncounterStatic8N(Nest184,4,4,5) { Species = 373, Ability = A2 }, // Salamence
+            new EncounterStatic8N(Nest192,3,4,5) { Species = 854, Ability = A2 }, // Sinistea
+            new EncounterStatic8N(Nest195,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
+            new EncounterStatic8N(Nest195,0,1,1) { Species = 347, Ability = A3 }, // Anorith
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 139, Ability = A4 }, // Omastar
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new EncounterStatic8N(Nest195,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new EncounterStatic8N(Nest196,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
+            new EncounterStatic8N(Nest196,2,2,2) { Species = 139, Ability = A2 }, // Omastar
+            new EncounterStatic8N(Nest196,2,2,3) { Species = 881, Ability = A2 }, // Arctozolt
+            new EncounterStatic8N(Nest196,2,3,4) { Species = 880, Ability = A2 }, // Dracozolt
+            new EncounterStatic8N(Nest196,3,3,4) { Species = 882, Ability = A2 }, // Dracovish
         };
 
         internal static readonly EncounterStatic8N[] Nest_SH =
@@ -2382,6 +2926,78 @@ namespace PKHeX.Core
             new EncounterStatic8N(Nest150,3,4,4) { Species = 842, Ability = A2 }, // Appletun
             new EncounterStatic8N(Nest150,4,4,4) { Species = 842, Ability = A2, CanGigantamax = true }, // Appletun
             new EncounterStatic8N(Nest155,4,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
+            new EncounterStatic8N(Nest160,3,4,5) { Species = 059, Ability = A2 }, // Arcanine
+            new EncounterStatic8N(Nest161,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
+            new EncounterStatic8N(Nest161,1,2,2) { Species = 140, Ability = A3 }, // Kabuto
+            new EncounterStatic8N(Nest161,2,3,3) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new EncounterStatic8N(Nest161,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
+            new EncounterStatic8N(Nest161,3,4,4) { Species = 550, Ability = A4, Form = 1 }, // Basculin-1
+            new EncounterStatic8N(Nest162,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
+            new EncounterStatic8N(Nest162,2,3,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
+            new EncounterStatic8N(Nest162,3,4,5) { Species = 141, Ability = A2 }, // Kabutops
+            new EncounterStatic8N(Nest164,3,4,5) { Species = 849, Ability = A2, Form = 1 }, // Toxtricity-1
+            new EncounterStatic8N(Nest164,4,4,5) { Species = 849, Ability = A2, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new EncounterStatic8N(Nest165,0,1,1) { Species = 345, Ability = A3 }, // Lileep
+            new EncounterStatic8N(Nest165,2,3,3) { Species = 345, Ability = A3 }, // Lileep
+            new EncounterStatic8N(Nest165,3,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new EncounterStatic8N(Nest165,4,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new EncounterStatic8N(Nest166,4,4,5) { Species = 346, Ability = A2 }, // Cradily
+            new EncounterStatic8N(Nest167,0,1,1) { Species = 220, Ability = A3 }, // Swinub
+            new EncounterStatic8N(Nest169,0,1,1) { Species = 875, Ability = A3 }, // Eiscue
+            new EncounterStatic8N(Nest169,1,2,2) { Species = 875, Ability = A3 }, // Eiscue
+            new EncounterStatic8N(Nest170,4,4,5) { Species = 131, Ability = A2, CanGigantamax = true }, // Lapras
+            new EncounterStatic8N(Nest172,3,4,5) { Species = 107, Ability = A2 }, // Hitmonchan
+            new EncounterStatic8N(Nest172,4,4,5) { Species = 068, Ability = A2 }, // Machamp
+            new EncounterStatic8N(Nest173,0,1,1) { Species = 032, Ability = A3 }, // Nidoran♂
+            new EncounterStatic8N(Nest173,3,4,4) { Species = 034, Ability = A4 }, // Nidoking
+            new EncounterStatic8N(Nest174,1,2,3) { Species = 033, Ability = A2 }, // Nidorino
+            new EncounterStatic8N(Nest177,0,1,1) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
+            new EncounterStatic8N(Nest177,2,3,3) { Species = 578, Ability = A3 }, // Duosion
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 579, Ability = A4 }, // Reuniclus
+            new EncounterStatic8N(Nest177,3,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
+            new EncounterStatic8N(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new EncounterStatic8N(Nest178,0,1,2) { Species = 577, Ability = A2 }, // Solosis
+            new EncounterStatic8N(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new EncounterStatic8N(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new EncounterStatic8N(Nest178,3,4,5) { Species = 579, Ability = A2 }, // Reuniclus
+            new EncounterStatic8N(Nest178,4,4,5) { Species = 579, Ability = A2 }, // Reuniclus
+            new EncounterStatic8N(Nest179,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
+            new EncounterStatic8N(Nest179,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new EncounterStatic8N(Nest179,2,3,3) { Species = 838, Ability = A3 }, // Carkol
+            new EncounterStatic8N(Nest179,3,4,4) { Species = 302, Ability = A4 }, // Sableye
+            new EncounterStatic8N(Nest180,0,1,2) { Species = 302, Ability = A2 }, // Sableye
+            new EncounterStatic8N(Nest180,2,3,4) { Species = 302, Ability = A2 }, // Sableye
+            new EncounterStatic8N(Nest180,3,4,5) { Species = 302, Ability = A2 }, // Sableye
+            new EncounterStatic8N(Nest180,4,4,5) { Species = 839, Ability = A2 }, // Coalossal
+            new EncounterStatic8N(Nest181,3,4,4) { Species = 302, Ability = A4 }, // Sableye
+            new EncounterStatic8N(Nest182,1,2,3) { Species = 222, Ability = A2, Form = 1 }, // Corsola-1
+            new EncounterStatic8N(Nest182,2,3,4) { Species = 302, Ability = A2 }, // Sableye
+            new EncounterStatic8N(Nest182,3,4,5) { Species = 864, Ability = A2 }, // Cursola
+            new EncounterStatic8N(Nest182,3,4,5) { Species = 302, Ability = A2 }, // Sableye
+            new EncounterStatic8N(Nest182,4,4,5) { Species = 094, Ability = A2, CanGigantamax = true }, // Gengar
+            new EncounterStatic8N(Nest183,0,1,1) { Species = 443, Ability = A3 }, // Gible
+            new EncounterStatic8N(Nest183,1,2,2) { Species = 443, Ability = A3 }, // Gible
+            new EncounterStatic8N(Nest183,2,3,3) { Species = 444, Ability = A3 }, // Gabite
+            new EncounterStatic8N(Nest183,3,4,4) { Species = 444, Ability = A4 }, // Gabite
+            new EncounterStatic8N(Nest183,4,4,4) { Species = 445, Ability = A4 }, // Garchomp
+            new EncounterStatic8N(Nest184,0,1,2) { Species = 443, Ability = A2 }, // Gible
+            new EncounterStatic8N(Nest184,1,2,3) { Species = 780, Ability = A2 }, // Drampa
+            new EncounterStatic8N(Nest184,2,3,4) { Species = 444, Ability = A2 }, // Gabite
+            new EncounterStatic8N(Nest184,3,4,5) { Species = 445, Ability = A2 }, // Garchomp
+            new EncounterStatic8N(Nest184,4,4,5) { Species = 445, Ability = A2 }, // Garchomp
+            new EncounterStatic8N(Nest192,3,4,5) { Species = 869, Ability = A2 }, // Alcremie
+            new EncounterStatic8N(Nest195,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
+            new EncounterStatic8N(Nest195,0,1,1) { Species = 345, Ability = A3 }, // Lileep
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new EncounterStatic8N(Nest195,3,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new EncounterStatic8N(Nest195,4,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new EncounterStatic8N(Nest196,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
+            new EncounterStatic8N(Nest196,2,2,2) { Species = 141, Ability = A2 }, // Kabutops
+            new EncounterStatic8N(Nest196,2,2,3) { Species = 883, Ability = A2 }, // Arctovish
+            new EncounterStatic8N(Nest196,2,3,4) { Species = 882, Ability = A2 }, // Dracovish
+            new EncounterStatic8N(Nest196,3,3,4) { Species = 880, Ability = A2 }, // Dracozolt
         };
         #endregion
     }

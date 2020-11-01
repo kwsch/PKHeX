@@ -85,7 +85,9 @@
             this.B_OpenApricorn = new System.Windows.Forms.Button();
             this.B_Raids = new System.Windows.Forms.Button();
             this.B_RaidArmor = new System.Windows.Forms.Button();
+            this.B_RaidCrown = new System.Windows.Forms.Button();
             this.B_Blocks = new System.Windows.Forms.Button();
+            this.B_OtherSlots = new System.Windows.Forms.Button();
             this.L_SaveSlot = new System.Windows.Forms.Label();
             this.L_Secure2 = new System.Windows.Forms.Label();
             this.TB_Secure2 = new System.Windows.Forms.TextBox();
@@ -96,7 +98,6 @@
             this.TB_GameSync = new System.Windows.Forms.TextBox();
             this.B_SaveBoxBin = new System.Windows.Forms.Button();
             this.B_VerifyCHK = new System.Windows.Forms.Button();
-            this.B_OtherSlots = new System.Windows.Forms.Button();
             this.tabBoxMulti.SuspendLayout();
             this.Tab_Box.SuspendLayout();
             this.Tab_PartyBattle.SuspendLayout();
@@ -192,10 +193,10 @@
             // 
             this.SL_Extra.Dock = System.Windows.Forms.DockStyle.Right;
             this.SL_Extra.FlagIllegal = false;
-            this.SL_Extra.Location = new System.Drawing.Point(366, 0);
+            this.SL_Extra.Location = new System.Drawing.Point(341, 0);
             this.SL_Extra.Name = "SL_Extra";
             this.SL_Extra.SAV = null;
-            this.SL_Extra.Size = new System.Drawing.Size(75, 337);
+            this.SL_Extra.Size = new System.Drawing.Size(100, 337);
             this.SL_Extra.TabIndex = 30;
             this.SL_Extra.ViewIndex = -1;
             // 
@@ -407,6 +408,7 @@
             this.FLP_SAVtools.Controls.Add(this.B_OpenApricorn);
             this.FLP_SAVtools.Controls.Add(this.B_Raids);
             this.FLP_SAVtools.Controls.Add(this.B_RaidArmor);
+            this.FLP_SAVtools.Controls.Add(this.B_RaidCrown);
             this.FLP_SAVtools.Controls.Add(this.B_Blocks);
             this.FLP_SAVtools.Controls.Add(this.B_OtherSlots);
             this.FLP_SAVtools.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -708,15 +710,35 @@
             this.B_RaidArmor.UseVisualStyleBackColor = true;
             this.B_RaidArmor.Click += new System.EventHandler(this.B_OpenRaids_Click);
             // 
+            // B_RaidCrown
+            // 
+            this.B_RaidCrown.Location = new System.Drawing.Point(96, 206);
+            this.B_RaidCrown.Name = "B_RaidCrown";
+            this.B_RaidCrown.Size = new System.Drawing.Size(87, 23);
+            this.B_RaidCrown.TabIndex = 4;
+            this.B_RaidCrown.Text = "Raids (DLC 2)";
+            this.B_RaidCrown.UseVisualStyleBackColor = true;
+            this.B_RaidCrown.Click += new System.EventHandler(this.B_OpenRaids_Click);
+            // 
             // B_Blocks
             // 
-            this.B_Blocks.Location = new System.Drawing.Point(96, 206);
+            this.B_Blocks.Location = new System.Drawing.Point(189, 206);
             this.B_Blocks.Name = "B_Blocks";
             this.B_Blocks.Size = new System.Drawing.Size(87, 23);
             this.B_Blocks.TabIndex = 1;
             this.B_Blocks.Text = "Block Data";
             this.B_Blocks.UseVisualStyleBackColor = true;
             this.B_Blocks.Click += new System.EventHandler(this.B_Blocks_Click);
+            // 
+            // B_OtherSlots
+            // 
+            this.B_OtherSlots.Location = new System.Drawing.Point(282, 206);
+            this.B_OtherSlots.Name = "B_OtherSlots";
+            this.B_OtherSlots.Size = new System.Drawing.Size(87, 23);
+            this.B_OtherSlots.TabIndex = 3;
+            this.B_OtherSlots.Text = "Other Slots";
+            this.B_OtherSlots.UseVisualStyleBackColor = true;
+            this.B_OtherSlots.Click += new System.EventHandler(this.B_OtherSlots_Click);
             // 
             // L_SaveSlot
             // 
@@ -821,16 +843,6 @@
             this.B_VerifyCHK.UseVisualStyleBackColor = true;
             this.B_VerifyCHK.Click += new System.EventHandler(this.ClickVerifyCHK);
             // 
-            // B_OtherSlots
-            // 
-            this.B_OtherSlots.Location = new System.Drawing.Point(189, 206);
-            this.B_OtherSlots.Name = "B_OtherSlots";
-            this.B_OtherSlots.Size = new System.Drawing.Size(87, 23);
-            this.B_OtherSlots.TabIndex = 3;
-            this.B_OtherSlots.Text = "Other Slots";
-            this.B_OtherSlots.UseVisualStyleBackColor = true;
-            this.B_OtherSlots.Click += new System.EventHandler(this.B_OtherSlots_Click);
-            // 
             // SAVEditor
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -922,5 +934,6 @@
         private System.Windows.Forms.Button B_Blocks;
         private System.Windows.Forms.Button B_RaidArmor;
         private System.Windows.Forms.Button B_OtherSlots;
+        private System.Windows.Forms.Button B_RaidCrown;
     }
 }

@@ -164,14 +164,14 @@ namespace PKHeX.Core
             var dc = sav.Daycare;
             return new List<SlotInfoMisc>
             {
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
-                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true),
+                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true) {Type = StorageSlotType.Fused},
+                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(1), true) {Type = StorageSlotType.Fused},
+                new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(2), true) {Type = StorageSlotType.Fused},
 
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 0)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 1)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)),
-                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)),
+                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 0)) {Type = StorageSlotType.Daycare},
+                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(0, 1)) {Type = StorageSlotType.Daycare},
+                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)) {Type = StorageSlotType.Daycare},
+                new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)) {Type = StorageSlotType.Daycare},
             };
         }
     }

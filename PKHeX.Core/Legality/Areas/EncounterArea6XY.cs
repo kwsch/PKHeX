@@ -26,6 +26,10 @@ namespace PKHeX.Core
             int ctr = 0;
             foreach (var s in species)
                 slots[ctr++] = new EncounterSlot6XY(this, s, 0, 30, 30);
+
+            // Find Vivillon and replace form to be region-random
+            var idx = Array.FindIndex(slots, z => z.Species == (int)Species.Vivillon);
+            slots[idx] = new EncounterSlot6XY(this, (int)Species.Vivillon, 30, 30, 30);
             Slots = slots;
         }
 

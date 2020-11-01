@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -14,8 +13,11 @@ namespace PKHeX.Core
 
         public static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
-        public static readonly int[] RotomMoves = { 0, 315, 056, 059, 403, 437 };
+        public static readonly int[] RotomMoves = { 315, 056, 059, 403, 437 };
 
+        /// <summary>
+        /// Species that can be captured normally in the wild and can change between their forms.
+        /// </summary>
         public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
         {
             412, // Burmy
@@ -24,6 +26,9 @@ namespace PKHeX.Core
             741, // Oricorio
         };
 
+        /// <summary>
+        /// Species that can yield a different baby species when bred.
+        /// </summary>
         public static readonly HashSet<int> SplitBreed = new HashSet<int>
         {
             // Incense
@@ -38,7 +43,11 @@ namespace PKHeX.Core
             358, // Chimecho
         };
 
-        public static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter) // Pokémon that can change between all forms
+        /// <summary>
+        /// Species that can change between their forms, regardless of origin.
+        /// </summary>
+        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
+        public static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter)
         {
             386, // Deoxys
             487, // Giratina
@@ -53,8 +62,12 @@ namespace PKHeX.Core
             720, // Hoopa
             773, // Silvally
             800, // Necrozma
+            898, // Calyrex
         };
 
+        /// <summary>
+        /// Species that can change between their forms and get access to form-specific moves.
+        /// </summary>
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
         {
             386, // Deoxys
@@ -63,6 +76,9 @@ namespace PKHeX.Core
             720, // Hoopa
         };
 
+        /// <summary>
+        /// Species that are male only in Generation 6; for ball inheritance, these behave the same as Genderless species.
+        /// </summary>
         public static readonly HashSet<int> BreedMaleOnly = new HashSet<int>
         {
             128, // Tauros
@@ -71,6 +87,9 @@ namespace PKHeX.Core
             538, 539, // Sawk & Throh
         };
 
+        /// <summary>
+        /// Species that cannot hatch from an egg.
+        /// </summary>
         public static readonly HashSet<int> NoHatchFromEgg = new HashSet<int>
         {
             132, // Ditto
@@ -176,6 +195,12 @@ namespace PKHeX.Core
             (int)Species.Kubfu,
             (int)Species.Urshifu,
             (int)Species.Zarude,
+
+            (int)Species.Regieleki,
+            (int)Species.Regidrago,
+            (int)Species.Glastrier,
+            (int)Species.Spectrier,
+            (int)Species.Calyrex,
         };
 
         /// <summary>
@@ -232,49 +257,6 @@ namespace PKHeX.Core
             809, // Melmetal
         };
 
-        public static readonly HashSet<int> BattleForms = new HashSet<int>
-        {
-            351, // Castform
-            421, // Cherrim
-            555, // Darmanitan
-            648, // Meloetta
-            681, // Aegislash
-            716, // Xerneas
-            746, // Wishiwashi
-            778, // Mimikyu
-
-            (int)Species.Cramorant,
-            (int)Species.Morpeko,
-            (int)Species.Eiscue,
-
-            (int)Species.Zacian,
-            (int)Species.Zamazenta,
-            (int)Species.Eternatus,
-        };
-
-        public static readonly HashSet<int> BattleMegas = new HashSet<int>
-        {
-            // XY
-            3,6,9,65,80,
-            115,127,130,142,150,181,
-            212,214,229,248,282,
-            303,306,308,310,354,359,380,381,
-            445,448,460,
-
-            // AO
-            15,18,94,
-            208,254,257,260,
-            302,319,323,334,362,373,376,384,
-            428,475,
-            531,
-            719,
-
-            // USUM
-            800, // Ultra Necrozma
-        };
-
-        public static readonly HashSet<int> BattlePrimals = new HashSet<int> { 382, 383 };
-
         public static readonly HashSet<int> Z_Moves = new HashSet<int>
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
@@ -283,22 +265,38 @@ namespace PKHeX.Core
             723, 724, 725, 726, 727, 728
         };
 
-        internal static readonly int[] UnreleasedMoves = {617}; // Light of Ruin
-        internal static readonly int[] CantSketchMoves = {165, 448}; // Struggle & Chatter
-        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(CantSketchMoves.Concat(Z_Moves).Concat(UnreleasedMoves));
-
-        public static readonly HashSet<int> Legends = new HashSet<int>
+        /// <summary>
+        /// Moves that can not be obtained by using Sketch with Smeargle.
+        /// </summary>
+        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(Z_Moves)
         {
-            (int)Species.Mew, (int)Species.Mewtwo,
-            (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi,
-            (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza,(int)Species.Jirachi, (int)Species.Deoxys,
-            (int)Species.Dialga, (int)Species.Palkia, (int)Species.Giratina, (int)Species.Phione, (int)Species.Manaphy, (int)Species.Darkrai, (int)Species.Shaymin, (int)Species.Arceus, (int)Species.Victini,
-            (int)Species.Reshiram, (int)Species.Zekrom, (int)Species.Kyurem, (int)Species.Keldeo, (int)Species.Meloetta, (int)Species.Genesect,
-            (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde,  (int)Species.Diancie, (int)Species.Hoopa,(int)Species.Volcanion,
-            (int)Species.Cosmog, (int)Species.Cosmoem, (int)Species.Solgaleo, (int)Species.Lunala,(int)Species.Necrozma, (int)Species.Magearna, (int)Species.Marshadow, (int)Species.Zeraora,
-            (int)Species.Meltan, (int)Species.Melmetal, (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus, (int)Species.Zarude,
+            // Can't Sketch
+            165, // Struggle
+            448, // Chatter
+
+            // Unreleased
+            617, // Light of Ruin
         };
 
+        /// <summary>
+        /// Species classified as "Legend" by the game code.
+        /// </summary>
+        public static readonly HashSet<int> Legends = new HashSet<int>
+        {
+            (int)Species.Mewtwo, (int)Species.Mew,
+            (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi,
+            (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza, (int)Species.Jirachi, (int)Species.Deoxys,
+            (int)Species.Dialga, (int)Species.Palkia, (int)Species.Giratina, (int)Species.Phione, (int)Species.Manaphy, (int)Species.Darkrai, (int)Species.Shaymin, (int)Species.Arceus,
+            (int)Species.Victini, (int)Species.Reshiram, (int)Species.Zekrom, (int)Species.Kyurem, (int)Species.Keldeo, (int)Species.Meloetta, (int)Species.Genesect,
+            (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde, (int)Species.Diancie, (int)Species.Hoopa, (int)Species.Volcanion,
+            (int)Species.Cosmog, (int)Species.Cosmoem, (int)Species.Solgaleo, (int)Species.Lunala, (int)Species.Necrozma, (int)Species.Magearna, (int)Species.Marshadow, (int)Species.Zeraora,
+            (int)Species.Meltan, (int)Species.Melmetal,
+            (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus, (int)Species.Zarude, (int)Species.Calyrex,
+        };
+
+        /// <summary>
+        /// Species classified as "SubLegend" by the game code.
+        /// </summary>
         public static readonly HashSet<int> SubLegends = new HashSet<int>
         {
             (int)Species.Articuno, (int)Species.Zapdos, (int)Species.Moltres,
@@ -306,9 +304,10 @@ namespace PKHeX.Core
             (int)Species.Regirock, (int)Species.Regice, (int)Species.Registeel, (int)Species.Latias, (int)Species.Latios,
             (int)Species.Uxie, (int)Species.Mesprit, (int)Species.Azelf, (int)Species.Heatran, (int)Species.Regigigas, (int)Species.Cresselia,
             (int)Species.Cobalion, (int)Species.Terrakion, (int)Species.Virizion, (int)Species.Tornadus, (int)Species.Thundurus, (int)Species.Landorus,
-            (int)Species.TypeNull, (int)Species.Silvally, (int)Species.TapuBulu, (int)Species.TapuFini, (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.Nihilego,
-            (int)Species.Buzzwole, (int)Species.Pheromosa, (int)Species.Xurkitree, (int)Species.Celesteela, (int)Species.Kartana, (int)Species.Guzzlord, (int)Species.Poipole, (int)Species.Naganadel, (int)Species.Stakataka, (int)Species.Blacephalon,
-            (int)Species.Kubfu, (int)Species.Urshifu,
+            (int)Species.TypeNull, (int)Species.Silvally, (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.TapuBulu, (int)Species.TapuFini,
+            (int)Species.Nihilego, (int)Species.Buzzwole, (int)Species.Pheromosa, (int)Species.Xurkitree, (int)Species.Celesteela, (int)Species.Kartana, (int)Species.Guzzlord,
+            (int)Species.Poipole, (int)Species.Naganadel, (int)Species.Stakataka, (int)Species.Blacephalon,
+            (int)Species.Kubfu, (int)Species.Urshifu, (int)Species.Regieleki, (int)Species.Regidrago, (int)Species.Glastrier, (int)Species.Spectrier,
         };
 
         public static readonly ushort[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
@@ -462,27 +461,5 @@ namespace PKHeX.Core
             677, // Espurr
             678, // Meowstic (M/F) forme specific
         };
-
-        #region Games
-
-        public static readonly int[] Games_8swsh = { 44, 45 };
-        public static readonly int[] Games_7gg = { 42, 43 };
-        public static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
-        public static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow
-        public static readonly int[] Games_7go = { 34 };
-        public static readonly int[] Games_7usum = { 32, 33 };
-        public static readonly int[] Games_7sm = { 30, 31 };
-        public static readonly int[] Games_6xy = { 24, 25 };
-        public static readonly int[] Games_6oras = { 26, 27 };
-        public static readonly int[] Games_5 = { 20, 21, 22, 23 };
-        public static readonly int[] Games_4 = { 10, 11, };
-        public static readonly int[] Games_4e = { 12 };
-        public static readonly int[] Games_4r = { 7, 8 };
-        public static readonly int[] Games_3 = { 1, 2 };
-        public static readonly int[] Games_3e = { 3 };
-        public static readonly int[] Games_3r = { 4, 5 };
-        public static readonly int[] Games_3s = { 15 };
-
-        #endregion
     }
 }

@@ -67,11 +67,11 @@ namespace PKHeX.Core
             var version = this.GetCompatibleVersion((GameVersion)sav.Game);
             SanityCheckVersion(ref version);
 
+            pk.Version = (int)version;
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, lang, Generation);
 
             pk.CurrentLevel = level;
-            pk.Version = (int)version;
             pk.Ball = Ball;
             pk.HeldItem = HeldItem;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
@@ -184,6 +184,9 @@ namespace PKHeX.Core
                 case 3 when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
                     return (int)LanguageID.Japanese; // Old Sea Map was only distributed to Japanese games.
+                case 3 when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
+                    pk.OT_Name = "GF";
+                    return (int)LanguageID.English;
 
                 default:
                     return lang;

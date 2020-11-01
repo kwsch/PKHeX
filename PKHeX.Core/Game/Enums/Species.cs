@@ -899,6 +899,11 @@
         Kubfu,
         Urshifu,
         Zarude,
+        Regieleki,
+        Regidrago,
+        Glastrier,
+        Spectrier,
+        Calyrex,
         MAX_COUNT,
     }
 }

@@ -8,13 +8,12 @@ namespace PKHeX.Core
     {
         private static readonly ushort[] Unused =
         {
-            0x87, // PokeStar Fame -- this is first to prevent 0x42 from being the first ExtraByte as this byte has GUI functionality
-            0x42, // Hidden Ability/NPokemon
             0x43, 0x44, 0x45, 0x46, 0x47,
             0x5E, // unused
             0x63, // last 8 bits of a 32bit ribbonset
             0x64, 0x65, 0x66, 0x67, // unused 32bit ribbonset?
             0x86, // unused
+            0x87, // PokeStar Fame
         };
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;

@@ -56,6 +56,7 @@ namespace PKHeX.Core
         public abstract TrainerCard8 TrainerCard { get; }
         public abstract RaidSpawnList8 Raid { get; }
         public abstract RaidSpawnList8 RaidArmor { get; }
+        public abstract RaidSpawnList8 RaidCrown { get; }
         public abstract TitleScreen8 TitleScreen { get; }
         public abstract TeamIndexes8 TeamIndexes { get; }
         #endregion
@@ -77,7 +78,7 @@ namespace PKHeX.Core
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter.SetString7(value, maxLength, Language, PadToSize, PadWith);
+            return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
         }
 
         // Player Information

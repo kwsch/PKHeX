@@ -93,15 +93,16 @@ namespace PKHeX.Core
         private CheckResult VerifyAbility345(LegalityAnalysis data, IEncounterable enc, IReadOnlyList<int> abilities, int abilnum)
         {
             var pkm = data.pkm;
+            int format = pkm.Format;
             var state = AbilityState.MustMatch;
-            if (3 <= pkm.Format && pkm.Format <= 5 && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
+            if (3 <= format && format <= 5 && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
                 state = VerifyAbilityPreCapsule(data, abilities);
 
             var EncounterMatch = data.EncounterMatch;
             int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
             if (eabil >= 0)
             {
-                if ((data.pkm.AbilityNumber == 4) != (eabil == 4))
+                if ((pkm.AbilityNumber == 4) != (eabil == 4))
                     return GetInvalid(LAbilityHiddenFail);
                 if (eabil > 0)
                     return VerifyFixedAbility(data, abilities, state, eabil, abilnum);
@@ -336,8 +337,38 @@ namespace PKHeX.Core
                 return GetInvalid(LAbilityHiddenUnavailable);
 
             // other cases of hidden ability already flagged, all that is left is 1/2 mismatching
-            if (state == AbilityState.MustMatch && abilities[pkm.AbilityNumber >> 1] != pkm.Ability)
-                return GetInvalid(pkm.Format < 6 ? LAbilityMismatchPID : LAbilityMismatchFlag);
+            if (state != AbilityState.MustMatch)
+                return VALID;
+
+            // Check that the ability bit is correct.
+            if (pkm is G3PKM g3)
+            {
+                var abit = g3.AbilityBit;
+                if (abilities[0] == abilities[1]) // Not a dual ability
+                {
+                    // Must not have the Ability bit flag set.
+                    if (abit)
+                        return GetInvalid(LAbilityMismatchFlag, CheckIdentifier.PID);
+                }
+                else
+                {
+                    // Gen3 mainline origin sets the Ability index based on the PID, but only if it has two abilities.
+                    // Version value check isn't factually correct, but there are no C/XD gifts with (Version!=15) that have two abilities.
+                    // Pikachu, Celebi, Ho-Oh
+                    if (pkm.Version != (int)GameVersion.CXD && abit != ((pkm.PID & 1) == 1))
+                        return GetInvalid(LAbilityMismatchPID, CheckIdentifier.PID);
+                }
+            }
+            else if (pkm.Format >= 6)
+            {
+                // 6+ already checked at the top of the verifier call stack
+                return VALID;
+            }
+
+            // 3-5
+            var abil = abilities[pkm.AbilityNumber >> 1];
+            if (abil != pkm.Ability)
+                return GetInvalid(LAbilityMismatchPID);
 
             return VALID;
         }

@@ -26,15 +26,10 @@ namespace PKHeX.Core
             }
 
             var pkm = data.pkm;
-            if (pkm.IVTotal == 0)
-            {
-                data.AddLine(Get(LFatefulMystery, Severity.Fishy));
-            }
-            else
             {
                 var hpiv = pkm.IV_HP;
                 if (hpiv < 30 && AllIVsEqual(pkm, hpiv))
-                    data.AddLine(Get(LIVAllEqual, Severity.Fishy));
+                    data.AddLine(Get(string.Format(LIVAllEqual_0, hpiv), Severity.Fishy));
             }
         }
 

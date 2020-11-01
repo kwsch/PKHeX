@@ -68,10 +68,11 @@ namespace PKHeX.Core
 
                 if (dexRevision == 1)
                     continue;
+
                 var crown = p.CrownDexIndex;
                 if (crown != 0)
                 {
-                    lookup.Add(i, new Zukan8Index(Zukan8Type.Crown, armor));
+                    lookup.Add(i, new Zukan8Index(Zukan8Type.Crown, crown));
                     // continue;
                 }
             }
@@ -489,6 +490,7 @@ namespace PKHeX.Core
                 SetAltFormDisplayed(species, (byte)form);
                 if (shiny)
                     SetDisplayShiny(species);
+                SetGenderDisplayed(species, (uint)g);
             }
 
             var count = GetBattledCount(species);
@@ -713,6 +715,7 @@ namespace PKHeX.Core
     {
         public readonly int Index;
         public readonly Zukan8Type DexType;
+        public override string ToString() => $"{Index:000} - {DexType}";
 
         public Zukan8Index(Zukan8Type dexType, int index)
         {
