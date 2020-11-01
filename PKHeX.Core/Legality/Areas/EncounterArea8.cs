@@ -200,6 +200,10 @@ namespace PKHeX.Core
             // Roaring-Sea Caves
             // Giant’s Foot
             {224, new byte[] {222}},
+
+            // Ballimere Lake
+            // Lakeside Cave
+            {230, new byte[] {232}},
         };
 
         /// <summary>
