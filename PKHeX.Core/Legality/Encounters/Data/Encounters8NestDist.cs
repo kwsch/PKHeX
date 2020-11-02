@@ -475,6 +475,38 @@
           //new EncounterStatic8ND(60,10,5) { Species = 778, Ability = A4, Moves = new[]{ 087, 452, 261, 583 } }, // Mimikyu
             new EncounterStatic8ND(60,10,5) { Species = 709, Ability = A4, Moves = new[]{ 452, 506, 261, 310 } }, // Trevenant
             new EncounterStatic8ND(60,10,5) { Species = 855, Ability = A4, Moves = new[]{ 247, 417, 389, 310 } }, // Polteageist
+
+            // 11/2 - November
+            new EncounterStatic8ND(17,01,1) { Species = 012, Ability = A4, Moves = new[]{ 081, 060, 016, 079 }, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8ND(17,01,1) { Species = 213, Ability = A4, Moves = new[]{ 088, 474, 414, 522 } }, // Shuckle
+            new EncounterStatic8ND(17,01,1) { Species = 290, Ability = A4, Moves = new[]{ 189, 206, 010, 106 } }, // Nincada
+            new EncounterStatic8ND(17,01,1) { Species = 568, Ability = A4, Moves = new[]{ 390, 133, 491, 001 } }, // Trubbish
+            new EncounterStatic8ND(17,01,1) { Species = 043, Ability = A4, Moves = new[]{ 078, 077, 051, 230 } }, // Oddish
+            new EncounterStatic8ND(17,01,1) { Species = 453, Ability = A4, Moves = new[]{ 040, 269, 279, 189 } }, // Croagunk
+            new EncounterStatic8ND(30,03,2) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 079 }, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8ND(30,03,2) { Species = 213, Ability = A4, Moves = new[]{ 088, 474, 414, 522 } }, // Shuckle
+            new EncounterStatic8ND(30,03,2) { Species = 291, Ability = A4, Moves = new[]{ 210, 206, 332, 232 } }, // Ninjask
+            new EncounterStatic8ND(30,03,2) { Species = 568, Ability = A4, Moves = new[]{ 092, 133, 491, 036 } }, // Trubbish
+            new EncounterStatic8ND(30,03,2) { Species = 045, Ability = A4, Moves = new[]{ 080, 585, 051, 230 } }, // Vileplume
+            new EncounterStatic8ND(30,03,2) { Species = 453, Ability = A4, Moves = new[]{ 474, 389, 279, 189 } }, // Croagunk
+            new EncounterStatic8ND(40,05,3) { Species = 012, Ability = A4, Moves = new[]{ 405, 060, 016, 078 }, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8ND(40,05,3) { Species = 213, Ability = A4, Moves = new[]{ 157, 188, 089, 522 } }, // Shuckle
+            new EncounterStatic8ND(40,05,3) { Species = 291, Ability = A4, Moves = new[]{ 210, 206, 332, 232 } }, // Ninjask
+            new EncounterStatic8ND(40,05,3) { Species = 569, Ability = A4, Moves = new[]{ 188, 133, 034, 707 }, CanGigantamax = true }, // Garbodor
+            new EncounterStatic8ND(40,05,3) { Species = 045, Ability = A4, Moves = new[]{ 080, 585, 051, 230 } }, // Vileplume
+            new EncounterStatic8ND(40,05,3) { Species = 454, Ability = A4, Moves = new[]{ 188, 389, 279, 189 } }, // Toxicroak
+            new EncounterStatic8ND(50,08,4) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 093, 078 }, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8ND(50,08,4) { Species = 213, Ability = A4, Moves = new[]{ 157, 188, 089, 564 } }, // Shuckle
+            new EncounterStatic8ND(50,08,4) { Species = 291, Ability = A4, Moves = new[]{ 210, 163, 332, 232 } }, // Ninjask
+            new EncounterStatic8ND(50,08,4) { Species = 569, Ability = A4, Moves = new[]{ 188, 499, 034, 707 }, CanGigantamax = true }, // Garbodor
+            new EncounterStatic8ND(50,08,4) { Species = 045, Ability = A4, Moves = new[]{ 080, 585, 051, 034 } }, // Vileplume
+            new EncounterStatic8ND(50,08,4) { Species = 454, Ability = A4, Moves = new[]{ 188, 389, 280, 189 } }, // Toxicroak
+            new EncounterStatic8ND(60,10,5) { Species = 012, Ability = A4, Moves = new[]{ 405, 403, 527, 078 }, CanGigantamax = true }, // Butterfree
+            new EncounterStatic8ND(60,10,5) { Species = 213, Ability = A4, Moves = new[]{ 444, 188, 089, 564 } }, // Shuckle
+            new EncounterStatic8ND(60,10,5) { Species = 291, Ability = A4, Moves = new[]{ 404, 163, 332, 232 } }, // Ninjask
+            new EncounterStatic8ND(60,10,5) { Species = 569, Ability = A4, Moves = new[]{ 441, 499, 034, 707 }, CanGigantamax = true }, // Garbodor
+            new EncounterStatic8ND(60,10,5) { Species = 045, Ability = A4, Moves = new[]{ 080, 585, 051, 034 } }, // Vileplume
+            new EncounterStatic8ND(60,10,5) { Species = 454, Ability = A4, Moves = new[]{ 188, 389, 280, 523 } }, // Toxicroak
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
