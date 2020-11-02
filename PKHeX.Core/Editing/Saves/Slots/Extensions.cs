@@ -162,7 +162,7 @@ namespace PKHeX.Core
         {
             var fused = sav.Fused;
             var dc = sav.Daycare;
-            return new List<SlotInfoMisc>
+            var list = new List<SlotInfoMisc>
             {
                 new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(0), true) {Type = StorageSlotType.Fused},
                 new SlotInfoMisc(fused.Data, 0, Fused8.GetFusedSlotOffset(1), true) {Type = StorageSlotType.Fused},
@@ -173,6 +173,15 @@ namespace PKHeX.Core
                 new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 0)) {Type = StorageSlotType.Daycare},
                 new SlotInfoMisc(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)) {Type = StorageSlotType.Daycare},
             };
+
+            if (sav is SAV8SWSH s8 && s8.SaveRevision >= 2)
+            {
+                var block = s8.Blocks.GetBlockSafe(SaveBlockAccessor8SWSH.KFusedCalyrex);
+                var c = new SlotInfoMisc(block.Data, 0, 0, true) {Type = StorageSlotType.Fused};
+                list.Insert(3, c);
+            }
+
+            return list;
         }
     }
 }

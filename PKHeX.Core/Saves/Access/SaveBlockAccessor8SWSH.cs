@@ -78,6 +78,7 @@ namespace PKHeX.Core
         private const uint KRaidSpawnListR1 = 0x158DA896; // Raid Data for DLC1
         private const uint KRaidSpawnListR2 = 0x148DA703; // Raid Data for DLC2
         private const uint KFused = 0xc0de5c5f; // Fused PKM (*3)
+        public const uint KFusedCalyrex = 0xC37F267B; // Fused Horse
         private const uint KFashionUnlock = 0xd224f9ac; // Fashion unlock bool array (owned for (each apparel type) * 0x80, then another array for "new")
         private const uint KTitleScreenTeam = 0xE9BE28BF; // Title Screen Team details
         public const uint KEnteredHallOfFame = 0xE2F6E456; // U64 Unix Timestamp
