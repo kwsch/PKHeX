@@ -44,7 +44,7 @@ namespace PKHeX.Core
             return PartyFormat ? sav.GetPartySlot(Data, Offset) : sav.GetStoredSlot(Data, Offset);
         }
 
-        private bool Equals(SlotInfoMisc other) => Offset == other.Offset;
+        private bool Equals(SlotInfoMisc other) => Offset == other.Offset && Data == other.Data;
         public bool Equals(ISlotInfo other) => other is SlotInfoMisc p && Equals(p);
         public override bool Equals(object obj) => obj is SlotInfoMisc p && Equals(p);
         public override int GetHashCode() => Offset;
