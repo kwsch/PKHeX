@@ -324,6 +324,9 @@ namespace PKHeX.Core
             }
         }
 
+        /// <summary> Rotom Moves that correspond to a specific form (form-0 ignored). </summary>
+        private static readonly int[] RotomMoves = { 315, 056, 059, 403, 437 };
+
         internal static void AddSpecialFormChangeMoves(List<int> r, PKM pkm, int Generation, int species)
         {
             switch (species)

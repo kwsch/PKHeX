@@ -45,8 +45,8 @@ namespace PKHeX.Core
 
             // If current species evolved with a move evolution and encounter species is not current species check if the evolution by move is valid
             // Only the evolution by move is checked, if there is another evolution before the evolution by move is covered in IsEvolutionValid
-            if (Legal.SpeciesEvolutionWithMove.Contains(species))
-                return Legal.IsEvolutionValidWithMove(pkm, info);
+            if (EvolutionRestrictions.SpeciesEvolutionWithMove.Contains(species))
+                return EvolutionRestrictions.IsEvolutionValidWithMove(pkm, info);
 
             return true;
         }

@@ -319,7 +319,7 @@ namespace PKHeX.Core
             // Pokemon that evolved by leveling up while learning a specific move
             // This pokemon could only have 3 moves from preevolutions that are not the move used to evolved
             // including special and eggs moves before relearn generations
-            if (Legal.SpeciesEvolutionWithMove.Contains(pkm.Species))
+            if (EvolutionRestrictions.SpeciesEvolutionWithMove.Contains(pkm.Species))
                 ParseEvolutionLevelupMove(pkm, res, learnInfo.Source.CurrentMoves, info);
         }
 
@@ -659,7 +659,7 @@ namespace PKHeX.Core
             // Ignore if encounter species is the evolution species, the pokemon was not evolved by the player
             if (info.EncounterMatch.Species == pkm.Species)
                 return;
-            if (!res.All(r => r?.Valid ?? false) || currentMoves.Any(m => m == 0) || (Legal.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
+            if (!res.All(r => r?.Valid ?? false) || currentMoves.Any(m => m == 0) || (EvolutionRestrictions.BabyEvolutionWithMove.Contains(pkm.Species) && info.Generation <= 3))
                 return;
 
             var ValidMoves = MoveList.GetValidPostEvolutionMoves(pkm, pkm.Species, info.EvoChainsAllGens, GameVersion.Any);
@@ -683,8 +683,8 @@ namespace PKHeX.Core
                     ValidMoves.Add(246);
                     break;
                 case (int)Species.Sylveon: // Sylveon (Eevee with Fairy Move)
-                    // Add every fairy moves without cheking if eevee learn it or not, pokemon moves are determined legal before this function
-                    ValidMoves.AddRange(Legal.FairyMoves);
+                    // Add every fairy moves without checking if Eevee learn it or not; pokemon moves are determined legal before this function
+                    ValidMoves.AddRange(EvolutionRestrictions.FairyMoves);
                     break;
                 case (int)Species.Tsareena: // Tsareena (Steenee with Stomp)
                     ValidMoves.Add(023);

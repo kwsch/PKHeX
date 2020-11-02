@@ -4,16 +4,10 @@ namespace PKHeX.Core
 {
     public static partial class Legal
     {
-        public static readonly int[] Items_Ball =
-        {
-            000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
-            013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
-            851
-        };
-
-        public static readonly int[] Gen4EncounterTypes = { 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
+        /// <summary>
+        /// Species that trigger Light Ball yielding Volt Tackle
+        /// </summary>
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
-        public static readonly int[] RotomMoves = { 315, 056, 059, 403, 437 };
 
         /// <summary>
         /// Species that can be captured normally in the wild and can change between their forms.
@@ -74,17 +68,6 @@ namespace PKHeX.Core
             487, // Giratina
             492, // Shaymin
             720, // Hoopa
-        };
-
-        /// <summary>
-        /// Species that are male only in Generation 6; for ball inheritance, these behave the same as Genderless species.
-        /// </summary>
-        public static readonly HashSet<int> BreedMaleOnly = new HashSet<int>
-        {
-            128, // Tauros
-            627, 628, // Rufflet
-            236, 106, 107, 237, // Tyrogue
-            538, 539, // Sawk & Throh
         };
 
         /// <summary>
@@ -310,130 +293,6 @@ namespace PKHeX.Core
             (int)Species.Kubfu, (int)Species.Urshifu, (int)Species.Regieleki, (int)Species.Regidrago, (int)Species.Glastrier, (int)Species.Spectrier,
         };
 
-        public static readonly ushort[] Arceus_Plate = {303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644};
-        public static readonly ushort[] Arceus_ZCrystal = {782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793};
-
-        internal static readonly int[] BabyEvolutionWithMove =
-        {
-            122, // Mr. Mime (Mime Jr with Mimic)
-            185, // Sudowoodo (Bonsly with Mimic)
-        };
-
-        // List of species that evolve from a previous species having a move while leveling up
-        internal static readonly int[] SpeciesEvolutionWithMove =
-        {
-            122, // Mr. Mime (Mime Jr with Mimic)
-            185, // Sudowoodo (Bonsly with Mimic)
-            424, // Ambipom (Aipom with Double Hit)
-            463, // Lickilicky (Lickitung with Rollout)
-            465, // Tangrowth (Tangela with Ancient Power)
-            469, // Yanmega (Yamma with Ancient Power)
-            473, // Mamoswine (Piloswine with Ancient Power)
-            700, // Sylveon (Eevee with Fairy Move)
-            763, // Tsareena (Steenee with Stomp)
-            (int)Species.Grapploct // (Clobbopus with Taunt)
-        };
-
-        internal static readonly int[] FairyMoves =
-        {
-            186, // Sweet Kiss
-            204, // Charm
-            236, // Moonlight
-            574, // Disarming Voice
-            577, // Draining Kiss
-            578, // Crafty Shield
-            579, // Flower Shield
-            581, // Misty Terrain
-            583, // Play Rough
-            584, // Fairy Wind
-            585, // Moonblast
-            587, // Fairy Lock
-            597, // Aromatic Mist
-            601, // Geomancy
-            605, // Dazzling Gleam
-            608, // Baby-Doll Eyes
-            617, // Light of Ruin
-            656, // Twinkle Tackle
-            657, // Twinkle Tackle
-            666, // Floral Healing
-            698, // Guardian of Alola
-            705, // Fleur Cannon
-            717, // Nature's Madness
-            726, // Let's Snuggle Forever
-            740, // Sparkly Swirl
-            767, // Max Starfall
-            777, // Decorate
-            789, // Spirit Break
-            790, // Strange Steam
-            802, // Misty Explosion
-        };
-
-        // Moves that trigger the evolution by move
-        internal static readonly int[][] MoveEvolutionWithMove =
-        {
-            new [] { 102 }, // Mr. Mime (Mime Jr with Mimic)
-            new [] { 102 }, // Sudowoodo (Bonsly with Mimic)
-            new [] { 458 }, // Ambipom (Aipom with Double Hit)
-            new [] { 205 }, // Lickilicky (Lickitung with Rollout)
-            new [] { 246 }, // Tangrowth (Tangela with Ancient Power)
-            new [] { 246 }, // Yanmega (Yamma with Ancient Power)
-            new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
-            FairyMoves, // Sylveon (Eevee with Fairy Move)
-            new [] { 023 }, // Tsareena (Steenee with Stomp)
-            new [] { 269 }, // Grapploct (Clobbopus with Taunt)
-        };
-
-        // Min level for any species for every generation to learn the move for evolution by move
-        // 0 means it cant be learned in that generation
-        internal static readonly int[][] MinLevelEvolutionWithMove =
-        {
-            // Mr. Mime (Mime Jr with Mimic)
-            new [] { 0, 0, 0, 0, 18, 15, 15, 2, 2 },
-            // Sudowoodo (Bonsly with Mimic)
-            new [] { 0, 0, 0, 0, 17, 17, 15, 2, 2 },
-            // Ambipom (Aipom with Double Hit)
-            new [] { 0, 0, 0, 0, 32, 32, 32, 2, 2 },
-            // Lickilicky (Lickitung with Rollout)
-            new [] { 0, 0, 2, 0, 2, 33, 33, 2, 2 },
-            // Tangrowth (Tangela with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 36, 38, 2, 2 },
-            // Yanmega (Yanma with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 33, 33, 2, 2 },
-            // Mamoswine (Piloswine with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 2, 2, 2, 2 },
-            // Sylveon (Eevee with Fairy Move)
-            new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
-            // Tsareena (Steenee with Stomp)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 2, 28 },
-            // Grapploct (Clobbopus with Taunt)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 0, 35 },
-        };
-
-        // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
-        internal static readonly bool[][] EggMoveEvolutionWithMove =
-        {
-            // Mr. Mime (Mime Jr with Mimic)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Sudowoodo (Bonsly with Mimic)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Ambipom (Aipom with Double Hit)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Lickilicky (Lickitung with Rollout)
-            new [] { false, false, true, false, true, true, true, true, true },
-            // Tangrowth (Tangela with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Yanmega (Yanma with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Mamoswine (Piloswine with Ancient Power)
-            new [] { false, false, true, true, true, true, true, true, true },
-            // Sylveon (Eevee with Fairy Move)
-            new [] { false, false, true, true, true, true, true, true, true },
-            // Tsareena (Steenee with Stomp)
-            new [] { false, false, false, false, false, false, false, false, false },
-            // Grapploct (Clobbopus with Taunt)
-            new [] { false, false, false, false, false, false, false, false, true },
-        };
-
         internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
         {
             29, // Nidoran♀
@@ -443,6 +302,9 @@ namespace PKHeX.Core
             (int)Species.Indeedee, // male/female
         };
 
+        /// <summary>
+        /// Species that evolve from a Bi-Gendered species into a Single-Gender.
+        /// </summary>
         public static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
         {
             290, // Nincada

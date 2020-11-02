@@ -202,67 +202,6 @@ namespace PKHeX.Core
             return curr.Count >= poss.Count;
         }
 
-        internal static bool IsEvolutionValidWithMove(PKM pkm, LegalInfo info)
-        {
-            // Exclude species that do not evolve leveling with a move
-            // Exclude gen 1-3 formats
-            // Exclude Mr. Mime and Snorlax for gen 1-3 games
-            var gen = info.Generation;
-            if (!SpeciesEvolutionWithMove.Contains(pkm.Species) || pkm.Format <= 3 || (BabyEvolutionWithMove.Contains(pkm.Species) && gen <= 3))
-                return true;
-
-            var index = Array.FindIndex(SpeciesEvolutionWithMove, p => p == pkm.Species);
-            var levels = MinLevelEvolutionWithMove[index];
-            var moves = MoveEvolutionWithMove[index];
-            var allowegg = EggMoveEvolutionWithMove[index][gen];
-
-            // Get the minimum level in any generation when the pokemon could learn the evolve move
-            var LearnLevel = 101;
-            for (int g = gen; g <= pkm.Format; g++)
-            {
-                if (pkm.InhabitedGeneration(g) && levels[g] > 0)
-                    LearnLevel = Math.Min(LearnLevel, levels[g]);
-            }
-
-            // Check also if the current encounter include the evolve move as an special move
-            // That means the pokemon have the move from the encounter level
-            if (info.EncounterMatch is IMoveset s && s.Moves.Any(m => moves.Contains(m)))
-                LearnLevel = Math.Min(LearnLevel, info.EncounterMatch.LevelMin);
-
-            // If the encounter is a player hatched egg check if the move could be an egg move or inherited level up move
-            if (info.EncounterMatch is EncounterEgg && allowegg)
-            {
-                if (IsMoveInherited(pkm, info, moves))
-                    LearnLevel = Math.Min(LearnLevel, gen <= 3 ? 6 : 2);
-            }
-
-            // If has original met location the minimum evolution level is one level after met level
-            // Gen 3 pokemon in gen 4 games: minimum level is one level after transfer to generation 4
-            // VC pokemon: minimum level is one level after transfer to generation 7
-            // Sylveon: always one level after met level, for gen 4 and 5 eevees in gen 6 games minimum for evolution is one level after transfer to generation 5
-            if (pkm.HasOriginalMetLocation || (pkm.Format == 4 && gen == 3) || pkm.VC || pkm.Species == (int)Species.Sylveon)
-                LearnLevel = Math.Max(pkm.Met_Level + 1, LearnLevel);
-
-            // Current level must be at least one the minimum learn level
-            // the level-up event that triggers the learning of the move also triggers evolution with no further level-up required
-            return pkm.CurrentLevel >= LearnLevel;
-        }
-
-        private static bool IsMoveInherited(PKM pkm, LegalInfo info, int[] moves)
-        {
-            // In 3DS games, the inherited move must be in the relearn moves.
-            if (info.Generation >= 6)
-                return pkm.RelearnMoves.Any(moves.Contains);
-
-            // In Pre-3DS games, the move is inherited if it has the move and it can be hatched with the move.
-            if (pkm.Moves.Any(moves.Contains))
-                return true;
-
-            // If the pokemon does not have the move, it still could be an egg move that was forgotten.
-            // This requires the pokemon to not have 4 other moves identified as egg moves or inherited level up moves.
-            return 4 > info.Moves.Count(m => m.Source == MoveSource.EggMove || m.Source == MoveSource.InheritLevelUp);
-        }
-
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
         /// <param name="species">Original species</param>
         /// <param name="oldForm">Original form</param>

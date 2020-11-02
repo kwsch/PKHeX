@@ -211,14 +211,17 @@ namespace PKHeX.Core
             return VALID;
         }
 
+        private static readonly ushort[] Arceus_PlateIDs = { 303, 306, 304, 305, 309, 308, 310, 313, 298, 299, 301, 300, 307, 302, 311, 312, 644 };
+        private static readonly ushort[] Arceus_ZCrystal = { 782, 785, 783, 784, 788, 787, 789, 792, 777, 778, 780, 779, 786, 781, 790, 791, 793 };
+
         public static int GetArceusFormFromHeldItem(int item, int format)
         {
             if (777 <= item && item <= 793)
-                return Array.IndexOf(Legal.Arceus_ZCrystal, (ushort)item) + 1;
+                return Array.IndexOf(Arceus_ZCrystal, (ushort)item) + 1;
 
             int form = 0;
             if ((298 <= item && item <= 313) || item == 644)
-                form = Array.IndexOf(Legal.Arceus_Plate, (ushort)item) + 1;
+                form = Array.IndexOf(Arceus_PlateIDs, (ushort)item) + 1;
             if (format == 4 && form >= 9)
                 return form + 1; // ??? type Form shifts everything by 1
             return form;

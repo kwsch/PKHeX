@@ -113,7 +113,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = data.EncounterMatch.Species;
-            if (pkm.Gender == 2 || Legal.BreedMaleOnly.Contains(species)) // Genderless
+            if (pkm.Gender == 2 || Legal.BreedMaleOnly6.Contains(species)) // Genderless
                 return VerifyBallEquals(data, (int)Poke); // Must be Pokéball as ball can only pass via mother (not Ditto!)
 
             Ball ball = (Ball)pkm.Ball;

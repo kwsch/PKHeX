@@ -42,6 +42,16 @@ namespace PKHeX.Core
         private string[] Get(string ident) => GameLanguage.GetStrings(ident, lang);
         private const string NPC = "NPC";
 
+        /// <summary>
+        /// Item IDs that correspond to the <see cref="Ball"/> value.
+        /// </summary>
+        private static readonly int[] Items_Ball =
+        {
+            000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012,
+            013, 014, 015, 016, 492, 493, 494, 495, 496, 497, 498, 499, 576,
+            851
+        };
+
         public GameStrings(string l)
         {
             lang = l;
@@ -90,9 +100,9 @@ namespace PKHeX.Core
             encountertypelist = Get("encountertype");
             gamelist = Get("games");
 
-            balllist = new string[Legal.Items_Ball.Length];
+            balllist = new string[Items_Ball.Length];
             for (int i = 0; i < balllist.Length; i++)
-                balllist[i] = itemlist[Legal.Items_Ball[i]];
+                balllist[i] = itemlist[Items_Ball[i]];
 
             pokeblocks = Get("pokeblock");
             forms = Get("forms");
