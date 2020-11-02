@@ -146,5 +146,24 @@ namespace PKHeX.Core
 
             return pkm.CurrentLevel >= 5;
         }
+
+        private static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
+        {
+            var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
+            var min = curr.FindLast(z => z.Species == minSpecies);
+            if (min != null && min.Level < minLevel)
+                return false;
+            var poss = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, minLevel: minLevel, skipChecks: true);
+
+            if (minSpecies != -1)
+            {
+                int last = poss.FindLastIndex(z => z.Species == minSpecies);
+                return curr.Count >= last;
+            }
+            int gen = pkm.GenNumber;
+            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(EvoBase.GetBaseSpecies(poss, 1).Species))
+                return curr.Count >= poss.Count - 1;
+            return curr.Count >= poss.Count;
+        }
     }
 }

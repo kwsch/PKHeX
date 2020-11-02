@@ -49,7 +49,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(met))
                         break;
 
-                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && !AltFormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
                     yield return slot;
@@ -69,7 +69,7 @@ namespace PKHeX.Core
 
                     // Ignore met level comparison; we already know it is permissible to boost to level 60.
 
-                    if (slot.Form != evo.Form && !Legal.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && !AltFormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
                     yield return slot;

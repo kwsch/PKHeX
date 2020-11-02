@@ -26,7 +26,7 @@ namespace PKHeX.Core
                 return expectForm == evo.Form;
             }
 
-            return Form == evo.Form || Legal.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format);
+            return Form == evo.Form || AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

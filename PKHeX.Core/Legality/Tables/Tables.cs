@@ -10,17 +10,6 @@ namespace PKHeX.Core
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
 
         /// <summary>
-        /// Species that can be captured normally in the wild and can change between their forms.
-        /// </summary>
-        public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
-        {
-            412, // Burmy
-            479, // Rotom
-            676, // Furfrou
-            741, // Oricorio
-        };
-
-        /// <summary>
         /// Species that can yield a different baby species when bred.
         /// </summary>
         public static readonly HashSet<int> SplitBreed = new HashSet<int>
@@ -35,28 +24,6 @@ namespace PKHeX.Core
             226, // Mantine
             315, 407, // Roselia
             358, // Chimecho
-        };
-
-        /// <summary>
-        /// Species that can change between their forms, regardless of origin.
-        /// </summary>
-        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-        public static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter)
-        {
-            386, // Deoxys
-            487, // Giratina
-            492, // Shaymin
-            493, // Arceus
-            641, // Tornadus
-            642, // Thundurus
-            645, // Landorus
-            646, // Kyurem
-            647, // Keldeo
-            649, // Genesect
-            720, // Hoopa
-            773, // Silvally
-            800, // Necrozma
-            898, // Calyrex
         };
 
         /// <summary>

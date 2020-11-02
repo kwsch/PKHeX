@@ -73,6 +73,65 @@ namespace PKHeX.Core
             };
         }
 
+        /// <summary>Checks if the form may be different than the original encounter detail.</summary>
+        /// <param name="species">Original species</param>
+        /// <param name="oldForm">Original form</param>
+        /// <param name="newForm">Current form</param>
+        /// <param name="format">Current format</param>
+        public static bool IsFormChangeable(int species, int oldForm, int newForm, int format)
+        {
+            if (FormChange.Contains(species))
+                return true;
+
+            // Zygarde Form Changing
+            // Gen6: Introduced; no form changing.
+            // Gen7: Form changing introduced; can only change to Form 2/3 (Power Construct), never to 0/1 (Aura Break). A form-1 can be boosted to form-0.
+            // Gen8: Form changing improved; can pick any Form & Ability combination.
+            if (species == (int)Zygarde)
+            {
+                return format switch
+                {
+                    6 => false,
+                    7 => newForm >= 2 || (oldForm == 1 && newForm == 0),
+                    _ => true,
+                };
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Species that can be captured normally in the wild and can change between their forms.
+        /// </summary>
+        public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
+        {
+            412, // Burmy
+            479, // Rotom
+            676, // Furfrou
+            741, // Oricorio
+        };
+
+        /// <summary>
+        /// Species that can change between their forms, regardless of origin.
+        /// </summary>
+        /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
+        private static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter)
+        {
+            386, // Deoxys
+            487, // Giratina
+            492, // Shaymin
+            493, // Arceus
+            641, // Tornadus
+            642, // Thundurus
+            645, // Landorus
+            646, // Kyurem
+            647, // Keldeo
+            649, // Genesect
+            720, // Hoopa
+            773, // Silvally
+            800, // Necrozma
+            898, // Calyrex
+        };
+
         /// <summary>
         /// Species that have an alternate form that cannot exist outside of battle.
         /// </summary>

@@ -136,6 +136,15 @@ namespace PKHeX.Core
             return GensEvoChains;
         }
 
+        private static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
+        {
+            if (originalGeneration < 3)
+                return currentGeneration >= 3;
+            if (originalGeneration <= 4)
+                return currentGeneration != originalGeneration;
+            return false;
+        }
+
         private static void TrimVC1Transfer(PKM pkm, IList<List<EvoCriteria>> GensEvoChains)
         {
             if (GensEvoChains[7].All(z => z.Species > MaxSpeciesID_1))

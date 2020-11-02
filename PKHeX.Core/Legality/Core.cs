@@ -183,51 +183,6 @@ namespace PKHeX.Core
             };
         }
 
-        internal static bool IsEvolutionValid(PKM pkm, int minSpecies = -1, int minLevel = -1)
-        {
-            var curr = EvolutionChain.GetValidPreEvolutions(pkm, minLevel: minLevel);
-            var min = curr.FindLast(z => z.Species == minSpecies);
-            if (min != null && min.Level < minLevel)
-                return false;
-            var poss = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, minLevel: minLevel, skipChecks: true);
-
-            if (minSpecies != -1)
-            {
-                int last = poss.FindLastIndex(z => z.Species == minSpecies);
-                return curr.Count >= last;
-            }
-            int gen = pkm.GenNumber;
-            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(EvoBase.GetBaseSpecies(poss, 1).Species))
-                return curr.Count >= poss.Count - 1;
-            return curr.Count >= poss.Count;
-        }
-
-        /// <summary>Checks if the form may be different than the original encounter detail.</summary>
-        /// <param name="species">Original species</param>
-        /// <param name="oldForm">Original form</param>
-        /// <param name="newForm">Current form</param>
-        /// <param name="format">Current format</param>
-        internal static bool IsFormChangeable(int species, int oldForm, int newForm, int format)
-        {
-            if (FormChange.Contains(species))
-                return true;
-
-            // Zygarde Form Changing
-            // Gen6: Introduced; no form changing.
-            // Gen7: Form changing introduced; can only change to Form 2/3 (Power Construct), never to 0/1 (Aura Break). A form-1 can be boosted to form-0.
-            // Gen8: Form changing improved; can pick any Form & Ability combination.
-            if (species == (int)Species.Zygarde)
-            {
-                return format switch
-                {
-                    6 => false,
-                    7 => newForm >= 2 || (oldForm == 1 && newForm == 0),
-                    _ => true,
-                };
-            }
-            return false;
-        }
-
         internal static bool GetCanInheritMoves(int species)
         {
             if (FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
@@ -266,15 +221,6 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
         internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (pkm.GG && gen == 7) || pkm.IsUntraded;
-
-        public static bool HasMetLocationUpdatedTransfer(int originalGeneration, int currentGeneration)
-        {
-            if (originalGeneration < 3)
-                return currentGeneration >= 3;
-            if (originalGeneration <= 4)
-                return currentGeneration != originalGeneration;
-            return false;
-        }
 
         public static bool IsValidMissingLanguage(PKM pkm)
         {
