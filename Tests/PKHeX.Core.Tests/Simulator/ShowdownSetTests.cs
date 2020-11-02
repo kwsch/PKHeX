@@ -45,10 +45,11 @@ namespace PKHeX.Tests.Simulator
             var la = new LegalityAnalysis(pk);
             Assert.True(la.Valid);
 
-            var test = EncounterMovesetGenerator.GeneratePKMs(pk7, info).ToList();
+            var test = EncounterMovesetGenerator.GenerateEncounters(pk7, info).ToList();
             foreach (var t in test)
             {
-                var la2 = new LegalityAnalysis(t);
+                var convert = t.ConvertToPKM(info);
+                var la2 = new LegalityAnalysis(convert);
                 Assert.True(la2.Valid);
             }
         }

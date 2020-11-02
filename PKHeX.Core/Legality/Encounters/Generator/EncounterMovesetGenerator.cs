@@ -30,6 +30,7 @@ namespace PKHeX.Core
         /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
         /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
         /// <returns>A consumable <see cref="PKM"/> list of possible results.</returns>
+        /// <remarks>When updating, update the sister <see cref="GenerateEncounters(PKM,ITrainerInfo,int[],GameVersion[])"/> method.</remarks>
         public static IEnumerable<PKM> GeneratePKMs(PKM pk, ITrainerInfo info, int[]? moves = null, params GameVersion[] versions)
         {
             pk.TID = info.TID;
@@ -48,6 +49,28 @@ namespace PKHeX.Core
 #endif
                     yield return result;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets possible <see cref="IEncounterable"/> objects that allow all moves requested to be learned.
+        /// </summary>
+        /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
+        /// <param name="info">Trainer information of the receiver.</param>
+        /// <param name="moves">Moves that the resulting <see cref="IEncounterable"/> must be able to learn.</param>
+        /// <param name="versions">Any specific version(s) to iterate for. If left blank, all will be checked.</param>
+        /// <returns>A consumable <see cref="IEncounterable"/> list of possible results.</returns>
+        /// <remarks>When updating, update the sister <see cref="GeneratePKMs(PKM,ITrainerInfo,int[],GameVersion[])"/> method.</remarks>
+        public static IEnumerable<IEncounterable> GenerateEncounters(PKM pk, ITrainerInfo info, int[]? moves = null, params GameVersion[] versions)
+        {
+            pk.TID = info.TID;
+            var m = moves ?? pk.Moves;
+            var vers = versions.Length >= 1 ? versions : GameUtil.GetVersionsWithinRange(pk, pk.Format);
+            foreach (var ver in vers)
+            {
+                var encounters = GenerateVersionEncounters(pk, m, ver);
+                foreach (var enc in encounters)
+                    yield return enc;
             }
         }
 
