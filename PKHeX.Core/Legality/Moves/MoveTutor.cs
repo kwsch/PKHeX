@@ -306,7 +306,7 @@ namespace PKHeX.Core
                     break;
                 case (int)Species.Pikachu when Generation == 6 && pkm.Format == 6:
                     int index = pkm.AltForm - 1;
-                    if (index >= 0 && index < CosplayPikachuMoves.Length)
+                    if ((uint)index < CosplayPikachuMoves.Length)
                         r.Add(CosplayPikachuMoves[index]);
                     break;
 
@@ -317,8 +317,8 @@ namespace PKHeX.Core
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case (int)Species.Pikachu when Generation == 7 && !(pkm is PB7):
-                case (int)Species.Raichu  when Generation == 7 && !(pkm is PB7):
+                case (int)Species.Pikachu when Generation == 7 && !pkm.GG:
+                case (int)Species.Raichu  when Generation == 7 && !pkm.GG:
                     r.Add(344); // Volt Tackle
                     break;
             }
