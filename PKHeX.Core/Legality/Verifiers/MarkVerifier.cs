@@ -47,7 +47,7 @@ namespace PKHeX.Core
                     return;
                 }
 
-                bool result = VerifyMarking(data, mark);
+                bool result = IsMarkValid(mark, data.pkm, data.EncounterMatch);
                 if (!result)
                 {
                     data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, mark)));
@@ -58,19 +58,51 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool VerifyMarking(LegalityAnalysis data, RibbonIndex mark)
+        public static bool IsMarkValid(RibbonIndex mark, PKM pk, IEncounterable enc)
         {
-            var pkm = data.pkm;
-            switch (mark)
+            return IsMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
+        }
+
+        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable _)
+        {
+            return mark switch
             {
-                case RibbonIndex.MarkCurry:
-                {
-                    var ball = pkm.Ball;
-                    if (!(2 <= ball && ball <= 4)) // Poke,Great,Ultra only
-                        return false;
-                    break;
-                }
+                RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk) => false,
+                RibbonIndex.MarkDestiny => false,
+                _ => true
+            };
+        }
+
+        public static bool IsMarkAllowedAny(IEncounterable enc)
+        {
+            if (enc.Generation != 8)
+                return false;
+
+            switch (enc)
+            {
+                case WC8 _:
+                case EncounterEgg _:
+                case EncounterTrade _:
+                case EncounterStatic8U _:
+                case EncounterStatic8N _:
+                case EncounterStatic8ND _:
+                case EncounterStatic8NC _:
+                case EncounterStatic8 s when s.Gift || !EncounterArea8.IsWildArea(s.Location):
+                    return false;
             }
+
+            return true;
+        }
+
+        public static bool IsMarkAllowedCurry(ILocation enc, int ball = (int)Ball.Poke) => IsMarkAllowedCurry(enc.Location, ball);
+        public static bool IsMarkAllowedCurry(PKM pkm) => IsMarkAllowedCurry(pkm.Met_Location, pkm.Ball);
+
+        public static bool IsMarkAllowedCurry(int met, int ball)
+        {
+            if (EncounterArea8.IsWildArea(met))
+                return false;
+            if ((uint) (ball - 2) > 2) // Poke,Great,Ultra only
+                return false;
             return true;
         }
 
