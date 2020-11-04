@@ -341,7 +341,7 @@ namespace PKHeX.Core
         {
             if (pkm.AbilityNumber != 4)
                 return false;
-            return !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities);
+            return !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities, pkm.Species);
         }
 
         private static bool IsGalarCatchAndBreed(int species)

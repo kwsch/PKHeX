@@ -75,7 +75,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (pkm.GO)
                 VerifyIVsGoTransfer(data);
-            else if (pkm.AbilityNumber == 4 && !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities))
+            else if (pkm.AbilityNumber == 4 && !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities, pkm.Species))
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
         }
 

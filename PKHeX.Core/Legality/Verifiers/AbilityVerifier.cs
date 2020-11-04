@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
             if (format >= 8) // Ability Patch
             {
-                if (pkm.AbilityNumber == 4 && CanAbilityPatch(format, abilities))
+                if (pkm.AbilityNumber == 4 && CanAbilityPatch(format, abilities, pkm.Species))
                     return GetValid(LAbilityPatchUsed);
             }
 
@@ -392,12 +392,27 @@ namespace PKHeX.Core
             return abilities[0] != abilities[1]; // Cannot alter ability index if it is the same as the other ability.
         }
 
-        public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities)
+        public static bool CanAbilityPatch(int format, IReadOnlyList<int> abilities, int species)
         {
             if (format < 8) // Ability Patch does not exist
                 return false;
+
+            // Can alter ability index if it is different from the other abilities.
             var h = abilities[2];
-            return h != abilities[0] || h != abilities[1]; // Cannot alter ability index if it is the same as the other abilities.
+            if (h != abilities[0] || h != abilities[1])
+                return true;
+
+            // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
+            switch (species)
+            {
+                case (int)Species.Giratina:
+                case (int)Species.Tornadus:
+                case (int)Species.Thundurus:
+                case (int)Species.Landorus:
+                    return true; // Form-0 is a/a/h
+            }
+
+            return false;
         }
 
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
