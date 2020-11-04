@@ -30,7 +30,6 @@ namespace PKHeX.Core
         private void VerifyShiny(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var Info = data.Info;
 
             switch (data.EncounterMatch)
             {
@@ -67,10 +66,14 @@ namespace PKHeX.Core
                     VerifyG5PID_IDCorrelation(data);
                     break;
 
-                case EncounterSlot w:
-                    if (pkm.IsShiny && w.Area.Type == SlotType.HiddenGrotto)
+                case EncounterSlot7GO _ when pkm.IsShiny && pkm.ShinyXor != 0:
+                    data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
+                    break;
+
+                case EncounterSlot5 w:
+                    if (w.Area.Type == SlotType.HiddenGrotto && pkm.IsShiny)
                         data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));
-                    if (Info.Generation == 5 && w.Area.Type != SlotType.HiddenGrotto)
+                    if (w.Area.Type != SlotType.HiddenGrotto)
                         VerifyG5PID_IDCorrelation(data);
                     break;
 
