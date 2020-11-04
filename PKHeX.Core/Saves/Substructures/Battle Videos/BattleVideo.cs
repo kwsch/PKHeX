@@ -1,9 +1,13 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
-    public abstract class BattleVideo
+    public abstract class BattleVideo : IPokeGroup
     {
         public abstract PKM[] BattlePKMs { get; }
         public abstract int Generation { get; }
+
+        public IEnumerable<PKM> Contents => BattlePKMs;
 
         public static BattleVideo? GetVariantBattleVideo(byte[] data)
         {

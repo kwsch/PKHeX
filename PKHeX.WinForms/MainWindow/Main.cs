@@ -607,7 +607,7 @@ namespace PKHeX.WinForms
             {
                 case PKM pk: return OpenPKM(pk);
                 case SaveFile s: return OpenSAV(s, path);
-                case BattleVideo b: return OpenBattleVideo(b);
+                case IPokeGroup b: return OpenGroup(b);
                 case MysteryGift g: return OpenMysteryGift(g, path);
                 case IEnumerable<byte[]> pkms: return OpenPCBoxBin(pkms);
                 case IEncounterable enc: return OpenPKM(enc.ConvertToPKM(C_SAV.SAV));
@@ -632,9 +632,9 @@ namespace PKHeX.WinForms
             return true;
         }
 
-        private bool OpenBattleVideo(BattleVideo b)
+        private bool OpenGroup(IPokeGroup b)
         {
-            bool result = C_SAV.OpenBattleVideo(b, out string c);
+            bool result = C_SAV.OpenGroup(b, out string c);
             WinFormsUtil.Alert(c);
             Debug.WriteLine(c);
             return result;

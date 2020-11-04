@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Container block for Generation 8 saved Rental Teams
     /// </summary>
-    public sealed class RentalTeam8 : IRentalTeam<PK8>
+    public sealed class RentalTeam8 : IRentalTeam<PK8>, IPokeGroup
     {
+        public const int SIZE = 0x880;
+
         private const int LEN_META = 0x56;
         private const int LEN_STORED = PokeCrypto.SIZE_8STORED; // 0x148
         private const int LEN_POKE = PokeCrypto.SIZE_8PARTY; // 0x158
@@ -68,5 +71,15 @@ namespace PKHeX.Core
 
         public byte[] GetMetadataStart() => Data.Slice(OFS_META, LEN_META);
         public byte[] GetMetadataEnd() => Data.SliceEnd(POST_META);
+
+        public IEnumerable<PKM> Contents => GetTeam();
+
+        public static bool IsRentalTeam(byte[] data)
+        {
+            if (data.Length != SIZE)
+                return false;
+            var team = new RentalTeam8(data).GetTeam();
+            return team.All(x => x.ChecksumValid);
+        }
     }
 }

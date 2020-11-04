@@ -195,6 +195,10 @@ namespace PKHeX.Core
                     case GP1 g when g.Species != 0:
                         yield return g.ConvertToPB7(sav);
                         break;
+                    case IPokeGroup g:
+                        foreach (var p in g.Contents)
+                            yield return p;
+                        break;
                 }
             }
         }

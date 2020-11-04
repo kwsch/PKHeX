@@ -62,6 +62,8 @@ namespace PKHeX.Core
                 return g;
             if (TryGetGP1(data, out var gp))
                 return gp;
+            if (TryGetBundle(data, out var bundle))
+                return bundle;
             return null;
         }
 
@@ -94,6 +96,17 @@ namespace PKHeX.Core
                 return false;
             gp1 = new GP1(data);
             return true;
+        }
+
+        private static bool TryGetBundle(byte[] data, out IPokeGroup? result)
+        {
+            result = null;
+            if (RentalTeam8.IsRentalTeam(data))
+            {
+                result = new RentalTeam8(data);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

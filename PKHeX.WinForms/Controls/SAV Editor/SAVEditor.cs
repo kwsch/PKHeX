@@ -822,16 +822,10 @@ namespace PKHeX.WinForms.Controls
             return true;
         }
 
-        public bool OpenBattleVideo(BattleVideo b, out string c)
+        public bool OpenGroup(IPokeGroup b, out string c)
         {
-            if (SAV.Generation != b.Generation)
-            {
-                c = MsgSaveBoxImportVideoFailGeneration;
-                return false;
-            }
-
-            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo,
-                string.Format(MsgSaveBoxImportVideo, Box.CurrentBoxName), MsgSaveBoxImportOverwrite);
+            var msg = string.Format(MsgSaveBoxImportGroup, Box.CurrentBoxName);
+            var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, msg, MsgSaveBoxImportOverwrite);
             if (prompt != DialogResult.Yes)
             {
                 c = string.Empty;
@@ -839,25 +833,40 @@ namespace PKHeX.WinForms.Controls
             }
 
             var noSetb = GetPKMSetOverride(ModifyPKM);
-            PKM[] data = b.BattlePKMs;
-            int box = Box.CurrentBox;
-            int slotSkipped = 0;
-            for (int i = 0; i < 24; i++)
-            {
-                if (SAV.IsSlotOverwriteProtected(Box.CurrentBox, i))
-                {
-                    slotSkipped++;
-                    continue;
-                }
-                SAV.SetBoxSlotAtIndex(data[i], box, i, noSetb);
-            }
+            var slotSkipped = ImportGroup(b.Contents, SAV, Box.CurrentBox, noSetb);
 
             SetPKMBoxes();
             UpdateBoxViewers();
 
-            c = slotSkipped > 0 ? string.Format(MsgSaveBoxImportSkippedLocked, slotSkipped) : MsgSaveBoxImportVideoSuccess;
+            c = slotSkipped > 0 ? string.Format(MsgSaveBoxImportSkippedLocked, slotSkipped) : MsgSaveBoxImportGroupSuccess;
 
             return true;
+        }
+
+        private static int ImportGroup(IEnumerable<PKM> data, SaveFile sav, int box, PKMImportSetting noSetb)
+        {
+            var type = sav.PKMType;
+            int slotSkipped = 0;
+            int index = 0;
+            foreach (var x in data)
+            {
+                var i = index++;
+                if (sav.IsSlotOverwriteProtected(box, i))
+                {
+                    slotSkipped++;
+                    continue;
+                }
+
+                var convert = PKMConverter.ConvertToType(x, type, out _);
+                if (convert?.GetType() != type)
+                {
+                    slotSkipped++;
+                    continue;
+                }
+                sav.SetBoxSlotAtIndex(x, box, i, noSetb);
+            }
+
+            return slotSkipped;
         }
 
         public bool DumpBoxes(out string result, string? path = null, bool separate = false)

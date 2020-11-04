@@ -171,9 +171,8 @@ namespace PKHeX.Core
         public static string MsgSaveBoxImportPCFailBattle { get; set; } = "Battle Box slots prevent loading of PC data.";
         public static string MsgSaveBoxImportBoxBinary { get; set; } = "Box Binary loaded.";
         public static string MsgSaveBoxImportBoxFailBattle { get; set; } = "Battle Box slots in box prevent loading of box data.";
-        public static string MsgSaveBoxImportVideo { get; set; } = "Load Battle Video Pokémon data to the current box ({0})?";
-        public static string MsgSaveBoxImportVideoSuccess { get; set; } = "Battle Video data loaded to box slots.";
-        public static string MsgSaveBoxImportVideoFailGeneration { get; set; } = "Cannot load the Battle Video to a different generation save file.";
+        public static string MsgSaveBoxImportGroup { get; set; } = "Load Pokémon data from the file to the current box ({0})?";
+        public static string MsgSaveBoxImportGroupSuccess { get; set; } = "Pokémon data from the file was loaded to box slots.";
         public static string MsgSaveBoxImportOverwrite { get; set; } = "The current box will be overwritten.";
         public static string MsgSaveBoxImportSkippedLocked { get; set; } = "Skipped {0} locked slot(s).";
 
