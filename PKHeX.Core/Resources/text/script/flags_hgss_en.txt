@@ -25,3 +25,4 @@
 0503	Team Rocket HQ Electrode (3) Disappeared
 0609	Sleeping Snorlax Disappeared
 0149	Bill's Eevee
+0450	Route 36 Sudowoodo
