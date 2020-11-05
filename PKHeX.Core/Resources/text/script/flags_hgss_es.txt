@@ -24,3 +24,4 @@
 0502	Team Rocket HQ Electrode (2) Disappeared
 0503	Team Rocket HQ Electrode (3) Disappeared
 0609	Sleeping Snorlax Disappeared
+0149	Bill's Eevee
