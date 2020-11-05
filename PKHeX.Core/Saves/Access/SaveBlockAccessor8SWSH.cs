@@ -143,6 +143,7 @@ namespace PKHeX.Core
         public const uint KCurrentDexEntry = 0x62743428; // U16 Species ID of last Pokedex entry viewed in Galar Dex
         public const uint KCurrentDexEntryR1 = 0x789FF72D; // U16 Species ID of last Pokedex entry viewed in Armor Dex
         public const uint KCurrentDexEntryR2 = 0x759FF274; // U16 Species ID of last Pokedex entry viewed in Crown Dex
+        public const uint KCurrentDex = 0x9CF58395; // U32 Galar=0, Armor=1, Crown=2
 
         public const uint KVolumeBackgroundMusic = 0xF8154AC9; // U32 0-10
         public const uint KVolumeSoundEffects = 0x62F05895; // U32 0-10
