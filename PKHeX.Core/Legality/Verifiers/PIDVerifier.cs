@@ -66,10 +66,6 @@ namespace PKHeX.Core
                     VerifyG5PID_IDCorrelation(data);
                     break;
 
-                case EncounterSlot7GO _ when pkm.IsShiny && pkm.ShinyXor != 0:
-                    data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
-                    break;
-
                 case EncounterSlot5 w:
                     if (w.Area.Type == SlotType.HiddenGrotto && pkm.IsShiny)
                         data.AddLine(GetInvalid(LG5PIDShinyGrotto, CheckIdentifier.Shiny));

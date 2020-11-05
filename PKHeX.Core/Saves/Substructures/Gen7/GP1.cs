@@ -176,9 +176,10 @@ namespace PKHeX.Core
             pk.Nature = (int)criteria.GetNature(Nature.Random);
             pk.RefreshAbility(criteria.GetAbilityFromType(av, pi));
 
-            if (IsShiny) // Force Square
+            bool isShiny = pk.IsShiny;
+            if (IsShiny && !isShiny) // Force Square
                 pk.PID = (uint)(((sav.TID ^ sav.SID ^ (pk.PID & 0xFFFF) ^ 0) << 16) | (pk.PID & 0xFFFF));
-            else if (pk.IsShiny)
+            else if (isShiny)
                 pk.PID ^= 0x1000_0000;
 
             var moves = MoveLevelUp.GetEncounterMoves(pk, Level, GameVersion.GO);
