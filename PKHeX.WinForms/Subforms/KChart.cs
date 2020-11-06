@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
 
         private string GetAbility(IReadOnlyList<int> abilityIDs, int index)
         {
-            if ((uint)index > abilityIDs.Count)
+            if ((uint)index >= abilityIDs.Count)
                 return abilities[0];
             return abilities[abilityIDs[index]];
         }
