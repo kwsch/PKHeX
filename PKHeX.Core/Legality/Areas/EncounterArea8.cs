@@ -67,7 +67,9 @@ namespace PKHeX.Core
                     if (slot.Species != evo.Species)
                         continue;
 
-                    // Ignore met level comparison; we already know it is permissible to boost to level 60.
+                    // Ignore max met level comparison; we already know it is permissible to boost to level 60.
+                    if (slot.LevelMin > 60)
+                        break; // Can't downlevel, only boost to 60.
 
                     if (slot.Form != evo.Form && !AltFormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;

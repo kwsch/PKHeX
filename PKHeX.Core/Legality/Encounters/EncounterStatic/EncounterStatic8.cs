@@ -12,9 +12,10 @@ namespace PKHeX.Core
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             var met = pkm.Met_Level;
-            if (met == Level)
+            var lvl = Level;
+            if (met == lvl)
                 return true;
-            if (EncounterArea8.IsBoostedArea60(Location))
+            if (lvl < 60 && EncounterArea8.IsBoostedArea60(Location))
                 return met == 60;
             return false;
         }
