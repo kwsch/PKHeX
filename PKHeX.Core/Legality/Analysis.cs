@@ -451,13 +451,14 @@ namespace PKHeX.Core
         /// </summary>
         public IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter()
         {
-            if (Info.RelearnBase.Count == 0 || Info.Generation < 6)
+            var parsed = VerifyRelearnMoves.GetSuggestedRelearn(pkm, Info.EncounterOriginal, Info.Relearn);
+            if (parsed.Count == 0) // Always true for Origins < 6 and encounters without relearn permitted.
                 return new int[4];
 
             if (!EncounterMatch.EggEncounter)
-                return Info.RelearnBase;
+                return parsed;
 
-            List<int> window = new List<int>(Info.RelearnBase.Where(z => z != 0));
+            List<int> window = new List<int>(parsed.Where(z => z != 0));
             window.AddRange(pkm.Moves.Where((_, i) => Info.Moves[i].ShouldBeInRelearnMoves()));
             window = window.Distinct().ToList();
             int[] moves = new int[4];

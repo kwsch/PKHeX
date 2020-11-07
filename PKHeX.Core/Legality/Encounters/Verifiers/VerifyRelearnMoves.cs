@@ -11,23 +11,35 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
-        private static readonly int[] RelearnEmpty = new int[4];
-
-        public static CheckResult[] VerifyRelearn(PKM pkm, LegalInfo info)
+        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc)
         {
-            if (info.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
-                return VerifyRelearnNone(pkm, info);
+            if (enc.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
+                return VerifyRelearnNone(pkm);
 
-            return info.EncounterMatch switch
+            return enc switch
             {
-                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, info, s.Relearn),
-                EncounterEgg e => VerifyRelearnEggBase(pkm, info, e),
-                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, info),
-                _ => VerifyRelearnNone(pkm, info)
+                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn),
+                EncounterEgg e => VerifyRelearnEggBase(pkm, e),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm),
+                _ => VerifyRelearnNone(pkm)
             };
         }
 
-        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, LegalInfo info, IReadOnlyList<int> required)
+        public static IReadOnlyList<int> GetSuggestedRelearn(PKM pkm, IEncounterable enc, CheckResult[] relearn)
+        {
+            if (enc.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
+                return Array.Empty<int>();
+
+            return enc switch
+            {
+                IRelearn s when s.Relearn.Count > 0 => s.Relearn,
+                EncounterEgg e => MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, e.Level),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => relearn.All(r => r.Valid) ? pkm.RelearnMoves : Array.Empty<int>(),
+                _ => Array.Empty<int>(),
+            };
+        }
+
+        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required)
         {
             CheckResult[] res = new CheckResult[4];
             int[] relearn = pkm.RelearnMoves;
@@ -39,18 +51,17 @@ namespace PKHeX.Core
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
-            info.RelearnBase = required;
             return res;
         }
 
-        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnDexNav(PKM pkm)
         {
             var result = new CheckResult[4];
             int[] relearn = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
             var baseSpec = EvoBase.GetBaseSpecies(pkm);
-            result[0] = !MoveList.GetValidRelearn(pkm, baseSpec.Species, baseSpec.Form, true).Contains(relearn[0])
+            result[0] = !MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR).Contains(relearn[0])
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : new CheckResult(CheckIdentifier.RelearnMove);
 
@@ -62,15 +73,10 @@ namespace PKHeX.Core
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
-            // Update the relearn base moves if the first relearn move is okay.
-            info.RelearnBase = result[0].Valid
-                ? relearn
-                : RelearnEmpty;
-
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnNone(PKM pkm, LegalInfo info)
+        private static CheckResult[] VerifyRelearnNone(PKM pkm)
         {
             var result = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
@@ -83,11 +89,10 @@ namespace PKHeX.Core
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
-            info.RelearnBase = RelearnEmpty;
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, LegalInfo info, EncounterEgg e)
+        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, EncounterEgg e)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
             var result = new CheckResult[4];
@@ -121,7 +126,6 @@ namespace PKHeX.Core
             if (splitInvalid && e is EncounterEggSplit x)
                 FlagSplitbreedMoves(result, reqBase, x);
 
-            info.RelearnBase = baseMoves;
             return result;
         }
 

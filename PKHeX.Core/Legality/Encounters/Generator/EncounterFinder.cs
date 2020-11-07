@@ -69,7 +69,7 @@ namespace PKHeX.Core
         {
             if (pkm.Format >= 6)
             {
-                info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
+                info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal);
                 if (info.Relearn.Any(z => !z.Valid) && iterator.PeekIsNext())
                     return false;
             }
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             string hint = GetHintWhyNotFound(pkm);
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
-            info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info);
+            info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
             return info;
         }

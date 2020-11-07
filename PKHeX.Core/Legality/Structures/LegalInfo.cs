@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -41,9 +40,6 @@ namespace PKHeX.Core
 
         internal IEncounterable? EncounterOriginalGB;
         private IEncounterable _match = EncounterInvalid.Default;
-
-        /// <summary>Base Relearn Moves for the <see cref="EncounterMatch"/>.</summary>
-        public IReadOnlyList<int> RelearnBase { get; internal set; } = Array.Empty<int>();
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
         public readonly List<CheckResult> Parse = new List<CheckResult>();
