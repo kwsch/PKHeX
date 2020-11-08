@@ -172,7 +172,7 @@ namespace PKHeX.Core
         {
             // Stadium 1: Psyduck
             new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
-            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "Stade", "Stadio", "Estadio"}, Language = International }, // Stadium Psyduck (Amnesia)
+            new EncounterStatic1E(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "STADE", "STADIO", "ESTADIO"}, Language = International }, // Stadium Psyduck (Amnesia)
 
             new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = International }, // Yoshira Mew Events
             new EncounterStatic1E(151, 5, RB) {IVs = Yoshira, OT_Names = TourOT, Language = International }, // Pokémon 2000 Stadium Tour Mew
