@@ -79,6 +79,9 @@
         /// <summary> Generation 6 Gift from Pokémon Link </summary>
         public const int LinkGift6 = 30011;
 
+        /// <summary> Generation 8 Transfer from GO to Pokémon HOME </summary>
+        public const int GO8 = 30012;
+
         /// <summary> Generation 8 Gift from Pokémon HOME </summary>
         public const int HOME8 = 30018;
 

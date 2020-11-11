@@ -86,7 +86,7 @@ namespace PKHeX.Core
                 5 => WildPokeBalls5,
                 6 => WildPokeballs6,
                 7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
-                8 => WildPokeballs8,
+                8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
                 _ => Array.Empty<int>()
             };
         }

@@ -12,6 +12,7 @@ using static PKHeX.Core.Encounters6;
 using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
+using static PKHeX.Core.EncountersGO;
 
 namespace PKHeX.Core
 {
@@ -178,7 +179,11 @@ namespace PKHeX.Core
 
                 case GameVersion.GP: return SlotsGP;
                 case GameVersion.GE: return SlotsGE;
-                case GameVersion.GO: return SlotsGO_GG;
+                case GameVersion.GO:
+                    if (pkm.Met_Location == Locations.GO8)
+                        return SlotsGO;
+                    else // LGPE GO
+                        return SlotsGO_GG;
 
                 case GameVersion.SW: return SlotsSW;
                 case GameVersion.SH: return SlotsSH;

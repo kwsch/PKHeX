@@ -36,6 +36,9 @@ namespace PKHeX.Core
                 case EncounterStatic8N r when r.IsDownLeveled(pkm): // Downleveled Raid can happen for shared raids and self-hosted raids.
                     moves.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, r.Species, -1, -1, r.LevelMax, r.Form, GameVersion.SW, false, 8));
                     break;
+                case EncounterSlot8GO g:
+                    moves.AddRange(MoveLevelUp.GetEncounterMoves(g.Species, g.Form, pkm.Met_Level, g.OriginGroup));
+                    break;
             }
         }
 
