@@ -90,6 +90,10 @@ namespace PKHeX.Core
         // Location, and areas that it can feed encounters to.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>
         {
+            // Route 3
+            // City of Motostoke
+            {28, new byte[] {20}},
+
             // Rolling Fields
             // Dappled Grove, East Lake Axewell, West Lake Axewell
             // Also connects to South Lake Miloch but too much of a stretch
