@@ -140,6 +140,8 @@ namespace PKHeX.Core
         public static IEnumerable<IEncounterable> GenerateVersionEncounters(PKM pk, IEnumerable<int> moves, GameVersion version)
         {
             pk.Version = (int)version;
+            if (version == GameVersion.GO && pk.Format >= 8)
+                pk.Met_Location = Locations.GO8; // needed to yield the GO->HOME table instead of GO->LGPE. HOME is a superset of LGPE's possible encounters.
             var et = EvolutionTree.GetEvolutionTree(pk.Format);
             var chain = et.GetValidPreEvolutions(pk, maxLevel: 100, skipChecks: true);
             int[] needs = GetNeededMoves(pk, moves, chain);
