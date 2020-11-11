@@ -250,14 +250,24 @@ namespace PKHeX.Core
         /// <returns>Index the <see cref="PKM.AltForm"/> exists as in the <see cref="PersonalTable"/>.</returns>
         public int FormeIndex(int species, int forme)
         {
-            if (forme <= 0) // no forme requested
+            if (!HasForme(forme))
                 return species;
-            if (FormStatsIndex <= 0) // no formes present
-                return species;
-            if (forme >= FormeCount) // beyond range of species' formes
-                return species;
-
             return FormStatsIndex + forme - 1;
+        }
+
+        /// <summary>
+        /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.AltForm"/> entry index available.
+        /// </summary>
+        /// <param name="forme"><see cref="PKM.AltForm"/> to retrieve for</param>
+        public bool HasForme(int forme)
+        {
+            if (forme <= 0) // no forme requested
+                return false;
+            if (FormStatsIndex <= 0) // no formes present
+                return false;
+            if (forme >= FormeCount) // beyond range of species' formes
+                return false;
+            return true;
         }
 
         /// <summary>

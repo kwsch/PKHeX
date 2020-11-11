@@ -33,11 +33,12 @@ namespace PKHeX.Core
             // Gen8: GO transfers to HOME can send Mew. Iterate from here.
             // However, Mew transfers with LGPE base moves. Because everything <= 151 uses LGPE level-up table. Handle manually!
             yield return GetSlot(area, (int)Species.Mew, 0, GameVersion.GG);
-            const int start = (int)Species.Mew + 1;
+            const int start = 1;
             var speciesList = Enumerable.Range(start, maxSpecies - start + 1).Concat(extras);
 
             var pt7 = PersonalTable.USUM;
             var pt8 = PersonalTable.SWSH;
+            var ptGG = PersonalTable.GG;
             foreach (var species in speciesList)
             {
                 if (banlist.Contains(species))
@@ -48,16 +49,20 @@ namespace PKHeX.Core
                 {
                     for (int f = 0; f < pi8.FormeCount; f++)
                     {
+                        if ((species <= 151 || species == 808 || species == 809) && ptGG[species].HasForme(f))
+                            continue; // Already yielded by LGP/E table
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
                         yield return GetSlot(area, species, f, GameVersion.SWSH);
                     }
                 }
-                else if (species <= Legal.MaxAbilityID_7_USUM)
+                else if (species <= Legal.MaxSpeciesID_7_USUM)
                 {
                     var pi7 = pt7[species];
                     for (int f = 0; f < pi7.FormeCount; f++)
                     {
+                        if (species <= 151 && ptGG[species].HasForme(f))
+                            continue; // Already yielded by LGP/E table
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
                         yield return GetSlot(area, species, f, GameVersion.USUM);
