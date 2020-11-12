@@ -66,7 +66,7 @@ namespace PKHeX.Core
             {
                 case 6: VerifyIVsGen6(data, w); break;
                 case 7: VerifyIVsGen7(data); break;
-                // case 8: VerifyIVsGen8(data); break; // No rules for IV generation.
+                case 8: VerifyIVsGen8(data); break;
             }
         }
 
@@ -77,6 +77,13 @@ namespace PKHeX.Core
                 VerifyIVsGoTransfer(data);
             else if (pkm.AbilityNumber == 4 && !AbilityVerifier.CanAbilityPatch(pkm.Format, pkm.PersonalInfo.Abilities, pkm.Species))
                 VerifyIVsFlawless(data, 2); // Chain of 10 yields 5% HA and 2 flawless IVs
+        }
+
+        private void VerifyIVsGen8(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.GO)
+                VerifyIVsGoTransfer(data);
         }
 
         private void VerifyIVsGen6(LegalityAnalysis data, EncounterSlot w)

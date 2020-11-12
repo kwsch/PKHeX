@@ -201,7 +201,7 @@ namespace PKHeX.Core
                     {
                         // We're okay with a Mime Jr. that has evolved via level up.
                     }
-                    else
+                    else if (EncounterMatch.Version != GameVersion.GO)
                     {
                         return GetInvalid(LFormInvalidGame);
                     }
