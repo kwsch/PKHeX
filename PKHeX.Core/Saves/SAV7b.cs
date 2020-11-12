@@ -169,8 +169,8 @@ namespace PKHeX.Core
         /// <remarks>Flag is Set (true) or not Set (false)</remarks>
         public override void SetEventFlag(int flagNumber, bool value) => Blocks.EventWork.SetFlag(flagNumber, value);
 
-        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.Flags; set => Blocks.GiftRecords.Flags = value; }
-        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.Records; set => Blocks.GiftRecords.Records = (WR7[])value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.GiftRecords.GetFlags(); set => Blocks.GiftRecords.SetFlags(value); }
+        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.GiftRecords.GetRecords(); set => Blocks.GiftRecords.SetRecords((WR7[])value); }
 
         public int GameSyncIDSize => MyStatus7b.GameSyncIDSize; // 64 bits
         public string GameSyncID { get => Blocks.Status.GameSyncID; set => Blocks.Status.GameSyncID = value; }

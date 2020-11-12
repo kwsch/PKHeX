@@ -10,28 +10,28 @@ namespace PKHeX.Core
     public static class EncounterEvent
     {
         /// <summary>Event Database for Generation 3</summary>
-        public static WC3[] MGDB_G3 { get; private set; } = Array.Empty<WC3>();
+        public static IReadOnlyList<WC3> MGDB_G3 { get; private set; } = Array.Empty<WC3>();
 
         /// <summary>Event Database for Generation 4</summary>
-        public static PCD[] MGDB_G4 { get; private set; } = Array.Empty<PCD>();
+        public static IReadOnlyList<PCD> MGDB_G4 { get; private set; } = Array.Empty<PCD>();
 
         /// <summary>Event Database for Generation 5</summary>
-        public static PGF[] MGDB_G5 { get; private set; } = Array.Empty<PGF>();
+        public static IReadOnlyList<PGF> MGDB_G5 { get; private set; } = Array.Empty<PGF>();
 
         /// <summary>Event Database for Generation 6</summary>
-        public static WC6[] MGDB_G6 { get; private set; } = Array.Empty<WC6>();
+        public static IReadOnlyList<WC6> MGDB_G6 { get; private set; } = Array.Empty<WC6>();
 
         /// <summary>Event Database for Generation 7</summary>
-        public static WC7[] MGDB_G7 { get; private set; } = Array.Empty<WC7>();
+        public static IReadOnlyList<WC7> MGDB_G7 { get; private set; } = Array.Empty<WC7>();
 
         /// <summary>Event Database for Generation 7 <see cref="GameVersion.GG"/></summary>
-        public static WB7[] MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
+        public static IReadOnlyList<WB7> MGDB_G7GG { get; private set; } = Array.Empty<WB7>();
 
         /// <summary>Event Database for Generation 8</summary>
-        public static WC8[] MGDB_G8 { get; private set; } = Array.Empty<WC8>();
+        public static IReadOnlyList<WC8> MGDB_G8 { get; private set; } = Array.Empty<WC8>();
 
         /// <summary>Indicates if the databases are initialized.</summary>
-        public static bool Initialized => MGDB_G3.Length != 0;
+        public static bool Initialized => MGDB_G3.Count != 0;
 
         private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
 
@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetAllEvents(bool sorted = true)
         {
-            var regular = new MysteryGift[][]
+            var regular = new IReadOnlyList<MysteryGift>[]
             {
                 MGDB_G4,
                 MGDB_G5,

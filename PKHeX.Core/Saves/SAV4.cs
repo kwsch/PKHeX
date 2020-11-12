@@ -956,7 +956,10 @@ namespace PKHeX.Core
 
         // Seals
         private const byte SealMaxCount = 99;
-        public byte[] SealCase { get => General.Slice(Seal, (int) Seal4.MAX); set => SetData(General, value, Seal); }
+
+        public byte[] GetSealCase() => General.Slice(Seal, (int)Seal4.MAX);
+        public void SetSealCase(byte[] value) => SetData(General, value, Seal);
+
         public byte GetSealCount(Seal4 id) => General[Seal + (int)id];
         public byte SetSealCount(Seal4 id, byte count) => General[Seal + (int)id] = Math.Min(SealMaxCount, count);
 

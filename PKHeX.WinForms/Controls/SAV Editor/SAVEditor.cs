@@ -37,10 +37,8 @@ namespace PKHeX.WinForms.Controls
         public bool ModifyPKM { private get; set; }
         private bool _hideSecret;
         public bool HideSecretDetails { private get => _hideSecret; set => ToggleSecrets(SAV, _hideSecret = value); }
-#pragma warning disable CA2213
         public ToolStripMenuItem Menu_Redo { get; set; } = null!;
         public ToolStripMenuItem Menu_Undo { get; set; } = null!;
-#pragma warning restore CS8622
         private bool FieldsLoaded;
 
         public IList<PictureBox> SlotPictureBoxes { get; }

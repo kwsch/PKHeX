@@ -88,12 +88,12 @@ namespace PKHeX.WinForms
             NUD_Item6.Value = LinkInfo.Quantity_6;
 
             // Pokemon slots
-            TB_PKM1.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[0].Species];
-            TB_PKM2.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[1].Species];
-            TB_PKM3.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[2].Species];
-            TB_PKM4.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[3].Species];
-            TB_PKM5.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[4].Species];
-            TB_PKM6.Text = GameInfo.Strings.specieslist[LinkInfo.Pokes[5].Species];
+            TB_PKM1.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_1.Species];
+            TB_PKM2.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_2.Species];
+            TB_PKM3.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_3.Species];
+            TB_PKM4.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_4.Species];
+            TB_PKM5.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_5.Species];
+            TB_PKM6.Text = GameInfo.Strings.specieslist[LinkInfo.Poke_6.Species];
         }
     }
 }

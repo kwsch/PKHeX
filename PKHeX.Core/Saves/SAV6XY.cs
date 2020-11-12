@@ -149,8 +149,8 @@ namespace PKHeX.Core
             }
         }
 
-        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.MysteryGiftReceivedFlags; set => Blocks.MysteryGift.MysteryGiftReceivedFlags = value; }
-        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.MysteryGiftCards; set => Blocks.MysteryGift.MysteryGiftCards = value; }
+        protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
+        protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }
 
         public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Blocks.Zukan.GetSeen(species);

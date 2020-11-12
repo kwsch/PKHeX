@@ -61,7 +61,7 @@ namespace PKHeX.Core
                 return INVALID;
             if (country >= RegionList.Length)
                 return INVALID;
-            var regionNames = RegionList[country] ?? (RegionList[country] = GetRegionList(country));
+            var regionNames = RegionList[country] ??= GetRegionList(country);
             if (region >= regionNames.Length)
                 return INVALID;
             var localized = regionNames[region];

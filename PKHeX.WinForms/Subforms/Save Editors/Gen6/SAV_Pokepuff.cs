@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (ISaveBlock6Main)sav;
 
-            var puffs = SAV.Puff.Puffs;
+            var puffs = SAV.Puff.GetPuffs();
             Setup(puffs.Length);
             LoadPuffs(puffs);
 
@@ -85,19 +85,19 @@ namespace PKHeX.WinForms
         private void B_All_Click(object sender, EventArgs e)
         {
             SAV.Puff.MaxCheat(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private void B_None_Click(object sender, EventArgs e)
         {
             SAV.Puff.Reset();
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private void B_Sort_Click(object sender, EventArgs e)
         {
             SAV.Puff.Sort(ModifierKeys == Keys.Control);
-            LoadPuffs(SAV.Puff.Puffs);
+            LoadPuffs(SAV.Puff.GetPuffs());
         }
 
         private byte[] GetPuffs()
@@ -115,7 +115,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             var puffs = GetPuffs();
-            SAV.Puff.Puffs = puffs;
+            SAV.Puff.SetPuffs(puffs);
             SAV.Puff.PuffCount = puffs.Length;
             Close();
         }

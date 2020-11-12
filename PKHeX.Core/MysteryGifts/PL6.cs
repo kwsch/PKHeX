@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace PKHeX.Core
@@ -66,61 +67,6 @@ namespace PKHeX.Core
 
         public int BattlePoints { get => BitConverter.ToUInt16(Data, 0x4A1); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A1); }
         public int Pokemiles { get => BitConverter.ToUInt16(Data, 0x4A3); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x4A3); }
-
-        public uint[] Flags
-        {
-            get => new[] { Flags_1, Flags_2, Flags_3, Flags_4, Flags_5, Flags_6 }; set
-            {
-                if (value.Length > 0) Flags_1 = value[0];
-                if (value.Length > 1) Flags_2 = value[1];
-                if (value.Length > 2) Flags_3 = value[2];
-                if (value.Length > 3) Flags_4 = value[3];
-                if (value.Length > 4) Flags_5 = value[4];
-                if (value.Length > 5) Flags_6 = value[5];
-            }
-        }
-
-        public PL6_PKM[] Pokes
-        {
-            get => new[] { Poke_1, Poke_2, Poke_3, Poke_4, Poke_5, Poke_6 };
-            set
-            {
-                if (value.Length > 0) Poke_1 = value[0];
-                if (value.Length > 1) Poke_2 = value[1];
-                if (value.Length > 2) Poke_3 = value[2];
-                if (value.Length > 3) Poke_4 = value[3];
-                if (value.Length > 4) Poke_5 = value[4];
-                if (value.Length > 5) Poke_6 = value[5];
-            }
-        }
-
-        public int[] Items
-        {
-            get => new[] { Item_1, Item_2, Item_3, Item_4, Item_5, Item_6 };
-            set
-            {
-                if (value.Length > 0) Item_1 = value[0];
-                if (value.Length > 1) Item_2 = value[1];
-                if (value.Length > 2) Item_3 = value[2];
-                if (value.Length > 3) Item_4 = value[3];
-                if (value.Length > 4) Item_5 = value[4];
-                if (value.Length > 5) Item_6 = value[5];
-            }
-        }
-
-        public int[] Quantities
-        {
-            get => new[] { Quantity_1, Quantity_2, Quantity_3, Quantity_4, Quantity_5, Quantity_6 };
-            set
-            {
-                if (value.Length > 0) Quantity_1 = value[0];
-                if (value.Length > 1) Quantity_2 = value[1];
-                if (value.Length > 2) Quantity_3 = value[2];
-                if (value.Length > 3) Quantity_4 = value[3];
-                if (value.Length > 4) Quantity_5 = value[4];
-                if (value.Length > 5) Quantity_6 = value[5];
-            }
-        }
     }
 
     /// <summary>
@@ -224,27 +170,27 @@ namespace PKHeX.Core
         public int LevelMin => MetLevel;
         public int LevelMax => MetLevel;
 
-        public int[] Moves
+        public IReadOnlyList<int> Moves
         {
             get => new[] { Move1, Move2, Move3, Move4 };
             set
             {
-                if (value.Length > 0) Move1 = value[0];
-                if (value.Length > 1) Move2 = value[1];
-                if (value.Length > 2) Move3 = value[2];
-                if (value.Length > 3) Move4 = value[3];
+                if (value.Count > 0) Move1 = value[0];
+                if (value.Count > 1) Move2 = value[1];
+                if (value.Count > 2) Move3 = value[2];
+                if (value.Count > 3) Move4 = value[3];
             }
         }
 
-        public int[] RelearnMoves
+        public IReadOnlyList<int> RelearnMoves
         {
             get => new[] { RelearnMove1, RelearnMove2, RelearnMove3, RelearnMove4 };
             set
             {
-                if (value.Length > 0) RelearnMove1 = value[0];
-                if (value.Length > 1) RelearnMove2 = value[1];
-                if (value.Length > 2) RelearnMove3 = value[2];
-                if (value.Length > 3) RelearnMove4 = value[3];
+                if (value.Count > 0) RelearnMove1 = value[0];
+                if (value.Count > 1) RelearnMove2 = value[1];
+                if (value.Count > 2) RelearnMove3 = value[2];
+                if (value.Count > 3) RelearnMove4 = value[3];
             }
         }
     }
