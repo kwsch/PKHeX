@@ -118,14 +118,17 @@ namespace PKHeX.Core
             if (!pi.IsPresentInGame) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
+                return;
             }
-            else if (data.EncounterMatch.Version == GameVersion.GO)
+
+            var enc = data.EncounterMatch;
+            if (enc.Version == GameVersion.GO || (enc is WC8 wc && wc.IsHOMEGift))
             {
                 VerifyHOMETracker(data, pkm);
             }
-            else if (data.Info.Generation < 8 && pkm.Format >= 8)
+            else if (enc.Generation < 8 && pkm.Format >= 8)
             {
-                if (data.EncounterMatch is EncounterStatic7 s && FormConverter.IsTotemForm(s.Species, s.Form, 7))
+                if (enc is EncounterStatic7 s && FormConverter.IsTotemForm(s.Species, s.Form, 7))
                 {
                     if (Legal.Totem_NoTransfer.Contains(s.Species))
                         data.AddLine(GetInvalid(LTransferBad));
