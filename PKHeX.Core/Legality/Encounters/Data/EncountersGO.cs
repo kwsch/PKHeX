@@ -9,7 +9,7 @@ namespace PKHeX.Core
     internal static class EncountersGO
     {
         /// <summary> Clamp for generating encounters; no species allowed above this value except for those in <see cref="ExtraSpecies"/>. </summary>
-        private const int MaxSpeciesID_GO_HOME = Legal.MaxSpeciesID_6;
+        private const int MaxSpeciesID_GO_HOME = Legal.MaxSpeciesID_5;
 
         /// <summary> When generating encounters, these species will be skipped. </summary>
         private static readonly HashSet<int> DisallowedSpecies = new HashSet<int>
@@ -25,6 +25,7 @@ namespace PKHeX.Core
 
             (int)Obstagoon,
             (int)Perrserker,
+            (int)Sirfetchd,
             (int)Runerigus,
         };
 

@@ -298,9 +298,11 @@ namespace PKHeX.Core
         public bool SWSH => Version == (int)GameVersion.SW || Version == (int)GameVersion.SH;
 
         protected bool PtHGSS => Pt || HGSS;
+        public bool GO_LGPE => GO && Met_Location == 50;
+        public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;
-        public bool GG => LGPE || GO;
-        public bool Gen8 => Version >= 44 && Version <= 45;
+        public bool GG => LGPE || GO_LGPE;
+        public bool Gen8 => (Version >= 44 && Version <= 45) || GO_HOME;
         public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
         public bool Gen6 => Version >= 24 && Version <= 29;
         public bool Gen5 => Version >= 20 && Version <= 23;

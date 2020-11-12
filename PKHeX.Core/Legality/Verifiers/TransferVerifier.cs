@@ -119,34 +119,48 @@ namespace PKHeX.Core
             {
                 data.AddLine(GetInvalid(LTransferBad));
             }
+            else if (data.EncounterMatch.Version == GameVersion.GO)
+            {
+                VerifyHOMETracker(data, pkm);
+            }
             else if (data.Info.Generation < 8 && pkm.Format >= 8)
             {
-                if (!pkm.GG && pkm is IScaledSize s)
+                if (data.EncounterMatch is EncounterStatic7 s && FormConverter.IsTotemForm(s.Species, s.Form, 7))
                 {
-                    if (s.HeightScalar != 0)
+                    if (Legal.Totem_NoTransfer.Contains(s.Species))
                         data.AddLine(GetInvalid(LTransferBad));
-                    if (s.WeightScalar != 0)
+                    if (pkm.AltForm != FormConverter.GetTotemBaseForm(s.Species, s.Form))
                         data.AddLine(GetInvalid(LTransferBad));
-
-                    var enc = data.EncounterMatch;
-                    if (data.Info.Generation == 7 && FormConverter.IsTotemForm(enc.Species, enc.Form, 7))
-                    {
-                        if (Legal.Totem_NoTransfer.Contains(data.EncounterMatch.Species))
-                            data.AddLine(GetInvalid(LTransferBad));
-                        if (pkm.AltForm != FormConverter.GetTotemBaseForm(enc.Species, enc.Form))
-                            data.AddLine(GetInvalid(LTransferBad));
-                    }
                 }
 
-                // Tracker value is set via Transfer across HOME.
-                // Can't validate the actual values (we aren't the server), so we can only check against zero.
-                if (pkm is IHomeTrack home && home.Tracker == 0)
-                {
-                    data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
-                    // To the reader: It seems like the best course of action for setting a tracker is:
-                    // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
-                    // - Don't make one up.
-                }
+                VerifyHOMETransfer(data, pkm);
+                VerifyHOMETracker(data, pkm);
+            }
+        }
+
+        private void VerifyHOMETransfer(LegalityAnalysis data, PKM pkm)
+        {
+            if (!(pkm is IScaledSize s))
+                return;
+
+            if (pkm.LGPE || pkm.GO)
+                return; // can have any size value
+            if (s.HeightScalar != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+            if (s.WeightScalar != 0)
+                data.AddLine(GetInvalid(LTransferBad));
+        }
+
+        private void VerifyHOMETracker(LegalityAnalysis data, PKM pkm)
+        {
+            // Tracker value is set via Transfer across HOME.
+            // Can't validate the actual values (we aren't the server), so we can only check against zero.
+            if (pkm is IHomeTrack home && home.Tracker == 0)
+            {
+                data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
+                // To the reader: It seems like the best course of action for setting a tracker is:
+                // - Transfer a 0-Tracker pkm to HOME to get assigned a valid Tracker
+                // - Don't make one up.
             }
         }
 
