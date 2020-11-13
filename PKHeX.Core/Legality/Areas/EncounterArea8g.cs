@@ -82,6 +82,8 @@ namespace PKHeX.Core
                 return true;
             if (AltFormInfo.IsFusedForm(species, f, 8))
                 return true;
+            if (species == (int) Species.Mothim)
+                return f != 0; // Reverts to Plant Cloak on transfer.
             return false;
         }
 
