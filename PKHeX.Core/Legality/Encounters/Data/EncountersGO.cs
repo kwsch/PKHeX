@@ -793,7 +793,7 @@ namespace PKHeX.Core
                     return true;
             }
 
-            return UnavailableShiny.Contains(sf);
+            return !UnavailableShiny.Contains(sf);
         }
     }
 }

@@ -53,7 +53,7 @@ namespace PKHeX.Core
                             continue;
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
-                        bool lgpe = (species <= 151 || species == 808 || species == 809) && ptGG[species].HasForme(f);
+                        bool lgpe = (species <= 151 || species == 808 || species == 809) && (f == 0 || ptGG[species].HasForme(f));
                         var game = lgpe ? GameVersion.GG : GameVersion.SWSH;
                         yield return GetSlot(area, species, f, game);
                     }
@@ -68,7 +68,7 @@ namespace PKHeX.Core
                             continue;
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
-                        bool lgpe = species <= 151 && ptGG[species].HasForme(f);
+                        bool lgpe = species <= 151 && (f == 0 || ptGG[species].HasForme(f));
                         var game = lgpe ? GameVersion.GG : GameVersion.USUM;
                         yield return GetSlot(area, species, f, game);
                     }
