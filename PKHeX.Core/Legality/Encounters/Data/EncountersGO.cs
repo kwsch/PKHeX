@@ -702,7 +702,7 @@ namespace PKHeX.Core
             (int)Kyurem,
         };
 
-        private static readonly HashSet<int> RequireLevelIV_Raid15_10 = new HashSet<int>
+        private static readonly HashSet<int> RequireLevelIV_Field15_10 = new HashSet<int>
         {
             // Field Research (Mythical)
             // Minimum Lvl: 15
@@ -734,12 +734,15 @@ namespace PKHeX.Core
                 return false;
 
             var sf = species | (form << 11);
+            if (ball == Ball.Premier && AvailableAsRaids.Contains(sf))
+                return true;
             if (RequireLevelIV_Raid15_1.Contains(sf))
-                return ball == Ball.Premier;
-            if (RequireLevelIV_Raid15_10.Contains(sf))
                 return ball == Ball.Premier;
             if (RequireLevelIV_Raid20_10.Contains(sf))
                 return ball == Ball.Premier;
+
+            if (RequireLevelIV_Field15_10.Contains(sf))
+                return ball == Ball.Poke;
 
             if (RequireLevelIV_Egg1_1.Contains(sf) || RequireLevelIV_EggShiny1_1.Contains(sf))
                 return ball == Ball.Poke;
@@ -752,7 +755,7 @@ namespace PKHeX.Core
             var sf = species | (form << 11);
             if (RequireLevelIV_Raid15_1.Contains(sf))
                 return 15;
-            if (RequireLevelIV_Raid15_10.Contains(sf))
+            if (RequireLevelIV_Field15_10.Contains(sf))
                 return 15;
             if (RequireLevelIV_Raid20_10.Contains(sf))
                 return 20;
@@ -766,7 +769,7 @@ namespace PKHeX.Core
             {
                 if (RequireLevelIV_Raid15_1.Contains(sf))
                     return 1;
-                if (RequireLevelIV_Raid15_10.Contains(sf))
+                if (RequireLevelIV_Field15_10.Contains(sf))
                     return 10;
                 if (RequireLevelIV_Raid20_10.Contains(sf))
                     return 10;
