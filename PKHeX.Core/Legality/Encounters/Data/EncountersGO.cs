@@ -313,6 +313,27 @@ namespace PKHeX.Core
             (int)Snover, (int)Abomasnow,
         };
 
+        private static readonly HashSet<int> PurifiedShiny = new HashSet<int>
+        {
+            (int)Ekans, (int)Arbok,
+            (int)Meowth, (int)Persian,
+            (int)Growlithe, (int)Arcanine,
+            (int)Grimer, (int)Muk,
+            (int)Drowzee, (int)Hypno,
+            (int)Koffing, (int)Weezing,
+            (int)Scyther, (int)Scizor,
+            (int)Pinsir,
+            (int)Lapras,
+            (int)Omanyte, (int)Omastar,
+            (int)Pineco, (int)Forretress,
+            (int)Sneasel, (int)Weavile,
+            (int)Stantler,
+            (int)Mawile,
+            (int)Absol,
+            (int)Bagon, (int)Shelgon, (int)Salamence,
+            (int)Beldum, (int)Metang, (int)Metagross,
+        };
+
         /// <summary> Premier Ball Legality </summary>
         private static readonly HashSet<int> AvailableAsRaids = new HashSet<int>(Purified)
         {
@@ -760,11 +781,14 @@ namespace PKHeX.Core
             return 0;
         }
 
-        public static bool IsShinyValid(int species, int form, Ball pkmBall)
+        public static bool IsShinyValid(int species, int form, Ball ball)
         {
             var sf = species | (form << 11);
-            if (pkmBall == Ball.Premier)
-                return false;
+            if (ball == Ball.Premier)
+            {
+                if (PurifiedShiny.Contains(sf))
+                    return true;
+            }
 
             return UnavailableShiny.Contains(sf);
         }
