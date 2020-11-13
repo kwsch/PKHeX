@@ -704,24 +704,6 @@ namespace PKHeX.Core
             (int)Darkrai,
         };
 
-        private static readonly HashSet<int> ShinyBan_LGPE = new HashSet<int>
-        {
-            (int)Spearow, (int)Fearow,
-            (int)Paras, (int)Parasect,
-            (int)Slowpoke, (int)Slowbro,
-            (int)Hitmonlee, (int)Hitmonchan,
-            (int)Goldeen, (int)Seaking,
-            (int)Ditto,
-            (int)Snorlax,
-        };
-
-        private static readonly HashSet<int> ShinyBan = new HashSet<int>(ShinyBan_LGPE)
-        {
-            (int)Mew,
-
-            // ??
-        };
-
         internal static readonly EncounterArea7g[] SlotsGO_GG = EncounterArea7g.GetArea(RequireLevelIV_Raid15_1_LGPE);
         internal static readonly EncounterArea8g[] SlotsGO = EncounterArea8g.GetArea(MaxSpeciesID_GO_HOME, DisallowedSpecies, ExtraSpecies);
 
@@ -741,7 +723,7 @@ namespace PKHeX.Core
             if (RequireLevelIV_Egg1_1.Contains(sf) || RequireLevelIV_EggShiny1_1.Contains(sf))
                 return ball == Ball.Poke;
 
-            return ball <= Ball.Ultra;
+            return Ball.Ultra <= ball && ball <= Ball.Poke;
         }
 
         internal static int GetMinLevel(int species, int form)
@@ -784,7 +766,7 @@ namespace PKHeX.Core
             if (pkmBall == Ball.Premier)
                 return false;
 
-            return ShinyBan.Contains(sf);
+            return UnavailableShiny.Contains(sf);
         }
     }
 }
