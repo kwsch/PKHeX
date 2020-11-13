@@ -278,17 +278,5 @@ namespace PKHeX.Core
         };
 
         #endregion
-
-        internal static readonly HashSet<int> GoTransferSpeciesShinyBan = new HashSet<int>
-        {
-            (int)Species.Spearow, (int)Species.Fearow,
-            (int)Species.Paras, (int)Species.Parasect,
-            (int)Species.Slowpoke, (int)Species.Slowbro,
-            (int)Species.Hitmonlee, (int)Species.Hitmonchan,
-            (int)Species.Goldeen, (int)Species.Seaking,
-            (int)Species.Ditto,
-            (int)Species.Snorlax,
-            (int)Species.Mew
-        };
     }
 }

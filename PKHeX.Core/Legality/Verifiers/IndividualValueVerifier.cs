@@ -111,14 +111,22 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (!IsGoIVSetValid(pkm))
+            {
                 data.AddLine(GetInvalid(LIVNotCorrect));
+            }
+            else if (data.EncounterMatch is EncounterSlot8GO g)
+            {
+                var minIV = EncountersGO.GetMinIVs(g.Species, g.Form, (Ball) pkm.Ball);
+                if (!IsGoIVSetValid(pkm, minIV))
+                    data.AddLine(GetInvalid(LIVNotCorrect));
+            }
 
             if (!pkm.IsShiny)
                 return;
-            var banlist = Legal.GoTransferSpeciesShinyBan;
 
-            // all Shiny Alola Forms are legal, while some of their respective Kanto Forms are not
-            if (banlist.Contains(pkm.Species) && pkm.AltForm != 1)
+            var enc = data.EncounterMatch;
+            bool shinyValid = EncountersGO.IsShinyValid(enc.Species, enc.Form, (Ball)pkm.Ball);
+            if (!shinyValid)
                 data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
 
@@ -135,6 +143,15 @@ namespace PKHeX.Core
             if ((pkm.GetIV(2) & 1) != 1 || pkm.GetIV(2) != pkm.GetIV(5)) // DEF=SPD
                 return false;
             return (pkm.GetIV(0) & 1) == 1; // HP
+        }
+
+        private static bool IsGoIVSetValid(PKM pkm, int min)
+        {
+            if (pkm.IV_ATK >> 1 < min) // ATK
+                return false;
+            if (pkm.IV_DEF >> 1 < min) // DEF
+                return false;
+            return pkm.IV_HP >> 1 >= min; // HP
         }
     }
 }

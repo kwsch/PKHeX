@@ -11,19 +11,17 @@ namespace PKHeX.Core
     {
         private EncounterArea8g() : base(GameVersion.GO) { }
 
-        internal static EncounterArea8g[] GetArea(EncounterArea7g lgpe, int maxSpecies, HashSet<int> banlist, IEnumerable<int> extras)
+        internal static EncounterArea8g[] GetArea(int maxSpecies, HashSet<int> banlist, IEnumerable<int> extras)
         {
             var area = new EncounterArea8g { Location = Locations.GO8, Type = SlotType.GoPark };
-
-            var lgpeEncounters = lgpe.Slots.Select(z => GetSlot(area, z.Species, z.Form, GameVersion.GG, z.LevelMin));
-            var other = GetSlots(area, maxSpecies, banlist, extras);
-
-            area.Slots = other.Concat(lgpeEncounters).ToArray();
+            var all = GetSlots(area, maxSpecies, banlist, extras);
+            area.Slots = all.ToArray();
             return new[] { area };
         }
 
-        private static EncounterSlot8GO GetSlot(EncounterArea8g area, int species, int form, GameVersion baseOrigin, int min = 1)
+        private static EncounterSlot8GO GetSlot(EncounterArea8g area, int species, int form, GameVersion baseOrigin)
         {
+            var min = EncountersGO.GetMinLevel(species, form);
             return new EncounterSlot8GO(area, species, form, baseOrigin, min, 40);
         }
 
@@ -39,8 +37,9 @@ namespace PKHeX.Core
             var pt7 = PersonalTable.USUM;
             var pt8 = PersonalTable.SWSH;
             var ptGG = PersonalTable.GG;
-            foreach (var species in speciesList)
+            foreach (var specform in speciesList)
             {
+                var species = specform & 0x7FF;
                 if (banlist.Contains(species))
                     continue;
 
@@ -49,11 +48,14 @@ namespace PKHeX.Core
                 {
                     for (int f = 0; f < pi8.FormeCount; f++)
                     {
-                        if ((species <= 151 || species == 808 || species == 809) && ptGG[species].HasForme(f))
-                            continue; // Already yielded by LGP/E table
+                        var sf = species | (f << 11);
+                        if (banlist.Contains(sf))
+                            continue;
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
-                        yield return GetSlot(area, species, f, GameVersion.SWSH);
+                        bool lgpe = (species <= 151 || species == 808 || species == 809) && ptGG[species].HasForme(f);
+                        var game = lgpe ? GameVersion.GG : GameVersion.SWSH;
+                        yield return GetSlot(area, species, f, game);
                     }
                 }
                 else if (species <= Legal.MaxSpeciesID_7_USUM)
@@ -61,11 +63,14 @@ namespace PKHeX.Core
                     var pi7 = pt7[species];
                     for (int f = 0; f < pi7.FormeCount; f++)
                     {
-                        if (species <= 151 && ptGG[species].HasForme(f))
-                            continue; // Already yielded by LGP/E table
+                        var sf = species | (f << 11);
+                        if (banlist.Contains(sf))
+                            continue;
                         if (IsDisallowedDuplicateForm(species, f))
                             continue;
-                        yield return GetSlot(area, species, f, GameVersion.USUM);
+                        bool lgpe = species <= 151 && ptGG[species].HasForme(f);
+                        var game = lgpe ? GameVersion.GG : GameVersion.USUM;
+                        yield return GetSlot(area, species, f, game);
                     }
                 }
             }

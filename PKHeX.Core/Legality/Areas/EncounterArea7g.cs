@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -11,49 +12,41 @@ namespace PKHeX.Core
     {
         private EncounterArea7g() : base(GameVersion.GO) { }
 
-        internal static EncounterArea7g[] GetArea()
+        internal static EncounterArea7g[] GetArea(HashSet<int> raid15)
         {
-            var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
-            static EncounterSlot7GO GetSlot(EncounterArea7g area, int species, int form)
+            var noForm = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
+            var forms = new[]
             {
-                return new EncounterSlot7GO(area, species, form, 1, 40);
-            }
-
-            var obtainable = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
-            var AlolanKanto = new byte[]
-            {
-                // Level 1+
-                019, // Rattata
-                020, // Raticate
-                027, // Sandshrew
-                028, // Sandslash
-                037, // Vulpix
-                038, // Ninetales
-                050, // Diglett
-                051, // Dugtrio
-                052, // Meowth
-                053, // Persian
-                074, // Geodude
-                075, // Graveler
-                076, // Golem
-                088, // Grimer
-                089, // Muk
-                103, // Exeggutor
-                105, // Marowak
-
-                // Level 15+
-                026, // Raichu
+                (byte)Rattata,
+                (byte)Raticate,
+                (byte)Raichu,
+                (byte)Sandshrew,
+                (byte)Sandslash,
+                (byte)Vulpix,
+                (byte)Ninetales,
+                (byte)Diglett,
+                (byte)Dugtrio,
+                (byte)Meowth,
+                (byte)Persian,
+                (byte)Geodude,
+                (byte)Graveler,
+                (byte)Golem,
+                (byte)Grimer,
+                (byte)Muk,
+                (byte)Exeggutor,
+                (byte)Marowak,
             };
 
-            var regular = obtainable.Select(z => GetSlot(area, z, 0));
-            var alolan = AlolanKanto.Select(z => GetSlot(area, z, 1));
-            var slots = regular.Concat(alolan).ToArray();
+            var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
+            EncounterSlot7GO GetSlot(EncounterArea7g a, int species, int form)
+            {
+                var min = raid15.Contains(species | (form << 11)) ? 15 : 1;
+                return new EncounterSlot7GO(a, species, form, min, 40);
+            }
 
-            slots[slots.Length - 1].ClampMinRaid(15); // Raichu
-            slots[(int)Species.Mewtwo - 1].ClampMinRaid(15);
-            slots[(int)Species.Articuno - 1].ClampMinRaid(15);
-            slots[(int)Species.Zapdos - 1].ClampMinRaid(15);
-            slots[(int)Species.Moltres - 1].ClampMinRaid(15);
+            var regular = noForm.Select(z => GetSlot(area, z, 0));
+            var alolan = forms.Select(z => GetSlot(area, z, 1));
+            var slots = regular.Concat(alolan).ToArray();
 
             area.Slots = slots;
             return new[] { area };

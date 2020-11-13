@@ -34,6 +34,8 @@ namespace PKHeX.Core
                     return VerifyBallEquals(data, t.Ball);
                 case EncounterStatic s when s.Gift:
                     return VerifyBallEquals(data, s.Ball);
+                case EncounterSlot8GO g:
+                    return VerifyBallGOHOME(data, g);
             }
 
             // Capture / Inherit cases -- can be one of many balls
@@ -81,6 +83,12 @@ namespace PKHeX.Core
                 return VerifyBallEquals(data, (int) req);
 
             return VerifyBallEquals(data, Legal.GetWildBalls(data.Info.Generation, data.Info.Game));
+        }
+
+        private CheckResult VerifyBallGOHOME(LegalityAnalysis data, EncounterSlot8GO enc)
+        {
+            var valid = EncountersGO.IsBallValid(enc.Species, enc.Form, (Ball)data.pkm.Ball);
+            return GetResult(valid);
         }
 
         private CheckResult VerifyBallEgg(LegalityAnalysis data)
