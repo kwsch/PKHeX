@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -9,82 +10,72 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea8g : EncounterArea
     {
-        private EncounterArea8g() : base(GameVersion.GO) { }
+        public int Species { get; }
+        public int Form { get; }
 
-        internal static EncounterArea8g[] GetArea(int maxSpecies, HashSet<int> banlist, IEnumerable<int> extras)
+        private EncounterArea8g(int species, int form) : base(GameVersion.GO)
         {
-            var area = new EncounterArea8g { Location = Locations.GO8, Type = SlotType.GoPark };
-            var all = GetSlots(area, maxSpecies, banlist, extras);
-            area.Slots = all.ToArray();
-            return new[] { area };
+            Species = species;
+            Form = form;
+            Location = Locations.GO8;
         }
 
-        private static EncounterSlot8GO GetSlot(EncounterArea8g area, int species, int form, GameVersion baseOrigin)
+        internal static EncounterArea8g[] GetArea(byte[][] pickle)
         {
-            var min = EncountersGO.GetMinLevel(species, form);
-            return new EncounterSlot8GO(area, species, form, baseOrigin, min, 40);
+            var areas = new EncounterArea8g[pickle.Length];
+            for (int i = 0; i < areas.Length; i++)
+                areas[i] = GetArea(pickle[i]);
+            return areas;
         }
 
-        private static IEnumerable<EncounterSlot> GetSlots(EncounterArea8g area, int maxSpecies, HashSet<int> banlist, IEnumerable<int> extras)
-        {
-            // Gen7: GO transfers to LGPE cannot send Mew.
-            // Gen8: GO transfers to HOME can send Mew. Iterate from here.
-            // However, Mew transfers with LGPE base moves. Because everything <= 151 uses LGPE level-up table. Handle manually!
-            yield return GetSlot(area, (int)Species.Mew, 0, GameVersion.GG);
-            const int start = 1;
-            var speciesList = Enumerable.Range(start, maxSpecies - start + 1).Concat(extras);
+        private const int entrySize = (2 * sizeof(int)) + 2;
 
-            var pt7 = PersonalTable.USUM;
+        private static EncounterArea8g GetArea(byte[] data)
+        {
+            var sf = BitConverter.ToInt16(data, 0);
+            int species = sf & 0x7FF;
+            int form = sf >> 11;
+
+            var group = GetGroup(species, form);
+
+            var result = new EncounterSlot8GO[(data.Length - 2) / entrySize];
+            var area = new EncounterArea8g(species, form) {Slots = result};
+            for (int i = 0; i < result.Length; i++)
+            {
+                var offset = (i * entrySize) + 2;
+                result[i] = ReadSlot(data, offset, area, species, form, group);
+            }
+
+            return area;
+        }
+
+        private static EncounterSlot8GO ReadSlot(byte[] data, int offset, EncounterArea8g area, int species, int form, GameVersion group)
+        {
+            int start = BitConverter.ToInt32(data, offset);
+            int end = BitConverter.ToInt32(data, offset + 4);
+            var shiny = (Shiny)data[offset + 8];
+            var type = (PogoType)data[offset + 9];
+            return new EncounterSlot8GO(area, species, form, group, type, shiny, start, end);
+        }
+
+        private static GameVersion GetGroup(int species, int form)
+        {
             var pt8 = PersonalTable.SWSH;
             var ptGG = PersonalTable.GG;
-            foreach (var specform in speciesList)
+
+            var pi8 = (PersonalInfoSWSH)pt8[species];
+            if (pi8.IsPresentInGame)
             {
-                var species = specform & 0x7FF;
-                if (banlist.Contains(species))
-                    continue;
-
-                var pi8 = (PersonalInfoSWSH)pt8[species];
-                if (pi8.IsPresentInGame)
-                {
-                    for (int f = 0; f < pi8.FormeCount; f++)
-                    {
-                        var sf = species | (f << 11);
-                        if (banlist.Contains(sf))
-                            continue;
-                        if (IsDisallowedDuplicateForm(species, f))
-                            continue;
-                        bool lgpe = (species <= 151 || species == 808 || species == 809) && (f == 0 || ptGG[species].HasForme(f));
-                        var game = lgpe ? GameVersion.GG : GameVersion.SWSH;
-                        yield return GetSlot(area, species, f, game);
-                    }
-                }
-                else if (species <= Legal.MaxSpeciesID_7_USUM)
-                {
-                    var pi7 = pt7[species];
-                    for (int f = 0; f < pi7.FormeCount; f++)
-                    {
-                        var sf = species | (f << 11);
-                        if (banlist.Contains(sf))
-                            continue;
-                        if (IsDisallowedDuplicateForm(species, f))
-                            continue;
-                        bool lgpe = species <= 151 && (f == 0 || ptGG[species].HasForme(f));
-                        var game = lgpe ? GameVersion.GG : GameVersion.USUM;
-                        yield return GetSlot(area, species, f, game);
-                    }
-                }
+                bool lgpe = (species <= 151 || species == 808 || species == 809) && (form == 0 || ptGG[species].HasForme(form));
+                return lgpe ? GameVersion.GG : GameVersion.SWSH;
             }
-        }
+            if (species <= Legal.MaxSpeciesID_7_USUM)
+            {
+                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForme(form));
+                return lgpe ? GameVersion.GG : GameVersion.USUM;
+            }
 
-        private static bool IsDisallowedDuplicateForm(int species, int f)
-        {
-            if (AltFormInfo.IsBattleOnlyForm(species, f, 8))
-                return true;
-            if (AltFormInfo.IsFusedForm(species, f, 8))
-                return true;
-            if (species == (int) Species.Mothim)
-                return f != 0; // Reverts to Plant Cloak on transfer.
-            return false;
+            throw new ArgumentOutOfRangeException(nameof(species));
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
@@ -92,21 +83,21 @@ namespace PKHeX.Core
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;
 
-            foreach (var slot in Slots)
+            bool exists = chain.Any(z => z.Species == Species && z.Form == Form);
+            if (!exists)
+                yield break;
+
+            var ball = (Ball)pkm.Ball;
+            foreach (var s in Slots)
             {
-                foreach (var evo in chain)
-                {
-                    if (slot.Species != evo.Species)
-                        continue;
-
-                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
-                        break;
-                    if (slot.Form != evo.Form)
-                        break;
-
-                    yield return slot;
-                    break;
-                }
+                var slot = (EncounterSlot8GO)s;
+                if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                    continue;
+                if (!slot.IsBallValid(ball))
+                    continue;
+                if (!slot.Shiny.IsValid(pkm))
+                    continue;
+                yield return slot;
             }
         }
     }

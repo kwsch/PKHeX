@@ -87,7 +87,7 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBallGOHOME(LegalityAnalysis data, EncounterSlot8GO enc)
         {
-            var valid = EncountersGO.IsBallValid(enc.Species, enc.Form, (Ball)data.pkm.Ball);
+            var valid = enc.IsBallValid((Ball)data.pkm.Ball);
             return GetResult(valid);
         }
 

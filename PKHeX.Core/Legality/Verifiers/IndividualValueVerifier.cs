@@ -116,18 +116,10 @@ namespace PKHeX.Core
             }
             else if (data.EncounterMatch is EncounterSlot8GO g)
             {
-                var minIV = EncountersGO.GetMinIVs(g.Species, g.Form, (Ball) pkm.Ball);
+                var minIV = g.GetMinIV();
                 if (!IsGoIVSetValid(pkm, minIV))
                     data.AddLine(GetInvalid(LIVNotCorrect));
             }
-
-            if (!pkm.IsShiny)
-                return;
-
-            var enc = data.EncounterMatch;
-            bool shinyValid = EncountersGO.IsShinyValid(enc.Species, enc.Form, (Ball)pkm.Ball);
-            if (!shinyValid)
-                data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
         }
 
         private static bool IsGoIVSetValid(PKM pkm)

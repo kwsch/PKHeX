@@ -35,6 +35,8 @@
     <None Remove="Resources\byte\encounter_e.pkl" />
     <None Remove="Resources\byte\encounter_fr.pkl" />
     <None Remove="Resources\byte\encounter_ge.pkl" />
+    <None Remove="Resources\byte\encounter_go_home.pkl" />
+    <None Remove="Resources\byte\encounter_go_lgpe.pkl" />
     <None Remove="Resources\byte\encounter_gold.pkl" />
     <None Remove="Resources\byte\encounter_gp.pkl" />
     <None Remove="Resources\byte\encounter_hg.pkl" />
@@ -877,6 +879,8 @@
     <EmbeddedResource Include="Resources\byte\encounter_e.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_fr.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_ge.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_go_home.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_go_lgpe.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_gold.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_gp.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_hg.pkl" />

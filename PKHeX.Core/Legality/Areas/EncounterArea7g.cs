@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -10,65 +10,66 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea7g : EncounterArea
     {
-        private EncounterArea7g() : base(GameVersion.GO) { }
+        public int Species { get; }
+        public int Form { get; }
 
-        internal static EncounterArea7g[] GetArea(HashSet<int> raid15)
+        private EncounterArea7g(int species, int form) : base(GameVersion.GO)
         {
-            var noForm = Enumerable.Range(1, 150).Concat(Enumerable.Range(808, 2)); // count : 152
-            var forms = new[]
-            {
-                (byte)Rattata,
-                (byte)Raticate,
-                (byte)Raichu,
-                (byte)Sandshrew,
-                (byte)Sandslash,
-                (byte)Vulpix,
-                (byte)Ninetales,
-                (byte)Diglett,
-                (byte)Dugtrio,
-                (byte)Meowth,
-                (byte)Persian,
-                (byte)Geodude,
-                (byte)Graveler,
-                (byte)Golem,
-                (byte)Grimer,
-                (byte)Muk,
-                (byte)Exeggutor,
-                (byte)Marowak,
-            };
+            Species = species;
+            Form = form;
+            Location = 50;
+        }
 
-            var area = new EncounterArea7g { Location = 50, Type = SlotType.GoPark };
-            EncounterSlot7GO GetSlot(EncounterArea7g a, int species, int form)
+        internal static EncounterArea7g[] GetArea(byte[][] pickle)
+        {
+            var areas = new EncounterArea7g[pickle.Length];
+            for (int i = 0; i < areas.Length; i++)
+                areas[i] = GetArea(pickle[i]);
+            return areas;
+        }
+
+        private const int entrySize = 2;
+
+        private static EncounterArea7g GetArea(byte[] data)
+        {
+            var sf = BitConverter.ToInt16(data, 0);
+            int species = sf & 0x7FF;
+            int form = sf >> 11;
+
+            // Files are padded to be multiples of 4 bytes. The last entry might actually be padding.
+            // Since we aren't saving a count up-front, just check if the last entry is valid.
+            int count = (data.Length - 2) / entrySize;
+            if (data[data.Length - 1] == 0) // type of "None" is not valid
+                count--;
+
+            var result = new EncounterSlot7GO[count];
+            var area = new EncounterArea7g(species, form) {Slots = result};
+
+            for (int i = 0; i < result.Length; i++)
             {
-                var min = raid15.Contains(species | (form << 11)) ? 15 : 1;
-                return new EncounterSlot7GO(a, species, form, min, 40);
+                var offset = (i * entrySize) + 2;
+                var shiny = (Shiny)data[offset];
+                var type = (PogoType)data[offset + 1];
+                result[i] = new EncounterSlot7GO(area, species, form, shiny, type);
             }
 
-            var regular = noForm.Select(z => GetSlot(area, z, 0));
-            var alolan = forms.Select(z => GetSlot(area, z, 1));
-            var slots = regular.Concat(alolan).ToArray();
-
-            area.Slots = slots;
-            return new[] { area };
+            return area;
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            foreach (var slot in Slots)
+            bool exists = chain.Any(z => z.Species == Species && z.Form == Form);
+            if (!exists)
+                yield break;
+
+            foreach (var s in Slots)
             {
-                foreach (var evo in chain)
-                {
-                    if (slot.Species != evo.Species)
-                        continue;
-
-                    if (!slot.IsLevelWithinRange(pkm.Met_Level))
-                        break;
-                    if (slot.Form != evo.Form)
-                        break;
-
-                    yield return slot;
-                    break;
-                }
+                var slot = (EncounterSlot7GO)s;
+                if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                    continue;
+                if (!slot.Shiny.IsValid(pkm))
+                    continue;
+                yield return slot;
             }
         }
     }
