@@ -161,7 +161,7 @@ namespace PKHeX.WinForms
             return (int)(cb.SelectedValue ?? 0);
         }
 
-        public static void PanelScroll(object sender, ScrollEventArgs e)
+        public static void PanelScroll(object? sender, ScrollEventArgs e)
         {
             if (!(sender is ScrollableControl p) || e.NewValue < 0)
                 return;
@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
                     p.VerticalScroll.Value = Clamp(e.NewValue, p.VerticalScroll);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new IndexOutOfRangeException(nameof(e.ScrollOrientation));
             }
             static int Clamp(int value, ScrollProperties prop) => Math.Max(prop.Minimum, Math.Min(prop.Maximum, value));
         }
@@ -198,7 +198,12 @@ namespace PKHeX.WinForms
             control.ValueMember = nameof(ComboItem.Value);
         }
 
-        public static void RemoveDropCB(object sender, KeyEventArgs e) => ((ComboBox)sender).DroppedDown = false;
+        public static void RemoveDropCB(object? sender, KeyEventArgs e)
+        {
+            if (sender == null)
+                return;
+            ((ComboBox)sender).DroppedDown = false;
+        }
 
         /// <summary>
         /// Iterates the Control's child controls recursively to obtain all controls of the specified type.
@@ -358,7 +363,7 @@ namespace PKHeX.WinForms
 
             var path = sfd.FileName;
             if (path == null)
-                throw new ArgumentNullException(nameof(sfd.FileName));
+                throw new NullReferenceException(nameof(sfd.FileName));
 
             ExportSAV(sav, path);
             return true;

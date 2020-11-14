@@ -105,10 +105,8 @@ namespace PKHeX.WinForms.Controls
 
         private void InitializeDragDrop(Control pb)
         {
-#pragma warning disable CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
             pb.MouseEnter += M.MouseEnter;
             pb.MouseLeave += M.MouseLeave;
-#pragma warning restore CS8622 // Nullability of reference types in type of parameter doesn't match the target delegate.
             pb.MouseClick += M.MouseClick;
             pb.MouseMove += M.MouseMove;
             pb.MouseDown += M.MouseDown;

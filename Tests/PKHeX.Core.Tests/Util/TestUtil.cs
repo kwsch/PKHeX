@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace PKHeX.Tests
 {
@@ -8,7 +9,12 @@ namespace PKHeX.Tests
         {
             var folder = Directory.GetCurrentDirectory();
             while (!folder.EndsWith(nameof(Tests)))
-                folder = Directory.GetParent(folder).FullName;
+            {
+                var dir = Directory.GetParent(folder);
+                if (dir == null)
+                    throw new ArgumentNullException(nameof(dir));
+                folder = dir.FullName;
+            }
             return folder;
         }
     }

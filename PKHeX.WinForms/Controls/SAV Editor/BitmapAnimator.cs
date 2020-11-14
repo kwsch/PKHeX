@@ -92,7 +92,7 @@ namespace PKHeX.WinForms.Controls
         private Image GetFrame(int frameIndex)
         {
             if (GlowCache == null)
-                throw new ArgumentNullException(nameof(GlowCache));
+                throw new NullReferenceException(nameof(GlowCache));
             var frame = GlowCache[frameIndex];
             if (frame != null)
                 return frame;
@@ -101,7 +101,7 @@ namespace PKHeX.WinForms.Controls
             var frameColor = GetFrameColor(elapsedFraction);
 
             if (GlowData == null)
-                throw new ArgumentNullException(nameof(GlowData));
+                throw new NullReferenceException(nameof(GlowData));
             var frameData = (byte[])GlowData.Clone();
             ImageUtil.ChangeAllColorTo(frameData, frameColor);
 

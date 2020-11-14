@@ -143,7 +143,10 @@ namespace PKHeX.WinForms.Controls
             for (var i = 0; i < names.Length; i++)
             {
                 var name = names[i];
-                Enum.TryParse<StorageSlotType>(name, out var val);
+                bool result = Enum.TryParse<StorageSlotType>(name, out var val);
+                if (!result)
+                    continue;
+
                 var label = new LabelType
                 {
                     Name = $"L_{name}",

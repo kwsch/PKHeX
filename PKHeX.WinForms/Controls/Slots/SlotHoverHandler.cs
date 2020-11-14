@@ -28,7 +28,7 @@ namespace PKHeX.WinForms.Controls
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             if (view == null)
-                throw new ArgumentNullException(nameof(view));
+                throw new InvalidCastException(nameof(view));
             var data = view.GetSlotData(pb);
             var pk = data.Read(view.SAV);
             Slot = pb;

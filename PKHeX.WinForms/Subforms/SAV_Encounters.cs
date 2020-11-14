@@ -47,6 +47,8 @@ namespace PKHeX.WinForms
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
+                    if (sender == null)
+                        return;
                     if (ModifierKeys == Keys.Control)
                         ClickView(sender, e);
                 };

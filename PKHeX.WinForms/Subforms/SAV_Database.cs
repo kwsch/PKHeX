@@ -56,6 +56,8 @@ namespace PKHeX.WinForms
                 // Enable Click
                 slot.MouseClick += (sender, e) =>
                 {
+                    if (sender == null)
+                        return;
                     switch (ModifierKeys)
                     {
                         case Keys.Control: ClickView(sender, e); break;
@@ -140,7 +142,7 @@ namespace PKHeX.WinForms
                 return;
             }
 #endif
-            if (path != null && path.Contains(Path.DirectorySeparatorChar))
+            if (path?.Contains(Path.DirectorySeparatorChar) == true)
             {
                 // Data from Database: Delete file from disk
                 if (File.Exists(path))
@@ -438,12 +440,12 @@ namespace PKHeX.WinForms
 
             // pre-filter based on the file path (if specified)
             if (!Menu_SearchBoxes.Checked)
-                res = res.Where(pk => pk.Identifier != null && pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
+                res = res.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == true);
             if (!Menu_SearchDatabase.Checked)
             {
-                res = res.Where(pk => pk.Identifier != null && !pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal));
+                res = res.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == false);
 #if LOADALL
-                res = res.Where(pk => pk.Identifier != null && !pk.Identifier.StartsWith(EXTERNAL_SAV, StringComparison.Ordinal));
+                res = res.Where(pk => pk.Identifier?.StartsWith(EXTERNAL_SAV, StringComparison.Ordinal) == false);
 #endif
             }
 
@@ -634,8 +636,8 @@ namespace PKHeX.WinForms
                 return;
 
             var deleted = 0;
-            var db = RawDB.Where(pk => pk.Identifier != null && pk.Identifier.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal))
-                .OrderByDescending(file => File.GetLastWriteTimeUtc(file.Identifier));
+            var db = RawDB.Where(pk => pk.Identifier?.StartsWith(DatabasePath + Path.DirectorySeparatorChar, StringComparison.Ordinal) == true)
+                .OrderByDescending(file => File.GetLastWriteTimeUtc(file.Identifier!));
 
             var clones = SearchUtil.GetExtraClones(db);
             foreach (var pk in clones)

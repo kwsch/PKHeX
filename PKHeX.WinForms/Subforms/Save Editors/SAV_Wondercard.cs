@@ -384,8 +384,10 @@ namespace PKHeX.WinForms
                 ViewGiftData(gift);
         }
 
-        private void BoxSlot_MouseDown(object sender, MouseEventArgs e)
+        private void BoxSlot_MouseDown(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             switch (ModifierKeys)
             {
                 case Keys.Control: ClickView(sender, e); return;

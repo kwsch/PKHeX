@@ -202,14 +202,9 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            HandleSpecialFlags();
             Editor.Save();
             Origin.Edited = true;
             Close();
-        }
-
-        private void HandleSpecialFlags()
-        {
         }
 
         private void ChangeCustomFlag(object sender, EventArgs e)
@@ -269,7 +264,7 @@ namespace PKHeX.WinForms
                 case GameVersion.C: return "c";
                 case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
                 case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
-                default: throw new ArgumentException(nameof(game));
+                default: throw new IndexOutOfRangeException(nameof(game));
             }
         }
 

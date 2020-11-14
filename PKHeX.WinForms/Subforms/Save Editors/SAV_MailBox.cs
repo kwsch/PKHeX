@@ -445,7 +445,7 @@ namespace PKHeX.WinForms
         {
             DialogResult ret = DialogResult.Abort;
             var s = p.Select((pkm, i) => ((sbyte)PKMNUDs[i].Value == entry) && ItemIsMail(pkm.HeldItem) ? pkm : null).ToArray();
-            if (s.Count(v => v != null) == 0)
+            if (s.All(v => v == null))
                 return ret;
             System.Media.SystemSounds.Question.Play();
             var msg = $"{s.Select((v, i) => v == null ? string.Empty : $"{Environment.NewLine}  {PKMLabels[i].Text}: {PKMHeldItems[i].Text} -> {CB_MailType.Items[0]}").Aggregate($"Modify PKM's HeldItem?{Environment.NewLine}", (tmp, v) => $"{tmp}{v}")}{Environment.NewLine}{Environment.NewLine}Yes: Delete Mail & Modify PKM{Environment.NewLine}No: Delete Mail";

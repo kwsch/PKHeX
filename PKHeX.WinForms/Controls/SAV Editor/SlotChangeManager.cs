@@ -33,34 +33,42 @@ namespace PKHeX.WinForms.Controls
             LastSlot.Reset();
         }
 
-        public void MouseEnter(object sender, EventArgs e)
+        public void MouseEnter(object? sender, EventArgs e)
         {
+            if (sender == null)
+                return;
             var pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
             Hover.Start(pb, LastSlot);
         }
 
-        public void MouseLeave(object sender, EventArgs e)
+        public void MouseLeave(object? sender, EventArgs e)
         {
             Hover.Stop();
         }
 
-        public void MouseClick(object sender, MouseEventArgs e)
+        public void MouseClick(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (!Drag.Info.DragDropInProgress)
                 SE.ClickSlot(sender, e);
         }
 
-        public void MouseUp(object sender, MouseEventArgs e)
+        public void MouseUp(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Button == MouseButtons.Left)
                 Drag.Info.LeftMouseIsDown = false;
             Drag.Info.Source = null;
         }
 
-        public void MouseDown(object sender, MouseEventArgs e)
+        public void MouseDown(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Button == MouseButtons.Left)
             {
                 Drag.Info.LeftMouseIsDown = true;
@@ -68,16 +76,20 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public void QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        public void QueryContinueDrag(object? sender, QueryContinueDragEventArgs e)
         {
+            if (sender == null)
+                return;
             if (e.Action != DragAction.Cancel && e.Action != DragAction.Drop)
                 return;
             Drag.Info.LeftMouseIsDown = false;
             Drag.Info.DragDropInProgress = false;
         }
 
-        public void DragEnter(object sender, DragEventArgs e)
+        public void DragEnter(object? sender, DragEventArgs e)
         {
+            if (sender == null)
+                return;
             if ((e.AllowedEffect & DragDropEffects.Copy) != 0) // external file
                 e.Effect = DragDropEffects.Copy;
             else if (e.Data != null) // within
@@ -91,13 +103,15 @@ namespace PKHeX.WinForms.Controls
         {
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<T>>(pb);
             if (view == null)
-                throw new ArgumentNullException(nameof(view));
+                throw new InvalidCastException("Unable to find View Parent");
             var src = view.GetSlotData(pb);
             return new SlotViewInfo<T>(src, view);
         }
 
-        public void MouseMove(object sender, MouseEventArgs e)
+        public void MouseMove(object? sender, MouseEventArgs e)
         {
+            if (sender == null)
+                return;
             if (!Drag.CanStartDrag)
                 return;
 
@@ -112,8 +126,10 @@ namespace PKHeX.WinForms.Controls
             HandleMovePKM(pb, encrypt);
         }
 
-        public void DragDrop(object sender, DragEventArgs e)
+        public void DragDrop(object? sender, DragEventArgs e)
         {
+            if (sender == null)
+                return;
             PictureBox pb = (PictureBox)sender;
             var info = GetSlotInfo(pb);
             if (!info.CanWriteTo())

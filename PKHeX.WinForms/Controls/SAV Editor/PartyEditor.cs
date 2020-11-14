@@ -117,15 +117,15 @@ namespace PKHeX.WinForms.Controls
         }
 
         // Drag & Drop Handling
-        private void BoxSlot_MouseEnter(object sender, EventArgs e) => M?.MouseEnter(sender, e);
-        private void BoxSlot_MouseLeave(object sender, EventArgs e) => M?.MouseLeave(sender, e);
-        private void BoxSlot_MouseClick(object sender, MouseEventArgs e) => M?.MouseClick(sender, e);
-        private void BoxSlot_MouseUp(object sender, MouseEventArgs e) => M?.MouseUp(sender, e);
-        private void BoxSlot_MouseDown(object sender, MouseEventArgs e) => M?.MouseDown(sender, e);
-        private void BoxSlot_MouseMove(object sender, MouseEventArgs e) => M?.MouseMove(sender, e);
-        private void BoxSlot_DragEnter(object sender, DragEventArgs e) => M?.DragEnter(sender, e);
-        private void BoxSlot_QueryContinueDrag(object sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
-        private void BoxSlot_DragDrop(object sender, DragEventArgs e) => M?.DragDrop(sender, e);
+        private void BoxSlot_MouseEnter(object? sender, EventArgs e) => M?.MouseEnter(sender, e);
+        private void BoxSlot_MouseLeave(object? sender, EventArgs e) => M?.MouseLeave(sender, e);
+        private void BoxSlot_MouseClick(object? sender, MouseEventArgs e) => M?.MouseClick(sender, e);
+        private void BoxSlot_MouseUp(object? sender, MouseEventArgs e) => M?.MouseUp(sender, e);
+        private void BoxSlot_MouseDown(object? sender, MouseEventArgs e) => M?.MouseDown(sender, e);
+        private void BoxSlot_MouseMove(object? sender, MouseEventArgs e) => M?.MouseMove(sender, e);
+        private void BoxSlot_DragEnter(object? sender, DragEventArgs e) => M?.DragEnter(sender, e);
+        private void BoxSlot_QueryContinueDrag(object? sender, QueryContinueDragEventArgs e) => M?.QueryContinueDrag(sender, e);
+        private void BoxSlot_DragDrop(object? sender, DragEventArgs e) => M?.DragDrop(sender, e);
 
         public bool InitializeFromSAV(SaveFile sav)
         {

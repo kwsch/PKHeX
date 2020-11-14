@@ -39,7 +39,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CellCount; i++)
             {
                 if (cells[i] > 2)
-                    throw new ArgumentException();
+                    throw new IndexOutOfRangeException("Unable to find cell index.");
 
                 dgv.Rows[i].Cells[0].Value = (i+1);
                 dgv.Rows[i].Cells[1].Value = locations[i];
@@ -61,7 +61,7 @@ namespace PKHeX.WinForms
                 string str = (string)dgv.Rows[i].Cells[2].Value;
                 int val = Array.IndexOf(states, str);
                 if (val < 0)
-                    throw new ArgumentException();
+                    throw new IndexOutOfRangeException("Unable to find cell index.");
 
                 constants[celloffset + i] = (ushort)val;
             }

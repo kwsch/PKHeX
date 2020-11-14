@@ -226,7 +226,9 @@ namespace PKHeX.WinForms
                 if (itemindex <= 0 && !HasNew) // Compression of Empty Slots
                     continue;
 
-                int.TryParse(cells[ColumnCount].Value?.ToString(), out int itemcnt);
+                bool result = int.TryParse(cells[ColumnCount].Value?.ToString(), out int itemcnt);
+                if (!result)
+                    continue;
                 if (!pouch.IsValidItemAndCount(SAV, itemindex, HasNew, Main.HaX, ref itemcnt))
                     continue; // ignore item
 

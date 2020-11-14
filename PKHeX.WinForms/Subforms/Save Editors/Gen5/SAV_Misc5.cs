@@ -64,7 +64,7 @@ namespace PKHeX.WinForms
 
         private void ReadMain()
         {
-            string[]? FlyDestA = null;
+            string[]? FlyDestA;
             switch (SAV.Version)
             {
                 case GameVersion.B:
@@ -107,6 +107,8 @@ namespace PKHeX.WinForms
                         5, 6, 7, 22
                     };
                     break;
+
+                default: throw new ArgumentOutOfRangeException(nameof(SAV.Version));
             }
             uint valFly = BitConverter.ToUInt32(SAV.Data, ofsFly);
             CLB_FlyDest.Items.Clear();

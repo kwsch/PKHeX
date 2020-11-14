@@ -37,7 +37,7 @@ namespace PKHeX.Tests.Simulator
             var first = encounters.FirstOrDefault();
             Assert.NotNull(first);
 
-            var egg = (EncounterEgg)first;
+            var egg = (EncounterEgg)first!;
             var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = egg.ConvertToPKM(info);
             Assert.True(pk.Species != set.Species);
@@ -65,7 +65,7 @@ namespace PKHeX.Tests.Simulator
             var first = encs.FirstOrDefault();
             Assert.NotNull(first);
 
-            var wc3 = (WC3)first;
+            var wc3 = (WC3)first!;
             var info = new SimpleTrainerInfo(GameVersion.R);
             var pk = wc3.ConvertToPKM(info);
 
@@ -84,7 +84,7 @@ namespace PKHeX.Tests.Simulator
             var first = encs.FirstOrDefault();
             Assert.NotNull(first);
 
-            var enc = first;
+            var enc = first!;
             var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 
@@ -136,7 +136,7 @@ namespace PKHeX.Tests.Simulator
             var first = encs.FirstOrDefault();
             Assert.NotNull(first);
 
-            var enc = first;
+            var enc = first!;
             var info = new SimpleTrainerInfo(GameVersion.SN);
             var pk = enc.ConvertToPKM(info);
 

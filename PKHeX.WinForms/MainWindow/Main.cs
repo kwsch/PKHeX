@@ -110,7 +110,7 @@ namespace PKHeX.WinForms
             BAKprompt = false;
 
             HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
-                || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule.FileName).EndsWith(nameof(HaX));
+                || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule!.FileName!).EndsWith(nameof(HaX));
 
             try
             {
@@ -280,7 +280,7 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
         }
 
-        public static DrawConfig Draw = new DrawConfig();
+        public static DrawConfig Draw { get; private set; } = new DrawConfig();
 
         private void FormInitializeSecond()
         {

@@ -98,7 +98,7 @@ namespace PKHeX.WinForms.Controls
                     WinFormsUtil.Alert(MsgSaveSlotLocked);
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new IndexOutOfRangeException(nameof(msg));
             }
             return false;
         }
@@ -133,10 +133,10 @@ namespace PKHeX.WinForms.Controls
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
             if (pb == null)
-                throw new ArgumentNullException(nameof(pb));
+                throw new InvalidCastException("Unable to find PictureBox");
             var view = WinFormsUtil.FindFirstControlOfType<ISlotViewer<PictureBox>>(pb);
             if (view == null)
-                throw new ArgumentNullException(nameof(view));
+                throw new InvalidCastException("Unable to find View Parent");
             var loc = view.GetSlotData(pb);
             sender = pb;
             return new SlotViewInfo<PictureBox>(loc, view);
