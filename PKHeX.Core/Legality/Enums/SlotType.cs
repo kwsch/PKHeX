@@ -62,7 +62,7 @@ namespace PKHeX.Core
         BugContest = 9,
 
         HiddenGrotto = 10,
-        GoPark = 11,
+        // GoPark = 11,
         FriendSafari = 12,
         Horde = 13,
         // Pokeradar = 14,

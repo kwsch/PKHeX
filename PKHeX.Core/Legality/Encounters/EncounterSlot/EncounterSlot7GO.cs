@@ -6,6 +6,8 @@ namespace PKHeX.Core
         public PogoType Type { get; }
         public Shiny Shiny { get; }
 
+        public override string LongName => $"{Name} ({Type})";
+
         public EncounterSlot7GO(EncounterArea7g area, int species, int form, Shiny shiny, PogoType type) : base(area)
         {
             Species = species;

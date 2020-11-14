@@ -20,11 +20,11 @@ namespace PKHeX.Core
             Location = 50;
         }
 
-        internal static EncounterArea7g[] GetArea(byte[][] pickle)
+        internal static EncounterArea7g[] GetArea(byte[][] data)
         {
-            var areas = new EncounterArea7g[pickle.Length];
+            var areas = new EncounterArea7g[data.Length];
             for (int i = 0; i < areas.Length; i++)
-                areas[i] = GetArea(pickle[i]);
+                areas[i] = GetArea(data[i]);
             return areas;
         }
 
