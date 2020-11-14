@@ -112,7 +112,7 @@ namespace PKHeX.Core
             PogoType.Egg => b == Ball.Poke,
             PogoType.Raid15 => b == Ball.Premier,
             PogoType.Raid20 => b == Ball.Premier,
-            _ => b != Ball.Premier,
+            _ => (uint)(b - 2) <= 2, // Poke, Great, Ultra
         };
     }
 }
