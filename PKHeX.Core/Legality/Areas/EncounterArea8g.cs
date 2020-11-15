@@ -88,6 +88,7 @@ namespace PKHeX.Core
                 yield break;
 
             var ball = (Ball)pkm.Ball;
+            var stamp = EncounterSlot8GO.GetTimeStamp(pkm.Met_Year, pkm.Met_Month, pkm.Met_Day);
             foreach (var s in Slots)
             {
                 var slot = (EncounterSlot8GO)s;
@@ -97,6 +98,9 @@ namespace PKHeX.Core
                     continue;
                 if (!slot.Shiny.IsValid(pkm))
                     continue;
+                if (!slot.IsWithinStartEnd(stamp))
+                    continue;
+
                 yield return slot;
             }
         }
