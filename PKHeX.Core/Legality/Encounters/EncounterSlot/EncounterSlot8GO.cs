@@ -91,10 +91,12 @@ namespace PKHeX.Core
 
         /// <summary> Field Research, requires Lv. 15 and IV=1 </summary>
         Field15 = 20,
-        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythical) </summary>
+        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythicals) </summary>
         FieldM,
-        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythical, Poké Ball only) </summary>
+        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythicals, Poké Ball only) </summary>
         FieldP,
+        /// <summary> Field Research, requires Lv. 20 and IV=10 (GBL Mythicals) </summary>
+        Field20,
 
         /// <summary> Purified, requires Lv. 8 and IV=1 (Premier Ball) </summary>
         Shadow = 30,
@@ -110,6 +112,7 @@ namespace PKHeX.Core
             PogoType.Raid20 => 20,
             PogoType.Field15 => 15,
             PogoType.FieldM => 15,
+            PogoType.Field20 => 20,
             PogoType.Shadow => 8,
             PogoType.ShadowPGU => 8,
             _ => 1,
@@ -121,6 +124,7 @@ namespace PKHeX.Core
             PogoType.Raid20 => 10,
             PogoType.FieldM => 10,
             PogoType.FieldP => 10,
+            PogoType.Field20 => 10,
             _ => 1,
         };
 
