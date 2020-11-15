@@ -84,32 +84,50 @@ namespace PKHeX.Core
         Wild,
         Egg,
 
-        /// <summary> requires level 15 and IV=1 </summary>
+        /// <summary> Raid Boss, requires Lv. 15 and IV=1 </summary>
         Raid15 = 10,
-        /// <summary> requires level 20 and IV=10 </summary>
+        /// <summary> Raid Boss, requires Lv. 20 and IV=10 </summary>
         Raid20,
 
-        /// <summary> requires level 15 and IV=10 </summary>
+        /// <summary> Field Research, requires Lv. 15 and IV=1 </summary>
         Field15 = 20,
+        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythical) </summary>
+        FieldM,
+        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythical, Poké Ball only) </summary>
+        FieldP,
 
+        /// <summary> Purified, requires Lv. 8 and IV=1 (Premier Ball) </summary>
         Shadow = 30,
+        /// <summary> Purified, requires Lv. 8 and IV=1 (No Premier Ball) </summary>
+        ShadowPGU,
     }
 
     public static class PogoTypeExtensions
     {
         public static int GetMinLevel(this PogoType t) => t switch
         {
+            PogoType.Raid15 => 15,
+            PogoType.Raid20 => 20,
+            PogoType.Field15 => 15,
+            PogoType.FieldM => 15,
+            PogoType.Shadow => 8,
+            PogoType.ShadowPGU => 8,
             _ => 1,
         };
 
         public static int GetMinIV(this PogoType t) => t switch
         {
+            PogoType.Wild => 0,
+            PogoType.Raid20 => 10,
+            PogoType.FieldM => 10,
+            PogoType.FieldP => 10,
             _ => 1,
         };
 
         public static bool IsBallValid(this PogoType t, Ball b) => t switch
         {
             PogoType.Egg => b == Ball.Poke,
+            PogoType.FieldP => b == Ball.Poke,
             PogoType.Raid15 => b == Ball.Premier,
             PogoType.Raid20 => b == Ball.Premier,
             _ => (uint)(b - 2) <= 2, // Poke, Great, Ultra
