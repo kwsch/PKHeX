@@ -666,6 +666,7 @@ namespace PKHeX.Core
                     };
 
                 case Rattata:
+                case Raticate: // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
                 case Raichu:
                 case Sandshrew:
                 case Sandslash:
