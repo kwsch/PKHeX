@@ -1,3 +1,5 @@
+using System;
+
 namespace PKHeX.Core
 {
     public sealed class EncounterSlot8GO : EncounterSlot, IPogoSlotTime
@@ -17,16 +19,18 @@ namespace PKHeX.Core
                 var init = $"{Name} ({Type})";
                 if (Start == 0 && End == 0)
                     return init;
-                return $"{init}: {GetDate(Start)}-{GetDate(End)}";
+                return $"{init}: {GetDateString(Start)}-{GetDateString(End)}";
             }
         }
 
-        private static string GetDate(int time)
+        private static string GetDateString(int time) => GetDate(time).ToString("yyyy.MM.dd");
+
+        private static DateTime GetDate(int time)
         {
             var d = time & 0xFF;
             var m = (time >> 8) & 0xFF;
             var y = time >> 16;
-            return $"{y:0000}.{m:00}.{d:00}";
+            return new DateTime(y, m, d);
         }
 
         public bool IsWithinStartEnd(int y, int m, int d)
@@ -63,6 +67,23 @@ namespace PKHeX.Core
 
         public int GetMinIV() => Type.GetMinIV();
         public bool IsBallValid(Ball ball) => Type.IsBallValid(ball);
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (Start != 0 || End != 0)
+                pk.MetDate = GetRandomValidDate();
+        }
+
+        public DateTime GetRandomValidDate()
+        {
+            if (Start == 0)
+                return End == 0 ? DateTime.Now : GetDate(End);
+
+            var end = Math.Max(Start, End);
+            var stamp = Start + Util.Rand.Next(0, Start - end + 1);
+            return GetDate(stamp);
+        }
     }
 
     public interface IPogoSlot
