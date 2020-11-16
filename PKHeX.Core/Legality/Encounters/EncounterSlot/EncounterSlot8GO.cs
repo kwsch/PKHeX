@@ -23,7 +23,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static string GetDateString(int time) => GetDate(time).ToString("yyyy.MM.dd");
+        private static string GetDateString(int time) => time == 0 ? "X" : GetDate(time).ToString("yyyy.MM.dd");
 
         private static DateTime GetDate(int time)
         {
@@ -82,8 +82,9 @@ namespace PKHeX.Core
                 return End == 0 ? DateTime.Now : GetDate(End);
 
             var end = Math.Max(Start, End);
-            var stamp = Start + Util.Rand.Next(0, Start - end + 1);
-            return GetDate(stamp);
+            var delta = end - Start;
+            var bias = Util.Rand.Next(0, delta + 1);
+            return GetDate(Start).AddDays(bias);
         }
     }
 
