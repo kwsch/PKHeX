@@ -38,9 +38,9 @@ namespace PKHeX.Core
         public bool IsWithinStartEnd(int stamp)
         {
             if (End == 0)
-                return stamp >= Start;
+                return Start <= stamp;
             if (Start == 0)
-                return stamp <= Start;
+                return stamp <= End;
             return Start <= stamp && stamp <= End;
         }
 
