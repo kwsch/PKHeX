@@ -28,7 +28,7 @@ namespace PKHeX.Core
             return areas;
         }
 
-        private const int entrySize = 2;
+        private const int entrySize = (2 * sizeof(int)) + 2;
 
         private static EncounterArea7g GetArea(byte[] data)
         {
@@ -36,38 +36,44 @@ namespace PKHeX.Core
             int species = sf & 0x7FF;
             int form = sf >> 11;
 
-            // Files are padded to be multiples of 4 bytes. The last entry might actually be padding.
-            // Since we aren't saving a count up-front, just check if the last entry is valid.
-            int count = (data.Length - 2) / entrySize;
-            if (data[data.Length - 1] == 0) // type of "None" is not valid
-                count--;
-
-            var result = new EncounterSlot7GO[count];
-            var area = new EncounterArea7g(species, form) {Slots = result};
-
+            var result = new EncounterSlot7GO[(data.Length - 2) / entrySize];
+            var area = new EncounterArea7g(species, form) { Slots = result };
             for (int i = 0; i < result.Length; i++)
             {
                 var offset = (i * entrySize) + 2;
-                var shiny = (Shiny)data[offset];
-                var type = (PogoType)data[offset + 1];
-                result[i] = new EncounterSlot7GO(area, species, form, shiny, type);
+                result[i] = ReadSlot(data, offset, area, species, form);
             }
 
             return area;
         }
 
+        private static EncounterSlot7GO ReadSlot(byte[] data, int offset, EncounterArea7g area, int species, int form)
+        {
+            int start = BitConverter.ToInt32(data, offset);
+            int end = BitConverter.ToInt32(data, offset + 4);
+            var shiny = (Shiny)data[offset + 8];
+            var type = (PogoType)data[offset + 9];
+            return new EncounterSlot7GO(area, species, form, type, shiny, start, end);
+        }
+
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            bool exists = chain.Any(z => z.Species == Species && z.Form == Form);
-            if (!exists)
+            var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
+            if (sf == null)
                 yield break;
 
+            var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
+            var met = Math.Max(sf.MinLevel, pkm.Met_Level);
             foreach (var s in Slots)
             {
                 var slot = (EncounterSlot7GO)s;
-                if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                if (!slot.IsLevelWithinRange(met))
                     continue;
+                //if (!slot.IsBallValid(ball)) -- can have any of the in-game balls due to re-capture
+                //    continue;
                 if (!slot.Shiny.IsValid(pkm))
+                    continue;
+                if (!slot.IsWithinStartEnd(stamp))
                     continue;
                 yield return slot;
             }

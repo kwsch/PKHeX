@@ -83,16 +83,17 @@ namespace PKHeX.Core
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;
 
-            bool exists = chain.Any(z => z.Species == Species && z.Form == Form);
-            if (!exists)
+            var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
+            if (sf == null)
                 yield break;
 
             var ball = (Ball)pkm.Ball;
-            var stamp = EncounterSlot8GO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
+            var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
+            var met = Math.Max(sf.MinLevel, pkm.Met_Level);
             foreach (var s in Slots)
             {
                 var slot = (EncounterSlot8GO)s;
-                if (!slot.IsLevelWithinRange(pkm.Met_Level))
+                if (!slot.IsLevelWithinRange(met))
                     continue;
                 if (!slot.IsBallValid(ball))
                     continue;
