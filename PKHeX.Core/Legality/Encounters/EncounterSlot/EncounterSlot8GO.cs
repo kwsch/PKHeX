@@ -73,6 +73,7 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             if (Start != 0 || End != 0)
                 pk.MetDate = GetRandomValidDate();
+            pk.Ball = (int)Type.GetValidBall();
         }
 
         public DateTime GetRandomValidDate()
@@ -149,13 +150,21 @@ namespace PKHeX.Core
             _ => 1,
         };
 
-        public static bool IsBallValid(this PogoType t, Ball b) => t switch
+        public static bool IsBallValid(this PogoType t, Ball b)
         {
-            PogoType.Egg => b == Ball.Poke,
-            PogoType.FieldP => b == Ball.Poke,
-            PogoType.Raid15 => b == Ball.Premier,
-            PogoType.Raid20 => b == Ball.Premier,
-            _ => (uint)(b - 2) <= 2, // Poke, Great, Ultra
+            var req = t.GetValidBall();
+            if (req == Ball.None)
+                return (uint) (b - 2) <= 2; // Poke, Great, Ultra
+            return b == req;
+        }
+
+        public static Ball GetValidBall(this PogoType t) => t switch
+        {
+            PogoType.Egg => Ball.Poke,
+            PogoType.FieldP => Ball.Poke,
+            PogoType.Raid15 => Ball.Premier,
+            PogoType.Raid20 => Ball.Premier,
+            _ => Ball.None, // Poke, Great, Ultra
         };
     }
 }
