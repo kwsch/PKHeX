@@ -88,7 +88,7 @@ namespace PKHeX.Core
                 yield break;
 
             var ball = (Ball)pkm.Ball;
-            var stamp = EncounterSlot8GO.GetTimeStamp(pkm.Met_Year, pkm.Met_Month, pkm.Met_Day);
+            var stamp = EncounterSlot8GO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
             foreach (var s in Slots)
             {
                 var slot = (EncounterSlot8GO)s;
