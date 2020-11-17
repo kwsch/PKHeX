@@ -105,8 +105,12 @@ namespace PKHeX.Core
 
             // update for all species in potential lineage
             var allspec = tree.GetEvolutionsAndPreEvolutions(species, form);
-            foreach (var s in allspec)
-                SetSizeData(group, s, form, height, weight);
+            foreach (var sf in allspec)
+            {
+                var s = sf & 0x7FF;
+                var f = sf >> 11;
+                SetSizeData(group, s, f, height, weight);
+            }
         }
 
         public void SetSizeData(DexSizeType group, int species, int form, int height, int weight)

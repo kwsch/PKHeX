@@ -34,7 +34,7 @@ namespace PKHeX.Core
             Evolves8.FixEvoTreeSS();
         }
 
-        internal static EvolutionTree GetEvolutionTree(int generation)
+        public static EvolutionTree GetEvolutionTree(int generation)
         {
             return generation switch
             {
@@ -49,7 +49,7 @@ namespace PKHeX.Core
             };
         }
 
-        internal static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
+        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
         {
             return generation switch
             {
@@ -230,7 +230,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="species">Species ID</param>
         /// <param name="form">Form ID</param>
-        /// <returns>Enumerable of species IDs.</returns>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
         public IEnumerable<int> GetEvolutionsAndPreEvolutions(int species, int form)
         {
             foreach (var s in GetPreEvolutions(species, form))
@@ -240,7 +240,13 @@ namespace PKHeX.Core
                 yield return s;
         }
 
-        private IEnumerable<int> GetPreEvolutions(int species, int form)
+        /// <summary>
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve from, yielded in order of increasing evolution stage.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="form">Form ID</param>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
+        public IEnumerable<int> GetPreEvolutions(int species, int form)
         {
             int index = GetLookupKey(species, form);
             var node = Lineage[index];
@@ -250,14 +256,20 @@ namespace PKHeX.Core
                 if (s == 0)
                     continue;
                 var f = method.Form;
-                yield return s;
                 var preEvolutions = GetPreEvolutions(s, f);
                 foreach (var preEvo in preEvolutions)
                     yield return preEvo;
+                yield return s | (f << 11);
             }
         }
 
-        private IEnumerable<int> GetEvolutions(int species, int form)
+        /// <summary>
+        /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve to, yielded in order of increasing evolution stage.
+        /// </summary>
+        /// <param name="species">Species ID</param>
+        /// <param name="form">Form ID</param>
+        /// <returns>Enumerable of species IDs (with the Form IDs included, left shifted by 11).</returns>
+        public IEnumerable<int> GetEvolutions(int species, int form)
         {
             int format = Game - Gen1 + 1;
             int index = format < 7 ? species : Personal.GetFormeIndex(species, form);
@@ -268,10 +280,10 @@ namespace PKHeX.Core
                 if (s == 0)
                     continue;
                 var f = method.GetDestinationForm(form);
-                yield return s;
+                yield return s | (f << 11);
                 var nextEvolutions = GetEvolutions(s, f);
-                foreach (var next in nextEvolutions)
-                    yield return next;
+                foreach (var nextEvo in nextEvolutions)
+                    yield return nextEvo;
             }
         }
 
