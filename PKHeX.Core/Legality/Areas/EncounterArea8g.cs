@@ -10,7 +10,10 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea8g : EncounterArea
     {
+        /// <summary> Species for the area </summary>
+        /// <remarks> Due to how the encounter data is packaged by PKHeX, each species-form is grouped together. </remarks>
         public int Species { get; }
+        /// <summary> Form of the Species </summary>
         public int Form { get; }
 
         private EncounterArea8g(int species, int form) : base(GameVersion.GO)
@@ -55,11 +58,16 @@ namespace PKHeX.Core
             int end = BitConverter.ToInt32(data, offset + 4);
             var shiny = (Shiny)data[offset + 8];
             var type = (PogoType)data[offset + 9];
-            return new EncounterSlot8GO(area, species, form, group, type, shiny, start, end);
+            return new EncounterSlot8GO(area, species, form, start, end, shiny, type, group);
         }
 
         private static GameVersion GetGroup(int species, int form)
         {
+            // Transfer Rules:
+            // If it can exist in LGP/E, it uses LGP/E's move data for the initial moves.
+            // Else, if it can exist in SW/SH, it uses SW/SH's move data for the initial moves.
+            // Else, it must exist in US/UM, thus it uses US/UM's moves.
+
             var pt8 = PersonalTable.SWSH;
             var ptGG = PersonalTable.GG;
 

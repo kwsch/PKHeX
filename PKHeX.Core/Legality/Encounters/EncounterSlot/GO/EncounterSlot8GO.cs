@@ -1,17 +1,20 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Wild Encounter Slot data (GO -> HOME)
+    /// </summary>
     public sealed class EncounterSlot8GO : EncounterSlotGO
     {
         public override int Generation => 8;
         public GameVersion OriginGroup { get; }
 
-        public EncounterSlot8GO(EncounterArea8g area, int species, int form, GameVersion gameVersion, PogoType type, Shiny shiny, int start, int end)
-            : base(area, start, end, type, shiny)
+        public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, PogoType type, GameVersion originGroup)
+            : base(area, start, end, shiny, type)
         {
             Species = species;
             Form = form;
 
-            OriginGroup = gameVersion;
+            OriginGroup = originGroup;
         }
 
         public int GetMinIV() => Type.GetMinIV();
@@ -25,7 +28,9 @@ namespace PKHeX.Core
             pk8.CurrentHandler = 1;
 
             base.ApplyDetails(sav, criteria, pk);
-            pk.Ball = (int)Type.GetValidBall();
+            var ball = Type.GetValidBall();
+            if (ball != Ball.None)
+                pk.Ball = (int)ball;
 
             pk8.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pk8.WeightScalar = PokeSizeUtil.GetRandomScalar();

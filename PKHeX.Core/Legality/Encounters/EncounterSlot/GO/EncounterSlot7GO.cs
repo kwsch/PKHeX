@@ -1,11 +1,14 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 Wild Encounter Slot data (GO Park)
+    /// </summary>
     public sealed class EncounterSlot7GO : EncounterSlotGO
     {
         public override int Generation => 7;
 
-        public EncounterSlot7GO(EncounterArea7g area, int species, int form, PogoType type, Shiny shiny, int start, int end)
-            : base(area, start, end, type, shiny)
+        public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, PogoType type)
+            : base(area, start, end, shiny, type)
         {
             Species = species;
             Form = form;

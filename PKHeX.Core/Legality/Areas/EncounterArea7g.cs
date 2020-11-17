@@ -10,7 +10,10 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea7g : EncounterArea
     {
+        /// <summary> Species for the area </summary>
+        /// <remarks> Due to how the encounter data is packaged by PKHeX, each species-form is grouped together. </remarks>
         public int Species { get; }
+        /// <summary> Form of the Species </summary>
         public int Form { get; }
 
         private EncounterArea7g(int species, int form) : base(GameVersion.GO)
@@ -53,7 +56,7 @@ namespace PKHeX.Core
             int end = BitConverter.ToInt32(data, offset + 4);
             var shiny = (Shiny)data[offset + 8];
             var type = (PogoType)data[offset + 9];
-            return new EncounterSlot7GO(area, species, form, type, shiny, start, end);
+            return new EncounterSlot7GO(area, species, form, start, end, shiny, type);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
@@ -75,6 +78,7 @@ namespace PKHeX.Core
                     continue;
                 if (!slot.IsWithinStartEnd(stamp))
                     continue;
+
                 yield return slot;
             }
         }

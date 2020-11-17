@@ -2,14 +2,25 @@ using System;
 
 namespace PKHeX.Core
 {
-    public abstract class EncounterSlotGO : EncounterSlot, IPogoSlotTime
+    /// <summary>
+    /// Contains details about an encounter that can be found in <see cref="GameVersion.GO"/>
+    /// </summary>
+    public abstract class EncounterSlotGO : EncounterSlot, IPogoSlot
     {
-        public PogoType Type { get; }
-        public Shiny Shiny { get; }
+        /// <summary> Start Date timestamp of when the encounter became available. </summary>
         public int Start { get; }
+
+        /// <summary> End Date timestamp of when the encounter became unavailable. </summary>
+        /// <remarks> If there is no end date (yet), we'll try to clamp to a date in the near-future to prevent it from being open-ended. </remarks>
         public int End { get; }
 
-        protected EncounterSlotGO(EncounterArea area, int start, int end, PogoType type, Shiny shiny) : base(area)
+        /// <summary> Possibility of being shiny. </summary>
+        public Shiny Shiny { get; }
+
+        /// <summary> How the encounter was captured. </summary>
+        public PogoType Type { get; }
+
+        protected EncounterSlotGO(EncounterArea area, int start, int end, Shiny shiny, PogoType type) : base(area)
         {
             LevelMin = type.GetMinLevel();
             LevelMax = EncountersGO.MAX_LEVEL;
@@ -49,14 +60,20 @@ namespace PKHeX.Core
             const int tolerance = 1;
 
             if (End == 0)
-                return Start <= stamp;
+                return Start <= stamp && GetDate(stamp) <= DateTime.Now.AddDays(tolerance);
             if (Start == 0)
                 return stamp <= End + tolerance;
             return Start <= stamp && stamp <= End + tolerance;
         }
 
-        public static int GetTimeStamp(int y, int m, int d) => (y << 16) | (m << 8) | d;
+        /// <summary>
+        /// Converts a split timestamp into a single integer.
+        /// </summary>
+        public static int GetTimeStamp(int year, int month, int day) => (year << 16) | (month << 8) | day;
 
+        /// <summary>
+        /// Gets a random date within the availability range.
+        /// </summary>
         public DateTime GetRandomValidDate()
         {
             if (Start == 0)

@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Encounter Type for various <see cref="GameVersion.GO"/> encounters.
+    /// </summary>
     public enum PogoType : byte
     {
         None, // Don't use this.
@@ -29,7 +32,11 @@ namespace PKHeX.Core
 
     public static class PogoTypeExtensions
     {
-        public static int GetMinLevel(this PogoType t) => t switch
+        /// <summary>
+        /// Gets the minimum level (relative to GO's 1-<see cref="EncountersGO.MAX_LEVEL"/>) the <see cref="encounterType"/> must have.
+        /// </summary>
+        /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+        public static int GetMinLevel(this PogoType encounterType) => encounterType switch
         {
             PogoType.Raid15 => 15,
             PogoType.Raid20 => 20,
@@ -41,7 +48,12 @@ namespace PKHeX.Core
             _ => 1,
         };
 
-        public static int GetMinIV(this PogoType t) => t switch
+        /// <summary>
+        /// Gets the minimum IVs (relative to GO's 0-15) the <see cref="encounterType"/> must have.
+        /// </summary>
+        /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+        /// <returns>Required minimum IV (0-15)</returns>
+        public static int GetMinIV(this PogoType encounterType) => encounterType switch
         {
             PogoType.Wild => 0,
             PogoType.Raid20 => 10,
@@ -51,15 +63,26 @@ namespace PKHeX.Core
             _ => 1,
         };
 
-        public static bool IsBallValid(this PogoType t, Ball b)
+        /// <summary>
+        /// Checks if the <see cref="ball"/> is valid for the <see cref="encounterType"/>.
+        /// </summary>
+        /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+        /// <param name="ball">Current <see cref="Ball"/> the Pokémon is in.</param>
+        /// <returns>True if valid, false if invalid.</returns>
+        public static bool IsBallValid(this PogoType encounterType, Ball ball)
         {
-            var req = t.GetValidBall();
+            var req = encounterType.GetValidBall();
             if (req == Ball.None)
-                return (uint)(b - 2) <= 2; // Poke, Great, Ultra
-            return b == req;
+                return (uint)(ball - 2) <= 2; // Poke, Great, Ultra
+            return ball == req;
         }
 
-        public static Ball GetValidBall(this PogoType t) => t switch
+        /// <summary>
+        /// Gets a valid ball that the <see cref="encounterType"/> can have based on the type of capture in Pokémon GO.
+        /// </summary>
+        /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
+        /// <returns><see cref="Ball.None"/> if no specific ball is required, otherwise returns the required ball.</returns>
+        public static Ball GetValidBall(this PogoType encounterType) => encounterType switch
         {
             PogoType.Egg => Ball.Poke,
             PogoType.FieldP => Ball.Poke,
