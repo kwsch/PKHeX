@@ -43,3 +43,6 @@
 1338	Found Never-Melt Ice in Iceberg Ruins
 1339	Found Hard Stone in Rock Peak Ruins
 2736	Rotom disappeared in Old Chateau TV
+0151	Received Porygon
+0305	Received Eevee
+2430	Unlocked Bebe's PC
