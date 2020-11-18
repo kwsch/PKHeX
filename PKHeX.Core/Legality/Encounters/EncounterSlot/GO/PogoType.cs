@@ -42,6 +42,7 @@ namespace PKHeX.Core
             PogoType.Raid20 => 20,
             PogoType.Field15 => 15,
             PogoType.FieldM => 15,
+            PogoType.FieldP => 15,
             PogoType.Field20 => 20,
             PogoType.Shadow => 8,
             PogoType.ShadowPGU => 8,
