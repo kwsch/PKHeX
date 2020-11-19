@@ -209,7 +209,8 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
-                case SW: case SH:
+                case GO:
+                case SW: case SH: case SWSH:
                     if (species > MaxSpeciesID_8)
                         return LearnNONE;
                     return LearnSWSH.GetIsLevelUp(species, form, move, lvl);
@@ -474,6 +475,7 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case Any:
+                case GO:
                 case SW: case SH: case SWSH:
                     if (species > MaxSpeciesID_8)
                         return moves;

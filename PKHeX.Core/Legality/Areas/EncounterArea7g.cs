@@ -20,7 +20,7 @@ namespace PKHeX.Core
         {
             Species = species;
             Form = form;
-            Location = 50;
+            Location = Locations.GO7;
         }
 
         internal static EncounterArea7g[] GetArea(byte[][] data)

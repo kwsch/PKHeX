@@ -180,10 +180,7 @@ namespace PKHeX.Core
                 case GameVersion.GP: return SlotsGP;
                 case GameVersion.GE: return SlotsGE;
                 case GameVersion.GO:
-                    if (pkm.Met_Location == Locations.GO8)
-                        return SlotsGO;
-                    else // LGPE GO
-                        return SlotsGO_GG;
+                    return GetEncounterTableGO(pkm);
 
                 case GameVersion.SW: return SlotsSW;
                 case GameVersion.SH: return SlotsSH;
@@ -213,6 +210,22 @@ namespace PKHeX.Core
             // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin
             // or it can be a Crystal pokemon that lost met location after being tradeback to gen 1 games
             return SlotsGSC;
+        }
+
+        private static IEnumerable<EncounterArea> GetEncounterTableGO(PKM pkm)
+        {
+            if (pkm.Format < 8)
+                return SlotsGO_GG;
+
+            // If we know the met location, return the specific area list.
+            // If we're just getting all encounters (lack of met location is kinda bad...), just return everything.
+            var met = pkm.Met_Location;
+            return met switch
+            {
+                Locations.GO8 => SlotsGO,
+                Locations.GO7 => SlotsGO_GG,
+                _ => SlotsGO_GG.Concat<EncounterArea>(SlotsGO),
+            };
         }
     }
 }
