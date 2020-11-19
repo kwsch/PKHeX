@@ -26,8 +26,6 @@ namespace PKHeX.Core
 
         /// <summary> Purified, requires Lv. 8 and IV=1 (Premier Ball) </summary>
         Shadow = 30,
-        /// <summary> Purified, requires Lv. 8 and IV=1 (No Premier Ball) </summary>
-        ShadowPGU,
     }
 
     public static class PogoTypeExtensions
@@ -45,7 +43,6 @@ namespace PKHeX.Core
             PogoType.FieldP => 15,
             PogoType.Field20 => 20,
             PogoType.Shadow => 8,
-            PogoType.ShadowPGU => 8,
             _ => 1,
         };
 
@@ -89,6 +86,7 @@ namespace PKHeX.Core
             PogoType.FieldP => Ball.Poke,
             PogoType.Raid15 => Ball.Premier,
             PogoType.Raid20 => Ball.Premier,
+            PogoType.Shadow => Ball.Premier,
             _ => Ball.None, // Poke, Great, Ultra
         };
     }
