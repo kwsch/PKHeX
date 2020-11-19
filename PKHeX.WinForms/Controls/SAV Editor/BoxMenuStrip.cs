@@ -112,8 +112,8 @@ namespace PKHeX.WinForms.Controls
             Resources.wand,
         };
 
-        public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.SAV.CurrentBox, All);
-        public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.SAV.CurrentBox, All);
+        public void Clear() => Manipulator.Execute(BoxManipType.DeleteAll, SAV.CurrentBox, All);
+        public void Sort() => Manipulator.Execute(BoxManipType.SortSpecies, SAV.CurrentBox, All);
 
         private static bool All => (ModifierKeys & Keys.Shift) != 0;
         private static bool Reverse => (ModifierKeys & Keys.Control) != 0;
