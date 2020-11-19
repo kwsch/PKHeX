@@ -79,9 +79,12 @@ namespace PKHeX.Core
             if (Start == 0)
                 return End == 0 ? DateTime.Now : GetDate(End);
 
-            var end = Math.Max(Start, End);
-            var delta = end - Start;
-            var bias = Util.Rand.Next(0, delta + 1);
+            var start = GetDate(Start);
+            if (End == 0)
+                return start;
+            var end = GetDate(End);
+            var delta = end - start;
+            var bias = Util.Rand.Next(0, delta.Days + 1);
             return GetDate(Start).AddDays(bias);
         }
 

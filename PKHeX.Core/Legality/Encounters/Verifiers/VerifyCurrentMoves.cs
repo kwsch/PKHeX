@@ -268,7 +268,7 @@ namespace PKHeX.Core
             // Encapsulate arguments to simplify method calls
             var moveInfo = new LearnInfo(pkm, source);
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
-            int[] generations = GetGenMovesCheckOrder(pkm);
+            int[] generations = GetGenMovesCheckOrder(pkm, info.EncounterOriginal.Generation);
             if (pkm.Format <= 2)
                 generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
             if (reset != 0)
@@ -887,14 +887,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the generation numbers in descending order for iterating over.
         /// </summary>
-        public static int[] GetGenMovesCheckOrder(PKM pkm)
+        public static int[] GetGenMovesCheckOrder(PKM pkm, int origin)
         {
             if (pkm.Format < 3)
                 return GetGenMovesCheckOrderGB(pkm, pkm.Format);
             if (pkm.VC)
                 return GetGenMovesOrderVC(pkm);
-
-            return GetGenMovesOrder(pkm.Format, pkm.GenNumber);
+            return GetGenMovesOrder(pkm.Format, origin);
         }
 
         private static int[] GetGenMovesOrderVC(PKM pkm)

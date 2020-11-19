@@ -35,5 +35,12 @@ namespace PKHeX.Core
             pk8.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pk8.WeightScalar = PokeSizeUtil.GetRandomScalar();
         }
+
+        protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
+        {
+            var moves = MoveLevelUp.GetEncounterMoves(pk, level, OriginGroup);
+            pk.SetMoves(moves);
+            pk.SetMaximumPPCurrent(moves);
+        }
     }
 }

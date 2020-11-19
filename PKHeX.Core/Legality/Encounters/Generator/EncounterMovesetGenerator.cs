@@ -152,9 +152,14 @@ namespace PKHeX.Core
             if (pk.Species == (int)Species.Smeargle)
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
-            var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk);
+            // Roughly determine the generation the PKM is originating from
+            int origin = pk.GenNumber;
+            if (origin < 0)
+                origin = ((GameVersion)pk.Version).GetGeneration();
+
+            var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-            return moves.Except(canlearn).ToArray();
+            return moves.Except(canlearn).Where(z => z != 0).ToArray();
         }
 
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
@@ -367,21 +372,16 @@ namespace PKHeX.Core
         {
             switch (enc.Generation)
             {
-                case 4 when enc is EncounterStaticTyped t && enc.Location == 193:
-                    if (t.TypeEncounter == EncounterType.Surfing_Fishing) // Johto Route 45 surfing encounter. Unreachable Water tiles.
-                        return true; // only hits for Roamer Raikou
-                    break;
+                case 4 when enc is EncounterStaticTyped t && pk.Met_Location == 193: // Johto Route 45 surfing encounter. Unreachable Water tiles.
+                    return t.TypeEncounter == EncounterType.Surfing_Fishing; // Roamer Raikou
                 case 4:
-                    switch (pk.Species)
+                    return enc.Species switch
                     {
-                        case (int)Species.Darkrai when enc.Location == 079 && !pk.Pt: // DP Darkrai
-                            return true;
-                        case (int)Species.Shaymin when enc.Location == 063 && !pk.Pt: // DP Shaymin
-                            return true;
-                        case (int)Species.Arceus when enc.Location == 086: // Azure Flute Arceus
-                            return true;
-                    }
-                    break;
+                        (int)Species.Darkrai when enc.Location == 079 && enc.Version != GameVersion.Pt => true, // DP Darkrai
+                        (int)Species.Shaymin when enc.Location == 063 && enc.Version != GameVersion.Pt => true, // DP Shaymin
+                        (int)Species.Arceus  when enc.Location == 086 => true, // Azure Flute Arceus
+                        _ => false
+                    };
             }
 
             return false;

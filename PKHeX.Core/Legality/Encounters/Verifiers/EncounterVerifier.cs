@@ -282,7 +282,7 @@ namespace PKHeX.Core
                         case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
                             return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
                     }
-                    if (s.Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
+                    if (pkm.Met_Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:

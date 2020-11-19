@@ -91,7 +91,8 @@ namespace PKHeX.Core
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;
 
-            var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
+            var sf = chain.FirstOrDefault(z => z.Species == Species 
+                                               && (z.Form == Form || AltFormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
             if (sf == null)
                 yield break;
 
