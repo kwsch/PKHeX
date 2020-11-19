@@ -118,7 +118,7 @@ namespace PKHeX.WinForms.Controls
             if (!(sender is MaskedTextBox mt))
                 return;
 
-            if (int.TryParse(mt.Text, out var val))
+            if (!int.TryParse(mt.Text, out var val))
                 val = 0;
             if (mt == TB_TID7)
             {
