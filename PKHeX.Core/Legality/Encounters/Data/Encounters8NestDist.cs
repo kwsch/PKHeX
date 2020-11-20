@@ -507,6 +507,34 @@
             new EncounterStatic8ND(60,10,5) { Species = 569, Ability = A4, Moves = new[]{ 441, 499, 034, 707 }, CanGigantamax = true }, // Garbodor
             new EncounterStatic8ND(60,10,5) { Species = 045, Ability = A4, Moves = new[]{ 080, 585, 051, 034 } }, // Vileplume
             new EncounterStatic8ND(60,10,5) { Species = 454, Ability = A4, Moves = new[]{ 188, 389, 280, 523 } }, // Toxicroak
+
+            // 11/20 - Forest
+            new EncounterStatic8ND(17,01,1) { Species = 420, Ability = A4, Moves = new[]{ 033, 572, 074, 670 } }, // Cherubi
+            new EncounterStatic8ND(17,01,1) { Species = 590, Ability = A4, Moves = new[]{ 078, 492, 310, 412 } }, // Foongus
+            new EncounterStatic8ND(17,01,1) { Species = 755, Ability = A4, Moves = new[]{ 402, 109, 605, 310 } }, // Morelull
+            new EncounterStatic8ND(17,01,1) { Species = 819, Ability = A4, Moves = new[]{ 747, 231, 371, 033 } }, // Skwovet
+            new EncounterStatic8ND(30,03,2) { Species = 420, Ability = A4, Moves = new[]{ 033, 572, 074, 402 } }, // Cherubi
+            new EncounterStatic8ND(30,03,2) { Species = 590, Ability = A4, Moves = new[]{ 078, 492, 310, 412 } }, // Foongus
+            new EncounterStatic8ND(30,03,2) { Species = 756, Ability = A4, Moves = new[]{ 402, 109, 605, 310 } }, // Shiinotic
+            new EncounterStatic8ND(30,03,2) { Species = 819, Ability = A4, Moves = new[]{ 747, 231, 371, 033 } }, // Skwovet
+            new EncounterStatic8ND(30,03,2) { Species = 820, Ability = A4, Moves = new[]{ 747, 231, 371, 034 } }, // Greedent
+            new EncounterStatic8ND(40,05,3) { Species = 420, Ability = A4, Moves = new[]{ 311, 572, 074, 402 } }, // Cherubi
+            new EncounterStatic8ND(40,05,3) { Species = 591, Ability = A4, Moves = new[]{ 078, 492, 092, 412 } }, // Amoonguss
+            new EncounterStatic8ND(40,05,3) { Species = 756, Ability = A4, Moves = new[]{ 402, 585, 605, 310 } }, // Shiinotic
+            new EncounterStatic8ND(40,05,3) { Species = 819, Ability = A4, Moves = new[]{ 747, 360, 371, 044 } }, // Skwovet
+            new EncounterStatic8ND(40,05,3) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 424 } }, // Greedent
+            new EncounterStatic8ND(50,08,4) { Species = 420, Ability = A4, Moves = new[]{ 311, 572, 605, 402 } }, // Cherubi
+            new EncounterStatic8ND(50,08,4) { Species = 591, Ability = A4, Moves = new[]{ 188, 492, 092, 412 } }, // Amoonguss
+            new EncounterStatic8ND(50,08,4) { Species = 756, Ability = A4, Moves = new[]{ 412, 585, 605, 188 } }, // Shiinotic
+            new EncounterStatic8ND(50,08,4) { Species = 819, Ability = A4, Moves = new[]{ 747, 360, 371, 331 } }, // Skwovet
+            new EncounterStatic8ND(50,08,4) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 424 } }, // Greedent
+            new EncounterStatic8ND(60,10,5) { Species = 420, Ability = A4, Moves = new[]{ 311, 572, 605, 412 } }, // Cherubi
+            new EncounterStatic8ND(60,10,5) { Species = 591, Ability = A4, Moves = new[]{ 147, 492, 092, 412 } }, // Amoonguss
+            new EncounterStatic8ND(60,10,5) { Species = 756, Ability = A4, Moves = new[]{ 147, 585, 605, 188 } }, // Shiinotic
+            new EncounterStatic8ND(60,10,5) { Species = 819, Ability = A4, Moves = new[]{ 747, 360, 371, 034 } }, // Skwovet
+            new EncounterStatic8ND(60,10,5) { Species = 819, Ability = A4, Moves = new[]{ 747, 360, 371, 034 }, Shiny = Shiny.Always }, // Skwovet
+            new EncounterStatic8ND(60,10,5) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 089 } }, // Greedent
+
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
