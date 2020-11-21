@@ -383,8 +383,8 @@ namespace PKHeX.Core
             new byte[] {208,210,214,226,230},// 172 : Frostpoint Field, Giant's Bed, Snowslide Slope, Frigid Sea, Ballimere Lake
             new byte[] {210,226,230},        // 173 : Giant's Bed, Frigid Sea, Ballimere Lake
             new byte[] {210,226,230},        // 174 : Giant's Bed, Frigid Sea, Ballimere Lake
-            new byte[] {210,226,230,234},    // 175 : Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
-            new byte[] {210,226,230,234},    // 176 : Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
+            new byte[] {208,210,226,230,234},// 175 : Frostpoint Field, Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
+            new byte[] {208,210,226,230,234},// 176 : Frostpoint Field, Giant's Bed, Frigid Sea, Ballimere Lake, Dyna Tree Hill
             new byte[] {210,214,218,230},    // 177 : Giant's Bed, Snowslide Slope, Path to the Peak, Ballimere Lake
             new byte[] {210,214,218,230},    // 178 : Giant's Bed, Snowslide Slope, Path to the Peak, Ballimere Lake
             new byte[] {204,210,214,230},    // 179 : Slippery Slope, Giant's Bed, Snowslide Slope, Ballimere Lake
