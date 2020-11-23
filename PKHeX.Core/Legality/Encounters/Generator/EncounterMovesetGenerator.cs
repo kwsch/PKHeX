@@ -282,7 +282,8 @@ namespace PKHeX.Core
                     yield return enc;
             }
 
-            if (pk.GenNumber > 2)
+            int gen = pk.GenNumber;
+            if ((uint)gen >= 3)
                 yield break;
 
             var gifts = EncounterStaticGenerator.GetPossibleGBGifts(pk, chain);
