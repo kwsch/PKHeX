@@ -94,14 +94,14 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade1[] TradeGift_RBY =
         {
-            new EncounterTrade1(122, RB, 06    ), // Mr. Mime - Abra
+            new EncounterTrade1(122, RB, 06, 05), // Mr. Mime - Abra
             new EncounterTrade1(032, RB, 02    ), // Nidoran♂ - Nidoran♀
             new EncounterTrade1(030, RB, 16    ), // Nidorina - Nidorino
             new EncounterTrade1(108, RB, 15    ), // Lickitung - Slowbro
             new EncounterTrade1(124, RB, 15, 10), // Jynx - Poliwhirl
-            new EncounterTrade1(114, RB, 13, 05), // Tangela - Venonat
             new EncounterTrade1(083, RB, 02    ), // Farfetch’d - Spearow
             new EncounterTrade1(101, RB, 03    ), // Electrode - Raichu
+            new EncounterTrade1(114, RB, 13, 05), // Tangela - Venonat
             new EncounterTrade1(086, RB, 28, 05), // Seel - Ponyta
 
             new EncounterTrade1(122, YW, 08, 06), // Mr. Mime - Clefairy
