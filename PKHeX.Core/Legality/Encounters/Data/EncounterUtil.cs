@@ -28,7 +28,17 @@ namespace PKHeX.Core
                 t.Nicknames = getNames(i, strings);
                 t.TrainerNames = getNames(i + half, strings);
             }
-            string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
+            static string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
+        }
+
+        internal static void MarkEncounterTradeNicknames<T>(T[] table, string[][] strings) where T : EncounterTrade
+        {
+            for (int i = 0; i < table.Length; i++)
+            {
+                var t = table[i];
+                t.Nicknames = getNames(i, strings);
+            }
+            static string[] getNames(int i, IEnumerable<string[]> names) => names.Select(z => z.Length > i ? z[i] : string.Empty).ToArray();
         }
     }
 }

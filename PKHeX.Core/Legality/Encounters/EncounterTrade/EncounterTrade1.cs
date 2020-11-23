@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Linq;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Trade Encounter data with a fixed Catch Rate
@@ -10,13 +12,21 @@
     public sealed class EncounterTrade1 : EncounterTradeGB
     {
         public override int Generation => 1;
-        public bool GBEra { private get; set; }
+        public override int LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;
 
-        public EncounterTrade1(int species, int level, GameVersion game) : base(species, level)
+        private readonly int LevelMinRBY;
+        private readonly int LevelMinGSC;
+
+        public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc)
         {
             Version = game;
             TrainerNames = StringConverter12.G1TradeOTName;
+
+            LevelMinRBY = rby;
+            LevelMinGSC = gsc;
         }
+
+        public EncounterTrade1(int species, GameVersion game, int rby) : this(species, game, rby, rby) { }
 
         public byte GetInitialCatchRate()
         {
@@ -31,19 +41,59 @@
             pk1.Catch_Rate = GetInitialCatchRate();
         }
 
-        internal bool IsEncounterTrade1Valid(PKM pkm)
+        internal bool IsNicknameValid(PKM pkm)
+        {
+            var nick = pkm.Nickname;
+            if (pkm.Format <= 2)
+                return Nicknames.Contains(nick);
+
+            // Converted string 1/2->7 to language specific value
+            // Nicknames can be from any of the languages it can trade between.
+            return pkm.Language == 1 ? Nicknames[1] == nick : GetNicknameIndex(nick) >= 2;
+        }
+
+        internal bool IsTrainerNameValid(PKM pkm)
         {
             string ot = pkm.OT_Name;
             if (pkm.Format <= 2)
                 return ot == StringConverter12.G1TradeOTStr;
+
             // Converted string 1/2->7 to language specific value
-            var tr = GetOT(pkm.Language);
+            int lang = pkm.Language;
+            var tr = GetOT(lang);
             return ot == tr;
+        }
+
+        private int GetNicknameIndex(string nickname)
+        {
+            var nn = Nicknames;
+            for (int i = 0; i < nn.Count; i++)
+            {
+                if (nn[i] == nickname)
+                    return i;
+            }
+            return -1;
+        }
+
+        private bool CanObtainMinGSC()
+        {
+            if (!ParseSettings.AllowGen1Tradeback)
+                return false;
+            if (Version == GameVersion.BU && EvolveOnTrade)
+                return ParseSettings.AllowGBCartEra;
+            return true;
+        }
+
+        private bool IsMatchLevel(PKM pkm, int lvl)
+        {
+            if (!(pkm is PK1))
+                return lvl >= LevelMinGSC;
+            return lvl >= LevelMin;
         }
 
         public override bool IsMatch(PKM pkm)
         {
-            if (Level > pkm.CurrentLevel) // minimum required level
+            if (!IsMatchLevel(pkm, pkm.CurrentLevel)) // minimum required level
                 return false;
 
             if (Version == GameVersion.BU)
@@ -52,7 +102,7 @@
                 if (!pkm.Japanese)
                     return false;
                 // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing un-evolved outsiders
-                if (GBEra && !ParseSettings.AllowGBCartEra)
+                if (EvolveOnTrade && !ParseSettings.AllowGBCartEra && pkm.CurrentLevel < LevelMinRBY)
                     return false;
             }
 
@@ -61,6 +111,15 @@
 
             var req = GetInitialCatchRate();
             return req == pk1.Catch_Rate;
+        }
+
+        public bool IsMatchDeferred(PKM pk)
+        {
+            if (!IsTrainerNameValid(pk))
+                return true;
+            if (!IsNicknameValid(pk))
+                return true;
+            return false;
         }
     }
 }

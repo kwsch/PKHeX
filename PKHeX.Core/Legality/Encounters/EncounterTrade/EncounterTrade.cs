@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public int Species { get; set; }
         public int Form { get; set; }
         public int Level { get; set; }
-        public int LevelMin => Level;
+        public virtual int LevelMin => Level;
         public int LevelMax => 100;
         public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
         public abstract int Generation { get; }

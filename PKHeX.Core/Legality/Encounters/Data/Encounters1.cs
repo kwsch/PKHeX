@@ -16,6 +16,8 @@ namespace PKHeX.Core
         private static EncounterArea1[] Get(string name, string ident, GameVersion game) =>
             EncounterArea1.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
 
+        static Encounters1() => EncounterUtil.MarkEncounterTradeNicknames(TradeGift_RBY, TradeGift_RBY_OTs);
+
         internal static readonly EncounterStatic1[] StaticRBY =
         {
             // GameVersion is RBY for Pokemon with the same catch rate and initial moves in all games
@@ -90,71 +92,40 @@ namespace PKHeX.Core
             new EncounterStatic1(140, 20, Stadium), // Kabuto
         };
 
-        internal static readonly EncounterTrade1[] TradeGift_RBY_Common =
+        internal static readonly EncounterTrade1[] TradeGift_RBY =
         {
-            // Species & Minimum level (legal) possible to acquire at.
-          //new EncounterTrade1(122, 06, RBY), // Mr. Mime - Game Corner Abra
-            new EncounterTrade1(032, 02, RD), // Nidoran♂ - Wild Nidoran♀
-            new EncounterTrade1(029, 02, BU), // Nidoran♀ - Wild Nidoran♂
-            new EncounterTrade1(030, 16, RB), // Nidorina - Evolve Nidorino
-            new EncounterTrade1(030, 16, YW), // Nidorina - Evolve Nidorino (Different initial moves)
-            new EncounterTrade1(108, 15, RB), // Lickitung - Surf Slowbro
-            new EncounterTrade1(083, 02, RB), // Farfetch’d - Wild Spearow
-            new EncounterTrade1(101, 03, RB), // Electrode - Wild Raichu
+            new EncounterTrade1(122, RB, 06    ), // Mr. Mime - Abra
+            new EncounterTrade1(032, RB, 02    ), // Nidoran♂ - Nidoran♀
+            new EncounterTrade1(030, RB, 16    ), // Nidorina - Nidorino
+            new EncounterTrade1(108, RB, 15    ), // Lickitung - Slowbro
+            new EncounterTrade1(124, RB, 15, 10), // Jynx - Poliwhirl
+            new EncounterTrade1(114, RB, 13, 05), // Tangela - Venonat
+            new EncounterTrade1(083, RB, 02    ), // Farfetch’d - Spearow
+            new EncounterTrade1(101, RB, 03    ), // Electrode - Raichu
+            new EncounterTrade1(086, RB, 28, 05), // Seel - Ponyta
 
-            new EncounterTrade1(122, 03, BU), // Mr. Mime - Wild Jigglypuff
-            new EncounterTrade1(060, 02, BU), // Poliwag - Wild Rattata
-          //new EncounterTrade1(083, 02, BU), // Farfetch’d - Wild Pidgey
+            new EncounterTrade1(122, YW, 08, 06), // Mr. Mime - Clefairy
+            new EncounterTrade1(067, YW, 16, 05) { EvolveOnTrade = true }, // Machoke - Cubone
+            new EncounterTrade1(051, YW, 15, 05), // Dugtrio - Lickitung
+            new EncounterTrade1(047, YW, 13, 05), // Parasect - Tangel
+            new EncounterTrade1(112, YW, 15, 10), // Rhydon - Golduck
+            new EncounterTrade1(087, YW, 15, 05), // Dewgong - Growlithe
+            new EncounterTrade1(089, YW, 25, 05), // Muk - Kangaskhan
+            
+            new EncounterTrade1(122, BU, 03    ), // Mr. Mime - Jigglypuff
+            new EncounterTrade1(029, BU, 02    ), // Nidoran♀ - Nidoran♂
+            new EncounterTrade1(060, BU, 02    ), // Poliwag - Rattata
+            new EncounterTrade1(115, BU, 15, 10), // Kangaskhan - Rhydon
+            new EncounterTrade1(128, BU, 28, 18), // Tauros - Persian
+            new EncounterTrade1(093, BU, 28, 14) { EvolveOnTrade = true }, // Haunter - Machop->Machoke
+            new EncounterTrade1(083, BU, 02    ), // Farfetch’d - Wild Pidgey
+            new EncounterTrade1(075, BU, 16, 15) { EvolveOnTrade = true }, // Graveler - Abra->Kadabra
+            new EncounterTrade1(079, BU, 22, 05), // Slowpoke - Seel
+            new EncounterTrade1(098, BU, 15, 05), // Krabby - Growlithe
         };
 
-        internal static readonly EncounterTrade1[] TradeGift_RBY_NoTradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
-        {
-            new EncounterTrade1(124, 15, RB), // Jynx - Fish Poliwhirl (GSC: 10)
-            new EncounterTrade1(114, 13, RB), // Tangela - Wild Venonat (GSC: 5) No different moves at level 13
-            new EncounterTrade1(086, 28, RB), // Seel - Wild Ponyta (GSC: 5)
-
-            new EncounterTrade1(115, 15, BU), // Kangaskhan - Trade Rhydon (GSC: 10)
-            new EncounterTrade1(128, 28, BU), // Tauros - Evolve Persian (GSC: 18)
-            new EncounterTrade1(098, 15, BU), // Krabby - Wild Growlithe (GSC: 5)
-
-          //new EncounterTrade1(122, 08, YW), // Mr. Mime - Wild Clefairy (GSC: 6)
-            new EncounterTrade1(067, 16, YW) { EvolveOnTrade = true }, // Machoke - Wild Cubone (GSC: 5)
-            new EncounterTrade1(112, 15, YW), // Rhydon - Surf Golduck (GSC: 10)
-            new EncounterTrade1(087, 15, YW), // Dewgong - Wild Growlithe (GSC: 5)
-            new EncounterTrade1(089, 25, YW), // Muk - Wild Kangaskhan (GSC: 5)
-            new EncounterTrade1(079, 22, YW), // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 15, YW), // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 13, YW), // Parasect - Trade Tangela (GSC 5)
-
-            new EncounterTrade1(093, 28, BU) { EvolveOnTrade = true }, // Haunter - Evolve Machop->Machoke
-            new EncounterTrade1(075, 16, BU) { EvolveOnTrade = true }, // Graveler - Evolve Abra->Kadabra
-        });
-
-        internal static readonly EncounterTrade1[] TradeGift_RBY_Tradeback = ArrayUtil.ConcatAll(TradeGift_RBY_Common, new[]
-        {
-            // Trade gifts that can be obtained at a lower level due to the requested Pokémon being a lower level in GSC
-            new EncounterTrade1(124, 10, RB), // Jynx - Fish Poliwhirl (RBY: 15)
-            new EncounterTrade1(114, 05, RB), // Tangela - Wild Venonat (RBY: 13)
-            new EncounterTrade1(086, 05, RB), // Seel - Egg Ponyta (RBY: 28)
-
-            new EncounterTrade1(115, 10, BU), // Kangaskhan - Trade Rhydon (RBY: 42)
-            new EncounterTrade1(128, 18, BU), // Tauros - Evolve Persian (RBY: 28)
-            new EncounterTrade1(098, 05, BU), // Krabby - Egg Growlithe (RBY: 15)
-
-          //new EncounterTrade1(122, 08, YW), // Mr. Mime - Wild Clefairy (RBY: 6)
-            new EncounterTrade1(067, 05, YW) { EvolveOnTrade = true }, // Machoke - Egg Cubone (RBY: 20)
-            new EncounterTrade1(112, 10, YW), // Rhydon - Surf Golduck (RBY: 15)
-            new EncounterTrade1(087, 05, YW), // Dewgong - Egg Growlithe (RBY: 15)
-            new EncounterTrade1(089, 05, YW), // Muk - Egg Kangaskhan (RBY: 25)
-
-            new EncounterTrade1(079, 05, YW), // Slowpoke - Wild Seel (GSC 5)
-            new EncounterTrade1(051, 05, YW), // Dugtrio - Trade Lickitung (GSC 5)
-            new EncounterTrade1(047, 05, YW), // Parasect - Trade Tangela (GSC 5)
-
-            // Stadium 2 can transfer from GSC->RBY without a "Trade", thus allowing unevolved outsiders
-            new EncounterTrade1(093, 14, BU) { EvolveOnTrade = true, GBEra = true }, // Haunter - Evolve Machop->Machoke
-            new EncounterTrade1(075, 15, BU) { EvolveOnTrade = true, GBEra = true }, // Graveler - Evolve Abra->Kadabra
-        });
+        private const string tradeRBY = "traderby";
+        private static readonly string[][] TradeGift_RBY_OTs = Util.GetLanguageStrings7(tradeRBY);
 
         private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
         private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };

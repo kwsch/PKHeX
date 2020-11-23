@@ -174,8 +174,8 @@ namespace PKHeX.Core
         {
             switch (data.Info.Generation)
             {
-                case 1:
-                case 2: VerifyTrade12(data, t); return;
+                case 1: VerifyTrade12(data, t); return;
+                case 2: return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
                 case 3: VerifyTrade3(data, t); return;
                 case 4: VerifyTrade4(data, t); return;
                 case 5: VerifyTrade5(data, t); return;
@@ -212,10 +212,10 @@ namespace PKHeX.Core
 
         private static void VerifyTrade12(LegalityAnalysis data, EncounterTrade t)
         {
-            if (t.TID != 0) // Gen2 Trade
-                return; // already checked all relevant properties when fetching with getValidEncounterTradeVC2
-
-            if (!((EncounterTrade1)t).IsEncounterTrade1Valid(data.pkm))
+            var t1 = (EncounterTrade1)t;
+            if (!t1.IsNicknameValid(data.pkm))
+                data.AddLine(GetInvalid(LEncTradeChangedNickname, CheckIdentifier.Nickname));
+            if (!t1.IsTrainerNameValid(data.pkm))
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
         }
 

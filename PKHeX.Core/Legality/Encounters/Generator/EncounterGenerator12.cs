@@ -33,7 +33,7 @@ namespace PKHeX.Core
                     deferred.Add(t);
                     continue;
                 }
-                if (t is EncounterTrade1 t1 && !t1.IsEncounterTrade1Valid(pkm))
+                if (t is EncounterTrade1 t1 && t1.IsMatchDeferred(pkm))
                 {
                     deferred.Add(t);
                     continue;
@@ -154,7 +154,7 @@ namespace PKHeX.Core
             switch (Encounter)
             {
                 case EncounterTrade1 t1:
-                    return t1.IsEncounterTrade1Valid(pkm) ? GBEncounterPriority.TradeEncounterG1 : GBEncounterPriority.Least;
+                    return !t1.IsMatchDeferred(pkm) ? GBEncounterPriority.TradeEncounterG1 : GBEncounterPriority.Least;
                 case EncounterTrade2 _:
                     return GBEncounterPriority.TradeEncounterG2;
                 case EncounterStatic s:

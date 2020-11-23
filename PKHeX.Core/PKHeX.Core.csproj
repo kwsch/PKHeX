@@ -169,6 +169,7 @@
     <None Remove="Resources\text\de\text_tradefrlg_de.txt" />
     <None Remove="Resources\text\de\text_tradegsc_de.txt" />
     <None Remove="Resources\text\de\text_tradehgss_de.txt" />
+    <None Remove="Resources\text\de\text_traderby_de.txt" />
     <None Remove="Resources\text\de\text_traderse_de.txt" />
     <None Remove="Resources\text\de\text_tradesm_de.txt" />
     <None Remove="Resources\text\de\text_tradeswsh_de.txt" />
@@ -228,6 +229,7 @@
     <None Remove="Resources\text\en\text_tradefrlg_en.txt" />
     <None Remove="Resources\text\en\text_tradegsc_en.txt" />
     <None Remove="Resources\text\en\text_tradehgss_en.txt" />
+    <None Remove="Resources\text\en\text_traderby_en.txt" />
     <None Remove="Resources\text\en\text_traderse_en.txt" />
     <None Remove="Resources\text\en\text_tradesm_en.txt" />
     <None Remove="Resources\text\en\text_tradeswsh_en.txt" />
@@ -287,6 +289,7 @@
     <None Remove="Resources\text\es\text_tradefrlg_es.txt" />
     <None Remove="Resources\text\es\text_tradegsc_es.txt" />
     <None Remove="Resources\text\es\text_tradehgss_es.txt" />
+    <None Remove="Resources\text\es\text_traderby_es.txt" />
     <None Remove="Resources\text\es\text_traderse_es.txt" />
     <None Remove="Resources\text\es\text_tradesm_es.txt" />
     <None Remove="Resources\text\es\text_tradeswsh_es.txt" />
@@ -346,6 +349,7 @@
     <None Remove="Resources\text\fr\text_tradefrlg_fr.txt" />
     <None Remove="Resources\text\fr\text_tradegsc_fr.txt" />
     <None Remove="Resources\text\fr\text_tradehgss_fr.txt" />
+    <None Remove="Resources\text\fr\text_traderby_fr.txt" />
     <None Remove="Resources\text\fr\text_traderse_fr.txt" />
     <None Remove="Resources\text\fr\text_tradesm_fr.txt" />
     <None Remove="Resources\text\fr\text_tradeswsh_fr.txt" />
@@ -429,6 +433,7 @@
     <None Remove="Resources\text\it\text_tradefrlg_it.txt" />
     <None Remove="Resources\text\it\text_tradegsc_it.txt" />
     <None Remove="Resources\text\it\text_tradehgss_it.txt" />
+    <None Remove="Resources\text\it\text_traderby_it.txt" />
     <None Remove="Resources\text\it\text_traderse_it.txt" />
     <None Remove="Resources\text\it\text_tradesm_it.txt" />
     <None Remove="Resources\text\it\text_tradeswsh_it.txt" />
@@ -488,6 +493,7 @@
     <None Remove="Resources\text\ja\text_tradefrlg_ja.txt" />
     <None Remove="Resources\text\ja\text_tradegsc_ja.txt" />
     <None Remove="Resources\text\ja\text_tradehgss_ja.txt" />
+    <None Remove="Resources\text\ja\text_traderby_ja.txt" />
     <None Remove="Resources\text\ja\text_traderse_ja.txt" />
     <None Remove="Resources\text\ja\text_tradesm_ja.txt" />
     <None Remove="Resources\text\ja\text_tradeswsh_ja.txt" />
@@ -1013,6 +1019,7 @@
     <EmbeddedResource Include="Resources\text\de\text_tradefrlg_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradegsc_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradehgss_de.txt" />
+    <EmbeddedResource Include="Resources\text\de\text_traderby_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_traderse_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradesm_de.txt" />
     <EmbeddedResource Include="Resources\text\de\text_tradeswsh_de.txt" />
@@ -1072,6 +1079,7 @@
     <EmbeddedResource Include="Resources\text\en\text_tradefrlg_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradegsc_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradehgss_en.txt" />
+    <EmbeddedResource Include="Resources\text\en\text_traderby_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_traderse_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradesm_en.txt" />
     <EmbeddedResource Include="Resources\text\en\text_tradeswsh_en.txt" />
@@ -1131,6 +1139,7 @@
     <EmbeddedResource Include="Resources\text\es\text_tradefrlg_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradegsc_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradehgss_es.txt" />
+    <EmbeddedResource Include="Resources\text\es\text_traderby_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_traderse_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradesm_es.txt" />
     <EmbeddedResource Include="Resources\text\es\text_tradeswsh_es.txt" />
@@ -1190,6 +1199,7 @@
     <EmbeddedResource Include="Resources\text\fr\text_tradefrlg_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradegsc_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradehgss_fr.txt" />
+    <EmbeddedResource Include="Resources\text\fr\text_traderby_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_traderse_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradesm_fr.txt" />
     <EmbeddedResource Include="Resources\text\fr\text_tradeswsh_fr.txt" />
@@ -1273,6 +1283,7 @@
     <EmbeddedResource Include="Resources\text\it\text_tradefrlg_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradegsc_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradehgss_it.txt" />
+    <EmbeddedResource Include="Resources\text\it\text_traderby_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_traderse_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradesm_it.txt" />
     <EmbeddedResource Include="Resources\text\it\text_tradeswsh_it.txt" />
@@ -1332,6 +1343,7 @@
     <EmbeddedResource Include="Resources\text\ja\text_tradefrlg_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradegsc_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradehgss_ja.txt" />
+    <EmbeddedResource Include="Resources\text\ja\text_traderby_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_traderse_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradesm_ja.txt" />
     <EmbeddedResource Include="Resources\text\ja\text_tradeswsh_ja.txt" />

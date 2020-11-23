@@ -68,7 +68,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterTradeGB> GetEncounterTradeTableVC(GameVersion gameSource)
         {
             if (GameVersion.RBY.Contains(gameSource))
-                return !ParseSettings.AllowGen1Tradeback ? Encounters1.TradeGift_RBY_NoTradeback : Encounters1.TradeGift_RBY_Tradeback;
+                return Encounters1.TradeGift_RBY;
             if (GameVersion.GSC.Contains(gameSource))
                 return Encounters2.TradeGift_GSC;
             return Array.Empty<EncounterTradeGB>();
