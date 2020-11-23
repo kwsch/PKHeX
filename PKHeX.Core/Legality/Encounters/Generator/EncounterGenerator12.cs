@@ -151,22 +151,15 @@ namespace PKHeX.Core
 
         private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable Encounter)
         {
-            switch (Encounter)
+            return Encounter switch
             {
-                case EncounterTrade1 t1:
-                    return !t1.IsMatchDeferred(pkm) ? GBEncounterPriority.TradeEncounterG1 : GBEncounterPriority.Least;
-                case EncounterTrade2 _:
-                    return GBEncounterPriority.TradeEncounterG2;
-                case EncounterStatic s:
-                    if (s.Moves.Count != 0 && s.Moves[0] != 0 && pkm.HasMove(s.Moves[0]))
-                        return GBEncounterPriority.SpecialEncounter;
-                    return GBEncounterPriority.StaticEncounter;
-                case EncounterSlot _:
-                    return GBEncounterPriority.WildEncounter;
-
-                default:
-                    return GBEncounterPriority.EggEncounter;
-            }
+                EncounterTrade1 t1 when t1.IsMatchDeferred(pkm) => GBEncounterPriority.Least,
+                EncounterTrade1 _ => GBEncounterPriority.TradeEncounterG1,
+                EncounterTrade2 _ => GBEncounterPriority.TradeEncounterG2,
+                EncounterStatic _ => GBEncounterPriority.StaticEncounter,
+                EncounterSlot _ => GBEncounterPriority.WildEncounter,
+                _ => GBEncounterPriority.EggEncounter
+            };
         }
 
         /// <summary>
@@ -178,7 +171,6 @@ namespace PKHeX.Core
             EggEncounter,
             WildEncounter,
             StaticEncounter,
-            SpecialEncounter,
             TradeEncounterG1,
             TradeEncounterG2,
         }
