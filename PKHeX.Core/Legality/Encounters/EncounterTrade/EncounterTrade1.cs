@@ -49,7 +49,16 @@ namespace PKHeX.Core
 
             // Converted string 1/2->7 to language specific value
             // Nicknames can be from any of the languages it can trade between.
-            return pkm.Language == 1 ? Nicknames[1] == nick : GetNicknameIndex(nick) >= 2;
+            int lang = pkm.Language;
+            if (lang == 1)
+            {
+                // Special consideration for Hiragana strings that are transferred
+                if (Version == GameVersion.YW && Species == (int)Core.Species.Dugtrio)
+                    return nick == "ぐりお";
+                return nick == Nicknames[1];
+            }
+
+            return GetNicknameIndex(nick) >= 2;
         }
 
         internal bool IsTrainerNameValid(PKM pkm)
