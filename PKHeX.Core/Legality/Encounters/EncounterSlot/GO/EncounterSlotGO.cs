@@ -55,15 +55,11 @@ namespace PKHeX.Core
 
         public bool IsWithinStartEnd(int stamp)
         {
-            // Events are in UTC, but time zones exist (and delayed captures too).
-            // Allow an extra day past the end date.
-            const int tolerance = 1;
-
             if (End == 0)
-                return Start <= stamp && GetDate(stamp) <= DateTime.Now.AddDays(tolerance);
+                return Start <= stamp && GetDate(stamp) <= DateTime.Now;
             if (Start == 0)
-                return stamp <= End + tolerance;
-            return Start <= stamp && stamp <= End + tolerance;
+                return stamp <= End;
+            return Start <= stamp && stamp <= End;
         }
 
         /// <summary>
