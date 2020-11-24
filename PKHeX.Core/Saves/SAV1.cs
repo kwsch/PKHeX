@@ -164,7 +164,7 @@ namespace PKHeX.Core
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
             byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
             byte[] dc = new byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
-            dc[0] = rawDC[0];
+            dc[0] = (byte)(IsDaycareOccupied(0, 0) == true ? 1 : 0);
             Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, dc, 1, StringLength);
             Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
             Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PokeCrypto.SIZE_1STORED);
