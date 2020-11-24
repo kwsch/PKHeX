@@ -303,6 +303,8 @@ namespace PKHeX.Core
                             if (arg != 0)
                                 return GetInvalid(LFormArgumentNotAllowed);
                         }
+                        if (arg > 9_999)
+                            return GetInvalid(LFormArgumentHigh);
                         break;
                     }
                 case (int)Species.Runerigus:
@@ -316,6 +318,8 @@ namespace PKHeX.Core
                         {
                             if (arg < 49)
                                 return GetInvalid(LFormArgumentLow);
+                            if (arg > 9_999)
+                                return GetInvalid(LFormArgumentHigh);
                         }
                         break;
                     }
