@@ -1042,7 +1042,7 @@ namespace PKHeX.Core
 
         private static readonly Lazy<string[]> FormArg9999 = new Lazy<string[]>(() =>
         {
-            var result = new string[9_999];
+            var result = new string[10_000];
             for (int i = 0; i < result.Length; i++)
                 result[i] = i.ToString();
             return result;
