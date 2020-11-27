@@ -201,7 +201,7 @@ namespace PKHeX.Core
 
         private static bool UpdateIsValid(LegalityAnalysis la)
         {
-            LegalityAnalysis.Ribbon.Verify(la);
+            LegalityAnalyzers.Ribbon.Verify(la);
             return la.Results.All(z => z.Valid);
         }
 

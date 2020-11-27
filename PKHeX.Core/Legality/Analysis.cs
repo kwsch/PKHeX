@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.LegalityAnalyzers;
 
 namespace PKHeX.Core
 {
     /// <summary>
     /// Legality Check object containing the <see cref="CheckResult"/> data and overview values from the parse.
     /// </summary>
-    public partial class LegalityAnalysis
+    public sealed class LegalityAnalysis
     {
         internal readonly PKM pkm;
         internal readonly PersonalInfo PersonalInfo;
@@ -204,7 +205,7 @@ namespace PKHeX.Core
             Level.Verify(this);
             Level.VerifyG1(this);
             Trainer.VerifyOTG1(this);
-            Misc.VerifyMiscG1(this);
+            MiscValues.VerifyMiscG1(this);
             if (pkm.Format == 2)
                 Item.Verify(this);
         }
@@ -307,20 +308,20 @@ namespace PKHeX.Core
         {
             PIDEC.Verify(this);
             Nickname.Verify(this);
-            Language.Verify(this);
+            LanguageIndex.Verify(this);
             Trainer.Verify(this);
             IndividualValues.Verify(this);
             EffortValues.Verify(this);
             Level.Verify(this);
             Ribbon.Verify(this);
-            Ability.Verify(this);
-            Ball.Verify(this);
-            Form.Verify(this);
-            Misc.Verify(this);
-            Gender.Verify(this);
+            AbilityValues.Verify(this);
+            BallIndex.Verify(this);
+            FormValues.Verify(this);
+            MiscValues.Verify(this);
+            GenderValues.Verify(this);
             Item.Verify(this);
             if (pkm.Format <= 6 && pkm.Format >= 4)
-                EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
+                Gen4EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
 
             Contest.Verify(this);
 
@@ -341,7 +342,7 @@ namespace PKHeX.Core
                 return;
 
             HyperTraining.Verify(this);
-            Misc.VerifyVersionEvolution(this);
+            MiscValues.VerifyVersionEvolution(this);
 
             if (pkm.Format < 8)
                 return;

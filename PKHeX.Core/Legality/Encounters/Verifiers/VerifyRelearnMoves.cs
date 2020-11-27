@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.LegalityAnalysis;
+using static PKHeX.Core.LegalityAnalyzers;
 
 namespace PKHeX.Core
 {
@@ -47,7 +47,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 4; i++)
             {
                 res[i] = relearn[i] != required[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[required[i]]), CheckIdentifier.RelearnMove)
+                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, LegalityAnalyzers.MoveStrings[required[i]]), CheckIdentifier.RelearnMove)
                     : new CheckResult(CheckIdentifier.RelearnMove);
             }
 
