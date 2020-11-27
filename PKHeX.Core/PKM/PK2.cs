@@ -203,9 +203,9 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = Korean ? Nickname : StringConverter12.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(nick, Japanese);
             }
-            pk7.OT_Name = Korean ? OT_Name : StringConverter12.GetG1ConvertedString(otname, Japanese);
+            pk7.OT_Name = Korean ? OT_Name : StringConverter12Transporter.GetString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
 
             pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm

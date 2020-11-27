@@ -163,7 +163,7 @@ namespace PKHeX.Core
                 Move4_PPUps = Move4_PPUps,
                 Met_Location = Locations.Transfer1, // "Kanto region", hardcoded.
                 Gender = Gender,
-                OT_Name = StringConverter12.GetG1ConvertedString(otname, Japanese),
+                OT_Name = StringConverter12Transporter.GetString(otname, Japanese),
                 IsNicknamed = false,
 
                 CurrentHandler = 1,
@@ -213,7 +213,7 @@ namespace PKHeX.Core
             else if (IsNicknamedBank)
             {
                 pk7.IsNicknamed = true;
-                pk7.Nickname = StringConverter12.GetG1ConvertedString(nick, Japanese);
+                pk7.Nickname = StringConverter12Transporter.GetString(nick, Japanese);
             }
 
             pk7.SetTradeMemoryHT(bank:true); // oh no, memories on gen7 pkm
