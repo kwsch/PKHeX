@@ -109,14 +109,14 @@ namespace PKHeX.Core
             new EncounterStatic8 { Gift = true, Species = 803, Level = 20, Location = 244, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Ball = 26 }, // Poipole
 
             // Technically a gift, but copies ball from Calyrex.
-            new EncounterStatic8 { Gift = false, Species = 896, Level = 75, Location = 220, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {556,0,0,0} }, // Glastrier
-            new EncounterStatic8 { Gift = false, Species = 897, Level = 75, Location = 220, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {247,0,0,0} }, // Spectrier
+            new EncounterStatic8 { Species = 896, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {556,0,0,0} }, // Glastrier
+            new EncounterStatic8 { Species = 897, Level = 75, Location = 220, ScriptedNoMarks = true, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Relearn = new[] {247,0,0,0} }, // Spectrier
 
             #region Static Part 1
             // encounters
-            new EncounterStatic8 { Species = 888, Level = 70, Location = 66, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SW }, // Zacian
-            new EncounterStatic8 { Species = 889, Level = 70, Location = 66, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SH }, // Zamazenta
-            new EncounterStatic8 { Species = 890, Level = 60, Location = 66, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
+            new EncounterStatic8 { Species = 888, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {533,014,442,242}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SW }, // Zacian
+            new EncounterStatic8 { Species = 889, Level = 70, Location = 66, ScriptedNoMarks = true, Moves = new[] {163,242,442,334}, Shiny = Never, Ability = 1, FlawlessIVCount = 3, Version = SH }, // Zamazenta
+            new EncounterStatic8 { Species = 890, Level = 60, Location = 66, ScriptedNoMarks = true, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
 
             // Motostoke Stadium Static Encounters
             new EncounterStatic8 { Species = 037, Level = 24, Location = 24, }, // Vulpix at Motostoke Stadium
@@ -580,19 +580,19 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 379, Level = 70, Location = 240, Moves = new[] {484,430,334,451}, FlawlessIVCount = 3, Ability = 1 }, // Registeel
             new EncounterStatic8 { Species = 894, Level = 70, Location = 242, Moves = new[] {819,527,245,393}, FlawlessIVCount = 3, Ability = 1 }, // Regieleki
             new EncounterStatic8 { Species = 895, Level = 70, Location = 242, Moves = new[] {820,337,359,673}, FlawlessIVCount = 3, Ability = 1 }, // Regidrago
-            new EncounterStatic8 { Species = 486, Level = 100, Location = 210, Moves = new[] {416,428,359,462}, FlawlessIVCount = 3, Ability = 1, DynamaxLevel = 10 }, // Regigigas in the Giant’s Bed (in the Crown Tundra)
+            new EncounterStatic8 { Species = 486, Level =100, Location = 210, Moves = new[] {416,428,359,462}, FlawlessIVCount = 3, Ability = 1, DynamaxLevel = 10, ScriptedNoMarks = true }, // Regigigas in the Giant’s Bed (in the Crown Tundra)
             new EncounterStatic8 { Species = 638, Level = 70, Location = 226, FlawlessIVCount = 3, Ability = 1 }, // Cobalion
             new EncounterStatic8 { Species = 639, Level = 70, Location = 232, FlawlessIVCount = 3, Ability = 1 }, // Terrakion
             new EncounterStatic8 { Species = 640, Level = 70, Location = 210, FlawlessIVCount = 3, Ability = 1 }, // Virizion
             new EncounterStatic8 { Species = 647, Level = 65, Location = 230, Moves = new[] {548,533,014,056}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Fateful = true }, // Keldeo-1 at Ballimere Lake (in the Crown Tundra)
             // new EncounterStatic8 { Species = 896, Level = 75, Location = -01, Moves = new[] {556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Glastrier
             // new EncounterStatic8 { Species = 897, Level = 75, Location = -01, Moves = new[] {247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Spectrier
-            new EncounterStatic8 { Species = 898, Level = 80, Location = 220, Moves = new[] {202,094,473,505}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Calyrex
+            new EncounterStatic8 { Species = 898, Level = 80, Location = 220, Moves = new[] {202,094,473,505}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, ScriptedNoMarks = true }, // Calyrex
 
             // suspected unused or uncatchable
-            new EncounterStatic8 { Species = 803, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Poipole
-            new EncounterStatic8 { Species = 789, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
-            new EncounterStatic8 { Species = 494, Level = 70, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Victini
+            // new EncounterStatic8 { Species = 803, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Poipole
+            // new EncounterStatic8 { Species = 789, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
+            // new EncounterStatic8 { Species = 494, Level = 70, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Victini
 
             new EncounterStatic8 { Species = 473, Level = 65, Location = 204 }, // Mamoswine on Slippery Slope (in the Crown Tundra)
             new EncounterStatic8S{ Species = 698, Level = 60, Locations = new[] {204, 208}, }, // Amaura on Slippery Slope, in Frostpoint Field (in the Crown Tundra)

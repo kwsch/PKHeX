@@ -87,7 +87,7 @@ namespace PKHeX.Core
                 case EncounterStatic8N _:
                 case EncounterStatic8ND _:
                 case EncounterStatic8NC _:
-                case EncounterStatic8 s when s.Gift || !EncounterArea8.IsWildArea(s.Location):
+                case EncounterStatic8 s when s.Gift || s.ScriptedNoMarks:
                     return false;
             }
 
