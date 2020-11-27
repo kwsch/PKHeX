@@ -126,6 +126,9 @@ namespace PKHeX.Core
             if (splitInvalid && e is EncounterEggSplit x)
                 FlagSplitbreedMoves(result, reqBase, x);
 
+            var dupe = IsAnyRelearnMoveDuplicate(pkm);
+            if (dupe > 0)
+                result[dupe] = new CheckResult(Severity.Invalid, LMoveSourceDuplicate, CheckIdentifier.RelearnMove);
             return result;
         }
 
@@ -196,6 +199,22 @@ namespace PKHeX.Core
             if (RelearnMoves.Count(m => m != 0) < Math.Min(4, baseMoves.Count))
                 reqBase = Math.Min(4, unique);
             return reqBase;
+        }
+
+        private static int IsAnyRelearnMoveDuplicate(PKM pk)
+        {
+            int m1 = pk.RelearnMove1;
+            int m2 = pk.RelearnMove2;
+
+            if (m1 != 0 && m1 == m2)
+                return 1;
+            int m3 = pk.RelearnMove3;
+            if (m3 != 0 && (m1 == m3 || m2 == m3))
+                return 2;
+            int m4 = pk.RelearnMove4;
+            if (m4 != 0 && (m1 == m4 || m2 == m4 || m3 == m4))
+                return 3;
+            return -1;
         }
     }
 }
