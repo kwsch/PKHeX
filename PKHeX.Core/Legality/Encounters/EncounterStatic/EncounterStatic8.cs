@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public class EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn
     {
         public sealed override int Generation => 8;

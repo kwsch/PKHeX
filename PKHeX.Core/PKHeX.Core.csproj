@@ -1713,9 +1713,4 @@
     <EmbeddedResource Include="Resources\text\zh\text_xy_60000_zh.txt" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\" />
-    <Folder Include="Saves\Substructures\Mail\" />
-  </ItemGroup>
-
 </Project>

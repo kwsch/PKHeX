@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 7 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStatic7 : EncounterStatic, IRelearn
     {
         public override int Generation => 7;
@@ -20,9 +24,9 @@ namespace PKHeX.Core
             if (SkipFormCheck)
                 return true;
 
-            if (FormConverter.IsTotemForm(Species, Form, Generation))
+            if (AltFormInfo.IsTotemForm(Species, Form, Generation))
             {
-                var expectForm = pkm.Format == 7 ? Form : FormConverter.GetTotemBaseForm(Species, Form);
+                var expectForm = pkm.Format == 7 ? Form : AltFormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;
             }
 

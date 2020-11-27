@@ -133,7 +133,7 @@ namespace PKHeX.WinForms
 
             int fspecies = LB_Species.SelectedIndex + 1;
             var bspecies = Dex.GetBaseSpecies(fspecies);
-            bool hasForms = FormConverter.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
+            bool hasForms = AltFormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
             var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();

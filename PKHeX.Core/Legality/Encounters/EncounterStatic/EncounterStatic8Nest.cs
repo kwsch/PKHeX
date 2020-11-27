@@ -3,9 +3,13 @@ using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 8 Nest Encounter (Raid)
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public abstract class EncounterStatic8Nest<T> : EncounterStatic, IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
     {
-        public override int Generation => 8;
+        public sealed override int Generation => 8;
         public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }
         public static Action<PKM, T, EncounterCriteria>? GenerateData { private get; set; }
 
@@ -41,7 +45,7 @@ namespace PKHeX.Core
             return base.IsMatch(pkm, evo);
         }
 
-        public override bool IsMatchDeferred(PKM pkm)
+        public sealed override bool IsMatchDeferred(PKM pkm)
         {
             if (base.IsMatchDeferred(pkm))
                 return true;
@@ -75,7 +79,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             if (GenerateData != null)
                 GenerateData(pk, (T)this, criteria);

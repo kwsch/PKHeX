@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStaticTyped : EncounterStatic4, IEncounterTypeTile
     {
         public bool Roaming { get; set; }
@@ -17,6 +21,7 @@ namespace PKHeX.Core
             if (!Roaming)
                 return base.IsMatchLocation(pkm);
 
+            // Met location is lost on transfer
             if (!(pkm is G4PKM pk4))
                 return true;
 

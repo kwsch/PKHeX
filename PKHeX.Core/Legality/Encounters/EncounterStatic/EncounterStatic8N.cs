@@ -5,8 +5,9 @@ using static PKHeX.Core.Encounters8Nest;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 8 Nest Encounter (Raid)
+    /// Generation 8 Nest Encounter (Regular Raid Dens)
     /// </summary>
+    /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
     public sealed class EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
         private readonly uint MinRank;

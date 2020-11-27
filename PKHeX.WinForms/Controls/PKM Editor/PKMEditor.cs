@@ -427,7 +427,7 @@ namespace PKHeX.WinForms.Controls
         {
             int species = Entity.Species;
             var pi = RequestSaveFile.Personal[species];
-            bool hasForms = FormConverter.HasFormSelection(pi, species, Entity.Format);
+            bool hasForms = AltFormInfo.HasFormSelection(pi, species, Entity.Format);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (HaX && Entity.Format >= 4)

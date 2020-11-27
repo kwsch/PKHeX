@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public class EncounterStatic5 : EncounterStatic
     {
         public sealed override int Generation => 5;

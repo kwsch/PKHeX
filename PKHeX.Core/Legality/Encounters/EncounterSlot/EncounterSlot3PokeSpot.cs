@@ -1,10 +1,14 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Encounter Slot found in <see cref="GameVersion.XD"/>.
+    /// </summary>
+    /// <inheritdoc cref="EncounterSlot"/>
     public sealed class EncounterSlot3PokeSpot : EncounterSlot, INumberedSlot
     {
         public override int Generation => 3;
 
-        public int SlotNumber { get; set; }
+        public int SlotNumber { get; }
 
         public EncounterSlot3PokeSpot(EncounterArea3XD area, int species, int min, int max, int slot) : base(area)
         {

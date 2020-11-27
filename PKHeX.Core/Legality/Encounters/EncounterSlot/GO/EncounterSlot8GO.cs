@@ -1,11 +1,20 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 8 Wild Encounter Slot data (GO -> HOME)
+    /// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
+    /// <inheritdoc/>
     /// </summary>
     public sealed class EncounterSlot8GO : EncounterSlotGO
     {
         public override int Generation => 8;
+
+        /// <summary>
+        /// Encounters need a Parent Game to determine the original moves when transferred to HOME.
+        /// </summary>
+        /// <remarks>
+        /// Future game releases might change this value.
+        /// With respect to date legality, new dates might be incompatible with initial <seealso cref="OriginGroup"/> values.
+        /// </remarks>
         public GameVersion OriginGroup { get; }
 
         public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, PogoType type, GameVersion originGroup)
@@ -17,7 +26,14 @@ namespace PKHeX.Core
             OriginGroup = originGroup;
         }
 
+        /// <summary>
+        /// Gets the minimum IV (in GO) the encounter must have.
+        /// </summary>
         public int GetMinIV() => Type.GetMinIV();
+
+        /// <summary>
+        /// Checks if the <seealso cref="Ball"/> is compatible with the <seealso cref="PogoType"/>.
+        /// </summary>
         public bool IsBallValid(Ball ball) => Type.IsBallValid(ball);
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

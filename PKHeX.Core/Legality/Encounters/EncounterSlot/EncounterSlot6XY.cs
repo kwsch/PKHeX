@@ -1,5 +1,9 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Encounter Slot found in <see cref="GameVersion.XY"/>.
+    /// </summary>
+    /// <inheritdoc cref="EncounterSlot"/>
     public sealed class EncounterSlot6XY : EncounterSlot
     {
         public override int Generation => 6;

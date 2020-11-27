@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 2 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public class EncounterStatic2 : EncounterStatic
     {
         public sealed override int Generation => 2;

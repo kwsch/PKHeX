@@ -1,7 +1,8 @@
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 7 Wild Encounter Slot data (GO Park)
+    /// Encounter Slot found in <see cref="GameVersion.Gen7"/> (GO Park, <seealso cref="GameVersion.GG"/>).
+    /// <inheritdoc/>
     /// </summary>
     public sealed class EncounterSlot7GO : EncounterSlotGO
     {

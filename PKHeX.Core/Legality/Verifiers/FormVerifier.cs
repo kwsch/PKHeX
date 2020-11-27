@@ -39,7 +39,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             var Info = data.Info;
 
-            if (!PersonalInfo.IsFormeWithinRange(form) && !FormConverter.IsValidOutOfBoundsForme(species, form, Info.Generation))
+            if (!PersonalInfo.IsFormeWithinRange(form) && !AltFormInfo.IsValidOutOfBoundsForme(species, form, Info.Generation))
                 return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
             if (EncounterMatch is EncounterSlot w && w.Area.Type == SlotType.FriendSafari)
@@ -48,7 +48,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is EncounterEgg)
             {
-                if (FormConverter.IsTotemForm(species, form, data.Info.Generation))
+                if (AltFormInfo.IsTotemForm(species, form, data.Info.Generation))
                     return GetInvalid(LFormInvalidGame);
             }
 

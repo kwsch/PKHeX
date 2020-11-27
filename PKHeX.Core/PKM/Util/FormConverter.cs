@@ -5,7 +5,7 @@ using static PKHeX.Core.Species;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Logic for various <see cref="PKM.AltForm"/> related requests.
+    /// Retrieves localized form names for indicating <see cref="PKM.AltForm"/> values.
     /// </summary>
     public static class FormConverter
     {
@@ -46,44 +46,6 @@ namespace PKHeX.Core
 
         // this is a hack; depends on currently loaded SaveFile's Game ID
         private static bool IsGG() => PKMConverter.Game == (int)GameVersion.GP || PKMConverter.Game == (int)GameVersion.GE;
-
-        public static bool IsTotemForm(int species, int form, int generation)
-        {
-            if (generation != 7)
-                return false;
-            if (form == 0)
-                return false;
-            if (!Legal.Totem_USUM.Contains(species))
-                return false;
-            if (species == (int)Mimikyu)
-                return form == 2 || form == 3;
-            if (Legal.Totem_Alolan.Contains(species))
-                return form == 2;
-            return form == 1;
-        }
-
-        public static int GetTotemBaseForm(int species, int form)
-        {
-            if (species == (int)Mimikyu)
-                return form - 2;
-            return form - 1;
-        }
-
-        public static bool IsValidOutOfBoundsForme(int species, int form, int generation)
-        {
-            switch ((Species)species)
-            {
-                case Unown:
-                    return form < (generation == 2 ? 26 : 28); // A-Z : A-Z?!
-                case Mothim: // Burmy base form is kept
-                    return form < 3;
-                case Scatterbug:
-                case Spewpa: // Vivillon Pre-evolutions
-                    return form < 18;
-                default:
-                    return false;
-            }
-        }
 
         private static readonly string[] EMPTY = { string.Empty };
         private const string Starter = nameof(Starter);
@@ -904,32 +866,6 @@ namespace PKHeX.Core
             015, 018, 080, 208, 254, 260, 302, 319, 323, 334, 362, 373, 376, 384, 428, 475, 531, 719,
         };
 
-        /// <summary>
-        /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.AltForm"/> value.
-        /// </summary>
-        /// <param name="pi">Game specific personal info</param>
-        /// <param name="species"><see cref="Species"/> ID</param>
-        /// <param name="format"><see cref="PKM.AltForm"/> ID</param>
-        /// <returns>True if has formes that can be provided by <see cref="GetFormList"/>, otherwise false for none.</returns>
-        public static bool HasFormSelection(PersonalInfo pi, int species, int format)
-        {
-            if (format <= 3 && species != (int)Unown)
-                return false;
-
-            if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
-                return true;
-
-            int count = pi.FormeCount;
-            return count > 1;
-        }
-
-        private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
-        {
-            (int)Unown,
-            (int)Mothim, // (Burmy forme carried over, not cleared)
-            (int)Scatterbug, (int)Spewpa, // Vivillon pre-evos
-        };
-
         private static string[] GetMegaSingle(IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             return new[]
@@ -969,7 +905,7 @@ namespace PKHeX.Core
         }
 
         private const int Galarian = 1068;
-        // private const int Gigantamax = 1069;
+        private const int Gigantamax = 1069;
         private const int Gulping = 1070;
         private const int Gorging = 1071;
         private const int LowKey = 1072;
@@ -994,6 +930,8 @@ namespace PKHeX.Core
         private const int Dada = 1088;
         private const int CalyIce = 1089; // Ice
         private const int CalyGhost = 1090; // Shadow
+
+        public static string GetGigantamaxName(IReadOnlyList<string> forms) => forms[Gigantamax];
 
         public static string[] GetAlcremieFormList(IReadOnlyList<string> forms)
         {

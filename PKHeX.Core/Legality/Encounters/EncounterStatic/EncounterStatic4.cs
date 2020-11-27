@@ -1,5 +1,9 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 4 Static Encounter
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public class EncounterStatic4 : EncounterStatic
     {
         public sealed override int Generation => 4;

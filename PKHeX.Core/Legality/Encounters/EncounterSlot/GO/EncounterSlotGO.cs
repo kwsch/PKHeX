@@ -3,21 +3,20 @@ using System;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Contains details about an encounter that can be found in <see cref="GameVersion.GO"/>
+    /// Contains details about an encounter that can be found in <see cref="GameVersion.GO"/>.
     /// </summary>
     public abstract class EncounterSlotGO : EncounterSlot, IPogoSlot
     {
-        /// <summary> Start Date timestamp of when the encounter became available. </summary>
+        /// <inheritdoc/>
         public int Start { get; }
 
-        /// <summary> End Date timestamp of when the encounter became unavailable. </summary>
-        /// <remarks> If there is no end date (yet), we'll try to clamp to a date in the near-future to prevent it from being open-ended. </remarks>
+        /// <inheritdoc/>
         public int End { get; }
 
-        /// <summary> Possibility of being shiny. </summary>
+        /// <inheritdoc/>
         public Shiny Shiny { get; }
 
-        /// <summary> How the encounter was captured. </summary>
+        /// <inheritdoc/>
         public PogoType Type { get; }
 
         protected EncounterSlotGO(EncounterArea area, int start, int end, Shiny shiny, PogoType type) : base(area)
@@ -56,7 +55,7 @@ namespace PKHeX.Core
         public bool IsWithinStartEnd(int stamp)
         {
             if (End == 0)
-                return Start <= stamp && GetDate(stamp) <= DateTime.Now;
+                return Start <= stamp && GetDate(stamp) <= DateTime.UtcNow;
             if (Start == 0)
                 return stamp <= End;
             return Start <= stamp && stamp <= End;
@@ -73,7 +72,7 @@ namespace PKHeX.Core
         public DateTime GetRandomValidDate()
         {
             if (Start == 0)
-                return End == 0 ? DateTime.Now : GetDate(End);
+                return End == 0 ? DateTime.UtcNow : GetDate(End);
 
             var start = GetDate(Start);
             if (End == 0)

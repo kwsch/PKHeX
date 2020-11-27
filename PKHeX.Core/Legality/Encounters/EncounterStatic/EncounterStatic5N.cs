@@ -1,5 +1,9 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Generation 5 Static Encounter from N
+    /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     internal sealed class EncounterStatic5N : EncounterStatic5
     {
         public readonly uint PID;

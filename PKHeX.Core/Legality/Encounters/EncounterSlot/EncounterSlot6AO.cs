@@ -1,8 +1,18 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Encounter Slot found in <see cref="GameVersion.ORAS"/>.
+    /// </summary>
+    /// <inheritdoc cref="EncounterSlot"/>
     public sealed class EncounterSlot6AO : EncounterSlot
     {
         public override int Generation => 6;
+        public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
+
+        public bool Pressure { get; set; }
+        public bool DexNav { get; set; }
+        public bool WhiteFlute { get; set; }
+        public bool BlackFlute { get; set; }
 
         public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max) : base(area)
         {
@@ -11,13 +21,6 @@ namespace PKHeX.Core
             LevelMin = min;
             LevelMax = max;
         }
-
-        public bool Pressure { get; set; }
-        public bool DexNav { get; set; }
-        public bool WhiteFlute { get; set; }
-        public bool BlackFlute { get; set; }
-
-        public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
 
         protected override void SetFormatSpecificData(PKM pk)
         {

@@ -60,7 +60,7 @@ namespace PKHeX.Core
         {
             if (form == 0)
                 return false;
-            if (FormConverter.IsTotemForm(species, form, gen))
+            if (AltFormInfo.IsTotemForm(species, form, gen))
                 return true;
             if (species == (int) Species.Pichu)
                 return true; // can't get Spiky Ear Pichu eggs

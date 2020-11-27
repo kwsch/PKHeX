@@ -5,6 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Nest Encounter (Distributed Crystal Data)
     /// </summary>
+    /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
     public sealed class EncounterStatic8NC : EncounterStatic8Nest<EncounterStatic8NC>
     {
         public override int Location { get => SharedNest; set { } }

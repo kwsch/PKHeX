@@ -3,6 +3,7 @@
     /// <summary>
     /// Generation 5 Dream Radar gift encounters
     /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStatic5DR : EncounterStatic5
     {
         public EncounterStatic5DR(int species, int form, int abilityIndex = 4)

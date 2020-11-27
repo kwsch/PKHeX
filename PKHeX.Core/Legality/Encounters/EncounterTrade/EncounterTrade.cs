@@ -259,16 +259,16 @@ namespace PKHeX.Core
         private bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             if (!pkm.HasOriginalMetLocation)
-                return Level <= evo.Level;
+                return evo.Level >= Level;
 
             var loc = Location != 0 ? Location : GetDefaultMetLocation(Generation);
             if (loc != pkm.Met_Location)
                 return false;
 
             if (pkm.Format < 5)
-                return Level <= evo.Level;
+                return evo.Level >= Level;
 
-            return Level == pkm.Met_Level;
+            return pkm.Met_Level == Level;
         }
 
         protected virtual bool IsMatchNatureGenderShiny(PKM pkm)

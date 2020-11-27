@@ -633,8 +633,8 @@ namespace PKHeX.Core
             };
 
             // Wipe Totem Forms
-            if (FormConverter.IsTotemForm(Species, AltForm, 7))
-                pk8.AltForm = FormConverter.GetTotemBaseForm(Species, AltForm);
+            if (AltFormInfo.IsTotemForm(Species, AltForm, 7))
+                pk8.AltForm = AltFormInfo.GetTotemBaseForm(Species, AltForm);
 
             // Fix PP and Stats
             pk8.Heal();

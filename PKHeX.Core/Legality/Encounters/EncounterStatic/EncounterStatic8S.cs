@@ -7,6 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="EncounterStatic8"/> with multiple references (used for multiple met locations)
     /// </summary>
+    /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStatic8S : EncounterStatic8
     {
         public override int Location { get => Locations[0]; set { } }

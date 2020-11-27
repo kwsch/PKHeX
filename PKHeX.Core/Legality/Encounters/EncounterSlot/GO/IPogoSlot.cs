@@ -9,6 +9,7 @@ namespace PKHeX.Core
         int Start { get; }
 
         /// <summary> Last day the encounter was available. If zero, no date specified (unbounded finish). </summary>
+        /// <remarks> If there is no end date (yet), we'll try to clamp to a date in the near-future to prevent it from being open-ended. </remarks>
         int End { get; }
 
         /// <summary> Possibility of shiny for the encounter. </summary>

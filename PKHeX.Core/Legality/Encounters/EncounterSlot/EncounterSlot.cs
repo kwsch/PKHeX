@@ -5,6 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Wild Encounter Slot data
     /// </summary>
+    /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
     public abstract class EncounterSlot : IEncounterable, ILocation
     {
         public int Species { get; protected set; }
@@ -160,15 +161,19 @@ namespace PKHeX.Core
                 pk.MetDate = DateTime.Today;
         }
 
+        private const int FormDynamic = FormVivillon;
+        private const int FormVivillon = 30;
+        private const int FormRandom = 31;
+
         private static int GetWildAltForm(PKM pk, int form, ITrainerInfo sav)
         {
-            if (form < 30) // specified form
+            if (form < FormDynamic) // specified form
             {
                 if (pk.Species == (int) Core.Species.Minior)
                     return Util.Rand.Next(7, 14);
                 return form;
             }
-            if (form == 31) // flagged as totally random
+            if (form == FormRandom) // flagged as totally random
                 return Util.Rand.Next(pk.PersonalInfo.FormeCount);
 
             int spec = pk.Species;

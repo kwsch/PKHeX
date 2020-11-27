@@ -1,7 +1,17 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains information pertaining the floor tile the <see cref="IEncounterable"/> was obtained on in <see cref="GameVersion.Gen4"/>.
+    /// </summary>
+    /// <remarks>
+    /// <seealso cref="EncounterSlot4"/>
+    /// <seealso cref="EncounterStaticTyped"/>
+    /// </remarks>
     public interface IEncounterTypeTile
     {
+        /// <summary>
+        /// Tile Type the <see cref="IEncounterable"/> was obtained on.
+        /// </summary>
         EncounterType TypeEncounter { get; }
     }
 

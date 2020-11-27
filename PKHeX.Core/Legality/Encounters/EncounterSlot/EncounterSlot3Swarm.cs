@@ -2,6 +2,13 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Encounter Slot found in <see cref="GameVersion.RSE"/>.
+    /// </summary>
+    /// <remarks>
+    /// Handled differently as these slots have fixed moves that are different from their normal level-up moves.
+    /// </remarks>
+    /// <inheritdoc cref="EncounterSlot"/>
     internal sealed class EncounterSlot3Swarm : EncounterSlot3, IMoveset
     {
         public IReadOnlyList<int> Moves { get; }

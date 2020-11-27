@@ -84,7 +84,7 @@ namespace PKHeX.Drawing
 
         private Image GetBaseImage(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
-            var img = FormConverter.IsTotemForm(species, form, generation)
+            var img = AltFormInfo.IsTotemForm(species, form, generation)
                         ? GetBaseImageTotem(species, form, gender, formarg, shiny, generation)
                         : GetBaseImageDefault(species, form, gender, formarg, shiny, generation);
             return img ?? GetBaseImageFallback(species, form, gender, formarg, shiny, generation);
@@ -92,7 +92,7 @@ namespace PKHeX.Drawing
 
         private Image? GetBaseImageTotem(int species, int form, int gender, uint formarg, bool shiny, int generation)
         {
-            var baseform = FormConverter.GetTotemBaseForm(species, form);
+            var baseform = AltFormInfo.GetTotemBaseForm(species, form);
             var baseImage = GetBaseImageDefault(species, baseform, gender, formarg, shiny, generation);
             if (baseImage == null)
                 return null;
