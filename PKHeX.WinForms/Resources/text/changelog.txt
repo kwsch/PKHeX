@@ -1,7 +1,25 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/10/31 - New Update:
+20/11/28 - New Update:
+ - Legality:
+ - - Added: Pokémon GO Legality checks, including date-range legality checks. Thanks @Lusamine & @sora10pls!
+ - - Added: Nickname checks for Generation 1 in-game trades. Thanks @ShadowMario3!
+ - - Added: RibbonMasterRank permissions now allow the updated species list. Thanks @Bappsack!
+ - - Fixed: Ability Patch edge case for changing forms (ex. Landorus) where the current form does not have a Hidden Ability.
+ - - Fixed: Gen8 Wild encounters with levels above 60 are now required to match the encounter's level.
+ - - Fixed: Gen8 symbol encounters incorrect location ID hash fixed. Thanks @sora10pls!
+ - - Fixed: Added Frostpoint Field for dens 175/176.
+ - Added: Shiny Sprites for Crown Tundra. Thanks @msikma + github.com/msikma/pokesprite!
+ - Added: Fused Calyrex slot viewing.
+ - Added: More Gen4 Event Flags. Thanks @zzzzRuby & @ShadyRelapse-PP!
+ - Changed: KChart now shows the "Native" state for all Armor/Crown natives in addition to the mainland natives.
+ - Changed: .NET Core 3.1 builds changed to .NET 5; downloads are still .NET Framework ~4.6.
+ - Fixed: Clearing a box other than the first box on a blank save file now clears the box... as intended. Thanks @Lusamine!
+ - Fixed: Gen8 Yamask-1 and Runerigus now show all possible FormArgument values. Thanks @sora10pls!
+ - Fixed: Gen1 Daycare slot is no longer marked as active when exporting a save file with an flagged-empty daycare.
+
+20/10/31 - New Update: (93960) [3235071]
  - Legality:
  - - Added: Gen8 static encounters now permit more met locations (roamers, strong encounters). Thanks @Lusamine & @ReignOfComputer!
  - - Fixed: Gen8 breeds of Gen3 Starters and Porygon now allow the Gen8 wild balls.

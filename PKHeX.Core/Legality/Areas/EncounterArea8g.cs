@@ -91,8 +91,7 @@ namespace PKHeX.Core
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;
 
-            var sf = chain.FirstOrDefault(z => z.Species == Species 
-                                               && (z.Form == Form || AltFormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
+            var sf = chain.FirstOrDefault(z => z.Species == Species && (z.Form == Form || AltFormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
             if (sf == null)
                 yield break;
 
@@ -125,10 +124,12 @@ namespace PKHeX.Core
 
             return slot.Species switch
             {
-                (int) Core.Species.Yamask when pk.Species != slot.Species && pk is IFormArgument f => f.FormArgument == 0,
+                (int) Core.Species.Yamask when pk.Species != slot.Species && slot.Form == 1 && pk is IFormArgument f => f.FormArgument == 0,
                 (int) Core.Species.Milcery when pk.Species != slot.Species && pk is IFormArgument f => f.FormArgument == 0,
+
                 (int) Core.Species.Runerigus when pk is IFormArgument f && f.FormArgument != 0 => true,
                 (int) Core.Species.Alcremie when pk is IFormArgument f && f.FormArgument != 0 => true,
+
                 _ => false,
             };
         }
