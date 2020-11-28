@@ -1,110 +1,130 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
-    // Pokemon Crystal Headbutt tree encounters by trainer id, based on mechanics described in
-    // https://bulbapedia.bulbagarden.net/wiki/Headbutt_tree#Mechanics
-
     /// <summary>
-    /// Generation 2 Headbutt Trees on a given map
+    /// Generation 2 Headbutt Trees on a given <see cref="Location"/> map.
     /// </summary>
+    /// <remarks>
+    /// Pokemon Crystal Headbutt tree encounters by trainer id, based on mechanics described in
+    /// https://bulbapedia.bulbagarden.net/wiki/Headbutt_tree#Mechanics
+    /// </remarks>
     public sealed class TreesArea
     {
         private const int PivotCount = 10;
-        private static readonly int[][] TrainerModerateTreeIndex = GenerateTrainersTreeIndex();
-
-        private static int[][] GenerateTrainersTreeIndex()
-        {
-            // A tree has a low encounter or moderate encounter base on the TID Pivot Index (TID % 10)
-            // For every Trainer Pivot Index, calculate the low encounter trees (total of 5)
-            int[][] TrainersIndex = new int[PivotCount][];
-            for (int i = 0; i < PivotCount; i++)
-            {
-                int[] ModerateEncounterTreeIndex = new int[5];
-                for (int j = 0; j < ModerateEncounterTreeIndex.Length; j++)
-                    ModerateEncounterTreeIndex[j] = (i + j) % PivotCount;
-                TrainersIndex[i] = ModerateEncounterTreeIndex.OrderBy(x => x).ToArray();
-            }
-            return TrainersIndex;
-        }
-
-        internal static TreesArea[] GetArray(byte[][] entries) => entries.Select(z => new TreesArea(z)).ToArray();
+        private const int ModerateTreeCount = 5;
 
         public readonly int Location;
-        private readonly TreeEncounterAvailable[] TrainerModerateEncounterTree;
-        private readonly TreeEncounterAvailable[] TrainerLowEncounterTree;
-        private readonly int[] ValidTreeIndex;
-        private readonly int[] InvalidTreeIndex;
+        private readonly TreeEncounterAvailable[] PivotModerate;
+        private readonly TreeEncounterAvailable[] PivotLow;
+
+#if DEBUG
         private readonly TreeCoordinates[] ValidTrees;
         private readonly TreeCoordinates[] InvalidTrees;
+#endif
 
-        public TreeEncounterAvailable[] GetTrees(SlotType t) => t == SlotType.Headbutt
-            ? TrainerModerateEncounterTree
-            : TrainerLowEncounterTree;
+        public IReadOnlyList<TreeEncounterAvailable> GetTrees(SlotType t) => t == SlotType.Headbutt
+            ? PivotModerate
+            : PivotLow;
+
+        private static readonly byte[][] TrainerModerateTreeIndex = GenerateModerateTreeIndex();
+        internal static TreesArea[] GetArray(byte[][] entries) => entries.Select(z => new TreesArea(z)).ToArray();
+
+        private static byte[][] GenerateModerateTreeIndex()
+        {
+            // A tree has a low encounter or moderate encounter base on the TID Pivot Index (TID % 10)
+            // For every Trainer Pivot Index, calculate the moderate encounter trees (total of 5)
+            byte[][] result = new byte[PivotCount][];
+            for (int i = 0; i < PivotCount; i++)
+            {
+                var moderate = new byte[ModerateTreeCount];
+                for (int j = 0; j < moderate.Length; j++)
+                    moderate[j] = (byte)((i + j) % PivotCount);
+                Array.Sort(moderate);
+                result[i] = moderate;
+            }
+            return result;
+        }
 
         private TreesArea(byte[] entry)
         {
             // Coordinates of trees were obtained with the program G2Map
             // ValidTrees are those accessible by the player
             Location = entry[0];
-            ValidTrees = new TreeCoordinates[entry[1]];
+
+            var valid = new TreeCoordinates[entry[1]];
             var ofs = 2;
-            for (int i = 0; i < ValidTrees.Length; i++, ofs += 2)
-                ValidTrees[i] = new TreeCoordinates(entry[ofs], entry[ofs + 1]);
+            for (int i = 0; i < valid.Length; i++, ofs += 2)
+                valid[i] = new TreeCoordinates(entry[ofs], entry[ofs + 1]);
 
             // Invalid tress are trees that the player can not reach without cheating devices, like a tree beyond other trees
-            InvalidTrees = new TreeCoordinates[entry[ofs]];
+            var invalid = new TreeCoordinates[entry[ofs]];
             ofs++;
-            for (int i = 0; i < InvalidTrees.Length; i++, ofs += 2)
-                InvalidTrees[i] = new TreeCoordinates(entry[ofs], entry[ofs + 1]);
+            for (int i = 0; i < invalid.Length; i++, ofs += 2)
+                invalid[i] = new TreeCoordinates(entry[ofs], entry[ofs + 1]);
 
+            CreatePivotLists(valid, invalid, out PivotModerate, out PivotLow);
+
+#if DEBUG
+            ValidTrees = valid;
+            InvalidTrees = invalid;
+#endif
+        }
+
+        private static void CreatePivotLists(TreeCoordinates[] valid, TreeCoordinates[] invalid, out TreeEncounterAvailable[] moderate, out TreeEncounterAvailable[] low)
+        {
             // For legality purposes, only the tree index is needed.
             // Group the trees data by their index; trees that share indexes are indistinguishable from one another
-            ValidTreeIndex = ValidTrees.Select(t => t.Index).Distinct().OrderBy(i => i).ToArray();
-            InvalidTreeIndex = InvalidTrees.Select(t => t.Index).Distinct().OrderBy(i => i).Except(ValidTreeIndex).ToArray();
+            var TreeIndexValid = valid.Select(t => t.Index).Distinct().ToArray();
+            var TreeIndexInvalid = invalid.Select(t => t.Index).Distinct().Except(TreeIndexValid).ToArray();
+
+            Array.Sort(TreeIndexValid);
+            Array.Sort(TreeIndexInvalid);
 
             // Check for every trainer pivot index if there are trees with moderate encounter and low encounter available in the area
-            TrainerModerateEncounterTree = new TreeEncounterAvailable[PivotCount];
-            TrainerLowEncounterTree = new TreeEncounterAvailable[PivotCount];
+            moderate = new TreeEncounterAvailable[PivotCount];
+            low = new TreeEncounterAvailable[PivotCount];
             for (int i = 0; i < PivotCount; i++)
             {
                 var TrainerModerateTrees = TrainerModerateTreeIndex[i];
-                TrainerModerateEncounterTree[i] = GetAvailableModerate(TrainerModerateTrees);
-                TrainerLowEncounterTree[i] = GetAvailableLow(TrainerModerateTrees);
+                moderate[i] = GetIsAvailableModerate(TrainerModerateTrees, TreeIndexValid, TreeIndexInvalid);
+                low[i] = GetIsAvailableLow(TrainerModerateTrees, TreeIndexValid, TreeIndexInvalid);
             }
         }
 
-        private TreeEncounterAvailable GetAvailableModerate(int[] moderate)
+        private static TreeEncounterAvailable GetIsAvailableModerate(byte[] moderate, byte[] valid, byte[] invalid)
         {
-            if (ValidTreeIndex.Any(moderate.Contains))
+            if (valid.Any(moderate.Contains))
                 return TreeEncounterAvailable.ValidTree;
-            if (InvalidTreeIndex.Any(moderate.Contains))
+            if (invalid.Any(moderate.Contains))
                 return TreeEncounterAvailable.InvalidTree;
             return TreeEncounterAvailable.Impossible;
         }
 
-        private TreeEncounterAvailable GetAvailableLow(int[] moderate)
+        private static TreeEncounterAvailable GetIsAvailableLow(byte[] moderate, byte[] valid, byte[] invalid)
         {
-            if (ValidTreeIndex.Except(moderate).Any())
+            if (valid.Except(moderate).Any())
                 return TreeEncounterAvailable.ValidTree;
-            if (InvalidTreeIndex.Except(moderate).Any())
+            if (invalid.Except(moderate).Any())
                 return TreeEncounterAvailable.InvalidTree;
             return TreeEncounterAvailable.Impossible;
         }
 
-        #if DEBUG
+#if DEBUG
         public void DumpLocation(string[] locationNames)
         {
             string loc = locationNames[Location];
-            System.Console.WriteLine($"Location: {loc}");
-            System.Console.WriteLine("Valid:");
+            Console.WriteLine($"Location: {loc}");
+            Console.WriteLine("Valid:");
             foreach (var tree in ValidTrees)
-                System.Console.WriteLine($"{tree.Index} @ ({tree.X:D2},{tree.Y:D2})");
-            System.Console.WriteLine("Invalid:");
+                Console.WriteLine(tree);
+            Console.WriteLine("Invalid:");
             foreach (var tree in InvalidTrees)
-                System.Console.WriteLine($"{tree.Index} @ ({tree.X:D2},{tree.Y:D2})");
-            System.Console.WriteLine("===");
+                Console.WriteLine(tree);
+            Console.WriteLine("===");
         }
-        #endif
+#endif
     }
 }

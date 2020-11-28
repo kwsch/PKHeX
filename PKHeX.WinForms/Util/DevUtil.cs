@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if DEBUG
+using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -6,7 +7,6 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms
 {
-    #if DEBUG
     public static class DevUtil
     {
         public static void AddControl(ToolStripDropDownItem t)
@@ -150,5 +150,5 @@ namespace PKHeX.WinForms
             return coreFolder;
         }
     }
-    #endif
 }
+#endif

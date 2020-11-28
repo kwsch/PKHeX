@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -29,7 +28,7 @@ namespace PKHeX.Core
                     continue;
                 if (ctr == 4)
                 {
-                    yield return Environment.NewLine;
+                    yield return System.Environment.NewLine;
                     ctr = 0;
                 }
                 yield return $"0x{block.Key:X8}, 0x{block.Data.Length:X5}, ";
