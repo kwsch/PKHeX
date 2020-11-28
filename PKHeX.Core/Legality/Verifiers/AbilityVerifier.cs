@@ -49,6 +49,16 @@ namespace PKHeX.Core
                 int an = num >> 1;
                 if (an >= abilities.Count || abilities[an] != ability)
                     return GetInvalid(LAbilityMismatchFlag);
+
+                // Check AbilityNumber for transfers without unique abilities
+                int gen = data.Info.Generation;
+                if (3 <= gen && gen <= 5 && num != 4)
+                {
+                    // To determine AbilityNumber [PK5->PK6], check if the first ability in Personal matches the ability.
+                    // It is not possible to flip it to the other index as capsule requires unique abilities.
+                    if (abilities[0] == abilities[1] && num != 1)
+                        return GetInvalid(LAbilityMismatchFlag);
+                }
             }
 
             if (format >= 8) // Ability Patch
