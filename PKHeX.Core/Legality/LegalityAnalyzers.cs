@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     internal static class LegalityAnalyzers
     {
@@ -32,15 +28,5 @@ namespace PKHeX.Core
         public static readonly MiscVerifier MiscValues = new MiscVerifier();
         public static readonly TransferVerifier Transfer = new TransferVerifier();
         public static readonly MarkVerifier Mark = new MarkVerifier();
-
-        public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
-        public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
-        public static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Count ? L_AError : MoveStrings[m]);
-
-        public static void ChangeLocalizationStrings(IReadOnlyList<string> moves, IReadOnlyList<string> species)
-        {
-            SpeciesStrings = species;
-            MoveStrings = moves;
-        }
     }
 }

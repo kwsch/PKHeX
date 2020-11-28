@@ -100,8 +100,8 @@ namespace PKHeX.Core
                 return;
 
             // Pokemon have been traded but it is not evolved, trade evolutions are sequential dex numbers
-            var evolved = LegalityAnalyzers.SpeciesStrings[pkm.Species + 1];
-            var unevolved = LegalityAnalyzers.SpeciesStrings[pkm.Species];
+            var evolved = ParseSettings.SpeciesStrings[pkm.Species + 1];
+            var unevolved = ParseSettings.SpeciesStrings[pkm.Species];
             data.AddLine(GetInvalid(string.Format(LEvoTradeReqOutsider, unevolved, evolved)));
         }
     }

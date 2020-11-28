@@ -3,8 +3,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.LegalityCheckStrings;
 using static PKHeX.Core.LegalityAnalyzers;
+using static PKHeX.Core.LegalityCheckStrings;
+using static PKHeX.Core.ParseSettings;
 
 namespace PKHeX.Core
 {

@@ -227,7 +227,7 @@ namespace PKHeX.Core
 
             if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
             {
-                var moves = string.Join(", ", LegalityAnalyzers.GetMoveNames(pkm.Moves));
+                var moves = string.Join(", ", ParseSettings.GetMoveNames(pkm.Moves));
                 var msg = string.Format(LMoveFExpect_0, moves);
                 data.AddLine(GetInvalid(msg, Egg));
             }
@@ -430,7 +430,7 @@ namespace PKHeX.Core
                         continue;
                 }
 
-                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, LegalityAnalyzers.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
+                data.AddLine(GetInvalid(string.Format(LMoveSourceTR, ParseSettings.MoveStrings[Legal.TMHM_SWSH[i + 100]])));
             }
 
             // weight/height scalars can be legally 0 (1:65536) so don't bother checking
