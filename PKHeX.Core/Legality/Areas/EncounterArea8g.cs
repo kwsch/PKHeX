@@ -111,8 +111,26 @@ namespace PKHeX.Core
                 if (!slot.IsWithinStartEnd(stamp))
                     continue;
 
+                if (IsDeferredSlot(slot, pkm))
+                    continue;
+
                 yield return slot;
             }
+        }
+
+        private static bool IsDeferredSlot(IEncounterable slot, PKM pk)
+        {
+            if (slot.Species == (int) Core.Species.Wurmple)
+                return !WurmpleUtil.IsWurmpleEvoValid(pk);
+
+            return slot.Species switch
+            {
+                (int) Core.Species.Yamask when pk.Species != slot.Species && pk is IFormArgument f => f.FormArgument == 0,
+                (int) Core.Species.Milcery when pk.Species != slot.Species && pk is IFormArgument f => f.FormArgument == 0,
+                (int) Core.Species.Runerigus when pk is IFormArgument f && f.FormArgument != 0 => true,
+                (int) Core.Species.Alcremie when pk is IFormArgument f && f.FormArgument != 0 => true,
+                _ => false,
+            };
         }
     }
 }
