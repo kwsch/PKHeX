@@ -1,6 +1,4 @@
-﻿using static PKHeX.Core.Species;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public sealed class EncounterTrade2 : EncounterTradeGB
     {
@@ -53,27 +51,6 @@ namespace PKHeX.Core
                 return GetOT((int)LanguageID.Japanese) == OT;
             if (pkm.Korean)
                 return GetOT((int)LanguageID.Korean) == OT;
-
-            if (pkm.Format >= 7)
-            {
-                switch (Species)
-                {
-                    case (int)Voltorb:
-                        // Spanish FALCÁN trade loses the accented A on transfer
-                        if (OT == "FALCÁN")
-                            return false;
-                        if (OT == "FALC N")
-                            return true;
-                        break;
-                    case (int)Shuckle:
-                        // Spanish MANÍA trade loses the accented I on transfer
-                        if (OT == "MANÍA")
-                            return false;
-                        if (OT == "MAN A")
-                            return true;
-                        break;
-                }
-            }
 
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Spanish;
