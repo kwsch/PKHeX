@@ -79,7 +79,17 @@ namespace PKHeX.WinForms
             // Load Data
             B_Search.Enabled = false;
             L_Count.Text = "Loading...";
-            new Task(LoadDatabase).Start();
+            var task = new Task(LoadDatabase);
+            task.ContinueWith(z =>
+            {
+                if (!z.IsFaulted)
+                    return;
+                Invoke((MethodInvoker)(() => L_Count.Text = "Failed."));
+                if (z.Exception == null)
+                    return;
+                WinFormsUtil.Error("Loading database failed.", z.Exception.InnerException ?? new Exception(z.Exception.Message));
+            });
+            task.Start();
 
             Menu_SearchSettings.DropDown.Closing += (sender, e) =>
             {
