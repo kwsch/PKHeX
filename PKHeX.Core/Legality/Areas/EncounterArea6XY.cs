@@ -9,11 +9,12 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea6XY : EncounterArea
     {
-        public static EncounterArea6XY[] GetAreas(byte[][] input, GameVersion game)
+        public static EncounterArea6XY[] GetAreas(byte[][] input, GameVersion game, EncounterArea6XY safari)
         {
-            var result = new EncounterArea6XY[input.Length];
+            var result = new EncounterArea6XY[input.Length + 1];
             for (int i = 0; i < input.Length; i++)
                 result[i] = new EncounterArea6XY(input[i], game);
+            result[result.Length - 1] = safari;
             return result;
         }
 

@@ -8,8 +8,8 @@ namespace PKHeX.Core
     internal static class Encounters6
     {
         private static readonly EncounterArea6XY FriendSafari = new EncounterArea6XY(Legal.FriendSafari);
-        internal static readonly EncounterArea6XY[] SlotsX = ArrayUtil.ConcatAll(EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X), new[] { FriendSafari });
-        internal static readonly EncounterArea6XY[] SlotsY = ArrayUtil.ConcatAll(EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y), new[] { FriendSafari });
+        internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X, FriendSafari);
+        internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y, FriendSafari);
         internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("a", "ao"), GameVersion.AS);
         internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("o", "ao"), GameVersion.OR);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
@@ -223,7 +223,7 @@ namespace PKHeX.Core
             return clone;
         }
 
-        private static readonly EncounterStatic[] Encounter_AO = Encounter_AO_Regular;
+        private static readonly EncounterStatic6[] Encounter_AO = Encounter_AO_Regular;
 
         #endregion
         #region Trade Tables
@@ -250,9 +250,9 @@ namespace PKHeX.Core
         };
         #endregion
 
-        internal static readonly EncounterStatic[] StaticX = GetEncounters(Encounter_XY, GameVersion.X);
-        internal static readonly EncounterStatic[] StaticY = GetEncounters(Encounter_XY, GameVersion.Y);
-        internal static readonly EncounterStatic[] StaticA = GetEncounters(Encounter_AO, GameVersion.AS);
-        internal static readonly EncounterStatic[] StaticO = GetEncounters(Encounter_AO, GameVersion.OR);
+        internal static readonly EncounterStatic6[] StaticX = GetEncounters(Encounter_XY, GameVersion.X);
+        internal static readonly EncounterStatic6[] StaticY = GetEncounters(Encounter_XY, GameVersion.Y);
+        internal static readonly EncounterStatic6[] StaticA = GetEncounters(Encounter_AO, GameVersion.AS);
+        internal static readonly EncounterStatic6[] StaticO = GetEncounters(Encounter_AO, GameVersion.OR);
     }
 }
