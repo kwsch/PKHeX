@@ -42,6 +42,13 @@
         public sealed override int AbilityNumber { get => 1 << (AbilityBit ? 1 : 0); set => AbilityBit = value > 1; } // [0,1]->[1,2] ; [1,x]->[0,1]
         public abstract bool AbilityBit { get; set; }
 
+        public sealed override void RefreshAbility(int n)
+        {
+            if (n == 1 && !((PersonalInfoG3)PersonalInfo).HasSecondAbility)
+                n = 0;
+            base.RefreshAbility(n & 1);
+        }
+
         public abstract bool RibbonEarth { get; set; }
         public abstract bool RibbonNational { get; set; }
         public abstract bool RibbonCountry { get; set; }

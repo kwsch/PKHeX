@@ -710,14 +710,12 @@ namespace PKHeX.Core
         /// Applies the desired Ability option.
         /// </summary>
         /// <param name="n">Ability Number (0/1/2)</param>
-        public void RefreshAbility(int n)
+        public virtual void RefreshAbility(int n)
         {
             AbilityNumber = 1 << n;
             var abilities = PersonalInfo.Abilities;
             if ((uint)n < abilities.Count)
                 Ability = abilities[n];
-            if (this is PK5 pk5)
-                pk5.HiddenAbility = n == 2;
         }
 
         /// <summary>

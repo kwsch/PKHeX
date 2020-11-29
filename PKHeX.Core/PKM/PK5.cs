@@ -316,6 +316,12 @@ namespace PKHeX.Core
             return false;
         }
 
+        public override void RefreshAbility(int n)
+        {
+            base.RefreshAbility(n);
+            HiddenAbility = n == 2;
+        }
+
         public PK6 ConvertToPK6()
         {
             PK6 pk6 = new PK6 // Convert away!
