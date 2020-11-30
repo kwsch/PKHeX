@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.Species;
+
+namespace PKHeX.Core
 {
     public sealed class EncounterTrade2 : EncounterTradeGB
     {
@@ -52,15 +54,42 @@
             if (pkm.Korean)
                 return GetOT((int)LanguageID.Korean) == OT;
 
+            var lang = GetInternationalLanguageID(OT);
+            if (pkm.Format < 7)
+                return lang != -1;
+
+            switch (Species)
+            {
+                case (int)Voltorb when pkm.Language == (int)LanguageID.French:
+                    if (lang == (int)LanguageID.Spanish)
+                        return false;
+                    if (lang != -1)
+                        return true;
+                    return OT == "FALCçN"; // FALCÁN
+
+                case (int)Shuckle when pkm.Language == (int)LanguageID.French:
+                    if (lang == (int)LanguageID.Spanish)
+                        return false;
+                    if (lang != -1)
+                        return true;
+                    return OT == "MANôA"; // MANÍA
+
+                default: return lang != -1;
+            }
+        }
+
+        private int GetInternationalLanguageID(string OT)
+        {
             const int start = (int)LanguageID.English;
             const int end = (int)LanguageID.Spanish;
 
+            var tr = TrainerNames;
             for (int i = start; i <= end; i++)
             {
-                if (TrainerNames[i] == OT)
-                    return true;
+                if (tr[i] == OT)
+                    return i;
             }
-            return false;
+            return -1;
         }
     }
 }

@@ -128,7 +128,7 @@ namespace PKHeX.Core
         {
             if (StringConverter12.GetIsG1English(str))
             {
-                if (str.Length > 7 && !(data.EncounterOriginal is EncounterTrade)) // OT already verified; GER shuckle has 8 chars
+                if (str.Length > 7 && !(data.EncounterOriginal is EncounterTradeGB)) // OT already verified; GER shuckle has 8 chars
                     data.AddLine(GetInvalid(LOTLong));
             }
             else if (StringConverter12.GetIsG1Japanese(str))
@@ -141,7 +141,7 @@ namespace PKHeX.Core
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LOTLong));
             }
-            else
+            else if (!(data.EncounterOriginal is EncounterTrade2)) // OT already verified; SPA Shuckle/Voltorb transferred from French can yield 2 inaccessible chars
             {
                 data.AddLine(GetInvalid(LG1CharOT));
             }

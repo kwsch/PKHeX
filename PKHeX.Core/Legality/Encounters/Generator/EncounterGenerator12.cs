@@ -27,12 +27,7 @@ namespace PKHeX.Core
             var deferred = new List<IEncounterable>();
             foreach (var t in EncounterTradeGenerator.GetValidEncounterTrades(pkm, chain, game))
             {
-                // some OTs are longer than the keyboard entry; don't defer these
-                if (pkm.Format >= 7 && pkm.OT_Name.Length <= (pkm.Japanese || pkm.Korean ? 5 : 7))
-                {
-                    deferred.Add(t);
-                    continue;
-                }
+                // Gen2 trades are strictly matched (OT/Nick), while Gen1 trades allow for deferral (shrug).
                 if (t is EncounterTrade1 t1 && t1.IsMatchDeferred(pkm))
                 {
                     deferred.Add(t);
