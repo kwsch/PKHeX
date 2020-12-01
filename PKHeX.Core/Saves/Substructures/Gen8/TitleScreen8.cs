@@ -30,7 +30,7 @@ namespace PKHeX.Core
             for (int i = 0; i < party.Count; i++)
                 ViewPoke(i).LoadFrom(party[i]);
             for (int i = party.Count; i < 6; i++)
-                ViewPoke(i).LoadFrom(new PK8());
+                ViewPoke(i).Clear();
         }
     }
 
@@ -105,6 +105,8 @@ namespace PKHeX.Core
             get => BitConverter.ToUInt32(Data, Offset + 0x24);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x24);
         }
+
+        public void Clear() => Array.Clear(Data, Offset, SIZE);
 
         public void LoadFrom(PKM pkm)
         {
