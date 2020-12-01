@@ -244,6 +244,8 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < party.Count; i++)
                 ViewPoke(i).LoadFrom(party[i]);
+            for (int i = party.Count; i < 6; i++)
+                ViewPoke(i).LoadFrom(new PK8());
         }
 
         public ushort Year
