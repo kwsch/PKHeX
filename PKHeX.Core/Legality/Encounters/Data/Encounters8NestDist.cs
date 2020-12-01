@@ -535,6 +535,37 @@
             new EncounterStatic8ND(60,10,5) { Species = 819, Ability = A4, Moves = new[]{ 747, 360, 371, 034 }, Shiny = Shiny.Always }, // Skwovet
             new EncounterStatic8ND(60,10,5) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 089 } }, // Greedent
 
+            // 11/30 - Ice and Fire
+            new EncounterStatic8ND(17,01,1) { Species = 131, Ability = A4, Moves = new[]{ 055, 420, 045, 047 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(17,01,1) { Species = 712, Ability = A4, Moves = new[]{ 181, 196, 033, 106 } }, // Bergmite
+            new EncounterStatic8ND(17,01,1) { Species = 461, Ability = A4, Moves = new[]{ 420, 372, 232, 279 } }, // Weavile
+            new EncounterStatic8ND(17,01,1) { Species = 850, Ability = A4, Moves = new[]{ 172, 044, 035, 052 } }, // Sizzlipede
+            new EncounterStatic8ND(17,01,1) { Species = 776, Ability = A4, Moves = new[]{ 175, 123, 033, 052 } }, // Turtonator
+            new EncounterStatic8ND(17,01,1) { Species = 077, Ability = A4, Moves = new[]{ 488, 045, 039, 052 } }, // Ponyta
+            new EncounterStatic8ND(30,03,2) { Species = 131, Ability = A4, Moves = new[]{ 352, 420, 109, 047 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(30,03,2) { Species = 712, Ability = A4, Moves = new[]{ 157, 423, 033, 044 } }, // Bergmite
+            new EncounterStatic8ND(30,03,2) { Species = 461, Ability = A4, Moves = new[]{ 420, 372, 232, 279 } }, // Weavile
+            new EncounterStatic8ND(30,03,2) { Species = 851, Ability = A4, Moves = new[]{ 172, 404, 422, 044 }, CanGigantamax = true }, // Centiskorch
+            new EncounterStatic8ND(30,03,2) { Species = 776, Ability = A4, Moves = new[]{ 406, 123, 033, 052 } }, // Turtonator
+            new EncounterStatic8ND(30,03,2) { Species = 077, Ability = A4, Moves = new[]{ 488, 023, 583, 097 } }, // Ponyta
+            new EncounterStatic8ND(40,05,3) { Species = 131, Ability = A4, Moves = new[]{ 352, 196, 109, 047 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(40,05,3) { Species = 713, Ability = A4, Moves = new[]{ 157, 423, 036, 044 } }, // Avalugg
+            new EncounterStatic8ND(40,05,3) { Species = 461, Ability = A4, Moves = new[]{ 420, 468, 232, 279 } }, // Weavile
+            new EncounterStatic8ND(40,05,3) { Species = 851, Ability = A4, Moves = new[]{ 424, 404, 422, 044 }, CanGigantamax = true }, // Centiskorch
+            new EncounterStatic8ND(40,05,3) { Species = 776, Ability = A4, Moves = new[]{ 406, 776, 034, 053 } }, // Turtonator
+            new EncounterStatic8ND(40,05,3) { Species = 078, Ability = A4, Moves = new[]{ 172, 023, 583, 224 } }, // Rapidash
+            new EncounterStatic8ND(50,08,4) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 058, 047 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(50,08,4) { Species = 713, Ability = A4, Moves = new[]{ 776, 059, 036, 044 } }, // Avalugg
+            new EncounterStatic8ND(50,08,4) { Species = 461, Ability = A4, Moves = new[]{ 420, 468, 232, 279 } }, // Weavile
+            new EncounterStatic8ND(50,08,4) { Species = 851, Ability = A4, Moves = new[]{ 680, 404, 422, 044 }, CanGigantamax = true }, // Centiskorch
+            new EncounterStatic8ND(50,08,4) { Species = 776, Ability = A4, Moves = new[]{ 406, 776, 504, 053 } }, // Turtonator
+            new EncounterStatic8ND(50,08,4) { Species = 078, Ability = A4, Moves = new[]{ 517, 528, 583, 224 } }, // Rapidash
+            new EncounterStatic8ND(60,10,5) { Species = 131, Ability = A4, Moves = new[]{ 057, 196, 058, 329 }, CanGigantamax = true }, // Lapras
+            new EncounterStatic8ND(60,10,5) { Species = 713, Ability = A4, Moves = new[]{ 776, 059, 038, 044 } }, // Avalugg
+            new EncounterStatic8ND(60,10,5) { Species = 461, Ability = A4, Moves = new[]{ 420, 400, 232, 279 } }, // Weavile
+            new EncounterStatic8ND(60,10,5) { Species = 851, Ability = A4, Moves = new[]{ 680, 679, 422, 044 }, CanGigantamax = true }, // Centiskorch
+            new EncounterStatic8ND(60,10,5) { Species = 776, Ability = A4, Moves = new[]{ 434, 776, 504, 053 } }, // Turtonator
+            new EncounterStatic8ND(60,10,5) { Species = 078, Ability = A4, Moves = new[]{ 394, 528, 583, 224 } }, // Rapidash
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
