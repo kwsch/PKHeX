@@ -240,6 +240,7 @@ namespace PKHeX.Core
         public static string LG2InvalidTileTreeID { get; set; } = "Found an unreacheable tree for Crystal headbutt encounter that matches OTID.";
         public static string LG2InvalidTileTreeNotFound { get; set; } = "Could not find a tree for Crystal headbutt encounter that matches OTID.";
         public static string LG2TreeID { get; set; } = "Found a tree for Crystal headbutt encounter that matches OTID.";
+        public static string LG2OTGender { get; set; } = "OT from Virtual Console games other than Crystal cannot be female.";
 
         public static string LG3EReader { get; set; } = "Non Japanese Shadow E-reader Pokémon. Unreleased encounter.";
         public static string LG3OTGender { get; set; } = "OT from Colosseum/XD cannot be female.";

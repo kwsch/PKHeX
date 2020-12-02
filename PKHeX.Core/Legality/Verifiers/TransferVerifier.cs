@@ -18,8 +18,16 @@ namespace PKHeX.Core
 
         public void VerifyTransferLegalityG12(LegalityAnalysis data)
         {
+            VerifyOTGender(data);
             VerifyTransferVCNatureEXP(data);
             VerifyShinyXorIfShiny(data);
+        }
+
+        private void VerifyOTGender(LegalityAnalysis data)
+        {
+            var pkm = data.pkm;
+            if (pkm.OT_Gender == 1 && pkm.Version != (int)GameVersion.C)
+                data.AddLine(GetInvalid(LG2OTGender));
         }
 
         private void VerifyTransferVCNatureEXP(LegalityAnalysis data)

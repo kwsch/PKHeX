@@ -34,10 +34,15 @@ namespace PKHeX.Core
                 return;
             }
 
-            // Korean Crystal does not exist, neither do VC1
-            if (originalGeneration <= 2 && pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
+            if (originalGeneration <= 2)
             {
-                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
+                // Korean Crystal does not exist, neither do Korean VC1
+                if (pkm.Korean && !GameVersion.GS.Contains((GameVersion)pkm.Version))
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)currentLanguage}", (LanguageID)currentLanguage)));
+
+                // Japanese VC is language locked; cannot obtain Japanese-Blue version as other languages.
+                if (pkm.Version == (int)GameVersion.BU && !pkm.Japanese)
+                    data.AddLine(GetInvalid(string.Format(LOTLanguage, nameof(LanguageID.Japanese), (LanguageID)currentLanguage)));
             }
         }
 
