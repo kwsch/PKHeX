@@ -750,7 +750,7 @@ namespace PKHeX.Core
 
         private const string tradeSWSH = "tradeswsh";
         private static readonly string[][] TradeSWSH = Util.GetLanguageStrings10(tradeSWSH, "zh2");
-        private static readonly string[] TradeOT_R1 = { string.Empty, "チホコ", "Regina", "Régiona", "Regionalia", "Regine", string.Empty, "Tatiana", "지민", "易蒂" };
+        private static readonly string[] TradeOT_R1 = { string.Empty, "チホコ", "Regina", "Régiona", "Regionalia", "Regine", string.Empty, "Tatiana", "지민", "易蒂", "易蒂" };
         private static readonly int[] TradeIVs = {15, 15, 15, 15, 15, 15};
 
         internal static readonly EncounterTrade8[] TradeGift_Regular =
