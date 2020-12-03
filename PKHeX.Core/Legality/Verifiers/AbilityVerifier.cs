@@ -357,7 +357,8 @@ namespace PKHeX.Core
                 if (abilities[0] == abilities[1]) // Not a dual ability
                 {
                     // Must not have the Ability bit flag set.
-                    if (abit)
+                    // Some shadow stuff with single-ability might have the flag set anyways?
+                    if (abit && !(pkm is IShadowPKM s && s.ShadowID != 0))
                         return GetInvalid(LAbilityMismatchFlag, CheckIdentifier.PID);
                 }
                 else
