@@ -36,6 +36,10 @@ namespace PKHeX.Core
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
 
+            // Required Ability
+            if (Ability == 4 && pkm.AbilityNumber != 4)
+                return false; // H
+
             if (Version != GameVersion.SWSH && pkm.Version != (int)Version && pkm.Met_Location != SharedNest)
                 return false;
 
@@ -58,14 +62,13 @@ namespace PKHeX.Core
 
             if (Ability != -1) // Any
             {
+                // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
                 if (Ability == 0 && pkm.AbilityNumber == 4)
                     return true; // 0/1
                 if (Ability == 1 && pkm.AbilityNumber != 1)
                     return true; // 0
                 if (Ability == 2 && pkm.AbilityNumber != 2)
                     return true; // 1
-                if (Ability == 4 && pkm.AbilityNumber != 4)
-                    return true; // H
             }
 
             if (Shiny != Shiny.Random)
