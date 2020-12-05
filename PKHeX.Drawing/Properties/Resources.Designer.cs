@@ -4403,9 +4403,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_1c {
+        public static System.Drawing.Bitmap _25_1cf {
             get {
-                object obj = ResourceManager.GetObject("_25_1c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_1cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4413,9 +4413,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_1cs {
+        public static System.Drawing.Bitmap _25_1cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_1cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_1cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4443,9 +4443,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_2c {
+        public static System.Drawing.Bitmap _25_2cf {
             get {
-                object obj = ResourceManager.GetObject("_25_2c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_2cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4453,9 +4453,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_2cs {
+        public static System.Drawing.Bitmap _25_2cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_2cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_2cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4483,9 +4483,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_3c {
+        public static System.Drawing.Bitmap _25_3cf {
             get {
-                object obj = ResourceManager.GetObject("_25_3c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_3cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4493,9 +4493,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_3cs {
+        public static System.Drawing.Bitmap _25_3cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_3cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_3cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4523,9 +4523,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_4c {
+        public static System.Drawing.Bitmap _25_4cf {
             get {
-                object obj = ResourceManager.GetObject("_25_4c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_4cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4533,9 +4533,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_4cs {
+        public static System.Drawing.Bitmap _25_4cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_4cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_4cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4563,9 +4563,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_5c {
+        public static System.Drawing.Bitmap _25_5cf {
             get {
-                object obj = ResourceManager.GetObject("_25_5c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_5cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4573,9 +4573,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_5cs {
+        public static System.Drawing.Bitmap _25_5cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_5cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_5cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4603,9 +4603,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_6c {
+        public static System.Drawing.Bitmap _25_6cf {
             get {
-                object obj = ResourceManager.GetObject("_25_6c", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_6cf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4613,9 +4613,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap _25_6cs {
+        public static System.Drawing.Bitmap _25_6cfs {
             get {
-                object obj = ResourceManager.GetObject("_25_6cs", resourceCulture);
+                object obj = ResourceManager.GetObject("_25_6cfs", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -4913,9 +4913,29 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap _25f {
+            get {
+                object obj = ResourceManager.GetObject("_25f", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap _25s {
             get {
                 object obj = ResourceManager.GetObject("_25s", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap _25sf {
+            get {
+                object obj = ResourceManager.GetObject("_25sf", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
