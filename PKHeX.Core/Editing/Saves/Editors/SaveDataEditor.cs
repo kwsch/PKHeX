@@ -50,9 +50,8 @@ namespace PKHeX.Core
     public sealed class FakeSaveFile : SaveFile
     {
         public static readonly FakeSaveFile Default = new FakeSaveFile();
-        protected override string BAKText => "Fake Save File";
-        public override SaveFile Clone() => this;
-        public override string Filter => string.Empty;
+        protected internal override string ShortSummary => "Fake Save File";
+        protected override SaveFile CloneInternal() => this;
         public override string Extension => string.Empty;
         public override bool ChecksumsValid => true;
         public override string ChecksumInfo => string.Empty;

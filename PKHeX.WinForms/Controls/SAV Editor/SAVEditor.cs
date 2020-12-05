@@ -456,13 +456,13 @@ namespace PKHeX.WinForms.Controls
             {
                 var value = filterText.PadLeft(SAV.DaycareSeedSize, '0');
                 SAV.SetDaycareRNGSeed(SAV.DaycareIndex, value);
-                SAV.Edited = true;
+                SAV.State.Edited = true;
             }
             else if (tb == TB_GameSync && SAV is IGameSync sync)
             {
                 var value = filterText.PadLeft(sync.GameSyncIDSize, '0');
                 sync.GameSyncID = value;
-                SAV.Edited = true;
+                SAV.State.Edited = true;
             }
             else if (SAV is ISecureValueStorage s)
             {
@@ -471,7 +471,7 @@ namespace PKHeX.WinForms.Controls
                     s.TimeStampCurrent = value;
                 else if (tb == TB_Secure2)
                     s.TimeStampPrevious = value;
-                SAV.Edited = true;
+                SAV.State.Edited = true;
             }
         }
 
@@ -728,7 +728,7 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            if (SAV.Edited)
+            if (SAV.State.Edited)
             {
                 WinFormsUtil.Alert(MsgSaveChecksumFailEdited);
                 return;
@@ -775,14 +775,14 @@ namespace PKHeX.WinForms.Controls
 
         public bool ExportBackup()
         {
-            if (!SAV.Exportable)
+            if (!SAV.State.Exportable)
                 return false;
-            using var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.BAKName)};
+            using var sfd = new SaveFileDialog {FileName = Util.CleanFileName(SAV.Metadata.BAKName)};
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
 
             string path = sfd.FileName;
-            File.WriteAllBytes(path, SAV.BAK);
+            File.WriteAllBytes(path, SAV.State.BAK);
             WinFormsUtil.Alert(MsgSaveBackup, path);
 
             return true;
@@ -1009,7 +1009,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewParty(SaveFile sav, int BoxTab)
         {
-            if (!sav.HasParty || !sav.Exportable)
+            if (!sav.HasParty || !sav.State.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_PartyBattle))
                     tabBoxMulti.TabPages.Remove(Tab_PartyBattle);
@@ -1028,7 +1028,7 @@ namespace PKHeX.WinForms.Controls
 
         private bool ToggleViewDaycare(SaveFile sav, int BoxTab, int PartyTab)
         {
-            if ((!sav.HasDaycare && SL_Extra.SlotCount == 0) || !sav.Exportable)
+            if ((!sav.HasDaycare && SL_Extra.SlotCount == 0) || !sav.State.Exportable)
             {
                 if (tabBoxMulti.TabPages.Contains(Tab_Other))
                     tabBoxMulti.TabPages.Remove(Tab_Other);
@@ -1050,7 +1050,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ToggleViewSubEditors(SaveFile sav)
         {
-            if (!sav.Exportable || sav is BulkStorage)
+            if (!sav.State.Exportable || sav is BulkStorage)
             {
                 GB_SAVtools.Visible = false;
                 B_JPEG.Visible = false;
@@ -1093,7 +1093,7 @@ namespace PKHeX.WinForms.Controls
                 SL_Extra.SAV = sav;
                 SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
             }
-            GB_SAVtools.Visible = sav.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
+            GB_SAVtools.Visible = sav.State.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
             foreach (Control c in FLP_SAVtools.Controls.OfType<Control>())
                 c.Visible = c.Enabled;
             var list = FLP_SAVtools.Controls.OfType<Control>().ToArray();
@@ -1106,7 +1106,7 @@ namespace PKHeX.WinForms.Controls
         {
             // Generational Interface
             ToggleSecrets(sav, HideSecretDetails);
-            B_VerifyCHK.Enabled = SAV.Exportable;
+            B_VerifyCHK.Enabled = SAV.State.Exportable;
 
             if (sav is SAV4BR br)
             {
@@ -1138,7 +1138,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ToggleSecrets(SaveFile sav, bool hide)
         {
-            var shouldShow = sav.Exportable && !hide;
+            var shouldShow = sav.State.Exportable && !hide;
             TB_Secure1.Visible = TB_Secure2.Visible = L_Secure1.Visible = L_Secure2.Visible = shouldShow && sav is ISecureValueStorage;
             TB_GameSync.Visible = L_GameSync.Visible = shouldShow && sav is IGameSync;
         }

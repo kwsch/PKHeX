@@ -18,7 +18,7 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.BW;
         public SaveBlockAccessor5BW Blocks { get; }
-        public override SaveFile Clone() => new SAV5BW((byte[])Data.Clone()) { Footer = (byte[])Footer.Clone() };
+        protected override SaveFile CloneInternal() => new SAV5BW((byte[])Data.Clone());
         protected override int EventConstMax => 0x13E;
         protected override int EventFlagMax => 0xB60;
         public override int MaxItemID => Legal.MaxItemID_5_BW;

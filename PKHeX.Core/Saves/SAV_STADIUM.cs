@@ -5,8 +5,7 @@
     /// </summary>
     public abstract class SAV_STADIUM : SaveFile, ILangDeviantSave
     {
-        protected sealed override string BAKText => $"{OT} ({Version})";
-        public sealed override string Filter => "SAV File|*.sav|All Files|*.*";
+        protected internal sealed override string ShortSummary => $"{OT} ({Version})";
         public sealed override string Extension => ".sav";
 
         public abstract int SaveRevision { get; }

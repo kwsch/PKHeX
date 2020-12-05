@@ -11,8 +11,7 @@ namespace PKHeX.Core
     public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "Main SAV|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
         public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
@@ -32,7 +31,7 @@ namespace PKHeX.Core
         protected void ReloadBattleTeams()
         {
             var demo = this is SAV7SM && Data.IsRangeAll((byte)0, BoxLayout.Offset, 0x4C4); // up to Battle Box values
-            if (demo || !Exportable)
+            if (demo || !State.Exportable)
             {
                 BoxLayout.ClearBattleTeams();
             }

@@ -32,7 +32,7 @@ namespace PKHeX.Core
         {
             DexFormIndexFetcher = form;
             FormBaseSpecies = GetFormIndexBaseSpeciesList();
-            Debug.Assert(!SAV.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
+            Debug.Assert(!SAV.State.Exportable || BitConverter.ToUInt32(SAV.Data, PokeDex) == MAGIC);
         }
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }

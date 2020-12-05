@@ -11,11 +11,10 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
-        public override SaveFile Clone() => new Bank3((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new Bank3((byte[])Data.Clone());
         public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
-        protected override string BAKText => PlayTimeString;
+        protected internal override string ShortSummary => PlayTimeString;
         public override string Extension => ".gst";
-        public override string Filter { get; } = "PokeStock G3 Storage|*.gst*";
 
         public override int BoxCount => 64;
         private const int BoxNameSize = 9;

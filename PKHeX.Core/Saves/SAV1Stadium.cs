@@ -16,7 +16,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<ushort> HeldItems => Array.Empty<ushort>();
         public override GameVersion Version { get; protected set; } = GameVersion.Stadium;
 
-        public override SaveFile Clone() => new SAV1Stadium((byte[])Data.Clone(), Japanese);
+        protected override SaveFile CloneInternal() => new SAV1Stadium((byte[])Data.Clone(), Japanese);
 
         public override int Generation => 1;
         private int StringLength => Japanese ? StringLengthJ : StringLengthU;

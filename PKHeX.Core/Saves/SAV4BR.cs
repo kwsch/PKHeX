@@ -10,8 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4BR : SaveFile
     {
-        protected override string BAKText => $"{Version} #{SaveCount:0000}";
-        public override string Filter => "PbrSaveData|*";
+        protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
         public override string Extension => string.Empty;
         public override PersonalTable Personal => PersonalTable.DP;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
@@ -67,7 +66,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV4BR(Write());
+        protected override SaveFile CloneInternal() => new SAV4BR(Write());
 
         public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
         public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);

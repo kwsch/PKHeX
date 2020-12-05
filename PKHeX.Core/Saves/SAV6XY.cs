@@ -27,7 +27,7 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.XY;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_XY;
         public SaveBlockAccessor6XY Blocks { get; }
-        public override SaveFile Clone() => new SAV6XY((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV6XY((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_XY;
         public override int MaxItemID => Legal.MaxItemID_6_XY;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_XY;
@@ -133,7 +133,8 @@ namespace PKHeX.Core
                 if (Data[ofs] != 0) // no friend data == 0x00
                     Data[ofs] = 0x3D;
             }
-            Edited = true;
+
+            State.Edited = true;
         }
 
         public override GameVersion Version

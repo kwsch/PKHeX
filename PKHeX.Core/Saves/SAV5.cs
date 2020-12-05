@@ -11,8 +11,7 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK5(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-        protected override string BAKText => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length != 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
+        protected internal override string ShortSummary => $"{OT} ({(GameVersion)Game}) - {PlayTimeString}";
         public override string Extension => ".sav";
 
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_BW;
@@ -185,7 +184,7 @@ namespace PKHeX.Core
                 chkbytes.CopyTo(Data, CGearSkinInfoOffset);
                 CGearSkinPresent = true;
 
-                Edited = true;
+                State.Edited = true;
             }
         }
 

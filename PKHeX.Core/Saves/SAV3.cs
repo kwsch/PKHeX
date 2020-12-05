@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3 : SaveFile, ILangDeviantSave
     {
-        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Filter => "SAV File|*.sav|All Files|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => ".sav";
 
         public int SaveRevision => Japanese ? 0 : 1;
@@ -285,7 +284,7 @@ namespace PKHeX.Core
         public int GetBlockOffset(int block) => BlockOfs[block];
 
         // Configuration
-        public override SaveFile Clone() => new SAV3(Write(), Version);
+        protected override SaveFile CloneInternal() => new SAV3(Write(), Version);
 
         protected override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
         protected override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
@@ -331,7 +330,7 @@ namespace PKHeX.Core
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
 
-            if (BAK.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
+            if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't update HoF for half-sizes
                 return;
 
             // Hall of Fame Checksums
@@ -355,7 +354,7 @@ namespace PKHeX.Core
                         return false;
                 }
 
-                if (BAK.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                     return true;
 
                 if (!IsChunkValidHoF(0x1C000))
@@ -391,7 +390,7 @@ namespace PKHeX.Core
                         list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
                 }
 
-                if (BAK.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
+                if (State.BAK.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                 {
                     if (!IsChunkValidHoF(0x1C000))
                         list.Add("HoF Block 1 invalid.");

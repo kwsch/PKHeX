@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         public SAV4HGSS() => Initialize();
         public SAV4HGSS(byte[] data) : base(data) => Initialize();
-        protected override SAV4 CloneInternal() => Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
+        protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
 
         public override PersonalTable Personal => PersonalTable.HGSS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;

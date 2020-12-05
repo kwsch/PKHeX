@@ -226,7 +226,7 @@ namespace PKHeX.WinForms
             if (sav.Version == GameVersion.Invalid) // will fail to load
                 sav = SaveUtil.GetBlankSAV((GameVersion)GameInfo.VersionDataSource.Max(z => z.Value), tr, lang);
             OpenSAV(sav, string.Empty);
-            C_SAV!.SAV.Edited = false; // Prevents form close warning from showing until changes are made
+            C_SAV!.SAV.State.Edited = false; // Prevents form close warning from showing until changes are made
         }
 
         private void FormLoadCheckForUpdates()
@@ -486,7 +486,7 @@ namespace PKHeX.WinForms
         {
             if (this.OpenWindowExists<SAV_FolderList>())
                 return;
-            var form = new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.FilePath!), s.FilePath!));
+            var form = new SAV_FolderList(s => OpenSAV(SaveUtil.GetVariantSAV(s.Metadata.FilePath!), s.Metadata.FilePath!));
             form.Show();
         }
 
@@ -729,11 +729,11 @@ namespace PKHeX.WinForms
                 return true;
             }
 
-            sav.SetFileInfo(path);
+            sav.Metadata.SetExtraInfo(path);
             if (!SanityCheckSAV(ref sav))
                 return true;
 
-            if (C_SAV.SAV.Edited && Settings.Default.ModifyUnset)
+            if (C_SAV.SAV.State.Edited && Settings.Default.ModifyUnset)
             {
                 var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramSaveFileConfirm);
                 if (prompt != DialogResult.Yes)
@@ -747,7 +747,7 @@ namespace PKHeX.WinForms
             dragout.Size = new Size(SpriteUtil.Spriter.Width, SpriteUtil.Spriter.Height);
 
             // clean fields
-            Menu_ExportSAV.Enabled = sav.Exportable;
+            Menu_ExportSAV.Enabled = sav.State.Exportable;
 
             // No changes made yet
             Menu_Undo.Enabled = false;
@@ -807,7 +807,7 @@ namespace PKHeX.WinForms
                 PKME_Tabs.FlickerInterface();
             foreach (var p in Plugins)
                 p.NotifySaveLoaded();
-            sav.Edited = false;
+            sav.State.Edited = false;
         }
 
         private static string GetProgramTitle()
@@ -830,9 +830,9 @@ namespace PKHeX.WinForms
             var ver = GameInfo.GetVersionName(sav.Version);
             if (Settings.Default.HideSAVDetails)
                 return title + $"[{ver}]";
-            if (!sav.Exportable) // Blank save file
-                return title + $"{sav.FileName} [{sav.OT} ({ver})]";
-            return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.BAKName)); // more descriptive
+            if (!sav.State.Exportable) // Blank save file
+                return title + $"{sav.Metadata.FileName} [{sav.OT} ({ver})]";
+            return title + Path.GetFileNameWithoutExtension(Util.CleanFileName(sav.Metadata.BAKName)); // more descriptive
         }
 
         private static bool TryBackupExportCheck(SaveFile sav, string path)
@@ -841,9 +841,9 @@ namespace PKHeX.WinForms
                 return false;
 
             // If backup folder exists, save a backup.
-            string backupName = Path.Combine(BackupPath, Util.CleanFileName(sav.BAKName));
-            if (sav.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
-                File.WriteAllBytes(backupName, sav.BAK);
+            string backupName = Path.Combine(BackupPath, Util.CleanFileName(sav.Metadata.BAKName));
+            if (sav.State.Exportable && Directory.Exists(BackupPath) && !File.Exists(backupName))
+                File.WriteAllBytes(backupName, sav.State.BAK);
 
             if (!FileUtil.IsFileLocked(path))
                 return true;
@@ -856,7 +856,7 @@ namespace PKHeX.WinForms
         {
             ParseSettings.InitFromSaveFileData(sav); // physical GB, no longer used in logic
 
-            if (sav.Exportable && sav is SAV3 s3)
+            if (sav.State.Exportable && sav is SAV3 s3)
             {
                 if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
                 {
@@ -1156,7 +1156,7 @@ namespace PKHeX.WinForms
 
         private void Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (C_SAV.SAV.Edited || PKME_Tabs.PKMIsUnsaved)
+            if (C_SAV.SAV.State.Edited || PKME_Tabs.PKMIsUnsaved)
             {
                 var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramCloseConfirm);
                 if (prompt != DialogResult.Yes)

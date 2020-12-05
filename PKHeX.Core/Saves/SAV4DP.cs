@@ -10,7 +10,7 @@ namespace PKHeX.Core
     {
         public SAV4DP() => Initialize();
         public SAV4DP(byte[] data) : base(data) => Initialize();
-        protected override SAV4 CloneInternal() => Exportable ? new SAV4DP(Data) : new SAV4DP();
+        protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP(Data) : new SAV4DP();
         public override PersonalTable Personal => PersonalTable.DP;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
 

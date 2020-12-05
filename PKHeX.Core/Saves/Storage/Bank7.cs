@@ -12,9 +12,9 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.USUM;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
-        public override SaveFile Clone() => new Bank7((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
+        protected override SaveFile CloneInternal() => new Bank7((byte[])Data.Clone(), PKMType, BoxStart, SlotsPerBox);
         public override string PlayTimeString => $"{Year:00}{Month:00}{Day:00}_{Hours:00}ː{Minutes:00}";
-        protected override string BAKText => PlayTimeString;
+        protected internal override string ShortSummary => PlayTimeString;
         private const int GroupNameSize = 0x20;
         private const int BankNameSize = 0x24;
         private const int GroupNameSpacing = GroupNameSize + 2;

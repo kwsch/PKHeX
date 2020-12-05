@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3XD : SaveFile, IGCSaveFile
     {
-        protected override string BAKText => $"{OT} ({Version}) #{SaveCount:0000}";
-        public override string Filter => this.GCFilter();
+        protected internal override string ShortSummary => $"{OT} ({Version}) #{SaveCount:0000}";
         public override string Extension => this.GCExtension();
         public bool IsMemoryCardSave => MC != null;
         private readonly SAV3GCMemoryCard? MC;
@@ -144,17 +143,16 @@ namespace PKHeX.Core
             byte[] newSAV = GCSaveUtil.Encrypt(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
-            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
+            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[]) State.BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
             return newFile;
         }
 
         // Configuration
-        public override SaveFile Clone()
+        protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
             var sav = IsMemoryCardSave ? new SAV3XD(data, MC!) : new SAV3XD(data);
-            sav.Header = (byte[]) Header.Clone();
             return sav;
         }
 

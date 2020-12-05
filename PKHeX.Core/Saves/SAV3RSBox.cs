@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3RSBox : SaveFile, IGCSaveFile
     {
-        protected override string BAKText => $"{Version} #{SaveCount:0000}";
-        public override string Filter => this.GCFilter();
+        protected internal override string ShortSummary => $"{Version} #{SaveCount:0000}";
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
@@ -95,11 +94,10 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone()
+        protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
             var sav = IsMemoryCardSave ? new SAV3RSBox(data, MC!) : new SAV3RSBox(data);
-            sav.Header = (byte[])Header.Clone();
             return sav;
         }
 

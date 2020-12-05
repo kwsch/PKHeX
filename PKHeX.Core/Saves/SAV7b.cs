@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV7b : SAV_BEEF, IGameSync
     {
-        protected override string BAKText => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
-        public override string Filter => "savedata|*.bin";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
         public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
 
@@ -24,7 +23,7 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.GG;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_GG;
 
-        public override SaveFile Clone() => new SAV7b((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV7b((byte[])Data.Clone());
 
         public SaveBlockAccessor7b Blocks { get; }
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;

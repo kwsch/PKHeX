@@ -21,11 +21,10 @@ namespace PKHeX.Core
 
         protected readonly int SlotsPerBox;
 
-        protected override string BAKText => $"{Checksums.CRC16(Data, Box, Data.Length - Box):X4}";
-        public override string Filter { get; } = "All Files|*.*";
-        public override string Extension { get; } = ".bin";
-        public sealed override bool ChecksumsValid { get; } = true;
-        public sealed override string ChecksumInfo { get; } = "No Info.";
+        protected internal override string ShortSummary => $"{Checksums.CRC16(Data, Box, Data.Length - Box):X4}";
+        public override string Extension => ".bin";
+        public sealed override bool ChecksumsValid => true;
+        public sealed override string ChecksumInfo => "No Info.";
 
         private readonly PKM blank;
         public sealed override Type PKMType => blank.GetType();

@@ -212,7 +212,7 @@ namespace PKHeX.Core
         {
             int count = sav.BoxCount;
             var result = new string[count];
-            if (!sav.Exportable)
+            if (!sav.State.Exportable)
             {
                 for (int i = 0; i < count; i++)
                     result[i] = $"Box {i + 1}";

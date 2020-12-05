@@ -10,8 +10,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV3Colosseum : SaveFile, IDisposable, IGCSaveFile
     {
-        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Filter => this.GCFilter();
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => this.GCExtension();
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_COLO;
@@ -120,17 +119,16 @@ namespace PKHeX.Core
             byte[] newSAV = EncryptColosseum(Data, digest);
 
             // Put save slot back in original save data
-            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[])BAK.Clone();
+            byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[]) State.BAK.Clone();
             Array.Copy(newSAV, 0, newFile, SLOT_START + (SaveIndex * SLOT_SIZE), newSAV.Length);
             return newFile;
         }
 
         // Configuration
-        public override SaveFile Clone()
+        protected override SaveFile CloneInternal()
         {
             var data = GetInnerData();
             var sav = IsMemoryCardSave ? new SAV3Colosseum(data, MC!) : new SAV3Colosseum(data);
-            sav.Header = (byte[])Header.Clone();
             return sav;
         }
 

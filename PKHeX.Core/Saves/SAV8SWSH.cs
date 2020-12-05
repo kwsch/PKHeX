@@ -39,7 +39,7 @@ namespace PKHeX.Core
             var newB = z.AllBlocks;
             for (int i = 0; i < mine.Count; i++)
                 newB[i].Data.CopyTo(mine[i].Data, 0);
-            Edited = true;
+            State.Edited = true;
         }
 
         public int SaveRevision { get; }
@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
         public T GetValue<T>(uint key) where T : struct
         {
-            if (!Exportable)
+            if (!State.Exportable)
                 return default;
             var value = Blocks.GetBlockValue(key);
             if (value is T v)
@@ -93,13 +93,13 @@ namespace PKHeX.Core
 
         public void SetValue<T>(uint key, T value) where T : struct
         {
-            if (!Exportable)
+            if (!State.Exportable)
                 return;
             Blocks.SetBlockValue(key, value);
         }
 
         #endregion
-        public override SaveFile Clone() => new SAV8SWSH(BAK, AllBlocks.Select(z => z.Clone()).ToArray());
+        protected override SaveFile CloneInternal() => new SAV8SWSH(State.BAK, AllBlocks.Select(z => z.Clone()).ToArray());
 
         private int m_spec, m_item, m_move, m_abil;
         public override int MaxMoveID => m_move;

@@ -173,7 +173,7 @@ namespace PKHeX.Core
                 return false;
             }
 
-            path = result.FilePath!;
+            path = result.Metadata.FilePath!;
             sav = result;
             return File.Exists(path);
         }

@@ -49,7 +49,7 @@ namespace PKHeX.WinForms
             Data.MasterFlag = CHK_Master.Checked;
             SaveCurrent();
             Origin.Data = SAV.Data;
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
 
         private void LoadCurrent()

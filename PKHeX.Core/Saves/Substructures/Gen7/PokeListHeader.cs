@@ -30,7 +30,7 @@ namespace PKHeX.Core
         {
             Offset = offset;
             PokeListInfo = LoadPointerData();
-            if (!sav.Exportable)
+            if (!sav.State.Exportable)
             {
                 for (int i = 0; i < COUNT; i++)
                     PokeListInfo[i] = SLOT_EMPTY;

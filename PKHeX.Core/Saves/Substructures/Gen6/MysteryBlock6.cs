@@ -20,7 +20,7 @@ namespace PKHeX.Core
             if (value.Length != MaxReceivedFlag)
                 return;
             ArrayUtil.SetBitFlagArray(Data, Offset + FlagStart, value);
-            SAV.Edited = true;
+            SAV.State.Edited = true;
         }
 
         public DataMysteryGift[] GetGifts()

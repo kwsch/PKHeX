@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.AO;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItem_AO;
-        public override SaveFile Clone() => new SAV6AODemo((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV6AODemo((byte[])Data.Clone());
         public override int MaxMoveID => Legal.MaxMoveID_6_AO;
         public override int MaxItemID => Legal.MaxItemID_6_AO;
         public override int MaxAbilityID => Legal.MaxAbilityID_6_AO;

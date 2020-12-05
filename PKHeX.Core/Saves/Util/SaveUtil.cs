@@ -487,7 +487,7 @@ namespace PKHeX.Core
             var sav = GetVariantSAV(data);
             if (sav == null)
                 return null;
-            sav.SetFileInfo(path);
+            sav.Metadata.SetExtraInfo(path);
             return sav;
         }
 
@@ -501,8 +501,8 @@ namespace PKHeX.Core
             var sav = GetVariantSAVInternal(data);
             if (sav == null)
                 return null;
-            sav.Header = header;
-            sav.Footer = footer;
+
+            sav.Metadata.SetExtraInfo(header, footer);
             return sav;
         }
 
@@ -569,8 +569,8 @@ namespace PKHeX.Core
                 // No pattern matched
                 default: return null;
             }
-            sav.Header = header;
-            sav.Footer = footer;
+
+            sav.Metadata.SetExtraInfo(header, footer);
             return sav;
         }
 
@@ -780,12 +780,9 @@ namespace PKHeX.Core
                     input = input.SliceEnd(0xA4);
                     return;
                 }
-                int start = input.Length - FOOTER_DSV.Length;
-                for (int i = 0; i < FOOTER_DSV.Length; i++)
-                {
-                    if (FOOTER_DSV[i] != input[start + i])
-                        return;
-                }
+
+                if (!GetHasFooterDSV(input))
+                    return;
 
                 footer = input.SliceEnd(SIZE_G4RAW);
                 input = input.Slice(0, SIZE_G4RAW);
@@ -814,6 +811,24 @@ namespace PKHeX.Core
             static bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
         }
 
+        private static bool GetHasFooterDSV(byte[] input)
+        {
+            var signature = FOOTER_DSV;
+            if (!GetHasSignature(input, signature, input.Length - signature.Length))
+                return false;
+            return true;
+        }
+
+        private static bool GetHasSignature(byte[] input, byte[] signature, int start)
+        {
+            for (int i = 0; i < signature.Length; i++)
+            {
+                if (signature[i] != input[start + i])
+                    return false;
+            }
+            return true;
+        }
+
         /// <summary>
         /// Force loads the provided <see cref="sav"/> to the requested <see cref="ver"/>.
         /// </summary>
@@ -824,13 +839,13 @@ namespace PKHeX.Core
         {
             return ver switch // Reset save file info
             {
-                R => new SAV3(sav.BAK, RS),
-                S => new SAV3(sav.BAK, RS),
-                RS => new SAV3(sav.BAK, RS),
-                E => new SAV3(sav.BAK, E),
-                FRLG => new SAV3(sav.BAK, FRLG),
-                FR => new SAV3(sav.BAK, FRLG),
-                LG => new SAV3(sav.BAK, FRLG),
+                R => new SAV3(sav.State.BAK, RS),
+                S => new SAV3(sav.State.BAK, RS),
+                RS => new SAV3(sav.State.BAK, RS),
+                E => new SAV3(sav.State.BAK, E),
+                FRLG => new SAV3(sav.State.BAK, FRLG),
+                FR => new SAV3(sav.State.BAK, FRLG),
+                LG => new SAV3(sav.State.BAK, FRLG),
                 _ => throw new ArgumentException(nameof(ver))
             };
         }

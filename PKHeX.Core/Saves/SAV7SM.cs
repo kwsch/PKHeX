@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.SM;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_SM;
-        public override SaveFile Clone() => new SAV7SM((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV7SM((byte[])Data.Clone());
 
         #region Blocks
         public SaveBlockAccessor7SM Blocks { get; }

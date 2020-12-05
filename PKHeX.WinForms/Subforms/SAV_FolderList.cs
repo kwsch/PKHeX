@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
     public partial class SAV_FolderList : Form
     {
         private readonly Action<SaveFile> OpenSaveFile;
-        private readonly List<CustomFolderPath> Paths;
+        private readonly List<INamedFolderPath> Paths;
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
         private readonly List<Label> TempTranslationLabels = new List<Label>();
@@ -73,9 +73,9 @@ namespace PKHeX.WinForms
             CenterToParent();
         }
 
-        private static List<CustomFolderPath> GetPathList(IReadOnlyList<string> drives)
+        private static List<INamedFolderPath> GetPathList(IReadOnlyList<string> drives)
         {
-            var locs = new List<CustomFolderPath>
+            var locs = new List<INamedFolderPath>
             {
                 new CustomFolderPath(Main.BackupPath, "PKHeX Backups")
             };
@@ -118,7 +118,7 @@ namespace PKHeX.WinForms
                     var custom = Paths.Where(z => z.Custom).ToList();
                     if (custom.Count == 0)
                         Paths.Add(new CustomFolderPath("DISPLAY_TEXT", "FOLDER_PATH", true));
-                    var lines = custom.Select(z => z.Write());
+                    var lines = custom.Select(z => ((CustomFolderPath)z).ToString());
                     File.WriteAllLines(loc, lines);
                 }
                 Process.Start(loc);
@@ -173,11 +173,11 @@ namespace PKHeX.WinForms
             return paths.Select(z => new CustomFolderPath(z));
         }
 
-        private sealed class CustomFolderPath
+        private sealed class CustomFolderPath : INamedFolderPath
         {
-            public readonly string Path;
-            public readonly string DisplayText;
-            public readonly bool Custom;
+            public string Path { get; }
+            public string DisplayText { get; }
+            public bool Custom { get; }
 
             public CustomFolderPath(string z, bool custom = false)
             {
@@ -206,43 +206,10 @@ namespace PKHeX.WinForms
                 Custom = custom;
             }
 
-            public string Write() => $"{DisplayText}\t{Path}";
-        }
-
-        private string GetParentFolderName(SaveFile first)
-        {
-            var parent = Paths.Find(z => first.FileFolder?.StartsWith(z.Path) == true);
-            return parent?.DisplayText ?? "???";
+            public override string ToString() => $"{DisplayText}\t{Path}";
         }
 
         private sealed class SaveList<T> : SortableBindingList<T> where T : class { }
-
-        private sealed class SavePreview
-        {
-            public readonly SaveFile Save;
-
-            public SavePreview(SaveFile sav, string parent)
-            {
-                Save = sav;
-                Folder = parent;
-            }
-
-            public string OT => Save.OT;
-            public int G => Save.Generation;
-            public GameVersion Game => Save.Version;
-
-            public string Played => Save.PlayTimeString.PadLeft(9, '0');
-            public string FileTime => File.GetLastWriteTimeUtc(Save.FilePath!).ToString("yyyy.MM.dd:hh:mm:ss");
-
-            public string TID => Save.Generation >= 7 ? Save.TrainerID7.ToString("000000") : Save.TID.ToString("00000");
-            public string SID => Save.Generation >= 7 ? Save.TrainerSID7.ToString("0000") : Save.SID.ToString("00000");
-
-            // ReSharper disable once MemberCanBePrivate.Local
-            // ReSharper disable once UnusedAutoPropertyAccessor.Local
-            public string Folder { get; }
-
-            public string? Name => Path.GetFileName(Save.FilePath);
-        }
 
         private ContextMenuStrip GetContextMenu(DataGridView dgv)
         {
@@ -289,7 +256,7 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            var path = sav.Save.FilePath;
+            var path = sav.Save.Metadata.FilePath;
             Process.Start("explorer.exe", $"/select, \"{path}\"");
         }
 
@@ -327,7 +294,7 @@ namespace PKHeX.WinForms
             }
 
             var first = enumerator.Current;
-            var sav1 = new SavePreview(first, GetParentFolderName(first));
+            var sav1 = new SavePreview(first, Paths);
             LoadEntryInitial(dgData, list, sav1);
 
             int ctr = 1; // refresh every 7 until 15+ are loaded
@@ -338,7 +305,7 @@ namespace PKHeX.WinForms
                 while (enumerator.MoveNext())
                 {
                     var next = enumerator.Current;
-                    var sav = new SavePreview(next, GetParentFolderName(next));
+                    var sav = new SavePreview(next, Paths);
                     dgData.Invoke(new Action(() => LoadEntry(dgData, list, sav)));
                     ctr++;
                     if (ctr < 15 && ctr % 7 == 0)

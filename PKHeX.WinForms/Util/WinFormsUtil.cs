@@ -279,7 +279,7 @@ namespace PKHeX.WinForms
                 Error(msg);
 
             if (sav != null)
-                ofd.FileName = sav.FileName;
+                ofd.FileName = sav.Metadata.FileName;
 
             if (ofd.ShowDialog() != DialogResult.OK)
             {
@@ -346,13 +346,13 @@ namespace PKHeX.WinForms
         {
             using var sfd = new SaveFileDialog
             {
-                Filter = sav.Filter,
-                FileName = sav.FileName,
+                Filter = sav.Metadata.Filter,
+                FileName = sav.Metadata.FileName,
                 FilterIndex = 1000, // default to last, All Files
                 RestoreDirectory = true
             };
-            if (Directory.Exists(sav.FileFolder))
-                sfd.InitialDirectory = sav.FileFolder;
+            if (Directory.Exists(sav.Metadata.FileFolder))
+                sfd.InitialDirectory = sav.Metadata.FileFolder;
 
             if (sfd.ShowDialog() != DialogResult.OK)
                 return false;
@@ -377,8 +377,8 @@ namespace PKHeX.WinForms
             try
             {
                 File.WriteAllBytes(path, sav.Write(flags));
-                sav.Edited = false;
-                sav.SetFileInfo(path);
+                sav.State.Edited = false;
+                sav.Metadata.SetExtraInfo(path);
                 Alert(MsgSaveExportSuccessPath, path);
             }
             catch (Exception x)

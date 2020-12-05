@@ -21,11 +21,10 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.Pt;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;
-        public override SaveFile Clone() => new SAV4Ranch((byte[])Data.Clone());
+        protected override SaveFile CloneInternal() => new SAV4Ranch((byte[])Data.Clone());
         public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
-        protected override string BAKText => $"{OT} {PlayTimeString}";
+        protected internal override string ShortSummary => $"{OT} {PlayTimeString}";
         public override string Extension => ".bin";
-        public override string Filter { get; } = "Ranch G4 Storage|*.bin*";
 
         protected override PKM GetPKM(byte[] data) => new PK4(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);

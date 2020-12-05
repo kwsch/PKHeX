@@ -5,6 +5,19 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    public class SaveFileState
+    {
+        public bool Edited { get; set; }
+        public readonly bool Exportable;
+        public readonly byte[] BAK;
+
+        public SaveFileState(byte[] bak, bool exportable = true)
+        {
+            BAK = bak;
+            Exportable = exportable;
+        }
+    }
+
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
@@ -12,41 +25,41 @@ namespace PKHeX.Core
     {
         // General Object Properties
         public byte[] Data;
-        public bool Edited;
-        public readonly bool Exportable;
-        public readonly byte[] BAK;
+
+        public SaveFileState State { get; }
+        public SaveFileMetadata Metadata { get; private set; }
 
         protected SaveFile(byte[] data, byte[] bak, bool exportable = true)
         {
             Data = data;
-            BAK = bak;
-            Exportable = exportable;
+            State = new SaveFileState(bak, exportable);
+            Metadata = new SaveFileMetadata(this);
         }
 
-        protected SaveFile(byte[] data, bool exportable = true) : this(data, (byte[])data.Clone(), exportable) { }
-
-        protected SaveFile()
+        protected SaveFile(byte[] data, bool exportable = true) : this(data, (byte[])data.Clone(), exportable)
         {
-            Data = BAK = Array.Empty<byte>();
-            Exportable = false;
         }
 
-        protected SaveFile(int size)
+        protected SaveFile(int size = 0)
         {
-            Data = new byte[size];
-            BAK = Data;
-            Exportable = false;
+            Data = size == 0 ? Array.Empty<byte>() : new byte[size];
+            State = new SaveFileState(Array.Empty<byte>(), false);
+            Metadata = new SaveFileMetadata(this);
         }
 
-        public string? FileName, FilePath, FileFolder;
-        public string BAKName => $"{FileName} [{BAKText}].bak";
-        protected abstract string BAKText { get; }
-        public abstract SaveFile Clone();
-        public abstract string Filter { get; }
-        public byte[] Footer { protected get; set; } = Array.Empty<byte>(); // .dsv
-        public byte[] Header { protected get; set; } = Array.Empty<byte>(); // .gci
-        public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
+        protected internal abstract string ShortSummary { get; }
         public abstract string Extension { get; }
+
+        protected abstract SaveFile CloneInternal();
+
+        public SaveFile Clone()
+        {
+            var sav = CloneInternal();
+            sav.Metadata = Metadata;
+            return sav;
+        }
+
+        public virtual string PlayTimeString => $"{PlayedHours}ː{PlayedMinutes:00}ː{PlayedSeconds:00}"; // not :
 
         public virtual IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
@@ -58,11 +71,7 @@ namespace PKHeX.Core
         public byte[] Write(ExportFlags flags = ExportFlags.None)
         {
             byte[] data = GetFinalData();
-            if (Footer.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeFooter))
-                return data.Concat(Footer).ToArray();
-            if (Header.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeHeader))
-                return Header.Concat(data).ToArray();
-            return data;
+            return Metadata.Finalize(data, flags);
         }
 
         protected virtual byte[] GetFinalData()
@@ -87,7 +96,7 @@ namespace PKHeX.Core
         public void SetData(byte[] dest, byte[] input, int offset)
         {
             input.CopyTo(dest, offset);
-            Edited = true;
+            State.Edited = true;
         }
 
         public abstract string GetString(byte[] data, int offset, int length);

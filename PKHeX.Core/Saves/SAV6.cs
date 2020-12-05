@@ -8,8 +8,7 @@ namespace PKHeX.Core
     public abstract class SAV6 : SAV_BEEF, ITrainerStatRecord, ISaveBlock6Core, IRegionOrigin, IGameSync
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "Main SAV|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
         protected SAV6(byte[] data, int biOffset) : base(data, biOffset) { }

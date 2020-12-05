@@ -10,8 +10,7 @@ namespace PKHeX.Core
     public abstract class SAV8 : SaveFile, ISaveBlock8Main
     {
         // Save Data Attributes
-        protected override string BAKText => $"{OT} ({Version}) - {Played.LastSavedTime}";
-        public override string Filter => "Main SAV|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
         public override string Extension => string.Empty;
 
         public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>

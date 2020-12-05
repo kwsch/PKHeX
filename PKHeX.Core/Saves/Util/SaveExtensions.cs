@@ -22,30 +22,7 @@ namespace PKHeX.Core
         /// <param name="pk">PKM input that is to be injected into the Save File.</param>
         /// <returns>Indication whether or not the PKM is compatible.</returns>
         public static bool IsPKMCompatibleWithModifications(this SaveFile sav, PKM pk) => PKMConverter.IsPKMCompatibleWithModifications(pk, sav);
-
-        /// <summary>
-        /// Sets the details of a path to a <see cref="SaveFile"/> object.
-        /// </summary>
-        /// <param name="sav">Save File to set path details to.</param>
-        /// <param name="path">Full Path of the file</param>
-        public static void SetFileInfo(this SaveFile sav, string path)
-        {
-            if (!sav.Exportable) // Blank save file
-            {
-                sav.FileFolder = sav.FilePath = string.Empty;
-                sav.FileName = "Blank Save File";
-                return;
-            }
-
-            sav.FilePath = path;
-            sav.FileFolder = Path.GetDirectoryName(path);
-            sav.FileName = string.Empty;
-            var bakName = Util.CleanFileName(sav.BAKName);
-            sav.FileName = Path.GetFileName(path);
-            if (sav.FileName?.EndsWith(bakName) == true)
-                sav.FileName = sav.FileName.Substring(0, sav.FileName.Length - bakName.Length);
-        }
-
+        
         /// <summary>
         /// Gets suggested export options for the save file.
         /// </summary>

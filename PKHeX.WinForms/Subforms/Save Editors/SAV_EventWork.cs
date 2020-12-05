@@ -203,7 +203,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             Editor.Save();
-            Origin.Edited = true;
+            Origin.State.Edited = true;
             Close();
         }
 
@@ -298,14 +298,14 @@ namespace PKHeX.WinForms
         {
             var index = (int)NUD_Flag.Value;
             SAV.SetFlag(index, c_CustomFlag.Checked);
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
 
         private void B_ApplyWork_Click(object sender, EventArgs e)
         {
             var index = CB_Stats.SelectedIndex;
             SAV.SetWork(index, (int)NUD_Stat.Value);
-            Origin.Edited = true;
+            Origin.State.Edited = true;
         }
     }
 }

@@ -12,8 +12,7 @@ namespace PKHeX.Core
     /// </remarks>
     public abstract class SAV4 : SaveFile
     {
-        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Filter => (Footer.Length > 0 ? "DeSmuME DSV|*.dsv|" : string.Empty) + "SAV File|*.sav|All Files|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => ".sav";
 
         // Blocks & Offsets
@@ -59,16 +58,15 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone()
+        protected override SaveFile CloneInternal()
         {
-            var sav = CloneInternal();
+            var sav = CloneInternal4();
             SetData(sav.General, General, 0);
             SetData(sav.Storage, Storage, 0);
-            sav.Footer = (byte[])Footer.Clone();
             return sav;
         }
 
-        protected abstract SAV4 CloneInternal();
+        protected abstract SAV4 CloneInternal4();
 
         public override void CopyChangesFrom(SaveFile sav)
         {

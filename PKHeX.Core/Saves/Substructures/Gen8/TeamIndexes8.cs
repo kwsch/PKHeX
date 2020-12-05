@@ -12,7 +12,7 @@ namespace PKHeX.Core
 
         public void LoadBattleTeams()
         {
-            if (!SAV.Exportable)
+            if (!SAV.State.Exportable)
             {
                 ClearBattleTeams();
                 return;

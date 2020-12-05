@@ -9,8 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV2 : SaveFile, ILangDeviantSave
     {
-        protected override string BAKText => $"{OT} ({Version}) - {PlayTimeString}";
-        public override string Filter => "SAV File|*.sav|All Files|*.*";
+        protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => ".sav";
 
         public int SaveRevision => Japanese ? 0 : !Korean ? 1 : 2;
@@ -247,7 +246,7 @@ namespace PKHeX.Core
         }
 
         // Configuration
-        public override SaveFile Clone() => new SAV2(Write(), Version);
+        protected override SaveFile CloneInternal() => new SAV2(Write(), Version);
 
         protected override int SIZE_STORED => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
         protected override int SIZE_PARTY => Japanese ? PokeCrypto.SIZE_2JLIST : PokeCrypto.SIZE_2ULIST;
