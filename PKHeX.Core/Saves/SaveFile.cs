@@ -122,59 +122,57 @@ namespace PKHeX.Core
         #endregion
 
         #region Event Work
-        public virtual bool HasEvents => EventFlags.Length != 0;
+        public virtual bool HasEvents => GetEventFlags().Length != 0;
         protected virtual int EventFlagMax { get; } = int.MinValue;
         protected virtual int EventConstMax { get; } = int.MinValue;
         protected int EventFlag { get; set; } = int.MinValue;
         protected int EventConst { get; set; } = int.MinValue;
 
         /// <summary> All Event Flag values for the savegame </summary>
-        public bool[] EventFlags
+        public bool[] GetEventFlags()
         {
-            get
-            {
-                if (EventFlagMax < 0)
-                    return Array.Empty<bool>();
+            if (EventFlagMax < 0)
+                return Array.Empty<bool>();
 
-                bool[] Flags = new bool[EventFlagMax];
-                for (int i = 0; i < Flags.Length; i++)
-                    Flags[i] = GetEventFlag(i);
-                return Flags;
-            }
-            set
-            {
-                if (EventFlagMax < 0)
-                    return;
-                if (value.Length != EventFlagMax)
-                    return;
-                for (int i = 0; i < value.Length; i++)
-                    SetEventFlag(i, value[i]);
-            }
+            bool[] result = new bool[EventFlagMax];
+            for (int i = 0; i < result.Length; i++)
+                result[i] = GetEventFlag(i);
+            return result;
+        }
+
+        /// <summary> All Event Flag values for the savegame </summary>
+        public void SetEventFlags(bool[] value)
+        {
+            if (EventFlagMax < 0)
+                return;
+            if (value.Length != EventFlagMax)
+                return;
+            for (int i = 0; i < value.Length; i++)
+                SetEventFlag(i, value[i]);
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public virtual ushort[] EventConsts
+        public virtual ushort[] GetEventConsts()
         {
-            get
-            {
-                if (EventConstMax <= 0 || Data.Length == 0)
-                    return Array.Empty<ushort>();
+            if (EventConstMax <= 0 || Data.Length == 0)
+                return Array.Empty<ushort>();
 
-                ushort[] Constants = new ushort[EventConstMax];
-                for (int i = 0; i < Constants.Length; i++)
-                    Constants[i] = BitConverter.ToUInt16(Data, EventConst + (i * 2));
-                return Constants;
-            }
-            set
-            {
-                if (EventConstMax <= 0)
-                    return;
-                if (value.Length != EventConstMax)
-                    return;
+            ushort[] Constants = new ushort[EventConstMax];
+            for (int i = 0; i < Constants.Length; i++)
+                Constants[i] = BitConverter.ToUInt16(Data, EventConst + (i * 2));
+            return Constants;
+        }
 
-                for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes(value[i]).CopyTo(Data, EventConst + (i * 2));
-            }
+        /// <summary> All Event Constant values for the savegame </summary>
+        public virtual void SetEventConsts(ushort[] value)
+        {
+            if (EventConstMax <= 0)
+                return;
+            if (value.Length != EventConstMax)
+                return;
+
+            for (int i = 0; i < value.Length; i++)
+                BitConverter.GetBytes(value[i]).CopyTo(Data, EventConst + (i * 2));
         }
 
         /// <summary>
@@ -220,7 +218,7 @@ namespace PKHeX.Core
         public virtual void SetFlag(int offset, int bitIndex, bool value) => FlagUtil.SetFlag(Data, offset, bitIndex, value);
         #endregion
 
-        public virtual InventoryPouch[] Inventory { get; set; } = Array.Empty<InventoryPouch>();
+        public virtual IReadOnlyList<InventoryPouch> Inventory { get => Array.Empty<InventoryPouch>(); set { } }
 
         #region Mystery Gift
         protected virtual int GiftCountMax { get; } = int.MinValue;

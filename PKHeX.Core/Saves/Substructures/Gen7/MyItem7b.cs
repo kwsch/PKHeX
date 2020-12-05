@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace PKHeX.Core
 {
     public sealed class MyItem7b : MyItem
@@ -12,7 +14,7 @@ namespace PKHeX.Core
 
         public MyItem7b(SAV7b sav, int offset) : base(sav) => Offset = offset;
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

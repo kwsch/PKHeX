@@ -367,7 +367,7 @@ namespace PKHeX.Core
         public uint Coupons { get => BigEndian.ToUInt32(Data, 0xB00); set => BigEndian.GetBytes(value).CopyTo(Data, 0xB00); }
         public string RUI_Name { get => GetString(0xB3A, 20); set => SetString(value, 10).CopyTo(Data, 0xB3A); }
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

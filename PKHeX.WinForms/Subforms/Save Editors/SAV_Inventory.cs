@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
             ChangeViewedPouch(0);
         }
 
-        private readonly InventoryPouch[] Pouches;
+        private readonly IReadOnlyList<InventoryPouch> Pouches;
         private readonly bool HasFreeSpace;
         private readonly bool HasNew;
 

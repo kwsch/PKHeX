@@ -53,7 +53,7 @@ namespace PKHeX.Core
 
         // Save Block accessors
 
-        public override InventoryPouch[] Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Blocks.Items.Inventory; set => Blocks.Items.Inventory = value; }
 
         // Feature Overrides
         public override int Generation => 7;

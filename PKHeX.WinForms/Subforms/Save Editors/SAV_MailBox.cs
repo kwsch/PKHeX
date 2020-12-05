@@ -80,7 +80,7 @@ namespace PKHeX.WinForms
                 case SAV4 sav4:
                     m = new Mail4[p.Count + 20];
                     for (int i = 0; i < p.Count; i++)
-                        m[i] = new Mail4(((PK4)p[i]).HeldMailData);
+                        m[i] = new Mail4(((PK4)p[i]).GetHeldMailData());
                     for (int i = p.Count, j = 0; i < m.Length; i++, j++)
                     {
                         int ofs = sav4.GetMailOffset(j);

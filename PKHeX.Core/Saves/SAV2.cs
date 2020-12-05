@@ -460,7 +460,7 @@ namespace PKHeX.Core
         private static ushort[] LegalBalls => Legal.Pouch_Ball_GSC;
         private static ushort[] LegalTMHMs => Legal.Pouch_TMHM_GSC;
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {
@@ -654,23 +654,23 @@ namespace PKHeX.Core
 
         /// <summary>All Event Constant values for the save file</summary>
         /// <remarks>These are all bytes</remarks>
-        public override ushort[] EventConsts
+        public override ushort[] GetEventConsts()
         {
-            get
-            {
-                ushort[] Constants = new ushort[EventConstMax];
-                for (int i = 0; i < Constants.Length; i++)
-                    Constants[i] = Data[EventConst + i];
-                return Constants;
-            }
-            set
-            {
-                if (value.Length != EventConstMax)
-                    return;
+            ushort[] Constants = new ushort[EventConstMax];
+            for (int i = 0; i < Constants.Length; i++)
+                Constants[i] = Data[EventConst + i];
+            return Constants;
+        }
 
-                for (int i = 0; i < value.Length; i++)
-                    Data[EventConst + i] = Math.Min(byte.MaxValue, (byte)value[i]);
-            }
+        /// <summary>All Event Constant values for the save file</summary>
+        /// <remarks>These are all bytes</remarks>
+        public override void SetEventConsts(ushort[] value)
+        {
+            if (value.Length != EventConstMax)
+                return;
+
+            for (int i = 0; i < value.Length; i++)
+                Data[EventConst + i] = Math.Min(byte.MaxValue, (byte)value[i]);
         }
 
         // Misc

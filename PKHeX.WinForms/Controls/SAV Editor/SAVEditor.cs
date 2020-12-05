@@ -698,8 +698,8 @@ namespace PKHeX.WinForms.Controls
         private void B_JPEG_Click(object sender, EventArgs e)
         {
             var s6 = (SAV6)SAV;
-            byte[] jpeg = s6.JPEGData;
-            if (s6.JPEGData.Length == 0)
+            byte[] jpeg = s6.GetJPEGData();
+            if (jpeg.Length == 0)
             {
                 WinFormsUtil.Alert(MsgSaveJPEGExportFail);
                 return;

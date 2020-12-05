@@ -214,14 +214,14 @@ namespace PKHeX.Core
 
     public static class InventoryPouchExtensions
     {
-        public static InventoryPouch[] LoadAll(this InventoryPouch[] value, byte[] Data)
+        public static IReadOnlyList<InventoryPouch> LoadAll(this IReadOnlyList<InventoryPouch> value, byte[] Data)
         {
             foreach (var p in value)
                 p.GetPouch(Data);
             return value;
         }
 
-        public static void SaveAll(this InventoryPouch[] value, byte[] Data)
+        public static void SaveAll(this IReadOnlyList<InventoryPouch> value, byte[] Data)
         {
             foreach (var p in value)
                 p.SetPouch(Data);

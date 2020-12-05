@@ -68,10 +68,10 @@ namespace PKHeX.Core
             if (!SanityCheckSaveInfo(s1, s2))
                 return;
 
-            bool[] oldBits = s1.EventFlags;
-            bool[] newBits = s2.EventFlags;
-            var oldConst = s1.EventConsts;
-            var newConst = s2.EventConsts;
+            bool[] oldBits = s1.GetEventFlags();
+            bool[] newBits = s2.GetEventFlags();
+            var oldConst = s1.GetEventConsts();
+            var newConst = s2.GetEventConsts();
 
             for (int i = 0; i < newBits.Length; i++)
             {

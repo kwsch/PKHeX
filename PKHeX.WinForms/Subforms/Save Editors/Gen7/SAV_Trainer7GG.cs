@@ -146,7 +146,7 @@ namespace PKHeX.WinForms
 
         private void B_ExportGoFiles_Click(object sender, EventArgs e)
         {
-            var gofiles = Park.AllEntities.Where(z => z.Species != 0).ToArray();
+            var gofiles = Park.GetAllEntities().Where(z => z.Species != 0).ToArray();
             if (gofiles.Length == 0)
             {
                 WinFormsUtil.Alert("No entities present in Go Park to dump.");

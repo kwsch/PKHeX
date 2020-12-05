@@ -373,7 +373,7 @@ namespace PKHeX.Core
 
         private readonly ushort[] LegalItems = Legal.Pouch_Items_RBY;
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

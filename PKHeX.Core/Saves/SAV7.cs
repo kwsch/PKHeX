@@ -162,7 +162,7 @@ namespace PKHeX.Core
         public int GetRecordOffset(int recordID) => Records.GetRecordOffset(recordID);
 
         // Inventory
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);

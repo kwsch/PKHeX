@@ -325,7 +325,10 @@ namespace PKHeX.Core
         public override int Stat_SPE { get => BitConverter.ToUInt16(Data, 0x96); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x96); }
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0x98); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x98); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0x9A); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x9A); }
-        public byte[] HeldMailData { get => Data.Slice(0x9C, 0x38); set => value.CopyTo(Data, 0x9C); }
+
+        public byte[] GetHeldMailData() => Data.Slice(0x9C, 0x38);
+        public void SetHeldMailData(byte[] value) => value.CopyTo(Data, 0x9C);
+
         #endregion
 
         // Methods

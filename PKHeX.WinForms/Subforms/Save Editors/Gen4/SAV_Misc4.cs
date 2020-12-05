@@ -785,7 +785,7 @@ namespace PKHeX.WinForms
         private void ReadWalker(SAV4HGSS s)
         {
             string[] walkercourses = GameInfo.Sources.Source.walkercourses;
-            bool[] isChecked = s.PokewalkerCoursesUnlocked;
+            bool[] isChecked = s.GetPokewalkerCoursesUnlocked();
             CLB_WalkerCourses.Items.Clear();
             for (int i = 0; i < walkercourses.Length; i++)
                 CLB_WalkerCourses.Items.Add(walkercourses[i], isChecked[i]);
@@ -798,7 +798,7 @@ namespace PKHeX.WinForms
             bool[] courses = new bool[32];
             for (int i = 0; i < CLB_WalkerCourses.Items.Count; i++)
                 courses[i] = CLB_WalkerCourses.GetItemChecked(i);
-            s.PokewalkerCoursesUnlocked = courses;
+            s.SetPokewalkerCoursesUnlocked(courses);
             s.PokewalkerWatts = (uint)NUD_Watts.Value;
             s.PokewalkerSteps = (uint)NUD_Steps.Value;
         }

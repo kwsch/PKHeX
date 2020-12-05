@@ -127,7 +127,7 @@ namespace PKHeX.Core
         public override uint SecondsToStart { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x34); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x34); }
         public override uint SecondsToFame { get => BitConverter.ToUInt32(Data, AdventureInfo + 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, AdventureInfo + 0x3C); }
         public override MysteryGiftAlbum GiftAlbum { get => Mystery.GiftAlbum; set => Mystery.GiftAlbum = (EncryptedMysteryGiftAlbum)value; }
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         protected override void SetDex(PKM pkm) => Zukan.SetDex(pkm);
         public override bool GetCaught(int species) => Zukan.GetCaught(species);

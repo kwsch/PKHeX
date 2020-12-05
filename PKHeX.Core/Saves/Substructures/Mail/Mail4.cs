@@ -35,7 +35,7 @@ namespace PKHeX.Core
             }
         }
 
-        public override void CopyTo(PK4 pk4) => pk4.HeldMailData = Data;
+        public override void CopyTo(PK4 pk4) => pk4.SetHeldMailData(Data);
         public override ushort AuthorTID { get => BitConverter.ToUInt16(Data, 0); set => BitConverter.GetBytes(value).CopyTo(Data, 0); }
         public override ushort AuthorSID { get => BitConverter.ToUInt16(Data, 2); set => BitConverter.GetBytes(value).CopyTo(Data, 2); }
         public override byte AuthorGender { get => Data[4]; set => Data[4] = value; }

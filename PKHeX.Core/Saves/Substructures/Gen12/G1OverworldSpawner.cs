@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public G1OverworldSpawner(SAV1 sav)
         {
             SAV = sav;
-            EventFlags = sav.EventFlags;
+            EventFlags = sav.GetEventFlags();
             SpawnFlags = sav.EventSpawnFlags;
             bool yellow = SAV.Yellow;
 
@@ -78,7 +78,7 @@ namespace PKHeX.Core
 
         public void Save()
         {
-            SAV.EventFlags = EventFlags;
+            SAV.SetEventFlags(EventFlags);
             SAV.EventSpawnFlags = SpawnFlags;
         }
 

@@ -70,10 +70,10 @@ namespace PKHeX.WinForms
 
         private void ReadUGData()
         {
-            byte[] goodsList = SAV.UGI_Goods;
-            byte[] spheresList = SAV.UGI_Spheres;
-            byte[] trapsList = SAV.UGI_Traps;
-            byte[] treasuresList = SAV.UGI_Treasures;
+            byte[] goodsList = SAV.GetUGI_Goods();
+            byte[] spheresList = SAV.GetUGI_Spheres();
+            byte[] trapsList = SAV.GetUGI_Traps();
+            byte[] treasuresList = SAV.GetUGI_Treasures();
 
             // Goods
             for (int i = 0; i < goodsList.Length; i++)
@@ -104,10 +104,10 @@ namespace PKHeX.WinForms
 
         private void SaveUGData()
         {
-            byte[] goodsList = new byte[SAV.UGI_Goods.Length];
-            byte[] spheresList = new byte[SAV.UGI_Spheres.Length];
-            byte[] trapsList = new byte[SAV.UGI_Traps.Length];
-            byte[] treasuresList = new byte[SAV.UGI_Treasures.Length];
+            byte[] goodsList = new byte[SAV.GetUGI_Goods().Length];
+            byte[] spheresList = new byte[SAV.GetUGI_Spheres().Length];
+            byte[] trapsList = new byte[SAV.GetUGI_Traps().Length];
+            byte[] treasuresList = new byte[SAV.GetUGI_Treasures().Length];
 
             // Goods
             int ctr = 0;
@@ -168,10 +168,10 @@ namespace PKHeX.WinForms
                 ctr++;
             }
 
-            SAV.UGI_Goods = goodsList;
-            SAV.UGI_Spheres = spheresList;
-            SAV.UGI_Traps = trapsList;
-            SAV.UGI_Treasures = treasuresList;
+            SAV.SetUGI_Goods(goodsList);
+            SAV.SetUGI_Spheres(spheresList);
+            SAV.SetUGI_Traps(trapsList);
+            SAV.SetUGI_Treasures(treasuresList);
         }
 
         private void GetUGScores()

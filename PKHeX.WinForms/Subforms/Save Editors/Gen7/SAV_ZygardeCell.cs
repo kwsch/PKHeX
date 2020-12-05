@@ -19,7 +19,7 @@ namespace PKHeX.WinForms
             // Constants @ 0x1C00
             // Cell Data @ 0x1D8C
             // Use constants 0x18C/2 = 198 thru +95
-            ushort[] constants = SAV.EventConsts;
+            ushort[] constants = SAV.GetEventConsts();
             ushort[] cells = constants.Skip(celloffset).Take(CellCount).ToArray();
 
             int cellCount = constants[cellstotal];
@@ -55,7 +55,7 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            ushort[] constants = SAV.EventConsts;
+            ushort[] constants = SAV.GetEventConsts();
             for (int i = 0; i < CellCount; i++)
             {
                 string str = (string)dgv.Rows[i].Cells[2].Value;
@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
             if (SAV is SAV7USUM)
                 SAV.SetRecord(72, (int)NUD_Collected.Value);
 
-            SAV.EventConsts = constants;
+            SAV.SetEventConsts(constants);
             Origin.CopyChangesFrom(SAV);
 
             Close();

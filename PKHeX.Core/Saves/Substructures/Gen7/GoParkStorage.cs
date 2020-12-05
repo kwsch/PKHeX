@@ -30,27 +30,25 @@ namespace PKHeX.Core
             }
         }
 
-        public GP1[] AllEntities
+        public GP1[] GetAllEntities()
         {
-            get
-            {
-                var value = new GP1[Count];
-                for (int i = 0; i < value.Length; i++)
-                    value[i] = this[i];
-                return value;
-            }
-            set
-            {
-                Debug.Assert(value.Length == Count);
-                for (int i = 0; i < value.Length; i++)
-                    this[i] = value[i];
-            }
+            var value = new GP1[Count];
+            for (int i = 0; i < value.Length; i++)
+                value[i] = this[i];
+            return value;
         }
 
-        public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames) => AllEntities.Select((z, i) => new {Index = i, Entry = z}).Where(z => z.Entry.Species > 0).Select(z => z.Entry.Dump(speciesNames, z.Index));
+        public void SetAllEntities(IReadOnlyList<GP1> value)
+        {
+            Debug.Assert(value.Count == Count);
+            for (int i = 0; i < value.Count; i++)
+                this[i] = value[i];
+        }
 
-        public IEnumerator<GP1> GetEnumerator() => (IEnumerator<GP1>)AllEntities.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() => AllEntities.GetEnumerator();
+        public IEnumerable<string> DumpAll(IReadOnlyList<string> speciesNames) => GetAllEntities().Select((z, i) => new {Index = i, Entry = z}).Where(z => z.Entry.Species > 0).Select(z => z.Entry.Dump(speciesNames, z.Index));
+
+        public IEnumerator<GP1> GetEnumerator() => (IEnumerator<GP1>)GetAllEntities().GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetAllEntities().GetEnumerator();
 
         public void DeleteAll()
         {

@@ -118,7 +118,7 @@ namespace PKHeX.Core
         }
         #endregion
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {
@@ -150,20 +150,18 @@ namespace PKHeX.Core
         public PokegearNumber GetCallerAtIndex(int index) => (PokegearNumber)General[OFS_GearRolodex + index];
         public void SetCallerAtIndex(int index, PokegearNumber caller) => General[OFS_GearRolodex + index] = (byte)caller;
 
-        public PokegearNumber[] PokeGearRoloDex
+        public PokegearNumber[] GetPokeGearRoloDex()
         {
-            get
-            {
-                var arr = new PokegearNumber[GearMaxCallers];
-                for (int i = 0; i < arr.Length; i++)
-                    arr[i] = GetCallerAtIndex(i);
-                return arr;
-            }
-            set
-            {
-                for (int i = 0; i < value.Length; i++)
-                    SetCallerAtIndex(i, value[i]);
-            }
+            var arr = new PokegearNumber[GearMaxCallers];
+            for (int i = 0; i < arr.Length; i++)
+                arr[i] = GetCallerAtIndex(i);
+            return arr;
+        }
+
+        public void SetPokeGearRoloDex(IReadOnlyList<PokegearNumber> value)
+        {
+            for (int i = 0; i < value.Count; i++)
+                SetCallerAtIndex(i, value[i]);
         }
 
         public void PokeGearUnlockAllCallers()
@@ -211,11 +209,8 @@ namespace PKHeX.Core
         public uint PokewalkerSteps { get => BitConverter.ToUInt32(General, OFS_WALKER); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER); }
         public uint PokewalkerWatts { get => BitConverter.ToUInt32(General, OFS_WALKER + 0x4); set => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x4); }
 
-        public bool[] PokewalkerCoursesUnlocked
-        {
-            get => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32);
-            set => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
-        }
+        public bool[] GetPokewalkerCoursesUnlocked() => ArrayUtil.GitBitFlagArray(General, OFS_WALKER + 0x8, 32);
+        public void SetPokewalkerCoursesUnlocked(bool[] value) => ArrayUtil.SetBitFlagArray(General, OFS_WALKER + 0x8, value);
 
         public void PokewalkerCoursesSetAll(uint value = 0x07FF_FFFFu) => SetData(General, BitConverter.GetBytes(value), OFS_WALKER + 0x8);
     }

@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public abstract class BattleVideo : IPokeGroup
     {
-        public abstract PKM[] BattlePKMs { get; }
+        public abstract IReadOnlyList<PKM> BattlePKMs { get; }
         public abstract int Generation { get; }
 
         public IEnumerable<PKM> Contents => BattlePKMs;

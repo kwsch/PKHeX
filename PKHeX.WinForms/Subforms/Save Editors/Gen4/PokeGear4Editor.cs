@@ -16,11 +16,11 @@ namespace PKHeX.WinForms
             RefreshList();
         }
 
-        public void Save() => SAV.PokeGearRoloDex = Rolodex;
+        public void Save() => SAV.SetPokeGearRoloDex(Rolodex);
 
         private void RefreshList()
         {
-            PG_Rolodex.SelectedObject = Rolodex = SAV.PokeGearRoloDex;
+            PG_Rolodex.SelectedObject = Rolodex = SAV.GetPokeGearRoloDex();
             PG_Rolodex.Refresh();
         }
 

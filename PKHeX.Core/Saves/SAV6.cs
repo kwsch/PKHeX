@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -47,7 +48,7 @@ namespace PKHeX.Core
         public int GetBattleBoxSlot(int slot) => BattleBoxOffset + (slot * SIZE_STORED);
 
         public virtual string JPEGTitle => string.Empty;
-        public virtual byte[] JPEGData => Array.Empty<byte>();
+        public virtual byte[] GetJPEGData() => Array.Empty<byte>();
 
         protected internal const int LongStringLength = 0x22; // bytes, not characters
         protected internal const int ShortStringLength = 0x1A; // bytes, not characters
@@ -75,7 +76,7 @@ namespace PKHeX.Core
 
         public override uint SecondsToStart { get => GameTime.SecondsToStart; set => GameTime.SecondsToStart = value; }
         public override uint SecondsToFame { get => GameTime.SecondsToFame; set => GameTime.SecondsToFame = value; }
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Daycare
         public override int DaycareSeedSize => 16;

@@ -332,7 +332,7 @@ namespace PKHeX.Core
             */
         }
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

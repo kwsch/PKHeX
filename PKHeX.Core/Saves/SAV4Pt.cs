@@ -74,7 +74,7 @@ namespace PKHeX.Core
         }
         #endregion
 
-        public override InventoryPouch[] Inventory
+        public override IReadOnlyList<InventoryPouch> Inventory
         {
             get
             {

@@ -23,8 +23,8 @@ namespace PKHeX.WinForms
             DragEnter += Main_DragEnter;
             DragDrop += Main_DragDrop;
 
-            flags = SAV.EventFlags;
-            Constants = SAV.EventConsts;
+            flags = SAV.GetEventFlags();
+            Constants = SAV.GetEventConsts();
 
             CB_Stats.Items.Clear();
             for (int i = 0; i < Constants.Length; i++)
@@ -81,11 +81,11 @@ namespace PKHeX.WinForms
             // Gather Updated Flags
             foreach (CheckBox flag in TLP_Flags.Controls.OfType<CheckBox>())
                 flags[GetControlNum(flag)] = flag.Checked;
-            SAV.EventFlags = flags;
+            SAV.SetEventFlags(flags);
 
             // Copy back Constants
             ChangeConstantIndex(sender, EventArgs.Empty); // Trigger Saving
-            SAV.EventConsts = Constants;
+            SAV.SetEventConsts(Constants);
 
             HandleSpecialFlags();
             Origin.CopyChangesFrom(SAV);

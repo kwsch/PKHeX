@@ -95,7 +95,7 @@ namespace PKHeX.Core
         public override int PlayedSeconds { get => Played.PlayedSeconds; set => Played.PlayedSeconds = value; }
 
         // Inventory
-        public override InventoryPouch[] Inventory { get => Items.Inventory; set => Items.Inventory = value; }
+        public override IReadOnlyList<InventoryPouch> Inventory { get => Items.Inventory; set => Items.Inventory = value; }
 
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);

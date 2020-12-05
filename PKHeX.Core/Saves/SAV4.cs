@@ -928,28 +928,27 @@ namespace PKHeX.Core
         }
 
         /// <summary> All Event Constant values for the savegame </summary>
-        public override ushort[] EventConsts
+        public override ushort[] GetEventConsts()
         {
-            get
-            {
-                if (EventConstMax <= 0)
-                    return Array.Empty<ushort>();
+            if (EventConstMax <= 0)
+                return Array.Empty<ushort>();
 
-                ushort[] Constants = new ushort[EventConstMax];
-                for (int i = 0; i < Constants.Length; i++)
-                    Constants[i] = BitConverter.ToUInt16(General, EventConst + (i * 2));
-                return Constants;
-            }
-            set
-            {
-                if (EventConstMax <= 0)
-                    return;
-                if (value.Length != EventConstMax)
-                    return;
+            ushort[] Constants = new ushort[EventConstMax];
+            for (int i = 0; i < Constants.Length; i++)
+                Constants[i] = BitConverter.ToUInt16(General, EventConst + (i * 2));
+            return Constants;
+        }
 
-                for (int i = 0; i < value.Length; i++)
-                    BitConverter.GetBytes(value[i]).CopyTo(General, EventConst + (i * 2));
-            }
+        /// <summary> All Event Constant values for the savegame </summary>
+        public override void SetEventConsts(ushort[] value)
+        {
+            if (EventConstMax <= 0)
+                return;
+            if (value.Length != EventConstMax)
+                return;
+
+            for (int i = 0; i < value.Length; i++)
+                BitConverter.GetBytes(value[i]).CopyTo(General, EventConst + (i * 2));
         }
 
         // Seals

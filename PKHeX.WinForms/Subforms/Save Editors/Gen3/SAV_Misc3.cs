@@ -155,7 +155,7 @@ namespace PKHeX.WinForms
             if (!SAV.Japanese && DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, $"Non Japanese save file. Add {itemlist[oldsea]} (unreleased)?"))
                 tickets = tickets.Take(tickets.Length - 1).ToArray(); // remove old sea map
 
-            var p = Array.Find(Pouches, z => z.Type == InventoryType.KeyItems);
+            var p = Pouches.FirstOrDefault(z => z.Type == InventoryType.KeyItems);
             if (p == null)
                 throw new ArgumentException(nameof(InventoryPouch.Type));
 
