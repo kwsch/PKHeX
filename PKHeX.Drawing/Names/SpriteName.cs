@@ -8,10 +8,10 @@ namespace PKHeX.Drawing
     {
         public static bool AllowShinySprite { get; set; }
 
-        private const string Separator = "_";
-        private const string Cosplay = "c";
-        private const string Shiny = "s";
-        private const string GGStarter = "p";
+        private const char Separator = '_';
+        private const char Cosplay = 'c';
+        private const char Shiny = 's';
+        private const char GGStarter = 'p';
 
         /// <summary>
         /// Gets the resource name of the <see cref="Ball"/> sprite.
