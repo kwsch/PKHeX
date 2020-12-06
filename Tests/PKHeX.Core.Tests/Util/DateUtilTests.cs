@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using FluentAssertions;
+using Xunit;
 
 namespace PKHeX.Tests.Util
 {
@@ -36,64 +37,21 @@ namespace PKHeX.Tests.Util
             Assert.True(Core.Util.IsDateValid(2004, 2, 29));
         }
 
-        [Fact]
-        public void FailsWithIncorrectLeapYear()
+        [Theory]
+        [InlineData(0, 0, 0, false, "Zero date")]
+        [InlineData(2005, 2, 29, false, "Bad leap year")]
+        [InlineData(0, 1, 1, false, "Zero year")]
+        [InlineData(2000, 0, 1, false, "Zero month")]
+        [InlineData(2000, 1, 0, false, "Zero day")]
+        [InlineData(10000, 1, 0, false, "Big year")]
+        [InlineData(2000, 13, 0, false, "Big month")]
+        [InlineData(2000, 1, 32, false, "Big day")]
+        [InlineData(2019, 11, 31, false, "Bad date, November doesn't have a 31st")]
+        [InlineData(uint.MaxValue, uint.MaxValue, uint.MaxValue, false, "Failed with uint.MaxValue, negative")]
+        public void CheckDate(uint year, uint month, uint day, bool cmp, string because)
         {
-            Assert.False(Core.Util.IsDateValid(2005, 2, 29));
-        }
-
-        [Fact]
-        public void FailsWithZeroDate()
-        {
-            Assert.False(Core.Util.IsDateValid(0, 0, 0));
-        }
-
-        [Fact]
-        public void FailsWithNegativeDate()
-        {
-            Assert.False(Core.Util.IsDateValid(-1, -1, -1));
-        }
-
-        [Fact]
-        public void FailsWithBigDay()
-        {
-            Assert.False(Core.Util.IsDateValid(2000, 1, 32));
-        }
-
-        [Fact]
-        public void FailsWithBigMonth()
-        {
-            Assert.False(Core.Util.IsDateValid(2000, 13, 1));
-        }
-
-        [Fact]
-        public void FailsWithBigYear()
-        {
-            Assert.False(Core.Util.IsDateValid(10000, 1, 1));
-        }
-
-        [Fact]
-        public void FailsWithZeroDay()
-        {
-            Assert.False(Core.Util.IsDateValid(2000, 1, 0));
-        }
-
-        [Fact]
-        public void FailsWithZeroMonth()
-        {
-            Assert.False(Core.Util.IsDateValid(2000, 0, 1));
-        }
-
-        [Fact]
-        public void FailsWithZeroYear()
-        {
-            Assert.False(Core.Util.IsDateValid(0, 1, 1));
-        }
-
-        [Fact]
-        public void FailsWithMaxUInt()
-        {
-            Assert.False(Core.Util.IsDateValid(uint.MaxValue, uint.MaxValue, uint.MaxValue), "Failed with uint.MaxValue");
+            var result = Core.Util.IsDateValid(year, month, day);
+            result.Should().Be(cmp, because);
         }
     }
 }
