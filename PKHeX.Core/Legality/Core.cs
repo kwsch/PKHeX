@@ -91,23 +91,6 @@ namespace PKHeX.Core
             };
         }
 
-        internal static ICollection<int> GetSplitBreedGeneration(int generation)
-        {
-            switch (generation)
-            {
-                case 3: return SplitBreed_3;
-
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                    return SplitBreed;
-
-                default: return Array.Empty<int>();
-            }
-        }
-
         internal static int GetMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1)
@@ -181,18 +164,6 @@ namespace PKHeX.Core
                 8 => (int) LanguageID.ChineseT,
                 _ => -1
             };
-        }
-
-        internal static bool GetCanInheritMoves(int species)
-        {
-            if (FixedGenderFromBiGender.Contains(species)) // Nincada -> Shedinja loses gender causing 'false', edge case
-                return true;
-            var pi = PKX.Personal[species];
-            if (!pi.Genderless && !pi.OnlyMale)
-                return true;
-            if (MixedGenderBreeding.Contains(species))
-                return true;
-            return false;
         }
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)

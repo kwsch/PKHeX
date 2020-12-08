@@ -98,7 +98,7 @@ namespace PKHeX.Core
             var result = new CheckResult[4];
             // Level up moves cannot be inherited if Ditto is the parent
             // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
-            bool inheritLvlMoves = Legal.GetCanInheritMoves(e.Species);
+            bool inheritLvlMoves = Breeding.GetCanInheritMoves(e.Species);
 
             // Obtain level1 moves
             var baseMoves = MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, 1);

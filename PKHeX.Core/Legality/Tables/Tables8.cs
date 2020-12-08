@@ -227,7 +227,8 @@ namespace PKHeX.Core
             (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
 
-        internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int> {
+        internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int>
+        {
             (int)Ball.Poke,
             (int)Ball.Great,
             (int)Ball.Ultra,

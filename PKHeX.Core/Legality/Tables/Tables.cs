@@ -10,23 +10,6 @@ namespace PKHeX.Core
         public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
 
         /// <summary>
-        /// Species that can yield a different baby species when bred.
-        /// </summary>
-        public static readonly HashSet<int> SplitBreed = new HashSet<int>
-        {
-            // Incense
-            113, 242, // Chansey
-            122, 866, // Mr. Mime
-            143, // Snorlax
-            183, 184, // Marill
-            185, // Sudowoodo
-            202, // Wobbuffet
-            226, // Mantine
-            315, 407, // Roselia
-            358, // Chimecho
-        };
-
-        /// <summary>
         /// Species that can change between their forms and get access to form-specific moves.
         /// </summary>
         public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
@@ -260,35 +243,26 @@ namespace PKHeX.Core
             (int)Species.Kubfu, (int)Species.Urshifu, (int)Species.Regieleki, (int)Species.Regidrago, (int)Species.Glastrier, (int)Species.Spectrier,
         };
 
-        internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
-        {
-            29, // Nidoran♀
-            32, // Nidoran♂
-            313, // Volbeat
-            314, // Illumise
-            (int)Species.Indeedee, // male/female
-        };
-
         /// <summary>
         /// Species that evolve from a Bi-Gendered species into a Single-Gender.
         /// </summary>
         public static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
         {
-            290, // Nincada
-            292, // Shedinja (G)
+            (int)Species.Nincada,
+            (int)Species.Shedinja, // (G)
 
-            412, // Burmy
-            413, // Wormadam (F)
-            414, // Mothim (M)
+            (int)Species.Burmy,
+            (int)Species.Wormadam, //(F)
+            (int)Species.Mothim, // (M)
 
-            280, // Ralts
-            475, // Gallade (M)
+            (int)Species.Ralts,
+            (int)Species.Gallade, // (M)
 
-            361, // Snorunt
-            478, // Froslass (F)
+            (int)Species.Snorunt,
+            (int)Species.Froslass, // (F)
 
-            677, // Espurr
-            678, // Meowstic (M/F) forme specific
+            (int)Species.Espurr,
+            (int)Species.Meowstic, // (M/F) form specific
         };
     }
 }

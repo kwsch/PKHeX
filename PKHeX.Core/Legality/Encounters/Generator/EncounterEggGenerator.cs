@@ -41,7 +41,7 @@ namespace PKHeX.Core
                     yield return new EncounterEgg(e.Species, e.Form, lvl, gen, GetOtherTradePair(ver));
             }
 
-            if (!GetSplitBreedGeneration(gen).Contains(species))
+            if (!Breeding.GetSplitBreedGeneration(gen).Contains(species))
                 yield break; // no other possible species
 
             var o = EvoBase.GetBaseSpecies(chain, 1);
@@ -160,9 +160,6 @@ namespace PKHeX.Core
                 int last = poss.FindLastIndex(z => z.Species == minSpecies);
                 return curr.Count >= last;
             }
-            int gen = pkm.GenNumber;
-            if (gen >= 3 && GetSplitBreedGeneration(gen).Contains(EvoBase.GetBaseSpecies(poss, 1).Species))
-                return curr.Count >= poss.Count - 1;
             return curr.Count >= poss.Count;
         }
     }

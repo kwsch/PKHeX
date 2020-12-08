@@ -193,7 +193,7 @@ namespace PKHeX.Core
 
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = GameVersion.Any)
         {
-            return GetValidRelearn(pkm, species, form, GetCanInheritMoves(species), version);
+            return GetValidRelearn(pkm, species, form, Breeding.GetCanInheritMoves(species), version);
         }
 
         internal static List<int> GetValidPostEvolutionMoves(PKM pkm, int species, IReadOnlyList<EvoCriteria>[] evoChains, GameVersion Version)
