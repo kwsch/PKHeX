@@ -372,7 +372,7 @@ namespace PKHeX.WinForms
         private static void ExportSAV(SaveFile sav, string path)
         {
             var ext = Path.GetExtension(path).ToLower();
-            var flags = sav.GetSuggestedFlags(ext);
+            var flags = sav.Metadata.GetSuggestedFlags(ext);
 
             try
             {

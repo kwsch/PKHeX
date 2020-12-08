@@ -14,36 +14,10 @@ namespace PKHeX.Core
     public static class SaveExtensions
     {
         /// <summary>
-        /// Checks if the <see cref="PKM"/> is compatible with the input <see cref="SaveFile"/>, and makes any necessary modifications to force compatibility.
-        /// </summary>
-        /// <remarks>Should only be used when forcing a backwards conversion to sanitize the PKM fields to the target format.
-        /// If the PKM is compatible, some properties may be forced to sanitized values.</remarks>
-        /// <param name="sav">Save File target that the PKM will be injected.</param>
-        /// <param name="pk">PKM input that is to be injected into the Save File.</param>
-        /// <returns>Indication whether or not the PKM is compatible.</returns>
-        public static bool IsPKMCompatibleWithModifications(this SaveFile sav, PKM pk) => PKMConverter.IsPKMCompatibleWithModifications(pk, sav);
-        
-        /// <summary>
-        /// Gets suggested export options for the save file.
-        /// </summary>
-        /// <param name="sav">SaveFile to be exported</param>
-        /// <param name="ext">Selected export extension</param>
-        public static ExportFlags GetSuggestedFlags(this SaveFile sav, string? ext = null)
-        {
-            var flags = ExportFlags.None;
-            if (ext == ".dsv")
-                flags |= ExportFlags.IncludeFooter;
-            if (ext == ".gci" || (sav is IGCSaveFile gc && !gc.IsMemoryCardSave))
-                flags |= ExportFlags.IncludeHeader;
-            return flags;
-        }
-
-        /// <summary>
         /// Checks a <see cref="PKM"/> file for compatibility to the <see cref="SaveFile"/>.
         /// </summary>
         /// <param name="sav"><see cref="SaveFile"/> that is being checked.</param>
         /// <param name="pkm"><see cref="PKM"/> that is being tested for compatibility.</param>
-        /// <returns></returns>
         public static IReadOnlyList<string> IsPKMCompatible(this SaveFile sav, PKM pkm)
         {
             return sav.GetSaveFileErrata(pkm, GameInfo.Strings);
@@ -110,6 +84,10 @@ namespace PKHeX.Core
                 {
                     while (sav.IsSlotOverwriteProtected(index))
                         ++index;
+
+                    // The above will return false if out of range. We need to double-check.
+                    if (index >= maxCount) // Boxes full!
+                        break;
 
                     sav.SetBoxSlotAtIndex(pk, index, noSetb);
                 }
@@ -180,7 +158,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="sav">Save File to fetch a template for</param>
         /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
-        public static PKM LoadTemplate(this SaveFile sav) => sav.BlankPKM;
+        private static PKM LoadTemplateInternal(this SaveFile sav) => sav.BlankPKM;
 
         /// <summary>
         /// Gets a blank file for the save file. If the template path exists, a template load will be attempted.
@@ -188,22 +166,22 @@ namespace PKHeX.Core
         /// <param name="sav">Save File to fetch a template for</param>
         /// <param name="templatePath">Path to look for a template in</param>
         /// <returns>Template if it exists, or a blank <see cref="PKM"/> from the <see cref="sav"/></returns>
-        public static PKM LoadTemplate(this SaveFile sav, string templatePath)
+        public static PKM LoadTemplate(this SaveFile sav, string? templatePath = null)
         {
-            if (!Directory.Exists(templatePath))
-                return LoadTemplate(sav);
+            if (templatePath == null || !Directory.Exists(templatePath))
+                return LoadTemplateInternal(sav);
 
             var di = new DirectoryInfo(templatePath);
             string path = Path.Combine(templatePath, $"{di.Name}.{sav.PKMType.Name.ToLower()}");
 
             if (!File.Exists(path) || !PKX.IsPKM(new FileInfo(path).Length))
-                return LoadTemplate(sav);
+                return LoadTemplateInternal(sav);
 
             var pk = PKMConverter.GetPKMfromBytes(File.ReadAllBytes(path), prefer: sav.Generation);
             if (pk == null)
-                return LoadTemplate(sav);
+                return LoadTemplateInternal(sav);
 
-            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplate(sav);
+            return PKMConverter.ConvertToType(pk, sav.BlankPKM.GetType(), out _) ?? LoadTemplateInternal(sav);
         }
     }
 }

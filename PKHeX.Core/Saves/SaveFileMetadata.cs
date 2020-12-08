@@ -4,24 +4,53 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Tracks information about where the <see cref="SAV"/> originated from, and provides logic for saving to a file.
+    /// </summary>
     public class SaveFileMetadata
     {
         private readonly SaveFile SAV;
 
-        public string? FileName;
-        public string? FilePath;
-        public string? FileFolder;
+        /// <summary>
+        /// Full path where the <see cref="SAV"/> originated from.
+        /// </summary>
+        public string? FilePath { get; private set; }
+
+        /// <summary>
+        /// File Name of the <see cref="SAV"/>.
+        /// </summary>
+        /// <remarks>This is not always the original file name. We try to strip out the Backup name markings to get the original filename.</remarks>
+        public string? FileName { get; private set; }
+
+        /// <summary>
+        /// Directory in which the <see cref="SAV"/> was saved in.
+        /// </summary>
+        public string? FileFolder { get; private set; }
+
         private byte[] Footer = Array.Empty<byte>(); // .dsv
         private byte[] Header = Array.Empty<byte>(); // .gci
 
+        /// <summary>
+        /// Simple summary of the save file, to help differentiate it from other save files with the same filename.
+        /// </summary>
         public string BAKName => $"{FileName} [{SAV.ShortSummary}].bak";
 
         public SaveFileMetadata(SaveFile sav) => SAV = sav;
 
         public bool HasHeader => Header.Length != 0;
         public bool HasFooter => Footer.Length != 0;
+
+        /// <summary>
+        /// File Dialog filter to help save the file.
+        /// </summary>
         public string Filter => $"{SAV.GetType().Name}|{GetSuggestedExtension()}|All Files|*.*";
 
+        /// <summary>
+        /// Writes the input <see cref="data"/> and appends the <see cref="Header"/> and <see cref="Footer"/> if requested.
+        /// </summary>
+        /// <param name="data">Finalized save file data (with fixed checksums) to be written to a file</param>
+        /// <param name="flags">Toggle flags </param>
+        /// <returns></returns>
         public byte[] Finalize(byte[] data, ExportFlags flags)
         {
             if (Footer.Length > 0 && flags.HasFlagFast(ExportFlags.IncludeFooter))
@@ -47,22 +76,40 @@ namespace PKHeX.Core
         public void SetExtraInfo(string path)
         {
             var sav = SAV;
-            if (!sav.State.Exportable) // Blank save file
+            if (!sav.State.Exportable || string.IsNullOrWhiteSpace(path)) // Blank save file
             {
-                sav.Metadata.FileFolder = sav.Metadata.FilePath = string.Empty;
-                sav.Metadata.FileName = "Blank Save File";
+                sav.Metadata.SetAsBlank();
                 return;
             }
 
-            sav.Metadata.FilePath = path;
-            sav.Metadata.FileFolder = Path.GetDirectoryName(path);
-            sav.Metadata.FileName = string.Empty;
-            var bakName = Util.CleanFileName(sav.Metadata.BAKName);
-            sav.Metadata.FileName = Path.GetFileName(path);
-            if (sav.Metadata.FileName?.EndsWith(bakName) == true)
-                sav.Metadata.FileName = sav.Metadata.FileName.Substring(0, sav.Metadata.FileName.Length - bakName.Length);
+            SetAsLoadedFile(path);
         }
 
+        private void SetAsLoadedFile(string path)
+        {
+            FilePath = path;
+            FileFolder = Path.GetDirectoryName(path);
+            FileName = GetFileName(path, BAKName);
+        }
+
+        private static string? GetFileName(string path, string bak)
+        {
+            var bakName = Util.CleanFileName(bak);
+            var fn = Path.GetFileName(path);
+            if (fn == null)
+                return null;
+            return fn.EndsWith(bakName) ? fn.Substring(0, fn.Length - bakName.Length) : fn;
+        }
+
+        private void SetAsBlank()
+        {
+            FileFolder = FilePath = string.Empty;
+            FileName = "Blank Save File";
+        }
+
+        /// <summary>
+        /// Gets the suggested file extension when writing to a saved file.
+        /// </summary>
         public string GetSuggestedExtension()
         {
             var sav = SAV;
@@ -73,6 +120,20 @@ namespace PKHeX.Core
             if ((sav.Generation == 4 || sav.Generation == 5) && sav.Metadata.HasFooter)
                 return ".dsv";
             return sav.Extension;
+        }
+
+        /// <summary>
+        /// Gets suggested export options for the save file.
+        /// </summary>
+        /// <param name="ext">Selected export extension</param>
+        public ExportFlags GetSuggestedFlags(string? ext = null)
+        {
+            var flags = ExportFlags.None;
+            if (ext == ".dsv")
+                flags |= ExportFlags.IncludeFooter;
+            if (ext == ".gci" || (SAV is IGCSaveFile gc && !gc.IsMemoryCardSave))
+                flags |= ExportFlags.IncludeHeader;
+            return flags;
         }
     }
 }

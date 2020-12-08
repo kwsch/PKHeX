@@ -5,19 +5,6 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public class SaveFileState
-    {
-        public bool Edited { get; set; }
-        public readonly bool Exportable;
-        public readonly byte[] BAK;
-
-        public SaveFileState(byte[] bak, bool exportable = true)
-        {
-            BAK = bak;
-            Exportable = exportable;
-        }
-    }
-
     /// <summary>
     /// Base Class for Save Files
     /// </summary>
