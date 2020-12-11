@@ -213,7 +213,7 @@
                 Move4_PPUps = Move4_PPUps,
 
                 Gender = Gender,
-                AltForm = AltForm,
+                Form = Form,
                 ShinyLeaf = ShinyLeaf,
                 Version = Version,
                 PKRS_Days = PKRS_Days,

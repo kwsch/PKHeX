@@ -153,7 +153,7 @@ namespace PKHeX.Core
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
             // Roughly determine the generation the PKM is originating from
-            int origin = pk.GenNumber;
+            int origin = pk.Generation;
             if (origin < 0)
                 origin = ((GameVersion)pk.Version).GetGeneration();
 
@@ -282,7 +282,7 @@ namespace PKHeX.Core
                     yield return enc;
             }
 
-            int gen = pk.GenNumber;
+            int gen = pk.Generation;
             if ((uint)gen >= 3)
                 yield break;
 

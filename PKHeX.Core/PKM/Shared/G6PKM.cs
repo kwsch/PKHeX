@@ -38,7 +38,7 @@ namespace PKHeX.Core
 
         public sealed override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
         public sealed override int TSV => (TID ^ SID) >> 4;
-        public sealed override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
+        public sealed override bool IsUntraded => Data[0x78] == 0 && Data[0x78 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
         // Complex Generated Attributes
         public sealed override int Characteristic
@@ -114,7 +114,7 @@ namespace PKHeX.Core
         // Legality Properties
         public sealed override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public sealed override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-        public sealed override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
+        public sealed override bool WasEventEgg => Generation < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
         // Maximums
         public sealed override int MaxIV => 31;

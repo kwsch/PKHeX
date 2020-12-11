@@ -8,7 +8,7 @@ namespace PKHeX.Core
     {
         public static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
         {
-            int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.GenNumber;
+            int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.Generation;
             if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
                 return Array.Empty<int>();
 
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             }
             return Array.Empty<int>();
 
-            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormeIndex(species, formnum)].GetMoves(lvl);
+            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, formnum)].GetMoves(lvl);
         }
 
         public static bool GetIsSharedEggMove(PKM pkm, int gen, int move)
@@ -111,7 +111,7 @@ namespace PKHeX.Core
             if (gen < 8 || pkm.IsEgg)
                 return false;
             var table = PersonalTable.SWSH;
-            var entry = (PersonalInfoSWSH)table.GetFormeEntry(pkm.Species, pkm.AltForm);
+            var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
             var baseSpecies = entry.HatchSpecies;
             var baseForm = entry.HatchFormIndexEverstone;
             var egg = GetEggMoves(8, baseSpecies, baseForm, GameVersion.SW);

@@ -119,7 +119,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CL.Length; i++)
                 CL[i].Checked = Dex.GetIsLanguageIndexObtained(entry, i);
 
-            NUD_Form.Value = Dex.GetAltFormDisplayed(entry);
+            NUD_Form.Value = Dex.GetFormDisplayed(entry);
 
             CHK_Caught.Checked = Dex.GetCaught(entry);
             CHK_Gigantamaxed.Checked = Dex.GetCaughtGigantamaxed(entry);
@@ -170,7 +170,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < CL.Length; i++)
                 Dex.SetIsLanguageIndexObtained(entry, i, CL[i].Checked);
 
-            Dex.SetAltFormDisplayed(entry, (uint)NUD_Form.Value);
+            Dex.SetFormDisplayed(entry, (uint)NUD_Form.Value);
 
             Dex.SetCaught(entry, CHK_Caught.Checked);
             Dex.SetCaughtGigantamax(entry, CHK_Gigantamaxed.Checked);

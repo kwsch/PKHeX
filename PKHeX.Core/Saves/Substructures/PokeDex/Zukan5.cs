@@ -55,11 +55,11 @@ namespace PKHeX.Core
                 SetFlag(PokeDexLanguageFlags, lbit, value);
         }
 
-        protected override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
+        protected override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
         {
             var shiny = isShiny ? 1 : 0;
             SetDexFlags(baseBit, baseBit, gender, shiny);
-            SetFormFlags(baseBit + 1, altform, shiny, value);
+            SetFormFlags(baseBit + 1, form, shiny, value);
         }
 
         public override void SetDex(PKM pkm)
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             SetCaughtFlag(bit);
 
             // Set the [Species/Gender/Shiny] Seen Flag
-            SetAllDexSeenFlags(bit, pkm.AltForm, pkm.Gender, pkm.IsShiny);
+            SetAllDexSeenFlags(bit, pkm.Form, pkm.Gender, pkm.IsShiny);
             SetAllDexFlagsLanguage(bit, pkm.Language);
             SetFormFlags(pkm);
         }
@@ -112,14 +112,14 @@ namespace PKHeX.Core
         private void SetFormFlags(PKM pkm)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             var shiny = pkm.IsShiny ? 1 : 0;
             SetFormFlags(species, form, shiny);
         }
 
         private void SetFormFlags(int species, int form, int shiny, bool value = true)
         {
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormCount;
             int f = DexFormIndexFetcher(species, fc);
             if (f < 0)
                 return;

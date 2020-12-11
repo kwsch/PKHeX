@@ -31,7 +31,7 @@ namespace PKHeX.Core
                 pk.Gender = pk.GetSaneGender();
 
                 var pi = pk.PersonalInfo;
-                for (int f = 0; f < pi.FormeCount; f++)
+                for (int f = 0; f < pi.FormCount; f++)
                 {
                     var entry = tr.GetLivingEntry(pk, s, f, destType);
                     if (entry == null)
@@ -46,7 +46,7 @@ namespace PKHeX.Core
         public static PKM? GetLivingEntry(this ITrainerInfo tr, PKM template, int species, int form, Type destType)
         {
             template.Species = species;
-            template.AltForm = form;
+            template.Form = form;
             template.Gender = template.GetSaneGender();
 
             var f = EncounterMovesetGenerator.GeneratePKMs(template, tr).FirstOrDefault();
@@ -59,7 +59,7 @@ namespace PKHeX.Core
 
             result.CurrentLevel = 100;
             result.Species = species;
-            result.AltForm = form;
+            result.Form = form;
 
             result.Heal();
             return result;

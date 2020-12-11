@@ -136,7 +136,7 @@ namespace PKHeX.WinForms
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = pi.FormeCount;
+            int fc = pi.FormCount;
             int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;
@@ -174,7 +174,7 @@ namespace PKHeX.WinForms
                     Dex.SetLanguageFlag(species - 1, i, CL[i].Checked);
             }
 
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormCount;
             int f = SAV is SAV5B2W2 ? DexFormUtil.GetDexFormIndexB2W2(species, fc) : DexFormUtil.GetDexFormIndexBW(species, fc);
             if (f < 0)
                 return;

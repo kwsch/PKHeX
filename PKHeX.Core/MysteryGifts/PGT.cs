@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class PGT : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x104; // 260
-        public override int Format => 4;
+        public override int Generation => 4;
 
         public override int Level
         {
@@ -110,7 +110,7 @@ namespace PKHeX.Core
         public override int HeldItem { get => PK.HeldItem; set => PK.HeldItem = value; }
         public override bool IsShiny => PK.IsShiny;
         public override int Gender { get => PK.Gender; set => PK.Gender = value; }
-        public override int Form { get => PK.AltForm; set => PK.AltForm = value; }
+        public override int Form { get => PK.Form; set => PK.Form = value; }
         public override int TID { get => (ushort)PK.TID; set => PK.TID = value; }
         public override int SID { get => (ushort)PK.SID; set => PK.SID = value; }
         public override string OT_Name { get => PK.OT_Name; set => PK.OT_Name = value; }
@@ -231,7 +231,7 @@ namespace PKHeX.Core
         {
             pk4.IsEgg = true;
             pk4.IsNicknamed = false;
-            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Format);
+            pk4.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk4.Language, Generation);
             pk4.EggMetDate = DateTime.Now;
         }
 

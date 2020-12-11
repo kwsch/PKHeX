@@ -183,7 +183,7 @@ namespace PKHeX.Core
                         return; // Can have either state
                     VerifyWC3Shiny(data, w);
                     break;
-                case MysteryGift g when g.Format != 3: // WC3
+                case MysteryGift g when g.Generation != 3: // WC3
                     VerifyReceivability(data, g);
                     VerifyFatefulMysteryGift(data, g);
                     return;
@@ -302,7 +302,7 @@ namespace PKHeX.Core
             // No point using the evolution tree. Just handle certain species.
             switch (pkm.Species)
             {
-                case (int)Species.Lycanroc when pkm.Format == 7 && ((pkm.AltForm == 0 && Moon()) || (pkm.AltForm == 1 && Sun())):
+                case (int)Species.Lycanroc when pkm.Format == 7 && ((pkm.Form == 0 && Moon()) || (pkm.Form == 1 && Sun())):
                 case (int)Species.Solgaleo when Moon():
                 case (int)Species.Lunala when Sun():
                     bool Sun() => (pkm.Version & 1) == 0;
@@ -374,7 +374,7 @@ namespace PKHeX.Core
             return Math.Abs(ia - ib) <= 7;
         }
 
-        private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.AltForm == 8) || (pb7.Species == (int)Species.Eevee && pb7.AltForm == 1);
+        private static bool IsStarter(PKM pb7) => (pb7.Species == (int)Species.Pikachu && pb7.Form == 8) || (pb7.Species == (int)Species.Eevee && pb7.Form == 1);
 
         private void VerifySWSHStats(LegalityAnalysis data, PK8 pk8)
         {
@@ -400,7 +400,7 @@ namespace PKHeX.Core
             bool originGMax = enc is IGigantamax g && g.CanGigantamax;
             if (originGMax != pk8.CanGigantamax)
             {
-                bool ok = !pk8.IsEgg && pk8.CanToggleGigantamax(pk8.Species, pk8.AltForm, enc.Species, enc.Form);
+                bool ok = !pk8.IsEgg && pk8.CanToggleGigantamax(pk8.Species, pk8.Form, enc.Species, enc.Form);
                 var chk = ok ? GetValid(LStatGigantamaxValid) : GetInvalid(LStatGigantamaxInvalid);
                 data.AddLine(chk);
             }
@@ -424,7 +424,7 @@ namespace PKHeX.Core
                 // Calyrex-0 cannot reacquire the move via relearner, even though the TR is checked off in the TR list.
                 if (pk8.Species == (int) Species.Calyrex)
                 {
-                    var form = pk8.AltForm;
+                    var form = pk8.Form;
                     // Check if another alt form can learn the TR
                     if ((form != 1 && CanLearnTR((int) Species.Calyrex, 1, i)) || (form != 2 && CanLearnTR((int) Species.Calyrex, 2, i)))
                         continue;
@@ -438,7 +438,7 @@ namespace PKHeX.Core
 
         private static bool CanLearnTR(int species, int form, int tr)
         {
-            var pi = PersonalTable.SWSH.GetFormeEntry(species, form);
+            var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             return pi.TMHM[tr + 100];
         }
     }

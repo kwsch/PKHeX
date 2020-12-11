@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public override int SIZE_PARTY => PokeCrypto.SIZE_4PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_4STORED;
         public override int Format => 4;
-        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.HGSS.GetFormEntry(Species, Form);
 
         public PK4() : base(PokeCrypto.SIZE_4PARTY) { }
         public PK4(byte[] data) : base(DecryptParty(data)) { }
@@ -162,7 +162,7 @@ namespace PKHeX.Core
 
         public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
         public override int ShinyLeaf { get => Data[0x41]; set => Data[0x41] = (byte) value; }
         // 0x43-0x47 Unused
         #endregion
@@ -355,8 +355,8 @@ namespace PKHeX.Core
             BK4 bk4 = ConvertTo<BK4>();
 
             // Enforce DP content only (no PtHGSS)
-            if (AltForm != 0 && !PersonalTable.DP[Species].HasFormes && Species != 201)
-                bk4.AltForm = 0;
+            if (Form != 0 && !PersonalTable.DP[Species].HasForms && Species != 201)
+                bk4.Form = 0;
             if (HeldItem > Legal.MaxItemID_4_DP)
                 bk4.HeldItem = 0;
             bk4.RefreshChecksum();
@@ -381,7 +381,7 @@ namespace PKHeX.Core
             // Arceus Type Changing -- Plate forcibly removed.
             if (pk5.Species == (int)Core.Species.Arceus)
             {
-                pk5.AltForm = 0;
+                pk5.Form = 0;
                 pk5.HeldItem = 0;
             }
             else if(!Legal.HeldItems_BW.Contains((ushort)HeldItem))

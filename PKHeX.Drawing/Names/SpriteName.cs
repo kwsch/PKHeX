@@ -69,7 +69,7 @@ namespace PKHeX.Drawing
         }
 
         /// <summary>
-        /// Species that show their default Species sprite regardless of current <see cref="PKM.AltForm"/>
+        /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
         /// </summary>
         private static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
         {

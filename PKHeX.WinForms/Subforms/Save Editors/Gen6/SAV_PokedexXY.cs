@@ -140,7 +140,7 @@ namespace PKHeX.WinForms
             CLB_FormsSeen.Items.Clear();
             CLB_FormDisplayed.Items.Clear();
 
-            int fc = pi.FormeCount;
+            int fc = pi.FormCount;
             int f = DexFormUtil.GetDexFormIndexXY(species, fc);
             if (f < 0)
                 return;
@@ -177,7 +177,7 @@ namespace PKHeX.WinForms
             if (CHK_F1.Enabled) // species < 650 // (1-649)
                 Zukan.SetForeignFlag(species - 1, CHK_F1.Checked);
 
-            int fc = SAV.Personal[species].FormeCount;
+            int fc = SAV.Personal[species].FormCount;
             int f = DexFormUtil.GetDexFormIndexORAS(species, fc);
             if (f < 0)
                 return;

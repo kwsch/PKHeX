@@ -13,7 +13,7 @@ namespace PKHeX.Core
 
         public override void SetDex(PKM pkm)
         {
-            if (!TryGetSizeEntryIndex(pkm.Species, pkm.AltForm, out _))
+            if (!TryGetSizeEntryIndex(pkm.Species, pkm.Form, out _))
                 return;
             SetSizeData((PB7)pkm);
             base.SetDex(pkm);
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         private void SetSizeData(PB7 pkm)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             if (!TryGetSizeEntryIndex(species, form, out int index))
                 return;
 
@@ -98,7 +98,7 @@ namespace PKHeX.Core
         {
             var tree = EvolutionTree.GetEvolutionTree(pkm, 7);
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
 
             int height = pkm.HeightScalar;
             int weight = pkm.WeightScalar;

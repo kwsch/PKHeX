@@ -49,7 +49,7 @@ namespace PKHeX.Core
             var basedata = (byte[])BaseQR.Clone();
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
 
-            var pi = PersonalTable.USUM.GetFormeEntry(species, formnum);
+            var pi = PersonalTable.USUM.GetFormEntry(species, formnum);
             bool biGender = false;
             if (pi.OnlyMale)
                 gender = 0;
@@ -88,7 +88,7 @@ namespace PKHeX.Core
             BitConverter.GetBytes(num_copies).CopyTo(data, 0x10); // No need to check max num_copies, payload parser handles it on-console.
 
             pk7.EncryptedPartyData.CopyTo(data, 0x30); // Copy in pokemon data
-            GetRawQR(pk7.Species, pk7.AltForm, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
+            GetRawQR(pk7.Species, pk7.Form, pk7.IsShiny, pk7.Gender).CopyTo(data, 0x140);
             BitConverter.GetBytes(Checksums.CRC16(data, 0, 0x1A0)).CopyTo(data, 0x1A0);
             return data;
         }

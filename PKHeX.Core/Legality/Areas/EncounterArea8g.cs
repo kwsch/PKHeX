@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.GO"/> encounter area for direct-to-HOME transfers.
     /// </summary>
-    public sealed class EncounterArea8g : EncounterArea
+    public sealed class EncounterArea8g : EncounterArea, ISpeciesForm
     {
         /// <summary> Species for the area </summary>
         /// <remarks> Due to how the encounter data is packaged by PKHeX, each species-form is grouped together. </remarks>
@@ -74,12 +74,12 @@ namespace PKHeX.Core
             var pi8 = (PersonalInfoSWSH)pt8[species];
             if (pi8.IsPresentInGame)
             {
-                bool lgpe = (species <= 151 || species == 808 || species == 809) && (form == 0 || ptGG[species].HasForme(form));
+                bool lgpe = (species <= 151 || species == 808 || species == 809) && (form == 0 || ptGG[species].HasForm(form));
                 return lgpe ? GameVersion.GG : GameVersion.SWSH;
             }
             if (species <= Legal.MaxSpeciesID_7_USUM)
             {
-                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForme(form));
+                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForm(form));
                 return lgpe ? GameVersion.GG : GameVersion.USUM;
             }
 
@@ -91,7 +91,7 @@ namespace PKHeX.Core
             if (pkm.TSV == 0) // HOME doesn't assign TSV=0 to accounts.
                 yield break;
 
-            var sf = chain.FirstOrDefault(z => z.Species == Species && (z.Form == Form || AltFormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
+            var sf = chain.FirstOrDefault(z => z.Species == Species && (z.Form == Form || FormInfo.IsFormChangeable(Species, Form, z.Form, pkm.Format)));
             if (sf == null)
                 yield break;
 

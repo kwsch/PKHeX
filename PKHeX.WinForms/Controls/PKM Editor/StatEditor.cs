@@ -335,7 +335,7 @@ namespace PKHeX.WinForms.Controls
             if (!CHK_HackedStats.Checked || Entity.Stat_ATK == 0)
             {
                 var pt = MainEditor.RequestSaveFile.Personal;
-                var pi = pt.GetFormeEntry(Entity.Species, Entity.AltForm);
+                var pi = pt.GetFormEntry(Entity.Species, Entity.Form);
                 Entity.SetStats(Entity.GetStats(pi));
                 LoadBST(pi);
                 LoadPartyStats(Entity);

@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class PGF : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature
     {
         public const int Size = 0xCC;
-        public override int Format => 5;
+        public override int Generation => 5;
 
         public PGF() : this(new byte[Size]) { }
         public PGF(byte[] data) : base(data) { }
@@ -177,14 +177,14 @@ namespace PKHeX.Core
             }
 
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
-            var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
             PK5 pk = new PK5
             {
                 Species = Species,
                 HeldItem = HeldItem,
                 Met_Level = currentLevel,
                 Nature = Nature != -1 ? Nature : rnd.Next(25),
-                AltForm = Form,
+                Form = Form,
                 Version = OriginGame == 0 ? sav.Game : OriginGame,
                 Language = Language == 0 ? sav.Language : Language,
                 Ball = Ball,
@@ -248,7 +248,7 @@ namespace PKHeX.Core
             }
 
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
+            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
             SetPINGA(pk, criteria);
 
@@ -265,13 +265,13 @@ namespace PKHeX.Core
         {
             pk.IsEgg = true;
             pk.EggMetDate = Date;
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
             pk.IsNicknamed = true;
         }
 
         private void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            var pi = PersonalTable.B2W2.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature((Nature)Nature);
             pk.Gender = pi.Genderless ? 2 : Gender != 2 ? Gender : criteria.GetGender(-1, pi);
             var av = GetAbilityIndex(criteria, pi);
@@ -369,7 +369,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (Form != evo.Form && !AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
             if (Level != pkm.Met_Level) return false;

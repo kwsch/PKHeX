@@ -14,7 +14,7 @@ namespace PKHeX.Core
         /// <returns>Returns the verification method appropriate for the input PKM</returns>
         public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
-            switch (pkm.GenNumber)
+            switch (pkm.Generation)
             {
                 case 1:
                 case 2:

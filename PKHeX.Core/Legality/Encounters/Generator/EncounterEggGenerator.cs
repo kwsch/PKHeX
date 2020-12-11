@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
             var table = EvolutionTree.GetEvolutionTree(pkm, Math.Max(2, pkm.Format));
-            int maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm.GenNumber);
+            int maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm.Generation);
             var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
             return GenerateEggs(pkm, evos, all);
         }
@@ -22,10 +22,10 @@ namespace PKHeX.Core
             if (NoHatchFromEgg.Contains(species))
                 yield break;
 
-            int gen = pkm.GenNumber;
+            int gen = pkm.Generation;
             if (gen <= 1)
                 yield break; // can't get eggs
-            if (NoHatchFromEggForm(species, pkm.AltForm, gen))
+            if (NoHatchFromEggForm(species, pkm.Form, gen))
                 yield break; // can't originate from eggs
 
             // version is a true indicator for all generation 3-5 origins
@@ -60,7 +60,7 @@ namespace PKHeX.Core
         {
             if (form == 0)
                 return false;
-            if (AltFormInfo.IsTotemForm(species, form, gen))
+            if (FormInfo.IsTotemForm(species, form, gen))
                 return true;
             if (species == (int) Species.Pichu)
                 return true; // can't get Spiky Ear Pichu eggs
@@ -73,8 +73,8 @@ namespace PKHeX.Core
         {
             // Sanity check form for origin
             var gameInfo = GameData.GetPersonal(game);
-            var entry = gameInfo.GetFormeEntry(species, form);
-            return form >= entry.FormeCount && !(species == (int)Species.Rotom && form <= 5);
+            var entry = gameInfo.GetFormEntry(species, form);
+            return form >= entry.FormCount && !(species == (int)Species.Rotom && form <= 5);
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A

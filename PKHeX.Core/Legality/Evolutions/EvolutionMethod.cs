@@ -91,8 +91,8 @@ namespace PKHeX.Core
                     return !pkm.IsUntraded || skipChecks;
 
                 // Special Level Up Cases -- return false if invalid
-                case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
-                case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.AltForm && !skipChecks:
+                case LevelUpNatureAmped when GetAmpLowKeyResult(pkm.Nature) != pkm.Form && !skipChecks:
+                case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.Form && !skipChecks:
                     return false;
 
                 case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
@@ -101,7 +101,7 @@ namespace PKHeX.Core
                     return false;
                 case LevelUpFemale when pkm.Gender != 1:
                     return false;
-                case LevelUpFormFemale1 when pkm.Gender != 1 || pkm.AltForm != 1:
+                case LevelUpFormFemale1 when pkm.Gender != 1 || pkm.Form != 1:
                     return false;
 
                 case LevelUpVersion when ((pkm.Version & 1) != (Argument & 1) && pkm.IsUntraded) || skipChecks:
@@ -127,7 +127,7 @@ namespace PKHeX.Core
 
         private bool HasMetLevelIncreased(PKM pkm, int lvl)
         {
-            int origin = pkm.GenNumber;
+            int origin = pkm.Generation;
             switch (origin)
             {
                 case 1: // No met data in RBY

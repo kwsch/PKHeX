@@ -39,7 +39,7 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggMetLevel(PKM pkm)
         {
-            if (!pkm.IsNative && pkm.GenNumber < 5)
+            if (!pkm.IsNative && pkm.Generation < 5)
                 return pkm.CurrentLevel; // be generous with transfer conditions
             if (pkm.Format < 5) // and native
                 return pkm.Format == 2 && pkm.Met_Location != 0 ? 1 : 0;
@@ -48,7 +48,7 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
         {
-            return GetSuggestedEncounterEggLocationEgg(pkm.GenNumber, traded);
+            return GetSuggestedEncounterEggLocationEgg(pkm.Generation, traded);
         }
 
         public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false)
@@ -207,7 +207,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterSuggestionData : IRelearn
+    public sealed class EncounterSuggestionData : ISpeciesForm, IRelearn
     {
         private readonly IEncounterable? Encounter;
 
@@ -217,7 +217,7 @@ namespace PKHeX.Core
         {
             Encounter = enc;
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             Location = met;
 
             LevelMin = enc.LevelMin;
@@ -227,7 +227,7 @@ namespace PKHeX.Core
         public EncounterSuggestionData(PKM pkm, int met, int lvl)
         {
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             Location = met;
 
             LevelMin = lvl;

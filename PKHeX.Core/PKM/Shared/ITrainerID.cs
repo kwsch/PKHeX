@@ -15,7 +15,7 @@
         {
             if (tr is PKM p)
             {
-                var format = p.GenNumber;
+                var format = p.Generation;
                 if ((format < 3 && p.Format >= 7) || format <= 0) // VC or bad gen
                     return 4; // use TID/SID 16bit style
                 return format;

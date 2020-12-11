@@ -64,7 +64,7 @@ namespace PKHeX.Core
             if (pk is PK6 pk6)
                 pk6.SetHatchMemory6();
 
-            SetAltForm(pk, sav);
+            SetForm(pk, sav);
 
             pk.SetRandomEC();
             pk.RelearnMoves = moves;
@@ -72,18 +72,18 @@ namespace PKHeX.Core
             return pk;
         }
 
-        private void SetAltForm(PKM pk, ITrainerInfo sav)
+        private void SetForm(PKM pk, ITrainerInfo sav)
         {
             switch (Species)
             {
                 case (int)Core.Species.Minior:
-                    pk.AltForm = Util.Rand.Next(7, 14);
+                    pk.Form = Util.Rand.Next(7, 14);
                     break;
                 case (int)Core.Species.Scatterbug:
                 case (int)Core.Species.Spewpa:
                 case (int)Core.Species.Vivillon:
                     if (sav is IRegionOrigin o)
-                        pk.AltForm = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
+                        pk.Form = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
                     // else 0
                     break;
             }

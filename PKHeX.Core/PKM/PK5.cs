@@ -21,7 +21,7 @@ namespace PKHeX.Core
         public override int SIZE_PARTY => PokeCrypto.SIZE_5PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_5STORED;
         public override int Format => 5;
-        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.B2W2.GetFormEntry(Species, Form);
 
         public PK5() : base(PokeCrypto.SIZE_5PARTY) { }
         public PK5(byte[] data) : base(DecryptParty(data)) { }
@@ -176,7 +176,7 @@ namespace PKHeX.Core
 
         public override bool FatefulEncounter { get => (Data[0x40] & 1) == 1; set => Data[0x40] = (byte)((Data[0x40] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x40] >> 1) & 0x3; set => Data[0x40] = (byte)((Data[0x40] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x40] >> 3; set => Data[0x40] = (byte)((Data[0x40] & 0x07) | (value << 3)); }
         public override int Nature { get => Data[0x41]; set => Data[0x41] = (byte)value; }
         public bool HiddenAbility { get => (Data[0x42] & 1) == 1; set => Data[0x42] = (byte)((Data[0x42] & ~0x01) | (value ? 1 : 0)); }
         public bool NPokémon { get => (Data[0x42] & 2) == 2; set => Data[0x42] = (byte)((Data[0x42] & ~0x02) | (value ? 2 : 0)); }
@@ -373,7 +373,7 @@ namespace PKHeX.Core
 
                 FatefulEncounter = FatefulEncounter,
                 Gender = Gender,
-                AltForm = AltForm,
+                Form = Form,
                 Nature = Nature,
 
                 Version = Version,

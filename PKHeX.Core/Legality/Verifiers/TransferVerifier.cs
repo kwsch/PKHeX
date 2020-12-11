@@ -122,7 +122,7 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             int species = pkm.Species;
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(species, pkm.AltForm);
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(species, pkm.Form);
             if (!pi.IsPresentInGame) // Can't transfer
             {
                 data.AddLine(GetInvalid(LTransferBad));
@@ -136,11 +136,11 @@ namespace PKHeX.Core
             }
             else if (enc.Generation < 8 && pkm.Format >= 8)
             {
-                if (enc is EncounterStatic7 s && AltFormInfo.IsTotemForm(s.Species, s.Form, 7))
+                if (enc is EncounterStatic7 s && FormInfo.IsTotemForm(s.Species, s.Form, 7))
                 {
                     if (Legal.Totem_NoTransfer.Contains(s.Species))
                         data.AddLine(GetInvalid(LTransferBad));
-                    if (pkm.AltForm != AltFormInfo.GetTotemBaseForm(s.Species, s.Form))
+                    if (pkm.Form != FormInfo.GetTotemBaseForm(s.Species, s.Form))
                         data.AddLine(GetInvalid(LTransferBad));
                 }
 
@@ -197,7 +197,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Species == (int)Species.Unown)
             {
-                if (pkm.AltForm != 8 && pkm.AltForm != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
+                if (pkm.Form != 8 && pkm.Form != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
         }

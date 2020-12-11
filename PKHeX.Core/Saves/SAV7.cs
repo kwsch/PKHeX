@@ -212,7 +212,7 @@ namespace PKHeX.Core
 
         private static uint GetFormArgument(PKM pkm)
         {
-            if (pkm.AltForm == 0)
+            if (pkm.Form == 0)
                 return 0;
             // Gen7 allows forms to be stored in the box with the current duration & form
             // Just cap out the form duration anyways

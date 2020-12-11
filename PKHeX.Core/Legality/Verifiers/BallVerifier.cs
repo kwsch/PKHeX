@@ -201,7 +201,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.AltForm << 11) && IsHiddenAndNotPossible(pkm))
+                if (Legal.Ban_NoHidden7Apricorn.Contains(species | pkm.Form << 11) && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -234,7 +234,7 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && IsHiddenAndNotPossible(pkm))
+                if (species == (int)Species.Flabébé && pkm.Form == 3 && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
                 if (species == (int)Species.Voltorb && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain with Hidden Ability in wild (can only breed with Ditto)
@@ -285,7 +285,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Apricorn7.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if (Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.AltForm << 11) && IsHiddenAndNotPossible(pkm)) // lineage is 3->2->origin
+                if (Legal.Ban_NoHidden8Apricorn.Contains(species | pkm.Form << 11) && IsHiddenAndNotPossible(pkm)) // lineage is 3->2->origin
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -318,7 +318,7 @@ namespace PKHeX.Core
 
             if (ball == Beast)
             {
-                if (species == (int)Species.Flabébé && pkm.AltForm == 3 && IsHiddenAndNotPossible(pkm))
+                if (species == (int)Species.Flabébé && pkm.Form == 3 && IsHiddenAndNotPossible(pkm))
                     return GetInvalid(LBallAbility); // Can't obtain Flabébé-Blue with Hidden Ability in wild
                 if (((int)Species.Pikipek <= species && species <= (int)Species.Kommoo) || (Legal.AlolanCaptureOffspring.Contains(species) && !Legal.PastGenAlolanNativesUncapturable.Contains(species)))
                     return GetValid(LBallSpeciesPass);
@@ -353,7 +353,7 @@ namespace PKHeX.Core
 
             // Everything breed-able that is in the Galar Dex can be captured in-game.
             var pt = PersonalTable.SWSH;
-            var pi = (PersonalInfoSWSH) pt.GetFormeEntry(species, 0);
+            var pi = (PersonalInfoSWSH) pt.GetFormEntry(species, 0);
             if (pi.IsInDex)
                 return true;
 

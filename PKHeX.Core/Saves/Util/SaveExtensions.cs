@@ -46,8 +46,8 @@ namespace PKHeX.Core
             else if (sav.MaxSpeciesID < pkm.Species)
                 errata.Add($"{MsgIndexSpeciesGame} {strings.Species[pkm.Species]}");
 
-            if (!sav.Personal[pkm.Species].IsFormeWithinRange(pkm.AltForm) && !AltFormInfo.IsValidOutOfBoundsForme(pkm.Species, pkm.AltForm, pkm.GenNumber))
-                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pkm.Species].FormeCount - 1), pkm.AltForm));
+            if (!sav.Personal[pkm.Species].IsFormWithinRange(pkm.Form) && !FormInfo.IsValidOutOfBoundsForm(pkm.Species, pkm.Form, pkm.Generation))
+                errata.Add(string.Format(LegalityCheckStrings.LFormInvalidRange, Math.Max(0, sav.Personal[pkm.Species].FormCount - 1), pkm.Form));
 
             if (pkm.Moves.Any(m => m > strings.Move.Count))
                 errata.Add($"{MsgIndexMoveRange} {string.Join(", ", pkm.Moves.Where(m => m > strings.Move.Count).Select(m => m.ToString()))}");

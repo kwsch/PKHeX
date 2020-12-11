@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains logic for Alternate Form information.
     /// </summary>
-    public static class AltFormInfo
+    public static class FormInfo
     {
         /// <summary>
         /// Checks if the form cannot exist outside of a Battle.
@@ -244,8 +244,8 @@ namespace PKHeX.Core
         /// <param name="species">Entity species</param>
         /// <param name="form">Entity form</param>
         /// <param name="format">Current generation format</param>
-        /// <seealso cref="HasFormeValuesNotIndicatedByPersonal"/>
-        public static bool IsValidOutOfBoundsForme(int species, int form, int format)
+        /// <seealso cref="HasFormValuesNotIndicatedByPersonal"/>
+        public static bool IsValidOutOfBoundsForm(int species, int form, int format)
         {
             return (Species) species switch
             {
@@ -260,28 +260,28 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.AltForm"/> value.
+        /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.Form"/> value.
         /// </summary>
         /// <param name="pi">Game specific personal info</param>
         /// <param name="species"><see cref="Species"/> ID</param>
-        /// <param name="format"><see cref="PKM.AltForm"/> ID</param>
+        /// <param name="format"><see cref="PKM.Form"/> ID</param>
         /// <returns>True if has formes that can be provided by <see cref="FormConverter.GetFormList"/>, otherwise false for none.</returns>
         public static bool HasFormSelection(PersonalInfo pi, int species, int format)
         {
             if (format <= 3 && species != (int)Unown)
                 return false;
 
-            if (HasFormeValuesNotIndicatedByPersonal.Contains(species))
+            if (HasFormValuesNotIndicatedByPersonal.Contains(species))
                 return true;
 
-            int count = pi.FormeCount;
+            int count = pi.FormCount;
             return count > 1;
         }
 
         /// <summary>
-        /// <seealso cref="IsValidOutOfBoundsForme"/>
+        /// <seealso cref="IsValidOutOfBoundsForm"/>
         /// </summary>
-        private static readonly HashSet<int> HasFormeValuesNotIndicatedByPersonal = new HashSet<int>
+        private static readonly HashSet<int> HasFormValuesNotIndicatedByPersonal = new HashSet<int>
         {
             (int)Unown,
             (int)Mothim, // (Burmy forme carried over, not cleared)

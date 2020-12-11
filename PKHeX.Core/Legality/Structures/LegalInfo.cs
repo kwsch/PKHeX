@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
             // Store repeatedly accessed values
             Game = (GameVersion)pkm.Version;
-            Generation = pkm.GenNumber;
+            Generation = pkm.Generation;
         }
 
         /// <summary>List of all near-matches that were rejected for a given reason.</summary>

@@ -153,7 +153,7 @@ namespace PKHeX.Core
                 Met_Location = Locations.Transfer2, // "Johto region", hardcoded.
                 Gender = Gender,
                 IsNicknamed = false,
-                AltForm = AltForm,
+                Form = Form,
 
                 CurrentHandler = 1,
                 HT_Name = PKMConverter.OT_Name,

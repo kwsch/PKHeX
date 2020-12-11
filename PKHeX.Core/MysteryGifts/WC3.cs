@@ -36,7 +36,7 @@ namespace PKHeX.Core
         public bool Fateful { get; set; } // Obedience Flag
 
         // Mystery Gift Properties
-        public override int Format => 3;
+        public override int Generation => 3;
         public override int Level { get; set; }
         public override int Ball { get; set; } = 4;
         public override bool IsShiny => Shiny == Shiny.Always;
@@ -249,7 +249,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Form != evo.Form && !AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
             if (Language != -1 && Language != pkm.Language) return false;

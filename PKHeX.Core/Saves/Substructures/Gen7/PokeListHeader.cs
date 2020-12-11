@@ -138,7 +138,7 @@ namespace PKHeX.Core
                 // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
                 var spec = SAV.Version == GameVersion.GP ? 25 : 133;
                 bool Starter(int species, int form) => species == spec && form != 0;
-                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => Starter(z.Species, z.AltForm));
+                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => Starter(z.Species, z.Form));
                 if (index >= 0)
                     arr[6] = index;
             }

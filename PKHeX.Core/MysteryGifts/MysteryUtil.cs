@@ -96,7 +96,7 @@ namespace PKHeX.Core
 
         private static void AddLinesPKM(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
-            var id = gift.Format < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
+            var id = gift.Generation < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
 
             var first =
                 $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem]}  --- "
@@ -121,7 +121,7 @@ namespace PKHeX.Core
         /// <returns>True if compatible, false if incompatible.</returns>
         public static bool IsCardCompatible(this MysteryGift g, SaveFile sav, out string message)
         {
-            if (g.Format != sav.Generation)
+            if (g.Generation != sav.Generation)
             {
                 message = MsgMysteryGiftSlotSpecialReject;
                 return false;

@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
             var db = EncounterEvent.GetAllEvents();
 
             // when all sprites in new size are available, remove this filter
-            db = SAV is SAV8SWSH ? db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => !(z is WC8));
+            db = SAV is SAV8SWSH ? db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => !(z is WC8));
 
             RawDB = new List<MysteryGift>(db);
             foreach (var mg in RawDB)
@@ -257,9 +257,9 @@ namespace PKHeX.WinForms
             switch (CB_FormatComparator.SelectedIndex)
             {
                 case 0: /* Do nothing */                            break;
-                case 1: res = res.Where(mg => mg.Format >= format); break;
-                case 2: res = res.Where(mg => mg.Format == format); break;
-                case 3: res = res.Where(mg => mg.Format <= format); break;
+                case 1: res = res.Where(mg => mg.Generation >= format); break;
+                case 2: res = res.Where(mg => mg.Generation == format); break;
+                case 3: res = res.Where(mg => mg.Generation <= format); break;
             }
 
             // Primary Searchables

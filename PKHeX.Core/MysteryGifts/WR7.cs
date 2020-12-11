@@ -96,7 +96,7 @@ namespace PKHeX.Core
         }
 
         // Mystery Gift implementation
-        public override int Format => 7;
+        public override int Generation => 7;
         protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
         public override int Location { get; set; }

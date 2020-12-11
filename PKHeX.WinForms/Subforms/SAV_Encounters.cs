@@ -195,7 +195,7 @@ namespace PKHeX.WinForms
 
             // when all sprites in new size are available, remove this filter
             results = SAV is SAV8SWSH
-                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormeEntry(z.Species, z.Form)).IsPresentInGame)
+                ? results.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame)
                 : results.Where(z => z.Generation <= 7);
             return results;
         }

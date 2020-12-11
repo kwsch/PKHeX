@@ -3,16 +3,13 @@
     /// <summary>
     /// Common Encounter Properties base interface.
     /// </summary>
-    public interface IEncounterable : IVersion
+    public interface IEncounterable : ISpeciesForm, IVersion, IGeneration
     {
-        int Species { get; }
-        int Form { get; }
         string Name { get; }
         string LongName { get; }
         bool EggEncounter { get; }
         int LevelMin { get; }
         int LevelMax { get; }
-        int Generation { get; }
 
         PKM ConvertToPKM(ITrainerInfo sav);
         PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);

@@ -472,7 +472,7 @@ namespace PKHeX.Core
                     }
 
                     learnInfo.EggMovesLearned.Add(m);
-                    if (pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber == 1)
+                    if (pkm.TradebackStatus == TradebackType.Any && pkm.Generation == 1)
                         pkm.TradebackStatus = TradebackType.WasTradeback;
                 }
                 if (!learnInfo.Source.EggEventSource.Contains(move))
@@ -490,7 +490,7 @@ namespace PKHeX.Core
                         res[m] = new CheckMoveResult(SpecialEgg, gen, Valid, LMoveSourceEggEvent, Move);
                     }
                 }
-                if (pkm.TradebackStatus == TradebackType.Any && pkm.GenNumber == 1)
+                if (pkm.TradebackStatus == TradebackType.Any && pkm.Generation == 1)
                     pkm.TradebackStatus = TradebackType.WasTradeback;
                 learnInfo.EventEggMoves.Add(m);
             }
@@ -754,7 +754,7 @@ namespace PKHeX.Core
         private static CheckMoveResult[] VerifyPreRelearnEggBase(PKM pkm, IReadOnlyList<int> currentMoves, EggInfoSource infoset)
         {
             CheckMoveResult[] res = new CheckMoveResult[4];
-            var gen = pkm.GenNumber;
+            var gen = pkm.Generation;
             // Obtain level1 moves
             var reqBase = GetRequiredBaseMoveCount(currentMoves, infoset);
 
@@ -900,7 +900,7 @@ namespace PKHeX.Core
         {
             // VC case: check transfer games in reverse order (8, 7..) then past games.
             int[] xfer = GetGenMovesOrder(pkm.Format, 7);
-            int[] past = GetGenMovesCheckOrderGB(pkm, pkm.GenNumber);
+            int[] past = GetGenMovesCheckOrderGB(pkm, pkm.Generation);
             int end = xfer.Length;
             Array.Resize(ref xfer, xfer.Length + past.Length);
             past.CopyTo(xfer, end);

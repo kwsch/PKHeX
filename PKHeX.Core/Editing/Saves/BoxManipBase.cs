@@ -41,7 +41,7 @@ namespace PKHeX.Core
             new BoxManipSort(BoxManipType.SortTraining, list => list.OrderByCustom(pk => (pk.MaxEV * 6) - pk.EVTotal)),
             new BoxManipSortComplex(BoxManipType.SortOwner, (list, sav) => list.OrderByOwnership(sav)),
             new BoxManipSort(BoxManipType.SortType, list => list.OrderByCustom(pk => pk.PersonalInfo.Type1, pk => pk.PersonalInfo.Type2)),
-            new BoxManipSort(BoxManipType.SortVersion, list => list.OrderByCustom(pk => pk.GenNumber, pk => pk.Version, pk => pk.Met_Location), s => s.Generation >= 3),
+            new BoxManipSort(BoxManipType.SortVersion, list => list.OrderByCustom(pk => pk.Generation, pk => pk.Version, pk => pk.Met_Location), s => s.Generation >= 3),
             new BoxManipSort(BoxManipType.SortBST, list => list.OrderByCustom(pk => pk.PersonalInfo.BST)),
             new BoxManipSort(BoxManipType.SortCP, list => list.OrderByCustom(pk => pk is PB7 pb7 ? pb7.Stat_CP : 0), s => s is SAV7b),
             new BoxManipSort(BoxManipType.SortLegal, list => list.OrderByCustom(pk => !new LegalityAnalysis(pk).Valid)),
@@ -52,7 +52,7 @@ namespace PKHeX.Core
         {
             new BoxManipClear(BoxManipType.DeleteAll, _ => true),
             new BoxManipClear(BoxManipType.DeleteEggs, pk => pk.IsEgg, s => s.Generation >= 2),
-            new BoxManipClearComplex(BoxManipType.DeletePastGen, (pk, sav) => pk.GenNumber != sav.Generation, s => s.Generation >= 4),
+            new BoxManipClearComplex(BoxManipType.DeletePastGen, (pk, sav) => pk.Generation != sav.Generation, s => s.Generation >= 4),
             new BoxManipClearComplex(BoxManipType.DeleteForeign, (pk, sav) => !sav.IsOriginalHandler(pk, pk.Format > 2)),
             new BoxManipClear(BoxManipType.DeleteUntrained, pk => pk.EVTotal == 0),
             new BoxManipClear(BoxManipType.DeleteItemless, pk => pk.HeldItem == 0),

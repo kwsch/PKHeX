@@ -137,7 +137,7 @@ namespace PKHeX.Core
 
         private static uint GetFormArgument(PKM pkm, bool isParty)
         {
-            if (!isParty || pkm.AltForm == 0)
+            if (!isParty || pkm.Form == 0)
                 return 0;
             return pkm.Species switch
             {

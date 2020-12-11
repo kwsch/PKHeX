@@ -170,7 +170,7 @@ namespace PKHeX.WinForms.Controls
             LoadPKRS(pk);
             CHK_IsEgg.Checked = pk.IsEgg;
             CB_HeldItem.SelectedValue = pk.HeldItem;
-            CB_Form.SelectedIndex = CB_Form.Items.Count > pk.AltForm ? pk.AltForm : CB_Form.Items.Count - 1;
+            CB_Form.SelectedIndex = CB_Form.Items.Count > pk.Form ? pk.Form : CB_Form.Items.Count - 1;
             if (pk is IFormArgument f)
                 CB_FormArgument.SelectedIndex = CB_FormArgument.Items.Count > f.FormArgument ? (int)f.FormArgument : CB_FormArgument.Items.Count - 1;
 
@@ -185,7 +185,7 @@ namespace PKHeX.WinForms.Controls
             SavePKRS(pk);
             pk.IsEgg = CHK_IsEgg.Checked;
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
-            pk.AltForm = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
+            pk.Form = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             if (Entity is IFormArgument f)
                 f.FormArgument = (uint)Math.Max(0, CB_FormArgument.SelectedIndex);
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);

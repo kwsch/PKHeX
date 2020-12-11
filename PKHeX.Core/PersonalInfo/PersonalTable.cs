@@ -259,31 +259,31 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// Gets the <see cref="PersonalInfo"/> entry index for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <param name="form"><see cref="PKM.Form"/></param>
         /// <returns>Entry index for the input criteria</returns>
-        public int GetFormeIndex(int species, int forme)
+        public int GetFormIndex(int species, int form)
         {
             if (species > MaxSpeciesID)
             { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
-            return this[species].FormeIndex(species, forme);
+            return this[species].FormIndex(species, form);
         }
 
         /// <summary>
-        /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.AltForm"/>.
+        /// Gets the <see cref="PersonalInfo"/> entry for a given <see cref="PKM.Species"/> and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/></param>
-        /// <param name="forme"><see cref="PKM.AltForm"/></param>
+        /// <param name="form"><see cref="PKM.Form"/></param>
         /// <returns>Entry for the input criteria</returns>
-        public PersonalInfo GetFormeEntry(int species, int forme)
+        public PersonalInfo GetFormEntry(int species, int form)
         {
-            return this[GetFormeIndex(species, forme)];
+            return this[GetFormIndex(species, form)];
         }
 
         /// <summary>
-        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.AltForm"/> entreis.
+        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.Form"/> entreis.
         /// </summary>
         public int TableLength => Table.Length;
 
@@ -308,7 +308,7 @@ namespace PKHeX.Core
             string[][] FormList = new string[MaxSpecies+1][];
             for (int i = 0; i < FormList.Length; i++)
             {
-                int FormCount = this[i].FormeCount;
+                int FormCount = this[i].FormCount;
                 FormList[i] = new string[FormCount];
                 if (FormCount <= 0)
                     continue;
@@ -322,15 +322,15 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> <see cref="PKM.AltForm"/> values.
+        /// Gets an arranged list of Form names and indexes for use with the individual <see cref="PersonalInfo"/> <see cref="PKM.Form"/> values.
         /// </summary>
-        /// <param name="AltForms">Raw string resource (Forms) for the corresponding table.</param>
+        /// <param name="forms">Raw string resource (Forms) for the corresponding table.</param>
         /// <param name="species">Raw string resource (Species) for the corresponding table.</param>
         /// <param name="MaxSpecies">Max Species ID (<see cref="PKM.Species"/>)</param>
         /// <param name="baseForm">Pointers for base form IDs</param>
         /// <param name="formVal">Pointers for table indexes for each form</param>
         /// <returns>Sanitized list of species names, and outputs indexes for various lookup purposes.</returns>
-        public string[] GetPersonalEntryList(string[][] AltForms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
+        public string[] GetPersonalEntryList(string[][] forms, string[] species, int MaxSpecies, out int[] baseForm, out int[] formVal)
         {
             string[] result = new string[Table.Length];
             baseForm = new int[result.Length];
@@ -338,17 +338,17 @@ namespace PKHeX.Core
             for (int i = 0; i <= MaxSpecies; i++)
             {
                 result[i] = species[i];
-                if (AltForms[i].Length == 0)
+                if (forms[i].Length == 0)
                     continue;
                 int basePtr = this[i].FormStatsIndex;
                 if (basePtr <= 0)
                     continue;
-                for (int j = 1; j < AltForms[i].Length; j++)
+                for (int j = 1; j < forms[i].Length; j++)
                 {
                     int ptr = basePtr + j - 1;
                     baseForm[ptr] = i;
                     formVal[ptr] = j;
-                    result[ptr] = AltForms[i][j];
+                    result[ptr] = forms[i][j];
                 }
             }
             return result;

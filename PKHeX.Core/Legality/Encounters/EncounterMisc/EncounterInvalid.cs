@@ -25,11 +25,11 @@ namespace PKHeX.Core
         public EncounterInvalid(PKM pkm)
         {
             Species = pkm.Species;
-            Form = pkm.AltForm;
+            Form = pkm.Form;
             LevelMin = pkm.Met_Level;
             LevelMax = pkm.CurrentLevel;
             EggEncounter = pkm.WasEgg;
-            Generation = pkm.GenNumber;
+            Generation = pkm.Generation;
             Version = (GameVersion)pkm.Version;
         }
 

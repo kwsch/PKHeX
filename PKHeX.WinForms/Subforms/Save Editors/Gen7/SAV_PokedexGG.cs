@@ -99,7 +99,7 @@ namespace PKHeX.WinForms
             int form = LB_Forms.SelectedIndex;
             if (form > 0)
             {
-                int fc = SAV.Personal[bspecies].FormeCount;
+                int fc = SAV.Personal[bspecies].FormCount;
                 if (fc > 1) // actually has forms
                 {
                     int f = Dex.DexFormIndexFetcher(bspecies, fc, SAV.MaxSpeciesID - 1);
@@ -133,7 +133,7 @@ namespace PKHeX.WinForms
 
             int fspecies = LB_Species.SelectedIndex + 1;
             var bspecies = Dex.GetBaseSpecies(fspecies);
-            bool hasForms = AltFormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
+            bool hasForms = FormInfo.HasFormSelection(SAV.Personal[bspecies], bspecies, 7);
             LB_Forms.Enabled = hasForms;
             if (!hasForms) return false;
             var ds = FormConverter.GetFormList(bspecies, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation).ToList();
@@ -145,7 +145,7 @@ namespace PKHeX.WinForms
             }
 
             // sanity check formes -- SM does not have totem form dex bits
-            int count = SAV.Personal[bspecies].FormeCount;
+            int count = SAV.Personal[bspecies].FormCount;
             if (count < ds.Count)
                 ds.RemoveAt(count); // remove last
 
@@ -156,7 +156,7 @@ namespace PKHeX.WinForms
             }
             else
             {
-                int fc = SAV.Personal[bspecies].FormeCount;
+                int fc = SAV.Personal[bspecies].FormCount;
                 if (fc <= 1)
                     return true;
 

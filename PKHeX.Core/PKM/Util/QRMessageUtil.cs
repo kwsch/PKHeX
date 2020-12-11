@@ -60,7 +60,7 @@ namespace PKHeX.Core
         /// <returns>QR Message</returns>
         public static string GetMessage(DataMysteryGift mg)
         {
-            var server = GetExploitURLPrefixWC(mg.Format);
+            var server = GetExploitURLPrefixWC(mg.Generation);
             var data = mg.Write();
             return GetMessageBase64(data, server);
         }

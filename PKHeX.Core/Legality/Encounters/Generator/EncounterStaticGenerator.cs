@@ -111,7 +111,7 @@ namespace PKHeX.Core
 
         internal static EncounterStatic? GetStaticLocation(PKM pkm, int species = -1)
         {
-            switch (pkm.GenNumber)
+            switch (pkm.Generation)
             {
                 case 1:
                     return EncounterStatic7.GetVC1(species, pkm.Met_Level);

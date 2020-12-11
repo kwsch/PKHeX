@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Stat/misc data for individual species or their associated alternate forme data.
+    /// Stat/misc data for individual species or their associated alternate form data.
     /// </summary>
     public abstract class PersonalInfo
     {
@@ -159,19 +159,19 @@ namespace PKHeX.Core
         public abstract int EscapeRate { get; set; }
 
         /// <summary>
-        /// Count of <see cref="PKM.AltForm"/> values the entry can have.
+        /// Count of <see cref="PKM.Form"/> values the entry can have.
         /// </summary>
-        public virtual int FormeCount { get; set; } = 1;
+        public virtual int FormCount { get; set; } = 1;
 
         /// <summary>
-        /// Pointer to the first <see cref="PKM.AltForm"/> <see cref="PersonalInfo"/> index
+        /// Pointer to the first <see cref="PKM.Form"/> <see cref="PersonalInfo"/> index
         /// </summary>
         protected internal virtual int FormStatsIndex { get; set; }
 
         /// <summary>
-        /// Pointer to the <see cref="PKM.AltForm"/> sprite index.
+        /// Pointer to the <see cref="PKM.Form"/> sprite index.
         /// </summary>
-        public virtual int FormeSprite { get; set; }
+        public virtual int FormSprite { get; set; }
 
         /// <summary>
         /// Base Experience Yield factor
@@ -243,29 +243,29 @@ namespace PKHeX.Core
         internal void AddTypeTutors(byte[] data, int start = 0, int length = -1) => TypeTutors = GetBits(data, start, length);
 
         /// <summary>
-        /// Gets the <see cref="PersonalTable"/> <see cref="PKM.AltForm"/> entry index for the input criteria, with fallback for the original species entry.
+        /// Gets the <see cref="PersonalTable"/> <see cref="PKM.Form"/> entry index for the input criteria, with fallback for the original species entry.
         /// </summary>
         /// <param name="species"><see cref="PKM.Species"/> to retrieve for</param>
-        /// <param name="forme"><see cref="PKM.AltForm"/> to retrieve for</param>
-        /// <returns>Index the <see cref="PKM.AltForm"/> exists as in the <see cref="PersonalTable"/>.</returns>
-        public int FormeIndex(int species, int forme)
+        /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
+        /// <returns>Index the <see cref="PKM.Form"/> exists as in the <see cref="PersonalTable"/>.</returns>
+        public int FormIndex(int species, int form)
         {
-            if (!HasForme(forme))
+            if (!HasForm(form))
                 return species;
-            return FormStatsIndex + forme - 1;
+            return FormStatsIndex + form - 1;
         }
 
         /// <summary>
-        /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.AltForm"/> entry index available.
+        /// Checks if the <see cref="PersonalInfo"/> has the requested <see cref="PKM.Form"/> entry index available.
         /// </summary>
-        /// <param name="forme"><see cref="PKM.AltForm"/> to retrieve for</param>
-        public bool HasForme(int forme)
+        /// <param name="form"><see cref="PKM.Form"/> to retrieve for</param>
+        public bool HasForm(int form)
         {
-            if (forme <= 0) // no forme requested
+            if (form <= 0) // no forme requested
                 return false;
             if (FormStatsIndex <= 0) // no formes present
                 return false;
-            if (forme >= FormeCount) // beyond range of species' formes
+            if (form >= FormCount) // beyond range of species' formes
                 return false;
             return true;
         }
@@ -313,7 +313,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Indicates if the entry has Formes or not.
         ///  </summary>
-        public bool HasFormes => FormeCount > 1;
+        public bool HasForms => FormCount > 1;
 
         /// <summary>
         /// Base Stat Total sum of all stats.
@@ -321,15 +321,15 @@ namespace PKHeX.Core
         public int BST => HP + ATK + DEF + SPE + SPA + SPD;
 
         /// <summary>
-        /// Checks to see if the <see cref="PKM.AltForm"/> is valid within the <see cref="FormeCount"/>
+        /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="FormCount"/>
         /// </summary>
-        /// <param name="forme"></param>
+        /// <param name="form"></param>
         /// <returns></returns>
-        public bool IsFormeWithinRange(int forme)
+        public bool IsFormWithinRange(int form)
         {
-            if (forme == 0)
+            if (form == 0)
                 return true;
-            return forme < FormeCount;
+            return form < FormCount;
         }
 
         /// <summary>

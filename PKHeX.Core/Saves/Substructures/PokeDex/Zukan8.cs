@@ -167,7 +167,7 @@ namespace PKHeX.Core
 
         // Next 4 bytes are unused/reserved for future updates.
         private const int OFS_UNK1 = 0x28;
-        // Seen Gigantamax-1 AltForm:1 (Urshifu)
+        // Seen Gigantamax-1 Form:1 (Urshifu)
 
         // Next 4 bytes are Unused(?)
         private const int OFS_UNK2 = 0x2C;
@@ -299,15 +299,15 @@ namespace PKHeX.Core
             SetIsLanguageIndexObtained(species, langIndex, value);
         }
 
-        public uint GetAltFormDisplayed(int species)
+        public uint GetFormDisplayed(int species)
         {
             if (!GetEntry(species, out var entry))
                 return 0;
 
-            return GetAltFormDisplayed(entry);
+            return GetFormDisplayed(entry);
         }
 
-        public uint GetAltFormDisplayed(Zukan8Index entry)
+        public uint GetFormDisplayed(Zukan8Index entry)
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
@@ -315,15 +315,15 @@ namespace PKHeX.Core
             return (val >> 15) & 0x1FFF; // (0x1FFF is really overkill, GameFreak)
         }
 
-        public void SetAltFormDisplayed(int species, uint value = 0)
+        public void SetFormDisplayed(int species, uint value = 0)
         {
             if (!GetEntry(species, out var entry))
                 return;
 
-            SetAltFormDisplayed(entry, value);
+            SetFormDisplayed(entry, value);
         }
 
-        public void SetAltFormDisplayed(Zukan8Index entry, uint value = 0)
+        public void SetFormDisplayed(Zukan8Index entry, uint value = 0)
         {
             var data = GetDexBlock(entry.DexType);
             var index = entry.Offset;
@@ -470,13 +470,13 @@ namespace PKHeX.Core
             var g = pkm.Gender == 1 ? 1 : 0;
             bool shiny = pkm.IsShiny;
             var s = shiny ? 2 : 0;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             if (species == (int)Species.Alcremie)
             {
                 form *= 7;
                 form += (int)((PK8)pkm).FormArgument; // alteration byte
             }
-            else if (species == (int) Species.Eternatus && pkm.AltForm == 1)
+            else if (species == (int) Species.Eternatus && pkm.Form == 1)
             {
                 form = 0;
                 SetSeenRegion(species, 63, g | s);
@@ -487,7 +487,7 @@ namespace PKHeX.Core
             SetIsLanguageObtained(species, pkm.Language);
             if (!owned)
             {
-                SetAltFormDisplayed(species, (byte)form);
+                SetFormDisplayed(species, (byte)form);
                 if (shiny)
                     SetDisplayShiny(species);
                 SetGenderDisplayed(species, (uint)g);
@@ -528,7 +528,7 @@ namespace PKHeX.Core
             var pt = PersonalTable.SWSH;
             for (int form = 0; form < fc; form++)
             {
-                var pi = pt.GetFormeEntry(species, form);
+                var pi = pt.GetFormEntry(species, form);
                 SeenAll(species, form, value, pi, shinyToo);
             }
 
@@ -618,7 +618,7 @@ namespace PKHeX.Core
         private void SetAllSeen(int species, bool value = true, bool shinyToo = false)
         {
             var pi = PersonalTable.SWSH[species];
-            var fc = pi.FormeCount;
+            var fc = pi.FormCount;
             if (species == (int) Species.Eternatus)
                 fc = 1; // ignore gigantamax
             SeenAll(species, fc, shinyToo, value);

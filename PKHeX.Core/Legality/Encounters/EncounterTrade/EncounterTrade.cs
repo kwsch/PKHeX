@@ -102,7 +102,7 @@ namespace PKHeX.Core
 
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = species;
-            pk.AltForm = Form;
+            pk.Form = Form;
             pk.Language = lang;
             pk.OT_Name = pk.Format == 1 ? StringConverter12.G1TradeOTStr : HasTrainerName ? GetOT(lang) : sav.OT;
             pk.OT_Gender = HasTrainerName ? Math.Max(0, OTGender) : sav.Gender;
@@ -242,7 +242,7 @@ namespace PKHeX.Core
             if (CurrentLevel != -1 && CurrentLevel > pkm.CurrentLevel)
                 return false;
 
-            if (Form != evo.Form && !AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
             if (OTGender != -1 && OTGender != pkm.OT_Gender)
                 return false;

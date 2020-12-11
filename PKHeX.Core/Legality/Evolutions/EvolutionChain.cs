@@ -239,7 +239,7 @@ namespace PKHeX.Core
             if (maxLevel < 0)
                 maxLevel = pkm.CurrentLevel;
 
-            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.GenNumber == 1)
+            if (maxspeciesorigin == -1 && pkm.InhabitedGeneration(2) && pkm.Format <= 2 && pkm.Generation == 1)
                 maxspeciesorigin = MaxSpeciesID_2;
 
             int tree = Math.Max(2, pkm.Format);
@@ -255,7 +255,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2)
                 return 2;
 
-            var origin = pkm.GenNumber;
+            var origin = pkm.Generation;
             if (!pkm.HasOriginalMetLocation && generation != origin)
                 return pkm.Met_Level;
 

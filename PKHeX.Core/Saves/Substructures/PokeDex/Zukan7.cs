@@ -37,7 +37,7 @@ namespace PKHeX.Core
 
         public Func<int, int, int, int> DexFormIndexFetcher { get; }
 
-        protected sealed override void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true)
+        protected sealed override void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true)
         {
             int species = baseBit + 1;
 
@@ -45,8 +45,8 @@ namespace PKHeX.Core
                 isShiny = false;
 
             // Starting with Gen7, form bits are stored in the same region as the species flags.
-            int formstart = altform;
-            int formend = altform;
+            int formstart = form;
+            int formend = form;
             bool reset = GetSaneFormsToIterate(species, out int fs, out int fe, formstart);
             if (reset)
             {
@@ -55,17 +55,17 @@ namespace PKHeX.Core
             }
 
             int shiny = isShiny ? 1 : 0;
-            for (int form = formstart; form <= formend; form++)
+            for (int f = formstart; f <= formend; f++)
             {
                 int formBit = baseBit;
-                if (form > 0) // Override the bit to overwrite
+                if (f > 0) // Override the bit to overwrite
                 {
-                    int fc = SAV.Personal[species].FormeCount;
+                    int fc = SAV.Personal[species].FormCount;
                     if (fc > 1) // actually has forms
                     {
-                        int f = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
-                        if (f >= 0) // bit index valid
-                            formBit = f + form;
+                        int index = DexFormIndexFetcher(species, fc, SAV.MaxSpeciesID - 1);
+                        if (index >= 0) // bit index valid
+                            formBit = index + f;
                     }
                 }
                 SetDexFlags(baseBit, formBit, gender, shiny, value);
@@ -169,7 +169,7 @@ namespace PKHeX.Core
 
         public IEnumerable<int> GetAllFormEntries(int spec)
         {
-            var fc = SAV.Personal[spec].FormeCount;
+            var fc = SAV.Personal[spec].FormCount;
             for (int j = 1; j < fc; j++)
             {
                 int start = j;
@@ -208,7 +208,7 @@ namespace PKHeX.Core
             int ctr = max + 1;
             for (int spec = 1; spec <= max; spec++)
             {
-                int c = SAV.Personal[spec].FormeCount;
+                int c = SAV.Personal[spec].FormCount;
                 for (int f = 1; f < c; f++)
                 {
                     int x = GetDexFormIndex(spec, c, f);
@@ -228,7 +228,7 @@ namespace PKHeX.Core
             var baseSpecies = new List<int>();
             for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
             {
-                int c = SAV.Personal[spec].FormeCount;
+                int c = SAV.Personal[spec].FormCount;
                 for (int f = 1; f < c; f++)
                 {
                     int x = GetDexFormIndex(spec, c, f);

@@ -11,7 +11,7 @@ namespace PKHeX.Core
     public sealed class WC7 : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4, ILangNick, IContestStats, INature, IMemoryOT
     {
         public const int Size = 0x108;
-        public override int Format => 7;
+        public override int Generation => 7;
 
         public WC7() : this(new byte[Size]) { }
         public WC7(byte[] data) : base(data) { }
@@ -317,7 +317,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-            var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
             PK7 pk = new PK7
             {
                 Species = Species,
@@ -325,7 +325,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Met_Level = metLevel,
-                AltForm = Form,
+                Form = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
                 Version = OriginGame != 0 ? OriginGame : sav.Game,
                 Language = Language != 0 ? Language : sav.Language,
@@ -392,7 +392,7 @@ namespace PKHeX.Core
 
             pk.SetMaximumPPCurrent();
 
-            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
                 do { pk.Version = (int)GameVersion.SN + rnd.Next(4); }
@@ -408,7 +408,7 @@ namespace PKHeX.Core
             pk.MetDate = Date ?? DateTime.Now;
 
             pk.IsNicknamed = IsNicknamed;
-            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
+            pk.Nickname = IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
             SetPINGA(pk, criteria);
 
@@ -424,13 +424,13 @@ namespace PKHeX.Core
         {
             pk.IsEgg = true;
             pk.EggMetDate = Date;
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
             pk.IsNicknamed = true;
         }
 
         private void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            var pi = PersonalTable.USUM.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature((Nature)Nature);
             pk.Gender = criteria.GetGender(Gender, pi);
             var av = GetAbilityIndex(criteria, pi);
@@ -518,7 +518,7 @@ namespace PKHeX.Core
                 if (Language != 0 && Language != pkm.Language) return false;
             }
 
-            if (Form != evo.Form && !AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
             if (IsEgg)

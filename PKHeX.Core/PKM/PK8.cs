@@ -31,7 +31,7 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
         public override int Format => 8;
-        public override PersonalInfo PersonalInfo => PersonalTable.SWSH.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.SWSH.GetFormEntry(Species, Form);
 
         public PK8() : base(PokeCrypto.SIZE_8PARTY) => AffixedRibbon = -1; // 00 would make it show Kalos Champion :)
         public PK8(byte[] data) : base(DecryptParty(data)) { }
@@ -72,7 +72,7 @@ namespace PKHeX.Core
         public override byte[] OT_Trash { get => GetData(0xF8, 24); set { if (value.Length == 24) value.CopyTo(Data, 0xF8); } }
         public override bool WasLink => Met_Location == Locations.LinkGift6 && Gen6;
         public override bool WasEvent => Locations.IsEventLocation5(Met_Location) || FatefulEncounter;
-        public override bool WasEventEgg => GenNumber < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
+        public override bool WasEventEgg => Generation < 5 ? base.WasEventEgg : (Locations.IsEventLocation5(Egg_Location) || (FatefulEncounter && Egg_Location == Locations.LinkTrade6)) && Met_Level == 1;
 
         // Maximums
         public override int MaxIV => 31;
@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public override int PSV => (int)((PID >> 16 ^ (PID & 0xFFFF)) >> 4);
         public override int TSV => (TID ^ SID) >> 4;
-        public override bool IsUntraded => Data[0xA8] == 0 && Data[0xA8 + 1] == 0 && Format == GenNumber; // immediately terminated HT_Name data (\0)
+        public override bool IsUntraded => Data[0xA8] == 0 && Data[0xA8 + 1] == 0 && Format == Generation; // immediately terminated HT_Name data (\0)
 
         // Complex Generated Attributes
         public override int Characteristic
@@ -177,7 +177,7 @@ namespace PKHeX.Core
         public override int Gender { get => (Data[0x22] >> 2) & 0x3; set => Data[0x22] = (byte)((Data[0x22] & 0xF3) | (value << 2)); }
         // 0x23 alignment unused
 
-        public override int AltForm { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
+        public override int Form { get => BitConverter.ToUInt16(Data, 0x24); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x24); }
         public override int EV_HP { get => Data[0x26]; set => Data[0x26] = (byte)value; }
         public override int EV_ATK { get => Data[0x27]; set => Data[0x27] = (byte)value; }
         public override int EV_DEF { get => Data[0x28]; set => Data[0x28] = (byte)value; }
@@ -537,7 +537,7 @@ namespace PKHeX.Core
             if (IsUntraded)
                 HT_Language = HT_Friendship = HT_TextVar = HT_Memory = HT_Intensity = HT_Feeling = 0;
 
-            int gen = GenNumber;
+            int gen = Generation;
             if (gen < 6)
                 OT_TextVar = OT_Memory = OT_Intensity = OT_Feeling = 0;
             if (gen != 8) // must be transferred via HOME, and must have memories

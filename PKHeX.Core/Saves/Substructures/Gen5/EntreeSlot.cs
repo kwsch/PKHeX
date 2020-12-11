@@ -35,7 +35,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// <see cref="PKM.AltForm"/> index
+        /// <see cref="PKM.Form"/> index
         /// </summary>
         public int Form // bits 23-27
         {

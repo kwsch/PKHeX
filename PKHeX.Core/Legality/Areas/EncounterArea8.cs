@@ -49,7 +49,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(met))
                         break;
 
-                    if (slot.Form != evo.Form && !AltFormInfo.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
                     yield return slot;
@@ -71,7 +71,7 @@ namespace PKHeX.Core
                     if (slot.LevelMin > 60)
                         break; // Can't downlevel, only boost to 60.
 
-                    if (slot.Form != evo.Form && !AltFormInfo.WildChangeFormAfter.Contains(evo.Species))
+                    if (slot.Form != evo.Form && !FormInfo.WildChangeFormAfter.Contains(evo.Species))
                         break;
 
                     yield return slot;

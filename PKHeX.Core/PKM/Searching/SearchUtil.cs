@@ -38,7 +38,7 @@ namespace PKHeX.Core.Searching
             {
                 1 => res.Where(pk => pk.VC || pk.Format < 3),
                 2 => res.Where(pk => pk.VC || pk.Format < 3),
-                _ => res.Where(pk => pk.GenNumber == generation)
+                _ => res.Where(pk => pk.Generation == generation)
             };
         }
 
@@ -118,7 +118,7 @@ namespace PKHeX.Core.Searching
             {
                 1 => $"{pk.Species:000}{((PK1) pk).DV16:X4}",
                 2 => $"{pk.Species:000}{((PK2) pk).DV16:X4}",
-                _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.AltForm:00}"
+                _ => $"{pk.Species:000}{pk.PID:X8}{string.Join(" ", pk.IVs)}{pk.Form:00}"
             };
         }
 

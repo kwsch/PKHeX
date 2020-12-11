@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public override IReadOnlyList<ushort> ExtraBytes => Unused;
         public override int Format => 6;
-        public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormeEntry(Species, AltForm);
+        public override PersonalInfo PersonalInfo => PersonalTable.AO.GetFormEntry(Species, Form);
 
         public PK6() : base(PokeCrypto.SIZE_6PARTY) { }
         public PK6(byte[] data) : base(DecryptParty(data)) { }
@@ -96,7 +96,7 @@ namespace PKHeX.Core
         public override int Nature { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override bool FatefulEncounter { get => (Data[0x1D] & 1) == 1; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x01) | (value ? 1 : 0)); }
         public override int Gender { get => (Data[0x1D] >> 1) & 0x3; set => Data[0x1D] = (byte)((Data[0x1D] & ~0x06) | (value << 1)); }
-        public override int AltForm { get => Data[0x1D] >> 3; set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
+        public override int Form { get => Data[0x1D] >> 3; set => Data[0x1D] = (byte)((Data[0x1D] & 0x07) | (value << 3)); }
         public override int EV_HP { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
         public override int EV_ATK { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
         public override int EV_DEF { get => Data[0x20]; set => Data[0x20] = (byte)value; }

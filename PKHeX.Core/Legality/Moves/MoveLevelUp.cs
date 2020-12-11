@@ -488,14 +488,14 @@ namespace PKHeX.Core
         {
             if (version <= 0)
                 version = (GameVersion)pk.Version;
-            return GetEncounterMoves(pk.Species, pk.AltForm, level, version);
+            return GetEncounterMoves(pk.Species, pk.Form, level, version);
         }
 
         private static int[] GetEncounterMoves1(int species, int level, GameVersion version)
         {
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, 0);
+            var index = table.GetFormIndex(species, 0);
             var lvl0 = (int[])((PersonalInfoG1) table[index]).Moves.Clone();
             int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
 
@@ -506,7 +506,7 @@ namespace PKHeX.Core
         {
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, 0);
+            var index = table.GetFormIndex(species, 0);
             var lvl0 = learn[species].GetEncounterMoves(1);
             int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
 
@@ -521,7 +521,7 @@ namespace PKHeX.Core
                 return GetEncounterMoves2(species, level, version);
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
-            var index = table.GetFormeIndex(species, form);
+            var index = table.GetFormIndex(species, form);
             return learn[index].GetEncounterMoves(level);
         }
     }

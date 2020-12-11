@@ -640,24 +640,24 @@ namespace PKHeX.Core
                     for (int i = 0; i < 0x1C; i++)
                     {
                         byte val = General[FormOffset1 + 4 + i];
-                        if (val == pkm.AltForm)
+                        if (val == pkm.Form)
                             break; // already set
                         if (val != 0xFF)
                             continue; // keep searching
 
-                        General[FormOffset1 + 4 + i] = (byte)pkm.AltForm;
+                        General[FormOffset1 + 4 + i] = (byte)pkm.Form;
                         break; // form now set
                     }
                 }
                 else if (pkm.Species == (int)Species.Pichu && HGSS) // Pichu (HGSS Only)
                 {
-                    int form = pkm.AltForm == 1 ? 2 : pkm.Gender;
+                    int form = pkm.Form == 1 ? 2 : pkm.Gender;
                     CheckInsertForm(ref forms, form);
                     SetForms(pkm.Species, forms);
                 }
                 else
                 {
-                    CheckInsertForm(ref forms, pkm.AltForm);
+                    CheckInsertForm(ref forms, pkm.Form);
                     SetForms(pkm.Species, forms);
                 }
             }

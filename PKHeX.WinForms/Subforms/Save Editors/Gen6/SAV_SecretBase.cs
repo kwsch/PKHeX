@@ -449,7 +449,7 @@ namespace PKHeX.WinForms
             int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = WinFormsUtil.GetIndex(CB_Species);
             int formnum = CB_Form.SelectedIndex;
-            var abils = PersonalTable.AO.GetFormeEntry(species, formnum).Abilities;
+            var abils = PersonalTable.AO.GetFormEntry(species, formnum).Abilities;
 
             CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abils, 6);
             CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
@@ -458,7 +458,7 @@ namespace PKHeX.WinForms
         private void SetForms()
         {
             int species = WinFormsUtil.GetIndex(CB_Species);
-            bool hasForms = AltFormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
+            bool hasForms = FormInfo.HasFormSelection(PersonalTable.AO[species], species, 6);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();

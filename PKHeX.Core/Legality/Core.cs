@@ -97,7 +97,7 @@ namespace PKHeX.Core
                 return GetMaxSpeciesOrigin(1);
             if (pkm.Format == 2 || pkm.VC)
                 return GetMaxSpeciesOrigin(2);
-            return GetMaxSpeciesOrigin(pkm.GenNumber);
+            return GetMaxSpeciesOrigin(pkm.Generation);
         }
 
         internal static int GetMaxSpeciesOrigin(int generation)

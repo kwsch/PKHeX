@@ -70,7 +70,7 @@ namespace PKHeX.Core
             get
             {
                 var height = HeightF * 100f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
+                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
                 var avgHeight = pi.Height;
                 return PB7.GetHeightScalar(height, avgHeight);
             }
@@ -82,7 +82,7 @@ namespace PKHeX.Core
             {
                 var height = HeightF * 100f;
                 var weight = WeightF * 10f;
-                var pi = PersonalTable.GG.GetFormeEntry(Species, Form);
+                var pi = PersonalTable.GG.GetFormEntry(Species, Form);
                 var avgHeight = pi.Height;
                 var avgWeight = pi.Weight;
                 return PB7.GetWeightScalar(height, weight, avgHeight, avgWeight);
@@ -139,7 +139,7 @@ namespace PKHeX.Core
             {
                 Version = (int) GameVersion.GO,
                 Species = Species,
-                AltForm = Form,
+                Form = Form,
                 Met_Location = 50, // Go complex
                 Met_Year = Year - 2000,
                 Met_Month = Month,

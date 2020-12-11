@@ -12,7 +12,7 @@ namespace PKHeX.Core
     {
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
-            if (pkm.GenNumber < 6)
+            if (pkm.Generation < 6)
                 return Array.Empty<int>();
 
             var r = new List<int>();
@@ -138,7 +138,7 @@ namespace PKHeX.Core
                         break;
                     if (pkm.InhabitedGeneration(7))
                     {
-                        int index = PersonalTable.SM.GetFormeIndex(species, form);
+                        int index = PersonalTable.SM.GetFormIndex(species, form);
                         return LevelUpSM[index].GetMoves(lvl);
                     }
                     break;
@@ -148,7 +148,7 @@ namespace PKHeX.Core
                 case GameVersion.USUM:
                     if (pkm.InhabitedGeneration(7))
                     {
-                        int index = PersonalTable.USUM.GetFormeIndex(species, form);
+                        int index = PersonalTable.USUM.GetFormIndex(species, form);
                         return LevelUpUSUM[index].GetMoves(lvl);
                     }
                     break;
@@ -158,7 +158,7 @@ namespace PKHeX.Core
                 case GameVersion.SWSH:
                     if (pkm.InhabitedGeneration(8))
                     {
-                        int index = PersonalTable.SWSH.GetFormeIndex(species, form);
+                        int index = PersonalTable.SWSH.GetFormIndex(species, form);
                         return LevelUpSWSH[index].GetMoves(lvl);
                     }
                     break;
@@ -206,7 +206,7 @@ namespace PKHeX.Core
                     moves.AddRange(GetValidPostEvolutionMoves(pkm, species, evoChains[i], i, Version));
             }
 
-            if (pkm.GenNumber >= 6)
+            if (pkm.Generation >= 6)
                 moves.AddRange(pkm.RelearnMoves.Where(m => m != 0));
             return moves.Distinct().ToList();
         }
@@ -254,7 +254,7 @@ namespace PKHeX.Core
                 if (pkm.Format == 3 && species == (int)Species.Deoxys)
                     formCount = 4;
                 else
-                    formCount = pkm.PersonalInfo.FormeCount;
+                    formCount = pkm.PersonalInfo.FormCount;
 
                 for (int form = 0; form < formCount; form++)
                     r.AddRange(GetMoves(pkm, species, minLvLG1, minLvLG2, chain[0].Level, form, Tutor, version, LVL, Tutor, Machine, MoveReminder, RemoveTransferHM, generation));

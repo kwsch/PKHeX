@@ -76,7 +76,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm)
         {
-            return pkm.GenNumber switch
+            return pkm.Generation switch
             {
                 3 => (pkm.FRLG ? Encounters3.TradeGift_FRLG : Encounters3.TradeGift_RSE),
                 4 => (pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt),

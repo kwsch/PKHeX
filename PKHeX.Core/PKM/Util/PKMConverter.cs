@@ -326,7 +326,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.AltForm"/>.
+        /// Checks to see if a PKM is transferable relative to in-game restrictions and <see cref="PKM.Form"/>.
         /// </summary>
         /// <param name="pk">PKM to convert</param>
         /// <param name="comment">Comment indicating why the <see cref="PKM"/> is not transferable.</param>
@@ -339,11 +339,11 @@ namespace PKHeX.Core
                     comment = string.Empty;
                     return false;
 
-                case 025 when pk.AltForm != 0 && pk.Gen6: // Cosplay Pikachu
-                case 172 when pk.AltForm != 0 && pk.Gen4: // Spiky Eared Pichu
-                case 025 when pk.AltForm == 8 && pk.LGPE: // Buddy Pikachu
-                case 133 when pk.AltForm == 1 && pk.LGPE: // Buddy Eevee
-                    comment = MsgPKMConvertFailForme;
+                case 025 when pk.Form != 0 && pk.Gen6: // Cosplay Pikachu
+                case 172 when pk.Form != 0 && pk.Gen4: // Spiky Eared Pichu
+                case 025 when pk.Form == 8 && pk.LGPE: // Buddy Pikachu
+                case 133 when pk.Form == 1 && pk.LGPE: // Buddy Eevee
+                    comment = MsgPKMConvertFailForm;
                     return true;
             }
         }

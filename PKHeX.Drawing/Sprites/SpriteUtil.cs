@@ -78,7 +78,7 @@ namespace PKHeX.Drawing
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
                 return Resources._490_e;
             if (gift.IsPokémon)
-                return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Format);
+                return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
             if (gift.IsItem)
             {
                 int item = gift.ItemID;
@@ -93,7 +93,7 @@ namespace PKHeX.Drawing
         {
             var formarg = pk is IFormArgument f ? f.FormArgument : 0;
             bool alt = pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO);
-            var img = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
+            var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
             if (pk is IShadowPKM s && s.IsShadow)
             {
                 const int Lugia = 249;
@@ -184,7 +184,7 @@ namespace PKHeX.Drawing
         {
             bool egg = pk.IsEgg;
             var formarg = pk is IFormArgument f ? f.FormArgument : 0;
-            baseSprite = GetSprite(pk.Species, pk.AltForm, pk.Gender, formarg, 0, egg, false, pk.Format);
+            baseSprite = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, 0, egg, false, pk.Format);
             GetSpriteGlow(baseSprite, blue, green, red, out pixels, forceHollow || egg);
         }
 

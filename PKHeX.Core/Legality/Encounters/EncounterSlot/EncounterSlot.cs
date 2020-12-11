@@ -99,7 +99,7 @@ namespace PKHeX.Core
             pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
-            pk.AltForm = GetWildAltForm(pk, Form, sav);
+            pk.Form = GetWildForm(pk, Form, sav);
 
             SetMetData(pk, level, Location);
             SetPINGA(pk, criteria);
@@ -138,7 +138,7 @@ namespace PKHeX.Core
                 {
                     PIDGenerator.SetRandomWildPID(pk, pk.Format, nature, ability, gender);
                     ability ^= 1; // some nature-forms cannot have a certain PID-ability set, so just flip it as Unown doesn't have dual abilities.
-                } while (pk.AltForm != Form);
+                } while (pk.Form != Form);
             }
             else
             {
@@ -165,7 +165,7 @@ namespace PKHeX.Core
         private const int FormVivillon = 30;
         private const int FormRandom = 31;
 
-        private static int GetWildAltForm(PKM pk, int form, ITrainerInfo sav)
+        private static int GetWildForm(PKM pk, int form, ITrainerInfo sav)
         {
             if (form < FormDynamic) // specified form
             {
@@ -174,7 +174,7 @@ namespace PKHeX.Core
                 return form;
             }
             if (form == FormRandom) // flagged as totally random
-                return Util.Rand.Next(pk.PersonalInfo.FormeCount);
+                return Util.Rand.Next(pk.PersonalInfo.FormCount);
 
             int spec = pk.Species;
             if ((int) Core.Species.Scatterbug <= spec && spec <= (int) Core.Species.Vivillon)

@@ -406,7 +406,7 @@ namespace PKHeX.WinForms
         {
             using var sfd = new SaveFileDialog
             {
-                Filter = GetMysterGiftFilter(gift.Format, origin),
+                Filter = GetMysterGiftFilter(gift.Generation, origin),
                 FileName = Util.CleanFileName(gift.FileName)
             };
             if (sfd.ShowDialog() != DialogResult.OK)

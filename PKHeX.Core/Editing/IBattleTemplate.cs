@@ -1,12 +1,7 @@
 ﻿namespace PKHeX.Core
 {
-    public interface IBattleTemplate : IGigantamax
+    public interface IBattleTemplate : ISpeciesForm, IGigantamax, INature
     {
-        /// <summary>
-        /// <see cref="PKM.Species"/> of the Set entity.
-        /// </summary>
-        int Species { get; }
-
         /// <summary>
         /// <see cref="PKM.Format"/> of the Set entity it is specific to.
         /// </summary>
@@ -48,19 +43,9 @@
         int Friendship { get; }
 
         /// <summary>
-        /// <see cref="PKM.StatNature"/> of the Set entity.
+        /// <see cref="PKM.Form"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)
         /// </summary>
-        int Nature { get; }
-
-        /// <summary>
-        /// <see cref="PKM.AltForm"/> name of the Set entity, stored in PKHeX style (instead of Showdown's)
-        /// </summary>
-        string Form { get; }
-
-        /// <summary>
-        /// <see cref="PKM.AltForm"/> of the Set entity.
-        /// </summary>
-        int FormIndex { get; }
+        string FormName { get; }
 
         /// <summary>
         /// <see cref="PKM.HPType"/> of the Set entity.

@@ -76,7 +76,7 @@ namespace PKHeX.Core
                     if (!slot.IsLevelWithinRange(pkm.Met_Level))
                         break;
 
-                    if (slot.Form != evo.Form && slot.Form < RandomFormVivillon && !AltFormInfo.WildChangeFormAfter.Contains(slot.Species))
+                    if (slot.Form != evo.Form && slot.Form < RandomFormVivillon && !FormInfo.WildChangeFormAfter.Contains(slot.Species))
                     {
                         if (slot.Species != (int)Species.Flabébé)
                             break;

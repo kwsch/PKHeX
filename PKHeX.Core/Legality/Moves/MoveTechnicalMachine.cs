@@ -83,7 +83,7 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < Legal.TM_3.Length; i++)
             {
-                if (Legal.TM_4[i] == move && PersonalTable.HGSS.GetFormeEntry(species, form).TMHM[i])
+                if (Legal.TM_4[i] == move && PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i])
                     return GameVersion.Gen4;
             }
 
@@ -100,11 +100,11 @@ namespace PKHeX.Core
             switch (move)
             {
                 case 250: // Whirlpool
-                    if (PersonalTable.HGSS.GetFormeEntry(species, form).TMHM[96])
+                    if (PersonalTable.HGSS.GetFormEntry(species, form).TMHM[96])
                         return GameVersion.HGSS;
                     break;
                 case 432: // Defog
-                    if (PersonalTable.Pt.GetFormeEntry(species, form).TMHM[96])
+                    if (PersonalTable.Pt.GetFormEntry(species, form).TMHM[96])
                         return GameVersion.DPPt;
                     break;
             }
@@ -119,7 +119,7 @@ namespace PKHeX.Core
                 {
                     if (m == move)
                     {
-                        if (PersonalTable.Pt.GetFormeEntry(species, form).TMHM[i + 92])
+                        if (PersonalTable.Pt.GetFormEntry(species, form).TMHM[i + 92])
                             return GameVersion.DPPt;
                         break;
                     }
@@ -129,7 +129,7 @@ namespace PKHeX.Core
                 {
                     if (m == move)
                     {
-                        if (PersonalTable.HGSS.GetFormeEntry(species, form).TMHM[i + 92])
+                        if (PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i + 92])
                             return GameVersion.HGSS;
                         break;
                     }
@@ -144,7 +144,7 @@ namespace PKHeX.Core
             for (int i = 0; i < Legal.TMHM_BW.Length; i++)
             {
                 if (Legal.TMHM_BW[i] == move)
-                    return PersonalTable.B2W2.GetFormeEntry(species, form).TMHM[i] ? GameVersion.Gen5 : Legal.NONE;
+                    return PersonalTable.B2W2.GetFormEntry(species, form).TMHM[i] ? GameVersion.Gen5 : Legal.NONE;
             }
             return Legal.NONE;
         }
@@ -157,7 +157,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_XY[i] != move)
                         continue;
-                    if (PersonalTable.XY.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.XY.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.XY;
                     break;
                 }
@@ -169,7 +169,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_AO[i] != move)
                         continue;
-                    if (PersonalTable.AO.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.AO.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.ORAS;
                     break;
                 }
@@ -186,7 +186,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_GG[i] != move)
                         continue;
-                    if (PersonalTable.GG.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.GG.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.GG;
                     break;
                 }
@@ -198,7 +198,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_SM[i] != move)
                         continue;
-                    if (PersonalTable.SM.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.SM.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.SM;
                     break;
                 }
@@ -210,7 +210,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_SM[i] != move)
                         continue;
-                    if (PersonalTable.USUM.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.USUM.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.USUM;
                     break;
                 }
@@ -227,7 +227,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_SWSH[i] != move)
                         continue;
-                    if (PersonalTable.SWSH.GetFormeEntry(species, form).TMHM[i])
+                    if (PersonalTable.SWSH.GetFormEntry(species, form).TMHM[i])
                         return GameVersion.SWSH;
                     break;
                 }
@@ -235,7 +235,7 @@ namespace PKHeX.Core
                 {
                     if (Legal.TMHM_SWSH[i + 100] != move)
                         continue;
-                    if (!PersonalTable.SWSH.GetFormeEntry(species, form).TMHM[i + 100])
+                    if (!PersonalTable.SWSH.GetFormEntry(species, form).TMHM[i + 100])
                         break;
                     if (allowBit)
                         return GameVersion.SWSH;
@@ -275,7 +275,7 @@ namespace PKHeX.Core
 
         private static void AddMachine1(List<int> r, int species)
         {
-            int index = PersonalTable.RB.GetFormeIndex(species, 0);
+            int index = PersonalTable.RB.GetFormIndex(species, 0);
             if (index == 0)
                 return;
             var pi_rb = (PersonalInfoG1)PersonalTable.RB[index];
@@ -286,7 +286,7 @@ namespace PKHeX.Core
 
         private static void AddMachine2(List<int> r, int species)
         {
-            int index = PersonalTable.C.GetFormeIndex(species, 0);
+            int index = PersonalTable.C.GetFormIndex(species, 0);
             if (index == 0)
                 return;
             var pi_c = PersonalTable.C[index];
@@ -295,7 +295,7 @@ namespace PKHeX.Core
 
         private static void AddMachine3(List<int> r, int species, int format, bool RemoveTransfer)
         {
-            int index = PersonalTable.E.GetFormeIndex(species, 0);
+            int index = PersonalTable.E.GetFormIndex(species, 0);
             if (index == 0)
                 return;
             var pi_c = PersonalTable.E[index];
@@ -309,8 +309,8 @@ namespace PKHeX.Core
 
         private static void AddMachine4(List<int> r, int species, int format, bool RemoveTransfer, int form)
         {
-            var pi_hgss = PersonalTable.HGSS.GetFormeEntry(species, form);
-            var pi_dppt = PersonalTable.Pt.GetFormeEntry(species, form);
+            var pi_hgss = PersonalTable.HGSS.GetFormEntry(species, form);
+            var pi_dppt = PersonalTable.Pt.GetFormEntry(species, form);
             r.AddRange(Legal.TM_4.Where((_, m) => pi_hgss.TMHM[m]));
 
             if (RemoveTransfer && format > 4)
@@ -331,7 +331,7 @@ namespace PKHeX.Core
 
         private static void AddMachine5(List<int> r, int species, int form)
         {
-            var pi = PersonalTable.B2W2.GetFormeEntry(species, form);
+            var pi = PersonalTable.B2W2.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_BW.Where((_, m) => pi.TMHM[m]));
         }
 
@@ -397,13 +397,13 @@ namespace PKHeX.Core
 
         private static void AddMachine6XY(List<int> r, int species, int form)
         {
-            var pi = PersonalTable.XY.GetFormeEntry(species, form);
+            var pi = PersonalTable.XY.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_XY.Where((_, m) => pi.TMHM[m]));
         }
 
         private static void AddMachine6AO(List<int> r, int species, int form)
         {
-            var pi = PersonalTable.AO.GetFormeEntry(species, form);
+            var pi = PersonalTable.AO.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_AO.Where((_, m) => pi.TMHM[m]));
         }
 
@@ -411,13 +411,13 @@ namespace PKHeX.Core
         {
             if (species > Legal.MaxSpeciesID_7)
                 return;
-            var pi = PersonalTable.SM.GetFormeEntry(species, form);
+            var pi = PersonalTable.SM.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
         }
 
         private static void AddMachineUSUM(List<int> r, int species, int form)
         {
-            var pi = PersonalTable.USUM.GetFormeEntry(species, form);
+            var pi = PersonalTable.USUM.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_SM.Where((_, m) => pi.TMHM[m]));
         }
 
@@ -425,7 +425,7 @@ namespace PKHeX.Core
         {
             if (species > Legal.MaxSpeciesID_7b)
                 return;
-            var pi = PersonalTable.GG.GetFormeEntry(species, form);
+            var pi = PersonalTable.GG.GetFormEntry(species, form);
             r.AddRange(Legal.TMHM_GG.Where((_, m) => pi.TMHM[m]));
         }
 
@@ -433,7 +433,7 @@ namespace PKHeX.Core
         {
             if (species > Legal.MaxSpeciesID_8)
                 return;
-            var pi = PersonalTable.SWSH.GetFormeEntry(species, form);
+            var pi = PersonalTable.SWSH.GetFormEntry(species, form);
             var tmhm = pi.TMHM;
             for (int i = 0; i < 100; i++)
             {

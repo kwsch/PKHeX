@@ -15,7 +15,7 @@ namespace PKHeX.Core
     public sealed class PCD : DataMysteryGift, IRibbonSetEvent3, IRibbonSetEvent4
     {
         public const int Size = 0x358; // 856
-        public override int Format => 4;
+        public override int Generation => 4;
 
         public override int Level
         {
@@ -157,7 +157,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (wc.AltForm != evo.Form && !AltFormInfo.IsFormChangeable(wc.Species, wc.AltForm, pkm.AltForm, pkm.Format))
+            if (wc.Form != evo.Form && !FormInfo.IsFormChangeable(wc.Species, wc.Form, pkm.Form, pkm.Format))
                 return false;
 
             if (wc.Ball != pkm.Ball) return false;

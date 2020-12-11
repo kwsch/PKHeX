@@ -60,7 +60,7 @@ namespace PKHeX.Core
         {
             pk.EncryptionConstant = Util.Rand32();
             pk.Species = Species;
-            pk.AltForm = Form;
+            pk.Form = Form;
 
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
             int level = GetMinimalLevel();
@@ -260,7 +260,7 @@ namespace PKHeX.Core
         {
             if (SkipFormCheck)
                 return true;
-            return Form == evo.Form || AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format);
+            return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
         }
 
         protected virtual bool IsMatchEggLocation(PKM pkm)

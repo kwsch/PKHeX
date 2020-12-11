@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Object representing a <see cref="PKM"/>'s data and derived properties.
     /// </summary>
-    public abstract class PKM : ITrainerID, ILangNick, IGameValueLimit, INature
+    public abstract class PKM : ISpeciesForm, ITrainerID, IGeneration, ILangNick, IGameValueLimit, INature
     {
         public static readonly string[] Extensions = PKX.GetPKMExtensions();
         public abstract int SIZE_PARTY { get; }
@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public virtual int StatNature { get => Nature; set => Nature = value; }
         public abstract int Ability { get; set; }
         public abstract int CurrentFriendship { get; set; }
-        public abstract int AltForm { get; set; }
+        public abstract int Form { get; set; }
         public abstract bool IsEgg { get; set; }
         public abstract bool IsNicknamed { get; set; }
         public abstract uint EXP { get; set; }
@@ -244,7 +244,7 @@ namespace PKHeX.Core
         public abstract int NickLength { get; }
 
         // Derived
-        public int SpecForm { get => Species + (AltForm << 11); set { Species = value & 0x7FF; AltForm = value >> 11; } }
+        public int SpecForm { get => Species + (Form << 11); set { Species = value & 0x7FF; Form = value >> 11; } }
         public virtual int SpriteItem => HeldItem;
         public virtual bool IsShiny => TSV == PSV;
         public StorageSlotFlag StorageFlags { get; internal set; }
@@ -264,14 +264,14 @@ namespace PKHeX.Core
 
         public int DisplayTID
         {
-            get => GenNumber >= 7 ? TrainerID7 : TID;
-            set { if (GenNumber >= 7) TrainerID7 = value; else TID = value; }
+            get => Generation >= 7 ? TrainerID7 : TID;
+            set { if (Generation >= 7) TrainerID7 = value; else TID = value; }
         }
 
         public int DisplaySID
         {
-            get => GenNumber >= 7 ? TrainerSID7 : SID;
-            set { if (GenNumber >= 7) TrainerSID7 = value; else SID = value; }
+            get => Generation >= 7 ? TrainerSID7 : SID;
+            set { if (Generation >= 7) TrainerSID7 = value; else SID = value; }
         }
 
         private void SetID7(int sid7, int tid7)
@@ -310,9 +310,9 @@ namespace PKHeX.Core
         public bool Gen3 => (Version >= 1 && Version <= 5) || Version == 15;
         public bool Gen2 => Version == (int)GameVersion.GSC;
         public bool Gen1 => Version == (int)GameVersion.RBY;
-        public bool GenU => GenNumber <= 0;
+        public bool GenU => Generation <= 0;
 
-        public int GenNumber
+        public int Generation
         {
             get
             {
@@ -377,7 +377,7 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
                 return $"{Species:000}{form}{star} - {Nickname} - {Checksum:X4}{EncryptionConstant:X8}";
             }
@@ -451,7 +451,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (GenNumber > 5 || Format > 5)
+                if (Generation > 5 || Format > 5)
                     return -1;
 
                 if (Version == (int) GameVersion.CXD)
@@ -510,7 +510,7 @@ namespace PKHeX.Core
             get
             {
                 int loc = Egg_Location;
-                return GenNumber switch
+                return Generation switch
                 {
                     4 => (Legal.EggLocations4.Contains(loc) || (Species == (int) Core.Species.Manaphy && loc == Locations.Ranger4) || (loc == Locations.Faraway4 && PtHGSS)), // faraway
                     5 => Legal.EggLocations5.Contains(loc),
@@ -528,7 +528,7 @@ namespace PKHeX.Core
             get
             {
                 int loc = Egg_Location;
-                switch (GenNumber)
+                switch (Generation)
                 {
                     case 4: return loc == Locations.Daycare4 || loc == Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS); // faraway
                     case 5: return loc == Locations.Daycare5 || loc == Locations.LinkTrade5;
@@ -548,7 +548,7 @@ namespace PKHeX.Core
                 if (!WasEgg)
                     return false;
                 int loc = Egg_Location;
-                switch (GenNumber)
+                switch (Generation)
                 {
                     case 4: return Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS); // faraway
                     case 5: return loc == 60003;
@@ -579,10 +579,10 @@ namespace PKHeX.Core
 
         public bool WasTradedEgg => Egg_Location == GetTradedEggLocation();
         public bool IsTradedEgg => Met_Location == GetTradedEggLocation();
-        private int GetTradedEggLocation() => Locations.TradedEggLocation(GenNumber);
+        private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation);
 
         public virtual bool IsUntraded => false;
-        public virtual bool IsNative => GenNumber == Format;
+        public virtual bool IsNative => Generation == Format;
         public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
 
         /// <summary>
@@ -617,7 +617,7 @@ namespace PKHeX.Core
             if (Format < generation)
                 return false; // Future
 
-            int gen = GenNumber;
+            int gen = Generation;
             return generation switch
             {
                 1 => (Format == 1 || VC), // species compat checked via sanity above
@@ -636,7 +636,7 @@ namespace PKHeX.Core
         /// Checks if the PKM has its original met location.
         /// </summary>
         /// <returns>Returns false if the Met Location has been overwritten via generational transfer.</returns>
-        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || (GenNumber <= 4 && Format != GenNumber));
+        public virtual bool HasOriginalMetLocation => !(Format < 3 || VC || (Generation <= 4 && Format != Generation));
 
         /// <summary>
         /// Checks if the current <see cref="Gender"/> is valid.
@@ -653,7 +653,7 @@ namespace PKHeX.Core
             if (gv == 0)
                 return gender == 0;
 
-            int gen = GenNumber;
+            int gen = Generation;
             if (gen <= 2 || gen >= 6)
                 return gender == (gender & 1);
 
@@ -891,7 +891,7 @@ namespace PKHeX.Core
         public virtual void SetShiny()
         {
             var rnd = Util.Rand;
-            do { PID = PKX.GetRandomPID(rnd, Species, Gender, Version, Nature, AltForm, PID); }
+            do { PID = PKX.GetRandomPID(rnd, Species, Gender, Version, Nature, Form, PID); }
             while (!IsShiny);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
@@ -926,7 +926,7 @@ namespace PKHeX.Core
         public void SetPIDGender(int gender)
         {
             var rnd = Util.Rand;
-            do PID = PKX.GetRandomPID(rnd, Species, gender, Version, Nature, AltForm, PID);
+            do PID = PKX.GetRandomPID(rnd, Species, gender, Version, Nature, Form, PID);
             while (IsShiny);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
@@ -942,16 +942,16 @@ namespace PKHeX.Core
         public void SetPIDNature(int nature)
         {
             var rnd = Util.Rand;
-            do PID = PKX.GetRandomPID(rnd, Species, Gender, Version, nature, AltForm, PID);
+            do PID = PKX.GetRandomPID(rnd, Species, Gender, Version, nature, Form, PID);
             while (IsShiny);
             if (Format >= 6 && (Gen3 || Gen4 || Gen5))
                 EncryptionConstant = PID;
         }
 
         /// <summary>
-        /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="AltForm"/>.
+        /// Applies a <see cref="PID"/> to the <see cref="PKM"/> according to the specified <see cref="Form"/>.
         /// </summary>
-        /// <param name="form"><see cref="AltForm"/> to apply</param>
+        /// <param name="form"><see cref="Form"/> to apply</param>
         /// <remarks>
         /// This method should only be used for Unown originating in Generation 3 games.
         /// If a <see cref="PKM"/> originated in a generation prior to Generation 6, the <see cref="EncryptionConstant"/> is updated.
@@ -1026,7 +1026,7 @@ namespace PKHeX.Core
         /// <returns>Count of IVs that should be max.</returns>
         public int GetFlawlessIVCount()
         {
-            if (GenNumber >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
+            if (Generation >= 6 && (Legal.Legends.Contains(Species) || Legal.SubLegends.Contains(Species)))
                 return 3;
             if (XY)
             {

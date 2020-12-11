@@ -282,7 +282,7 @@ namespace PKHeX.Core
         public void ClearBlock() => Array.Clear(Data, Offset, 0x318);
     }
 
-    public sealed class SuperTrainingSpeciesRecord
+    public sealed class SuperTrainingSpeciesRecord : ISpeciesForm
     {
         private readonly byte[] Data;
         private readonly int Offset;
@@ -296,35 +296,35 @@ namespace PKHeX.Core
         /// <summary>
         /// <see cref="PKM.Species"/> of the Record Holder.
         /// </summary>
-        public ushort Species
+        public int Species
         {
             get => BitConverter.ToUInt16(Data, Offset + 0);
-            set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0);
+            set => BitConverter.GetBytes((ushort)value).CopyTo(Data, Offset + 0);
         }
 
         /// <summary>
-        /// <see cref="PKM.AltForm"/> of the Record Holder.
+        /// <see cref="PKM.Form"/> of the Record Holder.
         /// </summary>
-        public byte AltForm
+        public int Form
         {
             get => Data[Offset + 2];
-            set => Data[Offset + 2] = value;
+            set => Data[Offset + 2] = (byte)value;
         }
 
         /// <summary>
         /// <see cref="PKM.Gender"/> of the Record Holder.
         /// </summary>
-        /// <seealso cref="PKHeX.Core.Gender"/>
-        public byte Gender
+        /// <seealso cref="Core.Gender"/>
+        public int Gender
         {
             get => Data[Offset + 3];
-            set => Data[Offset + 3] = value;
+            set => Data[Offset + 3] = (byte)value;
         }
 
         /// <summary>
         /// Wipes the record holder's pkm-related data.
         /// </summary>
-        public void Clear() => Species = AltForm = Gender = 0;
+        public void Clear() => Species = Form = Gender = 0;
 
         /// <summary>
         /// Sets the data to match what is in the provided reference.
@@ -332,9 +332,9 @@ namespace PKHeX.Core
         /// <param name="pkm">Reference to load from.</param>
         public void LoadFrom(PKM pkm)
         {
-            Species = (ushort)pkm.Species;
-            AltForm = (byte)pkm.AltForm;
-            Gender = (byte)pkm.Gender;
+            Species = pkm.Species;
+            Form = pkm.Form;
+            Gender = pkm.Gender;
         }
     }
 }

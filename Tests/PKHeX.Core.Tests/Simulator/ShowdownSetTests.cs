@@ -29,7 +29,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetEncounters()
         {
             var set = new ShowdownSet(SetGlaceonUSUMTutor);
-            var pk7 = new PK7 {Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves};
+            var pk7 = new PK7 {Species = set.Species, Form = set.Form, Moves = set.Moves};
             var encounters = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
             Assert.True(!encounters.Any());
             pk7.HT_Name = "PKHeX";
@@ -58,7 +58,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetWC3()
         {
             var set = new ShowdownSet(SetROCKSMetang);
-            var pk3 = new PK3 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var pk3 = new PK3 { Species = set.Species, Form = set.Form, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk3, set.Moves, GameVersion.R);
@@ -77,7 +77,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetCelebi()
         {
             var set = new ShowdownSet(SetCelebi);
-            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.X);
@@ -96,7 +96,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetSplitBreed()
         {
             var set = new ShowdownSet(SetMunchSnorLax);
-            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
+            var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" }; // !! specify the HT name, we need tutors for this one
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.SN).ToList();
             Assert.True(encs.Count > 0);
             Assert.True(encs.All(z => z.Species > 150));
@@ -113,7 +113,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetVCEgg1()
         {
             var set = new ShowdownSet(SetSlowpoke12);
-            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, HT_Name = "PKHeX" };
+            var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, HT_Name = "PKHeX" };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.GD).ToList();
             Assert.True(encs.Count > 0);
 
@@ -129,7 +129,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorGetSmeargle()
         {
             var set = new ShowdownSet(SetSmeargle);
-            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves };
+            var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
             Assert.True(encs.Any());
             encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves, GameVersion.MN);
@@ -173,7 +173,7 @@ namespace PKHeX.Tests.Simulator
         public void SimulatorParseEncounter(string text)
         {
             var set = new ShowdownSet(text);
-            var pk7 = new PK7 { Species = set.Species, AltForm = set.FormIndex, Moves = set.Moves, CurrentLevel = set.Level };
+            var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
             var tr3 = encs.First(z => z is EncounterTrade t && t.Generation == 3);
             var pk3 = tr3.ConvertToPKM(new SAV3());

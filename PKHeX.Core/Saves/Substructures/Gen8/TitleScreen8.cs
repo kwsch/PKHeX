@@ -34,7 +34,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class TitleScreen8Poke
+    public sealed class TitleScreen8Poke : ISpeciesForm
     {
         public const int SIZE = 0x28;
         private readonly byte[] Data;
@@ -52,7 +52,7 @@ namespace PKHeX.Core
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x00);
         }
 
-        public int AltForm
+        public int Form
         {
             get => BitConverter.ToInt32(Data, Offset + 0x04);
             set => BitConverter.GetBytes(value).CopyTo(Data, Offset + 0x04);
@@ -111,7 +111,7 @@ namespace PKHeX.Core
         public void LoadFrom(PKM pkm)
         {
             Species = pkm.Species;
-            AltForm = pkm.AltForm;
+            Form = pkm.Form;
             Gender = pkm.Gender;
             IsShiny = pkm.IsShiny;
             EncryptionConstant = pkm.EncryptionConstant;
@@ -121,7 +121,7 @@ namespace PKHeX.Core
         public void LoadFrom(TrainerCard8Poke pkm)
         {
             Species = pkm.Species;
-            AltForm = pkm.AltForm;
+            Form = pkm.Form;
             Gender = pkm.Gender;
             IsShiny = pkm.IsShiny;
             EncryptionConstant = pkm.EncryptionConstant;

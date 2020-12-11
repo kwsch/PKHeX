@@ -24,7 +24,7 @@ namespace PKHeX.Core
                 : (IReadOnlyList<int>)Array.Empty<int>();
 
             // Only TM/HM moves from the source game of the egg, not any other games from the same generation
-            TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.AltForm, e.Generation, e.Version).ToList();
+            TMHM = MoveTechnicalMachine.GetTMHM(pkm, pkm.Species, pkm.Form, e.Generation, e.Version).ToList();
 
             // Non-Base moves that can magically appear in the regular movepool
             bool volt = (e.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);

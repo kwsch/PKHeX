@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
             // gather possible nature determination seeds until a same-nature PID breaks the unrolling
             var seeds = pk.Species == (int)Species.Unown && pk.FRLG // reversed await case
-                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.AltForm)
+                ? SeedInfo.GetSeedsUntilUnownForm(pidiv, info, pk.Form)
                 : SeedInfo.GetSeedsUntilNature(pidiv, info);
 
             var frames = pidiv.Type == PIDType.CuteCharm

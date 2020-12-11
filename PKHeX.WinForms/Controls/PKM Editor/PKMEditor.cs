@@ -283,7 +283,7 @@ namespace PKHeX.WinForms.Controls
             {
                 MT_Level.Text = (pk.PartyStatsPresent ? pk.Stat_Level : pk.CurrentLevel).ToString();
                 TB_EXP.Text = pk.EXP.ToString();
-                MT_Form.Text = Math.Max(0, pk.AltForm).ToString();
+                MT_Form.Text = Math.Max(0, pk.Form).ToString();
                 if (pk.PartyStatsPresent) // stats present
                     Stats.LoadPartyStats(pk);
             }
@@ -427,7 +427,7 @@ namespace PKHeX.WinForms.Controls
         {
             int species = Entity.Species;
             var pi = RequestSaveFile.Personal[species];
-            bool hasForms = AltFormInfo.HasFormSelection(pi, species, Entity.Format);
+            bool hasForms = FormInfo.HasFormSelection(pi, species, Entity.Format);
             CB_Form.Enabled = CB_Form.Visible = Label_Form.Visible = hasForms;
 
             if (HaX && Entity.Format >= 4)
@@ -449,7 +449,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             if (Entity.Format > 3 && FieldsLoaded) // has forms
-                Entity.AltForm = CB_Form.SelectedIndex; // update pkm field for form specific abilities
+                Entity.Form = CB_Form.SelectedIndex; // update pkm field for form specific abilities
 
             int abil = CB_Ability.SelectedIndex;
 
@@ -578,7 +578,7 @@ namespace PKHeX.WinForms.Controls
             {
                 Entity.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
                 Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
-                Entity.AltForm = CB_Form.SelectedIndex;
+                Entity.Form = CB_Form.SelectedIndex;
 
                 Entity.SetPIDGender(newGender);
                 TB_PID.Text = Entity.PID.ToString("X8");
@@ -838,7 +838,7 @@ namespace PKHeX.WinForms.Controls
             Label_Gender.Text = gendersymbols[Entity.Gender];
             Label_Gender.ForeColor = Draw.GetGenderColor(Entity.Gender);
             if (Entity.Species == (int)Species.Unown && !skipForm)
-                CB_Form.SelectedIndex = Entity.AltForm;
+                CB_Form.SelectedIndex = Entity.Form;
 
             UpdateIsShiny();
             UpdateSprite();
@@ -954,7 +954,7 @@ namespace PKHeX.WinForms.Controls
         {
             if (CB_Form == sender && FieldsLoaded)
             {
-                Entity.AltForm = CB_Form.SelectedIndex;
+                Entity.Form = CB_Form.SelectedIndex;
                 uint EXP = Experience.GetEXP(Entity.CurrentLevel, Entity.PersonalInfo.EXPGrowth);
                 TB_EXP.Text = EXP.ToString();
             }
@@ -973,7 +973,7 @@ namespace PKHeX.WinForms.Controls
                 else if (Entity.Format == 2)
                 {
                     int desiredForm = CB_Form.SelectedIndex;
-                    while (Entity.AltForm != desiredForm)
+                    while (Entity.Form != desiredForm)
                     {
                         FieldsLoaded = false;
                         Stats.UpdateRandomIVs(sender, EventArgs.Empty);
@@ -1007,7 +1007,7 @@ namespace PKHeX.WinForms.Controls
         private void RefreshFormArguments()
         {
             int index = CB_FormArgument.SelectedIndex;
-            var items = FormConverter.GetFormArgumentStrings(Entity.Species, Entity.AltForm, Entity.Format);
+            var items = FormConverter.GetFormArgumentStrings(Entity.Species, Entity.Form, Entity.Format);
             CB_FormArgument.Items.Clear();
             CB_FormArgument.Items.AddRange(items);
             CB_FormArgument.Visible = !string.IsNullOrWhiteSpace(items[0]);
@@ -1021,7 +1021,7 @@ namespace PKHeX.WinForms.Controls
             if (ChangingFields)
                 return;
             ChangingFields = true;
-            int form = Entity.AltForm = Util.ToInt32(MT_Form.Text);
+            int form = Entity.Form = Util.ToInt32(MT_Form.Text);
             CB_Form.SelectedIndex = CB_Form.Items.Count > form ? form : -1;
             ChangingFields = false;
 
@@ -1449,7 +1449,7 @@ namespace PKHeX.WinForms.Controls
             Entity.PID = Util.GetHexValue(TB_PID.Text);
             Entity.Nature = WinFormsUtil.GetIndex(CB_Nature);
             Entity.Gender = PKX.GetGenderFromString(Label_Gender.Text);
-            Entity.AltForm = CB_Form.SelectedIndex;
+            Entity.Form = CB_Form.SelectedIndex;
             Entity.Version = WinFormsUtil.GetIndex(CB_GameOrigin);
 
             if (Entity.Format > 2)
@@ -1465,7 +1465,7 @@ namespace PKHeX.WinForms.Controls
                     CommonEdits.SetShiny(Entity, type);
                     TB_PID.Text = Entity.PID.ToString("X8");
 
-                    int gen = Entity.GenNumber;
+                    int gen = Entity.Generation;
                     bool pre3DS = 1 <= gen && gen < 6;
                     if (pre3DS && TB_EC.Visible)
                         TB_EC.Text = TB_PID.Text;

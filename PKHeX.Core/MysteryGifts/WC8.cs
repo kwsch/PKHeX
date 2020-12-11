@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public const int Size = 0x2D0;
         public const int CardStart = 0x0;
 
-        public override int Format => 8;
+        public override int Generation => 8;
 
         public enum GiftType : byte
         {
@@ -323,7 +323,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
-            var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
             var OT = GetOT(sav.Language);
 
             var pk = new PK8
@@ -332,7 +332,7 @@ namespace PKHeX.Core
                 TID = TID,
                 SID = SID,
                 Species = Species,
-                AltForm = Form,
+                Form = Form,
                 CurrentLevel = currentLevel,
                 Ball = Ball != 0 ? Ball : 4, // Default is Pokeball
                 Met_Level = metLevel,
@@ -375,7 +375,7 @@ namespace PKHeX.Core
             };
             pk.SetMaximumPPCurrent();
 
-            if ((sav.Generation > Format && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
+            if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
             {
                 // give random valid game
                 var rnd = Util.Rand;
@@ -400,14 +400,14 @@ namespace PKHeX.Core
 
             // Official code explicitly corrects for Meowstic
             if (pk.Species == (int)Core.Species.Meowstic)
-                pk.AltForm = pk.Gender;
+                pk.Form = pk.Gender;
 
             pk.MetDate = DateTime.Now;
 
             var nickname_language = GetNicknameLanguage(sav.Language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
             pk.IsNicknamed = GetIsNicknamed(pk.Language);
-            pk.Nickname = pk.IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Format);
+            pk.Nickname = pk.IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
             for (var i = 0; i < RibbonBytesCount; i++)
             {
@@ -437,13 +437,13 @@ namespace PKHeX.Core
         {
             pk.IsEgg = true;
             pk.EggMetDate = DateTime.Now;
-            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Format);
+            pk.Nickname = SpeciesName.GetSpeciesNameGeneration(0, pk.Language, Generation);
             pk.IsNicknamed = true;
         }
 
         private void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            var pi = PersonalTable.SWSH.GetFormeEntry(Species, Form);
+            var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
             pk.StatNature = pk.Nature;
             pk.Gender = criteria.GetGender(Gender, pi);
@@ -561,7 +561,7 @@ namespace PKHeX.Core
                 }
             }
 
-            if (Form != evo.Form && !AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format))
+            if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))
                 return false;
 
             if (IsEgg)
@@ -595,7 +595,7 @@ namespace PKHeX.Core
             if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;
 
-            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.AltForm, Species, Form))
+            if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return false;
 
             if (!(pkm is IDynamaxLevel dl && dl.DynamaxLevel >= DynamaxLevel))

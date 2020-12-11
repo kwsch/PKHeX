@@ -59,7 +59,7 @@ namespace PKHeX.Core
         protected abstract bool GetSaneFormsToIterate(int species, out int formStart, out int formEnd, int formIn);
         protected virtual void SetSpindaDexData(PKM pkm, bool alreadySeen) { }
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
-        protected abstract void SetAllDexSeenFlags(int baseBit, int altform, int gender, bool isShiny, bool value = true);
+        protected abstract void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true);
 
         protected virtual bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
         protected virtual void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
@@ -126,7 +126,7 @@ namespace PKHeX.Core
                 SetSpindaDexData(pkm, GetSeen(species));
 
             int bit = pkm.Species - 1;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             int gender = pkm.Gender & 1;
             bool shiny = pkm.IsShiny;
             int lang = pkm.Language;
@@ -252,7 +252,7 @@ namespace PKHeX.Core
 
             var entry = SAV.Personal[species];
             int baseBit = species - 1;
-            int fc = entry.FormeCount;
+            int fc = entry.FormCount;
             for (int f = 0; f < fc; f++)
             {
                 if (!entry.OnlyFemale)

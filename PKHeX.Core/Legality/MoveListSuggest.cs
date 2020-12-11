@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
                 if (pkm.Species == enc.Species)
                 {
-                    return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.AltForm, pkm.CurrentLevel, (GameVersion)pkm.Version);
+                    return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.Form, pkm.CurrentLevel, (GameVersion)pkm.Version);
                 }
             }
 
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             if (Relearn && pkm.Format >= 6)
                 r.AddRange(pkm.RelearnMoves);
 
-            int start = pkm.GenNumber;
+            int start = pkm.Generation;
             if (start < 0)
                 start = pkm.Format; // be generous instead of returning nothing
             if (pkm is IBattleVersion b)

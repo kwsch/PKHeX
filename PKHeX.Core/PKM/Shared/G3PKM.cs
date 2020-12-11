@@ -31,7 +31,7 @@
         public sealed override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return AbilityBit && pi.Ability2 != 0 ? pi.Ability2 : pi.Ability1; } set { } }
         public sealed override uint EncryptionConstant { get => PID; set { } }
         public sealed override int Nature { get => (int)(PID % 25); set { } }
-        public sealed override int AltForm { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
+        public sealed override int Form { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
         public sealed override bool IsNicknamed { get => SpeciesName.IsNicknamed(Species, Nickname, Language, 3); set { } }
         public sealed override int Gender { get => PKX.GetGenderFromPID(Species, PID); set { } }
         public sealed override int Characteristic => -1;

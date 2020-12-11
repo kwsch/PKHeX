@@ -69,7 +69,7 @@ namespace PKHeX.Core
 
         public int AbilityNum => pkm.Format > 5 ? pkm.AbilityNumber : -1;
         public int GenderFlag => pkm.Gender;
-        public int AltForms => pkm.AltForm;
+        public int Form => pkm.Form;
         public int PKRS_Strain => pkm.PKRS_Strain;
         public int PKRS_Days => pkm.PKRS_Days;
         public int MetLevel => pkm.Met_Level;

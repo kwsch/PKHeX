@@ -24,8 +24,8 @@ namespace PKHeX.WinForms
 
             Array.Resize(ref species, SAV.Personal.TableLength);
 
-            var AltForms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
-            species = SAV.Personal.GetPersonalEntryList(AltForms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
+            var forms = SAV.Personal.GetFormList(species, SAV.MaxSpeciesID);
+            species = SAV.Personal.GetPersonalEntryList(forms, species, SAV.MaxSpeciesID, out baseForm, out formVal);
 
             DGV.Rows.Clear();
             for (int i = 1; i < species.Length; i++)

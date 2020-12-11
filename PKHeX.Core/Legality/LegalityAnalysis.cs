@@ -113,7 +113,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Input data to check</param>
         /// <param name="table"><see cref="SaveFile"/> specific personal data</param>
-        public LegalityAnalysis(PKM pk, PersonalTable table) : this(pk, table.GetFormeEntry(pk.Species, pk.AltForm)) { }
+        public LegalityAnalysis(PKM pk, PersonalTable table) : this(pk, table.GetFormEntry(pk.Species, pk.Form)) { }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality.
@@ -176,7 +176,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 2) // prior to storing GameVersion
                 return ParsePK1;
 
-            int gen = pkm.GenNumber;
+            int gen = pkm.Generation;
             if (gen <= 0)
                 gen = pkm.Format;
             return gen switch

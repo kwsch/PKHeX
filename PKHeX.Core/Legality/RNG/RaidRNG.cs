@@ -6,7 +6,7 @@ namespace PKHeX.Core
     {
         public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
         {
-            var pi = PersonalTable.SWSH.GetFormeEntry(raid.Species, raid.Form);
+            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
             var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
@@ -17,8 +17,8 @@ namespace PKHeX.Core
         {
             // Ensure the species-form is set correctly (nature)
             pk8.Species = raid.Species;
-            pk8.AltForm = raid.Form;
-            var pi = PersonalTable.SWSH.GetFormeEntry(raid.Species, raid.Form);
+            pk8.Form = raid.Form;
+            var pi = PersonalTable.SWSH.GetFormEntry(raid.Species, raid.Form);
             var ratio = pi.Gender;
             var abil = RemapAbilityToParam(raid.Ability);
             var IVs = raid.IVs.Count == 0 ? GetBlankIVTemplate() : PKX.ReorderSpeedLast((int[])((int[])raid.IVs).Clone());
@@ -142,14 +142,14 @@ namespace PKHeX.Core
 
             if (nature_param == -1)
             {
-                if (pk.Species == (int) Species.Toxtricity && pk.AltForm == 0)
+                if (pk.Species == (int) Species.Toxtricity && pk.Form == 0)
                 {
                     var table = Nature0;
                     var choice = table[rng.NextInt((uint)table.Length)];
                     if (pk.Nature != choice)
                         return false;
                 }
-                else if (pk.Species == (int) Species.Toxtricity && pk.AltForm == 1)
+                else if (pk.Species == (int) Species.Toxtricity && pk.Form == 1)
                 {
                     var table = Nature1;
                     var choice = table[rng.NextInt((uint)table.Length)];
@@ -267,12 +267,12 @@ namespace PKHeX.Core
             int nature;
             if (nature_param == -1)
             {
-                if (pk.Species == (int)Species.Toxtricity && pk.AltForm == 0)
+                if (pk.Species == (int)Species.Toxtricity && pk.Form == 0)
                 {
                     var table = Nature0;
                     nature = table[rng.NextInt((uint)table.Length)];
                 }
-                else if (pk.Species == (int)Species.Toxtricity && pk.AltForm == 1)
+                else if (pk.Species == (int)Species.Toxtricity && pk.Form == 1)
                 {
                     var table = Nature1;
                     nature = table[rng.NextInt((uint)table.Length)];

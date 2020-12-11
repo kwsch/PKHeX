@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
             if (!pkm.IsEgg)
             {
                 bool enable;
-                if (pkm.GenNumber < 6)
+                if (pkm.Generation < 6)
                 {
                     // Previous Generation Mon
                     GB_M_OT.Text = $"{TextArgs.PastGen} {pkm.OT_Name}: {TextArgs.OT}"; // Past Gen OT : OTNAME
@@ -231,11 +231,11 @@ namespace PKHeX.WinForms
             if (sender == CB_CTMemory)
             {
                 int memory = WinFormsUtil.GetIndex((ComboBox)sender);
-                var memIndex = Memories.GetMemoryArgType(memory, pkm.GenNumber);
+                var memIndex = Memories.GetMemoryArgType(memory, pkm.Generation);
                 var argvals = MemStrings.GetArgumentStrings(memIndex);
                 CB_CTVar.InitializeBinding();
                 CB_CTVar.DataSource = new BindingSource(argvals, null);
-                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.GenNumber);
+                LCTV.Text = TextArgs.GetMemoryCategory(memIndex, pkm.Generation);
                 LCTV.Visible = CB_CTVar.Visible = CB_CTVar.Enabled = argvals.Count > 1;
             }
             else

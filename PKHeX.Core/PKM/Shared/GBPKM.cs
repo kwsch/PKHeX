@@ -25,7 +25,7 @@ namespace PKHeX.Core
         {
             get
             {
-                string form = AltForm > 0 ? $"-{AltForm:00}" : string.Empty;
+                string form = Form > 0 ? $"-{Form:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
                 return $"{Species:000}{form}{star} - {Nickname} - {Checksums.CRC16_CCITT(Encrypt()):X4}";
             }
@@ -141,7 +141,7 @@ namespace PKHeX.Core
             }
         }
 
-        public sealed override int AltForm
+        public sealed override int Form
         {
             get
             {

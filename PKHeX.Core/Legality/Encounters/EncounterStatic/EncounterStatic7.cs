@@ -24,13 +24,13 @@ namespace PKHeX.Core
             if (SkipFormCheck)
                 return true;
 
-            if (AltFormInfo.IsTotemForm(Species, Form, Generation))
+            if (FormInfo.IsTotemForm(Species, Form, Generation))
             {
-                var expectForm = pkm.Format == 7 ? Form : AltFormInfo.GetTotemBaseForm(Species, Form);
+                var expectForm = pkm.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;
             }
 
-            return Form == evo.Form || AltFormInfo.IsFormChangeable(Species, Form, pkm.AltForm, pkm.Format);
+            return Form == evo.Form || FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

@@ -68,7 +68,7 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterMatch;
-            if (enc is MysteryGift g && g.Format >= 4)
+            if (enc is MysteryGift g && g.Generation >= 4)
                 return VerifyAbilityMG(data, g, abilities);
 
             if (format < 6)

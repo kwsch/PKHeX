@@ -55,7 +55,7 @@ namespace PKHeX.Tests.Saves
 
             var formDex = dex + 8 + (regionSize * 9);
 
-            int fc = sav.Personal[species].FormeCount;
+            int fc = sav.Personal[species].FormCount;
             var bit = ((SAV5)sav).Zukan.DexFormIndexFetcher(species, fc);
             if (bit < 0)
                 return;

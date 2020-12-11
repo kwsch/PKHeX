@@ -52,10 +52,10 @@ namespace PKHeX.Core
         public int Nature { get; set; } = -1;
 
         /// <inheritdoc/>
-        public string Form { get; private set; } = string.Empty;
+        public string FormName { get; private set; } = string.Empty;
 
         /// <inheritdoc/>
-        public int FormIndex { get; private set; }
+        public int Form { get; private set; }
 
         /// <inheritdoc/>
         public int[] EVs { get; private set; } = {00, 00, 00, 00, 00, 00};
@@ -103,15 +103,15 @@ namespace PKHeX.Core
 
             ParseLines(lines);
 
-            Form = ConvertFormFromShowdown(Form, Species, Ability);
+            FormName = ConvertFormFromShowdown(FormName, Species, Ability);
             // Set Form
-            if (Form.Length == 0)
+            if (FormName.Length == 0)
             {
-                FormIndex = 0;
+                Form = 0;
                 return;
             }
             string[] formStrings = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            FormIndex = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(Form)));
+            Form = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(FormName)));
         }
 
         private const int MaxMoveCount = 4;
@@ -233,7 +233,7 @@ namespace PKHeX.Core
             var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
-            var form = ConvertFormToShowdown(Form, Species);
+            var form = ConvertFormToShowdown(FormName, Species);
             result.Add(GetStringFirstLine(form));
 
             // IVs
@@ -372,19 +372,19 @@ namespace PKHeX.Core
                 }
             }
 
-            SetFormString(pkm.AltForm);
+            SetFormString(pkm.Form);
         }
 
         private void SetFormString(int index)
         {
-            FormIndex = index;
+            Form = index;
             if (index <= 0)
             {
-                Form = string.Empty;
+                FormName = string.Empty;
                 return;
             }
             var forms = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            Form = FormIndex >= forms.Length ? string.Empty : forms[index];
+            FormName = Form >= forms.Length ? string.Empty : forms[index];
         }
 
         private void ParseFirstLine(string first)
@@ -464,7 +464,7 @@ namespace PKHeX.Core
                 return false;
 
             Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
-            Form = spec.Substring(end + 1);
+            FormName = spec.Substring(end + 1);
 
             if (Species >= 0)
                 return true;
@@ -476,7 +476,7 @@ namespace PKHeX.Core
                 if (!spec.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
-                Form = spec.Substring(sn.Length);
+                FormName = spec.Substring(sn.Length);
                 return true;
             }
 
@@ -485,7 +485,7 @@ namespace PKHeX.Core
             if (end < 0)
                 return false;
             Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
-            Form = spec.Substring(end + 1);
+            FormName = spec.Substring(end + 1);
 
             return Species >= 0;
         }

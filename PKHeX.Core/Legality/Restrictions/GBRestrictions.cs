@@ -74,7 +74,7 @@ namespace PKHeX
         {
             var result = new int[moves.Count];
 
-            int index = PersonalTable.RB.GetFormeIndex(species, 0);
+            int index = PersonalTable.RB.GetFormIndex(species, 0);
             if (index == 0)
                 return result;
 

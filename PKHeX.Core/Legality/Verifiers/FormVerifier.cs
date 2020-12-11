@@ -5,7 +5,7 @@ using static PKHeX.Core.LegalityCheckStrings;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Verifies the <see cref="PKM.AltForm"/> value.
+    /// Verifies the <see cref="PKM.Form"/> value.
     /// </summary>
     public sealed class FormVerifier : Verifier
     {
@@ -30,8 +30,8 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             var PersonalInfo = data.PersonalInfo;
 
-            int count = PersonalInfo.FormeCount;
-            var form = pkm.AltForm;
+            int count = PersonalInfo.FormCount;
+            var form = pkm.Form;
             if (count <= 1 && form == 0)
                 return VALID; // no forms to check
 
@@ -39,7 +39,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             var Info = data.Info;
 
-            if (!PersonalInfo.IsFormeWithinRange(form) && !AltFormInfo.IsValidOutOfBoundsForme(species, form, Info.Generation))
+            if (!PersonalInfo.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
                 return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
             if (EncounterMatch is EncounterSlot w && w.Area.Type == SlotType.FriendSafari)
@@ -48,7 +48,7 @@ namespace PKHeX.Core
             }
             else if (EncounterMatch is EncounterEgg)
             {
-                if (AltFormInfo.IsTotemForm(species, form, data.Info.Generation))
+                if (FormInfo.IsTotemForm(species, form, data.Info.Generation))
                     return GetInvalid(LFormInvalidGame);
             }
 
@@ -156,7 +156,7 @@ namespace PKHeX.Core
                 case (int)Species.Toxtricity when Info.EncounterMatch.Species == (int)Species.Toxtricity:
                     {
                         // The game enforces the Nature for Toxtricity encounters too!
-                        if (pkm.AltForm != EvolutionMethod.GetAmpLowKeyResult(pkm.Nature))
+                        if (pkm.Form != EvolutionMethod.GetAmpLowKeyResult(pkm.Nature))
                             return GetInvalid(LFormInvalidNature);
                         break;
                     }
@@ -176,13 +176,13 @@ namespace PKHeX.Core
             }
 
             var format = pkm.Format;
-            if (AltFormInfo.IsBattleOnlyForm(species, form, format))
+            if (FormInfo.IsBattleOnlyForm(species, form, format))
                 return GetInvalid(LFormBattle);
 
             if (form == 0)
                 return VALID;
 
-            // everything below here is currently an altform
+            // everything below here is not Form 0, so it has a form.
             if (format >= 7 && Info.Generation < 7)
             {
                 if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
@@ -248,18 +248,18 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (pkm.Species)
             {
-                case (int)Species.Floette when !SafariFloette.Contains(pkm.AltForm): // Floette
-                case (int)Species.Florges when !SafariFloette.Contains(pkm.AltForm): // Florges
+                case (int)Species.Floette when !SafariFloette.Contains(pkm.Form): // Floette
+                case (int)Species.Florges when !SafariFloette.Contains(pkm.Form): // Florges
                     data.AddLine(GetInvalid(LFormSafariFlorgesColor));
                     break;
-                case 710 when pkm.AltForm != 0: // Pumpkaboo
-                case (int)Species.Gourgeist when pkm.AltForm != 0: // Average
+                case 710 when pkm.Form != 0: // Pumpkaboo
+                case (int)Species.Gourgeist when pkm.Form != 0: // Average
                     data.AddLine(GetInvalid(LFormSafariPumpkabooAverage));
                     break;
-                case (int)Species.Gastrodon when pkm.AltForm != 0: // West
+                case (int)Species.Gastrodon when pkm.Form != 0: // West
                     data.AddLine(GetInvalid(LFormSafariFlorgesColor));
                     break;
-                case (int)Species.Sawsbuck when pkm.AltForm != 0: // Sawsbuck
+                case (int)Species.Sawsbuck when pkm.Form != 0: // Sawsbuck
                     data.AddLine(GetInvalid(LFormSafariSawsbuckSpring));
                     break;
             }
@@ -280,9 +280,9 @@ namespace PKHeX.Core
                     {
                         if (arg > 5)
                             return GetInvalid(LFormArgumentHigh);
-                        if (arg == 0 && pkm.AltForm != 0)
+                        if (arg == 0 && pkm.Form != 0)
                             return GetInvalid(LFormArgumentNotAllowed);
-                        if (arg != 0 && pkm.AltForm == 0)
+                        if (arg != 0 && pkm.Form == 0)
                             return GetInvalid(LFormArgumentNotAllowed);
                         break;
                     }
@@ -290,13 +290,13 @@ namespace PKHeX.Core
                     {
                         if (arg > 3)
                             return GetInvalid(LFormArgumentHigh);
-                        if (arg == 0 && pkm.AltForm != 0)
+                        if (arg == 0 && pkm.Form != 0)
                             return GetInvalid(LFormArgumentNotAllowed);
-                        if (arg != 0 && pkm.AltForm == 0)
+                        if (arg != 0 && pkm.Form == 0)
                             return GetInvalid(LFormArgumentNotAllowed);
                         break;
                     }
-                case (int)Species.Yamask when pkm.AltForm == 1:
+                case (int)Species.Yamask when pkm.Form == 1:
                     {
                         if (pkm.IsEgg)
                         {

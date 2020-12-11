@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public static IEnumerable<MysteryGift> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
             // Ranger Manaphy is a PGT and is not in the PCD[] for gen4. Check manually.
-            int gen = pkm.GenNumber;
+            int gen = pkm.Generation;
             if (gen == 4 && pkm.Species == (int) Species.Manaphy)
                 yield return RangerManaphy;
 
@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<MysteryGift> GetValidGifts(PKM pkm, IReadOnlyList<DexLevel> chain)
         {
-            int gen = pkm.GenNumber;
+            int gen = pkm.Generation;
             if (pkm.IsEgg && pkm.Format != gen) // transferred
                 return Array.Empty<MysteryGift>();
 

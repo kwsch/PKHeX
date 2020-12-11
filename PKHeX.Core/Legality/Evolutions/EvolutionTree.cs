@@ -92,7 +92,7 @@ namespace PKHeX.Core
         {
             for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
             {
-                var fc = Personal[sSpecies].FormeCount;
+                var fc = Personal[sSpecies].FormCount;
                 for (int sForm = 0; sForm < fc; sForm++)
                 {
                     var index = sSpecies;
@@ -117,10 +117,10 @@ namespace PKHeX.Core
         {
             for (int sSpecies = 1; sSpecies <= MaxSpeciesTree; sSpecies++)
             {
-                var fc = Personal[sSpecies].FormeCount;
+                var fc = Personal[sSpecies].FormCount;
                 for (int sForm = 0; sForm < fc; sForm++)
                 {
-                    var index = Personal.GetFormeIndex(sSpecies, sForm);
+                    var index = Personal.GetFormIndex(sSpecies, sForm);
                     var evos = Entries[index];
                     foreach (var evo in evos)
                     {
@@ -208,7 +208,7 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(1)
                 {
-                    new EvoCriteria(pkm.Species, pkm.AltForm) { Level = maxLevel, MinLevel = maxLevel },
+                    new EvoCriteria(pkm.Species, pkm.Form) { Level = maxLevel, MinLevel = maxLevel },
                 };
             }
 
@@ -272,7 +272,7 @@ namespace PKHeX.Core
         public IEnumerable<int> GetEvolutions(int species, int form)
         {
             int format = Game - Gen1 + 1;
-            int index = format < 7 ? species : Personal.GetFormeIndex(species, form);
+            int index = format < 7 ? species : Personal.GetFormIndex(species, form);
             var evos = Entries[index];
             foreach (var method in evos)
             {
@@ -299,7 +299,7 @@ namespace PKHeX.Core
         private List<EvoCriteria> GetExplicitLineage(PKM pkm, int maxLevel, bool skipChecks, int maxSpeciesOrigin, int minLevel)
         {
             int species = pkm.Species;
-            int form = pkm.AltForm;
+            int form = pkm.Form;
             int lvl = maxLevel;
             var first = new EvoCriteria(species, form) { Level = lvl };
 

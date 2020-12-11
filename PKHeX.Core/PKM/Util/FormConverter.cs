@@ -5,7 +5,7 @@ using static PKHeX.Core.Species;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Retrieves localized form names for indicating <see cref="PKM.AltForm"/> values.
+    /// Retrieves localized form names for indicating <see cref="PKM.Form"/> values.
     /// </summary>
     public static class FormConverter
     {

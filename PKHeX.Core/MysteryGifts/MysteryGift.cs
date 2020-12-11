@@ -125,7 +125,7 @@ namespace PKHeX.Core
 
         public string Extension => GetType().Name.ToLower();
         public string FileName => $"{CardHeader}.{Extension}";
-        public abstract int Format { get; }
+        public abstract int Generation { get; }
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
         public abstract PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
@@ -165,7 +165,7 @@ namespace PKHeX.Core
 
         public virtual GameVersion Version
         {
-            get => GameUtil.GetVersion(Format);
+            get => GameUtil.GetVersion(Generation);
             set { }
         }
 
@@ -210,7 +210,6 @@ namespace PKHeX.Core
         public int LevelMax => Level;
         public abstract int Ball { get; set; }
         public virtual bool EggEncounter => IsEgg;
-        public int Generation => Format;
         public abstract int EggLocation { get; set; }
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);

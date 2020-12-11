@@ -114,7 +114,7 @@ namespace PKHeX.Core
             if (hasMet)
                 return pkm.CurrentLevel;
 
-            int generation = pkm.GenNumber;
+            int generation = pkm.Generation;
             if (generation >= 4)
                 return met;
 
@@ -126,7 +126,7 @@ namespace PKHeX.Core
         {
             var species = pkm.Species;
 
-            if (Future_LevelUp.TryGetValue(species | (pkm.AltForm << 11), out var delta))
+            if (Future_LevelUp.TryGetValue(species | (pkm.Form << 11), out var delta))
                 return met - delta;
 
             if (generation < 4 && Future_LevelUp4.Contains(species) && (pkm.Format <= 7 || !Future_LevelUp4_Not8.Contains(species)))

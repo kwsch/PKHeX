@@ -49,23 +49,23 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the <see cref="PKM.AltForm"/> value, with special consideration for <see cref="PKM.Format"/> values which derive the <see cref="PKM.AltForm"/> value.
+        /// Sets the <see cref="PKM.Form"/> value, with special consideration for <see cref="PKM.Format"/> values which derive the <see cref="PKM.Form"/> value.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
-        /// <param name="form">Desired <see cref="PKM.AltForm"/> value to set.</param>
-        public static void SetAltForm(this PKM pk, int form)
+        /// <param name="form">Desired <see cref="PKM.Form"/> value to set.</param>
+        public static void SetForm(this PKM pk, int form)
         {
             switch (pk.Format)
             {
                 case 2:
-                    while (pk.AltForm != form)
+                    while (pk.Form != form)
                         pk.SetRandomIVs();
                     break;
                 case 3:
                     pk.SetPIDUnown3(form);
                     break;
                 default:
-                    pk.AltForm = form;
+                    pk.Form = form;
                     break;
             }
         }
@@ -94,7 +94,7 @@ namespace PKHeX.Core
             if (pk is PK5 pk5 && index == 2)
                 pk5.HiddenAbility = true;
             else if (pk.Format <= 5)
-                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.AltForm, (uint)(index * 0x10001));
+                pk.PID = PKX.GetRandomPID(Util.Rand, pk.Species, pk.Gender, pk.Version, pk.Nature, pk.Form, (uint)(index * 0x10001));
             pk.RefreshAbility(index);
         }
 
@@ -105,7 +105,7 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetRandomEC(this PKM pk)
         {
-            int gen = pk.GenNumber;
+            int gen = pk.Generation;
             if (2 < gen && gen < 6)
             {
                 pk.EncryptionConstant = pk.PID;
@@ -224,7 +224,7 @@ namespace PKHeX.Core
                 pk.SetMarkings();
 
             pk.SetNickname(Set.Nickname);
-            pk.SetAltForm(Set.FormIndex);
+            pk.SetForm(Set.Form);
             pk.SetGender(Set.Gender);
             pk.SetMaximumPPUps(Set.Moves);
             pk.SetAbility(Set.Ability);
@@ -377,7 +377,7 @@ namespace PKHeX.Core
         {
             bool traded = origin == dest;
             var today = pk.MetDate = DateTime.Today;
-            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.GenNumber, traded);
+            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.Generation, traded);
             pk.EggMetDate = today;
         }
 
@@ -455,7 +455,7 @@ namespace PKHeX.Core
                 return string.Empty;
 
             int location = eggmet ? pk.Egg_Location : pk.Met_Location;
-            return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.GenNumber, (GameVersion)pk.Version);
+            return GameInfo.GetLocationName(eggmet, location, pk.Format, pk.Generation, (GameVersion)pk.Version);
         }
     }
 }

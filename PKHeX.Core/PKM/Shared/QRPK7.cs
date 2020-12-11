@@ -5,7 +5,6 @@ namespace PKHeX.Core
     public sealed class QRPK7 : IEncounterable
     {
         public GameVersion Version => (GameVersion)CassetteVersion;
-        public int Form => AltForm;
         public string Name => nameof(QRPK7);
         public string LongName => Name;
         public bool EggEncounter => false;
@@ -45,7 +44,7 @@ namespace PKHeX.Core
         public int Nature => Data[0x22];
         public bool FatefulEncounter => (Data[0x23] & 1) == 1;
         public int Gender => (Data[0x23] >> 1) & 3;
-        public int AltForm => Data[0x23] >> 3;
+        public int Form => Data[0x23] >> 3;
         public int EV_HP => Data[0x24];
         public int EV_ATK => Data[0x25];
         public int EV_DEF => Data[0x26];
@@ -78,7 +77,7 @@ namespace PKHeX.Core
                 Gender = Gender,
                 Nature = Nature,
                 FatefulEncounter = FatefulEncounter,
-                AltForm = AltForm,
+                Form = Form,
                 HyperTrainFlags = HT_Flags,
                 IV_HP = IV_HP,
                 IV_ATK = IV_ATK,

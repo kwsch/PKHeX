@@ -112,7 +112,7 @@ namespace PKHeX.Core
         /// <param name="gender">Current Gender</param>
         /// <param name="origin">Origin Generation</param>
         /// <param name="nature">Nature</param>
-        /// <param name="form">AltForm</param>
+        /// <param name="form">Form</param>
         /// <param name="oldPID">Current PID</param>
         /// <remarks>Used to retain ability bits.</remarks>
         /// <returns>Rerolled PID.</returns>
