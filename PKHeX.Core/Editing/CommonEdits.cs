@@ -377,7 +377,7 @@ namespace PKHeX.Core
         {
             bool traded = origin == dest;
             var today = pk.MetDate = DateTime.Today;
-            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+            pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk.GenNumber, traded);
             pk.EggMetDate = today;
         }
 

@@ -48,7 +48,12 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(PKM pkm, bool traded = false)
         {
-            switch (pkm.GenNumber)
+            return GetSuggestedEncounterEggLocationEgg(pkm.GenNumber, traded);
+        }
+
+        public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false)
+        {
+            switch (generation)
             {
                 case 1:
                 case 2:
@@ -146,20 +151,16 @@ namespace PKHeX.Core
         /// </remarks>
         public static int GetSuggestedTransferLocation(PKM pkm)
         {
+            if (pkm.Version == (int)GameVersion.GO)
+                return Locations.GO8;
             if (pkm.HasOriginalMetLocation)
                 return -1;
-            if (pkm.Version == (int) GameVersion.GO)
-                return 30012;
             if (pkm.VC1)
                 return Locations.Transfer1;
             if (pkm.VC2)
                 return Locations.Transfer2;
             if (pkm.Format == 4) // Pal Park
                 return Locations.Transfer3;
-
-            if (pkm.GenNumber >= 5)
-                return -1;
-
             if (pkm.Format >= 5) // Transporter
                 return Legal.GetTransfer45MetLocation(pkm);
             return -1;

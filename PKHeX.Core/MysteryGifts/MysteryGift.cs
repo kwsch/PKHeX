@@ -210,7 +210,7 @@ namespace PKHeX.Core
         public int LevelMax => Level;
         public abstract int Ball { get; set; }
         public virtual bool EggEncounter => IsEgg;
-        public int Generation { get => Format; set {} }
+        public int Generation => Format;
         public abstract int EggLocation { get; set; }
 
         public int TrainerID7 => (int)((uint)(TID | (SID << 16)) % 1000000);

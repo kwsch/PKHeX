@@ -125,7 +125,7 @@ namespace PKHeX.Core
             if (Generation >= 4)
             {
                 bool traded = (int)Version == tr.Game;
-                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(pk, traded);
+                pk.Egg_Location = EncounterSuggestion.GetSuggestedEncounterEggLocationEgg(Generation, traded);
                 pk.EggMetDate = today;
             }
             pk.Egg_Location = EggLocation;
@@ -173,18 +173,21 @@ namespace PKHeX.Core
 
         private int GetEdgeCaseLanguage(PKM pk, int lang)
         {
-            switch (pk.Format)
+            switch (this)
             {
-                case 1 when this is EncounterStatic1E e1:
-                    return e1.Language == EncounterGBLanguage.Japanese ? 1 : 2;
-                case 1 when this is EncounterStatic2E e2:
-                    return e2.Language == EncounterGBLanguage.Japanese ? 1 : 2;
+                // Cannot trade between languages
+                case IFixedGBLanguage e:
+                    return e.Language == EncounterGBLanguage.Japanese ? 1 : 2;
 
-                case 3 when this is EncounterStaticShadow s && s.EReader:
-                case 3 when Species == (int)Core.Species.Mew:
+                // E-Reader was only available to Japanese games.
+                case EncounterStaticShadow s when s.EReader:
+                // Old Sea Map was only distributed to Japanese games.
+                case EncounterStatic3 _ when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
-                    return (int)LanguageID.Japanese; // Old Sea Map was only distributed to Japanese games.
-                case 3 when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
+                    return (int)LanguageID.Japanese;
+
+                // Deoxys for Emerald was not available for Japanese games.
+                case EncounterStatic3 _ when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
                     pk.OT_Name = "GF";
                     return (int)LanguageID.English;
 

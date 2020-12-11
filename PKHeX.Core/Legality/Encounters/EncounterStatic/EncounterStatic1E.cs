@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Event data for Generation 1
     /// </summary>
     /// <inheritdoc cref="EncounterStatic1"/>
-    public sealed class EncounterStatic1E : EncounterStatic1
+    public sealed class EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
     {
         public EncounterGBLanguage Language { get; set; } = EncounterGBLanguage.Japanese;
 
@@ -79,6 +79,11 @@ namespace PKHeX.Core
             else if (OT_Names.Count != 0)
                 pk.OT_Name = OT_Names[Util.Rand.Next(OT_Names.Count)];
         }
+    }
+
+    public interface IFixedGBLanguage
+    {
+        EncounterGBLanguage Language { get; }
     }
 
     /// <summary>
