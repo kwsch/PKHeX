@@ -2,6 +2,9 @@
 
 name: CI
 
+env:
+  PROJECT: PKHeX.Core
+
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
@@ -27,13 +30,13 @@ jobs:
         
       - name: Build backend
         run: |
-          dotnet build src/$PROJECT  -o __publish__/$PROJECT
+          dotnet build $PROJECT  -o __publish__/$PROJECT
       
       - name: InferSharp
         uses: microsoft/infersharpaction@v0.2
         with:
           # The path where the binaries (.dll and .pdb) are located.
-          binary-path: __publish__/$PROJECT
+          binary-path: __publish__/$PROJECT/
 
       - name: Infer# analysis result
         run: echo "${{ steps.runinfersharp.outputs.results }}"
