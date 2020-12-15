@@ -24,9 +24,16 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+        
+      - name: Build backend
+        run: |
+          dotnet build src/$PROJECT  -o __publish__/$PROJECT
       
       - name: InferSharp
         uses: microsoft/infersharpaction@v0.2
         with:
           # The path where the binaries (.dll and .pdb) are located.
-          binary-path: './PKHeX.Core/bin/Debug/netstandard2.0'
+          binary-path: __publish__/$PROJECT
+
+      - name: Infer# analysis result
+        run: echo "${{ steps.runinfersharp.outputs.results }}"
