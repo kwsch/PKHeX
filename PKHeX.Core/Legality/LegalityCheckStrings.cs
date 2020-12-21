@@ -282,6 +282,7 @@ namespace PKHeX.Core
         public static string LMemoryArgBadHatch { get; set; } = "{0} Memory: {0} did not hatch this.";
         public static string LMemoryArgBadHT { get; set; } = "Memory: Can't have Handling Trainer Memory as Egg.";
         public static string LMemoryArgBadID { get; set; } = "{0} Memory: Can't obtain Memory on {0} Version.";
+        public static string LMemoryArgBadItem { get; set; } = "{0} Memory: Species can't hold this item.";
         public static string LMemoryArgBadLocation { get; set; } = "{0} Memory: Can't obtain Location on {0} Version.";
         public static string LMemoryArgBadMove { get; set; } = "{0} Memory: Species can't learn this move.";
         public static string LMemoryArgBadOTEgg { get; set; } = "{0} Memory: Link Trade is not a valid first memory.";
