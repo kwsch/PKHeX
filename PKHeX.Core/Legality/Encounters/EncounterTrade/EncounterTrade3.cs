@@ -19,9 +19,11 @@ namespace PKHeX.Core
         public int CNT_Tough { get; set; }
         public int CNT_Sheen { get; set; }
 
-        public EncounterTrade3(uint pid) => PID = pid;
-
-        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
+        public EncounterTrade3(uint pid)
+        {
+            PID = pid;
+            Shiny = Shiny.FixedValue;
+        }
 
         public override bool IsMatch(PKM pkm, DexLevel evo)
         {

@@ -11,7 +11,11 @@ namespace PKHeX.Core
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade4PID(uint pid) => PID = pid;
+        public EncounterTrade4PID(uint pid)
+        {
+            PID = pid;
+            Shiny = Shiny.FixedValue;
+        }
 
         internal IReadOnlyList<int> Contest { set => this.SetContestStats(value); }
         public int CNT_Cool { get; set; }
@@ -20,8 +24,6 @@ namespace PKHeX.Core
         public int CNT_Smart { get; set; }
         public int CNT_Tough { get; set; }
         public int CNT_Sheen { get; set; }
-
-        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
 
         public override bool IsMatch(PKM pkm, DexLevel evo)
         {

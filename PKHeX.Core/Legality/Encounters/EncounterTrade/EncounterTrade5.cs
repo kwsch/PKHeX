@@ -14,9 +14,11 @@
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade5PID(uint pid) => PID = pid;
-
-        public override Shiny Shiny { get; set; } = Shiny.FixedValue;
+        public EncounterTrade5PID(uint pid)
+        {
+            PID = pid;
+            Shiny = Shiny.FixedValue;
+        }
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
