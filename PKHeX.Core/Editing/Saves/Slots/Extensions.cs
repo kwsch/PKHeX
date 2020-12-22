@@ -174,7 +174,7 @@ namespace PKHeX.Core
                 new(dc.Data, 0, Daycare8.GetDaycareSlotOffset(1, 1)) {Type = StorageSlotType.Daycare},
             };
 
-            if (sav is SAV8SWSH s8 && s8.SaveRevision >= 2)
+            if (sav is SAV8SWSH {SaveRevision: >= 2} s8)
             {
                 var block = s8.Blocks.GetBlockSafe(SaveBlockAccessor8SWSH.KFusedCalyrex);
                 var c = new SlotInfoMisc(block.Data, 3, 0, true) {Type = StorageSlotType.Fused};

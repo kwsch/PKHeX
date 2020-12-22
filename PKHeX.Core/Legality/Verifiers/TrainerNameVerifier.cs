@@ -22,7 +22,7 @@ namespace PKHeX.Core
             switch (data.EncounterMatch)
             {
                 case EncounterTrade _:
-                case MysteryGift g when !g.IsEgg:
+                case MysteryGift {IsEgg: false}:
                 case EncounterStatic5N _:
                     return; // already verified
             }
@@ -107,7 +107,7 @@ namespace PKHeX.Core
 
             if (tr.Length == 0)
             {
-                if (pkm is SK2 sk2 && sk2.TID == 0 && sk2.IsRental)
+                if (pkm is SK2 {TID: 0, IsRental: true})
                 {
                     data.AddLine(Get(LOTShort, Severity.Fishy));
                 }

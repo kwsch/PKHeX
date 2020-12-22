@@ -143,13 +143,13 @@ namespace PKHeX.Core
 
             switch (data.EncounterMatch)
             {
-                case WC6 g when !g.IsEgg && g.OTGender != 3:
+                case WC6 {IsEgg: false} g when g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
-                case WC7 g when !g.IsEgg && g.OTGender != 3:
+                case WC7 {IsEgg: false} g when g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
-                case WC8 g when !g.IsEgg && g.OTGender != 3:
+                case WC8 {IsEgg: false} g when g.OTGender != 3:
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
 

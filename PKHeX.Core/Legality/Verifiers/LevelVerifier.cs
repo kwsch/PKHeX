@@ -23,7 +23,7 @@ namespace PKHeX.Core
                             break;
                         case WC7 wc7 when wc7.MetLevel == pkm.Met_Level:
                             break;
-                        case PGT pgt when pgt.IsManaphyEgg && pkm.Met_Level == 0:
+                        case PGT {IsManaphyEgg: true} when pkm.Met_Level == 0:
                             break;
                         default:
                             data.AddLine(GetInvalid(LLevelMetGift));
@@ -46,7 +46,7 @@ namespace PKHeX.Core
                     return;
                 }
 
-                var reqEXP = EncounterMatch is EncounterStatic s && s.Version == GameVersion.C
+                var reqEXP = EncounterMatch is EncounterStatic {Version: GameVersion.C}
                     ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                     : Experience.GetEXP(elvl, pkm.PersonalInfo.EXPGrowth);
                 if (reqEXP != pkm.EXP)

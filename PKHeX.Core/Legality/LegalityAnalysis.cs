@@ -221,7 +221,7 @@ namespace PKHeX.Core
             if (pkm.Version == (int)GameVersion.CXD)
                 CXD.Verify(this);
 
-            if (Info.EncounterMatch is WC3 z && z.NotDistributed)
+            if (Info.EncounterMatch is WC3 {NotDistributed: true})
                 AddLine(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
 
             if (pkm.Format >= 8)

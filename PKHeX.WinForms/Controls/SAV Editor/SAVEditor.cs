@@ -1081,13 +1081,13 @@ namespace PKHeX.WinForms.Controls
                 B_Roamer.Enabled = sav is SAV3;
 
                 B_OpenHoneyTreeEditor.Enabled = B_OpenUGSEditor.Enabled = sav is SAV4Sinnoh;
-                B_OpenApricorn.Enabled = sav is SAV4 s4 && s4.HGSS;
+                B_OpenApricorn.Enabled = sav is SAV4HGSS;
                 B_OpenRTCEditor.Enabled = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
                 B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
 
                 B_Raids.Enabled = sav is SAV8SWSH;
-                B_RaidArmor.Enabled = sav is SAV8SWSH ss1 && ss1.SaveRevision >= 1;
-                B_RaidCrown.Enabled = sav is SAV8SWSH ss2 && ss2.SaveRevision >= 2;
+                B_RaidArmor.Enabled = sav is SAV8SWSH {SaveRevision: >= 1};
+                B_RaidCrown.Enabled = sav is SAV8SWSH {SaveRevision: >= 2};
                 B_Blocks.Enabled = true;
 
                 SL_Extra.SAV = sav;

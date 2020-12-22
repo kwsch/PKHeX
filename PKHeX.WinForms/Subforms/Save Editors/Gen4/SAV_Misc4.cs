@@ -589,7 +589,8 @@ namespace PKHeX.WinForms
         {
             if (editing)
                 return;
-            if (sender is RadioButton radioButton && !radioButton.Checked) return;
+            if (sender is RadioButton {Checked: false})
+                return;
             StatAddrControl(SetValToSav: -2, SetSavToVal: true);
             if (GB_Hall.Visible)
             {

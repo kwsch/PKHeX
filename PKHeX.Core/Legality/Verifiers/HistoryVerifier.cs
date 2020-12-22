@@ -26,7 +26,7 @@ namespace PKHeX.Core
             if (data.pkm is IGeoTrack t)
                 VerifyGeoLocationData(data, t, data.pkm);
 
-            if (pkm.VC && pkm is PK7 g && g.Geo1_Country == 0) // VC transfers set Geo1 Country
+            if (pkm.VC && pkm is PK7 {Geo1_Country: 0}) // VC transfers set Geo1 Country
                 data.AddLine(GetInvalid(LegalityCheckStrings.LGeoMemoryMissing));
 
             if (!pkm.IsUntraded)

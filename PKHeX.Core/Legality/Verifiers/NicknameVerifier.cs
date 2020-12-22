@@ -33,7 +33,7 @@ namespace PKHeX.Core
             {
                 if (pkm.VC)
                     VerifyG1NicknameWithinBounds(data, pkm.Nickname);
-                else if (EncounterMatch is MysteryGift m && !m.IsEgg)
+                else if (EncounterMatch is MysteryGift {IsEgg: false})
                     data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 

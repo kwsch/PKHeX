@@ -37,7 +37,7 @@ namespace PKHeX.Core
                     if (!s.Shiny.IsValid(pkm))
                         data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
 
-                    if (s is EncounterStatic8U u && u.Shiny == Shiny.Random)
+                    if (s is EncounterStatic8U {Shiny: Shiny.Random})
                     {
 						// Underground Raids are originally anti-shiny on encounter.
 						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
@@ -119,7 +119,7 @@ namespace PKHeX.Core
 
             if (pkm.EncryptionConstant == 0)
             {
-                if (Info.EncounterMatch is WC8 wc8 && wc8.PID == 0 && wc8.EncryptionConstant == 0)
+                if (Info.EncounterMatch is WC8 {PID: 0, EncryptionConstant: 0})
                     return; // HOME Gifts
                 data.AddLine(Get(LPIDEncryptZero, Severity.Fishy, CheckIdentifier.EC));
             }

@@ -115,9 +115,7 @@ namespace PKHeX.Core
         {
             var dupes = AllAnalysis.Where(z =>
                     z.Info.Generation >= 3
-                    && z.EncounterOriginal is MysteryGift g
-                    && g.EggEncounter
-                    && !z.pkm.WasTradedEgg)
+                    && z.EncounterOriginal is MysteryGift {EggEncounter: true} && !z.pkm.WasTradedEgg)
                 .GroupBy(z => ((MysteryGift)z.EncounterOriginal).CardTitle);
 
             foreach (var dupe in dupes)
@@ -268,9 +266,9 @@ namespace PKHeX.Core
 
         private bool VerifyIDReuse(PKM pp, LegalityAnalysis pa, PKM cp, LegalityAnalysis ca)
         {
-            if (pa.EncounterMatch is MysteryGift g1 && !g1.EggEncounter)
+            if (pa.EncounterMatch is MysteryGift {EggEncounter: false})
                 return false;
-            if (ca.EncounterMatch is MysteryGift g2 && !g2.EggEncounter)
+            if (ca.EncounterMatch is MysteryGift {EggEncounter: false})
                 return false;
 
             const CheckIdentifier ident = CheckIdentifier.Trainer;

@@ -180,7 +180,7 @@ namespace PKHeX.Core
                     return e.Language == EncounterGBLanguage.Japanese ? 1 : 2;
 
                 // E-Reader was only available to Japanese games.
-                case EncounterStaticShadow s when s.EReader:
+                case EncounterStaticShadow {EReader: true}:
                 // Old Sea Map was only distributed to Japanese games.
                 case EncounterStatic3 _ when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
@@ -200,7 +200,7 @@ namespace PKHeX.Core
         {
             switch (Generation)
             {
-                case 3 when this is EncounterStatic3 s3 && s3.Roaming && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
+                case 3 when this is EncounterStatic3 {Roaming: true} && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;

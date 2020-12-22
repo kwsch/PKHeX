@@ -241,7 +241,7 @@ namespace PKHeX.Core
             var gifts = MysteryGiftGenerator.GetPossible(pk, chain);
             foreach (var gift in gifts)
             {
-                if (gift is WC3 wc3 && wc3.NotDistributed)
+                if (gift is WC3 {NotDistributed: true})
                     continue;
                 if (needs.Count == 0)
                 {

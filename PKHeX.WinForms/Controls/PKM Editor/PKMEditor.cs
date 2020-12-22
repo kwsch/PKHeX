@@ -494,7 +494,7 @@ namespace PKHeX.WinForms.Controls
             PB_MarkShiny.Image = GetMarkSprite(PB_MarkShiny, !BTN_Shinytize.Enabled);
             PB_MarkCured.Image = GetMarkSprite(PB_MarkCured, CHK_Cured.Checked);
 
-            PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite f && f.Favorite);
+            PB_Favorite.Image = GetMarkSprite(PB_Favorite, Entity is IFavorite {Favorite: true});
             PB_Origin.Image = GetOriginSprite(Entity);
 
             // Colored Markings

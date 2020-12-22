@@ -189,7 +189,7 @@ namespace PKHeX.Core
                     case PKM pk:
                         yield return pk;
                         break;
-                    case MysteryGift g when g.IsPokémon:
+                    case MysteryGift {IsPokémon: true} g:
                         yield return g.ConvertToPKM(sav);
                         break;
                     case GP1 g when g.Species != 0:

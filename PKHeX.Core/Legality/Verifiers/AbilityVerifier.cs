@@ -68,7 +68,7 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterMatch;
-            if (enc is MysteryGift g && g.Generation >= 4)
+            if (enc is MysteryGift {Generation: >= 4} g)
                 return VerifyAbilityMG(data, g, abilities);
 
             if (format < 6)
@@ -298,7 +298,7 @@ namespace PKHeX.Core
             // hidden abilities
             if (enc is EncounterSlot slot)
             {
-                bool valid = (slot is EncounterSlot6AO ao && ao.CanDexNav) || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde;
+                bool valid = slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }

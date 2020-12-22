@@ -32,7 +32,7 @@ namespace PKHeX.Core
                     return VerifyBallMysteryGift(data, g);
                 case EncounterTrade t:
                     return VerifyBallEquals(data, t.Ball);
-                case EncounterStatic s when s.Gift:
+                case EncounterStatic {Gift: true} s:
                     return VerifyBallEquals(data, s.Ball);
                 case EncounterSlot8GO _: // Already a strict match
                     return GetResult(true);

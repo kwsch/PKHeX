@@ -263,7 +263,7 @@ namespace PKHeX.Core
             switch (s.Generation)
             {
                 case 3:
-                    if (s is EncounterStaticShadow w && w.EReader && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
+                    if (s is EncounterStaticShadow {EReader: true} && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
 
                     if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
@@ -282,7 +282,7 @@ namespace PKHeX.Core
                         case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
                             return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
                     }
-                    if (pkm.Met_Location == 193 && s is EncounterStaticTyped t && t.TypeEncounter == EncounterType.Surfing_Fishing) // Roaming pokemon surfing in Johto Route 45
+                    if (pkm.Met_Location == 193 && s is EncounterStaticTyped {TypeEncounter: EncounterType.Surfing_Fishing}) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:

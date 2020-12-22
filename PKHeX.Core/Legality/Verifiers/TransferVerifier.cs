@@ -130,7 +130,7 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterMatch;
-            if (enc.Version == GameVersion.GO || (enc is WC8 wc && wc.IsHOMEGift))
+            if (enc.Version == GameVersion.GO || enc is WC8 {IsHOMEGift: true})
             {
                 VerifyHOMETracker(data, pkm);
             }
@@ -166,7 +166,7 @@ namespace PKHeX.Core
         {
             // Tracker value is set via Transfer across HOME.
             // Can't validate the actual values (we aren't the server), so we can only check against zero.
-            if (pkm is IHomeTrack home && home.Tracker == 0)
+            if (pkm is IHomeTrack {Tracker: 0})
             {
                 data.AddLine(Get(LTransferTrackerMissing, ParseSettings.Gen8TransferTrackerNotPresent));
                 // To the reader: It seems like the best course of action for setting a tracker is:
@@ -183,7 +183,7 @@ namespace PKHeX.Core
                 yield return GetInvalid(LEggLocationNone);
 
             // Flag Moves that cannot be transferred
-            if (encounter is EncounterStatic s && s.Version == GameVersion.C && s.EggLocation == 256) // Dizzy Punch Gifts
+            if (encounter is EncounterStatic2Odd {Version: GameVersion.C, EggLocation: 256}) // Dizzy Punch Gifts
                 FlagIncompatibleTransferMove(pkm, Moves, 146, 2); // can't have Dizzy Punch at all
 
             bool checkShiny = pkm.VC2 || (pkm.TradebackStatus == TradebackType.WasTradeback && pkm.VC1);

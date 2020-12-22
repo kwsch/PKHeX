@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
             switch (pkm)
             {
-                case PK7 pk7 when pk7.ResortEventStatus >= 20:
+                case PK7 {ResortEventStatus: >= 20}:
                     data.AddLine(GetInvalid(LTransferBad));
                     break;
                 case PB7 pb7:
@@ -137,7 +137,7 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback()
             {
-                if ((e is EncounterStatic1 s && s.Version == GameVersion.Stadium) || e is EncounterTrade1)
+                if (e is EncounterStatic1E {Version: GameVersion.Stadium} || e is EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
                 int species = pk1.Species;
@@ -164,7 +164,7 @@ namespace PKHeX.Core
             var EncounterMatch = data.EncounterMatch;
             switch (EncounterMatch)
             {
-                case WC3 w when w.Fateful:
+                case WC3 {Fateful: true} w:
                     if (w.IsEgg)
                     {
                         // Eggs hatched in RS clear the obedience flag!
@@ -187,7 +187,7 @@ namespace PKHeX.Core
                     VerifyReceivability(data, g);
                     VerifyFatefulMysteryGift(data, g);
                     return;
-                case EncounterStatic s when s.Fateful: // ingame fateful
+                case EncounterStatic {Fateful: true}: // ingame fateful
                 case EncounterSlot3PokeSpot _: // ingame pokespot
                 case EncounterTrade4Ranch _: // ranch varied PID
                     VerifyFatefulIngameActive(data);
@@ -244,7 +244,7 @@ namespace PKHeX.Core
         private static void VerifyFatefulMysteryGift(LegalityAnalysis data, MysteryGift g)
         {
             var pkm = data.pkm;
-            if (g is PGF p && p.IsShiny)
+            if (g is PGF {IsShiny: true})
             {
                 var Info = data.Info;
                 Info.PIDIV = MethodFinder.Analyze(pkm);
@@ -397,7 +397,7 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterMatch;
-            bool originGMax = enc is IGigantamax g && g.CanGigantamax;
+            bool originGMax = enc is IGigantamax {CanGigantamax: true};
             if (originGMax != pk8.CanGigantamax)
             {
                 bool ok = !pk8.IsEgg && pk8.CanToggleGigantamax(pk8.Species, pk8.Form, enc.Species, enc.Form);

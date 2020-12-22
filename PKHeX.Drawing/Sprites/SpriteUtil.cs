@@ -94,7 +94,7 @@ namespace PKHeX.Drawing
             var formarg = pk is IFormArgument f ? f.FormArgument : 0;
             bool alt = pk.Format >= 8 && (pk.ShinyXor == 0 || pk.FatefulEncounter || pk.Version == (int)GameVersion.GO);
             var img = GetSprite(pk.Species, pk.Form, pk.Gender, formarg, pk.SpriteItem, pk.IsEgg, pk.IsShiny, pk.Format, isBoxBGRed, alt);
-            if (pk is IShadowPKM s && s.IsShadow)
+            if (pk is IShadowPKM {IsShadow: true})
             {
                 const int Lugia = 249;
                 if (pk.Species == Lugia) // show XD shadow sprite
@@ -103,7 +103,7 @@ namespace PKHeX.Drawing
                 var glowImg = ImageUtil.GetBitmap(pixels, baseSprite.Width, baseSprite.Height, baseSprite.PixelFormat);
                 return ImageUtil.LayerImage(glowImg, img, 0, 0);
             }
-            if (pk is IGigantamax g && g.CanGigantamax)
+            if (pk is IGigantamax {CanGigantamax: true})
             {
                 var gm = Resources.dyna;
                 return ImageUtil.LayerImage(img, gm, (img.Width - gm.Width) / 2, 0);
