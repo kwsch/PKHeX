@@ -81,7 +81,7 @@ namespace PKHeX.Core
                 const int vc = 7; // VC transfers use SM personal info
                 var evos = data.Info.EvoChainsAllGens[vc];
                 var fs = pkm.OT_Friendship;
-                if (evos.All(z => GetBaseFriendship(vc, z.Species) != fs))
+                if (evos.All(z => GetBaseFriendship(vc, z.Species, z.Form) != fs))
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
             else if (neverOT)
@@ -89,7 +89,8 @@ namespace PKHeX.Core
                 // Verify the original friendship value since it cannot change from the value it was assigned in the original generation.
                 // If none match, then it is not a valid OT friendship.
                 var fs = pkm.OT_Friendship;
-                if (GetBaseFriendship(origin, data.Info.EncounterMatch.Species) != fs)
+                var enc = data.Info.EncounterMatch;
+                if (GetBaseFriendship(origin, enc.Species, enc.Form) != fs)
                     data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipOTBaseEvent));
             }
         }
@@ -186,7 +187,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static int GetBaseFriendship(int gen, int species)
+        private static int GetBaseFriendship(int gen, int species, int form)
         {
             return gen switch
             {
@@ -195,7 +196,7 @@ namespace PKHeX.Core
 
                 6 => PersonalTable.AO[species].BaseFriendship,
                 7 => PersonalTable.USUM[species].BaseFriendship,
-                8 => PersonalTable.SWSH[species].BaseFriendship,
+                8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
                 _ => throw new IndexOutOfRangeException(),
             };
         }
