@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 
@@ -19,8 +18,6 @@ namespace PKHeX.Core
 
         static Encounters4()
         {
-            MarkG4PokeWalker(Encounter_PokeWalker);
-
             MarkEncounterTradeStrings(TradeGift_DPPt, TradeDPPt);
             MarkEncounterTradeStrings(TradeGift_HGSS, TradeHGSS);
 
@@ -33,187 +30,177 @@ namespace PKHeX.Core
             TradeGift_HGSS.SetVersion(HGSS);
         }
 
-        private static void MarkG4PokeWalker(IEnumerable<EncounterStatic4> t)
-        {
-            foreach (EncounterStatic4 s in t)
-            {
-                s.Location = 233;  //Pokéwalker
-                s.Gift = true;    //Pokeball only
-                s.Version = HGSS;
-            }
-        }
-
         #region Pokéwalker Encounter
         // all pkm are in Poke Ball and have a met location of "PokeWalker"
-        private static readonly EncounterStatic4[] Encounter_PokeWalker =
+        private static readonly EncounterStatic4Pokewalker[] Encounter_PokeWalker =
         {
             // Some pkm has a pre-level move, an egg move or even a special move, it might be also available via HM/TM/Tutor
             // Johto/Kanto Courses
-            new EncounterStatic4 { Species = 084, Gender = 1, Level = 08, }, // Doduo
-            new EncounterStatic4 { Species = 115, Gender = 1, Level = 08, }, // Kangaskhan
-            new EncounterStatic4 { Species = 029, Gender = 1, Level = 05, }, // Nidoran♀
-            new EncounterStatic4 { Species = 032, Gender = 0, Level = 05, }, // Nidoran♂
-            new EncounterStatic4 { Species = 016, Gender = 0, Level = 05, }, // Pidgey
-            new EncounterStatic4 { Species = 161, Gender = 1, Level = 05, }, // Sentret
-            new EncounterStatic4 { Species = 202, Gender = 1, Level = 15, }, // Wobbuffet
-            new EncounterStatic4 { Species = 069, Gender = 1, Level = 08, }, // Bellsprout
-            new EncounterStatic4 { Species = 046, Gender = 1, Level = 06, }, // Paras
-            new EncounterStatic4 { Species = 048, Gender = 0, Level = 06, }, // Venonat
-            new EncounterStatic4 { Species = 021, Gender = 0, Level = 05, }, // Spearow
-            new EncounterStatic4 { Species = 043, Gender = 1, Level = 05, }, // Oddish
-            new EncounterStatic4 { Species = 095, Gender = 0, Level = 09, }, // Onix
-            new EncounterStatic4 { Species = 240, Gender = 0, Level = 09, Moves = new[]{241},}, // Magby: Sunny Day
-            new EncounterStatic4 { Species = 066, Gender = 1, Level = 07, }, // Machop
-            new EncounterStatic4 { Species = 077, Gender = 1, Level = 07, }, // Ponyta
-            new EncounterStatic4 { Species = 074, Gender = 1, Level = 08, Moves = new[]{189},}, // Geodude: Mud-Slap
-            new EncounterStatic4 { Species = 163, Gender = 1, Level = 06, }, // Hoothoot
-            new EncounterStatic4 { Species = 054, Gender = 1, Level = 10, }, // Psyduck
-            new EncounterStatic4 { Species = 120, Gender = 2, Level = 10, }, // Staryu
-            new EncounterStatic4 { Species = 060, Gender = 0, Level = 08, }, // Poliwag
-            new EncounterStatic4 { Species = 079, Gender = 0, Level = 08, }, // Slowpoke
-            new EncounterStatic4 { Species = 191, Gender = 1, Level = 06, }, // Sunkern
-            new EncounterStatic4 { Species = 194, Gender = 0, Level = 06, }, // Wooper
-            new EncounterStatic4 { Species = 081, Gender = 2, Level = 11, }, // Magnemite
-            new EncounterStatic4 { Species = 239, Gender = 0, Level = 11, Moves = new[]{009},}, // Elekid: Thunder Punch
-            new EncounterStatic4 { Species = 081, Gender = 2, Level = 08, }, // Magnemite
-            new EncounterStatic4 { Species = 198, Gender = 1, Level = 11, }, // Murkrow
-            new EncounterStatic4 { Species = 019, Gender = 1, Level = 07, }, // Rattata
-            new EncounterStatic4 { Species = 163, Gender = 1, Level = 07, }, // Hoothoot
-            new EncounterStatic4 { Species = 092, Gender = 1, Level = 15, Moves = new[]{194},}, // Gastly: Destiny Bond
-            new EncounterStatic4 { Species = 238, Gender = 1, Level = 12, Moves = new[]{419},}, // Smoochum: Avalanche
-            new EncounterStatic4 { Species = 092, Gender = 1, Level = 10, }, // Gastly
-            new EncounterStatic4 { Species = 095, Gender = 0, Level = 10, }, // Onix
-            new EncounterStatic4 { Species = 041, Gender = 0, Level = 08, }, // Zubat
-            new EncounterStatic4 { Species = 066, Gender = 0, Level = 08, }, // Machop
-            new EncounterStatic4 { Species = 060, Gender = 1, Level = 15, Moves = new[]{187}, }, // Poliwag: Belly Drum
-            new EncounterStatic4 { Species = 147, Gender = 1, Level = 10, }, // Dratini
-            new EncounterStatic4 { Species = 090, Gender = 1, Level = 12, }, // Shellder
-            new EncounterStatic4 { Species = 098, Gender = 0, Level = 12, Moves = new[]{152}, }, // Krabby: Crabhammer
-            new EncounterStatic4 { Species = 072, Gender = 1, Level = 09, }, // Tentacool
-            new EncounterStatic4 { Species = 118, Gender = 1, Level = 09, }, // Goldeen
-            new EncounterStatic4 { Species = 063, Gender = 1, Level = 15, }, // Abra
-            new EncounterStatic4 { Species = 100, Gender = 2, Level = 15, }, // Voltorb
-            new EncounterStatic4 { Species = 088, Gender = 0, Level = 13, }, // Grimer
-            new EncounterStatic4 { Species = 109, Gender = 1, Level = 13, Moves = new[]{120}, }, // Koffing: Self-Destruct
-            new EncounterStatic4 { Species = 019, Gender = 1, Level = 16, }, // Rattata
-            new EncounterStatic4 { Species = 162, Gender = 0, Level = 15, }, // Furret
+            new(084, 1, 08), // Doduo
+            new(115, 1, 08), // Kangaskhan
+            new(029, 1, 05), // Nidoran♀
+            new(032, 0, 05), // Nidoran♂
+            new(016, 0, 05), // Pidgey
+            new(161, 1, 05), // Sentret
+            new(202, 1, 15), // Wobbuffet
+            new(069, 1, 08), // Bellsprout
+            new(046, 1, 06), // Paras
+            new(048, 0, 06), // Venonat
+            new(021, 0, 05), // Spearow
+            new(043, 1, 05), // Oddish
+            new(095, 0, 09), // Onix
+            new(240, 0, 09) { Moves = new[]{241},}, // Magby: Sunny Day
+            new(066, 1, 07), // Machop
+            new(077, 1, 07), // Ponyta
+            new(074, 1, 08) { Moves = new[]{189},}, // Geodude: Mud-Slap
+            new(163, 1, 06), // Hoothoot
+            new(054, 1, 10), // Psyduck
+            new(120, 2, 10), // Staryu
+            new(060, 0, 08), // Poliwag
+            new(079, 0, 08), // Slowpoke
+            new(191, 1, 06), // Sunkern
+            new(194, 0, 06), // Wooper
+            new(081, 2, 11), // Magnemite
+            new(239, 0, 11) { Moves = new[]{009},}, // Elekid: Thunder Punch
+            new(081, 2, 08), // Magnemite
+            new(198, 1, 11), // Murkrow
+            new(019, 1, 07), // Rattata
+            new(163, 1, 07), // Hoothoot
+            new(092, 1, 15) { Moves = new[]{194},}, // Gastly: Destiny Bond
+            new(238, 1, 12) { Moves = new[]{419},}, // Smoochum: Avalanche
+            new(092, 1, 10), // Gastly
+            new(095, 0, 10), // Onix
+            new(041, 0, 08), // Zubat
+            new(066, 0, 08), // Machop
+            new(060, 1, 15) { Moves = new[]{187} }, // Poliwag: Belly Drum
+            new(147, 1, 10), // Dratini
+            new(090, 1, 12), // Shellder
+            new(098, 0, 12) { Moves = new[]{152} }, // Krabby: Crabhammer
+            new(072, 1, 09), // Tentacool
+            new(118, 1, 09), // Goldeen
+            new(063, 1, 15), // Abra
+            new(100, 2, 15), // Voltorb
+            new(088, 0, 13), // Grimer
+            new(109, 1, 13) { Moves = new[]{120} }, // Koffing: Self-Destruct
+            new(019, 1, 16), // Rattata
+            new(162, 0, 15), // Furret
             // Hoenn Courses
-            new EncounterStatic4 { Species = 264, Gender = 1, Level = 30, }, // Linoone
-            new EncounterStatic4 { Species = 300, Gender = 1, Level = 30, }, // Skitty
-            new EncounterStatic4 { Species = 313, Gender = 0, Level = 25, }, // Volbeat
-            new EncounterStatic4 { Species = 314, Gender = 1, Level = 25, }, // Illumise
-            new EncounterStatic4 { Species = 263, Gender = 1, Level = 17, }, // Zigzagoon
-            new EncounterStatic4 { Species = 265, Gender = 1, Level = 15, }, // Wurmple
-            new EncounterStatic4 { Species = 298, Gender = 1, Level = 20, }, // Azurill
-            new EncounterStatic4 { Species = 320, Gender = 1, Level = 31, }, // Wailmer
-            new EncounterStatic4 { Species = 116, Gender = 1, Level = 20, }, // Horsea
-            new EncounterStatic4 { Species = 318, Gender = 1, Level = 26, }, // Carvanha
-            new EncounterStatic4 { Species = 118, Gender = 1, Level = 22, Moves = new[]{401}, }, // Goldeen: Aqua Tail
-            new EncounterStatic4 { Species = 129, Gender = 1, Level = 15, }, // Magikarp
-            new EncounterStatic4 { Species = 218, Gender = 1, Level = 31, }, // Slugma
-            new EncounterStatic4 { Species = 307, Gender = 0, Level = 32, }, // Meditite
-            new EncounterStatic4 { Species = 111, Gender = 0, Level = 25, }, // Rhyhorn
-            new EncounterStatic4 { Species = 228, Gender = 0, Level = 27, }, // Houndour
-            new EncounterStatic4 { Species = 074, Gender = 0, Level = 29, }, // Geodude
-            new EncounterStatic4 { Species = 077, Gender = 1, Level = 19, }, // Ponyta
-            new EncounterStatic4 { Species = 351, Gender = 1, Level = 30, }, // Castform
-            new EncounterStatic4 { Species = 352, Gender = 0, Level = 30, }, // Kecleon
-            new EncounterStatic4 { Species = 203, Gender = 1, Level = 28, }, // Girafarig
-            new EncounterStatic4 { Species = 234, Gender = 1, Level = 28, }, // Stantler
-            new EncounterStatic4 { Species = 044, Gender = 1, Level = 14, }, // Gloom
-            new EncounterStatic4 { Species = 070, Gender = 0, Level = 13, }, // Weepinbell
-            new EncounterStatic4 { Species = 105, Gender = 1, Level = 30, Moves = new[]{037}, }, // Marowak: Thrash
-            new EncounterStatic4 { Species = 128, Gender = 0, Level = 30, }, // Tauros
-            new EncounterStatic4 { Species = 042, Gender = 0, Level = 33, }, // Golbat
-            new EncounterStatic4 { Species = 177, Gender = 1, Level = 24, }, // Natu
-            new EncounterStatic4 { Species = 066, Gender = 0, Level = 13, Moves = new[]{418}, }, // Machop: Bullet Punch
-            new EncounterStatic4 { Species = 092, Gender = 1, Level = 15, }, // Gastly
+            new(264, 1, 30), // Linoone
+            new(300, 1, 30), // Skitty
+            new(313, 0, 25), // Volbeat
+            new(314, 1, 25), // Illumise
+            new(263, 1, 17), // Zigzagoon
+            new(265, 1, 15), // Wurmple
+            new(298, 1, 20), // Azurill
+            new(320, 1, 31), // Wailmer
+            new(116, 1, 20), // Horsea
+            new(318, 1, 26), // Carvanha
+            new(118, 1, 22) { Moves = new[]{401} }, // Goldeen: Aqua Tail
+            new(129, 1, 15), // Magikarp
+            new(218, 1, 31), // Slugma
+            new(307, 0, 32), // Meditite
+            new(111, 0, 25), // Rhyhorn
+            new(228, 0, 27), // Houndour
+            new(074, 0, 29), // Geodude
+            new(077, 1, 19), // Ponyta
+            new(351, 1, 30), // Castform
+            new(352, 0, 30), // Kecleon
+            new(203, 1, 28), // Girafarig
+            new(234, 1, 28), // Stantler
+            new(044, 1, 14), // Gloom
+            new(070, 0, 13), // Weepinbell
+            new(105, 1, 30) { Moves = new[]{037} }, // Marowak: Thrash
+            new(128, 0, 30), // Tauros
+            new(042, 0, 33), // Golbat
+            new(177, 1, 24), // Natu
+            new(066, 0, 13) { Moves = new[]{418} }, // Machop: Bullet Punch
+            new(092, 1, 15), // Gastly
             // Sinnoh Courses
-            new EncounterStatic4 { Species = 415, Gender = 0, Level = 30, }, // Combee
-            new EncounterStatic4 { Species = 439, Gender = 0, Level = 29, }, // Mime Jr.
-            new EncounterStatic4 { Species = 403, Gender = 1, Level = 33, }, // Shinx
-            new EncounterStatic4 { Species = 406, Gender = 0, Level = 30, }, // Budew
-            new EncounterStatic4 { Species = 399, Gender = 1, Level = 13, }, // Bidoof
-            new EncounterStatic4 { Species = 401, Gender = 0, Level = 15, }, // Kricketot
-            new EncounterStatic4 { Species = 361, Gender = 1, Level = 28, }, // Snorunt
-            new EncounterStatic4 { Species = 459, Gender = 0, Level = 31, Moves = new[]{452}, }, // Snover: Wood Hammer
-            new EncounterStatic4 { Species = 215, Gender = 0, Level = 28, Moves = new[]{306}, }, // Sneasel: Crash Claw
-            new EncounterStatic4 { Species = 436, Gender = 2, Level = 20, }, // Bronzor
-            new EncounterStatic4 { Species = 179, Gender = 1, Level = 15, }, // Mareep
-            new EncounterStatic4 { Species = 220, Gender = 1, Level = 16, }, // Swinub
-            new EncounterStatic4 { Species = 357, Gender = 1, Level = 35, }, // Tropius
-            new EncounterStatic4 { Species = 438, Gender = 0, Level = 30, }, // Bonsly
-            new EncounterStatic4 { Species = 114, Gender = 1, Level = 30, }, // Tangela
-            new EncounterStatic4 { Species = 400, Gender = 1, Level = 30, }, // Bibarel
-            new EncounterStatic4 { Species = 102, Gender = 1, Level = 17, }, // Exeggcute
-            new EncounterStatic4 { Species = 179, Gender = 0, Level = 19, }, // Mareep
-            new EncounterStatic4 { Species = 200, Gender = 1, Level = 32, Moves = new[]{194},}, // Misdreavus: Destiny Bond
-            new EncounterStatic4 { Species = 433, Gender = 0, Level = 22, Moves = new[]{105},}, // Chingling: Recover
-            new EncounterStatic4 { Species = 093, Gender = 0, Level = 25, }, // Haunter
-            new EncounterStatic4 { Species = 418, Gender = 0, Level = 28, Moves = new[]{226},}, // Buizel: Baton Pass
-            new EncounterStatic4 { Species = 170, Gender = 1, Level = 17, }, // Chinchou
-            new EncounterStatic4 { Species = 223, Gender = 1, Level = 19, }, // Remoraid
-            new EncounterStatic4 { Species = 422, Gender = 1, Level = 30, Moves = new[]{243},}, // Shellos: Mirror Coat
-            new EncounterStatic4 { Species = 456, Gender = 1, Level = 26, }, // Finneon
-            new EncounterStatic4 { Species = 086, Gender = 1, Level = 27, }, // Seel
-            new EncounterStatic4 { Species = 129, Gender = 1, Level = 30, }, // Magikarp
-            new EncounterStatic4 { Species = 054, Gender = 1, Level = 22, Moves = new[]{281},}, // Psyduck: Yawn
-            new EncounterStatic4 { Species = 090, Gender = 0, Level = 20, }, // Shellder
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 30, }, // Pikachu
-            new EncounterStatic4 { Species = 417, Gender = 1, Level = 33, Moves = new[]{175},}, // Pachirisu: Flail
-            new EncounterStatic4 { Species = 035, Gender = 1, Level = 31, }, // Clefairy
-            new EncounterStatic4 { Species = 039, Gender = 1, Level = 30, }, // Jigglypuff
-            new EncounterStatic4 { Species = 183, Gender = 1, Level = 25, }, // Marill
-            new EncounterStatic4 { Species = 187, Gender = 1, Level = 25, }, // Hoppip
-            new EncounterStatic4 { Species = 442, Gender = 0, Level = 31, }, // Spiritomb
-            new EncounterStatic4 { Species = 446, Gender = 0, Level = 33, }, // Munchlax
-            new EncounterStatic4 { Species = 349, Gender = 0, Level = 30, }, // Feebas
-            new EncounterStatic4 { Species = 433, Gender = 1, Level = 26, }, // Chingling
-            new EncounterStatic4 { Species = 042, Gender = 0, Level = 33, }, // Golbat
-            new EncounterStatic4 { Species = 164, Gender = 1, Level = 30, }, // Noctowl
+            new(415, 0, 30), // Combee
+            new(439, 0, 29), // Mime Jr.
+            new(403, 1, 33), // Shinx
+            new(406, 0, 30), // Budew
+            new(399, 1, 13), // Bidoof
+            new(401, 0, 15), // Kricketot
+            new(361, 1, 28), // Snorunt
+            new(459, 0, 31) { Moves = new[]{452} }, // Snover: Wood Hammer
+            new(215, 0, 28) { Moves = new[]{306} }, // Sneasel: Crash Claw
+            new(436, 2, 20), // Bronzor
+            new(179, 1, 15), // Mareep
+            new(220, 1, 16), // Swinub
+            new(357, 1, 35), // Tropius
+            new(438, 0, 30), // Bonsly
+            new(114, 1, 30), // Tangela
+            new(400, 1, 30), // Bibarel
+            new(102, 1, 17), // Exeggcute
+            new(179, 0, 19), // Mareep
+            new(200, 1, 32) { Moves = new[]{194},}, // Misdreavus: Destiny Bond
+            new(433, 0, 22) { Moves = new[]{105},}, // Chingling: Recover
+            new(093, 0, 25), // Haunter
+            new(418, 0, 28) { Moves = new[]{226},}, // Buizel: Baton Pass
+            new(170, 1, 17), // Chinchou
+            new(223, 1, 19), // Remoraid
+            new(422, 1, 30) { Moves = new[]{243},}, // Shellos: Mirror Coat
+            new(456, 1, 26), // Finneon
+            new(086, 1, 27), // Seel
+            new(129, 1, 30), // Magikarp
+            new(054, 1, 22) { Moves = new[]{281},}, // Psyduck: Yawn
+            new(090, 0, 20), // Shellder
+            new(025, 1, 30), // Pikachu
+            new(417, 1, 33) { Moves = new[]{175},}, // Pachirisu: Flail
+            new(035, 1, 31), // Clefairy
+            new(039, 1, 30), // Jigglypuff
+            new(183, 1, 25), // Marill
+            new(187, 1, 25), // Hoppip
+            new(442, 0, 31), // Spiritomb
+            new(446, 0, 33), // Munchlax
+            new(349, 0, 30), // Feebas
+            new(433, 1, 26), // Chingling
+            new(042, 0, 33), // Golbat
+            new(164, 1, 30), // Noctowl
             // Special Courses
-            new EncounterStatic4 { Species = 120, Gender = 2, Level = 18, Moves = new[]{113}, }, // Staryu: Light Screen
-            new EncounterStatic4 { Species = 224, Gender = 1, Level = 19, Moves = new[]{324}, }, // Octillery: Signal Beam
-            new EncounterStatic4 { Species = 116, Gender = 0, Level = 15, }, // Horsea
-            new EncounterStatic4 { Species = 222, Gender = 1, Level = 16, }, // Corsola
-            new EncounterStatic4 { Species = 170, Gender = 1, Level = 12, }, // Chinchou
-            new EncounterStatic4 { Species = 223, Gender = 0, Level = 14, }, // Remoraid
-            new EncounterStatic4 { Species = 035, Gender = 0, Level = 08, Moves = new[]{236}, }, // Clefairy: Moonlight
-            new EncounterStatic4 { Species = 039, Gender = 0, Level = 10, }, // Jigglypuff
-            new EncounterStatic4 { Species = 041, Gender = 0, Level = 09, }, // Zubat
-            new EncounterStatic4 { Species = 163, Gender = 1, Level = 06, }, // Hoothoot
-            new EncounterStatic4 { Species = 074, Gender = 0, Level = 05, }, // Geodude
-            new EncounterStatic4 { Species = 095, Gender = 1, Level = 05, Moves = new[]{088}, }, // Onix: Rock Throw
-            new EncounterStatic4 { Species = 025, Gender = 0, Level = 15, Moves = new[]{019}, }, // Pikachu: Fly
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 14, Moves = new[]{057}, }, // Pikachu: Surf
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 12, Moves = new[]{344, 252}, }, // Pikachu: Volt Tackle, Fake Out
-            new EncounterStatic4 { Species = 025, Gender = 0, Level = 13, Moves = new[]{175}, }, // Pikachu: Flail
-            new EncounterStatic4 { Species = 025, Gender = 0, Level = 10, }, // Pikachu
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 10, }, // Pikachu
-            new EncounterStatic4 { Species = 302, Gender = 1, Level = 15, }, // Sableye
-            new EncounterStatic4 { Species = 441, Gender = 0, Level = 15, }, // Chatot
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 10, }, // Pikachu
-            new EncounterStatic4 { Species = 453, Gender = 0, Level = 10, }, // Croagunk
-            new EncounterStatic4 { Species = 417, Gender = 0, Level = 05, }, // Pachirisu
-            new EncounterStatic4 { Species = 427, Gender = 1, Level = 05, }, // Buneary
-            new EncounterStatic4 { Species = 133, Gender = 0, Level = 10, }, // Eevee
-            new EncounterStatic4 { Species = 255, Gender = 0, Level = 10, }, // Torchic
-            new EncounterStatic4 { Species = 061, Gender = 1, Level = 15, Moves = new[]{003}, }, // Poliwhirl: Double Slap
-            new EncounterStatic4 { Species = 279, Gender = 0, Level = 15, }, // Pelipper
-            new EncounterStatic4 { Species = 025, Gender = 1, Level = 08, }, // Pikachu
-            new EncounterStatic4 { Species = 052, Gender = 0, Level = 10, }, // Meowth
-            new EncounterStatic4 { Species = 374, Gender = 2, Level = 05, Moves = new[]{428,334,442}, }, // Beldum: Zen Headbutt, Iron Defense & Iron Head.
-            new EncounterStatic4 { Species = 446, Gender = 0, Level = 05, Moves = new[]{120}, }, // Munchlax: Self-Destruct
-            new EncounterStatic4 { Species = 116, Gender = 0, Level = 05, Moves = new[]{330}, }, // Horsea: Muddy Water
-            new EncounterStatic4 { Species = 355, Gender = 0, Level = 05, Moves = new[]{286}, }, // Duskull: Imprison
-            new EncounterStatic4 { Species = 129, Gender = 0, Level = 05, Moves = new[]{340}, }, // Magikarp: Bounce
-            new EncounterStatic4 { Species = 436, Gender = 2, Level = 05, Moves = new[]{433}, }, // Bronzor: Trick Room
-            new EncounterStatic4 { Species = 239, Gender = 0, Level = 05, Moves = new[]{9}}, // Elekid: Thunder Punch (can be tutored)
-            new EncounterStatic4 { Species = 240, Gender = 0, Level = 05, Moves = new[]{7}}, // Magby: Fire Punch (can be tutored)
-            new EncounterStatic4 { Species = 238, Gender = 1, Level = 05, Moves = new[]{8}}, // Smoochum: Ice Punch (can be tutored)
-            new EncounterStatic4 { Species = 440, Gender = 1, Level = 05, Moves = new[]{215}}, // Happiny: Heal Bell
-            new EncounterStatic4 { Species = 173, Gender = 1, Level = 05, Moves = new[]{118}}, // Cleffa: Metronome
-            new EncounterStatic4 { Species = 174, Gender = 0, Level = 05, Moves = new[]{273}}, // Igglybuff: Wish
+            new(120, 2, 18) { Moves = new[]{113} }, // Staryu: Light Screen
+            new(224, 1, 19) { Moves = new[]{324} }, // Octillery: Signal Beam
+            new(116, 0, 15), // Horsea
+            new(222, 1, 16), // Corsola
+            new(170, 1, 12), // Chinchou
+            new(223, 0, 14), // Remoraid
+            new(035, 0, 08) { Moves = new[]{236} }, // Clefairy: Moonlight
+            new(039, 0, 10), // Jigglypuff
+            new(041, 0, 09), // Zubat
+            new(163, 1, 06), // Hoothoot
+            new(074, 0, 05), // Geodude
+            new(095, 1, 05) { Moves = new[]{088} }, // Onix: Rock Throw
+            new(025, 0, 15) { Moves = new[]{019} }, // Pikachu: Fly
+            new(025, 1, 14) { Moves = new[]{057} }, // Pikachu: Surf
+            new(025, 1, 12) { Moves = new[]{344, 252} }, // Pikachu: Volt Tackle, Fake Out
+            new(025, 0, 13) { Moves = new[]{175} }, // Pikachu: Flail
+            new(025, 0, 10), // Pikachu
+            new(025, 1, 10), // Pikachu
+            new(302, 1, 15), // Sableye
+            new(441, 0, 15), // Chatot
+            new(025, 1, 10), // Pikachu
+            new(453, 0, 10), // Croagunk
+            new(417, 0, 05), // Pachirisu
+            new(427, 1, 05), // Buneary
+            new(133, 0, 10), // Eevee
+            new(255, 0, 10), // Torchic
+            new(061, 1, 15) { Moves = new[]{003} }, // Poliwhirl: Double Slap
+            new(279, 0, 15), // Pelipper
+            new(025, 1, 08), // Pikachu
+            new(052, 0, 10), // Meowth
+            new(374, 2, 05) { Moves = new[]{428,334,442} }, // Beldum: Zen Headbutt, Iron Defense & Iron Head.
+            new(446, 0, 05) { Moves = new[]{120} }, // Munchlax: Self-Destruct
+            new(116, 0, 05) { Moves = new[]{330} }, // Horsea: Muddy Water
+            new(355, 0, 05) { Moves = new[]{286} }, // Duskull: Imprison
+            new(129, 0, 05) { Moves = new[]{340} }, // Magikarp: Bounce
+            new(436, 2, 05) { Moves = new[]{433} }, // Bronzor: Trick Room
+            new(239, 0, 05) { Moves = new[]{9}}, // Elekid: Thunder Punch (can be tutored)
+            new(240, 0, 05) { Moves = new[]{7}}, // Magby: Fire Punch (can be tutored)
+            new(238, 1, 05) { Moves = new[]{8}}, // Smoochum: Ice Punch (can be tutored)
+            new(440, 1, 05) { Moves = new[]{215}}, // Happiny: Heal Bell
+            new(173, 1, 05) { Moves = new[]{118}}, // Cleffa: Metronome
+            new(174, 0, 05) { Moves = new[]{273}}, // Igglybuff: Wish
         };
         #endregion
         #region Static Encounter/Gift Tables
@@ -291,7 +278,7 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Roaming = true, Species = 146, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = Pt }, // Moltres
         };
 
-        internal static readonly EncounterStaticTyped SpikyEaredPichu = new EncounterStaticTyped // Spiky-Eared Pichu @ Ilex Forest
+        internal static readonly EncounterStaticTyped SpikyEaredPichu = new() // Spiky-Eared Pichu @ Ilex Forest
         {
             Species = 172,
             Level = 30,
@@ -419,30 +406,30 @@ namespace PKHeX.Core
             new EncounterTrade4Ranch(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Version = D, Location = 3000, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
         };
 
-        internal static readonly EncounterTrade[] TradeGift_DPPt = new []
+        internal static readonly EncounterTrade[] TradeGift_DPPt = new EncounterTrade4PID[]
         {
-            new EncounterTrade4PID(0x0000008E) { Species = 063, Level = 01, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25} }, // Machop -> Abra
-            new EncounterTrade4PID(0x00000867) { Species = 441, Level = 01, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Contest = new[] {20,20,20,20,20,0} }, // Buizel -> Chatot
-            new EncounterTrade4PID(0x00000088) { Species = 093, Level = 35, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15} }, // Medicham (35 from Route 217) -> Haunter
-            new EncounterTrade4PID(0x0000045C) { Species = 129, Level = 01, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15} }, // Finneon -> Magikarp
+            new(0x0000008E) { Species = 063, Level = 01, Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25} }, // Machop -> Abra
+            new(0x00000867) { Species = 441, Level = 01, Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Contest = new[] {20,20,20,20,20,0} }, // Buizel -> Chatot
+            new(0x00000088) { Species = 093, Level = 35, Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15} }, // Medicham (35 from Route 217) -> Haunter
+            new(0x0000045C) { Species = 129, Level = 01, Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15} }, // Finneon -> Magikarp
         }.Concat(RanchGifts).ToArray();
 
         internal static readonly EncounterTrade4PID[] TradeGift_HGSS =
         {
-            new EncounterTrade4PID(0x000025EF) { Species = 095, Level = 01, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15} }, // Bellsprout -> Onix
-            new EncounterTrade4PID(0x00002310) { Species = 066, Level = 01, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15} }, // Drowzee -> Machop
-            new EncounterTrade4PID(0x000001DB) { Species = 100, Level = 01, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15} }, // Krabby -> Voltorb
-            new EncounterTrade4PID(0x0001FC0A) { Species = 085, Level = 15, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15} }, // Dragonair (15 from DPPt) -> Dodrio
-            new EncounterTrade4PID(0x0000D136) { Species = 082, Level = 19, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20} }, // Dugtrio (19 from Diglett's Cave) -> Magneton
-            new EncounterTrade4PID(0x000034E4) { Species = 178, Level = 16, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20} }, // Haunter (16 from Old Chateau) -> Xatu
-            new EncounterTrade4PID(0x00485876) { Species = 025, Level = 02, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13} }, // Pikachu
-            new EncounterTrade4PID(0x0012B6D4) { Species = 374, Level = 31, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25} }, // Forretress -> Beldum
-            new EncounterTrade4PID(0x0012971C) { Species = 111, Level = 01, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, Moves = new[]{422} }, // Bonsly -> Rhyhorn
-            new EncounterTrade4PID(0x00101596) { Species = 208, Level = 01, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}}, // Any -> Steelix
+            new(0x000025EF) { Species = 095, Level = 01, Ability = 2, TID = 48926, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {25,20,25,15,15,15} }, // Bellsprout -> Onix
+            new(0x00002310) { Species = 066, Level = 01, Ability = 1, TID = 37460, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,20,20,15,15} }, // Drowzee -> Machop
+            new(0x000001DB) { Species = 100, Level = 01, Ability = 2, TID = 29189, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,25,25,15} }, // Krabby -> Voltorb
+            new(0x0001FC0A) { Species = 085, Level = 15, Ability = 1, TID = 00283, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,15,15,15} }, // Dragonair (15 from DPPt) -> Dodrio
+            new(0x0000D136) { Species = 082, Level = 19, Ability = 1, TID = 50082, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {15,20,15,20,20,20} }, // Dugtrio (19 from Diglett's Cave) -> Magneton
+            new(0x000034E4) { Species = 178, Level = 16, Ability = 1, TID = 15616, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20} }, // Haunter (16 from Old Chateau) -> Xatu
+            new(0x00485876) { Species = 025, Level = 02, Ability = 1, TID = 33038, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {20,25,18,31,25,13} }, // Pikachu
+            new(0x0012B6D4) { Species = 374, Level = 31, Ability = 1, TID = 23478, SID = 00000, OTGender = 0, Gender = 2, IVs = new[] {28,29,24,23,24,25} }, // Forretress -> Beldum
+            new(0x0012971C) { Species = 111, Level = 01, Ability = 1, TID = 06845, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {22,31,13,00,22,09}, Moves = new[]{422} }, // Bonsly -> Rhyhorn
+            new(0x00101596) { Species = 208, Level = 01, Ability = 1, TID = 26491, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {08,30,28,06,18,20}}, // Any -> Steelix
 
             //Gift
-            new EncounterTrade4PID(0x00006B5E) { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, Level = 20, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
-            new EncounterTrade4PID(0x000214D7) { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, Level = 20, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
+            new(0x00006B5E) { Species = 021, Ability = 1, TID = 01001, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,20,20,20}, Level = 20, Location = 183, Moves = new[]{043,031,228,332} },// Webster's Spearow
+            new(0x000214D7) { Species = 213, Ability = 2, TID = 04336, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {15,20,15,20,20,20}, Level = 20, Location = 130, Moves = new[]{132,117,227,219} },// Kirk's Shuckle
         };
 
         private const string tradeDPPt = "tradedppt";
