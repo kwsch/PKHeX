@@ -10,15 +10,15 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic1"/>
     public sealed class EncounterStatic1E : EncounterStatic1, IFixedGBLanguage
     {
-        public EncounterGBLanguage Language { get; set; } = EncounterGBLanguage.Japanese;
+        public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
 
         /// <summary> Trainer name for the event. </summary>
-        public string OT_Name { get; set; } = string.Empty;
+        public string OT_Name { get; init; } = string.Empty;
 
-        public IReadOnlyList<string> OT_Names { get; set; } = Array.Empty<string>();
+        public IReadOnlyList<string> OT_Names { get; init; } = Array.Empty<string>();
 
         /// <summary> Trainer ID for the event. </summary>
-        public int TID { get; set; } = -1;
+        public int TID { get; init; } = -1;
 
         public EncounterStatic1E(int species, int level, GameVersion ver) : base(species, level, ver)
         {

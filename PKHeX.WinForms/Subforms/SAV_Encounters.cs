@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly PictureBox[] PKXBOXES;
-        private List<IEncounterable> Results = new List<IEncounterable>();
+        private List<IEncounterable> Results = new();
         private int slotSelected = -1; // = null;
         private Image? slotColor;
         private const int RES_MAX = 66;

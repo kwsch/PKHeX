@@ -582,8 +582,8 @@ namespace PKHeX.Core
         private int GetTradedEggLocation() => Locations.TradedEggLocation(Generation);
 
         public virtual bool IsUntraded => false;
-        public virtual bool IsNative => Generation == Format;
-        public virtual bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
+        public bool IsNative => Generation == Format;
+        public bool IsOriginValid => Species <= Legal.GetMaxSpeciesOrigin(Format);
 
         /// <summary>
         /// Checks if the <see cref="PKM"/> could inhabit a set of games.

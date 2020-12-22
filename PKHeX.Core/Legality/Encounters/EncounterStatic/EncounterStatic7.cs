@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public sealed class EncounterStatic7 : EncounterStatic, IRelearn
     {
         public override int Generation => 7;
-        public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         protected override bool IsMatchLocation(PKM pkm)
         {

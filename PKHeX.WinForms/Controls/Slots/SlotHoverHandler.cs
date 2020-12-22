@@ -12,14 +12,14 @@ namespace PKHeX.WinForms.Controls
     /// </summary>
     public sealed class SlotHoverHandler : IDisposable
     {
-        public DrawConfig Draw { private get; set; } = new DrawConfig();
+        public DrawConfig Draw { private get; set; } = new();
         public bool GlowHover { private get; set; } = true;
 
-        public static readonly CryPlayer CryPlayer = new CryPlayer();
-        public static readonly SummaryPreviewer Preview = new SummaryPreviewer();
+        public static readonly CryPlayer CryPlayer = new();
+        public static readonly SummaryPreviewer Preview = new();
         private static Bitmap Hover => SpriteUtil.Spriter.Hover;
 
-        private readonly BitmapAnimator HoverWorker = new BitmapAnimator();
+        private readonly BitmapAnimator HoverWorker = new();
 
         private PictureBox? Slot;
         private SlotTrackerImage? LastSlot;

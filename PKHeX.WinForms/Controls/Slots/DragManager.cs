@@ -5,7 +5,7 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed class DragManager
     {
-        public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; } = new SlotChangeInfo<Cursor, PictureBox>();
+        public SlotChangeInfo<Cursor, PictureBox> Info { get; private set; } = new();
         public event DragEventHandler? RequestExternalDragDrop;
         public void RequestDD(object sender, DragEventArgs e) => RequestExternalDragDrop?.Invoke(sender, e);
 

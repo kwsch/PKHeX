@@ -178,7 +178,7 @@ namespace PKHeX.WinForms
 
         private static List<ComboItem> GetStates()
         {
-            return new List<ComboItem>
+            return new()
             {
                 new ComboItem("Not roamed", 0),
                 new ComboItem("Roaming", 1),

@@ -10,7 +10,7 @@ namespace PKHeX.WinForms
 {
     public static class WinFormsTranslator
     {
-        private static readonly Dictionary<string, TranslationContext> Context = new Dictionary<string, TranslationContext>();
+        private static readonly Dictionary<string, TranslationContext> Context = new();
         internal static void TranslateInterface(this Control form, string lang) => TranslateForm(form, GetContext(lang));
 
         private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
@@ -216,7 +216,7 @@ namespace PKHeX.WinForms
         public bool AddNew { private get; set; }
         public bool RemoveUsedKeys { private get; set; }
         public const char Separator = '=';
-        private readonly Dictionary<string, string> Translation = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> Translation = new();
 
         public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {

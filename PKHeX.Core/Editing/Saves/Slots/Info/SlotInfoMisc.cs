@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public int Offset { get; }
         public bool CanWriteTo(SaveFile sav) => false;
         public WriteBlockedMessage CanWriteTo(SaveFile sav, PKM pkm) => WriteBlockedMessage.InvalidDestination;
-        public StorageSlotType Type { get; set; }
+        public StorageSlotType Type { get; init; }
 
         private readonly byte[] Data; // buffer to r/w
 

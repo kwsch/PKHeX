@@ -18,7 +18,7 @@ namespace PKHeX.Drawing
 
         public static Bitmap LayerImage(Image baseLayer, Image overLayer, int x, int y)
         {
-            Bitmap img = new Bitmap(baseLayer);
+            Bitmap img = new(baseLayer);
             using Graphics gr = Graphics.FromImage(img);
             gr.DrawImage(overLayer, x, y, overLayer.Width, overLayer.Height);
             return img;

@@ -33,7 +33,7 @@ namespace PKHeX.WinForms
                 dgvApricorn.ReadOnly = true;
                 dgvApricorn.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvCount = new DataGridViewComboBoxColumn
+            DataGridViewComboBoxColumn dgvCount = new()
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,
                 DisplayIndex = 0,

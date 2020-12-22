@@ -107,6 +107,10 @@ namespace PKHeX.Tests.PKM
                 Met_Year = 12
             };
 
+            pk.Met_Day.Should().Be(12);
+            pk.Met_Month.Should().Be(12);
+            pk.Met_Year.Should().Be(12);
+
             pk.MetDate = null;
 
             pk.Met_Day.Should().Be(0);
@@ -123,6 +127,10 @@ namespace PKHeX.Tests.PKM
                 Met_Month = 12,
                 Met_Year = 12
             };
+
+            pk.Met_Day.Should().Be(12);
+            pk.Met_Month.Should().Be(12);
+            pk.Met_Year.Should().Be(12);
 
             pk.MetDate = new DateTime(2005, 5, 5);
 
@@ -183,6 +191,10 @@ namespace PKHeX.Tests.PKM
                 Egg_Year = 12
             };
 
+            pk.Egg_Day.Should().Be(12);
+            pk.Egg_Month.Should().Be(12);
+            pk.Egg_Year.Should().Be(12);
+
             pk.EggMetDate = null;
 
             pk.Egg_Day.Should().Be(0);
@@ -199,6 +211,10 @@ namespace PKHeX.Tests.PKM
                 Egg_Month = 12,
                 Egg_Year = 12
             };
+
+            pk.Egg_Day.Should().Be(12);
+            pk.Egg_Month.Should().Be(12);
+            pk.Egg_Year.Should().Be(12);
 
             pk.EggMetDate = new DateTime(2005, 5, 5);
 

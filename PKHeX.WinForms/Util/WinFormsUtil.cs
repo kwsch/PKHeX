@@ -233,7 +233,7 @@ namespace PKHeX.WinForms
             CustomSaveExtensions.AddRange(newExtensions);
         }
 
-        private static readonly List<string> CustomSaveExtensions = new List<string>
+        private static readonly List<string> CustomSaveExtensions = new()
         {
             // THESE ARE SAVE FILE EXTENSION TYPES. SAVE STATE (RAM SNAPSHOT) EXTENSIONS DO NOT GO HERE.
             "sav", // standard
@@ -385,9 +385,9 @@ namespace PKHeX.WinForms
             {
                 switch (x)
                 {
-                    case UnauthorizedAccessException _:
-                    case FileNotFoundException _:
-                    case IOException _:
+                    case UnauthorizedAccessException:
+                    case FileNotFoundException:
+                    case IOException:
                         Error(MsgFileWriteFail + Environment.NewLine + x.Message, MsgFileWriteProtectedAdvice);
                         break;
                     default:

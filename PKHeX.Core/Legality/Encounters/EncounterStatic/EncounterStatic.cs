@@ -182,12 +182,12 @@ namespace PKHeX.Core
                 // E-Reader was only available to Japanese games.
                 case EncounterStaticShadow {EReader: true}:
                 // Old Sea Map was only distributed to Japanese games.
-                case EncounterStatic3 _ when Species == (int)Core.Species.Mew:
+                case EncounterStatic3 when Species == (int)Core.Species.Mew:
                     pk.OT_Name = "ゲーフリ";
                     return (int)LanguageID.Japanese;
 
                 // Deoxys for Emerald was not available for Japanese games.
-                case EncounterStatic3 _ when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
+                case EncounterStatic3 when Species == (int)Core.Species.Deoxys && Version == GameVersion.E && lang == 1:
                     pk.OT_Name = "GF";
                     return (int)LanguageID.English;
 

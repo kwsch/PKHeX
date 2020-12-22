@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             CenterToParent();
         }
 
-        private readonly List<NumericUpDown> Bytes = new List<NumericUpDown>();
+        private readonly List<NumericUpDown> Bytes = new();
         public string FinalString;
         public byte[] FinalBytes { get; private set; } = Array.Empty<byte>();
         private readonly byte[] Raw;
@@ -177,9 +177,9 @@ namespace PKHeX.WinForms
         private string GetString() => SAV.GetString(Raw, 0, Raw.Length);
 
         // Helpers
-        private static Label GetLabel(string str) => new Label {Text = str, AutoSize = true};
+        private static Label GetLabel(string str) => new() {Text = str, AutoSize = true};
 
-        private static NumericUpDown GetNUD(int min, int max, bool hex) => new NumericUpDown
+        private static NumericUpDown GetNUD(int min, int max, bool hex) => new()
         {
             Maximum = max,
             Minimum = min,

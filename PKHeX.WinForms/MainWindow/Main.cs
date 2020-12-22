@@ -86,7 +86,7 @@ namespace PKHeX.WinForms
 
         private readonly string[] main_langlist = Enum.GetNames(typeof(ProgramLanguage));
 
-        private static readonly List<IPlugin> Plugins = new List<IPlugin>();
+        private static readonly List<IPlugin> Plugins = new();
         #endregion
 
         #region Path Variables
@@ -280,7 +280,7 @@ namespace PKHeX.WinForms
                 BAKprompt = Settings.BAKPrompt = true;
         }
 
-        public static DrawConfig Draw { get; private set; } = new DrawConfig();
+        public static DrawConfig Draw { get; private set; } = new();
 
         private void FormInitializeSecond()
         {

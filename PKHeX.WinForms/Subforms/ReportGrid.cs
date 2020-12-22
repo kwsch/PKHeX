@@ -42,7 +42,7 @@ namespace PKHeX.WinForms
                 WinFormsUtil.Alert(MsgReportColumnRestoreSuccess);
             };
 
-            ContextMenuStrip mnu = new ContextMenuStrip();
+            ContextMenuStrip mnu = new();
             mnu.Items.Add(mnuHide);
             mnu.Items.Add(mnuRestore);
 

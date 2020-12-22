@@ -34,7 +34,7 @@ namespace PKHeX.Core
                     case PK4 pk4 when pk4.PokéathlonStat != 0:
                         data.AddLine(GetInvalid(LEggPokeathlon, Egg));
                         break;
-                    case PK3 _ when pkm.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
+                    case PK3 when pkm.Language != 1:  // All Eggs are Japanese and flagged specially for localized string
                         data.AddLine(GetInvalid(string.Format(LOTLanguage, LanguageID.Japanese, (LanguageID)pkm.Language), Egg));
                         break;
                 }
@@ -188,8 +188,8 @@ namespace PKHeX.Core
                     VerifyFatefulMysteryGift(data, g);
                     return;
                 case EncounterStatic {Fateful: true}: // ingame fateful
-                case EncounterSlot3PokeSpot _: // ingame pokespot
-                case EncounterTrade4Ranch _: // ranch varied PID
+                case EncounterSlot3PokeSpot: // ingame pokespot
+                case EncounterTrade4Ranch: // ranch varied PID
                     VerifyFatefulIngameActive(data);
                     return;
             }

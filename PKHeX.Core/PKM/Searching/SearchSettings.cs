@@ -9,29 +9,29 @@ namespace PKHeX.Core.Searching
     /// </summary>
     public sealed class SearchSettings
     {
-        public int Format { private get; set; }
-        public int Generation { private get; set; }
-        public int Species { get; set; } = -1;
-        public int Ability { private get; set; } = -1;
-        public int Nature { private get; set; } = -1;
-        public int Item { private get; set; } = -1;
-        public int Version { private get; set; } = -1;
-        public int HiddenPowerType { private get; set; } = -1;
+        public int Format { private get; init; }
+        public int Generation { private get; init; }
+        public int Species { get; init; } = -1;
+        public int Ability { private get; init; } = -1;
+        public int Nature { private get; init; } = -1;
+        public int Item { private get; init; } = -1;
+        public int Version { private get; init; } = -1;
+        public int HiddenPowerType { private get; init; } = -1;
 
-        public SearchComparison SearchFormat { private get; set; }
-        public SearchComparison SearchLevel { private get; set; }
+        public SearchComparison SearchFormat { private get; init; }
+        public SearchComparison SearchLevel { private get; init; }
 
         public bool? SearchShiny { private get; set; }
         public bool? SearchLegal { private get; set; }
         public bool? SearchEgg { get; set; }
         public int? ESV { private get; set; }
-        public int? Level { private get; set; }
+        public int? Level { private get; init; }
 
-        public int IVType { private get; set; }
-        public int EVType { private get; set; }
+        public int IVType { private get; init; }
+        public int EVType { private get; init; }
 
         public CloneDetectionMethod SearchClones { private get; set; }
-        public IList<string> BatchInstructions { private get; set; } = Array.Empty<string>();
+        public IList<string> BatchInstructions { private get; init; } = Array.Empty<string>();
 
         public readonly List<int> Moves = new();
 

@@ -826,7 +826,7 @@ namespace PKHeX.Core
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
                     return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
-                case EncounterStaticShadow _:
+                case EncounterStaticShadow:
                     return pkm.Version == (int)GameVersion.CXD && (val == PIDType.CXD || val == PIDType.CXDAnti);
                 case EncounterStatic3 s:
                     switch (pkm.Version)
@@ -886,7 +886,7 @@ namespace PKHeX.Core
                     var ver = (GameVersion)pkm.Version;
                     var IsDPPt = ver == GameVersion.D || ver == GameVersion.P || ver == GameVersion.Pt;
                     return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
-                case PGT _: // manaphy
+                case PGT: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 case PCD d when d.Gift.PK.PID != 1:
                     return true; // already matches PCD's fixed PID requirement

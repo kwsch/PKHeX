@@ -78,8 +78,8 @@ namespace PKHeX.WinForms
 
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.MGDatabasePath;
-        private List<MysteryGift> Results = new List<MysteryGift>();
-        private List<MysteryGift> RawDB = new List<MysteryGift>();
+        private List<MysteryGift> Results = new();
+        private List<MysteryGift> RawDB = new();
         private int slotSelected = -1; // = null;
         private Image? slotColor;
         private const int RES_MAX = 66;

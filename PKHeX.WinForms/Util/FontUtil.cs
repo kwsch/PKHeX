@@ -10,8 +10,8 @@ namespace PKHeX.WinForms
 {
     public static class FontUtil
     {
-        private static readonly PrivateFontCollection CustomFonts = new PrivateFontCollection();
-        private static readonly Dictionary<float, Font> GeneratedFonts = new Dictionary<float, Font>();
+        private static readonly PrivateFontCollection CustomFonts = new();
+        private static readonly Dictionary<float, Font> GeneratedFonts = new();
 
         static FontUtil()
         {
@@ -22,7 +22,8 @@ namespace PKHeX.WinForms
                     File.WriteAllBytes(g6path, Resources.pgldings_normalregular);
                 CustomFonts.AddFontFile(g6path);
             }
-            catch (FileNotFoundException ex){
+            catch (FileNotFoundException ex)
+            {
                 Debug.WriteLine($"Unable to read font file: {ex.Message}");
             }
 #pragma warning disable CA1031 // Do not catch general exception types

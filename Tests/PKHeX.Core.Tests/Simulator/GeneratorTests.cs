@@ -57,7 +57,7 @@ namespace PKHeX.Tests.Simulator
             };
             for (var nature = Nature.Hardy; nature <= Nature.Quirky; nature++)
             {
-                criteria.Nature = nature;
+                criteria = criteria with {Nature = nature};
                 var pkm = ez.ConvertToPKM(tr, criteria);
                 pkm.Nature.Should().Be((int)nature, "not nature locked");
                 pkm.IsShiny.Should().BeTrue("encounter is shiny locked");

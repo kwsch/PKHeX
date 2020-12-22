@@ -18,12 +18,12 @@ namespace PKHeX.WinForms.Controls
     public sealed class SlotChangeManager : IDisposable
     {
         public readonly SAVEditor SE;
-        public readonly SlotTrackerImage LastSlot = new SlotTrackerImage();
-        public readonly DragManager Drag = new DragManager();
+        public readonly SlotTrackerImage LastSlot = new();
+        public readonly DragManager Drag = new();
         public SaveDataEditor<PictureBox> Env { get; set; } = null!;
 
-        public readonly List<BoxEditor> Boxes = new List<BoxEditor>();
-        public readonly SlotHoverHandler Hover = new SlotHoverHandler();
+        public readonly List<BoxEditor> Boxes = new();
+        public readonly SlotHoverHandler Hover = new();
 
         public SlotChangeManager(SAVEditor se) => SE = se;
 
@@ -35,9 +35,8 @@ namespace PKHeX.WinForms.Controls
 
         public void MouseEnter(object? sender, EventArgs e)
         {
-            if (sender == null)
+            if (sender is not PictureBox pb)
                 return;
-            var pb = (PictureBox)sender;
             if (pb.Image == null)
                 return;
             Hover.Start(pb, LastSlot);

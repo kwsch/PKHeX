@@ -18,8 +18,8 @@ namespace PKHeX.WinForms
 
             Table = SAV switch
             {
-                SAV4DP _ => HoneyTree.TableDP,
-                SAV4Pt _ => HoneyTree.TablePt,
+                SAV4DP => HoneyTree.TableDP,
+                SAV4Pt => HoneyTree.TablePt,
                 _ => throw new Exception()
             };
 

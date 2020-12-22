@@ -177,8 +177,8 @@ namespace PKHeX.Core
                 return true;
             return enc switch
             {
-                EncounterTrade _ => false,
-                EncounterSlot8GO _ => false,
+                EncounterTrade => false,
+                EncounterSlot8GO => false,
                 WC6 wc6 when wc6.OT_Name.Length > 0 => false,
                 WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
                 WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,

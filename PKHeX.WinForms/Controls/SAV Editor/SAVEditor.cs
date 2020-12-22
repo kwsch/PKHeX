@@ -29,7 +29,7 @@ namespace PKHeX.WinForms.Controls
 
         public SaveFile SAV { get; private set; } = new FakeSaveFile();
         public int CurrentBox => Box.CurrentBox;
-        public SlotChangeManager M { get; set; }
+        public SlotChangeManager M { get; }
         public readonly ContextMenuSAV menu;
         public readonly BoxMenuStrip SortMenu;
 

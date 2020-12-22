@@ -6,7 +6,7 @@ namespace PKHeX.WinForms.Controls
 {
     public partial class CatchRate : UserControl
     {
-        private PK1 pk1 = new PK1();
+        private PK1 pk1 = new();
         public CatchRate() => InitializeComponent();
 
         public void LoadPK1(PK1 pk) => NUD_CatchRate.Value = (pk1 = pk).Catch_Rate;

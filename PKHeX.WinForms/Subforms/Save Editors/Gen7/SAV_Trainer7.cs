@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
         private bool MapUpdated;
 
         private static readonly string[] AllStyles = Enum.GetNames(typeof(PlayerBattleStyle7));
-        private readonly List<string> BattleStyles = new List<string>(AllStyles);
+        private readonly List<string> BattleStyles = new(AllStyles);
 
         private int[] FlyDestFlagOfs = null!, MapUnmaskFlagOfs = null!;
         private int SkipFlag => SAV is SAV7USUM ? 4160 : 3200; // FlagMax - 768

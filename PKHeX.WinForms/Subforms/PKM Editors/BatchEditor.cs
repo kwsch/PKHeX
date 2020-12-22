@@ -230,7 +230,7 @@ namespace PKHeX.WinForms
         }
 
         // Mass Editing
-        private Core.BatchEditor editor = new Core.BatchEditor();
+        private Core.BatchEditor editor = new();
 
         private void ProcessSAV(IList<PKM> data, IReadOnlyList<StringInstruction> Filters, IReadOnlyList<StringInstruction> Instructions)
         {

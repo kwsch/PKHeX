@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
         private int ColumnFreeSpace;
         private int ColumnNEW;
 
-        private readonly Dictionary<InventoryType, DataGridView> ControlGrids = new Dictionary<InventoryType, DataGridView>();
+        private readonly Dictionary<InventoryType, DataGridView> ControlGrids = new();
         private DataGridView GetGrid(InventoryType type) => ControlGrids[type];
         private DataGridView GetGrid(int pouch) => ControlGrids[Pouches[pouch].Type];
 
@@ -100,7 +100,7 @@ namespace PKHeX.WinForms
 
         private static DataGridView GetBaseDataGrid(InventoryPouch pouch)
         {
-            return new DataGridView
+            return new()
             {
                 Dock = DockStyle.Fill,
                 Text = pouch.Type.ToString(),
@@ -124,7 +124,7 @@ namespace PKHeX.WinForms
 
         private static DataGridViewComboBoxColumn GetItemColumn(int c, string name = "Item")
         {
-            return new DataGridViewComboBoxColumn
+            return new()
             {
                 HeaderText = name,
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing,

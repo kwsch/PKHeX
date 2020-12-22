@@ -10,7 +10,7 @@ namespace PKHeX.Core
     public class EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn
     {
         public sealed override int Generation => 8;
-        public bool ScriptedNoMarks { get; set; }
+        public bool ScriptedNoMarks { get; init; }
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
 

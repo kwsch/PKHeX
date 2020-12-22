@@ -89,7 +89,7 @@ namespace PKHeX.WinForms
         {
             return personalInfo switch
             {
-                PersonalInfoSM _ => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
+                PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
                 PersonalInfoSWSH ss => ss.IsInDex,
                 _ => true,
             };

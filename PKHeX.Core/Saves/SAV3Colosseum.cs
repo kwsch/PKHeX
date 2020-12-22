@@ -262,7 +262,7 @@ namespace PKHeX.Core
                 bool header = newHC == oldHC;
                 bool body = chk.SequenceEqual(checksum);
                 static string valid(bool s) => s ? "Valid" : "Invalid";
-                return $"Header Checksum {valid(header)}, Body Checksum {valid(body)}alid.";
+                return $"Header Checksum {valid(header)}, Body Checksum {valid(body)}.";
             }
         }
 

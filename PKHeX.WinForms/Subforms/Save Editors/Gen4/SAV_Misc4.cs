@@ -116,12 +116,12 @@ namespace PKHeX.WinForms
             IReadOnlyList<ComboItem> metLocationList;
             switch (SAV)
             {
-                case SAV4Sinnoh _:
+                case SAV4Sinnoh:
                     metLocationList = GameInfo.GetLocationList(GameVersion.Pt, 4, false);
                     FlyDestD = new[] { 1, 2, 6, 8, 3, 9, 10, 4, 12, 11, 5, 7, 14, 13, 54, 15, 81, 82, 83, 55, };
                     FlyDestC = new[] { 0, 1, 7, 9, 2, 10, 11, 3, 13, 12, 4, 8, 15, 14, 16, 68, 17, 5, 6, 67, };
                     break;
-                case SAV4HGSS _:
+                case SAV4HGSS:
                     metLocationList = GameInfo.GetLocationList(GameVersion.HG, 4, false);
                     FlyDestD = new[] { 126, 127, 128, 129, 131, 133, 132, 130, 134, 135, 136, 227, 229, 137, 221, 147, 138, 139, 140, 141, 143, 142, 144, 148, 145, 146, 225, };
                     FlyDestC = new[] { 11, 12, 13, 14, 16, 18, 17, 15, 19, 20, 21, 30, 27, 22, 33, 9, 0, 1, 2, 3, 5, 4, 6, 10, 7, 8, 35, };
@@ -268,7 +268,7 @@ namespace PKHeX.WinForms
                 }
             }
 
-            Bitmap dabmp = new Bitmap(96, 80);
+            Bitmap dabmp = new(96, 80);
             BitmapData dabdata = dabmp.LockBits(new Rectangle(0, 0, dabmp.Width, dabmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             System.Runtime.InteropServices.Marshal.Copy(dupbyte, 0, dabdata.Scan0, dupbyte.Length);
             dabmp.UnlockBits(dabdata);

@@ -14,7 +14,7 @@ namespace PKHeX.WinForms
         private readonly SaveFile SAV;
         private readonly IPKMView View;
         private readonly IReadOnlyList<SlotGroup> Groups;
-        private readonly SummaryPreviewer Preview = new SummaryPreviewer();
+        private readonly SummaryPreviewer Preview = new();
 
         public int CurrentGroup { get; set; } = -1;
 

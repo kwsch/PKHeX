@@ -129,7 +129,7 @@ namespace PKHeX.WinForms.Controls
         /// <summary>
         /// List of legal moves for the latest <see cref="Legality"/>.
         /// </summary>
-        private readonly LegalMoveSource LegalMoveSource = new LegalMoveSource();
+        private readonly LegalMoveSource LegalMoveSource = new();
 
         /// <summary>
         /// Gender Symbols for showing Genders
@@ -223,12 +223,12 @@ namespace PKHeX.WinForms.Controls
                 case 7:
                     switch (pk)
                     {
-                        case PK7 _:
+                        case PK7:
                             GetFieldsfromPKM = PopulateFieldsPK7;
                             GetPKMfromFields = PreparePK7;
                             break;
 
-                        case PB7 _:
+                        case PB7:
                             GetFieldsfromPKM = PopulateFieldsPB7;
                             GetPKMfromFields = PreparePB7;
                             break;

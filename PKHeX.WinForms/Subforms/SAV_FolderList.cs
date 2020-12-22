@@ -18,7 +18,7 @@ namespace PKHeX.WinForms
         private readonly List<INamedFolderPath> Paths;
         private readonly SortableBindingList<SavePreview> Recent;
         private readonly SortableBindingList<SavePreview> Backup;
-        private readonly List<Label> TempTranslationLabels = new List<Label>();
+        private readonly List<Label> TempTranslationLabels = new();
 
         public SAV_FolderList(Action<SaveFile> openSaveFile)
         {
@@ -129,7 +129,7 @@ namespace PKHeX.WinForms
 
         private static Button GetCustomButton(string name)
         {
-            return new Button
+            return new()
             {
                 Size = new Size { Height = ButtonHeight, Width = ButtonWidth },
                 Text = name,
@@ -229,7 +229,7 @@ namespace PKHeX.WinForms
             };
             mnuBrowseAt.Click += (sender, e) => ClickOpenFolder(dgv);
 
-            ContextMenuStrip mnu = new ContextMenuStrip();
+            ContextMenuStrip mnu = new();
             mnu.Items.Add(mnuOpen);
             mnu.Items.Add(mnuBrowseAt);
             return mnu;

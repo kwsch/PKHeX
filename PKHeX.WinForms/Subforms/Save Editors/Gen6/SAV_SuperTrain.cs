@@ -65,7 +65,7 @@ namespace PKHeX.WinForms
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvBag = new DataGridViewComboBoxColumn
+            DataGridViewComboBoxColumn dgvBag = new()
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
             };

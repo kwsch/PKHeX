@@ -61,8 +61,8 @@ namespace PKHeX.Core
         protected abstract void SetAllDexFlagsLanguage(int bit, int lang, bool value = true);
         protected abstract void SetAllDexSeenFlags(int baseBit, int form, int gender, bool isShiny, bool value = true);
 
-        protected virtual bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
-        protected virtual void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
+        protected bool GetFlag(int ofs, int bitIndex) => SAV.GetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex);
+        protected void SetFlag(int ofs, int bitIndex, bool value = true) => SAV.SetFlag(PokeDex + ofs + (bitIndex >> 3), bitIndex, value);
 
         public override bool GetCaught(int species) => GetFlag(OFS_CAUGHT, species - 1);
         public virtual void SetCaught(int species, bool value = true) => SetFlag(OFS_CAUGHT, species - 1, value);

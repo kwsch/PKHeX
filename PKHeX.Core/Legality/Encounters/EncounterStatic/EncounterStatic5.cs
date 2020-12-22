@@ -9,7 +9,7 @@ namespace PKHeX.Core
     public class EncounterStatic5 : EncounterStatic
     {
         public sealed override int Generation => 5;
-        public bool Roaming { get; set; }
+        public bool Roaming { get; init; }
 
         public sealed override bool IsMatchDeferred(PKM pkm)
         {

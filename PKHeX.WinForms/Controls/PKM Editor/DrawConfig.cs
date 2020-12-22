@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
         public Color GetText(bool highlight) => highlight ? TextHighlighted : TextColor;
         public Color GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackColor);
 
-        public readonly BrushSet Brushes = new BrushSet();
+        public readonly BrushSet Brushes = new();
 
         public void LoadBrushes()
         {

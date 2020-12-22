@@ -10,8 +10,8 @@ namespace PKHeX.WinForms.Controls
     {
         private static readonly string[] names = Enum.GetNames(typeof(StorageSlotType));
         private readonly LabelType[] Labels = new LabelType[names.Length];
-        private readonly List<PictureBox> slots = new List<PictureBox>();
-        private List<SlotInfoMisc> SlotOffsets = new List<SlotInfoMisc>();
+        private readonly List<PictureBox> slots = new();
+        private List<SlotInfoMisc> SlotOffsets = new();
         public int SlotCount { get; private set; }
         public SaveFile SAV { get; set; } = null!;
         public bool FlagIllegal { get; set; }
@@ -121,7 +121,7 @@ namespace PKHeX.WinForms.Controls
 
         private static PictureBox GetPictureBox(int index, SpriteBuilder s)
         {
-            return new PictureBox
+            return new()
             {
                 BorderStyle = BorderStyle.FixedSingle,
                 Width = s.Width + 2,

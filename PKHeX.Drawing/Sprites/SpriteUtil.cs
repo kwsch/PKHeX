@@ -7,8 +7,8 @@ namespace PKHeX.Drawing
 {
     public static class SpriteUtil
     {
-        public static readonly SpriteBuilder3040 SB17 = new SpriteBuilder3040();
-        public static readonly SpriteBuilder5668 SB8 = new SpriteBuilder5668();
+        public static readonly SpriteBuilder3040 SB17 = new();
+        public static readonly SpriteBuilder5668 SB8 = new();
         public static SpriteBuilder Spriter { get; set; } = SB8;
 
         public static Image GetBallSprite(int ball)

@@ -3,23 +3,23 @@
     /// <summary>
     /// Object that can be fed to a <see cref="IEncounterable"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
     /// </summary>
-    public sealed class EncounterCriteria
+    public sealed record EncounterCriteria
     {
         public static readonly EncounterCriteria Unrestricted = new();
 
-        public int Ability { get; set; } = -1;
-        public int Gender { get; set; } = -1;
-        public Nature Nature { get; set; } = Nature.Random;
-        public Shiny Shiny { get; set; } = Shiny.Random;
+        public int Ability { get; init; } = -1;
+        public int Gender { get; init; } = -1;
+        public Nature Nature { get; init; } = Nature.Random;
+        public Shiny Shiny { get; init; } = Shiny.Random;
 
-        public int IV_HP  { get; set; } = RandomIV;
-        public int IV_ATK { get; set; } = RandomIV;
-        public int IV_DEF { get; set; } = RandomIV;
-        public int IV_SPA { get; set; } = RandomIV;
-        public int IV_SPD { get; set; } = RandomIV;
-        public int IV_SPE { get; set; } = RandomIV;
+        public int IV_HP  { get; init; } = RandomIV;
+        public int IV_ATK { get; init; } = RandomIV;
+        public int IV_DEF { get; init; } = RandomIV;
+        public int IV_SPA { get; init; } = RandomIV;
+        public int IV_SPD { get; init; } = RandomIV;
+        public int IV_SPE { get; init; } = RandomIV;
 
-        public int HPType { get; set; } = -1;
+        public int HPType { get; init; } = -1;
 
         private const int RandomIV = -1;
 

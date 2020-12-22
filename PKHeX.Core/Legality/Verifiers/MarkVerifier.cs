@@ -80,13 +80,13 @@ namespace PKHeX.Core
 
             switch (enc)
             {
-                case WC8 _:
-                case EncounterEgg _:
-                case EncounterTrade _:
-                case EncounterStatic8U _:
-                case EncounterStatic8N _:
-                case EncounterStatic8ND _:
-                case EncounterStatic8NC _:
+                case WC8:
+                case EncounterEgg:
+                case EncounterTrade:
+                case EncounterStatic8U:
+                case EncounterStatic8N:
+                case EncounterStatic8ND:
+                case EncounterStatic8NC:
                 case EncounterStatic8 s when s.Gift || s.ScriptedNoMarks:
                     return false;
             }

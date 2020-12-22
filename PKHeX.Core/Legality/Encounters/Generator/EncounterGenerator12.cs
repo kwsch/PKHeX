@@ -149,10 +149,10 @@ namespace PKHeX.Core
             return Encounter switch
             {
                 EncounterTrade1 t1 when t1.IsMatchDeferred(pkm) => GBEncounterPriority.Least,
-                EncounterTrade1 _ => GBEncounterPriority.TradeEncounterG1,
-                EncounterTrade2 _ => GBEncounterPriority.TradeEncounterG2,
-                EncounterStatic _ => GBEncounterPriority.StaticEncounter,
-                EncounterSlot _ => GBEncounterPriority.WildEncounter,
+                EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
+                EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
+                EncounterStatic => GBEncounterPriority.StaticEncounter,
+                EncounterSlot => GBEncounterPriority.WildEncounter,
                 _ => GBEncounterPriority.EggEncounter
             };
         }

@@ -77,7 +77,7 @@ namespace PKHeX.WinForms
                 ReflectUtil.SetValue(SettingsObject, s.Name, GetValue(s));
         }
 
-        private static CheckBox GetCheckBox(string name, bool state) => new CheckBox
+        private static CheckBox GetCheckBox(string name, bool state) => new()
         {
             Name = name, Checked = state, Text = name,
             AutoSize = true,

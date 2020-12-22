@@ -20,7 +20,7 @@ namespace PKHeX.WinForms.Controls
         private Image? ExtraLayer;
         private Image?[]? GlowCache;
         public Image? OriginalBackground;
-        private readonly object Lock = new object();
+        private readonly object Lock = new();
 
         private PictureBox? pb;
         private int GlowInterval;

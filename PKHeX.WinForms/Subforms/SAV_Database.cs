@@ -102,8 +102,8 @@ namespace PKHeX.WinForms
 
         private readonly PictureBox[] PKXBOXES;
         private readonly string DatabasePath = Main.DatabasePath;
-        private List<PKM> Results = new List<PKM>();
-        private List<PKM> RawDB = new List<PKM>();
+        private List<PKM> Results = new();
+        private List<PKM> RawDB = new();
         private int slotSelected = -1; // = null;
         private Image? slotColor;
         private const int RES_MAX = 66;
@@ -112,7 +112,7 @@ namespace PKHeX.WinForms
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
         private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
-        private readonly SummaryPreviewer ShowSet = new SummaryPreviewer();
+        private readonly SummaryPreviewer ShowSet = new();
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -312,7 +312,7 @@ namespace PKHeX.WinForms
             if (this.OpenWindowExists<ReportGrid>())
                 return;
 
-            ReportGrid reportGrid = new ReportGrid();
+            ReportGrid reportGrid = new();
             reportGrid.Show();
             reportGrid.PopulateData(Results.ToArray());
         }

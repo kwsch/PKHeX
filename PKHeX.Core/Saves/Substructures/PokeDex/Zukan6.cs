@@ -10,7 +10,7 @@ namespace PKHeX.Core
         protected override int BitSeenSize => 0x60;
         protected override int DexLangFlagByteCount => 631; // 721 * 7, rounded up
         protected override int DexLangIDCount => 7;
-        protected int SpindaOffset { get; set; }
+        protected int SpindaOffset { get; init; }
 
         protected Zukan6(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)
         {

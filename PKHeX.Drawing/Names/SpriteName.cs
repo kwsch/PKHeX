@@ -71,7 +71,7 @@ namespace PKHeX.Drawing
         /// <summary>
         /// Species that show their default Species sprite regardless of current <see cref="PKM.Form"/>
         /// </summary>
-        private static readonly HashSet<int> SpeciesDefaultFormSprite = new HashSet<int>
+        private static readonly HashSet<int> SpeciesDefaultFormSprite = new()
         {
             (int)Species.Mothim,
             (int)Species.Arceus,
@@ -88,7 +88,7 @@ namespace PKHeX.Drawing
         /// <summary>
         /// Species that show a <see cref="PKM.Gender"/> specific Sprite
         /// </summary>
-        private static readonly HashSet<int> SpeciesGenderedSprite = new HashSet<int>
+        private static readonly HashSet<int> SpeciesGenderedSprite = new()
         {
             (int)Species.Pikachu,
             (int)Species.Hippopotas,

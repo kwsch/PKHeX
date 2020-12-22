@@ -45,7 +45,7 @@ namespace PKHeX.Core
 
             return EncounterMatch switch
             {
-                EncounterSlot1 _ => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
+                EncounterSlot1 => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
                 EncounterSlot2 s2 => VerifyWildEncounterGen2(pkm, s2),
                 EncounterStatic s => VerifyEncounterStatic(pkm, s),
                 EncounterTrade t => VerifyEncounterTrade(pkm, t),

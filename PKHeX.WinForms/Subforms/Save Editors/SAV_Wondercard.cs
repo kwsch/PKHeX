@@ -520,7 +520,7 @@ namespace PKHeX.WinForms
         // UI Generation
         private List<PictureBox> PopulateViewGiftsG4()
         {
-            List<PictureBox> pb = new List<PictureBox>();
+            List<PictureBox> pb = new();
 
             // Row 1
             var f1 = GetFlowLayoutPanel();
@@ -585,7 +585,7 @@ namespace PKHeX.WinForms
 
         private static FlowLayoutPanel GetFlowLayoutPanel()
         {
-            return new FlowLayoutPanel
+            return new()
             {
                 Width = 305,
                 Height = 34,
@@ -596,7 +596,7 @@ namespace PKHeX.WinForms
 
         private static Label GetLabel(string text)
         {
-            return new Label
+            return new()
             {
                 Size = new Size(40, 34),
                 AutoSize = false,
@@ -609,7 +609,7 @@ namespace PKHeX.WinForms
 
         private static PictureBox GetPictureBox()
         {
-            return new PictureBox
+            return new()
             {
                 Size = new Size(42, 32),
                 SizeMode = PictureBoxSizeMode.CenterImage,

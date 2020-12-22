@@ -38,7 +38,7 @@ namespace PKHeX.WinForms
                 dgvIndex.ReadOnly = true;
                 dgvIndex.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
-            DataGridViewComboBoxColumn dgvPuff = new DataGridViewComboBoxColumn
+            DataGridViewComboBoxColumn dgvPuff = new()
             {
                 DisplayStyle = DataGridViewComboBoxDisplayStyle.Nothing
             };

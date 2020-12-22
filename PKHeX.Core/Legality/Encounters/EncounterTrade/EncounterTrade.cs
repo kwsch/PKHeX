@@ -28,8 +28,8 @@ namespace PKHeX.Core
         public Shiny Shiny { get; init; } = Shiny.Never;
         public int Ball { get; init; } = 4;
 
-        public int TID { get; internal set; }
-        public int SID { get; internal set; }
+        public int TID { get; init; }
+        public int SID { get; init; }
         public int OTGender { get; init; } = -1;
         public GameVersion Version { get; set; } = GameVersion.Any;
 
@@ -42,7 +42,7 @@ namespace PKHeX.Core
 
         public int TID7
         {
-            set
+            init
             {
                 TID = (ushort) value;
                 SID = value >> 16;

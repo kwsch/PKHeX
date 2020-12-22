@@ -136,8 +136,8 @@ namespace PKHeX.WinForms
             }
 
             // Get list
-            List<int> num = new List<int>();
-            List<string> desc = new List<string>();
+            List<int> num = new();
+            List<string> desc = new();
 
             foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2))
             {
@@ -206,9 +206,9 @@ namespace PKHeX.WinForms
             }
 
             // Get list
-            List<int> num = new List<int>();
-            List<string> desc = new List<string>();
-            List<string> enums = new List<string>();
+            List<int> num = new();
+            List<string> desc = new();
+            List<string> enums = new();
 
             foreach (string[] split in list.Select(s => s.Split('\t')).Where(split => split.Length == 2 || split.Length == 3))
             {

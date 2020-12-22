@@ -21,9 +21,9 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (data.EncounterMatch)
             {
-                case EncounterTrade _:
+                case EncounterTrade:
                 case MysteryGift {IsEgg: false}:
-                case EncounterStatic5N _:
+                case EncounterStatic5N:
                     return; // already verified
             }
 

@@ -34,7 +34,7 @@ namespace PKHeX.Core
                     return VerifyBallEquals(data, t.Ball);
                 case EncounterStatic {Gift: true} s:
                     return VerifyBallEquals(data, s.Ball);
-                case EncounterSlot8GO _: // Already a strict match
+                case EncounterSlot8GO: // Already a strict match
                     return GetResult(true);
             }
 
@@ -56,8 +56,8 @@ namespace PKHeX.Core
             {
                 EncounterStatic e => VerifyBallStatic(data, e),
                 EncounterSlot w => VerifyBallWild(data, w),
-                EncounterEgg _ => VerifyBallEgg(data),
-                EncounterInvalid _ => VerifyBallEquals(data, pkm.Ball), // ignore ball, pass whatever
+                EncounterEgg => VerifyBallEgg(data),
+                EncounterInvalid => VerifyBallEquals(data, pkm.Ball), // ignore ball, pass whatever
                 _ => VerifyBallEquals(data, (int)Poke)
             };
         }

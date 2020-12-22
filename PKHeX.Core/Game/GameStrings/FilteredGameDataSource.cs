@@ -44,7 +44,7 @@ namespace PKHeX.Core
             // Some games cannot acquire every Species that exists. Some can only acquire a subset.
             return sav switch
             {
-                SAV7b _ => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
+                SAV7b => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
                     .Where(s => s.Value <= (int)Core.Species.Mew || s.Value == (int)Core.Species.Meltan || s.Value == (int)Core.Species.Melmetal),
                 _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID)
             };
@@ -58,7 +58,7 @@ namespace PKHeX.Core
             var legal = source.LegalMoveDataSource;
             return sav switch
             {
-                SAV7b _ => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
+                SAV7b => legal.Where(s => Legal.AllowedMovesGG.Contains((short) s.Value)), // LGPE: Not all moves are available
                 _ => legal.Where(m => m.Value <= sav.MaxMoveID)
             };
         }

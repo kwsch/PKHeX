@@ -436,8 +436,8 @@ namespace PKHeX.Core
         public static string LTransferMet { get; set; } = "Invalid Met Location, expected Poké Transfer or Crown.";
         public static string LTransferMetLocation { get; set; } = "Invalid Transfer Met Location.";
         public static string LTransferMove { get; set; } = "Incompatible transfer move.";
-        public static string LTransferMoveG4HM { get; set; } = "Defog and whirpool. One of the two moves should have been removed before transfered to Generation 5.";
-        public static string LTransferMoveHM { get; set; } = "Generation {0} HM. Should have been removed before transfered to Generation {1}.";
+        public static string LTransferMoveG4HM { get; set; } = "Defog and Whirlpool. One of the two moves should have been removed before transferred to Generation 5.";
+        public static string LTransferMoveHM { get; set; } = "Generation {0} HM. Should have been removed before transferred to Generation {1}.";
         public static string LTransferNature { get; set; } = "Invalid Nature for transfer Experience.";
         public static string LTransferOriginFInvalid0_1 { get; set; } = "{0} origin cannot exist in the currently loaded ({1}) savegame.";
         public static string LTransferPIDECBitFlip { get; set; } = "PID should be equal to EC [with top bit flipped]!";

@@ -49,8 +49,8 @@ namespace PKHeX.WinForms
             }
         }
 
-        private readonly List<RegimenInfo> reglist = new List<RegimenInfo>();
-        private readonly List<RegimenInfo> distlist = new List<RegimenInfo>();
+        private readonly List<RegimenInfo> reglist = new();
+        private readonly List<RegimenInfo> distlist = new();
         private readonly ISuperTrain pkm;
         private const string PrefixCHK = "CHK_";
 

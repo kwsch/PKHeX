@@ -8,7 +8,7 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed class CryPlayer
     {
-        private readonly SoundPlayer Sounds = new SoundPlayer();
+        private readonly SoundPlayer Sounds = new();
 
         public void PlayCry(PKM pk)
         {
