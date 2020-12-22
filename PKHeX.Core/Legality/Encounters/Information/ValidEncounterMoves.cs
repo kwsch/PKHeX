@@ -25,7 +25,7 @@ namespace PKHeX.Core
                 AddEdgeCaseMoves(x, encounter, pkm);
 
             LevelUpMoves = level;
-            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.Machine);
+            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllMachines);
             TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllTutors);
         }
 

@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     public static class MoveTechnicalMachine
     {
-        public static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false, bool allowBit = false)
+        public static GameVersion GetIsMachineMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool RemoveTransfer = false)
         {
             if (pkm.IsMovesetRestricted(generation))
                 ver = (GameVersion) pkm.Version;
@@ -21,7 +21,19 @@ namespace PKHeX.Core
                 case 5: return GetIsMachine5(species, move, form);
                 case 6: return GetIsMachine6(species, move, form, ver);
                 case 7: return GetIsMachine7(species, move, form, ver);
-                case 8: return GetIsMachine8(pkm, species, move, form, ver, allowBit);
+                case 8: return GetIsMachine8(species, move, form, ver);
+                default:
+                    return Legal.NONE;
+            }
+        }
+
+        public static GameVersion GetIsRecordMove(PKM pkm, int species, int form, int generation, int move, GameVersion ver = GameVersion.Any, bool allowBit = false)
+        {
+            if (pkm.IsMovesetRestricted(generation))
+                ver = (GameVersion)pkm.Version;
+            switch (generation)
+            {
+                case 8: return GetIsRecord8(pkm, species, move, form, ver, allowBit);
                 default:
                     return Legal.NONE;
             }
@@ -219,7 +231,7 @@ namespace PKHeX.Core
             return Legal.NONE;
         }
 
-        private static GameVersion GetIsMachine8(PKM pkm, int species, int move, int form, GameVersion ver, bool allowBit)
+        private static GameVersion GetIsMachine8(int species, int move, int form, GameVersion ver)
         {
             if (GameVersion.SWSH.Contains(ver))
             {
@@ -231,6 +243,15 @@ namespace PKHeX.Core
                         return GameVersion.SWSH;
                     break;
                 }
+            }
+
+            return Legal.NONE;
+        }
+
+        private static GameVersion GetIsRecord8(PKM pkm, int species, int move, int form, GameVersion ver, bool allowBit)
+        {
+            if (GameVersion.SWSH.Contains(ver))
+            {
                 for (int i = 0; i < 100; i++)
                 {
                     if (Legal.TMHM_SWSH[i + 100] != move)
@@ -239,7 +260,7 @@ namespace PKHeX.Core
                         break;
                     if (allowBit)
                         return GameVersion.SWSH;
-                    if (((PK8) pkm).GetMoveRecordFlag(i))
+                    if (((PK8)pkm).GetMoveRecordFlag(i))
                         return GameVersion.SWSH;
                     if (i == 12 && species == (int)Species.Calyrex && form == 0) // TR12
                         return GameVersion.SWSH; // Agility Calyrex without TR glitch.
@@ -268,7 +289,17 @@ namespace PKHeX.Core
                 case 5: AddMachine5(r, species, form); break;
                 case 6: AddMachine6(r, species, form, ver); break;
                 case 7: AddMachine7(r, species, form, ver); break;
-                case 8: AddMachine8(r, species, form, pkm, ver); break;
+                case 8: AddMachine8(r, species, form, ver); break;
+            }
+            return r.Distinct();
+        }
+
+        public static IEnumerable<int> GetRecords(PKM pkm, int species, int form, int generation)
+        {
+            var r = new List<int>();
+            switch (generation)
+            {
+                case 8: AddRecordSWSH(r, species, form, pkm); break;
             }
             return r.Distinct();
         }
@@ -382,7 +413,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static void AddMachine8(List<int> r, int species, int form, PKM pkm, GameVersion ver = GameVersion.Any)
+        private static void AddMachine8(List<int> r, int species, int form, GameVersion ver = GameVersion.Any)
         {
             switch (ver)
             {
@@ -390,7 +421,7 @@ namespace PKHeX.Core
                 case GameVersion.SW:
                 case GameVersion.SH:
                 case GameVersion.SWSH:
-                    AddMachineSWSH(r, species, form, pkm);
+                    AddMachineSWSH(r, species, form);
                     return;
             }
         }
@@ -429,7 +460,7 @@ namespace PKHeX.Core
             r.AddRange(Legal.TMHM_GG.Where((_, m) => pi.TMHM[m]));
         }
 
-        private static void AddMachineSWSH(List<int> r, int species, int form, PKM pkm)
+        private static void AddMachineSWSH(List<int> r, int species, int form)
         {
             if (species > Legal.MaxSpeciesID_8)
                 return;
@@ -441,7 +472,12 @@ namespace PKHeX.Core
                     continue;
                 r.Add(Legal.TMHM_SWSH[i]);
             }
+        }
 
+        public static void AddRecordSWSH(List<int> r, int species, int form, PKM pkm)
+        {
+            var pi = PersonalTable.SWSH.GetFormEntry(species, form);
+            var tmhm = pi.TMHM;
             var pk8 = (PK8)pkm;
             for (int i = 0; i < 100; i++)
             {

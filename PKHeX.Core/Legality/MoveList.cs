@@ -322,6 +322,8 @@ namespace PKHeX.Core
                 r.AddRange(MoveLevelUp.GetMovesLevelUp(pkm, species, minlvlG1, minlvlG2, lvl, form, Version, types.HasFlagFast(MoveSourceType.Reminder), generation));
             if (types.HasFlagFast(MoveSourceType.Machine))
                 r.AddRange(MoveTechnicalMachine.GetTMHM(pkm, species, form, generation, Version, RemoveTransferHM));
+            if (types.HasFlagFast(MoveSourceType.TechnicalRecord))
+                r.AddRange(MoveTechnicalMachine.GetRecords(pkm, species, form, generation));
             if (types.HasFlagFast(MoveSourceType.AllTutors))
                 r.AddRange(MoveTutor.GetTutorMoves(pkm, species, form, types.HasFlagFast(MoveSourceType.SpecialTutor), generation));
             return r.Distinct();
@@ -339,13 +341,14 @@ namespace PKHeX.Core
         SpecialTutor    = 1 << 4,
         EnhancedTutor   = 1 << 5,
         SharedEggMove   = 1 << 6,
+        TechnicalRecord = 1 << 7,
 
-        Reminder        = 1 << 7,
         AllTutors = TypeTutor | SpecialTutor | EnhancedTutor,
+        AllMachines = Machine | TechnicalRecord,
 
-        Relearnable = LevelUp | RelearnMoves,
+        Reminder = LevelUp | RelearnMoves | TechnicalRecord,
         Encounter = LevelUp | RelearnMoves,
-        ExternalSources = LevelUp | Machine | Reminder | AllTutors,
+        ExternalSources = Reminder | AllMachines | AllTutors,
         All = ExternalSources | SharedEggMove | RelearnMoves,
     }
 

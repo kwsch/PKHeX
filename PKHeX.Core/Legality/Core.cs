@@ -168,12 +168,13 @@ namespace PKHeX.Core
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, types: MoveSourceType.Machine).Contains(move);
+            var evos = EvolutionChain.GetValidPreEvolutions(pkm);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
         }
 
         internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
-            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Relearnable).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
