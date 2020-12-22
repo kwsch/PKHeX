@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (!(pkm is IRibbonIndex m))
+            if (pkm is not IRibbonIndex m)
                 return;
 
             if (data.Info.Generation != 8)
@@ -108,7 +108,7 @@ namespace PKHeX.Core
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
         {
-            if (!(m is PK8 pk8))
+            if (m is not PK8 pk8)
                 return;
 
             var affix = pk8.AffixedRibbon;

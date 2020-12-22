@@ -85,7 +85,7 @@ namespace PKHeX.Core
         private static void AddLinesItem(MysteryGift gift, IBasicStrings strings, ICollection<string> result)
         {
             result.Add($"Item: {strings.Item[gift.ItemID]} (Quantity: {gift.Quantity})");
-            if (!(gift is WC7 wc7))
+            if (gift is not WC7 wc7)
                 return;
 
             for (var ind = 1; wc7.GetItem(ind) != 0; ind++)

@@ -455,7 +455,7 @@ namespace PKHeX.Core
             byte[] cardMatch = new byte[8];
             for (int i = 0; i < 8; i++)
             {
-                if (!(value[i] is PGT pgt))
+                if (value[i] is not PGT pgt)
                     continue;
 
                 if (pgt.CardType == 0) // empty
@@ -467,7 +467,7 @@ namespace PKHeX.Core
                 cardMatch[i] = pgt.Slot = 3;
                 for (byte j = 0; j < 3; j++)
                 {
-                    if (!(value[8 + j] is PCD pcd))
+                    if (value[8 + j] is not PCD pcd)
                         continue;
 
                     // Check if data matches (except Slot @ 0x02)

@@ -72,7 +72,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 VerifyMiscEggCommon(data);
 
-            if (!(pkm is PK1 pk1))
+            if (pkm is not PK1 pk1)
                 return;
 
             VerifyMiscG1Types(data, pk1);

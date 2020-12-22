@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         private void VerifyHOMETransfer(LegalityAnalysis data, PKM pkm)
         {
-            if (!(pkm is IScaledSize s))
+            if (pkm is not IScaledSize s)
                 return;
 
             if (pkm.LGPE || pkm.GO)

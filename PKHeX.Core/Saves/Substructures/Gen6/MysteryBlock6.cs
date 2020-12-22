@@ -61,7 +61,7 @@ namespace PKHeX.Core
 
             if (wc6.CardID == 2048 && wc6.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!(SAV is SAV6AO ao))
+                if (SAV is not SAV6AO ao)
                     return;
                 // Set the special received data
                 var info = ao.Blocks.Sango;

@@ -88,7 +88,7 @@ namespace PKHeX.Core
 
             foreach (var pair in pz)
             {
-                if (!(ReflectUtil.GetValue(this, pair) is FlagPairG1 p))
+                if (ReflectUtil.GetValue(this, pair) is not FlagPairG1 p)
                     continue;
                 yield return new FlagPairG1Detail(p, pair, EventFlags, SpawnFlags);
             }

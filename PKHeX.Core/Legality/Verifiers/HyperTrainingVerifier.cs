@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            if (!(pkm is IHyperTrain t))
+            if (pkm is not IHyperTrain t)
                 return; // No Hyper Training before Gen7
 
             if (!t.IsHyperTrained())

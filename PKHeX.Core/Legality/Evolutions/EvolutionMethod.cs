@@ -95,7 +95,7 @@ namespace PKHeX.Core
                 case LevelUpNatureLowKey when GetAmpLowKeyResult(pkm.Nature) != pkm.Form && !skipChecks:
                     return false;
 
-                case LevelUpBeauty when !(pkm is IContestStats s) || s.CNT_Beauty < Argument:
+                case LevelUpBeauty when pkm is not IContestStats s || s.CNT_Beauty < Argument:
                     return skipChecks;
                 case LevelUpMale when pkm.Gender != 0:
                     return false;

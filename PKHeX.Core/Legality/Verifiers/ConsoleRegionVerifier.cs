@@ -11,7 +11,7 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
-            if (!(data.pkm is IRegionOrigin tr))
+            if (data.pkm is not IRegionOrigin tr)
                 return;
             var result = VerifyConsoleRegion(tr);
             data.AddLine(result);

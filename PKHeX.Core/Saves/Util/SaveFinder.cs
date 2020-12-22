@@ -147,7 +147,7 @@ namespace PKHeX.Core
             {
                 if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> files))
                 {
-                    if (!(files is string[] msg)) // should always return string[]
+                    if (files is not string[] msg) // should always return string[]
                         continue;
                     if (msg.Length == 0) // folder doesn't exist
                         continue;

@@ -22,7 +22,7 @@ namespace PKHeX.Core
                 return base.IsMatchLocation(pkm);
 
             // Met location is lost on transfer
-            if (!(pkm is G4PKM pk4))
+            if (pkm is not G4PKM pk4)
                 return true;
 
             var locs = GetRoamLocations(Species, pk4.EncounterType);

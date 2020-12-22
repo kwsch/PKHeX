@@ -287,7 +287,7 @@ namespace PKHeX.Core
 
         protected override void SetPKM(PKM pkm)
         {
-            if (!(pkm is XK3 pk))
+            if (pkm is not XK3 pk)
                 return; // shouldn't ever hit
 
             if (pk.CurrentRegion == 0)

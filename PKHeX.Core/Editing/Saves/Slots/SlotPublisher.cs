@@ -36,7 +36,7 @@ namespace PKHeX.Core
             if (Previous != null)
                 sub.NotifySlotOld(Previous);
 
-            if (!(slot is SlotInfoBox b) || sub.ViewIndex == b.Box)
+            if (slot is not SlotInfoBox b || sub.ViewIndex == b.Box)
                 sub.NotifySlotChanged(slot, type, pkm);
         }
 

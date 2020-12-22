@@ -96,7 +96,7 @@ namespace PKHeX.Core
 
         private void VerifyOTAffection(LegalityAnalysis data, bool neverOT, int origin, PKM pkm)
         {
-            if (!(pkm is IAffection a))
+            if (pkm is not IAffection a)
                 return;
 
             if (origin < 6)

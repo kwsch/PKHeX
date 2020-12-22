@@ -33,7 +33,7 @@
 
         public override bool IsMatchDeferred(PKM pkm)
         {
-            if (!(pkm is PK1 pk1))
+            if (pkm is not PK1 pk1)
                 return false;
             if (!pk1.Gen1_NotTradeback)
                 return false;

@@ -115,7 +115,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (!(pkm is PK1 pk1) || !pkm.Gen1_NotTradeback)
+            if (pkm is not PK1 pk1 || !pkm.Gen1_NotTradeback)
                 return true;
 
             var req = GetInitialCatchRate();

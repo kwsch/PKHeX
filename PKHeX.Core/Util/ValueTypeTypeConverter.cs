@@ -45,7 +45,7 @@ namespace PKHeX.Core
 
         public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
         {
-            if (!(value is string input))
+            if (value is not string input)
                 return base.ConvertFrom(context, culture, value);
             if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
                 input = input.Substring(2);

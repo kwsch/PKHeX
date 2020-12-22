@@ -13,7 +13,7 @@ namespace PKHeX.Core
         /// <param name="max">Max record to set.</param>
         public static void SetRecordFlags(this PKM pk, bool value, int max = 100)
         {
-            if (!(pk is PK8 pk8))
+            if (pk is not PK8 pk8)
                 return;
             for (int i = 0; i < max; i++)
                 pk8.SetMoveRecordFlag(i, value);
@@ -32,7 +32,7 @@ namespace PKHeX.Core
         /// <param name="moves">Moves to set flags for. If a move is not a Technical Record, it is skipped.</param>
         public static void SetRecordFlags(this PKM pk, IEnumerable<int> moves)
         {
-            if (!(pk is PK8 pk8))
+            if (pk is not PK8 pk8)
                 return;
             var permit = pk8.PersonalInfo.TMHM;
             foreach (var m in moves)
@@ -51,7 +51,7 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         public static void SetRecordFlags(this PKM pk)
         {
-            if (!(pk is PK8 pk8))
+            if (pk is not PK8 pk8)
                 return;
             var permit = pk8.PersonalInfo.TMHM;
             for (int i = 100; i < permit.Length; i++)

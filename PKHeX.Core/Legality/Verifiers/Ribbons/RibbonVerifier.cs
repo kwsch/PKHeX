@@ -413,7 +413,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterable enc)
         {
-            if (!(pkm is IRibbonSetEvent3 set1))
+            if (pkm is not IRibbonSetEvent3 set1)
                 yield break;
             var names = set1.RibbonNames();
             var sb = set1.RibbonBits();
@@ -426,8 +426,8 @@ namespace PKHeX.Core
                 {
                     // only require national ribbon if no longer on origin game
                     eb[1] = s.Version == GameVersion.XD
-                        ? !(pkm is XK3 x) || x.RibbonNational
-                        : !(pkm is CK3 c) || c.RibbonNational;
+                        ? pkm is not XK3 x || x.RibbonNational
+                        : pkm is not CK3 c || c.RibbonNational;
                 }
             }
 
@@ -440,7 +440,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent2(PKM pkm, IEncounterable enc)
         {
-            if (!(pkm is IRibbonSetEvent4 set2))
+            if (pkm is not IRibbonSetEvent4 set2)
                 yield break;
             var names = set2.RibbonNames();
             var sb = set2.RibbonBits();

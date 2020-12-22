@@ -110,7 +110,7 @@ namespace PKHeX.Core
             if (gen < 0 && version > 0)
                 gen = version.GetGeneration();
 
-            if (!(z is ILocation l))
+            if (z is not ILocation l)
                 return $"[Gen{gen}]\t";
             var loc = l.GetEncounterLocation(gen, (int)version);
 

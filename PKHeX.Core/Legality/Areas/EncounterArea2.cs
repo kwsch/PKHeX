@@ -73,7 +73,7 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
-            if (!(pkm is ICaughtData2 pk2) || pk2.CaughtData == 0)
+            if (pkm is not ICaughtData2 pk2 || pk2.CaughtData == 0)
                 return GetSlotsFuzzy(chain);
 
             if (pk2.Met_Location != Location)

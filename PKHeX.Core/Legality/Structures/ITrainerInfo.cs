@@ -24,10 +24,10 @@ namespace PKHeX.Core
             pk.Language = info.Language;
             pk.Version = info.Game;
 
-            if (!(pk is IRegionOrigin tr))
+            if (pk is not IRegionOrigin tr)
                 return;
 
-            if (!(info is IRegionOrigin o))
+            if (info is not IRegionOrigin o)
                 return;
             tr.Country = o.Country;
             tr.Region = o.Region;

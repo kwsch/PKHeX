@@ -437,7 +437,7 @@ namespace PKHeX
 
         internal static bool IsTradedKadabraG1(PKM pkm)
         {
-            if (!(pkm is PK1 pk1) || pk1.Species != (int)Species.Kadabra)
+            if (pkm is not PK1 pk1 || pk1.Species != (int)Species.Kadabra)
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
