@@ -5,8 +5,14 @@ namespace PKHeX.Core
     public static class GeoLocation
     {
         private static readonly string[][] CountryList = GetCountryList();
-        private static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
+        internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
         private static readonly string[][]?[] RegionList = new string[CountryList.Length][][];
+        
+        public static string[] GetCountryList(string language)
+        {
+            int index = GetLanguageIndex(language);
+            return CountryList[index];
+        }    
 
         private const string INVALID = nameof(INVALID);
 
@@ -120,7 +126,7 @@ namespace PKHeX.Core
             return new Tuple<string, string>(countryName, regionName); // country, region
         }
 
-        private static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);
+        public static int GetLanguageIndex(string language) => Array.IndexOf(lang_geo, language);
         private static int GetLanguageIndex(LanguageID language) => GetLanguageIndex(language.GetLanguage2CharName());
     }
 }

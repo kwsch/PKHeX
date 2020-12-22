@@ -114,8 +114,8 @@ namespace PKHeX.WinForms
             var langs = new[] {DefaultLanguage}.Concat(Languages);
             foreach (var lang in langs)
             {
-                Util.SetLocalization(t, lang);
-                var entries = Util.GetLocalization(t);
+                LocalizationUtil.SetLocalization(t, lang);
+                var entries = LocalizationUtil.GetLocalization(t);
                 var export = entries.Select(z => new {Variable = z.Split('=')[0], Line = z})
                     .OrderBy(z => z.Variable) // sort by length (V1 = 2, V100 = 4)
                     .Select(z => z.Line); // sorted lines
@@ -125,7 +125,7 @@ namespace PKHeX.WinForms
 
                 var location = GetFileLocationInText(t.Name, dir, lang);
                 File.WriteAllLines(location, export);
-                Util.SetLocalization(t, DefaultLanguage);
+                LocalizationUtil.SetLocalization(t, DefaultLanguage);
             }
         }
 

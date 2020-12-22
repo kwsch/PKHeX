@@ -23,8 +23,8 @@ namespace PKHeX.Core
             Task.Run(() =>
             {
                 RibbonStrings.ResetDictionary(str.ribbons);
-                Util.SetLocalization(typeof(LegalityCheckStrings), lang);
-                Util.SetLocalization(typeof(MessageStrings), lang);
+                LocalizationUtil.SetLocalization(typeof(LegalityCheckStrings), lang);
+                LocalizationUtil.SetLocalization(typeof(MessageStrings), lang);
             });
         }
     }
