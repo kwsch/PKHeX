@@ -39,12 +39,11 @@ namespace PKHeX.Core
                 case 21 when gen != 6 || !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
-                case 48 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
+                case 16 when !CanKnowMove(pkm, memory, gen, info):
+                case 48 when !CanKnowMove(pkm, memory, gen, info):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                // {0} was able to remember {2} at {1}'s instruction. {4} that {3}.
-                case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, gen, memory.Variable, info.EvoChainsAllGens[gen]):
+                case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // Dynamaxing
@@ -56,10 +55,10 @@ namespace PKHeX.Core
 
                 // Move
                 // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
-                case 80 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
                 // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
-                case 81 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
-                    return Get(string.Format(LMemoryArgBadMove, memory.Handler), Severity.Fishy);
+                case 80 when !CanKnowMove(pkm, memory, gen, info):
+                case 81 when !CanKnowMove(pkm, memory, gen, info):
+                    return Get(string.Format(LMemoryArgBadMove, memory.Handler), gen == 8 ? Severity.Fishy : Severity.Invalid);
 
                 // Species
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
@@ -88,6 +87,25 @@ namespace PKHeX.Core
             }
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
+        }
+
+        private static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info)
+        {
+            var move = memory.Variable;
+            if (move == 0)
+                return false;
+
+            if (pkm.HasMove(move))
+                return true;
+
+            if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]))
+                return true;
+
+            var enc = info.EncounterMatch;
+            if (enc is IMoveset ms && ms.Moves.Contains(move))
+                return false;
+
+            return true;
         }
 
         /// <summary>
