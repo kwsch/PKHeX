@@ -12,33 +12,33 @@ namespace PKHeX.Core
     /// </remarks>
     public abstract class EncounterTrade : IEncounterable, IMoveset, ILocation, IVersionSet
     {
-        public int Species { get; set; }
-        public int Form { get; set; }
-        public int Level { get; set; }
+        public int Species { get; init; }
+        public int Form { get; init; }
+        public int Level { get; init; }
         public virtual int LevelMin => Level;
         public int LevelMax => 100;
-        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public abstract int Generation { get; }
 
-        public int CurrentLevel { get; set; } = -1;
-        public int Location { get; set; }
-        public int Ability { get; set; }
-        public int Gender { get; set; } = -1;
+        public int CurrentLevel { get; init; } = -1;
+        public int Location { get; init; }
+        public int Ability { get; init; }
+        public int Gender { get; init; } = -1;
         public Nature Nature = Nature.Random;
-        public virtual Shiny Shiny { get; set; } = Shiny.Never;
-        public int Ball { get; set; } = 4;
+        public Shiny Shiny { get; init; } = Shiny.Never;
+        public int Ball { get; init; } = 4;
 
-        public int TID { get; set; }
-        public int SID { get; set; }
-        public int OTGender { get; set; } = -1;
+        public int TID { get; internal set; }
+        public int SID { get; internal set; }
+        public int OTGender { get; init; } = -1;
         public GameVersion Version { get; set; } = GameVersion.Any;
 
-        public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
-        public int FlawlessIVCount { get; set; }
+        public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
+        public int FlawlessIVCount { get; init; }
 
         public bool EggEncounter => false;
-        public int EggLocation { get; set; }
-        public bool EvolveOnTrade { get; set; }
+        public int EggLocation { get; init; }
+        public bool EvolveOnTrade { get; init; }
 
         public int TID7
         {
@@ -52,7 +52,7 @@ namespace PKHeX.Core
         private const string _name = "In-game Trade";
         public string Name => _name;
         public string LongName => _name;
-        public bool IsNicknamed { get; set; } = true;
+        public bool IsNicknamed { get; init; } = true;
 
         public IReadOnlyList<string> Nicknames { get; internal set; } = Array.Empty<string>();
         public IReadOnlyList<string> TrainerNames { get; internal set; } = Array.Empty<string>();

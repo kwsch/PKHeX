@@ -10,8 +10,8 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStatic8S : EncounterStatic8
     {
-        public override int Location { get => Locations[0]; set { } }
-        public IReadOnlyList<int> Locations { get; internal set; } = Array.Empty<int>();
+        public override int Location { get => Locations[0]; init { } }
+        public IReadOnlyList<int> Locations { get; init; } = Array.Empty<int>();
         protected override bool IsMatchLocation(PKM pkm) => Locations.Contains(pkm.Met_Location);
     }
 }

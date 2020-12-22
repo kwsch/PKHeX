@@ -11,32 +11,32 @@ namespace PKHeX.Core
     /// </remarks>
     public abstract class EncounterStatic : IEncounterable, IMoveset, ILocation, IVersionSet
     {
-        public int Species { get; set; }
-        public int Form { get; set; }
-        public virtual int Level { get; set; }
+        public int Species { get; init; }
+        public int Form { get; init; }
+        public virtual int Level { get; init; }
         public virtual int LevelMin => Level;
         public virtual int LevelMax => Level;
         public abstract int Generation { get; }
         public GameVersion Version { get; set; } = GameVersion.Any;
 
-        public virtual int Location { get; set; }
-        public int Ability { get; set; }
-        public Shiny Shiny { get; set; } = Shiny.Random;
-        public int Gender { get; set; } = -1;
-        public int EggLocation { get; set; }
-        public Nature Nature { get; set; } = Nature.Random;
-        public bool Gift { get; set; }
-        public int Ball { get; set; } = 4; // Only checked when is Gift
+        public virtual int Location { get; init; }
+        public int Ability { get; init; }
+        public Shiny Shiny { get; init; } = Shiny.Random;
+        public int Gender { get; init; } = -1;
+        public int EggLocation { get; init; }
+        public Nature Nature { get; init; } = Nature.Random;
+        public bool Gift { get; init; }
+        public int Ball { get; init; } = 4; // Only checked when is Gift
 
-        public IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
-        public IReadOnlyList<int> IVs { get; set; } = Array.Empty<int>();
-        public int FlawlessIVCount { get; set; }
+        public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
+        public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
+        public int FlawlessIVCount { get; init; }
 
-        public int HeldItem { get; set; }
-        public int EggCycles { get; set; }
+        public int HeldItem { get; init; }
+        public int EggCycles { get; init; }
 
-        public bool Fateful { get; set; }
-        public bool SkipFormCheck { get; set; }
+        public bool Fateful { get; init; }
+        public bool SkipFormCheck { get; init; }
         public bool EggEncounter => EggLocation > 0;
 
         internal EncounterStatic Clone() => (EncounterStatic)MemberwiseClone();

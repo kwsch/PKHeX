@@ -9,12 +9,12 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic"/>
     public sealed class EncounterStaticTyped : EncounterStatic4, IEncounterTypeTile
     {
-        public bool Roaming { get; set; }
+        public bool Roaming { get; init; }
 
         /// <summary>
         /// <see cref="PK4.EncounterType"/> values permitted for the encounter.
         /// </summary>
-        public EncounterType TypeEncounter { get; internal set; } = EncounterType.None;
+        public EncounterType TypeEncounter { get; init; } = EncounterType.None;
 
         protected override bool IsMatchLocation(PKM pkm)
         {

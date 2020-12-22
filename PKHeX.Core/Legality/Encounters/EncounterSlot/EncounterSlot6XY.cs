@@ -7,7 +7,7 @@ namespace PKHeX.Core
     public sealed class EncounterSlot6XY : EncounterSlot
     {
         public override int Generation => 6;
-        public bool Pressure { get; set; }
+        public bool Pressure { get; init; }
 
         public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max) : base(area)
         {
@@ -31,10 +31,7 @@ namespace PKHeX.Core
 
         public EncounterSlot6XY CreatePressureFormCopy(int evoForm)
         {
-            var clone = (EncounterSlot6XY)Clone();
-            clone.Form = evoForm;
-            clone.Pressure = true;
-            return clone;
+            return new((EncounterArea6XY) Area, Species, evoForm, LevelMin, LevelMax) {Pressure = true};
         }
     }
 }

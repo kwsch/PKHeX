@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
     public sealed class EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
     {
-        public override int Location { get => MaxLair; set { } }
+        public override int Location { get => MaxLair; init { } }
 
         public EncounterStatic8U(int species, int form, int level)
         {

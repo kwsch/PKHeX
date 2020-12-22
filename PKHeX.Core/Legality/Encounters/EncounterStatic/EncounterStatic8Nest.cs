@@ -15,7 +15,7 @@ namespace PKHeX.Core
 
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
-        public override int Location { get => SharedNest; set { } }
+        public override int Location { get => SharedNest; init { } }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {

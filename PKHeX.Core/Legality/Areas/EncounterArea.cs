@@ -9,8 +9,8 @@ namespace PKHeX.Core
     public abstract class EncounterArea : IVersion
     {
         public GameVersion Version { get; }
-        public int Location { get; protected set; }
-        public SlotType Type { get; protected set; } = SlotType.Any;
+        public int Location { get; protected init; }
+        public SlotType Type { get; protected init; } = SlotType.Any;
         public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
 
         protected EncounterArea(GameVersion game) => Version = game;

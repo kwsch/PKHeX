@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
     public sealed class EncounterStatic8NC : EncounterStatic8Nest<EncounterStatic8NC>
     {
-        public override int Location { get => SharedNest; set { } }
+        public override int Location { get => SharedNest; init { } }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

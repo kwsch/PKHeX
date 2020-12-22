@@ -8,10 +8,10 @@ namespace PKHeX.Core
     /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
     public abstract class EncounterSlot : IEncounterable, ILocation
     {
-        public int Species { get; protected set; }
-        public int Form { get; protected set; }
-        public int LevelMin { get; protected set; }
-        public int LevelMax { get; protected set; }
+        public int Species { get; protected init; }
+        public int Form { get; protected init; }
+        public int LevelMin { get; protected init; }
+        public int LevelMax { get; protected init; }
         public abstract int Generation { get; }
         public bool EggEncounter => false;
         public override string ToString() => $"{(Species) Species} @ {LevelMin}-{LevelMax}";
