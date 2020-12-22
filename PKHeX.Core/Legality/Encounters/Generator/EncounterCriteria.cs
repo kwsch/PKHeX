@@ -5,7 +5,7 @@
     /// </summary>
     public sealed class EncounterCriteria
     {
-        public static readonly EncounterCriteria Unrestricted = new EncounterCriteria();
+        public static readonly EncounterCriteria Unrestricted = new();
 
         public int Ability { get; set; } = -1;
         public int Gender { get; set; } = -1;

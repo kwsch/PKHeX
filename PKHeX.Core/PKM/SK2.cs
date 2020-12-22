@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         public PK2 ConvertToPK2()
         {
-            return new PK2(Japanese)
+            return new(Japanese)
             {
                 Species = Species,
                 HeldItem = HeldItem,

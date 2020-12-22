@@ -40,8 +40,8 @@ namespace PKHeX.Core
 
         private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterable enc, int gen)
         {
-            List<string> missingRibbons = new List<string>();
-            List<string> invalidRibbons = new List<string>();
+            List<string> missingRibbons = new();
+            List<string> invalidRibbons = new();
             var ribs = GetRibbonResults(pkm, enc, gen);
             foreach (var bad in ribs)
                 (bad.Invalid ? invalidRibbons : missingRibbons).Add(bad.Name);

@@ -190,7 +190,7 @@ namespace PKHeX.Core
         internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
 
         internal const GameVersion NONE = GameVersion.Invalid;
-        internal static readonly LearnVersion LearnNONE = new LearnVersion(-1);
+        internal static readonly LearnVersion LearnNONE = new(-1);
 
         internal static bool HasVisitedB2W2(this PKM pkm, int species) => pkm.InhabitedGeneration(5, species);
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);

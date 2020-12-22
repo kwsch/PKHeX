@@ -37,7 +37,7 @@ namespace PKHeX.Core
             00, 00, 00, 00, 00, 00
         };
 
-        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_1 = new HashSet<int> {92, 93, 94, 109, 110, 151};
+        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_1 = new() {92, 93, 94, 109, 110, 151};
 
         internal static readonly int[] TMHM_RBY =
         {
@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] WildPokeBalls1 = {4};
 
-        internal static readonly HashSet<int> FutureEvolutionsGen1 = new HashSet<int>
+        internal static readonly HashSet<int> FutureEvolutionsGen1 = new()
         {
             169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
         };

@@ -5,7 +5,7 @@
         public static readonly SAV1Offsets INT = GetINT();
         public static readonly SAV1Offsets JPN = GetJPN();
 
-        private static SAV1Offsets GetINT() => new SAV1Offsets
+        private static SAV1Offsets GetINT() => new()
         {
             DexCaught = 0x25A3,
             DexSeen = 0x25B6,
@@ -30,7 +30,7 @@
             ChecksumOfs = 0x3523,
         };
 
-        private static SAV1Offsets GetJPN() => new SAV1Offsets
+        private static SAV1Offsets GetJPN() => new()
         {
             DexCaught = 0x259E,
             DexSeen = 0x25B1,

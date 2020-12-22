@@ -208,7 +208,7 @@ namespace PKHeX.Core
             if (!pk.ChecksumValid || pk.Species == 0)
                 return ModifyResult.Invalid;
 
-            PKMInfo info = new PKMInfo(pk);
+            var info = new PKMInfo(pk);
             var pi = Props[Array.IndexOf(Types, pk.GetType())];
             foreach (var cmd in filters)
             {

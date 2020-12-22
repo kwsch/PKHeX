@@ -3,7 +3,7 @@ namespace PKHeX.Core
     public sealed class PokeList2 : PokeListGB<PK2>
     {
         protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? (byte)0xFD : (byte)pk.Species;
-        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg) => new PK2(dat, Japanese) { OT_Trash = otname, Nickname_Trash = nick, IsEgg = egg };
+        protected override PK2 GetEntry(byte[] dat, byte[] otname, byte[] nick, bool egg) => new(dat, Japanese) { OT_Trash = otname, Nickname_Trash = nick, IsEgg = egg };
         protected override int GetEntrySize() => GetEntrySize(IsFormatParty);
 
         public PokeList2(byte[] d, PokeListType c = PokeListType.Single, bool jp = false) : base(d, c, jp) { }

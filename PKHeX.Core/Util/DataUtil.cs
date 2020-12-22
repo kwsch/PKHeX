@@ -12,10 +12,10 @@ namespace PKHeX.Core
         private const string TranslationSplitter = " = ";
         private static readonly Assembly thisAssembly = typeof(Util).GetTypeInfo().Assembly;
         private static readonly string[] manifestResourceNames = thisAssembly.GetManifestResourceNames();
-        private static readonly Dictionary<string, string> resourceNameMap = new Dictionary<string, string>();
-        private static readonly Dictionary<string, string[]> stringListCache = new Dictionary<string, string[]>();
+        private static readonly Dictionary<string, string> resourceNameMap = new();
+        private static readonly Dictionary<string, string[]> stringListCache = new();
 
-        private static readonly object getStringListLoadLock = new object();
+        private static readonly object getStringListLoadLock = new();
 
         #region String Lists
 
@@ -335,7 +335,7 @@ namespace PKHeX.Core
 
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, IReadOnlyList<ushort> allowed)
         {
-            var list = new List<ComboItem>(allowed.Count + 1) { new ComboItem(inStrings[0], 0) };
+            var list = new List<ComboItem>(allowed.Count + 1) { new(inStrings[0], 0) };
             foreach (var index in allowed)
                 list.Add(new ComboItem(inStrings[index], index));
             list.Sort(Comparer);
@@ -391,9 +391,9 @@ namespace PKHeX.Core
             const int forcedTop = 3; // 3 Balls are preferentially first
             var list = new List<ComboItem>(forcedTop + stringNum.Length)
             {
-                new ComboItem(inStrings[4], (int)Ball.Poke),
-                new ComboItem(inStrings[3], (int)Ball.Great),
-                new ComboItem(inStrings[2], (int)Ball.Ultra),
+                new(inStrings[4], (int)Ball.Poke),
+                new(inStrings[3], (int)Ball.Great),
+                new(inStrings[2], (int)Ball.Ultra),
             };
 
             for (int i = 0; i < stringNum.Length; i++)
@@ -410,7 +410,7 @@ namespace PKHeX.Core
         }
 
         private static readonly FunctorComparer<ComboItem> Comparer =
-            new FunctorComparer<ComboItem>((a, b) => string.CompareOrdinal(a.Text, b.Text));
+            new((a, b) => string.CompareOrdinal(a.Text, b.Text));
 
         private sealed class FunctorComparer<T> : IComparer<T>
         {

@@ -42,12 +42,12 @@ namespace PKHeX.Core
         private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
-        public readonly List<CheckResult> Parse = new List<CheckResult>();
+        public readonly List<CheckResult> Parse = new();
 
         public CheckResult[] Relearn { get; internal set; } = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
 
-        private static readonly ValidEncounterMoves NONE = new ValidEncounterMoves();
+        private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
         public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterOriginal);
         private IReadOnlyList<EvoCriteria>[]? _evochains;

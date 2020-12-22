@@ -2,7 +2,7 @@
 {
     public sealed class PIDIV
     {
-        public static readonly PIDIV None = new PIDIV { NoSeed = true, Type = PIDType.None };
+        public static readonly PIDIV None = new() { NoSeed = true, Type = PIDType.None };
 
         /// <summary> The RNG that generated the PKM from the <see cref="OriginSeed"/> </summary>
         public RNGType RNG;

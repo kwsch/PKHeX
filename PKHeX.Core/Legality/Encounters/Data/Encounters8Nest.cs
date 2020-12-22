@@ -420,2584 +420,2584 @@ namespace PKHeX.Core
 
         internal static readonly EncounterStatic8N[] Nest_Common =
         {
-            new EncounterStatic8N(Nest000,0,0,1) { Species = 236, Ability = A3 }, // Tyrogue
-            new EncounterStatic8N(Nest000,0,0,1) { Species = 066, Ability = A3 }, // Machop
-            new EncounterStatic8N(Nest000,0,1,1) { Species = 532, Ability = A3 }, // Timburr
-            new EncounterStatic8N(Nest000,1,2,2) { Species = 067, Ability = A3 }, // Machoke
-            new EncounterStatic8N(Nest000,1,2,2) { Species = 533, Ability = A3 }, // Gurdurr
-            new EncounterStatic8N(Nest000,4,4,4) { Species = 068, Ability = A4 }, // Machamp
-            new EncounterStatic8N(Nest001,0,0,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest001,0,0,1) { Species = 517, Ability = A3 }, // Munna
-            new EncounterStatic8N(Nest001,0,1,1) { Species = 677, Ability = A3 }, // Espurr
-            new EncounterStatic8N(Nest001,0,1,1) { Species = 605, Ability = A3 }, // Elgyem
-            new EncounterStatic8N(Nest001,1,2,2) { Species = 281, Ability = A3 }, // Kirlia
-            new EncounterStatic8N(Nest001,2,4,4) { Species = 518, Ability = A3 }, // Musharna
-            new EncounterStatic8N(Nest001,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest002,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
-            new EncounterStatic8N(Nest002,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest002,1,2,2) { Species = 111, Ability = A3 }, // Rhyhorn
-            new EncounterStatic8N(Nest002,1,2,2) { Species = 525, Ability = A3 }, // Boldore
-            new EncounterStatic8N(Nest002,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
-            new EncounterStatic8N(Nest002,2,4,4) { Species = 112, Ability = A3 }, // Rhydon
-            new EncounterStatic8N(Nest002,2,4,4) { Species = 185, Ability = A3 }, // Sudowoodo
-            new EncounterStatic8N(Nest002,4,4,4) { Species = 213, Ability = A4 }, // Shuckle
-            new EncounterStatic8N(Nest003,0,0,1) { Species = 010, Ability = A3 }, // Caterpie
-            new EncounterStatic8N(Nest003,0,0,1) { Species = 736, Ability = A3 }, // Grubbin
-            new EncounterStatic8N(Nest003,0,1,1) { Species = 290, Ability = A3 }, // Nincada
-            new EncounterStatic8N(Nest003,0,1,1) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest003,1,2,2) { Species = 011, Ability = A3 }, // Metapod
-            new EncounterStatic8N(Nest003,1,2,2) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest003,2,3,3) { Species = 737, Ability = A3 }, // Charjabug
-            new EncounterStatic8N(Nest003,2,4,4) { Species = 291, Ability = A3 }, // Ninjask
-            new EncounterStatic8N(Nest003,2,4,4) { Species = 012, Ability = A3 }, // Butterfree
-            new EncounterStatic8N(Nest003,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
-            new EncounterStatic8N(Nest003,4,4,4) { Species = 738, Ability = A4 }, // Vikavolt
-            new EncounterStatic8N(Nest003,4,4,4) { Species = 632, Ability = A4 }, // Durant
-            new EncounterStatic8N(Nest004,0,0,1) { Species = 010, Ability = A3 }, // Caterpie
-            new EncounterStatic8N(Nest004,0,0,1) { Species = 415, Ability = A3 }, // Combee
-            new EncounterStatic8N(Nest004,0,1,1) { Species = 742, Ability = A3 }, // Cutiefly
-            new EncounterStatic8N(Nest004,0,1,1) { Species = 824, Ability = A3 }, // Blipbug
-            new EncounterStatic8N(Nest004,1,2,2) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest004,1,2,2) { Species = 011, Ability = A3 }, // Metapod
-            new EncounterStatic8N(Nest004,2,3,3) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest004,2,4,4) { Species = 596, Ability = A3 }, // Galvantula
-            new EncounterStatic8N(Nest004,2,4,4) { Species = 012, Ability = A3 }, // Butterfree
-            new EncounterStatic8N(Nest004,3,4,4) { Species = 743, Ability = A4 }, // Ribombee
-            new EncounterStatic8N(Nest004,4,4,4) { Species = 416, Ability = A4 }, // Vespiquen
-            new EncounterStatic8N(Nest004,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
-            new EncounterStatic8N(Nest005,0,0,1) { Species = 092, Ability = A3 }, // Gastly
-            new EncounterStatic8N(Nest005,0,0,1) { Species = 355, Ability = A3 }, // Duskull
-            new EncounterStatic8N(Nest005,0,1,1) { Species = 425, Ability = A3 }, // Drifloon
-            new EncounterStatic8N(Nest005,0,1,1) { Species = 708, Ability = A3 }, // Phantump
-            new EncounterStatic8N(Nest005,0,1,1) { Species = 592, Ability = A3 }, // Frillish
-            new EncounterStatic8N(Nest005,1,2,2) { Species = 710, Ability = A3 }, // Pumpkaboo
-            new EncounterStatic8N(Nest005,2,3,3) { Species = 093, Ability = A3 }, // Haunter
-            new EncounterStatic8N(Nest005,2,4,4) { Species = 356, Ability = A3 }, // Dusclops
-            new EncounterStatic8N(Nest005,2,4,4) { Species = 426, Ability = A3 }, // Drifblim
-            new EncounterStatic8N(Nest005,3,4,4) { Species = 709, Ability = A4 }, // Trevenant
-            new EncounterStatic8N(Nest005,4,4,4) { Species = 711, Ability = A4 }, // Gourgeist
-            new EncounterStatic8N(Nest005,4,4,4) { Species = 593, Ability = A4 }, // Jellicent
-            new EncounterStatic8N(Nest006,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
-            new EncounterStatic8N(Nest006,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
-            new EncounterStatic8N(Nest006,1,2,2) { Species = 320, Ability = A3 }, // Wailmer
-            new EncounterStatic8N(Nest006,2,3,3) { Species = 224, Ability = A3 }, // Octillery
-            new EncounterStatic8N(Nest006,2,4,4) { Species = 226, Ability = A3 }, // Mantine
-            new EncounterStatic8N(Nest006,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest006,3,4,4) { Species = 321, Ability = A4 }, // Wailord
-            new EncounterStatic8N(Nest006,4,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
-            new EncounterStatic8N(Nest006,4,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest007,0,0,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest007,0,0,1) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest007,0,1,1) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
-            new EncounterStatic8N(Nest007,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
-            new EncounterStatic8N(Nest007,1,2,2) { Species = 320, Ability = A3 }, // Wailmer
-            new EncounterStatic8N(Nest007,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
-            new EncounterStatic8N(Nest007,2,4,4) { Species = 834, Ability = A3 }, // Drednaw
-            new EncounterStatic8N(Nest007,2,4,4) { Species = 847, Ability = A3 }, // Barraskewda
-            new EncounterStatic8N(Nest007,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest007,4,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
-            new EncounterStatic8N(Nest007,4,4,4) { Species = 321, Ability = A4 }, // Wailord
-            new EncounterStatic8N(Nest008,0,0,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest008,0,0,1) { Species = 194, Ability = A3 }, // Wooper
-            new EncounterStatic8N(Nest008,0,1,1) { Species = 535, Ability = A3 }, // Tympole
-            new EncounterStatic8N(Nest008,0,1,1) { Species = 341, Ability = A3 }, // Corphish
-            new EncounterStatic8N(Nest008,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
-            new EncounterStatic8N(Nest008,2,3,3) { Species = 834, Ability = A3 }, // Drednaw
-            new EncounterStatic8N(Nest008,2,4,4) { Species = 195, Ability = A3 }, // Quagsire
-            new EncounterStatic8N(Nest008,2,4,4) { Species = 771, Ability = A3 }, // Pyukumuku
-            new EncounterStatic8N(Nest008,3,4,4) { Species = 091, Ability = A4 }, // Cloyster
-            new EncounterStatic8N(Nest008,4,4,4) { Species = 537, Ability = A4 }, // Seismitoad
-            new EncounterStatic8N(Nest008,4,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
-            new EncounterStatic8N(Nest009,0,0,1) { Species = 236, Ability = A3 }, // Tyrogue
-            new EncounterStatic8N(Nest009,0,0,1) { Species = 759, Ability = A3 }, // Stufful
-            new EncounterStatic8N(Nest009,0,1,1) { Species = 852, Ability = A3 }, // Clobbopus
-            new EncounterStatic8N(Nest009,0,1,1) { Species = 674, Ability = A3 }, // Pancham
-            new EncounterStatic8N(Nest009,2,4,4) { Species = 760, Ability = A3 }, // Bewear
-            new EncounterStatic8N(Nest009,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
-            new EncounterStatic8N(Nest009,2,4,4) { Species = 701, Ability = A3 }, // Hawlucha
-            new EncounterStatic8N(Nest009,4,4,4) { Species = 853, Ability = A4 }, // Grapploct
-            new EncounterStatic8N(Nest009,4,4,4) { Species = 870, Ability = A4 }, // Falinks
-            new EncounterStatic8N(Nest010,0,0,1) { Species = 599, Ability = A3 }, // Klink
-            new EncounterStatic8N(Nest010,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
-            new EncounterStatic8N(Nest010,0,1,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest010,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest010,1,1,2) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest010,1,2,2) { Species = 878, Ability = A3 }, // Cufant
-            new EncounterStatic8N(Nest010,2,4,4) { Species = 600, Ability = A3 }, // Klang
-            new EncounterStatic8N(Nest010,2,4,4) { Species = 863, Ability = A3 }, // Perrserker
-            new EncounterStatic8N(Nest010,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest010,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest010,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
-            new EncounterStatic8N(Nest010,4,4,4) { Species = 879, Ability = A4 }, // Copperajah
-            new EncounterStatic8N(Nest011,0,0,1) { Species = 599, Ability = A3 }, // Klink
-            new EncounterStatic8N(Nest011,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest011,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest011,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest011,1,1,2) { Species = 599, Ability = A3 }, // Klink
-            new EncounterStatic8N(Nest011,1,2,2) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest011,2,4,4) { Species = 208, Ability = A3 }, // Steelix
-            new EncounterStatic8N(Nest011,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
-            new EncounterStatic8N(Nest011,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest011,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest011,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
-            new EncounterStatic8N(Nest012,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
-            new EncounterStatic8N(Nest012,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
-            new EncounterStatic8N(Nest012,2,3,3) { Species = 561, Ability = A3 }, // Sigilyph
-            new EncounterStatic8N(Nest012,2,3,3) { Species = 178, Ability = A3 }, // Xatu
-            new EncounterStatic8N(Nest012,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
-            new EncounterStatic8N(Nest013,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
-            new EncounterStatic8N(Nest013,0,0,1) { Species = 360, Ability = A3 }, // Wynaut
-            new EncounterStatic8N(Nest013,0,1,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest013,0,1,1) { Species = 343, Ability = A3 }, // Baltoy
-            new EncounterStatic8N(Nest013,1,1,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest013,1,3,3) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest013,2,3,3) { Species = 561, Ability = A3 }, // Sigilyph
-            new EncounterStatic8N(Nest013,2,3,3) { Species = 178, Ability = A3 }, // Xatu
-            new EncounterStatic8N(Nest013,3,4,4) { Species = 344, Ability = A4 }, // Claydol
-            new EncounterStatic8N(Nest013,4,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest013,4,4,4) { Species = 202, Ability = A4 }, // Wobbuffet
-            new EncounterStatic8N(Nest014,0,0,1) { Species = 837, Ability = A3 }, // Rolycoly
-            new EncounterStatic8N(Nest014,0,1,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest014,1,1,1) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest014,1,2,2) { Species = 525, Ability = A3 }, // Boldore
-            new EncounterStatic8N(Nest014,2,3,3) { Species = 558, Ability = A3 }, // Crustle
-            new EncounterStatic8N(Nest014,2,4,4) { Species = 689, Ability = A3 }, // Barbaracle
-            new EncounterStatic8N(Nest014,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
-            new EncounterStatic8N(Nest015,0,0,1) { Species = 050, Ability = A3 }, // Diglett
-            new EncounterStatic8N(Nest015,0,0,1) { Species = 749, Ability = A3 }, // Mudbray
-            new EncounterStatic8N(Nest015,0,1,1) { Species = 290, Ability = A3 }, // Nincada
-            new EncounterStatic8N(Nest015,0,1,1) { Species = 529, Ability = A3 }, // Drilbur
-            new EncounterStatic8N(Nest015,1,1,1) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest015,1,2,2) { Species = 339, Ability = A3 }, // Barboach
-            new EncounterStatic8N(Nest015,2,3,3) { Species = 208, Ability = A3 }, // Steelix
-            new EncounterStatic8N(Nest015,2,4,4) { Species = 340, Ability = A3 }, // Whiscash
-            new EncounterStatic8N(Nest015,2,4,4) { Species = 660, Ability = A3 }, // Diggersby
-            new EncounterStatic8N(Nest015,3,4,4) { Species = 051, Ability = A4 }, // Dugtrio
-            new EncounterStatic8N(Nest015,4,4,4) { Species = 530, Ability = A4 }, // Excadrill
-            new EncounterStatic8N(Nest015,4,4,4) { Species = 750, Ability = A4 }, // Mudsdale
-            new EncounterStatic8N(Nest016,0,0,1) { Species = 843, Ability = A3 }, // Silicobra
-            new EncounterStatic8N(Nest016,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest016,0,1,1) { Species = 449, Ability = A3 }, // Hippopotas
-            new EncounterStatic8N(Nest016,1,2,2) { Species = 221, Ability = A3 }, // Piloswine
-            new EncounterStatic8N(Nest016,4,4,4) { Species = 867, Ability = A3 }, // Runerigus
-            new EncounterStatic8N(Nest016,4,4,4) { Species = 844, Ability = A4 }, // Sandaconda
-            new EncounterStatic8N(Nest017,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest017,0,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest017,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest017,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest018,0,0,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest018,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest018,1,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest018,4,4,4) { Species = 609, Ability = A4 }, // Chandelure
-            new EncounterStatic8N(Nest019,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest019,0,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest019,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest019,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest019,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest019,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest020,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
-            new EncounterStatic8N(Nest020,0,0,1) { Species = 220, Ability = A3 }, // Swinub
-            new EncounterStatic8N(Nest020,0,1,1) { Species = 459, Ability = A3 }, // Snover
-            new EncounterStatic8N(Nest020,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
-            new EncounterStatic8N(Nest020,1,1,1) { Species = 225, Ability = A3 }, // Delibird
-            new EncounterStatic8N(Nest020,1,2,2) { Species = 583, Ability = A3 }, // Vanillish
-            new EncounterStatic8N(Nest020,2,3,3) { Species = 221, Ability = A3 }, // Piloswine
-            new EncounterStatic8N(Nest020,2,4,4) { Species = 713, Ability = A3 }, // Avalugg
-            new EncounterStatic8N(Nest020,2,4,4) { Species = 460, Ability = A3 }, // Abomasnow
-            new EncounterStatic8N(Nest020,3,4,4) { Species = 091, Ability = A4 }, // Cloyster
-            new EncounterStatic8N(Nest020,4,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
-            new EncounterStatic8N(Nest020,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest021,0,0,1) { Species = 220, Ability = A3 }, // Swinub
-            new EncounterStatic8N(Nest021,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
-            new EncounterStatic8N(Nest021,0,1,1) { Species = 872, Ability = A3 }, // Snom
-            new EncounterStatic8N(Nest021,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest021,1,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest021,1,2,2) { Species = 221, Ability = A3 }, // Piloswine
-            new EncounterStatic8N(Nest021,2,3,3) { Species = 091, Ability = A3 }, // Cloyster
-            new EncounterStatic8N(Nest021,2,4,4) { Species = 614, Ability = A3 }, // Beartic
-            new EncounterStatic8N(Nest021,2,4,4) { Species = 866, Ability = A3 }, // Mr. Rime
-            new EncounterStatic8N(Nest021,3,4,4) { Species = 473, Ability = A4 }, // Mamoswine
-            new EncounterStatic8N(Nest021,4,4,4) { Species = 873, Ability = A4 }, // Frosmoth
-            new EncounterStatic8N(Nest021,4,4,4) { Species = 461, Ability = A4 }, // Weavile
-            new EncounterStatic8N(Nest022,0,0,1) { Species = 361, Ability = A3 }, // Snorunt
-            new EncounterStatic8N(Nest022,0,0,1) { Species = 872, Ability = A3 }, // Snom
-            new EncounterStatic8N(Nest022,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest022,1,1,2) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest022,1,2,3) { Species = 459, Ability = A3 }, // Snover
-            new EncounterStatic8N(Nest022,2,3,3) { Species = 460, Ability = A3 }, // Abomasnow
-            new EncounterStatic8N(Nest022,2,4,4) { Species = 362, Ability = A3 }, // Glalie
-            new EncounterStatic8N(Nest022,2,4,4) { Species = 866, Ability = A3 }, // Mr. Rime
-            new EncounterStatic8N(Nest022,3,4,4) { Species = 873, Ability = A4 }, // Frosmoth
-            new EncounterStatic8N(Nest022,4,4,4) { Species = 478, Ability = A4 }, // Froslass
-            new EncounterStatic8N(Nest023,0,0,1) { Species = 172, Ability = A3 }, // Pichu
-            new EncounterStatic8N(Nest023,0,0,1) { Species = 309, Ability = A3 }, // Electrike
-            new EncounterStatic8N(Nest023,0,1,1) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest023,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest023,1,1,2) { Species = 737, Ability = A3 }, // Charjabug
-            new EncounterStatic8N(Nest023,1,2,3) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest023,2,3,3) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest023,2,4,4) { Species = 310, Ability = A3 }, // Manectric
-            new EncounterStatic8N(Nest023,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest023,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
-            new EncounterStatic8N(Nest023,4,4,4) { Species = 738, Ability = A4 }, // Vikavolt
-            new EncounterStatic8N(Nest023,4,4,4) { Species = 026, Ability = A4 }, // Raichu
-            new EncounterStatic8N(Nest024,0,0,1) { Species = 835, Ability = A3 }, // Yamper
-            new EncounterStatic8N(Nest024,0,0,1) { Species = 694, Ability = A3 }, // Helioptile
-            new EncounterStatic8N(Nest024,0,1,1) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest024,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest024,1,1,2) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest024,1,2,3) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest024,2,3,3) { Species = 836, Ability = A3 }, // Boltund
-            new EncounterStatic8N(Nest024,2,4,4) { Species = 695, Ability = A3 }, // Heliolisk
-            new EncounterStatic8N(Nest024,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
-            new EncounterStatic8N(Nest024,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
-            new EncounterStatic8N(Nest024,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
-            new EncounterStatic8N(Nest024,4,4,4) { Species = 877, Ability = A4 }, // Morpeko
-            new EncounterStatic8N(Nest025,0,0,1) { Species = 406, Ability = A3 }, // Budew
-            new EncounterStatic8N(Nest025,0,1,1) { Species = 761, Ability = A3 }, // Bounsweet
-            new EncounterStatic8N(Nest025,0,1,1) { Species = 043, Ability = A3 }, // Oddish
-            new EncounterStatic8N(Nest025,1,2,3) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest025,2,3,3) { Species = 044, Ability = A3 }, // Gloom
-            new EncounterStatic8N(Nest025,2,4,4) { Species = 762, Ability = A3 }, // Steenee
-            new EncounterStatic8N(Nest025,3,4,4) { Species = 763, Ability = A4 }, // Tsareena
-            new EncounterStatic8N(Nest025,4,4,4) { Species = 045, Ability = A4 }, // Vileplume
-            new EncounterStatic8N(Nest025,4,4,4) { Species = 182, Ability = A4 }, // Bellossom
-            new EncounterStatic8N(Nest026,0,0,1) { Species = 406, Ability = A3 }, // Budew
-            new EncounterStatic8N(Nest026,0,0,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest026,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
-            new EncounterStatic8N(Nest026,0,1,1) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest026,1,1,2) { Species = 420, Ability = A3 }, // Cherubi
-            new EncounterStatic8N(Nest026,1,2,2) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest026,2,3,3) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest026,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
-            new EncounterStatic8N(Nest026,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
-            new EncounterStatic8N(Nest026,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest026,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
-            new EncounterStatic8N(Nest027,0,0,1) { Species = 710, Ability = A3, Form = 1 }, // Pumpkaboo-1
-            new EncounterStatic8N(Nest027,0,0,1) { Species = 708, Ability = A3 }, // Phantump
-            new EncounterStatic8N(Nest027,0,1,1) { Species = 710, Ability = A3 }, // Pumpkaboo
-            new EncounterStatic8N(Nest027,0,1,1) { Species = 755, Ability = A3 }, // Morelull
-            new EncounterStatic8N(Nest027,1,1,2) { Species = 710, Ability = A3, Form = 2 }, // Pumpkaboo-2
-            new EncounterStatic8N(Nest027,1,2,2) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest027,2,3,3) { Species = 756, Ability = A3 }, // Shiinotic
-            new EncounterStatic8N(Nest027,2,4,4) { Species = 556, Ability = A3 }, // Maractus
-            new EncounterStatic8N(Nest027,2,4,4) { Species = 709, Ability = A3 }, // Trevenant
-            new EncounterStatic8N(Nest027,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
-            new EncounterStatic8N(Nest027,4,4,4) { Species = 781, Ability = A4 }, // Dhelmise
-            new EncounterStatic8N(Nest027,4,4,4) { Species = 710, Ability = A4, Form = 3 }, // Pumpkaboo-3
-            new EncounterStatic8N(Nest028,0,0,1) { Species = 434, Ability = A3 }, // Stunky
-            new EncounterStatic8N(Nest028,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
-            new EncounterStatic8N(Nest028,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
-            new EncounterStatic8N(Nest028,1,2,2) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest028,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
-            new EncounterStatic8N(Nest028,2,4,4) { Species = 452, Ability = A3 }, // Drapion
-            new EncounterStatic8N(Nest028,2,4,4) { Species = 045, Ability = A3 }, // Vileplume
-            new EncounterStatic8N(Nest028,4,4,4) { Species = 569, Ability = A4 }, // Garbodor
-            new EncounterStatic8N(Nest029,0,0,1) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest029,0,0,1) { Species = 092, Ability = A3 }, // Gastly
-            new EncounterStatic8N(Nest029,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
-            new EncounterStatic8N(Nest029,0,1,1) { Species = 043, Ability = A3 }, // Oddish
-            new EncounterStatic8N(Nest029,1,1,2) { Species = 044, Ability = A3 }, // Gloom
-            new EncounterStatic8N(Nest029,1,2,2) { Species = 093, Ability = A3 }, // Haunter
-            new EncounterStatic8N(Nest029,2,3,3) { Species = 109, Ability = A3 }, // Koffing
-            new EncounterStatic8N(Nest029,2,4,4) { Species = 211, Ability = A3 }, // Qwilfish
-            new EncounterStatic8N(Nest029,2,4,4) { Species = 045, Ability = A3 }, // Vileplume
-            new EncounterStatic8N(Nest029,3,4,4) { Species = 315, Ability = A4 }, // Roselia
-            new EncounterStatic8N(Nest029,4,4,4) { Species = 849, Ability = A4 }, // Toxtricity
-            new EncounterStatic8N(Nest029,4,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest030,0,0,1) { Species = 519, Ability = A3 }, // Pidove
-            new EncounterStatic8N(Nest030,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
-            new EncounterStatic8N(Nest030,0,1,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest030,1,1,2) { Species = 527, Ability = A3 }, // Woobat
-            new EncounterStatic8N(Nest030,1,2,2) { Species = 520, Ability = A3 }, // Tranquill
-            new EncounterStatic8N(Nest030,2,3,3) { Species = 521, Ability = A3 }, // Unfezant
-            new EncounterStatic8N(Nest030,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
-            new EncounterStatic8N(Nest030,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
-            new EncounterStatic8N(Nest030,3,4,4) { Species = 178, Ability = A4 }, // Xatu
-            new EncounterStatic8N(Nest030,4,4,4) { Species = 561, Ability = A4 }, // Sigilyph
-            new EncounterStatic8N(Nest031,0,0,1) { Species = 821, Ability = A3 }, // Rookidee
-            new EncounterStatic8N(Nest031,0,0,1) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest031,0,1,1) { Species = 278, Ability = A3 }, // Wingull
-            new EncounterStatic8N(Nest031,0,1,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest031,1,1,2) { Species = 425, Ability = A3 }, // Drifloon
-            new EncounterStatic8N(Nest031,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
-            new EncounterStatic8N(Nest031,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
-            new EncounterStatic8N(Nest031,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
-            new EncounterStatic8N(Nest031,2,4,4) { Species = 178, Ability = A3 }, // Xatu
-            new EncounterStatic8N(Nest031,3,4,4) { Species = 823, Ability = A4 }, // Corviknight
-            new EncounterStatic8N(Nest031,4,4,4) { Species = 701, Ability = A4 }, // Hawlucha
-            new EncounterStatic8N(Nest031,4,4,4) { Species = 845, Ability = A4 }, // Cramorant
-            new EncounterStatic8N(Nest032,0,0,1) { Species = 173, Ability = A3 }, // Cleffa
-            new EncounterStatic8N(Nest032,0,0,1) { Species = 175, Ability = A3 }, // Togepi
-            new EncounterStatic8N(Nest032,0,1,1) { Species = 742, Ability = A3 }, // Cutiefly
-            new EncounterStatic8N(Nest032,1,1,2) { Species = 035, Ability = A3 }, // Clefairy
-            new EncounterStatic8N(Nest032,1,2,2) { Species = 755, Ability = A3 }, // Morelull
-            new EncounterStatic8N(Nest032,2,3,3) { Species = 176, Ability = A3 }, // Togetic
-            new EncounterStatic8N(Nest032,2,4,4) { Species = 036, Ability = A3 }, // Clefable
-            new EncounterStatic8N(Nest032,2,4,4) { Species = 743, Ability = A3 }, // Ribombee
-            new EncounterStatic8N(Nest032,3,4,4) { Species = 756, Ability = A4 }, // Shiinotic
-            new EncounterStatic8N(Nest032,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
-            new EncounterStatic8N(Nest033,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
-            new EncounterStatic8N(Nest033,0,0,1) { Species = 868, Ability = A3 }, // Milcery
-            new EncounterStatic8N(Nest033,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest033,0,1,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest033,1,1,2) { Species = 035, Ability = A3 }, // Clefairy
-            new EncounterStatic8N(Nest033,1,2,2) { Species = 281, Ability = A3 }, // Kirlia
-            new EncounterStatic8N(Nest033,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest033,2,4,4) { Species = 036, Ability = A3 }, // Clefable
-            new EncounterStatic8N(Nest033,2,4,4) { Species = 282, Ability = A3 }, // Gardevoir
-            new EncounterStatic8N(Nest033,3,4,4) { Species = 869, Ability = A4 }, // Alcremie
-            new EncounterStatic8N(Nest033,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest034,0,0,1) { Species = 509, Ability = A3 }, // Purrloin
-            new EncounterStatic8N(Nest034,0,0,1) { Species = 434, Ability = A3 }, // Stunky
-            new EncounterStatic8N(Nest034,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest034,0,1,1) { Species = 686, Ability = A3 }, // Inkay
-            new EncounterStatic8N(Nest034,1,1,2) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest034,1,2,2) { Species = 510, Ability = A3 }, // Liepard
-            new EncounterStatic8N(Nest034,2,3,3) { Species = 435, Ability = A3 }, // Skuntank
-            new EncounterStatic8N(Nest034,2,4,4) { Species = 461, Ability = A3 }, // Weavile
-            new EncounterStatic8N(Nest034,2,4,4) { Species = 687, Ability = A3 }, // Malamar
-            new EncounterStatic8N(Nest034,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest034,4,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
-            new EncounterStatic8N(Nest035,0,0,1) { Species = 827, Ability = A3 }, // Nickit
-            new EncounterStatic8N(Nest035,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
-            new EncounterStatic8N(Nest035,0,1,1) { Species = 509, Ability = A3 }, // Purrloin
-            new EncounterStatic8N(Nest035,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest035,1,2,2) { Species = 828, Ability = A3 }, // Thievul
-            new EncounterStatic8N(Nest035,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest035,2,4,4) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest035,2,4,4) { Species = 861, Ability = A3 }, // Grimmsnarl
-            new EncounterStatic8N(Nest035,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
-            new EncounterStatic8N(Nest036,0,0,1) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest036,0,1,1) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest036,1,2,2) { Species = 329, Ability = A3 }, // Vibrava
-            new EncounterStatic8N(Nest037,0,0,1) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest037,0,0,1) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest037,0,1,1) { Species = 885, Ability = A3 }, // Dreepy
-            new EncounterStatic8N(Nest037,1,1,2) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest037,1,2,2) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest037,2,3,3) { Species = 886, Ability = A3 }, // Drakloak
-            new EncounterStatic8N(Nest037,2,4,4) { Species = 715, Ability = A3 }, // Noivern
-            new EncounterStatic8N(Nest037,4,4,4) { Species = 887, Ability = A4 }, // Dragapult
-            new EncounterStatic8N(Nest038,0,0,1) { Species = 659, Ability = A3 }, // Bunnelby
-            new EncounterStatic8N(Nest038,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
-            new EncounterStatic8N(Nest038,0,1,1) { Species = 519, Ability = A3 }, // Pidove
-            new EncounterStatic8N(Nest038,0,1,1) { Species = 572, Ability = A3 }, // Minccino
-            new EncounterStatic8N(Nest038,1,1,2) { Species = 694, Ability = A3 }, // Helioptile
-            new EncounterStatic8N(Nest038,1,2,2) { Species = 759, Ability = A3 }, // Stufful
-            new EncounterStatic8N(Nest038,2,3,3) { Species = 660, Ability = A3 }, // Diggersby
-            new EncounterStatic8N(Nest038,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
-            new EncounterStatic8N(Nest038,2,4,4) { Species = 521, Ability = A3 }, // Unfezant
-            new EncounterStatic8N(Nest038,3,4,4) { Species = 695, Ability = A4 }, // Heliolisk
-            new EncounterStatic8N(Nest038,4,4,4) { Species = 573, Ability = A4 }, // Cinccino
-            new EncounterStatic8N(Nest038,4,4,4) { Species = 760, Ability = A4 }, // Bewear
-            new EncounterStatic8N(Nest039,0,0,1) { Species = 819, Ability = A3 }, // Skwovet
-            new EncounterStatic8N(Nest039,0,0,1) { Species = 831, Ability = A3 }, // Wooloo
-            new EncounterStatic8N(Nest039,0,1,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
-            new EncounterStatic8N(Nest039,0,1,1) { Species = 446, Ability = A3 }, // Munchlax
-            new EncounterStatic8N(Nest039,1,2,2) { Species = 820, Ability = A3 }, // Greedent
-            new EncounterStatic8N(Nest039,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest039,2,4,4) { Species = 820, Ability = A3 }, // Greedent
-            new EncounterStatic8N(Nest039,2,4,4) { Species = 832, Ability = A3 }, // Dubwool
-            new EncounterStatic8N(Nest039,3,4,4) { Species = 660, Ability = A4 }, // Diggersby
-            new EncounterStatic8N(Nest039,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
-            new EncounterStatic8N(Nest040,0,0,1) { Species = 535, Ability = A3 }, // Tympole
-            new EncounterStatic8N(Nest040,0,0,1) { Species = 090, Ability = A3 }, // Shellder
-            new EncounterStatic8N(Nest040,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest040,1,2,2) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest040,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest040,4,4,4) { Species = 847, Ability = A4 }, // Barraskewda
-            new EncounterStatic8N(Nest041,0,0,1) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
-            new EncounterStatic8N(Nest041,0,0,1) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest041,0,1,1) { Species = 341, Ability = A3 }, // Corphish
-            new EncounterStatic8N(Nest041,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest041,1,1,2) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest041,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
-            new EncounterStatic8N(Nest041,2,3,3) { Species = 099, Ability = A3 }, // Kingler
-            new EncounterStatic8N(Nest041,2,4,4) { Species = 342, Ability = A3 }, // Crawdaunt
-            new EncounterStatic8N(Nest041,2,4,4) { Species = 689, Ability = A3 }, // Barbaracle
-            new EncounterStatic8N(Nest041,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
-            new EncounterStatic8N(Nest041,4,4,4) { Species = 593, Ability = A4 }, // Jellicent
-            new EncounterStatic8N(Nest041,4,4,4) { Species = 834, Ability = A4 }, // Drednaw
-            new EncounterStatic8N(Nest042,0,0,1) { Species = 092, Ability = A3 }, // Gastly
-            new EncounterStatic8N(Nest042,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest042,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest042,0,1,1) { Species = 355, Ability = A3 }, // Duskull
-            new EncounterStatic8N(Nest042,1,2,2) { Species = 093, Ability = A3 }, // Haunter
-            new EncounterStatic8N(Nest042,2,3,3) { Species = 356, Ability = A3 }, // Dusclops
-            new EncounterStatic8N(Nest042,4,4,4) { Species = 477, Ability = A4 }, // Dusknoir
-            new EncounterStatic8N(Nest042,4,4,4) { Species = 094, Ability = A4 }, // Gengar
-            new EncounterStatic8N(Nest043,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
-            new EncounterStatic8N(Nest043,0,0,1) { Species = 349, Ability = A3 }, // Feebas
-            new EncounterStatic8N(Nest043,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest043,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest043,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest043,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
-            new EncounterStatic8N(Nest043,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
-            new EncounterStatic8N(Nest043,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
-            new EncounterStatic8N(Nest043,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest043,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest043,4,4,4) { Species = 350, Ability = A4 }, // Milotic
-            new EncounterStatic8N(Nest044,0,0,1) { Species = 447, Ability = A3 }, // Riolu
-            new EncounterStatic8N(Nest044,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest044,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest044,0,1,1) { Species = 599, Ability = A3 }, // Klink
-            new EncounterStatic8N(Nest044,1,2,2) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest044,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest044,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest044,3,4,4) { Species = 208, Ability = A4 }, // Steelix
-            new EncounterStatic8N(Nest044,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
-            new EncounterStatic8N(Nest044,4,4,4) { Species = 448, Ability = A4 }, // Lucario
-            new EncounterStatic8N(Nest045,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
-            new EncounterStatic8N(Nest045,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
-            new EncounterStatic8N(Nest045,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
-            new EncounterStatic8N(Nest045,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest045,2,3,3) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest045,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
-            new EncounterStatic8N(Nest045,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest045,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
-            new EncounterStatic8N(Nest045,4,4,4) { Species = 292, Ability = A4 }, // Shedinja
-            new EncounterStatic8N(Nest046,0,0,1) { Species = 679, Ability = A3 }, // Honedge
-            new EncounterStatic8N(Nest046,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest046,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest046,0,1,1) { Species = 425, Ability = A3 }, // Drifloon
-            new EncounterStatic8N(Nest046,1,2,2) { Species = 680, Ability = A3 }, // Doublade
-            new EncounterStatic8N(Nest046,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
-            new EncounterStatic8N(Nest046,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
-            new EncounterStatic8N(Nest046,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
-            new EncounterStatic8N(Nest046,4,4,4) { Species = 681, Ability = A4 }, // Aegislash
-            new EncounterStatic8N(Nest047,0,0,1) { Species = 447, Ability = A3 }, // Riolu
-            new EncounterStatic8N(Nest047,0,0,1) { Species = 066, Ability = A3 }, // Machop
-            new EncounterStatic8N(Nest047,0,1,1) { Species = 759, Ability = A3 }, // Stufful
-            new EncounterStatic8N(Nest047,1,2,2) { Species = 760, Ability = A3 }, // Bewear
-            new EncounterStatic8N(Nest047,1,3,3) { Species = 870, Ability = A3 }, // Falinks
-            new EncounterStatic8N(Nest047,2,3,3) { Species = 067, Ability = A3 }, // Machoke
-            new EncounterStatic8N(Nest047,3,4,4) { Species = 068, Ability = A4 }, // Machamp
-            new EncounterStatic8N(Nest047,4,4,4) { Species = 448, Ability = A4 }, // Lucario
-            new EncounterStatic8N(Nest047,4,4,4) { Species = 475, Ability = A4 }, // Gallade
-            new EncounterStatic8N(Nest048,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
-            new EncounterStatic8N(Nest048,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest048,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest048,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest048,1,2,2) { Species = 679, Ability = A3 }, // Honedge
-            new EncounterStatic8N(Nest048,1,2,2) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest048,3,4,4) { Species = 863, Ability = A4 }, // Perrserker
-            new EncounterStatic8N(Nest048,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
-            new EncounterStatic8N(Nest048,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest048,3,4,4) { Species = 618, Ability = A4, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest048,4,4,4) { Species = 879, Ability = A4 }, // Copperajah
-            new EncounterStatic8N(Nest048,4,4,4) { Species = 884, Ability = A4 }, // Duraludon
-            new EncounterStatic8N(Nest049,0,0,1) { Species = 686, Ability = A3 }, // Inkay
-            new EncounterStatic8N(Nest049,0,0,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest049,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest049,0,1,1) { Species = 527, Ability = A3 }, // Woobat
-            new EncounterStatic8N(Nest049,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
-            new EncounterStatic8N(Nest049,1,2,2) { Species = 857, Ability = A3 }, // Hattrem
-            new EncounterStatic8N(Nest049,2,3,3) { Species = 281, Ability = A3 }, // Kirlia
-            new EncounterStatic8N(Nest049,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
-            new EncounterStatic8N(Nest049,3,4,4) { Species = 858, Ability = A4 }, // Hatterene
-            new EncounterStatic8N(Nest049,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest049,4,4,4) { Species = 687, Ability = A4 }, // Malamar
-            new EncounterStatic8N(Nest049,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest050,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest050,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
-            new EncounterStatic8N(Nest050,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
-            new EncounterStatic8N(Nest050,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest050,2,4,4) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest050,3,4,4) { Species = 558, Ability = A4 }, // Crustle
-            new EncounterStatic8N(Nest050,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest050,4,4,4) { Species = 208, Ability = A4 }, // Steelix
-            new EncounterStatic8N(Nest051,0,0,1) { Species = 194, Ability = A3 }, // Wooper
-            new EncounterStatic8N(Nest051,0,0,1) { Species = 339, Ability = A3 }, // Barboach
-            new EncounterStatic8N(Nest051,0,1,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest051,0,1,1) { Species = 622, Ability = A3 }, // Golett
-            new EncounterStatic8N(Nest051,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
-            new EncounterStatic8N(Nest051,1,2,2) { Species = 195, Ability = A3 }, // Quagsire
-            new EncounterStatic8N(Nest051,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest051,2,4,4) { Species = 623, Ability = A3 }, // Golurk
-            new EncounterStatic8N(Nest051,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
-            new EncounterStatic8N(Nest051,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
-            new EncounterStatic8N(Nest051,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
-            new EncounterStatic8N(Nest051,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
-            new EncounterStatic8N(Nest052,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest052,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest052,0,1,1) { Species = 004, Ability = A3 }, // Charmander
-            new EncounterStatic8N(Nest052,1,2,2) { Species = 005, Ability = A3 }, // Charmeleon
-            new EncounterStatic8N(Nest052,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest052,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest052,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest052,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest052,4,4,4) { Species = 006, Ability = A4 }, // Charizard
-            new EncounterStatic8N(Nest053,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest053,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest053,0,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest053,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest053,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest053,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
-            new EncounterStatic8N(Nest053,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest054,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
-            new EncounterStatic8N(Nest054,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest054,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
-            new EncounterStatic8N(Nest054,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
-            new EncounterStatic8N(Nest054,1,2,2) { Species = 225, Ability = A3 }, // Delibird
-            new EncounterStatic8N(Nest054,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
-            new EncounterStatic8N(Nest054,2,4,4) { Species = 362, Ability = A3 }, // Glalie
-            new EncounterStatic8N(Nest054,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
-            new EncounterStatic8N(Nest054,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest054,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest055,0,0,1) { Species = 835, Ability = A3 }, // Yamper
-            new EncounterStatic8N(Nest055,0,0,1) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest055,0,1,1) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest055,0,1,1) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest055,1,2,2) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest055,1,2,2) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest055,2,4,4) { Species = 836, Ability = A3 }, // Boltund
-            new EncounterStatic8N(Nest055,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
-            new EncounterStatic8N(Nest055,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
-            new EncounterStatic8N(Nest055,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
-            new EncounterStatic8N(Nest055,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
-            new EncounterStatic8N(Nest055,4,4,4) { Species = 877, Ability = A4 }, // Morpeko
-            new EncounterStatic8N(Nest056,0,0,1) { Species = 172, Ability = A3 }, // Pichu
-            new EncounterStatic8N(Nest056,0,0,1) { Species = 309, Ability = A3 }, // Electrike
-            new EncounterStatic8N(Nest056,0,1,1) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest056,0,1,1) { Species = 694, Ability = A3 }, // Helioptile
-            new EncounterStatic8N(Nest056,1,2,2) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest056,1,2,2) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest056,2,4,4) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest056,2,4,4) { Species = 479, Ability = A3, Form = 5 }, // Rotom-5
-            new EncounterStatic8N(Nest056,3,4,4) { Species = 479, Ability = A4, Form = 4 }, // Rotom-4
-            new EncounterStatic8N(Nest056,3,4,4) { Species = 479, Ability = A4, Form = 3 }, // Rotom-3
-            new EncounterStatic8N(Nest056,4,4,4) { Species = 479, Ability = A4, Form = 2 }, // Rotom-2
-            new EncounterStatic8N(Nest056,4,4,4) { Species = 479, Ability = A4, Form = 1 }, // Rotom-1
-            new EncounterStatic8N(Nest057,0,0,1) { Species = 406, Ability = A3 }, // Budew
-            new EncounterStatic8N(Nest057,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest057,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest057,1,2,2) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest057,2,4,4) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest057,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest057,3,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
-            new EncounterStatic8N(Nest057,4,4,4) { Species = 407, Ability = A4 }, // Roserade
-            new EncounterStatic8N(Nest058,0,0,1) { Species = 420, Ability = A3 }, // Cherubi
-            new EncounterStatic8N(Nest058,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest058,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
-            new EncounterStatic8N(Nest058,1,2,2) { Species = 755, Ability = A3 }, // Morelull
-            new EncounterStatic8N(Nest058,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
-            new EncounterStatic8N(Nest058,2,4,4) { Species = 756, Ability = A3 }, // Shiinotic
-            new EncounterStatic8N(Nest058,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest058,3,4,4) { Species = 547, Ability = A4 }, // Whimsicott
-            new EncounterStatic8N(Nest058,4,4,4) { Species = 781, Ability = A4 }, // Dhelmise
-            new EncounterStatic8N(Nest059,0,0,1) { Species = 434, Ability = A3 }, // Stunky
-            new EncounterStatic8N(Nest059,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
-            new EncounterStatic8N(Nest059,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
-            new EncounterStatic8N(Nest059,0,1,1) { Species = 109, Ability = A3 }, // Koffing
-            new EncounterStatic8N(Nest059,1,2,2) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest059,2,4,4) { Species = 569, Ability = A3 }, // Garbodor
-            new EncounterStatic8N(Nest059,2,4,4) { Species = 452, Ability = A3 }, // Drapion
-            new EncounterStatic8N(Nest059,3,4,4) { Species = 849, Ability = A4 }, // Toxtricity
-            new EncounterStatic8N(Nest059,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
-            new EncounterStatic8N(Nest059,4,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest060,0,0,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest060,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
-            new EncounterStatic8N(Nest060,0,1,1) { Species = 821, Ability = A3 }, // Rookidee
-            new EncounterStatic8N(Nest060,0,1,1) { Species = 278, Ability = A3 }, // Wingull
-            new EncounterStatic8N(Nest060,1,2,2) { Species = 012, Ability = A3 }, // Butterfree
-            new EncounterStatic8N(Nest060,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
-            new EncounterStatic8N(Nest060,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
-            new EncounterStatic8N(Nest060,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
-            new EncounterStatic8N(Nest060,3,4,4) { Species = 178, Ability = A4 }, // Xatu
-            new EncounterStatic8N(Nest060,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
-            new EncounterStatic8N(Nest060,4,4,4) { Species = 823, Ability = A4 }, // Corviknight
-            new EncounterStatic8N(Nest060,4,4,4) { Species = 225, Ability = A4 }, // Delibird
-            new EncounterStatic8N(Nest061,0,0,1) { Species = 175, Ability = A3 }, // Togepi
-            new EncounterStatic8N(Nest061,0,0,1) { Species = 755, Ability = A3 }, // Morelull
-            new EncounterStatic8N(Nest061,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest061,0,1,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest061,1,2,2) { Species = 176, Ability = A3 }, // Togetic
-            new EncounterStatic8N(Nest061,1,2,2) { Species = 756, Ability = A3 }, // Shiinotic
-            new EncounterStatic8N(Nest061,2,4,4) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest061,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest061,3,4,4) { Species = 468, Ability = A4 }, // Togekiss
-            new EncounterStatic8N(Nest061,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest061,4,4,4) { Species = 778, Ability = A4 }, // Mimikyu
-            new EncounterStatic8N(Nest062,0,0,1) { Species = 827, Ability = A3 }, // Nickit
-            new EncounterStatic8N(Nest062,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
-            new EncounterStatic8N(Nest062,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest062,1,2,2) { Species = 510, Ability = A3 }, // Liepard
-            new EncounterStatic8N(Nest062,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest062,2,4,4) { Species = 828, Ability = A3 }, // Thievul
-            new EncounterStatic8N(Nest062,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
-            new EncounterStatic8N(Nest062,3,4,4) { Species = 461, Ability = A4 }, // Weavile
-            new EncounterStatic8N(Nest062,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
-            new EncounterStatic8N(Nest063,0,0,1) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest063,1,2,2) { Species = 885, Ability = A3 }, // Dreepy
-            new EncounterStatic8N(Nest063,3,4,4) { Species = 886, Ability = A4 }, // Drakloak
-            new EncounterStatic8N(Nest063,4,4,4) { Species = 887, Ability = A4 }, // Dragapult
-            new EncounterStatic8N(Nest064,0,0,1) { Species = 659, Ability = A3 }, // Bunnelby
-            new EncounterStatic8N(Nest064,0,0,1) { Species = 519, Ability = A3 }, // Pidove
-            new EncounterStatic8N(Nest064,0,1,1) { Species = 819, Ability = A3 }, // Skwovet
-            new EncounterStatic8N(Nest064,0,1,1) { Species = 133, Ability = A3 }, // Eevee
-            new EncounterStatic8N(Nest064,1,2,2) { Species = 520, Ability = A3 }, // Tranquill
-            new EncounterStatic8N(Nest064,1,2,2) { Species = 831, Ability = A3 }, // Wooloo
-            new EncounterStatic8N(Nest064,2,4,4) { Species = 521, Ability = A3 }, // Unfezant
-            new EncounterStatic8N(Nest064,2,4,4) { Species = 832, Ability = A3 }, // Dubwool
-            new EncounterStatic8N(Nest064,4,4,4) { Species = 133, Ability = A4 }, // Eevee
-            new EncounterStatic8N(Nest064,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
-            new EncounterStatic8N(Nest065,0,0,1) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest065,0,1,2) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest065,1,2,3) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest065,2,3,3) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest065,3,4,4) { Species = 132, Ability = A4 }, // Ditto
-            new EncounterStatic8N(Nest065,4,4,4) { Species = 132, Ability = A4 }, // Ditto
-            new EncounterStatic8N(Nest066,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
-            new EncounterStatic8N(Nest066,0,0,1) { Species = 341, Ability = A3 }, // Corphish
-            new EncounterStatic8N(Nest066,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest066,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest066,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest066,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
-            new EncounterStatic8N(Nest066,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
-            new EncounterStatic8N(Nest066,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
-            new EncounterStatic8N(Nest066,3,4,4) { Species = 226, Ability = A4 }, // Mantine
-            new EncounterStatic8N(Nest066,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest066,4,4,4) { Species = 134, Ability = A4 }, // Vaporeon
-            new EncounterStatic8N(Nest067,0,0,1) { Species = 686, Ability = A3 }, // Inkay
-            new EncounterStatic8N(Nest067,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest067,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest067,0,1,1) { Species = 527, Ability = A3 }, // Woobat
-            new EncounterStatic8N(Nest067,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
-            new EncounterStatic8N(Nest067,1,2,2) { Species = 857, Ability = A3 }, // Hattrem
-            new EncounterStatic8N(Nest067,2,3,3) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest067,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
-            new EncounterStatic8N(Nest067,3,4,4) { Species = 687, Ability = A4 }, // Malamar
-            new EncounterStatic8N(Nest067,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest067,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
-            new EncounterStatic8N(Nest067,4,4,4) { Species = 196, Ability = A4 }, // Espeon
-            new EncounterStatic8N(Nest068,0,0,1) { Species = 827, Ability = A3 }, // Nickit
-            new EncounterStatic8N(Nest068,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
-            new EncounterStatic8N(Nest068,0,1,1) { Species = 686, Ability = A3 }, // Inkay
-            new EncounterStatic8N(Nest068,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest068,1,2,2) { Species = 510, Ability = A3 }, // Liepard
-            new EncounterStatic8N(Nest068,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest068,2,4,4) { Species = 828, Ability = A3 }, // Thievul
-            new EncounterStatic8N(Nest068,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
-            new EncounterStatic8N(Nest068,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest068,3,4,4) { Species = 687, Ability = A4 }, // Malamar
-            new EncounterStatic8N(Nest068,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
-            new EncounterStatic8N(Nest068,4,4,4) { Species = 197, Ability = A4 }, // Umbreon
-            new EncounterStatic8N(Nest069,0,0,1) { Species = 420, Ability = A3 }, // Cherubi
-            new EncounterStatic8N(Nest069,0,0,1) { Species = 761, Ability = A3 }, // Bounsweet
-            new EncounterStatic8N(Nest069,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest069,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
-            new EncounterStatic8N(Nest069,1,2,2) { Species = 762, Ability = A3 }, // Steenee
-            new EncounterStatic8N(Nest069,1,2,2) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest069,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
-            new EncounterStatic8N(Nest069,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
-            new EncounterStatic8N(Nest069,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest069,3,4,4) { Species = 763, Ability = A4 }, // Tsareena
-            new EncounterStatic8N(Nest069,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
-            new EncounterStatic8N(Nest069,4,4,4) { Species = 470, Ability = A4 }, // Leafeon
-            new EncounterStatic8N(Nest070,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest070,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest070,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest070,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest070,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest070,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
-            new EncounterStatic8N(Nest070,4,4,4) { Species = 609, Ability = A4 }, // Chandelure
-            new EncounterStatic8N(Nest070,4,4,4) { Species = 136, Ability = A4 }, // Flareon
-            new EncounterStatic8N(Nest071,0,0,1) { Species = 835, Ability = A3 }, // Yamper
-            new EncounterStatic8N(Nest071,0,0,1) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest071,0,1,1) { Species = 025, Ability = A3 }, // Pikachu
-            new EncounterStatic8N(Nest071,0,1,1) { Species = 694, Ability = A3 }, // Helioptile
-            new EncounterStatic8N(Nest071,1,2,2) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest071,1,2,2) { Species = 171, Ability = A3 }, // Lanturn
-            new EncounterStatic8N(Nest071,2,4,4) { Species = 836, Ability = A3 }, // Boltund
-            new EncounterStatic8N(Nest071,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
-            new EncounterStatic8N(Nest071,3,4,4) { Species = 695, Ability = A4 }, // Heliolisk
-            new EncounterStatic8N(Nest071,3,4,4) { Species = 738, Ability = A4 }, // Vikavolt
-            new EncounterStatic8N(Nest071,4,4,4) { Species = 025, Ability = A4 }, // Pikachu
-            new EncounterStatic8N(Nest071,4,4,4) { Species = 135, Ability = A4 }, // Jolteon
-            new EncounterStatic8N(Nest072,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
-            new EncounterStatic8N(Nest072,0,0,1) { Species = 872, Ability = A3 }, // Snom
-            new EncounterStatic8N(Nest072,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest072,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
-            new EncounterStatic8N(Nest072,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
-            new EncounterStatic8N(Nest072,1,2,2) { Species = 583, Ability = A3 }, // Vanillish
-            new EncounterStatic8N(Nest072,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
-            new EncounterStatic8N(Nest072,2,4,4) { Species = 873, Ability = A3 }, // Frosmoth
-            new EncounterStatic8N(Nest072,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
-            new EncounterStatic8N(Nest072,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest072,4,4,4) { Species = 478, Ability = A4 }, // Froslass
-            new EncounterStatic8N(Nest072,4,4,4) { Species = 471, Ability = A4 }, // Glaceon
-            new EncounterStatic8N(Nest073,0,0,1) { Species = 175, Ability = A3 }, // Togepi
-            new EncounterStatic8N(Nest073,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest073,0,1,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest073,1,2,2) { Species = 176, Ability = A3 }, // Togetic
-            new EncounterStatic8N(Nest073,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest073,2,4,4) { Species = 868, Ability = A3 }, // Milcery
-            new EncounterStatic8N(Nest073,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest073,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest073,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
-            new EncounterStatic8N(Nest073,4,4,4) { Species = 700, Ability = A4 }, // Sylveon
-            new EncounterStatic8N(Nest074,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
-            new EncounterStatic8N(Nest074,0,0,1) { Species = 751, Ability = A3 }, // Dewpider
-            new EncounterStatic8N(Nest074,0,1,1) { Species = 194, Ability = A3 }, // Wooper
-            new EncounterStatic8N(Nest074,0,1,1) { Species = 339, Ability = A3 }, // Barboach
-            new EncounterStatic8N(Nest074,1,2,2) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest074,1,2,2) { Species = 746, Ability = A3 }, // Wishiwashi
-            new EncounterStatic8N(Nest074,2,3,3) { Species = 099, Ability = A3 }, // Kingler
-            new EncounterStatic8N(Nest074,2,4,4) { Species = 340, Ability = A3 }, // Whiscash
-            new EncounterStatic8N(Nest074,3,4,4) { Species = 211, Ability = A4 }, // Qwilfish
-            new EncounterStatic8N(Nest074,3,4,4) { Species = 195, Ability = A4 }, // Quagsire
-            new EncounterStatic8N(Nest074,4,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest074,4,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest075,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
-            new EncounterStatic8N(Nest075,0,0,1) { Species = 223, Ability = A3 }, // Remoraid
-            new EncounterStatic8N(Nest075,0,1,1) { Species = 320, Ability = A3 }, // Wailmer
-            new EncounterStatic8N(Nest075,0,1,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest075,1,2,2) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest075,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
-            new EncounterStatic8N(Nest075,2,3,3) { Species = 099, Ability = A3 }, // Kingler
-            new EncounterStatic8N(Nest075,3,4,4) { Species = 211, Ability = A4 }, // Qwilfish
-            new EncounterStatic8N(Nest075,3,4,4) { Species = 224, Ability = A4 }, // Octillery
-            new EncounterStatic8N(Nest075,4,4,4) { Species = 321, Ability = A4 }, // Wailord
-            new EncounterStatic8N(Nest075,4,4,4) { Species = 226, Ability = A4 }, // Mantine
-            new EncounterStatic8N(Nest076,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest076,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest076,0,1,1) { Species = 004, Ability = A3 }, // Charmander
-            new EncounterStatic8N(Nest076,1,2,2) { Species = 005, Ability = A3 }, // Charmeleon
-            new EncounterStatic8N(Nest076,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest076,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest076,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest076,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest076,4,4,4) { Species = 006, Ability = A4, CanGigantamax = true }, // Charizard
-            new EncounterStatic8N(Nest077,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
-            new EncounterStatic8N(Nest077,0,0,1) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest077,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest077,0,1,1) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest077,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
-            new EncounterStatic8N(Nest077,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
-            new EncounterStatic8N(Nest077,2,4,4) { Species = 099, Ability = A3 }, // Kingler
-            new EncounterStatic8N(Nest077,3,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
-            new EncounterStatic8N(Nest077,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest077,4,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
-            new EncounterStatic8N(Nest077,4,4,4) { Species = 834, Ability = A4, CanGigantamax = true }, // Drednaw
-            new EncounterStatic8N(Nest078,0,0,1) { Species = 406, Ability = A3 }, // Budew
-            new EncounterStatic8N(Nest078,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest078,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest078,1,2,2) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest078,2,4,4) { Species = 315, Ability = A3 }, // Roselia
-            new EncounterStatic8N(Nest078,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest078,3,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
-            new EncounterStatic8N(Nest078,4,4,4) { Species = 407, Ability = A4 }, // Roserade
-            new EncounterStatic8N(Nest079,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest079,0,1,1) { Species = 607, Ability = A3 }, // Litwick
-            new EncounterStatic8N(Nest079,0,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest079,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest079,1,2,2) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest079,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest079,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest079,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
-            new EncounterStatic8N(Nest079,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest079,4,4,4) { Species = 851, Ability = A4, CanGigantamax = true }, // Centiskorch
-            new EncounterStatic8N(Nest081,0,0,1) { Species = 175, Ability = A3 }, // Togepi
-            new EncounterStatic8N(Nest081,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest081,0,1,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest081,1,2,2) { Species = 176, Ability = A3 }, // Togetic
-            new EncounterStatic8N(Nest081,1,2,2) { Species = 756, Ability = A3 }, // Shiinotic
-            new EncounterStatic8N(Nest081,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest081,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest081,3,4,4) { Species = 468, Ability = A4 }, // Togekiss
-            new EncounterStatic8N(Nest081,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest081,4,4,4) { Species = 869, Ability = A4, CanGigantamax = true }, // Alcremie
-            new EncounterStatic8N(Nest083,0,0,1) { Species = 447, Ability = A3 }, // Riolu
-            new EncounterStatic8N(Nest083,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest083,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest083,0,1,1) { Species = 599, Ability = A3 }, // Klink
-            new EncounterStatic8N(Nest083,1,2,2) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest083,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest083,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest083,3,4,4) { Species = 208, Ability = A4 }, // Steelix
-            new EncounterStatic8N(Nest083,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
-            new EncounterStatic8N(Nest083,4,4,4) { Species = 884, Ability = A4, CanGigantamax = true }, // Duraludon
-            new EncounterStatic8N(Nest084,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
-            new EncounterStatic8N(Nest084,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest084,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest084,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
-            new EncounterStatic8N(Nest084,1,2,2) { Species = 679, Ability = A3 }, // Honedge
-            new EncounterStatic8N(Nest084,1,2,2) { Species = 437, Ability = A3 }, // Bronzong
-            new EncounterStatic8N(Nest084,2,3,3) { Species = 863, Ability = A3 }, // Perrserker
-            new EncounterStatic8N(Nest084,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
-            new EncounterStatic8N(Nest084,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest084,3,4,4) { Species = 618, Ability = A4, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest084,4,4,4) { Species = 884, Ability = A4 }, // Duraludon
-            new EncounterStatic8N(Nest084,4,4,4) { Species = 879, Ability = A4, CanGigantamax = true }, // Copperajah
-            new EncounterStatic8N(Nest085,0,0,1) { Species = 434, Ability = A3 }, // Stunky
-            new EncounterStatic8N(Nest085,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
-            new EncounterStatic8N(Nest085,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
-            new EncounterStatic8N(Nest085,0,1,1) { Species = 109, Ability = A3 }, // Koffing
-            new EncounterStatic8N(Nest085,1,2,2) { Species = 848, Ability = A3 }, // Toxel
-            new EncounterStatic8N(Nest085,2,3,3) { Species = 452, Ability = A3 }, // Drapion
-            new EncounterStatic8N(Nest085,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
-            new EncounterStatic8N(Nest085,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
-            new EncounterStatic8N(Nest085,3,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest085,4,4,4) { Species = 569, Ability = A4, CanGigantamax = true }, // Garbodor
-            new EncounterStatic8N(Nest086,0,0,1) { Species = 175, Ability = A3 }, // Togepi
-            new EncounterStatic8N(Nest086,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest086,0,1,1) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest086,1,2,2) { Species = 176, Ability = A3 }, // Togetic
-            new EncounterStatic8N(Nest086,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest086,2,4,4) { Species = 868, Ability = A3 }, // Milcery
-            new EncounterStatic8N(Nest086,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest086,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest086,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
-            new EncounterStatic8N(Nest086,4,4,4) { Species = 858, Ability = A4, CanGigantamax = true }, // Hatterene
-            new EncounterStatic8N(Nest087,0,0,1) { Species = 827, Ability = A3 }, // Nickit
-            new EncounterStatic8N(Nest087,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
-            new EncounterStatic8N(Nest087,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest087,1,2,2) { Species = 510, Ability = A3 }, // Liepard
-            new EncounterStatic8N(Nest087,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest087,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest087,2,4,4) { Species = 828, Ability = A3 }, // Thievul
-            new EncounterStatic8N(Nest087,3,4,4) { Species = 675, Ability = A4 }, // Pangoro
-            new EncounterStatic8N(Nest087,4,4,4) { Species = 861, Ability = A4, CanGigantamax = true }, // Grimmsnarl
-            new EncounterStatic8N(Nest088,0,0,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest088,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
-            new EncounterStatic8N(Nest088,0,1,1) { Species = 821, Ability = A3 }, // Rookidee
-            new EncounterStatic8N(Nest088,0,1,1) { Species = 278, Ability = A3 }, // Wingull
-            new EncounterStatic8N(Nest088,1,2,2) { Species = 012, Ability = A3 }, // Butterfree
-            new EncounterStatic8N(Nest088,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
-            new EncounterStatic8N(Nest088,2,3,3) { Species = 164, Ability = A3 }, // Noctowl
-            new EncounterStatic8N(Nest088,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
-            new EncounterStatic8N(Nest088,3,4,4) { Species = 178, Ability = A4 }, // Xatu
-            new EncounterStatic8N(Nest088,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
-            new EncounterStatic8N(Nest088,4,4,4) { Species = 561, Ability = A4 }, // Sigilyph
-            new EncounterStatic8N(Nest088,4,4,4) { Species = 823, Ability = A4, CanGigantamax = true }, // Corviknight
-            new EncounterStatic8N(Nest089,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
-            new EncounterStatic8N(Nest089,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
-            new EncounterStatic8N(Nest089,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
-            new EncounterStatic8N(Nest089,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest089,2,3,3) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest089,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
-            new EncounterStatic8N(Nest089,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest089,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
-            new EncounterStatic8N(Nest089,0,4,4) { Species = 012, Ability = A4, CanGigantamax = true }, // Butterfree
-            new EncounterStatic8N(Nest090,0,0,1) { Species = 341, Ability = A3 }, // Corphish
-            new EncounterStatic8N(Nest090,0,0,1) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest090,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest090,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest090,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest090,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
-            new EncounterStatic8N(Nest090,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
-            new EncounterStatic8N(Nest090,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
-            new EncounterStatic8N(Nest090,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest090,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest090,1,4,4) { Species = 099, Ability = A4, CanGigantamax = true }, // Kingler
-            new EncounterStatic8N(Nest091,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
-            new EncounterStatic8N(Nest091,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
-            new EncounterStatic8N(Nest091,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
-            new EncounterStatic8N(Nest091,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest091,2,3,3) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest091,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
-            new EncounterStatic8N(Nest091,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest091,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
-            new EncounterStatic8N(Nest091,2,4,4) { Species = 826, Ability = A4, CanGigantamax = true }, // Orbeetle
-            new EncounterStatic8N(Nest092,0,0,1) { Species = 194, Ability = A3 }, // Wooper
-            new EncounterStatic8N(Nest092,0,0,1) { Species = 339, Ability = A3 }, // Barboach
-            new EncounterStatic8N(Nest092,0,1,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest092,0,1,1) { Species = 622, Ability = A3 }, // Golett
-            new EncounterStatic8N(Nest092,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
-            new EncounterStatic8N(Nest092,1,2,2) { Species = 195, Ability = A3 }, // Quagsire
-            new EncounterStatic8N(Nest092,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest092,2,4,4) { Species = 623, Ability = A3 }, // Golurk
-            new EncounterStatic8N(Nest092,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
-            new EncounterStatic8N(Nest092,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
-            new EncounterStatic8N(Nest092,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
-            new EncounterStatic8N(Nest092,3,4,4) { Species = 844, Ability = A4, CanGigantamax = true }, // Sandaconda
-            new EncounterStatic8N(Nest098,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest098,0,1,1) { Species = 174, Ability = A3 }, // Igglybuff
-            new EncounterStatic8N(Nest098,0,1,1) { Species = 506, Ability = A3 }, // Lillipup
-            new EncounterStatic8N(Nest098,1,2,2) { Species = 427, Ability = A3 }, // Buneary
-            new EncounterStatic8N(Nest098,1,2,2) { Species = 039, Ability = A3 }, // Jigglypuff
-            new EncounterStatic8N(Nest098,2,3,3) { Species = 039, Ability = A3 }, // Jigglypuff
-            new EncounterStatic8N(Nest098,2,3,3) { Species = 507, Ability = A3 }, // Herdier
-            new EncounterStatic8N(Nest098,3,4,4) { Species = 428, Ability = A4 }, // Lopunny
-            new EncounterStatic8N(Nest098,3,4,4) { Species = 040, Ability = A4 }, // Wigglytuff
-            new EncounterStatic8N(Nest098,4,4,4) { Species = 206, Ability = A4 }, // Dunsparce
-            new EncounterStatic8N(Nest098,4,4,4) { Species = 508, Ability = A4 }, // Stoutland
-            new EncounterStatic8N(Nest099,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest099,0,1,1) { Species = 506, Ability = A2 }, // Lillipup
-            new EncounterStatic8N(Nest099,0,1,1) { Species = 759, Ability = A2 }, // Stufful
-            new EncounterStatic8N(Nest099,1,2,2) { Species = 039, Ability = A2 }, // Jigglypuff
-            new EncounterStatic8N(Nest099,1,2,2) { Species = 427, Ability = A2 }, // Buneary
-            new EncounterStatic8N(Nest099,2,3,3) { Species = 039, Ability = A2 }, // Jigglypuff
-            new EncounterStatic8N(Nest099,2,3,3) { Species = 206, Ability = A2 }, // Dunsparce
-            new EncounterStatic8N(Nest099,3,4,4) { Species = 832, Ability = A2 }, // Dubwool
-            new EncounterStatic8N(Nest099,3,4,4) { Species = 428, Ability = A2 }, // Lopunny
-            new EncounterStatic8N(Nest099,3,4,4) { Species = 508, Ability = A2 }, // Stoutland
-            new EncounterStatic8N(Nest099,4,4,4) { Species = 760, Ability = A2 }, // Bewear
-            new EncounterStatic8N(Nest099,4,4,4) { Species = 040, Ability = A2 }, // Wigglytuff
-            new EncounterStatic8N(Nest100,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest100,0,1,1) { Species = 293, Ability = A3 }, // Whismur
-            new EncounterStatic8N(Nest100,0,1,1) { Species = 108, Ability = A3 }, // Lickitung
-            new EncounterStatic8N(Nest100,1,2,2) { Species = 241, Ability = A3 }, // Miltank
-            new EncounterStatic8N(Nest100,1,2,2) { Species = 294, Ability = A3 }, // Loudred
-            new EncounterStatic8N(Nest100,2,3,3) { Species = 294, Ability = A3 }, // Loudred
-            new EncounterStatic8N(Nest100,2,3,3) { Species = 108, Ability = A3 }, // Lickitung
-            new EncounterStatic8N(Nest100,3,4,4) { Species = 241, Ability = A4 }, // Miltank
-            new EncounterStatic8N(Nest100,3,4,4) { Species = 626, Ability = A4 }, // Bouffalant
-            new EncounterStatic8N(Nest100,3,4,4) { Species = 128, Ability = A4 }, // Tauros
-            new EncounterStatic8N(Nest100,4,4,4) { Species = 295, Ability = A4 }, // Exploud
-            new EncounterStatic8N(Nest100,4,4,4) { Species = 463, Ability = A4 }, // Lickilicky
-            new EncounterStatic8N(Nest101,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest101,0,1,1) { Species = 293, Ability = A2 }, // Whismur
-            new EncounterStatic8N(Nest101,0,1,1) { Species = 128, Ability = A2 }, // Tauros
-            new EncounterStatic8N(Nest101,1,2,2) { Species = 108, Ability = A2 }, // Lickitung
-            new EncounterStatic8N(Nest101,1,2,2) { Species = 241, Ability = A2 }, // Miltank
-            new EncounterStatic8N(Nest101,2,3,3) { Species = 241, Ability = A2 }, // Miltank
-            new EncounterStatic8N(Nest101,2,3,3) { Species = 626, Ability = A2 }, // Bouffalant
-            new EncounterStatic8N(Nest101,3,4,4) { Species = 128, Ability = A2 }, // Tauros
-            new EncounterStatic8N(Nest101,3,4,4) { Species = 295, Ability = A2 }, // Exploud
-            new EncounterStatic8N(Nest101,3,4,4) { Species = 573, Ability = A2 }, // Cinccino
-            new EncounterStatic8N(Nest101,4,4,4) { Species = 295, Ability = A2 }, // Exploud
-            new EncounterStatic8N(Nest101,4,4,4) { Species = 463, Ability = A2 }, // Lickilicky
-            new EncounterStatic8N(Nest102,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest102,0,1,1) { Species = 027, Ability = A3 }, // Sandshrew
-            new EncounterStatic8N(Nest102,0,1,1) { Species = 551, Ability = A3 }, // Sandile
-            new EncounterStatic8N(Nest102,1,2,2) { Species = 104, Ability = A3 }, // Cubone
-            new EncounterStatic8N(Nest102,1,2,2) { Species = 027, Ability = A3 }, // Sandshrew
-            new EncounterStatic8N(Nest102,2,3,3) { Species = 552, Ability = A3 }, // Krokorok
-            new EncounterStatic8N(Nest102,2,3,3) { Species = 028, Ability = A3 }, // Sandslash
-            new EncounterStatic8N(Nest102,3,4,4) { Species = 844, Ability = A4 }, // Sandaconda
-            new EncounterStatic8N(Nest102,3,4,4) { Species = 028, Ability = A4 }, // Sandslash
-            new EncounterStatic8N(Nest102,3,4,4) { Species = 105, Ability = A4 }, // Marowak
-            new EncounterStatic8N(Nest102,4,4,4) { Species = 553, Ability = A4 }, // Krookodile
-            new EncounterStatic8N(Nest102,4,4,4) { Species = 115, Ability = A4 }, // Kangaskhan
-            new EncounterStatic8N(Nest103,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest103,0,1,1) { Species = 027, Ability = A2 }, // Sandshrew
-            new EncounterStatic8N(Nest103,0,1,1) { Species = 104, Ability = A2 }, // Cubone
-            new EncounterStatic8N(Nest103,1,2,2) { Species = 328, Ability = A2 }, // Trapinch
-            new EncounterStatic8N(Nest103,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
-            new EncounterStatic8N(Nest103,2,3,3) { Species = 028, Ability = A2 }, // Sandslash
-            new EncounterStatic8N(Nest103,3,4,4) { Species = 105, Ability = A2 }, // Marowak
-            new EncounterStatic8N(Nest103,3,4,4) { Species = 553, Ability = A2 }, // Krookodile
-            new EncounterStatic8N(Nest103,3,4,4) { Species = 115, Ability = A2 }, // Kangaskhan
-            new EncounterStatic8N(Nest103,4,4,4) { Species = 330, Ability = A2 }, // Flygon
-            new EncounterStatic8N(Nest103,4,4,4) { Species = 623, Ability = A2 }, // Golurk
-            new EncounterStatic8N(Nest104,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest104,0,1,1) { Species = 702, Ability = A3 }, // Dedenne
-            new EncounterStatic8N(Nest104,0,1,1) { Species = 081, Ability = A3 }, // Magnemite
-            new EncounterStatic8N(Nest104,1,2,2) { Species = 403, Ability = A3 }, // Shinx
-            new EncounterStatic8N(Nest104,1,2,2) { Species = 877, Ability = A3 }, // Morpeko
-            new EncounterStatic8N(Nest104,2,3,3) { Species = 702, Ability = A3 }, // Dedenne
-            new EncounterStatic8N(Nest104,2,3,3) { Species = 404, Ability = A3 }, // Luxio
-            new EncounterStatic8N(Nest104,3,4,4) { Species = 702, Ability = A4 }, // Dedenne
-            new EncounterStatic8N(Nest104,3,4,4) { Species = 082, Ability = A4 }, // Magneton
-            new EncounterStatic8N(Nest104,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
-            new EncounterStatic8N(Nest104,4,4,4) { Species = 405, Ability = A4 }, // Luxray
-            new EncounterStatic8N(Nest104,4,4,4) { Species = 462, Ability = A4 }, // Magnezone
-            new EncounterStatic8N(Nest105,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest105,0,1,1) { Species = 403, Ability = A2 }, // Shinx
-            new EncounterStatic8N(Nest105,0,1,1) { Species = 172, Ability = A2 }, // Pichu
-            new EncounterStatic8N(Nest105,1,2,2) { Species = 025, Ability = A2 }, // Pikachu
-            new EncounterStatic8N(Nest105,1,2,2) { Species = 871, Ability = A2 }, // Pincurchin
-            new EncounterStatic8N(Nest105,2,3,3) { Species = 404, Ability = A2 }, // Luxio
-            new EncounterStatic8N(Nest105,2,3,3) { Species = 026, Ability = A2 }, // Raichu
-            new EncounterStatic8N(Nest105,3,4,4) { Species = 836, Ability = A2 }, // Boltund
-            new EncounterStatic8N(Nest105,3,4,4) { Species = 702, Ability = A2 }, // Dedenne
-            new EncounterStatic8N(Nest105,3,4,4) { Species = 310, Ability = A2 }, // Manectric
-            new EncounterStatic8N(Nest105,4,4,4) { Species = 405, Ability = A2 }, // Luxray
-            new EncounterStatic8N(Nest105,4,4,4) { Species = 462, Ability = A2 }, // Magnezone
-            new EncounterStatic8N(Nest106,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest106,0,1,1) { Species = 661, Ability = A3 }, // Fletchling
-            new EncounterStatic8N(Nest106,0,1,1) { Species = 527, Ability = A3 }, // Woobat
-            new EncounterStatic8N(Nest106,1,2,2) { Species = 587, Ability = A3 }, // Emolga
-            new EncounterStatic8N(Nest106,2,3,3) { Species = 662, Ability = A3 }, // Fletchinder
-            new EncounterStatic8N(Nest106,3,4,4) { Species = 587, Ability = A4 }, // Emolga
-            new EncounterStatic8N(Nest106,3,4,4) { Species = 528, Ability = A4 }, // Swoobat
-            new EncounterStatic8N(Nest106,4,4,4) { Species = 663, Ability = A4 }, // Talonflame
-            new EncounterStatic8N(Nest107,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest107,0,1,1) { Species = 163, Ability = A2 }, // Hoothoot
-            new EncounterStatic8N(Nest107,0,1,1) { Species = 519, Ability = A2 }, // Pidove
-            new EncounterStatic8N(Nest107,1,2,2) { Species = 520, Ability = A2 }, // Tranquill
-            new EncounterStatic8N(Nest107,2,3,3) { Species = 528, Ability = A2 }, // Swoobat
-            new EncounterStatic8N(Nest107,2,3,3) { Species = 164, Ability = A2 }, // Noctowl
-            new EncounterStatic8N(Nest107,3,4,4) { Species = 521, Ability = A2 }, // Unfezant
-            new EncounterStatic8N(Nest107,3,4,4) { Species = 663, Ability = A2 }, // Talonflame
-            new EncounterStatic8N(Nest107,3,4,4) { Species = 587, Ability = A2 }, // Emolga
-            new EncounterStatic8N(Nest107,4,4,4) { Species = 663, Ability = A2 }, // Talonflame
-            new EncounterStatic8N(Nest108,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest108,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest108,1,2,2) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest108,2,3,3) { Species = 558, Ability = A3 }, // Crustle
-            new EncounterStatic8N(Nest108,3,4,4) { Species = 123, Ability = A4 }, // Scyther
-            new EncounterStatic8N(Nest108,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
-            new EncounterStatic8N(Nest108,4,4,4) { Species = 212, Ability = A4 }, // Scizor
-            new EncounterStatic8N(Nest109,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest109,0,1,1) { Species = 123, Ability = A2 }, // Scyther
-            new EncounterStatic8N(Nest109,1,2,2) { Species = 213, Ability = A2 }, // Shuckle
-            new EncounterStatic8N(Nest109,1,2,2) { Species = 544, Ability = A2 }, // Whirlipede
-            new EncounterStatic8N(Nest109,2,3,3) { Species = 123, Ability = A2 }, // Scyther
-            new EncounterStatic8N(Nest109,2,3,3) { Species = 558, Ability = A2 }, // Crustle
-            new EncounterStatic8N(Nest109,3,4,4) { Species = 545, Ability = A2 }, // Scolipede
-            new EncounterStatic8N(Nest109,3,4,4) { Species = 617, Ability = A2 }, // Accelgor
-            new EncounterStatic8N(Nest109,3,4,4) { Species = 589, Ability = A2 }, // Escavalier
-            new EncounterStatic8N(Nest109,4,4,4) { Species = 212, Ability = A2 }, // Scizor
-            new EncounterStatic8N(Nest110,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest110,0,1,1) { Species = 590, Ability = A3 }, // Foongus
-            new EncounterStatic8N(Nest110,0,1,1) { Species = 753, Ability = A3 }, // Fomantis
-            new EncounterStatic8N(Nest110,1,2,2) { Species = 548, Ability = A3 }, // Petilil
-            new EncounterStatic8N(Nest110,1,2,2) { Species = 754, Ability = A3 }, // Lurantis
-            new EncounterStatic8N(Nest110,2,3,3) { Species = 591, Ability = A3 }, // Amoonguss
-            new EncounterStatic8N(Nest110,2,3,3) { Species = 114, Ability = A3 }, // Tangela
-            new EncounterStatic8N(Nest110,3,4,4) { Species = 549, Ability = A4 }, // Lilligant
-            new EncounterStatic8N(Nest110,3,4,4) { Species = 754, Ability = A4 }, // Lurantis
-            new EncounterStatic8N(Nest110,4,4,4) { Species = 591, Ability = A4 }, // Amoonguss
-            new EncounterStatic8N(Nest110,4,4,4) { Species = 465, Ability = A4 }, // Tangrowth
-            new EncounterStatic8N(Nest111,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest111,0,1,1) { Species = 114, Ability = A2 }, // Tangela
-            new EncounterStatic8N(Nest111,0,1,1) { Species = 753, Ability = A2 }, // Fomantis
-            new EncounterStatic8N(Nest111,1,2,2) { Species = 590, Ability = A2 }, // Foongus
-            new EncounterStatic8N(Nest111,1,2,2) { Species = 754, Ability = A2 }, // Lurantis
-            new EncounterStatic8N(Nest111,2,3,3) { Species = 556, Ability = A2 }, // Maractus
-            new EncounterStatic8N(Nest111,2,3,3) { Species = 549, Ability = A2 }, // Lilligant
-            new EncounterStatic8N(Nest111,3,4,4) { Species = 754, Ability = A2 }, // Lurantis
-            new EncounterStatic8N(Nest111,3,4,4) { Species = 591, Ability = A2 }, // Amoonguss
-            new EncounterStatic8N(Nest111,3,4,4) { Species = 465, Ability = A2 }, // Tangrowth
-            new EncounterStatic8N(Nest111,4,4,4) { Species = 549, Ability = A2 }, // Lilligant
-            new EncounterStatic8N(Nest111,4,4,4) { Species = 460, Ability = A2 }, // Abomasnow
-            new EncounterStatic8N(Nest112,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest112,0,1,1) { Species = 661, Ability = A3 }, // Fletchling
-            new EncounterStatic8N(Nest112,0,1,1) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest112,1,2,2) { Species = 636, Ability = A3 }, // Larvesta
-            new EncounterStatic8N(Nest112,1,2,2) { Species = 757, Ability = A3, Gender = 1 }, // Salandit
-            new EncounterStatic8N(Nest112,2,3,3) { Species = 662, Ability = A3 }, // Fletchinder
-            new EncounterStatic8N(Nest112,2,3,3) { Species = 636, Ability = A3 }, // Larvesta
-            new EncounterStatic8N(Nest112,3,4,4) { Species = 324, Ability = A4 }, // Torkoal
-            new EncounterStatic8N(Nest112,3,4,4) { Species = 663, Ability = A4 }, // Talonflame
-            new EncounterStatic8N(Nest112,3,4,4) { Species = 758, Ability = A4 }, // Salazzle
-            new EncounterStatic8N(Nest112,4,4,4) { Species = 324, Ability = A4 }, // Torkoal
-            new EncounterStatic8N(Nest112,4,4,4) { Species = 637, Ability = A4 }, // Volcarona
-            new EncounterStatic8N(Nest113,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest113,0,1,1) { Species = 636, Ability = A2 }, // Larvesta
-            new EncounterStatic8N(Nest113,0,1,1) { Species = 607, Ability = A2 }, // Litwick
-            new EncounterStatic8N(Nest113,1,2,2) { Species = 636, Ability = A2 }, // Larvesta
-            new EncounterStatic8N(Nest113,1,2,2) { Species = 757, Ability = A2, Gender = 1 }, // Salandit
-            new EncounterStatic8N(Nest113,2,3,3) { Species = 324, Ability = A2 }, // Torkoal
-            new EncounterStatic8N(Nest113,2,3,3) { Species = 758, Ability = A2 }, // Salazzle
-            new EncounterStatic8N(Nest113,3,4,4) { Species = 663, Ability = A2 }, // Talonflame
-            new EncounterStatic8N(Nest113,3,4,4) { Species = 609, Ability = A2 }, // Chandelure
-            new EncounterStatic8N(Nest113,3,4,4) { Species = 637, Ability = A2 }, // Volcarona
-            new EncounterStatic8N(Nest113,4,4,4) { Species = 006, Ability = A2 }, // Charizard
-            new EncounterStatic8N(Nest114,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest114,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest114,0,1,1) { Species = 111, Ability = A3 }, // Rhyhorn
-            new EncounterStatic8N(Nest114,1,2,2) { Species = 744, Ability = A3 }, // Rockruff
-            new EncounterStatic8N(Nest114,1,2,2) { Species = 525, Ability = A3 }, // Boldore
-            new EncounterStatic8N(Nest114,2,3,3) { Species = 112, Ability = A3 }, // Rhydon
-            new EncounterStatic8N(Nest114,2,3,3) { Species = 558, Ability = A3 }, // Crustle
-            new EncounterStatic8N(Nest114,3,4,4) { Species = 112, Ability = A4 }, // Rhydon
-            new EncounterStatic8N(Nest114,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
-            new EncounterStatic8N(Nest114,3,4,4) { Species = 558, Ability = A4 }, // Crustle
-            new EncounterStatic8N(Nest114,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
-            new EncounterStatic8N(Nest115,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest115,0,1,1) { Species = 744, Ability = A2 }, // Rockruff
-            new EncounterStatic8N(Nest115,0,1,1) { Species = 438, Ability = A2 }, // Bonsly
-            new EncounterStatic8N(Nest115,1,2,2) { Species = 111, Ability = A2 }, // Rhyhorn
-            new EncounterStatic8N(Nest115,1,2,2) { Species = 744, Ability = A2 }, // Rockruff
-            new EncounterStatic8N(Nest115,2,3,3) { Species = 112, Ability = A2 }, // Rhydon
-            new EncounterStatic8N(Nest115,2,3,3) { Species = 213, Ability = A2 }, // Shuckle
-            new EncounterStatic8N(Nest115,3,4,4) { Species = 185, Ability = A2 }, // Sudowoodo
-            new EncounterStatic8N(Nest115,3,4,4) { Species = 526, Ability = A2 }, // Gigalith
-            new EncounterStatic8N(Nest115,4,4,4) { Species = 558, Ability = A2 }, // Crustle
-            new EncounterStatic8N(Nest115,4,4,4) { Species = 464, Ability = A2 }, // Rhyperior
-            new EncounterStatic8N(Nest116,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest116,0,1,1) { Species = 102, Ability = A3 }, // Exeggcute
-            new EncounterStatic8N(Nest116,0,1,1) { Species = 063, Ability = A3 }, // Abra
-            new EncounterStatic8N(Nest116,1,2,2) { Species = 280, Ability = A3 }, // Ralts
-            new EncounterStatic8N(Nest116,1,2,2) { Species = 064, Ability = A3 }, // Kadabra
-            new EncounterStatic8N(Nest116,2,3,3) { Species = 281, Ability = A3 }, // Kirlia
-            new EncounterStatic8N(Nest116,3,4,4) { Species = 103, Ability = A4 }, // Exeggutor
-            new EncounterStatic8N(Nest116,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest116,4,4,4) { Species = 065, Ability = A4 }, // Alakazam
-            new EncounterStatic8N(Nest116,4,4,4) { Species = 121, Ability = A4 }, // Starmie
-            new EncounterStatic8N(Nest117,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest117,0,1,1) { Species = 605, Ability = A2 }, // Elgyem
-            new EncounterStatic8N(Nest117,0,1,1) { Species = 063, Ability = A2 }, // Abra
-            new EncounterStatic8N(Nest117,1,2,2) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
-            new EncounterStatic8N(Nest117,1,2,2) { Species = 605, Ability = A2 }, // Elgyem
-            new EncounterStatic8N(Nest117,2,3,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
-            new EncounterStatic8N(Nest117,3,4,4) { Species = 518, Ability = A2 }, // Musharna
-            new EncounterStatic8N(Nest117,3,4,4) { Species = 606, Ability = A2 }, // Beheeyem
-            new EncounterStatic8N(Nest117,4,4,4) { Species = 065, Ability = A2 }, // Alakazam
-            new EncounterStatic8N(Nest118,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest118,0,1,1) { Species = 543, Ability = A3 }, // Venipede
-            new EncounterStatic8N(Nest118,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
-            new EncounterStatic8N(Nest118,1,2,2) { Species = 072, Ability = A3 }, // Tentacool
-            new EncounterStatic8N(Nest118,2,3,3) { Species = 544, Ability = A3 }, // Whirlipede
-            new EncounterStatic8N(Nest118,3,4,4) { Species = 452, Ability = A4 }, // Drapion
-            new EncounterStatic8N(Nest118,3,4,4) { Species = 073, Ability = A4 }, // Tentacruel
-            new EncounterStatic8N(Nest118,4,4,4) { Species = 073, Ability = A4 }, // Tentacruel
-            new EncounterStatic8N(Nest118,4,4,4) { Species = 545, Ability = A4 }, // Scolipede
-            new EncounterStatic8N(Nest119,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest119,0,1,1) { Species = 747, Ability = A2 }, // Mareanie
-            new EncounterStatic8N(Nest119,0,1,1) { Species = 211, Ability = A2 }, // Qwilfish
-            new EncounterStatic8N(Nest119,1,2,2) { Species = 544, Ability = A2 }, // Whirlipede
-            new EncounterStatic8N(Nest119,2,3,3) { Species = 211, Ability = A2 }, // Qwilfish
-            new EncounterStatic8N(Nest119,2,3,3) { Species = 591, Ability = A2 }, // Amoonguss
-            new EncounterStatic8N(Nest119,3,4,4) { Species = 748, Ability = A2 }, // Toxapex
-            new EncounterStatic8N(Nest119,3,4,4) { Species = 545, Ability = A2 }, // Scolipede
-            new EncounterStatic8N(Nest119,3,4,4) { Species = 452, Ability = A2 }, // Drapion
-            new EncounterStatic8N(Nest119,4,4,4) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest119,4,4,4) { Species = 545, Ability = A2 }, // Scolipede
-            new EncounterStatic8N(Nest120,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest120,0,1,1) { Species = 318, Ability = A3 }, // Carvanha
-            new EncounterStatic8N(Nest120,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest120,1,2,2) { Species = 318, Ability = A3 }, // Carvanha
-            new EncounterStatic8N(Nest120,1,2,2) { Species = 570, Ability = A3 }, // Zorua
-            new EncounterStatic8N(Nest120,2,3,3) { Species = 319, Ability = A3 }, // Sharpedo
-            new EncounterStatic8N(Nest120,2,3,3) { Species = 687, Ability = A3 }, // Malamar
-            new EncounterStatic8N(Nest120,3,4,4) { Species = 452, Ability = A4 }, // Drapion
-            new EncounterStatic8N(Nest120,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest120,3,4,4) { Species = 687, Ability = A4 }, // Malamar
-            new EncounterStatic8N(Nest120,4,4,4) { Species = 319, Ability = A4 }, // Sharpedo
-            new EncounterStatic8N(Nest120,4,4,4) { Species = 571, Ability = A4 }, // Zoroark
-            new EncounterStatic8N(Nest121,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest121,0,1,1) { Species = 570, Ability = A2 }, // Zorua
-            new EncounterStatic8N(Nest121,0,1,1) { Species = 318, Ability = A2 }, // Carvanha
-            new EncounterStatic8N(Nest121,1,2,2) { Species = 570, Ability = A2 }, // Zorua
-            new EncounterStatic8N(Nest121,1,2,2) { Species = 686, Ability = A2 }, // Inkay
-            new EncounterStatic8N(Nest121,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
-            new EncounterStatic8N(Nest121,2,3,3) { Species = 687, Ability = A2 }, // Malamar
-            new EncounterStatic8N(Nest121,3,4,4) { Species = 828, Ability = A2 }, // Thievul
-            new EncounterStatic8N(Nest121,3,4,4) { Species = 571, Ability = A2 }, // Zoroark
-            new EncounterStatic8N(Nest121,3,4,4) { Species = 319, Ability = A2 }, // Sharpedo
-            new EncounterStatic8N(Nest121,4,4,4) { Species = 510, Ability = A2 }, // Liepard
-            new EncounterStatic8N(Nest121,4,4,4) { Species = 553, Ability = A2 }, // Krookodile
-            new EncounterStatic8N(Nest122,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest122,0,1,1) { Species = 619, Ability = A3 }, // Mienfoo
-            new EncounterStatic8N(Nest122,0,1,1) { Species = 852, Ability = A3 }, // Clobbopus
-            new EncounterStatic8N(Nest122,1,2,2) { Species = 619, Ability = A3 }, // Mienfoo
-            new EncounterStatic8N(Nest122,3,4,4) { Species = 620, Ability = A4 }, // Mienshao
-            new EncounterStatic8N(Nest122,4,4,4) { Species = 853, Ability = A4 }, // Grapploct
-            new EncounterStatic8N(Nest122,4,4,4) { Species = 620, Ability = A4 }, // Mienshao
-            new EncounterStatic8N(Nest123,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest123,0,1,1) { Species = 619, Ability = A2 }, // Mienfoo
-            new EncounterStatic8N(Nest123,1,2,2) { Species = 620, Ability = A2 }, // Mienshao
-            new EncounterStatic8N(Nest123,2,3,3) { Species = 870, Ability = A2 }, // Falinks
-            new EncounterStatic8N(Nest123,3,4,4) { Species = 620, Ability = A2 }, // Mienshao
-            new EncounterStatic8N(Nest123,4,4,4) { Species = 853, Ability = A2 }, // Grapploct
-            new EncounterStatic8N(Nest124,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest124,0,1,1) { Species = 174, Ability = A3 }, // Igglybuff
-            new EncounterStatic8N(Nest124,0,1,1) { Species = 298, Ability = A3 }, // Azurill
-            new EncounterStatic8N(Nest124,1,2,2) { Species = 764, Ability = A3 }, // Comfey
-            new EncounterStatic8N(Nest124,1,2,2) { Species = 039, Ability = A3 }, // Jigglypuff
-            new EncounterStatic8N(Nest124,2,3,3) { Species = 183, Ability = A3 }, // Marill
-            new EncounterStatic8N(Nest124,2,3,3) { Species = 764, Ability = A3 }, // Comfey
-            new EncounterStatic8N(Nest124,3,4,4) { Species = 707, Ability = A4 }, // Klefki
-            new EncounterStatic8N(Nest124,3,4,4) { Species = 184, Ability = A4 }, // Azumarill
-            new EncounterStatic8N(Nest124,3,4,4) { Species = 040, Ability = A4 }, // Wigglytuff
-            new EncounterStatic8N(Nest124,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
-            new EncounterStatic8N(Nest124,4,4,4) { Species = 764, Ability = A4 }, // Comfey
-            new EncounterStatic8N(Nest125,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest125,0,1,1) { Species = 173, Ability = A2 }, // Cleffa
-            new EncounterStatic8N(Nest125,0,1,1) { Species = 755, Ability = A2 }, // Morelull
-            new EncounterStatic8N(Nest125,1,2,2) { Species = 183, Ability = A2 }, // Marill
-            new EncounterStatic8N(Nest125,1,2,2) { Species = 035, Ability = A2 }, // Clefairy
-            new EncounterStatic8N(Nest125,2,3,3) { Species = 281, Ability = A2 }, // Kirlia
-            new EncounterStatic8N(Nest125,2,3,3) { Species = 707, Ability = A2 }, // Klefki
-            new EncounterStatic8N(Nest125,3,4,4) { Species = 764, Ability = A2 }, // Comfey
-            new EncounterStatic8N(Nest125,3,4,4) { Species = 036, Ability = A2 }, // Clefable
-            new EncounterStatic8N(Nest125,3,4,4) { Species = 282, Ability = A2 }, // Gardevoir
-            new EncounterStatic8N(Nest125,4,4,4) { Species = 756, Ability = A2 }, // Shiinotic
-            new EncounterStatic8N(Nest125,4,4,4) { Species = 184, Ability = A2 }, // Azumarill
-            new EncounterStatic8N(Nest126,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest126,0,1,1) { Species = 769, Ability = A3 }, // Sandygast
-            new EncounterStatic8N(Nest126,0,1,1) { Species = 592, Ability = A3 }, // Frillish
-            new EncounterStatic8N(Nest126,1,2,2) { Species = 104, Ability = A3 }, // Cubone
-            new EncounterStatic8N(Nest126,1,2,2) { Species = 425, Ability = A3 }, // Drifloon
-            new EncounterStatic8N(Nest126,2,3,3) { Species = 593, Ability = A3 }, // Jellicent
-            new EncounterStatic8N(Nest126,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
-            new EncounterStatic8N(Nest126,3,4,4) { Species = 770, Ability = A4 }, // Palossand
-            new EncounterStatic8N(Nest126,3,4,4) { Species = 593, Ability = A4 }, // Jellicent
-            new EncounterStatic8N(Nest126,3,4,4) { Species = 426, Ability = A4 }, // Drifblim
-            new EncounterStatic8N(Nest126,4,4,4) { Species = 105, Ability = A4 }, // Marowak
-            new EncounterStatic8N(Nest126,4,4,4) { Species = 770, Ability = A4 }, // Palossand
-            new EncounterStatic8N(Nest127,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest127,0,1,1) { Species = 769, Ability = A2 }, // Sandygast
-            new EncounterStatic8N(Nest127,0,1,1) { Species = 592, Ability = A2 }, // Frillish
-            new EncounterStatic8N(Nest127,1,2,2) { Species = 769, Ability = A2 }, // Sandygast
-            new EncounterStatic8N(Nest127,1,2,2) { Species = 425, Ability = A2 }, // Drifloon
-            new EncounterStatic8N(Nest127,2,3,3) { Species = 593, Ability = A2 }, // Jellicent
-            new EncounterStatic8N(Nest127,2,3,3) { Species = 426, Ability = A2 }, // Drifblim
-            new EncounterStatic8N(Nest127,3,4,4) { Species = 711, Ability = A2 }, // Gourgeist
-            new EncounterStatic8N(Nest127,3,4,4) { Species = 711, Ability = A2, Form = 1 }, // Gourgeist-1
-            new EncounterStatic8N(Nest127,3,4,4) { Species = 711, Ability = A2, Form = 2 }, // Gourgeist-2
-            new EncounterStatic8N(Nest127,4,4,4) { Species = 711, Ability = A2, Form = 3 }, // Gourgeist-3
-            new EncounterStatic8N(Nest128,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest128,0,1,1) { Species = 707, Ability = A3 }, // Klefki
-            new EncounterStatic8N(Nest128,0,1,1) { Species = 081, Ability = A3 }, // Magnemite
-            new EncounterStatic8N(Nest128,1,2,2) { Species = 624, Ability = A3 }, // Pawniard
-            new EncounterStatic8N(Nest128,1,2,2) { Species = 081, Ability = A3 }, // Magnemite
-            new EncounterStatic8N(Nest128,2,3,3) { Species = 227, Ability = A3 }, // Skarmory
-            new EncounterStatic8N(Nest128,2,3,3) { Species = 082, Ability = A3 }, // Magneton
-            new EncounterStatic8N(Nest128,3,4,4) { Species = 082, Ability = A4 }, // Magneton
-            new EncounterStatic8N(Nest128,3,4,4) { Species = 707, Ability = A4 }, // Klefki
-            new EncounterStatic8N(Nest128,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
-            new EncounterStatic8N(Nest128,4,4,4) { Species = 462, Ability = A4 }, // Magnezone
-            new EncounterStatic8N(Nest128,4,4,4) { Species = 227, Ability = A4 }, // Skarmory
-            new EncounterStatic8N(Nest129,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest129,0,1,1) { Species = 081, Ability = A2 }, // Magnemite
-            new EncounterStatic8N(Nest129,0,1,1) { Species = 227, Ability = A2 }, // Skarmory
-            new EncounterStatic8N(Nest129,1,2,2) { Species = 436, Ability = A2 }, // Bronzor
-            new EncounterStatic8N(Nest129,1,2,2) { Species = 052, Ability = A2, Form = 2 }, // Meowth-2
-            new EncounterStatic8N(Nest129,2,3,3) { Species = 082, Ability = A2 }, // Magneton
-            new EncounterStatic8N(Nest129,2,3,3) { Species = 601, Ability = A2 }, // Klinklang
-            new EncounterStatic8N(Nest129,3,4,4) { Species = 227, Ability = A2 }, // Skarmory
-            new EncounterStatic8N(Nest129,3,4,4) { Species = 437, Ability = A2 }, // Bronzong
-            new EncounterStatic8N(Nest129,3,4,4) { Species = 863, Ability = A2 }, // Perrserker
-            new EncounterStatic8N(Nest129,4,4,4) { Species = 448, Ability = A2 }, // Lucario
-            new EncounterStatic8N(Nest129,4,4,4) { Species = 625, Ability = A2 }, // Bisharp
-            new EncounterStatic8N(Nest130,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest130,0,1,1) { Species = 116, Ability = A3 }, // Horsea
-            new EncounterStatic8N(Nest130,1,2,2) { Species = 840, Ability = A3 }, // Applin
-            new EncounterStatic8N(Nest130,1,2,2) { Species = 117, Ability = A3 }, // Seadra
-            new EncounterStatic8N(Nest130,2,3,3) { Species = 621, Ability = A3 }, // Druddigon
-            new EncounterStatic8N(Nest130,3,4,4) { Species = 621, Ability = A4 }, // Druddigon
-            new EncounterStatic8N(Nest130,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest130,4,4,4) { Species = 230, Ability = A4 }, // Kingdra
-            new EncounterStatic8N(Nest131,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest131,0,1,1) { Species = 116, Ability = A2 }, // Horsea
-            new EncounterStatic8N(Nest131,0,1,1) { Species = 621, Ability = A2 }, // Druddigon
-            new EncounterStatic8N(Nest131,2,3,3) { Species = 117, Ability = A2 }, // Seadra
-            new EncounterStatic8N(Nest131,3,4,4) { Species = 621, Ability = A2 }, // Druddigon
-            new EncounterStatic8N(Nest131,3,4,4) { Species = 715, Ability = A2 }, // Noivern
-            new EncounterStatic8N(Nest131,4,4,4) { Species = 230, Ability = A2 }, // Kingdra
-            new EncounterStatic8N(Nest132,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest132,0,1,1) { Species = 060, Ability = A3 }, // Poliwag
-            new EncounterStatic8N(Nest132,0,1,1) { Species = 194, Ability = A3 }, // Wooper
-            new EncounterStatic8N(Nest132,1,2,2) { Species = 118, Ability = A3 }, // Goldeen
-            new EncounterStatic8N(Nest132,1,2,2) { Species = 061, Ability = A3 }, // Poliwhirl
-            new EncounterStatic8N(Nest132,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
-            new EncounterStatic8N(Nest132,2,3,3) { Species = 061, Ability = A3 }, // Poliwhirl
-            new EncounterStatic8N(Nest132,3,4,4) { Species = 119, Ability = A4 }, // Seaking
-            new EncounterStatic8N(Nest132,3,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
-            new EncounterStatic8N(Nest132,3,4,4) { Species = 195, Ability = A4 }, // Quagsire
-            new EncounterStatic8N(Nest132,4,4,4) { Species = 062, Ability = A4 }, // Poliwrath
-            new EncounterStatic8N(Nest132,4,4,4) { Species = 186, Ability = A4 }, // Politoed
-            new EncounterStatic8N(Nest133,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest133,0,1,1) { Species = 341, Ability = A2 }, // Corphish
-            new EncounterStatic8N(Nest133,0,1,1) { Species = 751, Ability = A2 }, // Dewpider
-            new EncounterStatic8N(Nest133,1,2,2) { Species = 118, Ability = A2 }, // Goldeen
-            new EncounterStatic8N(Nest133,1,2,2) { Species = 061, Ability = A2 }, // Poliwhirl
-            new EncounterStatic8N(Nest133,2,3,3) { Species = 342, Ability = A2 }, // Crawdaunt
-            new EncounterStatic8N(Nest133,2,3,3) { Species = 195, Ability = A2 }, // Quagsire
-            new EncounterStatic8N(Nest133,3,4,4) { Species = 119, Ability = A2 }, // Seaking
-            new EncounterStatic8N(Nest133,3,4,4) { Species = 062, Ability = A2 }, // Poliwrath
-            new EncounterStatic8N(Nest133,3,4,4) { Species = 342, Ability = A2 }, // Crawdaunt
-            new EncounterStatic8N(Nest133,4,4,4) { Species = 752, Ability = A2 }, // Araquanid
-            new EncounterStatic8N(Nest133,4,4,4) { Species = 186, Ability = A2 }, // Politoed
-            new EncounterStatic8N(Nest134,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest134,0,1,1) { Species = 054, Ability = A3 }, // Psyduck
-            new EncounterStatic8N(Nest134,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
-            new EncounterStatic8N(Nest134,1,2,2) { Species = 846, Ability = A3 }, // Arrokuda
-            new EncounterStatic8N(Nest134,1,2,2) { Species = 339, Ability = A3 }, // Barboach
-            new EncounterStatic8N(Nest134,2,3,3) { Species = 055, Ability = A3 }, // Golduck
-            new EncounterStatic8N(Nest134,2,3,3) { Species = 845, Ability = A3 }, // Cramorant
-            new EncounterStatic8N(Nest134,3,4,4) { Species = 055, Ability = A4 }, // Golduck
-            new EncounterStatic8N(Nest134,3,4,4) { Species = 847, Ability = A4 }, // Barraskewda
-            new EncounterStatic8N(Nest134,3,4,4) { Species = 834, Ability = A4 }, // Drednaw
-            new EncounterStatic8N(Nest134,4,4,4) { Species = 340, Ability = A4 }, // Whiscash
-            new EncounterStatic8N(Nest134,4,4,4) { Species = 055, Ability = A4 }, // Golduck
-            new EncounterStatic8N(Nest135,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest135,0,1,1) { Species = 846, Ability = A2 }, // Arrokuda
-            new EncounterStatic8N(Nest135,0,1,1) { Species = 535, Ability = A2 }, // Tympole
-            new EncounterStatic8N(Nest135,1,2,2) { Species = 054, Ability = A2 }, // Psyduck
-            new EncounterStatic8N(Nest135,1,2,2) { Species = 536, Ability = A2 }, // Palpitoad
-            new EncounterStatic8N(Nest135,2,3,3) { Species = 055, Ability = A2 }, // Golduck
-            new EncounterStatic8N(Nest135,2,3,3) { Species = 340, Ability = A2 }, // Whiscash
-            new EncounterStatic8N(Nest135,3,4,4) { Species = 055, Ability = A2 }, // Golduck
-            new EncounterStatic8N(Nest135,3,4,4) { Species = 847, Ability = A2 }, // Barraskewda
-            new EncounterStatic8N(Nest135,3,4,4) { Species = 537, Ability = A2 }, // Seismitoad
-            new EncounterStatic8N(Nest135,4,4,4) { Species = 130, Ability = A2 }, // Gyarados
-            new EncounterStatic8N(Nest136,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest136,0,1,1) { Species = 072, Ability = A3 }, // Tentacool
-            new EncounterStatic8N(Nest136,0,1,1) { Species = 098, Ability = A3 }, // Krabby
-            new EncounterStatic8N(Nest136,1,2,2) { Species = 072, Ability = A3 }, // Tentacool
-            new EncounterStatic8N(Nest136,1,2,2) { Species = 223, Ability = A3 }, // Remoraid
-            new EncounterStatic8N(Nest136,2,3,3) { Species = 073, Ability = A3 }, // Tentacruel
-            new EncounterStatic8N(Nest136,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
-            new EncounterStatic8N(Nest136,3,4,4) { Species = 224, Ability = A4 }, // Octillery
-            new EncounterStatic8N(Nest136,3,4,4) { Species = 226, Ability = A4 }, // Mantine
-            new EncounterStatic8N(Nest136,3,4,4) { Species = 099, Ability = A4 }, // Kingler
-            new EncounterStatic8N(Nest136,4,4,4) { Species = 091, Ability = A4 }, // Cloyster
-            new EncounterStatic8N(Nest136,4,4,4) { Species = 073, Ability = A4 }, // Tentacruel
-            new EncounterStatic8N(Nest137,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest137,0,1,1) { Species = 090, Ability = A2 }, // Shellder
-            new EncounterStatic8N(Nest137,0,1,1) { Species = 688, Ability = A2 }, // Binacle
-            new EncounterStatic8N(Nest137,1,2,2) { Species = 747, Ability = A2 }, // Mareanie
-            new EncounterStatic8N(Nest137,1,2,2) { Species = 223, Ability = A2 }, // Remoraid
-            new EncounterStatic8N(Nest137,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
-            new EncounterStatic8N(Nest137,2,3,3) { Species = 771, Ability = A2 }, // Pyukumuku
-            new EncounterStatic8N(Nest137,3,4,4) { Species = 224, Ability = A2 }, // Octillery
-            new EncounterStatic8N(Nest137,3,4,4) { Species = 226, Ability = A2 }, // Mantine
-            new EncounterStatic8N(Nest137,3,4,4) { Species = 689, Ability = A2 }, // Barbaracle
-            new EncounterStatic8N(Nest137,4,4,4) { Species = 091, Ability = A2 }, // Cloyster
-            new EncounterStatic8N(Nest137,4,4,4) { Species = 748, Ability = A2 }, // Toxapex
-            new EncounterStatic8N(Nest138,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest138,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest138,1,2,2) { Species = 120, Ability = A3 }, // Staryu
-            new EncounterStatic8N(Nest138,2,3,3) { Species = 320, Ability = A3 }, // Wailmer
-            new EncounterStatic8N(Nest138,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
-            new EncounterStatic8N(Nest138,3,4,4) { Species = 321, Ability = A4 }, // Wailord
-            new EncounterStatic8N(Nest138,3,4,4) { Species = 171, Ability = A4 }, // Lanturn
-            new EncounterStatic8N(Nest138,3,4,4) { Species = 121, Ability = A4 }, // Starmie
-            new EncounterStatic8N(Nest138,4,4,4) { Species = 319, Ability = A4 }, // Sharpedo
-            new EncounterStatic8N(Nest139,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest139,0,1,1) { Species = 120, Ability = A2 }, // Staryu
-            new EncounterStatic8N(Nest139,1,2,2) { Species = 320, Ability = A2 }, // Wailmer
-            new EncounterStatic8N(Nest139,1,2,2) { Species = 279, Ability = A2 }, // Pelipper
-            new EncounterStatic8N(Nest139,2,3,3) { Species = 171, Ability = A2 }, // Lanturn
-            new EncounterStatic8N(Nest139,2,3,3) { Species = 117, Ability = A2 }, // Seadra
-            new EncounterStatic8N(Nest139,3,4,4) { Species = 171, Ability = A2 }, // Lanturn
-            new EncounterStatic8N(Nest139,3,4,4) { Species = 121, Ability = A2 }, // Starmie
-            new EncounterStatic8N(Nest139,4,4,4) { Species = 319, Ability = A2 }, // Sharpedo
-            new EncounterStatic8N(Nest140,0,0,1) { Species = 440, Ability = A3 }, // Happiny
-            new EncounterStatic8N(Nest140,0,1,1) { Species = 440, Ability = A3 }, // Happiny
-            new EncounterStatic8N(Nest140,1,2,2) { Species = 440, Ability = A3 }, // Happiny
-            new EncounterStatic8N(Nest140,2,3,3) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest140,3,4,4) { Species = 113, Ability = A4 }, // Chansey
-            new EncounterStatic8N(Nest140,4,4,4) { Species = 242, Ability = A4 }, // Blissey
-            new EncounterStatic8N(Nest141,0,0,1) { Species = 113, Ability = A2 }, // Chansey
-            new EncounterStatic8N(Nest141,0,1,1) { Species = 113, Ability = A2 }, // Chansey
-            new EncounterStatic8N(Nest141,1,2,2) { Species = 113, Ability = A2 }, // Chansey
-            new EncounterStatic8N(Nest141,2,3,3) { Species = 113, Ability = A2 }, // Chansey
-            new EncounterStatic8N(Nest141,3,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest141,4,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest142,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest142,0,1,1) { Species = 415, Ability = A3 }, // Combee
-            new EncounterStatic8N(Nest142,1,2,2) { Species = 415, Ability = A3 }, // Combee
-            new EncounterStatic8N(Nest142,2,3,3) { Species = 415, Ability = A3 }, // Combee
-            new EncounterStatic8N(Nest142,3,4,4) { Species = 416, Ability = A4 }, // Vespiquen
-            new EncounterStatic8N(Nest142,4,4,4) { Species = 416, Ability = A4 }, // Vespiquen
-            new EncounterStatic8N(Nest143,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest143,0,1,1) { Species = 415, Ability = A2, Gender = 1 }, // Combee
-            new EncounterStatic8N(Nest143,1,2,2) { Species = 415, Ability = A2, Gender = 1 }, // Combee
-            new EncounterStatic8N(Nest143,2,3,3) { Species = 416, Ability = A2 }, // Vespiquen
-            new EncounterStatic8N(Nest143,3,4,4) { Species = 416, Ability = A2 }, // Vespiquen
-            new EncounterStatic8N(Nest143,4,4,4) { Species = 416, Ability = A2 }, // Vespiquen
-            new EncounterStatic8N(Nest144,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest144,0,1,1) { Species = 590, Ability = A2 }, // Foongus
-            new EncounterStatic8N(Nest144,0,1,1) { Species = 102, Ability = A2 }, // Exeggcute
-            new EncounterStatic8N(Nest144,1,2,2) { Species = 114, Ability = A2 }, // Tangela
-            new EncounterStatic8N(Nest144,1,2,2) { Species = 315, Ability = A2 }, // Roselia
-            new EncounterStatic8N(Nest144,2,3,3) { Species = 114, Ability = A2 }, // Tangela
-            new EncounterStatic8N(Nest144,2,3,3) { Species = 315, Ability = A2 }, // Roselia
-            new EncounterStatic8N(Nest144,3,4,4) { Species = 103, Ability = A2 }, // Exeggutor
-            new EncounterStatic8N(Nest144,3,4,4) { Species = 003, Ability = A2 }, // Venusaur
-            new EncounterStatic8N(Nest144,3,4,4) { Species = 465, Ability = A2 }, // Tangrowth
-            new EncounterStatic8N(Nest144,4,4,4) { Species = 407, Ability = A2 }, // Roserade
-            new EncounterStatic8N(Nest144,4,4,4) { Species = 003, Ability = A2, CanGigantamax = true }, // Venusaur
-            new EncounterStatic8N(Nest145,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest145,0,1,1) { Species = 129, Ability = A2 }, // Magikarp
-            new EncounterStatic8N(Nest145,0,1,1) { Species = 072, Ability = A2 }, // Tentacool
-            new EncounterStatic8N(Nest145,1,2,2) { Species = 120, Ability = A2 }, // Staryu
-            new EncounterStatic8N(Nest145,1,2,2) { Species = 688, Ability = A2 }, // Binacle
-            new EncounterStatic8N(Nest145,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
-            new EncounterStatic8N(Nest145,2,3,3) { Species = 130, Ability = A2 }, // Gyarados
-            new EncounterStatic8N(Nest145,3,4,4) { Species = 073, Ability = A2 }, // Tentacruel
-            new EncounterStatic8N(Nest145,3,4,4) { Species = 130, Ability = A2 }, // Gyarados
-            new EncounterStatic8N(Nest145,3,4,4) { Species = 121, Ability = A2 }, // Starmie
-            new EncounterStatic8N(Nest145,4,4,4) { Species = 689, Ability = A2 }, // Barbaracle
-            new EncounterStatic8N(Nest145,4,4,4) { Species = 009, Ability = A2, CanGigantamax = true }, // Blastoise
-            new EncounterStatic8N(Nest146,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest146,0,1,1) { Species = 098, Ability = A2 }, // Krabby
-            new EncounterStatic8N(Nest146,0,1,1) { Species = 688, Ability = A2 }, // Binacle
-            new EncounterStatic8N(Nest146,1,2,2) { Species = 072, Ability = A2 }, // Tentacool
-            new EncounterStatic8N(Nest146,1,2,2) { Species = 223, Ability = A2 }, // Remoraid
-            new EncounterStatic8N(Nest146,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
-            new EncounterStatic8N(Nest146,2,3,3) { Species = 224, Ability = A2 }, // Octillery
-            new EncounterStatic8N(Nest146,3,4,4) { Species = 713, Ability = A2 }, // Avalugg
-            new EncounterStatic8N(Nest146,3,4,4) { Species = 614, Ability = A2 }, // Beartic
-            new EncounterStatic8N(Nest146,3,4,4) { Species = 099, Ability = A2 }, // Kingler
-            new EncounterStatic8N(Nest146,4,4,4) { Species = 091, Ability = A2 }, // Cloyster
-            new EncounterStatic8N(Nest146,4,4,4) { Species = 099, Ability = A2, CanGigantamax = true }, // Kingler
-            new EncounterStatic8N(Nest147,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest147,0,1,1) { Species = 833, Ability = A2 }, // Chewtle
-            new EncounterStatic8N(Nest147,0,1,1) { Species = 054, Ability = A2 }, // Psyduck
-            new EncounterStatic8N(Nest147,1,2,2) { Species = 339, Ability = A2 }, // Barboach
-            new EncounterStatic8N(Nest147,2,3,3) { Species = 055, Ability = A2 }, // Golduck
-            new EncounterStatic8N(Nest147,2,3,3) { Species = 845, Ability = A2 }, // Cramorant
-            new EncounterStatic8N(Nest147,3,4,4) { Species = 055, Ability = A2 }, // Golduck
-            new EncounterStatic8N(Nest147,3,4,4) { Species = 847, Ability = A2 }, // Barraskewda
-            new EncounterStatic8N(Nest147,4,4,4) { Species = 340, Ability = A2 }, // Whiscash
-            new EncounterStatic8N(Nest147,4,4,4) { Species = 834, Ability = A2, CanGigantamax = true }, // Drednaw
-            new EncounterStatic8N(Nest148,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest148,0,1,1) { Species = 824, Ability = A2 }, // Blipbug
-            new EncounterStatic8N(Nest148,0,1,1) { Species = 742, Ability = A2 }, // Cutiefly
-            new EncounterStatic8N(Nest148,1,2,2) { Species = 595, Ability = A2 }, // Joltik
-            new EncounterStatic8N(Nest148,2,3,3) { Species = 825, Ability = A2 }, // Dottler
-            new EncounterStatic8N(Nest148,2,3,3) { Species = 291, Ability = A2 }, // Ninjask
-            new EncounterStatic8N(Nest148,3,4,4) { Species = 826, Ability = A2 }, // Orbeetle
-            new EncounterStatic8N(Nest148,3,4,4) { Species = 596, Ability = A2 }, // Galvantula
-            new EncounterStatic8N(Nest148,3,4,4) { Species = 743, Ability = A2 }, // Ribombee
-            new EncounterStatic8N(Nest148,4,4,4) { Species = 291, Ability = A2 }, // Ninjask
-            new EncounterStatic8N(Nest148,4,4,4) { Species = 826, Ability = A2, CanGigantamax = true }, // Orbeetle
-            new EncounterStatic8N(Nest149,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest149,0,1,1) { Species = 843, Ability = A2 }, // Silicobra
-            new EncounterStatic8N(Nest149,0,1,1) { Species = 529, Ability = A2 }, // Drilbur
-            new EncounterStatic8N(Nest149,1,2,2) { Species = 843, Ability = A2 }, // Silicobra
-            new EncounterStatic8N(Nest149,1,2,2) { Species = 529, Ability = A2 }, // Drilbur
-            new EncounterStatic8N(Nest149,2,3,3) { Species = 028, Ability = A2 }, // Sandslash
-            new EncounterStatic8N(Nest149,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
-            new EncounterStatic8N(Nest149,3,4,4) { Species = 844, Ability = A2 }, // Sandaconda
-            new EncounterStatic8N(Nest149,3,4,4) { Species = 553, Ability = A2 }, // Krookodile
-            new EncounterStatic8N(Nest149,3,4,4) { Species = 530, Ability = A2 }, // Excadrill
-            new EncounterStatic8N(Nest149,4,4,4) { Species = 553, Ability = A2 }, // Krookodile
-            new EncounterStatic8N(Nest149,4,4,4) { Species = 844, Ability = A2, CanGigantamax = true }, // Sandaconda
-            new EncounterStatic8N(Nest150,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest150,0,1,1) { Species = 840, Ability = A2 }, // Applin
-            new EncounterStatic8N(Nest150,0,1,1) { Species = 420, Ability = A2 }, // Cherubi (DLC1)
-            new EncounterStatic8N(Nest150,0,1,1) { Species = 761, Ability = A2 }, // Bounsweet (DLC2)
-            new EncounterStatic8N(Nest150,1,2,2) { Species = 420, Ability = A2 }, // Cherubi
-            new EncounterStatic8N(Nest150,1,2,2) { Species = 840, Ability = A2 }, // Applin
-            new EncounterStatic8N(Nest150,2,3,3) { Species = 762, Ability = A2 }, // Steenee
-            new EncounterStatic8N(Nest150,3,4,4) { Species = 820, Ability = A2 }, // Greedent
-            new EncounterStatic8N(Nest150,4,4,4) { Species = 763, Ability = A2 }, // Tsareena
-            new EncounterStatic8N(Nest151,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest151,0,0,1) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest151,0,1,2) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest151,1,2,3) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest151,2,3,3) { Species = 132, Ability = A3 }, // Ditto
-            new EncounterStatic8N(Nest151,2,3,3) { Species = 132, Ability = A4 }, // Ditto
-            new EncounterStatic8N(Nest151,3,4,4) { Species = 132, Ability = A4 }, // Ditto
-            new EncounterStatic8N(Nest151,4,4,4) { Species = 132, Ability = A4 }, // Ditto
-            new EncounterStatic8N(Nest152,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest152,0,0,1) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest152,0,1,2) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest152,1,2,3) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest152,2,3,3) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest152,3,4,4) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest152,4,4,4) { Species = 132, Ability = A2 }, // Ditto
-            new EncounterStatic8N(Nest153,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest153,0,1,1) { Species = 590, Ability = A3 }, // Foongus
-            new EncounterStatic8N(Nest153,0,1,1) { Species = 102, Ability = A3 }, // Exeggcute
-            new EncounterStatic8N(Nest153,1,2,2) { Species = 753, Ability = A3 }, // Fomantis
-            new EncounterStatic8N(Nest153,1,2,2) { Species = 114, Ability = A3 }, // Tangela
-            new EncounterStatic8N(Nest153,2,3,3) { Species = 754, Ability = A3 }, // Lurantis
-            new EncounterStatic8N(Nest153,2,3,3) { Species = 102, Ability = A3 }, // Exeggcute
-            new EncounterStatic8N(Nest153,3,4,4) { Species = 103, Ability = A4 }, // Exeggutor
-            new EncounterStatic8N(Nest153,3,4,4) { Species = 591, Ability = A4 }, // Amoonguss
-            new EncounterStatic8N(Nest153,3,4,4) { Species = 754, Ability = A4 }, // Lurantis
-            new EncounterStatic8N(Nest153,4,4,4) { Species = 465, Ability = A4 }, // Tangrowth
-            new EncounterStatic8N(Nest153,4,4,4) { Species = 003, Ability = A4 }, // Venusaur
-            new EncounterStatic8N(Nest154,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest154,0,1,1) { Species = 129, Ability = A3 }, // Magikarp
-            new EncounterStatic8N(Nest154,0,1,1) { Species = 072, Ability = A3 }, // Tentacool
-            new EncounterStatic8N(Nest154,1,2,2) { Species = 120, Ability = A3 }, // Staryu
-            new EncounterStatic8N(Nest154,1,2,2) { Species = 090, Ability = A3 }, // Shellder
-            new EncounterStatic8N(Nest154,2,3,3) { Species = 073, Ability = A3 }, // Tentacruel
-            new EncounterStatic8N(Nest154,2,3,3) { Species = 130, Ability = A3 }, // Gyarados
-            new EncounterStatic8N(Nest154,3,4,4) { Species = 073, Ability = A4 }, // Tentacruel
-            new EncounterStatic8N(Nest154,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest154,3,4,4) { Species = 121, Ability = A4 }, // Starmie
-            new EncounterStatic8N(Nest154,4,4,4) { Species = 091, Ability = A4 }, // Cloyster
-            new EncounterStatic8N(Nest154,4,4,4) { Species = 009, Ability = A4 }, // Blastoise
-            new EncounterStatic8N(Nest155,2,4,4) { Species = 113, Ability = A3 }, // Chansey
-            new EncounterStatic8N(Nest155,0,1,1) { Species = 744, Ability = A3 }, // Rockruff
-            new EncounterStatic8N(Nest155,1,2,2) { Species = 744, Ability = A3 }, // Rockruff
-            new EncounterStatic8N(Nest155,2,3,3) { Species = 744, Ability = A3 }, // Rockruff
-            new EncounterStatic8N(Nest155,2,3,3) { Species = 744, Ability = A3, Form = 1 }, // Rockruff-1
-            new EncounterStatic8N(Nest155,3,4,4) { Species = 745, Ability = A4 }, // Lycanroc
-            new EncounterStatic8N(Nest155,3,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest155,4,4,4) { Species = 745, Ability = A4, Form = 2 }, // Lycanroc-2
-            new EncounterStatic8N(Nest156,2,4,4) { Species = 242, Ability = A2 }, // Blissey
-            new EncounterStatic8N(Nest156,0,1,1) { Species = 744, Ability = A2 }, // Rockruff
-            new EncounterStatic8N(Nest156,1,2,2) { Species = 744, Ability = A2 }, // Rockruff
-            new EncounterStatic8N(Nest156,2,3,3) { Species = 744, Ability = A2 }, // Rockruff
-            new EncounterStatic8N(Nest156,2,3,3) { Species = 744, Ability = A2, Form = 1 }, // Rockruff-1
-            new EncounterStatic8N(Nest156,3,3,4) { Species = 745, Ability = A2 }, // Lycanroc
-            new EncounterStatic8N(Nest156,3,3,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest156,4,4,4) { Species = 745, Ability = A2 }, // Lycanroc
-            new EncounterStatic8N(Nest156,4,4,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest156,3,4,4) { Species = 745, Ability = A2, Form = 2 }, // Lycanroc-2
-            new EncounterStatic8N(Nest157,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest157,0,1,1) { Species = 333, Ability = A3 }, // Swablu
-            new EncounterStatic8N(Nest157,0,1,1) { Species = 831, Ability = A3 }, // Wooloo
-            new EncounterStatic8N(Nest157,1,2,2) { Species = 333, Ability = A3 }, // Swablu
-            new EncounterStatic8N(Nest157,1,2,2) { Species = 446, Ability = A3 }, // Munchlax
-            new EncounterStatic8N(Nest157,2,3,3) { Species = 820, Ability = A3 }, // Greedent
-            new EncounterStatic8N(Nest157,2,3,3) { Species = 832, Ability = A3 }, // Dubwool
-            new EncounterStatic8N(Nest157,3,4,4) { Species = 334, Ability = A4 }, // Altaria
-            new EncounterStatic8N(Nest157,3,4,4) { Species = 832, Ability = A4 }, // Dubwool
-            new EncounterStatic8N(Nest157,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
-            new EncounterStatic8N(Nest158,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest158,0,1,2) { Species = 333, Ability = A2 }, // Swablu
-            new EncounterStatic8N(Nest158,0,1,2) { Species = 819, Ability = A2 }, // Skwovet
-            new EncounterStatic8N(Nest158,1,2,3) { Species = 333, Ability = A2 }, // Swablu
-            new EncounterStatic8N(Nest158,1,2,3) { Species = 820, Ability = A2 }, // Greedent
-            new EncounterStatic8N(Nest158,2,3,4) { Species = 820, Ability = A2 }, // Greedent
-            new EncounterStatic8N(Nest158,2,3,4) { Species = 832, Ability = A2 }, // Dubwool
-            new EncounterStatic8N(Nest158,3,4,5) { Species = 334, Ability = A2 }, // Altaria
-            new EncounterStatic8N(Nest158,3,4,5) { Species = 832, Ability = A2 }, // Dubwool
-            new EncounterStatic8N(Nest158,4,4,5) { Species = 143, Ability = A2 }, // Snorlax
-            new EncounterStatic8N(Nest158,4,4,5) { Species = 143, Ability = A2, CanGigantamax = true }, // Snorlax
-            new EncounterStatic8N(Nest159,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest159,0,1,1) { Species = 240, Ability = A3 }, // Magby
-            new EncounterStatic8N(Nest159,0,1,1) { Species = 850, Ability = A3 }, // Sizzlipede
-            new EncounterStatic8N(Nest159,1,2,2) { Species = 240, Ability = A3 }, // Magby
-            new EncounterStatic8N(Nest159,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest159,2,3,3) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest159,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest159,3,4,4) { Species = 126, Ability = A4 }, // Magmar
-            new EncounterStatic8N(Nest159,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest159,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
-            new EncounterStatic8N(Nest159,4,4,4) { Species = 126, Ability = A4 }, // Magmar
-            new EncounterStatic8N(Nest159,4,4,4) { Species = 467, Ability = A4 }, // Magmortar
-            new EncounterStatic8N(Nest160,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest160,0,1,2) { Species = 240, Ability = A2 }, // Magby
-            new EncounterStatic8N(Nest160,1,2,3) { Species = 126, Ability = A2 }, // Magmar
-            new EncounterStatic8N(Nest160,1,2,3) { Species = 631, Ability = A2 }, // Heatmor
-            new EncounterStatic8N(Nest160,2,3,4) { Species = 126, Ability = A2 }, // Magmar
-            new EncounterStatic8N(Nest160,2,3,4) { Species = 851, Ability = A2 }, // Centiskorch
-            new EncounterStatic8N(Nest160,3,4,5) { Species = 609, Ability = A2 }, // Chandelure
-            new EncounterStatic8N(Nest160,3,4,5) { Species = 467, Ability = A2 }, // Magmortar
-            new EncounterStatic8N(Nest160,4,4,5) { Species = 467, Ability = A2 }, // Magmortar
-            new EncounterStatic8N(Nest160,4,4,5) { Species = 851, Ability = A2, CanGigantamax = true }, // Centiskorch
-            new EncounterStatic8N(Nest161,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest161,0,1,1) { Species = 349, Ability = A3 }, // Feebas
-            new EncounterStatic8N(Nest161,1,2,2) { Species = 349, Ability = A3 }, // Feebas
-            new EncounterStatic8N(Nest161,2,3,3) { Species = 340, Ability = A3 }, // Whiscash
-            new EncounterStatic8N(Nest161,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
-            new EncounterStatic8N(Nest161,4,4,4) { Species = 350, Ability = A4 }, // Milotic
-            new EncounterStatic8N(Nest161,4,4,4) { Species = 369, Ability = A4 }, // Relicanth
-            new EncounterStatic8N(Nest162,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest162,0,1,2) { Species = 349, Ability = A2 }, // Feebas
-            new EncounterStatic8N(Nest162,1,2,3) { Species = 349, Ability = A2 }, // Feebas
-            new EncounterStatic8N(Nest162,1,2,3) { Species = 369, Ability = A2 }, // Relicanth
-            new EncounterStatic8N(Nest162,2,3,4) { Species = 099, Ability = A2 }, // Kingler
-            new EncounterStatic8N(Nest162,3,4,5) { Species = 369, Ability = A2 }, // Relicanth
-            new EncounterStatic8N(Nest162,3,4,5) { Species = 350, Ability = A2 }, // Milotic
-            new EncounterStatic8N(Nest162,4,4,5) { Species = 130, Ability = A2 }, // Gyarados
-            new EncounterStatic8N(Nest162,4,4,5) { Species = 099, Ability = A2, CanGigantamax = true }, // Kingler
-            new EncounterStatic8N(Nest163,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest163,0,1,1) { Species = 239, Ability = A3 }, // Elekid
-            new EncounterStatic8N(Nest163,0,1,1) { Species = 595, Ability = A3 }, // Joltik
-            new EncounterStatic8N(Nest163,1,2,2) { Species = 239, Ability = A3 }, // Elekid
-            new EncounterStatic8N(Nest163,1,2,2) { Species = 871, Ability = A3 }, // Pincurchin
-            new EncounterStatic8N(Nest163,2,3,3) { Species = 125, Ability = A3 }, // Electabuzz
-            new EncounterStatic8N(Nest163,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
-            new EncounterStatic8N(Nest163,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
-            new EncounterStatic8N(Nest163,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
-            new EncounterStatic8N(Nest163,3,4,4) { Species = 836, Ability = A4 }, // Boltund
-            new EncounterStatic8N(Nest163,4,4,4) { Species = 125, Ability = A4 }, // Electabuzz
-            new EncounterStatic8N(Nest163,4,4,4) { Species = 466, Ability = A4 }, // Electivire
-            new EncounterStatic8N(Nest164,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest164,0,1,2) { Species = 239, Ability = A2 }, // Elekid
-            new EncounterStatic8N(Nest164,1,2,3) { Species = 702, Ability = A2 }, // Dedenne
-            new EncounterStatic8N(Nest164,1,2,3) { Species = 596, Ability = A2 }, // Galvantula
-            new EncounterStatic8N(Nest164,2,3,4) { Species = 125, Ability = A2 }, // Electabuzz
-            new EncounterStatic8N(Nest164,2,3,4) { Species = 836, Ability = A2 }, // Boltund
-            new EncounterStatic8N(Nest164,3,4,5) { Species = 871, Ability = A2 }, // Pincurchin
-            new EncounterStatic8N(Nest164,3,4,5) { Species = 466, Ability = A2 }, // Electivire
-            new EncounterStatic8N(Nest164,4,4,5) { Species = 466, Ability = A2 }, // Electivire
-            new EncounterStatic8N(Nest165,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest165,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
-            new EncounterStatic8N(Nest165,1,2,2) { Species = 347, Ability = A3 }, // Anorith
-            new EncounterStatic8N(Nest165,1,2,2) { Species = 345, Ability = A3 }, // Lileep
-            new EncounterStatic8N(Nest165,2,3,3) { Species = 830, Ability = A3 }, // Eldegoss
-            new EncounterStatic8N(Nest165,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
-            new EncounterStatic8N(Nest165,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
-            new EncounterStatic8N(Nest165,4,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
-            new EncounterStatic8N(Nest166,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest166,0,1,2) { Species = 347, Ability = A2 }, // Anorith
-            new EncounterStatic8N(Nest166,0,1,2) { Species = 345, Ability = A2 }, // Lileep
-            new EncounterStatic8N(Nest166,1,2,3) { Species = 347, Ability = A2 }, // Anorith
-            new EncounterStatic8N(Nest166,1,2,3) { Species = 345, Ability = A2 }, // Lileep
-            new EncounterStatic8N(Nest166,2,3,4) { Species = 752, Ability = A2 }, // Araquanid
-            new EncounterStatic8N(Nest166,2,3,4) { Species = 012, Ability = A2 }, // Butterfree
-            new EncounterStatic8N(Nest166,3,4,5) { Species = 348, Ability = A2 }, // Armaldo
-            new EncounterStatic8N(Nest166,3,4,5) { Species = 346, Ability = A2 }, // Cradily
-            new EncounterStatic8N(Nest166,3,4,5) { Species = 830, Ability = A2 }, // Eldegoss
-            new EncounterStatic8N(Nest166,4,4,5) { Species = 012, Ability = A2, CanGigantamax = true }, // Butterfree
-            new EncounterStatic8N(Nest167,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest167,0,1,1) { Species = 238, Ability = A3 }, // Smoochum
-            new EncounterStatic8N(Nest167,1,2,2) { Species = 238, Ability = A3 }, // Smoochum
-            new EncounterStatic8N(Nest167,1,2,2) { Species = 698, Ability = A3 }, // Amaura
-            new EncounterStatic8N(Nest167,2,3,3) { Species = 221, Ability = A3 }, // Piloswine
-            new EncounterStatic8N(Nest167,2,3,3) { Species = 460, Ability = A3 }, // Abomasnow
-            new EncounterStatic8N(Nest167,3,4,4) { Species = 124, Ability = A4 }, // Jynx
-            new EncounterStatic8N(Nest167,3,4,4) { Species = 873, Ability = A4 }, // Frosmoth
-            new EncounterStatic8N(Nest167,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
-            new EncounterStatic8N(Nest167,4,4,4) { Species = 362, Ability = A4 }, // Glalie
-            new EncounterStatic8N(Nest168,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest168,0,1,2) { Species = 361, Ability = A2 }, // Snorunt
-            new EncounterStatic8N(Nest168,1,2,3) { Species = 238, Ability = A2 }, // Smoochum
-            new EncounterStatic8N(Nest168,1,2,3) { Species = 698, Ability = A2 }, // Amaura
-            new EncounterStatic8N(Nest168,2,3,4) { Species = 362, Ability = A2 }, // Glalie
-            new EncounterStatic8N(Nest168,2,3,4) { Species = 460, Ability = A2 }, // Abomasnow
-            new EncounterStatic8N(Nest168,3,4,5) { Species = 124, Ability = A2 }, // Jynx
-            new EncounterStatic8N(Nest168,3,4,5) { Species = 873, Ability = A2 }, // Frosmoth
-            new EncounterStatic8N(Nest168,4,4,5) { Species = 699, Ability = A2 }, // Aurorus
-            new EncounterStatic8N(Nest168,4,4,5) { Species = 473, Ability = A2 }, // Mamoswine
-            new EncounterStatic8N(Nest169,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest169,0,1,1) { Species = 363, Ability = A3 }, // Spheal
-            new EncounterStatic8N(Nest169,1,2,2) { Species = 363, Ability = A3 }, // Spheal
-            new EncounterStatic8N(Nest169,2,3,3) { Species = 364, Ability = A3 }, // Sealeo
-            new EncounterStatic8N(Nest169,2,3,3) { Species = 615, Ability = A3 }, // Cryogonal
-            new EncounterStatic8N(Nest169,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
-            new EncounterStatic8N(Nest169,3,4,4) { Species = 614, Ability = A4 }, // Beartic
-            new EncounterStatic8N(Nest169,3,4,4) { Species = 365, Ability = A4 }, // Walrein
-            new EncounterStatic8N(Nest169,4,4,4) { Species = 713, Ability = A4 }, // Avalugg
-            new EncounterStatic8N(Nest169,4,4,4) { Species = 131, Ability = A4 }, // Lapras
-            new EncounterStatic8N(Nest170,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest170,0,1,2) { Species = 131, Ability = A2 }, // Lapras
-            new EncounterStatic8N(Nest170,0,1,2) { Species = 363, Ability = A2 }, // Spheal
-            new EncounterStatic8N(Nest170,1,2,3) { Species = 364, Ability = A2 }, // Sealeo
-            new EncounterStatic8N(Nest170,2,3,4) { Species = 713, Ability = A2 }, // Avalugg
-            new EncounterStatic8N(Nest170,2,3,4) { Species = 615, Ability = A2 }, // Cryogonal
-            new EncounterStatic8N(Nest170,3,4,5) { Species = 365, Ability = A2 }, // Walrein
-            new EncounterStatic8N(Nest170,3,4,5) { Species = 131, Ability = A2 }, // Lapras
-            new EncounterStatic8N(Nest170,3,4,5) { Species = 584, Ability = A2 }, // Vanilluxe
-            new EncounterStatic8N(Nest170,4,4,5) { Species = 365, Ability = A2 }, // Walrein
-            new EncounterStatic8N(Nest171,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest171,0,1,1) { Species = 532, Ability = A3 }, // Timburr
-            new EncounterStatic8N(Nest171,0,1,1) { Species = 622, Ability = A3 }, // Golett
-            new EncounterStatic8N(Nest171,1,2,2) { Species = 622, Ability = A3 }, // Golett
-            new EncounterStatic8N(Nest171,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest171,2,3,3) { Species = 533, Ability = A3 }, // Gurdurr
-            new EncounterStatic8N(Nest171,2,3,3) { Species = 623, Ability = A3 }, // Golurk
-            new EncounterStatic8N(Nest171,3,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
-            new EncounterStatic8N(Nest171,3,4,4) { Species = 623, Ability = A4 }, // Golurk
-            new EncounterStatic8N(Nest171,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest171,4,4,4) { Species = 623, Ability = A4 }, // Golurk
-            new EncounterStatic8N(Nest171,4,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
-            new EncounterStatic8N(Nest172,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest172,0,1,2) { Species = 870, Ability = A2 }, // Falinks
-            new EncounterStatic8N(Nest172,0,1,2) { Species = 236, Ability = A2 }, // Tyrogue
-            new EncounterStatic8N(Nest172,1,2,3) { Species = 533, Ability = A2 }, // Gurdurr
-            new EncounterStatic8N(Nest172,2,3,4) { Species = 870, Ability = A2 }, // Falinks
-            new EncounterStatic8N(Nest172,2,3,4) { Species = 623, Ability = A2 }, // Golurk
-            new EncounterStatic8N(Nest172,3,4,5) { Species = 534, Ability = A2 }, // Conkeldurr
-            new EncounterStatic8N(Nest172,4,4,5) { Species = 237, Ability = A2 }, // Hitmontop
-            new EncounterStatic8N(Nest173,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest173,0,1,1) { Species = 041, Ability = A3 }, // Zubat
-            new EncounterStatic8N(Nest173,1,2,2) { Species = 029, Ability = A3 }, // Nidoran♀
-            new EncounterStatic8N(Nest173,1,2,2) { Species = 032, Ability = A3 }, // Nidoran♂
-            new EncounterStatic8N(Nest173,2,3,3) { Species = 030, Ability = A3 }, // Nidorina
-            new EncounterStatic8N(Nest173,2,3,3) { Species = 033, Ability = A3 }, // Nidorino
-            new EncounterStatic8N(Nest173,3,4,4) { Species = 042, Ability = A4 }, // Golbat
-            new EncounterStatic8N(Nest173,4,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
-            new EncounterStatic8N(Nest173,4,4,4) { Species = 034, Ability = A4 }, // Nidoking
-            new EncounterStatic8N(Nest174,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest174,0,1,2) { Species = 041, Ability = A2 }, // Zubat
-            new EncounterStatic8N(Nest174,0,1,2) { Species = 568, Ability = A2 }, // Trubbish
-            new EncounterStatic8N(Nest174,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
-            new EncounterStatic8N(Nest174,2,3,4) { Species = 042, Ability = A2 }, // Golbat
-            new EncounterStatic8N(Nest174,2,3,4) { Species = 569, Ability = A2 }, // Garbodor
-            new EncounterStatic8N(Nest174,3,4,5) { Species = 031, Ability = A2 }, // Nidoqueen
-            new EncounterStatic8N(Nest174,3,4,5) { Species = 034, Ability = A2 }, // Nidoking
-            new EncounterStatic8N(Nest174,4,4,5) { Species = 169, Ability = A2 }, // Crobat
-            new EncounterStatic8N(Nest174,4,4,5) { Species = 569, Ability = A2, CanGigantamax = true }, // Garbodor
-            new EncounterStatic8N(Nest175,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest175,0,1,1) { Species = 041, Ability = A3 }, // Zubat
-            new EncounterStatic8N(Nest175,0,1,1) { Species = 714, Ability = A3 }, // Noibat
-            new EncounterStatic8N(Nest175,1,2,2) { Species = 333, Ability = A3 }, // Swablu
-            new EncounterStatic8N(Nest175,1,2,2) { Species = 042, Ability = A3 }, // Golbat
-            new EncounterStatic8N(Nest175,2,3,3) { Species = 042, Ability = A3 }, // Golbat
-            new EncounterStatic8N(Nest175,2,3,3) { Species = 822, Ability = A3 }, // Corvisquire
-            new EncounterStatic8N(Nest175,3,4,4) { Species = 042, Ability = A4 }, // Golbat
-            new EncounterStatic8N(Nest175,3,4,4) { Species = 334, Ability = A4 }, // Altaria
-            new EncounterStatic8N(Nest175,3,4,4) { Species = 715, Ability = A4 }, // Noivern
-            new EncounterStatic8N(Nest175,4,4,4) { Species = 823, Ability = A4 }, // Corviknight
-            new EncounterStatic8N(Nest175,4,4,4) { Species = 169, Ability = A4 }, // Crobat
-            new EncounterStatic8N(Nest176,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest176,0,1,2) { Species = 041, Ability = A2 }, // Zubat
-            new EncounterStatic8N(Nest176,0,1,2) { Species = 527, Ability = A2 }, // Woobat
-            new EncounterStatic8N(Nest176,1,2,3) { Species = 822, Ability = A2 }, // Corvisquire
-            new EncounterStatic8N(Nest176,1,2,3) { Species = 042, Ability = A2 }, // Golbat
-            new EncounterStatic8N(Nest176,2,3,4) { Species = 528, Ability = A2 }, // Swoobat
-            new EncounterStatic8N(Nest176,2,3,4) { Species = 823, Ability = A2 }, // Corviknight
-            new EncounterStatic8N(Nest176,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
-            new EncounterStatic8N(Nest176,3,4,5) { Species = 334, Ability = A2 }, // Altaria
-            new EncounterStatic8N(Nest176,3,4,5) { Species = 169, Ability = A2 }, // Crobat
-            new EncounterStatic8N(Nest176,4,4,5) { Species = 715, Ability = A2 }, // Noivern
-            new EncounterStatic8N(Nest176,4,4,5) { Species = 823, Ability = A2, CanGigantamax = true }, // Corviknight
-            new EncounterStatic8N(Nest177,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest177,0,1,1) { Species = 439, Ability = A3 }, // Mime Jr.
-            new EncounterStatic8N(Nest177,1,2,2) { Species = 436, Ability = A3 }, // Bronzor
-            new EncounterStatic8N(Nest177,1,2,2) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest177,2,3,3) { Species = 344, Ability = A3 }, // Claydol
-            new EncounterStatic8N(Nest177,4,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest177,4,4,4) { Species = 437, Ability = A4 }, // Bronzong
-            new EncounterStatic8N(Nest178,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest178,1,2,3) { Species = 122, Ability = A2, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest178,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
-            new EncounterStatic8N(Nest178,2,3,4) { Species = 375, Ability = A2 }, // Metang
-            new EncounterStatic8N(Nest178,3,4,5) { Species = 866, Ability = A2 }, // Mr. Rime
-            new EncounterStatic8N(Nest178,4,4,5) { Species = 376, Ability = A2 }, // Metagross
-            new EncounterStatic8N(Nest179,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest179,0,1,1) { Species = 304, Ability = A3 }, // Aron
-            new EncounterStatic8N(Nest179,1,2,2) { Species = 304, Ability = A3 }, // Aron
-            new EncounterStatic8N(Nest179,2,3,3) { Species = 305, Ability = A3 }, // Lairon
-            new EncounterStatic8N(Nest179,3,4,4) { Species = 305, Ability = A4 }, // Lairon
-            new EncounterStatic8N(Nest179,3,4,4) { Species = 703, Ability = A4 }, // Carbink
-            new EncounterStatic8N(Nest179,4,4,4) { Species = 306, Ability = A4 }, // Aggron
-            new EncounterStatic8N(Nest179,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest180,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest180,0,1,2) { Species = 304, Ability = A2 }, // Aron
-            new EncounterStatic8N(Nest180,1,2,3) { Species = 305, Ability = A2 }, // Lairon
-            new EncounterStatic8N(Nest180,2,3,4) { Species = 213, Ability = A2 }, // Shuckle
-            new EncounterStatic8N(Nest180,3,4,5) { Species = 839, Ability = A2 }, // Coalossal
-            new EncounterStatic8N(Nest180,3,4,5) { Species = 306, Ability = A2 }, // Aggron
-            new EncounterStatic8N(Nest180,4,4,5) { Species = 306, Ability = A2 }, // Aggron
-            new EncounterStatic8N(Nest181,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest181,0,1,1) { Species = 885, Ability = A3 }, // Dreepy
-            new EncounterStatic8N(Nest181,0,1,1) { Species = 708, Ability = A3 }, // Phantump
-            new EncounterStatic8N(Nest181,1,2,2) { Species = 778, Ability = A3 }, // Mimikyu
-            new EncounterStatic8N(Nest181,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
-            new EncounterStatic8N(Nest181,2,3,3) { Species = 886, Ability = A3 }, // Drakloak
-            new EncounterStatic8N(Nest181,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
-            new EncounterStatic8N(Nest181,3,4,4) { Species = 362, Ability = A4 }, // Glalie
-            new EncounterStatic8N(Nest181,3,4,4) { Species = 478, Ability = A4 }, // Froslass
-            new EncounterStatic8N(Nest181,4,4,4) { Species = 709, Ability = A4 }, // Trevenant
-            new EncounterStatic8N(Nest181,4,4,4) { Species = 778, Ability = A4 }, // Mimikyu
-            new EncounterStatic8N(Nest182,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest182,0,1,2) { Species = 885, Ability = A2 }, // Dreepy
-            new EncounterStatic8N(Nest182,1,2,3) { Species = 885, Ability = A2 }, // Dreepy
-            new EncounterStatic8N(Nest182,2,3,4) { Species = 709, Ability = A2 }, // Trevenant
-            new EncounterStatic8N(Nest182,3,4,5) { Species = 887, Ability = A2 }, // Dragapult
-            new EncounterStatic8N(Nest182,4,4,5) { Species = 887, Ability = A2 }, // Dragapult
-            new EncounterStatic8N(Nest183,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest183,0,1,1) { Species = 621, Ability = A3 }, // Druddigon
-            new EncounterStatic8N(Nest183,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
-            new EncounterStatic8N(Nest183,2,3,3) { Species = 147, Ability = A3 }, // Dratini
-            new EncounterStatic8N(Nest183,3,4,4) { Species = 621, Ability = A4 }, // Druddigon
-            new EncounterStatic8N(Nest183,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
-            new EncounterStatic8N(Nest184,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest184,0,1,2) { Species = 884, Ability = A2 }, // Duraludon
-            new EncounterStatic8N(Nest184,1,2,3) { Species = 696, Ability = A2 }, // Tyrunt
-            new EncounterStatic8N(Nest184,2,3,4) { Species = 884, Ability = A2 }, // Duraludon
-            new EncounterStatic8N(Nest184,3,4,5) { Species = 149, Ability = A2 }, // Dragonite
-            new EncounterStatic8N(Nest184,3,4,5) { Species = 697, Ability = A2 }, // Tyrantrum
-            new EncounterStatic8N(Nest184,4,4,5) { Species = 884, Ability = A2, CanGigantamax = true }, // Duraludon
-            new EncounterStatic8N(Nest185,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest185,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest185,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest185,1,2,2) { Species = 859, Ability = A3 }, // Impidimp
-            new EncounterStatic8N(Nest185,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
-            new EncounterStatic8N(Nest185,2,3,3) { Species = 215, Ability = A3 }, // Sneasel
-            new EncounterStatic8N(Nest185,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
-            new EncounterStatic8N(Nest185,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
-            new EncounterStatic8N(Nest185,3,4,4) { Species = 359, Ability = A4 }, // Absol
-            new EncounterStatic8N(Nest185,3,4,4) { Species = 862, Ability = A4 }, // Obstagoon
-            new EncounterStatic8N(Nest185,4,4,4) { Species = 359, Ability = A4 }, // Absol
-            new EncounterStatic8N(Nest185,4,4,4) { Species = 461, Ability = A4 }, // Weavile
-            new EncounterStatic8N(Nest186,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest186,0,1,2) { Species = 859, Ability = A2 }, // Impidimp
-            new EncounterStatic8N(Nest186,0,1,2) { Species = 359, Ability = A2 }, // Absol
-            new EncounterStatic8N(Nest186,1,2,3) { Species = 215, Ability = A2 }, // Sneasel
-            new EncounterStatic8N(Nest186,2,3,4) { Species = 828, Ability = A2 }, // Thievul
-            new EncounterStatic8N(Nest186,2,3,4) { Species = 510, Ability = A2 }, // Liepard
-            new EncounterStatic8N(Nest186,3,4,5) { Species = 359, Ability = A2 }, // Absol
-            new EncounterStatic8N(Nest186,3,4,5) { Species = 861, Ability = A2 }, // Grimmsnarl
-            new EncounterStatic8N(Nest186,3,4,5) { Species = 461, Ability = A2 }, // Weavile
-            new EncounterStatic8N(Nest186,4,4,5) { Species = 359, Ability = A2 }, // Absol
-            new EncounterStatic8N(Nest186,4,4,5) { Species = 861, Ability = A2, CanGigantamax = true }, // Grimmsnarl
-            new EncounterStatic8N(Nest187,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest187,0,1,1) { Species = 304, Ability = A3 }, // Aron
-            new EncounterStatic8N(Nest187,0,1,1) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest187,1,2,2) { Species = 304, Ability = A3 }, // Aron
-            new EncounterStatic8N(Nest187,1,2,2) { Species = 374, Ability = A3 }, // Beldum
-            new EncounterStatic8N(Nest187,2,3,3) { Species = 305, Ability = A3 }, // Lairon
-            new EncounterStatic8N(Nest187,2,3,3) { Species = 375, Ability = A3 }, // Metang
-            new EncounterStatic8N(Nest187,3,4,4) { Species = 823, Ability = A4 }, // Corviknight
-            new EncounterStatic8N(Nest187,3,4,4) { Species = 632, Ability = A4 }, // Durant
-            new EncounterStatic8N(Nest187,3,4,4) { Species = 879, Ability = A4 }, // Copperajah
-            new EncounterStatic8N(Nest187,4,4,4) { Species = 306, Ability = A4 }, // Aggron
-            new EncounterStatic8N(Nest188,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest188,0,1,2) { Species = 304, Ability = A2 }, // Aron
-            new EncounterStatic8N(Nest188,0,1,2) { Species = 052, Ability = A2, Form = 2 }, // Meowth-2
-            new EncounterStatic8N(Nest188,1,2,3) { Species = 632, Ability = A2 }, // Durant
-            new EncounterStatic8N(Nest188,1,2,3) { Species = 305, Ability = A2 }, // Lairon
-            new EncounterStatic8N(Nest188,2,3,4) { Species = 863, Ability = A2 }, // Perrserker
-            new EncounterStatic8N(Nest188,3,4,5) { Species = 879, Ability = A2 }, // Copperajah
-            new EncounterStatic8N(Nest188,3,4,5) { Species = 306, Ability = A2 }, // Aggron
-            new EncounterStatic8N(Nest188,3,4,5) { Species = 376, Ability = A2 }, // Metagross
-            new EncounterStatic8N(Nest188,4,4,5) { Species = 376, Ability = A2 }, // Metagross
-            new EncounterStatic8N(Nest188,4,4,5) { Species = 879, Ability = A2, CanGigantamax = true }, // Copperajah
-            new EncounterStatic8N(Nest189,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest189,0,1,1) { Species = 173, Ability = A3 }, // Cleffa
-            new EncounterStatic8N(Nest189,0,1,1) { Species = 703, Ability = A3 }, // Carbink
-            new EncounterStatic8N(Nest189,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
-            new EncounterStatic8N(Nest189,1,2,2) { Species = 173, Ability = A3 }, // Cleffa
-            new EncounterStatic8N(Nest189,2,3,3) { Species = 857, Ability = A3 }, // Hattrem
-            new EncounterStatic8N(Nest189,2,3,3) { Species = 035, Ability = A3 }, // Clefairy
-            new EncounterStatic8N(Nest189,3,4,4) { Species = 703, Ability = A4 }, // Carbink
-            new EncounterStatic8N(Nest189,3,4,4) { Species = 036, Ability = A4 }, // Clefable
-            new EncounterStatic8N(Nest189,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
-            new EncounterStatic8N(Nest189,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
-            new EncounterStatic8N(Nest190,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest190,0,1,2) { Species = 703, Ability = A2 }, // Carbink
-            new EncounterStatic8N(Nest190,0,1,2) { Species = 546, Ability = A2 }, // Cottonee
-            new EncounterStatic8N(Nest190,1,2,3) { Species = 035, Ability = A2 }, // Clefairy
-            new EncounterStatic8N(Nest190,1,2,3) { Species = 703, Ability = A2 }, // Carbink
-            new EncounterStatic8N(Nest190,2,3,4) { Species = 703, Ability = A2 }, // Carbink
-            new EncounterStatic8N(Nest190,2,3,4) { Species = 547, Ability = A2 }, // Whimsicott
-            new EncounterStatic8N(Nest190,3,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest190,3,4,5) { Species = 858, Ability = A2 }, // Hatterene
-            new EncounterStatic8N(Nest190,3,4,5) { Species = 036, Ability = A2 }, // Clefable
-            new EncounterStatic8N(Nest190,4,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
-            new EncounterStatic8N(Nest190,4,4,5) { Species = 858, Ability = A2, CanGigantamax = true }, // Hatterene
-            new EncounterStatic8N(Nest191,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest191,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest191,1,2,2) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest191,2,3,3) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest191,3,4,4) { Species = 854, Ability = A4 }, // Sinistea
-            new EncounterStatic8N(Nest191,4,4,4) { Species = 854, Ability = A4 }, // Sinistea
-            new EncounterStatic8N(Nest191,2,4,4) { Species = 854, Ability = A4, Form = 1 }, // Sinistea-1
-            new EncounterStatic8N(Nest192,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest192,0,0,2) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest192,1,1,2) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest192,1,1,3) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest192,2,2,4) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest192,3,3,4) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest192,0,3,5) { Species = 854, Ability = A2, Form = 1 }, // Sinistea-1
-            new EncounterStatic8N(Nest192,4,4,5) { Species = 855, Ability = A2 }, // Polteageist
-            new EncounterStatic8N(Nest192,4,4,5) { Species = 855, Ability = A2, Form = 1 }, // Polteageist-1
-            new EncounterStatic8N(Nest192,4,4,5) { Species = 869, Ability = A2, CanGigantamax = true }, // Alcremie
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest193,0,1,1) { Species = 133, Ability = A3 }, // Eevee
-            new EncounterStatic8N(Nest193,0,4,2) { Species = 133, Ability = A3 }, // Eevee
-            new EncounterStatic8N(Nest193,0,4,3) { Species = 133, Ability = A3 }, // Eevee
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 136, Ability = A3 }, // Flareon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 135, Ability = A3 }, // Jolteon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 134, Ability = A3 }, // Vaporeon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 196, Ability = A4 }, // Espeon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 197, Ability = A4 }, // Umbreon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 470, Ability = A4 }, // Leafeon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 471, Ability = A4 }, // Glaceon
-            new EncounterStatic8N(Nest193,2,4,4) { Species = 700, Ability = A4 }, // Sylveon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest194,0,1,2) { Species = 133, Ability = A2 }, // Eevee
-            new EncounterStatic8N(Nest194,0,4,3) { Species = 133, Ability = A2 }, // Eevee
-            new EncounterStatic8N(Nest194,0,4,4) { Species = 133, Ability = A2, Gender = 1 }, // Eevee
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 136, Ability = A2 }, // Flareon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 135, Ability = A2 }, // Jolteon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 134, Ability = A2 }, // Vaporeon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 196, Ability = A2 }, // Espeon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 197, Ability = A2 }, // Umbreon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 470, Ability = A2 }, // Leafeon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 471, Ability = A2 }, // Glaceon
-            new EncounterStatic8N(Nest194,2,4,5) { Species = 700, Ability = A2 }, // Sylveon
-            new EncounterStatic8N(Nest195,2,4,4) { Species = 531, Ability = A4 }, // Audino
-            new EncounterStatic8N(Nest195,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
-            new EncounterStatic8N(Nest195,1,2,2) { Species = 698, Ability = A3 }, // Amaura
-            new EncounterStatic8N(Nest195,2,3,3) { Species = 348, Ability = A3 }, // Armaldo
-            new EncounterStatic8N(Nest195,2,3,3) { Species = 346, Ability = A3 }, // Cradily
-            new EncounterStatic8N(Nest195,4,4,4) { Species = 142, Ability = A4 }, // Aerodactyl
-            new EncounterStatic8N(Nest196,2,4,5) { Species = 225, Ability = A2 }, // Delibird
-            new EncounterStatic8N(Nest196,2,2,3) { Species = 142, Ability = A2 }, // Aerodactyl
-            new EncounterStatic8N(Nest196,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
-            new EncounterStatic8N(Nest196,4,4,5) { Species = 880, Ability = A2 }, // Dracozolt
-            new EncounterStatic8N(Nest196,4,4,5) { Species = 882, Ability = A2 }, // Dracovish
-            new EncounterStatic8N(Nest196,3,4,5) { Species = 881, Ability = A2 }, // Arctozolt
-            new EncounterStatic8N(Nest196,3,4,5) { Species = 883, Ability = A2 }, // Arctovish
+            new(Nest000,0,0,1) { Species = 236, Ability = A3 }, // Tyrogue
+            new(Nest000,0,0,1) { Species = 066, Ability = A3 }, // Machop
+            new(Nest000,0,1,1) { Species = 532, Ability = A3 }, // Timburr
+            new(Nest000,1,2,2) { Species = 067, Ability = A3 }, // Machoke
+            new(Nest000,1,2,2) { Species = 533, Ability = A3 }, // Gurdurr
+            new(Nest000,4,4,4) { Species = 068, Ability = A4 }, // Machamp
+            new(Nest001,0,0,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest001,0,0,1) { Species = 517, Ability = A3 }, // Munna
+            new(Nest001,0,1,1) { Species = 677, Ability = A3 }, // Espurr
+            new(Nest001,0,1,1) { Species = 605, Ability = A3 }, // Elgyem
+            new(Nest001,1,2,2) { Species = 281, Ability = A3 }, // Kirlia
+            new(Nest001,2,4,4) { Species = 518, Ability = A3 }, // Musharna
+            new(Nest001,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest002,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
+            new(Nest002,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest002,1,2,2) { Species = 111, Ability = A3 }, // Rhyhorn
+            new(Nest002,1,2,2) { Species = 525, Ability = A3 }, // Boldore
+            new(Nest002,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
+            new(Nest002,2,4,4) { Species = 112, Ability = A3 }, // Rhydon
+            new(Nest002,2,4,4) { Species = 185, Ability = A3 }, // Sudowoodo
+            new(Nest002,4,4,4) { Species = 213, Ability = A4 }, // Shuckle
+            new(Nest003,0,0,1) { Species = 010, Ability = A3 }, // Caterpie
+            new(Nest003,0,0,1) { Species = 736, Ability = A3 }, // Grubbin
+            new(Nest003,0,1,1) { Species = 290, Ability = A3 }, // Nincada
+            new(Nest003,0,1,1) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest003,1,2,2) { Species = 011, Ability = A3 }, // Metapod
+            new(Nest003,1,2,2) { Species = 632, Ability = A3 }, // Durant
+            new(Nest003,2,3,3) { Species = 737, Ability = A3 }, // Charjabug
+            new(Nest003,2,4,4) { Species = 291, Ability = A3 }, // Ninjask
+            new(Nest003,2,4,4) { Species = 012, Ability = A3 }, // Butterfree
+            new(Nest003,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
+            new(Nest003,4,4,4) { Species = 738, Ability = A4 }, // Vikavolt
+            new(Nest003,4,4,4) { Species = 632, Ability = A4 }, // Durant
+            new(Nest004,0,0,1) { Species = 010, Ability = A3 }, // Caterpie
+            new(Nest004,0,0,1) { Species = 415, Ability = A3 }, // Combee
+            new(Nest004,0,1,1) { Species = 742, Ability = A3 }, // Cutiefly
+            new(Nest004,0,1,1) { Species = 824, Ability = A3 }, // Blipbug
+            new(Nest004,1,2,2) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest004,1,2,2) { Species = 011, Ability = A3 }, // Metapod
+            new(Nest004,2,3,3) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest004,2,4,4) { Species = 596, Ability = A3 }, // Galvantula
+            new(Nest004,2,4,4) { Species = 012, Ability = A3 }, // Butterfree
+            new(Nest004,3,4,4) { Species = 743, Ability = A4 }, // Ribombee
+            new(Nest004,4,4,4) { Species = 416, Ability = A4 }, // Vespiquen
+            new(Nest004,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
+            new(Nest005,0,0,1) { Species = 092, Ability = A3 }, // Gastly
+            new(Nest005,0,0,1) { Species = 355, Ability = A3 }, // Duskull
+            new(Nest005,0,1,1) { Species = 425, Ability = A3 }, // Drifloon
+            new(Nest005,0,1,1) { Species = 708, Ability = A3 }, // Phantump
+            new(Nest005,0,1,1) { Species = 592, Ability = A3 }, // Frillish
+            new(Nest005,1,2,2) { Species = 710, Ability = A3 }, // Pumpkaboo
+            new(Nest005,2,3,3) { Species = 093, Ability = A3 }, // Haunter
+            new(Nest005,2,4,4) { Species = 356, Ability = A3 }, // Dusclops
+            new(Nest005,2,4,4) { Species = 426, Ability = A3 }, // Drifblim
+            new(Nest005,3,4,4) { Species = 709, Ability = A4 }, // Trevenant
+            new(Nest005,4,4,4) { Species = 711, Ability = A4 }, // Gourgeist
+            new(Nest005,4,4,4) { Species = 593, Ability = A4 }, // Jellicent
+            new(Nest006,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
+            new(Nest006,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
+            new(Nest006,1,2,2) { Species = 320, Ability = A3 }, // Wailmer
+            new(Nest006,2,3,3) { Species = 224, Ability = A3 }, // Octillery
+            new(Nest006,2,4,4) { Species = 226, Ability = A3 }, // Mantine
+            new(Nest006,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest006,3,4,4) { Species = 321, Ability = A4 }, // Wailord
+            new(Nest006,4,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
+            new(Nest006,4,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest007,0,0,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest007,0,0,1) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest007,0,1,1) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
+            new(Nest007,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest007,1,2,2) { Species = 320, Ability = A3 }, // Wailmer
+            new(Nest007,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
+            new(Nest007,2,4,4) { Species = 834, Ability = A3 }, // Drednaw
+            new(Nest007,2,4,4) { Species = 847, Ability = A3 }, // Barraskewda
+            new(Nest007,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest007,4,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
+            new(Nest007,4,4,4) { Species = 321, Ability = A4 }, // Wailord
+            new(Nest008,0,0,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest008,0,0,1) { Species = 194, Ability = A3 }, // Wooper
+            new(Nest008,0,1,1) { Species = 535, Ability = A3 }, // Tympole
+            new(Nest008,0,1,1) { Species = 341, Ability = A3 }, // Corphish
+            new(Nest008,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
+            new(Nest008,2,3,3) { Species = 834, Ability = A3 }, // Drednaw
+            new(Nest008,2,4,4) { Species = 195, Ability = A3 }, // Quagsire
+            new(Nest008,2,4,4) { Species = 771, Ability = A3 }, // Pyukumuku
+            new(Nest008,3,4,4) { Species = 091, Ability = A4 }, // Cloyster
+            new(Nest008,4,4,4) { Species = 537, Ability = A4 }, // Seismitoad
+            new(Nest008,4,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
+            new(Nest009,0,0,1) { Species = 236, Ability = A3 }, // Tyrogue
+            new(Nest009,0,0,1) { Species = 759, Ability = A3 }, // Stufful
+            new(Nest009,0,1,1) { Species = 852, Ability = A3 }, // Clobbopus
+            new(Nest009,0,1,1) { Species = 674, Ability = A3 }, // Pancham
+            new(Nest009,2,4,4) { Species = 760, Ability = A3 }, // Bewear
+            new(Nest009,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
+            new(Nest009,2,4,4) { Species = 701, Ability = A3 }, // Hawlucha
+            new(Nest009,4,4,4) { Species = 853, Ability = A4 }, // Grapploct
+            new(Nest009,4,4,4) { Species = 870, Ability = A4 }, // Falinks
+            new(Nest010,0,0,1) { Species = 599, Ability = A3 }, // Klink
+            new(Nest010,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
+            new(Nest010,0,1,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest010,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest010,1,1,2) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest010,1,2,2) { Species = 878, Ability = A3 }, // Cufant
+            new(Nest010,2,4,4) { Species = 600, Ability = A3 }, // Klang
+            new(Nest010,2,4,4) { Species = 863, Ability = A3 }, // Perrserker
+            new(Nest010,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest010,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest010,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
+            new(Nest010,4,4,4) { Species = 879, Ability = A4 }, // Copperajah
+            new(Nest011,0,0,1) { Species = 599, Ability = A3 }, // Klink
+            new(Nest011,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest011,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest011,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest011,1,1,2) { Species = 599, Ability = A3 }, // Klink
+            new(Nest011,1,2,2) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest011,2,4,4) { Species = 208, Ability = A3 }, // Steelix
+            new(Nest011,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
+            new(Nest011,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest011,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest011,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
+            new(Nest012,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
+            new(Nest012,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
+            new(Nest012,2,3,3) { Species = 561, Ability = A3 }, // Sigilyph
+            new(Nest012,2,3,3) { Species = 178, Ability = A3 }, // Xatu
+            new(Nest012,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
+            new(Nest013,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
+            new(Nest013,0,0,1) { Species = 360, Ability = A3 }, // Wynaut
+            new(Nest013,0,1,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest013,0,1,1) { Species = 343, Ability = A3 }, // Baltoy
+            new(Nest013,1,1,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest013,1,3,3) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest013,2,3,3) { Species = 561, Ability = A3 }, // Sigilyph
+            new(Nest013,2,3,3) { Species = 178, Ability = A3 }, // Xatu
+            new(Nest013,3,4,4) { Species = 344, Ability = A4 }, // Claydol
+            new(Nest013,4,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest013,4,4,4) { Species = 202, Ability = A4 }, // Wobbuffet
+            new(Nest014,0,0,1) { Species = 837, Ability = A3 }, // Rolycoly
+            new(Nest014,0,1,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest014,1,1,1) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest014,1,2,2) { Species = 525, Ability = A3 }, // Boldore
+            new(Nest014,2,3,3) { Species = 558, Ability = A3 }, // Crustle
+            new(Nest014,2,4,4) { Species = 689, Ability = A3 }, // Barbaracle
+            new(Nest014,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
+            new(Nest015,0,0,1) { Species = 050, Ability = A3 }, // Diglett
+            new(Nest015,0,0,1) { Species = 749, Ability = A3 }, // Mudbray
+            new(Nest015,0,1,1) { Species = 290, Ability = A3 }, // Nincada
+            new(Nest015,0,1,1) { Species = 529, Ability = A3 }, // Drilbur
+            new(Nest015,1,1,1) { Species = 095, Ability = A3 }, // Onix
+            new(Nest015,1,2,2) { Species = 339, Ability = A3 }, // Barboach
+            new(Nest015,2,3,3) { Species = 208, Ability = A3 }, // Steelix
+            new(Nest015,2,4,4) { Species = 340, Ability = A3 }, // Whiscash
+            new(Nest015,2,4,4) { Species = 660, Ability = A3 }, // Diggersby
+            new(Nest015,3,4,4) { Species = 051, Ability = A4 }, // Dugtrio
+            new(Nest015,4,4,4) { Species = 530, Ability = A4 }, // Excadrill
+            new(Nest015,4,4,4) { Species = 750, Ability = A4 }, // Mudsdale
+            new(Nest016,0,0,1) { Species = 843, Ability = A3 }, // Silicobra
+            new(Nest016,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest016,0,1,1) { Species = 449, Ability = A3 }, // Hippopotas
+            new(Nest016,1,2,2) { Species = 221, Ability = A3 }, // Piloswine
+            new(Nest016,4,4,4) { Species = 867, Ability = A3 }, // Runerigus
+            new(Nest016,4,4,4) { Species = 844, Ability = A4 }, // Sandaconda
+            new(Nest017,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest017,0,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest017,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest017,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest018,0,0,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest018,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest018,1,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest018,4,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new(Nest019,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest019,0,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest019,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest019,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest019,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest019,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest020,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
+            new(Nest020,0,0,1) { Species = 220, Ability = A3 }, // Swinub
+            new(Nest020,0,1,1) { Species = 459, Ability = A3 }, // Snover
+            new(Nest020,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
+            new(Nest020,1,1,1) { Species = 225, Ability = A3 }, // Delibird
+            new(Nest020,1,2,2) { Species = 583, Ability = A3 }, // Vanillish
+            new(Nest020,2,3,3) { Species = 221, Ability = A3 }, // Piloswine
+            new(Nest020,2,4,4) { Species = 713, Ability = A3 }, // Avalugg
+            new(Nest020,2,4,4) { Species = 460, Ability = A3 }, // Abomasnow
+            new(Nest020,3,4,4) { Species = 091, Ability = A4 }, // Cloyster
+            new(Nest020,4,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new(Nest020,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest021,0,0,1) { Species = 220, Ability = A3 }, // Swinub
+            new(Nest021,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
+            new(Nest021,0,1,1) { Species = 872, Ability = A3 }, // Snom
+            new(Nest021,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest021,1,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest021,1,2,2) { Species = 221, Ability = A3 }, // Piloswine
+            new(Nest021,2,3,3) { Species = 091, Ability = A3 }, // Cloyster
+            new(Nest021,2,4,4) { Species = 614, Ability = A3 }, // Beartic
+            new(Nest021,2,4,4) { Species = 866, Ability = A3 }, // Mr. Rime
+            new(Nest021,3,4,4) { Species = 473, Ability = A4 }, // Mamoswine
+            new(Nest021,4,4,4) { Species = 873, Ability = A4 }, // Frosmoth
+            new(Nest021,4,4,4) { Species = 461, Ability = A4 }, // Weavile
+            new(Nest022,0,0,1) { Species = 361, Ability = A3 }, // Snorunt
+            new(Nest022,0,0,1) { Species = 872, Ability = A3 }, // Snom
+            new(Nest022,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest022,1,1,2) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest022,1,2,3) { Species = 459, Ability = A3 }, // Snover
+            new(Nest022,2,3,3) { Species = 460, Ability = A3 }, // Abomasnow
+            new(Nest022,2,4,4) { Species = 362, Ability = A3 }, // Glalie
+            new(Nest022,2,4,4) { Species = 866, Ability = A3 }, // Mr. Rime
+            new(Nest022,3,4,4) { Species = 873, Ability = A4 }, // Frosmoth
+            new(Nest022,4,4,4) { Species = 478, Ability = A4 }, // Froslass
+            new(Nest023,0,0,1) { Species = 172, Ability = A3 }, // Pichu
+            new(Nest023,0,0,1) { Species = 309, Ability = A3 }, // Electrike
+            new(Nest023,0,1,1) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest023,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest023,1,1,2) { Species = 737, Ability = A3 }, // Charjabug
+            new(Nest023,1,2,3) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest023,2,3,3) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest023,2,4,4) { Species = 310, Ability = A3 }, // Manectric
+            new(Nest023,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest023,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
+            new(Nest023,4,4,4) { Species = 738, Ability = A4 }, // Vikavolt
+            new(Nest023,4,4,4) { Species = 026, Ability = A4 }, // Raichu
+            new(Nest024,0,0,1) { Species = 835, Ability = A3 }, // Yamper
+            new(Nest024,0,0,1) { Species = 694, Ability = A3 }, // Helioptile
+            new(Nest024,0,1,1) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest024,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest024,1,1,2) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest024,1,2,3) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest024,2,3,3) { Species = 836, Ability = A3 }, // Boltund
+            new(Nest024,2,4,4) { Species = 695, Ability = A3 }, // Heliolisk
+            new(Nest024,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
+            new(Nest024,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
+            new(Nest024,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
+            new(Nest024,4,4,4) { Species = 877, Ability = A4 }, // Morpeko
+            new(Nest025,0,0,1) { Species = 406, Ability = A3 }, // Budew
+            new(Nest025,0,1,1) { Species = 761, Ability = A3 }, // Bounsweet
+            new(Nest025,0,1,1) { Species = 043, Ability = A3 }, // Oddish
+            new(Nest025,1,2,3) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest025,2,3,3) { Species = 044, Ability = A3 }, // Gloom
+            new(Nest025,2,4,4) { Species = 762, Ability = A3 }, // Steenee
+            new(Nest025,3,4,4) { Species = 763, Ability = A4 }, // Tsareena
+            new(Nest025,4,4,4) { Species = 045, Ability = A4 }, // Vileplume
+            new(Nest025,4,4,4) { Species = 182, Ability = A4 }, // Bellossom
+            new(Nest026,0,0,1) { Species = 406, Ability = A3 }, // Budew
+            new(Nest026,0,0,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest026,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
+            new(Nest026,0,1,1) { Species = 840, Ability = A3 }, // Applin
+            new(Nest026,1,1,2) { Species = 420, Ability = A3 }, // Cherubi
+            new(Nest026,1,2,2) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest026,2,3,3) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest026,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
+            new(Nest026,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
+            new(Nest026,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest026,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
+            new(Nest027,0,0,1) { Species = 710, Ability = A3, Form = 1 }, // Pumpkaboo-1
+            new(Nest027,0,0,1) { Species = 708, Ability = A3 }, // Phantump
+            new(Nest027,0,1,1) { Species = 710, Ability = A3 }, // Pumpkaboo
+            new(Nest027,0,1,1) { Species = 755, Ability = A3 }, // Morelull
+            new(Nest027,1,1,2) { Species = 710, Ability = A3, Form = 2 }, // Pumpkaboo-2
+            new(Nest027,1,2,2) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest027,2,3,3) { Species = 756, Ability = A3 }, // Shiinotic
+            new(Nest027,2,4,4) { Species = 556, Ability = A3 }, // Maractus
+            new(Nest027,2,4,4) { Species = 709, Ability = A3 }, // Trevenant
+            new(Nest027,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
+            new(Nest027,4,4,4) { Species = 781, Ability = A4 }, // Dhelmise
+            new(Nest027,4,4,4) { Species = 710, Ability = A4, Form = 3 }, // Pumpkaboo-3
+            new(Nest028,0,0,1) { Species = 434, Ability = A3 }, // Stunky
+            new(Nest028,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
+            new(Nest028,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
+            new(Nest028,1,2,2) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest028,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
+            new(Nest028,2,4,4) { Species = 452, Ability = A3 }, // Drapion
+            new(Nest028,2,4,4) { Species = 045, Ability = A3 }, // Vileplume
+            new(Nest028,4,4,4) { Species = 569, Ability = A4 }, // Garbodor
+            new(Nest029,0,0,1) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest029,0,0,1) { Species = 092, Ability = A3 }, // Gastly
+            new(Nest029,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
+            new(Nest029,0,1,1) { Species = 043, Ability = A3 }, // Oddish
+            new(Nest029,1,1,2) { Species = 044, Ability = A3 }, // Gloom
+            new(Nest029,1,2,2) { Species = 093, Ability = A3 }, // Haunter
+            new(Nest029,2,3,3) { Species = 109, Ability = A3 }, // Koffing
+            new(Nest029,2,4,4) { Species = 211, Ability = A3 }, // Qwilfish
+            new(Nest029,2,4,4) { Species = 045, Ability = A3 }, // Vileplume
+            new(Nest029,3,4,4) { Species = 315, Ability = A4 }, // Roselia
+            new(Nest029,4,4,4) { Species = 849, Ability = A4 }, // Toxtricity
+            new(Nest029,4,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
+            new(Nest030,0,0,1) { Species = 519, Ability = A3 }, // Pidove
+            new(Nest030,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
+            new(Nest030,0,1,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest030,1,1,2) { Species = 527, Ability = A3 }, // Woobat
+            new(Nest030,1,2,2) { Species = 520, Ability = A3 }, // Tranquill
+            new(Nest030,2,3,3) { Species = 521, Ability = A3 }, // Unfezant
+            new(Nest030,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
+            new(Nest030,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
+            new(Nest030,3,4,4) { Species = 178, Ability = A4 }, // Xatu
+            new(Nest030,4,4,4) { Species = 561, Ability = A4 }, // Sigilyph
+            new(Nest031,0,0,1) { Species = 821, Ability = A3 }, // Rookidee
+            new(Nest031,0,0,1) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest031,0,1,1) { Species = 278, Ability = A3 }, // Wingull
+            new(Nest031,0,1,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest031,1,1,2) { Species = 425, Ability = A3 }, // Drifloon
+            new(Nest031,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
+            new(Nest031,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
+            new(Nest031,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
+            new(Nest031,2,4,4) { Species = 178, Ability = A3 }, // Xatu
+            new(Nest031,3,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new(Nest031,4,4,4) { Species = 701, Ability = A4 }, // Hawlucha
+            new(Nest031,4,4,4) { Species = 845, Ability = A4 }, // Cramorant
+            new(Nest032,0,0,1) { Species = 173, Ability = A3 }, // Cleffa
+            new(Nest032,0,0,1) { Species = 175, Ability = A3 }, // Togepi
+            new(Nest032,0,1,1) { Species = 742, Ability = A3 }, // Cutiefly
+            new(Nest032,1,1,2) { Species = 035, Ability = A3 }, // Clefairy
+            new(Nest032,1,2,2) { Species = 755, Ability = A3 }, // Morelull
+            new(Nest032,2,3,3) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest032,2,4,4) { Species = 036, Ability = A3 }, // Clefable
+            new(Nest032,2,4,4) { Species = 743, Ability = A3 }, // Ribombee
+            new(Nest032,3,4,4) { Species = 756, Ability = A4 }, // Shiinotic
+            new(Nest032,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
+            new(Nest033,0,0,1) { Species = 439, Ability = A3 }, // Mime Jr.
+            new(Nest033,0,0,1) { Species = 868, Ability = A3 }, // Milcery
+            new(Nest033,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest033,0,1,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest033,1,1,2) { Species = 035, Ability = A3 }, // Clefairy
+            new(Nest033,1,2,2) { Species = 281, Ability = A3 }, // Kirlia
+            new(Nest033,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest033,2,4,4) { Species = 036, Ability = A3 }, // Clefable
+            new(Nest033,2,4,4) { Species = 282, Ability = A3 }, // Gardevoir
+            new(Nest033,3,4,4) { Species = 869, Ability = A4 }, // Alcremie
+            new(Nest033,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest034,0,0,1) { Species = 509, Ability = A3 }, // Purrloin
+            new(Nest034,0,0,1) { Species = 434, Ability = A3 }, // Stunky
+            new(Nest034,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest034,0,1,1) { Species = 686, Ability = A3 }, // Inkay
+            new(Nest034,1,1,2) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest034,1,2,2) { Species = 510, Ability = A3 }, // Liepard
+            new(Nest034,2,3,3) { Species = 435, Ability = A3 }, // Skuntank
+            new(Nest034,2,4,4) { Species = 461, Ability = A3 }, // Weavile
+            new(Nest034,2,4,4) { Species = 687, Ability = A3 }, // Malamar
+            new(Nest034,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest034,4,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
+            new(Nest035,0,0,1) { Species = 827, Ability = A3 }, // Nickit
+            new(Nest035,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
+            new(Nest035,0,1,1) { Species = 509, Ability = A3 }, // Purrloin
+            new(Nest035,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest035,1,2,2) { Species = 828, Ability = A3 }, // Thievul
+            new(Nest035,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest035,2,4,4) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest035,2,4,4) { Species = 861, Ability = A3 }, // Grimmsnarl
+            new(Nest035,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
+            new(Nest036,0,0,1) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest036,0,1,1) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest036,1,2,2) { Species = 329, Ability = A3 }, // Vibrava
+            new(Nest037,0,0,1) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest037,0,0,1) { Species = 840, Ability = A3 }, // Applin
+            new(Nest037,0,1,1) { Species = 885, Ability = A3 }, // Dreepy
+            new(Nest037,1,1,2) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest037,1,2,2) { Species = 840, Ability = A3 }, // Applin
+            new(Nest037,2,3,3) { Species = 886, Ability = A3 }, // Drakloak
+            new(Nest037,2,4,4) { Species = 715, Ability = A3 }, // Noivern
+            new(Nest037,4,4,4) { Species = 887, Ability = A4 }, // Dragapult
+            new(Nest038,0,0,1) { Species = 659, Ability = A3 }, // Bunnelby
+            new(Nest038,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
+            new(Nest038,0,1,1) { Species = 519, Ability = A3 }, // Pidove
+            new(Nest038,0,1,1) { Species = 572, Ability = A3 }, // Minccino
+            new(Nest038,1,1,2) { Species = 694, Ability = A3 }, // Helioptile
+            new(Nest038,1,2,2) { Species = 759, Ability = A3 }, // Stufful
+            new(Nest038,2,3,3) { Species = 660, Ability = A3 }, // Diggersby
+            new(Nest038,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
+            new(Nest038,2,4,4) { Species = 521, Ability = A3 }, // Unfezant
+            new(Nest038,3,4,4) { Species = 695, Ability = A4 }, // Heliolisk
+            new(Nest038,4,4,4) { Species = 573, Ability = A4 }, // Cinccino
+            new(Nest038,4,4,4) { Species = 760, Ability = A4 }, // Bewear
+            new(Nest039,0,0,1) { Species = 819, Ability = A3 }, // Skwovet
+            new(Nest039,0,0,1) { Species = 831, Ability = A3 }, // Wooloo
+            new(Nest039,0,1,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
+            new(Nest039,0,1,1) { Species = 446, Ability = A3 }, // Munchlax
+            new(Nest039,1,2,2) { Species = 820, Ability = A3 }, // Greedent
+            new(Nest039,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest039,2,4,4) { Species = 820, Ability = A3 }, // Greedent
+            new(Nest039,2,4,4) { Species = 832, Ability = A3 }, // Dubwool
+            new(Nest039,3,4,4) { Species = 660, Ability = A4 }, // Diggersby
+            new(Nest039,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
+            new(Nest040,0,0,1) { Species = 535, Ability = A3 }, // Tympole
+            new(Nest040,0,0,1) { Species = 090, Ability = A3 }, // Shellder
+            new(Nest040,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest040,1,2,2) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest040,2,4,4) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest040,4,4,4) { Species = 847, Ability = A4 }, // Barraskewda
+            new(Nest041,0,0,1) { Species = 422, Ability = A3, Form = 1 }, // Shellos-1
+            new(Nest041,0,0,1) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest041,0,1,1) { Species = 341, Ability = A3 }, // Corphish
+            new(Nest041,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest041,1,1,2) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest041,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
+            new(Nest041,2,3,3) { Species = 099, Ability = A3 }, // Kingler
+            new(Nest041,2,4,4) { Species = 342, Ability = A3 }, // Crawdaunt
+            new(Nest041,2,4,4) { Species = 689, Ability = A3 }, // Barbaracle
+            new(Nest041,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
+            new(Nest041,4,4,4) { Species = 593, Ability = A4 }, // Jellicent
+            new(Nest041,4,4,4) { Species = 834, Ability = A4 }, // Drednaw
+            new(Nest042,0,0,1) { Species = 092, Ability = A3 }, // Gastly
+            new(Nest042,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest042,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest042,0,1,1) { Species = 355, Ability = A3 }, // Duskull
+            new(Nest042,1,2,2) { Species = 093, Ability = A3 }, // Haunter
+            new(Nest042,2,3,3) { Species = 356, Ability = A3 }, // Dusclops
+            new(Nest042,4,4,4) { Species = 477, Ability = A4 }, // Dusknoir
+            new(Nest042,4,4,4) { Species = 094, Ability = A4 }, // Gengar
+            new(Nest043,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
+            new(Nest043,0,0,1) { Species = 349, Ability = A3 }, // Feebas
+            new(Nest043,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest043,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest043,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest043,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
+            new(Nest043,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
+            new(Nest043,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
+            new(Nest043,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest043,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest043,4,4,4) { Species = 350, Ability = A4 }, // Milotic
+            new(Nest044,0,0,1) { Species = 447, Ability = A3 }, // Riolu
+            new(Nest044,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest044,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest044,0,1,1) { Species = 599, Ability = A3 }, // Klink
+            new(Nest044,1,2,2) { Species = 095, Ability = A3 }, // Onix
+            new(Nest044,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest044,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest044,3,4,4) { Species = 208, Ability = A4 }, // Steelix
+            new(Nest044,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
+            new(Nest044,4,4,4) { Species = 448, Ability = A4 }, // Lucario
+            new(Nest045,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
+            new(Nest045,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
+            new(Nest045,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest045,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest045,2,3,3) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest045,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
+            new(Nest045,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest045,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
+            new(Nest045,4,4,4) { Species = 292, Ability = A4 }, // Shedinja
+            new(Nest046,0,0,1) { Species = 679, Ability = A3 }, // Honedge
+            new(Nest046,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest046,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest046,0,1,1) { Species = 425, Ability = A3 }, // Drifloon
+            new(Nest046,1,2,2) { Species = 680, Ability = A3 }, // Doublade
+            new(Nest046,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
+            new(Nest046,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
+            new(Nest046,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
+            new(Nest046,4,4,4) { Species = 681, Ability = A4 }, // Aegislash
+            new(Nest047,0,0,1) { Species = 447, Ability = A3 }, // Riolu
+            new(Nest047,0,0,1) { Species = 066, Ability = A3 }, // Machop
+            new(Nest047,0,1,1) { Species = 759, Ability = A3 }, // Stufful
+            new(Nest047,1,2,2) { Species = 760, Ability = A3 }, // Bewear
+            new(Nest047,1,3,3) { Species = 870, Ability = A3 }, // Falinks
+            new(Nest047,2,3,3) { Species = 067, Ability = A3 }, // Machoke
+            new(Nest047,3,4,4) { Species = 068, Ability = A4 }, // Machamp
+            new(Nest047,4,4,4) { Species = 448, Ability = A4 }, // Lucario
+            new(Nest047,4,4,4) { Species = 475, Ability = A4 }, // Gallade
+            new(Nest048,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
+            new(Nest048,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest048,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest048,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest048,1,2,2) { Species = 679, Ability = A3 }, // Honedge
+            new(Nest048,1,2,2) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest048,3,4,4) { Species = 863, Ability = A4 }, // Perrserker
+            new(Nest048,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
+            new(Nest048,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest048,3,4,4) { Species = 618, Ability = A4, Form = 1 }, // Stunfisk-1
+            new(Nest048,4,4,4) { Species = 879, Ability = A4 }, // Copperajah
+            new(Nest048,4,4,4) { Species = 884, Ability = A4 }, // Duraludon
+            new(Nest049,0,0,1) { Species = 686, Ability = A3 }, // Inkay
+            new(Nest049,0,0,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest049,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest049,0,1,1) { Species = 527, Ability = A3 }, // Woobat
+            new(Nest049,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
+            new(Nest049,1,2,2) { Species = 857, Ability = A3 }, // Hattrem
+            new(Nest049,2,3,3) { Species = 281, Ability = A3 }, // Kirlia
+            new(Nest049,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
+            new(Nest049,3,4,4) { Species = 858, Ability = A4 }, // Hatterene
+            new(Nest049,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest049,4,4,4) { Species = 687, Ability = A4 }, // Malamar
+            new(Nest049,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest050,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest050,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
+            new(Nest050,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
+            new(Nest050,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest050,2,4,4) { Species = 095, Ability = A3 }, // Onix
+            new(Nest050,3,4,4) { Species = 558, Ability = A4 }, // Crustle
+            new(Nest050,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest050,4,4,4) { Species = 208, Ability = A4 }, // Steelix
+            new(Nest051,0,0,1) { Species = 194, Ability = A3 }, // Wooper
+            new(Nest051,0,0,1) { Species = 339, Ability = A3 }, // Barboach
+            new(Nest051,0,1,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest051,0,1,1) { Species = 622, Ability = A3 }, // Golett
+            new(Nest051,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
+            new(Nest051,1,2,2) { Species = 195, Ability = A3 }, // Quagsire
+            new(Nest051,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
+            new(Nest051,2,4,4) { Species = 623, Ability = A3 }, // Golurk
+            new(Nest051,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
+            new(Nest051,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
+            new(Nest051,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
+            new(Nest051,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
+            new(Nest052,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest052,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest052,0,1,1) { Species = 004, Ability = A3 }, // Charmander
+            new(Nest052,1,2,2) { Species = 005, Ability = A3 }, // Charmeleon
+            new(Nest052,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest052,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest052,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest052,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest052,4,4,4) { Species = 006, Ability = A4 }, // Charizard
+            new(Nest053,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest053,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest053,0,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest053,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest053,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest053,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new(Nest053,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest054,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
+            new(Nest054,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest054,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
+            new(Nest054,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
+            new(Nest054,1,2,2) { Species = 225, Ability = A3 }, // Delibird
+            new(Nest054,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
+            new(Nest054,2,4,4) { Species = 362, Ability = A3 }, // Glalie
+            new(Nest054,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new(Nest054,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest054,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest055,0,0,1) { Species = 835, Ability = A3 }, // Yamper
+            new(Nest055,0,0,1) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest055,0,1,1) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest055,0,1,1) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest055,1,2,2) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest055,1,2,2) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest055,2,4,4) { Species = 836, Ability = A3 }, // Boltund
+            new(Nest055,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
+            new(Nest055,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
+            new(Nest055,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
+            new(Nest055,4,4,4) { Species = 777, Ability = A4 }, // Togedemaru
+            new(Nest055,4,4,4) { Species = 877, Ability = A4 }, // Morpeko
+            new(Nest056,0,0,1) { Species = 172, Ability = A3 }, // Pichu
+            new(Nest056,0,0,1) { Species = 309, Ability = A3 }, // Electrike
+            new(Nest056,0,1,1) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest056,0,1,1) { Species = 694, Ability = A3 }, // Helioptile
+            new(Nest056,1,2,2) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest056,1,2,2) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest056,2,4,4) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest056,2,4,4) { Species = 479, Ability = A3, Form = 5 }, // Rotom-5
+            new(Nest056,3,4,4) { Species = 479, Ability = A4, Form = 4 }, // Rotom-4
+            new(Nest056,3,4,4) { Species = 479, Ability = A4, Form = 3 }, // Rotom-3
+            new(Nest056,4,4,4) { Species = 479, Ability = A4, Form = 2 }, // Rotom-2
+            new(Nest056,4,4,4) { Species = 479, Ability = A4, Form = 1 }, // Rotom-1
+            new(Nest057,0,0,1) { Species = 406, Ability = A3 }, // Budew
+            new(Nest057,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest057,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest057,1,2,2) { Species = 840, Ability = A3 }, // Applin
+            new(Nest057,2,4,4) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest057,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest057,3,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
+            new(Nest057,4,4,4) { Species = 407, Ability = A4 }, // Roserade
+            new(Nest058,0,0,1) { Species = 420, Ability = A3 }, // Cherubi
+            new(Nest058,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest058,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
+            new(Nest058,1,2,2) { Species = 755, Ability = A3 }, // Morelull
+            new(Nest058,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
+            new(Nest058,2,4,4) { Species = 756, Ability = A3 }, // Shiinotic
+            new(Nest058,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest058,3,4,4) { Species = 547, Ability = A4 }, // Whimsicott
+            new(Nest058,4,4,4) { Species = 781, Ability = A4 }, // Dhelmise
+            new(Nest059,0,0,1) { Species = 434, Ability = A3 }, // Stunky
+            new(Nest059,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
+            new(Nest059,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
+            new(Nest059,0,1,1) { Species = 109, Ability = A3 }, // Koffing
+            new(Nest059,1,2,2) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest059,2,4,4) { Species = 569, Ability = A3 }, // Garbodor
+            new(Nest059,2,4,4) { Species = 452, Ability = A3 }, // Drapion
+            new(Nest059,3,4,4) { Species = 849, Ability = A4 }, // Toxtricity
+            new(Nest059,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
+            new(Nest059,4,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
+            new(Nest060,0,0,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest060,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
+            new(Nest060,0,1,1) { Species = 821, Ability = A3 }, // Rookidee
+            new(Nest060,0,1,1) { Species = 278, Ability = A3 }, // Wingull
+            new(Nest060,1,2,2) { Species = 012, Ability = A3 }, // Butterfree
+            new(Nest060,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
+            new(Nest060,2,4,4) { Species = 164, Ability = A3 }, // Noctowl
+            new(Nest060,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
+            new(Nest060,3,4,4) { Species = 178, Ability = A4 }, // Xatu
+            new(Nest060,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
+            new(Nest060,4,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new(Nest060,4,4,4) { Species = 225, Ability = A4 }, // Delibird
+            new(Nest061,0,0,1) { Species = 175, Ability = A3 }, // Togepi
+            new(Nest061,0,0,1) { Species = 755, Ability = A3 }, // Morelull
+            new(Nest061,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest061,0,1,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest061,1,2,2) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest061,1,2,2) { Species = 756, Ability = A3 }, // Shiinotic
+            new(Nest061,2,4,4) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest061,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest061,3,4,4) { Species = 468, Ability = A4 }, // Togekiss
+            new(Nest061,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest061,4,4,4) { Species = 778, Ability = A4 }, // Mimikyu
+            new(Nest062,0,0,1) { Species = 827, Ability = A3 }, // Nickit
+            new(Nest062,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
+            new(Nest062,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest062,1,2,2) { Species = 510, Ability = A3 }, // Liepard
+            new(Nest062,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest062,2,4,4) { Species = 828, Ability = A3 }, // Thievul
+            new(Nest062,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
+            new(Nest062,3,4,4) { Species = 461, Ability = A4 }, // Weavile
+            new(Nest062,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
+            new(Nest063,0,0,1) { Species = 840, Ability = A3 }, // Applin
+            new(Nest063,1,2,2) { Species = 885, Ability = A3 }, // Dreepy
+            new(Nest063,3,4,4) { Species = 886, Ability = A4 }, // Drakloak
+            new(Nest063,4,4,4) { Species = 887, Ability = A4 }, // Dragapult
+            new(Nest064,0,0,1) { Species = 659, Ability = A3 }, // Bunnelby
+            new(Nest064,0,0,1) { Species = 519, Ability = A3 }, // Pidove
+            new(Nest064,0,1,1) { Species = 819, Ability = A3 }, // Skwovet
+            new(Nest064,0,1,1) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest064,1,2,2) { Species = 520, Ability = A3 }, // Tranquill
+            new(Nest064,1,2,2) { Species = 831, Ability = A3 }, // Wooloo
+            new(Nest064,2,4,4) { Species = 521, Ability = A3 }, // Unfezant
+            new(Nest064,2,4,4) { Species = 832, Ability = A3 }, // Dubwool
+            new(Nest064,4,4,4) { Species = 133, Ability = A4 }, // Eevee
+            new(Nest064,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
+            new(Nest065,0,0,1) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest065,0,1,2) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest065,1,2,3) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest065,2,3,3) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest065,3,4,4) { Species = 132, Ability = A4 }, // Ditto
+            new(Nest065,4,4,4) { Species = 132, Ability = A4 }, // Ditto
+            new(Nest066,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
+            new(Nest066,0,0,1) { Species = 341, Ability = A3 }, // Corphish
+            new(Nest066,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest066,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest066,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest066,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
+            new(Nest066,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
+            new(Nest066,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
+            new(Nest066,3,4,4) { Species = 226, Ability = A4 }, // Mantine
+            new(Nest066,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest066,4,4,4) { Species = 134, Ability = A4 }, // Vaporeon
+            new(Nest067,0,0,1) { Species = 686, Ability = A3 }, // Inkay
+            new(Nest067,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest067,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest067,0,1,1) { Species = 527, Ability = A3 }, // Woobat
+            new(Nest067,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
+            new(Nest067,1,2,2) { Species = 857, Ability = A3 }, // Hattrem
+            new(Nest067,2,3,3) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest067,2,4,4) { Species = 528, Ability = A3 }, // Swoobat
+            new(Nest067,3,4,4) { Species = 687, Ability = A4 }, // Malamar
+            new(Nest067,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest067,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
+            new(Nest067,4,4,4) { Species = 196, Ability = A4 }, // Espeon
+            new(Nest068,0,0,1) { Species = 827, Ability = A3 }, // Nickit
+            new(Nest068,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
+            new(Nest068,0,1,1) { Species = 686, Ability = A3 }, // Inkay
+            new(Nest068,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest068,1,2,2) { Species = 510, Ability = A3 }, // Liepard
+            new(Nest068,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest068,2,4,4) { Species = 828, Ability = A3 }, // Thievul
+            new(Nest068,2,4,4) { Species = 675, Ability = A3 }, // Pangoro
+            new(Nest068,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest068,3,4,4) { Species = 687, Ability = A4 }, // Malamar
+            new(Nest068,4,4,4) { Species = 862, Ability = A4 }, // Obstagoon
+            new(Nest068,4,4,4) { Species = 197, Ability = A4 }, // Umbreon
+            new(Nest069,0,0,1) { Species = 420, Ability = A3 }, // Cherubi
+            new(Nest069,0,0,1) { Species = 761, Ability = A3 }, // Bounsweet
+            new(Nest069,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest069,0,1,1) { Species = 546, Ability = A3 }, // Cottonee
+            new(Nest069,1,2,2) { Species = 762, Ability = A3 }, // Steenee
+            new(Nest069,1,2,2) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest069,2,4,4) { Species = 421, Ability = A3 }, // Cherrim
+            new(Nest069,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
+            new(Nest069,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest069,3,4,4) { Species = 763, Ability = A4 }, // Tsareena
+            new(Nest069,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
+            new(Nest069,4,4,4) { Species = 470, Ability = A4 }, // Leafeon
+            new(Nest070,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest070,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest070,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest070,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest070,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest070,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
+            new(Nest070,4,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new(Nest070,4,4,4) { Species = 136, Ability = A4 }, // Flareon
+            new(Nest071,0,0,1) { Species = 835, Ability = A3 }, // Yamper
+            new(Nest071,0,0,1) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest071,0,1,1) { Species = 025, Ability = A3 }, // Pikachu
+            new(Nest071,0,1,1) { Species = 694, Ability = A3 }, // Helioptile
+            new(Nest071,1,2,2) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest071,1,2,2) { Species = 171, Ability = A3 }, // Lanturn
+            new(Nest071,2,4,4) { Species = 836, Ability = A3 }, // Boltund
+            new(Nest071,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
+            new(Nest071,3,4,4) { Species = 695, Ability = A4 }, // Heliolisk
+            new(Nest071,3,4,4) { Species = 738, Ability = A4 }, // Vikavolt
+            new(Nest071,4,4,4) { Species = 025, Ability = A4 }, // Pikachu
+            new(Nest071,4,4,4) { Species = 135, Ability = A4 }, // Jolteon
+            new(Nest072,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
+            new(Nest072,0,0,1) { Species = 872, Ability = A3 }, // Snom
+            new(Nest072,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest072,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
+            new(Nest072,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
+            new(Nest072,1,2,2) { Species = 583, Ability = A3 }, // Vanillish
+            new(Nest072,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
+            new(Nest072,2,4,4) { Species = 873, Ability = A3 }, // Frosmoth
+            new(Nest072,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new(Nest072,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest072,4,4,4) { Species = 478, Ability = A4 }, // Froslass
+            new(Nest072,4,4,4) { Species = 471, Ability = A4 }, // Glaceon
+            new(Nest073,0,0,1) { Species = 175, Ability = A3 }, // Togepi
+            new(Nest073,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest073,0,1,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest073,1,2,2) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest073,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest073,2,4,4) { Species = 868, Ability = A3 }, // Milcery
+            new(Nest073,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest073,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest073,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
+            new(Nest073,4,4,4) { Species = 700, Ability = A4 }, // Sylveon
+            new(Nest074,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
+            new(Nest074,0,0,1) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest074,0,1,1) { Species = 194, Ability = A3 }, // Wooper
+            new(Nest074,0,1,1) { Species = 339, Ability = A3 }, // Barboach
+            new(Nest074,1,2,2) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest074,1,2,2) { Species = 746, Ability = A3 }, // Wishiwashi
+            new(Nest074,2,3,3) { Species = 099, Ability = A3 }, // Kingler
+            new(Nest074,2,4,4) { Species = 340, Ability = A3 }, // Whiscash
+            new(Nest074,3,4,4) { Species = 211, Ability = A4 }, // Qwilfish
+            new(Nest074,3,4,4) { Species = 195, Ability = A4 }, // Quagsire
+            new(Nest074,4,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest074,4,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest075,0,0,1) { Species = 458, Ability = A3 }, // Mantyke
+            new(Nest075,0,0,1) { Species = 223, Ability = A3 }, // Remoraid
+            new(Nest075,0,1,1) { Species = 320, Ability = A3 }, // Wailmer
+            new(Nest075,0,1,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest075,1,2,2) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest075,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
+            new(Nest075,2,3,3) { Species = 099, Ability = A3 }, // Kingler
+            new(Nest075,3,4,4) { Species = 211, Ability = A4 }, // Qwilfish
+            new(Nest075,3,4,4) { Species = 224, Ability = A4 }, // Octillery
+            new(Nest075,4,4,4) { Species = 321, Ability = A4 }, // Wailord
+            new(Nest075,4,4,4) { Species = 226, Ability = A4 }, // Mantine
+            new(Nest076,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest076,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest076,0,1,1) { Species = 004, Ability = A3 }, // Charmander
+            new(Nest076,1,2,2) { Species = 005, Ability = A3 }, // Charmeleon
+            new(Nest076,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest076,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest076,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest076,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest076,4,4,4) { Species = 006, Ability = A4, CanGigantamax = true }, // Charizard
+            new(Nest077,0,0,1) { Species = 129, Ability = A3 }, // Magikarp
+            new(Nest077,0,0,1) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest077,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest077,0,1,1) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest077,1,2,2) { Species = 771, Ability = A3 }, // Pyukumuku
+            new(Nest077,2,3,3) { Species = 211, Ability = A3 }, // Qwilfish
+            new(Nest077,2,4,4) { Species = 099, Ability = A3 }, // Kingler
+            new(Nest077,3,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
+            new(Nest077,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest077,4,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
+            new(Nest077,4,4,4) { Species = 834, Ability = A4, CanGigantamax = true }, // Drednaw
+            new(Nest078,0,0,1) { Species = 406, Ability = A3 }, // Budew
+            new(Nest078,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest078,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest078,1,2,2) { Species = 840, Ability = A3 }, // Applin
+            new(Nest078,2,4,4) { Species = 315, Ability = A3 }, // Roselia
+            new(Nest078,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest078,3,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
+            new(Nest078,4,4,4) { Species = 407, Ability = A4 }, // Roserade
+            new(Nest079,0,0,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest079,0,1,1) { Species = 607, Ability = A3 }, // Litwick
+            new(Nest079,0,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest079,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest079,1,2,2) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest079,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest079,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest079,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new(Nest079,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest079,4,4,4) { Species = 851, Ability = A4, CanGigantamax = true }, // Centiskorch
+            new(Nest081,0,0,1) { Species = 175, Ability = A3 }, // Togepi
+            new(Nest081,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest081,0,1,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest081,1,2,2) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest081,1,2,2) { Species = 756, Ability = A3 }, // Shiinotic
+            new(Nest081,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest081,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest081,3,4,4) { Species = 468, Ability = A4 }, // Togekiss
+            new(Nest081,4,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest081,4,4,4) { Species = 869, Ability = A4, CanGigantamax = true }, // Alcremie
+            new(Nest083,0,0,1) { Species = 447, Ability = A3 }, // Riolu
+            new(Nest083,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest083,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest083,0,1,1) { Species = 599, Ability = A3 }, // Klink
+            new(Nest083,1,2,2) { Species = 095, Ability = A3 }, // Onix
+            new(Nest083,2,4,4) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest083,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest083,3,4,4) { Species = 208, Ability = A4 }, // Steelix
+            new(Nest083,4,4,4) { Species = 601, Ability = A4 }, // Klinklang
+            new(Nest083,4,4,4) { Species = 884, Ability = A4, CanGigantamax = true }, // Duraludon
+            new(Nest084,0,0,1) { Species = 052, Ability = A3, Form = 2 }, // Meowth-2
+            new(Nest084,0,0,1) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest084,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest084,0,1,1) { Species = 597, Ability = A3 }, // Ferroseed
+            new(Nest084,1,2,2) { Species = 679, Ability = A3 }, // Honedge
+            new(Nest084,1,2,2) { Species = 437, Ability = A3 }, // Bronzong
+            new(Nest084,2,3,3) { Species = 863, Ability = A3 }, // Perrserker
+            new(Nest084,2,4,4) { Species = 598, Ability = A3 }, // Ferrothorn
+            new(Nest084,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest084,3,4,4) { Species = 618, Ability = A4, Form = 1 }, // Stunfisk-1
+            new(Nest084,4,4,4) { Species = 884, Ability = A4 }, // Duraludon
+            new(Nest084,4,4,4) { Species = 879, Ability = A4, CanGigantamax = true }, // Copperajah
+            new(Nest085,0,0,1) { Species = 434, Ability = A3 }, // Stunky
+            new(Nest085,0,0,1) { Species = 568, Ability = A3 }, // Trubbish
+            new(Nest085,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
+            new(Nest085,0,1,1) { Species = 109, Ability = A3 }, // Koffing
+            new(Nest085,1,2,2) { Species = 848, Ability = A3 }, // Toxel
+            new(Nest085,2,3,3) { Species = 452, Ability = A3 }, // Drapion
+            new(Nest085,2,4,4) { Species = 849, Ability = A3 }, // Toxtricity
+            new(Nest085,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
+            new(Nest085,3,4,4) { Species = 110, Ability = A4, Form = 1 }, // Weezing-1
+            new(Nest085,4,4,4) { Species = 569, Ability = A4, CanGigantamax = true }, // Garbodor
+            new(Nest086,0,0,1) { Species = 175, Ability = A3 }, // Togepi
+            new(Nest086,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest086,0,1,1) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest086,1,2,2) { Species = 176, Ability = A3 }, // Togetic
+            new(Nest086,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest086,2,4,4) { Species = 868, Ability = A3 }, // Milcery
+            new(Nest086,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest086,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest086,4,4,4) { Species = 468, Ability = A4 }, // Togekiss
+            new(Nest086,4,4,4) { Species = 858, Ability = A4, CanGigantamax = true }, // Hatterene
+            new(Nest087,0,0,1) { Species = 827, Ability = A3 }, // Nickit
+            new(Nest087,0,0,1) { Species = 263, Ability = A3, Form = 1 }, // Zigzagoon-1
+            new(Nest087,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest087,1,2,2) { Species = 510, Ability = A3 }, // Liepard
+            new(Nest087,1,2,2) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest087,2,3,3) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest087,2,4,4) { Species = 828, Ability = A3 }, // Thievul
+            new(Nest087,3,4,4) { Species = 675, Ability = A4 }, // Pangoro
+            new(Nest087,4,4,4) { Species = 861, Ability = A4, CanGigantamax = true }, // Grimmsnarl
+            new(Nest088,0,0,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest088,0,0,1) { Species = 163, Ability = A3 }, // Hoothoot
+            new(Nest088,0,1,1) { Species = 821, Ability = A3 }, // Rookidee
+            new(Nest088,0,1,1) { Species = 278, Ability = A3 }, // Wingull
+            new(Nest088,1,2,2) { Species = 012, Ability = A3 }, // Butterfree
+            new(Nest088,1,2,2) { Species = 822, Ability = A3 }, // Corvisquire
+            new(Nest088,2,3,3) { Species = 164, Ability = A3 }, // Noctowl
+            new(Nest088,2,4,4) { Species = 279, Ability = A3 }, // Pelipper
+            new(Nest088,3,4,4) { Species = 178, Ability = A4 }, // Xatu
+            new(Nest088,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
+            new(Nest088,4,4,4) { Species = 561, Ability = A4 }, // Sigilyph
+            new(Nest088,4,4,4) { Species = 823, Ability = A4, CanGigantamax = true }, // Corviknight
+            new(Nest089,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
+            new(Nest089,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
+            new(Nest089,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest089,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest089,2,3,3) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest089,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
+            new(Nest089,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest089,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
+            new(Nest089,0,4,4) { Species = 012, Ability = A4, CanGigantamax = true }, // Butterfree
+            new(Nest090,0,0,1) { Species = 341, Ability = A3 }, // Corphish
+            new(Nest090,0,0,1) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest090,0,1,1) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest090,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest090,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest090,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
+            new(Nest090,2,4,4) { Species = 748, Ability = A3 }, // Toxapex
+            new(Nest090,3,4,4) { Species = 771, Ability = A4 }, // Pyukumuku
+            new(Nest090,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest090,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest090,1,4,4) { Species = 099, Ability = A4, CanGigantamax = true }, // Kingler
+            new(Nest091,0,0,1) { Species = 767, Ability = A3 }, // Wimpod
+            new(Nest091,0,0,1) { Species = 824, Ability = A3 }, // Blipbug
+            new(Nest091,0,1,1) { Species = 751, Ability = A3 }, // Dewpider
+            new(Nest091,1,2,2) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest091,2,3,3) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest091,2,4,4) { Species = 826, Ability = A3 }, // Orbeetle
+            new(Nest091,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest091,3,4,4) { Species = 768, Ability = A4 }, // Golisopod
+            new(Nest091,2,4,4) { Species = 826, Ability = A4, CanGigantamax = true }, // Orbeetle
+            new(Nest092,0,0,1) { Species = 194, Ability = A3 }, // Wooper
+            new(Nest092,0,0,1) { Species = 339, Ability = A3 }, // Barboach
+            new(Nest092,0,1,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest092,0,1,1) { Species = 622, Ability = A3 }, // Golett
+            new(Nest092,1,2,2) { Species = 536, Ability = A3 }, // Palpitoad
+            new(Nest092,1,2,2) { Species = 195, Ability = A3 }, // Quagsire
+            new(Nest092,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
+            new(Nest092,2,4,4) { Species = 623, Ability = A3 }, // Golurk
+            new(Nest092,3,4,4) { Species = 423, Ability = A4, Form = 1 }, // Gastrodon-1
+            new(Nest092,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
+            new(Nest092,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
+            new(Nest092,3,4,4) { Species = 844, Ability = A4, CanGigantamax = true }, // Sandaconda
+            new(Nest098,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest098,0,1,1) { Species = 174, Ability = A3 }, // Igglybuff
+            new(Nest098,0,1,1) { Species = 506, Ability = A3 }, // Lillipup
+            new(Nest098,1,2,2) { Species = 427, Ability = A3 }, // Buneary
+            new(Nest098,1,2,2) { Species = 039, Ability = A3 }, // Jigglypuff
+            new(Nest098,2,3,3) { Species = 039, Ability = A3 }, // Jigglypuff
+            new(Nest098,2,3,3) { Species = 507, Ability = A3 }, // Herdier
+            new(Nest098,3,4,4) { Species = 428, Ability = A4 }, // Lopunny
+            new(Nest098,3,4,4) { Species = 040, Ability = A4 }, // Wigglytuff
+            new(Nest098,4,4,4) { Species = 206, Ability = A4 }, // Dunsparce
+            new(Nest098,4,4,4) { Species = 508, Ability = A4 }, // Stoutland
+            new(Nest099,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest099,0,1,1) { Species = 506, Ability = A2 }, // Lillipup
+            new(Nest099,0,1,1) { Species = 759, Ability = A2 }, // Stufful
+            new(Nest099,1,2,2) { Species = 039, Ability = A2 }, // Jigglypuff
+            new(Nest099,1,2,2) { Species = 427, Ability = A2 }, // Buneary
+            new(Nest099,2,3,3) { Species = 039, Ability = A2 }, // Jigglypuff
+            new(Nest099,2,3,3) { Species = 206, Ability = A2 }, // Dunsparce
+            new(Nest099,3,4,4) { Species = 832, Ability = A2 }, // Dubwool
+            new(Nest099,3,4,4) { Species = 428, Ability = A2 }, // Lopunny
+            new(Nest099,3,4,4) { Species = 508, Ability = A2 }, // Stoutland
+            new(Nest099,4,4,4) { Species = 760, Ability = A2 }, // Bewear
+            new(Nest099,4,4,4) { Species = 040, Ability = A2 }, // Wigglytuff
+            new(Nest100,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest100,0,1,1) { Species = 293, Ability = A3 }, // Whismur
+            new(Nest100,0,1,1) { Species = 108, Ability = A3 }, // Lickitung
+            new(Nest100,1,2,2) { Species = 241, Ability = A3 }, // Miltank
+            new(Nest100,1,2,2) { Species = 294, Ability = A3 }, // Loudred
+            new(Nest100,2,3,3) { Species = 294, Ability = A3 }, // Loudred
+            new(Nest100,2,3,3) { Species = 108, Ability = A3 }, // Lickitung
+            new(Nest100,3,4,4) { Species = 241, Ability = A4 }, // Miltank
+            new(Nest100,3,4,4) { Species = 626, Ability = A4 }, // Bouffalant
+            new(Nest100,3,4,4) { Species = 128, Ability = A4 }, // Tauros
+            new(Nest100,4,4,4) { Species = 295, Ability = A4 }, // Exploud
+            new(Nest100,4,4,4) { Species = 463, Ability = A4 }, // Lickilicky
+            new(Nest101,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest101,0,1,1) { Species = 293, Ability = A2 }, // Whismur
+            new(Nest101,0,1,1) { Species = 128, Ability = A2 }, // Tauros
+            new(Nest101,1,2,2) { Species = 108, Ability = A2 }, // Lickitung
+            new(Nest101,1,2,2) { Species = 241, Ability = A2 }, // Miltank
+            new(Nest101,2,3,3) { Species = 241, Ability = A2 }, // Miltank
+            new(Nest101,2,3,3) { Species = 626, Ability = A2 }, // Bouffalant
+            new(Nest101,3,4,4) { Species = 128, Ability = A2 }, // Tauros
+            new(Nest101,3,4,4) { Species = 295, Ability = A2 }, // Exploud
+            new(Nest101,3,4,4) { Species = 573, Ability = A2 }, // Cinccino
+            new(Nest101,4,4,4) { Species = 295, Ability = A2 }, // Exploud
+            new(Nest101,4,4,4) { Species = 463, Ability = A2 }, // Lickilicky
+            new(Nest102,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest102,0,1,1) { Species = 027, Ability = A3 }, // Sandshrew
+            new(Nest102,0,1,1) { Species = 551, Ability = A3 }, // Sandile
+            new(Nest102,1,2,2) { Species = 104, Ability = A3 }, // Cubone
+            new(Nest102,1,2,2) { Species = 027, Ability = A3 }, // Sandshrew
+            new(Nest102,2,3,3) { Species = 552, Ability = A3 }, // Krokorok
+            new(Nest102,2,3,3) { Species = 028, Ability = A3 }, // Sandslash
+            new(Nest102,3,4,4) { Species = 844, Ability = A4 }, // Sandaconda
+            new(Nest102,3,4,4) { Species = 028, Ability = A4 }, // Sandslash
+            new(Nest102,3,4,4) { Species = 105, Ability = A4 }, // Marowak
+            new(Nest102,4,4,4) { Species = 553, Ability = A4 }, // Krookodile
+            new(Nest102,4,4,4) { Species = 115, Ability = A4 }, // Kangaskhan
+            new(Nest103,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest103,0,1,1) { Species = 027, Ability = A2 }, // Sandshrew
+            new(Nest103,0,1,1) { Species = 104, Ability = A2 }, // Cubone
+            new(Nest103,1,2,2) { Species = 328, Ability = A2 }, // Trapinch
+            new(Nest103,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
+            new(Nest103,2,3,3) { Species = 028, Ability = A2 }, // Sandslash
+            new(Nest103,3,4,4) { Species = 105, Ability = A2 }, // Marowak
+            new(Nest103,3,4,4) { Species = 553, Ability = A2 }, // Krookodile
+            new(Nest103,3,4,4) { Species = 115, Ability = A2 }, // Kangaskhan
+            new(Nest103,4,4,4) { Species = 330, Ability = A2 }, // Flygon
+            new(Nest103,4,4,4) { Species = 623, Ability = A2 }, // Golurk
+            new(Nest104,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest104,0,1,1) { Species = 702, Ability = A3 }, // Dedenne
+            new(Nest104,0,1,1) { Species = 081, Ability = A3 }, // Magnemite
+            new(Nest104,1,2,2) { Species = 403, Ability = A3 }, // Shinx
+            new(Nest104,1,2,2) { Species = 877, Ability = A3 }, // Morpeko
+            new(Nest104,2,3,3) { Species = 702, Ability = A3 }, // Dedenne
+            new(Nest104,2,3,3) { Species = 404, Ability = A3 }, // Luxio
+            new(Nest104,3,4,4) { Species = 702, Ability = A4 }, // Dedenne
+            new(Nest104,3,4,4) { Species = 082, Ability = A4 }, // Magneton
+            new(Nest104,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
+            new(Nest104,4,4,4) { Species = 405, Ability = A4 }, // Luxray
+            new(Nest104,4,4,4) { Species = 462, Ability = A4 }, // Magnezone
+            new(Nest105,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest105,0,1,1) { Species = 403, Ability = A2 }, // Shinx
+            new(Nest105,0,1,1) { Species = 172, Ability = A2 }, // Pichu
+            new(Nest105,1,2,2) { Species = 025, Ability = A2 }, // Pikachu
+            new(Nest105,1,2,2) { Species = 871, Ability = A2 }, // Pincurchin
+            new(Nest105,2,3,3) { Species = 404, Ability = A2 }, // Luxio
+            new(Nest105,2,3,3) { Species = 026, Ability = A2 }, // Raichu
+            new(Nest105,3,4,4) { Species = 836, Ability = A2 }, // Boltund
+            new(Nest105,3,4,4) { Species = 702, Ability = A2 }, // Dedenne
+            new(Nest105,3,4,4) { Species = 310, Ability = A2 }, // Manectric
+            new(Nest105,4,4,4) { Species = 405, Ability = A2 }, // Luxray
+            new(Nest105,4,4,4) { Species = 462, Ability = A2 }, // Magnezone
+            new(Nest106,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest106,0,1,1) { Species = 661, Ability = A3 }, // Fletchling
+            new(Nest106,0,1,1) { Species = 527, Ability = A3 }, // Woobat
+            new(Nest106,1,2,2) { Species = 587, Ability = A3 }, // Emolga
+            new(Nest106,2,3,3) { Species = 662, Ability = A3 }, // Fletchinder
+            new(Nest106,3,4,4) { Species = 587, Ability = A4 }, // Emolga
+            new(Nest106,3,4,4) { Species = 528, Ability = A4 }, // Swoobat
+            new(Nest106,4,4,4) { Species = 663, Ability = A4 }, // Talonflame
+            new(Nest107,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest107,0,1,1) { Species = 163, Ability = A2 }, // Hoothoot
+            new(Nest107,0,1,1) { Species = 519, Ability = A2 }, // Pidove
+            new(Nest107,1,2,2) { Species = 520, Ability = A2 }, // Tranquill
+            new(Nest107,2,3,3) { Species = 528, Ability = A2 }, // Swoobat
+            new(Nest107,2,3,3) { Species = 164, Ability = A2 }, // Noctowl
+            new(Nest107,3,4,4) { Species = 521, Ability = A2 }, // Unfezant
+            new(Nest107,3,4,4) { Species = 663, Ability = A2 }, // Talonflame
+            new(Nest107,3,4,4) { Species = 587, Ability = A2 }, // Emolga
+            new(Nest107,4,4,4) { Species = 663, Ability = A2 }, // Talonflame
+            new(Nest108,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest108,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest108,1,2,2) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest108,2,3,3) { Species = 558, Ability = A3 }, // Crustle
+            new(Nest108,3,4,4) { Species = 123, Ability = A4 }, // Scyther
+            new(Nest108,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
+            new(Nest108,4,4,4) { Species = 212, Ability = A4 }, // Scizor
+            new(Nest109,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest109,0,1,1) { Species = 123, Ability = A2 }, // Scyther
+            new(Nest109,1,2,2) { Species = 213, Ability = A2 }, // Shuckle
+            new(Nest109,1,2,2) { Species = 544, Ability = A2 }, // Whirlipede
+            new(Nest109,2,3,3) { Species = 123, Ability = A2 }, // Scyther
+            new(Nest109,2,3,3) { Species = 558, Ability = A2 }, // Crustle
+            new(Nest109,3,4,4) { Species = 545, Ability = A2 }, // Scolipede
+            new(Nest109,3,4,4) { Species = 617, Ability = A2 }, // Accelgor
+            new(Nest109,3,4,4) { Species = 589, Ability = A2 }, // Escavalier
+            new(Nest109,4,4,4) { Species = 212, Ability = A2 }, // Scizor
+            new(Nest110,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest110,0,1,1) { Species = 590, Ability = A3 }, // Foongus
+            new(Nest110,0,1,1) { Species = 753, Ability = A3 }, // Fomantis
+            new(Nest110,1,2,2) { Species = 548, Ability = A3 }, // Petilil
+            new(Nest110,1,2,2) { Species = 754, Ability = A3 }, // Lurantis
+            new(Nest110,2,3,3) { Species = 591, Ability = A3 }, // Amoonguss
+            new(Nest110,2,3,3) { Species = 114, Ability = A3 }, // Tangela
+            new(Nest110,3,4,4) { Species = 549, Ability = A4 }, // Lilligant
+            new(Nest110,3,4,4) { Species = 754, Ability = A4 }, // Lurantis
+            new(Nest110,4,4,4) { Species = 591, Ability = A4 }, // Amoonguss
+            new(Nest110,4,4,4) { Species = 465, Ability = A4 }, // Tangrowth
+            new(Nest111,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest111,0,1,1) { Species = 114, Ability = A2 }, // Tangela
+            new(Nest111,0,1,1) { Species = 753, Ability = A2 }, // Fomantis
+            new(Nest111,1,2,2) { Species = 590, Ability = A2 }, // Foongus
+            new(Nest111,1,2,2) { Species = 754, Ability = A2 }, // Lurantis
+            new(Nest111,2,3,3) { Species = 556, Ability = A2 }, // Maractus
+            new(Nest111,2,3,3) { Species = 549, Ability = A2 }, // Lilligant
+            new(Nest111,3,4,4) { Species = 754, Ability = A2 }, // Lurantis
+            new(Nest111,3,4,4) { Species = 591, Ability = A2 }, // Amoonguss
+            new(Nest111,3,4,4) { Species = 465, Ability = A2 }, // Tangrowth
+            new(Nest111,4,4,4) { Species = 549, Ability = A2 }, // Lilligant
+            new(Nest111,4,4,4) { Species = 460, Ability = A2 }, // Abomasnow
+            new(Nest112,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest112,0,1,1) { Species = 661, Ability = A3 }, // Fletchling
+            new(Nest112,0,1,1) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest112,1,2,2) { Species = 636, Ability = A3 }, // Larvesta
+            new(Nest112,1,2,2) { Species = 757, Ability = A3, Gender = 1 }, // Salandit
+            new(Nest112,2,3,3) { Species = 662, Ability = A3 }, // Fletchinder
+            new(Nest112,2,3,3) { Species = 636, Ability = A3 }, // Larvesta
+            new(Nest112,3,4,4) { Species = 324, Ability = A4 }, // Torkoal
+            new(Nest112,3,4,4) { Species = 663, Ability = A4 }, // Talonflame
+            new(Nest112,3,4,4) { Species = 758, Ability = A4 }, // Salazzle
+            new(Nest112,4,4,4) { Species = 324, Ability = A4 }, // Torkoal
+            new(Nest112,4,4,4) { Species = 637, Ability = A4 }, // Volcarona
+            new(Nest113,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest113,0,1,1) { Species = 636, Ability = A2 }, // Larvesta
+            new(Nest113,0,1,1) { Species = 607, Ability = A2 }, // Litwick
+            new(Nest113,1,2,2) { Species = 636, Ability = A2 }, // Larvesta
+            new(Nest113,1,2,2) { Species = 757, Ability = A2, Gender = 1 }, // Salandit
+            new(Nest113,2,3,3) { Species = 324, Ability = A2 }, // Torkoal
+            new(Nest113,2,3,3) { Species = 758, Ability = A2 }, // Salazzle
+            new(Nest113,3,4,4) { Species = 663, Ability = A2 }, // Talonflame
+            new(Nest113,3,4,4) { Species = 609, Ability = A2 }, // Chandelure
+            new(Nest113,3,4,4) { Species = 637, Ability = A2 }, // Volcarona
+            new(Nest113,4,4,4) { Species = 006, Ability = A2 }, // Charizard
+            new(Nest114,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest114,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest114,0,1,1) { Species = 111, Ability = A3 }, // Rhyhorn
+            new(Nest114,1,2,2) { Species = 744, Ability = A3 }, // Rockruff
+            new(Nest114,1,2,2) { Species = 525, Ability = A3 }, // Boldore
+            new(Nest114,2,3,3) { Species = 112, Ability = A3 }, // Rhydon
+            new(Nest114,2,3,3) { Species = 558, Ability = A3 }, // Crustle
+            new(Nest114,3,4,4) { Species = 112, Ability = A4 }, // Rhydon
+            new(Nest114,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
+            new(Nest114,3,4,4) { Species = 558, Ability = A4 }, // Crustle
+            new(Nest114,4,4,4) { Species = 464, Ability = A4 }, // Rhyperior
+            new(Nest115,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest115,0,1,1) { Species = 744, Ability = A2 }, // Rockruff
+            new(Nest115,0,1,1) { Species = 438, Ability = A2 }, // Bonsly
+            new(Nest115,1,2,2) { Species = 111, Ability = A2 }, // Rhyhorn
+            new(Nest115,1,2,2) { Species = 744, Ability = A2 }, // Rockruff
+            new(Nest115,2,3,3) { Species = 112, Ability = A2 }, // Rhydon
+            new(Nest115,2,3,3) { Species = 213, Ability = A2 }, // Shuckle
+            new(Nest115,3,4,4) { Species = 185, Ability = A2 }, // Sudowoodo
+            new(Nest115,3,4,4) { Species = 526, Ability = A2 }, // Gigalith
+            new(Nest115,4,4,4) { Species = 558, Ability = A2 }, // Crustle
+            new(Nest115,4,4,4) { Species = 464, Ability = A2 }, // Rhyperior
+            new(Nest116,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest116,0,1,1) { Species = 102, Ability = A3 }, // Exeggcute
+            new(Nest116,0,1,1) { Species = 063, Ability = A3 }, // Abra
+            new(Nest116,1,2,2) { Species = 280, Ability = A3 }, // Ralts
+            new(Nest116,1,2,2) { Species = 064, Ability = A3 }, // Kadabra
+            new(Nest116,2,3,3) { Species = 281, Ability = A3 }, // Kirlia
+            new(Nest116,3,4,4) { Species = 103, Ability = A4 }, // Exeggutor
+            new(Nest116,3,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest116,4,4,4) { Species = 065, Ability = A4 }, // Alakazam
+            new(Nest116,4,4,4) { Species = 121, Ability = A4 }, // Starmie
+            new(Nest117,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest117,0,1,1) { Species = 605, Ability = A2 }, // Elgyem
+            new(Nest117,0,1,1) { Species = 063, Ability = A2 }, // Abra
+            new(Nest117,1,2,2) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new(Nest117,1,2,2) { Species = 605, Ability = A2 }, // Elgyem
+            new(Nest117,2,3,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new(Nest117,3,4,4) { Species = 518, Ability = A2 }, // Musharna
+            new(Nest117,3,4,4) { Species = 606, Ability = A2 }, // Beheeyem
+            new(Nest117,4,4,4) { Species = 065, Ability = A2 }, // Alakazam
+            new(Nest118,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest118,0,1,1) { Species = 543, Ability = A3 }, // Venipede
+            new(Nest118,0,1,1) { Species = 451, Ability = A3 }, // Skorupi
+            new(Nest118,1,2,2) { Species = 072, Ability = A3 }, // Tentacool
+            new(Nest118,2,3,3) { Species = 544, Ability = A3 }, // Whirlipede
+            new(Nest118,3,4,4) { Species = 452, Ability = A4 }, // Drapion
+            new(Nest118,3,4,4) { Species = 073, Ability = A4 }, // Tentacruel
+            new(Nest118,4,4,4) { Species = 073, Ability = A4 }, // Tentacruel
+            new(Nest118,4,4,4) { Species = 545, Ability = A4 }, // Scolipede
+            new(Nest119,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest119,0,1,1) { Species = 747, Ability = A2 }, // Mareanie
+            new(Nest119,0,1,1) { Species = 211, Ability = A2 }, // Qwilfish
+            new(Nest119,1,2,2) { Species = 544, Ability = A2 }, // Whirlipede
+            new(Nest119,2,3,3) { Species = 211, Ability = A2 }, // Qwilfish
+            new(Nest119,2,3,3) { Species = 591, Ability = A2 }, // Amoonguss
+            new(Nest119,3,4,4) { Species = 748, Ability = A2 }, // Toxapex
+            new(Nest119,3,4,4) { Species = 545, Ability = A2 }, // Scolipede
+            new(Nest119,3,4,4) { Species = 452, Ability = A2 }, // Drapion
+            new(Nest119,4,4,4) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
+            new(Nest119,4,4,4) { Species = 545, Ability = A2 }, // Scolipede
+            new(Nest120,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest120,0,1,1) { Species = 318, Ability = A3 }, // Carvanha
+            new(Nest120,0,1,1) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest120,1,2,2) { Species = 318, Ability = A3 }, // Carvanha
+            new(Nest120,1,2,2) { Species = 570, Ability = A3 }, // Zorua
+            new(Nest120,2,3,3) { Species = 319, Ability = A3 }, // Sharpedo
+            new(Nest120,2,3,3) { Species = 687, Ability = A3 }, // Malamar
+            new(Nest120,3,4,4) { Species = 452, Ability = A4 }, // Drapion
+            new(Nest120,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest120,3,4,4) { Species = 687, Ability = A4 }, // Malamar
+            new(Nest120,4,4,4) { Species = 319, Ability = A4 }, // Sharpedo
+            new(Nest120,4,4,4) { Species = 571, Ability = A4 }, // Zoroark
+            new(Nest121,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest121,0,1,1) { Species = 570, Ability = A2 }, // Zorua
+            new(Nest121,0,1,1) { Species = 318, Ability = A2 }, // Carvanha
+            new(Nest121,1,2,2) { Species = 570, Ability = A2 }, // Zorua
+            new(Nest121,1,2,2) { Species = 686, Ability = A2 }, // Inkay
+            new(Nest121,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
+            new(Nest121,2,3,3) { Species = 687, Ability = A2 }, // Malamar
+            new(Nest121,3,4,4) { Species = 828, Ability = A2 }, // Thievul
+            new(Nest121,3,4,4) { Species = 571, Ability = A2 }, // Zoroark
+            new(Nest121,3,4,4) { Species = 319, Ability = A2 }, // Sharpedo
+            new(Nest121,4,4,4) { Species = 510, Ability = A2 }, // Liepard
+            new(Nest121,4,4,4) { Species = 553, Ability = A2 }, // Krookodile
+            new(Nest122,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest122,0,1,1) { Species = 619, Ability = A3 }, // Mienfoo
+            new(Nest122,0,1,1) { Species = 852, Ability = A3 }, // Clobbopus
+            new(Nest122,1,2,2) { Species = 619, Ability = A3 }, // Mienfoo
+            new(Nest122,3,4,4) { Species = 620, Ability = A4 }, // Mienshao
+            new(Nest122,4,4,4) { Species = 853, Ability = A4 }, // Grapploct
+            new(Nest122,4,4,4) { Species = 620, Ability = A4 }, // Mienshao
+            new(Nest123,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest123,0,1,1) { Species = 619, Ability = A2 }, // Mienfoo
+            new(Nest123,1,2,2) { Species = 620, Ability = A2 }, // Mienshao
+            new(Nest123,2,3,3) { Species = 870, Ability = A2 }, // Falinks
+            new(Nest123,3,4,4) { Species = 620, Ability = A2 }, // Mienshao
+            new(Nest123,4,4,4) { Species = 853, Ability = A2 }, // Grapploct
+            new(Nest124,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest124,0,1,1) { Species = 174, Ability = A3 }, // Igglybuff
+            new(Nest124,0,1,1) { Species = 298, Ability = A3 }, // Azurill
+            new(Nest124,1,2,2) { Species = 764, Ability = A3 }, // Comfey
+            new(Nest124,1,2,2) { Species = 039, Ability = A3 }, // Jigglypuff
+            new(Nest124,2,3,3) { Species = 183, Ability = A3 }, // Marill
+            new(Nest124,2,3,3) { Species = 764, Ability = A3 }, // Comfey
+            new(Nest124,3,4,4) { Species = 707, Ability = A4 }, // Klefki
+            new(Nest124,3,4,4) { Species = 184, Ability = A4 }, // Azumarill
+            new(Nest124,3,4,4) { Species = 040, Ability = A4 }, // Wigglytuff
+            new(Nest124,4,4,4) { Species = 282, Ability = A4 }, // Gardevoir
+            new(Nest124,4,4,4) { Species = 764, Ability = A4 }, // Comfey
+            new(Nest125,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest125,0,1,1) { Species = 173, Ability = A2 }, // Cleffa
+            new(Nest125,0,1,1) { Species = 755, Ability = A2 }, // Morelull
+            new(Nest125,1,2,2) { Species = 183, Ability = A2 }, // Marill
+            new(Nest125,1,2,2) { Species = 035, Ability = A2 }, // Clefairy
+            new(Nest125,2,3,3) { Species = 281, Ability = A2 }, // Kirlia
+            new(Nest125,2,3,3) { Species = 707, Ability = A2 }, // Klefki
+            new(Nest125,3,4,4) { Species = 764, Ability = A2 }, // Comfey
+            new(Nest125,3,4,4) { Species = 036, Ability = A2 }, // Clefable
+            new(Nest125,3,4,4) { Species = 282, Ability = A2 }, // Gardevoir
+            new(Nest125,4,4,4) { Species = 756, Ability = A2 }, // Shiinotic
+            new(Nest125,4,4,4) { Species = 184, Ability = A2 }, // Azumarill
+            new(Nest126,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest126,0,1,1) { Species = 769, Ability = A3 }, // Sandygast
+            new(Nest126,0,1,1) { Species = 592, Ability = A3 }, // Frillish
+            new(Nest126,1,2,2) { Species = 104, Ability = A3 }, // Cubone
+            new(Nest126,1,2,2) { Species = 425, Ability = A3 }, // Drifloon
+            new(Nest126,2,3,3) { Species = 593, Ability = A3 }, // Jellicent
+            new(Nest126,2,3,3) { Species = 426, Ability = A3 }, // Drifblim
+            new(Nest126,3,4,4) { Species = 770, Ability = A4 }, // Palossand
+            new(Nest126,3,4,4) { Species = 593, Ability = A4 }, // Jellicent
+            new(Nest126,3,4,4) { Species = 426, Ability = A4 }, // Drifblim
+            new(Nest126,4,4,4) { Species = 105, Ability = A4 }, // Marowak
+            new(Nest126,4,4,4) { Species = 770, Ability = A4 }, // Palossand
+            new(Nest127,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest127,0,1,1) { Species = 769, Ability = A2 }, // Sandygast
+            new(Nest127,0,1,1) { Species = 592, Ability = A2 }, // Frillish
+            new(Nest127,1,2,2) { Species = 769, Ability = A2 }, // Sandygast
+            new(Nest127,1,2,2) { Species = 425, Ability = A2 }, // Drifloon
+            new(Nest127,2,3,3) { Species = 593, Ability = A2 }, // Jellicent
+            new(Nest127,2,3,3) { Species = 426, Ability = A2 }, // Drifblim
+            new(Nest127,3,4,4) { Species = 711, Ability = A2 }, // Gourgeist
+            new(Nest127,3,4,4) { Species = 711, Ability = A2, Form = 1 }, // Gourgeist-1
+            new(Nest127,3,4,4) { Species = 711, Ability = A2, Form = 2 }, // Gourgeist-2
+            new(Nest127,4,4,4) { Species = 711, Ability = A2, Form = 3 }, // Gourgeist-3
+            new(Nest128,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest128,0,1,1) { Species = 707, Ability = A3 }, // Klefki
+            new(Nest128,0,1,1) { Species = 081, Ability = A3 }, // Magnemite
+            new(Nest128,1,2,2) { Species = 624, Ability = A3 }, // Pawniard
+            new(Nest128,1,2,2) { Species = 081, Ability = A3 }, // Magnemite
+            new(Nest128,2,3,3) { Species = 227, Ability = A3 }, // Skarmory
+            new(Nest128,2,3,3) { Species = 082, Ability = A3 }, // Magneton
+            new(Nest128,3,4,4) { Species = 082, Ability = A4 }, // Magneton
+            new(Nest128,3,4,4) { Species = 707, Ability = A4 }, // Klefki
+            new(Nest128,3,4,4) { Species = 625, Ability = A4 }, // Bisharp
+            new(Nest128,4,4,4) { Species = 462, Ability = A4 }, // Magnezone
+            new(Nest128,4,4,4) { Species = 227, Ability = A4 }, // Skarmory
+            new(Nest129,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest129,0,1,1) { Species = 081, Ability = A2 }, // Magnemite
+            new(Nest129,0,1,1) { Species = 227, Ability = A2 }, // Skarmory
+            new(Nest129,1,2,2) { Species = 436, Ability = A2 }, // Bronzor
+            new(Nest129,1,2,2) { Species = 052, Ability = A2, Form = 2 }, // Meowth-2
+            new(Nest129,2,3,3) { Species = 082, Ability = A2 }, // Magneton
+            new(Nest129,2,3,3) { Species = 601, Ability = A2 }, // Klinklang
+            new(Nest129,3,4,4) { Species = 227, Ability = A2 }, // Skarmory
+            new(Nest129,3,4,4) { Species = 437, Ability = A2 }, // Bronzong
+            new(Nest129,3,4,4) { Species = 863, Ability = A2 }, // Perrserker
+            new(Nest129,4,4,4) { Species = 448, Ability = A2 }, // Lucario
+            new(Nest129,4,4,4) { Species = 625, Ability = A2 }, // Bisharp
+            new(Nest130,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest130,0,1,1) { Species = 116, Ability = A3 }, // Horsea
+            new(Nest130,1,2,2) { Species = 840, Ability = A3 }, // Applin
+            new(Nest130,1,2,2) { Species = 117, Ability = A3 }, // Seadra
+            new(Nest130,2,3,3) { Species = 621, Ability = A3 }, // Druddigon
+            new(Nest130,3,4,4) { Species = 621, Ability = A4 }, // Druddigon
+            new(Nest130,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest130,4,4,4) { Species = 230, Ability = A4 }, // Kingdra
+            new(Nest131,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest131,0,1,1) { Species = 116, Ability = A2 }, // Horsea
+            new(Nest131,0,1,1) { Species = 621, Ability = A2 }, // Druddigon
+            new(Nest131,2,3,3) { Species = 117, Ability = A2 }, // Seadra
+            new(Nest131,3,4,4) { Species = 621, Ability = A2 }, // Druddigon
+            new(Nest131,3,4,4) { Species = 715, Ability = A2 }, // Noivern
+            new(Nest131,4,4,4) { Species = 230, Ability = A2 }, // Kingdra
+            new(Nest132,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest132,0,1,1) { Species = 060, Ability = A3 }, // Poliwag
+            new(Nest132,0,1,1) { Species = 194, Ability = A3 }, // Wooper
+            new(Nest132,1,2,2) { Species = 118, Ability = A3 }, // Goldeen
+            new(Nest132,1,2,2) { Species = 061, Ability = A3 }, // Poliwhirl
+            new(Nest132,2,3,3) { Species = 342, Ability = A3 }, // Crawdaunt
+            new(Nest132,2,3,3) { Species = 061, Ability = A3 }, // Poliwhirl
+            new(Nest132,3,4,4) { Species = 119, Ability = A4 }, // Seaking
+            new(Nest132,3,4,4) { Species = 342, Ability = A4 }, // Crawdaunt
+            new(Nest132,3,4,4) { Species = 195, Ability = A4 }, // Quagsire
+            new(Nest132,4,4,4) { Species = 062, Ability = A4 }, // Poliwrath
+            new(Nest132,4,4,4) { Species = 186, Ability = A4 }, // Politoed
+            new(Nest133,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest133,0,1,1) { Species = 341, Ability = A2 }, // Corphish
+            new(Nest133,0,1,1) { Species = 751, Ability = A2 }, // Dewpider
+            new(Nest133,1,2,2) { Species = 118, Ability = A2 }, // Goldeen
+            new(Nest133,1,2,2) { Species = 061, Ability = A2 }, // Poliwhirl
+            new(Nest133,2,3,3) { Species = 342, Ability = A2 }, // Crawdaunt
+            new(Nest133,2,3,3) { Species = 195, Ability = A2 }, // Quagsire
+            new(Nest133,3,4,4) { Species = 119, Ability = A2 }, // Seaking
+            new(Nest133,3,4,4) { Species = 062, Ability = A2 }, // Poliwrath
+            new(Nest133,3,4,4) { Species = 342, Ability = A2 }, // Crawdaunt
+            new(Nest133,4,4,4) { Species = 752, Ability = A2 }, // Araquanid
+            new(Nest133,4,4,4) { Species = 186, Ability = A2 }, // Politoed
+            new(Nest134,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest134,0,1,1) { Species = 054, Ability = A3 }, // Psyduck
+            new(Nest134,0,1,1) { Species = 833, Ability = A3 }, // Chewtle
+            new(Nest134,1,2,2) { Species = 846, Ability = A3 }, // Arrokuda
+            new(Nest134,1,2,2) { Species = 339, Ability = A3 }, // Barboach
+            new(Nest134,2,3,3) { Species = 055, Ability = A3 }, // Golduck
+            new(Nest134,2,3,3) { Species = 845, Ability = A3 }, // Cramorant
+            new(Nest134,3,4,4) { Species = 055, Ability = A4 }, // Golduck
+            new(Nest134,3,4,4) { Species = 847, Ability = A4 }, // Barraskewda
+            new(Nest134,3,4,4) { Species = 834, Ability = A4 }, // Drednaw
+            new(Nest134,4,4,4) { Species = 340, Ability = A4 }, // Whiscash
+            new(Nest134,4,4,4) { Species = 055, Ability = A4 }, // Golduck
+            new(Nest135,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest135,0,1,1) { Species = 846, Ability = A2 }, // Arrokuda
+            new(Nest135,0,1,1) { Species = 535, Ability = A2 }, // Tympole
+            new(Nest135,1,2,2) { Species = 054, Ability = A2 }, // Psyduck
+            new(Nest135,1,2,2) { Species = 536, Ability = A2 }, // Palpitoad
+            new(Nest135,2,3,3) { Species = 055, Ability = A2 }, // Golduck
+            new(Nest135,2,3,3) { Species = 340, Ability = A2 }, // Whiscash
+            new(Nest135,3,4,4) { Species = 055, Ability = A2 }, // Golduck
+            new(Nest135,3,4,4) { Species = 847, Ability = A2 }, // Barraskewda
+            new(Nest135,3,4,4) { Species = 537, Ability = A2 }, // Seismitoad
+            new(Nest135,4,4,4) { Species = 130, Ability = A2 }, // Gyarados
+            new(Nest136,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest136,0,1,1) { Species = 072, Ability = A3 }, // Tentacool
+            new(Nest136,0,1,1) { Species = 098, Ability = A3 }, // Krabby
+            new(Nest136,1,2,2) { Species = 072, Ability = A3 }, // Tentacool
+            new(Nest136,1,2,2) { Species = 223, Ability = A3 }, // Remoraid
+            new(Nest136,2,3,3) { Species = 073, Ability = A3 }, // Tentacruel
+            new(Nest136,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
+            new(Nest136,3,4,4) { Species = 224, Ability = A4 }, // Octillery
+            new(Nest136,3,4,4) { Species = 226, Ability = A4 }, // Mantine
+            new(Nest136,3,4,4) { Species = 099, Ability = A4 }, // Kingler
+            new(Nest136,4,4,4) { Species = 091, Ability = A4 }, // Cloyster
+            new(Nest136,4,4,4) { Species = 073, Ability = A4 }, // Tentacruel
+            new(Nest137,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest137,0,1,1) { Species = 090, Ability = A2 }, // Shellder
+            new(Nest137,0,1,1) { Species = 688, Ability = A2 }, // Binacle
+            new(Nest137,1,2,2) { Species = 747, Ability = A2 }, // Mareanie
+            new(Nest137,1,2,2) { Species = 223, Ability = A2 }, // Remoraid
+            new(Nest137,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
+            new(Nest137,2,3,3) { Species = 771, Ability = A2 }, // Pyukumuku
+            new(Nest137,3,4,4) { Species = 224, Ability = A2 }, // Octillery
+            new(Nest137,3,4,4) { Species = 226, Ability = A2 }, // Mantine
+            new(Nest137,3,4,4) { Species = 689, Ability = A2 }, // Barbaracle
+            new(Nest137,4,4,4) { Species = 091, Ability = A2 }, // Cloyster
+            new(Nest137,4,4,4) { Species = 748, Ability = A2 }, // Toxapex
+            new(Nest138,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest138,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest138,1,2,2) { Species = 120, Ability = A3 }, // Staryu
+            new(Nest138,2,3,3) { Species = 320, Ability = A3 }, // Wailmer
+            new(Nest138,2,3,3) { Species = 746, Ability = A3 }, // Wishiwashi
+            new(Nest138,3,4,4) { Species = 321, Ability = A4 }, // Wailord
+            new(Nest138,3,4,4) { Species = 171, Ability = A4 }, // Lanturn
+            new(Nest138,3,4,4) { Species = 121, Ability = A4 }, // Starmie
+            new(Nest138,4,4,4) { Species = 319, Ability = A4 }, // Sharpedo
+            new(Nest139,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest139,0,1,1) { Species = 120, Ability = A2 }, // Staryu
+            new(Nest139,1,2,2) { Species = 320, Ability = A2 }, // Wailmer
+            new(Nest139,1,2,2) { Species = 279, Ability = A2 }, // Pelipper
+            new(Nest139,2,3,3) { Species = 171, Ability = A2 }, // Lanturn
+            new(Nest139,2,3,3) { Species = 117, Ability = A2 }, // Seadra
+            new(Nest139,3,4,4) { Species = 171, Ability = A2 }, // Lanturn
+            new(Nest139,3,4,4) { Species = 121, Ability = A2 }, // Starmie
+            new(Nest139,4,4,4) { Species = 319, Ability = A2 }, // Sharpedo
+            new(Nest140,0,0,1) { Species = 440, Ability = A3 }, // Happiny
+            new(Nest140,0,1,1) { Species = 440, Ability = A3 }, // Happiny
+            new(Nest140,1,2,2) { Species = 440, Ability = A3 }, // Happiny
+            new(Nest140,2,3,3) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest140,3,4,4) { Species = 113, Ability = A4 }, // Chansey
+            new(Nest140,4,4,4) { Species = 242, Ability = A4 }, // Blissey
+            new(Nest141,0,0,1) { Species = 113, Ability = A2 }, // Chansey
+            new(Nest141,0,1,1) { Species = 113, Ability = A2 }, // Chansey
+            new(Nest141,1,2,2) { Species = 113, Ability = A2 }, // Chansey
+            new(Nest141,2,3,3) { Species = 113, Ability = A2 }, // Chansey
+            new(Nest141,3,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest141,4,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest142,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest142,0,1,1) { Species = 415, Ability = A3 }, // Combee
+            new(Nest142,1,2,2) { Species = 415, Ability = A3 }, // Combee
+            new(Nest142,2,3,3) { Species = 415, Ability = A3 }, // Combee
+            new(Nest142,3,4,4) { Species = 416, Ability = A4 }, // Vespiquen
+            new(Nest142,4,4,4) { Species = 416, Ability = A4 }, // Vespiquen
+            new(Nest143,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest143,0,1,1) { Species = 415, Ability = A2, Gender = 1 }, // Combee
+            new(Nest143,1,2,2) { Species = 415, Ability = A2, Gender = 1 }, // Combee
+            new(Nest143,2,3,3) { Species = 416, Ability = A2 }, // Vespiquen
+            new(Nest143,3,4,4) { Species = 416, Ability = A2 }, // Vespiquen
+            new(Nest143,4,4,4) { Species = 416, Ability = A2 }, // Vespiquen
+            new(Nest144,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest144,0,1,1) { Species = 590, Ability = A2 }, // Foongus
+            new(Nest144,0,1,1) { Species = 102, Ability = A2 }, // Exeggcute
+            new(Nest144,1,2,2) { Species = 114, Ability = A2 }, // Tangela
+            new(Nest144,1,2,2) { Species = 315, Ability = A2 }, // Roselia
+            new(Nest144,2,3,3) { Species = 114, Ability = A2 }, // Tangela
+            new(Nest144,2,3,3) { Species = 315, Ability = A2 }, // Roselia
+            new(Nest144,3,4,4) { Species = 103, Ability = A2 }, // Exeggutor
+            new(Nest144,3,4,4) { Species = 003, Ability = A2 }, // Venusaur
+            new(Nest144,3,4,4) { Species = 465, Ability = A2 }, // Tangrowth
+            new(Nest144,4,4,4) { Species = 407, Ability = A2 }, // Roserade
+            new(Nest144,4,4,4) { Species = 003, Ability = A2, CanGigantamax = true }, // Venusaur
+            new(Nest145,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest145,0,1,1) { Species = 129, Ability = A2 }, // Magikarp
+            new(Nest145,0,1,1) { Species = 072, Ability = A2 }, // Tentacool
+            new(Nest145,1,2,2) { Species = 120, Ability = A2 }, // Staryu
+            new(Nest145,1,2,2) { Species = 688, Ability = A2 }, // Binacle
+            new(Nest145,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
+            new(Nest145,2,3,3) { Species = 130, Ability = A2 }, // Gyarados
+            new(Nest145,3,4,4) { Species = 073, Ability = A2 }, // Tentacruel
+            new(Nest145,3,4,4) { Species = 130, Ability = A2 }, // Gyarados
+            new(Nest145,3,4,4) { Species = 121, Ability = A2 }, // Starmie
+            new(Nest145,4,4,4) { Species = 689, Ability = A2 }, // Barbaracle
+            new(Nest145,4,4,4) { Species = 009, Ability = A2, CanGigantamax = true }, // Blastoise
+            new(Nest146,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest146,0,1,1) { Species = 098, Ability = A2 }, // Krabby
+            new(Nest146,0,1,1) { Species = 688, Ability = A2 }, // Binacle
+            new(Nest146,1,2,2) { Species = 072, Ability = A2 }, // Tentacool
+            new(Nest146,1,2,2) { Species = 223, Ability = A2 }, // Remoraid
+            new(Nest146,2,3,3) { Species = 073, Ability = A2 }, // Tentacruel
+            new(Nest146,2,3,3) { Species = 224, Ability = A2 }, // Octillery
+            new(Nest146,3,4,4) { Species = 713, Ability = A2 }, // Avalugg
+            new(Nest146,3,4,4) { Species = 614, Ability = A2 }, // Beartic
+            new(Nest146,3,4,4) { Species = 099, Ability = A2 }, // Kingler
+            new(Nest146,4,4,4) { Species = 091, Ability = A2 }, // Cloyster
+            new(Nest146,4,4,4) { Species = 099, Ability = A2, CanGigantamax = true }, // Kingler
+            new(Nest147,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest147,0,1,1) { Species = 833, Ability = A2 }, // Chewtle
+            new(Nest147,0,1,1) { Species = 054, Ability = A2 }, // Psyduck
+            new(Nest147,1,2,2) { Species = 339, Ability = A2 }, // Barboach
+            new(Nest147,2,3,3) { Species = 055, Ability = A2 }, // Golduck
+            new(Nest147,2,3,3) { Species = 845, Ability = A2 }, // Cramorant
+            new(Nest147,3,4,4) { Species = 055, Ability = A2 }, // Golduck
+            new(Nest147,3,4,4) { Species = 847, Ability = A2 }, // Barraskewda
+            new(Nest147,4,4,4) { Species = 340, Ability = A2 }, // Whiscash
+            new(Nest147,4,4,4) { Species = 834, Ability = A2, CanGigantamax = true }, // Drednaw
+            new(Nest148,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest148,0,1,1) { Species = 824, Ability = A2 }, // Blipbug
+            new(Nest148,0,1,1) { Species = 742, Ability = A2 }, // Cutiefly
+            new(Nest148,1,2,2) { Species = 595, Ability = A2 }, // Joltik
+            new(Nest148,2,3,3) { Species = 825, Ability = A2 }, // Dottler
+            new(Nest148,2,3,3) { Species = 291, Ability = A2 }, // Ninjask
+            new(Nest148,3,4,4) { Species = 826, Ability = A2 }, // Orbeetle
+            new(Nest148,3,4,4) { Species = 596, Ability = A2 }, // Galvantula
+            new(Nest148,3,4,4) { Species = 743, Ability = A2 }, // Ribombee
+            new(Nest148,4,4,4) { Species = 291, Ability = A2 }, // Ninjask
+            new(Nest148,4,4,4) { Species = 826, Ability = A2, CanGigantamax = true }, // Orbeetle
+            new(Nest149,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest149,0,1,1) { Species = 843, Ability = A2 }, // Silicobra
+            new(Nest149,0,1,1) { Species = 529, Ability = A2 }, // Drilbur
+            new(Nest149,1,2,2) { Species = 843, Ability = A2 }, // Silicobra
+            new(Nest149,1,2,2) { Species = 529, Ability = A2 }, // Drilbur
+            new(Nest149,2,3,3) { Species = 028, Ability = A2 }, // Sandslash
+            new(Nest149,2,3,3) { Species = 552, Ability = A2 }, // Krokorok
+            new(Nest149,3,4,4) { Species = 844, Ability = A2 }, // Sandaconda
+            new(Nest149,3,4,4) { Species = 553, Ability = A2 }, // Krookodile
+            new(Nest149,3,4,4) { Species = 530, Ability = A2 }, // Excadrill
+            new(Nest149,4,4,4) { Species = 553, Ability = A2 }, // Krookodile
+            new(Nest149,4,4,4) { Species = 844, Ability = A2, CanGigantamax = true }, // Sandaconda
+            new(Nest150,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest150,0,1,1) { Species = 840, Ability = A2 }, // Applin
+            new(Nest150,0,1,1) { Species = 420, Ability = A2 }, // Cherubi (DLC1)
+            new(Nest150,0,1,1) { Species = 761, Ability = A2 }, // Bounsweet (DLC2)
+            new(Nest150,1,2,2) { Species = 420, Ability = A2 }, // Cherubi
+            new(Nest150,1,2,2) { Species = 840, Ability = A2 }, // Applin
+            new(Nest150,2,3,3) { Species = 762, Ability = A2 }, // Steenee
+            new(Nest150,3,4,4) { Species = 820, Ability = A2 }, // Greedent
+            new(Nest150,4,4,4) { Species = 763, Ability = A2 }, // Tsareena
+            new(Nest151,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest151,0,0,1) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest151,0,1,2) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest151,1,2,3) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest151,2,3,3) { Species = 132, Ability = A3 }, // Ditto
+            new(Nest151,2,3,3) { Species = 132, Ability = A4 }, // Ditto
+            new(Nest151,3,4,4) { Species = 132, Ability = A4 }, // Ditto
+            new(Nest151,4,4,4) { Species = 132, Ability = A4 }, // Ditto
+            new(Nest152,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest152,0,0,1) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,0,1,2) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,1,2,3) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,2,3,3) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,3,4,4) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest152,4,4,4) { Species = 132, Ability = A2 }, // Ditto
+            new(Nest153,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest153,0,1,1) { Species = 590, Ability = A3 }, // Foongus
+            new(Nest153,0,1,1) { Species = 102, Ability = A3 }, // Exeggcute
+            new(Nest153,1,2,2) { Species = 753, Ability = A3 }, // Fomantis
+            new(Nest153,1,2,2) { Species = 114, Ability = A3 }, // Tangela
+            new(Nest153,2,3,3) { Species = 754, Ability = A3 }, // Lurantis
+            new(Nest153,2,3,3) { Species = 102, Ability = A3 }, // Exeggcute
+            new(Nest153,3,4,4) { Species = 103, Ability = A4 }, // Exeggutor
+            new(Nest153,3,4,4) { Species = 591, Ability = A4 }, // Amoonguss
+            new(Nest153,3,4,4) { Species = 754, Ability = A4 }, // Lurantis
+            new(Nest153,4,4,4) { Species = 465, Ability = A4 }, // Tangrowth
+            new(Nest153,4,4,4) { Species = 003, Ability = A4 }, // Venusaur
+            new(Nest154,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest154,0,1,1) { Species = 129, Ability = A3 }, // Magikarp
+            new(Nest154,0,1,1) { Species = 072, Ability = A3 }, // Tentacool
+            new(Nest154,1,2,2) { Species = 120, Ability = A3 }, // Staryu
+            new(Nest154,1,2,2) { Species = 090, Ability = A3 }, // Shellder
+            new(Nest154,2,3,3) { Species = 073, Ability = A3 }, // Tentacruel
+            new(Nest154,2,3,3) { Species = 130, Ability = A3 }, // Gyarados
+            new(Nest154,3,4,4) { Species = 073, Ability = A4 }, // Tentacruel
+            new(Nest154,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest154,3,4,4) { Species = 121, Ability = A4 }, // Starmie
+            new(Nest154,4,4,4) { Species = 091, Ability = A4 }, // Cloyster
+            new(Nest154,4,4,4) { Species = 009, Ability = A4 }, // Blastoise
+            new(Nest155,2,4,4) { Species = 113, Ability = A3 }, // Chansey
+            new(Nest155,0,1,1) { Species = 744, Ability = A3 }, // Rockruff
+            new(Nest155,1,2,2) { Species = 744, Ability = A3 }, // Rockruff
+            new(Nest155,2,3,3) { Species = 744, Ability = A3 }, // Rockruff
+            new(Nest155,2,3,3) { Species = 744, Ability = A3, Form = 1 }, // Rockruff-1
+            new(Nest155,3,4,4) { Species = 745, Ability = A4 }, // Lycanroc
+            new(Nest155,3,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
+            new(Nest155,4,4,4) { Species = 745, Ability = A4, Form = 2 }, // Lycanroc-2
+            new(Nest156,2,4,4) { Species = 242, Ability = A2 }, // Blissey
+            new(Nest156,0,1,1) { Species = 744, Ability = A2 }, // Rockruff
+            new(Nest156,1,2,2) { Species = 744, Ability = A2 }, // Rockruff
+            new(Nest156,2,3,3) { Species = 744, Ability = A2 }, // Rockruff
+            new(Nest156,2,3,3) { Species = 744, Ability = A2, Form = 1 }, // Rockruff-1
+            new(Nest156,3,3,4) { Species = 745, Ability = A2 }, // Lycanroc
+            new(Nest156,3,3,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
+            new(Nest156,4,4,4) { Species = 745, Ability = A2 }, // Lycanroc
+            new(Nest156,4,4,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
+            new(Nest156,3,4,4) { Species = 745, Ability = A2, Form = 2 }, // Lycanroc-2
+            new(Nest157,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest157,0,1,1) { Species = 333, Ability = A3 }, // Swablu
+            new(Nest157,0,1,1) { Species = 831, Ability = A3 }, // Wooloo
+            new(Nest157,1,2,2) { Species = 333, Ability = A3 }, // Swablu
+            new(Nest157,1,2,2) { Species = 446, Ability = A3 }, // Munchlax
+            new(Nest157,2,3,3) { Species = 820, Ability = A3 }, // Greedent
+            new(Nest157,2,3,3) { Species = 832, Ability = A3 }, // Dubwool
+            new(Nest157,3,4,4) { Species = 334, Ability = A4 }, // Altaria
+            new(Nest157,3,4,4) { Species = 832, Ability = A4 }, // Dubwool
+            new(Nest157,4,4,4) { Species = 143, Ability = A4 }, // Snorlax
+            new(Nest158,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest158,0,1,2) { Species = 333, Ability = A2 }, // Swablu
+            new(Nest158,0,1,2) { Species = 819, Ability = A2 }, // Skwovet
+            new(Nest158,1,2,3) { Species = 333, Ability = A2 }, // Swablu
+            new(Nest158,1,2,3) { Species = 820, Ability = A2 }, // Greedent
+            new(Nest158,2,3,4) { Species = 820, Ability = A2 }, // Greedent
+            new(Nest158,2,3,4) { Species = 832, Ability = A2 }, // Dubwool
+            new(Nest158,3,4,5) { Species = 334, Ability = A2 }, // Altaria
+            new(Nest158,3,4,5) { Species = 832, Ability = A2 }, // Dubwool
+            new(Nest158,4,4,5) { Species = 143, Ability = A2 }, // Snorlax
+            new(Nest158,4,4,5) { Species = 143, Ability = A2, CanGigantamax = true }, // Snorlax
+            new(Nest159,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest159,0,1,1) { Species = 240, Ability = A3 }, // Magby
+            new(Nest159,0,1,1) { Species = 850, Ability = A3 }, // Sizzlipede
+            new(Nest159,1,2,2) { Species = 240, Ability = A3 }, // Magby
+            new(Nest159,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest159,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest159,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest159,3,4,4) { Species = 126, Ability = A4 }, // Magmar
+            new(Nest159,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest159,3,4,4) { Species = 609, Ability = A4 }, // Chandelure
+            new(Nest159,4,4,4) { Species = 126, Ability = A4 }, // Magmar
+            new(Nest159,4,4,4) { Species = 467, Ability = A4 }, // Magmortar
+            new(Nest160,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest160,0,1,2) { Species = 240, Ability = A2 }, // Magby
+            new(Nest160,1,2,3) { Species = 126, Ability = A2 }, // Magmar
+            new(Nest160,1,2,3) { Species = 631, Ability = A2 }, // Heatmor
+            new(Nest160,2,3,4) { Species = 126, Ability = A2 }, // Magmar
+            new(Nest160,2,3,4) { Species = 851, Ability = A2 }, // Centiskorch
+            new(Nest160,3,4,5) { Species = 609, Ability = A2 }, // Chandelure
+            new(Nest160,3,4,5) { Species = 467, Ability = A2 }, // Magmortar
+            new(Nest160,4,4,5) { Species = 467, Ability = A2 }, // Magmortar
+            new(Nest160,4,4,5) { Species = 851, Ability = A2, CanGigantamax = true }, // Centiskorch
+            new(Nest161,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest161,0,1,1) { Species = 349, Ability = A3 }, // Feebas
+            new(Nest161,1,2,2) { Species = 349, Ability = A3 }, // Feebas
+            new(Nest161,2,3,3) { Species = 340, Ability = A3 }, // Whiscash
+            new(Nest161,3,4,4) { Species = 130, Ability = A4 }, // Gyarados
+            new(Nest161,4,4,4) { Species = 350, Ability = A4 }, // Milotic
+            new(Nest161,4,4,4) { Species = 369, Ability = A4 }, // Relicanth
+            new(Nest162,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest162,0,1,2) { Species = 349, Ability = A2 }, // Feebas
+            new(Nest162,1,2,3) { Species = 349, Ability = A2 }, // Feebas
+            new(Nest162,1,2,3) { Species = 369, Ability = A2 }, // Relicanth
+            new(Nest162,2,3,4) { Species = 099, Ability = A2 }, // Kingler
+            new(Nest162,3,4,5) { Species = 369, Ability = A2 }, // Relicanth
+            new(Nest162,3,4,5) { Species = 350, Ability = A2 }, // Milotic
+            new(Nest162,4,4,5) { Species = 130, Ability = A2 }, // Gyarados
+            new(Nest162,4,4,5) { Species = 099, Ability = A2, CanGigantamax = true }, // Kingler
+            new(Nest163,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest163,0,1,1) { Species = 239, Ability = A3 }, // Elekid
+            new(Nest163,0,1,1) { Species = 595, Ability = A3 }, // Joltik
+            new(Nest163,1,2,2) { Species = 239, Ability = A3 }, // Elekid
+            new(Nest163,1,2,2) { Species = 871, Ability = A3 }, // Pincurchin
+            new(Nest163,2,3,3) { Species = 125, Ability = A3 }, // Electabuzz
+            new(Nest163,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
+            new(Nest163,3,4,4) { Species = 596, Ability = A4 }, // Galvantula
+            new(Nest163,3,4,4) { Species = 871, Ability = A4 }, // Pincurchin
+            new(Nest163,3,4,4) { Species = 836, Ability = A4 }, // Boltund
+            new(Nest163,4,4,4) { Species = 125, Ability = A4 }, // Electabuzz
+            new(Nest163,4,4,4) { Species = 466, Ability = A4 }, // Electivire
+            new(Nest164,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest164,0,1,2) { Species = 239, Ability = A2 }, // Elekid
+            new(Nest164,1,2,3) { Species = 702, Ability = A2 }, // Dedenne
+            new(Nest164,1,2,3) { Species = 596, Ability = A2 }, // Galvantula
+            new(Nest164,2,3,4) { Species = 125, Ability = A2 }, // Electabuzz
+            new(Nest164,2,3,4) { Species = 836, Ability = A2 }, // Boltund
+            new(Nest164,3,4,5) { Species = 871, Ability = A2 }, // Pincurchin
+            new(Nest164,3,4,5) { Species = 466, Ability = A2 }, // Electivire
+            new(Nest164,4,4,5) { Species = 466, Ability = A2 }, // Electivire
+            new(Nest165,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest165,0,1,1) { Species = 829, Ability = A3 }, // Gossifleur
+            new(Nest165,1,2,2) { Species = 347, Ability = A3 }, // Anorith
+            new(Nest165,1,2,2) { Species = 345, Ability = A3 }, // Lileep
+            new(Nest165,2,3,3) { Species = 830, Ability = A3 }, // Eldegoss
+            new(Nest165,3,4,4) { Species = 752, Ability = A4 }, // Araquanid
+            new(Nest165,3,4,4) { Species = 830, Ability = A4 }, // Eldegoss
+            new(Nest165,4,4,4) { Species = 598, Ability = A4 }, // Ferrothorn
+            new(Nest166,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest166,0,1,2) { Species = 347, Ability = A2 }, // Anorith
+            new(Nest166,0,1,2) { Species = 345, Ability = A2 }, // Lileep
+            new(Nest166,1,2,3) { Species = 347, Ability = A2 }, // Anorith
+            new(Nest166,1,2,3) { Species = 345, Ability = A2 }, // Lileep
+            new(Nest166,2,3,4) { Species = 752, Ability = A2 }, // Araquanid
+            new(Nest166,2,3,4) { Species = 012, Ability = A2 }, // Butterfree
+            new(Nest166,3,4,5) { Species = 348, Ability = A2 }, // Armaldo
+            new(Nest166,3,4,5) { Species = 346, Ability = A2 }, // Cradily
+            new(Nest166,3,4,5) { Species = 830, Ability = A2 }, // Eldegoss
+            new(Nest166,4,4,5) { Species = 012, Ability = A2, CanGigantamax = true }, // Butterfree
+            new(Nest167,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest167,0,1,1) { Species = 238, Ability = A3 }, // Smoochum
+            new(Nest167,1,2,2) { Species = 238, Ability = A3 }, // Smoochum
+            new(Nest167,1,2,2) { Species = 698, Ability = A3 }, // Amaura
+            new(Nest167,2,3,3) { Species = 221, Ability = A3 }, // Piloswine
+            new(Nest167,2,3,3) { Species = 460, Ability = A3 }, // Abomasnow
+            new(Nest167,3,4,4) { Species = 124, Ability = A4 }, // Jynx
+            new(Nest167,3,4,4) { Species = 873, Ability = A4 }, // Frosmoth
+            new(Nest167,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new(Nest167,4,4,4) { Species = 362, Ability = A4 }, // Glalie
+            new(Nest168,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest168,0,1,2) { Species = 361, Ability = A2 }, // Snorunt
+            new(Nest168,1,2,3) { Species = 238, Ability = A2 }, // Smoochum
+            new(Nest168,1,2,3) { Species = 698, Ability = A2 }, // Amaura
+            new(Nest168,2,3,4) { Species = 362, Ability = A2 }, // Glalie
+            new(Nest168,2,3,4) { Species = 460, Ability = A2 }, // Abomasnow
+            new(Nest168,3,4,5) { Species = 124, Ability = A2 }, // Jynx
+            new(Nest168,3,4,5) { Species = 873, Ability = A2 }, // Frosmoth
+            new(Nest168,4,4,5) { Species = 699, Ability = A2 }, // Aurorus
+            new(Nest168,4,4,5) { Species = 473, Ability = A2 }, // Mamoswine
+            new(Nest169,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest169,0,1,1) { Species = 363, Ability = A3 }, // Spheal
+            new(Nest169,1,2,2) { Species = 363, Ability = A3 }, // Spheal
+            new(Nest169,2,3,3) { Species = 364, Ability = A3 }, // Sealeo
+            new(Nest169,2,3,3) { Species = 615, Ability = A3 }, // Cryogonal
+            new(Nest169,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new(Nest169,3,4,4) { Species = 614, Ability = A4 }, // Beartic
+            new(Nest169,3,4,4) { Species = 365, Ability = A4 }, // Walrein
+            new(Nest169,4,4,4) { Species = 713, Ability = A4 }, // Avalugg
+            new(Nest169,4,4,4) { Species = 131, Ability = A4 }, // Lapras
+            new(Nest170,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest170,0,1,2) { Species = 131, Ability = A2 }, // Lapras
+            new(Nest170,0,1,2) { Species = 363, Ability = A2 }, // Spheal
+            new(Nest170,1,2,3) { Species = 364, Ability = A2 }, // Sealeo
+            new(Nest170,2,3,4) { Species = 713, Ability = A2 }, // Avalugg
+            new(Nest170,2,3,4) { Species = 615, Ability = A2 }, // Cryogonal
+            new(Nest170,3,4,5) { Species = 365, Ability = A2 }, // Walrein
+            new(Nest170,3,4,5) { Species = 131, Ability = A2 }, // Lapras
+            new(Nest170,3,4,5) { Species = 584, Ability = A2 }, // Vanilluxe
+            new(Nest170,4,4,5) { Species = 365, Ability = A2 }, // Walrein
+            new(Nest171,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest171,0,1,1) { Species = 532, Ability = A3 }, // Timburr
+            new(Nest171,0,1,1) { Species = 622, Ability = A3 }, // Golett
+            new(Nest171,1,2,2) { Species = 622, Ability = A3 }, // Golett
+            new(Nest171,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest171,2,3,3) { Species = 533, Ability = A3 }, // Gurdurr
+            new(Nest171,2,3,3) { Species = 623, Ability = A3 }, // Golurk
+            new(Nest171,3,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new(Nest171,3,4,4) { Species = 623, Ability = A4 }, // Golurk
+            new(Nest171,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest171,4,4,4) { Species = 623, Ability = A4 }, // Golurk
+            new(Nest171,4,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new(Nest172,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest172,0,1,2) { Species = 870, Ability = A2 }, // Falinks
+            new(Nest172,0,1,2) { Species = 236, Ability = A2 }, // Tyrogue
+            new(Nest172,1,2,3) { Species = 533, Ability = A2 }, // Gurdurr
+            new(Nest172,2,3,4) { Species = 870, Ability = A2 }, // Falinks
+            new(Nest172,2,3,4) { Species = 623, Ability = A2 }, // Golurk
+            new(Nest172,3,4,5) { Species = 534, Ability = A2 }, // Conkeldurr
+            new(Nest172,4,4,5) { Species = 237, Ability = A2 }, // Hitmontop
+            new(Nest173,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest173,0,1,1) { Species = 041, Ability = A3 }, // Zubat
+            new(Nest173,1,2,2) { Species = 029, Ability = A3 }, // Nidoran♀
+            new(Nest173,1,2,2) { Species = 032, Ability = A3 }, // Nidoran♂
+            new(Nest173,2,3,3) { Species = 030, Ability = A3 }, // Nidorina
+            new(Nest173,2,3,3) { Species = 033, Ability = A3 }, // Nidorino
+            new(Nest173,3,4,4) { Species = 042, Ability = A4 }, // Golbat
+            new(Nest173,4,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
+            new(Nest173,4,4,4) { Species = 034, Ability = A4 }, // Nidoking
+            new(Nest174,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest174,0,1,2) { Species = 041, Ability = A2 }, // Zubat
+            new(Nest174,0,1,2) { Species = 568, Ability = A2 }, // Trubbish
+            new(Nest174,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new(Nest174,2,3,4) { Species = 042, Ability = A2 }, // Golbat
+            new(Nest174,2,3,4) { Species = 569, Ability = A2 }, // Garbodor
+            new(Nest174,3,4,5) { Species = 031, Ability = A2 }, // Nidoqueen
+            new(Nest174,3,4,5) { Species = 034, Ability = A2 }, // Nidoking
+            new(Nest174,4,4,5) { Species = 169, Ability = A2 }, // Crobat
+            new(Nest174,4,4,5) { Species = 569, Ability = A2, CanGigantamax = true }, // Garbodor
+            new(Nest175,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest175,0,1,1) { Species = 041, Ability = A3 }, // Zubat
+            new(Nest175,0,1,1) { Species = 714, Ability = A3 }, // Noibat
+            new(Nest175,1,2,2) { Species = 333, Ability = A3 }, // Swablu
+            new(Nest175,1,2,2) { Species = 042, Ability = A3 }, // Golbat
+            new(Nest175,2,3,3) { Species = 042, Ability = A3 }, // Golbat
+            new(Nest175,2,3,3) { Species = 822, Ability = A3 }, // Corvisquire
+            new(Nest175,3,4,4) { Species = 042, Ability = A4 }, // Golbat
+            new(Nest175,3,4,4) { Species = 334, Ability = A4 }, // Altaria
+            new(Nest175,3,4,4) { Species = 715, Ability = A4 }, // Noivern
+            new(Nest175,4,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new(Nest175,4,4,4) { Species = 169, Ability = A4 }, // Crobat
+            new(Nest176,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest176,0,1,2) { Species = 041, Ability = A2 }, // Zubat
+            new(Nest176,0,1,2) { Species = 527, Ability = A2 }, // Woobat
+            new(Nest176,1,2,3) { Species = 822, Ability = A2 }, // Corvisquire
+            new(Nest176,1,2,3) { Species = 042, Ability = A2 }, // Golbat
+            new(Nest176,2,3,4) { Species = 528, Ability = A2 }, // Swoobat
+            new(Nest176,2,3,4) { Species = 823, Ability = A2 }, // Corviknight
+            new(Nest176,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
+            new(Nest176,3,4,5) { Species = 334, Ability = A2 }, // Altaria
+            new(Nest176,3,4,5) { Species = 169, Ability = A2 }, // Crobat
+            new(Nest176,4,4,5) { Species = 715, Ability = A2 }, // Noivern
+            new(Nest176,4,4,5) { Species = 823, Ability = A2, CanGigantamax = true }, // Corviknight
+            new(Nest177,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest177,0,1,1) { Species = 439, Ability = A3 }, // Mime Jr.
+            new(Nest177,1,2,2) { Species = 436, Ability = A3 }, // Bronzor
+            new(Nest177,1,2,2) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest177,2,3,3) { Species = 344, Ability = A3 }, // Claydol
+            new(Nest177,4,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest177,4,4,4) { Species = 437, Ability = A4 }, // Bronzong
+            new(Nest178,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest178,1,2,3) { Species = 122, Ability = A2, Form = 1 }, // Mr. Mime-1
+            new(Nest178,1,2,3) { Species = 079, Ability = A2, Form = 1 }, // Slowpoke-1
+            new(Nest178,2,3,4) { Species = 375, Ability = A2 }, // Metang
+            new(Nest178,3,4,5) { Species = 866, Ability = A2 }, // Mr. Rime
+            new(Nest178,4,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new(Nest179,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest179,0,1,1) { Species = 304, Ability = A3 }, // Aron
+            new(Nest179,1,2,2) { Species = 304, Ability = A3 }, // Aron
+            new(Nest179,2,3,3) { Species = 305, Ability = A3 }, // Lairon
+            new(Nest179,3,4,4) { Species = 305, Ability = A4 }, // Lairon
+            new(Nest179,3,4,4) { Species = 703, Ability = A4 }, // Carbink
+            new(Nest179,4,4,4) { Species = 306, Ability = A4 }, // Aggron
+            new(Nest179,4,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest180,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest180,0,1,2) { Species = 304, Ability = A2 }, // Aron
+            new(Nest180,1,2,3) { Species = 305, Ability = A2 }, // Lairon
+            new(Nest180,2,3,4) { Species = 213, Ability = A2 }, // Shuckle
+            new(Nest180,3,4,5) { Species = 839, Ability = A2 }, // Coalossal
+            new(Nest180,3,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new(Nest180,4,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new(Nest181,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest181,0,1,1) { Species = 885, Ability = A3 }, // Dreepy
+            new(Nest181,0,1,1) { Species = 708, Ability = A3 }, // Phantump
+            new(Nest181,1,2,2) { Species = 778, Ability = A3 }, // Mimikyu
+            new(Nest181,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
+            new(Nest181,2,3,3) { Species = 886, Ability = A3 }, // Drakloak
+            new(Nest181,2,3,3) { Species = 778, Ability = A3 }, // Mimikyu
+            new(Nest181,3,4,4) { Species = 362, Ability = A4 }, // Glalie
+            new(Nest181,3,4,4) { Species = 478, Ability = A4 }, // Froslass
+            new(Nest181,4,4,4) { Species = 709, Ability = A4 }, // Trevenant
+            new(Nest181,4,4,4) { Species = 778, Ability = A4 }, // Mimikyu
+            new(Nest182,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest182,0,1,2) { Species = 885, Ability = A2 }, // Dreepy
+            new(Nest182,1,2,3) { Species = 885, Ability = A2 }, // Dreepy
+            new(Nest182,2,3,4) { Species = 709, Ability = A2 }, // Trevenant
+            new(Nest182,3,4,5) { Species = 887, Ability = A2 }, // Dragapult
+            new(Nest182,4,4,5) { Species = 887, Ability = A2 }, // Dragapult
+            new(Nest183,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest183,0,1,1) { Species = 621, Ability = A3 }, // Druddigon
+            new(Nest183,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
+            new(Nest183,2,3,3) { Species = 147, Ability = A3 }, // Dratini
+            new(Nest183,3,4,4) { Species = 621, Ability = A4 }, // Druddigon
+            new(Nest183,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new(Nest184,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest184,0,1,2) { Species = 884, Ability = A2 }, // Duraludon
+            new(Nest184,1,2,3) { Species = 696, Ability = A2 }, // Tyrunt
+            new(Nest184,2,3,4) { Species = 884, Ability = A2 }, // Duraludon
+            new(Nest184,3,4,5) { Species = 149, Ability = A2 }, // Dragonite
+            new(Nest184,3,4,5) { Species = 697, Ability = A2 }, // Tyrantrum
+            new(Nest184,4,4,5) { Species = 884, Ability = A2, CanGigantamax = true }, // Duraludon
+            new(Nest185,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest185,0,1,1) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest185,0,1,1) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest185,1,2,2) { Species = 859, Ability = A3 }, // Impidimp
+            new(Nest185,1,2,2) { Species = 860, Ability = A3 }, // Morgrem
+            new(Nest185,2,3,3) { Species = 215, Ability = A3 }, // Sneasel
+            new(Nest185,2,3,3) { Species = 264, Ability = A3, Form = 1 }, // Linoone-1
+            new(Nest185,3,4,4) { Species = 861, Ability = A4 }, // Grimmsnarl
+            new(Nest185,3,4,4) { Species = 359, Ability = A4 }, // Absol
+            new(Nest185,3,4,4) { Species = 862, Ability = A4 }, // Obstagoon
+            new(Nest185,4,4,4) { Species = 359, Ability = A4 }, // Absol
+            new(Nest185,4,4,4) { Species = 461, Ability = A4 }, // Weavile
+            new(Nest186,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest186,0,1,2) { Species = 859, Ability = A2 }, // Impidimp
+            new(Nest186,0,1,2) { Species = 359, Ability = A2 }, // Absol
+            new(Nest186,1,2,3) { Species = 215, Ability = A2 }, // Sneasel
+            new(Nest186,2,3,4) { Species = 828, Ability = A2 }, // Thievul
+            new(Nest186,2,3,4) { Species = 510, Ability = A2 }, // Liepard
+            new(Nest186,3,4,5) { Species = 359, Ability = A2 }, // Absol
+            new(Nest186,3,4,5) { Species = 861, Ability = A2 }, // Grimmsnarl
+            new(Nest186,3,4,5) { Species = 461, Ability = A2 }, // Weavile
+            new(Nest186,4,4,5) { Species = 359, Ability = A2 }, // Absol
+            new(Nest186,4,4,5) { Species = 861, Ability = A2, CanGigantamax = true }, // Grimmsnarl
+            new(Nest187,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest187,0,1,1) { Species = 304, Ability = A3 }, // Aron
+            new(Nest187,0,1,1) { Species = 632, Ability = A3 }, // Durant
+            new(Nest187,1,2,2) { Species = 304, Ability = A3 }, // Aron
+            new(Nest187,1,2,2) { Species = 374, Ability = A3 }, // Beldum
+            new(Nest187,2,3,3) { Species = 305, Ability = A3 }, // Lairon
+            new(Nest187,2,3,3) { Species = 375, Ability = A3 }, // Metang
+            new(Nest187,3,4,4) { Species = 823, Ability = A4 }, // Corviknight
+            new(Nest187,3,4,4) { Species = 632, Ability = A4 }, // Durant
+            new(Nest187,3,4,4) { Species = 879, Ability = A4 }, // Copperajah
+            new(Nest187,4,4,4) { Species = 306, Ability = A4 }, // Aggron
+            new(Nest188,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest188,0,1,2) { Species = 304, Ability = A2 }, // Aron
+            new(Nest188,0,1,2) { Species = 052, Ability = A2, Form = 2 }, // Meowth-2
+            new(Nest188,1,2,3) { Species = 632, Ability = A2 }, // Durant
+            new(Nest188,1,2,3) { Species = 305, Ability = A2 }, // Lairon
+            new(Nest188,2,3,4) { Species = 863, Ability = A2 }, // Perrserker
+            new(Nest188,3,4,5) { Species = 879, Ability = A2 }, // Copperajah
+            new(Nest188,3,4,5) { Species = 306, Ability = A2 }, // Aggron
+            new(Nest188,3,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new(Nest188,4,4,5) { Species = 376, Ability = A2 }, // Metagross
+            new(Nest188,4,4,5) { Species = 879, Ability = A2, CanGigantamax = true }, // Copperajah
+            new(Nest189,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest189,0,1,1) { Species = 173, Ability = A3 }, // Cleffa
+            new(Nest189,0,1,1) { Species = 703, Ability = A3 }, // Carbink
+            new(Nest189,1,2,2) { Species = 856, Ability = A3 }, // Hatenna
+            new(Nest189,1,2,2) { Species = 173, Ability = A3 }, // Cleffa
+            new(Nest189,2,3,3) { Species = 857, Ability = A3 }, // Hattrem
+            new(Nest189,2,3,3) { Species = 035, Ability = A3 }, // Clefairy
+            new(Nest189,3,4,4) { Species = 703, Ability = A4 }, // Carbink
+            new(Nest189,3,4,4) { Species = 036, Ability = A4 }, // Clefable
+            new(Nest189,4,4,4) { Species = 547, Ability = A4 }, // Whimsicott
+            new(Nest189,4,4,4) { Species = 858, Ability = A4 }, // Hatterene
+            new(Nest190,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest190,0,1,2) { Species = 703, Ability = A2 }, // Carbink
+            new(Nest190,0,1,2) { Species = 546, Ability = A2 }, // Cottonee
+            new(Nest190,1,2,3) { Species = 035, Ability = A2 }, // Clefairy
+            new(Nest190,1,2,3) { Species = 703, Ability = A2 }, // Carbink
+            new(Nest190,2,3,4) { Species = 703, Ability = A2 }, // Carbink
+            new(Nest190,2,3,4) { Species = 547, Ability = A2 }, // Whimsicott
+            new(Nest190,3,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
+            new(Nest190,3,4,5) { Species = 858, Ability = A2 }, // Hatterene
+            new(Nest190,3,4,5) { Species = 036, Ability = A2 }, // Clefable
+            new(Nest190,4,4,5) { Species = 110, Ability = A2, Form = 1 }, // Weezing-1
+            new(Nest190,4,4,5) { Species = 858, Ability = A2, CanGigantamax = true }, // Hatterene
+            new(Nest191,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest191,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest191,1,2,2) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest191,2,3,3) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest191,3,4,4) { Species = 854, Ability = A4 }, // Sinistea
+            new(Nest191,4,4,4) { Species = 854, Ability = A4 }, // Sinistea
+            new(Nest191,2,4,4) { Species = 854, Ability = A4, Form = 1 }, // Sinistea-1
+            new(Nest192,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest192,0,0,2) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest192,1,1,2) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest192,1,1,3) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest192,2,2,4) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest192,3,3,4) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest192,0,3,5) { Species = 854, Ability = A2, Form = 1 }, // Sinistea-1
+            new(Nest192,4,4,5) { Species = 855, Ability = A2 }, // Polteageist
+            new(Nest192,4,4,5) { Species = 855, Ability = A2, Form = 1 }, // Polteageist-1
+            new(Nest192,4,4,5) { Species = 869, Ability = A2, CanGigantamax = true }, // Alcremie
+            new(Nest193,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest193,0,1,1) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest193,0,4,2) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest193,0,4,3) { Species = 133, Ability = A3 }, // Eevee
+            new(Nest193,2,4,4) { Species = 136, Ability = A3 }, // Flareon
+            new(Nest193,2,4,4) { Species = 135, Ability = A3 }, // Jolteon
+            new(Nest193,2,4,4) { Species = 134, Ability = A3 }, // Vaporeon
+            new(Nest193,2,4,4) { Species = 196, Ability = A4 }, // Espeon
+            new(Nest193,2,4,4) { Species = 197, Ability = A4 }, // Umbreon
+            new(Nest193,2,4,4) { Species = 470, Ability = A4 }, // Leafeon
+            new(Nest193,2,4,4) { Species = 471, Ability = A4 }, // Glaceon
+            new(Nest193,2,4,4) { Species = 700, Ability = A4 }, // Sylveon
+            new(Nest194,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest194,0,1,2) { Species = 133, Ability = A2 }, // Eevee
+            new(Nest194,0,4,3) { Species = 133, Ability = A2 }, // Eevee
+            new(Nest194,0,4,4) { Species = 133, Ability = A2, Gender = 1 }, // Eevee
+            new(Nest194,2,4,5) { Species = 136, Ability = A2 }, // Flareon
+            new(Nest194,2,4,5) { Species = 135, Ability = A2 }, // Jolteon
+            new(Nest194,2,4,5) { Species = 134, Ability = A2 }, // Vaporeon
+            new(Nest194,2,4,5) { Species = 196, Ability = A2 }, // Espeon
+            new(Nest194,2,4,5) { Species = 197, Ability = A2 }, // Umbreon
+            new(Nest194,2,4,5) { Species = 470, Ability = A2 }, // Leafeon
+            new(Nest194,2,4,5) { Species = 471, Ability = A2 }, // Glaceon
+            new(Nest194,2,4,5) { Species = 700, Ability = A2 }, // Sylveon
+            new(Nest195,2,4,4) { Species = 531, Ability = A4 }, // Audino
+            new(Nest195,1,2,2) { Species = 696, Ability = A3 }, // Tyrunt
+            new(Nest195,1,2,2) { Species = 698, Ability = A3 }, // Amaura
+            new(Nest195,2,3,3) { Species = 348, Ability = A3 }, // Armaldo
+            new(Nest195,2,3,3) { Species = 346, Ability = A3 }, // Cradily
+            new(Nest195,4,4,4) { Species = 142, Ability = A4 }, // Aerodactyl
+            new(Nest196,2,4,5) { Species = 225, Ability = A2 }, // Delibird
+            new(Nest196,2,2,3) { Species = 142, Ability = A2 }, // Aerodactyl
+            new(Nest196,3,4,5) { Species = 142, Ability = A2 }, // Aerodactyl
+            new(Nest196,4,4,5) { Species = 880, Ability = A2 }, // Dracozolt
+            new(Nest196,4,4,5) { Species = 882, Ability = A2 }, // Dracovish
+            new(Nest196,3,4,5) { Species = 881, Ability = A2 }, // Arctozolt
+            new(Nest196,3,4,5) { Species = 883, Ability = A2 }, // Arctovish
         };
 
         internal static readonly EncounterStatic8N[] Nest_SW =
         {
-            new EncounterStatic8N(Nest000,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
-            new EncounterStatic8N(Nest000,2,3,3) { Species = 106, Ability = A3 }, // Hitmonlee
-            new EncounterStatic8N(Nest000,2,4,4) { Species = 107, Ability = A3 }, // Hitmonchan
-            new EncounterStatic8N(Nest000,2,4,4) { Species = 560, Ability = A3 }, // Scrafty
-            new EncounterStatic8N(Nest000,3,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
-            new EncounterStatic8N(Nest000,4,4,4) { Species = 237, Ability = A4 }, // Hitmontop
-            new EncounterStatic8N(Nest001,0,1,1) { Species = 574, Ability = A3 }, // Gothita
-            new EncounterStatic8N(Nest001,2,3,3) { Species = 678, Ability = A3, Gender = 0 }, // Meowstic
-            new EncounterStatic8N(Nest001,2,3,3) { Species = 575, Ability = A3 }, // Gothorita
-            new EncounterStatic8N(Nest001,3,4,4) { Species = 576, Ability = A4 }, // Gothitelle
-            new EncounterStatic8N(Nest001,4,4,4) { Species = 338, Ability = A4 }, // Solrock
-            new EncounterStatic8N(Nest002,0,0,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest002,0,1,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest002,3,4,4) { Species = 558, Ability = A4 }, // Crustle
-            new EncounterStatic8N(Nest002,4,4,4) { Species = 526, Ability = A4 }, // Gigalith
-            new EncounterStatic8N(Nest006,0,1,1) { Species = 223, Ability = A3 }, // Remoraid
-            new EncounterStatic8N(Nest006,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest006,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest007,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest008,1,1,2) { Species = 090, Ability = A3 }, // Shellder
-            new EncounterStatic8N(Nest009,1,1,2) { Species = 083, Ability = A3, Form = 1 }, // Farfetch’d-1
-            new EncounterStatic8N(Nest009,1,2,2) { Species = 539, Ability = A3 }, // Sawk
-            new EncounterStatic8N(Nest009,3,4,4) { Species = 865, Ability = A4 }, // Sirfetch’d
-            new EncounterStatic8N(Nest011,4,4,4) { Species = 303, Ability = A4 }, // Mawile
-            new EncounterStatic8N(Nest012,0,1,1) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest012,0,1,1) { Species = 856, Ability = A3 }, // Hatenna
-            new EncounterStatic8N(Nest012,1,1,2) { Species = 825, Ability = A3 }, // Dottler
-            new EncounterStatic8N(Nest012,1,3,2) { Species = 857, Ability = A3 }, // Hattrem
-            new EncounterStatic8N(Nest012,2,4,4) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest012,3,4,4) { Species = 561, Ability = A4 }, // Sigilyph
-            new EncounterStatic8N(Nest012,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
-            new EncounterStatic8N(Nest013,2,4,4) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest014,0,0,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest014,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest014,2,4,4) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest014,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
-            new EncounterStatic8N(Nest014,4,4,4) { Species = 526, Ability = A4 }, // Gigalith
-            new EncounterStatic8N(Nest016,0,1,1) { Species = 220, Ability = A3 }, // Swinub
-            new EncounterStatic8N(Nest016,1,1,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest016,2,3,3) { Species = 329, Ability = A3 }, // Vibrava
-            new EncounterStatic8N(Nest016,2,4,4) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest016,3,4,4) { Species = 450, Ability = A4 }, // Hippowdon
-            new EncounterStatic8N(Nest016,4,4,4) { Species = 330, Ability = A4 }, // Flygon
-            new EncounterStatic8N(Nest017,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest017,1,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest017,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest017,2,3,3) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest017,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
-            new EncounterStatic8N(Nest017,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest017,4,4,4) { Species = 631, Ability = A4 }, // Heatmor
-            new EncounterStatic8N(Nest017,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest018,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest018,0,1,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest018,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest018,2,3,3) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest018,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
-            new EncounterStatic8N(Nest018,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest018,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest018,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
-            new EncounterStatic8N(Nest019,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest019,1,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest019,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest019,2,3,3) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest019,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
-            new EncounterStatic8N(Nest019,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest022,0,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest022,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest025,0,0,1) { Species = 273, Ability = A3 }, // Seedot
-            new EncounterStatic8N(Nest025,1,1,2) { Species = 274, Ability = A3 }, // Nuzleaf
-            new EncounterStatic8N(Nest025,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
-            new EncounterStatic8N(Nest026,4,4,4) { Species = 841, Ability = A4 }, // Flapple
-            new EncounterStatic8N(Nest028,0,1,1) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest028,1,1,2) { Species = 043, Ability = A3 }, // Oddish
-            new EncounterStatic8N(Nest028,3,4,4) { Species = 748, Ability = A4 }, // Toxapex
-            new EncounterStatic8N(Nest028,4,4,4) { Species = 435, Ability = A4 }, // Skuntank
-            new EncounterStatic8N(Nest030,0,1,1) { Species = 627, Ability = A3 }, // Rufflet
-            new EncounterStatic8N(Nest030,4,4,4) { Species = 628, Ability = A4 }, // Braviary
-            new EncounterStatic8N(Nest032,0,1,1) { Species = 684, Ability = A3 }, // Swirlix
-            new EncounterStatic8N(Nest032,4,4,4) { Species = 685, Ability = A4 }, // Slurpuff
-            new EncounterStatic8N(Nest033,4,4,4) { Species = 303, Ability = A4 }, // Mawile
-            new EncounterStatic8N(Nest034,4,4,4) { Species = 275, Ability = A4 }, // Shiftry
-            new EncounterStatic8N(Nest035,1,1,2) { Species = 633, Ability = A3 }, // Deino
-            new EncounterStatic8N(Nest035,3,4,4) { Species = 634, Ability = A4 }, // Zweilous
-            new EncounterStatic8N(Nest035,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
-            new EncounterStatic8N(Nest036,0,0,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest036,0,1,1) { Species = 610, Ability = A3 }, // Axew
-            new EncounterStatic8N(Nest036,1,1,2) { Species = 782, Ability = A3 }, // Jangmo-o
-            new EncounterStatic8N(Nest036,2,3,3) { Species = 783, Ability = A3 }, // Hakamo-o
-            new EncounterStatic8N(Nest036,2,4,4) { Species = 611, Ability = A3 }, // Fraxure
-            new EncounterStatic8N(Nest036,2,4,4) { Species = 612, Ability = A3 }, // Haxorus
-            new EncounterStatic8N(Nest036,3,4,4) { Species = 330, Ability = A4 }, // Flygon
-            new EncounterStatic8N(Nest036,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
-            new EncounterStatic8N(Nest036,4,4,4) { Species = 784, Ability = A4 }, // Kommo-o
-            new EncounterStatic8N(Nest037,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
-            new EncounterStatic8N(Nest037,2,4,4) { Species = 783, Ability = A3 }, // Hakamo-o
-            new EncounterStatic8N(Nest037,3,4,4) { Species = 784, Ability = A4 }, // Kommo-o
-            new EncounterStatic8N(Nest037,4,4,4) { Species = 841, Ability = A4 }, // Flapple
-            new EncounterStatic8N(Nest039,1,1,2) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest039,4,4,4) { Species = 628, Ability = A4 }, // Braviary
-            new EncounterStatic8N(Nest040,0,1,1) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest040,1,1,2) { Species = 536, Ability = A3 }, // Palpitoad
-            new EncounterStatic8N(Nest040,2,3,3) { Species = 091, Ability = A3 }, // Cloyster
-            new EncounterStatic8N(Nest040,2,4,4) { Species = 746, Ability = A3 }, // Wishiwashi
-            new EncounterStatic8N(Nest040,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
-            new EncounterStatic8N(Nest040,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
-            new EncounterStatic8N(Nest042,1,3,2) { Species = 710, Ability = A3 }, // Pumpkaboo
-            new EncounterStatic8N(Nest042,4,4,4) { Species = 867, Ability = A3 }, // Runerigus
-            new EncounterStatic8N(Nest042,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
-            new EncounterStatic8N(Nest042,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
-            new EncounterStatic8N(Nest043,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest044,1,2,2) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest044,2,3,3) { Species = 600, Ability = A3 }, // Klang
-            new EncounterStatic8N(Nest045,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest045,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest045,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
-            new EncounterStatic8N(Nest046,1,3,3) { Species = 710, Ability = A3 }, // Pumpkaboo
-            new EncounterStatic8N(Nest046,2,4,4) { Species = 711, Ability = A3 }, // Gourgeist
-            new EncounterStatic8N(Nest046,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
-            new EncounterStatic8N(Nest047,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
-            new EncounterStatic8N(Nest047,2,4,4) { Species = 560, Ability = A3 }, // Scrafty
-            new EncounterStatic8N(Nest047,3,4,4) { Species = 766, Ability = A4 }, // Passimian
-            new EncounterStatic8N(Nest050,0,1,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest050,1,2,2) { Species = 185, Ability = A3 }, // Sudowoodo
-            new EncounterStatic8N(Nest050,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
-            new EncounterStatic8N(Nest050,4,4,4) { Species = 874, Ability = A4 }, // Stonjourner
-            new EncounterStatic8N(Nest052,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest052,1,2,2) { Species = 038, Ability = A3 }, // Ninetales
-            new EncounterStatic8N(Nest052,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
-            new EncounterStatic8N(Nest053,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest053,1,2,2) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest053,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest053,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
-            new EncounterStatic8N(Nest053,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
-            new EncounterStatic8N(Nest054,0,0,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest054,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest057,0,0,1) { Species = 273, Ability = A3 }, // Seedot
-            new EncounterStatic8N(Nest057,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
-            new EncounterStatic8N(Nest057,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
-            new EncounterStatic8N(Nest057,4,4,4) { Species = 841, Ability = A4 }, // Flapple
-            new EncounterStatic8N(Nest058,0,0,1) { Species = 273, Ability = A3 }, // Seedot
-            new EncounterStatic8N(Nest058,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
-            new EncounterStatic8N(Nest058,4,4,4) { Species = 275, Ability = A4 }, // Shiftry
-            new EncounterStatic8N(Nest059,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest059,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
-            new EncounterStatic8N(Nest061,2,4,4) { Species = 303, Ability = A3 }, // Mawile
-            new EncounterStatic8N(Nest062,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
-            new EncounterStatic8N(Nest062,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
-            new EncounterStatic8N(Nest062,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
-            new EncounterStatic8N(Nest063,0,0,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest063,0,1,1) { Species = 610, Ability = A3 }, // Axew
-            new EncounterStatic8N(Nest063,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
-            new EncounterStatic8N(Nest063,1,2,2) { Species = 611, Ability = A3 }, // Fraxure
-            new EncounterStatic8N(Nest063,2,4,4) { Species = 783, Ability = A3 }, // Hakamo-o
-            new EncounterStatic8N(Nest063,2,4,4) { Species = 776, Ability = A3 }, // Turtonator
-            new EncounterStatic8N(Nest063,3,4,4) { Species = 784, Ability = A4 }, // Kommo-o
-            new EncounterStatic8N(Nest063,4,4,4) { Species = 612, Ability = A4 }, // Haxorus
-            new EncounterStatic8N(Nest064,3,4,4) { Species = 628, Ability = A4 }, // Braviary
-            new EncounterStatic8N(Nest064,3,4,4) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest066,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest070,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest070,0,1,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest070,1,2,2) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest070,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest073,0,0,1) { Species = 684, Ability = A3 }, // Swirlix
-            new EncounterStatic8N(Nest073,2,4,4) { Species = 685, Ability = A3 }, // Slurpuff
-            new EncounterStatic8N(Nest075,2,4,4) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest076,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest076,1,2,2) { Species = 038, Ability = A3 }, // Ninetales
-            new EncounterStatic8N(Nest076,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
-            new EncounterStatic8N(Nest077,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest078,0,0,1) { Species = 273, Ability = A3 }, // Seedot
-            new EncounterStatic8N(Nest078,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
-            new EncounterStatic8N(Nest078,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
-            new EncounterStatic8N(Nest078,4,4,4) { Species = 841, Ability = A4, CanGigantamax = true }, // Flapple
-            new EncounterStatic8N(Nest079,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
-            new EncounterStatic8N(Nest079,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
-            new EncounterStatic8N(Nest080,0,0,1) { Species = 447, Ability = A3 }, // Riolu
-            new EncounterStatic8N(Nest080,0,0,1) { Species = 066, Ability = A3 }, // Machop
-            new EncounterStatic8N(Nest080,0,1,1) { Species = 759, Ability = A3 }, // Stufful
-            new EncounterStatic8N(Nest080,0,1,1) { Species = 083, Ability = A3, Form = 1 }, // Farfetch’d-1
-            new EncounterStatic8N(Nest080,1,2,2) { Species = 760, Ability = A3 }, // Bewear
-            new EncounterStatic8N(Nest080,1,3,3) { Species = 067, Ability = A3 }, // Machoke
-            new EncounterStatic8N(Nest080,2,3,3) { Species = 870, Ability = A3 }, // Falinks
-            new EncounterStatic8N(Nest080,2,4,4) { Species = 701, Ability = A3 }, // Hawlucha
-            new EncounterStatic8N(Nest080,3,4,4) { Species = 448, Ability = A4 }, // Lucario
-            new EncounterStatic8N(Nest080,3,4,4) { Species = 475, Ability = A4 }, // Gallade
-            new EncounterStatic8N(Nest080,4,4,4) { Species = 865, Ability = A4 }, // Sirfetch’d
-            new EncounterStatic8N(Nest080,4,4,4) { Species = 068, Ability = A4, CanGigantamax = true }, // Machamp
-            new EncounterStatic8N(Nest081,0,0,1) { Species = 755, Ability = A3 }, // Morelull
-            new EncounterStatic8N(Nest081,2,4,4) { Species = 303, Ability = A3 }, // Mawile
-            new EncounterStatic8N(Nest082,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest082,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
-            new EncounterStatic8N(Nest082,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
-            new EncounterStatic8N(Nest082,0,1,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest082,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest082,1,2,2) { Species = 185, Ability = A3 }, // Sudowoodo
-            new EncounterStatic8N(Nest082,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
-            new EncounterStatic8N(Nest082,2,4,4) { Species = 095, Ability = A3 }, // Onix
-            new EncounterStatic8N(Nest082,3,4,4) { Species = 558, Ability = A4 }, // Crustle
-            new EncounterStatic8N(Nest082,3,4,4) { Species = 208, Ability = A4 }, // Steelix
-            new EncounterStatic8N(Nest082,4,4,4) { Species = 874, Ability = A4 }, // Stonjourner
-            new EncounterStatic8N(Nest082,4,4,4) { Species = 839, Ability = A4, CanGigantamax = true }, // Coalossal
-            new EncounterStatic8N(Nest083,1,2,2) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest083,2,3,3) { Species = 600, Ability = A3 }, // Klang
-            new EncounterStatic8N(Nest085,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest085,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
-            new EncounterStatic8N(Nest086,0,0,1) { Species = 684, Ability = A3 }, // Swirlix
-            new EncounterStatic8N(Nest086,2,3,3) { Species = 685, Ability = A3 }, // Slurpuff
-            new EncounterStatic8N(Nest087,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
-            new EncounterStatic8N(Nest087,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
-            new EncounterStatic8N(Nest087,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
-            new EncounterStatic8N(Nest089,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest089,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest089,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
-            new EncounterStatic8N(Nest090,1,2,2) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest091,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest091,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest091,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
-            new EncounterStatic8N(Nest106,1,2,2) { Species = 627, Ability = A3 }, // Rufflet
-            new EncounterStatic8N(Nest106,3,4,4) { Species = 628, Ability = A4 }, // Braviary
-            new EncounterStatic8N(Nest106,4,4,4) { Species = 628, Ability = A4 }, // Braviary
-            new EncounterStatic8N(Nest107,1,2,2) { Species = 627, Ability = A2 }, // Rufflet
-            new EncounterStatic8N(Nest107,4,4,4) { Species = 628, Ability = A2 }, // Braviary
-            new EncounterStatic8N(Nest108,0,1,1) { Species = 127, Ability = A3 }, // Pinsir
-            new EncounterStatic8N(Nest108,1,2,2) { Species = 127, Ability = A3 }, // Pinsir
-            new EncounterStatic8N(Nest108,2,3,3) { Species = 127, Ability = A3 }, // Pinsir
-            new EncounterStatic8N(Nest108,3,4,4) { Species = 127, Ability = A4 }, // Pinsir
-            new EncounterStatic8N(Nest109,0,1,1) { Species = 127, Ability = A2 }, // Pinsir
-            new EncounterStatic8N(Nest109,4,4,4) { Species = 127, Ability = A2 }, // Pinsir
-            new EncounterStatic8N(Nest113,4,4,4) { Species = 038, Ability = A2 }, // Ninetales
-            new EncounterStatic8N(Nest114,4,4,4) { Species = 745, Ability = A4 }, // Lycanroc
-            new EncounterStatic8N(Nest115,3,4,4) { Species = 745, Ability = A2 }, // Lycanroc
-            new EncounterStatic8N(Nest116,2,3,3) { Species = 064, Ability = A3 }, // Kadabra
-            new EncounterStatic8N(Nest117,2,3,3) { Species = 064, Ability = A2 }, // Kadabra
-            new EncounterStatic8N(Nest117,3,4,4) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest117,4,4,4) { Species = 678, Ability = A2, Gender = 0 }, // Meowstic
-            new EncounterStatic8N(Nest122,1,2,2) { Species = 559, Ability = A3 }, // Scraggy
-            new EncounterStatic8N(Nest122,2,3,3) { Species = 766, Ability = A3 }, // Passimian
-            new EncounterStatic8N(Nest122,2,3,3) { Species = 560, Ability = A3 }, // Scrafty
-            new EncounterStatic8N(Nest122,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
-            new EncounterStatic8N(Nest123,0,1,1) { Species = 559, Ability = A2 }, // Scraggy
-            new EncounterStatic8N(Nest123,1,2,2) { Species = 539, Ability = A2 }, // Sawk
-            new EncounterStatic8N(Nest123,2,3,3) { Species = 766, Ability = A2 }, // Passimian
-            new EncounterStatic8N(Nest123,3,4,4) { Species = 539, Ability = A2 }, // Sawk
-            new EncounterStatic8N(Nest123,3,4,4) { Species = 560, Ability = A2 }, // Scrafty
-            new EncounterStatic8N(Nest123,4,4,4) { Species = 865, Ability = A2 }, // Sirfetch’d
-            new EncounterStatic8N(Nest127,4,4,4) { Species = 770, Ability = A2 }, // Palossand
-            new EncounterStatic8N(Nest130,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
-            new EncounterStatic8N(Nest130,2,3,3) { Species = 783, Ability = A3 }, // Hakamo-o
-            new EncounterStatic8N(Nest130,3,4,4) { Species = 841, Ability = A4 }, // Flapple
-            new EncounterStatic8N(Nest130,4,4,4) { Species = 784, Ability = A4 }, // Kommo-o
-            new EncounterStatic8N(Nest131,1,2,2) { Species = 776, Ability = A2 }, // Turtonator
-            new EncounterStatic8N(Nest131,1,2,2) { Species = 782, Ability = A2 }, // Jangmo-o
-            new EncounterStatic8N(Nest131,2,3,3) { Species = 783, Ability = A2 }, // Hakamo-o
-            new EncounterStatic8N(Nest131,3,4,4) { Species = 776, Ability = A2 }, // Turtonator
-            new EncounterStatic8N(Nest131,4,4,4) { Species = 784, Ability = A2 }, // Kommo-o
-            new EncounterStatic8N(Nest135,4,4,4) { Species = 550, Ability = A2 }, // Basculin
-            new EncounterStatic8N(Nest138,0,1,1) { Species = 692, Ability = A3 }, // Clauncher
-            new EncounterStatic8N(Nest138,1,2,2) { Species = 692, Ability = A3 }, // Clauncher
-            new EncounterStatic8N(Nest138,4,4,4) { Species = 693, Ability = A4 }, // Clawitzer
-            new EncounterStatic8N(Nest139,0,1,1) { Species = 692, Ability = A2 }, // Clauncher
-            new EncounterStatic8N(Nest139,3,4,4) { Species = 693, Ability = A2 }, // Clawitzer
-            new EncounterStatic8N(Nest139,4,4,4) { Species = 693, Ability = A2 }, // Clawitzer
-            new EncounterStatic8N(Nest147,1,2,2) { Species = 550, Ability = A2 }, // Basculin
-            new EncounterStatic8N(Nest147,3,4,4) { Species = 550, Ability = A2 }, // Basculin
-            new EncounterStatic8N(Nest148,1,2,2) { Species = 127, Ability = A2 }, // Pinsir
-            new EncounterStatic8N(Nest150,2,3,3) { Species = 841, Ability = A2 }, // Flapple
-            new EncounterStatic8N(Nest150,3,4,4) { Species = 841, Ability = A2 }, // Flapple
-            new EncounterStatic8N(Nest150,4,4,4) { Species = 841, Ability = A2, CanGigantamax = true }, // Flapple
-            new EncounterStatic8N(Nest155,4,4,4) { Species = 745, Ability = A4 }, // Lycanroc
-            new EncounterStatic8N(Nest160,3,4,5) { Species = 038, Ability = A2 }, // Ninetales
-            new EncounterStatic8N(Nest161,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
-            new EncounterStatic8N(Nest161,1,2,2) { Species = 138, Ability = A3 }, // Omanyte
-            new EncounterStatic8N(Nest161,2,3,3) { Species = 550, Ability = A3 }, // Basculin
-            new EncounterStatic8N(Nest161,3,4,4) { Species = 139, Ability = A4 }, // Omastar
-            new EncounterStatic8N(Nest161,3,4,4) { Species = 550, Ability = A4 }, // Basculin
-            new EncounterStatic8N(Nest162,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
-            new EncounterStatic8N(Nest162,2,3,4) { Species = 550, Ability = A2 }, // Basculin
-            new EncounterStatic8N(Nest162,3,4,5) { Species = 139, Ability = A2 }, // Omastar
-            new EncounterStatic8N(Nest164,3,4,5) { Species = 849, Ability = A2 }, // Toxtricity
-            new EncounterStatic8N(Nest164,4,4,5) { Species = 849, Ability = A2, CanGigantamax = true }, // Toxtricity
-            new EncounterStatic8N(Nest165,0,1,1) { Species = 347, Ability = A3 }, // Anorith
-            new EncounterStatic8N(Nest165,2,3,3) { Species = 347, Ability = A3 }, // Anorith
-            new EncounterStatic8N(Nest165,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
-            new EncounterStatic8N(Nest165,4,4,4) { Species = 346, Ability = A4 }, // Cradily
-            new EncounterStatic8N(Nest166,4,4,5) { Species = 348, Ability = A2 }, // Armaldo
-            new EncounterStatic8N(Nest167,0,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest167,3,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest168,0,1,2) { Species = 554, Ability = A2, Form = 1 }, // Darumaka-1
-            new EncounterStatic8N(Nest168,3,4,5) { Species = 555, Ability = A2, Form = 2 }, // Darmanitan-2
-            new EncounterStatic8N(Nest169,0,1,1) { Species = 613, Ability = A3 }, // Cubchoo
-            new EncounterStatic8N(Nest169,1,2,2) { Species = 712, Ability = A3 }, // Bergmite
-            new EncounterStatic8N(Nest170,4,4,5) { Species = 131, Ability = A2 }, // Lapras
-            new EncounterStatic8N(Nest172,1,2,3) { Species = 083, Ability = A2, Form = 1 }, // Farfetch’d-1
-            new EncounterStatic8N(Nest172,3,4,5) { Species = 865, Ability = A2 }, // Sirfetch’d
-            new EncounterStatic8N(Nest172,3,4,5) { Species = 106, Ability = A2 }, // Hitmonlee
-            new EncounterStatic8N(Nest172,4,4,5) { Species = 068, Ability = A2, CanGigantamax = true }, // Machamp
-            new EncounterStatic8N(Nest173,0,1,1) { Species = 029, Ability = A3 }, // Nidoran♀
-            new EncounterStatic8N(Nest173,3,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
-            new EncounterStatic8N(Nest174,1,2,3) { Species = 030, Ability = A2 }, // Nidorina
-            new EncounterStatic8N(Nest177,0,1,1) { Species = 343, Ability = A3 }, // Baltoy
-            new EncounterStatic8N(Nest177,2,3,3) { Species = 575, Ability = A3 }, // Gothorita
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 576, Ability = A4 }, // Gothitelle
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 344, Ability = A4 }, // Claydol
-            new EncounterStatic8N(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest178,0,1,2) { Species = 574, Ability = A2 }, // Gothita
-            new EncounterStatic8N(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
-            new EncounterStatic8N(Nest178,3,4,5) { Species = 576, Ability = A2 }, // Gothitelle
-            new EncounterStatic8N(Nest178,4,4,5) { Species = 576, Ability = A2 }, // Gothitelle
-            new EncounterStatic8N(Nest179,0,1,1) { Species = 874, Ability = A3 }, // Stonjourner
-            new EncounterStatic8N(Nest179,1,2,2) { Species = 874, Ability = A3 }, // Stonjourner
-            new EncounterStatic8N(Nest179,2,3,3) { Species = 874, Ability = A3 }, // Stonjourner
-            new EncounterStatic8N(Nest179,3,4,4) { Species = 303, Ability = A4 }, // Mawile
-            new EncounterStatic8N(Nest180,0,1,2) { Species = 303, Ability = A2 }, // Mawile
-            new EncounterStatic8N(Nest180,2,3,4) { Species = 303, Ability = A2 }, // Mawile
-            new EncounterStatic8N(Nest180,3,4,5) { Species = 303, Ability = A2 }, // Mawile
-            new EncounterStatic8N(Nest180,4,4,5) { Species = 839, Ability = A2, CanGigantamax = true }, // Coalossal
-            new EncounterStatic8N(Nest181,3,4,4) { Species = 303, Ability = A4 }, // Mawile
-            new EncounterStatic8N(Nest182,1,2,3) { Species = 093, Ability = A2 }, // Haunter
-            new EncounterStatic8N(Nest182,2,3,4) { Species = 303, Ability = A2 }, // Mawile
-            new EncounterStatic8N(Nest182,3,4,5) { Species = 709, Ability = A2 }, // Trevenant
-            new EncounterStatic8N(Nest182,3,4,5) { Species = 303, Ability = A2 }, // Mawile
-            new EncounterStatic8N(Nest182,4,4,5) { Species = 094, Ability = A2 }, // Gengar
-            new EncounterStatic8N(Nest183,0,1,1) { Species = 371, Ability = A3 }, // Bagon
-            new EncounterStatic8N(Nest183,1,2,2) { Species = 371, Ability = A3 }, // Bagon
-            new EncounterStatic8N(Nest183,2,3,3) { Species = 372, Ability = A3 }, // Shelgon
-            new EncounterStatic8N(Nest183,3,4,4) { Species = 372, Ability = A4 }, // Shelgon
-            new EncounterStatic8N(Nest183,4,4,4) { Species = 373, Ability = A4 }, // Salamence
-            new EncounterStatic8N(Nest184,0,1,2) { Species = 371, Ability = A2 }, // Bagon
-            new EncounterStatic8N(Nest184,1,2,3) { Species = 776, Ability = A2 }, // Turtonator
-            new EncounterStatic8N(Nest184,2,3,4) { Species = 372, Ability = A2 }, // Shelgon
-            new EncounterStatic8N(Nest184,3,4,5) { Species = 373, Ability = A2 }, // Salamence
-            new EncounterStatic8N(Nest184,4,4,5) { Species = 373, Ability = A2 }, // Salamence
-            new EncounterStatic8N(Nest192,3,4,5) { Species = 854, Ability = A2 }, // Sinistea
-            new EncounterStatic8N(Nest195,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
-            new EncounterStatic8N(Nest195,0,1,1) { Species = 347, Ability = A3 }, // Anorith
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 139, Ability = A4 }, // Omastar
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
-            new EncounterStatic8N(Nest195,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
-            new EncounterStatic8N(Nest196,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
-            new EncounterStatic8N(Nest196,2,2,2) { Species = 139, Ability = A2 }, // Omastar
-            new EncounterStatic8N(Nest196,2,2,3) { Species = 881, Ability = A2 }, // Arctozolt
-            new EncounterStatic8N(Nest196,2,3,4) { Species = 880, Ability = A2 }, // Dracozolt
-            new EncounterStatic8N(Nest196,3,3,4) { Species = 882, Ability = A2 }, // Dracovish
+            new(Nest000,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
+            new(Nest000,2,3,3) { Species = 106, Ability = A3 }, // Hitmonlee
+            new(Nest000,2,4,4) { Species = 107, Ability = A3 }, // Hitmonchan
+            new(Nest000,2,4,4) { Species = 560, Ability = A3 }, // Scrafty
+            new(Nest000,3,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new(Nest000,4,4,4) { Species = 237, Ability = A4 }, // Hitmontop
+            new(Nest001,0,1,1) { Species = 574, Ability = A3 }, // Gothita
+            new(Nest001,2,3,3) { Species = 678, Ability = A3, Gender = 0 }, // Meowstic
+            new(Nest001,2,3,3) { Species = 575, Ability = A3 }, // Gothorita
+            new(Nest001,3,4,4) { Species = 576, Ability = A4 }, // Gothitelle
+            new(Nest001,4,4,4) { Species = 338, Ability = A4 }, // Solrock
+            new(Nest002,0,0,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest002,0,1,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest002,3,4,4) { Species = 558, Ability = A4 }, // Crustle
+            new(Nest002,4,4,4) { Species = 526, Ability = A4 }, // Gigalith
+            new(Nest006,0,1,1) { Species = 223, Ability = A3 }, // Remoraid
+            new(Nest006,0,1,1) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest006,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest007,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest008,1,1,2) { Species = 090, Ability = A3 }, // Shellder
+            new(Nest009,1,1,2) { Species = 083, Ability = A3, Form = 1 }, // Farfetch’d-1
+            new(Nest009,1,2,2) { Species = 539, Ability = A3 }, // Sawk
+            new(Nest009,3,4,4) { Species = 865, Ability = A4 }, // Sirfetch’d
+            new(Nest011,4,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new(Nest012,0,1,1) { Species = 177, Ability = A3 }, // Natu
+            new(Nest012,0,1,1) { Species = 856, Ability = A3 }, // Hatenna
+            new(Nest012,1,1,2) { Species = 825, Ability = A3 }, // Dottler
+            new(Nest012,1,3,2) { Species = 857, Ability = A3 }, // Hattrem
+            new(Nest012,2,4,4) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
+            new(Nest012,3,4,4) { Species = 561, Ability = A4 }, // Sigilyph
+            new(Nest012,4,4,4) { Species = 826, Ability = A4 }, // Orbeetle
+            new(Nest013,2,4,4) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
+            new(Nest014,0,0,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest014,0,1,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest014,2,4,4) { Species = 095, Ability = A3 }, // Onix
+            new(Nest014,3,4,4) { Species = 839, Ability = A4 }, // Coalossal
+            new(Nest014,4,4,4) { Species = 526, Ability = A4 }, // Gigalith
+            new(Nest016,0,1,1) { Species = 220, Ability = A3 }, // Swinub
+            new(Nest016,1,1,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest016,2,3,3) { Species = 329, Ability = A3 }, // Vibrava
+            new(Nest016,2,4,4) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
+            new(Nest016,3,4,4) { Species = 450, Ability = A4 }, // Hippowdon
+            new(Nest016,4,4,4) { Species = 330, Ability = A4 }, // Flygon
+            new(Nest017,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest017,1,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new(Nest017,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest017,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest017,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
+            new(Nest017,3,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest017,4,4,4) { Species = 631, Ability = A4 }, // Heatmor
+            new(Nest017,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new(Nest018,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest018,0,1,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest018,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest018,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest018,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
+            new(Nest018,2,4,4) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest018,3,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest018,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
+            new(Nest019,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest019,1,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new(Nest019,1,2,2) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest019,2,3,3) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest019,2,4,4) { Species = 038, Ability = A3 }, // Ninetales
+            new(Nest019,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new(Nest022,0,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new(Nest022,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new(Nest025,0,0,1) { Species = 273, Ability = A3 }, // Seedot
+            new(Nest025,1,1,2) { Species = 274, Ability = A3 }, // Nuzleaf
+            new(Nest025,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
+            new(Nest026,4,4,4) { Species = 841, Ability = A4 }, // Flapple
+            new(Nest028,0,1,1) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest028,1,1,2) { Species = 043, Ability = A3 }, // Oddish
+            new(Nest028,3,4,4) { Species = 748, Ability = A4 }, // Toxapex
+            new(Nest028,4,4,4) { Species = 435, Ability = A4 }, // Skuntank
+            new(Nest030,0,1,1) { Species = 627, Ability = A3 }, // Rufflet
+            new(Nest030,4,4,4) { Species = 628, Ability = A4 }, // Braviary
+            new(Nest032,0,1,1) { Species = 684, Ability = A3 }, // Swirlix
+            new(Nest032,4,4,4) { Species = 685, Ability = A4 }, // Slurpuff
+            new(Nest033,4,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new(Nest034,4,4,4) { Species = 275, Ability = A4 }, // Shiftry
+            new(Nest035,1,1,2) { Species = 633, Ability = A3 }, // Deino
+            new(Nest035,3,4,4) { Species = 634, Ability = A4 }, // Zweilous
+            new(Nest035,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
+            new(Nest036,0,0,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest036,0,1,1) { Species = 610, Ability = A3 }, // Axew
+            new(Nest036,1,1,2) { Species = 782, Ability = A3 }, // Jangmo-o
+            new(Nest036,2,3,3) { Species = 783, Ability = A3 }, // Hakamo-o
+            new(Nest036,2,4,4) { Species = 611, Ability = A3 }, // Fraxure
+            new(Nest036,2,4,4) { Species = 612, Ability = A3 }, // Haxorus
+            new(Nest036,3,4,4) { Species = 330, Ability = A4 }, // Flygon
+            new(Nest036,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
+            new(Nest036,4,4,4) { Species = 784, Ability = A4 }, // Kommo-o
+            new(Nest037,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
+            new(Nest037,2,4,4) { Species = 783, Ability = A3 }, // Hakamo-o
+            new(Nest037,3,4,4) { Species = 784, Ability = A4 }, // Kommo-o
+            new(Nest037,4,4,4) { Species = 841, Ability = A4 }, // Flapple
+            new(Nest039,1,1,2) { Species = 876, Ability = A3, Gender = 0 }, // Indeedee
+            new(Nest039,4,4,4) { Species = 628, Ability = A4 }, // Braviary
+            new(Nest040,0,1,1) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest040,1,1,2) { Species = 536, Ability = A3 }, // Palpitoad
+            new(Nest040,2,3,3) { Species = 091, Ability = A3 }, // Cloyster
+            new(Nest040,2,4,4) { Species = 746, Ability = A3 }, // Wishiwashi
+            new(Nest040,3,4,4) { Species = 537, Ability = A4 }, // Seismitoad
+            new(Nest040,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
+            new(Nest042,1,3,2) { Species = 710, Ability = A3 }, // Pumpkaboo
+            new(Nest042,4,4,4) { Species = 867, Ability = A3 }, // Runerigus
+            new(Nest042,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
+            new(Nest042,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
+            new(Nest043,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest044,1,2,2) { Species = 632, Ability = A3 }, // Durant
+            new(Nest044,2,3,3) { Species = 600, Ability = A3 }, // Klang
+            new(Nest045,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest045,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest045,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
+            new(Nest046,1,3,3) { Species = 710, Ability = A3 }, // Pumpkaboo
+            new(Nest046,2,4,4) { Species = 711, Ability = A3 }, // Gourgeist
+            new(Nest046,3,4,4) { Species = 711, Ability = A4 }, // Gourgeist
+            new(Nest047,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
+            new(Nest047,2,4,4) { Species = 560, Ability = A3 }, // Scrafty
+            new(Nest047,3,4,4) { Species = 766, Ability = A4 }, // Passimian
+            new(Nest050,0,1,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest050,1,2,2) { Species = 185, Ability = A3 }, // Sudowoodo
+            new(Nest050,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
+            new(Nest050,4,4,4) { Species = 874, Ability = A4 }, // Stonjourner
+            new(Nest052,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest052,1,2,2) { Species = 038, Ability = A3 }, // Ninetales
+            new(Nest052,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
+            new(Nest053,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest053,1,2,2) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest053,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest053,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
+            new(Nest053,4,4,4) { Species = 776, Ability = A4 }, // Turtonator
+            new(Nest054,0,0,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new(Nest054,4,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new(Nest057,0,0,1) { Species = 273, Ability = A3 }, // Seedot
+            new(Nest057,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
+            new(Nest057,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
+            new(Nest057,4,4,4) { Species = 841, Ability = A4 }, // Flapple
+            new(Nest058,0,0,1) { Species = 273, Ability = A3 }, // Seedot
+            new(Nest058,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
+            new(Nest058,4,4,4) { Species = 275, Ability = A4 }, // Shiftry
+            new(Nest059,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest059,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
+            new(Nest061,2,4,4) { Species = 303, Ability = A3 }, // Mawile
+            new(Nest062,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
+            new(Nest062,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
+            new(Nest062,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
+            new(Nest063,0,0,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest063,0,1,1) { Species = 610, Ability = A3 }, // Axew
+            new(Nest063,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
+            new(Nest063,1,2,2) { Species = 611, Ability = A3 }, // Fraxure
+            new(Nest063,2,4,4) { Species = 783, Ability = A3 }, // Hakamo-o
+            new(Nest063,2,4,4) { Species = 776, Ability = A3 }, // Turtonator
+            new(Nest063,3,4,4) { Species = 784, Ability = A4 }, // Kommo-o
+            new(Nest063,4,4,4) { Species = 612, Ability = A4 }, // Haxorus
+            new(Nest064,3,4,4) { Species = 628, Ability = A4 }, // Braviary
+            new(Nest064,3,4,4) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
+            new(Nest066,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest070,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest070,0,1,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest070,1,2,2) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest070,2,3,3) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest073,0,0,1) { Species = 684, Ability = A3 }, // Swirlix
+            new(Nest073,2,4,4) { Species = 685, Ability = A3 }, // Slurpuff
+            new(Nest075,2,4,4) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest076,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest076,1,2,2) { Species = 038, Ability = A3 }, // Ninetales
+            new(Nest076,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
+            new(Nest077,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest078,0,0,1) { Species = 273, Ability = A3 }, // Seedot
+            new(Nest078,1,2,2) { Species = 274, Ability = A3 }, // Nuzleaf
+            new(Nest078,2,4,4) { Species = 275, Ability = A3 }, // Shiftry
+            new(Nest078,4,4,4) { Species = 841, Ability = A4, CanGigantamax = true }, // Flapple
+            new(Nest079,0,0,1) { Species = 037, Ability = A3 }, // Vulpix
+            new(Nest079,3,4,4) { Species = 038, Ability = A4 }, // Ninetales
+            new(Nest080,0,0,1) { Species = 447, Ability = A3 }, // Riolu
+            new(Nest080,0,0,1) { Species = 066, Ability = A3 }, // Machop
+            new(Nest080,0,1,1) { Species = 759, Ability = A3 }, // Stufful
+            new(Nest080,0,1,1) { Species = 083, Ability = A3, Form = 1 }, // Farfetch’d-1
+            new(Nest080,1,2,2) { Species = 760, Ability = A3 }, // Bewear
+            new(Nest080,1,3,3) { Species = 067, Ability = A3 }, // Machoke
+            new(Nest080,2,3,3) { Species = 870, Ability = A3 }, // Falinks
+            new(Nest080,2,4,4) { Species = 701, Ability = A3 }, // Hawlucha
+            new(Nest080,3,4,4) { Species = 448, Ability = A4 }, // Lucario
+            new(Nest080,3,4,4) { Species = 475, Ability = A4 }, // Gallade
+            new(Nest080,4,4,4) { Species = 865, Ability = A4 }, // Sirfetch’d
+            new(Nest080,4,4,4) { Species = 068, Ability = A4, CanGigantamax = true }, // Machamp
+            new(Nest081,0,0,1) { Species = 755, Ability = A3 }, // Morelull
+            new(Nest081,2,4,4) { Species = 303, Ability = A3 }, // Mawile
+            new(Nest082,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest082,0,0,1) { Species = 438, Ability = A3 }, // Bonsly
+            new(Nest082,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
+            new(Nest082,0,1,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest082,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest082,1,2,2) { Species = 185, Ability = A3 }, // Sudowoodo
+            new(Nest082,2,3,3) { Species = 689, Ability = A3 }, // Barbaracle
+            new(Nest082,2,4,4) { Species = 095, Ability = A3 }, // Onix
+            new(Nest082,3,4,4) { Species = 558, Ability = A4 }, // Crustle
+            new(Nest082,3,4,4) { Species = 208, Ability = A4 }, // Steelix
+            new(Nest082,4,4,4) { Species = 874, Ability = A4 }, // Stonjourner
+            new(Nest082,4,4,4) { Species = 839, Ability = A4, CanGigantamax = true }, // Coalossal
+            new(Nest083,1,2,2) { Species = 632, Ability = A3 }, // Durant
+            new(Nest083,2,3,3) { Species = 600, Ability = A3 }, // Klang
+            new(Nest085,1,2,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest085,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
+            new(Nest086,0,0,1) { Species = 684, Ability = A3 }, // Swirlix
+            new(Nest086,2,3,3) { Species = 685, Ability = A3 }, // Slurpuff
+            new(Nest087,0,1,1) { Species = 559, Ability = A3 }, // Scraggy
+            new(Nest087,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
+            new(Nest087,4,4,4) { Species = 635, Ability = A4 }, // Hydreigon
+            new(Nest089,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest089,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest089,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
+            new(Nest090,1,2,2) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest091,0,1,1) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest091,1,2,2) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest091,4,4,4) { Species = 589, Ability = A4 }, // Escavalier
+            new(Nest106,1,2,2) { Species = 627, Ability = A3 }, // Rufflet
+            new(Nest106,3,4,4) { Species = 628, Ability = A4 }, // Braviary
+            new(Nest106,4,4,4) { Species = 628, Ability = A4 }, // Braviary
+            new(Nest107,1,2,2) { Species = 627, Ability = A2 }, // Rufflet
+            new(Nest107,4,4,4) { Species = 628, Ability = A2 }, // Braviary
+            new(Nest108,0,1,1) { Species = 127, Ability = A3 }, // Pinsir
+            new(Nest108,1,2,2) { Species = 127, Ability = A3 }, // Pinsir
+            new(Nest108,2,3,3) { Species = 127, Ability = A3 }, // Pinsir
+            new(Nest108,3,4,4) { Species = 127, Ability = A4 }, // Pinsir
+            new(Nest109,0,1,1) { Species = 127, Ability = A2 }, // Pinsir
+            new(Nest109,4,4,4) { Species = 127, Ability = A2 }, // Pinsir
+            new(Nest113,4,4,4) { Species = 038, Ability = A2 }, // Ninetales
+            new(Nest114,4,4,4) { Species = 745, Ability = A4 }, // Lycanroc
+            new(Nest115,3,4,4) { Species = 745, Ability = A2 }, // Lycanroc
+            new(Nest116,2,3,3) { Species = 064, Ability = A3 }, // Kadabra
+            new(Nest117,2,3,3) { Species = 064, Ability = A2 }, // Kadabra
+            new(Nest117,3,4,4) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new(Nest117,4,4,4) { Species = 678, Ability = A2, Gender = 0 }, // Meowstic
+            new(Nest122,1,2,2) { Species = 559, Ability = A3 }, // Scraggy
+            new(Nest122,2,3,3) { Species = 766, Ability = A3 }, // Passimian
+            new(Nest122,2,3,3) { Species = 560, Ability = A3 }, // Scrafty
+            new(Nest122,3,4,4) { Species = 560, Ability = A4 }, // Scrafty
+            new(Nest123,0,1,1) { Species = 559, Ability = A2 }, // Scraggy
+            new(Nest123,1,2,2) { Species = 539, Ability = A2 }, // Sawk
+            new(Nest123,2,3,3) { Species = 766, Ability = A2 }, // Passimian
+            new(Nest123,3,4,4) { Species = 539, Ability = A2 }, // Sawk
+            new(Nest123,3,4,4) { Species = 560, Ability = A2 }, // Scrafty
+            new(Nest123,4,4,4) { Species = 865, Ability = A2 }, // Sirfetch’d
+            new(Nest127,4,4,4) { Species = 770, Ability = A2 }, // Palossand
+            new(Nest130,0,1,1) { Species = 782, Ability = A3 }, // Jangmo-o
+            new(Nest130,2,3,3) { Species = 783, Ability = A3 }, // Hakamo-o
+            new(Nest130,3,4,4) { Species = 841, Ability = A4 }, // Flapple
+            new(Nest130,4,4,4) { Species = 784, Ability = A4 }, // Kommo-o
+            new(Nest131,1,2,2) { Species = 776, Ability = A2 }, // Turtonator
+            new(Nest131,1,2,2) { Species = 782, Ability = A2 }, // Jangmo-o
+            new(Nest131,2,3,3) { Species = 783, Ability = A2 }, // Hakamo-o
+            new(Nest131,3,4,4) { Species = 776, Ability = A2 }, // Turtonator
+            new(Nest131,4,4,4) { Species = 784, Ability = A2 }, // Kommo-o
+            new(Nest135,4,4,4) { Species = 550, Ability = A2 }, // Basculin
+            new(Nest138,0,1,1) { Species = 692, Ability = A3 }, // Clauncher
+            new(Nest138,1,2,2) { Species = 692, Ability = A3 }, // Clauncher
+            new(Nest138,4,4,4) { Species = 693, Ability = A4 }, // Clawitzer
+            new(Nest139,0,1,1) { Species = 692, Ability = A2 }, // Clauncher
+            new(Nest139,3,4,4) { Species = 693, Ability = A2 }, // Clawitzer
+            new(Nest139,4,4,4) { Species = 693, Ability = A2 }, // Clawitzer
+            new(Nest147,1,2,2) { Species = 550, Ability = A2 }, // Basculin
+            new(Nest147,3,4,4) { Species = 550, Ability = A2 }, // Basculin
+            new(Nest148,1,2,2) { Species = 127, Ability = A2 }, // Pinsir
+            new(Nest150,2,3,3) { Species = 841, Ability = A2 }, // Flapple
+            new(Nest150,3,4,4) { Species = 841, Ability = A2 }, // Flapple
+            new(Nest150,4,4,4) { Species = 841, Ability = A2, CanGigantamax = true }, // Flapple
+            new(Nest155,4,4,4) { Species = 745, Ability = A4 }, // Lycanroc
+            new(Nest160,3,4,5) { Species = 038, Ability = A2 }, // Ninetales
+            new(Nest161,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
+            new(Nest161,1,2,2) { Species = 138, Ability = A3 }, // Omanyte
+            new(Nest161,2,3,3) { Species = 550, Ability = A3 }, // Basculin
+            new(Nest161,3,4,4) { Species = 139, Ability = A4 }, // Omastar
+            new(Nest161,3,4,4) { Species = 550, Ability = A4 }, // Basculin
+            new(Nest162,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
+            new(Nest162,2,3,4) { Species = 550, Ability = A2 }, // Basculin
+            new(Nest162,3,4,5) { Species = 139, Ability = A2 }, // Omastar
+            new(Nest164,3,4,5) { Species = 849, Ability = A2 }, // Toxtricity
+            new(Nest164,4,4,5) { Species = 849, Ability = A2, CanGigantamax = true }, // Toxtricity
+            new(Nest165,0,1,1) { Species = 347, Ability = A3 }, // Anorith
+            new(Nest165,2,3,3) { Species = 347, Ability = A3 }, // Anorith
+            new(Nest165,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new(Nest165,4,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new(Nest166,4,4,5) { Species = 348, Ability = A2 }, // Armaldo
+            new(Nest167,0,1,1) { Species = 554, Ability = A3, Form = 1 }, // Darumaka-1
+            new(Nest167,3,4,4) { Species = 555, Ability = A4, Form = 2 }, // Darmanitan-2
+            new(Nest168,0,1,2) { Species = 554, Ability = A2, Form = 1 }, // Darumaka-1
+            new(Nest168,3,4,5) { Species = 555, Ability = A2, Form = 2 }, // Darmanitan-2
+            new(Nest169,0,1,1) { Species = 613, Ability = A3 }, // Cubchoo
+            new(Nest169,1,2,2) { Species = 712, Ability = A3 }, // Bergmite
+            new(Nest170,4,4,5) { Species = 131, Ability = A2 }, // Lapras
+            new(Nest172,1,2,3) { Species = 083, Ability = A2, Form = 1 }, // Farfetch’d-1
+            new(Nest172,3,4,5) { Species = 865, Ability = A2 }, // Sirfetch’d
+            new(Nest172,3,4,5) { Species = 106, Ability = A2 }, // Hitmonlee
+            new(Nest172,4,4,5) { Species = 068, Ability = A2, CanGigantamax = true }, // Machamp
+            new(Nest173,0,1,1) { Species = 029, Ability = A3 }, // Nidoran♀
+            new(Nest173,3,4,4) { Species = 031, Ability = A4 }, // Nidoqueen
+            new(Nest174,1,2,3) { Species = 030, Ability = A2 }, // Nidorina
+            new(Nest177,0,1,1) { Species = 343, Ability = A3 }, // Baltoy
+            new(Nest177,2,3,3) { Species = 575, Ability = A3 }, // Gothorita
+            new(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 0 }, // Indeedee
+            new(Nest177,3,4,4) { Species = 576, Ability = A4 }, // Gothitelle
+            new(Nest177,3,4,4) { Species = 344, Ability = A4 }, // Claydol
+            new(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new(Nest178,0,1,2) { Species = 574, Ability = A2 }, // Gothita
+            new(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 0 }, // Indeedee
+            new(Nest178,3,4,5) { Species = 576, Ability = A2 }, // Gothitelle
+            new(Nest178,4,4,5) { Species = 576, Ability = A2 }, // Gothitelle
+            new(Nest179,0,1,1) { Species = 874, Ability = A3 }, // Stonjourner
+            new(Nest179,1,2,2) { Species = 874, Ability = A3 }, // Stonjourner
+            new(Nest179,2,3,3) { Species = 874, Ability = A3 }, // Stonjourner
+            new(Nest179,3,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new(Nest180,0,1,2) { Species = 303, Ability = A2 }, // Mawile
+            new(Nest180,2,3,4) { Species = 303, Ability = A2 }, // Mawile
+            new(Nest180,3,4,5) { Species = 303, Ability = A2 }, // Mawile
+            new(Nest180,4,4,5) { Species = 839, Ability = A2, CanGigantamax = true }, // Coalossal
+            new(Nest181,3,4,4) { Species = 303, Ability = A4 }, // Mawile
+            new(Nest182,1,2,3) { Species = 093, Ability = A2 }, // Haunter
+            new(Nest182,2,3,4) { Species = 303, Ability = A2 }, // Mawile
+            new(Nest182,3,4,5) { Species = 709, Ability = A2 }, // Trevenant
+            new(Nest182,3,4,5) { Species = 303, Ability = A2 }, // Mawile
+            new(Nest182,4,4,5) { Species = 094, Ability = A2 }, // Gengar
+            new(Nest183,0,1,1) { Species = 371, Ability = A3 }, // Bagon
+            new(Nest183,1,2,2) { Species = 371, Ability = A3 }, // Bagon
+            new(Nest183,2,3,3) { Species = 372, Ability = A3 }, // Shelgon
+            new(Nest183,3,4,4) { Species = 372, Ability = A4 }, // Shelgon
+            new(Nest183,4,4,4) { Species = 373, Ability = A4 }, // Salamence
+            new(Nest184,0,1,2) { Species = 371, Ability = A2 }, // Bagon
+            new(Nest184,1,2,3) { Species = 776, Ability = A2 }, // Turtonator
+            new(Nest184,2,3,4) { Species = 372, Ability = A2 }, // Shelgon
+            new(Nest184,3,4,5) { Species = 373, Ability = A2 }, // Salamence
+            new(Nest184,4,4,5) { Species = 373, Ability = A2 }, // Salamence
+            new(Nest192,3,4,5) { Species = 854, Ability = A2 }, // Sinistea
+            new(Nest195,0,1,1) { Species = 138, Ability = A3 }, // Omanyte
+            new(Nest195,0,1,1) { Species = 347, Ability = A3 }, // Anorith
+            new(Nest195,3,4,4) { Species = 139, Ability = A4 }, // Omastar
+            new(Nest195,3,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new(Nest195,3,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new(Nest195,4,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new(Nest196,0,1,2) { Species = 138, Ability = A2 }, // Omanyte
+            new(Nest196,2,2,2) { Species = 139, Ability = A2 }, // Omastar
+            new(Nest196,2,2,3) { Species = 881, Ability = A2 }, // Arctozolt
+            new(Nest196,2,3,4) { Species = 880, Ability = A2 }, // Dracozolt
+            new(Nest196,3,3,4) { Species = 882, Ability = A2 }, // Dracovish
         };
 
         internal static readonly EncounterStatic8N[] Nest_SH =
         {
-            new EncounterStatic8N(Nest000,0,1,1) { Species = 453, Ability = A3 }, // Croagunk
-            new EncounterStatic8N(Nest000,2,3,3) { Species = 107, Ability = A3 }, // Hitmonchan
-            new EncounterStatic8N(Nest000,2,4,4) { Species = 106, Ability = A3 }, // Hitmonlee
-            new EncounterStatic8N(Nest000,2,4,4) { Species = 454, Ability = A3 }, // Toxicroak
-            new EncounterStatic8N(Nest000,3,4,4) { Species = 237, Ability = A4 }, // Hitmontop
-            new EncounterStatic8N(Nest000,4,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
-            new EncounterStatic8N(Nest001,0,1,1) { Species = 577, Ability = A3 }, // Solosis
-            new EncounterStatic8N(Nest001,2,3,3) { Species = 678, Ability = A3, Gender = 1, Form = 1 }, // Meowstic-1
-            new EncounterStatic8N(Nest001,2,3,3) { Species = 578, Ability = A3 }, // Duosion
-            new EncounterStatic8N(Nest001,3,4,4) { Species = 579, Ability = A4 }, // Reuniclus
-            new EncounterStatic8N(Nest001,4,4,4) { Species = 337, Ability = A4 }, // Lunatone
-            new EncounterStatic8N(Nest002,0,0,1) { Species = 688, Ability = A3 }, // Binacle
-            new EncounterStatic8N(Nest002,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest002,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
-            new EncounterStatic8N(Nest002,4,4,4) { Species = 558, Ability = A4 }, // Crustle
-            new EncounterStatic8N(Nest006,0,1,2) { Species = 223, Ability = A3 }, // Remoraid
-            new EncounterStatic8N(Nest006,0,1,2) { Species = 170, Ability = A3 }, // Chinchou
-            new EncounterStatic8N(Nest006,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest007,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest008,1,1,1) { Species = 090, Ability = A3 }, // Shellder
-            new EncounterStatic8N(Nest009,1,1,2) { Species = 759, Ability = A3 }, // Stufful
-            new EncounterStatic8N(Nest009,1,2,2) { Species = 538, Ability = A3 }, // Throh
-            new EncounterStatic8N(Nest009,3,4,4) { Species = 760, Ability = A4 }, // Bewear
-            new EncounterStatic8N(Nest011,4,4,4) { Species = 208, Ability = A4 }, // Steelix
-            new EncounterStatic8N(Nest012,0,1,2) { Species = 177, Ability = A3 }, // Natu
-            new EncounterStatic8N(Nest012,0,1,2) { Species = 856, Ability = A3 }, // Hatenna
-            new EncounterStatic8N(Nest012,1,1,2) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
-            new EncounterStatic8N(Nest012,1,3,3) { Species = 857, Ability = A3 }, // Hattrem
-            new EncounterStatic8N(Nest012,2,4,4) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest012,3,4,4) { Species = 765, Ability = A4 }, // Oranguru
-            new EncounterStatic8N(Nest012,4,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
-            new EncounterStatic8N(Nest013,2,4,4) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest014,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
-            new EncounterStatic8N(Nest014,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest014,2,4,4) { Species = 839, Ability = A3 }, // Coalossal
-            new EncounterStatic8N(Nest014,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
-            new EncounterStatic8N(Nest014,4,4,4) { Species = 095, Ability = A4 }, // Onix
-            new EncounterStatic8N(Nest016,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest016,1,1,1) { Species = 220, Ability = A3 }, // Swinub
-            new EncounterStatic8N(Nest016,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
-            new EncounterStatic8N(Nest016,2,4,4) { Species = 329, Ability = A3 }, // Vibrava
-            new EncounterStatic8N(Nest016,3,4,4) { Species = 330, Ability = A4 }, // Flygon
-            new EncounterStatic8N(Nest016,4,4,4) { Species = 450, Ability = A4 }, // Hippowdon
-            new EncounterStatic8N(Nest017,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest017,1,1,1) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest017,1,2,2) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest017,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest017,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
-            new EncounterStatic8N(Nest017,3,4,4) { Species = 631, Ability = A4 }, // Heatmor
-            new EncounterStatic8N(Nest017,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
-            new EncounterStatic8N(Nest017,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest018,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest018,0,1,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest018,1,2,2) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest018,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest018,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
-            new EncounterStatic8N(Nest018,2,4,4) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest018,3,4,4) { Species = 324, Ability = A4 }, // Torkoal
-            new EncounterStatic8N(Nest018,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest019,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest019,1,1,1) { Species = 324, Ability = A3 }, // Torkoal
-            new EncounterStatic8N(Nest019,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest019,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest019,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
-            new EncounterStatic8N(Nest019,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest022,0,1,1) { Species = 225, Ability = A3 }, // Delibird
-            new EncounterStatic8N(Nest022,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
-            new EncounterStatic8N(Nest025,0,0,1) { Species = 270, Ability = A3 }, // Lotad
-            new EncounterStatic8N(Nest025,1,1,2) { Species = 271, Ability = A3 }, // Lombre
-            new EncounterStatic8N(Nest025,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
-            new EncounterStatic8N(Nest026,4,4,4) { Species = 842, Ability = A4 }, // Appletun
-            new EncounterStatic8N(Nest028,0,1,1) { Species = 043, Ability = A3 }, // Oddish
-            new EncounterStatic8N(Nest028,1,1,1) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest028,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
-            new EncounterStatic8N(Nest028,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
-            new EncounterStatic8N(Nest030,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
-            new EncounterStatic8N(Nest030,4,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest032,0,1,1) { Species = 682, Ability = A3 }, // Spritzee
-            new EncounterStatic8N(Nest032,4,4,4) { Species = 683, Ability = A4 }, // Aromatisse
-            new EncounterStatic8N(Nest033,4,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
-            new EncounterStatic8N(Nest034,4,4,4) { Species = 302, Ability = A4 }, // Sableye
-            new EncounterStatic8N(Nest035,1,1,2) { Species = 629, Ability = A3 }, // Vullaby
-            new EncounterStatic8N(Nest035,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest035,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
-            new EncounterStatic8N(Nest036,0,0,1) { Species = 610, Ability = A3 }, // Axew
-            new EncounterStatic8N(Nest036,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest036,1,1,2) { Species = 704, Ability = A3 }, // Goomy
-            new EncounterStatic8N(Nest036,2,3,3) { Species = 611, Ability = A3 }, // Fraxure
-            new EncounterStatic8N(Nest036,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
-            new EncounterStatic8N(Nest036,2,4,4) { Species = 330, Ability = A3 }, // Flygon
-            new EncounterStatic8N(Nest036,3,4,4) { Species = 612, Ability = A4 }, // Haxorus
-            new EncounterStatic8N(Nest036,4,4,4) { Species = 780, Ability = A4 }, // Drampa
-            new EncounterStatic8N(Nest036,4,4,4) { Species = 706, Ability = A4 }, // Goodra
-            new EncounterStatic8N(Nest037,0,1,1) { Species = 704, Ability = A3 }, // Goomy
-            new EncounterStatic8N(Nest037,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
-            new EncounterStatic8N(Nest037,3,4,4) { Species = 706, Ability = A4 }, // Goodra
-            new EncounterStatic8N(Nest037,4,4,4) { Species = 842, Ability = A4 }, // Appletun
-            new EncounterStatic8N(Nest039,1,1,2) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest039,4,4,4) { Species = 765, Ability = A4 }, // Oranguru
-            new EncounterStatic8N(Nest040,0,1,1) { Species = 536, Ability = A3 }, // Palpitoad
-            new EncounterStatic8N(Nest040,1,1,2) { Species = 747, Ability = A3 }, // Mareanie
-            new EncounterStatic8N(Nest040,2,3,3) { Species = 748, Ability = A3 }, // Toxapex
-            new EncounterStatic8N(Nest040,2,4,4) { Species = 091, Ability = A3 }, // Cloyster
-            new EncounterStatic8N(Nest040,3,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
-            new EncounterStatic8N(Nest040,4,4,4) { Species = 537, Ability = A4 }, // Seismitoad
-            new EncounterStatic8N(Nest042,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
-            new EncounterStatic8N(Nest042,4,4,4) { Species = 302, Ability = A3 }, // Sableye
-            new EncounterStatic8N(Nest042,3,4,4) { Species = 867, Ability = A4 }, // Runerigus
-            new EncounterStatic8N(Nest042,3,4,4) { Species = 864, Ability = A4 }, // Cursola
-            new EncounterStatic8N(Nest043,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest044,1,2,2) { Species = 600, Ability = A3 }, // Klang
-            new EncounterStatic8N(Nest044,2,3,3) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest045,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest045,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest045,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
-            new EncounterStatic8N(Nest046,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
-            new EncounterStatic8N(Nest046,2,4,4) { Species = 302, Ability = A3 }, // Sableye
-            new EncounterStatic8N(Nest046,3,4,4) { Species = 864, Ability = A4 }, // Cursola
-            new EncounterStatic8N(Nest047,0,1,1) { Species = 453, Ability = A3 }, // Croagunk
-            new EncounterStatic8N(Nest047,2,4,4) { Species = 454, Ability = A3 }, // Toxicroak
-            new EncounterStatic8N(Nest047,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
-            new EncounterStatic8N(Nest050,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
-            new EncounterStatic8N(Nest050,1,2,2) { Species = 246, Ability = A3 }, // Larvitar
-            new EncounterStatic8N(Nest050,2,3,3) { Species = 247, Ability = A3 }, // Pupitar
-            new EncounterStatic8N(Nest050,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
-            new EncounterStatic8N(Nest052,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest052,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest052,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest053,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest053,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest053,2,3,3) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest053,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest053,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest054,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
-            new EncounterStatic8N(Nest054,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
-            new EncounterStatic8N(Nest057,0,0,1) { Species = 270, Ability = A3 }, // Lotad
-            new EncounterStatic8N(Nest057,1,2,2) { Species = 271, Ability = A3 }, // Lombre
-            new EncounterStatic8N(Nest057,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
-            new EncounterStatic8N(Nest057,4,4,4) { Species = 842, Ability = A4 }, // Appletun
-            new EncounterStatic8N(Nest058,0,0,1) { Species = 270, Ability = A3 }, // Lotad
-            new EncounterStatic8N(Nest058,1,2,2) { Species = 271, Ability = A3 }, // Lombre
-            new EncounterStatic8N(Nest058,4,4,4) { Species = 272, Ability = A4 }, // Ludicolo
-            new EncounterStatic8N(Nest059,1,2,2) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest059,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest061,2,4,4) { Species = 078, Ability = A3, Form = 1 }, // Rapidash-1
-            new EncounterStatic8N(Nest062,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
-            new EncounterStatic8N(Nest062,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest062,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
-            new EncounterStatic8N(Nest063,0,0,1) { Species = 610, Ability = A3 }, // Axew
-            new EncounterStatic8N(Nest063,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
-            new EncounterStatic8N(Nest063,0,1,1) { Species = 704, Ability = A3 }, // Goomy
-            new EncounterStatic8N(Nest063,1,2,2) { Species = 329, Ability = A3 }, // Vibrava
-            new EncounterStatic8N(Nest063,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
-            new EncounterStatic8N(Nest063,2,4,4) { Species = 780, Ability = A3 }, // Drampa
-            new EncounterStatic8N(Nest063,3,4,4) { Species = 706, Ability = A4 }, // Goodra
-            new EncounterStatic8N(Nest063,4,4,4) { Species = 330, Ability = A4 }, // Flygon
-            new EncounterStatic8N(Nest064,3,4,4) { Species = 765, Ability = A4 }, // Oranguru
-            new EncounterStatic8N(Nest064,3,4,4) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest066,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest070,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest070,0,1,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest070,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest070,2,3,3) { Species = 608, Ability = A3 }, // Lampent
-            new EncounterStatic8N(Nest073,0,0,1) { Species = 682, Ability = A3 }, // Spritzee
-            new EncounterStatic8N(Nest073,2,4,4) { Species = 683, Ability = A3 }, // Aromatisse
-            new EncounterStatic8N(Nest075,2,4,4) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest076,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest076,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
-            new EncounterStatic8N(Nest076,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest077,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest078,0,0,1) { Species = 270, Ability = A3 }, // Lotad
-            new EncounterStatic8N(Nest078,1,2,2) { Species = 271, Ability = A3 }, // Lombre
-            new EncounterStatic8N(Nest078,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
-            new EncounterStatic8N(Nest078,4,4,4) { Species = 842, Ability = A4, CanGigantamax = true }, // Appletun
-            new EncounterStatic8N(Nest079,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
-            new EncounterStatic8N(Nest079,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
-            new EncounterStatic8N(Nest080,0,0,1) { Species = 679, Ability = A3 }, // Honedge
-            new EncounterStatic8N(Nest080,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
-            new EncounterStatic8N(Nest080,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
-            new EncounterStatic8N(Nest080,0,1,1) { Species = 092, Ability = A3 }, // Gastly
-            new EncounterStatic8N(Nest080,1,2,2) { Species = 680, Ability = A3 }, // Doublade
-            new EncounterStatic8N(Nest080,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
-            new EncounterStatic8N(Nest080,2,3,3) { Species = 093, Ability = A3 }, // Haunter
-            new EncounterStatic8N(Nest080,2,4,4) { Species = 302, Ability = A3 }, // Sableye
-            new EncounterStatic8N(Nest080,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
-            new EncounterStatic8N(Nest080,3,4,4) { Species = 864, Ability = A4 }, // Cursola
-            new EncounterStatic8N(Nest080,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
-            new EncounterStatic8N(Nest080,4,4,4) { Species = 094, Ability = A4, CanGigantamax = true }, // Gengar
-            new EncounterStatic8N(Nest081,0,0,1) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
-            new EncounterStatic8N(Nest081,2,4,4) { Species = 078, Ability = A3, Form = 1 }, // Rapidash-1
-            new EncounterStatic8N(Nest082,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
-            new EncounterStatic8N(Nest082,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
-            new EncounterStatic8N(Nest082,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
-            new EncounterStatic8N(Nest082,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
-            new EncounterStatic8N(Nest082,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
-            new EncounterStatic8N(Nest082,1,2,2) { Species = 225, Ability = A3 }, // Delibird
-            new EncounterStatic8N(Nest082,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
-            new EncounterStatic8N(Nest082,2,4,4) { Species = 362, Ability = A3 }, // Glalie
-            new EncounterStatic8N(Nest082,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
-            new EncounterStatic8N(Nest082,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
-            new EncounterStatic8N(Nest082,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
-            new EncounterStatic8N(Nest082,4,4,4) { Species = 131, Ability = A4, CanGigantamax = true }, // Lapras
-            new EncounterStatic8N(Nest083,1,2,2) { Species = 600, Ability = A3 }, // Klang
-            new EncounterStatic8N(Nest083,2,3,3) { Species = 632, Ability = A3 }, // Durant
-            new EncounterStatic8N(Nest085,1,2,2) { Species = 757, Ability = A3 }, // Salandit
-            new EncounterStatic8N(Nest085,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
-            new EncounterStatic8N(Nest086,0,0,1) { Species = 682, Ability = A3 }, // Spritzee
-            new EncounterStatic8N(Nest086,2,3,3) { Species = 683, Ability = A3 }, // Aromatisse
-            new EncounterStatic8N(Nest087,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
-            new EncounterStatic8N(Nest087,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest087,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
-            new EncounterStatic8N(Nest089,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest089,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest089,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
-            new EncounterStatic8N(Nest090,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest091,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
-            new EncounterStatic8N(Nest091,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
-            new EncounterStatic8N(Nest091,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
-            new EncounterStatic8N(Nest106,1,2,2) { Species = 629, Ability = A3 }, // Vullaby
-            new EncounterStatic8N(Nest106,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest106,4,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
-            new EncounterStatic8N(Nest107,1,2,2) { Species = 629, Ability = A2 }, // Vullaby
-            new EncounterStatic8N(Nest107,4,4,4) { Species = 630, Ability = A2 }, // Mandibuzz
-            new EncounterStatic8N(Nest108,0,1,1) { Species = 214, Ability = A3 }, // Heracross
-            new EncounterStatic8N(Nest108,1,2,2) { Species = 214, Ability = A3 }, // Heracross
-            new EncounterStatic8N(Nest108,2,3,3) { Species = 214, Ability = A3 }, // Heracross
-            new EncounterStatic8N(Nest108,3,4,4) { Species = 214, Ability = A4 }, // Heracross
-            new EncounterStatic8N(Nest109,0,1,1) { Species = 214, Ability = A2 }, // Heracross
-            new EncounterStatic8N(Nest109,4,4,4) { Species = 214, Ability = A2 }, // Heracross
-            new EncounterStatic8N(Nest113,4,4,4) { Species = 059, Ability = A2 }, // Arcanine
-            new EncounterStatic8N(Nest114,4,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest115,3,4,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest116,2,3,3) { Species = 765, Ability = A3 }, // Oranguru
-            new EncounterStatic8N(Nest117,2,3,3) { Species = 765, Ability = A2 }, // Oranguru
-            new EncounterStatic8N(Nest117,3,4,4) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest117,4,4,4) { Species = 678, Ability = A2, Gender = 1, Form = 1 }, // Meowstic-1
-            new EncounterStatic8N(Nest122,1,2,2) { Species = 453, Ability = A3 }, // Croagunk
-            new EncounterStatic8N(Nest122,2,3,3) { Species = 853, Ability = A3 }, // Grapploct
-            new EncounterStatic8N(Nest122,2,3,3) { Species = 454, Ability = A3 }, // Toxicroak
-            new EncounterStatic8N(Nest122,3,4,4) { Species = 454, Ability = A4 }, // Toxicroak
-            new EncounterStatic8N(Nest123,0,1,1) { Species = 453, Ability = A2 }, // Croagunk
-            new EncounterStatic8N(Nest123,1,2,2) { Species = 538, Ability = A2 }, // Throh
-            new EncounterStatic8N(Nest123,2,3,3) { Species = 620, Ability = A2 }, // Mienshao
-            new EncounterStatic8N(Nest123,3,4,4) { Species = 538, Ability = A2 }, // Throh
-            new EncounterStatic8N(Nest123,3,4,4) { Species = 454, Ability = A2 }, // Toxicroak
-            new EncounterStatic8N(Nest123,4,4,4) { Species = 870, Ability = A2 }, // Falinks
-            new EncounterStatic8N(Nest127,4,4,4) { Species = 864, Ability = A2 }, // Cursola
-            new EncounterStatic8N(Nest130,0,1,1) { Species = 704, Ability = A3 }, // Goomy
-            new EncounterStatic8N(Nest130,2,3,3) { Species = 705, Ability = A3 }, // Sliggoo
-            new EncounterStatic8N(Nest130,3,4,4) { Species = 842, Ability = A4 }, // Appletun
-            new EncounterStatic8N(Nest130,4,4,4) { Species = 706, Ability = A4 }, // Goodra
-            new EncounterStatic8N(Nest131,1,2,2) { Species = 780, Ability = A2 }, // Drampa
-            new EncounterStatic8N(Nest131,1,2,2) { Species = 704, Ability = A2 }, // Goomy
-            new EncounterStatic8N(Nest131,2,3,3) { Species = 705, Ability = A2 }, // Sliggoo
-            new EncounterStatic8N(Nest131,3,4,4) { Species = 780, Ability = A2 }, // Drampa
-            new EncounterStatic8N(Nest131,4,4,4) { Species = 706, Ability = A2 }, // Goodra
-            new EncounterStatic8N(Nest135,4,4,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest138,0,1,1) { Species = 690, Ability = A3 }, // Skrelp
-            new EncounterStatic8N(Nest138,1,2,2) { Species = 690, Ability = A3 }, // Skrelp
-            new EncounterStatic8N(Nest138,4,4,4) { Species = 691, Ability = A4 }, // Dragalge
-            new EncounterStatic8N(Nest139,0,1,1) { Species = 690, Ability = A2 }, // Skrelp
-            new EncounterStatic8N(Nest139,3,4,4) { Species = 691, Ability = A2 }, // Dragalge
-            new EncounterStatic8N(Nest139,4,4,4) { Species = 691, Ability = A2 }, // Dragalge
-            new EncounterStatic8N(Nest147,1,2,2) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest147,3,4,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest148,1,2,2) { Species = 214, Ability = A2 }, // Heracross
-            new EncounterStatic8N(Nest150,2,3,3) { Species = 842, Ability = A2 }, // Appletun
-            new EncounterStatic8N(Nest150,3,4,4) { Species = 842, Ability = A2 }, // Appletun
-            new EncounterStatic8N(Nest150,4,4,4) { Species = 842, Ability = A2, CanGigantamax = true }, // Appletun
-            new EncounterStatic8N(Nest155,4,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
-            new EncounterStatic8N(Nest160,3,4,5) { Species = 059, Ability = A2 }, // Arcanine
-            new EncounterStatic8N(Nest161,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
-            new EncounterStatic8N(Nest161,1,2,2) { Species = 140, Ability = A3 }, // Kabuto
-            new EncounterStatic8N(Nest161,2,3,3) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest161,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
-            new EncounterStatic8N(Nest161,3,4,4) { Species = 550, Ability = A4, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest162,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
-            new EncounterStatic8N(Nest162,2,3,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
-            new EncounterStatic8N(Nest162,3,4,5) { Species = 141, Ability = A2 }, // Kabutops
-            new EncounterStatic8N(Nest164,3,4,5) { Species = 849, Ability = A2, Form = 1 }, // Toxtricity-1
-            new EncounterStatic8N(Nest164,4,4,5) { Species = 849, Ability = A2, Form = 1, CanGigantamax = true }, // Toxtricity-1
-            new EncounterStatic8N(Nest165,0,1,1) { Species = 345, Ability = A3 }, // Lileep
-            new EncounterStatic8N(Nest165,2,3,3) { Species = 345, Ability = A3 }, // Lileep
-            new EncounterStatic8N(Nest165,3,4,4) { Species = 346, Ability = A4 }, // Cradily
-            new EncounterStatic8N(Nest165,4,4,4) { Species = 348, Ability = A4 }, // Armaldo
-            new EncounterStatic8N(Nest166,4,4,5) { Species = 346, Ability = A2 }, // Cradily
-            new EncounterStatic8N(Nest167,0,1,1) { Species = 220, Ability = A3 }, // Swinub
-            new EncounterStatic8N(Nest169,0,1,1) { Species = 875, Ability = A3 }, // Eiscue
-            new EncounterStatic8N(Nest169,1,2,2) { Species = 875, Ability = A3 }, // Eiscue
-            new EncounterStatic8N(Nest170,4,4,5) { Species = 131, Ability = A2, CanGigantamax = true }, // Lapras
-            new EncounterStatic8N(Nest172,3,4,5) { Species = 107, Ability = A2 }, // Hitmonchan
-            new EncounterStatic8N(Nest172,4,4,5) { Species = 068, Ability = A2 }, // Machamp
-            new EncounterStatic8N(Nest173,0,1,1) { Species = 032, Ability = A3 }, // Nidoran♂
-            new EncounterStatic8N(Nest173,3,4,4) { Species = 034, Ability = A4 }, // Nidoking
-            new EncounterStatic8N(Nest174,1,2,3) { Species = 033, Ability = A2 }, // Nidorino
-            new EncounterStatic8N(Nest177,0,1,1) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
-            new EncounterStatic8N(Nest177,2,3,3) { Species = 578, Ability = A3 }, // Duosion
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 579, Ability = A4 }, // Reuniclus
-            new EncounterStatic8N(Nest177,3,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
-            new EncounterStatic8N(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest178,0,1,2) { Species = 577, Ability = A2 }, // Solosis
-            new EncounterStatic8N(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
-            new EncounterStatic8N(Nest178,3,4,5) { Species = 579, Ability = A2 }, // Reuniclus
-            new EncounterStatic8N(Nest178,4,4,5) { Species = 579, Ability = A2 }, // Reuniclus
-            new EncounterStatic8N(Nest179,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
-            new EncounterStatic8N(Nest179,1,2,2) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest179,2,3,3) { Species = 838, Ability = A3 }, // Carkol
-            new EncounterStatic8N(Nest179,3,4,4) { Species = 302, Ability = A4 }, // Sableye
-            new EncounterStatic8N(Nest180,0,1,2) { Species = 302, Ability = A2 }, // Sableye
-            new EncounterStatic8N(Nest180,2,3,4) { Species = 302, Ability = A2 }, // Sableye
-            new EncounterStatic8N(Nest180,3,4,5) { Species = 302, Ability = A2 }, // Sableye
-            new EncounterStatic8N(Nest180,4,4,5) { Species = 839, Ability = A2 }, // Coalossal
-            new EncounterStatic8N(Nest181,3,4,4) { Species = 302, Ability = A4 }, // Sableye
-            new EncounterStatic8N(Nest182,1,2,3) { Species = 222, Ability = A2, Form = 1 }, // Corsola-1
-            new EncounterStatic8N(Nest182,2,3,4) { Species = 302, Ability = A2 }, // Sableye
-            new EncounterStatic8N(Nest182,3,4,5) { Species = 864, Ability = A2 }, // Cursola
-            new EncounterStatic8N(Nest182,3,4,5) { Species = 302, Ability = A2 }, // Sableye
-            new EncounterStatic8N(Nest182,4,4,5) { Species = 094, Ability = A2, CanGigantamax = true }, // Gengar
-            new EncounterStatic8N(Nest183,0,1,1) { Species = 443, Ability = A3 }, // Gible
-            new EncounterStatic8N(Nest183,1,2,2) { Species = 443, Ability = A3 }, // Gible
-            new EncounterStatic8N(Nest183,2,3,3) { Species = 444, Ability = A3 }, // Gabite
-            new EncounterStatic8N(Nest183,3,4,4) { Species = 444, Ability = A4 }, // Gabite
-            new EncounterStatic8N(Nest183,4,4,4) { Species = 445, Ability = A4 }, // Garchomp
-            new EncounterStatic8N(Nest184,0,1,2) { Species = 443, Ability = A2 }, // Gible
-            new EncounterStatic8N(Nest184,1,2,3) { Species = 780, Ability = A2 }, // Drampa
-            new EncounterStatic8N(Nest184,2,3,4) { Species = 444, Ability = A2 }, // Gabite
-            new EncounterStatic8N(Nest184,3,4,5) { Species = 445, Ability = A2 }, // Garchomp
-            new EncounterStatic8N(Nest184,4,4,5) { Species = 445, Ability = A2 }, // Garchomp
-            new EncounterStatic8N(Nest192,3,4,5) { Species = 869, Ability = A2 }, // Alcremie
-            new EncounterStatic8N(Nest195,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
-            new EncounterStatic8N(Nest195,0,1,1) { Species = 345, Ability = A3 }, // Lileep
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 346, Ability = A4 }, // Cradily
-            new EncounterStatic8N(Nest195,3,4,4) { Species = 699, Ability = A4 }, // Aurorus
-            new EncounterStatic8N(Nest195,4,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
-            new EncounterStatic8N(Nest196,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
-            new EncounterStatic8N(Nest196,2,2,2) { Species = 141, Ability = A2 }, // Kabutops
-            new EncounterStatic8N(Nest196,2,2,3) { Species = 883, Ability = A2 }, // Arctovish
-            new EncounterStatic8N(Nest196,2,3,4) { Species = 882, Ability = A2 }, // Dracovish
-            new EncounterStatic8N(Nest196,3,3,4) { Species = 880, Ability = A2 }, // Dracozolt
+            new(Nest000,0,1,1) { Species = 453, Ability = A3 }, // Croagunk
+            new(Nest000,2,3,3) { Species = 107, Ability = A3 }, // Hitmonchan
+            new(Nest000,2,4,4) { Species = 106, Ability = A3 }, // Hitmonlee
+            new(Nest000,2,4,4) { Species = 454, Ability = A3 }, // Toxicroak
+            new(Nest000,3,4,4) { Species = 237, Ability = A4 }, // Hitmontop
+            new(Nest000,4,4,4) { Species = 534, Ability = A4 }, // Conkeldurr
+            new(Nest001,0,1,1) { Species = 577, Ability = A3 }, // Solosis
+            new(Nest001,2,3,3) { Species = 678, Ability = A3, Gender = 1, Form = 1 }, // Meowstic-1
+            new(Nest001,2,3,3) { Species = 578, Ability = A3 }, // Duosion
+            new(Nest001,3,4,4) { Species = 579, Ability = A4 }, // Reuniclus
+            new(Nest001,4,4,4) { Species = 337, Ability = A4 }, // Lunatone
+            new(Nest002,0,0,1) { Species = 688, Ability = A3 }, // Binacle
+            new(Nest002,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest002,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
+            new(Nest002,4,4,4) { Species = 558, Ability = A4 }, // Crustle
+            new(Nest006,0,1,2) { Species = 223, Ability = A3 }, // Remoraid
+            new(Nest006,0,1,2) { Species = 170, Ability = A3 }, // Chinchou
+            new(Nest006,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest007,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest008,1,1,1) { Species = 090, Ability = A3 }, // Shellder
+            new(Nest009,1,1,2) { Species = 759, Ability = A3 }, // Stufful
+            new(Nest009,1,2,2) { Species = 538, Ability = A3 }, // Throh
+            new(Nest009,3,4,4) { Species = 760, Ability = A4 }, // Bewear
+            new(Nest011,4,4,4) { Species = 208, Ability = A4 }, // Steelix
+            new(Nest012,0,1,2) { Species = 177, Ability = A3 }, // Natu
+            new(Nest012,0,1,2) { Species = 856, Ability = A3 }, // Hatenna
+            new(Nest012,1,1,2) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
+            new(Nest012,1,3,3) { Species = 857, Ability = A3 }, // Hattrem
+            new(Nest012,2,4,4) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest012,3,4,4) { Species = 765, Ability = A4 }, // Oranguru
+            new(Nest012,4,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
+            new(Nest013,2,4,4) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest014,0,0,1) { Species = 557, Ability = A3 }, // Dwebble
+            new(Nest014,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest014,2,4,4) { Species = 839, Ability = A3 }, // Coalossal
+            new(Nest014,3,4,4) { Species = 526, Ability = A4 }, // Gigalith
+            new(Nest014,4,4,4) { Species = 095, Ability = A4 }, // Onix
+            new(Nest016,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest016,1,1,1) { Species = 220, Ability = A3 }, // Swinub
+            new(Nest016,2,3,3) { Species = 618, Ability = A3, Form = 1 }, // Stunfisk-1
+            new(Nest016,2,4,4) { Species = 329, Ability = A3 }, // Vibrava
+            new(Nest016,3,4,4) { Species = 330, Ability = A4 }, // Flygon
+            new(Nest016,4,4,4) { Species = 450, Ability = A4 }, // Hippowdon
+            new(Nest017,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest017,1,1,1) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest017,1,2,2) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest017,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest017,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
+            new(Nest017,3,4,4) { Species = 631, Ability = A4 }, // Heatmor
+            new(Nest017,4,4,4) { Species = 851, Ability = A4 }, // Centiskorch
+            new(Nest017,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest018,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest018,0,1,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest018,1,2,2) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest018,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest018,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
+            new(Nest018,2,4,4) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest018,3,4,4) { Species = 324, Ability = A4 }, // Torkoal
+            new(Nest018,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest019,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest019,1,1,1) { Species = 324, Ability = A3 }, // Torkoal
+            new(Nest019,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest019,2,3,3) { Species = 758, Ability = A3, Gender = 1 }, // Salazzle
+            new(Nest019,2,4,4) { Species = 059, Ability = A3 }, // Arcanine
+            new(Nest019,4,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest022,0,1,1) { Species = 225, Ability = A3 }, // Delibird
+            new(Nest022,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
+            new(Nest025,0,0,1) { Species = 270, Ability = A3 }, // Lotad
+            new(Nest025,1,1,2) { Species = 271, Ability = A3 }, // Lombre
+            new(Nest025,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
+            new(Nest026,4,4,4) { Species = 842, Ability = A4 }, // Appletun
+            new(Nest028,0,1,1) { Species = 043, Ability = A3 }, // Oddish
+            new(Nest028,1,1,1) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest028,3,4,4) { Species = 435, Ability = A4 }, // Skuntank
+            new(Nest028,4,4,4) { Species = 748, Ability = A4 }, // Toxapex
+            new(Nest030,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
+            new(Nest030,4,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest032,0,1,1) { Species = 682, Ability = A3 }, // Spritzee
+            new(Nest032,4,4,4) { Species = 683, Ability = A4 }, // Aromatisse
+            new(Nest033,4,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
+            new(Nest034,4,4,4) { Species = 302, Ability = A4 }, // Sableye
+            new(Nest035,1,1,2) { Species = 629, Ability = A3 }, // Vullaby
+            new(Nest035,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest035,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
+            new(Nest036,0,0,1) { Species = 610, Ability = A3 }, // Axew
+            new(Nest036,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest036,1,1,2) { Species = 704, Ability = A3 }, // Goomy
+            new(Nest036,2,3,3) { Species = 611, Ability = A3 }, // Fraxure
+            new(Nest036,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
+            new(Nest036,2,4,4) { Species = 330, Ability = A3 }, // Flygon
+            new(Nest036,3,4,4) { Species = 612, Ability = A4 }, // Haxorus
+            new(Nest036,4,4,4) { Species = 780, Ability = A4 }, // Drampa
+            new(Nest036,4,4,4) { Species = 706, Ability = A4 }, // Goodra
+            new(Nest037,0,1,1) { Species = 704, Ability = A3 }, // Goomy
+            new(Nest037,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
+            new(Nest037,3,4,4) { Species = 706, Ability = A4 }, // Goodra
+            new(Nest037,4,4,4) { Species = 842, Ability = A4 }, // Appletun
+            new(Nest039,1,1,2) { Species = 876, Ability = A3, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest039,4,4,4) { Species = 765, Ability = A4 }, // Oranguru
+            new(Nest040,0,1,1) { Species = 536, Ability = A3 }, // Palpitoad
+            new(Nest040,1,1,2) { Species = 747, Ability = A3 }, // Mareanie
+            new(Nest040,2,3,3) { Species = 748, Ability = A3 }, // Toxapex
+            new(Nest040,2,4,4) { Species = 091, Ability = A3 }, // Cloyster
+            new(Nest040,3,4,4) { Species = 746, Ability = A4 }, // Wishiwashi
+            new(Nest040,4,4,4) { Species = 537, Ability = A4 }, // Seismitoad
+            new(Nest042,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
+            new(Nest042,4,4,4) { Species = 302, Ability = A3 }, // Sableye
+            new(Nest042,3,4,4) { Species = 867, Ability = A4 }, // Runerigus
+            new(Nest042,3,4,4) { Species = 864, Ability = A4 }, // Cursola
+            new(Nest043,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest044,1,2,2) { Species = 600, Ability = A3 }, // Klang
+            new(Nest044,2,3,3) { Species = 632, Ability = A3 }, // Durant
+            new(Nest045,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest045,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest045,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
+            new(Nest046,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
+            new(Nest046,2,4,4) { Species = 302, Ability = A3 }, // Sableye
+            new(Nest046,3,4,4) { Species = 864, Ability = A4 }, // Cursola
+            new(Nest047,0,1,1) { Species = 453, Ability = A3 }, // Croagunk
+            new(Nest047,2,4,4) { Species = 454, Ability = A3 }, // Toxicroak
+            new(Nest047,3,4,4) { Species = 701, Ability = A4 }, // Hawlucha
+            new(Nest050,0,1,1) { Species = 524, Ability = A3 }, // Roggenrola
+            new(Nest050,1,2,2) { Species = 246, Ability = A3 }, // Larvitar
+            new(Nest050,2,3,3) { Species = 247, Ability = A3 }, // Pupitar
+            new(Nest050,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
+            new(Nest052,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest052,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest052,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest053,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest053,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest053,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest053,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest053,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest054,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
+            new(Nest054,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
+            new(Nest057,0,0,1) { Species = 270, Ability = A3 }, // Lotad
+            new(Nest057,1,2,2) { Species = 271, Ability = A3 }, // Lombre
+            new(Nest057,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
+            new(Nest057,4,4,4) { Species = 842, Ability = A4 }, // Appletun
+            new(Nest058,0,0,1) { Species = 270, Ability = A3 }, // Lotad
+            new(Nest058,1,2,2) { Species = 271, Ability = A3 }, // Lombre
+            new(Nest058,4,4,4) { Species = 272, Ability = A4 }, // Ludicolo
+            new(Nest059,1,2,2) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest059,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest061,2,4,4) { Species = 078, Ability = A3, Form = 1 }, // Rapidash-1
+            new(Nest062,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
+            new(Nest062,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest062,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
+            new(Nest063,0,0,1) { Species = 610, Ability = A3 }, // Axew
+            new(Nest063,0,1,1) { Species = 328, Ability = A3 }, // Trapinch
+            new(Nest063,0,1,1) { Species = 704, Ability = A3 }, // Goomy
+            new(Nest063,1,2,2) { Species = 329, Ability = A3 }, // Vibrava
+            new(Nest063,2,4,4) { Species = 705, Ability = A3 }, // Sliggoo
+            new(Nest063,2,4,4) { Species = 780, Ability = A3 }, // Drampa
+            new(Nest063,3,4,4) { Species = 706, Ability = A4 }, // Goodra
+            new(Nest063,4,4,4) { Species = 330, Ability = A4 }, // Flygon
+            new(Nest064,3,4,4) { Species = 765, Ability = A4 }, // Oranguru
+            new(Nest064,3,4,4) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest066,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest070,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest070,0,1,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest070,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest070,2,3,3) { Species = 608, Ability = A3 }, // Lampent
+            new(Nest073,0,0,1) { Species = 682, Ability = A3 }, // Spritzee
+            new(Nest073,2,4,4) { Species = 683, Ability = A3 }, // Aromatisse
+            new(Nest075,2,4,4) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest076,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest076,1,2,2) { Species = 631, Ability = A3 }, // Heatmor
+            new(Nest076,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest077,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest078,0,0,1) { Species = 270, Ability = A3 }, // Lotad
+            new(Nest078,1,2,2) { Species = 271, Ability = A3 }, // Lombre
+            new(Nest078,2,4,4) { Species = 272, Ability = A3 }, // Ludicolo
+            new(Nest078,4,4,4) { Species = 842, Ability = A4, CanGigantamax = true }, // Appletun
+            new(Nest079,0,0,1) { Species = 058, Ability = A3 }, // Growlithe
+            new(Nest079,3,4,4) { Species = 059, Ability = A4 }, // Arcanine
+            new(Nest080,0,0,1) { Species = 679, Ability = A3 }, // Honedge
+            new(Nest080,0,0,1) { Species = 562, Ability = A3, Form = 1 }, // Yamask-1
+            new(Nest080,0,1,1) { Species = 854, Ability = A3 }, // Sinistea
+            new(Nest080,0,1,1) { Species = 092, Ability = A3 }, // Gastly
+            new(Nest080,1,2,2) { Species = 680, Ability = A3 }, // Doublade
+            new(Nest080,1,3,3) { Species = 222, Ability = A3, Form = 1 }, // Corsola-1
+            new(Nest080,2,3,3) { Species = 093, Ability = A3 }, // Haunter
+            new(Nest080,2,4,4) { Species = 302, Ability = A3 }, // Sableye
+            new(Nest080,3,4,4) { Species = 855, Ability = A4 }, // Polteageist
+            new(Nest080,3,4,4) { Species = 864, Ability = A4 }, // Cursola
+            new(Nest080,4,4,4) { Species = 867, Ability = A4 }, // Runerigus
+            new(Nest080,4,4,4) { Species = 094, Ability = A4, CanGigantamax = true }, // Gengar
+            new(Nest081,0,0,1) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
+            new(Nest081,2,4,4) { Species = 078, Ability = A3, Form = 1 }, // Rapidash-1
+            new(Nest082,0,0,1) { Species = 582, Ability = A3 }, // Vanillite
+            new(Nest082,0,0,1) { Species = 613, Ability = A3 }, // Cubchoo
+            new(Nest082,0,1,1) { Species = 122, Ability = A3, Form = 1 }, // Mr. Mime-1
+            new(Nest082,0,1,1) { Species = 712, Ability = A3 }, // Bergmite
+            new(Nest082,1,2,2) { Species = 361, Ability = A3 }, // Snorunt
+            new(Nest082,1,2,2) { Species = 225, Ability = A3 }, // Delibird
+            new(Nest082,2,3,3) { Species = 713, Ability = A3 }, // Avalugg
+            new(Nest082,2,4,4) { Species = 362, Ability = A3 }, // Glalie
+            new(Nest082,3,4,4) { Species = 584, Ability = A4 }, // Vanilluxe
+            new(Nest082,3,4,4) { Species = 866, Ability = A4 }, // Mr. Rime
+            new(Nest082,4,4,4) { Species = 875, Ability = A4 }, // Eiscue
+            new(Nest082,4,4,4) { Species = 131, Ability = A4, CanGigantamax = true }, // Lapras
+            new(Nest083,1,2,2) { Species = 600, Ability = A3 }, // Klang
+            new(Nest083,2,3,3) { Species = 632, Ability = A3 }, // Durant
+            new(Nest085,1,2,2) { Species = 757, Ability = A3 }, // Salandit
+            new(Nest085,4,4,4) { Species = 758, Ability = A4, Gender = 1 }, // Salazzle
+            new(Nest086,0,0,1) { Species = 682, Ability = A3 }, // Spritzee
+            new(Nest086,2,3,3) { Species = 683, Ability = A3 }, // Aromatisse
+            new(Nest087,0,1,1) { Species = 629, Ability = A3 }, // Vullaby
+            new(Nest087,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest087,4,4,4) { Species = 248, Ability = A4 }, // Tyranitar
+            new(Nest089,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest089,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest089,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
+            new(Nest090,1,2,2) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest091,0,1,1) { Species = 616, Ability = A3 }, // Shelmet
+            new(Nest091,1,2,2) { Species = 588, Ability = A3 }, // Karrablast
+            new(Nest091,4,4,4) { Species = 617, Ability = A4 }, // Accelgor
+            new(Nest106,1,2,2) { Species = 629, Ability = A3 }, // Vullaby
+            new(Nest106,3,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest106,4,4,4) { Species = 630, Ability = A4 }, // Mandibuzz
+            new(Nest107,1,2,2) { Species = 629, Ability = A2 }, // Vullaby
+            new(Nest107,4,4,4) { Species = 630, Ability = A2 }, // Mandibuzz
+            new(Nest108,0,1,1) { Species = 214, Ability = A3 }, // Heracross
+            new(Nest108,1,2,2) { Species = 214, Ability = A3 }, // Heracross
+            new(Nest108,2,3,3) { Species = 214, Ability = A3 }, // Heracross
+            new(Nest108,3,4,4) { Species = 214, Ability = A4 }, // Heracross
+            new(Nest109,0,1,1) { Species = 214, Ability = A2 }, // Heracross
+            new(Nest109,4,4,4) { Species = 214, Ability = A2 }, // Heracross
+            new(Nest113,4,4,4) { Species = 059, Ability = A2 }, // Arcanine
+            new(Nest114,4,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
+            new(Nest115,3,4,4) { Species = 745, Ability = A2, Form = 1 }, // Lycanroc-1
+            new(Nest116,2,3,3) { Species = 765, Ability = A3 }, // Oranguru
+            new(Nest117,2,3,3) { Species = 765, Ability = A2 }, // Oranguru
+            new(Nest117,3,4,4) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest117,4,4,4) { Species = 678, Ability = A2, Gender = 1, Form = 1 }, // Meowstic-1
+            new(Nest122,1,2,2) { Species = 453, Ability = A3 }, // Croagunk
+            new(Nest122,2,3,3) { Species = 853, Ability = A3 }, // Grapploct
+            new(Nest122,2,3,3) { Species = 454, Ability = A3 }, // Toxicroak
+            new(Nest122,3,4,4) { Species = 454, Ability = A4 }, // Toxicroak
+            new(Nest123,0,1,1) { Species = 453, Ability = A2 }, // Croagunk
+            new(Nest123,1,2,2) { Species = 538, Ability = A2 }, // Throh
+            new(Nest123,2,3,3) { Species = 620, Ability = A2 }, // Mienshao
+            new(Nest123,3,4,4) { Species = 538, Ability = A2 }, // Throh
+            new(Nest123,3,4,4) { Species = 454, Ability = A2 }, // Toxicroak
+            new(Nest123,4,4,4) { Species = 870, Ability = A2 }, // Falinks
+            new(Nest127,4,4,4) { Species = 864, Ability = A2 }, // Cursola
+            new(Nest130,0,1,1) { Species = 704, Ability = A3 }, // Goomy
+            new(Nest130,2,3,3) { Species = 705, Ability = A3 }, // Sliggoo
+            new(Nest130,3,4,4) { Species = 842, Ability = A4 }, // Appletun
+            new(Nest130,4,4,4) { Species = 706, Ability = A4 }, // Goodra
+            new(Nest131,1,2,2) { Species = 780, Ability = A2 }, // Drampa
+            new(Nest131,1,2,2) { Species = 704, Ability = A2 }, // Goomy
+            new(Nest131,2,3,3) { Species = 705, Ability = A2 }, // Sliggoo
+            new(Nest131,3,4,4) { Species = 780, Ability = A2 }, // Drampa
+            new(Nest131,4,4,4) { Species = 706, Ability = A2 }, // Goodra
+            new(Nest135,4,4,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
+            new(Nest138,0,1,1) { Species = 690, Ability = A3 }, // Skrelp
+            new(Nest138,1,2,2) { Species = 690, Ability = A3 }, // Skrelp
+            new(Nest138,4,4,4) { Species = 691, Ability = A4 }, // Dragalge
+            new(Nest139,0,1,1) { Species = 690, Ability = A2 }, // Skrelp
+            new(Nest139,3,4,4) { Species = 691, Ability = A2 }, // Dragalge
+            new(Nest139,4,4,4) { Species = 691, Ability = A2 }, // Dragalge
+            new(Nest147,1,2,2) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
+            new(Nest147,3,4,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
+            new(Nest148,1,2,2) { Species = 214, Ability = A2 }, // Heracross
+            new(Nest150,2,3,3) { Species = 842, Ability = A2 }, // Appletun
+            new(Nest150,3,4,4) { Species = 842, Ability = A2 }, // Appletun
+            new(Nest150,4,4,4) { Species = 842, Ability = A2, CanGigantamax = true }, // Appletun
+            new(Nest155,4,4,4) { Species = 745, Ability = A4, Form = 1 }, // Lycanroc-1
+            new(Nest160,3,4,5) { Species = 059, Ability = A2 }, // Arcanine
+            new(Nest161,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
+            new(Nest161,1,2,2) { Species = 140, Ability = A3 }, // Kabuto
+            new(Nest161,2,3,3) { Species = 550, Ability = A3, Form = 1 }, // Basculin-1
+            new(Nest161,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
+            new(Nest161,3,4,4) { Species = 550, Ability = A4, Form = 1 }, // Basculin-1
+            new(Nest162,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
+            new(Nest162,2,3,4) { Species = 550, Ability = A2, Form = 1 }, // Basculin-1
+            new(Nest162,3,4,5) { Species = 141, Ability = A2 }, // Kabutops
+            new(Nest164,3,4,5) { Species = 849, Ability = A2, Form = 1 }, // Toxtricity-1
+            new(Nest164,4,4,5) { Species = 849, Ability = A2, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new(Nest165,0,1,1) { Species = 345, Ability = A3 }, // Lileep
+            new(Nest165,2,3,3) { Species = 345, Ability = A3 }, // Lileep
+            new(Nest165,3,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new(Nest165,4,4,4) { Species = 348, Ability = A4 }, // Armaldo
+            new(Nest166,4,4,5) { Species = 346, Ability = A2 }, // Cradily
+            new(Nest167,0,1,1) { Species = 220, Ability = A3 }, // Swinub
+            new(Nest169,0,1,1) { Species = 875, Ability = A3 }, // Eiscue
+            new(Nest169,1,2,2) { Species = 875, Ability = A3 }, // Eiscue
+            new(Nest170,4,4,5) { Species = 131, Ability = A2, CanGigantamax = true }, // Lapras
+            new(Nest172,3,4,5) { Species = 107, Ability = A2 }, // Hitmonchan
+            new(Nest172,4,4,5) { Species = 068, Ability = A2 }, // Machamp
+            new(Nest173,0,1,1) { Species = 032, Ability = A3 }, // Nidoran♂
+            new(Nest173,3,4,4) { Species = 034, Ability = A4 }, // Nidoking
+            new(Nest174,1,2,3) { Species = 033, Ability = A2 }, // Nidorino
+            new(Nest177,0,1,1) { Species = 077, Ability = A3, Form = 1 }, // Ponyta-1
+            new(Nest177,2,3,3) { Species = 578, Ability = A3 }, // Duosion
+            new(Nest177,3,4,4) { Species = 876, Ability = A4, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest177,3,4,4) { Species = 579, Ability = A4 }, // Reuniclus
+            new(Nest177,3,4,4) { Species = 078, Ability = A4, Form = 1 }, // Rapidash-1
+            new(Nest178,0,1,2) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest178,0,1,2) { Species = 577, Ability = A2 }, // Solosis
+            new(Nest178,2,3,4) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest178,3,4,5) { Species = 876, Ability = A2, Gender = 1, Form = 1 }, // Indeedee-1
+            new(Nest178,3,4,5) { Species = 579, Ability = A2 }, // Reuniclus
+            new(Nest178,4,4,5) { Species = 579, Ability = A2 }, // Reuniclus
+            new(Nest179,0,1,1) { Species = 837, Ability = A3 }, // Rolycoly
+            new(Nest179,1,2,2) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest179,2,3,3) { Species = 838, Ability = A3 }, // Carkol
+            new(Nest179,3,4,4) { Species = 302, Ability = A4 }, // Sableye
+            new(Nest180,0,1,2) { Species = 302, Ability = A2 }, // Sableye
+            new(Nest180,2,3,4) { Species = 302, Ability = A2 }, // Sableye
+            new(Nest180,3,4,5) { Species = 302, Ability = A2 }, // Sableye
+            new(Nest180,4,4,5) { Species = 839, Ability = A2 }, // Coalossal
+            new(Nest181,3,4,4) { Species = 302, Ability = A4 }, // Sableye
+            new(Nest182,1,2,3) { Species = 222, Ability = A2, Form = 1 }, // Corsola-1
+            new(Nest182,2,3,4) { Species = 302, Ability = A2 }, // Sableye
+            new(Nest182,3,4,5) { Species = 864, Ability = A2 }, // Cursola
+            new(Nest182,3,4,5) { Species = 302, Ability = A2 }, // Sableye
+            new(Nest182,4,4,5) { Species = 094, Ability = A2, CanGigantamax = true }, // Gengar
+            new(Nest183,0,1,1) { Species = 443, Ability = A3 }, // Gible
+            new(Nest183,1,2,2) { Species = 443, Ability = A3 }, // Gible
+            new(Nest183,2,3,3) { Species = 444, Ability = A3 }, // Gabite
+            new(Nest183,3,4,4) { Species = 444, Ability = A4 }, // Gabite
+            new(Nest183,4,4,4) { Species = 445, Ability = A4 }, // Garchomp
+            new(Nest184,0,1,2) { Species = 443, Ability = A2 }, // Gible
+            new(Nest184,1,2,3) { Species = 780, Ability = A2 }, // Drampa
+            new(Nest184,2,3,4) { Species = 444, Ability = A2 }, // Gabite
+            new(Nest184,3,4,5) { Species = 445, Ability = A2 }, // Garchomp
+            new(Nest184,4,4,5) { Species = 445, Ability = A2 }, // Garchomp
+            new(Nest192,3,4,5) { Species = 869, Ability = A2 }, // Alcremie
+            new(Nest195,0,1,1) { Species = 140, Ability = A3 }, // Kabuto
+            new(Nest195,0,1,1) { Species = 345, Ability = A3 }, // Lileep
+            new(Nest195,3,4,4) { Species = 141, Ability = A4 }, // Kabutops
+            new(Nest195,3,4,4) { Species = 346, Ability = A4 }, // Cradily
+            new(Nest195,3,4,4) { Species = 699, Ability = A4 }, // Aurorus
+            new(Nest195,4,4,4) { Species = 697, Ability = A4 }, // Tyrantrum
+            new(Nest196,0,1,2) { Species = 140, Ability = A2 }, // Kabuto
+            new(Nest196,2,2,2) { Species = 141, Ability = A2 }, // Kabutops
+            new(Nest196,2,2,3) { Species = 883, Ability = A2 }, // Arctovish
+            new(Nest196,2,3,4) { Species = 882, Ability = A2 }, // Dracovish
+            new(Nest196,3,3,4) { Species = 880, Ability = A2 }, // Dracozolt
         };
         #endregion
     }

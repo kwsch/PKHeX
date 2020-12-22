@@ -48,7 +48,7 @@ namespace PKHeX.Core
             return soup.Contains(currentSpecies);
         }
 
-        private static readonly HashSet<int> CanEatMaxSoup = new HashSet<int>
+        private static readonly HashSet<int> CanEatMaxSoup = new()
         {
             (int)Species.Venusaur,
             (int)Species.Charizard,

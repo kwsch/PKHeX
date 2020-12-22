@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         public EvoCriteria GetEvoCriteria(int species, int form, int lvl)
         {
-            return new EvoCriteria(species, form)
+            return new(species, form)
             {
                 Level = lvl,
                 Method = Method,

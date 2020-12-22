@@ -33,14 +33,14 @@ namespace PKHeX.Core.Searching
         public CloneDetectionMethod SearchClones { private get; set; }
         public IList<string> BatchInstructions { private get; set; } = Array.Empty<string>();
 
-        public readonly List<int> Moves = new List<int>();
+        public readonly List<int> Moves = new();
 
         // ReSharper disable once CollectionNeverUpdated.Global
         /// <summary>
         /// Extra Filters to be checked after all other filters have been checked.
         /// </summary>
         /// <remarks>Collection is iterated right before clones are checked.</remarks>
-        public List<Func<PKM, bool>> ExtraFilters { get; } = new List<Func<PKM, bool>>();
+        public List<Func<PKM, bool>> ExtraFilters { get; } = new();
 
         /// <summary>
         /// Adds a move to the required move list.

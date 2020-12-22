@@ -11,7 +11,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that have special handling for breeding.
         /// </summary>
-        internal static readonly HashSet<int> MixedGenderBreeding = new HashSet<int>
+        internal static readonly HashSet<int> MixedGenderBreeding = new()
         {
             (int)Species.NidoranF,
             (int)Species.NidoranM,
@@ -39,7 +39,7 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static readonly HashSet<int> SplitBreed_3 = new HashSet<int>
+        internal static readonly HashSet<int> SplitBreed_3 = new()
         {
             // Incense
             (int)Species.Marill, (int)Species.Azumarill,
@@ -49,7 +49,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that can yield a different baby species when bred.
         /// </summary>
-        private static readonly HashSet<int> SplitBreed = new HashSet<int>(SplitBreed_3)
+        private static readonly HashSet<int> SplitBreed = new(SplitBreed_3)
         {
             // Incense
             (int)Species.Chansey, (int)Species.Blissey,

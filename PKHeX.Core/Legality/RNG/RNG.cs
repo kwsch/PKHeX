@@ -14,11 +14,11 @@ namespace PKHeX.Core
     public sealed class RNG
     {
         /// <summary> LCRNG used for Encryption and mainline game RNG calls. </summary>
-        public static readonly RNG LCRNG = new RNG(0x41C64E6D, 0x00006073, 0xEEB9EB65, 0x0A3561A1);
+        public static readonly RNG LCRNG = new(0x41C64E6D, 0x00006073, 0xEEB9EB65, 0x0A3561A1);
         /// <summary> LCRNG used by Colosseum & XD for game RNG calls. </summary>
-        public static readonly RNG XDRNG = new RNG(0x000343FD, 0x00269EC3, 0xB9B33155, 0xA170F641);
+        public static readonly RNG XDRNG = new(0x000343FD, 0x00269EC3, 0xB9B33155, 0xA170F641);
         /// <summary> Alternate LCRNG used by mainline game RNG calls to disassociate the seed from the <see cref="LCRNG"/>, for anti-shiny and other purposes. </summary>
-        public static readonly RNG ARNG  = new RNG(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
+        public static readonly RNG ARNG  = new(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
 
         private readonly uint Mult, Add, rMult, rAdd;
 

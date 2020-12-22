@@ -11,7 +11,7 @@ namespace PKHeX.Core
         internal static readonly PersonalTable Personal = PersonalTable.SWSH;
         public const int Generation = 8;
 
-        private static readonly HashSet<int> Sizes = new HashSet<int>
+        private static readonly HashSet<int> Sizes = new()
         {
             PokeCrypto.SIZE_1JLIST,   PokeCrypto.SIZE_1ULIST,
             PokeCrypto.SIZE_2ULIST,   PokeCrypto.SIZE_2JLIST,   PokeCrypto.SIZE_2STADIUM,

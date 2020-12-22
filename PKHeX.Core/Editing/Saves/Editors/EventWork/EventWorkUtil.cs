@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class EventWorkUtil
     {
-        private static readonly Dictionary<char, EventVarType> TypeDict = new Dictionary<char, EventVarType>
+        private static readonly Dictionary<char, EventVarType> TypeDict = new()
         {
             ['z'] = EventVarType.Zone,
             ['s'] = EventVarType.System,

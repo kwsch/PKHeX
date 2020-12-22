@@ -80,6 +80,6 @@ namespace PKHeX.Core
         }
 
         // Utility
-        private static readonly PGT RangerManaphy = new PGT {Data = {[0] = 7, [8] = 1}};
+        private static readonly PGT RangerManaphy = new() {Data = {[0] = 7, [8] = 1}};
     }
 }

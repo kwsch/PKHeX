@@ -344,7 +344,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(string.Format(LMemoryStatFullness, 0), Encounter));
         }
 
-        private static readonly HashSet<int> Unfeedable = new HashSet<int>
+        private static readonly HashSet<int> Unfeedable = new()
         {
             (int)Species.Metapod,
             (int)Species.Kakuna,

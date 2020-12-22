@@ -134,17 +134,17 @@ namespace PKHeX.Core
             430, 433,
         };
 
-        internal static readonly HashSet<int> HM_HGSS = new HashSet<int>
+        internal static readonly HashSet<int> HM_HGSS = new()
         {
             015, 019, 057, 070, 250, 249, 127, 431 // Whirlpool(HGSS)
         };
 
-        internal static readonly HashSet<int> HM_DPPt = new HashSet<int>
+        internal static readonly HashSet<int> HM_DPPt = new()
         {
             015, 019, 057, 070, 432, 249, 127, 431 // Defog(DPPt)
         };
 
-        internal static readonly HashSet<int> HM_4_RemovePokeTransfer = new HashSet<int>
+        internal static readonly HashSet<int> HM_4_RemovePokeTransfer = new()
         {
             015, 019, 057, 070, 249, 127, 431 // Defog(DPPt) & Whirlpool(HGSS) excluded
         };
@@ -164,13 +164,13 @@ namespace PKHeX.Core
             10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls4_DPPt = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeBalls4_DPPt = new()
         {
             1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             // Cherish ball not usable
         };
 
-        internal static readonly HashSet<int> WildPokeBalls4_HGSS = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeBalls4_HGSS = new()
         {
             1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             // Cherish ball not usable
@@ -183,7 +183,7 @@ namespace PKHeX.Core
             700
         };
 
-        internal static readonly HashSet<int> UnreleasedItems_4 = new HashSet<int>
+        internal static readonly HashSet<int> UnreleasedItems_4 = new()
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -225,7 +225,7 @@ namespace PKHeX.Core
         internal static readonly int[] Slot4_Radar = { 4, 5, 10, 11 };
         internal static readonly int[] Slot4_Dual = { 8, 9 };
 
-        internal static readonly HashSet<int> ValidMet_DP = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_DP = new()
         {
             // 063: Flower Paradise unreleased DP event
             // 079: Newmoon Island unreleased DP event
@@ -239,12 +239,12 @@ namespace PKHeX.Core
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111,
         };
 
-        internal static readonly HashSet<int> ValidMet_Pt = new HashSet<int>(ValidMet_DP.Concat(new[]
+        internal static readonly HashSet<int> ValidMet_Pt = new(ValidMet_DP.Concat(new[]
         {
             63, 79, 85, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125,
         }));
 
-        internal static readonly HashSet<int> ValidMet_HGSS = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_HGSS = new()
         {
             080, 112, 113, 114, 115, 116,
             126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140,
@@ -255,14 +255,14 @@ namespace PKHeX.Core
             221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232,      234,                               //233: Pokéwalker
         };
 
-        internal static readonly HashSet<int> ValidMet_4 = new HashSet<int>(ValidMet_Pt.Concat(ValidMet_HGSS));
+        internal static readonly HashSet<int> ValidMet_4 = new(ValidMet_Pt.Concat(ValidMet_HGSS));
 
-        internal static readonly HashSet<int> GiftEggLocation4 = new HashSet<int>
+        internal static readonly HashSet<int> GiftEggLocation4 = new()
         {
             2009, 2010, 2011, 2013, 2014
         };
 
-        internal static readonly HashSet<int> EggLocations4 = new HashSet<int>
+        internal static readonly HashSet<int> EggLocations4 = new()
         {
             2000, 2002, 2009, 2010, 2011, 2013, 2014
         };

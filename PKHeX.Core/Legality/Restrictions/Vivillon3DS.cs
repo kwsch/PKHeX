@@ -59,90 +59,90 @@ namespace PKHeX.Core
 
         private static readonly CountryTable[] RegionFormTable =
         {
-            new CountryTable(05, 1, // Japan: Elegant
+            new(05, 1, // Japan: Elegant
                 new FormSubregionTable(02, new byte[] {03,04}),
                 new FormSubregionTable(13, new byte[] {48})),
 
-            new CountryTable(07, 49, // USA: Modern
+            new(07, 49, // USA: Modern
                 new FormSubregionTable(01, new byte[] {03,09,21,23,24,32,33,36,40,41,48,50}),
                 new FormSubregionTable(09, new byte[] {53}),
                 new FormSubregionTable(10, new byte[] {06,07,08,15,28,34,35,39,46,49})),
 
-            new CountryTable(01, 18, // Canada: Polar
+            new(01, 18, // Canada: Polar
                 new FormSubregionTable(00, new byte[] {12,13,14}),
                 new FormSubregionTable(07, new byte[] {05}),
                 new FormSubregionTable(10, new byte[] {04})),
 
-            new CountryTable(14, 16, // Brazil: Savanna
+            new(14, 16, // Brazil: Savanna
                 new FormSubregionTable(17, new byte[] {03,06})),
 
-            new CountryTable(14, 10, // Argentina: Savanna
+            new(14, 10, // Argentina: Savanna
                 new FormSubregionTable(01, new byte[] {21,24}),
                 new FormSubregionTable(03, new byte[] {16})),
 
-            new CountryTable(08, 20, // Chile: Marine
+            new(08, 20, // Chile: Marine
                 new FormSubregionTable(01, new byte[] {12})),
 
-            new CountryTable(15, 36, // Mexico: Sun
+            new(15, 36, // Mexico: Sun
                 new FormSubregionTable(09, new byte[] {32}),
                 new FormSubregionTable(10, new byte[] {04,08,09,12,15,19,20,23,26,27,29})),
 
-            new CountryTable(09, 52, // Venezuela: Archipelago
+            new(09, 52, // Venezuela: Archipelago
                 new FormSubregionTable(17, new byte[] {17})),
 
-            new CountryTable(09, 65, // Australia: River
+            new(09, 65, // Australia: River
                 new FormSubregionTable(04, new byte[] {07}),
                 new FormSubregionTable(15, new byte[] {04})),
 
-            new CountryTable(08, 66, // Austria: Marine
+            new(08, 66, // Austria: Marine
                 new FormSubregionTable(06, new byte[] {10})),
 
-            new CountryTable(08, 73, // Czech Republic: Marine
+            new(08, 73, // Czech Republic: Marine
                 new FormSubregionTable(03, new byte[] {03})),
 
-            new CountryTable(00, 76, // Finland: Icy Snow
+            new(00, 76, // Finland: Icy Snow
                 new FormSubregionTable(01, new byte[] {27})),
 
-            new CountryTable(06, 77, // France: Meadow
+            new(06, 77, // France: Meadow
                 new FormSubregionTable(03, new byte[] {18}),
                 new FormSubregionTable(08, new byte[] {04,06,08,19}),
                 new FormSubregionTable(16, new byte[] {27})),
 
-            new CountryTable(03, 078, // Germany: Continental
+            new(03, 078, // Germany: Continental
                 new FormSubregionTable(06, new byte[] {04,13}),
                 new FormSubregionTable(08, new byte[] {05})),
 
-            new CountryTable(08, 83, // Italy: Marine
+            new(08, 83, // Italy: Marine
                 new FormSubregionTable(06, new byte[] {04,06})),
 
-            new CountryTable(09, 85, // Lesotho: Archipelago ??
+            new(09, 85, // Lesotho: Archipelago ??
                 new FormSubregionTable(12, new byte[] {04})),
 
-            new CountryTable(03, 96, // Norway: Continental ??
+            new(03, 96, // Norway: Continental ??
                 new FormSubregionTable(00, new byte[] {11}),
                 new FormSubregionTable(01, new byte[] {12,15,16,17,20,22}),
                 new FormSubregionTable(02, new byte[] {13,14})),
 
-            new CountryTable(03, 97, // Poland: Continental
+            new(03, 97, // Poland: Continental
                 new FormSubregionTable(04, new byte[] {11})),
 
-            new CountryTable(01, 100, // Russia: Polar
+            new(01, 100, // Russia: Polar
                 new FormSubregionTable(00, new byte[] {14,22,34,38,40,52,66,88}),
                 new FormSubregionTable(03, new byte[] {29,46,51,69}),
                 new FormSubregionTable(10, new byte[] {20,24,25,28,33,71,73})),
 
-            new CountryTable(12, 104, // South Affrica: River ??
+            new(12, 104, // South Affrica: River ??
                     new FormSubregionTable(03, new byte[] {03,05})),
 
-            new CountryTable(08, 105, // Spain: Marine
+            new(08, 105, // Spain: Marine
                 new FormSubregionTable(06, new byte[] {11}),
                 new FormSubregionTable(12, new byte[] {07})),
 
-            new CountryTable(03, 107, // Sweden: Continental
+            new(03, 107, // Sweden: Continental
                 new FormSubregionTable(00, new byte[] {11,21}),
                 new FormSubregionTable(01, new byte[] {09,13})),
 
-            new CountryTable(13, 169, // India: Monsoon ??
+            new(13, 169, // India: Monsoon ??
                 new FormSubregionTable(17, new byte[] {12})),
         };
 

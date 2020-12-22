@@ -46,7 +46,7 @@ namespace PKHeX.Core
             // 15bit count
             // 1 bit new flag
             // 1 bit reserved
-            return new InventoryItem
+            return new()
             {
                 Index = (int)(val & 0x7FF),
                 Count = (int)(val >> 15 & 0x3FF), // clamp to sane values

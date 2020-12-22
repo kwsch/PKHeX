@@ -126,7 +126,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Priority Match ball IDs that match the color ID in descending order
         /// </summary>
-        private static readonly Dictionary<PersonalColor, Ball[]> BallColors = new Dictionary<PersonalColor, Ball[]>
+        private static readonly Dictionary<PersonalColor, Ball[]> BallColors = new()
         {
             [PersonalColor.Red] =    new[] { Cherish, Repeat, Fast, Heal, Great, Dream, Lure },
             [PersonalColor.Blue] =   new[] { Dive, Net, Great, Beast, Lure },

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class LearnsetReader
     {
-        private static readonly Learnset EMPTY = new Learnset(Array.Empty<int>(), Array.Empty<int>());
+        private static readonly Learnset EMPTY = new(Array.Empty<int>(), Array.Empty<int>());
 
         public static Learnset[] GetArray(byte[] input, int maxSpecies)
         {

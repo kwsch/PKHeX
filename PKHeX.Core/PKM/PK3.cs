@@ -205,7 +205,7 @@ namespace PKHeX.Core
 
         public PK4 ConvertToPK4()
         {
-            PK4 pk4 = new PK4 // Convert away!
+            PK4 pk4 = new() // Convert away!
             {
                 PID = PID,
                 Species = Species,

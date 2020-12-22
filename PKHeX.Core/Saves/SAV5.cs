@@ -190,7 +190,7 @@ namespace PKHeX.Core
 
         public EntreeForest EntreeData
         {
-            get => new EntreeForest(GetData(EntreeForestOffset, 0x850));
+            get => new(GetData(EntreeForestOffset, 0x850));
             set => SetData(value.Write(), EntreeForestOffset);
         }
 

@@ -20,7 +20,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class QR7
     {
-        private static readonly HashSet<int> GenderDifferences = new HashSet<int>
+        private static readonly HashSet<int> GenderDifferences = new()
         {
             003, 012, 019, 020, 025, 026, 041, 042, 044, 045,
             064, 065, 084, 085, 097, 111, 112, 118, 119, 123,

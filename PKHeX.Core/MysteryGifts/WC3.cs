@@ -72,7 +72,7 @@ namespace PKHeX.Core
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            PK3 pk = new PK3
+            PK3 pk = new()
             {
                 Species = Species,
                 Met_Level = Met_Level,

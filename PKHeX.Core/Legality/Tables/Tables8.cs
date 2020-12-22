@@ -222,12 +222,12 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
-        internal static readonly HashSet<int> WildPokeballs8g = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeballs8g = new()
         {
             (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
 
-        internal static readonly HashSet<int> WildPokeballs8 = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeballs8 = new()
         {
             (int)Ball.Poke,
             (int)Ball.Great,
@@ -270,7 +270,7 @@ namespace PKHeX.Core
             798, 802,
         };
 
-        internal static readonly HashSet<int> GalarOriginForms = new HashSet<int>
+        internal static readonly HashSet<int> GalarOriginForms = new()
         {
             (int)Species.Meowth,
             (int)Species.Ponyta,
@@ -287,7 +287,7 @@ namespace PKHeX.Core
             (int)Species.Stunfisk,
         };
 
-        internal static readonly HashSet<int> GalarVariantFormEvolutions = new HashSet<int>
+        internal static readonly HashSet<int> GalarVariantFormEvolutions = new()
         {
             (int)Species.MrMime,
             (int)Species.Weezing,
@@ -305,7 +305,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] EggLocations8 = {Locations.Daycare5, Locations.LinkTrade6};
 
-        internal static readonly HashSet<int> ValidMet_SWSH = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_SWSH = new()
         {
                            006, 008,
                  012, 014, 016, 018,
@@ -385,9 +385,9 @@ namespace PKHeX.Core
             10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> Ban_NoHidden8 = new HashSet<int>(); // none as of DLC 1!
+        internal static readonly HashSet<int> Ban_NoHidden8 = new(); // none as of DLC 1!
 
-        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new HashSet<int>
+        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new()
         {
             // 029, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
             // 032, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
@@ -397,7 +397,7 @@ namespace PKHeX.Core
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new HashSet<int>
+        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new()
         {
             298, // Flame Plate
             299, // Splash Plate
@@ -727,7 +727,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Moves that are kill
         /// </summary>
-        public static readonly HashSet<int> DummiedMoves_SWSH = new HashSet<int>
+        public static readonly HashSet<int> DummiedMoves_SWSH = new()
         {
             002, 003, 004, 013, 026, 027, 041, 049, 082, 096,
             099, 112, 117, 119, 121, 125, 128, 131, 132, 134,

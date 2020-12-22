@@ -103,7 +103,7 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls5 = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeBalls5 = new()
         {
             1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
             // Cherish ball not usable
@@ -111,14 +111,14 @@ namespace PKHeX.Core
             // Dream ball not usable in wild
         };
 
-        internal static readonly HashSet<int> DreamWorldBalls = new HashSet<int>(WildPokeBalls5) {(int)Ball.Dream};
+        internal static readonly HashSet<int> DreamWorldBalls = new(WildPokeBalls5) {(int)Ball.Dream};
 
         internal static readonly int[] FutureEvolutionsGen5 =
         {
             (int)Species.Sylveon,
         };
 
-        internal static readonly HashSet<int> UnreleasedItems_5 = new HashSet<int>
+        internal static readonly HashSet<int> UnreleasedItems_5 = new()
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -149,7 +149,7 @@ namespace PKHeX.Core
             new[] { 380, 388, 180, 495, 270, 271, 478, 472, 283, 200, 278, 289, 446, 214, 285 } // Nacrene City
         };
 
-        internal static readonly HashSet<int> ValidMet_BW = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_BW = new()
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039, 040,
@@ -159,7 +159,7 @@ namespace PKHeX.Core
             101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116,
         };
 
-        internal static readonly HashSet<int> ValidMet_B2W2 = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_B2W2 = new()
         {
                            004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020,
             021, 022,      024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,      //023 Route 10, 040->134 Victory Road
@@ -171,7 +171,7 @@ namespace PKHeX.Core
             141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153,
         };
 
-        internal static readonly HashSet<int> EggLocations5 = new HashSet<int>
+        internal static readonly HashSet<int> EggLocations5 = new()
         {
             Locations.LinkTrade5NPC,
             Locations.LinkTrade5,
@@ -182,7 +182,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Some mixed-gender species were only distributed male-only. Ban hidden abilities on these species when bred in Gen5.
         /// </summary>
-        internal static readonly HashSet<int> Ban_BreedHidden5 = new HashSet<int>
+        internal static readonly HashSet<int> Ban_BreedHidden5 = new()
         {
             // Only males distributed; unable to pass to offspring
             001, // Bulbasaur

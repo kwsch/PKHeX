@@ -109,7 +109,7 @@ namespace PKHeX.Core
 
         private static PersonalTable GetTable(string game, GameVersion format)
         {
-            return new PersonalTable(Util.GetBinaryResource($"personal_{game}"), format);
+            return new(Util.GetBinaryResource($"personal_{game}"), format);
         }
 
         private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)

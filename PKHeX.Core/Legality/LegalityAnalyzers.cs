@@ -23,10 +23,10 @@
         public static readonly Verifier History = new HistoryVerifier();
         public static readonly Verifier Contest = new ContestStatVerifier();
 
-        public static readonly TrainerNameVerifier Trainer = new TrainerNameVerifier();
-        public static readonly LevelVerifier Level = new LevelVerifier();
-        public static readonly MiscVerifier MiscValues = new MiscVerifier();
-        public static readonly TransferVerifier Transfer = new TransferVerifier();
-        public static readonly MarkVerifier Mark = new MarkVerifier();
+        public static readonly TrainerNameVerifier Trainer = new();
+        public static readonly LevelVerifier Level = new();
+        public static readonly MiscVerifier MiscValues = new();
+        public static readonly TransferVerifier Transfer = new();
+        public static readonly MarkVerifier Mark = new();
     }
 }

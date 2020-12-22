@@ -62,15 +62,15 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<BoxManipModify> ModifyCommon = new List<BoxManipModify>
         {
-            new BoxManipModify(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2),
-            new BoxManipModify(BoxManipType.ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
-            new BoxManipModify(BoxManipType.ModifyMaxLevel, pk => pk.MaximizeLevel()),
-            new BoxManipModify(BoxManipType.ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
-            new BoxManipModify(BoxManipType.ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
-            new BoxManipModify(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7),
-            new BoxManipModify(BoxManipType.ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
-            new BoxManipModify(BoxManipType.ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
-            new BoxManipModify(BoxManipType.ModifyHeal, pk => pk.Heal(), s => s.Generation >= 8 || s is SAV7b),
+            new(BoxManipType.ModifyHatchEggs, pk => pk.ForceHatchPKM(), s => s.Generation >= 2),
+            new(BoxManipType.ModifyMaxFriendship, pk => pk.MaximizeFriendship()),
+            new(BoxManipType.ModifyMaxLevel, pk => pk.MaximizeLevel()),
+            new(BoxManipType.ModifyResetMoves, pk => pk.SetMoves(pk.GetMoveSet()), s => s.Generation >= 3),
+            new(BoxManipType.ModifyRandomMoves, pk => pk.SetMoves(pk.GetMoveSet(true))),
+            new(BoxManipType.ModifyHyperTrain,pk => pk.SetSuggestedHyperTrainingData(), s => s.Generation >= 7),
+            new(BoxManipType.ModifyRemoveNicknames, pk => pk.SetDefaultNickname()),
+            new(BoxManipType.ModifyRemoveItem, pk => pk.HeldItem = 0, s => s.Generation >= 2),
+            new(BoxManipType.ModifyHeal, pk => pk.Heal(), s => s.Generation >= 8 || s is SAV7b),
         };
     }
 }

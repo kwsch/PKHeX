@@ -36,7 +36,7 @@ namespace PKHeX.Core
         private const int DENTRY_SIZE = 0x40;
         private const int NumEntries_Directory = BLOCK_SIZE / DENTRY_SIZE;
 
-        private static readonly HashSet<int> ValidMemoryCardSizes = new HashSet<int>
+        private static readonly HashSet<int> ValidMemoryCardSizes = new()
         {
             0x0080000, // 512KB 59 Blocks Memory Card
             0x0100000, // 1MB

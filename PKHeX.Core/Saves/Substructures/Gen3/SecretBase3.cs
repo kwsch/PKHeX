@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         public SecretBase3Team Team
         {
-            get => new SecretBase3Team(Data.Slice(Offset + 50, 72));
+            get => new(Data.Slice(Offset + 50, 72));
             set => value.Write().CopyTo(Data, Offset + 50);
         }
 

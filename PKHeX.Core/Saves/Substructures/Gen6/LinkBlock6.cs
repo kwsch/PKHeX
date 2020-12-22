@@ -8,7 +8,7 @@ namespace PKHeX.Core
         public LinkBlock6(SAV6AO sav, int offset) : base(sav) => Offset = offset;
 
         public byte[] GetLinkInfoData() => Data.Slice(Offset + 0x1FF, PL6.Size);
-        public PL6 GetLinkInfo() => new PL6(GetLinkInfoData());
+        public PL6 GetLinkInfo() => new(GetLinkInfoData());
 
         public void SetLinkInfoData(byte[] data)
         {

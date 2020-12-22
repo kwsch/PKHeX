@@ -324,7 +324,7 @@ namespace PKHeX.Core
 
         public PK6 ConvertToPK6()
         {
-            PK6 pk6 = new PK6 // Convert away!
+            PK6 pk6 = new() // Convert away!
             {
                 EncryptionConstant = PID,
                 Species = Species,

@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
     public sealed class EggMoves6 : EggMoves
     {
-        private static readonly EggMoves6 None = new EggMoves6(Array.Empty<int>());
+        private static readonly EggMoves6 None = new(Array.Empty<int>());
 
         private EggMoves6(int[] moves) : base(moves) { }
 
@@ -62,7 +62,7 @@ namespace PKHeX.Core
 
     public sealed class EggMoves7 : EggMoves
     {
-        private static readonly EggMoves7 None = new EggMoves7(Array.Empty<int>());
+        private static readonly EggMoves7 None = new(Array.Empty<int>());
         public readonly int FormTableIndex;
 
         private EggMoves7(int[] moves, int formIndex = 0) : base(moves) => FormTableIndex = formIndex;

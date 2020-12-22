@@ -108,7 +108,7 @@ namespace PKHeX.Core
             Array.Copy(rawDC, 1, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, StringLength);
             Array.Copy(rawDC, 1 + StringLength, TempDaycare, 2 + 1 + PokeCrypto.SIZE_1PARTY, StringLength);
             Array.Copy(rawDC, 1 + (2 * StringLength), TempDaycare, 2 + 1, PokeCrypto.SIZE_1STORED);
-            PokeList1 daycareList = new PokeList1(TempDaycare, PokeListType.Single, Japanese);
+            PokeList1 daycareList = new(TempDaycare, PokeListType.Single, Japanese);
             daycareList.Write().CopyTo(Data, GetPartyOffset(7));
             DaycareOffset = GetPartyOffset(7);
 

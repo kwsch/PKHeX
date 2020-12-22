@@ -14,15 +14,15 @@ namespace PKHeX.Core
     /// </remarks>
     public sealed class EvolutionTree
     {
-        private static readonly EvolutionTree Evolves1 = new EvolutionTree(new[] { Get("rby") }, Gen1, PersonalTable.Y, MaxSpeciesID_1);
-        private static readonly EvolutionTree Evolves2 = new EvolutionTree(new[] { Get("gsc") }, Gen2, PersonalTable.C, MaxSpeciesID_2);
-        private static readonly EvolutionTree Evolves3 = new EvolutionTree(new[] { Get("g3") }, Gen3, PersonalTable.RS, MaxSpeciesID_3);
-        private static readonly EvolutionTree Evolves4 = new EvolutionTree(new[] { Get("g4") }, Gen4, PersonalTable.DP, MaxSpeciesID_4);
-        private static readonly EvolutionTree Evolves5 = new EvolutionTree(new[] { Get("g5") }, Gen5, PersonalTable.BW, MaxSpeciesID_5);
-        private static readonly EvolutionTree Evolves6 = new EvolutionTree(Unpack("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
-        private static readonly EvolutionTree Evolves7 = new EvolutionTree(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
-        private static readonly EvolutionTree Evolves7b = new EvolutionTree(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
-        private static readonly EvolutionTree Evolves8 = new EvolutionTree(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
+        private static readonly EvolutionTree Evolves1 = new(new[] { Get("rby") }, Gen1, PersonalTable.Y, MaxSpeciesID_1);
+        private static readonly EvolutionTree Evolves2 = new(new[] { Get("gsc") }, Gen2, PersonalTable.C, MaxSpeciesID_2);
+        private static readonly EvolutionTree Evolves3 = new(new[] { Get("g3") }, Gen3, PersonalTable.RS, MaxSpeciesID_3);
+        private static readonly EvolutionTree Evolves4 = new(new[] { Get("g4") }, Gen4, PersonalTable.DP, MaxSpeciesID_4);
+        private static readonly EvolutionTree Evolves5 = new(new[] { Get("g5") }, Gen5, PersonalTable.BW, MaxSpeciesID_5);
+        private static readonly EvolutionTree Evolves6 = new(Unpack("ao"), Gen6, PersonalTable.AO, MaxSpeciesID_6);
+        private static readonly EvolutionTree Evolves7 = new(Unpack("uu"), Gen7, PersonalTable.USUM, MaxSpeciesID_7_USUM);
+        private static readonly EvolutionTree Evolves7b = new(Unpack("gg"), Gen7, PersonalTable.GG, MaxSpeciesID_7b);
+        private static readonly EvolutionTree Evolves8 = new(Unpack("ss"), Gen8, PersonalTable.SWSH, MaxSpeciesID_8);
 
         private static byte[] Get(string resource) => Util.GetBinaryResource($"evos_{resource}.pkl");
         private static byte[][] Unpack(string resource) => BinLinker.Unpack(Get(resource), resource);
@@ -208,7 +208,7 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(1)
                 {
-                    new EvoCriteria(pkm.Species, pkm.Form) { Level = maxLevel, MinLevel = maxLevel },
+                    new(pkm.Species, pkm.Form) { Level = maxLevel, MinLevel = maxLevel },
                 };
             }
 
@@ -217,8 +217,8 @@ namespace PKHeX.Core
             {
                 return new List<EvoCriteria>(2)
                 {
-                    new EvoCriteria((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
-                    new EvoCriteria((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
+                    new((int)Species.Shedinja, 0) { Level = maxLevel, MinLevel = 20 },
+                    new((int)Species.Nincada, 0) { Level = maxLevel, MinLevel = minLevel },
                 };
             }
 

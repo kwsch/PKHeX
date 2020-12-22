@@ -12,7 +12,7 @@ namespace PKHeX.Core
     /// </remarks>
     public static class SwishCrypto
     {
-        private static readonly object _lock = new object();
+        private static readonly object _lock = new();
         private static readonly SHA256 sha256 = new SHA256CryptoServiceProvider();
         private const int SIZE_HASH = 0x20;
 

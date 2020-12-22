@@ -234,7 +234,7 @@ namespace PKHeX.Core
 
         internal static readonly int[] EggLocations6 = {Locations.Daycare5, Locations.LinkTrade6};
 
-        internal static readonly HashSet<int> ValidMet_XY = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_XY = new()
         {
             006, 008, 009, 010, 012, 013, 014, 016, 017, 018, 020, 021, 022, 024, 026, 028, 029, 030, 032, 034, 035, 036,
             038, 039, 040, 042, 043, 044, 046, 047, 048, 050, 051, 052, 054, 055, 056, 058, 060, 062, 063, 064, 066, 067,
@@ -243,7 +243,7 @@ namespace PKHeX.Core
             138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158, 160, 162, 164, 166, 168
         };
 
-        internal static readonly HashSet<int> ValidMet_AO = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_AO = new()
         {
             170, 172, 174, 176, 178, 180, 182, 184, 186, 188, 190, 192, 194, 196, 198,
             200, 202, 204, 206, 208, 210, 212, 214, 216, 218, 220, 222, 224, 226, 228, 230, 232, 234, 236, 238, 240, 242,
@@ -252,7 +252,7 @@ namespace PKHeX.Core
             332, 334, 336, 338, 340, 342, 344, 346,      350, 352, 354
         };
 
-        internal static readonly HashSet<int> FriendSafari = new HashSet<int>
+        internal static readonly HashSet<int> FriendSafari = new()
         {
             190, 206, 216, 506, 294, 352, 531, 572, 113, 132, 133, 235,
             012, 046, 165, 415, 267, 284, 313, 314, 049, 127, 214, 666,
@@ -275,12 +275,12 @@ namespace PKHeX.Core
         };
 
         internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
-        internal static readonly HashSet<int> WildPokeballs6 = new HashSet<int> {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+        internal static readonly HashSet<int> WildPokeballs6 = new() {0x01, 0x02, 0x03, 0x04, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 
         /// <summary>
         /// Species that are male only in Generation 6; for ball inheritance, these behave the same as Genderless species (no ball inherited).
         /// </summary>
-        internal static readonly HashSet<int> BreedMaleOnly6 = new HashSet<int>
+        internal static readonly HashSet<int> BreedMaleOnly6 = new()
         {
             (int)Species.Tauros,
             (int)Species.Rufflet, (int)Species.Braviary,
@@ -288,7 +288,7 @@ namespace PKHeX.Core
             (int)Species.Sawk, (int)Species.Throh
         };
 
-        internal static readonly HashSet<int> Ban_NoHidden6 = new HashSet<int>
+        internal static readonly HashSet<int> Ban_NoHidden6 = new()
         {
             // Not available at Friend Safari or Horde Encounter
             (int)Species.Flabébé + (2 << 11), // Orange
@@ -334,14 +334,14 @@ namespace PKHeX.Core
         };
 
         #region Ball Table
-        internal static readonly HashSet<int> Inherit_Sport = new HashSet<int>
+        internal static readonly HashSet<int> Inherit_Sport = new()
         {
             010, 013, 046, 048, 123, 127, 265, 290, 314, 401, 415,
 
             313, // Via Illumise
         };
 
-        internal static readonly HashSet<int> Inherit_Safari = new HashSet<int>
+        internal static readonly HashSet<int> Inherit_Safari = new()
         {
             016, 019, 020, 021, 022, 023, 024, 025, 027, 029, 035, 039, 041,
             043, 046, 048, 050, 054, 055, 060, 063, 066, 069, 070, 074, 077, 079, 080, 083, 084, 088, 092, 095, 096, 098,
@@ -369,7 +369,7 @@ namespace PKHeX.Core
             287, // Via Vigoroth
         };
 
-        internal static readonly HashSet<int> Inherit_Dream = new HashSet<int>
+        internal static readonly HashSet<int> Inherit_Dream = new()
         {
             010, 013, 016, 019, 021, 023, 027, 029, 037, 041, 043, 046, 048, 050, 052, 054, 056, 058, 060, 063, 066, 069,
             072, 074, 077, 079, 083, 084, 086, 088, 090, 092, 095, 096, 098, 102, 104, 108, 109, 111, 113, 114, 115, 116,
@@ -399,7 +399,7 @@ namespace PKHeX.Core
             298, 360, 406, 433, 438, 439, 440, 446, 458,
         };
 
-        internal static readonly HashSet<int> Ban_DreamHidden = new HashSet<int>
+        internal static readonly HashSet<int> Ban_DreamHidden = new()
         {
             311, // Plusle
             312, // Minun
@@ -411,7 +411,7 @@ namespace PKHeX.Core
             477, // Dusknoir
         };
 
-        internal static readonly HashSet<int> Ban_Gen3Ball = new HashSet<int>
+        internal static readonly HashSet<int> Ban_Gen3Ball = new()
         {
             252, 255, 258, //1 - Treeko, Torchic, Mudkip
             253, 256, 259, //2
@@ -425,7 +425,7 @@ namespace PKHeX.Core
             566, 567, 696, 697, 698, 699 // Fossil Only obtain
         };
 
-        internal static readonly HashSet<int> Ban_Gen3BallHidden = new HashSet<int>
+        internal static readonly HashSet<int> Ban_Gen3BallHidden = new()
         {
             // can have HA and can be in gen 3 ball as eggs but can not at same time.
             152, 155, 158, //1 - Gen2 Starters
@@ -441,7 +441,7 @@ namespace PKHeX.Core
             711 + (3 << 11), //Gourgeist-Super
         };
 
-        internal static readonly HashSet<int> Ban_Gen4Ball_6 = new HashSet<int>
+        internal static readonly HashSet<int> Ban_Gen4Ball_6 = new()
         {
             152, 155, 158, //1 - Chikorita, Cyndaquil, Totodile
             153, 156, 159, //2

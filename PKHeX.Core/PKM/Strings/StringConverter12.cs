@@ -134,7 +134,8 @@ namespace PKHeX.Core
 
         #region Gen 1/2 Character Tables
 
-        internal static readonly Dictionary<byte, char> RBY2U_U = new Dictionary<byte, char>{
+        internal static readonly Dictionary<byte, char> RBY2U_U = new()
+        {
             {0x50, G1Terminator},
             {0x5D, G1TradeOT},
             {0x7F, ' '},
@@ -255,7 +256,8 @@ namespace PKHeX.Core
             {0xFF, '9'}
         };
 
-        private static readonly Dictionary<byte, char> RBY2U_J = new Dictionary<byte, char> {
+        private static readonly Dictionary<byte, char> RBY2U_J = new()
+        {
             {0x05, 'ガ'},
             {0x06, 'ギ'},
             {0x07, 'グ'},
@@ -427,7 +429,8 @@ namespace PKHeX.Core
             {0xFF, '9'}
         };
 
-        internal static readonly Dictionary<char, byte> U2RBY_U = new Dictionary<char, byte> {
+        internal static readonly Dictionary<char, byte> U2RBY_U = new()
+        {
             {G1Terminator, 0x50},
             {G1TradeOT, 0x5D}, // TRAINER (Localized per ROM)
             {' ', 0x7F},
@@ -548,7 +551,8 @@ namespace PKHeX.Core
             {'9', 0xFF}
         };
 
-        private static readonly Dictionary<char, byte> U2RBY_J = new Dictionary<char, byte> {
+        private static readonly Dictionary<char, byte> U2RBY_J = new()
+        {
             {'ガ', 0x05},
             {'ギ', 0x06},
             {'グ', 0x07},

@@ -27,7 +27,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static readonly HashSet<int> ExtendedAmericas = new HashSet<int> { 153, 156, 168, 174, 186 };
-        private static readonly HashSet<int> ExtendedEurope = new HashSet<int> { 169, 184, 185 };
+        private static readonly HashSet<int> ExtendedAmericas = new() { 153, 156, 168, 174, 186 };
+        private static readonly HashSet<int> ExtendedEurope = new() { 169, 184, 185 };
     }
 }

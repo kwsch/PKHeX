@@ -20,7 +20,7 @@ namespace PKHeX.Core
         }
 
         private int GetMemberOffset(int i) => Offset + (i * HallFame3PKM.SIZE);
-        private HallFame3PKM GetMember(int i) => new HallFame3PKM(Parent, GetMemberOffset(i), Japanese);
+        private HallFame3PKM GetMember(int i) => new(Parent, GetMemberOffset(i), Japanese);
 
         public HallFame3PKM[] Team
         {

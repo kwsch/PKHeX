@@ -8,8 +8,8 @@ namespace PKHeX.Core
     public sealed class SlotChangelog
     {
         private readonly SaveFile SAV;
-        private readonly Stack<SlotReversion> UndoStack = new Stack<SlotReversion>();
-        private readonly Stack<SlotReversion> RedoStack = new Stack<SlotReversion>();
+        private readonly Stack<SlotReversion> UndoStack = new();
+        private readonly Stack<SlotReversion> RedoStack = new();
 
         public SlotChangelog(SaveFile sav) => SAV = sav;
 

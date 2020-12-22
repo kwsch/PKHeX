@@ -234,16 +234,16 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 010, Version = DP, TypeEncounter = EncounterType.Starter_Fossil_Gift_DP, }, // Eevee @ Hearthome City
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 20, Location = 010, Version = Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Eevee @ Hearthome City
             new EncounterStaticTyped { Gift = true, Species = 137, Level = 25, Location = 012, Version = Pt, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Porygon @ Veilstone City
-            new EncounterStatic4 { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = Pt,}, // Togepi Egg from Cynthia
-            new EncounterStatic4 { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = DP,}, // Happiny Egg from Traveling Man
-            new EncounterStatic4 { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, // Riolu Egg from Riley
+            new() { Gift = true, Species = 175, Level = 01, EggLocation = 2011, Version = Pt,}, // Togepi Egg from Cynthia
+            new() { Gift = true, Species = 440, Level = 01, EggLocation = 2009, Version = DP,}, // Happiny Egg from Traveling Man
+            new() { Gift = true, Species = 447, Level = 01, EggLocation = 2010, }, // Riolu Egg from Riley
 
             // Stationary
-            new EncounterStatic4 { Species = 425, Level = 22, Location = 47, Version = DP }, // Drifloon @ Valley Windworks
-            new EncounterStatic4 { Species = 425, Level = 15, Location = 47, Version = Pt }, // Drifloon @ Valley Windworks
+            new() { Species = 425, Level = 22, Location = 47, Version = DP }, // Drifloon @ Valley Windworks
+            new() { Species = 425, Level = 15, Location = 47, Version = Pt }, // Drifloon @ Valley Windworks
             new EncounterStaticTyped { Species = 479, Level = 15, Location = 70, Version = DP, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Rotom @ Old Chateau
             new EncounterStaticTyped { Species = 479, Level = 20, Location = 70, Version = Pt, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Rotom @ Old Chateau
-            new EncounterStatic4 { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
+            new() { Species = 442, Level = 25, Location = 24 }, // Spiritomb @ Route 209
 
             // Stationary Legendary
             new EncounterStaticTyped { Species = 377, Level = 30, Location = 125, Version = Pt, TypeEncounter = EncounterType.Cave_HallOfOrigin, }, // Regirock @ Rock Peak Ruins
@@ -266,8 +266,8 @@ namespace PKHeX.Core
             // Event
             new EncounterStaticTyped { Species = 491, Level = 40, Location = 079, Version = DP, TypeEncounter = EncounterType.TallGrass }, // Darkrai @ Newmoon Island (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 491, Level = 50, Location = 079, Version = Pt, TypeEncounter = EncounterType.TallGrass }, // Darkrai @ Newmoon Island
-            new EncounterStatic4 { Species = 492, Form = 0, Level = 30, Location = 063, Version = Pt, Fateful = true }, // Shaymin @ Flower Paradise
-            new EncounterStatic4 { Species = 492, Form = 0, Level = 30, Location = 063, Version = DP, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
+            new() { Species = 492, Form = 0, Level = 30, Location = 063, Version = Pt, Fateful = true }, // Shaymin @ Flower Paradise
+            new() { Species = 492, Form = 0, Level = 30, Location = 063, Version = DP, Fateful = false }, // Shaymin @ Flower Paradise (Unreleased in Diamond and Pearl)
             new EncounterStaticTyped { Species = 493, Form = 0, Level = 80, Location = 086, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Arceus @ Hall of Origin (Unreleased)
 
             // Roamers
@@ -318,10 +318,10 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Gift = true, Species = 133, Level = 05, Location = 131, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Eevee @ Goldenrod City
             new EncounterStaticTyped { Gift = true, Species = 147, Level = 15, Location = 222, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, Moves = new[] {245} }, // Dratini @ Dragon's Den (ExtremeSpeed)
             new EncounterStaticTyped { Gift = true, Species = 236, Level = 10, Location = 216, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio, }, // Tyrogue @ Mt. Mortar
-            new EncounterStatic4 { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
-            new EncounterStatic4 { Gift = true, Species = 179, Level = 01, EggLocation = 2014, }, // Mareep Egg from Primo
-            new EncounterStatic4 { Gift = true, Species = 194, Level = 01, EggLocation = 2014, }, // Wooper Egg from Primo
-            new EncounterStatic4 { Gift = true, Species = 218, Level = 01, EggLocation = 2014, }, // Slugma Egg from Primo
+            new() { Gift = true, Species = 175, Level = 01, EggLocation = 2013, Moves = new[] {326} }, // Togepi Egg from Mr. Pokemon (Extrasensory as Egg move)
+            new() { Gift = true, Species = 179, Level = 01, EggLocation = 2014, }, // Mareep Egg from Primo
+            new() { Gift = true, Species = 194, Level = 01, EggLocation = 2014, }, // Wooper Egg from Primo
+            new() { Gift = true, Species = 218, Level = 01, EggLocation = 2014, }, // Slugma Egg from Primo
 
             // Celadon City Game Corner
             new EncounterStaticTyped { Gift = true, Species = 122, Level = 15, Location = 144, TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio }, // Mr. Mime
@@ -343,17 +343,17 @@ namespace PKHeX.Core
             new EncounterStaticTyped { Species = 130, Level = 30, Location = 135, TypeEncounter = EncounterType.Surfing_Fishing, Shiny = Shiny.Always }, // Gyarados @ Lake of Rage
             new EncounterStaticTyped { Species = 131, Level = 20, Location = 210, TypeEncounter = EncounterType.Surfing_Fishing, }, // Lapras @ Union Cave Friday Only
             new EncounterStaticTyped { Species = 101, Level = 23, Location = 213, TypeEncounter = EncounterType.Building_EnigmaStone, }, // Electrode @ Team Rocket HQ
-            new EncounterStatic4 { Species = 143, Level = 50, Location = 159, }, // Snorlax @ Route 11
-            new EncounterStatic4 { Species = 143, Level = 50, Location = 160, }, // Snorlax @ Route 12
-            new EncounterStatic4 { Species = 185, Level = 20, Location = 184, }, // Sudowoodo @ Route 36, Encounter does not have type
+            new() { Species = 143, Level = 50, Location = 159, }, // Snorlax @ Route 11
+            new() { Species = 143, Level = 50, Location = 160, }, // Snorlax @ Route 12
+            new() { Species = 185, Level = 20, Location = 184, }, // Sudowoodo @ Route 36, Encounter does not have type
             SpikyEaredPichu,
 
             // Stationary Legendary
             new EncounterStaticTyped { Species = 144, Level = 50, Location = 203, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Articuno @ Seafoam Islands
-            new EncounterStatic4 { Species = 145, Level = 50, Location = 158, }, // Zapdos @ Route 10
+            new() { Species = 145, Level = 50, Location = 158, }, // Zapdos @ Route 10
             new EncounterStaticTyped { Species = 146, Level = 50, Location = 219, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Moltres @ Mt. Silver Cave
             new EncounterStaticTyped { Species = 150, Level = 70, Location = 199, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Mewtwo @ Cerulean Cave
-            new EncounterStatic4 { Species = 245, Level = 40, Location = 173, }, // Suicune @ Route 25
+            new() { Species = 245, Level = 40, Location = 173, }, // Suicune @ Route 25
             new EncounterStaticTyped { Species = 245, Level = 40, Location = 206, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Suicune @ Burned Tower
             new EncounterStaticTyped { Species = 249, Level = 45, Location = 218, Version = SS, TypeEncounter = EncounterType.Surfing_Fishing }, // Lugia @ Whirl Islands
             new EncounterStaticTyped { Species = 249, Level = 70, Location = 218, Version = HG, TypeEncounter = EncounterType.Surfing_Fishing }, // Lugia @ Whirl Islands

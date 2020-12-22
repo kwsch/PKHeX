@@ -193,7 +193,7 @@ namespace PKHeX.Core
 
         public static IEnumerable<int> GetTutorMoves(PKM pkm, int species, int form, bool specialTutors, int generation)
         {
-            List<int> moves = new List<int>();
+            List<int> moves = new();
             switch (generation)
             {
                 case 1: AddMovesTutor1(moves, species, pkm.Format); break;

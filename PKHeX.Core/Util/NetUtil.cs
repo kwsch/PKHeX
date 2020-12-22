@@ -37,7 +37,7 @@ namespace PKHeX.Core
             return httpWebResponse.GetResponseStream();
         }
 
-        private static readonly Regex LatestGitTagRegex = new Regex("\\\"tag_name\"\\s*\\:\\s*\\\"([0-9]+\\.[0-9]+\\.[0-9]+)\\\""); // Match `"tag_name": "18.12.02"`. Group 1 is `18.12.02`
+        private static readonly Regex LatestGitTagRegex = new("\\\"tag_name\"\\s*\\:\\s*\\\"([0-9]+\\.[0-9]+\\.[0-9]+)\\\""); // Match `"tag_name": "18.12.02"`. Group 1 is `18.12.02`
 
         /// <summary>
         /// Gets the latest version of PKHeX according to the Github API

@@ -68,8 +68,8 @@ namespace PKHeX.Core
         // Configuration
         protected override SaveFile CloneInternal() => new SAV4BR(Write());
 
-        public readonly List<int> SaveSlots = new List<int>(SAVE_COUNT);
-        public readonly List<string> SaveNames = new List<string>(SAVE_COUNT);
+        public readonly List<int> SaveSlots = new(SAVE_COUNT);
+        public readonly List<string> SaveNames = new(SAVE_COUNT);
 
         private int _currentSlot;
 

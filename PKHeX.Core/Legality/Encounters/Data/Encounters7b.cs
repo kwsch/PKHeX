@@ -22,34 +22,34 @@ namespace PKHeX.Core
         private static readonly EncounterStatic7b[] Encounter_GG =
         {
             // encounters
-            new EncounterStatic7b { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3, }, // Articuno @ Seafoam Islands
-            new EncounterStatic7b { Species = 145, Level = 50, Location = 42, FlawlessIVCount = 3, }, // Zapdos @ Power Plant
-            new EncounterStatic7b { Species = 146, Level = 50, Location = 45, FlawlessIVCount = 3, }, // Moltres @ Victory Road
-            new EncounterStatic7b { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3, }, // Mewtwo @ Cerulean Cave
-            new EncounterStatic7b { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3, }, // Snorlax @ Route 12
-            new EncounterStatic7b { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3, }, // Snorlax @ Route 16
+            new() { Species = 144, Level = 50, Location = 44, FlawlessIVCount = 3, }, // Articuno @ Seafoam Islands
+            new() { Species = 145, Level = 50, Location = 42, FlawlessIVCount = 3, }, // Zapdos @ Power Plant
+            new() { Species = 146, Level = 50, Location = 45, FlawlessIVCount = 3, }, // Moltres @ Victory Road
+            new() { Species = 150, Level = 70, Location = 46, FlawlessIVCount = 3, }, // Mewtwo @ Cerulean Cave
+            new() { Species = 143, Level = 34, Location = 14, FlawlessIVCount = 3, }, // Snorlax @ Route 12
+            new() { Species = 143, Level = 34, Location = 18, FlawlessIVCount = 3, }, // Snorlax @ Route 16
             // unused new EncounterStatic7b { Species = 100, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Voltorb @ Power Plant
             // collision new EncounterStatic7b { Species = 101, Level = 42, Location = 42, FlawlessIVCount = 3, }, // Electrode @ Power Plant
 
             // gifts
-            new EncounterStatic7b { Species = 025, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 8, Version = GameVersion.GP }, // Pikachu @ Pallet Town
-            new EncounterStatic7b { Species = 133, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 1, Version = GameVersion.GE }, // Eevee @ Pallet Town
+            new() { Species = 025, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 8, Version = GameVersion.GP }, // Pikachu @ Pallet Town
+            new() { Species = 133, Level = 05, Location = 28, Gift = true, IVs = new[] {31,31,31,31,31,31}, Shiny = Shiny.Never, Form = 1, Version = GameVersion.GE }, // Eevee @ Pallet Town
 
-            new EncounterStatic7b { Species = 129, Level = 05, Location = 06, Gift = true, IVs = new[] {30,31,25,30,25,25} }, // Magikarp @ Route 4
+            new() { Species = 129, Level = 05, Location = 06, Gift = true, IVs = new[] {30,31,25,30,25,25} }, // Magikarp @ Route 4
 
             // unused new EncounterStatic7b { Species = 133, Level = 30, Location = 34, Gift = true }, // Eevee @ Celadon City
-            new EncounterStatic7b { Species = 131, Level = 34, Location = 52, Gift = true, IVs = new[] {31,25,25,25,30,30} }, // Lapras @ Saffron City (Silph Co. Employee, inside)
-            new EncounterStatic7b { Species = 106, Level = 30, Location = 38, Gift = true, IVs = new[] {25,30,25,31,25,30} }, // Hitmonlee @ Saffron City (Karate Master)
-            new EncounterStatic7b { Species = 107, Level = 30, Location = 38, Gift = true, IVs = new[] {25,31,30,25,25,30} }, // Hitmonchan @ Saffron City (Karate Master)
-            new EncounterStatic7b { Species = 140, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Kabuto @ Cinnabar Island (Cinnabar Pokémon Lab)
-            new EncounterStatic7b { Species = 138, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Omanyte @ Cinnabar Island (Cinnabar Pokémon Lab)
-            new EncounterStatic7b { Species = 142, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
-            new EncounterStatic7b { Species = 001, Level = 12, Location = 31, Gift = true, IVs = new[] {31,25,30,25,25,30} }, // Bulbasaur @ Cerulean City
-            new EncounterStatic7b { Species = 004, Level = 14, Location = 26, Gift = true, IVs = new[] {25,30,25,31,30,25} }, // Charmander @ Route 24
-            new EncounterStatic7b { Species = 007, Level = 16, Location = 33, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Squirtle @ Vermillion City
-            new EncounterStatic7b { Species = 137, Level = 34, Location = 38, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Porygon @ Saffron City (Silph Co. Employee, outside)
-            new EncounterStatic7b { Species = 053, Level = 16, Location = 33, Gift = true, IVs = new[] {30,30,25,31,25,25}, Version = GameVersion.GP }, // Persian @ Vermillion City (Outside Fan Club)
-            new EncounterStatic7b { Species = 059, Level = 16, Location = 33, Gift = true, IVs = new[] {25,30,25,31,30,25}, Version = GameVersion.GE }, // Arcanine @ Vermillion City (Outside Fan Club)
+            new() { Species = 131, Level = 34, Location = 52, Gift = true, IVs = new[] {31,25,25,25,30,30} }, // Lapras @ Saffron City (Silph Co. Employee, inside)
+            new() { Species = 106, Level = 30, Location = 38, Gift = true, IVs = new[] {25,30,25,31,25,30} }, // Hitmonlee @ Saffron City (Karate Master)
+            new() { Species = 107, Level = 30, Location = 38, Gift = true, IVs = new[] {25,31,30,25,25,30} }, // Hitmonchan @ Saffron City (Karate Master)
+            new() { Species = 140, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Kabuto @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new() { Species = 138, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Omanyte @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new() { Species = 142, Level = 44, Location = 36, Gift = true, FlawlessIVCount = 3 }, // Aerodactyl @ Cinnabar Island (Cinnabar Pokémon Lab)
+            new() { Species = 001, Level = 12, Location = 31, Gift = true, IVs = new[] {31,25,30,25,25,30} }, // Bulbasaur @ Cerulean City
+            new() { Species = 004, Level = 14, Location = 26, Gift = true, IVs = new[] {25,30,25,31,30,25} }, // Charmander @ Route 24
+            new() { Species = 007, Level = 16, Location = 33, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Squirtle @ Vermillion City
+            new() { Species = 137, Level = 34, Location = 38, Gift = true, IVs = new[] {25,25,30,25,31,30} }, // Porygon @ Saffron City (Silph Co. Employee, outside)
+            new() { Species = 053, Level = 16, Location = 33, Gift = true, IVs = new[] {30,30,25,31,25,25}, Version = GameVersion.GP }, // Persian @ Vermillion City (Outside Fan Club)
+            new() { Species = 059, Level = 16, Location = 33, Gift = true, IVs = new[] {25,30,25,31,30,25}, Version = GameVersion.GE }, // Arcanine @ Vermillion City (Outside Fan Club)
         };
 
         private static readonly string[] T1 = { string.Empty, "ミニコ", "Tatianna", "BarbaRatatta", "Addoloratta", "Barbaratt", string.Empty, "Tatiana", "미니꼬", "小幂妮", "小幂妮", };
@@ -93,24 +93,24 @@ namespace PKHeX.Core
         private static readonly RareSpawn[] Rare =
         {
             // Normal
-            new RareSpawn(001, 039),
-            new RareSpawn(004, 005, 006, 041),
-            new RareSpawn(007, 026, 027, 044),
-            new RareSpawn(106, 045),
-            new RareSpawn(107, 045),
-            new RareSpawn(113, 007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051),
-            new RareSpawn(137, 009),
-            new RareSpawn(143, 046),
+            new(001, 039),
+            new(004, 005, 006, 041),
+            new(007, 026, 027, 044),
+            new(106, 045),
+            new(107, 045),
+            new(113, 007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051),
+            new(137, 009),
+            new(143, 046),
 
             // Water
-            new RareSpawn(131, 021, 022),
+            new(131, 021, 022),
 
             // Fly
-            new RareSpawn(006, Sky),
-            new RareSpawn(144, Sky),
-            new RareSpawn(145, Sky),
-            new RareSpawn(146, Sky),
-            new RareSpawn(149, Sky),
+            new(006, Sky),
+            new(144, Sky),
+            new(145, Sky),
+            new(146, Sky),
+            new(149, Sky),
         };
 
         private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea7b> areas)

@@ -75,7 +75,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Any lines that failed to be parsed.
         /// </summary>
-        public readonly List<string> InvalidLines = new List<string>();
+        public readonly List<string> InvalidLines = new();
 
         private GameStrings Strings { get; set; } = DefaultStrings;
 

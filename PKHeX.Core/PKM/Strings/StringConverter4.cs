@@ -143,7 +143,7 @@ namespace PKHeX.Core
             return result.ToString();
         }
 
-        private static readonly Dictionary<char, char> FrDiacritic = new Dictionary<char, char>(4)
+        private static readonly Dictionary<char, char> FrDiacritic = new(4)
         {
             { 'È', 'E' },
             { 'É', 'E' },

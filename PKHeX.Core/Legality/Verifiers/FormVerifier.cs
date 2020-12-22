@@ -241,7 +241,7 @@ namespace PKHeX.Core
             return 0;
         }
 
-        private static readonly HashSet<int> SafariFloette = new HashSet<int> { 0, 1, 3 }; // 0/1/3 - RBY
+        private static readonly HashSet<int> SafariFloette = new() { 0, 1, 3 }; // 0/1/3 - RBY
 
         private void VerifyFormFriendSafari(LegalityAnalysis data)
         {

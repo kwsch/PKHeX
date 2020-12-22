@@ -51,6 +51,6 @@ namespace PKHeX.Core
         public int GetBoxIndex(int box) => BitConverter.ToUInt16(Data, GetBoxNameOffset(box) + BankNameSize);
 
         private const int BoxStart = 0x17C;
-        public static Bank7 GetBank7(byte[] data) => new Bank7(data, typeof(PK7), BoxStart);
+        public static Bank7 GetBank7(byte[] data) => new(data, typeof(PK7), BoxStart);
     }
 }

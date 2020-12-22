@@ -138,7 +138,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species introduced in Generation 2 that require a level up to evolve into from a specimen that originated in a previous generation.
         /// </summary>
-        private static readonly HashSet<int> Future_LevelUp2 = new HashSet<int>
+        private static readonly HashSet<int> Future_LevelUp2 = new()
         {
             (int)Crobat,
             (int)Espeon,
@@ -149,7 +149,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species introduced in Generation 4 that require a level up to evolve into from a specimen that originated in a previous generation.
         /// </summary>
-        private static readonly HashSet<int> Future_LevelUp4 = new HashSet<int>
+        private static readonly HashSet<int> Future_LevelUp4 = new()
         {
             (int)Ambipom,
             (int)Weavile,
@@ -167,7 +167,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species introduced in Generation 4 that used to require a level up to evolve prior to Generation 8.
         /// </summary>
-        private static readonly HashSet<int> Future_LevelUp4_Not8 = new HashSet<int>
+        private static readonly HashSet<int> Future_LevelUp4_Not8 = new()
         {
             (int)Magnezone, // Thunder Stone
             (int)Leafeon, // Leaf Stone
@@ -177,7 +177,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species introduced in Generation 6+ that require a level up to evolve into from a specimen that originated in a previous generation.
         /// </summary>
-        private static readonly Dictionary<int, int> Future_LevelUp = new Dictionary<int, int>
+        private static readonly Dictionary<int, int> Future_LevelUp = new()
         {
             // Gen6
             {(int)Sylveon, 1},

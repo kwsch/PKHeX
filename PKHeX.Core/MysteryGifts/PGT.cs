@@ -123,7 +123,7 @@ namespace PKHeX.Core
                 throw new ArgumentException(nameof(IsPokémon));
 
             // template is already filled out, only minor mutations required
-            PK4 pk4 = new PK4((byte[])PK.Data.Clone()) { Sanity = 0 };
+            PK4 pk4 = new((byte[])PK.Data.Clone()) { Sanity = 0 };
             if (!IsHatched && Detail == 0)
             {
                 pk4.OT_Name = sav.OT;

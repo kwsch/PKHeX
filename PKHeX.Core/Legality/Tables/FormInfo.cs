@@ -102,7 +102,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that can be captured normally in the wild and can change between their forms.
         /// </summary>
-        public static readonly HashSet<int> WildChangeFormAfter = new HashSet<int>
+        public static readonly HashSet<int> WildChangeFormAfter = new()
         {
             412, // Burmy
             479, // Rotom
@@ -114,7 +114,7 @@ namespace PKHeX.Core
         /// Species that can change between their forms, regardless of origin.
         /// </summary>
         /// <remarks>Excludes Zygarde as it has special conditions. Check separately.</remarks>
-        private static readonly HashSet<int> FormChange = new HashSet<int>(WildChangeFormAfter)
+        private static readonly HashSet<int> FormChange = new(WildChangeFormAfter)
         {
             386, // Deoxys
             487, // Giratina
@@ -135,7 +135,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that have an alternate form that cannot exist outside of battle.
         /// </summary>
-        private static readonly HashSet<int> BattleForms = new HashSet<int>
+        private static readonly HashSet<int> BattleForms = new()
         {
             (int)Castform,
             (int)Cherrim,
@@ -161,7 +161,7 @@ namespace PKHeX.Core
         /// Species that have a mega form that cannot exist outside of battle.
         /// </summary>
         /// <remarks>Using a held item to change form during battle, via an in-battle transformation feature.</remarks>
-        private static readonly HashSet<int> BattleMegas = new HashSet<int>
+        private static readonly HashSet<int> BattleMegas = new()
         {
             // XY
             (int)Venusaur, (int)Charizard, (int)Blastoise,
@@ -193,7 +193,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that have a primal form that cannot exist outside of battle.
         /// </summary>
-        private static readonly HashSet<int> BattlePrimals = new HashSet<int> { (int)Kyogre, (int)Groudon };
+        private static readonly HashSet<int> BattlePrimals = new() { (int)Kyogre, (int)Groudon };
 
         private static readonly HashSet<int> BattleOnly = GetBattleFormSet();
 
@@ -281,7 +281,7 @@ namespace PKHeX.Core
         /// <summary>
         /// <seealso cref="IsValidOutOfBoundsForm"/>
         /// </summary>
-        private static readonly HashSet<int> HasFormValuesNotIndicatedByPersonal = new HashSet<int>
+        private static readonly HashSet<int> HasFormValuesNotIndicatedByPersonal = new()
         {
             (int)Unown,
             (int)Mothim, // (Burmy forme carried over, not cleared)

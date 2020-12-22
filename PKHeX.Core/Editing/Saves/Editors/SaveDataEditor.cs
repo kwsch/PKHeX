@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
     public sealed class FakeSaveFile : SaveFile
     {
-        public static readonly FakeSaveFile Default = new FakeSaveFile();
+        public static readonly FakeSaveFile Default = new();
         protected internal override string ShortSummary => "Fake Save File";
         protected override SaveFile CloneInternal() => this;
         public override string Extension => string.Empty;

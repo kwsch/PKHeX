@@ -31,8 +31,8 @@ namespace PKHeX.Core
             set => Sources = new GameDataSource(_strings = value);
         }
 
-        public static GameDataSource Sources { get; private set; } = new GameDataSource(_strings);
-        public static FilteredGameDataSource FilteredSources { get; set; } = new FilteredGameDataSource(FakeSaveFile.Default, Sources, false);
+        public static GameDataSource Sources { get; private set; } = new(_strings);
+        public static FilteredGameDataSource FilteredSources { get; set; } = new(FakeSaveFile.Default, Sources, false);
 
         public static string GetVersionName(GameVersion version)
         {

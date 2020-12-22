@@ -274,7 +274,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             var pi = PersonalTable.AO.GetFormEntry(Species, Form);
-            PK6 pk = new PK6
+            PK6 pk = new()
             {
                 Species = Species,
                 HeldItem = HeldItem,

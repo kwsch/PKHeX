@@ -15,7 +15,7 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
         public const int AwakeningMax = 200;
 
-        internal static readonly HashSet<int> WildPokeballs7b = new HashSet<int>
+        internal static readonly HashSet<int> WildPokeballs7b = new()
         {
             (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
         };
@@ -248,7 +248,7 @@ namespace PKHeX.Core
             // 741, // Veevee Volley -- Joycon Shake
         };
 
-        internal static readonly HashSet<short> AllowedMovesGG = new HashSet<short>
+        internal static readonly HashSet<short> AllowedMovesGG = new()
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009,
             010, 011, 012, 013, 014, 015, 016, 017, 018, 019,

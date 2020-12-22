@@ -10,8 +10,8 @@ namespace PKHeX.Core
     public sealed class FrameCache
     {
         private const int DefaultSize = 32;
-        private readonly List<uint> Seeds = new List<uint>(DefaultSize);
-        private readonly List<uint> Values = new List<uint>(DefaultSize);
+        private readonly List<uint> Seeds = new(DefaultSize);
+        private readonly List<uint> Values = new(DefaultSize);
         private readonly Func<uint, uint> Advance;
 
         /// <summary>

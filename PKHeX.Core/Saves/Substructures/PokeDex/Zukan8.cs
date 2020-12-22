@@ -673,7 +673,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static readonly HashSet<int> SpeciesWithGigantamaxData = new HashSet<int>
+        private static readonly HashSet<int> SpeciesWithGigantamaxData = new()
         {
             (int)Species.Charizard,
             (int)Species.Butterfree,

@@ -35,7 +35,7 @@ namespace PKHeX.Core
             return new string(result);
         }
 
-        private static readonly Dictionary<char, char> Glyph56 = new Dictionary<char, char>
+        private static readonly Dictionary<char, char> Glyph56 = new()
         {
             {'\u2467', '\u00d7'}, // ×
             {'\u2468', '\u00f7'}, // ÷

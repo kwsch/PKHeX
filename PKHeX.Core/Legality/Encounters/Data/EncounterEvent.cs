@@ -33,22 +33,22 @@ namespace PKHeX.Core
         /// <summary>Indicates if the databases are initialized.</summary>
         public static bool Initialized => MGDB_G3.Count != 0;
 
-        private static HashSet<PCD> GetPCDDB(byte[] bin) => new HashSet<PCD>(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
+        private static HashSet<PCD> GetPCDDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PCD.Size).Select(d => new PCD(d)));
 
-        private static HashSet<PGF> GetPGFDB(byte[] bin) => new HashSet<PGF>(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
+        private static HashSet<PGF> GetPGFDB(byte[] bin) => new(ArrayUtil.EnumerateSplit(bin, PGF.Size).Select(d => new PGF(d)));
 
-        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new HashSet<WC6>(
+        private static HashSet<WC6> GetWC6DB(byte[] wc6bin, byte[] wc6full) => new(
             ArrayUtil.EnumerateSplit(wc6full, WC6Full.Size).Select(d => new WC6Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc6bin, WC6.Size).Select(d => new WC6(d))));
 
-        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new HashSet<WC7>(
+        private static HashSet<WC7> GetWC7DB(byte[] wc7bin, byte[] wc7full) => new(
             ArrayUtil.EnumerateSplit(wc7full, WC7Full.Size).Select(d => new WC7Full(d).Gift)
             .Concat(ArrayUtil.EnumerateSplit(wc7bin, WC7.Size).Select(d => new WC7(d))));
 
-        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new HashSet<WB7>(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
+        private static HashSet<WB7> GetWB7DB(byte[] wc7full) => new(ArrayUtil.EnumerateSplit(wc7full, WB7.SizeFull).Select(d => new WB7(d)));
 
         private static HashSet<WC8> GetWC8DB(byte[] wc8bin) =>
-            new HashSet<WC8>(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
+            new(ArrayUtil.EnumerateSplit(wc8bin, WC8.Size).Select(d => new WC8(d)));
 
         public static void RefreshMGDB(params string[] paths)
         {

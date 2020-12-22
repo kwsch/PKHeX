@@ -13,8 +13,8 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<PKM> AllData;
         public readonly IReadOnlyList<LegalityAnalysis> AllAnalysis;
         public readonly ITrainerInfo Trainer;
-        public readonly List<CheckResult> Parse = new List<CheckResult>();
-        public readonly Dictionary<ulong, PKM> Trackers = new Dictionary<ulong, PKM>();
+        public readonly List<CheckResult> Parse = new();
+        public readonly Dictionary<ulong, PKM> Trackers = new();
         public readonly bool Valid;
 
         private readonly bool[] CloneFlags;

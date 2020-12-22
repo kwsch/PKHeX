@@ -10,7 +10,7 @@ namespace PKHeX.Core
         /// <summary>
         /// All <see cref="ISlotViewer{T}"/> instances that provide a view on individual <see cref="ISlotInfo"/> content.
         /// </summary>
-        public List<ISlotViewer<T>> Subscribers { get; } = new List<ISlotViewer<T>>();
+        public List<ISlotViewer<T>> Subscribers { get; } = new();
 
         public ISlotInfo? Previous { get; private set; }
         public SlotTouchType PreviousType { get; private set; } = SlotTouchType.None;

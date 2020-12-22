@@ -16,7 +16,7 @@ namespace PKHeX.Core
             var a = p.HasHiddenAbility ? 4 : 1;
             if (Move1 == 0)
             {
-                result[ctr++] = new()
+                result[ctr++] = new EncounterStatic5()
                 {
                     Species = Species,
                     Form = Form,

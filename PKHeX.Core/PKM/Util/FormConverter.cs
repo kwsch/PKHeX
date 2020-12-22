@@ -856,7 +856,7 @@ namespace PKHeX.Core
 
         private static bool IsFormListSingleMega(int species) => Mega_6_Single.Contains(species);
 
-        private static readonly HashSet<int> Mega_6_Single = new HashSet<int>
+        private static readonly HashSet<int> Mega_6_Single = new()
         {
             // XY
             003, 009, 065, 094, 115, 127, 130, 142, 181, 212, 214, 229, 248, 257, 282, 303, 306, 308, 310, 354, 359,
@@ -978,7 +978,7 @@ namespace PKHeX.Core
             };
         }
 
-        private static readonly Lazy<string[]> FormArg9999 = new Lazy<string[]>(() =>
+        private static readonly Lazy<string[]> FormArg9999 = new(() =>
         {
             var result = new string[10_000];
             for (int i = 0; i < result.Length; i++)

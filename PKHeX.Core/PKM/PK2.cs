@@ -103,7 +103,7 @@ namespace PKHeX.Core
 
         public PK1 ConvertToPK1()
         {
-            PK1 pk1 = new PK1(Japanese) {TradebackStatus = TradebackType.WasTradeback};
+            PK1 pk1 = new(Japanese) {TradebackStatus = TradebackType.WasTradeback};
             Array.Copy(Data, 0x1, pk1.Data, 0x7, 0x1A);
             pk1.Species = Species; // This will take care of Typing :)
 
@@ -226,7 +226,7 @@ namespace PKHeX.Core
 
         public SK2 ConvertToSK2()
         {
-            return new SK2(Japanese)
+            return new(Japanese)
             {
                 Species = Species,
                 HeldItem = HeldItem,

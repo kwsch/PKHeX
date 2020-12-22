@@ -8,7 +8,7 @@ namespace PKHeX.Core
 {
     public static class EvolutionChain
     {
-        private static readonly List<EvoCriteria> NONE = new List<EvoCriteria>(0);
+        private static readonly List<EvoCriteria> NONE = new(0);
 
         internal static IReadOnlyList<EvoCriteria>[] GetEvolutionChainsAllGens(PKM pkm, IEncounterable Encounter)
         {

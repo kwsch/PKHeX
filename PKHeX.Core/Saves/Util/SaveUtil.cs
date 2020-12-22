@@ -64,17 +64,17 @@ namespace PKHeX.Core
         public const int SIZE_G4RANCH = 0x54000;
         public const int SIZE_G4RANCH_PLAT = 0x7C000;
 
-        internal static readonly HashSet<int> SizesSWSH = new HashSet<int>
+        internal static readonly HashSet<int> SizesSWSH = new()
         {
             SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
         };
 
-        private static readonly HashSet<int> SizesGen2 = new HashSet<int>
+        private static readonly HashSet<int> SizesGen2 = new()
         {
             SIZE_G2RAW_U, SIZE_G2VC_U, SIZE_G2BAT_U, SIZE_G2EMU_U, SIZE_G2RAW_J, SIZE_G2BAT_J, SIZE_G2EMU_J, SIZE_G2VC_J,
         };
 
-        private static readonly HashSet<int> Sizes = new HashSet<int>(SizesGen2.Concat(SizesSWSH))
+        private static readonly HashSet<int> Sizes = new(SizesGen2.Concat(SizesSWSH))
         {
             // SizesSWSH covers gen8 sizes since there's so many
             SIZE_G7SM, SIZE_G7USUM, SIZE_G7GG,

@@ -24,7 +24,7 @@ namespace PKHeX
             168, // Gorgeous Box
         };
 
-        private static readonly HashSet<int> Stadium_GiftSpecies = new HashSet<int>
+        private static readonly HashSet<int> Stadium_GiftSpecies = new()
         {
             001, // Bulbasaur
             004, // Charmander
@@ -37,24 +37,24 @@ namespace PKHeX
             140, // Kabuto
         };
 
-        private static readonly HashSet<int> SpecialMinMoveSlots = new HashSet<int>
+        private static readonly HashSet<int> SpecialMinMoveSlots = new()
         {
             25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
         };
 
         internal static bool TypeIDExists(int type) => Types_Gen1.Contains(type);
 
-        private static readonly HashSet<int> Types_Gen1 = new HashSet<int>
+        private static readonly HashSet<int> Types_Gen1 = new()
         {
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
         };
 
-        internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new HashSet<int>
+        internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new()
         {
             12, 18, 31, 34, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
         };
 
-        internal static readonly HashSet<int> Trade_Evolution1 = new HashSet<int>
+        internal static readonly HashSet<int> Trade_Evolution1 = new()
         {
             064,
             067,

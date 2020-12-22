@@ -96,9 +96,9 @@ namespace PKHeX.Core
             590, 591, 592, 593
         };
 
-        internal static readonly HashSet<int> WildPokeBalls3 = new HashSet<int> { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
+        internal static readonly HashSet<int> WildPokeBalls3 = new() { 1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12};
 
-        internal static readonly HashSet<int> FutureEvolutionsGen3 = new HashSet<int>
+        internal static readonly HashSet<int> FutureEvolutionsGen3 = new()
         {
             407,424,429,430,461,462,463,464,465,466,467,468,469,470,471,472,473,474,475,476,477,478,700
         };
@@ -110,7 +110,7 @@ namespace PKHeX.Core
 
         internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
 
-        internal static readonly HashSet<string> EReaderBerriesNames_USA = new HashSet<string>
+        internal static readonly HashSet<string> EReaderBerriesNames_USA = new()
         {
             // USA Series 1
             "PUMKIN",
@@ -121,7 +121,7 @@ namespace PKHeX.Core
             "NUTPEA",
         };
 
-        internal static readonly HashSet<string> EReaderBerriesNames_JP = new HashSet<string>
+        internal static readonly HashSet<string> EReaderBerriesNames_JP = new()
         {
             // JP Series 1
             "カチャ", // PUMKIN
@@ -149,7 +149,7 @@ namespace PKHeX.Core
             259, 263, 290, 156, 213, 168, 211, 285, 289, 315,
         };
 
-        internal static readonly HashSet<int> HM_3 = new HashSet<int> { 15, 19, 57, 70, 148, 249, 127, 291};
+        internal static readonly HashSet<int> HM_3 = new() { 15, 19, 57, 70, 148, 249, 127, 291};
         internal static readonly int[] TypeTutor3 = {338, 307, 308};
 
         internal static readonly int[] Tutor_3Mew =
@@ -223,14 +223,14 @@ namespace PKHeX.Core
                     359, 385, 386 }
         };
 
-        internal static readonly HashSet<int> ValidEggMet_RSE = new HashSet<int>
+        internal static readonly HashSet<int> ValidEggMet_RSE = new()
         {
             32, //Route 117
             253, //Ingame egg gift
             255 // event/pokemon box
         };
 
-        internal static readonly HashSet<int> ValidEggMet_FRLG = new HashSet<int>
+        internal static readonly HashSet<int> ValidEggMet_FRLG = new()
         {
             146, //Four Island
             253, //Ingame egg gift
@@ -239,7 +239,7 @@ namespace PKHeX.Core
         // 064 is an unused location for Meteor Falls
         // 084 is Inside of a truck, no possible pokemon can be hatched there
         // 071 is Mirage island, cannot be obtained as the player is technically still on Route 130's map.
-        internal static readonly HashSet<int> ValidMet_RS = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_RS = new()
         {
             000, 001, 002, 003, 004, 005, 006, 007, 008, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019,
             020, 021, 022, 023, 024, 025, 026, 027, 028, 029, 030, 031, 032, 033, 034, 035, 036, 037, 038, 039,
@@ -249,7 +249,7 @@ namespace PKHeX.Core
         };
         // 155 - 158 Sevii Isle 6-9 Unused
         // 171 - 173 Sevii Isle 22-24 Unused
-        internal static readonly HashSet<int> ValidMet_FRLG = new HashSet<int>
+        internal static readonly HashSet<int> ValidMet_FRLG = new()
         {
             087, 088, 089, 090, 091, 092, 093, 094, 095, 096, 097, 098, 099,
             100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119,
@@ -259,7 +259,7 @@ namespace PKHeX.Core
             187, 188, 189, 190, 191, 192, 193, 194, 195, 196
         };
 
-        internal static readonly HashSet<int> ValidMet_E = new HashSet<int>(ValidMet_RS.Concat(new[]
+        internal static readonly HashSet<int> ValidMet_E = new(ValidMet_RS.Concat(new[]
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
         }));
@@ -267,7 +267,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species ID that can be originated from Colosseum (using only Generation 3 max Species ID values).
         /// </summary>
-        internal static readonly HashSet<int> ValidSpecies_Colo = new HashSet<int>
+        internal static readonly HashSet<int> ValidSpecies_Colo = new()
         {
             025, // Pikachu
             153, // Bayleef

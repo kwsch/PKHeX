@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     public static class EvolutionSet6
     {
-        internal static readonly HashSet<int> EvosWithArg = new HashSet<int> {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
+        internal static readonly HashSet<int> EvosWithArg = new() {6, 8, 16, 17, 18, 19, 20, 21, 22, 29};
         private const int SIZE = 6;
 
         private static EvolutionMethod[] GetMethods(byte[] data)

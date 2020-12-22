@@ -101,7 +101,7 @@ namespace PKHeX.Core
             return (byte) MainSeriesToGC[(LanguageID)value];
         }
 
-        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new Dictionary<LanguageID, LanguageGC>
+        private static readonly Dictionary<LanguageID, LanguageGC> MainSeriesToGC = new()
         {
             {LanguageID.German, LanguageGC.German},
             {LanguageID.French, LanguageGC.French},
@@ -110,7 +110,7 @@ namespace PKHeX.Core
             {LanguageID.UNUSED_6, LanguageGC.UNUSED_6},
         };
 
-        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new Dictionary<LanguageGC, LanguageID>
+        private static readonly Dictionary<LanguageGC, LanguageID> GCtoMainSeries = new()
         {
             {LanguageGC.German, LanguageID.German},
             {LanguageGC.French, LanguageID.French},

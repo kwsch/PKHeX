@@ -16,7 +16,7 @@ namespace PKHeX.Core
     {
         internal readonly PKM pkm;
         internal readonly PersonalInfo PersonalInfo;
-        private readonly List<CheckResult> Parse = new List<CheckResult>();
+        private readonly List<CheckResult> Parse = new();
 
         /// <summary>
         /// Parse result list allowing view of the legality parse.
@@ -460,7 +460,7 @@ namespace PKHeX.Core
             if (!EncounterMatch.EggEncounter)
                 return parsed;
 
-            List<int> window = new List<int>(parsed.Where(z => z != 0));
+            List<int> window = new(parsed.Where(z => z != 0));
             window.AddRange(pkm.Moves.Where((_, i) => Info.Moves[i].ShouldBeInRelearnMoves()));
             window = window.Distinct().ToList();
             int[] moves = new int[4];

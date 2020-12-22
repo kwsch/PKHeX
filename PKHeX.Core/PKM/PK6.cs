@@ -450,7 +450,7 @@ namespace PKHeX.Core
 
         public PK7 ConvertToPK7()
         {
-            PK7 pk7 = new PK7(Data)
+            PK7 pk7 = new(Data)
             {
                 Markings = Markings, // Clears old Super Training Bag & Hits Remaining
                 Data = { [0x2A] = 0 }, // Clears old Marking Value

@@ -178,7 +178,7 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             var pi = PersonalTable.B2W2.GetFormEntry(Species, Form);
-            PK5 pk = new PK5
+            PK5 pk = new()
             {
                 Species = Species,
                 HeldItem = HeldItem,

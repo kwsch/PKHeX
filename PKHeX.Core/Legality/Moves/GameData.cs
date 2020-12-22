@@ -7,7 +7,7 @@ namespace PKHeX.Core
         public static Learnset[] GetLearnsets(GameVersion game) => Learnsets[game];
         public static PersonalTable GetPersonal(GameVersion game) => Personal[game];
 
-        private static readonly Dictionary<GameVersion, Learnset[]> Learnsets = new Dictionary<GameVersion, Learnset[]>
+        private static readonly Dictionary<GameVersion, Learnset[]> Learnsets = new()
         {
             { GameVersion.RD, Legal.LevelUpRB },
             { GameVersion.BU, Legal.LevelUpRB },
@@ -87,7 +87,7 @@ namespace PKHeX.Core
             { GameVersion.Stadium2, Legal.LevelUpGS },
         };
 
-        private static readonly Dictionary<GameVersion, PersonalTable> Personal = new Dictionary<GameVersion, PersonalTable>
+        private static readonly Dictionary<GameVersion, PersonalTable> Personal = new()
         {
             { GameVersion.RD, PersonalTable.RB },
             { GameVersion.BU, PersonalTable.RB },

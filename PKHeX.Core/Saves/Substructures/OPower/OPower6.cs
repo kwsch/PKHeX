@@ -7,28 +7,28 @@ namespace PKHeX.Core
     {
         private static readonly OPowerFlagSet[] Mapping =
         {
-            new OPowerFlagSet(5, Hatching),
-            new OPowerFlagSet(5, Bargain),
-            new OPowerFlagSet(5, Prize_Money),
-            new OPowerFlagSet(5, Exp_Point),
-            new OPowerFlagSet(5, Capture),
+            new(5, Hatching),
+            new(5, Bargain),
+            new(5, Prize_Money),
+            new(5, Exp_Point),
+            new(5, Capture),
 
-            new OPowerFlagSet(3, Encounter),
-            new OPowerFlagSet(3, Stealth),
-            new OPowerFlagSet(3, HP_Restoring),
-            new OPowerFlagSet(3, PP_Restoring),
+            new(3, Encounter),
+            new(3, Stealth),
+            new(3, HP_Restoring),
+            new(3, PP_Restoring),
 
-            new OPowerFlagSet(1, Full_Recovery),
+            new(1, Full_Recovery),
 
-            new OPowerFlagSet(5, Befriending),
+            new(5, Befriending),
 
-            new OPowerFlagSet(3, Attack),
-            new OPowerFlagSet(3, Defense),
-            new OPowerFlagSet(3, Sp_Attack),
-            new OPowerFlagSet(3, Sp_Defense),
-            new OPowerFlagSet(3, Speed),
-            new OPowerFlagSet(3, Critical),
-            new OPowerFlagSet(3, Accuracy),
+            new(3, Attack),
+            new(3, Defense),
+            new(3, Sp_Attack),
+            new(3, Sp_Defense),
+            new(3, Speed),
+            new(3, Critical),
+            new(3, Accuracy),
         };
 
         static OPower6()

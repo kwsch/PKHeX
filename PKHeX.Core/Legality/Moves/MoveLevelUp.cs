@@ -9,23 +9,23 @@ namespace PKHeX.Core
     public static class MoveLevelUp
     {
         private static readonly LearnLookup
-            LearnSWSH = new LearnLookup(PersonalTable.SWSH, LevelUpSWSH, SWSH),
-            LearnSM = new LearnLookup(PersonalTable.SM, LevelUpSM, SM),
-            LearnUSUM = new LearnLookup(PersonalTable.USUM, LevelUpUSUM, USUM),
-            LearnGG = new LearnLookup(PersonalTable.GG, LevelUpGG, Gen7b),
-            LearnXY = new LearnLookup(PersonalTable.XY, LevelUpXY, XY),
-            LearnAO = new LearnLookup(PersonalTable.AO, LevelUpAO, ORAS),
-            LearnBW = new LearnLookup(PersonalTable.BW, LevelUpBW, BW),
-            LearnB2W2 = new LearnLookup(PersonalTable.B2W2, LevelUpB2W2, B2W2),
-            LearnDP = new LearnLookup(PersonalTable.DP, LevelUpDP, DP),
-            LearnPt = new LearnLookup(PersonalTable.Pt, LevelUpPt, Pt),
-            LearnHGSS = new LearnLookup(PersonalTable.HGSS, LevelUpHGSS, HGSS),
-            LearnRSE = new LearnLookup(PersonalTable.RS, LevelUpRS, RSE),
-            LearnFRLG = new LearnLookup(PersonalTable.LG, LevelUpLG, FRLG),
-            LearnGS = new LearnLookup(PersonalTable.GS, LevelUpGS, GS),
-            LearnC = new LearnLookup(PersonalTable.C, LevelUpC, C),
-            LearnRB = new LearnLookup(PersonalTable.RB, LevelUpRB, RB),
-            LearnY = new LearnLookup(PersonalTable.Y, LevelUpY, YW);
+            LearnSWSH = new(PersonalTable.SWSH, LevelUpSWSH, SWSH),
+            LearnSM = new(PersonalTable.SM, LevelUpSM, SM),
+            LearnUSUM = new(PersonalTable.USUM, LevelUpUSUM, USUM),
+            LearnGG = new(PersonalTable.GG, LevelUpGG, Gen7b),
+            LearnXY = new(PersonalTable.XY, LevelUpXY, XY),
+            LearnAO = new(PersonalTable.AO, LevelUpAO, ORAS),
+            LearnBW = new(PersonalTable.BW, LevelUpBW, BW),
+            LearnB2W2 = new(PersonalTable.B2W2, LevelUpB2W2, B2W2),
+            LearnDP = new(PersonalTable.DP, LevelUpDP, DP),
+            LearnPt = new(PersonalTable.Pt, LevelUpPt, Pt),
+            LearnHGSS = new(PersonalTable.HGSS, LevelUpHGSS, HGSS),
+            LearnRSE = new(PersonalTable.RS, LevelUpRS, RSE),
+            LearnFRLG = new(PersonalTable.LG, LevelUpLG, FRLG),
+            LearnGS = new(PersonalTable.GS, LevelUpGS, GS),
+            LearnC = new(PersonalTable.C, LevelUpC, C),
+            LearnRB = new(PersonalTable.RB, LevelUpRB, RB),
+            LearnY = new(PersonalTable.Y, LevelUpY, YW);
 
         public static LearnVersion GetIsLevelUpMove(PKM pkm, int species, int form, int lvl, int generation, int move, int minlvlG1, int minlvlG2, GameVersion version = Any)
         {

@@ -7,12 +7,12 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that trigger Light Ball yielding Volt Tackle
         /// </summary>
-        public static readonly HashSet<int> LightBall = new HashSet<int> { 25, 26, 172 };
+        public static readonly HashSet<int> LightBall = new() { 25, 26, 172 };
 
         /// <summary>
         /// Species that can change between their forms and get access to form-specific moves.
         /// </summary>
-        public static readonly HashSet<int> FormChangeMoves = new HashSet<int>
+        public static readonly HashSet<int> FormChangeMoves = new()
         {
             386, // Deoxys
             487, // Giratina
@@ -23,7 +23,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that cannot hatch from an egg.
         /// </summary>
-        public static readonly HashSet<int> NoHatchFromEgg = new HashSet<int>
+        public static readonly HashSet<int> NoHatchFromEgg = new()
         {
             132, // Ditto
             144, // Articuno
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Species.Pichu"/> with Form 1 (Spiky).
         /// </summary>
-        public static readonly HashSet<int> BattleFrontierBanlist = new HashSet<int>
+        public static readonly HashSet<int> BattleFrontierBanlist = new()
         {
             150, // Mewtwo
             151, // Mew
@@ -190,7 +190,7 @@ namespace PKHeX.Core
             809, // Melmetal
         };
 
-        public static readonly HashSet<int> Z_Moves = new HashSet<int>
+        public static readonly HashSet<int> Z_Moves = new()
         {
             622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
             695, 696, 697, 698, 699, 700, 701, 702, 703,
@@ -201,7 +201,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Moves that can not be obtained by using Sketch with Smeargle.
         /// </summary>
-        internal static readonly HashSet<int> InvalidSketch = new HashSet<int>(Z_Moves)
+        internal static readonly HashSet<int> InvalidSketch = new(Z_Moves)
         {
             // Can't Sketch
             165, // Struggle
@@ -214,7 +214,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species classified as "Legend" by the game code.
         /// </summary>
-        public static readonly HashSet<int> Legends = new HashSet<int>
+        public static readonly HashSet<int> Legends = new()
         {
             (int)Species.Mewtwo, (int)Species.Mew,
             (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi,
@@ -230,7 +230,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species classified as "SubLegend" by the game code.
         /// </summary>
-        public static readonly HashSet<int> SubLegends = new HashSet<int>
+        public static readonly HashSet<int> SubLegends = new()
         {
             (int)Species.Articuno, (int)Species.Zapdos, (int)Species.Moltres,
             (int)Species.Raikou, (int)Species.Entei, (int)Species.Suicune,
@@ -246,7 +246,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that evolve from a Bi-Gendered species into a Single-Gender.
         /// </summary>
-        public static readonly HashSet<int> FixedGenderFromBiGender = new HashSet<int>
+        public static readonly HashSet<int> FixedGenderFromBiGender = new()
         {
             (int)Species.Nincada,
             (int)Species.Shedinja, // (G)

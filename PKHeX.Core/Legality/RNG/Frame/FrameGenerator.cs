@@ -17,10 +17,10 @@ namespace PKHeX.Core
         public readonly RNG RNG = RNG.LCRNG;
         public readonly bool Safari3;
 
-        public Frame GetFrame(uint seed, LeadRequired lead) => new Frame(seed, FrameType, lead);
+        public Frame GetFrame(uint seed, LeadRequired lead) => new(seed, FrameType, lead);
         public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint origin) => GetFrame(seed, lead, esv, esv, origin);
 
-        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new Frame(seed, FrameType, lead)
+        public Frame GetFrame(uint seed, LeadRequired lead, uint esv, uint lvl, uint origin) => new(seed, FrameType, lead)
         {
             RandESV = esv,
             RandLevel = lvl,

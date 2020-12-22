@@ -28,7 +28,7 @@ namespace PKHeX.Core
             return year < int.MaxValue && month < int.MaxValue && day < int.MaxValue && IsDateValid((int)year, (int)month, (int)day);
         }
 
-        private static readonly DateTime Epoch2000 = new DateTime(2000, 1, 1);
+        private static readonly DateTime Epoch2000 = new(2000, 1, 1);
         private const int SecondsPerDay = 60*60*24; // 86400
 
         public static int GetSecondsFrom2000(DateTime date, DateTime time)

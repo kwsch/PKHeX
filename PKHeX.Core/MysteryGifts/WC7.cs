@@ -318,7 +318,7 @@ namespace PKHeX.Core
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
-            PK7 pk = new PK7
+            PK7 pk = new()
             {
                 Species = Species,
                 HeldItem = HeldItem,
