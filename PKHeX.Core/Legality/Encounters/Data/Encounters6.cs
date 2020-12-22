@@ -92,15 +92,18 @@ namespace PKHeX.Core
             new EncounterStatic6 { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
         };
 
-        private static readonly EncounterStatic6 CosplayPikachu = new EncounterStatic6
+        private static readonly int[] CosplayPikachuIVs = {70, 70, 70, 70, 70, 0};
+
+        private static EncounterStatic6 GetCosplayPikachu(int form) => new()
         {
             Location = 178, // Or 180, 186, 194
+            Form = form,
             Species = 025,
             Level = 20,
             Gender = 1,
             Ability = 4,
             FlawlessIVCount = 3,
-            Contest = new[] {70, 70, 70, 70, 70, 0},
+            Contest = CosplayPikachuIVs,
             Gift = true,
             Shiny = Shiny.Never
         };
@@ -208,20 +211,13 @@ namespace PKHeX.Core
             new EncounterStatic6 { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new EncounterStatic6 { Species = 628, Level = 45, Location = 348 }, // Braviary
 
-            PermuteCosplay(1),
-            PermuteCosplay(2),
-            PermuteCosplay(3),
-            PermuteCosplay(4),
-            PermuteCosplay(5),
-            PermuteCosplay(6),
+            GetCosplayPikachu(1),
+            GetCosplayPikachu(2),
+            GetCosplayPikachu(3),
+            GetCosplayPikachu(4),
+            GetCosplayPikachu(5),
+            GetCosplayPikachu(6),
         };
-
-        private static EncounterStatic6 PermuteCosplay(int form)
-        {
-            var clone = (EncounterStatic6)CosplayPikachu.Clone();
-            clone.Form = form;
-            return clone;
-        }
 
         private static readonly EncounterStatic6[] Encounter_AO = Encounter_AO_Regular;
 
