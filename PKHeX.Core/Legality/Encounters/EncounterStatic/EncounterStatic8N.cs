@@ -16,7 +16,6 @@ namespace PKHeX.Core
 
         private IReadOnlyList<byte> NestLocations => Encounters8Nest.NestLocations[NestID];
 
-        public override int Location { get => SharedNest; init { } }
         public override int Level { get => LevelMin; init { } }
         public override int LevelMin => LevelCaps[MinRank * 2];
         public override int LevelMax => LevelCaps[(MaxRank * 2) + 1];
