@@ -180,6 +180,10 @@ namespace PKHeX.Core
         {
             if (pkm.Species == (int)Species.Smeargle)
                 return !InvalidSketch.Contains(move);
+
+            if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
+                return true;
+
             return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
         }
 
