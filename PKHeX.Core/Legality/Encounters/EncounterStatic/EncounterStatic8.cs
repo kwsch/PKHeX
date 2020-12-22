@@ -32,6 +32,6 @@ namespace PKHeX.Core
             return base.IsMatch(pkm, evo);
         }
 
-        public IReadOnlyList<int> Relearn { get; internal set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
     }
 }

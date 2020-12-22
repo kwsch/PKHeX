@@ -75,7 +75,7 @@ namespace PKHeX.Core
 
         public void Delete() => RawValue = 0;
 
-        public EntreeForestArea Area { get; internal set; }
+        public EntreeForestArea Area { get; init; }
 
         public EntreeSlot(byte[] data, int ofs)
         {

@@ -10,6 +10,11 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class EncounterArea8 : EncounterArea
     {
+        /// <summary>
+        /// Slots from this area can cross over to another area, resulting in a different met location.
+        /// </summary>
+        public bool PermitCrossover { get; init; }
+
         /// <inheritdoc />
         public override bool IsMatchLocation(int location)
         {
@@ -212,16 +217,11 @@ namespace PKHeX.Core
             {230, new byte[] {232}},
         };
 
-        /// <summary>
-        /// Slots from this area can cross over to another area, resulting in a different met location.
-        /// </summary>
-        public bool PermitCrossover { get; internal set; }
-
-        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game)
+        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool crossover = false)
         {
             var result = new EncounterArea8[input.Length];
             for (int i = 0; i < input.Length; i++)
-                result[i] = new EncounterArea8(input[i], game);
+                result[i] = new EncounterArea8(input[i], game) {PermitCrossover = crossover};
             return result;
         }
 

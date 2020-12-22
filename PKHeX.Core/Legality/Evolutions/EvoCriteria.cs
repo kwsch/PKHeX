@@ -8,7 +8,7 @@
 
         public int MinLevel { get; set; }
         public bool RequiresLvlUp { get; set; }
-        public int Method { get; set; } = -1;
+        public int Method { get; init; } = -1;
 
         public bool IsTradeRequired => ((EvolutionType) Method).IsTrade();
 

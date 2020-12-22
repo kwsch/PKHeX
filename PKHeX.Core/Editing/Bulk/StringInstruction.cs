@@ -18,7 +18,7 @@ namespace PKHeX.Core
     {
         public string PropertyName { get; }
         public string PropertyValue { get; private set; }
-        public bool Evaluator { get; private set; }
+        public bool Evaluator { get; private init; }
 
         public StringInstruction(string name, string value)
         {

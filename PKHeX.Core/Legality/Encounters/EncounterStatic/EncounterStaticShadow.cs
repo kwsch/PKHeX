@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Initial Shadow Gauge value.
         /// </summary>
-        public int Gauge { get; internal set; }
+        public int Gauge { get; init; }
 
         /// <summary>
         /// Originates from the EReader scans (Japanese Only)
