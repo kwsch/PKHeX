@@ -94,8 +94,8 @@ namespace PKHeX.Core
 
         public override int GetDaycareSlotOffset(int loc, int slot) => DaycareOffset + 8 + (slot * (SIZE_STORED + 8));
         public override bool? IsDaycareHasEgg(int loc) => Data[DaycareOffset + 0x1E0] == 1;
-        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Data[DaycareOffset + 0x1E0] = (byte)(hasEgg ? 1 : 0);
-        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Data[DaycareOffset + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+        public override void SetDaycareHasEgg(int loc, bool hasEgg) => Data[DaycareOffset + 0x1E0] = hasEgg ? 1 : 0;
+        public override void SetDaycareOccupied(int loc, int slot, bool occupied) => Data[DaycareOffset + ((SIZE_STORED + 8) * slot)] = occupied ? 1 : 0;
         public override void SetDaycareEXP(int loc, int slot, uint EXP) => BitConverter.GetBytes(EXP).CopyTo(Data, DaycareOffset + 4 + ((SIZE_STORED + 8) * slot));
 
         public override string GetDaycareRNGSeed(int loc)

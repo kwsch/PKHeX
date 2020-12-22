@@ -101,7 +101,7 @@ namespace PKHeX.Core
         public bool BattleBoxLocked
         {
             get => Data[BattleBoxOffset + 0x358] != 0; // wifi/live
-            set => Data[BattleBoxOffset + 0x358] = (byte)(value ? 1 : 0);
+            set => Data[BattleBoxOffset + 0x358] = value ? 1 : 0;
         }
 
         protected override void SetPKM(PKM pkm)
@@ -148,7 +148,7 @@ namespace PKHeX.Core
         private bool CGearSkinPresent
         {
             get => Data[CGearSkinInfoOffset + 2] == 1;
-            set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = (byte) (value ? 1 : 0);
+            set => Data[CGearSkinInfoOffset + 2] = Data[PlayerData.Offset + (this is SAV5B2W2 ? 0x6C : 0x54)] = value ? 1 : 0;
         }
 
         public byte[] CGearSkinData

@@ -108,7 +108,7 @@ namespace PKHeX.Core
 
         public int CardType { get => Data[0x51]; set => Data[0x51] = (byte)value; }
         public override bool GiftUsed { get => Data[0x52] >> 1 > 0; set => Data[0x52] = (byte)((Data[0x52] & ~2) | (value ? 2 : 0)); }
-        public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = (byte)(value ? 1 : 0); }
+        public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = value ? 1 : 0; }
 
         // Item Properties
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }
@@ -176,7 +176,7 @@ namespace PKHeX.Core
         }
 
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
-        public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = (byte)(value ? 1 : 0); }
+        public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? 1 : 0; }
         public uint PID { get => BitConverter.ToUInt32(Data, 0xD4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xD4); }
 
         public int RelearnMove1 { get => BitConverter.ToUInt16(Data, 0xD8); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xD8); }

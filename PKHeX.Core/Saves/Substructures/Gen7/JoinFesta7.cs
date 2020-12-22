@@ -52,7 +52,7 @@ namespace PKHeX.Core
         public void SetFestaPhraseUnlocked(int index, bool value)
         {
             if (GetFestaPhraseUnlocked(index) != value)
-                Data[Offset + 0x2A50 + index] = (byte)(value ? 1 : 0);
+                Data[Offset + 0x2A50 + index] = value ? 1 : 0;
         }
 
         public byte GetFestPrizeReceived(int index) => Data[Offset + 0x53C + index];

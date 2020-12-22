@@ -225,7 +225,7 @@ namespace PKHeX.Core
 
         protected override void SetPartyValues(PKM pkm, bool isParty)
         {
-            pkm.Sanity = (ushort)(isParty ? 0xC000 : 0x4000);
+            pkm.Sanity = isParty ? 0xC000 : 0x4000;
         }
 
         public static byte[] DecryptPBRSaveData(byte[] input)

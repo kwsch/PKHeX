@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public int Type { get => Data[0x00]; set => Data[0x00] = (byte)value; }
         public int Color { get => Data[0x01]; set => Data[0x01] = (byte)value; }
-        public bool IsIntroduced { get => Data[0x02] != 0; set => Data[0x02] = (byte)(value ? 1 : 0); }
+        public bool IsIntroduced { get => Data[0x02] != 0; set => Data[0x02] = value ? 1 : 0; }
         public int Gender { get => Data[0x03]; set => Data[0x03] = (byte)value; }
         public string OT_Name { get => StringConverter.GetString7(Data, 0x04, 0x1A); set => StringConverter.SetString7(value, 12, Language).CopyTo(Data, 0x04); }
 

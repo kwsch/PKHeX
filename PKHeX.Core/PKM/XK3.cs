@@ -69,7 +69,7 @@ namespace PKHeX.Core
         public override uint PID { get => BigEndian.ToUInt32(Data, 0x28); set => BigEndian.GetBytes(value).CopyTo(Data, 0x28); }
         // 0x2A-0x2B Unknown
         // 0x2C-0x2F Battle Related
-        public bool Obedient { get => Data[0x30] == 1; set => Data[0x30] = (byte)(value ? 1 : 0); }
+        public bool Obedient { get => Data[0x30] == 1; set => Data[0x30] = value ? 1 : 0; }
         // 0x31-0x32 Unknown
         public int EncounterInfo { get => Data[0x33]; set => Data[0x33] = (byte)value; }
 
@@ -97,22 +97,22 @@ namespace PKHeX.Core
         public string NicknameCopy { get => GetString(0x64, 20); set => SetString(value, 10).CopyTo(Data, 0x64); } // +2 terminator
         // 0x7A-0x7B Unknown
         private ushort RIB0 { get => BigEndian.ToUInt16(Data, 0x7C); set => BigEndian.GetBytes(value).CopyTo(Data, 0x7C); }
-        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (ushort)(value ? 1 << 15 : 0)); }
-        public override bool RibbonWinning           { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = (ushort)((RIB0 & ~(1 << 14)) | (ushort)(value ? 1 << 14 : 0)); }
-        public override bool RibbonVictory           { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = (ushort)((RIB0 & ~(1 << 13)) | (ushort)(value ? 1 << 13 : 0)); }
-        public override bool RibbonArtist            { get => (RIB0 & (1 << 12)) == 1 << 12; set => RIB0 = (ushort)((RIB0 & ~(1 << 12)) | (ushort)(value ? 1 << 12 : 0)); }
-        public override bool RibbonEffort            { get => (RIB0 & (1 << 11)) == 1 << 11; set => RIB0 = (ushort)((RIB0 & ~(1 << 11)) | (ushort)(value ? 1 << 11 : 0)); }
-        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 10)) == 1 << 10; set => RIB0 = (ushort)((RIB0 & ~(1 << 10)) | (ushort)(value ? 1 << 10 : 0)); }
-        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 09)) == 1 << 09; set => RIB0 = (ushort)((RIB0 & ~(1 << 09)) | (ushort)(value ? 1 << 09 : 0)); }
-        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 08)) == 1 << 08; set => RIB0 = (ushort)((RIB0 & ~(1 << 08)) | (ushort)(value ? 1 << 08 : 0)); }
-        public override bool RibbonCountry           { get => (RIB0 & (1 << 07)) == 1 << 07; set => RIB0 = (ushort)((RIB0 & ~(1 << 07)) | (ushort)(value ? 1 << 07 : 0)); }
-        public override bool RibbonNational          { get => (RIB0 & (1 << 06)) == 1 << 06; set => RIB0 = (ushort)((RIB0 & ~(1 << 06)) | (ushort)(value ? 1 << 06 : 0)); }
-        public override bool RibbonEarth             { get => (RIB0 & (1 << 05)) == 1 << 05; set => RIB0 = (ushort)((RIB0 & ~(1 << 05)) | (ushort)(value ? 1 << 05 : 0)); }
-        public override bool RibbonWorld             { get => (RIB0 & (1 << 04)) == 1 << 04; set => RIB0 = (ushort)((RIB0 & ~(1 << 04)) | (ushort)(value ? 1 << 04 : 0)); }
-        public override bool Unused1                 { get => (RIB0 & (1 << 03)) == 1 << 03; set => RIB0 = (ushort)((RIB0 & ~(1 << 03)) | (ushort)(value ? 1 << 03 : 0)); }
-        public override bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)((RIB0 & ~(1 << 02)) | (ushort)(value ? 1 << 02 : 0)); }
-        public override bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)((RIB0 & ~(1 << 01)) | (ushort)(value ? 1 << 01 : 0)); }
-        public override bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)((RIB0 & ~(1 << 00)) | (ushort)(value ? 1 << 00 : 0)); }
+        public override bool RibbonChampionG3Hoenn   { get => (RIB0 & (1 << 15)) == 1 << 15; set => RIB0 = (ushort)((RIB0 & ~(1 << 15)) | (value ? 1 << 15 : 0)); }
+        public override bool RibbonWinning           { get => (RIB0 & (1 << 14)) == 1 << 14; set => RIB0 = (ushort)((RIB0 & ~(1 << 14)) | (value ? 1 << 14 : 0)); }
+        public override bool RibbonVictory           { get => (RIB0 & (1 << 13)) == 1 << 13; set => RIB0 = (ushort)((RIB0 & ~(1 << 13)) | (value ? 1 << 13 : 0)); }
+        public override bool RibbonArtist            { get => (RIB0 & (1 << 12)) == 1 << 12; set => RIB0 = (ushort)((RIB0 & ~(1 << 12)) | (value ? 1 << 12 : 0)); }
+        public override bool RibbonEffort            { get => (RIB0 & (1 << 11)) == 1 << 11; set => RIB0 = (ushort)((RIB0 & ~(1 << 11)) | (value ? 1 << 11 : 0)); }
+        public override bool RibbonChampionBattle    { get => (RIB0 & (1 << 10)) == 1 << 10; set => RIB0 = (ushort)((RIB0 & ~(1 << 10)) | (value ? 1 << 10 : 0)); }
+        public override bool RibbonChampionRegional  { get => (RIB0 & (1 << 09)) == 1 << 09; set => RIB0 = (ushort)((RIB0 & ~(1 << 09)) | (value ? 1 << 09 : 0)); }
+        public override bool RibbonChampionNational  { get => (RIB0 & (1 << 08)) == 1 << 08; set => RIB0 = (ushort)((RIB0 & ~(1 << 08)) | (value ? 1 << 08 : 0)); }
+        public override bool RibbonCountry           { get => (RIB0 & (1 << 07)) == 1 << 07; set => RIB0 = (ushort)((RIB0 & ~(1 << 07)) | (value ? 1 << 07 : 0)); }
+        public override bool RibbonNational          { get => (RIB0 & (1 << 06)) == 1 << 06; set => RIB0 = (ushort)((RIB0 & ~(1 << 06)) | (value ? 1 << 06 : 0)); }
+        public override bool RibbonEarth             { get => (RIB0 & (1 << 05)) == 1 << 05; set => RIB0 = (ushort)((RIB0 & ~(1 << 05)) | (value ? 1 << 05 : 0)); }
+        public override bool RibbonWorld             { get => (RIB0 & (1 << 04)) == 1 << 04; set => RIB0 = (ushort)((RIB0 & ~(1 << 04)) | (value ? 1 << 04 : 0)); }
+        public override bool Unused1                 { get => (RIB0 & (1 << 03)) == 1 << 03; set => RIB0 = (ushort)((RIB0 & ~(1 << 03)) | (value ? 1 << 03 : 0)); }
+        public override bool Unused2                 { get => (RIB0 & (1 << 02)) == 1 << 02; set => RIB0 = (ushort)((RIB0 & ~(1 << 02)) | (value ? 1 << 02 : 0)); }
+        public override bool Unused3                 { get => (RIB0 & (1 << 01)) == 1 << 01; set => RIB0 = (ushort)((RIB0 & ~(1 << 01)) | (value ? 1 << 01 : 0)); }
+        public override bool Unused4                 { get => (RIB0 & (1 << 00)) == 1 << 00; set => RIB0 = (ushort)((RIB0 & ~(1 << 00)) | (value ? 1 << 00 : 0)); }
         // 0x7E-0x7F Unknown
 
         // Moves

@@ -164,7 +164,7 @@ namespace PKHeX.Core
         public override void SetDaycareOccupied(int loc, int slot, bool occupied)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            Data[ofs + ((SIZE_STORED + 8) * slot)] = (byte)(occupied ? 1 : 0);
+            Data[ofs + ((SIZE_STORED + 8) * slot)] = occupied ? 1 : 0;
         }
 
         public override void SetDaycareRNGSeed(int loc, string seed)
@@ -182,7 +182,7 @@ namespace PKHeX.Core
         public override void SetDaycareHasEgg(int loc, bool hasEgg)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            Data[ofs + 0x1E0] = (byte)(hasEgg ? 1 : 0);
+            Data[ofs + 0x1E0] = hasEgg ? 1 : 0;
         }
 
         public override string JPEGTitle => HasJPPEGData ? string.Empty : Util.TrimFromZero(Encoding.Unicode.GetString(Data, JPEG, 0x1A));

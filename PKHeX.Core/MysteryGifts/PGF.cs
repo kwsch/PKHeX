@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
         public override int Level { get => Data[0x5B]; set => Data[0x5C] = (byte)value; }
-        public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = (byte)(value ? 1 : 0); }
+        public override bool IsEgg { get => Data[0x5C] == 1; set => Data[0x5C] = value ? 1 : 0; }
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
@@ -139,7 +139,7 @@ namespace PKHeX.Core
         public int CardLocation { get => Data[0xB2]; set => Data[0xB2] = (byte)value; }
         public int CardType { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
         public override bool GiftUsed { get => Data[0xB4] >> 1 > 0; set => Data[0xB4] = (byte)((Data[0xB4] & ~2) | (value ? 2 : 0)); }
-        public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = (byte)(value ? 1 : 0); }
+        public bool MultiObtain { get => Data[0xB4] == 1; set => Data[0xB4] = value ? 1 : 0; }
 
         // Meta Accessible Properties
         public override int[] IVs

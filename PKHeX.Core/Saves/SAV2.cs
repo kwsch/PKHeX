@@ -404,7 +404,7 @@ namespace PKHeX.Core
         public bool SaveFileExists
         {
             get => Data[Offsets.Options + 1] == 1;
-            set => Data[Offsets.Options + 1] = (byte)(value ? 1 : 0);
+            set => Data[Offsets.Options + 1] = value ? 1 : 0;
         }
 
         public int TextBoxFrame // 3bits
@@ -432,7 +432,7 @@ namespace PKHeX.Core
         public bool MenuAccountOn
         {
             get => Data[Offsets.Options + 5] == 1;
-            set => Data[Offsets.Options + 5] = (byte)(value ? 1 : 0);
+            set => Data[Offsets.Options + 5] = value ? 1 : 0;
         }
 
         public override uint Money

@@ -23,7 +23,7 @@ namespace PKHeX.Core
             if (US)
             {
                 StringConverter12.SetString1(line2, 0x10, false, 0x10, 0x50).CopyTo(Data, 0x11);
-                StringConverter12.SetString1(line1, 0x10, false, 0x10, (ushort)(Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? 0x50 : 0x7F)).CopyTo(Data, 0);
+                StringConverter12.SetString1(line1, 0x10, false, 0x10, Data.Skip(0x11).Take(0x10).All(v => v == 0x50) ? 0x50 : 0x7F).CopyTo(Data, 0);
                 Data[0x10] = 0x4E;
             }
         }

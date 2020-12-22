@@ -852,24 +852,24 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.RS:
-                        Data[PokeDex + 1] = (byte)(value ? 1 : 0); // mode
-                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
+                        Data[PokeDex + 1] = value ? 1 : 0; // mode
+                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
                         Data[BlockOfs[2] + 0x3A6] &= 0xBF;
-                        Data[BlockOfs[2] + 0x3A6] |= (byte)(value ? 1 << 6 : 0); // B
+                        Data[BlockOfs[2] + 0x3A6] |= value ? 1 << 6 : 0; // B
                         BitConverter.GetBytes((ushort)(value ? 0x0302 : 0)).CopyTo(Data, BlockOfs[2] + 0x44C); // C
                         break;
                     case GameVersion.E:
-                        Data[PokeDex + 1] = (byte)(value ? 1 : 0); // mode
-                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
+                        Data[PokeDex + 1] = value ? 1 : 0; // mode
+                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
                         Data[BlockOfs[2] + 0x402] &= 0xBF; // Bit6
-                        Data[BlockOfs[2] + 0x402] |= (byte)(value ? 1 << 6 : 0); // B
+                        Data[BlockOfs[2] + 0x402] |= value ? 1 << 6 : 0; // B
                         BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x4A8); // C
                         break;
                     case GameVersion.FRLG:
-                        Data[PokeDex + 2] = (byte)(value ? 0xDA : 0); // magic
-                        Data[PokeDex + 3] = (byte)(value ? 0xB9 : 0); // magic
+                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
+                        Data[PokeDex + 3] = value ? 0xB9 : 0; // magic
                         Data[BlockOfs[2] + 0x68] &= 0xFE;
-                        Data[BlockOfs[2] + 0x68] |= (byte)(value ? 1 : 0); // B
+                        Data[BlockOfs[2] + 0x68] |= value ? 1 : 0; // B
                         BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x11C); // C
                         break;
                 }

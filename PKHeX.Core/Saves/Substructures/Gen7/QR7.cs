@@ -62,8 +62,8 @@ namespace PKHeX.Core
 
             basedata[0x2A] = (byte)formnum;
             basedata[0x2B] = (byte)gender;
-            basedata[0x2C] = (byte)(shiny ? 1 : 0);
-            basedata[0x2D] = (byte)(biGender ? 1 : 0);
+            basedata[0x2C] = shiny ? 1 : 0;
+            basedata[0x2D] = biGender ? 1 : 0;
             return basedata;
         }
 

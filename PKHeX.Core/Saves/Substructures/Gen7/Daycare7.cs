@@ -14,7 +14,7 @@
 
         public void SetOccupied(int slot, bool occupied)
         {
-            Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] = (byte)(occupied ? 1 : 0);
+            Data[Offset + ((PokeCrypto.SIZE_6STORED + 1) * slot)] = occupied ? 1 : 0;
         }
 
         public int GetDaycareSlotOffset(int slot)
@@ -25,7 +25,7 @@
         public bool HasEgg
         {
             get => Data[Offset + 0x1D8] == 1;
-            set => Data[Offset + 0x1D8] = (byte)(value ? 1 : 0);
+            set => Data[Offset + 0x1D8] = value ? 1 : 0;
         }
 
         public string RNGSeed
