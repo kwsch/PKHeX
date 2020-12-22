@@ -59,7 +59,7 @@ namespace PKHeX.Core
                 case 80 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
                 // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
                 case 81 when memory.Variable == 0 || !Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
-                    return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
+                    return Get(string.Format(LMemoryArgBadMove, memory.Handler), Severity.Fishy);
 
                 // Species
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
