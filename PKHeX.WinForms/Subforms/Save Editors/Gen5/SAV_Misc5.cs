@@ -501,7 +501,7 @@ namespace PKHeX.WinForms
         private void CHK_FMNew_CheckedChanged(object sender, EventArgs e)
         {
             if (editing) return;
-            SetFMVal(31, 1, (uint)(CHK_FMNew.Checked ? 1 : 0));
+            SetFMVal(31, 1, CHK_FMNew.Checked ? 1 : 0);
         }
 
         private void CB_FMLevel_SelectedIndexChanged(object sender, EventArgs e)
