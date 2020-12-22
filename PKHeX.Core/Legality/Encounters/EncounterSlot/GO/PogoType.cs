@@ -10,21 +10,24 @@ namespace PKHeX.Core
         Wild,
         Egg,
 
-        /// <summary> Raid Boss, requires Lv. 15 and IV=1 </summary>
-        Raid15 = 10,
-        /// <summary> Raid Boss, requires Lv. 20 and IV=10 </summary>
-        Raid20,
+        /// <summary> Raid Boss, requires Lv. 20 and IV = 1 </summary>
+        Raid = 10,
+        /// <summary> Raid Boss (Mythical), requires Lv. 20 and IV = 10 </summary>
+        RaidM,
 
-        /// <summary> Field Research, requires Lv. 15 and IV=1 </summary>
-        Field15 = 20,
-        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythicals) </summary>
-        FieldM,
-        /// <summary> Field Research, requires Lv. 15 and IV=10 (Mythicals, Poké Ball only) </summary>
-        FieldP,
-        /// <summary> Field Research, requires Lv. 20 and IV=10 (GBL Mythicals) </summary>
-        Field20,
+        /// <summary> Field Research Reward, requires Lv. 15 and IV = 1 </summary>
+        Research = 20,
+        /// <summary> Field Research Reward (Mythical), requires Lv. 15 and IV = 10 </summary>
+        ResearchM,
+        /// <summary> Field Research Reward, requires Lv. 15 and IV = 10 (Poké Ball only) </summary>
+        ResearchP,
 
-        /// <summary> Purified, requires Lv. 8 and IV=1 (Premier Ball) </summary>
+        /// <summary> GO Battle League Reward, requires Lv. 20 and IV = 1 </summary>
+        GBL,
+        /// <summary> GO Battle League Reward (Mythical), requires Lv. 20 and IV = 10 </summary>
+        GBLM,
+
+        /// <summary> Purified, requires Lv. 8 and IV = 1 (Premier Ball only) </summary>
         Shadow = 30,
     }
 
@@ -36,12 +39,13 @@ namespace PKHeX.Core
         /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
         public static int GetMinLevel(this PogoType encounterType) => encounterType switch
         {
-            PogoType.Raid15 => 15,
-            PogoType.Raid20 => 20,
-            PogoType.Field15 => 15,
-            PogoType.FieldM => 15,
-            PogoType.FieldP => 15,
-            PogoType.Field20 => 20,
+            PogoType.Raid => 20,
+            PogoType.RaidM => 20,
+            PogoType.Research => 15,
+            PogoType.ResearchM => 15,
+            PogoType.ResearchP => 15,
+            PogoType.GBL => 20,
+            PogoType.GBLM => 20,
             PogoType.Shadow => 8,
             _ => 1,
         };
@@ -54,10 +58,10 @@ namespace PKHeX.Core
         public static int GetMinIV(this PogoType encounterType) => encounterType switch
         {
             PogoType.Wild => 0,
-            PogoType.Raid20 => 10,
-            PogoType.FieldM => 10,
-            PogoType.FieldP => 10,
-            PogoType.Field20 => 10,
+            PogoType.RaidM => 10,
+            PogoType.ResearchM => 10,
+            PogoType.ResearchP => 10,
+            PogoType.GBLM => 10,
             _ => 1,
         };
 
@@ -83,9 +87,9 @@ namespace PKHeX.Core
         public static Ball GetValidBall(this PogoType encounterType) => encounterType switch
         {
             PogoType.Egg => Ball.Poke,
-            PogoType.FieldP => Ball.Poke,
-            PogoType.Raid15 => Ball.Premier,
-            PogoType.Raid20 => Ball.Premier,
+            PogoType.Raid => Ball.Premier,
+            PogoType.RaidM => Ball.Premier,
+            PogoType.ResearchP => Ball.Poke,
             PogoType.Shadow => Ball.Premier,
             _ => Ball.None, // Poke, Great, Ultra
         };
