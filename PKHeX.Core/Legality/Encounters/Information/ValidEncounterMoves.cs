@@ -19,14 +19,14 @@ namespace PKHeX.Core
 
         public ValidEncounterMoves(PKM pkm, LevelUpRestriction restrict, IEncounterable encounter)
         {
-            var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, Tutor: false, Machine: false, RemoveTransferHM: false);
+            var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, types: MoveSourceType.Encounter, RemoveTransferHM: false);
 
             if (level[encounter.Generation] is List<int> x)
                 AddEdgeCaseMoves(x, encounter, pkm);
 
             LevelUpMoves = level;
-            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Tutor: false, MoveReminder: false, RemoveTransferHM: false);
-            TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, LVL: false, Machine: false, MoveReminder: false, RemoveTransferHM: false);
+            TMHMMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.Machine);
+            TutorMoves = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, types: MoveSourceType.AllTutors);
         }
 
         private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)

@@ -71,7 +71,7 @@ namespace PKHeX.Core
             {
                 if (!Parsed)
                     return new int[4];
-                return _allSuggestedMoves ??= GetSuggestedCurrentMoves(true, true, true);
+                return _allSuggestedMoves ??= GetSuggestedCurrentMoves();
             }
         }
 
@@ -473,16 +473,18 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets four moves which can be learned depending on the input arguments.
         /// </summary>
-        /// <param name="tm">Allow TM moves</param>
-        /// <param name="tutor">Allow Tutor moves</param>
-        /// <param name="reminder">Allow Move Reminder</param>
-        public int[] GetSuggestedCurrentMoves(bool tm, bool tutor, bool reminder)
+        /// <param name="types">Allowed move sources for populating the result array</param>
+        public int[] GetSuggestedCurrentMoves(MoveSourceType types = MoveSourceType.All)
         {
             if (!Parsed)
                 return new int[4];
             if (pkm.IsEgg && pkm.Format >= 6)
                 return pkm.RelearnMoves;
-            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, tm, !pkm.IsEgg && tutor, reminder, EncounterOriginal);
+
+            if (pkm.IsEgg)
+                types = types.ClearNonEggSources();
+
+            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, types, EncounterOriginal);
         }
     }
 }

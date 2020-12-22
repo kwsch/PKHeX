@@ -168,12 +168,12 @@ namespace PKHeX.Core
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
-            return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, Machine: true).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, EvolutionChain.GetValidPreEvolutions(pkm), generation, types: MoveSourceType.Machine).Contains(move);
         }
 
         internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
-            return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Relearnable).Contains(move);
         }
 
         internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
@@ -184,7 +184,7 @@ namespace PKHeX.Core
             if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
                 return true;
 
-            return MoveList.GetValidMoves(pkm, version, evos, generation, LVL: true, Relearn: true, Tutor: true, Machine: true).Contains(move);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.All).Contains(move);
         }
 
         internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);

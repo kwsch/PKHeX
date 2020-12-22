@@ -36,7 +36,7 @@ namespace PKHeX.Core
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this LegalityAnalysis la, bool random = false)
         {
-            int[] m = la.GetSuggestedCurrentMoves(tm: random, tutor: random, reminder: random);
+            int[] m = la.GetSuggestedCurrentMoves(random ? MoveSourceType.All : MoveSourceType.None);
 
             var learn = la.AllSuggestedMovesAndRelearn();
             if (!m.All(z => learn.Contains(z)))
