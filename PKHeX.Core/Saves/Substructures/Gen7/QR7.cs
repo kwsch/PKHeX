@@ -44,12 +44,12 @@ namespace PKHeX.Core
             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         };
 
-        private static byte[] GetRawQR(int species, int formnum, bool shiny, int gender)
+        private static byte[] GetRawQR(int species, int form, bool shiny, int gender)
         {
             var basedata = (byte[])BaseQR.Clone();
             BitConverter.GetBytes((ushort)species).CopyTo(basedata, 0x28);
 
-            var pi = PersonalTable.USUM.GetFormEntry(species, formnum);
+            var pi = PersonalTable.USUM.GetFormEntry(species, form);
             bool biGender = false;
             if (pi.OnlyMale)
                 gender = 0;
@@ -60,7 +60,7 @@ namespace PKHeX.Core
             else
                 biGender = !GenderDifferences.Contains(species);
 
-            basedata[0x2A] = (byte)formnum;
+            basedata[0x2A] = (byte)form;
             basedata[0x2B] = (byte)gender;
             basedata[0x2C] = shiny ? 1 : 0;
             basedata[0x2D] = biGender ? 1 : 0;

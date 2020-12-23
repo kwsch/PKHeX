@@ -652,13 +652,13 @@ namespace PKHeX.Core
                 else if (pkm.Species == (int)Species.Pichu && HGSS) // Pichu (HGSS Only)
                 {
                     int form = pkm.Form == 1 ? 2 : pkm.Gender;
-                    CheckInsertForm(ref forms, form);
-                    SetForms(pkm.Species, forms);
+                    if (TryInsertForm(forms, form))
+                        SetForms(pkm.Species, forms);
                 }
                 else
                 {
-                    CheckInsertForm(ref forms, pkm.Form);
-                    SetForms(pkm.Species, forms);
+                    if (TryInsertForm(forms, pkm.Form))
+                        SetForms(pkm.Species, forms);
                 }
             }
 
@@ -844,24 +844,17 @@ namespace PKHeX.Core
             return Value;
         }
 
-        private static bool CheckInsertForm(ref int[] Forms, int FormNum)
+        private static bool TryInsertForm(int[] forms, int form)
         {
-            if (Forms.Any(num => num == FormNum))
-            {
+            if (Array.IndexOf(forms, form) >= 0)
                 return false; // already in list
-            }
-            if (Forms.All(num => num == -1))
-            {
-                Forms[0] = FormNum;
-                return true; // none in list, insert at top
-            }
 
             // insert at first empty
-            int n1 = Array.IndexOf(Forms, -1);
-            if (n1 < 0)
-                return false;
+            var index = Array.IndexOf(forms, -1);
+            if (index < 0)
+                return false; // no free slots?
 
-            Forms[n1] = FormNum;
+            forms[index] = form;
             return true;
         }
 

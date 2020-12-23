@@ -446,13 +446,13 @@ namespace PKHeX.WinForms
 
         private void SetAbilityList()
         {
-            int newabil = Convert.ToInt16(MT_AbilNo.Text) >> 1;
+            int abilityIndex = Convert.ToInt16(MT_AbilNo.Text) >> 1;
             int species = WinFormsUtil.GetIndex(CB_Species);
-            int formnum = CB_Form.SelectedIndex;
-            var abils = PersonalTable.AO.GetFormEntry(species, formnum).Abilities;
+            int form = CB_Form.SelectedIndex;
+            var abilities = PersonalTable.AO.GetFormEntry(species, form).Abilities;
 
-            CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abils, 6);
-            CB_Ability.SelectedIndex = newabil < 3 ? newabil : 0;
+            CB_Ability.DataSource = GameInfo.FilteredSources.GetAbilityList(abilities, 6);
+            CB_Ability.SelectedIndex = abilityIndex < 3 ? abilityIndex : 0;
         }
 
         private void SetForms()

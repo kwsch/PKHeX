@@ -335,6 +335,10 @@ namespace PKHeX.Core
             return chk;
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 3 Format encryption check which verifies the checksum</remarks>
         public static void DecryptIfEncrypted3(ref byte[] pkm)
         {
             ushort chk = GetCHK3(pkm);
@@ -342,18 +346,30 @@ namespace PKHeX.Core
                 pkm = DecryptArray3(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 4 &amp; 5 Format encryption check which checks for the unused bytes</remarks>
         public static void DecryptIfEncrypted45(ref byte[] pkm)
         {
             if (BitConverter.ToUInt32(pkm, 0x64) != 0)
                 pkm = DecryptArray45(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 6 &amp; 7 Format encryption check</remarks>
         public static void DecryptIfEncrypted67(ref byte[] pkm)
         {
             if (BitConverter.ToUInt16(pkm, 0xC8) != 0 || BitConverter.ToUInt16(pkm, 0x58) != 0)
                 pkm = DecryptArray6(pkm);
         }
 
+        /// <summary>
+        /// Decrypts the input <see cref="pkm"/> data into a new array if it is encrypted, and updates the reference.
+        /// </summary>
+        /// <remarks>Generation 8 Format encryption check</remarks>
         public static void DecryptIfEncrypted8(ref byte[] pkm)
         {
             if (BitConverter.ToUInt16(pkm, 0x70) != 0 || BitConverter.ToUInt16(pkm, 0xC0) != 0)

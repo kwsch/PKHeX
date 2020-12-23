@@ -6,7 +6,7 @@ namespace PKHeX.Core
 {
     public static class MoveEgg
     {
-        public static int[] GetEggMoves(PKM pkm, int species, int formnum, GameVersion version)
+        public static int[] GetEggMoves(PKM pkm, int species, int form, GameVersion version)
         {
             int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.Generation;
             if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
@@ -17,10 +17,10 @@ namespace PKHeX.Core
 
             if (version == GameVersion.Any)
                 version = (GameVersion)pkm.Version;
-            return GetEggMoves(gen, species, formnum, version);
+            return GetEggMoves(gen, species, form, version);
         }
 
-        public static int[] GetEggMoves(int gen, int species, int formnum, GameVersion version)
+        public static int[] GetEggMoves(int gen, int species, int form, GameVersion version)
         {
             switch (gen)
             {
@@ -49,15 +49,15 @@ namespace PKHeX.Core
                 case 7: // entries per form if required
                     return version switch
                     {
-                        GameVersion.US => GetFormEggMoves(species, formnum, EggMovesUSUM),
-                        GameVersion.UM => GetFormEggMoves(species, formnum, EggMovesUSUM),
-                        _ => GetFormEggMoves(species, formnum, EggMovesSM)
+                        GameVersion.US => GetFormEggMoves(species, form, EggMovesUSUM),
+                        GameVersion.UM => GetFormEggMoves(species, form, EggMovesUSUM),
+                        _ => GetFormEggMoves(species, form, EggMovesSM)
                     };
 
                 case 8:
                     return version switch
                     {
-                        _ => GetFormEggMoves(species, formnum, EggMovesSWSH)
+                        _ => GetFormEggMoves(species, form, EggMovesSWSH)
                     };
 
                 default:
@@ -65,15 +65,15 @@ namespace PKHeX.Core
             }
         }
 
-        private static int[] GetFormEggMoves(int species, int formnum, IReadOnlyList<EggMoves7> table)
+        private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
         {
             var entry = table[species];
-            if (formnum > 0 && entry.FormTableIndex > species)
-                entry = table[entry.FormTableIndex + formnum - 1];
+            if (form > 0 && entry.FormTableIndex > species)
+                entry = table[entry.FormTableIndex + form - 1];
             return entry.Moves;
         }
 
-        internal static int[] GetRelearnLVLMoves(PKM pkm, int species, int lvl, int formnum, GameVersion version = GameVersion.Any)
+        internal static int[] GetRelearnLVLMoves(PKM pkm, int species, int form, int lvl, GameVersion version = GameVersion.Any)
         {
             if (version == GameVersion.Any)
                 version = (GameVersion)pkm.Version;
@@ -103,7 +103,7 @@ namespace PKHeX.Core
             }
             return Array.Empty<int>();
 
-            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, formnum)].GetMoves(lvl);
+            int[] getMoves(IReadOnlyList<Learnset> moves, PersonalTable table) => moves[table.GetFormIndex(species, form)].GetMoves(lvl);
         }
 
         public static bool GetIsSharedEggMove(PKM pkm, int gen, int move)

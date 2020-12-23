@@ -16,14 +16,14 @@ namespace PKHeX.Core
                 return Array.Empty<int>();
 
             var r = new List<int>();
-            r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 1, form, version));
+            r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, form, 1, version));
 
             if (pkm.Format == 6 && pkm.Species != (int)Species.Meowstic)
                 form = 0;
 
             r.AddRange(MoveEgg.GetEggMoves(pkm, species, form, version));
             if (inheritlvlmoves)
-                r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, 100, form, version));
+                r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, form, 100, version));
             return r.Distinct();
         }
 
