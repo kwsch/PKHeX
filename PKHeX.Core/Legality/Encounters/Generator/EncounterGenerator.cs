@@ -101,7 +101,7 @@ namespace PKHeX.Core
             {
                 if (!info.PIDIV.Type.IsCompatible4(z, pkm))
                     deferredPIDIV.Add(z);
-                else if (pkm.Format <= 6 && !IsEncounterTypeMatch(z, pkm.EncounterType))
+                else if (pkm.Format <= 6 && !(z is IEncounterTypeTile t ? t.TypeEncounter.Contains(pkm.EncounterType) : pkm.EncounterType == 0))
                     deferredEType.Add(z);
                 else
                     yield return z;
@@ -320,17 +320,6 @@ namespace PKHeX.Core
                 yield break;
             foreach (var z in GetValidStaticEncounter(pkm, chain))
                 yield return z;
-        }
-
-        // Utility
-        private static bool IsEncounterTypeMatch(IEncounterable e, int type)
-        {
-            return e switch
-            {
-                EncounterStaticTyped t => t.TypeEncounter.Contains(type),
-                EncounterSlot4 w => w.TypeEncounter.Contains(type),
-                _ => (type == 0)
-            };
         }
 
         /// <summary>

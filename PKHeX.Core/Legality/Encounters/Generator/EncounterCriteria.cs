@@ -108,5 +108,15 @@
                 return 0;
             return 1;
         }
+
+        public void SetRandomIVs(PKM pk)
+        {
+            pk.IV_HP = IV_HP != RandomIV ? IV_HP : Util.Rand.Next(32);
+            pk.IV_ATK = IV_ATK != RandomIV ? IV_ATK : Util.Rand.Next(32);
+            pk.IV_DEF = IV_DEF != RandomIV ? IV_DEF : Util.Rand.Next(32);
+            pk.IV_SPA = IV_SPA != RandomIV ? IV_SPA : Util.Rand.Next(32);
+            pk.IV_SPD = IV_SPD != RandomIV ? IV_SPD : Util.Rand.Next(32);
+            pk.IV_SPE = IV_SPE != RandomIV ? IV_SPE : Util.Rand.Next(32);
+        }
     }
 }

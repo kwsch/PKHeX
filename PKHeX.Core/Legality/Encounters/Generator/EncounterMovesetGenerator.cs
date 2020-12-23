@@ -266,7 +266,7 @@ namespace PKHeX.Core
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain);
             foreach (var enc in encounters)
             {
-                if (enc.IsUnobtainable(pk))
+                if (enc.IsUnobtainable())
                     continue;
                 if (needs.Count == 0)
                 {
@@ -369,23 +369,18 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterStatic enc, PKM pk)
+        private static bool IsUnobtainable(this EncounterStatic enc)
         {
-            switch (enc.Generation)
-            {
-                case 4 when enc is EncounterStaticTyped t && pk.Met_Location == 193: // Johto Route 45 surfing encounter. Unreachable Water tiles.
-                    return t.TypeEncounter == EncounterType.Surfing_Fishing; // Roamer Raikou
-                case 4:
-                    return enc.Species switch
-                    {
-                        (int)Species.Darkrai when enc.Location == 079 && enc.Version != GameVersion.Pt => true, // DP Darkrai
-                        (int)Species.Shaymin when enc.Location == 063 && enc.Version != GameVersion.Pt => true, // DP Shaymin
-                        (int)Species.Arceus  when enc.Location == 086 => true, // Azure Flute Arceus
-                        _ => false
-                    };
-            }
+            if (enc is not EncounterStatic4 s)
+                return false;
 
-            return false;
+            return s.Species switch
+            {
+                (int)Species.Darkrai when s.Version != GameVersion.Pt => true, // DP Darkrai
+                (int)Species.Shaymin when s.Version != GameVersion.Pt => true, // DP Shaymin
+                (int)Species.Arceus => true, // Azure Flute Arceus
+                _ => false
+            };
         }
     }
 }

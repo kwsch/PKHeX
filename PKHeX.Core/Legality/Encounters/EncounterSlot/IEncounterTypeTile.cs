@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// </summary>
     /// <remarks>
     /// <seealso cref="EncounterSlot4"/>
-    /// <seealso cref="EncounterStaticTyped"/>
+    /// <seealso cref="EncounterStatic4"/>
     /// </remarks>
     public interface IEncounterTypeTile
     {

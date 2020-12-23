@@ -277,13 +277,7 @@ namespace PKHeX.Core
         {
             if (specific == PIDType.Pokewalker)
             {
-                pk.Gender = gender;
-                do
-                {
-                    pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, (uint) nature, gender, pk.PersonalInfo.Gender);
-                } while (!pk.IsGenderValid());
-                pk.RefreshAbility((int)(pk.PID & 1));
-                SetRandomIVs(pk);
+                SetRandomPIDPokewalker(pk, nature, gender);
                 return;
             }
             switch (gen)
@@ -299,6 +293,19 @@ namespace PKHeX.Core
                     SetRandomWildPID(pk, nature, ability, gender);
                     break;
             }
+        }
+
+        public static void SetRandomPIDPokewalker(PKM pk, int nature, int gender)
+        {
+            // Pokewalker PIDs cannot yield multiple abilities from the input nature-gender-trainerID. Disregard any ability request.
+            pk.Gender = gender;
+            do
+            {
+                pk.PID = GetPokeWalkerPID(pk.TID, pk.SID, (uint) nature, gender, pk.PersonalInfo.Gender);
+            } while (!pk.IsGenderValid());
+
+            pk.RefreshAbility((int) (pk.PID & 1));
+            SetRandomIVs(pk);
         }
 
         /// <summary>

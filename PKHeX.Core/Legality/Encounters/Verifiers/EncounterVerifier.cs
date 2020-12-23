@@ -14,14 +14,11 @@ namespace PKHeX.Core
         /// <returns>Returns the verification method appropriate for the input PKM</returns>
         public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
         {
-            switch (pkm.Generation)
+            return pkm.Generation switch
             {
-                case 1:
-                case 2:
-                    return VerifyEncounterG12;
-                default:
-                    return VerifyEncounter;
-            }
+                1 or 2 => VerifyEncounterG12,
+                _ => VerifyEncounter,
+            };
         }
 
         private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
@@ -282,7 +279,7 @@ namespace PKHeX.Core
                         case (int)Species.Arceus when s.Location == 086: // Azure Flute Arceus
                             return new CheckResult(Severity.Invalid, LEncUnreleasedHoOArceus, CheckIdentifier.Encounter);
                     }
-                    if (pkm.Met_Location == 193 && s is EncounterStaticTyped {TypeEncounter: EncounterType.Surfing_Fishing}) // Roaming pokemon surfing in Johto Route 45
+                    if (pkm.Met_Location == 193 && s is EncounterStatic4 {Roaming: true}) // Roaming pokemon surfing in Johto Route 45
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
