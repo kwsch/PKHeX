@@ -65,7 +65,6 @@ namespace PKHeX.Core
             int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
             int level = GetMinimalLevel();
             var version = this.GetCompatibleVersion((GameVersion)sav.Game);
-            SanityCheckVersion(ref version);
 
             pk.Version = (int)version;
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);
@@ -148,19 +147,6 @@ namespace PKHeX.Core
             var moves = Moves.Count > 0 ? Moves : MoveLevelUp.GetEncounterMoves(pk, level, version);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
-        }
-
-        private void SanityCheckVersion(ref GameVersion version)
-        {
-            if (Generation != 4 || version == GameVersion.Pt)
-                return;
-            switch (Species)
-            {
-                case (int)Core.Species.Darkrai when Location == 079: // DP Darkrai
-                case (int)Core.Species.Shaymin when Location == 063: // DP Shaymin
-                    version = GameVersion.Pt;
-                    return;
-            }
         }
 
         protected void SetIVs(PKM pk)

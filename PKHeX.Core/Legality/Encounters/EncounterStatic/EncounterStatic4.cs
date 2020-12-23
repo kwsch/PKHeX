@@ -43,6 +43,24 @@
             return pkm.Egg_Location == Locations.Faraway4;
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            SanityCheckVersion(pk);
+        }
+
+        private void SanityCheckVersion(PKM pk)
+        {
+            // Unavailable encounters in DP, morph them to Pt so they're legal.
+            switch (Species)
+            {
+                case (int)Core.Species.Darkrai when Location == 079: // DP Darkrai
+                case (int)Core.Species.Shaymin when Location == 063: // DP Shaymin
+                    pk.Version = (int)GameVersion.Pt;
+                    return;
+            }
+        }
+
         protected sealed override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             if (pkm.Format != 4) // Met Level lost on PK3=>PK4
