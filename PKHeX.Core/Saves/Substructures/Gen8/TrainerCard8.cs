@@ -97,7 +97,7 @@ namespace PKHeX.Core
             get => Data[Offset + 0x1B4] == 1;
             set => Data[Offset + 0x1B4] = value ? 1 : 0;
         }
-        
+
         public bool CrownDexComplete
         {
             get => Data[Offset + 0x1B5] == 1;

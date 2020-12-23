@@ -111,7 +111,7 @@ namespace PKHeX.Core
             new(112, YW, 15, 10), // Rhydon - Golduck
             new(087, YW, 15, 05), // Dewgong - Growlithe
             new(089, YW, 25, 05), // Muk - Kangaskhan
-            
+
             new(122, BU, 03    ), // Mr. Mime - Jigglypuff
             new(029, BU, 02    ), // Nidoran♀ - Nidoran♂
             new(060, BU, 02    ), // Poliwag - Rattata

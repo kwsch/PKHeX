@@ -181,6 +181,10 @@ namespace PKHeX.Core
                 if (arr[i] == move && pi.TypeTutors[i])
                     return GameVersion.Gen8;
             }
+
+            if (!specialTutors)
+                return NONE;
+            
             var tutors = Tutors_SWSH_1;
             for (int i = 0; i < tutors.Length; i++)
             {

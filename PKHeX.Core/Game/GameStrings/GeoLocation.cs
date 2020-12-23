@@ -7,12 +7,12 @@ namespace PKHeX.Core
         private static readonly string[][] CountryList = GetCountryList();
         internal static readonly string[] lang_geo = { "ja", "en", "fr", "de", "it", "es", "zh", "ko" };
         private static readonly string[][]?[] RegionList = new string[CountryList.Length][][];
-        
+
         public static string[] GetCountryList(string language)
         {
             int index = GetLanguageIndex(language);
             return CountryList[index];
-        }    
+        }
 
         private const string INVALID = nameof(INVALID);
 
