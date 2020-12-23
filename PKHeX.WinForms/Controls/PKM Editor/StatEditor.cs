@@ -60,7 +60,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickIV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             switch (ModifierKeys)
@@ -89,7 +89,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickEV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             if ((ModifierKeys & Keys.Control) != 0) // Max
@@ -106,7 +106,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickAV(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox t))
+            if (sender is not MaskedTextBox t)
                 return;
 
             if ((ModifierKeys & Keys.Control) != 0) // Max
@@ -192,7 +192,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateAVs(object sender, EventArgs e)
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
             if (sender is MaskedTextBox m)
             {
@@ -229,7 +229,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateHackedStatText(object sender, EventArgs e)
         {
-            if (!CHK_HackedStats.Checked || !(sender is TextBox tb))
+            if (!CHK_HackedStats.Checked || sender is not TextBox tb)
                 return;
 
             string text = tb.Text;
@@ -288,7 +288,7 @@ namespace PKHeX.WinForms.Controls
 
         private void LoadHyperTraining()
         {
-            if (!(Entity is IHyperTrain h))
+            if (Entity is not IHyperTrain h)
             {
                 foreach (var iv in MT_IVs)
                     iv.ResetBackColor();
@@ -301,7 +301,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateAVTotals()
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
             var total = a.AwakeningSum();
             TB_AVTotal.Text = total.ToString();
@@ -364,7 +364,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateRandomAVs(object sender, EventArgs e)
         {
-            if (!(Entity is IAwakened a))
+            if (Entity is not IAwakened a)
                 return;
 
             switch (ModifierKeys)

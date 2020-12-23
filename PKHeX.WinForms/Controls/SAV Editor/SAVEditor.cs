@@ -421,7 +421,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateSaveSlot(object sender, EventArgs e)
         {
-            if (!(SAV is SAV4BR br))
+            if (SAV is not SAV4BR br)
                 return;
             br.CurrentSlot = WinFormsUtil.GetIndex(CB_SaveSlot);
             Box.ResetBoxNames(); // fix box names
@@ -434,7 +434,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
-            if (!(sender is TextBox tb))
+            if (sender is not TextBox tb)
                 return;
 
             if (string.IsNullOrWhiteSpace(tb.Text))
@@ -550,7 +550,7 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenRaids_Click(object sender, EventArgs e)
         {
-            if (!(SAV is SAV8SWSH swsh))
+            if (SAV is not SAV8SWSH swsh)
                 return;
             if (sender == B_Raids)
                 OpenDialog(new SAV_Raid8(swsh, swsh.Raid));
@@ -616,7 +616,7 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenFriendSafari_Click(object sender, EventArgs e)
         {
-            if (!(SAV is SAV6XY xy))
+            if (SAV is not SAV6XY xy)
                 return;
 
             var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSaveGen6FriendSafari, MsgSaveGen6FriendSafariCheatDesc);

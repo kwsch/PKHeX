@@ -628,7 +628,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ClickTRGender(object sender, EventArgs e)
         {
-            if (!(sender is Label lbl))
+            if (sender is not Label lbl)
                 return;
             if (string.IsNullOrWhiteSpace(lbl.Text))
                 return;
@@ -933,7 +933,7 @@ namespace PKHeX.WinForms.Controls
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox tb))
+            if (sender is not MaskedTextBox tb)
                 return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
@@ -1030,7 +1030,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePP(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox cb))
+            if (sender is not ComboBox cb)
                 return;
             int index = Array.IndexOf(Moves, cb);
             if (index < 0)
@@ -1226,7 +1226,7 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateExtraByteValue(object sender, EventArgs e)
         {
-            if (CB_ExtraBytes.Items.Count == 0 || !(sender is MaskedTextBox mtb))
+            if (CB_ExtraBytes.Items.Count == 0 || sender is not MaskedTextBox mtb)
                 return;
             // Changed Extra Byte's Value
             if (Util.ToInt32(mtb.Text) > byte.MaxValue)
@@ -1577,7 +1577,7 @@ namespace PKHeX.WinForms.Controls
 
         private void ValidateComboBox(object sender, CancelEventArgs e)
         {
-            if (!(sender is ComboBox cb))
+            if (sender is not ComboBox cb)
                 return;
 
             ValidateComboBox(cb);

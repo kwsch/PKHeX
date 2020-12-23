@@ -77,7 +77,7 @@ namespace PKHeX.WinForms.Controls
 
         public void NotifySlotOld(ISlotInfo previous)
         {
-            if (!(previous is SlotInfoBox b) || b.Box != CurrentBox)
+            if (previous is not SlotInfoBox b || b.Box != CurrentBox)
                 return;
 
             var pb = SlotPictureBoxes[previous.Slot];
@@ -96,7 +96,7 @@ namespace PKHeX.WinForms.Controls
 
         public int GetViewIndex(ISlotInfo slot)
         {
-            if (!(slot is SlotInfoBox b) || b.Box != CurrentBox)
+            if (slot is not SlotInfoBox b || b.Box != CurrentBox)
                 return -1;
             return slot.Slot;
         }

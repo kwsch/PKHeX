@@ -187,10 +187,10 @@ namespace PKHeX.WinForms
                 return;
 
             var s1 = SaveUtil.GetVariantSAV(p1);
-            if (!(s1 is SAV8SWSH w1))
+            if (s1 is not SAV8SWSH w1)
                 return;
             var s2 = SaveUtil.GetVariantSAV(p2);
-            if (!(s2 is SAV8SWSH w2))
+            if (s2 is not SAV8SWSH w2)
                 return;
 
             var compare = new SCBlockCompare(w1.Blocks, w2.Blocks);

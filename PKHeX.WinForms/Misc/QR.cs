@@ -85,7 +85,7 @@ namespace PKHeX.WinForms
 
         private void UpdateBoxSlotCopies(object sender, EventArgs e)
         {
-            if (!(pkm is PK7 pk7))
+            if (pkm is not PK7 pk7)
                 throw new ArgumentException("Can't update QR7 if pkm isn't a PK7!");
             qr = ReloadQRData(pk7);
             RefreshImage();

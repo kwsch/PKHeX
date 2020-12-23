@@ -115,7 +115,7 @@ namespace PKHeX.WinForms.Controls
 
         private void Update_ID(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox mt))
+            if (sender is not MaskedTextBox mt)
                 return;
 
             if (!int.TryParse(mt.Text, out var val))

@@ -119,7 +119,7 @@ namespace PKHeX.WinForms
                 return;
             editing = true;
             // build bytes
-            if (!(sender is NumericUpDown nud))
+            if (sender is not NumericUpDown nud)
                 throw new Exception();
             int index = Bytes.IndexOf(nud);
             Raw[index] = (byte)nud.Value;

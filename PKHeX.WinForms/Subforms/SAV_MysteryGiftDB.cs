@@ -122,7 +122,7 @@ namespace PKHeX.WinForms
             if (index < 0)
                 return;
             var gift = Results[index];
-            if (!(gift is DataMysteryGift g)) // e.g. WC3
+            if (gift is not DataMysteryGift g) // e.g. WC3
             {
                 WinFormsUtil.Alert(MsgExportWC3DataFail);
                 return;

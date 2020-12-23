@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK7()
         {
-            if (!(Entity is PK7 pk7))
+            if (Entity is not PK7 pk7)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk7);
@@ -22,7 +22,7 @@ namespace PKHeX.WinForms.Controls
 
         private PK7 PreparePK7()
         {
-            if (!(Entity is PK7 pk7))
+            if (Entity is not PK7 pk7)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk7);
@@ -51,7 +51,7 @@ namespace PKHeX.WinForms.Controls
 
         private void PopulateFieldsPB7()
         {
-            if (!(Entity is PB7 pk7))
+            if (Entity is not PB7 pk7)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk7);
@@ -68,7 +68,7 @@ namespace PKHeX.WinForms.Controls
 
         private PB7 PreparePB7()
         {
-            if (!(Entity is PB7 pk7))
+            if (Entity is not PB7 pk7)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk7);

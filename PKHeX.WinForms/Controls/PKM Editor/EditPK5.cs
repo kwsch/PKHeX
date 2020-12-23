@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK5()
         {
-            if (!(Entity is PK5 pk5))
+            if (Entity is not PK5 pk5)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk5);
@@ -31,7 +31,7 @@ namespace PKHeX.WinForms.Controls
 
         private PK5 PreparePK5()
         {
-            if (!(Entity is PK5 pk5))
+            if (Entity is not PK5 pk5)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk5);

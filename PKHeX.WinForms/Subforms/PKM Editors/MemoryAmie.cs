@@ -311,7 +311,7 @@ namespace PKHeX.WinForms
 
         private void ChangeCountryText(object sender, EventArgs e)
         {
-            if (!(sender is ComboBox cb) || !string.IsNullOrWhiteSpace(cb.Text))
+            if (sender is not ComboBox cb || !string.IsNullOrWhiteSpace(cb.Text))
                 return;
             cb.SelectedValue = 0;
             ChangeCountryIndex(sender, e);
@@ -319,7 +319,7 @@ namespace PKHeX.WinForms
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox tb)) return;
+            if (sender is not MaskedTextBox tb) return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
         }

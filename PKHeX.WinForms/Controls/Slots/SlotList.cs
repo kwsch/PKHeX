@@ -41,7 +41,7 @@ namespace PKHeX.WinForms.Controls
 
         public void NotifySlotOld(ISlotInfo previous)
         {
-            if (!(previous is SlotInfoMisc m))
+            if (previous is not SlotInfoMisc m)
                 return;
             var index = SlotOffsets.FindIndex(z => m.Equals(z));
             if (index < 0)
@@ -52,7 +52,7 @@ namespace PKHeX.WinForms.Controls
 
         public void NotifySlotChanged(ISlotInfo slot, SlotTouchType type, PKM pkm)
         {
-            if (!(slot is SlotInfoMisc m))
+            if (slot is not SlotInfoMisc m)
                 return;
             var index = GetViewIndex(m);
             if (index < 0)

@@ -163,7 +163,7 @@ namespace PKHeX.WinForms
 
         public static void PanelScroll(object? sender, ScrollEventArgs e)
         {
-            if (!(sender is ScrollableControl p) || e.NewValue < 0)
+            if (sender is not ScrollableControl p || e.NewValue < 0)
                 return;
             switch (e.ScrollOrientation)
             {

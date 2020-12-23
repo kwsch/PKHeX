@@ -7,7 +7,7 @@ namespace PKHeX.WinForms.Controls
     {
         private void PopulateFieldsPK8()
         {
-            if (!(Entity is PK8 pk8))
+            if (Entity is not PK8 pk8)
                 throw new FormatException(nameof(Entity));
 
             LoadMisc1(pk8);
@@ -24,7 +24,7 @@ namespace PKHeX.WinForms.Controls
 
         private PK8 PreparePK8()
         {
-            if (!(Entity is PK8 pk8))
+            if (Entity is not PK8 pk8)
                 throw new FormatException(nameof(Entity));
 
             SaveMisc1(pk8);

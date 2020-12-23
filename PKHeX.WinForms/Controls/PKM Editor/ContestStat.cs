@@ -49,7 +49,7 @@ namespace PKHeX.WinForms.Controls
 
         private void Update255_MTB(object sender, EventArgs e)
         {
-            if (!(sender is MaskedTextBox tb)) return;
+            if (sender is not MaskedTextBox tb) return;
             if (Util.ToInt32(tb.Text) > byte.MaxValue)
                 tb.Text = "255";
         }
