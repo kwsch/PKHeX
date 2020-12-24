@@ -16,7 +16,6 @@ namespace PKHeX.Core
             ManuallyAddRareSpawns(SlotsGP);
             ManuallyAddRareSpawns(SlotsGE);
             Encounter_GG.SetVersion(GameVersion.GG);
-            TradeGift_GG.SetVersion(GameVersion.GG);
         }
 
         private static readonly EncounterStatic7b[] Encounter_GG =
@@ -64,16 +63,16 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade[] TradeGift_GG =
         {
             // Random candy values! They can be zero so no impact on legality even though statistically rare.
-            new EncounterTrade7b { Species = 019, Level = 12, Form = 1, TrainerNames = T1, TID7 = 121106, OTGender = 1, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Rattata @ Cerulean City, AV rand [0-5)
-            new EncounterTrade7b { Species = 027, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {-1,31,31,-1,-1,-1}, IsNicknamed = false, Version = GameVersion.GP }, // Sandshrew @ Celadon City, AV rand [0-5)
-            new EncounterTrade7b { Species = 037, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {-1,-1,-1,31,31,-1}, IsNicknamed = false, Version = GameVersion.GE }, // Vulpix @ Celadon City, AV rand [0-5)
-            new EncounterTrade7b { Species = 050, Level = 25, Form = 1, TrainerNames = T3, TID7 = 520159, OTGender = 1, Shiny = Shiny.Random, IVs = new[] {-1,31,-1,31,-1,-1}, IsNicknamed = false }, // Diglett @ Lavender Town, AV rand [0-5)
-            new EncounterTrade7b { Species = 052, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,-1,-1,31,-1,-1}, IsNicknamed = false, Version = GameVersion.GE }, // Meowth @ Cinnabar Island, AV rand [0-10)
-            new EncounterTrade7b { Species = 088, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false, Version = GameVersion.GP }, // Grimer @ Cinnabar Island, AV rand [0-10)
-            new EncounterTrade7b { Species = 026, Level = 30, Form = 1, TrainerNames = T5, TID7 = 940711, OTGender = 1, Shiny = Shiny.Random, IVs = new[] {-1,-1,-1,31,31,-1}, IsNicknamed = false }, // Raichu @ Saffron City, AV rand [0-10)
-            new EncounterTrade7b { Species = 105, Level = 38, Form = 1, TrainerNames = T6, TID7 = 102595, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {-1,31,31,-1,-1,-1}, IsNicknamed = false }, // Marowak @ Fuchsia City, AV rand [0-10)
-            new EncounterTrade7b { Species = 103, Level = 46, Form = 1, TrainerNames = T7, TID7 = 060310, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {-1,31,-1,-1,31,-1}, IsNicknamed = false }, // Exeggutor @ Indigo Plateau, AV rand [0-15)
-            new EncounterTrade7b { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Shiny = Shiny.Random, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Geodude @ Vermilion City, AV rand [0-5)
+            new EncounterTrade7b { Species = 019, Level = 12, Form = 1, TrainerNames = T1, TID7 = 121106, OTGender = 1, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Rattata @ Cerulean City, AV rand [0-5)
+            new EncounterTrade7b { Species = 027, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GE, IVs = new[] {-1,31,31,-1,-1,-1}, IsNicknamed = false }, // Sandshrew @ Celadon City, AV rand [0-5)
+            new EncounterTrade7b { Species = 037, Level = 27, Form = 1, TrainerNames = T2, TID7 = 703019, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GP, IVs = new[] {-1,-1,-1,31,31,-1}, IsNicknamed = false }, // Vulpix @ Celadon City, AV rand [0-5)
+            new EncounterTrade7b { Species = 050, Level = 25, Form = 1, TrainerNames = T3, TID7 = 520159, OTGender = 1, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {-1,31,-1,31,-1,-1}, IsNicknamed = false }, // Diglett @ Lavender Town, AV rand [0-5)
+            new EncounterTrade7b { Species = 052, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GE, IVs = new[] {31,-1,-1,31,-1,-1}, IsNicknamed = false }, // Meowth @ Cinnabar Island, AV rand [0-10)
+            new EncounterTrade7b { Species = 088, Level = 44, Form = 1, TrainerNames = T4, TID7 = 000219, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GP, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Grimer @ Cinnabar Island, AV rand [0-10)
+            new EncounterTrade7b { Species = 026, Level = 30, Form = 1, TrainerNames = T5, TID7 = 940711, OTGender = 1, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {-1,-1,-1,31,31,-1}, IsNicknamed = false }, // Raichu @ Saffron City, AV rand [0-10)
+            new EncounterTrade7b { Species = 105, Level = 38, Form = 1, TrainerNames = T6, TID7 = 102595, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {-1,31,31,-1,-1,-1}, IsNicknamed = false }, // Marowak @ Fuchsia City, AV rand [0-10)
+            new EncounterTrade7b { Species = 103, Level = 46, Form = 1, TrainerNames = T7, TID7 = 060310, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {-1,31,-1,-1,31,-1}, IsNicknamed = false }, // Exeggutor @ Indigo Plateau, AV rand [0-15)
+            new EncounterTrade7b { Species = 074, Level = 16, Form = 1, TrainerNames = T8, TID7 = 551873, OTGender = 0, Shiny = Shiny.Random, Version = GameVersion.GG, IVs = new[] {31,31,-1,-1,-1,-1}, IsNicknamed = false }, // Geodude @ Vermilion City, AV rand [0-5)
         };
 
         private class RareSpawn

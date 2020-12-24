@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public abstract record EncounterTrade : IEncounterable, IMoveset, ILocation, IVersionSet
+    public abstract record EncounterTrade : IEncounterable, IMoveset, ILocation
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -24,14 +24,14 @@ namespace PKHeX.Core
         public int Location { get; init; }
         public int Ability { get; init; }
         public int Gender { get; init; } = -1;
-        public Nature Nature = Nature.Random;
+        public Nature Nature { get; init; } = Nature.Random;
         public Shiny Shiny { get; init; } = Shiny.Never;
         public int Ball { get; init; } = 4;
 
         public int TID { get; init; }
         public int SID { get; init; }
         public int OTGender { get; init; } = -1;
-        public GameVersion Version { get; set; } = GameVersion.Any;
+        public GameVersion Version { get; init; }
 
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
         public int FlawlessIVCount { get; init; }

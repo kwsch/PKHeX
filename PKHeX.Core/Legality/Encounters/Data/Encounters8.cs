@@ -30,7 +30,6 @@ namespace PKHeX.Core
                 t.TrainerNames = TradeOT_R1;
 
             Encounter_SWSH.SetVersion(SWSH);
-            TradeGift_SWSH.SetVersion(SWSH);
             Nest_Common.SetVersion(SWSH);
             Nest_SW.SetVersion(SW);
             Nest_SH.SetVersion(SH);
@@ -751,32 +750,32 @@ namespace PKHeX.Core
 
         private static readonly EncounterTrade8[] TradeGift_Regular =
         {
-            new(052,18,08,000,04,5) { Ability = 2, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Timid, Relearn = new[] {387,000,000,000}   }, // Meowth
-            new(819,10,01,044,01,2) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Mild,                                      }, // Skwovet
-            new(546,23,11,000,09,5) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 1, Nature = Nature.Modest,                                    }, // Cottonee
-            new(175,25,02,010,10,6) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Nature = Nature.Timid, Relearn = new[] {791,000,000,000}   }, // Togepi
-            new(856,30,09,859,08,3) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 1, Nature = Nature.Quiet, Version = SW                        }, // Hatenna
-            new(859,30,43,000,07,6) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Brave, Relearn = new[] {252,000,000,000}, Version = SH }, // Impidimp
-            new(562,35,16,310,15,5) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Gender = 0, Nature = Nature.Bold, Relearn = new[] {261,000,000,000}    }, // Yamask
-            new(538,37,17,129,20,7) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant, Version = SW                      }, // Throh
-            new(539,37,17,129,14,6) { Ability = 1, TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Nature = Nature.Adamant, Version = SH                      }, // Sawk
-            new(122,40,56,000,12,4) { Ability = 1, TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Nature = Nature.Calm,                                      }, // Mr. Mime
-            new(884,50,15,038,06,2) { Ability = 2, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3, OTGender = 0, Gender = 0, Nature = Nature.Adamant, Relearn = new[] {400,000,000,000} }, // Duraludon
+            new(052,18,08,000,04,5) { Ability = 2, TID7 = 263455, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Version = SWSH, Nature = Nature.Timid, Relearn = new[] {387,000,000,000}   }, // Meowth
+            new(819,10,01,044,01,2) { Ability = 1, TID7 = 648753, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Version = SWSH, Nature = Nature.Mild,                                      }, // Skwovet
+            new(546,23,11,000,09,5) { Ability = 1, TID7 = 101154, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 1, Version = SWSH, Nature = Nature.Modest,                                    }, // Cottonee
+            new(175,25,02,010,10,6) { Ability = 2, TID7 = 109591, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 1, Gender = 0, Version = SWSH, Nature = Nature.Timid, Relearn = new[] {791,000,000,000}   }, // Togepi
+            new(856,30,09,859,08,3) { Ability = 2, TID7 = 101101, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 1, Version = SW  , Nature = Nature.Quiet,                                     }, // Hatenna
+            new(859,30,43,000,07,6) { Ability = 1, TID7 = 256081, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Version =   SH, Nature = Nature.Brave, Relearn = new[] {252,000,000,000}   }, // Impidimp
+            new(562,35,16,310,15,5) { Ability = 1, TID7 = 102534, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 1, Gender = 0, Version = SWSH, Nature = Nature.Bold, Relearn = new[] {261,000,000,000}    }, // Yamask
+            new(538,37,17,129,20,7) { Ability = 2, TID7 = 768945, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Version = SW  , Nature = Nature.Adamant,                                   }, // Throh
+            new(539,37,17,129,14,6) { Ability = 1, TID7 = 881426, IVs = TradeIVs, DynamaxLevel = 2, OTGender = 0, Gender = 0, Version =   SH, Nature = Nature.Adamant,                                   }, // Sawk
+            new(122,40,56,000,12,4) { Ability = 1, TID7 = 891846, IVs = TradeIVs, DynamaxLevel = 1, OTGender = 0, Gender = 0, Version = SWSH, Nature = Nature.Calm,                                      }, // Mr. Mime
+            new(884,50,15,038,06,2) { Ability = 2, TID7 = 101141, IVs = TradeIVs, DynamaxLevel = 3, OTGender = 0, Gender = 0, Version = SWSH, Nature = Nature.Adamant, Relearn = new[] {400,000,000,000} }, // Duraludon
         };
 
         private static readonly EncounterTrade8[] TradeGift_R1 =
         {
-            new(052,15,01,033,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
-            new(083,15,01,013,10,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {098,000,000,000}, Version = SW }, // Farfetch’d
-            new(222,15,01,069,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {457,000,000,000}, Version = SH }, // Corsola
-            new(077,15,01,047,06,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {234,000,000,000}, Version = SH }, // Ponyta
-            new(122,15,01,005,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
-            new(554,15,01,040,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {326,000,000,000}, Version = SW }, // Darumaka
-            new(263,15,01,045,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
-            new(618,15,01,050,05,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
-            new(110,15,01,040,12,2) { Ability =-1, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
-            new(103,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
-            new(105,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
+            new(052,15,01,033,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {387,000,000,000}               }, // Meowth
+            new(083,15,01,013,10,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SW  , Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {098,000,000,000}               }, // Farfetch’d
+            new(222,15,01,069,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version =   SH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {457,000,000,000}               }, // Corsola
+            new(077,15,01,047,06,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version =   SH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {234,000,000,000}               }, // Ponyta
+            new(122,15,01,005,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {252,000,000,000}               }, // Mr. Mime
+            new(554,15,01,040,12,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SW  , Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {326,000,000,000}               }, // Darumaka
+            new(263,15,01,045,04,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {245,000,000,000}               }, // Zigzagoon
+            new(618,15,01,050,05,2) { Ability = 4, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {281,000,000,000}               }, // Stunfisk
+            new(110,15,01,040,12,2) { Ability =-1, TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {220,000,000,000}               }, // Weezing
+            new(103,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {246,000,000,000}, Form = 1     }, // Exeggutor-1
+            new(105,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Version = SWSH, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
         };
 
         internal static readonly EncounterTrade8[] TradeGift_SWSH = TradeGift_Regular.Concat(TradeGift_R1).ToArray();

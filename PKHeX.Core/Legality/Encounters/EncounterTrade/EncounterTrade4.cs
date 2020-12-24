@@ -2,19 +2,24 @@
 
 namespace PKHeX.Core
 {
-    public sealed record EncounterTrade4PID : EncounterTrade, IContestStats, IContestStatsRecord
+    public abstract record EncounterTrade4 : EncounterTrade
     {
-        public override int Generation => 4;
+        public sealed override int Generation => 4;
+    }
 
+    public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats, IContestStatsRecord
+    {
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade4PID(uint pid)
+        public EncounterTrade4PID(uint pid, int species, int level)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;
+            Species = species;
+            Level = level;
         }
 
         public int CNT_Cool { get; init; }
@@ -56,16 +61,10 @@ namespace PKHeX.Core
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            var pi = pk.PersonalInfo;
-            int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pi);
-            int nature = (int)criteria.GetNature(Nature);
-            int ability = criteria.GetAbilityFromNumber(Ability, pi);
-
             pk.PID = PID;
-            pk.Nature = nature;
-            pk.Gender = gender;
-            pk.RefreshAbility(ability);
-
+            pk.Nature = (int)(PID % 25);
+            pk.Gender = Gender;
+            pk.RefreshAbility(Ability >> 1);
             SetIVs(pk);
         }
 
@@ -75,15 +74,47 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed record EncounterTrade4Ranch : EncounterTrade
+    public sealed record EncounterTrade4RanchGift : EncounterTrade4
     {
-        public override int Generation => 4;
+        /// <summary>
+        /// Fixed <see cref="PKM.PID"/> value the encounter must have.
+        /// </summary>
+        public readonly uint PID;
 
-        public EncounterTrade4Ranch(int species, int level)
+        public EncounterTrade4RanchGift(uint pid, int species, int level)
+        {
+            PID = pid;
+            Shiny = Shiny.FixedValue;
+            Species = species;
+            Level = level;
+            Version = GameVersion.D;
+        }
+
+        protected override bool IsMatchNatureGenderShiny(PKM pkm)
+        {
+            return PID == pkm.EncryptionConstant;
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            pk.PID = PID;
+            pk.Nature = (int)(PID % 25);
+            pk.Gender = Gender;
+            pk.RefreshAbility(Ability >> 1);
+            SetIVs(pk);
+        }
+    }
+
+    public sealed record EncounterTrade4RanchSpecial : EncounterTrade4
+    {
+        public EncounterTrade4RanchSpecial(int species, int level)
         {
             Species = species;
             Level = level;
             Ball = 0x10;
+            Version = GameVersion.D;
+            OTGender = 1;
+            Location = 3000;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

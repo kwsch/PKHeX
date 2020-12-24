@@ -31,10 +31,12 @@ namespace PKHeX.Core
             }
         }
 
-        public EncounterTrade3(uint pid)
+        public EncounterTrade3(uint pid, int species, int level)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;
+            Species = species;
+            Level = level;
         }
 
         public override bool IsMatch(PKM pkm, DexLevel evo)
