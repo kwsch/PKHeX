@@ -247,6 +247,7 @@ namespace PKHeX.Core
         public static string LG4InvalidTileR45Surf { get; set; } = "Johto Route 45 surfing encounter. Unreachable Water tiles.";
         public static string LG5ID_N { get; set; } = "The Name/TID/SID of N is incorrect.";
         public static string LG5IVAll30 { get; set; } = "All IVs of N's Pokémon should be 30.";
+        public static string LG5OTGenderN { get; set; } = "N's Pokémon must have a male OT gender.";
         public static string LG5PIDShinyGrotto { get; set; } = "Hidden Grotto captures cannot be shiny.";
         public static string LG5PIDShinyN { get; set; } = "N's Pokémon cannot be shiny.";
         public static string LG5SparkleInvalid { get; set; } = "Special ingame N's Sparkle flag should not be checked.";

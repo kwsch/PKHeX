@@ -27,6 +27,8 @@ namespace PKHeX.Core
             if (!checksRequired)
                 return;
 
+            if (pkm.OT_Gender != 0)
+                data.AddLine(GetInvalid(LG5OTGenderN, CheckIdentifier.Shiny));
             if (pkm.IVTotal != 30*6)
                 data.AddLine(GetInvalid(LG5IVAll30, CheckIdentifier.IVs));
             if (!VerifyNsPKMOTValid(pkm))
