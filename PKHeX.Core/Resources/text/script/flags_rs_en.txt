@@ -14,7 +14,7 @@
 0x80A	Received Heat Badge
 0x80B	Received Balance Badge
 0x80C	Received Feather Badge
-0x80D	Received Mind Badge
+0x80D	Received Mind Badge (Magma/Aqua Hideout entrance sealed)
 0x80E	Received Rain Badge
 
 0x099	Traded in Rustboro City
@@ -47,7 +47,6 @@
 0x804	Entered Hall of Fame
 0x805	Used Easy Chat
 0x806	Met The Hipster
-0x80D	Magma/Aqua Hideout entrance sealed
 0x830	Watched TV at Home
 0x834	Mixed Records
 0x835	Set Clock
