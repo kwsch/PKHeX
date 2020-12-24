@@ -14,27 +14,29 @@ using static PKHeX.Core.Encounters7;
 using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
 
+using static PKHeX.Core.GameVersion;
+
 namespace PKHeX.Core
 {
     public static class EncounterStaticGenerator
     {
-        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
-            if (gameSource == GameVersion.Any)
+            if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
             var table = GetEncounterStaticTable(pkm, gameSource);
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
-            if (gameSource == GameVersion.Any)
+            if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
             static IEnumerable<EncounterStatic> GetEvents(GameVersion g)
             {
-                if (g == GameVersion.RBY)
+                if (g == RBY)
                     return !ParseSettings.AllowGBCartEra ? Encounters1.StaticEventsVC : Encounters1.StaticEventsGB;
 
                 return !ParseSettings.AllowGBCartEra ? Encounters2.StaticEventsVC : Encounters2.StaticEventsGB;
@@ -44,7 +46,7 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
             var poss = GetPossible(pkm, chain, gameSource: gameSource);
 
@@ -52,9 +54,9 @@ namespace PKHeX.Core
             return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
-            if (gameSource == GameVersion.Any)
+            if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
             var poss = GetPossibleGBGifts(pkm, chain, gameSource: gameSource);
@@ -127,62 +129,51 @@ namespace PKHeX.Core
         }
 
         // Generation Specific Fetching
-        private static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = Any)
         {
-            if (gameSource == GameVersion.Any)
+            if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            switch (gameSource)
+            return gameSource switch
             {
-                case GameVersion.RBY:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.YW:
-                    return StaticRBY;
+                RBY or RD or BU or GN or YW => StaticRBY,
 
-                case GameVersion.GSC:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                    return GetEncounterStaticTableGSC(pkm);
+                GSC or GD or SV or C => GetEncounterStaticTableGSC(pkm),
 
-                case GameVersion.R: return StaticR;
-                case GameVersion.S: return StaticS;
-                case GameVersion.E: return StaticE;
-                case GameVersion.FR: return StaticFR;
-                case GameVersion.LG: return StaticLG;
-                case GameVersion.CXD: return Encounter_CXD;
+                R => StaticR,
+                S => StaticS,
+                E => StaticE,
+                FR => StaticFR,
+                LG => StaticLG,
+                CXD => Encounter_CXD,
 
-                case GameVersion.D: return StaticD;
-                case GameVersion.P: return StaticP;
-                case GameVersion.Pt: return StaticPt;
-                case GameVersion.HG: return StaticHG;
-                case GameVersion.SS: return StaticSS;
+                D => StaticD,
+                P => StaticP,
+                Pt => StaticPt,
+                HG => StaticHG,
+                SS => StaticSS,
 
-                case GameVersion.B: return StaticB;
-                case GameVersion.W: return StaticW;
-                case GameVersion.B2: return StaticB2;
-                case GameVersion.W2: return StaticW2;
+                B => StaticB,
+                W => StaticW,
+                B2 => StaticB2,
+                W2 => StaticW2,
 
-                case GameVersion.X: return StaticX;
-                case GameVersion.Y: return StaticY;
-                case GameVersion.AS: return StaticA;
-                case GameVersion.OR: return StaticO;
+                X => StaticX,
+                Y => StaticY,
+                AS => StaticA,
+                OR => StaticO,
 
-                case GameVersion.SN: return StaticSN;
-                case GameVersion.MN: return StaticMN;
-                case GameVersion.US: return StaticUS;
-                case GameVersion.UM: return StaticUM;
+                SN => StaticSN,
+                MN => StaticMN,
+                US => StaticUS,
+                UM => StaticUM,
+                GP => StaticGP,
+                GE => StaticGE,
 
-                case GameVersion.GP: return StaticGP;
-                case GameVersion.GE: return StaticGE;
-
-                case GameVersion.SW: return StaticSW;
-                case GameVersion.SH: return StaticSH;
-
-                default: return Enumerable.Empty<EncounterStatic>();
-            }
+                SW => StaticSW,
+                SH => StaticSH,
+                _ => Enumerable.Empty<EncounterStatic>(),
+            };
         }
 
         private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)

@@ -22,20 +22,12 @@ namespace PKHeX.WinForms
             SAV = (Origin = sav).Clone();
             mga = SAV.GiftAlbum;
 
-            switch (SAV.Generation)
+            pba = SAV.Generation switch
             {
-                case 4:
-                    pba = PopulateViewGiftsG4().ToArray();
-                    break;
-                case 5:
-                case 6:
-                case 7:
-                    pba = PopulateViewGiftsG567().ToArray();
-                    break;
-                default:
-                    throw new ArgumentException("Game not supported.");
-            }
-
+                4 => PopulateViewGiftsG4().ToArray(),
+                5 or 6 or 7 => PopulateViewGiftsG567().ToArray(),
+                _ => throw new ArgumentException("Game not supported."),
+            };
             foreach (PictureBox pb in pba)
             {
                 pb.AllowDrop = true;
@@ -62,7 +54,7 @@ namespace PKHeX.WinForms
 
         private readonly MysteryGiftAlbum mga;
         private DataMysteryGift? mg;
-        private readonly PictureBox[] pba;
+        private readonly IList<PictureBox> pba;
 
         // Repopulation Functions
         private void SetBackground(int index, Image bg)
@@ -164,7 +156,9 @@ namespace PKHeX.WinForms
         private void ClickView(object sender, EventArgs e)
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-            int index = Array.IndexOf(pba, pb);
+            if (pb == null)
+                return;
+            int index = pba.IndexOf(pb);
 
             SetBackground(index, Drawing.Properties.Resources.slotView);
             ViewGiftData(mga.Gifts[index]);
@@ -182,7 +176,9 @@ namespace PKHeX.WinForms
             }
 
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-            int index = Array.IndexOf(pba, pb);
+            if (pb == null)
+                return;
+            int index = pba.IndexOf(pb);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = GetLastUnfilledByType(mg, mga);
@@ -207,7 +203,9 @@ namespace PKHeX.WinForms
         private void ClickDelete(object sender, EventArgs e)
         {
             var pb = WinFormsUtil.GetUnderlyingControl<PictureBox>(sender);
-            int index = Array.IndexOf(pba, pb);
+            if (pb == null)
+                return;
+            int index = pba.IndexOf(pb);
 
             var arr = mga.Gifts[index].Data;
             Array.Clear(arr, 0, arr.Length);
@@ -400,7 +398,7 @@ namespace PKHeX.WinForms
 
             if (e.Button != MouseButtons.Left || e.Clicks != 1) return;
 
-            int index = Array.IndexOf(pba, sender);
+            int index = pba.IndexOf(pb);
             wc_slot = index;
             // Create Temp File to Drag
             Cursor.Current = Cursors.Hand;
@@ -424,10 +422,10 @@ namespace PKHeX.WinForms
 
         private void BoxSlot_DragDrop(object sender, DragEventArgs e)
         {
-            if (mg == null)
+            if (mg == null || sender is not PictureBox pb)
                 return;
 
-            int index = Array.IndexOf(pba, sender);
+            int index = pba.IndexOf(pb);
 
             // Hijack to the latest unfilled slot if index creates interstitial empty slots.
             int lastUnfilled = GetLastUnfilledByType(mg, mga);

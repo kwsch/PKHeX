@@ -528,16 +528,13 @@ namespace PKHeX.Core
             get
             {
                 int loc = Egg_Location;
-                switch (Generation)
+                return Generation switch
                 {
-                    case 4: return loc == Locations.Daycare4 || loc == Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS); // faraway
-                    case 5: return loc == Locations.Daycare5 || loc == Locations.LinkTrade5;
-                    case 6:
-                    case 7:
-                    case 8:
-                        return loc == Locations.Daycare5 || loc == Locations.LinkTrade6;
-                    default: return false; // Gen 1/2 and pal park Gen 3
-                }
+                    4 => loc is Locations.Daycare4 or Locations.LinkTrade4 || (loc == Locations.Faraway4 && PtHGSS),
+                    5 => loc is Locations.Daycare5 or Locations.LinkTrade5,
+                    6 or 7 or 8 => loc is Locations.Daycare5 or Locations.LinkTrade6,
+                    _ => false,// Gen 1/2 and pal park Gen 3
+                };
             }
         }
 
@@ -548,16 +545,13 @@ namespace PKHeX.Core
                 if (!WasEgg)
                     return false;
                 int loc = Egg_Location;
-                switch (Generation)
+                return Generation switch
                 {
-                    case 4: return Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS); // faraway
-                    case 5: return loc == 60003;
-                    case 6:
-                    case 7:
-                    case 8:
-                        return loc == 60004;
-                }
-                return false;
+                    4 => Legal.GiftEggLocation4.Contains(loc) || (loc == Locations.Faraway4 && HGSS),
+                    5 => loc == 60003,
+                    6 or 7 or 8 => loc == 60004,
+                    _ => false,
+                };
             }
         }
 

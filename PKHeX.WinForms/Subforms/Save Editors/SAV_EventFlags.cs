@@ -106,25 +106,24 @@ namespace PKHeX.WinForms
 
         private static string GetResourceSuffix(GameVersion ver)
         {
-            switch (ver)
+            return ver switch
             {
-                case GameVersion.X: case GameVersion.Y: case GameVersion.XY: return "xy";
-                case GameVersion.OR: case GameVersion.AS: case GameVersion.ORAS: return "oras";
-                case GameVersion.SN: case GameVersion.MN: case GameVersion.SM: return "sm";
-                case GameVersion.US: case GameVersion.UM: case GameVersion.USUM: return "usum";
-                case GameVersion.D: case GameVersion.P: case GameVersion.DP: return "dp";
-                case GameVersion.Pt: case GameVersion.DPPt: return "pt";
-                case GameVersion.HG: case GameVersion.SS: case GameVersion.HGSS: return "hgss";
-                case GameVersion.B: case GameVersion.W: case GameVersion.BW: return "bw";
-                case GameVersion.B2: case GameVersion.W2: case GameVersion.B2W2: return "b2w2";
-                case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
-                case GameVersion.E: return "e";
-                case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
-                case GameVersion.C: return "c";
-                case GameVersion.GD: case GameVersion.SV: case GameVersion.GS: return "gs";
-                default:
-                    throw new ArgumentException(nameof(GameVersion));
-            }
+                GameVersion.X or GameVersion.Y or GameVersion.XY => "xy",
+                GameVersion.OR or GameVersion.AS or GameVersion.ORAS => "oras",
+                GameVersion.SN or GameVersion.MN or GameVersion.SM => "sm",
+                GameVersion.US or GameVersion.UM or GameVersion.USUM => "usum",
+                GameVersion.D or GameVersion.P or GameVersion.DP => "dp",
+                GameVersion.Pt or GameVersion.DPPt => "pt",
+                GameVersion.HG or GameVersion.SS or GameVersion.HGSS => "hgss",
+                GameVersion.B or GameVersion.W or GameVersion.BW => "bw",
+                GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2 => "b2w2",
+                GameVersion.R or GameVersion.S or GameVersion.RS => "rs",
+                GameVersion.E => "e",
+                GameVersion.FR or GameVersion.LG or GameVersion.FRLG => "frlg",
+                GameVersion.C => "c",
+                GameVersion.GD or GameVersion.SV or GameVersion.GS => "gs",
+                _ => throw new ArgumentException(nameof(GameVersion))
+            };
         }
 
         private void AddFlagList(string[] list)

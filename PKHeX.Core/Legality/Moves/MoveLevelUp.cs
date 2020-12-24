@@ -32,20 +32,19 @@ namespace PKHeX.Core
             if (pkm.IsMovesetRestricted(generation))
                 version = (GameVersion)pkm.Version;
 
-            switch (generation)
+            return generation switch
             {
-                case 1: return GetIsLevelUp1(species, move, lvl, form, minlvlG1, version);
-                case 2 when move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed(): return LearnNONE;
-                case 2: return GetIsLevelUp2(species, move, lvl, form, minlvlG2, pkm.Korean, version);
-
-                case 3: return GetIsLevelUp3(species, move, lvl, form, version);
-                case 4: return GetIsLevelUp4(species, move, lvl, form, version);
-                case 5: return GetIsLevelUp5(species, move, lvl, form, version);
-                case 6: return GetIsLevelUp6(species, move, lvl, form, version);
-                case 7: return GetIsLevelUp7(species, move, form, version); // move reminder can give any move 1-100
-                case 8: return GetIsLevelUp8(species, move, lvl, form, version);
-            }
-            return LearnNONE;
+                1 => GetIsLevelUp1(species, move, lvl, form, minlvlG1, version),
+                2 when move > MaxMoveID_1 && pkm.LearnMovesNew2Disallowed() => LearnNONE,
+                2 => GetIsLevelUp2(species, move, lvl, form, minlvlG2, pkm.Korean, version),
+                3 => GetIsLevelUp3(species, move, lvl, form, version),
+                4 => GetIsLevelUp4(species, move, lvl, form, version),
+                5 => GetIsLevelUp5(species, move, lvl, form, version),
+                6 => GetIsLevelUp6(species, move, lvl, form, version),
+                7 => GetIsLevelUp7(species, move, form, version), // move reminder can give any move 1-100
+                8 => GetIsLevelUp8(species, move, lvl, form, version),
+                _ => LearnNONE
+            };
         }
 
         internal static LearnVersion GetIsLevelUp1(int species, int move, int max, int form, int min, GameVersion ver = Any)

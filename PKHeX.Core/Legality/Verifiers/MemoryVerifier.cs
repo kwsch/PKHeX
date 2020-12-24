@@ -103,9 +103,9 @@ namespace PKHeX.Core
 
             var enc = info.EncounterMatch;
             if (enc is IMoveset ms && ms.Moves.Contains(move))
-                return false;
+                return true;
 
-            return true;
+            return false;
         }
 
         /// <summary>

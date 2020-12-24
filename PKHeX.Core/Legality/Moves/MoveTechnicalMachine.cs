@@ -31,12 +31,11 @@ namespace PKHeX.Core
         {
             if (pkm.IsMovesetRestricted(generation))
                 ver = (GameVersion)pkm.Version;
-            switch (generation)
+            return generation switch
             {
-                case 8: return GetIsRecord8(pkm, species, move, form, ver, allowBit);
-                default:
-                    return Legal.NONE;
-            }
+                8 => GetIsRecord8(pkm, species, move, form, ver, allowBit),
+                _ => Legal.NONE
+            };
         }
 
         private static GameVersion GetIsMachine1(int species, int move)

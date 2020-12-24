@@ -829,17 +829,13 @@ namespace PKHeX.Core
                 case EncounterStaticShadow:
                     return pkm.Version == (int)GameVersion.CXD && (val == PIDType.CXD || val == PIDType.CXDAnti);
                 case EncounterStatic3 s:
-                    switch (pkm.Version)
+                    return pkm.Version switch
                     {
-                        case (int)GameVersion.CXD: return val == PIDType.CXD || val == PIDType.CXD_ColoStarter || val == PIDType.CXDAnti;
-                        case (int)GameVersion.E: return val == PIDType.Method_1; // no roamer glitch
-
-                        case (int)GameVersion.FR:
-                        case (int)GameVersion.LG:
-                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : val == PIDType.Method_1; // roamer glitch
-                        default: // RS, roamer glitch && RSBox s/w emulation => method 4 available
-                            return s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val);
-                    }
+                        (int)GameVersion.CXD => val == PIDType.CXD || val == PIDType.CXD_ColoStarter || val == PIDType.CXDAnti,
+                        (int)GameVersion.E => val == PIDType.Method_1, // no roamer glitch
+                        (int)GameVersion.FR or (int)GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == PIDType.Method_1, // roamer glitch
+                        _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
+                    };
                 case EncounterSlot w:
                     if (pkm.Version == 15)
                         return val == PIDType.PokeSpot;

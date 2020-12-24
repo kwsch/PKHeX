@@ -247,25 +247,25 @@ namespace PKHeX.WinForms
 
         private static string GetGameFilePrefix(GameVersion game)
         {
-            switch (game)
+            return game switch
             {
-                case GameVersion.SW: case GameVersion.SH: case GameVersion.SWSH: return "swsh";
-                case GameVersion.GP: case GameVersion.GE: case GameVersion.GG: return "gg";
-                case GameVersion.X: case GameVersion.Y: return "xy";
-                case GameVersion.OR: case GameVersion.AS: return "oras";
-                case GameVersion.SN: case GameVersion.MN: return "sm";
-                case GameVersion.US: case GameVersion.UM: return "usum";
-                case GameVersion.DP: return "dp";
-                case GameVersion.Pt: return "pt";
-                case GameVersion.HGSS: return "hgss";
-                case GameVersion.BW: return "bw";
-                case GameVersion.B2W2: return "b2w2";
-                case GameVersion.E: return "e";
-                case GameVersion.C: return "c";
-                case GameVersion.R: case GameVersion.S: case GameVersion.RS: return "rs";
-                case GameVersion.FR: case GameVersion.LG: case GameVersion.FRLG: return "frlg";
-                default: throw new IndexOutOfRangeException(nameof(game));
-            }
+                GameVersion.SW or GameVersion.SH or GameVersion.SWSH => "swsh",
+                GameVersion.GP or GameVersion.GE or GameVersion.GG => "gg",
+                GameVersion.X or GameVersion.Y => "xy",
+                GameVersion.OR or GameVersion.AS => "oras",
+                GameVersion.SN or GameVersion.MN => "sm",
+                GameVersion.US or GameVersion.UM => "usum",
+                GameVersion.DP => "dp",
+                GameVersion.Pt => "pt",
+                GameVersion.HGSS => "hgss",
+                GameVersion.BW => "bw",
+                GameVersion.B2W2 => "b2w2",
+                GameVersion.E => "e",
+                GameVersion.C => "c",
+                GameVersion.R or GameVersion.S or GameVersion.RS => "rs",
+                GameVersion.FR or GameVersion.LG or GameVersion.FRLG => "frlg",
+                _ => throw new IndexOutOfRangeException(nameof(game))
+            };
         }
 
         private void DiffSaves()

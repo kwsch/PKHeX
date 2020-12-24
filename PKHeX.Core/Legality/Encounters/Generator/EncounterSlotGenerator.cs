@@ -14,6 +14,8 @@ using static PKHeX.Core.Encounters7b;
 using static PKHeX.Core.Encounters8;
 using static PKHeX.Core.EncountersGO;
 
+using static PKHeX.Core.GameVersion;
+
 namespace PKHeX.Core
 {
     public static class EncounterSlotGenerator
@@ -134,59 +136,47 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            switch (gameSource)
+            return gameSource switch
             {
-                case GameVersion.RBY:
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.YW:
-                    return SlotsRBY;
+                RBY or RD or BU or GN or YW => SlotsRBY,
 
-                case GameVersion.GSC:
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                    return GetEncounterTableGSC(pkm);
+                GSC or GD or SV or C => GetEncounterTableGSC(pkm),
 
-                case GameVersion.R: return SlotsR;
-                case GameVersion.S: return SlotsS;
-                case GameVersion.E: return SlotsE;
-                case GameVersion.FR: return SlotsFR;
-                case GameVersion.LG: return SlotsLG;
-                case GameVersion.CXD: return SlotsXD;
+                R => SlotsR,
+                S => SlotsS,
+                E => SlotsE,
+                FR => SlotsFR,
+                LG => SlotsLG,
+                CXD => SlotsXD,
 
-                case GameVersion.D: return SlotsD;
-                case GameVersion.P: return SlotsP;
-                case GameVersion.Pt: return SlotsPt;
-                case GameVersion.HG: return SlotsHG;
-                case GameVersion.SS: return SlotsSS;
+                D => SlotsD,
+                P => SlotsP,
+                Pt => SlotsPt,
+                HG => SlotsHG,
+                SS => SlotsSS,
 
-                case GameVersion.B: return SlotsB;
-                case GameVersion.W: return SlotsW;
-                case GameVersion.B2: return SlotsB2;
-                case GameVersion.W2: return SlotsW2;
+                B => SlotsB,
+                W => SlotsW,
+                B2 => SlotsB2,
+                W2 => SlotsW2,
 
-                case GameVersion.X: return SlotsX;
-                case GameVersion.Y: return SlotsY;
-                case GameVersion.AS: return SlotsA;
-                case GameVersion.OR: return SlotsO;
+                X => SlotsX,
+                Y => SlotsY,
+                AS => SlotsA,
+                OR => SlotsO,
 
-                case GameVersion.SN: return SlotsSN;
-                case GameVersion.MN: return SlotsMN;
-                case GameVersion.US: return SlotsUS;
-                case GameVersion.UM: return SlotsUM;
+                SN => SlotsSN,
+                MN => SlotsMN,
+                US => SlotsUS,
+                UM => SlotsUM,
+                GP => SlotsGP,
+                GE => SlotsGE,
 
-                case GameVersion.GP: return SlotsGP;
-                case GameVersion.GE: return SlotsGE;
-                case GameVersion.GO:
-                    return GetEncounterTableGO(pkm);
-
-                case GameVersion.SW: return SlotsSW;
-                case GameVersion.SH: return SlotsSH;
-
-                default: return Enumerable.Empty<EncounterArea>();
-            }
+                GO => GetEncounterTableGO(pkm),
+                SW => SlotsSW,
+                SH => SlotsSH,
+                _ => Enumerable.Empty<EncounterArea>()
+            };
         }
 
         private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)

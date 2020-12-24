@@ -26,15 +26,15 @@ namespace PKHeX.Core
         /// </remarks>
         public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info)
         {
-            switch (info.Generation)
+            return info.Generation switch
             {
-                case 1:
-                case 2: return EncounterGenerator12.GetEncounters12(pkm, info);
-                case 3: return GetEncounters3(pkm, info);
-                case 4: return GetEncounters4(pkm, info);
-                case 8: return GenerateRawEncounters8(pkm);
-                default: return GenerateRawEncounters(pkm);
-            }
+                1 => EncounterGenerator12.GetEncounters12(pkm, info),
+                2 => EncounterGenerator12.GetEncounters12(pkm, info),
+                3 => GetEncounters3(pkm, info),
+                4 => GetEncounters4(pkm, info),
+                8 => GenerateRawEncounters8(pkm),
+                _ => GenerateRawEncounters(pkm)
+            };
         }
 
         private static IEnumerable<IEncounterable> GetEncounters3(PKM pkm, LegalInfo info)

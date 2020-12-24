@@ -508,48 +508,49 @@ namespace PKHeX.Core
 
         private static SaveFile? GetVariantSAVInternal(byte[] data)
         {
-            switch (GetSAVType(data))
+            var type = GetSAVType(data);
+            return type switch
             {
                 // Main Games
-                case RBY: return new SAV1(data);
-                case GS: case C: return new SAV2(data);
-                case RS: case E: case FRLG: return new SAV3(data);
+                RBY => new SAV1(data),
+                GS or C => new SAV2(data),
+                RS or E or FRLG => new SAV3(data, type),
 
-                case DP: return new SAV4DP(data);
-                case Pt: return new SAV4Pt(data);
-                case HGSS: return new SAV4HGSS(data);
+                DP => new SAV4DP(data),
+                Pt => new SAV4Pt(data),
+                HGSS => new SAV4HGSS(data),
 
-                case BW: return new SAV5BW(data);
-                case B2W2: return new SAV5B2W2(data);
+                BW => new SAV5BW(data),
+                B2W2 => new SAV5B2W2(data),
 
-                case XY: return new SAV6XY(data);
-                case ORAS: return new SAV6AO(data);
-                case ORASDEMO: return new SAV6AODemo(data);
+                XY => new SAV6XY(data),
+                ORAS => new SAV6AO(data),
+                ORASDEMO => new SAV6AODemo(data),
 
-                case SM: return new SAV7SM(data);
-                case USUM: return new SAV7USUM(data);
-                case GG: return new SAV7b(data);
+                SM => new SAV7SM(data),
+                USUM => new SAV7USUM(data),
+                GG => new SAV7b(data),
 
-                case SWSH: return new SAV8SWSH(data);
+                SWSH => new SAV8SWSH(data),
 
                 // Side Games
-                case COLO:   return new SAV3Colosseum(data);
-                case XD:     return new SAV3XD(data);
-                case RSBOX:  return new SAV3RSBox(data);
-                case BATREV: return new SAV4BR(data);
-                case Stadium2: return new SAV2Stadium(data);
-                case Stadium:  return new SAV1Stadium(data);
-                case StadiumJ: return new SAV1StadiumJ(data);
+                COLO => new SAV3Colosseum(data),
+                XD => new SAV3XD(data),
+                RSBOX => new SAV3RSBox(data),
+                BATREV => new SAV4BR(data),
+                Stadium2 => new SAV2Stadium(data),
+                Stadium => new SAV1Stadium(data),
+                StadiumJ => new SAV1StadiumJ(data),
 
                 // Bulk Storage
-                case Gen3: return new Bank3(data);
-                case DPPt: return new SAV4Ranch(data);
-                case Gen4: return new Bank4(data);
-                case Gen7: return Bank7.GetBank7(data);
+                Gen3 => new Bank3(data),
+                DPPt => new SAV4Ranch(data),
+                Gen4 => new Bank4(data),
+                Gen7 => Bank7.GetBank7(data),
 
                 // No pattern matched
-                default: return null;
-            }
+                _ => null,
+            };
         }
 
         public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
@@ -634,74 +635,44 @@ namespace PKHeX.Core
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
         private static SaveFile GetBlankSAV(GameVersion game, LanguageID language)
         {
-            switch (game)
+            return game switch
             {
-                case RD: case BU: case GN: case YW:
-                case RBY:
-                    return new SAV1(version: game);
-                case StadiumJ:
-                    return new SAV1StadiumJ();
-                case Stadium:
-                    return new SAV1Stadium(language == LanguageID.Japanese);
+                RD or BU or GN or YW or RBY => new SAV1(version: game),
+                StadiumJ => new SAV1StadiumJ(),
+                Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
-                case GS: case GD: case SV:
-                    return new SAV2(version: GS, lang: language);
-                case GSC: case C:
-                    return new SAV2(version: C, lang: language);
-                case Stadium2:
-                    return new SAV2Stadium();
+                GD or SV or GS => new SAV2(version: GS, lang: language),
+                C or GSC => new SAV2(version: C, lang: language),
+                Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
 
-                case R: case S: case E: case FR: case LG:
-                    return new SAV3(version: game, language == LanguageID.Japanese);
-                case FRLG:
-                    return new SAV3(version: FR, language == LanguageID.Japanese);
-                case RS:
-                    return new SAV3(version: R, language == LanguageID.Japanese);
-                case RSE:
-                    return new SAV3(version: E, language == LanguageID.Japanese);
+                R or S or E or FR or LG => new SAV3(version: game, language == LanguageID.Japanese),
+                RS => new SAV3(version: R, language == LanguageID.Japanese),
+                RSE => new SAV3(version: E, language == LanguageID.Japanese),
+                FRLG => new SAV3(version: FR, language == LanguageID.Japanese),
 
-                case CXD:
-                case COLO:
-                    return new SAV3Colosseum();
-                case XD:
-                    return new SAV3XD();
-                case RSBOX:
-                    return new SAV3RSBox();
+                CXD or COLO => new SAV3Colosseum(),
+                XD => new SAV3XD(),
+                RSBOX => new SAV3RSBox(),
 
-                case D: case P: case DP:
-                case DPPt:
-                    return new SAV4DP();
-                case Pt:
-                    return new SAV4Pt();
-                case HG: case SS: case HGSS:
-                    return new SAV4HGSS();
+                D or P or DP => new SAV4DP(),
+                Pt or DPPt => new SAV4Pt(),
+                HG or SS or HGSS => new SAV4HGSS(),
 
-                case B: case W: case BW:
-                    return new SAV5BW();
-                case B2: case W2: case B2W2:
-                    return new SAV5B2W2();
+                B or W or BW => new SAV5BW(),
+                B2 or W2 or B2W2 => new SAV5B2W2(),
 
-                case X: case Y: case XY:
-                    return new SAV6XY();
-                case ORASDEMO:
-                    return new SAV6AODemo();
-                case OR: case AS: case ORAS:
-                    return new SAV6AO();
+                X or Y or XY => new SAV6XY(),
+                ORASDEMO => new SAV6AODemo(),
+                OR or AS or ORAS => new SAV6AO(),
 
-                case SN: case MN: case SM:
-                    return new SAV7SM();
-                case US: case UM: case USUM:
-                    return new SAV7USUM();
-                case GO:
-                case GP: case GE: case GG:
-                    return new SAV7b();
+                SN or MN or SM => new SAV7SM(),
+                US or UM or USUM => new SAV7USUM(),
+                GP or GE or GG or GO => new SAV7b(),
 
-                case SW: case SH: case SWSH:
-                    return new SAV8SWSH();
+                SW or SH or SWSH => new SAV8SWSH(),
 
-                default:
-                    throw new ArgumentException(nameof(game));
-            }
+                _ => throw new ArgumentException(nameof(game)),
+            };
         }
 
         /// <summary>

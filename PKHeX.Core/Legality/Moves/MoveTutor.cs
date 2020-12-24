@@ -184,7 +184,7 @@ namespace PKHeX.Core
 
             if (!specialTutors)
                 return NONE;
-            
+
             var tutors = Tutors_SWSH_1;
             for (int i = 0; i < tutors.Length; i++)
             {

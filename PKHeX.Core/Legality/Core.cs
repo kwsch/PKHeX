@@ -205,22 +205,22 @@ namespace PKHeX.Core
 
         public static int GetMaxLengthOT(int gen, LanguageID lang)
         {
-            switch (lang)
+            return lang switch
             {
-                case LanguageID.Korean:
-                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
-                default: return gen >= 6 ? 12 : 7;
-            }
+                LanguageID.ChineseS or LanguageID.ChineseT => 6,
+                LanguageID.Japanese or LanguageID.Korean => gen >= 6 ? 6 : 5,
+                _ => gen >= 6 ? 12 : 7
+            };
         }
 
         public static int GetMaxLengthNickname(int gen, LanguageID lang)
         {
-            switch (lang)
+            return lang switch
             {
-                case LanguageID.Korean:
-                case LanguageID.Japanese: return gen >= 6 ? 6 : 5;
-                default: return gen >= 6 ? 12 : 10;
-            }
+                LanguageID.ChineseS or LanguageID.ChineseT => 6,
+                LanguageID.Japanese or LanguageID.Korean => gen >= 6 ? 6 : 5,
+                _ => gen >= 6 ? 12 : 10
+            };
         }
 
         public static bool GetIsFixedIVSequenceValidSkipRand(IReadOnlyList<int> IVs, PKM pkm, int max = 31)

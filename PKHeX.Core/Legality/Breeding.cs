@@ -63,19 +63,12 @@ namespace PKHeX.Core
 
         internal static ICollection<int> GetSplitBreedGeneration(int generation)
         {
-            switch (generation)
+            return generation switch
             {
-                case 3: return SplitBreed_3;
-
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                    return SplitBreed;
-
-                default: return Array.Empty<int>();
-            }
+                3 => SplitBreed_3,
+                4 or 5 or 6 or 7 or 8 => SplitBreed,
+                _ => Array.Empty<int>(),
+            };
         }
     }
 }

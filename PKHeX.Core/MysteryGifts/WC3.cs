@@ -206,20 +206,14 @@ namespace PKHeX.Core
                 return version;
 
             int rand = Util.Rand.Next(2); // 0 or 1
-            switch (version)
+            return version switch
             {
-                case GameVersion.FRLG:
-                    return GameVersion.FR + rand; // or LG
-                case GameVersion.RSE:
-                case GameVersion.RS:
-                    return GameVersion.S + rand; // or R
-
-                case GameVersion.COLO:
-                case GameVersion.XD:
-                    return GameVersion.CXD;
-                default:
-                    throw new Exception($"Unknown GameVersion: {version}");
-            }
+                GameVersion.FRLG => GameVersion.FR + rand, // or LG
+                GameVersion.RS or GameVersion.RSE => GameVersion.S + rand, // or R
+                GameVersion.COLO => GameVersion.CXD,
+                GameVersion.XD => GameVersion.CXD,
+                _ => throw new Exception($"Unknown GameVersion: {version}")
+            };
         }
 
         protected override bool IsMatchExact(PKM pkm, DexLevel evo)
