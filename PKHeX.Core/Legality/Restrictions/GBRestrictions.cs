@@ -213,21 +213,20 @@ namespace PKHeX
 
         private static bool IsMoveCountRequired3(int species, int level, IReadOnlyList<int> moves)
         {
-            // Species that evolve and learn the 4th move as evolved species at a greather level than base species
-            // The 4th move is included in the level up table set as a preevolution move,
+            // Species that evolve and learn the 4th move as evolved species at a greater level than base species
+            // The 4th move is included in the level up table set as a pre-evolution move,
             // it should be removed from the used slots count if is not the learn move
-            switch (species)
+            return species switch
             {
-                case (int)Species.Pidgeotto: return level < 21 && !moves.Contains(018); // Pidgeotto without Whirlwind
-                case (int)Species.Sandslash: return level < 27 && !moves.Contains(040); // Sandslash without Poison Sting
-                case (int)Species.Parasect:  return level < 30 && !moves.Contains(147); // Parasect without Spore
-                case (int)Species.Golduck:   return level < 39 && !moves.Contains(093); // Golduck without Confusion
-                case (int)Species.Dewgong:   return level < 44 && !moves.Contains(156); // Dewgong without Rest
-                case (int)Species.Haunter:
-                case (int)Species.Gengar:    return level < 29 && !moves.Contains(095); // Haunter/Gengar without Hypnosis
-                case (int)Species.Weezing:   return level < 39 && !moves.Contains(108); // Weezing without Smoke Screen
-                default: return false;
-            }
+                (int)Species.Pidgeotto => level < 21 && !moves.Contains(018),// Whirlwind
+                (int)Species.Sandslash => level < 27 && !moves.Contains(040),// Poison Sting
+                (int)Species.Parasect => level < 30 && !moves.Contains(147),// Spore
+                (int)Species.Golduck => level < 39 && !moves.Contains(093),// Confusion
+                (int)Species.Dewgong => level < 44 && !moves.Contains(156),// Rest
+                (int)Species.Haunter or (int)Species.Gengar => level < 29 && !moves.Contains(095),// Hypnosis
+                (int)Species.Weezing => level < 39 && !moves.Contains(108),// Smoke Screen
+                _ => false,
+            };
         }
 
         private static int GetRequiredMoveCountDecrement(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)

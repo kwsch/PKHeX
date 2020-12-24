@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Calculated Information storage with properties useful for parsing the legality of the input <see cref="PKM"/>.
     /// </summary>
-    public sealed class LegalInfo
+    public sealed class LegalInfo : IGeneration
     {
         /// <summary>The <see cref="PKM"/> object used for comparisons.</summary>
         private readonly PKM pkm;

@@ -183,13 +183,13 @@ namespace PKHeX.Core
                         return; // Can have either state
                     VerifyWC3Shiny(data, w);
                     break;
-                case MysteryGift g when g.Generation != 3: // WC3
+                case MysteryGift g: // WC3 handled above
                     VerifyReceivability(data, g);
                     VerifyFatefulMysteryGift(data, g);
                     return;
                 case EncounterStatic {Fateful: true}: // ingame fateful
                 case EncounterSlot3PokeSpot: // ingame pokespot
-                case EncounterTrade4Ranch: // ranch varied PID
+                case EncounterTrade4RanchSpecial: // ranch varied PID
                     VerifyFatefulIngameActive(data);
                     return;
             }
