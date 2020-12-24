@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterTrade2 : EncounterTradeGB
+    public sealed record EncounterTrade2 : EncounterTradeGB
     {
         public override int Generation => 2;
 

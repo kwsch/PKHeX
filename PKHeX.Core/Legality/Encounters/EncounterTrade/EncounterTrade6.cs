@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class EncounterTrade6 : EncounterTrade, IMemoryOT
+    public sealed record EncounterTrade6 : EncounterTrade, IMemoryOT
     {
         public override int Generation => 6;
         public int OT_Memory { get; set; }

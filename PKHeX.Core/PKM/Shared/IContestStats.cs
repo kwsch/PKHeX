@@ -4,29 +4,38 @@ namespace PKHeX.Core
 {
     public interface IContestStats
     {
-        int CNT_Cool { get; set; }
-        int CNT_Beauty { get; set; }
-        int CNT_Cute { get; set; }
-        int CNT_Smart { get; set; }
-        int CNT_Tough { get; set; }
-        int CNT_Sheen { get; set; }
+        int CNT_Cool { get; }
+        int CNT_Beauty { get; }
+        int CNT_Cute { get; }
+        int CNT_Smart { get; }
+        int CNT_Tough { get; }
+        int CNT_Sheen { get; }
+    }
+
+    public interface IContestStatsMutable
+    {
+        int CNT_Cool { set; }
+        int CNT_Beauty { set; }
+        int CNT_Cute { set; }
+        int CNT_Smart { set; }
+        int CNT_Tough { set; }
+        int CNT_Sheen { set; }
+    }
+
+    public interface IContestStatsRecord
+    {
+        // int CNT_Cool { init; }
+        // int CNT_Beauty { init; }
+        // int CNT_Cute { init; }
+        // int CNT_Smart { init; }
+        // int CNT_Tough { init; }
+        // int CNT_Sheen { init; }
+
+        IReadOnlyList<int> Contest { init; }
     }
 
     public static partial class Extensions
     {
-        public static void SetContestStats(this IContestStats dest, IReadOnlyList<int> stats)
-        {
-            if (stats.Count != 6)
-                return;
-
-            dest.CNT_Cool   = stats[0];
-            dest.CNT_Beauty = stats[1];
-            dest.CNT_Cute   = stats[2];
-            dest.CNT_Smart  = stats[3];
-            dest.CNT_Tough  = stats[4];
-            dest.CNT_Sheen  = stats[5];
-        }
-
         public static int[] GetContestStats(this IContestStats stats) => new[]
         {
             stats.CNT_Cool,
@@ -78,7 +87,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        public static void CopyContestStatsTo(this IContestStats source, IContestStats dest)
+        public static void CopyContestStatsTo(this IContestStats source, IContestStatsMutable dest)
         {
             dest.CNT_Cool = source.CNT_Cool;
             dest.CNT_Beauty = source.CNT_Beauty;

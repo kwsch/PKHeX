@@ -4,7 +4,7 @@ using PKHeX.Core;
 
 namespace PKHeX.WinForms.Controls
 {
-    public partial class ContestStat : UserControl, IContestStats
+    public partial class ContestStat : UserControl, IContestStats, IContestStatsMutable
     {
         public ContestStat()
         {

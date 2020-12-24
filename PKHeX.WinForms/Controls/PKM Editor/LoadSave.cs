@@ -219,7 +219,7 @@ namespace PKHeX.WinForms.Controls
             pk.Nature = WinFormsUtil.GetIndex(CB_Nature);
             pk.Gender = PKX.GetGenderFromString(Label_Gender.Text);
 
-            if (pk is IContestStats s)
+            if (pk is IContestStatsMutable s)
                 Contest.CopyContestStatsTo(s);
 
             pk.FatefulEncounter = CHK_Fateful.Checked;

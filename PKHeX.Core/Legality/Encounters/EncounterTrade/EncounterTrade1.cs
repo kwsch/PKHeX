@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// Generation 1 specific value used in detecting unmodified/un-traded Generation 1 Trade Encounter data.
     /// Species & Minimum level (legal) possible to acquire at.
     /// </remarks>
-    public sealed class EncounterTrade1 : EncounterTradeGB
+    public sealed record EncounterTrade1 : EncounterTradeGB
     {
         public override int Generation => 1;
         public override int LevelMin => CanObtainMinGSC() ? LevelMinGSC : LevelMinRBY;

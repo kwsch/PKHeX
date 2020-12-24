@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
+    public sealed record EncounterTrade8 : EncounterTrade, IDynamaxLevel, IRelearn, IMemoryOT
     {
         public override int Generation => 8;
 
         public byte DynamaxLevel { get; set; }
-        public IReadOnlyList<int> Relearn { get; set; } = Array.Empty<int>();
+        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         public int OT_Memory { get; set; }
         public int OT_TextVar { get; set; }

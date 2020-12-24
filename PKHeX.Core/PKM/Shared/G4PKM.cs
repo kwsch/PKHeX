@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats
+    public abstract class G4PKM : PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetUnique3, IRibbonSetUnique4, IRibbonSetCommon3, IRibbonSetCommon4, IContestStats, IContestStatsMutable
     {
         protected G4PKM(byte[] data) : base(data) { }
         protected G4PKM(int size) : base(size) { }

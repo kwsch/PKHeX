@@ -5,7 +5,7 @@ namespace PKHeX.Core
 {
     /// <summary> Generation 6 <see cref="PKM"/> format. </summary>
     public sealed class PK6 : G6PKM, IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6,
-        IContestStats, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection
+        IContestStats, IContestStatsMutable, IGeoTrack, ISuperTrain, IFormArgument, ITrainerMemories, IAffection
     {
         private static readonly ushort[] Unused =
         {

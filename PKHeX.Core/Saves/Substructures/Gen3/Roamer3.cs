@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class Roamer3 : IContestStats
+    public sealed class Roamer3 : IContestStats, IContestStatsMutable
     {
         private readonly SaveFile SAV;
         private readonly int Offset;

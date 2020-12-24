@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterTrade7 : EncounterTrade, IMemoryOT
+    public sealed record EncounterTrade7 : EncounterTrade, IMemoryOT
     {
         public override int Generation => 7;
         // immutable setters

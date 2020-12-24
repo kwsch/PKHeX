@@ -1,6 +1,6 @@
 ﻿namespace PKHeX.Core
 {
-    public abstract class EncounterTradeGB : EncounterTrade
+    public abstract record EncounterTradeGB : EncounterTrade
     {
         protected EncounterTradeGB(int species, int level)
         {

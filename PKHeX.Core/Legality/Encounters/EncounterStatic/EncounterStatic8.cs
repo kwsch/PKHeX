@@ -13,6 +13,7 @@ namespace PKHeX.Core
         public bool ScriptedNoMarks { get; init; }
         public bool CanGigantamax { get; set; }
         public byte DynamaxLevel { get; set; }
+        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
@@ -31,7 +32,5 @@ namespace PKHeX.Core
                 return false;
             return base.IsMatch(pkm, evo);
         }
-
-        public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
     }
 }

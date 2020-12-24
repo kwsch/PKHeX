@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class EncounterTrade4PID : EncounterTrade, IContestStats
+    public sealed record EncounterTrade4PID : EncounterTrade, IContestStats, IContestStatsRecord
     {
         public override int Generation => 4;
 
@@ -17,13 +17,25 @@ namespace PKHeX.Core
             Shiny = Shiny.FixedValue;
         }
 
-        internal IReadOnlyList<int> Contest { init => this.SetContestStats(value); }
-        public int CNT_Cool { get; set; }
-        public int CNT_Beauty { get; set; }
-        public int CNT_Cute { get; set; }
-        public int CNT_Smart { get; set; }
-        public int CNT_Tough { get; set; }
-        public int CNT_Sheen { get; set; }
+        public int CNT_Cool { get; init; }
+        public int CNT_Beauty { get; init; }
+        public int CNT_Cute { get; init; }
+        public int CNT_Smart { get; init; }
+        public int CNT_Tough { get; init; }
+        public int CNT_Sheen { get; init; }
+
+        public IReadOnlyList<int> Contest
+        {
+            init
+            {
+                CNT_Cool = value[0];
+                CNT_Beauty = value[1];
+                CNT_Cute = value[2];
+                CNT_Smart = value[3];
+                CNT_Tough = value[4];
+                CNT_Sheen = value[5];
+            }
+        }
 
         public override bool IsMatch(PKM pkm, DexLevel evo)
         {
@@ -63,7 +75,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterTrade4Ranch : EncounterTrade
+    public sealed record EncounterTrade4Ranch : EncounterTrade
     {
         public override int Generation => 4;
 

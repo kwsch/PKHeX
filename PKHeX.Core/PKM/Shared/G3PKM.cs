@@ -3,7 +3,7 @@
     /// <summary>
     /// Generation 3 Base <see cref="PKM"/> Class
     /// </summary>
-    public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats
+    public abstract class G3PKM : PKM, IRibbonSetEvent3, IRibbonSetCommon3, IRibbonSetUnique3, IRibbonSetOnly3, IContestStats, IContestStatsMutable
     {
         protected G3PKM(byte[] data) : base(data) { }
         protected G3PKM(int size) : base(size) { }

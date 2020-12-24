@@ -1,11 +1,11 @@
 ﻿namespace PKHeX.Core
 {
-    public sealed class EncounterTrade5 : EncounterTrade
+    public sealed record EncounterTrade5 : EncounterTrade
     {
         public override int Generation => 5;
     }
 
-    public sealed class EncounterTrade5PID : EncounterTrade
+    public sealed record EncounterTrade5PID : EncounterTrade
     {
         public override int Generation => 5;
 
