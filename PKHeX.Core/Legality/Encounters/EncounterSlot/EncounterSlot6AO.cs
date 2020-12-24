@@ -4,15 +4,15 @@ namespace PKHeX.Core
     /// Encounter Slot found in <see cref="GameVersion.ORAS"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot6AO : EncounterSlot
+    public sealed record EncounterSlot6AO : EncounterSlot
     {
         public override int Generation => 6;
         public bool CanDexNav => Area.Type != SlotType.Rock_Smash;
 
-        public bool Pressure { get; set; }
-        public bool DexNav { get; set; }
-        public bool WhiteFlute { get; set; }
-        public bool BlackFlute { get; set; }
+        public bool Pressure { get; init; }
+        public bool DexNav { get; init; }
+        public bool WhiteFlute { get; init; }
+        public bool BlackFlute { get; init; }
 
         public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max) : base(area)
         {

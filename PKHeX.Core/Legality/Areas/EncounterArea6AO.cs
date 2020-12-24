@@ -67,28 +67,18 @@ namespace PKHeX.Core
                     if (slot.Form != evo.Form && slot.Form != RandomForm)
                         break;
 
-                    var clone = (EncounterSlot6AO)slot.Clone();
-                    MarkSlotDetails(pkm, clone, evo);
+                    // Track some metadata about how this slot was matched.
+                    var ao = (EncounterSlot6AO)slot;
+                    var clone = ao with
+                    {
+                        WhiteFlute = evo.MinLevel < slot.LevelMin,
+                        BlackFlute = evo.MinLevel > slot.LevelMax && evo.MinLevel <= slot.LevelMax + FluteBoostMax,
+                        DexNav = ao.CanDexNav && (evo.MinLevel != slot.LevelMax || pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4),
+                    };
                     yield return clone;
                     break;
                 }
             }
-        }
-
-        private static void MarkSlotDetails(PKM pkm, EncounterSlot6AO slot, EvoCriteria evo)
-        {
-            if (slot.LevelMin > evo.MinLevel)
-                slot.WhiteFlute = true;
-            if (slot.LevelMax + 1 <= evo.MinLevel && evo.MinLevel <= slot.LevelMax + FluteBoostMax)
-                slot.BlackFlute = true;
-
-            if (!slot.CanDexNav)
-                return;
-
-            if (slot.LevelMax != evo.MinLevel)
-                slot.DexNav = true;
-            if (pkm.RelearnMove1 != 0 || pkm.AbilityNumber == 4)
-                slot.DexNav = true;
         }
     }
 }

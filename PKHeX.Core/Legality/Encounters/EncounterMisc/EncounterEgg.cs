@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Egg Encounter Data
     /// </summary>
-    public class EncounterEgg : IEncounterable
+    public record EncounterEgg : IEncounterable
     {
         public int Species { get; }
         public int Form { get; }
@@ -144,7 +144,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterEggSplit : EncounterEgg
+    public sealed record EncounterEggSplit : EncounterEgg
     {
         public int OtherSpecies { get; }
         public EncounterEggSplit(int species, int form, int level, int gen, GameVersion game, int otherSpecies) : base(species, form, level, gen, game) => OtherSpecies = otherSpecies;

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 7 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed class EncounterStatic7 : EncounterStatic, IRelearn
+    public sealed record EncounterStatic7 : EncounterStatic, IRelearn
     {
         public override int Generation => 7;
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();

@@ -21,19 +21,19 @@ namespace PKHeX.Core
         public PIDType Method;
 
         public override string OT_Name { get; set; } = string.Empty;
-        public int OT_Gender { get; set; } = 3;
+        public int OT_Gender { get; init; } = 3;
         public override int TID { get; set; }
         public override int SID { get; set; }
         public override int Location { get; set; } = 255;
         public override int EggLocation { get => 0; set {} }
         public override GameVersion Version { get; set; }
-        public int Language { get; set; } = -1;
+        public int Language { get; init; } = -1;
         public override int Species { get; set; }
         public override bool IsEgg { get; set; }
         public override IReadOnlyList<int> Moves { get; set; } = Array.Empty<int>();
-        public bool NotDistributed { get; set; }
-        public Shiny Shiny { get; set; } = Shiny.Random;
-        public bool Fateful { get; set; } // Obedience Flag
+        public bool NotDistributed { get; init; }
+        public Shiny Shiny { get; init; } = Shiny.Random;
+        public bool Fateful { get; init; } // Obedience Flag
 
         // Mystery Gift Properties
         public override int Generation => 3;
@@ -62,12 +62,12 @@ namespace PKHeX.Core
         public override int Form { get; set; }
 
         // Synthetic
-        private int? _metLevel;
+        private readonly int? _metLevel;
 
         public int Met_Level
         {
             get => _metLevel ?? (IsEgg ? 0 : Level);
-            set => _metLevel = value;
+            init => _metLevel = value;
         }
 
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)

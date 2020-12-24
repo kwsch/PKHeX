@@ -22,7 +22,7 @@ namespace PKHeX.Core
             get => _match;
             set
             {
-                if (_match != EncounterInvalid.Default && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
+                if (!ReferenceEquals(_match, EncounterInvalid.Default) && (value.LevelMin != _match.LevelMin || value.Species != _match.Species))
                     _evochains = null; // clear if evo chain has the potential to be different
                 _match = value;
                 Parse.Clear();

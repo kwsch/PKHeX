@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public abstract class EncounterStatic : IEncounterable, IMoveset, ILocation, IVersionSet
+    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation, IVersionSet
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -38,8 +38,6 @@ namespace PKHeX.Core
         public bool Fateful { get; init; }
         public bool SkipFormCheck { get; init; }
         public bool EggEncounter => EggLocation > 0;
-
-        internal EncounterStatic Clone() => (EncounterStatic)MemberwiseClone();
 
         private const string _name = "Static Encounter";
         public string Name => _name;

@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 4 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed class EncounterStatic4 : EncounterStatic, IEncounterTypeTile
+    public sealed record EncounterStatic4 : EncounterStatic, IEncounterTypeTile
     {
         public override int Generation => 4;
 

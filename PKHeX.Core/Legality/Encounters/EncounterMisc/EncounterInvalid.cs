@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Invalid Encounter Data
     /// </summary>
-    public sealed class EncounterInvalid : IEncounterable
+    public sealed record EncounterInvalid : IEncounterable
     {
         public static readonly EncounterInvalid Default = new();
 

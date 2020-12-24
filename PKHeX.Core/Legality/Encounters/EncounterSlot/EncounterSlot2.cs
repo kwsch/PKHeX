@@ -7,7 +7,7 @@
     /// Referenced Area object contains Time data which is used for <see cref="GameVersion.C"/> origin data.
     /// </remarks>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot2 : EncounterSlot, INumberedSlot
+    public sealed record EncounterSlot2 : EncounterSlot, INumberedSlot
     {
         public override int Generation => 2;
         public int SlotNumber { get; }

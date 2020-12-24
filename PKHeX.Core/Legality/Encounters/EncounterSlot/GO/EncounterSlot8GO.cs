@@ -2,9 +2,9 @@ namespace PKHeX.Core
 {
     /// <summary>
     /// Encounter Slot representing data transferred to <see cref="GameVersion.Gen8"/> (HOME).
-    /// <inheritdoc/>
+    /// <inheritdoc cref="EncounterSlotGO" />
     /// </summary>
-    public sealed class EncounterSlot8GO : EncounterSlotGO
+    public sealed record EncounterSlot8GO : EncounterSlotGO
     {
         public override int Generation => 8;
 

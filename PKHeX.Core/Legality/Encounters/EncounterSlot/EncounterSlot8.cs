@@ -4,7 +4,7 @@ namespace PKHeX.Core
     /// Encounter Slot found in <see cref="GameVersion.SWSH"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot8 : EncounterSlot
+    public sealed record EncounterSlot8 : EncounterSlot
     {
         public readonly AreaWeather8 Weather;
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";

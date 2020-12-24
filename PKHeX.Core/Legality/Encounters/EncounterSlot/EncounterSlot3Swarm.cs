@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// Handled differently as these slots have fixed moves that are different from their normal level-up moves.
     /// </remarks>
     /// <inheritdoc cref="EncounterSlot"/>
-    internal sealed class EncounterSlot3Swarm : EncounterSlot3, IMoveset
+    internal sealed record EncounterSlot3Swarm : EncounterSlot3, IMoveset
     {
         public IReadOnlyList<int> Moves { get; }
 

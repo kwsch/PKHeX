@@ -4,7 +4,7 @@
     /// Generation 4 Pokéwalker  Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed class EncounterStatic4Pokewalker : EncounterStatic
+    public sealed record EncounterStatic4Pokewalker : EncounterStatic
     {
         public override int Generation => 4;
 

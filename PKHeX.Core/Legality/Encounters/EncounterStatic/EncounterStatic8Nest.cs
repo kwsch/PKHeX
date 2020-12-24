@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Raid)
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public abstract class EncounterStatic8Nest<T> : EncounterStatic, IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
+    public abstract record EncounterStatic8Nest<T> : EncounterStatic, IGigantamax, IDynamaxLevel where T : EncounterStatic8Nest<T>
     {
         public sealed override int Generation => 8;
         public static Func<PKM, T, bool>? VerifyCorrelation { private get; set; }

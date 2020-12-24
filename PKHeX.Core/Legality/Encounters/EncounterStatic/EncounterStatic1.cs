@@ -4,7 +4,7 @@
     /// Generation 1 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public class EncounterStatic1 : EncounterStatic
+    public record EncounterStatic1 : EncounterStatic
     {
         public override int Generation => 1;
 

@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Contains details about an encounter that can be found in <see cref="GameVersion.GO"/>.
     /// </summary>
-    public abstract class EncounterSlotGO : EncounterSlot, IPogoSlot
+    public abstract record EncounterSlotGO : EncounterSlot, IPogoSlot
     {
         /// <inheritdoc/>
         public int Start { get; }

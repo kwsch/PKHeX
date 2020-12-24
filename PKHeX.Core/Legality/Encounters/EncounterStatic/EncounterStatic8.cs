@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 8 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public class EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn
+    public record EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn
     {
         public sealed override int Generation => 8;
         public bool ScriptedNoMarks { get; init; }

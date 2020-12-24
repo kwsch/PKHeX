@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Shadow Pokémon Encounter found in <see cref="GameVersion.CXD"/>
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed class EncounterStaticShadow : EncounterStatic
+    public sealed record EncounterStaticShadow : EncounterStatic
     {
         public override int Generation => 3;
 

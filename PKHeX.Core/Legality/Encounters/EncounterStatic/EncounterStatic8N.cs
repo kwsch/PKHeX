@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Regular Raid Dens)
     /// </summary>
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
-    public sealed class EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
+    public sealed record EncounterStatic8N : EncounterStatic8Nest<EncounterStatic8N>
     {
         private readonly uint MinRank;
         private readonly uint MaxRank;

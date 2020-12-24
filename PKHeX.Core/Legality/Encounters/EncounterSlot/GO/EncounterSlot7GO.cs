@@ -2,9 +2,9 @@ namespace PKHeX.Core
 {
     /// <summary>
     /// Encounter Slot found in <see cref="GameVersion.Gen7"/> (GO Park, <seealso cref="GameVersion.GG"/>).
-    /// <inheritdoc/>
+    /// <inheritdoc cref="EncounterSlotGO" />
     /// </summary>
-    public sealed class EncounterSlot7GO : EncounterSlotGO
+    public sealed record EncounterSlot7GO : EncounterSlotGO
     {
         public override int Generation => 7;
 

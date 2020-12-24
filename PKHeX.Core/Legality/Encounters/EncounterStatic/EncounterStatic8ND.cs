@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Distributed Data)
     /// </summary>
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
-    public sealed class EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8ND>
+    public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8ND>
     {
         public EncounterStatic8ND(byte lvl, byte dyna, byte flawless)
         {

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Generation 5 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public class EncounterStatic5 : EncounterStatic
+    public record EncounterStatic5 : EncounterStatic
     {
         public sealed override int Generation => 5;
         public bool Roaming { get; init; }

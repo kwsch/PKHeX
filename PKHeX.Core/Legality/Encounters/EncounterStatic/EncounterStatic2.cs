@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 2 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public class EncounterStatic2 : EncounterStatic
+    public record EncounterStatic2 : EncounterStatic
     {
         public sealed override int Generation => 2;
         public sealed override int Level { get; init; }
@@ -81,7 +81,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterStatic2Odd : EncounterStatic2
+    public sealed record EncounterStatic2Odd : EncounterStatic2
     {
         private const int Dizzy = 146;
         private static readonly int[] _dizzy = { Dizzy };
@@ -106,7 +106,7 @@ namespace PKHeX.Core
         }
     }
 
-    public sealed class EncounterStatic2Roam : EncounterStatic2
+    public sealed record EncounterStatic2Roam : EncounterStatic2
     {
         private static readonly int[] Roaming_MetLocation_GSC_Grass =
         {

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// Event data for Generation 2
     /// </summary>
     /// <inheritdoc cref="EncounterStatic2"/>
-    public sealed class EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
+    public sealed record EncounterStatic2E : EncounterStatic2, IFixedGBLanguage
     {
         public EncounterGBLanguage Language { get; init; } = EncounterGBLanguage.Japanese;
 

@@ -6,7 +6,7 @@ namespace PKHeX.Core
     /// Generation 8 Nest Encounter (Max Raid) Underground
     /// </summary>
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
-    public sealed class EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
+    public sealed record EncounterStatic8U : EncounterStatic8Nest<EncounterStatic8U>
     {
         public override int Location { get => MaxLair; init { } }
 

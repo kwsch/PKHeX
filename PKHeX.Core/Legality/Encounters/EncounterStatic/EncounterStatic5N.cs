@@ -4,7 +4,7 @@
     /// Generation 5 Static Encounter from N
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    internal sealed class EncounterStatic5N : EncounterStatic5
+    internal sealed record EncounterStatic5N : EncounterStatic5
     {
         public readonly uint PID;
         public const bool NSparkle = true;

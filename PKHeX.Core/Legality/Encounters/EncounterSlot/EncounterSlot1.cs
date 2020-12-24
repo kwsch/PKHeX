@@ -4,7 +4,7 @@
     /// Encounter Slot found in <see cref="GameVersion.Gen1"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot1 : EncounterSlot, INumberedSlot
+    public sealed record EncounterSlot1 : EncounterSlot, INumberedSlot
     {
         public override int Generation => 1;
         public int SlotNumber { get; }

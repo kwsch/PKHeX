@@ -4,7 +4,7 @@ namespace PKHeX.Core
     /// Encounter Slot found in <see cref="GameVersion.Gen4"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IEncounterTypeTile
+    public sealed record EncounterSlot4 : EncounterSlot, IMagnetStatic, INumberedSlot, IEncounterTypeTile
     {
         public override int Generation => 4;
         public EncounterType TypeEncounter => ((EncounterArea4)Area).TypeEncounter;

@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Rejected Encounter Data containing a reason why the encounter was rejected (not compatible).
     /// </summary>
-    public sealed class EncounterRejected : IEncounterable
+    public sealed record EncounterRejected : IEncounterable
     {
         public readonly IEncounterable Encounter;
         public readonly CheckResult Check;

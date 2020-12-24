@@ -4,7 +4,7 @@ namespace PKHeX.Core
     /// Encounter Slot found in <see cref="GameVersion.XY"/>.
     /// </summary>
     /// <inheritdoc cref="EncounterSlot"/>
-    public sealed class EncounterSlot6XY : EncounterSlot
+    public sealed record EncounterSlot6XY : EncounterSlot
     {
         public override int Generation => 6;
         public bool Pressure { get; init; }
