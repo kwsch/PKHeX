@@ -67,9 +67,7 @@ namespace PKHeX.WinForms
             string[]? FlyDestA;
             switch (SAV.Version)
             {
-                case GameVersion.B:
-                case GameVersion.W:
-                case GameVersion.BW:
+                case GameVersion.B or GameVersion.W or GameVersion.BW:
                     ofsFly = 0x204B2;
                     FlyDestA = new[] {
                         "Nuvema Town", "Accumula Town", "Striaton City", "Nacrene City",
@@ -84,9 +82,7 @@ namespace PKHeX.WinForms
                         10, 13, 12, 14
                     };
                     break;
-                case GameVersion.B2:
-                case GameVersion.W2:
-                case GameVersion.B2W2:
+                case GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2:
                     ofsFly = 0x20392;
                     FlyDestA = new[] {
                         "Aspertia City", "Floccesy Town", "Virbank City",

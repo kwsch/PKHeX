@@ -304,13 +304,11 @@ namespace PKHeX.Core
 
             switch (gen)
             {
-                case 1:
-                case 2:
+                case 1 or 2:
                     ParseMovesByGeneration12(pkm, res, learnInfo.Source.CurrentMoves, gen, info, learnInfo);
                     break;
 
-                case 3:
-                case 4:
+                case 3 or 4:
                     if (pkm.Format > gen)
                         FlagIncompatibleTransferHMs45(res, learnInfo.Source.CurrentMoves, gen, HMLearned, KnowDefogWhirlpool);
                     break;

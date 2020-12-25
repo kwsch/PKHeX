@@ -87,7 +87,8 @@ namespace PKHeX.Core
                 case EncounterStatic8N:
                 case EncounterStatic8ND:
                 case EncounterStatic8NC:
-                case EncounterStatic8 s when s.Gift || s.ScriptedNoMarks:
+                case EncounterStatic8 { Gift: true }:
+                case EncounterStatic8 { ScriptedNoMarks: true }:
                     return false;
             }
 

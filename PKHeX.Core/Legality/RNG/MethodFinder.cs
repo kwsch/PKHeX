@@ -943,15 +943,14 @@ namespace PKHeX.Core
                 // 100% fixed gender does not modify PID; override this with the encounter species for correct calculation.
                 // We can assume the re-mapped species's [gender ratio] is what was encountered.
 
-                case (int)Species.Wormadam: species = (int)Species.Burmy; break; // Wormadam -> Burmy
-                case (int)Species.Mothim: species = (int)Species.Burmy; break; // Mothim -> Burmy
-                case (int)Species.Vespiquen: species = (int)Species.Combee; break; // Vespiquen -> Combee
-                case (int)Species.Gallade: species = (int)Species.Kirlia; break; // Gallade -> Kirlia/Ralts
-                case (int)Species.Froslass: species = (int)Species.Snorunt; break; // Froslass -> Snorunt
+                case (int)Species.Wormadam or (int)Species.Mothim: species = (int)Species.Burmy; break;
+                case (int)Species.Vespiquen: species = (int)Species.Combee; break;
+                case (int)Species.Gallade: species = (int)Species.Kirlia; break;
+                case (int)Species.Froslass: species = (int)Species.Snorunt; break;
 
                 // Changed gender ratio (25% M -> 50% M) needs special treatment.
                 // Double check the encounter species with IsCuteCharm4Valid afterwards.
-                case (int)Species.Marill: case (int)Species.Azumarill: // Azurill & Marill/Azumarill collision
+                case (int)Species.Marill or (int)Species.Azumarill: // Azurill & Marill/Azumarill collision
                     if (IsCuteCharmAzurillMale(pid))
                     {
                         species = (int)Species.Azurill;

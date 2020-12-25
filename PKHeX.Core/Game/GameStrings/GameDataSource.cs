@@ -204,8 +204,7 @@ namespace PKHeX.Core
                         return MetGen3CXD;
                     break;
 
-                case GameVersion.R:
-                case GameVersion.S:
+                case GameVersion.R or GameVersion.S:
                     if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
                     break;
@@ -213,14 +212,12 @@ namespace PKHeX.Core
                     if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
                     break;
-                case GameVersion.FR:
-                case GameVersion.LG:
+                case GameVersion.FR or GameVersion.LG:
                     if (currentGen == 3)
                         return MetGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
                     break;
 
-                case GameVersion.D:
-                case GameVersion.P:
+                case GameVersion.D or GameVersion.P:
                     if (currentGen == 4 || (currentGen >= 5 && egg))
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
                     break;
@@ -230,52 +227,35 @@ namespace PKHeX.Core
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
                     break;
 
-                case GameVersion.HG:
-                case GameVersion.SS:
+                case GameVersion.HG or GameVersion.SS:
                     if (currentGen == 4 || (currentGen >= 5 && egg))
                         return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
                     break;
 
-                case GameVersion.B:
-                case GameVersion.W:
+                case GameVersion.B or GameVersion.W:
                     return MetGen5;
 
-                case GameVersion.B2:
-                case GameVersion.W2:
+                case GameVersion.B2 or GameVersion.W2:
                     return MetGen5.Take(3).Concat(MetGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)).ToList(); // Abyssal Ruins
 
-                case GameVersion.X:
-                case GameVersion.Y:
+                case GameVersion.X or GameVersion.Y:
                     return MetGen6.Take(3).Concat(MetGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)).ToList(); // Unknown Dungeon
 
-                case GameVersion.OR:
-                case GameVersion.AS:
+                case GameVersion.OR or GameVersion.AS:
                     return MetGen6.Take(3).Concat(MetGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
 
-                case GameVersion.SN:
-                case GameVersion.MN:
+                case GameVersion.SN or GameVersion.MN:
                     return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
 
-                case GameVersion.US:
-                case GameVersion.UM:
-
-                case GameVersion.RD:
-                case GameVersion.BU:
-                case GameVersion.GN:
-                case GameVersion.YW:
-
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
+                case GameVersion.US or GameVersion.UM:
+                case GameVersion.RD or GameVersion.BU or GameVersion.GN or GameVersion.YW:
+                case GameVersion.GD or GameVersion.SV or GameVersion.C:
                     return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 234)).ToList(); // Dividing Peak Tunnel
 
-                case GameVersion.GP:
-                case GameVersion.GE:
-                case GameVersion.GO:
+                case GameVersion.GP or GameVersion.GE or GameVersion.GO:
                     return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
 
-                case GameVersion.SW:
-                case GameVersion.SH:
+                case GameVersion.SW or GameVersion.SH:
                     return MetGen8.Take(3).Concat(MetGen8.Skip(3).OrderByDescending(loc => loc.Value < 400)).ToList();
             }
 

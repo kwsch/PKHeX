@@ -321,8 +321,7 @@ namespace PKHeX.Core
                     r.AddRange(Tutor_StarterEevee);
                     break;
 
-                case (int)Species.Pikachu when Generation == 7 && !pkm.GG:
-                case (int)Species.Raichu  when Generation == 7 && !pkm.GG:
+                case (int)Species.Pikachu or (int)Species.Raichu when Generation == 7 && !pkm.GG:
                     r.Add(344); // Volt Tackle
                     break;
             }

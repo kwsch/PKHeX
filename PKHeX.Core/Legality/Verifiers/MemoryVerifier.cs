@@ -39,8 +39,7 @@ namespace PKHeX.Core
                 case 21 when gen != 6 || !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 when !CanKnowMove(pkm, memory, gen, info):
-                case 48 when !CanKnowMove(pkm, memory, gen, info):
+                case 16 or 48 when !CanKnowMove(pkm, memory, gen, info):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
@@ -56,17 +55,14 @@ namespace PKHeX.Core
                 // Move
                 // {0} studied about how to use {2} in a Box, thinking about {1}. {4} that {3}.
                 // {0} practiced its cool pose for the move {2} in a Box, wishing to be praised by {1}. {4} that {3}.
-                case 80 when !CanKnowMove(pkm, memory, gen, info):
-                case 81 when !CanKnowMove(pkm, memory, gen, info):
+                case 80 or 81 when !CanKnowMove(pkm, memory, gen, info):
                     return Get(string.Format(LMemoryArgBadMove, memory.Handler), gen == 8 ? Severity.Fishy : Severity.Invalid);
 
                 // Species
                 // {0} had a great chat about {1} with the {2} that it was in a Box with. {4} that {3}.
-                case 82 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                 // {0} became good friends with the {2} in a Box, practiced moves with it, and talked about the day that {0} would be praised by {1}. {4} that {3}.
-                case 83 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                 // {0} got in a fight with the {2} that it was in a Box with about {1}. {4} that {3}.
-                case 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
+                case 82 or 83 or 87 when !((PersonalInfoSWSH)PersonalTable.SWSH[memory.Variable]).IsPresentInGame:
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
 
                 // Item
@@ -229,10 +225,8 @@ namespace PKHeX.Core
         {
             switch (origin)
             {
-                // Bank Memories only
-                case 1 when memory != 4: // VC transfers
-                case 2 when memory != 4: // VC transfers
-                case 7 when memory != 4: // Gen7 does not set memories.
+                // Bank Memories only: Gen7 does not set memories.
+                case 1 or 2 or 7 when memory != 4: // VC transfers
 
                 // Memories don't exist
                 case 7 when pkm.GG: // LGPE does not set memories.

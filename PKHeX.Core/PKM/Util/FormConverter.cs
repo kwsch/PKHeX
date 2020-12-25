@@ -69,8 +69,7 @@ namespace PKHeX.Core
                     return GetFormsPikachu(generation, types, forms);
 
                 case Weezing when generation >= 8:
-                case Ponyta when generation >= 8:
-                case Rapidash when generation >= 8:
+                case Ponyta or Rapidash when generation >= 8:
                 case Slowpoke when generation >= 8:
                 case MrMime when generation >= 8:
                 case Farfetchd when generation >= 8:
@@ -143,9 +142,7 @@ namespace PKHeX.Core
                 default:
                     return EMPTY;
 
-                case Burmy:
-                case Wormadam:
-                case Mothim:
+                case Burmy or Wormadam or Mothim:
                     return new[]
                     {
                         forms[412], // Plant
@@ -160,8 +157,7 @@ namespace PKHeX.Core
                         forms[909], // Sunshine
                     };
 
-                case Shellos:
-                case Gastrodon:
+                case Shellos or Gastrodon:
                     return new[]
                     {
                         forms[422], // West
@@ -238,8 +234,7 @@ namespace PKHeX.Core
                 case Yamask when generation >= 8:
                     return GetFormsGalar(types, forms);
 
-                case Deerling:
-                case Sawsbuck:
+                case Deerling or Sawsbuck:
                     return new[]
                     {
                         forms[585], // Spring
@@ -309,9 +304,7 @@ namespace PKHeX.Core
                         forms[1012], // "Bonded" - Active
                     };
 
-                case Scatterbug:
-                case Spewpa:
-                case Vivillon:
+                case Scatterbug or Spewpa or Vivillon:
                     return new[]
                     {
                         forms[666], // Icy Snow
@@ -336,8 +329,7 @@ namespace PKHeX.Core
                         forms[981], // Poké Ball
                     };
 
-                case Flabébé:
-                case Florges:
+                case Flabébé or Florges:
                     return new[]
                     {
                         forms[669], // Red
@@ -387,8 +379,7 @@ namespace PKHeX.Core
                         forms[1005], // Blade
                     };
 
-                case Pumpkaboo:
-                case Gourgeist:
+                case Pumpkaboo or Gourgeist:
                     return new[]
                     {
                         forms[710], // Average
@@ -536,8 +527,7 @@ namespace PKHeX.Core
                         genders[001], // Female
                     };
 
-                case Sinistea:
-                case Polteageist:
+                case Sinistea or Polteageist:
                     return new[]
                     {
                         "Phony",
@@ -627,24 +617,17 @@ namespace PKHeX.Core
                         forms[Galarian], // Alolan
                     };
 
-                case Rattata:
-                case Raticate: // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
+                // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
+                case Rattata or Raticate: 
                 case Raichu:
-                case Sandshrew:
-                case Sandslash:
-                case Vulpix:
-                case Ninetales:
-                case Diglett:
-                case Dugtrio:
-                case Meowth:
-                case Persian:
-                case Geodude:
-                case Graveler:
-                case Golem:
-                case Grimer:
-                case Muk:
+                case Sandshrew or Sandslash:
+                case Vulpix or Ninetales:
+                case Diglett or Dugtrio:
+                case Meowth or Persian:
+                case Geodude or Graveler or Golem:
+                case Grimer or Muk:
                 case Exeggutor:
-                case Marowak: // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
+                case Marowak:
                     return new[]
                     {
                         types[000],

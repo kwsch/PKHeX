@@ -45,9 +45,7 @@ namespace PKHeX.WinForms
                 case 3 when SAV is SAV3:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
                     return true;
-                case 4:
-                case 5:
-                case 6:
+                case 4 or 5 or 6:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
                     return true;
                 case 7:

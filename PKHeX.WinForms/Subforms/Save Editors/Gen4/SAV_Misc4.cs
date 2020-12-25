@@ -22,9 +22,7 @@ namespace PKHeX.WinForms
 
             switch (SAV.Version)
             {
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.DP:
+                case GameVersion.D or GameVersion.P or GameVersion.DP:
                     ofsFlag = 0xFDC;
                     ofsBP = 0x65F8;
                     ofsUGFlagCount = 0x3A60;
@@ -47,9 +45,7 @@ namespace PKHeX.WinForms
                     };
                     ofsHallStat = 0x2820;
                     break;
-                case GameVersion.HG:
-                case GameVersion.SS:
-                case GameVersion.HGSS:
+                case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
                     ofsFlag = 0x10C4;
                     ofsBP = 0x5BB8;
                     L_UGFlags.Visible = NUD_UGFlags.Visible = false;

@@ -80,8 +80,7 @@ namespace PKHeX.Core
             var rng = RNG.XDRNG;
             switch (pk.Species)
             {
-                case (int)Species.Umbreon: // Colo Umbreon
-                case (int)Species.Eevee: // XD Eevee
+                case (int)Species.Umbreon or (int)Species.Eevee: // Colo Umbreon, XD Eevee
                     pk.TID = (int)((seed = rng.Next(seed)) >> 16);
                     pk.SID = (int)((seed = rng.Next(seed)) >> 16);
                     seed = rng.Advance(seed, 2); // PID calls consumed
@@ -143,14 +142,8 @@ namespace PKHeX.Core
                 case PIDType.CXD:
                     return SetValuesFromSeedXDRNG;
 
-                case PIDType.Method_1:
-                case PIDType.Method_2:
-                case PIDType.Method_3:
-                case PIDType.Method_4:
-                case PIDType.Method_1_Unown:
-                case PIDType.Method_2_Unown:
-                case PIDType.Method_3_Unown:
-                case PIDType.Method_4_Unown:
+                case PIDType.Method_1 or PIDType.Method_2 or PIDType.Method_3 or PIDType.Method_4:
+                case PIDType.Method_1_Unown or PIDType.Method_2_Unown or PIDType.Method_3_Unown or PIDType.Method_4_Unown:
                 case PIDType.Method_1_Roamer:
                     return (pk, seed) => SetValuesFromSeedLCRNG(pk, t, seed);
 

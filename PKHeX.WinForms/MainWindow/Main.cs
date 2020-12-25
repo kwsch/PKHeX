@@ -695,11 +695,16 @@ namespace PKHeX.WinForms
             var state = MC.GetMemoryCardState();
             switch (state)
             {
-                default: { WinFormsUtil.Error(!SaveUtil.IsSizeValid(MC.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path); return false; }
-                case GCMemoryCardState.NoPkmSaveGame: { WinFormsUtil.Error(MsgFileGameCubeNoGames, path); return false; }
+                case GCMemoryCardState.NoPkmSaveGame:
+                    WinFormsUtil.Error(MsgFileGameCubeNoGames, path);
+                    return false;
+
                 case GCMemoryCardState.DuplicateCOLO:
                 case GCMemoryCardState.DuplicateXD:
-                case GCMemoryCardState.DuplicateRSBOX: { WinFormsUtil.Error(MsgFileGameCubeDuplicate, path); return false; }
+                case GCMemoryCardState.DuplicateRSBOX:
+                    WinFormsUtil.Error(MsgFileGameCubeDuplicate, path);
+                    return false;
+
                 case GCMemoryCardState.MultipleSaveGame:
                     {
                         GameVersion Game = SelectMemoryCardSaveGame(MC);
@@ -711,6 +716,10 @@ namespace PKHeX.WinForms
                 case GCMemoryCardState.SaveGameCOLO: MC.SelectSaveGame(GameVersion.COLO); break;
                 case GCMemoryCardState.SaveGameXD: MC.SelectSaveGame(GameVersion.XD); break;
                 case GCMemoryCardState.SaveGameRSBOX: MC.SelectSaveGame(GameVersion.RSBOX); break;
+
+                default:
+                    WinFormsUtil.Error(!SaveUtil.IsSizeValid(MC.Data.Length) ? MsgFileGameCubeBad : MsgFileLoadSaveLoadFail, path);
+                    return false;
             }
             return true;
         }

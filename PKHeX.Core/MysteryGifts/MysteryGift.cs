@@ -62,36 +62,22 @@ namespace PKHeX.Core
         /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
         public static DataMysteryGift? GetMysteryGift(byte[] data, string ext)
         {
-            switch (data.Length)
+            return data.Length switch
             {
-                case WC8.Size when ext == ".wc8":
-                    return new WC8(data);
-                case WB7.SizeFull when ext == ".wb7full":
-                case WB7.Size when ext == ".wb7":
-                    return new WB7(data);
-                case WC7Full.Size when ext == ".wc7full":
-                    return new WC7Full(data).Gift;
-                case WC7.Size when ext == ".wc7":
-                    return new WC7(data);
-                case WC6Full.Size when ext == ".wc6full":
-                    return new WC6Full(data).Gift;
-                case WC6.Size when ext == ".wc6":
-                    return new WC6(data);
-                case WR7.Size when ext == ".wr7":
-                    return new WR7(data);
-                case WC8.Size when ext == ".wc8":
-                case WC8.Size when ext == ".wc8full":
-                    return new WC8(data);
+                PGT.Size when ext == ".pgt" => new PGT(data),
+                PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),
+                PGF.Size when ext == ".pgf" => new PGF(data),
+                WC6.Size when ext == ".wc6" => new WC6(data),
+                WC7.Size when ext == ".wc7" => new WC7(data),
+                WB7.Size when ext == ".wb7" => new WB7(data),
+                WR7.Size when ext == ".wr7" => new WR7(data),
+                WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
 
-                case PGF.Size when ext == ".pgf":
-                    return new PGF(data);
-                case PGT.Size when ext == ".pgt":
-                    return new PGT(data);
-                case PCD.Size when ext == ".pcd" || ext == ".wc4":
-                    return new PCD(data);
-            }
-
-            return null;
+                WB7.SizeFull when ext == ".wb7full" => new WB7(data),
+                WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
+                WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
+                _ => null
+            };
         }
 
         /// <summary>
@@ -101,26 +87,20 @@ namespace PKHeX.Core
         /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> is invalid.</returns>
         public static DataMysteryGift? GetMysteryGift(byte[] data)
         {
-            switch (data.Length)
+            return data.Length switch
             {
-                case WC6Full.Size:
-                    // Check WC7 size collision
-                    if (data[0x205] == 0) // 3 * 0x46 for gen6, now only 2.
-                        return new WC7Full(data).Gift;
-                    return new WC6Full(data).Gift;
-                case WC6.Size:
-                    // Check year for WC7 size collision
-                    if (BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000)
-                        return new WC7(data);
-                    return new WC6(data);
-                case WR7.Size: return new WR7(data);
-                case WC8.Size: return new WC8(data);
+                PGT.Size => new PGT(data),
+                PCD.Size => new PCD(data),
+                PGF.Size => new PGF(data),
+                WR7.Size => new WR7(data),
+                WC8.Size => new WC8(data),
 
-                case PGF.Size: return new PGF(data);
-                case PGT.Size: return new PGT(data);
-                case PCD.Size: return new PCD(data);
-                default: return null;
-            }
+                // WC6/WC7: Check year
+                WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),
+                // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
+                WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
+                _ => null
+            };
         }
 
         public string Extension => GetType().Name.ToLower();

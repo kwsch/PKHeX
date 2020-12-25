@@ -76,17 +76,14 @@ namespace PKHeX.Core
 
         private static bool IsValidGenderMismatch(PKM pkm)
         {
-            switch (pkm.Species)
+            return pkm.Species switch
             {
-                case (int)Species.Shedinja when pkm.Format == 4: // Shedinja evolution gender glitch, should match original Gender
-                    return pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F); // 50M-50F
-
-                case (int)Species.Marill    when pkm.Format >= 6:
-                case (int)Species.Azumarill when pkm.Format >= 6: // evolved from azurill after transferring to keep gender
-                    return pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F;
-
-                default: return false;
-            }
+                // Shedinja evolution gender glitch, should match original Gender
+                (int) Species.Shedinja when pkm.Format == 4 => pkm.Gender == PKX.GetGenderFromPIDAndRatio(pkm.EncryptionConstant, 0x7F), // 50M-50F
+                // Evolved from Azurill after transferring to keep gender
+                (int) Species.Marill or (int) Species.Azumarill when pkm.Format >= 6 => pkm.Gender == 1 && (pkm.EncryptionConstant & 0xFF) > 0x3F,
+                _ => false
+            };
         }
     }
 }

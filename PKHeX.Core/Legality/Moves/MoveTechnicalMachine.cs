@@ -370,16 +370,12 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case GameVersion.Any: // Start at the top, hit every table
-                case GameVersion.X:
-                case GameVersion.Y:
-                case GameVersion.XY:
+                case GameVersion.X or GameVersion.Y or GameVersion.XY:
                     AddMachine6XY(r, species, form);
                     if (ver == GameVersion.Any) // Fall Through
                         AddMachine6AO(r, species, form);
                     break;
-                case GameVersion.AS:
-                case GameVersion.OR:
-                case GameVersion.ORAS:
+                case GameVersion.AS or GameVersion.OR or GameVersion.ORAS:
                     AddMachine6AO(r, species, form);
                     break;
             }
@@ -389,22 +385,15 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
-                case GameVersion.GP:
-                case GameVersion.GE:
-                case GameVersion.GG:
-                case GameVersion.GO:
+                case GameVersion.GP or GameVersion.GE or GameVersion.GG or GameVersion.GO:
                     AddMachineGG(r, species, form);
                     return;
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.SM:
+                case GameVersion.SN or GameVersion.MN or GameVersion.SM:
                     if (species <= Legal.MaxSpeciesID_7)
                         AddMachineSM(r, species, form);
                     return;
                 case GameVersion.Any:
-                case GameVersion.US:
-                case GameVersion.UM:
-                case GameVersion.USUM:
+                case GameVersion.US or GameVersion.UM or GameVersion.USUM:
                     AddMachineUSUM(r, species, form);
                     if (ver == GameVersion.Any) // Fall Through
                         AddMachineSM(r, species, form);
@@ -417,9 +406,7 @@ namespace PKHeX.Core
             switch (ver)
             {
                 case GameVersion.Any:
-                case GameVersion.SW:
-                case GameVersion.SH:
-                case GameVersion.SWSH:
+                case GameVersion.SW or GameVersion.SH or GameVersion.SWSH:
                     AddMachineSWSH(r, species, form);
                     return;
             }

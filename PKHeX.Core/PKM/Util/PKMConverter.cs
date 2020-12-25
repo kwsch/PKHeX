@@ -55,20 +55,16 @@ namespace PKHeX.Core
 
             switch (data.Length)
             {
-                case PokeCrypto.SIZE_1JLIST:
-                case PokeCrypto.SIZE_1ULIST:
+                case PokeCrypto.SIZE_1JLIST or PokeCrypto.SIZE_1ULIST:
                     return 1;
-                case PokeCrypto.SIZE_2ULIST:
-                case PokeCrypto.SIZE_2JLIST:
+                case PokeCrypto.SIZE_2JLIST or PokeCrypto.SIZE_2ULIST:
                 case PokeCrypto.SIZE_2STADIUM:
                     return 2;
-                case PokeCrypto.SIZE_3PARTY:
-                case PokeCrypto.SIZE_3STORED:
+                case PokeCrypto.SIZE_3PARTY or PokeCrypto.SIZE_3STORED:
                 case PokeCrypto.SIZE_3CSTORED:
                 case PokeCrypto.SIZE_3XSTORED:
                     return 3;
-                case PokeCrypto.SIZE_4PARTY:
-                case PokeCrypto.SIZE_4STORED:
+                case PokeCrypto.SIZE_4PARTY or PokeCrypto.SIZE_4STORED:
                 case PokeCrypto.SIZE_5PARTY:
                     if ((BitConverter.ToUInt16(data, 0x4) == 0) && (BitConverter.ToUInt16(data, 0x80) >= 0x3333 || data[0x5F] >= 0x10) && BitConverter.ToUInt16(data, 0x46) == 0) // PK5
                         return 5;
@@ -91,8 +87,7 @@ namespace PKHeX.Core
                         return -1;
                     }
                     return 6;
-                case PokeCrypto.SIZE_8PARTY:
-                case PokeCrypto.SIZE_8STORED:
+                case PokeCrypto.SIZE_8PARTY or PokeCrypto.SIZE_8STORED:
                     return 8;
 
                 default:
@@ -109,38 +104,22 @@ namespace PKHeX.Core
         public static PKM? GetPKMfromBytes(byte[] data, int prefer = 7)
         {
             int format = GetPKMDataFormat(data);
-            switch (format)
+            return format switch
             {
-                case 1:
-                    var list1 = new PokeList1(data);
-                    return list1[0];
-                case 2:
-                    if (data.Length == PokeCrypto.SIZE_2STADIUM)
-                        return new SK2(data);
-
-                    var list2 = new PokeList2(data);
-                    return list2[0];
-                case 3:
-                    return data.Length switch
-                    {
-                        PokeCrypto.SIZE_3CSTORED => new CK3(data),
-                        PokeCrypto.SIZE_3XSTORED => new XK3(data),
-                        _ => new PK3(data)
-                    };
-                case 4:
-                    if (BitConverter.ToUInt16(data, 0x04) != 0)
-                        return new BK4(data);
-                    return new PK4(data);
-                case 5:
-                    return new PK5(data);
-                case 6:
-                    var pkx = new PK6(data);
-                    return CheckPKMFormat7(pkx, prefer);
-                case 8:
-                    return new PK8(data);
-                default:
-                    return null;
-            }
+                1 => new PokeList1(data)[0],
+                2 => data.Length != PokeCrypto.SIZE_2STADIUM ? new PokeList2(data)[0] : new SK2(data),
+                3 => data.Length switch
+                {
+                    PokeCrypto.SIZE_3CSTORED => new CK3(data),
+                    PokeCrypto.SIZE_3XSTORED => new XK3(data),
+                    _ => new PK3(data)
+                },
+                4 => BitConverter.ToUInt16(data, 0x04) == 0 ? new PK4(data) : new BK4(data),
+                5 => new PK5(data),
+                6 => CheckPKMFormat7(new PK6(data), prefer),
+                8 => new PK8(data),
+                _ => null
+            };
         }
 
         /// <summary>

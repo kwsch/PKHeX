@@ -125,9 +125,7 @@ namespace PKHeX
                     previousspecies = 103;
                     return;
 
-                case (int)Species.Vaporeon:
-                case (int)Species.Jolteon:
-                case (int)Species.Flareon:
+                case (int)Species.Vaporeon or (int)Species.Jolteon or (int)Species.Flareon:
                     incompatible_previous = new List<int>();
                     incompatible_current = new List<int>();
                     previousspecies = 133;
@@ -240,16 +238,14 @@ namespace PKHeX
                     if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
                         usedslots--;
                     break;
-                case (int)Species.Kadabra:
-                case (int)Species.Alakazam: // Abra & Kadabra
+                case (int)Species.Kadabra or (int)Species.Alakazam: // Abra & Kadabra
                     int catch_rate = ((PK1)pk).Catch_Rate;
                     if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
                         usedslots--;
                     if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
                         usedslots--;
                     break;
-                case (int)Species.Cubone:
-                case (int)Species.Marowak: // Cubone & Marowak
+                case (int)Species.Cubone or (int)Species.Marowak: // Cubone & Marowak
                     if (!moves.Contains(39)) // Initial Yellow Tail Whip
                         usedslots--;
                     if (!moves.Contains(125)) // Initial Yellow Bone Club

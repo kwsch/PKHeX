@@ -18,35 +18,22 @@ namespace PKHeX.Drawing
 
         private static string GetResourceSuffix(GameVersion version, int index)
         {
-            switch (version.GetGeneration())
+            return version.GetGeneration() switch
             {
-                case 8:
-                    return "swsh";
-                case 7 when !GG.Contains(version):
-                    return "xy";
-                case 6:
-                    return ORAS.Contains(version) && index > 16 ? "ao" : "xy";
-                case 5:
-                    return B2W2.Contains(version) && index > 16 ? "b2w2" : "bw";
-                case 4:
-                    if (index > 16)
-                    {
-                        if (Pt == version)
-                            return "pt";
-                        if (HGSS.Contains(version))
-                            return "hgss";
-                    }
-                    return "dp";
-                case 3:
-                    if (E == version)
-                        return "e";
-                    else if (FRLG.Contains(version) && index > 12)
-                        return "frlg";
-                    else
-                        return "rs";
-                default:
-                    return string.Empty;
-            }
+                3 when version == E => "e",
+                3 when FRLG.Contains(version) && index > 12 => "frlg",
+                3 => "rs",
+
+                4 when index < 16 => "dp",
+                4 when version == Pt => "pt",
+                4 when HGSS.Contains(version) => "hgss",
+
+                5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
+                6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
+                7 when !GG.Contains(version) => "xy",
+                8 => "swsh",
+                _ => string.Empty
+            };
         }
 
         public static bool IsWallpaperRed(GameVersion version, int wallpaperID)
@@ -83,8 +70,7 @@ namespace PKHeX.Drawing
                         23 => BW.Contains(version), // Musical
                         _ => false
                     };
-                case 6:
-                case 7:
+                case 6 or 7:
                     return wallpaperID switch
                     {
                         5 => true, // Volcano

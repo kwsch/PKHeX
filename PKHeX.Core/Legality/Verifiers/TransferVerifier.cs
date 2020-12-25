@@ -106,9 +106,7 @@ namespace PKHeX.Core
                     if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
-                case (int)Species.Raikou:
-                case (int)Species.Entei:
-                case (int)Species.Suicune:
+                case (int)Species.Raikou or (int)Species.Entei or (int)Species.Suicune:
                     if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;

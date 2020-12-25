@@ -63,7 +63,7 @@ namespace PKHeX.Core
                         return first;
                     return first.Level > second.Level ? second : first;
 
-                case RD: case BU: case GN: case RB:
+                case RD or BU or GN or RB:
                     return LearnRB.GetIsLevelUpG1(species, form, move, max, min);
                 case YW:
                     return LearnY.GetIsLevelUpG1(species, form, move, max, min);
@@ -83,7 +83,7 @@ namespace PKHeX.Core
                         return first;
                     return LearnC.GetIsLevelUpMin(species, move, max, min, form);
 
-                case GD: case SV: case GS:
+                case GD or SV or GS:
                     return LearnGS.GetIsLevelUpMin(species, move, max, min, form);
                 case C when !korean:
                     return LearnC.GetIsLevelUpMin(species, move, max, min, form);
@@ -105,9 +105,9 @@ namespace PKHeX.Core
                         return first;
                     return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
 
-                case R: case S: case E: case RS: case RSE:
+                case R or S or E or RS or RSE:
                     return LearnRSE.GetIsLevelUp(species, form, move, lvl);
-                case FR: case LG: case FRLG:
+                case FR or LG or FRLG:
                     return LearnFRLG.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -128,11 +128,11 @@ namespace PKHeX.Core
                         return LearnNONE;
                     return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
 
-                case D: case P: case DP:
+                case D or P or DP:
                     return LearnDP.GetIsLevelUp(species, form, move, lvl);
                 case Pt:
                     return LearnPt.GetIsLevelUp(species, form, move, lvl);
-                case HG: case SS: case HGSS:
+                case HG or SS or HGSS:
                     return LearnHGSS.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -147,9 +147,9 @@ namespace PKHeX.Core
                     if (first.IsLevelUp && species != 646)  // Kyurem moves are same for both versions, but forme movepool not present.
                         return first;
                     return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
-                case B: case W: case BW:
+                case B or W or BW:
                     return LearnBW.GetIsLevelUp(species, form, move, lvl);
-                case B2: case W2: case B2W2:
+                case B2 or W2 or B2W2:
                     return LearnB2W2.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -165,9 +165,9 @@ namespace PKHeX.Core
                         return first;
                     return LearnAO.GetIsLevelUp(species, form, move, lvl);
 
-                case X: case Y: case XY:
+                case X or Y or XY:
                     return LearnXY.GetIsLevelUp(species, form, move, lvl);
-                case OR: case AS: case ORAS:
+                case OR or AS or ORAS:
                     return LearnAO.GetIsLevelUp(species, form, move, lvl);
             }
             return LearnNONE;
@@ -177,7 +177,7 @@ namespace PKHeX.Core
         {
             switch (ver)
             {
-                case GP: case GE: case GG: case GO:
+                case GP or GE or GG or GO:
                     return LearnGG.GetIsLevelUp(species, form, move);
 
                 case Any:
@@ -190,12 +190,12 @@ namespace PKHeX.Core
                         return LearnNONE;
                     return LearnSM.GetIsLevelUp(species, form, move);
 
-                case SN: case MN: case SM:
+                case SN or MN or SM:
                     if (species > MaxSpeciesID_7)
                         return LearnNONE;
                     return LearnSM.GetIsLevelUp(species, form, move);
 
-                case US: case UM: case USUM:
+                case US or UM or USUM:
                     if (species > MaxSpeciesID_7_USUM)
                         return LearnNONE;
                     return LearnUSUM.GetIsLevelUp(species, form, move);
@@ -209,7 +209,7 @@ namespace PKHeX.Core
             {
                 case Any:
                 case GO:
-                case SW: case SH: case SWSH:
+                case SW or SH or SWSH:
                     if (species > MaxSpeciesID_8)
                         return LearnNONE;
                     return LearnSWSH.GetIsLevelUp(species, form, move, lvl);
@@ -332,7 +332,7 @@ namespace PKHeX.Core
                     LearnRB.AddMoves1(moves, species, form, max, min);
                     return LearnY.AddMoves1(moves, species, form, max, min);
 
-                case RD: case BU: case GN: case RB:
+                case RD or BU or GN or RB:
                     return LearnRB.AddMoves1(moves, species, form, max, min);
                 case YW:
                     return LearnY.AddMoves1(moves, species, form, max, min);
@@ -350,7 +350,7 @@ namespace PKHeX.Core
                         return moves;
                     return LearnC.AddMoves(moves, species, form, max, min);
 
-                case GD: case SV: case GS:
+                case GD or SV or GS:
                     return LearnGS.AddMoves(moves, species, form, max, min);
                 case C when !korean:
                     return LearnC.AddMoves(moves, species, form, max, min);
@@ -375,9 +375,9 @@ namespace PKHeX.Core
                     LearnRSE.AddMoves(moves, species, form, max);
                     return LearnFRLG.AddMoves(moves, species, form, max);
 
-                case R: case S: case E: case RS: case RSE:
+                case R or S or E or RS or RSE:
                     return LearnRSE.AddMoves(moves, species, form, max);
-                case FR: case LG: case FRLG:
+                case FR or LG or FRLG:
                     return LearnFRLG.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -394,11 +394,11 @@ namespace PKHeX.Core
                         return moves;
                     return LearnHGSS.AddMoves(moves, species, form, max);
 
-                case D: case P: case DP:
+                case D or P or DP:
                     return LearnDP.AddMoves(moves, species, form, max);
                 case Pt:
                     return LearnPt.AddMoves(moves, species, form, max);
-                case HG: case SS: case HGSS:
+                case HG or SS or HGSS:
                     return LearnHGSS.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -413,9 +413,9 @@ namespace PKHeX.Core
                         LearnBW.AddMoves(moves, species, form, max);
                     return LearnB2W2.AddMoves(moves, species, form, max);
 
-                case B: case W: case BW:
+                case B or W or BW:
                     return LearnBW.AddMoves(moves, species, form, max);
-                case B2: case W2: case B2W2:
+                case B2 or W2 or B2W2:
                     return LearnB2W2.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -429,9 +429,9 @@ namespace PKHeX.Core
                     LearnXY.AddMoves(moves, species, form, max);
                     return LearnAO.AddMoves(moves, species, form, max);
 
-                case X: case Y: case XY:
+                case X or Y or XY:
                     return LearnXY.AddMoves(moves, species, form, max);
-                case AS: case OR: case ORAS:
+                case AS or OR or ORAS:
                     return LearnAO.AddMoves(moves, species, form, max);
             }
             return moves;
@@ -443,7 +443,7 @@ namespace PKHeX.Core
                 max = 100; // Move reminder can teach any level in movepool now!
             switch (ver)
             {
-                case GP: case GE: case GG: case GO:
+                case GP or GE or GG or GO:
                     return LearnGG.AddMoves(moves, species, form, max);
 
                 case Any:
@@ -454,12 +454,12 @@ namespace PKHeX.Core
                         return moves;
                     return LearnSM.AddMoves(moves, species, form, max);
 
-                case SN: case MN: case SM:
+                case SN or MN or SM:
                     if (species > MaxSpeciesID_7)
                         return moves;
                     return LearnSM.AddMoves(moves, species, form, max);
 
-                case US: case UM: case USUM:
+                case US or UM or USUM:
                     if (species > MaxSpeciesID_7_USUM)
                         return moves;
                     LearnUSUM.AddMoves(moves, species, form, max);
@@ -475,7 +475,7 @@ namespace PKHeX.Core
             {
                 case Any:
                 case GO:
-                case SW: case SH: case SWSH:
+                case SW or SH or SWSH:
                     if (species > MaxSpeciesID_8)
                         return moves;
                     return LearnSWSH.AddMoves(moves, species, form, max);

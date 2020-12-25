@@ -66,9 +66,7 @@ namespace PKHeX.Core
                 case SlotType.Headbutt:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);
 
-                case SlotType.Old_Rod:
-                case SlotType.Good_Rod:
-                case SlotType.Super_Rod:
+                case SlotType.Old_Rod or SlotType.Good_Rod or SlotType.Super_Rod:
                     switch (encounter.Location)
                     {
                         case 19: // National Park

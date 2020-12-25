@@ -1,4 +1,5 @@
 ﻿using System;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -38,16 +39,12 @@ namespace PKHeX.Core
             switch (ver)
             {
                 // Method H
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.FR:
-                case GameVersion.LG:
-                case GameVersion.E:
+                case R or S or E or FR or LG:
                     DPPt = false;
                     FrameType = FrameType.MethodH;
                     Safari3 = pk.Ball == 5 && !pk.FRLG;
 
-                    if (ver != GameVersion.E)
+                    if (ver != E)
                         return;
 
                     AllowLeads = true;
@@ -65,17 +62,14 @@ namespace PKHeX.Core
                     return;
 
                 // Method J
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.Pt:
+                case D or P or Pt:
                     DPPt = true;
                     AllowLeads = true;
                     FrameType = FrameType.MethodJ;
                     return;
 
                 // Method K
-                case GameVersion.HG:
-                case GameVersion.SS:
+                case HG or SS:
                     DPPt = false;
                     AllowLeads = true;
                     FrameType = FrameType.MethodK;
@@ -94,8 +88,8 @@ namespace PKHeX.Core
         /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
         private static int GetGenderMinMax(int gender, int ratio, bool max)
         {
-            if (ratio == 0 || ratio == 0xFE || ratio == 0xFF)
-                gender = 2;
+            if (ratio is 0 or 254 or 255)
+                return max ? 255 : 0;
             return gender switch
             {
                 0 => (max ? 255 : ratio), // male

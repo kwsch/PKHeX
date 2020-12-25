@@ -456,12 +456,11 @@ namespace PKHeX.Core
                 Data = { [0x2A] = 0 }, // Clears old Marking Value
             };
 
-            switch (AbilityNumber)
+            var an = AbilityNumber;
+            switch (an)
             {
-                case 1:
-                case 2:
-                case 4: // Valid Ability Numbers
-                    int index = AbilityNumber >> 1;
+                case 1 or 2 or 4: // Valid Ability Numbers
+                    int index = an >> 1;
                     if (PersonalInfo.Abilities[index] == Ability) // correct pair
                         pk7.Ability = pk7.PersonalInfo.Abilities[index];
                     break;

@@ -131,14 +131,9 @@ namespace PKHeX.Core
                 case nameof(PKM.Ability): i.SetScreenedValue(GameInfo.Strings.abilitylist); return;
                 case nameof(PKM.Nature): i.SetScreenedValue(GameInfo.Strings.natures); return;
                 case nameof(PKM.Ball): i.SetScreenedValue(GameInfo.Strings.balllist); return;
-                case nameof(PKM.Move1):
-                case nameof(PKM.Move2):
-                case nameof(PKM.Move3):
-                case nameof(PKM.Move4):
-                case nameof(PKM.RelearnMove1):
-                case nameof(PKM.RelearnMove2):
-                case nameof(PKM.RelearnMove3):
-                case nameof(PKM.RelearnMove4):
+
+                case nameof(PKM.Move1) or nameof(PKM.Move2) or nameof(PKM.Move3) or nameof(PKM.Move4):
+                case nameof(PKM.RelearnMove1) or nameof(PKM.RelearnMove2) or nameof(PKM.RelearnMove3) or nameof(PKM.RelearnMove4):
                     i.SetScreenedValue(GameInfo.Strings.movelist); return;
             }
         }
@@ -439,10 +434,7 @@ namespace PKHeX.Core
                     pk.HealPP();
                     return ModifyResult.Modified;
 
-                case nameof(PKM.Move1_PP):
-                case nameof(PKM.Move2_PP):
-                case nameof(PKM.Move3_PP):
-                case nameof(PKM.Move4_PP):
+                case nameof(PKM.Move1_PP) or nameof(PKM.Move2_PP) or nameof(PKM.Move3_PP) or nameof(PKM.Move4_PP):
                     pk.SetSuggestedMovePP(name[4] - '1'); // 0-3 int32
                     return ModifyResult.Modified;
 

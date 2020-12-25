@@ -247,22 +247,13 @@ namespace PKHeX.Core
                 abil = ability_param;
             pk.RefreshAbility(abil);
 
-            switch (gender_ratio)
+            pk.Gender = gender_ratio switch
             {
-                case 255:
-                    pk.Gender = 2;
-                    break;
-                case 254:
-                    pk.Gender = 1;
-                    break;
-                case 000:
-                    pk.Gender = 0;
-                    break;
-                default:
-                    var gender = (int)rng.NextInt(252) + 1 < gender_ratio ? 1 : 0;
-                    pk.Gender = gender;
-                    break;
-            }
+                255 => 2,
+                254 => 1,
+                000 => 0,
+                _ => (int) rng.NextInt(252) + 1 < gender_ratio ? 1 : 0
+            };
 
             int nature;
             if (nature_param == -1)

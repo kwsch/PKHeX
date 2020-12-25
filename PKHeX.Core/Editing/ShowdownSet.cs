@@ -170,12 +170,12 @@ namespace PKHeX.Core
         {
             switch (identifier)
             {
-                case "Trait": case "Ability": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
+                case "Ability" or "Trait": return (Ability = StringUtil.FindIndexIgnoreCase(Strings.abilitylist, value)) >= 0;
                 case "Shiny": return Shiny = value.Trim() == "Yes";
                 case "Gigantamax": return CanGigantamax = value.Trim() == "Yes";
                 case "Nature": return (Nature = StringUtil.FindIndexIgnoreCase(Strings.natures, value)) >= 0;
-                case "EV": case "EVs": ParseLineEVs(value); return true;
-                case "IV": case "IVs": ParseLineIVs(value); return true;
+                case "EV" or "EVs": ParseLineEVs(value); return true;
+                case "IV" or "IVs": ParseLineIVs(value); return true;
                 case "Level":
                 {
                     if (!int.TryParse(value.Trim(), out int val))
@@ -183,7 +183,7 @@ namespace PKHeX.Core
                     Level = val;
                     return true;
                 }
-                case "Happiness": case "Friendship":
+                case "Friendship" or "Happiness":
                 {
                     if (!int.TryParse(value.Trim(), out int val))
                         return false;

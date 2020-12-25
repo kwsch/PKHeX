@@ -79,9 +79,7 @@ namespace PKHeX.Core
                 case (int)Core.Species.Minior:
                     pk.Form = Util.Rand.Next(7, 14);
                     break;
-                case (int)Core.Species.Scatterbug:
-                case (int)Core.Species.Spewpa:
-                case (int)Core.Species.Vivillon:
+                case (int)Core.Species.Scatterbug or (int)Core.Species.Spewpa or (int)Core.Species.Vivillon:
                     if (sav is IRegionOrigin o)
                         pk.Form = Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);
                     // else 0

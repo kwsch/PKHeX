@@ -113,8 +113,7 @@ namespace PKHeX.Core
                         return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                     break;
 
-                case (int)Species.Scatterbug:
-                case (int)Species.Spewpa:
+                case (int)Species.Scatterbug or (int)Species.Spewpa:
                     if (form > 17) // Fancy & Pokéball
                         return GetInvalid(LFormVivillonEventPre);
                     if (pkm is not IRegionOrigin tr)
@@ -248,8 +247,7 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             switch (pkm.Species)
             {
-                case (int)Species.Floette when !SafariFloette.Contains(pkm.Form): // Floette
-                case (int)Species.Florges when !SafariFloette.Contains(pkm.Form): // Florges
+                case (int)Species.Floette or (int)Species.Florges when!SafariFloette.Contains(pkm.Form): // Floette
                     data.AddLine(GetInvalid(LFormSafariFlorgesColor));
                     break;
                 case 710 when pkm.Form != 0: // Pumpkaboo

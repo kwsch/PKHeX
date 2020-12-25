@@ -674,18 +674,14 @@ namespace PKHeX.Core
 
         private static readonly int[] DPLangSpecies = { 23, 25, 54, 77, 120, 129, 202, 214, 215, 216, 228, 278, 287, 315 };
 
-        private static int GetGen4LanguageBitIndex(int lang)
+        private static int GetGen4LanguageBitIndex(int lang) => --lang switch
         {
-            lang--;
-            switch (lang) // invert ITA/GER
-            {
-                case 3: return 4;
-                case 4: return 3;
-            }
-            if (lang > 5)
-                return 0; // no KOR+
-            return lang < 0 ? 1 : lang; // default English
-        }
+            3 => 4, // invert ITA/GER
+            4 => 3, // invert ITA/GER
+            > 5 => 0, // Japanese
+            < 0 => 1, // English
+            _ => lang,
+        };
 
         public override bool GetCaught(int species)
         {

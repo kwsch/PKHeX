@@ -74,27 +74,32 @@ namespace PKHeX.Core
         {
             var shift = c > 9 ? '7' : '0';
             c += shift;
-            return c switch
-            {
-                '0' => 'W',
-                '1' => 'X',
-                'I' => 'Y',
-                'O' => 'Z',
-                _ => c
-            };
+            return MapToChar(c);
         }
 
         private static uint Get5BitFromChar(char c)
         {
-            switch (c)
-            {
-                case 'W': c = '0'; break;
-                case 'X': c = '1'; break;
-                case 'Y': c = 'I'; break;
-                case 'Z': c = 'O'; break;
-            }
+            c = MapFromChar(c);
             var shift = c >= 'A' ? '7' : '0';
             return (uint)(c - shift);
         }
+
+        private static char MapToChar(char c) => c switch
+        {
+            '0' => 'W',
+            '1' => 'X',
+            'I' => 'Y',
+            'O' => 'Z',
+            _ => c
+        };
+
+        private static char MapFromChar(char c) => c switch
+        {
+            'W' => '0',
+            'X' => '1',
+            'Y' => 'I',
+            'Z' => 'O',
+            _ => c
+        };
     }
 }

@@ -56,8 +56,7 @@ namespace PKHeX.Core
 
             switch (gameSource)
             {
-                case GameVersion.GSC:
-                case GameVersion.GS:
+                case GameVersion.GSC or GameVersion.GS:
                     // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
                     static int[] getRBYCompatibleMoves(int format, int[] moves) => format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
                     if (pkm.InhabitedGeneration(2))
@@ -68,9 +67,7 @@ namespace PKHeX.Core
                         return getRBYCompatibleMoves(pkm.Format, LevelUpC[species].GetMoves(lvl));
                     break;
 
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.RS:
+                case GameVersion.R or GameVersion.S or GameVersion.RS:
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpRS[species].GetMoves(lvl);
                     break;
@@ -78,17 +75,13 @@ namespace PKHeX.Core
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpE[species].GetMoves(lvl);
                     break;
-                case GameVersion.FR:
-                case GameVersion.LG:
-                case GameVersion.FRLG:
+                case GameVersion.FR or GameVersion.LG or GameVersion.FRLG:
                     // The only difference in FR/LG is Deoxys, which doesn't breed.
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpFR[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.DP:
+                case GameVersion.D or GameVersion.P or GameVersion.DP:
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpDP[species].GetMoves(lvl);
                     break;
@@ -96,44 +89,32 @@ namespace PKHeX.Core
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpPt[species].GetMoves(lvl);
                     break;
-                case GameVersion.HG:
-                case GameVersion.SS:
-                case GameVersion.HGSS:
+                case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpHGSS[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.B:
-                case GameVersion.W:
-                case GameVersion.BW:
+                case GameVersion.B or GameVersion.W or GameVersion.BW:
                     if (pkm.InhabitedGeneration(5))
                         return LevelUpBW[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.B2:
-                case GameVersion.W2:
-                case GameVersion.B2W2:
+                case GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2:
                     if (pkm.InhabitedGeneration(5))
                         return LevelUpB2W2[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.X:
-                case GameVersion.Y:
-                case GameVersion.XY:
+                case GameVersion.X or GameVersion.Y or GameVersion.XY:
                     if (pkm.InhabitedGeneration(6))
                         return LevelUpXY[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.AS:
-                case GameVersion.OR:
-                case GameVersion.ORAS:
+                case GameVersion.AS or GameVersion.OR or GameVersion.ORAS:
                     if (pkm.InhabitedGeneration(6))
                         return LevelUpAO[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.SM:
+                case GameVersion.SN or GameVersion.MN or GameVersion.SM:
                     if (species > MaxSpeciesID_7)
                         break;
                     if (pkm.InhabitedGeneration(7))
@@ -143,9 +124,7 @@ namespace PKHeX.Core
                     }
                     break;
 
-                case GameVersion.US:
-                case GameVersion.UM:
-                case GameVersion.USUM:
+                case GameVersion.US or GameVersion.UM or GameVersion.USUM:
                     if (pkm.InhabitedGeneration(7))
                     {
                         int index = PersonalTable.USUM.GetFormIndex(species, form);
@@ -153,9 +132,7 @@ namespace PKHeX.Core
                     }
                     break;
 
-                case GameVersion.SW:
-                case GameVersion.SH:
-                case GameVersion.SWSH:
+                case GameVersion.SW or GameVersion.SH or GameVersion.SWSH:
                     if (pkm.InhabitedGeneration(8))
                     {
                         int index = PersonalTable.SWSH.GetFormIndex(species, form);

@@ -414,16 +414,14 @@ namespace PKHeX.Core
                 return true;
 
             // Some species have a distinct hidden ability only on another form, and can change between that form and its current form.
-            switch (species)
+            return species switch
             {
-                case (int)Species.Giratina:
-                case (int)Species.Tornadus:
-                case (int)Species.Thundurus:
-                case (int)Species.Landorus:
-                    return true; // Form-0 is a/a/h
-            }
-
-            return false;
+                (int)Species.Giratina => true, // Form-0 is a/a/h
+                (int)Species.Tornadus => true, // Form-0 is a/a/h
+                (int)Species.Thundurus => true, // Form-0 is a/a/h
+                (int)Species.Landorus => true, // Form-0 is a/a/h
+                _ => false
+            };
         }
 
         private static int GetEncounterFixedAbilityNumber(IEncounterable enc)

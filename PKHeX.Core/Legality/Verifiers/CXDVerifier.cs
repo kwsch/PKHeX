@@ -34,8 +34,7 @@ namespace PKHeX.Core
             {
                 case (int)Species.Eevee:
                     valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
-                case (int)Species.Espeon:
-                case (int)Species.Umbreon:
+                case (int)Species.Espeon or (int)Species.Umbreon:
                     valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
                 default:
                     return;

@@ -44,41 +44,26 @@ namespace PKHeX.Core
         private static int KSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
-            switch (type)
+            return type switch
             {
-                case SlotType.Rock_Smash:
-                case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
-                case SlotType.Super_Rod:
-                case SlotType.Good_Rod:
-                case SlotType.Old_Rod:
-                    return CalcSlot(ESV, K_SuperRod);
-                case SlotType.BugContest:
-                    return CalcSlot(ESV, K_BCC);
-                case SlotType.Headbutt:
-                    return CalcSlot(ESV, K_Headbutt);
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Rock_Smash or SlotType.Surf => CalcSlot(ESV, H_Surf),
+                SlotType.Super_Rod or SlotType.Good_Rod or SlotType.Old_Rod => CalcSlot(ESV, K_SuperRod),
+                SlotType.BugContest => CalcSlot(ESV, K_BCC),
+                SlotType.Headbutt => CalcSlot(ESV, K_Headbutt),
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
 
         private static int JSlot(SlotType type, uint rand)
         {
             uint ESV = rand / 656;
-            switch (type)
+            return type switch
             {
-                case SlotType.Old_Rod:
-                case SlotType.Rock_Smash:
-                case SlotType.Surf:
-                    return CalcSlot(ESV, H_Surf);
-                case SlotType.Good_Rod:
-                case SlotType.Super_Rod:
-                    return CalcSlot(ESV, J_SuperRod);
-                case SlotType.HoneyTree:
-                    return 0;
-                default:
-                    return CalcSlot(ESV, H_Regular);
-            }
+                SlotType.Old_Rod or SlotType.Rock_Smash or SlotType.Surf => CalcSlot(ESV, H_Surf),
+                SlotType.Good_Rod or SlotType.Super_Rod => CalcSlot(ESV, J_SuperRod),
+                SlotType.HoneyTree => 0,
+                _ => CalcSlot(ESV, H_Regular)
+            };
         }
 
         private readonly struct Range

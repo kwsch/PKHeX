@@ -191,8 +191,8 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case 020: // Raticate
-                case 105: // Marowak
+                // Totems with Alolan Forms
+                case 020 or 105: // Raticate or Marowak
                     formStart = 0;
                     formEnd = 1;
                     return true;
