@@ -65,29 +65,6 @@ namespace PKHeX.Core
         /// <returns>Single line string</returns>
         public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
 
-        private IEnumerable<int> AllSuggestedMoves
-        {
-            get
-            {
-                if (!Parsed)
-                    return new int[4];
-                return _allSuggestedMoves ??= GetSuggestedCurrentMoves();
-            }
-        }
-
-        private IEnumerable<int> AllSuggestedRelearnMoves
-        {
-            get
-            {
-                if (!Parsed)
-                    return new int[4];
-                return _allSuggestedRelearnMoves ??= MoveList.GetValidRelearn(pkm, Info.EncounterMatch.Species, Info.EncounterMatch.Form, (GameVersion)pkm.Version).ToArray();
-            }
-        }
-
-        private int[]? _allSuggestedMoves, _allSuggestedRelearnMoves;
-        public int[] AllSuggestedMovesAndRelearn() => AllSuggestedMoves.Concat(AllSuggestedRelearnMoves).ToArray();
-
         private string EncounterName
         {
             get
@@ -446,45 +423,6 @@ namespace PKHeX.Core
             }
 
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
-        }
-
-        /// <summary>
-        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
-        /// </summary>
-        public IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter()
-        {
-            var parsed = VerifyRelearnMoves.GetSuggestedRelearn(pkm, Info.EncounterOriginal, Info.Relearn);
-            if (parsed.Count == 0) // Always true for Origins < 6 and encounters without relearn permitted.
-                return new int[4];
-
-            if (!EncounterMatch.EggEncounter)
-                return parsed;
-
-            List<int> window = new(parsed.Where(z => z != 0));
-            window.AddRange(pkm.Moves.Where((_, i) => Info.Moves[i].ShouldBeInRelearnMoves()));
-            window = window.Distinct().ToList();
-            int[] moves = new int[4];
-            int start = Math.Max(0, window.Count - 4);
-            int count = Math.Min(4, window.Count);
-            window.CopyTo(start, moves, 0, count);
-            return moves;
-        }
-
-        /// <summary>
-        /// Gets four moves which can be learned depending on the input arguments.
-        /// </summary>
-        /// <param name="types">Allowed move sources for populating the result array</param>
-        public int[] GetSuggestedCurrentMoves(MoveSourceType types = MoveSourceType.All)
-        {
-            if (!Parsed)
-                return new int[4];
-            if (pkm.IsEgg && pkm.Format >= 6)
-                return pkm.RelearnMoves;
-
-            if (pkm.IsEgg)
-                types = types.ClearNonEggSources();
-
-            return MoveListSuggest.GetSuggestedMoves(pkm, Info.EvoChainsAllGens, types, EncounterOriginal);
         }
     }
 }

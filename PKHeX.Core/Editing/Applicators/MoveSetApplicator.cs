@@ -38,7 +38,7 @@ namespace PKHeX.Core
         {
             int[] m = la.GetSuggestedCurrentMoves(random ? MoveSourceType.All : MoveSourceType.None);
 
-            var learn = la.AllSuggestedMovesAndRelearn();
+            var learn = la.GetSuggestedMovesAndRelearn();
             if (!m.All(z => learn.Contains(z)))
                 m = m.Intersect(learn).ToArray();
 

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
 {
-    internal static class MoveListSuggest
+    public static class MoveListSuggest
     {
-        internal static int[] GetSuggestedMoves(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, MoveSourceType types, IEncounterable enc)
+        private static int[] GetSuggestedMoves(PKM pkm, IReadOnlyList<EvoCriteria>[] evoChains, MoveSourceType types, IEncounterable enc)
         {
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return MoveList.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
@@ -58,6 +59,78 @@ namespace PKHeX.Core
             }
 
             return r.Distinct();
+        }
+
+        private static IEnumerable<int> AllSuggestedMoves(this LegalityAnalysis analysis)
+        {
+            if (!analysis.Parsed)
+                return new int[4];
+            return analysis.GetSuggestedCurrentMoves();
+        }
+
+        private static IEnumerable<int> AllSuggestedRelearnMoves(this LegalityAnalysis analysis)
+        {
+            if (!analysis.Parsed)
+                return new int[4];
+            var pkm = analysis.pkm;
+            var enc = analysis.EncounterMatch;
+            return MoveList.GetValidRelearn(pkm, enc.Species, enc.Form, (GameVersion)pkm.Version).ToArray();
+        }
+
+        public static int[] GetSuggestedMovesAndRelearn(this LegalityAnalysis analysis)
+        {
+            if (!analysis.Parsed)
+                return new int[4];
+            return analysis.AllSuggestedMoves().Concat(analysis.AllSuggestedRelearnMoves()).ToArray();
+        }
+
+        /// <summary>
+        /// Gets four moves which can be learned depending on the input arguments.
+        /// </summary>
+        /// <param name="analysis">Parse information to generate a moveset for.</param>
+        /// <param name="types">Allowed move sources for populating the result array</param>
+        public static int[] GetSuggestedCurrentMoves(this LegalityAnalysis analysis, MoveSourceType types = MoveSourceType.All)
+        {
+            if (!analysis.Parsed)
+                return new int[4];
+            var pkm = analysis.pkm;
+            if (pkm.IsEgg && pkm.Format >= 6)
+                return pkm.RelearnMoves;
+
+            if (pkm.IsEgg)
+                types = types.ClearNonEggSources();
+
+            var info = analysis.Info;
+            return GetSuggestedMoves(pkm, info.EvoChainsAllGens, types, info.EncounterOriginal);
+        }
+
+        /// <summary>
+        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
+        /// </summary>
+        public static IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter(this LegalityAnalysis analysis)
+        {
+            var info = analysis.Info;
+            if (info.Generation < 6)
+                return new int[4];
+
+            var pkm = analysis.pkm;
+            var enc = info.EncounterOriginal;
+            var parsed = VerifyRelearnMoves.GetSuggestedRelearn(pkm, enc, info.Relearn);
+            if (parsed.Count == 0) // Always true for Origins < 6 and encounters without relearn permitted.
+                return new int[4];
+
+            // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
+            if (!enc.EggEncounter)
+                return parsed;
+
+            List<int> window = new(parsed.Where(z => z != 0));
+            window.AddRange(pkm.Moves.Where((_, i) => info.Moves[i].ShouldBeInRelearnMoves()));
+            window = window.Distinct().ToList();
+            int[] moves = new int[4];
+            int start = Math.Max(0, window.Count - 4);
+            int count = Math.Min(4, window.Count);
+            window.CopyTo(start, moves, 0, count);
+            return moves;
         }
     }
 }
