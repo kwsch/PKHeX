@@ -566,6 +566,34 @@
             new(60,10,5) { Species = 851, Ability = A4, Moves = new[]{ 680, 679, 422, 044 }, CanGigantamax = true }, // Centiskorch
             new(60,10,5) { Species = 776, Ability = A4, Moves = new[]{ 434, 776, 504, 053 } }, // Turtonator
             new(60,10,5) { Species = 078, Ability = A4, Moves = new[]{ 394, 528, 583, 224 } }, // Rapidash
+
+            // 12/25 - Winter Holiday
+            new(17,01,1) { Species = 037, Ability = A4, Moves = new[]{ 420, 196, 039, 577 }, Form = 1 }, // Vulpix-1
+            new(17,01,1) { Species = 124, Ability = A4, Moves = new[]{ 181, 001, 093, 122 } }, // Jynx
+            new(17,01,1) { Species = 225, Ability = A4, Moves = new[]{ 217, 229, 098, 420 } }, // Delibird
+            new(17,01,1) { Species = 607, Ability = A4, Moves = new[]{ 310, 052, 506, 123 } }, // Litwick
+            new(17,01,1) { Species = 873, Ability = A4, Moves = new[]{ 522, 078, 181, 432 } }, // Frosmoth
+            new(30,03,2) { Species = 037, Ability = A4, Moves = new[]{ 420, 058, 326, 577 }, Form = 1 }, // Vulpix-1
+            new(30,03,2) { Species = 124, Ability = A4, Moves = new[]{ 181, 001, 093, 313 } }, // Jynx
+            new(30,03,2) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 034, 693 } }, // Delibird
+            new(30,03,2) { Species = 608, Ability = A4, Moves = new[]{ 310, 261, 083, 123 } }, // Lampent
+            new(30,03,2) { Species = 873, Ability = A4, Moves = new[]{ 522, 078, 062, 432 } }, // Frosmoth
+            new(40,05,3) { Species = 037, Ability = A4, Moves = new[]{ 062, 058, 326, 577 }, Form = 1 }, // Vulpix-1
+            new(40,05,3) { Species = 124, Ability = A4, Moves = new[]{ 058, 142, 094, 247 } }, // Jynx
+            new(40,05,3) { Species = 225, Ability = A4, Moves = new[]{ 217, 065, 280, 196 } }, // Delibird
+            new(40,05,3) { Species = 609, Ability = A4, Moves = new[]{ 247, 261, 257, 094 } }, // Chandelure
+            new(40,05,3) { Species = 873, Ability = A4, Moves = new[]{ 405, 403, 062, 432 } }, // Frosmoth
+            new(50,08,4) { Species = 037, Ability = A4, Moves = new[]{ 694, 058, 326, 577 }, Form = 1 }, // Vulpix-1
+            new(50,08,4) { Species = 124, Ability = A4, Moves = new[]{ 058, 142, 094, 247 } }, // Jynx
+            new(50,08,4) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 034, 280 } }, // Delibird
+            new(50,08,4) { Species = 609, Ability = A4, Moves = new[]{ 247, 261, 315, 094 } }, // Chandelure
+            new(50,08,4) { Species = 873, Ability = A4, Moves = new[]{ 405, 403, 058, 297 } }, // Frosmoth
+            new(60,10,5) { Species = 037, Ability = A4, Moves = new[]{ 694, 059, 326, 577 }, Form = 1 }, // Vulpix-1
+            new(60,10,5) { Species = 037, Ability = A4, Moves = new[]{ 694, 059, 326, 577 }, Form = 1, Shiny = Shiny.Always }, // Vulpix-1
+            new(60,10,5) { Species = 124, Ability = A4, Moves = new[]{ 058, 142, 094, 247 } }, // Jynx
+            new(60,10,5) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 065, 280 } }, // Delibird
+            new(60,10,5) { Species = 609, Ability = A4, Moves = new[]{ 247, 412, 315, 094 } }, // Chandelure
+            new(60,10,5) { Species = 873, Ability = A4, Moves = new[]{ 405, 403, 058, 542 } }, // Frosmoth
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
