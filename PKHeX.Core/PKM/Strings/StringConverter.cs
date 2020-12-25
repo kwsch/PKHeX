@@ -24,16 +24,15 @@ namespace PKHeX.Core
             if (isBigEndian)
                 return generation == 3 ? StringConverter3.GetBEString3(data, offset, count) : StringConverter4.GetBEString4(data, offset, count);
 
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                case 2: return StringConverter12.GetString1(data, offset, count, jp);
-                case 3: return StringConverter3.GetString3(data, offset, count, jp);
-                case 4: return StringConverter4.GetString4(data, offset, count);
-                case 5: return GetString5(data, offset, count);
-                case 6: return GetString6(data, offset, count);
-                default: return GetString7(data, offset, count);
-            }
+                1 or 2 => StringConverter12.GetString1(data, offset, count, jp),
+                3 => StringConverter3.GetString3(data, offset, count, jp),
+                4 => StringConverter4.GetString4(data, offset, count),
+                5 => GetString5(data, offset, count),
+                6 => GetString6(data, offset, count),
+                _ => GetString7(data, offset, count),
+            };
         }
 
         /// <summary>
@@ -53,16 +52,15 @@ namespace PKHeX.Core
             if (isBigEndian)
                 return generation == 3 ? StringConverter3.SetBEString3(value, maxLength, padTo, padWith) : StringConverter4.SetBEString4(value, maxLength, padTo, padWith);
 
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                case 2: return StringConverter12.SetString1(value, maxLength, jp, padTo, padWith);
-                case 3: return StringConverter3.SetString3(value, maxLength, jp, padTo, padWith);
-                case 4: return StringConverter4.SetString4(value, maxLength, padTo, padWith);
-                case 5: return SetString5(value, maxLength, padTo, padWith);
-                case 6: return SetString6(value, maxLength, padTo, padWith);
-                default: return SetString7(value, maxLength, language, padTo, padWith);
-            }
+                1 or 2 => StringConverter12.SetString1(value, maxLength, jp, padTo, padWith),
+                3 => StringConverter3.SetString3(value, maxLength, jp, padTo, padWith),
+                4 => StringConverter4.SetString4(value, maxLength, padTo, padWith),
+                5 => SetString5(value, maxLength, padTo, padWith),
+                6 => SetString6(value, maxLength, padTo, padWith),
+                _ => SetString7(value, maxLength, language, padTo, padWith),
+            };
         }
 
         /// <summary>Converts Generation 5 encoded data to decoded string.</summary>

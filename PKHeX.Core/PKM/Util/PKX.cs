@@ -69,12 +69,12 @@ namespace PKHeX.Core
         {
             if (s.Length != 1)
                 return 2;
-            switch (s[0])
+            return (s[0]) switch
             {
-                case '♂': case 'M': return 0;
-                case '♀': case 'F': return 1;
-                default: return 2;
-            }
+                '♂' or 'M' => 0,
+                '♀' or 'F' => 1,
+                _ => 2,
+            };
         }
 
         /// <summary>

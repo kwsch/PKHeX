@@ -410,18 +410,12 @@ namespace PKHeX.Core
 
         private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
         {
-            switch (AbilityType)
+            return AbilityType switch
             {
-                case 00: // 0 - 0
-                case 01: // 1 - 1
-                case 02: // 2 - H
-                    return AbilityType;
-                case 03: // 0/1
-                case 04: // 0/1/H
-                    return criteria.GetAbilityFromType(AbilityType, pi); // 3 or 2
-                default:
-                    throw new ArgumentException(nameof(AbilityType));
-            }
+                00 or 01 or 02 => AbilityType, // Fixed 0/1/2
+                03 or 04 => criteria.GetAbilityFromType(AbilityType, pi),// 0/1 or 0/1/H
+                _ => throw new ArgumentException(nameof(AbilityType)),
+            };
         }
 
         private void SetPID(PKM pk)

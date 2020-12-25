@@ -455,39 +455,32 @@ namespace PKHeX.Core
 
         private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
         {
-            switch (AbilityType)
+            return AbilityType switch
             {
-                case 00: // 0 - 0
-                case 01: // 1 - 1
-                case 02: // 2 - H
-                    return AbilityType;
-                case 03: // 0/1
-                case 04: // 0/1/H
-                    return criteria.GetAbilityFromType(AbilityType, pi); // 3 or 2
-                default:
-                    throw new ArgumentException(nameof(AbilityType));
-            }
+                00 or 01 or 02 => AbilityType, // Fixed 0/1/2
+                03 or 04 => criteria.GetAbilityFromType(AbilityType, pi),// 0/1 or 0/1/H
+                _ => throw new ArgumentException(nameof(AbilityType)),
+            };
         }
 
         private uint GetPID(ITrainerID tr, byte type)
         {
-            switch (type)
+            return type switch
             {
-                case 0: // Random, Never Shiny
-                    var pid = Util.Rand32();
-                    if (tr.IsShiny(pid, 8))
-                        return pid ^ 0x1000_0000;
-                    return pid;
-                case 1: // Random, Any
-                    return Util.Rand32();
-                case 2: // Fixed, Force Star
-                    return (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF));
-                case 3: // Fixed, Force Square
-                    return (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF));
-                case 4: // Fixed, Force Value
-                    return PID;
-                default:
-                    throw new ArgumentException();
+                0 => GetAntishiny(tr), // Random, Never Shiny
+                1 => Util.Rand32(), // Random, Any
+                2 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 1) << 16) | (PID & 0xFFFF)), // Fixed, Force Star
+                3 => (uint) (((tr.TID ^ tr.SID ^ (PID & 0xFFFF) ^ 0) << 16) | (PID & 0xFFFF)), // Fixed, Force Square
+                4 => PID, // Fixed, Force Value
+                _ => throw new ArgumentException()
+            };
+
+            static uint GetAntishiny(ITrainerID tr)
+            {
+                var pid = Util.Rand32();
+                if (tr.IsShiny(pid, 8))
+                    return pid ^ 0x1000_0000;
+                return pid;
             }
         }
 

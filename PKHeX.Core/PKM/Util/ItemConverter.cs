@@ -136,29 +136,18 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">Gen1 Item ID</param>
         /// <returns>Gen2 Item ID</returns>
-        /// <remarks>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</remarks>
-        private static int GetTeruSamaItem(int value)
+        /// <remarks>
+        /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/engine/link/link.asm#L1093-L1115</br>
+        /// <br>https://github.com/pret/pokecrystal/blob/edb624c20ceb50eef9d73a5df0ac041cc156dd32/data/items/catch_rate_items.asm#L5-L17</br>
+        /// </remarks>
+        private static int GetTeruSamaItem(int value) => value switch
         {
-            switch (value)
-            {
-                case 0x19: return 0x92; // Leftovers
-                case 0x2D: return 0x53; // Bitter Berry
-                case 0x32: return 0xAE; // Leftovers
-
-                case 0x5A:
-                case 0x64:
-                case 0x78:
-                case 0x87:
-                case 0xBE:
-                case 0xC3:
-                case 0xDC:
-                case 0xFA:
-                case 0xFF:
-                    return 0xAD; // Berry
-
-                default: return value;
-            }
-        }
+            0x19 => 0x92, // Leftovers
+            0x2D => 0x53, // Bitter Berry
+            0x32 => 0xAE, // Leftovers
+            0x5A or 0x64 or 0x78 or 0x87 or 0xBE or 0xC3 or 0xDC or 0xFA or 0xFF => 0xAD, // Berry
+            _ => value,
+        };
 
         /// <summary>
         /// Converts a Gen1 Item to Gen2 Item.

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using static PKHeX.Core.GameVersion;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -53,19 +55,13 @@ namespace PKHeX.Core
 
         public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false)
         {
-            switch (generation)
+            return generation switch
             {
-                case 1:
-                case 2:
-                case 3:
-                    return 0;
-                case 4:
-                    return traded ? Locations.LinkTrade4 : Locations.Daycare4;
-                case 5:
-                    return traded ? Locations.LinkTrade5 : Locations.Daycare5;
-                default:
-                    return traded ? Locations.LinkTrade6 : Locations.Daycare5;
-            }
+                1 or 2 or 3 => 0,
+                4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
+                5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
+                _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
+            };
         }
 
         private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterSlot first, int loc = -1)
@@ -87,59 +83,31 @@ namespace PKHeX.Core
         public static int GetSuggestedEggMetLocation(PKM pkm)
         {
             // Return one of legal hatch locations for game
-            switch ((GameVersion)pkm.Version)
+            return ((GameVersion)pkm.Version) switch
             {
-                case GameVersion.R:
-                case GameVersion.S:
-                case GameVersion.E:
-                case GameVersion.FR:
-                case GameVersion.LG:
-                    return pkm.Format switch
-                    {
-                        3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
-                        4 => Locations.Transfer3, // Pal Park
-                        _ => Locations.Transfer4,
-                    };
+                R or S or E or FR or LG => pkm.Format switch
+                {
+                    3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
+                    4 => Locations.Transfer3, // Pal Park
+                    _ => Locations.Transfer4,
+                },
 
-                case GameVersion.D:
-                case GameVersion.P:
-                case GameVersion.Pt:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationDPPt;
-                case GameVersion.HG:
-                case GameVersion.SS:
-                    return pkm.Format > 4 ? Locations.Transfer4 /* Transporter */ : Locations.HatchLocationHGSS;
+                D or P or Pt => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
+                HG or SS => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
 
-                case GameVersion.B:
-                case GameVersion.W:
-                case GameVersion.B2:
-                case GameVersion.W2:
-                    return Locations.HatchLocation5;
+                B or W or B2 or W2 => Locations.HatchLocation5,
 
-                case GameVersion.X:
-                case GameVersion.Y:
-                    return Locations.HatchLocation6XY;
-                case GameVersion.AS:
-                case GameVersion.OR:
-                    return Locations.HatchLocation6AO;
+                X or Y => Locations.HatchLocation6XY,
+                AS or OR => Locations.HatchLocation6AO,
 
-                case GameVersion.SN:
-                case GameVersion.MN:
-                case GameVersion.US:
-                case GameVersion.UM:
-                    return Locations.HatchLocation7;
+                SN or MN or US or UM => Locations.HatchLocation7,
+                RD or BU or GN or Y => Locations.Transfer1,
+                GD or SV or C => Locations.Transfer2,
+                GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
 
-                case GameVersion.SW:
-                case GameVersion.SH:
-                    return Locations.HatchLocation8;
-
-                case GameVersion.GD:
-                case GameVersion.SV:
-                case GameVersion.C:
-                case GameVersion.GSC:
-                case GameVersion.RBY:
-                    return pkm.Format > 2 ? Locations.Transfer2 : pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC;
-            }
-            return -1;
+                SW or SH => Locations.HatchLocation8,
+                _ => -1,
+            };
         }
 
         /// <summary>
@@ -151,7 +119,7 @@ namespace PKHeX.Core
         /// </remarks>
         public static int GetSuggestedTransferLocation(PKM pkm)
         {
-            if (pkm.Version == (int)GameVersion.GO)
+            if (pkm.Version == (int)GO)
                 return Locations.GO8;
             if (pkm.HasOriginalMetLocation)
                 return -1;
