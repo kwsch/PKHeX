@@ -38,7 +38,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            if (Info.Generation >= 7 || Info.Generation <= 2)
+            if (Info.Generation is >= 7 or <= 2)
             {
                 // Can't have any super training data if it never visited Gen6.
                 if (TrainCount > 0)

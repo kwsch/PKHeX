@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -282,34 +283,34 @@ namespace PKHeX.Core
         }
 
         public bool E => Version == (int)GameVersion.E;
-        public bool FRLG => Version == (int)GameVersion.FR || Version == (int)GameVersion.LG;
+        public bool FRLG => Version is (int)FR or (int)LG;
         public bool Pt => (int)GameVersion.Pt == Version;
-        public bool HGSS => Version == (int)GameVersion.HG || Version == (int)GameVersion.SS;
-        public bool BW => Version == (int)GameVersion.B || Version == (int)GameVersion.W;
-        public bool B2W2 => Version == (int)GameVersion.B2 || Version == (int)GameVersion.W2;
-        public bool XY => Version == (int)GameVersion.X || Version == (int)GameVersion.Y;
-        public bool AO => Version == (int)GameVersion.AS || Version == (int)GameVersion.OR;
-        public bool SM => Version == (int)GameVersion.SN || Version == (int)GameVersion.MN;
-        public bool USUM => Version == (int)GameVersion.US || Version == (int)GameVersion.UM;
-        public bool GO => Version == (int)GameVersion.GO;
-        public bool VC1 => Version >= (int)GameVersion.RD && Version <= (int)GameVersion.YW;
-        public bool VC2 => Version >= (int)GameVersion.GD && Version <= (int)GameVersion.C;
-        public bool LGPE => Version == (int)GameVersion.GP || Version == (int)GameVersion.GE;
-        public bool SWSH => Version == (int)GameVersion.SW || Version == (int)GameVersion.SH;
+        public bool HGSS => Version is (int)HG or (int)SS;
+        public bool BW => Version is (int)B or (int)W;
+        public bool B2W2 => Version is (int)B2 or (int)W2;
+        public bool XY => Version is (int)X or (int)Y;
+        public bool AO => Version is (int)AS or (int)OR;
+        public bool SM => Version is (int)SN or (int)MN;
+        public bool USUM => Version is (int)US or (int)UM;
+        public bool GO => Version is (int)GameVersion.GO;
+        public bool VC1 => Version is >= (int)RD and <= (int)YW;
+        public bool VC2 => Version is >= (int)GD and <= (int)C;
+        public bool LGPE => Version is (int)GP or (int)GE;
+        public bool SWSH => Version is (int)SW or (int)SH;
 
         protected bool PtHGSS => Pt || HGSS;
         public bool GO_LGPE => GO && Met_Location == Locations.GO7;
         public bool GO_HOME => GO && Met_Location == Locations.GO8;
         public bool VC => VC1 || VC2;
         public bool GG => LGPE || GO_LGPE;
-        public bool Gen8 => (Version >= 44 && Version <= 45) || GO_HOME;
-        public bool Gen7 => (Version >= 30 && Version <= 33) || GG;
-        public bool Gen6 => Version >= 24 && Version <= 29;
-        public bool Gen5 => Version >= 20 && Version <= 23;
-        public bool Gen4 => Version >= 7 && Version <= 12 && Version != 9;
-        public bool Gen3 => (Version >= 1 && Version <= 5) || Version == 15;
-        public bool Gen2 => Version == (int)GameVersion.GSC;
-        public bool Gen1 => Version == (int)GameVersion.RBY;
+        public bool Gen8 => Version is >= 44 and <= 45 || GO_HOME;
+        public bool Gen7 => Version is >= 30 and <= 33 || GG;
+        public bool Gen6 => Version is >= 24 and <= 29;
+        public bool Gen5 => Version is >= 20 and <= 23;
+        public bool Gen4 => Version is >= 7 and <= 12 and not 9;
+        public bool Gen3 => Version is >= 1 and <= 5 or 15;
+        public bool Gen2 => Version == (int)GSC; // Fixed value set by the Gen2 PKM classes
+        public bool Gen1 => Version == (int)RBY; // Fixed value set by the Gen1 PKM classes
         public bool GenU => Generation <= 0;
 
         public int Generation
@@ -454,7 +455,7 @@ namespace PKHeX.Core
                 if (Generation > 5 || Format > 5)
                     return -1;
 
-                if (Version == (int) GameVersion.CXD)
+                if (Version == (int) CXD)
                     return PersonalInfo.GetAbilityIndex(Ability); // Can mismatch; not tied to PID
                 return (int)((Gen5 ? PID >> 16 : PID) & 1);
             }
@@ -614,14 +615,14 @@ namespace PKHeX.Core
             int gen = Generation;
             return generation switch
             {
-                1 => (Format == 1 || VC), // species compat checked via sanity above
-                2 => (Format == 2 || VC),
+                1 => Format == 1 || VC, // species compat checked via sanity above
+                2 => Format == 2 || VC,
                 3 => Gen3,
-                4 => (3 <= gen && gen <= 4),
-                5 => (3 <= gen && gen <= 5),
-                6 => (3 <= gen && gen <= 6),
-                7 => ((3 <= gen && gen <= 7) || VC),
-                8 => ((3 <= gen && gen <= 8) || VC),
+                4 => gen is >= 3 and <= 4,
+                5 => gen is >= 3 and <= 5,
+                6 => gen is >= 3 and <= 6,
+                7 => gen is >= 3 and <= 7 || VC,
+                8 => gen is >= 3 and <= 8 || VC,
                 _ => false
             };
         }
@@ -648,7 +649,7 @@ namespace PKHeX.Core
                 return gender == 0;
 
             int gen = Generation;
-            if (gen <= 2 || gen >= 6)
+            if (gen is <= 2 or >= 6) // not 3-5
                 return gender == (gender & 1);
 
             return gender == PKX.GetGenderFromPIDAndRatio(PID, gv);
@@ -1030,7 +1031,7 @@ namespace PKHeX.Core
                     return 2;
             }
             if (VC)
-                return Species == (int)Core.Species.Mew || Species == (int)Core.Species.Celebi ? 5 : 3;
+                return Species is (int)Core.Species.Mew or (int)Core.Species.Celebi ? 5 : 3;
             return 0;
         }
 

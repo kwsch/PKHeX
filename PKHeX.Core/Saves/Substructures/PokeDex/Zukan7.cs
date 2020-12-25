@@ -126,16 +126,14 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected sealed override int GetDexLangFlag(int lang)
+        protected sealed override int GetDexLangFlag(int lang) => lang switch
         {
-            if (lang > 10 || lang == 6 || lang <= 0)
-                return -1; // invalid language
-
-            if (lang >= 7) // skip over langID 6 (unused)
-                lang--;
-            lang--; // skip over langID 0 (unused) => [0-8]
-            return lang;
-        }
+            > 10 or 6 or <= 0 => -1, // invalid language
+            // skip over langID 0 (unused) => [0-8]
+            // skip over langID 6 (unused)
+            >= 7 => lang - 2,
+            _ => lang - 1,
+        };
 
         protected sealed override void SetSpindaDexData(PKM pkm, bool alreadySeen)
         {

@@ -65,9 +65,11 @@ namespace PKHeX.Core
             get
             {
                 var game = (GameVersion)Game;
-                if (game == GameVersion.SW || game == GameVersion.SH)
-                    return game;
-                return GameVersion.Invalid;
+                return game switch
+                {
+                    GameVersion.SW or GameVersion.SH => game,
+                    _ => GameVersion.Invalid
+                };
             }
         }
 

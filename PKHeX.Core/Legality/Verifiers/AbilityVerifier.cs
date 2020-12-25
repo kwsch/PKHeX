@@ -298,7 +298,7 @@ namespace PKHeX.Core
             // hidden abilities
             if (enc is EncounterSlot slot)
             {
-                bool valid = slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde;
+                bool valid = slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type is SlotType.FriendSafari or SlotType.Horde;
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }

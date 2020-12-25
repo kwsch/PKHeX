@@ -251,7 +251,7 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    if (lang == 1 && (pkm.Version == (int)GameVersion.D || pkm.Version == (int)GameVersion.P))
+                    if (lang == 1 && (pkm.Version is (int)GameVersion.D or (int)GameVersion.P))
                     {
                         // DP English origin are Japanese lang
                         if (pkm.OT_Name != t.GetOT(1)) // not japanese
@@ -333,7 +333,7 @@ namespace PKHeX.Core
             }
             else // B2W2
             {
-                if (t.TID == Encounters5.YancyTID || t.TID == Encounters5.CurtisTID)
+                if (t.TID is Encounters5.YancyTID or Encounters5.CurtisTID)
                     VerifyTradeOTOnly(data, t);
                 else
                     VerifyTrade(data, t, lang);

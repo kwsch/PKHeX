@@ -178,7 +178,7 @@ namespace PKHeX.Core
             int lang = Language;
             if (lang > 0)
                 return lang;
-            if (fallback == (int)LanguageID.French || fallback == (int)LanguageID.German) // only other permitted besides English
+            if (fallback is (int)LanguageID.French or (int)LanguageID.German) // only other permitted besides English
                 return fallback;
             return (int)LanguageID.English;
         }

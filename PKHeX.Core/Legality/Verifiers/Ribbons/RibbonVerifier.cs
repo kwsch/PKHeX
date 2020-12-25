@@ -123,7 +123,7 @@ namespace PKHeX.Core
 
                 var c4 = u4.RibbonBitsContest4();
                 var c4n = u4.RibbonNamesContest4();
-                var iter4 = (gen == 3 || gen == 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
+                var iter4 = (gen is 3 or 4) && IsAllowedInContest4(pkm.Species) ? GetMissingContestRibbons(c4, c4n) : GetInvalidRibbonsNone(c4, c4n);
                 foreach (var z in iter4)
                     yield return z;
             }
@@ -207,8 +207,8 @@ namespace PKHeX.Core
             if (s4.RibbonFootprint && !CanHaveFootprintRibbon(pkm, gen))
                 yield return new RibbonResult(nameof(s4.RibbonFootprint));
 
-            bool gen34 = gen == 3 || gen == 4;
-            bool not6 = pkm.Format < 6 || gen > 6 || gen < 3;
+            bool gen34 = gen is 3 or 4;
+            bool not6 = pkm.Format < 6 || gen is > 6 or < 3;
             bool noDaily = !gen34 && not6;
             bool noCosmetic = !gen34 && (not6 || (pkm.XY && pkm.IsUntraded));
 
@@ -504,7 +504,7 @@ namespace PKHeX.Core
             if (enc.LevelMin <= 50)
                 return true;
 
-            return !(enc is EncounterStaticShadow || enc is WC3);
+            return !(enc is EncounterStaticShadow or WC3);
         }
 
         private static bool CanHaveRibbonVictory(PKM pkm, int gen)

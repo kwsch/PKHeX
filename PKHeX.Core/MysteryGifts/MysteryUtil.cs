@@ -135,7 +135,7 @@ namespace PKHeX.Core
 
             if (g is WC6 && g.CardID == 2048 && g.ItemID == 726) // Eon Ticket (OR/AS)
             {
-                if (!(sav is SAV6AO))
+                if (sav is not SAV6AO)
                 {
                     message = MsgMysteryGiftSlotSpecialReject;
                     return false;

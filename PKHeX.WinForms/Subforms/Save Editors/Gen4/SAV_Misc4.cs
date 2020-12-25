@@ -298,7 +298,7 @@ namespace PKHeX.WinForms
             }
 
             int ColorCount = BrightCount.Count(v => v > 0);
-            if (ColorCount > 4 || ColorCount == 0)
+            if (ColorCount is 0 or > 4)
                 return;
             int errmin = int.MaxValue;
             byte[] LCT = new byte[4];

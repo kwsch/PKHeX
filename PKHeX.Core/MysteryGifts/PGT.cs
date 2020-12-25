@@ -254,7 +254,7 @@ namespace PKHeX.Core
         {
             var egg = pkm.Egg_Location;
             if (!pkm.IsEgg) // Link Trade Egg or Ranger
-                return egg == Locations.LinkTrade4 || egg == Locations.Ranger4;
+                return egg is Locations.LinkTrade4 or Locations.Ranger4;
             if (egg != Locations.Ranger4)
                 return false;
 
@@ -262,7 +262,7 @@ namespace PKHeX.Core
                 return false;
 
             var met = pkm.Met_Location;
-            return met == Locations.LinkTrade4 || met == 0;
+            return met is Locations.LinkTrade4 or 0;
         }
 
         protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;

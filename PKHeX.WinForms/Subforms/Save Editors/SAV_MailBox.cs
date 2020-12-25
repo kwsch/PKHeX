@@ -35,9 +35,9 @@ namespace PKHeX.WinForms
             NUD_BoxSize.Visible = L_BoxSize.Visible = Gen == 2;
             GB_MessageTB.Visible = Gen == 2;
             GB_MessageNUD.Visible = Gen != 2;
-            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen == 4 || Gen == 5;
+            Messages[0][3].Visible = Messages[1][3].Visible = Messages[2][3].Visible = Gen is 4 or 5;
             NUD_AuthorSID.Visible = Gen != 2;
-            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen == 4 || Gen == 5;
+            Label_OTGender.Visible = CB_AuthorLang.Visible = CB_AuthorVersion.Visible = Gen is 4 or 5;
             L_AppearPKM.Visible = AppearPKMs[0].Visible = Gen != 5;
             AppearPKMs[1].Visible = AppearPKMs[2].Visible = Gen == 4;
             NUD_MessageEnding.Visible = Gen == 5;
@@ -112,13 +112,13 @@ namespace PKHeX.WinForms
             MakePartyList();
             MakePCList();
 
-            if (Gen == 2 || Gen == 3)
+            if (Gen is 2 or 3)
             {
                 CB_AppearPKM1.Items.Clear();
                 CB_AppearPKM1.InitializeBinding();
                 CB_AppearPKM1.DataSource = new BindingSource(GameInfo.FilteredSources.Species.ToList(), null);
             }
-            else if (Gen == 4 || Gen == 5)
+            else if (Gen is 4 or 5)
             {
                 var species = GameInfo.FilteredSources.Species.ToList();
                 foreach (ComboBox a in AppearPKMs)
@@ -351,7 +351,7 @@ namespace PKHeX.WinForms
                     heldMailIDs[i] = h;
                     if (ItemIsMail(p[i].HeldItem))
                     {
-                        if (h < 0 || h > 5) //A
+                        if (h is < 0 or > 5) //A
                             ret.Add($"Party#{i + 1} MailID mismatch");
                         else if (m[h].IsEmpty == true) //B
                             ret.Add($"Party#{i + 1} MailID mismatch");
@@ -373,7 +373,7 @@ namespace PKHeX.WinForms
             // Gen2, Gen4
             // P: held item is mail, but mail is empty(invalid mail type. g2:not 181 to 189, g4:12 to 255). it should be not empty or held not mail.
             // Q: held item is not mail, but mail is not empty. it should be empty or held mail.
-            else if (Gen == 2 || Gen == 4)
+            else if (Gen is 2 or 4)
             {
                 for (int i = 0; i < p.Count; i++)
                 {

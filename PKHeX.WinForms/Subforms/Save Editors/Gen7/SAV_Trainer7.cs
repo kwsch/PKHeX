@@ -71,7 +71,7 @@ namespace PKHeX.WinForms
             CB_Vivillon.InitializeBinding();
             CB_Vivillon.DataSource = FormConverter.GetFormList((int)Species.Vivillon, GameInfo.Strings.types, GameInfo.Strings.forms, Main.GenderSymbols, SAV.Generation);
 
-            if (!(SAV is SAV7USUM))
+            if (SAV is not SAV7USUM)
                 BattleStyles.RemoveAt(BattleStyles.Count - 1); // remove Nihilist
             foreach (string t in BattleStyles)
             {
@@ -241,7 +241,7 @@ namespace PKHeX.WinForms
                 188,-1,-1,
                 198,202,110,204,//Beach
             };
-            if (SAV.Version == GameVersion.UM || SAV.Version == GameVersion.MN)
+            if (SAV.Version is GameVersion.UM or GameVersion.MN)
             {
                 FlyDestNameIndex[28] = 142;
                 FlyDestNameIndex[36] = 178;
@@ -409,7 +409,7 @@ namespace PKHeX.WinForms
             if (CB_BallThrowType.SelectedIndex >= 0)
                 SAV.MyStatus.BallThrowType = CB_BallThrowType.SelectedIndex;
 
-            if (!(SAV is SAV7SM)) // unlock flags are in flag editor instead
+            if (SAV is not SAV7SM) // unlock flags are in flag editor instead
                 return;
 
             const int unlockStart = 292;

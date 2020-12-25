@@ -46,7 +46,7 @@ namespace PKHeX.WinForms
             PB_Sprite.Visible = CHK_MegaRayquazaUnlocked.Visible = SAV is SAV6AO;
 
             L_Style.Visible = TB_Style.Visible = SAV is SAV6XY;
-            if (!(SAV is SAV6XY))
+            if (SAV is not SAV6XY)
                 TC_Editor.TabPages.Remove(Tab_Appearance);
 
             if (SAV is SAV6AODemo)

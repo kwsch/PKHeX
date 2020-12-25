@@ -126,7 +126,7 @@ namespace PKHeX.Core
         [Category(Derived), Description("Rare encounter details used instead of Common details.")]
         public bool IsRare
         {
-            get => DenType == RaidType.Rare || DenType == RaidType.RareWish;
+            get => DenType is RaidType.Rare or RaidType.RareWish;
             set
             {
                 if (value)
@@ -143,7 +143,7 @@ namespace PKHeX.Core
         [Category(Derived), Description("Wishing Piece was used for Raid encounter.")]
         public bool IsWishingPiece
         {
-            get => DenType == RaidType.CommonWish || DenType == RaidType.RareWish;
+            get => DenType is RaidType.CommonWish or RaidType.RareWish;
             set
             {
                 if (value)

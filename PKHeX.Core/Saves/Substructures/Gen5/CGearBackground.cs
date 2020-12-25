@@ -169,9 +169,10 @@ namespace PKHeX.Core
 
         private static int ValToIndex(int val)
         {
-            if ((val & 0x3FF) < 0xA0 || (val & 0x3FF) > 0x280)
+            var trunc = (val & 0x3FF);
+            if (trunc is < 0xA0 or > 0x280)
                 return (val & 0x5C00) | 0xFF;
-            return ((val % 0x20) + (17 * (((val & 0x3FF) - 0xA0) / 0x20))) | (val & 0x5C00);
+            return ((val % 0x20) + (17 * ((trunc - 0xA0) / 0x20))) | (val & 0x5C00);
         }
 
         private static byte Convert8to5(int colorval)

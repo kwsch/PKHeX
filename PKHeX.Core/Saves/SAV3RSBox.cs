@@ -159,7 +159,7 @@ namespace PKHeX.Core
             box /= 2;
 
             int offset = Box + 0x1EC38 + (9 * box);
-            if (Data[offset] == 0 || Data[offset] == 0xFF)
+            if (Data[offset] is 0 or 0xFF)
                 boxName += $"BOX {box + 1}";
             boxName += GetString(offset, 9);
 

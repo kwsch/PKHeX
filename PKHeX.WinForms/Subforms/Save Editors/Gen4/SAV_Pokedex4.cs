@@ -298,7 +298,7 @@ namespace PKHeX.WinForms
         private void ModifyAll(object sender, EventArgs e)
         {
             int lang = SAV.Language - 1;
-            if (lang > 5 || lang < 0) // KOR or Invalid
+            if (lang is < 0 or > 5) // KOR or Invalid
                 lang = 0;
 
             bool seenA = sender == mnuSeenAll || sender == mnuCaughtAll || sender == mnuComplete;

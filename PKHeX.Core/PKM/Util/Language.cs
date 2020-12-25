@@ -63,7 +63,7 @@ namespace PKHeX.Core
         /// <returns>Main Series language ID.</returns>
         public static byte GetMainLangIDfromGC(byte value)
         {
-            if (value <= 2 || value > 7)
+            if (value is <= 2 or > 7)
                 return value;
             return (byte) GCtoMainSeries[(LanguageGC)value];
         }
@@ -75,7 +75,7 @@ namespace PKHeX.Core
         /// <returns>GameCube (C/XD) language ID.</returns>
         public static byte GetGCLangIDfromMain(byte value)
         {
-            if (value <= 2 || value > 7)
+            if (value is <= 2 or > 7)
                 return value;
             return (byte) MainSeriesToGC[(LanguageID)value];
         }

@@ -167,13 +167,13 @@ namespace PKHeX.Core
             // Gigantamax Pikachu, Meowth-0, and Eevee are prevented from evolving.
             // Raichu cannot be evolved to the Alolan variant at this time.
             BanEvo((int)Species.Raichu, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
-            BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax {CanGigantamax: true}) || pkm.Version >= (int)GP || pkm.Version == (int)GO);
+            BanEvo((int)Species.Raichu, 1, pkm => (pkm is IGigantamax {CanGigantamax: true}) || pkm.Version is (int)GO or >= (int)GP);
             BanEvo((int)Species.Persian, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
             BanEvo((int)Species.Persian, 1, pkm => pkm is IGigantamax {CanGigantamax: true});
             BanEvo((int)Species.Perrserker, 0, pkm => pkm is IGigantamax {CanGigantamax: true});
 
-            BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Version >= (int)GP || pkm.Version == (int)GO);
-            BanEvo((int)Species.Marowak, 1, pkm => pkm.Version >= (int)GP || pkm.Version == (int)GO);
+            BanEvo((int)Species.Exeggutor, 1, pkm => pkm.Version is (int)GO or >= (int)GP);
+            BanEvo((int)Species.Marowak, 1, pkm => pkm.Version is (int)GO or >= (int)GP);
             BanEvo((int)Species.Weezing, 0, pkm => pkm.Version >= (int)SW);
             BanEvo((int)Species.MrMime, 0, pkm => pkm.Version >= (int)SW);
 

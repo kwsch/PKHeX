@@ -170,7 +170,7 @@ namespace PKHeX.Core
             pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
-            var special = Species == 151 || Species == 251;
+            var special = Species is 151 or 251;
             var new_ivs = new int[6];
             int flawless = special ? 5 : 3;
             var rnd = Util.Rand;

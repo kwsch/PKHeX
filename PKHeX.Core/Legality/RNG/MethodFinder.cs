@@ -825,13 +825,13 @@ namespace PKHeX.Core
                     if (val == PIDType.CXDAnti && g.Shiny == Shiny.Never && g.Method == PIDType.CXD)
                         return true;
                     // forced shiny eggs, when hatched, can lose their detectable correlation.
-                    return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method == PIDType.BACD_R_S || g.Method == PIDType.BACD_U_S);
+                    return g.IsEgg && !pkm.IsEgg && val == PIDType.None && (g.Method is PIDType.BACD_R_S or PIDType.BACD_U_S);
                 case EncounterStaticShadow:
-                    return pkm.Version == (int)GameVersion.CXD && (val == PIDType.CXD || val == PIDType.CXDAnti);
+                    return pkm.Version == (int)GameVersion.CXD && (val is PIDType.CXD or PIDType.CXDAnti);
                 case EncounterStatic3 s:
                     return pkm.Version switch
                     {
-                        (int)GameVersion.CXD => val == PIDType.CXD || val == PIDType.CXD_ColoStarter || val == PIDType.CXDAnti,
+                        (int)GameVersion.CXD => val is PIDType.CXD or PIDType.CXD_ColoStarter or PIDType.CXDAnti,
                         (int)GameVersion.E => val == PIDType.Method_1, // no roamer glitch
                         (int)GameVersion.FR or (int)GameVersion.LG => s.Roaming ? val.IsRoamerPIDIV(pkm) : val == PIDType.Method_1, // roamer glitch
                         _ => s.Roaming ? val.IsRoamerPIDIV(pkm) : MethodH14.Contains(val), // RS, roamer glitch && RSBox s/w emulation => method 4 available
@@ -880,7 +880,7 @@ namespace PKHeX.Core
                     // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
                     // TypeEncounter TallGrass discard any cave or city
                     var ver = (GameVersion)pkm.Version;
-                    var IsDPPt = ver == GameVersion.D || ver == GameVersion.P || ver == GameVersion.Pt;
+                    var IsDPPt = ver is GameVersion.D or GameVersion.P or GameVersion.Pt;
                     return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
                 case PGT: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
@@ -915,7 +915,7 @@ namespace PKHeX.Core
 
         private static bool IsCuteCharm4Valid(IEncounterable encounter, PKM pkm)
         {
-            if (pkm.Species == (int)Species.Marill || pkm.Species == (int)Species.Azumarill)
+            if (pkm.Species is (int)Species.Marill or (int)Species.Azumarill)
             {
                 return !IsCuteCharmAzurillMale(pkm.PID) // recognized as not Azurill
                       || encounter.Species == (int)Species.Azurill; // encounter must be male Azurill

@@ -1108,7 +1108,7 @@ namespace PKHeX.WinForms
 
         private void Dragout_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && (ModifierKeys == Keys.Alt || ModifierKeys == Keys.Shift))
+            if (e.Button == MouseButtons.Left && (ModifierKeys is Keys.Alt or Keys.Shift))
                 ClickQR(sender, e);
             if (e.Button == MouseButtons.Right)
                 return;

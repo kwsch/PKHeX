@@ -220,7 +220,7 @@ namespace PKHeX.Core
             if (!Legal.Totem_USUM.Contains(species))
                 return false;
             if (species == (int)Mimikyu)
-                return form == 2 || form == 3;
+                return form is 2 or 3;
             if (Legal.Totem_Alolan.Contains(species))
                 return form == 2;
             return form == 1;

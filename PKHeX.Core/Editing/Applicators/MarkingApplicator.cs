@@ -77,11 +77,12 @@ namespace PKHeX.Core
             static int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
             static int GetComplexMarking(int val, int _)
             {
-                if (val == 31 || val == 1)
-                    return 1;
-                if (val == 30 || val == 0)
-                    return 2;
-                return 0;
+                return val switch
+                {
+                    31 or 1 => 1,
+                    30 or 0 => 2,
+                          _ => 0,
+                };
             }
         }
     }

@@ -69,7 +69,7 @@ namespace PKHeX.Core
                 if (x1.Data.Length == 0)
                     continue;
 
-                if (x1.Type == SCTypeCode.Object || x1.Type == SCTypeCode.Array)
+                if (x1.Type is SCTypeCode.Object or SCTypeCode.Array)
                 {
                     if (!x1.Data.SequenceEqual(x2.Data))
                         ValueChanged.Add($"{name} - Bytes Changed");

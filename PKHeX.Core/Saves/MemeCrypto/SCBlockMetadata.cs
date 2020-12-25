@@ -73,7 +73,7 @@ namespace PKHeX.Core
             if (blockName != null)
                 return $"*{type} {blockName}";
             var result = $"{z.Key:X8} - {i:0000} {type}";
-            if (z.Type == SCTypeCode.Object || z.Type == SCTypeCode.Array)
+            if (z.Type is SCTypeCode.Object or SCTypeCode.Array)
                 result += $" 0x{z.Data.Length:X3}";
             else if (!isBool)
                 result += $" {z.GetValue()}";

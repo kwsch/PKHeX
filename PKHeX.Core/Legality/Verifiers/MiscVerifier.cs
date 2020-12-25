@@ -109,7 +109,7 @@ namespace PKHeX.Core
                 var Type_B_Match = Type_B == pi.Type2;
 
                 var first = Type_A_Match ? GetValid(LG1TypeMatch1) : GetInvalid(LG1Type1Fail);
-                var second = Type_B_Match || (ParseSettings.AllowGBCartEra && ((species == (int)Species.Magnemite || species == (int)Species.Magneton) && Type_B == 9)) // Steel Magnemite via Stadium2
+                var second = Type_B_Match || (ParseSettings.AllowGBCartEra && ((species is (int)Species.Magnemite or (int)Species.Magneton) && Type_B == 9)) // Steel Magnemite via Stadium2
                     ? GetValid(LG1TypeMatch2) : GetInvalid(LG1Type2Fail);
                 data.AddLine(first);
                 data.AddLine(second);

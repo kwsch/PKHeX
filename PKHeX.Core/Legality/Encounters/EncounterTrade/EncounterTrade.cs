@@ -204,7 +204,7 @@ namespace PKHeX.Core
                     pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
                     break;
 
-                case 4 when Version == GameVersion.DPPt && (pkm.Version == (int)GameVersion.D || pkm.Version == (int)GameVersion.P):
+                case 4 when Version == GameVersion.DPPt && (pkm.Version is (int)GameVersion.D or (int)GameVersion.P):
                     // DP English origin are Japanese lang
                     pkm.Language = (int)LanguageID.Japanese;
                     break;

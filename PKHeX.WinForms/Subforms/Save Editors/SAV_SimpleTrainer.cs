@@ -102,7 +102,7 @@ namespace PKHeX.WinForms
                 CAL_AdventureStartDate.Visible = CAL_HoFDate.Visible = false;
                 CAL_AdventureStartTime.Visible = CAL_HoFTime.Visible = false;
             }
-            if (SAV is SAV3Colosseum || SAV is SAV3XD)
+            if (SAV is SAV3Colosseum or SAV3XD)
             {
                 GB_Map.Visible = false;
                 GB_Badges.Visible = false;

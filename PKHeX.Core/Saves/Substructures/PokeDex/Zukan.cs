@@ -116,7 +116,7 @@ namespace PKHeX.Core
         {
             if (SAV.Version == GameVersion.Invalid) // sanity
                 return;
-            if (pkm.Species == 0 || pkm.Species > SAV.MaxSpeciesID) // out of range
+            if ((uint)(pkm.Species - 1) >= (uint)SAV.MaxSpeciesID) // out of range
                 return;
             if (pkm.IsEgg) // do not add
                 return;

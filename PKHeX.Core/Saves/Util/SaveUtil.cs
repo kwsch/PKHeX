@@ -364,7 +364,7 @@ namespace PKHeX.Core
 
                 const int DATE_INT = 0x20060623;
                 const int DATE_KO  = 0x20070903;
-                return sdk == DATE_INT || sdk == DATE_KO;
+                return sdk is DATE_INT or DATE_KO;
             }
 
             // Check the other save -- first save is done to the latter half of the binary.

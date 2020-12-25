@@ -212,10 +212,10 @@ namespace PKHeX.Core
         {
             return generation switch
             {
-                1 => (196 <= item && item <= 200), // HMs
-                2 => (item >= 243), // HMs
-                3 => (339 <= item && item <= 346),
-                _ => ((420 <= item && item <= 427) || item == 737)
+                1 => item is >= 196 and <= 200, // HMs
+                2 => item is >= 243, // HMs
+                3 => item is >= 339 and <= 346,
+                _ => item is >= 420 and <= 427 or 737,
             };
         }
     }

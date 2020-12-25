@@ -30,7 +30,7 @@ namespace PKHeX.Core
             }
             set
             {
-                if (value < 1 || value > WormholeSlotMax)
+                if (value is < 1 or > WormholeSlotMax)
                     return;
                 for (int i = 1; i <= WormholeSlotMax; i++)
                 {
@@ -129,7 +129,7 @@ namespace PKHeX.Core
 
         public static int WormholeSlotToPokemon(int mapid, int slot)
         {
-            if (slot < 1 || slot > WormholeSlotMax)
+            if (slot is < 1 or > WormholeSlotMax)
                 return -1;
 
             return mapid switch

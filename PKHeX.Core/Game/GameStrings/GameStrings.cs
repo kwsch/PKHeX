@@ -257,7 +257,7 @@ namespace PKHeX.Core
             SanitizeMetG7SM();
             SanitizeMetG8SWSH();
 
-            if (lang == "es" || lang == "it")
+            if (lang is "es" or "it")
             {
                 // Campeonato Mundial duplicates
                 for (int i = 27; i < 34; i++)

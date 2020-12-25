@@ -80,7 +80,7 @@ namespace PKHeX.Core
 
         private static int GetStringLength(bool jp) => jp ? GBPKML.STRLEN_J : GBPKML.STRLEN_U;
         protected bool IsFormatParty => IsCapacityPartyFormat((PokeListType)Capacity);
-        protected static bool IsCapacityPartyFormat(PokeListType Capacity) => Capacity == PokeListType.Single || Capacity == PokeListType.Party;
+        protected static bool IsCapacityPartyFormat(PokeListType Capacity) => Capacity is PokeListType.Single or PokeListType.Party;
 
         protected static int GetDataSize(PokeListType c, bool jp, int entrySize)
         {

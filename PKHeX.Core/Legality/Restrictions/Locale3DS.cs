@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     /// <summary>
     /// Provides information for <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> data.
@@ -17,17 +15,14 @@ namespace PKHeX.Core
         {
             return consoleRegion switch
             {
-                0 => (country == 1), // Japan
-                1 => ((8 <= country && country <= 52) || ExtendedAmericas.Contains(country)), // Americas
-                2 => ((64 <= country && country <= 127) || ExtendedEurope.Contains(country)), // Europe
-                4 => (country == 144 || country == 160), // China
-                5 => (country == 136), // Korea
-                6 => (country == 144 || country == 128), // Taiwan
+                0 => country is 1, // Japan
+                1 => (8 <= country && country <= 52) || (country is 153 or 156 or 168 or 174 or 186), // Americas
+                2 => (64 <= country && country <= 127) || (country is 169 or 184 or 185), // Europe
+                4 => country is 144 or 160, // China
+                5 => country is 136, // Korea
+                6 => country is 144 or 128, // Taiwan
                 _ => false
             };
         }
-
-        private static readonly HashSet<int> ExtendedAmericas = new() { 153, 156, 168, 174, 186 };
-        private static readonly HashSet<int> ExtendedEurope = new() { 169, 184, 185 };
     }
 }

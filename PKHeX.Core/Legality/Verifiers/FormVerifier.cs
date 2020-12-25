@@ -196,7 +196,7 @@ namespace PKHeX.Core
                     {
                         // We're okay here. There's also Alolan Meowth...
                     }
-                    else if ((orig == (int) Species.MrMime || orig == (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterOriginal.LevelMin && Info.Generation >= 4)
+                    else if ((orig is (int) Species.MrMime or (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterOriginal.LevelMin && Info.Generation >= 4)
                     {
                         // We're okay with a Mime Jr. that has evolved via level up.
                     }

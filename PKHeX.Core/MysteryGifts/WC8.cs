@@ -90,7 +90,7 @@ namespace PKHeX.Core
             get
             {
                 var type = PIDType;
-                if (type == Shiny.AlwaysStar || type == Shiny.AlwaysSquare)
+                if (type is Shiny.AlwaysStar or Shiny.AlwaysSquare)
                     return true;
                 if (type != Shiny.FixedValue)
                     return false;
@@ -260,7 +260,7 @@ namespace PKHeX.Core
         private static int GetLanguageIndex(int language)
         {
             var lang = (LanguageID) language;
-            if (lang < LanguageID.Japanese || lang == LanguageID.UNUSED_6 || lang > LanguageID.ChineseT)
+            if (lang is < LanguageID.Japanese or LanguageID.UNUSED_6 or > LanguageID.ChineseT)
                 return (int) LanguageID.English; // fallback
             return lang < LanguageID.UNUSED_6 ? language - 1 : language - 2;
         }

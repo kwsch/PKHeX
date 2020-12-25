@@ -45,7 +45,7 @@ namespace PKHeX.Core
         public sealed override int MaxGameID => blank.MaxGameID;
         public sealed override int OTLength => blank.OTLength;
         public sealed override int NickLength => blank.NickLength;
-        public bool IsBigEndian => blank is BK4 || blank is XK3 || blank is CK3;
+        public bool IsBigEndian => blank is BK4 or XK3 or CK3;
 
         private readonly Func<byte[], int, bool> GetIsPKMPresent;
         public sealed override bool IsPKMPresent(byte[] data, int offset) => GetIsPKMPresent(data, offset);

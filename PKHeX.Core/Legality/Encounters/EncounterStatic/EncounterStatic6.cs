@@ -40,7 +40,7 @@ namespace PKHeX.Core
 
             // Cosplay Pikachu is given from multiple locations
             var loc = pkm.Met_Location;
-            return loc == 180 || loc == 186 || loc == 194;
+            return loc is 180 or 186 or 194;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

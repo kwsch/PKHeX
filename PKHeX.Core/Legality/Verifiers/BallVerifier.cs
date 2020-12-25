@@ -209,7 +209,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if ((species == (int)Species.Volbeat || species == (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
+                if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }
@@ -293,7 +293,7 @@ namespace PKHeX.Core
             {
                 if (!Legal.Inherit_Sport.Contains(species))
                     return GetInvalid(LBallSpecies);
-                if ((species == (int)Species.Volbeat || species == (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
+                if ((species is (int)Species.Volbeat or (int)Species.Illumise) && IsHiddenAndNotPossible(pkm)) // Volbeat/Illumise
                     return GetInvalid(LBallAbility);
                 return GetValid(LBallSpeciesPass);
             }

@@ -93,7 +93,7 @@ namespace PKHeX.WinForms
             }
 
             NUD_Collected.Value += added;
-            if (!(SAV is SAV7USUM))
+            if (SAV is not SAV7USUM)
                 NUD_Cells.Value += added;
 
             System.Media.SystemSounds.Asterisk.Play();

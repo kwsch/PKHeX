@@ -325,7 +325,8 @@ namespace PKHeX.WinForms
         private void SetForms()
         {
             int species = WinFormsUtil.GetIndex(CB_Species);
-            bool hasForms = PersonalTable.AO[species].HasForms || new[] { 664, 665, 414 }.Contains(species);
+            var pi = PersonalTable.AO[species];
+            bool hasForms = FormInfo.HasFormSelection(pi, species, 6);
             CB_Form.Enabled = CB_Form.Visible = hasForms;
 
             CB_Form.InitializeBinding();

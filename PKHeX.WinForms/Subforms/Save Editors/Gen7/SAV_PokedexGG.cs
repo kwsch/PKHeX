@@ -412,7 +412,7 @@ namespace PKHeX.WinForms
                 if (sender != mnuSeenAll)
                     SetRecords();
 
-                if (spec == 25 || spec == 133)
+                if (spec is (int)Species.Pikachu or (int)Species.Eevee)
                     continue; // ignore starter (setdex doesn't set buddy bit; totem raticate is not emitted below).
 
                 // Set forme flags

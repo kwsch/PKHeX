@@ -45,7 +45,7 @@ namespace PKHeX.Core
             return sav switch
             {
                 SAV7b => source.SpeciesDataSource // LGPE: Kanto 151, Meltan/Melmetal
-                    .Where(s => s.Value <= (int)Core.Species.Mew || s.Value == (int)Core.Species.Meltan || s.Value == (int)Core.Species.Melmetal),
+                    .Where(s => s.Value <= (int)Core.Species.Mew || s.Value is (int)Core.Species.Meltan or (int)Core.Species.Melmetal),
                 _ => source.SpeciesDataSource.Where(s => s.Value <= sav.MaxSpeciesID)
             };
         }

@@ -117,7 +117,7 @@ namespace PKHeX.Core
             if (fn != null)
                 return Path.GetExtension(fn);
 
-            if ((sav.Generation == 4 || sav.Generation == 5) && sav.Metadata.HasFooter)
+            if ((sav.Generation is 4 or 5) && sav.Metadata.HasFooter)
                 return ".dsv";
             return sav.Extension;
         }

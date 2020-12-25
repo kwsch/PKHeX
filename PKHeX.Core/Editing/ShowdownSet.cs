@@ -639,17 +639,17 @@ namespace PKHeX.Core
 
             switch (spec)
             {
-                case (int)Core.Species.Basculin when form == "Blue-Striped":
+                case (int)Core.Species.Basculin when form is "Blue-Striped":
                     return "Blue";
                 case (int)Core.Species.Greninja when ability == 210:
                     return "Ash"; // Battle Bond
-                case (int)Core.Species.Vivillon when form == "Pokeball":
+                case (int)Core.Species.Vivillon when form is "Pokeball":
                     return "Poké Ball";
 
                 // Zygarde
                 case (int)Core.Species.Zygarde when form.Length == 0:
                     return ability == 211 ? "50%-C" : "50%";
-                case (int)Core.Species.Zygarde when form == "Complete":
+                case (int)Core.Species.Zygarde when form is "Complete":
                     return form;
                 case (int)Core.Species.Zygarde when ability == 211:
                     return "-C"; // Power Construct
@@ -662,18 +662,18 @@ namespace PKHeX.Core
                     return $"C-{form}";
 
                 // Necrozma
-                case (int)Core.Species.Necrozma when form == "Dusk-Mane" || form == "Dusk Mane":
+                case (int)Core.Species.Necrozma when form is "Dusk-Mane" or "Dusk Mane":
                     return "Dusk";
-                case (int)Core.Species.Necrozma when form == "Dawn-Wings" || form == "Dawn Wings":
+                case (int)Core.Species.Necrozma when form is "Dawn-Wings" or "Dawn Wings":
                     return "Dawn";
 
                 // Toxtricity
-                case (int)Core.Species.Toxtricity when form == "Low-Key":
+                case (int)Core.Species.Toxtricity when form is "Low-Key":
                     return "Low Key";
 
                 // Darmanitan
                 case (int)Core.Species.Darmanitan:
-                    if (form == "Galar-Zen")
+                    if (form is "Galar-Zen")
                         return "Galar Zen";
                     return form;
 

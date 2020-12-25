@@ -109,7 +109,8 @@ namespace PKHeX.WinForms
 
         private void SetCardID(int cardID)
         {
-            if (cardID <= 0 || cardID >= 0x100 * 8) return;
+            if (cardID is <= 0 or >= 0x100 * 8)
+                return;
 
             string card = cardID.ToString("0000");
             if (!LB_Received.Items.Contains(card))

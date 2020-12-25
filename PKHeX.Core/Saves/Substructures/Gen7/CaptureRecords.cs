@@ -37,7 +37,7 @@ namespace PKHeX.Core
         {
             if (species <= (int)Species.Mew)
                 return species - 1;
-            if (species == (int)Species.Meltan || species == (int)Species.Melmetal)
+            if (species is (int)Species.Meltan or (int)Species.Melmetal)
                 return species - 657; // 151, 152
             return -1;
         }

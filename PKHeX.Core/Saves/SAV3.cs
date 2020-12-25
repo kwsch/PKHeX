@@ -78,12 +78,12 @@ namespace PKHeX.Core
 
         public SAV3(GameVersion version = GameVersion.FRLG, bool japanese = false) : base(SaveUtil.SIZE_G3RAW)
         {
-            if (version == GameVersion.FR || version == GameVersion.LG)
-                Version = GameVersion.FRLG;
-            else if (version == GameVersion.R || version == GameVersion.S)
-                Version = GameVersion.RS;
-            else
-                Version = version;
+            Version = version switch
+            {
+                GameVersion.FR or GameVersion.LG => GameVersion.FRLG,
+                GameVersion.R or GameVersion.S => GameVersion.RS,
+                _ => version
+            };
             _personal = SaveUtil.GetG3Personal(Version);
             Japanese = japanese;
 

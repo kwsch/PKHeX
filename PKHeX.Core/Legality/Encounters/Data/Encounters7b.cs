@@ -123,7 +123,7 @@ namespace PKHeX.Core
                 var slots = table.Slots;
                 var first = slots[0];
                 var extra = species
-                    .Select(z => new EncounterSlot7b(table, z, (z == 006 || z >= 144) ? 03 : first.LevelMin, (z == 006 || z >= 144) ? 56 : first.LevelMax)).ToArray();
+                    .Select(z => new EncounterSlot7b(table, z, (z is 006 or >= 144) ? 03 : first.LevelMin, (z is 006 or >= 144) ? 56 : first.LevelMax)).ToArray();
 
                 int count = slots.Length;
                 Array.Resize(ref slots, count + extra.Length);

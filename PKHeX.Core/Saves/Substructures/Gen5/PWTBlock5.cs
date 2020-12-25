@@ -10,7 +10,7 @@ namespace PKHeX.Core
 
         public ushort GetPWTRecord(PWTRecordID id)
         {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+            if (id is < PWTRecordID.Normal or > PWTRecordID.MixMaster)
                 throw new ArgumentException(nameof(id));
             int ofs = Offset + 0x5C + ((int)id * 2);
             return BitConverter.ToUInt16(Data, ofs);
@@ -20,7 +20,7 @@ namespace PKHeX.Core
 
         public void SetPWTRecord(PWTRecordID id, ushort value)
         {
-            if (id < PWTRecordID.Normal || id > PWTRecordID.MixMaster)
+            if (id is < PWTRecordID.Normal or > PWTRecordID.MixMaster)
                 throw new ArgumentException(nameof(id));
             int ofs = Offset + 0x5C + ((int)id * 2);
             SAV.SetData(BitConverter.GetBytes(value), ofs);

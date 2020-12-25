@@ -11,7 +11,7 @@ namespace PKHeX.Core
         protected override bool IsMatchLocation(PKM pkm)
         {
             var loc = pkm.Met_Location;
-            return loc == SharedNest || loc == Watchtower;
+            return loc is SharedNest or Watchtower;
         }
     }
 }

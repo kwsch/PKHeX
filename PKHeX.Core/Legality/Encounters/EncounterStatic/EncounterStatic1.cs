@@ -58,7 +58,7 @@
                 // Amnesia Psyduck has different catch rates depending on language
                 if (Species == (int)Core.Species.Psyduck)
                     return catch_rate == (pk1.Japanese ? 167 : 168);
-                return catch_rate == 167 || catch_rate == 168;
+                return catch_rate is 167 or 168;
             }
 
             // Encounters can have different Catch Rates (RBG vs Y)

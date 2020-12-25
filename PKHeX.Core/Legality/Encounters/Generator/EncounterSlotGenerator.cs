@@ -119,7 +119,7 @@ namespace PKHeX.Core
 
         private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
         {
-            return slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type == SlotType.FriendSafari || slot.Area.Type == SlotType.Horde || slot.Area.Type == SlotType.SOS;
+            return slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type is SlotType.FriendSafari or SlotType.Horde or SlotType.SOS;
         }
 
         internal static EncounterSlot? GetCaptureLocation(PKM pkm)

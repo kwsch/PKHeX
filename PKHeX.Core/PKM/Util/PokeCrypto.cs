@@ -254,7 +254,7 @@ namespace PKHeX.Core
         /// <returns>Decrypted data.</returns>
         public static byte[] DecryptArray3(byte[] ekm)
         {
-            Debug.Assert(ekm.Length == SIZE_3PARTY || ekm.Length == SIZE_3STORED);
+            Debug.Assert(ekm.Length is SIZE_3PARTY or SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(ekm, 0);
             uint OID = BitConverter.ToUInt32(ekm, 4);
@@ -296,7 +296,7 @@ namespace PKHeX.Core
         /// <returns>Encrypted data.</returns>
         public static byte[] EncryptArray3(byte[] pkm)
         {
-            Debug.Assert(pkm.Length == SIZE_3PARTY || pkm.Length == SIZE_3STORED);
+            Debug.Assert(pkm.Length is SIZE_3PARTY or SIZE_3STORED);
 
             uint PID = BitConverter.ToUInt32(pkm, 0);
             uint OID = BitConverter.ToUInt32(pkm, 4);

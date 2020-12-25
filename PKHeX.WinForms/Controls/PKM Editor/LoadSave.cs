@@ -350,7 +350,7 @@ namespace PKHeX.WinForms.Controls
         private static void CheckTransferPIDValid(PKM pk)
         {
             var ver = pk.Version;
-            if (ver >= (int)GameVersion.X || ver == 0)
+            if (ver is 0 or >= (int)GameVersion.X) // Gen6+ ignored
                 return;
 
             uint EC = pk.EncryptionConstant;

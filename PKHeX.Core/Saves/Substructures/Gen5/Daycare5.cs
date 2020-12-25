@@ -20,14 +20,14 @@ namespace PKHeX.Core
 
         public ulong? GetSeed()
         {
-            if (!(SAV is SAV5B2W2))
+            if (SAV is not SAV5B2W2)
                 return null;
             return BitConverter.ToUInt64(Data, Offset + 0x1CC);
         }
 
         public void SetSeed(string value)
         {
-            if (!(SAV is SAV5B2W2))
+            if (SAV is not SAV5B2W2)
                 return;
             var data = Util.GetBytesFromHexString(value);
             SAV.SetData(data, Offset + 0x1CC);

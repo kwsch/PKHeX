@@ -225,9 +225,9 @@ namespace PKHeX.Core
 
             // eggs/mystery gifts shouldn't share with wild encounters
             var cenc = ca.Info.EncounterMatch;
-            bool eggMysteryCurrent = cenc is EncounterEgg || cenc is MysteryGift;
+            bool eggMysteryCurrent = cenc is EncounterEgg or MysteryGift;
             var penc = pa.Info.EncounterMatch;
-            bool eggMysteryPrevious = penc is EncounterEgg || penc is MysteryGift;
+            bool eggMysteryPrevious = penc is EncounterEgg or MysteryGift;
 
             if (eggMysteryCurrent != eggMysteryPrevious)
             {
@@ -254,9 +254,9 @@ namespace PKHeX.Core
 
             // eggs/mystery gifts shouldn't share with wild encounters
             var cenc = ca.Info.EncounterMatch;
-            bool eggMysteryCurrent = cenc is EncounterEgg || cenc is MysteryGift;
+            bool eggMysteryCurrent = cenc is EncounterEgg or MysteryGift;
             var penc = pa.Info.EncounterMatch;
-            bool eggMysteryPrevious = penc is EncounterEgg || penc is MysteryGift;
+            bool eggMysteryPrevious = penc is EncounterEgg or MysteryGift;
 
             if (eggMysteryCurrent != eggMysteryPrevious)
             {

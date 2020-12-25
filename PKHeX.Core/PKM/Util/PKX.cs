@@ -129,7 +129,7 @@ namespace PKHeX.Core
             uint abilBitVal = g34 ? oldPID & 0x0000_0001 : oldPID & 0x0001_0000;
 
             bool g3unown = origin <= 5 && species == (int)Species.Unown;
-            bool singleGender = gt == 255 || gt == 254 || gt == 0; // skip gender check
+            bool singleGender = gt is 0 or 254 or 255; // single gender, skip gender check
             while (true) // Loop until we find a suitable PID
             {
                 uint pid = Util.Rand32(rnd);
@@ -209,7 +209,7 @@ namespace PKHeX.Core
         public static string[] GetPKMExtensions(int maxGeneration = Generation)
         {
             var result = new List<string>();
-            int min = maxGeneration <= 2 || maxGeneration >= 7 ? 1 : 3;
+            int min = maxGeneration is <= 2 or >= 7 ? 1 : 3;
             for (int i = min; i <= maxGeneration; i++)
                 result.Add($"pk{i}");
 

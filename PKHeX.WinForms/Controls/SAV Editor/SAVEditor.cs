@@ -1075,15 +1075,15 @@ namespace PKHeX.WinForms.Controls
                 B_CGearSkin.Enabled = sav.Generation == 5;
                 B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
 
-                B_OtherSlots.Enabled = sav is SAV1StadiumJ || sav is SAV1Stadium || sav is SAV2Stadium;
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && !(SAV is SAV4BR)) || SAV is SAV7b; // Box RS & Battle Revolution
-                B_OpenMiscEditor.Enabled = sav is SAV3 || sav is SAV4 || sav is SAV5;
+                B_OtherSlots.Enabled = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
+                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
+                B_OpenMiscEditor.Enabled = sav is SAV3 or SAV4 or SAV5;
                 B_Roamer.Enabled = sav is SAV3;
 
                 B_OpenHoneyTreeEditor.Enabled = B_OpenUGSEditor.Enabled = sav is SAV4Sinnoh;
                 B_OpenApricorn.Enabled = sav is SAV4HGSS;
                 B_OpenRTCEditor.Enabled = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
-                B_MailBox.Enabled = sav is SAV2 || sav is SAV3 || sav is SAV4 || sav is SAV5;
+                B_MailBox.Enabled = sav is SAV2 or SAV3 or SAV4 or SAV5;
 
                 B_Raids.Enabled = sav is SAV8SWSH;
                 B_RaidArmor.Enabled = sav is SAV8SWSH {SaveRevision: >= 1};

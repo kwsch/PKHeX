@@ -26,7 +26,7 @@ namespace PKHeX.WinForms
                     itemlist[i] = $"(Item #{i:000})";
             }
 
-            HasFreeSpace = SAV.Generation >= 7 && !(SAV is SAV7b);
+            HasFreeSpace = SAV.Generation >= 7 && SAV is not SAV7b;
             HasNew = CHK_NEW.Visible = SAV.Generation >= 7;
             Pouches = SAV.Inventory;
             CreateBagViews();

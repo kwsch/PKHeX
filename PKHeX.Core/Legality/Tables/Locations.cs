@@ -121,7 +121,7 @@
         private const int SafariLocation_FRLG = 136;
         private const int SafariLocation_HGSS = 202;
         private const int MarshLocation_DPPt = 52;
-        public static bool IsSafariZoneLocation3(int loc) => loc == SafariLocation_RSE || loc == SafariLocation_FRLG;
-        public static bool IsSafariZoneLocation4(int loc) => loc == MarshLocation_DPPt || loc == SafariLocation_HGSS;
+        public static bool IsSafariZoneLocation3(int loc) => loc is SafariLocation_RSE or SafariLocation_FRLG;
+        public static bool IsSafariZoneLocation4(int loc) => loc is MarshLocation_DPPt or SafariLocation_HGSS;
     }
 }

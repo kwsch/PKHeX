@@ -26,7 +26,7 @@ namespace PKHeX.Core
         /// <returns>True if either species can toggle Gigantamax potential</returns>
         public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm, int originSpecies, int originForm)
         {
-            if (currentSpecies == (int)Species.Meowth || currentSpecies == (int)Species.Pikachu)
+            if (currentSpecies is (int)Species.Meowth or (int)Species.Pikachu)
                 return currentForm == 0;
 
             var soup = CanEatMaxSoup;
@@ -42,7 +42,7 @@ namespace PKHeX.Core
         /// <returns>True if the species can toggle Gigantamax potential</returns>
         public static bool CanToggleGigantamax(this IGigantamax _, int currentSpecies, int currentForm)
         {
-            if (currentSpecies == (int)Species.Meowth || currentSpecies == (int)Species.Pikachu)
+            if (currentSpecies is (int)Species.Meowth or (int)Species.Pikachu)
                 return currentForm == 0;
             var soup = CanEatMaxSoup;
             return soup.Contains(currentSpecies);

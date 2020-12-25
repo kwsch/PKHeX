@@ -54,15 +54,13 @@ namespace PKHeX.Core
         public override int AppearPKM { get => Data[0x2D]; set => Data[0x2D] = (byte)value; }
         public override int MailType { get => Data[0x2E]; set => Data[0x2E] = (byte)value; }
 
-        public override bool? IsEmpty
+        public override bool? IsEmpty => MailType switch
         {
-            get
-            {
-                if (MailType == 0) return true;
-                else if (MailType == 0x9E || (MailType >= 0xB5 && MailType <= 0xBD)) return false;
-                else return null;
-            }
-        }
+            0 => true,
+            0x9E => false,
+            >= 0xB5 and <= 0xBD => false,
+            _ => null
+        };
 
         public override void SetBlank() => (new byte[0x2F]).CopyTo(Data, 0);
     }

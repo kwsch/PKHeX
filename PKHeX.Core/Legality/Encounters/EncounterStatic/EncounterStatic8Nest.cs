@@ -26,7 +26,7 @@ namespace PKHeX.Core
             // Check downleveled (20-55)
             if (lvl > Level)
                 return false;
-            if (lvl < 20 || lvl > 55)
+            if (lvl is < 20 or > 55)
                 return false;
             return lvl % 5 == 0;
         }

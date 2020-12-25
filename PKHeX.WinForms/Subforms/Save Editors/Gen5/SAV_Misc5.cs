@@ -735,18 +735,9 @@ namespace PKHeX.WinForms
             }
             else
             {
-                if (swSuperCheck == 0x10 || swSuperCheck == 0x30 || swSuperCheck == 0x50)
-                {
-                    CHK_SuperSingle.Checked = true;
-                }
-                if (swSuperCheck == 0x20 || swSuperCheck == 0x30 || swSuperCheck == 0x60)
-                {
-                    CHK_SuperDouble.Checked = true;
-                }
-                if (swSuperCheck == 0x40 || swSuperCheck == 0x50 || swSuperCheck == 0x60)
-                {
-                    CHK_SuperMulti.Checked = true;
-                }
+                if (swSuperCheck is 0x10 or 0x30 or 0x50) CHK_SuperSingle.Checked = true;
+                if (swSuperCheck is 0x20 or 0x30 or 0x60) CHK_SuperDouble.Checked = true;
+                if (swSuperCheck is 0x40 or 0x50 or 0x60) CHK_SuperMulti.Checked = true;
             }
 
             // Normal

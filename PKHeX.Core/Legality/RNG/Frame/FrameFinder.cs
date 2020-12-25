@@ -62,7 +62,7 @@ namespace PKHeX.Core
                     yield return f;
 
                 // Generate frames for other slots after the regular slots
-                if (info.AllowLeads && (f.Lead == LeadRequired.CuteCharm || f.Lead == LeadRequired.None))
+                if (info.AllowLeads && (f.Lead is LeadRequired.CuteCharm or LeadRequired.None))
                     list.Add(f);
             }
             foreach (var f in list)
