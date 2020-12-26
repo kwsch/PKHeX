@@ -39,7 +39,7 @@ namespace PKHeX.Core
                 case 21 when gen != 6 || !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 16 or 48 when !CanKnowMove(pkm, memory, gen, info):
+                case 16 or 48 when !CanKnowMove(pkm, memory, gen, info, memory.MemoryID == 16):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
@@ -85,7 +85,7 @@ namespace PKHeX.Core
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
         }
 
-        private static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info)
+        private static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info, bool battleOnly = false)
         {
             var move = memory.Variable;
             if (move == 0)
@@ -100,6 +100,17 @@ namespace PKHeX.Core
             var enc = info.EncounterMatch;
             if (enc is IMoveset ms && ms.Moves.Contains(move))
                 return true;
+
+            if (battleOnly)
+            {
+                // Some moves can only be known in battle; outside of battle they aren't obtainable as a memory parameter.
+                switch (move)
+                {
+                    case 781 when pkm.Species == (int)Species.Zacian: // Behemoth Blade
+                    case 782 when pkm.Species == (int)Species.Zamazenta: // Behemoth Blade
+                        return true;
+                }
+            }
 
             return false;
         }
