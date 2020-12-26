@@ -17,20 +17,6 @@ namespace PKHeX.Core
         public byte DynamaxLevel { get; set; }
         public override int Location { get => SharedNest; init { } }
 
-        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
-        {
-            var lvl = pkm.Met_Level;
-            if (lvl == Level)
-                return true;
-
-            // Check downleveled (20-55)
-            if (lvl > Level)
-                return false;
-            if (lvl is < 20 or > 55)
-                return false;
-            return lvl % 5 == 0;
-        }
-
         public override bool IsMatch(PKM pkm, DexLevel evo)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
