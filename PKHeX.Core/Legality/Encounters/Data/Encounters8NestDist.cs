@@ -264,6 +264,10 @@
             new(60,10,5) { Species = 464, Ability = A4, Moves = new[]{ 444, 089, 008, 224 } }, // Rhyperior
             new(60,10,5) { Species = 095, Ability = A4, Moves = new[]{ 776, 444, 784, 201 } }, // Onix
 
+            // 6/17 Zeraora Challenge
+            new(17,01,1) { Species = 143, Ability = A4, Moves = new[]{ 033, 044, 122, 111 }, CanGigantamax = true }, // Snorlax
+            //new(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
+
             // 7/16 Sea Pokémon Invasion
             new(17,01,1) { Species = 320, Ability = A4, Moves = new[]{ 362, 034, 310, 054 } }, // Wailmer
             new(17,01,1) { Species = 098, Ability = A4, Moves = new[]{ 055, 341, 043, 232 } }, // Krabby
@@ -809,15 +813,15 @@
             new(60,10,5) { Species = 094, Ability = A4, Moves = new[]{ 247, 482, 094, 196 }, CanGigantamax = true }, // Gengar
           //new(60,10,5) { Species = 884, Ability = A4, Moves = new[]{ 430, 406, 085, 334 }, CanGigantamax = true }, // Duraludon
 
-          // 8/31 - Electric Grass
-          new(30,03,2) { Species = 849, Ability = A4, Moves = new[]{ 351, 506, 491, 103 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
-          new(30,03,2) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 310, 029 }, CanGigantamax = true }, // Appletun
-          new(40,05,3) { Species = 849, Ability = A4, Moves = new[]{ 435, 506, 398, 103 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
-          new(40,05,3) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 029 }, CanGigantamax = true }, // Appletun
-          new(50,08,4) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 398, 586 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
-          new(50,08,4) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 523 }, CanGigantamax = true }, // Appletun
-          new(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 586 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
-          new(60,10,5) { Species = 842, Ability = A4, Moves = new[]{ 787, 034, 406, 523 }, CanGigantamax = true }, // Appletun
+            // 8/31 - Electric Grass
+            new(30,03,2) { Species = 849, Ability = A4, Moves = new[]{ 351, 506, 491, 103 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new(30,03,2) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 310, 029 }, CanGigantamax = true }, // Appletun
+            new(40,05,3) { Species = 849, Ability = A4, Moves = new[]{ 435, 506, 398, 103 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new(40,05,3) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 029 }, CanGigantamax = true }, // Appletun
+            new(50,08,4) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 398, 586 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new(50,08,4) { Species = 842, Ability = A4, Moves = new[]{ 787, 496, 406, 523 }, CanGigantamax = true }, // Appletun
+            new(60,10,5) { Species = 849, Ability = A4, Moves = new[]{ 786, 506, 599, 586 }, Form = 1, CanGigantamax = true }, // Toxtricity-1
+            new(60,10,5) { Species = 842, Ability = A4, Moves = new[]{ 787, 034, 406, 523 }, CanGigantamax = true }, // Appletun
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SH =
