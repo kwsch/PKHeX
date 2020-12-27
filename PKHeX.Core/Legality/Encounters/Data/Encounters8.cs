@@ -226,7 +226,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 521, Level = 41, Location = 148, }, // Unfezant around the Giant’s Mirror (in a Wild Area)
             new EncounterStatic8 { Species = 701, Level = 36, Location = 150, }, // Hawlucha on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8 { Species = 094, Level = 60, Location = 152, }, // Gengar near the Giant’s Cap (in a Wild Area)
-            new EncounterStatic8 { Species = 823, Level = 39, Location =  -1, }, // Corviknight
+            new EncounterStatic8 { Species = 823, Level = 39, Location = 152, }, // Corviknight near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 573, Level = 46, Location = 152, }, // Cinccino near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 826, Level = 41, Location = 152, }, // Orbeetle near the Giant’s Cap (in a Wild Area)
             new EncounterStatic8 { Species = 834, Level = 36, Location = 152, }, // Drednaw near the Giant’s Cap (in a Wild Area)
@@ -237,7 +237,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 823, Level = 38, Location = 150, }, // Corviknight on the Hammerlocke Hills (in a Wild Area)
             new EncounterStatic8S{ Species = 130, Level = 60, Locations = new[] {128, 130, 134, 138, 154 }, }, // Gyarados at North/East/South/West Lake Miloch/Axwell, the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 853, Level = 56, Location = 154, }, // Grapploct at the Lake of Outrage (in a Wild Area)
-            new EncounterStatic8 { Species = 282, Level = 60, Location =  -1, }, // Gardevoir
+            new EncounterStatic8 { Species = 282, Level = 60, Location = 154, }, // Gardevoir at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 470, Level = 56, Location = 154, }, // Leafeon at the Lake of Outrage (in a Wild Area)
             new EncounterStatic8 { Species = 510, Level = 31, Location =  -1, }, // Liepard
             new EncounterStatic8 { Species = 832, Level = 65, Location = 122, }, // Dubwool in the Rolling Fields (in a Wild Area)
@@ -266,29 +266,28 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 221, Level = 33, Location = 122, }, // Piloswine in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 558, Level = 34, Location = 122, }, // Crustle in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 282, Level = 32, Location = 122, }, // Gardevoir in the Rolling Fields (in a Wild Area)
-            new EncounterStatic8S{ Species = 537, Level = 36, Locations = new[] {138, 142}, }, // Seismitoad in Bridge Field (in a Wild Area) & at North Lake Miloch
+            new EncounterStatic8S{ Species = 537, Level = 36, Locations = new[] {124, 138, 142}, }, // Seismitoad in the Dappled Grove, in Bridge Field, at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 583, Level = 36, Location = 124, }, // Vanillish in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 344, Level = 36, Location = 124, }, // Claydol in the Dappled Grove (in a Wild Area)
             new EncounterStatic8 { Species = 093, Level = 34, Location = 126, }, // Haunter at Watchtower Ruins (in a Wild Area)
-            new EncounterStatic8S{ Species = 356, Level = 40, Locations = new[] {126, 130}, }, // Dusclops at Watchtower Ruins (in a Wild Area) & at West Lake Axewell
-            new EncounterStatic8S{ Species = 362, Level = 40, Locations = new[] {126, 130}, }, // Glalie at Watchtower Ruins (in a Wild Area) & at West Lake Axewell
+            new EncounterStatic8S{ Species = 356, Level = 40, Locations = new[] {126, 130}, }, // Dusclops at Watchtower Ruins & at West Lake Axewell (in a Wild Area)
+            new EncounterStatic8S{ Species = 362, Level = 40, Locations = new[] {126, 130}, }, // Glalie at Watchtower Ruins & at West Lake Axewell (in a Wild Area)
             new EncounterStatic8S{ Species = 279, Level = 28, Locations = new[] {138, 130}, }, // Pelipper at North Lake Miloch, West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 536, Level = 28, Location = 130, }, // Palpitoad at West Lake Axewell (in a Wild Area)
-            new EncounterStatic8 { Species = 660, Level = 28, Location =  -1, }, // Diggersby
+            new EncounterStatic8 { Species = 660, Level = 28, Location = 130, }, // Diggersby at West Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 221, Level = 36, Location = 128, }, // Piloswine at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 36, Location = 128, }, // Mudsdale at East Lake Axewell (in a Wild Area)
-            new EncounterStatic8 { Species = 437, Level = 36, Location =  -1, }, // Bronzong
-            new EncounterStatic8 { Species = 536, Level = 34, Location =  -1, }, // Palpitoad
+            new EncounterStatic8 { Species = 437, Level = 36, Location = 128, }, // Bronzong at East Lake Axewell (in a Wild Area)
+            new EncounterStatic8 { Species = 536, Level = 34, Location = 134, }, // Palpitoad at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 279, Level = 26, Location = 122, }, // Pelipper in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 093, Level = 31, Location = 122, }, // Haunter in the Rolling Fields (in a Wild Area)
             new EncounterStatic8 { Species = 221, Level = 33, Location = 128, }, // Piloswine at East Lake Axewell (in a Wild Area)
             new EncounterStatic8 { Species = 558, Level = 34, Location = 134, }, // Crustle at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 067, Level = 31, Location = 134, }, // Machoke at South Lake Miloch (in a Wild Area)
-            new EncounterStatic8 { Species = 426, Level = 31, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 426, Level = 31, Location = 134, }, // Drifblim at South Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 435, Level = 36, Location = 138, }, // Skuntank at North Lake Miloch (in a Wild Area)
-            new EncounterStatic8 { Species = 537, Level = 36, Location = 124, }, // Seismitoad in the Dappled Grove (in a Wild Area)
-            new EncounterStatic8 { Species = 583, Level = 36, Location =  -1, }, // Vanillish
-            new EncounterStatic8 { Species = 426, Level = 36, Location =  -1, }, // Drifblim
+            new EncounterStatic8 { Species = 583, Level = 36, Location = 138, }, // Vanillish at North Lake Miloch (in a Wild Area)
+            new EncounterStatic8 { Species = 426, Level = 36, Location = 138, }, // Drifblim at North Lake Miloch (in a Wild Area)
             new EncounterStatic8 { Species = 437, Level = 46, Location = 136, }, // Bronzong near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 460, Level = 46, Location = 136, }, // Abomasnow near the Giant’s Seat (in a Wild Area)
             new EncounterStatic8 { Species = 750, Level = 46, Location = 136, }, // Mudsdale near the Giant’s Seat (in a Wild Area)
@@ -322,7 +321,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 537, Level = 41, Location = 146, }, // Seismitoad in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 435, Level = 41, Location = 146, }, // Skuntank in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 221, Level = 41, Location = 146, }, // Piloswine in Dusty Bowl (in a Wild Area)
-            new EncounterStatic8 { Species = 356, Level = 41, Location =  -1, }, // Dusclops
+            new EncounterStatic8 { Species = 356, Level = 41, Location = 146, }, // Dusclops in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 344, Level = 41, Location = 146, }, // Claydol in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 689, Level = 60, Location = 146, }, // Barbaracle in Dusty Bowl (in a Wild Area)
             new EncounterStatic8 { Species = 561, Level = 51, Location = 146, }, // Sigilyph in Dusty Bowl (in a Wild Area)
@@ -503,7 +502,7 @@ namespace PKHeX.Core
             new EncounterStatic8 { Species = 404, Level = 28, Location = 180 }, // Luxio in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 764, Level = 28, Location = 180 }, // Comfey in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 452, Level = 28, Location = 180 }, // Drapion in the Training Lowlands (on the Isle of Armor)
-            new EncounterStatic8 { Species = 279, Level = 28, Location = -01 }, // Pelipper
+            new EncounterStatic8 { Species = 279, Level = 28, Location = 180 }, // Pelipper in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 127, Level = 28, Location = 180 }, // Pinsir in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 528, Level = 28, Location = 180 }, // Swoobat in the Training Lowlands (on the Isle of Armor)
             new EncounterStatic8 { Species = 241, Level = 28, Location = 180 }, // Miltank in the Training Lowlands (on the Isle of Armor)
