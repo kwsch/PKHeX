@@ -731,7 +731,7 @@ namespace PKHeX.WinForms
             bool c = curspe == species;
             CHK_HallCurrent.Checked = c;
             CHK_HallCurrent.Text = curspe > 0 && curspe <= SAV.MaxSpeciesID
-                ? "Current: " + CB_Species.Items.OfType<ComboItem>().FirstOrDefault(x => x.Value == curspe).Text
+                ? $"Current: {SpeciesName.GetSpeciesName(curspe, GameLanguage.GetLanguageIndex(Main.CurrentLanguage))}"
                 : "Current: (none)";
 
             int s = 0;
