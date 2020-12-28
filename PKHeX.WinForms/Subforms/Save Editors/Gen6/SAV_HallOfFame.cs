@@ -11,27 +11,27 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HallOfFame : Form
     {
-        private readonly SaveFile Origin;
+        private readonly SAV6 Origin;
         private readonly SAV6 SAV;
 
-        public SAV_HallOfFame(SaveFile sav)
+        private bool editing;
+
+        private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
+        private readonly byte[] data;
+
+        public SAV_HallOfFame(SAV6 sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
             SAV = (SAV6)(Origin = sav).Clone();
 
-            Array.Copy(SAV.Data, SAV.HoF, data, 0, data.Length); //Copy HoF section of save into Data
+            data = SAV.Data.Slice(SAV.HoF, 0x1B40); // Copy HoF section of save into Data
             Setup();
             LB_DataEntry.SelectedIndex = 0;
             NUP_PartyIndex_ValueChanged(this, EventArgs.Empty);
             TB_Nickname.Font = TB_OT.Font = FontUtil.GetPKXFont();
             editing = true;
         }
-
-        private bool editing;
-
-        private readonly IReadOnlyList<string> gendersymbols = Main.GenderSymbols;
-        private readonly byte[] data = new byte[0x1B40];
 
         private void Setup()
         {
@@ -60,10 +60,7 @@ namespace PKHeX.WinForms
             CB_HeldItem.DataSource = new BindingSource(GameInfo.ItemDataSource, null);
         }
 
-        private void B_Cancel_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         private void B_Close_Click(object sender, EventArgs e)
         {

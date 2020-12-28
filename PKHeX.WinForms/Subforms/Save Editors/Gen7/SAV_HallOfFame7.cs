@@ -7,10 +7,10 @@ namespace PKHeX.WinForms
 {
     public partial class SAV_HallOfFame7 : Form
     {
-        private readonly SaveFile Origin;
+        private readonly SAV7 Origin;
         private readonly SAV7 SAV;
 
-        public SAV_HallOfFame7(SaveFile sav)
+        public SAV_HallOfFame7(SAV7 sav)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);

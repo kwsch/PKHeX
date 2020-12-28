@@ -1058,48 +1058,43 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            {
-                GB_Daycare.Visible = sav.HasDaycare;
-                B_OpenPokeblocks.Enabled = sav is SAV6AO;
-                B_OpenSecretBase.Enabled = sav is SAV6AO;
-                B_OpenPokepuffs.Enabled = sav is ISaveBlock6Main;
-                B_JPEG.Visible = B_OpenLinkInfo.Enabled = B_OpenSuperTraining.Enabled = B_OUTPasserby.Enabled = sav is ISaveBlock6Main;
-                B_OpenBoxLayout.Enabled = sav.HasNamableBoxes;
-                B_OpenWondercards.Enabled = sav.HasWondercards;
-                B_OpenHallofFame.Enabled = sav is ISaveBlock6Main || sav is SAV7;
-                B_OpenOPowers.Enabled = sav is ISaveBlock6Main;
-                B_OpenPokedex.Enabled = sav.HasPokeDex;
-                B_OpenBerryField.Enabled = sav is SAV6XY; // oras undocumented
-                B_OpenFriendSafari.Enabled = sav is SAV6XY;
-                B_OpenEventFlags.Enabled = sav.HasEvents;
-                B_CGearSkin.Enabled = sav.Generation == 5;
-                B_OpenPokeBeans.Enabled = B_CellsStickers.Enabled = B_FestivalPlaza.Enabled = sav is SAV7;
+            GB_Daycare.Visible = sav.HasDaycare;
+            B_OpenPokeblocks.Visible = sav is SAV6AO;
+            B_OpenSecretBase.Visible = sav is SAV6AO;
+            B_OpenPokepuffs.Visible = sav is ISaveBlock6Main;
+            B_JPEG.Visible = B_OpenLinkInfo.Visible = B_OpenSuperTraining.Visible = B_OUTPasserby.Visible = sav is ISaveBlock6Main;
+            B_OpenBoxLayout.Visible = sav.HasNamableBoxes;
+            B_OpenWondercards.Visible = sav.HasWondercards;
+            B_OpenHallofFame.Visible = sav is ISaveBlock6Main or SAV7;
+            B_OpenOPowers.Visible = sav is ISaveBlock6Main;
+            B_OpenPokedex.Visible = sav.HasPokeDex;
+            B_OpenBerryField.Visible = sav is SAV6XY; // oras undocumented
+            B_OpenFriendSafari.Visible = sav is SAV6XY;
+            B_OpenEventFlags.Visible = sav.HasEvents;
+            B_CGearSkin.Visible = sav.Generation == 5;
+            B_OpenPokeBeans.Visible = B_CellsStickers.Visible = B_FestivalPlaza.Visible = sav is SAV7;
 
-                B_OtherSlots.Enabled = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
-                B_OpenTrainerInfo.Enabled = B_OpenItemPouch.Enabled = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
-                B_OpenMiscEditor.Enabled = sav is SAV3 or SAV4 or SAV5;
-                B_Roamer.Enabled = sav is SAV3;
+            B_OtherSlots.Visible = sav is SAV1StadiumJ or SAV1Stadium or SAV2Stadium;
+            B_OpenTrainerInfo.Visible = B_OpenItemPouch.Visible = (sav.HasParty && SAV is not SAV4BR) || SAV is SAV7b; // Box RS & Battle Revolution
+            B_OpenMiscEditor.Visible = sav is SAV3 or SAV4 or SAV5;
+            B_Roamer.Visible = sav is SAV3;
 
-                B_OpenHoneyTreeEditor.Enabled = B_OpenUGSEditor.Enabled = sav is SAV4Sinnoh;
-                B_OpenApricorn.Enabled = sav is SAV4HGSS;
-                B_OpenRTCEditor.Enabled = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
-                B_MailBox.Enabled = sav is SAV2 or SAV3 or SAV4 or SAV5;
+            B_OpenHoneyTreeEditor.Visible = B_OpenUGSEditor.Visible = sav is SAV4Sinnoh;
+            B_OpenApricorn.Visible = sav is SAV4HGSS;
+            B_OpenRTCEditor.Visible = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
+            B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
 
-                B_Raids.Enabled = sav is SAV8SWSH;
-                B_RaidArmor.Enabled = sav is SAV8SWSH {SaveRevision: >= 1};
-                B_RaidCrown.Enabled = sav is SAV8SWSH {SaveRevision: >= 2};
-                B_Blocks.Enabled = true;
+            B_Raids.Visible = sav is SAV8SWSH;
+            B_RaidArmor.Visible = sav is SAV8SWSH {SaveRevision: >= 1};
+            B_RaidCrown.Visible = sav is SAV8SWSH {SaveRevision: >= 2};
+            GB_SAVtools.Visible = B_Blocks.Visible = true;
 
-                SL_Extra.SAV = sav;
-                SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
-            }
-            GB_SAVtools.Visible = sav.State.Exportable && FLP_SAVtools.Controls.OfType<Control>().Any(c => c.Enabled);
-            foreach (Control c in FLP_SAVtools.Controls.OfType<Control>())
-                c.Visible = c.Enabled;
-            var list = FLP_SAVtools.Controls.OfType<Control>().ToArray();
-            list = list.OrderBy(z => z.Text).ToArray();
+            var list = FLP_SAVtools.Controls.OfType<Control>().OrderBy(z => z.Text).ToArray();
             FLP_SAVtools.Controls.Clear();
             FLP_SAVtools.Controls.AddRange(list);
+
+            SL_Extra.SAV = sav;
+            SL_Extra.Initialize(sav.GetExtraSlots(HaX), InitializeDragDrop);
         }
 
         private void ToggleViewMisc(SaveFile sav)
@@ -1179,20 +1174,18 @@ namespace PKHeX.WinForms.Controls
 
         private void B_OpenUGSEditor_Click(object sender, EventArgs e)
         {
-            if (SAV is SAV4Sinnoh s)
-            {
-                using var form = new SAV_Underground(s);
-                form.ShowDialog();
-            }
+            if (SAV is not SAV4Sinnoh s)
+                return;
+            using var form = new SAV_Underground(s);
+            form.ShowDialog();
         }
 
         private void B_FestivalPlaza_Click(object sender, EventArgs e)
         {
-            if (SAV is SAV7 s)
-            {
-                using var form = new SAV_FestivalPlaza(s);
-                form.ShowDialog();
-            }
+            if (SAV is not SAV7 s)
+                return;
+            using var form = new SAV_FestivalPlaza(s);
+            form.ShowDialog();
         }
 
         private void B_MailBox_Click(object sender, EventArgs e)
