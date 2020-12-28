@@ -945,28 +945,31 @@ namespace PKHeX.Core
             return result;
         }
 
-        public static string[] GetFormArgumentStrings(int species, int form, int generation)
+        public static uint GetFormArgumentMax(int species, int form, int generation)
         {
             if (generation <= 5)
-                return EMPTY;
+                return 0;
 
             return species switch
             {
-                (int) Furfrou when form != 0 => new[] {"0", "1", "2", "3", "4", "5"},
-                (int) Hoopa when form == 1 => new[] {"0", "1", "2", "3"},
-                (int) Yamask when form == 1 => FormArg9999.Value,
-                (int) Runerigus when form == 0 => FormArg9999.Value,
-                (int) Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
-                _ => EMPTY
+                (int)Furfrou when form != 0 => 5,
+                (int)Hoopa when form == 1 => 3,
+                (int)Yamask when form == 1 => 9999,
+                (int)Runerigus when form == 0 => 9999,
+                (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
+                _ => 0,
             };
         }
 
-        private static readonly Lazy<string[]> FormArg9999 = new(() =>
+        public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
+
+        public static string[] GetFormArgumentStrings(int species)
         {
-            var result = new string[10_000];
-            for (int i = 0; i < result.Length; i++)
-                result[i] = i.ToString();
-            return result;
-        }, true);
+            return species switch
+            {
+                (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
+                _ => EMPTY
+            };
+        }
     }
 }

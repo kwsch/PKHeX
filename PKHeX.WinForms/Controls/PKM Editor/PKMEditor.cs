@@ -434,7 +434,12 @@ namespace PKHeX.WinForms.Controls
                 Label_Form.Visible = true; // show with value entry textbox
 
             if (!hasForms)
+            {
+                if (HaX)
+                    return;
+                Entity.Form = CB_Form.SelectedIndex = 0;
                 return;
+            }
 
             var ds = FormConverter.GetFormList(species, GameInfo.Strings.types, GameInfo.Strings.forms, gendersymbols, Entity.Format);
             if (ds.Length == 1 && string.IsNullOrEmpty(ds[0])) // empty (Alolan Totems)
@@ -1006,14 +1011,14 @@ namespace PKHeX.WinForms.Controls
 
         private void RefreshFormArguments()
         {
-            int index = CB_FormArgument.SelectedIndex;
-            var items = FormConverter.GetFormArgumentStrings(Entity.Species, Entity.Form, Entity.Format);
-            CB_FormArgument.Items.Clear();
-            CB_FormArgument.Items.AddRange(items);
-            CB_FormArgument.Visible = !string.IsNullOrWhiteSpace(items[0]);
+            if (Entity is not IFormArgument f)
+                return;
+
+            var index = FA_Form.CurrentValue;
+            FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
             if (ChangingFields)
                 return;
-            CB_FormArgument.SelectedIndex = index < items.Length ? index : 0;
+            FA_Form.CurrentValue = index;
         }
 
         private void UpdateHaXForm(object sender, EventArgs e)

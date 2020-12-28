@@ -172,7 +172,7 @@ namespace PKHeX.WinForms.Controls
             CB_HeldItem.SelectedValue = pk.HeldItem;
             CB_Form.SelectedIndex = CB_Form.Items.Count > pk.Form ? pk.Form : CB_Form.Items.Count - 1;
             if (pk is IFormArgument f)
-                CB_FormArgument.SelectedIndex = CB_FormArgument.Items.Count > f.FormArgument ? (int)f.FormArgument : CB_FormArgument.Items.Count - 1;
+                FA_Form.LoadArgument(f, pk.Species, pk.Form, pk.Format);
 
             TB_Friendship.Text = pk.CurrentFriendship.ToString();
 
@@ -187,7 +187,7 @@ namespace PKHeX.WinForms.Controls
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk.Form = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             if (Entity is IFormArgument f)
-                f.FormArgument = (uint)Math.Max(0, CB_FormArgument.SelectedIndex);
+                f.FormArgument = FA_Form.CurrentValue;
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
         }
 
