@@ -68,6 +68,20 @@ namespace PKHeX.Core
             return list;
         }
 
+        public static IReadOnlyList<ComboItem> GetUnsortedCBList(IReadOnlyList<string> inStrings, IReadOnlyList<byte> allowed)
+        {
+            var count = allowed.Count;
+            var list = new ComboItem[count];
+            for (var i = 0; i < allowed.Count; i++)
+            {
+                var index = allowed[i];
+                var item = new ComboItem(inStrings[index], index);
+                list[i] = item;
+            }
+
+            return list;
+        }
+
         public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
         {
             var count = allowed.Sum(z => z.Length);
@@ -105,7 +119,7 @@ namespace PKHeX.Core
             cbList.Sort(beginCount, allowed.Length, Comparer);
         }
 
-        public static List<ComboItem> GetVariedCBListBall(string[] inStrings, int[] stringNum, int[] stringVal)
+        public static List<ComboItem> GetVariedCBListBall(string[] inStrings, ushort[] stringNum, byte[] stringVal)
         {
             const int forcedTop = 3; // 3 Balls are preferentially first
             var list = new List<ComboItem>(forcedTop + stringNum.Length)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -13,9 +14,9 @@ namespace PKHeX.Core
         public static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetCSVUnsortedCBList("languages");
 
         // ignores Poke/Great/Ultra
-        private static readonly int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
-        private static readonly int[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
-        private static readonly int[] Gen4EncounterTypes = { 0, 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
+        private static readonly ushort[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
+        private static readonly byte[] ball_vals = { 007, 025, 013, 017, 022, 014, 020, 018, 021, 019, 011, 023, 008, 006, 012, 015, 009, 005, 024, 010, 001, 016, 026 };
+        private static readonly byte[] Gen4EncounterTypes = { 0, 1, 2, 4, 5, 7, 9, 10, 12, 23, 24 };
 
         public GameDataSource(GameStrings s)
         {
@@ -24,7 +25,7 @@ namespace PKHeX.Core
             SpeciesDataSource = Util.GetCBList(s.specieslist);
             NatureDataSource = Util.GetCBList(s.natures);
             AbilityDataSource = Util.GetCBList(s.abilitylist);
-            EncounterTypeDataSource = Util.GetCBList(s.encountertypelist, Gen4EncounterTypes);
+            EncounterTypeDataSource = Util.GetUnsortedCBList(s.encountertypelist, Gen4EncounterTypes);
 
             HaXMoveDataSource = Util.GetCBList(s.movelist);
             LegalMoveDataSource = HaXMoveDataSource.Where(m => !Legal.Z_Moves.Contains(m.Value)).ToList();
@@ -70,27 +71,38 @@ namespace PKHeX.Core
         private static IReadOnlyList<ComboItem> GetVersionList(GameStrings s)
         {
             var list = s.gamelist;
-            var ver = Util.GetCBList(list,
-                Games_8swsh,
-                Games_7gg,
-                Games_7usum, Games_7sm,
-                Games_6oras, Games_6xy,
-                Games_5, Games_4, Games_4e, Games_4r,
-                Games_3, Games_3e, Games_3r, Games_3s);
-            ver.AddRange(Util.GetCBList(list, Games_7vc2).OrderBy(g => g.Value)); // stuff to end unsorted
-            ver.AddRange(Util.GetCBList(list, Games_7vc1).OrderBy(g => g.Value)); // stuff to end unsorted
-            ver.AddRange(Util.GetCBList(list, Games_7go).OrderBy(g => g.Value)); // stuff to end unsorted
-            return ver;
+            var games = new byte[]
+            {
+                44, 45, // 8 swsh
+                42, 43, // 7 gg
+                30, 31, // 7 sm
+                32, 33, // 7 usum
+                24, 25, // 6 xy
+                27, 26, // 6 oras
+                21, 20, // 5 bw
+                23, 22, // 5 b2w2
+                10, 11, 12, // 4 dppt
+                07, 08, // 4 hgss
+                02, 01, 03, // 3 rse
+                04, 05, // 3 frlg
+                15,     // 3 cxd
+
+                39, 40, 41, // 7vc2
+                35, 36, 37, 38, // 7vc1
+                34, // 7go
+            };
+
+            return Util.GetUnsortedCBList(list, games);
         }
 
-        private List<ComboItem> CreateGen2(GameStrings s)
+        private static List<ComboItem> CreateGen2(GameStrings s)
         {
             var locations = Util.GetCBList(s.metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
             Util.AddCBWithOffset(locations, s.metGSC_00000, 00000, 0x7E, 0x7F);
             return locations;
         }
 
-        private List<ComboItem> CreateGen3(GameStrings s)
+        private static List<ComboItem> CreateGen3(GameStrings s)
         {
             var locations = Util.GetCBList(s.metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
             Util.AddCBWithOffset(locations, s.metRSEFRLG_00000, 00000, 253, 254, 255);
@@ -111,8 +123,7 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metHGSS_00000, 0000, Legal.Met_HGSS_0);
             Util.AddCBWithOffset(locations, s.metHGSS_02000, 2000, Legal.Met_HGSS_2);
             Util.AddCBWithOffset(locations, s.metHGSS_03000, 3000, Legal.Met_HGSS_3);
-            return locations
-;
+            return locations;
         }
 
         private static List<ComboItem> CreateGen5(GameStrings s)
@@ -193,72 +204,41 @@ namespace PKHeX.Core
             if (currentGen == 2)
                 return MetGen2;
 
-            if (egg && version < GameVersion.W && currentGen >= 5)
+            if (egg && version < W && currentGen >= 5)
                 return MetGen4;
 
-            switch (version)
+            return version switch
             {
-                case GameVersion.CXD:
-                    if (currentGen == 3)
-                        return MetGen3CXD;
-                    break;
+                CXD      when currentGen == 3 => MetGen3CXD,
+                R or S   when currentGen == 3 => Partition1(MetGen3, z => z is <= 87), // Ferry
+                E        when currentGen == 3 => Partition1(MetGen3, z => z is <= 87 or >= 197 and <= 212), // Trainer Hill
+                FR or LG when currentGen == 3 => Partition1(MetGen3, z => z is > 87 and < 197), // Celadon Dept.
+                D or P   when currentGen == 4 => Partition2(MetGen4, z => z is <= 111, 4), // Battle Park
+                Pt       when currentGen == 4 => Partition2(MetGen4, z => z is <= 125, 4), // Rock Peak Ruins
+                HG or SS when currentGen == 4 => Partition2(MetGen4, z => z is > 125 and < 234, 4), // Celadon Dept.
 
-                case GameVersion.R or GameVersion.S:
-                    if (currentGen == 3)
-                        return MetGen3.OrderByDescending(loc => loc.Value <= 87).ToList(); // Ferry
-                    break;
-                case GameVersion.E:
-                    if (currentGen == 3)
-                        return MetGen3.OrderByDescending(loc => loc.Value <= 87 || (loc.Value >= 196 && loc.Value <= 212)).ToList(); // Trainer Hill
-                    break;
-                case GameVersion.FR or GameVersion.LG:
-                    if (currentGen == 3)
-                        return MetGen3.OrderByDescending(loc => loc.Value > 87 && loc.Value < 197).ToList(); // Celadon Dept.
-                    break;
+                B  or W  => MetGen5,
+                B2 or W2 => Partition2(MetGen5, z => z is <= 116), // Abyssal Ruins
+                X  or Y  => Partition2(MetGen6, z => z is <= 168), // Unknown Dungeon
+                OR or AS => Partition2(MetGen6, z => z is > 168 and <= 354), // Secret Base
+                SN or MN => Partition2(MetGen7, z => z is < 200), // Outer Cape
+                US or UM
+                   or RD or BU or GN or YW
+                   or GD or SV or C => Partition2(MetGen7, z => z < 234), // Dividing Peak Tunnel
+                GP or GE or GO => Partition2(MetGen7GG, z => z <= 54), // Pokémon League
+                SW or SH => Partition2(MetGen8, z => z < 400),
+                _ => GetLocationListModified(version, currentGen),
+            };
 
-                case GameVersion.D or GameVersion.P:
-                    if (currentGen == 4 || (currentGen >= 5 && egg))
-                        return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 111)).ToList(); // Battle Park
-                    break;
-
-                case GameVersion.Pt:
-                    if (currentGen == 4 || (currentGen >= 5 && egg))
-                        return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value <= 125)).ToList(); // Rock Peak Ruins
-                    break;
-
-                case GameVersion.HG or GameVersion.SS:
-                    if (currentGen == 4 || (currentGen >= 5 && egg))
-                        return MetGen4.Take(4).Concat(MetGen4.Skip(4).OrderByDescending(loc => loc.Value > 125 && loc.Value < 234)).ToList(); // Celadon Dept.
-                    break;
-
-                case GameVersion.B or GameVersion.W:
-                    return MetGen5;
-
-                case GameVersion.B2 or GameVersion.W2:
-                    return MetGen5.Take(3).Concat(MetGen5.Skip(3).OrderByDescending(loc => loc.Value <= 116)).ToList(); // Abyssal Ruins
-
-                case GameVersion.X or GameVersion.Y:
-                    return MetGen6.Take(3).Concat(MetGen6.Skip(3).OrderByDescending(loc => loc.Value <= 168)).ToList(); // Unknown Dungeon
-
-                case GameVersion.OR or GameVersion.AS:
-                    return MetGen6.Take(3).Concat(MetGen6.Skip(3).OrderByDescending(loc => loc.Value > 168 && loc.Value <= 354)).ToList(); // Secret Base
-
-                case GameVersion.SN or GameVersion.MN:
-                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 200)).ToList(); // Outer Cape
-
-                case GameVersion.US or GameVersion.UM:
-                case GameVersion.RD or GameVersion.BU or GameVersion.GN or GameVersion.YW:
-                case GameVersion.GD or GameVersion.SV or GameVersion.C:
-                    return MetGen7.Take(3).Concat(MetGen7.Skip(3).OrderByDescending(loc => loc.Value < 234)).ToList(); // Dividing Peak Tunnel
-
-                case GameVersion.GP or GameVersion.GE or GameVersion.GO:
-                    return MetGen7GG.Take(3).Concat(MetGen7GG.Skip(3).OrderByDescending(loc => loc.Value <= 54)).ToList(); // Pokémon League
-
-                case GameVersion.SW or GameVersion.SH:
-                    return MetGen8.Take(3).Concat(MetGen8.Skip(3).OrderByDescending(loc => loc.Value < 400)).ToList();
+            static IReadOnlyList<ComboItem> Partition1(IEnumerable<ComboItem> list, Func<int, bool> criteria)
+            {
+                return list.OrderByDescending(loc => criteria(loc.Value)).ToList();
             }
 
-            return GetLocationListModified(version, currentGen);
+            static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria, int keepFirst = 3)
+            {
+                return list.Take(keepFirst).Concat(list.Skip(keepFirst).OrderByDescending(loc => criteria(loc.Value))).ToList();
+            }
         }
 
         /// <summary>
@@ -269,14 +249,14 @@ namespace PKHeX.Core
         /// <returns>Met location list</returns>
         private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, int currentGen)
         {
-            if (version <= GameVersion.CXD && currentGen == 4)
+            if (version <= CXD && currentGen == 4)
             {
                 return MetGen4.Where(loc => loc.Value == Locations.Transfer3) // Pal Park to front
                     .Concat(MetGen4.Take(4))
                     .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Locations.Transfer3)).ToList();
             }
 
-            if (version < GameVersion.X && currentGen >= 5) // PokéTransfer to front
+            if (version < X && currentGen >= 5) // PokéTransfer to front
             {
                 return MetGen5.Where(loc => loc.Value == Locations.Transfer4)
                     .Concat(MetGen5.Take(3))
@@ -295,27 +275,5 @@ namespace PKHeX.Core
                 languages.RemoveAll(l => l.Value > (int)LanguageID.Korean);
             return languages;
         }
-
-        #region Games
-
-        private static readonly int[] Games_8swsh = { 44, 45 };
-        private static readonly int[] Games_7gg = { 42, 43 };
-        private static readonly int[] Games_7vc2 = { 39, 40, 41 }; // Gold, Silver, Crystal
-        private static readonly int[] Games_7vc1 = { 35, 36, 37, 38 }; // Red, Green, Blue, Yellow
-        private static readonly int[] Games_7go = { 34 };
-        private static readonly int[] Games_7usum = { 32, 33 };
-        private static readonly int[] Games_7sm = { 30, 31 };
-        private static readonly int[] Games_6xy = { 24, 25 };
-        private static readonly int[] Games_6oras = { 26, 27 };
-        private static readonly int[] Games_5 = { 20, 21, 22, 23 };
-        private static readonly int[] Games_4 = { 10, 11, };
-        private static readonly int[] Games_4e = { 12 };
-        private static readonly int[] Games_4r = { 7, 8 };
-        private static readonly int[] Games_3 = { 1, 2 };
-        private static readonly int[] Games_3e = { 3 };
-        private static readonly int[] Games_3r = { 4, 5 };
-        private static readonly int[] Games_3s = { 15 };
-
-        #endregion
     }
 }

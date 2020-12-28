@@ -36,9 +36,9 @@ namespace PKHeX.Core
 
         public static string GetVersionName(GameVersion version)
         {
-            var list = (List<ComboItem>) VersionDataSource;
-            var first = list.Find(z => z.Value == (int) version);
-            return first.Equals(default(ComboItem)) ? version.ToString() : first.Text;
+            var list = (ComboItem[]) VersionDataSource;
+            var first = System.Array.Find(list, z => z.Value == (int) version);
+            return first == null ? version.ToString() : first.Text;
         }
 
         // DataSource providing
