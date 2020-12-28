@@ -81,7 +81,7 @@ namespace PKHeX.Core
             metGSC_00000 = Get("gsc_00000");
 
             metCXD_00000 = Get("cxd_00000");
-            metCXD_00000 = SanitizeMetStringsCXD(metCXD_00000);
+            SanitizeMetStringsCXD(metCXD_00000);
 
             // Current Generation strings
             natures = Util.GetNaturesList(l);
@@ -154,18 +154,16 @@ namespace PKHeX.Core
             Get("mail4").CopyTo(g4items, 137);
         }
 
-        private static string[] SanitizeMetStringsCXD(string[] cxd)
+        private static void SanitizeMetStringsCXD(string[] cxd)
         {
-            // Mark duplicate locations with their index
-            var metSanitize = (string[])cxd.Clone();
-            for (int i = 0; i < metSanitize.Length; i++)
+            // Less than 10% of met location values are unique.
+            // Just mark them with the ID if they aren't empty.
+            for (int i = 0; i < 227; i++)
             {
-                var met = metSanitize[i];
-                if (cxd.Count(z => z == met) > 1)
-                    metSanitize[i] += $" [{i:000}]";
+                var str = cxd[i];
+                if (str.Length != 0)
+                    cxd[i] = $"{str} [{i:000}]";
             }
-
-            return metSanitize;
         }
 
         private void Sanitize()
