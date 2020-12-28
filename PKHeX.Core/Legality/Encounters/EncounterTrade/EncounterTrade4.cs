@@ -56,6 +56,24 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
+            var pkm = (PK4) pk;
+
+            if (Version == GameVersion.DPPt)
+            {
+                // Has German Language ID for all except German origin, which is English
+                if (Species == (int)Core.Species.Magikarp)
+                    pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
+                // All other trades received: English games have a Japanese language ID instead of English.
+                else if (pkm.Language == (int)LanguageID.English)
+                    pkm.Language = (int)LanguageID.Japanese;
+            }
+            else // HGSS
+            {
+                // Has English Language ID for all except English origin, which is French
+                if (Species == (int)Core.Species.Pikachu)
+                    pkm.Language = (int)(pkm.Language == (int)LanguageID.English ? LanguageID.French : LanguageID.English);
+            }
+
             this.CopyContestStatsTo((PK4)pk);
         }
 

@@ -132,8 +132,6 @@ namespace PKHeX.Core
             if (EggLocation != 0)
                 SetEggMetData(pk, time);
 
-            UpdateEdgeCase(pk);
-
             if (pk.Format < 6)
                 return;
 
@@ -187,38 +185,6 @@ namespace PKHeX.Core
             pk.Met_Level = level;
             pk.Met_Location = location;
             pk.MetDate = time;
-        }
-
-        private void UpdateEdgeCase(PKM pkm)
-        {
-            switch (Generation)
-            {
-                case 3 when Species == (int)Core.Species.Jynx && pkm.Version == (int) GameVersion.LG && pkm.Language == (int) LanguageID.Italian:
-                    // Italian LG Jynx untranslated from English name
-                    pkm.OT_Name = GetOT((int)LanguageID.English);
-                    pkm.SetNickname(GetNickname((int)LanguageID.English));
-                    break;
-
-                case 4 when Version == GameVersion.DPPt && Species == (int)Core.Species.Magikarp: // Meister Magikarp
-                    // Has German Language ID for all except German origin, which is English
-                    pkm.Language = (int)(pkm.Language == (int)LanguageID.German ? LanguageID.English : LanguageID.German);
-                    break;
-
-                case 4 when Version == GameVersion.DPPt && (pkm.Version is (int)GameVersion.D or (int)GameVersion.P):
-                    // DP English origin are Japanese lang
-                    pkm.Language = (int)LanguageID.Japanese;
-                    break;
-
-                case 4 when Version == GameVersion.HGSS && Species == (int)Core.Species.Pikachu: // Pikachu
-                    // Has English Language ID for all except English origin, which is French
-                    pkm.Language = (int)(pkm.Language == (int)LanguageID.English ? LanguageID.French : LanguageID.English);
-                    break;
-
-                case 5 when Version == GameVersion.BW && pkm.Language == (int)LanguageID.Japanese:
-                    // Trades for JPN games have language ID of 0, not 1.
-                    pkm.Language = 0;
-                    break;
-            }
         }
 
         public virtual bool IsMatch(PKM pkm, DexLevel evo)

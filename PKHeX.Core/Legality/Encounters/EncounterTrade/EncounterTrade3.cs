@@ -53,6 +53,15 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
+            var pk3 = (PK3) pk;
+
+            // Italian LG Jynx untranslated from English name
+            if (Species == (int)Core.Species.Jynx && pk3.Version == (int)GameVersion.LG && pk3.Language == (int)LanguageID.Italian)
+            {
+                pk3.OT_Name = GetOT((int)LanguageID.English);
+                pk3.SetNickname(GetNickname((int)LanguageID.English));
+            }
+
             this.CopyContestStatsTo((PK3)pk);
         }
 

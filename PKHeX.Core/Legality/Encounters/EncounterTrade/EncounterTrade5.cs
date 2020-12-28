@@ -20,6 +20,15 @@
             Shiny = Shiny.FixedValue;
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+
+            // Trades for JPN games have language ID of 0, not 1.
+            if (pk.Language == (int) LanguageID.Japanese)
+                pk.Language = 0;
+        }
+
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             var pi = pk.PersonalInfo;
