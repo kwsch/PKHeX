@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
@@ -23,22 +22,5 @@ namespace PKHeX.Core
         public override int GetHashCode() => Value;
         public static bool operator ==(ComboItem left, ComboItem right) => left.Equals(right);
         public static bool operator !=(ComboItem left, ComboItem right) => !(left == right);
-    }
-
-    public static class ComboItemExtensions
-    {
-        public static string[] GetArray(this IReadOnlyList<ComboItem> list)
-        {
-            var max = list[list.Count - 1].Value;
-            return GetArray(list, max);
-        }
-
-        public static string[] GetArray(this IEnumerable<ComboItem> list, int max)
-        {
-            var arr = new string[max + 1];
-            foreach (var item in list)
-                arr[item.Value] = item.Text;
-            return arr;
-        }
     }
 }

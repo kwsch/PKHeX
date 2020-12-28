@@ -11,7 +11,6 @@ namespace PKHeX.Core
     {
         public static readonly IReadOnlyList<ComboItem> Regions = Util.GetCSVUnsortedCBList("regions3ds");
         public static readonly IReadOnlyList<ComboItem> LanguageList = Util.GetCSVUnsortedCBList("languages");
-        public static readonly string[] Languages = LanguageList.GetArray();
 
         // ignores Poke/Great/Ultra
         private static readonly int[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };
