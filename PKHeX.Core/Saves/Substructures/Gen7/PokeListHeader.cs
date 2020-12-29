@@ -129,16 +129,15 @@ namespace PKHeX.Core
         {
             // Box Data is stored as a list, instead of an array. Empty interstitials are not legal.
             // Fix stored slots!
-            var arr = PokeListInfo.Take(7).ToArray();
+            var arr = PokeListInfo.Slice(0, 7);
             var result = SAV.CompressStorage(out int count, arr);
             Debug.Assert(count <= MAX_SLOTS);
             Count = count;
             if (StarterIndex > count && StarterIndex != SLOT_EMPTY)
             {
                 // uh oh, we lost the starter! might have been moved out of its proper slot incorrectly.
-                var spec = SAV.Version == GameVersion.GP ? 25 : 133;
-                bool Starter(int species, int form) => species == spec && form != 0;
-                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => Starter(z.Species, z.Form));
+                var species = SAV.Version == GameVersion.GP ? 25 : 133;
+                int index = Array.FindIndex(SAV.BoxData.ToArray(), z => z.Species == species && z.Form != 0);
                 if (index >= 0)
                     arr[6] = index;
             }

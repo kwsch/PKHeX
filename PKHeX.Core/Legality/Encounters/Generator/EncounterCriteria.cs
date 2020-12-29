@@ -23,9 +23,9 @@
 
         private const int RandomIV = -1;
 
-        public bool IsIVsCompatible(int[] encounterIV, int gen)
+        public bool IsIVsCompatible(int[] encounterIVs, int generation)
         {
-            var IVs = encounterIV;
+            var IVs = encounterIVs;
             if (!ivCanMatch(IV_HP , IVs[0])) return false;
             if (!ivCanMatch(IV_ATK, IVs[1])) return false;
             if (!ivCanMatch(IV_DEF, IVs[2])) return false;
@@ -33,11 +33,11 @@
             if (!ivCanMatch(IV_SPA, IVs[4])) return false;
             if (!ivCanMatch(IV_SPD, IVs[5])) return false;
 
-            bool ivCanMatch(int spec, int enc)
+            bool ivCanMatch(int requestedIV, int encounterIV)
             {
-                if (spec >= 30 && gen >= 6) // hyper training possible
+                if (requestedIV >= 30 && generation >= 6) // hyper training possible
                     return true;
-                return enc == RandomIV || spec == enc;
+                return encounterIV == RandomIV || requestedIV == encounterIV;
             }
 
             return true;

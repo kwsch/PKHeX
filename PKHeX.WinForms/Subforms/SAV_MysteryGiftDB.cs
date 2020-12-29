@@ -158,7 +158,7 @@ namespace PKHeX.WinForms
 
             var DS_Species = new List<ComboItem>(GameInfo.SpeciesDataSource);
             DS_Species.RemoveAt(0);
-            var filteredSpecies = DS_Species.Where(spec => RawDB.Any(mg => mg.Species == spec.Value)).ToList();
+            var filteredSpecies = DS_Species.Where(z => RawDB.Any(mg => mg.Species == z.Value)).ToList();
             filteredSpecies.Insert(0, Any);
             CB_Species.DataSource = filteredSpecies;
 

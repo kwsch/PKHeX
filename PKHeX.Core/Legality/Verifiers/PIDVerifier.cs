@@ -102,8 +102,8 @@ namespace PKHeX.Core
                 // Indicate what it will evolve into
                 uint evoVal = WurmpleUtil.GetWurmpleEvoVal(pkm.EncryptionConstant);
                 var evolvesTo = evoVal == 0 ? (int)Species.Beautifly : (int)Species.Dustox;
-                var spec = ParseSettings.SpeciesStrings[evolvesTo];
-                var msg = string.Format(L_XWurmpleEvo_0, spec);
+                var species = ParseSettings.SpeciesStrings[evolvesTo];
+                var msg = string.Format(L_XWurmpleEvo_0, species);
                 data.AddLine(GetValid(msg, CheckIdentifier.EC));
             }
             else if (!WurmpleUtil.IsWurmpleEvoValid(pkm))

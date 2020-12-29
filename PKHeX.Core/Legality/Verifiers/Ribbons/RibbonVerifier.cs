@@ -403,13 +403,13 @@ namespace PKHeX.Core
                 return false;
 
             // Clamp to permitted species
-            var spec = pkm.Species;
-            if (spec > Legal.MaxSpeciesID_8_R2)
+            var species = pkm.Species;
+            if (species > Legal.MaxSpeciesID_8_R2)
                 return false;
-            if (Legal.Legends.Contains(spec))
+            if (Legal.Legends.Contains(species))
                 return false;
-            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[spec];
-            return pi.HP != 0; // exists in game
+            var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species];
+            return pi.IsPresentInGame;
         }
 
         private static IEnumerable<RibbonResult> GetInvalidRibbonsEvent1(PKM pkm, IEncounterable enc)

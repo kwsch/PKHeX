@@ -45,10 +45,10 @@ namespace PKHeX.Core
         {
             var str = GameInfo.GetStrings(lang);
 
-            var spec = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
+            var speciesID = StringUtil.FindIndexIgnoreCase(str.specieslist, species);
             var moveIDs = StringUtil.GetIndexes(str.movelist, moves.ToList());
 
-            return GetLearn(spec, moveIDs);
+            return GetLearn(speciesID, moveIDs);
         }
 
         /// <summary>

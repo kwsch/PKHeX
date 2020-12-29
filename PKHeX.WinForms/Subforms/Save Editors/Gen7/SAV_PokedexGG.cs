@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
         private readonly Zukan7b Dex;
         private bool editing;
         private bool allModifying;
-        private int species = -1;
+        private int currentSpecies = -1;
         private readonly CheckBox[] CP, CL;
 
         private readonly CheckBox[] RecordUsed;
@@ -66,8 +66,8 @@ namespace PKHeX.WinForms
             SetEntry();
 
             editing = true;
-            species = (int)CB_Species.SelectedValue;
-            LB_Species.SelectedIndex = species - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
+            currentSpecies = (int)CB_Species.SelectedValue;
+            LB_Species.SelectedIndex = currentSpecies - 1; // Since we don't allow index0 in combobox, everything is shifted by 1
             LB_Species.TopIndex = LB_Species.SelectedIndex;
             if (!allModifying) FillLBForms();
             GetEntry();
@@ -80,8 +80,8 @@ namespace PKHeX.WinForms
             SetEntry();
 
             editing = true;
-            species = LB_Species.SelectedIndex + 1;
-            CB_Species.SelectedValue = species;
+            currentSpecies = LB_Species.SelectedIndex + 1;
+            CB_Species.SelectedValue = currentSpecies;
             if (!allModifying) FillLBForms();
             GetEntry();
             editing = false;
@@ -104,22 +104,22 @@ namespace PKHeX.WinForms
                 {
                     int f = Dex.DexFormIndexFetcher(bspecies, fc, SAV.MaxSpeciesID - 1);
                     if (f >= 0) // bit index valid
-                        species = f + form + 1;
+                        currentSpecies = f + form + 1;
                     else
-                        species = bspecies;
+                        currentSpecies = bspecies;
                 }
                 else
                 {
-                    species = bspecies;
+                    currentSpecies = bspecies;
                 }
             }
             else
             {
-                species = bspecies;
+                currentSpecies = bspecies;
             }
 
-            CB_Species.SelectedValue = species;
-            LB_Species.SelectedIndex = species - 1;
+            CB_Species.SelectedValue = currentSpecies;
+            LB_Species.SelectedIndex = currentSpecies - 1;
             LB_Species.TopIndex = LB_Species.SelectedIndex;
             GetEntry();
             editing = false;
@@ -209,10 +209,10 @@ namespace PKHeX.WinForms
 
         private void GetEntry()
         {
-            int pk = species - 1;
+            int pk = currentSpecies - 1;
             editing = true;
-            CHK_P1.Enabled = species <= SAV.MaxSpeciesID;
-            CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(species);
+            CHK_P1.Enabled = currentSpecies <= SAV.MaxSpeciesID;
+            CHK_P1.Checked = CHK_P1.Enabled && Dex.GetCaught(currentSpecies);
 
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
@@ -220,49 +220,49 @@ namespace PKHeX.WinForms
             CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
 
             for (int i = 0; i < 4; i++)
-                CP[i + 1].Checked = Dex.GetSeen(species, i);
+                CP[i + 1].Checked = Dex.GetSeen(currentSpecies, i);
 
             for (int i = 0; i < 4; i++)
-                CP[i + 5].Checked = Dex.GetDisplayed(species - 1, i);
+                CP[i + 5].Checked = Dex.GetDisplayed(currentSpecies - 1, i);
 
             for (int i = 0; i < 9; i++)
             {
-                CL[i].Enabled = species <= SAV.MaxSpeciesID;
+                CL[i].Enabled = currentSpecies <= SAV.MaxSpeciesID;
                 CL[i].Checked = CL[i].Enabled && Dex.GetLanguageFlag(pk, i);
             }
 
-            LoadRecord(species, Math.Max(0, LB_Forms.SelectedIndex));
+            LoadRecord(currentSpecies, Math.Max(0, LB_Forms.SelectedIndex));
 
             editing = false;
         }
 
         private void SetEntry()
         {
-            if (species <= 0)
+            if (currentSpecies <= 0)
                 return;
 
-            int pk = species - 1;
+            int pk = currentSpecies - 1;
 
             for (int i = 0; i < 4; i++)
-                Dex.SetSeen(species, i, CP[i + 1].Checked);
+                Dex.SetSeen(currentSpecies, i, CP[i + 1].Checked);
 
             for (int i = 0; i < 4; i++)
                 Dex.SetDisplayed(pk, i, CP[i + 5].Checked);
 
-            if (species > SAV.MaxSpeciesID)
+            if (currentSpecies > SAV.MaxSpeciesID)
                 return;
 
-            Dex.SetCaught(species, CHK_P1.Checked);
+            Dex.SetCaught(currentSpecies, CHK_P1.Checked);
 
             for (int i = 0; i < 9; i++)
                 Dex.SetLanguageFlag(pk, i, CL[i].Checked);
 
-            SetRecord(species, Math.Max(0, LB_Forms.SelectedIndex));
+            SetRecord(currentSpecies, Math.Max(0, LB_Forms.SelectedIndex));
         }
 
-        private void LoadRecord(int spec, int form)
+        private void LoadRecord(int species, int form)
         {
-            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(spec, form, out var index);
+            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
             GB_SizeRecords.Visible = hasRecord;
             if (!hasRecord)
                 return;
@@ -279,9 +279,9 @@ namespace PKHeX.WinForms
             set(DexSizeType.MaxWeight, NUD_RWeightMaxHeight, NUD_RWeightMax, CHK_RMaxWeight);
         }
 
-        private void SetRecord(int spec, int form)
+        private void SetRecord(int species, int form)
         {
-            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(spec, form, out var index);
+            bool hasRecord = Zukan7b.TryGetSizeEntryIndex(species, form, out var index);
             if (!hasRecord)
                 return;
 
@@ -400,11 +400,11 @@ namespace PKHeX.WinForms
         private void SetAll(object sender, int lang)
         {
             var indexes = GetLegalSpecies();
-            foreach (var spec in indexes)
+            foreach (var species in indexes)
             {
-                int i = spec - 1;
-                var gt = Dex.GetBaseSpeciesGenderValue(i);
-                LB_Species.SelectedIndex = i;
+                int index = species - 1;
+                var gt = Dex.GetBaseSpeciesGenderValue(index);
+                LB_Species.SelectedIndex = index;
                 SetSeen(sender, gt, false);
                 if (sender != mnuSeenAll)
                     SetCaught(sender, gt, lang, false);
@@ -412,11 +412,11 @@ namespace PKHeX.WinForms
                 if (sender != mnuSeenAll)
                     SetRecords();
 
-                if (spec is (int)Species.Pikachu or (int)Species.Eevee)
+                if (species is (int)Species.Pikachu or (int)Species.Eevee)
                     continue; // ignore starter (setdex doesn't set buddy bit; totem raticate is not emitted below).
 
                 // Set forme flags
-                var entries = Dex.GetAllFormEntries(spec).Where(z => z >= SAV.MaxSpeciesID).Distinct();
+                var entries = Dex.GetAllFormEntries(species).Where(z => z >= SAV.MaxSpeciesID).Distinct();
                 foreach (var f in entries)
                 {
                     LB_Species.SelectedIndex = f;

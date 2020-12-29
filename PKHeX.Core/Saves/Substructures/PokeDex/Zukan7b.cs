@@ -148,7 +148,7 @@ namespace PKHeX.Core
 
         private static readonly ushort[] SizeDexInfoTable =
         {
-            // spec, form, index
+            // species, form, index
             808, 0, 151,
             809, 0, 152,
 

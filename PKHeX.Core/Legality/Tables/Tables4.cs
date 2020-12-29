@@ -269,15 +269,15 @@ namespace PKHeX.Core
 
         internal static int GetTransfer45MetLocation(PKM pkm)
         {
-            if (pkm.Gen4 && pkm.FatefulEncounter)
+            if (!pkm.Gen4 || !pkm.FatefulEncounter)
+                return Locations.Transfer4; // Pokétransfer
+
+            return pkm.Species switch
             {
-                var spec = pkm.Species;
-                if (spec == 251) // Celebi
-                    return Locations.Transfer4_CelebiUnused;
-                if (243 <= spec && spec <= 245) // Beast
-                    return Locations.Transfer4_CrownUnused;
-            }
-            return Locations.Transfer4; // Pokétransfer (not Crown);
+                243 or 244 or 245 => Locations.Transfer4_CrownUnused, // Beast
+                251 => Locations.Transfer4_CelebiUnused, // Celebi
+                _ => Locations.Transfer4
+            };
         }
 
         internal static int[] RemoveMovesHM45(int[] moves)

@@ -356,7 +356,7 @@ namespace PKHeX.WinForms
 
             uint ec = BitConverter.ToUInt32(fpkm, 0);
             // uint unk = BitConverter.ToUInt32(fpkm, 4);
-            int spec = BitConverter.ToInt16(fpkm, 8);
+            int species = BitConverter.ToInt16(fpkm, 8);
             int item = BitConverter.ToInt16(fpkm, 0xA);
             // int abil = fpkm[0xC];
             int abil_no = fpkm[0xD];
@@ -401,7 +401,7 @@ namespace PKHeX.WinForms
 
             // Put data into fields.
             TB_EC.Text = ec.ToString("X8");
-            CB_Species.SelectedValue = spec;
+            CB_Species.SelectedValue = species;
             CB_HeldItem.SelectedValue = item;
 
             CB_Nature.SelectedValue = nature;

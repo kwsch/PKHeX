@@ -126,9 +126,9 @@ namespace PKHeX.Core
             var dex = new List<string>();
             foreach (var d in DexLookup)
             {
-                var spec = d.Key;
+                var species = d.Key;
                 var entry = d.Value;
-                var name = entry.GetEntryName(speciesNames, spec);
+                var name = entry.GetEntryName(speciesNames, species);
                 dex.Add(name);
             }
             dex.Sort();

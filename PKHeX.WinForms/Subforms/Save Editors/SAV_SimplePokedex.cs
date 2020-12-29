@@ -17,14 +17,14 @@ namespace PKHeX.WinForms
             seen = new bool[SAV.MaxSpeciesID];
             caught = new bool[SAV.MaxSpeciesID];
 
-            string[] spec = Util.GetSpeciesList(Main.CurrentLanguage);
+            var speciesNames = GameInfo.Strings.specieslist;
             for (int i = 0; i < seen.Length; i++)
             {
                 int species = i + 1;
                 seen[i] = SAV.GetSeen(species);
                 caught[i] = SAV.GetCaught(species);
-                CLB_Seen.Items.Add(spec[species]);
-                CLB_Caught.Items.Add(spec[species]);
+                CLB_Seen.Items.Add(speciesNames[species]);
+                CLB_Caught.Items.Add(speciesNames[species]);
                 CLB_Seen.SetItemChecked(i, seen[i]);
                 CLB_Caught.SetItemChecked(i, caught[i]);
             }

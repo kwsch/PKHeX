@@ -1,4 +1,5 @@
 ﻿using System;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -130,7 +131,7 @@ namespace PKHeX.Core
             if (Area!.Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
                 ability = 2;
 
-            if (Generation == 3 && Species == (int) Core.Species.Unown)
+            if (Generation == 3 && Species == (int)Unown)
             {
                 do
                 {
@@ -167,15 +168,15 @@ namespace PKHeX.Core
         {
             if (form < FormDynamic) // specified form
             {
-                if (pk.Species == (int) Core.Species.Minior)
+                if (pk.Species == (int)Minior)
                     return Util.Rand.Next(7, 14);
                 return form;
             }
             if (form == FormRandom) // flagged as totally random
                 return Util.Rand.Next(pk.PersonalInfo.FormCount);
 
-            int spec = pk.Species;
-            if ((int) Core.Species.Scatterbug <= spec && spec <= (int) Core.Species.Vivillon)
+            int species = pk.Species;
+            if (species is >= (int)Scatterbug and <= (int)Vivillon)
             {
                 if (sav is IRegionOrigin o)
                     return Vivillon3DS.GetPattern((byte)o.Country, (byte)o.Region);

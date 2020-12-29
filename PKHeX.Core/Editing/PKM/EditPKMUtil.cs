@@ -39,10 +39,10 @@ namespace PKHeX.Core
 
             if (tr.Game >= 0)
                 pk.Version = tr.Game;
-            int spec = ((GameVersion)pk.Version).GetMaxSpeciesID();
-            if (spec <= 0)
-                spec = pk.MaxSpeciesID;
-            pk.Species = spec;
+            int species = ((GameVersion)pk.Version).GetMaxSpeciesID();
+            if (species <= 0)
+                species = pk.MaxSpeciesID;
+            pk.Species = species;
             var lang = tr.Language;
             if (lang <= 0)
                 lang = (int)LanguageID.English;

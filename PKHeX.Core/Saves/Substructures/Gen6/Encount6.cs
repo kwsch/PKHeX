@@ -89,9 +89,9 @@ namespace PKHeX.Core
 
         public static PokeRadarRecord ReadRecord(byte[] data, int ofs)
         {
-            var spec = BitConverter.ToUInt16(data, ofs);
+            var species = BitConverter.ToUInt16(data, ofs);
             var count = BitConverter.ToUInt16(data, ofs + 2);
-            return new PokeRadarRecord(spec, count);
+            return new PokeRadarRecord(species, count);
         }
 
         public void WriteRecord(byte[] data, int ofs)

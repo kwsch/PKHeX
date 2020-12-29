@@ -744,10 +744,10 @@ namespace PKHeX.Core
             };
         }
 
-        public void SetForms(int spec, int[] forms)
+        public void SetForms(int species, int[] forms)
         {
             const int brSize = 0x40;
-            switch (spec)
+            switch (species)
             {
                 case (int)Species.Deoxys: // Deoxys
                     uint newval = SetDexFormValues(forms, 4, 4);
@@ -757,7 +757,7 @@ namespace PKHeX.Core
             }
 
             int FormOffset1 = PokeDex + 4 + (4 * brSize) + 4;
-            switch (spec)
+            switch (species)
             {
                 case (int)Species.Shellos: // Shellos
                     General[FormOffset1 + 0] = (byte)SetDexFormValues(forms, 1, 2);
@@ -786,7 +786,7 @@ namespace PKHeX.Core
 
             int PokeDexLanguageFlags = FormOffset1 + (HGSS ? 0x3C : 0x20);
             int FormOffset2 = PokeDexLanguageFlags + 0x1F4;
-            switch (spec)
+            switch (species)
             {
                 case (int)Species.Rotom: // Rotom
                     BitConverter.GetBytes(SetDexFormValues(forms, 3, 6)).CopyTo(General, FormOffset2);

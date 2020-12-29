@@ -44,8 +44,8 @@ namespace PKHeX.Tests.Simulator
         [Fact]
         public void CanGenerateMG5Case()
         {
-            const Species spec = Species.Haxorus;
-            var pk = new PK5 {Species = (int) spec};
+            const Species species = Species.Haxorus;
+            var pk = new PK5 {Species = (int) species};
             var ez = EncounterMovesetGenerator.GenerateEncounters(pk, pk.Moves, GameVersion.W2).OfType<EncounterStatic>().First();
             ez.Should().NotBeNull("Shiny Haxorus stationary encounter exists for B2/W2");
 

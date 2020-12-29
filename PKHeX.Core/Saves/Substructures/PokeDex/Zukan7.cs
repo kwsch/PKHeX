@@ -165,14 +165,14 @@ namespace PKHeX.Core
         /// </summary>
         public uint CurrentViewedDex => BitConverter.ToUInt32(SAV.Data, PokeDex + 4) >> 9 & 0x3FF;
 
-        public IEnumerable<int> GetAllFormEntries(int spec)
+        public IEnumerable<int> GetAllFormEntries(int species)
         {
-            var fc = SAV.Personal[spec].FormCount;
+            var fc = SAV.Personal[species].FormCount;
             for (int j = 1; j < fc; j++)
             {
                 int start = j;
                 int end = j;
-                if (GetSaneFormsToIterate(spec, out int s, out int n, j))
+                if (GetSaneFormsToIterate(species, out int s, out int n, j))
                 {
                     start = s;
                     end = n;
@@ -180,38 +180,38 @@ namespace PKHeX.Core
                 start = Math.Max(1, start);
                 for (int f = start; f <= end; f++)
                 {
-                    int x = GetDexFormIndex(spec, fc, f);
+                    int x = GetDexFormIndex(species, fc, f);
                     if (x >= 0)
                         yield return x;
                 }
             }
         }
 
-        public int GetDexFormIndex(int spec, int fc, int f)
+        public int GetDexFormIndex(int species, int fc, int f)
         {
-            var index = DexFormIndexFetcher(spec, fc, f);
+            var index = DexFormIndexFetcher(species, fc, f);
             if (index < 0)
                 return index;
             return index + SAV.MaxSpeciesID - 1;
         }
 
-        public IList<string> GetEntryNames(IReadOnlyList<string> Species)
+        public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
         {
             var names = new List<string>();
             var max = SAV.MaxSpeciesID;
             for (int i = 1; i <= max; i++)
-                names.Add($"{i:000} - {Species[i]}");
+                names.Add($"{i:000} - {speciesNames[i]}");
 
             // Add Formes
             int ctr = max + 1;
-            for (int spec = 1; spec <= max; spec++)
+            for (int species = 1; species <= max; species++)
             {
-                int c = SAV.Personal[spec].FormCount;
+                int c = SAV.Personal[species].FormCount;
                 for (int f = 1; f < c; f++)
                 {
-                    int x = GetDexFormIndex(spec, c, f);
+                    int x = GetDexFormIndex(species, c, f);
                     if (x >= 0)
-                        names.Add($"{ctr++:000} - {Species[spec]}-{f}");
+                        names.Add($"{ctr++:000} - {speciesNames[species]}-{f}");
                 }
             }
             return names;
@@ -224,14 +224,14 @@ namespace PKHeX.Core
         private List<int> GetFormIndexBaseSpeciesList()
         {
             var baseSpecies = new List<int>();
-            for (int spec = 1; spec <= SAV.MaxSpeciesID; spec++)
+            for (int species = 1; species <= SAV.MaxSpeciesID; species++)
             {
-                int c = SAV.Personal[spec].FormCount;
+                int c = SAV.Personal[species].FormCount;
                 for (int f = 1; f < c; f++)
                 {
-                    int x = GetDexFormIndex(spec, c, f);
+                    int x = GetDexFormIndex(species, c, f);
                     if (x >= 0)
-                        baseSpecies.Add(spec);
+                        baseSpecies.Add(species);
                 }
             }
             return baseSpecies;
@@ -248,8 +248,8 @@ namespace PKHeX.Core
                 return SAV.Personal[index + 1].Gender;
 
             index -= SAV.MaxSpeciesID;
-            int spec = FormBaseSpecies[index];
-            return SAV.Personal[spec].Gender;
+            int species = FormBaseSpecies[index];
+            return SAV.Personal[species].Gender;
         }
 
         public int GetBaseSpecies(int index)

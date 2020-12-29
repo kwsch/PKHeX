@@ -64,9 +64,9 @@ namespace PKHeX.WinForms
             if (Loading)
                 return;
 
-            var spec = WinFormsUtil.GetIndex(CB_Species);
-            if (!Dex.DexLookup.TryGetValue(spec, out var info))
-                throw new ArgumentException(nameof(spec));
+            var species = WinFormsUtil.GetIndex(CB_Species);
+            if (!Dex.DexLookup.TryGetValue(species, out var info))
+                throw new ArgumentException(nameof(species));
 
             var index = info.AbsoluteIndex - 1;
             if (LB_Species.SelectedIndex != index)

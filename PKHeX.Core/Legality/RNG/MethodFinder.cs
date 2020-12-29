@@ -511,8 +511,8 @@ namespace PKHeX.Core
         private static bool IsAzurillEdgeCaseM(PKM pk, uint nature, uint oldpid)
         {
             // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
-            int spec = pk.Species;
-            if (spec != (int)Species.Marill && spec != (int)Species.Azumarill)
+            int species = pk.Species;
+            if (species is not (int)Species.Marill and not (int)Species.Azumarill)
                 return false;
 
             const int AzurillGenderRatio = 0xBF;

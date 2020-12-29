@@ -282,11 +282,11 @@ namespace PKHeX.WinForms
             vnd |= rawvnd & 0x80000000;
             Array.Copy(BitConverter.GetBytes(vnd), 0, data, offset + 0x1B0, 4);
 
-            var spec = WinFormsUtil.GetIndex(CB_Species);
+            var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(spec, form, gender, 0, item, false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
             DisplayEntry(this, EventArgs.Empty); // refresh text view
         }
 
@@ -341,11 +341,11 @@ namespace PKHeX.WinForms
             if (!editing)
                 return; //Don't do writing until loaded
 
-            var spec = WinFormsUtil.GetIndex(CB_Species);
+            var species = WinFormsUtil.GetIndex(CB_Species);
             var form = CB_Form.SelectedIndex & 0x1F;
             var gender = PKX.GetGenderFromString(Label_Gender.Text);
             var item = WinFormsUtil.GetIndex(CB_HeldItem);
-            bpkx.Image = SpriteUtil.GetSprite(spec, form, gender, 0, item, false, CHK_Shiny.Checked);
+            bpkx.Image = SpriteUtil.GetSprite(species, form, gender, 0, item, false, CHK_Shiny.Checked);
 
             Write_Entry(this, EventArgs.Empty);
         }
