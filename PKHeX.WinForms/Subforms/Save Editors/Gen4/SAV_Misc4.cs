@@ -781,7 +781,7 @@ namespace PKHeX.WinForms
 
         private void ReadWalker(SAV4HGSS s)
         {
-            string[] walkercourses = GameInfo.Sources.Source.walkercourses;
+            string[] walkercourses = GameInfo.Sources.Strings.walkercourses;
             bool[] isChecked = s.GetPokewalkerCoursesUnlocked();
             CLB_WalkerCourses.Items.Clear();
             for (int i = 0; i < walkercourses.Length; i++)

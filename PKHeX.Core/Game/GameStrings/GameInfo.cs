@@ -77,7 +77,7 @@ namespace PKHeX.Core
         /// <returns>Consumable list of met locations</returns>
         public static IReadOnlyList<ComboItem> GetLocationList(GameVersion version, int pkmFormat, bool egg = false)
         {
-            return Sources.GetLocationList(version, pkmFormat, egg);
+            return Sources.Met.GetLocationList(version, pkmFormat, egg);
         }
     }
 }
