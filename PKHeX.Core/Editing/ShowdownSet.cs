@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,6 @@ namespace PKHeX.Core
     public sealed class ShowdownSet : IBattleTemplate
     {
         private static readonly string[] genders = {"M", "F", ""};
-        private static readonly string[] genderForms = {"", "F", ""};
         private static readonly string[] StatNames = { "HP", "Atk", "Def", "SpA", "SpD", "Spe" };
         private static readonly string[] Splitters = {"\r\n", "\n"};
         private static readonly string[] StatSplitters = { " / ", " " };
@@ -18,7 +18,7 @@ namespace PKHeX.Core
         private static readonly string[] ItemSplit = {" @ "};
         private static readonly char[] ParenJunk = { '[', ']', '(', ')' };
         private static readonly ushort[] DashedSpecies = {782, 783, 784, 250, 032, 029}; // Kommo-o, Ho-Oh, Nidoran-M, Nidoran-F
-        private const int MAX_SPECIES = (int)Core.Species.MAX_COUNT - 1;
+        private const int MAX_SPECIES = (int)MAX_COUNT - 1;
         private static readonly GameStrings DefaultStrings = GameInfo.GetStrings(GameLanguage.DefaultLanguage);
 
         /// <inheritdoc/>
@@ -103,15 +103,8 @@ namespace PKHeX.Core
 
             ParseLines(lines);
 
-            FormName = ConvertFormFromShowdown(FormName, Species, Ability);
-            // Set Form
-            if (FormName.Length == 0)
-            {
-                Form = 0;
-                return;
-            }
-            string[] formStrings = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            Form = Math.Max(0, Array.FindIndex(formStrings, z => z.Contains(FormName)));
+            FormName = ShowdownParsing.SetShowdownFormName(Species, FormName, Ability);
+            Form = ShowdownParsing.GetFormFromString(FormName, Strings, Species, Format);
         }
 
         private const int MaxMoveCount = 4;
@@ -233,7 +226,7 @@ namespace PKHeX.Core
             var result = new List<string>();
 
             // First Line: Name, Nickname, Gender, Item
-            var form = ConvertFormToShowdown(FormName, Species);
+            var form = ShowdownParsing.GetShowdownFormName(Species, FormName);
             result.Add(GetStringFirstLine(form));
 
             // IVs
@@ -269,9 +262,9 @@ namespace PKHeX.Core
             string specForm = Strings.Species[Species];
             if (form.Length != 0)
                 specForm += $"-{form.Replace("Mega ", "Mega-")}";
-            else if (Species == (int)Core.Species.NidoranM)
+            else if (Species == (int)NidoranM)
                 specForm = specForm.Replace("♂", "-M");
-            else if (Species == (int)Core.Species.NidoranF)
+            else if (Species == (int)NidoranF)
                 specForm = specForm.Replace("♀", "-F");
 
             string result = GetSpeciesNickname(specForm);
@@ -326,18 +319,6 @@ namespace PKHeX.Core
         /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
         /// </summary>
         /// <param name="pkm">PKM to convert to string</param>
-        /// <returns>Multi line set data</returns>
-        public static string GetShowdownText(PKM pkm)
-        {
-            if (pkm.Species == 0)
-                return string.Empty;
-            return new ShowdownSet(pkm).Text;
-        }
-
-        /// <summary>
-        /// Converts the <see cref="PKM"/> data into an importable set format for Pokémon Showdown.
-        /// </summary>
-        /// <param name="pkm">PKM to convert to string</param>
         /// <returns>New ShowdownSet object representing the input <see cref="pkm"/></returns>
         public ShowdownSet(PKM pkm)
         {
@@ -372,19 +353,7 @@ namespace PKHeX.Core
                 }
             }
 
-            SetFormString(pkm.Form);
-        }
-
-        private void SetFormString(int index)
-        {
-            Form = index;
-            if (index <= 0)
-            {
-                FormName = string.Empty;
-                return;
-            }
-            var forms = FormConverter.GetFormList(Species, Strings.Types, Strings.forms, genderForms, Format);
-            FormName = Form >= forms.Length ? string.Empty : forms[index];
+            FormName = ShowdownParsing.GetStringFromForm(Form = pkm.Form, Strings, Species, Format);
         }
 
         private void ParseFirstLine(string first)
@@ -428,15 +397,16 @@ namespace PKHeX.Core
         private void ParseFirstLineNoItem(string line)
         {
             // Gender Detection
-            string last3 = line.Substring(line.Length - 3);
-            if (last3 == "(M)" || last3 == "(F)")
+            if (line.EndsWith("(M)") || line.EndsWith("(F)"))
             {
-                Gender = last3.Substring(1, 1);
+                Gender = line[line.Length - 2].ToString();
                 line = line.Substring(0, line.Length - 3);
             }
-            else if (line.Contains(Strings.Species[(int)Core.Species.Meowstic]) || line.Contains(Strings.Species[(int)Core.Species.Indeedee])) // Meowstic Edge Case with no gender provided
+            else // Meowstic Edge Case with no gender provided
             {
-                Gender = "M";
+                var s = Strings.Species;
+                if (line.Contains(s[(int)Meowstic]) || line.Contains(s[(int)Indeedee]))
+                    Gender = "M";
             }
 
             // Nickname Detection
@@ -446,25 +416,27 @@ namespace PKHeX.Core
                 ParseSpeciesForm(line);
         }
 
-        private bool ParseSpeciesForm(string spec)
+        private const string Gmax = "-Gmax";
+
+        private bool ParseSpeciesForm(string speciesLine)
         {
-            spec = spec.Trim();
-            if (spec.EndsWith(Gmax))
+            speciesLine = speciesLine.Trim();
+            if (speciesLine.EndsWith(Gmax))
             {
                 CanGigantamax = true;
-                spec = spec.Substring(0, spec.Length - Gmax.Length);
+                speciesLine = speciesLine.Substring(0, speciesLine.Length - Gmax.Length);
             }
 
-            if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec)) >= 0) // success, nothing else!
+            if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine)) >= 0) // success, nothing else!
                 return true;
 
             // Form string present.
-            int end = spec.LastIndexOf('-');
+            int end = speciesLine.LastIndexOf('-');
             if (end < 0)
                 return false;
 
-            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
-            FormName = spec.Substring(end + 1);
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine.Substring(0, end));
+            FormName = speciesLine.Substring(end + 1);
 
             if (Species >= 0)
                 return true;
@@ -473,19 +445,19 @@ namespace PKHeX.Core
             foreach (var e in DashedSpecies)
             {
                 var sn = Strings.Species[e];
-                if (!spec.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F")))
+                if (!speciesLine.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
-                FormName = spec.Substring(sn.Length);
+                FormName = speciesLine.Substring(sn.Length);
                 return true;
             }
 
             // Version Megas
-            end = spec.LastIndexOf('-', Math.Max(0, end - 1));
+            end = speciesLine.LastIndexOf('-', Math.Max(0, end - 1));
             if (end < 0)
                 return false;
-            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, spec.Substring(0, end));
-            FormName = spec.Substring(end + 1);
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine.Substring(0, end));
+            FormName = speciesLine.Substring(end + 1);
 
             return Species >= 0;
         }
@@ -584,110 +556,6 @@ namespace PKHeX.Core
             IVs = IVsSpeedFirst;
         }
 
-        private const string Minior = "Meteor";
-        private const string Gmax = "-Gmax";
-
-        private static string ConvertFormToShowdown(string form, int spec)
-        {
-            if (form.Length == 0)
-            {
-                return spec switch
-                {
-                    (int)Core.Species.Minior => Minior,
-                    _ => form
-                };
-            }
-
-            switch (spec)
-            {
-                case (int)Core.Species.Basculin when form == "Blue":
-                    return "Blue-Striped";
-                case (int)Core.Species.Vivillon when form == "Poké Ball":
-                    return "Pokeball";
-                case (int)Core.Species.Zygarde:
-                    form = form.Replace("-C", string.Empty);
-                    return form.Replace("50%", string.Empty);
-                case (int)Core.Species.Minior:
-                    if (form.StartsWith("M-"))
-                        return Minior;
-                    return form.Replace("C-", string.Empty);
-                case (int)Core.Species.Necrozma when form == "Dusk":
-                    return $"{form}-Mane";
-                case (int)Core.Species.Necrozma when form == "Dawn":
-                    return $"{form}-Wings";
-
-                case (int)Core.Species.Furfrou:
-                case (int)Core.Species.Greninja:
-                case (int)Core.Species.Rockruff:
-                    return string.Empty;
-
-                case (int)Core.Species.Polteageist:
-                case (int)Core.Species.Sinistea:
-                    return form == "Antique" ? form : string.Empty;
-
-                default:
-                    if (Legal.Totem_USUM.Contains(spec) && form == "Large")
-                        return Legal.Totem_Alolan.Contains(spec) && spec != (int)Core.Species.Mimikyu ? "Alola-Totem" : "Totem";
-                    return form.Replace(' ', '-');
-            }
-        }
-
-        private static string ConvertFormFromShowdown(string form, int spec, int ability)
-        {
-            if (form.Length != 0)
-                form = form.Replace(' ', '-'); // inconsistencies are great
-
-            switch (spec)
-            {
-                case (int)Core.Species.Basculin when form is "Blue-Striped":
-                    return "Blue";
-                case (int)Core.Species.Greninja when ability == 210:
-                    return "Ash"; // Battle Bond
-                case (int)Core.Species.Vivillon when form is "Pokeball":
-                    return "Poké Ball";
-
-                // Zygarde
-                case (int)Core.Species.Zygarde when form.Length == 0:
-                    return ability == 211 ? "50%-C" : "50%";
-                case (int)Core.Species.Zygarde when form is "Complete":
-                    return form;
-                case (int)Core.Species.Zygarde when ability == 211:
-                    return "-C"; // Power Construct
-
-                case (int)Core.Species.Rockruff when ability == 020: // Rockruff-1
-                    return "Dusk";
-
-                // Minior
-                case (int)Core.Species.Minior when form.Length != 0 && form != Minior:
-                    return $"C-{form}";
-
-                // Necrozma
-                case (int)Core.Species.Necrozma when form is "Dusk-Mane" or "Dusk Mane":
-                    return "Dusk";
-                case (int)Core.Species.Necrozma when form is "Dawn-Wings" or "Dawn Wings":
-                    return "Dawn";
-
-                // Toxtricity
-                case (int)Core.Species.Toxtricity when form is "Low-Key":
-                    return "Low Key";
-
-                // Darmanitan
-                case (int)Core.Species.Darmanitan:
-                    if (form is "Galar-Zen")
-                        return "Galar Zen";
-                    return form;
-
-                // Urshifu
-                case (int)Core.Species.Urshifu:
-                    return form.Replace('-', ' ');
-
-                default:
-                    if (Legal.Totem_USUM.Contains(spec) && form.EndsWith("Totem"))
-                        return "Large";
-                    return form;
-            }
-        }
-
         private static string RemoveAll(string original, char[] remove) => string.Concat(original.Where(z => !remove.Contains(z)));
 
         private static string[] SplitLineStats(string line)
@@ -697,61 +565,6 @@ namespace PKHeX.Core
                 .Replace("SAtk", "SpA").Replace("Sp Atk", "SpA")
                 .Replace("SDef", "SpD").Replace("Sp Def", "SpD")
                 .Replace("Spd", "Spe").Replace("Speed", "Spe").Split(StatSplitters, StringSplitOptions.None);
-        }
-
-        /// <summary>
-        /// Fetches <see cref="ShowdownSet"/> data from the input <see cref="lines"/>.
-        /// </summary>
-        /// <param name="lines">Raw lines containing numerous multi-line set data.</param>
-        /// <returns><see cref="ShowdownSet"/> objects until <see cref="lines"/> is consumed.</returns>
-        public static IEnumerable<ShowdownSet> GetShowdownSets(IEnumerable<string> lines)
-        {
-            // exported sets always have >4 moves; new List will always require 1 resizing, allocate 2x to save 1 reallocation.
-            // intro, nature, ability, (ivs, evs, shiny, level) 4*moves
-            var setLines = new List<string>(8);
-            foreach (var line in lines)
-            {
-                if (!string.IsNullOrWhiteSpace(line))
-                {
-                    setLines.Add(line);
-                    continue;
-                }
-                if (setLines.Count == 0)
-                    continue;
-                yield return new ShowdownSet(setLines);
-                setLines.Clear();
-            }
-            if (setLines.Count != 0)
-                yield return new ShowdownSet(setLines);
-        }
-
-        /// <summary>
-        /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data.
-        /// </summary>
-        /// <param name="data">Pokémon data to summarize.</param>
-        /// <returns>Consumable list of <see cref="Text"/> lines.</returns>
-        public static IEnumerable<string> GetShowdownSets(IEnumerable<PKM> data) => data.Where(p => p.Species != 0).Select(GetShowdownText);
-
-        /// <summary>
-        /// Fetches ShowdownSet lines from the input <see cref="PKM"/> data, and combines it into one string.
-        /// </summary>
-        /// <param name="data">Pokémon data to summarize.</param>
-        /// <param name="separator">Splitter between each set.</param>
-        /// <returns>Single string containing all <see cref="Text"/> lines.</returns>
-        public static string GetShowdownSets(IEnumerable<PKM> data, string separator) => string.Join(separator, GetShowdownSets(data));
-
-        /// <summary>
-        /// Gets a localized string preview of the provided <see cref="pk"/>.
-        /// </summary>
-        /// <param name="pk">Pokémon data</param>
-        /// <param name="language">Language code</param>
-        /// <returns>Multi-line string</returns>
-        public static string GetLocalizedPreviewText(PKM pk, string language)
-        {
-            var set = new ShowdownSet(pk);
-            if (pk.Format <= 2) // Nature preview from IVs
-                set.Nature = Experience.GetNatureVC(pk.EXP);
-            return set.LocalizedText(language);
         }
     }
 }

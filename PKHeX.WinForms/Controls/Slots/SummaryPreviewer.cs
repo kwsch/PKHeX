@@ -15,7 +15,7 @@ namespace PKHeX.WinForms.Controls
                 Clear();
                 return;
             }
-            var text = ShowdownSet.GetLocalizedPreviewText(pk, Settings.Default.Language);
+            var text = ShowdownParsing.GetLocalizedPreviewText(pk, Settings.Default.Language);
             ShowSet.SetToolTip(pb, text);
         }
 

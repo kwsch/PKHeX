@@ -524,7 +524,7 @@ namespace PKHeX.WinForms
             }
 
             var pk = PreparePKM();
-            var text = ShowdownSet.GetShowdownText(pk);
+            var text = ShowdownParsing.GetShowdownText(pk);
             bool success = WinFormsUtil.SetClipboardText(text);
             if (!success || !Clipboard.GetText().Equals(text))
                 WinFormsUtil.Alert(MsgClipboardFailWrite, MsgSimulatorExportFail);

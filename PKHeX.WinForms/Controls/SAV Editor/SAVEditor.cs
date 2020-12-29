@@ -1165,7 +1165,7 @@ namespace PKHeX.WinForms.Controls
         private static void ExportShowdownText(SaveFile sav, string success, Func<SaveFile, IEnumerable<PKM>> fetch)
         {
             var list = fetch(sav);
-            var result = ShowdownSet.GetShowdownSets(list, Environment.NewLine + Environment.NewLine);
+            var result = ShowdownParsing.GetShowdownSets(list, Environment.NewLine + Environment.NewLine);
             if (string.IsNullOrWhiteSpace(result))
                 return;
             if (WinFormsUtil.SetClipboardText(result))

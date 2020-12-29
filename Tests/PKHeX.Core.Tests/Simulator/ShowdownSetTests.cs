@@ -149,13 +149,13 @@ namespace PKHeX.Tests.Simulator
         {
             var text = string.Join("\r\n\r\n", Sets);
             var lines = text.Split(new[] {"\r\n", "\n"}, StringSplitOptions.None);
-            var sets = ShowdownSet.GetShowdownSets(lines);
+            var sets = ShowdownParsing.GetShowdownSets(lines);
             Assert.True(sets.Count() == Sets.Length);
 
-            sets = ShowdownSet.GetShowdownSets(Enumerable.Empty<string>());
+            sets = ShowdownParsing.GetShowdownSets(Enumerable.Empty<string>());
             Assert.True(!sets.Any());
 
-            sets = ShowdownSet.GetShowdownSets(new [] {"", "   ", " "});
+            sets = ShowdownParsing.GetShowdownSets(new [] {"", "   ", " "});
             Assert.True(!sets.Any());
         }
 
