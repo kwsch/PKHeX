@@ -927,7 +927,7 @@ namespace PKHeX.WinForms
 
             LocalizeUtil.InitializeStrings(CurrentLanguage, C_SAV.SAV, HaX);
             WinFormsUtil.TranslateInterface(this, CurrentLanguage); // Translate the UI to language.
-            if (!(C_SAV.SAV is FakeSaveFile))
+            if (C_SAV.SAV is not FakeSaveFile)
             {
                 var pk = PKME_Tabs.CurrentPKM.Clone();
                 var sav = C_SAV.SAV;

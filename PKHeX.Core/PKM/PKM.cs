@@ -1053,7 +1053,7 @@ namespace PKHeX.Core
             {
                 BatchEditing.TryGetHasProperty(this, property, out var src);
                 var prop = src.GetValue(this);
-                if (prop != null && !(prop is byte[]) && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
+                if (prop is not byte[] && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
                     ReflectUtil.SetValue(pi, Destination, prop);
             }
         }

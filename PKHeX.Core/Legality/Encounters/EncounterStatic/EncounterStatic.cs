@@ -184,7 +184,7 @@ namespace PKHeX.Core
         {
             switch (Generation)
             {
-                case 3 when this is EncounterStatic3 {Roaming: true} && Version != GameVersion.E: // Roamer IV glitch was fixed in Emerald
+                case 3 when this is EncounterStatic3 {Roaming: true, Version: not GameVersion.E}: // Roamer IV glitch was fixed in Emerald
                     return PIDType.Method_1_Roamer;
                 case 4 when Shiny == Shiny.Always: // Lake of Rage Gyarados
                     return PIDType.ChainShiny;

@@ -39,7 +39,7 @@ namespace PKHeX.Core
                         break;
                 }
 
-                if (pkm is IHomeTrack home && home.Tracker != 0)
+                if (pkm is IHomeTrack {Tracker: not 0})
                     data.AddLine(GetInvalid(LTransferTrackerShouldBeZero));
             }
             else

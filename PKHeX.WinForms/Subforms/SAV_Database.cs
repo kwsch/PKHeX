@@ -356,7 +356,7 @@ namespace PKHeX.WinForms
             var db = bakpkm.Concat(savpkm).Where(pk => pk.ChecksumValid && pk.Sanity == 0);
 
             // when PK7->PK8 conversion is possible (and sprites in new size are available, remove this filter)
-            db = SAV is SAV8SWSH ? db.Where(z => z is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => !(z is PK8));
+            db = SAV is SAV8SWSH ? db.Where(z => z is PK8 || ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => z is not PK8);
 
             // Finalize the Database
             return new List<PKM>(db);
@@ -371,7 +371,7 @@ namespace PKHeX.WinForms
             var data = File.ReadAllBytes(file);
             var prefer = PKX.GetPKMFormatFromExtension(fi.Extension, dest.Generation);
             var pk = PKMConverter.GetPKMfromBytes(data, prefer);
-            if (!(pk?.Species > 0))
+            if (pk?.Species is not > 0)
                 return;
             pk.Identifier = file;
             dbTemp.Add(pk);

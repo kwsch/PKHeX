@@ -36,7 +36,7 @@ namespace PKHeX.Core
 
         private static List<EvoCriteria>[] GetChainAll(PKM pkm, IEncounterable enc, IReadOnlyList<EvoCriteria> CompleteEvoChain)
         {
-            int maxgen = pkm is PK1 && !pkm.Gen1_NotTradeback ? 2 : pkm.Format;
+            int maxgen = pkm is PK1 {Gen1_NotTradeback: false} ? 2 : pkm.Format;
             var GensEvoChains = GetChainBase(maxgen);
 
             var queue = new Queue<EvoCriteria>(CompleteEvoChain);

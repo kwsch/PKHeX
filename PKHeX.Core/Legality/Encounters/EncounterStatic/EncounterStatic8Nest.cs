@@ -41,9 +41,9 @@ namespace PKHeX.Core
                 return true;
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return true;
-            if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument a && a.FormArgument != 0)
+            if (Species == (int)Core.Species.Alcremie && pkm is IFormArgument {FormArgument: not 0})
                 return true;
-            if (Species == (int)Core.Species.Runerigus && pkm is IFormArgument r && r.FormArgument != 0)
+            if (Species == (int)Core.Species.Runerigus && pkm is IFormArgument {FormArgument: not 0})
                 return true;
 
             if (Ability != -1) // Any

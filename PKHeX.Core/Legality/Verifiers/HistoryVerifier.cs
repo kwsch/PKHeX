@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryHTFlagInvalid));
             else if (pkm.HT_Friendship != 0)
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatFriendshipHT0));
-            else if (pkm is IAffection a && a.HT_Affection != 0)
+            else if (pkm is IAffection {HT_Affection: not 0})
                 data.AddLine(GetInvalid(LegalityCheckStrings.LMemoryStatAffectionHT0));
 
             // Don't check trade evolutions if Untraded. The Evolution Chain already checks for trade evolutions.

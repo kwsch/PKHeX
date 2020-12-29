@@ -56,7 +56,7 @@ namespace PKHeX.WinForms.Controls
 
         public void ToggleInterface(object o, int gen = PKX.Generation)
         {
-            if (!(o is IContestStats))
+            if (o is not IContestStats)
             {
                 Visible = false;
                 return;

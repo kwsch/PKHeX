@@ -30,7 +30,7 @@ namespace PKHeX.WinForms
             GetLangStrings();
             LoadFields();
 
-            if (!(pkm is IGeoTrack))
+            if (pkm is not IGeoTrack)
                 tabControl1.TabPages.Remove(Tab_Residence);
         }
 

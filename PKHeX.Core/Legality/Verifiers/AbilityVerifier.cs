@@ -358,7 +358,7 @@ namespace PKHeX.Core
                 {
                     // Must not have the Ability bit flag set.
                     // Some shadow stuff with single-ability might have the flag set anyways?
-                    if (abit && !(pkm is IShadowPKM s && s.ShadowID != 0))
+                    if (abit && !(pkm is IShadowPKM {ShadowID: not 0}))
                         return GetInvalid(LAbilityMismatchFlag, CheckIdentifier.PID);
                 }
                 else

@@ -247,7 +247,7 @@ namespace PKHeX.Core
 
             // Special considerations!
             int reset = 0;
-            if (pkm is IBattleVersion v && v.BattleVersion != 0)
+            if (pkm is IBattleVersion {BattleVersion: not 0} v)
             {
                 reset = ((GameVersion) v.BattleVersion).GetGeneration();
                 source.ResetSources();
@@ -515,7 +515,7 @@ namespace PKHeX.Core
                         res[m] = new CheckMoveResult(res[m], Invalid, LMoveEventEggLevelUp, Move);
                 }
             }
-            else if (!(enc is EncounterEgg))
+            else if (enc is not EncounterEgg)
             {
                 // Event eggs cannot inherit moves from parents; they are not bred.
                 foreach (int m in RegularEggMovesLearned)

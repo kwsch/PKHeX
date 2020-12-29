@@ -13,7 +13,7 @@ namespace PKHeX.Core
     {
         public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc)
         {
-            if (enc.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
+            if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
                 return VerifyRelearnNone(pkm);
 
             return enc switch
@@ -27,7 +27,7 @@ namespace PKHeX.Core
 
         public static IReadOnlyList<int> GetSuggestedRelearn(PKM pkm, IEncounterable enc, CheckResult[] relearn)
         {
-            if (enc.Generation < 6 || (pkm is IBattleVersion v && v.BattleVersion != 0))
+            if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
                 return Array.Empty<int>();
 
             return enc switch

@@ -200,7 +200,7 @@ namespace PKHeX.WinForms
             var db = EncounterEvent.GetAllEvents();
 
             // when all sprites in new size are available, remove this filter
-            db = SAV is SAV8SWSH ? db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => !(z is WC8));
+            db = SAV is SAV8SWSH ? db.Where(z => ((PersonalInfoSWSH)PersonalTable.SWSH.GetFormEntry(z.Species, z.Form)).IsPresentInGame) : db.Where(z => z is not WC8);
 
             RawDB = new List<MysteryGift>(db);
             foreach (var mg in RawDB)

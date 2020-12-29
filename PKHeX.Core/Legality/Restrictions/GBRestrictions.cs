@@ -374,7 +374,7 @@ namespace PKHeX
             // If you put a Pokemon in the N64 box, the met info is retained, even if you switch over to a Gen I game to teach it TMs
             // You can use rare candies from within the lab, so level-up moves from RBY context can be learned this way as well
             // Stadium 2 is GB Cart Era only (not 3DS Virtual Console).
-            if (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0 && !ParseSettings.AllowGBCartEra)
+            if (pkm is ICaughtData2 {CaughtData: not 0} && !ParseSettings.AllowGBCartEra)
                 return false;
 
             // Sanity check species, if it could have existed as a pre-evolution.

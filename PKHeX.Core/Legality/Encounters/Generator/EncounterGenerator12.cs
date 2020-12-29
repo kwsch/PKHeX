@@ -76,7 +76,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEncounterable> GenerateFilteredEncounters12(PKM pkm)
         {
             // If the current data indicates that it must have originated from Crystal, only yield encounter data from Crystal.
-            bool crystal = (pkm is ICaughtData2 pk2 && pk2.CaughtData != 0) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
+            bool crystal = (pkm is ICaughtData2 {CaughtData: not 0}) || (pkm.Format >= 7 && pkm.OT_Gender == 1);
             if (crystal)
                 return GenerateRawEncounters12(pkm, GameVersion.C);
 

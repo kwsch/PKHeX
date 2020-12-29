@@ -95,7 +95,7 @@ namespace PKHeX.Core
 
         private bool IsMatchLevel(PKM pkm, int lvl)
         {
-            if (!(pkm is PK1))
+            if (pkm is not PK1)
                 return lvl >= LevelMinGSC;
             return lvl >= LevelMin;
         }
@@ -115,7 +115,7 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (pkm is not PK1 pk1 || !pkm.Gen1_NotTradeback)
+            if (pkm is not PK1 {Gen1_NotTradeback: true} pk1)
                 return true;
 
             var req = GetInitialCatchRate();

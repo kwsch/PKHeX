@@ -109,7 +109,7 @@ namespace PKHeX.Core
                 case (int)Species.Greninja:
                     if (form > 1) // Ash Battle Bond active
                         return GetInvalid(LFormBattle);
-                    if (form != 0 && !(EncounterMatch is MysteryGift)) // Formes are not breedable, MysteryGift already checked
+                    if (form != 0 && EncounterMatch is not MysteryGift) // Formes are not breedable, MysteryGift already checked
                         return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                     break;
 
@@ -124,7 +124,7 @@ namespace PKHeX.Core
                 case (int)Species.Vivillon:
                     if (form > 17) // Fancy & Pokéball
                     {
-                        if (!(EncounterMatch is MysteryGift))
+                        if (EncounterMatch is not MysteryGift)
                             return GetInvalid(LFormVivillonInvalid);
                         return GetValid(LFormVivillon);
                     }
@@ -135,7 +135,7 @@ namespace PKHeX.Core
                     break;
 
                 case (int)Species.Floette when form == 5: // Floette Eternal Flower -- Never Released
-                    if (!(EncounterMatch is MysteryGift))
+                    if (EncounterMatch is not MysteryGift)
                         return GetInvalid(LFormEternalInvalid);
                     return GetValid(LFormEternal);
                 case (int)Species.Meowstic when form != pkm.Gender:

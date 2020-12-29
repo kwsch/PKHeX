@@ -128,7 +128,7 @@ namespace PKHeX.Core
         {
             if (StringConverter12.GetIsG1English(str))
             {
-                if (str.Length > 7 && !(data.EncounterOriginal is EncounterTradeGB)) // OT already verified; GER shuckle has 8 chars
+                if (str.Length > 7 && data.EncounterOriginal is not EncounterTradeGB) // OT already verified; GER shuckle has 8 chars
                     data.AddLine(GetInvalid(LOTLong));
             }
             else if (StringConverter12.GetIsG1Japanese(str))

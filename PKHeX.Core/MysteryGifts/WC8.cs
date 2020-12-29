@@ -590,7 +590,7 @@ namespace PKHeX.Core
             if (pkm is IGigantamax g && g.CanGigantamax != CanGigantamax && !g.CanToggleGigantamax(pkm.Species, pkm.Form, Species, Form))
                 return false;
 
-            if (!(pkm is IDynamaxLevel dl && dl.DynamaxLevel >= DynamaxLevel))
+            if (pkm is not IDynamaxLevel dl || dl.DynamaxLevel < DynamaxLevel)
                 return false;
 
             if (IsHOMEGift && pkm is IScaledSize s)

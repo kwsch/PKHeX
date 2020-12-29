@@ -160,7 +160,7 @@ namespace PKHeX.Core
                     VerifyOTMemoryIs(data, g.OT_Memory, g.OT_Intensity, g.OT_TextVar, g.OT_Feeling);
                     return;
 
-                case IMemoryOT t when !(t is MysteryGift): // Ignore Mystery Gift cases (covered above)
+                case IMemoryOT t when t is not MysteryGift: // Ignore Mystery Gift cases (covered above)
                     VerifyOTMemoryIs(data, t.OT_Memory, t.OT_Intensity, t.OT_TextVar, t.OT_Feeling);
                     return;
             }

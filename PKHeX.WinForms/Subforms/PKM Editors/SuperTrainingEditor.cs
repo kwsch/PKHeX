@@ -173,7 +173,7 @@ namespace PKHeX.WinForms
 
         private void CHK_Secret_CheckedChanged(object sender, EventArgs e)
         {
-            if (!(pkm is PK6))
+            if (pkm is not PK6)
                 return;
             CHK_SecretComplete.Checked &= CHK_SecretUnlocked.Checked;
             CHK_SecretComplete.Enabled = CHK_SecretUnlocked.Checked;
