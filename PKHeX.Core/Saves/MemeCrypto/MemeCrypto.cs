@@ -141,7 +141,7 @@ namespace PKHeX.Core
         /// <returns>The resigned save data. Invalid input returns null.</returns>
         public static byte[] Resign7(byte[] sav7)
         {
-            if (sav7.Length != SaveUtil.SIZE_G7SM && sav7.Length != SaveUtil.SIZE_G7USUM)
+            if (sav7.Length is not SaveUtil.SIZE_G7SM and not SaveUtil.SIZE_G7USUM)
                 throw new ArgumentException("Should not be using this for unsupported saves.");
 
             // Save Chunks are 0x200 bytes each; Memecrypto signature is 0x100 bytes into the 2nd to last chunk.

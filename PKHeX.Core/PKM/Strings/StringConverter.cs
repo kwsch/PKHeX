@@ -215,7 +215,7 @@ namespace PKHeX.Core
         private const ushort Gen7_ZH_Ofs = 0xE800;
         private const ushort SM_ZHCharTable_Size = 0x30F;
         private const ushort USUM_CHS_Size = 0x4;
-        private static bool GetisG7CHSChar(int idx) => idx < SM_ZHCharTable_Size || (SM_ZHCharTable_Size * 2 <= idx && idx < (SM_ZHCharTable_Size * 2) + USUM_CHS_Size);
+        private static bool GetisG7CHSChar(int idx) => idx is < SM_ZHCharTable_Size or >= SM_ZHCharTable_Size * 2 and < (SM_ZHCharTable_Size * 2) + USUM_CHS_Size;
 
         private static readonly Dictionary<char, int> G7_CHS = Gen7_ZH
             .Select((value, index) => new { value, index })
@@ -277,7 +277,7 @@ namespace PKHeX.Core
 
             var context = str.Except(FullToHalf);
             bool fullwidth = context.Select(c => c >> 12) // select the group the char belongs to
-                .Any(c => c != 0 /* Latin */ && c != 0xE /* Special Symbols */);
+                .Any(c => c is not 0 and not 0xE /* Latin, Special Symbols */);
 
             if (fullwidth) // jp/ko/zh strings
                 return s; // keep as full width
@@ -289,6 +289,6 @@ namespace PKHeX.Core
 
         private static readonly char[] FullToHalf = {'\u2640', '\u2642'}; // ♀♂
 
-        public static bool HasEastAsianScriptCharacters(IEnumerable<char> str) => str.Any(c => 0x4E00 <= c && c <= 0x9FFF);
+        public static bool HasEastAsianScriptCharacters(IEnumerable<char> str) => str.Any(c => c is >= '\u4E00' and <= '\u9FFF');
     }
 }

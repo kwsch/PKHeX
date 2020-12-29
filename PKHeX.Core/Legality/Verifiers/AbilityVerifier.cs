@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
                 // Check AbilityNumber for transfers without unique abilities
                 int gen = data.Info.Generation;
-                if (3 <= gen && gen <= 5 && num != 4)
+                if (gen is 3 or 4 or 5 && num != 4)
                 {
                     // To determine AbilityNumber [PK5->PK6], check if the first ability in Personal matches the ability.
                     // It is not possible to flip it to the other index as capsule requires unique abilities.

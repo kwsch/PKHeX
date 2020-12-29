@@ -123,11 +123,12 @@ namespace PKHeX.Drawing
 
         private Image LayerOverImageItem(Image baseImage, int item, int generation)
         {
-            Image itemimg = (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem;
-            if (2 <= generation && generation <= 4 && 328 <= item && item <= 419) // gen2/3/4 TM
-                itemimg = Resources.item_tm;
-            else if (generation >= 8 && (1130 <= item && item <= 1229)) // Gen8 TR
-                itemimg = Resources.bitem_tr;
+            Image itemimg = generation switch
+            {
+                <= 4 when item is >=  328 and <=  419 => Resources.item_tm, // gen2/3/4 TM
+                >= 8 when item is >= 1130 and <= 1229 => Resources.bitem_tr, // Gen8 TR
+                _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
+            };
 
             // Redraw item in bottom right corner; since images are cropped, try to not have them at the edge
             int x = ItemShiftX + ((ItemMaxSize - itemimg.Width) / 2);

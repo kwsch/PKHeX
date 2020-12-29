@@ -160,7 +160,7 @@ namespace PKHeX.Core
                     continue; // already flagged
                 var cp = AllData[i];
                 var ca = AllAnalysis[i];
-                bool g345 = 3 <= ca.Info.Generation && ca.Info.Generation <= 5;
+                bool g345 = ca.Info.Generation is 3 or 4 or 5;
                 var id = g345 ? cp.EncryptionConstant : cp.PID;
 
                 if (!dict.TryGetValue(id, out var pa))
@@ -210,7 +210,7 @@ namespace PKHeX.Core
         {
             const CheckIdentifier ident = PID;
             int gen = pa.Info.Generation;
-            bool gbaNDS = 3 <= gen && gen <= 5;
+            bool gbaNDS = gen is 3 or 4 or 5;
 
             if (!gbaNDS)
             {
@@ -245,7 +245,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            bool gbaNDS = 3 <= gen && gen <= 5;
+            bool gbaNDS = gen is 3 or 4 or 5;
             if (!gbaNDS)
             {
                 AddLine(pa.pkm, ca.pkm, "PID sharing for 3DS-onward origin detected.", ident);

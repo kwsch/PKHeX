@@ -181,7 +181,7 @@ namespace PKHeX.Core
             {
                 if ('０' <= c)
                     return c <= '９';
-                return c <= '9' && '0' <= c;
+                return c is >= '0' and <= '9';
             }
 
             return str.Count(IsNumber);

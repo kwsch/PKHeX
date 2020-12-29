@@ -27,7 +27,7 @@ namespace PKHeX.Core
             {
                 var val = data[offset + i];
                 var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
-                if (val <= 0xB && val != 0)
+                if (val is <= 0xB and not 0)
                     val = data[offset + ++i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;

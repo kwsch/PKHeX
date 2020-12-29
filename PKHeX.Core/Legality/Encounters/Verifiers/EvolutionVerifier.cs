@@ -35,8 +35,6 @@ namespace PKHeX.Core
             int species = pkm.Species;
             if (info.EncounterMatch.Species == species)
                 return true;
-            if (info.EncounterMatch.EggEncounter && species == (int)Species.Milotic && pkm.Format >= 5 && !pkm.IsUntraded) // Prism Scale
-                return true;
             if (species == (int)Species.Vespiquen && info.Generation < 6 && (pkm.PID & 0xFF) >= 0x1F) // Combee->Vespiquen Invalid Evolution
                 return false;
 

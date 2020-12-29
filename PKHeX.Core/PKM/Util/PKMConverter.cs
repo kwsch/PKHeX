@@ -197,7 +197,7 @@ namespace PKHeX.Core
         {
             if (pk.Format >= 3 && pk.Format > format)
                 return false; // pk3->upward can't go backwards
-            if (pk.Format <= 2 && format > 2 && format < 7)
+            if (pk.Format <= 2 && format is > 2 and < 7)
                 return false; // pk1/2->upward has to be 7 or greater
             return true;
         }

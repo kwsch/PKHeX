@@ -59,11 +59,11 @@ namespace PKHeX.Core
             return growth switch
             {
                 0 => // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-                (nature < (int) Nature.Brave || nature > (int) Nature.Relaxed),
+                (nature is < (int) Nature.Brave or > (int) Nature.Relaxed),
                 4 => // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-                (nature < (int) Nature.Gentle && nature > (int) Nature.Bold),
+                (nature is < (int) Nature.Gentle and > (int) Nature.Bold),
                 5 => // Slow -- Can't be Impish or Lax
-                (nature != (int) Nature.Impish && nature != (int) Nature.Lax),
+                (nature is not (int) Nature.Impish and not (int) Nature.Lax),
                 _ => true
             };
         }
@@ -73,7 +73,7 @@ namespace PKHeX.Core
             // Star, not square. Requires transferring a shiny and having the initially random PID to already be a Star shiny.
             // (15:65536, ~1:4096) odds on a given shiny transfer!
             var xor = data.pkm.ShinyXor;
-            if (xor < 16 && xor != 0)
+            if (xor is <= 15 and not 0)
                 data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
         }
 
@@ -103,11 +103,11 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case (int)Species.Celebi:
-                    if (loc != Locations.Transfer4_CelebiUnused && loc != Locations.Transfer4_CelebiUsed)
+                    if (loc is not Locations.Transfer4_CelebiUnused and not Locations.Transfer4_CelebiUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 case (int)Species.Raikou or (int)Species.Entei or (int)Species.Suicune:
-                    if (loc != Locations.Transfer4_CrownUnused && loc != Locations.Transfer4_CrownUsed)
+                    if (loc is not Locations.Transfer4_CrownUnused and not Locations.Transfer4_CrownUsed)
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:
@@ -195,7 +195,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Species == (int)Species.Unown)
             {
-                if (pkm.Form != 8 && pkm.Form != 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
+                if (pkm.Form is not 8 and not 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
         }

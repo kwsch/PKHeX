@@ -207,7 +207,7 @@ namespace PKHeX.Core
             {
                 foreach (var z in GetValidStaticEncounter(pkm, chain))
                 {
-                    if (z.Gift && pkm.Ball != 4)
+                    if (z.Gift && pkm.Ball != z.Ball)
                         deferIncompat.Enqueue(z);
                     else
                         yield return z;
@@ -269,7 +269,7 @@ namespace PKHeX.Core
             {
                 foreach (var z in GetValidStaticEncounter(pkm, chain))
                 {
-                    if (z.Gift && pkm.Ball != 4)
+                    if (z.Gift && pkm.Ball != z.Ball)
                         deferIncompat.Enqueue(z);
                     else
                         yield return z;

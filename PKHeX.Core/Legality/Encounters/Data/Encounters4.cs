@@ -276,19 +276,6 @@ namespace PKHeX.Core
             new() { Roaming = true, Species = 146, Level = 60, TypeEncounter = EncounterType.TallGrass | EncounterType.Surfing_Fishing, Version = Pt }, // Moltres
         };
 
-        internal static readonly EncounterStatic4 SpikyEaredPichu = new() // Spiky-Eared Pichu @ Ilex Forest
-        {
-            Species = 172,
-            Level = 30,
-            Gender = 1,
-            Form = 1,
-            Nature = Nature.Naughty,
-            Location = 214,
-            Moves = new[] { 344, 270, 207, 220 },
-            TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
-            Shiny = Shiny.Never
-        };
-
         private static readonly EncounterStatic4[] Encounter_HGSS =
         {
             // Starters
@@ -344,7 +331,19 @@ namespace PKHeX.Core
             new() { Species = 143, Level = 50, Location = 159, }, // Snorlax @ Route 11
             new() { Species = 143, Level = 50, Location = 160, }, // Snorlax @ Route 12
             new() { Species = 185, Level = 20, Location = 184, }, // Sudowoodo @ Route 36, Encounter does not have type
-            SpikyEaredPichu,
+
+            new() // Spiky-Eared Pichu @ Ilex Forest
+            {
+                Species = 172,
+                Level = 30,
+                Gender = 1,
+                Form = 1,
+                Nature = Nature.Naughty,
+                Location = 214,
+                Moves = new[] { 344, 270, 207, 220 },
+                TypeEncounter = EncounterType.Starter_Fossil_Gift_Pt_DPTrio,
+                Shiny = Shiny.Never
+            },
 
             // Stationary Legendary
             new() { Species = 144, Level = 50, Location = 203, TypeEncounter = EncounterType.Cave_HallOfOrigin }, // Articuno @ Seafoam Islands

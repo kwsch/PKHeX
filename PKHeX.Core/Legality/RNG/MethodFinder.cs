@@ -286,7 +286,7 @@ namespace PKHeX.Core
         private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv, PKM pk)
         {
             var ver = pk.Version;
-            if (ver != (int) GameVersion.R && ver != (int) GameVersion.S)
+            if (ver is not (int) GameVersion.R and not (int) GameVersion.S)
                 return GetNonMatch(out pidiv);
 
             var undo = top ^ 0x8000;
@@ -526,7 +526,7 @@ namespace PKHeX.Core
 
         private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            if (pk.Version != 15 || (pk.Species != 196 && pk.Species != 197))
+            if (pk.Version != (int)GameVersion.CXD || pk.Species is not (int)Species.Espeon and not (int)Species.Umbreon)
                 return GetNonMatch(out pidiv);
 
             var iv1 = GetIVChunk(IVs, 0);
@@ -862,11 +862,12 @@ namespace PKHeX.Core
         {
             switch (encounter)
             {
-                case EncounterStatic s:
-                    if (s == Encounters4.SpikyEaredPichu || (s.Location == Locations.PokeWalker4 && s.Gift)) // Pokewalker
-                        return val == PIDType.Pokewalker;
-                    if (s.Shiny == Shiny.Always)
+                case EncounterStatic4Pokewalker:
+                case EncounterStatic4 {Species: (int)Species.Pichu}:
+                    return val == PIDType.Pokewalker;
+                case EncounterStatic4 {Shiny: Shiny.Always}:
                         return val == PIDType.ChainShiny;
+                case EncounterStatic4:
                     if (val == PIDType.CuteCharm && IsCuteCharm4Valid(encounter, pkm))
                         return true;
                     return val == PIDType.Method_1;
@@ -879,9 +880,7 @@ namespace PKHeX.Core
                         return false;
                     // Chain shiny with poke radar is only possible in DPPt in tall grass, safari zone do not allow pokeradar
                     // TypeEncounter TallGrass discard any cave or city
-                    var ver = (GameVersion)pkm.Version;
-                    var IsDPPt = ver is GameVersion.D or GameVersion.P or GameVersion.Pt;
-                    return pkm.IsShiny && IsDPPt && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
+                    return pkm.IsShiny && !pkm.HGSS && sl.TypeEncounter == EncounterType.TallGrass && !Locations.IsSafariZoneLocation4(sl.Location);
                 case PGT: // manaphy
                     return IsG4ManaphyPIDValid(val, pkm);
                 case PCD d when d.Gift.PK.PID != 1:
@@ -924,7 +923,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static bool IsCuteCharmAzurillMale(uint pid) => pid >= 0xC8 && pid <= 0xE0;
+        private static bool IsCuteCharmAzurillMale(uint pid) => pid is >= 0xC8 and <= 0xE0;
 
         private static void GetCuteCharmGenderSpecies(PKM pk, uint pid, out int genderValue, out int species)
         {

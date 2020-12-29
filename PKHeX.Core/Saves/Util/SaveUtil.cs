@@ -164,7 +164,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG1SAV(byte[] data)
         {
-            if (data.Length != SIZE_G1RAW && data.Length != SIZE_G1BAT)
+            if (data.Length is not SIZE_G1RAW and not SIZE_G1BAT)
                 return Invalid;
 
             // Check if it's not an american save or a japanese save
@@ -251,7 +251,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3SAV(byte[] data)
         {
-            if (data.Length != SIZE_G3RAW && data.Length != SIZE_G3RAWHALF)
+            if (data.Length is not SIZE_G3RAW and not SIZE_G3RAWHALF)
                 return Invalid;
 
             // check the save file(s)
@@ -287,7 +287,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3BOXSAV(byte[] data)
         {
-            if (data.Length != SIZE_G3BOX && data.Length != SIZE_G3BOXGCI)
+            if (data.Length is not SIZE_G3BOX and not SIZE_G3BOXGCI)
                 return Invalid;
 
             byte[] sav = data;
@@ -312,7 +312,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3COLOSAV(byte[] data)
         {
-            if (data.Length != SIZE_G3COLO && data.Length != SIZE_G3COLOGCI)
+            if (data.Length is not SIZE_G3COLO and not SIZE_G3COLOGCI)
                 return Invalid;
 
             // Check the intro bytes for each save slot
@@ -331,7 +331,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3XDSAV(byte[] data)
         {
-            if (data.Length != SIZE_G3XD && data.Length != SIZE_G3XDGCI)
+            if (data.Length is not SIZE_G3XD and not SIZE_G3XDGCI)
                 return Invalid;
 
             // Check the intro bytes for each save slot
@@ -416,7 +416,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG6SAV(byte[] data)
         {
-            if (data.Length != SIZE_G6XY && data.Length != SIZE_G6ORAS && data.Length != SIZE_G6ORASDEMO)
+            if (data.Length is not SIZE_G6XY and not SIZE_G6ORAS and not SIZE_G6ORASDEMO)
                 return Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)
@@ -434,7 +434,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         private static GameVersion GetIsG7SAV(byte[] data)
         {
-            if (data.Length != SIZE_G7SM && data.Length != SIZE_G7USUM)
+            if (data.Length is not SIZE_G7SM and not SIZE_G7USUM)
                 return Invalid;
 
             if (BitConverter.ToUInt32(data, data.Length - 0x1F0) != BEEF)

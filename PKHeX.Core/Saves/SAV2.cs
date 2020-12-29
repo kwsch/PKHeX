@@ -25,7 +25,7 @@ namespace PKHeX.Core
             int gen = f.Last() - 0x30;
             if (Korean)
                 return gen == 2;
-            return 1 <= gen && gen <= 2;
+            return gen is 1 or 2;
         }).ToArray();
 
         public SAV2(GameVersion version = GameVersion.C, LanguageID lang = LanguageID.English) : base(SaveUtil.SIZE_G2RAW_J)

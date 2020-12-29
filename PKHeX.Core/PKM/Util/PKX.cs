@@ -247,7 +247,7 @@ namespace PKHeX.Core
         /// <returns>Format hint that the file is.</returns>
         public static int GetPKMFormatFromExtension(char last, int prefer)
         {
-            if ('1' <= last && last <= '9')
+            if (last is >= '1' and <= '9')
                 return last - '0';
             return last == 'x' ? 6 : prefer;
         }

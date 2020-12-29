@@ -217,7 +217,7 @@ namespace PKHeX.WinForms
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
             CHK_P2.Enabled = CHK_P4.Enabled = CHK_P6.Enabled = CHK_P8.Enabled = gt != 254; // Not Female-Only
-            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt != 0 && gt != 255; // Not Male-Only and Not Genderless
+            CHK_P3.Enabled = CHK_P5.Enabled = CHK_P7.Enabled = CHK_P9.Enabled = gt is not 0 and not 255; // Not Male-Only and Not Genderless
 
             for (int i = 0; i < 4; i++)
                 CP[i + 1].Checked = Dex.GetSeen(currentSpecies, i);
@@ -339,7 +339,7 @@ namespace PKHeX.WinForms
             int gt = Dex.GetBaseSpeciesGenderValue(LB_Species.SelectedIndex);
 
             CHK_P2.Checked = CHK_P4.Checked = gt != 254 && ModifierKeys != Keys.Control;
-            CHK_P3.Checked = CHK_P5.Checked = gt != 0 && gt != 255 && ModifierKeys != Keys.Control;
+            CHK_P3.Checked = CHK_P5.Checked = gt is not 0 and not 255 && ModifierKeys != Keys.Control;
 
             if (ModifierKeys == Keys.Control)
             {

@@ -582,8 +582,7 @@ namespace PKHeX.Core
             }
 
             if (MetLevel != 0 && MetLevel != pkm.Met_Level) return false;
-            if (Ball != 0 && Ball != pkm.Ball) return false;
-            if (Ball == 0 && pkm.Ball != 4) return false;
+            if ((Ball == 0 ? 4 : Ball) != pkm.Ball) return false;
             if (OTGender < 2 && OTGender != pkm.OT_Gender) return false;
             if (Nature != -1 && pkm.Nature != Nature) return false;
             if (Gender != 3 && Gender != pkm.Gender) return false;

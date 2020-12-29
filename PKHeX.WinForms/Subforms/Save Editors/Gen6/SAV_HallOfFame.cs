@@ -369,9 +369,10 @@ namespace PKHeX.WinForms
                 return;
             }
 
-            if (PKX.GetGenderFromString(CB_Form.Text) == 0 && Label_Gender.Text != gendersymbols[0])
+            var g = PKX.GetGenderFromString(CB_Form.Text);
+            if (g == 0 && Label_Gender.Text != gendersymbols[0])
                 CB_Form.SelectedIndex = 1;
-            else if (PKX.GetGenderFromString(CB_Form.Text) == 1 && Label_Gender.Text != gendersymbols[1])
+            else if (g == 1 && Label_Gender.Text != gendersymbols[1])
                 CB_Form.SelectedIndex = 0;
 
             if (species == (int)Species.Pyroar)

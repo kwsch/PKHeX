@@ -237,7 +237,7 @@ namespace PKHeX.Core
             {
                 296 or 297 => metLevel != 30, // Makuhita    30 Colo 18 XD
                 175 or 176 => metLevel != 20, // Togepi      20 Colo 25 XD, also 20 as Togetic in Colo
-                179 or 180 or 181 => metLevel != 37 && metLevel != 30, // Mareep: 37 Colo 17 XD, Flaafy: 30 Colo
+                179 or 180 or 181 => metLevel is not 37 and not 30, // Mareep: 37 Colo 17 XD, Flaafy: 30 Colo
                 219 => metLevel != 30, // Magcargo    30 Colo 38 XD (Slugma in Colo)
                 195 => metLevel != 30, // Quagsire    30 Colo // ** Wooper XD
                 334 => metLevel != 33, // Altaria     33 Colo // 36 XD (Swablu in Colo)

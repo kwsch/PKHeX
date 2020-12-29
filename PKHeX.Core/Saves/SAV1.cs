@@ -23,7 +23,7 @@ namespace PKHeX.Core
         public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f =>
         {
             int gen = f.Last() - 0x30;
-            return 1 <= gen && gen <= 2;
+            return gen is 1 or 2;
         }).ToArray();
 
         public SAV1(GameVersion version = GameVersion.RBY, bool japanese = false) : base(SaveUtil.SIZE_G1RAW)

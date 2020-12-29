@@ -224,13 +224,13 @@ namespace PKHeX.Core
         {
             get
             {
-                if (0 <= index && index < Table.Length)
-                    return Table[index];
-                return Table[0];
+                if ((uint)index >= Table.Length)
+                    return Table[0];
+                return Table[index];
             }
             set
             {
-                if (index < 0 || index >= Table.Length)
+                if ((uint)index >= Table.Length)
                     return;
                 Table[index] = value;
             }

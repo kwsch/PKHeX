@@ -42,7 +42,7 @@ namespace PKHeX.Core
 						// Underground Raids are originally anti-shiny on encounter.
 						// When selecting a prize at the end, the game rolls and force-shiny is applied to be XOR=1.
                         var xor = pkm.ShinyXor;
-                        if (xor <= 15 && xor != 1)
+                        if (xor is <= 15 and not 1)
                             data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.Shiny));
                         break;
                     }

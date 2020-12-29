@@ -129,7 +129,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon4 s4)
             {
-                bool inhabited4 = 3 <= gen && gen <= 4;
+                bool inhabited4 = gen is 3 or 4;
                 var iterate = GetInvalidRibbons4Any(pkm, s4, gen);
                 if (!inhabited4)
                     iterate = iterate.Concat(GetInvalidRibbonsNone(s4.RibbonBitsOnly(), s4.RibbonNamesOnly()));
@@ -138,7 +138,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon6 s6)
             {
-                bool inhabited6 = 3 <= gen && gen <= 6;
+                bool inhabited6 = gen is >= 3 and <= 6;
 
                 var iterate = inhabited6
                     ? GetInvalidRibbons6Any(pkm, s6, gen, enc)

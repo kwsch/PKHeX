@@ -439,7 +439,7 @@ namespace PKHeX.Core
         {
             for (int i = 0; i < 8; i++) // 8 PGT
             {
-                if (value[i] is PGT g && g.CardType != 0)
+                if (value[i] is PGT {CardType: not 0})
                     return true;
             }
             for (int i = 8; i < 11; i++) // 3 PCD

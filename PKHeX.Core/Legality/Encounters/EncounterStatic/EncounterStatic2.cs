@@ -98,7 +98,7 @@ namespace PKHeX.Core
             // Let it get picked up as regular EncounterEgg under other conditions.
             if (pkm.Format > 2)
                 return false;
-            if (pkm.Move1 != Dizzy && pkm.Move2 != Dizzy && pkm.Move3 != Dizzy && pkm.Move4 != Dizzy)
+            if (!pkm.HasMove(Dizzy))
                 return false;
             if (pkm.IsEgg && pkm.EXP != 125)
                 return false;

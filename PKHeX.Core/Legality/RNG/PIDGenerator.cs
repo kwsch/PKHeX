@@ -13,7 +13,7 @@ namespace PKHeX.Core
             if (skipBetweenPID) // VBlank skip between PID rand() [RARE]
                 B = rng.Next(B);
 
-            var swappedPIDHalves = PIDType.Method_1_Unown <= type && type <= PIDType.Method_4_Unown;
+            var swappedPIDHalves = type is >= PIDType.Method_1_Unown and <= PIDType.Method_4_Unown;
             if (swappedPIDHalves) // switched order of PID halves, "BA.."
                 pk.PID = (A & 0xFFFF0000) | B >> 16;
             else

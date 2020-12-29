@@ -85,12 +85,12 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsWildArea(int loc) => IsWildArea8(loc) || IsWildArea8Armor(loc) || IsWildArea8Crown(loc);
-        public static bool IsBoostedArea60(int loc) => IsWildArea(loc);
+        public static bool IsWildArea(int location) => IsWildArea8(location) || IsWildArea8Armor(location) || IsWildArea8Crown(location);
+        public static bool IsBoostedArea60(int location) => IsWildArea(location);
 
-        private static bool IsWildArea8(int loc) => 122 <= loc && loc <= 154; // Rolling Fields -> Lake of Outrage
-        private static bool IsWildArea8Armor(int loc) => 164 <= loc && loc <= 194; // Fields of Honor -> Honeycalm Island
-        private static bool IsWildArea8Crown(int loc) => 204 <= loc && loc <= 234 && loc != 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
+        private static bool IsWildArea8(int location)      => location is >= 122 and <= 154; // Rolling Fields -> Lake of Outrage
+        private static bool IsWildArea8Armor(int location) => location is >= 164 and <= 194; // Fields of Honor -> Honeycalm Island
+        private static bool IsWildArea8Crown(int location) => location is >= 204 and <= 234 and not 206; // Slippery Slope -> Dyna Tree Hill, skip Freezington
 
         // Location, and areas that it can feed encounters to.
         public static readonly IReadOnlyDictionary<int, IReadOnlyList<byte>> ConnectingArea8 = new Dictionary<int, IReadOnlyList<byte>>

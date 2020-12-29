@@ -62,7 +62,7 @@ namespace PKHeX.Core.Searching
             {
                 1 => res.Where(pk => pk.EVTotal == 0), // None (0)
                 2 => res.Where(pk => pk.EVTotal < 128), // Some (127-0)
-                3 => res.Where(pk => pk.EVTotal >= 128 && pk.EVTotal < 508), // Half (128-507)
+                3 => res.Where(pk => pk.EVTotal is >= 128 and < 508), // Half (128-507)
                 4 => res.Where(pk => pk.EVTotal >= 508), // Full (508+)
                 _ => res
             };
@@ -73,9 +73,9 @@ namespace PKHeX.Core.Searching
             return option switch
             {
                 1 => res.Where(pk => pk.IVTotal <= 90), // <= 90
-                2 => res.Where(pk => pk.IVTotal > 90 && pk.IVTotal <= 120), // 91-120
-                3 => res.Where(pk => pk.IVTotal > 120 && pk.IVTotal <= 150), // 121-150
-                4 => res.Where(pk => pk.IVTotal > 150 && pk.IVTotal < 180), // 151-179
+                2 => res.Where(pk => pk.IVTotal is >  90 and <= 120), // 91-120
+                3 => res.Where(pk => pk.IVTotal is > 120 and <= 150), // 121-150
+                4 => res.Where(pk => pk.IVTotal is > 150 and <  180), // 151-179
                 5 => res.Where(pk => pk.IVTotal >= 180), // 180+
                 6 => res.Where(pk => pk.IVTotal == 186), // == 186
                 _ => res
