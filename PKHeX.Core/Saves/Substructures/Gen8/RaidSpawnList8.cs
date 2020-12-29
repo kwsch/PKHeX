@@ -28,6 +28,16 @@ namespace PKHeX.Core
             return result;
         }
 
+        public void DectivateAllRaids()
+        {
+            for (int i = 0; i < CountUsed; i++)
+            {
+                if (i == 16) // Watchtower, special
+                    continue;
+                GetRaid(i).Deactivate();
+            }
+        }
+
         public void ActivateAllRaids(bool rare, bool isEvent)
         {
             var rnd = Util.Rand;
@@ -194,6 +204,13 @@ namespace PKHeX.Core
             RandRoll = rand;
             IsRare = rare;
             IsEvent = isEvent;
+        }
+        
+        public void Deactivate()
+        {
+            DenType = RaidType.None;
+            Stars = 0;
+            RandRoll = 0;
         }
 
         public string Dump() => $"{Hash:X16}\t{Seed:X16}\t{Stars}\t{RandRoll:00}\t{DenType}\t{Flags:X2}";
