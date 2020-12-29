@@ -298,6 +298,9 @@ namespace PKHeX.WinForms
             NUD_Surf3.Value = SAV.Misc.GetSurfScore(3);
             TB_RotomOT.Font = TB_OTName.Font;
             TB_RotomOT.Text = SAV.FieldMenu.RotomOT;
+            NUD_RotomAffection.Value = Math.Min(NUD_RotomAffection.Maximum, SAV.FieldMenu.RotomAffection);
+            CHK_RotoLoto1.Checked = SAV.FieldMenu.RotomLoto1;
+            CHK_RotoLoto2.Checked = SAV.FieldMenu.RotomLoto2;
         }
 
         private void Save()
@@ -443,6 +446,10 @@ namespace PKHeX.WinForms
             SAV.Misc.SetSurfScore(1, (int)NUD_Surf1.Value);
             SAV.Misc.SetSurfScore(2, (int)NUD_Surf2.Value);
             SAV.Misc.SetSurfScore(3, (int)NUD_Surf3.Value);
+
+            SAV.FieldMenu.RotomAffection = (ushort)NUD_RotomAffection.Value;
+            SAV.FieldMenu.RotomLoto1 = CHK_RotoLoto1.Checked;
+            SAV.FieldMenu.RotomLoto2 = CHK_RotoLoto2.Checked;
 
             if (TB_RotomOT.Text != TB_OTName.Text // different Rotom name from OT
                 && TB_OTName.Text != SAV.OT // manually changed
