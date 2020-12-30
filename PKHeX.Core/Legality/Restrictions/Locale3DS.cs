@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.LanguageID;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Provides information for <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> data.
@@ -24,5 +26,43 @@
                 _ => false
             };
         }
+
+        /// <summary>
+        /// Compares the <see cref="IRegionOrigin.ConsoleRegion"/> and language ID to determine if the language is available within that region.
+        /// </summary>
+        /// <remarks>
+        /// Used to check for Virtual Console language availability. VC Games were region locked to the Console, meaning not all language games are available.
+        /// </remarks>
+        /// <param name="consoleRegion">Console region.</param>
+        /// <param name="language">Language of region</param>
+        /// <returns>Language is available within Console Region</returns>
+        public static bool IsRegionLockedLanguageValidVC(int consoleRegion, int language) => consoleRegion switch
+        {
+            0 or 6 => language == 1, // Japan & Taiwan
+            1 => language is (int)English or (int)Spanish or (int)French, // Americas
+            2 => language is (int)English or (int)Spanish or (int)French or (int)German or (int)Italian, // Europe
+            5 => language is (int)Korean, // Korea
+            _ => false, // China & Invalid
+        };
+
+        /// <summary>
+        /// Compares the <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> to determine if the country is available within that region.
+        /// </summary>
+        /// <remarks>
+        /// Used to check for gift availability.
+        /// </remarks>
+        /// <param name="consoleRegion">Console region.</param>
+        /// <param name="language">Language of region</param>
+        /// <returns>Language is available within Console Region</returns>
+        public static bool IsRegionLockedLanguageValid(int consoleRegion, int language) => consoleRegion switch
+        {
+            0 => language is (int)Japanese, // Japan & Taiwan
+            1 => language is (int)English or (int)Spanish or (int)French, // Americas
+            2 => language is (int)English or (int)Spanish or (int)French or (int)German or (int)Italian, // Europe
+            4 => language is (int)ChineseS or (int)ChineseT, // China
+            5 => language is (int)Korean, // Korea
+            6 => language is (int)ChineseS or (int)ChineseT,
+            _ => false, // China & Invalid
+        };
     }
 }

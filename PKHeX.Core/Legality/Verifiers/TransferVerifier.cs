@@ -18,19 +18,20 @@ namespace PKHeX.Core
 
         public void VerifyTransferLegalityG12(LegalityAnalysis data)
         {
-            VerifyOTGender(data);
-            VerifyTransferVCNatureEXP(data);
-            VerifyShinyXorIfShiny(data);
+            VerifyVCOTGender(data);
+            VerifyVCNatureEXP(data);
+            VerifyVCShinyXorIfShiny(data);
+            VerifyVCGeolocation(data);
         }
 
-        private void VerifyOTGender(LegalityAnalysis data)
+        private void VerifyVCOTGender(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             if (pkm.OT_Gender == 1 && pkm.Version != (int)GameVersion.C)
                 data.AddLine(GetInvalid(LG2OTGender));
         }
 
-        private void VerifyTransferVCNatureEXP(LegalityAnalysis data)
+        private void VerifyVCNatureEXP(LegalityAnalysis data)
         {
             var pkm = data.pkm;
             var met = pkm.Met_Level;
@@ -68,13 +69,24 @@ namespace PKHeX.Core
             };
         }
 
-        private static void VerifyShinyXorIfShiny(LegalityAnalysis data)
+        private static void VerifyVCShinyXorIfShiny(LegalityAnalysis data)
         {
             // Star, not square. Requires transferring a shiny and having the initially random PID to already be a Star shiny.
             // (15:65536, ~1:4096) odds on a given shiny transfer!
             var xor = data.pkm.ShinyXor;
             if (xor is <= 15 and not 0)
                 data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
+        }
+        
+        private static void VerifyVCGeolocation(LegalityAnalysis data)
+        {
+            if (data.pkm is not PK7 pk7)
+                return;
+
+            // VC Games were region locked to the Console, meaning not all language games are available.
+            var within = Locale3DS.IsRegionLockedLanguageValidVC(pk7.ConsoleRegion, pk7.Language);
+            if (!within)
+                data.AddLine(GetInvalid(string.Format(LOTLanguage, $"!={(LanguageID)pk7.Language}", ((LanguageID)pk7.Language).ToString()), CheckIdentifier.Language));
         }
 
         public void VerifyTransferLegalityG3(LegalityAnalysis data)
