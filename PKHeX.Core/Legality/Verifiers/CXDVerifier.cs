@@ -27,18 +27,13 @@ namespace PKHeX.Core
             if (pidiv.Type is not PIDType.CXD and not PIDType.CXDAnti)
                 return; // already flagged as invalid
 
-            bool valid;
-            var EncounterMatch = data.EncounterMatch;
             var pkm = data.pkm;
-            switch (EncounterMatch.Species)
+            bool valid = data.EncounterMatch.Species switch
             {
-                case (int)Species.Eevee:
-                    valid = LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID); break;
-                case (int)Species.Espeon or (int)Species.Umbreon:
-                    valid = pidiv.Type == PIDType.CXD_ColoStarter; break;
-                default:
-                    return;
-            }
+                (int)Species.Eevee => LockFinder.IsXDStarterValid(pidiv.OriginSeed, pkm.TID, pkm.SID),
+                (int)Species.Espeon or (int)Species.Umbreon => pidiv.Type == PIDType.CXD_ColoStarter,
+                _ => true
+            };
             if (!valid)
                 data.AddLine(GetInvalid(LEncConditionBadRNGFrame, CheckIdentifier.PID));
         }
