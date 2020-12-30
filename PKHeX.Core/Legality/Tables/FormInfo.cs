@@ -28,8 +28,8 @@ namespace PKHeX.Core
                 case (int)Zygarde when form < 4: // Zygarde Complete
                 case (int)Mimikyu when form == 2: // Totem disguise Mimikyu
                 case (int)Necrozma when form < 3: // this one is OK, Galarian non-Zen
-                case (int)Minior when form >= 7: // Minior Shields-Down
                     return false;
+                case (int)Minior: return form < 7; // Minior Shields-Down
 
                 default:
                     return form != 0;
@@ -146,6 +146,7 @@ namespace PKHeX.Core
             (int)Zygarde,
 
             (int)Wishiwashi,
+            (int)Minior,
             (int)Mimikyu,
 
             (int)Cramorant,
