@@ -437,7 +437,9 @@ namespace PKHeX.WinForms.Controls
             {
                 if (HaX)
                     return;
-                Entity.Form = CB_Form.SelectedIndex = 0;
+                Entity.Form = 0;
+                if (CB_Form.Items.Count > 0)
+                    CB_Form.SelectedIndex = 0;
                 return;
             }
 

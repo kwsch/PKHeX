@@ -63,17 +63,20 @@
             0,
             0,
             0});
+            this.NUD_FormArg.ValueChanged += new System.EventHandler(this.NUD_FormArg_ValueChanged);
             // 
             // CB_FormArg
             // 
             this.CB_FormArg.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CB_FormArg.FormattingEnabled = true;
-            this.CB_FormArg.Items.AddRange(new object[] {""});
+            this.CB_FormArg.Items.AddRange(new object[] {
+            ""});
             this.CB_FormArg.Location = new System.Drawing.Point(44, 0);
             this.CB_FormArg.Margin = new System.Windows.Forms.Padding(0);
             this.CB_FormArg.Name = "CB_FormArg";
             this.CB_FormArg.Size = new System.Drawing.Size(66, 21);
             this.CB_FormArg.TabIndex = 1;
+            this.CB_FormArg.SelectedIndexChanged += new System.EventHandler(this.CB_FormArg_SelectedIndexChanged);
             // 
             // FormArgument
             // 
