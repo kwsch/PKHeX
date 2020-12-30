@@ -118,7 +118,7 @@ namespace PKHeX
                     return;
 
                 case (int)Species.Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(moves[m])):
-                    // Exeggutor learns stomp at level 28
+                    // Exeggutor learns Stomp at level 28
                     // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
                     incompatible_current = new[] { 23 };
                     incompatible_previous = G1Exeggcute_IncompatibleMoves;
@@ -135,14 +135,14 @@ namespace PKHeX
 
                     for (int i = 0; i < ExclusiveMoves[0].Count; i++)
                     {
-                        // There is a evolution move with a lower level that current eevee move
+                        // There is a evolution move with a lower level that current Eevee move
                         var el = EeveeLevels[i];
                         if (EvoLevels.Any(ev => ev < el))
                             incompatible_previous.Add(ExclusiveMoves[0][i]);
                     }
                     for (int i = 0; i < ExclusiveMoves[1].Count; i++)
                     {
-                        // There is a eevee move with a greather level that current evolution move
+                        // There is an Eevee move with a greater level that current evolution move
                         var el = EvoLevels[i];
                         if (EeveeLevels.Any(ev => ev > el))
                             incompatible_current.Add(ExclusiveMoves[1][i]);

@@ -141,7 +141,7 @@ namespace PKHeX.Core
                 if (str.Length > 5)
                     data.AddLine(GetInvalid(LOTLong));
             }
-            else if (!(data.EncounterOriginal is EncounterTrade2)) // OT already verified; SPA Shuckle/Voltorb transferred from French can yield 2 inaccessible chars
+            else if (data.EncounterOriginal is not EncounterTrade2) // OT already verified; SPA Shuckle/Voltorb transferred from French can yield 2 inaccessible chars
             {
                 data.AddLine(GetInvalid(LG1CharOT));
             }

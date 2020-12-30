@@ -28,7 +28,7 @@
         public sealed override bool WasGiftEgg => IsEgg && Met_Location == 253; // Gift Egg, indistinguible from normal eggs after hatch
         public sealed override bool WasEventEgg => IsEgg && Met_Location == 255; // Event Egg, indistinguible from normal eggs after hatch
 
-        public sealed override int Ability { get { var pi = (PersonalInfoG3)PersonalInfo; return AbilityBit && pi.Ability2 != 0 ? pi.Ability2 : pi.Ability1; } set { } }
+        public sealed override int Ability { get => ((PersonalInfoG3)PersonalInfo).GetAbility(AbilityBit); set { } }
         public sealed override uint EncryptionConstant { get => PID; set { } }
         public sealed override int Nature { get => (int)(PID % 25); set { } }
         public sealed override int Form { get => Species == (int)Core.Species.Unown ? PKX.GetUnownForm(PID) : 0; set { } }
@@ -44,9 +44,7 @@
 
         public sealed override void RefreshAbility(int n)
         {
-            if (n == 1 && !((PersonalInfoG3)PersonalInfo).HasSecondAbility)
-                n = 0;
-            base.RefreshAbility(n & 1);
+            AbilityBit = n == 1 && ((PersonalInfoG3)PersonalInfo).HasSecondAbility;
         }
 
         public abstract bool RibbonEarth { get; set; }
@@ -105,7 +103,7 @@
         /// <returns>New object with transferred properties.</returns>
         protected T ConvertTo<T>() where T : G3PKM, new()
         {
-            var pk = new T // Convert away!
+            return new()
             {
                 Species = Species,
                 Language = Language,
@@ -186,10 +184,6 @@
                 Unused3 = Unused3,
                 Unused4 = Unused4,
             };
-
-            if (pk is CK3 {ShadowID: not 0} ck3)
-                ck3.Purification = CK3.Purified; // purified
-            return pk;
         }
     }
 }

@@ -70,6 +70,7 @@ namespace PKHeX.Core
         }
 
         public sealed override int GetAbilityIndex(int abilityID) => abilityID == Ability1 ? 0 : abilityID == Ability2 ? 1 : -1;
+        public int GetAbility(bool second) => second && HasSecondAbility ? Ability2 : Ability1;
 
         public bool HasSecondAbility => Ability1 != Ability2;
     }

@@ -117,7 +117,7 @@ namespace PKHeX.Core
             // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
             // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
             // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
-            bool canHaveAnyLanguage = pkm.Format <= 7 && (EncounterMatch.Species != species || pkm.WasTradedEgg);
+            bool canHaveAnyLanguage = format <= 7 && (EncounterMatch.Species != species || pkm.WasTradedEgg);
             if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                 return true;
 
@@ -131,7 +131,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format == 5 && !pkm.IsNative) // transfer
+            if (format == 5 && !pkm.IsNative) // transfer
             {
                 if (canHaveAnyLanguage)
                    return !SpeciesName.IsNicknamedAnyLanguage(species, nickname, 4);
@@ -145,15 +145,15 @@ namespace PKHeX.Core
         {
             var Info = data.Info;
             var pkm = data.pkm;
-            var EncounterMatch = Info.EncounterMatch;
-            switch (pkm.Format)
+            var format = pkm.Format;
+            switch (format)
             {
                 case 4:
                     if (pkm.IsNicknamed) // gen4 doesn't use the nickname flag for eggs
                         data.AddLine(GetInvalid(LNickFlagEggNo, CheckIdentifier.Egg));
                     break;
                 case 7:
-                    if (EncounterMatch is EncounterStatic ^ !pkm.IsNicknamed) // gen7 doesn't use for ingame gifts
+                    if (pkm.IsNicknamed == Info.EncounterMatch is EncounterStatic7) // gen7 doesn't use for ingame gifts
                         data.AddLine(GetInvalid(pkm.IsNicknamed ? LNickFlagEggNo : LNickFlagEggYes, CheckIdentifier.Egg));
                     break;
                 default:
@@ -162,9 +162,10 @@ namespace PKHeX.Core
                     break;
             }
 
-            if (pkm.Format == 2 && pkm.IsEgg && !SpeciesName.IsNicknamedAnyLanguage(0, pkm.Nickname, 2))
+            var nick = pkm.Nickname;
+            if (format == 2 && !SpeciesName.IsNicknamedAnyLanguage(0, nick, 2))
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
-            else if (SpeciesName.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation) != pkm.Nickname)
+            else if (nick != SpeciesName.GetSpeciesNameGeneration(0, pkm.Language, Info.Generation))
                 data.AddLine(GetInvalid(LNickMatchLanguageEggFail, CheckIdentifier.Egg));
             else
                 data.AddLine(GetValid(LNickMatchLanguageEgg, CheckIdentifier.Egg));
