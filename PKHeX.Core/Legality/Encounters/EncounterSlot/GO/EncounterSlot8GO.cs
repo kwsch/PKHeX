@@ -52,11 +52,26 @@ namespace PKHeX.Core
             pk8.WeightScalar = PokeSizeUtil.GetRandomScalar();
         }
 
+        public override bool GetIVsValid(PKM pkm)
+        {
+            var minIV = GetMinIV();
+            return IsGoIVSetValid(pkm, minIV);
+        }
+
         protected override void SetEncounterMoves(PKM pk, GameVersion version, int level)
         {
             var moves = MoveLevelUp.GetEncounterMoves(pk, level, OriginGroup);
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
+        }
+
+        private static bool IsGoIVSetValid(PKM pkm, int min)
+        {
+            if (pkm.IV_ATK >> 1 < min) // ATK
+                return false;
+            if (pkm.IV_DEF >> 1 < min) // DEF
+                return false;
+            return pkm.IV_HP >> 1 >= min; // HP
         }
     }
 }

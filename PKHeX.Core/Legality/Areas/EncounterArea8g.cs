@@ -117,8 +117,10 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool IsDeferredSlot(IEncounterable slot, PKM pk)
+        private static bool IsDeferredSlot(EncounterSlotGO slot, PKM pk)
         {
+            if (!slot.GetIVsValid(pk))
+                return true;
             if (slot.Species == (int) Core.Species.Wurmple)
                 return !WurmpleUtil.IsWurmpleEvoValid(pk);
 

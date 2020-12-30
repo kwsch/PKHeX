@@ -109,41 +109,8 @@ namespace PKHeX.Core
 
         private void VerifyIVsGoTransfer(LegalityAnalysis data)
         {
-            var pkm = data.pkm;
-            if (!IsGoIVSetValid(pkm))
-            {
+            if (data.EncounterMatch is EncounterSlotGO g && !g.GetIVsValid(data.pkm))
                 data.AddLine(GetInvalid(LIVNotCorrect));
-            }
-            else if (data.EncounterMatch is EncounterSlot8GO g)
-            {
-                var minIV = g.GetMinIV();
-                if (!IsGoIVSetValid(pkm, minIV))
-                    data.AddLine(GetInvalid(LIVNotCorrect));
-            }
-        }
-
-        private static bool IsGoIVSetValid(PKM pkm)
-        {
-            // Stamina*2 | 1 -> HP
-            // ATK * 2 | 1 -> ATK&SPA
-            // DEF * 2 | 1 -> DEF&SPD
-            // Speed is random.
-
-            // All IVs must be odd (except speed) and equal to their counterpart.
-            if ((pkm.GetIV(1) & 1) != 1 || pkm.GetIV(1) != pkm.GetIV(4)) // ATK=SPA
-                return false;
-            if ((pkm.GetIV(2) & 1) != 1 || pkm.GetIV(2) != pkm.GetIV(5)) // DEF=SPD
-                return false;
-            return (pkm.GetIV(0) & 1) == 1; // HP
-        }
-
-        private static bool IsGoIVSetValid(PKM pkm, int min)
-        {
-            if (pkm.IV_ATK >> 1 < min) // ATK
-                return false;
-            if (pkm.IV_DEF >> 1 < min) // DEF
-                return false;
-            return pkm.IV_HP >> 1 >= min; // HP
         }
     }
 }

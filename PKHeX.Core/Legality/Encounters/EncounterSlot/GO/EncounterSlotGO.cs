@@ -90,5 +90,7 @@ namespace PKHeX.Core
                 pk.MetDate = GetRandomValidDate();
             pk.SetRandomIVsGO(Type.GetMinIV());
         }
+
+        public abstract bool GetIVsValid(PKM pkm);
     }
 }
