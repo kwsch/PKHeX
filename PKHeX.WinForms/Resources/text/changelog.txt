@@ -1,6 +1,24 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
+20/12/30 - New Update:
+ - Legality:
+ - - Updated Mystery Gift & GO Legality encounter data.
+ - - Added: Gen8 introduced new memory values; these are now checked the same as those introduced in Gen6. Still no intensity/feeling checks.
+ - - Added: Gen5 N's Pokémon now check for a male OT Gender.
+ - - Fixed: Gen1 Non-Japanese VC encounters originating from "Blue (JP)" version are now recognized as invalid. Thanks @CarlosofKalos!
+ - - Fixed: Gen3 Colosseum Starters are now recognized correctly (was ~1% chance of being incorrectly flagged). Thanks Loptous!
+ - - Fixed: Gen8 Simplified Chinese IoA trades are now recognized with the correct OT Name.
+ - - Fixed: Gen8 Base Friendship for HOME/certain forms is now verified correctly.
+ - - Fixed: Gen1/2 Events are now yielded again by the Moveset Generator (used by SysBot/ALM).
+ - Added: Gen8 can now deactivate all raids by holding Alt when clicking the Activate All button.
+ - Added: Gen7 USUM Rotom Dex affection & Loto bitflags can now be edited in the Trainer Editor.
+ - Changed: PKM Database loading now alerts when it fails to load the database.
+ - Fixed: Gen8 setting party to title screen now sets the correct empty slots if your party isn't full.
+ - Fixed: Gen6 Cosplay Pikachu now fetches sprites correctly when using the old 40x30 sprites.
+ - Refactored: Some API's and properties exposed by PKHeX.Core have been renamed/moved. Examples: AltForm/Forme=>Form, GenNumber=>Generation.
+ - Refactored: Implemented new C#9 language features. Some expressions in the source code are cleaner and easier to maintain :)
+
 20/11/28 - New Update:
  - Legality:
  - - Added: Pokémon GO Legality checks, including date-range legality checks. Thanks @Lusamine & @sora10pls!
