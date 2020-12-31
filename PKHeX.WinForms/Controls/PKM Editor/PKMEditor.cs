@@ -1939,33 +1939,51 @@ namespace PKHeX.WinForms.Controls
             // Sub editors
             Stats.InitializeDataSources();
 
-            PopulateFilteredDataSources(sav);
+            PopulateFilteredDataSources(sav, true);
         }
 
-        private void PopulateFilteredDataSources(ITrainerInfo sav)
+        private static void SetIfDifferentCount(IReadOnlyCollection<ComboItem> update, ComboBox exist, bool force = false)
+        {
+            if (!force && (exist.DataSource is BindingSource b && b.Count == update.Count))
+                return;
+            exist.DataSource = new BindingSource(update, null);
+        }
+
+        private void PopulateFilteredDataSources(ITrainerInfo sav, bool force = false)
         {
             var source = GameInfo.FilteredSources;
 
-            if (sav.Generation > 1)
-                CB_HeldItem.DataSource = new BindingSource(source.Items, null);
+            if (sav.Generation >= 2)
+                SetIfDifferentCount(source.Items, CB_HeldItem, force);
 
-            CB_Language.DataSource = new BindingSource(source.Languages, null);
+            if (sav.Generation >= 3)
+            {
+                SetIfDifferentCount(source.Languages, CB_Language, force);
+                SetIfDifferentCount(source.Balls, CB_Ball, force);
+                SetIfDifferentCount(source.Games, CB_GameOrigin, force);
+            }
 
-            var langWith0 = new[] {GameInfo.Sources.Empty}.Concat(source.Languages).ToArray();
-            CB_HTLanguage.DataSource = new BindingSource(langWith0, null);
+            if (sav.Generation >= 4)
+                SetIfDifferentCount(source.Abilities, DEV_Ability, force);
 
-            var gamesWith0 = new[] {GameInfo.Sources.Empty}.Concat(source.Games).ToArray();
-            CB_BattleVersion.DataSource = new BindingSource(gamesWith0, null);
+            if (sav.Generation >= 8)
+            {
+                var lang = source.Languages;
+                var langWith0 = new List<ComboItem>(1 + lang.Count) {GameInfo.Sources.Empty};
+                langWith0.AddRange(lang);
+                SetIfDifferentCount(langWith0, CB_HTLanguage, force);
 
-            CB_Ball.DataSource = new BindingSource(source.Balls, null);
-            CB_Species.DataSource = new BindingSource(source.Species, null);
-            DEV_Ability.DataSource = new BindingSource(source.Abilities, null);
-            CB_GameOrigin.DataSource = new BindingSource(source.Games, null);
+                var game = source.Games;
+                var gamesWith0 = new List<ComboItem>(1 + game.Count) {GameInfo.Sources.Empty};
+                gamesWith0.AddRange(lang);
+                SetIfDifferentCount(gamesWith0, CB_BattleVersion, force);
+            }
+            SetIfDifferentCount(source.Species, CB_Species, force);
 
             // Set the Move ComboBoxes too..
             LegalMoveSource.ReloadMoves(source.Moves);
             foreach (var cb in Moves.Concat(Relearn))
-                cb.DataSource = new BindingSource(source.Moves, null);
+                SetIfDifferentCount(source.Moves, cb, force);
         }
     }
 }
