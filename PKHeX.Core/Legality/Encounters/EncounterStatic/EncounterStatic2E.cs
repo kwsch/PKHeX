@@ -76,7 +76,7 @@ namespace PKHeX.Core
             return !ParseSettings.AllowGBCartEra;
         }
 
-        protected override int GetMinimalLevel() => CurrentLevel != -1 ? base.GetMinimalLevel() : CurrentLevel;
+        protected override int GetMinimalLevel() => CurrentLevel == -1 ? base.GetMinimalLevel() : CurrentLevel;
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
