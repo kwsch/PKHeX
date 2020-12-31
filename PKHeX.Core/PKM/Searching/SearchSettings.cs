@@ -141,14 +141,20 @@ namespace PKHeX.Core.Searching
         {
             if (Version > 0)
                 return new[] {(GameVersion) Version};
-            if (Generation != 0)
-            {
-                return fallback.GetGeneration() == Generation
-                    ? GameUtil.GetVersionsWithinRange(sav, Generation).ToArray()
-                    : GameUtil.GameVersions;
-            }
 
-            return GameUtil.GameVersions;
+            return Generation switch
+            {
+                1 when !ParseSettings.AllowGen1Tradeback => new[] {GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW},
+                2 when sav is SAV2 {Korean: true} => new[] {GameVersion.GD, GameVersion.SV},
+                1 or 2 => new[]
+                {
+                    GameVersion.RD, GameVersion.BU, GameVersion.GN, GameVersion.YW,
+                    GameVersion.GD, GameVersion.SV, GameVersion.C
+                },
+
+                _ when fallback.GetGeneration() == Generation => GameUtil.GetVersionsWithinRange(sav, Generation).ToArray(),
+                _ => GameUtil.GameVersions,
+            };
         }
 
         private static GameVersion GetFallbackVersion(ITrainerInfo sav)

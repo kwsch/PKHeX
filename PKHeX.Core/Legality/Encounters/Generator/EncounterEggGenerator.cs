@@ -7,7 +7,6 @@ namespace PKHeX.Core
 {
     public static class EncounterEggGenerator
     {
-        // EncounterEgg
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
             var table = EvolutionTree.GetEvolutionTree(pkm, Math.Max(2, pkm.Format));
@@ -98,9 +97,17 @@ namespace PKHeX.Core
     /// </summary>
     internal static class EncounterEggGenerator2
     {
-        public static IEnumerable<IEncounterable> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, bool all = false)
         {
-            var canBeEgg = GetCanBeEgg(pkm);
+            var table = EvolutionTree.GetEvolutionTree(pkm, 2);
+            int maxSpeciesOrigin = GetMaxSpeciesOrigin(2);
+            var evos = table.GetValidPreEvolutions(pkm, maxLevel: 100, maxSpeciesOrigin: maxSpeciesOrigin, skipChecks: true);
+            return GenerateEggs(pkm, evos, all);
+        }
+
+        public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
+        {
+            var canBeEgg = all || GetCanBeEgg(pkm);
             if (!canBeEgg)
                 yield break;
 

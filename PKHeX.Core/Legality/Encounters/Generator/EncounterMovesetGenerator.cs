@@ -191,7 +191,7 @@ namespace PKHeX.Core
         {
             return type switch
             {
-                EncounterOrder.Egg => GetEggs(pk, needs, version),
+                EncounterOrder.Egg => GetEggs(pk, needs, chain, version),
                 EncounterOrder.Mystery => GetGifts(pk, needs, chain),
                 EncounterOrder.Static => GetStatic(pk, needs, chain),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain),
@@ -205,14 +205,19 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
+        /// <param name="chain">Origin possible evolution chain</param>
         /// <param name="version">Specific version to iterate for. Necessary for retrieving possible Egg Moves.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, GameVersion version)
+        private static IEnumerable<EncounterEgg> GetEggs(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
             if (GameVersion.CXD.Contains(version) || GameVersion.Gen7b.Contains(version))
                 yield break; // no eggs from these games
-
-            var eggs = EncounterEggGenerator.GenerateEggs(pk, all: true);
+            int gen = version.GetGeneration();
+            if (gen < 2)
+                yield break;
+            var eggs = gen == 2
+                ? EncounterEggGenerator2.GenerateEggs(pk, chain, all: true)
+                : EncounterEggGenerator.GenerateEggs(pk, chain, all: true);
             foreach (var egg in eggs)
             {
                 if (needs.Count == 0)
