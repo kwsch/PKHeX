@@ -52,38 +52,23 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return (Species) species switch
             {
-                case Charizard when generation < 8:
-                case Mewtwo when generation < 8:
-                    return GetMegaXY(types, forms);
+                Charizard when generation < 8 => GetMegaXY(types, forms),
+                Mewtwo when generation < 8 => GetMegaXY(types, forms),
+                Eevee when IsGG() => new[]
+                {
+                    types[000], // Normal
+                    Starter,
+                },
+                Pikachu => GetFormsPikachu(generation, types, forms),
+                Slowbro when generation >= 8 => GetFormsGalarSlowbro(types, forms),
 
-                case Eevee when IsGG():
-                    return new[]
-                    {
-                        types[000], // Normal
-                        Starter,
-                    };
+                Weezing or Ponyta or Rapidash or Slowpoke or MrMime or Farfetchd
+                or Articuno or Zapdos or Moltres when generation >= 8 => GetFormsGalar(types, forms),
 
-                case Pikachu:
-                    return GetFormsPikachu(generation, types, forms);
-
-                case Weezing when generation >= 8:
-                case Ponyta or Rapidash when generation >= 8:
-                case Slowpoke when generation >= 8:
-                case MrMime when generation >= 8:
-                case Farfetchd when generation >= 8:
-                case Articuno when generation >= 8:
-                case Zapdos when generation >= 8:
-                case Moltres when generation >= 8:
-                    return GetFormsGalar(types, forms);
-
-                case Slowbro when generation >= 8:
-                    return GetFormsGalarSlowbro(types, forms);
-
-                default:
-                    return GetFormsAlolan(generation, types, forms, species);
-            }
+                _ => GetFormsAlolan(generation, types, forms, species)
+            };
         }
 
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
@@ -100,606 +85,423 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return (Species) species switch
             {
-                default:
-                    return EMPTY;
-
-                case Zigzagoon when generation >= 8:
-                case Linoone when generation >= 8:
-                    return GetFormsGalar(types, forms);
-
-                case Castform: // Castform
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[889], // Sunny
-                        forms[890], // Rainy
-                        forms[891], // Snowy
-                    };
-                case Kyogre: // Kyogre
-                case Groudon: // Groudon
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[899], // Primal
-                    };
-                case Deoxys: // Deoxys
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[902], // Attack
-                        forms[903], // Defense
-                        forms[904], // Speed
-                    };
-            }
+                Zigzagoon when generation >= 8 => GetFormsGalar(types, forms),
+                Linoone when generation >= 8 => GetFormsGalar(types, forms),
+                Castform => new[] {
+                    types[000], // Normal
+                    forms[889], // Sunny
+                    forms[890], // Rainy
+                    forms[891], // Snowy
+                },
+                Kyogre => new[] {
+                    types[000], // Normal
+                    forms[899], // Primal
+                },
+                Groudon => new[] {
+                    types[000], // Normal
+                    forms[899], // Primal
+                },
+                Deoxys => new[] {
+                    types[000], // Normal
+                    forms[902], // Attack
+                    forms[903], // Defense
+                    forms[904], // Speed
+                },
+                _ => EMPTY
+            };
         }
 
         private static string[] GetFormsGen4(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Burmy or Wormadam or Mothim:
-                    return new[]
-                    {
-                        forms[412], // Plant
-                        forms[905], // Sandy
-                        forms[906], // Trash
-                    };
-
-                case Cherrim:
-                    return new[]
-                    {
-                        forms[421], // Overcast
-                        forms[909], // Sunshine
-                    };
-
-                case Shellos or Gastrodon:
-                    return new[]
-                    {
-                        forms[422], // West
-                        forms[911], // East
-                    };
-
-                case Rotom:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[917], // Heat
-                        forms[918], // Wash
-                        forms[919], // Frost
-                        forms[920], // Fan
-                        forms[921], // Mow
-                    };
-
-                case Giratina:
-                    return new[]
-                    {
-                        forms[487], // Altered
-                        forms[922], // Origin
-                    };
-
-                case Shaymin:
-                    return new[]
-                    {
-                        forms[492], // Land
-                        forms[923], // Sky
-                    };
-
-                case Arceus:
-                case Silvally:
-                    return GetFormsArceus(generation, types);
-            }
+                Burmy or Wormadam or Mothim => new[] {
+                    forms[412], // Plant
+                    forms[905], // Sandy
+                    forms[906], // Trash
+                },
+                Cherrim => new[] {
+                    forms[421], // Overcast
+                    forms[909], // Sunshine
+                },
+                Shellos or Gastrodon => new[] {
+                    forms[422], // West
+                    forms[911], // East
+                },
+                Rotom => new[] {
+                    types[000], // Normal
+                    forms[917], // Heat
+                    forms[918], // Wash
+                    forms[919], // Frost
+                    forms[920], // Fan
+                    forms[921], // Mow
+                },
+                Giratina => new[] {
+                    forms[487], // Altered
+                    forms[922], // Origin
+                },
+                Shaymin => new[] {
+                    forms[492], // Land
+                    forms[923], // Sky
+                },
+                Arceus or Silvally => GetFormsArceus(generation, types),
+                _ => EMPTY,
+            };
         }
 
         private static string[] GetFormsGen5(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Basculin:
-                    return new[]
-                    {
-                        forms[550], // Red
-                        forms[942], // Blue
-                    };
-
-                case Darumaka when generation >= 8:
-                    return GetFormsGalar(types, forms);
-
-                case Darmanitan:
-                {
-                    if (generation <= 7)
-                    {
-                        return new[]
-                        {
-                            forms[555], // Standard
-                            forms[943], // Zen
-                        };
-                    }
-                    return new[]
-                    {
-                        forms[555], // Standard
-                        forms[943], // Zen
-                        forms[Galarian], // Standard
-                        forms[Galarian] + " " + forms[943], // Zen
-                    };
-                }
-
-                case Yamask when generation >= 8:
-                    return GetFormsGalar(types, forms);
-
-                case Deerling or Sawsbuck:
-                    return new[]
-                    {
-                        forms[585], // Spring
-                        forms[947], // Summer
-                        forms[948], // Autumn
-                        forms[949], // Winter
-                    };
-
-                case Stunfisk when generation >= 8:
-                    return GetFormsGalar(types, forms);
-
-                case Tornadus:
-                case Thundurus:
-                case Landorus:
-                    return new[]
-                    {
-                        forms[641], // Incarnate
-                        forms[952], // Therian
-                    };
-
-                case Kyurem:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[953], // White
-                        forms[954], // Black
-                    };
-
-                case Keldeo:
-                    return new[]
-                    {
-                        forms[647], // Ordinary
-                        forms[955], // Resolute
-                    };
-
-                case Meloetta:
-                    return new[]
-                    {
-                        forms[648], // Aria
-                        forms[956], // Pirouette
-                    };
-
-                case Genesect:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        types[010], // Douse (Water)
-                        types[012], // Shock (Electric)
-                        types[009], // Burn (Fire)
-                        types[014], // Chill (Ice)
-                    };
-            }
+                Basculin => new[] {
+                    forms[550], // Red
+                    forms[942], // Blue
+                },
+                Darumaka when generation >= 8 => GetFormsGalar(types, forms),
+                Darmanitan when generation >= 8 => new[] {
+                    forms[555], // Standard
+                    forms[943], // Zen
+                    forms[Galarian], // Standard
+                    forms[Galarian] + " " + forms[943], // Zen
+                },
+                Darmanitan => new[] {
+                    forms[555], // Standard
+                    forms[943], // Zen
+                },
+                Yamask when generation >= 8 => GetFormsGalar(types, forms),
+                Deerling or Sawsbuck => new[] {
+                    forms[585], // Spring
+                    forms[947], // Summer
+                    forms[948], // Autumn
+                    forms[949], // Winter
+                },
+                Stunfisk when generation >= 8 => GetFormsGalar(types, forms),
+                Tornadus or Thundurus or Landorus => new[] {
+                    forms[641], // Incarnate
+                    forms[952], // Therian
+                },
+                Kyurem => new[] {
+                    types[000], // Normal
+                    forms[953], // White
+                    forms[954], // Black
+                },
+                Keldeo => new[] {
+                    forms[647], // Ordinary
+                    forms[955], // Resolute
+                },
+                Meloetta => new[] {
+                    forms[648], // Aria
+                    forms[956], // Pirouette
+                },
+                Genesect => new[] {
+                    types[000], // Normal
+                    types[010], // Douse (Water)
+                    types[012], // Shock (Electric)
+                    types[009], // Burn (Fire)
+                    types[014], // Chill (Ice)
+                },
+                _ => EMPTY,
+            };
         }
 
         private static string[] GetFormsGen6(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
         {
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Greninja:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[962], // "Ash",
-                        forms[1012], // "Bonded" - Active
-                    };
-
-                case Scatterbug or Spewpa or Vivillon:
-                    return new[]
-                    {
-                        forms[666], // Icy Snow
-                        forms[963], // Polar
-                        forms[964], // Tundra
-                        forms[965], // Continental
-                        forms[966], // Garden
-                        forms[967], // Elegant
-                        forms[968], // Meadow
-                        forms[969], // Modern
-                        forms[970], // Marine
-                        forms[971], // Archipelago
-                        forms[972], // High-Plains
-                        forms[973], // Sandstorm
-                        forms[974], // River
-                        forms[975], // Monsoon
-                        forms[976], // Savanna
-                        forms[977], // Sun
-                        forms[978], // Ocean
-                        forms[979], // Jungle
-                        forms[980], // Fancy
-                        forms[981], // Poké Ball
-                    };
-
-                case Flabébé or Florges:
-                    return new[]
-                    {
-                        forms[669], // Red
-                        forms[986], // Yellow
-                        forms[987], // Orange
-                        forms[988], // Blue
-                        forms[989], // White
-                    };
-
-                case Floette:
-                    return new[]
-                    {
-                        forms[669], // Red
-                        forms[986], // Yellow
-                        forms[987], // Orange
-                        forms[988], // Blue
-                        forms[989], // White
-                        forms[990], // Eternal
-                    };
-
-                case Furfrou:
-                    return new[]
-                    {
-                        forms[676], // Natural
-                        forms[995], // Heart
-                        forms[996], // Star
-                        forms[997], // Diamond
-                        forms[998], // Debutante
-                        forms[999], // Matron
-                        forms[1000], // Dandy
-                        forms[1001], // La Reine
-                        forms[1002], // Kabuki
-                        forms[1003], // Pharaoh
-                    };
-
-                case Meowstic:
-                    return new[]
-                    {
-                        genders[000], // Male
-                        genders[001], // Female
-                    };
-
-                case Aegislash:
-                    return new[]
-                    {
-                        forms[681], // Shield
-                        forms[1005], // Blade
-                    };
-
-                case Pumpkaboo or Gourgeist:
-                    return new[]
-                    {
-                        forms[710], // Average
-                        forms[1006], // Small
-                        forms[1007], // Large
-                        forms[1008], // Super
-                    };
-
-                case Xerneas:
-                    return new[]
-                    {
-                        forms[716], // Neutral
-                        forms[1012], // Active
-                    };
-
-                case Hoopa:
-                    return new[]
-                    {
-                        forms[720], // Confined
-                        forms[1018], // Unbound
-                    };
-
-                case Zygarde:
-                    return new[]
-                    {
-                        forms[718], // 50% (Aura Break)
-                        forms[1013], // 10% (Aura Break)
-                        forms[1014] + "-C", // 10% Cell (Power Construct)
-                        forms[1015] + "-C", // 50% Cell (Power Construct)
-                        forms[1016], // 100% Cell (Power Construct)
-                    };
-            }
+                Greninja => new[] {
+                    types[000], // Normal
+                    forms[962], // "Ash",
+                    forms[1012], // "Bonded" - Active
+                },
+                Scatterbug or Spewpa or Vivillon => new[] {
+                    forms[666], // Icy Snow
+                    forms[963], // Polar
+                    forms[964], // Tundra
+                    forms[965], // Continental
+                    forms[966], // Garden
+                    forms[967], // Elegant
+                    forms[968], // Meadow
+                    forms[969], // Modern
+                    forms[970], // Marine
+                    forms[971], // Archipelago
+                    forms[972], // High-Plains
+                    forms[973], // Sandstorm
+                    forms[974], // River
+                    forms[975], // Monsoon
+                    forms[976], // Savanna
+                    forms[977], // Sun
+                    forms[978], // Ocean
+                    forms[979], // Jungle
+                    forms[980], // Fancy
+                    forms[981], // Poké Ball
+                },
+                Flabébé or Florges => new[] {
+                    forms[669], // Red
+                    forms[986], // Yellow
+                    forms[987], // Orange
+                    forms[988], // Blue
+                    forms[989], // White
+                },
+                Floette => new[] {
+                    forms[669], // Red
+                    forms[986], // Yellow
+                    forms[987], // Orange
+                    forms[988], // Blue
+                    forms[989], // White
+                    forms[990], // Eternal
+                },
+                Furfrou => new[] {
+                    forms[676], // Natural
+                    forms[995], // Heart
+                    forms[996], // Star
+                    forms[997], // Diamond
+                    forms[998], // Debutante
+                    forms[999], // Matron
+                    forms[1000], // Dandy
+                    forms[1001], // La Reine
+                    forms[1002], // Kabuki
+                    forms[1003], // Pharaoh
+                },
+                Meowstic => new[] {
+                    genders[000], // Male
+                    genders[001], // Female
+                },
+                Aegislash => new[] {
+                    forms[681], // Shield
+                    forms[1005], // Blade
+                },
+                Pumpkaboo or Gourgeist => new[] {
+                    forms[710], // Average
+                    forms[1006], // Small
+                    forms[1007], // Large
+                    forms[1008], // Super
+                },
+                Xerneas => new[] {
+                    forms[716], // Neutral
+                    forms[1012], // Active
+                },
+                Hoopa => new[] {
+                    forms[720], // Confined
+                    forms[1018], // Unbound
+                },
+                Zygarde => new[] {
+                    forms[718], // 50% (Aura Break)
+                    forms[1013], // 10% (Aura Break)
+                    forms[1014] + "-C", // 10% Cell (Power Construct)
+                    forms[1015] + "-C", // 50% Cell (Power Construct)
+                    forms[1016], // 100% Cell (Power Construct)
+                },
+                _ => EMPTY,
+            };
         }
 
         private static string[] GetFormsGen7(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Oricorio:
-                    return new[]
-                    {
-                        forms[741], // "RED" - Baile
-                        forms[1021], // "YLW" - Pom-Pom
-                        forms[1022], // "PNK" - Pa'u
-                        forms[1023], // "BLU" - Sensu
-                    };
-
-                case Rockruff:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[1064], // Dusk
-                    };
-                case Lycanroc:
-                    return new[]
-                    {
-                        forms[745], // Midday
-                        forms[1024], // Midnight
-                        forms[1064], // Dusk
-                    };
-
-                case Wishiwashi:
-                    return new[]
-                    {
-                        forms[746],
-                        forms[1025], // School
-                    };
-
-                case Silvally:
-                    return GetFormsArceus(7, types);
-
-                case Minior:
-                    return new[]
-                    {
-                        forms[774], // "R-Meteor", // Meteor Red
-                        forms[1045], // "O-Meteor", // Meteor Orange
-                        forms[1046], // "Y-Meteor", // Meteor Yellow
-                        forms[1047], // "G-Meteor", // Meteor Green
-                        forms[1048], // "B-Meteor", // Meteor Blue
-                        forms[1049], // "I-Meteor", // Meteor Indigo
-                        forms[1050], // "V-Meteor", // Meteor Violet
-                        forms[1051], // "R-Core", // Core Red
-                        forms[1052], // "O-Core", // Core Orange
-                        forms[1053], // "Y-Core", // Core Yellow
-                        forms[1054], // "G-Core", // Core Green
-                        forms[1055], // "B-Core", // Core Blue
-                        forms[1056], // "I-Core", // Core Indigo
-                        forms[1057], // "V-Core", // Core Violet
-                    };
-
-                case Mimikyu:
-                    return new[]
-                    {
-                        forms[778], // Disguised
-                        forms[1058], // Busted
-                    };
-
-                case Necrozma:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[1065], // Dusk Mane
-                        forms[1066], // Dawn Wings
-                        forms[1067], // Ultra Necrozma
-                    };
-
-                case Magearna:
-                    return new[]
-                    {
-                        types[000],
-                        forms[1062], // Original
-                    };
-            }
+                Oricorio => new[] {
+                    forms[741], // "RED" - Baile
+                    forms[1021], // "YLW" - Pom-Pom
+                    forms[1022], // "PNK" - Pa'u
+                    forms[1023], // "BLU" - Sensu
+                },
+                Rockruff => new[] {
+                    types[0], // Normal
+                    forms[1064], // Dusk
+                },
+                Lycanroc => new[] {
+                    forms[745], // Midday
+                    forms[1024], // Midnight
+                    forms[1064], // Dusk
+                },
+                Wishiwashi => new[] {
+                    forms[746],
+                    forms[1025], // School
+                },
+                Silvally => GetFormsArceus(7, types),
+                Minior => new[] {
+                    forms[774], // "R-Meteor", // Meteor Red
+                    forms[1045], // "O-Meteor", // Meteor Orange
+                    forms[1046], // "Y-Meteor", // Meteor Yellow
+                    forms[1047], // "G-Meteor", // Meteor Green
+                    forms[1048], // "B-Meteor", // Meteor Blue
+                    forms[1049], // "I-Meteor", // Meteor Indigo
+                    forms[1050], // "V-Meteor", // Meteor Violet
+                    forms[1051], // "R-Core", // Core Red
+                    forms[1052], // "O-Core", // Core Orange
+                    forms[1053], // "Y-Core", // Core Yellow
+                    forms[1054], // "G-Core", // Core Green
+                    forms[1055], // "B-Core", // Core Blue
+                    forms[1056], // "I-Core", // Core Indigo
+                    forms[1057], // "V-Core", // Core Violet
+                },
+                Mimikyu => new[] {
+                    forms[778], // Disguised
+                    forms[1058], // Busted
+                },
+                Necrozma => new[] {
+                    types[000], // Normal
+                    forms[1065], // Dusk Mane
+                    forms[1066], // Dawn Wings
+                    forms[1067], // Ultra Necrozma
+                },
+                Magearna => new[] {
+                    types[000],
+                    forms[1062], // Original
+                },
+                _ => EMPTY,
+            };
         }
 
         private static string[] GetFormsGen8(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, IReadOnlyList<string> genders)
         {
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Cramorant:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[Gulping],
-                        forms[Gorging],
-                    };
-
-                case Toxtricity:
-                    return new[]
-                    {
-                        forms[(int)Toxtricity], // Amped
-                        forms[LowKey],
-                    };
-
-                case Indeedee:
-                    return new[]
-                    {
-                        genders[000], // Male
-                        genders[001], // Female
-                    };
-
-                case Sinistea or Polteageist:
-                    return new[]
-                    {
-                        "Phony",
-                        "Antique",
-                    };
-
-                case Alcremie:
-                    return new[]
-                    {
-                        forms[(int)Alcremie], // Vanilla Cream
-                        forms[RubyCream],
-                        forms[MatchaCream],
-                        forms[MintCream],
-                        forms[LemonCream],
-                        forms[SaltedCream],
-                        forms[RubySwirl],
-                        forms[CaramelSwirl],
-                        forms[RainbowSwirl],
-                    };
-
-                case Morpeko:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[HangryMode],
-                    };
-
-                case Eiscue:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[NoiceFace],
-                    };
-
-                case Zacian:
-                case Zamazenta:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[Crowned],
-                    };
-
-                case Eternatus:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[Eternamax],
-                    };
-                case Urshifu:
-                    return new[]
-                    {
-                        forms[SingleStrike],
-                        forms[RapidStrike],
-                    };
-                case Zarude:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[Dada],
-                    };
-
-                case Calyrex:
-                    return new[]
-                    {
-                        types[0], // Normal
-                        forms[CalyIce],
-                        forms[CalyGhost],
-                    };
-            }
+                Cramorant => new[] {
+                    types[0], // Normal
+                    forms[Gulping],
+                    forms[Gorging],
+                },
+                Toxtricity => new[] {
+                    forms[(int)Toxtricity], // Amped
+                    forms[LowKey],
+                },
+                Indeedee => new[] {
+                    genders[000], // Male
+                    genders[001], // Female
+                },
+                Sinistea or Polteageist => new[] {
+                    "Phony",
+                    "Antique",
+                },
+                Alcremie => new[] {
+                    forms[(int)Alcremie], // Vanilla Cream
+                    forms[RubyCream],
+                    forms[MatchaCream],
+                    forms[MintCream],
+                    forms[LemonCream],
+                    forms[SaltedCream],
+                    forms[RubySwirl],
+                    forms[CaramelSwirl],
+                    forms[RainbowSwirl],
+                },
+                Morpeko => new[] {
+                    types[0], // Normal
+                    forms[HangryMode],
+                },
+                Eiscue => new[] {
+                    types[0], // Normal
+                    forms[NoiceFace],
+                },
+                Zacian or Zamazenta => new[] {
+                    types[0], // Normal
+                    forms[Crowned],
+                },
+                Eternatus => new[] {
+                    types[0], // Normal
+                    forms[Eternamax],
+                },
+                Urshifu => new[] {
+                    forms[SingleStrike],
+                    forms[RapidStrike],
+                },
+                Zarude => new[] {
+                    types[0], // Normal
+                    forms[Dada],
+                },
+                Calyrex => new[] {
+                    types[0], // Normal
+                    forms[CalyIce],
+                    forms[CalyGhost],
+                },
+                _ => EMPTY,
+            };
         }
 
-        private static string[] GetFormsAlolan (int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
+        private static string[] GetFormsAlolan(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms, int species)
         {
             if (generation < 7)
                 return EMPTY;
 
-            switch ((Species)species)
+            return (Species)species switch
             {
-                default:
-                    return EMPTY;
-
-                case Meowth when generation >= 8:
-                    return new[]
-                    {
-                        types[000],
-                        forms[810], // Alolan
-                        forms[Galarian], // Alolan
-                    };
+                Meowth when generation >= 8 => new[] {
+                    types[000],
+                    forms[810], // Alolan
+                    forms[Galarian], // Alolan
+                },
 
                 // Only reached when Gen8+, as Totem logic picks up Gen7 earlier.
-                case Rattata or Raticate: 
-                case Raichu:
-                case Sandshrew or Sandslash:
-                case Vulpix or Ninetales:
-                case Diglett or Dugtrio:
-                case Meowth or Persian:
-                case Geodude or Graveler or Golem:
-                case Grimer or Muk:
-                case Exeggutor:
-                case Marowak:
-                    return new[]
-                    {
-                        types[000],
-                        forms[810] // Alolan
-                    };
-            }
+                Rattata or Raticate
+                or Raichu
+                or Sandshrew or Sandslash
+                or Vulpix or Ninetales
+                or Diglett or Dugtrio
+                or Meowth or Persian
+                or Geodude or Graveler or Golem
+                or Grimer or Muk
+                or Exeggutor
+                or Marowak => new[] {
+                    types[000],
+                    forms[810] // Alolan
+                },
+                _ => EMPTY,
+            };
         }
 
         private static string[] GetFormsPikachu(int generation, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
-            switch (generation)
+            return generation switch
             {
-                default:
-                    return EMPTY;
-
-                case 6:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[729], // Rockstar
-                        forms[730], // Belle
-                        forms[731], // Pop
-                        forms[732], // PhD
-                        forms[733], // Libre
-                        forms[734], // Cosplay
-                    };
-
-                case 7 when IsGG():
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[813], // Original
-                        forms[814], // Hoenn
-                        forms[815], // Sinnoh
-                        forms[816], // Unova
-                        forms[817], // Kalos
-                        forms[818], // Alola
-                        forms[1063], // Partner
-                        Starter,
-                    };
-
-                case 7:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[813], // Original
-                        forms[814], // Hoenn
-                        forms[815], // Sinnoh
-                        forms[816], // Unova
-                        forms[817], // Kalos
-                        forms[818], // Alola
-                        forms[1063], // Partner
-                        Starter,
-                    };
-                case 8:
-                    return new[]
-                    {
-                        types[000], // Normal
-                        forms[813], // Original
-                        forms[814], // Hoenn
-                        forms[815], // Sinnoh
-                        forms[816], // Unova
-                        forms[817], // Kalos
-                        forms[818], // Alola
-                        forms[1063], // Partner
-                        Starter,
-                        forms[1085], // World
-                    };
-            }
+                6 => new[] {
+                    types[000], // Normal
+                    forms[729], // Rockstar
+                    forms[730], // Belle
+                    forms[731], // Pop
+                    forms[732], // PhD
+                    forms[733], // Libre
+                    forms[734], // Cosplay
+                },
+                7 when IsGG() => new[] {
+                    types[000], // Normal
+                    forms[813], // Original
+                    forms[814], // Hoenn
+                    forms[815], // Sinnoh
+                    forms[816], // Unova
+                    forms[817], // Kalos
+                    forms[818], // Alola
+                    forms[1063], // Partner
+                    Starter,
+                },
+                7 => new[] {
+                    types[000], // Normal
+                    forms[813], // Original
+                    forms[814], // Hoenn
+                    forms[815], // Sinnoh
+                    forms[816], // Unova
+                    forms[817], // Kalos
+                    forms[818], // Alola
+                    forms[1063], // Partner
+                },
+                8 => new[] {
+                    types[000], // Normal
+                    forms[813], // Original
+                    forms[814], // Hoenn
+                    forms[815], // Sinnoh
+                    forms[816], // Unova
+                    forms[817], // Kalos
+                    forms[818], // Alola
+                    forms[1063], // Partner
+                    Starter,
+                    forms[1085], // World
+                },
+                _ => EMPTY,
+            };
         }
 
-        private static string[] GetFormsPichu  (IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsPichu(IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             return new[]
             {
@@ -708,79 +510,73 @@ namespace PKHeX.Core
             };
         }
 
-        private static string[] GetFormsArceus (int generation, IReadOnlyList<string> types)
+        private static string[] GetFormsArceus(int generation, IReadOnlyList<string> types)
         {
-            switch (generation)
+            return generation switch
             {
-                case 4:
-                    return new[]
-                    {
-                        types[00], // Normal
-                        types[01], // Fighting
-                        types[02], // Flying
-                        types[03], // Poison
-                        types[04], // etc
-                        types[05],
-                        types[06],
-                        types[07],
-                        types[08],
-                        "???", // ???-type arceus
-                        types[09],
-                        types[10],
-                        types[11],
-                        types[12],
-                        types[13],
-                        types[14],
-                        types[15],
-                        types[16] // No Fairy Type
-                    };
-                case 5:
-                    return new[]
-                    {
-                        types[00], // Normal
-                        types[01], // Fighting
-                        types[02], // Flying
-                        types[03], // Poison
-                        types[04], // etc
-                        types[05],
-                        types[06],
-                        types[07],
-                        types[08],
-                        types[09],
-                        types[10],
-                        types[11],
-                        types[12],
-                        types[13],
-                        types[14],
-                        types[15],
-                        types[16] // No Fairy type
-                    };
-                default:
-                    return new[]
-                    {
-                        types[00], // Normal
-                        types[01], // Fighting
-                        types[02], // Flying
-                        types[03], // Poison
-                        types[04], // etc
-                        types[05],
-                        types[06],
-                        types[07],
-                        types[08],
-                        types[09],
-                        types[10],
-                        types[11],
-                        types[12],
-                        types[13],
-                        types[14],
-                        types[15],
-                        types[16],
-                        types[17],
-                    };
-            }
+                4 => new[] {
+                    types[00], // Normal
+                    types[01], // Fighting
+                    types[02], // Flying
+                    types[03], // Poison
+                    types[04], // etc
+                    types[05],
+                    types[06],
+                    types[07],
+                    types[08],
+                    "???", // ???-type arceus
+                    types[09],
+                    types[10],
+                    types[11],
+                    types[12],
+                    types[13],
+                    types[14],
+                    types[15],
+                    types[16] // No Fairy Type
+                },
+                5 => new[] {
+                    types[00], // Normal
+                    types[01], // Fighting
+                    types[02], // Flying
+                    types[03], // Poison
+                    types[04], // etc
+                    types[05],
+                    types[06],
+                    types[07],
+                    types[08],
+                    types[09],
+                    types[10],
+                    types[11],
+                    types[12],
+                    types[13],
+                    types[14],
+                    types[15],
+                    types[16] // No Fairy type
+                },
+                _ => new[] {
+                    types[00], // Normal
+                    types[01], // Fighting
+                    types[02], // Flying
+                    types[03], // Poison
+                    types[04], // etc
+                    types[05],
+                    types[06],
+                    types[07],
+                    types[08],
+                    types[09],
+                    types[10],
+                    types[11],
+                    types[12],
+                    types[13],
+                    types[14],
+                    types[15],
+                    types[16],
+                    types[17],
+                },
+            };
         }
 
-        private static string[] GetFormsTotem  (int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
+        private static string[] GetFormsTotem(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms)
         {
             if ((Species)species == Mimikyu) // Mimikyu
             {
