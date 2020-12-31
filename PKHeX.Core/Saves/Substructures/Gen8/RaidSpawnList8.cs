@@ -205,7 +205,7 @@ namespace PKHeX.Core
             IsRare = rare;
             IsEvent = isEvent;
         }
-        
+
         public void Deactivate()
         {
             DenType = RaidType.None;

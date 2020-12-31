@@ -77,7 +77,7 @@ namespace PKHeX.Core
             if (xor is <= 15 and not 0)
                 data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
         }
-        
+
         private static void VerifyVCGeolocation(LegalityAnalysis data)
         {
             if (data.pkm is not PK7 pk7)
