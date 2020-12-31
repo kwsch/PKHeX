@@ -52,10 +52,9 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen1(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            return (Species) species switch
+            return (Species)species switch
             {
-                Charizard when generation < 8 => GetMegaXY(types, forms),
-                Mewtwo when generation < 8 => GetMegaXY(types, forms),
+                Charizard or Mewtwo when generation < 8 => GetMegaXY(types, forms),
                 Eevee when IsGG() => new[]
                 {
                     types[000], // Normal
@@ -73,22 +72,20 @@ namespace PKHeX.Core
 
         private static string[] GetFormsGen2(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            return species switch
+            return (Species)species switch
             {
-                (int)Pichu when generation == 4 => GetFormsPichu(types, forms),
-                (int)Slowking when generation >= 8 => GetFormsGalar(types, forms),
-                (int)Unown => GetFormsUnown(generation),
-                (int)Corsola when generation >= 8 => GetFormsGalar(types, forms),
+                Pichu when generation == 4 => GetFormsPichu(types, forms),
+                Slowking or Corsola when generation >= 8 => GetFormsGalar(types, forms),
+                Unown => GetFormsUnown(generation),
                 _ => EMPTY
             };
         }
 
         private static string[] GetFormsGen3(int species, IReadOnlyList<string> types, IReadOnlyList<string> forms, int generation)
         {
-            return (Species) species switch
+            return (Species)species switch
             {
-                Zigzagoon when generation >= 8 => GetFormsGalar(types, forms),
-                Linoone when generation >= 8 => GetFormsGalar(types, forms),
+                Zigzagoon or Linoone when generation >= 8 => GetFormsGalar(types, forms),
                 Castform => new[] {
                     types[000], // Normal
                     forms[889], // Sunny
@@ -146,7 +143,7 @@ namespace PKHeX.Core
                     forms[492], // Land
                     forms[923], // Sky
                 },
-                Arceus or Silvally => GetFormsArceus(generation, types),
+                Arceus => GetFormsArceus(generation, types),
                 _ => EMPTY,
             };
         }
@@ -159,7 +156,7 @@ namespace PKHeX.Core
                     forms[550], // Red
                     forms[942], // Blue
                 },
-                Darumaka when generation >= 8 => GetFormsGalar(types, forms),
+                Darumaka or Stunfisk or Yamask when generation >= 8 => GetFormsGalar(types, forms),
                 Darmanitan when generation >= 8 => new[] {
                     forms[555], // Standard
                     forms[943], // Zen
@@ -170,14 +167,12 @@ namespace PKHeX.Core
                     forms[555], // Standard
                     forms[943], // Zen
                 },
-                Yamask when generation >= 8 => GetFormsGalar(types, forms),
                 Deerling or Sawsbuck => new[] {
                     forms[585], // Spring
                     forms[947], // Summer
                     forms[948], // Autumn
                     forms[949], // Winter
                 },
-                Stunfisk when generation >= 8 => GetFormsGalar(types, forms),
                 Tornadus or Thundurus or Landorus => new[] {
                     forms[641], // Incarnate
                     forms[952], // Therian
