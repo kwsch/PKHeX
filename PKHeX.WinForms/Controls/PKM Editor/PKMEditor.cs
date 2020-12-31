@@ -1794,6 +1794,7 @@ namespace PKHeX.WinForms.Controls
             GB_ExtraBytes.Visible = GB_ExtraBytes.Enabled = gen >= 3;
             GB_Markings.Visible = gen >= 3;
             CB_Form.Enabled = gen >= 3;
+            FA_Form.Visible = gen >= 6;
 
             FLP_Friendship.Visible = FLP_Form.Visible = gen >= 2;
             FLP_HeldItem.Visible = gen >= 2;

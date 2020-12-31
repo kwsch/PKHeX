@@ -63,6 +63,7 @@
             0,
             0,
             0});
+            this.NUD_FormArg.Visible = false;
             this.NUD_FormArg.ValueChanged += new System.EventHandler(this.NUD_FormArg_ValueChanged);
             // 
             // CB_FormArg
@@ -76,6 +77,7 @@
             this.CB_FormArg.Name = "CB_FormArg";
             this.CB_FormArg.Size = new System.Drawing.Size(66, 21);
             this.CB_FormArg.TabIndex = 1;
+            this.CB_FormArg.Visible = false;
             this.CB_FormArg.SelectedIndexChanged += new System.EventHandler(this.CB_FormArg_SelectedIndexChanged);
             // 
             // FormArgument
