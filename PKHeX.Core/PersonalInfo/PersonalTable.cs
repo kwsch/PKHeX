@@ -159,8 +159,9 @@ namespace PKHeX.Core
         private static void FixPersonalTableG1()
         {
             // Load Gen2 Gender Ratios into Gen1
+            PersonalInfo[] rb = RB.Table, y = Y.Table, gs = GS.Table;
             for (int i = 0; i <= Legal.MaxSpeciesID_1; i++)
-                RB[i].Gender = Y[i].Gender = GS[i].Gender;
+                rb[i].Gender = y[i].Gender = gs[i].Gender;
         }
 
         private static void PopulateGen3Tutors()
@@ -168,18 +169,20 @@ namespace PKHeX.Core
             // Update Gen3 data with Emerald's data, FR/LG is a subset of Emerald's compatibility.
             var machine = BinLinker.Unpack(Util.GetBinaryResource("hmtm_g3.pkl"), "g3");
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g3.pkl"), "g3");
+            var table = E.Table;
             for (int i = 0; i <= Legal.MaxSpeciesID_3; i++)
             {
-                E[i].AddTMHM(machine[i]);
-                E[i].AddTypeTutors(tutors[i]);
+                table[i].AddTMHM(machine[i]);
+                table[i].AddTypeTutors(tutors[i]);
             }
         }
 
         private static void PopulateGen4Tutors()
         {
             var tutors = BinLinker.Unpack(Util.GetBinaryResource("tutors_g4.pkl"), "g4");
+            var table = HGSS.Table;
             for (int i = 0; i < tutors.Length; i++)
-                HGSS[i].AddTypeTutors(tutors[i]);
+                table[i].AddTypeTutors(tutors[i]);
         }
 
         /// <summary>
@@ -188,8 +191,8 @@ namespace PKHeX.Core
         /// </summary>
         private static void CopyDexitGenders()
         {
-            var swsh = SWSH;
-            var usum = USUM;
+            var swsh = SWSH.Table;
+            var usum = USUM.Table;
 
             for (int i = 1; i <= Legal.MaxSpeciesID_7_USUM; i++)
             {
@@ -204,10 +207,11 @@ namespace PKHeX.Core
             var get = GetConstructor(format);
             int size = GetEntrySize(format);
             byte[][] entries = data.Split(size);
-            Table = new PersonalInfo[entries.Length];
-            for (int i = 0; i < Table.Length; i++)
-                Table[i] = get(entries[i]);
+            var table = new PersonalInfo[entries.Length];
+            for (int i = 0; i < table.Length; i++)
+                table[i] = get(entries[i]);
 
+            Table = table;
             MaxSpeciesID = format.GetMaxSpeciesID();
             Game = format;
         }
@@ -224,15 +228,17 @@ namespace PKHeX.Core
         {
             get
             {
-                if ((uint)index >= Table.Length)
-                    return Table[0];
-                return Table[index];
+                var table = Table;
+                if ((uint)index >= table.Length)
+                    return table[0];
+                return table[index];
             }
             set
             {
-                if ((uint)index >= Table.Length)
+                var table = Table;
+                if ((uint)index >= table.Length)
                     return;
-                Table[index] = value;
+                table[index] = value;
             }
         }
 
@@ -244,9 +250,10 @@ namespace PKHeX.Core
         /// <returns>Entry index for the input criteria</returns>
         public int GetFormIndex(int species, int form)
         {
-            if (species > MaxSpeciesID)
-            { Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})"); species = 0; }
-            return this[species].FormIndex(species, form);
+            if ((uint)species <= MaxSpeciesID)
+                return Table[species].FormIndex(species, form);
+            Debug.WriteLine($"Requested out of bounds {nameof(species)}: {species} (max={MaxSpeciesID})");
+            return 0;
         }
 
         /// <summary>
