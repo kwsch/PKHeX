@@ -126,11 +126,11 @@ namespace PKHeX.Core
 
             return slot.Species switch
             {
-                (int) Core.Species.Yamask when pk.Species != slot.Species && slot.Form == 1 && pk is IFormArgument f => f.FormArgument == 0,
-                (int) Core.Species.Milcery when pk.Species != slot.Species && pk is IFormArgument f => f.FormArgument == 0,
+                (int) Core.Species.Yamask when pk.Species != slot.Species && slot.Form == 1 => pk is IFormArgument {FormArgument: 0},
+                (int) Core.Species.Milcery when pk.Species != slot.Species => pk is IFormArgument {FormArgument: 0},
 
-                (int) Core.Species.Runerigus when pk is IFormArgument f && f.FormArgument != 0 => true,
-                (int) Core.Species.Alcremie when pk is IFormArgument f && f.FormArgument != 0 => true,
+                (int) Core.Species.Runerigus => pk is IFormArgument {FormArgument: not 0},
+                (int) Core.Species.Alcremie => pk is IFormArgument {FormArgument: not 0},
 
                 _ => false,
             };

@@ -1892,7 +1892,7 @@ namespace PKHeX.WinForms.Controls
 
         private void CB_BattleVersion_SelectedValueChanged(object sender, EventArgs e)
         {
-            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, Entity is IBattleVersion b && b.BattleVersion != 0);
+            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, Entity is IBattleVersion {BattleVersion: not 0});
         }
 
         private static Image GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
@@ -1976,7 +1976,7 @@ namespace PKHeX.WinForms.Controls
 
                 var game = source.Games;
                 var gamesWith0 = new List<ComboItem>(1 + game.Count) {GameInfo.Sources.Empty};
-                gamesWith0.AddRange(lang);
+                gamesWith0.AddRange(game);
                 SetIfDifferentCount(gamesWith0, CB_BattleVersion, force);
             }
             SetIfDifferentCount(source.Species, CB_Species, force);
