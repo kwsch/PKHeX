@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.GG"/> encounter area
     /// </summary>
-    public sealed class EncounterArea7b : EncounterArea
+    public sealed record EncounterArea7b : EncounterArea
     {
         public static EncounterArea7b[] GetAreas(byte[][] input, GameVersion game)
         {

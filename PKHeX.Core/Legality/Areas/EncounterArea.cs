@@ -6,12 +6,12 @@ namespace PKHeX.Core
     /// <summary>
     /// Represents an Area where <see cref="PKM"/> can be encountered, which contains a Location ID and <see cref="EncounterSlot"/> data.
     /// </summary>
-    public abstract class EncounterArea : IVersion
+    public abstract record EncounterArea : IVersion
     {
         public GameVersion Version { get; }
         public int Location { get; protected init; }
         public SlotType Type { get; protected init; } = SlotType.Any;
-        public EncounterSlot[] Slots = Array.Empty<EncounterSlot>();
+        public EncounterSlot[] Slots { get; internal set; } = Array.Empty<EncounterSlot>();
 
         protected EncounterArea(GameVersion game) => Version = game;
 

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// <see cref="GameVersion.GO"/> encounter area for <see cref="GameVersion.GG"/>
     /// </summary>
-    public sealed class EncounterArea7g : EncounterArea, ISpeciesForm
+    public sealed record EncounterArea7g : EncounterArea, ISpeciesForm
     {
         /// <summary> Species for the area </summary>
         /// <remarks> Due to how the encounter data is packaged by PKHeX, each species-form is grouped together. </remarks>

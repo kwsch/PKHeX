@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.SWSH"/> encounter area
     /// </summary>
-    public sealed class EncounterArea8 : EncounterArea
+    public sealed record EncounterArea8 : EncounterArea
     {
         /// <summary>
         /// Slots from this area can cross over to another area, resulting in a different met location.
@@ -248,7 +248,9 @@ namespace PKHeX.Core
                 for (int i = 0; i < count; i++, ctr++, ofs += 2)
                 {
                     var specForm = BitConverter.ToUInt16(areaData, ofs);
-                    slots[ctr] = new EncounterSlot8(this, specForm, min, max, flags);
+                    var species = specForm & 0x7FF;
+                    var form = specForm >> 11;
+                    slots[ctr] = new EncounterSlot8(this, species, form, min, max, flags);
                 }
             } while (ctr != slots.Length);
 

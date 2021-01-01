@@ -2,11 +2,11 @@
 
 namespace PKHeX.Core
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="EncounterArea" />
     /// <summary>
     /// <see cref="GameVersion.RBY"/> encounter area
     /// </summary>
-    public sealed class EncounterArea1 : EncounterArea
+    public sealed record EncounterArea1 : EncounterArea
     {
         public readonly int Rate;
 
