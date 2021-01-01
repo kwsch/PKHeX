@@ -38,6 +38,17 @@
 0x3A8	Overworld Hidden (Regice)
 0x3A9	Overworld Hidden (Registeel)
 
+0x3C9	Uncovered Kecleon (Fortree City)
+0x3CA	Uncovered Kecleon (Route 120, Bridge)
+0x3D5	Uncovered Kecleon (Route 120, Bridge)
+0x3D6	Uncovered Kecleon (Route 120, Stairs)
+0x3D9	Uncovered Kecleon (Route 120, Behind Sign)
+0x3DA	Uncovered Kecleon (Route 120, Behind Berry Trees)
+0x3DB	Uncovered Kecleon (Route 120, Left of Long Grass Maze)
+0x3DC	Uncovered Kecleon (Route 120, Behind Ancient Tomb)
+0x3DD	Uncovered Kecleon (Route 119, Right of Ninja Boy)
+0x3DE	Uncovered Kecleon (Route 119, Above Waterfall)
+
 0x3D1	Overworld Hidden (Electrode 1 in Hideout)
 0x3D2	Overworld Hidden (Electrode 2 in Hideout)
 
