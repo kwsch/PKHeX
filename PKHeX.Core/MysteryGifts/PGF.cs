@@ -63,12 +63,12 @@ namespace PKHeX.Core
         public override int EggLocation { get => BitConverter.ToUInt16(Data, 0x38); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x38); }
         public ushort MetLocation { get => BitConverter.ToUInt16(Data, 0x3A); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3A); }
         public int MetLevel { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
-        public int CNT_Cool { get => Data[0x3D]; set => Data[0x3D] = (byte)value; }
-        public int CNT_Beauty { get => Data[0x3E]; set => Data[0x3E] = (byte)value; }
-        public int CNT_Cute { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
-        public int CNT_Smart { get => Data[0x40]; set => Data[0x40] = (byte)value; }
-        public int CNT_Tough { get => Data[0x41]; set => Data[0x41] = (byte)value; }
-        public int CNT_Sheen { get => Data[0x42]; set => Data[0x42] = (byte)value; }
+        public byte CNT_Cool   { get => Data[0x3D]; set => Data[0x3D] = value; }
+        public byte CNT_Beauty { get => Data[0x3E]; set => Data[0x3E] = value; }
+        public byte CNT_Cute   { get => Data[0x3F]; set => Data[0x3F] = value; }
+        public byte CNT_Smart  { get => Data[0x40]; set => Data[0x40] = value; }
+        public byte CNT_Tough  { get => Data[0x41]; set => Data[0x41] = value; }
+        public byte CNT_Sheen  { get => Data[0x42]; set => Data[0x42] = value; }
         public int IV_HP { get => Data[0x43]; set => Data[0x43] = (byte)value; }
         public int IV_ATK { get => Data[0x44]; set => Data[0x44] = (byte)value; }
         public int IV_DEF { get => Data[0x45]; set => Data[0x45] = (byte)value; }

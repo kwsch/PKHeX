@@ -195,12 +195,12 @@ namespace PKHeX.Core
         public int MetLocation  { get => BitConverter.ToUInt16(Data, 0xA6); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xA6); }
         public int MetLevel { get => Data[0xA8]; set => Data[0xA8] = (byte)value; }
 
-        public int CNT_Cool { get => Data[0xA9]; set => Data[0xA9] = (byte)value; }
-        public int CNT_Beauty { get => Data[0xAA]; set => Data[0xAA] = (byte)value; }
-        public int CNT_Cute { get => Data[0xAB]; set => Data[0xAB] = (byte)value; }
-        public int CNT_Smart { get => Data[0xAC]; set => Data[0xAC] = (byte)value; }
-        public int CNT_Tough { get => Data[0xAD]; set => Data[0xAD] = (byte)value; }
-        public int CNT_Sheen { get => Data[0xAE]; set => Data[0xAE] = (byte)value; }
+        public byte CNT_Cool   { get => Data[0xA9]; set => Data[0xA9] = value; }
+        public byte CNT_Beauty { get => Data[0xAA]; set => Data[0xAA] = value; }
+        public byte CNT_Cute   { get => Data[0xAB]; set => Data[0xAB] = value; }
+        public byte CNT_Smart  { get => Data[0xAC]; set => Data[0xAC] = value; }
+        public byte CNT_Tough  { get => Data[0xAD]; set => Data[0xAD] = value; }
+        public byte CNT_Sheen  { get => Data[0xAE]; set => Data[0xAE] = value; }
 
         public int IV_HP { get => Data[0xAF]; set => Data[0xAF] = (byte)value; }
         public int IV_ATK { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }

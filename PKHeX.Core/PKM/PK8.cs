@@ -184,12 +184,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x29]; set => Data[0x29] = (byte)value; }
         public override int EV_SPA { get => Data[0x2A]; set => Data[0x2A] = (byte)value; }
         public override int EV_SPD { get => Data[0x2B]; set => Data[0x2B] = (byte)value; }
-        public int CNT_Cool { get => Data[0x2C]; set => Data[0x2C] = (byte)value; }
-        public int CNT_Beauty { get => Data[0x2D]; set => Data[0x2D] = (byte)value; }
-        public int CNT_Cute { get => Data[0x2E]; set => Data[0x2E] = (byte)value; }
-        public int CNT_Smart { get => Data[0x2F]; set => Data[0x2F] = (byte)value; }
-        public int CNT_Tough { get => Data[0x30]; set => Data[0x30] = (byte)value; }
-        public int CNT_Sheen { get => Data[0x31]; set => Data[0x31] = (byte)value; }
+        public byte CNT_Cool   { get => Data[0x2C]; set => Data[0x2C] = value; }
+        public byte CNT_Beauty { get => Data[0x2D]; set => Data[0x2D] = value; }
+        public byte CNT_Cute   { get => Data[0x2E]; set => Data[0x2E] = value; }
+        public byte CNT_Smart  { get => Data[0x2F]; set => Data[0x2F] = value; }
+        public byte CNT_Tough  { get => Data[0x30]; set => Data[0x30] = value; }
+        public byte CNT_Sheen  { get => Data[0x31]; set => Data[0x31] = value; }
         private byte PKRS { get => Data[0x32]; set => Data[0x32] = value; }
         public override int PKRS_Days { get => PKRS & 0xF; set => PKRS = (byte)((PKRS & ~0xF) | value); }
         public override int PKRS_Strain { get => PKRS >> 4; set => PKRS = (byte)((PKRS & 0xF) | value << 4); }

@@ -48,7 +48,7 @@ namespace PKHeX.Core
         public override int Ball { get => Data[0x0F]; set => Data[0x0F] = (byte)value; }
         public override int OT_Gender { get => Data[0x10]; set => Data[0x10] = (byte)value; }
         public override int Stat_Level { get => Data[0x11]; set => Data[0x11] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x12]; set => Data[0x12] = (byte)value; }
+        public override byte CNT_Sheen { get => Data[0x12]; set => Data[0x12] = value; }
         public override int PKRS_Strain { get => Data[0x13] & 0xF; set => Data[0x13] = (byte)(value & 0xF); }
         public override int MarkValue { get => SwapBits(Data[0x14], 1, 2); protected set => Data[0x14] = (byte)SwapBits(value, 1, 2); }
         public override int PKRS_Days { get => Math.Max((sbyte)Data[0x15], (sbyte)0); set => Data[0x15] = (byte)(value == 0 ? 0xFF : value & 0xF); }
@@ -183,11 +183,11 @@ namespace PKHeX.Core
         public override int IV_SPE { get => Data[0xAD]; set => Data[0xAD] = (byte)(value & 0x1F); }
 
         // Contest
-        public override int CNT_Cool { get => Data[0xAE]; set => Data[0xAE] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0xAF]; set => Data[0xAF] = (byte)value; }
-        public override int CNT_Cute { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
-        public override int CNT_Smart { get => Data[0xB1]; set => Data[0xB1] = (byte)value; }
-        public override int CNT_Tough { get => Data[0xB2]; set => Data[0xB2] = (byte)value; }
+        public override byte CNT_Cool   { get => Data[0xAE]; set => Data[0xAE] = value; }
+        public override byte CNT_Beauty { get => Data[0xAF]; set => Data[0xAF] = value; }
+        public override byte CNT_Cute   { get => Data[0xB0]; set => Data[0xB0] = value; }
+        public override byte CNT_Smart  { get => Data[0xB1]; set => Data[0xB1] = value; }
+        public override byte CNT_Tough  { get => Data[0xB2]; set => Data[0xB2] = value; }
         public override int RibbonCountG3Cool { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
         public override int RibbonCountG3Beauty { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
         public override int RibbonCountG3Cute { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }

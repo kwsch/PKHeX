@@ -155,12 +155,12 @@
         public abstract bool RIBB_7 { get; set; }
         #endregion
 
-        public abstract int CNT_Cool { get; set; }
-        public abstract int CNT_Beauty { get; set; }
-        public abstract int CNT_Cute { get; set; }
-        public abstract int CNT_Smart { get; set; }
-        public abstract int CNT_Tough { get; set; }
-        public abstract int CNT_Sheen { get; set; }
+        public abstract byte CNT_Cool { get; set; }
+        public abstract byte CNT_Beauty { get; set; }
+        public abstract byte CNT_Cute { get; set; }
+        public abstract byte CNT_Smart { get; set; }
+        public abstract byte CNT_Tough { get; set; }
+        public abstract byte CNT_Sheen { get; set; }
 
         protected T ConvertTo<T>() where T : G4PKM, new()
         {

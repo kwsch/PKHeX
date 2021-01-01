@@ -142,17 +142,17 @@ namespace PKHeX.Core
         public override int OT_Friendship { get => Data[0xB0]; set => Data[0xB0] = (byte)value; }
 
         // Contest
-        public override int CNT_Cool { get => Data[0xB2]; set => Data[0xB2] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0xB3]; set => Data[0xB3] = (byte)value; }
-        public override int CNT_Cute { get => Data[0xB4]; set => Data[0xB4] = (byte)value; }
-        public override int CNT_Smart { get => Data[0xB5]; set => Data[0xB5] = (byte)value; }
-        public override int CNT_Tough { get => Data[0xB6]; set => Data[0xB6] = (byte)value; }
+        public override byte CNT_Cool   { get => Data[0xB2]; set => Data[0xB2] = value; }
+        public override byte CNT_Beauty { get => Data[0xB3]; set => Data[0xB3] = value; }
+        public override byte CNT_Cute   { get => Data[0xB4]; set => Data[0xB4] = value; }
+        public override byte CNT_Smart  { get => Data[0xB5]; set => Data[0xB5] = value; }
+        public override byte CNT_Tough  { get => Data[0xB6]; set => Data[0xB6] = value; }
         public override int RibbonCountG3Cool { get => Data[0xB7]; set => Data[0xB7] = (byte)value; }
         public override int RibbonCountG3Beauty { get => Data[0xB8]; set => Data[0xB8] = (byte)value; }
         public override int RibbonCountG3Cute { get => Data[0xB9]; set => Data[0xB9] = (byte)value; }
         public override int RibbonCountG3Smart { get => Data[0xBA]; set => Data[0xBA] = (byte)value; }
         public override int RibbonCountG3Tough { get => Data[0xBB]; set => Data[0xBB] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = (byte)value; }
+        public override byte CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = value; }
 
         // Ribbons
         public override bool RibbonChampionG3Hoenn { get => Data[0xBD] == 1; set => Data[0xBD] = value ? 1 : 0; }

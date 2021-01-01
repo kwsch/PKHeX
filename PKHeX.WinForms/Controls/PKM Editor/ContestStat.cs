@@ -11,40 +11,40 @@ namespace PKHeX.WinForms.Controls
             InitializeComponent();
         }
 
-        public int CNT_Sheen
+        public byte CNT_Cool
         {
-            get => Util.ToInt32(TB_Sheen.Text);
-            set => TB_Sheen.Text = value.ToString();
-        }
-
-        public int CNT_Cool
-        {
-            get => Util.ToInt32(TB_Cool.Text);
+            get => (byte)Util.ToInt32(TB_Cool.Text);
             set => TB_Cool.Text = value.ToString();
         }
 
-        public int CNT_Beauty
+        public byte CNT_Beauty
         {
-            get => Util.ToInt32(TB_Beauty.Text);
+            get => (byte)Util.ToInt32(TB_Beauty.Text);
             set => TB_Beauty.Text = value.ToString();
         }
 
-        public int CNT_Cute
+        public byte CNT_Cute
         {
-            get => Util.ToInt32(TB_Cute.Text);
+            get => (byte)Util.ToInt32(TB_Cute.Text);
             set => TB_Cute.Text = value.ToString();
         }
 
-        public int CNT_Smart
+        public byte CNT_Smart
         {
-            get => Util.ToInt32(TB_Smart.Text);
+            get => (byte)Util.ToInt32(TB_Smart.Text);
             set => TB_Smart.Text = value.ToString();
         }
 
-        public int CNT_Tough
+        public byte CNT_Tough
         {
-            get => Util.ToInt32(TB_Tough.Text);
+            get => (byte)Util.ToInt32(TB_Tough.Text);
             set => TB_Tough.Text = value.ToString();
+        }
+
+        public byte CNT_Sheen
+        {
+            get => (byte)Util.ToInt32(TB_Sheen.Text);
+            set => TB_Sheen.Text = value.ToString();
         }
 
         private void Update255_MTB(object sender, EventArgs e)

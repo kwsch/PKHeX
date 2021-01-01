@@ -69,12 +69,12 @@
         public abstract bool Unused3 { get; set; }
         public abstract bool Unused4 { get; set; }
 
-        public abstract int CNT_Cool { get; set; }
-        public abstract int CNT_Beauty { get; set; }
-        public abstract int CNT_Cute { get; set; }
-        public abstract int CNT_Smart { get; set; }
-        public abstract int CNT_Tough { get; set; }
-        public abstract int CNT_Sheen { get; set; }
+        public abstract byte CNT_Cool   { get; set; }
+        public abstract byte CNT_Beauty { get; set; }
+        public abstract byte CNT_Cute   { get; set; }
+        public abstract byte CNT_Smart  { get; set; }
+        public abstract byte CNT_Tough  { get; set; }
+        public abstract byte CNT_Sheen  { get; set; }
 
         /// <summary>
         /// Swaps bits at a given position

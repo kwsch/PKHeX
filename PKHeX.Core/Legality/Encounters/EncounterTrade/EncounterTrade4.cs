@@ -20,14 +20,14 @@
             Level = level;
         }
 
-        public int CNT_Cool { get; init; }
-        public int CNT_Beauty { get; init; }
-        public int CNT_Cute { get; init; }
-        public int CNT_Smart { get; init; }
-        public int CNT_Tough { get; init; }
-        public int CNT_Sheen { get; init; }
+        public byte CNT_Cool { get; init; }
+        public byte CNT_Beauty { get; init; }
+        public byte CNT_Cute { get; init; }
+        public byte CNT_Smart { get; init; }
+        public byte CNT_Tough { get; init; }
+        public byte CNT_Sheen { get; init; }
 
-        public int Contest
+        public byte Contest
         {
             init
             {

@@ -69,12 +69,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x1B]; set => Data[0x1B] = (byte)value; }
         public override int EV_SPA { get => Data[0x1C]; set => Data[0x1C] = (byte)value; }
         public override int EV_SPD { get => Data[0x1D]; set => Data[0x1D] = (byte)value; }
-        public int CNT_Cool { get => Data[0x1E]; set => Data[0x1E] = (byte)value; }
-        public int CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = (byte)value; }
-        public int CNT_Cute { get => Data[0x20]; set => Data[0x20] = (byte)value; }
-        public int CNT_Smart { get => Data[0x21]; set => Data[0x21] = (byte)value; }
-        public int CNT_Tough { get => Data[0x22]; set => Data[0x22] = (byte)value; }
-        public int CNT_Sheen { get => Data[0x23]; set => Data[0x23] = (byte)value; }
+        public byte CNT_Cool   { get => Data[0x1E]; set => Data[0x1E] = value; }
+        public byte CNT_Beauty { get => Data[0x1F]; set => Data[0x1F] = value; }
+        public byte CNT_Cute   { get => Data[0x20]; set => Data[0x20] = value; }
+        public byte CNT_Smart  { get => Data[0x21]; set => Data[0x21] = value; }
+        public byte CNT_Tough  { get => Data[0x22]; set => Data[0x22] = value; }
+        public byte CNT_Sheen  { get => Data[0x23]; set => Data[0x23] = value; }
 
         private byte RIB0 { get => Data[0x24]; set => Data[0x24] = value; } // Sinnoh 1
         private byte RIB1 { get => Data[0x25]; set => Data[0x25] = value; } // Sinnoh 2

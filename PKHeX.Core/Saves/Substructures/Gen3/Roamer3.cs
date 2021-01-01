@@ -53,12 +53,12 @@ namespace PKHeX.Core
 
         public int Status { get => SAV.Data[Offset + 0x0D]; set => SAV.Data[Offset + 0x0D] = (byte)value; }
 
-        public int CNT_Cool   { get => SAV.Data[Offset + 0x0E]; set => SAV.Data[Offset + 0x0E] = (byte)value; }
-        public int CNT_Beauty { get => SAV.Data[Offset + 0x0F]; set => SAV.Data[Offset + 0x0F] = (byte)value; }
-        public int CNT_Cute   { get => SAV.Data[Offset + 0x10]; set => SAV.Data[Offset + 0x10] = (byte)value; }
-        public int CNT_Smart  { get => SAV.Data[Offset + 0x11]; set => SAV.Data[Offset + 0x11] = (byte)value; }
-        public int CNT_Tough  { get => SAV.Data[Offset + 0x12]; set => SAV.Data[Offset + 0x12] = (byte)value; }
-        public int CNT_Sheen  { get => 0; set { } }
+        public byte CNT_Cool   { get => SAV.Data[Offset + 0x0E]; set => SAV.Data[Offset + 0x0E] = value; }
+        public byte CNT_Beauty { get => SAV.Data[Offset + 0x0F]; set => SAV.Data[Offset + 0x0F] = value; }
+        public byte CNT_Cute   { get => SAV.Data[Offset + 0x10]; set => SAV.Data[Offset + 0x10] = value; }
+        public byte CNT_Smart  { get => SAV.Data[Offset + 0x11]; set => SAV.Data[Offset + 0x11] = value; }
+        public byte CNT_Tough  { get => SAV.Data[Offset + 0x12]; set => SAV.Data[Offset + 0x12] = value; }
+        public byte CNT_Sheen  { get => 0; set { } }
         public bool Active    { get => SAV.Data[Offset + 0x13] == 1; set => SAV.Data[Offset + 0x13] = value ? 1 : 0; }
 
         // Derived Properties

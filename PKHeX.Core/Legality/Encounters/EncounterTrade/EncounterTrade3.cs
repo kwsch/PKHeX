@@ -11,14 +11,14 @@ namespace PKHeX.Core
         /// </summary>
         public readonly uint PID;
 
-        public int CNT_Cool   { get; private init; }
-        public int CNT_Beauty { get; private init; }
-        public int CNT_Cute   { get; private init; }
-        public int CNT_Smart  { get; private init; }
-        public int CNT_Tough  { get; private init; }
-        public int CNT_Sheen  { get; private init; }
+        public byte CNT_Cool   { get; private init; }
+        public byte CNT_Beauty { get; private init; }
+        public byte CNT_Cute   { get; private init; }
+        public byte CNT_Smart  { get; private init; }
+        public byte CNT_Tough  { get; private init; }
+        public byte CNT_Sheen  { get; private init; }
 
-        public IReadOnlyList<int> Contest
+        public IReadOnlyList<byte> Contest
         {
             init
             {

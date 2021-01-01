@@ -106,12 +106,12 @@ namespace PKHeX.Core
         public override int EV_SPE { get => Data[0x3B]; set => Data[0x3B] = (byte)value; }
         public override int EV_SPA { get => Data[0x3C]; set => Data[0x3C] = (byte)value; }
         public override int EV_SPD { get => Data[0x3D]; set => Data[0x3D] = (byte)value; }
-        public override int CNT_Cool { get => Data[0x3E]; set => Data[0x3E] = (byte)value; }
-        public override int CNT_Beauty { get => Data[0x3F]; set => Data[0x3F] = (byte)value; }
-        public override int CNT_Cute { get => Data[0x40]; set => Data[0x40] = (byte)value; }
-        public override int CNT_Smart { get => Data[0x41]; set => Data[0x41] = (byte)value; }
-        public override int CNT_Tough { get => Data[0x42]; set => Data[0x42] = (byte)value; }
-        public override int CNT_Sheen { get => Data[0x43]; set => Data[0x43] = (byte)value; }
+        public override byte CNT_Cool   { get => Data[0x3E]; set => Data[0x3E] = value; }
+        public override byte CNT_Beauty { get => Data[0x3F]; set => Data[0x3F] = value; }
+        public override byte CNT_Cute   { get => Data[0x40]; set => Data[0x40] = value; }
+        public override byte CNT_Smart  { get => Data[0x41]; set => Data[0x41] = value; }
+        public override byte CNT_Tough  { get => Data[0x42]; set => Data[0x42] = value; }
+        public override byte CNT_Sheen  { get => Data[0x43]; set => Data[0x43] = value; }
         #endregion
 
         #region Block D

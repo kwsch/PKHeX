@@ -2,27 +2,27 @@
 {
     public interface IContestStats
     {
-        int CNT_Cool { get; }
-        int CNT_Beauty { get; }
-        int CNT_Cute { get; }
-        int CNT_Smart { get; }
-        int CNT_Tough { get; }
-        int CNT_Sheen { get; }
+        byte CNT_Cool { get; }
+        byte CNT_Beauty { get; }
+        byte CNT_Cute { get; }
+        byte CNT_Smart { get; }
+        byte CNT_Tough { get; }
+        byte CNT_Sheen { get; }
     }
 
     public interface IContestStatsMutable
     {
-        int CNT_Cool { set; }
-        int CNT_Beauty { set; }
-        int CNT_Cute { set; }
-        int CNT_Smart { set; }
-        int CNT_Tough { set; }
-        int CNT_Sheen { set; }
+        byte CNT_Cool { set; }
+        byte CNT_Beauty { set; }
+        byte CNT_Cute { set; }
+        byte CNT_Smart { set; }
+        byte CNT_Tough { set; }
+        byte CNT_Sheen { set; }
     }
 
     public static partial class Extensions
     {
-        public static int[] GetContestStats(this IContestStats stats) => new[]
+        public static byte[] GetContestStats(this IContestStats stats) => new[]
         {
             stats.CNT_Cool,
             stats.CNT_Beauty,
