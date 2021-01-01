@@ -22,8 +22,8 @@ namespace PKHeX.Core
                 yield break;
 
             int gen = pkm.Generation;
-            if (gen <= 1)
-                yield break; // can't get eggs
+            if (gen <= 2)
+                yield break; // can't get eggs; if generating Gen2 eggs, use the other generator.
             if (NoHatchFromEggForm(species, pkm.Form, gen))
                 yield break; // can't originate from eggs
 
@@ -107,6 +107,10 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
         {
+            int species = pkm.Species;
+            if (NoHatchFromEgg.Contains(species))
+                yield break;
+            
             var canBeEgg = all || GetCanBeEgg(pkm);
             if (!canBeEgg)
                 yield break;
@@ -117,7 +121,9 @@ namespace PKHeX.Core
             if (baseID.Form != 0)
                 yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
 
-            int species = baseID.Species;
+            species = baseID.Species;
+            if (species > MaxSpeciesID_2)
+                yield break;
             if (ParseSettings.AllowGen2Crystal(pkm))
                 yield return new EncounterEgg(species, 0, 5, 2, GameVersion.C); // gen2 egg
             yield return new EncounterEgg(species, 0, 5, 2, GameVersion.GS); // gen2 egg
@@ -125,7 +131,7 @@ namespace PKHeX.Core
 
         private static bool GetCanBeEgg(PKM pkm)
         {
-            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg2(pkm) && !NoHatchFromEgg.Contains(pkm.Species);
+            bool canBeEgg = !pkm.Gen1_NotTradeback && GetCanBeEgg2(pkm);
             if (!canBeEgg)
                 return false;
 
