@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     /// <summary>
     /// Generation 6 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public sealed record EncounterStatic6 : EncounterStatic, IContestStats, IContestStatsRecord
+    public sealed record EncounterStatic6 : EncounterStatic, IContestStats
     {
         public override int Generation => 6;
 
@@ -16,19 +14,6 @@ namespace PKHeX.Core
         public int CNT_Smart  { get; init; }
         public int CNT_Tough  { get; init; }
         public int CNT_Sheen  { get; init; }
-
-        public IReadOnlyList<int> Contest
-        {
-            init
-            {
-                CNT_Cool   = value[0];
-                CNT_Beauty = value[1];
-                CNT_Cute   = value[2];
-                CNT_Smart  = value[3];
-                CNT_Tough  = value[4];
-                CNT_Sheen  = value[5];
-            }
-        }
 
         protected override bool IsMatchLocation(PKM pkm)
         {

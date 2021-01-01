@@ -90,8 +90,6 @@ namespace PKHeX.Core
             new() { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
         };
 
-        private static readonly int[] CosplayPikachuIVs = {70, 70, 70, 70, 70, 0};
-
         private static EncounterStatic6 GetCosplayPikachu(int form) => new()
         {
             Location = 178, // Or 180, 186, 194
@@ -101,7 +99,11 @@ namespace PKHeX.Core
             Gender = 1,
             Ability = 4,
             FlawlessIVCount = 3,
-            Contest = CosplayPikachuIVs,
+            CNT_Cool = 70,
+            CNT_Beauty = 70,
+            CNT_Cute = 70,
+            CNT_Tough = 70,
+            CNT_Smart = 70,
             Gift = true,
             Shiny = Shiny.Never
         };
@@ -144,7 +146,7 @@ namespace PKHeX.Core
 
             // Gift
             new() { Species = 374, Level = 01, Location = 196, Ability = 1, IVs = new[] {-1,-1,31,-1,-1,31}, Gift = true }, // Beldum
-            new() { Species = 351, Level = 30, Location = 240, Ability = 1, IVs = new[] {-1,-1,-1,-1,31,-1}, Contest = new[] {0,100,0,0,0,0}, Gender = 1, Nature = Nature.Lax, Gift = true }, // Castform
+            new() { Species = 351, Level = 30, Location = 240, Ability = 1, IVs = new[] {-1,-1,-1,-1,31,-1}, CNT_Beauty = 100, Gender = 1, Nature = Nature.Lax, Gift = true }, // Castform
             new() { Species = 319, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Adamant, Gift = true }, // Sharpedo
             new() { Species = 323, Level = 40, Location = 318, Ability = 1, Gender = 1, Nature = Nature.Quiet, Gift = true }, // Camerupt
             new() { Species = 380, Level = 30, Location = 320, Ability = 1, Version = GameVersion.AS, Gift = true, FlawlessIVCount = 3 }, // Latias

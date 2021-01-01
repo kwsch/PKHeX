@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public interface IContestStats
     {
@@ -20,18 +18,6 @@ namespace PKHeX.Core
         int CNT_Smart { set; }
         int CNT_Tough { set; }
         int CNT_Sheen { set; }
-    }
-
-    public interface IContestStatsRecord
-    {
-        // int CNT_Cool { init; }
-        // int CNT_Beauty { init; }
-        // int CNT_Cute { init; }
-        // int CNT_Smart { init; }
-        // int CNT_Tough { init; }
-        // int CNT_Sheen { init; }
-
-        IReadOnlyList<int> Contest { init; }
     }
 
     public static partial class Extensions

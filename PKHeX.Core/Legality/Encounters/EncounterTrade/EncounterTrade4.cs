@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public abstract record EncounterTrade4 : EncounterTrade
     {
         public sealed override int Generation => 4;
     }
 
-    public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats, IContestStatsRecord
+    public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats
     {
         /// <summary>
         /// Fixed <see cref="PKM.PID"/> value the encounter must have.
@@ -29,16 +27,16 @@ namespace PKHeX.Core
         public int CNT_Tough { get; init; }
         public int CNT_Sheen { get; init; }
 
-        public IReadOnlyList<int> Contest
+        public int Contest
         {
             init
             {
-                CNT_Cool = value[0];
-                CNT_Beauty = value[1];
-                CNT_Cute = value[2];
-                CNT_Smart = value[3];
-                CNT_Tough = value[4];
-                CNT_Sheen = value[5];
+                CNT_Cool = value;
+                CNT_Beauty = value;
+                CNT_Cute = value;
+                CNT_Smart = value;
+                CNT_Tough = value;
+              //CNT_Sheen = value;
             }
         }
 

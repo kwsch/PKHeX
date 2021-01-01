@@ -406,7 +406,7 @@ namespace PKHeX.Core
         internal static readonly EncounterTrade4[] TradeGift_DPPt = new EncounterTrade4PID[]
         {
             new(0x0000008E, 063, 01) { Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, Version = DPPt, IVs = new[] {15,15,15,20,25,25} }, // Machop -> Abra
-            new(0x00000867, 441, 01) { Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, Version = DPPt, IVs = new[] {15,20,15,25,25,15}, Contest = new[] {20,20,20,20,20,0} }, // Buizel -> Chatot
+            new(0x00000867, 441, 01) { Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, Version = DPPt, IVs = new[] {15,20,15,25,25,15}, Contest = 20 }, // Buizel -> Chatot
             new(0x00000088, 093, 35) { Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, Version = DPPt, IVs = new[] {20,25,15,25,15,15} }, // Medicham (35 from Route 217) -> Haunter
             new(0x0000045C, 129, 01) { Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, Version = DPPt, IVs = new[] {15,25,15,20,25,15} }, // Finneon -> Magikarp
         }.Concat(RanchGifts).ToArray();

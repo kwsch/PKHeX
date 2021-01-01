@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed record EncounterTrade3 : EncounterTrade, IContestStats, IContestStatsRecord
+    public sealed record EncounterTrade3 : EncounterTrade, IContestStats
     {
         public override int Generation => 3;
 
@@ -11,12 +11,12 @@ namespace PKHeX.Core
         /// </summary>
         public readonly uint PID;
 
-        public int CNT_Cool   { get; init; }
-        public int CNT_Beauty { get; init; }
-        public int CNT_Cute   { get; init; }
-        public int CNT_Smart  { get; init; }
-        public int CNT_Tough  { get; init; }
-        public int CNT_Sheen  { get; init; }
+        public int CNT_Cool   { get; private init; }
+        public int CNT_Beauty { get; private init; }
+        public int CNT_Cute   { get; private init; }
+        public int CNT_Smart  { get; private init; }
+        public int CNT_Tough  { get; private init; }
+        public int CNT_Sheen  { get; private init; }
 
         public IReadOnlyList<int> Contest
         {
