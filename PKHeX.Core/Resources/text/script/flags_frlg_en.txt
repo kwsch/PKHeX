@@ -50,6 +50,8 @@
 0x2D0	Defeated Electrode (1)
 0x2D2	Defeated Electrode (2)
 
+0x060	Overworld Hidden (Hitmonlee ball)
+0x061	Overworld Hidden (Hitmonchan ball)
 0x02F	Overworld Hidden (Dome Fossil)
 0x030	Overworld Hidden (Helix Fossil)
 0x082	Overworld Hidden (Articuno)
