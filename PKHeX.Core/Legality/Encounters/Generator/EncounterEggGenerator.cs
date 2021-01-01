@@ -18,62 +18,44 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
         {
             int species = pkm.Species;
-            if (NoHatchFromEgg.Contains(species))
+            if (Breeding.NoHatchFromEgg.Contains(species))
                 yield break;
 
-            int gen = pkm.Generation;
-            if (gen <= 2)
+            int generation = pkm.Generation;
+            if (generation <= 2)
                 yield break; // can't get eggs; if generating Gen2 eggs, use the other generator.
-            if (NoHatchFromEggForm(species, pkm.Form, gen))
+            if (Breeding.NoHatchFromEggForm(species, pkm.Form, generation))
                 yield break; // can't originate from eggs
 
             // version is a true indicator for all generation 3-5 origins
             var ver = (GameVersion)pkm.Version;
-            int lvl = gen <= 3 ? 5 : 1;
-            int max = GetMaxSpeciesOrigin(gen);
+            if (!Breeding.CanGameGenerateEggs(ver))
+                yield break;
+
+            int lvl = generation <= 3 ? 5 : 1;
+            int max = GetMaxSpeciesOrigin(generation);
 
             var e = EvoBase.GetBaseSpecies(chain, 0);
-            if (e.Species <= max && !NoHatchFromEggFormGen(e.Species, e.Form, ver))
+            if (e.Species <= max && !Breeding.NoHatchFromEggForm(e.Species, e.Form, ver))
             {
-                yield return new EncounterEgg(e.Species, e.Form, lvl, gen, ver);
-                if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEgg(e.Species, e.Form, lvl, gen, GetOtherTradePair(ver));
+                yield return new EncounterEgg(e.Species, e.Form, lvl, generation, ver);
+                if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
+                    yield return new EncounterEgg(e.Species, e.Form, lvl, generation, GetOtherTradePair(ver));
             }
 
-            if (!Breeding.GetSplitBreedGeneration(gen).Contains(species))
+            if (!Breeding.GetSplitBreedGeneration(generation).Contains(species))
                 yield break; // no other possible species
 
             var o = EvoBase.GetBaseSpecies(chain, 1);
             if (o.Species == e.Species)
                 yield break;
 
-            if (o.Species <= max && !NoHatchFromEggFormGen(o.Species, o.Form, ver))
+            if (o.Species <= max && !Breeding.NoHatchFromEggForm(o.Species, o.Form, ver))
             {
-                yield return new EncounterEggSplit(o.Species, o.Form, lvl, gen, ver, e.Species);
-                if (gen > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEggSplit(o.Species, o.Form, lvl, gen, GetOtherTradePair(ver), e.Species);
+                yield return new EncounterEggSplit(o.Species, o.Form, lvl, generation, ver, e.Species);
+                if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
+                    yield return new EncounterEggSplit(o.Species, o.Form, lvl, generation, GetOtherTradePair(ver), e.Species);
             }
-        }
-
-        private static bool NoHatchFromEggForm(int species, int form, int gen)
-        {
-            if (form == 0)
-                return false;
-            if (FormInfo.IsTotemForm(species, form, gen))
-                return true;
-            if (species == (int) Species.Pichu)
-                return true; // can't get Spiky Ear Pichu eggs
-            if (species == (int) Species.Sinistea || species == (int) Species.Polteageist) // Antique = impossible
-                return true; // can't get Antique eggs
-            return false;
-        }
-
-        private static bool NoHatchFromEggFormGen(int species, int form, GameVersion game)
-        {
-            // Sanity check form for origin
-            var gameInfo = GameData.GetPersonal(game);
-            var entry = gameInfo.GetFormEntry(species, form);
-            return form >= entry.FormCount && !(species == (int)Species.Rotom && form <= 5);
         }
 
         // Gen6+ update the origin game when hatched. Quick manip for X.Y<->A.O | S.M<->US.UM, ie X->A

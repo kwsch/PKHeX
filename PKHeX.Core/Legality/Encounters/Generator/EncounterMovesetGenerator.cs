@@ -226,7 +226,7 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                IEnumerable<int> em = MoveEgg.GetEggMoves(pk, egg.Species, egg.Form, version);
+                IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
                 if (Legal.LightBall.Contains(egg.Species) && needs.Contains(344))
                     em = em.Concat(new[] {344}); // Volt Tackle
                 if (!needs.Except(em).Any())

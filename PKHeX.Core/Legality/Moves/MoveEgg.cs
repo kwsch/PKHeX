@@ -7,18 +7,18 @@ namespace PKHeX.Core
 {
     public static class MoveEgg
     {
-        public static int[] GetEggMoves(PKM pkm, int species, int form, GameVersion version)
+        public static int[] GetEggMoves(PersonalInfo pi, int species, int form, GameVersion version, int generation)
         {
-            int gen = pkm.Format <= 2 || pkm.VC ? 2 : pkm.Generation;
-            if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
+            if (species > GetMaxSpeciesOrigin(generation))
                 return Array.Empty<int>();
 
-            if (pkm.Version is (int)GO or (int)GP or (int)GE or (int)CXD)
+            if (pi.Genderless && !FixedGenderFromBiGender.Contains(species))
                 return Array.Empty<int>();
 
-            if (version == Any)
-                version = (GameVersion)pkm.Version;
-            return GetEggMoves(gen, species, form, version);
+            if (!Breeding.CanGameGenerateEggs(version))
+                return Array.Empty<int>();
+
+            return GetEggMoves(generation, species, form, version);
         }
 
         public static int[] GetEggMoves(int gen, int species, int form, GameVersion version)

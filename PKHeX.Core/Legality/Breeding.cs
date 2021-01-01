@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -8,18 +10,31 @@ namespace PKHeX.Core
     /// </summary>
     public static class Breeding
     {
+        public static bool CanGameGenerateEggs(GameVersion game) => GamesWithEggs.Contains(game);
+
+        private static readonly HashSet<GameVersion> GamesWithEggs = new()
+        {
+            GD, SV, C,
+            R, S, E, FR, LG,
+            D, P, Pt, HG, SS,
+            B, W, B2, W2,
+            X, Y, OR, AS,
+            SN, MN, US, UM,
+            SW, SH,
+        };
+
         /// <summary>
         /// Species that have special handling for breeding.
         /// </summary>
         internal static readonly HashSet<int> MixedGenderBreeding = new()
         {
-            (int)Species.NidoranF,
-            (int)Species.NidoranM,
+            (int)NidoranF,
+            (int)NidoranM,
 
-            (int)Species.Volbeat,
-            (int)Species.Illumise,
+            (int)Volbeat,
+            (int)Illumise,
 
-            (int)Species.Indeedee, // male/female
+            (int)Indeedee, // male/female
         };
 
         /// <summary>
@@ -39,11 +54,11 @@ namespace PKHeX.Core
             return false;
         }
 
-        internal static readonly HashSet<int> SplitBreed_3 = new()
+        private static readonly HashSet<int> SplitBreed_3 = new()
         {
             // Incense
-            (int)Species.Marill, (int)Species.Azumarill,
-            (int)Species.Wobbuffet,
+            (int)Marill, (int)Azumarill,
+            (int)Wobbuffet,
         };
 
         /// <summary>
@@ -52,13 +67,13 @@ namespace PKHeX.Core
         private static readonly HashSet<int> SplitBreed = new(SplitBreed_3)
         {
             // Incense
-            (int)Species.Chansey, (int)Species.Blissey,
-            (int)Species.MrMime, (int)Species.MrRime,
-            (int)Species.Snorlax,
-            (int)Species.Sudowoodo,
-            (int)Species.Mantine,
-            (int)Species.Roselia, (int)Species.Roserade,
-            (int)Species.Chimecho,
+            (int)Chansey, (int)Blissey,
+            (int)MrMime, (int)MrRime,
+            (int)Snorlax,
+            (int)Sudowoodo,
+            (int)Mantine,
+            (int)Roselia, (int)Roserade,
+            (int)Chimecho,
         };
 
         internal static ICollection<int> GetSplitBreedGeneration(int generation)
@@ -70,5 +85,83 @@ namespace PKHeX.Core
                 _ => Array.Empty<int>(),
             };
         }
+
+        public static bool NoHatchFromEggForm(int species, int form, int generation)
+        {
+            if (form == 0)
+                return false;
+            if (FormInfo.IsTotemForm(species, form, generation))
+                return true;
+            if (species == (int)Pichu)
+                return true; // can't get Spiky Ear Pichu eggs
+            if (species == (int)Sinistea || species == (int)Polteageist) // Antique = impossible
+                return true; // can't get Antique eggs
+            return false;
+        }
+
+        public static bool NoHatchFromEggForm(int species, int form, GameVersion game)
+        {
+            // Sanity check form for origin
+            var gameInfo = GameData.GetPersonal(game);
+            var entry = gameInfo.GetFormEntry(species, form);
+            return form >= entry.FormCount && !(species == (int)Rotom && form <= 5);
+        }
+
+        /// <summary>
+        /// Species that cannot hatch from an egg.
+        /// </summary>
+        public static readonly HashSet<int> NoHatchFromEgg = new()
+        {
+            // Gen1
+            (int)Ditto,
+            (int)Articuno, (int)Zapdos, (int)Moltres,
+            (int)Mewtwo, (int)Mew,
+
+            // Gen2
+            (int)Unown,
+            (int)Raikou, (int)Entei, (int)Suicune,
+            (int)Lugia, (int)HoOh, (int)Celebi,
+
+            // Gen3
+            (int)Regirock, (int)Regice, (int)Registeel,
+            (int)Latias, (int)Latios,
+            (int)Kyogre, (int)Groudon, (int)Rayquaza,
+            (int)Jirachi, (int)Deoxys,
+
+            // Gen4
+            (int)Uxie, (int)Mesprit, (int)Azelf,
+            (int)Dialga, (int)Palkia, (int)Heatran,
+            (int)Regigigas, (int)Giratina, (int)Cresselia,
+            (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
+
+            // Gen5
+            (int)Victini,
+            (int)Cobalion, (int)Terrakion, (int)Virizion,
+            (int)Tornadus, (int)Thundurus,
+            (int)Reshiram, (int)Zekrom,
+            (int)Landorus, (int)Kyurem,
+            (int)Keldeo, (int)Meloetta, (int)Genesect,
+
+            // Gen6
+            (int)Xerneas, (int)Yveltal, (int)Zygarde,
+            (int)Diancie, (int)Hoopa, (int)Volcanion,
+
+            // Gen7
+            (int)TypeNull, (int)Silvally,
+            (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
+            (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala,
+            (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord, (int)Necrozma,
+            (int)Magearna, (int)Marshadow,
+            (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon, (int)Zeraora,
+
+            (int)Meltan, (int)Melmetal,
+
+            // Gen8
+            (int)Dracozolt, (int)Arctozolt, (int)Dracovish, (int)Arctovish,
+            (int)Zacian, (int)Zamazenta, (int)Eternatus,
+            (int)Kubfu, (int)Urshifu, (int)Zarude,
+            (int)Regieleki, (int)Regidrago,
+            (int)Glastrier, (int)Spectrier, (int)Calyrex,
+        };
     }
 }

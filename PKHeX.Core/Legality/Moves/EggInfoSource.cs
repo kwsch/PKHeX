@@ -15,7 +15,7 @@ namespace PKHeX.Core
             bool AllowLevelUp = Breeding.GetCanInheritMoves(e.Species);
             Base = MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, e.Level);
 
-            Egg = MoveEgg.GetEggMoves(pkm, e.Species, e.Form, e.Version);
+            Egg = MoveEgg.GetEggMoves(pkm.PersonalInfo, e.Species, e.Form, e.Version, e.Generation);
             LevelUp = AllowLevelUp
                 ? MoveList.GetBaseEggMoves(pkm, e.Species,  e.Form, e.Version, 100).Except(Base).ToList()
                 : (IReadOnlyList<int>)Array.Empty<int>();

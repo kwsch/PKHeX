@@ -95,7 +95,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg(PKM pkm, int gen, bool checkSpecies = true)
         {
             // Check Species
-            if (checkSpecies && Legal.NoHatchFromEgg.Contains(pkm.Species))
+            if (checkSpecies && Breeding.NoHatchFromEgg.Contains(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
 
             return gen switch
@@ -261,11 +261,14 @@ namespace PKHeX.Core
                     if (s is EncounterStaticShadow {EReader: true} && pkm.Language != (int)LanguageID.Japanese) // Non-JP E-reader Pokemon
                         return new CheckResult(Severity.Invalid, LG3EReader, CheckIdentifier.Encounter);
 
-                    if (pkm.Species == (int)Species.Mew && s.Location == 201 && pkm.Language != (int)LanguageID.Japanese) // Non-JP Mew (Old Sea Map)
-                        return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
+                    switch (pkm.Species)
+                    {
+                        case (int)Species.Mew when s.Location == 201 && pkm.Language != (int)LanguageID.Japanese: // Non-JP Mew (Old Sea Map)
+                            return new CheckResult(Severity.Invalid, LEncUnreleasedEMewJP, CheckIdentifier.Encounter);
+                        case (int)Species.Deoxys when s.Location == 200 && pkm.Language == (int)LanguageID.Japanese: // JP Deoxys (Birth Island)
+                            return new CheckResult(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
+                    }
 
-                    if (pkm.Species == (int)Species.Deoxys && s.Location == 200 && pkm.Language == (int)LanguageID.Japanese) // JP Deoxys (Birth Island)
-                        return new CheckResult(Severity.Invalid, LEncUnreleased, CheckIdentifier.Encounter);
                     break;
                 case 4:
                     switch (pkm.Species)
@@ -295,7 +298,7 @@ namespace PKHeX.Core
             return new CheckResult(Severity.Valid, LEncStaticMatch, CheckIdentifier.Encounter);
         }
 
-        private static CheckResult VerifyEncounterTrade(PKM pkm, EncounterTrade trade)
+        private static CheckResult VerifyEncounterTrade(ISpeciesForm pkm, EncounterTrade trade)
         {
             if (trade.EvolveOnTrade && trade.Species == pkm.Species)
             {
@@ -309,24 +312,24 @@ namespace PKHeX.Core
             return new CheckResult(Severity.Valid, LEncTradeMatch, CheckIdentifier.Encounter);
         }
 
-        private static CheckResult VerifyEncounterEvent(PKM pkm, MysteryGift MatchedGift)
+        private static CheckResult VerifyEncounterEvent(PKM pkm, MysteryGift gift)
         {
-            switch (MatchedGift)
+            switch (gift)
             {
                 case PCD pcd:
                     if (!pcd.CanBeReceivedBy(pkm.Version) && pcd.Gift.PK.Version == 0)
-                        return new CheckResult(Severity.Invalid, string.Format(L_XMatches0_1, MatchedGift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"), CheckIdentifier.Encounter);
+                        return new CheckResult(Severity.Invalid, string.Format(L_XMatches0_1, gift.CardHeader, $"-- {LEncGiftVersionNotDistributed}"), CheckIdentifier.Encounter);
                     break;
             }
-            if (!pkm.IsEgg && MatchedGift.IsEgg) // hatched
+            if (!pkm.IsEgg && gift.IsEgg) // hatched
             {
-                var hatchCheck = VerifyEncounterEgg(pkm, MatchedGift.Generation, false);
+                var hatchCheck = VerifyEncounterEgg(pkm, gift.Generation, false);
                 if (!hatchCheck.Valid)
                     return hatchCheck;
             }
 
             // Strict matching already performed by EncounterGenerator. May be worth moving some checks here to better flag invalid gifts.
-            return new CheckResult(Severity.Valid, string.Format(L_XMatches0_1, MatchedGift.CardHeader, string.Empty), CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Valid, string.Format(L_XMatches0_1, gift.CardHeader, string.Empty), CheckIdentifier.Encounter);
         }
     }
 }

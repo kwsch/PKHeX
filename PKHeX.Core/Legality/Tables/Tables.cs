@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -7,137 +8,21 @@ namespace PKHeX.Core
         /// <summary>
         /// Species that trigger Light Ball yielding Volt Tackle
         /// </summary>
-        public static readonly HashSet<int> LightBall = new() { 25, 26, 172 };
+        public static readonly HashSet<int> LightBall = new() {(int) Pikachu, (int) Raichu, (int) Pichu};
 
         /// <summary>
         /// Species that can change between their forms and get access to form-specific moves.
         /// </summary>
         public static readonly HashSet<int> FormChangeMoves = new()
         {
-            386, // Deoxys
-            487, // Giratina
-            492, // Shaymin
-            720, // Hoopa
+            (int)Deoxys,
+            (int)Giratina,
+            (int)Shaymin,
+            (int)Hoopa,
         };
 
         /// <summary>
-        /// Species that cannot hatch from an egg.
-        /// </summary>
-        public static readonly HashSet<int> NoHatchFromEgg = new()
-        {
-            132, // Ditto
-            144, // Articuno
-            145, // Zapdos
-            146, // Moltres
-            150, // Mewtwo
-            151, // Mew
-
-            201, // Unown
-            243, // Raikou
-            244, // Entei
-            245, // Suicune
-            249, // Lugia
-            250, // Ho-Oh
-            251, // Celebi
-
-            377, // Regirock
-            378, // Regice
-            379, // Registeel
-            380, // Latias
-            381, // Latios
-            382, // Kyogre
-            383, // Groudon
-            384, // Rayquaza
-            385, // Jirachi
-            386, // Deoxys
-
-            480, // Uxie
-            481, // Mesprit
-            482, // Azelf
-            483, // Dialga
-            484, // Palkia
-            485, // Heatran
-            486, // Regigigas
-            487, // Giratina
-            488, // Cresselia
-            490, // Manaphy
-            491, // Darkrai
-            492, // Shaymin
-            493, // Arceus
-
-            494, // Victini
-            638, // Cobalion
-            639, // Terrakion
-            640, // Virizion
-            641, // Tornadus
-            642, // Thundurus
-            643, // Reshiram
-            644, // Zekrom
-            645, // Landorus
-            646, // Kyurem
-            647, // Keldeo
-            648, // Meloetta
-            649, // Genesect
-
-            716, // Xerneas
-            717, // Yveltal
-            718, // Zygarde
-            719, // Diancie
-            720, // Hoopa
-            721, // Volcanion
-
-            772, // Type: Null
-            773, // Silvally
-            785, // Tapu Koko
-            786, // Tapu Lele
-            787, // Tapu Bulu
-            788, // Tapu Fini
-            789, // Cosmog
-            790, // Cosmoem
-            791, // Solgaleo
-            792, // Lunala
-            793, // Nihilego
-            794, // Buzzwole
-            795, // Pheromosa
-            796, // Xurkitree
-            797, // Celesteela
-            798, // Kartana
-            799, // Guzzlord
-            800, // Necrozma
-            801, // Magearna
-            802, // Marshadow
-
-            803, // Poipole
-            804, // Naganadel
-            805, // Stakataka
-            806, // Blacephalon
-            807, // Zeraora
-
-            808, // Meltan
-            809, // Melmetal
-
-            (int)Species.Dracozolt,
-            (int)Species.Arctozolt,
-            (int)Species.Dracovish,
-            (int)Species.Arctovish,
-
-            (int)Species.Zacian,
-            (int)Species.Zamazenta,
-            (int)Species.Eternatus,
-
-            (int)Species.Kubfu,
-            (int)Species.Urshifu,
-            (int)Species.Zarude,
-
-            (int)Species.Regieleki,
-            (int)Species.Regidrago,
-            (int)Species.Glastrier,
-            (int)Species.Spectrier,
-            (int)Species.Calyrex,
-        };
-
-        /// <summary>
-        /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Species.Pichu"/> with Form 1 (Spiky).
+        /// Generation 3 &amp; 4 Battle Frontier Species banlist. When referencing this in context to generation 4, be sure to disallow <see cref="Pichu"/> with Form 1 (Spiky).
         /// </summary>
         public static readonly HashSet<int> BattleFrontierBanlist = new()
         {
@@ -216,15 +101,15 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly HashSet<int> Legends = new()
         {
-            (int)Species.Mewtwo, (int)Species.Mew,
-            (int)Species.Lugia, (int)Species.HoOh, (int)Species.Celebi,
-            (int)Species.Kyogre, (int)Species.Groudon, (int)Species.Rayquaza, (int)Species.Jirachi, (int)Species.Deoxys,
-            (int)Species.Dialga, (int)Species.Palkia, (int)Species.Giratina, (int)Species.Phione, (int)Species.Manaphy, (int)Species.Darkrai, (int)Species.Shaymin, (int)Species.Arceus,
-            (int)Species.Victini, (int)Species.Reshiram, (int)Species.Zekrom, (int)Species.Kyurem, (int)Species.Keldeo, (int)Species.Meloetta, (int)Species.Genesect,
-            (int)Species.Xerneas, (int)Species.Yveltal, (int)Species.Zygarde, (int)Species.Diancie, (int)Species.Hoopa, (int)Species.Volcanion,
-            (int)Species.Cosmog, (int)Species.Cosmoem, (int)Species.Solgaleo, (int)Species.Lunala, (int)Species.Necrozma, (int)Species.Magearna, (int)Species.Marshadow, (int)Species.Zeraora,
-            (int)Species.Meltan, (int)Species.Melmetal,
-            (int)Species.Zacian, (int)Species.Zamazenta, (int)Species.Eternatus, (int)Species.Zarude, (int)Species.Calyrex,
+            (int)Mewtwo, (int)Mew,
+            (int)Lugia, (int)HoOh, (int)Celebi,
+            (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
+            (int)Dialga, (int)Palkia, (int)Giratina, (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
+            (int)Victini, (int)Reshiram, (int)Zekrom, (int)Kyurem, (int)Keldeo, (int)Meloetta, (int)Genesect,
+            (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
+            (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
+            (int)Meltan, (int)Melmetal,
+            (int)Zacian, (int)Zamazenta, (int)Eternatus, (int)Zarude, (int)Calyrex,
         };
 
         /// <summary>
@@ -232,15 +117,15 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly HashSet<int> SubLegends = new()
         {
-            (int)Species.Articuno, (int)Species.Zapdos, (int)Species.Moltres,
-            (int)Species.Raikou, (int)Species.Entei, (int)Species.Suicune,
-            (int)Species.Regirock, (int)Species.Regice, (int)Species.Registeel, (int)Species.Latias, (int)Species.Latios,
-            (int)Species.Uxie, (int)Species.Mesprit, (int)Species.Azelf, (int)Species.Heatran, (int)Species.Regigigas, (int)Species.Cresselia,
-            (int)Species.Cobalion, (int)Species.Terrakion, (int)Species.Virizion, (int)Species.Tornadus, (int)Species.Thundurus, (int)Species.Landorus,
-            (int)Species.TypeNull, (int)Species.Silvally, (int)Species.TapuKoko, (int)Species.TapuLele, (int)Species.TapuBulu, (int)Species.TapuFini,
-            (int)Species.Nihilego, (int)Species.Buzzwole, (int)Species.Pheromosa, (int)Species.Xurkitree, (int)Species.Celesteela, (int)Species.Kartana, (int)Species.Guzzlord,
-            (int)Species.Poipole, (int)Species.Naganadel, (int)Species.Stakataka, (int)Species.Blacephalon,
-            (int)Species.Kubfu, (int)Species.Urshifu, (int)Species.Regieleki, (int)Species.Regidrago, (int)Species.Glastrier, (int)Species.Spectrier,
+            (int)Articuno, (int)Zapdos, (int)Moltres,
+            (int)Raikou, (int)Entei, (int)Suicune,
+            (int)Regirock, (int)Regice, (int)Registeel, (int)Latias, (int)Latios,
+            (int)Uxie, (int)Mesprit, (int)Azelf, (int)Heatran, (int)Regigigas, (int)Cresselia,
+            (int)Cobalion, (int)Terrakion, (int)Virizion, (int)Tornadus, (int)Thundurus, (int)Landorus,
+            (int)TypeNull, (int)Silvally, (int)TapuKoko, (int)TapuLele, (int)TapuBulu, (int)TapuFini,
+            (int)Nihilego, (int)Buzzwole, (int)Pheromosa, (int)Xurkitree, (int)Celesteela, (int)Kartana, (int)Guzzlord,
+            (int)Poipole, (int)Naganadel, (int)Stakataka, (int)Blacephalon,
+            (int)Kubfu, (int)Urshifu, (int)Regieleki, (int)Regidrago, (int)Glastrier, (int)Spectrier,
         };
 
         /// <summary>
@@ -248,21 +133,21 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly HashSet<int> FixedGenderFromBiGender = new()
         {
-            (int)Species.Nincada,
-            (int)Species.Shedinja, // (G)
+            (int)Nincada,
+            (int)Shedinja, // (G)
 
-            (int)Species.Burmy,
-            (int)Species.Wormadam, //(F)
-            (int)Species.Mothim, // (M)
+            (int)Burmy,
+            (int)Wormadam, //(F)
+            (int)Mothim, // (M)
 
-            (int)Species.Ralts,
-            (int)Species.Gallade, // (M)
+            (int)Ralts,
+            (int)Gallade, // (M)
 
-            (int)Species.Snorunt,
-            (int)Species.Froslass, // (F)
+            (int)Snorunt,
+            (int)Froslass, // (F)
 
-            (int)Species.Espurr,
-            (int)Species.Meowstic, // (M/F) form specific
+            (int)Espurr,
+            (int)Meowstic, // (M/F) form specific
         };
     }
 }

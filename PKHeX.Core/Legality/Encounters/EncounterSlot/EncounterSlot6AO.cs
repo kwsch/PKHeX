@@ -24,7 +24,7 @@ namespace PKHeX.Core
             if (CanDexNav)
             {
                 var baseSpec = EvoBase.GetBaseSpecies(pk);
-                var eggMoves = MoveEgg.GetEggMoves(pk, baseSpec.Species, baseSpec.Form, Version);
+                var eggMoves = MoveEgg.GetEggMoves(pk.PersonalInfo, baseSpec.Species, baseSpec.Form, Version, 6);
                 if (eggMoves.Length > 0)
                     pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
             }

@@ -130,7 +130,7 @@ namespace PKHeX.Core
 
         private int[] GetCurrentEggMoves(PKM pk, GameVersion version)
         {
-            var moves = MoveEgg.GetEggMoves(pk, Species, Form, version);
+            var moves = MoveEgg.GetEggMoves(pk.PersonalInfo, Species, Form, version, Generation);
             if (moves.Length == 0)
                 return MoveLevelUp.GetEncounterMoves(pk, Level, version);
             if (moves.Length >= 4 || pk.Format < 6)

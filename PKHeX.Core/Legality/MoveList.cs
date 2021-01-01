@@ -12,7 +12,8 @@ namespace PKHeX.Core
     {
         internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
         {
-            if (pkm.Generation < 6)
+            int generation = pkm.Generation;
+            if (generation < 6)
                 return Array.Empty<int>();
 
             var r = new List<int>();
@@ -21,7 +22,7 @@ namespace PKHeX.Core
             if (pkm.Format == 6 && pkm.Species != (int)Species.Meowstic)
                 form = 0;
 
-            r.AddRange(MoveEgg.GetEggMoves(pkm, species, form, version));
+            r.AddRange(MoveEgg.GetEggMoves(pkm.PersonalInfo, species, form, version, Math.Max(2, generation)));
             if (inheritlvlmoves)
                 r.AddRange(MoveEgg.GetRelearnLVLMoves(pkm, species, form, 100, version));
             return r.Distinct();
@@ -149,7 +150,7 @@ namespace PKHeX.Core
             for (int i = 0; i < result.Length; i++)
                 result[i] = Array.Empty<int>();
 
-            var min = pkm is IBattleVersion b ? b.GetMinGeneration() : 1;
+            var min = pkm is IBattleVersion b ? Math.Max(0, b.GetMinGeneration()) : 1;
             for (int i = min; i < evoChains.Length; i++)
             {
                 if (evoChains[i].Count == 0)

@@ -21,7 +21,8 @@ namespace PKHeX.Core
         {
             var level = MoveList.GetValidMovesAllGens(pkm, restrict.EvolutionChains, minLvLG1: restrict.MinimumLevelGen1, minLvLG2: restrict.MinimumLevelGen2, types: MoveSourceType.Encounter, RemoveTransferHM: false);
 
-            if (level[encounter.Generation] is List<int> x)
+            int gen = encounter.Generation;
+            if ((uint)gen < level.Length && level[gen] is List<int> x)
                 AddEdgeCaseMoves(x, encounter, pkm);
 
             LevelUpMoves = level;
