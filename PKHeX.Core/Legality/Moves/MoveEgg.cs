@@ -13,7 +13,7 @@ namespace PKHeX.Core
             if (!pkm.InhabitedGeneration(gen, species) || (pkm.PersonalInfo.Genderless && !FixedGenderFromBiGender.Contains(species)))
                 return Array.Empty<int>();
 
-            if (pkm.Version == 15 || pkm.GG)
+            if (pkm.Version is (int)GO or (int)GP or (int)GE or (int)CXD)
                 return Array.Empty<int>();
 
             if (version == Any)

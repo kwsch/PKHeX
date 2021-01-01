@@ -268,7 +268,7 @@ namespace PKHeX.Core
 
         private static void AddMovesTutor7(List<int> moves, int species, int form, PKM pkm, bool specialTutors)
         {
-            if (pkm.GG)
+            if (pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE)
                 return;
             var pi = PersonalTable.USUM.GetFormEntry(species, form);
             moves.AddRange(TypeTutor6.Where((_, i) => pi.TypeTutors[i]));

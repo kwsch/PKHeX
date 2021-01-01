@@ -59,7 +59,7 @@ namespace PKHeX.Core
                 4 => Evolves4,
                 5 => Evolves5,
                 6 => Evolves6,
-                7 => (pkm.GG ? Evolves7b : Evolves7),
+                7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
                 _ => Evolves8
             };
         }

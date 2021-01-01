@@ -56,7 +56,8 @@ namespace PKHeX.Core
         {
             if (format != 7)
                 return GetPPTable(format);
-            return pkm.GG ? MovePP_GG : MovePP_SM;
+            var lgpe = pkm.Version is (int) GameVersion.GO or (int) GameVersion.GP or (int) GameVersion.GE;
+            return lgpe ? MovePP_GG : MovePP_SM;
         }
 
         public static IReadOnlyList<byte> GetPPTable(int format)
@@ -196,7 +197,7 @@ namespace PKHeX.Core
         internal static bool HasVisitedB2W2(this PKM pkm, int species) => pkm.InhabitedGeneration(5, species);
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
-        internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (pkm.GG && gen == 7) || pkm.IsUntraded;
+        internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (gen == 7 && pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE) || pkm.IsUntraded;
 
         public static bool IsValidMissingLanguage(PKM pkm)
         {
