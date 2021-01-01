@@ -10,13 +10,8 @@ namespace PKHeX.Core
         public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
-        public EncounterSlot8(EncounterArea8 area, int specForm, int min, int max, AreaWeather8 weather) : base(area)
+        public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather) : base(area, species, form, min, max)
         {
-            Species = specForm & 0x7FF;
-            Form = specForm >> 11;
-            LevelMin = min;
-            LevelMax = max;
-
             Weather = weather;
         }
     }

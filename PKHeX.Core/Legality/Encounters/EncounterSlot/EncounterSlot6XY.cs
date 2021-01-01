@@ -9,12 +9,8 @@ namespace PKHeX.Core
         public override int Generation => 6;
         public bool Pressure { get; init; }
 
-        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max) : base(area)
+        public EncounterSlot6XY(EncounterArea6XY area, int species, int form, int min, int max) : base(area, species, form, min, max)
         {
-            Species = species;
-            Form = form;
-            LevelMin = min;
-            LevelMax = max;
         }
 
         protected override void SetFormatSpecificData(PKM pk)

@@ -14,12 +14,8 @@ namespace PKHeX.Core
         public bool WhiteFlute { get; init; }
         public bool BlackFlute { get; init; }
 
-        public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max) : base(area)
+        public EncounterSlot6AO(EncounterArea6AO area, int species, int form, int min, int max) : base(area, species, form, min, max)
         {
-            Species = species;
-            Form = form;
-            LevelMin = min;
-            LevelMax = max;
         }
 
         protected override void SetFormatSpecificData(PKM pk)

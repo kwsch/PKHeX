@@ -19,11 +19,8 @@ namespace PKHeX.Core
         /// <inheritdoc/>
         public PogoType Type { get; }
 
-        protected EncounterSlotGO(EncounterArea area, int start, int end, Shiny shiny, PogoType type) : base(area)
+        protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
         {
-            LevelMin = type.GetMinLevel();
-            LevelMax = EncountersGO.MAX_LEVEL;
-
             Start = start;
             End = end;
 

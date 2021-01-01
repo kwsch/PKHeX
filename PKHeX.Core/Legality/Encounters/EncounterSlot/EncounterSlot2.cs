@@ -12,11 +12,8 @@
         public override int Generation => 2;
         public int SlotNumber { get; }
 
-        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, int slot) : base(area)
+        public EncounterSlot2(EncounterArea2 area, int species, int min, int max, int slot) : base(area, species, 0, min, max)
         {
-            Species = species;
-            LevelMin = min;
-            LevelMax = max;
             SlotNumber = slot;
         }
 

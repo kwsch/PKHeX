@@ -9,10 +9,8 @@ namespace PKHeX.Core
         public override int Generation => 7;
 
         public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, PogoType type)
-            : base(area, start, end, shiny, type)
+            : base(area, species, form, start, end, shiny, type)
         {
-            Species = species;
-            Form = form;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

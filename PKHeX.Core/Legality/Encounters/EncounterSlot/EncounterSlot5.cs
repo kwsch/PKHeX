@@ -8,12 +8,8 @@ namespace PKHeX.Core
     {
         public override int Generation => 5;
 
-        public EncounterSlot5(EncounterArea5 area, int species, int form, int min, int max) : base(area)
+        public EncounterSlot5(EncounterArea5 area, int species, int form, int min, int max) : base(area, species, form, min, max)
         {
-            Species = species;
-            Form = form;
-            LevelMin = min;
-            LevelMax = max;
         }
     }
 }
