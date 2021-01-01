@@ -42,7 +42,7 @@ namespace PKHeX.Core
         private IEncounterable _match = EncounterInvalid.Default;
 
         /// <summary>Top level Legality Check result list for the <see cref="EncounterMatch"/>.</summary>
-        public readonly List<CheckResult> Parse = new();
+        internal readonly List<CheckResult> Parse = new();
 
         public CheckResult[] Relearn { get; internal set; } = new CheckResult[4];
         public CheckMoveResult[] Moves { get; internal set; } = new CheckMoveResult[4];
