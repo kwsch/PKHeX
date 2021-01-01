@@ -598,6 +598,38 @@
             new(60,10,5) { Species = 225, Ability = A4, Moves = new[]{ 217, 059, 065, 280 } }, // Delibird
             new(60,10,5) { Species = 609, Ability = A4, Moves = new[]{ 247, 412, 315, 094 } }, // Chandelure
             new(60,10,5) { Species = 873, Ability = A4, Moves = new[]{ 405, 403, 058, 542 } }, // Frosmoth
+
+            // 1/1 - Year of the Dragon
+            new(17,01,1) { Species = 884, Ability = A4, Moves = new[]{ 232, 043, 468, 249 }, CanGigantamax = true }, // Duraludon
+            new(17,01,1) { Species = 610, Ability = A4, Moves = new[]{ 044, 163, 372, 010 } }, // Axew
+            new(17,01,1) { Species = 704, Ability = A4, Moves = new[]{ 225, 352, 033, 175 } }, // Goomy
+          //new(17,01,1) { Species = 446, Ability = A4, Moves = new[]{ 033, 044, 122, 111 } }, // Munchlax
+            new(17,01,1) { Species = 759, Ability = A4, Moves = new[]{ 693, 371, 608, 033 } }, // Stufful
+            new(17,01,1) { Species = 572, Ability = A4, Moves = new[]{ 497, 204, 402, 001 } }, // Minccino
+            new(30,03,2) { Species = 884, Ability = A4, Moves = new[]{ 232, 784, 468, 249 }, CanGigantamax = true }, // Duraludon
+            new(30,03,2) { Species = 610, Ability = A4, Moves = new[]{ 337, 163, 242, 530 } }, // Axew
+            new(30,03,2) { Species = 704, Ability = A4, Moves = new[]{ 225, 352, 033, 341 } }, // Goomy
+            new(30,03,2) { Species = 143, Ability = A4, Moves = new[]{ 034, 242, 118, 111 }, CanGigantamax = true }, // Snorlax
+            new(30,03,2) { Species = 759, Ability = A4, Moves = new[]{ 693, 371, 359, 036 } }, // Stufful
+            new(30,03,2) { Species = 572, Ability = A4, Moves = new[]{ 497, 231, 402, 129 } }, // Minccino
+            new(40,05,3) { Species = 884, Ability = A4, Moves = new[]{ 232, 525, 085, 249 }, CanGigantamax = true }, // Duraludon
+            new(40,05,3) { Species = 611, Ability = A4, Moves = new[]{ 406, 231, 242, 530 } }, // Fraxure
+            new(40,05,3) { Species = 705, Ability = A4, Moves = new[]{ 406, 352, 491, 341 } }, // Sliggoo
+          //new(40,05,3) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 242, 281 }, CanGigantamax = true }, // Snorlax
+            new(40,05,3) { Species = 760, Ability = A4, Moves = new[]{ 693, 034, 359, 036 } }, // Bewear
+            new(40,05,3) { Species = 573, Ability = A4, Moves = new[]{ 331, 231, 350, 129 } }, // Cinccino
+            new(50,08,4) { Species = 884, Ability = A4, Moves = new[]{ 232, 406, 085, 776 }, CanGigantamax = true }, // Duraludon
+            new(50,08,4) { Species = 612, Ability = A4, Moves = new[]{ 406, 231, 370, 530 } }, // Haxorus
+            new(50,08,4) { Species = 706, Ability = A4, Moves = new[]{ 406, 034, 491, 126 } }, // Goodra
+          //new(50,08,4) { Species = 143, Ability = A4, Moves = new[]{ 034, 667, 280, 523 }, CanGigantamax = true }, // Snorlax
+            new(50,08,4) { Species = 760, Ability = A4, Moves = new[]{ 663, 034, 359, 009 } }, // Bewear
+            new(50,08,4) { Species = 573, Ability = A4, Moves = new[]{ 331, 231, 350, 304 } }, // Cinccino
+            new(60,10,5) { Species = 884, Ability = A4, Moves = new[]{ 430, 406, 085, 776 }, CanGigantamax = true }, // Duraludon
+            new(60,10,5) { Species = 612, Ability = A4, Moves = new[]{ 200, 231, 370, 089 } }, // Haxorus
+            new(60,10,5) { Species = 706, Ability = A4, Moves = new[]{ 406, 438, 482, 126 } }, // Goodra
+          //new(60,10,5) { Species = 143, Ability = A4, Moves = new[]{ 034, 442, 242, 428 }, CanGigantamax = true }, // Snorlax
+            new(60,10,5) { Species = 760, Ability = A4, Moves = new[]{ 663, 038, 276, 009 } }, // Bewear
+            new(60,10,5) { Species = 573, Ability = A4, Moves = new[]{ 402, 231, 350, 304 } }, // Cinccino
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
