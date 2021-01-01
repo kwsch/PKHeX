@@ -795,6 +795,8 @@
             this.CB_Form.DropDownWidth = 85;
             this.CB_Form.Enabled = false;
             this.CB_Form.FormattingEnabled = true;
+            this.CB_Form.Items.AddRange(new object[] {
+            ""});
             this.CB_Form.Location = new System.Drawing.Point(0, 0);
             this.CB_Form.Margin = new System.Windows.Forms.Padding(0);
             this.CB_Form.Name = "CB_Form";

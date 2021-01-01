@@ -1784,7 +1784,7 @@ namespace PKHeX.WinForms.Controls
             PB_Origin.Visible = gen >= 6;
             FLP_NSparkle.Visible = L_NSparkle.Visible = CHK_NSparkle.Visible = gen == 5;
 
-            CB_Form.Visible = Label_Form.Visible = CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = gen >= 4;
+            CHK_AsEgg.Visible = GB_EggConditions.Visible = PB_Mark5.Visible = PB_Mark6.Visible = gen >= 4;
             FLP_ShinyLeaf.Visible = L_ShinyLeaf.Visible = ShinyLeaf.Visible = gen == 4;
 
             DEV_Ability.Enabled = DEV_Ability.Visible = gen > 3 && HaX;
