@@ -1185,14 +1185,9 @@ namespace PKHeX.WinForms.Controls
         private void UpdateOriginGame(object sender, EventArgs e)
         {
             GameVersion version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
+            CheckMetLocationChange(version);
             if (FieldsLoaded)
                 Entity.Version = (int)version;
-
-            // Does the list of locations need to be changed to another group?
-            var group = GameUtil.GetMetLocationVersionGroup(version);
-            if (group != origintrack)
-                ReloadMetLocations(version);
-            origintrack = group;
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (Entity.Format >= 4)
@@ -1208,6 +1203,15 @@ namespace PKHeX.WinForms.Controls
 
             TID_Trainer.LoadIDValues(Entity);
             UpdateLegality();
+        }
+
+        private void CheckMetLocationChange(GameVersion version)
+        {
+            // Does the list of locations need to be changed to another group?
+            var group = GameUtil.GetMetLocationVersionGroup(version);
+            if (group != origintrack)
+                ReloadMetLocations(version);
+            origintrack = group;
         }
 
         private void ReloadMetLocations(GameVersion version)
@@ -1955,7 +1959,10 @@ namespace PKHeX.WinForms.Controls
             var source = GameInfo.FilteredSources;
 
             if (sav.Generation >= 2)
+            {
+                CheckMetLocationChange((GameVersion) sav.Game);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
+            }
 
             if (sav.Generation >= 3)
             {
