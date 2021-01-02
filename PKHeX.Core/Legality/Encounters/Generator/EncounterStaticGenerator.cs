@@ -111,14 +111,14 @@ namespace PKHeX.Core
             throw new ArgumentException(nameof(pkm.Version));
         }
 
-        internal static EncounterStatic? GetStaticLocation(PKM pkm, int species = -1)
+        internal static EncounterStatic? GetStaticLocation(PKM pkm)
         {
             switch (pkm.Generation)
             {
                 case 1:
-                    return EncounterStatic7.GetVC1(species, pkm.Met_Level);
+                    return EncounterStatic7.GetVC1(MaxSpeciesID_1, pkm.Met_Level);
                 case 2:
-                    return EncounterStatic7.GetVC2(species, pkm.Met_Level);
+                    return EncounterStatic7.GetVC2(MaxSpeciesID_2, pkm.Met_Level);
                 default:
                     var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxLevel: 100, skipChecks: true);
                     return GetPossible(pkm, chain)
