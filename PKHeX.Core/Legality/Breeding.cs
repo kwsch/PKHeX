@@ -10,6 +10,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class Breeding
     {
+        /// <summary>
+        /// Checks if the game has a Daycare, and returns true if it does.
+        /// </summary>
+        /// <param name="game">Version ID to check for.</param>
         public static bool CanGameGenerateEggs(GameVersion game) => GamesWithEggs.Contains(game);
 
         private static readonly HashSet<GameVersion> GamesWithEggs = new()
@@ -83,31 +87,47 @@ namespace PKHeX.Core
             _ => Array.Empty<int>(),
         };
 
-        public static bool NoHatchFromEggForm(int species, int form, int generation)
+        /// <summary>
+        /// Checks if the <see cref="species"/> can be obtained from a daycare egg.
+        /// </summary>
+        /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        public static bool CanHatchAsEgg(int species) => !NoHatchFromEgg.Contains(species);
+
+        /// <summary>
+        /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="generation"/>.
+        /// </summary>
+        /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        public static bool CanHatchAsEgg(int species, int form, int generation)
         {
             if (form == 0)
-                return false;
-            if (FormInfo.IsTotemForm(species, form, generation))
                 return true;
+
+            if (FormInfo.IsTotemForm(species, form, generation))
+                return false;
             if (species == (int)Pichu)
-                return true; // can't get Spiky Ear Pichu eggs
+                return false; // can't get Spiky Ear Pichu eggs
             if (species == (int)Sinistea || species == (int)Polteageist) // Antique = impossible
-                return true; // can't get Antique eggs
-            return false;
+                return false; // can't get Antique eggs
+
+            return true;
         }
 
-        public static bool NoHatchFromEggForm(int species, int form, GameVersion game)
+        /// <summary>
+        /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="game"/>.
+        /// </summary>
+        /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        public static bool CanHatchAsEgg(int species, int form, GameVersion game)
         {
             // Sanity check form for origin
             var gameInfo = GameData.GetPersonal(game);
             var entry = gameInfo.GetFormEntry(species, form);
-            return form >= entry.FormCount && !(species == (int)Rotom && form <= 5);
+            return form < entry.FormCount || (species == (int)Rotom && form <= 5);
         }
 
         /// <summary>
         /// Species that cannot hatch from an egg.
         /// </summary>
-        public static readonly HashSet<int> NoHatchFromEgg = new()
+        private static readonly HashSet<int> NoHatchFromEgg = new()
         {
             // Gen1
             (int)Ditto,

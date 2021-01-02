@@ -18,13 +18,13 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
         {
             int species = pkm.Species;
-            if (Breeding.NoHatchFromEgg.Contains(species))
+            if (!Breeding.CanHatchAsEgg(species))
                 yield break;
 
             int generation = pkm.Generation;
             if (generation <= 2)
                 yield break; // can't get eggs; if generating Gen2 eggs, use the other generator.
-            if (Breeding.NoHatchFromEggForm(species, pkm.Form, generation))
+            if (!Breeding.CanHatchAsEgg(species, pkm.Form, generation))
                 yield break; // can't originate from eggs
 
             // version is a true indicator for all generation 3-5 origins
@@ -36,7 +36,7 @@ namespace PKHeX.Core
             int max = GetMaxSpeciesOrigin(generation);
 
             var e = EvoBase.GetBaseSpecies(chain, 0);
-            if (e.Species <= max && !Breeding.NoHatchFromEggForm(e.Species, e.Form, ver))
+            if (e.Species <= max && Breeding.CanHatchAsEgg(e.Species, e.Form, ver))
             {
                 yield return new EncounterEgg(e.Species, e.Form, lvl, generation, ver);
                 if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
@@ -50,7 +50,7 @@ namespace PKHeX.Core
             if (o.Species == e.Species)
                 yield break;
 
-            if (o.Species <= max && !Breeding.NoHatchFromEggForm(o.Species, o.Form, ver))
+            if (o.Species <= max && Breeding.CanHatchAsEgg(o.Species, o.Form, ver))
             {
                 yield return new EncounterEggSplit(o.Species, o.Form, lvl, generation, ver, e.Species);
                 if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))

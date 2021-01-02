@@ -18,7 +18,7 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterEgg> GenerateEggs(PKM pkm, IReadOnlyList<EvoCriteria> chain, bool all = false)
         {
             int species = pkm.Species;
-            if (Breeding.NoHatchFromEgg.Contains(species))
+            if (!Breeding.CanHatchAsEgg(species))
                 yield break;
 
             var canBeEgg = all || GetCanBeEgg(pkm);

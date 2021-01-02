@@ -89,7 +89,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg(PKM pkm, int gen, bool checkSpecies = true)
         {
             // Check Species
-            if (checkSpecies && Breeding.NoHatchFromEgg.Contains(pkm.Species))
+            if (checkSpecies && !Breeding.CanHatchAsEgg(pkm.Species))
                 return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
 
             return gen switch
