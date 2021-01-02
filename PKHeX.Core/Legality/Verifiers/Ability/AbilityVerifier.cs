@@ -281,7 +281,7 @@ namespace PKHeX.Core
 
                 case EncounterEgg e when pkm.AbilityNumber == 4:
                     // Hidden Abilities for some are unbreedable or unreleased
-                    if (Legal.Ban_BreedHidden5.Contains(e.Species))
+                    if (AbilityBreedLegality.BanHidden5.Contains(e.Species))
                         return GetInvalid(LAbilityHiddenUnavailable);
                     break;
             }
@@ -302,7 +302,7 @@ namespace PKHeX.Core
                 if (!valid)
                     return GetInvalid(LAbilityMismatchHordeSafari);
             }
-            if (Legal.Ban_NoHidden6.Contains(pkm.SpecForm))
+            if (AbilityBreedLegality.BanHidden6.Contains(enc.Species | (enc.Form << 11)))
                 return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
@@ -317,7 +317,7 @@ namespace PKHeX.Core
                 if (!valid)
                     return GetInvalid(LAbilityMismatchSOS);
             }
-            if (Legal.Ban_NoHidden7.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+            if (AbilityBreedLegality.BanHidden7.Contains(enc.Species | (enc.Form << 11)) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
@@ -328,8 +328,8 @@ namespace PKHeX.Core
             var pkm = data.pkm;
             if (enc is EncounterSlot && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
-            if (Legal.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
-                return GetInvalid(LAbilityHiddenUnavailable);
+            //if (BreedLegality.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
+            //    return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
         }

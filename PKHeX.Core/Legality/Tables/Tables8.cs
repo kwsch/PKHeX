@@ -222,45 +222,6 @@ namespace PKHeX.Core
 
         internal static readonly ushort[] HeldItems_SWSH = ArrayUtil.ConcatAll(Pouch_Items_SWSH, Pouch_Berries_SWSH, Pouch_Medicine_SWSH, TR_SWSH, Pouch_Treasure_SWSH, Pouch_Ingredients_SWSH);
 
-        internal static readonly HashSet<int> WildPokeballs8g = new()
-        {
-            (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
-        };
-
-        internal static readonly HashSet<int> WildPokeballs8 = new()
-        {
-            (int)Ball.Poke,
-            (int)Ball.Great,
-            (int)Ball.Ultra,
-            (int)Ball.Master,
-            (int)Ball.Net,
-            (int)Ball.Dive,
-            (int)Ball.Nest,
-            (int)Ball.Repeat,
-            (int)Ball.Timer,
-            (int)Ball.Luxury,
-            (int)Ball.Premier,
-            (int)Ball.Dusk,
-            (int)Ball.Heal,
-            (int)Ball.Quick,
-
-            // Ball Guy
-            (int)Ball.Fast,
-            (int)Ball.Level,
-            (int)Ball.Lure,
-            (int)Ball.Heavy,
-            (int)Ball.Love,
-            (int)Ball.Friend,
-            (int)Ball.Moon,
-            (int)Ball.Dream,
-            (int)Ball.Beast,
-
-            // DLC 1 Additions
-            (int)Ball.Safari,
-            (int)Ball.Sport,
-            // no cherish ball
-        };
-
         internal static readonly int[] Tutors_SWSH_1 =
         {
             805, 807, 812, 804,
@@ -383,17 +344,6 @@ namespace PKHeX.Core
             01, 01, 01, 05, 05, 10, 10, 10, 20, 10, 10, 10, 05, 05, 20, 10, 10, 10, 01, 05, 15, 05, 01, 01, 01, 01, 01, 01, 10, 15, 15, 20, 20, 20, 20, 15, 15, 10, 10, 05, 20, 05, 10, 05, 15, 10, 10, 05, 15, 20,
             10, 10, 15, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 05, 10, 15, 10, 15, 05, 05, 05, 10, 15, 40, 10, 10, 10, 15, 10, 10, 10, 10, 05, 05, 05, 10, 05, 20, 10,
             10, 05, 20, 20, 10, 10, 05, 05, 05, 40, 10, 20, 10, 10, 10, 10, 05, 05, 15, 05, 10, 10, 10, 05, 05, 05,
-        };
-
-        internal static readonly HashSet<int> Ban_NoHidden8 = new(); // none as of DLC 1!
-
-        internal static readonly HashSet<int> Ban_NoHidden8Apricorn = new()
-        {
-            // 029, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
-            // 032, // Nidoran -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
-            100, // Voltorb
-            // 436, // Bronzor -- Used to not be encounterable in Gen7 with HA; Gen8 now can via Raids
-            669 + (3 << 11), // Flabébé-Blue
         };
 
         #region Unreleased Items

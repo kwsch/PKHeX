@@ -73,19 +73,6 @@ namespace PKHeX.Core
             _ => Array.Empty<byte>()
         };
 
-        internal static ICollection<int> GetWildBalls(int generation, GameVersion game) => generation switch
-        {
-            1 => WildPokeBalls1,
-            2 => WildPokeBalls2,
-            3 => WildPokeBalls3,
-            4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
-            5 => WildPokeBalls5,
-            6 => WildPokeballs6,
-            7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
-            8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
-            _ => Array.Empty<int>()
-        };
-
         internal static int GetMaxSpeciesOrigin(PKM pkm)
         {
             if (pkm.Format == 1)

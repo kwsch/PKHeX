@@ -164,23 +164,9 @@ namespace PKHeX.Core
             10, 15, 20, 15, 10, 10, 05, 10, 05, 05, 10, 05, 05, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls4_DPPt = new()
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-        };
-
-        internal static readonly HashSet<int> WildPokeBalls4_HGSS = new()
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-            17, 18, 19, 20, 21, 22, 23
-            // Comp Ball not usable in wild
-        };
-
         internal static readonly int[] FutureEvolutionsGen4 =
         {
-            700
+            (int)Species.Sylveon,
         };
 
         internal static readonly HashSet<int> UnreleasedItems_4 = new()

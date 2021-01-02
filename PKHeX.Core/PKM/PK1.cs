@@ -201,9 +201,7 @@ namespace PKHeX.Core
                     break;
             }
 
-            int abil = 2; // Hidden
-            if (Legal.TransferSpeciesDefaultAbility_1.Contains(Species))
-                abil = 0; // Reset
+            int abil = Legal.TransferSpeciesDefaultAbilityGen1(Species) ? 0 : 2; // Hidden
             pk7.RefreshAbility(abil); // 0/1/2 (not 1/2/4)
 
             if (Species == (int)Core.Species.Mew) // Mew gets special treatment.

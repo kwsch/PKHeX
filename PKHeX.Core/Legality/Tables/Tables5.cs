@@ -103,16 +103,6 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> WildPokeBalls5 = new()
-        {
-            1, 2, 3, 4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
-            // Cherish ball not usable
-            // HGSS balls not usable
-            // Dream ball not usable in wild
-        };
-
-        internal static readonly HashSet<int> DreamWorldBalls = new(WildPokeBalls5) {(int)Ball.Dream};
-
         internal static readonly int[] FutureEvolutionsGen5 =
         {
             (int)Species.Sylveon,
@@ -177,79 +167,6 @@ namespace PKHeX.Core
             Locations.LinkTrade5,
             Locations.Daycare5,
             60003, // Breeder (NPC)
-        };
-
-        /// <summary>
-        /// Some mixed-gender species were only distributed male-only. Ban hidden abilities on these species when bred in Gen5.
-        /// </summary>
-        internal static readonly HashSet<int> Ban_BreedHidden5 = new()
-        {
-            // Only males distributed; unable to pass to offspring
-            001, // Bulbasaur
-            004, // Charmander
-            007, // Squirtle
-            128, // Tauros
-            152, // Chikorita
-            155, // Cyndaquil
-            158, // Totodile
-            236, // Tyrogue
-            252, // Treecko
-            255, // Torchic
-            258, // Mudkip
-            387, // Turtwig
-            390, // Chimchar
-            393, // Piplup
-            511, // Pansage
-            513, // Pansear
-            515, // Panpour
-            574, // Gothita
-
-            // Genderless; unable to pass to offspring
-            081, // Magnemite
-            100, // Voltorb
-            120, // Staryu
-            132, // Ditto... can't breed anyway.
-            137, // Porygon
-            374, // Beldum
-            436, // Bronzor
-            622, // Golett
-
-            // Not available at all
-            092, // Gastly
-            109, // Koffing
-            200, // Misdreavus
-            201, // Unown
-            287, // Slakoth
-            311, // Plusle
-            311, // Minun
-            337, // Lunatone
-            338, // Solrock
-            343, // Baltoy
-            351, // Castform
-            352, // Kecleon
-            355, // Duskull
-            358, // Chimecho
-            420, // Cherrim
-            433, // Chingling
-            479, // Rotom
-            489, // Phione
-            495, // Snivy
-            498, // Tepig
-            501, // Oshawott
-            538, // Throh
-            539, // Sawk
-            561, // Sigilyph
-            562, // Yamask
-            566, // Archen
-            570, // Zorua
-            597, // Ferroseed
-            599, // Klink
-            602, // Tynamo
-            607, // Litwick
-            615, // Cryogonal
-            627, // Rufflet
-            633, // Deino
-            636, // Larvesta
         };
     }
 }

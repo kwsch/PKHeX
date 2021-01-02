@@ -37,7 +37,13 @@ namespace PKHeX.Core
             00, 00, 00, 00, 00, 00
         };
 
-        internal static readonly HashSet<int> TransferSpeciesDefaultAbility_1 = new() {92, 93, 94, 109, 110, 151};
+        internal static bool TransferSpeciesDefaultAbilityGen1(int species)
+        {
+            System.Diagnostics.Debug.Assert(species <= (uint)MaxSpeciesID_1);
+            return species is (int)Species.Gastly or (int)Species.Haunter or (int)Species.Gengar
+                or (int)Species.Koffing or (int)Species.Weezing
+                or (int)Species.Mew;
+        }
 
         internal static readonly int[] TMHM_RBY =
         {
@@ -49,12 +55,30 @@ namespace PKHeX.Core
 
             015, 019, 057, 070, 148
         };
-
-        internal static readonly int[] WildPokeBalls1 = {4};
-
+        
         internal static readonly HashSet<int> FutureEvolutionsGen1 = new()
         {
-            169,182,186,196,197,199,208,212,230,233,242,462,463,464,465,466,467,470,471,474,700
+            (int)Species.Crobat,
+            (int)Species.Bellossom,
+            (int)Species.Politoed,
+            (int)Species.Espeon,
+            (int)Species.Umbreon,
+            (int)Species.Slowking,
+            (int)Species.Steelix,
+            (int)Species.Scizor,
+            (int)Species.Kingdra,
+            (int)Species.Porygon2,
+            (int)Species.Blissey,
+            (int)Species.Magnezone,
+            (int)Species.Lickilicky,
+            (int)Species.Rhyperior,
+            (int)Species.Tangrowth,
+            (int)Species.Electivire,
+            (int)Species.Magmortar,
+            (int)Species.Leafeon,
+            (int)Species.Glaceon,
+            (int)Species.PorygonZ,
+            (int)Species.Sylveon,
         };
     }
 }

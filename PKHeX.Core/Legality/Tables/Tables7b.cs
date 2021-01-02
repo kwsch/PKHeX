@@ -15,11 +15,6 @@ namespace PKHeX.Core
         internal static readonly ushort[] HeldItems_GG = Array.Empty<ushort>();
         public const int AwakeningMax = 200;
 
-        internal static readonly HashSet<int> WildPokeballs7b = new()
-        {
-            (int)Ball.Master, (int)Ball.Ultra, (int)Ball.Great, (int)Ball.Poke, (int)Ball.Premier,
-        };
-
         #region Met Locations
 
         internal static readonly int[] Met_GG_0 =
