@@ -45,15 +45,15 @@ namespace PKHeX.Core
             new(025, 12, BU), // Pikachu (Blue[JP] Game Corner) (Different catch rate)
 
             // Lower level less ideal matches; best match is from above.
-            // new EncounterStatic1(035, 12), // Clefairy (Blue[EN] / Green[JP] Game Corner)
-            // new EncounterStatic1(063, 09), // Abra (Red Game Corner)
-            // new EncounterStatic1(063, 08), // Abra (Blue[JP] Game Corner)
-            // new EncounterStatic1(063, 15), // Abra (Yellow Game Corner)
-            // new EncounterStatic1(123, 30), // Scyther (Yellow Game Corner)
-            // new EncounterStatic1(137, 22), // Porygon (Blue[JP] Game Corner)
-            // new EncounterStatic1(137, 26), // Porygon (Red Game Corner)
-            // new EncounterStatic1(137, 26), // Porygon (Yellow Game Corner)
-            // new EncounterStatic1(147, 24), // Dratini (Blue[EN] / Green[JP] Game Corner)
+         // new(035, 12), // Clefairy (Blue[EN] / Green[JP] Game Corner)
+         // new(063, 09), // Abra (Red Game Corner)
+         // new(063, 08), // Abra (Blue[JP] Game Corner)
+         // new(063, 15), // Abra (Yellow Game Corner)
+         // new(123, 30), // Scyther (Yellow Game Corner)
+         // new(137, 22), // Porygon (Blue[JP] Game Corner)
+         // new(137, 26), // Porygon (Red Game Corner)
+         // new(137, 26), // Porygon (Yellow Game Corner)
+         // new(147, 24), // Dratini (Blue[EN] / Green[JP] Game Corner)
 
             new(129, 05, RBY), // Magikarp
             new(143, 30, RBY), // Snorlax
@@ -78,18 +78,9 @@ namespace PKHeX.Core
             new(101, 43, RBY), // Electrode (Power Plant)
 
             // Yellow Only -- duplicate encounters with a higher level
-            // new EncounterStatic1(001, 10, YW), // Bulbasaur (Cerulean City)
-            // new EncounterStatic1(004, 10, YW), // Charmander (Route 24)
-            // new EncounterStatic1(007, 10, YW), // Squirtle (Vermillion City)
-
-            new(001, 05, Stadium), // Bulbasaur
-            new(004, 05, Stadium), // Charmander
-            new(071, 05, Stadium), // Squirtle
-            new(106, 20, Stadium), // Hitmonlee
-            new(107, 20, Stadium), // Hitmonchan
-            new(133, 25, Stadium), // Eevee
-            new(138, 20, Stadium), // Omanyte
-            new(140, 20, Stadium), // Kabuto
+         // new(001, 10, YW), // Bulbasaur (Cerulean City)
+         // new(004, 10, YW), // Charmander (Route 24)
+         // new(007, 10, YW), // Squirtle (Vermillion City)
         };
 
         internal static readonly EncounterTrade1[] TradeGift_RBY =
@@ -131,19 +122,39 @@ namespace PKHeX.Core
         private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
         private static readonly string[] YoshiOT = new[] { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
         private static readonly string[] TourOT = new[] { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
+        private static readonly string[] StadiumOT_Int = { "STADIUM", "STADE", "STADIO", "ESTADIO" };
+        private const string StadiumOT_JPN = "スタジアム";
 
         internal static readonly EncounterStatic1E[] StaticEventsVC =
         {
             // Event Mew
-            new(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "GF", Language = EncounterGBLanguage.International },
+            new(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "GF", Language = International },
             new(151, 5, RBY) { IVs = Flawless15, TID = 22796, OT_Name = "ゲーフリ" },
         };
 
         internal static readonly EncounterStatic1E[] StaticEventsGB =
         {
-            // Stadium 1: Psyduck
-            new(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 1999, OT_Name = "スタジアム" }, // Stadium Psyduck (Amnesia)
-            new(054, 15, Stadium) {Moves = new[] {133, 10}, TID = 2000, OT_Names = new[]{"STADIUM", "STADE", "STADIO", "ESTADIO"}, Language = International }, // Stadium Psyduck (Amnesia)
+            // Stadium 1 (International)
+            new(001, 05, Stadium) {Moves = new[] {033, 045}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Bulbasaur
+            new(004, 05, Stadium) {Moves = new[] {010, 043}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Charmander
+            new(007, 05, Stadium) {Moves = new[] {033, 045}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Squirtle
+            new(106, 20, Stadium) {Moves = new[] {024, 096}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonlee
+            new(107, 20, Stadium) {Moves = new[] {004, 097}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Hitmonchan
+            new(133, 25, Stadium) {Moves = new[] {033, 039}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Eevee
+            new(138, 20, Stadium) {Moves = new[] {055, 110}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Omanyte
+            new(140, 20, Stadium) {Moves = new[] {010, 106}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Kabuto
+            new(054, 15, Stadium) {Moves = new[] {133, 010}, TID = 2000, OT_Names = StadiumOT_Int, Language = International}, // Psyduck (Amnesia)
+
+            // Stadium 2 (Japan)
+            new(001, 05, Stadium) {Moves = new[] {033, 045}, TID = 1999, OT_Name = StadiumOT_JPN}, // Bulbasaur
+            new(004, 05, Stadium) {Moves = new[] {010, 043}, TID = 1999, OT_Name = StadiumOT_JPN}, // Charmander
+            new(007, 05, Stadium) {Moves = new[] {033, 045}, TID = 1999, OT_Name = StadiumOT_JPN}, // Squirtle
+            new(106, 20, Stadium) {Moves = new[] {024, 096}, TID = 1999, OT_Name = StadiumOT_JPN}, // Hitmonlee
+            new(107, 20, Stadium) {Moves = new[] {004, 097}, TID = 1999, OT_Name = StadiumOT_JPN}, // Hitmonchan
+            new(133, 25, Stadium) {Moves = new[] {033, 039}, TID = 1999, OT_Name = StadiumOT_JPN}, // Eevee
+            new(138, 20, Stadium) {Moves = new[] {055, 110}, TID = 1999, OT_Name = StadiumOT_JPN}, // Omanyte
+            new(140, 20, Stadium) {Moves = new[] {010, 106}, TID = 1999, OT_Name = StadiumOT_JPN}, // Kabuto
+            new(054, 15, Stadium) {Moves = new[] {133, 010}, TID = 1999, OT_Name = StadiumOT_JPN}, // Psyduck (Amnesia)
 
             new(151, 5, RB) {IVs = Yoshira, OT_Names = YoshiOT, Language = International }, // Yoshira Mew Events
             new(151, 5, RB) {IVs = Yoshira, OT_Names = TourOT, Language = International }, // Pokémon 2000 Stadium Tour Mew
