@@ -275,15 +275,12 @@ namespace PKHeX.Core
 
     public static class RNGTypeUtil
     {
-        public static RNG GetRNG(this RNGType type)
+        public static RNG GetRNG(this RNGType type) => type switch
         {
-            return type switch
-            {
-                RNGType.LCRNG => RNG.LCRNG,
-                RNGType.XDRNG => RNG.XDRNG,
-                RNGType.ARNG => RNG.ARNG,
-                _ => throw new ArgumentException(nameof(type))
-            };
-        }
+            RNGType.LCRNG => RNG.LCRNG,
+            RNGType.XDRNG => RNG.XDRNG,
+            RNGType.ARNG => RNG.ARNG,
+            _ => throw new ArgumentException(nameof(type))
+        };
     }
 }

@@ -30,69 +30,63 @@ namespace PKHeX.Core
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="version">Version of which to determine the group</param>
         /// <returns>Version Group Identifier or Invalid if type cannot be determined.</returns>
-        public static GameVersion GetMetLocationVersionGroup(GameVersion version)
+        public static GameVersion GetMetLocationVersionGroup(GameVersion version) => version switch
         {
-            return version switch
-            {
-                // Side games
-                CXD => CXD,
-                GO => GO,
+            // Side games
+            CXD => CXD,
+            GO => GO,
 
-                // VC Transfers
-                RD or BU or YW or GN or GD or SV or C => USUM,
+            // VC Transfers
+            RD or BU or YW or GN or GD or SV or C => USUM,
 
-                // Gen2 -- PK2
-                GS or GSC => GSC,
+            // Gen2 -- PK2
+            GS or GSC => GSC,
 
-                // Gen3
-                R or S => RS,
-                E => E,
-                FR or LG => FR,
+            // Gen3
+            R or S => RS,
+            E => E,
+            FR or LG => FR,
 
-                // Gen4
-                D or P => DP,
-                Pt => Pt,
-                HG or SS => HGSS,
+            // Gen4
+            D or P => DP,
+            Pt => Pt,
+            HG or SS => HGSS,
 
-                // Gen5
-                B or W => BW,
-                B2 or W2 => B2W2,
+            // Gen5
+            B or W => BW,
+            B2 or W2 => B2W2,
 
-                // Gen6
-                X or Y => XY,
-                OR or AS => ORAS,
+            // Gen6
+            X or Y => XY,
+            OR or AS => ORAS,
 
-                // Gen7
-                SN or MN => SM,
-                US or UM => USUM,
-                GP or GE => GG,
+            // Gen7
+            SN or MN => SM,
+            US or UM => USUM,
+            GP or GE => GG,
 
-                // Gen8
-                SW or SH => SWSH,
-                _ => Invalid,
-            };
-        }
+            // Gen8
+            SW or SH => SWSH,
+            _ => Invalid,
+        };
 
         /// <summary>
         /// Gets a Version ID from the end of that Generation
         /// </summary>
         /// <param name="generation">Generation ID</param>
         /// <returns>Version ID from requested generation. If none, return <see cref="Invalid"/>.</returns>
-        public static GameVersion GetVersion(int generation)
+        public static GameVersion GetVersion(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => RBY,
-                2 => C,
-                3 => E,
-                4 => SS,
-                5 => W2,
-                6 => AS,
-                7 => UM,
-                8 => SH,
-                _ => Invalid
-            };
-        }
+            1 => RBY,
+            2 => C,
+            3 => E,
+            4 => SS,
+            5 => W2,
+            6 => AS,
+            7 => UM,
+            8 => SH,
+            _ => Invalid
+        };
 
         /// <summary>
         /// Gets the Generation the <see cref="GameVersion"/> belongs to.

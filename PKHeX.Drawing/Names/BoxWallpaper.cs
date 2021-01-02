@@ -16,25 +16,22 @@ namespace PKHeX.Drawing
             return $"box_wp{index:00}{suffix}";
         }
 
-        private static string GetResourceSuffix(GameVersion version, int index)
+        private static string GetResourceSuffix(GameVersion version, int index) => version.GetGeneration() switch
         {
-            return version.GetGeneration() switch
-            {
-                3 when version == E => "e",
-                3 when FRLG.Contains(version) && index > 12 => "frlg",
-                3 => "rs",
+            3 when version == E => "e",
+            3 when FRLG.Contains(version) && index > 12 => "frlg",
+            3 => "rs",
 
-                4 when index < 16 => "dp",
-                4 when version == Pt => "pt",
-                4 when HGSS.Contains(version) => "hgss",
+            4 when index < 16 => "dp",
+            4 when version == Pt => "pt",
+            4 when HGSS.Contains(version) => "hgss",
 
-                5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
-                6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
-                7 when !GG.Contains(version) => "xy",
-                8 => "swsh",
-                _ => string.Empty
-            };
-        }
+            5 => B2W2.Contains(version) && index > 16 ? "b2w2" : "bw",
+            6 => ORAS.Contains(version) && index > 16 ? "ao" : "xy",
+            7 when !GG.Contains(version) => "xy",
+            8 => "swsh",
+            _ => string.Empty
+        };
 
         public static bool IsWallpaperRed(GameVersion version, int wallpaperID)
         {

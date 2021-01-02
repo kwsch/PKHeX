@@ -18,19 +18,15 @@
             // some encounters have contest stats built in. they're already checked by the initial encounter match.
         }
 
-        private static bool CanHaveContestStats(PKM pkm, int origin)
+        private static bool CanHaveContestStats(PKM pkm, int generation) => generation switch
         {
-            return origin switch
-            {
-                1 => false,
-                2 => false,
-                3 => true,
-                4 => true,
-                5 => (pkm.Format >= 6), // ORAS Contests
-                6 => (!pkm.IsUntraded || pkm.AO),
-                7 => false,
-                _ => false
-            };
-        }
+            1 => false,
+            2 => false,
+            3 => true,
+            4 => true,
+            5 => (pkm.Format >= 6), // ORAS Contests
+            6 => (!pkm.IsUntraded || pkm.AO),
+            _ => false,
+        };
     }
 }

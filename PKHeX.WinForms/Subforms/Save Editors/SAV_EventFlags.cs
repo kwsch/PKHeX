@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 using static PKHeX.Core.MessageStrings;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.WinForms
 {
@@ -104,27 +105,24 @@ namespace PKHeX.WinForms
             return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
-        private static string GetResourceSuffix(GameVersion ver)
+        private static string GetResourceSuffix(GameVersion ver) => ver switch
         {
-            return ver switch
-            {
-                GameVersion.X or GameVersion.Y or GameVersion.XY => "xy",
-                GameVersion.OR or GameVersion.AS or GameVersion.ORAS => "oras",
-                GameVersion.SN or GameVersion.MN or GameVersion.SM => "sm",
-                GameVersion.US or GameVersion.UM or GameVersion.USUM => "usum",
-                GameVersion.D or GameVersion.P or GameVersion.DP => "dp",
-                GameVersion.Pt or GameVersion.DPPt => "pt",
-                GameVersion.HG or GameVersion.SS or GameVersion.HGSS => "hgss",
-                GameVersion.B or GameVersion.W or GameVersion.BW => "bw",
-                GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2 => "b2w2",
-                GameVersion.R or GameVersion.S or GameVersion.RS => "rs",
-                GameVersion.E => "e",
-                GameVersion.FR or GameVersion.LG or GameVersion.FRLG => "frlg",
-                GameVersion.C => "c",
-                GameVersion.GD or GameVersion.SV or GameVersion.GS => "gs",
-                _ => throw new ArgumentException(nameof(GameVersion))
-            };
-        }
+            X or Y or XY => "xy",
+            OR or AS or ORAS => "oras",
+            SN or MN or SM => "sm",
+            US or UM or USUM => "usum",
+            D or P or DP => "dp",
+            Pt or DPPt => "pt",
+            HG or SS or HGSS => "hgss",
+            B or W or BW => "bw",
+            B2 or W2 or B2W2 => "b2w2",
+            R or S or RS => "rs",
+            E => "e",
+            FR or LG or FRLG => "frlg",
+            C => "c",
+            GD or SV or GS => "gs",
+            _ => throw new ArgumentException(nameof(GameVersion))
+        };
 
         private void AddFlagList(string[] list)
         {

@@ -60,48 +60,42 @@ namespace PKHeX.Core
         /// <param name="ext">Extension of the file from which the <paramref name="data"/> was retrieved.</param>
         /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> or <paramref name="ext"/> is invalid.</returns>
         /// <remarks>This overload differs from <see cref="GetMysteryGift(byte[])"/> by checking the <paramref name="data"/>/<paramref name="ext"/> combo for validity.  If either is invalid, a null reference is returned.</remarks>
-        public static DataMysteryGift? GetMysteryGift(byte[] data, string ext)
+        public static DataMysteryGift? GetMysteryGift(byte[] data, string ext) => data.Length switch
         {
-            return data.Length switch
-            {
-                PGT.Size when ext == ".pgt" => new PGT(data),
-                PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),
-                PGF.Size when ext == ".pgf" => new PGF(data),
-                WC6.Size when ext == ".wc6" => new WC6(data),
-                WC7.Size when ext == ".wc7" => new WC7(data),
-                WB7.Size when ext == ".wb7" => new WB7(data),
-                WR7.Size when ext == ".wr7" => new WR7(data),
-                WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
+            PGT.Size when ext == ".pgt" => new PGT(data),
+            PCD.Size when ext is ".pcd" or ".wc4" => new PCD(data),
+            PGF.Size when ext == ".pgf" => new PGF(data),
+            WC6.Size when ext == ".wc6" => new WC6(data),
+            WC7.Size when ext == ".wc7" => new WC7(data),
+            WB7.Size when ext == ".wb7" => new WB7(data),
+            WR7.Size when ext == ".wr7" => new WR7(data),
+            WC8.Size when ext is ".wc8" or ".wc8full" => new WC8(data),
 
-                WB7.SizeFull when ext == ".wb7full" => new WB7(data),
-                WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
-                WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
-                _ => null
-            };
-        }
+            WB7.SizeFull when ext == ".wb7full" => new WB7(data),
+            WC6Full.Size when ext == ".wc6full" => new WC6Full(data).Gift,
+            WC7Full.Size when ext == ".wc7full" => new WC7Full(data).Gift,
+            _ => null
+        };
 
         /// <summary>
         /// Converts the given data to a <see cref="MysteryGift"/>.
         /// </summary>
         /// <param name="data">Raw data of the mystery gift.</param>
         /// <returns>An instance of <see cref="MysteryGift"/> representing the given data, or null if <paramref name="data"/> is invalid.</returns>
-        public static DataMysteryGift? GetMysteryGift(byte[] data)
+        public static DataMysteryGift? GetMysteryGift(byte[] data) => data.Length switch
         {
-            return data.Length switch
-            {
-                PGT.Size => new PGT(data),
-                PCD.Size => new PCD(data),
-                PGF.Size => new PGF(data),
-                WR7.Size => new WR7(data),
-                WC8.Size => new WC8(data),
+            PGT.Size => new PGT(data),
+            PCD.Size => new PCD(data),
+            PGF.Size => new PGF(data),
+            WR7.Size => new WR7(data),
+            WC8.Size => new WC8(data),
 
-                // WC6/WC7: Check year
-                WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),
-                // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
-                WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
-                _ => null
-            };
-        }
+            // WC6/WC7: Check year
+            WC6.Size => BitConverter.ToUInt32(data, 0x4C) / 10000 < 2000 ? new WC7(data) : new WC6(data),
+            // WC6Full/WC7Full: 0x205 has 3 * 0x46 for gen6, now only 2.
+            WC6Full.Size => data[0x205] == 0 ? new WC7Full(data).Gift : new WC6Full(data).Gift,
+            _ => null
+        };
 
         public string Extension => GetType().Name.ToLower();
         public string FileName => $"{CardHeader}.{Extension}";

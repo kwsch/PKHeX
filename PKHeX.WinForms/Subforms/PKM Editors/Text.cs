@@ -189,15 +189,12 @@ namespace PKHeX.WinForms
             Margin = new Padding(0),
         };
 
-        private static ushort[] GetChars(int generation)
+        private static ushort[] GetChars(int generation) => generation switch
         {
-            return generation switch
-            {
-                6 => chars67,
-                7 => chars67,
-                _ => Array.Empty<ushort>()
-            };
-        }
+            6 => chars67,
+            7 => chars67,
+            _ => Array.Empty<ushort>(), // Undocumented
+        };
 
         private static readonly ushort[] chars67 =
         {

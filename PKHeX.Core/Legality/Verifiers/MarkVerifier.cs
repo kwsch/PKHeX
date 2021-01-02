@@ -63,37 +63,22 @@ namespace PKHeX.Core
             return IsMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
         }
 
-        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable _)
+        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable _) => mark switch
         {
-            return mark switch
-            {
-                RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk) => false,
-                RibbonIndex.MarkDestiny => false,
-                _ => true
-            };
-        }
+            RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk) => false,
+            RibbonIndex.MarkDestiny => false,
+            _ => true
+        };
 
-        public static bool IsMarkAllowedAny(IEncounterable enc)
+        public static bool IsMarkAllowedAny(IEncounterable enc) => enc.Generation == 8 && enc switch
         {
-            if (enc.Generation != 8)
-                return false;
-
-            switch (enc)
-            {
-                case WC8:
-                case EncounterEgg:
-                case EncounterTrade:
-                case EncounterStatic8U:
-                case EncounterStatic8N:
-                case EncounterStatic8ND:
-                case EncounterStatic8NC:
-                case EncounterStatic8 { Gift: true }:
-                case EncounterStatic8 { ScriptedNoMarks: true }:
-                    return false;
-            }
-
-            return true;
-        }
+            WC8 or EncounterEgg or EncounterTrade
+                or EncounterStatic8U or EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC
+                or EncounterStatic8 {Gift: true}
+                or EncounterStatic8 {ScriptedNoMarks: true}
+                => false,
+            _ => true,
+        };
 
         public static bool IsMarkAllowedCurry(ILocation enc, int ball = (int)Ball.Poke) => IsMarkAllowedCurry(enc.Location, ball);
         public static bool IsMarkAllowedCurry(PKM pkm) => IsMarkAllowedCurry(pkm.Met_Location, pkm.Ball);

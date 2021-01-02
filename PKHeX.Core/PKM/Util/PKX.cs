@@ -69,7 +69,7 @@ namespace PKHeX.Core
         {
             if (s.Length != 1)
                 return 2;
-            return (s[0]) switch
+            return s[0] switch
             {
                 '♂' or 'M' => 0,
                 '♀' or 'F' => 1,
@@ -190,16 +190,13 @@ namespace PKHeX.Core
             return GetGenderFromPIDAndRatio(pid, gt);
         }
 
-        public static int GetGenderFromPIDAndRatio(uint pid, int gr)
+        public static int GetGenderFromPIDAndRatio(uint pid, int gr) => gr switch
         {
-            return gr switch
-            {
-                255 => 2,
-                254 => 1,
-                0 => 0,
-                _ => ((pid & 0xFF) < gr ? 1 : 0)
-            };
-        }
+            255 => 2,
+            254 => 1,
+            0 => 0,
+            _ => (pid & 0xFF) < gr ? 1 : 0
+        };
 
         /// <summary>
         /// Gets an array of valid <see cref="PKM"/> file extensions.

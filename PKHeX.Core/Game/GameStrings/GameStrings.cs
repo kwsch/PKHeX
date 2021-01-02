@@ -487,96 +487,69 @@ namespace PKHeX.Core
         /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <param name="version">Version of origin</param>
         /// <returns>List of location names.</returns>
-        public IReadOnlyList<string> GetLocationNames(int gen, int bankID, GameVersion version)
+        public IReadOnlyList<string> GetLocationNames(int gen, int bankID, GameVersion version) => gen switch
         {
-            switch (gen)
-            {
-                case 2: return metGSC_00000;
-                case 3:
-                    return GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000;
-                case 4: return GetLocationNames4(bankID);
-                case 5: return GetLocationNames5(bankID);
-                case 6: return GetLocationNames6(bankID);
-                case 7:
-                    if (GameVersion.Gen7b.Contains(version))
-                        return GetLocationNames7GG(bankID);
-                    return GetLocationNames7(bankID);
-                case 8:
-                    return GetLocationNames8(bankID);
-                default:
-                    return Array.Empty<string>();
-            }
-        }
+            2 => metGSC_00000,
+            3 => GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000,
+            4 => GetLocationNames4(bankID),
+            5 => GetLocationNames5(bankID),
+            6 => GetLocationNames6(bankID),
+            7 => GameVersion.Gen7b.Contains(version) ? GetLocationNames7GG(bankID) : GetLocationNames7(bankID),
+            8 => GetLocationNames8(bankID),
+            _ => Array.Empty<string>()
+        };
 
-        private IReadOnlyList<string> GetLocationNames4(int bankID)
+        private IReadOnlyList<string> GetLocationNames4(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metHGSS_00000,
-                2 => metHGSS_02000,
-                3 => metHGSS_03000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metHGSS_00000,
+            2 => metHGSS_02000,
+            3 => metHGSS_03000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames5(int bankID)
+        public IReadOnlyList<string> GetLocationNames5(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metBW2_00000,
-                3 => metBW2_30000,
-                4 => metBW2_40000,
-                6 => metBW2_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metBW2_00000,
+            3 => metBW2_30000,
+            4 => metBW2_40000,
+            6 => metBW2_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames6(int bankID)
+        public IReadOnlyList<string> GetLocationNames6(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metXY_00000,
-                3 => metXY_30000,
-                4 => metXY_40000,
-                6 => metXY_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metXY_00000,
+            3 => metXY_30000,
+            4 => metXY_40000,
+            6 => metXY_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames7(int bankID)
+        public IReadOnlyList<string> GetLocationNames7(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metSM_00000,
-                3 => metSM_30000,
-                4 => metSM_40000,
-                6 => metSM_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metSM_00000,
+            3 => metSM_30000,
+            4 => metSM_40000,
+            6 => metSM_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames7GG(int bankID)
+        public IReadOnlyList<string> GetLocationNames7GG(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metGG_00000,
-                3 => metGG_30000,
-                4 => metGG_40000,
-                6 => metGG_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metGG_00000,
+            3 => metGG_30000,
+            4 => metGG_40000,
+            6 => metGG_60000,
+            _ => Array.Empty<string>()
+        };
 
-        public IReadOnlyList<string> GetLocationNames8(int bankID)
+        public IReadOnlyList<string> GetLocationNames8(int bankID) => bankID switch
         {
-            return bankID switch
-            {
-                0 => metSWSH_00000,
-                3 => metSWSH_30000,
-                4 => metSWSH_40000,
-                6 => metSWSH_60000,
-                _ => Array.Empty<string>()
-            };
-        }
+            0 => metSWSH_00000,
+            3 => metSWSH_30000,
+            4 => metSWSH_40000,
+            6 => metSWSH_60000,
+            _ => Array.Empty<string>()
+        };
     }
 }

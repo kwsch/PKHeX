@@ -404,18 +404,12 @@ namespace PKHeX.Core
         // Trainer Info
         public override GameVersion Version { get; protected set; }
 
-        public uint SecurityKey
+        public uint SecurityKey => Version switch
         {
-            get
-            {
-                return Version switch
-                {
-                    GameVersion.E => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC),
-                    GameVersion.FRLG => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xF20),
-                    _ => 0u
-                };
-            }
-        }
+            GameVersion.E => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xAC),
+            GameVersion.FRLG => BitConverter.ToUInt32(Data, BlockOfs[0] + 0xF20),
+            _ => 0u
+        };
 
         public override string OT
         {

@@ -61,21 +61,18 @@ namespace PKHeX.Core
         public bool HasNickname => Nicknames.Count != 0 && IsNicknamed;
         public bool HasTrainerName => TrainerNames.Count != 0;
 
-        private static int GetDefaultMetLocation(int generation)
+        private static int GetDefaultMetLocation(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => 0,
-                2 => Locations.LinkTrade2NPC,
-                3 => Locations.LinkTrade3NPC,
-                4 => Locations.LinkTrade4NPC,
-                5 => Locations.LinkTrade5NPC,
-                6 => Locations.LinkTrade6NPC,
-                7 => Locations.LinkTrade6NPC, // 7 is same as 6
-                8 => Locations.LinkTrade6NPC, // 8 is same as 6
-                _ => throw new IndexOutOfRangeException(nameof(generation)),
-            };
-        }
+            1 => 0,
+            2 => Locations.LinkTrade2NPC,
+            3 => Locations.LinkTrade3NPC,
+            4 => Locations.LinkTrade4NPC,
+            5 => Locations.LinkTrade5NPC,
+            6 => Locations.LinkTrade6NPC,
+            7 => Locations.LinkTrade6NPC, // 7 is same as 6
+            8 => Locations.LinkTrade6NPC, // 8 is same as 6
+            _ => throw new IndexOutOfRangeException(nameof(generation)),
+        };
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 

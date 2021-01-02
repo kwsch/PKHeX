@@ -372,18 +372,15 @@ namespace PKHeX.WinForms
                 if (!string.IsNullOrWhiteSpace(args[9])) Location = args[9] + ":";
             }
 
-            public string GetMemoryCategory(MemoryArgType type, int format)
+            public string GetMemoryCategory(MemoryArgType type, int format) => type switch
             {
-                return type switch
-                {
-                    MemoryArgType.GeneralLocation => Area,
-                    MemoryArgType.SpecificLocation when format == 6 => Location,
-                    MemoryArgType.Species => Species,
-                    MemoryArgType.Move => Move,
-                    MemoryArgType.Item => Item,
-                    _ => string.Empty
-                };
-            }
+                MemoryArgType.GeneralLocation => Area,
+                MemoryArgType.SpecificLocation when format == 6 => Location,
+                MemoryArgType.Species => Species,
+                MemoryArgType.Move => Move,
+                MemoryArgType.Item => Item,
+                _ => string.Empty
+            };
         }
     }
 }

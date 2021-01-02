@@ -60,37 +60,31 @@ namespace PKHeX.Core
             return lgpe ? MovePP_GG : MovePP_SM;
         }
 
-        public static IReadOnlyList<byte> GetPPTable(int format)
+        public static IReadOnlyList<byte> GetPPTable(int format) => format switch
         {
-            return format switch
-            {
-                1 => MovePP_RBY,
-                2 => MovePP_GSC,
-                3 => MovePP_RS,
-                4 => MovePP_DP,
-                5 => MovePP_BW,
-                6 => MovePP_XY,
-                7 => MovePP_SM,
-                8 => MovePP_SWSH,
-                _ => Array.Empty<byte>()
-            };
-        }
+            1 => MovePP_RBY,
+            2 => MovePP_GSC,
+            3 => MovePP_RS,
+            4 => MovePP_DP,
+            5 => MovePP_BW,
+            6 => MovePP_XY,
+            7 => MovePP_SM,
+            8 => MovePP_SWSH,
+            _ => Array.Empty<byte>()
+        };
 
-        internal static ICollection<int> GetWildBalls(int gen, GameVersion game)
+        internal static ICollection<int> GetWildBalls(int generation, GameVersion game) => generation switch
         {
-            return gen switch
-            {
-                1 => WildPokeBalls1,
-                2 => WildPokeBalls2,
-                3 => WildPokeBalls3,
-                4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
-                5 => WildPokeBalls5,
-                6 => WildPokeballs6,
-                7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
-                8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
-                _ => Array.Empty<int>()
-            };
-        }
+            1 => WildPokeBalls1,
+            2 => WildPokeBalls2,
+            3 => WildPokeBalls3,
+            4 => GameVersion.HGSS.Contains(game) ? WildPokeBalls4_HGSS : WildPokeBalls4_DPPt,
+            5 => WildPokeBalls5,
+            6 => WildPokeballs6,
+            7 => GameVersion.Gen7b.Contains(game) ? WildPokeballs7b : WildPokeballs7,
+            8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
+            _ => Array.Empty<int>()
+        };
 
         internal static int GetMaxSpeciesOrigin(PKM pkm)
         {
@@ -101,71 +95,54 @@ namespace PKHeX.Core
             return GetMaxSpeciesOrigin(pkm.Generation);
         }
 
-        internal static int GetMaxSpeciesOrigin(int generation)
+        internal static int GetMaxSpeciesOrigin(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => MaxSpeciesID_1,
-                2 => MaxSpeciesID_2,
-                3 => MaxSpeciesID_3,
-                4 => MaxSpeciesID_4,
-                5 => MaxSpeciesID_5,
-                6 => MaxSpeciesID_6,
-                7 => MaxSpeciesID_7b,
-                8 => MaxSpeciesID_8,
-                _ => -1
-            };
-        }
+            1 => MaxSpeciesID_1,
+            2 => MaxSpeciesID_2,
+            3 => MaxSpeciesID_3,
+            4 => MaxSpeciesID_4,
+            5 => MaxSpeciesID_5,
+            6 => MaxSpeciesID_6,
+            7 => MaxSpeciesID_7b,
+            8 => MaxSpeciesID_8,
+            _ => -1
+        };
 
-        internal static ICollection<int> GetFutureGenEvolutions(int generation)
+        internal static ICollection<int> GetFutureGenEvolutions(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => FutureEvolutionsGen1,
-                2 => FutureEvolutionsGen2,
-                3 => FutureEvolutionsGen3,
-                4 => FutureEvolutionsGen4,
-                5 => FutureEvolutionsGen5,
-                _ => Array.Empty<int>()
-            };
-        }
+            1 => FutureEvolutionsGen1,
+            2 => FutureEvolutionsGen2,
+            3 => FutureEvolutionsGen3,
+            4 => FutureEvolutionsGen4,
+            5 => FutureEvolutionsGen5,
+            _ => Array.Empty<int>()
+        };
 
-        internal static int GetDebutGeneration(int species)
+        internal static int GetDebutGeneration(int species) => species switch
         {
-            if (species <= MaxSpeciesID_1)
-                return 1;
-            if (species <= MaxSpeciesID_2)
-                return 2;
-            if (species <= MaxSpeciesID_3)
-                return 3;
-            if (species <= MaxSpeciesID_4)
-                return 4;
-            if (species <= MaxSpeciesID_5)
-                return 5;
-            if (species <= MaxSpeciesID_6)
-                return 6;
-            if (species <= MaxSpeciesID_7b)
-                return 7;
-            if (species <= MaxSpeciesID_8)
-                return 8;
-            return -1;
-        }
+            <= MaxSpeciesID_1 => 1,
+            <= MaxSpeciesID_2 => 2,
+            <= MaxSpeciesID_3 => 3,
+            <= MaxSpeciesID_4 => 4,
+            <= MaxSpeciesID_5 => 5,
+            <= MaxSpeciesID_6 => 6,
+            <= MaxSpeciesID_7b => 7,
+            <= MaxSpeciesID_8 => 8,
+            _ => -1
+        };
 
-        internal static int GetMaxLanguageID(int generation)
+        internal static int GetMaxLanguageID(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => (int) LanguageID.Spanish, // 1-7 except 6
-                3 => (int) LanguageID.Spanish, // 1-7 except 6
-                2 => (int) LanguageID.Korean,
-                4 => (int) LanguageID.Korean,
-                5 => (int) LanguageID.Korean,
-                6 => (int) LanguageID.Korean,
-                7 => (int) LanguageID.ChineseT,
-                8 => (int) LanguageID.ChineseT,
-                _ => -1
-            };
-        }
+            1 => (int) LanguageID.Spanish, // 1-7 except 6
+            3 => (int) LanguageID.Spanish, // 1-7 except 6
+            2 => (int) LanguageID.Korean,
+            4 => (int) LanguageID.Korean,
+            5 => (int) LanguageID.Korean,
+            6 => (int) LanguageID.Korean,
+            7 => (int) LanguageID.ChineseT,
+            8 => (int) LanguageID.ChineseT,
+            _ => -1
+        };
 
         internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
         {
@@ -204,25 +181,19 @@ namespace PKHeX.Core
             return pkm.Format == 5 && pkm.BW;
         }
 
-        public static int GetMaxLengthOT(int gen, LanguageID lang)
+        public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
         {
-            return lang switch
-            {
-                LanguageID.ChineseS or LanguageID.ChineseT => 6,
-                LanguageID.Japanese or LanguageID.Korean => gen >= 6 ? 6 : 5,
-                _ => gen >= 6 ? 12 : 7
-            };
-        }
+            LanguageID.ChineseS or LanguageID.ChineseT => 6,
+            LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
+            _ => generation >= 6 ? 12 : 7
+        };
 
-        public static int GetMaxLengthNickname(int gen, LanguageID lang)
+        public static int GetMaxLengthNickname(int generation, LanguageID language) => language switch
         {
-            return lang switch
-            {
-                LanguageID.ChineseS or LanguageID.ChineseT => 6,
-                LanguageID.Japanese or LanguageID.Korean => gen >= 6 ? 6 : 5,
-                _ => gen >= 6 ? 12 : 10
-            };
-        }
+            LanguageID.ChineseS or LanguageID.ChineseT => 6,
+            LanguageID.Japanese or LanguageID.Korean => generation >= 6 ? 6 : 5,
+            _ => generation >= 6 ? 12 : 10
+        };
 
         public static bool GetIsFixedIVSequenceValidSkipRand(IReadOnlyList<int> IVs, PKM pkm, int max = 31)
         {

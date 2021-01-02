@@ -34,49 +34,43 @@ namespace PKHeX.Core
     {
         public static bool IsBoolean(this SCTypeCode type) => (byte)type - 1 < 3;
 
-        public static int GetTypeSize(this SCTypeCode type)
+        public static int GetTypeSize(this SCTypeCode type) => type switch
         {
-            return type switch
-            {
-                SCTypeCode.Bool3 => sizeof(bool),
+            SCTypeCode.Bool3 => sizeof(bool),
 
-                SCTypeCode.Byte => sizeof(byte),
-                SCTypeCode.UInt16 => sizeof(ushort),
-                SCTypeCode.UInt32 => sizeof(uint),
-                SCTypeCode.UInt64 => sizeof(ulong),
+            SCTypeCode.Byte => sizeof(byte),
+            SCTypeCode.UInt16 => sizeof(ushort),
+            SCTypeCode.UInt32 => sizeof(uint),
+            SCTypeCode.UInt64 => sizeof(ulong),
 
-                SCTypeCode.SByte => sizeof(sbyte),
-                SCTypeCode.Int16 => sizeof(short),
-                SCTypeCode.Int32 => sizeof(int),
-                SCTypeCode.Int64 => sizeof(long),
+            SCTypeCode.SByte => sizeof(sbyte),
+            SCTypeCode.Int16 => sizeof(short),
+            SCTypeCode.Int32 => sizeof(int),
+            SCTypeCode.Int64 => sizeof(long),
 
-                SCTypeCode.Single => sizeof(float),
-                SCTypeCode.Double => sizeof(double),
+            SCTypeCode.Single => sizeof(float),
+            SCTypeCode.Double => sizeof(double),
 
-                _ => throw new ArgumentException(type.ToString(), nameof(type))
-            };
-        }
+            _ => throw new ArgumentException(type.ToString(), nameof(type))
+        };
 
-        public static Type GetType(this SCTypeCode type)
+        public static Type GetType(this SCTypeCode type) => type switch
         {
-            return type switch
-            {
-                SCTypeCode.Byte => typeof(byte),
-                SCTypeCode.UInt16 => typeof(ushort),
-                SCTypeCode.UInt32 => typeof(uint),
-                SCTypeCode.UInt64 => typeof(ulong),
+            SCTypeCode.Byte => typeof(byte),
+            SCTypeCode.UInt16 => typeof(ushort),
+            SCTypeCode.UInt32 => typeof(uint),
+            SCTypeCode.UInt64 => typeof(ulong),
 
-                SCTypeCode.SByte => typeof(sbyte),
-                SCTypeCode.Int16 => typeof(short),
-                SCTypeCode.Int32 => typeof(int),
-                SCTypeCode.Int64 => typeof(long),
+            SCTypeCode.SByte => typeof(sbyte),
+            SCTypeCode.Int16 => typeof(short),
+            SCTypeCode.Int32 => typeof(int),
+            SCTypeCode.Int64 => typeof(long),
 
-                SCTypeCode.Single => typeof(float),
-                SCTypeCode.Double => typeof(double),
+            SCTypeCode.Single => typeof(float),
+            SCTypeCode.Double => typeof(double),
 
-                _ => throw new ArgumentException(type.ToString(), nameof(type))
-            };
-        }
+            _ => throw new ArgumentException(type.ToString(), nameof(type))
+        };
 
         public static object GetValue(this SCTypeCode type, byte[] data)
         {

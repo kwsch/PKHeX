@@ -38,16 +38,13 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="s"><see cref="Severity"/> value to convert to string.</param>
         /// <returns>Localized <see cref="string"/>.</returns>
-        public static string Description(this Severity s)
+        public static string Description(this Severity s) => s switch
         {
-            return s switch
-            {
-                Severity.Indeterminate => L_SIndeterminate,
-                Severity.Invalid => L_SInvalid,
-                Severity.Fishy => L_SFishy,
-                Severity.Valid => L_SValid,
-                _ => L_SNotImplemented
-            };
-        }
+            Severity.Indeterminate => L_SIndeterminate,
+            Severity.Invalid => L_SInvalid,
+            Severity.Fishy => L_SFishy,
+            Severity.Valid => L_SValid,
+            _ => L_SNotImplemented
+        };
     }
 }

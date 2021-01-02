@@ -424,14 +424,11 @@ namespace PKHeX.Core
             };
         }
 
-        private static int GetEncounterFixedAbilityNumber(IEncounterable enc)
+        private static int GetEncounterFixedAbilityNumber(IEncounterable enc) => enc switch
         {
-            return enc switch
-            {
-                EncounterStatic s => s.Ability,
-                EncounterTrade t => t.Ability,
-                _ => -1
-            };
-        }
+            EncounterStatic s => s.Ability,
+            EncounterTrade t => t.Ability,
+            _ => -1
+        };
     }
 }

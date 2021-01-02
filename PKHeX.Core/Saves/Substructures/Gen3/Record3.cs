@@ -39,16 +39,13 @@ namespace PKHeX.Core
             return sav.SecurityKey;
         }
 
-        private static Type GetEnumType(GameVersion ver)
+        private static Type GetEnumType(GameVersion ver) => ver switch
         {
-            return ver switch
-            {
-                GameVersion.RS => typeof(RecID3RuSa),
-                GameVersion.FRLG => typeof(RecID3FRLG),
-                GameVersion.E => typeof(RecID3Emerald),
-                _ => throw new ArgumentException(nameof(ver))
-            };
-        }
+            GameVersion.RS => typeof(RecID3RuSa),
+            GameVersion.FRLG => typeof(RecID3FRLG),
+            GameVersion.E => typeof(RecID3Emerald),
+            _ => throw new ArgumentException(nameof(ver))
+        };
 
         public static int[] GetEnumValues(GameVersion ver) => (int[])Enum.GetValues(GetEnumType(ver));
         public static string[] GetEnumNames(GameVersion ver) => Enum.GetNames(GetEnumType(ver));

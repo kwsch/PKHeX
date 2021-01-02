@@ -36,18 +36,12 @@ namespace PKHeX.Core
             EventFlag = EventConst + 0x2FC;
         }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int) GameVersion.AS => GameVersion.AS,
-                    (int) GameVersion.OR => GameVersion.OR,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int) GameVersion.AS => GameVersion.AS,
+            (int) GameVersion.OR => GameVersion.OR,
+            _ => GameVersion.Invalid
+        };
 
         public override uint Money { get => Blocks.Misc.Money; set => Blocks.Misc.Money = value; }
         public override int Vivillon { get => Blocks.Misc.Vivillon; set => Blocks.Misc.Vivillon = value; } // unused

@@ -131,52 +131,40 @@ namespace PKHeX.Core
             throw new ArgumentException(nameof(index));
         }
 
-        private int GetFlagStart(EventVarType type)
+        private static int GetFlagStart(EventVarType type) => type switch
         {
-            return type switch
-            {
-                EventVarType.Zone => ZoneFlagStart,
-                EventVarType.System => SystemFlagStart,
-                EventVarType.Vanish => VanishFlagStart,
-                EventVarType.Event => EventFlagStart,
-                _ => throw new ArgumentException(nameof(type))
-            };
-        }
+            EventVarType.Zone => ZoneFlagStart,
+            EventVarType.System => SystemFlagStart,
+            EventVarType.Vanish => VanishFlagStart,
+            EventVarType.Event => EventFlagStart,
+            _ => throw new ArgumentException(nameof(type))
+        };
 
-        private int GetWorkStart(EventVarType type)
+        private static int GetWorkStart(EventVarType type) => type switch
         {
-            return type switch
-            {
-                EventVarType.Zone => ZoneWorkStart,
-                EventVarType.System => SystemWorkStart,
-                EventVarType.Scene => SceneWorkStart,
-                EventVarType.Event => EventWorkStart,
-                _ => throw new ArgumentException(nameof(type))
-            };
-        }
+            EventVarType.Zone => ZoneWorkStart,
+            EventVarType.System => SystemWorkStart,
+            EventVarType.Scene => SceneWorkStart,
+            EventVarType.Event => EventWorkStart,
+            _ => throw new ArgumentException(nameof(type))
+        };
 
-        private int GetFlagCount(EventVarType type)
+        private static int GetFlagCount(EventVarType type) => type switch
         {
-            return type switch
-            {
-                EventVarType.Zone => ZoneFlagCount,
-                EventVarType.System => SystemFlagCount,
-                EventVarType.Vanish => VanishFlagCount,
-                EventVarType.Event => EventFlagCount,
-                _ => throw new ArgumentException(nameof(type))
-            };
-        }
+            EventVarType.Zone => ZoneFlagCount,
+            EventVarType.System => SystemFlagCount,
+            EventVarType.Vanish => VanishFlagCount,
+            EventVarType.Event => EventFlagCount,
+            _ => throw new ArgumentException(nameof(type))
+        };
 
-        private int GetWorkCount(EventVarType type)
+        private static int GetWorkCount(EventVarType type) => type switch
         {
-            return type switch
-            {
-                EventVarType.Zone => ZoneWorkCount,
-                EventVarType.System => SystemWorkCount,
-                EventVarType.Scene => SceneWorkCount,
-                EventVarType.Event => EventWorkCount,
-                _ => throw new ArgumentException(nameof(type))
-            };
-        }
+            EventVarType.Zone => ZoneWorkCount,
+            EventVarType.System => SystemWorkCount,
+            EventVarType.Scene => SceneWorkCount,
+            EventVarType.Event => EventWorkCount,
+            _ => throw new ArgumentException(nameof(type))
+        };
     }
 }

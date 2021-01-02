@@ -112,41 +112,35 @@ namespace PKHeX.Core
             return new(Util.GetBinaryResource($"personal_{game}"), format);
         }
 
-        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format)
+        private static Func<byte[], PersonalInfo> GetConstructor(GameVersion format) => format switch
         {
-            return format switch
-            {
-                GameVersion.RB or GameVersion.YW => z => new PersonalInfoG1(z),
-                GameVersion.GS or GameVersion.C => z => new PersonalInfoG2(z),
-                GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => z => new PersonalInfoG3(z),
-                GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => z => new PersonalInfoG4(z),
-                GameVersion.BW => z => new PersonalInfoBW(z),
-                GameVersion.B2W2 => z => new PersonalInfoB2W2(z),
-                GameVersion.XY => z => new PersonalInfoXY(z),
-                GameVersion.ORAS => z => new PersonalInfoORAS(z),
-                GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
-                GameVersion.GG => z => new PersonalInfoGG(z),
-                _ => z => new PersonalInfoSWSH(z),
-            };
-        }
+            GameVersion.RB or GameVersion.YW => z => new PersonalInfoG1(z),
+            GameVersion.GS or GameVersion.C => z => new PersonalInfoG2(z),
+            GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => z => new PersonalInfoG3(z),
+            GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => z => new PersonalInfoG4(z),
+            GameVersion.BW => z => new PersonalInfoBW(z),
+            GameVersion.B2W2 => z => new PersonalInfoB2W2(z),
+            GameVersion.XY => z => new PersonalInfoXY(z),
+            GameVersion.ORAS => z => new PersonalInfoORAS(z),
+            GameVersion.SM or GameVersion.USUM => z => new PersonalInfoSM(z),
+            GameVersion.GG => z => new PersonalInfoGG(z),
+            _ => z => new PersonalInfoSWSH(z),
+        };
 
-        private static int GetEntrySize(GameVersion format)
+        private static int GetEntrySize(GameVersion format) => format switch
         {
-            return format switch
-            {
-                GameVersion.RB or GameVersion.YW => PersonalInfoG1.SIZE,
-                GameVersion.GS or GameVersion.C => PersonalInfoG2.SIZE,
-                GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => PersonalInfoG3.SIZE,
-                GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => PersonalInfoG4.SIZE,
-                GameVersion.BW => PersonalInfoBW.SIZE,
-                GameVersion.B2W2 => PersonalInfoB2W2.SIZE,
-                GameVersion.XY => PersonalInfoXY.SIZE,
-                GameVersion.ORAS => PersonalInfoORAS.SIZE,
-                GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
-                GameVersion.SWSH => PersonalInfoSWSH.SIZE,
-                _ => -1,
-            };
-        }
+            GameVersion.RB or GameVersion.YW => PersonalInfoG1.SIZE,
+            GameVersion.GS or GameVersion.C => PersonalInfoG2.SIZE,
+            GameVersion.RS or GameVersion.E or GameVersion.FR or GameVersion.LG => PersonalInfoG3.SIZE,
+            GameVersion.DP or GameVersion.Pt or GameVersion.HGSS => PersonalInfoG4.SIZE,
+            GameVersion.BW => PersonalInfoBW.SIZE,
+            GameVersion.B2W2 => PersonalInfoB2W2.SIZE,
+            GameVersion.XY => PersonalInfoXY.SIZE,
+            GameVersion.ORAS => PersonalInfoORAS.SIZE,
+            GameVersion.SM or GameVersion.USUM or GameVersion.GG => PersonalInfoSM.SIZE,
+            GameVersion.SWSH => PersonalInfoSWSH.SIZE,
+            _ => -1,
+        };
 
         static PersonalTable() // Finish Setup
         {

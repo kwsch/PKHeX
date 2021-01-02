@@ -129,52 +129,46 @@ namespace PKHeX.Core
         }
 
         // Generation Specific Fetching
-        private static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion gameSource = Any)
+        private static IEnumerable<EncounterStatic> GetEncounterStaticTable(PKM pkm, GameVersion game) => game switch
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
+            RBY or RD or BU or GN or YW => StaticRBY,
 
-            return gameSource switch
-            {
-                RBY or RD or BU or GN or YW => StaticRBY,
+            GSC or GD or SV or C => GetEncounterStaticTableGSC(pkm),
 
-                GSC or GD or SV or C => GetEncounterStaticTableGSC(pkm),
+            R => StaticR,
+            S => StaticS,
+            E => StaticE,
+            FR => StaticFR,
+            LG => StaticLG,
+            CXD => Encounter_CXD,
 
-                R => StaticR,
-                S => StaticS,
-                E => StaticE,
-                FR => StaticFR,
-                LG => StaticLG,
-                CXD => Encounter_CXD,
+            D => StaticD,
+            P => StaticP,
+            Pt => StaticPt,
+            HG => StaticHG,
+            SS => StaticSS,
 
-                D => StaticD,
-                P => StaticP,
-                Pt => StaticPt,
-                HG => StaticHG,
-                SS => StaticSS,
+            B => StaticB,
+            W => StaticW,
+            B2 => StaticB2,
+            W2 => StaticW2,
 
-                B => StaticB,
-                W => StaticW,
-                B2 => StaticB2,
-                W2 => StaticW2,
+            X => StaticX,
+            Y => StaticY,
+            AS => StaticA,
+            OR => StaticO,
 
-                X => StaticX,
-                Y => StaticY,
-                AS => StaticA,
-                OR => StaticO,
+            SN => StaticSN,
+            MN => StaticMN,
+            US => StaticUS,
+            UM => StaticUM,
+            GP => StaticGP,
+            GE => StaticGE,
 
-                SN => StaticSN,
-                MN => StaticMN,
-                US => StaticUS,
-                UM => StaticUM,
-                GP => StaticGP,
-                GE => StaticGE,
-
-                SW => StaticSW,
-                SH => StaticSH,
-                _ => Enumerable.Empty<EncounterStatic>(),
-            };
-        }
+            SW => StaticSW,
+            SH => StaticSH,
+            _ => Array.Empty<EncounterStatic>(),
+        };
 
         private static IEnumerable<EncounterStatic> GetEncounterStaticTableGSC(PKM pkm)
         {

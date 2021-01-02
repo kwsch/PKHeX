@@ -72,15 +72,12 @@ namespace PKHeX.WinForms
 
         public DrawConfig() => LoadBrushes();
 
-        public Color GetGenderColor(int gender)
+        public Color GetGenderColor(int gender) => gender switch
         {
-            return gender switch
-            {
-                0 => Male,
-                1 => Female,
-                _ => TextColor
-            };
-        }
+            0 => Male,
+            1 => Female,
+            _ => TextColor
+        };
 
         public bool GetMarkingColor(int markval, out Color c)
         {

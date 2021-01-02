@@ -302,8 +302,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < end; i++)
             {
                 var enc = Results[i + begin];
-                var form = GetForm(enc);
-                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, form, 0, 0, 0, enc.EggEncounter, false, enc.Generation);
+                PKXBOXES[i].Image = SpriteUtil.GetSprite(enc.Species, enc.Form, 0, 0, 0, enc.EggEncounter, false, enc.Generation);
             }
             for (int i = end; i < RES_MAX; i++)
                 PKXBOXES[i].Image = null;
@@ -312,18 +311,6 @@ namespace PKHeX.WinForms
                 PKXBOXES[i].BackgroundImage = SpriteUtil.Spriter.Transparent;
             if (slotSelected != -1 && slotSelected >= begin && slotSelected < begin + RES_MAX)
                 PKXBOXES[slotSelected - begin].BackgroundImage = slotColor ?? SpriteUtil.Spriter.View;
-        }
-
-        private static int GetForm(IEncounterable enc)
-        {
-            return enc switch
-            {
-                EncounterSlot s => s.Form,
-                EncounterStatic s => s.Form,
-                MysteryGift m => m.Form,
-                EncounterTrade t => t.Form,
-                _ => 0
-            };
         }
 
         private void Menu_SearchAdvanced_Click(object sender, EventArgs e)

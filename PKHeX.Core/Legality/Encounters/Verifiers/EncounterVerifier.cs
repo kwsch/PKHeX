@@ -12,27 +12,21 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="pkm">Source data to verify</param>
         /// <returns>Returns the verification method appropriate for the input PKM</returns>
-        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm)
+        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm) => pkm.Generation switch
         {
-            return pkm.Generation switch
-            {
-                1 or 2 => VerifyEncounterG12,
-                _ => VerifyEncounter,
-            };
-        }
+            1 or 2 => VerifyEncounterG12,
+            _ => VerifyEncounter,
+        };
 
-        private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info)
+        private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info) => info.EncounterMatch switch
         {
-            return info.EncounterMatch switch
-            {
-                EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
-                EncounterTrade t => VerifyEncounterTrade(pkm, t),
-                EncounterSlot w => VerifyEncounterWild(w),
-                EncounterStatic s => VerifyEncounterStatic(pkm, s),
-                MysteryGift g => VerifyEncounterEvent(pkm, g),
-                _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
-            };
-        }
+            EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
+            EncounterTrade t => VerifyEncounterTrade(pkm, t),
+            EncounterSlot w => VerifyEncounterWild(w),
+            EncounterStatic s => VerifyEncounterStatic(pkm, s),
+            MysteryGift g => VerifyEncounterEvent(pkm, g),
+            _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
+        };
 
         private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {

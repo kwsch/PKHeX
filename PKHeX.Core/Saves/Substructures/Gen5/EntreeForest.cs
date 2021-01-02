@@ -111,15 +111,12 @@ namespace PKHeX.Core
             return (EntreeForestArea)((int)EntreeForestArea.First << area) | GetSlotPosition(index / Count18);
         }
 
-        private static EntreeForestArea GetSlotPosition(int index)
+        private static EntreeForestArea GetSlotPosition(int index) => index switch
         {
-            return index switch
-            {
-                0 => EntreeForestArea.Center,
-                1 => EntreeForestArea.Left,
-                2 => EntreeForestArea.Right,
-                _ => throw new ArgumentOutOfRangeException()
-            };
-        }
+            0 => EntreeForestArea.Center,
+            1 => EntreeForestArea.Left,
+            2 => EntreeForestArea.Right,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

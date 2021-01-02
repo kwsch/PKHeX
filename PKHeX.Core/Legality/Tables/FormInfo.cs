@@ -44,16 +44,13 @@ namespace PKHeX.Core
         /// <param name="form">Entity form</param>
         /// <param name="format">Current generation format</param>
         /// <returns>Suggested alt form value.</returns>
-        public static int GetOutOfBattleForm(int species, int form, int format)
+        public static int GetOutOfBattleForm(int species, int form, int format) => species switch
         {
-            return species switch
-            {
-                (int)Darmanitan => form & 2,
-                (int)Zygarde when format > 6 => 3,
-                (int)Minior => form + 7,
-                _ => 0
-            };
-        }
+            (int)Darmanitan => form & 2,
+            (int)Zygarde when format > 6 => 3,
+            (int)Minior => form + 7,
+            _ => 0
+        };
 
         /// <summary>
         /// Checks if the <see cref="form"/> is a fused form, which indicates it cannot be traded away.
@@ -62,16 +59,13 @@ namespace PKHeX.Core
         /// <param name="form">Entity form</param>
         /// <param name="format">Current generation format</param>
         /// <returns>True if it is a fused species-form, false if it is not fused.</returns>
-        public static bool IsFusedForm(int species, int form, int format)
+        public static bool IsFusedForm(int species, int form, int format) => species switch
         {
-            return species switch
-            {
-                (int)Kyurem when form != 0 && format >= 5 => true,
-                (int)Necrozma when form != 0 && format >= 7 => true,
-                (int)Calyrex when form != 0 && format >= 8 => true,
-                _ => false
-            };
-        }
+            (int)Kyurem when form != 0 && format >= 5 => true,
+            (int)Necrozma when form != 0 && format >= 7 => true,
+            (int)Calyrex when form != 0 && format >= 8 => true,
+            _ => false
+        };
 
         /// <summary>Checks if the form may be different than the original encounter detail.</summary>
         /// <param name="species">Original species</param>
@@ -246,19 +240,16 @@ namespace PKHeX.Core
         /// <param name="form">Entity form</param>
         /// <param name="format">Current generation format</param>
         /// <seealso cref="HasFormValuesNotIndicatedByPersonal"/>
-        public static bool IsValidOutOfBoundsForm(int species, int form, int format)
+        public static bool IsValidOutOfBoundsForm(int species, int form, int format) => (Species) species switch
         {
-            return (Species) species switch
-            {
-                Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
-                Mothim => form < 3, // Burmy base form is kept
+            Unown => form < (format == 2 ? 26 : 28), // A-Z : A-Z?!
+            Mothim => form < 3, // Burmy base form is kept
 
-                Scatterbug => form < 18, // Vivillon Pre-evolutions
-                Spewpa => form < 18, // Vivillon Pre-evolutions
+            Scatterbug => form < 18, // Vivillon Pre-evolutions
+            Spewpa => form < 18, // Vivillon Pre-evolutions
 
-                _ => false
-            };
-        }
+            _ => false
+        };
 
         /// <summary>
         /// Checks if the <see cref="PKM"/> data should have a drop-down selection visible for the <see cref="PKM.Form"/> value.

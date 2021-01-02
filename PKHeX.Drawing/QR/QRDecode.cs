@@ -82,18 +82,15 @@ namespace PKHeX.Drawing
             return Convert.FromBase64String(pkstr);
         }
 
-        public static string ConvertMsg(this QRDecodeResult result)
+        public static string ConvertMsg(this QRDecodeResult result) => result switch
         {
-            return result switch
-            {
-                QRDecodeResult.Success => string.Empty,
-                QRDecodeResult.BadPath => MessageStrings.MsgQRUrlFailPath,
-                QRDecodeResult.BadImage => MessageStrings.MsgQRUrlFailImage,
-                QRDecodeResult.BadType => MessageStrings.MsgQRUrlFailType,
-                QRDecodeResult.BadConnection => MessageStrings.MsgQRUrlFailConnection,
-                QRDecodeResult.BadConversion => MessageStrings.MsgQRUrlFailConvert,
-                _ => throw new ArgumentOutOfRangeException(nameof(result), result, null)
-            };
-        }
+            QRDecodeResult.Success => string.Empty,
+            QRDecodeResult.BadPath => MessageStrings.MsgQRUrlFailPath,
+            QRDecodeResult.BadImage => MessageStrings.MsgQRUrlFailImage,
+            QRDecodeResult.BadType => MessageStrings.MsgQRUrlFailType,
+            QRDecodeResult.BadConnection => MessageStrings.MsgQRUrlFailConnection,
+            QRDecodeResult.BadConversion => MessageStrings.MsgQRUrlFailConvert,
+            _ => throw new ArgumentOutOfRangeException(nameof(result), result, null)
+        };
     }
 }

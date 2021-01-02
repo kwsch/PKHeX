@@ -48,16 +48,13 @@ namespace PKHeX.Drawing
 
         private GameVersion Game;
 
-        private static int GetDeoxysForm(GameVersion game)
+        private static int GetDeoxysForm(GameVersion game) => game switch
         {
-            return game switch
-            {
-                GameVersion.FR => 1, // Attack
-                GameVersion.LG => 2, // Defense
-                GameVersion.E => 3, // Speed
-                _ => 0
-            };
-        }
+            GameVersion.FR => 1, // Attack
+            GameVersion.LG => 2, // Defense
+            GameVersion.E => 3, // Speed
+            _ => 0
+        };
 
         public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {

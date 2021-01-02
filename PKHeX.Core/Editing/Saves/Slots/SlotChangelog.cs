@@ -51,14 +51,11 @@ namespace PKHeX.Core
             RedoStack.Clear();
         }
 
-        private static SlotReversion GetReversion(ISlotInfo info, SaveFile sav)
+        private static SlotReversion GetReversion(ISlotInfo info, SaveFile sav) => info switch
         {
-            return info switch
-            {
-                SlotInfoParty p => new PartyReversion(p, sav),
-                _ => new SingleSlotReversion(info, sav)
-            };
-        }
+            SlotInfoParty p => new PartyReversion(p, sav),
+            _ => new SingleSlotReversion(info, sav)
+        };
 
         private abstract class SlotReversion
         {

@@ -136,18 +136,12 @@ namespace PKHeX.Core
             State.Edited = true;
         }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int)GameVersion.X => GameVersion.X,
-                    (int)GameVersion.Y => GameVersion.Y,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int) GameVersion.X => GameVersion.X,
+            (int) GameVersion.Y => GameVersion.Y,
+            _ => GameVersion.Invalid
+        };
 
         protected override bool[] MysteryGiftReceivedFlags { get => Blocks.MysteryGift.GetReceivedFlags(); set => Blocks.MysteryGift.SetReceivedFlags(value); }
         protected override DataMysteryGift[] MysteryGiftCards { get => Blocks.MysteryGift.GetGifts(); set => Blocks.MysteryGift.SetGifts(value); }

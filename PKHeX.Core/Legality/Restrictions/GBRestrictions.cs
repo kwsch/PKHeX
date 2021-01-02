@@ -209,23 +209,20 @@ namespace PKHeX
             return IsMoveCountRequired3(species, pk.CurrentLevel, moves) ? 3 : 0; // no match
         }
 
-        private static bool IsMoveCountRequired3(int species, int level, IReadOnlyList<int> moves)
+        private static bool IsMoveCountRequired3(int species, int level, IReadOnlyList<int> moves) => species switch
         {
             // Species that evolve and learn the 4th move as evolved species at a greater level than base species
             // The 4th move is included in the level up table set as a pre-evolution move,
             // it should be removed from the used slots count if is not the learn move
-            return species switch
-            {
-                (int)Species.Pidgeotto => level < 21 && !moves.Contains(018),// Whirlwind
-                (int)Species.Sandslash => level < 27 && !moves.Contains(040),// Poison Sting
-                (int)Species.Parasect => level < 30 && !moves.Contains(147),// Spore
-                (int)Species.Golduck => level < 39 && !moves.Contains(093),// Confusion
-                (int)Species.Dewgong => level < 44 && !moves.Contains(156),// Rest
-                (int)Species.Haunter or (int)Species.Gengar => level < 29 && !moves.Contains(095),// Hypnosis
-                (int)Species.Weezing => level < 39 && !moves.Contains(108),// Smoke Screen
-                _ => false,
-            };
-        }
+            (int)Species.Pidgeotto => level < 21 && !moves.Contains(018), // Whirlwind
+            (int)Species.Sandslash => level < 27 && !moves.Contains(040), // Poison Sting
+            (int)Species.Parasect  => level < 30 && !moves.Contains(147), // Spore
+            (int)Species.Golduck   => level < 39 && !moves.Contains(093), // Confusion
+            (int)Species.Dewgong   => level < 44 && !moves.Contains(156), // Rest
+            (int)Species.Weezing   => level < 39 && !moves.Contains(108), // Smoke Screen
+            (int)Species.Haunter or (int) Species.Gengar => level < 29 && !moves.Contains(095), // Hypnosis
+            _ => false,
+        };
 
         private static int GetRequiredMoveCountDecrement(PKM pk, IReadOnlyList<int> moves, IReadOnlyList<int>[] learn, IReadOnlyList<int> initialmoves)
         {

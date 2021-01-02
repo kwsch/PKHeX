@@ -24,18 +24,15 @@ namespace PKHeX.Core
         /// <remarks>
         /// The iterator lazily finds possible encounters. If no encounters are possible, the enumerable will be empty.
         /// </remarks>
-        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info)
+        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info) => info.Generation switch
         {
-            return info.Generation switch
-            {
-                1 => EncounterGenerator12.GetEncounters12(pkm, info),
-                2 => EncounterGenerator12.GetEncounters12(pkm, info),
-                3 => GetEncounters3(pkm, info),
-                4 => GetEncounters4(pkm, info),
-                8 => GenerateRawEncounters8(pkm),
-                _ => GenerateRawEncounters(pkm)
-            };
-        }
+            1 => EncounterGenerator12.GetEncounters12(pkm, info),
+            2 => EncounterGenerator12.GetEncounters12(pkm, info),
+            3 => GetEncounters3(pkm, info),
+            4 => GetEncounters4(pkm, info),
+            8 => GenerateRawEncounters8(pkm),
+            _ => GenerateRawEncounters(pkm)
+        };
 
         private static IEnumerable<IEncounterable> GetEncounters3(PKM pkm, LegalInfo info)
         {

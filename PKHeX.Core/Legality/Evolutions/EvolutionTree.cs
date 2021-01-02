@@ -34,35 +34,29 @@ namespace PKHeX.Core
             Evolves8.FixEvoTreeSS();
         }
 
-        public static EvolutionTree GetEvolutionTree(int generation)
+        public static EvolutionTree GetEvolutionTree(int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => Evolves1,
-                2 => Evolves2,
-                3 => Evolves3,
-                4 => Evolves4,
-                5 => Evolves5,
-                6 => Evolves6,
-                7 => Evolves7,
-                _ => Evolves8
-            };
-        }
+            1 => Evolves1,
+            2 => Evolves2,
+            3 => Evolves3,
+            4 => Evolves4,
+            5 => Evolves5,
+            6 => Evolves6,
+            7 => Evolves7,
+            _ => Evolves8
+        };
 
-        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation)
+        public static EvolutionTree GetEvolutionTree(PKM pkm, int generation) => generation switch
         {
-            return generation switch
-            {
-                1 => Evolves1,
-                2 => Evolves2,
-                3 => Evolves3,
-                4 => Evolves4,
-                5 => Evolves5,
-                6 => Evolves6,
-                7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
-                _ => Evolves8
-            };
-        }
+            1 => Evolves1,
+            2 => Evolves2,
+            3 => Evolves3,
+            4 => Evolves4,
+            5 => Evolves5,
+            6 => Evolves6,
+            7 => pkm.Version is (int)GO or (int)GP or (int)GE ? Evolves7b : Evolves7,
+            _ => Evolves8
+        };
 
         private readonly IReadOnlyList<EvolutionMethod[]> Entries;
         private readonly GameVersion Game;
@@ -78,7 +72,7 @@ namespace PKHeX.Core
             Game = game;
             Personal = personal;
             MaxSpeciesTree = maxSpeciesTree;
-            Entries = GetEntries(data);
+            Entries = GetEntries(data, game);
 
             // Starting in Generation 7, forms have separate evolution data.
             int format = Game - Gen1 + 1;
@@ -138,21 +132,18 @@ namespace PKHeX.Core
             }
         }
 
-        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data)
+        private IReadOnlyList<EvolutionMethod[]> GetEntries(IReadOnlyList<byte[]> data, GameVersion game) => game switch
         {
-            return Game switch
-            {
-                Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
-                Gen3 => EvolutionSet3.GetArray(data[0]),
-                Gen4 => EvolutionSet4.GetArray(data[0]),
-                Gen5 => EvolutionSet5.GetArray(data[0]),
-                Gen6 => EvolutionSet6.GetArray(data),
-                Gen7 => EvolutionSet7.GetArray(data),
-                Gen8 => EvolutionSet7.GetArray(data),
-                _ => throw new Exception()
-            };
-        }
+            Gen1 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+            Gen2 => EvolutionSet1.GetArray(data[0], MaxSpeciesTree),
+            Gen3 => EvolutionSet3.GetArray(data[0]),
+            Gen4 => EvolutionSet4.GetArray(data[0]),
+            Gen5 => EvolutionSet5.GetArray(data[0]),
+            Gen6 => EvolutionSet6.GetArray(data),
+            Gen7 => EvolutionSet7.GetArray(data),
+            Gen8 => EvolutionSet7.GetArray(data),
+            _ => throw new Exception()
+        };
 
         private void FixEvoTreeSM()
         {

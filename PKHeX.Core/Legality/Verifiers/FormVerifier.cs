@@ -36,17 +36,17 @@ namespace PKHeX.Core
                 return VALID; // no forms to check
 
             var species = pkm.Species;
-            var EncounterMatch = data.EncounterMatch;
+            var enc = data.EncounterMatch;
             var Info = data.Info;
 
             if (!PersonalInfo.IsFormWithinRange(form) && !FormInfo.IsValidOutOfBoundsForm(species, form, Info.Generation))
                 return GetInvalid(string.Format(LFormInvalidRange, count - 1, form));
 
-            if (EncounterMatch is EncounterSlot w && w.Area.Type == SlotType.FriendSafari)
+            if (enc is EncounterSlot w && w.Area.Type == SlotType.FriendSafari)
             {
                 VerifyFormFriendSafari(data);
             }
-            else if (EncounterMatch is EncounterEgg)
+            else if (enc is EncounterEgg)
             {
                 if (FormInfo.IsTotemForm(species, form, data.Info.Generation))
                     return GetInvalid(LFormInvalidGame);
@@ -55,26 +55,23 @@ namespace PKHeX.Core
             switch (species)
             {
                 case (int)Species.Pikachu when Info.Generation == 6: // Cosplay
-                    bool isStatic = EncounterMatch is EncounterStatic;
+                    bool isStatic = enc is EncounterStatic;
                     if (isStatic != (form != 0))
                         return GetInvalid(isStatic ? LFormPikachuCosplayInvalid : LFormPikachuCosplay);
                     break;
 
                 case (int)Species.Pikachu when Info.Generation >= 7: // Cap
-                    bool IsValidPikachuCap()
+                    bool validCap = enc switch
                     {
-                        return EncounterMatch switch
-                        {
-                            WC7 wc7 => (wc7.Form == form),
-                            WC8 wc => (wc.Form == form),
-                            EncounterStatic s => (s.Form == form),
-                            _ => (form == 0)
-                        };
-                    }
+                        WC7 wc7 => wc7.Form == form,
+                        WC8 wc => wc.Form == form,
+                        EncounterStatic s => s.Form == form,
+                        _ => form == 0
+                    };
 
-                    if (!IsValidPikachuCap())
+                    if (!validCap)
                     {
-                        bool gift = EncounterMatch is MysteryGift g && g.Form != form;
+                        bool gift = enc is MysteryGift g && g.Form != form;
                         var msg = gift ? LFormPikachuEventInvalid : LFormInvalidGame;
                         return GetInvalid(msg);
                     }
@@ -109,7 +106,7 @@ namespace PKHeX.Core
                 case (int)Species.Greninja:
                     if (form > 1) // Ash Battle Bond active
                         return GetInvalid(LFormBattle);
-                    if (form != 0 && EncounterMatch is not MysteryGift) // Formes are not breedable, MysteryGift already checked
+                    if (form != 0 && enc is not MysteryGift) // Formes are not breedable, MysteryGift already checked
                         return GetInvalid(string.Format(LFormInvalidRange, 0, form));
                     break;
 
@@ -124,7 +121,7 @@ namespace PKHeX.Core
                 case (int)Species.Vivillon:
                     if (form > 17) // Fancy & Pokéball
                     {
-                        if (EncounterMatch is not MysteryGift)
+                        if (enc is not MysteryGift)
                             return GetInvalid(LFormVivillonInvalid);
                         return GetValid(LFormVivillon);
                     }
@@ -135,7 +132,7 @@ namespace PKHeX.Core
                     break;
 
                 case (int)Species.Floette when form == 5: // Floette Eternal Flower -- Never Released
-                    if (EncounterMatch is not MysteryGift)
+                    if (enc is not MysteryGift)
                         return GetInvalid(LFormEternalInvalid);
                     return GetValid(LFormEternal);
                 case (int)Species.Meowstic when form != pkm.Gender:
@@ -200,7 +197,7 @@ namespace PKHeX.Core
                     {
                         // We're okay with a Mime Jr. that has evolved via level up.
                     }
-                    else if (EncounterMatch.Version != GameVersion.GO)
+                    else if (enc.Version != GameVersion.GO)
                     {
                         return GetInvalid(LFormInvalidGame);
                     }

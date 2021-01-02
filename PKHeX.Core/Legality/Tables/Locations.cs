@@ -90,28 +90,22 @@
 
         public const int BugCatchingContest4 = 207;
 
-        public static int TradedEggLocationNPC(int gen)
+        public static int TradedEggLocationNPC(int generation) => generation switch
         {
-            return gen switch
-            {
-                1 => LinkTrade2NPC,
-                2 => LinkTrade2NPC,
-                3 => LinkTrade3NPC,
-                4 => LinkTrade4NPC,
-                5 => LinkTrade5NPC,
-                _ => LinkTrade6NPC
-            };
-        }
+            1 => LinkTrade2NPC,
+            2 => LinkTrade2NPC,
+            3 => LinkTrade3NPC,
+            4 => LinkTrade4NPC,
+            5 => LinkTrade5NPC,
+            _ => LinkTrade6NPC
+        };
 
-        public static int TradedEggLocation(int gen)
+        public static int TradedEggLocation(int generation) => generation switch
         {
-            return gen switch
-            {
-                4 => LinkTrade4,
-                5 => LinkTrade5,
-                _ => LinkTrade6
-            };
-        }
+            4 => LinkTrade4,
+            5 => LinkTrade5,
+            _ => LinkTrade6
+        };
 
         public static bool IsPtHGSSLocation(int location) => 111 < location && location < 2000;
         public static bool IsPtHGSSLocationEgg(int location) => 2010 < location && location < 3000;

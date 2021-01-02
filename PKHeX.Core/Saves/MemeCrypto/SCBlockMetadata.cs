@@ -107,26 +107,23 @@ namespace PKHeX.Core
         /// Returns an object that wraps the block with a Value property to get/set via a PropertyGrid/etc control.
         /// </summary>
         /// <returns>Returns null if no wrapping is supported.</returns>
-        public static object? GetEditableBlockObject(SCBlock block)
+        public static object? GetEditableBlockObject(SCBlock block) => block.Type switch
         {
-            return block.Type switch
-            {
-                SCTypeCode.Byte => new WrappedValueView<byte>(block, block.GetValue()),
-                SCTypeCode.UInt16 => new WrappedValueView<ushort>(block, block.GetValue()),
-                SCTypeCode.UInt32 => new WrappedValueView<uint>(block, block.GetValue()),
-                SCTypeCode.UInt64 => new WrappedValueView<ulong>(block, block.GetValue()),
+            SCTypeCode.Byte => new WrappedValueView<byte>(block, block.GetValue()),
+            SCTypeCode.UInt16 => new WrappedValueView<ushort>(block, block.GetValue()),
+            SCTypeCode.UInt32 => new WrappedValueView<uint>(block, block.GetValue()),
+            SCTypeCode.UInt64 => new WrappedValueView<ulong>(block, block.GetValue()),
 
-                SCTypeCode.SByte => new WrappedValueView<sbyte>(block, block.GetValue()),
-                SCTypeCode.Int16 => new WrappedValueView<short>(block, block.GetValue()),
-                SCTypeCode.Int32 => new WrappedValueView<int>(block, block.GetValue()),
-                SCTypeCode.Int64 => new WrappedValueView<long>(block, block.GetValue()),
+            SCTypeCode.SByte => new WrappedValueView<sbyte>(block, block.GetValue()),
+            SCTypeCode.Int16 => new WrappedValueView<short>(block, block.GetValue()),
+            SCTypeCode.Int32 => new WrappedValueView<int>(block, block.GetValue()),
+            SCTypeCode.Int64 => new WrappedValueView<long>(block, block.GetValue()),
 
-                SCTypeCode.Single => new WrappedValueView<float>(block, block.GetValue()),
-                SCTypeCode.Double => new WrappedValueView<double>(block, block.GetValue()),
+            SCTypeCode.Single => new WrappedValueView<float>(block, block.GetValue()),
+            SCTypeCode.Double => new WrappedValueView<double>(block, block.GetValue()),
 
-                _ => null,
-            };
-        }
+            _ => null,
+        };
 
         private sealed class WrappedValueView<T> where T : struct
         {

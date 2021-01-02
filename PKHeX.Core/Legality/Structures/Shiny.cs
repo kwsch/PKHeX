@@ -38,16 +38,13 @@
 
     public static partial class Extensions
     {
-        public static bool IsValid(this Shiny s, PKM pkm)
+        public static bool IsValid(this Shiny s, PKM pkm) => s switch
         {
-            return s switch
-            {
-                Shiny.Always => pkm.IsShiny,
-                Shiny.Never => !pkm.IsShiny,
-                Shiny.AlwaysSquare => pkm.ShinyXor == 0,
-                Shiny.AlwaysStar => pkm.ShinyXor == 1,
-                _ => true
-            };
-        }
+            Shiny.Always => pkm.IsShiny,
+            Shiny.Never => !pkm.IsShiny,
+            Shiny.AlwaysSquare => pkm.ShinyXor == 0,
+            Shiny.AlwaysStar => pkm.ShinyXor == 1,
+            _ => true
+        };
     }
 }

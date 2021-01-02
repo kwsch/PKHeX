@@ -127,18 +127,12 @@ namespace PKHeX.Core
             return StringConverter.SetString7b(value, maxLength, Language, PadToSize, PadWith);
         }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int)GameVersion.GP => GameVersion.GP,
-                    (int)GameVersion.GE => GameVersion.GE,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int)GameVersion.GP => GameVersion.GP,
+            (int)GameVersion.GE => GameVersion.GE,
+            _ => GameVersion.Invalid
+        };
 
         // Player Information
         public override int TID { get => Blocks.Status.TID; set => Blocks.Status.TID = value; }

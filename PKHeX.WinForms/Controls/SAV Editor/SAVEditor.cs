@@ -536,17 +536,14 @@ namespace PKHeX.WinForms.Controls
             UpdateBoxViewers(all: true); // update subviewers
         }
 
-        private static Form GetTrainerEditor(SaveFile sav)
+        private static Form GetTrainerEditor(SaveFile sav) => sav switch
         {
-            return sav switch
-            {
-                SAV6 s6 => new SAV_Trainer(s6),
-                SAV7 s7 => new SAV_Trainer7(s7),
-                SAV7b b7 => new SAV_Trainer7GG(b7),
-                SAV8SWSH swsh => new SAV_Trainer8(swsh),
-                _ => new SAV_SimpleTrainer(sav)
-            };
-        }
+            SAV6 s6 => new SAV_Trainer(s6),
+            SAV7 s7 => new SAV_Trainer7(s7),
+            SAV7b b7 => new SAV_Trainer7GG(b7),
+            SAV8SWSH swsh => new SAV_Trainer8(swsh),
+            _ => new SAV_SimpleTrainer(sav)
+        };
 
         private void B_OpenRaids_Click(object sender, EventArgs e)
         {
@@ -584,21 +581,18 @@ namespace PKHeX.WinForms.Controls
             form.Dispose();
         }
 
-        private static Form GetAccessorForm(SaveFile sav)
+        private static Form GetAccessorForm(SaveFile sav) => sav switch
         {
-            return sav switch
-            {
-                SAV5BW s => new SAV_Accessor<SaveBlockAccessor5BW>(s.Blocks),
-                SAV5B2W2 s => new SAV_Accessor<SaveBlockAccessor5B2W2>(s.Blocks),
-                SAV6XY s => new SAV_Accessor<SaveBlockAccessor6XY>(s.Blocks),
-                SAV6AO s => new SAV_Accessor<SaveBlockAccessor6AO>(s.Blocks),
-                SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s.Blocks),
-                SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s.Blocks),
-                SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s.Blocks),
-                SAV8SWSH s => new SAV_BlockDump8(s),
-                _ => GetPropertyForm(sav),
-            };
-        }
+            SAV5BW s => new SAV_Accessor<SaveBlockAccessor5BW>(s.Blocks),
+            SAV5B2W2 s => new SAV_Accessor<SaveBlockAccessor5B2W2>(s.Blocks),
+            SAV6XY s => new SAV_Accessor<SaveBlockAccessor6XY>(s.Blocks),
+            SAV6AO s => new SAV_Accessor<SaveBlockAccessor6AO>(s.Blocks),
+            SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s.Blocks),
+            SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s.Blocks),
+            SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s.Blocks),
+            SAV8SWSH s => new SAV_BlockDump8(s),
+            _ => GetPropertyForm(sav),
+        };
 
         private static Form GetPropertyForm(object sav)
         {

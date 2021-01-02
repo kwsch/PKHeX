@@ -633,47 +633,44 @@ namespace PKHeX.Core
         /// <param name="game">Version to create the save file for.</param>
         /// <param name="language">Save file language to initialize for</param>
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
-        private static SaveFile GetBlankSAV(GameVersion game, LanguageID language)
+        private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
         {
-            return game switch
-            {
-                RD or BU or GN or YW or RBY => new SAV1(version: game),
-                StadiumJ => new SAV1StadiumJ(),
-                Stadium => new SAV1Stadium(language == LanguageID.Japanese),
+            RD or BU or GN or YW or RBY => new SAV1(version: game),
+            StadiumJ => new SAV1StadiumJ(),
+            Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
-                GD or SV or GS => new SAV2(version: GS, lang: language),
-                C or GSC => new SAV2(version: C, lang: language),
-                Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
+            GD or SV or GS => new SAV2(version: GS, lang: language),
+            C or GSC => new SAV2(version: C, lang: language),
+            Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
 
-                R or S or E or FR or LG => new SAV3(version: game, language == LanguageID.Japanese),
-                RS => new SAV3(version: R, language == LanguageID.Japanese),
-                RSE => new SAV3(version: E, language == LanguageID.Japanese),
-                FRLG => new SAV3(version: FR, language == LanguageID.Japanese),
+            R or S or E or FR or LG => new SAV3(version: game, language == LanguageID.Japanese),
+            RS => new SAV3(version: R, language == LanguageID.Japanese),
+            RSE => new SAV3(version: E, language == LanguageID.Japanese),
+            FRLG => new SAV3(version: FR, language == LanguageID.Japanese),
 
-                CXD or COLO => new SAV3Colosseum(),
-                XD => new SAV3XD(),
-                RSBOX => new SAV3RSBox(),
+            CXD or COLO => new SAV3Colosseum(),
+            XD => new SAV3XD(),
+            RSBOX => new SAV3RSBox(),
 
-                D or P or DP => new SAV4DP(),
-                Pt or DPPt => new SAV4Pt(),
-                HG or SS or HGSS => new SAV4HGSS(),
+            D or P or DP => new SAV4DP(),
+            Pt or DPPt => new SAV4Pt(),
+            HG or SS or HGSS => new SAV4HGSS(),
 
-                B or W or BW => new SAV5BW(),
-                B2 or W2 or B2W2 => new SAV5B2W2(),
+            B or W or BW => new SAV5BW(),
+            B2 or W2 or B2W2 => new SAV5B2W2(),
 
-                X or Y or XY => new SAV6XY(),
-                ORASDEMO => new SAV6AODemo(),
-                OR or AS or ORAS => new SAV6AO(),
+            X or Y or XY => new SAV6XY(),
+            ORASDEMO => new SAV6AODemo(),
+            OR or AS or ORAS => new SAV6AO(),
 
-                SN or MN or SM => new SAV7SM(),
-                US or UM or USUM => new SAV7USUM(),
-                GP or GE or GG or GO => new SAV7b(),
+            SN or MN or SM => new SAV7SM(),
+            US or UM or USUM => new SAV7USUM(),
+            GP or GE or GG or GO => new SAV7b(),
 
-                SW or SH or SWSH => new SAV8SWSH(),
+            SW or SH or SWSH => new SAV8SWSH(),
 
-                _ => throw new ArgumentException(nameof(game)),
-            };
-        }
+            _ => throw new ArgumentException(nameof(game)),
+        };
 
         /// <summary>
         /// Creates an instance of a SaveFile with a blank base.
@@ -785,9 +782,7 @@ namespace PKHeX.Core
         private static bool GetHasFooterDSV(byte[] input)
         {
             var signature = FOOTER_DSV;
-            if (!GetHasSignature(input, signature, input.Length - signature.Length))
-                return false;
-            return true;
+            return GetHasSignature(input, signature, input.Length - signature.Length);
         }
 
         private static bool GetHasSignature(byte[] input, byte[] signature, int start)
@@ -806,39 +801,33 @@ namespace PKHeX.Core
         /// <param name="sav">SaveFile data to force</param>
         /// <param name="ver">Version to retrieve for</param>
         /// <returns>New <see cref="SaveFile"/> object.</returns>
-        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver)
+        public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver) => ver switch // Reset save file info
         {
-            return ver switch // Reset save file info
-            {
-                R => new SAV3(sav.State.BAK, RS),
-                S => new SAV3(sav.State.BAK, RS),
-                RS => new SAV3(sav.State.BAK, RS),
-                E => new SAV3(sav.State.BAK, E),
-                FRLG => new SAV3(sav.State.BAK, FRLG),
-                FR => new SAV3(sav.State.BAK, FRLG),
-                LG => new SAV3(sav.State.BAK, FRLG),
-                _ => throw new ArgumentException(nameof(ver))
-            };
-        }
+            R => new SAV3(sav.State.BAK, RS),
+            S => new SAV3(sav.State.BAK, RS),
+            RS => new SAV3(sav.State.BAK, RS),
+            E => new SAV3(sav.State.BAK, E),
+            FRLG => new SAV3(sav.State.BAK, FRLG),
+            FR => new SAV3(sav.State.BAK, FRLG),
+            LG => new SAV3(sav.State.BAK, FRLG),
+            _ => throw new ArgumentException(nameof(ver))
+        };
 
         /// <summary>
         /// Gets the <see cref="PersonalTable"/> for a Gen3 save file.
         /// </summary>
         /// <param name="ver">Version to retrieve for</param>
         /// <returns>Reference to the <see cref="PersonalTable"/>.</returns>
-        public static PersonalTable GetG3Personal(GameVersion ver)
+        public static PersonalTable GetG3Personal(GameVersion ver) => ver switch
         {
-            return ver switch
-            {
-                RS => PersonalTable.RS,
-                E => PersonalTable.E,
-                FRLG => PersonalTable.FR,
-                FR => PersonalTable.FR,
-                LG => PersonalTable.LG,
-                R => PersonalTable.RS,
-                S => PersonalTable.RS,
-                _ => throw new ArgumentException(nameof(ver))
-            };
-        }
+            RS => PersonalTable.RS,
+            E => PersonalTable.E,
+            FRLG => PersonalTable.FR,
+            FR => PersonalTable.FR,
+            LG => PersonalTable.LG,
+            R => PersonalTable.RS,
+            S => PersonalTable.RS,
+            _ => throw new ArgumentException(nameof(ver))
+        };
     }
 }

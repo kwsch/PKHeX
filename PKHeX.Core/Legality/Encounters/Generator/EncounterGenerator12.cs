@@ -144,18 +144,15 @@ namespace PKHeX.Core
             return p1 > p2 ? g1i : g2i;
         }
 
-        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable Encounter)
+        private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable enc) => enc switch
         {
-            return Encounter switch
-            {
-                EncounterTrade1 t1 when t1.IsMatchDeferred(pkm) => GBEncounterPriority.Least,
-                EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
-                EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
-                EncounterStatic => GBEncounterPriority.StaticEncounter,
-                EncounterSlot => GBEncounterPriority.WildEncounter,
-                _ => GBEncounterPriority.EggEncounter
-            };
-        }
+            EncounterTrade1 t1 when t1.IsMatchDeferred(pkm) => GBEncounterPriority.Least,
+            EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
+            EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
+            EncounterStatic => GBEncounterPriority.StaticEncounter,
+            EncounterSlot => GBEncounterPriority.WildEncounter,
+            _ => GBEncounterPriority.EggEncounter
+        };
 
         /// <summary>
         /// Generation 1/2 Encounter Data type, which serves as a 'best match' priority rating when returning from a list.

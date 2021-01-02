@@ -172,34 +172,26 @@ namespace PKHeX.Core
         // ORAS contests mistakenly apply 20 affection to the OT instead of the current handler's value
         private static bool IsInvalidContestAffection(IAffection pkm) => pkm.OT_Affection != 255 && pkm.OT_Affection % 20 != 0;
 
-        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int gen)
+        public static bool GetCanOTHandle(IEncounterable enc, PKM pkm, int generation) => generation < 6 || enc switch
         {
-            if (gen < 6)
-                return true;
-            return enc switch
-            {
-                EncounterTrade => false,
-                EncounterSlot8GO => false,
-                WC6 wc6 when wc6.OT_Name.Length > 0 => false,
-                WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
-                WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
-                WC8 { IsHOMEGift: true } => false,
-                _ => true
-            };
-        }
+            EncounterTrade => false,
+            EncounterSlot8GO => false,
+            WC6 wc6 when wc6.OT_Name.Length > 0 => false,
+            WC7 wc7 when wc7.OT_Name.Length > 0 && wc7.TID != 18075 => false, // Ash Pikachu QR Gift doesn't set Current Handler
+            WC8 wc8 when wc8.GetHasOT(pkm.Language) => false,
+            WC8 {IsHOMEGift: true} => false,
+            _ => true
+        };
 
-        private static int GetBaseFriendship(int gen, int species, int form)
+        private static int GetBaseFriendship(int generation, int species, int form) => generation switch
         {
-            return gen switch
-            {
-                1 => PersonalTable.USUM[species].BaseFriendship,
-                2 => PersonalTable.USUM[species].BaseFriendship,
+            1 => PersonalTable.USUM[species].BaseFriendship,
+            2 => PersonalTable.USUM[species].BaseFriendship,
 
-                6 => PersonalTable.AO[species].BaseFriendship,
-                7 => PersonalTable.USUM[species].BaseFriendship,
-                8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
-                _ => throw new IndexOutOfRangeException(),
-            };
-        }
+            6 => PersonalTable.AO[species].BaseFriendship,
+            7 => PersonalTable.USUM[species].BaseFriendship,
+            8 => PersonalTable.SWSH.GetFormEntry(species, form).BaseFriendship,
+            _ => throw new IndexOutOfRangeException(),
+        };
     }
 }

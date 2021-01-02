@@ -1065,38 +1065,23 @@ namespace PKHeX.Core
 
         public int GetMoveIndex(int move) => Move1 == move ? 0 : Move2 == move ? 1 : Move3 == move ? 2 : Move4 == move ? 3 : -1;
 
-        public int GetMove(int index)
+        public int GetMove(int index) => index switch
         {
-            return index switch
-            {
-                0 => Move1,
-                1 => Move2,
-                2 => Move3,
-                3 => Move4,
-                _ => throw new IndexOutOfRangeException(nameof(index)),
-            };
-        }
+            0 => Move1,
+            1 => Move2,
+            2 => Move3,
+            3 => Move4,
+            _ => throw new IndexOutOfRangeException(nameof(index)),
+        };
 
-        public void SetMove(int index, int value)
+        public int SetMove(int index, int value) => index switch
         {
-            switch (index)
-            {
-                case 0:
-                    Move1 = value;
-                    return;
-                case 1:
-                    Move2 = value;
-                    return;
-                case 2:
-                    Move3 = value;
-                    return;
-                case 3:
-                    Move4 = value;
-                    return;
-                default:
-                    throw new IndexOutOfRangeException(nameof(index));
-            }
-        }
+            0 => Move1 = value,
+            1 => Move2 = value,
+            2 => Move3 = value,
+            3 => Move4 = value,
+            _ => throw new IndexOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Clears moves that a <see cref="PKM"/> may have, possibly from a future generation.
@@ -1129,36 +1114,30 @@ namespace PKHeX.Core
         /// Gets one of the <see cref="EVs"/> based on its index within the array.
         /// </summary>
         /// <param name="index">Index to get</param>
-        public int GetEV(int index)
+        public int GetEV(int index) => index switch
         {
-            return index switch
-            {
-                0 => EV_HP,
-                1 => EV_ATK,
-                2 => EV_DEF,
-                3 => EV_SPE,
-                4 => EV_SPA,
-                5 => EV_SPD,
-                _ => throw new ArgumentOutOfRangeException(nameof(index))
-            };
-        }
+            0 => EV_HP,
+            1 => EV_ATK,
+            2 => EV_DEF,
+            3 => EV_SPE,
+            4 => EV_SPA,
+            5 => EV_SPD,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Gets one of the <see cref="IVs"/> based on its index within the array.
         /// </summary>
         /// <param name="index">Index to get</param>
-        public int GetIV(int index)
+        public int GetIV(int index) => index switch
         {
-            return index switch
-            {
-                0 => IV_HP,
-                1 => IV_ATK,
-                2 => IV_DEF,
-                3 => IV_SPE,
-                4 => IV_SPA,
-                5 => IV_SPD,
-                _ => throw new ArgumentOutOfRangeException(nameof(index))
-            };
-        }
+            0 => IV_HP,
+            1 => IV_ATK,
+            2 => IV_DEF,
+            3 => IV_SPE,
+            4 => IV_SPA,
+            5 => IV_SPD,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
     }
 }

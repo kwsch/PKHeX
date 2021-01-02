@@ -83,14 +83,11 @@ namespace PKHeX.WinForms
             AutoSize = true,
         };
 
-        private static object GetValue(IDisposable control)
+        private static object GetValue(IDisposable control) => control switch
         {
-            return control switch
-            {
-                CheckBox cb => cb.Checked,
-                _ => throw new Exception(nameof(control)),
-            };
-        }
+            CheckBox cb => cb.Checked,
+            _ => throw new Exception(nameof(control)),
+        };
 
         private void SettingsEditor_KeyDown(object sender, KeyEventArgs e)
         {

@@ -76,15 +76,12 @@ namespace PKHeX.Core
             (int)Chimecho,
         };
 
-        internal static ICollection<int> GetSplitBreedGeneration(int generation)
+        internal static ICollection<int> GetSplitBreedGeneration(int generation) => generation switch
         {
-            return generation switch
-            {
-                3 => SplitBreed_3,
-                4 or 5 or 6 or 7 or 8 => SplitBreed,
-                _ => Array.Empty<int>(),
-            };
-        }
+            3 => SplitBreed_3,
+            4 or 5 or 6 or 7 or 8 => SplitBreed,
+            _ => Array.Empty<int>(),
+        };
 
         public static bool NoHatchFromEggForm(int species, int form, int generation)
         {

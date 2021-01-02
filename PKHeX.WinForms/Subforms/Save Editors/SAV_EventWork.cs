@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.WinForms
 {
@@ -245,28 +246,25 @@ namespace PKHeX.WinForms
             return GameLanguage.GetStrings(gamePrefix, GameInfo.CurrentLanguage, type);
         }
 
-        private static string GetGameFilePrefix(GameVersion game)
+        private static string GetGameFilePrefix(GameVersion game) => game switch
         {
-            return game switch
-            {
-                GameVersion.SW or GameVersion.SH or GameVersion.SWSH => "swsh",
-                GameVersion.GP or GameVersion.GE or GameVersion.GG => "gg",
-                GameVersion.X or GameVersion.Y => "xy",
-                GameVersion.OR or GameVersion.AS => "oras",
-                GameVersion.SN or GameVersion.MN => "sm",
-                GameVersion.US or GameVersion.UM => "usum",
-                GameVersion.DP => "dp",
-                GameVersion.Pt => "pt",
-                GameVersion.HGSS => "hgss",
-                GameVersion.BW => "bw",
-                GameVersion.B2W2 => "b2w2",
-                GameVersion.E => "e",
-                GameVersion.C => "c",
-                GameVersion.R or GameVersion.S or GameVersion.RS => "rs",
-                GameVersion.FR or GameVersion.LG or GameVersion.FRLG => "frlg",
-                _ => throw new IndexOutOfRangeException(nameof(game))
-            };
-        }
+            SW or SH or SWSH => "swsh",
+            GP or GE or GG => "gg",
+            X or Y => "xy",
+            OR or AS => "oras",
+            SN or MN => "sm",
+            US or UM => "usum",
+            DP => "dp",
+            Pt => "pt",
+            HGSS => "hgss",
+            BW => "bw",
+            B2W2 => "b2w2",
+            E => "e",
+            C => "c",
+            R or S or RS => "rs",
+            FR or LG or FRLG => "frlg",
+            _ => throw new IndexOutOfRangeException(nameof(game))
+        };
 
         private void DiffSaves()
         {

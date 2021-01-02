@@ -43,21 +43,18 @@ namespace PKHeX.Core
 
         private static readonly List<SlotInfoMisc> None = new();
 
-        private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all)
+        private static List<SlotInfoMisc> GetExtraSlotsUnsafe(SaveFile sav, bool all) => sav switch
         {
-            return sav switch
-            {
-                SAV2 sav2 => GetExtraSlots2(sav2),
-                SAV3 sav3 => GetExtraSlots3(sav3),
-                SAV4 sav4 => GetExtraSlots4(sav4),
-                SAV5 sav5 => GetExtraSlots5(sav5),
-                SAV6XY xy => GetExtraSlots6XY(xy),
-                SAV6AO xy => GetExtraSlots6AO(xy),
-                SAV7 sav7 => GetExtraSlots7(sav7, all),
-                SAV8SWSH ss => GetExtraSlots8(ss),
-                _ => None
-            };
-        }
+            SAV2 sav2 => GetExtraSlots2(sav2),
+            SAV3 sav3 => GetExtraSlots3(sav3),
+            SAV4 sav4 => GetExtraSlots4(sav4),
+            SAV5 sav5 => GetExtraSlots5(sav5),
+            SAV6XY xy => GetExtraSlots6XY(xy),
+            SAV6AO xy => GetExtraSlots6AO(xy),
+            SAV7 sav7 => GetExtraSlots7(sav7, all),
+            SAV8SWSH ss => GetExtraSlots8(ss),
+            _ => None
+        };
 
         private static List<SlotInfoMisc> GetExtraSlots2(SAV2 sav)
         {

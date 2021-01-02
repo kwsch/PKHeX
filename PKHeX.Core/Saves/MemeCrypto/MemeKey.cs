@@ -232,28 +232,25 @@ namespace PKHeX.Core
             return outSig;
         }
 
-        private static byte[] GetMemeData(MemeKeyIndex key)
+        private static byte[] GetMemeData(MemeKeyIndex key) => key switch
         {
-            return key switch
-            {
-                MemeKeyIndex.LocalWireless => DER_LW,
-                MemeKeyIndex.FriendlyCompetition => DER_0,
-                MemeKeyIndex.LiveCompetition => DER_1,
-                MemeKeyIndex.RentalTeam => DER_2,
-                MemeKeyIndex.PokedexAndSaveFile => DER_3,
-                MemeKeyIndex.GaOle => DER_4,
-                MemeKeyIndex.MagearnaEvent => DER_5,
-                MemeKeyIndex.MoncolleGet => DER_6,
-                MemeKeyIndex.IslandScanEventSpecial => DER_7,
-                MemeKeyIndex.TvTokyoDataBroadcasting => DER_8,
-                MemeKeyIndex.CapPikachuEvent => DER_9,
-                MemeKeyIndex.Unknown10 => DER_A,
-                MemeKeyIndex.Unknown11 => DER_B,
-                MemeKeyIndex.Unknown12 => DER_C,
-                MemeKeyIndex.Unknown13 => DER_D,
-                _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
-            };
-        }
+            MemeKeyIndex.LocalWireless => DER_LW,
+            MemeKeyIndex.FriendlyCompetition => DER_0,
+            MemeKeyIndex.LiveCompetition => DER_1,
+            MemeKeyIndex.RentalTeam => DER_2,
+            MemeKeyIndex.PokedexAndSaveFile => DER_3,
+            MemeKeyIndex.GaOle => DER_4,
+            MemeKeyIndex.MagearnaEvent => DER_5,
+            MemeKeyIndex.MoncolleGet => DER_6,
+            MemeKeyIndex.IslandScanEventSpecial => DER_7,
+            MemeKeyIndex.TvTokyoDataBroadcasting => DER_8,
+            MemeKeyIndex.CapPikachuEvent => DER_9,
+            MemeKeyIndex.Unknown10 => DER_A,
+            MemeKeyIndex.Unknown11 => DER_B,
+            MemeKeyIndex.Unknown12 => DER_C,
+            MemeKeyIndex.Unknown13 => DER_D,
+            _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
+        };
 
         // Helper Method to perform AES ECB Encryption
         private static byte[] AesEcbEncrypt(byte[] key, byte[] data)

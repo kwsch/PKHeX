@@ -30,16 +30,13 @@ namespace PKHeX.Core
                 data.AddLine(chk);
         }
 
-        private CheckResult? GetEReaderCheckResult(EReaderBerryMatch status)
+        private CheckResult? GetEReaderCheckResult(EReaderBerryMatch status) => status switch
         {
-            return status switch
-            {
-                EReaderBerryMatch.NoMatch => GetInvalid(LEReaderInvalid),
-                EReaderBerryMatch.NoData => GetInvalid(LItemUnreleased),
-                EReaderBerryMatch.InvalidUSA => GetInvalid(LEReaderAmerica),
-                EReaderBerryMatch.InvalidJPN => GetInvalid(LEReaderJapan),
-                _ => null
-            };
-        }
+            EReaderBerryMatch.NoMatch => GetInvalid(LEReaderInvalid),
+            EReaderBerryMatch.NoData => GetInvalid(LItemUnreleased),
+            EReaderBerryMatch.InvalidUSA => GetInvalid(LEReaderAmerica),
+            EReaderBerryMatch.InvalidJPN => GetInvalid(LEReaderJapan),
+            _ => null
+        };
     }
 }

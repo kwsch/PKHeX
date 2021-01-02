@@ -168,21 +168,15 @@ namespace PKHeX.Core
         public int Nature { get => (sbyte)Data[CardStart + 0x246]; set => Data[CardStart + 0x246] = (byte)value; }
         public override int AbilityType { get => Data[CardStart + 0x247]; set => Data[CardStart + 0x247] = (byte)value; }
 
-        public Shiny PIDType
+        public Shiny PIDType => Data[CardStart + 0x248] switch
         {
-            get
-            {
-                return Data[CardStart + 0x248] switch
-                {
-                    0 => Shiny.Never,
-                    1 => Shiny.Random,
-                    2 => Shiny.AlwaysStar,
-                    3 => Shiny.AlwaysSquare,
-                    4 => Shiny.FixedValue,
-                    _ => throw new ArgumentException()
-                };
-            }
-        }
+            0 => Shiny.Never,
+            1 => Shiny.Random,
+            2 => Shiny.AlwaysStar,
+            3 => Shiny.AlwaysSquare,
+            4 => Shiny.FixedValue,
+            _ => throw new ArgumentException()
+        };
 
         public int MetLevel { get => Data[CardStart + 0x249]; set => Data[CardStart + 0x249] = (byte)value; }
         public byte DynamaxLevel { get => Data[CardStart + 0x24A]; set => Data[CardStart + 0x24A] = value; }
@@ -453,15 +447,12 @@ namespace PKHeX.Core
             SetIVs(pk);
         }
 
-        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi)
+        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi) => AbilityType switch
         {
-            return AbilityType switch
-            {
-                00 or 01 or 02 => AbilityType, // Fixed 0/1/2
-                03 or 04 => criteria.GetAbilityFromType(AbilityType, pi),// 0/1 or 0/1/H
-                _ => throw new ArgumentException(nameof(AbilityType)),
-            };
-        }
+            00 or 01 or 02 => AbilityType, // Fixed 0/1/2
+            03 or 04 => criteria.GetAbilityFromType(AbilityType, pi), // 0/1 or 0/1/H
+            _ => throw new ArgumentException(nameof(AbilityType)),
+        };
 
         private uint GetPID(ITrainerID tr, byte type)
         {

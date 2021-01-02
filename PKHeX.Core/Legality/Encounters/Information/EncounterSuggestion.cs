@@ -53,16 +53,13 @@ namespace PKHeX.Core
             return GetSuggestedEncounterEggLocationEgg(pkm.Generation, traded);
         }
 
-        public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false)
+        public static int GetSuggestedEncounterEggLocationEgg(int generation, bool traded = false) => generation switch
         {
-            return generation switch
-            {
-                1 or 2 or 3 => 0,
-                4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
-                5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
-                _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
-            };
-        }
+            1 or 2 or 3 => 0,
+            4 => traded ? Locations.LinkTrade4 : Locations.Daycare4,
+            5 => traded ? Locations.LinkTrade5 : Locations.Daycare5,
+            _ => traded ? Locations.LinkTrade6 : Locations.Daycare5,
+        };
 
         private static EncounterSuggestionData GetSuggestedEncounterWild(PKM pkm, EncounterSlot first, int loc = -1)
         {
@@ -80,35 +77,31 @@ namespace PKHeX.Core
         /// Gets a valid Egg hatch location for the origin game.
         /// </summary>
         /// <param name="pkm">Pokémon data to suggest for</param>
-        public static int GetSuggestedEggMetLocation(PKM pkm)
+        public static int GetSuggestedEggMetLocation(PKM pkm) => (GameVersion)pkm.Version switch
         {
-            // Return one of legal hatch locations for game
-            return ((GameVersion)pkm.Version) switch
+            R or S or E or FR or LG => pkm.Format switch
             {
-                R or S or E or FR or LG => pkm.Format switch
-                {
-                    3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
-                    4 => Locations.Transfer3, // Pal Park
-                    _ => Locations.Transfer4,
-                },
+                3 => (pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE),
+                4 => Locations.Transfer3, // Pal Park
+                _ => Locations.Transfer4,
+            },
 
-                D or P or Pt => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
-                HG or SS => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
+            D or P or Pt => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationDPPt,
+            HG or SS => pkm.Format > 4 ? Locations.Transfer4 : Locations.HatchLocationHGSS,
 
-                B or W or B2 or W2 => Locations.HatchLocation5,
+            B or W or B2 or W2 => Locations.HatchLocation5,
 
-                X or Y => Locations.HatchLocation6XY,
-                AS or OR => Locations.HatchLocation6AO,
+            X or Y => Locations.HatchLocation6XY,
+            AS or OR => Locations.HatchLocation6AO,
 
-                SN or MN or US or UM => Locations.HatchLocation7,
-                RD or BU or GN or Y => Locations.Transfer1,
-                GD or SV or C => Locations.Transfer2,
-                GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
+            SN or MN or US or UM => Locations.HatchLocation7,
+            RD or BU or GN or Y => Locations.Transfer1,
+            GD or SV or C => Locations.Transfer2,
+            GSC or RBY => pkm.Met_Level == 0 ? 0 : Locations.HatchLocationC,
 
-                SW or SH => Locations.HatchLocation8,
-                _ => -1,
-            };
-        }
+            SW or SH => Locations.HatchLocation8,
+            _ => -1,
+        };
 
         /// <summary>
         /// Gets the correct Transfer Met location for the origin game.

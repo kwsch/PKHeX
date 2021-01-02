@@ -80,31 +80,25 @@ namespace PKHeX.Core
             return t == SlotType.Old_Rod || t == SlotType.Good_Rod || t == SlotType.Super_Rod;
         }
 
-        internal static bool IsSweetScentType(this SlotType t)
+        internal static bool IsSweetScentType(this SlotType t) => t switch
         {
-            return t switch
-            {
-                SlotType.Grass => true,
-                SlotType.Surf => true,
-                SlotType.BugContest => true,
+            SlotType.Grass => true,
+            SlotType.Surf => true,
+            SlotType.BugContest => true,
 
-                _ => false,
-            };
-        }
+            _ => false,
+        };
 
-        public static Ball GetRequiredBallValueWild(this SlotType t, int gen, int loc)
+        public static Ball GetRequiredBallValueWild(this SlotType t, int generation, int location) => generation switch
         {
-            return gen switch
-            {
-                3 when Locations.IsSafariZoneLocation3(loc) => Ball.Safari,
-                4 when Locations.IsSafariZoneLocation4(loc) => Ball.Safari,
-                4 when t == SlotType.BugContest => Ball.Sport,
+            3 when Locations.IsSafariZoneLocation3(location) => Ball.Safari,
+            4 when Locations.IsSafariZoneLocation4(location) => Ball.Safari,
+            4 when t == SlotType.BugContest => Ball.Sport,
 
-                // Poké Pelago
-                7 when loc == 30016 => Ball.Poke,
+            // Poké Pelago
+            7 when location == 30016 => Ball.Poke,
 
-                _ => Ball.None,
-            };
-        }
+            _ => Ball.None,
+        };
     }
 }

@@ -58,17 +58,14 @@ namespace PKHeX.Core
         public string[] GetMemoryQualities() => s.memories.Slice(2, 7);
         public string[] GetMemoryFeelings(int format) => format >= 8 ? s.memories.Slice(9, 25) : s.memories.Slice(10, 24); // empty line for 0 in gen8+
 
-        public List<ComboItem> GetArgumentStrings(MemoryArgType memIndex)
+        public List<ComboItem> GetArgumentStrings(MemoryArgType type) => type switch
         {
-            return memIndex switch
-            {
-                MemoryArgType.Species => Species,
-                MemoryArgType.GeneralLocation => GeneralLocations,
-                MemoryArgType.Item => Items,
-                MemoryArgType.Move => Moves,
-                MemoryArgType.SpecificLocation => SpecificLocations,
-                _ => None
-            };
-        }
+            MemoryArgType.Species => Species,
+            MemoryArgType.GeneralLocation => GeneralLocations,
+            MemoryArgType.Item => Items,
+            MemoryArgType.Move => Moves,
+            MemoryArgType.SpecificLocation => SpecificLocations,
+            _ => None
+        };
     }
 }

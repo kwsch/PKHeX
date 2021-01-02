@@ -86,16 +86,15 @@ namespace PKHeX.Core
         /// <param name="ratio">Gender Ratio</param>
         /// <param name="max">Return Max (or Min)</param>
         /// <returns>Returns the maximum or minimum gender value that corresponds to the input gender ratio.</returns>
-        private static int GetGenderMinMax(int gender, int ratio, bool max)
+        private static int GetGenderMinMax(int gender, int ratio, bool max) => ratio switch
         {
-            if (ratio is 0 or 254 or 255)
-                return max ? 255 : 0;
-            return gender switch
+            0 or >254 => max ? 255 : 0,
+            _ => gender switch
             {
-                0 => (max ? 255 : ratio), // male
-                1 => (max ? ratio - 1 : 0), // female
-                _ => (max ? 255 : 0),
-            };
-        }
+                0 => max ? 255 : ratio, // male
+                1 => max ? ratio - 1 : 0, // female
+                _ => max ? 255 : 0,
+            }
+        };
     }
 }

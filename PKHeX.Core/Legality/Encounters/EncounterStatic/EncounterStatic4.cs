@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using static PKHeX.Core.EncounterType;
 
 namespace PKHeX.Core
 {
@@ -15,7 +16,7 @@ namespace PKHeX.Core
         public bool Roaming { get; init; }
 
         /// <summary> <see cref="PK4.EncounterType"/> values permitted for the encounter. </summary>
-        public EncounterType TypeEncounter { get; init; } = EncounterType.None;
+        public EncounterType TypeEncounter { get; init; } = None;
 
         protected override bool IsMatchLocation(PKM pkm)
         {
@@ -100,16 +101,13 @@ namespace PKHeX.Core
             pk.MetDate = today;
         }
 
-        private static int[] GetRoamLocations(int species, int type)
+        private static int[] GetRoamLocations(int species, int type) => species switch
         {
-            return species switch
-            {
-                481 or 488 or 144 or 145 or 146 => 1 << type == (int)EncounterType.TallGrass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
-                243 or 244 => 1 << type == (int)EncounterType.TallGrass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,
-                380 or 381 => 1 << type == (int)EncounterType.TallGrass ? Roaming_MetLocation_HGSS_Kanto_Grass : Roaming_MetLocation_HGSS_Kanto_Surf,
-                _ => throw new IndexOutOfRangeException(nameof(species)),
-            };
-        }
+            481 or 488 or 144 or 145 or 146 => 1 << type == (int)TallGrass ? Roaming_MetLocation_DPPt_Grass : Roaming_MetLocation_DPPt_Surf,
+            243 or 244 => 1 << type == (int)TallGrass ? Roaming_MetLocation_HGSS_Johto_Grass : Roaming_MetLocation_HGSS_Johto_Surf,
+            380 or 381 => 1 << type == (int)TallGrass ? Roaming_MetLocation_HGSS_Kanto_Grass : Roaming_MetLocation_HGSS_Kanto_Surf,
+            _ => throw new IndexOutOfRangeException(nameof(species)),
+        };
 
         private static readonly int[] Roaming_MetLocation_DPPt_Grass =
         {

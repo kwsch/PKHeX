@@ -75,15 +75,12 @@ namespace PKHeX.Core
             return GetComplexMarking;
 
             static int GetSimpleMarking(int val, int _) => val == 31 ? 1 : 0;
-            static int GetComplexMarking(int val, int _)
+            static int GetComplexMarking(int val, int _) => val switch
             {
-                return val switch
-                {
-                    31 or 1 => 1,
-                    30 or 0 => 2,
-                          _ => 0,
-                };
-            }
+                31 or 1 => 1,
+                30 or 0 => 2,
+                _ => 0,
+            };
         }
     }
 }

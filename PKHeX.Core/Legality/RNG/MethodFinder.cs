@@ -804,16 +804,13 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static bool IsPokeSpotSlotValid(int slot, uint esv)
+        private static bool IsPokeSpotSlotValid(int slot, uint esv) => slot switch
         {
-            return slot switch
-            {
-                0 when esv < 50 => true,
-                1 when 50 <= esv && esv < 85 => true,
-                2 when 85 <= esv => true,
-                _ => false
-            };
-        }
+            0 when esv < 50 => true,
+            1 when 50 <= esv && esv < 85 => true,
+            2 when 85 <= esv => true,
+            _ => false
+        };
 
         public static bool IsCompatible3(this PIDType val, IEncounterable encounter, PKM pkm)
         {

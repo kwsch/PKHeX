@@ -279,20 +279,16 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to set to</param>
         /// <param name="value">Value to set</param>
-        public static void SetEV(this PKM pk, int index, int value)
+        public static int SetEV(this PKM pk, int index, int value) => index switch
         {
-            switch (index)
-            {
-                case 0: pk.EV_HP = value; break;
-                case 1: pk.EV_ATK = value; break;
-                case 2: pk.EV_DEF = value; break;
-                case 3: pk.EV_SPE = value; break;
-                case 4: pk.EV_SPA = value; break;
-                case 5: pk.EV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
+            0 => pk.EV_HP = value,
+            1 => pk.EV_ATK = value,
+            2 => pk.EV_DEF = value,
+            3 => pk.EV_SPE = value,
+            4 => pk.EV_SPA = value,
+            5 => pk.EV_SPD = value,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Sets one of the <see cref="PKM.IVs"/> based on its index within the array.
@@ -300,20 +296,16 @@ namespace PKHeX.Core
         /// <param name="pk">Pokémon to modify.</param>
         /// <param name="index">Index to set to</param>
         /// <param name="value">Value to set</param>
-        public static void SetIV(this PKM pk, int index, int value)
+        public static int SetIV(this PKM pk, int index, int value) => index switch
         {
-            switch (index)
-            {
-                case 0: pk.IV_HP = value; break;
-                case 1: pk.IV_ATK = value; break;
-                case 2: pk.IV_DEF = value; break;
-                case 3: pk.IV_SPE = value; break;
-                case 4: pk.IV_SPA = value; break;
-                case 5: pk.IV_SPD = value; break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(index));
-            }
-        }
+            0 => pk.IV_HP = value,
+            1 => pk.IV_ATK = value,
+            2 => pk.IV_DEF = value,
+            3 => pk.IV_SPE = value,
+            4 => pk.IV_SPA = value,
+            5 => pk.IV_SPD = value,
+            _ => throw new ArgumentOutOfRangeException(nameof(index))
+        };
 
         /// <summary>
         /// Fetches the highest value the provided <see cref="PKM.EVs"/> index can be while considering others.

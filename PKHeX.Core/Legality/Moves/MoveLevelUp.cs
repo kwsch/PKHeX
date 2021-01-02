@@ -228,17 +228,14 @@ namespace PKHeX.Core
             return LearnNONE;
         }
 
-        private static GameVersion GetDeoxysGameVersion3(int form)
+        private static GameVersion GetDeoxysGameVersion3(int form) => form switch
         {
-            return form switch
-            {
-                0 => RS,
-                1 => FR,
-                2 => LG,
-                3 => E,
-                _ => Invalid
-            };
-        }
+            0 => RS,
+            1 => FR,
+            2 => LG,
+            3 => E,
+            _ => Invalid
+        };
 
         private static Learnset? GetDeoxysLearn3(int form, GameVersion ver = Any)
         {

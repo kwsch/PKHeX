@@ -25,15 +25,12 @@ namespace PKHeX.Core
             ApplyDetailsTo(pk8, seed, IVs, raid.FlawlessIVCount, abil, ratio);
         }
 
-        private static int RemapAbilityToParam(int a)
+        private static int RemapAbilityToParam(int a) => a switch
         {
-            return a switch
-            {
-                -1 => 254,
-                0 => 255,
-                _ => (a >> 1)
-            };
-        }
+            -1 => 254,
+            0 => 255,
+            _ => (a >> 1)
+        };
 
         private static int[] GetBlankIVTemplate() => new[] {-1, -1, -1, -1, -1, -1};
 

@@ -90,18 +90,12 @@ namespace PKHeX.Core
         public Zukan6AO Zukan => Blocks.Zukan;
         #endregion
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    (int)GameVersion.AS => GameVersion.AS,
-                    (int)GameVersion.OR => GameVersion.OR,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int) GameVersion.AS => GameVersion.AS,
+            (int) GameVersion.OR => GameVersion.OR,
+            _ => GameVersion.Invalid
+        };
 
         public override bool GetCaught(int species) => Blocks.Zukan.GetCaught(species);
         public override bool GetSeen(int species) => Blocks.Zukan.GetSeen(species);

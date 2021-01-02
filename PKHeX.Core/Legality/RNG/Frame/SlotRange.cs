@@ -15,16 +15,13 @@ namespace PKHeX.Core
         private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
         private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
-        public static int GetSlot(SlotType type, uint rand, FrameType t)
+        public static int GetSlot(SlotType type, uint rand, FrameType t) => t switch
         {
-            return t switch
-            {
-                FrameType.MethodH => HSlot(type, rand),
-                FrameType.MethodJ => JSlot(type, rand),
-                FrameType.MethodK => KSlot(type, rand),
-                _ => -1
-            };
-        }
+            FrameType.MethodH => HSlot(type, rand),
+            FrameType.MethodJ => JSlot(type, rand),
+            FrameType.MethodK => KSlot(type, rand),
+            _ => -1
+        };
 
         private static int HSlot(SlotType type, uint rand)
         {

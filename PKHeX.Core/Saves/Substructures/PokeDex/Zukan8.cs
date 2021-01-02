@@ -29,16 +29,13 @@ namespace PKHeX.Core
             return 2;
         }
 
-        private byte[] GetDexBlock(Zukan8Type infoDexType)
+        private byte[] GetDexBlock(Zukan8Type infoDexType) => infoDexType switch
         {
-            return infoDexType switch
-            {
-                Zukan8Type.Galar => Galar.Data,
-                Zukan8Type.Armor => Rigel1.Data,
-                Zukan8Type.Crown => Rigel2.Data,
-                _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null)
-            };
-        }
+            Zukan8Type.Galar => Galar.Data,
+            Zukan8Type.Armor => Rigel1.Data,
+            Zukan8Type.Crown => Rigel2.Data,
+            _ => throw new ArgumentOutOfRangeException(nameof(infoDexType), infoDexType, null)
+        };
 
         private static bool GetFlag(byte[] data, int offset, int bitIndex) => FlagUtil.GetFlag(data, offset + (bitIndex >> 3), bitIndex);
         private static void SetFlag(byte[] data, int offset, int bitIndex, bool value = true) => FlagUtil.SetFlag(data, offset + (bitIndex >> 3), bitIndex, value);

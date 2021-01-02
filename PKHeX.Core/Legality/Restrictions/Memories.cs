@@ -218,15 +218,12 @@ namespace PKHeX.Core
             Feeling = f;
         }
 
-        public static MemoryVariableSet Read(ITrainerMemories pkm, int handler)
+        public static MemoryVariableSet Read(ITrainerMemories pkm, int handler) => handler switch
         {
-            return handler switch
-            {
-                0 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.OT_Memory, pkm.OT_TextVar, pkm.OT_Intensity, pkm.OT_Feeling), // OT
-                1 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.HT_Memory, pkm.HT_TextVar, pkm.HT_Intensity, pkm.HT_Feeling), // HT
-                _ => new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0)
-            };
-        }
+            0 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.OT_Memory, pkm.OT_TextVar, pkm.OT_Intensity, pkm.OT_Feeling), // OT
+            1 => new MemoryVariableSet(LegalityCheckStrings.L_XOT, pkm.HT_Memory, pkm.HT_TextVar, pkm.HT_Intensity, pkm.HT_Feeling), // HT
+            _ => new MemoryVariableSet(LegalityCheckStrings.L_XOT, 0, 0, 0, 0)
+        };
 
         public bool Equals(MemoryVariableSet v) => v.Handler == Handler
                                                    && v.MemoryID == MemoryID

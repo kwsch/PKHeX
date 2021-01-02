@@ -174,15 +174,12 @@ namespace PKHeX.Core
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
-        private uint GetSaneSeed(uint seed)
+        private uint GetSaneSeed(uint seed) => Method switch
         {
-            return Method switch
-            {
-                PIDType.BACD_R => (seed & 0x0000FFFF),
-                PIDType.BACD_R_S => (seed & 0x000000FF),
-                _ => seed
-            };
-        }
+            PIDType.BACD_R => seed & 0x0000FFFF, // u16
+            PIDType.BACD_R_S => seed & 0x000000FF, // u8
+            _ => seed
+        };
 
         private LanguageID GetSafeLanguage(LanguageID hatchLang)
         {
@@ -205,13 +202,11 @@ namespace PKHeX.Core
             if (version <= GameVersion.CXD && version > GameVersion.Unknown) // single game
                 return version;
 
-            int rand = Util.Rand.Next(2); // 0 or 1
             return version switch
             {
-                GameVersion.FRLG => GameVersion.FR + rand, // or LG
-                GameVersion.RS or GameVersion.RSE => GameVersion.S + rand, // or R
-                GameVersion.COLO => GameVersion.CXD,
-                GameVersion.XD => GameVersion.CXD,
+                GameVersion.FRLG => GameVersion.FR + Util.Rand.Next(2), // or LG
+                GameVersion.RS or GameVersion.RSE => GameVersion.S + Util.Rand.Next(2), // or R
+                GameVersion.COLO or GameVersion.XD => GameVersion.CXD,
                 _ => throw new Exception($"Unknown GameVersion: {version}")
             };
         }

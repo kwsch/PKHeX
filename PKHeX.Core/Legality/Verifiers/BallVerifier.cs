@@ -100,16 +100,13 @@ namespace PKHeX.Core
             };
         }
 
-        private CheckResult VerifyBallInherited(LegalityAnalysis data)
+        private CheckResult VerifyBallInherited(LegalityAnalysis data) => data.Info.Generation switch
         {
-            return data.Info.Generation switch
-            {
-                6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
-                7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
-                8 => VerifyBallEggGen8(data),
-                _ => NONE
-            };
-        }
+            6 => VerifyBallEggGen6(data), // Gen6 Inheritance Rules
+            7 => VerifyBallEggGen7(data), // Gen7 Inheritance Rules
+            8 => VerifyBallEggGen8(data),
+            _ => NONE
+        };
 
         private CheckResult VerifyBallEggGen6(LegalityAnalysis data)
         {

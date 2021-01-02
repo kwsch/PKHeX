@@ -21,25 +21,22 @@ namespace PKHeX.Core
             return GetEggMoves(generation, species, form, version);
         }
 
-        public static int[] GetEggMoves(int gen, int species, int form, GameVersion version)
+        public static int[] GetEggMoves(int generation, int species, int form, GameVersion version) => generation switch
         {
-            return gen switch
-            {
-                1 or 2 => (version == C ? EggMovesC : EggMovesGS)[species].Moves,
-                3 => EggMovesRS[species].Moves,
-                4 when version is D or P or Pt => EggMovesDPPt[species].Moves,
-                4 when version is HG or SS => EggMovesHGSS[species].Moves,
-                5 => EggMovesBW[species].Moves,
+            1 or 2 => (version == C ? EggMovesC : EggMovesGS)[species].Moves,
+            3 => EggMovesRS[species].Moves,
+            4 when version is D or P or Pt => EggMovesDPPt[species].Moves,
+            4 when version is HG or SS => EggMovesHGSS[species].Moves,
+            5 => EggMovesBW[species].Moves,
 
-                6 when version is X or Y => EggMovesXY[species].Moves,
-                6 when version is OR or AS => EggMovesAO[species].Moves,
+            6 when version is X or Y => EggMovesXY[species].Moves,
+            6 when version is OR or AS => EggMovesAO[species].Moves,
 
-                7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
-                7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
-                8 => GetFormEggMoves(species, form, EggMovesSWSH),
-                _ => Array.Empty<int>(),
-            };
-        }
+            7 when version is SN or MN => GetFormEggMoves(species, form, EggMovesSM),
+            7 when version is US or UM => GetFormEggMoves(species, form, EggMovesUSUM),
+            8 => GetFormEggMoves(species, form, EggMovesSWSH),
+            _ => Array.Empty<int>(),
+        };
 
         private static int[] GetFormEggMoves(int species, int form, IReadOnlyList<EggMoves7> table)
         {

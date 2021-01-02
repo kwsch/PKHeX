@@ -32,19 +32,16 @@ namespace PKHeX.Core
             return GetMatchingGifts(pkm, table, chain);
         }
 
-        private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm)
+        private static IReadOnlyList<MysteryGift> GetTable(int generation, PKM pkm) => generation switch
         {
-            return generation switch
-            {
-                3 => MGDB_G3,
-                4 => MGDB_G4,
-                5 => MGDB_G5,
-                6 => MGDB_G6,
-                7 => pkm.LGPE ? (IReadOnlyList<MysteryGift>)MGDB_G7GG : MGDB_G7,
-                8 => MGDB_G8,
-                _ => Array.Empty<MysteryGift>()
-            };
-        }
+            3 => MGDB_G3,
+            4 => MGDB_G4,
+            5 => MGDB_G5,
+            6 => MGDB_G6,
+            7 => pkm.LGPE ? MGDB_G7GG : MGDB_G7,
+            8 => MGDB_G8,
+            _ => Array.Empty<MysteryGift>()
+        };
 
         private static IEnumerable<MysteryGift> GetMatchingPCD(PKM pkm, IReadOnlyList<PCD> DB, IReadOnlyList<DexLevel> chain)
         {

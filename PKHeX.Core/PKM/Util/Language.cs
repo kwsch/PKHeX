@@ -41,20 +41,17 @@ namespace PKHeX.Core
             _           => Languages_7 .Contains((int)prefer) ? prefer : SafeLanguage,
         };
 
-        public static string GetLanguage2CharName(this LanguageID lang)
+        public static string GetLanguage2CharName(this LanguageID language) => language switch
         {
-            return lang switch
-            {
-                Japanese => "ja",
-                French => "fr",
-                Italian => "it",
-                German => "de",
-                Spanish => "es",
-                Korean => "ko",
-                ChineseS or ChineseT => "zh",
-                _ => GameLanguage.DefaultLanguage,
-            };
-        }
+            Japanese => "ja",
+            French => "fr",
+            Italian => "it",
+            German => "de",
+            Spanish => "es",
+            Korean => "ko",
+            ChineseS or ChineseT => "zh",
+            _ => GameLanguage.DefaultLanguage,
+        };
 
         /// <summary>
         /// Gets the Main Series language ID from a GameCube (C/XD) language ID.

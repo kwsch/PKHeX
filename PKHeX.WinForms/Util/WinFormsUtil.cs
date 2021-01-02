@@ -424,19 +424,17 @@ namespace PKHeX.WinForms
         /// </summary>
         /// <param name="format">Format specifier for the </param>
         /// <param name="origin">Game the format originated from/to</param>
-        public static string GetMysterGiftFilter(int format, GameVersion origin)
+        public static string GetMysterGiftFilter(int format, GameVersion origin) => format switch
         {
-            const string all = "|All Files|*.*";
-            return format switch
-            {
-                4 => ("Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all),
-                5 => ("Gen5 Mystery Gift|*.pgf" + all),
-                6 => ("Gen6 Mystery Gift|*.wc6;*.wc6full" + all),
-                7 => (GameVersion.GG.Contains(origin)
-                    ? "Beluga Gift Record|*.wr7" + all
-                    : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all),
-                _ => string.Empty
-            };
-        }
+            4 => "Gen4 Mystery Gift|*.pgt;*.pcd;*.wc4" + all,
+            5 => "Gen5 Mystery Gift|*.pgf" + all,
+            6 => "Gen6 Mystery Gift|*.wc6;*.wc6full" + all,
+            7 => GameVersion.GG.Contains(origin)
+                ? "Beluga Gift Record|*.wr7" + all
+                : "Gen7 Mystery Gift|*.wc7;*.wc7full" + all,
+            _ => string.Empty,
+        };
+
+        private const string all = "|All Files|*.*";
     }
 }

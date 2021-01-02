@@ -109,20 +109,14 @@ namespace PKHeX.Core
 
         public int HoF { get; protected set; }
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                return Game switch
-                {
-                    30 => GameVersion.SN,
-                    31 => GameVersion.MN,
-                    32 => GameVersion.US,
-                    33 => GameVersion.UM,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int)GameVersion.SN => GameVersion.SN,
+            (int)GameVersion.MN => GameVersion.MN,
+            (int)GameVersion.US => GameVersion.US,
+            (int)GameVersion.UM => GameVersion.UM,
+            _ => GameVersion.Invalid
+        };
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 

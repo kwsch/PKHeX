@@ -85,14 +85,11 @@ namespace PKHeX.WinForms
             return abilities[abilityIDs[index]];
         }
 
-        private static bool GetIsNative(PersonalInfo personalInfo, int s)
+        private static bool GetIsNative(PersonalInfo personalInfo, int s) => personalInfo switch
         {
-            return personalInfo switch
-            {
-                PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
-                PersonalInfoSWSH ss => ss.IsInDex,
-                _ => true,
-            };
-        }
+            PersonalInfoSM => s > 721 || Legal.PastGenAlolanNatives.Contains(s),
+            PersonalInfoSWSH ss => ss.IsInDex,
+            _ => true,
+        };
     }
 }

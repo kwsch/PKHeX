@@ -32,26 +32,20 @@ namespace PKHeX.Core
         {
             if (item == 0)
                 return true;
-            if (item < 0)
-                return false;
-
             var items = GetReleasedHeldItems(generation);
-            return items.Count > item && items[item];
+            return (uint)item < items.Count && items[item];
         }
 
-        private static IReadOnlyList<bool> GetReleasedHeldItems(int generation)
+        private static IReadOnlyList<bool> GetReleasedHeldItems(int generation) => generation switch
         {
-            return generation switch
-            {
-                2 => ReleasedHeldItems_2,
-                3 => ReleasedHeldItems_3,
-                4 => ReleasedHeldItems_4,
-                5 => ReleasedHeldItems_5,
-                6 => ReleasedHeldItems_6,
-                7 => ReleasedHeldItems_7,
-                8 => ReleasedHeldItems_8,
-                _ => Array.Empty<bool>()
-            };
-        }
+            2 => ReleasedHeldItems_2,
+            3 => ReleasedHeldItems_3,
+            4 => ReleasedHeldItems_4,
+            5 => ReleasedHeldItems_5,
+            6 => ReleasedHeldItems_6,
+            7 => ReleasedHeldItems_7,
+            8 => ReleasedHeldItems_8,
+            _ => Array.Empty<bool>()
+        };
     }
 }

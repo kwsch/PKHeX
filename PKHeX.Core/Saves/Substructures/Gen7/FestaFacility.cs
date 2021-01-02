@@ -37,28 +37,22 @@ namespace PKHeX.Core
         public byte[] TrainerFesID { get => Data.Slice(0x34, 0xC); set => value.CopyTo(Data, 0x34); }
         public int ExchangeLeftCount { get => Data[0x40]; set => Data[0x40] = (byte)value; } // used when Type=Exchange
 
-        public int GetMessage(int index)
+        public int GetMessage(int index) => index switch
         {
-            return index switch
-            {
-                0 => MessageMeet,
-                1 => MessagePart,
-                2 => MessageMoved,
-                3 => MessageDisappointed,
-                _ => 0
-            };
-        }
+            0 => MessageMeet,
+            1 => MessagePart,
+            2 => MessageMoved,
+            3 => MessageDisappointed,
+            _ => 0
+        };
 
-        public void SetMessage(int index, ushort value)
+        public int SetMessage(int index, ushort value) => index switch
         {
-            switch (index)
-            {
-                case 0: MessageMeet = value; break;
-                case 1: MessagePart = value; break;
-                case 2: MessageMoved = value; break;
-                case 3: MessageDisappointed = value; break;
-                default: return;
-            }
-        }
+            0 => MessageMeet = value,
+            1 => MessagePart = value,
+            2 => MessageMoved = value,
+            3 => MessageDisappointed = value,
+            _ => -1,
+        };
     }
 }

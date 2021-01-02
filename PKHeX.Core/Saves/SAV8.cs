@@ -60,18 +60,12 @@ namespace PKHeX.Core
         public abstract TeamIndexes8 TeamIndexes { get; }
         #endregion
 
-        public override GameVersion Version
+        public override GameVersion Version => Game switch
         {
-            get
-            {
-                var game = (GameVersion)Game;
-                return game switch
-                {
-                    GameVersion.SW or GameVersion.SH => game,
-                    _ => GameVersion.Invalid
-                };
-            }
-        }
+            (int)GameVersion.SW => GameVersion.SW,
+            (int)GameVersion.SH => GameVersion.SH,
+            _ => GameVersion.Invalid
+        };
 
         public override string GetString(byte[] data, int offset, int length) => StringConverter.GetString7(data, offset, length);
 

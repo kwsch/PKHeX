@@ -85,14 +85,11 @@ namespace PKHeX.Core
                 item.Count = GetSuggestedCount(Type, item.Index, item.Count);
         }
 
-        public static int GetSuggestedCount(InventoryType t, int item, int requestVal)
+        public static int GetSuggestedCount(InventoryType t, int item, int requestVal) => t switch
         {
-            return t switch
-            {
-                // TMs are clamped to 1, let TRs be whatever
-                InventoryType.TMHMs => 1130 <= item && item <= 1229 ? requestVal : 1,
-                _ => requestVal
-            };
-        }
+            // TMs are clamped to 1, let TRs be whatever
+            InventoryType.TMHMs => 1130 <= item && item <= 1229 ? requestVal : 1,
+            _ => requestVal
+        };
     }
 }

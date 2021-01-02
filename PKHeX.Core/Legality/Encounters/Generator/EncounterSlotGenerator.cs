@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using static PKHeX.Core.Legal;
@@ -131,53 +132,47 @@ namespace PKHeX.Core
                 .FirstOrDefault();
         }
 
-        private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion game) => game switch
         {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
+            RBY or RD or BU or GN or YW => SlotsRBY,
 
-            return gameSource switch
-            {
-                RBY or RD or BU or GN or YW => SlotsRBY,
+            GSC or GD or SV or C => GetEncounterTableGSC(pkm),
 
-                GSC or GD or SV or C => GetEncounterTableGSC(pkm),
+            R => SlotsR,
+            S => SlotsS,
+            E => SlotsE,
+            FR => SlotsFR,
+            LG => SlotsLG,
+            CXD => SlotsXD,
 
-                R => SlotsR,
-                S => SlotsS,
-                E => SlotsE,
-                FR => SlotsFR,
-                LG => SlotsLG,
-                CXD => SlotsXD,
+            D => SlotsD,
+            P => SlotsP,
+            Pt => SlotsPt,
+            HG => SlotsHG,
+            SS => SlotsSS,
 
-                D => SlotsD,
-                P => SlotsP,
-                Pt => SlotsPt,
-                HG => SlotsHG,
-                SS => SlotsSS,
+            B => SlotsB,
+            W => SlotsW,
+            B2 => SlotsB2,
+            W2 => SlotsW2,
 
-                B => SlotsB,
-                W => SlotsW,
-                B2 => SlotsB2,
-                W2 => SlotsW2,
+            X => SlotsX,
+            Y => SlotsY,
+            AS => SlotsA,
+            OR => SlotsO,
 
-                X => SlotsX,
-                Y => SlotsY,
-                AS => SlotsA,
-                OR => SlotsO,
+            SN => SlotsSN,
+            MN => SlotsMN,
+            US => SlotsUS,
+            UM => SlotsUM,
+            GP => SlotsGP,
+            GE => SlotsGE,
 
-                SN => SlotsSN,
-                MN => SlotsMN,
-                US => SlotsUS,
-                UM => SlotsUM,
-                GP => SlotsGP,
-                GE => SlotsGE,
-
-                GO => GetEncounterTableGO(pkm),
-                SW => SlotsSW,
-                SH => SlotsSH,
-                _ => Enumerable.Empty<EncounterArea>()
-            };
-        }
+            GO => GetEncounterTableGO(pkm),
+            SW => SlotsSW,
+            SH => SlotsSH,
+            _ => Array.Empty<EncounterArea>()
+        };
 
         private static IEnumerable<EncounterArea> GetEncounterTableGSC(PKM pkm)
         {
