@@ -50,6 +50,8 @@
 0x2D0	打败顽皮雷蛋(1)
 0x2D2	打败顽皮雷蛋(2)
 
+0x060	Overworld Hidden (Hitmonlee ball)
+0x061	Overworld Hidden (Hitmonchan ball)
 0x02F	隐藏地区 (甲壳化石)
 0x030	隐藏地区 (贝壳化石)
 0x082	隐藏地区 (急冻鸟)
