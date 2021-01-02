@@ -54,20 +54,14 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool VerifyVCNature(int growth, int nature)
+        private static bool VerifyVCNature(int growth, int nature) => growth switch
         {
             // exp % 25 with a limited amount of EXP does not allow for every nature
-            return growth switch
-            {
-                0 => // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
-                (nature is < (int) Nature.Brave or > (int) Nature.Relaxed),
-                4 => // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
-                (nature is < (int) Nature.Gentle and > (int) Nature.Bold),
-                5 => // Slow -- Can't be Impish or Lax
-                (nature is not (int) Nature.Impish and not (int) Nature.Lax),
-                _ => true
-            };
-        }
+            0 => (0x01FFFF03 & (1 << nature)) != 0, // MediumFast -- Can't be Brave, Adamant, Naughty, Bold, Docile, or Relaxed
+            4 => (0x001FFFC0 & (1 << nature)) != 0, // Fast -- Can't be Gentle, Sassy, Careful, Quirky, Hardy, Lonely, Brave, Adamant, Naughty, or Bold
+            5 => (0x01FFFCFF & (1 << nature)) != 0, // Slow -- Can't be Impish or Lax
+            _ => true
+        };
 
         private static void VerifyVCShinyXorIfShiny(LegalityAnalysis data)
         {
