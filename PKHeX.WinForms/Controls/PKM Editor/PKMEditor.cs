@@ -1957,16 +1957,19 @@ namespace PKHeX.WinForms.Controls
         private void PopulateFilteredDataSources(ITrainerInfo sav, bool force = false)
         {
             var source = GameInfo.FilteredSources;
+            SetIfDifferentCount(source.Languages, CB_Language, force);
 
             if (sav.Generation >= 2)
             {
-                CheckMetLocationChange((GameVersion) sav.Game);
+                var game = (GameVersion) sav.Game;
+                if (game <= 0)
+                    game = GameUtil.GetVersion(sav.Generation);
+                CheckMetLocationChange(game);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
             }
 
             if (sav.Generation >= 3)
             {
-                SetIfDifferentCount(source.Languages, CB_Language, force);
                 SetIfDifferentCount(source.Balls, CB_Ball, force);
                 SetIfDifferentCount(source.Games, CB_GameOrigin, force);
             }
