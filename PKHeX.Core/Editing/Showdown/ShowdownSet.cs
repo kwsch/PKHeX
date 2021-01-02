@@ -348,7 +348,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < 6; i++)
                 {
-                    if (h.GetHT(i))
+                    if (h.IsHyperTrained(i))
                         IVs[i] = pkm.MaxIV;
                 }
             }

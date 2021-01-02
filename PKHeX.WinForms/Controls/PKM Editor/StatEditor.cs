@@ -296,7 +296,7 @@ namespace PKHeX.WinForms.Controls
             }
 
             for (int i = 0; i < MT_IVs.Length; i++)
-                UpdateHyperTrainingFlag(i, h.GetHT(i));
+                UpdateHyperTrainingFlag(i, h.IsHyperTrained(i));
         }
 
         private void UpdateAVTotals()
