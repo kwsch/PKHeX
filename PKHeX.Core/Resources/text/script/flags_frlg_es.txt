@@ -50,6 +50,8 @@
 0x2D0	Derrotado Electrode (1)
 0x2D2	Derrotado Electrode (2)
 
+0x060	Escondido en el mundo (Hitmonlee bola)
+0x061	Escondido en el mundo (Hitmonchan bola)
 0x02F	Escondido en el mundo (Fósil Domo)
 0x030	Escondido en el mundo (Fósil Hélix)
 0x082	Escondido en el mundo (Articuno)
