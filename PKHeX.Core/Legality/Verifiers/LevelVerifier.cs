@@ -12,8 +12,8 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterOriginal;
-            if (EncounterMatch is MysteryGift gift)
+            var enc = data.EncounterOriginal;
+            if (enc is MysteryGift gift)
             {
                 if (gift.Level != pkm.Met_Level && pkm.HasOriginalMetLocation)
                 {
@@ -39,14 +39,14 @@ namespace PKHeX.Core
 
             if (pkm.IsEgg)
             {
-                int elvl = EncounterMatch.LevelMin;
+                int elvl = enc.LevelMin;
                 if (elvl != pkm.CurrentLevel)
                 {
                     data.AddLine(GetInvalid(string.Format(LEggFMetLevel_0, elvl)));
                     return;
                 }
 
-                var reqEXP = EncounterMatch is EncounterStatic {Version: GameVersion.C}
+                var reqEXP = enc is EncounterStatic {Version: GameVersion.C}
                     ? 125 // Gen2 Dizzy Punch gifts always have 125 EXP, even if it's more than the Lv5 exp required.
                     : Experience.GetEXP(elvl, pkm.PersonalInfo.EXPGrowth);
                 if (reqEXP != pkm.EXP)
@@ -57,7 +57,7 @@ namespace PKHeX.Core
             int lvl = pkm.CurrentLevel;
             if (lvl < pkm.Met_Level)
                 data.AddLine(GetInvalid(LLevelMetBelow));
-            else if (!EncounterMatch.IsWithinRange(pkm) && lvl != 100 && pkm.EXP == Experience.GetEXP(lvl, pkm.PersonalInfo.EXPGrowth))
+            else if (!enc.IsWithinRange(pkm) && lvl != 100 && pkm.EXP == Experience.GetEXP(lvl, pkm.PersonalInfo.EXPGrowth))
                 data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
             else
                 data.AddLine(GetValid(LLevelMetSane));
@@ -66,7 +66,7 @@ namespace PKHeX.Core
         public void VerifyG1(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterOriginal;
+            var enc = data.EncounterMatch;
             if (pkm.IsEgg)
             {
                 const int elvl = 5;
@@ -83,7 +83,7 @@ namespace PKHeX.Core
 
             // There is no way to prevent a gen1 trade evolution as held items (everstone) did not exist.
             // Machoke, Graveler, Haunter and Kadabra captured in the second phase evolution, excluding in-game trades, are already checked
-            if (pkm.Format <= 2 && EncounterMatch is not EncounterTrade && EncounterMatch.Species == pkm.Species && GBRestrictions.Trade_Evolution1.Contains(EncounterMatch.Species))
+            if (pkm.Format <= 2 && enc is not EncounterTrade && enc.Species == pkm.Species && GBRestrictions.Trade_Evolution1.Contains(enc.Species))
                 VerifyG1TradeEvo(data);
         }
 

@@ -19,7 +19,7 @@
             if (la.Info.Generation == 2)
                 return 0;
 
-            var v = la.EncounterOriginal;
+            var v = la.EncounterMatch;
             switch (v)
             {
                 case EncounterTrade1 c:

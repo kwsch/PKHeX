@@ -114,7 +114,7 @@ namespace PKHeX.Core
                 return new int[4];
 
             var pkm = analysis.pkm;
-            var enc = info.EncounterOriginal;
+            var enc = info.EncounterMatch;
             var parsed = VerifyRelearnMoves.GetSuggestedRelearn(pkm, enc, info.Relearn);
             if (parsed.Count == 0) // Always true for Origins < 6 and encounters without relearn permitted.
                 return new int[4];

@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
         private static readonly ValidEncounterMoves NONE = new();
         public ValidEncounterMoves EncounterMoves { get; internal set; } = NONE;
-        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterOriginal);
+        public IReadOnlyList<EvoCriteria>[] EvoChainsAllGens => _evochains ??= EvolutionChain.GetEvolutionChainsAllGens(pkm, EncounterMatch);
         private IReadOnlyList<EvoCriteria>[]? _evochains;
 
         /// <summary><see cref="RNG"/> related information that generated the <see cref="PKM.PID"/>/<see cref="PKM.IVs"/> value(s).</summary>

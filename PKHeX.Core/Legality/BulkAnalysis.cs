@@ -115,8 +115,8 @@ namespace PKHeX.Core
         {
             var dupes = AllAnalysis.Where(z =>
                     z.Info.Generation >= 3
-                    && z.EncounterOriginal is MysteryGift {EggEncounter: true} && !z.pkm.WasTradedEgg)
-                .GroupBy(z => ((MysteryGift)z.EncounterOriginal).CardTitle);
+                    && z.EncounterMatch is MysteryGift {EggEncounter: true} && !z.pkm.WasTradedEgg)
+                .GroupBy(z => ((MysteryGift)z.EncounterMatch).CardTitle);
 
             foreach (var dupe in dupes)
             {

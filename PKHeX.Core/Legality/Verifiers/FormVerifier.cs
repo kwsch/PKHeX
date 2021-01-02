@@ -181,19 +181,19 @@ namespace PKHeX.Core
             // everything below here is not Form 0, so it has a form.
             if (format >= 7 && Info.Generation < 7)
             {
-                if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
+                if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterMatch.Species))
                     return GetInvalid(LFormInvalidGame);
             }
             if (format >= 8 && Info.Generation < 8)
             {
-                var orig = data.EncounterOriginal.Species;
+                var orig = data.EncounterMatch.Species;
                 if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(orig))
                 {
-                    if (species == (int)Species.Meowth && data.EncounterOriginal.Form != 2)
+                    if (species == (int)Species.Meowth && data.EncounterMatch.Form != 2)
                     {
                         // We're okay here. There's also Alolan Meowth...
                     }
-                    else if ((orig is (int) Species.MrMime or (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterOriginal.LevelMin && Info.Generation >= 4)
+                    else if ((orig is (int) Species.MrMime or (int)Species.MimeJr) && pkm.CurrentLevel > data.EncounterMatch.LevelMin && Info.Generation >= 4)
                     {
                         // We're okay with a Mime Jr. that has evolved via level up.
                     }

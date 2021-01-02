@@ -118,7 +118,6 @@ namespace PKHeX.Core
 
         private void VerifyMiscG1CatchRate(LegalityAnalysis data, PK1 pk1)
         {
-            var e = data.EncounterMatch;
             var catch_rate = pk1.Catch_Rate;
             var result = pk1.TradebackStatus == TradebackType.Gen1_NotTradeback
                 ? GetWasNotTradeback()
@@ -137,6 +136,7 @@ namespace PKHeX.Core
 
             CheckResult GetWasNotTradeback()
             {
+                var e = data.EncounterMatch;
                 if (e is EncounterStatic1E {Version: GameVersion.Stadium} || e is EncounterTrade1)
                     return GetValid(LG1CatchRateMatchPrevious); // Encounters detected by the catch rate, cant be invalid if match this encounters
 
@@ -218,7 +218,7 @@ namespace PKHeX.Core
             if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0) || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
                 data.AddLine(GetInvalid(LEggPP, Egg));
 
-            var EncounterMatch = data.EncounterOriginal;
+            var EncounterMatch = data.EncounterMatch;
             var HatchCycles = EncounterMatch is EncounterStatic s ? s.EggCycles : 0;
             if (HatchCycles == 0) // no value set
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
