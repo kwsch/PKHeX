@@ -86,24 +86,17 @@ namespace PKHeX.Core
         }
 
         // Eggs
-        private static CheckResult VerifyEncounterEgg(PKM pkm, int gen, bool checkSpecies = true)
+        private static CheckResult VerifyEncounterEgg(PKM pkm, int gen) => gen switch
         {
-            // Check Species
-            if (checkSpecies && !Breeding.CanHatchAsEgg(pkm.Species))
-                return new CheckResult(Severity.Invalid, LEggSpecies, CheckIdentifier.Encounter);
-
-            return gen switch
-            {
-                2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
-                3 => pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm),
-                4 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm),
-                5 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm),
-                6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
-                7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
-                8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
-                _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
-            };
-        }
+            2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
+            3 => pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm),
+            4 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm),
+            5 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm),
+            6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
+            7 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg7(pkm),
+            8 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg8(pkm),
+            _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
+        };
 
         private static CheckResult VerifyEncounterEgg3(PKM pkm)
         {
@@ -317,7 +310,7 @@ namespace PKHeX.Core
             }
             if (!pkm.IsEgg && gift.IsEgg) // hatched
             {
-                var hatchCheck = VerifyEncounterEgg(pkm, gift.Generation, false);
+                var hatchCheck = VerifyEncounterEgg(pkm, gift.Generation);
                 if (!hatchCheck.Valid)
                     return hatchCheck;
             }
