@@ -38,6 +38,17 @@
 0x3A8	Oculto en el mundo (Regice)
 0x3A9	Oculto en el mundo (Registeel)
 
+0x3C9	Descubierto Kecleon (Ciudad Arborada)
+0x3CA	Descubierto Kecleon (Ruta 120, Puente)
+0x3D5	Descubierto Kecleon (Ruta 120, Puente)
+0x3D6	Descubierto Kecleon (Ruta 120, Escaleras)
+0x3D9	Descubierto Kecleon (Ruta 120, Detrás de la Señaln)
+0x3DA	Descubierto Kecleon (Ruta 120, detrás de los Árboles de Bayas)
+0x3DB	Descubierto Kecleon (Ruta 120, Izquierda del Laberiento de Hierba Alta)
+0x3DC	Descubierto Kecleon (Ruta 120, Detrás de la Tumba Antigua)
+0x3DD	Descubierto Kecleon (Ruta 119, Derecha del Niño Ninja)
+0x3DE	Descubierto Kecleon (Ruta 119, Above Waterfall)
+
 0x3D1	Oculto en el mundo (Electrode 1 in Hideout)
 0x3D2	Oculto en el mundo (Electrode 2 in Hideout)
 
