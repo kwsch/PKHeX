@@ -37,10 +37,11 @@ namespace PKHeX.Core
                     data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 
-            if (EncounterMatch is EncounterTrade {HasNickname: true} t)
+            if (EncounterMatch is EncounterTrade t)
             {
                 VerifyNicknameTrade(data, t);
-                return;
+                if (t.HasNickname)
+                    return;
             }
 
             if (pkm.IsEgg)
