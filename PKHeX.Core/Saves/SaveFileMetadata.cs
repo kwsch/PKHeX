@@ -30,10 +30,12 @@ namespace PKHeX.Core
         private byte[] Footer = Array.Empty<byte>(); // .dsv
         private byte[] Header = Array.Empty<byte>(); // .gci
 
+        private string BAKSuffix => $" [{SAV.ShortSummary}].bak";
+
         /// <summary>
         /// Simple summary of the save file, to help differentiate it from other save files with the same filename.
         /// </summary>
-        public string BAKName => $"{FileName} [{SAV.ShortSummary}].bak";
+        public string BAKName => FileName + BAKSuffix;
 
         public SaveFileMetadata(SaveFile sav) => SAV = sav;
 
@@ -89,7 +91,7 @@ namespace PKHeX.Core
         {
             FilePath = path;
             FileFolder = Path.GetDirectoryName(path);
-            FileName = GetFileName(path, BAKName);
+            FileName = GetFileName(path, BAKSuffix);
         }
 
         private static string? GetFileName(string path, string bak)
