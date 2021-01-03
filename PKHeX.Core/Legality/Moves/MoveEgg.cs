@@ -56,7 +56,7 @@ namespace PKHeX.Core
             {
                 X or Y => getMoves(LevelUpXY, PersonalTable.XY),
                 OR or AS => getMoves(LevelUpAO, PersonalTable.AO),
-                SN or MN when species > MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
+                SN or MN when species <= MaxSpeciesID_7 => getMoves(LevelUpSM, PersonalTable.SM),
                 US or UM => getMoves(LevelUpUSUM, PersonalTable.USUM),
                 SW or SH => getMoves(LevelUpSWSH, PersonalTable.SWSH),
                 _ => Array.Empty<int>(),
