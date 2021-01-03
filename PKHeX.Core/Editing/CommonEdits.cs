@@ -227,8 +227,13 @@ namespace PKHeX.Core
             pk.SetForm(Set.Form);
             pk.SetGender(Set.Gender);
             pk.SetMaximumPPUps(Set.Moves);
-            pk.SetAbility(Set.Ability);
-            pk.SetNature(Set.Nature);
+
+            if (pk.Format >= 3)
+            {
+                pk.SetAbility(Set.Ability);
+                pk.SetNature(Set.Nature);
+            }    
+
             pk.SetIsShiny(Set.Shiny);
             pk.SetRandomEC();
 
