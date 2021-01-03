@@ -18,7 +18,7 @@ namespace PKHeX.Core
             8 => GameVersion.GO == game ? WildPokeballs8g : WildPokeballs8,
             _ => Array.Empty<int>()
         };
-        
+
         private static readonly int[] WildPokeBalls1 = { 4 };
         private static readonly int[] WildPokeBalls2 = WildPokeBalls1;
 
@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         private static readonly HashSet<int> WildPokeBalls4_HGSS = new(WildPokeBalls4_DPPt)
         {
-            (int)Fast, (int)Level, (int)Lure, (int)Heavy, (int)Love, (int)Friend, (int)Moon, 
+            (int)Fast, (int)Level, (int)Lure, (int)Heavy, (int)Love, (int)Friend, (int)Moon,
         };
 
         private static readonly HashSet<int> WildPokeBalls5 = WildPokeBalls4_DPPt;

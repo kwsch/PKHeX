@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="species">National Dex ID.</param>
         /// <returns>Generation 1 species ID.</returns>
-        public static byte SetG1Species(int species) => species >= table1_Internal.Length ? (byte)0 : table1_Internal[species];
+        public static byte SetG1Species(int species) => (uint)species >= table1_Internal.Length ? 0 : table1_Internal[species];
 
         /// <summary>
         /// Converts a National Dex ID to Generation 3 species ID.
