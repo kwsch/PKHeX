@@ -103,11 +103,6 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
 
-        internal static readonly int[] FutureEvolutionsGen5 =
-        {
-            (int)Species.Sylveon,
-        };
-
         internal static readonly HashSet<int> UnreleasedItems_5 = new()
         {
             005, // Safari Ball

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public static partial class Legal
     {
@@ -54,31 +52,6 @@ namespace PKHeX.Core
             135, 138, 143, 156, 086, 149, 153, 157, 161, 164,
 
             015, 019, 057, 070, 148
-        };
-        
-        internal static readonly HashSet<int> FutureEvolutionsGen1 = new()
-        {
-            (int)Species.Crobat,
-            (int)Species.Bellossom,
-            (int)Species.Politoed,
-            (int)Species.Espeon,
-            (int)Species.Umbreon,
-            (int)Species.Slowking,
-            (int)Species.Steelix,
-            (int)Species.Scizor,
-            (int)Species.Kingdra,
-            (int)Species.Porygon2,
-            (int)Species.Blissey,
-            (int)Species.Magnezone,
-            (int)Species.Lickilicky,
-            (int)Species.Rhyperior,
-            (int)Species.Tangrowth,
-            (int)Species.Electivire,
-            (int)Species.Magmortar,
-            (int)Species.Leafeon,
-            (int)Species.Glaceon,
-            (int)Species.PorygonZ,
-            (int)Species.Sylveon,
         };
     }
 }

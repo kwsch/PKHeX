@@ -95,16 +95,6 @@ namespace PKHeX.Core
             _ => -1
         };
 
-        internal static ICollection<int> GetFutureGenEvolutions(int generation) => generation switch
-        {
-            1 => FutureEvolutionsGen1,
-            2 => FutureEvolutionsGen2,
-            3 => FutureEvolutionsGen3,
-            4 => FutureEvolutionsGen4,
-            5 => FutureEvolutionsGen5,
-            _ => Array.Empty<int>()
-        };
-
         internal static int GetDebutGeneration(int species) => species switch
         {
             <= MaxSpeciesID_1 => 1,

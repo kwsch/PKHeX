@@ -378,7 +378,7 @@ namespace PKHeX
             int species = pkm.Species;
             if (species <= MaxSpeciesID_1)
                 return true;
-            return FutureEvolutionsGen1.Contains(species);
+            return EvolutionLegality.FutureEvolutionsGen1.Contains(species);
         }
 
         /// <summary>

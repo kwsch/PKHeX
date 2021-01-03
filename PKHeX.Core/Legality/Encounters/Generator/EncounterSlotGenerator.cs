@@ -189,7 +189,7 @@ namespace PKHeX.Core
 
             // Format 2 without met location but pokemon could not be tradeback to gen 1,
             // encounter should be from gold or silver
-            if (pkm.Species > 151 && !FutureEvolutionsGen1.Contains(pkm.Species))
+            if (pkm.Species > MaxSpeciesID_1 && !EvolutionLegality.FutureEvolutionsGen1.Contains(pkm.Species))
                 return SlotsGS;
 
             // Encounter could be any gen 2 game, it can have empty met location for have a g/s origin

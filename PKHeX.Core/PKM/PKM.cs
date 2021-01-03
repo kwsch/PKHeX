@@ -598,7 +598,7 @@ namespace PKHeX.Core
                 return false;
 
             // Sanity Check Species ID
-            if (species > Legal.GetMaxSpeciesOrigin(generation) && !Legal.GetFutureGenEvolutions(generation).Contains(species))
+            if (species > Legal.GetMaxSpeciesOrigin(generation) && !EvolutionLegality.GetFutureGenEvolutions(generation).Contains(species))
                 return false;
 
             // Trade generation 1 -> 2

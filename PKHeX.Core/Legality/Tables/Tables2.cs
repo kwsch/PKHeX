@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -22,7 +21,7 @@ namespace PKHeX.Core
             7, 54, 55, 58, 59, 61, 66, 67, 68, 69, 71, 127, 128, 130, 133, 134, 175, 178
         };
 
-        internal static readonly ushort[] Pouch_Key_C = Pouch_Key_GS.Concat(new ushort[]{70, 115, 116, 129}).ToArray();
+        internal static readonly ushort[] Pouch_Key_C = ArrayUtil.ConcatAll(Pouch_Key_GS, new ushort[]{70, 115, 116, 129});
 
         internal static readonly ushort[] Pouch_TMHM_GSC = {
             191, 192, 193, 194, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249
@@ -53,28 +52,6 @@ namespace PKHeX.Core
         };
 
         internal static readonly int[] Tutors_GSC = {53, 85, 58}; // Flamethrower, Thunderbolt & Ice Beam
-
-        internal static readonly HashSet<int> FutureEvolutionsGen2 = new()
-        {
-            (int)Species.Ambipom,
-            (int)Species.Mismagius,
-            (int)Species.Honchkrow,
-            (int)Species.Weavile,
-            (int)Species.Magnezone,
-            (int)Species.Lickilicky,
-            (int)Species.Rhyperior,
-            (int)Species.Tangrowth,
-            (int)Species.Electivire,
-            (int)Species.Magmortar,
-            (int)Species.Togekiss,
-            (int)Species.Yanmega,
-            (int)Species.Leafeon,
-            (int)Species.Glaceon,
-            (int)Species.Gliscor,
-            (int)Species.Mamoswine,
-            (int)Species.PorygonZ,
-            (int)Species.Sylveon,
-        };
 
         internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i)).ToArray();
 
