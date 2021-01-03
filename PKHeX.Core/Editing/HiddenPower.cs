@@ -125,7 +125,7 @@ namespace PKHeX.Core
         private static IEnumerable<IEnumerable<T>> GetPermutations<T>(ICollection<T> list, int length)
         {
             // https://stackoverflow.com/a/10630026
-            if (length == 1)
+            if ((uint)length <= 1)
                 return list.Select(t => new[] { t });
 
             return GetPermutations(list, length - 1)
