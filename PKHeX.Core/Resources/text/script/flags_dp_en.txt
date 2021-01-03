@@ -30,3 +30,4 @@
 2401	Running Shoes disabled
 0251	Received Happiny Egg Gift
 0305	Received Eevee
+2430	Unlocked Bebe's PC
