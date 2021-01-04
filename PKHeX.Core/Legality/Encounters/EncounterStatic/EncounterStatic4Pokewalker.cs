@@ -8,14 +8,13 @@
     {
         public override int Generation => 4;
 
-        public EncounterStatic4Pokewalker(int species, int gender, int level)
+        public EncounterStatic4Pokewalker(int species, int gender, int level) : base(GameVersion.HGSS)
         {
             Species = species;
             Gender = gender;
             Level = level;
             Gift = true;
             Location = Locations.PokeWalker4;
-            Version = GameVersion.HGSS;
         }
 
         protected override bool IsMatchLocation(PKM pkm)

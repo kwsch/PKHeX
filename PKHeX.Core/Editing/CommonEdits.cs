@@ -232,7 +232,7 @@ namespace PKHeX.Core
             {
                 pk.SetAbility(Set.Ability);
                 pk.SetNature(Set.Nature);
-            }    
+            }
 
             pk.SetIsShiny(Set.Shiny);
             pk.SetRandomEC();

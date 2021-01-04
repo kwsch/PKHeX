@@ -9,7 +9,7 @@
         public readonly uint PID;
         public const bool NSparkle = true;
 
-        internal EncounterStatic5N(uint pid)
+        internal EncounterStatic5N(uint pid) : base(GameVersion.B2W2)
         {
             Shiny = Shiny.FixedValue;
             PID = pid;

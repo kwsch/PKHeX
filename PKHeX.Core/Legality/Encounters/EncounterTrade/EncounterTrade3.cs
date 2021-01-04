@@ -31,7 +31,7 @@ namespace PKHeX.Core
             }
         }
 
-        public EncounterTrade3(uint pid, int species, int level)
+        public EncounterTrade3(GameVersion game, uint pid, int species, int level) : base(game)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;

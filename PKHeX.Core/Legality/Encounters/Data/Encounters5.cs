@@ -1,4 +1,5 @@
 ﻿using static PKHeX.Core.EncounterUtil;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -7,10 +8,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class Encounters5
     {
-        internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"), GameVersion.B);
-        internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), GameVersion.W);
-        internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"), GameVersion.B2);
-        internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"), GameVersion.W2);
+        internal static readonly EncounterArea5[] SlotsB = EncounterArea5.GetAreas(Get("b", "51"), B);
+        internal static readonly EncounterArea5[] SlotsW = EncounterArea5.GetAreas(Get("w", "51"), W);
+        internal static readonly EncounterArea5[] SlotsB2 = EncounterArea5.GetAreas(Get("b2", "52"), B2);
+        internal static readonly EncounterArea5[] SlotsW2 = EncounterArea5.GetAreas(Get("w2", "52"), W2);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters5()
@@ -19,12 +20,6 @@ namespace PKHeX.Core
             MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
             foreach (var t in TradeGift_B2W2_YancyCurtis)
                 t.TrainerNames = t.OTGender == 0 ? TradeOT_B2W2_M : TradeOT_B2W2_F;
-
-            DreamWorld_Common.SetVersion(GameVersion.Gen5);
-            DreamWorld_BW.SetVersion(GameVersion.BW);
-            DreamWorld_B2W2.SetVersion(GameVersion.B2W2);
-            Encounter_BW.SetVersion(GameVersion.BW);
-            Encounter_B2W2.SetVersion(GameVersion.B2W2);
         }
 
         #region Dream Radar Tables
@@ -62,7 +57,7 @@ namespace PKHeX.Core
         #endregion
         #region DreamWorld Encounter
 
-        public static readonly EncounterStatic5[] DreamWorld_Common = DreamWorldEntry.GetArray(new DreamWorldEntry[]
+        public static readonly EncounterStatic5[] DreamWorld_Common = DreamWorldEntry.GetArray(Gen5, new DreamWorldEntry[]
         {
             // Pleasant Forest
             new(019, 10, 098, 382, 231), // Rattata
@@ -238,7 +233,7 @@ namespace PKHeX.Core
             new(376, 45, 038, Gender: 2), // Metagross
         });
 
-        public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(new DreamWorldEntry[]
+        public static readonly EncounterStatic5[] DreamWorld_BW = DreamWorldEntry.GetArray(BW, new DreamWorldEntry[]
         {
             // Pleasant Forest
             new(029, 10, 010, 389, 162), // Nidoran♀
@@ -339,7 +334,7 @@ namespace PKHeX.Core
             new(189, 27, 206, Gender: 0), // Jumpluff
         });
 
-        public static readonly EncounterStatic5[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(new DreamWorldEntry[]
+        public static readonly EncounterStatic5[] DreamWorld_B2W2 = DreamWorldEntry.GetArray(B2W2, new DreamWorldEntry[]
         {
             // Pleasant Forest
             new(535, 10, 496, 414, 352), // Tympole
@@ -408,122 +403,122 @@ namespace PKHeX.Core
         private static readonly EncounterStatic5[] Encounter_BW =
         {
             // Starters @ Nuvema Town
-            new() { Gift = true, Species = 495, Level = 5, Location = 004, }, // Snivy
-            new() { Gift = true, Species = 498, Level = 5, Location = 004, }, // Tepig
-            new() { Gift = true, Species = 501, Level = 5, Location = 004, }, // Oshawott
+            new(BW) { Gift = true, Species = 495, Level = 05, Location = 004 }, // Snivy
+            new(BW) { Gift = true, Species = 498, Level = 05, Location = 004 }, // Tepig
+            new(BW) { Gift = true, Species = 501, Level = 05, Location = 004 }, // Oshawott
 
             // Fossils @ Nacrene City
-            new() { Gift = true, Species = 138, Level = 25, Location = 007, }, // Omanyte
-            new() { Gift = true, Species = 140, Level = 25, Location = 007, }, // Kabuto
-            new() { Gift = true, Species = 142, Level = 25, Location = 007, }, // Aerodactyl
-            new() { Gift = true, Species = 345, Level = 25, Location = 007, }, // Lileep
-            new() { Gift = true, Species = 347, Level = 25, Location = 007, }, // Anorith
-            new() { Gift = true, Species = 408, Level = 25, Location = 007, }, // Cranidos
-            new() { Gift = true, Species = 410, Level = 25, Location = 007, }, // Shieldon
-            new() { Gift = true, Species = 564, Level = 25, Location = 007, }, // Tirtouga
-            new() { Gift = true, Species = 566, Level = 25, Location = 007, }, // Archen
+            new(BW) { Gift = true, Species = 138, Level = 25, Location = 007 }, // Omanyte
+            new(BW) { Gift = true, Species = 140, Level = 25, Location = 007 }, // Kabuto
+            new(BW) { Gift = true, Species = 142, Level = 25, Location = 007 }, // Aerodactyl
+            new(BW) { Gift = true, Species = 345, Level = 25, Location = 007 }, // Lileep
+            new(BW) { Gift = true, Species = 347, Level = 25, Location = 007 }, // Anorith
+            new(BW) { Gift = true, Species = 408, Level = 25, Location = 007 }, // Cranidos
+            new(BW) { Gift = true, Species = 410, Level = 25, Location = 007 }, // Shieldon
+            new(BW) { Gift = true, Species = 564, Level = 25, Location = 007 }, // Tirtouga
+            new(BW) { Gift = true, Species = 566, Level = 25, Location = 007 }, // Archen
 
             // Gift
-            new() { Gift = true, Species = 511, Level = 10, Location = 032, }, // Pansage @ Dreamyard
-            new() { Gift = true, Species = 513, Level = 10, Location = 032, }, // Pansear
-            new() { Gift = true, Species = 515, Level = 10, Location = 032, }, // Panpour
-            new() { Gift = true, Species = 129, Level = 05, Location = 068, }, // Magikarp @ Marvelous Bridge
-            new() { Gift = true, Species = 636, Level = 01, EggLocation = 60003, }, // Larvesta Egg from Treasure Hunter
+            new(BW) { Gift = true, Species = 511, Level = 10, Location = 032 }, // Pansage @ Dreamyard
+            new(BW) { Gift = true, Species = 513, Level = 10, Location = 032 }, // Pansear
+            new(BW) { Gift = true, Species = 515, Level = 10, Location = 032 }, // Panpour
+            new(BW) { Gift = true, Species = 129, Level = 05, Location = 068 }, // Magikarp @ Marvelous Bridge
+            new(BW) { Gift = true, Species = 636, Level = 01, EggLocation = 60003 }, // Larvesta Egg from Treasure Hunter
 
             // Stationary
-            new() { Species = 518, Level = 50, Location = 032, Ability = 4, }, // Musharna @ Dreamyard Friday Only
-            new() { Species = 590, Level = 20, Location = 019, }, // Foongus @ Route 6
-            new() { Species = 590, Level = 30, Location = 023, }, // Foongus @ Route 10
-            new() { Species = 591, Level = 40, Location = 023, }, // Amoonguss @ Route 10
-            new() { Species = 555, Level = 35, Location = 034, Ability = 4, }, // HA Darmanitan @ Desert Resort
-            new() { Species = 637, Level = 70, Location = 035, }, // Volcarona @ Relic Castle
+            new(BW) { Species = 518, Level = 50, Location = 032, Ability = 4 }, // Musharna @ Dreamyard Friday Only
+            new(BW) { Species = 590, Level = 20, Location = 019, }, // Foongus @ Route 6
+            new(BW) { Species = 590, Level = 30, Location = 023, }, // Foongus @ Route 10
+            new(BW) { Species = 591, Level = 40, Location = 023, }, // Amoonguss @ Route 10
+            new(BW) { Species = 555, Level = 35, Location = 034, Ability = 4 }, // HA Darmanitan @ Desert Resort
+            new(BW) { Species = 637, Level = 70, Location = 035, }, // Volcarona @ Relic Castle
 
             // Stationary Legendary
-            new() { Species = 638, Level = 42, Location = 074, }, // Cobalion @ Guidance Chamber
-            new() { Species = 639, Level = 42, Location = 073, }, // Terrakion @ Trial Chamber
-            new() { Species = 640, Level = 42, Location = 055, }, // Virizion @ Rumination Field
-            new() { Species = 643, Level = 50, Location = 045, Shiny = Shiny.Never, Version = GameVersion.B, }, // Reshiram @ N's Castle
-            new() { Species = 643, Level = 50, Location = 039, Shiny = Shiny.Never, Version = GameVersion.B, }, // Reshiram @ Dragonspiral Tower
-            new() { Species = 644, Level = 50, Location = 045, Shiny = Shiny.Never, Version = GameVersion.W, }, // Zekrom @ N's Castle
-            new() { Species = 644, Level = 50, Location = 039, Shiny = Shiny.Never, Version = GameVersion.W, }, // Zekrom @ Dragonspiral Tower
-            new() { Species = 645, Level = 70, Location = 070, }, // Landorus @ Abundant Shrine
-            new() { Species = 646, Level = 75, Location = 061, }, // Kyurem @ Giant Chasm
+            new(BW) { Species = 638, Level = 42, Location = 074, }, // Cobalion @ Guidance Chamber
+            new(BW) { Species = 639, Level = 42, Location = 073, }, // Terrakion @ Trial Chamber
+            new(BW) { Species = 640, Level = 42, Location = 055, }, // Virizion @ Rumination Field
+            new(B ) { Species = 643, Level = 50, Location = 045, Shiny = Shiny.Never }, // Reshiram @ N's Castle
+            new(B ) { Species = 643, Level = 50, Location = 039, Shiny = Shiny.Never }, // Reshiram @ Dragonspiral Tower
+            new( W) { Species = 644, Level = 50, Location = 045, Shiny = Shiny.Never }, // Zekrom @ N's Castle
+            new( W) { Species = 644, Level = 50, Location = 039, Shiny = Shiny.Never }, // Zekrom @ Dragonspiral Tower
+            new(BW) { Species = 645, Level = 70, Location = 070, }, // Landorus @ Abundant Shrine
+            new(BW) { Species = 646, Level = 75, Location = 061, }, // Kyurem @ Giant Chasm
 
             // Event
-            new() { Species = 494, Level = 15, Location = 062, Shiny = Shiny.Never}, // Victini @ Liberty Garden
-            new() { Species = 570, Level = 10, Location = 008, Shiny = Shiny.Never, Gender = 0, }, // Zorua @ Castelia City
-            new() { Species = 571, Level = 25, Location = 072, Shiny = Shiny.Never, Gender = 1, }, // Zoroark @ Lostlorn Forest
+            new(BW) { Species = 494, Level = 15, Location = 062, Shiny = Shiny.Never}, // Victini @ Liberty Garden
+            new(BW) { Species = 570, Level = 10, Location = 008, Shiny = Shiny.Never, Gender = 0, }, // Zorua @ Castelia City
+            new(BW) { Species = 571, Level = 25, Location = 072, Shiny = Shiny.Never, Gender = 1, }, // Zoroark @ Lostlorn Forest
 
             // Roamer
-            new() { Roaming = true, Species = 641, Level = 40, Version = GameVersion.B, Location = 25, }, // Tornadus
-            new() { Roaming = true, Species = 642, Level = 40, Version = GameVersion.W, Location = 25, }, // Thundurus
+            new(B ) { Roaming = true, Species = 641, Level = 40, Location = 25, }, // Tornadus
+            new( W) { Roaming = true, Species = 642, Level = 40, Location = 25, }, // Thundurus
         };
 
         private static readonly EncounterStatic5[] Encounter_B2W2_Regular =
         {
             // Starters @ Aspertia City
-            new() { Gift = true, Species = 495, Level = 5, Location = 117, }, // Snivy
-            new() { Gift = true, Species = 498, Level = 5, Location = 117, }, // Tepig
-            new() { Gift = true, Species = 501, Level = 5, Location = 117, }, // Oshawott
+            new(B2W2) { Gift = true, Species = 495, Level = 05, Location = 117 }, // Snivy
+            new(B2W2) { Gift = true, Species = 498, Level = 05, Location = 117 }, // Tepig
+            new(B2W2) { Gift = true, Species = 501, Level = 05, Location = 117 }, // Oshawott
 
             // Fossils @ Nacrene City
-            new() { Gift = true, Species = 138, Level = 25, Location = 007, }, // Omanyte
-            new() { Gift = true, Species = 140, Level = 25, Location = 007, }, // Kabuto
-            new() { Gift = true, Species = 142, Level = 25, Location = 007, }, // Aerodactyl
-            new() { Gift = true, Species = 345, Level = 25, Location = 007, }, // Lileep
-            new() { Gift = true, Species = 347, Level = 25, Location = 007, }, // Anorith
-            new() { Gift = true, Species = 408, Level = 25, Location = 007, }, // Cranidos
-            new() { Gift = true, Species = 410, Level = 25, Location = 007, }, // Shieldon
-            new() { Gift = true, Species = 564, Level = 25, Location = 007, }, // Tirtouga
-            new() { Gift = true, Species = 566, Level = 25, Location = 007, }, // Archen
+            new(B2W2) { Gift = true, Species = 138, Level = 25, Location = 007 }, // Omanyte
+            new(B2W2) { Gift = true, Species = 140, Level = 25, Location = 007 }, // Kabuto
+            new(B2W2) { Gift = true, Species = 142, Level = 25, Location = 007 }, // Aerodactyl
+            new(B2W2) { Gift = true, Species = 345, Level = 25, Location = 007 }, // Lileep
+            new(B2W2) { Gift = true, Species = 347, Level = 25, Location = 007 }, // Anorith
+            new(B2W2) { Gift = true, Species = 408, Level = 25, Location = 007 }, // Cranidos
+            new(B2W2) { Gift = true, Species = 410, Level = 25, Location = 007 }, // Shieldon
+            new(B2W2) { Gift = true, Species = 564, Level = 25, Location = 007 }, // Tirtouga
+            new(B2W2) { Gift = true, Species = 566, Level = 25, Location = 007 }, // Archen
 
             // Gift
-            new() { Gift = true, Species = 133, Level = 10, Ability = 4, Location = 008, }, // HA Eevee @ Castelia City
-            new() { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 019, Form = 0, }, // HA Deerling @ Route 6
-            new() { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 019, Form = 1, }, // HA Deerling @ Route 6
-            new() { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 019, Form = 2, }, // HA Deerling @ Route 6
-            new() { Gift = true, Species = 585, Level = 30, Ability = 4, Location = 019, Form = 3, }, // HA Deerling @ Route 6
-            new() { Gift = true, Species = 443, Level = 01, Shiny = Shiny.Always, Location = 122, Gender = 0, Version = GameVersion.B2, }, // Shiny Gible @ Floccesy Town
-            new() { Gift = true, Species = 147, Level = 01, Shiny = Shiny.Always, Location = 122, Gender = 0, Version = GameVersion.W2, }, // Shiny Dratini @ Floccesy Town
-            new() { Gift = true, Species = 129, Level = 05, Location = 068, }, // Magikarp @ Marvelous Bridge
-            new() { Gift = true, Species = 440, Level = 01, EggLocation = 60003, }, // Happiny Egg from PKMN Breeder
+            new(B2W2) { Gift = true, Species = 133, Level = 10, Location = 008, Ability = 4, }, // HA Eevee @ Castelia City
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 0, }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 1, }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 2, }, // HA Deerling @ Route 6
+            new(B2W2) { Gift = true, Species = 585, Level = 30, Location = 019, Ability = 4, Form = 3, }, // HA Deerling @ Route 6
+            new(B2  ) { Gift = true, Species = 443, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0, }, // Shiny Gible @ Floccesy Town
+            new(  W2) { Gift = true, Species = 147, Level = 01, Location = 122, Shiny = Shiny.Always, Gender = 0, }, // Shiny Dratini @ Floccesy Town
+            new(B2W2) { Gift = true, Species = 129, Level = 05, Location = 068,} , // Magikarp @ Marvelous Bridge
+            new(B2W2) { Gift = true, Species = 440, Level = 01, EggLocation = 60003 }, // Happiny Egg from PKMN Breeder
 
             // Stationary
-            new() { Species = 590, Level = 29, Location = 019, }, // Foongus @ Route 6
-            new() { Species = 591, Level = 43, Location = 024, }, // Amoonguss @ Route 11
-            new() { Species = 591, Level = 47, Location = 127, }, // Amoonguss @ Route 22
-            new() { Species = 591, Level = 56, Location = 128, }, // Amoonguss @ Route 23
-            new() { Species = 593, Level = 40, Location = 071, Ability = 4, Version = GameVersion.B2, Gender = 0, }, // HA Jellicent @ Undella Bay Mon Only
-            new() { Species = 593, Level = 40, Location = 071, Ability = 4, Version = GameVersion.W2, Gender = 1, }, // HA Jellicent @ Undella Bay Thurs Only
-            new() { Species = 593, Level = 40, Location = 071 }, // HA Jellicent @ Undella Bay EncounterSlot collision
-            new() { Species = 628, Level = 25, Location = 017, Ability = 4, Version = GameVersion.W2, Gender = 0, }, // HA Braviary @ Route 4 Mon Only
-            new() { Species = 630, Level = 25, Location = 017, Ability = 4, Version = GameVersion.B2, Gender = 1, }, // HA Mandibuzz @ Route 4 Thurs Only
-            new() { Species = 637, Level = 35, Location = 035, }, // Volcarona @ Relic Castle
-            new() { Species = 637, Level = 65, Location = 035, }, // Volcarona @ Relic Castle
-            new() { Species = 558, Level = 42, Location = 141, }, // Crustle @ Seaside Cave
-            new() { Species = 612, Level = 60, Location = 147, Shiny = Shiny.Always}, // Haxorus @ Nature Preserve
+            new(B2W2) { Species = 590, Level = 29, Location = 019, }, // Foongus @ Route 6
+            new(B2W2) { Species = 591, Level = 43, Location = 024, }, // Amoonguss @ Route 11
+            new(B2W2) { Species = 591, Level = 47, Location = 127, }, // Amoonguss @ Route 22
+            new(B2W2) { Species = 591, Level = 56, Location = 128, }, // Amoonguss @ Route 23
+            new(B2  ) { Species = 593, Level = 40, Location = 071, Ability = 4, Gender = 0, }, // HA Jellicent @ Undella Bay Mon Only
+            new(  W2) { Species = 593, Level = 40, Location = 071, Ability = 4, Gender = 1, }, // HA Jellicent @ Undella Bay Thurs Only
+            new(B2W2) { Species = 593, Level = 40, Location = 071, }, // HA Jellicent @ Undella Bay EncounterSlot collision
+            new(  W2) { Species = 628, Level = 25, Location = 017, Ability = 4, Gender = 0, }, // HA Braviary @ Route 4 Mon Only
+            new(B2  ) { Species = 630, Level = 25, Location = 017, Ability = 4, Gender = 1, }, // HA Mandibuzz @ Route 4 Thurs Only
+            new(B2W2) { Species = 637, Level = 35, Location = 035,  }, // Volcarona @ Relic Castle
+            new(B2W2) { Species = 637, Level = 65, Location = 035,  }, // Volcarona @ Relic Castle
+            new(B2W2) { Species = 558, Level = 42, Location = 141,  }, // Crustle @ Seaside Cave
+            new(B2W2) { Species = 612, Level = 60, Location = 147, Shiny = Shiny.Always}, // Haxorus @ Nature Preserve
 
             // Stationary Legendary
-            new() { Species = 377, Level = 65, Location = 150, }, // Regirock @ Rock Peak Chamber
-            new() { Species = 378, Level = 65, Location = 151, }, // Regice @ Iceberg Chamber
-            new() { Species = 379, Level = 65, Location = 152, }, // Registeel @ Iron Chamber
-            new() { Species = 380, Level = 68, Location = 032, Version = GameVersion.W2, }, // Latias @ Dreamyard
-            new() { Species = 381, Level = 68, Location = 032, Version = GameVersion.B2, }, // Latios @ Dreamyard
-            new() { Species = 480, Level = 65, Location = 007, }, // Uxie @ Nacrene City
-            new() { Species = 481, Level = 65, Location = 056, }, // Mesprit @ Celestial Tower
-            new() { Species = 482, Level = 65, Location = 128, }, // Azelf @ Route 23
-            new() { Species = 485, Level = 68, Location = 132, }, // Heatran @ Reversal Mountain
-            new() { Species = 486, Level = 68, Location = 038, }, // Regigigas @ Twist Mountain
-            new() { Species = 488, Level = 68, Location = 068, }, // Cresselia @ Marvelous Bridge
-            new() { Species = 638, Level = 45, Location = 026, }, // Cobalion @ Route 13
-            new() { Species = 638, Level = 65, Location = 026, }, // Cobalion @ Route 13
-            new() { Species = 639, Level = 45, Location = 127, }, // Terrakion @ Route 22
-            new() { Species = 639, Level = 65, Location = 127, }, // Terrakion @ Route 22
-            new() { Species = 640, Level = 45, Location = 024, }, // Virizion @ Route 11
-            new() { Species = 640, Level = 65, Location = 024, }, // Virizion @ Route 11
-            new() { Species = 643, Level = 70, Location = 039, Shiny = Shiny.Never, Version = GameVersion.W2, }, // Reshiram @ Dragonspiral Tower
-            new() { Species = 644, Level = 70, Location = 039, Shiny = Shiny.Never, Version = GameVersion.B2, }, // Zekrom @ Dragonspiral Tower
-            new() { Species = 646, Level = 70, Location = 061, Form = 0 }, // Kyurem @ Giant Chasm
+            new(B2W2) { Species = 377, Level = 65, Location = 150, }, // Regirock @ Rock Peak Chamber
+            new(B2W2) { Species = 378, Level = 65, Location = 151, }, // Regice @ Iceberg Chamber
+            new(B2W2) { Species = 379, Level = 65, Location = 152, }, // Registeel @ Iron Chamber
+            new(  W2) { Species = 380, Level = 68, Location = 032, }, // Latias @ Dreamyard
+            new(B2  ) { Species = 381, Level = 68, Location = 032, }, // Latios @ Dreamyard
+            new(B2W2) { Species = 480, Level = 65, Location = 007, }, // Uxie @ Nacrene City
+            new(B2W2) { Species = 481, Level = 65, Location = 056, }, // Mesprit @ Celestial Tower
+            new(B2W2) { Species = 482, Level = 65, Location = 128, }, // Azelf @ Route 23
+            new(B2W2) { Species = 485, Level = 68, Location = 132, }, // Heatran @ Reversal Mountain
+            new(B2W2) { Species = 486, Level = 68, Location = 038, }, // Regigigas @ Twist Mountain
+            new(B2W2) { Species = 488, Level = 68, Location = 068, }, // Cresselia @ Marvelous Bridge
+            new(B2W2) { Species = 638, Level = 45, Location = 026, }, // Cobalion @ Route 13
+            new(B2W2) { Species = 638, Level = 65, Location = 026, }, // Cobalion @ Route 13
+            new(B2W2) { Species = 639, Level = 45, Location = 127, }, // Terrakion @ Route 22
+            new(B2W2) { Species = 639, Level = 65, Location = 127, }, // Terrakion @ Route 22
+            new(B2W2) { Species = 640, Level = 45, Location = 024, }, // Virizion @ Route 11
+            new(B2W2) { Species = 640, Level = 65, Location = 024, }, // Virizion @ Route 11
+            new(  W2) { Species = 643, Level = 70, Location = 039, Shiny = Shiny.Never }, // Reshiram @ Dragonspiral Tower
+            new(B2  ) { Species = 644, Level = 70, Location = 039, Shiny = Shiny.Never }, // Zekrom @ Dragonspiral Tower
+            new(B2W2) { Species = 646, Level = 70, Location = 061, Form = 0 }, // Kyurem @ Giant Chasm
         };
 
         private static readonly EncounterStatic5N[] Encounter_B2W2_N =
@@ -553,74 +548,74 @@ namespace PKHeX.Core
 
         internal static readonly EncounterTrade5PID[] TradeGift_BW =
         {
-            new(0x64000000) { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest, Version = GameVersion.B, }, // Petilil
-            new(0x6400007E) { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest, Version = GameVersion.W, }, // Cottonee
-            new(0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.B, Form = 0, }, // Basculin-Red
-            new(0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.W, Form = 1, }, // Basculin-Blue
-            new(0xD400007F) { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax, Version = GameVersion.BW, }, // Emolga
-            new(0x2A000000) { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Gentle, Version = GameVersion.BW, }, // Rotom
-            new(0x6200001F) { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious, Version = GameVersion.BW, }, // Munchlax
+            new(B , 0x64000000) { Species = 548, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest,   }, // Petilil
+            new( W, 0x6400007E) { Species = 546, Level = 15, Ability = 1, TID = 39922, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest,   }, // Cottonee
+            new(B , 0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 0, }, // Basculin-Red
+            new( W, 0x9400007F) { Species = 550, Level = 25, Ability = 1, TID = 27646, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Form = 1, }, // Basculin-Blue
+            new(BW, 0xD400007F) { Species = 587, Level = 30, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,20,31,20,20,20}, Nature = Nature.Lax,      }, // Emolga
+            new(BW, 0x2A000000) { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Gentle,   }, // Rotom
+            new(BW, 0x6200001F) { Species = 446, Level = 60, Ability = 2, TID = 40217, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Serious,  }, // Munchlax
         };
 
         internal static readonly EncounterTrade5[] TradeGift_B2W2_Regular =
         {
-            new() { Species = 548, Level = 20, Ability = 2, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid, Version = GameVersion.B2, }, // Petilil
-            new() { Species = 546, Level = 20, Ability = 1, TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest, Version = GameVersion.W2, }, // Cottonee
-            new() { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, Version = GameVersion.B2W2, IsNicknamed = false }, // Gigalith
-            new() { Species = 465, Level = 45, Ability = 1, TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy, Version = GameVersion.B2W2, }, // Tangrowth
-            new() { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm, Version = GameVersion.B2W2, }, // Rotom
-            new() { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly, Version = GameVersion.B2W2, }, // Ambipom
-            new() { Species = 065, Level = 40, Ability = 1, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid, Version = GameVersion.B2W2, }, // Alakazam
+            new(B2  ) { Species = 548, Level = 20, Ability = 2, TID = 65217, SID = 00000, OTGender = 1, Gender = 1, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Timid,   }, // Petilil
+            new(  W2) { Species = 546, Level = 20, Ability = 1, TID = 05720, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {20,20,20,20,31,20}, Nature = Nature.Modest,  }, // Cottonee
+            new(B2W2) { Species = 526, Level = 35, Ability = 1, TID = 11195, SID = 00000, OTGender = 0, Gender = 0, IVs = new[] {20,31,20,20,20,20}, Nature = Nature.Adamant, IsNicknamed = false }, // Gigalith
+            new(B2W2) { Species = 465, Level = 45, Ability = 1, TID = 27658, SID = 00001, OTGender = 0, Gender = 0, IVs = new[] {31,20,20,20,20,20}, Nature = Nature.Hardy,   }, // Tangrowth
+            new(B2W2) { Species = 479, Level = 60, Ability = 1, TID = 54673, SID = 00000, OTGender = 1, Gender = 2, IVs = new[] {20,20,20,20,20,31}, Nature = Nature.Calm,    }, // Rotom
+            new(B2W2) { Species = 424, Level = 40, Ability = 2, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Jolly,   }, // Ambipom
+            new(B2W2) { Species = 065, Level = 40, Ability = 1, TID = 17074, SID = 00001, OTGender = 1, Gender = 0, IVs = new[] {20,20,20,31,20,20}, Nature = Nature.Timid,   }, // Alakazam
         };
 
         internal const int YancyTID = 10303;
         internal const int CurtisTID = 54118;
+        private static readonly string[] TradeOT_B2W2_F = { string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리" };
+        private static readonly string[] TradeOT_B2W2_M = { string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권" };
 
-        internal static readonly EncounterTrade5[] TradeGift_B2W2_YancyCurtis =
+        private static readonly EncounterTrade5[] TradeGift_B2W2_YancyCurtis =
         {
             // Player is Male
-            new() { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Meowth
-            new() { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Wobbuffet
-            new() { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Ralts
-            new() { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Shieldon
-            new() { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Rhyhorn
-            new() { Species = 422, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, Form = 0, }, // Shellos-West
-            new() { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Mawile
-            new() { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Spiritomb
-            new() { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Snorlax
-            new() { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Teddiursa
-            new() { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Spinda
-            new() { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, }, // Togepi
+            new(B2W2) { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Meowth
+            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Ralts
+            new(B2W2) { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Shieldon
+            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, Form = 0, }, // Shellos-West
+            new(B2W2) { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Mawile
+            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Snorlax
+            new(B2W2) { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Teddiursa
+            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Togepi
 
             // Player is Female
-            new() { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Mankey
-            new() { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Wobbuffet
-            new() { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Ralts
-            new() { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Cranidos
-            new() { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Rhyhorn
-            new() { Species = 422, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, Form = 1, }, // Shellos-East
-            new() { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Sableye
-            new() { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Spiritomb
-            new() { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Snorlax
-            new() { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Phanpy
-            new() { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Spinda
-            new() { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, }, // Togepi
+            new(B2W2) { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Mankey
+            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Ralts
+            new(B2W2) { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Cranidos
+            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, Form = 1, }, // Shellos-East
+            new(B2W2) { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Sableye
+            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Snorlax
+            new(B2W2) { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Phanpy
+            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Togepi
         };
 
         private const string tradeBW = "tradebw";
         private const string tradeB2W2 = "tradeb2w2";
         private static readonly string[][] TradeBW = Util.GetLanguageStrings8(tradeBW);
         private static readonly string[][] TradeB2W2 = Util.GetLanguageStrings8(tradeB2W2);
-        private static readonly string[] TradeOT_B2W2_F = {string.Empty, "ルリ", "Yancy", "Brenda", "Lilì", "Sabine", string.Empty, "Belinda", "루리"};
-        private static readonly string[] TradeOT_B2W2_M = {string.Empty, "テツ", "Curtis", "Julien", "Dadi", "Markus", string.Empty, "Julián", "철권"};
 
-        internal static readonly EncounterTrade[] TradeGift_B2W2 = ArrayUtil.ConcatAll(TradeGift_B2W2_Regular, TradeGift_B2W2_YancyCurtis);
+        internal static readonly EncounterTrade5[] TradeGift_B2W2 = ArrayUtil.ConcatAll(TradeGift_B2W2_Regular, TradeGift_B2W2_YancyCurtis);
 
         #endregion
 
-        internal static readonly EncounterStatic5[] StaticB = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, GameVersion.B), DreamWorld_Common, DreamWorld_BW);
-        internal static readonly EncounterStatic5[] StaticW = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, GameVersion.W), DreamWorld_Common, DreamWorld_BW);
-        internal static readonly EncounterStatic5[] StaticB2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, GameVersion.B2), DreamWorld_Common, DreamWorld_B2W2);
-        internal static readonly EncounterStatic5[] StaticW2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, GameVersion.W2), DreamWorld_Common, DreamWorld_B2W2);
+        internal static readonly EncounterStatic5[] StaticB = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, B), DreamWorld_Common, DreamWorld_BW);
+        internal static readonly EncounterStatic5[] StaticW = ArrayUtil.ConcatAll(GetEncounters(Encounter_BW, W), DreamWorld_Common, DreamWorld_BW);
+        internal static readonly EncounterStatic5[] StaticB2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, B2), DreamWorld_Common, DreamWorld_B2W2);
+        internal static readonly EncounterStatic5[] StaticW2 = ArrayUtil.ConcatAll(GetEncounters(Encounter_B2W2, W2), DreamWorld_Common, DreamWorld_B2W2);
     }
 }

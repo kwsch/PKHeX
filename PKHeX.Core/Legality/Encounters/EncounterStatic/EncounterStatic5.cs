@@ -11,6 +11,8 @@ namespace PKHeX.Core
         public sealed override int Generation => 5;
         public bool Roaming { get; init; }
 
+        public EncounterStatic5(GameVersion game) : base(game) { }
+
         public sealed override bool IsMatchDeferred(PKM pkm)
         {
             if (pkm.FatefulEncounter != Fateful)

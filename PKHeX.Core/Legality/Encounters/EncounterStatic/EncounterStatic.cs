@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation, IVersionSet
+    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -17,7 +17,7 @@ namespace PKHeX.Core
         public virtual int LevelMin => Level;
         public virtual int LevelMax => Level;
         public abstract int Generation { get; }
-        public GameVersion Version { get; set; } = GameVersion.Any;
+        public GameVersion Version { get; }
 
         public virtual int Location { get; init; }
         public int Ability { get; init; }
@@ -42,6 +42,8 @@ namespace PKHeX.Core
         private const string _name = "Static Encounter";
         public string Name => _name;
         public string LongName => Version == GameVersion.Any ? _name : $"{_name} ({Version})";
+
+        protected EncounterStatic(GameVersion game) => Version = game;
 
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 

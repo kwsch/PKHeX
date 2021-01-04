@@ -3,6 +3,10 @@
     public sealed record EncounterTrade5 : EncounterTrade
     {
         public override int Generation => 5;
+
+        public EncounterTrade5(GameVersion game) : base(game)
+        {
+        }
     }
 
     public sealed record EncounterTrade5PID : EncounterTrade
@@ -14,7 +18,7 @@
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade5PID(uint pid)
+        public EncounterTrade5PID(GameVersion game, uint pid) : base(game)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;

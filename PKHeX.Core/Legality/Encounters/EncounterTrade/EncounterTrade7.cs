@@ -11,6 +11,8 @@ namespace PKHeX.Core
         public int OT_Feeling { get => 5; set => throw new InvalidOperationException(); }
         public int OT_TextVar { get => 40; set => throw new InvalidOperationException(); }
 
+        public EncounterTrade7(GameVersion game) : base(game) { }
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);

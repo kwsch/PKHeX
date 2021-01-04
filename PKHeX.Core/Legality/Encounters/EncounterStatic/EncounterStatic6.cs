@@ -15,6 +15,8 @@
         public byte CNT_Tough  { get; init; }
         public byte CNT_Sheen  { get; init; }
 
+        public EncounterStatic6(GameVersion game) : base(game) { }
+
         protected override bool IsMatchLocation(PKM pkm)
         {
             if (base.IsMatchLocation(pkm))

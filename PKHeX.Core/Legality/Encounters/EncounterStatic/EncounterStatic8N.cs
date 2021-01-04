@@ -20,7 +20,7 @@ namespace PKHeX.Core
         public override int LevelMin => LevelCaps[MinRank * 2];
         public override int LevelMax => LevelCaps[(MaxRank * 2) + 1];
 
-        public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val)
+        public EncounterStatic8N(byte nestID, uint minRank, uint maxRank, byte val, GameVersion game) : base(game)
         {
             NestID = nestID;
             MinRank = minRank;

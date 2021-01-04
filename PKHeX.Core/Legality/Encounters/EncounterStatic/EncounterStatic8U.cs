@@ -10,14 +10,13 @@ namespace PKHeX.Core
     {
         public override int Location { get => MaxLair; init { } }
 
-        public EncounterStatic8U(int species, int form, int level)
+        public EncounterStatic8U(int species, int form, int level) : base(GameVersion.SWSH) // no difference in met location for hosted raids
         {
             Species = species;
             Form = form;
             Level = level;
             DynamaxLevel = 8;
             FlawlessIVCount = 4;
-            Version = GameVersion.SWSH; // no difference in met location for hosted raids
         }
 
         public override bool IsMatch(PKM pkm, DexLevel evo)

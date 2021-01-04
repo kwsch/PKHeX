@@ -7,5 +7,7 @@
     public sealed record EncounterStatic7b : EncounterStatic
     {
         public override int Generation => 7;
+
+        public EncounterStatic7b(GameVersion game) : base(game) { }
     }
 }

@@ -15,7 +15,7 @@ namespace PKHeX.Core
         public int OT_Feeling { get; set; }
         public int OT_Intensity { get; set; }
 
-        public EncounterTrade8(int species, int level, int m, int a, int f, int i)
+        public EncounterTrade8(GameVersion game, int species, int level, int m, int a, int f, int i) : base(game)
         {
             Species = species;
             Level = level;

@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <inheritdoc cref="EncounterStatic8Nest{T}"/>
     public sealed record EncounterStatic8ND : EncounterStatic8Nest<EncounterStatic8ND>
     {
-        public EncounterStatic8ND(byte lvl, byte dyna, byte flawless)
+        public EncounterStatic8ND(byte lvl, byte dyna, byte flawless, GameVersion game = GameVersion.SWSH) : base(game)
         {
             Level = lvl;
             DynamaxLevel = dyna;

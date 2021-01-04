@@ -18,6 +18,8 @@ namespace PKHeX.Core
         /// <summary> <see cref="PK4.EncounterType"/> values permitted for the encounter. </summary>
         public EncounterType TypeEncounter { get; init; } = None;
 
+        public EncounterStatic4(GameVersion game) : base(game) { }
+
         protected override bool IsMatchLocation(PKM pkm)
         {
             if (!Roaming)

@@ -13,5 +13,7 @@ namespace PKHeX.Core
         public override int Location { get => Locations[0]; init { } }
         public IReadOnlyList<int> Locations { get; init; } = Array.Empty<int>();
         protected override bool IsMatchLocation(PKM pkm) => Locations.Contains(pkm.Met_Location);
+
+        public EncounterStatic8S(GameVersion game) : base(game) { }
     }
 }

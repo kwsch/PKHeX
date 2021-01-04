@@ -19,6 +19,7 @@ namespace PKHeX.Core
         public int LevelMax => 100;
         public IReadOnlyList<int> Moves { get; init; } = Array.Empty<int>();
         public abstract int Generation { get; }
+        public GameVersion Version { get; }
 
         public int CurrentLevel { get; init; } = -1;
         public int Location { get; init; }
@@ -31,7 +32,6 @@ namespace PKHeX.Core
         public int TID { get; init; }
         public int SID { get; init; }
         public int OTGender { get; init; } = -1;
-        public GameVersion Version { get; init; }
 
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
         public int FlawlessIVCount { get; init; }
@@ -60,6 +60,8 @@ namespace PKHeX.Core
         public string GetOT(int language) => (uint)language < TrainerNames.Count ? TrainerNames[language] : string.Empty;
         public bool HasNickname => Nicknames.Count != 0 && IsNicknamed;
         public bool HasTrainerName => TrainerNames.Count != 0;
+
+        protected EncounterTrade(GameVersion game) => Version = game;
 
         private static int GetDefaultMetLocation(int generation) => generation switch
         {

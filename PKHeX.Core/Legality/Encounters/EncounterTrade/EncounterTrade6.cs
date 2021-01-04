@@ -8,7 +8,7 @@
         public int OT_Feeling { get; set; }
         public int OT_TextVar { get; set; }
 
-        public EncounterTrade6(int m, int i, int f, int v)
+        public EncounterTrade6(GameVersion game, int m, int i, int f, int v) : base(game)
         {
             OT_Memory = m;
             OT_Intensity = i;

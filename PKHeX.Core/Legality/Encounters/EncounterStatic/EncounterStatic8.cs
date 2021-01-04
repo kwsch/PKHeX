@@ -15,6 +15,8 @@ namespace PKHeX.Core
         public byte DynamaxLevel { get; set; }
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
+        public EncounterStatic8(GameVersion game) : base(game) { }
+
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             var met = pkm.Met_Level;

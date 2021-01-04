@@ -6,7 +6,7 @@
     /// <inheritdoc cref="EncounterStatic"/>
     public sealed record EncounterStatic5DR : EncounterStatic5
     {
-        public EncounterStatic5DR(int species, int form, int abilityIndex = 4)
+        public EncounterStatic5DR(int species, int form, int abilityIndex = 4) : base(GameVersion.B2W2)
         {
             Species = species;
             Form = form;

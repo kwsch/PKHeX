@@ -7,18 +7,12 @@
     public record EncounterStatic1 : EncounterStatic
     {
         public override int Generation => 1;
+        public sealed override int Level { get; init; }
 
-        public EncounterStatic1(int species, int level)
+        public EncounterStatic1(int species, int level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;
-        }
-
-        public EncounterStatic1(int species, int level, GameVersion ver)
-        {
-            Species = species;
-            Level = level;
-            Version = ver;
         }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)

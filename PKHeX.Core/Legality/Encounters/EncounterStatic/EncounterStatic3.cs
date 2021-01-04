@@ -12,11 +12,10 @@ namespace PKHeX.Core
         public override int Generation => 3;
         public bool Roaming { get; init; }
 
-        public EncounterStatic3(int species, int level, GameVersion game)
+        public EncounterStatic3(int species, int level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;
-            Version = game;
         }
 
         protected override bool IsMatchEggLocation(PKM pkm)

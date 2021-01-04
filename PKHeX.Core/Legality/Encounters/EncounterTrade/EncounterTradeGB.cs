@@ -2,7 +2,7 @@
 {
     public abstract record EncounterTradeGB : EncounterTrade
     {
-        protected EncounterTradeGB(int species, int level)
+        protected EncounterTradeGB(int species, int level, GameVersion game) : base(game)
         {
             Species = species;
             Level = level;

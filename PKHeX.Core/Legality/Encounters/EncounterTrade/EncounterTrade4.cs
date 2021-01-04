@@ -3,6 +3,12 @@
     public abstract record EncounterTrade4 : EncounterTrade
     {
         public sealed override int Generation => 4;
+
+        protected static readonly string[] RanchOTNames = { string.Empty, "ユカリ", "Hayley", "EULALIE", "GIULIA", "EUKALIA", string.Empty, "Eulalia" };
+
+        protected EncounterTrade4(GameVersion game) : base(game)
+        {
+        }
     }
 
     public sealed record EncounterTrade4PID : EncounterTrade4, IContestStats
@@ -12,7 +18,7 @@
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade4PID(uint pid, int species, int level)
+        public EncounterTrade4PID(GameVersion game, uint pid, int species, int level) : base(game)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;
@@ -97,13 +103,13 @@
         /// </summary>
         public readonly uint PID;
 
-        public EncounterTrade4RanchGift(uint pid, int species, int level)
+        public EncounterTrade4RanchGift(uint pid, int species, int level) : base(GameVersion.D)
         {
             PID = pid;
             Shiny = Shiny.FixedValue;
             Species = species;
             Level = level;
-            Version = GameVersion.D;
+            TrainerNames = RanchOTNames;
         }
 
         protected override bool IsMatchNatureGenderShiny(PKM pkm)
@@ -123,14 +129,14 @@
 
     public sealed record EncounterTrade4RanchSpecial : EncounterTrade4
     {
-        public EncounterTrade4RanchSpecial(int species, int level)
+        public EncounterTrade4RanchSpecial(int species, int level) : base(GameVersion.D)
         {
             Species = species;
             Level = level;
             Ball = 0x10;
-            Version = GameVersion.D;
             OTGender = 1;
             Location = 3000;
+            TrainerNames = RanchOTNames;
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

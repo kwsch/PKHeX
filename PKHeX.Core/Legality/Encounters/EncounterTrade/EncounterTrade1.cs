@@ -17,9 +17,8 @@ namespace PKHeX.Core
         private readonly int LevelMinRBY;
         private readonly int LevelMinGSC;
 
-        public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc)
+        public EncounterTrade1(int species, GameVersion game, int rby, int gsc) : base(species, gsc, game)
         {
-            Version = game;
             TrainerNames = StringConverter12.G1TradeOTName;
 
             LevelMinRBY = rby;

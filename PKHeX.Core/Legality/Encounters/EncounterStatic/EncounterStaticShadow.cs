@@ -29,8 +29,8 @@ namespace PKHeX.Core
 
         public static readonly IReadOnlyList<int> EReaderEmpty = new[] {0,0,0,0,0,0};
 
-        public EncounterStaticShadow(TeamLock[] locks) => Locks = locks;
-        public EncounterStaticShadow() : this(Array.Empty<TeamLock>()) { }
+        public EncounterStaticShadow(GameVersion game, TeamLock[] locks) : base(game) => Locks = locks;
+        public EncounterStaticShadow(GameVersion game) : this(game, Array.Empty<TeamLock>()) { }
 
         private static readonly int[] MirorBXDLocations =
         {
