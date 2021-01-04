@@ -1,15 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     public interface IVersion
     {
         GameVersion Version { get; }
-    }
-
-    internal interface IVersionSet
-    {
-        GameVersion Version { set; }
     }
 
     public static partial class Extensions
@@ -21,15 +14,6 @@ namespace PKHeX.Core
             if (ver.CanBeReceivedBy(prefer) || ver.Version <= GameVersion.Unknown)
                 return prefer;
             return ver.GetSingleVersion();
-        }
-
-        internal static void SetVersion<T>(this IEnumerable<T> arr, GameVersion game) where T : IVersion, IVersionSet
-        {
-            foreach (var z in arr)
-            {
-                if (((IVersion)z).Version <= 0)
-                    ((IVersionSet)z).Version = game;
-            }
         }
 
         private static GameVersion GetSingleVersion(this IVersion ver)

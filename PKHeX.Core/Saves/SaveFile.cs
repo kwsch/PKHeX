@@ -487,7 +487,7 @@ namespace PKHeX.Core
 
         #region Pokédex
         public int PokeDex { get; protected set; } = int.MinValue;
-        public virtual bool HasPokeDex => PokeDex > -1;
+        public bool HasPokeDex => PokeDex > -1;
         public virtual bool GetSeen(int species) => false;
         public virtual void SetSeen(int species, bool seen) { }
         public virtual bool GetCaught(int species) => false;

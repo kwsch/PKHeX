@@ -285,12 +285,9 @@ namespace PKHeX.Core
             if (pkm.Species == (int)Species.Shedinja && info.Generation <= 4)
                 ParseShedinjaEvolveMoves(pkm, res, source.CurrentMoves, info.EvoChainsAllGens);
 
+            // ReSharper disable once ConstantNullCoalescingCondition
             for (int m = 0; m < 4; m++)
-            {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-                if (res[m] == null)
-                    res[m] = new CheckMoveResult(Unknown, info.Generation, Invalid, LMoveSourceInvalid, Move);
-            }
+                res[m] ??= new CheckMoveResult(Unknown, info.Generation, Invalid, LMoveSourceInvalid, Move);
             return res;
         }
 

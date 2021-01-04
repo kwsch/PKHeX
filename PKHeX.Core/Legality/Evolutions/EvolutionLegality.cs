@@ -18,6 +18,7 @@ namespace PKHeX.Core
             (int)Species.Kingdra,
             (int)Species.Porygon2,
             (int)Species.Blissey,
+
             (int)Species.Magnezone,
             (int)Species.Lickilicky,
             (int)Species.Rhyperior,
