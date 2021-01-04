@@ -67,9 +67,22 @@ namespace PKHeX.Core
         {
             // Star, not square. Requires transferring a shiny and having the initially random PID to already be a Star shiny.
             // (15:65536, ~1:4096) odds on a given shiny transfer!
-            var xor = data.pkm.ShinyXor;
-            if (xor is <= 15 and not 0)
-                data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
+            var pkm = data.pkm;
+            var xor = pkm.ShinyXor;
+            if (xor <= 15) // Shiny!
+            {
+                if (xor != 0)
+                    data.AddLine(Get(LEncStaticPIDShiny, ParseSettings.Gen7TransferStarPID, CheckIdentifier.PID));
+
+                // 12.5% Female Species cannot be shiny as Female due to IV-Shiny & IV-Gender calculation limits.
+                if (pkm.Gender == 1) // female
+                {
+                    var species = data.Info.EncounterMatch.Species;
+                    var pi = PersonalTable.GS[species];
+                    if (pi.Gender == 0x1F) // 12.5 Female
+                        data.AddLine(GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID));
+                }
+            }
         }
 
         private static void VerifyVCGeolocation(LegalityAnalysis data)
