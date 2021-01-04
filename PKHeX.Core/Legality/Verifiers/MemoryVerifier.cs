@@ -94,7 +94,7 @@ namespace PKHeX.Core
             if (pkm.HasMove(move))
                 return true;
 
-            if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]))
+            if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
                 return true;
 
             var enc = info.EncounterMatch;

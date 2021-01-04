@@ -132,7 +132,7 @@ namespace PKHeX.Core
             return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
         }
 
-        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
+        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos, GameVersion version = GameVersion.Any)
         {
             if (pkm.Species == (int)Species.Smeargle)
                 return !InvalidSketch.Contains(move);
@@ -140,7 +140,15 @@ namespace PKHeX.Core
             if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
                 return true;
 
-            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.All).Contains(move);
+            if (evos.Count <= generation)
+                return false;
+            for (int i = 1; i <= generation; i++)
+            {
+                var moves = MoveList.GetValidMoves(pkm, version, evos[i], i, types: MoveSourceType.All);
+                if (moves.Contains(move))
+                    return true;
+            }
+            return false;
         }
 
         internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
