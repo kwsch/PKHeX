@@ -117,7 +117,7 @@ namespace PKHeX
                     previousspecies = 33;
                     return;
 
-                case (int)Species.Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(moves[m])):
+                case (int)Species.Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(m)):
                     // Exeggutor learns Stomp at level 28
                     // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
                     incompatible_current = new[] { 23 };
