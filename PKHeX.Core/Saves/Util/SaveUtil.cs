@@ -635,7 +635,7 @@ namespace PKHeX.Core
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
         private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
         {
-            RD or BU or GN or YW or RBY => new SAV1(version: game),
+            RD or BU or GN or YW or RBY => new SAV1(version: game, japanese: language == LanguageID.Japanese || game == GameVersion.BU),
             StadiumJ => new SAV1StadiumJ(),
             Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
