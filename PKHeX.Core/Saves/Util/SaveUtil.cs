@@ -512,8 +512,8 @@ namespace PKHeX.Core
             return type switch
             {
                 // Main Games
-                RBY => new SAV1(data),
-                GS or C => new SAV2(data),
+                RBY => new SAV1(data, type),
+                GS or C => new SAV2(data, type),
                 RS or E or FRLG => new SAV3(data, type),
 
                 DP => new SAV4DP(data),
