@@ -603,28 +603,30 @@ namespace PKHeX.Core
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
         public static SaveFile GetBlankSAV(GameVersion game, string trainerName, LanguageID language = LanguageID.English)
         {
-            var SAV = GetBlankSAV(game, language);
-            SAV.Game = (int)game;
-            SAV.OT = trainerName;
+            var sav = GetBlankSAV(game, language);
+            sav.Game = (int)game;
+            sav.OT = trainerName;
+            if (sav.Generation >= 4)
+                sav.Language = (int)language;
 
             // Secondary Properties may not be used but can be filled in as template.
-            if (SAV.Generation >= 7)
+            if (sav.Generation >= 7)
             {
-                SAV.TrainerID7 = 123456;
-                SAV.TrainerSID7 = 1234;
+                sav.TrainerID7 = 123456;
+                sav.TrainerSID7 = 1234;
             }
             else
             {
-                SAV.TID = 12345;
-                SAV.SID = 54321;
+                sav.TID = 12345;
+                sav.SID = 54321;
             }
-            SAV.Language = (int)language;
+            sav.Language = (int)language;
 
             // Only set geolocation data for 3DS titles
-            if (SAV is IRegionOrigin o)
+            if (sav is IRegionOrigin o)
                 o.SetDefaultRegionOrigins();
 
-            return SAV;
+            return sav;
         }
 
         /// <summary>
