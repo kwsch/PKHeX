@@ -89,9 +89,9 @@ namespace PKHeX.Core
             }
         }
 
-        public int IV1 => BitConverter.ToInt32(Data, 0x50);
-        public int IV2 => BitConverter.ToInt32(Data, 0x54);
-        public int IV3 => BitConverter.ToInt32(Data, 0x58);
+        public int IV_HP => BitConverter.ToInt32(Data, 0x50);
+        public int IV_ATK => BitConverter.ToInt32(Data, 0x54);
+        public int IV_DEF => BitConverter.ToInt32(Data, 0x58);
         public int Date => BitConverter.ToInt32(Data, 0x5C); // ####.##.## YYYY.MM.DD
         public int Year => Date / 1_00_00;
         public int Month => (Date / 1_00) % 1_00;
@@ -123,12 +123,12 @@ namespace PKHeX.Core
             {
                 string form = Form > 0 ? $"-{Form:00}" : string.Empty;
                 string star = IsShiny ? " ★" : string.Empty;
-                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV1:00}.{IV2:00}.{IV3:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+                return $"{Species:000}{form}{star} - {NickStr} - Lv. {Level:00} - {IV_HP:00}.{IV_ATK:00}.{IV_DEF:00} - CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
             }
         }
 
         public string GeoTime => $"Captured in {GeoCityName} by {Username1} on {Year}/{Month:00}/{Day:00}";
-        public string StatMove => $"{IV1:00}/{IV2:00}/{IV3:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
+        public string StatMove => $"{IV_HP:00}/{IV_ATK:00}/{IV_DEF:00}, CP {CP:0000} (Moves {Move1:000}, {Move2:000})";
         public string Dump(IReadOnlyList<string> speciesNames, int index) => $"{index:000} {Nickname} ({speciesNames[Species]}{FormString} {ShinyString}[{GenderString}]) @ Lv. {Level:00} - {StatMove}, {GeoTime}.";
 
         public PB7 ConvertToPB7(ITrainerInfo sav) => ConvertToPB7(sav, EncounterCriteria.Unrestricted);
@@ -165,9 +165,9 @@ namespace PKHeX.Core
                 pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, 7);
             }
 
-            pk.IV_DEF = pk.IV_SPD = (IV3 * 2) + 1;
-            pk.IV_ATK = pk.IV_SPA = (IV2 * 2) + 1;
-            pk.IV_HP = (IV1 * 2) + 1;
+            pk.IV_DEF = pk.IV_SPD = (IV_DEF * 2) + 1;
+            pk.IV_ATK = pk.IV_SPA = (IV_ATK * 2) + 1;
+            pk.IV_HP = (IV_HP * 2) + 1;
             pk.IV_SPE = Util.Rand.Next(32);
 
             var pi = pk.PersonalInfo;
