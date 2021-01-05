@@ -103,8 +103,11 @@ namespace PKHeX.Core
             return pkm.IV_HP >> 1 >= min; // HP
         }
 
-        public static bool GetIVsValid(PKM pkm)
+        public bool GetIVsValid(PKM pkm)
         {
+            if (!GetIVsAboveMinimum(pkm))
+                return false;
+
             // HP * 2 | 1 -> HP
             // ATK * 2 | 1 -> ATK&SPA
             // DEF * 2 | 1 -> DEF&SPD
