@@ -109,7 +109,7 @@ namespace PKHeX.Core
 
         private void VerifyIVsGoTransfer(LegalityAnalysis data)
         {
-            if (data.EncounterMatch is EncounterSlotGO && EncounterSlotGO.GetIVsValid(data.pkm))
+            if (data.EncounterMatch is EncounterSlotGO && !EncounterSlotGO.GetIVsValid(data.pkm))
                 data.AddLine(GetInvalid(LIVNotCorrect));
         }
     }
