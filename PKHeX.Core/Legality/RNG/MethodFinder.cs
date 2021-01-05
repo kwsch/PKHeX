@@ -286,7 +286,7 @@ namespace PKHeX.Core
         private static bool GetChannelMatch(uint top, uint bot, uint[] IVs, out PIDIV pidiv, PKM pk)
         {
             var ver = pk.Version;
-            if (ver is not (int) GameVersion.R and not (int) GameVersion.S)
+            if (ver is not ((int)GameVersion.R or (int)GameVersion.S))
                 return GetNonMatch(out pidiv);
 
             var undo = top ^ 0x8000;
@@ -512,7 +512,7 @@ namespace PKHeX.Core
         {
             // check for Azurill evolution edge case... 75% F-M is now 50% F-M; was this a F->M bend?
             int species = pk.Species;
-            if (species is not (int)Species.Marill and not (int)Species.Azumarill)
+            if (species is not ((int)Species.Marill or (int)Species.Azumarill))
                 return false;
 
             const int AzurillGenderRatio = 0xBF;
@@ -526,7 +526,7 @@ namespace PKHeX.Core
 
         private static bool GetColoStarterMatch(PKM pk, uint top, uint bot, uint[] IVs, out PIDIV pidiv)
         {
-            if (pk.Version != (int)GameVersion.CXD || pk.Species is not (int)Species.Espeon and not (int)Species.Umbreon)
+            if (pk.Version != (int)GameVersion.CXD || pk.Species is not ((int)Species.Espeon or (int)Species.Umbreon))
                 return GetNonMatch(out pidiv);
 
             var iv1 = GetIVChunk(IVs, 0);

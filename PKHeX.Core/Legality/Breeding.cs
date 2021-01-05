@@ -106,7 +106,7 @@ namespace PKHeX.Core
                 return false;
             if (species == (int)Pichu)
                 return false; // can't get Spiky Ear Pichu eggs
-            if (species == (int)Sinistea || species == (int)Polteageist) // Antique = impossible
+            if (species is (int)Sinistea or (int)Polteageist)
                 return false; // can't get Antique eggs
 
             return true;

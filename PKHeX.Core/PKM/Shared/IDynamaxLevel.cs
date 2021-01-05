@@ -18,13 +18,7 @@ namespace PKHeX.Core
 
         private static bool CanHaveDynamaxLevel(int species)
         {
-            if (species == (int)Zacian)
-                return false;
-            if (species == (int)Zamazenta)
-                return false;
-            if (species == (int)Eternatus)
-                return false;
-            return true;
+            return species is not ((int)Zacian or (int)Zamazenta or (int)Eternatus);
         }
     }
 }

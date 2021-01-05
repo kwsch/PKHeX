@@ -277,7 +277,7 @@ namespace PKHeX.Core
 
             var context = str.Except(FullToHalf);
             bool fullwidth = context.Select(c => c >> 12) // select the group the char belongs to
-                .Any(c => c is not 0 and not 0xE /* Latin, Special Symbols */);
+                .Any(c => c is not (0 or 0xE) /* Latin, Special Symbols */);
 
             if (fullwidth) // jp/ko/zh strings
                 return s; // keep as full width

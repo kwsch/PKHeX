@@ -270,13 +270,13 @@ namespace PKHeX.WinForms
             if (HaX)
                 return pouch.MaxCount;
 
-            // Cap at absolute maximum
-            if (sav.Generation <= 2)
-                return byte.MaxValue;
-            if (sav.Generation >= 7)
-                return pouch.MaxCount;
-            // if (SAV.Generation >= 3)
-            return ushort.MaxValue;
+            return sav.Generation switch
+            {
+                // Cap at absolute maximum
+                <= 2 => byte.MaxValue,
+                >= 7 => pouch.MaxCount,
+                _ => ushort.MaxValue
+            };
         }
 
         // Initialize String Tables

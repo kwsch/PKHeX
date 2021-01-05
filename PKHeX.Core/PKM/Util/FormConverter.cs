@@ -27,21 +27,17 @@ namespace PKHeX.Core
             if (generation == 7 && Legal.Totem_USUM.Contains(species))
                 return GetFormsTotem(species, types, forms);
 
-            if (species <= Legal.MaxSpeciesID_1)
-                return GetFormsGen1(species, types, forms, generation);
-            if (species <= Legal.MaxSpeciesID_2)
-                return GetFormsGen2(species, types, forms, generation);
-            if (species <= Legal.MaxSpeciesID_3)
-                return GetFormsGen3(species, types, forms, generation);
-            if (species <= Legal.MaxSpeciesID_4)
-                return GetFormsGen4(species, types, forms, generation);
-            if (species <= Legal.MaxSpeciesID_5)
-                return GetFormsGen5(species, types, forms, generation);
-            if (species <= Legal.MaxSpeciesID_6)
-                return GetFormsGen6(species, types, forms, genders);
-            if (species <= Legal.MaxSpeciesID_7_USUM)
-                return GetFormsGen7(species, types, forms);
-            return GetFormsGen8(species, types, forms, genders);
+            return species switch
+            {
+                <= Legal.MaxSpeciesID_1 => GetFormsGen1(species, types, forms, generation),
+                <= Legal.MaxSpeciesID_2 => GetFormsGen2(species, types, forms, generation),
+                <= Legal.MaxSpeciesID_3 => GetFormsGen3(species, types, forms, generation),
+                <= Legal.MaxSpeciesID_4 => GetFormsGen4(species, types, forms, generation),
+                <= Legal.MaxSpeciesID_5 => GetFormsGen5(species, types, forms, generation),
+                <= Legal.MaxSpeciesID_6 => GetFormsGen6(species, types, forms, genders),
+                <= Legal.MaxSpeciesID_7_USUM => GetFormsGen7(species, types, forms),
+                _ => GetFormsGen8(species, types, forms, genders)
+            };
         }
 
         // this is a hack; depends on currently loaded SaveFile's Game ID

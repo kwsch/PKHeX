@@ -24,7 +24,7 @@ namespace PKHeX.Core
         private static void VerifyCXDStarterCorrelation(LegalityAnalysis data)
         {
             var pidiv = data.Info.PIDIV;
-            if (pidiv.Type is not PIDType.CXD and not PIDType.CXDAnti)
+            if (pidiv.Type is not (PIDType.CXD or PIDType.CXDAnti))
                 return; // already flagged as invalid
 
             var pkm = data.pkm;

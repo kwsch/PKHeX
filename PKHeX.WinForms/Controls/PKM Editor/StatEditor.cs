@@ -315,16 +315,13 @@ namespace PKHeX.WinForms.Controls
             EVTip.SetToolTip(TB_EVTotal, $"Remaining: {510 - evtotal}");
         }
 
-        private Color GetEVTotalColor(int evtotal, Color defaultColor)
+        private Color GetEVTotalColor(int evtotal, Color defaultColor) => evtotal switch
         {
-            if (evtotal > 510) // Background turns Red
-                return EVsInvalid;
-            if (evtotal == 510) // Maximum EVs
-                return EVsMaxed;
-            if (evtotal == 508) // Fishy EVs
-                return EVsFishy;
-            return defaultColor;
-        }
+            > 510 => EVsInvalid, // Background turns Red
+            510 => EVsMaxed, // Maximum EVs
+            508 => EVsFishy, // Fishy EVs
+            _ => defaultColor
+        };
 
         public void UpdateStats()
         {

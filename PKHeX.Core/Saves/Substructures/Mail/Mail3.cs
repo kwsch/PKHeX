@@ -51,15 +51,12 @@ namespace PKHeX.Core
         public override int AppearPKM { get => BitConverter.ToUInt16(Data, 0x1E); set => BitConverter.GetBytes((ushort)(value == 0 ? 1 : value)).CopyTo(Data, 0x1E); }
         public override int MailType { get => BitConverter.ToUInt16(Data, 0x20); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x20); }
 
-        public override bool? IsEmpty
+        public override bool? IsEmpty => MailType switch
         {
-            get
-            {
-                if (MailType == 0) return true;
-                else if (MailType >= 0x79 && MailType <= 0x84) return false;
-                else return null;
-            }
-        }
+            0 => true,
+            >= 0x79 and <= 0x84 => false,
+            _ => null
+        };
 
         public override void SetBlank() => (new Mail3()).Data.CopyTo(Data, 0);
     }

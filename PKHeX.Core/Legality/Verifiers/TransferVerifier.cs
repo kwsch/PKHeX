@@ -122,11 +122,11 @@ namespace PKHeX.Core
             switch (pkm.Species)
             {
                 case (int)Species.Celebi:
-                    if (loc is not Locations.Transfer4_CelebiUnused and not Locations.Transfer4_CelebiUsed)
+                    if (loc is not (Locations.Transfer4_CelebiUnused or Locations.Transfer4_CelebiUsed))
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 case (int)Species.Raikou or (int)Species.Entei or (int)Species.Suicune:
-                    if (loc is not Locations.Transfer4_CrownUnused and not Locations.Transfer4_CrownUsed)
+                    if (loc is not (Locations.Transfer4_CrownUnused or Locations.Transfer4_CrownUsed))
                         data.AddLine(GetInvalid(LTransferMet));
                     break;
                 default:
@@ -214,7 +214,7 @@ namespace PKHeX.Core
             }
             else if (pkm.Species == (int)Species.Unown)
             {
-                if (pkm.Form is not 8 and not 21 && pkm.IsShiny) // impossibly form-shiny (not I or V)
+                if (pkm.Form is not (8 or 21) && pkm.IsShiny) // impossibly form-shiny (not I or V)
                     yield return GetInvalid(LEncStaticPIDShiny, CheckIdentifier.PID);
             }
         }

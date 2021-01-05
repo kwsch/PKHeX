@@ -24,14 +24,14 @@
 
         public int GetBoxWallpaper(int box)
         {
-            if ((uint)box > SAV.BoxCount)
+            if ((uint)box >= SAV.BoxCount)
                 return 0;
             return Data[GetBoxWallpaperOffset(box)];
         }
 
         public void SetBoxWallpaper(int box, int value)
         {
-            if ((uint)box > SAV.BoxCount)
+            if ((uint)box >= SAV.BoxCount)
                 return;
             Data[GetBoxWallpaperOffset(box)] = (byte)value;
         }

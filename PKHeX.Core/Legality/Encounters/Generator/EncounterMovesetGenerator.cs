@@ -179,10 +179,12 @@ namespace PKHeX.Core
                 // Leveling up Nincada in Gen3/4 levels up, evolves to Ninjask, applies moves for Ninjask, then spawns Shedinja with the current moveset.
                 // Future games spawn the Shedinja before doing Ninjask moves, so this is a special case.
                 // Can't get more than the evolved-at level move; >=2 special moves will get caught by the legality checker later.
-                if (generation == 3)
-                    return moves.Concat(Legal.LevelUpE[(int)Species.Ninjask].GetMoves(100, 20));
-                if (generation == 4)
-                    return moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20));
+                return generation switch
+                {
+                    3 => moves.Concat(Legal.LevelUpE [(int)Species.Ninjask].GetMoves(100, 20)),
+                    4 => moves.Concat(Legal.LevelUpPt[(int)Species.Ninjask].GetMoves(100, 20)),
+                    _ => moves
+                };
             }
             return moves;
         }

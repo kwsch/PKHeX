@@ -24,7 +24,7 @@ namespace PKHeX.Core
                     return false;
                 if (IVs.Count != 0 && !Legal.GetIsFixedIVSequenceValidNoRand(IVs, pkm))
                     return false;
-                if (pkm.Format == 2 && pkm.Met_Location is not 0 and not 126)
+                if (pkm.Format == 2 && pkm.Met_Location is not (0 or 126))
                     return false;
             }
 

@@ -383,12 +383,12 @@ namespace PKHeX.WinForms
 
         private void SetGenderLabel(int gender)
         {
-            if (gender == 0)
-                Label_Gender.Text = gendersymbols[0];    // Male
-            else if (gender == 1)
-                Label_Gender.Text = gendersymbols[1];    // Female
-            else
-                Label_Gender.Text = gendersymbols[2];    // Genderless
+            Label_Gender.Text = gender switch
+            {
+                0 => gendersymbols[0], // M
+                1 => gendersymbols[1], // F
+                _ => gendersymbols[2] // -
+            };
 
             Write_Entry(this, EventArgs.Empty);
         }

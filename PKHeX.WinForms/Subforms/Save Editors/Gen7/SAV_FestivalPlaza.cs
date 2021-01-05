@@ -195,15 +195,19 @@ namespace PKHeX.WinForms
 
         private int TypeIndexToType(int typeIndex)
         {
-            if ((uint)typeIndex > typeMAX + 1) return -1;
-            if (typeIndex < 0x0F) return 0;
-            if (typeIndex < 0x1E) return 1;
-            if (typeIndex < 0x2F) return 2;
-            if (typeIndex < 0x41) return 3;
-            if (typeIndex < 0x50) return 4;
-            if (typeIndex < 0x65) return 5;
-            if (typeIndex < 0x7D) return 6;
-            return 7;
+            if ((uint)typeIndex > typeMAX + 1)
+                return -1;
+            return typeIndex switch
+            {
+                < 0x0F => 0,
+                < 0x1E => 1,
+                < 0x2F => 2,
+                < 0x41 => 3,
+                < 0x50 => 4,
+                < 0x65 => 5,
+                < 0x7D => 6,
+                _ => 7
+            };
         }
 
         private int GetColorCount(int i) =>

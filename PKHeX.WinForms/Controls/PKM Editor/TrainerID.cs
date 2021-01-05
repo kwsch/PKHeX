@@ -102,14 +102,12 @@ namespace PKHeX.WinForms.Controls
             Format = format;
         }
 
-        private IEnumerable<Control> GetControlsForFormat(int format)
+        private IEnumerable<Control> GetControlsForFormat(int format) => format switch
         {
-            if (format >= 7)
-                return new Control[] { Label_SID, TB_SID7, Label_TID, TB_TID7 };
-            if (format >= 3)
-                return new Control[] { Label_TID, TB_TID, Label_SID, TB_SID };
-            return new Control[] { Label_TID, TB_TID };
-        }
+            >= 7 => new Control[] {Label_SID, TB_SID7, Label_TID, TB_TID7},
+            >= 3 => new Control[] {Label_TID, TB_TID,  Label_SID, TB_SID },
+               _ => new Control[] {Label_TID, TB_TID} // Gen1/2
+        };
 
         private void UpdateTSV(object sender, EventArgs e) => UpdateTSV();
 
