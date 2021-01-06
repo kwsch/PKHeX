@@ -64,8 +64,8 @@ namespace PKHeX.Core
         {
             // Random candy values! They can be zero so no impact on legality even though statistically rare.
             new(GG) { Species = 019, Form = 1, Level = 12, TrainerNames = T1, TID7 = 121106, OTGender = 1, IVs = new[] {31,31,-1,-1,-1,-1} }, // Rattata @ Cerulean City, AV rand [0-5)
-            new(GE) { Species = 027, Form = 1, Level = 27, TrainerNames = T2, TID7 = 703019, OTGender = 0, IVs = new[] {-1,31,31,-1,-1,-1} }, // Sandshrew @ Celadon City, AV rand [0-5)
-            new(GP) { Species = 037, Form = 1, Level = 27, TrainerNames = T2, TID7 = 703019, OTGender = 0, IVs = new[] {-1,-1,-1,31,31,-1} }, // Vulpix @ Celadon City, AV rand [0-5)
+            new(GP) { Species = 027, Form = 1, Level = 27, TrainerNames = T2, TID7 = 703019, OTGender = 0, IVs = new[] {-1,31,31,-1,-1,-1} }, // Sandshrew @ Celadon City, AV rand [0-5)
+            new(GE) { Species = 037, Form = 1, Level = 27, TrainerNames = T2, TID7 = 703019, OTGender = 0, IVs = new[] {-1,-1,-1,31,31,-1} }, // Vulpix @ Celadon City, AV rand [0-5)
             new(GG) { Species = 050, Form = 1, Level = 25, TrainerNames = T3, TID7 = 520159, OTGender = 1, IVs = new[] {-1,31,-1,31,-1,-1} }, // Diglett @ Lavender Town, AV rand [0-5)
             new(GE) { Species = 052, Form = 1, Level = 44, TrainerNames = T4, TID7 = 000219, OTGender = 0, IVs = new[] {31,-1,-1,31,-1,-1} }, // Meowth @ Cinnabar Island, AV rand [0-10)
             new(GP) { Species = 088, Form = 1, Level = 44, TrainerNames = T4, TID7 = 000219, OTGender = 0, IVs = new[] {31,31,-1,-1,-1,-1} }, // Grimer @ Cinnabar Island, AV rand [0-10)
