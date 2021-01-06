@@ -237,21 +237,22 @@ namespace PKHeX.Core
                 if (FirstBlock + BlockCount > NumBlocks)
                     continue;
 
-                if (SaveUtil.HEADER_COLO.Contains(GameCode))
+                var ver = SaveHandlerGCI.GetGameCode(GameCode);
+                if (ver == GameVersion.COLO)
                 {
                     if (HasCOLO) // another entry already exists
                         return GCMemoryCardState.DuplicateCOLO;
                     EntryCOLO = i;
                     SaveGameCount++;
                 }
-                if (SaveUtil.HEADER_XD.Contains(GameCode))
+                if (ver == GameVersion.XD)
                 {
                     if (HasXD) // another entry already exists
                         return GCMemoryCardState.DuplicateXD;
                     EntryXD = i;
                     SaveGameCount++;
                 }
-                if (SaveUtil.HEADER_RSBOX.Contains(GameCode))
+                if (ver == GameVersion.RSBOX)
                 {
                     if (HasRSBOX) // another entry already exists
                         return GCMemoryCardState.DuplicateRSBOX;

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-
 using static PKHeX.Core.MessageStrings;
 using static PKHeX.Core.GameVersion;
 
@@ -39,9 +37,6 @@ namespace PKHeX.Core
         public const int SIZE_G3BOX = 0x76000;
         public const int SIZE_G3COLO = 0x60000;
         public const int SIZE_G3XD = 0x56000;
-        public const int SIZE_G3BOXGCI = SIZE_G3BOX + 0x40; // GCI data
-        public const int SIZE_G3COLOGCI = SIZE_G3COLO + 0x40; // GCI data
-        public const int SIZE_G3XDGCI = SIZE_G3XD + 0x40; // GCI data
         public const int SIZE_G3RAW = 0x20000;
         public const int SIZE_G3RAWHALF = 0x10000;
         public const int SIZE_G2STAD = 0x20000; // same as G3RAW_U
@@ -64,6 +59,18 @@ namespace PKHeX.Core
         public const int SIZE_G4RANCH = 0x54000;
         public const int SIZE_G4RANCH_PLAT = 0x7C000;
 
+        private static readonly SaveHandlerGCI DolphinHandler = new();
+
+        /// <summary>
+        /// Pre-formatters for loading save files from non-standard formats (e.g. emulators).
+        /// </summary>
+        public static readonly ICollection<ISaveHandler> Handlers = new List<ISaveHandler>
+        {
+            DolphinHandler,
+            new SaveHandlerDeSmuME(),
+            new SaveHandlerARDS(),
+        };
+
         internal static readonly HashSet<int> SizesSWSH = new()
         {
             SIZE_G8SWSH, SIZE_G8SWSH_1, SIZE_G8SWSH_2, SIZE_G8SWSH_2B, SIZE_G8SWSH_3, SIZE_G8SWSH_3A, SIZE_G8SWSH_3B, SIZE_G8SWSH_3C,
@@ -81,17 +88,12 @@ namespace PKHeX.Core
             SIZE_G6XY, SIZE_G6ORAS, SIZE_G6ORASDEMO,
             SIZE_G5RAW, SIZE_G5BW, SIZE_G5B2W2,
             SIZE_G4BR, SIZE_G4RAW,
-            SIZE_G3BOX, SIZE_G3BOXGCI, SIZE_G3COLO, SIZE_G3COLOGCI, SIZE_G3XD, SIZE_G3XDGCI, SIZE_G3RAW, SIZE_G3RAWHALF,
+            SIZE_G3BOX, SIZE_G3COLO, SIZE_G3XD, SIZE_G3RAW, SIZE_G3RAWHALF,
             // SizesGen2 covers gen2 sizes since there's so many
             SIZE_G1RAW, SIZE_G1BAT,
 
             SIZE_G7BANK, SIZE_G4BANK, SIZE_G4RANCH, SIZE_G4RANCH_PLAT,
         };
-
-        private static readonly byte[] FOOTER_DSV = Encoding.ASCII.GetBytes("|-DESMUME SAVE-|");
-        internal static readonly string[] HEADER_COLO =   { "GC6J","GC6E","GC6P" }; // NTSC-J, NTSC-U, PAL
-        internal static readonly string[] HEADER_XD =     { "GXXJ","GXXE","GXXP" }; // NTSC-J, NTSC-U, PAL
-        internal static readonly string[] HEADER_RSBOX =  { "GPXJ","GPXE","GPXP" }; // NTSC-J, NTSC-U, PAL
 
         /// <summary>Determines the type of the provided save data.</summary>
         /// <param name="data">Save data of which to determine the origins of</param>
@@ -287,7 +289,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3BOXSAV(byte[] data)
         {
-            if (data.Length is not (SIZE_G3BOX or SIZE_G3BOXGCI))
+            if (data.Length is not SIZE_G3BOX)
                 return Invalid;
 
             byte[] sav = data;
@@ -312,7 +314,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3COLOSAV(byte[] data)
         {
-            if (data.Length is not (SIZE_G3COLO or SIZE_G3COLOGCI))
+            if (data.Length is not SIZE_G3COLO)
                 return Invalid;
 
             // Check the intro bytes for each save slot
@@ -331,7 +333,7 @@ namespace PKHeX.Core
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
         internal static GameVersion GetIsG3XDSAV(byte[] data)
         {
-            if (data.Length is not (SIZE_G3XD or SIZE_G3XDGCI))
+            if (data.Length is not SIZE_G3XD)
                 return Invalid;
 
             // Check the intro bytes for each save slot
@@ -497,14 +499,29 @@ namespace PKHeX.Core
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
         public static SaveFile? GetVariantSAV(byte[] data)
         {
-            // Pre-check for header/footer signatures
-            CheckHeaderFooter(ref data, out var header, out var footer);
             var sav = GetVariantSAVInternal(data);
-            if (sav == null)
-                return null;
+            if (sav != null)
+                return sav;
 
-            sav.Metadata.SetExtraInfo(header, footer);
-            return sav;
+            foreach (var h in Handlers)
+            {
+                if (!h.IsRecognized(data.Length))
+                    continue;
+
+                var split = h.TrySplit(data);
+                if (split == null)
+                    continue;
+
+                sav = GetVariantSAVInternal(split.Data);
+                if (sav == null)
+                    continue;
+
+                sav.Metadata.SetExtraInfo(split.Header, split.Footer);
+                return sav;
+            }
+
+            // unrecognized.
+            return null;
         }
 
         private static SaveFile? GetVariantSAVInternal(byte[] data)
@@ -559,7 +576,11 @@ namespace PKHeX.Core
             // Pre-check for header/footer signatures
             SaveFile sav;
             byte[] data = memCard.SelectedSaveData;
-            CheckHeaderFooter(ref data, out var header, out var footer);
+            var split = DolphinHandler.TrySplit(data);
+            if (split == null)
+                return null;
+
+            data = split.Data;
 
             switch (memCard.SelectedGameVersion)
             {
@@ -572,7 +593,7 @@ namespace PKHeX.Core
                 default: return null;
             }
 
-            sav.Metadata.SetExtraInfo(header, footer);
+            sav.Metadata.SetExtraInfo(split.Header, split.Footer);
             return sav;
         }
 
@@ -638,7 +659,7 @@ namespace PKHeX.Core
         /// <returns>Blank save file from the requested game, null if no game exists for that <see cref="GameVersion"/>.</returns>
         private static SaveFile GetBlankSAV(GameVersion game, LanguageID language) => game switch
         {
-            RD or BU or GN or YW or RBY => new SAV1(version: game, japanese: language == LanguageID.Japanese || game == GameVersion.BU),
+            RD or BU or GN or YW or RBY => new SAV1(version: game, japanese: language == LanguageID.Japanese || game == BU),
             StadiumJ => new SAV1StadiumJ(),
             Stadium => new SAV1Stadium(language == LanguageID.Japanese),
 
@@ -730,73 +751,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="size">Size in bytes of the save data</param>
         /// <returns>A boolean indicating whether or not the save data size is valid.</returns>
-        public static bool IsSizeValid(int size) => Sizes.Contains(size);
-
-        /// <summary>
-        /// Checks the provided <see cref="input"/> and pulls out any <see cref="header"/> and/or <see cref="footer"/> arrays.
-        /// </summary>
-        /// <param name="input">Input byte array to strip</param>
-        /// <param name="header">Header data</param>
-        /// <param name="footer">Footer data</param>
-        private static void CheckHeaderFooter(ref byte[] input, out byte[] header, out byte[] footer)
-        {
-            header = Array.Empty<byte>(); footer = Array.Empty<byte>();
-            if ((input.Length & 0xFF) == 0) // catch most non-header/footers
-                return;
-            if (input.Length > SIZE_G4RAW) // DeSmuME Gen4/5 DSV
-            {
-                if (input.Length == 0x800A4) // Action Replay
-                {
-                    header = input.Slice(0, 0xA4);
-                    input = input.SliceEnd(0xA4);
-                    return;
-                }
-
-                if (!GetHasFooterDSV(input))
-                    return;
-
-                footer = input.SliceEnd(SIZE_G4RAW);
-                input = input.Slice(0, SIZE_G4RAW);
-            }
-            else if (input.Length == SIZE_G3BOXGCI)
-            {
-                if (!IsGameMatchHeader(HEADER_RSBOX, input))
-                    return; // not gci
-                header = input.Slice(0, SIZE_G3BOXGCI - SIZE_G3BOX);
-                input = input.SliceEnd(header.Length);
-            }
-            else if (input.Length == SIZE_G3COLOGCI)
-            {
-                if (!IsGameMatchHeader(HEADER_COLO, input))
-                    return; // not gci
-                header = input.Slice(0, SIZE_G3COLOGCI - SIZE_G3COLO);
-                input = input.SliceEnd(header.Length);
-            }
-            else if (input.Length == SIZE_G3XDGCI)
-            {
-                if (!IsGameMatchHeader(HEADER_XD, input))
-                    return; // not gci
-                header = input.Slice(0, SIZE_G3XDGCI - SIZE_G3XD);
-                input = input.SliceEnd(header.Length);
-            }
-            static bool IsGameMatchHeader(IEnumerable<string> headers, byte[] data) => headers.Contains(Encoding.ASCII.GetString(data, 0, 4));
-        }
-
-        private static bool GetHasFooterDSV(byte[] input)
-        {
-            var signature = FOOTER_DSV;
-            return GetHasSignature(input, signature, input.Length - signature.Length);
-        }
-
-        private static bool GetHasSignature(byte[] input, byte[] signature, int start)
-        {
-            for (int i = 0; i < signature.Length; i++)
-            {
-                if (signature[i] != input[start + i])
-                    return false;
-            }
-            return true;
-        }
+        public static bool IsSizeValid(int size) => Sizes.Contains(size) || Handlers.Any(z => z.IsRecognized(size));
 
         /// <summary>
         /// Force loads the provided <see cref="sav"/> to the requested <see cref="ver"/>.
