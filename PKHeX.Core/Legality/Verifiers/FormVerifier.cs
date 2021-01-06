@@ -181,12 +181,12 @@ namespace PKHeX.Core
             // everything below here is not Form 0, so it has a form.
             if (format >= 7 && Info.Generation < 7)
             {
-                if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterMatch.Species))
+                if (species == 25 || Legal.AlolanOriginForms.Contains(species) || Legal.AlolanVariantEvolutions12.Contains(data.EncounterOriginal.Species))
                     return GetInvalid(LFormInvalidGame);
             }
             if (format >= 8 && Info.Generation < 8)
             {
-                var orig = data.EncounterMatch.Species;
+                var orig = data.EncounterOriginal.Species;
                 if (Legal.GalarOriginForms.Contains(species) || Legal.GalarVariantFormEvolutions.Contains(orig))
                 {
                     if (species == (int)Species.Meowth && data.EncounterMatch.Form != 2)
