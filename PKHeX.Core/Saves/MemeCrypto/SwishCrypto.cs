@@ -111,9 +111,12 @@ namespace PKHeX.Core
             return temp;
         }
 
+        private const int BlockDataRatioEstimate1 = 777; // bytes per block, on average (generous)
+        private const int BlockDataRatioEstimate2 = 555; // bytes per block, on average (stingy)
+
         private static IReadOnlyList<SCBlock> ReadBlocks(byte[] data)
         {
-            var result = new List<SCBlock>();
+            var result = new List<SCBlock>(data.Length / BlockDataRatioEstimate2);
             int offset = 0;
             while (offset < data.Length - SIZE_HASH)
             {
@@ -144,9 +147,9 @@ namespace PKHeX.Core
         /// Tries to encrypt the save data.
         /// </summary>
         /// <returns>Raw save data without the final xorpad layer.</returns>
-        public static byte[] GetDecryptedRawData(IEnumerable<SCBlock> blocks)
+        public static byte[] GetDecryptedRawData(IReadOnlyList<SCBlock> blocks)
         {
-            using var ms = new MemoryStream();
+            using var ms = new MemoryStream(blocks.Count * BlockDataRatioEstimate1);
             using var bw = new BinaryWriter(ms);
             foreach (var block in blocks)
                 block.WriteBlock(bw);
