@@ -1,35 +1,51 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Utility logic for dumping <see cref="SCBlock"/> lists for external analysis
+    /// </summary>
     public static class SCBlockUtil
     {
-        public static void ExportAllBlocksAsSingleFile(IReadOnlyList<SCBlock> blocks, string path, bool dataOnly = true, bool key = true, bool typeInfo = true, bool fakeHeader = true)
+        public static void ExportAllBlocksAsSingleFile(IReadOnlyList<SCBlock> blocks, string path, SCBlockExportOption option = SCBlockExportOption.All)
         {
+            var data = ExportAllBlocks(blocks, option);
+            File.WriteAllBytes(path, data);
+        }
+
+        public static byte[] ExportAllBlocks(IReadOnlyList<SCBlock> blocks, SCBlockExportOption option = SCBlockExportOption.None)
+        {
+            if (option == SCBlockExportOption.None)
+                return SwishCrypto.GetDecryptedRawData(blocks);
+
             using var stream = new MemoryStream();
             using var bw = new BinaryWriter(stream);
-
             for (var i = 0; i < blocks.Count; i++)
-            {
-                var b = blocks[i];
-                if (dataOnly && b.Data.Length == 0)
-                    continue;
+                ExportBlock(blocks[i], bw, i, option);
+            return stream.ToArray();
+        }
 
-                if (fakeHeader)
-                    bw.Write($"BLOCK{i:0000} {b.Key:X8}");
-                if (key)
-                    bw.Write(b.Key);
-                if (typeInfo)
-                {
-                    bw.Write((byte)b.Type);
-                    bw.Write((byte)b.SubType);
-                }
-                bw.Write(b.Data);
+        private static void ExportBlock(SCBlock block, BinaryWriter bw, int blockIndex, SCBlockExportOption option)
+        {
+            if (option.HasFlagFast(SCBlockExportOption.DataOnly) && block.Data.Length == 0)
+                return;
+
+            if (option.HasFlagFast(SCBlockExportOption.FakeHeader))
+                bw.Write($"BLOCK{blockIndex:0000} {block.Key:X8}");
+
+            if (option.HasFlagFast(SCBlockExportOption.Key))
+                bw.Write(block.Key);
+
+            if (option.HasFlagFast(SCBlockExportOption.TypeInfo))
+            {
+                bw.Write((byte) block.Type);
+                bw.Write((byte) block.SubType);
             }
-            var data = stream.ToArray(); // SwishCrypto.GetDecryptedRawData(blocks); for raw encrypted
-            File.WriteAllBytes(path, data);
+
+            bw.Write(block.Data);
         }
 
         public static string GetBlockFileNameWithoutExtension(SCBlock block)
@@ -94,6 +110,46 @@ namespace PKHeX.Core
             }
 
             return failed;
+        }
+    }
+
+    [Flags]
+    public enum SCBlockExportOption
+    {
+        None = 0,
+
+        /// <summary>
+        /// Will only export blocks with backing data.
+        /// </summary>
+        /// <remarks>Excludes Bool flags from the dump.</remarks>
+        DataOnly = 1,
+
+        /// <summary>
+        /// Includes the Block Key ahead of the data.
+        /// </summary>
+        Key = 2,
+
+        /// <summary>
+        /// Includes the Block Info ahead of the data.
+        /// </summary>
+        TypeInfo = 4,
+
+        /// <summary>
+        /// Includes a fake header indicating which block it is in ASCII.
+        /// </summary>
+        FakeHeader = 8,
+
+        /// <summary>
+        /// Standard export options.
+        /// </summary>
+        All = DataOnly | Key | TypeInfo | FakeHeader,
+    }
+
+    internal static class ScBlockExportOptionExtensions
+    {
+        public static bool HasFlagFast(this SCBlockExportOption value, SCBlockExportOption flag)
+        {
+            return (value & flag) != 0;
         }
     }
 }

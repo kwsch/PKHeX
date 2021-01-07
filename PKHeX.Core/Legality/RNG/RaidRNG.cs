@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for Generating and Verifying Gen8 Raid Templates against PKM data.
+    /// </summary>
     public static class RaidRNG
     {
         public static bool Verify<T>(this T raid, PK8 pk8, ulong seed) where T: EncounterStatic8Nest<T>
@@ -235,13 +238,12 @@ namespace PKHeX.Core
             pk.IV_SPD = ivs[4];
             pk.IV_SPE = ivs[5];
 
-            int abil;
-            if (ability_param == 254)
-                abil = (int)rng.NextInt(3);
-            else if (ability_param == 255)
-                abil = (int)rng.NextInt(2);
-            else
-                abil = ability_param;
+            int abil = ability_param switch
+            {
+                254 => (int)rng.NextInt(3),
+                255 => (int)rng.NextInt(2),
+                _ => ability_param
+            };
             pk.RefreshAbility(abil);
 
             pk.Gender = gender_ratio switch

@@ -16,6 +16,9 @@ namespace PKHeX.Core
         private readonly Dictionary<uint, string> ValueList;
         private readonly SCBlockAccessor Accessor;
 
+        /// <summary>
+        /// Creates a new instance of <see cref="SCBlockMetadata"/> by loading properties and constants declared via reflection.
+        /// </summary>
         public SCBlockMetadata(SCBlockAccessor accessor)
         {
             var aType = accessor.GetType();
@@ -26,6 +29,9 @@ namespace PKHeX.Core
             Accessor = accessor;
         }
 
+        /// <summary>
+        /// Returns a list of block details, ordered by their type and <see cref="GetSortKey"/>.
+        /// </summary>
         public IEnumerable<ComboItem> GetSortedBlockKeyList()
         {
             var list = Accessor.BlockInfo
@@ -35,12 +41,29 @@ namespace PKHeX.Core
             return list;
         }
 
+        /// <summary>
+        /// Loads names from an external file to the requested <see cref="names"/> list.
+        /// </summary>
+        /// <remarks>Tab separated text file expected.</remarks>
+        /// <param name="names">Currently loaded list of block names</param>
+        /// <param name="extra">Side-loaded list of block names to add to the <see cref="names"/> list.</param>
         public static void AddExtraKeyNames(IDictionary<uint, string> names, string extra = "SCBlocks.txt")
         {
             if (!File.Exists(extra))
                 return;
 
             var lines = File.ReadLines(extra);
+            AddExtraKeyNames(names, lines);
+        }
+
+        /// <summary>
+        /// Loads names from an external file to the requested <see cref="names"/> list.
+        /// </summary>
+        /// <remarks>Tab separated text file expected.</remarks>
+        /// <param name="names">Currently loaded list of block names</param>
+        /// <param name="lines">Tab separated key-value pair list of block names.</param>
+        public static void AddExtraKeyNames(IDictionary<uint, string> names, IEnumerable<string> lines)
+        {
             foreach (var line in lines)
             {
                 var split = line.IndexOf('\t');
@@ -51,8 +74,8 @@ namespace PKHeX.Core
                     continue;
 
                 var name = line.Substring(split + 1);
-                if (!names.ContainsKey((uint)value))
-                    names[(uint)value] = name;
+                if (!names.ContainsKey((uint) value))
+                    names[(uint) value] = name;
             }
         }
 
@@ -80,6 +103,12 @@ namespace PKHeX.Core
             return result;
         }
 
+        /// <summary>
+        /// Searches the <see cref="BlockList"/> to see if a named Save Block originate from the requested <see cref="block"/>. If no block exists, the logic will check for a named stored-value.
+        /// </summary>
+        /// <param name="block">Block requesting the name of</param>
+        /// <param name="saveBlock">Block that shares the same backing byte array; null if none.</param>
+        /// <returns>Name of the block indicating the purpose that it serves in-game.</returns>
         public string? GetBlockName(SCBlock block, out SaveBlock? saveBlock)
         {
             // See if we have a Block object for this block

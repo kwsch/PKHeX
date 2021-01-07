@@ -29,11 +29,11 @@ namespace PKHeX.WinForms
             CB_Key.InitializeBinding();
             CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
 
-            var boolToggle = new[]
+            ComboItem[] boolToggle =
             {
-                new ComboItem(nameof(SCTypeCode.Bool1), (int)SCTypeCode.Bool1),
-                new ComboItem(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
-                new ComboItem(nameof(SCTypeCode.Bool3), (int)SCTypeCode.Bool3),
+                new(nameof(SCTypeCode.Bool1), (int)SCTypeCode.Bool1),
+                new(nameof(SCTypeCode.Bool2), (int)SCTypeCode.Bool2),
+                new(nameof(SCTypeCode.Bool3), (int)SCTypeCode.Bool3),
             };
             CB_TypeToggle.InitializeBinding();
             CB_TypeToggle.DataSource = boolToggle;
@@ -150,8 +150,21 @@ namespace PKHeX.WinForms
             using var sfd = new SaveFileDialog { FileName = "raw.bin" };
             if (sfd.ShowDialog() != DialogResult.OK)
                 return;
+
+            var path = sfd.FileName;
+
             var blocks = SAV.Blocks.BlockInfo;
-            ExportAllBlocksAsSingleFile(blocks, sfd.FileName, CHK_DataOnly.Checked, CHK_Key.Checked, CHK_Type.Checked, CHK_FakeHeader.Checked);
+            var option = SCBlockExportOption.None;
+            if (CHK_DataOnly.Checked)
+                option |= SCBlockExportOption.DataOnly;
+            if (CHK_Key.Checked)
+                option |= SCBlockExportOption.Key;
+            if (CHK_Type.Checked)
+                option |= SCBlockExportOption.TypeInfo;
+            if (CHK_FakeHeader.Checked)
+                option |= SCBlockExportOption.FakeHeader;
+
+            ExportAllBlocksAsSingleFile(blocks, path, option);
         }
 
         private void B_LoadOld_Click(object sender, EventArgs e)

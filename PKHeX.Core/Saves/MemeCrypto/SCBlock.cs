@@ -115,8 +115,7 @@ namespace PKHeX.Core
                         arr[i] = (byte)(data[offset++] ^ xk.Next());
                     block.Data = arr;
 #if DEBUG
-                    if (block.SubType == SCTypeCode.Bool3)
-                        Debug.Assert(Array.TrueForAll(block.Data, z => z <= 1));
+                    Debug.Assert(block.SubType > SCTypeCode.Array || Array.TrueForAll(block.Data, z => z <= 1));
 #endif
                     break;
                 }
