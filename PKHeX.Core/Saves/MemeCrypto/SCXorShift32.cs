@@ -7,7 +7,7 @@
     /// </para>
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Unused")]
-    public struct SCXorShift32
+    public ref struct SCXorShift32
     {
         private int Counter;
         private uint Seed;
