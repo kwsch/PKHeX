@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 
@@ -53,8 +52,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Get the AES key for this MemeKey
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         private byte[] GetAesKey(byte[] data)
         {
             if (data.Length < 0x60)
@@ -73,8 +70,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Performs Aes Decryption
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         internal byte[] AesDecrypt(byte[] input)
         {
             var key = GetAesKey(input);
@@ -98,7 +93,7 @@ namespace PKHeX.Core
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
             Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
-            temp = temp.Xor(outdata.Take(0x10).ToArray());
+            temp = temp.Xor(outdata.Slice(0, 0x10));
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -136,8 +131,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Aes Encryption
         /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
         internal byte[] AesEncrypt(byte[] input)
         {
             var key = GetAesKey(input);
@@ -155,7 +148,7 @@ namespace PKHeX.Core
             }
 
             // In between - CMAC stuff
-            temp = temp.Xor(outdata.Take(0x10).ToArray());
+            temp = temp.Xor(outdata.Slice(0, 0x10));
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -186,8 +179,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Rsa Decryption
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         internal byte[] RsaPrivate(byte[] data)
         {
             var _M = new byte[data.Length + 1];
@@ -201,8 +192,6 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Rsa Encryption
         /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         internal byte[] RsaPublic(byte[] data)
         {
             var _M = new byte[data.Length + 1];
@@ -266,6 +255,7 @@ namespace PKHeX.Core
 
             return ms.ToArray();
         }
+
         // Helper Method to perform AES ECB Decryption
         private static byte[] AesEcbDecrypt(byte[] key, byte[] data)
         {
@@ -315,10 +305,37 @@ namespace PKHeX.Core
     {
         public static byte[] ToByteArray(this string toTransform)
         {
-            return Enumerable
-                .Range(0, toTransform.Length / 2)
-                .Select(i => Convert.ToByte(toTransform.Substring(i * 2, 2), 16))
-                .ToArray();
+            var result = new byte[toTransform.Length / 2];
+            for (int i = 0; i < result.Length; i++)
+            {
+                var ofs = i << 1;
+                var _0 = toTransform[ofs + 0];
+                var _1 = toTransform[ofs + 1];
+                result[i] = DecodeTuple(_0, _1);
+            }
+            return result;
+        }
+
+        private static bool IsNum(char c) => (uint)(c - '0') <= 9;
+        private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
+
+        private static byte DecodeTuple(char _0, char _1)
+        {
+            byte result;
+            if (IsNum(_0))
+                result = (byte)((_0 - '0') << 4);
+            else if (IsHexUpper(_0))
+                result = (byte)((_0 - 'A' + 10) << 4);
+            else
+                throw new ArgumentOutOfRangeException(nameof(_0));
+
+            if (IsNum(_1))
+                result |= (byte)(_1 - '0');
+            else if (IsHexUpper(_1))
+                result |= (byte)(_1 - 'A' + 10);
+            else
+                throw new ArgumentOutOfRangeException(nameof(_1));
+            return result;
         }
     }
 

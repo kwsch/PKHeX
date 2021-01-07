@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface for Accessing named blocks within a Generation 8 save file.
+    /// </summary>
     public interface ISaveBlock8Main
     {
         Box8 BoxInfo { get; }

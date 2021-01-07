@@ -11,13 +11,13 @@ namespace PKHeX.Core
     /// <inheritdoc cref="SAV6" />
     public sealed class SAV6AO : SAV6, ISaveBlock6AO
     {
-        public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.boAO)
+        public SAV6AO(byte[] data) : base(data, SaveBlockAccessor6AO.BlockMetadataOffset)
         {
             Blocks = new SaveBlockAccessor6AO(this);
             Initialize();
         }
 
-        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, SaveBlockAccessor6AO.boAO)
+        public SAV6AO() : base(SaveUtil.SIZE_G6ORAS, SaveBlockAccessor6AO.BlockMetadataOffset)
         {
             Blocks = new SaveBlockAccessor6AO(this);
             Initialize();

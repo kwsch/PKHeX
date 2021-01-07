@@ -2,11 +2,15 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV6XY"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor6XY : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6XY
     {
-        public const int boXY = SaveUtil.SIZE_G6XY - 0x200;
+        public const int BlockMetadataOffset = SaveUtil.SIZE_G6XY - 0x200;
+        private const int boXY = BlockMetadataOffset;
 
-        public static readonly BlockInfo6[] BlocksXY =
+        private static readonly BlockInfo6[] BlocksXY =
         {
             new(boXY, 00, 0x00000, 0x002C8), // 00 Puff
             new(boXY, 01, 0x00400, 0x00B88), // 01 MyItem

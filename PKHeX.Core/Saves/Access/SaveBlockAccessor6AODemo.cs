@@ -2,9 +2,13 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV6AODemo"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor6AODemo : ISaveBlockAccessor<BlockInfo6>, ISaveBlock6Core
     {
-        public const int boAOdemo = SaveUtil.SIZE_G6ORASDEMO - 0x200;
+        public const int BlockMetadataOffset = SaveUtil.SIZE_G6ORASDEMO - 0x200;
+        private const int boAOdemo = BlockMetadataOffset;
 
         private static readonly BlockInfo6[] BlocksAODemo =
         {

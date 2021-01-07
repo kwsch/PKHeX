@@ -48,7 +48,7 @@ namespace PKHeX.WinForms
 
         private readonly List<NumericUpDown> Bytes = new();
         public string FinalString;
-        public byte[] FinalBytes { get; private set; } = Array.Empty<byte>();
+        public byte[] FinalBytes;
         private readonly byte[] Raw;
         private bool editing;
         private void B_Cancel_Click(object sender, EventArgs e) => Close();

@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV7b"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor7b : ISaveBlockAccessor<BlockInfo7b>
     {
         private const int boGG = 0xB8800 - 0x200; // nowhere near 1MB (savedata.bin size)

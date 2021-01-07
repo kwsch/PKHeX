@@ -4,7 +4,7 @@ namespace PKHeX.Core
 {
     public sealed class SAV7USUM : SAV7, ISaveBlock7USUM
     {
-        public SAV7USUM(byte[] data) : base(data, boUU)
+        public SAV7USUM(byte[] data) : base(data, SaveBlockAccessor7USUM.BlockMetadataOffset)
         {
             Blocks = new SaveBlockAccessor7USUM(this);
             Initialize();

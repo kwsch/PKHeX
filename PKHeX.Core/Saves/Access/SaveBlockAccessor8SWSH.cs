@@ -5,6 +5,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV8SWSH"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor8SWSH : SCBlockAccessor, ISaveBlock8Main
     {
         public override IReadOnlyList<SCBlock> BlockInfo { get; }

@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface for Accessing named blocks within a Generation 5 save file.
+    /// </summary>
     public interface ISaveBlock5BW
     {
         MyItem Items { get; }

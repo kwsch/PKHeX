@@ -2,9 +2,13 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV7SM"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor7SM : ISaveBlockAccessor<BlockInfo7>, ISaveBlock7SM
     {
-        public const int boSM = SaveUtil.SIZE_G7SM - 0x200;
+        public const int BlockMetadataOffset = SaveUtil.SIZE_G7SM - 0x200;
+        private const int boSM = BlockMetadataOffset;
 
         private static readonly BlockInfo7[] BlockInfoSM =
         {

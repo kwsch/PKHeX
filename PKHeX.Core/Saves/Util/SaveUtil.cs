@@ -251,7 +251,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG3SAV(byte[] data)
+        private static GameVersion GetIsG3SAV(byte[] data)
         {
             if (data.Length is not (SIZE_G3RAW or SIZE_G3RAWHALF))
                 return Invalid;
@@ -287,7 +287,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 Box RS save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG3BOXSAV(byte[] data)
+        private static GameVersion GetIsG3BOXSAV(byte[] data)
         {
             if (data.Length is not SIZE_G3BOX)
                 return Invalid;
@@ -312,7 +312,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Colosseum save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG3COLOSAV(byte[] data)
+        private static GameVersion GetIsG3COLOSAV(byte[] data)
         {
             if (data.Length is not SIZE_G3COLO)
                 return Invalid;
@@ -331,7 +331,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen3 XD save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG3XDSAV(byte[] data)
+        private static GameVersion GetIsG3XDSAV(byte[] data)
         {
             if (data.Length is not SIZE_G3XD)
                 return Invalid;
@@ -350,7 +350,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen4 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG4SAV(byte[] data)
+        private static GameVersion GetIsG4SAV(byte[] data)
         {
             if (data.Length != SIZE_G4RAW)
                 return Invalid;
@@ -384,7 +384,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen4 Battle Revolution save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG4BRSAV(byte[] data)
+        private static GameVersion GetIsG4BRSAV(byte[] data)
         {
             if (data.Length != SIZE_G4BR)
                 return Invalid;
@@ -396,7 +396,7 @@ namespace PKHeX.Core
         /// <summary>Checks to see if the data belongs to a Gen5 save</summary>
         /// <param name="data">Save data of which to determine the type</param>
         /// <returns>Version Identifier or Invalid if type cannot be determined.</returns>
-        internal static GameVersion GetIsG5SAV(byte[] data)
+        private static GameVersion GetIsG5SAV(byte[] data)
         {
             if (data.Length != SIZE_G5RAW)
                 return Invalid;

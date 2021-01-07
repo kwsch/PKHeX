@@ -3,6 +3,16 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// MemeCrypto V1 - The Original Series
+    /// </summary>
+    /// <remarks>
+    /// A variant of <see cref="SaveFile"/> encryption and obfuscation, used in <see cref="GameVersion.Gen7"/>.
+    /// <br> The save file stores a dedicated block to contain a hash of the savedata, computed when the block is zeroed. </br>
+    /// <br> This signing logic is reused for other authentication; refer to <see cref="MemeKeyIndex"/>. </br>
+    /// <br> The save file first computes a SHA256 Hash over the block checksum region.
+    /// The logic then applies a SHA1 hash over the SHA256 hash result, encrypts it with a <see cref="MemeKey"/>, and signs it with an RSA private key in a non-straightforward manner. </br>
+    /// </remarks>
     public static class MemeCrypto
     {
         private const uint POKE = 0x454B4F50;
@@ -15,9 +25,13 @@ namespace PKHeX.Core
             var memeIndex = MemeKeyIndex.PokedexAndSaveFile;
             for (var i = input.Length - 8; i >= 0; i--)
             {
-                if (BitConverter.ToUInt32(input, i) != POKE) continue;
+                if (BitConverter.ToUInt32(input, i) != POKE)
+                    continue;
+
                 var keyIndex = BitConverter.ToInt32(input, i + 4);
-                if (!MemeKey.IsValidPokeKeyIndex(keyIndex)) continue;
+                if (!MemeKey.IsValidPokeKeyIndex(keyIndex))
+                    continue;
+
                 memeLen = i;
                 memeIndex = (MemeKeyIndex)keyIndex;
                 break;
@@ -57,24 +71,27 @@ namespace PKHeX.Core
             var key = new MemeKey(keyIndex);
             output = (byte[])input.Clone();
 
-            var sigBuffer = new byte[0x60];
-            Array.Copy(input, input.Length - 0x60, sigBuffer, 0, 0x60);
-            sigBuffer = key.RsaPublic(sigBuffer);
+            var sigBuffer = key.RsaPublic(input.SliceEnd(input.Length - 0x60));
             using var sha1 = SHA1.Create();
-            foreach (var orVal in new byte[] { 0, 0x80 })
-            {
-                sigBuffer[0x0] |= orVal;
-                sigBuffer.CopyTo(output, output.Length - 0x60);
-                key.AesDecrypt(output).CopyTo(output, 0);
-                // Check for 8-byte equality.
-                var computed = BitConverter.ToUInt64(sha1.ComputeHash(output, 0, output.Length - 0x8), 0);
-                var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
-                if (computed == existing)
-                    return true;
-            }
+            if (DecryptCompare(output, sigBuffer, key, sha1))
+                return true;
+            sigBuffer[0x0] |= 0x80;
+            if (DecryptCompare(output, sigBuffer, key, sha1))
+                return true;
 
             output = input;
             return false;
+        }
+
+        private static bool DecryptCompare(byte[] output, byte[] sigBuffer, MemeKey key, SHA1 sha1)
+        {
+            sigBuffer.CopyTo(output, output.Length - 0x60);
+            key.AesDecrypt(output).CopyTo(output, 0);
+            // Check for 8-byte equality.
+            var hash = sha1.ComputeHash(output, 0, output.Length - 0x8);
+            var computed = BitConverter.ToUInt64(hash, 0);
+            var existing = BitConverter.ToUInt64(output, output.Length - 0x8);
+            return computed == existing;
         }
 
         public static bool VerifyMemeData(byte[] input, out byte[] output, int offset, int length)
@@ -121,7 +138,8 @@ namespace PKHeX.Core
             // Copy in the SHA1 signature
             using (var sha1 = SHA1.Create())
             {
-                Array.Copy(sha1.ComputeHash(input, 0, input.Length - 8), 0, output, output.Length - 8, 8);
+                var hash = sha1.ComputeHash(input, 0, input.Length - 8);
+                Array.Copy(hash, 0, output, output.Length - 8, 8);
             }
 
             // Perform AES operations
@@ -153,11 +171,10 @@ namespace PKHeX.Core
 
             var result = (byte[])sav7.Clone();
 
-            using var sha256 = SHA256.Create();
             // Store current signature
-            var oldSig = new byte[MemeCryptoSignatureLength];
-            Buffer.BlockCopy(sav7, MemeCryptoOffset, oldSig, 0, MemeCryptoSignatureLength);
+            var oldSig = sav7.Slice(MemeCryptoOffset, MemeCryptoSignatureLength);
 
+            using var sha256 = SHA256.Create();
             var newSig = sha256.ComputeHash(sav7, ChecksumTableOffset, ChecksumSignatureLength);
             Array.Resize(ref newSig, MemeCryptoSignatureLength);
 

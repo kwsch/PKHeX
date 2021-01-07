@@ -2,9 +2,12 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Information for Accessing individual blocks within a <see cref="SAV5B2W2"/>.
+    /// </summary>
     public sealed class SaveBlockAccessor5B2W2 : ISaveBlockAccessor<BlockInfoNDS>, ISaveBlock5BW, ISaveBlock5B2W2
     {
-        public static readonly BlockInfoNDS[] BlocksB2W2 =
+        private static readonly BlockInfoNDS[] BlocksB2W2 =
         {
             new(0x00000, 0x03e0, 0x003E2, 0x25F00), // 00 Box Names
             new(0x00400, 0x0ff0, 0x013F2, 0x25F02), // 01 Box 1

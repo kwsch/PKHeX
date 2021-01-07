@@ -8,7 +8,10 @@ namespace PKHeX.Core
     /// MemeCrypto V2 - The Next Generation
     /// </summary>
     /// <remarks>
-    /// A new variant of <see cref="SaveFile"/> encryption and obfuscation, used in <see cref="GameVersion.SWSH"/>.
+    /// A variant of <see cref="SaveFile"/> encryption and obfuscation used in <see cref="GameVersion.SWSH"/>.
+    /// <br> Individual save blocks are stored in a hash map, with some object-type details prefixing the block's raw data. </br>
+    /// <br> Once the raw save file data is dumped, the binary is hashed with SHA256 using a static Intro salt and static Outro salt. </br>
+    /// <br> With the hash computed, the data is encrypted with a repeating irregular-sized static xor cipher. </br>
     /// </remarks>
     public static class SwishCrypto
     {
@@ -46,8 +49,9 @@ namespace PKHeX.Core
 
         private static void CryptStaticXorpadBytes(byte[] data)
         {
+            var xp = StaticXorpad;
             for (var i = 0; i < data.Length - SIZE_HASH; i++)
-                data[i] ^= StaticXorpad[i % StaticXorpad.Length];
+                data[i] ^= xp[i % xp.Length];
         }
 
         private static byte[] ComputeHash(byte[] data)
@@ -59,9 +63,7 @@ namespace PKHeX.Core
             stream.Write(OutroHashBytes, 0, OutroHashBytes.Length);
             stream.Seek(0, SeekOrigin.Begin);
             lock (_lock)
-            {
                 return sha256.ComputeHash(stream);
-            }
         }
 
         /// <summary>
