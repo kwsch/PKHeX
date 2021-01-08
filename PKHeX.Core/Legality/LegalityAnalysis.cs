@@ -404,7 +404,7 @@ namespace PKHeX.Core
             var loc = EncounterLocation;
             if (!string.IsNullOrEmpty(loc))
                 lines.Add(string.Format(L_F0_1, "Location", loc));
-            if (pkm.VC)
+            if (Info.Generation <= 2)
                 lines.Add(string.Format(L_F0_1, nameof(GameVersion), Info.Game));
 
             if (!Info.PIDParsed)

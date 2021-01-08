@@ -30,6 +30,7 @@
     <None Remove="Resources\byte\encounter_b.pkl" />
     <None Remove="Resources\byte\encounter_b2.pkl" />
     <None Remove="Resources\byte\encounter_blue.pkl" />
+    <None Remove="Resources\byte\encounter_blue_jp.pkl" />
     <None Remove="Resources\byte\encounter_crystal.pkl" />
     <None Remove="Resources\byte\encounter_d.pkl" />
     <None Remove="Resources\byte\encounter_e.pkl" />
@@ -880,6 +881,7 @@
     <EmbeddedResource Include="Resources\byte\encounter_b.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_b2.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_blue.pkl" />
+    <EmbeddedResource Include="Resources\byte\encounter_blue_jp.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_crystal.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_d.pkl" />
     <EmbeddedResource Include="Resources\byte\encounter_e.pkl" />

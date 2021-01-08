@@ -134,7 +134,7 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterArea> GetEncounterTable(PKM pkm, GameVersion game) => game switch
         {
-            RBY or RD or BU or GN or YW => SlotsRBY,
+            RBY or RD or BU or GN or YW => pkm.Japanese ? SlotsRGBY : SlotsRBY,
 
             GSC or GD or SV or C => GetEncounterTableGSC(pkm),
 
