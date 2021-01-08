@@ -633,7 +633,7 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 760, Ability = A4, Moves = new[]{ 663, 038, 276, 009 } }, // Bewear
             new(60,10,5) { Species = 573, Ability = A4, Moves = new[]{ 402, 231, 350, 304 } }, // Cinccino
 
-            // 1/8 - Forest Returns (no changes besides shiny Greedent replacing regular R5 Amoongus)
+            // 1/8 - Forest Returns (no changes besides shiny Greedent replacing regular R5 Amoonguss)
             new(60,10,5) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 089 }, Shiny = Shiny.Always }, // Greedent
         };
 
