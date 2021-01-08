@@ -74,7 +74,7 @@ namespace PKHeX.Core
                     keys[i] = BigEndian.ToUInt16(slot, 8 + (i * 2));
 
                 // Decrypt Slot
-                Data = GCSaveUtil.Decrypt(slot, 0x00010, 0x27FD8, keys);
+                Data = GeniusCrypto.Decrypt(slot, 0x00010, 0x27FD8, keys);
             }
 
             // Get Offset Info
@@ -140,7 +140,7 @@ namespace PKHeX.Core
             ushort[] keys = new ushort[4];
             for (int i = 0; i < keys.Length; i++)
                 keys[i] = BigEndian.ToUInt16(Data, 8 + (i * 2));
-            byte[] newSAV = GCSaveUtil.Encrypt(Data, 0x10, 0x27FD8, keys);
+            byte[] newSAV = GeniusCrypto.Encrypt(Data, 0x10, 0x27FD8, keys);
 
             // Put save slot back in original save data
             byte[] newFile = MC != null ? MC.SelectedSaveData : (byte[]) State.BAK.Clone();

@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Different Key Types used for <see cref="MemeCrypto"/>
+    /// </summary>
     public enum MemeKeyIndex
     {
         LocalWireless = -1,

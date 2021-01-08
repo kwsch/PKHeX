@@ -235,7 +235,7 @@ namespace PKHeX.Core
             {
                 var keys = GetKeys(input, i);
                 Array.Copy(input, i, output, i, 8);
-                GCSaveUtil.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
+                GeniusCrypto.Decrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }
@@ -247,7 +247,7 @@ namespace PKHeX.Core
             {
                 var keys = GetKeys(input, i);
                 Array.Copy(input, i, output, i, 8);
-                GCSaveUtil.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
+                GeniusCrypto.Encrypt(input, i + 8, i + 0x1C0000, keys, output);
             }
             return output;
         }

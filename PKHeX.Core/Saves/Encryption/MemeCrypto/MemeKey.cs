@@ -5,6 +5,9 @@ using System.Security.Cryptography;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Key for crypto with <see cref="MemeCrypto"/> binaries.
+    /// </summary>
     public sealed class MemeKey
     {
         /// <summary> Distinguished Encoding Rules </summary>
@@ -82,7 +85,8 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(data, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
-                temp = AesEcbDecrypt(key, temp.Xor(curblock));
+                var temp1 = Xor(temp, curblock);
+                temp = AesEcbDecrypt(key, temp1);
                 temp.CopyTo(outdata, ((data.Length / 0x10) - 1 - i) * 0x10);
             }
 
@@ -93,7 +97,7 @@ namespace PKHeX.Core
             // Well, (a ^ a) = 0. so (block first ^ subkey) ^ (block last ^ subkey)
             // = block first ^ block last ;)
             Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
-            temp = temp.Xor(outdata.Slice(0, 0x10));
+            temp = Xor(temp, outdata.Slice(0, 0x10));
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -109,7 +113,8 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(outdata, 0x10 * i, curblock, 0, 0x10);
-                Array.Copy(curblock.Xor(subkey), 0, outdata, 0x10 * i, 0x10);
+                var temp1 = Xor(curblock, subkey);
+                Array.Copy(temp1, 0, outdata, 0x10 * i, 0x10);
             }
 
             // Now we have Phase1Encrypt(buf).
@@ -118,7 +123,9 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(outdata, i * 0x10, curblock, 0, 0x10);
-                AesEcbDecrypt(key, curblock).Xor(temp).CopyTo(outdata, i * 0x10);
+                var temp1 = AesEcbDecrypt(key, curblock);
+                var temp2 = Xor(temp1, temp);
+                temp2.CopyTo(outdata, i * 0x10);
                 curblock.CopyTo(temp, 0);
             }
 
@@ -143,12 +150,14 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(data, i * 0x10, curblock, 0, 0x10);
-                temp = AesEcbEncrypt(key, temp.Xor(curblock));
+                var temp1 = Xor(temp, curblock);
+                temp = AesEcbEncrypt(key, temp1);
                 temp.CopyTo(outdata, i * 0x10);
             }
 
             // In between - CMAC stuff
-            temp = temp.Xor(outdata.Slice(0, 0x10));
+            var inbet = outdata.Slice(0, 0x10);
+            temp = Xor(temp, inbet);
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -165,8 +174,10 @@ namespace PKHeX.Core
             {
                 var curblock = new byte[0x10];
                 Array.Copy(outdata, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
-                byte[] temp2 = curblock.Xor(subkey);
-                Array.Copy(AesEcbEncrypt(key, temp2).Xor(temp), 0, outdata, ((data.Length / 0x10) - 1 - i) * 0x10, 0x10);
+                byte[] temp2 = Xor(curblock, subkey);
+                byte[] temp3 = AesEcbEncrypt(key, temp2);
+                byte[] temp4 = Xor(temp3, temp);
+                Array.Copy(temp4, 0, outdata, ((data.Length / 0x10) - 1 - i) * 0x10, 0x10);
                 temp2.CopyTo(temp, 0);
             }
 
@@ -174,6 +185,16 @@ namespace PKHeX.Core
             Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
 
             return outbuf;
+        }
+
+        private static byte[] Xor(byte[] b1, byte[] b2)
+        {
+            if (b1.Length != b2.Length)
+                throw new ArgumentException("Cannot xor two arrays of uneven length!");
+            var x = new byte[b1.Length];
+            for (var i = 0; i < b1.Length; i++)
+                x[i] = (byte)(b1[i] ^ b2[i]);
+            return x;
         }
 
         /// <summary>
@@ -299,56 +320,5 @@ namespace PKHeX.Core
 
         private static readonly byte[] D_3 = "00775455668FFF3CBA3026C2D0B26B8085895958341157AEB03B6B0495EE57803E2186EB6CB2EB62A71DF18A3C9C6579077670961B3A6102DABE5A194AB58C3250AED597FC78978A326DB1D7B28DCCCB2A3E014EDBD397AD33B8F28CD525054251".ToByteArray();
         #endregion
-    }
-
-    public static class StringExtentions
-    {
-        public static byte[] ToByteArray(this string toTransform)
-        {
-            var result = new byte[toTransform.Length / 2];
-            for (int i = 0; i < result.Length; i++)
-            {
-                var ofs = i << 1;
-                var _0 = toTransform[ofs + 0];
-                var _1 = toTransform[ofs + 1];
-                result[i] = DecodeTuple(_0, _1);
-            }
-            return result;
-        }
-
-        private static bool IsNum(char c) => (uint)(c - '0') <= 9;
-        private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
-
-        private static byte DecodeTuple(char _0, char _1)
-        {
-            byte result;
-            if (IsNum(_0))
-                result = (byte)((_0 - '0') << 4);
-            else if (IsHexUpper(_0))
-                result = (byte)((_0 - 'A' + 10) << 4);
-            else
-                throw new ArgumentOutOfRangeException(nameof(_0));
-
-            if (IsNum(_1))
-                result |= (byte)(_1 - '0');
-            else if (IsHexUpper(_1))
-                result |= (byte)(_1 - 'A' + 10);
-            else
-                throw new ArgumentOutOfRangeException(nameof(_1));
-            return result;
-        }
-    }
-
-    public static class ByteArrayExtensions
-    {
-        public static byte[] Xor(this byte[] b1, byte[] b2)
-        {
-            if (b1.Length != b2.Length)
-                throw new ArgumentException("Cannot xor two arrays of uneven length!");
-            var x = new byte[b1.Length];
-            for (var i = 0; i < b1.Length; i++)
-                x[i] = (byte)(b1[i] ^ b2[i]);
-            return x;
-        }
     }
 }
