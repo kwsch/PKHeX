@@ -463,7 +463,7 @@ namespace PKHeX.WinForms
                         NUD_HallType13, NUD_HallType14, NUD_HallType15, NUD_HallType16, NUD_HallType17
                     };
                 string[] TypeName = GameInfo.Strings.types;
-                int[] typenameIndex = new[] { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
+                int[] typenameIndex = { 0, 9, 10, 12, 11, 14, 1, 3, 4, 2, 13, 6, 5, 7, 15, 16, 8 };
                 for (int i = 0; i < HallNUDA.Length; i++)
                     tip2.SetToolTip(HallNUDA[i], TypeName[typenameIndex[i]]);
             }
@@ -717,7 +717,7 @@ namespace PKHeX.WinForms
         {
             if (editing)
                 return;
-            NumericUpDown[] na = new[] { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
+            NumericUpDown[] na = { NUD_CastleRankRcv, NUD_CastleRankItem, NUD_CastleRankInfo };
             int i = Array.IndexOf(na, sender);
             if (i < 0)
                 return;

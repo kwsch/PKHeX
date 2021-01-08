@@ -151,7 +151,7 @@ namespace PKHeX.Core
 
         private static readonly int[] Farfetchd = {226, 14, 97, 163};
         private static readonly int[] Gligar = {89, 68, 17};
-        private static readonly string[] PCNYx =  new[]{"PCNYa", "PCNYb", "PCNYc", "PCNYd"};
+        private static readonly string[] PCNYx =  {"PCNYa", "PCNYb", "PCNYc", "PCNYd"};
 
         internal static readonly EncounterStatic2E[] StaticEventsGB =
         {

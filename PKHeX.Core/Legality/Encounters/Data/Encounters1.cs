@@ -122,8 +122,8 @@ namespace PKHeX.Core
 
         private static readonly int[] Flawless15 = { 15, 15, 15, 15, 15, 15 };
         private static readonly int[] Yoshira = { 5, 10, 1, 12, 5, 5 };
-        private static readonly string[] YoshiOT = new[] { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
-        private static readonly string[] TourOT = new[] { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
+        private static readonly string[] YoshiOT = { "YOSHIRA", "YOSHIRB", "YOSHIBA", "YOSHIBB" };
+        private static readonly string[] TourOT = { "LINKE", "LINKW", "LUIGE", "LUIGW", "LUIGIC", "YOSHIC" };
         private static readonly string[] StadiumOT_Int = { "STADIUM", "STADE", "STADIO", "ESTADIO" };
         private const string StadiumOT_JPN = "スタジアム";
 
