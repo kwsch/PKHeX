@@ -55,20 +55,22 @@
 
         private static void AdvanceKeys(ushort[] keys)
         {
-            keys[0] += 0x43;
-            keys[1] += 0x29;
-            keys[2] += 0x17;
-            keys[3] += 0x13;
+            var k3 = keys[3] + 0x13;
+            var k2 = keys[2] + 0x17;
+            var k1 = keys[1] + 0x29;
+            var k0 = keys[0] + 0x43;
 
-            var _0 = (ushort)((keys[0] >> 00 & 0xf) | (keys[1] << 4 & 0xf0) | (keys[2] << 8 & 0xf00) | (keys[3] << 12 & 0xf000));
-            var _1 = (ushort)((keys[0] >> 04 & 0xf) | (keys[1] << 0 & 0xf0) | (keys[2] << 4 & 0xf00) | (keys[3] << 08 & 0xf000));
-            var _2 = (ushort)((keys[0] >> 08 & 0xf) | (keys[1] >> 4 & 0xf0) | (keys[2] >> 0 & 0xf00) | (keys[3] << 04 & 0xf000));
-            var _3 = (ushort)((keys[0] >> 12 & 0xf) | (keys[1] >> 8 & 0xf0) | (keys[2] >> 4 & 0xf00) | (keys[3] << 00 & 0xf000));
+            // Rotate 4bit groups across the diagonal [ / ] after biasing each u16 (no overflow):
+            // 0123           FB73 
+            // 4567           EA62
+            // 89AB  becomes  D951
+            // CDEF           C840
+            // We can leave our intermediary types as int as the bit-masks remove any overflow.
 
-            keys[0] = _0;
-            keys[1] = _1;
-            keys[2] = _2;
-            keys[3] = _3;
+            keys[3] = (ushort)((k0 >> 12 & 0xf) | (k1 >> 8 & 0xf0) | (k2 >> 4 & 0xf00) | (k3       & 0xf000));
+            keys[2] = (ushort)((k0 >> 08 & 0xf) | (k1 >> 4 & 0xf0) | (k2      & 0xf00) | (k3 << 04 & 0xf000));
+            keys[1] = (ushort)((k0 >> 04 & 0xf) | (k1      & 0xf0) | (k2 << 4 & 0xf00) | (k3 << 08 & 0xf000));
+            keys[0] = (ushort)((k0       & 0xf) | (k1 << 4 & 0xf0) | (k2 << 8 & 0xf00) | (k3 << 12 & 0xf000));
         }
     }
 }
