@@ -437,11 +437,18 @@ namespace PKHeX.Core
         /// <param name="format">Current <see cref="PKM.Format"/></param>
         /// <param name="generation"><see cref="PKM.Generation"/> of origin</param>
         /// <param name="version">Current GameVersion (only applicable for <see cref="GameVersion.Gen7b"/> differentiation)</param>
-        /// <returns>Location name</returns>
+        /// <returns>Location name. May be an empty string if no location name is known for that location value.</returns>
         public string GetLocationName(bool isEggLocation, int location, int format, int generation, GameVersion version)
         {
             int gen = -1;
             int bankID = 0;
+
+            if (format == 1)
+            {
+                if (location == 0)
+                    return string.Empty;
+                format = 3; // Legality binaries have Location IDs that were manually remapped to Gen3 location IDs.
+            }
 
             if (format == 2)
             {
@@ -474,7 +481,7 @@ namespace PKHeX.Core
                     location--;
             }
 
-            var bank = GetLocationNames(gen, bankID, version);
+            var bank = GetLocationNames(gen, version, bankID);
             if (bank.Count <= location)
                 return string.Empty;
             return bank[location];
@@ -484,10 +491,10 @@ namespace PKHeX.Core
         /// Gets the location names array for a specified generation.
         /// </summary>
         /// <param name="gen">Generation to get location names for.</param>
-        /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <param name="version">Version of origin</param>
+        /// <param name="bankID">BankID used to choose the text bank.</param>
         /// <returns>List of location names.</returns>
-        public IReadOnlyList<string> GetLocationNames(int gen, int bankID, GameVersion version) => gen switch
+        public IReadOnlyList<string> GetLocationNames(int gen, GameVersion version, int bankID = 0) => gen switch
         {
             2 => metGSC_00000,
             3 => GameVersion.CXD.Contains(version) ? metCXD_00000 : metRSEFRLG_00000,
