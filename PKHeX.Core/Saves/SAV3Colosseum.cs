@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 3 <see cref="SaveFile"/> object for Pokémon Colosseum saves.
     /// </summary>
-    public sealed class SAV3Colosseum : SaveFile, IDisposable, IGCSaveFile
+    public sealed class SAV3Colosseum : SaveFile, IGCSaveFile
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {PlayTimeString}";
         public override string Extension => this.GCExtension();
@@ -154,11 +154,7 @@ namespace PKHeX.Core
         public override int BoxCount => 3;
         public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(data, offset);
 
-        // Checksums
-        private readonly SHA1 sha1 = SHA1.Create();
-        public void Dispose() => sha1.Dispose();
-
-        private byte[] EncryptColosseum(byte[] input, byte[] digest)
+        private static byte[] EncryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
                 throw new ArgumentException(nameof(input));
@@ -170,6 +166,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 20; i++)
                 k[i] = (byte)~k[i];
 
+            using var sha1 = SHA1.Create();
             for (int i = 0x18; i < 0x1DFD8; i += 20)
             {
                 for (int j = 0; j < 20; j++)
@@ -179,7 +176,7 @@ namespace PKHeX.Core
             return d;
         }
 
-        private byte[] DecryptColosseum(byte[] input, byte[] digest)
+        private static byte[] DecryptColosseum(byte[] input, byte[] digest)
         {
             if (input.Length != SLOT_SIZE)
                 throw new ArgumentException(nameof(input));
@@ -191,6 +188,7 @@ namespace PKHeX.Core
             for (int i = 0; i < 20; i++)
                 k[i] = (byte)~k[i];
 
+            using var sha1 = SHA1.Create();
             for (int i = 0x18; i < 0x1DFD8; i += 20)
             {
                 byte[] key = sha1.ComputeHash(d, i, 20); // update digest
@@ -206,6 +204,7 @@ namespace PKHeX.Core
             // Clear Header Checksum
             BitConverter.GetBytes(0).CopyTo(Data, 12);
             // Compute checksum of data
+            using var sha1 = SHA1.Create();
             byte[] checksum = sha1.ComputeHash(Data, 0, 0x1DFD8);
             // Set Checksum to end
             Array.Copy(checksum, 0, Data, Data.Length - 20, 20);
@@ -239,6 +238,7 @@ namespace PKHeX.Core
                 int oldHC = BigEndian.ToInt32(data, 12);
                 // Clear Header Checksum
                 BitConverter.GetBytes(0).CopyTo(data, 12);
+                using var sha1 = SHA1.Create();
                 byte[] checksum = sha1.ComputeHash(data, 0, 0x1DFD8);
                 // Header Integrity
                 byte[] H = new byte[8];

@@ -15,8 +15,6 @@ namespace PKHeX.Core
     /// </remarks>
     public static class SwishCrypto
     {
-        private static readonly object _lock = new();
-        private static readonly SHA256 sha256 = new SHA256CryptoServiceProvider();
         private const int SIZE_HASH = 0x20;
 
         private static readonly byte[] IntroHashBytes =
@@ -56,14 +54,23 @@ namespace PKHeX.Core
 
         private static byte[] ComputeHash(byte[] data)
         {
-            // can't use IncrementalHash.CreateHash(HashAlgorithmName.SHA256); cuz net46 doesn't support
-            using var stream = new MemoryStream();
-            stream.Write(IntroHashBytes, 0, IntroHashBytes.Length);
+#if !NET46
+            using var h = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+            h.AppendData(IntroHashBytes);
+            h.AppendData(data, 0, data.Length - SIZE_HASH);
+            h.AppendData(OutroHashBytes);
+            return h.GetHashAndReset();
+#else
+            var intro = IntroHashBytes;
+            var outro = OutroHashBytes;
+            using var stream = new MemoryStream(intro.Length + data.Length - SIZE_HASH + outro.Length);
+            stream.Write(intro, 0, intro.Length);
             stream.Write(data, 0, data.Length - SIZE_HASH); // hash is at the end
-            stream.Write(OutroHashBytes, 0, OutroHashBytes.Length);
+            stream.Write(outro, 0, outro.Length);
             stream.Seek(0, SeekOrigin.Begin);
-            lock (_lock)
-                return sha256.ComputeHash(stream);
+            using var sha = SHA256.Create();
+            return sha.ComputeHash(stream);
+#endif
         }
 
         /// <summary>
