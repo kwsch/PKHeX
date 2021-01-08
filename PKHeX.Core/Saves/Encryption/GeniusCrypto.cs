@@ -1,9 +1,9 @@
 ﻿namespace PKHeX.Core
 {
     /// <summary>
-    /// Logic for <see cref="GameVersion.XD"/> and <see cref="GameVersion.BATREV"/> encryption.
+    /// Genius Sonority's logic for <see cref="GameVersion.XD"/> and <see cref="GameVersion.BATREV"/> encryption.
     /// </summary>
-    public static class GCSaveUtil
+    public static class GeniusCrypto
     {
         public static byte[] Decrypt(byte[] input, int start, int end, ushort[] keys)
         {
