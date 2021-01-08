@@ -30,13 +30,30 @@ namespace PKHeX.Core
             0xFE9D
         };
 
+        private const int FramesPerMew = 5;
+        private const int MewPerRestrictedSeed = 5;
+
+        public static uint GetSeed(int random, PIDType type = PIDType.BACD_U)
+        {
+            int restricted = random % Seeds.Length;
+            var seed = (uint)Seeds[restricted];
+            if (type == PIDType.BACD_R)
+                return seed;
+
+            int position = (random % (MewPerRestrictedSeed - 1)) + 1;
+            for (int i = 0; i < position; i++)
+                seed = RNG.LCRNG.Advance(seed, FramesPerMew);
+
+            return seed;
+        }
+
         public static int GetSeedIndex(uint seed)
         {
             for (int i = 0; i < 5; i++)
             {
                 if (seed <= ushort.MaxValue)
                     return Array.BinarySearch(Seeds, (ushort)seed);
-                seed = RNG.LCRNG.Reverse(seed, 5);
+                seed = RNG.LCRNG.Reverse(seed, FramesPerMew);
             }
 
             return -1;

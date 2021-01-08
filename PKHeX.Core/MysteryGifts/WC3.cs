@@ -170,7 +170,7 @@ namespace PKHeX.Core
         private void SetPINGA(PK3 pk, EncounterCriteria criteria)
         {
             var seed = Util.Rand32();
-            seed = GetSaneSeed(seed);
+            seed = OT_Name == "MYSTRY" ? MystryMew.GetSeed((int)seed, Method) : GetSaneSeed(seed);
             PIDGenerator.SetValuesFromSeed(pk, Method, seed);
         }
 
