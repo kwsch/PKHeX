@@ -110,8 +110,6 @@ namespace PKHeX.Core
             trainingbags = Get("trainingbag");
             trainingstage = Get("supertraining");
             puffs = Get("puff");
-            Array.Resize(ref puffs, puffs.Length + 1); // shift all down, 0th will be 'none' -- applied later
-            Array.Copy(puffs, 0, puffs, 1, puffs.Length - 1);
 
             walkercourses = Get("hgss_walkercourses");
 
