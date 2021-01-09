@@ -8,8 +8,8 @@ a Furlongham
 
 nel Bosco Assopito
 
-[~ 10]
-[~ 11]
+
+
 sul Percorso 1
 
 a Brassbury
@@ -24,8 +24,8 @@ alla Stazione di Steamington
 
 allo Stadio di Steamington
 
-[~ 26]
-[~ 27]
+
+
 sul Percorso 3
 
 nella Miniera di Galar
@@ -36,20 +36,20 @@ a Turffield
 
 allo Stadio di Turffield
 
-[~ 38]
-[~ 39]
+
+
 sul Percorso 5
 
-[~ 42]
-[~ 43]
+
+
 a Keelford
 
 alla Stazione di Keelford
 
 allo Stadio di Keelford
 
-[~ 50]
-[~ 51]
+
+
 nella periferia di Steamington
 
 nella Miniera 2
@@ -60,8 +60,8 @@ alla Stazione di Knuckleburgh
 
 allo Stadio di Knuckleburgh
 
-[~ 62]
-[~ 63]
+
+
 nella Centrale Energetica
 
 sulla Cima della Torre
@@ -72,16 +72,16 @@ a Latermore
 
 allo Stadio di Latermore
 
-[~ 74]
-[~ 75]
+
+
 nel Bosco Brillabirinto
 
 a Piquedilly
 
 allo Stadio di Piquedilly
 
-[~ 82]
-[~ 83]
+
+
 sul Percorso 7
 
 sul Percorso 8
@@ -98,8 +98,8 @@ a Circhester
 
 allo Stadio di Circhester
 
-[~ 100]
-[~ 101]
+
+
 a Spikeville
 
 nel Tunnel del Percorso 9
@@ -161,7 +161,7 @@ alla Torre Lotta
 alla Rose Tower
 
 in una tana di Pokémon
-[~ 163]
+
 nella Pianura Inchino
 sull’Isola dell’Armatura
 nell’Acquitrino Fresco

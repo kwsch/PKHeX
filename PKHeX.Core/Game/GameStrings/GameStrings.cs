@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -333,19 +332,18 @@ namespace PKHeX.Core
         private void SanitizeMetG7SM()
         {
             // Sun/Moon duplicates -- elaborate!
-            var metSM_00000_good = (string[])metSM_00000.Clone();
-            for (int i = 0; i < metSM_00000.Length; i += 2)
+            for (int i = 6; i < metSM_00000.Length; i += 2)
             {
+                if (i is >= 194 and < 198)
+                    continue; // Skip Island Names (unused)
                 var nextLoc = metSM_00000[i + 1];
-                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
-                    metSM_00000_good[i] += $" ({nextLoc})";
-
-                var name = metSM_00000_good[i];
-                if (i > 0 && !string.IsNullOrWhiteSpace(name) && metSM_00000_good.Take(i - 1).Contains(name))
-                    metSM_00000_good[i] += $" ({metSM_00000_good.Take(i - 1).Count(s => s == name) + 1})";
+                if (nextLoc.Length == 0)
+                    continue;
+                metSM_00000[i + 1] = string.Empty;
+                metSM_00000[i] += $" ({nextLoc})";
             }
-            Array.Copy(metSM_00000, 194, metSM_00000_good, 194, 4); // Restore Island Names (unused)
-            metSM_00000_good.CopyTo(metSM_00000, 0);
+            metSM_00000[32] += " (2)";
+            metSM_00000[102] += " (2)";
 
             metSM_30000[0] += $" ({NPC})";      // Anything from an NPC
             metSM_30000[1] += $" ({EggName})";  // Egg From Link Trade
@@ -361,25 +359,15 @@ namespace PKHeX.Core
 
         private void SanitizeMetG8SWSH()
         {
-            // SWSH duplicates -- elaborate!
-            var metSWSH_00000_good = (string[])metSWSH_00000.Clone();
-            for (int i = 2; i < metSWSH_00000_good.Length; i += 2)
+            // SW/SH duplicates -- elaborate!
+            for (int i = 88; i < metSWSH_00000.Length; i += 2)
             {
                 var nextLoc = metSWSH_00000[i + 1];
-                if (!string.IsNullOrWhiteSpace(nextLoc) && nextLoc[0] != '[')
-                    metSWSH_00000_good[i] += $" ({nextLoc})";
+                if (nextLoc.Length == 0)
+                    continue;
+                metSWSH_00000[i + 1] = string.Empty;
+                metSWSH_00000[i] += $" ({nextLoc})";
             }
-
-            for (int i = 121; i <= 155; i+=2)
-                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
-
-            for (int i = 165; i <= 195; i += 2)
-                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
-
-            for (int i = 205; i <= 235; i += 2)
-                metSWSH_00000_good[i] = string.Empty; // clear Wild Area sub-zone strings (trips duplicate Test)
-
-            metSWSH_00000_good.CopyTo(metSWSH_00000, 0);
 
             metSWSH_30000[0] += $" ({NPC})";      // Anything from an NPC
             metSWSH_30000[1] += $" ({EggName})";  // Egg From Link Trade
@@ -482,7 +470,7 @@ namespace PKHeX.Core
             }
 
             var bank = GetLocationNames(gen, version, bankID);
-            if (bank.Count <= location)
+            if ((uint)location >= bank.Count)
                 return string.Empty;
             return bank[location];
         }

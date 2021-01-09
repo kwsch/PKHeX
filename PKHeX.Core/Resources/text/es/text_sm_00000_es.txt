@@ -31,7 +31,7 @@ Puente Colgante
 Ruinas de la Guerra
 
 Ruinas de la Guerra
-[~ 33]
+
 Colina Dequilate
 
 Colina Dequilate
@@ -78,7 +78,7 @@ Colina del Recuerdo
 
 Rancho Ohana
 
-[~ 80]
+
 
 Área Volcánica Wela
 
@@ -94,10 +94,10 @@ Ruinas de la Vida
 
 Afueras de Akala
 
-[~ 96]
-[~ 97]
-[~ 98]
-[~ 99]
+
+
+
+
 Túnel Diglett
 
 Resort Hanohano

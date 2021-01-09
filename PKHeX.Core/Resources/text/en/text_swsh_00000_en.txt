@@ -8,8 +8,8 @@ in the town of Postwick
 
 in the Slumbering Weald
 
-[~ 10]
-[~ 11]
+
+
 on Route 1
 
 in the town of Wedgehurst
@@ -24,8 +24,8 @@ at Motostoke Station
 
 at Motostoke Stadium
 
-[~ 26]
-[~ 27]
+
+
 on Route 3
 
 in Galar Mine
@@ -36,20 +36,20 @@ in the town of Turffield
 
 at Turffield Stadium
 
-[~ 38]
-[~ 39]
+
+
 on Route 5
 
-[~ 42]
-[~ 43]
+
+
 in the town of Hulbury
 
 at Hulbury Station
 
 at Hulbury Stadium
 
-[~ 50]
-[~ 51]
+
+
 in the Motostoke Outskirts
 
 in Galar Mine No. 2
@@ -60,8 +60,8 @@ at Hammerlocke Station
 
 at Hammerlocke Stadium
 
-[~ 62]
-[~ 63]
+
+
 at the Energy Plant
 
 on the tower summit
@@ -72,16 +72,16 @@ in the town of Stow-on-Side
 
 at Stow-on-Side Stadium
 
-[~ 74]
-[~ 75]
+
+
 in Glimwood Tangle
 
 in the town of Ballonlea
 
 at Ballonlea Stadium
 
-[~ 82]
-[~ 83]
+
+
 on Route 7
 
 on Route 8
@@ -98,8 +98,8 @@ in the town of Circhester
 
 at Circhester Stadium
 
-[~ 100]
-[~ 101]
+
+
 in the town of Spikemuth
 
 in the Route 9 Tunnel
@@ -161,7 +161,7 @@ at the Battle Tower
 at Rose Tower
 
 in a Pokémon Den
-[~ 163]
+
 in the Fields of Honor
 on the Isle of Armor
 in the Soothing Wetlands

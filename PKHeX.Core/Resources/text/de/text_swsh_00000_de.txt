@@ -8,8 +8,8 @@ in Furlongham
 
 im Schlummerwald
 
-[~ 10]
-[~ 11]
+
+
 auf Route 1
 
 in Brassbury
@@ -24,8 +24,8 @@ am Engine-City-Bahnhof
 
 im Engine-Stadion
 
-[~ 26]
-[~ 27]
+
+
 auf Route 3
 
 in der Galar-Mine 1
@@ -36,20 +36,20 @@ in Turffield
 
 im Turffield-Stadion
 
-[~ 38]
-[~ 39]
+
+
 auf Route 5
 
-[~ 42]
-[~ 43]
+
+
 in Keelton
 
 am Keelton-Bahnhof
 
 im Keelton-Stadion
 
-[~ 50]
-[~ 51]
+
+
 am Engine-Ortsrand
 
 in der Galar-Mine 2
@@ -60,8 +60,8 @@ am Claw-City-Bahnhof
 
 im Claw-Stadion
 
-[~ 62]
-[~ 63]
+
+
 im Energiewerk
 
 auf der Turmspitze
@@ -72,16 +72,16 @@ in Passbeck
 
 im Passbeck-Stadion
 
-[~ 74]
-[~ 75]
+
+
 im Wirrschein-Wald
 
 in Fairballey
 
 im Fairballey-Stadion
 
-[~ 82]
-[~ 83]
+
+
 auf Route 7
 
 auf Route 8
@@ -98,8 +98,8 @@ in Circhester
 
 im Circhester-Stadion
 
-[~ 100]
-[~ 101]
+
+
 in Spikeford
 
 im Route-9-Tunnel
@@ -161,7 +161,7 @@ im Kampfturm
 am Rose Tower
 
 Ein Pokémon-Nest
-[~ 163]
+
 im Grußgefilde
 auf der Rüstungsinsel
 im Balsamsumpf

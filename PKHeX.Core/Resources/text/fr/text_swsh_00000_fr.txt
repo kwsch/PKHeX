@@ -8,8 +8,8 @@ dans un endroit lointain
 
 dans la Forêt de Sleepwood
 
-[~ 10]
-[~ 11]
+
+
 sur la Route 1
 
 à Brasswick
@@ -24,8 +24,8 @@ sur la Route 2
 
 au Stade de Motorby
 
-[~ 26]
-[~ 27]
+
+
 sur la Route 3
 
 dans la Mine de Galar
@@ -36,20 +36,20 @@ sur la Route 4
 
 au Stade de Greenbury
 
-[~ 38]
-[~ 39]
+
+
 sur la Route 5
 
-[~ 42]
-[~ 43]
+
+
 à Skifford
 
 à la Gare de Skifford
 
 au Stade de Skifford
 
-[~ 50]
-[~ 51]
+
+
 aux Abords de Motorby
 
 dans la Mine de Galar nº 2
@@ -60,8 +60,8 @@ dans la Mine de Galar nº 2
 
 au Stade de Kickenham
 
-[~ 62]
-[~ 63]
+
+
 dans la salle du réacteur
 
 au sommet de la tour
@@ -72,16 +72,16 @@ sur la Route 6
 
 au Stade d’Old Chister
 
-[~ 74]
-[~ 75]
+
+
 dans la Forêt de Lumirinth
 
 à Corrifey
 
 au Stade de Corrifey
 
-[~ 82]
-[~ 83]
+
+
 sur la Route 7
 
 sur la Route 8
@@ -98,8 +98,8 @@ aux Abords de Smashings
 
 au Stade de Ludester
 
-[~ 100]
-[~ 101]
+
+
 à Smashings
 
 dans le Tunnel de la Route 9
@@ -161,7 +161,7 @@ dans les Terres Sauvages
 dans la Shehroz Tower
 
 dans un antre
-[~ 163]
+
 dans la Plaine Salutation
 à Isolarmure
 dans la Lande Boldair
