@@ -201,13 +201,13 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             if (pkm.Move1_PP > pkm.GetMovePP(pkm.Move1, pkm.Move1_PPUps))
-                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), Move));
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 1), CurrentMove));
             if (pkm.Move2_PP > pkm.GetMovePP(pkm.Move2, pkm.Move2_PPUps))
-                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 2), Move));
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 2), CurrentMove));
             if (pkm.Move3_PP > pkm.GetMovePP(pkm.Move3, pkm.Move3_PPUps))
-                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 3), Move));
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 3), CurrentMove));
             if (pkm.Move4_PP > pkm.GetMovePP(pkm.Move4, pkm.Move4_PPUps))
-                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 4), Move));
+                data.AddLine(GetInvalid(string.Format(LMovePPTooHigh_0, 4), CurrentMove));
         }
 
         private static void VerifyMiscEggCommon(LegalityAnalysis data)

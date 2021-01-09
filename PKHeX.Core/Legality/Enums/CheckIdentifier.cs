@@ -6,7 +6,7 @@
         /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.Moves"/>.
         /// </summary>
-        Move,
+        CurrentMove,
 
         /// <summary>
         /// The <see cref="CheckResult"/> pertains to the <see cref="PKM.RelearnMoves"/>.

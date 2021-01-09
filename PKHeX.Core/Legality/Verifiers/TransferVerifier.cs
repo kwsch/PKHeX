@@ -214,7 +214,7 @@ namespace PKHeX.Core
 
             var chk = Moves[index];
             if (chk.Generation == gen) // not obtained from a future gen
-                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, LTransferMove, CheckIdentifier.Move);
+                Moves[index] = new CheckMoveResult(chk.Source, chk.Generation, Severity.Invalid, LTransferMove, CheckIdentifier.CurrentMove);
         }
     }
 }

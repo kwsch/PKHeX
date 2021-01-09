@@ -95,7 +95,7 @@ namespace PKHeX.Core
                     int index = Array.IndexOf(pkm.Moves, 548); // Secret Sword
                     bool noSword = index < 0;
                     if (form == 0 ^ noSword) // mismatch
-                        Info.Moves[noSword ? 0 : index] = new CheckMoveResult(Info.Moves[noSword ? 0 : index], Severity.Invalid, LMoveKeldeoMismatch, CheckIdentifier.Move);
+                        Info.Moves[noSword ? 0 : index] = new CheckMoveResult(Info.Moves[noSword ? 0 : index], Severity.Invalid, LMoveKeldeoMismatch, CheckIdentifier.CurrentMove);
                     break;
                 }
                 case (int)Species.Genesect:
