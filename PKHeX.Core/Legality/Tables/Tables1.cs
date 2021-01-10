@@ -37,7 +37,7 @@
 
         internal static bool TransferSpeciesDefaultAbilityGen1(int species)
         {
-            System.Diagnostics.Debug.Assert(species <= (uint)MaxSpeciesID_1);
+            System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_1);
             return species is (int)Species.Gastly or (int)Species.Haunter or (int)Species.Gengar
                 or (int)Species.Koffing or (int)Species.Weezing
                 or (int)Species.Mew;
