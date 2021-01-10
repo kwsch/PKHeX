@@ -599,6 +599,7 @@ namespace PKHeX.WinForms.Controls
             var form = new Form
             {
                 Text = "Simple Editor",
+                StartPosition = FormStartPosition.CenterParent,
                 MinimumSize = new Size(350, 380),
                 MinimizeBox = false,
                 MaximizeBox = false

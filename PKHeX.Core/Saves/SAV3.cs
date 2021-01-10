@@ -491,6 +491,9 @@ namespace PKHeX.Core
             SetFlag(start + (flagNumber >> 3), flagNumber & 7, value);
         }
 
+        public ushort GetEventConst(int index) => BitConverter.ToUInt16(Data, EventConst + (index * 2));
+        public void SetEventConst(int index, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, EventConst + (index * 2));
+
         public int Badges
         {
             get
@@ -823,48 +826,74 @@ namespace PKHeX.Core
                 SetFlag(o + ofs, bit & 7, seen);
         }
 
+        public byte PokedexSort
+        {
+            get => Data[PokeDex + 0x01];
+            set => Data[PokeDex + 0x01] = value;
+        }
+
+        public byte PokedexMode
+        {
+            get => Data[PokeDex + 0x01];
+            set => Data[PokeDex + 0x01] = value;
+        }
+
+        public byte PokedexNationalMagicRSE
+        {
+            get => Data[PokeDex + 0x02];
+            set => Data[PokeDex + 0x02] = value;
+        }
+
+        public byte PokedexNationalMagicFRLG
+        {
+            get => Data[PokeDex + 0x03];
+            set => Data[PokeDex + 0x03] = value;
+        }
+
+        private const int PokedexNationalUnlockRSE = 0xDA;
+        private const int PokedexNationalUnlockFRLG = 0xDA;
+        private const ushort PokedexNationalUnlockWorkRSE = 0x0302;
+        private const ushort PokedexNationalUnlockWorkFRLG = 0x6258;
+
         public bool NationalDex
         {
             get
             {
                 if (BlockOfs.Any(z => z < 0))
                     return false;
-                switch (Version) // only check natdex status in Block0
+                return Version switch // only check natdex status in Block0
                 {
-                    case GameVersion.RS:
-                    case GameVersion.E:
-                        return Data[PokeDex + 2] == 0xDA; // enable nat dex option magic value
-                    case GameVersion.FRLG:
-                        return Data[PokeDex + 3] == 0xB9;
-                }
-                return false;
+                    // enable nat dex option magic value
+                    GameVersion.RS or GameVersion.E => PokedexNationalMagicRSE == PokedexNationalUnlockRSE,
+                    GameVersion.FRLG                => PokedexNationalMagicFRLG == PokedexNationalUnlockFRLG,
+                    _ => false
+                };
             }
             set
             {
                 if (BlockOfs.Any(z => z < 0))
                     return;
+
+                PokedexMode = value ? 1 : 0; // mode
                 switch (Version)
                 {
                     case GameVersion.RS:
-                        Data[PokeDex + 1] = value ? 1 : 0; // mode
-                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
-                        Data[BlockOfs[2] + 0x3A6] &= 0xBF;
-                        Data[BlockOfs[2] + 0x3A6] |= value ? 1 << 6 : 0; // B
-                        BitConverter.GetBytes((ushort)(value ? 0x0302 : 0)).CopyTo(Data, BlockOfs[2] + 0x44C); // C
+                        PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : 0; // magic
+                        SetEventFlag(0x836, value);
+                        SetEventConst(0x46, PokedexNationalUnlockWorkRSE);
                         break;
                     case GameVersion.E:
-                        Data[PokeDex + 1] = value ? 1 : 0; // mode
-                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
-                        Data[BlockOfs[2] + 0x402] &= 0xBF; // Bit6
-                        Data[BlockOfs[2] + 0x402] |= value ? 1 << 6 : 0; // B
-                        BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x4A8); // C
+                        PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : 0; // magic
+                        SetEventFlag(0x896, value);
+                        SetEventConst(0x46, PokedexNationalUnlockWorkRSE);
                         break;
                     case GameVersion.FRLG:
-                        Data[PokeDex + 2] = value ? 0xDA : 0; // magic
-                        Data[PokeDex + 3] = value ? 0xB9 : 0; // magic
-                        Data[BlockOfs[2] + 0x68] &= 0xFE;
-                        Data[BlockOfs[2] + 0x68] |= value ? 1 : 0; // B
-                        BitConverter.GetBytes((ushort)(value ? 0x6258 : 0)).CopyTo(Data, BlockOfs[2] + 0x11C); // C
+                        //PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : 0; // magic
+                        //SetEventFlag(0x838, value);
+                        //SetEventConst(0x3C, PokedexNationalUnlockWorkRSE);
+                        PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : 0; // magic
+                        SetEventFlag(0x840, value);
+                        SetEventConst(0x4E, PokedexNationalUnlockWorkFRLG);
                         break;
                 }
             }
