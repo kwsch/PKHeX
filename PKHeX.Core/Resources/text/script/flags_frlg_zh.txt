@@ -79,6 +79,10 @@
 0x2CC	红莲镇教授招式(挥指)
 0x2CD	金黄市教授招式(模仿)
 0x2CE	四之岛教授招式(泰山压顶)
+0x2DE	Used Move Tutor at Cape Brink (Frenzy Plant)
+0x2DF	Used Move Tutor at Cape Brink (Blast Burn)
+0x2E0	Used Move Tutor at Cape Brink (Hydro Cannon)
+0x2E1	Cape Brink Move Tutor taught all 3 Moves
 
 0x829	获得宝可梦图鉴
 0x82F	获得跑步鞋
