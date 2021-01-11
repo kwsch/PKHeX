@@ -210,9 +210,9 @@ namespace PKHeX.Core
             return ParseMoves(pkm, source, info);
         }
 
-        private static IReadOnlyList<int> GetSpecialMoves(IEncounterable EncounterMatch)
+        private static IReadOnlyList<int> GetSpecialMoves(IEncounterable enc)
         {
-            if (EncounterMatch is IMoveset mg)
+            if (enc is IMoveset mg)
                 return mg.Moves;
             return Array.Empty<int>();
         }

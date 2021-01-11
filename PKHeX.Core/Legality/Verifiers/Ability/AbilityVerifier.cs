@@ -108,8 +108,7 @@ namespace PKHeX.Core
             if (3 <= format && format <= 5 && abilities[0] != abilities[1]) // 3-4/5 and have 2 distinct abilities now
                 state = VerifyAbilityPreCapsule(data, abilities);
 
-            var EncounterMatch = data.EncounterMatch;
-            int eabil = GetEncounterFixedAbilityNumber(EncounterMatch);
+            int eabil = GetEncounterFixedAbilityNumber(enc);
             if (eabil >= 0)
             {
                 if ((pkm.AbilityNumber == 4) != (eabil == 4))

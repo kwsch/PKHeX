@@ -22,11 +22,11 @@ namespace PKHeX.Core
 
         private CheckResult VerifyBall(LegalityAnalysis data)
         {
-            var EncounterMatch = data.EncounterMatch;
             var Info = data.Info;
+            var enc = Info.EncounterMatch;
 
             // Fixed ball cases -- can be only one ball ever
-            switch (EncounterMatch)
+            switch (enc)
             {
                 case MysteryGift g:
                     return VerifyBallMysteryGift(data, g);
@@ -49,10 +49,10 @@ namespace PKHeX.Core
                     return VerifyBallEquals(data, (int)Poke); // Pokeball Only
             }
 
-            if (pkm.Ball == (int)Heavy && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(EncounterMatch.Species) && !EncounterMatch.EggEncounter && pkm.SM)
+            if (pkm.Ball == (int)Heavy && BallBreedLegality.AlolanCaptureNoHeavyBall.Contains(enc.Species) && !enc.EggEncounter && pkm.SM)
                 return GetInvalid(LBallHeavy); // Heavy Ball, can inherit if from egg (USUM fixed catch rate calc)
 
-            return EncounterMatch switch
+            return enc switch
             {
                 EncounterStatic e => VerifyBallStatic(data, e),
                 EncounterSlot w => VerifyBallWild(data, w),

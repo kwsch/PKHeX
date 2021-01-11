@@ -24,8 +24,8 @@
             2 => false,
             3 => true,
             4 => true,
-            5 => (pkm.Format >= 6), // ORAS Contests
-            6 => (!pkm.IsUntraded || pkm.AO),
+            5 => pkm.Format >= 6, // ORAS Contests
+            6 => !pkm.IsUntraded || pkm.AO,
             _ => false,
         };
     }

@@ -15,8 +15,8 @@ namespace PKHeX.Core
             if (pkm.Format >= 6)
                 VerifyEC(data);
 
-            var EncounterMatch = data.EncounterMatch;
-            if (EncounterMatch.Species == (int)Species.Wurmple)
+            var enc = data.EncounterMatch;
+            if (enc.Species == (int)Species.Wurmple)
                 VerifyECPIDWurmple(data);
 
             if (pkm.PID == 0)

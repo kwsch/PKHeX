@@ -12,9 +12,7 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-
-            bool checksRequired = EncounterMatch is EncounterStatic5N;
+            bool checksRequired = data.EncounterMatch is EncounterStatic5N;
             if (pkm is PK5 pk5)
             {
                 bool has = pk5.NPokémon;

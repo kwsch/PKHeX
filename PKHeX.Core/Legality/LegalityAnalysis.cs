@@ -298,31 +298,31 @@ namespace PKHeX.Core
             MiscValues.Verify(this);
             GenderValues.Verify(this);
             Item.Verify(this);
-            if (pkm.Format <= 6 && pkm.Format >= 4)
-                Gen4EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
-
             Contest.Verify(this);
 
-            if (pkm.Format < 6)
+            var format = pkm.Format;
+            if (format is 4 or 5)
+                Gen4EncounterType.Verify(this); // Gen 6->7 transfer deletes encounter type data
+
+            if (format < 6)
                 return;
 
-            if (pkm.Format < 8)
-                ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
-
             History.Verify(this);
+            if (format < 8)
+                ConsoleRegion.Verify(this); // Gen 7->8 transfer deletes geolocation tracking data
 
             if (pkm is ITrainerMemories)
                 Memory.Verify(this);
             if (pkm is ISuperTrain)
                 Medal.Verify(this);
 
-            if (pkm.Format < 7)
+            if (format < 7)
                 return;
 
             HyperTraining.Verify(this);
             MiscValues.VerifyVersionEvolution(this);
 
-            if (pkm.Format < 8)
+            if (format < 8)
                 return;
 
             Mark.Verify(this);

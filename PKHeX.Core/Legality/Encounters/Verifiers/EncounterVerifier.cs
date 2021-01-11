@@ -30,11 +30,11 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
         {
-            var EncounterMatch = info.EncounterMatch;
-            if (EncounterMatch.EggEncounter)
-                return VerifyEncounterEgg(pkm, EncounterMatch.Generation);
+            var enc = info.EncounterMatch;
+            if (enc.EggEncounter)
+                return VerifyEncounterEgg(pkm, enc.Generation);
 
-            return EncounterMatch switch
+            return enc switch
             {
                 EncounterSlot1 => new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter),
                 EncounterSlot2 s2 => VerifyWildEncounterGen2(pkm, s2),

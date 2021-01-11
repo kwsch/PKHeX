@@ -161,8 +161,8 @@ namespace PKHeX.Core
         private static void VerifyMiscFatefulEncounter(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterMatch;
-            switch (EncounterMatch)
+            var enc = data.EncounterMatch;
+            switch (enc)
             {
                 case WC3 {Fateful: true} w:
                     if (w.IsEgg)
@@ -218,14 +218,14 @@ namespace PKHeX.Core
             if (pkm.Move1_PP != pkm.GetMovePP(pkm.Move1, 0) || pkm.Move2_PP != pkm.GetMovePP(pkm.Move2, 0) || pkm.Move3_PP != pkm.GetMovePP(pkm.Move3, 0) || pkm.Move4_PP != pkm.GetMovePP(pkm.Move4, 0))
                 data.AddLine(GetInvalid(LEggPP, Egg));
 
-            var EncounterMatch = data.EncounterMatch;
-            var HatchCycles = EncounterMatch is EncounterStatic s ? s.EggCycles : 0;
+            var enc = data.EncounterMatch;
+            var HatchCycles = enc is EncounterStatic s ? s.EggCycles : 0;
             if (HatchCycles == 0) // no value set
                 HatchCycles = pkm.PersonalInfo.HatchCycles;
             if (pkm.OT_Friendship > HatchCycles)
                 data.AddLine(GetInvalid(LEggHatchCycles, Egg));
 
-            if (pkm.Format >= 6 && EncounterMatch is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
+            if (pkm.Format >= 6 && enc is EncounterEgg && !pkm.Moves.SequenceEqual(pkm.RelearnMoves))
             {
                 var moves = string.Join(", ", ParseSettings.GetMoveNames(pkm.Moves));
                 var msg = string.Format(LMoveFExpect_0, moves);

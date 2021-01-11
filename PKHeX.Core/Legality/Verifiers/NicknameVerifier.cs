@@ -15,7 +15,6 @@ namespace PKHeX.Core
         public override void Verify(LegalityAnalysis data)
         {
             var pkm = data.pkm;
-            var EncounterMatch = data.EncounterOriginal;
 
             // If the Pokémon is not nicknamed, it should match one of the language strings.
             if (pkm.Nickname.Length == 0)
@@ -29,15 +28,16 @@ namespace PKHeX.Core
                 return;
             }
 
+            var enc = data.EncounterOriginal;
             if (pkm.Format <= 7 && pkm.IsNicknamed) // can nickname afterwards
             {
                 if (pkm.VC)
                     VerifyG1NicknameWithinBounds(data, pkm.Nickname);
-                else if (EncounterMatch is MysteryGift {IsEgg: false})
+                else if (enc is MysteryGift {IsEgg: false})
                     data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
 
-            if (EncounterMatch is EncounterTrade t)
+            if (enc is EncounterTrade t)
             {
                 VerifyNicknameTrade(data, t);
                 if (t.HasNickname)
@@ -98,15 +98,15 @@ namespace PKHeX.Core
             }
             else
             {
-                var EncounterMatch = data.EncounterOriginal;
-                bool valid = IsNicknameValid(pkm, EncounterMatch, nickname);
+                var enc = data.EncounterOriginal;
+                bool valid = IsNicknameValid(pkm, enc, nickname);
                 var result = valid ? GetValid(LNickMatchLanguage) : GetInvalid(LNickMatchLanguageFail);
                 data.AddLine(result);
             }
             return false;
         }
 
-        private static bool IsNicknameValid(PKM pkm, IEncounterable EncounterMatch, string nickname)
+        private static bool IsNicknameValid(PKM pkm, IEncounterable enc, string nickname)
         {
             int species = pkm.Species;
             int format = pkm.Format;
@@ -118,11 +118,11 @@ namespace PKHeX.Core
             // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
             // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
             // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
-            bool canHaveAnyLanguage = format <= 7 && (EncounterMatch.Species != species || pkm.WasTradedEgg);
+            bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pkm.WasTradedEgg);
             if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                 return true;
 
-            switch (EncounterMatch)
+            switch (enc)
             {
                 case WC7 wc7 when wc7.IsAshGreninjaWC7(pkm):
                     return true;
@@ -384,15 +384,14 @@ namespace PKHeX.Core
                 data.AddLine(GetInvalid(LEncTradeChangedOT, CheckIdentifier.Trainer));
         }
 
-        private static bool IsNicknameMatch(string nick, ILangNick pkm, IEncounterable EncounterMatch)
+        private static bool IsNicknameMatch(string nick, ILangNick pkm, EncounterTrade enc)
         {
             if (nick == "Quacklin’" && pkm.Nickname == "Quacklin'")
                 return true;
-            var trade = (EncounterTrade) EncounterMatch;
-            if (trade.IsNicknamed != pkm.IsNicknamed)
+            if (enc.IsNicknamed != pkm.IsNicknamed)
                 return false;
             if (nick != pkm.Nickname) // if not match, must not be a nicknamed trade && not currently named
-                return !trade.IsNicknamed && !pkm.IsNicknamed;
+                return !enc.IsNicknamed && !pkm.IsNicknamed;
             return true;
         }
     }
