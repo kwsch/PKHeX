@@ -79,6 +79,10 @@
 0x2CC	Used Move Tutor on Cinnabar Island (Metronome)
 0x2CD	Used Move Tutor in Saffron City (Mimic)
 0x2CE	Used Move Tutor on Four Island (Body Slam)
+0x2DE	Used Move Tutor at Cape Brink (Frenzy Plant)
+0x2DF	Used Move Tutor at Cape Brink (Blast Burn)
+0x2E0	Used Move Tutor at Cape Brink (Hydro Cannon)
+0x2E1	Cape Brink Move Tutor taught all 3 Moves
 
 0x829	Received Pokedex
 0x82F	Received Running Shoes

@@ -79,6 +79,10 @@
 0x2CC	Usado Tutor de Movimientos en Isla Canela (Metrónomo)
 0x2CD	Usado Tutor de Movimientos en Ciudad Azafrán (Mimético)
 0x2CE	Usado Tutor de Movimientos en Isla Cuarta (Golpe Cuerpo)
+0x2DE	Used Move Tutor at Cape Brink (Frenzy Plant)
+0x2DF	Used Move Tutor at Cape Brink (Blast Burn)
+0x2E0	Used Move Tutor at Cape Brink (Hydro Cannon)
+0x2E1	Cape Brink Move Tutor taught all 3 Moves
 
 0x829	Recibida PokéDex
 0x82F	Recibidas Deportivas
