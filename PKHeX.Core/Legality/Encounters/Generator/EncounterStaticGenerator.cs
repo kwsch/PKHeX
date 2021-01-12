@@ -103,12 +103,14 @@ namespace PKHeX.Core
             var species = pkm.Species;
             var met = pkm.Met_Level;
             if (pkm.VC1)
-                return EncounterStatic7.GetVC1(species > MaxSpeciesID_1 ? enc.Species : species, met);
-            if (pkm.VC2)
-                return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
-
-            // Should never reach here.
-            throw new ArgumentException(nameof(pkm.Version));
+            {
+                // Only yield a VC1 template if it could originate in VC1.
+                // Catch anything that can only exist in VC2 (Entei) even if it was "transferred" from VC1.
+                var vc1Species = species > MaxSpeciesID_1 ? enc.Species : species;
+                if (vc1Species <= MaxSpeciesID_1)
+                    return EncounterStatic7.GetVC1(vc1Species, met);
+            }
+            return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
         }
 
         internal static EncounterStatic? GetStaticLocation(PKM pkm)
