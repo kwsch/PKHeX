@@ -121,12 +121,12 @@ namespace PKHeX.Core
                 Egg = Egg.Where(m => m <= Legal.MaxMoveID_1).ToArray();
 
             bool volt = (info.Generation > 3 || e.Version == GameVersion.E) && Legal.LightBall.Contains(pkm.Species);
-            var Special = volt && notEvent ? new[] { 344 } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
+            var specialMoves = volt && notEvent ? new[] { (int)Move.VoltTackle } : Array.Empty<int>(); // Volt Tackle for bred Pichu line
 
             var source = new MoveParseSource
             {
                 CurrentMoves = currentMoves,
-                SpecialSource = Special,
+                SpecialSource = specialMoves,
                 NonTradeBackLevelUpMoves = NonTradebackLvlMoves,
 
                 EggLevelUpSource = LevelUp,

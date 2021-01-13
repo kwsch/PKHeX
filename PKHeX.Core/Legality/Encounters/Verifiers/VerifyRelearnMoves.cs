@@ -113,12 +113,12 @@ namespace PKHeX.Core
 
             // Non-Base moves that can magically appear in the regular movepool
             if (Legal.LightBall.Contains(pkm.Species))
-                inheritMoves.Add(344); // Volt Tackle
+                inheritMoves.Add((int)Move.VoltTackle);
 
             // If any splitbreed moves are invalid, flag accordingly
-            var splitMoves = e is EncounterEggSplit s
+            IReadOnlyList<int> splitMoves = e is EncounterEggSplit s
                 ? MoveList.GetValidRelearn(pkm, s.OtherSpecies, s.Form, inheritLvlMoves, e.Version).ToList()
-                : (IReadOnlyList<int>)Array.Empty<int>();
+                : Array.Empty<int>();
 
             // Inherited moves appear after the required base moves.
             // If the pkm is capable of split-species breeding and any inherited move is from the other split scenario, flag accordingly.

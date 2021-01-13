@@ -31,7 +31,7 @@ namespace PKHeX.Core
             if (volt)
             {
                 Egg = Egg.ToList(); // array->list
-                Egg.Add(344); // Volt Tackle
+                Egg.Add((int)Move.VoltTackle); // Volt Tackle
             }
         }
 
