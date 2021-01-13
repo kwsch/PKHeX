@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -136,7 +135,7 @@ namespace PKHeX.Core
             055, 056, 057, 058, 059, 060, 061, 062, 063, 1580
         };
 
-        internal static readonly ushort[] Pouch_Items_SWSH = Pouch_Regular_SWSH.Concat(Pouch_Ball_SWSH).Concat(Pouch_Battle_SWSH).ToArray();
+        internal static readonly ushort[] Pouch_Items_SWSH = ArrayUtil.ConcatAll(Pouch_Regular_SWSH, Pouch_Ball_SWSH, Pouch_Battle_SWSH);
 
         internal static readonly ushort[] Pouch_Key_SWSH =
         {
@@ -181,7 +180,7 @@ namespace PKHeX.Core
             1220, 1221, 1222, 1223, 1224, 1225, 1226, 1227, 1228, 1229,
         };
 
-        internal static readonly ushort[] Pouch_TMHM_SWSH = TM_SWSH.Concat(TR_SWSH).ToArray();
+        internal static readonly ushort[] Pouch_TMHM_SWSH = ArrayUtil.ConcatAll(TM_SWSH, TR_SWSH);
 
         internal static readonly ushort[] Pouch_Medicine_SWSH =
         {
@@ -347,7 +346,7 @@ namespace PKHeX.Core
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_8 = new()
+        internal static readonly bool[] ReleasedHeldItems_8 = GetPermitList(MaxItemID_8, HeldItems_SWSH, new ushort[]
         {
             298, // Flame Plate
             299, // Splash Plate
@@ -670,9 +669,8 @@ namespace PKHeX.Core
 
             016, // Cherish Ball
             500, // Park Ball
-        };
+        });
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_8 = Enumerable.Range(0, MaxItemID_8+1).Select(i => HeldItems_SWSH.Contains((ushort)i) && !UnreleasedHeldItems_8.Contains(i)).ToArray();
 
         /// <summary>
         /// Moves that are kill

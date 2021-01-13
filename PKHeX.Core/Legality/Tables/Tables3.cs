@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -40,10 +39,10 @@ namespace PKHeX.Core
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
         };
 
-        internal static readonly ushort[] Pouch_Key_FRLG = Pouch_Key_RS.Concat(new ushort[] { 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374 }).ToArray();
-        internal static readonly ushort[] Pouch_Key_E = Pouch_Key_FRLG.Concat(new ushort[] { 375, 376 }).ToArray();
+        internal static readonly ushort[] Pouch_Key_FRLG = ArrayUtil.ConcatAll(Pouch_Key_RS, new ushort[] { 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374 });
+        internal static readonly ushort[] Pouch_Key_E = ArrayUtil.ConcatAll(Pouch_Key_FRLG, new ushort[] { 375, 376 });
 
-        internal static readonly ushort[] Pouch_TMHM_RS = Pouch_TM_RS.Concat(Pouch_HM_RS).ToArray();
+        internal static readonly ushort[] Pouch_TMHM_RS = ArrayUtil.ConcatAll(Pouch_TM_RS, Pouch_HM_RS);
         internal static readonly ushort[] HeldItems_RS = ArrayUtil.ConcatAll(Pouch_Items_RS, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
         #endregion
 
@@ -61,7 +60,7 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_Cologne_COLO = {543, 544, 545};
-        internal static readonly ushort[] Pouch_Items_COLO = Pouch_Items_RS.Concat(new ushort[] {537}).ToArray(); // Time Flute
+        internal static readonly ushort[] Pouch_Items_COLO = ArrayUtil.ConcatAll(Pouch_Items_RS, new ushort[] {537}); // Time Flute
         internal static readonly ushort[] HeldItems_COLO = ArrayUtil.ConcatAll(Pouch_Items_COLO, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
         internal static readonly ushort[] Pouch_Key_COLO =
@@ -74,7 +73,7 @@ namespace PKHeX.Core
         };
 
         internal static readonly ushort[] Pouch_Cologne_XD = {513, 514, 515};
-        internal static readonly ushort[] Pouch_Items_XD = Pouch_Items_RS.Concat(new ushort[] {511}).ToArray(); // Poké Snack
+        internal static readonly ushort[] Pouch_Items_XD = ArrayUtil.ConcatAll(Pouch_Items_RS, new ushort[] {511}); // Poké Snack
         internal static readonly ushort[] HeldItems_XD = ArrayUtil.ConcatAll(Pouch_Items_XD, Pouch_Ball_RS, Pouch_Berries_RS, Pouch_TM_RS);
 
         internal static readonly ushort[] Pouch_Key_XD =
@@ -96,12 +95,7 @@ namespace PKHeX.Core
             590, 591, 592, 593
         };
 
-        internal static readonly int[] UnreleasedItems_3 =
-        {
-            005, // Safari Ball
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_3 = Enumerable.Range(0, MaxItemID_3+1).Select(i => HeldItems_RS.Contains((ushort)i) && !UnreleasedItems_3.Contains(i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, new ushort[] {005}); // Safari Ball
 
         internal static readonly HashSet<string> EReaderBerriesNames_USA = new()
         {
@@ -143,22 +137,15 @@ namespace PKHeX.Core
         };
 
         internal static readonly HashSet<int> HM_3 = new() { 15, 19, 57, 70, 148, 249, 127, 291};
-        internal static readonly int[] TypeTutor3 = {338, 307, 308};
 
         internal static readonly int[] Tutor_3Mew =
         {
-            185, // Feint Attack
-            252, // Fake Out
-            095, // Hypnosis
-            101, // Night Shade
-            272, // Role Play
-            192, // Zap Cannon
-        };
-
-        internal static readonly int[][] Tutor_Frontier =
-        {
-            new[] {135, 069, 138, 005, 025, 034, 157, 068, 086, 014},
-            new[] {111, 173, 189, 129, 196, 203, 244, 008, 009, 007},
+            (int)Move.FeintAttack,
+            (int)Move.FakeOut,
+            (int)Move.Hypnosis,
+            (int)Move.NightShade,
+            (int)Move.RolePlay,
+            (int)Move.ZapCannon,
         };
 
         internal static readonly int[] Tutor_E =
@@ -181,19 +168,10 @@ namespace PKHeX.Core
 
         internal static readonly int[] SpecialTutors_Compatibility_FRLG = { 6, 9, 3 };
 
-        // Tutor moves from XD that can be learned as tutor moves in emerald
-        // For this moves compatibility data is the same in XD and Emerald
-        internal static readonly int[] SpecialTutors_XD_Emerald =
-        {
-            034, 038, 069, 086, 102, 120, 138, 143, 164, 171, 196, 207,
-        };
-
         internal static readonly int[] SpecialTutors_XD_Exclusive =
         {
             120, 143, 171
         };
-
-        internal static readonly int[] SpecialTutors_XD = SpecialTutors_XD_Emerald.Concat(SpecialTutors_XD_Exclusive).ToArray();
 
         internal static readonly int[][] SpecialTutors_Compatibility_XD_Exclusive =
         {
@@ -252,10 +230,10 @@ namespace PKHeX.Core
             187, 188, 189, 190, 191, 192, 193, 194, 195, 196
         };
 
-        internal static readonly HashSet<int> ValidMet_E = new(ValidMet_RS.Concat(new[]
+        internal static readonly HashSet<int> ValidMet_E = new(ValidMet_RS)
         {
             196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212,
-        }));
+        };
 
         /// <summary>
         /// Species ID that can be originated from Colosseum (using only Generation 3 max Species ID values).

@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.Species;
+
+namespace PKHeX.Core
 {
     public static partial class Legal
     {
@@ -38,9 +40,9 @@
         internal static bool TransferSpeciesDefaultAbilityGen1(int species)
         {
             System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_1);
-            return species is (int)Species.Gastly or (int)Species.Haunter or (int)Species.Gengar
-                or (int)Species.Koffing or (int)Species.Weezing
-                or (int)Species.Mew;
+            return species is (int)Gastly or (int)Haunter or (int)Gengar
+                or (int)Koffing or (int)Weezing
+                or (int)Mew;
         }
 
         internal static readonly int[] TMHM_RBY =

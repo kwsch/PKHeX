@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -103,7 +102,7 @@ namespace PKHeX.Core
             05, 10, 05, 05, 15, 10, 05, 05, 05,
         };
 
-        internal static readonly HashSet<int> UnreleasedItems_5 = new()
+        internal static readonly bool[] ReleasedHeldItems_5 = GetPermitList(MaxItemID_5_B2W2, HeldItems_BW, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -122,9 +121,7 @@ namespace PKHeX.Core
             499, // Sport Ball
             500, // Park Ball
             576, // Dream Ball
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_5 = Enumerable.Range(0, MaxItemID_5_B2W2 + 1).Select(i => HeldItems_BW.Contains((ushort)i) && !UnreleasedItems_5.Contains(i)).ToArray();
+        });
 
         internal static readonly int[][] Tutors_B2W2 =
         {

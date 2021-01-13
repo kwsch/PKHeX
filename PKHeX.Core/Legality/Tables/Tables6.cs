@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -176,8 +175,8 @@ namespace PKHeX.Core
             208, 209, 210, 211, 212, 686, 687, 688,
         };
 
-        internal static readonly ushort[] HeldItem_XY = new ushort[1].Concat(Pouch_Items_XY).Concat(Pouch_Medicine_XY).Concat(Pouch_Berry_XY).ToArray();
-        internal static readonly ushort[] HeldItem_AO = new ushort[1].Concat(Pouch_Items_AO).Concat(Pouch_Medicine_AO).Concat(Pouch_Berry_XY).ToArray();
+        internal static readonly ushort[] HeldItem_XY = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_XY, Pouch_Medicine_XY, Pouch_Berry_XY);
+        internal static readonly ushort[] HeldItem_AO = ArrayUtil.ConcatAll(new ushort[1], Pouch_Items_AO, Pouch_Medicine_AO, Pouch_Berry_XY);
         #endregion
 
         #region TMHM
@@ -294,7 +293,7 @@ namespace PKHeX.Core
             10, 20, 30, 10, 10, 40, 40, 30, 20, 40, 20, 20, 10, 10, 10, 10, 05, 10, 10, 05, 05,
         };
 
-        internal static readonly int[] UnreleasedItems_6 =
+        internal static readonly bool[] ReleasedHeldItems_6 = GetPermitList(MaxItemID_6_AO, HeldItem_AO, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -331,8 +330,6 @@ namespace PKHeX.Core
             589, // Relic Statue
             590, // Relic Crown
             715, // Fairy Gem
-        };
-
-        internal static readonly bool[] ReleasedHeldItems_6 = Enumerable.Range(0, MaxItemID_6_AO+1).Select(i => HeldItem_AO.Contains((ushort)i) && !UnreleasedItems_6.Contains(i)).ToArray();
+        });
     }
 }

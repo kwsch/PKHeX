@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using static PKHeX.Core.Species;
+using static PKHeX.Core.Move;
 
 namespace PKHeX.Core
 {
@@ -26,61 +27,54 @@ namespace PKHeX.Core
         /// </summary>
         public static readonly HashSet<int> BattleFrontierBanlist = new()
         {
-            150, // Mewtwo
-            151, // Mew
-
-            249, // Lugia
-            250, // Ho-Oh
-            251, // Celebi
-
-            382, // Kyogre
-            383, // Groudon
-            384, // Rayquaza
-            385, // Jirachi
-            386, // Deoxys
-
-            483, // Dialga
-            484, // Palkia
-            487, // Giratina
-            489, // Phione
-            490, // Manaphy
-            491, // Darkrai
-            492, // Shaymin
-            493, // Arceus
-
-            494, // Victini
-            643, // Reshiram
-            644, // Zekrom
-            646, // Kyurem
-            647, // Keldeo
-            648, // Meloetta
-            649, // Genesect
-
-            716, // Xerneas
-            717, // Yveltal
-            718, // Zygarde
-            719, // Diancie
-            720, // Hoopa
-            721, // Volcanion
-
-            789, // Cosmog
-            790, // Cosmoem
-            791, // Solgaleo
-            792, // Lunala
-            800, // Necrozma
-            801, // Magearna
-            802, // Marshadow
-            807, // Zeraora
-            808, // Meltan
-            809, // Melmetal
+            (int)Mewtwo, (int)Mew,
+            (int)Lugia, (int)HoOh, (int)Celebi,
+            (int)Kyogre, (int)Groudon, (int)Rayquaza, (int)Jirachi, (int)Deoxys,
+            (int)Dialga, (int)Palkia, (int)Giratina, (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
+            (int)Victini, (int)Reshiram, (int)Zekrom, (int)Kyurem, (int)Keldeo, (int)Meloetta, (int)Genesect,
+            (int)Xerneas, (int)Yveltal, (int)Zygarde, (int)Diancie, (int)Hoopa, (int)Volcanion,
+            (int)Cosmog, (int)Cosmoem, (int)Solgaleo, (int)Lunala, (int)Necrozma, (int)Magearna, (int)Marshadow, (int)Zeraora,
+            (int)Meltan, (int)Melmetal,
         };
 
         public static readonly HashSet<int> Z_Moves = new()
         {
-            622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656, 657, 658,
-            695, 696, 697, 698, 699, 700, 701, 702, 703,
-            719,
-            723, 724, 725, 726, 727, 728
+            (int)BreakneckBlitzP, (int)BreakneckBlitzS,
+            (int)AllOutPummelingP, (int)AllOutPummelingS,
+            (int)SupersonicSkystrikeP, (int)SupersonicSkystrikeS,
+            (int)AcidDownpourP, (int)AcidDownpourS,
+            (int)TectonicRageP, (int)TectonicRageS,
+            (int)ContinentalCrushP, (int)ContinentalCrushS,
+            (int)SavageSpinOutP, (int)SavageSpinOutS,
+            (int)NeverEndingNightmareP, (int)NeverEndingNightmareS,
+            (int)CorkscrewCrashP, (int)CorkscrewCrashS,
+            (int)InfernoOverdriveP, (int)InfernoOverdriveS,
+            (int)HydroVortexP, (int)HydroVortexS,
+            (int)BloomDoomP, (int)BloomDoomS,
+            (int)GigavoltHavocP, (int)GigavoltHavocS,
+            (int)ShatteredPsycheP, (int)ShatteredPsycheS,
+            (int)SubzeroSlammerP, (int)SubzeroSlammerS,
+            (int)DevastatingDrakeP, (int)DevastatingDrakeS,
+            (int)BlackHoleEclipseP, (int)BlackHoleEclipseS,
+            (int)TwinkleTackleP, (int)TwinkleTackleS,
+
+            (int)Catastropika,
+            (int)SinisterArrowRaid,
+            (int)MaliciousMoonsault,
+            (int)OceanicOperetta,
+            (int)GuardianofAlola,
+            (int)SoulStealing7StarStrike,
+            (int)StokedSparksurfer,
+            (int)PulverizingPancake,
+            (int)ExtremeEvoboost,
+            (int)GenesisSupernova,
+            (int)TenMVoltThunderbolt,
+            (int)LightThatBurnstheSky,
+            (int)SearingSunrazeSmash,
+            (int)MenacingMoonrazeMaelstrom,
+            (int)LetsSnuggleForever,
+            (int)SplinteredStormshards,
+            (int)ClangorousSoulblaze,
         };
 
         /// <summary>
@@ -89,11 +83,11 @@ namespace PKHeX.Core
         internal static readonly HashSet<int> InvalidSketch = new(Z_Moves)
         {
             // Can't Sketch
-            165, // Struggle
-            448, // Chatter
+            (int)Struggle,
+            (int)Chatter,
 
             // Unreleased
-            617, // Light of Ruin
+            (int)LightofRuin,
         };
 
         /// <summary>
@@ -149,5 +143,21 @@ namespace PKHeX.Core
             (int)Espurr,
             (int)Meowstic, // (M/F) form specific
         };
+
+        private static bool[] GetPermitList(int max, IEnumerable<ushort> held)
+        {
+            var result = new bool[max + 1];
+            foreach (var item in held)
+                result[item] = true;
+            return result;
+        }
+
+        private static bool[] GetPermitList(int max, IEnumerable<ushort> held, IEnumerable<ushort> unreleased)
+        {
+            var result = GetPermitList(max, held);
+            foreach (var u in unreleased)
+                result[u] = false;
+            return result;
+        }
     }
 }

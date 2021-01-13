@@ -92,7 +92,7 @@ namespace PKHeX.Core
             846,
         };
 
-        internal static readonly ushort[] Pouch_Items_SM = Pouch_Regular_SM.Concat(Pouch_Ball_SM).Concat(Pouch_Battle_SM).ToArray();
+        internal static readonly ushort[] Pouch_Items_SM = ArrayUtil.ConcatAll(Pouch_Regular_SM, Pouch_Ball_SM, Pouch_Battle_SM);
 
         internal static readonly ushort[] Pouch_Key_SM = {
             216, 465, 466, 628, 629, 631, 632, 638,
@@ -100,10 +100,10 @@ namespace PKHeX.Core
             841, 842, 843, 845, 847, 850, 857, 858, 860,
         };
 
-        internal static readonly ushort[] Pouch_Key_USUM = Pouch_Key_SM.Concat(new ushort[] {
+        internal static readonly ushort[] Pouch_Key_USUM = ArrayUtil.ConcatAll(Pouch_Key_SM, new ushort[] {
             933, 934, 935, 936, 937, 938, 939, 940, 941, 942, 943, 944, 945, 946, 947, 948,
             440,
-        }).ToArray();
+        });
 
         public static readonly ushort[] Pouch_Roto_USUM = {
             949, 950, 951, 952, 953, 954, 955, 956, 957, 958, 959
@@ -137,13 +137,13 @@ namespace PKHeX.Core
             776, 777, 778, 779, 780, 781, 782, 783, 784, 785, 786, 787, 788, 789, 790, 791, 792, 793, 794, 798, 799, 800, 801, 802, 803, 804, 805, 806, 836
         };
 
-        internal static readonly ushort[] Pouch_ZCrystal_USUM = Pouch_ZCrystal_SM.Concat(new ushort[] { // Bead
+        internal static readonly ushort[] Pouch_ZCrystal_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystal_SM, new ushort[] { // Bead
             927, 928, 929, 930, 931, 932
-        }).ToArray();
+        });
 
-        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = Pouch_ZCrystalHeld_SM.Concat(new ushort[] { // Piece
+        internal static readonly ushort[] Pouch_ZCrystalHeld_USUM = ArrayUtil.ConcatAll(Pouch_ZCrystalHeld_SM, new ushort[] { // Piece
             921, 922, 923, 924, 925, 926
-        }).ToArray();
+        });
 
         public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
             .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new KeyValuePair<int, int>(k, v))
@@ -323,7 +323,7 @@ namespace PKHeX.Core
         };
 
         #region Unreleased Items
-        internal static readonly HashSet<int> UnreleasedHeldItems_7 = new()
+        internal static readonly bool[] ReleasedHeldItems_7 = GetPermitList(MaxItemID_7_USUM, HeldItems_USUM, new ushort[]
         {
             005, // Safari Ball
             016, // Cherish Ball
@@ -386,8 +386,7 @@ namespace PKHeX.Core
             590, // Relic Crown
             699, // Discount Coupon
             715, // Fairy Gem
-        };
+        });
         #endregion
-        internal static readonly bool[] ReleasedHeldItems_7 = Enumerable.Range(0, MaxItemID_7_USUM+1).Select(i => HeldItems_USUM.Contains((ushort)i) && !UnreleasedHeldItems_7.Contains(i)).ToArray();
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -53,15 +53,15 @@ namespace PKHeX.Core
 
         internal static readonly int[] Tutors_GSC = {53, 85, 58}; // Flamethrower, Thunderbolt & Ice Beam
 
-        internal static readonly bool[] ReleasedHeldItems_2 = Enumerable.Range(0, MaxItemID_2+1).Select(i => HeldItems_GSC.Contains((ushort)i)).ToArray();
+        internal static readonly bool[] ReleasedHeldItems_2 = GetPermitList(MaxItemID_2, HeldItems_GSC);
 
         internal static bool TransferSpeciesDefaultAbilityGen2(int species)
         {
             System.Diagnostics.Debug.Assert((uint)species <= MaxSpeciesID_2);
-            return species is (int)Species.Gastly or (int)Species.Haunter or (int)Species.Gengar
-                or (int)Species.Koffing or (int)Species.Weezing
-                or (int)Species.Misdreavus or (int)Species.Unown
-                or (int)Species.Mew or (int)Species.Celebi;
+            return species is (int)Gastly or (int)Haunter or (int)Gengar
+                or (int)Koffing or (int)Weezing
+                or (int)Misdreavus or (int)Unown
+                or (int)Mew or (int)Celebi;
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -73,7 +72,7 @@ namespace PKHeX.Core
             1057,
         };
 
-        internal static readonly ushort[] Pouch_Candy_GG = Pouch_Candy_GG_Regular.Concat(Pouch_Candy_GG_Species).ToArray();
+        internal static readonly ushort[] Pouch_Candy_GG = ArrayUtil.ConcatAll(Pouch_Candy_GG_Regular, Pouch_Candy_GG_Species);
 
         internal static readonly ushort[] Pouch_Medicine_GG =
         {
