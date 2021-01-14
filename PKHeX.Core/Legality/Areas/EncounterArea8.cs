@@ -277,6 +277,12 @@ namespace PKHeX.Core
         Heavy_Fog = 1 << 8,
 
         All = Normal | Overcast | Raining | Thunderstorm | Intense_Sun | Snowing | Snowstorm | Sandstorm | Heavy_Fog,
+        Stormy = Raining | Thunderstorm,
+        Icy = Snowing | Snowstorm,
+        All_IoA = Normal | Overcast | Stormy | Intense_Sun | Sandstorm | Heavy_Fog,         // IoA can have everything but snow
+        All_CT = Normal | Overcast | Stormy | Intense_Sun | Icy | Heavy_Fog,                // CT can have everything but sand
+        No_Sun_Sand = Normal | Overcast | Stormy | Icy | Heavy_Fog,                         // Everything but sand and sun
+        All_Ballimere = Normal | Overcast | Stormy | Intense_Sun | Snowing | Heavy_Fog,     // All Ballimere Lake weather
 
         Shaking_Trees = 1 << 9,
         Fishing = 1 << 10,
