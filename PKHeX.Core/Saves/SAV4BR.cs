@@ -153,8 +153,7 @@ namespace PKHeX.Core
         private string GetOTName(int slot)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, 0x10);
-            return Util.TrimFromZero(str);
+            return StringConverter4.GetBEString4(Data, ofs, 0x10);
         }
 
         private void SetOTName(int slot, string name)
@@ -181,8 +180,8 @@ namespace PKHeX.Core
             if (BoxName < 0)
                 return $"BOX {box + 1}";
 
-            var str = Encoding.BigEndianUnicode.GetString(Data, BoxName + (box * BoxNameLength), BoxNameLength);
-            str = Util.TrimFromZero(str);
+            int ofs = BoxName + (box * BoxNameLength);
+            var str = GetString(ofs, BoxNameLength);
             if (string.IsNullOrWhiteSpace(str))
                 return $"BOX {box + 1}";
             return str;
@@ -194,12 +193,11 @@ namespace PKHeX.Core
                 return;
 
             int ofs = BoxName + (box * BoxNameLength);
-            var str = Encoding.BigEndianUnicode.GetString(Data, ofs, BoxNameLength);
-            str = Util.TrimFromZero(str);
+            var str = GetString(ofs, BoxNameLength);
             if (string.IsNullOrWhiteSpace(str))
                 return;
 
-            var data = Encoding.BigEndianUnicode.GetBytes(value.PadLeft(BoxNameLength / 2, '\0'));
+            var data = SetString(value, BoxNameLength / 2, BoxNameLength / 2);
             SetData(data, ofs);
         }
 

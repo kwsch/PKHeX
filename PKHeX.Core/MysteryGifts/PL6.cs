@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -33,7 +32,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Name of data source
         /// </summary>
-        public string Origin { get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x01, 0x6E)); set => Encoding.Unicode.GetBytes(value.PadRight(54 + 1, '\0')).CopyTo(Data, 0x01); }
+        public string Origin { get => StringConverter.GetString6(Data, 0x01, 110); set => StringConverter.SetString6(value, 54, 55).CopyTo(Data, 0x01); }
 
         // Pokemon transfer flags?
         public uint Flags_1 { get => BitConverter.ToUInt32(Data, 0x099); set => BitConverter.GetBytes(value).CopyTo(Data, 0x099); }
@@ -101,8 +100,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x1E, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12 + 1, '\0')).CopyTo(Data, 0x1E);
+            get => StringConverter.GetString6(Data, 0x1E, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x1E);
         }
 
         public int Nature { get => Data[0x38]; set => Data[0x38] = (byte)value; }
@@ -131,8 +130,8 @@ namespace PKHeX.Core
 
         public string OT
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x4E, 0x1A));
-            set => Encoding.Unicode.GetBytes(value.PadRight(value.Length + 1, '\0')).CopyTo(Data, 0x4E);
+            get => StringConverter.GetString6(Data, 0x4E, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x4E);
         }
 
         public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }

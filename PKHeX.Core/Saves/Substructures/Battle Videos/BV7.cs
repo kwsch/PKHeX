@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -65,9 +64,8 @@ namespace PKHeX.Core
             string[] trainers = new string[PlayerCount];
             for (int i = 0; i < PlayerCount; i++)
             {
-                trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x12C + (0x1A * i), 0x1A));
-                if (string.IsNullOrWhiteSpace(trainers[i]))
-                    trainers[i] = NPC;
+                var str = StringConverter.GetString7(Data, 0x12C + (0x1A * i), 0x1A);
+                trainers[i] = string.IsNullOrWhiteSpace(trainers[i]) ? NPC : str;
             }
             return trainers;
         }
@@ -80,7 +78,7 @@ namespace PKHeX.Core
             for (int i = 0; i < PlayerCount; i++)
             {
                 string tr = value[i] == NPC ? string.Empty : value[i];
-                Encoding.Unicode.GetBytes(tr.PadRight(0x1A / 2)).CopyTo(Data, 0xEC + (0x1A * i));
+                StringConverter.SetString7(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
             }
         }
 

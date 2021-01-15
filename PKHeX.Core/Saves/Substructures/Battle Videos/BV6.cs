@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 // ReSharper disable UnusedType.Local
 
 namespace PKHeX.Core
@@ -29,14 +28,14 @@ namespace PKHeX.Core
 
         public string Debug1
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x6, 24));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x6);
+            get => StringConverter.GetString6(Data, 0x6, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x6);
         }
 
         public string Debug2
         {
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0x50, 24));
-            set => Encoding.Unicode.GetBytes(value.PadRight(12, '\0')).CopyTo(Data, 0x50);
+            get => StringConverter.GetString6(Data, 0x50, 0x1A);
+            set => StringConverter.SetString6(value, 12, 13).CopyTo(Data, 0x50);
         }
 
         public ulong RNGConst1 { get => BitConverter.ToUInt64(Data, 0x1A0); set => BitConverter.GetBytes(value).CopyTo(Data, 0x1A0); }
@@ -54,9 +53,8 @@ namespace PKHeX.Core
             string[] trainers = new string[PlayerCount];
             for (int i = 0; i < PlayerCount; i++)
             {
-                trainers[i] = Util.TrimFromZero(Encoding.Unicode.GetString(Data, 0xEC + (0x1A * i), 0x1A));
-                if (string.IsNullOrWhiteSpace(trainers[i]))
-                    trainers[i] = NPC;
+                var str = StringConverter.GetString6(Data, 0xEC + (0x1A * i), 0x1A);
+                trainers[i] = string.IsNullOrWhiteSpace(str) ? NPC : str;
             }
             return trainers;
         }
@@ -69,7 +67,7 @@ namespace PKHeX.Core
             for (int i = 0; i < PlayerCount; i++)
             {
                 string tr = value[i] == NPC ? string.Empty : value[i];
-                Encoding.Unicode.GetBytes(tr.PadRight(0x1A / 2)).CopyTo(Data, 0xEC + (0x1A * i));
+                StringConverter.SetString6(tr, 12, 13).CopyTo(Data, 0xEC + (0x1A * i));
             }
         }
 

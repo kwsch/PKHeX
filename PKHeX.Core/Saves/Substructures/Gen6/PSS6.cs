@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -48,8 +47,8 @@ namespace PKHeX.Core
             if (pssID == 0)
                 return false; // no data
 
-            string otname = Util.TrimFromZero(Encoding.Unicode.GetString(Data, ofs + 8, 0x1A));
-            string message = Util.TrimFromZero(Encoding.Unicode.GetString(Data, ofs + 0x22, 0x22));
+            string otname = StringConverter.GetString6(Data, ofs + 8, 0x1A);
+            string message = StringConverter.GetString6(Data, ofs + 8 + 0x1A, 0x22);
 
             // Trim terminated
 

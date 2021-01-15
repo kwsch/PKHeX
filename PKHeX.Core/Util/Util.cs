@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace PKHeX.Core
 {
@@ -51,8 +52,7 @@ namespace PKHeX.Core
                 if (!IsNum(c))
                     continue;
                 result *= 10;
-                result += c;
-                result -= '0';
+                result += (uint)(c - '0');
             }
             return result;
         }
@@ -158,7 +158,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="input">String to trim.</param>
         /// <returns>Trimmed string.</returns>
-        public static string TrimFromFFFF(string input) => TrimFromFirst(input, (char)0xFFFF);
+        public static void TrimFromFFFF(StringBuilder input) => TrimFromFirst(input, (char)0xFFFF);
 
         /// <summary>
         /// Trims a string at the first instance of a 0x0000 terminator.
@@ -167,11 +167,28 @@ namespace PKHeX.Core
         /// <returns>Trimmed string.</returns>
         public static string TrimFromZero(string input) => TrimFromFirst(input, '\0');
 
+        /// <summary>
+        /// Trims a string at the first instance of a 0x0000 terminator.
+        /// </summary>
+        /// <param name="input">String to trim.</param>
+        /// <returns>Trimmed string.</returns>
+        public static void TrimFromZero(StringBuilder input) => TrimFromFirst(input, '\0');
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string TrimFromFirst(string input, char c)
         {
             int index = input.IndexOf(c);
             return index < 0 ? input : input.Substring(0, index);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static void TrimFromFirst(StringBuilder input, char c)
+        {
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (input[i] == c)
+                    input.Remove(i, input.Length - i);
+            }
         }
 
         public static Dictionary<string, int>[] GetMultiDictionary(IReadOnlyList<IReadOnlyList<string>> nameArray)

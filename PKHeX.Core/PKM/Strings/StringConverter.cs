@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -70,7 +71,11 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString5(byte[] data, int offset, int count)
         {
-            return SanitizeString(Util.TrimFromFFFF(Encoding.Unicode.GetString(data, offset, count)));
+            var raw = Encoding.Unicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromFFFF(sb);
+            SanitizeString(sb);
+            return sb.ToString();
         }
 
         /// <summary>Gets the bytes for a Generation 5 string.</summary>
@@ -81,12 +86,19 @@ namespace PKHeX.Core
         /// <returns>Encoded data.</returns>
         public static byte[] SetString5(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-            string temp = UnSanitizeString(value, 5)
-                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
-                .PadRight(padTo, (char)padWith); // Padding
-            return Encoding.Unicode.GetBytes(temp);
+            var sb = new StringBuilder(value, Math.Max(maxLength, padTo));
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
+
+            // Replace Special Characters and add Terminator
+            UnSanitizeString(sb, 5);
+            sb.Append((char)0xFFFF);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            return Encoding.Unicode.GetBytes(sb.ToString());
         }
 
         /// <summary>Converts Generation 6 encoded data to decoded string.</summary>
@@ -96,7 +108,11 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString6(byte[] data, int offset, int count)
         {
-            return SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count)));
+            var raw = Encoding.Unicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromZero(sb);
+            SanitizeString(sb);
+            return sb.ToString();
         }
 
         /// <summary>Gets the bytes for a Generation 6 string.</summary>
@@ -107,12 +123,19 @@ namespace PKHeX.Core
         /// <returns>Encoded data.</returns>
         public static byte[] SetString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-            string temp = UnSanitizeString(value, 6)
-                .PadRight(value.Length + 1, '\0') // Null Terminator
-                .PadRight(padTo, (char)padWith);
-            return Encoding.Unicode.GetBytes(temp);
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
+
+            // Replace Special Characters and add Terminator
+            UnSanitizeString(sb, 6);
+            sb.Append((char)0);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            return Encoding.Unicode.GetBytes(sb.ToString());
         }
 
         /// <summary>Converts Generation 7 encoded data to decoded string.</summary>
@@ -122,7 +145,12 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString7(byte[] data, int offset, int count)
         {
-            return ConvertBin2StringG7_zh(SanitizeString(Util.TrimFromZero(Encoding.Unicode.GetString(data, offset, count))));
+            var raw = Encoding.Unicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromZero(sb);
+            SanitizeString(sb);
+            RemapChineseGlyphsBin2String(sb);
+            return sb.ToString();
         }
 
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
@@ -135,14 +163,21 @@ namespace PKHeX.Core
         /// <returns>Encoded data.</returns>
         public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
         {
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
             if (chinese)
-                value = ConvertString2BinG7_zh(value, language);
-            if (value.Length > maxLength)
-                value = value.Substring(0, 12); // Hard cap
-            string temp = UnSanitizeString(value, 7)
-                .PadRight(value.Length + 1, '\0') // Null Terminator
-                .PadRight(padTo, (char)padWith);
-            return Encoding.Unicode.GetBytes(temp);
+                ConvertString2BinG7_zh(sb, language);
+
+            // Replace Special Characters and add Terminator
+            UnSanitizeString(sb, 7);
+            sb.Append((char)0);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            return Encoding.Unicode.GetBytes(sb.ToString());
         }
 
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
@@ -155,34 +190,43 @@ namespace PKHeX.Core
         /// <returns>Encoded data.</returns>
         public static byte[] SetString7b(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
         {
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
             if (chinese)
-                value = ConvertString2BinG7_zh(value, language);
-            if (value.Length > maxLength)
-                value = value.Substring(0, 12); // Hard cap
-            string temp = UnSanitizeString7b(value)
-                .PadRight(value.Length + 1, '\0') // Null Terminator
-                .PadRight(padTo, (char)padWith);
-            return Encoding.Unicode.GetBytes(temp);
+                ConvertString2BinG7_zh(sb, language);
+
+            // Replace Special Characters and add Terminator
+            UnSanitizeString7b(sb);
+            sb.Append((char)0);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            return Encoding.Unicode.GetBytes(sb.ToString());
         }
 
         /// <summary>
         /// Converts a Unicode string to Generation 7 in-game Chinese string.
         /// </summary>
-        /// <param name="input">Unicode string.</param>
+        /// <param name="sb">Unicode string.</param>
         /// <param name="lang">Detection of language for Traditional Chinese check</param>
         /// <returns>In-game Chinese string.</returns>
-        private static string ConvertString2BinG7_zh(string input, int lang)
+        private static void ConvertString2BinG7_zh(StringBuilder sb, int lang)
         {
-            var str = new StringBuilder();
-
             // A string cannot contain a mix of CHS and CHT characters.
+            var input = sb.ToString();
             bool traditional = input.Any(chr => G7_CHT.ContainsKey(chr) && !G7_CHS.ContainsKey(chr))
             || (lang == 10 && !input.Any(chr => G7_CHT.ContainsKey(chr) ^ G7_CHS.ContainsKey(chr))); // CHS and CHT have the same display name
             var table = traditional ? G7_CHT : G7_CHS;
 
-            foreach (char chr in input)
-                str.Append(table.TryGetValue(chr, out int index) ? (char)(index + Gen7_ZH_Ofs) : chr);
-            return str.ToString();
+            for (int i = 0; i < sb.Length; i++)
+            {
+                var chr = sb[i];
+                if (table.TryGetValue(chr, out var index))
+                    sb[i] = (char) (index + Gen7_ZH_Ofs);
+            }
         }
 
         /// <summary>
@@ -190,24 +234,15 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="input">In-game Chinese string.</param>
         /// <returns>Unicode string.</returns>
-        private static string ConvertBin2StringG7_zh(string input)
+        private static void RemapChineseGlyphsBin2String(StringBuilder input)
         {
-            var str = new StringBuilder();
-            foreach (var val in input)
-                str.Append((char)GetGen7ChineseChar(val));
-            return str.ToString();
-        }
-
-        /// <summary>
-        /// Shifts a character from the Chinese character tables
-        /// </summary>
-        /// <param name="val">Input value to shift</param>
-        /// <returns>Shifted character</returns>
-        private static ushort GetGen7ChineseChar(ushort val)
-        {
-            if (Gen7_ZH_Ofs <= val && val < Gen7_ZH_Ofs + Gen7_ZH.Length)
-                return Gen7_ZH[val - Gen7_ZH_Ofs];
-            return val; // regular character
+            for (int i = 0; i < input.Length; i++)
+            {
+                char val = input[i];
+                if (val < Gen7_ZH_Ofs || val >= Gen7_ZH_Ofs + Gen7_ZH.Length)
+                    continue;
+                input[i] = Gen7_ZH[val - Gen7_ZH_Ofs];
+            }
         }
 
         #region Gen 7 Chinese Character Tables
@@ -231,19 +266,19 @@ namespace PKHeX.Core
         /// <summary>
         /// Converts full width to single width
         /// </summary>
-        /// <param name="str">Input string to sanitize.</param>
+        /// <param name="s">Input string to sanitize.</param>
         /// <returns></returns>
-        internal static string SanitizeString(string str)
+        internal static void SanitizeString(StringBuilder s)
         {
-            if (str.Length == 0)
-                return str;
-            var s = str.Replace('’', '\''); // Farfetch'd
+            if (s.Length == 0)
+                return;
+            s.Replace('’', '\''); // Farfetch'd
 
             // remap custom glyphs to unicode
-            s = s.Replace('\uE08F', '♀'); // ♀ (gen6+)
-            s = s.Replace('\uE08E', '♂'); // ♂ (gen6+)
-            s = s.Replace('\u246E', '♀'); // ♀ (gen5)
-            return s.Replace('\u246D', '♂'); // ♂ (gen5)
+            s.Replace('\uE08F', '♀'); // ♀ (gen6+)
+            s.Replace('\uE08E', '♂'); // ♂ (gen6+)
+            s.Replace('\u246E', '♀'); // ♀ (gen5)
+            s.Replace('\u246D', '♂'); // ♂ (gen5)
         }
 
         /// <summary>
@@ -251,10 +286,10 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="str">Input string to set.</param>
         /// <returns></returns>
-        private static string UnSanitizeString7b(string str)
+        private static void UnSanitizeString7b(StringBuilder str)
         {
             // gender chars always full width
-            return str.Replace('\'', '’'); // Farfetch'd
+            str.Replace('\'', '’'); // Farfetch'd
         }
 
         /// <summary>
@@ -263,28 +298,28 @@ namespace PKHeX.Core
         /// <param name="str">Input string to set.</param>
         /// <param name="generation">Generation specific context</param>
         /// <returns></returns>
-        internal static string UnSanitizeString(string str, int generation)
+        internal static void UnSanitizeString(StringBuilder str, int generation)
         {
-            var s = str;
             if (generation >= 6)
-                s = str.Replace('\'', '’'); // Farfetch'd
+                str.Replace('\'', '’'); // Farfetch'd
 
             if (generation <= 5)
             {
-                s = s.Replace('\u2640', '\u246E'); // ♀
-                return s.Replace('\u2642', '\u246D'); // ♂
+                str.Replace('\u2640', '\u246E'); // ♀
+                str.Replace('\u2642', '\u246D'); // ♂
+                return;
             }
 
-            var context = str.Except(FullToHalf);
+            var context = str.ToString().Except(FullToHalf);
             bool fullwidth = context.Select(c => c >> 12) // select the group the char belongs to
                 .Any(c => c is not (0 or 0xE) /* Latin, Special Symbols */);
 
             if (fullwidth) // jp/ko/zh strings
-                return s; // keep as full width
+                return; // keep as full width
 
             // Convert back to half width glyphs
-            s = s.Replace('\u2640', '\uE08F'); // ♀
-            return s.Replace('\u2642', '\uE08E'); // ♂
+            str.Replace('\u2640', '\uE08F'); // ♀
+            str.Replace('\u2642', '\uE08E'); // ♂
         }
 
         private static readonly char[] FullToHalf = {'\u2640', '\u2642'}; // ♀♂

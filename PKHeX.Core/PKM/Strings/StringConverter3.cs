@@ -27,7 +27,8 @@ namespace PKHeX.Core
                     break;
                 s.Append(c);
             }
-            return StringConverter.SanitizeString(s.ToString());
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>
@@ -76,7 +77,10 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetBEString3(byte[] data, int offset, int count)
         {
-            return Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, count));
+            var raw = Encoding.BigEndianUnicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromZero(sb);
+            return sb.ToString();
         }
 
         /// <summary>Gets the bytes for a Big Endian string.</summary>
@@ -89,10 +93,14 @@ namespace PKHeX.Core
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            var temp = StringConverter.SanitizeString(value)
-                .PadRight(value.Length + 1, (char)0) // Null Terminator
-                .PadRight(padTo, (char)padWith);
-            return Encoding.BigEndianUnicode.GetBytes(temp);
+            var sb = new StringBuilder(value);
+            StringConverter.SanitizeString(sb);
+            sb.Append('\0');
+            var delta = padTo - value.Length;
+            if (delta > 0)
+                sb.Append((char)padWith, delta);
+            var result = sb.ToString();
+            return Encoding.BigEndianUnicode.GetBytes(result);
         }
 
         /// <summary>

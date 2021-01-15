@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -42,8 +41,8 @@ namespace PKHeX.Core
         public override string CardTitle
         {
             // Max len 36 char, followed by null terminator
-            get => Util.TrimFromZero(Encoding.Unicode.GetString(Data, CardStart + 2, 72));
-            set => Encoding.Unicode.GetBytes(value.PadRight(36, '\0')).CopyTo(Data, CardStart + 2);
+            get => StringConverter.GetString7(Data, CardStart + 2, 0x4A);
+            set => StringConverter.SetString7b(value, 36, 2, 37).CopyTo(Data, CardStart + 2);
         }
 
         private uint RawDate
@@ -275,11 +274,11 @@ namespace PKHeX.Core
         public bool IsNicknamed => false;
         public int Language => 2;
 
-        public string GetNickname(int language) => Util.TrimFromZero(Encoding.Unicode.GetString(Data, GetNicknameOffset(language), 0x1A));
-        public void SetNickname(int language, string value) => Encoding.Unicode.GetBytes(value.PadRight(0x1A / 2, '\0')).CopyTo(Data, GetNicknameOffset(language));
+        public string GetNickname(int language) => StringConverter.GetString7(Data, GetNicknameOffset(language), 0x1A);
+        public void SetNickname(int language, string value) => StringConverter.SetString7b(value, 12, 2, 13).CopyTo(Data, GetNicknameOffset(language));
 
-        public string GetOT(int language) => Util.TrimFromZero(Encoding.Unicode.GetString(Data, GetOTOffset(language), 0x1A));
-        public void SetOT(int language, string value) => Encoding.Unicode.GetBytes(value.PadRight(0x1A / 2, '\0')).CopyTo(Data, GetOTOffset(language));
+        public string GetOT(int language) => StringConverter.GetString7(Data, GetOTOffset(language), 0x1A);
+        public void SetOT(int language, string value) => StringConverter.SetString7b(value, 12, 2, 13).CopyTo(Data, GetOTOffset(language));
 
         private static int GetNicknameOffset(int language)
         {

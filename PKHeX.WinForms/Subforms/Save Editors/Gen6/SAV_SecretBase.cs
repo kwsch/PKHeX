@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -73,11 +72,11 @@ namespace PKHeX.WinForms
 
             int playeroff = SAV.SecretBase + 0x326;
             int favoff = SAV.SecretBase + 0x63A;
-            string OT = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, playeroff + 0x218, 0x1A));
+            string OT = StringConverter.GetString6(SAV.Data, playeroff + 0x218, 0x1A);
             LB_Favorite.Items.Add($"* {OT}");
             for (int i = 0; i < 30; i++)
             {
-                string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + (i * 0x3E0) + 0x218, 0x1A));
+                string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (i * 0x3E0) + 0x218, 0x1A);
                 if (BaseTrainer.Length < 1 || BaseTrainer[0] == '\0')
                     BaseTrainer = "Empty";
                 LB_Favorite.Items.Add($"{i} {BaseTrainer}");
@@ -520,7 +519,7 @@ namespace PKHeX.WinForms
             int index = LB_Favorite.SelectedIndex - 1;
 
             int favoff = SAV.SecretBase + 0x63A;
-            string BaseTrainer = Util.TrimFromZero(Encoding.Unicode.GetString(SAV.Data, favoff + (index * 0x3E0) + 0x218, 0x1A));
+            string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (index * 0x3E0) + 0x218, 0x1A);
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";
 

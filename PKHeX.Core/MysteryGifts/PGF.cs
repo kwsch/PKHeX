@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace PKHeX.Core
 {
@@ -52,8 +51,8 @@ namespace PKHeX.Core
 
         public string Nickname
         {
-            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x1E, 0x16));
-            set => Encoding.Unicode.GetBytes(value.PadRight(0xB, (char)0xFFFF)).CopyTo(Data, 0x1E);
+            get => StringConverter.GetString5(Data, 0x1E, 11 * 2);
+            set => StringConverter.SetString5(value, 11, 11, (char)0xFFFF).CopyTo(Data, 0x1E);
         }
 
         public int Nature { get => (sbyte)Data[0x34]; set => Data[0x34] = (byte)value; }
@@ -76,9 +75,11 @@ namespace PKHeX.Core
         public int IV_SPA { get => Data[0x47]; set => Data[0x47] = (byte)value; }
         public int IV_SPD { get => Data[0x48]; set => Data[0x48] = (byte)value; }
         // Unused 0x49
-        public override string OT_Name {
-            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x4A, 0x10));
-            set => Encoding.Unicode.GetBytes(value.PadRight(0x08, (char)0xFFFF)).CopyTo(Data, 0x4A); }
+        public override string OT_Name
+        {
+            get => StringConverter.GetString5(Data, 0x4A, 8 * 2);
+            set => StringConverter.SetString5(value, 8, 8, (char)0xFFFF).CopyTo(Data, 0x4A);
+        }
 
         public int OTGender { get => Data[0x5A]; set => Data[0x5A] = (byte)value; }
         public override int Level { get => Data[0x5B]; set => Data[0x5C] = (byte)value; }
@@ -86,8 +87,8 @@ namespace PKHeX.Core
         // Unused 0x5D 0x5E 0x5F
         public override string CardTitle
         {
-            get => Util.TrimFromFFFF(Encoding.Unicode.GetString(Data, 0x60, 0x4A));
-            set => Encoding.Unicode.GetBytes((value + '\uFFFF').PadRight(0x4A / 2, '\0')).CopyTo(Data, 0x60);
+            get => StringConverter.GetString5(Data, 0x60, 37 * 2);
+            set => StringConverter.SetString5(value + '\uFFFF', 37, 37, 0).CopyTo(Data, 0x60);
         }
 
         // Card Attributes

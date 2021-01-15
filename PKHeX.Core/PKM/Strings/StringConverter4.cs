@@ -28,7 +28,8 @@ namespace PKHeX.Core
                     break;
                 s.Append((char)chr);
             }
-            return StringConverter.SanitizeString(s.ToString());
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>Gets the bytes for a 4th Generation String</summary>
@@ -39,16 +40,22 @@ namespace PKHeX.Core
         /// <returns>Encoded data.</returns>
         public static byte[] SetString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-            var temp = StringConverter.UnSanitizeString(value, 4) // Replace Special Characters and add Terminator
-                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
-                .PadRight(padTo, (char)padWith); // Padding
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
 
-            var data = new byte[temp.Length * 2];
-            for (int i = 0; i < temp.Length; i++)
+            // Replace Special Characters and add Terminator
+            StringConverter.UnSanitizeString(sb, 4);
+            sb.Append((char)0xFFFF);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            var data = new byte[sb.Length * 2];
+            for (int i = 0; i < sb.Length; i++)
             {
-                var chr = temp[i];
+                var chr = sb[i];
                 var val = ConvertChar2ValueG4(chr);
                 BitConverter.GetBytes(val).CopyTo(data, i * 2);
             }
@@ -75,7 +82,8 @@ namespace PKHeX.Core
                     break;
                 sb.Append((char)chr);
             }
-            return StringConverter.SanitizeString(sb.ToString());
+            StringConverter.SanitizeString(sb);
+            return sb.ToString();
         }
 
         /// <summary>
@@ -88,17 +96,22 @@ namespace PKHeX.Core
         /// <returns>Byte array containing encoded character data</returns>
         public static byte[] SetBEString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
 
-            var temp = StringConverter.UnSanitizeString(value, 4) // Replace Special Characters and add Terminator
-                .PadRight(value.Length + 1, (char)0xFFFF) // Null Terminator
-                .PadRight(padTo, (char)padWith); // Padding
+            // Replace Special Characters and add Terminator
+            StringConverter.UnSanitizeString(sb, 4);
+            sb.Append((char)0xFFFF);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
 
-            var data = new byte[temp.Length * 2];
-            for (int i = 0; i < temp.Length; i++)
+            var data = new byte[sb.Length * 2];
+            for (int i = 0; i < sb.Length; i++)
             {
-                var chr = temp[i];
+                var chr = sb[i];
                 var val = ConvertChar2ValueG4(chr);
                 BigEndian.GetBytes(val).CopyTo(data, i * 2);
             }

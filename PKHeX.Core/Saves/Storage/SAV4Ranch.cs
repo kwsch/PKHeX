@@ -86,7 +86,7 @@ namespace PKHeX.Core
             SetData(result, 0);
         }
 
-        public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {

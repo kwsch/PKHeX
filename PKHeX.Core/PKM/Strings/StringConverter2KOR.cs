@@ -35,7 +35,8 @@ namespace PKHeX.Core
                     break;
                 s.Append(c);
             }
-            return StringConverter.SanitizeString(s.ToString());
+            StringConverter.SanitizeString(s);
+            return s.ToString();
         }
 
         /// <summary>

@@ -152,8 +152,8 @@ namespace PKHeX.WinForms
             uint shiny = slgf >> 14 & 0x1;
             // uint unkn = slgf >> 15;
 
-            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            string OTname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
+            string nickname = StringConverter.GetString6(data, offset + 0x18, 24);
+            string OTname = StringConverter.GetString6(data, offset + 0x30, 24);
 
             string genderstr = gendersymbols[(int)gender];
             string shinystr = shiny == 1 ? "Yes" : "No";
@@ -200,8 +200,8 @@ namespace PKHeX.WinForms
             TB_TID.Text = BitConverter.ToUInt16(data, offset + 0x10).ToString("00000");
             TB_SID.Text = BitConverter.ToUInt16(data, offset + 0x12).ToString("00000");
 
-            TB_Nickname.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            TB_OT.Text = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x30, 24));
+            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
+            TB_OT.Text = StringConverter.GetString6(data, offset + 0x30, 24);
 
             uint slgf = BitConverter.ToUInt32(data, offset + 0x14);
             uint form = slgf & 0x1F;
@@ -427,8 +427,7 @@ namespace PKHeX.WinForms
             tb.Text = d.FinalString;
             d.FinalBytes.CopyTo(data, offset + 0x18);
 
-            string nickname = Util.TrimFromZero(Encoding.Unicode.GetString(data, offset + 0x18, 24));
-            TB_Nickname.Text = nickname;
+            TB_Nickname.Text = StringConverter.GetString6(data, offset + 0x18, 24);
         }
     }
 }
