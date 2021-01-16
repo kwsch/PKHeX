@@ -79,7 +79,7 @@ namespace PKHeX.Core
                 if (!IsNicknamed && Nickname == value)
                     return;
 
-                SetStringKeepTerminatorStyle(value, StringLength - 1, nick);
+                SetStringKeepTerminatorStyle(value, nick);
             }
         }
 
@@ -91,10 +91,10 @@ namespace PKHeX.Core
                     return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
                 return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
             }
-            set => SetStringKeepTerminatorStyle(value, StringLength - 1, otname);
+            set => SetStringKeepTerminatorStyle(value, otname);
         }
 
-        private void SetStringKeepTerminatorStyle(string value, int maxStringLength, byte[] exist)
+        private void SetStringKeepTerminatorStyle(string value, byte[] exist)
         {
             // Reset the destination buffer based on the termination style of the existing string.
             bool zeroed = Array.IndexOf(exist, (byte)0) != -1;
@@ -102,7 +102,7 @@ namespace PKHeX.Core
             for (int i = 0; i < exist.Length; i++)
                 exist[i] = fill;
 
-            int finalLength = Math.Min(value.Length, maxStringLength) + 1;
+            int finalLength = Math.Min(value.Length + 1, exist.Length);
             byte[] strdata = SetString(value, finalLength);
             strdata.CopyTo(exist, 0);
         }
