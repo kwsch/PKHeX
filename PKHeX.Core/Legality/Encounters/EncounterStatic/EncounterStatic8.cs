@@ -15,6 +15,8 @@ namespace PKHeX.Core
         public byte DynamaxLevel { get; set; }
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
+        public AreaWeather8 Weather {get; init; } = AreaWeather8.Normal;
+
         public EncounterStatic8(GameVersion game) : base(game) { }
 
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
