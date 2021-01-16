@@ -493,7 +493,7 @@ namespace PKHeX.Core
             var table = GameData.GetPersonal(version);
             var index = table.GetFormIndex(species, 0);
             var lvl0 = (int[])((PersonalInfoG1) table[index]).Moves.Clone();
-            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+            int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }
@@ -504,7 +504,7 @@ namespace PKHeX.Core
             var table = GameData.GetPersonal(version);
             var index = table.GetFormIndex(species, 0);
             var lvl0 = learn[species].GetEncounterMoves(1);
-            int start = Math.Max(0, Array.FindIndex(lvl0, z => z == 0));
+            int start = Math.Max(0, Array.IndexOf(lvl0, 0));
 
             return learn[index].GetEncounterMoves(level, lvl0, start);
         }

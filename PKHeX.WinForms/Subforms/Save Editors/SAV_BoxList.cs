@@ -79,7 +79,7 @@ namespace PKHeX.WinForms
                 {
                     if (s == null)
                         return;
-                    int index = Array.FindIndex(Boxes, z => z == ((Button)s).Parent);
+                    int index = Array.IndexOf(Boxes, ((Button)s).Parent);
                     int other = (index + Boxes.Length - 1) % Boxes.Length;
                     m.SwapBoxes(index, other, p.SAV);
                 };
@@ -87,7 +87,7 @@ namespace PKHeX.WinForms
                 {
                     if (s == null)
                         return;
-                    int index = Array.FindIndex(Boxes, z => z == ((Button)s).Parent);
+                    int index = Array.IndexOf(Boxes, ((Button)s).Parent);
                     int other = (index + 1) % Boxes.Length;
                     m.SwapBoxes(index, other, p.SAV);
                 };

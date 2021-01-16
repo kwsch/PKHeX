@@ -23,7 +23,7 @@ namespace PKHeX.Core
             for (int i = 1; i < entries.Length; i++)
             {
                 int start = BitConverter.ToInt16(data, (i - 1) * 2) - baseOffset;
-                int end = Array.FindIndex(data, start, z => z == 0xFF);
+                int end = Array.IndexOf(data, (byte)0xFF, start);
                 if (start == end)
                 {
                     entries[i] = empty;

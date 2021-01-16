@@ -144,7 +144,7 @@ namespace PKHeX.Core
 
         public static int GetLevelLearnMove(PKM pkm, int gen, IEncounterable enc, CheckMoveResult[] res)
         {
-            var index = Array.FindIndex(SpeciesEvolutionWithMove, p => p == pkm.Species);
+            var index = Array.IndexOf(SpeciesEvolutionWithMove, pkm.Species);
 
             // Get the minimum level in any generation when the pokemon could learn the evolve move
             var levels = MinLevelEvolutionWithMove[index];
