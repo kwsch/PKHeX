@@ -166,8 +166,9 @@ namespace PKHeX.Core
                     : ParseMovesWasEggPreRelearn(pkm, currentMoves, info, e);
             }
 
+            // Not all games have a re-learner. Initial moves may not fill out all 4 slots.
             int gen = info.EncounterMatch.Generation;
-            if (gen <= 2 && (gen == 1 || (gen == 2 && !ParseSettings.AllowGen2MoveReminder(pkm)))) // fixed encounter moves without relearning
+            if (gen == 1 || (gen == 2 && !AllowGen2MoveReminder(pkm)))
                 return ParseMovesGenGB(pkm, currentMoves, info);
 
             return ParseMovesSpecialMoveset(pkm, currentMoves, info);
@@ -176,13 +177,13 @@ namespace PKHeX.Core
         private static CheckMoveResult[] ParseMovesGenGB(PKM pkm, IReadOnlyList<int> currentMoves, LegalInfo info)
         {
             var res = new CheckMoveResult[4];
-            var G1Encounter = info.EncounterMatch;
+            var enc = info.EncounterMatch;
             var InitialMoves = Array.Empty<int>();
-            var SpecialMoves = GetSpecialMoves(info.EncounterMatch);
-            var games = info.EncounterMatch.Generation == 1 ? GBRestrictions.GetGen1Versions(info) : GBRestrictions.GetGen2Versions(info, pkm.Korean);
+            var SpecialMoves = GetSpecialMoves(enc);
+            var games = enc.Generation == 1 ? GBRestrictions.GetGen1Versions(enc) : GBRestrictions.GetGen2Versions(enc, pkm.Korean);
             foreach (var ver in games)
             {
-                var VerInitialMoves = MoveLevelUp.GetEncounterMoves(G1Encounter.Species, 0, G1Encounter.LevelMin, ver);
+                var VerInitialMoves = MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.LevelMin, ver);
                 if (VerInitialMoves.Intersect(InitialMoves).Count() == VerInitialMoves.Length)
                     return res;
 
@@ -546,22 +547,22 @@ namespace PKHeX.Core
             {
                 // Vaporeon in Yellow learns Mist and Haze at level 42, Mist can only be learned if it leveled up in the daycare
                 // Vaporeon in Red/Blue learns Acid Armor at level 42 and level 47 in Yellow
-                case (int)Species.Vaporeon when pkm.CurrentLevel < 47 && currentMoves.Contains(151):
+                case (int)Species.Vaporeon when pkm.CurrentLevel < 47 && currentMoves.Contains((int)Move.AcidArmor):
                 {
                     var incompatible = new List<int>(3);
-                    if (currentMoves.Contains(54))
-                        incompatible.Add(54);
-                    if (currentMoves.Contains(114))
-                        incompatible.Add(114);
+                    if (currentMoves.Contains((int)Move.Mist))
+                        incompatible.Add((int)Move.Mist);
+                    if (currentMoves.Contains((int)Move.Haze))
+                        incompatible.Add((int)Move.Haze);
                     if (incompatible.Count != 0)
-                        incompatible.Add(151);
+                        incompatible.Add((int)Move.AcidArmor);
                     return incompatible;
                 }
 
                 // Flareon in Yellow learns Smog at level 42
                 // Flareon in Red Blue learns Leer at level 42 and level 47 in Yellow
-                case (int)Species.Flareon when pkm.CurrentLevel < 47 && currentMoves.Contains(43) && currentMoves.Contains(123):
-                    return new[] {43, 123};
+                case (int)Species.Flareon when pkm.CurrentLevel < 47 && currentMoves.Contains((int)Move.Leer) && currentMoves.Contains((int)Move.Smog):
+                    return new[] { (int)Move.Leer, (int)Move.Smog };
 
                 default: return Array.Empty<int>();
             }
@@ -664,25 +665,25 @@ namespace PKHeX.Core
             {
                 case (int)Species.MrMime: // Mr. Mime (Mime Jr with Mimic)
                 case (int)Species.Sudowoodo: // Sudowoodo (Bonsly with Mimic)
-                    ValidMoves.Add(102);
+                    ValidMoves.Add((int)Move.Mimic);
                     break;
                 case (int)Species.Ambipom: // Ambipom (Aipom with Double Hit)
-                    ValidMoves.Add(458);
+                    ValidMoves.Add((int)Move.DoubleHit);
                     break;
                 case (int)Species.Lickilicky: // Lickilicky (Lickitung with Rollout)
-                    ValidMoves.Add(205);
+                    ValidMoves.Add((int)Move.Rollout);
                     break;
                 case (int)Species.Tangrowth: // Tangrowth (Tangela with Ancient Power)
                 case (int)Species.Yanmega: // Yanmega (Yanma with Ancient Power)
                 case (int)Species.Mamoswine: // Mamoswine (Piloswine with Ancient Power)
-                    ValidMoves.Add(246);
+                    ValidMoves.Add((int)Move.AncientPower);
                     break;
                 case (int)Species.Sylveon: // Sylveon (Eevee with Fairy Move)
                     // Add every fairy moves without checking if Eevee learn it or not; pokemon moves are determined legal before this function
                     ValidMoves.AddRange(EvolutionRestrictions.FairyMoves);
                     break;
                 case (int)Species.Tsareena: // Tsareena (Steenee with Stomp)
-                    ValidMoves.Add(023);
+                    ValidMoves.Add((int)Move.Stomp);
                     break;
             }
 

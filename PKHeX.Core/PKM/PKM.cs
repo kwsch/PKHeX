@@ -491,12 +491,13 @@ namespace PKHeX.Core
             get => 15 * HPBitValType / 63;
             set
             {
-                IV_HP =  (IV_HP  & ~1) + HiddenPower.DefaultLowBits[value, 0];
-                IV_ATK = (IV_ATK & ~1) + HiddenPower.DefaultLowBits[value, 1];
-                IV_DEF = (IV_DEF & ~1) + HiddenPower.DefaultLowBits[value, 2];
-                IV_SPE = (IV_SPE & ~1) + HiddenPower.DefaultLowBits[value, 3];
-                IV_SPA = (IV_SPA & ~1) + HiddenPower.DefaultLowBits[value, 4];
-                IV_SPD = (IV_SPD & ~1) + HiddenPower.DefaultLowBits[value, 5];
+                var dlb = HiddenPower.DefaultLowBits;
+                IV_HP =  (IV_HP  & ~1) + dlb[value, 0];
+                IV_ATK = (IV_ATK & ~1) + dlb[value, 1];
+                IV_DEF = (IV_DEF & ~1) + dlb[value, 2];
+                IV_SPE = (IV_SPE & ~1) + dlb[value, 3];
+                IV_SPA = (IV_SPA & ~1) + dlb[value, 4];
+                IV_SPD = (IV_SPD & ~1) + dlb[value, 5];
             }
         }
 
@@ -591,7 +592,8 @@ namespace PKHeX.Core
             if (species < 0)
                 species = Species;
 
-            if (Format == generation)
+            var format = Format;
+            if (format == generation)
                 return true;
 
             if (!IsOriginValid)
@@ -602,21 +604,21 @@ namespace PKHeX.Core
                 return false;
 
             // Trade generation 1 -> 2
-            if (Format == 2 && generation == 1 && !Gen2_NotTradeback)
+            if (format == 2 && generation == 1 && !Gen2_NotTradeback)
                 return true;
 
             // Trade generation 2 -> 1
-            if (Format == 1 && generation == 2 && !Gen1_NotTradeback)
+            if (format == 1 && generation == 2 && !Gen1_NotTradeback)
                 return true;
 
-            if (Format < generation)
+            if (format < generation)
                 return false; // Future
 
             int gen = Generation;
             return generation switch
             {
-                1 => Format == 1 || VC, // species compat checked via sanity above
-                2 => Format == 2 || VC,
+                1 => format == 1 || VC, // species compat checked via sanity above
+                2 => format == 2 || VC,
                 3 => Gen3,
                 4 => gen is >= 3 and <= 4,
                 5 => gen is >= 3 and <= 5,

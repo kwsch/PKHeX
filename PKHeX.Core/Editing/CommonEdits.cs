@@ -106,7 +106,7 @@ namespace PKHeX.Core
         public static void SetRandomEC(this PKM pk)
         {
             int gen = pk.Generation;
-            if (2 < gen && gen < 6)
+            if (gen is 3 or 4 or 5)
             {
                 pk.EncryptionConstant = pk.PID;
                 return;

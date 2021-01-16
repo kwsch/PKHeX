@@ -20,123 +20,103 @@ namespace PKHeX.Core
 
         internal static readonly int[] BabyEvolutionWithMove =
         {
-            122, // Mr. Mime (Mime Jr with Mimic)
-            185, // Sudowoodo (Bonsly with Mimic)
+            (int)Species.MrMime, // (Mime Jr with Mimic)
+            (int)Species.Sudowoodo, // (Bonsly with Mimic)
         };
 
         // List of species that evolve from a previous species having a move while leveling up
         internal static readonly int[] SpeciesEvolutionWithMove =
         {
-            122, // Mr. Mime (Mime Jr with Mimic)
-            185, // Sudowoodo (Bonsly with Mimic)
-            424, // Ambipom (Aipom with Double Hit)
-            463, // Lickilicky (Lickitung with Rollout)
-            465, // Tangrowth (Tangela with Ancient Power)
-            469, // Yanmega (Yamma with Ancient Power)
-            473, // Mamoswine (Piloswine with Ancient Power)
-            700, // Sylveon (Eevee with Fairy Move)
-            763, // Tsareena (Steenee with Stomp)
+            (int)Species.MrMime, // Mr. Mime (Mime Jr with Mimic)
+            (int)Species.Sudowoodo, // Sudowoodo (Bonsly with Mimic)
+            (int)Species.Ambipom, // Ambipom (Aipom with Double Hit)
+            (int)Species.Lickilicky, // Lickilicky (Lickitung with Rollout)
+            (int)Species.Tangrowth, // Tangrowth (Tangela with Ancient Power)
+            (int)Species.Yanmega, // Yanmega (Yamma with Ancient Power)
+            (int)Species.Mamoswine, // Mamoswine (Piloswine with Ancient Power)
+            (int)Species.Sylveon, // Sylveon (Eevee with Fairy Move)
+            (int)Species.Tsareena, // Tsareena (Steenee with Stomp)
             (int)Species.Grapploct // (Clobbopus with Taunt)
         };
 
         internal static readonly int[] FairyMoves =
         {
-            186, // Sweet Kiss
-            204, // Charm
-            236, // Moonlight
-            574, // Disarming Voice
-            577, // Draining Kiss
-            578, // Crafty Shield
-            579, // Flower Shield
-            581, // Misty Terrain
-            583, // Play Rough
-            584, // Fairy Wind
-            585, // Moonblast
-            587, // Fairy Lock
-            597, // Aromatic Mist
-            601, // Geomancy
-            605, // Dazzling Gleam
-            608, // Baby-Doll Eyes
-            617, // Light of Ruin
-            656, // Twinkle Tackle
-            657, // Twinkle Tackle
-            666, // Floral Healing
-            698, // Guardian of Alola
-            705, // Fleur Cannon
-            717, // Nature's Madness
-            726, // Let's Snuggle Forever
-            740, // Sparkly Swirl
-            767, // Max Starfall
-            777, // Decorate
-            789, // Spirit Break
-            790, // Strange Steam
-            802, // Misty Explosion
+            (int)Move.SweetKiss,
+            (int)Move.Charm,
+            (int)Move.Moonlight,
+            (int)Move.DisarmingVoice,
+            (int)Move.DrainingKiss,
+            (int)Move.CraftyShield,
+            (int)Move.FlowerShield,
+            (int)Move.MistyTerrain,
+            (int)Move.PlayRough,
+            (int)Move.FairyWind,
+            (int)Move.Moonblast,
+            (int)Move.FairyLock,
+            (int)Move.AromaticMist,
+            (int)Move.Geomancy,
+            (int)Move.DazzlingGleam,
+            (int)Move.BabyDollEyes,
+            (int)Move.LightofRuin,
+            (int)Move.TwinkleTackleP,
+            (int)Move.TwinkleTackleS,
+            (int)Move.FloralHealing,
+            (int)Move.GuardianofAlola,
+            (int)Move.FleurCannon,
+            (int)Move.NaturesMadness,
+            (int)Move.LetsSnuggleForever,
+            (int)Move.SparklySwirl,
+            (int)Move.MaxStarfall,
+            (int)Move.Decorate,
+            (int)Move.SpiritBreak,
+            (int)Move.StrangeSteam,
+            (int)Move.MistyExplosion,
         };
 
         // Moves that trigger the evolution by move
         private static readonly int[][] MoveEvolutionWithMove =
         {
-            new [] { 102 }, // Mr. Mime (Mime Jr with Mimic)
-            new [] { 102 }, // Sudowoodo (Bonsly with Mimic)
-            new [] { 458 }, // Ambipom (Aipom with Double Hit)
-            new [] { 205 }, // Lickilicky (Lickitung with Rollout)
-            new [] { 246 }, // Tangrowth (Tangela with Ancient Power)
-            new [] { 246 }, // Yanmega (Yamma with Ancient Power)
-            new [] { 246 }, // Mamoswine (Piloswine with Ancient Power)
+            new [] { (int)Move.Mimic }, // Mr. Mime (Mime Jr with Mimic)
+            new [] { (int)Move.Mimic }, // Sudowoodo (Bonsly with Mimic)
+            new [] { (int)Move.DoubleHit }, // Ambipom (Aipom with Double Hit)
+            new [] { (int)Move.Rollout }, // Lickilicky (Lickitung with Rollout)
+            new [] { (int)Move.AncientPower }, // Tangrowth (Tangela with Ancient Power)
+            new [] { (int)Move.AncientPower }, // Yanmega (Yamma with Ancient Power)
+            new [] { (int)Move.AncientPower }, // Mamoswine (Piloswine with Ancient Power)
             FairyMoves, // Sylveon (Eevee with Fairy Move)
-            new [] { 023 }, // Tsareena (Steenee with Stomp)
-            new [] { 269 }, // Grapploct (Clobbopus with Taunt)
+            new [] { (int)Move.Stomp }, // Tsareena (Steenee with Stomp)
+            new [] { (int)Move.Taunt }, // Grapploct (Clobbopus with Taunt)
         };
 
         // Min level for any species for every generation to learn the move for evolution by move
         // 0 means it cant be learned in that generation
         private static readonly int[][] MinLevelEvolutionWithMove =
         {
-            // Mr. Mime (Mime Jr with Mimic)
-            new [] { 0, 0, 0, 0, 18, 15, 15, 2, 2 },
-            // Sudowoodo (Bonsly with Mimic)
-            new [] { 0, 0, 0, 0, 17, 17, 15, 2, 2 },
-            // Ambipom (Aipom with Double Hit)
-            new [] { 0, 0, 0, 0, 32, 32, 32, 2, 2 },
-            // Lickilicky (Lickitung with Rollout)
-            new [] { 0, 0, 2, 0, 2, 33, 33, 2, 2 },
-            // Tangrowth (Tangela with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 36, 38, 2, 2 },
-            // Yanmega (Yanma with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 33, 33, 2, 2 },
-            // Mamoswine (Piloswine with Ancient Power)
-            new [] { 0, 0, 0, 0, 2, 2, 2, 2, 2 },
-            // Sylveon (Eevee with Fairy Move)
-            new [] { 0, 0, 0, 0, 0, 29, 9, 2, 2 },
-            // Tsareena (Steenee with Stomp)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 2, 28 },
-            // Grapploct (Clobbopus with Taunt)
-            new [] { 0, 0, 0, 0, 0, 0, 0, 0, 35 },
+            new [] { 00, 00, 00, 00, 18, 15, 15, 02, 02 }, // Mr. Mime (Mime Jr with Mimic)
+            new [] { 00, 00, 00, 00, 17, 17, 15, 02, 02 }, // Sudowoodo (Bonsly with Mimic)
+            new [] { 00, 00, 00, 00, 32, 32, 32, 02, 02 }, // Ambipom (Aipom with Double Hit)
+            new [] { 00, 00, 02, 00, 02, 33, 33, 02, 02 }, // Lickilicky (Lickitung with Rollout)
+            new [] { 00, 00, 00, 00, 02, 36, 38, 02, 02 }, // Tangrowth (Tangela with Ancient Power)
+            new [] { 00, 00, 00, 00, 02, 33, 33, 02, 02 }, // Yanmega (Yanma with Ancient Power)
+            new [] { 00, 00, 00, 00, 02, 02, 02, 02, 02 }, // Mamoswine (Piloswine with Ancient Power)
+            new [] { 00, 00, 00, 00, 00, 29, 09, 02, 02 }, // Sylveon (Eevee with Fairy Move)
+            new [] { 00, 00, 00, 00, 00, 00, 00, 02, 28 }, // Tsareena (Steenee with Stomp)
+            new [] { 00, 00, 00, 00, 00, 00, 00, 00, 35 }, // Grapploct (Clobbopus with Taunt)
         };
 
         // True -> the pokemon could hatch from an egg with the move for evolution as an egg move
         private static readonly bool[][] EggMoveEvolutionWithMove =
         {
-            // Mr. Mime (Mime Jr with Mimic)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Sudowoodo (Bonsly with Mimic)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Ambipom (Aipom with Double Hit)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Lickilicky (Lickitung with Rollout)
-            new [] { false, false, true, false, true, true, true, true, true },
-            // Tangrowth (Tangela with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Yanmega (Yanma with Ancient Power)
-            new [] { false, false, false, false, true, true, true, true, true },
-            // Mamoswine (Piloswine with Ancient Power)
-            new [] { false, false, true, true, true, true, true, true, true },
-            // Sylveon (Eevee with Fairy Move)
-            new [] { false, false, true, true, true, true, true, true, true },
-            // Tsareena (Steenee with Stomp)
-            new [] { false, false, false, false, false, false, false, false, false },
-            // Grapploct (Clobbopus with Taunt)
-            new [] { false, false, false, false, false, false, false, false, true },
+            new [] { false, false, false, false,  true,  true,  true,  true,  true }, // Mr. Mime (Mime Jr with Mimic)
+            new [] { false, false, false, false,  true,  true,  true,  true,  true }, // Sudowoodo (Bonsly with Mimic)
+            new [] { false, false, false, false,  true,  true,  true,  true,  true }, // Ambipom (Aipom with Double Hit)
+            new [] { false, false,  true, false,  true,  true,  true,  true,  true }, // Lickilicky (Lickitung with Rollout)
+            new [] { false, false, false, false,  true,  true,  true,  true,  true }, // Tangrowth (Tangela with Ancient Power)
+            new [] { false, false, false, false,  true,  true,  true,  true,  true }, // Yanmega (Yanma with Ancient Power)
+            new [] { false, false,  true,  true,  true,  true,  true,  true,  true }, // Mamoswine (Piloswine with Ancient Power)
+            new [] { false, false,  true,  true,  true,  true,  true,  true,  true }, // Sylveon (Eevee with Fairy Move)
+            new [] { false, false, false, false, false, false, false, false, false }, // Tsareena (Steenee with Stomp)
+            new [] { false, false, false, false, false, false, false, false,  true }, // Grapploct (Clobbopus with Taunt)
         };
 
         public static bool IsEvolutionValidWithMove(PKM pkm, LegalInfo info)

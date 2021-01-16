@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -49,6 +50,19 @@ namespace PKHeX.Core
         }
 
         /// <summary>
+        /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hiddenPowerType"/> for Generations 1 &amp; 2
+        /// </summary>
+        /// <param name="hiddenPowerType">Hidden Power Type</param>
+        /// <param name="IVs">Current IVs</param>
+        /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
+        public static bool SetTypeGB(int hiddenPowerType, int[] IVs)
+        {
+            IVs[1] = (IVs[1] & ~3) | (hiddenPowerType >> 2);
+            IVs[2] = (IVs[2] & ~3) | (hiddenPowerType & 3);
+            return true;
+        }
+
+        /// <summary>
         /// Modifies the provided <see cref="IVs"/> to have the requested <see cref="hiddenPowerType"/>.
         /// </summary>
         /// <param name="hiddenPowerType">Hidden Power Type</param>
@@ -58,11 +72,7 @@ namespace PKHeX.Core
         public static bool SetIVsForType(int hiddenPowerType, int[] IVs, int format)
         {
             if (format <= 2)
-            {
-                IVs[1] = (IVs[1] & ~3) | (hiddenPowerType >> 2);
-                IVs[2] = (IVs[2] & ~3) | (hiddenPowerType & 3);
-                return true;
-            }
+                return SetTypeGB(hiddenPowerType, IVs);
             return SetIVsForType(hiddenPowerType, IVs);
         }
 
@@ -74,7 +84,7 @@ namespace PKHeX.Core
         /// <returns>True if the Hidden Power of the <see cref="IVs"/> is obtained, with or without modifications</returns>
         public static bool SetIVsForType(int hpVal, int[] IVs)
         {
-            if (IVs.All(z => z == 31))
+            if (Array.TrueForAll(IVs, z => z == 31))
             {
                 SetIVs(hpVal, IVs); // Get IVs
                 return true;
@@ -101,9 +111,9 @@ namespace PKHeX.Core
             var permutations = GetPermutations(flawless, flawless.Length);
             int flawedCount = 0;
             int[]? best = null;
+            int[] ivs = (int[])IVs.Clone();
             foreach (var permute in permutations)
             {
-                var ivs = (int[])IVs.Clone();
                 foreach (var item in permute)
                 {
                     ivs[item] ^= 1;
@@ -115,9 +125,11 @@ namespace PKHeX.Core
                         break; // any further flaws are always worse
 
                     flawedCount = ct;
-                    best = ivs;
+                    best = (int[])ivs.Clone();
                     break; // any further flaws are always worse
                 }
+                // Restore IVs for another iteration
+                Array.Copy(IVs, 0, ivs, 0, ivs.Length);
             }
             return best;
         }
@@ -158,7 +170,7 @@ namespace PKHeX.Core
         /// These are just precomputed for fast modification.
         /// Individual Values (H/A/B/S/C/D)
         /// </remarks>
-        public static readonly int[,] DefaultLowBits =
+        public static readonly byte[,] DefaultLowBits =
         {
             { 1, 1, 0, 0, 0, 0 }, // Fighting
             { 0, 0, 0, 1, 0, 0 }, // Flying

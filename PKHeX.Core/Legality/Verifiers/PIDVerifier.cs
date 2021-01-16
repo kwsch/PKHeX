@@ -125,7 +125,7 @@ namespace PKHeX.Core
             }
 
             // Gen3-5 => Gen6 have PID==EC with an edge case exception.
-            if (3 <= Info.Generation && Info.Generation <= 5)
+            if (Info.Generation is 3 or 4 or 5)
             {
                 VerifyTransferEC(data);
                 return;

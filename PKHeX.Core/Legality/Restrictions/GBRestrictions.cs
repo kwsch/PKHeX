@@ -4,6 +4,8 @@ using System.Linq;
 using PKHeX.Core;
 
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.GameVersion;
+using static PKHeX.Core.Species;
 
 namespace PKHeX
 {
@@ -26,20 +28,35 @@ namespace PKHeX
 
         private static readonly HashSet<int> Stadium_GiftSpecies = new()
         {
-            001, // Bulbasaur
-            004, // Charmander
-            007, // Squirtle
-            054, // Psyduck (Amnesia)
-            106, // Hitmonlee
-            107, // Hitmonchan
-            133, // Eevee
-            138, // Omanyte
-            140, // Kabuto
+            (int)Bulbasaur,
+            (int)Charmander,
+            (int)Squirtle,
+            (int)Psyduck,
+            (int)Hitmonlee,
+            (int)Hitmonchan,
+            (int)Eevee,
+            (int)Omanyte,
+            (int)Kabuto,
         };
 
         private static readonly HashSet<int> SpecialMinMoveSlots = new()
         {
-            25, 26, 29, 30, 31, 32, 33, 34, 36, 38, 40, 59, 91, 103, 114, 121,
+            (int)Pikachu,
+            (int)Raichu,
+            (int)NidoranF,
+            (int)Nidorina,
+            (int)Nidoqueen,
+            (int)NidoranM,
+            (int)Nidorino,
+            (int)Nidoking,
+            (int)Clefable,
+            (int)Ninetales,
+            (int)Wigglytuff,
+            (int)Arcanine,
+            (int)Cloyster,
+            (int)Exeggutor,
+            (int)Tangela,
+            (int)Starmie,
         };
 
         internal static bool TypeIDExists(int type) => Types_Gen1.Contains(type);
@@ -49,17 +66,35 @@ namespace PKHeX
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
         };
 
+        /// <summary>
+        /// Species that have a catch rate value that is different from their pre-evolutions, and cannot be obtained directly.
+        /// </summary>
         internal static readonly HashSet<int> Species_NotAvailable_CatchRate = new()
         {
-            12, 18, 31, 34, 38, 45, 53, 59, 62, 65, 68, 71, 78, 91, 103, 121
+            (int)Butterfree,
+            (int)Pidgeot,
+            (int)Nidoqueen,
+            (int)Nidoking,
+            (int)Ninetales,
+            (int)Vileplume,
+            (int)Persian,
+            (int)Arcanine,
+            (int)Poliwrath,
+            (int)Alakazam,
+            (int)Machamp,
+            (int)Victreebel,
+            (int)Rapidash,
+            (int)Cloyster,
+            (int)Exeggutor,
+            (int)Starmie,
         };
 
         internal static readonly HashSet<int> Trade_Evolution1 = new()
         {
-            064,
-            067,
-            075,
-            093
+            (int)Kadabra,
+            (int)Machoke,
+            (int)Graveler,
+            (int)Haunter,
         };
 
         private static int[] GetMinLevelLearnMoveG1(int species, List<int> moves)
@@ -108,7 +143,7 @@ namespace PKHeX
         {
             switch (pkm.Species)
             {
-                case (int)Species.Nidoking when moves.Contains(31) && moves.Contains(37):
+                case (int)Nidoking when moves.Contains(31) && moves.Contains(37):
                     // Nidoking learns Thrash at level 23
                     // Nidorino learns Fury Attack at level 36, Nidoran♂ at level 30
                     // Other moves are either learned by Nidoran♂ up to level 23 or by TM
@@ -117,7 +152,7 @@ namespace PKHeX
                     previousspecies = 33;
                     return;
 
-                case (int)Species.Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(m)):
+                case (int)Exeggutor when moves.Contains(23) && moves.Any(m => G1Exeggcute_IncompatibleMoves.Contains(m)):
                     // Exeggutor learns Stomp at level 28
                     // Exeggcute learns Stun Spore at 32, PoisonPowder at 37 and Sleep Powder at 48
                     incompatible_current = new[] { 23 };
@@ -125,12 +160,12 @@ namespace PKHeX
                     previousspecies = 103;
                     return;
 
-                case (int)Species.Vaporeon or (int)Species.Jolteon or (int)Species.Flareon:
+                case (int)Vaporeon or (int)Jolteon or (int)Flareon:
                     incompatible_previous = new List<int>();
                     incompatible_current = new List<int>();
                     previousspecies = 133;
-                    var ExclusiveMoves = GetExclusiveMovesG1((int)Species.Eevee, pkm.Species, tmhm, moves);
-                    var EeveeLevels = GetMinLevelLearnMoveG1((int)Species.Eevee, ExclusiveMoves[0]);
+                    var ExclusiveMoves = GetExclusiveMovesG1((int)Eevee, pkm.Species, tmhm, moves);
+                    var EeveeLevels = GetMinLevelLearnMoveG1((int)Eevee, ExclusiveMoves[0]);
                     var EvoLevels = GetMaxLevelLearnMoveG1(pkm.Species, ExclusiveMoves[1]);
 
                     for (int i = 0; i < ExclusiveMoves[0].Count; i++)
@@ -191,15 +226,15 @@ namespace PKHeX
             int catch_rate = ((PK1)pk).Catch_Rate;
             // Caterpie and Metapod evolution lines have different count of possible slots available if captured in different evolutionary phases
             // Example: a level 7 caterpie evolved into metapod will have 3 learned moves, a captured metapod will have only 1 move
-            if ((species == (int)Species.Metapod || species == (int)Species.Butterfree) && catch_rate == 120)
+            if ((species == (int)Metapod || species == (int)Butterfree) && catch_rate == 120)
             {
                 // Captured as Metapod without Caterpie moves
                 return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1CaterpieMoves.Contains(lm));
                 // There is no valid Butterfree encounter in generation 1 games
             }
-            if ((species == (int)Species.Kakuna || species == (int)Species.Beedrill) && (catch_rate == 45 || catch_rate == 120))
+            if ((species == (int)Kakuna || species == (int)Beedrill) && (catch_rate == 45 || catch_rate == 120))
             {
-                if (species == (int)Species.Beedrill && catch_rate == 45) // Captured as Beedril without Weedle and Kakuna moves
+                if (species == (int)Beedrill && catch_rate == 45) // Captured as Beedril without Weedle and Kakuna moves
                     return initialmoves.Union(learn[1]).Distinct().Count(lm => lm != 0 && !G1KakunaMoves.Contains(lm));
 
                 // Captured as Kakuna without Weedle moves
@@ -214,13 +249,13 @@ namespace PKHeX
             // Species that evolve and learn the 4th move as evolved species at a greater level than base species
             // The 4th move is included in the level up table set as a pre-evolution move,
             // it should be removed from the used slots count if is not the learn move
-            (int)Species.Pidgeotto => level < 21 && !moves.Contains(018), // Whirlwind
-            (int)Species.Sandslash => level < 27 && !moves.Contains(040), // Poison Sting
-            (int)Species.Parasect  => level < 30 && !moves.Contains(147), // Spore
-            (int)Species.Golduck   => level < 39 && !moves.Contains(093), // Confusion
-            (int)Species.Dewgong   => level < 44 && !moves.Contains(156), // Rest
-            (int)Species.Weezing   => level < 39 && !moves.Contains(108), // Smoke Screen
-            (int)Species.Haunter or (int) Species.Gengar => level < 29 && !moves.Contains(095), // Hypnosis
+            (int)Pidgeotto => level < 21 && !moves.Contains(018), // Whirlwind
+            (int)Sandslash => level < 27 && !moves.Contains(040), // Poison Sting
+            (int)Parasect  => level < 30 && !moves.Contains(147), // Spore
+            (int)Golduck   => level < 39 && !moves.Contains(093), // Confusion
+            (int)Dewgong   => level < 44 && !moves.Contains(156), // Rest
+            (int)Weezing   => level < 39 && !moves.Contains(108), // Smoke Screen
+            (int)Haunter or (int)Gengar => level < 29 && !moves.Contains(095), // Hypnosis
             _ => false,
         };
 
@@ -229,20 +264,20 @@ namespace PKHeX
             int usedslots = initialmoves.Union(learn[1]).Where(m => m != 0).Distinct().Count();
             switch (pk.Species)
             {
-                case (int)Species.Venonat: // Venonat; ignore Venomoth (by the time Venonat evolves it will always have 4 moves)
+                case (int)Venonat: // Venonat; ignore Venomoth (by the time Venonat evolves it will always have 4 moves)
                     if (pk.CurrentLevel >= 11 && !moves.Contains(48)) // Supersonic
                         usedslots--;
                     if (pk.CurrentLevel >= 19 && !moves.Contains(93)) // Confusion
                         usedslots--;
                     break;
-                case (int)Species.Kadabra or (int)Species.Alakazam: // Abra & Kadabra
+                case (int)Kadabra or (int)Alakazam: // Abra & Kadabra
                     int catch_rate = ((PK1)pk).Catch_Rate;
                     if (catch_rate != 100)// Initial Yellow Kadabra Kinesis (move 134)
                         usedslots--;
                     if (catch_rate == 200 && pk.CurrentLevel < 20) // Kadabra Disable, not learned until 20 if captured as Abra (move 50)
                         usedslots--;
                     break;
-                case (int)Species.Cubone or (int)Species.Marowak: // Cubone & Marowak
+                case (int)Cubone or (int)Marowak: // Cubone & Marowak
                     if (!moves.Contains(39)) // Initial Yellow Tail Whip
                         usedslots--;
                     if (!moves.Contains(125)) // Initial Yellow Bone Club
@@ -250,15 +285,15 @@ namespace PKHeX
                     if (pk.Species == 105 && pk.CurrentLevel < 33 && !moves.Contains(116)) // Marowak evolved without Focus Energy
                         usedslots--;
                     break;
-                case (int)Species.Chansey:
+                case (int)Chansey:
                     if (!moves.Contains(39)) // Yellow Initial Tail Whip
                         usedslots--;
                     if (!moves.Contains(3)) // Yellow Lvl 12 and Initial Red/Blue Double Slap
                         usedslots--;
                     break;
-                case (int)Species.Mankey when pk.CurrentLevel >= 9 && !moves.Contains(67): // Mankey (Low Kick)
-                case (int)Species.Pinsir when pk.CurrentLevel >= 21 && !moves.Contains(20): // Pinsir (Bind)
-                case (int)Species.Gyarados when pk.CurrentLevel < 32: // Gyarados
+                case (int)Mankey when pk.CurrentLevel >= 9 && !moves.Contains(67): // Mankey (Low Kick)
+                case (int)Pinsir when pk.CurrentLevel >= 21 && !moves.Contains(20): // Pinsir (Bind)
+                case (int)Gyarados when pk.CurrentLevel < 32: // Gyarados
                     usedslots--;
                     break;
                 default: return usedslots;
@@ -274,17 +309,17 @@ namespace PKHeX
             var mandatory = GetRequiredMoveCountLevel(pk);
             switch (pk.Species)
             {
-                case (int)Species.Exeggutor when pk.CurrentLevel >= 28: // Exeggutor
+                case (int)Exeggutor when pk.CurrentLevel >= 28: // Exeggutor
                     // At level 28 learn different move if is a Exeggute or Exeggutor
                     if (moves.Contains(73))
                         mandatory.Add(73); // Leech Seed level 28 Exeggute
                     if (moves.Contains(23))
                         mandatory.Add(23); // Stomp level 28 Exeggutor
                     break;
-                case (int)Species.Pikachu when pk.CurrentLevel >= 33:
+                case (int)Pikachu when pk.CurrentLevel >= 33:
                     mandatory.Add(97); // Pikachu always learns Agility
                     break;
-                case (int)Species.Tangela:
+                case (int)Tangela:
                     mandatory.Add(132); // Tangela always has Constrict as Initial Move
                     break;
             }
@@ -300,12 +335,12 @@ namespace PKHeX
             int maxlevel = 1;
             int minlevel = 1;
 
-            if (species == (int)Species.Tangela) // Tangela moves before level 32 are different in RB vs Y
+            if (species == (int)Tangela) // Tangela moves before level 32 are different in RB vs Y
             {
                 minlevel = 32;
                 maxlevel = pk.CurrentLevel;
             }
-            else if ((int)Species.NidoranF <= species && species <= (int)Species.Nidoking && pk.CurrentLevel >= 8)
+            else if (species is >= (int)NidoranF and <= (int)Nidoking && pk.CurrentLevel >= 8)
             {
                 maxlevel = 8; // Always learns a third move at level 8
             }
@@ -316,31 +351,31 @@ namespace PKHeX
             return MoveLevelUp.GetMovesLevelUp1(basespecies, 0, maxlevel, minlevel);
         }
 
-        internal static IEnumerable<GameVersion> GetGen2Versions(LegalInfo Info, bool korean)
+        internal static IEnumerable<GameVersion> GetGen2Versions(IEncounterable enc, bool korean)
         {
-            if (ParseSettings.AllowGen2Crystal(korean) && Info.Game.Contains(GameVersion.C))
-                yield return GameVersion.C;
-            yield return GameVersion.GS;
+            if (ParseSettings.AllowGen2Crystal(korean) && enc.Version is C or GSC)
+                yield return C;
+            yield return GS;
         }
 
-        internal static IEnumerable<GameVersion> GetGen1Versions(LegalInfo Info)
+        internal static IEnumerable<GameVersion> GetGen1Versions(IEncounterable enc)
         {
-            if (Info.EncounterMatch.Species == (int)Species.Eevee && Info.Game == GameVersion.Stadium)
+            if (enc.Species == (int)Eevee && enc.Version == Stadium)
             {
                 // Stadium Eevee; check for RB and yellow initial moves
-                yield return GameVersion.RB;
-                yield return GameVersion.YW;
+                yield return RB;
+                yield return YW;
                 yield break;
             }
-            if (Info.Game == GameVersion.YW)
+            if (enc.Version == YW)
             {
-                yield return GameVersion.YW;
+                yield return YW;
                 yield break;
             }
 
             // Any encounter marked with version RBY is for pokemon with the same moves and catch rate in RB and Y,
             // it is sufficient to check just RB's case
-            yield return GameVersion.RB;
+            yield return RB;
         }
 
         private static bool GetCatchRateMatchesPreEvolution(PKM pkm, int catch_rate, IEnumerable<int> gen1)
@@ -352,7 +387,7 @@ namespace PKHeX
             // Dragonite's Catch Rate is different than Dragonair's in Yellow, but there is no Dragonite encounter.
             bool IsCatchRateRBY(IEnumerable<int> ds) => ds.Any(s => catch_rate == PersonalTable.RB[s].CatchRate || (s != 149 && catch_rate == PersonalTable.Y[s].CatchRate));
             // Krabby encounter trade special catch rate
-            bool IsCatchRateTrade() => catch_rate == 204 && (pkm.Species == (int)Species.Krabby || pkm.Species == (int)Species.Kingler);
+            bool IsCatchRateTrade() => catch_rate == 204 && (pkm.Species == (int)Krabby || pkm.Species == (int)Kingler);
             bool IsCatchRateStadium() => Stadium_GiftSpecies.Contains(pkm.Species) && Stadium_CatchRate.Contains(catch_rate);
         }
 
@@ -429,28 +464,27 @@ namespace PKHeX
 
         internal static bool IsTradedKadabraG1(PKM pkm)
         {
-            if (pkm is not PK1 pk1 || pk1.Species != (int)Species.Kadabra)
+            if (pkm is not PK1 pk1 || pk1.Species != (int)Kadabra)
                 return false;
             if (pk1.TradebackStatus == TradebackType.WasTradeback)
                 return true;
-            if (ParseSettings.ActiveTrainer.Game == (int)GameVersion.Any)
+            if (ParseSettings.ActiveTrainer.Game == (int)Any)
                 return false;
-            var IsYellow = ParseSettings.ActiveTrainer.Game == (int)GameVersion.YW;
+            var IsYellow = ParseSettings.ActiveTrainer.Game == (int)YW;
             if (pk1.TradebackStatus == TradebackType.Gen1_NotTradeback)
             {
                 // If catch rate is Abra catch rate it wont trigger as invalid trade without evolution, it could be traded as Abra
                 // Yellow Kadabra catch rate in Red/Blue game, must be Alakazam
                 var table = IsYellow ? PersonalTable.RB : PersonalTable.Y;
-                if (pk1.Catch_Rate == table[(int)Species.Kadabra].CatchRate)
+                if (pk1.Catch_Rate == table[(int)Kadabra].CatchRate)
                     return true;
             }
             if (IsYellow)
                 return false;
             // Yellow only moves in Red/Blue game, must be Alakazam
-            var moves = pk1.Moves;
-            if (moves.Contains(134)) // Kinesis, yellow only move
+            if (pk1.HasMove((int)Move.Kinesis)) // Kinesis, yellow only move
                 return true;
-            if (pk1.CurrentLevel < 20 && moves.Contains(50)) // Obtaining Disable below level 20 implies a yellow only move
+            if (pk1.CurrentLevel < 20 && pk1.HasMove((int)Move.Disable)) // Obtaining Disable below level 20 implies a yellow only move
                 return true;
 
             return false;

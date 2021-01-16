@@ -24,8 +24,7 @@ namespace PKHeX.Core
 
             // Check for PID relationship to Gender & Nature if applicable
             int gen = data.Info.Generation;
-
-            if (3 <= gen && gen <= 5)
+            if (gen is 3 or 4 or 5)
             {
                 // Gender-PID & Nature-PID relationship check
                 var result = IsValidGenderPID(data) ? GetValid(LPIDGenderMatch) : GetInvalid(LPIDGenderMismatch);
