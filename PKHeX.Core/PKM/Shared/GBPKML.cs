@@ -32,7 +32,7 @@ namespace PKHeX.Core
             otname = new byte[strLen];
             nick = new byte[strLen];
             for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = 0x50;
+                otname[i] = nick[i] = StringConverter12.G1TerminatorCode;
         }
 
         protected GBPKML(byte[] data, bool jp = false) : base(data)
@@ -43,7 +43,7 @@ namespace PKHeX.Core
             otname = new byte[strLen];
             nick = new byte[strLen];
             for (int i = 0; i < otname.Length; i++)
-                otname[i] = nick[i] = 0x50;
+                otname[i] = nick[i] = StringConverter12.G1TerminatorCode;
         }
 
         public override void SetNotNicknamed(int language) => GetNonNickname(language).CopyTo(nick);
@@ -79,7 +79,7 @@ namespace PKHeX.Core
                 if (!IsNicknamed && Nickname == value)
                     return;
 
-                GetStringSpecial(value, StringLength).CopyTo(nick, 0);
+                SetStringKeepTerminatorStyle(value, StringLength - 1, nick);
             }
         }
 
@@ -91,23 +91,20 @@ namespace PKHeX.Core
                     return StringConverter2KOR.GetString2KOR(otname, 0, otname.Length);
                 return StringConverter12.GetString1(otname, 0, otname.Length, Japanese);
             }
-            set => GetStringSpecial(value, StringLength).CopyTo(otname, 0);
+            set => SetStringKeepTerminatorStyle(value, StringLength - 1, otname);
         }
 
-        private byte[] GetStringSpecial(string value, int length)
+        private void SetStringKeepTerminatorStyle(string value, int maxStringLength, byte[] exist)
         {
-            byte[] strdata = SetString(value, length);
-            if (nick.All(b => b != 0) || nick[length - 1] != 0x50 || Array.FindIndex(nick, b => b == 0) != strdata.Length - 1)
-                return strdata;
+            // Reset the destination buffer based on the termination style of the existing string.
+            bool zeroed = Array.IndexOf(exist, (byte)0) != -1;
+            byte fill = zeroed ? 0 : StringConverter12.G1TerminatorCode;
+            for (int i = 0; i < exist.Length; i++)
+                exist[i] = fill;
 
-            int firstInd = Array.FindIndex(nick, b => b == 0);
-            for (int i = firstInd; i < length - 1; i++)
-            {
-                if (nick[i] != 0)
-                    break;
-            }
-
-            return strdata.Take(strdata.Length - 1).ToArray();
+            int finalLength = Math.Min(value.Length, maxStringLength) + 1;
+            byte[] strdata = SetString(value, finalLength);
+            strdata.CopyTo(exist, 0);
         }
     }
 }
