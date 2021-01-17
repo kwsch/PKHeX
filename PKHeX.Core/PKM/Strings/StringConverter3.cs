@@ -18,7 +18,7 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString3(byte[] data, int offset, int count, bool jp)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
@@ -35,10 +35,10 @@ namespace PKHeX.Core
         /// Converts a string to a Generation 3 encoded value array.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="jp">String destination is Japanese font.</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns></returns>
         public static byte[] SetString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
@@ -85,9 +85,9 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a Big Endian string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {

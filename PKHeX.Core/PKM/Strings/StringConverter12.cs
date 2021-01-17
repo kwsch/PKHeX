@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -74,7 +75,7 @@ namespace PKHeX.Core
         {
             var dict = jp ? RBY2U_J : RBY2U_U;
 
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
@@ -92,20 +93,21 @@ namespace PKHeX.Core
         /// Converts a string to Generation 1 encoded data.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="jp">Data destination is Japanese.</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString1(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
                 return new[] { G1TradeOTCode, G1TerminatorCode };
 
-            var arr = new List<byte>(padTo);
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+
+            var capacity = Math.Max(value.Length, padTo);
+            var arr = new List<byte>(capacity);
             var dict = jp ? U2RBY_J : U2RBY_U;
             foreach (char c in value)
             {

@@ -17,7 +17,7 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString4(byte[] data, int offset, int count)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(count / 2);
             for (int i = 0; i < count; i += 2)
             {
                 var val = BitConverter.ToUInt16(data, offset + i);
@@ -34,9 +34,9 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a 4th Generation String</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
@@ -71,7 +71,7 @@ namespace PKHeX.Core
         /// <returns>Converted string.</returns>
         public static string GetBEString4(byte[] data, int offset, int count)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(count / 2);
             for (int i = 0; i < count; i += 2)
             {
                 var val = BigEndian.ToUInt16(data, offset + i);
@@ -91,8 +91,8 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="value">String to be converted.</param>
         /// <param name="maxLength">Maximum length of string</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Byte array containing encoded character data</returns>
         public static byte[] SetBEString4(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {

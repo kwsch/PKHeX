@@ -43,10 +43,10 @@ namespace PKHeX.Core
         /// <param name="generation">Generation string format</param>
         /// <param name="jp">Encoding is Japanese</param>
         /// <param name="isBigEndian">Encoding is Big Endian</param>
-        /// <param name="maxLength"></param>
-        /// <param name="language"></param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="language">Language specific conversion (Chinese)</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString(string value, int generation, bool jp, bool isBigEndian, int maxLength, int language = 0, int padTo = 0, ushort padWith = 0)
         {
@@ -80,9 +80,9 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a Generation 5 string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString5(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
@@ -117,9 +117,9 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a Generation 6 string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString6(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
@@ -155,10 +155,10 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="language">Language specific conversion (Chinese)</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <param name="chinese">Chinese string remapping should be attempted</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString7(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
@@ -182,10 +182,10 @@ namespace PKHeX.Core
 
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
         /// <param name="language">Language specific conversion (Chinese)</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <param name="chinese">Chinese string remapping should be attempted</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString7b(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)

@@ -59,7 +59,7 @@ namespace PKHeX.Core
 
         public static string GetBlockSummary(SCBlock b)
         {
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(64);
             sb.Append("Key: ").AppendFormat("{0:X8}", b.Key).AppendLine();
             sb.Append("Type: ").Append(b.Type).AppendLine();
             if (b.Data.Length != 0)

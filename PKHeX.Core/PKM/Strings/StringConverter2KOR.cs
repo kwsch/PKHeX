@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -22,16 +23,16 @@ namespace PKHeX.Core
         /// <returns>Decoded string.</returns>
         public static string GetString2KOR(byte[] data, int offset, int count)
         {
-            var s = new StringBuilder();
+            var s = new StringBuilder(count);
             for (int i = 0; i < count; i++)
             {
                 var val = data[offset + i];
                 var dict = val <= 0xB ? GSC2U_KOR[val] : RBY2U_U;
                 if (val is <= 0xB and not 0)
-                    val = data[offset + ++i];
+                    val = data[offset + (++i)];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
-                if (c == '\0') // Stop if Terminator
+                if (c == G1Terminator) // Stop if Terminator
                     break;
                 s.Append(c);
             }
@@ -43,27 +44,29 @@ namespace PKHeX.Core
         /// Converts a string to Generation 1 encoded data.
         /// </summary>
         /// <param name="value">Decoded string.</param>
-        /// <param name="maxLength">Maximum length</param>
-        /// <param name="padTo">Pad to given length</param>
-        /// <param name="padWith">Pad with value</param>
+        /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
         public static byte[] SetString2KOR(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
-
-            var dict = U2RBY_U;
             if (value.StartsWith(G1TradeOTStr)) // Handle "[TRAINER]"
                 return new[] { G1TradeOTCode, G1TerminatorCode };
 
-            var arr = new List<byte>(padTo);
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength); // Hard cap
+
+            var kor = U2GSC_KOR;
+            var dict = U2RBY_U;
+            var capacity = Math.Max(value.Length * 2, padTo);
+            var arr = new List<byte>(capacity);
             foreach (char c in value)
             {
                 var koreanChar = false;
                 // although the 0x00 and 0x0B dictionaries are identical, the game only uses 0x0B.
-                for (byte i = 1; i < U2GSC_KOR.Length; i++)
+                for (byte i = 1; i < kor.Length; i++)
                 {
-                    var table = U2GSC_KOR[i];
+                    var table = kor[i];
                     if (!table.TryGetValue(c, out byte val))
                         continue;
                     koreanChar = true;

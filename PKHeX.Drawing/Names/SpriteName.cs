@@ -26,7 +26,7 @@ namespace PKHeX.Drawing
             if (SpeciesDefaultFormSprite.Contains(species)) // Species who show their default sprite regardless of Form
                 form = 0;
 
-            var sb = new StringBuilder();
+            var sb = new StringBuilder(12); // longest expected string result
             sb.Append(Separator).Append(species);
 
             if (form != 0)
