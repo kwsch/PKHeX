@@ -19,12 +19,16 @@ namespace PKHeX.Core
         /// <inheritdoc/>
         public PogoType Type { get; }
 
-        protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
+        /// <inheritdoc/>
+        public Gender Gender { get; }
+
+        protected EncounterSlotGO(EncounterArea area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type) : base(area, species, form, type.GetMinLevel(), EncountersGO.MAX_LEVEL)
         {
             Start = start;
             End = end;
 
             Shiny = shiny;
+            Gender = gender;
             Type = type;
         }
 
@@ -85,6 +89,8 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             if (Start != 0 || End != 0)
                 pk.MetDate = GetRandomValidDate();
+            if (Gender != Gender.Random)
+                pk.Gender = (int)Gender;
             pk.SetRandomIVsGO(Type.GetMinIV());
         }
 

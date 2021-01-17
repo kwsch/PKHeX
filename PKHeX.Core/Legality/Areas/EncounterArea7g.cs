@@ -54,9 +54,11 @@ namespace PKHeX.Core
         {
             int start = BitConverter.ToInt32(data, offset);
             int end = BitConverter.ToInt32(data, offset + 4);
-            var shiny = (Shiny)data[offset + 8];
+            var sg = data[offset + 8];
+            var shiny = (Shiny)(sg & 0x3C);
+            var gender = (Gender)(sg >> 6);
             var type = (PogoType)data[offset + 9];
-            return new EncounterSlot7GO(area, species, form, start, end, shiny, type);
+            return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
         }
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
@@ -76,6 +78,8 @@ namespace PKHeX.Core
                 //    continue;
                 if (!slot.Shiny.IsValid(pkm))
                     continue;
+                //if (slot.Gender != Gender.Random && (int) slot.Gender != pkm.Gender)
+                //    continue;
                 if (!slot.IsWithinStartEnd(stamp))
                     continue;
 

@@ -8,8 +8,8 @@ namespace PKHeX.Core
     {
         public override int Generation => 7;
 
-        public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, PogoType type)
-            : base(area, species, form, start, end, shiny, type)
+        public EncounterSlot7GO(EncounterArea7g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type)
+            : base(area, species, form, start, end, shiny, gender, type)
         {
         }
 

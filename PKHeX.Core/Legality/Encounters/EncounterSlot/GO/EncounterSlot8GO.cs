@@ -17,8 +17,8 @@ namespace PKHeX.Core
         /// </remarks>
         public GameVersion OriginGroup { get; }
 
-        public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, PogoType type, GameVersion originGroup)
-            : base(area, species, form, start, end, shiny, type)
+        public EncounterSlot8GO(EncounterArea8g area, int species, int form, int start, int end, Shiny shiny, Gender gender, PogoType type, GameVersion originGroup)
+            : base(area, species, form, start, end, shiny, gender, type)
         {
             OriginGroup = originGroup;
         }

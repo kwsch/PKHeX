@@ -17,5 +17,8 @@ namespace PKHeX.Core
 
         /// <summary> Method the Pokémon may be encountered with. </summary>
         PogoType Type { get; }
+
+        /// <summary> Gender the Pokémon may be encountered with. </summary>
+        Gender Gender { get; }
     }
 }
