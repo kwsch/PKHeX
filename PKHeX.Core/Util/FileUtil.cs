@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace PKHeX.Core
@@ -89,7 +90,7 @@ namespace PKHeX.Core
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static bool TryGetGP1(byte[] data, out GP1? gp1)
+        private static bool TryGetGP1(byte[] data, [NotNullWhen(true)] out GP1? gp1)
         {
             gp1 = null;
             if (data.Length != GP1.SIZE || BitConverter.ToUInt32(data, 0x28) == 0)
@@ -98,7 +99,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static bool TryGetBundle(byte[] data, out IPokeGroup? result)
+        private static bool TryGetBundle(byte[] data, [NotNullWhen(true)] out IPokeGroup? result)
         {
             result = null;
             if (RentalTeam8.IsRentalTeam(data))
@@ -138,7 +139,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="sav">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetSAV(byte[] data, out SaveFile? sav)
+        public static bool TryGetSAV(byte[] data, [NotNullWhen(true)] out SaveFile? sav)
         {
             sav = SaveUtil.GetVariantSAV(data);
             return sav != null;
@@ -150,7 +151,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="memcard">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetMemoryCard(byte[] data, out SAV3GCMemoryCard? memcard)
+        public static bool TryGetMemoryCard(byte[] data, [NotNullWhen(true)] out SAV3GCMemoryCard? memcard)
         {
             if (!SAV3GCMemoryCard.IsMemoryCardSize(data))
             {
@@ -169,7 +170,7 @@ namespace PKHeX.Core
         /// <param name="ext">Format hint</param>
         /// <param name="sav">Reference savefile used for PC Binary compatibility checks.</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetPKM(byte[] data, out PKM? pk, string ext, ITrainerInfo? sav = null)
+        public static bool TryGetPKM(byte[] data, [NotNullWhen(true)] out PKM? pk, string ext, ITrainerInfo? sav = null)
         {
             if (ext == ".pgt") // size collision with pk6
             {
@@ -211,7 +212,7 @@ namespace PKHeX.Core
         /// <param name="data">Binary data</param>
         /// <param name="bv">Output result</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetBattleVideo(byte[] data, out BattleVideo? bv)
+        public static bool TryGetBattleVideo(byte[] data, [NotNullWhen(true)] out BattleVideo? bv)
         {
             bv = BattleVideo.GetVariantBattleVideo(data);
             return bv != null;
@@ -224,7 +225,7 @@ namespace PKHeX.Core
         /// <param name="mg">Output result</param>
         /// <param name="ext">Format hint</param>
         /// <returns>True if file object reference is valid, false if none found.</returns>
-        public static bool TryGetMysteryGift(byte[] data, out MysteryGift? mg, string ext)
+        public static bool TryGetMysteryGift(byte[] data, [NotNullWhen(true)] out MysteryGift? mg, string ext)
         {
             mg = MysteryGift.GetMysteryGift(data, ext);
             return mg != null;
@@ -256,7 +257,7 @@ namespace PKHeX.Core
             if (!fi.Exists)
                 return null;
             if (fi.Length == GP1.SIZE && TryGetGP1(File.ReadAllBytes(file), out var gp1))
-                return gp1?.ConvertToPB7(sav);
+                return gp1.ConvertToPB7(sav);
             if (!PKX.IsPKM(fi.Length) && !MysteryGift.IsMysteryGift(fi.Length))
                 return null;
             var data = File.ReadAllBytes(file);

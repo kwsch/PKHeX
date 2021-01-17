@@ -1053,7 +1053,8 @@ namespace PKHeX.Core
             var shared = destProperties.Intersect(srcProperties);
             foreach (string property in shared)
             {
-                BatchEditing.TryGetHasProperty(this, property, out var src);
+                if (!BatchEditing.TryGetHasProperty(this, property, out var src))
+                    continue;
                 var prop = src.GetValue(this);
                 if (prop is not byte[] && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
                     ReflectUtil.SetValue(pi, Destination, prop);

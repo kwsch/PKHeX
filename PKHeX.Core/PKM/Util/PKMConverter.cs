@@ -286,16 +286,18 @@ namespace PKHeX.Core
                 // Sequential
                 case PK1 pk1: return pk1.ConvertToPK2();
                 case PK2 pk2: return pk2.ConvertToPK1();
-                case SK2 sk2: return sk2.ConvertToPK2();
-                case CK3 ck3: return ck3.ConvertToPK3();
-                case XK3 xk3: return xk3.ConvertToPK3();
                 case PK3 pk3: return pk3.ConvertToPK4();
-                case BK4 bk4: return bk4.ConvertToPK4();
                 case PK4 pk4: return pk4.ConvertToPK5();
                 case PK5 pk5: return pk5.ConvertToPK6();
                 case PK6 pk6: return pk6.ConvertToPK7();
                 case PK7 pk7: return pk7.ConvertToPK8();
                 case PB7 pb7: return pb7.ConvertToPK8();
+
+                // Side-Formats back to Mainline
+                case SK2 sk2: return sk2.ConvertToPK2();
+                case CK3 ck3: return ck3.ConvertToPK3();
+                case XK3 xk3: return xk3.ConvertToPK3();
+                case BK4 bk4: return bk4.ConvertToPK4();
 
                 // None
                 default:
@@ -312,18 +314,17 @@ namespace PKHeX.Core
         /// <returns>Indication if Not Transferable</returns>
         private static bool IsNotTransferable(PKM pk, out string comment)
         {
-            switch (pk.Species)
+            switch (pk)
             {
+                case PK4 { Species: (int)Species.Pichu   } pk4   when pk4.Form != 0:
+                case PK6 { Species: (int)Species.Pikachu } pk6   when pk6.Form != 0:
+                case PB7 { Species: (int)Species.Pikachu } pika  when pika.Form != 0:
+                case PB7 { Species: (int)Species.Eevee   } eevee when eevee.Form != 0:
+                    comment = MsgPKMConvertFailForm;
+                    return true;
                 default:
                     comment = string.Empty;
                     return false;
-
-                case 025 when pk.Form != 0 && pk.Gen6: // Cosplay Pikachu
-                case 172 when pk.Form != 0 && pk.Gen4: // Spiky Eared Pichu
-                case 025 when pk.Form == 8 && pk.LGPE: // Buddy Pikachu
-                case 133 when pk.Form == 1 && pk.LGPE: // Buddy Eevee
-                    comment = MsgPKMConvertFailForm;
-                    return true;
             }
         }
 

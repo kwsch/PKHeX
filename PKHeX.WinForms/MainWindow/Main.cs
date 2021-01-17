@@ -971,12 +971,12 @@ namespace PKHeX.WinForms
                 return;
 
             var sav = C_SAV.SAV;
-            if (FileUtil.TryGetPKM(input, out var pk, sav.Generation.ToString(), sav) && pk != null)
+            if (FileUtil.TryGetPKM(input, out var pk, sav.Generation.ToString(), sav))
             {
                 OpenPKM(pk);
                 return;
             }
-            if (FileUtil.TryGetMysteryGift(input, out var mg, url) && mg != null)
+            if (FileUtil.TryGetMysteryGift(input, out var mg, url))
             {
                 OpenMysteryGift(mg, url);
                 return;

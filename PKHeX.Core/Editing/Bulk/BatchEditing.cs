@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -68,10 +69,44 @@ namespace PKHeX.Core
         /// <param name="name">Property Name to check</param>
         /// <param name="pi">Property Info retrieved (if any).</param>
         /// <returns>True if has property, false if does not.</returns>
-        public static bool TryGetHasProperty(PKM pk, string name, out PropertyInfo pi)
+        public static bool TryGetHasProperty(PKM pk, string name, [NotNullWhen(true)] out PropertyInfo? pi)
         {
-            var props = Props[Array.IndexOf(Types, pk.GetType())];
+            var type = pk.GetType();
+            return TryGetHasProperty(type, name, out pi);
+        }
+
+        /// <summary>
+        /// Tries to fetch the <see cref="PKM"/> property from the cache of available properties.
+        /// </summary>
+        /// <param name="type">Type to check</param>
+        /// <param name="name">Property Name to check</param>
+        /// <param name="pi">Property Info retrieved (if any).</param>
+        /// <returns>True if has property, false if does not.</returns>
+        public static bool TryGetHasProperty(Type type, string name, [NotNullWhen(true)] out PropertyInfo? pi)
+        {
+            var index = Array.IndexOf(Types, type);
+            if (index < 0)
+            {
+                pi = null;
+                return false;
+            }
+            var props = Props[index];
             return props.TryGetValue(name, out pi);
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="PKM"/> types that implement the requested <see cref="property"/>.
+        /// </summary>
+        public static IEnumerable<string> GetTypesImplementing(string property)
+        {
+            for (int i = 0; i < Types.Length; i++)
+            {
+                var type = Types[i];
+                var props = Props[i];
+                if (!props.TryGetValue(property, out var pi))
+                    continue;
+                yield return $"{type.Name}: {pi.PropertyType.Name}";
+            }
         }
 
         /// <summary>
@@ -160,8 +195,6 @@ namespace PKHeX.Core
                     return false;
                 try
                 {
-                    if (pi == null)
-                        continue;
                     if (pi.IsValueEqual(obj, cmd.PropertyValue) == cmd.Evaluator)
                         continue;
                 }
