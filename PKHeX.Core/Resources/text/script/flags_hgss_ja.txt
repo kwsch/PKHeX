@@ -26,3 +26,4 @@
 0609	Sleeping Snorlax Disappeared
 0149	Bill's Eevee
 0450	Route 36 Sudowoodo
+0483	Red Gyarados Disappeared

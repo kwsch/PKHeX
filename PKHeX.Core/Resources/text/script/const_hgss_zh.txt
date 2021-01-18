@@ -1,5 +1,5 @@
 ﻿0048	御三家	0:无,152:菊草叶,155:火球鼠,158:小锯鳄
-0299	刺刺耳皮丘 (桐树林)	0:未出现,2:已消失
+0299	刺刺耳皮丘 (桐树林)	0:未出现,1:Pending,2:已消失
 0161	三圣兽 (烧焦塔)	0:出现了,1:游走/逃走
 0304	游走拉帝亚斯/拉帝欧斯	0:未出现,1:即将游走,2:游走中
 0067	谜之水晶	0:未解锁,1778:已解锁
@@ -7,5 +7,6 @@
 0251	神奥遗迹	1:未进入,4:已传送 (第一次),5:去了外面,6:可与竹兰交谈 (小屋),7:可与竹兰交谈 (台上),8:选择传说宝可梦前,10:获得第一只宝可梦,13:已传送 (第二次),14:获得第二只宝可梦
 0259	神奥第一只传说	1:帝牙卢卡,2:帕路奇亚,3:骑拉帝纳
 0258	神奥第二只阿尔宙斯	1:初始之间,2:命中注定般地遇见
-0305	Kanto Starters	0:Not Activated,1:Activated,2:Pending,3:Bulbasaur,4:Squirtle,5:Charmander
+0305	Kanto Starters	0:Not Activated,1:Activated,2:Pending,3:Bulbasaur,4:Squirtle,5:Charmander,6:Completed
 0116	Togepi Gift	0:Not Activated,1:Activated,2:Pending,3:Obtained,4:Completed
+0254	Celebi Event	0:Not Activated,5:Completed
