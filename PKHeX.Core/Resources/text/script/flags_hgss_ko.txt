@@ -26,3 +26,4 @@
 0609	Sleeping Snorlax Disappeared
 0149	Gift Eevee Received 
 0450	Route 36 Sudowoodo Disappeared
+0483	Red Gyarados Disappeared
