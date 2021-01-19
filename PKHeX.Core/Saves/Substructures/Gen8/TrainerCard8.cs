@@ -248,19 +248,19 @@ namespace PKHeX.Core
                 ViewPoke(i).Clear();
         }
 
-        public ushort Year
+        public ushort StartedYear
         {
             get => BitConverter.ToUInt16(Data, Offset + 0x170);
             set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 0x170);
         }
 
-        public byte Month
+        public byte StartedMonth
         {
             get => Data[Offset + 0x172];
             set => Data[Offset + 0x172] = value;
         }
 
-        public byte Day
+        public byte StartedDay
         {
             get => Data[Offset + 0x173];
             set => Data[Offset + 0x173] = value;
