@@ -1896,7 +1896,10 @@ namespace PKHeX.WinForms.Controls
 
         private void CB_BattleVersion_SelectedValueChanged(object sender, EventArgs e)
         {
-            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, Entity is IBattleVersion {BattleVersion: not 0});
+            if (Entity is not IBattleVersion b)
+                return;
+            b.BattleVersion = WinFormsUtil.GetIndex(CB_BattleVersion);
+            PB_BattleVersion.Image = GetMarkSprite(PB_BattleVersion, b.BattleVersion != 0);
         }
 
         private static Image GetMarkSprite(PictureBox p, bool opaque, double trans = 0.175)
