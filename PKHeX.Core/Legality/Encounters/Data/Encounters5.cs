@@ -18,8 +18,6 @@ namespace PKHeX.Core
         {
             MarkEncounterTradeStrings(TradeGift_BW, TradeBW);
             MarkEncounterTradeStrings(TradeGift_B2W2_Regular, TradeB2W2);
-            foreach (var t in TradeGift_B2W2_YancyCurtis)
-                t.TrainerNames = t.OTGender == 0 ? TradeOT_B2W2_M : TradeOT_B2W2_F;
         }
 
         #region Dream Radar Tables
@@ -576,32 +574,32 @@ namespace PKHeX.Core
         private static readonly EncounterTrade5[] TradeGift_B2W2_YancyCurtis =
         {
             // Player is Male
-            new(B2W2) { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Meowth
-            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Wobbuffet
-            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Ralts
-            new(B2W2) { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Shieldon
-            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Rhyhorn
-            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, Form = 0, }, // Shellos-West
-            new(B2W2) { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Mawile
-            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Spiritomb
-            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Snorlax
-            new(B2W2) { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Teddiursa
-            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Spinda
-            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_M, }, // Togepi
+            new(B2W2) { Species = 052, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Meowth
+            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Ralts
+            new(B2W2) { Species = 410, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Shieldon
+            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, Form = 0, }, // Shellos-West
+            new(B2W2) { Species = 303, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Mawile
+            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Snorlax
+            new(B2W2) { Species = 216, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Teddiursa
+            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 10303, SID = 00000, OTGender = 1, TrainerNames = TradeOT_B2W2_F, }, // Togepi
 
             // Player is Female
-            new(B2W2) { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Mankey
-            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Wobbuffet
-            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Ralts
-            new(B2W2) { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Cranidos
-            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Rhyhorn
-            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, Form = 1, }, // Shellos-East
-            new(B2W2) { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Sableye
-            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Spiritomb
-            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Snorlax
-            new(B2W2) { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Phanpy
-            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Spinda
-            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_F, }, // Togepi
+            new(B2W2) { Species = 056, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Mankey
+            new(B2W2) { Species = 202, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Wobbuffet
+            new(B2W2) { Species = 280, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Ralts
+            new(B2W2) { Species = 408, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Cranidos
+            new(B2W2) { Species = 111, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Rhyhorn
+            new(B2W2) { Species = 422, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, Form = 1, }, // Shellos-East
+            new(B2W2) { Species = 302, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Sableye
+            new(B2W2) { Species = 442, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Spiritomb
+            new(B2W2) { Species = 143, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Snorlax
+            new(B2W2) { Species = 231, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Phanpy
+            new(B2W2) { Species = 327, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Spinda
+            new(B2W2) { Species = 175, Level = 50, Ability = 4, TID = 54118, SID = 00000, OTGender = 0, TrainerNames = TradeOT_B2W2_M, }, // Togepi
         };
 
         private const string tradeBW = "tradebw";
