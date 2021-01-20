@@ -194,19 +194,6 @@ namespace PKHeX.Core
                     359, 385, 386 }
         };
 
-        internal static readonly HashSet<int> ValidEggMet_RSE = new()
-        {
-            32, //Route 117
-            253, //Ingame egg gift
-            255 // event/pokemon box
-        };
-
-        internal static readonly HashSet<int> ValidEggMet_FRLG = new()
-        {
-            146, //Four Island
-            253, //Ingame egg gift
-            255 // event/pokemon box
-        };
         // 064 is an unused location for Meteor Falls
         // 084 is Inside of a truck, no possible pokemon can be hatched there
         // 071 is Mirage island, cannot be obtained as the player is technically still on Route 130's map.

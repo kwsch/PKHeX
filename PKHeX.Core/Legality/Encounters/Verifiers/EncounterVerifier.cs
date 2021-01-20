@@ -89,7 +89,7 @@ namespace PKHeX.Core
         private static CheckResult VerifyEncounterEgg(PKM pkm, int gen) => gen switch
         {
             2 => new CheckResult(CheckIdentifier.Encounter), // valid -- no met location info
-            3 => pkm.Format != 3 ? VerifyEncounterEgg3Transfer(pkm) : VerifyEncounterEgg3(pkm),
+            3 => pkm.IsEgg ? VerifyUnhatchedEgg3(pkm) : VerifyEncounterEgg3(pkm),
             4 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade4) : VerifyEncounterEgg4(pkm),
             5 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade5) : VerifyEncounterEgg5(pkm),
             6 => pkm.IsEgg ? VerifyUnhatchedEgg(pkm, Locations.LinkTrade6) : VerifyEncounterEgg6(pkm),
@@ -98,31 +98,37 @@ namespace PKHeX.Core
             _ => new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter)
         };
 
-        private static CheckResult VerifyEncounterEgg3(PKM pkm)
-        {
-            return pkm.Format == 3 ? VerifyEncounterEgg3Native(pkm) : VerifyEncounterEgg3Transfer(pkm);
-        }
-
-        private static CheckResult VerifyEncounterEgg3Native(PKM pkm)
+        private static CheckResult VerifyUnhatchedEgg3(PKM pkm)
         {
             if (pkm.Met_Level != 0)
                 return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, 0), CheckIdentifier.Encounter);
-            if (pkm.IsEgg)
-            {
-                var loc = pkm.FRLG ? Legal.ValidEggMet_FRLG : Legal.ValidEggMet_RSE;
-                if (!loc.Contains(pkm.Met_Location))
-                    return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
-            }
-            else
-            {
-                var locs = pkm.FRLG ? Legal.ValidMet_FRLG : pkm.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
-                if (locs.Contains(pkm.Met_Location))
-                    return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
-                if (Legal.ValidMet_FRLG.Contains(pkm.Met_Location) || Legal.ValidMet_E.Contains(pkm.Met_Location) || Legal.ValidMet_RS.Contains(pkm.Met_Location))
-                    return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
-                return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
-            }
+
+            // Only EncounterEgg should reach here.
+            var loc = pkm.FRLG ? Locations.HatchLocationFRLG : Locations.HatchLocationRSE;
+            if (pkm.Met_Location != loc)
+                return new CheckResult(Severity.Invalid, LEggMetLocationFail, CheckIdentifier.Encounter);
+
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+        }
+
+        private static CheckResult VerifyEncounterEgg3(PKM pkm)
+        {
+            if (pkm.Format != 3)
+                return VerifyEncounterEgg3Transfer(pkm);
+
+            if (pkm.Met_Level != 0)
+                return new CheckResult(Severity.Invalid, string.Format(LEggFMetLevel_0, 0), CheckIdentifier.Encounter);
+
+            // Check the origin game list.
+            var met = pkm.Met_Location;
+            var locs = pkm.FRLG ? Legal.ValidMet_FRLG : pkm.E ? Legal.ValidMet_E : Legal.ValidMet_RS;
+            if (locs.Contains(met))
+                return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
+
+            // Version isn't updated when hatching on a different game. Check any game.
+            if (Legal.ValidMet_FRLG.Contains(met) || Legal.ValidMet_E.Contains(met) || Legal.ValidMet_RS.Contains(met))
+                return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
+            return new CheckResult(Severity.Invalid, LEggLocationInvalid, CheckIdentifier.Encounter);
         }
 
         private static CheckResult VerifyEncounterEgg3Transfer(PKM pkm)
@@ -133,10 +139,17 @@ namespace PKHeX.Core
                 return new CheckResult(Severity.Invalid, LTransferEggMetLevel, CheckIdentifier.Encounter);
             if (pkm.Egg_Location != 0)
                 return new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
-            if (pkm.Format == 4 && pkm.Met_Location != Locations.Transfer3)
-                return new CheckResult(Severity.Invalid, LEggLocationPalPark, CheckIdentifier.Encounter);
-            if (pkm.Format != 4 && pkm.Met_Location != Locations.Transfer4)
-                return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
+
+            if (pkm.Format != 4)
+            {
+                if (pkm.Met_Location != Locations.Transfer4)
+                    return new CheckResult(Severity.Invalid, LTransferEggLocationTransporter, CheckIdentifier.Encounter);
+            }
+            else
+            {
+                if (pkm.Met_Location != Locations.Transfer3)
+                    return new CheckResult(Severity.Invalid, LEggLocationPalPark, CheckIdentifier.Encounter);
+            }
 
             return new CheckResult(Severity.Valid, LEggLocation, CheckIdentifier.Encounter);
         }
@@ -216,9 +229,10 @@ namespace PKHeX.Core
             if (pkm.Egg_Location == tradeLoc)
                 return new CheckResult(Severity.Invalid, LEggLocationTradeFail, CheckIdentifier.Encounter);
 
-            if (pkm.Met_Location == tradeLoc)
+            var met = pkm.Met_Location;
+            if (met == tradeLoc)
                 return new CheckResult(Severity.Valid, LEggLocationTrade, CheckIdentifier.Encounter);
-            return pkm.Met_Location == 0
+            return met == 0
                 ? new CheckResult(Severity.Valid, LEggUnhatched, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, LEggLocationNone, CheckIdentifier.Encounter);
         }
@@ -271,7 +285,7 @@ namespace PKHeX.Core
                         return new CheckResult(Severity.Invalid, LG4InvalidTileR45Surf, CheckIdentifier.Encounter);
                     break;
                 case 7:
-                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMoves.Any(m => m != 0)) // eevee gift egg
+                    if (s.EggLocation == Locations.Daycare5 && pkm.RelearnMoves.Any(m => m != 0)) // Eevee gift egg
                         return new CheckResult(Severity.Invalid, LEncStaticRelearn, CheckIdentifier.RelearnMove); // not gift egg
                     break;
             }
