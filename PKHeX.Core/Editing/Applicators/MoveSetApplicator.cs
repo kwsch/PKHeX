@@ -22,7 +22,8 @@ namespace PKHeX.Core
 
             var clone = pk.Clone();
             clone.SetMoves(moves);
-            var newLa = new LegalityAnalysis(pk);
+            clone.SetMaximumPPCurrent(moves);
+            var newLa = new LegalityAnalysis(clone);
 
             // ReSharper disable once TailRecursiveCall
             return newLa.Valid ? moves : GetMoveSet(pk, true);
@@ -36,7 +37,7 @@ namespace PKHeX.Core
         /// <returns>4 moves</returns>
         public static int[] GetMoveSet(this LegalityAnalysis la, bool random = false)
         {
-            int[] m = la.GetSuggestedCurrentMoves(random ? MoveSourceType.All : MoveSourceType.None);
+            int[] m = la.GetSuggestedCurrentMoves(random ? MoveSourceType.All : MoveSourceType.Encounter);
 
             var learn = la.GetSuggestedMovesAndRelearn();
             if (!m.All(z => learn.Contains(z)))
