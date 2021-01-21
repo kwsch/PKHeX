@@ -153,16 +153,13 @@ namespace PKHeX.Core
         private string GetOTName(int slot)
         {
             var ofs = 0x390 + (0x6FF00 * slot);
-            return StringConverter4.GetBEString4(Data, ofs, 0x10);
+            return GetString(Data, ofs, 16);
         }
 
         private void SetOTName(int slot, string name)
         {
-            if (name.Length > 7)
-                name = name.Substring(0, 7);
-            var bytes = Encoding.BigEndianUnicode.GetBytes(name.PadRight(8, '\0'));
             var ofs = 0x390 + (0x6FF00 * slot);
-            SetData(bytes, ofs);
+            SetData(SetString(name, 7, 8), ofs);
         }
 
         public string CurrentOT { get => GetOTName(_currentSlot); set => SetOTName(_currentSlot, value); }
@@ -310,13 +307,17 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4(data, offset, length);
+        public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));
 
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (PadToSize == 0)
                 PadToSize = maxLength + 1;
-            return StringConverter4.SetBEString4(value, maxLength, PadToSize, PadWith);
+            if (value.Length > maxLength)
+                value = value.Substring(0, maxLength);
+            if (value.Length != PadToSize)
+                value = value.PadRight(PadToSize, (char)PadWith);
+            return Encoding.BigEndianUnicode.GetBytes(value);
         }
     }
 }
