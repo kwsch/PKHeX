@@ -213,10 +213,30 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdateRandomEVs(object sender, EventArgs e)
         {
-            bool zero = (ModifierKeys & Keys.Control) != 0;
-            var evs = zero ? new int[6] : PKX.GetRandomEVs(Entity.Format);
+            var evs = ModifierKeys switch
+            {
+                Keys.Control => SetMaxEVs(Entity),
+                Keys.Alt => new int[6],
+                _ => PKX.GetRandomEVs(Entity.Format),
+            };
             LoadEVs(evs);
             UpdateEVs(sender, EventArgs.Empty);
+
+            static int[] SetMaxEVs(PKM entity)
+            {
+                if (entity.Format < 3)
+                    return Enumerable.Repeat((int) ushort.MaxValue, 6).ToArray();
+
+                var stats = entity.PersonalInfo.Stats;
+                var ordered = stats.Select((z, i) => new {Stat = z, Index = i}).OrderByDescending(z => z.Stat).ToArray();
+
+                var result = new int[6];
+                result[ordered[0].Index] = 252;
+                result[ordered[1].Index] = 252;
+                result[ordered[2].Index] = 6;
+
+                return result;
+            }
         }
 
         private void UpdateHackedStats(object sender, EventArgs e)
@@ -354,8 +374,12 @@ namespace PKHeX.WinForms.Controls
 
         public void UpdateRandomIVs(object sender, EventArgs e)
         {
-            var flawless = (ModifierKeys & Keys.Control) != 0;
-            var IVs = flawless ? Entity.SetRandomIVs(6) : Entity.SetRandomIVs();
+            var IVs = ModifierKeys switch
+            {
+                Keys.Control => Entity.SetRandomIVs(6),
+                Keys.Alt => new int[6],
+                _ => Entity.SetRandomIVs(),
+            };
             LoadIVs(IVs);
         }
 
