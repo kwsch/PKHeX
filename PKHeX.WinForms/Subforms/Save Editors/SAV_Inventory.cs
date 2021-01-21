@@ -27,7 +27,6 @@ namespace PKHeX.WinForms
             }
 
             HasFreeSpace = SAV.Generation >= 7 && SAV is not SAV7b;
-            HasNew = CHK_NEW.Visible = SAV.Generation >= 7;
             Pouches = SAV.Inventory;
             CreateBagViews();
             LoadAllBags();
