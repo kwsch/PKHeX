@@ -41,20 +41,21 @@ namespace PKHeX.Core
                 tempData.CopyTo(Data, 0x1C0000);
             }
 
+            var names = (string[]) SaveNames;
             for (int i = 0; i < SAVE_COUNT; i++)
             {
-                if (!IsOTNamePresent(i))
-                    continue;
-                SaveSlots.Add(i);
-                SaveNames.Add(GetOTName(i));
+                var name = GetOTName(i);
+                if (string.IsNullOrWhiteSpace(name))
+                    name = $"Empty {i + 1}";
+                else if (_currentSlot == -1)
+                    _currentSlot = i;
+                names[i] = name;
             }
 
-            CurrentSlot = SaveSlots[0];
-        }
+            if (_currentSlot == -1)
+                _currentSlot = 0;
 
-        private bool IsOTNamePresent(int i)
-        {
-            return BitConverter.ToUInt16(Data, 0x390 + (0x6FF00 * i)) != 0;
+            CurrentSlot = _currentSlot;
         }
 
         private uint SaveCount;
@@ -68,18 +69,17 @@ namespace PKHeX.Core
         // Configuration
         protected override SaveFile CloneInternal() => new SAV4BR(Write());
 
-        public readonly List<int> SaveSlots = new(SAVE_COUNT);
-        public readonly List<string> SaveNames = new(SAVE_COUNT);
+        public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
-        private int _currentSlot;
+        private int _currentSlot = -1;
 
         public int CurrentSlot
         {
-            get => SaveSlots.IndexOf(_currentSlot);
+            get => _currentSlot;
             // 4 save slots, data reading depends on current slot
             set
             {
-                _currentSlot = SaveSlots[value];
+                _currentSlot = value;
                 var ofs = 0x6FF00 * _currentSlot;
                 Box = ofs + 0x978;
                 Party = ofs + 0x13A54; // first team slot after boxes
