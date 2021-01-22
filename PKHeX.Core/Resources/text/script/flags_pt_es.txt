@@ -43,3 +43,4 @@
 1338	Encontrado Antiderretir en Ruinas Iceberg
 1339	Encontrada Roca Dura Ruinas Pico Roca
 2736	Rotom desaparecido en la TV de la Vieja Mansión
+2728	Friday Drifloon Disappeared
