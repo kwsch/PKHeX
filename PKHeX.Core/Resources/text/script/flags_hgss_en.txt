@@ -27,3 +27,6 @@
 0149	Gift Eevee Received 
 0450	Route 36 Sudowoodo Disappeared
 0483	Red Gyarados Disappeared
+0191	Received Shuckle Gift
+0193	Shuckle returned or allowed to keep
+2744	Friday Lapras Disappeared
