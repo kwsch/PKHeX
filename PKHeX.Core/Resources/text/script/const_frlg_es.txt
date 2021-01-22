@@ -16,7 +16,7 @@
 0x404B	Sticker de Batallas Link en la Tarjeta Entrenador	0:Ningún,1:Nivel 1,2:Nivel 2,3:Nivel 3
 
 0x408B	Super Nerd Fósil Derrotado (Mt. Moon)	0:No,1:Sí
-0x407E	Estatus del S.S. Anne	01:En Ciudad Carmín,02:Listo para embarcar,03:Ido
+0x407E	Estatus del S.S. Anne	00:En Ciudad Carmín,01:Listo para embarcar,03:Ido
 0x4059	Fantasma de Marowak derrotado	0:No,1:Sí
 0x4062	Té entregado a los Guardias	0:No,1:Sí
 0x4060	Giovanni Derrotado (Silph S.A.)	0:No,1:Sí
