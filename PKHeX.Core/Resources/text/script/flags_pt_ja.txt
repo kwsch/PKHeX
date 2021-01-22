@@ -46,3 +46,4 @@
 0151	Received Porygon
 0305	Received Eevee
 2430	Unlocked Bebe's PC
+2728	Friday Drifloon Disappeared
