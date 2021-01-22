@@ -635,6 +635,24 @@ namespace PKHeX.Core
 
             // 1/8 - Forest Returns (no changes besides shiny Greedent replacing regular R5 Amoonguss)
             new(60,10,5) { Species = 820, Ability = A4, Moves = new[]{ 747, 360, 371, 089 }, Shiny = Shiny.Always }, // Greedent
+
+            // 1/21 - Normal Bovine
+            new(17,01,1) { Species = 128, Ability = A4, Moves = new[]{ 033, 157, 030, 371 } }, // Tauros
+            new(17,01,1) { Species = 626, Ability = A4, Moves = new[]{ 033, 030, 031, 523 } }, // Bouffalant
+            new(17,01,1) { Species = 241, Ability = A4, Moves = new[]{ 707, 033, 023, 205 } }, // Miltank
+            new(30,03,2) { Species = 128, Ability = A4, Moves = new[]{ 033, 157, 030, 370 } }, // Tauros
+            new(30,03,2) { Species = 626, Ability = A4, Moves = new[]{ 279, 030, 675, 523 } }, // Bouffalant
+            new(30,03,2) { Species = 241, Ability = A4, Moves = new[]{ 707, 428, 023, 205 } }, // Miltank
+            new(40,05,3) { Species = 128, Ability = A4, Moves = new[]{ 036, 157, 030, 370 } }, // Tauros
+            new(40,05,3) { Species = 626, Ability = A4, Moves = new[]{ 279, 543, 675, 523 } }, // Bouffalant
+            new(40,05,3) { Species = 241, Ability = A4, Moves = new[]{ 707, 428, 034, 205 } }, // Miltank
+            new(50,08,4) { Species = 128, Ability = A4, Moves = new[]{ 034, 157, 030, 370 } }, // Tauros
+            new(50,08,4) { Species = 626, Ability = A4, Moves = new[]{ 224, 543, 675, 523 } }, // Bouffalant
+            new(50,08,4) { Species = 241, Ability = A4, Moves = new[]{ 707, 428, 034, 583 } }, // Miltank
+            new(60,10,5) { Species = 128, Ability = A4, Moves = new[]{ 034, 157, 372, 370 } }, // Tauros
+            new(60,10,5) { Species = 128, Ability = A4, Moves = new[]{ 034, 157, 372, 370 }, Shiny = Shiny.Always }, // Tauros
+            new(60,10,5) { Species = 626, Ability = A4, Moves = new[]{ 224, 543, 675, 089 } }, // Bouffalant
+            new(60,10,5) { Species = 241, Ability = A4, Moves = new[]{ 667, 428, 034, 583 } }, // Miltank
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
