@@ -31,3 +31,4 @@
 0251	Received Happiny Egg Gift
 0305	Received Eevee
 2430	Unlocked Bebe's PC
+2728	Friday Drifloon Disappeared
