@@ -46,3 +46,4 @@
 0151	获得多边兽
 0305	获得伊布
 2430	解锁水木的电脑
+2728	Friday Drifloon Disappeared
