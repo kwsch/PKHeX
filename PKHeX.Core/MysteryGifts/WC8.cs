@@ -193,7 +193,7 @@ namespace PKHeX.Core
                 var val = Data[RibbonBytesOffset + i];
                 if (val == RibbonByteNone)
                     return false;
-                if ((RibbonIndex)val is > MarkLunchtime and < MarkSlump)
+                if ((RibbonIndex)val is >= MarkLunchtime and <= MarkSlump)
                     return true;
             }
             return false;
