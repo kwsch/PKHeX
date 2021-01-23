@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 <see cref="SaveFile"/> object.
     /// </summary>
-    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin
+    public abstract class SAV7 : SAV_BEEF, ITrainerStatRecord, ISaveBlock7Main, IRegionOrigin, IGameSync
     {
         // Save Data Attributes
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Played.LastSavedTime}";
