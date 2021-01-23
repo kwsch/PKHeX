@@ -72,6 +72,7 @@ namespace PKHeX.Core
         public readonly IReadOnlyList<string> SaveNames = new string[SAVE_COUNT];
 
         private int _currentSlot = -1;
+        private const int SIZE_SLOT = 0x6FF00;
 
         public int CurrentSlot
         {
@@ -80,7 +81,7 @@ namespace PKHeX.Core
             set
             {
                 _currentSlot = value;
-                var ofs = 0x6FF00 * _currentSlot;
+                var ofs = SIZE_SLOT * _currentSlot;
                 Box = ofs + 0x978;
                 Party = ofs + 0x13A54; // first team slot after boxes
                 BoxName = ofs + 0x58674;
@@ -167,6 +168,26 @@ namespace PKHeX.Core
         // Storage
         public override int GetPartyOffset(int slot) => Party + (SIZE_PARTY * slot);
         public override int GetBoxOffset(int box) => Box + (SIZE_STORED * box * 30);
+
+        public override int TID
+        {
+            get => (Data[(_currentSlot * SIZE_SLOT) + 0x12867] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12860];
+            set
+            {
+                Data[(_currentSlot * SIZE_SLOT) + 0x12867] = (byte)(value >> 8);
+                Data[(_currentSlot * SIZE_SLOT) + 0x12860] = (byte)(value & 0xFF);
+            }
+        }
+
+        public override int SID
+        {
+            get => (Data[(_currentSlot * SIZE_SLOT) + 0x12865] << 8) | Data[(_currentSlot * SIZE_SLOT) + 0x12866];
+            set
+            {
+                Data[(_currentSlot * SIZE_SLOT) + 0x12865] = (byte)(value >> 8);
+                Data[(_currentSlot * SIZE_SLOT) + 0x12866] = (byte)(value & 0xFF);
+            }
+        }
 
         // Save file does not have Box Name / Wallpaper info
         private int BoxName = -1;
