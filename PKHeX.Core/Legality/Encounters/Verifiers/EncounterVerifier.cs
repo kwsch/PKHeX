@@ -76,13 +76,9 @@ namespace PKHeX.Core
 
         private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot encounter)
         {
-            var tree = Encounters2.GetGSCHeadbuttAvailability(encounter, tr.TID);
-            return tree switch
-            {
-                TreeEncounterAvailable.ValidTree => new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter),
-                TreeEncounterAvailable.InvalidTree => new CheckResult(Severity.Invalid, LG2InvalidTileTreeID, CheckIdentifier.Encounter),
-                _ => new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter)
-            };
+            return Encounters2.IsTreeAvailable(encounter, tr.TID)
+                ? new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter)
+                : new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
         }
 
         // Eggs
