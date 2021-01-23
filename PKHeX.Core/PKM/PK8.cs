@@ -347,6 +347,16 @@ namespace PKHeX.Core
         public bool RIB47_6 { get => FlagUtil.GetFlag(Data, 0x47, 6); set => FlagUtil.SetFlag(Data, 0x47, 6, value); }
         public bool RIB47_7 { get => FlagUtil.GetFlag(Data, 0x47, 7); set => FlagUtil.SetFlag(Data, 0x47, 7, value); }
 
+        public bool HasMark()
+        {
+            var d = Data;
+            if ((BitConverter.ToUInt16(d, 0x3A) & 0xFFE0) != 0)
+                return true;
+            if (BitConverter.ToUInt32(d, 0x40) != 0)
+                return true;
+            return (d[0x44] & 3) != 0;
+        }
+
         public uint U48 { get => BitConverter.ToUInt32(Data, 0x48); set => BitConverter.GetBytes(value).CopyTo(Data, 0x48); }
 
         // 0x4C-0x4F unused

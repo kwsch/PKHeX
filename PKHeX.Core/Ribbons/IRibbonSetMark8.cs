@@ -48,6 +48,8 @@
         bool RibbonMarkThorny { get; set; }
         bool RibbonMarkVigor { get; set; }
         bool RibbonMarkSlump { get; set; }
+
+        bool HasMark();
     }
 
     internal static partial class RibbonExtensions

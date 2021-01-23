@@ -34,6 +34,9 @@ namespace PKHeX.Core
             if (VerifyCorrelation != null && !VerifyCorrelation(pkm, (T)this))
                 return false;
 
+            if (pkm is IRibbonSetMark8 m8 && m8.HasMark())
+                return false;
+
             return base.IsMatch(pkm, evo);
         }
 

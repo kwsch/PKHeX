@@ -186,6 +186,19 @@ namespace PKHeX.Core
         private const int RibbonBytesCount = 0x20;
         private const int RibbonByteNone = 0xFF; // signed -1
 
+        public bool HasMark()
+        {
+            for (int i = 0; i < RibbonBytesCount; i++)
+            {
+                var val = Data[RibbonBytesOffset + i];
+                if (val == RibbonByteNone)
+                    return false;
+                if ((RibbonIndex)val is > MarkLunchtime and < MarkSlump)
+                    return true;
+            }
+            return false;
+        }
+
         public byte GetRibbonAtIndex(int byteIndex)
         {
             if ((uint)byteIndex >= RibbonBytesCount)
