@@ -110,17 +110,5 @@
     {
         public static bool GetRibbonIndex(this IRibbonIndex x, RibbonIndex r) => x.GetRibbon((int)r);
         public static void SetRibbonIndex(this IRibbonIndex x, RibbonIndex r, bool value = true) => x.SetRibbon((int)r, value);
-
-        public static bool HasMark(this IRibbonIndex m, out RibbonIndex x)
-        {
-            for (x = RibbonIndex.MarkLunchtime; x <= RibbonIndex.MarkSlump; x++)
-            {
-                if (m.GetRibbon((int) x))
-                    return true;
-            }
-
-            x = (RibbonIndex)0xFF;
-            return false;
-        }
     }
 }

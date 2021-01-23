@@ -25,8 +25,11 @@ namespace PKHeX.Core
 
         private void VerifyNoMarksPresent(LegalityAnalysis data, IRibbonIndex m)
         {
-            if (m.HasMark(out var x))
-                data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, x)));
+            for (var x = RibbonIndex.MarkLunchtime; x <= RibbonIndex.MarkSlump; x++)
+            {
+                if (m.GetRibbon((int)x))
+                    data.AddLine(GetInvalid(string.Format(LRibbonMarkingFInvalid_0, x)));
+            }
         }
 
         private void VerifyMarksPresent(LegalityAnalysis data, IRibbonIndex m)
