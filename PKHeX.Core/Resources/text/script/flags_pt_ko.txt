@@ -43,3 +43,4 @@
 1338	Found Never-Melt Ice in Iceberg Ruins
 1339	Found Hard Stone in Rock Peak Ruins
 2736	숲의양옥집 TV에서 로토무 사라짐
+2728	Friday Drifloon Disappeared

@@ -16,7 +16,7 @@
 0x404B	Link Battles Trainer Card Sticker	0:None,1:Level 1,2:Level 2,3:Level 3
 
 0x408B	Fossils Super Nerd Defeated (Mt. Moon)	0:No,1:Yes
-0x407E	S.S. Anne Status	01:In Vermilion City,02:Ready to depart,03:Gone
+0x407E	S.S. Anne Status	00:In Vermilion City,01:Ready to depart,03:Gone
 0x4059	Defeated Ghost of Marowak	0:No,1:Yes
 0x4062	Given Tea to Guards	0:No,1:Yes
 0x4060	Defeated Giovanni (Silph Co.)	0:No,1:Yes
