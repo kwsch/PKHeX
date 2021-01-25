@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Wild Encounter Slot data
     /// </summary>
     /// <remarks>Wild encounter slots are found as random encounters in-game.</remarks>
-    public abstract record EncounterSlot : IEncounterable, ILocation
+    public abstract record EncounterSlot : IEncounterable, ILocation, IEncounterMatch
     {
         public int Species { get; }
         public int Form { get; }
@@ -195,6 +195,29 @@ namespace PKHeX.Core
         {
             valid = true;
             return LegalityCheckStrings.LEncCondition;
+        }
+
+        public bool IsMatchExact(PKM pkm, DexLevel dl) => true; // Matched by Area
+
+        public virtual EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsDeferredWurmple(pkm))
+                return EncounterMatchRating.PartialMatch;
+            if (IsDeferredHiddenAbility(pkm.AbilityNumber == 4))
+                return EncounterMatchRating.Deferred;
+            return EncounterMatchRating.Match;
+        }
+
+        protected virtual HiddenAbilityPermission IsHiddenAbilitySlot() => HiddenAbilityPermission.Never;
+
+        protected bool IsDeferredWurmple(PKM pkm) => Species == (int)Wurmple && pkm.Species != (int)Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
+        private bool IsDeferredHiddenAbility(bool IsHidden) => IsHidden && IsHiddenAbilitySlot() == HiddenAbilityPermission.Never;
+
+        protected enum HiddenAbilityPermission
+        {
+            Never,
+            Possible,
+            Always,
         }
     }
 }

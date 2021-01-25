@@ -64,38 +64,8 @@ namespace PKHeX.Core
             if (gameSource == GameVersion.Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var s = GetRawEncounterSlots(pkm, chain, gameSource);
-
-            bool IsHidden = pkm.AbilityNumber == 4; // hidden Ability
-            int species = pkm.Species;
-
-            return s.DeferByBoolean(slot => slot.IsDeferred(species, pkm, IsHidden)); // non-deferred first
+            return GetRawEncounterSlots(pkm, chain, gameSource);
         }
-
-        public static bool IsDeferred3(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall)
-        {
-            return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari3(IsSafariBall);
-        }
-
-        public static bool IsDeferred4(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsSafariBall, bool IsSportBall)
-        {
-            return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredSafari4(IsSafariBall)
-                || slot.IsDeferredSport(IsSportBall);
-        }
-
-        private static bool IsDeferred(this EncounterSlot slot, int currentSpecies, PKM pkm, bool IsHidden)
-        {
-            return slot.IsDeferredWurmple(currentSpecies, pkm)
-                || slot.IsDeferredHiddenAbility(IsHidden);
-        }
-
-        private static bool IsDeferredWurmple(this IEncounterable slot, int currentSpecies, PKM pkm) => slot.Species == (int)Species.Wurmple && currentSpecies != (int)Species.Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
-        private static bool IsDeferredSafari3(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(slot.Location);
-        private static bool IsDeferredSafari4(this ILocation slot, bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation4(slot.Location);
-        private static bool IsDeferredSport(this EncounterSlot slot, bool IsSportBall) => IsSportBall != (slot.Area.Type == SlotType.BugContest);
-        private static bool IsDeferredHiddenAbility(this EncounterSlot slot, bool IsHidden) => IsHidden && !slot.IsHiddenAbilitySlot();
 
         public static IEnumerable<EncounterArea> GetEncounterSlots(PKM pkm, GameVersion gameSource = GameVersion.Any)
         {
@@ -116,11 +86,6 @@ namespace PKHeX.Core
                 return slots;
             var metLocation = pkm.Met_Location;
             return slots.Where(z => z.IsMatchLocation(metLocation));
-        }
-
-        private static bool IsHiddenAbilitySlot(this EncounterSlot slot)
-        {
-            return slot is EncounterSlot6AO {CanDexNav: true} || slot.Area.Type is SlotType.FriendSafari or SlotType.Horde or SlotType.SOS;
         }
 
         internal static EncounterSlot? GetCaptureLocation(PKM pkm)

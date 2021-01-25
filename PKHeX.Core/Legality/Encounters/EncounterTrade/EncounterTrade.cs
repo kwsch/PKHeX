@@ -10,7 +10,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Trade data is fixed level in all cases except for the first few generations of games.
     /// </remarks>
-    public abstract record EncounterTrade : IEncounterable, IMoveset, ILocation
+    public abstract record EncounterTrade : IEncounterable, IMoveset, ILocation, IEncounterMatch
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -186,7 +186,7 @@ namespace PKHeX.Core
             pk.MetDate = time;
         }
 
-        public virtual bool IsMatch(PKM pkm, DexLevel evo)
+        public virtual bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (IVs.Count != 0)
             {
@@ -248,5 +248,17 @@ namespace PKHeX.Core
 
             return true;
         }
+
+        public EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsMatchPartial(pkm))
+                return EncounterMatchRating.PartialMatch;
+            if (IsMatchDeferred(pkm))
+                return EncounterMatchRating.Deferred;
+            return EncounterMatchRating.Match;
+        }
+
+        protected virtual bool IsMatchDeferred(PKM pkm) => false;
+        protected virtual bool IsMatchPartial(PKM pkm) => false;
     }
 }

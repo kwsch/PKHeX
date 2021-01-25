@@ -46,9 +46,9 @@
             }
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
-            if (!base.IsMatch(pkm, evo))
+            if (!base.IsMatchExact(pkm, evo))
                 return false;
 
             if (pkm is IContestStats s && s.IsContestBelow(this))

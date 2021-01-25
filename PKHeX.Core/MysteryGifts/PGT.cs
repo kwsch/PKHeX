@@ -265,8 +265,11 @@ namespace PKHeX.Core
             return met is Locations.LinkTrade4 or 0;
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
+        // Nothing is stored as a PGT besides Ranger Manaphy. Nothing should trigger these.
+        public override bool IsMatchExact(PKM pkm, DexLevel evo) => false;
         protected override bool IsMatchDeferred(PKM pkm) => false;
+        protected override bool IsMatchPartial(PKM pkm) => false;
+
         public bool RibbonEarth { get => PK.RibbonEarth; set => PK.RibbonEarth = value; }
         public bool RibbonNational { get => PK.RibbonNational; set => PK.RibbonNational = value; }
         public bool RibbonCountry { get => PK.RibbonCountry; set => PK.RibbonCountry = value; }

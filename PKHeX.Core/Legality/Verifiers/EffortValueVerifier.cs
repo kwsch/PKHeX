@@ -53,7 +53,7 @@ namespace PKHeX.Core
             }
 
             // Only one of the following can be true: 0, 508, and x%6!=0
-            if (sum == 0 && !enc.IsWithinRange(pkm))
+            if (sum == 0 && !enc.IsWithinEncounterRange(pkm))
                 data.AddLine(Get(LEffortEXPIncreased, Severity.Fishy));
             else if (sum == 508)
                 data.AddLine(Get(LEffort2Remaining, Severity.Fishy));
@@ -74,7 +74,7 @@ namespace PKHeX.Core
             var enc = data.EncounterMatch;
             if (enc is EncounterSlot7GO && Enumerable.Range(0, 6).Select(awakened.GetAV).Any(z => z < 2))
                 data.AddLine(GetInvalid(string.Format(LAwakenedShouldBeValue, 2))); // go park transfers have 2 AVs for all stats.
-            else if (awakened.AwakeningSum() == 0 && !enc.IsWithinRange(pkm))
+            else if (awakened.AwakeningSum() == 0 && !enc.IsWithinEncounterRange(pkm))
                 data.AddLine(Get(LAwakenedEXPIncreased, Severity.Fishy));
         }
     }

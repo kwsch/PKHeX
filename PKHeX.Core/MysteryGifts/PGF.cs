@@ -328,7 +328,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (!IsEgg)
             {
@@ -376,6 +376,8 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override bool IsMatchDeferred(PKM pkm) => false;
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
+        protected override bool IsMatchPartial(PKM pkm) => CanBeReceivedBy(pkm.Version);
+        private static bool CanBeReceivedBy(int _) => true;
     }
 }

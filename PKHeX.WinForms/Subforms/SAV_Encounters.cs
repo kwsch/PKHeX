@@ -95,7 +95,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly PictureBox[] PKXBOXES;
-        private List<IEncounterable> Results = new();
+        private List<IEncounterInfo> Results = new();
         private int slotSelected = -1; // = null;
         private Image? slotColor;
         private const int RES_MAX = 66;
@@ -173,14 +173,14 @@ namespace PKHeX.WinForms
         }
 
         // View Updates
-        private IEnumerable<IEncounterable> SearchDatabase()
+        private IEnumerable<IEncounterInfo> SearchDatabase()
         {
             var settings = GetSearchSettings();
             var moves = settings.Moves.ToArray();
 
             // If nothing is specified, instead of just returning all possible encounters, just return nothing.
             if (settings.Species <= 0 && moves.Length == 0)
-                return Array.Empty<IEncounterable>();
+                return Array.Empty<IEncounterInfo>();
             var pk = SAV.BlankPKM;
 
             var species = settings.Species <= 0 ? Enumerable.Range(1, SAV.MaxSpeciesID) : new[] { settings.Species };
@@ -190,7 +190,7 @@ namespace PKHeX.WinForms
                 results = results.Where(z => z.EggEncounter == settings.SearchEgg);
 
             // return filtered results
-            var comparer = new ReferenceComparer<IEncounterable>();
+            var comparer = new ReferenceComparer<IEncounterInfo>();
             results = results.Distinct(comparer); // only distinct objects
 
             // when all sprites in new size are available, remove this filter
@@ -218,7 +218,7 @@ namespace PKHeX.WinForms
             }
         }
 
-        private static IEnumerable<IEncounterable> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
+        private static IEnumerable<IEncounterInfo> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
@@ -271,7 +271,7 @@ namespace PKHeX.WinForms
                 FillPKXBoxes(e.NewValue);
         }
 
-        private void SetResults(List<IEncounterable> res)
+        private void SetResults(List<IEncounterInfo> res)
         {
             Results = res;
 

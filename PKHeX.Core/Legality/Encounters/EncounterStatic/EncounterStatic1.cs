@@ -25,7 +25,7 @@
             return true;
         }
 
-        public override bool IsMatchDeferred(PKM pkm)
+        protected override bool IsMatchPartial(PKM pkm)
         {
             if (pkm is not PK1 pk1)
                 return false;

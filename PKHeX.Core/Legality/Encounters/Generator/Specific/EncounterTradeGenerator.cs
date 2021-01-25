@@ -40,7 +40,7 @@ namespace PKHeX.Core
                 {
                     if (evo.Species != p.Species)
                         continue;
-                    if (p.IsMatch(pkm, evo))
+                    if (p.IsMatchExact(pkm, evo))
                         yield return p;
                     break;
                 }
@@ -87,8 +87,18 @@ namespace PKHeX.Core
 
         private static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
-            var poss = GetPossibleVC(chain, gameSource);
-            return poss.Where(z => z.IsMatch(pkm));
+            var table = GetEncounterTradeTableVC(gameSource);
+            foreach (var t in table)
+            {
+                foreach (var dl in chain)
+                {
+                    if (dl.Species != pkm.Species || dl.Form != 0)
+                        continue;
+                    if (!t.IsMatchExact(pkm, dl))
+                        continue;
+                    yield return t;
+                }
+            }
         }
 
         private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;

@@ -7,14 +7,12 @@ namespace PKHeX.Core
     /// <summary>
     /// Go Park Entity transferred from <see cref="GameVersion.GO"/> to <see cref="GameVersion.GG"/>.
     /// </summary>
-    public sealed class GP1 : IEncounterable
+    public sealed class GP1 : IEncounterInfo
     {
         public const int SIZE = 0x1B0;
         public readonly byte[] Data;
 
         public GameVersion Version => GameVersion.GO;
-        public string Name => "GO Park";
-        public string LongName => Name;
         public bool EggEncounter => false;
         public int LevelMin => Level;
         public int LevelMax => Level;

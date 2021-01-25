@@ -66,7 +66,7 @@ namespace PKHeX.Core
                 {
                     if (dl.Species != e.Species)
                         continue;
-                    if (!e.IsMatch(pkm, dl))
+                    if (!e.IsMatchExact(pkm, dl))
                         continue;
 
                     yield return e;
@@ -77,25 +77,18 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterStatic> GetMatchingStaticEncounters(PKM pkm, IEnumerable<EncounterStatic> poss, IReadOnlyList<DexLevel> evos)
         {
             // check for petty rejection scenarios that will be flagged by other legality checks
-            var deferred = new List<EncounterStatic>();
-            foreach (EncounterStatic e in poss)
+            foreach (var e in poss)
             {
                 foreach (var dl in evos)
                 {
                     if (dl.Species != e.Species)
                         continue;
-                    if (!e.IsMatch(pkm, dl))
+                    if (!e.IsMatchExact(pkm, dl))
                         continue;
 
-                    if (e.IsMatchDeferred(pkm))
-                        deferred.Add(e);
-                    else
-                        yield return e;
-                    break;
+                    yield return e;
                 }
             }
-            foreach (var e in deferred)
-                yield return e;
         }
 
         internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)

@@ -50,5 +50,39 @@ namespace PKHeX.Core
             pk.SetMoves(moves);
             pk.SetMaximumPPCurrent(moves);
         }
+
+        public override EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsMatchPartial(pkm))
+                return EncounterMatchRating.PartialMatch;
+            return EncounterMatchRating.Match;
+        }
+
+        private bool IsMatchPartial(PKM pk)
+        {
+            var stamp = GetTimeStamp(pk.Met_Year + 2000, pk.Met_Month, pk.Met_Day);
+            if (!IsWithinStartEnd(stamp))
+                return true;
+            if (!GetIVsAboveMinimum(pk))
+                return true;
+            
+            // Eevee & Glaceon have different base friendships. Make sure if it is invalid that we yield the other encounter before.
+            if (PersonalTable.SWSH.GetFormEntry(Species, Form).BaseFriendship != pk.OT_Friendship)
+                return true;
+
+            if (Species == (int)Core.Species.Wurmple)
+                return !WurmpleUtil.IsWurmpleEvoValid(pk);
+
+            return Species switch
+            {
+                (int)Core.Species.Yamask when pk.Species != Species && Form == 1 => pk is IFormArgument { FormArgument: 0 },
+                (int)Core.Species.Milcery when pk.Species != Species => pk is IFormArgument { FormArgument: 0 },
+
+                (int)Core.Species.Runerigus => pk is IFormArgument { FormArgument: not 0 },
+                (int)Core.Species.Alcremie => pk is IFormArgument { FormArgument: not 0 },
+
+                _ => false,
+            };
+        }
     }
 }

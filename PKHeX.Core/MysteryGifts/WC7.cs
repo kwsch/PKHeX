@@ -492,7 +492,7 @@ namespace PKHeX.Core
             return CardID == 2046 && (pkm.SID << 16 | pkm.TID) == 0x79F57B49;
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -548,13 +548,15 @@ namespace PKHeX.Core
             return PIDType != 0 || pkm.PID == PID;
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
+
+        protected override bool IsMatchPartial(PKM pkm)
         {
             if (RestrictLanguage != 0 && RestrictLanguage != pkm.Language)
                 return true;
             if (!CanBeReceivedByVersion(pkm.Version))
                 return true;
-            return Species != pkm.Species;
+            return false;
         }
     }
 }

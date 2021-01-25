@@ -19,12 +19,12 @@ namespace PKHeX.Core
             FlawlessIVCount = 4;
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            return base.IsMatch(pkm, evo);
+            return base.IsMatchExact(pkm, evo);
         }
 
         // no downleveling, unlike all other raids

@@ -80,12 +80,12 @@ namespace PKHeX.Core
             return loc == SharedNest || (loc <= 255 && NestLocations.Contains((byte)loc));
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.FlawlessIVCount < FlawlessIVCount)
                 return false;
 
-            return base.IsMatch(pkm, evo);
+            return base.IsMatchExact(pkm, evo);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace PKHeX.Core
     /// <remarks>
     /// Static Encounters are fixed position encounters with properties that are not subject to Wild Encounter conditions.
     /// </remarks>
-    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation
+    public abstract record EncounterStatic : IEncounterable, IMoveset, ILocation, IEncounterMatch
     {
         public int Species { get; init; }
         public int Form { get; init; }
@@ -200,7 +200,7 @@ namespace PKHeX.Core
             }
         }
 
-        public virtual bool IsMatch(PKM pkm, DexLevel evo)
+        public virtual bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (Nature != Nature.Random && pkm.Nature != (int) Nature)
                 return false;
@@ -292,7 +292,18 @@ namespace PKHeX.Core
             return pkm.Met_Level == Level;
         }
 
-        public virtual bool IsMatchDeferred(PKM pkm)
+        public EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsMatchPartial(pkm))
+                return EncounterMatchRating.PartialMatch;
+            if (IsMatchDeferred(pkm))
+                return EncounterMatchRating.Deferred;
+            return EncounterMatchRating.Match;
+        }
+
+        protected virtual bool IsMatchDeferred(PKM pkm) => false;
+
+        protected virtual bool IsMatchPartial(PKM pkm)
         {
             return pkm.FatefulEncounter != Fateful;
         }

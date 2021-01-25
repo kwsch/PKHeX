@@ -5,5 +5,6 @@ namespace PKHeX.Core
         None,
         Match,
         Deferred,
+        PartialMatch,
     }
 }
