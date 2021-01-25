@@ -78,6 +78,8 @@ namespace PKHeX.Core
                 return Location == pkm.Met_Location;
             return true;
         }
+
+        protected override bool IsMatchPartial(PKM pkm) => false;
     }
 
     public sealed record EncounterStatic2Odd : EncounterStatic2

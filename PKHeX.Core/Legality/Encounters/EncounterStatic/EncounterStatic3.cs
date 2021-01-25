@@ -55,7 +55,7 @@ namespace PKHeX.Core
         {
             if (Gift && pkm.Ball != Ball)
                 return true;
-            return false;
+            return base.IsMatchPartial(pkm);
         }
 
         protected override void SetMetData(PKM pk, int level, DateTime today)

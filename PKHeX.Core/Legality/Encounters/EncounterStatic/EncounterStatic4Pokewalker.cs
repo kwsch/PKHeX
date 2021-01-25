@@ -28,7 +28,7 @@
         {
             if (Gift && pkm.Ball != Ball)
                 return true;
-            return false;
+            return base.IsMatchPartial(pkm);
         }
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
