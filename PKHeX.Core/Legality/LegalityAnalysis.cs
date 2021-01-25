@@ -130,17 +130,6 @@ namespace PKHeX.Core
                     && Info.Moves.All(m => m.Valid)
                     && Info.Relearn.All(m => m.Valid);
 
-                // Sanity Check -- Some secondary checks might not be as thorough as the partial-match leak-through checks done by the encounter.
-                if (Valid && EncounterOriginal is IEncounterMatch mx)
-                {
-                    var match = mx.GetMatchRating(pkm);
-                    if (match == EncounterMatchRating.PartialMatch)
-                    {
-                        Valid = false;
-                        AddLine(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter);
-                    }
-                }
-
                 if (!Valid && pkm.FatefulEncounter && Info.Relearn.Any(chk => !chk.Valid) && EncounterMatch is EncounterInvalid)
                     AddLine(Severity.Indeterminate, LFatefulGiftMissing, CheckIdentifier.Fateful);
                 Parsed = true;
