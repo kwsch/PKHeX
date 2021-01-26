@@ -42,7 +42,7 @@ namespace PKHeX.Core
         {
             info.PIDIV = MethodFinder.Analyze(pkm);
             IEncounterable? Partial = null;
-            foreach (var z in GenerateRawEncounters3(pkm, info))
+            foreach (var z in GenerateRawEncounters3CXD(pkm))
             {
                 if (z is EncounterSlot3PokeSpot w)
                 {
@@ -69,6 +69,56 @@ namespace PKHeX.Core
 
             info.PIDIVMatches = false;
             yield return Partial;
+        }
+
+        private static IEnumerable<IEncounterable> GenerateRawEncounters3CXD(PKM pkm)
+        {
+            var chain = EncounterOrigin.GetOriginChain(pkm);
+
+            // Mystery Gifts
+            foreach (var z in GetValidGifts(pkm, chain))
+            {
+                // Don't bother deferring matches.
+                var match = z.GetMatchRating(pkm);
+                if (match != PartialMatch)
+                    yield return z;
+            }
+
+            // Trades
+            foreach (var z in GetValidEncounterTrades(pkm, chain))
+            {
+                // Don't bother deferring matches.
+                var match = z.GetMatchRating(pkm);
+                if (match != PartialMatch)
+                    yield return z;
+            }
+
+            IEncounterable? partial = null;
+
+            // Static Encounter
+            foreach (var z in GetValidStaticEncounter(pkm, chain))
+            {
+                var match = z.GetMatchRating(pkm);
+                if (match == PartialMatch)
+                    partial ??= z;
+                else
+                    yield return z;
+            }
+
+            // Encounter Slots
+            foreach (var z in GetValidWildEncounters34(pkm, chain))
+            {
+                var match = z.GetMatchRating(pkm);
+                if (match == PartialMatch)
+                {
+                    partial ??= z;
+                    continue;
+                }
+                yield return z;
+            }
+
+            if (partial is not null)
+                yield return partial;
         }
 
         private static IEnumerable<IEncounterable> GenerateRawEncounters3(PKM pkm, LegalInfo info)
