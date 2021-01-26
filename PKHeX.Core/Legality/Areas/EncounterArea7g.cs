@@ -55,7 +55,7 @@ namespace PKHeX.Core
             int start = BitConverter.ToInt32(data, offset);
             int end = BitConverter.ToInt32(data, offset + 4);
             var sg = data[offset + 8];
-            var shiny = (Shiny)(sg & 0x3C);
+            var shiny = (Shiny)(sg & 0x3F);
             var gender = (Gender)(sg >> 6);
             var type = (PogoType)data[offset + 9];
             return new EncounterSlot7GO(area, species, form, start, end, shiny, gender, type);
