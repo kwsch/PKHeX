@@ -148,8 +148,29 @@ namespace PKHeX.Core
             // Defog (DPPt) excluded since it's actually useful -- prefer to fake transfer from HGSS instead of DPPt.
         };
 
-        internal static readonly HashSet<int> HM_DPPt = new(HM_4_RemovePokeTransfer) {(int)Move.Defog};
-        internal static readonly HashSet<int> HM_HGSS = new(HM_4_RemovePokeTransfer) {(int)Move.Whirlpool};
+        internal static readonly int[] HM_DPPt =
+        {
+            (int)Move.Cut,
+            (int)Move.Fly,
+            (int)Move.Surf,
+            (int)Move.Strength,
+            (int)Move.Defog,
+            (int)Move.RockSmash,
+            (int)Move.Waterfall,
+            (int)Move.RockClimb,
+        };
+
+        internal static readonly int[] HM_HGSS =
+        {
+            (int)Move.Cut,
+            (int)Move.Fly,
+            (int)Move.Surf,
+            (int)Move.Strength,
+            (int)Move.Whirlpool,
+            (int)Move.RockSmash,
+            (int)Move.Waterfall,
+            (int)Move.RockClimb,
+        };
 
         internal static readonly byte[] MovePP_DP =
         {
@@ -272,7 +293,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="moves">Current moves</param>
         /// <returns>Preferred move ban list</returns>
-        private static HashSet<int> GetFavorableHMBanlist(int[] moves)
+        private static ICollection<int> GetFavorableHMBanlist(int[] moves)
         {
             // if has defog, return ban list with whirlpool
             return moves.Contains(432) ? HM_HGSS : HM_DPPt;

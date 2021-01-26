@@ -124,29 +124,28 @@ namespace PKHeX.Core
 
         private static GameVersion GetIsMachine4HM(int species, int move, int form)
         {
+            var dp = Legal.HM_DPPt;
+            for (var i = 0; i < dp.Length; i++)
             {
-                int i = 0;
-                foreach (var m in Legal.HM_DPPt)
-                {
-                    if (m == move)
-                    {
-                        if (PersonalTable.Pt.GetFormEntry(species, form).TMHM[i + 92])
-                            return GameVersion.DPPt;
-                        break;
-                    }
-                    i++;
-                }
-                foreach (var m in Legal.HM_HGSS)
-                {
-                    if (m == move)
-                    {
-                        if (PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i + 92])
-                            return GameVersion.HGSS;
-                        break;
-                    }
-                    i++;
-                }
+                var m = dp[i];
+                if (m != move)
+                    continue;
+                if (PersonalTable.Pt.GetFormEntry(species, form).TMHM[i + 92])
+                    return GameVersion.DPPt;
+                break;
             }
+
+            var hgss = Legal.HM_HGSS;
+            for (var i = 0; i < hgss.Length; i++)
+            {
+                var m = hgss[i];
+                if (m != move)
+                    continue;
+                if (PersonalTable.HGSS.GetFormEntry(species, form).TMHM[i + 92])
+                    return GameVersion.HGSS;
+                break;
+            }
+
             return Legal.NONE;
         }
 

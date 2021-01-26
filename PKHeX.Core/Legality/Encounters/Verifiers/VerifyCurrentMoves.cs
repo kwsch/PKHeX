@@ -715,7 +715,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool IsDefogWhirl(int move) => move == 250 || move == 432;
+        private static bool IsDefogWhirl(int move) => move is (int)Move.Defog or (int)Move.Whirlpool;
         private static bool IsCheckInvalid(CheckResult? chk) => !(chk?.Valid ?? false);
         private static bool IsCheckValid(CheckResult? chk) => chk?.Valid ?? false;
 
