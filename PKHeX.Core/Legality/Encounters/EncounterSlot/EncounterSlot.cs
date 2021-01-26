@@ -211,13 +211,19 @@ namespace PKHeX.Core
         protected virtual HiddenAbilityPermission IsHiddenAbilitySlot() => HiddenAbilityPermission.Never;
 
         protected bool IsDeferredWurmple(PKM pkm) => Species == (int)Wurmple && pkm.Species != (int)Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
-        private bool IsDeferredHiddenAbility(bool IsHidden) => IsHidden == (IsHiddenAbilitySlot() == HiddenAbilityPermission.Never);
+
+        private bool IsDeferredHiddenAbility(bool IsHidden) => IsHiddenAbilitySlot() switch
+        {
+            HiddenAbilityPermission.Never => IsHidden,
+            HiddenAbilityPermission.Always => !IsHidden,
+            _ => false,
+        };
 
         protected enum HiddenAbilityPermission
         {
+            Always,
             Never,
             Possible,
-            Always,
         }
     }
 }
