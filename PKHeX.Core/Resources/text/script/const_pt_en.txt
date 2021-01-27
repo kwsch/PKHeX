@@ -16,3 +16,5 @@
 0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
 0106	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0062	Spiritomb	0:Disappeared,32:Appeared
+0138	Hallowed Tower	0:Not Activated,1:Activated
