@@ -16,3 +16,5 @@
 0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
 0106	Iceberg Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
 0107	Rock Peak Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught
+0062	花岩怪	0:消失,32:出现了
+0138	靈魂之塔	0:未解锁,1:已解锁
