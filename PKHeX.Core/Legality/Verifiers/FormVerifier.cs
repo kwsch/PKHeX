@@ -61,7 +61,7 @@ namespace PKHeX.Core
                     break;
 
                 case Pikachu when Info.Generation >= 7: // Cap
-                    bool validCap = form == (enc is EncounterInvalid ? 0 : enc.Form);
+                    bool validCap = form == (enc is EncounterInvalid or EncounterEgg ? 0 : enc.Form);
                     if (!validCap)
                     {
                         bool gift = enc is MysteryGift g && g.Form != form;
