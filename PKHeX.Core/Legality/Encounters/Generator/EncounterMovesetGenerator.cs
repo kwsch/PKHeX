@@ -272,7 +272,7 @@ namespace PKHeX.Core
         {
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain);
             int gen = pk.Generation;
-            if (gen <= 2)
+            if ((uint)gen <= 2)
                 encounters = encounters.Concat(EncounterStaticGenerator.GetPossibleGBGifts(pk, chain, gen == 2 ? GameVersion.C : GameVersion.RBY));
             foreach (var enc in encounters)
             {
