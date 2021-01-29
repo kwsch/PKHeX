@@ -176,8 +176,8 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 // Traded unhatched eggs in Gen8 have OT link trade memory applied erroneously.
-                // They can also have the box-context memories just by looking at them. Wonderful!
-                if (memoryGen != 8 || !((pkm.Met_Location == Locations.LinkTrade6 && memory == 4) || (memory is >=80 and <=89))
+                // They can also have the box-inspect memory!
+                if (memoryGen != 8 || !((pkm.Met_Location == Locations.LinkTrade6 && memory == 4) || memory == 85))
                 {
                     VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
                     return;
