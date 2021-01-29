@@ -34,7 +34,13 @@
             var ver = v.BattleVersion;
             if (ver == 0)
                 return 1;
-            return ((GameVersion)ver).GetGeneration();
+            var game = (GameVersion) ver;
+            if (!game.IsValidSavedVersion())
+                return -1;
+            var gen = game.GetGeneration();
+            if (gen >= 8)
+                return gen;
+            return -1;
         }
     }
 }

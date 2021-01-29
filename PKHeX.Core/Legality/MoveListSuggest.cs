@@ -48,7 +48,7 @@ namespace PKHeX.Core
             if (start < 0)
                 start = pkm.Format; // be generous instead of returning nothing
             if (pkm is IBattleVersion b)
-                start = b.GetMinGeneration();
+                start = Math.Max(0, b.GetMinGeneration());
 
             for (int generation = start; generation <= pkm.Format; generation++)
             {
