@@ -5,6 +5,8 @@
         /// <summary> No relationship between the PID and IVs </summary>
         None,
 
+        #region LCRNG
+
         /// <summary> Method 1 Variants (H1/J/K) </summary>
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         Method_1,
@@ -101,14 +103,16 @@
         /// <remarks><see cref="RNG.LCRNG"/></remarks>
         ChainShiny,
 
-        // XDRNG Based
+        #endregion
+
+        #region XDRNG
+
         /// <summary>
         /// Standard <see cref="GameVersion.CXD"/> PIDIV
         /// </summary>
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         CXD,
 
-        // XDRNG Based
         /// <summary>
         /// Antishiny Rerolled <see cref="GameVersion.CXD"/> PIDIV
         /// </summary>
@@ -133,14 +137,20 @@
         /// <remarks><see cref="RNG.XDRNG"/></remarks>
         PokeSpot,
 
-        // ARNG Based
+        #endregion
+
+        #region ARNG
+
         /// <summary>
         /// 4th Generation Mystery Gift Anti-Shiny
         /// </summary>
         /// <remarks><see cref="RNG.ARNG"/></remarks>
         G4MGAntiShiny,
 
-        // Formulaic
+        #endregion
+
+        #region Formulaic
+
         /// <summary>
         /// 5th Generation Mystery Gift Shiny
         /// </summary>
@@ -154,5 +164,19 @@
         /// <remarks>Formulaic based on TID, SID, and Gender bytes.</remarks>
         /// <remarks>Unrelated to IVs</remarks>
         Pokewalker,
+
+        #endregion
+    }
+
+    public static class PIDTypeExtensions
+    {
+        public static RNGType GetRNGType(this PIDType type) => type switch
+        {
+            0 => RNGType.None,
+            <= PIDType.ChainShiny => RNGType.LCRNG,
+            <= PIDType.PokeSpot => RNGType.XDRNG,
+            PIDType.G4MGAntiShiny => RNGType.ARNG,
+            _ => RNGType.None,
+        };
     }
 }

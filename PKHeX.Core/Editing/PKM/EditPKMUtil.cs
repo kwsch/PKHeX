@@ -32,14 +32,14 @@ namespace PKHeX.Core
         /// <param name="tr">Trainer info to apply</param>
         public static void TemplateFields(PKM pk, ITrainerInfo tr)
         {
-            pk.Move1 = 1;
-            pk.Move1_PP = 40;
+            pk.Move1 = (int)Move.Pound;
+            pk.HealPP();
             pk.Ball = 4;
             pk.MetDate = DateTime.Today;
 
             if (tr.Game >= 0)
                 pk.Version = tr.Game;
-            int species = ((GameVersion)pk.Version).GetMaxSpeciesID();
+            int species = tr is IGameValueLimit s ? s.MaxSpeciesID : ((GameVersion)pk.Version).GetMaxSpeciesID();
             if (species <= 0)
                 species = pk.MaxSpeciesID;
             pk.Species = species;

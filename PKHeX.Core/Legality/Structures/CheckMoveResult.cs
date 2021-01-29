@@ -39,7 +39,7 @@
         /// <summary>
         /// Indicates if the source of the move was validated from the <see cref="PKM.RelearnMoves"/>
         /// </summary>
-        public bool IsRelearn => Source == MoveSource.Relearn;
+        public bool IsRelearn => Source == MoveSource.Relearn || (Source == MoveSource.EggMove && Generation >= 6);
 
         /// <summary>
         /// Checks if the Move should be present in a Relearn move pool (assuming Gen6+ origins).
