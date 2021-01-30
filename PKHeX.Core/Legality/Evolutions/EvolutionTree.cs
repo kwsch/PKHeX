@@ -231,6 +231,18 @@ namespace PKHeX.Core
                 yield return s;
         }
 
+        public int GetBaseSpeciesForm(int species, int form, int skip = 0)
+        {
+            var chain = GetEvolutionsAndPreEvolutions(species, form);
+            foreach (var c in chain)
+            {
+                if (skip == 0)
+                    return c;
+                skip--;
+            }
+            return species | (form << 11);
+        }
+
         /// <summary>
         /// Gets all species the <see cref="species"/>-<see cref="form"/> can evolve from, yielded in order of increasing evolution stage.
         /// </summary>

@@ -189,7 +189,7 @@ namespace PKHeX.Core
             return moves;
         }
 
-        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyCollection<int> needs, GameVersion version, EncounterOrder type, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetPossibleOfType(PKM pk, IReadOnlyList<int> needs, GameVersion version, EncounterOrder type, IReadOnlyList<EvoCriteria> chain)
         {
             return type switch
             {
@@ -340,7 +340,7 @@ namespace PKHeX.Core
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain)
         {
             var slots = EncounterSlotGenerator.GetPossible(pk, chain);
             foreach (var slot in slots)
@@ -354,7 +354,10 @@ namespace PKHeX.Core
                     continue;
                 }
 
-                if (slot is IMoveset m && needs.Except(m.Moves).Any())
+                if (slot is IMoveset m && !needs.Except(m.Moves).Any())
+                    yield return slot;
+
+                if (needs.Count == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
                     yield return slot;
             }
         }

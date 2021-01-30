@@ -79,6 +79,19 @@ namespace PKHeX.Core
             if (encounter is IRelearn r && r.Relearn.Count > 0)
                 return r.Relearn;
 
+            if (enc is EncounterSlot6AO {CanDexNav: true} dn)
+            {
+                var moves = legal.Info.Moves;
+                for (int i = 0; i < moves.Length; i++)
+                {
+                    if (moves[i].Valid)
+                        continue;
+
+                    var move = legal.pkm.GetMove(i);
+                    if (dn.CanBeDexNavMove(move))
+                        return new[] { move, 0, 0, 0 };
+                }
+            }
             return m;
         }
     }
