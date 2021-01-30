@@ -57,21 +57,23 @@ namespace PKHeX.Core
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
         /// </summary>
         /// <param name="pk">Pokémon to modify.</param>
+        /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk));
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this PKM pk, IEncounterable? enc = null) => GetSuggestedRelearnMoves(new LegalityAnalysis(pk), enc);
 
         /// <summary>
         /// Fetches <see cref="PKM.RelearnMoves"/> based on the provided <see cref="LegalityAnalysis"/>.
         /// </summary>
         /// <param name="legal"><see cref="LegalityAnalysis"/> which contains parsed information pertaining to legality.</param>
+        /// <param name="enc">Encounter the relearn moves should be suggested for. If not provided, will try to detect it via legality analysis. </param>
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
-        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal)
+        public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal, IEncounterable? enc = null)
         {
             var m = legal.GetSuggestedRelearnMovesFromEncounter();
             if (m.Any(z => z != 0))
                 return m;
 
-            var enc = legal.EncounterMatch;
+            enc ??= legal.EncounterMatch;
             if (enc is MysteryGift || enc is EncounterEgg)
                 return m;
 
