@@ -125,7 +125,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedBy(int pkmVersion) => (CardCompatibility >> pkmVersion & 1) == 1;
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             var wc = Gift.PK;
             if (!wc.IsEgg)
@@ -187,12 +187,8 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
-        {
-            if (!CanBeReceivedBy(pkm.Version))
-                return false;
-            return Species != pkm.Species;
-        }
+        protected override bool IsMatchPartial(PKM pkm) => CanBeReceivedBy(pkm.Version);
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
 
         public bool RibbonEarth { get => Gift.RibbonEarth; set => Gift.RibbonEarth = value; }
         public bool RibbonNational { get => Gift.RibbonNational; set => Gift.RibbonNational = value; }

@@ -4,41 +4,6 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
-    public abstract class DataMysteryGift : MysteryGift
-    {
-        public readonly byte[] Data;
-
-        protected DataMysteryGift(byte[] data) => Data = data;
-
-        /// <summary>
-        /// Returns an array for exporting outside the program (to disk, etc).
-        /// </summary>
-        public virtual byte[] Write() => Data;
-
-        public override int GetHashCode()
-        {
-            int hash = 17;
-            foreach (var b in Data)
-                hash = (hash * 31) + b;
-            return hash;
-        }
-
-        /// <summary>
-        /// Creates a deep copy of the <see cref="MysteryGift"/> object data.
-        /// </summary>
-        /// <returns></returns>
-        public override MysteryGift Clone()
-        {
-            byte[] data = (byte[])Data.Clone();
-            var result = GetMysteryGift(data);
-            if (result == null)
-                throw new ArgumentException(nameof(MysteryGift));
-            return result;
-        }
-
-        public override bool Empty => Data.IsRangeAll((byte)0, 0, Data.Length);
-    }
-
     /// <summary>
     /// Mystery Gift Template File
     /// </summary>
@@ -104,13 +69,14 @@ namespace PKHeX.Core
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
         public abstract PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria);
 
-        protected abstract bool IsMatchExact(PKM pkm, DexLevel evo);
+        public abstract bool IsMatchExact(PKM pkm, DexLevel evo);
         protected abstract bool IsMatchDeferred(PKM pkm);
+        protected abstract bool IsMatchPartial(PKM pkm);
 
-        public EncounterMatchRating IsMatch(PKM pkm, DexLevel evo)
+        public EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            if (!IsMatchExact(pkm, evo))
-                return EncounterMatchRating.None;
+            if (IsMatchPartial(pkm))
+                return EncounterMatchRating.PartialMatch;
             if (IsMatchDeferred(pkm))
                 return EncounterMatchRating.Deferred;
             return EncounterMatchRating.Match;

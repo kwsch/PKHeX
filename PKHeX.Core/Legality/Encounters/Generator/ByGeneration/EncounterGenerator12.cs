@@ -1,5 +1,11 @@
 ﻿using System.Collections.Generic;
 
+using static PKHeX.Core.EncounterTradeGenerator;
+using static PKHeX.Core.EncounterStaticGenerator;
+using static PKHeX.Core.EncounterSlotGenerator;
+using static PKHeX.Core.EncounterEggGenerator2;
+using static PKHeX.Core.EncounterMatchRating;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -24,28 +30,28 @@ namespace PKHeX.Core
             // Favor special event move gifts as Static Encounters when applicable
             var chain = EncounterOrigin.GetOriginChain12(pkm, game);
 
-            var deferred = new List<IEncounterable>();
-            foreach (var t in EncounterTradeGenerator.GetValidEncounterTrades(pkm, chain, game))
+            IEncounterable? deferred = null;
+            foreach (var t in GetValidEncounterTrades(pkm, chain, game))
             {
                 // Gen2 trades are strictly matched (OT/Nick), while Gen1 trades allow for deferral (shrug).
-                if (t is EncounterTrade1 t1 && t1.IsMatchDeferred(pkm))
+                if (t is EncounterTrade1 t1 && t1.GetMatchRating(pkm) != Match)
                 {
-                    deferred.Add(t);
+                    deferred ??= t;
                     continue;
                 }
                 yield return t;
             }
-            foreach (var s in EncounterStaticGenerator.GetValidStaticEncounter(pkm, chain, game))
+            foreach (var s in GetValidStaticEncounter(pkm, chain, game))
             {
                 yield return s;
             }
-            foreach (var e in EncounterSlotGenerator.GetValidWildEncounters12(pkm, chain, game))
+            foreach (var e in GetValidWildEncounters12(pkm, chain, game))
             {
                 yield return e;
             }
             if (game != GameVersion.RBY)
             {
-                foreach (var e in EncounterEggGenerator2.GenerateEggs(pkm, chain))
+                foreach (var e in GenerateEggs(pkm, chain))
                     yield return e;
             }
 
@@ -54,8 +60,8 @@ namespace PKHeX.Core
                 yield return s;
             }
 
-            foreach (var d in deferred)
-                yield return d;
+            if (deferred != null)
+                yield return deferred;
         }
 
         private static IEnumerable<EncounterStatic> GenerateGBEvents(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion game)
@@ -63,11 +69,11 @@ namespace PKHeX.Core
             if (pkm.Korean) // only GS; no events
                 yield break;
 
-            foreach (var e in EncounterStaticGenerator.GetValidGBGifts(pkm, chain, game))
+            foreach (var e in GetValidGBGifts(pkm, chain, game))
             {
                 foreach (var evo in chain)
                 {
-                    if (e.IsMatch(pkm, evo))
+                    if (e.IsMatchExact(pkm, evo))
                         yield return e;
                 }
             }
@@ -146,7 +152,7 @@ namespace PKHeX.Core
 
         private static GBEncounterPriority GetGBEncounterPriority(PKM pkm, IEncounterable enc) => enc switch
         {
-            EncounterTrade1 t1 when t1.IsMatchDeferred(pkm) => GBEncounterPriority.Least,
+            EncounterTrade1 t1 when t1.GetMatchRating(pkm) != Match => GBEncounterPriority.Least,
             EncounterTrade1 => GBEncounterPriority.TradeEncounterG1,
             EncounterTrade2 => GBEncounterPriority.TradeEncounterG2,
             EncounterStatic => GBEncounterPriority.StaticEncounter,

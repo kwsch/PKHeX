@@ -25,5 +25,16 @@ namespace PKHeX.Core
             StaticIndex = sti;
             StaticCount = stc;
         }
+
+        public override EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsDeferredWurmple(pkm))
+                return EncounterMatchRating.PartialMatch;
+            if (IsDeferredSafari3(pkm.Ball == (int) Ball.Safari))
+                return EncounterMatchRating.PartialMatch;
+            return EncounterMatchRating.Match;
+        }
+
+        private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);
     }
 }

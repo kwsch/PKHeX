@@ -28,5 +28,20 @@ namespace PKHeX.Core
         }
 
         protected override void SetFormatSpecificData(PKM pk) => ((PK4)pk).EncounterType = TypeEncounter.GetIndex();
+
+        public override EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (IsDeferredWurmple(pkm))
+                return EncounterMatchRating.PartialMatch;
+            if ((pkm.Ball == (int)Ball.Safari) != Locations.IsSafariZoneLocation4(Location))
+                return EncounterMatchRating.PartialMatch;
+            if ((pkm.Ball == (int)Ball.Sport) != (Area.Type == SlotType.BugContest))
+            {
+                // Nincada => Shedinja can wipe the ball back to Poke
+                if (pkm.Species != (int)Core.Species.Shedinja || pkm.Ball != (int)Ball.Poke)
+                    return EncounterMatchRating.PartialMatch;
+            }
+            return EncounterMatchRating.Match;
+        }
     }
 }

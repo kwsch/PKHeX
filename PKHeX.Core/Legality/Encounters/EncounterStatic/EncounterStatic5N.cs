@@ -29,11 +29,11 @@
             pk.RefreshAbility(ability >> 1);
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (PID != pkm.PID)
                 return false;
-            return base.IsMatch(pkm, evo);
+            return base.IsMatchExact(pkm, evo);
         }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)

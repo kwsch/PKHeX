@@ -24,9 +24,9 @@ namespace PKHeX.Core
         {
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
-            if (!base.IsMatch(pkm, evo))
+            if (!base.IsMatchExact(pkm, evo))
                 return false;
 
             if (Language != EncounterGBLanguage.Any && pkm.Japanese != (Language == EncounterGBLanguage.Japanese))
@@ -59,13 +59,6 @@ namespace PKHeX.Core
             Shiny.Always => pkm.IsShiny,
             _ => true
         };
-
-        public override bool IsMatchDeferred(PKM pkm)
-        {
-            if (base.IsMatchDeferred(pkm))
-                return true;
-            return !ParseSettings.AllowGBCartEra;
-        }
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {

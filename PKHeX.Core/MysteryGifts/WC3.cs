@@ -211,7 +211,7 @@ namespace PKHeX.Core
             };
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             // Gen3 Version MUST match.
             if (Version != 0 && !Version.Contains((GameVersion)pkm.Version))
@@ -276,9 +276,7 @@ namespace PKHeX.Core
             return ot.Length == 7 && wc.StartsWith(ot);
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
-        {
-            return Species != pkm.Species;
-        }
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
+        protected override bool IsMatchPartial(PKM pkm) => false;
     }
 }

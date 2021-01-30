@@ -13,11 +13,11 @@ namespace PKHeX.Core
 
         public EncounterStatic5(GameVersion game) : base(game) { }
 
-        public sealed override bool IsMatchDeferred(PKM pkm)
+        protected sealed override bool IsMatchPartial(PKM pkm)
         {
-            if (Ability == 4 && pkm.AbilityNumber != 4) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
+            if (Ability == 4 && pkm.AbilityNumber != 4 && pkm.Format <= 7) // BW/2 Jellicent collision with wild surf slot, resolved by duplicating the encounter with any abil
                 return true;
-            return base.IsMatchDeferred(pkm);
+            return base.IsMatchPartial(pkm);
         }
 
         protected sealed override bool IsMatchLocation(PKM pk)

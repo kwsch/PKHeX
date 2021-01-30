@@ -128,7 +128,7 @@ namespace PKHeX.Core
         /// <param name="overwrite">Overwrite existing full slots. If true, will only overwrite empty slots.</param>
         /// <param name="noSetb">Bypass option to not modify <see cref="PKM"/> properties when setting to Save File.</param>
         /// <returns>Count of files imported.</returns>
-        public static int LoadBoxes(this SaveFile sav, IEnumerable<IEncounterable> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
+        public static int LoadBoxes(this SaveFile sav, IEnumerable<IEncounterConvertible> encounters, out string result, int boxStart = 0, bool boxClear = false, bool overwrite = false, PKMImportSetting noSetb = PKMImportSetting.UseDefault)
         {
             var pks = encounters.Select(z => z.ConvertToPKM(sav));
             return sav.LoadBoxes(pks, out result, boxStart, boxClear, overwrite, noSetb);

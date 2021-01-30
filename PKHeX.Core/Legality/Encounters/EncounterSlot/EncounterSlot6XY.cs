@@ -29,5 +29,7 @@ namespace PKHeX.Core
         {
             return new((EncounterArea6XY) Area, Species, evoForm, LevelMin, LevelMax) {Pressure = true};
         }
+
+        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => Area.Type == SlotType.Horde ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
     }
 }

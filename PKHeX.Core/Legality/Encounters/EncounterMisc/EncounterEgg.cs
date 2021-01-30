@@ -12,6 +12,7 @@ namespace PKHeX.Core
         public int Form { get; }
         public string Name => "Egg";
         public string LongName => "Egg";
+
         public bool EggEncounter => true;
         public int LevelMin => Level;
         public int LevelMax => Level;

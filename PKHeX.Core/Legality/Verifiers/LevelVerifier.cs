@@ -57,7 +57,7 @@ namespace PKHeX.Core
             int lvl = pkm.CurrentLevel;
             if (lvl < pkm.Met_Level)
                 data.AddLine(GetInvalid(LLevelMetBelow));
-            else if (!enc.IsWithinRange(pkm) && lvl != 100 && pkm.EXP == Experience.GetEXP(lvl, pkm.PersonalInfo.EXPGrowth))
+            else if (!enc.IsWithinEncounterRange(pkm) && lvl != 100 && pkm.EXP == Experience.GetEXP(lvl, pkm.PersonalInfo.EXPGrowth))
                 data.AddLine(Get(LLevelEXPThreshold, Severity.Fishy));
             else
                 data.AddLine(GetValid(LLevelMetSane));

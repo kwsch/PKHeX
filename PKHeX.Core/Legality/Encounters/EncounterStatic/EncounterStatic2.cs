@@ -78,6 +78,8 @@ namespace PKHeX.Core
                 return Location == pkm.Met_Location;
             return true;
         }
+
+        protected override bool IsMatchPartial(PKM pkm) => false;
     }
 
     public sealed record EncounterStatic2Odd : EncounterStatic2
@@ -92,7 +94,7 @@ namespace PKHeX.Core
             EggCycles = 20;
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             // Let it get picked up as regular EncounterEgg under other conditions.
             if (pkm.Format > 2)
@@ -101,7 +103,7 @@ namespace PKHeX.Core
                 return false;
             if (pkm.IsEgg && pkm.EXP != 125)
                 return false;
-            return base.IsMatch(pkm, evo);
+            return base.IsMatchExact(pkm, evo);
         }
     }
 

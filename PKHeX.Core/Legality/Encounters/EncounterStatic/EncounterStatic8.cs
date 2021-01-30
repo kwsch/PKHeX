@@ -30,11 +30,11 @@ namespace PKHeX.Core
             return false;
         }
 
-        public override bool IsMatch(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm is IDynamaxLevel d && d.DynamaxLevel < DynamaxLevel)
                 return false;
-            return base.IsMatch(pkm, evo);
+            return base.IsMatchExact(pkm, evo);
         }
     }
 }

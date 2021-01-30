@@ -11,7 +11,7 @@ namespace PKHeX.Core
             TID = tid;
         }
 
-        public override bool IsMatch(PKM pkm)
+        public override bool IsMatchExact(PKM pkm, DexLevel dl)
         {
             if (Level > pkm.CurrentLevel) // minimum required level
                 return false;

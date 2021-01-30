@@ -57,23 +57,16 @@ namespace PKHeX.Core
 
         private static IEnumerable<MysteryGift> GetMatchingGifts(PKM pkm, IReadOnlyList<MysteryGift> DB, IReadOnlyList<DexLevel> chain)
         {
-            var deferred = new List<MysteryGift>();
             foreach (var mg in DB)
             {
                 foreach (var dl in chain)
                 {
                     if (dl.Species != mg.Species)
                         continue;
-                    var result = mg.IsMatch(pkm, dl);
-                    if (result == EncounterMatchRating.Match)
+                    if (mg.IsMatchExact(pkm, dl))
                         yield return mg;
-                    else if (result == EncounterMatchRating.Deferred)
-                        deferred.Add(mg);
-                    break;
                 }
             }
-            foreach (var z in deferred)
-                yield return z;
         }
 
         // Utility

@@ -99,7 +99,7 @@ namespace PKHeX.Core
             return lvl >= LevelMin;
         }
 
-        public override bool IsMatch(PKM pkm)
+        public override bool IsMatchExact(PKM pkm, DexLevel dl)
         {
             if (!IsMatchLevel(pkm, pkm.CurrentLevel)) // minimum required level
                 return false;
@@ -114,20 +114,23 @@ namespace PKHeX.Core
                     return false;
             }
 
-            if (pkm is not PK1 {Gen1_NotTradeback: true} pk1)
-                return true;
-
-            var req = GetInitialCatchRate();
-            return req == pk1.Catch_Rate;
+            return true;
         }
 
-        public bool IsMatchDeferred(PKM pk)
+        protected override bool IsMatchPartial(PKM pkm)
         {
-            if (!IsTrainerNameValid(pk))
+            if (!IsTrainerNameValid(pkm))
                 return true;
-            if (!IsNicknameValid(pk))
+            if (!IsNicknameValid(pkm))
                 return true;
-            return false;
+
+            if (ParseSettings.AllowGen1Tradeback)
+                return false;
+            if (pkm is not PK1 pk1)
+                return false;
+
+            var req = GetInitialCatchRate();
+            return req != pk1.Catch_Rate;
         }
     }
 }

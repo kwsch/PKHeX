@@ -94,6 +94,13 @@ namespace PKHeX.Core
             return pkm.Met_Level == (EggEncounter ? 0 : Level);
         }
 
+        protected override bool IsMatchPartial(PKM pkm)
+        {
+            if (Gift && pkm.Ball != Ball)
+                return true;
+            return base.IsMatchPartial(pkm);
+        }
+
         protected override void SetMetData(PKM pk, int level, DateTime today)
         {
             var pk4 = (PK4)pk;

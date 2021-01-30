@@ -24,6 +24,13 @@
             return true; // transfer location verified later
         }
 
+        protected override bool IsMatchPartial(PKM pkm)
+        {
+            if (Gift && pkm.Ball != Ball)
+                return true;
+            return base.IsMatchPartial(pkm);
+        }
+
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             var pi = pk.PersonalInfo;

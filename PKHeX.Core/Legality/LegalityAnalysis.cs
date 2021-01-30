@@ -419,7 +419,7 @@ namespace PKHeX.Core
             if (!Valid && Info.InvalidMatches != null)
             {
                 lines.Add("Other match(es):");
-                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.LongName}: {z.Reason}"));
+                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Encounter.LongName}: {z.Reason}"));
             }
 
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);

@@ -456,7 +456,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -521,11 +521,16 @@ namespace PKHeX.Core
                 case 0504 when RibbonClassic != ((IRibbonSetEvent4)pkm).RibbonClassic: // Magmar with/without classic
                     return true;
             }
+            return Species != pkm.Species;
+        }
+
+        protected override bool IsMatchPartial(PKM pkm)
+        {
             if (RestrictLanguage != 0 && RestrictLanguage != pkm.Language)
                 return true;
             if (!CanBeReceivedByVersion(pkm.Version))
                 return true;
-            return Species != pkm.Species;
+            return false;
         }
     }
 }

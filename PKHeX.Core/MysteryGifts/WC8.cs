@@ -514,7 +514,7 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
-        protected override bool IsMatchExact(PKM pkm, DexLevel evo)
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
             {
@@ -613,10 +613,8 @@ namespace PKHeX.Core
             return pkm.PID == GetPID(pkm, type);
         }
 
-        protected override bool IsMatchDeferred(PKM pkm)
-        {
-            return pkm.Species == Species;
-        }
+        protected override bool IsMatchDeferred(PKM pkm) => pkm.Species == Species;
+        protected override bool IsMatchPartial(PKM pkm) => false; // no version compatibility checks yet.
 
         #region Lazy Ribbon Implementation
         public bool RibbonEarth { get => this.GetRibbonIndex(Earth); set => this.SetRibbonIndex(Earth, value); }

@@ -2,11 +2,9 @@
 
 namespace PKHeX.Core
 {
-    public sealed class QRPK7 : IEncounterable
+    public sealed class QRPK7 : IEncounterInfo
     {
         public GameVersion Version => (GameVersion)CassetteVersion;
-        public string Name => nameof(QRPK7);
-        public string LongName => Name;
         public bool EggEncounter => false;
         public int LevelMin => Level;
         public int LevelMax => Level;

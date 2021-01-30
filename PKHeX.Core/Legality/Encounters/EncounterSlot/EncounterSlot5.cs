@@ -11,5 +11,7 @@ namespace PKHeX.Core
         public EncounterSlot5(EncounterArea5 area, int species, int form, int min, int max) : base(area, species, form, min, max)
         {
         }
+
+        protected override HiddenAbilityPermission IsHiddenAbilitySlot() => Area.Type == SlotType.HiddenGrotto ? HiddenAbilityPermission.Always : HiddenAbilityPermission.Never;
     }
 }

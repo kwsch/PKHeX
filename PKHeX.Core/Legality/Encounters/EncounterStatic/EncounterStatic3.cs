@@ -51,6 +51,13 @@ namespace PKHeX.Core
             return table.Contains(met);
         }
 
+        protected override bool IsMatchPartial(PKM pkm)
+        {
+            if (Gift && pkm.Ball != Ball)
+                return true;
+            return base.IsMatchPartial(pkm);
+        }
+
         protected override void SetMetData(PKM pk, int level, DateTime today)
         {
             pk.Met_Level = level;

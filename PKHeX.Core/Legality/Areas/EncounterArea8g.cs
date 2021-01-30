@@ -98,7 +98,6 @@ namespace PKHeX.Core
                 yield break;
 
             var ball = (Ball)pkm.Ball;
-            var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
             var met = Math.Max(sf.MinLevel, pkm.Met_Level);
             foreach (var s in Slots)
             {
@@ -111,33 +110,9 @@ namespace PKHeX.Core
                     continue;
                 if (slot.Gender != Gender.Random && (int)slot.Gender != pkm.Gender)
                     continue;
-                if (!slot.IsWithinStartEnd(stamp))
-                    continue;
-
-                if (IsDeferredSlot(slot, pkm))
-                    continue;
 
                 yield return slot;
             }
-        }
-
-        private static bool IsDeferredSlot(EncounterSlotGO slot, PKM pk)
-        {
-            if (!slot.GetIVsAboveMinimum(pk))
-                return true;
-            if (slot.Species == (int) Core.Species.Wurmple)
-                return !WurmpleUtil.IsWurmpleEvoValid(pk);
-
-            return slot.Species switch
-            {
-                (int) Core.Species.Yamask when pk.Species != slot.Species && slot.Form == 1 => pk is IFormArgument {FormArgument: 0},
-                (int) Core.Species.Milcery when pk.Species != slot.Species => pk is IFormArgument {FormArgument: 0},
-
-                (int) Core.Species.Runerigus => pk is IFormArgument {FormArgument: not 0},
-                (int) Core.Species.Alcremie => pk is IFormArgument {FormArgument: not 0},
-
-                _ => false,
-            };
         }
     }
 }
