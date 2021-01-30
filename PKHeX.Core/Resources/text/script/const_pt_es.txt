@@ -16,3 +16,5 @@
 0105	Estatua de las Ruinas de Hierro	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0106	Estatua de Ruinas de Iceberg 0:Inactivo,270:Activado,280:Derrotado,290:Capturado
 0107	Estatua de Ruinas de Pico Roca	0:Inactivo,270:Activado,280:Derrotado,290:Capturado
+0062	Spiritomb	0:Desaparecido,32:Aparecido
+0138	Torre Sagrada	0:No Activado,1:Activado
