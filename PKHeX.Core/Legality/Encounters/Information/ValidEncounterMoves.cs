@@ -32,6 +32,9 @@ namespace PKHeX.Core
 
         private static void AddEdgeCaseMoves(List<int> moves, IEncounterable encounter, PKM pkm)
         {
+            if (pkm is IBattleVersion {BattleVersion: not 0})
+                return;
+
             switch (encounter)
             {
                 case EncounterStatic8N r when r.IsDownLeveled(pkm): // Downleveled Raid can happen for shared raids and self-hosted raids.
