@@ -66,7 +66,9 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
 
                 // Item
-                case 84 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable): // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
+                // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
+                // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
+                case 84 or 88 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable) || pkm.IsEgg:
                     return GetInvalid(string.Format(LMemoryArgBadItem, memory.Handler));
             }
 
@@ -93,6 +95,9 @@ namespace PKHeX.Core
 
             if (pkm.HasMove(move))
                 return true;
+
+            if (pkm.IsEgg)
+                return false;
 
             if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
                 return true;
@@ -171,7 +176,8 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
             {
                 // Traded unhatched eggs in Gen8 have OT link trade memory applied erroneously.
-                if (memoryGen != 8 || !(pkm.Met_Location == Locations.LinkTrade6 && memory == 4))
+                // They can also have the box-inspect memory!
+                if (memoryGen != 8 || !((pkm.Met_Location == Locations.LinkTrade6 && memory == 4) || memory == 85))
                 {
                     VerifyOTMemoryIs(data, 0, 0, 0, 0); // empty
                     return;
