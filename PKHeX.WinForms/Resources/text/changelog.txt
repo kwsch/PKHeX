@@ -1,7 +1,26 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-20/12/30 - New Update:
+21/01/30 - New Update:
+ - Legality:
+ - - Updated Mystery Gift & GO Legality encounter data.
+ - - Fixed: Matching encounters where a PKM can be one of many types of encounters (based on its current values) has been improved.
+ - - Fixed: Gen4 HM move recognition has been fixed. Oops!
+ - - Added: Gen8 Weather Permissions for Wild Area Static Encounters is now present in metadata (Mark values permitted). Thanks @Lusamine!
+ - - Added: Gen1 Verbose legality outputs now include the met location (even though it is never stored) based off the matched encounter.
+ - - Changed: Gen2 Headbutt data is now initialized & stored more efficiently.
+ - Added: More Event Flag descriptions for past generation games. Thanks @CanoeHope!
+ - Added: Gen4 Battle Revolution saves can now specify the TID/SID of the currently loaded save entry to unlock Box data access in-game.
+ - Added: Move.cs enumeration has been added to the PKHeX.Core API.
+ - Added: Save File detection can now be extended by adding recognizers to SaveUtil.Handlers (via plugins or code).
+ - Changed: IV/EV/AV shortcuts have been adjusted slightly to add more functionality. Refer to shortcuts (IVs unchanged).
+ - Changed: Some internals have been refactored for better performance / clarity (string conversion, encounter matching, loading).
+ - Fixed: Gen8 Templating fields with a blank PKM on a not-latest DLC SW/SH will load the correct maximum species and proper PP count.
+ - Fixed: Gen8 Battle Ready (Battle Version) marking now updates its opacity when the battle version is changed.
+ - Fixed: Gen7 GameSync ID now shows up in the SAV tab, as intended.
+ - Fixed: Gen4 Battle Revolution saves with a deleted first slot save entry now loads correctly.
+
+20/12/30 - New Update: (84117) [3403296]
  - Legality:
  - - Updated Mystery Gift & GO Legality encounter data.
  - - Added: Gen8 introduced new memory values; these are now checked the same as those introduced in Gen6. Still no intensity/feeling checks.

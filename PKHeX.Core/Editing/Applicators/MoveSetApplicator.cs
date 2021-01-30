@@ -77,10 +77,6 @@ namespace PKHeX.Core
             if (enc is MysteryGift || enc is EncounterEgg)
                 return m;
 
-            var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
-            if (encounter is IRelearn r && r.Relearn.Count > 0)
-                return r.Relearn;
-
             if (enc is EncounterSlot6AO {CanDexNav: true} dn)
             {
                 var moves = legal.Info.Moves;
@@ -94,6 +90,11 @@ namespace PKHeX.Core
                         return new[] { move, 0, 0, 0 };
                 }
             }
+
+            var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
+            if (encounter is IRelearn r && r.Relearn.Count > 0)
+                return r.Relearn;
+
             return m;
         }
     }
