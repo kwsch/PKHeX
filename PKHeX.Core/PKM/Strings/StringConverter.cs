@@ -32,6 +32,7 @@ namespace PKHeX.Core
                 4 => StringConverter4.GetString4(data, offset, count),
                 5 => GetString5(data, offset, count),
                 6 => GetString6(data, offset, count),
+                7 => GetString7(data, offset, count),
                 _ => GetString7(data, offset, count),
             };
         }
@@ -60,7 +61,8 @@ namespace PKHeX.Core
                 4 => StringConverter4.SetString4(value, maxLength, padTo, padWith),
                 5 => SetString5(value, maxLength, padTo, padWith),
                 6 => SetString6(value, maxLength, padTo, padWith),
-                _ => SetString7(value, maxLength, language, padTo, padWith),
+                7 => SetString7(value, maxLength, language, padTo, padWith),
+                _ => SetString7b(value, maxLength, language, padTo, padWith),
             };
         }
 
