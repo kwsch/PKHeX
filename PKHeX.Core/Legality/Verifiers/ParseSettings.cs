@@ -28,6 +28,7 @@ namespace PKHeX.Core
         public static Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
         public static Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
         public static Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
+        public static Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
 
         public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);

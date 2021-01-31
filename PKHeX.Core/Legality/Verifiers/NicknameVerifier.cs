@@ -17,7 +17,8 @@ namespace PKHeX.Core
             var pkm = data.pkm;
 
             // If the Pokémon is not nicknamed, it should match one of the language strings.
-            if (pkm.Nickname.Length == 0)
+            var nickname = pkm.Nickname;
+            if (nickname.Length == 0)
             {
                 data.AddLine(GetInvalid(LNickLengthShort));
                 return;
@@ -32,7 +33,7 @@ namespace PKHeX.Core
             if (pkm.Format <= 7 && pkm.IsNicknamed) // can nickname afterwards
             {
                 if (pkm.VC)
-                    VerifyG1NicknameWithinBounds(data, pkm.Nickname);
+                    VerifyG1NicknameWithinBounds(data, nickname);
                 else if (enc is MysteryGift {IsEgg: false})
                     data.AddLine(Get(LEncGiftNicknamed, ParseSettings.NicknamedMysteryGift));
             }
@@ -50,7 +51,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            string nickname = pkm.Nickname.Replace('\'', '’');
+            nickname = nickname.Replace('\'', '’');
             if (VerifyUnNicknamedEncounter(data, pkm, nickname))
                 return;
 
@@ -68,12 +69,31 @@ namespace PKHeX.Core
         {
             if (pkm.IsNicknamed)
             {
-                for (int i = 0; i < SpeciesName.SpeciesLang.Count; i++)
+                if (data.Info.Generation >= 8)
                 {
-                    if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out int index))
+                    // Can only nickname if it matches your language.
+                    // Setting the nickname to the same as the species name does not set the Nickname flag (equals unmodified, no flag)
+                    if (SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
+                    {
+                        data.AddLine(Get(LNickMatchLanguageFlag, Severity.Invalid));
+                        return true;
+                    }
+                }
+                else if (pkm.Format >= 8)
+                {
+                    // Having the Nickname match the species name for the pkm.Language causes it to revert to un-nicknamed.
+                    if (SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
+                    {
+                        data.AddLine(Get(LNickMatchLanguageFlag, Severity.Invalid));
+                        return true;
+                    }
+                }
+                for (int i = 0; i < SpeciesName.SpeciesDict.Count; i++)
+                {
+                    if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out int species))
                         continue;
-                    var msg = index == pkm.Species && i != pkm.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
-                    data.AddLine(Get(msg, Severity.Fishy));
+                    var msg = species == pkm.Species && i != pkm.Language ? LNickMatchNoOthersFail : LNickMatchLanguageFlag;
+                    data.AddLine(Get(msg, ParseSettings.NicknamedAnotherSpecies));
                     return true;
                 }
                 if (pkm.Format <= 7 && StringConverter.HasEastAsianScriptCharacters(nickname) && pkm is not PB7) // East Asian Scripts
@@ -118,7 +138,7 @@ namespace PKHeX.Core
             // Starting in Generation 8, hatched language-traded eggs will take the Language from the trainer that hatched it.
             // Also in Generation 8, evolving in a foreign language game will retain the original language as the source for the newly evolved species name.
             // Transferring from Gen7->Gen8 realigns the Nickname string to the Language, if not nicknamed.
-            bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pkm.WasTradedEgg);
+            bool canHaveAnyLanguage = format <= 7 && (enc.Species != species || pkm.WasTradedEgg) && !pkm.GG;
             if (canHaveAnyLanguage && !SpeciesName.IsNicknamedAnyLanguage(species, nickname, format))
                 return true;
 
