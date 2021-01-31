@@ -551,9 +551,6 @@ namespace PKHeX.Core
                         if (pkm.IsShiny && !(TID == 0 && SID == 0 && PID != 0))
                             return false;
                     }
-
-                    if (OTGender >= 2)
-                        return false;
                 }
             }
 
