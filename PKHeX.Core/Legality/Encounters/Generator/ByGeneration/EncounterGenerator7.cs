@@ -127,11 +127,10 @@ namespace PKHeX.Core
                 var match = z.GetMatchRating(pkm);
                 switch (match)
                 {
-                    case Match: yield return z; break;
+                    case Match: yield return z; ++ctr; break;
                     case Deferred: deferred ??= z; break;
                     case PartialMatch: partial ??= z; break;
                 }
-                ++ctr;
             }
             if (ctr != 0) yield break;
 
@@ -140,11 +139,10 @@ namespace PKHeX.Core
                 var match = z.GetMatchRating(pkm);
                 switch (match)
                 {
-                    case Match: yield return z; break;
+                    case Match: yield return z; ++ctr; break;
                     case Deferred: deferred ??= z; break;
                     case PartialMatch: partial ??= z; break;
                 }
-                ++ctr;
             }
             if (ctr != 0) yield break;
 

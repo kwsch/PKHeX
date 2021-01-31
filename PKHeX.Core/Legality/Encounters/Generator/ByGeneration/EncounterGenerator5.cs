@@ -42,7 +42,6 @@ namespace PKHeX.Core
                     case Deferred: deferred ??= z; break;
                     case PartialMatch: partial ??= z; break;
                 }
-                ++ctr;
             }
             if (ctr != 0) yield break;
 
@@ -55,7 +54,6 @@ namespace PKHeX.Core
                     case Deferred: deferred ??= z; break;
                     case PartialMatch: partial ??= z; break;
                 }
-                ++ctr;
             }
             if (ctr != 0) yield break;
 
