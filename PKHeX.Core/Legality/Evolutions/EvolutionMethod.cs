@@ -145,9 +145,10 @@ namespace PKHeX.Core
 
         public static int GetAmpLowKeyResult(int n)
         {
-            if ((uint)(n - 1) > 22)
+            var index = n - 1;
+            if ((uint)index > 22)
                 return 0;
-            return (0x5BCA51 >> (n - 1)) & 1;
+            return (0b_0101_1011_1100_1010_0101_0001 >> index) & 1;
         }
     }
 }

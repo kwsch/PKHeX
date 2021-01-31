@@ -78,9 +78,22 @@ namespace PKHeX.Core
         protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             if (GenerateData != null)
+            {
                 GenerateData(pk, (T)this, criteria);
-            else
-                base.SetPINGA(pk, criteria);
+                return;
+            }
+
+            base.SetPINGA(pk, criteria);
+            if (Species == (int) Core.Species.Toxtricity)
+            {
+                while (true)
+                {
+                    var result = EvolutionMethod.GetAmpLowKeyResult(pk.Nature);
+                    if (result == pk.Form)
+                        break;
+                    pk.Nature = Util.Rand.Next(25);
+                }
+            }
         }
     }
 }
