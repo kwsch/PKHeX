@@ -156,7 +156,17 @@ namespace PKHeX.Core
         private static readonly HashSet<int> MemoryItem = new() { 5, 15, 26, 34, 40, 51, 84, 88 };
         private static readonly HashSet<int> MemorySpecies = new() { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60, 70, 71, 72, 75, 82, 83, 87 };
 
-        private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgs = new()
+        internal static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen6 = new()
+        {
+            {(int) Species.Shaymin, new ushort[] {466}}, // Gracidea
+            {(int) Species.Tornadus, new ushort[] {638}}, // Reveal Glass
+            {(int) Species.Thundurus, new ushort[] {638}}, // Reveal Glass
+            {(int) Species.Landorus, new ushort[] {638}}, // Reveal Glass
+            {(int) Species.Kyurem, new ushort[] {628, 629}}, // DNA Splicers
+            {(int) Species.Hoopa, new ushort[] {765}}, // Prison Bottle
+        };
+
+        internal static readonly Dictionary<int, ushort[]> KeyItemMemoryArgsGen8 = new()
         {
             {(int) Species.Rotom, new ushort[] {1278}}, // Rotom Catalog
             {(int) Species.Kyurem, new ushort[] {628, 629}}, // DNA Splicers
@@ -164,7 +174,7 @@ namespace PKHeX.Core
             {(int) Species.Calyrex, new ushort[] {1590, 1591}}, // Reigns of Unity
         };
 
-        public static IEnumerable<ushort> KeyItemArgValues => KeyItemMemoryArgs.Values.SelectMany(z => z);
+        public static IEnumerable<ushort> KeyItemArgValues => KeyItemMemoryArgsGen6.Values.Concat(KeyItemMemoryArgsGen8.Values).SelectMany(z => z).Distinct();
 
         public static MemoryArgType GetMemoryArgType(int memory, int format)
         {

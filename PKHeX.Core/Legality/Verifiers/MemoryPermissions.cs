@@ -30,13 +30,28 @@ namespace PKHeX.Core
 
         public static bool CanUseItemGeneric(int generation, int item)
         {
+            if (generation == 6)
+            {
+                // Key Item usage while in party on another species.
+                if (Memories.KeyItemMemoryArgsGen6.Values.Any(z => z.Contains((ushort) item)))
+                    return true;
+            }
             return true; // todo
         }
 
         public static bool CanUseItem(int generation, int item, int species)
         {
+            if (IsUsedKeyItem(generation, item, species))
+                return true;
             return true; // todo
         }
+
+        private static bool IsUsedKeyItem(int generation, int item, int species) => generation switch
+        {
+            6 => Memories.KeyItemMemoryArgsGen6.TryGetValue(species, out var value) && value.Contains((ushort) item),
+            8 => Memories.KeyItemMemoryArgsGen8.TryGetValue(species, out var value) && value.Contains((ushort) item),
+            _ => false
+        };
 
         public static bool CanBuyItem(int generation, int item)
         {
