@@ -173,6 +173,9 @@ namespace PKHeX.Core
                 var shared = MoveEgg.GetEggMoves(8, evo.Species, evo.Form, GameVersion.SW);
                 if (shared.Length != 0)
                     moves = moves.Concat(shared);
+
+                // TR moves -- default logic checks the TR flags, so we need to add all possible ones here.
+                moves = moves.Concat(MoveTechnicalMachine.GetAllPossibleRecords(pk.Species, pk.Form));
             }
             if (pk.Species == (int)Species.Shedinja)
             {

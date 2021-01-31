@@ -484,5 +484,17 @@ namespace PKHeX.Core
                 r.Add(Legal.TMHM_SWSH[i + 100]);
             }
         }
+
+        public static IEnumerable<int> GetAllPossibleRecords(int species, int form)
+        {
+            var pi = PersonalTable.SWSH.GetFormEntry(species, form);
+            var tmhm = pi.TMHM;
+            for (int i = 0; i < 100; i++)
+            {
+                if (!tmhm[i + 100])
+                    continue;
+                yield return Legal.TMHM_SWSH[i + 100];
+            }
+        }
     }
 }
