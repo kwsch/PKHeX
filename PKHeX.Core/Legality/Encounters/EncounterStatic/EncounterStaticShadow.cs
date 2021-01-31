@@ -75,5 +75,39 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             ((IRibbonSetEvent3)pk).RibbonNational = true;
         }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(-1, pi);
+            int nature = (int)criteria.GetNature(Nature.Random);
+            int ability = criteria.GetAbilityFromNumber(0, pi);
+
+            // Ensure that any generated specimen has valid Shadow Locks
+            // This can be kinda slow, depending on how many locks / how strict they are.
+            // Cancel this operation if too many attempts are made to prevent infinite loops.
+            int ctr = 0;
+            const int max = 100_000;
+            do
+            {
+                PIDGenerator.SetRandomWildPID(pk, 3, nature, ability, gender, PIDType.CXD);
+                var pidiv = MethodFinder.Analyze(pk);
+                var result = LockFinder.IsAllShadowLockValid(this, pidiv, pk);
+                if (result)
+                    break;
+            }
+            while (++ctr <= max);
+
+#if DEBUG
+            System.Diagnostics.Debug.Assert(ctr < 100_000);
+#endif
+
+            // E-Reader have all IVs == 0
+            if (EReader)
+            {
+                for (int i = 0; i < IVs.Count; i++)
+                    pk.SetIV(i, 0);
+            }
+        }
     }
 }
