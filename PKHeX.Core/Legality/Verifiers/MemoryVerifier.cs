@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.Encounters6;
-using static PKHeX.Core.Encounters8;
+using static PKHeX.Core.MemoryPermissions;
 
 namespace PKHeX.Core
 {
@@ -66,6 +64,18 @@ namespace PKHeX.Core
                     return GetInvalid(string.Format(LMemoryArgBadSpecies, handler == 0 ? L_XOT : L_XHT));
 
                 // Item
+                // {0} went to a Pokémon Center with {1} to buy {2}. {4} that {3}.
+                case 5 when !CanBuyItem(gen, memory.Variable):
+                // {1} used {2} when {0} was in trouble. {4} that {3}.
+                case 15 when !CanUseItem(gen, memory.Variable, pkm.Species):
+                // {0} saw {1} using {2}. {4} that {3}.
+                case 26 when !CanUseItemGeneric(gen, memory.Variable):
+                // {0} planted {2} with {1} and imagined a big harvest. {4} that {3}.
+                case 34 when !CanPlantBerry(gen, memory.Variable):
+                // {1} had {0} hold items like {2} to help it along. {4} that {3}.
+                case 40 when !CanHoldItem(gen, memory.Variable):
+                // {0} was excited when {1} won prizes like {2} through Loto-ID. {4} that {3}.
+                case 51 when !CanWinRotoLoto(gen, memory.Variable):
                 // {0} was worried if {1} was looking for the {2} that it was holding in a Box. {4} that {3}.
                 // When {0} was in a Box, it thought about the reason why {1} had it hold the {2}. {4} that {3}.
                 case 84 or 88 when !Legal.HeldItems_SWSH.Contains((ushort)memory.Variable) || pkm.IsEgg:
@@ -85,39 +95,6 @@ namespace PKHeX.Core
             }
 
             return GetValid(string.Format(LMemoryF_0_Valid, memory.Handler));
-        }
-
-        private static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info, bool battleOnly = false)
-        {
-            var move = memory.Variable;
-            if (move == 0)
-                return false;
-
-            if (pkm.HasMove(move))
-                return true;
-
-            if (pkm.IsEgg)
-                return false;
-
-            if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
-                return true;
-
-            var enc = info.EncounterMatch;
-            if (enc is IMoveset ms && ms.Moves.Contains(move))
-                return true;
-
-            if (battleOnly)
-            {
-                // Some moves can only be known in battle; outside of battle they aren't obtainable as a memory parameter.
-                switch (move)
-                {
-                    case 781 when pkm.Species == (int)Species.Zacian: // Behemoth Blade
-                    case 782 when pkm.Species == (int)Species.Zamazenta: // Behemoth Blade
-                        return true;
-                }
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -364,60 +341,6 @@ namespace PKHeX.Core
                 data.AddLine(Severity.Invalid, LMemoryIndexIntensityHT1, CheckIdentifier.Memory);
             if (mem.HT_Feeling > 10)
                 data.AddLine(Severity.Invalid, LMemoryIndexFeelHT09, CheckIdentifier.Memory);
-        }
-
-        private static bool GetCanBeCaptured(int species, int gen, GameVersion version)
-        {
-            switch (gen)
-            {
-                // Capture Memory only obtainable via Gen 6.
-                case 6:
-                    switch (version)
-                    {
-                        case GameVersion.Any:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsX, StaticX)
-                                   || GetCanBeCaptured(species, SlotsY, StaticY)
-                                   || GetCanBeCaptured(species, SlotsA, StaticA)
-                                   || GetCanBeCaptured(species, SlotsO, StaticO);
-                        case GameVersion.X:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsX, StaticX);
-                        case GameVersion.Y:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsY, StaticY);
-
-                        case GameVersion.AS:
-                            return GetCanBeCaptured(species, SlotsA, StaticA);
-                        case GameVersion.OR:
-                            return GetCanBeCaptured(species, SlotsO, StaticO);
-                    }
-                    break;
-
-                case 8:
-                {
-                    switch (version)
-                    {
-                        case GameVersion.Any:
-                            return GetCanBeCaptured(species, SlotsSW.Concat(SlotsSH), StaticSW.Concat(StaticSH));
-                        case GameVersion.SW:
-                            return GetCanBeCaptured(species, SlotsSW, StaticSW);
-                        case GameVersion.SH:
-                            return GetCanBeCaptured(species, SlotsSH, StaticSH);
-                    }
-                    break;
-                }
-            }
-            return false;
-        }
-
-        private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
-        {
-            if (area.Any(loc => loc.Slots.Any(slot => slot.Species == species)))
-                return true;
-            if (statics.Any(enc => enc.Species == species && !enc.Gift))
-                return true;
-            return false;
         }
     }
 }

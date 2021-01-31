@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         private List<ComboItem> GetItems(int format)
         {
-            var permit = format < 8 ? Legal.HeldItem_AO : Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct();
+            var permit = Memories.GetMemoryItemParams(format);
             var asInt = permit.Select(z => (int) z).ToArray();
             return Util.GetCBList(s.itemlist, asInt);
         }

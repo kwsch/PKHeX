@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -155,6 +156,16 @@ namespace PKHeX.Core
         private static readonly HashSet<int> MemoryItem = new() { 5, 15, 26, 34, 40, 51, 84, 88 };
         private static readonly HashSet<int> MemorySpecies = new() { 7, 9, 13, 14, 17, 21, 18, 25, 29, 44, 45, 50, 60, 70, 71, 72, 75, 82, 83, 87 };
 
+        private static readonly Dictionary<int, ushort[]> KeyItemMemoryArgs = new()
+        {
+            {(int) Species.Rotom, new ushort[] {1278}}, // Rotom Catalog
+            {(int) Species.Kyurem, new ushort[] {628, 629}}, // DNA Splicers
+            {(int) Species.Necrozma, new ushort[] {943, 944, 945, 946}}, // N-Lunarizer / N-Solarizer
+            {(int) Species.Calyrex, new ushort[] {1590, 1591}}, // Reigns of Unity
+        };
+
+        public static IEnumerable<ushort> KeyItemArgValues => KeyItemMemoryArgs.Values.SelectMany(z => z);
+
         public static MemoryArgType GetMemoryArgType(int memory, int format)
         {
             if (MemoryGeneral.Contains(memory)) return MemoryArgType.GeneralLocation;
@@ -197,6 +208,17 @@ namespace PKHeX.Core
             if (memory > MemoryMinIntensity.Length)
                 return -1;
             return MemoryMinIntensity[memory];
+        }
+
+        public static IEnumerable<ushort> GetMemoryItemParams(int format)
+        {
+            return format switch
+            {
+                6 or 7 => Legal.HeldItem_AO.Distinct().Concat(KeyItemArgValues).Where(z => z < Legal.MaxItemID_6_AO),
+                8 => Legal.HeldItem_AO.Concat(Legal.HeldItems_SWSH).Distinct().Concat(KeyItemArgValues)
+                    .Where(z => z < Legal.MaxItemID_8_R2),
+                _ => System.Array.Empty<ushort>(),
+            };
         }
     }
 
