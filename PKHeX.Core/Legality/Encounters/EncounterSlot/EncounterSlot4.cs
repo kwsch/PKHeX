@@ -31,8 +31,6 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            if (IsDeferredWurmple(pkm))
-                return EncounterMatchRating.PartialMatch;
             if ((pkm.Ball == (int)Ball.Safari) != Locations.IsSafariZoneLocation4(Location))
                 return EncounterMatchRating.PartialMatch;
             if ((pkm.Ball == (int)Ball.Sport) != (Area.Type == SlotType.BugContest))
@@ -41,7 +39,7 @@ namespace PKHeX.Core
                 if (pkm.Species != (int)Core.Species.Shedinja || pkm.Ball != (int)Ball.Poke)
                     return EncounterMatchRating.PartialMatch;
             }
-            return EncounterMatchRating.Match;
+            return base.GetMatchRating(pkm);
         }
     }
 }

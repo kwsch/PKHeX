@@ -203,8 +203,16 @@ namespace PKHeX.Core
         {
             if (IsDeferredWurmple(pkm))
                 return EncounterMatchRating.PartialMatch;
-            if (IsDeferredHiddenAbility(pkm.AbilityNumber == 4))
-                return EncounterMatchRating.Deferred;
+
+            if (pkm.Format >= 5)
+            {
+                bool isHidden = pkm.AbilityNumber == 4;
+                if (isHidden && this.IsPartialMatchHidden(Species))
+                    return EncounterMatchRating.PartialMatch;
+                if (IsDeferredHiddenAbility(isHidden))
+                    return EncounterMatchRating.Deferred;
+            }
+
             return EncounterMatchRating.Match;
         }
 

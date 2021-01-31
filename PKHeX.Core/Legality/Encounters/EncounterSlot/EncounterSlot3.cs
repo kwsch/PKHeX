@@ -28,11 +28,9 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            if (IsDeferredWurmple(pkm))
+            if (IsDeferredSafari3(pkm.Ball == (int)Ball.Safari))
                 return EncounterMatchRating.PartialMatch;
-            if (IsDeferredSafari3(pkm.Ball == (int) Ball.Safari))
-                return EncounterMatchRating.PartialMatch;
-            return EncounterMatchRating.Match;
+            return base.GetMatchRating(pkm);
         }
 
         private bool IsDeferredSafari3(bool IsSafariBall) => IsSafariBall != Locations.IsSafariZoneLocation3(Location);

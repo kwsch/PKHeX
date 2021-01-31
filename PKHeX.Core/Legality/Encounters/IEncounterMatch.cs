@@ -1,8 +1,27 @@
-﻿namespace PKHeX.Core
+﻿using static PKHeX.Core.Species;
+
+namespace PKHeX.Core
 {
     public interface IEncounterMatch
     {
         bool IsMatchExact(PKM pkm, DexLevel dl);
         EncounterMatchRating GetMatchRating(PKM pkm);
+    }
+
+    internal static class EncounterMatchExtensions
+    {
+        /// <summary>
+        /// Some species do not have a Hidden Ability, but can be altered to have the HA slot via pre-evolution.
+        /// </summary>
+        /// <param name="_">Match object</param>
+        /// <param name="species">Species ID</param>
+        /// <returns>True if it should not originate as this species.</returns>
+        public static bool IsPartialMatchHidden(this IEncounterMatch _, int species)
+        {
+            return species is (int)Metapod or (int)Kakuna
+                or (int)Pupitar
+                or (int)Silcoon or (int)Cascoon
+                or (int)Vibrava or (int)Flygon;
+        }
     }
 }
