@@ -62,9 +62,9 @@ namespace PKHeX.Core
             pk.Species = Species;
             pk.Form = Form;
 
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language);
-            int level = GetMinimalLevel();
             var version = this.GetCompatibleVersion((GameVersion)sav.Game);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID)sav.Language, version);
+            int level = GetMinimalLevel();
 
             pk.Version = (int)version;
             pk.Language = lang = GetEdgeCaseLanguage(pk, lang);

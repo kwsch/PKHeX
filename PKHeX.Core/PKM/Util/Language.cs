@@ -35,6 +35,7 @@ namespace PKHeX.Core
 
         public static LanguageID GetSafeLanguage(int generation, LanguageID prefer, GameVersion game = GameVersion.Any) => generation switch
         {
+            1 when game == GameVersion.BU => Japanese,
             1 or 2      => Languages_GB.Contains((int)prefer) && (prefer != Korean || game == GameVersion.C) ? prefer : SafeLanguage,
             3           => Languages_3 .Contains((int)prefer) ? prefer : SafeLanguage,
             4 or 5 or 6 => Languages_46.Contains((int)prefer) ? prefer : SafeLanguage,

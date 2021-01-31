@@ -93,7 +93,7 @@ namespace PKHeX.Core
         protected virtual void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             var version = this.GetCompatibleVersion((GameVersion) sav.Game);
-            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID) sav.Language);
+            int lang = (int)Language.GetSafeLanguage(Generation, (LanguageID) sav.Language, version);
             int level = LevelMin;
             pk.Species = Species;
             pk.Language = lang;
