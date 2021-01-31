@@ -153,13 +153,24 @@ namespace PKHeX.Core
                 return moves.Intersect(Legal.InvalidSketch).ToArray(); // Can learn anything
 
             // Roughly determine the generation the PKM is originating from
+            var ver = pk.Version;
             int origin = pk.Generation;
             if (origin < 0)
-                origin = ((GameVersion)pk.Version).GetGeneration();
+                origin = ((GameVersion)ver).GetGeneration();
+
+            // Temporarily replace the Version for VC1 transfers, so that they can have VC2 moves if needed.
+            bool vcBump = origin == 1 && pk.Format >= 7;
+            if (vcBump)
+                pk.Version = (int)GameVersion.C;
 
             var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
-            return moves.Except(canlearn).Where(z => z != 0).ToArray();
+            var result = moves.Except(canlearn).Where(z => z != 0).ToArray();
+
+            if (vcBump)
+                pk.Version = ver;
+
+            return result;
         }
 
         private static IEnumerable<int> GetMovesForGeneration(PKM pk, IReadOnlyList<EvoCriteria> chain, int generation)
