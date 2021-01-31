@@ -552,7 +552,7 @@ namespace PKHeX.Core
                             return false;
                     }
 
-                    if (OTGender >= 2 && pkm.TrainerSID7 != 0)
+                    if (OTGender >= 2)
                         return false;
                 }
             }
