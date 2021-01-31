@@ -40,6 +40,7 @@ namespace PKHeX.Core
             sav.ApplyTo(pk);
 
             pk.Species = Species;
+            pk.Form = Form;
             pk.Nickname = SpeciesName.GetSpeciesNameGeneration(Species, sav.Language, gen);
             pk.CurrentLevel = Level;
             pk.Version = (int)version;
