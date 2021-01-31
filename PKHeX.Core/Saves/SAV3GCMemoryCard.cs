@@ -58,8 +58,6 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static readonly byte[] RawEmpty_DEntry = { 0xFF, 0xFF, 0xFF, 0xFF };
-
         // Control blocks
         private const int Header_Block = 0;
         private const int Directory_Block = 1;
@@ -220,13 +218,11 @@ namespace PKHeX.Core
                 ? DirectoryBackup_Block
                 : Directory_Block;
 
-            string Empty_DEntry = EncodingType.GetString(RawEmpty_DEntry, 0, 4);
             // Search for pokemon savegames in the directory
             for (int i = 0; i < NumEntries_Directory; i++)
             {
                 int offset = (DirectoryBlock_Used * BLOCK_SIZE) + (i * DENTRY_SIZE);
-                string GameCode = EncodingType.GetString(Data, offset, 4);
-                if (GameCode == Empty_DEntry)
+                if (BitConverter.ToUInt32(Data, offset) == uint.MaxValue) // empty entry
                     continue;
 
                 int FirstBlock = BigEndian.ToUInt16(Data, offset + 0x36);
@@ -236,7 +232,8 @@ namespace PKHeX.Core
                 if (FirstBlock + BlockCount > NumBlocks)
                     continue;
 
-                var ver = SaveHandlerGCI.GetGameCode(GameCode);
+                var gameCode = EncodingType.GetString(Data, offset, 4);
+                var ver = SaveHandlerGCI.GetGameCode(gameCode);
                 if (ver == GameVersion.COLO)
                 {
                     if (HasCOLO) // another entry already exists

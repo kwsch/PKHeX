@@ -574,14 +574,15 @@ namespace PKHeX.Core
         public static SaveFile? GetVariantSAV(SAV3GCMemoryCard memCard)
         {
             // Pre-check for header/footer signatures
-            SaveFile sav;
             byte[] data = memCard.SelectedSaveData;
-            var split = DolphinHandler.TrySplit(data);
-            if (split == null)
+            if (data.Length == 0)
                 return null;
 
-            data = split.Data;
+            var split = DolphinHandler.TrySplit(data);
+            if (split != null)
+                data = split.Data;
 
+            SaveFile sav;
             switch (memCard.SelectedGameVersion)
             {
                 // Side Games
@@ -593,7 +594,8 @@ namespace PKHeX.Core
                 default: return null;
             }
 
-            sav.Metadata.SetExtraInfo(split.Header, split.Footer);
+            if (split != null)
+                sav.Metadata.SetExtraInfo(split.Header, split.Footer);
             return sav;
         }
 
