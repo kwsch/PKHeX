@@ -653,6 +653,38 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 128, Ability = A4, Moves = new[]{ 034, 157, 372, 370 }, Shiny = Shiny.Always }, // Tauros
             new(60,10,5) { Species = 626, Ability = A4, Moves = new[]{ 224, 543, 675, 089 } }, // Bouffalant
             new(60,10,5) { Species = 241, Ability = A4, Moves = new[]{ 667, 428, 034, 583 } }, // Miltank
+
+            // 2/1 - February
+            new(17,01,1) { Species = 067, Ability = A4, Moves = new[]{ 279, 009, 490, 067 } }, // Machoke
+            new(17,01,1) { Species = 447, Ability = A4, Moves = new[]{ 280, 098, 317, 523 } }, // Riolu
+            new(17,01,1) { Species = 870, Ability = A4, Moves = new[]{ 442, 029, 249, 157 } }, // Falinks
+            new(17,01,1) { Species = 825, Ability = A4, Moves = new[]{ 522, 263, 371, 247 } }, // Dottler
+            new(17,01,1) { Species = 577, Ability = A4, Moves = new[]{ 060, 086, 360, 283 } }, // Solosis
+            new(17,01,1) { Species = 574, Ability = A4, Moves = new[]{ 060, 086, 412, 157 } }, // Gothita
+            new(30,03,2) { Species = 068, Ability = A4, Moves = new[]{ 279, 009, 233, 372 }, CanGigantamax = true }, // Machamp
+            new(30,03,2) { Species = 447, Ability = A4, Moves = new[]{ 280, 232, 317, 523 } }, // Riolu
+            new(30,03,2) { Species = 870, Ability = A4, Moves = new[]{ 442, 029, 179, 157 } }, // Falinks
+            new(30,03,2) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 371, 109 }, CanGigantamax = true }, // Orbeetle
+            new(30,03,2) { Species = 577, Ability = A4, Moves = new[]{ 473, 086, 360, 283 } }, // Solosis
+            new(30,03,2) { Species = 574, Ability = A4, Moves = new[]{ 473, 086, 412, 157 } }, // Gothita
+            new(40,05,3) { Species = 068, Ability = A4, Moves = new[]{ 530, 009, 233, 372 }, CanGigantamax = true }, // Machamp
+            new(40,05,3) { Species = 448, Ability = A4, Moves = new[]{ 612, 232, 444, 089 } }, // Lucario
+            new(40,05,3) { Species = 870, Ability = A4, Moves = new[]{ 442, 029, 179, 317 } }, // Falinks
+            new(40,05,3) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 371, 247 }, CanGigantamax = true }, // Orbeetle
+            new(40,05,3) { Species = 578, Ability = A4, Moves = new[]{ 094, 086, 360, 247 } }, // Duosion
+            new(40,05,3) { Species = 575, Ability = A4, Moves = new[]{ 094, 085, 412, 157 } }, // Gothorita
+            new(50,08,4) { Species = 068, Ability = A4, Moves = new[]{ 223, 009, 370, 372 }, CanGigantamax = true }, // Machamp
+            new(50,08,4) { Species = 448, Ability = A4, Moves = new[]{ 612, 309, 444, 089 } }, // Lucario
+            new(50,08,4) { Species = 870, Ability = A4, Moves = new[]{ 442, 224, 179, 317 } }, // Falinks
+            new(50,08,4) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 776, 247 }, CanGigantamax = true }, // Orbeetle
+            new(50,08,4) { Species = 579, Ability = A4, Moves = new[]{ 094, 009, 411, 247 } }, // Reuniclus
+            new(50,08,4) { Species = 576, Ability = A4, Moves = new[]{ 094, 085, 412, 322 } }, // Gothitelle
+            new(60,10,5) { Species = 068, Ability = A4, Moves = new[]{ 223, 009, 523, 372 }, CanGigantamax = true }, // Machamp
+            new(60,10,5) { Species = 448, Ability = A4, Moves = new[]{ 370, 309, 444, 089 } }, // Lucario
+            new(60,10,5) { Species = 870, Ability = A4, Moves = new[]{ 442, 224, 370, 317 } }, // Falinks
+            new(60,10,5) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 776, 412 }, CanGigantamax = true }, // Orbeetle
+            new(60,10,5) { Species = 579, Ability = A4, Moves = new[]{ 094, 087, 411, 247 } }, // Reuniclus
+            new(60,10,5) { Species = 576, Ability = A4, Moves = new[]{ 094, 085, 412, 322 } }, // Gothitelle
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
