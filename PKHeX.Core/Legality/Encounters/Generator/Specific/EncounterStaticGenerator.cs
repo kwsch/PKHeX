@@ -91,9 +91,10 @@ namespace PKHeX.Core
             }
         }
 
-        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc)
+        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc, IEnumerable<EvoCriteria> chain)
         {
-            var species = pkm.Species;
+            // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
+            var species = chain.LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
             var met = pkm.Met_Level;
             if (pkm.VC1)
             {
