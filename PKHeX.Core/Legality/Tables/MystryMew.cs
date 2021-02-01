@@ -33,14 +33,14 @@ namespace PKHeX.Core
         private const int FramesPerMew = 5;
         private const int MewPerRestrictedSeed = 5;
 
-        public static uint GetSeed(int random, PIDType type = PIDType.BACD_U)
+        public static uint GetSeed(uint random, PIDType type = PIDType.BACD_U)
         {
-            int restricted = random % Seeds.Length;
+            uint restricted = random % (uint)Seeds.Length;
             var seed = (uint)Seeds[restricted];
             if (type == PIDType.BACD_R)
                 return seed;
 
-            int position = (random % (MewPerRestrictedSeed - 1)) + 1;
+            uint position = (random % (MewPerRestrictedSeed - 1)) + 1;
             for (int i = 0; i < position; i++)
                 seed = RNG.LCRNG.Advance(seed, FramesPerMew);
 
