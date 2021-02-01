@@ -131,12 +131,10 @@ namespace PKHeX.Core
 
         protected virtual void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            int gender = criteria.GetGender(-1, pk.PersonalInfo);
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(-1, pi);
             int nature = (int)criteria.GetNature(Nature.Random);
-
-            var ability = Util.Rand.Next(2);
-            if (Area!.Type == SlotType.HiddenGrotto) // don't force hidden for DexNav
-                ability = 2;
+            var ability = criteria.GetAbilityFromNumber(Ability, pi);
 
             if (Generation == 3 && Species == (int)Unown)
             {
@@ -218,7 +216,14 @@ namespace PKHeX.Core
 
         protected virtual HiddenAbilityPermission IsHiddenAbilitySlot() => HiddenAbilityPermission.Never;
 
-        protected bool IsDeferredWurmple(PKM pkm) => Species == (int)Wurmple && pkm.Species != (int)Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
+        public int Ability => IsHiddenAbilitySlot() switch
+        {
+            HiddenAbilityPermission.Never => 0,
+            HiddenAbilityPermission.Always => 4,
+            _ => -1,
+        };
+
+        private bool IsDeferredWurmple(PKM pkm) => Species == (int)Wurmple && pkm.Species != (int)Wurmple && !WurmpleUtil.IsWurmpleEvoValid(pkm);
 
         private bool IsDeferredHiddenAbility(bool IsHidden) => IsHiddenAbilitySlot() switch
         {
