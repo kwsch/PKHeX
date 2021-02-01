@@ -25,7 +25,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Most recent game ID utilized by official games.
         /// </summary>
-        private const GameVersion HighestGameID = RB - 1;
+        internal const GameVersion HighestGameID = RB - 1;
 
         /// <summary>Determines the Version Grouping of an input Version ID</summary>
         /// <param name="version">Version of which to determine the group</param>
