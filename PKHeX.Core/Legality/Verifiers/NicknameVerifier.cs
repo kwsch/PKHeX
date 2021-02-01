@@ -73,7 +73,7 @@ namespace PKHeX.Core
                 {
                     // Can only nickname if it matches your language.
                     // Setting the nickname to the same as the species name does not set the Nickname flag (equals unmodified, no flag)
-                    if (SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
+                    if (!SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
                     {
                         data.AddLine(Get(LNickMatchLanguageFlag, Severity.Invalid));
                         return true;
@@ -82,7 +82,7 @@ namespace PKHeX.Core
                 else if (pkm.Format >= 8)
                 {
                     // Having the Nickname match the species name for the pkm.Language causes it to revert to un-nicknamed.
-                    if (SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
+                    if (!SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
                     {
                         data.AddLine(Get(LNickMatchLanguageFlag, Severity.Invalid));
                         return true;

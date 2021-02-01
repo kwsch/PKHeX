@@ -116,7 +116,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks if a nickname matches the species name of any language.
+        /// Checks if the input <see cref="nickname"/> is not the species name for all languages.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="nickname">Current name</param>
@@ -134,13 +134,13 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks if a nickname matches the species name of any language.
+        /// Checks if the input <see cref="nickname"/> is not the species name.
         /// </summary>
         /// <param name="species">National Dex number of the Pokémon. Should be 0 if an egg.</param>
         /// <param name="nickname">Current name</param>
         /// <param name="language">Language ID of the Pokémon</param>
         /// <param name="generation">Generation specific formatting option</param>
-        /// <returns>True if it does not match any language name, False if not nicknamed</returns>
+        /// <returns>True if it does not match the language name, False if not nicknamed (matches).</returns>
         public static bool IsNicknamed(int species, string nickname, int language, int generation = PKX.Generation)
         {
             return GetSpeciesNameGeneration(species, language, generation) != nickname;
