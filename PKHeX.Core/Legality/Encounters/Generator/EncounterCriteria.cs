@@ -58,7 +58,7 @@
                 IV_SPD = s.IVs[5],
                 HPType = s.HiddenPowerType,
 
-                Nature = (Nature)s.Nature,
+                Nature = NatureUtil.GetNature(s.Nature),
                 Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
             };
         }
