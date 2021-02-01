@@ -20,9 +20,10 @@ namespace PKHeX.Core
 
         protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
-            int gender = criteria.GetGender(-1, pk.PersonalInfo);
+            var pi = pk.PersonalInfo;
+            int gender = criteria.GetGender(-1, pi);
             int nature = (int)criteria.GetNature(Nature.Random);
-            int ability = Util.Rand.Next(2);
+            int ability = criteria.GetAbilityFromNumber(0, pi);
             PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
             pk.Gender = gender;
             pk.StatNature = nature;
