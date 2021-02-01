@@ -79,15 +79,6 @@ namespace PKHeX.Core
                         return true;
                     }
                 }
-                else if (pkm.Format >= 8)
-                {
-                    // Having the Nickname match the species name for the pkm.Language causes it to revert to un-nicknamed.
-                    if (!SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
-                    {
-                        data.AddLine(Get(LNickMatchLanguageFlag, Severity.Invalid));
-                        return true;
-                    }
-                }
                 for (int i = 0; i < SpeciesName.SpeciesDict.Count; i++)
                 {
                     if (!SpeciesName.SpeciesDict[i].TryGetValue(nickname, out int species))
