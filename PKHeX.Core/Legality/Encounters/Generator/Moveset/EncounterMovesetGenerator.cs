@@ -180,10 +180,7 @@ namespace PKHeX.Core
             {
                 // Shared Egg Moves via daycare
                 // Any egg move can be obtained
-                var evo = chain[chain.Count - 1];
-                var shared = MoveEgg.GetEggMoves(8, evo.Species, evo.Form, GameVersion.SW);
-                if (shared.Length != 0)
-                    moves = moves.Concat(shared);
+                moves = moves.Concat(MoveEgg.GetSharedEggMoves(pk, generation));
 
                 // TR moves -- default logic checks the TR flags, so we need to add all possible ones here.
                 moves = moves.Concat(MoveTechnicalMachine.GetAllPossibleRecords(pk.Species, pk.Form));

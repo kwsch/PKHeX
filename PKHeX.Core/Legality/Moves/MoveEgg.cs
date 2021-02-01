@@ -69,12 +69,19 @@ namespace PKHeX.Core
         {
             if (gen < 8 || pkm.IsEgg)
                 return false;
+            var egg = GetSharedEggMoves(pkm, gen);
+            return Array.IndexOf(egg, move) >= 0;
+        }
+
+        public static int[] GetSharedEggMoves(PKM pkm, int gen)
+        {
+            if (gen < 8 || pkm.IsEgg)
+                return Array.Empty<int>();
             var table = PersonalTable.SWSH;
             var entry = (PersonalInfoSWSH)table.GetFormEntry(pkm.Species, pkm.Form);
             var baseSpecies = entry.HatchSpecies;
             var baseForm = entry.HatchFormIndexEverstone;
-            var egg = GetEggMoves(8, baseSpecies, baseForm, SW);
-            return Array.Exists(egg, z => z == move);
+            return GetEggMoves(8, baseSpecies, baseForm, SW);
         }
     }
 }
