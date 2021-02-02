@@ -275,16 +275,11 @@ namespace PKHeX.Core
         {
             switch (species)
             {
-                case (int)Species.Keldeo: // Keldeo
-                    r.Add(548); // Secret Sword
+                case (int)Species.Keldeo:
+                    r.Add((int)Move.SecretSword);
                     break;
                 case (int)Species.Meloetta:
-                    r.Add(547); // Relic Song
-                    break;
-                case (int)Species.Pikachu when Generation == 6 && pkm.Format == 6:
-                    int index = pkm.Form - 1;
-                    if ((uint)index < CosplayPikachuMoves.Length)
-                        r.Add(CosplayPikachuMoves[index]);
+                    r.Add((int)Move.RelicSong);
                     break;
 
                 case (int)Species.Pikachu when Generation == 7 && pkm.Form == 8:

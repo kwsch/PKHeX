@@ -88,11 +88,11 @@ namespace PKHeX.Core
             new(XY) { Species = 146, Level = 70, Location = 146, Ability = 1, Shiny = Shiny.Never, FlawlessIVCount = 3 }, // Moltres
         };
 
-        private static EncounterStatic6 GetCosplayPikachu(int form) => new(ORAS)
+        private static readonly EncounterStatic6 BaseCosplay = new(ORAS)
         {
             Location = 178, // Or 180, 186, 194
-            Form = form,
             Species = 025,
+            Form = 6,
             Level = 20,
             Gender = 1,
             Ability = 4,
@@ -209,12 +209,12 @@ namespace PKHeX.Core
             new(ORAS) { Species = 425, Level = 45, Location = 348 }, // Drifloon
             new(ORAS) { Species = 628, Level = 45, Location = 348 }, // Braviary
 
-            GetCosplayPikachu(1),
-            GetCosplayPikachu(2),
-            GetCosplayPikachu(3),
-            GetCosplayPikachu(4),
-            GetCosplayPikachu(5),
-            GetCosplayPikachu(6),
+            BaseCosplay with {Form = 1, Moves = new [] {098, 486, 086, (int)Move.MeteorMash}}, // Rock Star
+            BaseCosplay with {Form = 2, Moves = new [] {098, 486, 086, (int)Move.IcicleCrash}}, // Belle
+            BaseCosplay with {Form = 3, Moves = new [] {098, 486, 086, (int)Move.DrainingKiss}}, // Pop Star
+            BaseCosplay with {Form = 4, Moves = new [] {098, 486, 086, (int)Move.ElectricTerrain}}, // Ph.D.
+            BaseCosplay with {Form = 5, Moves = new [] {098, 486, 086, (int)Move.FlyingPress}}, // Libre
+            BaseCosplay, // Cosplay, same 3 level up moves.
         };
 
         private static readonly EncounterStatic6[] Encounter_AO = Encounter_AO_Regular;

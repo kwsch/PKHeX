@@ -273,8 +273,6 @@ namespace PKHeX.Core
             098, 224, 400, 515, 008, 130, 195, 419, 061, 184, 657
         };
 
-        internal static readonly int[] CosplayPikachuMoves = { 309, 556, 577, 604, 560, 0 };
-
         internal static readonly byte[] MovePP_XY =
         {
             00,
