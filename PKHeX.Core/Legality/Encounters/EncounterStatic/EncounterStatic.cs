@@ -305,7 +305,7 @@ namespace PKHeX.Core
 
         protected virtual bool IsMatchPartial(PKM pkm)
         {
-            if (pkm.Format >= 5 && pkm.AbilityNumber == 4 && this.IsPartialMatchHidden(Species))
+            if (pkm.Format >= 5 && pkm.AbilityNumber == 4 && this.IsPartialMatchHidden(pkm.Species, Species))
                 return true;
             return pkm.FatefulEncounter != Fateful;
         }

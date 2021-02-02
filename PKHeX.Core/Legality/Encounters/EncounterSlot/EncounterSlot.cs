@@ -205,7 +205,7 @@ namespace PKHeX.Core
             if (pkm.Format >= 5)
             {
                 bool isHidden = pkm.AbilityNumber == 4;
-                if (isHidden && this.IsPartialMatchHidden(Species))
+                if (isHidden && this.IsPartialMatchHidden(pkm.Species, Species))
                     return EncounterMatchRating.PartialMatch;
                 if (IsDeferredHiddenAbility(isHidden))
                     return EncounterMatchRating.Deferred;
