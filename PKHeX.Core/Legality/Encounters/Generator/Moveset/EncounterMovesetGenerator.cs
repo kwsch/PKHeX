@@ -356,7 +356,7 @@ namespace PKHeX.Core
             var slots = EncounterSlotGenerator.GetPossible(pk, chain);
             foreach (var slot in slots)
             {
-                if (slot.IsUnobtainable(pk))
+                if (slot.IsUnobtainable())
                     continue;
 
                 if (needs.Count == 0)
@@ -374,14 +374,10 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool IsUnobtainable(this EncounterSlot slot, ITrainerID pk)
+        private static bool IsUnobtainable(this EncounterSlot slot)
         {
             switch (slot.Generation)
             {
-                case 2:
-                    if ((slot.Area.Type & SlotType.Headbutt) != 0) // Unreachable Headbutt Trees.
-                        return !Encounters2.IsTreeAvailable(slot, pk.TID);
-                    break;
                 case 4:
                     if (slot.Location == 193 && slot.Area.Type == SlotType.Surf) // Johto Route 45 surfing encounter. Unreachable Water tiles.
                         return true;

@@ -47,14 +47,6 @@ namespace PKHeX.Core
         // Gen2 Wild Encounters
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot2 encounter)
         {
-            if (encounter.Version == GameVersion.C)
-                return VerifyWildEncounterCrystal(pkm, encounter);
-
-            return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
-        }
-
-        private static CheckResult VerifyWildEncounterCrystal(PKM pkm, EncounterSlot encounter)
-        {
             switch (encounter.Area.Type)
             {
                 case SlotType.Headbutt:
@@ -74,9 +66,9 @@ namespace PKHeX.Core
             return new CheckResult(Severity.Valid, LEncCondition, CheckIdentifier.Encounter);
         }
 
-        private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot encounter)
+        private static CheckResult VerifyWildEncounterCrystalHeadbutt(ITrainerID tr, EncounterSlot2 s2)
         {
-            return Encounters2.IsTreeAvailable(encounter, tr.TID)
+            return s2.IsTreeAvailable(tr.TID)
                 ? new CheckResult(Severity.Valid, LG2TreeID, CheckIdentifier.Encounter)
                 : new CheckResult(Severity.Invalid, LG2InvalidTileTreeNotFound, CheckIdentifier.Encounter);
         }

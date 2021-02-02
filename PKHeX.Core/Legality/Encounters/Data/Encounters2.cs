@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
@@ -127,43 +126,6 @@ namespace PKHeX.Core
 
         private const string tradeGSC = "tradegsc";
         private static readonly string[][] TradeGift_GSC_OTs = Util.GetLanguageStrings8(tradeGSC);
-
-        internal static bool IsTreeAvailable(EncounterSlot encounter, int trainerID)
-        {
-            if (!Trees.TryGetValue(encounter.Location, out var permissions))
-                return false;
-
-            var pivot = trainerID % 10;
-            var type = encounter.Area.Type;
-            return type switch
-            {
-                SlotType.Headbutt => (permissions & (1 << pivot)) != 0,
-                /*special*/_ => (permissions & (1 << (pivot + 12))) != 0,
-            };
-        }
-
-        private static readonly Dictionary<int, int> Trees = new()
-        {
-            {02, 0x3FF_3FF}, // Route 29
-            {04, 0x39D_3FF}, // Route 30
-            {05, 0x13D_3FF}, // Route 31
-            {08, 0x2FF_3FF}, // Route 32
-            {11, 0x009_3FF}, // Route 33
-            {12, 0x3DF_3FF}, // Azalea Town
-            {14, 0x3FF_3FF}, // Ilex Forest
-            {15, 0x100_2FF}, // Route 34
-            {18, 0x099_3FF}, // Route 35
-            {20, 0x3FF_3FF}, // Route 36
-            {21, 0x2F6_3FF}, // Route 37
-            {25, 0x3FF_3FF}, // Route 38
-            {26, 0x188_3FF}, // Route 39
-            {34, 0x3FE_3FF}, // Route 42
-            {37, 0x3B7_3FF}, // Route 43
-            {38, 0x3FF_3FF}, // Lake of Rage
-            {39, 0x2FF_3FF}, // Route 44
-            {91, 0x300_3FF}, // Route 26
-            {92, 0x1FE_3FF}, // Route 27
-        };
 
         internal static readonly EncounterStatic2[] StaticGSC = Encounter_GSC;
         internal static readonly EncounterStatic2[] StaticGS = Encounter_GS;
