@@ -470,7 +470,7 @@ namespace PKHeX.Core
             if (CanBeAnyLanguage())
                 return true;
 
-            return Array.IndexOf(Data, language, 0x1D8, 9) >= 0;
+            return Array.IndexOf(Data, (byte)language, 0x1D8, 9) >= 0;
         }
 
         public bool CanBeAnyLanguage()
