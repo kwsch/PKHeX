@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 7 Mystery Gift Template File
     /// </summary>
-    public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature
+    public sealed class WB7 : DataMysteryGift, ILangNick, IAwakened, INature, ILangNicknamedTemplate
     {
         public const int Size = 0x108;
         public const int SizeFull = 0x310;
@@ -22,7 +22,7 @@ namespace PKHeX.Core
 
         public bool CanBeReceivedByVersion(int v)
         {
-            if (v < (int)GameVersion.GP || v > (int)GameVersion.GE)
+            if (v is not ((int)GameVersion.GP or (int)GameVersion.GE))
                 return false;
             if (RestrictVersion == 0)
                 return true; // no data
@@ -274,6 +274,14 @@ namespace PKHeX.Core
         public bool IsNicknamed => false;
         public int Language => 2;
 
+        public bool IsForcedNickname() => false;
+
+        public int GetLanguage(int redeemLanguage)
+        {
+            var languageOffset = GetLanguageIndex(redeemLanguage);
+            return Data[0x1D8 + languageOffset];
+        }
+
         public string GetNickname(int language) => StringConverter.GetString7(Data, GetNicknameOffset(language), 0x1A);
         public void SetNickname(int language, string value) => StringConverter.SetString7b(value, 12, 2, 13).CopyTo(Data, GetNicknameOffset(language));
 
@@ -302,7 +310,11 @@ namespace PKHeX.Core
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.GG.GetFormEntry(Species, Form);
-            var OT = GetOT(sav.Language);
+
+            var redeemLanguage = sav.Language;
+            var language = GetLanguage(redeemLanguage);
+            var OT = GetOT(redeemLanguage);
+            bool isRedeemHT = OT.Length != 0;
 
             var pk = new PB7
             {
@@ -314,7 +326,7 @@ namespace PKHeX.Core
                 Form = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
                 Version = OriginGame != 0 ? OriginGame : sav.Game,
-                Language = sav.Language,
+                Language = language,
                 Ball = Ball,
                 Move1 = Move1,
                 Move2 = Move2,
@@ -333,17 +345,22 @@ namespace PKHeX.Core
                 AV_SPA = AV_SPA,
                 AV_SPD = AV_SPD,
 
-                OT_Name = OT.Length > 0 ? OT : sav.OT,
+                OT_Name = isRedeemHT ? OT : sav.OT,
                 OT_Gender = OTGender != 3 ? OTGender % 2 : sav.Gender,
-                HT_Name = OT_Name.Length > 0 ? sav.OT : string.Empty,
-                HT_Gender = OT_Name.Length > 0 ? sav.Gender : 0,
-                CurrentHandler = OT_Name.Length > 0 ? 1 : 0,
+                CurrentHandler = isRedeemHT ? 1 : 0,
 
                 EXP = Experience.GetEXP(currentLevel, pi.EXPGrowth),
 
                 OT_Friendship = pi.BaseFriendship,
                 FatefulEncounter = true,
             };
+
+            if (isRedeemHT)
+            {
+                pk.HT_Name = sav.OT;
+                pk.HT_Gender = sav.Gender;
+            }
+
             pk.SetMaximumPPCurrent();
 
             if ((sav.Generation > Generation && OriginGame == 0) || !CanBeReceivedByVersion(pk.Version))
@@ -360,8 +377,8 @@ namespace PKHeX.Core
             }
 
             pk.MetDate = Date ?? DateTime.Now;
-            pk.IsNicknamed = GetIsNicknamed(pk.Language);
-            pk.Nickname = pk.IsNicknamed ? GetNickname(pk.Language) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
+            pk.IsNicknamed = GetIsNicknamed(redeemLanguage);
+            pk.Nickname = pk.IsNicknamed ? GetNickname(redeemLanguage) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
             SetPINGA(pk, criteria);
 
@@ -445,6 +462,27 @@ namespace PKHeX.Core
             pk.IVs = finalIVs;
         }
 
+        public bool CanHaveLanguage(int language)
+        {
+            if (language is < (int) LanguageID.Japanese or > (int) LanguageID.ChineseT)
+                return false;
+
+            if (CanBeAnyLanguage())
+                return true;
+
+            return Array.IndexOf(Data, language, 0x1D8, 9) >= 0;
+        }
+
+        public bool CanBeAnyLanguage()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (Data[0x1D8 + i] != 0)
+                    return false;
+            }
+            return true;
+        }
+
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg
@@ -459,6 +497,9 @@ namespace PKHeX.Core
                 if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;
                 if (EncryptionConstant != 0 && EncryptionConstant != pkm.EncryptionConstant) return false;
+
+                if (!CanBeAnyLanguage() && !CanHaveLanguage(pkm.Language))
+                    return false;
             }
 
             if (Form != evo.Form && !FormInfo.IsFormChangeable(Species, Form, pkm.Form, pkm.Format))

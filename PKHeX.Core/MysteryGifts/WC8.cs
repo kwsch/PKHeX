@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Generation 8 Mystery Gift Template File
     /// </summary>
-    public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT,
+    public sealed class WC8 : DataMysteryGift, ILangNick, INature, IGigantamax, IDynamaxLevel, IRibbonIndex, IMemoryOT, ILangNicknamedTemplate,
         IRibbonSetEvent3, IRibbonSetEvent4, IRibbonSetCommon3, IRibbonSetCommon4, IRibbonSetCommon6, IRibbonSetCommon7, IRibbonSetCommon8, IRibbonSetMark8
     {
         public const int Size = 0x2D0;
@@ -259,7 +259,38 @@ namespace PKHeX.Core
 
         public bool GetIsNicknamed(int language) => BitConverter.ToUInt16(Data, GetNicknameOffset(language)) != 0;
 
-        public int GetNicknameLanguage(int language) => Data[GetNicknameOffset(language) + 0x1A];
+        public bool CanBeAnyLanguage()
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                var ofs = GetLanguageOffset(i);
+                var lang = BitConverter.ToInt16(Data, ofs);
+                if (lang != 0)
+                    return false;
+            }
+            return true;
+        }
+
+        public bool CanHaveLanguage(int language)
+        {
+            if (language is < (int)LanguageID.Japanese or > (int)LanguageID.ChineseT)
+                return false;
+
+            if (CanBeAnyLanguage())
+                return true;
+
+            for (int i = 0; i < 9; i++)
+            {
+                var ofs = GetLanguageOffset(i);
+                var lang = BitConverter.ToInt16(Data, ofs);
+                if (lang == language)
+                    return true;
+            }
+            return false;
+        }
+
+        public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
+        private static int GetLanguageOffset(int index) => 0x12C + (index * 0x1C) + 0x1A;
 
         public bool GetHasOT(int language) => BitConverter.ToUInt16(Data, GetOTOffset(language)) != 0;
 
@@ -330,7 +361,9 @@ namespace PKHeX.Core
             int currentLevel = Level > 0 ? Level : Util.Rand.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
             var pi = PersonalTable.SWSH.GetFormEntry(Species, Form);
-            var OT = GetOT(sav.Language);
+            var language = sav.Language;
+            var OT = GetOT(language);
+            bool hasOT = GetHasOT(language);
 
             var pk = new PK8
             {
@@ -359,10 +392,10 @@ namespace PKHeX.Core
 
                 OT_Name = OT.Length > 0 ? OT : sav.OT,
                 OT_Gender = OTGender < 2 ? OTGender : sav.Gender,
-                HT_Name = GetHasOT(Language) ? sav.OT : string.Empty,
-                HT_Gender = GetHasOT(Language) ? sav.Gender : 0,
-                HT_Language = GetHasOT(Language) ? sav.Language : 0,
-                CurrentHandler = GetHasOT(Language) ? 1 : 0,
+                HT_Name = hasOT ? sav.OT : string.Empty,
+                HT_Gender = hasOT ? sav.Gender : 0,
+                HT_Language = hasOT ? language : 0,
+                CurrentHandler = hasOT ? 1 : 0,
                 OT_Friendship = pi.BaseFriendship,
 
                 OT_Intensity = OT_Intensity,
@@ -410,10 +443,10 @@ namespace PKHeX.Core
 
             pk.MetDate = DateTime.Now;
 
-            var nickname_language = GetNicknameLanguage(sav.Language);
+            var nickname_language = GetLanguage(language);
             pk.Language = nickname_language != 0 ? nickname_language : sav.Language;
-            pk.IsNicknamed = GetIsNicknamed(pk.Language);
-            pk.Nickname = pk.IsNicknamed ? Nickname : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
+            pk.IsNicknamed = GetIsNicknamed(language);
+            pk.Nickname = pk.IsNicknamed ? GetNickname(language) : SpeciesName.GetSpeciesNameGeneration(Species, pk.Language, Generation);
 
             for (var i = 0; i < RibbonBytesCount; i++)
             {
@@ -524,6 +557,10 @@ namespace PKHeX.Core
                     if (TID != pkm.TID) return false;
                     if (OTGender != pkm.OT_Gender) return false;
                 }
+
+                if (!CanBeAnyLanguage() && !CanHaveLanguage(pkm.Language))
+                    return false;
+
                 var OT = GetOT(pkm.Language); // May not be guaranteed to work.
                 if (!string.IsNullOrEmpty(OT) && OT != pkm.OT_Name) return false;
                 if (OriginGame != 0 && OriginGame != pkm.Version) return false;

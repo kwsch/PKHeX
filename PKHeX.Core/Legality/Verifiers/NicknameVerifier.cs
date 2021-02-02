@@ -30,6 +30,12 @@ namespace PKHeX.Core
             }
 
             var enc = data.EncounterOriginal;
+            if (enc is ILangNicknamedTemplate n)
+            {
+                VerifyFixedNicknameEncounter(data, n, enc, pkm, nickname);
+                return;
+            }
+
             if (pkm.Format <= 7 && pkm.IsNicknamed) // can nickname afterwards
             {
                 if (pkm.VC)
@@ -63,6 +69,38 @@ namespace PKHeX.Core
                 if (TrainerNameVerifier.ContainsTooManyNumbers(nickname, data.Info.Generation))
                     data.AddLine(GetInvalid("Word Filter: Too many numbers."));
             }
+        }
+
+        private void VerifyFixedNicknameEncounter(LegalityAnalysis data, ILangNicknamedTemplate n, IEncounterTemplate enc, PKM pkm, string nickname)
+        {
+            var nick = n.GetNickname(pkm.Language);
+
+            if (string.IsNullOrWhiteSpace(nick))
+            {
+                if (pkm.IsNicknamed)
+                    data.AddLine(Get(LEncGiftNicknamed, Severity.Invalid));
+                return;
+            }
+
+            if (!pkm.IsNicknamed)
+            {
+                // Check if it had a nickname at all
+                var orig = SpeciesName.GetSpeciesNameGeneration(enc.Species, pkm.Language, enc.Generation);
+                if (orig == nick)
+                {
+                    // Didn't have a nickname. Ensure that the language matches the current nickname string.
+                    if (!SpeciesName.IsNicknamed(pkm.Species, nickname, pkm.Language, pkm.Format))
+                        return;
+                }
+
+                // Should have a nickname present.
+                data.AddLine(GetInvalid(LNickMatchLanguageFail));
+                return;
+            }
+
+            // Encounter has a nickname, and PKM should have it.
+            var severity = nick != nickname || !pkm.IsNicknamed ? Severity.Invalid : Severity.Valid;
+            data.AddLine(Get(LEncGiftNicknamed, severity));
         }
 
         private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pkm, string nickname)
