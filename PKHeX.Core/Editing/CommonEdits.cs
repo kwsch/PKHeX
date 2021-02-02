@@ -174,9 +174,10 @@ namespace PKHeX.Core
         public static void SetNature(this PKM pk, int nature)
         {
             var value = Math.Min((int)Nature.Quirky, Math.Max((int)Nature.Hardy, nature));
-            if (pk.Format >= 8)
+            var format = pk.Format;
+            if (format >= 8)
                 pk.StatNature = value;
-            else if (pk.Format <= 4)
+            else if (format is 3 or 4)
                 pk.SetPIDNature(value);
             else
                 pk.Nature = value;
