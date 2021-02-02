@@ -23,9 +23,23 @@ namespace PKHeX.Core
     {
         public static IEnumerable<EncounterSlot> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
         {
-            var possibleAreas = GetEncounterSlots(pkm, gameSource);
+            var possibleAreas = GetAreasByGame(pkm, gameSource);
             return possibleAreas.SelectMany(area => area.Slots).Where(z => chain.Any(v => v.Species == z.Species));
         }
+
+        private static IEnumerable<EncounterArea> GetAreasByGame(PKM pkm, GameVersion gameSource) => gameSource switch
+        {
+            RD => SlotsRD,
+            GN => SlotsGN,
+            BU => SlotsBU,
+            YW => SlotsYW,
+
+            GD => SlotsGD,
+            SV => SlotsSV,
+            C => SlotsC,
+
+            _ => GetEncounterSlots(pkm, gameSource),
+        };
 
         private static IEnumerable<EncounterSlot> GetRawEncounterSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain, GameVersion gameSource)
         {

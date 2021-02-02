@@ -208,7 +208,7 @@ namespace PKHeX.Core
                 EncounterOrder.Mystery => GetGifts(pk, needs, chain),
                 EncounterOrder.Static => GetStatic(pk, needs, chain),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain),
-                EncounterOrder.Slot => GetSlots(pk, needs, chain),
+                EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
         }
@@ -350,10 +350,11 @@ namespace PKHeX.Core
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
+        /// <param name="version">Origin version</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<EncounterSlot> GetSlots(PKM pk, IReadOnlyList<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
-            var slots = EncounterSlotGenerator.GetPossible(pk, chain);
+            var slots = EncounterSlotGenerator.GetPossible(pk, chain, version);
             foreach (var slot in slots)
             {
                 if (slot.IsUnobtainable())

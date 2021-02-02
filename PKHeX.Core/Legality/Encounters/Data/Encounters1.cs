@@ -8,12 +8,12 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters1
     {
-        private static readonly EncounterArea1[] SlotsR = Get("red", "g1", RD);
-        private static readonly EncounterArea1[] SlotsG = Get("blue", "g1", GN);
-        private static readonly EncounterArea1[] SlotsY = Get("yellow", "g1", YW);
-        private static readonly EncounterArea1[] SlotsB = Get("blue_jp", "g1", BU);
-        internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsR, SlotsG, SlotsY);
-        internal static readonly EncounterArea1[] SlotsRGBY = ArrayUtil.ConcatAll(SlotsRBY, SlotsB);
+        internal static readonly EncounterArea1[] SlotsRD = Get("red", "g1", RD);
+        internal static readonly EncounterArea1[] SlotsGN = Get("blue", "g1", GN);
+        internal static readonly EncounterArea1[] SlotsYW = Get("yellow", "g1", YW);
+        internal static readonly EncounterArea1[] SlotsBU = Get("blue_jp", "g1", BU);
+        internal static readonly EncounterArea1[] SlotsRBY = ArrayUtil.ConcatAll(SlotsRD, SlotsGN, SlotsYW);
+        internal static readonly EncounterArea1[] SlotsRGBY = ArrayUtil.ConcatAll(SlotsRBY, SlotsBU);
 
         private static EncounterArea1[] Get(string name, string ident, GameVersion game) =>
             EncounterArea1.GetAreas(BinLinker.Unpack(Util.GetBinaryResource($"encounter_{name}.pkl"), ident), game);
