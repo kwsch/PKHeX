@@ -72,7 +72,8 @@ namespace PKHeX.Core
 
         public static bool IsMarkAllowedAny(IEncounterable enc) => enc.Generation == 8 && enc switch
         {
-            WC8 or EncounterEgg or EncounterTrade
+            // Gen 8
+            WC8 or EncounterEgg or EncounterTrade or EncounterSlot8GO
                 or EncounterStatic8U or EncounterStatic8N or EncounterStatic8ND or EncounterStatic8NC
                 or EncounterStatic8 {Gift: true}
                 or EncounterStatic8 {ScriptedNoMarks: true}
