@@ -25,7 +25,7 @@ namespace PKHeX.Core
             };
         }
 
-        public static IReadOnlyList<int> GetSuggestedRelearn(PKM pkm, IEncounterable enc, CheckResult[] relearn)
+        public static IReadOnlyList<int> GetSuggestedRelearn(PKM pkm, IEncounterable enc)
         {
             if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
                 return Array.Empty<int>();
@@ -34,7 +34,6 @@ namespace PKHeX.Core
             {
                 IRelearn s when s.Relearn.Count > 0 => s.Relearn,
                 EncounterEgg e => MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, e.Level),
-                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => relearn.All(r => r.Valid) ? pkm.RelearnMoves : Array.Empty<int>(),
                 _ => Array.Empty<int>(),
             };
         }
