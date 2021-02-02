@@ -207,7 +207,7 @@ namespace PKHeX.Core
                 EncounterOrder.Egg => GetEggs(pk, needs, chain, version),
                 EncounterOrder.Mystery => GetGifts(pk, needs, chain),
                 EncounterOrder.Static => GetStatic(pk, needs, chain),
-                EncounterOrder.Trade => GetTrades(pk, needs, chain),
+                EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
                 EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
@@ -240,8 +240,11 @@ namespace PKHeX.Core
                 }
 
                 IEnumerable<int> em = MoveEgg.GetEggMoves(pk.PersonalInfo, egg.Species, egg.Form, egg.Version, egg.Generation);
-                if (Legal.LightBall.Contains(egg.Species) && needs.Contains((int)Move.VoltTackle))
+                if (egg.Generation <= 2)
+                    em = em.Concat(MoveLevelUp.GetEncounterMoves(egg.Species, 0, egg.Level, egg.Version));
+                else if (Legal.LightBall.Contains(egg.Species) && needs.Contains((int)Move.VoltTackle))
                     em = em.Concat(new[] { (int)Move.VoltTackle });
+
                 if (!needs.Except(em).Any())
                     yield return egg;
             }
@@ -299,6 +302,9 @@ namespace PKHeX.Core
                 IEnumerable<int> em = enc.Moves;
                 if (enc is IRelearn r)
                     em = em.Concat(r.Relearn);
+                if (enc.Generation <= 2)
+                    em = em.Concat(MoveLevelUp.GetEncounterMoves(enc.Species, 0, enc.Level, enc.Version));
+
                 if (!needs.Except(em).Any())
                     yield return enc;
             }
@@ -327,10 +333,11 @@ namespace PKHeX.Core
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
+        /// <param name="version">Specific version to iterate for.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<EncounterTrade> GetTrades(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
-            var trades = EncounterTradeGenerator.GetPossible(pk, chain);
+            var trades = EncounterTradeGenerator.GetPossible(pk, chain, version);
             foreach (var trade in trades)
             {
                 if (needs.Count == 0)
@@ -338,7 +345,9 @@ namespace PKHeX.Core
                     yield return trade;
                     continue;
                 }
-                var em = trade.Moves;
+                IEnumerable<int> em = trade.Moves;
+                if (trade.Generation <= 2)
+                    em = em.Concat(MoveLevelUp.GetEncounterMoves(trade.Species, 0, trade.Level, trade.Version));
                 if (!needs.Except(em).Any())
                     yield return trade;
             }
@@ -368,8 +377,9 @@ namespace PKHeX.Core
 
                 if (slot is IMoveset m && !needs.Except(m.Moves).Any())
                     yield return slot;
-
-                if (needs.Count == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
+                else if (needs.Count == 1 && slot is EncounterSlot6AO {CanDexNav: true} dn && dn.CanBeDexNavMove(needs[0]))
+                    yield return slot;
+                else if (slot.Generation <= 2 && !needs.Except(MoveLevelUp.GetEncounterMoves(slot.Species, 0, slot.LevelMin, slot.Version)).Any())
                     yield return slot;
             }
         }
