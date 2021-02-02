@@ -47,7 +47,7 @@ namespace PKHeX.Core
         // Gen2 Wild Encounters
         private static CheckResult VerifyWildEncounterGen2(PKM pkm, EncounterSlot2 encounter)
         {
-            switch (encounter.Area.Type)
+            switch (encounter.Area.Type & (SlotType)0xF)
             {
                 case SlotType.Headbutt:
                     return VerifyWildEncounterCrystalHeadbutt(pkm, encounter);

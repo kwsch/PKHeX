@@ -26,14 +26,16 @@ namespace PKHeX.Core
         private static int HSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
+            if ((type & SlotType.Swarm) != 0)
+                return ESV < 50 ? 0 : -1;
+
             return type switch
             {
-                SlotType.Old_Rod =>        CalcSlot(ESV, H_OldRod),
-                SlotType.Good_Rod =>        CalcSlot(ESV, H_GoodRod),
-                SlotType.Super_Rod =>        CalcSlot(ESV, H_SuperRod),
-                SlotType.Rock_Smash =>        CalcSlot(ESV, H_Surf),
-                SlotType.Surf =>        CalcSlot(ESV, H_Surf),
-                SlotType.Swarm => (ESV < 50 ? 0 : -1),
+                SlotType.Old_Rod => CalcSlot(ESV, H_OldRod),
+                SlotType.Good_Rod => CalcSlot(ESV, H_GoodRod),
+                SlotType.Super_Rod => CalcSlot(ESV, H_SuperRod),
+                SlotType.Rock_Smash => CalcSlot(ESV, H_Surf),
+                SlotType.Surf => CalcSlot(ESV, H_Surf),
                 _ => CalcSlot(ESV, H_Regular)
             };
         }

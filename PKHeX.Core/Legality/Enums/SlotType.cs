@@ -69,6 +69,7 @@ namespace PKHeX.Core
         SOS = 15,
         // always used as a modifier to another slot type
 
+        Special = 1 << 6,
         Swarm = 1 << 7,
     }
 

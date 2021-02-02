@@ -25,7 +25,7 @@ namespace PKHeX.Core
 
             var pk2 = (PK2)pk;
 
-            if ((Area.Type & SlotType.Headbutt) != 0)
+            if ((Area.Type & (SlotType)0xF) == SlotType.Headbutt)
             {
                 while (!IsTreeAvailable(pk2.TID))
                     pk2.TID = Util.Rand.Next(ushort.MaxValue);
