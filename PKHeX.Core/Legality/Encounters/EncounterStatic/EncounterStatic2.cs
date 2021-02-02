@@ -18,6 +18,13 @@ namespace PKHeX.Core
             Level = level;
         }
 
+        public override bool IsMatchExact(PKM pkm, DexLevel evo)
+        {
+            if (Shiny == Shiny.Always && !pkm.IsShiny)
+                return false;
+            return base.IsMatchExact(pkm, evo);
+        }
+
         protected override bool IsMatchEggLocation(PKM pkm)
         {
             if (pkm.Format > 2)
@@ -50,16 +57,6 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override void SetMetData(PKM pk, int level, DateTime today)
-        {
-            if (Version != GameVersion.C)
-                return;
-            var pk2 = (PK2)pk;
-            pk2.Met_Location = Location;
-            pk2.Met_Level = level;
-            pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
-        }
-
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             if (pkm is ICaughtData2 {CaughtData: not 0})
@@ -80,6 +77,24 @@ namespace PKHeX.Core
         }
 
         protected override bool IsMatchPartial(PKM pkm) => false;
+
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            var pk2 = (PK2)pk;
+            if (Shiny == Shiny.Always)
+                pk2.SetShiny();
+        }
+
+        protected override void SetMetData(PKM pk, int level, DateTime today)
+        {
+            if (Version != GameVersion.C && pk.OT_Gender != 1)
+                return;
+            var pk2 = (PK2)pk;
+            pk2.Met_Location = Location;
+            pk2.Met_Level = level;
+            pk2.Met_TimeOfDay = EncounterTime.Any.RandomValidTime();
+        }
     }
 
     public sealed record EncounterStatic2Odd : EncounterStatic2
