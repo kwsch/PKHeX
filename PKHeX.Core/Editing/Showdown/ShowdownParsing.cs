@@ -107,7 +107,7 @@ namespace PKHeX.Core
                 (int)Zygarde    when ability == 211         => $"{(string.IsNullOrWhiteSpace(form) ? "50%" : "10%")}-C",
                 (int)Greninja   when ability == 210         => "Ash", // Battle Bond
                 (int)Rockruff   when ability == 020         => "Dusk", // Rockruff-1
-                (int)Urshifu => form.Replace('-', ' '),
+                (int)Urshifu or (int)Pikachu => form.Replace('-', ' '), // Strike and Cosplay
 
                 _ => Legal.Totem_USUM.Contains(species) && form.EndsWith("Totem") ? "Large" : form,
             };
