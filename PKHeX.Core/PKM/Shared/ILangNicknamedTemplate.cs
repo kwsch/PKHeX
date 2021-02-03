@@ -7,5 +7,6 @@
 
         bool CanBeAnyLanguage();
         bool CanHaveLanguage(int language);
+        bool CanHandleOT(int language);
     }
 }

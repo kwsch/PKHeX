@@ -483,6 +483,8 @@ namespace PKHeX.Core
             return true;
         }
 
+        public bool CanHandleOT(int language) => string.IsNullOrEmpty(GetOT(language));
+
         public override bool IsMatchExact(PKM pkm, DexLevel evo)
         {
             if (pkm.Egg_Location == 0) // Not Egg

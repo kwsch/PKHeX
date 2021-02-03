@@ -353,6 +353,8 @@ namespace PKHeX.Core
 
         public bool IsHOMEGift => Location == Locations.HOME8 || GetOT(2) == "HOME";
 
+        public bool CanHandleOT(int language) => GetHasOT(language);
+
         public override PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
             if (!IsPokémon)

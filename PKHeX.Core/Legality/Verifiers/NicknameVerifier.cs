@@ -83,6 +83,9 @@ namespace PKHeX.Core
                     return;
                 }
 
+                if (n.CanHandleOT(pkm.Language))
+                    return;
+
                 if (pkm.IsNicknamed)
                     data.AddLine(Get(LEncGiftNicknamed, Severity.Invalid));
                 return;
