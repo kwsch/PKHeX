@@ -206,7 +206,7 @@ namespace PKHeX.Core
             {
                 EncounterOrder.Egg => GetEggs(pk, needs, chain, version),
                 EncounterOrder.Mystery => GetGifts(pk, needs, chain),
-                EncounterOrder.Static => GetStatic(pk, needs, chain),
+                EncounterOrder.Static => GetStatic(pk, needs, chain, version),
                 EncounterOrder.Trade => GetTrades(pk, needs, chain, version),
                 EncounterOrder.Slot => GetSlots(pk, needs, chain, version),
                 _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
@@ -281,10 +281,11 @@ namespace PKHeX.Core
         /// <param name="pk">Rough Pokémon data which contains the requested species, gender, and form.</param>
         /// <param name="needs">Moves which cannot be taught by the player.</param>
         /// <param name="chain">Origin possible evolution chain</param>
+        /// <param name="version">Specific version to iterate for.</param>
         /// <returns>A consumable <see cref="IEncounterable"/> list of possible encounters.</returns>
-        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
-            var encounters = EncounterStaticGenerator.GetPossible(pk, chain);
+            var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
             int gen = pk.Generation;
             if ((uint)gen <= 2)
                 encounters = encounters.Concat(EncounterStaticGenerator.GetPossibleGBGifts(pk, chain, gen == 2 ? GameVersion.C : GameVersion.RBY));

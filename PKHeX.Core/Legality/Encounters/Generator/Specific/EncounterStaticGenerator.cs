@@ -25,7 +25,13 @@ namespace PKHeX.Core
             if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
-            var table = GetEncounterStaticTable(pkm, gameSource);
+            var table = gameSource switch
+            {
+                RD or GN or BU or YW => StaticRBY.Where(z => z.Version.Contains(gameSource)),
+                GD or SV => StaticGS.Where(z => z.Version.Contains(gameSource)),
+                C => StaticC,
+                _ => GetEncounterStaticTable(pkm, gameSource),
+            };
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
