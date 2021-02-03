@@ -290,7 +290,7 @@ namespace PKHeX.Core
         }
 
         public int GetLanguage(int redeemLanguage) => Data[GetLanguageOffset(GetLanguageIndex(redeemLanguage))];
-        private static int GetLanguageOffset(int index) => 0x12C + (index * 0x1C) + 0x1A;
+        private static int GetLanguageOffset(int index) => 0x30 + (index * 0x1C) + 0x1A;
 
         public bool GetHasOT(int language) => BitConverter.ToUInt16(Data, GetOTOffset(language)) != 0;
 
@@ -639,6 +639,10 @@ namespace PKHeX.Core
                 if (s.WeightScalar != 0)
                     return false;
             }
+
+            // Duplicate card; one with Nickname specified and another without.
+            if (CardID == 0122 && pkm.IsNicknamed && !GetIsNicknamed(pkm.Language))
+                return false;
 
             // PID Types 0 and 1 do not use the fixed PID value.
             // Values 2,3 are specific shiny states, and 4 is fixed value.
