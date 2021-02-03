@@ -103,7 +103,7 @@ namespace PKHeX.Core
             int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
             for (int z = baseSpecies; z <= value; z++)
             {
-                if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
+                if (Rate == PersonalTable.RB[z].CatchRate || Rate == PersonalTable.Y[z].CatchRate)
                     return;
             }
             Catch_Rate = PersonalTable.RB[value].CatchRate;

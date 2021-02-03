@@ -20,7 +20,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Setting to specify if an analysis should permit trading a Generation 1 origin file to Generation 2, then back. Useful for checking RBY Metagame rules.
         /// </summary>
-        public static bool AllowGen1Tradeback { get; set; }
+        public static bool AllowGen1Tradeback { get; set; } = true;
 
         public static Severity NicknamedTrade { get; set; } = Severity.Invalid;
         public static Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
