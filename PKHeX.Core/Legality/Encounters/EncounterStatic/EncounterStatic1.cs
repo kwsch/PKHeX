@@ -15,6 +15,22 @@
             Level = level;
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+
+            var pk1 = (PK1) pk;
+            if (Species == (int) Core.Species.Pikachu && Version == GameVersion.YW && Level == 5 && Moves.Count == 0)
+            {
+                pk1.Catch_Rate = 0xA3; // Light Ball
+                return;
+            }
+
+            // Encounters can have different Catch Rates (RBG vs Y)
+            var table = Version == GameVersion.Y ? PersonalTable.Y : PersonalTable.RB;
+            pk1.Catch_Rate = table[Species].CatchRate;
+        }
+
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             return Level <= evo.Level;

@@ -71,6 +71,16 @@ namespace PKHeX.Core
         {
             base.ApplyDetails(sav, criteria, pk);
 
+            if (Version == GameVersion.Stadium)
+            {
+                var pk1 = (PK1)pk;
+                // Amnesia Psyduck has different catch rates depending on language
+                if (Species == (int)Core.Species.Psyduck)
+                    pk1.Catch_Rate = pk1.Japanese ? 167 : 168;
+                else
+                    pk1.Catch_Rate = 167 + Util.Rand.Next(2); // 167 or 168
+            }
+
             if (TID != -1)
                 pk.TID = TID;
 
