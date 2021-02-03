@@ -73,9 +73,9 @@ namespace PKHeX.Core
 
         protected override PKM GetBlank(ITrainerInfo tr) => Language switch
         {
-            EncounterGBLanguage.Japanese => new PK1(true),
-            EncounterGBLanguage.International => new PK1(),
-            _ => new PK1(tr.Language == 1),
+            EncounterGBLanguage.Japanese => new PK2(true),
+            EncounterGBLanguage.International => new PK2(),
+            _ => new PK2(tr.Language == 1),
         };
 
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
