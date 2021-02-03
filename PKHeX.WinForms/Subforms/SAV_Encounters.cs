@@ -221,6 +221,7 @@ namespace PKHeX.WinForms
         private static IEnumerable<IEncounterInfo> GetEncounters(int species, int[] moves, PKM pk, IReadOnlyList<GameVersion> vers)
         {
             pk.Species = species;
+            pk.SetGender(pk.GetSaneGender());
             return EncounterMovesetGenerator.GenerateEncounters(pk, moves, vers);
         }
 
