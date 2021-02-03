@@ -58,6 +58,12 @@ namespace PKHeX.Core
             return true; // todo
         }
 
+        public static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
+        {
+            var evos = EvolutionChain.GetValidPreEvolutions(pkm);
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
+        }
+
         public static bool CanKnowMove(PKM pkm, MemoryVariableSet memory, int gen, LegalInfo info, bool battleOnly = false)
         {
             var move = memory.Variable;
@@ -70,7 +76,7 @@ namespace PKHeX.Core
             if (pkm.IsEgg)
                 return false;
 
-            if (Legal.GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
+            if (GetCanKnowMove(pkm, memory.Variable, gen, info.EvoChainsAllGens))
                 return true;
 
             var enc = info.EncounterMatch;
@@ -91,50 +97,53 @@ namespace PKHeX.Core
             return false;
         }
 
-        public static bool GetCanBeCaptured(int species, int gen, GameVersion version)
+        public static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
         {
-            switch (gen)
+            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
+        }
+
+        private static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos, GameVersion version = GameVersion.Any)
+        {
+            if (pkm.Species == (int)Smeargle)
+                return !Legal.InvalidSketch.Contains(move);
+
+            if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
+                return true;
+
+            if (evos.Count <= generation)
+                return false;
+            for (int i = 1; i <= generation; i++)
             {
-                // Capture Memory only obtainable via Gen 6.
-                case 6:
-                    switch (version)
-                    {
-                        case GameVersion.Any:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsX, StaticX)
-                                   || GetCanBeCaptured(species, SlotsY, StaticY)
-                                   || GetCanBeCaptured(species, SlotsA, StaticA)
-                                   || GetCanBeCaptured(species, SlotsO, StaticO);
-                        case GameVersion.X:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsX, StaticX);
-                        case GameVersion.Y:
-                            return Legal.FriendSafari.Contains(species)
-                                   || GetCanBeCaptured(species, SlotsY, StaticY);
-
-                        case GameVersion.AS:
-                            return GetCanBeCaptured(species, SlotsA, StaticA);
-                        case GameVersion.OR:
-                            return GetCanBeCaptured(species, SlotsO, StaticO);
-                    }
-                    break;
-
-                case 8:
-                    {
-                        switch (version)
-                        {
-                            case GameVersion.Any:
-                                return GetCanBeCaptured(species, SlotsSW.Concat(SlotsSH), StaticSW.Concat(StaticSH));
-                            case GameVersion.SW:
-                                return GetCanBeCaptured(species, SlotsSW, StaticSW);
-                            case GameVersion.SH:
-                                return GetCanBeCaptured(species, SlotsSH, StaticSH);
-                        }
-                        break;
-                    }
+                var moves = MoveList.GetValidMoves(pkm, version, evos[i], i, types: MoveSourceType.All);
+                if (moves.Contains(move))
+                    return true;
             }
             return false;
         }
+
+        public static bool GetCanBeCaptured(int species, int gen, GameVersion version) => gen switch
+        {
+            6 => version switch
+            {
+                GameVersion.Any => GetCanBeCaptured(species, SlotsX, StaticX) || GetCanBeCaptured(species, SlotsY, StaticY)
+                                || GetCanBeCaptured(species, SlotsA, StaticA) || GetCanBeCaptured(species, SlotsO, StaticO),
+
+                GameVersion.X => GetCanBeCaptured(species, SlotsX, StaticX),
+                GameVersion.Y => GetCanBeCaptured(species, SlotsY, StaticY),
+
+                GameVersion.AS => GetCanBeCaptured(species, SlotsA, StaticA),
+                GameVersion.OR => GetCanBeCaptured(species, SlotsO, StaticO),
+                _ => false
+            },
+            8 => version switch
+            {
+                GameVersion.Any => GetCanBeCaptured(species, SlotsSW.Concat(SlotsSH), StaticSW.Concat(StaticSH)),
+                GameVersion.SW => GetCanBeCaptured(species, SlotsSW, StaticSW),
+                GameVersion.SH => GetCanBeCaptured(species, SlotsSH, StaticSH),
+                _ => false
+            },
+            _ => false
+        };
 
         private static bool GetCanBeCaptured(int species, IEnumerable<EncounterArea> area, IEnumerable<EncounterStatic> statics)
         {

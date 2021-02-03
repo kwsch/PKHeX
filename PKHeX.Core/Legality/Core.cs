@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -121,38 +120,6 @@ namespace PKHeX.Core
             _ => -1
         };
 
-        internal static bool GetCanLearnMachineMove(PKM pkm, int move, int generation, GameVersion version = GameVersion.Any)
-        {
-            var evos = EvolutionChain.GetValidPreEvolutions(pkm);
-            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.AllMachines).Contains(move);
-        }
-
-        internal static bool GetCanRelearnMove(PKM pkm, int move, int generation, IReadOnlyList<EvoCriteria> evos, GameVersion version = GameVersion.Any)
-        {
-            return MoveList.GetValidMoves(pkm, version, evos, generation, types: MoveSourceType.Reminder).Contains(move);
-        }
-
-        internal static bool GetCanKnowMove(PKM pkm, int move, int generation, IReadOnlyList<IReadOnlyList<EvoCriteria>> evos, GameVersion version = GameVersion.Any)
-        {
-            if (pkm.Species == (int)Species.Smeargle)
-                return !InvalidSketch.Contains(move);
-
-            if (generation >= 8 && MoveEgg.GetIsSharedEggMove(pkm, generation, move))
-                return true;
-
-            if (evos.Count <= generation)
-                return false;
-            for (int i = 1; i <= generation; i++)
-            {
-                var moves = MoveList.GetValidMoves(pkm, version, evos[i], i, types: MoveSourceType.All);
-                if (moves.Contains(move))
-                    return true;
-            }
-            return false;
-        }
-
-        internal static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && HeldItems_GSC.Contains((ushort) rate);
-
         internal const GameVersion NONE = GameVersion.Invalid;
         internal static readonly LearnVersion LearnNONE = new(-1);
 
@@ -160,11 +127,6 @@ namespace PKHeX.Core
         internal static bool HasVisitedORAS(this PKM pkm, int species) => pkm.InhabitedGeneration(6, species) && (pkm.AO || !pkm.IsUntraded);
         internal static bool HasVisitedUSUM(this PKM pkm, int species) => pkm.InhabitedGeneration(7, species) && (pkm.USUM || !pkm.IsUntraded);
         internal static bool IsMovesetRestricted(this PKM pkm, int gen) => (gen == 7 && pkm.Version is (int)GameVersion.GO or (int)GameVersion.GP or (int)GameVersion.GE) || pkm.IsUntraded;
-
-        public static bool IsValidMissingLanguage(PKM pkm)
-        {
-            return pkm.Format == 5 && pkm.BW;
-        }
 
         public static int GetMaxLengthOT(int generation, LanguageID language) => language switch
         {

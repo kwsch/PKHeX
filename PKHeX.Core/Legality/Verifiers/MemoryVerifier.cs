@@ -27,20 +27,20 @@ namespace PKHeX.Core
             if (matchingMoveMemory != -1)
             {
                 // Gen8 has no HMs, so this memory can never exist.
-                if (gen != 6 || (pkm.Species != (int)Species.Smeargle && !Legal.GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6)))
+                if (gen != 6 || (pkm.Species != (int)Species.Smeargle && !GetCanLearnMachineMove(pkm, Memories.MoveSpecificMemories[1][matchingMoveMemory], 6)))
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
             }
 
             switch (memory.MemoryID)
             {
                 // {0} saw {2} carrying {1} on its back. {4} that {3}.
-                case 21 when gen != 6 || !Legal.GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, 19, 6):
+                case 21 when gen != 6 || !GetCanLearnMachineMove(new PK6 {Species = memory.Variable, EXP = Experience.GetEXP(100, PersonalTable.XY.GetFormIndex(memory.Variable, 0))}, 19, 6):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 case 16 or 48 when !CanKnowMove(pkm, memory, gen, info, memory.MemoryID == 16):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
-                case 49 when memory.Variable == 0 || !Legal.GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
+                case 49 when memory.Variable == 0 || !GetCanRelearnMove(pkm, memory.Variable, gen, info.EvoChainsAllGens[gen]):
                     return GetInvalid(string.Format(LMemoryArgBadMove, memory.Handler));
 
                 // Dynamaxing

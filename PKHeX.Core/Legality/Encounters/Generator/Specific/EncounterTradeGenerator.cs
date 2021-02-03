@@ -1,34 +1,59 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static PKHeX.Core.Legal;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
     public static class EncounterTradeGenerator
     {
-        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        public static IEnumerable<EncounterTrade> GetPossible(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            if (pkm.VC || pkm.Format <= 2)
+            if (pkm.Format <= 2 || pkm.VC)
                 return GetPossibleVC(chain, gameSource);
-            return GetPossibleNonVC(pkm, chain, gameSource);
+            return GetPossible(chain, gameSource);
         }
 
-        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTradeGB> GetPossibleVC(IReadOnlyList<DexLevel> chain, GameVersion game)
         {
-            if (GetIsFromGB(pkm))
-                return GetValidEncounterTradesVC(pkm, chain, gameSource);
+            var table = GetTableVC(game);
+            return table.Where(e => chain.Any(c => c.Species == e.Species && c.Form == 0));
+        }
+
+        private static IEnumerable<EncounterTrade> GetPossible(IReadOnlyList<DexLevel> chain, GameVersion game)
+        {
+            var table = GetTable(game);
+            return table.Where(e => chain.Any(c => c.Species == e.Species && c.Form == e.Form));
+        }
+
+        public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game)
+        {
+            var table = GetTableVC(game);
+            foreach (var t in table)
+            {
+                foreach (var dl in chain)
+                {
+                    if (dl.Species != pkm.Species || dl.Form != 0)
+                        continue;
+                    if (!t.IsMatchExact(pkm, dl))
+                        continue;
+                    yield return t;
+                }
+            }
+        }
+
+        public static IEnumerable<EncounterTrade> GetValidEncounterTrades(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game = Any)
+        {
+            if (game == Any)
+                game = (GameVersion)pkm.Version;
 
             int lang = pkm.Language;
             if (lang == (int)LanguageID.UNUSED_6) // invalid language
                 return Array.Empty<EncounterTrade>();
-            if (lang == (int)LanguageID.Hacked && !IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
+            if (lang == (int)LanguageID.Hacked && !EncounterTrade5PID.IsValidMissingLanguage(pkm)) // Japanese trades in BW have no language ID
                 return Array.Empty<EncounterTrade>();
 
-            var poss = GetPossibleNonVC(pkm, chain, gameSource);
+            var poss = GetPossible(chain, game);
             return GetValidEncounterTrades(pkm, chain, poss);
         }
 
@@ -47,60 +72,30 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<EncounterTrade> GetPossibleNonVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
+        private static IEnumerable<EncounterTradeGB> GetTableVC(GameVersion game)
         {
-            if (gameSource == GameVersion.Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            if (GetIsFromGB(pkm))
-                return GetValidEncounterTradesVC(pkm, chain, gameSource);
-
-            var table = GetEncounterTradeTable(pkm);
-            return table.Where(f => chain.Any(r => r.Species == f.Species));
-        }
-
-        private static IEnumerable<EncounterTradeGB> GetPossibleVC(IReadOnlyList<DexLevel> chain, GameVersion gameSource = GameVersion.Any)
-        {
-            var table = GetEncounterTradeTableVC(gameSource);
-            return table.Where(f => chain.Any(r => r.Species == f.Species && r.Form == 0));
-        }
-
-        private static IEnumerable<EncounterTradeGB> GetEncounterTradeTableVC(GameVersion gameSource)
-        {
-            if (GameVersion.RBY.Contains(gameSource))
+            if (RBY.Contains(game))
                 return Encounters1.TradeGift_RBY;
-            if (GameVersion.GSC.Contains(gameSource))
+            if (GSC.Contains(game))
                 return Encounters2.TradeGift_GSC;
             return Array.Empty<EncounterTradeGB>();
         }
 
-        private static IEnumerable<EncounterTrade> GetEncounterTradeTable(PKM pkm) => pkm.Generation switch
+        private static IEnumerable<EncounterTrade> GetTable(GameVersion game) => game switch
         {
-            3 => (pkm.FRLG ? Encounters3.TradeGift_FRLG : Encounters3.TradeGift_RSE),
-            4 => (pkm.HGSS ? Encounters4.TradeGift_HGSS : Encounters4.TradeGift_DPPt),
-            5 => (pkm.B2W2 ? Encounters5.TradeGift_B2W2 : Encounters5.TradeGift_BW),
-            6 => (pkm.XY ? Encounters6.TradeGift_XY : Encounters6.TradeGift_AO),
-            7 => (pkm.LGPE ? Encounters7b.TradeGift_GG : pkm.SM ? Encounters7.TradeGift_SM : Encounters7.TradeGift_USUM),
-            8 => Encounters8.TradeGift_SWSH,
+            R or S or E => Encounters3.TradeGift_RSE,
+            FR or LG => Encounters3.TradeGift_FRLG,
+            D or P or Pt => Encounters4.TradeGift_DPPt,
+            HG or SS => Encounters4.TradeGift_HGSS,
+            B or W => Encounters5.TradeGift_BW,
+            B2 or W2 => Encounters5.TradeGift_B2W2,
+            X or Y => Encounters6.TradeGift_XY,
+            AS or OR => Encounters6.TradeGift_AO,
+            SN or MN => Encounters7.TradeGift_SM,
+            US or UM => Encounters7.TradeGift_USUM,
+            GP or GE => Encounters7b.TradeGift_GG,
+            SW or SH => Encounters8.TradeGift_SWSH,
             _ => Array.Empty<EncounterTrade>(),
         };
-
-        private static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
-        {
-            var table = GetEncounterTradeTableVC(gameSource);
-            foreach (var t in table)
-            {
-                foreach (var dl in chain)
-                {
-                    if (dl.Species != pkm.Species || dl.Form != 0)
-                        continue;
-                    if (!t.IsMatchExact(pkm, dl))
-                        continue;
-                    yield return t;
-                }
-            }
-        }
-
-        private static bool GetIsFromGB(PKM pkm) => pkm.VC || pkm.Format <= 2;
     }
 }

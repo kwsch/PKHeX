@@ -16,7 +16,7 @@ namespace PKHeX.Core
             int currentLanguage = pkm.Language;
             int maxLanguageID = Legal.GetMaxLanguageID(originalGeneration);
 
-            if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm))
+            if (!IsValidLanguageID(currentLanguage, maxLanguageID, pkm, data.EncounterMatch))
             {
                 data.AddLine(GetInvalid(string.Format(LOTLanguage, $"<={(LanguageID)maxLanguageID}", (LanguageID)currentLanguage)));
                 return;
@@ -46,7 +46,7 @@ namespace PKHeX.Core
             }
         }
 
-        public static bool IsValidLanguageID(int currentLanguage, int maxLanguageID, PKM pkm)
+        public static bool IsValidLanguageID(int currentLanguage, int maxLanguageID, PKM pkm, IEncounterable enc)
         {
             if (currentLanguage == (int)LanguageID.UNUSED_6)
                 return false; // Language ID 6 is unused.
@@ -54,7 +54,7 @@ namespace PKHeX.Core
             if (currentLanguage > maxLanguageID)
                 return false; //  Language not available (yet)
 
-            if (currentLanguage <= (int) LanguageID.Hacked && !Legal.IsValidMissingLanguage(pkm))
+            if (currentLanguage <= (int)LanguageID.Hacked && !(enc is EncounterTrade5PID && EncounterTrade5PID.IsValidMissingLanguage(pkm)))
                 return false; // Missing Language value is not obtainable
 
             return true; // Language is possible

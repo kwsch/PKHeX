@@ -78,6 +78,8 @@ namespace PKHeX.Core
         public override int Stat_SPD { get => Stat_SPC; set { } }
         #endregion
 
+        private static bool IsCatchRateHeldItem(int rate) => ParseSettings.AllowGen1Tradeback && Array.IndexOf(Legal.HeldItems_GSC, (ushort)rate) >= 0;
+
         private void SetSpeciesValues(int value)
         {
             var updated = SpeciesConverter.SetG1Species(value);
@@ -90,17 +92,21 @@ namespace PKHeX.Core
             Type_B = PersonalInfo.Type2;
 
             // Before updating catch rate, check if non-standard
-            if (TradebackStatus != TradebackType.WasTradeback && !Legal.IsCatchRateHeldItem(Catch_Rate) && !(value == 25 && Catch_Rate == 0xA3)) // Light Ball Pikachu
+            if (TradebackStatus == TradebackType.WasTradeback)
+                return;
+            if (IsCatchRateHeldItem(Catch_Rate))
+                return;
+            if (value == (int)Core.Species.Pikachu && Catch_Rate == 0xA3) // Light Ball (starter)
+                return;
+
+            int Rate = Catch_Rate;
+            int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
+            for (int z = baseSpecies; z <= value; z++)
             {
-                int Rate = Catch_Rate;
-                int baseSpecies = EvoBase.GetBaseSpecies(this).Species;
-                for (int z = baseSpecies; z <= value; z++)
-                {
-                    if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
-                        return;
-                }
-                Catch_Rate = PersonalTable.RB[value].CatchRate;
+                if (Rate == PersonalTable.RB[z].CatchRate && Rate == PersonalTable.Y[z].CatchRate)
+                    return;
             }
+            Catch_Rate = PersonalTable.RB[value].CatchRate;
         }
 
         public override int Version { get => (int)GameVersion.RBY; set { } }

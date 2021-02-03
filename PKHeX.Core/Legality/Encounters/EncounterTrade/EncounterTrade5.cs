@@ -56,5 +56,10 @@
                 return false;
             return true;
         }
+
+        public static bool IsValidMissingLanguage(PKM pkm)
+        {
+            return pkm.Format == 5 && pkm.BW;
+        }
     }
 }

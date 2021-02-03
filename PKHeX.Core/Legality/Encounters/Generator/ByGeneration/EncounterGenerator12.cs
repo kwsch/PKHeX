@@ -31,7 +31,7 @@ namespace PKHeX.Core
             var chain = EncounterOrigin.GetOriginChain12(pkm, game);
 
             IEncounterable? deferred = null;
-            foreach (var t in GetValidEncounterTrades(pkm, chain, game))
+            foreach (var t in GetValidEncounterTradesVC(pkm, chain, game))
             {
                 // Gen2 trades are strictly matched (OT/Nick), while Gen1 trades allow for deferral (shrug).
                 if (t is EncounterTrade1 t1 && t1.GetMatchRating(pkm) != Match)
