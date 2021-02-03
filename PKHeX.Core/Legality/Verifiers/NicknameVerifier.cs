@@ -77,6 +77,12 @@ namespace PKHeX.Core
 
             if (string.IsNullOrWhiteSpace(nick))
             {
+                if (n is WC8 {IsHOMEGift: true})
+                {
+                    VerifyHomeGiftNickname(data, enc, pkm, nickname);
+                    return;
+                }
+
                 if (pkm.IsNicknamed)
                     data.AddLine(Get(LEncGiftNicknamed, Severity.Invalid));
                 return;
@@ -101,6 +107,16 @@ namespace PKHeX.Core
             // Encounter has a nickname, and PKM should have it.
             var severity = nick != nickname || !pkm.IsNicknamed ? Severity.Invalid : Severity.Valid;
             data.AddLine(Get(LEncGiftNicknamed, severity));
+        }
+
+        private void VerifyHomeGiftNickname(LegalityAnalysis data, IEncounterTemplate enc, ILangNick pkm, string nickname)
+        {
+            // can nickname on redemption
+            if (!pkm.IsNicknamed)
+                return;
+            var orig = SpeciesName.GetSpeciesNameGeneration(enc.Species, pkm.Language, enc.Generation);
+            if (nickname == orig)
+                data.AddLine(GetInvalid(LNickMatchLanguageFlag));
         }
 
         private bool VerifyUnNicknamedEncounter(LegalityAnalysis data, PKM pkm, string nickname)
