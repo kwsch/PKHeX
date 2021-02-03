@@ -641,7 +641,7 @@ namespace PKHeX.Core
             }
 
             // Duplicate card; one with Nickname specified and another without.
-            if (CardID == 0122 && pkm.IsNicknamed && !GetIsNicknamed(pkm.Language))
+            if (CardID == 0122 && pkm.IsNicknamed != GetIsNicknamed(pkm.Language))
                 return false;
 
             // PID Types 0 and 1 do not use the fixed PID value.
