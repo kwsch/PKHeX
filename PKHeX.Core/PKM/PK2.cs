@@ -165,9 +165,6 @@ namespace PKHeX.Core
             var lang = TransferLanguage(PKMConverter.Language);
             pk7.Language = lang;
             pk7.Nickname = SpeciesName.GetSpeciesNameGeneration(pk7.Species, lang, pk7.Format);
-            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
-                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
-            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             // IVs
             var special = Species is 151 or 251;
@@ -203,8 +200,12 @@ namespace PKHeX.Core
                 pk7.IsNicknamed = true;
                 pk7.Nickname = Korean ? Nickname : StringConverter12Transporter.GetString(nick, Japanese);
             }
-            pk7.OT_Name = Korean ? OT_Name : StringConverter12Transporter.GetString(otname, Japanese);
+            if (otname[0] == StringConverter12.G1TradeOTCode) // In-game Trade
+                pk7.OT_Name = StringConverter12.G1TradeOTName[lang];
+            else
+                pk7.OT_Name = Korean ? OT_Name : StringConverter12Transporter.GetString(otname, Japanese);
             pk7.OT_Gender = OT_Gender; // Crystal
+            pk7.OT_Friendship = pk7.HT_Friendship = PersonalTable.SM[Species].BaseFriendship;
 
             pk7.SetTradeMemoryHT(bank: true); // oh no, memories on gen7 pkm
 
