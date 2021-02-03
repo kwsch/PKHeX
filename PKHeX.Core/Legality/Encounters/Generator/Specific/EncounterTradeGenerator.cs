@@ -29,15 +29,15 @@ namespace PKHeX.Core
         public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game)
         {
             var table = GetTableVC(game);
-            foreach (var t in table)
+            foreach (var p in table)
             {
-                foreach (var dl in chain)
+                foreach (var evo in chain)
                 {
-                    if (dl.Species != pkm.Species || dl.Form != 0)
+                    if (evo.Species != p.Species || evo.Form != 0)
                         continue;
-                    if (!t.IsMatchExact(pkm, dl))
-                        continue;
-                    yield return t;
+                    if (p.IsMatchExact(pkm, evo))
+                        yield return p;
+                    break;
                 }
             }
         }
