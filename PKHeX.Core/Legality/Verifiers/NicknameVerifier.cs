@@ -114,6 +114,15 @@ namespace PKHeX.Core
             // can nickname on redemption
             if (!pkm.IsNicknamed)
                 return;
+
+            // Can't nickname everything.
+            if (enc.Species == (int) Species.Melmetal)
+            {
+                data.AddLine(GetInvalid(LEncGiftNicknamed));
+                return;
+            }
+
+            // Ensure the nickname does not match species name
             var orig = SpeciesName.GetSpeciesNameGeneration(enc.Species, pkm.Language, enc.Generation);
             if (nickname == orig)
                 data.AddLine(GetInvalid(LNickMatchLanguageFlag));
