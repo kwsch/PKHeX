@@ -286,9 +286,6 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterStatic> GetStatic(PKM pk, IReadOnlyCollection<int> needs, IReadOnlyList<EvoCriteria> chain, GameVersion version)
         {
             var encounters = EncounterStaticGenerator.GetPossible(pk, chain, version);
-            int gen = pk.Generation;
-            if ((uint)gen <= 2)
-                encounters = encounters.Concat(EncounterStaticGenerator.GetPossibleGBGifts(pk, chain, gen == 2 ? GameVersion.C : GameVersion.RBY));
             foreach (var enc in encounters)
             {
                 if (enc.IsUnobtainable())
@@ -310,10 +307,11 @@ namespace PKHeX.Core
                     yield return enc;
             }
 
+            int gen = version.GetGeneration();
             if ((uint)gen >= 3)
                 yield break;
 
-            var gifts = EncounterStaticGenerator.GetPossibleGBGifts(pk, chain);
+            var gifts = EncounterStaticGenerator.GetPossibleGBGifts(chain, version);
             foreach (var enc in gifts)
             {
                 if (needs.Count == 0)

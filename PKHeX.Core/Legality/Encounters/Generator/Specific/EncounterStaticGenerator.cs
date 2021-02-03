@@ -35,14 +35,11 @@ namespace PKHeX.Core
             return table.Where(e => chain.Any(d => d.Species == e.Species));
         }
 
-        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetPossibleGBGifts(IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
             static IEnumerable<EncounterStatic> GetEvents(GameVersion g)
             {
-                if (g == RBY)
+                if (g.GetGeneration() == 1)
                     return !ParseSettings.AllowGBCartEra ? Encounters1.StaticEventsVC : Encounters1.StaticEventsGB;
 
                 return !ParseSettings.AllowGBCartEra ? Encounters2.StaticEventsVC : Encounters2.StaticEventsGB;
@@ -54,18 +51,19 @@ namespace PKHeX.Core
 
         public static IEnumerable<EncounterStatic> GetValidStaticEncounter(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
         {
-            var poss = GetPossible(pkm, chain, gameSource: gameSource);
+            if (gameSource == Any)
+                gameSource = (GameVersion)pkm.Version;
+
+            var table = GetEncounterStaticTable(pkm, gameSource);
+            var poss = table.Where(e => chain.Any(d => d.Species == e.Species));
 
             // Back Check against pkm
             return GetMatchingStaticEncounters(pkm, poss, chain);
         }
 
-        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource = Any)
+        public static IEnumerable<EncounterStatic> GetValidGBGifts(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion gameSource)
         {
-            if (gameSource == Any)
-                gameSource = (GameVersion)pkm.Version;
-
-            var poss = GetPossibleGBGifts(pkm, chain, gameSource: gameSource);
+            var poss = GetPossibleGBGifts(chain, gameSource: gameSource);
             foreach (EncounterStatic e in poss)
             {
                 foreach (var dl in chain)

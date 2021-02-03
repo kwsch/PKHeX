@@ -60,6 +60,13 @@ namespace PKHeX.Core
             _ => true
         };
 
+        protected override PKM GetBlank(ITrainerInfo tr) => Language switch
+        {
+            EncounterGBLanguage.Japanese => new PK1(true),
+            EncounterGBLanguage.International => new PK1(),
+            _ => new PK1(tr.Language == 1),
+        };
+
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);

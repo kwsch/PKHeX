@@ -45,11 +45,13 @@ namespace PKHeX.Core
 
         protected EncounterStatic(GameVersion game) => Version = game;
 
+        protected virtual PKM GetBlank(ITrainerInfo tr) => PKMConverter.GetBlank(Generation, Version);
+
         public PKM ConvertToPKM(ITrainerInfo sav) => ConvertToPKM(sav, EncounterCriteria.Unrestricted);
 
         public PKM ConvertToPKM(ITrainerInfo sav, EncounterCriteria criteria)
         {
-            var pk = PKMConverter.GetBlank(Generation, Version);
+            var pk = GetBlank(sav);
             sav.ApplyTo(pk);
 
             ApplyDetails(sav, criteria, pk);
