@@ -65,7 +65,7 @@ namespace PKHeX.Core
 
             if (data.EncounterMatch is WC8 { IsHOMEGift: true } w)
             {
-                var date = new DateTime(pkm.Met_Year, pkm.Met_Month, pkm.Met_Day);
+                var date = new DateTime(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
                 if (!EncountersHOME.IsValidDateWC8(w.Species, date))
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
