@@ -685,6 +685,34 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 776, 412 }, CanGigantamax = true }, // Orbeetle
             new(60,10,5) { Species = 579, Ability = A4, Moves = new[]{ 094, 087, 411, 247 } }, // Reuniclus
             new(60,10,5) { Species = 576, Ability = A4, Moves = new[]{ 094, 085, 412, 322 } }, // Gothitelle
+
+            // 2/3 - Cramorant
+            new(17,01,1) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 } }, // Cramorant
+            new(17,01,1) { Species = 330, Ability = A4, Moves = new[]{ 225, 129, 693, 048 } }, // Flygon
+            new(17,01,1) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 707, 009 } }, // Golurk
+            new(17,01,1) { Species = 195, Ability = A4, Moves = new[]{ 055, 157, 281, 034 } }, // Quagsire
+            new(17,01,1) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
+            new(30,03,2) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 } }, // Cramorant
+            new(30,03,2) { Species = 330, Ability = A4, Moves = new[]{ 225, 129, 693, 048 } }, // Flygon
+            new(30,03,2) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 707, 009 } }, // Golurk
+            new(30,03,2) { Species = 195, Ability = A4, Moves = new[]{ 055, 157, 281, 034 } }, // Quagsire
+            new(30,03,2) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
+            new(40,05,3) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 } }, // Cramorant
+            new(40,05,3) { Species = 330, Ability = A4, Moves = new[]{ 225, 129, 693, 586 } }, // Flygon
+            new(40,05,3) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 523, 009 } }, // Golurk
+            new(40,05,3) { Species = 195, Ability = A4, Moves = new[]{ 330, 157, 281, 034 } }, // Quagsire
+            new(40,05,3) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
+            new(50,08,4) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 } }, // Cramorant
+            new(50,08,4) { Species = 330, Ability = A4, Moves = new[]{ 225, 129, 693, 586 } }, // Flygon
+            new(50,08,4) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 523, 009 } }, // Golurk
+            new(50,08,4) { Species = 195, Ability = A4, Moves = new[]{ 330, 157, 281, 034 } }, // Quagsire
+            new(50,08,4) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
+            new(60,10,5) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 } }, // Cramorant
+            new(60,10,5) { Species = 845, Ability = A4, Moves = new[]{ 057, 056, 503, 000 }, Shiny = Shiny.Always }, // Cramorant
+            new(60,10,5) { Species = 330, Ability = A4, Moves = new[]{ 225, 129, 693, 586 } }, // Flygon
+            new(60,10,5) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 523, 009 } }, // Golurk
+            new(60,10,5) { Species = 195, Ability = A4, Moves = new[]{ 330, 157, 281, 034 } }, // Quagsire
+            new(60,10,5) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
