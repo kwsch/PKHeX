@@ -57,7 +57,28 @@ namespace PKHeX.Core
                     // To determine AbilityNumber [PK5->PK6], check if the first ability in Personal matches the ability.
                     // It is not possible to flip it to the other index as capsule requires unique abilities.
                     if (abilities[0] == abilities[1] && num != 1)
-                        return GetInvalid(LAbilityMismatchFlag);
+                    {
+                        // Check if any pre-evolution could have it flipped.
+                        static bool getWasDual(IEnumerable<EvoCriteria> evos, PersonalTable pt, PKM pk)
+                        {
+                            foreach (var evo in evos)
+                            {
+                                if (evo.Species == pk.Species)
+                                    continue;
+
+                                var pe = pt.GetFormEntry(evo.Species, evo.Form);
+                                var abils = pe.Abilities;
+                                if (abils[0] != abils[1])
+                                    return true;
+                            }
+                            return false;
+                        }
+
+                        var evos = data.Info.EvoChainsAllGens[6];
+                        var pt = GameData.GetPersonal(GameUtil.GetVersion(pkm.Format));
+                        if (!getWasDual(evos, pt, pkm))
+                            return GetInvalid(LAbilityMismatchFlag);
+                    }
                 }
             }
 
