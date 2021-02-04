@@ -95,6 +95,8 @@ namespace PKHeX.Core
 
         public static string LContestZero { get; set; } = "Contest Stats should be 0.";
 
+        public static string LDateOutsideDistributionWindow { get; set; } = "Met Date is outside of distribution window.";
+
         public static string LEggContest { get; set; } = "Cannot increase Contest Stats of an Egg.";
         public static string LEggEXP { get; set; } = "Eggs cannot receive experience.";
         public static string LEggFMetLevel_0 { get; set; } = "Invalid Met Level, expected {0}.";
