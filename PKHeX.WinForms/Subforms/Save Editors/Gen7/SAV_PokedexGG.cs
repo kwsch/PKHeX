@@ -231,7 +231,8 @@ namespace PKHeX.WinForms
                 CL[i].Checked = CL[i].Enabled && Dex.GetLanguageFlag(pk, i);
             }
 
-            LoadRecord(currentSpecies, Math.Max(0, LB_Forms.SelectedIndex));
+            int speciesID = Dex.GetBaseSpecies(currentSpecies);
+            LoadRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
 
             editing = false;
         }
@@ -257,7 +258,8 @@ namespace PKHeX.WinForms
             for (int i = 0; i < 9; i++)
                 Dex.SetLanguageFlag(pk, i, CL[i].Checked);
 
-            SetRecord(currentSpecies, Math.Max(0, LB_Forms.SelectedIndex));
+            int speciesID = Dex.GetBaseSpecies(currentSpecies);
+            SetRecord(speciesID, Math.Max(0, LB_Forms.SelectedIndex));
         }
 
         private void LoadRecord(int species, int form)
