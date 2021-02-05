@@ -63,12 +63,17 @@ namespace PKHeX.Core
 
         public override IEnumerable<EncounterSlot> GetMatchingSlots(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
+            // Find the first chain that has slots defined.
+            // Since it is possible to evolve before transferring, we only need the highest evolution species possible.
+            // PoGoEncTool has already extrapolated the evolutions to separate encounters!
             var sf = chain.FirstOrDefault(z => z.Species == Species && z.Form == Form);
             if (sf == null)
                 yield break;
 
             var stamp = EncounterSlotGO.GetTimeStamp(pkm.Met_Year + 2000, pkm.Met_Month, pkm.Met_Day);
             var met = Math.Max(sf.MinLevel, pkm.Met_Level);
+            EncounterSlot? deferredIV = null;
+
             foreach (var s in Slots)
             {
                 var slot = (EncounterSlot7GO)s;
@@ -83,8 +88,17 @@ namespace PKHeX.Core
                 if (!slot.IsWithinStartEnd(stamp))
                     continue;
 
+                if (slot.GetIVsValid(pkm))
+                {
+                    deferredIV ??= slot;
+                    continue;
+                }
+
                 yield return slot;
             }
+
+            if (deferredIV != null)
+                yield return deferredIV;
         }
     }
 }
