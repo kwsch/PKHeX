@@ -251,22 +251,39 @@ namespace PKHeX.Core
         {
             var pkm = data.pkm;
             var enc = data.EncounterMatch;
+
+            static bool VerifyDayCounters(uint value, uint maxSeed, bool canRefresh = false)
+            {
+                // lowest byte is days remaining
+                // second lowest is days elapsed (lol)
+                var remain = value & 0xFF;
+                var elapsed = (value >> 8) & 0xFF;
+                if (canRefresh)
+                {
+                    if (remain + elapsed < maxSeed)
+                        return false;
+                }
+                else
+                {
+                    if (remain + elapsed != maxSeed)
+                        return false;
+                }
+                if (remain > maxSeed)
+                    return false;
+                return remain != 0;
+            }
+
             return (Species)pkm.Species switch
             {
                 Furfrou => arg switch
                 {
-                    > 5 => GetInvalid(LFormArgumentHigh),
-                    0 when pkm.Form != 0 => GetInvalid(LFormArgumentNotAllowed),
-                    not 0 when pkm.Form == 0 => GetInvalid(LFormArgumentNotAllowed),
-                    not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    not 0 when pkm.Form != 0 || pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
+                    _ => VerifyDayCounters(arg, 5, true) ? GetValid(LFormArgumentValid) :  GetInvalid(LFormArgumentInvalid),
                 },
                 Hoopa => arg switch
                 {
-                    > 3 => GetInvalid(LFormArgumentHigh),
-                    0 when pkm.Form != 0 => GetInvalid(LFormArgumentNotAllowed),
-                    not 0 when pkm.Form == 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
+                    not 0 when pkm.Form != 1 => GetInvalid(LFormArgumentNotAllowed),
+                    _ => VerifyDayCounters(arg, 3) ? GetValid(LFormArgumentValid) : GetInvalid(LFormArgumentInvalid),
                 },
                 Yamask when pkm.Form == 1 => arg switch
                 {

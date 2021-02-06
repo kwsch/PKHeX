@@ -748,15 +748,39 @@ namespace PKHeX.Core
             };
         }
 
-        public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
-
-        public static string[] GetFormArgumentStrings(int species)
+        public static bool IsFormArgumentTypeDatePair(int species, int form)
         {
             return species switch
             {
-                (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
-                _ => EMPTY
+                (int)Furfrou when form != 0 => true,
+                (int)Hoopa when form == 1 => true,
+                _ => false,
             };
         }
+
+        public static uint GetFormArgument(int species, int form, int generation, uint current)
+        {
+            var max = GetFormArgumentMax(species, form, generation);
+            var pair = IsFormArgumentTypeDatePair(species, form);
+            if (!pair)
+                return Math.Min(current, max);
+            return GetFormArgumentDatePairCombined(current, max);
+        }
+
+        public static uint GetFormArgumentDatePairCombined(uint current, uint max)
+        {
+            if (current > max)
+                current = max;
+            var elapsed = max - current;
+            return (uint)(((byte)elapsed << 8) | (byte)current);
+        }
+
+        public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
+
+        public static string[] GetFormArgumentStrings(int species) => species switch
+        {
+            (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
+            _ => EMPTY
+        };
     }
 }
