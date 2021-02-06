@@ -116,7 +116,7 @@ namespace PKHeX.Core
                 if (slot.Gender != Gender.Random && (int)slot.Gender != pkm.Gender)
                     continue;
 
-                if (slot.GetIVsValid(pkm))
+                if (!slot.GetIVsValid(pkm))
                 {
                     deferredIV ??= slot;
                     continue;

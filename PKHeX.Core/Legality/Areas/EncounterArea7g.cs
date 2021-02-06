@@ -88,7 +88,7 @@ namespace PKHeX.Core
                 if (!slot.IsWithinStartEnd(stamp))
                     continue;
 
-                if (slot.GetIVsValid(pkm))
+                if (!slot.GetIVsValid(pkm))
                 {
                     deferredIV ??= slot;
                     continue;
