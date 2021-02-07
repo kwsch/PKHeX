@@ -18,6 +18,7 @@ namespace PKHeX.WinForms
     {
         private readonly PKMEditor PKME_Tabs;
         private SaveFile SAV => PKME_Tabs.RequestSaveFile;
+        private readonly SummaryPreviewer ShowSet = new();
 
         public SAV_Encounters(PKMEditor f1)
         {
@@ -53,6 +54,8 @@ namespace PKHeX.WinForms
                         ClickView(sender, e);
                 };
                 slot.ContextMenuStrip = mnu;
+                if (Settings.Default.HoverSlotShowText)
+                    slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
             Counter = L_Count.Text;
@@ -101,6 +104,14 @@ namespace PKHeX.WinForms
         private const int RES_MAX = 66;
         private const int RES_MIN = 6;
         private readonly string Counter;
+
+        private bool GetShiftedIndex(ref int index)
+        {
+            if (index >= RES_MAX)
+                return false;
+            index += SCR_Box.Value * RES_MIN;
+            return index < Results.Count;
+        }
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -329,6 +340,16 @@ namespace PKHeX.WinForms
             int newval = oldval + (e.Delta < 0 ? 1 : -1);
             if (newval >= SCR_Box.Minimum && SCR_Box.Maximum >= newval)
                 FillPKXBoxes(SCR_Box.Value = newval);
+        }
+
+        private void ShowHoverTextForSlot(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            int index = Array.IndexOf(PKXBOXES, pb);
+            if (!GetShiftedIndex(ref index))
+                return;
+
+            ShowSet.Show(pb, Results[index]);
         }
     }
 }
