@@ -37,7 +37,8 @@
 0x3A7	隐藏地区 (雷吉洛克)
 0x3A8	隐藏地区 (雷吉艾斯)
 0x3A9	隐藏地区 (雷吉斯奇鲁)
-
+0x3C3	隐藏地区 (根狀化石)
+0x3C4	隐藏地区 (爪子化石)
 0x3C9	Uncovered Kecleon (Fortree City)
 0x3CA	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	Uncovered Kecleon (Route 120, Bridge)
