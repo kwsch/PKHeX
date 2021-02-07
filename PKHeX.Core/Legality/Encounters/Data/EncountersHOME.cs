@@ -21,7 +21,7 @@ namespace PKHeX.Core
             {(int) Pichu,      new DateTime(2020, 02, 12)},
             {(int) Rotom,      new DateTime(2020, 02, 12)},
             {(int) Magearna,   new DateTime(2020, 02, 15)},
-            {(int) Zeraora,    new DateTime(2020, 06, 30)},
+            {(int) Zeraora,    new DateTime(2020, 06, 29)},
             {(int) Melmetal,   new DateTime(2020, 11, 10)},
             {(int) Grookey,    new DateTime(2020, 06, 02)},
             {(int) Scorbunny,  new DateTime(2020, 06, 02)},
