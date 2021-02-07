@@ -37,7 +37,8 @@
 0x3A7	Overworld Hidden (Regirock)
 0x3A8	Overworld Hidden (Regice)
 0x3A9	Overworld Hidden (Registeel)
-
+0x3C3	Overworld Hidden (Root Fossil)
+0x3C4	Overworld Hidden (Claw Fossil)
 0x3C9	Uncovered Kecleon (Fortree City)
 0x3CA	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	Uncovered Kecleon (Route 120, Bridge)
