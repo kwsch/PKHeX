@@ -36,6 +36,8 @@ namespace PKHeX.WinForms.Controls
             var name = (uint)enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
             var EncounterName = $"{(enc is IEncounterable ie ? ie.LongName : "Special")} ({name})";
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));
+            if (enc is MysteryGift mg)
+                lines.Add(mg.CardHeader);
 
             var el = enc as ILocation;
             var loc = el?.GetEncounterLocation(enc.Generation, (int)enc.Version);

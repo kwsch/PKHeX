@@ -19,6 +19,7 @@ namespace PKHeX.WinForms
         private readonly PKMEditor PKME_Tabs;
         private readonly SaveFile SAV;
         private readonly SAVEditor BoxView;
+        private readonly SummaryPreviewer ShowSet = new();
 
         public SAV_MysteryGiftDB(PKMEditor tabs, SAVEditor sav)
         {
@@ -60,6 +61,8 @@ namespace PKHeX.WinForms
                 };
 
                 slot.ContextMenuStrip = mnu;
+                if (Settings.Default.HoverSlotShowText)
+                    slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
             Counter = L_Count.Text;
@@ -87,6 +90,14 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
+
+        private bool GetShiftedIndex(ref int index)
+        {
+            if (index >= RES_MAX)
+                return false;
+            index += SCR_Box.Value * RES_MIN;
+            return index < Results.Count;
+        }
 
         // Important Events
         private void ClickView(object sender, EventArgs e)
@@ -389,6 +400,16 @@ namespace PKHeX.WinForms
                 int index = MAXFORMAT - SAV.Generation + 1;
                 CB_Format.SelectedIndex = index < CB_Format.Items.Count ? index : 0; // SAV generation (offset by 1 for "Any")
             }
+        }
+
+        private void ShowHoverTextForSlot(object sender, EventArgs e)
+        {
+            var pb = (PictureBox)sender;
+            int index = Array.IndexOf(PKXBOXES, pb);
+            if (!GetShiftedIndex(ref index))
+                return;
+
+            ShowSet.Show(pb, Results[index]);
         }
     }
 }
