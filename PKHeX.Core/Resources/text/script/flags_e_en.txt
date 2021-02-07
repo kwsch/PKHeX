@@ -65,7 +65,8 @@
 0x305	Overworld Hidden (Rayquaza)
 0x2FB	Overworld Hidden (Deoxys)
 0x2FC	Overworld Hidden (Deoxys Triangle)
-
+0x3C3	Overworld Hidden (Root Fossil)
+0x3C4	Overworld Hidden (Claw Fossil)
 0x3C9	Uncovered Kecleon (Fortree City)
 0x3CA	Uncovered Kecleon (Route 120, Bridge)
 0x3D5	Uncovered Kecleon (Route 120, Bridge)
