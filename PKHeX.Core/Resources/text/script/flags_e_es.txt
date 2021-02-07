@@ -65,7 +65,8 @@
 0x305	Oculto en el mundo (Rayquaza)
 0x2FB	Oculto en el mundo (Deoxys)
 0x2FC	Oculto en el mundo (Triángulo de Deoxys)
-
+0x3C3	Oculto en el mundo (Fósil Raíz)
+0x3C4	Oculto en el mundo (Fósil Garra)
 0x3C9	Descubierto Kecleon (Ciudad Arborada)
 0x3CA	Descubierto Kecleon (Ruta 120, Puente)
 0x3D5	Descubierto Kecleon (Ruta 120, Puente)
