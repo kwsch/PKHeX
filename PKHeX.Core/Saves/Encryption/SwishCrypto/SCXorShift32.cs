@@ -14,7 +14,11 @@
 
         public SCXorShift32(uint seed)
         {
+#if NET5
+            var pop_count = System.Numerics.BitOperations.PopCount(seed);
+#else
             var pop_count = PopCount(seed);
+#endif
             for (var i = 0; i < pop_count; i++)
                 XorshiftAdvance(ref seed);
 
@@ -56,6 +60,8 @@
             key ^= key << 13;
         }
 
+
+#if !NET5
         /// <summary>
         /// Count of bits set in value
         /// </summary>
@@ -68,5 +74,6 @@
             x += (x >> 16);
             return x & 0x0000003Fu;
         }
+#endif
     }
 }
