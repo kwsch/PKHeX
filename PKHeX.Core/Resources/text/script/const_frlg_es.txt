@@ -1,5 +1,5 @@
 0x4031	Inicial	00:Bulbasaur,1:Squirtle,2:Charmander
-0x4055	Estado del Laboratorio de Oak	00:Primera Visita,01:Escoltado al Laboratorio,02:Inicial Disponible,03:Batalla contral Rival lista,04:Recoger Correo-Oak,05:Entregado Correo-Oak,06:Pokédex Recibida,08:Dex Nacional Recibida
+0x4055	Estado del Laboratorio de Oak	00:Primera Visita,01:Escoltado al Laboratorio,02:Inicial Disponible,03:Batalla contral Rival lista,04:Recoger Correo-Oak,05:Entregado Correo-Oak,06:Pokédex Recibida,08:Dex Nacional Recibida,9:Completed all events
 0x4057	Correo-Oak	00:No Recibido,01:Recibido,02:Entregado
 0x4051	Hombre Viejo Bloqueando Ruta 2	01:Sí,02:No
 0x4054	Estado del Rival (Ruta 22)	00:Oculto,1:Luchable,02:Derrotado,03:Luchable (8 Medallas),04:Derrotado (8 Medallas)

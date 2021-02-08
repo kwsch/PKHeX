@@ -37,7 +37,8 @@
 0x3A7	Oculto en el mundo (Regirock)
 0x3A8	Oculto en el mundo (Regice)
 0x3A9	Oculto en el mundo (Registeel)
-
+0x3C3	Oculto en el mundo (Fósil Raíz)
+0x3C4	Oculto en el mundo (Fósil Garra)
 0x3C9	Descubierto Kecleon (Ciudad Arborada)
 0x3CA	Descubierto Kecleon (Ruta 120, Puente)
 0x3D5	Descubierto Kecleon (Ruta 120, Puente)
