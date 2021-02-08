@@ -255,8 +255,10 @@ namespace PKHeX.Core
         {
             if (pkm.IsEgg) // unhatched
             {
-                if (EggLocation != pkm.Met_Location)
+                if (!EggEncounter)
                     return false;
+                if (EggLocation != pkm.Met_Location)
+                    return pkm.Met_Location == Locations.LinkTrade6 && pkm.Egg_Location == EggLocation;
                 return pkm.Egg_Location == 0;
             }
 
