@@ -29,7 +29,7 @@ namespace PKHeX.Core
         {
             Location = data[0];
             Time = (EncounterTime)data[1];
-            var type = Type = (SlotType)data[2];
+            var type = (Type = (SlotType)data[2]) & (SlotType)0xF;
             var rate = data[3];
 
             if (type > SlotType.Surf) // Not Grass/Surf
