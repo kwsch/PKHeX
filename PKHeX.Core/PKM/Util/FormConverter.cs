@@ -732,32 +732,6 @@ namespace PKHeX.Core
             return result;
         }
 
-        public static uint GetFormArgumentMax(int species, int form, int generation)
-        {
-            if (generation <= 5)
-                return 0;
-
-            return species switch
-            {
-                (int)Furfrou when form != 0 => 5,
-                (int)Hoopa when form == 1 => 3,
-                (int)Yamask when form == 1 => 9999,
-                (int)Runerigus when form == 0 => 9999,
-                (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
-                _ => 0,
-            };
-        }
-
-        public static bool IsFormArgumentTypeDatePair(int species, int form)
-        {
-            return species switch
-            {
-                (int)Furfrou when form != 0 => true,
-                (int)Hoopa when form == 1 => true,
-                _ => false,
-            };
-        }
-
         public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
 
         public static string[] GetFormArgumentStrings(int species) => species switch

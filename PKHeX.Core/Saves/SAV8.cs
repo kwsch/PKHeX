@@ -107,7 +107,7 @@ namespace PKHeX.Core
             DateTime Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
 
-            if (FormConverter.IsFormArgumentTypeDatePair(pk.Species, pk.Form))
+            if (FormArgumentUtil.IsFormArgumentTypeDatePair(pk.Species, pk.Form))
             {
                 pk.FormArgumentElapsed = pk.FormArgumentMaximum = 0;
                 pk.FormArgumentRemain = (byte)GetFormArgument(pkm);

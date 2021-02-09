@@ -17,7 +17,7 @@ namespace PKHeX.WinForms.Controls
         public void LoadArgument(IFormArgument f, int species, int form, int generation)
         {
             FieldsLoaded = false;
-            var max = FormConverter.GetFormArgumentMax(species, form, generation);
+            var max = FormArgumentUtil.GetFormArgumentMax(species, form, generation);
             if (max == 0)
             {
                 CurrentSpecies = species;
@@ -60,7 +60,7 @@ namespace PKHeX.WinForms.Controls
             CurrentForm = form;
             CurrentGeneration = generation;
 
-            if (FormConverter.IsFormArgumentTypeDatePair(species, form))
+            if (FormArgumentUtil.IsFormArgumentTypeDatePair(species, form))
                 CurrentValue = f.FormArgumentRemain;
             else
                 CurrentValue = f.FormArgument;

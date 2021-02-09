@@ -1,4 +1,5 @@
 ﻿using System;
+using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
 {
@@ -38,7 +39,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Logic for mutating an <see cref="IFormArgument"/> object.
     /// </summary>
-    public static class FormArgumentExtensions
+    public static class FormArgumentUtil
     {
         /// <summary>
         /// Sets the suggested Form Argument to the <see cref="pkm"/>.
@@ -47,12 +48,12 @@ namespace PKHeX.Core
         {
             if (pkm is not IFormArgument)
                 return;
-            if (!FormConverter.IsFormArgumentTypeDatePair(pkm.Species, pkm.Form))
+            if (!IsFormArgumentTypeDatePair(pkm.Species, pkm.Form))
             {
                 pkm.ChangeFormArgument(0);
                 return;
             }
-            var max = FormConverter.GetFormArgumentMax(pkm.Species, pkm.Form, pkm.Format);
+            var max = GetFormArgumentMax(pkm.Species, pkm.Form, pkm.Format);
             pkm.ChangeFormArgument(max);
         }
 
@@ -76,13 +77,13 @@ namespace PKHeX.Core
         /// <param name="value">Value to apply</param>
         public static void ChangeFormArgument(this IFormArgument f, int species, int form, int generation, uint value)
         {
-            if (!FormConverter.IsFormArgumentTypeDatePair(species, form))
+            if (!IsFormArgumentTypeDatePair(species, form))
             {
                 f.FormArgument = value;
                 return;
             }
 
-            var max = FormConverter.GetFormArgumentMax(species, form, generation);
+            var max = GetFormArgumentMax(species, form, generation);
             f.FormArgumentRemain = (byte)value;
             if (value == max)
             {
@@ -94,6 +95,33 @@ namespace PKHeX.Core
             f.FormArgumentElapsed = elapsed;
             if (species == (int)Species.Furfrou)
                 f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
+        }
+
+
+        public static uint GetFormArgumentMax(int species, int form, int generation)
+        {
+            if (generation <= 5)
+                return 0;
+
+            return species switch
+            {
+                (int)Furfrou when form != 0 => 5,
+                (int)Hoopa when form == 1 => 3,
+                (int)Yamask when form == 1 => 9999,
+                (int)Runerigus when form == 0 => 9999,
+                (int)Alcremie => (uint)AlcremieDecoration.Ribbon,
+                _ => 0,
+            };
+        }
+
+        public static bool IsFormArgumentTypeDatePair(int species, int form)
+        {
+            return species switch
+            {
+                (int)Furfrou when form != 0 => true,
+                (int)Hoopa when form == 1 => true,
+                _ => false,
+            };
         }
     }
 }
