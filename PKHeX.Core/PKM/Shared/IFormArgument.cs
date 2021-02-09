@@ -44,13 +44,18 @@ namespace PKHeX.Core
         /// <summary>
         /// Sets the suggested Form Argument to the <see cref="pkm"/>.
         /// </summary>
-        public static void SetSuggestedFormArgument(this PKM pkm)
+        public static void SetSuggestedFormArgument(this PKM pkm, int originalSpecies = 0)
         {
             if (pkm is not IFormArgument)
                 return;
             if (!IsFormArgumentTypeDatePair(pkm.Species, pkm.Form))
             {
-                pkm.ChangeFormArgument(0);
+                var suggest = originalSpecies switch
+                {
+                    (int) Yamask when pkm.Species == (int) Runerigus => 49u,
+                    _ => 0u,
+                };
+                pkm.ChangeFormArgument(suggest);
                 return;
             }
             var max = GetFormArgumentMax(pkm.Species, pkm.Form, pkm.Format);
@@ -93,10 +98,9 @@ namespace PKHeX.Core
 
             byte elapsed = max < value ? 0 : (byte)(max - value);
             f.FormArgumentElapsed = elapsed;
-            if (species == (int)Species.Furfrou)
+            if (species == (int)Furfrou)
                 f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
         }
-
 
         public static uint GetFormArgumentMax(int species, int form, int generation)
         {
