@@ -259,7 +259,7 @@ namespace PKHeX.Core
 
             return (Species)pkm.Species switch
             {
-                Furfrou when pkm.Form != 0 => !IsFormArgumentDayCounterValid(f, 5) ? GetInvalid(LFormArgumentInvalid) :GetValid(LFormArgumentValid),
+                Furfrou when pkm.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(LFormArgumentInvalid) :GetValid(LFormArgumentValid),
                 Hoopa when pkm.Form == 1 => !IsFormArgumentDayCounterValid(f, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
                 Yamask when pkm.Form == 1 => arg switch
                 {
@@ -294,11 +294,23 @@ namespace PKHeX.Core
 
         private CheckResult VerifyFormArgumentNone(PKM pkm, IFormArgument f)
         {
-            if (f.FormArgument != 0)
-                return GetInvalid(LFormArgumentNotAllowed);
-
             if (pkm is not PK6 pk6)
+            {
+                if (f.FormArgument != 0)
+                {
+                    if (pkm.Species == (int)Furfrou && pkm.Form == 0 && (f.FormArgument & ~0xFF_00_00u) == 0)
+                        return GetValid(LFormArgumentValid);
+                    return GetInvalid(LFormArgumentNotAllowed);
+                }
                 return GetValid(LFormArgumentValid);
+            }
+
+            if (f.FormArgument != 0)
+            {
+                if (pkm.Species == (int)Furfrou && pkm.Form == 0 && (f.FormArgument & ~0xFFu) == 0)
+                    return GetValid(LFormArgumentValid);
+                return GetInvalid(LFormArgumentNotAllowed);
+            }
 
             // Stored separately from main form argument value
             if (pk6.FormArgumentRemain != 0)
