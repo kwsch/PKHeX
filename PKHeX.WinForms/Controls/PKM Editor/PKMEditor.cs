@@ -1016,7 +1016,8 @@ namespace PKHeX.WinForms.Controls
             if (Entity is not IFormArgument f)
                 return;
 
-            FA_Form.SaveArgument(f);
+            if (FieldsLoaded)
+                FA_Form.SaveArgument(f);
             FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
         }
 
