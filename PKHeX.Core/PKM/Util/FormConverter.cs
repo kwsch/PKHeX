@@ -765,27 +765,5 @@ namespace PKHeX.Core
             (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
             _ => EMPTY
         };
-
-        public static void ChangeFormArgument(IFormArgument f, int species, int form, int generation, uint value)
-        {
-            if (!IsFormArgumentTypeDatePair(species, form))
-            {
-                f.FormArgument = value;
-                return;
-            }
-
-            var max = GetFormArgumentMax(species, form, generation);
-            f.FormArgumentRemain = (byte)value;
-            if (value == max)
-            {
-                f.FormArgumentElapsed = f.FormArgumentMaximum = 0;
-                return;
-            }
-
-            byte elapsed = max < value ? 0 : (byte)(max - value);
-            f.FormArgumentElapsed = elapsed;
-            if (species == (int)Furfrou)
-                f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
-        }
     }
 }

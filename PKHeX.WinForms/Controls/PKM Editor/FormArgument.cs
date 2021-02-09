@@ -70,7 +70,7 @@ namespace PKHeX.WinForms.Controls
 
         public void SaveArgument(IFormArgument f)
         {
-            FormConverter.ChangeFormArgument(f, CurrentSpecies, CurrentForm, CurrentGeneration, CurrentValue);
+            f.ChangeFormArgument(CurrentSpecies, CurrentForm, CurrentGeneration, CurrentValue);
         }
 
         private uint CurrentValue
