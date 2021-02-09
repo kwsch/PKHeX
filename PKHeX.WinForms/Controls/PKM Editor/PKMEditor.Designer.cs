@@ -819,7 +819,6 @@
             // 
             // FA_Form
             // 
-            this.FA_Form.CurrentValue = ((uint)(4294967295u));
             this.FA_Form.Location = new System.Drawing.Point(90, 0);
             this.FA_Form.Margin = new System.Windows.Forms.Padding(0);
             this.FA_Form.Name = "FA_Form";

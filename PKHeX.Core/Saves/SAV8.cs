@@ -100,14 +100,33 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value) => BoxLayout[box] = value;
         public override byte[] GetDataForBox(PKM pkm) => pkm.EncryptedPartyData;
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             PK8 pk = (PK8)pkm;
             // Apply to this Save File
             DateTime Date = DateTime.Now;
             pk.Trade(this, Date.Day, Date.Month, Date.Year);
+
+            if (FormConverter.IsFormArgumentTypeDatePair(pk.Species, pk.Form))
+            {
+                pk.FormArgumentElapsed = pk.FormArgumentMaximum = 0;
+                pk.FormArgumentRemain = (byte)GetFormArgument(pkm);
+            }
+
             pkm.RefreshChecksum();
             AddCountAcquired(pkm);
+        }
+
+        private static uint GetFormArgument(PKM pkm)
+        {
+            if (pkm.Form == 0)
+                return 0;
+            return pkm.Species switch
+            {
+                (int)Species.Furfrou => 5u, // Furfrou
+                (int)Species.Hoopa => 3u, // Hoopa
+                _ => 0u
+            };
         }
 
         private void AddCountAcquired(PKM pkm)

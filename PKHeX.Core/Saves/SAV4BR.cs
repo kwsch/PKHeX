@@ -230,7 +230,7 @@ namespace PKHeX.Core
 
         protected override void SetDex(PKM pkm) { /* There's no PokéDex */ }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk4 = (BK4)pkm;
             // Apply to this Save File

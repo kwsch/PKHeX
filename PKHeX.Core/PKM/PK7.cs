@@ -226,6 +226,9 @@ namespace PKHeX.Core
         public bool Dist7 { get => (DistByte & (1 << 6)) == 1 << 6; set => DistByte = (byte)((DistByte & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)((DistByte & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public byte FormArgumentRemain { get => (byte)FormArgument; set => FormArgument = (FormArgument & ~0xFFu) | value; }
+        public byte FormArgumentElapsed { get => (byte)(FormArgument >> 8); set => FormArgument = (FormArgument & ~0xFF00u) | (uint)(value << 8); }
+        public byte FormArgumentMaximum { get => (byte)(FormArgument >> 16); set => FormArgument = (FormArgument & ~0xFF0000u) | (uint)(value << 16); }
         #endregion
         #region Block B
         public override string Nickname
@@ -633,6 +636,11 @@ namespace PKHeX.Core
                 StatNature = Nature,
                 // HeightScalar = 0,
                 // WeightScalar = 0,
+
+                // Copy Form Argument data for Furfrou and Hoopa, since we're nice.
+                FormArgumentRemain = FormArgumentRemain,
+                FormArgumentElapsed = FormArgumentElapsed,
+                FormArgumentMaximum = FormArgumentMaximum,
             };
 
             // Wipe Totem Forms

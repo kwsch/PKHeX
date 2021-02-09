@@ -170,7 +170,7 @@ namespace PKHeX.Core
         public override int BoxesUnlocked { get => BoxLayout.BoxesUnlocked; set => BoxLayout.BoxesUnlocked = value; }
         public override byte[] BoxFlags { get => BoxLayout.BoxFlags; set => BoxLayout.BoxFlags = value; }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             PK7 pk7 = (PK7)pkm;
             // Apply to this Save File
@@ -185,6 +185,10 @@ namespace PKHeX.Core
                 else if (pk7.HasMove(218)) // Frustration
                     pkm.CurrentFriendship = pk7.OppositeFriendship;
             }
+
+            pk7.FormArgumentElapsed = pk7.FormArgumentMaximum = 0;
+            pk7.FormArgumentRemain = (byte)GetFormArgument(pkm);
+
             pkm.RefreshChecksum();
             AddCountAcquired(pkm);
         }
@@ -196,12 +200,6 @@ namespace PKHeX.Core
                 Records.AddRecord(011); // trade
             if (!pkm.WasEgg)
                 Records.AddRecord(004); // wild encounters
-        }
-
-        protected override void SetPartyValues(PKM pkm, bool isParty)
-        {
-            base.SetPartyValues(pkm, isParty);
-            ((PK7)pkm).FormArgument = GetFormArgument(pkm);
         }
 
         private static uint GetFormArgument(PKM pkm)

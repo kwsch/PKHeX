@@ -357,7 +357,7 @@ namespace PKHeX.Core
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-            UpdatePKM(pkm, trade, dex);
+            UpdatePKM(pkm, isParty: true, trade, dex);
             SetPartyValues(pkm, isParty: true);
             WritePartySlot(pkm, data, offset);
         }
@@ -367,7 +367,7 @@ namespace PKHeX.Core
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-            UpdatePKM(pkm, trade, dex);
+            UpdatePKM(pkm, isParty: true, trade, dex);
             SetPartyValues(pkm, isParty: true);
             WritePartySlot(pkm, data, offset);
         }
@@ -377,7 +377,7 @@ namespace PKHeX.Core
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-            UpdatePKM(pkm, trade, dex);
+            UpdatePKM(pkm, isParty: false, trade, dex);
             SetPartyValues(pkm, isParty: false);
             WriteSlotFormatStored(pkm, data, offset);
         }
@@ -387,7 +387,7 @@ namespace PKHeX.Core
             if (pkm.GetType() != PKMType)
                 throw new ArgumentException($"PKM Format needs to be {PKMType} when setting to this Save File.");
 
-            UpdatePKM(pkm, trade, dex);
+            UpdatePKM(pkm, isParty: false, trade, dex);
             SetPartyValues(pkm, isParty: false);
             WriteBoxSlot(pkm, data, offset);
         }
@@ -453,16 +453,17 @@ namespace PKHeX.Core
         /// Conditions a <see cref="pkm"/> for this save file as if it was traded to it.
         /// </summary>
         /// <param name="pkm">Entity to adapt</param>
+        /// <param name="party">Entity exists in party format</param>
         /// <param name="trade">Setting on whether or not to adapt</param>
-        public void AdaptPKM(PKM pkm, PKMImportSetting trade = PKMImportSetting.UseDefault)
+        public void AdaptPKM(PKM pkm, bool party = true, PKMImportSetting trade = PKMImportSetting.UseDefault)
         {
             if (GetTradeUpdateSetting(trade))
-                SetPKM(pkm);
+                SetPKM(pkm, party);
         }
 
-        protected void UpdatePKM(PKM pkm, PKMImportSetting trade, PKMImportSetting dex)
+        protected void UpdatePKM(PKM pkm, bool isParty, PKMImportSetting trade, PKMImportSetting dex)
         {
-            AdaptPKM(pkm, trade);
+            AdaptPKM(pkm, isParty, trade);
             if (GetDexUpdateSetting(dex))
                 SetDex(pkm);
         }
@@ -481,7 +482,7 @@ namespace PKHeX.Core
             return trade == PKMImportSetting.Update;
         }
 
-        protected virtual void SetPKM(PKM pkm) { }
+        protected virtual void SetPKM(PKM pkm, bool isParty = false) { }
         protected virtual void SetDex(PKM pkm) { }
         #endregion
 

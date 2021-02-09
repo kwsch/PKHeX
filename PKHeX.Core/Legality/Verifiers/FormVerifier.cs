@@ -20,7 +20,7 @@ namespace PKHeX.Core
             data.AddLine(result);
 
             if (pkm is IFormArgument f)
-                data.AddLine(VerifyFormArgument(data, f.FormArgument));
+                data.AddLine(VerifyFormArgument(data, f));
         }
 
         private CheckResult VALID => GetValid(LFormValid);
@@ -247,15 +247,20 @@ namespace PKHeX.Core
             }
         }
 
-        private CheckResult VerifyFormArgument(LegalityAnalysis data, in uint arg)
+        private CheckResult VerifyFormArgument(LegalityAnalysis data, IFormArgument f)
         {
             var pkm = data.pkm;
             var enc = data.EncounterMatch;
+            var arg = f.FormArgument;
+
+            var unusedMask = pkm.Format == 6 ? 0xFFFF_FF00 : 0xFF00_0000;
+            if ((arg & unusedMask) != 0)
+                return GetInvalid(LFormArgumentHigh);
 
             return (Species)pkm.Species switch
             {
-                Furfrou when pkm.Form != 0 => !IsFormArgumentDayCounterValid(arg, 5) ? GetInvalid(LFormArgumentInvalid) :GetValid(LFormArgumentValid),
-                Hoopa when pkm.Form == 1 => !IsFormArgumentDayCounterValid(arg, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
+                Furfrou when pkm.Form != 0 => !IsFormArgumentDayCounterValid(f, 5) ? GetInvalid(LFormArgumentInvalid) :GetValid(LFormArgumentValid),
+                Hoopa when pkm.Form == 1 => !IsFormArgumentDayCounterValid(f, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
                 Yamask when pkm.Form == 1 => arg switch
                 {
                     not 0 when pkm.IsEgg => GetInvalid(LFormArgumentNotAllowed),
@@ -283,27 +288,45 @@ namespace PKHeX.Core
                     > (uint) AlcremieDecoration.Ribbon => GetInvalid(LFormArgumentHigh),
                     _ => GetValid(LFormArgumentValid)
                 },
-                _ => arg switch
-                {
-                    not 0 => GetInvalid(LFormArgumentNotAllowed),
-                    _ => GetValid(LFormArgumentValid)
-                },
+                _ => VerifyFormArgumentNone(pkm, f),
             };
         }
 
-        private static bool IsFormArgumentDayCounterValid(uint value, uint maxSeed, bool canRefresh = false)
+        private CheckResult VerifyFormArgumentNone(PKM pkm, IFormArgument f)
         {
-            // lowest byte is days remaining
-            // second lowest is days elapsed (lol)
-            var remain = value & 0xFF;
-            var elapsed = (value >> 8) & 0xFF;
+            if (f.FormArgument != 0)
+                return GetInvalid(LFormArgumentNotAllowed);
+
+            if (pkm is not PK6 pk6)
+                return GetValid(LFormArgumentValid);
+
+            // Stored separately from main form argument value
+            if (pk6.FormArgumentRemain != 0)
+                return GetInvalid(LFormArgumentNotAllowed);
+            if (pk6.FormArgumentElapsed != 0)
+                return GetInvalid(LFormArgumentNotAllowed);
+
+            return GetValid(LFormArgumentValid);
+        }
+
+        private static bool IsFormArgumentDayCounterValid(IFormArgument f, uint maxSeed, bool canRefresh = false)
+        {
+            var remain = f.FormArgumentRemain;
+            var elapsed = f.FormArgumentElapsed;
+            var maxElapsed = f.FormArgumentMaximum;
             if (canRefresh)
             {
+                if (maxElapsed < elapsed)
+                    return false;
+
                 if (remain + elapsed < maxSeed)
                     return false;
             }
             else
             {
+                if (maxElapsed != 0)
+                    return false;
+
                 if (remain + elapsed != maxSeed)
                     return false;
             }

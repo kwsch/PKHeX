@@ -302,7 +302,7 @@ namespace PKHeX.Core
             return data;
         }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             if (pkm is not CK3 pk)
                 return;

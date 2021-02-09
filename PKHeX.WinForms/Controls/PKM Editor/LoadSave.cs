@@ -187,7 +187,7 @@ namespace PKHeX.WinForms.Controls
             pk.HeldItem = WinFormsUtil.GetIndex(CB_HeldItem);
             pk.Form = (MT_Form.Enabled ? Convert.ToInt32(MT_Form.Text) : CB_Form.Enabled ? CB_Form.SelectedIndex : 0) & 0x1F;
             if (Entity is IFormArgument f)
-                f.FormArgument = FA_Form.CurrentValue;
+                FA_Form.SaveArgument(f);
             pk.CurrentFriendship = Util.ToInt32(TB_Friendship.Text);
         }
 

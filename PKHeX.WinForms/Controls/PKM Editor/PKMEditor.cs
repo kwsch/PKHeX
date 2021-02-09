@@ -1016,11 +1016,8 @@ namespace PKHeX.WinForms.Controls
             if (Entity is not IFormArgument f)
                 return;
 
-            var index = FA_Form.CurrentValue;
+            FA_Form.SaveArgument(f);
             FA_Form.LoadArgument(f, Entity.Species, Entity.Form, Entity.Format);
-            if (ChangingFields)
-                return;
-            FA_Form.CurrentValue = index;
         }
 
         private void UpdateHaXForm(object sender, EventArgs e)

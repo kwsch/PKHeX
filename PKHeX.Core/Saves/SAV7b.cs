@@ -82,7 +82,7 @@ namespace PKHeX.Core
 
         public bool FixPreWrite() => Blocks.Storage.CompressStorage();
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk = (PB7)pkm;
             // Apply to this Save File

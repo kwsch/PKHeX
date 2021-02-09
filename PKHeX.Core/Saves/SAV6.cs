@@ -101,7 +101,7 @@ namespace PKHeX.Core
             SetData(data, PCLayout + (LongStringLength * box));
         }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             PK6 pk6 = (PK6)pkm;
             // Apply to this Save File
@@ -116,6 +116,27 @@ namespace PKHeX.Core
                 else if (pk6.HasMove(218)) // Frustration
                     pkm.CurrentFriendship = pk6.OppositeFriendship;
             }
+
+            pk6.FormArgumentElapsed = pk6.FormArgumentMaximum = 0;
+            pk6.FormArgumentRemain = (byte)GetFormArgument(pkm, isParty);
+            if (!isParty && pkm.Form != 0)
+            {
+                switch (pkm.Species)
+                {
+                    case (int) Species.Furfrou:
+                        pkm.Form = 0;
+                        break;
+                    case (int) Species.Hoopa:
+                    {
+                        pkm.Form = 0;
+                        var hsf = Array.IndexOf(pkm.Moves, (int) Move.HyperspaceFury);
+                        if (hsf != -1)
+                            pkm.SetMove(hsf, (int) Move.HyperspaceHole);
+                        break;
+                    }
+                }
+            }
+
             pkm.RefreshChecksum();
             AddCountAcquired(pkm);
         }
@@ -127,12 +148,6 @@ namespace PKHeX.Core
                 Records.AddRecord(012); // trade
             if (!pkm.WasEgg)
                 Records.AddRecord(005); // wild encounters
-        }
-
-        protected override void SetPartyValues(PKM pkm, bool isParty)
-        {
-            base.SetPartyValues(pkm, isParty);
-            ((PK6)pkm).FormArgument = GetFormArgument(pkm, isParty);
         }
 
         private static uint GetFormArgument(PKM pkm, bool isParty)

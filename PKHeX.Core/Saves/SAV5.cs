@@ -104,7 +104,7 @@ namespace PKHeX.Core
             set => Data[BattleBoxOffset + 0x358] = value ? 1 : 0;
         }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk5 = (PK5)pkm;
             // Apply to this Save File

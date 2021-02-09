@@ -758,23 +758,6 @@ namespace PKHeX.Core
             };
         }
 
-        public static uint GetFormArgument(int species, int form, int generation, uint current)
-        {
-            var max = GetFormArgumentMax(species, form, generation);
-            var pair = IsFormArgumentTypeDatePair(species, form);
-            if (!pair)
-                return Math.Min(current, max);
-            return GetFormArgumentDatePairCombined(current, max);
-        }
-
-        public static uint GetFormArgumentDatePairCombined(uint current, uint max)
-        {
-            if (current > max)
-                current = max;
-            var elapsed = max - current;
-            return (uint)(((byte)elapsed << 8) | (byte)current);
-        }
-
         public static bool GetFormArgumentIsNamedIndex(int species) => species == (int)Alcremie;
 
         public static string[] GetFormArgumentStrings(int species) => species switch
@@ -782,5 +765,27 @@ namespace PKHeX.Core
             (int)Alcremie => Enum.GetNames(typeof(AlcremieDecoration)),
             _ => EMPTY
         };
+
+        public static void ChangeFormArgument(IFormArgument f, int species, int form, int generation, uint value)
+        {
+            if (!IsFormArgumentTypeDatePair(species, form))
+            {
+                f.FormArgument = value;
+                return;
+            }
+
+            var max = GetFormArgumentMax(species, form, generation);
+            f.FormArgumentRemain = (byte)value;
+            if (value == max)
+            {
+                f.FormArgumentElapsed = f.FormArgumentMaximum = 0;
+                return;
+            }
+
+            byte elapsed = max < value ? 0 : (byte)(max - value);
+            f.FormArgumentElapsed = elapsed;
+            if (species == (int)Furfrou)
+                f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);
+        }
     }
 }

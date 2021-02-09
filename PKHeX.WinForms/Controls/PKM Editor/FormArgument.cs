@@ -61,16 +61,21 @@ namespace PKHeX.WinForms.Controls
             CurrentGeneration = generation;
 
             if (FormConverter.IsFormArgumentTypeDatePair(species, form))
-                CurrentValue = f.FormArgument & 0xFF;
+                CurrentValue = f.FormArgumentRemain;
             else
                 CurrentValue = f.FormArgument;
 
             FieldsLoaded = true;
         }
 
-        public uint CurrentValue
+        public void SaveArgument(IFormArgument f)
         {
-            get => IsRawMode ? FormConverter.GetFormArgument(CurrentSpecies, CurrentForm, CurrentGeneration, (uint) NUD_FormArg.Value) : (uint) CB_FormArg.SelectedIndex;
+            FormConverter.ChangeFormArgument(f, CurrentSpecies, CurrentForm, CurrentGeneration, CurrentValue);
+        }
+
+        private uint CurrentValue
+        {
+            get => IsRawMode ?  (uint) NUD_FormArg.Value : (uint) CB_FormArg.SelectedIndex;
             set
             {
                 if (IsRawMode)
@@ -80,7 +85,6 @@ namespace PKHeX.WinForms.Controls
             }
         }
 
-        public void SaveArgument(IFormArgument f) => f.FormArgument = CurrentValue;
         public event EventHandler? ValueChanged;
 
         private void CB_FormArg_SelectedIndexChanged(object sender, EventArgs e)

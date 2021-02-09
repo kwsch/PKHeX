@@ -401,7 +401,7 @@ namespace PKHeX.Core
         protected override PKM GetPKM(byte[] data) => new PK4(data);
         protected override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray45(data);
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             var pk4 = (PK4)pkm;
             // Apply to this Save File

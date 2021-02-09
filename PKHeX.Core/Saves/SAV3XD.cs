@@ -285,7 +285,7 @@ namespace PKHeX.Core
             return pk;
         }
 
-        protected override void SetPKM(PKM pkm)
+        protected override void SetPKM(PKM pkm, bool isParty = false)
         {
             if (pkm is not XK3 pk)
                 return; // shouldn't ever hit

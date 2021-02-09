@@ -371,7 +371,7 @@ namespace PKHeX.Core
 
             DateTime moment = DateTime.Now;
 
-            PK5 pk5 = new(Data) // Convert away!
+            PK5 pk5 = new((byte[])Data.Clone()) // Convert away!
             {
                 OT_Friendship = 70,
                 // Apply new met date

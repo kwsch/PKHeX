@@ -216,6 +216,7 @@ namespace PKHeX.Core
         public bool Dist7 { get => (DistByte & (1 << 6)) == 1 << 6; set => DistByte = (byte)((DistByte & ~(1 << 6)) | (value ? 1 << 6 : 0)); }
         public bool Dist8 { get => (DistByte & (1 << 7)) == 1 << 7; set => DistByte = (byte)((DistByte & ~(1 << 7)) | (value ? 1 << 7 : 0)); }
         public uint FormArgument { get => BitConverter.ToUInt32(Data, 0x3C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x3C); }
+        public byte FormArgumentMaximum { get => (byte)FormArgument; set => FormArgument = value & 0xFFu; }
         #endregion
         #region Block B
         public override string Nickname { get => GetString(0x40, 24); set => SetString(value, 12).CopyTo(Data, 0x40); }
@@ -352,6 +353,8 @@ namespace PKHeX.Core
         #region Battle Stats
         public override int Status_Condition { get => BitConverter.ToInt32(Data, 0xE8); set => BitConverter.GetBytes(value).CopyTo(Data, 0xE8); }
         public override int Stat_Level { get => Data[0xEC]; set => Data[0xEC] = (byte)value; }
+        public byte FormArgumentRemain { get => Data[0xED]; set => Data[0xED] = value; }
+        public byte FormArgumentElapsed { get => Data[0xEE]; set => Data[0xEE] = value; }
         public override int Stat_HPCurrent { get => BitConverter.ToUInt16(Data, 0xF0); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF0); }
         public override int Stat_HPMax { get => BitConverter.ToUInt16(Data, 0xF2); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF2); }
         public override int Stat_ATK { get => BitConverter.ToUInt16(Data, 0xF4); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xF4); }
@@ -453,10 +456,13 @@ namespace PKHeX.Core
 
         public PK7 ConvertToPK7()
         {
-            PK7 pk7 = new(Data)
+            PK7 pk7 = new((byte[])Data.Clone())
             {
                 Markings = Markings, // Clears old Super Training Bag & Hits Remaining
                 Data = { [0x2A] = 0 }, // Clears old Marking Value
+                FormArgument = 0, // Clears old style Form Argument
+                DirtType = 0, // Clears old Form Argument byte
+                DirtLocation = 0, // Clears old Form Argument byte
             };
 
             var an = AbilityNumber;
@@ -478,6 +484,11 @@ namespace PKHeX.Core
             for (var i = 0xE4; i < 0xE8; i++) pk7.Data[i] = 0; /* Unused. */
             pk7.Data[0x72] &= 0xFC; /* Clear lower two bits of Super training flags. */
             pk7.Data[0xDE] = 0; /* Gen IV encounter type. */
+
+            // Copy Form Argument data for Furfrou and Hoopa, since we're nice.
+            pk7.FormArgumentRemain = FormArgumentRemain;
+            pk7.FormArgumentElapsed = FormArgumentElapsed;
+            pk7.FormArgumentMaximum = FormArgumentMaximum;
 
             pk7.HealPP();
             // Fix Checksum

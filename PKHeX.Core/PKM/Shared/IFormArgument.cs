@@ -16,5 +16,20 @@
         /// Argument for the associated <see cref="PKM.Form"/>
         /// </summary>
         uint FormArgument { get; set; }
+
+        /// <summary>
+        /// Amount of days the timed <see cref="PKM.Form"/> will remain active for.
+        /// </summary>
+        byte FormArgumentRemain { get; set; }
+
+        /// <summary>
+        /// Amount of days the timed <see cref="PKM.Form"/> has been active for.
+        /// </summary>
+        byte FormArgumentElapsed { get; set; }
+
+        /// <summary>
+        /// Maximum amount of days the <see cref="Species.Furfrou"/> has maintained a <see cref="PKM.Form"/> without reverting to its base form.
+        /// </summary>
+        byte FormArgumentMaximum { get; set; }
     }
 }
