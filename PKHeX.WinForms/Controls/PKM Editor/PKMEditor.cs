@@ -1199,6 +1199,7 @@ namespace PKHeX.WinForms.Controls
             if (!FieldsLoaded)
                 return;
 
+            PB_Origin.Image = GetOriginSprite(Entity);
             TID_Trainer.LoadIDValues(Entity);
             UpdateLegality();
         }
