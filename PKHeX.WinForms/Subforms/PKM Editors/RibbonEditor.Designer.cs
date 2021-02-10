@@ -38,6 +38,7 @@
             this.FLP_Ribbons = new System.Windows.Forms.FlowLayoutPanel();
             this.TLP_Ribbons = new System.Windows.Forms.TableLayoutPanel();
             this.tipName = new System.Windows.Forms.ToolTip(this.components);
+            this.CB_Affixed = new System.Windows.Forms.ComboBox();
             this.PAN_Container.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SPLIT_Ribbons)).BeginInit();
             this.SPLIT_Ribbons.Panel1.SuspendLayout();
@@ -151,11 +152,24 @@
             this.TLP_Ribbons.Size = new System.Drawing.Size(221, 227);
             this.TLP_Ribbons.TabIndex = 3;
             // 
+            // CB_Affixed
+            // 
+            this.CB_Affixed.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.CB_Affixed.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CB_Affixed.DropDownWidth = 200;
+            this.CB_Affixed.FormattingEnabled = true;
+            this.CB_Affixed.Location = new System.Drawing.Point(204, 250);
+            this.CB_Affixed.Name = "CB_Affixed";
+            this.CB_Affixed.Size = new System.Drawing.Size(112, 21);
+            this.CB_Affixed.TabIndex = 7;
+            // 
             // RibbonEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(524, 281);
+            this.Controls.Add(this.CB_Affixed);
             this.Controls.Add(this.PAN_Container);
             this.Controls.Add(this.B_None);
             this.Controls.Add(this.B_All);
@@ -186,5 +200,6 @@
         private System.Windows.Forms.FlowLayoutPanel FLP_Ribbons;
         private System.Windows.Forms.SplitContainer SPLIT_Ribbons;
         private System.Windows.Forms.ToolTip tipName;
+        private System.Windows.Forms.ComboBox CB_Affixed;
     }
 }
