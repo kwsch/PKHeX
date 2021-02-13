@@ -47,7 +47,7 @@ namespace PKHeX.Core
             Box = 0x22600;
             JPEG = 0x57200;
 
-            EventFlag = EventConst + 0x2FC;
+            EventFlag = EventConst + 0x2F0;
             WondercardData = WondercardFlags + 0x100;
 
             // Extra Viewable Slots

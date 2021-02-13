@@ -26,7 +26,7 @@ namespace PKHeX.Core
         public override int Generation => 6;
         protected override int GiftCountMax => 24;
         protected override int GiftFlagMax => 0x100 * 8;
-        protected override int EventFlagMax => 8 * 0x180;
+        protected override int EventFlagMax => 8 * 0x1A0;
         protected override int EventConstMax => (EventFlag - EventConst) / sizeof(ushort);
         public override int OTLength => 12;
         public override int NickLength => 12;

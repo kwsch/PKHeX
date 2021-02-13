@@ -52,7 +52,7 @@ namespace PKHeX.Core
             Box = 0x33000;
             JPEG = 0x67C00;
 
-            EventFlag = EventConst + 0x2FC;
+            EventFlag = EventConst + 0x2F0;
             WondercardData = WondercardFlags + 0x100;
             Daycare2 = DaycareOffset + 0x1F0;
         }

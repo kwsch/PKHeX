@@ -33,7 +33,7 @@ namespace PKHeX.Core
             Party            = 0x03E00;
             EventConst       = 0x04600;
 
-            EventFlag = EventConst + 0x2FC;
+            EventFlag = EventConst + 0x2F0;
         }
 
         public override GameVersion Version => Game switch
