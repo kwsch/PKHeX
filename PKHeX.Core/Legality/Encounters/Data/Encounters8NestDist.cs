@@ -713,6 +713,10 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 623, Ability = A4, Moves = new[]{ 089, 157, 523, 009 } }, // Golurk
             new(60,10,5) { Species = 195, Ability = A4, Moves = new[]{ 330, 157, 281, 034 } }, // Quagsire
             new(60,10,5) { Species = 876, Ability = A4, Moves = new[]{ 574, 129, 304, 000 }, Form = 1 }, // Indeedee-1
+
+            // 2/12 - Valentines
+            new(60,10,5) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, CanGigantamax = true, Shiny = Shiny.Always }, // Milcery
+          //new(60,10,5) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, CanGigantamax = true }, // Milcery
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
