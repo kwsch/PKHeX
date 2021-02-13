@@ -61,6 +61,15 @@ namespace PKHeX.Core
 
         private static readonly SaveHandlerGCI DolphinHandler = new();
 
+#if !EXCLUDE_HACKS
+        /// <summary>
+        /// Specialized readers for loading save files from non-standard games (e.g. hacks).
+        /// </summary>
+        // ReSharper disable once CollectionNeverUpdated.Global
+        public static readonly List<ISaveReader> CustomSaveReaders = new();
+#endif
+
+#if !EXCLUDE_EMULATOR_FORMATS
         /// <summary>
         /// Pre-formatters for loading save files from non-standard formats (e.g. emulators).
         /// </summary>
@@ -70,6 +79,7 @@ namespace PKHeX.Core
             new SaveHandlerDeSmuME(),
             new SaveHandlerARDS(),
         };
+#endif
 
         internal static readonly HashSet<int> SizesSWSH = new()
         {
@@ -487,7 +497,7 @@ namespace PKHeX.Core
         public static SaveFile? GetVariantSAV(string path)
         {
             var data = File.ReadAllBytes(path);
-            var sav = GetVariantSAV(data);
+            var sav = GetVariantSAV(data, path);
             if (sav == null)
                 return null;
             sav.Metadata.SetExtraInfo(path);
@@ -496,13 +506,27 @@ namespace PKHeX.Core
 
         /// <summary>Creates an instance of a SaveFile using the given save data.</summary>
         /// <param name="data">Save data from which to create a SaveFile.</param>
+        /// <param name="path">Optional save file path, may help initialize a non-standard save file format.</param>
         /// <returns>An appropriate type of save file for the given data, or null if the save data is invalid.</returns>
-        public static SaveFile? GetVariantSAV(byte[] data)
+        public static SaveFile? GetVariantSAV(byte[] data, string? path = null)
         {
+#if !EXCLUDE_HACKS
+            foreach (var h in CustomSaveReaders)
+            {
+                if (!h.IsRecognized(data.Length))
+                    continue;
+
+                var custom = h.ReadSaveFile(data, path);
+                if (custom != null)
+                    return custom;
+            }
+#endif
+
             var sav = GetVariantSAVInternal(data);
             if (sav != null)
                 return sav;
 
+#if !EXCLUDE_EMULATOR_FORMATS
             foreach (var h in Handlers)
             {
                 if (!h.IsRecognized(data.Length))
@@ -519,6 +543,7 @@ namespace PKHeX.Core
                 sav.Metadata.SetExtraInfo(split.Header, split.Footer);
                 return sav;
             }
+#endif
 
             // unrecognized.
             return null;
