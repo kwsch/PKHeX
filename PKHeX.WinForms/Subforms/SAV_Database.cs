@@ -111,7 +111,6 @@ namespace PKHeX.WinForms
         private readonly string Counter;
         private readonly string Viewed;
         private const int MAXFORMAT = PKX.Generation;
-        private readonly string EXTERNAL_SAV = new DirectoryInfo(Main.BackupPath).Name + Path.DirectorySeparatorChar;
         private readonly SummaryPreviewer ShowSet = new();
 
         // Important Events
@@ -319,7 +318,11 @@ namespace PKHeX.WinForms
 
         private void LoadDatabase()
         {
-            RawDB = LoadPKMSaves(DatabasePath, Main.BackupPath, EXTERNAL_SAV, SAV);
+            var otherPaths = new List<string>{Main.BackupPath};
+            if (File.Exists(Main.SAVPaths))
+                otherPaths.AddRange(File.ReadLines(Main.SAVPaths).Where(Directory.Exists));
+
+            RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths);
 
             // Load stats for pkm who do not have any
             foreach (var pk in RawDB.Where(z => z.Stat_Level == 0))
@@ -338,7 +341,7 @@ namespace PKHeX.WinForms
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
-        private static List<PKM> LoadPKMSaves(string pkmdb, string savdb, string EXTERNAL_SAV, SaveFile SAV)
+        private static List<PKM> LoadPKMSaves(string pkmdb, SaveFile SAV, IEnumerable<string> otherPaths)
         {
             var dbTemp = new ConcurrentBag<PKM>();
             var extensions = new HashSet<string>(PKM.Extensions.Select(z => $".{z}"));
@@ -346,8 +349,14 @@ namespace PKHeX.WinForms
             var files = Directory.EnumerateFiles(pkmdb, "*", SearchOption.AllDirectories);
             Parallel.ForEach(files, file => TryAddPKMsFromFolder(dbTemp, file, SAV, extensions));
 
-            if (SaveUtil.GetSavesFromFolder(savdb, false, out IEnumerable<string> result))
-                Parallel.ForEach(result, file => TryAddPKMsFromSaveFilePath(dbTemp, file, EXTERNAL_SAV));
+            foreach (var folder in otherPaths)
+            {
+                if (!SaveUtil.GetSavesFromFolder(folder, true, out IEnumerable<string> result))
+                    continue;
+
+                var prefix = Path.GetDirectoryName(folder) + Path.DirectorySeparatorChar;
+                Parallel.ForEach(result, file => TryAddPKMsFromSaveFilePath(dbTemp, file, prefix));
+            }
 
             // Fetch from save file
             var savpkm = SAV.BoxData.Where(pk => pk.Species != 0);
@@ -390,12 +399,35 @@ namespace PKHeX.WinForms
             if (sav.HasBox)
             {
                 foreach (var pk in sav.BoxData)
-                    addPKM(pk);
+                {
+                    if (pk.Species == 0)
+                        continue;
+
+                    pk.Identifier = Path.Combine(path, pk.Identifier ?? string.Empty);
+                    dbTemp.Add(pk);
+                }
             }
 
-            void addPKM(PKM pk)
+            if (sav.HasParty)
             {
-                pk.Identifier = Path.Combine(path, pk.Identifier ?? string.Empty);
+                foreach (var pk in sav.PartyData)
+                {
+                    if (pk.Species == 0)
+                        continue;
+
+                    pk.Identifier = Path.Combine(path, pk.Identifier ?? string.Empty);
+                    dbTemp.Add(pk);
+                }
+            }
+
+            var extra = sav.GetExtraSlots(true);
+            foreach (var x in extra)
+            {
+                var pk = x.Read(sav);
+                if (pk.Species == 0)
+                    continue;
+
+                pk.Identifier = Path.Combine(path, pk.Identifier ?? x.Type.ToString());
                 dbTemp.Add(pk);
             }
         }
