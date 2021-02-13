@@ -94,12 +94,10 @@ namespace PKHeX.Core
             FileName = GetFileName(path, BAKSuffix);
         }
 
-        private static string? GetFileName(string path, string bak)
+        private static string GetFileName(string path, string bak)
         {
             var bakName = Util.CleanFileName(bak);
             var fn = Path.GetFileName(path);
-            if (fn == null)
-                return null;
             return fn.EndsWith(bakName) ? fn.Substring(0, fn.Length - bakName.Length) : fn;
         }
 

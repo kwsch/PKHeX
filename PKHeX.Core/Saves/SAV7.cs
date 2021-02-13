@@ -93,14 +93,9 @@ namespace PKHeX.Core
             new byte[0x80].CopyTo(Data, AllBlocks[MemeCryptoBlock].Offset + 0x100);
         }
 
-        protected override void SetChecksums()
-        {
-            BoxLayout.SaveBattleTeams();
-            AllBlocks.SetChecksums(Data);
-        }
-
         protected override byte[] GetFinalData()
         {
+            BoxLayout.SaveBattleTeams();
             SetChecksums();
             var result = MemeCrypto.Resign7(Data);
             Debug.Assert(result != Data);
