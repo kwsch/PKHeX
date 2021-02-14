@@ -11,17 +11,17 @@ namespace PKHeX.Core
 {
     internal static class EncounterGenerator8
     {
-        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm)
+        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info)
         {
             var chain = EncounterOrigin.GetOriginChain(pkm);
             return pkm.Version switch
             {
                 (int)GameVersion.GO => EncounterGenerator7.GetEncountersGO(pkm, chain),
-                _ => GetEncountersMainline(pkm, chain)
+                _ => GetEncountersMainline(pkm, chain, info)
             };
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain)
+        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain, LegalInfo info)
         {
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
             int ctr = 0;
@@ -52,6 +52,9 @@ namespace PKHeX.Core
                     case PartialMatch: partial ??= z; break;
                 }
             }
+
+            bool slotFrame = Overworld8RNG.ValidateOverworldEncounter(pkm);
+            info.PIDIVMatches = slotFrame;
             // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm, chain))
             {
@@ -63,6 +66,7 @@ namespace PKHeX.Core
                     case PartialMatch: partial ??= z; break;
                 }
             }
+            info.PIDIVMatches = true;
 
             if (ctr != 0) yield break;
             foreach (var z in GetValidEncounterTrades(pkm, chain))
@@ -77,10 +81,19 @@ namespace PKHeX.Core
             }
 
             if (deferred != null)
+            {
+                if (deferred is EncounterSlot8)
+                    info.PIDIVMatches = slotFrame;
                 yield return deferred;
+                info.PIDIVMatches = true;
+            }
 
             if (partial != null)
+            {
+                if (deferred is EncounterSlot8)
+                    info.PIDIVMatches = slotFrame;
                 yield return partial;
+            }
         }
     }
 }

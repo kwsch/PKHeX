@@ -54,14 +54,14 @@
         }
 
         private const int NoMatchIVs = -1;
+        private const int UNSET = -1;
 
         private static int GetIsMatchEnd(PKM pk, Xoroshiro128Plus xoro, int start = 0, int end = 3)
         {
             for (int iv_count = start; iv_count <= end; iv_count++)
             {
                 var copy = xoro;
-                int[] ivs = {31, 31, 31, 31, 31, 31};
-                const int UNSET = -1;
+                int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
                 const int MAX = 31;
                 for (int i = 0; i < iv_count; i++)
                 {
@@ -69,6 +69,9 @@
                     do { index = (int)copy.NextInt(6); } while (ivs[index] != UNSET);
                     ivs[index] = MAX;
                 }
+
+                if (!IsValidSequence(pk, ivs, ref copy))
+                    continue;
 
                 if (pk is not IScaledSize s)
                     continue;
@@ -82,6 +85,29 @@
                 return iv_count;
             }
             return NoMatchIVs;
+        }
+
+        private static bool IsValidSequence(PKM pk, int[] template, ref Xoroshiro128Plus rng)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                if (template[i] != UNSET)
+                    continue;
+                var expect = (int) rng.NextInt(32);
+                var actual = i switch
+                {
+                    0 => pk.IV_HP,
+                    1 => pk.IV_ATK,
+                    2 => pk.IV_DEF,
+                    3 => pk.IV_SPA,
+                    4 => pk.IV_SPD,
+                    _ => pk.IV_SPE,
+                };
+                if (expect != actual)
+                    return false;
+            }
+
+            return true;
         }
 
         private static uint GetShinyPID(int tid, int sid, uint pid, int type)
