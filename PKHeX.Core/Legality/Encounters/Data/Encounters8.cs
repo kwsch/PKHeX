@@ -681,7 +681,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 036, Level = 63, Location = 210, Weather = Heavy_Fog }, // Clefable in the Giant’s Bed
             new(SWSH) { Species = 340, Level = 65, Location = 210, Weather = All_CT }, // Whiscash in the Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 130, Level = 67, Locations = new[] {210, 230}, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy }, // Gyarados in the Giant’s Bed, Ballimere Lake
-            new(SWSH) { Species = 350, Level = 67, Location = 210, Weather = Heavy_Fog }, // Milotic in the Giant’s Bed
+            new EncounterStatic8S(SWSH) { Species = 350, Level = 67, Locations = new[] {210, 230}, Weather = Heavy_Fog }, // Milotic in the Giant’s Bed, Ballimere Lake
             new EncounterStatic8S(SWSH) { Species = 855, Level = 63, Locations = new[] {210, 212}, Weather = Normal | Stormy | Intense_Sun | Snowstorm  | Heavy_Fog }, // Polteageist in the Giant’s Bed, Old Cemetery
             new EncounterStatic8S(SWSH) { Species = 887, Level = 65, Locations = new[] {210, 212}, Weather = Normal | Overcast | Stormy | Intense_Sun | Snowing }, // Dragapult in the Giant’s Bed, Old Cemetery
             new(SWSH) { Species = 872, Level = 62, Location = 214, Weather = Normal | Overcast }, // Snom on Snowslide Slope
