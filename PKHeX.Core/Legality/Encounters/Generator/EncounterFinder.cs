@@ -15,19 +15,22 @@ namespace PKHeX.Core
         /// The iterator lazily finds matching encounters, then verifies secondary checks to weed out any nonexact matches.
         /// </remarks>
         /// <param name="pkm">Source data to find a match for</param>
+        /// <param name="info">Object to store matched encounter info</param>
         /// <returns>
         /// Information containing the matched encounter and any parsed checks.
         /// If no clean match is found, the last checked match is returned.
         /// If no match is found, an invalid encounter object is returned.
         /// </returns>
-        public static LegalInfo FindVerifiedEncounter(PKM pkm)
+        public static void FindVerifiedEncounter(PKM pkm, LegalInfo info)
         {
-            var info = new LegalInfo(pkm);
             var encounters = EncounterGenerator.GetEncounters(pkm, info);
 
             using var encounter = new PeekEnumerator<IEncounterable>(encounters);
             if (!encounter.PeekIsNext())
-                return VerifyWithoutEncounter(pkm, info);
+            {
+                VerifyWithoutEncounter(pkm, info);
+                return;
+            }
 
             var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(pkm);
             while (encounter.MoveNext())
@@ -63,8 +66,6 @@ namespace PKHeX.Core
                 info.Parse.Add(new CheckResult(ParseSettings.RNGFrameNotFound, LEncConditionBadRNGFrame, CheckIdentifier.PID)); // todo for further confirmation
             if (!info.PIDIVMatches) // if false, all valid PIDIV matches have already been consumed
                 info.Parse.Add(new CheckResult(Severity.Invalid, LPIDTypeMismatch, CheckIdentifier.PID));
-
-            return info;
         }
 
         /// <summary>

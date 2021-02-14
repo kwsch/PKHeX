@@ -111,11 +111,12 @@ namespace PKHeX.Core
             if (pkm.Format <= 2) // prior to storing GameVersion
                 pkm.TradebackStatus = GBRestrictions.GetTradebackStatusInitial(pkm);
 
+            Info = new LegalInfo(pkm);
 #if SUPPRESS
             try
 #endif
             {
-                Info = EncounterFinder.FindVerifiedEncounter(pkm);
+                EncounterFinder.FindVerifiedEncounter(pkm, Info);
                 if (!pkm.IsOriginValid)
                     AddLine(Severity.Invalid, LEncConditionBadSpecies, CheckIdentifier.GameOrigin);
                 GetParseMethod()();
@@ -141,7 +142,6 @@ namespace PKHeX.Core
 #pragma warning restore CA1031 // Do not catch general exception types
             {
                 System.Diagnostics.Debug.WriteLine(e.Message);
-                Info = new LegalInfo(pkm);
                 Valid = false;
                 AddLine(Severity.Invalid, L_AError, CheckIdentifier.Misc);
             }
@@ -396,7 +396,7 @@ namespace PKHeX.Core
             if (rl != lines.Count) // move info added, break for next section
                 lines.Add(br[1]);
 
-            var outputLines = Parse.Where(chk => chk?.Valid == true && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
+            var outputLines = Parse.Where(chk => chk.Valid && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
             lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
 
             lines.AddRange(br);
