@@ -69,8 +69,14 @@ namespace PKHeX.Core
                 if (!EncountersHOME.IsValidDateWC8(w.Species, date))
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
-            else if (data.EncounterMatch is IOverworldCorrelation8 { HasOverworldCorrelation: true } z && !z.IsOverworldCorrelationCorrect(pkm))
-                data.AddLine(GetInvalid(LPIDTypeMismatch));
+            else if (data.EncounterMatch is IOverworldCorrelation8 z && z.HasOverworldCorrelation(pkm))
+            {
+                var match = z.IsOverworldCorrelationCorrect(pkm);
+                var result = match
+                    ? new CheckResult(Severity.Valid, "Generation 8 correlation is correct!", PID)
+                    : GetInvalid(LPIDTypeMismatch);
+                data.AddLine(result);
+            }
 
             VerifyMiscFatefulEncounter(data);
         }

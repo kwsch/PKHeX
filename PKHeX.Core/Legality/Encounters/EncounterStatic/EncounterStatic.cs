@@ -295,7 +295,7 @@ namespace PKHeX.Core
             return pkm.Met_Level == Level;
         }
 
-        public EncounterMatchRating GetMatchRating(PKM pkm)
+        public virtual EncounterMatchRating GetMatchRating(PKM pkm)
         {
             if (IsMatchPartial(pkm))
                 return EncounterMatchRating.PartialMatch;

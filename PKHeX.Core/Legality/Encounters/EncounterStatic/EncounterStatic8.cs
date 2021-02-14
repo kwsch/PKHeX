@@ -40,7 +40,7 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
-            if (!HasOverworldCorrelation)
+            if (!IsOverworldCorrelation)
                 pk.SetRandomEC();
         }
 
@@ -48,13 +48,13 @@ namespace PKHeX.Core
         {
             // be lazy and just do the regular, and overwrite with correlation if required
             base.SetPINGA(pk, criteria);
-            if (!HasOverworldCorrelation)
+            if (!HasOverworldCorrelation(pk))
                 return;
             var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
             Overworld8RNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
         }
 
-        public bool HasOverworldCorrelation
+        public bool IsOverworldCorrelation
         {
             get
             {
@@ -66,15 +66,25 @@ namespace PKHeX.Core
             }
         }
 
+        public bool HasOverworldCorrelation(PKM pk) => IsOverworldCorrelation;
+
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
             return Overworld8RNG.ValidateOverworldEncounter(pk, Shiny == Shiny.Random ? Shiny.FixedValue : Shiny, FlawlessIVCount);
+        }
+
+        public override EncounterMatchRating GetMatchRating(PKM pkm)
+        {
+            if (HasOverworldCorrelation(pkm) && !IsOverworldCorrelationCorrect(pkm))
+                return EncounterMatchRating.Deferred;
+            return base.GetMatchRating(pkm);
         }
     }
 
     public interface IOverworldCorrelation8
     {
-        bool HasOverworldCorrelation { get; }
+        bool IsOverworldCorrelation { get; }
+        bool HasOverworldCorrelation(PKM pk);
         bool IsOverworldCorrelationCorrect(PKM pk);
     }
 }

@@ -45,8 +45,6 @@ namespace PKHeX.Core
             foreach (var z in GetValidStaticEncounter(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
-                if (z is IOverworldCorrelation8 {HasOverworldCorrelation:true} s && !s.IsOverworldCorrelationCorrect(pkm))
-                    match = Deferred;
                 switch (match)
                 {
                     case Match: yield return z; ++ctr; break;
@@ -59,9 +57,6 @@ namespace PKHeX.Core
             foreach (var z in GetValidWildEncounters(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
-                var slot = (EncounterSlot8)z;
-                if (slot.HasOverworldCorrelation && !slot.IsOverworldCorrelationCorrect(pkm))
-                    match = Deferred;
                 switch (match)
                 {
                     case Match: yield return z; ++ctr; break;
