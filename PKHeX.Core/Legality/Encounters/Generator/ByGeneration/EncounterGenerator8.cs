@@ -11,17 +11,17 @@ namespace PKHeX.Core
 {
     internal static class EncounterGenerator8
     {
-        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm, LegalInfo info)
+        public static IEnumerable<IEncounterable> GetEncounters(PKM pkm)
         {
             var chain = EncounterOrigin.GetOriginChain(pkm);
             return pkm.Version switch
             {
                 (int)GameVersion.GO => EncounterGenerator7.GetEncountersGO(pkm, chain),
-                _ => GetEncountersMainline(pkm, chain, info)
+                _ => GetEncountersMainline(pkm, chain)
             };
         }
 
-        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain, LegalInfo info)
+        private static IEnumerable<IEncounterable> GetEncountersMainline(PKM pkm, IReadOnlyList<EvoCriteria> chain)
         {
             // Static Encounters can collide with wild encounters (close match); don't break if a Static Encounter is yielded.
             int ctr = 0;
@@ -45,6 +45,8 @@ namespace PKHeX.Core
             foreach (var z in GetValidStaticEncounter(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
+                if (z is IOverworldCorrelation8 {HasOverworldCorrelation:true} s && !s.IsOverworldCorrelationCorrect(pkm))
+                    match = Deferred;
                 switch (match)
                 {
                     case Match: yield return z; ++ctr; break;
@@ -53,12 +55,13 @@ namespace PKHeX.Core
                 }
             }
 
-            bool slotFrame = Overworld8RNG.ValidateOverworldEncounter(pkm);
-            info.PIDIVMatches = slotFrame;
             // if (ctr != 0) yield break;
             foreach (var z in GetValidWildEncounters(pkm, chain))
             {
                 var match = z.GetMatchRating(pkm);
+                var slot = (EncounterSlot8)z;
+                if (slot.HasOverworldCorrelation && !slot.IsOverworldCorrelationCorrect(pkm))
+                    match = Deferred;
                 switch (match)
                 {
                     case Match: yield return z; ++ctr; break;
@@ -66,7 +69,6 @@ namespace PKHeX.Core
                     case PartialMatch: partial ??= z; break;
                 }
             }
-            info.PIDIVMatches = true;
 
             if (ctr != 0) yield break;
             foreach (var z in GetValidEncounterTrades(pkm, chain))
@@ -81,19 +83,10 @@ namespace PKHeX.Core
             }
 
             if (deferred != null)
-            {
-                if (deferred is EncounterSlot8)
-                    info.PIDIVMatches = slotFrame;
                 yield return deferred;
-                info.PIDIVMatches = true;
-            }
 
             if (partial != null)
-            {
-                if (deferred is EncounterSlot8)
-                    info.PIDIVMatches = slotFrame;
                 yield return partial;
-            }
         }
     }
 }

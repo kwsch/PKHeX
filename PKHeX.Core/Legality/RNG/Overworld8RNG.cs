@@ -2,13 +2,13 @@
 {
     public static class Overworld8RNG
     {
-        public static bool ValidateOverworldEncounter(PKM pk, Shiny shiny = Shiny.FixedValue, int flawless = 0)
+        public static bool ValidateOverworldEncounter(PKM pk, Shiny shiny = Shiny.FixedValue, int flawless = -1)
         {
             var seed = GetOriginalSeed(pk);
             return ValidateOverworldEncounter(pk, seed, shiny, flawless);
         }
 
-        public static bool ValidateOverworldEncounter(PKM pk, uint seed, Shiny shiny = Shiny.FixedValue, int flawless = 0)
+        public static bool ValidateOverworldEncounter(PKM pk, uint seed, Shiny shiny = Shiny.FixedValue, int flawless = -1)
         {
             // is the seed Xoroshiro determined, or just truncated state?
             if (seed == uint.MaxValue)
@@ -23,7 +23,7 @@
             if (!IsPIDValid(pk, pid, shiny))
                 return false;
 
-            var actualCount = flawless == 0 ? GetIsMatchEnd(pk, xoro) : GetIsMatchEnd(pk, xoro, flawless, flawless);
+            var actualCount = flawless == -1 ? GetIsMatchEnd(pk, xoro) : GetIsMatchEnd(pk, xoro, flawless, flawless);
             return actualCount != NoMatchIVs;
         }
 
@@ -58,8 +58,12 @@
 
         private static int GetIsMatchEnd(PKM pk, Xoroshiro128Plus xoro, int start = 0, int end = 3)
         {
+            bool skip1 = start == 0 && end == 3;
             for (int iv_count = start; iv_count <= end; iv_count++)
             {
+                if (skip1 && iv_count == 1)
+                    continue;
+
                 var copy = xoro;
                 int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
                 const int MAX = 31;

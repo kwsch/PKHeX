@@ -27,7 +27,7 @@ namespace PKHeX.Core
             5 => EncounterGenerator5.GetEncounters(pkm),
             6 => EncounterGenerator6.GetEncounters(pkm),
             7 => EncounterGenerator7.GetEncounters(pkm),
-            8 => EncounterGenerator8.GetEncounters(pkm, info),
+            8 => EncounterGenerator8.GetEncounters(pkm),
             _ => Array.Empty<IEncounterable>(),
         };
     }

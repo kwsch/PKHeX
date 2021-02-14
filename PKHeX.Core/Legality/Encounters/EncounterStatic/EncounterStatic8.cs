@@ -7,7 +7,7 @@ namespace PKHeX.Core
     /// Generation 8 Static Encounter
     /// </summary>
     /// <inheritdoc cref="EncounterStatic"/>
-    public record EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn
+    public record EncounterStatic8 : EncounterStatic, IDynamaxLevel, IGigantamax, IRelearn, IOverworldCorrelation8
     {
         public sealed override int Generation => 8;
         public bool ScriptedNoMarks { get; init; }
@@ -36,5 +36,28 @@ namespace PKHeX.Core
                 return false;
             return base.IsMatchExact(pkm, evo);
         }
+
+        public bool HasOverworldCorrelation
+        {
+            get
+            {
+                if (Gift)
+                    return false; // gifts can have any 128bit seed from overworld
+                if (ScriptedNoMarks)
+                    return false;  // scripted encounters don't act as saved spawned overworld encounters
+                return true;
+            }
+        }
+
+        public bool IsOverworldCorrelationCorrect(PKM pk)
+        {
+            return Overworld8RNG.ValidateOverworldEncounter(pk, Shiny == Shiny.Random ? Shiny.FixedValue : Shiny, FlawlessIVCount);
+        }
+    }
+
+    public interface IOverworldCorrelation8
+    {
+        bool HasOverworldCorrelation { get; }
+        bool IsOverworldCorrelationCorrect(PKM pk);
     }
 }

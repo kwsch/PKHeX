@@ -69,6 +69,8 @@ namespace PKHeX.Core
                 if (!EncountersHOME.IsValidDateWC8(w.Species, date))
                     data.AddLine(GetInvalid(LDateOutsideDistributionWindow));
             }
+            else if (data.EncounterMatch is IOverworldCorrelation8 { HasOverworldCorrelation: true } z && !z.IsOverworldCorrelationCorrect(pkm))
+                data.AddLine(GetInvalid(LPIDTypeMismatch));
 
             VerifyMiscFatefulEncounter(data);
         }
