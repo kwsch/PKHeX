@@ -107,10 +107,10 @@ namespace PKHeX.Core
             new(SWSH) { Species = 890, Level = 60, Location = 66, ScriptedNoMarks = true, Moves = new[] {440,406,053,744}, Shiny = Never, Ability = 1, FlawlessIVCount = 3 }, // Eternatus-1 (reverts to form 0)
 
             // Motostoke Stadium Static Encounters
-            new(SWSH) { Species = 037, Level = 24, Location = 24 }, // Vulpix at Motostoke Stadium
-          //new(  SH) { Species = 058, Level = 24, Location = 24 }, // Growlithe at Motostoke Stadium (both versions have Vulpix)
-            new(SWSH) { Species = 607, Level = 25, Location = 24 }, // Litwick at Motostoke Stadium
-            new(SWSH) { Species = 850, Level = 25, Location = 24, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
+            new(SWSH) { Species = 037, Level = 24, Location = 24, ScriptedNoMarks = true }, // Vulpix at Motostoke Stadium
+          //new(  SH) { Species = 058, Level = 24, Location = 24, ScriptedNoMarks = true }, // Growlithe at Motostoke Stadium (both versions have Vulpix)
+            new(SWSH) { Species = 607, Level = 25, Location = 24, ScriptedNoMarks = true }, // Litwick at Motostoke Stadium
+            new(SWSH) { Species = 850, Level = 25, Location = 24, ScriptedNoMarks = true, FlawlessIVCount = 3 }, // Sizzlipede at Motostoke Stadium
 
             new(SWSH) { Species = 618, Level = 25, Location = 054, Moves = new[] {389,319,279,341}, Form = 01, Ability = 1 }, // Stunfisk in Galar Mine No. 2
             new(SWSH) { Species = 618, Level = 48, Location = 008, Moves = new[] {779,330,340,334}, Form = 01 }, // Stunfisk in the Slumbering Weald
@@ -680,7 +680,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 700, Level = 63, Location = 210, Weather = Heavy_Fog }, // Sylveon in the Giant’s Bed
             new(SWSH) { Species = 036, Level = 63, Location = 210, Weather = Heavy_Fog }, // Clefable in the Giant’s Bed
             new(SWSH) { Species = 340, Level = 65, Location = 210, Weather = All_CT }, // Whiscash in the Giant’s Bed
-            new(SWSH) { Species = 130, Level = 67, Location = 210, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy }, // Gyarados in the Giant’s Bed
+            new EncounterStatic8S(SWSH) { Species = 130, Level = 67, Locations = new[] {210, 230}, Weather = Normal | Overcast | Stormy | Intense_Sun | Icy }, // Gyarados in the Giant’s Bed, Ballimere Lake
             new(SWSH) { Species = 350, Level = 67, Location = 210, Weather = Heavy_Fog }, // Milotic in the Giant’s Bed
             new EncounterStatic8S(SWSH) { Species = 855, Level = 63, Locations = new[] {210, 212}, Weather = Normal | Stormy | Intense_Sun | Snowstorm  | Heavy_Fog }, // Polteageist in the Giant’s Bed, Old Cemetery
             new EncounterStatic8S(SWSH) { Species = 887, Level = 65, Locations = new[] {210, 212}, Weather = Normal | Overcast | Stormy | Intense_Sun | Snowing }, // Dragapult in the Giant’s Bed, Old Cemetery
