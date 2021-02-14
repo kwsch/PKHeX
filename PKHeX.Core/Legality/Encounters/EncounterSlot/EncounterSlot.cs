@@ -117,7 +117,6 @@ namespace PKHeX.Core
                 return;
 
             sav.ApplyHandlingTrainerInfo(pk);
-            pk.SetRandomEC();
         }
 
         protected virtual void SetEncounterMoves(PKM pk, GameVersion version, int level)

@@ -40,6 +40,7 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             if (Species == (int)Core.Species.Magearna && pk is IRibbonSetEvent4 e4)
                 e4.RibbonWishing = true;
+            pk.SetRandomEC();
         }
 
         internal static EncounterStatic7 GetVC1(int species, int metLevel)

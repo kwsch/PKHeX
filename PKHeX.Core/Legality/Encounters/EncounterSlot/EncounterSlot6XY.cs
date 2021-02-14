@@ -17,6 +17,7 @@ namespace PKHeX.Core
         {
             var pk6 = (PK6)pk;
             pk6.SetRandomMemory6();
+            pk6.SetRandomEC();
         }
 
         public override string GetConditionString(out bool valid)

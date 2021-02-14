@@ -11,5 +11,11 @@ namespace PKHeX.Core
         public EncounterSlot7b(EncounterArea7b area, int species, int min, int max) : base(area, species, 0, min, max)
         {
         }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            base.SetPINGA(pk, criteria);
+            pk.SetRandomEC();
+        }
     }
 }

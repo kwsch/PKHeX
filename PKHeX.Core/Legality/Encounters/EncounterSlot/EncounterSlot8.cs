@@ -15,6 +15,22 @@ namespace PKHeX.Core
             Weather = weather;
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (!HasOverworldCorrelation)
+                pk.SetRandomEC();
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            // be lazy and just do the regular, and overwrite with correlation if required
+            base.SetPINGA(pk, criteria);
+            if (!HasOverworldCorrelation)
+                return;
+            Overworld8RNG.ApplyDetails(pk, criteria);
+        }
+
         public bool HasOverworldCorrelation
         {
             get

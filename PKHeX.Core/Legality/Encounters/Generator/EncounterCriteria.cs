@@ -37,7 +37,7 @@
             {
                 if (requestedIV >= 30 && generation >= 6) // hyper training possible
                     return true;
-                return encounterIV == RandomIV || requestedIV == encounterIV;
+                return encounterIV == RandomIV || requestedIV == RandomIV || requestedIV == encounterIV;
             }
 
             return true;

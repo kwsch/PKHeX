@@ -12,6 +12,12 @@ namespace PKHeX.Core
         {
         }
 
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            base.SetPINGA(pk, criteria);
+            pk.SetRandomEC();
+        }
+
         protected override HiddenAbilityPermission IsHiddenAbilitySlot() => Area.Type == SlotType.SOS ? HiddenAbilityPermission.Possible : HiddenAbilityPermission.Never;
     }
 }

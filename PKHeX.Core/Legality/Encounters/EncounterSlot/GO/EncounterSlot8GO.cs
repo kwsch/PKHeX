@@ -40,6 +40,7 @@ namespace PKHeX.Core
             if (ball != Ball.None)
                 pk.Ball = (int)ball;
 
+            pk8.SetRandomEC();
             pk8.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pk8.WeightScalar = PokeSizeUtil.GetRandomScalar();
         }

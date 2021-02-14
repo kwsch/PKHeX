@@ -75,6 +75,13 @@ namespace PKHeX.Core
             return base.IsMatchPartial(pkm);
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (GenerateData == null)
+                pk.SetRandomEC();
+        }
+
         protected sealed override void SetPINGA(PKM pk, EncounterCriteria criteria)
         {
             if (GenerateData != null)

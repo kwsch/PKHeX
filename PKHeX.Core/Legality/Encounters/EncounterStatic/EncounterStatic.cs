@@ -95,7 +95,6 @@ namespace PKHeX.Core
                 pk.SetRelearnMoves(relearn.Relearn);
 
             sav.ApplyHandlingTrainerInfo(pk);
-            pk.SetRandomEC();
 
             if (this is IGigantamax g && pk is IGigantamax pg)
                 pg.CanGigantamax = g.CanGigantamax;

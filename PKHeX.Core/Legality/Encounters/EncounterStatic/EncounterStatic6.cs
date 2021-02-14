@@ -36,6 +36,7 @@
             var pk6 = (PK6)pk;
             this.CopyContestStatsTo(pk6);
             pk6.SetRandomMemory6();
+            pk6.SetRandomEC();
         }
     }
 }

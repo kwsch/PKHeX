@@ -28,6 +28,7 @@ namespace PKHeX.Core
                     pk6.RelearnMove1 = eggMoves[Util.Rand.Next(eggMoves.Length)];
             }
             pk6.SetRandomMemory6();
+            pk6.SetRandomEC();
         }
 
         public override string GetConditionString(out bool valid)

@@ -18,6 +18,7 @@ namespace PKHeX.Core
             base.ApplyDetails(sav, criteria, pk);
             var pb = (PB7) pk;
             pb.AwakeningSetAllTo(2);
+            pk.SetRandomEC();
             pb.HeightScalar = PokeSizeUtil.GetRandomScalar();
             pb.WeightScalar = PokeSizeUtil.GetRandomScalar();
         }

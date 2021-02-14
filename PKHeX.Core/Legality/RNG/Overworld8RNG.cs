@@ -2,6 +2,81 @@
 {
     public static class Overworld8RNG
     {
+        public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)
+        {
+            if (shiny == Shiny.FixedValue)
+                shiny = criteria.Shiny == Shiny.Random ? Shiny.Never : Shiny.Always;
+            if (flawless == -1)
+                flawless = 0;
+
+            int ctr = 0;
+            const int maxAttempts = 10_000;
+            do
+            {
+                var seed = Util.Rand32();
+                if (TryApplyFromSeed(pk, criteria, shiny, flawless, seed))
+                    return;
+            } while (++ctr != maxAttempts);
+        }
+
+        private static bool TryApplyFromSeed(PKM pk, EncounterCriteria criteria, Shiny shiny, int flawless, uint seed)
+        {
+            var xoro = new Xoroshiro128Plus(seed);
+
+            // Encryption Constant
+            pk.EncryptionConstant = (uint) xoro.NextInt(uint.MaxValue);
+
+            // PID
+            var pid = (uint) xoro.NextInt(uint.MaxValue);
+            if (shiny == Shiny.Never)
+            {
+                if (GetIsShiny(pk.TID, pk.SID, pid))
+                    pid ^= 0x1000_0000;
+            }
+            else if (shiny == Shiny.Always)
+            {
+                if (!GetIsShiny(pk.TID, pk.SID, pid))
+                    pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+            }
+
+            pk.PID = pid;
+
+            // IVs
+            var ivs = new[] {UNSET, UNSET, UNSET, UNSET, UNSET, UNSET};
+            const int MAX = 31;
+            for (int i = 0; i < flawless; i++)
+            {
+                int index;
+                do { index = (int) xoro.NextInt(6); }
+                while (ivs[index] != UNSET);
+
+                ivs[index] = MAX;
+            }
+
+            for (int i = 0; i < ivs.Length; i++)
+            {
+                if (ivs[i] == UNSET)
+                    ivs[i] = (int) xoro.NextInt(32);
+            }
+
+            if (!criteria.IsIVsCompatible(ivs, 8))
+                return false;
+
+            pk.IV_HP = ivs[0];
+            pk.IV_ATK = ivs[1];
+            pk.IV_DEF = ivs[2];
+            pk.IV_SPA = ivs[3];
+            pk.IV_SPD = ivs[4];
+            pk.IV_SPE = ivs[5];
+
+            // Remainder
+            var scale = (IScaledSize) pk;
+            scale.HeightScalar = (int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80);
+            scale.WeightScalar = (int) xoro.NextInt(0x81) + (int) xoro.NextInt(0x80);
+
+            return true;
+        }
+
         public static bool ValidateOverworldEncounter(PKM pk, Shiny shiny = Shiny.FixedValue, int flawless = -1)
         {
             var seed = GetOriginalSeed(pk);
@@ -15,7 +90,7 @@
                 return false;
 
             var xoro = new Xoroshiro128Plus(seed);
-            var ec = xoro.NextInt(uint.MaxValue);
+            var ec = (uint) xoro.NextInt(uint.MaxValue);
             if (ec != pk.EncryptionConstant)
                 return false;
 

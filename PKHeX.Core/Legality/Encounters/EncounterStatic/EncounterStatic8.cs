@@ -37,6 +37,23 @@ namespace PKHeX.Core
             return base.IsMatchExact(pkm, evo);
         }
 
+        protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
+        {
+            base.ApplyDetails(sav, criteria, pk);
+            if (!HasOverworldCorrelation)
+                pk.SetRandomEC();
+        }
+
+        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
+        {
+            // be lazy and just do the regular, and overwrite with correlation if required
+            base.SetPINGA(pk, criteria);
+            if (!HasOverworldCorrelation)
+                return;
+            var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
+            Overworld8RNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
+        }
+
         public bool HasOverworldCorrelation
         {
             get
