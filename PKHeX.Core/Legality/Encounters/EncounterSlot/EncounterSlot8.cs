@@ -52,6 +52,8 @@ namespace PKHeX.Core
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
+            if (!((EncounterArea8)Area).PermitCrossover)
+                return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: 0); // Hidden table encounters cannot have brilliant aura.
             return Overworld8RNG.ValidateOverworldEncounter(pk, flawless:0) || Overworld8RNG.ValidateOverworldEncounter(pk, flawless:2) || Overworld8RNG.ValidateOverworldEncounter(pk, flawless:3);
         }
 
