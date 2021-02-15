@@ -40,7 +40,7 @@
 
                 if (shiny == Shiny.AlwaysSquare && pk.ShinyXor != 0)
                     return false;
-                if (shiny == Shiny.AlwaysStar && pk.ShinyXor != 0)
+                if (shiny == Shiny.AlwaysStar && pk.ShinyXor == 0)
                     return false;
             }
 
