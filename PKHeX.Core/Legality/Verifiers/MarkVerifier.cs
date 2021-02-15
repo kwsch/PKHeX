@@ -63,9 +63,9 @@ namespace PKHeX.Core
             return IsMarkAllowedAny(enc) && IsMarkAllowedSpecific(mark, pk, enc);
         }
 
-        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable _) => mark switch
+        public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable x) => mark switch
         {
-            RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk) => false,
+            RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
             RibbonIndex.MarkDestiny => false,
             _ => true
         };
@@ -81,16 +81,15 @@ namespace PKHeX.Core
             _ => true,
         };
 
-        public static bool IsMarkAllowedCurry(ILocation enc, int ball = (int)Ball.Poke) => IsMarkAllowedCurry(enc.Location, ball);
-        public static bool IsMarkAllowedCurry(PKM pkm) => IsMarkAllowedCurry(pkm.Met_Location, pkm.Ball);
-
-        public static bool IsMarkAllowedCurry(int met, int ball)
+        public static bool IsMarkAllowedCurry(PKM pkm, IEncounterable enc)
         {
-            if (EncounterArea8.IsWildArea(met))
+            if (enc is not EncounterSlot8 s || !((EncounterArea8)s.Area).PermitCrossover)
                 return false;
-            if ((uint) (ball - 2) > 2) // Poke,Great,Ultra only
+
+            if (!EncounterArea8.IsWildArea(s.Location))
                 return false;
-            return true;
+            var ball = pkm.Ball;
+            return (uint)(ball - 2) <= 2;
         }
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)

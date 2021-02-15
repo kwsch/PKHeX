@@ -57,12 +57,16 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
+            var rating = base.GetMatchRating(pkm);
+            if (rating != EncounterMatchRating.Match)
+                return rating;
+
             var req = GetRequirement(pkm);
             return req switch
             {
                 MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
                 MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
-                _ => base.GetMatchRating(pkm),
+                _ => EncounterMatchRating.Match,
             };
         }
     }

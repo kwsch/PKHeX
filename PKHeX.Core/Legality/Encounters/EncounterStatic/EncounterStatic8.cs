@@ -74,11 +74,19 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
+            var rating = base.GetMatchRating(pkm);
+            if (rating != EncounterMatchRating.Match)
+                return rating;
+
             var req = GetRequirement(pkm);
             bool correlation = IsOverworldCorrelationCorrect(pkm);
             if ((req == MustHave) != correlation)
                 return EncounterMatchRating.Deferred;
-            return base.GetMatchRating(pkm);
+
+            if (pkm is IRibbonSetMark8 {RibbonMarkCurry: true})
+                return EncounterMatchRating.Deferred;
+
+            return EncounterMatchRating.Match;
         }
     }
 
