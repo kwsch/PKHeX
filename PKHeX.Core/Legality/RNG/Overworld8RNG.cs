@@ -135,6 +135,7 @@
 
         private const int NoMatchIVs = -1;
         private const int UNSET = -1;
+        private const int MAX = 31;
 
         private static int GetIsMatchEnd(PKM pk, Xoroshiro128Plus xoro, int start = 0, int end = 3)
         {
@@ -146,7 +147,6 @@
 
                 var copy = xoro;
                 int[] ivs = { UNSET, UNSET, UNSET, UNSET, UNSET, UNSET };
-                const int MAX = 31;
                 for (int i = 0; i < iv_count; i++)
                 {
                     int index;
@@ -175,9 +175,10 @@
         {
             for (int i = 0; i < 6; i++)
             {
+                int expect;
                 if (template[i] != UNSET)
-                    continue;
-                var expect = (int) rng.NextInt(32);
+                    expect = MAX;
+                else expect = (int) rng.NextInt(32);
                 var actual = i switch
                 {
                     0 => pk.IV_HP,
