@@ -52,7 +52,7 @@ namespace PKHeX.Core
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
-            return Overworld8RNG.ValidateOverworldEncounter(pk);
+            return Overworld8RNG.ValidateOverworldEncounter(pk, flawless:0) || Overworld8RNG.ValidateOverworldEncounter(pk, flawless:2) || Overworld8RNG.ValidateOverworldEncounter(pk, flawless:3);
         }
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)

@@ -103,7 +103,7 @@
             if (!IsPIDValid(pk, pid, shiny))
                 return false;
 
-            var actualCount = flawless == -1 ? GetIsMatchEnd(pk, xoro) : GetIsMatchEnd(pk, xoro, flawless, flawless);
+            var actualCount = flawless == -1 ? GetIsMatchEnd(pk, xoro, 0, 0) : GetIsMatchEnd(pk, xoro, flawless, flawless);
             return actualCount != NoMatchIVs;
         }
 
