@@ -75,12 +75,20 @@ namespace PKHeX.Core
             if (rating != EncounterMatchRating.Match)
                 return rating;
 
+            // Glimwood Tangle does not spawn Symbol encounters, only Hidden.
+            if (Location is 76 && ((EncounterArea8)Area).PermitCrossover)
+                return EncounterMatchRating.PartialMatch;
+
             if (pkm is IRibbonSetMark8 m)
             {
                 if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)
                     return EncounterMatchRating.Deferred;
                 if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
                     return EncounterMatchRating.Deferred;
+
+                // Galar Mine hidden encounters can only be found via Curry.
+                if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry)
+                    return EncounterMatchRating.PartialMatch;
             }
 
             var req = GetRequirement(pkm);
