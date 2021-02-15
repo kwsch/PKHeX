@@ -83,7 +83,8 @@ namespace PKHeX.Core
             if ((req == MustHave) != correlation)
                 return EncounterMatchRating.Deferred;
 
-            if (pkm is IRibbonSetMark8 {RibbonMarkCurry: true})
+            // Only encounter slots can have these marks; defer for collisions.
+            if (pkm is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing))
                 return EncounterMatchRating.Deferred;
 
             return EncounterMatchRating.Match;

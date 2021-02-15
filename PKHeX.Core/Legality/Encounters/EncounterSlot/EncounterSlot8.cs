@@ -61,6 +61,14 @@ namespace PKHeX.Core
             if (rating != EncounterMatchRating.Match)
                 return rating;
 
+            if (pkm is IRibbonSetMark8 m)
+            {
+                if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)
+                    return EncounterMatchRating.Deferred;
+                if (m.RibbonMarkFishing && (Weather & AreaWeather8.Fishing) == 0)
+                    return EncounterMatchRating.Deferred;
+            }
+
             var req = GetRequirement(pkm);
             return req switch
             {

@@ -66,6 +66,7 @@ namespace PKHeX.Core
         public static bool IsMarkAllowedSpecific(RibbonIndex mark, PKM pk, IEncounterable x) => mark switch
         {
             RibbonIndex.MarkCurry when !IsMarkAllowedCurry(pk, x) => false,
+            RibbonIndex.MarkFishing when !IsMarkAllowedFishing(x) => false,
             RibbonIndex.MarkDestiny => false,
             _ => true
         };
@@ -83,13 +84,36 @@ namespace PKHeX.Core
 
         public static bool IsMarkAllowedCurry(PKM pkm, IEncounterable enc)
         {
-            if (enc is not EncounterSlot8 s || !((EncounterArea8)s.Area).PermitCrossover)
+            // Curry are only encounter slots, from the hidden table (not symbol). Slots taken from area's current weather(?).
+            if (enc is not EncounterSlot8 s)
                 return false;
 
-            if (!EncounterArea8.IsWildArea(s.Location))
+            var area = (EncounterArea8)s.Area;
+            if (area.PermitCrossover)
+                return false;
+
+            var weather = s.Weather;
+            if ((weather & AreaWeather8.All) == 0)
+                return false;
+
+            if (EncounterArea8.IsWildArea(s.Location))
                 return false;
             var ball = pkm.Ball;
             return (uint)(ball - 2) <= 2;
+        }
+
+        public static bool IsMarkAllowedFishing(IEncounterable enc)
+        {
+            // Fishing are only encounter slots, from the hidden table (not symbol).
+            if (enc is not EncounterSlot8 s)
+                return false;
+
+            var area = (EncounterArea8)s.Area;
+            if (area.PermitCrossover)
+                return false;
+
+            var weather = s.Weather;
+            return (weather & AreaWeather8.Fishing) != 0;
         }
 
         private void VerifyAffixedRibbonMark(LegalityAnalysis data, IRibbonIndex m)
