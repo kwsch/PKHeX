@@ -20,6 +20,8 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
+            if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover)
+                ((PK8)pk).RibbonMarkCurry = true;
             var req = GetRequirement(pk);
             if (req != MustHave)
             {
