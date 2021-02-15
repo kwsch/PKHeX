@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static PKHeX.Core.OverworldCorrelation8Requirement;
 
 namespace PKHeX.Core
 {
@@ -40,16 +41,12 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
-            if (!IsOverworldCorrelation)
+            var req = GetRequirement(pk);
+            if (req != MustHave)
+            {
                 pk.SetRandomEC();
-        }
-
-        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
-        {
-            // be lazy and just do the regular, and overwrite with correlation if required
-            base.SetPINGA(pk, criteria);
-            if (!HasOverworldCorrelation(pk))
                 return;
+            }
             var shiny = Shiny == Shiny.Random ? Shiny.FixedValue : Shiny;
             Overworld8RNG.ApplyDetails(pk, criteria, shiny, FlawlessIVCount);
         }
@@ -66,7 +63,9 @@ namespace PKHeX.Core
             }
         }
 
-        public bool HasOverworldCorrelation(PKM pk) => IsOverworldCorrelation;
+        public OverworldCorrelation8Requirement GetRequirement(PKM pk) => IsOverworldCorrelation
+            ? MustHave
+            : MustNotHave;
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
@@ -75,7 +74,9 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            if (HasOverworldCorrelation(pkm) && !IsOverworldCorrelationCorrect(pkm))
+            var req = GetRequirement(pkm);
+            bool correlation = IsOverworldCorrelationCorrect(pkm);
+            if ((req == MustHave) != correlation)
                 return EncounterMatchRating.Deferred;
             return base.GetMatchRating(pkm);
         }
@@ -83,8 +84,14 @@ namespace PKHeX.Core
 
     public interface IOverworldCorrelation8
     {
-        bool IsOverworldCorrelation { get; }
-        bool HasOverworldCorrelation(PKM pk);
+        OverworldCorrelation8Requirement GetRequirement(PKM pk);
         bool IsOverworldCorrelationCorrect(PKM pk);
+    }
+
+    public enum OverworldCorrelation8Requirement
+    {
+        CanBeEither,
+        MustHave,
+        MustNotHave,
     }
 }

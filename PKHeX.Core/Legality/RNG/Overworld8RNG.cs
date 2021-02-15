@@ -210,7 +210,7 @@
         /// </summary>
         /// <param name="pk">Entity to check for</param>
         /// <returns>Seed</returns>
-        private static uint GetOriginalSeed(PKM pk)
+        public static uint GetOriginalSeed(PKM pk)
         {
             var seed = pk.EncryptionConstant - unchecked((uint)Xoroshiro128Plus.XOROSHIRO_CONST);
             if (seed == 0xD5B9C463) // Collision seed with the 0xFFFFFFFF re-roll.

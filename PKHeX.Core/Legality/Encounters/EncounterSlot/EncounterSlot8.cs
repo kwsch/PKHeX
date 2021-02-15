@@ -1,3 +1,5 @@
+using static PKHeX.Core.OverworldCorrelation8Requirement;
+
 namespace PKHeX.Core
 {
     /// <summary>
@@ -18,29 +20,34 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
-            if (!HasOverworldCorrelation(pk))
+            var req = GetRequirement(pk);
+            if (req != MustHave)
+            {
                 pk.SetRandomEC();
-        }
-
-        protected override void SetPINGA(PKM pk, EncounterCriteria criteria)
-        {
-            // be lazy and just do the regular, and overwrite with correlation if required
-            base.SetPINGA(pk, criteria);
-            if (!HasOverworldCorrelation(pk))
                 return;
+            }
             Overworld8RNG.ApplyDetails(pk, criteria);
         }
 
-        // Tree encounters are generated via the global seed, not the u32
-        public bool IsOverworldCorrelation => (Weather & AreaWeather8.Shaking_Trees) == 0;
-
-        public bool HasOverworldCorrelation(PKM pk)
+        public OverworldCorrelation8Requirement GetRequirement(PKM pk)
         {
-            if (!IsOverworldCorrelation)
-                return true;
             if (((EncounterArea8)Area).PermitCrossover)
-                return true; // symbol walking overworld
-            return pk is not IRibbonSetMark8 {RibbonMarkCurry: true};
+                return MustHave; // symbol walking overworld
+
+            bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true};
+            if (curry)
+                return MustNotHave;
+
+            // Tree encounters are generated via the global seed, not the u32
+            if ((Weather & AreaWeather8.Shaking_Trees) != 0)
+            {
+                // Some tree encounters are present in the regular encounters.
+                return Weather == AreaWeather8.Shaking_Trees
+                    ? MustNotHave
+                    : CanBeEither;
+            }
+
+            return MustHave;
         }
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
@@ -50,9 +57,13 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            if (HasOverworldCorrelation(pkm) && !IsOverworldCorrelationCorrect(pkm))
-                return EncounterMatchRating.Deferred;
-            return base.GetMatchRating(pkm);
+            var req = GetRequirement(pkm);
+            return req switch
+            {
+                MustHave when !IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
+                MustNotHave when IsOverworldCorrelationCorrect(pkm) => EncounterMatchRating.Deferred,
+                _ => base.GetMatchRating(pkm),
+            };
         }
     }
 }

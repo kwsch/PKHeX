@@ -165,6 +165,18 @@
         /// <remarks>Unrelated to IVs</remarks>
         Pokewalker,
 
+        /// <summary>
+        /// 8th Generation Raid PID
+        /// </summary>
+        /// <remarks>Formulaic based on PID &amp; EC values from a 64bit-seed.</remarks>
+        Raid8,
+
+        /// <summary>
+        /// 8th Generation Overworld Spawn PID
+        /// </summary>
+        /// <remarks>Formulaic based on PID &amp; EC values from a 32bit-seed.</remarks>
+        Overworld8,
+
         #endregion
     }
 
