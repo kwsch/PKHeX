@@ -235,5 +235,19 @@ namespace PKHeX.Core
             IV_SPE = 10;
             IV_SPA = 10;
         }
+
+        internal void ImportFromFuture(PKM pkm)
+        {
+            Nickname = pkm.Nickname;
+            OT_Name = pkm.OT_Name;
+            IV_ATK = pkm.IV_ATK / 2;
+            IV_DEF = pkm.IV_DEF / 2;
+            IV_SPC = pkm.IV_SPA / 2;
+          //IV_SPD = pkm.IV_ATK / 2;
+            IV_SPE = pkm.IV_SPE / 2;
+
+            if (pkm.HasMove((int)Move.HiddenPower))
+                HPType = pkm.HPType;
+        }
     }
 }

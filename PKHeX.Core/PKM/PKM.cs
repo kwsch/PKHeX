@@ -1046,8 +1046,8 @@ namespace PKHeX.Core
             // Only transfer declared properties not defined in PKM.cs but in the actual type
             var srcType = GetType();
             var destType = Destination.GetType();
-            var srcProperties = ReflectUtil.GetAllPropertyInfoPublic(srcType).Select(z => z.Name);
-            var destProperties = ReflectUtil.GetAllPropertyInfoPublic(destType).Where(z => z.SetMethod != null).Select(z => z.Name);
+            var srcProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(srcType);
+            var destProperties = ReflectUtil.GetPropertiesCanWritePublicDeclared(destType);
 
             // Transfer properties in the order they are defined in the destination PKM format for best conversion
             var shared = destProperties.Intersect(srcProperties);
@@ -1056,9 +1056,13 @@ namespace PKHeX.Core
                 if (!BatchEditing.TryGetHasProperty(this, property, out var src))
                     continue;
                 var prop = src.GetValue(this);
-                if (prop is not byte[] && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
+                if (prop is not (byte[] or null) && BatchEditing.TryGetHasProperty(Destination, property, out var pi))
                     ReflectUtil.SetValue(pi, Destination, prop);
             }
+
+            // set shared properties for the Gen1/2 base class
+            if (Destination is GBPKM l)
+                l.ImportFromFuture(this);
         }
 
         /// <summary>
