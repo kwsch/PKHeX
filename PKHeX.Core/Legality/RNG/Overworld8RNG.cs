@@ -175,9 +175,8 @@
         {
             for (int i = 0; i < 6; i++)
             {
-                if (template[i] != UNSET)
-                    continue;
-                var expect = (int) rng.NextInt(32);
+                var temp = template[i];
+                var expect = temp == UNSET ? (int)rng.NextInt(32) : temp;
                 var actual = i switch
                 {
                     0 => pk.IV_HP,

@@ -52,7 +52,9 @@ namespace PKHeX.Core
 
         public bool IsOverworldCorrelationCorrect(PKM pk)
         {
-            return Overworld8RNG.ValidateOverworldEncounter(pk);
+            var area = (EncounterArea8) Area;
+            var flawless = area.PermitCrossover ? -1 : 0;
+            return Overworld8RNG.ValidateOverworldEncounter(pk, flawless: flawless);
         }
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
