@@ -10,7 +10,7 @@
                 flawless = 0;
 
             int ctr = 0;
-            const int maxAttempts = 10_000;
+            const int maxAttempts = 50_000;
             do
             {
                 var seed = Util.Rand32();
@@ -33,10 +33,15 @@
                 if (GetIsShiny(pk.TID, pk.SID, pid))
                     pid ^= 0x1000_0000;
             }
-            else if (shiny == Shiny.Always)
+            else if (shiny != Shiny.Random)
             {
                 if (!GetIsShiny(pk.TID, pk.SID, pid))
                     pid = GetShinyPID(pk.TID, pk.SID, pid, 0);
+
+                if (shiny == Shiny.AlwaysSquare && pk.ShinyXor != 0)
+                    return false;
+                if (shiny == Shiny.AlwaysStar && pk.ShinyXor != 0)
+                    return false;
             }
 
             pk.PID = pid;
