@@ -20,7 +20,7 @@ namespace PKHeX.Core
         protected override void ApplyDetails(ITrainerInfo sav, EncounterCriteria criteria, PKM pk)
         {
             base.ApplyDetails(sav, criteria, pk);
-            if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover)
+            if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && (Weather & AreaWeather8.Fishing) == 0)
                 ((PK8)pk).RibbonMarkCurry = true;
             var req = GetRequirement(pk);
             if (req != MustHave)
@@ -89,7 +89,7 @@ namespace PKHeX.Core
                     return EncounterMatchRating.Deferred;
 
                 // Galar Mine hidden encounters can only be found via Curry.
-                if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry)
+                if (Location is 30 or 54 && !((EncounterArea8)Area).PermitCrossover && !m.RibbonMarkCurry && (Weather & AreaWeather8.Fishing) == 0)
                     return EncounterMatchRating.PartialMatch;
             }
 
