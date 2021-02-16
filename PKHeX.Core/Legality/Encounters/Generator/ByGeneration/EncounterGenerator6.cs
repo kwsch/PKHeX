@@ -16,11 +16,33 @@ namespace PKHeX.Core
             int ctr = 0;
 
             var chain = EncounterOrigin.GetOriginChain(pkm);
+
+            IEncounterable? deferred = null;
+            IEncounterable? partial = null;
+
             if (pkm.WasEvent || pkm.WasEventEgg || pkm.WasLink)
             {
                 foreach (var z in GetValidGifts(pkm, chain))
-                { yield return z; ++ctr; }
-                if (ctr != 0) yield break;
+                {
+                    var match = z.GetMatchRating(pkm);
+                    switch (match)
+                    {
+                        case Match: yield return z; ++ctr; break;
+                        case Deferred: deferred ??= z; break;
+                        case PartialMatch: partial ??= z; break;
+                    }
+                }
+
+                if (ctr != 0)
+                {
+                    if (deferred != null)
+                        yield return deferred;
+
+                    if (partial != null)
+                        yield return partial;
+                }
+
+                yield break;
             }
 
             if (pkm.WasBredEgg)
@@ -29,9 +51,6 @@ namespace PKHeX.Core
                 { yield return z; ++ctr; }
                 if (ctr == 0) yield break;
             }
-
-            IEncounterable? deferred = null;
-            IEncounterable? partial = null;
 
             foreach (var z in GetValidStaticEncounter(pkm, chain))
             {
