@@ -259,6 +259,11 @@ namespace PKHeX.Core
 
             return (Species)pkm.Species switch
             {
+                // Transfer Edge Cases -- Bank wipes the form but keeps old FormArgument value.
+                Furfrou when pkm.Format == 7 && pkm.Form == 0 &&
+                    ((enc.Generation == 6 && f.FormArgument <= byte.MaxValue) || IsFormArgumentDayCounterValid(f, 5, true))
+                    => GetValid(LFormArgumentValid),
+
                 Furfrou when pkm.Form != 0 => !IsFormArgumentDayCounterValid(f, 5, true) ? GetInvalid(LFormArgumentInvalid) :GetValid(LFormArgumentValid),
                 Hoopa when pkm.Form == 1 => !IsFormArgumentDayCounterValid(f, 3) ? GetInvalid(LFormArgumentInvalid) : GetValid(LFormArgumentValid),
                 Yamask when pkm.Form == 1 => arg switch
