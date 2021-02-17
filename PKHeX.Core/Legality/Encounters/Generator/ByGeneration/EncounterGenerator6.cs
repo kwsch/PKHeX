@@ -27,10 +27,11 @@ namespace PKHeX.Core
                     var match = z.GetMatchRating(pkm);
                     switch (match)
                     {
-                        case Match: yield return z; ++ctr; break;
+                        case Match: yield return z; break;
                         case Deferred: deferred ??= z; break;
                         case PartialMatch: partial ??= z; break;
                     }
+                    ++ctr;
                 }
 
                 if (ctr != 0)
