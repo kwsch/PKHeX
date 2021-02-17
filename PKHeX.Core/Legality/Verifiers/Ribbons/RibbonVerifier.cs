@@ -180,7 +180,7 @@ namespace PKHeX.Core
             if (pkm is IRibbonSetCommon8 s8)
             {
                 bool inhabited8 = gen <= 8;
-                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
+                var iterate = inhabited8 ? GetInvalidRibbons8Any(pkm, s8, enc) : GetInvalidRibbonsNone(s8.RibbonBits(), s8.RibbonNames());
                 foreach (var z in iterate)
                     yield return z;
             }
@@ -352,7 +352,8 @@ namespace PKHeX.Core
             }
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons8Any(PKM pkm, IRibbonSetCommon8 s8,
+            IEncounterable enc)
         {
             if (!pkm.InhabitedGeneration(8) || !((PersonalInfoSWSH)PersonalTable.SWSH[pkm.Species]).IsPresentInGame)
             {
@@ -375,7 +376,7 @@ namespace PKHeX.Core
 
                 // Legends cannot compete in Ranked, thus cannot reach Master Rank and obtain the ribbon.
                 // Past gen Pokemon can get the ribbon only if they've been reset.
-                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm))
+                if (s8.RibbonMasterRank && !CanParticipateInRankedSWSH(pkm, enc))
                     yield return new RibbonResult(nameof(s8.RibbonMasterRank));
 
                 if (s8.RibbonTowerMaster)
@@ -397,7 +398,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool CanParticipateInRankedSWSH(PKM pkm)
+        private static bool CanParticipateInRankedSWSH(PKM pkm, IEncounterable enc)
         {
             if (!pkm.SWSH && pkm is IBattleVersion {BattleVersion: 0})
                 return false;
@@ -407,7 +408,18 @@ namespace PKHeX.Core
             if (species > Legal.MaxSpeciesID_8_R2)
                 return false;
             if (Legal.Legends.Contains(species))
-                return false;
+            {
+                // Box Legends were only allowed for a single rule-set until May 1st.
+                // This rule-set disallowed Mythicals, but everything else present in the game was usable.
+                if (Legal.Mythicals.Contains(species))
+                    return false;
+
+                if (enc.Version == GameVersion.GO) // Capture date is global time, and not console changeable.
+                {
+                    if (pkm.MetDate >= new DateTime(2021, 5, 1))
+                        return false;
+                }
+            }
             var pi = (PersonalInfoSWSH)PersonalTable.SWSH[species];
             return pi.IsPresentInGame;
         }

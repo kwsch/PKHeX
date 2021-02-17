@@ -91,6 +91,22 @@ namespace PKHeX.Core
         };
 
         /// <summary>
+        /// Species that are from Mythical Distributions (disallowed species for competitive rulesets)
+        /// </summary>
+        public static readonly HashSet<int> Mythicals = new()
+        {
+            (int)Mew,
+            (int)Celebi,
+            (int)Jirachi, (int)Deoxys,
+            (int)Phione, (int)Manaphy, (int)Darkrai, (int)Shaymin, (int)Arceus,
+            (int)Victini, (int)Keldeo, (int)Meloetta, (int)Genesect,
+            (int)Diancie, (int)Hoopa, (int)Volcanion,
+            (int)Magearna, (int)Marshadow,
+            (int)Zeraora, (int)Meltan, (int)Melmetal,
+            (int)Zarude,
+        };
+
+        /// <summary>
         /// Species classified as "Legend" by the game code.
         /// </summary>
         public static readonly HashSet<int> Legends = new()
