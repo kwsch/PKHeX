@@ -5,6 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Provides information for <see cref="IRegionOrigin.ConsoleRegion"/> and <see cref="IRegionOrigin.Country"/> data.
     /// </summary>
+    /// <remarks>These values were specific to the 3DS games (Generations 6 and 7, excluding LGP/E)</remarks>
     public static class Locale3DS
     {
         /// <summary>
@@ -16,8 +17,8 @@ namespace PKHeX.Core
         public static bool IsConsoleRegionCountryValid(int consoleRegion, int country) => consoleRegion switch
         {
             0 => country is 1, // Japan
-            1 => (8 <= country && country <= 52) || (country is 153 or 156 or 168 or 174 or 186), // Americas
-            2 => (64 <= country && country <= 127) || (country is 169 or 184 or 185), // Europe
+            1 => country is (>= 8 and <= 52) or 153 or 156 or 168 or 174 or 186, // Americas
+            2 => country is (>= 64 and <= 127) or 169 or 184 or 185, // Europe
             4 => country is 144 or 160, // China
             5 => country is 136, // Korea
             6 => country is 144 or 128, // Taiwan

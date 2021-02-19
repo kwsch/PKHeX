@@ -8,6 +8,9 @@ using static PKHeX.Core.CheckIdentifier;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Analyzes content within a <see cref="SaveFile"/> for overall <see cref="PKM"/> legality analysis.
+    /// </summary>
     public sealed class BulkAnalysis
     {
         public readonly IReadOnlyList<PKM> AllData;

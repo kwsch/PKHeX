@@ -78,14 +78,8 @@ namespace PKHeX.Core
 
             foreach (var evo in chain)
             {
-                // Check for invalid evolutions, or cases where they may be under-leveled encounters of an evolution.
-                if (evo.Level > maxLevel)
-                    evo.Level = maxLevel;
-                if (evo.MinLevel <= maxLevel)
-                    continue;
-                evo.MinLevel = maxLevel;
-                if (evo.RequiresLvlUp)
-                    maxLevel--;
+                evo.Level = maxLevel;
+                evo.MinLevel = minLevel;
             }
             return chain;
         }

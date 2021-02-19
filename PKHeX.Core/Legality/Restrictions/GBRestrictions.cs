@@ -39,6 +39,9 @@ namespace PKHeX
             (int)Kabuto,
         };
 
+        /// <summary>
+        /// Species that have a specific minimum amount of moves based on their evolution state.
+        /// </summary>
         private static readonly HashSet<int> SpecialMinMoveSlots = new()
         {
             (int)Pikachu,
@@ -61,6 +64,9 @@ namespace PKHeX
 
         internal static bool TypeIDExists(int type) => Types_Gen1.Contains(type);
 
+        /// <summary>
+        /// Valid type IDs extracted from the Personal Table used for R/G/B/Y games.
+        /// </summary>
         private static readonly HashSet<int> Types_Gen1 = new()
         {
             0, 1, 2, 3, 4, 5, 7, 8, 20, 21, 22, 23, 24, 25, 26
