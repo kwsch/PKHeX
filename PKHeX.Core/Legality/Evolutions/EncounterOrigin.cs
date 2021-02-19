@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.Species;
 
 namespace PKHeX.Core
@@ -77,20 +76,16 @@ namespace PKHeX.Core
             var tempMax = pkm.CurrentLevel;
             var chain = EvolutionChain.GetValidPreEvolutions(pkm, maxSpecies, tempMax, minLevel);
 
-            for (int i = chain.Count - 1; i >= 0; i--)
+            foreach (var evo in chain)
             {
-                var evo = chain[i];
-                if (evo.MinLevel > maxLevel)
-                {
-                    chain.RemoveAt(i);
-                    if (chain.Any(z => z.Level >= maxLevel))
-                        continue;
-                    chain.Clear();
-                    break;
-                }
-
+                // Check for invalid evolutions, or cases where they may be under-leveled encounters of an evolution.
                 if (evo.Level > maxLevel)
                     evo.Level = maxLevel;
+                if (evo.MinLevel <= maxLevel)
+                    continue;
+                evo.MinLevel = maxLevel;
+                if (evo.RequiresLvlUp)
+                    maxLevel--;
             }
             return chain;
         }

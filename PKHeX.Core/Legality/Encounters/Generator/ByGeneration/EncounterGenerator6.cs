@@ -41,9 +41,9 @@ namespace PKHeX.Core
 
                     if (partial != null)
                         yield return partial;
-                }
 
-                yield break;
+                    yield break;
+                }
             }
 
             if (pkm.WasBredEgg)
