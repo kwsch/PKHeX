@@ -8,7 +8,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class Encounters6
     {
-        private static readonly EncounterArea6XY FriendSafari = new(Legal.FriendSafari);
+        private static readonly EncounterArea6XY FriendSafari = new();
         internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X, FriendSafari);
         internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y, FriendSafari);
         internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("a", "ao"), GameVersion.AS);
