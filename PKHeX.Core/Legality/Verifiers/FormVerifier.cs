@@ -44,9 +44,6 @@ namespace PKHeX.Core
 
             switch (enc)
             {
-                case EncounterSlot w when w.Area.Type == SlotType.FriendSafari:
-                    VerifyFormFriendSafari(data);
-                    break;
                 case EncounterEgg e when FormInfo.IsTotemForm(species, form, e.Generation):
                     return GetInvalid(LFormInvalidGame);
             }
@@ -225,26 +222,6 @@ namespace PKHeX.Core
             if (116 <= item && item <= 119)
                 return item - 115;
             return 0;
-        }
-
-        private void VerifyFormFriendSafari(LegalityAnalysis data)
-        {
-            var pkm = data.pkm;
-            switch ((Species)pkm.Species)
-            {
-                case Floette or Florges when pkm.Form is not (0 or 1 or 3): // Floette (RBY colors only)
-                    data.AddLine(GetInvalid(LFormSafariFlorgesColor));
-                    break;
-                case Pumpkaboo or Gourgeist when pkm.Form != 0: // Average
-                    data.AddLine(GetInvalid(LFormSafariPumpkabooAverage));
-                    break;
-                case Gastrodon when pkm.Form != 0: // West
-                    data.AddLine(GetInvalid(LFormSafariFlorgesColor));
-                    break;
-                case Sawsbuck when pkm.Form != 0: // Sawsbuck
-                    data.AddLine(GetInvalid(LFormSafariSawsbuckSpring));
-                    break;
-            }
         }
 
         private CheckResult VerifyFormArgument(LegalityAnalysis data, IFormArgument f)
