@@ -5,8 +5,8 @@ using System.Diagnostics;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Generation 7 Dex manipulator
-    /// </summary>
+    /// Pokédex structure used for Generation 7 games.
+    /// </summary>>
     public class Zukan7 : Zukan
     {
         private const int MAGIC = 0x2F120F17;

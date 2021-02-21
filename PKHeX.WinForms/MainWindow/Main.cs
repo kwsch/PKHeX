@@ -236,7 +236,7 @@ namespace PKHeX.WinForms
             {
                 Version? latestVersion;
                 // User might not be connected to the internet or with a flaky connection.
-                try { latestVersion = NetUtil.GetLatestPKHeXVersion(); }
+                try { latestVersion = UpdateUtil.GetLatestPKHeXVersion(); }
 #pragma warning disable CA1031 // Do not catch general exception types
                 catch (Exception ex)
 #pragma warning restore CA1031 // Do not catch general exception types

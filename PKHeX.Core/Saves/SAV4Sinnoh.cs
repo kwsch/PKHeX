@@ -57,7 +57,7 @@ namespace PKHeX.Core
         #endregion
 
         #region Poketch
-        public int PoketchStart { get; protected set; }
+        protected int PoketchStart { private get; set; }
         private byte PoketchPacked { get => General[PoketchStart]; set => General[PoketchStart] = value; }
 
         public bool PoketchEnabled { get => (PoketchPacked & 1) != 0; set => PoketchPacked = (byte)(value ? (PoketchPacked | 1) : (PoketchPacked & ~1)); }

@@ -3,8 +3,8 @@ using System;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Beluga specific Dex manipulator, slightly modified from Gen7.
-    /// </summary>
+    /// Pokédex structure used for <see cref="GameVersion.GG"/> games, slightly modified from <see cref="Zukan7"/>.
+    /// </summary>>
     public sealed class Zukan7b : Zukan7
     {
         public Zukan7b(SAV7b sav, int dex, int langflag) : base(sav, dex, langflag)

@@ -3,6 +3,9 @@ using System.Diagnostics;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Pokédex structure used for Generation 6 games.
+    /// </summary>
     public abstract class Zukan6 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;
@@ -178,6 +181,9 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.ORAS"/>.
+    /// </summary>
     public sealed class Zukan6AO : Zukan6
     {
         public Zukan6AO(SAV6AO sav, int dex, int langflag) : base(sav, dex, langflag)
@@ -206,6 +212,9 @@ namespace PKHeX.Core
         }
     }
 
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.XY"/>.
+    /// </summary>
     public sealed class Zukan6XY : Zukan6
     {
         public Zukan6XY(SAV6XY sav, int dex, int langflag) : base(sav, dex, langflag)

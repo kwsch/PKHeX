@@ -137,7 +137,7 @@ namespace PKHeX.Core
             otname.CopyTo(pk2.otname, 0);
             nick.CopyTo(pk2.nick, 0);
 
-            pk2.HeldItem = ItemConverter.GetItemFuture1(pk2.HeldItem);
+            pk2.HeldItem = Gen2Item;
             pk2.CurrentFriendship = pk2.PersonalInfo.BaseFriendship;
             pk2.Stat_Level = CurrentLevel;
 

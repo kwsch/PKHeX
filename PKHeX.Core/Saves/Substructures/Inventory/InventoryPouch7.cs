@@ -14,7 +14,7 @@ namespace PKHeX.Core
         public bool SetNew { get; set; } = false;
         private InventoryItem[] OriginalItems;
 
-        public override void GetPouch(byte[] Data)
+        public override void GetPouch(byte[] data)
         {
             var items = new InventoryItem[PouchDataSize];
             for (int i = 0; i < items.Length; i++)
@@ -24,7 +24,7 @@ namespace PKHeX.Core
                 // 10bit freespace index
                 // 1 bit new flag
                 // 1 bit reserved
-                uint val = BitConverter.ToUInt32(Data, Offset + (i * 4));
+                uint val = BitConverter.ToUInt32(data, Offset + (i * 4));
                 items[i] = new InventoryItem
                 {
                     Index = (int)(val & 0x3FF),
@@ -37,7 +37,7 @@ namespace PKHeX.Core
             OriginalItems = Items.Select(i => i.Clone()).ToArray();
         }
 
-        public override void SetPouch(byte[] Data)
+        public override void SetPouch(byte[] data)
         {
             if (Items.Length != PouchDataSize)
                 throw new ArgumentException("Item array length does not match original pouch size.");
@@ -54,7 +54,7 @@ namespace PKHeX.Core
                     val |= 0x40000000;
                 if (Items[i].FreeSpace)
                     val |= 0x100000;
-                BitConverter.GetBytes(val).CopyTo(Data, Offset + (i * 4));
+                BitConverter.GetBytes(val).CopyTo(data, Offset + (i * 4));
             }
         }
     }

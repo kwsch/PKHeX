@@ -7,7 +7,8 @@ namespace PKHeX.Core
     {
         public override PersonalInfo PersonalInfo => PersonalTable.C[Species];
 
-        public override bool Valid => Species <= 252;
+        internal const byte EggSpeciesValue = 0xFD;
+        public override bool Valid => Species is <= Legal.MaxSpeciesID_2 or EggSpeciesValue; // egg
 
         public override int SIZE_PARTY => PokeCrypto.SIZE_2PARTY;
         public override int SIZE_STORED => PokeCrypto.SIZE_2STORED;

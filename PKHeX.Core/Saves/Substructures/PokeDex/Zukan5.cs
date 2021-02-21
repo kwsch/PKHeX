@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Pokédex structure used for Generation 5 games.
+    /// </summary>
     public sealed class Zukan5 : Zukan
     {
         protected override int OFS_SEEN => OFS_CAUGHT + BitSeenSize;

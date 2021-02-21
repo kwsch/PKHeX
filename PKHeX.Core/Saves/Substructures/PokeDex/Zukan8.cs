@@ -3,12 +3,18 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
-    // I wish I could replace this with raw pointers via Span :)
+    /// <summary>
+    /// Pokédex structure used for <see cref="GameVersion.SWSH"/>.
+    /// </summary>>
     public sealed class Zukan8 : ZukanBase
     {
         private readonly SCBlock Galar;
         private readonly SCBlock Rigel1;
         private readonly SCBlock Rigel2;
+
+        /// <summary>
+        /// Reverses a Species into the component <see cref="Zukan8Index"/> information.
+        /// </summary>
         public readonly IReadOnlyDictionary<int, Zukan8Index> DexLookup;
 
         public Zukan8(SAV8SWSH sav, SCBlock galar, SCBlock rigel1, SCBlock rigel2) : base(sav, 0)
@@ -20,6 +26,9 @@ namespace PKHeX.Core
             DexLookup = GetDexLookup(PersonalTable.SWSH, revision);
         }
 
+        /// <summary>
+        /// Checks how much DLC patches have been installed by detecting if DLC blocks are present.
+        /// </summary>
         public int GetRevision()
         {
             if (Rigel1.Data.Length == 0)
@@ -118,6 +127,7 @@ namespace PKHeX.Core
             _ => lang - 1,
         };
 
+#if DEBUG
         public IList<string> GetEntryNames(IReadOnlyList<string> speciesNames)
         {
             var dex = new List<string>();
@@ -131,6 +141,7 @@ namespace PKHeX.Core
             dex.Sort();
             return dex;
         }
+#endif
 
         #region Structure
 
@@ -462,16 +473,19 @@ namespace PKHeX.Core
 
             bool owned = GetCaught(species);
 
-            var g = pkm.Gender == 1 ? 1 : 0;
+            var gender = pkm.Gender;
             bool shiny = pkm.IsShiny;
-            var s = shiny ? 2 : 0;
             int form = pkm.Form;
+            var language = pkm.Language;
+
+            var g = gender & 1;
+            var s = shiny ? 2 : 0;
             if (species == (int)Species.Alcremie)
             {
                 form *= 7;
                 form += (int)((PK8)pkm).FormArgument; // alteration byte
             }
-            else if (species == (int) Species.Eternatus && pkm.Form == 1)
+            else if (species == (int) Species.Eternatus && form == 1)
             {
                 form = 0;
                 SetSeenRegion(species, 63, g | s);
@@ -479,7 +493,7 @@ namespace PKHeX.Core
 
             SetSeenRegion(species, form, g | s);
             SetCaught(species);
-            SetIsLanguageObtained(species, pkm.Language);
+            SetIsLanguageObtained(species, language);
             if (!owned)
             {
                 SetFormDisplayed(species, (byte)form);
@@ -706,10 +720,16 @@ namespace PKHeX.Core
         #endregion
     }
 
+    /// <summary>
+    /// Indicates which <see cref="Zukan8Type"/> block will store the entry, and at what index.
+    /// </summary>
     public readonly struct Zukan8Index
     {
+        /// <summary> Index that the Pokédex entry is stored at. </summary>
         public readonly int Index;
+        /// <summary> Which block stores the Pokédex entry. </summary>
         public readonly Zukan8Type DexType;
+
         public override string ToString() => $"{Index:000} - {DexType}";
 
         public Zukan8Index(Zukan8Type dexType, int index)
@@ -729,12 +749,16 @@ namespace PKHeX.Core
 
         public int Offset => GetSavedIndex() * Zukan8.EntrySize;
 
-        private const int GalarCount = 400;
-        private const int Rigel1Count = 211;
-        private const int Rigel2Count = 2;
-
-        // expects zero based indexes
-        public static Zukan8Index GetFromRawIndex(int index)
+        private const int GalarCount = 400; // Count within Galar dex
+        private const int Rigel1Count = 211; // Count within Armor dex
+        private const int Rigel2Count = 210; // Count within Crown dex
+#if DEBUG
+        public const int TotalCount = GalarCount + Rigel1Count + Rigel2Count;
+        /// <summary>
+        /// Gets the <see cref="Zukan8Index"/> from the absolute (overall) dex index. Don't use this method unless you're analyzing things.
+        /// </summary>
+        /// <param name="index">Unique Pokédex index (incremental). Should be 0-indexed.</param>
+        public static Zukan8Index GetFromAbsoluteIndex(int index)
         {
             if (index < 0)
                 return new Zukan8Index();
@@ -752,14 +776,9 @@ namespace PKHeX.Core
 
             throw new ArgumentOutOfRangeException(nameof(index));
         }
+#endif
 
-        public string DexPrefix => DexType switch
-        {
-            Zukan8Type.Galar => "O0",
-            Zukan8Type.Armor => "R1",
-            Zukan8Type.Crown => "R2",
-            _ => throw new ArgumentOutOfRangeException()
-        };
+        public string DexPrefix => DexType.GetZukanTypeInternalPrefix();
 
         public int AbsoluteIndex => DexType switch
         {
@@ -801,5 +820,16 @@ namespace PKHeX.Core
         Galar,
         Armor,
         Crown,
+    }
+
+    public static class Zukan8TypeExtensions
+    {
+        public static string GetZukanTypeInternalPrefix(this Zukan8Type type) => type switch
+        {
+            Zukan8Type.Galar => "O0",
+            Zukan8Type.Armor => "R1",
+            Zukan8Type.Crown => "R2",
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
     }
 }
