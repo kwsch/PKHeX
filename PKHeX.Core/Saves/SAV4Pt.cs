@@ -7,8 +7,19 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4Pt : SAV4Sinnoh
     {
-        public SAV4Pt() => Initialize();
-        public SAV4Pt(byte[] data) : base(data) => Initialize();
+        public SAV4Pt()
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public SAV4Pt(byte[] data) : base(data)
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public override Zukan4 Dex { get; }
         protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4Pt(Data) : new SAV4Pt();
         public override PersonalTable Personal => PersonalTable.Pt;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_Pt;

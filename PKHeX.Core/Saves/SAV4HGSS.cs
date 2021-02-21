@@ -8,8 +8,19 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class SAV4HGSS : SAV4
     {
-        public SAV4HGSS() => Initialize();
-        public SAV4HGSS(byte[] data) : base(data) => Initialize();
+        public SAV4HGSS()
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public SAV4HGSS(byte[] data) : base(data)
+        {
+            Initialize();
+            Dex = new Zukan4(this, PokeDex);
+        }
+
+        public override Zukan4 Dex { get; }
         protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4HGSS(Data) : new SAV4HGSS();
 
         public override PersonalTable Personal => PersonalTable.HGSS;
