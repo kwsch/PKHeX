@@ -3,6 +3,7 @@
 4562	Been to Akala Island/Can Receive Partner Cap Pikachu
 4563	Received Partner Cap Pikachu
 0518	Received Surfing Pikachu
+0443	Received Gift Eevee Egg
 0493	Received Gift Porygon
 0504	Received Gift Aerodactyl
 0654	Received Gift Type: Null (1)
