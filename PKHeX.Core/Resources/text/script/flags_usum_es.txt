@@ -3,10 +3,11 @@
 4562	Ha ido a Isla Akala/Puede recibir Pikachu con Gorro
 4563	Recibido Pikachu con Gorro
 0518	Recibido Pikachu con Surf
+0443	Received Gift Eevee Egg
 0493	Recibido Porygon de Regalo
 0504	Recibido Aerodactyl de Regalo
-0654	Recibido Type: Null de Regalo (1)
-1101	Recibido Type: Null de Regalo (2)
+0654	Recibido Código Cero de Regalo (1)
+1101	Recibido Código Cero de Regalo (2)
 0503	Recibido Cosmog de Regalo
 4447	Recibido Magearna de Regalo
 0269	Recibido Poipole de Regalo
