@@ -70,7 +70,7 @@ namespace PKHeX.Core
 
             // Floette has 3 separate forms (RBY)
             slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 0, 30, 30);
-            slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 2, 30, 30);
+            slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 1, 30, 30);
             slots[i++] = new EncounterSlot6XY(this, (int)Species.Floette, 3, 30, 30);
 
             // Region Random Vivillon
