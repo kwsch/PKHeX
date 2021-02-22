@@ -24,6 +24,14 @@
             return true; // transfer location verified later
         }
 
+        protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
+        {
+            if (pkm.Format != 4) // Met Level lost on PK4=>PK5
+                return Level <= evo.Level;
+
+            return pkm.Met_Level == Level;
+        }
+
         protected override bool IsMatchPartial(PKM pkm)
         {
             if (Gift && pkm.Ball != Ball)
