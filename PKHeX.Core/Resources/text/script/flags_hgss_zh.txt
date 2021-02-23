@@ -16,17 +16,17 @@
 2404	已进入名人堂 (训练家卡片升级)
 0388	获得一个闪光王冠 (训练家卡片升级)
 0241	破宝可梦全能竞技赛的记录 (训练家卡片升级)
-0766	Bulbasaur Starter Ball Disappeared
-0767	Squirtle Starter Ball Disappeared
-0768	Charmander Starter Ball Disappeared
-0789	Trading Functionality Disabled (Pokecenter)
-0501	Team Rocket HQ Electrode (1) Disappeared
-0502	Team Rocket HQ Electrode (2) Disappeared
-0503	Team Rocket HQ Electrode (3) Disappeared
-0609	Sleeping Snorlax Disappeared
-0149	Gift Eevee Received 
-0450	Route 36 Sudowoodo Disappeared
-0483	Red Gyarados Disappeared
-0191	Received Shuckle Gift
-0193	Shuckle returned or allowed to keep
-2744	Friday Lapras Disappeared
+0766	初始妙蛙种子精灵球已消失
+0767	初始杰尼龟精灵球已消失
+0768	初始小火龙精灵球已消失
+0789	交换功能已禁用 (宝可梦中心)
+0501	火箭队总部顽皮雷弹 (1) 已消失
+0502	火箭队总部顽皮雷弹 (2) 已消失
+0503	火箭队总部顽皮雷弹 (3) 已消失
+0609	睡觉的卡比兽已消失
+0149	已收到赠送的伊布
+0450	36号路树才怪已消失
+0483	红色暴鲤龙已消失
+0191	收到赠送的壶壶
+0193	壶壶已归还或允许玩家保留
+2744	星期五拉普拉斯已消失
