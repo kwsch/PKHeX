@@ -15,5 +15,5 @@
 0900	席多蓝恩 已消失
 0924	雷吉奇卡斯 已消失
 0897	克雷色利亚 已消失
-0106	Trading Functionality Enabled (PokeCenter)
-2403	Has Running Shoes
+0106	开启交换功能 (宝可梦中心)
+2403	得到跑步鞋

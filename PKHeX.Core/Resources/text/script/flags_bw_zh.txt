@@ -8,5 +8,5 @@
 0651	毕力吉翁 已消失
 0652	障碍 (冠军之路) 已清除
 0653	障碍 (矢车森林) 已清除
-2403	Has Running Shoes
-0115	Trading Functionality Enabled (Pokecenter)
+2403	得到跑步鞋
+0115	开启交换功能 (宝可梦中心)
