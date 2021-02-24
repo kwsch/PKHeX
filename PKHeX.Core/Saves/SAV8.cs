@@ -140,6 +140,7 @@ namespace PKHeX.Core
                 Records.AddRecord(01); // wild capture
                 Records.AddRecord(06); // total captured
                 Records.AddRecord(16); // wild encountered
+                Records.AddRecord(23); // total battled
             }
             if (pkm.CurrentHandler == 1)
                 Records.AddRecord(17, 2); // trade * 2 -- these games count 1 trade as 2 for some reason.

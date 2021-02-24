@@ -194,7 +194,10 @@ namespace PKHeX.Core
             if (pkm.CurrentHandler == 1)
                 Records.AddRecord(011); // trade
             if (!pkm.WasEgg)
+            {
                 Records.AddRecord(004); // wild encounters
+                Records.AddRecord(042); // balls used
+            }
         }
 
         private static uint GetFormArgument(PKM pkm)

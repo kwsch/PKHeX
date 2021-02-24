@@ -147,7 +147,10 @@ namespace PKHeX.Core
             if (pkm.CurrentHandler == 1)
                 Records.AddRecord(012); // trade
             if (!pkm.WasEgg)
+            {
+                Records.AddRecord(004); // total battles
                 Records.AddRecord(005); // wild encounters
+            }
         }
 
         private static uint GetFormArgument(PKM pkm, bool isParty)
