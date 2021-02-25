@@ -69,7 +69,8 @@
 0x84C	Mystery Event Enabled
 0x84D	Used White Flute
 0x84E	Used Black Flute
-0x84F	Completed Sealed Chamber Puzzle
+0x84F	Completed Sealed Chamber Puzzle (1)
+0x0E4	Completed Sealed Chamber Puzzle (2)
 0x850	Completed Regirock Puzzle
 0x851	Completed Regice Puzzle
 0x852	Completed Registeel Puzzle
