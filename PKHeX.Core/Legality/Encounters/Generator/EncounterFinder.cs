@@ -58,6 +58,7 @@ namespace PKHeX.Core
                 if (encounter.PeekIsNext())
                     continue;
 
+                // We ran out of possible encounters without finding a suitable match; add a message indicating that the encounter is not a complete match.
                 info.Parse.Add(new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter));
                 break;
             }

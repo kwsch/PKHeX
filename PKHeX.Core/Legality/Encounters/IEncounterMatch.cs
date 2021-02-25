@@ -2,9 +2,19 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Exposes details about the quality of a potential match compared to an input <see cref="PKM"/>.
+    /// </summary>
     public interface IEncounterMatch
     {
+        /// <summary>
+        /// Checks if the implementing object's details might have been the originator of the current <see cref="pkm"/> data.
+        /// </summary>
         bool IsMatchExact(PKM pkm, DexLevel dl);
+
+        /// <summary>
+        /// Checks if the potential match may not be a perfect match (might be a better match later during iteration).
+        /// </summary>
         EncounterMatchRating GetMatchRating(PKM pkm);
     }
 

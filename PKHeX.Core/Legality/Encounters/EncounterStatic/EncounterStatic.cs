@@ -304,8 +304,14 @@ namespace PKHeX.Core
             return EncounterMatchRating.Match;
         }
 
+        /// <summary>
+        /// Checks if the provided <see cref="pkm"/> might not be the best match, or even a bad match due to minor reasons.
+        /// </summary>
         protected virtual bool IsMatchDeferred(PKM pkm) => false;
 
+        /// <summary>
+        /// Checks if the provided <see cref="pkm"/> is not an exact match due to minor reasons.
+        /// </summary>
         protected virtual bool IsMatchPartial(PKM pkm)
         {
             if (pkm.Format >= 5 && pkm.AbilityNumber == 4 && this.IsPartialMatchHidden(pkm.Species, Species))
