@@ -717,6 +717,12 @@ namespace PKHeX.Core
             // 2/12 - Valentines
             new(60,10,5) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, CanGigantamax = true, Shiny = Shiny.Always }, // Milcery
           //new(60,10,5) { Species = 868, Ability = A4, Moves = new[]{ 577, 605, 496, 500 }, CanGigantamax = true }, // Milcery
+
+            // 2/25 - Pikachu
+            new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 804, 435, 057, 574 }, CanGigantamax = true, Shiny = Shiny.Always }, // Pikachu
+            new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 280, 583, 231 }, CanGigantamax = true, Shiny = Shiny.Always }, // Pikachu
+            new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 804, 435, 057, 574 }, CanGigantamax = true }, // Pikachu
+            new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 280, 583, 231 }, CanGigantamax = true }, // Pikachu
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
