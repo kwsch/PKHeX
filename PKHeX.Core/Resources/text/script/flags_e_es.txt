@@ -103,7 +103,8 @@
 0x8AB	Debloqueada PC de Aredia
 0x8AD	Usada Flauta Blanca
 0x8AE	Usada Flauta Negra
-0x8AF	Completado Puzzle de la Camara Sellada
+0x8AF	Completado Puzzle de la Camara Sellada (1)
+0x0E4	Completado Puzzle de la Camara Sellada (2)
 0x8B0	Completado Puzzle de Regirock
 0x8B1	Completado Puzzle de Regice
 0x8B2	Completado Puzzle de Registeel

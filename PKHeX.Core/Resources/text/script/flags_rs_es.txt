@@ -70,7 +70,8 @@
 0x84C	Regalo Misterioso Habilitado
 0x84D	Usada Flauta Blanca
 0x84E	Usada Flauta Negra
-0x84F	Completado Puzzle de la Camara Sellada
+0x84F	Completado Puzzle de la Camara Sellada (1)
+0x0E4	Completado Puzzle de la Camara Sellada (2)
 0x850	Completado Puzzle de Regirock
 0x851	Completado Puzzle de Regice
 0x852	Completado Puzzle de Registeel

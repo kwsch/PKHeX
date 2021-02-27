@@ -103,7 +103,8 @@
 0x8AB	Unlocked Lanette's PC
 0x8AD	Used White Flute
 0x8AE	Used Black Flute
-0x8AF	Completed Sealed Chamber Puzzle
+0x8AF	Completed Sealed Chamber Puzzle (1)
+0x0E4	Completed Sealed Chamber Puzzle (2)
 0x8B0	Completed Regirock Puzzle
 0x8B1	Completed Regice Puzzle
 0x8B2	Completed Registeel Puzzle
