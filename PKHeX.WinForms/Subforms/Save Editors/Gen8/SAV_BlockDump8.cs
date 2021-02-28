@@ -245,5 +245,17 @@ namespace PKHeX.WinForms
             if (CurrentBlock.Type != SCTypeCode.Object && CurrentBlock.Type != SCTypeCode.Array)
                 L_Detail_R.Text = GetBlockSummary(CurrentBlock);
         }
+
+        private void CB_Key_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode != Keys.Enter)
+                return;
+
+            var text = CB_Key.Text;
+            if (text.Length != 8)
+                return;
+
+            CB_Key.SelectedValue = (int)Util.GetHexValue(text);
+        }
     }
 }

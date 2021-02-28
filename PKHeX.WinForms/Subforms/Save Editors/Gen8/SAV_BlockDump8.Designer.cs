@@ -72,6 +72,7 @@
             this.CB_Key.Size = new System.Drawing.Size(183, 22);
             this.CB_Key.TabIndex = 0;
             this.CB_Key.SelectedIndexChanged += new System.EventHandler(this.CB_Key_SelectedIndexChanged);
+            this.CB_Key.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CB_Key_KeyDown);
             // 
             // L_Key
             // 
