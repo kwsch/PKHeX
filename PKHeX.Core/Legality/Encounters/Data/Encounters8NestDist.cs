@@ -723,6 +723,38 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 280, 583, 231 }, CanGigantamax = true, Shiny = Shiny.Always }, // Pikachu
             new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 804, 435, 057, 574 }, CanGigantamax = true }, // Pikachu
             new(60,10,5) { Species = 025, Ability = A4, Moves = new[]{ 344, 280, 583, 231 }, CanGigantamax = true }, // Pikachu
+
+            // 3/1 - March
+            new(17,01,1) { Species = 856, Ability = A4, Moves = new[]{ 312, 093, 574, 595 } }, // Hatenna
+            new(17,01,1) { Species = 280, Ability = A4, Moves = new[]{ 574, 093, 104, 045 } }, // Ralts
+            new(17,01,1) { Species = 109, Ability = A4, Moves = new[]{ 499, 053, 124, 372 } }, // Koffing
+            new(17,01,1) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 043, 681 } }, // Rookidee
+            new(17,01,1) { Species = 627, Ability = A4, Moves = new[]{ 043, 276, 017, 064 } }, // Rufflet
+            new(17,01,1) { Species = 845, Ability = A4, Moves = new[]{ 055, 254, 064, 562 } }, // Cramorant
+            new(30,03,2) { Species = 856, Ability = A4, Moves = new[]{ 605, 060, 574, 595 } }, // Hatenna
+            new(30,03,2) { Species = 281, Ability = A4, Moves = new[]{ 574, 060, 104, 085 } }, // Kirlia
+            new(30,03,2) { Species = 109, Ability = A4, Moves = new[]{ 499, 053, 482, 372 } }, // Koffing
+            new(30,03,2) { Species = 822, Ability = A4, Moves = new[]{ 403, 263, 279, 681 } }, // Corvisquire
+            new(30,03,2) { Species = 627, Ability = A4, Moves = new[]{ 184, 276, 017, 157 } }, // Rufflet
+            new(30,03,2) { Species = 845, Ability = A4, Moves = new[]{ 055, 058, 064, 562 } }, // Cramorant
+            new(40,05,3) { Species = 857, Ability = A4, Moves = new[]{ 605, 060, 595, 574 }, CanGigantamax = true }, // Hattrem -- OOPS!
+            new(40,05,3) { Species = 282, Ability = A4, Moves = new[]{ 585, 060, 595, 085 } }, // Gardevoir
+            new(40,05,3) { Species = 110, Ability = A4, Moves = new[]{ 790, 053, 482, 372 }, Form = 1 }, // Weezing-1
+            new(40,05,3) { Species = 823, Ability = A4, Moves = new[]{ 403, 442, 034, 681 }, CanGigantamax = true }, // Corviknight
+            new(40,05,3) { Species = 628, Ability = A4, Moves = new[]{ 403, 276, 163, 157 } }, // Braviary
+            new(40,05,3) { Species = 845, Ability = A4, Moves = new[]{ 503, 058, 403, 065 } }, // Cramorant
+            new(50,08,4) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 595, 247 }, CanGigantamax = true }, // Hatterene
+            new(50,08,4) { Species = 282, Ability = A4, Moves = new[]{ 585, 094, 595, 085 } }, // Gardevoir
+            new(50,08,4) { Species = 110, Ability = A4, Moves = new[]{ 790, 126, 482, 372 }, Form = 1 }, // Weezing-1
+            new(50,08,4) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 034, 681 }, CanGigantamax = true }, // Corviknight
+            new(50,08,4) { Species = 628, Ability = A4, Moves = new[]{ 403, 276, 442, 157 } }, // Braviary
+            new(50,08,4) { Species = 845, Ability = A4, Moves = new[]{ 056, 058, 403, 065 } }, // Cramorant
+            new(60,10,5) { Species = 858, Ability = A4, Moves = new[]{ 605, 094, 438, 247 }, CanGigantamax = true }, // Hatterene
+            new(60,10,5) { Species = 282, Ability = A4, Moves = new[]{ 585, 094, 261, 085 } }, // Gardevoir
+            new(60,10,5) { Species = 110, Ability = A4, Moves = new[]{ 790, 126, 482, 399 }, Form = 1 }, // Weezing-1
+            new(60,10,5) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 776, 372 }, CanGigantamax = true }, // Corviknight
+            new(60,10,5) { Species = 628, Ability = A4, Moves = new[]{ 413, 370, 442, 157 } }, // Braviary
+            new(60,10,5) { Species = 845, Ability = A4, Moves = new[]{ 056, 058, 403, 057 } }, // Cramorant
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
