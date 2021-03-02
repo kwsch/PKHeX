@@ -373,9 +373,9 @@ namespace PKHeX.Core
             // 1283, // ★And390 (Stonjourner)
             // 1284, // ★Sgr6879 (Copperajah)
             // 1285, // ★Sgr6859 (Centiskorch)
-            1286, // ★Sgr6913
-            1287, // ★Sgr7348
-            1288, // ★Sgr7121
+            1286, // ★Sgr6913 (Flapple/Appletun)
+            1287, // ★Sgr7348 (Sandaconda)
+            1288, // ★Sgr7121 (Duraludon)
             1289, // ★Sgr6746
             1290, // ★Sgr7194
             1291, // ★Sgr7337

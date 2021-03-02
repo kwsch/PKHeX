@@ -15,8 +15,10 @@ namespace PKHeX.Core
             new(SWSH) { Species = 874, Level = 15, Ability = A3, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 2, Moves = new[] {397,317,335,157} }, // ★And390 Stonjourner
             new(SWSH) { Species = 879, Level = 35, Ability = A3, Location = 126, IVs = new[] {31,31,-1, 0,31,-1}, DynamaxLevel = 4, Moves = new[] {484,174,776,583}, CanGigantamax = true }, // ★Sgr6879 Gigantamax Copperajah
             new(SWSH) { Species = 851, Level = 35, Ability = A2, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {680,679,489,438}, CanGigantamax = true }, // ★Sgr6859 Gigantamax Centiskorch
-          //new(SW  ) { Species = 844, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {523,776,489,157}, CanGigantamax = true }, // ★Sgr7348 Gigantamax Sandaconda
-          //new(  SH) { Species = 884, Level = 40, Ability = A2, Location = 126, IVs = new[] {31,-1,-1,31,31,-1}, DynamaxLevel = 5, Moves = new[] {796,063,784,319}, CanGigantamax = true }, // ★Sgr7121 Gigantamax Duraludon
+          //new(SW  ) { Species = 842, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,-1,31,-1,31,-1}, DynamaxLevel = 5, Moves = new[] {787,412,406,076}, CanGigantamax = true }, // ★Sgr6913 Gigantamax Appletun
+          //new(  SH) { Species = 841, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,31,-1,31,-1,-1}, DynamaxLevel = 5, Moves = new[] {788,491,412,406}, CanGigantamax = true }, // ★Sgr6913 Gigantamax Flapple
+          //new(SWSH) { Species = 844, Level = 40, Ability = A0, Location = 126, IVs = new[] {31,31,31,-1,-1,-1}, DynamaxLevel = 5, Moves = new[] {523,776,489,157}, CanGigantamax = true }, // ★Sgr7348 Gigantamax Sandaconda
+          //new(SWSH) { Species = 884, Level = 40, Ability = A2, Location = 126, IVs = new[] {31,-1,-1,31,31,-1}, DynamaxLevel = 5, Moves = new[] {796,063,784,319}, CanGigantamax = true }, // ★Sgr7121 Gigantamax Duraludon
         };
         #endregion
     }
