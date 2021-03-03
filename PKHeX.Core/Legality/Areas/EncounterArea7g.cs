@@ -35,7 +35,7 @@ namespace PKHeX.Core
 
         private static EncounterArea7g GetArea(byte[] data)
         {
-            var sf = BitConverter.ToInt16(data, 0);
+            var sf = BitConverter.ToUInt16(data, 0);
             int species = sf & 0x7FF;
             int form = sf >> 11;
 
