@@ -1,6 +1,6 @@
-﻿0042	Captured Sudowoodo
-0079	Received Eevee
-1867	Legendary Beasts Disappeared from Burned Tower
+0042	已捕获 树才怪
+0079	已接收 伊布
+1867	神兽已从烧焦塔消失
 0672	SOLVED_HO_OH_PUZZLE
 0673	SOLVED_KABUTO_PUZZLE
 0674	SOLVED_OMANYTE_PUZZLE
@@ -51,7 +51,7 @@
 0719	DECO_BIG_SNORLAX_DOLL
 0720	DECO_BIG_ONIX_DOLL
 0721	DECO_BIG_LAPRAS_DOLL
-0791	Captured Ho-oh
-0792	Captured Lugia
-1872	Captured Snorlax
-1873	Captured Red Gyarados
+0791	已捕获 凤王
+0792	已捕获 洛奇亚
+1872	已捕获 卡比兽
+1873	已捕获 红色暴鲤龙
