@@ -78,6 +78,13 @@
 0x3DD	Descubierto Kecleon (Ruta 119, Derecha del Niño Ninja)
 0x3DE	Descubierto Kecleon (Ruta 119, Izquierda del Niño Ninja)
 
+0x3CE	Oculto en el mundo (Voltorb 1 en Malvalanova)
+0x3CF	Oculto en el mundo (Voltorb 2 en Malvalanova)
+0x3D0	Oculto en el mundo (Voltorb 3 en Malvalanova)
+
+0x3D1	Oculto en el mundo (Electrode 1 en Guarida)
+0x3D2	Oculto en el mundo (Electrode 2 en Guarida)
+
 0x1B1	Usado el Tutor de Movimientos en Ciudad Portual (Contoneo)
 0x1B2	Usado el Tutor de Movimientos en Ciudad Malvalona (Desenrollar)
 0x1B3	Usado el Tutor de Movimientos en Pueblo Verdegal (Corte Furia)
