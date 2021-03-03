@@ -87,8 +87,12 @@
 0x829	Received Pokedex
 0x82F	Received Running Shoes
 0x834	Unlocked Bill's PC
+0x839	Enabled Mystery Gift
+0x840	Received National Pokedex
 0x2A1	Restored Connectivity to Kanto
 0x844	Restored Connectivity to Hoenn
+0x845	Received Tri-Pass
+0x846	Received Rainbow Pass
 0x29B	Received Fame Checker
 0x241	Received Bike Voucher
 0x2A5	Received Lift Key
