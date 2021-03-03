@@ -1,3 +1,9 @@
+0027	Starter is Cyndaquil
+0028	Starter is Totodile
+0029	Starter is Chikorita
+1600	Cyndaquil ball at Elm's disappeared
+1601	Totodile ball at Elm's disappeared
+1602	Chikorita ball at Elm's disappeared
 0042	已捕获 树才怪
 0079	已接收 伊布
 1867	神兽已从烧焦塔消失
