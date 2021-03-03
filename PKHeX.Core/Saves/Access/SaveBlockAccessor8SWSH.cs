@@ -131,6 +131,8 @@ namespace PKHeX.Core
 
         // Values
         public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
+        public const uint KBoxesUnlocked = 0x71825204; // U32
+        public const uint KSecretBoxUnlocked = 0x32A339E9; // bool
         public const uint KGameLanguage = 0x0BFDEBA1; // U32 Game Language
         public const uint KRepel = 0x9ec079da; // U16 Repel Steps remaining
         public const uint KRotoRally = 0x38548020; // U32 Roto Rally Score (99,999 cap)

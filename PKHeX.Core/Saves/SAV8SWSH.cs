@@ -160,6 +160,18 @@ namespace PKHeX.Core
         }
 
         public override int CurrentBox { get => BoxLayout.CurrentBox; set => BoxLayout.CurrentBox = value; }
+        public override int BoxesUnlocked { get => (byte)Blocks.GetBlockValue(SaveBlockAccessor8SWSH.KBoxesUnlocked); set => Blocks.SetBlockValue(SaveBlockAccessor8SWSH.KBoxesUnlocked, (byte)value); }
+
+        public override byte[] BoxFlags
+        {
+            get => new [] {Convert.ToByte(Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type - 1)};
+            set
+            {
+                if (value.Length != 1)
+                    return;
+                Blocks.GetBlock(SaveBlockAccessor8SWSH.KSecretBoxUnlocked).Type = (SCTypeCode)(value[0] & 1) + 1;
+            }
+        }
 
         public override bool HasBoxWallpapers => true;
         public override bool HasNamableBoxes => true;
