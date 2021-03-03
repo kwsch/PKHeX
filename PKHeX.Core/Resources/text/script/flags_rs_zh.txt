@@ -50,6 +50,10 @@
 0x3DD	未发现的变隐龙 (119号道路, 忍者小子右边)
 0x3DE	未发现的变隐龙 (119号道路, 瀑布上面)
 
+0x3CE	Overworld Hidden (Voltorb 1 in New Mauville)
+0x3CF	Overworld Hidden (Voltorb 2 in New Mauville)
+0x3D0	Overworld Hidden (Voltorb 3 in New Mauville)
+
 0x3D1	隐藏地区 (顽皮雷蛋 1 在隐藏处)
 0x3D2	隐藏地区 (顽皮雷蛋 2 在隐藏处)
 
