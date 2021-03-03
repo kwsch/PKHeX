@@ -47,3 +47,4 @@
 0305	获得伊布
 2430	解锁水木的电脑
 2728	星期五飘飘球已消失
+2722	Today's Trophy Garden Pokémon Known
