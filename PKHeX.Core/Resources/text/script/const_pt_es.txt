@@ -11,6 +11,8 @@
 0067	Carné Socio	0:No Activado,4617:Activado
 0068	Carta Prof Oak	0:No Activado,4370:Activado
 0069	Flauta Azur	0:No Activado,4387:Activado
+0070	Ll. Secreta	0:No Activado,4387:Activado
+0086	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
 0087	Evento de Sémola (Ruta 224)	0:No Activado,1:Puede ser activado,2:Activado
 0133	Sémola (Ruta 224)	0:No Activado,1:Activado,2:Aparecido
 0105	Estatua de las Ruinas de Hierro	0:Inactivo,270:Activado,280:Derrotado,290:Capturado

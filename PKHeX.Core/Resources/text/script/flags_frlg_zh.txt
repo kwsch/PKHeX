@@ -87,8 +87,12 @@
 0x829	获得宝可梦图鉴
 0x82F	获得跑步鞋
 0x834	解锁正辉的电脑
+0x839	Enabled Mystery Gift
+0x840	Received National Pokedex
 0x2A1	恢复了与关都的连接
 0x844	恢复了与丰缘的连接
+0x845	Received Tri-Pass
+0x846	Received Rainbow Pass
 0x29B	获得声音记录器
 0x241	获得兑换券
 0x2A5	获得电梯钥匙

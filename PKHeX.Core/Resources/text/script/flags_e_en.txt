@@ -78,6 +78,13 @@
 0x3DD	Uncovered Kecleon (Route 119, Right of Ninja Boy)
 0x3DE	Uncovered Kecleon (Route 119, Left of Ninja Boy)
 
+0x3CE	Overworld Hidden (Voltorb 1 in New Mauville)
+0x3CF	Overworld Hidden (Voltorb 2 in New Mauville)
+0x3D0	Overworld Hidden (Voltorb 3 in New Mauville)
+
+0x3D1	Overworld Hidden (Electrode 1 in Aqua Hideout)
+0x3D2	Overworld Hidden (Electrode 2 in Aqua Hideout)
+
 0x1B1	Used Move Tutor in Slateport City (Swagger)
 0x1B2	Used Move Tutor in Mauville City (Rollout)
 0x1B3	Used Move Tutor in Verdanturf Town (Fury Cutter)

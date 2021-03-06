@@ -1,3 +1,9 @@
+0027	Starter is Cyndaquil
+0028	Starter is Totodile
+0029	Starter is Chikorita
+1600	Cyndaquil ball at Elm's disappeared
+1601	Totodile ball at Elm's disappeared
+1602	Chikorita ball at Elm's disappeared
 0042	Captured Sudowoodo
 0079	Received Eevee
 1867	Legendary Beasts Disappeared from Burned Tower

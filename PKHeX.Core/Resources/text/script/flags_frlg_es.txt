@@ -87,8 +87,12 @@
 0x829	Recibida PokéDex
 0x82F	Recibidas Deportivas
 0x834	Debloqueada PC de Bill
+0x839	Enabled Mystery Gift
+0x840	Received National Pokedex
 0x2A1	Restaurada Conectividad con Kanto
 0x844	Restaurada Conectividad con Hoenn
+0x845	Received Tri-Pass
+0x846	Received Rainbow Pass
 0x29B	Recibido Memorín
 0x241	Recibido Bono Bici
 0x2A5	Recibida Llave Ascensor

@@ -11,6 +11,8 @@
 0067	Member Card	0:Not Activated,4617:Activated
 0068	Oak's Letter	0:Not Activated,4370:Activated
 0069	Azure Flute	0:Not Activated,4387:Activated
+0070	Secret Key	0:Not Activated,4355:Activated
+0086	Arceus Event Hiker	0:Not Activated,1:In Oreburgh Mine,2:On Canalave Library 2F,3:Event Completed
 0087	Event Marley (Route 224)	0:Not Activated,1:Can be Activated,2:Activated
 0133	Marley (Route 224)	0:Not Activated,1:Activated,2:Appeared
 0105	Iron Ruins Statue	0:Inactive,270:Activated,280:Defeated,290:Caught

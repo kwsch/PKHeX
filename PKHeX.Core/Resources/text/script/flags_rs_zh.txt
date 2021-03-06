@@ -14,7 +14,7 @@
 0x80A	获得烈焰徽章
 0x80B	获得天秤徽章
 0x80C	获得白羽徽章
-0x80D	获得心灵徽章
+0x80D	获得心灵徽章 (熔岩队/海洋队藏身处入口密封)
 0x80E	获得雨滴徽章
 
 0x099	在卡那兹市交换
@@ -50,6 +50,10 @@
 0x3DD	未发现的变隐龙 (119号道路, 忍者小子右边)
 0x3DE	未发现的变隐龙 (119号道路, 瀑布上面)
 
+0x3CE	Overworld Hidden (Voltorb 1 in New Mauville)
+0x3CF	Overworld Hidden (Voltorb 2 in New Mauville)
+0x3D0	Overworld Hidden (Voltorb 3 in New Mauville)
+
 0x3D1	隐藏地区 (顽皮雷蛋 1 在隐藏处)
 0x3D2	隐藏地区 (顽皮雷蛋 2 在隐藏处)
 
@@ -59,7 +63,6 @@
 0x804	进入名人堂
 0x805	使用简易聊天
 0x806	遇见时髦的人
-0x80D	熔岩队/海洋队藏身处入口密封
 0x830	在家里看电视
 0x834	混合存档
 0x835	设置时钟
