@@ -20,7 +20,10 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
             var text = ShowdownParsing.GetLocalizedPreviewText(pk, Settings.Default.Language);
-            ShowSet.SetToolTip(pb, text);
+            var la = new LegalityAnalysis(pk);
+            var result = new List<string>{ text, string.Empty };
+            la.AddEncounterInfo(result);
+            ShowSet.SetToolTip(pb, string.Join(Environment.NewLine, result));
         }
 
         public void Show(Control pb, IEncounterInfo enc)

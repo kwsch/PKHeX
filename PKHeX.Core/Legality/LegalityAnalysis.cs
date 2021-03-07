@@ -400,6 +400,19 @@ namespace PKHeX.Core
             lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
 
             lines.AddRange(br);
+            AddEncounterInfo(lines);
+
+            if (!Valid && Info.InvalidMatches != null)
+            {
+                lines.Add("Other match(es):");
+                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Encounter.LongName}: {z.Reason}"));
+            }
+
+            return GetLegalityReport() + string.Join(Environment.NewLine, lines);
+        }
+
+        public void AddEncounterInfo(List<string> lines)
+        {
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));
             var loc = EncounterLocation;
             if (!string.IsNullOrEmpty(loc))
@@ -416,13 +429,6 @@ namespace PKHeX.Core
                     lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
                 lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
             }
-            if (!Valid && Info.InvalidMatches != null)
-            {
-                lines.Add("Other match(es):");
-                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Encounter.LongName}: {z.Reason}"));
-            }
-
-            return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
     }
 }
