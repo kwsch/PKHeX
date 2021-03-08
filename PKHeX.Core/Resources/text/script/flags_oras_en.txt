@@ -15,10 +15,11 @@
 2926	(OR) Reshiram Captured
 0279	(AS) Zekrom Defeated
 2927	(AS) Zekrom Captured
-0515	(OR) Latias Defeated
-2930	(OR) Latias Captured
-0516	(AS) Latios Defeated
-2931	(AS) Latios Captured
+0515	Latias Disappeared
+2930	Latias Captured
+0516	Latios Disappeared
+2931	Latios Captured
+3010  Received Eon Ticket
 3011	Eon Ticket Event Completed
 1041	Deoxys Defeated @ Sky Tower
 2938	Deoxys Captured @ Sky Tower
