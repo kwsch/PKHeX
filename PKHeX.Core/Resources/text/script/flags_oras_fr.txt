@@ -15,13 +15,14 @@
 2926	(RO) Reshiram Capturé
 0279	(SA) Zekrom Vaincu
 2927	(SA) Zekrom Capturé
-0515	(RO) Latias Vaincu
-2930	(RO) Latias Capturé
-0516	(SA) Latios Vaincu
-2931	(SA) Latios Capturé
+0515	Latias Disparu
+2930	Latias Capturé
+0516	Latios Disparu
+2931	Latios Capturé
+3010	Reçu Passe Éon
 3011	Évt. Ticket Éon Complété
-1041	Deoxys Vaincu @ Sky Tower
-2938	Deoxys Capturé @ Sky Tower
+1041	Deoxys Disparu @ Pilier Céleste
+2938	Deoxys Capturé @ Pilier Céleste
 0269	Raikou Vaincu
 2907	Raikou Capturé
 0270	Entei Vaincu
