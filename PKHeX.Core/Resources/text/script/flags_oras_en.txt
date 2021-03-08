@@ -21,8 +21,8 @@
 2931	Latios Captured
 3010  Received Eon Ticket
 3011	Eon Ticket Event Completed
-1041	Deoxys Defeated @ Sky Tower
-2938	Deoxys Captured @ Sky Tower
+1041	Deoxys Disappeared @ Sky Pillar
+2938	Deoxys Captured @ Sky Pillar
 0269	Raikou Defeated
 2907	Raikou Captured
 0270	Entei Defeated
