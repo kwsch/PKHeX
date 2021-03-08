@@ -59,11 +59,11 @@ namespace PKHeX.Core
 
         private static bool IsHiragana(IEnumerable<char> chars)
         {
-            foreach (var ch_0 in chars)
+            foreach (var c in chars)
             {
-                if ((ch_0 - 0x3041) < 0x53)
+                if ((uint)(c - 0x3041) < 0x53)
                     return true;
-                if ((ch_0 - 0x30A1) < 0x56)
+                if ((uint)(c - 0x30A1) < 0x56)
                     return false;
             }
             return true;
