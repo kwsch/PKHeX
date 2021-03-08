@@ -19,7 +19,7 @@
 2930	Latias Captured
 0516	Latios Disappeared
 2931	Latios Captured
-3010  Received Eon Ticket
+3010	Received Eon Ticket
 3011	Eon Ticket Event Completed
 1041	Deoxys Disappeared @ Sky Pillar
 2938	Deoxys Captured @ Sky Pillar
