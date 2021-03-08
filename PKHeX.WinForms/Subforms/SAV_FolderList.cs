@@ -238,7 +238,7 @@ namespace PKHeX.WinForms
         private void ClickOpenFile(DataGridView dgv)
         {
             var sav = GetSaveFile(dgv);
-            if (sav == null)
+            if (sav == null || !File.Exists(sav.FilePath))
             {
                 WinFormsUtil.Alert(MsgFileLoadFail);
                 return;
@@ -250,7 +250,7 @@ namespace PKHeX.WinForms
         private void ClickOpenFolder(DataGridView dgv)
         {
             var sav = GetSaveFile(dgv);
-            if (sav == null)
+            if (sav == null || !File.Exists(sav.FilePath))
             {
                 WinFormsUtil.Alert(MsgFileLoadFail);
                 return;
