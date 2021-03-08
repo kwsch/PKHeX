@@ -2,6 +2,8 @@
 0211	Mewtwo Captured
 0210	Zygarde Captured
 0886	Zygarde Defeated
+0631	Snorlax Disappeared
+0321	Snorlax Captured
 0381	Singles Statuette
 0382	Doubles Statuette
 0383	Triples Statuette
