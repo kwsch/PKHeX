@@ -70,7 +70,7 @@ namespace PKHeX.WinForms
                     for (int i = 0; i < m.Length; i++)
                     {
                         var ofs = sav3.GetMailOffset(i);
-                        var data = sav.GetData(ofs, Mail3.SIZE);
+                        var data = sav3.Large.Slice(ofs, Mail3.SIZE);
                         m[i] = new Mail3(data, ofs, sav3.Japanese);
                     }
 
@@ -173,16 +173,6 @@ namespace PKHeX.WinForms
             else if (LB_PCBOX.Items.Count > 0)
                 LB_PCBOX.SelectedIndex = 0;
         }
-
-        private readonly int[] HoennListMixed = {
-                277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,
-            304,305,309,310,392,393,394,311,312,306,307,364,365,366,301,302,303,370,371,372,335,336,350,320,315,316,
-                                    322,355,382,383,384,356,357,337,338,353,354,386,387,363,367,368,330,331,313,314,
-                                    339,340,321,351,352,308,332,333,334,344,345,358,359,380,379,348,349,323,324,
-                                326,327,318,319,388,389,390,391,328,329,385,317,377,378,361,362,369,411,376,360,
-                                346,347,341,342,343,373,374,375,381,325,395,396,397,398,399,400,
-                401,402,403,407,408,404,405,406,409,410
-        };
 
         private void LoadList()
         {
@@ -308,7 +298,7 @@ namespace PKHeX.WinForms
             }
             if (Gen == 3)
             {
-                mail.AppearPKM = v < 252 ? v : HoennListMixed[v - 252];
+                mail.AppearPKM = SpeciesConverter.GetG3Species(v);
                 return;
             }
 
@@ -544,15 +534,7 @@ namespace PKHeX.WinForms
             }
             if (Gen == 3)
             {
-                if (v < 252)
-                {
-                    AppearPKMs[0].SelectedValue = v;
-                }
-                else
-                {
-                    v = Array.IndexOf(HoennListMixed, v);
-                    AppearPKMs[0].SelectedValue = v >= 0 ? (252 + v) : 0;
-                }
+                AppearPKMs[0].SelectedValue = SpeciesConverter.GetG4Species(v);
                 editing = false;
                 return;
             }

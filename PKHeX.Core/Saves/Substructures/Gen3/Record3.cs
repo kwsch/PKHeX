@@ -7,30 +7,25 @@ namespace PKHeX.Core
     {
         private readonly SAV3 SAV;
 
-        public uint GetRecord(int record) => BitConverter.ToUInt32(SAV.Data, GetRecordOffset(record)) ^ GetKey(SAV);
-        public void SetRecord(int record, uint value) => SAV.SetData(BitConverter.GetBytes(value ^ GetKey(SAV)), GetRecordOffset(record));
+        public uint GetRecord(int record) => BitConverter.ToUInt32(SAV.Large, GetRecordOffset(record)) ^ GetKey(SAV);
+        public void SetRecord(int record, uint value) => SAV.SetData(SAV.Large, BitConverter.GetBytes(value ^ GetKey(SAV)), GetRecordOffset(record));
 
         private int GetRecordOffset(int record)
         {
             var baseOffset = GetOffset(SAV.Version);
             var offset = baseOffset + (4 * record);
-
-            SAV3.GetLargeBlockOffset(offset, out var chunk, out var ofs);
-            return SAV.GetBlockOffset(chunk) + ofs;
+            return offset;
         }
 
         public Record3(SAV3 sav) => SAV = sav;
 
-        public static int GetOffset(GameVersion ver)
+        public static int GetOffset(GameVersion ver) => ver switch
         {
-            return ver switch
-            {
-                GameVersion.RS => 0x1540,
-                GameVersion.FRLG => 0x1200,
-                GameVersion.E => 0x159C,
-                _ => throw new ArgumentException(nameof(ver))
-            };
-        }
+            GameVersion.RS => 0x1540,
+            GameVersion.E => 0x159C,
+            GameVersion.FRLG => 0x1200,
+            _ => throw new ArgumentException(nameof(ver))
+        };
 
         public static uint GetKey(SAV3 sav)
         {

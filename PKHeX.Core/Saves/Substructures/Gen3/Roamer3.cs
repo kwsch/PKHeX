@@ -4,62 +4,62 @@ namespace PKHeX.Core
 {
     public sealed class Roamer3 : IContestStats, IContestStatsMutable
     {
-        private readonly SaveFile SAV;
         private readonly int Offset;
         public bool IsGlitched { get; }
+        private readonly byte[] Data;
+        private readonly SAV3 SAV;
 
         public Roamer3(SAV3 sav)
         {
-            SAV = sav;
-            Offset = sav.GetBlockOffset(4);
-            if (GameVersion.FRLG.Contains(SAV.Version))
-                Offset += 0x250;
-            else if (SAV.Version == GameVersion.E)
-                Offset += 0x35C;
-            else // RS
-                Offset += 0x2C4;
-            IsGlitched = SAV.Version != GameVersion.E;
+            Data = (SAV = sav).Large;
+            Offset = sav.Version switch
+            {
+                GameVersion.RS => 0x3144,
+                GameVersion.E => 0x31DC,
+                _ => 0x30D0, // FRLG
+            };
+            IsGlitched = sav.Version != GameVersion.E;
         }
 
         private uint IV32
         {
-            get => BitConverter.ToUInt32(SAV.Data, Offset);
-            set => SAV.SetData(BitConverter.GetBytes(value), Offset);
+            get => BitConverter.ToUInt32(Data, Offset);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset);
         }
 
         public uint PID
         {
-            get => BitConverter.ToUInt32(SAV.Data, Offset + 4);
-            set => SAV.SetData(BitConverter.GetBytes(value), Offset + 4);
+            get => BitConverter.ToUInt32(Data, Offset + 4);
+            set => SAV.SetData(Data, BitConverter.GetBytes(value), Offset + 4);
         }
 
         public int Species
         {
-            get => SpeciesConverter.GetG4Species(BitConverter.ToInt16(SAV.Data, Offset + 8));
-            set => SAV.SetData(BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)), Offset + 8);
+            get => SpeciesConverter.GetG4Species(BitConverter.ToInt16(Data, Offset + 8));
+            set => SAV.SetData(Data, BitConverter.GetBytes((ushort)SpeciesConverter.GetG3Species(value)), Offset + 8);
         }
 
         public int HP_Current
         {
-            get => BitConverter.ToInt16(SAV.Data, Offset + 10);
-            set => SAV.SetData(BitConverter.GetBytes((short)value), Offset + 10);
+            get => BitConverter.ToInt16(Data, Offset + 10);
+            set => SAV.SetData(Data, BitConverter.GetBytes((short)value), Offset + 10);
         }
 
         public int CurrentLevel
         {
-            get => SAV.Data[Offset + 12];
-            set => SAV.Data[Offset + 12] = (byte)value;
+            get => Data[Offset + 12];
+            set => Data[Offset + 12] = (byte)value;
         }
 
-        public int Status { get => SAV.Data[Offset + 0x0D]; set => SAV.Data[Offset + 0x0D] = (byte)value; }
+        public int Status { get => Data[Offset + 0x0D]; set => Data[Offset + 0x0D] = (byte)value; }
 
-        public byte CNT_Cool   { get => SAV.Data[Offset + 0x0E]; set => SAV.Data[Offset + 0x0E] = value; }
-        public byte CNT_Beauty { get => SAV.Data[Offset + 0x0F]; set => SAV.Data[Offset + 0x0F] = value; }
-        public byte CNT_Cute   { get => SAV.Data[Offset + 0x10]; set => SAV.Data[Offset + 0x10] = value; }
-        public byte CNT_Smart  { get => SAV.Data[Offset + 0x11]; set => SAV.Data[Offset + 0x11] = value; }
-        public byte CNT_Tough  { get => SAV.Data[Offset + 0x12]; set => SAV.Data[Offset + 0x12] = value; }
+        public byte CNT_Cool   { get => Data[Offset + 0x0E]; set => Data[Offset + 0x0E] = value; }
+        public byte CNT_Beauty { get => Data[Offset + 0x0F]; set => Data[Offset + 0x0F] = value; }
+        public byte CNT_Cute   { get => Data[Offset + 0x10]; set => Data[Offset + 0x10] = value; }
+        public byte CNT_Smart  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = value; }
+        public byte CNT_Tough  { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = value; }
         public byte CNT_Sheen  { get => 0; set { } }
-        public bool Active    { get => SAV.Data[Offset + 0x13] == 1; set => SAV.Data[Offset + 0x13] = value ? 1 : 0; }
+        public bool Active    { get => Data[Offset + 0x13] == 1; set => Data[Offset + 0x13] = value ? 1 : 0; }
 
         // Derived Properties
         private int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }

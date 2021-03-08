@@ -70,7 +70,7 @@ namespace PKHeX.Core
                 return None;
             return new List<SlotInfoMisc>
             {
-                new(sav.Data, 0, sav.GetBlockOffset(4) + 0xE18) {Type = StorageSlotType.Daycare }
+                new(sav.Large, 0, 0x3C98) {Type = StorageSlotType.Daycare }
             };
         }
 
