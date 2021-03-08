@@ -129,5 +129,18 @@ namespace PKHeX.Core
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
         public static ushort CheckSum32(byte[] data, uint initial = 0) => CheckSum32(data, 0, data.Length, initial);
+
+        /// <summary>Calculates the 32bit checksum over an input byte array. Used in GC R/S BOX.</summary>
+        /// <param name="data">Input byte array</param>
+        /// <param name="start">Offset to start checksum at</param>
+        /// <param name="end">Exclusive end offset to finish the checksum at</param>
+        /// <returns>Checksum</returns>
+        public static uint CheckSum16BigInvert(byte[] data, int start, int end)
+        {
+            ushort chk = 0; // initial value
+            for (int i = start; i < end; i += 2)
+                chk += BigEndian.ToUInt16(data, i);
+            return (uint)(chk << 16 | (ushort)(0xF004 - chk));
+        }
     }
 }

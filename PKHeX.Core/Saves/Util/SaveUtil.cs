@@ -273,20 +273,20 @@ namespace PKHeX.Core
                 const int blockCount = 14;
                 const int blockSize = 0x1000;
                 int ofs = blockCount * blockSize * s;
-                int[] order = new int[blockCount];
+                var order = new short[blockCount];
                 for (int i = 0; i < order.Length; i++)
-                    order[i] = BitConverter.ToUInt16(data, (i * blockSize) + 0xFF4 + ofs);
+                    order[i] = BitConverter.ToInt16(data, (i * blockSize) + 0xFF4 + ofs);
 
-                if (Array.FindIndex(order, i => i > 0xD) >= 0) // invalid block ID
+                if (Array.FindIndex(order, i => (uint)i > 0xD) >= 0) // invalid block ID
                     continue;
 
-                int block0 = Array.IndexOf(order, 0);
+                int block0 = Array.IndexOf(order, (short)0);
 
                 // Sometimes not all blocks are present (start of game), yielding multiple block0's.
                 // Real 0th block comes before block1.
                 if (order[0] == 1 && block0 != order.Length - 1)
                     continue;
-                if (Array.FindIndex(order, v => v != 0) < 0) // all blocks are 0
+                if (Array.TrueForAll(order, v => v == 0)) // all blocks are 0
                     continue;
                 // Detect RS/E/FRLG
                 return SAV3.GetVersion(data, (blockSize  * block0) + ofs);
@@ -302,21 +302,11 @@ namespace PKHeX.Core
             if (data.Length is not SIZE_G3BOX)
                 return Invalid;
 
-            byte[] sav = data;
-
             // Verify first checksum
-            ushort chk = 0; // initial value
-            var ofs = data.Length - SIZE_G3BOX + 0x2000;
-            for (int i = 0x4; i < 0x1FFC; i += 2)
-                chk += BigEndian.ToUInt16(sav, ofs + i);
-
-            ushort chkA = chk;
-            ushort chkB = (ushort)(0xF004 - chkA);
-
-            ushort CHK_A = BigEndian.ToUInt16(sav, ofs + 0);
-            ushort CHK_B = BigEndian.ToUInt16(sav, ofs + 2);
-
-            return CHK_A == chkA && CHK_B == chkB ? RSBOX : Invalid;
+            const int offset = 0x2000;
+            var chk = Checksums.CheckSum16BigInvert(data, offset + 4, offset + 0x1FFC);
+            var actual = BigEndian.ToUInt32(data, offset);
+            return chk == actual ? RSBOX : Invalid;
         }
 
         /// <summary>Checks to see if the data belongs to a Colosseum save</summary>
@@ -328,10 +318,10 @@ namespace PKHeX.Core
                 return Invalid;
 
             // Check the intro bytes for each save slot
-            int offset = data.Length - SIZE_G3COLO;
+            const int offset = 0x6000;
             for (int i = 0; i < 3; i++)
             {
-                var ofs = 0x6000 + offset + (0x1E000 * i);
+                var ofs = offset + (0x1E000 * i);
                 if (BitConverter.ToUInt32(data, ofs) != 0x00000101)
                     return Invalid;
             }
@@ -347,10 +337,10 @@ namespace PKHeX.Core
                 return Invalid;
 
             // Check the intro bytes for each save slot
-            int offset = data.Length - SIZE_G3XD;
+            const int offset = 0x6000;
             for (int i = 0; i < 2; i++)
             {
-                var ofs = 0x6000 + offset + (0x28000 * i);
+                var ofs = offset + (0x28000 * i);
                 if ((BitConverter.ToUInt32(data, ofs) & 0xFFFE_FFFF) != 0x00000101)
                     return Invalid;
             }

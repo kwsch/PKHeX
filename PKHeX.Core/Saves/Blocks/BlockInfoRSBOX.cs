@@ -40,15 +40,7 @@ namespace PKHeX.Core
             int start = Offset + 4;
             int end = start + Length - 4;
 
-            return GetChecksum(data, start, end);
-        }
-
-        private static uint GetChecksum(byte[] data, int start, int end)
-        {
-            ushort chk = 0; // initial value
-            for (int j = start; j < end; j += 2)
-                chk += BigEndian.ToUInt16(data, j);
-            return (uint)(chk << 16 | (ushort)(0xF004 - chk));
+            return Checksums.CheckSum16BigInvert(data, start, end);
         }
     }
 }
