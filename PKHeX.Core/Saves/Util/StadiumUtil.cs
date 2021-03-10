@@ -2,8 +2,14 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic pertaining to Pokémon Stadium Save Files.
+    /// </summary>
     public static class StadiumUtil
     {
+        /// <summary>
+        /// Checks if the <see cref="magic"/> value is present either with or without byte-swapping.
+        /// </summary>
         public static bool IsMagicPresentEither(byte[] data, int size, uint magic)
         {
             if (IsMagicPresent(data, size, magic))
@@ -15,6 +21,9 @@ namespace PKHeX.Core
             return false;
         }
 
+        /// <summary>
+        /// Checks if the <see cref="magic"/> value is present without byte-swapping.
+        /// </summary>
         public static bool IsMagicPresent(byte[] data, int size, uint magic)
         {
             // Check footers of first few teams to see if the magic value is there.
@@ -26,6 +35,9 @@ namespace PKHeX.Core
             return true;
         }
 
+        /// <summary>
+        /// Checks if the <see cref="magic"/> value is present either with byte-swapping.
+        /// </summary>
         public static bool IsMagicPresentSwap(byte[] data, int size, uint magic)
         {
             // Check footers of first few teams to see if the magic value is there.

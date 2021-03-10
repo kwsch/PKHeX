@@ -328,17 +328,8 @@ namespace PKHeX.Core
             }
         }
 
-        public override string GetString(byte[] data, int offset, int length) => Util.TrimFromZero(Encoding.BigEndianUnicode.GetString(data, offset, length));
+        public override string GetString(byte[] data, int offset, int length) => StringConverter4.GetBEString4Unicode(data, offset, length);
 
-        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
-        {
-            if (PadToSize == 0)
-                PadToSize = maxLength + 1;
-            if (value.Length > maxLength)
-                value = value.Substring(0, maxLength);
-            if (value.Length != PadToSize)
-                value = value.PadRight(PadToSize, (char)PadWith);
-            return Encoding.BigEndianUnicode.GetBytes(value);
-        }
+        public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0) => StringConverter4.SetBEString4Unicode(value, maxLength, PadToSize, PadWith);
     }
 }

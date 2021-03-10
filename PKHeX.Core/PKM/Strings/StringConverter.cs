@@ -10,6 +10,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter
     {
+        private const char TerminatorNull = (char)0;
+        private const char TerminatorFFFF = (char)0xFFFF;
+
         /// <summary>
         /// Converts bytes to a string according to the input parameters.
         /// </summary>
@@ -75,7 +78,7 @@ namespace PKHeX.Core
         {
             var raw = Encoding.Unicode.GetString(data, offset, count);
             var sb = new StringBuilder(raw);
-            Util.TrimFromFFFF(sb);
+            Util.TrimFromFirst(sb, TerminatorFFFF);
             SanitizeString(sb);
             return sb.ToString();
         }
@@ -95,7 +98,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             UnSanitizeString(sb, 5);
-            sb.Append((char)0xFFFF);
+            sb.Append(TerminatorFFFF);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);
@@ -112,7 +115,7 @@ namespace PKHeX.Core
         {
             var raw = Encoding.Unicode.GetString(data, offset, count);
             var sb = new StringBuilder(raw);
-            Util.TrimFromZero(sb);
+            Util.TrimFromFirst(sb, TerminatorNull);
             SanitizeString(sb);
             return sb.ToString();
         }
@@ -132,7 +135,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             UnSanitizeString(sb, 6);
-            sb.Append((char)0);
+            sb.Append(TerminatorNull);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);
@@ -149,7 +152,7 @@ namespace PKHeX.Core
         {
             var raw = Encoding.Unicode.GetString(data, offset, count);
             var sb = new StringBuilder(raw);
-            Util.TrimFromZero(sb);
+            Util.TrimFromFirst(sb, TerminatorNull);
             SanitizeString(sb);
             RemapChineseGlyphsBin2String(sb);
             return sb.ToString();
@@ -174,7 +177,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             UnSanitizeString(sb, 7);
-            sb.Append((char)0);
+            sb.Append(TerminatorNull);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);
@@ -201,7 +204,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             UnSanitizeString7b(sb);
-            sb.Append((char)0);
+            sb.Append(TerminatorNull);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);

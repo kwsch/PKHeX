@@ -81,7 +81,7 @@ namespace PKHeX.Core
                 var val = data[offset + i];
                 if (!dict.TryGetValue(val, out var c)) // Take valid values
                     break;
-                if (c == '\0') // Stop if Terminator
+                if (c == G1Terminator) // Stop if Terminator
                     break;
                 s.Append(c);
             }

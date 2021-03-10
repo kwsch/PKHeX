@@ -10,6 +10,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter4
     {
+        private const ushort Terminator = 0xFFFF;
+        private const char TerminatorChar = (char)Terminator;
+
         /// <summary>Converts Generation 4 encoded data to decoded string.</summary>
         /// <param name="data">Encoded data</param>
         /// <param name="offset">Offset to read from</param>
@@ -21,10 +24,10 @@ namespace PKHeX.Core
             for (int i = 0; i < count; i += 2)
             {
                 var val = BitConverter.ToUInt16(data, offset + i);
-                if (val == 0xFFFF)
+                if (val == Terminator)
                     break;
                 var chr = ConvertValue2CharG4(val);
-                if (chr == 0xFFFF)
+                if (chr == TerminatorChar)
                     break;
                 s.Append((char)chr);
             }
@@ -47,7 +50,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             StringConverter.UnSanitizeString(sb, 4);
-            sb.Append((char)0xFFFF);
+            sb.Append(TerminatorChar);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);
@@ -75,10 +78,10 @@ namespace PKHeX.Core
             for (int i = 0; i < count; i += 2)
             {
                 var val = BigEndian.ToUInt16(data, offset + i);
-                if (val == 0xFFFF)
+                if (val == Terminator)
                     break;
                 var chr = ConvertValue2CharG4(val);
-                if (chr == 0xFFFF)
+                if (chr == TerminatorChar)
                     break;
                 sb.Append((char)chr);
             }
@@ -103,7 +106,7 @@ namespace PKHeX.Core
 
             // Replace Special Characters and add Terminator
             StringConverter.UnSanitizeString(sb, 4);
-            sb.Append((char)0xFFFF);
+            sb.Append(TerminatorChar);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
                 sb.Append((char)padWith, d2);
@@ -114,6 +117,59 @@ namespace PKHeX.Core
                 var chr = sb[i];
                 var val = ConvertChar2ValueG4(chr);
                 BigEndian.GetBytes(val).CopyTo(data, i * 2);
+            }
+            return data;
+        }
+
+        /// <summary>
+        /// Converts Generation 4 Big Endian encoded character data to string, with direct Unicode characters.
+        /// </summary>
+        /// <remarks>Used by the Save File's internal strings.</remarks>
+        /// <param name="data">Byte array containing encoded character data.</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Converted string.</returns>
+        public static string GetBEString4Unicode(byte[] data, int offset, int count)
+        {
+            // Scan for null terminator
+            for (int i = 0; i < count; i+=2)
+            {
+                if (BitConverter.ToInt16(data, offset + i) != 0)
+                    continue;
+                count = i;
+                break;
+            }
+            return Encoding.BigEndianUnicode.GetString(data, offset, count);
+        }
+
+        /// <summary>
+        /// Converts a string to Generation 4 Big Endian encoded character data, with direct Unicode characters.
+        /// </summary>
+        /// <remarks>Used by the Save File's internal strings.</remarks>
+        /// <param name="value">String to be converted.</param>
+        /// <param name="maxLength">Maximum length of string</param>
+        /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
+        /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
+        /// <returns>Byte array containing encoded character data</returns>
+        public static byte[] SetBEString4Unicode(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        {
+            var sb = new StringBuilder(value);
+            var delta = sb.Length - maxLength;
+            if (delta > 0)
+                sb.Remove(maxLength, delta);
+
+            sb.Append((char)0);
+            var d2 = padTo - sb.Length;
+            if (d2 > 0)
+                sb.Append((char)padWith, d2);
+
+            var data = new byte[sb.Length * 2];
+            for (int i = 0; i < sb.Length; i++)
+            {
+                var ofs = i * 2;
+                var c = (ushort)sb[i];
+                data[ofs + 1] = (byte)c;
+                data[ofs] = (byte)(c >> 8);
             }
             return data;
         }

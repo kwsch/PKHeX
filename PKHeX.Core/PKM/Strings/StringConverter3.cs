@@ -8,6 +8,10 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter3
     {
+        private const byte TerminatorByte = 0xFF;
+        private const char Terminator = (char)TerminatorByte;
+        private const char TerminatorBigEndian = (char)0; // GC
+
         /// <summary>
         /// Converts a Generation 3 encoded value array to string.
         /// </summary>
@@ -23,7 +27,7 @@ namespace PKHeX.Core
             {
                 var val = data[offset + i];
                 var c = GetG3Char(val, jp); // Convert to Unicode
-                if (c == 0xFF) // Stop if Terminator/Invalid
+                if (c == Terminator) // Stop if Terminator/Invalid
                     break;
                 s.Append(c);
             }
@@ -39,17 +43,17 @@ namespace PKHeX.Core
         /// <param name="jp">String destination is Japanese font.</param>
         /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
         /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
-        /// <returns></returns>
+        /// <returns>Encoded data.</returns>
         public static byte[] SetString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
-            var data = new byte[value.Length + 1]; // +1 for 0xFF
+            var data = new byte[value.Length + 1]; // +1 for Terminator
             for (int i = 0; i < value.Length; i++)
             {
                 var chr = value[i];
                 var val = SetG3Char(chr, jp);
-                if (val == 0xFF) // end
+                if (val == Terminator) // end
                 {
                     Array.Resize(ref data, i + 1);
                     break;
@@ -57,9 +61,13 @@ namespace PKHeX.Core
                 data[i] = val;
             }
             if (data.Length > 0)
-                data[data.Length - 1] = 0xFF;
+                data[data.Length - 1] = TerminatorByte;
             if (data.Length > maxLength && padTo <= maxLength)
+            {
+                // Truncate
                 Array.Resize(ref data, maxLength);
+                return data;
+            }
             if (data.Length < padTo)
             {
                 var start = data.Length;
@@ -79,7 +87,7 @@ namespace PKHeX.Core
         {
             var raw = Encoding.BigEndianUnicode.GetString(data, offset, count);
             var sb = new StringBuilder(raw);
-            Util.TrimFromZero(sb);
+            Util.TrimFromFirst(sb, TerminatorBigEndian);
             return sb.ToString();
         }
 
@@ -89,13 +97,13 @@ namespace PKHeX.Core
         /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
         /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = 0)
+        public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = TerminatorBigEndian)
         {
             if (value.Length > maxLength)
                 value = value.Substring(0, maxLength); // Hard cap
             var sb = new StringBuilder(value);
             StringConverter.SanitizeString(sb);
-            sb.Append('\0');
+            sb.Append(TerminatorBigEndian);
             var delta = padTo - value.Length;
             if (delta > 0)
                 sb.Append((char)padWith, delta);
@@ -113,7 +121,7 @@ namespace PKHeX.Core
         {
             var table = jp ? G3_JP : G3_EN;
             if (chr >= table.Length)
-                return (char)0xFF;
+                return Terminator;
             return table[chr];
         }
 
@@ -129,7 +137,9 @@ namespace PKHeX.Core
                 return 0xB4;
             var table = jp ? G3_JP : G3_EN;
             var index = Array.IndexOf(table, chr);
-            return (byte)(index > -1 ? index : 0xFF);
+            if (index == -1)
+                return TerminatorByte;
+            return (byte)index;
         }
 
         private static readonly char[] G3_EN =

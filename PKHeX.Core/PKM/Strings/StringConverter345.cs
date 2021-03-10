@@ -23,6 +23,11 @@ namespace PKHeX.Core
             new byte[] { 0x74, 0x20, 0x0D, 0x02, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xA4, 0xA1, 0x0C, 0x02, 0xE0, 0xFF },
         };
 
+        /// <summary>
+        /// Remaps Gen5 Glyphs to unicode codepoint.
+        /// </summary>
+        /// <param name="str">Input string</param>
+        /// <returns>Remapped string</returns>
         public static string TransferGlyphs56(string str)
         {
             var result = new char[str.Length];

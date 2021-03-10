@@ -154,25 +154,11 @@ namespace PKHeX.Core
         public static string ToTitleCase(string str) => string.IsNullOrWhiteSpace(str) ? string.Empty : string.Join(" ", str.Split(' ').Select(TitleCase));
 
         /// <summary>
-        /// Trims a string at the first instance of a 0xFFFF terminator.
-        /// </summary>
-        /// <param name="input">String to trim.</param>
-        /// <returns>Trimmed string.</returns>
-        public static void TrimFromFFFF(StringBuilder input) => TrimFromFirst(input, (char)0xFFFF);
-
-        /// <summary>
         /// Trims a string at the first instance of a 0x0000 terminator.
         /// </summary>
         /// <param name="input">String to trim.</param>
         /// <returns>Trimmed string.</returns>
         public static string TrimFromZero(string input) => TrimFromFirst(input, '\0');
-
-        /// <summary>
-        /// Trims a string at the first instance of a 0x0000 terminator.
-        /// </summary>
-        /// <param name="input">String to trim.</param>
-        /// <returns>Trimmed string.</returns>
-        public static void TrimFromZero(StringBuilder input) => TrimFromFirst(input, '\0');
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static string TrimFromFirst(string input, char c)
@@ -182,12 +168,14 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static void TrimFromFirst(StringBuilder input, char c)
+        public static void TrimFromFirst(StringBuilder input, char c)
         {
             for (int i = 0; i < input.Length; i++)
             {
-                if (input[i] == c)
-                    input.Remove(i, input.Length - i);
+                if (input[i] != c)
+                    continue;
+                input.Remove(i, input.Length - i);
+                return;
             }
         }
 

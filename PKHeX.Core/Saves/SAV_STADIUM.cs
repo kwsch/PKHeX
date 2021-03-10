@@ -18,6 +18,7 @@
         public sealed override int MaxMoney => 999999;
         public sealed override int MaxCoins => 9999;
 
+        /// <summary> If the original input data was swapped endianness. </summary>
         private readonly bool IsPairSwapped;
 
         protected abstract int TeamCount { get; }

@@ -807,9 +807,9 @@ namespace PKHeX.Core
 
         private static bool IsPokeSpotSlotValid(int slot, uint esv) => slot switch
         {
-            0 when esv < 50 => true,
-            1 when 50 <= esv && esv < 85 => true,
-            2 when 85 <= esv => true,
+            0 => esv < 50 , // [0,50)
+            1 => esv - 50 < 35, // [50,85)
+            2 => esv >= 85, // [85,100)
             _ => false
         };
 

@@ -12,6 +12,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class StringConverter2KOR
     {
+        /// <summary>
+        /// Checks if any of the characters inside <see cref="str"/> are from the special Korean codepoint pages.
+        /// </summary>
         public static bool GetIsG2Korean(string str) => str.All(z => U2GSC_KOR.Any(x => x.ContainsKey(z)));
 
         /// <summary>
@@ -516,6 +519,7 @@ namespace PKHeX.Core
 
         private static readonly Dictionary<byte, char> GSC2U_KOR_B = GSC2U_KOR_0;
 
+        /// <summary> Unicode codepoint => Gen2 value dictionary pages. </summary>
         private static readonly Dictionary<char, byte>[] U2GSC_KOR =
         {
             U2GSC_KOR_0, U2GSC_KOR_1, U2GSC_KOR_2, U2GSC_KOR_3,
@@ -523,6 +527,7 @@ namespace PKHeX.Core
             U2GSC_KOR_8, U2GSC_KOR_9, U2GSC_KOR_A, U2GSC_KOR_B,
         };
 
+        /// <summary> Gen2 value => Unicode codepoint dictionary pages. </summary>
         private static readonly Dictionary<byte, char>[] GSC2U_KOR =
         {
             GSC2U_KOR_0, GSC2U_KOR_1, GSC2U_KOR_2, GSC2U_KOR_3,
