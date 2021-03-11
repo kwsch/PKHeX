@@ -2,6 +2,10 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Self-modifying RNG structure that implements xoroshiro128+
+    /// </summary>
+    /// <remarks>https://en.wikipedia.org/wiki/Xoroshiro128%2B</remarks>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:Override equals and operator equals on value types", Justification = "Unused")]
     public ref struct Xoroshiro128Plus
     {

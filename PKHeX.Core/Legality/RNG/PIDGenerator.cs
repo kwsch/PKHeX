@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains a collection of methods that mutate the input Pokémon object, usually to obtain a <see cref="PIDType"/> correlation.
+    /// </summary>
     public static class PIDGenerator
     {
         private static void SetValuesFromSeedLCRNG(PKM pk, PIDType type, uint seed)

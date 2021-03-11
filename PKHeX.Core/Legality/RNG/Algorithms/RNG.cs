@@ -1,26 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace PKHeX.Core
 {
     /// <summary>
-    /// 32 Bit Linear Congruential Random Number Generator
+    /// <inheritdoc cref="Core.LCRNG"/>
     /// </summary>
     /// <remarks>
+    /// <inheritdoc cref="Core.LCRNG"/>
+    /// <br>
     /// Provides common RNG algorithms used by Generation 3 &amp; 4.
-    /// https://en.wikipedia.org/wiki/Linear_congruential_generator
+    /// This class has extra logic (tuned for performance) that can be used to find the original state(s) based on a limited amount of observed results.
+    /// Refer to the documentation for those methods.
+    /// </br>
     /// </remarks>
-    public sealed class RNG
+    public sealed class RNG : LCRNG
     {
         /// <summary> LCRNG used for Encryption and mainline game RNG calls. </summary>
         public static readonly RNG LCRNG = new(0x41C64E6D, 0x00006073, 0xEEB9EB65, 0x0A3561A1);
+
         /// <summary> LCRNG used by Colosseum & XD for game RNG calls. </summary>
         public static readonly RNG XDRNG = new(0x000343FD, 0x00269EC3, 0xB9B33155, 0xA170F641);
-        /// <summary> Alternate LCRNG used by mainline game RNG calls to disassociate the seed from the <see cref="LCRNG"/>, for anti-shiny and other purposes. </summary>
-        public static readonly RNG ARNG  = new(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
 
-        private readonly uint Mult, Add, rMult, rAdd;
+        /// <summary> Alternate LCRNG used by mainline game RNG calls to disassociate the seed from the <see cref="LCRNG"/>, for anti-shiny and other purposes. </summary>
+        public static readonly LCRNG ARNG  = new(0x6C078965, 0x00000001, 0x9638806D, 0x69C77F93);
+
+        #region Seed Reversal Logic
 
         // Bruteforce cache for searching seeds
         private const int cacheSize = 1 << 16;
@@ -33,36 +38,35 @@ namespace PKHeX.Core
         private readonly uint k2s; // Mult*Mult<<8
         private readonly byte[] g_low8 = new byte[cacheSize];
         private readonly bool[] g_flags = new bool[cacheSize];
+
         // Euclidean division approach
         private readonly long t0; // Add - 0xFFFF
         private readonly long t1; // 0xFFFF * ((long)Mult + 1)
 
-        private RNG(uint f_mult, uint f_add, uint r_mult, uint r_add)
-        {
-            Mult = f_mult;
-            Add = f_add;
-            rMult = r_mult;
-            rAdd = r_add;
+        #endregion
 
+        private RNG(uint f_mult, uint f_add, uint r_mult, uint r_add) : base(f_mult, f_add, r_mult, r_add)
+        {
             // Set up bruteforce utility
-            k2 = Mult << 8;
-            k0g = Mult * Mult;
+            k2 = f_mult << 8;
+            k0g = f_mult * f_mult;
             k2s = k0g << 8;
-            PopulateMeetMiddleArrays();
-            t0 = Add - 0xFFFF;
-            t1 = 0xFFFF * ((long) Mult + 1);
-        }
 
-        private void PopulateMeetMiddleArrays()
-        {
-            uint k4g = Add * (Mult + 1); // 1,3's multiplier
+            // Populate Meet Middle Arrays
+            uint k4g = f_add * (f_mult + 1); // 1,3's multiplier
             for (uint i = 0; i <= byte.MaxValue; i++)
             {
-                SetFlagData(i, Mult, Add, flags, low8); // 1,2
-                SetFlagData(i, k0g,  k4g, g_flags, g_low8); // 1,3
+                SetFlagData(i, f_mult, f_add, flags, low8); // 1,2
+                SetFlagData(i, k0g, k4g, g_flags, g_low8); // 1,3
             }
+
+            t0 = f_add - 0xFFFFU;
+            t1 = 0xFFFFL * ((long) f_mult + 1);
         }
 
+        #region Initialization
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static void SetFlagData(uint i, uint mult, uint add, bool[] f, byte[] v)
         {
             // the second rand() also has 16 bits that aren't known. It is a 16 bit value added to either side.
@@ -79,83 +83,7 @@ namespace PKHeX.Core
             // now the search only has to access the flags array once per loop.
         }
 
-        /// <summary>
-        /// Advances the RNG seed to the next state value.
-        /// </summary>
-        /// <param name="seed">Current seed</param>
-        /// <returns>Seed advanced a single time.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Next(uint seed) => (seed * Mult) + Add;
-
-        /// <summary>
-        /// Reverses the RNG seed to the previous state value.
-        /// </summary>
-        /// <param name="seed">Current seed</param>
-        /// <returns>Seed reversed a single time.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Prev(uint seed) => (seed * rMult) + rAdd;
-
-        /// <summary>
-        /// Advances the RNG seed to the next state value a specified amount of times.
-        /// </summary>
-        /// <param name="seed">Current seed</param>
-        /// <param name="frames">Amount of times to advance.</param>
-        /// <returns>Seed advanced the specified amount of times.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Advance(uint seed, int frames)
-        {
-            for (int i = 0; i < frames; i++)
-                seed = Next(seed);
-            return seed;
-        }
-
-        /// <summary>
-        /// Reverses the RNG seed to the previous state value a specified amount of times.
-        /// </summary>
-        /// <param name="seed">Current seed</param>
-        /// <param name="frames">Amount of times to reverse.</param>
-        /// <returns>Seed reversed the specified amount of times.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public uint Reverse(uint seed, int frames)
-        {
-            for (int i = 0; i < frames; i++)
-                seed = Prev(seed);
-            return seed;
-        }
-
-        /// <summary>
-        /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
-        /// </summary>
-        /// <param name="seed">RNG seed</param>
-        /// <returns>Array of 6 IVs as <see cref="uint"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal uint[] GetSequentialIVsUInt32(uint seed)
-        {
-            uint[] ivs = new uint[6];
-            for (int i = 0; i < 6; i++)
-            {
-                seed = Next(seed);
-                ivs[i] = seed >> 27;
-            }
-            return ivs;
-        }
-
-        /// <summary>
-        /// Generates an IV for each RNG call using the top 5 bits of frame seeds.
-        /// </summary>
-        /// <param name="seed">RNG seed</param>
-        /// <returns>Array of 6 IVs as <see cref="int"/>.</returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal int[] GetSequentialIVsInt32(uint seed)
-        {
-            int[] ivs = new int[6];
-            for (int i = 0; i < 6; i++)
-            {
-                seed = Next(seed);
-                ivs[i] = (int)(seed >> 27);
-            }
-            return ivs;
-        }
+        #endregion
 
         /// <summary>
         /// Gets the origin seeds for two successive 16 bit rand() calls using a meet-in-the-middle approach.
@@ -256,31 +184,5 @@ namespace PKHeX.Core
                     yield return Prev(first | (uint) fix);
             }
         }
-    }
-
-    public enum RNGType
-    {
-        /// <summary> No RNG type specified </summary>
-        None,
-
-        /// <summary> <see cref="RNG.LCRNG"/> </summary>
-        LCRNG,
-
-        /// <summary> <see cref="RNG.XDRNG"/> </summary>
-        XDRNG,
-
-        /// <summary> <see cref="RNG.ARNG"/> </summary>
-        ARNG,
-    }
-
-    public static class RNGTypeUtil
-    {
-        public static RNG GetRNG(this RNGType type) => type switch
-        {
-            RNGType.LCRNG => RNG.LCRNG,
-            RNGType.XDRNG => RNG.XDRNG,
-            RNGType.ARNG => RNG.ARNG,
-            _ => throw new ArgumentException(nameof(type))
-        };
     }
 }
