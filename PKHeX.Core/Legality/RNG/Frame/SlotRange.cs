@@ -48,7 +48,7 @@ namespace PKHeX.Core
                 SlotType.Rock_Smash or SlotType.Surf => CalcSlot(ESV, H_Surf),
                 SlotType.Super_Rod or SlotType.Good_Rod or SlotType.Old_Rod => CalcSlot(ESV, K_SuperRod),
                 SlotType.BugContest => CalcSlot(ESV, K_BCC),
-                SlotType.Headbutt => CalcSlot(ESV, K_Headbutt),
+                SlotType.Headbutt or SlotType.Headbutt | SlotType.Special => CalcSlot(ESV, K_Headbutt),
                 _ => CalcSlot(ESV, H_Regular)
             };
         }

@@ -61,15 +61,41 @@ namespace PKHeX.Core
         /// </summary>
         BugContest = 9,
 
+        /// <summary>
+        /// Slot is encountered via Generation 5 Hidden Grotto.
+        /// </summary>
         HiddenGrotto = 10,
-        // GoPark = 11,
-        FriendSafari = 12,
-        Horde = 13,
-        // Pokeradar = 14,
-        SOS = 15,
-        // always used as a modifier to another slot type
 
+        // GoPark = 11, UNUSED, now EncounterSlot7g
+
+        /// <summary>
+        /// Slot is encountered via Generation 6 Friend Safari.
+        /// </summary>
+        FriendSafari = 12,
+
+        /// <summary>
+        /// Slot is encountered via Generation 6 Horde Battle.
+        /// </summary>
+        Horde = 13,
+
+        // Pokeradar = 14, // UNUSED, don't need to differentiate Gen4 Radar Slots
+
+        /// <summary>
+        /// Slot is encountered via Generation 7 SOS triggers only.
+        /// </summary>
+        SOS = 15,
+
+        // Modifiers
+
+        /// <summary>
+        /// Used to differentiate the two types of headbutt tree encounters.
+        /// </summary>
+        /// <remarks><see cref="Headbutt"/></remarks>
         Special = 1 << 6,
+
+        /// <summary>
+        /// Used to identify encounters that are triggered via alternate ESV proc calculations.
+        /// </summary>
         Swarm = 1 << 7,
     }
 
