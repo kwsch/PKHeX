@@ -11,20 +11,20 @@ namespace PKHeX.Core
             if (pkm.IsEgg && pkm.Format <= 5) // pre relearn
                 return MoveList.GetBaseEggMoves(pkm, pkm.Species, 0, (GameVersion)pkm.Version, pkm.CurrentLevel);
 
-            if (types == MoveSourceType.None)
-            {
-                // try to give current moves
-                if (enc.Generation <= 2)
-                {
-                    var lvl = pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
-                    var ver = enc.Version;
-                    return MoveLevelUp.GetEncounterMoves(enc.Species, 0, lvl, ver);
-                }
+            if (types != MoveSourceType.None)
+                return GetValidMoves(pkm, evoChains, types).Skip(1).ToArray(); // skip move 0
 
-                if (pkm.Species == enc.Species)
-                {
-                    return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.Form, pkm.CurrentLevel, (GameVersion)pkm.Version);
-                }
+            // try to give current moves
+            if (enc.Generation <= 2)
+            {
+                var lvl = pkm.Format >= 7 ? pkm.Met_Level : pkm.CurrentLevel;
+                var ver = enc.Version;
+                return MoveLevelUp.GetEncounterMoves(enc.Species, 0, lvl, ver);
+            }
+
+            if (pkm.Species == enc.Species)
+            {
+                return MoveLevelUp.GetEncounterMoves(pkm.Species, pkm.Form, pkm.CurrentLevel, (GameVersion)pkm.Version);
             }
 
             return GetValidMoves(pkm, evoChains, types).Skip(1).ToArray(); // skip move 0

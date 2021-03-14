@@ -33,8 +33,8 @@ namespace PKHeX.WinForms
             var species = GameInfo.SpeciesDataSource.Where(z => list.Contains(z.Value)).ToList();
             CB_Species.InitializeBinding();
             CB_Species.DataSource = new BindingSource(species, null);
-            foreach (var entry in species.OrderBy(z => z.Value))
-                LB_Species.Items.Add($"{entry.Value:000}: {entry.Text}");
+            foreach (var (text, value) in species.OrderBy(z => z.Value))
+                LB_Species.Items.Add($"{value:000}: {text}");
 
             GetTotals();
             CB_Species.KeyDown += WinFormsUtil.RemoveDropCB;

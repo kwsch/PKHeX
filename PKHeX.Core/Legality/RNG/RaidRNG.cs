@@ -102,13 +102,12 @@ namespace PKHeX.Core
             if (pk.IV_SPE != ivs[5])
                 return false;
 
-            int abil;
-            if (ability_param == 254)
-                abil = (int)rng.NextInt(3);
-            else if (ability_param == 255)
-                abil = (int)rng.NextInt(2);
-            else
-                abil = ability_param;
+            int abil = ability_param switch
+            {
+                254 => (int)rng.NextInt(3),
+                255 => (int)rng.NextInt(2),
+                _ => ability_param
+            };
             abil <<= 1; // 1/2/4
 
             var current = pk.AbilityNumber;

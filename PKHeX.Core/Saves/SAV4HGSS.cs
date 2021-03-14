@@ -25,6 +25,7 @@ namespace PKHeX.Core
 
         public override PersonalTable Personal => PersonalTable.HGSS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_HGSS;
+        public override int MaxItemID => Legal.MaxItemID_4_HGSS;
         protected override int GeneralSize => 0xF628;
         protected override int StorageSize => 0x12310; // Start 0xF700, +0 starts box data
         protected override int StorageStart => 0xF700; // unused section right after GeneralSize, alignment?

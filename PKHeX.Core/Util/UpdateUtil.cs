@@ -15,7 +15,7 @@ namespace PKHeX.Core
         {
             const string apiEndpoint = "https://api.github.com/repos/kwsch/pkhex/releases/latest";
             var responseJson = NetUtil.GetStringFromURL(apiEndpoint);
-            if (string.IsNullOrEmpty(responseJson))
+            if (responseJson is null)
                 return null;
 
             // Using a regex to get the tag to avoid importing an entire JSON parsing library

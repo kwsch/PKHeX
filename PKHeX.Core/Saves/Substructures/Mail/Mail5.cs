@@ -46,15 +46,12 @@ namespace PKHeX.Core
         public override ushort GetMessage(int index1, int index2) => BitConverter.ToUInt16(Data, 0x20 + (((index1 * 4) + index2) * 2));
         public override void SetMessage(int index1, int index2, ushort value) => BitConverter.GetBytes(value).CopyTo(Data, 0x20 + (((index1 * 4) + index2) * 2));
 
-        public override bool? IsEmpty
+        public override bool? IsEmpty => MailType switch
         {
-            get
-            {
-                if (MailType == 0xFF) return true;
-                if (MailType <= 11) return false;
-                return null;
-            }
-        }
+            0xFF => true,
+            <= 11 => false,
+            _ => null
+        };
 
         public override void SetBlank() => SetBlank(null, null);
         public void SetBlank(byte? lang, byte? ver) => new Mail5(lang: lang, ver: ver).Data.CopyTo(Data, 0);

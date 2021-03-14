@@ -54,11 +54,12 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
-            var img = c is SlotInfoBox b
-                ? p.Sprite(s, b.Box, b.Slot, flagIllegal)
-                : c is SlotInfoParty ps
-                    ? p.Sprite(s, -1, ps.Slot, flagIllegal)
-                    : p.Sprite(s, -1, -1, flagIllegal);
+            var img = c switch
+            {
+                SlotInfoBox b => p.Sprite(s, b.Box, b.Slot, flagIllegal),
+                SlotInfoParty ps => p.Sprite(s, -1, ps.Slot, flagIllegal),
+                _ => p.Sprite(s, -1, -1, flagIllegal)
+            };
 
             pb.BackColor = Color.Transparent;
             pb.Image = img;

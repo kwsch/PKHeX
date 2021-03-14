@@ -50,7 +50,12 @@ namespace PKHeX.Core
 
                 const int size = 4;
                 int count = (data.Length - 4) / size;
-                Rates = type == SlotType.BugContest ? BCC_SlotRates : (type == SlotType.Grass) ? RatesGrass : RatesSurf;
+                Rates = type switch
+                {
+                    SlotType.BugContest => BCC_SlotRates,
+                    SlotType.Grass => RatesGrass,
+                    _ => RatesSurf
+                };
                 Slots = ReadSlots(data, count, 4);
             }
         }

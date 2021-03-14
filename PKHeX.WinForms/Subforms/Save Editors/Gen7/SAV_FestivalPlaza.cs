@@ -12,6 +12,8 @@ namespace PKHeX.WinForms
         private readonly SaveFile Origin;
         private readonly SAV7 SAV;
 
+        private int entry = -1;
+
         public SAV_FestivalPlaza(SaveFile sav)
         {
             InitializeComponent();
@@ -214,8 +216,6 @@ namespace PKHeX.WinForms
                 i >= 0 && i < RES_FacilityColor.Length - (SAV is SAV7USUM ? 0 : 1)
                 ? RES_FacilityColor[i].Length - 1
                 : 3;
-
-        private int entry = -1;
 
         private void LoadFacility()
         {

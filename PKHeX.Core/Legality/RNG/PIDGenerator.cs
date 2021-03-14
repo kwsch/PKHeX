@@ -203,7 +203,7 @@ namespace PKHeX.Core
             while (true)
             {
                 var seed = Util.Rand32();
-                if (!MethodFinder.IsPokeSpotActivation(slot, seed, out var _))
+                if (!MethodFinder.IsPokeSpotActivation(slot, seed, out _))
                     continue;
 
                 var rng = RNG.XDRNG;

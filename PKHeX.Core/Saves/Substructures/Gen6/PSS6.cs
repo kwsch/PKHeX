@@ -6,7 +6,7 @@ namespace PKHeX.Core
     public static class PSS6
     {
         private const string Header = "PSS List";
-        private static readonly string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby", };
+        private static readonly string[] headers = { "PSS Data - Friends", "PSS Data - Acquaintances", "PSS Data - Passerby" };
 
         public static List<string> GetPSSParse(SAV6 SAV)
         {

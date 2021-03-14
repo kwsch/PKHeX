@@ -1132,12 +1132,20 @@ namespace PKHeX.WinForms.Controls
 
         private void UpdatePKRSInfected(object sender, EventArgs e)
         {
-            if (CHK_Cured.Checked && !CHK_Infected.Checked)
-            { CHK_Cured.Checked = false; return; }
             if (CHK_Cured.Checked)
+            {
+                if (!CHK_Infected.Checked)
+                    CHK_Cured.Checked = false;
                 return;
+            }
+
             Label_PKRS.Visible = CB_PKRSStrain.Visible = CHK_Infected.Checked;
-            if (!CHK_Infected.Checked) { CB_PKRSStrain.SelectedIndex = 0; CB_PKRSDays.SelectedIndex = 0; Label_PKRSdays.Visible = CB_PKRSDays.Visible = false; }
+            if (!CHK_Infected.Checked)
+            {
+                CB_PKRSStrain.SelectedIndex = 0;
+                CB_PKRSDays.SelectedIndex = 0;
+                Label_PKRSdays.Visible = CB_PKRSDays.Visible = false;
+            }
             else if (CB_PKRSStrain.SelectedIndex == 0)
             {
                 CB_PKRSStrain.SelectedIndex = CB_PKRSDays.SelectedIndex = 1;
@@ -1650,14 +1658,14 @@ namespace PKHeX.WinForms.Controls
             if (e.Index < 0)
                 return;
 
-            var item = (ComboItem)((ComboBox)sender).Items[e.Index];
-            var valid = LegalMoveSource.CanLearn(item.Value) && !HaX;
+            var (text, value) = (ComboItem)((ComboBox)sender).Items[e.Index];
+            var valid = LegalMoveSource.CanLearn(value) && !HaX;
 
             var current = (e.State & DrawItemState.Selected) == DrawItemState.Selected;
             var brush = Draw.Brushes.GetBackground(valid, current);
             var textColor = Draw.GetText(current);
 
-            DrawMoveRectangle(e, brush, item.Text, textColor);
+            DrawMoveRectangle(e, brush, text, textColor);
         }
 
         private static void DrawMoveRectangle(DrawItemEventArgs e, Brush brush, string text, Color textColor)

@@ -24,14 +24,12 @@ namespace PKHeX.Core
             return MaxByType[maxes[recordID]];
         }
 
-        public static int GetOffset(int baseOfs, int recordID)
+        public static int GetOffset(int baseOfs, int recordID) => recordID switch
         {
-            if (recordID < LargeRecordCount)
-                return baseOfs + (recordID * sizeof(int));
-            if (recordID < Count)
-                return baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)); // first 100 are 4bytes, so bias the difference
-            return -1;
-        }
+            < LargeRecordCount => baseOfs + (recordID * sizeof(int)),
+            < Count => baseOfs + (LargeRecordCount * sizeof(int)) + ((recordID - LargeRecordCount) * sizeof(ushort)),
+            _ => -1
+        };
 
         private static readonly int[] MaxByType = {999_999_999, 9_999_999, 999_999, 99_999, 65535, 9_999, 999, 7};
 

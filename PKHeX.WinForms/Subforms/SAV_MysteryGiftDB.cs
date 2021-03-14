@@ -288,10 +288,12 @@ namespace PKHeX.WinForms
             if (move2 != -1) res = res.Where(mg => mg.HasMove(move2));
             if (move3 != -1) res = res.Where(mg => mg.HasMove(move3));
             if (move4 != -1) res = res.Where(mg => mg.HasMove(move4));
+
             if (CHK_Shiny.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsShiny);
-            if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
+            else if (CHK_Shiny.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsShiny);
+
             if (CHK_IsEgg.CheckState == CheckState.Checked) res = res.Where(pk => pk.IsEgg);
-            if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
+            else if (CHK_IsEgg.CheckState == CheckState.Unchecked) res = res.Where(pk => !pk.IsEgg);
 
             slotSelected = -1; // reset the slot last viewed
 

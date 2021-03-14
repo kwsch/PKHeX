@@ -13,7 +13,7 @@ namespace PKHeX.Tests.Saves
             var savebuffer =
                 "58EA53A7133F34DA9F2BEC12F1560354E8BDF8A484ADE4E2954D3C48673118EB67E2D52ED0196E54DC5D93013E9F3B00C8A43B556AEE8C2F763EA9DC125988C6B5F2D3C74CA2C58026BB024B403D09BC5950C54CEB6F21E45D0B66B68791BCBB6D7E67C2F7E4A7F4A517FC50B4FEED9A65BF901ABEB0FFAC44AE07237BE5DD2D"
                     .ToByteArray();
-            Assert.True(MemeCrypto.VerifyMemeData(savebuffer, out var _));
+            Assert.True(MemeCrypto.VerifyMemeData(savebuffer, out _));
         }
 
         [Fact]
@@ -78,8 +78,8 @@ namespace PKHeX.Tests.Saves
                 "A96E2D8D9B99DBFB934939C097E3AC101C7D48CEC52FCA717B14B19890208592045C430035DD09A31446142E9EA33CF3E6B6E69484B6D2EED500B8389048013491602403DBE7B814EA069667CFADAFE74895217D78037B4A456FAB2CAFD71E690000504F4B4509000000000000"
                     .ToByteArray();
 
-            Assert.True(MemeCrypto.VerifyMemePOKE(vector, out var _));
-            Assert.True(MemeCrypto.VerifyMemePOKE(vector2, out var _));
+            Assert.True(MemeCrypto.VerifyMemePOKE(vector, out _));
+            Assert.True(MemeCrypto.VerifyMemePOKE(vector2, out _));
         }
 
         public static IEnumerable<object[]> KnownKeys()
@@ -105,7 +105,7 @@ namespace PKHeX.Tests.Saves
         [MemberData(nameof(KnownKeys))]
         public void TestVerifyKnownKeys(MemeKeyIndex keyIndex, byte[] key)
         {
-            MemeCrypto.VerifyMemeData(key, out var _, keyIndex).Should().BeTrue("becuase they key should be valid");
+            MemeCrypto.VerifyMemeData(key, out _, keyIndex).Should().BeTrue("because they key should be valid");
         }
     }
 }

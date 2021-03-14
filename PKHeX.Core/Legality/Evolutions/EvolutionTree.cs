@@ -194,7 +194,7 @@ namespace PKHeX.Core
         public List<EvoCriteria> GetValidPreEvolutions(PKM pkm, int maxLevel, int maxSpeciesOrigin = -1, bool skipChecks = false, int minLevel = 1)
         {
             if (maxSpeciesOrigin <= 0)
-                maxSpeciesOrigin = Legal.GetMaxSpeciesOrigin(pkm);
+                maxSpeciesOrigin = GetMaxSpeciesOrigin(pkm);
             if (pkm.IsEgg && !skipChecks)
             {
                 return new List<EvoCriteria>(1)

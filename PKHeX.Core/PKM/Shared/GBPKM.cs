@@ -96,13 +96,13 @@ namespace PKHeX.Core
             get
             {
                 int gv = PersonalInfo.Gender;
-                if (gv == 255)
-                    return 2;
-                if (gv == 254)
-                    return 1;
-                if (gv == 0)
-                    return 0;
-                return IV_ATK > gv >> 4 ? 0 : 1;
+                return gv switch
+                {
+                    255 => 2,
+                    254 => 1,
+                    0 => 0,
+                    _ => IV_ATK > gv >> 4 ? 0 : 1
+                };
             }
             set { }
         }

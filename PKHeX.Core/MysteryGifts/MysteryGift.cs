@@ -122,11 +122,6 @@ namespace PKHeX.Core
         public virtual int Quantity { get => 1; set { } }
         public virtual bool Empty => false;
 
-        public virtual bool IsBP { get => false; set { } }
-        public virtual int BP { get => 0; set { } }
-        public virtual bool IsBean { get => false; set { } }
-        public virtual int Bean { get => 0; set { } }
-
         public virtual string CardHeader => (CardID > 0 ? $"Card #: {CardID:0000}" : "N/A") + $" - {CardTitle.Replace('\u3000',' ').Trim()}";
 
         // Search Properties

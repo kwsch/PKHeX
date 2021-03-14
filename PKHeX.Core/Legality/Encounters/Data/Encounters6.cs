@@ -9,10 +9,10 @@ namespace PKHeX.Core
     internal static class Encounters6
     {
         private static readonly EncounterArea6XY FriendSafari = new();
-        internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), GameVersion.X, FriendSafari);
-        internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), GameVersion.Y, FriendSafari);
-        internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("a", "ao"), GameVersion.AS);
-        internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("o", "ao"), GameVersion.OR);
+        internal static readonly EncounterArea6XY[] SlotsX = EncounterArea6XY.GetAreas(Get("x", "xy"), X, FriendSafari);
+        internal static readonly EncounterArea6XY[] SlotsY = EncounterArea6XY.GetAreas(Get("y", "xy"), Y, FriendSafari);
+        internal static readonly EncounterArea6AO[] SlotsA = EncounterArea6AO.GetAreas(Get("a", "ao"), AS);
+        internal static readonly EncounterArea6AO[] SlotsO = EncounterArea6AO.GetAreas(Get("o", "ao"), OR);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
 
         static Encounters6()

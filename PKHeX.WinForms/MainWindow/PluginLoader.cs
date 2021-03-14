@@ -44,7 +44,7 @@ namespace PKHeX.WinForms
         private static IEnumerable<Type> GetPluginsOfType<T>(IEnumerable<Assembly> assemblies)
         {
             var pluginType = typeof(T);
-            return assemblies.Where(z => z != null).SelectMany(z => GetPluginTypes(z, pluginType));
+            return assemblies.SelectMany(z => GetPluginTypes(z, pluginType));
         }
 
         private static IEnumerable<Type> GetPluginTypes(Assembly z, Type pluginType)

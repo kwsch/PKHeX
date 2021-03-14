@@ -21,10 +21,8 @@ namespace PKHeX.Core
             var major1 = BitConverter.ToUInt32(data, offset1);
             var major2 = BitConverter.ToUInt32(data, offset2);
             var result1 = CompareCounters(major1, major2);
-            if (result1 == First)
-                return First;
-            if (result1 == Second)
-                return Second;
+            if (result1 != Same)
+                return result1;
 
             // Minor Counters
             var minor1 = BitConverter.ToUInt32(data, offset1 + 4);

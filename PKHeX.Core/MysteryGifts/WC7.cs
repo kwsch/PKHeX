@@ -114,12 +114,12 @@ namespace PKHeX.Core
         public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = value ? 1 : 0; }
 
         // BP Properties
-        public override bool IsBP { get => CardType == 3; set { if (value) CardType = 3; } }
-        public override int BP { get => ItemID; set => ItemID = value; }
+        public bool IsBP { get => CardType == 3; set { if (value) CardType = 3; } }
+        public int BP { get => ItemID; set => ItemID = value; }
 
         // Bean (Mame) Properties
-        public override bool IsBean { get => CardType == 2; set { if (value) CardType = 2; } }
-        public override int Bean { get => ItemID; set => ItemID = value; }
+        public bool IsBean { get => CardType == 2; set { if (value) CardType = 2; } }
+        public int Bean { get => ItemID; set => ItemID = value; }
 
         // Item Properties
         public override bool IsItem { get => CardType == 1; set { if (value) CardType = 1; } }

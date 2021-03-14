@@ -279,9 +279,7 @@ namespace PKHeX.Core
         public override void SetDex(PKM pkm)
         {
             int species = pkm.Species;
-            if (species == 0)
-                return;
-            if (species > Legal.MaxSpeciesID_4)
+            if (species is 0 or > Legal.MaxSpeciesID_4)
                 return;
 
             var gender = pkm.Gender;

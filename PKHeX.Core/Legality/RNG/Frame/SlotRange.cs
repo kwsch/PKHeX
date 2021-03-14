@@ -144,30 +144,28 @@ namespace PKHeX.Core
                 return proc < 60;
             if (frameType == FrameType.MethodH)
                 return true; // fishing encounters are disjointed by the hooked message.
-
-            // fishing
-            if (stype == SlotType.Old_Rod)
-            {
-                if (proc < 25)
-                    return true;
-                if (proc < 50)
-                    return lead == LeadRequired.None;
-            }
-            else if (stype == SlotType.Good_Rod)
-            {
-                if (proc < 50)
-                    return true;
-                if (proc < 75)
-                    return lead == LeadRequired.None;
-            }
-            else if (stype == SlotType.Super_Rod)
-            {
-                if (proc < 75)
-                    return true;
-                return lead == LeadRequired.None; // < 100 always true
-            }
-            return false; // shouldn't hit here
+            return GetCanEncounterFish(lead, stype, proc);
         }
+
+        private static bool GetCanEncounterFish(LeadRequired lead, SlotType stype, int proc) => stype switch
+        {
+            // Lead:None => can be suction cups
+            SlotType.Old_Rod => proc switch
+            {
+                < 25 => true,
+                < 50 => lead == LeadRequired.None,
+                _ => false
+            },
+            SlotType.Good_Rod => proc switch
+            {
+                < 50 => true,
+                < 75 => lead == LeadRequired.None,
+                _ => false
+            },
+            SlotType.Super_Rod => proc < 75 || lead == LeadRequired.None,
+
+            _ => false
+        };
 
         /// <summary>
         /// Checks both Static and Magnet Pull ability type selection encounters to see if the encounter can be selected.

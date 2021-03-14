@@ -24,12 +24,13 @@ namespace PKHeX.Core.Searching
                     return res; /* Do nothing */
             }
 
-            if (format <= 2) // 1-2
-                return res.Where(pk => pk.Format <= 2);
-            if (format <= 6) // 3-6
-                return res.Where(pk => pk.Format >= 3);
-
-            return res;
+            // Might need to clamp down further for generations that cannot exist in the current format.
+            return format switch
+            {
+                <= 2 => res.Where(pk => pk.Format <= 2), // 1-2
+                <= 6 => res.Where(pk => pk.Format >= 3), // 3-6
+                _ => res
+            };
         }
 
         public static IEnumerable<PKM> FilterByGeneration(IEnumerable<PKM> res, int generation) => generation switch

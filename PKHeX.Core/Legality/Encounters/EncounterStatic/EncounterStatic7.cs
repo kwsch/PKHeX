@@ -26,7 +26,7 @@ namespace PKHeX.Core
             if (SkipFormCheck)
                 return true;
 
-            if (FormInfo.IsTotemForm(Species, Form, Generation))
+            if (FormInfo.IsTotemForm(Species, Form, 7))
             {
                 var expectForm = pkm.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;

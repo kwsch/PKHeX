@@ -295,11 +295,10 @@ namespace PKHeX.Core
             {
                 if (value.Count is 0 or > 6)
                     throw new ArgumentException($"Expected 1-6, got {value.Count}");
-                if (value.Any(pk => PKMType != pk.GetType()))
-                    throw new ArgumentException($"Not {PKMType} array.");
+#if DEBUG
                 if (value[0].Species == 0)
                     Debug.WriteLine($"Empty first slot, received {value.Count}.");
-
+#endif
                 int ctr = 0;
                 foreach (var exist in value.Where(pk => pk.Species != 0))
                     SetPartySlot(exist, PartyBuffer, GetPartyOffset(ctr++));
@@ -521,8 +520,6 @@ namespace PKHeX.Core
             {
                 if (value.Count != BoxCount * BoxSlotCount)
                     throw new ArgumentException($"Expected {BoxCount * BoxSlotCount}, got {value.Count}");
-                if (value.Any(pk => PKMType != pk.GetType()))
-                    throw new ArgumentException($"Not {PKMType} array.");
 
                 for (int b = 0; b < BoxCount; b++)
                     SetBoxData(value, b, b * BoxSlotCount);

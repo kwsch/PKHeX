@@ -220,11 +220,13 @@ namespace PKHeX.Core
         {
             if (HaX && sav.Generation != 7) // Gen7 has true cap at 1023, keep 999 cap.
             {
-                // Cap at absolute maximum
-                if (sav.Generation <= 2 && count > byte.MaxValue)
-                    count = byte.MaxValue;
-                else if (sav.Generation >= 3 && count > ushort.MaxValue)
-                    count = ushort.MaxValue;
+                count = sav.Generation switch
+                {
+                    // Cap at absolute maximum
+                    <= 2 when count > byte.MaxValue => byte.MaxValue,
+                    >= 3 when count > ushort.MaxValue => ushort.MaxValue,
+                    _ => count
+                };
                 return true;
             }
 

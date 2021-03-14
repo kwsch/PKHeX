@@ -17,5 +17,5 @@ namespace PKHeX.Core
         Black = 12,
         White = 13,
         Gold = 14,
-    };
+    }
 }

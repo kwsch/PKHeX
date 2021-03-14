@@ -12,6 +12,9 @@ namespace PKHeX.Core
             try
             {
                 var stream = GetStreamFromURL(url);
+                if (stream == null)
+                    return null;
+
                 using var reader = new StreamReader(stream);
                 return reader.ReadToEnd();
             }
@@ -25,7 +28,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static Stream GetStreamFromURL(string url)
+        private static Stream? GetStreamFromURL(string url)
         {
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 

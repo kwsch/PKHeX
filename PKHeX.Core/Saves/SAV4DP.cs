@@ -25,6 +25,7 @@ namespace PKHeX.Core
         protected override SAV4 CloneInternal4() => State.Exportable ? new SAV4DP(Data) : new SAV4DP();
         public override PersonalTable Personal => PersonalTable.DP;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_DP;
+        public override int MaxItemID => Legal.MaxItemID_4_DP;
 
         protected override int GeneralSize => 0xC100;
         protected override int StorageSize => 0x121E0; // Start 0xC100, +4 starts box data

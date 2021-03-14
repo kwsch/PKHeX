@@ -244,7 +244,7 @@ namespace PKHeX.WinForms
                     Debug.WriteLine($"Exception while checking for latest version: {ex}");
                     return;
                 }
-                if (latestVersion > CurrentProgramVersion)
+                if (latestVersion is not null && latestVersion > CurrentProgramVersion)
                     Invoke((MethodInvoker)(() => NotifyNewVersionAvailable(latestVersion)));
             });
         }
@@ -1108,10 +1108,15 @@ namespace PKHeX.WinForms
 
         private void Dragout_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && (ModifierKeys is Keys.Alt or Keys.Shift))
-                ClickQR(sender, e);
-            if (e.Button == MouseButtons.Right)
+            if (e.Button != MouseButtons.Left)
                 return;
+
+            if (ModifierKeys is Keys.Alt or Keys.Shift)
+            {
+                ClickQR(sender, e);
+                return;
+            }
+
             if (!PKME_Tabs.EditsComplete)
                 return;
 

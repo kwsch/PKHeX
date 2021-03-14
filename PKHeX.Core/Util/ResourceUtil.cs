@@ -159,6 +159,8 @@ namespace PKHeX.Core
         public static byte[] GetBinaryResource(string name)
         {
             using var resource = thisAssembly.GetManifestResourceStream($"PKHeX.Core.Resources.byte.{name}");
+            if (resource is null)
+                return Array.Empty<byte>();
             var buffer = new byte[resource.Length];
             resource.Read(buffer, 0, (int)resource.Length);
             return buffer;
@@ -176,7 +178,7 @@ namespace PKHeX.Core
             }
 
             using var resource = thisAssembly.GetManifestResourceStream(resourceName);
-            if (resource == null)
+            if (resource is null)
                 return null;
             using var reader = new StreamReader(resource);
             return reader.ReadToEnd();

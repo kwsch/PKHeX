@@ -94,7 +94,7 @@ namespace PKHeX.Core
 
         public override int MaxMoveID => Legal.MaxMoveID_4;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_4;
-        public override int MaxItemID => Version == GameVersion.HGSS ? Legal.MaxItemID_4_HGSS : Version == GameVersion.Pt ? Legal.MaxItemID_4_Pt : Legal.MaxItemID_4_DP;
+        // MaxItemID
         public override int MaxAbilityID => Legal.MaxAbilityID_4;
         public override int MaxBallID => Legal.MaxBallID_4;
         public override int MaxGameID => Legal.MaxGameID_4; // Colo/XD

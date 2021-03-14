@@ -439,6 +439,9 @@ namespace PKHeX.Core
         public static PKM GetBlank(int gen)
         {
             var type = Type.GetType($"PKHeX.Core.PK{gen}");
+            if (type is null)
+                throw new InvalidCastException($"Unable to get the type for PK{gen}.");
+
             return GetBlank(type);
         }
     }

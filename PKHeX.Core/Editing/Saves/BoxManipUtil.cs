@@ -29,7 +29,7 @@ namespace PKHeX.Core
         /// </summary>
         /// <param name="type">Manipulation type.</param>
         /// <returns>Reference to <see cref="IBoxManip"/>.</returns>
-        public static IBoxManip GetManip(this BoxManipType type) => ManipCategories.SelectMany(c => c).FirstOrDefault(m => m.Type == type);
+        public static IBoxManip GetManip(this BoxManipType type) => ManipCategories.SelectMany(c => c).First(m => m.Type == type);
 
         /// <summary>
         /// Gets the corresponding name from <see cref="ManipCategoryNames"/> for the requested <see cref="type"/>.

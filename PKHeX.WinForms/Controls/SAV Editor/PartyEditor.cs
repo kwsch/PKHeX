@@ -24,13 +24,12 @@ namespace PKHeX.WinForms.Controls
         {
             const int width = 2;
             const int height = 3;
-            if (PartyPokeGrid.InitializeGrid(width, height, SpriteUtil.Spriter))
-            {
-                PartyPokeGrid.HorizontallyCenter(this);
-                InitializeSlots();
-                return true;
-            }
-            return false;
+            if (!PartyPokeGrid.InitializeGrid(width, height, SpriteUtil.Spriter))
+                return false;
+
+            PartyPokeGrid.HorizontallyCenter(this);
+            InitializeSlots();
+            return true;
         }
 
         private void InitializeSlots()

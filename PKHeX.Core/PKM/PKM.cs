@@ -719,18 +719,13 @@ namespace PKHeX.Core
         /// Gets the IV Judge Rating value.
         /// </summary>
         /// <remarks>IV Judge scales his response 0 (worst) to 3 (best).</remarks>
-        public int PotentialRating
+        public int PotentialRating => IVTotal switch
         {
-            get
-            {
-                int ivTotal = IVTotal;
-                if (ivTotal <= 90)
-                    return 0;
-                if (ivTotal <= 120)
-                    return 1;
-                return ivTotal <= 150 ? 2 : 3;
-            }
-        }
+            <=  90 => 0,
+            <= 120 => 1,
+            <= 150 => 2,
+            _      => 3
+        };
 
         /// <summary>
         /// Gets the current Battle Stats.

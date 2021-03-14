@@ -27,21 +27,23 @@ namespace PKHeX.Core
             var matchUSA = EReaderBerriesNames_USA.Contains(Name);
             if (matchUSA)
             {
-                if (Language <= 0)
-                    return ValidAny;
-                if (Language != 1)
-                    return ValidUSA;
-                return InvalidUSA;
+                return Language switch
+                {
+                    <= 0 => ValidAny,
+                    not 1 => ValidUSA,
+                    _ => InvalidUSA
+                };
             }
 
             var matchJP = EReaderBerriesNames_JP.Contains(Name);
             if (matchJP)
             {
-                if (Language <= 0)
-                    return ValidAny;
-                if (Language == 1)
-                    return ValidJPN;
-                return InvalidJPN;
+                return Language switch
+                {
+                    <= 0 => ValidAny,
+                    1 => ValidJPN,
+                    _ => InvalidJPN
+                };
             }
 
             return NoMatch;

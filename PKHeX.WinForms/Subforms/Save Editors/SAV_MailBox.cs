@@ -423,12 +423,8 @@ namespace PKHeX.WinForms
 
         private string GetSpeciesNameFromCB(int index)
         {
-            foreach (var i in CB_AppearPKM1.Items.OfType<ComboItem>())
-            {
-                if (index == i.Value)
-                    return i.Text;
-            }
-            return "PKM";
+            var result = CB_AppearPKM1.Items.OfType<ComboItem>().FirstOrDefault(z => z.Value == index);
+            return result != null ? result.Text : "PKM";
         }
 
         private DialogResult ModifyHeldItem()
