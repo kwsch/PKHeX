@@ -583,13 +583,13 @@ namespace PKHeX.WinForms.Controls
 
         private static Form GetAccessorForm(SaveFile sav) => sav switch
         {
-            SAV5BW s => new SAV_Accessor<SaveBlockAccessor5BW>(s.Blocks),
-            SAV5B2W2 s => new SAV_Accessor<SaveBlockAccessor5B2W2>(s.Blocks),
-            SAV6XY s => new SAV_Accessor<SaveBlockAccessor6XY>(s.Blocks),
-            SAV6AO s => new SAV_Accessor<SaveBlockAccessor6AO>(s.Blocks),
-            SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s.Blocks),
-            SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s.Blocks),
-            SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s.Blocks),
+            SAV5BW s => new SAV_Accessor<SaveBlockAccessor5BW>(s, s.Blocks),
+            SAV5B2W2 s => new SAV_Accessor<SaveBlockAccessor5B2W2>(s, s.Blocks),
+            SAV6XY s => new SAV_Accessor<SaveBlockAccessor6XY>(s, s.Blocks),
+            SAV6AO s => new SAV_Accessor<SaveBlockAccessor6AO>(s, s.Blocks),
+            SAV6AODemo s => new SAV_Accessor<SaveBlockAccessor6AODemo>(s, s.Blocks),
+            SAV7SM s => new SAV_Accessor<SaveBlockAccessor7SM>(s, s.Blocks),
+            SAV7USUM s => new SAV_Accessor<SaveBlockAccessor7USUM>(s, s.Blocks),
             SAV8SWSH s => new SAV_BlockDump8(s),
             _ => GetPropertyForm(sav),
         };

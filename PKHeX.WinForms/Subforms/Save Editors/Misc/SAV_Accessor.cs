@@ -10,7 +10,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveBlockMetadata<BlockInfo> Metadata;
 
-        public SAV_Accessor(T accessor)
+        public SAV_Accessor(SaveFile sav, T accessor)
         {
             InitializeComponent();
             WinFormsUtil.TranslateInterface(this, Main.CurrentLanguage);
@@ -19,6 +19,8 @@ namespace PKHeX.WinForms
 
             CB_Key.Items.AddRange(Metadata.GetSortedBlockList().ToArray());
             CB_Key.SelectedIndex = 0;
+
+            propertyGrid1.SelectedObject = sav;
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)

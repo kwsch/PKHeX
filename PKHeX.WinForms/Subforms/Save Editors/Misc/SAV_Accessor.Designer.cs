@@ -33,8 +33,11 @@
             this.TC_Tabs = new System.Windows.Forms.TabControl();
             this.Tab_Blocks = new System.Windows.Forms.TabPage();
             this.PG_BlockView = new System.Windows.Forms.PropertyGrid();
+            this.Raw = new System.Windows.Forms.TabPage();
+            this.propertyGrid1 = new System.Windows.Forms.PropertyGrid();
             this.TC_Tabs.SuspendLayout();
             this.Tab_Blocks.SuspendLayout();
+            this.Raw.SuspendLayout();
             this.SuspendLayout();
             // 
             // CB_Key
@@ -62,6 +65,7 @@
             // TC_Tabs
             // 
             this.TC_Tabs.Controls.Add(this.Tab_Blocks);
+            this.TC_Tabs.Controls.Add(this.Raw);
             this.TC_Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TC_Tabs.Location = new System.Drawing.Point(0, 0);
             this.TC_Tabs.Name = "TC_Tabs";
@@ -93,6 +97,25 @@
             this.PG_BlockView.TabIndex = 14;
             this.PG_BlockView.PropertyValueChanged += new System.Windows.Forms.PropertyValueChangedEventHandler(this.PG_BlockView_PropertyValueChanged);
             // 
+            // Raw
+            // 
+            this.Raw.Controls.Add(this.propertyGrid1);
+            this.Raw.Location = new System.Drawing.Point(4, 22);
+            this.Raw.Name = "Raw";
+            this.Raw.Padding = new System.Windows.Forms.Padding(3);
+            this.Raw.Size = new System.Drawing.Size(326, 315);
+            this.Raw.TabIndex = 1;
+            this.Raw.Text = "Tab_Raw";
+            this.Raw.UseVisualStyleBackColor = true;
+            // 
+            // propertyGrid1
+            // 
+            this.propertyGrid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.propertyGrid1.Location = new System.Drawing.Point(3, 3);
+            this.propertyGrid1.Name = "propertyGrid1";
+            this.propertyGrid1.Size = new System.Drawing.Size(320, 309);
+            this.propertyGrid1.TabIndex = 15;
+            // 
             // SAV_Accessor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -108,6 +131,7 @@
             this.TC_Tabs.ResumeLayout(false);
             this.Tab_Blocks.ResumeLayout(false);
             this.Tab_Blocks.PerformLayout();
+            this.Raw.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -118,5 +142,7 @@
         private System.Windows.Forms.TabControl TC_Tabs;
         private System.Windows.Forms.TabPage Tab_Blocks;
         private System.Windows.Forms.PropertyGrid PG_BlockView;
+        private System.Windows.Forms.TabPage Raw;
+        private System.Windows.Forms.PropertyGrid propertyGrid1;
     }
 }
