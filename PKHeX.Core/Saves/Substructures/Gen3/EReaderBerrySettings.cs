@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.EReaderBerryMatch;
+﻿using System.Collections.Generic;
+using static PKHeX.Core.EReaderBerryMatch;
 
 namespace PKHeX.Core
 {
@@ -23,7 +24,7 @@ namespace PKHeX.Core
             if (IsEnigma) // no e-Reader Berry data provided, can't hold berry.
                 return NoData;
 
-            var matchUSA = Legal.EReaderBerriesNames_USA.Contains(Name);
+            var matchUSA = EReaderBerriesNames_USA.Contains(Name);
             if (matchUSA)
             {
                 if (Language <= 0)
@@ -33,7 +34,7 @@ namespace PKHeX.Core
                 return InvalidUSA;
             }
 
-            var matchJP = Legal.EReaderBerriesNames_JP.Contains(Name);
+            var matchJP = EReaderBerriesNames_JP.Contains(Name);
             if (matchJP)
             {
                 if (Language <= 0)
@@ -45,6 +46,36 @@ namespace PKHeX.Core
 
             return NoMatch;
         }
+
+        private static readonly HashSet<string> EReaderBerriesNames_USA = new()
+        {
+            // USA Series 1
+            "PUMKIN",
+            "DRASH",
+            "EGGANT",
+            "STRIB",
+            "CHILAN",
+            "NUTPEA",
+        };
+
+        private static readonly HashSet<string> EReaderBerriesNames_JP = new()
+        {
+            // JP Series 1
+            "カチャ", // PUMKIN
+            "ブ－カ", // DRASH
+            "ビスナ", // EGGANT
+            "エドマ", // STRIB
+            "ホズ", // CHILAN
+            "ラッカ", // NUTPEA
+            "クオ", // KU
+            // JP Series 2
+            "ギネマ", // GINEMA
+            "クオ", // KUO
+            "ヤゴ", // YAGO
+            "トウガ", // TOUGA
+            "ニニク", // NINIKU
+            "トポ" // TOPO
+        };
 
         public static void LoadFrom(SAV3 sav3)
         {

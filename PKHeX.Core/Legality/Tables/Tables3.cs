@@ -97,36 +97,6 @@ namespace PKHeX.Core
 
         internal static readonly bool[] ReleasedHeldItems_3 = GetPermitList(MaxItemID_3, HeldItems_RS, new ushort[] {005}); // Safari Ball
 
-        internal static readonly HashSet<string> EReaderBerriesNames_USA = new()
-        {
-            // USA Series 1
-            "PUMKIN",
-            "DRASH",
-            "EGGANT",
-            "STRIB",
-            "CHILAN",
-            "NUTPEA",
-        };
-
-        internal static readonly HashSet<string> EReaderBerriesNames_JP = new()
-        {
-            // JP Series 1
-            "カチャ", // PUMKIN
-            "ブ－カ", // DRASH
-            "ビスナ", // EGGANT
-            "エドマ", // STRIB
-            "ホズ", // CHILAN
-            "ラッカ", // NUTPEA
-            "クオ", // KU
-            // JP Series 2
-            "ギネマ", // GINEMA
-            "クオ", // KUO
-            "ヤゴ", // YAGO
-            "トウガ", // TOUGA
-            "ニニク", // NINIKU
-            "トポ" // TOPO
-        };
-
         internal static readonly int[] TM_3 =
         {
             264, 337, 352, 347, 046, 092, 258, 339, 331, 237,
