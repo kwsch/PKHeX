@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Collection of analyzers that are used for parsing secondary details.
+    /// </summary>
     internal static class LegalityAnalyzers
     {
         public static readonly LanguageVerifier LanguageIndex = new();

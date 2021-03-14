@@ -1,5 +1,11 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Contains logic for the Generation 8 (SW/SH) overworld spawns that walk around the overworld.
+    /// </summary>
+    /// <remarks>
+    /// Entities spawned into the overworld that can be encountered are assigned a 32bit seed, which can be immediately derived from the <see cref="PKM.EncryptionConstant"/>.
+    /// </remarks>
     public static class Overworld8RNG
     {
         public static void ApplyDetails(PKM pk, EncounterCriteria criteria, Shiny shiny = Shiny.FixedValue, int flawless = -1)

@@ -37,6 +37,9 @@ namespace PKHeX.Core
             (int)Meltan, (int)Melmetal,
         };
 
+        /// <summary>
+        /// Generation 7 Z Moves
+        /// </summary>
         public static readonly HashSet<int> Z_Moves = new()
         {
             (int)BreakneckBlitzP, (int)BreakneckBlitzS,

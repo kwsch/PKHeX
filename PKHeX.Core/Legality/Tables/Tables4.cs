@@ -296,7 +296,7 @@ namespace PKHeX.Core
         private static ICollection<int> GetFavorableHMBanlist(int[] moves)
         {
             // if has defog, return ban list with whirlpool
-            return moves.Contains(432) ? HM_HGSS : HM_DPPt;
+            return moves.Contains((int)Move.Defog) ? HM_HGSS : HM_DPPt;
         }
     }
 }

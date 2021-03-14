@@ -14,8 +14,13 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class LegalityAnalysis
     {
+        /// <summary> The entity we are checking. </summary>
         internal readonly PKM pkm;
+
+        /// <summary> The entity's <see cref="PersonalInfo"/>, which may have been sourced from the Save File it resides on. </summary>
+        /// <remarks>We store this rather than re-fetching, as some games that use the same <see cref="PKM"/> format have different values.</remarks>
         internal readonly PersonalInfo PersonalInfo;
+
         private readonly List<CheckResult> Parse = new();
 
         /// <summary>
@@ -411,6 +416,10 @@ namespace PKHeX.Core
             return GetLegalityReport() + string.Join(Environment.NewLine, lines);
         }
 
+        /// <summary>
+        /// Adds information about the <see cref="EncounterMatch"/> to the <see cref="lines"/>.
+        /// </summary>
+        /// <param name="lines"></param>
         public void AddEncounterInfo(List<string> lines)
         {
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));
@@ -424,11 +433,9 @@ namespace PKHeX.Core
                 Info.PIDIV = MethodFinder.Analyze(pkm);
 
             var pidiv = Info.PIDIV;
-            {
-                if (!pidiv.NoSeed)
-                    lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
-                lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
-            }
+            if (!pidiv.NoSeed)
+                lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
+            lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
         }
     }
 }

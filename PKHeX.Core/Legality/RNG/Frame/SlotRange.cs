@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// RNG Encounter Slot Ranges to convert the [0,100) value into a slot index.
+    /// </summary>
     public static class SlotRange
     {
         private static readonly Range[] H_OldRod = GetRanges(70, 30);
@@ -15,6 +18,9 @@ namespace PKHeX.Core
         private static readonly Range[] K_BCC = GetRanges(5,5,5,5, 10,10,10,10, 20,20).Reverse().ToArray();
         private static readonly Range[] K_Headbutt = GetRanges(50, 15, 15, 10, 5, 5);
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         public static int GetSlot(SlotType type, uint rand, FrameType t) => t switch
         {
             FrameType.MethodH => HSlot(type, rand),
@@ -23,6 +29,9 @@ namespace PKHeX.Core
             _ => -1
         };
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int HSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
@@ -40,6 +49,9 @@ namespace PKHeX.Core
             };
         }
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int KSlot(SlotType type, uint rand)
         {
             var ESV = rand % 100;
@@ -53,6 +65,9 @@ namespace PKHeX.Core
             };
         }
 
+        /// <summary>
+        /// Gets the <see cref="INumberedSlot.SlotNumber"/> from the raw 16bit <see cref="rand"/> seed half.
+        /// </summary>
         private static int JSlot(SlotType type, uint rand)
         {
             uint ESV = rand / 656;

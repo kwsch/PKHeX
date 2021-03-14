@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.Legal;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
 {
@@ -10,7 +11,7 @@ namespace PKHeX.Core
     /// </summary>
     internal static class MoveList
     {
-        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = GameVersion.Any)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, bool inheritlvlmoves, GameVersion version = Any)
         {
             int generation = pkm.Generation;
             if (generation < 6)
@@ -52,70 +53,70 @@ namespace PKHeX.Core
 
         internal static int[] GetBaseEggMoves(PKM pkm, int species, int form, GameVersion gameSource, int lvl)
         {
-            if (gameSource == GameVersion.Any)
+            if (gameSource == Any)
                 gameSource = (GameVersion)pkm.Version;
 
             switch (gameSource)
             {
-                case GameVersion.GSC or GameVersion.GS:
+                case GSC or GS:
                     // If checking back-transfer specimen (GSC->RBY), remove moves that must be deleted prior to transfer
                     static int[] getRBYCompatibleMoves(int format, int[] moves) => format == 1 ? moves.Where(m => m <= MaxMoveID_1).ToArray() : moves;
                     if (pkm.InhabitedGeneration(2))
                         return getRBYCompatibleMoves(pkm.Format, LevelUpGS[species].GetMoves(lvl));
                     break;
-                case GameVersion.C:
+                case C:
                     if (pkm.InhabitedGeneration(2))
                         return getRBYCompatibleMoves(pkm.Format, LevelUpC[species].GetMoves(lvl));
                     break;
 
-                case GameVersion.R or GameVersion.S or GameVersion.RS:
+                case R or S or RS:
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpRS[species].GetMoves(lvl);
                     break;
-                case GameVersion.E:
+                case E:
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpE[species].GetMoves(lvl);
                     break;
-                case GameVersion.FR or GameVersion.LG or GameVersion.FRLG:
+                case FR or LG or FRLG:
                     // The only difference in FR/LG is Deoxys, which doesn't breed.
                     if (pkm.InhabitedGeneration(3))
                         return LevelUpFR[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.D or GameVersion.P or GameVersion.DP:
+                case D or P or DP:
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpDP[species].GetMoves(lvl);
                     break;
-                case GameVersion.Pt:
+                case Pt:
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpPt[species].GetMoves(lvl);
                     break;
-                case GameVersion.HG or GameVersion.SS or GameVersion.HGSS:
+                case HG or SS or HGSS:
                     if (pkm.InhabitedGeneration(4))
                         return LevelUpHGSS[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.B or GameVersion.W or GameVersion.BW:
+                case B or W or BW:
                     if (pkm.InhabitedGeneration(5))
                         return LevelUpBW[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.B2 or GameVersion.W2 or GameVersion.B2W2:
+                case B2 or W2 or B2W2:
                     if (pkm.InhabitedGeneration(5))
                         return LevelUpB2W2[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.X or GameVersion.Y or GameVersion.XY:
+                case X or Y or XY:
                     if (pkm.InhabitedGeneration(6))
                         return LevelUpXY[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.AS or GameVersion.OR or GameVersion.ORAS:
+                case AS or OR or ORAS:
                     if (pkm.InhabitedGeneration(6))
                         return LevelUpAO[species].GetMoves(lvl);
                     break;
 
-                case GameVersion.SN or GameVersion.MN or GameVersion.SM:
+                case SN or MN or SM:
                     if (species > MaxSpeciesID_7)
                         break;
                     if (pkm.InhabitedGeneration(7))
@@ -125,7 +126,7 @@ namespace PKHeX.Core
                     }
                     break;
 
-                case GameVersion.US or GameVersion.UM or GameVersion.USUM:
+                case US or UM or USUM:
                     if (pkm.InhabitedGeneration(7))
                     {
                         int index = PersonalTable.USUM.GetFormIndex(species, form);
@@ -133,7 +134,7 @@ namespace PKHeX.Core
                     }
                     break;
 
-                case GameVersion.SW or GameVersion.SH or GameVersion.SWSH:
+                case SW or SH or SWSH:
                     if (pkm.InhabitedGeneration(8))
                     {
                         int index = PersonalTable.SWSH.GetFormIndex(species, form);
@@ -165,11 +166,11 @@ namespace PKHeX.Core
         {
             GameVersion version = (GameVersion)pkm.Version;
             if (!pkm.IsUntraded)
-                version = GameVersion.Any;
+                version = Any;
             return GetValidMoves(pkm, version, evoChain, generation, minLvLG1: minLvLG1, minLvLG2: minLvLG2, types: types, RemoveTransferHM: RemoveTransferHM);
         }
 
-        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = GameVersion.Any)
+        internal static IEnumerable<int> GetValidRelearn(PKM pkm, int species, int form, GameVersion version = Any)
         {
             return GetValidRelearn(pkm, species, form, Breeding.GetCanInheritMoves(species), version);
         }

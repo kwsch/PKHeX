@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Status of passing or failing frame match results.
+    /// </summary>
     public enum LockInfo
     {
         /// <summary>

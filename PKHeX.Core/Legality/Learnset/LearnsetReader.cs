@@ -9,6 +9,11 @@ namespace PKHeX.Core
     {
         private static readonly Learnset EMPTY = new(Array.Empty<int>(), Array.Empty<int>());
 
+        /// <summary>
+        /// Loads a learnset using the 8-bit-per-move storage structure used by Generation 1 &amp; 2 games.
+        /// </summary>
+        /// <param name="input">Raw ROM data containing the contiguous moves</param>
+        /// <param name="maxSpecies">Highest species ID for the input game.</param>
         public static Learnset[] GetArray(byte[] input, int maxSpecies)
         {
             var data = new Learnset[maxSpecies + 1];
@@ -20,6 +25,10 @@ namespace PKHeX.Core
             return data;
         }
 
+        /// <summary>
+        /// Loads a learnset by reading 16-bit move,level pairs.
+        /// </summary>
+        /// <param name="entries">Entry data</param>
         public static Learnset[] GetArray(byte[][] entries)
         {
             Learnset[] data = new Learnset[entries.Length];

@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for MYSTRY Mew origins.
+    /// </summary>
     public static class MystryMew
     {
         private static readonly ushort[] Seeds =
@@ -33,6 +36,9 @@ namespace PKHeX.Core
         private const int FramesPerMew = 5;
         private const int MewPerRestrictedSeed = 5;
 
+        /// <summary>
+        /// Gets a random valid seed based on the input <see cref="random"/> value.
+        /// </summary>
         public static uint GetSeed(uint random, PIDType type = PIDType.BACD_U)
         {
             uint restricted = random % (uint)Seeds.Length;
@@ -47,6 +53,10 @@ namespace PKHeX.Core
             return seed;
         }
 
+        /// <summary>
+        /// Checks if the seed is a known seed.
+        /// </summary>
+        /// <param name="seed">Origin seed (for the PID/IV)</param>
         public static int GetSeedIndex(uint seed)
         {
             for (int i = 0; i < 5; i++)
