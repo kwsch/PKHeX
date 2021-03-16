@@ -176,7 +176,7 @@ namespace PKHeX.Tests.Simulator
             var pk7 = new PK7 { Species = set.Species, Form = set.Form, Moves = set.Moves, CurrentLevel = set.Level };
             var encs = EncounterMovesetGenerator.GenerateEncounters(pk7, set.Moves);
             var tr3 = encs.First(z => z is EncounterTrade3);
-            var pk3 = tr3.ConvertToPKM(new SAV3());
+            var pk3 = tr3.ConvertToPKM(new SAV3FRLG());
 
             var la = new LegalityAnalysis(pk3);
             la.Valid.Should().BeTrue();

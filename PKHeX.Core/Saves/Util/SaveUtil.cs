@@ -289,9 +289,38 @@ namespace PKHeX.Core
                 if (Array.TrueForAll(order, v => v == 0)) // all blocks are 0
                     continue;
                 // Detect RS/E/FRLG
-                return SAV3.GetVersion(data, (blockSize  * block0) + ofs);
+                return GetVersionG3SAV(data, (blockSize  * block0) + ofs);
             }
             return Invalid;
+        }
+
+        /// <summary>
+        /// Checks the input <see cref="data"/> to see which game is for this file.
+        /// </summary>
+        /// <param name="data">Data to check</param>
+        /// <param name="offset">Offset for the start of the first Small chunk.</param>
+        /// <returns>RS, E, or FR/LG.</returns>
+        private static GameVersion GetVersionG3SAV(byte[] data, int offset = 0)
+        {
+            // 0xAC
+            // RS: Battle Tower Data, which will never match the FR/LG fixed value.
+            // E: Encryption Key
+            // FR/LG @ 0xAC has a fixed value (01 00 00 00)
+            // RS has battle tower data (variable)
+            uint _0xAC = BitConverter.ToUInt32(data, offset + 0xAC);
+            switch (_0xAC)
+            {
+                case 1: return FRLG; // fixed value
+                case 0: return RS; // save has no battle tower record data
+                default:
+                    // RS data structure only extends 0x890 bytes; check if any data is present afterwards.
+                    for (int i = 0x890; i < 0xF2C; i += 4)
+                    {
+                        if (BitConverter.ToUInt64(data, offset + i) != 0)
+                            return E;
+                    }
+                    return RS;
+            }
         }
 
         /// <summary>Checks to see if the data belongs to a Gen3 Box RS save</summary>
@@ -547,7 +576,10 @@ namespace PKHeX.Core
                 // Main Games
                 RBY => new SAV1(data, type),
                 GS or C => new SAV2(data, type),
-                RS or E or FRLG => new SAV3(data, type),
+
+                RS => new SAV3RS(data),
+                E => new SAV3E(data),
+                FRLG => new SAV3FRLG(data),
 
                 DP => new SAV4DP(data),
                 Pt => new SAV4Pt(data),
@@ -684,10 +716,9 @@ namespace PKHeX.Core
             C or GSC => new SAV2(version: C, lang: language),
             Stadium2 => new SAV2Stadium(language == LanguageID.Japanese),
 
-            R or S or E or FR or LG => new SAV3(version: game, language == LanguageID.Japanese),
-            RS => new SAV3(version: R, language == LanguageID.Japanese),
-            RSE => new SAV3(version: E, language == LanguageID.Japanese),
-            FRLG => new SAV3(version: FR, language == LanguageID.Japanese),
+            R or S or RS => new SAV3RS(language == LanguageID.Japanese),
+            E or RSE => new SAV3E(language == LanguageID.Japanese),
+            FR or LG or FRLG => new SAV3FRLG(language == LanguageID.Japanese),
 
             CXD or COLO => new SAV3Colosseum(),
             XD => new SAV3XD(),
@@ -778,13 +809,9 @@ namespace PKHeX.Core
         /// <returns>New <see cref="SaveFile"/> object.</returns>
         public static SAV3 GetG3SaveOverride(SaveFile sav, GameVersion ver) => ver switch // Reset save file info
         {
-            R => new SAV3(sav.State.BAK, RS),
-            S => new SAV3(sav.State.BAK, RS),
-            RS => new SAV3(sav.State.BAK, RS),
-            E => new SAV3(sav.State.BAK, E),
-            FRLG => new SAV3(sav.State.BAK, FRLG),
-            FR => new SAV3(sav.State.BAK, FRLG),
-            LG => new SAV3(sav.State.BAK, FRLG),
+            R or S or RS => new SAV3RS(sav.State.BAK),
+            E => new SAV3E(sav.State.BAK),
+            FR or LG or FRLG => new SAV3FRLG(sav.State.BAK),
             _ => throw new ArgumentException(nameof(ver))
         };
 

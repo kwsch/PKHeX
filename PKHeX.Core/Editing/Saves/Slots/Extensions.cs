@@ -66,7 +66,7 @@ namespace PKHeX.Core
 
         private static List<SlotInfoMisc> GetExtraSlots3(SAV3 sav)
         {
-            if (!sav.FRLG)
+            if (sav is not SAV3FRLG)
                 return None;
             return new List<SlotInfoMisc>
             {

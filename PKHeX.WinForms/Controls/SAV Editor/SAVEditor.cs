@@ -1076,7 +1076,7 @@ namespace PKHeX.WinForms.Controls
 
             B_OpenHoneyTreeEditor.Visible = B_OpenUGSEditor.Visible = sav is SAV4Sinnoh;
             B_OpenApricorn.Visible = sav is SAV4HGSS;
-            B_OpenRTCEditor.Visible = sav.Generation == 2 || (sav is SAV3 s3 && (s3.RS || s3.E));
+            B_OpenRTCEditor.Visible = sav.Generation == 2 || sav is IGen3Hoenn;
             B_MailBox.Visible = sav is SAV2 or SAV3 or SAV4 or SAV5;
 
             B_Raids.Visible = sav is SAV8SWSH;

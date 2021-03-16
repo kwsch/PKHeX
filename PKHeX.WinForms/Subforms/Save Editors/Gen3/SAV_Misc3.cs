@@ -19,12 +19,12 @@ namespace PKHeX.WinForms
 
             LoadRecords();
 
-            if (SAV.FRLG || SAV.E)
-                ReadJoyful();
+            if (SAV is IGen3Joyful j)
+                ReadJoyful(j);
             else
                 tabControl1.Controls.Remove(TAB_Joyful);
 
-            if (SAV.E)
+            if (SAV is SAV3E)
             {
                 ReadFerry();
                 ReadBattleFrontier();
@@ -35,9 +35,9 @@ namespace PKHeX.WinForms
                 tabControl1.Controls.Remove(TAB_BF);
             }
 
-            if (SAV.FRLG)
+            if (SAV is SAV3FRLG frlg)
             {
-                TB_RivalName.Text = SAV.GetString(SAV.Large, 0x3A4C, 8);
+                TB_RivalName.Text = frlg.RivalName;
 
                 // Trainer Card Species
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
@@ -59,22 +59,22 @@ namespace PKHeX.WinForms
 
         private void B_Save_Click(object sender, EventArgs e)
         {
-            if (tabControl1.Controls.Contains(TAB_Joyful))
-                SaveJoyful();
+            if (tabControl1.Controls.Contains(TAB_Joyful) && SAV is IGen3Joyful j)
+                SaveJoyful(j);
             if (tabControl1.Controls.Contains(TAB_Ferry))
                 SaveFerry();
             if (tabControl1.Controls.Contains(TAB_BF))
                 SaveBattleFrontier();
-            if (SAV.FRLG)
+            if (SAV is SAV3FRLG frlg)
             {
-                SAV.SetData(SAV.Large, SAV.SetString(TB_RivalName.Text, TB_RivalName.MaxLength), 0x3A4C);
+                frlg.RivalName = TB_RivalName.Text;
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
                 for (int i = 0; i < cba.Length; i++)
                     SAV.SetEventConst(0x43 + i, (ushort)(int)cba[i].SelectedValue);
             }
 
-            if (!SAV.RS)
-                SAV.BP = (ushort)NUD_BP.Value;
+            if (SAV is SAV3E se)
+                se.BP = (ushort)NUD_BP.Value;
             SAV.Coin = (ushort)NUD_Coins.Value;
 
             Origin.CopyChangesFrom(SAV);
@@ -84,48 +84,24 @@ namespace PKHeX.WinForms
         private void B_Cancel_Click(object sender, EventArgs e) => Close();
 
         #region Joyful
-        private int JUMPS_IN_ROW, JUMPS_SCORE, JUMPS_5_IN_ROW;
-        private int BERRIES_IN_ROW, BERRIES_SCORE, BERRIES_5_IN_ROW;
-
-        private void ReadJoyful()
+        private void ReadJoyful(IGen3Joyful j)
         {
-            switch (SAV.Version)
-            {
-                case GameVersion.E:
-                    JUMPS_IN_ROW = 0x1fc;
-                    JUMPS_SCORE = 0x208;
-                    JUMPS_5_IN_ROW = 0x200;
-
-                    BERRIES_IN_ROW = 0x210;
-                    BERRIES_SCORE = 0x20c;
-                    BERRIES_5_IN_ROW = 0x212;
-                    break;
-                case GameVersion.FRLG:
-                    JUMPS_IN_ROW = 0xB00;
-                    JUMPS_SCORE = 0xB0C;
-                    JUMPS_5_IN_ROW = 0xB04;
-
-                    BERRIES_IN_ROW = 0xB14;
-                    BERRIES_SCORE = 0xB10;
-                    BERRIES_5_IN_ROW = 0xB16;
-                    break;
-            }
-            TB_J1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, JUMPS_IN_ROW)).ToString();
-            TB_J2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, JUMPS_SCORE)).ToString();
-            TB_J3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, JUMPS_5_IN_ROW)).ToString();
-            TB_B1.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, BERRIES_IN_ROW)).ToString();
-            TB_B2.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, BERRIES_SCORE)).ToString();
-            TB_B3.Text = Math.Min((ushort)9999, BitConverter.ToUInt16(SAV.Small, BERRIES_5_IN_ROW)).ToString();
+            TB_J1.Text = Math.Min((ushort)9999, j.JoyfulJumpInRow).ToString();
+            TB_J2.Text = Math.Min(        9999, j.JoyfulJumpScore).ToString();
+            TB_J3.Text = Math.Min((ushort)9999, j.JoyfulJump5InRow).ToString();
+            TB_B1.Text = Math.Min((ushort)9999, j.JoyfulBerriesInRow).ToString();
+            TB_B2.Text = Math.Min(        9999, j.JoyfulBerriesScore).ToString();
+            TB_B3.Text = Math.Min((ushort)9999, j.JoyfulBerries5InRow).ToString();
         }
 
-        private void SaveJoyful()
+        private void SaveJoyful(IGen3Joyful j)
         {
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J1.Text)).CopyTo(SAV.Small, JUMPS_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J2.Text)).CopyTo(SAV.Small, JUMPS_SCORE);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_J3.Text)).CopyTo(SAV.Small, JUMPS_5_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B1.Text)).CopyTo(SAV.Small, BERRIES_IN_ROW);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B2.Text)).CopyTo(SAV.Small, BERRIES_SCORE);
-            BitConverter.GetBytes((ushort)Util.ToUInt32(TB_B3.Text)).CopyTo(SAV.Small, BERRIES_5_IN_ROW);
+            j.JoyfulJumpInRow = (ushort)Util.ToUInt32(TB_J1.Text);
+            j.JoyfulJumpScore = (ushort)Util.ToUInt32(TB_J2.Text);
+            j.JoyfulJump5InRow = (ushort)Util.ToUInt32(TB_J3.Text);
+            j.JoyfulBerriesInRow  = (ushort)Util.ToUInt32(TB_B1.Text);
+            j.JoyfulBerriesScore  = (ushort)Util.ToUInt32(TB_B2.Text);
+            j.JoyfulBerries5InRow = (ushort)Util.ToUInt32(TB_B3.Text);
         }
         #endregion
 
@@ -468,11 +444,11 @@ namespace PKHeX.WinForms
                     LoadFame(val);
             };
 
-            if (!SAV.RS)
+            if (SAV is SAV3E em)
             {
-                NUD_BP.Value = Math.Min(NUD_BP.Maximum, SAV.BP);
-                NUD_BPEarned.Value = SAV.BPEarned;
-                NUD_BPEarned.ValueChanged += (s, e) => SAV.BPEarned = (uint)NUD_BPEarned.Value;
+                NUD_BP.Value = Math.Min(NUD_BP.Maximum, em.BP);
+                NUD_BPEarned.Value = em.BPEarned;
+                NUD_BPEarned.ValueChanged += (s, e) => em.BPEarned = (uint)NUD_BPEarned.Value;
             }
             else
             {

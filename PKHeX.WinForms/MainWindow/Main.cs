@@ -867,7 +867,7 @@ namespace PKHeX.WinForms
 
             if (sav.State.Exportable && sav is SAV3 s3)
             {
-                if (s3.IndeterminateGame || ModifierKeys == Keys.Control)
+                if (ModifierKeys == Keys.Control)
                 {
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
@@ -876,14 +876,14 @@ namespace PKHeX.WinForms
                     dialog.ShowDialog();
 
                     sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
-                    if (sav.Version == GameVersion.FRLG)
+                    if (s3 is SAV3FRLG frlg)
                     {
-                        bool result = s3.ResetPersonal(dialog.Result);
+                        bool result = frlg.ResetPersonal(dialog.Result);
                         if (!result)
                             return false;
                     }
                 }
-                else if (sav.Version == GameVersion.FRLG) // IndeterminateSubVersion
+                else if (s3 is SAV3FRLG frlg) // IndeterminateSubVersion
                 {
                     string fr = GameInfo.GetVersionName(GameVersion.FR);
                     string lg = GameInfo.GetVersionName(GameVersion.LG);
@@ -893,7 +893,7 @@ namespace PKHeX.WinForms
                     var msg = string.Format(dual, "3", fr, lg);
                     using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
-                    bool result = s3.ResetPersonal(dialog.Result);
+                    bool result = frlg.ResetPersonal(dialog.Result);
                     if (!result)
                         return false;
                 }

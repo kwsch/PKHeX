@@ -19,13 +19,16 @@ namespace PKHeX.Core
 
         private static int Language { get; set; }
 
+        /// <summary>
+        /// Checks if the most recently loaded Generation 3 Save File has a proper Enigma Berry that matches known distributions.
+        /// </summary>
         public static EReaderBerryMatch GetStatus()
         {
             if (IsEnigma) // no e-Reader Berry data provided, can't hold berry.
                 return NoData;
 
-            var matchUSA = EReaderBerriesNames_USA.Contains(Name);
-            if (matchUSA)
+            var name = Name;
+            if (EReaderBerriesNames_USA.Contains(name))
             {
                 return Language switch
                 {
@@ -34,9 +37,7 @@ namespace PKHeX.Core
                     _ => InvalidUSA
                 };
             }
-
-            var matchJP = EReaderBerriesNames_JP.Contains(Name);
-            if (matchJP)
+            if (EReaderBerriesNames_JP.Contains(name))
             {
                 return Language switch
                 {
@@ -45,7 +46,6 @@ namespace PKHeX.Core
                     _ => InvalidJPN
                 };
             }
-
             return NoMatch;
         }
 
@@ -81,9 +81,17 @@ namespace PKHeX.Core
 
         public static void LoadFrom(SAV3 sav3)
         {
-            IsEnigma = sav3.IsEBerryIsEnigma;
-            Name = sav3.EBerryName;
             Language = sav3.Japanese ? (int)LanguageID.Japanese : (int)LanguageID.English;
+            if (sav3.IsEBerryEngima)
+            {
+                IsEnigma = true;
+                Name = string.Empty;
+            }
+            else
+            {
+                IsEnigma = false;
+                Name = sav3.EBerryName;
+            }
         }
     }
 
