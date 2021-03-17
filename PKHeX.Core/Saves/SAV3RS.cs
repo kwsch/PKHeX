@@ -62,8 +62,8 @@ namespace PKHeX.Core
         #endregion
 
         #region Large
-        public override int PartyCount { get => Large[0x34]; protected set => Large[0x34] = (byte)value; }
-        public override int GetPartyOffset(int slot) => 0x38 + (SIZE_PARTY * slot);
+        public override int PartyCount { get => Large[0x234]; protected set => Large[0x234] = (byte)value; }
+        public override int GetPartyOffset(int slot) => 0x238 + (SIZE_PARTY * slot);
 
         public override uint Money
         {

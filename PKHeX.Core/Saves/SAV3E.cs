@@ -70,7 +70,7 @@ namespace PKHeX.Core
         public ushort JoyfulJumpGamesMaxPlayers { get => BitConverter.ToUInt16(Small, 0x202); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x202); }
         // u32 field8;
         public uint   JoyfulJumpScore           { get => BitConverter.ToUInt16(Small, 0x208); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0x208); }
-                                                                                                                                                           
+
         public uint   JoyfulBerriesScore        { get => BitConverter.ToUInt16(Small, 0x20C); set => SetData(Small, BitConverter.GetBytes(Math.Min(        9999, value)), 0x20C); }
         public ushort JoyfulBerriesInRow        { get => BitConverter.ToUInt16(Small, 0x210); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x210); }
         public ushort JoyfulBerries5InRow       { get => BitConverter.ToUInt16(Small, 0x212); set => SetData(Small, BitConverter.GetBytes(Math.Min((ushort)9999, value)), 0x212); }
@@ -99,8 +99,8 @@ namespace PKHeX.Core
         #endregion
 
         #region Large
-        public override int PartyCount { get => Large[0x34]; protected set => Large[0x34] = (byte)value; }
-        public override int GetPartyOffset(int slot) => 0x38 + (SIZE_PARTY * slot);
+        public override int PartyCount { get => Large[0x234]; protected set => Large[0x234] = (byte)value; }
+        public override int GetPartyOffset(int slot) => 0x238 + (SIZE_PARTY * slot);
 
         public override uint Money
         {
