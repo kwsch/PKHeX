@@ -16,157 +16,122 @@ namespace PKHeX.Core
         public bool Japanese { get; }
         public bool Korean => false;
 
-        // Similar to future games, the Generation 3 Mainline save files are comprised of two separate objects:
-        // Object 1 - Small Block, containing misc configuration data & the Pokédex.
-        // Object 2 - Large Block, containing everything else that isn't PC Storage system data.
-        // Object 3 - Storage Block, containing all the data for the PC storage system.
+        // Similar to future games, the Generation 3 Mainline save files are comprised of separate objects:
+        // Object 1 - Small, containing misc configuration data & the Pokédex.
+        // Object 2 - Large, containing everything else that isn't PC Storage system data.
+        // Object 3 - Storage, containing all the data for the PC storage system.
 
-        // When the objects are serialized to the savedata, the game breaks up each object into chunks < 0x1000 bytes.
-        // Each serialized save occupies 14 chunks; there are a total of two serialized saves.
-        // After the serialized save data, there is "extra data", for stuff like Hall of Fame and battle videos.
+        // When the objects are serialized to the savedata, the game fragments each object and saves it to a sector.
+        // The main save data for a save file occupies 14 sectors; there are a total of two serialized main saves.
+        // After the serialized main save data, there is "extra data", for stuff like Hall of Fame and battle videos.
+        // Extra data is always at the same sector, while the main sectors rotate sectors within their region (on each successive save?).
 
-        private const int SIZE_BLOCK = 0x1000;
-        private const int BLOCK_COUNT = 14;
-        public const int SIZE_BLOCK_USED = 0xF80;
+        private const int SIZE_SECTOR = 0x1000;
+        private const int SIZE_SECTOR_USED = 0xF80;
+        private const int COUNT_MAIN = 14; // sectors worth of data
+        private const int SIZE_MAIN = COUNT_MAIN * SIZE_SECTOR;
 
-        private const int COUNT_BOX = 14;
-        private const int COUNT_SLOTSPERBOX = 30;
-        // Use the largest of structure sizes, as zeroes being fed into checksum function don't change the value.
-        private const int SIZE_SMALL = 0xF2C; // maximum size for R/S/E/FR/LG structures
-        private const int SIZE_LARGE = (3 * 0xF80) + 0xF08; // maximum size for R/S/E/FR/LG structures
+        // There's no harm having buffers larger than their actual size (per format).
+        // A checksum consuming extra zeroes does not change the prior checksum result.
+        public readonly byte[] Small   = new byte[1 * SIZE_SECTOR]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
+        public readonly byte[] Large   = new byte[4 * SIZE_SECTOR]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
+        public readonly byte[] Storage = new byte[9 * SIZE_SECTOR]; //  [0x83D0]
 
-        public readonly byte[] Small = new byte[SIZE_SMALL];
-        public readonly byte[] Large = new byte[SIZE_LARGE];
-        public readonly byte[] Storage = new byte[SIZE_PC];
-        protected sealed override byte[] BoxBuffer => Storage;
-        protected sealed override byte[] PartyBuffer => Large;
+        private readonly int ActiveSlot;
 
-        // 0x83D0
-        private const int SIZE_PC = sizeof(int) // Current Box
-                                    + (COUNT_BOX * (COUNT_SLOTSPERBOX * PokeCrypto.SIZE_3STORED)) // Slots
-                                    + (COUNT_BOX * (8 + 1)) // Box Names
-                                    + (COUNT_BOX * 1); // Box Wallpapers
-
-        private static readonly ushort[] chunkLength =
-        {
-            0xf2c, // 0 | Small Block (Trainer Info) [0x890 RS, 0xf24 FR/LG]
-            0xf80, // 1 | Large Block Part 1
-            0xf80, // 2 | Large Block Part 2
-            0xf80, // 3 | Large Block Part 3
-            0xf08, // 4 | Large Block Part 4 [0xc40 RS, 0xee8 FR/LG]
-            0xf80, // 5 | PC Block 0
-            0xf80, // 6 | PC Block 1
-            0xf80, // 7 | PC Block 2
-            0xf80, // 8 | PC Block 3
-            0xf80, // 9 | PC Block 4
-            0xf80, // A | PC Block 5
-            0xf80, // B | PC Block 6
-            0xf80, // C | PC Block 7
-            0x7d0  // D | PC Block 8
-        };
-
-        public sealed override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
-
-        protected SAV3(bool japanese)
-        {
-            Japanese = japanese;
-            BlockOrder = Array.Empty<short>();
-        }
+        protected SAV3(bool japanese) => Japanese = japanese;
 
         protected SAV3(byte[] data) : base(data)
         {
-            LoadBlocks(out BlockOrder);
+            // Copy sector data to the allocated location
+            ReadSectors(data, ActiveSlot = GetActiveSlot(data));
 
-            // Copy chunk to the allocated location
-            LoadBlocks(Small, 0, 1);
-            LoadBlocks(Large, 1, 5);
-            LoadBlocks(Storage, 5, BLOCK_COUNT);
-
-            // Japanese games are limited to 5 character OT names; any unused characters are 0xFF.
-            // 5 for JP, 7 for INT. There's always 1 terminator, thus we can check 0x6-0x7 being 0xFFFF = INT
-            // OT name is stored at the top of the first block.
+            // OT name is the first 8 bytes of Small. The game fills any unused characters with 0xFF.
+            // Japanese games are limited to 5 character OT names; INT 7 characters. +1 0xFF terminator.
+            // Since JPN games don't touch the last 2 bytes (alignment), they end up as zeroes!
             Japanese = BitConverter.ToInt16(Small, 0x6) == 0;
         }
 
-        private void LoadBlocks(byte[] dest, short start, short end)
+        private void ReadSectors(byte[] data, int group)
         {
-            for (short i = start; i < end; i++)
+            int start = group * SIZE_MAIN;
+            int end = start + SIZE_MAIN;
+            for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                int blockIndex = Array.IndexOf(BlockOrder, i);
-                if (blockIndex == -1) // block empty
-                    continue;
-
-                var sOfs = (blockIndex * SIZE_BLOCK) + ABO;
-                var dOfs = (i - start) * SIZE_BLOCK_USED;
-                var count = chunkLength[i];
-                Buffer.BlockCopy(Data, sOfs, dest, dOfs, count);
+                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                switch (id)
+                {
+                    case >=5: Buffer.BlockCopy(data, ofs, Storage, (id - 5) * SIZE_SECTOR_USED, SIZE_SECTOR_USED); break;
+                    case >=1: Buffer.BlockCopy(data, ofs, Large  , (id - 1) * SIZE_SECTOR_USED, SIZE_SECTOR_USED); break;
+                    default:  Buffer.BlockCopy(data, ofs, Small  , 0                          , SIZE_SECTOR_USED); break;
+                }
             }
         }
 
-        private void SaveBlocks(byte[] dest, short start, short end)
+        private void WriteSectors(byte[] data, int group)
         {
-            for (short i = start; i < end; i++)
+            int start = group * SIZE_MAIN;
+            int end = start + SIZE_MAIN;
+            for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                int blockIndex = Array.IndexOf(BlockOrder, i);
-                if (blockIndex == -1) // block empty
-                    continue;
-
-                var sOfs = (blockIndex * SIZE_BLOCK) + ABO;
-                var dOfs = (i - start) * SIZE_BLOCK_USED;
-                var count = chunkLength[i];
-                Buffer.BlockCopy(dest, dOfs, Data, sOfs, count);
+                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                switch (id)
+                {
+                    case >=5: Buffer.BlockCopy(Storage, (id - 5) * SIZE_SECTOR_USED, data, ofs, SIZE_SECTOR_USED); break;
+                    case >=1: Buffer.BlockCopy(Large  , (id - 1) * SIZE_SECTOR_USED, data, ofs, SIZE_SECTOR_USED); break;
+                    default:  Buffer.BlockCopy(Small  , 0                          , data, ofs, SIZE_SECTOR_USED); break;
+                }
             }
         }
 
-        private void LoadBlocks(out short[] blockOrder)
+        /// <summary>
+        /// Checks the input data to see if all required sectors for the main save data are present for the <see cref="slot"/>.
+        /// </summary>
+        /// <param name="data">Data to check</param>
+        /// <param name="slot">Which main to check (primary or secondary)</param>
+        /// <param name="sector0">Offset of the sector that has the small object data</param>
+        public static bool IsAllMainSectorsPresent(byte[] data, int slot, out int sector0)
         {
-            var o1 = GetBlockOrder(0);
-            if (Data.Length > SaveUtil.SIZE_G3RAWHALF)
+            System.Diagnostics.Debug.Assert(slot is 0 or 1);
+            int start = SIZE_MAIN * slot;
+            int end = start + SIZE_MAIN;
+            int bitTrack = 0;
+            sector0 = 0;
+            for (int ofs = 0; ofs < end; ofs += SIZE_SECTOR)
             {
-                var o2 = GetBlockOrder(0xE000);
-                ActiveSAV = GetActiveSaveIndex(o1, o2);
-                blockOrder = ActiveSAV == 0 ? o1 : o2;
+                var id = BitConverter.ToInt16(data, ofs + 0xFF4);
+                bitTrack |= (1 << id);
+                if (id == 0)
+                    sector0 = ofs;
             }
-            else
-            {
-                ActiveSAV = 0;
-                blockOrder = o1;
-            }
+            // all 14 fragments present
+            return bitTrack == 0b_0011_1111_1111_1111;
         }
 
-        private short[] GetBlockOrder(int ofs)
+        private static int GetActiveSlot(byte[] data)
         {
-            short[] order = new short[BLOCK_COUNT];
-            for (int i = 0; i < BLOCK_COUNT; i++)
-                order[i] = BitConverter.ToInt16(Data, ofs + (i * SIZE_BLOCK) + 0xFF4);
-            return order;
-        }
-
-        private int GetActiveSaveIndex(short[] BlockOrder1, short[] BlockOrder2)
-        {
-            int zeroBlock1 = Array.IndexOf(BlockOrder1, (short)0);
-            int zeroBlock2 = Array.IndexOf(BlockOrder2, (short)0);
-            if (zeroBlock2 < 0)
+            if (data.Length == SaveUtil.SIZE_G3RAWHALF)
                 return 0;
-            if (zeroBlock1 < 0)
-                return 1;
-            var count1 = BitConverter.ToUInt32(Data, (zeroBlock1 * SIZE_BLOCK) + 0x0FFC);
-            var count2 = BitConverter.ToUInt32(Data, (zeroBlock2 * SIZE_BLOCK) + 0xEFFC);
-            return count1 > count2 ? 0 : 1;
+
+            var v0 = IsAllMainSectorsPresent(data, 0, out var sectorZero0);
+            var v1 = IsAllMainSectorsPresent(data, 1, out var sectorZero1);
+            if (!v0)
+                return v1 ? 1 : 0;
+            if (!v1)
+                return 0;
+
+            var count0 = BitConverter.ToUInt32(data, sectorZero0 + 0x0FFC);
+            var count1 = BitConverter.ToUInt32(data, sectorZero1 + 0x0FFC);
+            // don't care about 32bit overflow. a 10 second save would take 1,000 years to overflow!
+            return count1 > count0 ? 1 : 0;
         }
 
         protected sealed override byte[] GetFinalData()
         {
             // Copy Box data back
-            SaveBlocks(Small, 0, 1);
-            SaveBlocks(Large, 1, 5);
-            SaveBlocks(Storage, 5, BLOCK_COUNT);
+            WriteSectors(Data, ActiveSlot);
             return base.GetFinalData();
         }
-
-        private int ActiveSAV;
-        private int ABO => ActiveSAV*SIZE_BLOCK*0xE;
-        private readonly short[] BlockOrder;
 
         protected sealed override int SIZE_STORED => PokeCrypto.SIZE_3STORED;
         protected sealed override int SIZE_PARTY => PokeCrypto.SIZE_3PARTY;
@@ -179,6 +144,8 @@ namespace PKHeX.Core
         public sealed override int MaxItemID => Legal.MaxItemID_3;
         public sealed override int MaxBallID => Legal.MaxBallID_3;
         public sealed override int MaxGameID => Legal.MaxGameID_3;
+
+        public sealed override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
 
         public sealed override int BoxCount => 14;
         public sealed override int MaxEV => 255;
@@ -194,17 +161,20 @@ namespace PKHeX.Core
         protected sealed override PKM GetPKM(byte[] data) => new PK3(data);
         protected sealed override byte[] DecryptPKM(byte[] data) => PokeCrypto.DecryptArray3(data);
 
+        protected sealed override byte[] BoxBuffer => Storage;
+        protected sealed override byte[] PartyBuffer => Large;
+
+        private const int COUNT_BOX = 14;
+        private const int COUNT_SLOTSPERBOX = 30;
+
         // Checksums
         protected sealed override void SetChecksums()
         {
-            for (int i = 0; i < BLOCK_COUNT; i++)
+            int start = ActiveSlot * SIZE_MAIN;
+            int end = start + SIZE_MAIN;
+            for (int ofs = start; ofs < end; ofs += SIZE_SECTOR)
             {
-                int ofs = ABO + (i * SIZE_BLOCK);
-                var index = BlockOrder[i];
-                if (index == -1)
-                    continue;
-                int len = chunkLength[index];
-                ushort chk = Checksums.CheckSum32(Data, ofs, len);
+                ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
                 BitConverter.GetBytes(chk).CopyTo(Data, ofs + 0xFF6);
             }
 
@@ -213,11 +183,11 @@ namespace PKHeX.Core
 
             // Hall of Fame Checksums
             {
-                ushort chk = Checksums.CheckSum32(Data, 0x1C000, SIZE_BLOCK_USED);
+                ushort chk = Checksums.CheckSum32(Data, 0x1C000, SIZE_SECTOR_USED);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1CFF4);
             }
             {
-                ushort chk = Checksums.CheckSum32(Data, 0x1D000, SIZE_BLOCK_USED);
+                ushort chk = Checksums.CheckSum32(Data, 0x1D000, SIZE_SECTOR_USED);
                 BitConverter.GetBytes(chk).CopyTo(Data, 0x1DFF4);
             }
         }
@@ -226,34 +196,34 @@ namespace PKHeX.Core
         {
             get
             {
-                for (int i = 0; i < BLOCK_COUNT; i++)
+                for (int i = 0; i < COUNT_MAIN; i++)
                 {
-                    if (!IsChunkValid(i))
+                    if (!IsSectorValid(i))
                         return false;
                 }
 
                 if (State.BAK.Length < SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                     return true;
 
-                if (!IsChunkValidHoF(0x1C000))
+                if (!IsSectorValidExtra(0x1C000))
                     return false;
-                if (!IsChunkValidHoF(0x1D000))
+                if (!IsSectorValidExtra(0x1D000))
                     return false;
                 return true;
             }
         }
 
-        private bool IsChunkValidHoF(int ofs)
+        private bool IsSectorValidExtra(int ofs)
         {
-            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_BLOCK_USED);
+            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
             return chk == BitConverter.ToUInt16(Data, ofs + 0xFF4);
         }
 
-        private bool IsChunkValid(int chunk)
+        private bool IsSectorValid(int sector)
         {
-            int ofs = ABO + (chunk * SIZE_BLOCK);
-            int len = chunkLength[BlockOrder[chunk]];
-            ushort chk = Checksums.CheckSum32(Data, ofs, len);
+            int start = ActiveSlot * SIZE_MAIN;
+            int ofs = start + (sector * SIZE_SECTOR);
+            ushort chk = Checksums.CheckSum32(Data, ofs, SIZE_SECTOR_USED);
             return chk == BitConverter.ToUInt16(Data, ofs + 0xFF6);
         }
 
@@ -262,18 +232,18 @@ namespace PKHeX.Core
             get
             {
                 var list = new List<string>();
-                for (int i = 0; i < BLOCK_COUNT; i++)
+                for (int i = 0; i < COUNT_MAIN; i++)
                 {
-                    if (!IsChunkValid(i))
-                        list.Add($"Block {BlockOrder[i]:00} @ {i*SIZE_BLOCK:X5} invalid.");
+                    if (!IsSectorValid(i))
+                        list.Add($"Sector {i} @ {i*SIZE_SECTOR:X5} invalid.");
                 }
 
                 if (State.BAK.Length > SaveUtil.SIZE_G3RAW) // don't check HoF for half-sizes
                 {
-                    if (!IsChunkValidHoF(0x1C000))
-                        list.Add("HoF Block 1 invalid.");
-                    if (!IsChunkValidHoF(0x1D000))
-                        list.Add("HoF Block 2 invalid.");
+                    if (!IsSectorValidExtra(0x1C000))
+                        list.Add("HoF first sector invalid.");
+                    if (!IsSectorValidExtra(0x1D000))
+                        list.Add("HoF second sector invalid.");
                 }
                 return list.Count != 0 ? string.Join(Environment.NewLine, list) : "Checksums are valid.";
             }
@@ -594,5 +564,23 @@ namespace PKHeX.Core
 
         public abstract string EBerryName { get; }
         public abstract bool IsEBerryEngima { get; }
+
+        public byte[] GetHallOfFameData()
+        {
+            // HoF Data is split across two sectors
+            byte[] data = new byte[SIZE_SECTOR_USED * 2];
+            Buffer.BlockCopy(Data, 0x1C000, data, 0               , SIZE_SECTOR_USED);
+            Buffer.BlockCopy(Data, 0x1D000, data, SIZE_SECTOR_USED, SIZE_SECTOR_USED);
+            return data;
+        }
+
+        public void SetHallOfFameData(byte[] value)
+        {
+            if (value.Length != SIZE_SECTOR_USED * 2)
+                throw new ArgumentException("Invalid size", nameof(value));
+            // HoF Data is split across two sav sectors
+            Buffer.BlockCopy(value, 0               , Data, 0x1C000, SIZE_SECTOR_USED);
+            Buffer.BlockCopy(value, SIZE_SECTOR_USED, Data, 0x1D000, SIZE_SECTOR_USED);
+        }
     }
 }

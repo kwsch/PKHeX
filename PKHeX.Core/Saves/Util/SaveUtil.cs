@@ -268,28 +268,13 @@ namespace PKHeX.Core
 
             // check the save file(s)
             int count = data.Length/SIZE_G3RAWHALF;
-            for (int s = 0; s < count; s++)
+            for (int slot = 0; slot < count; slot++)
             {
-                const int blockCount = 14;
-                const int blockSize = 0x1000;
-                int ofs = blockCount * blockSize * s;
-                var order = new short[blockCount];
-                for (int i = 0; i < order.Length; i++)
-                    order[i] = BitConverter.ToInt16(data, (i * blockSize) + 0xFF4 + ofs);
-
-                if (Array.FindIndex(order, i => (uint)i > 0xD) >= 0) // invalid block ID
+                if (!SAV3.IsAllMainSectorsPresent(data, slot, out var smallOffset))
                     continue;
 
-                int block0 = Array.IndexOf(order, (short)0);
-
-                // Sometimes not all blocks are present (start of game), yielding multiple block0's.
-                // Real 0th block comes before block1.
-                if (order[0] == 1 && block0 != order.Length - 1)
-                    continue;
-                if (Array.TrueForAll(order, v => v == 0)) // all blocks are 0
-                    continue;
                 // Detect RS/E/FRLG
-                return GetVersionG3SAV(data, (blockSize  * block0) + ofs);
+                return GetVersionG3SAV(data, smallOffset);
             }
             return Invalid;
         }
