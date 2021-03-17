@@ -31,9 +31,12 @@ namespace PKHeX.Core
             Data = DecryptPBRSaveData(data);
 
             // Detect active save
-            SaveCount = Math.Max(BigEndian.ToUInt32(Data, 0x1C004C), BigEndian.ToUInt32(Data, 0x4C));
-            if (BigEndian.ToUInt32(Data, 0x1C004C) > BigEndian.ToUInt32(Data, 0x4C))
+            var first  = BigEndian.ToUInt32(Data, 0x00004C);
+            var second = BigEndian.ToUInt32(Data, 0x1C004C);
+            SaveCount = Math.Max(second, first);
+            if (second > first)
             {
+                // swap halves
                 byte[] tempData = new byte[0x1C0000];
                 Array.Copy(Data, 0, tempData, 0, 0x1C0000);
                 Array.Copy(Data, 0x1C0000, Data, 0, 0x1C0000);
@@ -57,6 +60,7 @@ namespace PKHeX.Core
             CurrentSlot = _currentSlot;
         }
 
+        /// <summary> Amount of times the primary save has been saved </summary>
         private uint SaveCount;
 
         protected override byte[] GetFinalData()

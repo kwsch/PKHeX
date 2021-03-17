@@ -727,6 +727,7 @@ namespace PKHeX.Core
             D or P or DP => new SAV4DP(),
             Pt or DPPt => new SAV4Pt(),
             HG or SS or HGSS => new SAV4HGSS(),
+            BATREV => new SAV4BR(),
 
             B or W or BW => new SAV5BW(),
             B2 or W2 or B2W2 => new SAV5B2W2(),
