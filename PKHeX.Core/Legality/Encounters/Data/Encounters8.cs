@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.Shiny;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AreaWeather8;

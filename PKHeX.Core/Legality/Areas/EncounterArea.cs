@@ -11,7 +11,7 @@ namespace PKHeX.Core
         public GameVersion Version { get; }
         public int Location { get; protected init; }
         public SlotType Type { get; protected init; } = SlotType.Any;
-        public EncounterSlot[] Slots { get; internal set; } = Array.Empty<EncounterSlot>();
+        public EncounterSlot[] Slots { get; protected init; } = Array.Empty<EncounterSlot>();
 
         protected EncounterArea(GameVersion game) => Version = game;
 
