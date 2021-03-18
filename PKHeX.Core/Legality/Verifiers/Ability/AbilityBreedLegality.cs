@@ -54,7 +54,6 @@ namespace PKHeX.Core
             (int)Phione,
             (int)Snivy, (int)Tepig, (int)Oshawott,
             (int)Throh, (int)Sawk,
-            (int)Sigilyph,
             (int)Yamask,
             (int)Archen,
             (int)Zorua,
