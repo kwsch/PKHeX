@@ -31,29 +31,6 @@ namespace PKHeX.Core
                 t.TrainerNames = TradeOT_R1;
 
             MarkEncounterTradeStrings(TradeGift_SWSH, TradeSWSH);
-
-            // Include Nest Tables for both versions -- online play can share them across versions! In the IsMatch method we check if it's a valid share.
-
-            CopyBerryTreeFromBridgeFieldToStony(SlotsSW_Hidden, 26);
-            CopyBerryTreeFromBridgeFieldToStony(SlotsSH_Hidden, 25);
-        }
-
-        private static void CopyBerryTreeFromBridgeFieldToStony(IReadOnlyList<EncounterArea8> arr, int start)
-        {
-            // The Berry Trees in Bridge Field are right against the map boundary, and can be accessed on the adjacent Map ID (Stony Wilderness)
-            // Copy the two Berry Tree encounters from Bridge to Stony, as these aren't overworld (wandering) crossover encounters.
-            var bridge = arr[13];
-            Debug.Assert(bridge.Location == 142);
-            var stony = arr[31];
-            Debug.Assert(stony.Location == 144);
-
-            var ss = stony.Slots;
-            var ssl = ss.Length;
-            Array.Resize(ref ss, ssl + 2);
-            Array.Copy(bridge.Slots, start, ss, ssl, 2);
-            Debug.Assert(((EncounterSlot8)ss[ssl]).Weather == Shaking_Trees);
-            Debug.Assert(((EncounterSlot8)ss[ssl+1]).Weather == Shaking_Trees);
-            stony.Slots = ss;
         }
 
         private static readonly EncounterStatic8[] Encounter_SWSH =
