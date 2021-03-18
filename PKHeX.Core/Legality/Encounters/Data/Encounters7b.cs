@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
@@ -11,12 +8,6 @@ namespace PKHeX.Core
         internal static readonly EncounterArea7b[] SlotsGP = EncounterArea7b.GetAreas(Get("gp", "gg"), GP);
         internal static readonly EncounterArea7b[] SlotsGE = EncounterArea7b.GetAreas(Get("ge", "gg"), GE);
         private static byte[][] Get(string resource, string ident) => BinLinker.Unpack(Util.GetBinaryResource($"encounter_{resource}.pkl"), ident);
-
-        static Encounters7b()
-        {
-            ManuallyAddRareSpawns(SlotsGP);
-            ManuallyAddRareSpawns(SlotsGE);
-        }
 
         private static readonly EncounterStatic7b[] Encounter_GG =
         {
@@ -75,64 +66,7 @@ namespace PKHeX.Core
             new(GG) { Species = 074, Form = 1, Level = 16, TrainerNames = T8, TID7 = 551873, OTGender = 0, IVs = new[] {31,31,-1,-1,-1,-1} }, // Geodude @ Vermilion City, AV rand [0-5)
         };
 
-        private class RareSpawn
-        {
-            public readonly int Species;
-            public readonly byte[] Locations;
-
-            protected internal RareSpawn(int species, params byte[] locations)
-            {
-                Species = species;
-                Locations = locations;
-            }
-        }
-
-        private static readonly byte[] Sky = {003, 004, 005, 006, 009, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 021, 022, 023, 024, 025, 026, 027};
-
-        private static readonly RareSpawn[] Rare =
-        {
-            // Normal
-            new(001, 039),
-            new(004, 005, 006, 041),
-            new(007, 026, 027, 044),
-            new(106, 045),
-            new(107, 045),
-            new(113, 007, 008, 010, 011, 012, 013, 014, 015, 016, 017, 018, 019, 020, 023, 025, 040, 042, 043, 045, 047, 051),
-            new(137, 009),
-            new(143, 046),
-
-            // Water
-            new(131, 021, 022),
-
-            // Fly
-            new(006, Sky),
-            new(144, Sky),
-            new(145, Sky),
-            new(146, Sky),
-            new(149, Sky),
-        };
-
-        private static void ManuallyAddRareSpawns(IEnumerable<EncounterArea7b> areas)
-        {
-            foreach (var table in areas)
-            {
-                var loc = table.Location;
-                var species = Rare.Where(z => z.Locations.Contains((byte)loc)).Select(z => z.Species).ToArray();
-                if (species.Length == 0)
-                    continue;
-                var slots = table.Slots;
-                var first = slots[0];
-                var extra = species
-                    .Select(z => new EncounterSlot7b(table, z, (z is 006 or >= 144) ? 03 : first.LevelMin, (z is 006 or >= 144) ? 56 : first.LevelMax)).ToArray();
-
-                int count = slots.Length;
-                Array.Resize(ref slots, count + extra.Length);
-                extra.CopyTo(slots, count);
-                table.Slots = slots;
-            }
-        }
-
-        internal static readonly EncounterStatic[] StaticGP = GetEncounters(Encounter_GG, GP);
-        internal static readonly EncounterStatic[] StaticGE = GetEncounters(Encounter_GG, GE);
+        internal static readonly EncounterStatic7b[] StaticGP = GetEncounters(Encounter_GG, GP);
+        internal static readonly EncounterStatic7b[] StaticGE = GetEncounters(Encounter_GG, GE);
     }
 }
