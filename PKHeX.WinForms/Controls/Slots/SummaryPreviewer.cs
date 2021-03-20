@@ -22,7 +22,7 @@ namespace PKHeX.WinForms.Controls
             var text = ShowdownParsing.GetLocalizedPreviewText(pk, Settings.Default.Language);
             var la = new LegalityAnalysis(pk);
             var result = new List<string>{ text, string.Empty };
-            la.AddEncounterInfo(result);
+            LegalityFormatting.AddEncounterInfo(la, result);
             ShowSet.SetToolTip(pb, string.Join(Environment.NewLine, result));
         }
 

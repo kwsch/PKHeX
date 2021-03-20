@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using static PKHeX.Core.LegalityAnalyzers;
 using static PKHeX.Core.LegalityCheckStrings;
-using static PKHeX.Core.ParseSettings;
 
 namespace PKHeX.Core
 {
@@ -62,33 +61,6 @@ namespace PKHeX.Core
         /// Contains various data reused for multiple checks.
         /// </summary>
         public readonly LegalInfo Info;
-
-        /// <summary>
-        /// Creates a report message with optional verbosity for in-depth analysis.
-        /// </summary>
-        /// <param name="verbose">Include all details in the parse, including valid check messages.</param>
-        /// <returns>Single line string</returns>
-        public string Report(bool verbose = false) => verbose ? GetVerboseLegalityReport() : GetLegalityReport();
-
-        private string EncounterName
-        {
-            get
-            {
-                var enc = EncounterOriginal;
-                var str = SpeciesStrings;
-                var name = (uint) enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
-                return $"{enc.LongName} ({name})";
-            }
-        }
-
-        private string? EncounterLocation
-        {
-            get
-            {
-                var enc = EncounterOriginal as ILocation;
-                return enc?.GetEncounterLocation(Info.Generation, pkm.Version);
-            }
-        }
 
         /// <summary>
         /// Checks the input <see cref="PKM"/> data for legality. This is the best method for checking with context, as some games do not have all Alternate Form data available.
@@ -331,111 +303,6 @@ namespace PKHeX.Core
                 return;
 
             Mark.Verify(this);
-        }
-
-        private string GetLegalityReport()
-        {
-            if (Valid)
-                return L_ALegal;
-            if (!Parsed)
-                return L_AnalysisUnavailable;
-
-            var lines = new List<string>();
-            var vMoves = Info.Moves;
-            var vRelearn = Info.Relearn;
-            for (int i = 0; i < 4; i++)
-            {
-                if (!vMoves[i].Valid)
-                    lines.Add(vMoves[i].Format(L_F0_M_1_2, i + 1));
-            }
-
-            if (pkm.Format >= 6)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (!vRelearn[i].Valid)
-                        lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
-                }
-            }
-
-            // Build result string...
-            var outputLines = Parse.Where(chk => !chk.Valid);
-            lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
-
-            return string.Join(Environment.NewLine, lines);
-        }
-
-        private string GetVerboseLegalityReport()
-        {
-            if (!Parsed)
-                return L_AnalysisUnavailable;
-
-            const string separator = "===";
-            string[] br = {separator, string.Empty};
-            var lines = new List<string> {br[1]};
-            lines.AddRange(br);
-            int rl = lines.Count;
-
-            var vMoves = Info.Moves;
-            var vRelearn = Info.Relearn;
-            for (int i = 0; i < 4; i++)
-            {
-                var move = vMoves[i];
-                if (!move.Valid)
-                    continue;
-                var msg = move.Format(L_F0_M_1_2, i + 1);
-                if (pkm.Format != move.Generation)
-                    msg += $" [Gen{move.Generation}]";
-                lines.Add(msg);
-            }
-
-            if (pkm.Format >= 6)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (vRelearn[i].Valid)
-                        lines.Add(vRelearn[i].Format(L_F0_RM_1_2, i + 1));
-                }
-            }
-
-            if (rl != lines.Count) // move info added, break for next section
-                lines.Add(br[1]);
-
-            var outputLines = Parse.Where(chk => chk.Valid && chk.Comment != L_AValid).OrderBy(chk => chk.Judgement); // Fishy sorted to top
-            lines.AddRange(outputLines.Select(chk => chk.Format(L_F0_1)));
-
-            lines.AddRange(br);
-            AddEncounterInfo(lines);
-
-            if (!Valid && Info.InvalidMatches != null)
-            {
-                lines.Add("Other match(es):");
-                lines.AddRange(Info.InvalidMatches.Select(z => $"{z.Encounter.LongName}: {z.Reason}"));
-            }
-
-            return GetLegalityReport() + string.Join(Environment.NewLine, lines);
-        }
-
-        /// <summary>
-        /// Adds information about the <see cref="EncounterMatch"/> to the <see cref="lines"/>.
-        /// </summary>
-        /// <param name="lines"></param>
-        public void AddEncounterInfo(List<string> lines)
-        {
-            lines.Add(string.Format(L_FEncounterType_0, EncounterName));
-            var loc = EncounterLocation;
-            if (!string.IsNullOrEmpty(loc))
-                lines.Add(string.Format(L_F0_1, "Location", loc));
-            if (Info.Generation <= 2)
-                lines.Add(string.Format(L_F0_1, nameof(GameVersion), Info.Game));
-
-            if (!Info.PIDParsed)
-                Info.PIDIV = MethodFinder.Analyze(pkm);
-
-            var pidiv = Info.PIDIV;
-            if (!pidiv.NoSeed)
-                lines.Add(string.Format(L_FOriginSeed_0, pidiv.OriginSeed.ToString("X8")));
-            lines.Add(string.Format(L_FPIDType_0, pidiv.Type));
         }
     }
 }
