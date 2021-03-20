@@ -334,15 +334,16 @@ namespace PKHeX.Core
         public void SetPartySlotAtIndex(PKM pkm, int index, PKMImportSetting trade = PKMImportSetting.UseDefault, PKMImportSetting dex = PKMImportSetting.UseDefault)
         {
             // update party count
-            if (index <= -1)
-                throw new ArgumentException("Invalid Party offset provided; unable to resolve party slot index.");
+            if ((uint)index > 5)
+                throw new ArgumentOutOfRangeException(nameof(index));
 
+            int currentCount = PartyCount;
             if (pkm.Species != 0)
             {
-                if (PartyCount <= index)
+                if (currentCount <= index)
                     PartyCount = index + 1;
             }
-            else if (PartyCount > index)
+            else if (currentCount > index)
             {
                 PartyCount = index;
             }

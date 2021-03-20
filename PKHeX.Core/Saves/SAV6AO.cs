@@ -33,9 +33,6 @@ namespace PKHeX.Core
 
         private void Initialize()
         {
-            GTS = 0x18200; // GtsData
-            Fused = 0x16A00; // UnionPokemon
-
             PCLayout = 0x04400;
             BattleBoxOffset = 0x04A00;
             PSS = 0x05000;
@@ -46,23 +43,23 @@ namespace PKHeX.Core
             DaycareOffset = 0x1BC00;
             BerryField = 0x1C400;
             WondercardFlags = 0x1CC00;
-            Contest = 0x23600;
-            SecretBase = 0x23A00;
-            EonTicket = 0x319B8;
             Box = 0x33000;
             JPEG = 0x67C00;
 
             EventFlag = EventConst + 0x2F0;
             WondercardData = WondercardFlags + 0x100;
-            Daycare2 = DaycareOffset + 0x1F0;
         }
 
-        public int EonTicket { get; private set; }
-        public int Contest { get; private set; }
-        private int Daycare2 { get; set; }
-        public int SecretBase { get; private set; }
-        public int GTS { get; private set; }
-        public int Fused { get; private set; }
+        /// <summary> Offset of the UnionPokemon block. </summary>
+        public const int Fused = 0x16A00;
+        /// <summary> Offset of the GtsData block. </summary>
+        public const int GTS = 0x18200;
+        /// <summary> Offset of the second daycare structure within the Daycare block. </summary>
+        private const int Daycare2 = 0x1BC00 + 0x1F0;
+        /// <summary> Offset of the Contest data block. </summary>
+        public const int Contest = 0x23600;
+        /// <summary> Offset of the Secret Base block. </summary>
+        public const int SecretBase = 0x23A00;
 
         #region Blocks
         public override IReadOnlyList<BlockInfo> AllBlocks => Blocks.BlockInfo;

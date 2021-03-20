@@ -70,8 +70,8 @@ namespace PKHeX.WinForms
         {
             LB_Favorite.Items.Clear();
 
-            int playeroff = SAV.SecretBase + 0x326;
-            int favoff = SAV.SecretBase + 0x63A;
+            int playeroff = SAV6AO.SecretBase + 0x326;
+            int favoff = SAV6AO.SecretBase + 0x63A;
             string OT = StringConverter.GetString6(SAV.Data, playeroff + 0x218, 0x1A);
             LB_Favorite.Items.Add($"* {OT}");
             for (int i = 0; i < 30; i++)
@@ -153,11 +153,11 @@ namespace PKHeX.WinForms
         {
             // OR/AS: Secret base @ 0x23A00
             if (index == 0) // Self, 0x314 bytes? Doesn't store pokemon data
-                return SAV.SecretBase + 0x326;
+                return SAV6AO.SecretBase + 0x326;
 
             --index;
             // Received
-            return SAV.SecretBase + 0x63A + (index * SecretBase6.SIZE);
+            return SAV6AO.SecretBase + 0x63A + (index * SecretBase6.SIZE);
         }
 
         private void B_FAV2SAV(object sender, EventArgs e)
@@ -224,7 +224,7 @@ namespace PKHeX.WinForms
         {
             uint flags = Util.ToUInt32(MT_Flags.Text);
             SAV.Records.SetRecord(080, (int)flags);
-            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV.SecretBase + 0x62C, 4); // write counter
+            Array.Copy(BitConverter.GetBytes(flags), 0, SAV.Data, SAV6AO.SecretBase + 0x62C, 4); // write counter
             Origin.CopyChangesFrom(SAV);
             Close();
         }
@@ -236,8 +236,8 @@ namespace PKHeX.WinForms
                 // int qty = BitConverter.ToUInt16(sav, offset + i * 4);
                 // int has = BitConverter.ToUInt16(sav, offset + i * 4 + 2);
 
-                SAV.Data[SAV.SecretBase + (i * 4)] = 25;
-                SAV.Data[SAV.SecretBase + (i * 4) + 2] = 1;
+                SAV.Data[SAV6AO.SecretBase + (i * 4)] = 25;
+                SAV.Data[SAV6AO.SecretBase + (i * 4) + 2] = 1;
             }
         }
 
@@ -518,7 +518,7 @@ namespace PKHeX.WinForms
             if (LB_Favorite.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your Secret Base."); return; }
             int index = LB_Favorite.SelectedIndex - 1;
 
-            int favoff = SAV.SecretBase + 0x63A;
+            int favoff = SAV6AO.SecretBase + 0x63A;
             string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (index * 0x3E0) + 0x218, 0x1A);
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";

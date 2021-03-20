@@ -20,7 +20,7 @@ namespace PKHeX.WinForms
             for (int i = 0; i < lbl_spec.Length; i++)
             {
                 lbl_spec[i].Text = $"{GameInfo.Strings.pokeblocks[94 + i]}:";
-                nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV.Contest + (i * 4));
+                nup_spec[i].Value = BitConverter.ToUInt32(SAV.Data, SAV6AO.Contest + (i * 4));
             }
         }
 
@@ -34,7 +34,7 @@ namespace PKHeX.WinForms
         private void B_Save_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < nup_spec.Length; i++)
-                BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV.Contest + (i * 4));
+                BitConverter.GetBytes((uint)nup_spec[i].Value).CopyTo(SAV.Data, SAV6AO.Contest + (i * 4));
             Origin.CopyChangesFrom(SAV);
             Close();
         }
