@@ -161,7 +161,23 @@ namespace PKHeX.Core
                 return GetInvalid(LAbilityHiddenFail);
 
             if (data.EncounterMatch.Species != pkm.Species && state != AbilityState.CanMismatch) // evolved
+            {
+                // Evolving in Gen3 does not mutate the ability bit, so any mismatched abilities will stay mismatched.
+                if (pkm.Gen3)
+                {
+                    if (EncounterAbility == 1 << abilval)
+                        return GetValid(LAbilityFlag);
+
+                    // If it is in a future game and does not match the fixed ability, then it must match the PID.
+                    if (pkm.Format != 3)
+                        return GetPIDAbilityMatch(pkm, abilities);
+
+                    // No way to un-mismatch it while existing solely on Gen3 games.
+                    return INVALID;
+                }
+
                 return CheckMatch(pkm, abilities, data.Info.Generation, AbilityState.MustMatch);
+            }
 
             if (EncounterAbility == 1 << abilval)
                 return GetValid(LAbilityFlag);
@@ -186,7 +202,7 @@ namespace PKHeX.Core
                 return AbilityState.CanMismatch;
 
             // Gen3 native or Gen4/5 origin
-            if (pkm.Format == 3 || !pkm.InhabitedGeneration(3))
+            if (pkm.Format == 3 || data.Info.Generation != 3)
                 return AbilityState.MustMatch;
 
             // Evovled in Gen4/5
@@ -397,6 +413,11 @@ namespace PKHeX.Core
             }
 
             // 3-5
+            return GetPIDAbilityMatch(pkm, abilities);
+        }
+
+        private CheckResult GetPIDAbilityMatch(PKM pkm, IReadOnlyList<int> abilities)
+        {
             var abil = abilities[pkm.AbilityNumber >> 1];
             if (abil != pkm.Ability)
                 return GetInvalid(LAbilityMismatchPID);
