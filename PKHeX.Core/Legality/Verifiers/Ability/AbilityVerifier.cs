@@ -59,24 +59,9 @@ namespace PKHeX.Core
                     if (abilities[0] == abilities[1] && num != 1)
                     {
                         // Check if any pre-evolution could have it flipped.
-                        static bool getWasDual(IEnumerable<EvoCriteria> evos, PersonalTable pt, PKM pk)
-                        {
-                            foreach (var evo in evos)
-                            {
-                                if (evo.Species == pk.Species)
-                                    continue;
-
-                                var pe = pt.GetFormEntry(evo.Species, evo.Form);
-                                var abils = pe.Abilities;
-                                if (abils[0] != abils[1])
-                                    return true;
-                            }
-                            return false;
-                        }
-
                         var evos = data.Info.EvoChainsAllGens[6];
                         var pt = GameData.GetPersonal(GameUtil.GetVersion(pkm.Format));
-                        if (!getWasDual(evos, pt, pkm))
+                        if (!GetWasDual(evos, pt, pkm))
                             return GetInvalid(LAbilityMismatchFlag);
                     }
                 }
@@ -96,6 +81,23 @@ namespace PKHeX.Core
                 return VerifyAbility345(data, enc, abilities, abilval);
 
             return VerifyAbility(data, abilities, abilval);
+        }
+
+        private static bool GetWasDual(IReadOnlyList<EvoCriteria> evos, PersonalTable pt, ISpeciesForm pk)
+        {
+            for (var i = 0; i < evos.Count; i++)
+            {
+                var evo = evos[i];
+                if (evo.Species == pk.Species)
+                    continue;
+
+                var pe = pt.GetFormEntry(evo.Species, evo.Form);
+                var abils = pe.Abilities;
+                if (CanAbilityCapsule(6, abils))
+                    return true;
+            }
+
+            return false;
         }
 
         private CheckResult VerifyAbility(LegalityAnalysis data, IReadOnlyList<int> abilities, int abilnum)
@@ -273,8 +275,16 @@ namespace PKHeX.Core
                 return GetInvalid(LAbilityHiddenFail);
 
             // Ability can be flipped 0/1 if Ability Capsule is available, is not Hidden Ability, and Abilities are different.
-            if (pkm.Format >= 6 && abilities[0] != abilities[1])
-                return GetValid(LAbilityCapsuleUsed);
+            if (pkm.Format >= 6)
+            {
+                if (CanAbilityCapsule(6, abilities))
+                    return GetValid(LAbilityCapsuleUsed);
+
+                // Maybe was evolved after using ability capsule.
+                var evos = data.Info.EvoChainsAllGens[pkm.Format];
+                if (GetWasDual(evos, PKX.Personal, pkm))
+                    return GetValid(LAbilityCapsuleUsed);
+            }
 
             return GetInvalid(pkm.Format < 6 ? LAbilityMismatchPID : LAbilityMismatchFlag);
         }
