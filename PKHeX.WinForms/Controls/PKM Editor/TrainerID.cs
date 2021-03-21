@@ -20,7 +20,7 @@ namespace PKHeX.WinForms.Controls
                 return;
 
             string IDstr = $"TSV: {tsv:d4}";
-            var repack = (Trainer.SID * 1_000_000) + Trainer.TID;
+            var repack = (uint)((Trainer.SID * 1_000_000) + Trainer.TID);
 
             string supplement = Format < 7
                 ? $"G7ID: ({repack / 1_000_000:D4}){repack % 1_000_000:D6}"
