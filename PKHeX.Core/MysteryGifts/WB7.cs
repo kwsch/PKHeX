@@ -541,7 +541,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        protected override bool IsMatchDeferred(PKM pkm) => pkm.Species == Species;
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
         protected override bool IsMatchPartial(PKM pkm) => false;
     }
 }

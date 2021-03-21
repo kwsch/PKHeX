@@ -653,7 +653,7 @@ namespace PKHeX.Core
             return pkm.PID == GetPID(pkm, type);
         }
 
-        protected override bool IsMatchDeferred(PKM pkm) => pkm.Species == Species;
+        protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
         protected override bool IsMatchPartial(PKM pkm) => false; // no version compatibility checks yet.
 
         #region Lazy Ribbon Implementation
