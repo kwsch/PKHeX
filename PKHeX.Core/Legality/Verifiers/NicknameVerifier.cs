@@ -330,11 +330,18 @@ namespace PKHeX.Core
                     break;
 
                 default:
-                    if (lang == 1 && (pkm.Version is (int)GameVersion.D or (int)GameVersion.P))
+                    if (pkm.Version is (int)GameVersion.D or (int)GameVersion.P && t is EncounterTrade4PID) // mainline DP
                     {
-                        // DP English origin are Japanese lang
-                        if (pkm.OT_Name != t.GetOT(1)) // not japanese
-                            lang = 2; // English
+                        // DP English origin are Japanese lang. Can't have LanguageID 2
+                        if (lang == 2)
+                        {
+                            data.AddLine(GetInvalid(string.Format(LOTLanguage, Japanese, English), CheckIdentifier.Language));
+                            break;
+                        }
+
+                        // Since two locales (JPN/ENG) can have the same LanguageID, check which we should be validating with.
+                        if (lang == 1 && pkm.OT_Name != t.GetOT(1)) // not Japanese
+                            lang = 2; // verify strings with English locale instead.
                     }
                     break;
             }
