@@ -2,6 +2,9 @@
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Permutations of teams, where a team may have multiple shadow Pokémon or alternate/re-battle scenarios.
+    /// </summary>
     public static class Encounters3Teams
     {
         // Colo

@@ -1,6 +1,9 @@
 ﻿// ReSharper disable StringLiteralTypo
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Team listings for <see cref="GameVersion.CXD"/> that have a shadow Pokémon afterwards.
+    /// </summary>
     public static class Encounters3Shadow
     {
         #region Colosseum
