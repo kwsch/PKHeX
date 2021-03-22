@@ -279,8 +279,6 @@ namespace PKHeX.Core
             return fix >= 0 ? fix : Util.Rand.Next(2);
         }
 
-        public bool IsDualGender => FixedGender < 0;
-
         public int FixedGender
         {
             get
@@ -294,6 +292,11 @@ namespace PKHeX.Core
                 return -1;
             }
         }
+
+        /// <summary>
+        /// Indicates that the entry has two genders.
+        /// </summary>
+        public bool IsDualGender => (uint)(Gender - 1) >= 253;
 
         /// <summary>
         /// Indicates that the entry is exclusively Genderless.
