@@ -158,9 +158,10 @@ namespace PKHeX.Core
 
         private int GetAbilityIndexPreference(bool canBeHidden = false) => AbilityNumber switch
         {
+            1 => 0,
+            2 => 1,
             -1 or 4 when canBeHidden => 2, // hidden allowed
-            0 or 1 => 0,
-            _ => 1
+            _ => Util.Rand.Next(2),
         };
 
         /// <summary>
