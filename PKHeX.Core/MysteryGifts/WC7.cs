@@ -441,7 +441,7 @@ namespace PKHeX.Core
         private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi) => AbilityType switch
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
-            03 or 04 => criteria.GetAbilityFromType(AbilityType, pi), // 0/1 or 0/1/H
+            03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H
             _ => throw new ArgumentException(nameof(AbilityType)),
         };
 

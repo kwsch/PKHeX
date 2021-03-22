@@ -132,7 +132,7 @@ namespace PKHeX.Core
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(-1, pi);
             int nature = (int)criteria.GetNature(Nature.Random);
-            var ability = criteria.GetAbilityFromNumber(Ability, pi);
+            var ability = criteria.GetAbilityFromNumber(Ability);
 
             if (Generation == 3 && Species == (int)Unown)
             {

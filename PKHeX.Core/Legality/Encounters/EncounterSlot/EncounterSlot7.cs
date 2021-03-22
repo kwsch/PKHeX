@@ -23,7 +23,7 @@ namespace PKHeX.Core
             int num = Ability;
             if (Area.Type == SlotType.SOS && pk.FlawlessIVCount < 2)
                 num = 0; // let's fake it as an insufficient chain, no HA possible.
-            var ability = criteria.GetAbilityFromNumber(num, pi);
+            var ability = criteria.GetAbilityFromNumber(num);
             pk.RefreshAbility(ability);
             pk.SetRandomEC();
         }
