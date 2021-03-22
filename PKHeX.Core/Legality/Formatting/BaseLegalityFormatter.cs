@@ -5,6 +5,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Default formatter for Legality Result displays.
+    /// </summary>
     public class BaseLegalityFormatter : ILegalityFormatter
     {
         public string GetReport(LegalityAnalysis l)
