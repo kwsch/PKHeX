@@ -1,4 +1,6 @@
-﻿namespace PKHeX.Core
+﻿using System.Collections.Generic;
+
+namespace PKHeX.Core
 {
     /// <summary>
     /// Object that can be fed to a <see cref="IEncounterable"/> converter to ensure that the resulting <see cref="PKM"/> meets rough specifications.
@@ -7,9 +9,20 @@
     {
         public static readonly EncounterCriteria Unrestricted = new();
 
-        public int Ability { get; init; } = -1;
+        /// <summary> End result's ability numbers permitted. </summary>
+        /// <remarks> Leave as -1 to not restrict ability. 0 can yield any except hidden, and 1 or 2 or 4 are single choices. </remarks>
+        public int AbilityNumber { get; init; } = -1;
+
+        /// <summary> End result's gender. </summary>
+        /// <remarks> Leave as -1 to not restrict gender. </remarks>
         public int Gender { get; init; } = -1;
+
+        /// <summary> End result's nature. </summary>
+        /// <remarks> Leave as <see cref="Core.Nature.Random"/> to not restrict nature. </remarks>
         public Nature Nature { get; init; } = Nature.Random;
+
+        /// <summary> End result's nature. </summary>
+        /// <remarks> Leave as <see cref="Core.Shiny.Random"/> to not restrict nature. </remarks>
         public Shiny Shiny { get; init; } = Shiny.Random;
 
         public int IV_HP  { get; init; } = RandomIV;
@@ -43,13 +56,34 @@
             return true;
         }
 
-        public static EncounterCriteria GetCriteria(IBattleTemplate s)
+        /// <inheritdoc cref="GetCriteria(IBattleTemplate, PersonalTable)"/>
+        /// <remarks>Uses the latest generation personal table (PKX.Personal); you really should pass the table.</remarks>
+        public static EncounterCriteria GetCriteria(IBattleTemplate s) => GetCriteria(s, PKX.Personal);
+
+        /// <summary>
+        /// Creates a new <see cref="EncounterCriteria"/> by loading parameters from the provided <see cref="IBattleTemplate"/>.
+        /// </summary>
+        /// <param name="s">Template data (end result).</param>
+        /// <param name="t">Personal table the end result will exist with.</param>
+        /// <returns>Initialized criteria data to be passed to generators.</returns>
+        public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalTable t)
+        {
+            var pi = t.GetFormEntry(s.Species, s.Form);
+            return GetCriteria(s, pi);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="EncounterCriteria"/> by loading parameters from the provided <see cref="IBattleTemplate"/>.
+        /// </summary>
+        /// <param name="s">Template data (end result).</param>
+        /// <param name="pi">Personal info the end result will exist with.</param>
+        /// <returns>Initialized criteria data to be passed to generators.</returns>
+        public static EncounterCriteria GetCriteria(IBattleTemplate s, PersonalInfo pi)
         {
             int gender = string.IsNullOrWhiteSpace(s.Gender) ? -1 : PKX.GetGenderFromString(s.Gender);
             return new EncounterCriteria
             {
                 Gender = gender,
-                Ability = s.Ability,
                 IV_HP = s.IVs[0],
                 IV_ATK = s.IVs[1],
                 IV_DEF = s.IVs[2],
@@ -58,9 +92,30 @@
                 IV_SPD = s.IVs[5],
                 HPType = s.HiddenPowerType,
 
+                AbilityNumber = GetAbilityNumber(s.Ability, pi),
                 Nature = NatureUtil.GetNature(s.Nature),
                 Shiny = s.Shiny ? Shiny.Always : Shiny.Never,
             };
+        }
+
+        private static int GetAbilityNumber(int ability, PersonalInfo pi)
+        {
+            var abilities = pi.Abilities;
+            if (abilities.Count < 2)
+                return 0;
+            var dual = GetAbilityValueDual(ability, abilities);
+            if (abilities.Count == 2) // prior to gen5
+                return dual;
+            if (abilities[2] == ability)
+                return dual == 0 ? -1 : 4;
+            return dual;
+        }
+
+        private static int GetAbilityValueDual(int ability, IReadOnlyList<int> abilities)
+        {
+            if (ability == abilities[0])
+                return ability != abilities[1] ? 1 : 0;
+            return ability == abilities[1] ? 2 : 0;
         }
 
         public Nature GetNature(Nature encValue)
@@ -83,32 +138,35 @@
             return pkPersonalInfo.RandomGender();
         }
 
-        public int GetAbilityFromNumber(int num, PersonalInfo pkPersonalInfo)
+        public int GetAbilityFromNumber(int num)
         {
             if (num > 0) // fixed number
                 return num >> 1;
 
-            var abils = pkPersonalInfo.Abilities;
-            if (abils.Count > 2 && abils[2] == Ability && num == -1) // hidden allowed
-                return 2;
-            if (abils.Count > 0 && abils[0] == Ability)
-                return 0;
-            return 1;
+            bool canBeHidden = num == -1;
+            return GetAbilityIndexPreference(canBeHidden);
         }
 
-        public int GetAbilityFromType(int type, PersonalInfo pkPersonalInfo)
+        public int GetAbilityFromType(int type)
         {
             if ((uint)type < 3)
                 return type;
 
-            var abils = pkPersonalInfo.Abilities;
-            if (type == 4 && abils.Count > 2 && abils[2] == Ability) // hidden allowed
-                return 2;
-            if (abils[0] == Ability)
-                return 0;
-            return 1;
+            bool canBeHidden = type == 4;
+            return GetAbilityIndexPreference(canBeHidden);
         }
 
+        private int GetAbilityIndexPreference(bool canBeHidden = false) => AbilityNumber switch
+        {
+            -1 or 4 when canBeHidden => 2, // hidden allowed
+            0 or 1 => 0,
+            _ => 1
+        };
+
+        /// <summary>
+        /// Applies random IVs without any correlation.
+        /// </summary>
+        /// <param name="pk">Entity to mutate.</param>
         public void SetRandomIVs(PKM pk)
         {
             pk.IV_HP = IV_HP != RandomIV ? IV_HP : Util.Rand.Next(32);
