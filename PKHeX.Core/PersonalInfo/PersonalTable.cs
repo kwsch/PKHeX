@@ -262,7 +262,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.Form"/> entreis.
+        /// Count of entries in the table, which includes default species entries and their separate <see cref="PKM.Form"/> entries.
         /// </summary>
         public int TableLength => Table.Length;
 
