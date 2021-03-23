@@ -299,7 +299,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Indicates that the entry has two genders.
         /// </summary>
-        public bool IsDualGender => (uint)(Gender - 1) >= 253;
+        public bool IsDualGender => (uint)(Gender - 1) < 253;
 
         /// <summary>
         /// Indicates that the entry is exclusively Genderless.
