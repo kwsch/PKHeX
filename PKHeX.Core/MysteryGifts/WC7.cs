@@ -316,6 +316,9 @@ namespace PKHeX.Core
 
             int currentLevel = Level > 0 ? Level : rnd.Next(1, 101);
             int metLevel = MetLevel > 0 ? MetLevel : currentLevel;
+            var version = OriginGame != 0 ? OriginGame : (int)this.GetCompatibleVersion((GameVersion)sav.Game);
+            var language = Language != 0 ? Language : (int)Core.Language.GetSafeLanguage(Generation, (LanguageID)sav.Language, (GameVersion)version);
+
             var pi = PersonalTable.USUM.GetFormEntry(Species, Form);
             PK7 pk = new()
             {
@@ -326,8 +329,8 @@ namespace PKHeX.Core
                 Met_Level = metLevel,
                 Form = Form,
                 EncryptionConstant = EncryptionConstant != 0 ? EncryptionConstant : Util.Rand32(),
-                Version = OriginGame != 0 ? OriginGame : sav.Game,
-                Language = Language != 0 ? Language : sav.Language,
+                Version = version,
+                Language = language,
                 Ball = Ball,
                 Move1 = Move1, Move2 = Move2, Move3 = Move3, Move4 = Move4,
                 RelearnMove1 = RelearnMove1, RelearnMove2 = RelearnMove2,
@@ -546,6 +549,12 @@ namespace PKHeX.Core
                 return pkm.SM; // not USUM
 
             return PIDType != 0 || pkm.PID == PID;
+        }
+
+        public override GameVersion Version
+        {
+            get => CardID == 2046 ? GameVersion.SM : GameVersion.Gen7;
+            set { }
         }
 
         protected override bool IsMatchDeferred(PKM pkm) => Species != pkm.Species;
