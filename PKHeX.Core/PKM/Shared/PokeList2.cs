@@ -1,5 +1,8 @@
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// List of <see cref="PK1"/> prefixed by a count.
+    /// </summary>
     public sealed class PokeList2 : PokeListGB<PK2>
     {
         protected override byte GetSpeciesBoxIdentifier(PK2 pk) => pk.IsEgg ? PK2.EggSpeciesValue : (byte)pk.Species;

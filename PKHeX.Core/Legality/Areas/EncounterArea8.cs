@@ -13,9 +13,11 @@ namespace PKHeX.Core
         /// <summary>
         /// Slots from this area can cross over to another area, resulting in a different met location.
         /// </summary>
-        public bool PermitCrossover { get; init; }
+        /// <remarks>
+        /// Should only be true if it is a Symbol (visible) encounter.
+        /// </remarks>
+        public readonly bool PermitCrossover;
 
-        /// <inheritdoc />
         public override bool IsMatchLocation(int location)
         {
             if (Location == location)
@@ -217,16 +219,17 @@ namespace PKHeX.Core
             {230, new byte[] {232}},
         };
 
-        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool crossover = false)
+        public static EncounterArea8[] GetAreas(byte[][] input, GameVersion game, bool symbol = false)
         {
             var result = new EncounterArea8[input.Length];
             for (int i = 0; i < input.Length; i++)
-                result[i] = new EncounterArea8(input[i], game) {PermitCrossover = crossover};
+                result[i] = new EncounterArea8(input[i], symbol, game);
             return result;
         }
 
-        private EncounterArea8(byte[] areaData, GameVersion game) : base(game)
+        private EncounterArea8(byte[] areaData, bool symbol, GameVersion game) : base(game)
         {
+            PermitCrossover = symbol;
             Location = areaData[0];
             Slots = ReadSlots(areaData, areaData[1]);
         }

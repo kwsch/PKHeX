@@ -2,7 +2,11 @@
 
 namespace PKHeX.Core
 {
-    public abstract class PokeListGB<T> where T : PKM
+    /// <summary>
+    /// List of <see cref="T"/> prefixed by a count.
+    /// </summary>
+    /// <typeparam name="T"><see cref="PKM"/> type that inherits from <see cref="GBPKML"/>.</typeparam>
+    public abstract class PokeListGB<T> where T : GBPKML
     {
         // Structure:
         // u8               Count of slots filled
