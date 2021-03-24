@@ -279,8 +279,9 @@ namespace PKHeX.Core
             return fix >= 0 ? fix : Util.Rand.Next(2);
         }
 
-        public bool IsDualGender => FixedGender < 0;
-
+        /// <summary>
+        /// Gets a gender value. Returns -1 if the entry <see cref="IsDualGender"/>.
+        /// </summary>
         public int FixedGender
         {
             get
@@ -294,6 +295,11 @@ namespace PKHeX.Core
                 return -1;
             }
         }
+
+        /// <summary>
+        /// Indicates that the entry has two genders.
+        /// </summary>
+        public bool IsDualGender => (uint)(Gender - 1) < 253;
 
         /// <summary>
         /// Indicates that the entry is exclusively Genderless.
@@ -324,7 +330,6 @@ namespace PKHeX.Core
         /// Checks to see if the <see cref="PKM.Form"/> is valid within the <see cref="FormCount"/>
         /// </summary>
         /// <param name="form"></param>
-        /// <returns></returns>
         public bool IsFormWithinRange(int form)
         {
             if (form == 0)
@@ -335,7 +340,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Checks to see if the provided Types match the entry's types.
         /// </summary>
-        /// <remarks>Input order matters! If input order does not matter, use <see cref="o:IsType(type1, type2)"/>.</remarks>
+        /// <remarks>Input order matters! If input order does not matter, use <see cref="IsType(int, int)"/> instead.</remarks>
         /// <param name="type1">First type</param>
         /// <param name="type2">Second type</param>
         /// <returns>Typing is an exact match</returns>

@@ -38,7 +38,7 @@
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(PKX.GetGenderFromPID(Species, PID), pi);
             int nature = (int)criteria.GetNature(Nature);
-            int ability = criteria.GetAbilityFromNumber(Ability, pi);
+            int ability = criteria.GetAbilityFromNumber(Ability);
 
             pk.PID = PID;
             pk.Nature = nature;

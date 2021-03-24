@@ -23,7 +23,7 @@ namespace PKHeX.Core
             var pi = pk.PersonalInfo;
             int gender = criteria.GetGender(-1, pi);
             int nature = (int)criteria.GetNature(Nature.Random);
-            int ability = criteria.GetAbilityFromNumber(0, pi);
+            int ability = criteria.GetAbilityFromNumber(0);
             PIDGenerator.SetRandomPokeSpotPID(pk, nature, gender, ability, SlotNumber);
             pk.Gender = gender;
             pk.StatNature = nature;

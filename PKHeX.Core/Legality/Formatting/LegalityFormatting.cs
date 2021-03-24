@@ -4,6 +4,9 @@ using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Formatting logic for <see cref="LegalityAnalysis"/> to create a human readable <see cref="T:System.String"/>.
+    /// </summary>
     public static class LegalityFormatting
     {
         /// <summary>

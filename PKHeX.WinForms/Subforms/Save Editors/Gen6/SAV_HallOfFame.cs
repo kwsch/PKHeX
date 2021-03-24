@@ -355,16 +355,15 @@ namespace PKHeX.WinForms
             // Get Gender Threshold
             int species = WinFormsUtil.GetIndex(CB_Species);
             var pi = SAV.Personal[species];
-
-            var fg = pi.FixedGender;
-            if (fg == -1) // dual gender
+            if (pi.IsDualGender)
             {
-                fg = PKX.GetGenderFromString(Label_Gender.Text);
+                var fg = PKX.GetGenderFromString(Label_Gender.Text);
                 fg = (fg ^ 1) & 1;
                 Label_Gender.Text = Main.GenderSymbols[fg];
             }
             else
             {
+                var fg = pi.FixedGender;
                 Label_Gender.Text = Main.GenderSymbols[fg];
                 return;
             }
