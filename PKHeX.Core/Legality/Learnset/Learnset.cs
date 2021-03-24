@@ -109,10 +109,9 @@ namespace PKHeX.Core
             {
                 if (Levels[i] > level)
                     break;
-                int move = Moves[i];
 
-                bool alreadyHasMove = false;
-                foreach (int m in moves) if (m == move) { alreadyHasMove = true; break; }
+                int move = Moves[i];
+                bool alreadyHasMove = Array.IndexOf(moves, move) >= 0;
                 if (alreadyHasMove)
                     continue;
 

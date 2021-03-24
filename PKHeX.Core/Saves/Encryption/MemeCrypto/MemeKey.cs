@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Numerics;
 using System.Security.Cryptography;
@@ -60,13 +61,14 @@ namespace PKHeX.Core
             if (data.Length < 0x60)
                 throw new ArgumentException("Memebuffers must be atleast 0x60 bytes long!");
 
-            var key = new byte[0x10];
             var buffer = new byte[DER.Length + data.Length - 0x60];
             Array.Copy(DER, 0, buffer, 0, DER.Length);
             Array.Copy(data, 0, buffer, DER.Length, buffer.Length - DER.Length);
 
             using var sha1 = SHA1.Create();
-            Array.Copy(sha1.ComputeHash(buffer), 0, key, 0, 0x10);
+            var result = sha1.ComputeHash(buffer);
+            var key = new byte[0x10];
+            Array.Copy(result, 0, key, 0, 0x10);
             return key;
         }
 
@@ -79,15 +81,15 @@ namespace PKHeX.Core
             var data = new byte[0x60];
             Array.Copy(input, input.Length - 0x60, data, 0, 0x60);
             var temp = new byte[0x10];
-            var subkey = new byte[0x10];
+            var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
             for (var i = 0; i < data.Length / 0x10; i++) // Reverse Phase 2
             {
-                var curblock = new byte[0x10];
-                Array.Copy(data, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
+                var ofs = ((data.Length / 0x10) - 1 - i) * 0x10;
+                Array.Copy(data, ofs, curblock, 0, 0x10);
                 var temp1 = Xor(temp, curblock);
                 temp = AesEcbDecrypt(key, temp1);
-                temp.CopyTo(outdata, ((data.Length / 0x10) - 1 - i) * 0x10);
+                temp.CopyTo(outdata, ofs);
             }
 
             // At this point we have Phase1(buf) ^ subkey.
@@ -98,30 +100,18 @@ namespace PKHeX.Core
             // = block first ^ block last ;)
             Array.Copy(outdata, ((data.Length / 0x10) - 1) * 0x10, temp, 0, 0x10);
             temp = Xor(temp, outdata.Slice(0, 0x10));
-            for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
-            {
-                byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
-                subkey[ofs + 0] = (byte)((2 * b1) + (b2 >> 7));
-                subkey[ofs + 1] = (byte)(2 * b2);
-                if (ofs + 2 < temp.Length)
-                    subkey[ofs + 1] += (byte)(temp[ofs + 2] >> 7);
-            }
-            if ((temp[0] & 0x80) != 0)
-                subkey[0xF] ^= 0x87;
-
+            var subkey = GetSubKey(temp);
             for (var i = 0; i < data.Length / 0x10; i++)
             {
-                var curblock = new byte[0x10];
                 Array.Copy(outdata, 0x10 * i, curblock, 0, 0x10);
                 var temp1 = Xor(curblock, subkey);
                 Array.Copy(temp1, 0, outdata, 0x10 * i, 0x10);
             }
 
             // Now we have Phase1Encrypt(buf).
-            temp = new byte[0x10]; // Clear to all zero
+            Array.Clear(temp, 0, 0x10); // Clear to all zero
             for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
             {
-                var curblock = new byte[0x10];
                 Array.Copy(outdata, i * 0x10, curblock, 0, 0x10);
                 var temp1 = AesEcbDecrypt(key, curblock);
                 var temp2 = Xor(temp1, temp);
@@ -144,11 +134,10 @@ namespace PKHeX.Core
             var data = new byte[0x60];
             Array.Copy(input, input.Length - 0x60, data, 0, 0x60);
             var temp = new byte[0x10];
-            var subkey = new byte[0x10];
+            var curblock = new byte[0x10];
             var outdata = new byte[data.Length];
             for (var i = 0; i < data.Length / 0x10; i++) // Phase 1: CBC Encryption.
             {
-                var curblock = new byte[0x10];
                 Array.Copy(data, i * 0x10, curblock, 0, 0x10);
                 var temp1 = Xor(temp, curblock);
                 temp = AesEcbEncrypt(key, temp1);
@@ -158,6 +147,29 @@ namespace PKHeX.Core
             // In between - CMAC stuff
             var inbet = outdata.Slice(0, 0x10);
             temp = Xor(temp, inbet);
+            var subkey = GetSubKey(temp);
+
+            Array.Clear(temp, 0, temp.Length); // Memcpy from an all-zero buffer
+            for (var i = 0; i < data.Length / 0x10; i++)
+            {
+                var ofs = ((data.Length / 0x10) - 1 - i) * 0x10;
+                Array.Copy(outdata, ofs, curblock, 0, 0x10);
+                byte[] temp2 = Xor(curblock, subkey);
+                byte[] temp3 = AesEcbEncrypt(key, temp2);
+                byte[] temp4 = Xor(temp3, temp);
+                Array.Copy(temp4, 0, outdata, ofs, 0x10);
+                temp = temp2;
+            }
+
+            var outbuf = (byte[])input.Clone();
+            Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
+
+            return outbuf;
+        }
+
+        private static byte[] GetSubKey(byte[] temp)
+        {
+            var subkey = new byte[0x10];
             for (var ofs = 0; ofs < 0x10; ofs += 2) // Imperfect ROL implementation
             {
                 byte b1 = temp[ofs + 0], b2 = temp[ofs + 1];
@@ -168,29 +180,12 @@ namespace PKHeX.Core
             }
             if ((temp[0] & 0x80) != 0)
                 subkey[0xF] ^= 0x87;
-
-            temp = new byte[0x10]; // Memcpy from an all-zero buffer
-            for (var i = 0; i < data.Length / 0x10; i++)
-            {
-                var curblock = new byte[0x10];
-                Array.Copy(outdata, ((data.Length / 0x10) - 1 - i) * 0x10, curblock, 0, 0x10);
-                byte[] temp2 = Xor(curblock, subkey);
-                byte[] temp3 = AesEcbEncrypt(key, temp2);
-                byte[] temp4 = Xor(temp3, temp);
-                Array.Copy(temp4, 0, outdata, ((data.Length / 0x10) - 1 - i) * 0x10, 0x10);
-                temp2.CopyTo(temp, 0);
-            }
-
-            var outbuf = (byte[])input.Clone();
-            Array.Copy(outdata, 0, outbuf, outbuf.Length - 0x60, 0x60);
-
-            return outbuf;
+            return subkey;
         }
 
         private static byte[] Xor(byte[] b1, byte[] b2)
         {
-            if (b1.Length != b2.Length)
-                throw new ArgumentException("Cannot xor two arrays of uneven length!");
+            Debug.Assert(b1.Length == b2.Length);
             var x = new byte[b1.Length];
             for (var i = 0; i < b1.Length; i++)
                 x[i] = (byte)(b1[i] ^ b2[i]);
@@ -262,6 +257,8 @@ namespace PKHeX.Core
             _ => throw new ArgumentOutOfRangeException(nameof(key), key, null)
         };
 
+        private static readonly byte[] rgbIV = new byte[0x10];
+
         // Helper Method to perform AES ECB Encryption
         private static byte[] AesEcbEncrypt(byte[] key, byte[] data)
         {
@@ -270,7 +267,7 @@ namespace PKHeX.Core
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.None;
 
-            using var cs = new CryptoStream(ms, aes.CreateEncryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            using var cs = new CryptoStream(ms, aes.CreateEncryptor(key, rgbIV), CryptoStreamMode.Write);
             cs.Write(data, 0, data.Length);
             cs.FlushFinalBlock();
 
@@ -285,7 +282,7 @@ namespace PKHeX.Core
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.None;
 
-            using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, new byte[0x10]), CryptoStreamMode.Write);
+            using var cs = new CryptoStream(ms, aes.CreateDecryptor(key, rgbIV), CryptoStreamMode.Write);
             cs.Write(data, 0, data.Length);
             cs.FlushFinalBlock();
 
