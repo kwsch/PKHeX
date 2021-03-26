@@ -755,6 +755,37 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 776, 372 }, CanGigantamax = true }, // Corviknight
             new(60,10,5) { Species = 628, Ability = A4, Moves = new[]{ 413, 370, 442, 157 } }, // Braviary
             new(60,10,5) { Species = 845, Ability = A4, Moves = new[]{ 056, 058, 403, 057 } }, // Cramorant
+
+            // 3/25 - Spring Raids
+            new(17,01,1) { Species = 043, Ability = A4, Moves = new[]{ 331, 236, 051, 074 } }, // Oddish
+            new(17,01,1) { Species = 420, Ability = A4, Moves = new[]{ 234, 572, 670, 033 } }, // Cherubi
+            new(17,01,1) { Species = 549, Ability = A4, Moves = new[]{ 412, 298, 345, 263 } }, // Lilligant
+            new(17,01,1) { Species = 753, Ability = A4, Moves = new[]{ 210, 074, 075, 275 } }, // Fomantis
+            new(17,01,1) { Species = 764, Ability = A4, Moves = new[]{ 345, 579, 035, 074 } }, // Comfey
+            new(30,03,2) { Species = 045, Ability = A4, Moves = new[]{ 572, 236, 051, 496 } }, // Vileplume
+            new(30,03,2) { Species = 182, Ability = A4, Moves = new[]{ 572, 483, 074, 605 } }, // Bellossom
+            new(30,03,2) { Species = 421, Ability = A4, Moves = new[]{ 579, 345, 670, 033 } }, // Cherrim
+            new(30,03,2) { Species = 549, Ability = A4, Moves = new[]{ 412, 298, 345, 263 } }, // Lilligant
+            new(30,03,2) { Species = 753, Ability = A4, Moves = new[]{ 210, 163, 075, 230 } }, // Fomantis
+            new(30,03,2) { Species = 764, Ability = A4, Moves = new[]{ 345, 579, 035, 583 } }, // Comfey
+            new(40,05,3) { Species = 045, Ability = A4, Moves = new[]{ 572, 585, 051, 496 } }, // Vileplume
+            new(40,05,3) { Species = 182, Ability = A4, Moves = new[]{ 572, 483, 077, 605 } }, // Bellossom
+            new(40,05,3) { Species = 421, Ability = A4, Moves = new[]{ 579, 345, 583, 036 } }, // Cherrim
+            new(40,05,3) { Species = 549, Ability = A4, Moves = new[]{ 572, 298, 345, 483 } }, // Lilligant
+            new(40,05,3) { Species = 754, Ability = A4, Moves = new[]{ 210, 572, 400, 530 } }, // Lurantis
+            new(40,05,3) { Species = 764, Ability = A4, Moves = new[]{ 572, 579, 035, 583 } }, // Comfey
+            new(50,08,4) { Species = 045, Ability = A4, Moves = new[]{ 572, 585, 092, 496 } }, // Vileplume
+            new(50,08,4) { Species = 182, Ability = A4, Moves = new[]{ 080, 483, 051, 605 } }, // Bellossom
+            new(50,08,4) { Species = 421, Ability = A4, Moves = new[]{ 579, 572, 583, 676 } }, // Cherrim
+            new(50,08,4) { Species = 549, Ability = A4, Moves = new[]{ 572, 298, 241, 676 } }, // Lilligant
+            new(50,08,4) { Species = 754, Ability = A4, Moves = new[]{ 404, 572, 400, 530 } }, // Lurantis
+            new(50,08,4) { Species = 764, Ability = A4, Moves = new[]{ 572, 579, 035, 583 } }, // Comfey
+            new(60,10,5) { Species = 045, Ability = A4, Moves = new[]{ 572, 585, 092, 034 } }, // Vileplume
+            new(60,10,5) { Species = 549, Ability = A4, Moves = new[]{ 080, 298, 241, 676 }, Shiny = Shiny.Always }, // Lilligant
+            new(60,10,5) { Species = 421, Ability = A4, Moves = new[]{ 579, 572, 605, 676 } }, // Cherrim
+            new(60,10,5) { Species = 549, Ability = A4, Moves = new[]{ 080, 298, 241, 676 } }, // Lilligant
+            new(60,10,5) { Species = 754, Ability = A4, Moves = new[]{ 404, 572, 398, 530 } }, // Lurantis
+            new(60,10,5) { Species = 764, Ability = A4, Moves = new[]{ 572, 579, 447, 583 } }, // Comfey
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
