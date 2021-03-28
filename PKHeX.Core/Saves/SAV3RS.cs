@@ -138,6 +138,12 @@ namespace PKHeX.Core
         public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;
         #endregion
 
+        public override MysteryEvent3 MysteryEvent
+        {
+            get => new(Large.Slice(0x3690, MysteryEvent3.SIZE));
+            set => SetData(Large, value.Data, 0x3690);
+        }
+
         protected override int SeenOffset3 => 0x3A8C;
         #endregion
     }

@@ -2,7 +2,7 @@
 
 namespace PKHeX.Core
 {
-    public sealed class SAV3FRLG : SAV3, IGen3Joyful
+    public sealed class SAV3FRLG : SAV3, IGen3Joyful, IGen3Wonder
     {
         // Configuration
         protected override SaveFile CloneInternal() => new SAV3FRLG(Write());
@@ -133,6 +133,24 @@ namespace PKHeX.Core
         public override string EBerryName => GetString(Large, OFFSET_EBERRY, 7);
         public override bool IsEBerryEngima => Large[OFFSET_EBERRY] is 0 or 0xFF;
         #endregion
+
+        public int WonderOffset => WonderNewsOffset;
+        private const int WonderNewsOffset = 0x3120;
+        private const int WonderCardOffset = WonderNewsOffset + WonderNews3.SIZE;
+        private const int WonderCardExtraOffset = WonderCardOffset + WonderCard3.SIZE;
+
+        public WonderNews3 WonderNews { get => new(Large.Slice(WonderNewsOffset, WonderNews3.SIZE)); set => SetData(Large, value.Data, WonderOffset); }
+        public WonderCard3 WonderCard { get => new(Large.Slice(WonderCardOffset, WonderCard3.SIZE)); set => SetData(Large, value.Data, WonderCardOffset); }
+        public WonderCard3Extra WonderCardExtra { get => new(Large.Slice(WonderCardExtraOffset, WonderCard3Extra.SIZE)); set => SetData(Large, value.Data, WonderCardExtraOffset); }
+        // 0x338: 4 easy chat words
+        // 0x340: news MENewsJisanStruct
+        // 0x344: uint[5], uint[5] tracking?
+
+        public override MysteryEvent3 MysteryEvent
+        {
+            get => new(Large.Slice(0x361C, MysteryEvent3.SIZE));
+            set => SetData(Large, value.Data, 0x361C);
+        }
 
         protected override int SeenOffset3 => 0x3A18;
 

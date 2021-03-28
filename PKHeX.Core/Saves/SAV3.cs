@@ -564,6 +564,7 @@ namespace PKHeX.Core
 
         public abstract string EBerryName { get; }
         public abstract bool IsEBerryEngima { get; }
+        public abstract MysteryEvent3 MysteryEvent { get; set; }
 
         public byte[] GetHallOfFameData()
         {
