@@ -15,6 +15,8 @@ namespace PKHeX.Core
                 return new BV6(data);
             if (BV7.IsValid(data))
                 return new BV7(data);
+            if (BV3.IsValid(data))
+                return new BV3(data);
             return null;
         }
 
@@ -23,6 +25,8 @@ namespace PKHeX.Core
             if (BV6.IsValid(data))
                 return true;
             if (BV7.IsValid(data))
+                return true;
+            if (BV3.IsValid(data))
                 return true;
             return false;
         }

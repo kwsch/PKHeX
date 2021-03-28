@@ -195,5 +195,15 @@ namespace PKHeX.Core
 
         protected override int SeenOffset3 => 0x3B24;
         #endregion
+
+        public uint EXTRADATA_SENTINEL = 0x0000B39D;
+        private const int OFS_BV = 31 * 0x1000; // last sector of the save
+        public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && BitConverter.ToUInt32(Data, OFS_BV) == EXTRADATA_SENTINEL;
+
+        public BV3 BattleVideo
+        {
+            get => !HasBattleVideo ? new() : new(Data.Slice(OFS_BV + 4, BV3.SIZE));
+            set => SetData(Data, value.Data, OFS_BV + 4);
+        }
     }
 }
