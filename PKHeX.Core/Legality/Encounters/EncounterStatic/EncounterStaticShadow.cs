@@ -34,11 +34,11 @@ namespace PKHeX.Core
 
         private static readonly int[] MirorBXDLocations =
         {
+            059, // Realgam Tower
             090, // Rock
             091, // Oasis
             092, // Cave
             113, // Pyrite Town
-            059, // Realgam Tower
         };
 
         protected override bool IsMatchEggLocation(PKM pkm)
