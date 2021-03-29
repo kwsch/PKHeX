@@ -111,7 +111,7 @@ namespace PKHeX.Core
         public override bool GiftUsed { get => (CardFlags & 2) == 2; set => CardFlags = (byte)((CardFlags & ~2) | (value ? 2 : 0)); }
         public bool GiftOncePerDay { get => (CardFlags & 4) == 4; set => CardFlags = (byte)((CardFlags & ~4) | (value ? 4 : 0)); }
 
-        public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = value ? 1 : 0; }
+        public bool MultiObtain { get => Data[0x53] == 1; set => Data[0x53] = value ? (byte)1 : (byte)0; }
 
         // BP Properties
         public bool IsBP { get => CardType == 3; set { if (value) CardType = 3; } }
@@ -217,7 +217,7 @@ namespace PKHeX.Core
         }
 
         public override int Level { get => Data[0xD0]; set => Data[0xD0] = (byte)value; }
-        public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? 1 : 0; }
+        public override bool IsEgg { get => Data[0xD1] == 1; set => Data[0xD1] = value ? (byte)1 : (byte)0; }
         public ushort AdditionalItem { get => BitConverter.ToUInt16(Data, 0xD2); set => BitConverter.GetBytes(value).CopyTo(Data, 0xD2); }
 
         public uint PID { get => BitConverter.ToUInt32(Data, 0xD4); set => BitConverter.GetBytes(value).CopyTo(Data, 0xD4); }

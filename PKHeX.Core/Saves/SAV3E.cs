@@ -39,8 +39,8 @@ namespace PKHeX.Core
             get => PokedexNationalMagicRSE == PokedexNationalUnlockRSE;
             set
             {
-                PokedexMode = value ? 1 : 0; // mode
-                PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : 0; // magic
+                PokedexMode = value ? (byte)1 : (byte)0; // mode
+                PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : (byte)0; // magic
                 SetEventFlag(0x896, value);
                 SetEventConst(0x46, PokedexNationalUnlockWorkRSE);
             }
@@ -196,7 +196,7 @@ namespace PKHeX.Core
         protected override int SeenOffset3 => 0x3B24;
         #endregion
 
-        public uint EXTRADATA_SENTINEL = 0x0000B39D;
+        private const uint EXTRADATA_SENTINEL = 0x0000B39D;
         private const int OFS_BV = 31 * 0x1000; // last sector of the save
         public bool HasBattleVideo => Data.Length > SaveUtil.SIZE_G3RAWHALF && BitConverter.ToUInt32(Data, OFS_BV) == EXTRADATA_SENTINEL;
 

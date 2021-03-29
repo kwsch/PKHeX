@@ -293,7 +293,7 @@ namespace PKHeX.Core
         public override int Stat_SPA { get => BitConverter.ToUInt16(Data, 0xFA); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFA); }
         public override int Stat_SPD { get => BitConverter.ToUInt16(Data, 0xFC); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFC); }
         public int Stat_CP { get => BitConverter.ToUInt16(Data, 0xFE); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0xFE); }
-        public bool Stat_Mega { get => Data[0x100] != 0; set => Data[0x100] = value ? 1 : 0; }
+        public bool Stat_Mega { get => Data[0x100] != 0; set => Data[0x100] = value ? (byte)1 : (byte)0; }
         public int Stat_MegaForm { get => Data[0x101]; set => Data[0x101] = (byte)value; }
         // 102/103 unused
         #endregion

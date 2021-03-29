@@ -96,7 +96,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            byte elapsed = max < value ? 0 : (byte)(max - value);
+            byte elapsed = max < value ? (byte)0 : (byte)(max - value);
             f.FormArgumentElapsed = elapsed;
             if (species == (int)Furfrou)
                 f.FormArgumentMaximum = Math.Max(f.FormArgumentMaximum, elapsed);

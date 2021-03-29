@@ -10,7 +10,7 @@ namespace PKHeX.Core
         public bool WormholeShininess // 0x4535 = Misc (0x4400 in USUM) + 0x0135
         {
             get => SAV.Data[SAV.Misc.Offset + 0x0135] == 1;
-            set => SAV.Data[SAV.Misc.Offset + 0x0135] = value ? 1 : 0;
+            set => SAV.Data[SAV.Misc.Offset + 0x0135] = value ? (byte)1 : (byte)0;
         }
 
         public const int WormholeSlotMax = 15;

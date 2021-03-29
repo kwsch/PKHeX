@@ -67,7 +67,7 @@ namespace PKHeX.Core
         public bool IsShiny
         {
             get => Data[Offset + 0xC] != 0;
-            set => Data[Offset + 0xC] = value ? 1 : 0;
+            set => Data[Offset + 0xC] = value ? (byte)1 : (byte)0;
         }
 
         public uint EncryptionConstant

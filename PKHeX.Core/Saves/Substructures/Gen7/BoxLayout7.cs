@@ -125,7 +125,7 @@ namespace PKHeX.Core
         }
 
         public bool GetIsTeamLocked(int team) => Data[Offset + PCBackgrounds - TeamCount - team] == 1;
-        public void SetIsTeamLocked(int team, bool value) => Data[Offset + PCBackgrounds - TeamCount - team] = value ? 1 : 0;
+        public void SetIsTeamLocked(int team, bool value) => Data[Offset + PCBackgrounds - TeamCount - team] = value ? (byte)1 : (byte)0;
 
         public string this[int i]
         {

@@ -542,8 +542,8 @@ namespace PKHeX.Core
             set => Small[PokeDex + 0x03] = value;
         }
 
-        protected const int PokedexNationalUnlockRSE = 0xDA;
-        protected const int PokedexNationalUnlockFRLG = 0xDA;
+        protected const byte PokedexNationalUnlockRSE = 0xDA;
+        protected const byte PokedexNationalUnlockFRLG = 0xDA;
         protected const ushort PokedexNationalUnlockWorkRSE = 0x0302;
         protected const ushort PokedexNationalUnlockWorkFRLG = 0x6258;
 

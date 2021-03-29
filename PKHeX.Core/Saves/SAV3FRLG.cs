@@ -48,7 +48,7 @@ namespace PKHeX.Core
             get => PokedexNationalMagicFRLG == PokedexNationalUnlockFRLG;
             set
             {
-                PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : 0; // magic
+                PokedexNationalMagicFRLG = value ? PokedexNationalUnlockFRLG : (byte)0; // magic
                 SetEventFlag(0x840, value);
                 SetEventConst(0x4E, PokedexNationalUnlockWorkFRLG);
             }

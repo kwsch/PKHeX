@@ -27,7 +27,7 @@ namespace PKHeX.Core
             get => Data[0x00]; set => Data[0x00] = value;
         }
 
-        public bool PL_enabled { get => PL_Flag != 0; set => PL_Flag = value ? 1 << 7 : 0; }
+        public bool PL_enabled { get => PL_Flag != 0; set => PL_Flag = value ? (byte)(1 << 7) : (byte)0; }
 
         /// <summary>
         /// Name of data source
@@ -135,7 +135,7 @@ namespace PKHeX.Core
         }
 
         public int Level { get => Data[0x68]; set => Data[0x68] = (byte)value; }
-        public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? 1 : 0; }
+        public bool IsEgg { get => Data[0x69] == 1; set => Data[0x69] = value ? (byte)1 : (byte)0; }
         public uint PID { get => BitConverter.ToUInt32(Data, 0x6C); set => BitConverter.GetBytes(value).CopyTo(Data, 0x6C); }
         public int RelearnMove1 { get => BitConverter.ToUInt16(Data, 0x70); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x70); }
         public int RelearnMove2 { get => BitConverter.ToUInt16(Data, 0x72); set => BitConverter.GetBytes((ushort)value).CopyTo(Data, 0x72); }

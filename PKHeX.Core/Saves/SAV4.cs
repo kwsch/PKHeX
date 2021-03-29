@@ -608,22 +608,22 @@ namespace PKHeX.Core
                 switch (Version)
                 {
                     case GameVersion.DP:
-                        General[0x1413] = value == 4 ? 1 : 0;
-                        General[0x1415] = value >= 3 ? 1 : 0;
-                        General[0x1404] = value >= 2 ? 1 : 0;
-                        General[0x1414] = value >= 1 ? 1 : 0;
+                        General[0x1413] = value == 4 ? (byte)1 : (byte)0;
+                        General[0x1415] = value >= 3 ? (byte)1 : (byte)0;
+                        General[0x1404] = value >= 2 ? (byte)1 : (byte)0;
+                        General[0x1414] = value >= 1 ? (byte)1 : (byte)0;
                         break;
                     case GameVersion.HGSS:
-                        General[0x15ED] = value == 3 ? 1 : 0;
-                        General[0x15EF] = value >= 2 ? 1 : 0;
-                        General[0x15EE] = value >= 1 ? 1 : 0;
+                        General[0x15ED] = value == 3 ? (byte)1 : (byte)0;
+                        General[0x15EF] = value >= 2 ? (byte)1 : (byte)0;
+                        General[0x15EE] = value >= 1 ? (byte)1 : (byte)0;
                         General[0x10D1] = (byte)((General[0x10D1] & ~8) | (value >= 1 ? 8 : 0));
                         break;
                     case GameVersion.Pt:
-                        General[0x1641] = value == 4 ? 1 : 0;
-                        General[0x1643] = value >= 3 ? 1 : 0;
-                        General[0x1640] = value >= 2 ? 1 : 0;
-                        General[0x1642] = value >= 1 ? 1 : 0;
+                        General[0x1641] = value == 4 ? (byte)1 : (byte)0;
+                        General[0x1643] = value >= 3 ? (byte)1 : (byte)0;
+                        General[0x1640] = value >= 2 ? (byte)1 : (byte)0;
+                        General[0x1642] = value >= 1 ? (byte)1 : (byte)0;
                         break;
                     default: return;
                 }

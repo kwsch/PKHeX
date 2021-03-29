@@ -98,7 +98,7 @@ namespace PKHeX.Core
         {
             // Reset the destination buffer based on the termination style of the existing string.
             bool zeroed = Array.IndexOf(exist, (byte)0) != -1;
-            byte fill = zeroed ? 0 : StringConverter12.G1TerminatorCode;
+            byte fill = zeroed ? (byte)0 : StringConverter12.G1TerminatorCode;
             for (int i = 0; i < exist.Length; i++)
                 exist[i] = fill;
 

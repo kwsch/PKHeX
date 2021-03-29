@@ -163,7 +163,7 @@ namespace PKHeX.Core
             // Daycare is read-only, but in case it ever becomes editable, copy it back in.
             byte[] rawDC = GetData(GetDaycareSlotOffset(loc: 0, slot: 0), SIZE_STORED);
             byte[] dc = new byte[1 + (2 * StringLength) + PokeCrypto.SIZE_1STORED];
-            dc[0] = IsDaycareOccupied(0, 0) == true ? 1 : 0;
+            dc[0] = IsDaycareOccupied(0, 0) == true ? (byte)1 : (byte)0;
             Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY + StringLength, dc, 1, StringLength);
             Array.Copy(rawDC, 2 + 1 + PokeCrypto.SIZE_1PARTY, dc, 1 + StringLength, StringLength);
             Array.Copy(rawDC, 2 + 1, dc, 1 + (2 * StringLength), PokeCrypto.SIZE_1STORED);
@@ -291,7 +291,7 @@ namespace PKHeX.Core
         public bool PlayedMaximum
         {
             get => Data[Offsets.PlayTime + 1] != 0;
-            set => Data[Offsets.PlayTime + 1] = value ? 1 : 0;
+            set => Data[Offsets.PlayTime + 1] = value ? (byte)1 : (byte)0;
         }
 
         public override int PlayedMinutes

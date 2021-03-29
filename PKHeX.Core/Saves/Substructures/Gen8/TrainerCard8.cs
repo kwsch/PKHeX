@@ -89,19 +89,19 @@ namespace PKHeX.Core
         public bool PokeDexComplete
         {
             get => Data[Offset + 0x30] == 1;
-            set => Data[Offset + 0x30] = value ? 1 : 0;
+            set => Data[Offset + 0x30] = value ? (byte)1 : (byte)0;
         }
 
         public bool ArmorDexComplete
         {
             get => Data[Offset + 0x1B4] == 1;
-            set => Data[Offset + 0x1B4] = value ? 1 : 0;
+            set => Data[Offset + 0x1B4] = value ? (byte)1 : (byte)0;
         }
 
         public bool CrownDexComplete
         {
             get => Data[Offset + 0x1B5] == 1;
-            set => Data[Offset + 0x1B5] = value ? 1 : 0;
+            set => Data[Offset + 0x1B5] = value ? (byte)1 : (byte)0;
         }
 
         public int Gender
@@ -307,7 +307,7 @@ namespace PKHeX.Core
         public bool IsShiny
         {
             get => Data[Offset + 0xC] != 0;
-            set => Data[Offset + 0xC] = value ? 1 : 0;
+            set => Data[Offset + 0xC] = value ? (byte)1 : (byte)0;
         }
 
         public uint EncryptionConstant

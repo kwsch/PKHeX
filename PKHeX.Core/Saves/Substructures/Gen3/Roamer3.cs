@@ -59,7 +59,7 @@ namespace PKHeX.Core
         public byte CNT_Smart  { get => Data[Offset + 0x11]; set => Data[Offset + 0x11] = value; }
         public byte CNT_Tough  { get => Data[Offset + 0x12]; set => Data[Offset + 0x12] = value; }
         public byte CNT_Sheen  { get => 0; set { } }
-        public bool Active    { get => Data[Offset + 0x13] == 1; set => Data[Offset + 0x13] = value ? 1 : 0; }
+        public bool Active    { get => Data[Offset + 0x13] == 1; set => Data[Offset + 0x13] = value ? (byte)1 : (byte)0; }
 
         // Derived Properties
         private int IV_HP { get => (int)(IV32 >> 00) & 0x1F; set => IV32 = (uint)((IV32 & ~(0x1F << 00)) | (uint)((value > 31 ? 31 : value) << 00)); }

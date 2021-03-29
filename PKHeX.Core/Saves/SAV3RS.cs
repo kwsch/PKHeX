@@ -39,8 +39,8 @@ namespace PKHeX.Core
             get => PokedexNationalMagicRSE == PokedexNationalUnlockRSE;
             set
             {
-                PokedexMode = value ? 1 : 0; // mode
-                PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : 0; // magic
+                PokedexMode = value ? (byte)1 : (byte)0; // mode
+                PokedexNationalMagicRSE = value ? PokedexNationalUnlockRSE : (byte)0; // magic
                 SetEventFlag(0x836, value);
                 SetEventConst(0x46, PokedexNationalUnlockWorkRSE);
             }

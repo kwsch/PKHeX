@@ -61,7 +61,7 @@ namespace PKHeX.Core
         public bool Unlock9thArea
         {
             get => Data[0x848] == 1;
-            set => Data[0x848] = value ? 1 : 0;
+            set => Data[0x848] = value ? (byte)1 : (byte)0;
         }
 
         /// <summary>

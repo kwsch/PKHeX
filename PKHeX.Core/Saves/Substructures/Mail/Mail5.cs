@@ -28,7 +28,7 @@ namespace PKHeX.Core
             for (int y = 0; y < 3; y++)
             {
                 for (int x = 0; x < 4; x++)
-                    SetMessage(y, x, x == 1 ? 0 : 0xFFFF);
+                    SetMessage(y, x, x == 1 ? (ushort)0 : (ushort)0xFFFF);
             }
         }
 

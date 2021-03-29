@@ -245,7 +245,7 @@ namespace PKHeX.Core
         public override int EncounterType { get => Data[0x85]; set => Data[0x85] = (byte)value; }
         // 0x86 Unused
         public byte PokeStarFame { get => Data[0x87]; set => Data[0x87] = value; }
-        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = value ? 255 : 0; }
+        public bool IsPokeStar { get => PokeStarFame > 250; set => PokeStarFame = value ? (byte)255 : (byte)0; }
         #endregion
 
         #region Battle Stats
