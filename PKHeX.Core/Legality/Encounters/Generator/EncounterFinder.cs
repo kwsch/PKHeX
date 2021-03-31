@@ -89,16 +89,17 @@ namespace PKHeX.Core
         /// <returns>Indication whether or not the encounter passes secondary checks</returns>
         private static bool VerifySecondaryChecks(PKM pkm, LegalInfo info, PeekEnumerator<IEncounterable> iterator)
         {
+            var relearn = info.Relearn;
             if (pkm.Format >= 6)
             {
-                info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal);
-                if (info.Relearn.Any(z => !z.Valid) && iterator.PeekIsNext())
+                VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, relearn);
+                if (relearn.Any(z => !z.Valid) && iterator.PeekIsNext())
                     return false;
             }
             else
             {
                 for (int i = 0; i < 4; i++)
-                    info.Relearn[i] = DummyRelearn;
+                    relearn[i] = VerifyRelearnMoves.DummyValid;
             }
 
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
@@ -113,8 +114,6 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static readonly CheckResult DummyRelearn = new (CheckIdentifier.RelearnMove);
-
         /// <summary>
         /// Returns legality info for an unmatched encounter scenario, including a hint as to what the actual match could be.
         /// </summary>
@@ -127,7 +126,7 @@ namespace PKHeX.Core
             string hint = GetHintWhyNotFound(pkm);
 
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
-            info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal);
+            VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal, info.Relearn);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
         }
 

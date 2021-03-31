@@ -11,45 +11,44 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
-        private static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
+        internal static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
         private static readonly CheckResult DummyNone = new(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
 
-        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc)
+        public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc, CheckResult[] result)
         {
             if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
-                return VerifyRelearnNone(pkm);
+                return VerifyRelearnNone(pkm, result);
 
             return enc switch
             {
-                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn),
-                EncounterEgg e => VerifyRelearnEggBase(pkm, e),
-                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm),
-                _ => VerifyRelearnNone(pkm)
+                IRelearn s when s.Relearn.Count > 0 => VerifyRelearnSpecifiedMoveset(pkm, s.Relearn, result),
+                EncounterEgg e => VerifyRelearnEggBase(pkm, e, result),
+                EncounterSlot6AO z when pkm.RelearnMove1 != 0 && z.CanDexNav => VerifyRelearnDexNav(pkm, result),
+                _ => VerifyRelearnNone(pkm, result)
             };
         }
 
-        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required)
+        private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required, CheckResult[] result)
         {
-            CheckResult[] res = new CheckResult[4];
             int[] relearn = pkm.RelearnMoves;
-
             for (int i = 0; i < 4; i++)
             {
-                res[i] = relearn[i] == required[i] ? DummyValid
+                result[i] = relearn[i] == required[i] ? DummyValid
                     : new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[required[i]]), CheckIdentifier.RelearnMove);
             }
 
-            return res;
+            return result;
         }
 
-        private static CheckResult[] VerifyRelearnDexNav(PKM pkm)
+        private static CheckResult[] VerifyRelearnDexNav(PKM pkm, CheckResult[] result)
         {
-            var result = new CheckResult[4];
             int[] relearn = pkm.RelearnMoves;
 
             // DexNav Pokémon can have 1 random egg move as a relearn move.
             var baseSpec = EvoBase.GetBaseSpecies(pkm);
-            result[0] = !MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR).Contains(relearn[0])
+            var firstRelearn = relearn[0];
+            var eggMoves = MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR);
+            result[0] = Array.IndexOf(eggMoves, firstRelearn) == -1 // not found
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
                 : DummyValid;
 
@@ -60,9 +59,8 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnNone(PKM pkm)
+        private static CheckResult[] VerifyRelearnNone(PKM pkm, CheckResult[] result)
         {
-            var result = new CheckResult[4];
             int[] RelearnMoves = pkm.RelearnMoves;
 
             // No relearn moves should be present.
@@ -72,10 +70,9 @@ namespace PKHeX.Core
             return result;
         }
 
-        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, EncounterEgg e)
+        private static CheckResult[] VerifyRelearnEggBase(PKM pkm, EncounterEgg e, CheckResult[] result)
         {
             int[] RelearnMoves = pkm.RelearnMoves;
-            var result = new CheckResult[4];
             // Level up moves cannot be inherited if Ditto is the parent
             // that means genderless species and male only species except Nidoran and Volbeat (they breed with female nidoran and illumise) could not have level up moves as an egg
             bool inheritLvlMoves = Breeding.GetCanInheritMoves(e.Species);
@@ -154,12 +151,11 @@ namespace PKHeX.Core
             return splitInvalid;
         }
 
-        private static void FlagSplitbreedMoves(CheckResult[] res, int required, EncounterEggSplit x)
+        private static void FlagSplitbreedMoves(CheckResult?[] res, int required, EncounterEggSplit x)
         {
             var other = x.OtherSpecies;
             for (int i = required; i < 4; i++)
             {
-                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (res[i] != null)
                     continue;
 
