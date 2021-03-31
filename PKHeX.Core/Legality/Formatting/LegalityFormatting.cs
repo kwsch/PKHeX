@@ -68,6 +68,8 @@ namespace PKHeX.Core
 
             // Name
             lines.Add(string.Format(L_FEncounterType_0, enc.GetEncounterName()));
+            if (enc is MysteryGift g)
+                lines.Add(g.CardHeader);
 
             // Location
             var loc = enc.GetEncounterLocation();
