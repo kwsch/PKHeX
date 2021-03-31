@@ -107,6 +107,23 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
+        /// <remarks>Returns an empty array if it should not have any moves. Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly.</remarks>
+        private static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterable enc, PKM pkm)
+        {
+            if (enc.Generation < 6 || (pkm is IBattleVersion { BattleVersion: not 0 }))
+                return Array.Empty<int>();
+
+            return enc switch
+            {
+                IRelearn s when s.Relearn.Count > 0 => s.Relearn,
+                EncounterEgg e => MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, e.Level),
+                _ => Array.Empty<int>(),
+            };
+        }
+
+        /// <summary>
+        /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
+        /// </summary>
         public static IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter(this LegalityAnalysis analysis)
         {
             var info = analysis.Info;
@@ -115,7 +132,7 @@ namespace PKHeX.Core
 
             var pkm = analysis.pkm;
             var enc = info.EncounterMatch;
-            var parsed = VerifyRelearnMoves.GetSuggestedRelearn(pkm, enc);
+            var parsed = enc.GetSuggestedRelearn(pkm);
             if (parsed.Count == 0) // Always true for Origins < 6 and encounters without relearn permitted.
                 return new int[4];
 

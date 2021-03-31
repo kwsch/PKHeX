@@ -32,29 +32,35 @@ namespace PKHeX.Core
                 return;
             }
 
-            var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(pkm);
+            var first = encounter.Current;
+            var EncounterValidator = EncounterVerifier.GetEncounterVerifierMethod(first.Generation);
             while (encounter.MoveNext())
             {
-                info.EncounterMatch = encounter.Current;
-                var e = EncounterValidator(pkm, info);
+                var enc = encounter.Current;
+
+                // Check for basic compatibility.
+                var e = EncounterValidator(pkm, enc);
                 if (!e.Valid && encounter.PeekIsNext())
                 {
                     info.Reject(e);
                     continue;
                 }
-                info.Parse.Add(e);
 
+                // Looks like we might have a good enough match. Check if this is really a good match.
+                info.EncounterMatch = enc;
+                info.Parse.Add(e);
                 if (!VerifySecondaryChecks(pkm, info, encounter))
                     continue;
 
                 // Sanity Check -- Some secondary checks might not be as thorough as the partial-match leak-through checks done by the encounter.
-                if (info.EncounterMatch is not IEncounterMatch mx)
+                if (enc is not IEncounterMatch mx)
                     break;
 
                 var match = mx.GetMatchRating(pkm);
                 if (match != EncounterMatchRating.PartialMatch)
                     break;
 
+                // Reaching here implies the encounter wasn't valid. Try stepping to the next encounter.
                 if (encounter.PeekIsNext())
                     continue;
 
@@ -92,7 +98,7 @@ namespace PKHeX.Core
             else
             {
                 for (int i = 0; i < 4; i++)
-                    info.Relearn[i] = new CheckResult(CheckIdentifier.RelearnMove);
+                    info.Relearn[i] = DummyRelearn;
             }
 
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
@@ -102,10 +108,12 @@ namespace PKHeX.Core
             var evo = EvolutionVerifier.VerifyEvolution(pkm, info);
             if (!evo.Valid && iterator.PeekIsNext())
                 return false;
-            info.Parse.Add(evo);
 
+            info.Parse.Add(evo);
             return true;
         }
+
+        private static readonly CheckResult DummyRelearn = new (CheckIdentifier.RelearnMove);
 
         /// <summary>
         /// Returns legality info for an unmatched encounter scenario, including a hint as to what the actual match could be.
@@ -113,7 +121,7 @@ namespace PKHeX.Core
         /// <param name="pkm">Source data to check the match for</param>
         /// <param name="info">Information containing the unmatched encounter</param>
         /// <returns>Updated information pertaining to the unmatched encounter</returns>
-        private static LegalInfo VerifyWithoutEncounter(PKM pkm, LegalInfo info)
+        private static void VerifyWithoutEncounter(PKM pkm, LegalInfo info)
         {
             info.EncounterMatch = new EncounterInvalid(pkm);
             string hint = GetHintWhyNotFound(pkm);
@@ -121,7 +129,6 @@ namespace PKHeX.Core
             info.Parse.Add(new CheckResult(Severity.Invalid, hint, CheckIdentifier.Encounter));
             info.Relearn = VerifyRelearnMoves.VerifyRelearn(pkm, info.EncounterOriginal);
             info.Moves = VerifyCurrentMoves.VerifyMoves(pkm, info);
-            return info;
         }
 
         private static string GetHintWhyNotFound(PKM pkm)

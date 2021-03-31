@@ -10,15 +10,15 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the method to verify the <see cref="IEncounterable"/> data.
         /// </summary>
-        /// <param name="pkm">Source data to verify</param>
+        /// <param name="generation">Source generation to verify</param>
         /// <returns>Returns the verification method appropriate for the input PKM</returns>
-        public static Func<PKM, LegalInfo, CheckResult> GetEncounterVerifierMethod(PKM pkm) => pkm.Generation switch
+        public static Func<PKM, IEncounterable, CheckResult> GetEncounterVerifierMethod(int generation) => generation switch
         {
             1 or 2 => VerifyEncounterG12,
             _ => VerifyEncounter,
         };
 
-        private static CheckResult VerifyEncounter(PKM pkm, LegalInfo info) => info.EncounterMatch switch
+        private static CheckResult VerifyEncounter(PKM pkm, IEncounterable enc) => enc switch
         {
             EncounterEgg e => VerifyEncounterEgg(pkm, e.Generation),
             EncounterTrade t => VerifyEncounterTrade(pkm, t),
@@ -28,9 +28,8 @@ namespace PKHeX.Core
             _ => new CheckResult(Severity.Invalid, LEncInvalid, CheckIdentifier.Encounter)
         };
 
-        private static CheckResult VerifyEncounterG12(PKM pkm, LegalInfo info)
+        private static CheckResult VerifyEncounterG12(PKM pkm, IEncounterable enc)
         {
-            var enc = info.EncounterMatch;
             if (enc.EggEncounter)
                 return VerifyEncounterEgg(pkm, enc.Generation);
 

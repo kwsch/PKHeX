@@ -11,6 +11,9 @@ namespace PKHeX.Core
     /// </summary>
     public static class VerifyRelearnMoves
     {
+        private static readonly CheckResult DummyValid = new(CheckIdentifier.RelearnMove);
+        private static readonly CheckResult DummyNone = new(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove);
+
         public static CheckResult[] VerifyRelearn(PKM pkm, IEncounterable enc)
         {
             if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
@@ -25,19 +28,6 @@ namespace PKHeX.Core
             };
         }
 
-        public static IReadOnlyList<int> GetSuggestedRelearn(PKM pkm, IEncounterable enc)
-        {
-            if (enc.Generation < 6 || (pkm is IBattleVersion {BattleVersion: not 0}))
-                return Array.Empty<int>();
-
-            return enc switch
-            {
-                IRelearn s when s.Relearn.Count > 0 => s.Relearn,
-                EncounterEgg e => MoveList.GetBaseEggMoves(pkm, e.Species, e.Form, e.Version, e.Level),
-                _ => Array.Empty<int>(),
-            };
-        }
-
         private static CheckResult[] VerifyRelearnSpecifiedMoveset(PKM pkm, IReadOnlyList<int> required)
         {
             CheckResult[] res = new CheckResult[4];
@@ -45,9 +35,8 @@ namespace PKHeX.Core
 
             for (int i = 0; i < 4; i++)
             {
-                res[i] = relearn[i] != required[i]
-                    ? new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[required[i]]), CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
+                res[i] = relearn[i] == required[i] ? DummyValid
+                    : new CheckResult(Severity.Invalid, string.Format(LMoveFExpect_0, MoveStrings[required[i]]), CheckIdentifier.RelearnMove);
             }
 
             return res;
@@ -62,15 +51,11 @@ namespace PKHeX.Core
             var baseSpec = EvoBase.GetBaseSpecies(pkm);
             result[0] = !MoveEgg.GetEggMoves(6, baseSpec.Species, baseSpec.Form, GameVersion.OR).Contains(relearn[0])
                 ? new CheckResult(Severity.Invalid, LMoveRelearnDexNav, CheckIdentifier.RelearnMove)
-                : new CheckResult(CheckIdentifier.RelearnMove);
+                : DummyValid;
 
             // All other relearn moves must be empty.
             for (int i = 1; i < 4; i++)
-            {
-                result[i] = relearn[i] != 0
-                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
-            }
+                result[i] = relearn[i] == 0 ? DummyValid : DummyNone;
 
             return result;
         }
@@ -82,11 +67,7 @@ namespace PKHeX.Core
 
             // No relearn moves should be present.
             for (int i = 0; i < 4; i++)
-            {
-                result[i] = RelearnMoves[i] != 0
-                    ? new CheckResult(Severity.Invalid, LMoveRelearnNone, CheckIdentifier.RelearnMove)
-                    : new CheckResult(CheckIdentifier.RelearnMove);
-            }
+                result[i] = RelearnMoves[i] == 0 ? DummyValid : DummyNone;
 
             return result;
         }
