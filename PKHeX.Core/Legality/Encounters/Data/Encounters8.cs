@@ -106,7 +106,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 870, Level = 40, Location = 086, Moves = new[] {748,660,179,203} }, // Falinks on Route 8
             new(SWSH) { Species = 362, Level = 55, Location = 090, Moves = new[] {573,329,104,182}, FlawlessIVCount = 3, Weather = Snowing }, // Glalie on Route 9
             new(SWSH) { Species = 853, Level = 50, Location = 092, Moves = new[] {753,576,276,179}, Weather = Snowing }, // Grapploct on Route 9 (in Circhester Bay)
-            new(SWSH) { Species = 822, Level = 35, Location =  -1, Moves = new[] {065,184,269,365} }, // Corvisquire
+          //new(SWSH) { Species = 822, Level = 35, Location =  -1, Moves = new[] {065,184,269,365} }, // Corvisquire
             new(SWSH) { Species = 614, Level = 55, Location = 106, Moves = new[] {276,059,156,329}, Weather = Snowstorm }, // Beartic on Route 10
             new(SWSH) { Species = 460, Level = 55, Location = 106, Moves = new[] {008,059,452,275}, Weather = Snowstorm }, // Abomasnow on Route 10
             new(SWSH) { Species = 342, Level = 50, Location = 034, Moves = new[] {242,014,534,400}, FlawlessIVCount = 3 }, // Crawdaunt in the town of Turffield
@@ -218,7 +218,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 853, Level = 56, Location = 154, Weather = All }, // Grapploct at the Lake of Outrage
             new(SWSH) { Species = 282, Level = 60, Location = 154, Weather = Normal | Heavy_Fog }, // Gardevoir at the Lake of Outrage
             new(SWSH) { Species = 470, Level = 56, Location = 154, Weather = Normal }, // Leafeon at the Lake of Outrage
-            new(SWSH) { Species = 510, Level = 31, Location =  -1, }, // Liepard
+          //new(SWSH) { Species = 510, Level = 31, Location =  -1, }, // Liepard
             new(SWSH) { Species = 832, Level = 65, Location = 122, Weather = All }, // Dubwool in the Rolling Fields
             new(SWSH) { Species = 826, Level = 65, Location = 124, Weather = All }, // Orbeetle in the Dappled Grove
             new(SWSH) { Species = 823, Level = 65, Location = 126, Weather = All }, // Corviknight at Watchtower Ruins
@@ -355,7 +355,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 242, Level = 22, Location = 166, Weather = Heavy_Fog }, // Blissey in the Soothing Wetlands
             new(SWSH) { Species = 452, Level = 22, Location = 166, Weather = Normal | Overcast | Raining | Sandstorm }, // Drapion in the Soothing Wetlands
             new(SWSH) { Species = 463, Level = 27, Location = 166, Weather = Normal | Raining | Sandstorm }, // Lickilicky in the Soothing Wetlands
-            new(SWSH) { Species = 834, Level = 21, Location = -01 }, // Drednaw
+          //new(SWSH) { Species = 834, Level = 21, Location = -1 }, // Drednaw
             new(SWSH) { Species = 405, Level = 32, Location = 166, Weather = Thunderstorm }, // Luxray in the Soothing Wetlands
             new(SWSH) { Species = 121, Level = 20, Location = 164, Weather = All_IoA }, // Starmie in the Fields of Honor
             new(SWSH) { Species = 428, Level = 22, Location = 164, Weather = Normal | Intense_Sun | Sandstorm }, // Lopunny in the Fields of Honor
@@ -365,7 +365,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 183, Level = 15, Locations = new[] {164, 166}, Weather = Raining }, // Marill in the Fields of Honor, Soothing Wetlands
             new(SWSH) { Species = 183, Level = 15, Location = 170, Weather = Normal | Sandstorm }, // Marill on Challenge Beach
             new EncounterStatic8S(SWSH) { Species = 662, Level = 20, Locations = new[] {164, 166}, Weather = Intense_Sun }, // Fletchinder in the Fields of Honor, in the Soothing Wetlands
-            new(SWSH) { Species = 768, Level = 26, Location = -01 }, // Golisopod
+          //new(SWSH) { Species = 768, Level = 26, Location = -1 }, // Golisopod
             new(SWSH) { Species = 636, Level = 15, Location = 168, Weather = Intense_Sun }, // Larvesta in the Forest of Focus
             new(SWSH) { Species = 549, Level = 22, Location = 166, Weather = Intense_Sun }, // Lilligant in the Soothing Wetlands
             new(SWSH) { Species = 025, Level = 22, Location = 168, Weather = Normal | Overcast | Stormy }, // Pikachu in the Forest of Focus
@@ -400,16 +400,16 @@ namespace PKHeX.Core
             new(SWSH) { Species = 055, Level = 26, Location = 168, Weather = Raining }, // Golduck in the Forest of Focus
             new(SWSH) { Species = 039, Level = 20, Location = 168, Weather = Heavy_Fog }, // Jigglypuff in the Forest of Focus
             new(SWSH) { Species = 462, Level = 36, Location = 170, Weather = Thunderstorm }, // Magnezone on Challenge Beach
-            new(SWSH) { Species = 475, Level = 20, Location = -01 }, // Gallade
-            new(SWSH) { Species = 625, Level = 20, Location = -01 }, // Bisharp
-            new(SWSH) { Species = 082, Level = 27, Location = -01 }, // Magneton
-            new(SWSH) { Species = 105, Level = 20, Location = -01 }, // Marowak
+          //new(SWSH) { Species = 475, Level = 20, Location = -1 }, // Gallade
+          //new(SWSH) { Species = 625, Level = 20, Location = -1 }, // Bisharp
+          //new(SWSH) { Species = 082, Level = 27, Location = -1 }, // Magneton
+          //new(SWSH) { Species = 105, Level = 20, Location = -1 }, // Marowak
             new(SWSH) { Species = 637, Level = 42, Location = 170, Weather = Intense_Sun }, // Volcarona on Challenge Beach
             new(SWSH) { Species = 687, Level = 29, Location = 170, Weather = Overcast | Raining }, // Malamar on Challenge Beach
             new(SWSH) { Species = 428, Level = 27, Location = 170, Weather = Normal | Sandstorm | Heavy_Fog }, // Lopunny on Challenge Beach
             new(SWSH) { Species = 452, Level = 27, Location = 170, Weather = Overcast | Raining }, // Drapion on Challenge Beach
             new(SWSH) { Species = 026, Level = 29, Location = 170, Weather = Thunderstorm }, // Raichu on Challenge Beach
-            new(SWSH) { Species = 558, Level = 20, Location = -01 }, // Crustle
+          //new(SWSH) { Species = 558, Level = 20, Location = -1 }, // Crustle
             new(SWSH) { Species = 764, Level = 25, Location = 170, Weather = Normal | Intense_Sun | Heavy_Fog }, // Comfey on Challenge Beach
             new(SWSH) { Species = 877, Level = 25, Location = 170, Weather = Normal | Overcast | Stormy }, // Morpeko on Challenge Beach
             new(SWSH) { Species = 834, Level = 26, Location = 170, Weather = Normal | Overcast | Thunderstorm | Intense_Sun | Sandstorm }, // Drednaw on Challenge Beach
@@ -428,7 +428,7 @@ namespace PKHeX.Core
             new(SWSH) { Species = 845, Level = 24, Location = 170, Weather = Normal | Overcast | Raining | Intense_Sun | Sandstorm | Heavy_Fog }, // Cramorant on Challenge Beach
             new(SWSH) { Species = 055, Level = 27, Location = 170, Ability = 2, Weather = Thunderstorm | Intense_Sun }, // Golduck on Challenge Beach
             new(SWSH) { Species = 702, Level = 25, Location = 170, Weather = Normal | Stormy | Sandstorm }, // Dedenne on Challenge Beach
-            new(SWSH) { Species = 113, Level = 27, Location = -01 }, // Chansey
+          //new(SWSH) { Species = 113, Level = 27, Location = -1 }, // Chansey
             new(SWSH) { Species = 405, Level = 36, Location = 170, Weather = Thunderstorm }, // Luxray on Challenge Beach
             new(SWSH) { Species = 099, Level = 26, Location = 170, Weather = Normal | Raining | Intense_Sun | Sandstorm }, // Kingler on Challenge Beach
             new(SWSH) { Species = 121, Level = 26, Location = 170, Weather = All_IoA }, // Starmie on Challenge Beach
@@ -467,18 +467,18 @@ namespace PKHeX.Core
             new(SW  ) { Species = 628, Level = 26, Location = 174, Weather = Overcast }, // Braviary on Challenge Road
             new(SWSH) { Species = 082, Level = 26, Location = 174, Weather = Thunderstorm }, // Magneton on Challenge Road
             new(SWSH) { Species = 558, Level = 28, Location = 176, Weather = All_IoA }, // Crustle in Courageous Cavern
-            new(SWSH) { Species = 526, Level = 42, Location = -01 }, // Gigalith
+          //new(SWSH) { Species = 526, Level = 42, Location = -1 }, // Gigalith
             new(SWSH) { Species = 768, Level = 32, Location = 176, Weather = All_IoA }, // Golisopod in Courageous Cavern
             new(SWSH) { Species = 528, Level = 28, Location = 176, Weather = All_IoA }, // Swoobat in Courageous Cavern
             new(SWSH) { Species = 834, Level = 28, Location = 176, Weather = All_IoA }, // Drednaw in Courageous Cavern
             new(SWSH) { Species = 621, Level = 42, Location = 176, Weather = All_IoA }, // Druddigon in Courageous Cavern
-            new(SWSH) { Species = 113, Level = 30, Location = -01 }, // Chansey
+          //new(SWSH) { Species = 113, Level = 30, Location = -1 }, // Chansey
             new(SWSH) { Species = 687, Level = 32, Location = 178, Weather = Overcast | Raining }, // Malamar in Loop Lagoon
             new(SWSH) { Species = 040, Level = 32, Location = 178, Weather = Heavy_Fog }, // Wigglytuff in Loop Lagoon
-            new(SWSH) { Species = 768, Level = 32, Location = -01 }, // Golisopod
+          //new(SWSH) { Species = 768, Level = 32, Location = -1 }, // Golisopod
             new(SWSH) { Species = 404, Level = 30, Location = 178, Weather = Thunderstorm }, // Luxio in Loop Lagoon
             new(SWSH) { Species = 834, Level = 30, Location = 178, Weather = Normal | Intense_Sun | Sandstorm }, // Drednaw in Loop Lagoon
-            new(SWSH) { Species = 558, Level = 30, Location = -01 }, // Crustle
+          //new(SWSH) { Species = 558, Level = 30, Location = -1 }, // Crustle
             new(SWSH) { Species = 871, Level = 22, Location = 178, Weather = Normal | Stormy | Heavy_Fog }, // Pincurchin in Loop Lagoon
             new(SWSH) { Species = 748, Level = 26, Location = 178, Weather = Overcast | Raining | Heavy_Fog }, // Toxapex in Loop Lagoon
             new(SWSH) { Species = 853, Level = 32, Location = 178, Weather = Normal | Overcast | Intense_Sun | Sandstorm | Heavy_Fog }, // Grapploct in Loop Lagoon
@@ -535,7 +535,7 @@ namespace PKHeX.Core
             new(  SH) { Species = 630, Level = 42, Location = 184, Weather = All_IoA }, // Mandibuzz in the Potbottom Desert
             new(SWSH) { Species = 103, Level = 50, Location = 190, Weather = Normal | Raining | Intense_Sun | Sandstorm }, // Exeggutor in the Insular Sea
           //new(SWSH) { Species = 132, Level = 50, Location = 186, FlawlessIVCount = 3 }, // Ditto in the Workout Sea -- collision with wild Ditto in the same area
-            new(SWSH) { Species = 242, Level = 50, Location = -01 }, // Blissey
+          //new(SWSH) { Species = 242, Level = 50, Location = -1 }, // Blissey
             new(SWSH) { Species = 571, Level = 50, Location = 190, Weather = Overcast }, // Zoroark in the Insular Sea
             new(SWSH) { Species = 462, Level = 50, Location = 190, Weather = Thunderstorm }, // Magnezone in the Insular Sea
             new(SWSH) { Species = 637, Level = 50, Location = 190, Weather = Intense_Sun }, // Volcarona in the Insular Sea
@@ -573,14 +573,14 @@ namespace PKHeX.Core
             new(SWSH) { Species = 639, Level = 70, Location = 232, FlawlessIVCount = 3, Ability = 1, Weather = Overcast }, // Terrakion in Lakeside Cavern
             new(SWSH) { Species = 640, Level = 70, Location = 210, FlawlessIVCount = 3, Ability = 1, Weather = All_CT }, // Virizion at Giant's Bed
             new(SWSH) { Species = 647, Level = 65, Location = 230, Moves = new[] {548,533,014,056}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, Form = 01, Fateful = true, Weather = All_CT }, // Keldeo-1 at Ballimere Lake
-            // new(SWSH) { Species = 896, Level = 75, Location = -01, Moves = new[] {556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Glastrier
-            // new(SWSH) { Species = 897, Level = 75, Location = -01, Moves = new[] {247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Spectrier
+          //new(SWSH) { Species = 896, Level = 75, Location = -1, Moves = new[] {556,037,419,023}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Glastrier
+          //new(SWSH) { Species = 897, Level = 75, Location = -1, Moves = new[] {247,037,506,024}, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Spectrier
             new(SWSH) { Species = 898, Level = 80, Location = 220, Moves = new[] {202,094,473,505}, FlawlessIVCount = 3, Shiny = Never, Ability = 1, ScriptedNoMarks = true }, // Calyrex
 
             // suspected unused or uncatchable
-            // new(SWSH) { Species = 803, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Poipole
-            // new(SWSH) { Species = 789, Level = 60, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
-            // new(SWSH) { Species = 494, Level = 70, Location = -01, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Victini
+          //new(SWSH) { Species = 803, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Poipole
+          //new(SWSH) { Species = 789, Level = 60, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Cosmog
+          //new(SWSH) { Species = 494, Level = 70, Location = -1, FlawlessIVCount = 3, Shiny = Never, Ability = 1 }, // Victini
 
             new(SWSH) { Species = 473, Level = 65, Location = 204, Weather = Normal | Overcast | Intense_Sun | Icy }, // Mamoswine on Slippery Slope
             new(SWSH) { Species = 698, Level = 60, Location = 204, Weather = Normal | Overcast | Icy }, // Amaura on Slippery Slope
@@ -705,7 +705,7 @@ namespace PKHeX.Core
             new EncounterStatic8S(SWSH) { Species = 466, Level = 68, Locations = new[] {226, 228, 230}, Weather = Thunderstorm }, // Electivire at the Frigid Sea, Three-Point Pass, Ballimere Lake
             new(SWSH) { Species = 126, Level = 65, Location = 222, Weather = Intense_Sun }, // Magmar at the Giant’s Foot
             new EncounterStatic8S(SWSH) { Species = 467, Level = 68, Locations = new[] {226, 230}, Weather = Intense_Sun }, // Magmortar at the Frigid Sea, Ballimere Lake
-            new(SWSH) { Species = 567, Level = 67, Location = -01 }, // Archeops
+          //new(SWSH) { Species = 567, Level = 67, Location = -1 }, // Archeops
             new(SW  ) { Species = 635, Level = 68, Location = 224, Weather = Overcast }, // Hydreigon in Roaring-Sea Caves
             new(  SH) { Species = 248, Level = 68, Location = 224, Weather = Overcast }, // Tyranitar in Roaring-Sea Caves
             new(SWSH) { Species = 448, Level = 67, Location = 224, Weather = Overcast }, // Lucario in Roaring-Sea Caves
