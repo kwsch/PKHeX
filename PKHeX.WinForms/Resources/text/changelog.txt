@@ -1,7 +1,28 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/01/30 - New Update:
+21/04/01 - New Update:
+ - Legality:
+ - - Added: Generation 8 Overworld RNG seed legality. The wandering encounters have detectable origins!
+ - - Updated: Mystery Gift & GO Legality encounter data.
+ - - Changed: HOME gifts are now allowed with SID > 0.
+ - - Changed: Updated Ribbon rules for Master Ribbon & non-mythical legends.
+ - - Changed: Gen3 Shadow Pokémon now generate with correct shadow lock data.
+ - - Fixed: Gen6/7 Form Argument values are now handled correctly. Thanks @Lusamine!
+ - - Fixed: Gen3 ability bit mismatching rules for in-game trades have been fixed.
+ - Added: Gen8 Affixed Ribbon/Mark can now be changed in the Ribbon Editor.
+ - Added: Gen7 LGPE now shows Alolan form Height/Weight records in the Pokedex.
+ - Added: Hovering over MGDB and Database slots now shows a summary of the data.
+ - Added: Hovering over a box/party slot now shows some legality origins of the data.
+ - Added: Bulk Legality analysis now flags duplicate HOME tracker values.
+ - Added: Block Editor can now be used for gen5-7 saves to change more values directly.
+ - Added: Gen3 battle video data can now be imported via drag-drop (no BV3 exporting currently via GUI).
+ - Changed: Gen3 save files for RS/E/FRLG are now treated as separate classes.
+ - Changed: Minor internal refactorings to improve performance.
+ - Fixed: Gen6 event flags now are indexed correctly. You shouldn't notice any difference.
+ - Fixed: PKM conversion from future -> Gen1/2 now retains IV proportions correctly.
+
+21/01/30 - New Update: (156366) [3559662]
  - Legality:
  - - Updated Mystery Gift & GO Legality encounter data.
  - - Fixed: Matching encounters where a PKM can be one of many types of encounters (based on its current values) has been improved.
