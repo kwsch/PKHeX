@@ -95,20 +95,25 @@ namespace PKHeX.Core
             }
         }
 
-        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc, IEnumerable<EvoCriteria> chain)
+        internal static EncounterStatic7 GetVCStaticTransferEncounter(PKM pkm, IEncounterable enc, IReadOnlyList<EvoCriteria> chain)
         {
             // Obtain the lowest evolution species with matching OT friendship. Not all species chains have the same base friendship.
-            var species = chain.LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
             var met = pkm.Met_Level;
             if (pkm.VC1)
             {
                 // Only yield a VC1 template if it could originate in VC1.
                 // Catch anything that can only exist in VC2 (Entei) even if it was "transferred" from VC1.
+                var species = chain.Where(z => z.Species < MaxSpeciesID_1 && z.Form == 0)
+                    .LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
                 var vc1Species = species > MaxSpeciesID_1 ? enc.Species : species;
                 if (vc1Species <= MaxSpeciesID_1)
                     return EncounterStatic7.GetVC1(vc1Species, met);
             }
-            return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
+            // fall through else
+            {
+                var species = chain.LastOrDefault(z => PersonalTable.SM.GetFormEntry(z.Species, z.Form).BaseFriendship == pkm.OT_Friendship)?.Species ?? pkm.Species;
+                return EncounterStatic7.GetVC2(species > MaxSpeciesID_2 ? enc.Species : species, met);
+            }
         }
 
         internal static EncounterStatic? GetStaticLocation(PKM pkm)
