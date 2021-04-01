@@ -585,5 +585,14 @@ namespace PKHeX.Core
         }
 
         public bool IsCorruptPokedexFF() => BitConverter.ToUInt64(Small, 0xAC) == ulong.MaxValue;
+
+        public override void CopyChangesFrom(SaveFile sav)
+        {
+            SetData(sav.Data, 0);
+            var s3 = (SAV3)sav;
+            SetData(Small, s3.Small, 0);
+            SetData(Large, s3.Large, 0);
+            SetData(Storage, s3.Storage, 0);
+        }
     }
 }
