@@ -41,14 +41,15 @@ namespace PKHeX.WinForms
 
                 // Trainer Card Species
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
-                var legal = GameInfo.SpeciesDataSource.Where(v => v.Value <= SAV.MaxSpeciesID);
-                var speciesList = legal.Select(v => new ComboItem(v.Text, SpeciesConverter.GetG3Species(v.Value))).ToList();
+                var legal = GameInfo.FilteredSources.Species.ToList();
                 for (int i = 0; i < cba.Length; i++)
                 {
                     cba[i].Items.Clear();
                     cba[i].InitializeBinding();
-                    cba[i].DataSource = new BindingSource(speciesList, null);
-                    cba[i].SelectedValue = SAV.GetEventConst(0x43 + i);
+                    cba[i].DataSource = new BindingSource(legal, null);
+                    var g3Species = SAV.GetEventConst(0x43 + i);
+                    var species = SpeciesConverter.GetG4Species(g3Species);
+                    cba[i].SelectedValue = species;
                 }
             }
             else
@@ -70,7 +71,11 @@ namespace PKHeX.WinForms
                 frlg.RivalName = TB_RivalName.Text;
                 ComboBox[] cba = { CB_TCM1, CB_TCM2, CB_TCM3, CB_TCM4, CB_TCM5, CB_TCM6 };
                 for (int i = 0; i < cba.Length; i++)
-                    SAV.SetEventConst(0x43 + i, (ushort)(int)cba[i].SelectedValue);
+                {
+                    var species = (ushort) WinFormsUtil.GetIndex(cba[i]);
+                    var g3Species = SpeciesConverter.GetG3Species(species);
+                    SAV.SetEventConst(0x43 + i, (ushort)g3Species);
+                }
             }
 
             if (SAV is SAV3E se)
