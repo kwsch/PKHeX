@@ -17,8 +17,17 @@ namespace PKHeX.Core
         protected override int EggEventFlag => 0x266;
         protected override int BadgeFlagStart => 0x820;
 
-        public SAV3FRLG(byte[] data) : base(data) => Initialize();
         public SAV3FRLG(bool japanese = false) : base(japanese) => Initialize();
+
+        public SAV3FRLG(byte[] data) : base(data)
+        {
+            Initialize();
+
+            // Fix save files that have an overflow corruption with the Pokédex.
+            // Future loads of this save file will cause it to be recognized as FR/LG correctly.
+            if (IsCorruptPokedexFF())
+                BitConverter.GetBytes(1u).CopyTo(Small, 0xAC);
+        }
 
         private void Initialize()
         {
@@ -39,6 +48,7 @@ namespace PKHeX.Core
             if (g is not (GameVersion.FR or GameVersion.LG))
                 return false;
             _personal = g == GameVersion.FR ? PersonalTable.FR : PersonalTable.LG;
+            Version = g;
             return true;
         }
 

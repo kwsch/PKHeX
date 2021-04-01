@@ -583,5 +583,7 @@ namespace PKHeX.Core
             Buffer.BlockCopy(value, 0               , Data, 0x1C000, SIZE_SECTOR_USED);
             Buffer.BlockCopy(value, SIZE_SECTOR_USED, Data, 0x1D000, SIZE_SECTOR_USED);
         }
+
+        public bool IsCorruptPokedexFF() => BitConverter.ToUInt64(Small, 0xAC) == ulong.MaxValue;
     }
 }

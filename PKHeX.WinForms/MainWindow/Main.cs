@@ -867,7 +867,7 @@ namespace PKHeX.WinForms
 
             if (sav.State.Exportable && sav is SAV3 s3)
             {
-                if (ModifierKeys == Keys.Control)
+                if (ModifierKeys == Keys.Control || s3.IsCorruptPokedexFF())
                 {
                     var g = new[] { GameVersion.R, GameVersion.S, GameVersion.E, GameVersion.FR, GameVersion.LG };
                     var games = g.Select(z => GameInfo.VersionDataSource.First(v => v.Value == (int)z));
@@ -875,8 +875,13 @@ namespace PKHeX.WinForms
                     using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
 
-                    sav = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
-                    if (s3 is SAV3FRLG frlg)
+                    var s = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
+                    var origin = s3.Metadata.FilePath;
+                    if (origin is not null)
+                        s.Metadata.SetExtraInfo(origin);
+
+                    sav = s;
+                    if (sav is SAV3FRLG frlg)
                     {
                         bool result = frlg.ResetPersonal(dialog.Result);
                         if (!result)
