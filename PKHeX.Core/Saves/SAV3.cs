@@ -33,9 +33,9 @@ namespace PKHeX.Core
 
         // There's no harm having buffers larger than their actual size (per format).
         // A checksum consuming extra zeroes does not change the prior checksum result.
-        public readonly byte[] Small   = new byte[1 * SIZE_SECTOR]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
-        public readonly byte[] Large   = new byte[4 * SIZE_SECTOR]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
-        public readonly byte[] Storage = new byte[9 * SIZE_SECTOR]; //  [0x83D0]
+        public readonly byte[] Small   = new byte[1 * SIZE_SECTOR_USED]; //  [0x890 RS, 0xf24 FR/LG, 0xf2c E]
+        public readonly byte[] Large   = new byte[4 * SIZE_SECTOR_USED]; //3+[0xc40 RS, 0xee8 FR/LG, 0xf08 E]
+        public readonly byte[] Storage = new byte[9 * SIZE_SECTOR_USED]; //  [0x83D0]
 
         private readonly int ActiveSlot;
 
