@@ -10,6 +10,8 @@ namespace PKHeX.Core
         public static bool Process25(int generation, int species, int form, GameVersion version, int[] moves, int level)
         {
             var count = Array.IndexOf(moves, 0);
+            if (count == 0)
+                return false;
             if (count == -1)
                 count = moves.Length;
 
@@ -23,6 +25,12 @@ namespace PKHeX.Core
             var value = new ValueStorage<EggSource25>(count, learnset, moves, level);
 
             MarkMovesForOrigin(value, moves, egg, pi, generation);
+            if (moves[count - 1] is (int)Move.VoltTackle)
+            {
+                if (--count == 0)
+                    return false;
+                value.Actual[count] = EggSource25.Special;
+            }
 
             return RecurseMovesForOrigin(value, count, EggSource25.Max);
         }
@@ -101,6 +109,8 @@ namespace PKHeX.Core
         public static bool Process6(int generation, int species, int form, GameVersion version, int[] moves, int level)
         {
             var count = Array.IndexOf(moves, 0);
+            if (count == 0)
+                return false;
             if (count == -1)
                 count = moves.Length;
 
@@ -113,6 +123,12 @@ namespace PKHeX.Core
             var value = new ValueStorage<EggSource6>(count, learnset, moves, level);
 
             MarkMovesForOrigin(value, moves, egg);
+            if (moves[count - 1] is (int)Move.VoltTackle)
+            {
+                if (--count == 0)
+                    return false;
+                value.Actual[count] = EggSource6.Special;
+            }
 
             return RecurseMovesForOrigin(value, count, EggSource6.Max);
         }
