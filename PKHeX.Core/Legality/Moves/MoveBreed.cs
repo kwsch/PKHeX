@@ -23,14 +23,13 @@ namespace PKHeX.Core
             var egg = MoveEgg.GetEggMoves(generation, species, form, version);
 
             var value = new ValueStorage<EggSource25>(count, learnset, moves, level);
-
-            MarkMovesForOrigin(value, moves, egg, pi, generation);
             if (moves[count - 1] is (int)Move.VoltTackle)
             {
                 if (--count == 0)
                     return false;
                 value.Actual[count] = EggSource25.Special;
             }
+            MarkMovesForOrigin(value, moves, egg, pi, generation, count);
 
             return RecurseMovesForOrigin(value, count, EggSource25.Max);
         }
@@ -74,7 +73,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, IReadOnlyList<int> moves, ICollection<int> eggMoves, PersonalInfo info, int generation)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, IReadOnlyList<int> moves, ICollection<int> eggMoves, PersonalInfo info, int generation, int count)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
@@ -82,11 +81,9 @@ namespace PKHeX.Core
             var tm = info.TMHM;
 
             var tmlist = GetHeritableTMList(generation);
-            for (int i = 0; i < moves.Count; i++)
+            for (int i = 0; i < count; i++)
             {
                 var move = moves[i];
-                if (move == 0)
-                    continue;
 
                 if (baseEgg.Contains(move))
                     possible[i] |= 1 << (int) EggSource25.Base;
@@ -121,14 +118,13 @@ namespace PKHeX.Core
             var egg = MoveEgg.GetEggMoves(generation, species, form, version);
 
             var value = new ValueStorage<EggSource6>(count, learnset, moves, level);
-
-            MarkMovesForOrigin(value, moves, egg);
             if (moves[count - 1] is (int)Move.VoltTackle)
             {
                 if (--count == 0)
                     return false;
                 value.Actual[count] = EggSource6.Special;
             }
+            MarkMovesForOrigin(value, moves, egg, count);
 
             return RecurseMovesForOrigin(value, count, EggSource6.Max);
         }
@@ -172,17 +168,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, IReadOnlyList<int> moves, ICollection<int> eggMoves)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, IReadOnlyList<int> moves, ICollection<int> eggMoves, int count)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
             var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
 
-            for (int i = 0; i < moves.Count; i++)
+            for (int i = 0; i < count; i++)
             {
                 var move = moves[i];
-                if (move == 0)
-                    continue;
 
                 if (baseEgg.Contains(move))
                     possible[i] |= 1 << (int)EggSource6.Base;
