@@ -188,10 +188,19 @@ namespace PKHeX.Core
 
         public ReadOnlySpan<int> GetBaseEggMoves(int level)
         {
-            var lastIndex = Array.FindLastIndex(Levels, 0, z => z <= level);
-            if (lastIndex == -1)
+            // Count moves <= level
+            var count = 0;
+            foreach (var x in Levels)
+            {
+                if (x > level)
+                    break;
+                count++;
+            }
+
+            // Return a slice containing the moves <= level.
+            if (count == 0)
                 return ReadOnlySpan<int>.Empty;
-            return Moves.AsSpan(0, lastIndex);
+            return Moves.AsSpan(0, count);
         }
     }
 }

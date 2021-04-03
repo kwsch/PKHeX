@@ -31,7 +31,7 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, moves, egg, pi, generation, count);
 
-            return RecurseMovesForOrigin(value, count, EggSource25.Max);
+            return RecurseMovesForOrigin(value, count - 1, EggSource25.Max);
         }
 
         private static bool RecurseMovesForOrigin(ValueStorage<EggSource25> info, int start, EggSource25 type)
@@ -39,7 +39,8 @@ namespace PKHeX.Core
             int i = start;
             do
             {
-                if (type != 0 && RecurseMovesForOrigin(info, start, type - 1))
+                var unpeel = type - 1;
+                if (unpeel != 0 && RecurseMovesForOrigin(info, start, unpeel))
                     return true;
 
                 var permit = info.Origins[i];
@@ -55,7 +56,12 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool VerifyBaseMoves(ValueStorage<EggSource25> info)
         {
-            var count = Array.LastIndexOf(info.Actual, EggSource25.Base);
+            var count = 0;
+            foreach (var x in info.Actual)
+            {
+                if (x == EggSource25.Base)
+                    count++;
+            }
             if (count == -1)
                 return true;
 
@@ -63,10 +69,10 @@ namespace PKHeX.Core
             if (baseMoves.Length < count)
                 return false;
 
-            for (int i = count - 1, b = 0; i >= 0; i--, b++)
+            for (int i = count - 1, b = baseMoves.Length - 1; i >= 0; i--, b--)
             {
                 var move = info.Moves[i];
-                var expect = baseMoves[baseMoves.Length - 1 - b];
+                var expect = baseMoves[b];
                 if (expect != move)
                     return false;
             }
@@ -95,7 +101,7 @@ namespace PKHeX.Core
                     possible[i] |= 1 << (int)EggSource25.FatherEgg;
 
                 var tmIndex = tmlist.IndexOf(move);
-                if (tmIndex != -1 && tm[i])
+                if (tmIndex != -1 && tm[tmIndex])
                     possible[i] |= 1 << (int)EggSource25.FatherTM;
             }
         }
@@ -126,7 +132,7 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, moves, egg, count);
 
-            return RecurseMovesForOrigin(value, count, EggSource6.Max);
+            return RecurseMovesForOrigin(value, count - 1, EggSource6.Max);
         }
 
         private static bool RecurseMovesForOrigin(ValueStorage<EggSource6> info, int start, EggSource6 type)
@@ -134,7 +140,8 @@ namespace PKHeX.Core
             int i = start;
             do
             {
-                if (type != 0 && RecurseMovesForOrigin(info, start, type - 1))
+                var unpeel = type - 1;
+                if (unpeel != 0 && RecurseMovesForOrigin(info, start, unpeel))
                     return true;
 
                 var permit = info.Origins[i];
@@ -150,7 +157,12 @@ namespace PKHeX.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool VerifyBaseMoves(ValueStorage<EggSource6> info)
         {
-            var count = Array.LastIndexOf(info.Actual, EggSource6.Base);
+            var count = 0;
+            foreach (var x in info.Actual)
+            {
+                if (x == EggSource6.Base)
+                    count++;
+            }
             if (count == -1)
                 return true;
 
@@ -158,10 +170,10 @@ namespace PKHeX.Core
             if (baseMoves.Length < count)
                 return false;
 
-            for (int i = count - 1, b = 0; i >= 0; i--, b++)
+            for (int i = count - 1, b = baseMoves.Length - 1; i >= 0; i--, b--)
             {
                 var move = info.Moves[i];
-                var expect = baseMoves[baseMoves.Length - 1 - b];
+                var expect = baseMoves[b];
                 if (expect != move)
                     return false;
             }
