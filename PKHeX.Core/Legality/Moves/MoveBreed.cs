@@ -31,7 +31,7 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, moves, egg, pi, generation, count);
 
-            return RecurseMovesForOrigin(value, count - 1, EggSource25.Max);
+            return RecurseMovesForOrigin(value, count - 1, EggSource25.Max - 1);
         }
 
         private static bool RecurseMovesForOrigin(ValueStorage<EggSource25> info, int start, EggSource25 type)
@@ -134,7 +134,7 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, moves, egg, count);
 
-            return RecurseMovesForOrigin(value, count - 1, EggSource6.Max);
+            return RecurseMovesForOrigin(value, count - 1, EggSource6.Max - 1);
         }
 
         private static bool RecurseMovesForOrigin(ValueStorage<EggSource6> info, int start, EggSource6 type)
@@ -253,7 +253,7 @@ namespace PKHeX.Core
         FatherTM,
         ParentLevelUp,
 
-        Max = ParentLevelUp,
+        Max,
 
         Special,
     }
@@ -265,7 +265,7 @@ namespace PKHeX.Core
         ParentLevelUp,
         ParentEgg,
 
-        Max = ParentEgg,
+        Max,
 
         Special,
     }
