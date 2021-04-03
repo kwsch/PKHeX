@@ -185,5 +185,13 @@ namespace PKHeX.Core
             }
             return -1;
         }
+
+        public ReadOnlySpan<int> GetBaseEggMoves(int level)
+        {
+            var lastIndex = Array.FindLastIndex(Levels, 0, z => z <= level);
+            if (lastIndex == -1)
+                return ReadOnlySpan<int>.Empty;
+            return Moves.AsSpan(0, lastIndex);
+        }
     }
 }
