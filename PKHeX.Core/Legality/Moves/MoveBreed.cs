@@ -40,7 +40,7 @@ namespace PKHeX.Core
             do
             {
                 var unpeel = type - 1;
-                if (unpeel != 0 && RecurseMovesForOrigin(info, start, unpeel))
+                if (unpeel != 0 && RecurseMovesForOrigin(info, i, unpeel))
                     return true;
 
                 var permit = info.Origins[i];
@@ -63,7 +63,7 @@ namespace PKHeX.Core
                     count++;
             }
             if (count == -1)
-                return true;
+                return info.Moves[info.Moves.Length - 1] != 0;
 
             var baseMoves = info.Learnset.GetBaseEggMoves(info.Level);
             if (baseMoves.Length < count)
@@ -143,7 +143,7 @@ namespace PKHeX.Core
             do
             {
                 var unpeel = type - 1;
-                if (unpeel != 0 && RecurseMovesForOrigin(info, start, unpeel))
+                if (unpeel != 0 && RecurseMovesForOrigin(info, i, unpeel))
                     return true;
 
                 var permit = info.Origins[i];
@@ -166,7 +166,7 @@ namespace PKHeX.Core
                     count++;
             }
             if (count == -1)
-                return true;
+                return info.Moves[info.Moves.Length - 1] != 0;
 
             var baseMoves = info.Learnset.GetBaseEggMoves(info.Level);
             if (baseMoves.Length < count)
