@@ -10,6 +10,7 @@ namespace PKHeX.Tests.Legality
         [Theory]
         [InlineData(2, GameVersion.GD, 5, Species.Bulbasaur, 0, (int)Move.Tackle, (int)Move.Growl)]
         [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.FeintAttack, (int)Move.Pound, (int)Move.Curse, (int)Move.ZapCannon)]
+        [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.FeintAttack, (int)Move.Pound, (int)Move.Flamethrower, (int)Move.Sing)]
         public void VerifyBreed2(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
         {
             Array.Resize(ref moves, 4);
