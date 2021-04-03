@@ -34,8 +34,6 @@ namespace PKHeX.Tests.Legality
         [InlineData(OR, 1, Growlithe, 0, MorningSun, IronTail, Crunch, HeatWave)]
         [InlineData(OR, 1, Dratini, 0, Wrap, Leer, DragonDance, ExtremeSpeed)]
         [InlineData(OR, 1, Rotom, 0, Astonish, ThunderWave, ThunderShock, ConfuseRay)]
-        [InlineData(OR, 1, Rotom, 0, ThunderWave, ThunderShock, ConfuseRay, Discharge)]
-        [InlineData(OR, 1, Rotom, 0, Discharge, Charge, Trick, ThunderShock)]
         public void VerifyBreed6(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
             var gen = game.GetGeneration();
@@ -45,7 +43,7 @@ namespace PKHeX.Tests.Legality
         }
 
         [Theory]
-        [InlineData(C, 5, Igglybuff, 0, Charm, DefenseCurl, Sing, Flamethrower)]
+        [InlineData(C, 5, Igglybuff, 0, Charm, DefenseCurl, Sing, Flamethrower)] // invalid push-out order
         public void CheckBad2(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
             var gen = game.GetGeneration();
@@ -55,8 +53,9 @@ namespace PKHeX.Tests.Legality
         }
 
         [Theory]
-        [InlineData(SH, 1, Honedge, 0, FuryCutter, WideGuard, DestinyBond)]
-        [InlineData(OR, 1, Rotom, 0, Discharge, Charge, Trick, ConfuseRay)]
+        [InlineData(SH, 1, Honedge, 0, FuryCutter, WideGuard, DestinyBond)] // insufficient move count
+        [InlineData(OR, 1, Rotom, 0, Discharge, Charge, Trick, ConfuseRay)] // invalid push-out order
+        [InlineData(OR, 1, Rotom, 0, ThunderWave, ThunderShock, ConfuseRay, Discharge)] // no inheriting levelup
         public void CheckBad6(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
             var gen = game.GetGeneration();

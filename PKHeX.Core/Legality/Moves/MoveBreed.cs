@@ -23,13 +23,15 @@ namespace PKHeX.Core
             var egg = MoveEgg.GetEggMoves(generation, species, form, version);
 
             var value = new ValueStorage<EggSource25>(count, learnset, moves, level);
-            if (moves[count - 1] is (int)Move.VoltTackle)
+            if (moves[count - 1] is (int)Move.VoltTackle && (generation > 3 || version == GameVersion.E))
             {
                 if (--count == 0)
                     return false;
                 value.Actual[count] = EggSource25.Special;
             }
-            MarkMovesForOrigin(value, egg, pi, generation, count, version);
+
+            bool inherit = Breeding.GetCanInheritMoves(species);
+            MarkMovesForOrigin(value, egg, count, inherit, pi, generation, version);
 
             if (generation == 2)
                 return RecurseMovesForOriginG2(value, count - 1);
@@ -128,7 +130,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, ICollection<int> eggMoves, PersonalInfo info, int generation, int count, GameVersion version)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, ICollection<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, int generation, GameVersion version)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
@@ -144,7 +146,7 @@ namespace PKHeX.Core
                 if (baseEgg.Contains(move))
                     possible[i] |= 1 << (int) EggSource25.Base;
 
-                if (learn.GetLevelLearnMove(move) != -1)
+                if (inheritLevelUp && learn.GetLevelLearnMove(move) != -1)
                     possible[i] |= 1 << (int)EggSource25.ParentLevelUp;
 
                 if (eggMoves.Contains(move))
@@ -187,7 +189,9 @@ namespace PKHeX.Core
                     return false;
                 value.Actual[count] = EggSource6.Special;
             }
-            MarkMovesForOrigin(value, egg, count);
+
+            bool inherit = Breeding.GetCanInheritMoves(species);
+            MarkMovesForOrigin(value, egg, count, inherit);
 
             return RecurseMovesForOrigin(value, count - 1);
         }
@@ -258,7 +262,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, ICollection<int> eggMoves, int count)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, ICollection<int> eggMoves, int count, bool inheritLevelUp)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
@@ -272,7 +276,7 @@ namespace PKHeX.Core
                 if (baseEgg.Contains(move))
                     possible[i] |= 1 << (int)EggSource6.Base;
 
-                if (learn.GetLevelLearnMove(move) != -1)
+                if (inheritLevelUp && learn.GetLevelLearnMove(move) != -1)
                     possible[i] |= 1 << (int)EggSource6.ParentLevelUp;
 
                 if (eggMoves.Contains(move))
