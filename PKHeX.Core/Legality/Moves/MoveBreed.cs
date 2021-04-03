@@ -68,6 +68,8 @@ namespace PKHeX.Core
             var baseMoves = info.Learnset.GetBaseEggMoves(info.Level);
             if (baseMoves.Length < count)
                 return false;
+            if (info.Moves[info.Moves.Length - 1] == 0 && count != baseMoves.Length)
+                return false;
 
             for (int i = count - 1, b = baseMoves.Length - 1; i >= 0; i--, b--)
             {
@@ -168,6 +170,8 @@ namespace PKHeX.Core
 
             var baseMoves = info.Learnset.GetBaseEggMoves(info.Level);
             if (baseMoves.Length < count)
+                return false;
+            if (info.Moves[info.Moves.Length - 1] == 0 && count != baseMoves.Length)
                 return false;
 
             for (int i = count - 1, b = baseMoves.Length - 1; i >= 0; i--, b--)
