@@ -89,6 +89,8 @@ namespace PKHeX.Core
             {
                 if (x == EggSource25.Base)
                     count++;
+                else
+                    break;
             }
             if (count == -1)
                 return info.Moves[info.Moves.Length - 1] != 0;
@@ -106,6 +108,23 @@ namespace PKHeX.Core
                 if (expect != move)
                     return false;
             }
+
+            // A low-index base egg move may be nudged out, but can only reappear if sufficient non-base moves are before it.
+            if (baseMoves.Length == count)
+                return true;
+
+            for (int i = count; i < info.Actual.Length; i++)
+            {
+                var isBase = (info.Origins[i] & (1 << (int)EggSource25.Base)) != 0;
+                if (!isBase)
+                    continue;
+
+                var baseIndex = baseMoves.IndexOf(info.Moves[i]);
+                var min = info.Moves.Length - baseMoves.Length + baseIndex;
+                if (i < min + count)
+                    return false;
+            }
+
             return true;
         }
 
@@ -200,6 +219,8 @@ namespace PKHeX.Core
             {
                 if (x == EggSource6.Base)
                     count++;
+                else
+                    break;
             }
             if (count == -1)
                 return info.Moves[info.Moves.Length - 1] != 0;
@@ -217,6 +238,23 @@ namespace PKHeX.Core
                 if (expect != move)
                     return false;
             }
+
+            // A low-index base egg move may be nudged out, but can only reappear if sufficient non-base moves are before it.
+            if (baseMoves.Length == count)
+                return true;
+
+            for (int i = count; i < info.Actual.Length; i++)
+            {
+                var isBase = (info.Origins[i] & (1 << (int)EggSource6.Base)) != 0;
+                if (!isBase)
+                    continue;
+
+                var baseIndex = baseMoves.IndexOf(info.Moves[i]);
+                var min = info.Moves.Length - baseMoves.Length + baseIndex;
+                if (i < min + count)
+                    return false;
+            }
+
             return true;
         }
 

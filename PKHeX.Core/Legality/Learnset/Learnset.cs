@@ -200,7 +200,14 @@ namespace PKHeX.Core
             // Return a slice containing the moves <= level.
             if (count == 0)
                 return ReadOnlySpan<int>.Empty;
-            return Moves.AsSpan(0, count);
+
+            int start = 0;
+            if (count > 4)
+            {
+                start = count - 4;
+                count = 4;
+            }
+            return Moves.AsSpan(start, count);
         }
     }
 }

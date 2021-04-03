@@ -28,6 +28,15 @@ namespace PKHeX.Tests.Legality
         }
 
         [Theory]
+        [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.Charm, (int)Move.DefenseCurl, (int)Move.Sing, (int)Move.Flamethrower)]
+        public void CheckBad2(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
+        {
+            Array.Resize(ref moves, 4);
+            var test = MoveBreed.Process25(gen, (int)species, form, game, moves, lvl);
+            test.Should().BeFalse();
+        }
+
+        [Theory]
         [InlineData(8, GameVersion.SH, 1, Species.Honedge, 0, (int)Move.FuryCutter, (int)Move.WideGuard, (int)Move.DestinyBond)]
         public void CheckBad6(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
         {
