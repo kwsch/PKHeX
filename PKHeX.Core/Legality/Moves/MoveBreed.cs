@@ -121,7 +121,7 @@ namespace PKHeX.Core
 
                 var baseIndex = baseMoves.IndexOf(info.Moves[i]);
                 var min = info.Moves.Length - baseMoves.Length + baseIndex;
-                if (i < min + count)
+                if (i <= min + count)
                     return false;
             }
 
@@ -251,7 +251,7 @@ namespace PKHeX.Core
 
                 var baseIndex = baseMoves.IndexOf(info.Moves[i]);
                 var min = info.Moves.Length - baseMoves.Length + baseIndex;
-                if (i < min + count)
+                if (i <= min + count)
                     return false;
             }
 

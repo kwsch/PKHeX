@@ -1,46 +1,66 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using PKHeX.Core;
 using Xunit;
+using static PKHeX.Core.Move;
+using static PKHeX.Core.Species;
+using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Tests.Legality
 {
     public class BreedTests
     {
-        [Theory]
-        [InlineData(2, GameVersion.GD, 5, Species.Bulbasaur, 0, (int)Move.Tackle, (int)Move.Growl)]
-        [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.FeintAttack, (int)Move.Pound, (int)Move.Curse, (int)Move.ZapCannon)]
-        [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.FeintAttack, (int)Move.Pound, (int)Move.Flamethrower, (int)Move.Sing)]
-        public void VerifyBreed2(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
+        private static int[] GetMoves(Move[] moves)
         {
-            Array.Resize(ref moves, 4);
+            var result = new int[4];
+            for (int i = 0; i < moves.Length; i++)
+                result[i] = (int) moves[i];
+            return result;
+        }
+
+        [Theory]
+        [InlineData(GD, 5, Bulbasaur, 0, Tackle, Growl)]
+        [InlineData(SV, 5, Igglybuff, 0, FeintAttack, Pound, Curse, ZapCannon)]
+        [InlineData(C, 5, Igglybuff, 0, FeintAttack, Pound, Flamethrower, Sing)]
+        public void VerifyBreed2(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
+        {
+            var gen = game.GetGeneration();
+            var moves = GetMoves(movelist);
             var test = MoveBreed.Process25(gen, (int) species, form, game, moves, lvl);
             test.Should().BeTrue();
         }
 
         [Theory]
-        [InlineData(6, GameVersion.X, 1, Species.Growlithe, 0, (int)Move.Bite, (int)Move.Roar, (int)Move.FlareBlitz, (int)Move.MorningSun)]
-        public void VerifyBreed6(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
+        [InlineData(X, 1, Growlithe, 0, Bite, Roar, FlareBlitz, MorningSun)]
+        [InlineData(OR, 1, Growlithe, 0, MorningSun, IronTail, Crunch, HeatWave)]
+        [InlineData(OR, 1, Dratini, 0, Wrap, Leer, DragonDance, ExtremeSpeed)]
+        [InlineData(OR, 1, Rotom, 0, Astonish, ThunderWave, ThunderShock, ConfuseRay)]
+        [InlineData(OR, 1, Rotom, 0, ThunderWave, ThunderShock, ConfuseRay, Discharge)]
+        [InlineData(OR, 1, Rotom, 0, Discharge, Charge, Trick, ThunderShock)]
+        public void VerifyBreed6(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
-            Array.Resize(ref moves, 4);
+            var gen = game.GetGeneration();
+            var moves = GetMoves(movelist);
             var test = MoveBreed.Process6(gen, (int)species, form, game, moves, lvl);
             test.Should().BeTrue();
         }
 
         [Theory]
-        [InlineData(2, GameVersion.C, 5, Species.Igglybuff, 0, (int)Move.Charm, (int)Move.DefenseCurl, (int)Move.Sing, (int)Move.Flamethrower)]
-        public void CheckBad2(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
+        [InlineData(C, 5, Igglybuff, 0, Charm, DefenseCurl, Sing, Flamethrower)]
+        public void CheckBad2(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
-            Array.Resize(ref moves, 4);
+            var gen = game.GetGeneration();
+            var moves = GetMoves(movelist);
             var test = MoveBreed.Process25(gen, (int)species, form, game, moves, lvl);
             test.Should().BeFalse();
         }
 
         [Theory]
-        [InlineData(8, GameVersion.SH, 1, Species.Honedge, 0, (int)Move.FuryCutter, (int)Move.WideGuard, (int)Move.DestinyBond)]
-        public void CheckBad6(int gen, GameVersion game, int lvl, Species species, int form, params int[] moves)
+        [InlineData(SH, 1, Honedge, 0, FuryCutter, WideGuard, DestinyBond)]
+        [InlineData(OR, 1, Rotom, 0, Discharge, Charge, Trick, ConfuseRay)]
+        public void CheckBad6(GameVersion game, int lvl, Species species, int form, params Move[] movelist)
         {
-            Array.Resize(ref moves, 4);
+            var gen = game.GetGeneration();
+            var moves = GetMoves(movelist);
             var test = MoveBreed.Process6(gen, (int)species, form, game, moves, lvl);
             test.Should().BeFalse();
         }
