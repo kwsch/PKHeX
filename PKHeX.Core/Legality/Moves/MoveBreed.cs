@@ -31,10 +31,38 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, egg, pi, generation, count, version);
 
-            return RecurseMovesForOrigin(value, count - 1, EggSource25.Max - 1);
+            if (generation == 2)
+                return RecurseMovesForOriginG2(value, count - 1);
+
+            return RecurseMovesForOrigin(value, count - 1);
         }
 
-        private static bool RecurseMovesForOrigin(ValueStorage<EggSource25> info, int start, EggSource25 type)
+        private static bool RecurseMovesForOriginG2(ValueStorage<EggSource25> info, int start, EggSource25 type = EggSource25.Max)
+        {
+            int i = start;
+            do
+            {
+                if (type != EggSource25.Base)
+                {
+                    if (RecurseMovesForOriginG2(info, i, EggSource25.Base))
+                        return true;
+                }
+
+                var flag = 1 << (int) EggSource25.Base;
+                if (type != EggSource25.Base)
+                    flag = ~flag;
+
+                var permit = info.Origins[i];
+                if ((permit & flag) == 0)
+                    return false;
+
+                info.Actual[i] = type;
+            } while (--i >= 0);
+
+            return VerifyBaseMoves(info);
+        }
+
+        private static bool RecurseMovesForOrigin(ValueStorage<EggSource25> info, int start, EggSource25 type = EggSource25.Max - 1)
         {
             int i = start;
             do
@@ -142,10 +170,10 @@ namespace PKHeX.Core
             }
             MarkMovesForOrigin(value, egg, count);
 
-            return RecurseMovesForOrigin(value, count - 1, EggSource6.Max - 1);
+            return RecurseMovesForOrigin(value, count - 1);
         }
 
-        private static bool RecurseMovesForOrigin(ValueStorage<EggSource6> info, int start, EggSource6 type)
+        private static bool RecurseMovesForOrigin(ValueStorage<EggSource6> info, int start, EggSource6 type = EggSource6.Max - 1)
         {
             int i = start;
             do
