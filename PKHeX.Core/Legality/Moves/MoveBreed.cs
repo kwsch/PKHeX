@@ -29,7 +29,7 @@ namespace PKHeX.Core
                     return false;
                 value.Actual[count] = EggSource25.Special;
             }
-            MarkMovesForOrigin(value, moves, egg, pi, generation, count);
+            MarkMovesForOrigin(value, egg, pi, generation, count, version);
 
             return RecurseMovesForOrigin(value, count - 1, EggSource25.Max - 1);
         }
@@ -81,14 +81,15 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, IReadOnlyList<int> moves, ICollection<int> eggMoves, PersonalInfo info, int generation, int count)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource25> value, ICollection<int> eggMoves, PersonalInfo info, int generation, int count, GameVersion version)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
             var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
             var tm = info.TMHM;
-
             var tmlist = GetHeritableTMList(generation);
+
+            var moves = value.Moves;
             for (int i = 0; i < count; i++)
             {
                 var move = moves[i];
@@ -105,6 +106,13 @@ namespace PKHeX.Core
                 var tmIndex = tmlist.IndexOf(move);
                 if (tmIndex != -1 && tm[tmIndex])
                     possible[i] |= 1 << (int)EggSource25.FatherTM;
+
+                if (version is GameVersion.C)
+                {
+                    var tutorIndex = Array.IndexOf(Legal.Tutors_GSC, move);
+                    if (tutorIndex != -1 && tm[57 + tutorIndex])
+                        possible[i] |= 1 << (int)EggSource25.FatherTM; // don't bother differentiating Crystal tutor from TMs
+                }
             }
         }
 
@@ -132,7 +140,7 @@ namespace PKHeX.Core
                     return false;
                 value.Actual[count] = EggSource6.Special;
             }
-            MarkMovesForOrigin(value, moves, egg, count);
+            MarkMovesForOrigin(value, egg, count);
 
             return RecurseMovesForOrigin(value, count - 1, EggSource6.Max - 1);
         }
@@ -184,12 +192,13 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, IReadOnlyList<int> moves, ICollection<int> eggMoves, int count)
+        private static void MarkMovesForOrigin(ValueStorage<EggSource6> value, ICollection<int> eggMoves, int count)
         {
             var possible = value.Origins;
             var learn = value.Learnset;
             var baseEgg = value.Learnset.GetBaseEggMoves(value.Level);
 
+            var moves = value.Moves;
             for (int i = 0; i < count; i++)
             {
                 var move = moves[i];
