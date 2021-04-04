@@ -10,7 +10,7 @@ namespace PKHeX.WinForms.Controls
 {
     public sealed class SummaryPreviewer
     {
-        private readonly ToolTip ShowSet = new() { InitialDelay = 200, IsBalloon = false };
+        private readonly ToolTip ShowSet = new() { InitialDelay = 200, IsBalloon = false, AutoPopDelay = 32_767 };
 
         public void Show(Control pb, PKM pk)
         {
@@ -50,6 +50,16 @@ namespace PKHeX.WinForms.Controls
             lines.Add(enc.LevelMin == enc.LevelMax
                 ? $"Level: {enc.LevelMin}"
                 : $"Level: {enc.LevelMin}-{enc.LevelMax}");
+
+#if DEBUG
+            // Record types! Can get a nice summary.
+            // Won't work neatly for Mystery Gift types since those aren't record types.
+            if (enc is not MysteryGift)
+            {
+                var raw = enc.ToString();
+                lines.AddRange(raw.Split(',', '}', '{'));
+            }
+#endif
 
             var text = string.Join(Environment.NewLine, lines);
             ShowSet.SetToolTip(pb, text);
