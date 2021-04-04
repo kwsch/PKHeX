@@ -74,7 +74,7 @@ namespace PKHeX.Core
         public override uint Coin
         {
             get => BitConverter.ToUInt16(Large, 0x0494);
-            set => SetData(BitConverter.GetBytes(value), 0x0494);
+            set => SetData(BitConverter.GetBytes((ushort)value), 0x0494);
         }
 
         private const int OFS_PCItem = 0x0498;
