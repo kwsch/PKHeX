@@ -58,5 +58,21 @@ namespace PKHeX.Tests.Legality
             var test = MoveBreed.Process(gen, (int)species, form, game, moves);
             test.Should().BeFalse();
         }
+
+        [Theory]
+        [InlineData(GD, Bulbasaur, 0, Growl, Tackle)] // swap order, two base moves
+        [InlineData(UM, Charmander, 0, Ember, BellyDrum, Scratch, Growl)] // swap order, inherit + egg moves
+        public void CheckFix(GameVersion game, Species species, int form, params Move[] movelist)
+        {
+            var gen = game.GetGeneration();
+            var moves = GetMoves(movelist);
+
+            var test = MoveBreed.Process(gen, (int)species, form, game, moves, out var valid);
+            valid.Should().BeFalse();
+            var reorder = MoveBreed.GetExpectedMoves(gen, (int)species, form, game, moves, test);
+
+            // fixed order should be different now.
+            reorder.SequenceEqual(moves).Should().BeFalse();
+        }
     }
 }
