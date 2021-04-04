@@ -7,14 +7,16 @@ namespace PKHeX.Core
 {
     public static class MoveBreed2
     {
-        private const int generation = 2;
         private const int level = 5;
 
-        public static bool Process(int species, GameVersion version, int[] moves)
+        public static EggSource2[] Validate(int species, GameVersion version, int[] moves, out bool valid)
         {
             var count = Array.IndexOf(moves, 0);
             if (count == 0)
-                return false; // empty moveset
+            {
+                valid = false; // empty moveset
+                return Array.Empty<EggSource2>();
+            }
             if (count == -1)
                 count = moves.Length;
 
@@ -22,12 +24,14 @@ namespace PKHeX.Core
             var table = GameData.GetPersonal(version);
             var learnset = learn[species];
             var pi = table[species];
-            var egg = MoveEgg.GetEggMoves(generation, species, 0, version);
+            var egg = (version == GameVersion.C ? Legal.EggMovesC : Legal.EggMovesGS)[species].Moves;
 
             var value = new BreedInfo<EggSource2>(count, learnset, moves, level);
             bool inherit = Breeding.GetCanInheritMoves(species);
             MarkMovesForOrigin(value, egg, count, inherit, pi, version);
-            return RecurseMovesForOrigin(value, count - 1);
+
+            valid = RecurseMovesForOrigin(value, count - 1);
+            return value.Actual;
         }
 
         private static bool RecurseMovesForOrigin(BreedInfo<EggSource2> info, int start, EggSource2 type = Max)

@@ -11,14 +11,16 @@ namespace PKHeX.Core
     /// <remarks>Refer to <see cref="EggSource34"/> for inheritance ordering.</remarks>
     public static class MoveBreed3
     {
-        private const int generation = 3;
         private const int level = 5;
 
-        public static bool Process(int species, GameVersion version, int[] moves)
+        public static EggSource34[] Validate(int species, GameVersion version, int[] moves, out bool valid)
         {
             var count = Array.IndexOf(moves, 0);
             if (count == 0)
-                return false; // empty moveset
+            {
+                valid = false; // empty moveset
+                return Array.Empty<EggSource34>();
+            }
             if (count == -1)
                 count = moves.Length;
 
@@ -32,13 +34,18 @@ namespace PKHeX.Core
             if (version == GameVersion.E && moves[count - 1] is (int)Move.VoltTackle)
             {
                 if (--count == 0)
-                    return false; // must have base moves; sanity check
+                {
+                    valid = false; // must have base moves; sanity check
+                    return Array.Empty<EggSource34>();
+                }
                 value.Actual[count] = VoltTackle;
             }
 
             bool inherit = Breeding.GetCanInheritMoves(species);
             MarkMovesForOrigin(value, egg, count, inherit, pi);
-            return RecurseMovesForOrigin(value, count - 1);
+
+            valid = RecurseMovesForOrigin(value, count - 1);
+            return value.Actual;
         }
 
         private static bool RecurseMovesForOrigin(BreedInfo<EggSource34> info, int start, EggSource34 type = Max - 1)
