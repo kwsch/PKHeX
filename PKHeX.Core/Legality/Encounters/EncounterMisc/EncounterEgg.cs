@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -47,7 +46,8 @@ namespace PKHeX.Core
             pk.Ball = (int)Ball.Poke;
             pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
-            int[] moves = SetEncounterMoves(pk, version);
+            SetEncounterMoves(pk, version);
+            pk.HealPP();
             SetPINGA(pk, criteria);
 
             if (gen <= 2 && version != GameVersion.C)
@@ -69,7 +69,10 @@ namespace PKHeX.Core
             SetForm(pk, sav);
 
             pk.SetRandomEC();
-            pk.RelearnMoves = moves;
+            pk.RelearnMove1 = pk.Move1;
+            pk.RelearnMove2 = pk.Move2;
+            pk.RelearnMove3 = pk.Move3;
+            pk.RelearnMove4 = pk.Move4;
 
             return pk;
         }
@@ -122,25 +125,14 @@ namespace PKHeX.Core
             pk.Met_Location = Math.Max(0, EncounterSuggestion.GetSuggestedEggMetLocation(pk));
         }
 
-        private int[] SetEncounterMoves(PKM pk, GameVersion version)
+        private void SetEncounterMoves(PKM pk, GameVersion version)
         {
-            int[] moves = GetCurrentEggMoves(pk, version);
-            pk.Moves = moves;
-            pk.SetMaximumPPCurrent(moves);
-            return moves;
-        }
-
-        private int[] GetCurrentEggMoves(PKM pk, GameVersion version)
-        {
-            var moves = MoveEgg.GetEggMoves(pk.PersonalInfo, Species, Form, version, Generation);
-            if (moves.Length == 0)
-                return MoveLevelUp.GetEncounterMoves(pk, Level, version);
-            if (moves.Length >= 4 || pk.Format < 6)
-                return moves;
-
-            // Sprinkle in some default level up moves
-            var lvl = MoveList.GetBaseEggMoves(pk, Species, Form, version, Level);
-            return lvl.Concat(moves).ToArray();
+            var learnset = GameData.GetLearnset(version, Species, Form);
+            var baseMoves = learnset.GetBaseEggMoves(Level);
+            if (baseMoves.Length == 0) return; pk.Move1 = baseMoves[0];
+            if (baseMoves.Length == 1) return; pk.Move2 = baseMoves[1];
+            if (baseMoves.Length == 2) return; pk.Move3 = baseMoves[2];
+            if (baseMoves.Length == 3) return; pk.Move4 = baseMoves[3];
         }
     }
 
