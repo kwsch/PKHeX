@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using FluentAssertions;
+using FluentAssertions.Common;
 using PKHeX.Core;
 using Xunit;
 using static PKHeX.Core.Move;
@@ -73,6 +74,8 @@ namespace PKHeX.Tests.Legality
 
             // fixed order should be different now.
             reorder.SequenceEqual(moves).Should().BeFalse();
+            // nonzero move count should be same
+            reorder.Count(z => z != 0).Should().IsSameOrEqualTo(moves.Count(z => z != 0));
         }
     }
 }

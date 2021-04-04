@@ -56,25 +56,28 @@ namespace PKHeX.Core
 
             // Well, that didn't work; probably because the moves aren't valid. Let's remove all the base moves, and get a fresh set.
             var reorder2 = reorder1; // reuse instead of reallocate
-            RebuildMoves(generation, species, form, version, exp, reorder2);
-
-            // Check if that worked...
-            _ = Process(generation, species, form, version, reorder2, out valid);
-            if (valid)
-                return reorder2;
-
-            // Total failure; just return the orginal array.
-            return moves;
-        }
-
-        private static void RebuildMoves(int generation, int species, int form, GameVersion version, List<MoveOrder> exp, int[] result)
-        {
             var learn = GameData.GetLearnsets(version);
             var table = GameData.GetPersonal(version);
             var index = table.GetFormIndex(species, form);
             var learnset = learn[index];
             var baseMoves = learnset.GetBaseEggMoves(generation >= 4 ? 1 : 5);
 
+            RebuildMoves(baseMoves, exp, reorder2);
+
+            // Check if that worked...
+            _ = Process(generation, species, form, version, reorder2, out valid);
+            if (valid)
+                return reorder2;
+
+            // Total failure; just return the base moves.
+            baseMoves.CopyTo(reorder2);
+            for (int i = baseMoves.Length; i < reorder2.Length; i++)
+                reorder2[i] = 0;
+            return reorder2;
+        }
+
+        private static void RebuildMoves(ReadOnlySpan<int> baseMoves, List<MoveOrder> exp, int[] result)
+        {
             var notBase = new List<int>();
             foreach (var m in exp)
             {
