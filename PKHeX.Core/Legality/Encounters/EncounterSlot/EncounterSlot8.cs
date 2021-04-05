@@ -73,10 +73,6 @@ namespace PKHeX.Core
 
         public override EncounterMatchRating GetMatchRating(PKM pkm)
         {
-            var rating = base.GetMatchRating(pkm);
-            if (rating != EncounterMatchRating.Match)
-                return rating;
-
             // Glimwood Tangle does not spawn Symbol encounters, only Hidden.
             if (Location is 76 && ((EncounterArea8)Area).PermitCrossover)
                 return EncounterMatchRating.PartialMatch;
