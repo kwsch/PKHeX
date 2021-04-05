@@ -34,7 +34,7 @@ namespace PKHeX.Core
             return res;
         }
 
-        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, IReadOnlyList<int> currentMoves)
+        private static CheckMoveResult[] ParseMovesForEncounters(PKM pkm, LegalInfo info, int[] currentMoves)
         {
             if (pkm.Species == (int)Species.Smeargle) // special handling for Smeargle
                 return ParseMovesForSmeargle(pkm, currentMoves, info); // Smeargle can have any moves except a few
@@ -94,12 +94,6 @@ namespace PKHeX.Core
             return ParseMoves(pkm, source, info);
         }
 
-        private static CheckMoveResult[] ParseMovesIsEggPreRelearn(PKM pkm, IReadOnlyList<int> currentMoves, EncounterEgg e)
-        {
-            var infoset = new EggInfoSource(pkm, e);
-            return VerifyPreRelearnEggBase(pkm, currentMoves, infoset);
-        }
-
         private static CheckMoveResult[] ParseMovesWasEggPreRelearn(PKM pkm, IReadOnlyList<int> currentMoves, LegalInfo info, EncounterEgg e)
         {
             var EventEggMoves = GetSpecialMoves(info.EncounterMatch);
@@ -157,12 +151,12 @@ namespace PKHeX.Core
                 : ParseMovesRelearn(pkm, currentMoves, info);
         }
 
-        private static CheckMoveResult[] ParseMovesPre3DS(PKM pkm, IReadOnlyList<int> currentMoves, LegalInfo info)
+        private static CheckMoveResult[] ParseMovesPre3DS(PKM pkm, int[] currentMoves, LegalInfo info)
         {
             if (info.EncounterMatch is EncounterEgg e)
             {
                 return pkm.IsEgg
-                    ? ParseMovesIsEggPreRelearn(pkm, currentMoves, e)
+                    ? VerifyPreRelearnEggBase(pkm, currentMoves, e)
                     : ParseMovesWasEggPreRelearn(pkm, currentMoves, info, e);
             }
 
@@ -746,72 +740,11 @@ namespace PKHeX.Core
             }
         }
 
-        /* Similar to verifyRelearnEgg but in pre relearn generation is the moves what should match the expected order but only if the pokemon is inside an egg */
-        private static CheckMoveResult[] VerifyPreRelearnEggBase(PKM pkm, IReadOnlyList<int> currentMoves, EggInfoSource infoset)
+        private static CheckMoveResult[] VerifyPreRelearnEggBase(PKM pkm, int[] currentMoves, EncounterEgg e)
         {
-            CheckMoveResult[] res = new CheckMoveResult[4];
-            var gen = pkm.Generation;
-            // Obtain level1 moves
-            var reqBase = GetRequiredBaseMoveCount(currentMoves, infoset);
-
-            var sb = new System.Text.StringBuilder();
-            // Check if the required amount of Base Egg Moves are present.
-            for (int i = 0; i < reqBase; i++)
-            {
-                if (infoset.Base.Contains(currentMoves[i]))
-                {
-                    res[i] = new CheckMoveResult(Initial, gen, Valid, LMoveRelearnEgg, CurrentMove);
-                    continue;
-                }
-
-                // mark remaining base egg moves missing
-                for (int z = i; z < reqBase; z++)
-                    res[z] = new CheckMoveResult(Initial, gen, Invalid, LMoveRelearnEggMissing, CurrentMove);
-
-                // provide the list of suggested base moves for the last required slot
-                sb.Append(string.Join(", ", GetMoveNames(infoset.Base)));
-                break;
-            }
-
-            if (sb.Length != 0)
-                res[reqBase > 0 ? reqBase - 1 : 0].Comment = string.Format(Environment.NewLine + LMoveFExpect_0, sb);
-
-            // Inherited moves appear after the required base moves.
-            var AllowInheritedSeverity = infoset.AllowInherited ? Valid : Invalid;
-            for (int i = reqBase; i < 4; i++)
-            {
-                if (currentMoves[i] == 0) // empty
-                    res[i] = new CheckMoveResult(None, gen, Valid, LMoveSourceEmpty, CurrentMove);
-                else if (infoset.Egg.Contains(currentMoves[i])) // inherited egg move
-                    res[i] = new CheckMoveResult(EggMove, gen, AllowInheritedSeverity, infoset.AllowInherited ? LMoveEggInherited : LMoveEggInvalidEvent, CurrentMove);
-                else if (infoset.LevelUp.Contains(currentMoves[i])) // inherited lvl moves
-                    res[i] = new CheckMoveResult(InheritLevelUp, gen, AllowInheritedSeverity, infoset.AllowInherited ? LMoveEggLevelUp : LMoveEggInvalidEventLevelUp, CurrentMove);
-                else if (infoset.TMHM.Contains(currentMoves[i])) // inherited TMHM moves
-                    res[i] = new CheckMoveResult(TMHM, gen, AllowInheritedSeverity, infoset.AllowInherited ? LMoveEggTMHM : LMoveEggInvalidEventTMHM, CurrentMove);
-                else if (infoset.Tutor.Contains(currentMoves[i])) // inherited tutor moves
-                    res[i] = new CheckMoveResult(Tutor, gen, AllowInheritedSeverity, infoset.AllowInherited ? LMoveEggInheritedTutor : LMoveEggInvalidEventTutor, CurrentMove);
-                else // not inheritable, flag
-                    res[i] = new CheckMoveResult(Unknown, gen, Invalid, LMoveEggInvalid, CurrentMove);
-            }
-
-            return res;
-        }
-
-        private static int GetRequiredBaseMoveCount(IReadOnlyList<int> currentMoves, EggInfoSource infoset)
-        {
-            int baseCt = infoset.Base.Count;
-            if (baseCt > 4) baseCt = 4;
-
-            // Obtain Inherited moves
-            var inherited = currentMoves.Where(m => m != 0 && infoset.IsInherited(m)).ToList();
-            int inheritCt = inherited.Count;
-
-            // Get required amount of base moves
-            int unique = infoset.Base.Union(inherited).Count();
-            int reqBase = inheritCt == 4 || baseCt + inheritCt > 4 ? 4 - inheritCt : baseCt;
-            if (currentMoves.Count(m => m != 0) < Math.Min(4, infoset.Base.Count))
-                reqBase = Math.Min(4, unique);
-            return reqBase;
+            CheckMoveResult[] result = new CheckMoveResult[4];
+            _ = VerifyRelearnMoves.VerifyEggMoveset(pkm, e, result, currentMoves, CurrentMove);
+            return result;
         }
 
         private static void VerifyNoEmptyDuplicates(IReadOnlyList<int> moves, CheckMoveResult[] res)

@@ -185,5 +185,29 @@ namespace PKHeX.Core
             }
             return -1;
         }
+
+        public ReadOnlySpan<int> GetBaseEggMoves(int level)
+        {
+            // Count moves <= level
+            var count = 0;
+            foreach (var x in Levels)
+            {
+                if (x > level)
+                    break;
+                count++;
+            }
+
+            // Return a slice containing the moves <= level.
+            if (count == 0)
+                return ReadOnlySpan<int>.Empty;
+
+            int start = 0;
+            if (count > 4)
+            {
+                start = count - 4;
+                count = 4;
+            }
+            return Moves.AsSpan(start, count);
+        }
     }
 }

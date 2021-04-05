@@ -8,6 +8,14 @@ namespace PKHeX.Core
         public static Learnset[] GetLearnsets(GameVersion game) => Learnsets(game);
         public static PersonalTable GetPersonal(GameVersion game) => Personal(game);
 
+        public static Learnset GetLearnset(GameVersion game, int species, int form)
+        {
+            var pt = Personal(game);
+            var index = pt.GetFormIndex(species, form);
+            var sets = Learnsets(game);
+            return sets[index];
+        }
+
         private static Learnset[] Learnsets(GameVersion game) => game switch
         {
             RD or GN or BU or RB => Legal.LevelUpRB,
