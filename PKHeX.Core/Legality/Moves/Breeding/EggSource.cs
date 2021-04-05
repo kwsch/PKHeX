@@ -1,5 +1,4 @@
-﻿using System;
-using static PKHeX.Core.LegalityCheckStrings;
+﻿using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -55,51 +54,58 @@ namespace PKHeX.Core
 
     public static class EggSourceExtensions
     {
+#pragma warning disable RCS1224 // Make method an extension method.
+        public static string GetSource(object parse, int index) => parse switch
+#pragma warning restore RCS1224 // Make method an extension method.
+        {
+            EggSource2[] x when index < x.Length => x[index].GetSource(),
+           EggSource34[] x when index < x.Length => x[index].GetSource(),
+            EggSource5[] x when index < x.Length => x[index].GetSource(),
+            EggSource6[] x when index < x.Length => x[index].GetSource(),
+            _ => LMoveSourceEmpty,
+        };
+
         public static string GetSource(this EggSource2 source) => source switch
         {
-            EggSource2.None => LMoveSourceEmpty,
-            EggSource2.Base => LMoveEggLevelUp,
-            EggSource2.FatherEgg => LMoveRelearnEgg,
+            EggSource2.Base => LMoveRelearnEgg,
+            EggSource2.FatherEgg => LMoveEggLevelUp,
             EggSource2.FatherTM => LMoveEggTMHM,
             EggSource2.ParentLevelUp => LMoveEggInherited,
             EggSource2.Tutor => LMoveEggInheritedTutor,
             EggSource2.Max => "Any",
-            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            _ => LMoveEggInvalid,
         };
 
         public static string GetSource(this EggSource34 source) => source switch
         {
-            EggSource34.None => LMoveSourceEmpty,
-            EggSource34.Base => LMoveEggLevelUp,
-            EggSource34.FatherEgg => LMoveRelearnEgg,
+            EggSource34.Base => LMoveRelearnEgg,
+            EggSource34.FatherEgg => LMoveEggLevelUp,
             EggSource34.FatherTM => LMoveEggTMHM,
             EggSource34.ParentLevelUp => LMoveEggInherited,
             EggSource34.VoltTackle => LMoveSourceSpecial,
             EggSource34.Max => "Any",
-            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            _ => LMoveEggInvalid,
         };
 
         public static string GetSource(this EggSource5 source) => source switch
         {
-            EggSource5.None => LMoveSourceEmpty,
-            EggSource5.Base => LMoveEggLevelUp,
-            EggSource5.FatherEgg => LMoveRelearnEgg,
+            EggSource5.Base => LMoveRelearnEgg,
+            EggSource5.FatherEgg => LMoveEggLevelUp,
             EggSource5.FatherTM => LMoveEggTMHM,
             EggSource5.ParentLevelUp => LMoveEggInherited,
             EggSource5.VoltTackle => LMoveSourceSpecial,
             EggSource5.Max => "Any",
-            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            _ => LMoveEggInvalid,
         };
 
         public static string GetSource(this EggSource6 source) => source switch
         {
-            EggSource6.None => LMoveSourceEmpty,
-            EggSource6.Base => LMoveEggLevelUp,
-            EggSource6.ParentEgg => LMoveRelearnEgg,
+            EggSource6.Base => LMoveRelearnEgg,
+            EggSource6.ParentEgg => LMoveEggLevelUp,
             EggSource6.ParentLevelUp => LMoveEggInherited,
             EggSource6.VoltTackle => LMoveSourceSpecial,
             EggSource6.Max => "Any",
-            _ => throw new ArgumentOutOfRangeException(nameof(source), source, null)
+            _ => LMoveEggInvalid,
         };
     }
 }

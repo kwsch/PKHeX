@@ -52,9 +52,9 @@ namespace PKHeX.Core
 
             if (o.Species <= max && Breeding.CanHatchAsEgg(o.Species, o.Form, ver))
             {
-                yield return new EncounterEggSplit(o.Species, o.Form, lvl, generation, ver, e.Species);
+                yield return new EncounterEgg(o.Species, o.Form, lvl, generation, ver);
                 if (generation > 5 && (pkm.WasTradedEgg || all) && HasOtherGamePair(ver))
-                    yield return new EncounterEggSplit(o.Species, o.Form, lvl, generation, GetOtherTradePair(ver), e.Species);
+                    yield return new EncounterEgg(o.Species, o.Form, lvl, generation, GetOtherTradePair(ver));
             }
         }
 

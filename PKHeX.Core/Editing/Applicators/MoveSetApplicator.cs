@@ -74,7 +74,7 @@ namespace PKHeX.Core
                 return m;
 
             enc ??= legal.EncounterMatch;
-            if (enc is MysteryGift || enc is EncounterEgg)
+            if (enc is MysteryGift or EncounterEgg)
                 return m;
 
             if (enc is EncounterSlot6AO {CanDexNav: true} dn)

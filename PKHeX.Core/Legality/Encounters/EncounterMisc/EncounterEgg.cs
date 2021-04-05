@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Egg Encounter Data
     /// </summary>
-    public record EncounterEgg : IEncounterable
+    public sealed record EncounterEgg : IEncounterable
     {
         public int Species { get; }
         public int Form { get; }
@@ -134,11 +134,5 @@ namespace PKHeX.Core
             if (baseMoves.Length == 2) return; pk.Move3 = baseMoves[2];
             if (baseMoves.Length == 3) return; pk.Move4 = baseMoves[3];
         }
-    }
-
-    public sealed record EncounterEggSplit : EncounterEgg
-    {
-        public int OtherSpecies { get; }
-        public EncounterEggSplit(int species, int form, int level, int gen, GameVersion game, int otherSpecies) : base(species, form, level, gen, game) => OtherSpecies = otherSpecies;
     }
 }

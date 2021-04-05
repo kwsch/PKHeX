@@ -32,6 +32,7 @@ namespace PKHeX.Core
 
         public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
+        public static string GetMoveName(int move) => (uint)move >= MoveStrings.Count ? LegalityCheckStrings.L_AError : MoveStrings[move];
         public static IEnumerable<string> GetMoveNames(IEnumerable<int> moves) => moves.Select(m => (uint)m >= MoveStrings.Count ? LegalityCheckStrings.L_AError : MoveStrings[m]);
 
         public static void ChangeLocalizationStrings(IReadOnlyList<string> moves, IReadOnlyList<string> species)
