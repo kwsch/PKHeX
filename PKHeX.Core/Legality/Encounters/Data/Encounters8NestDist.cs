@@ -786,6 +786,57 @@ namespace PKHeX.Core
             new(60,10,5) { Species = 549, Ability = A4, Moves = new[]{ 080, 298, 241, 676 } }, // Lilligant
             new(60,10,5) { Species = 754, Ability = A4, Moves = new[]{ 404, 572, 398, 530 } }, // Lurantis
             new(60,10,5) { Species = 764, Ability = A4, Moves = new[]{ 572, 579, 447, 583 } }, // Comfey
+
+            // 4/1 - Easter
+            new(17,01,1) { Species = 183, Ability = A4, Moves = new[]{ 061, 204, 111, 205 } }, // Marill
+            new(17,01,1) { Species = 427, Ability = A4, Moves = new[]{ 098, 608, 150, 111 } }, // Buneary
+            new(17,01,1) { Species = 659, Ability = A4, Moves = new[]{ 098, 189, 280, 341 } }, // Bunnelby
+            new(30,03,2) { Species = 184, Ability = A4, Moves = new[]{ 401, 583, 280, 205 } }, // Azumarill
+            new(30,03,2) { Species = 428, Ability = A4, Moves = new[]{ 024, 204, 029, 111 } }, // Lopunny
+            new(30,03,2) { Species = 660, Ability = A4, Moves = new[]{ 098, 523, 280, 341 } }, // Diggersby
+            new(40,05,3) { Species = 184, Ability = A4, Moves = new[]{ 056, 583, 280, 205 } }, // Azumarill
+            new(40,05,3) { Species = 428, Ability = A4, Moves = new[]{ 024, 204, 029, 129 } }, // Lopunny
+            new(40,05,3) { Species = 660, Ability = A4, Moves = new[]{ 005, 523, 280, 036 } }, // Diggersby
+            new(50,08,4) { Species = 184, Ability = A4, Moves = new[]{ 710, 583, 276, 205 } }, // Azumarill
+            new(50,08,4) { Species = 428, Ability = A4, Moves = new[]{ 024, 583, 025, 129 } }, // Lopunny
+            new(50,08,4) { Species = 660, Ability = A4, Moves = new[]{ 005, 089, 280, 162 } }, // Diggersby
+            new(60,10,5) { Species = 184, Ability = A4, Moves = new[]{ 710, 583, 276, 523 } }, // Azumarill
+            new(60,10,5) { Species = 184, Ability = A4, Moves = new[]{ 710, 583, 276, 523 }, Shiny = Shiny.Always }, // Azumarill
+            new(60,10,5) { Species = 428, Ability = A4, Moves = new[]{ 136, 583, 025, 693 } }, // Lopunny
+            new(60,10,5) { Species = 660, Ability = A4, Moves = new[]{ 416, 089, 359, 162 } }, // Diggersby
+          //new(60,10,5) { Species = 815, Ability = A2, Moves = new[]{ 780, 442, 279, 555 }, CanGigantamax = true }, // Cinderace
+
+            // 4/3 - April
+            new(17,01,1) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
+            new(17,01,1) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 043, 681 } }, // Rookidee
+            new(17,01,1) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 240 } }, // Chewtle
+            new(17,01,1) { Species = 824, Ability = A4, Moves = new[]{ 522, 000, 000, 000 } }, // Blipbug
+            new(17,01,1) { Species = 850, Ability = A4, Moves = new[]{ 172, 044, 035, 052 } }, // Sizzlipede
+            new(17,01,1) { Species = 831, Ability = A4, Moves = new[]{ 033, 024, 029, 045 } }, // Wooloo
+            new(30,03,2) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
+            new(30,03,2) { Species = 822, Ability = A4, Moves = new[]{ 403, 263, 279, 681 } }, // Corvisquire
+            new(30,03,2) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 029 } }, // Chewtle
+            new(30,03,2) { Species = 825, Ability = A4, Moves = new[]{ 522, 263, 371, 247 } }, // Dottler
+            new(30,03,2) { Species = 850, Ability = A4, Moves = new[]{ 172, 044, 035, 052 } }, // Sizzlipede
+            new(30,03,2) { Species = 831, Ability = A4, Moves = new[]{ 036, 024, 029, 086 } }, // Wooloo
+            new(40,05,3) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
+            new(40,05,3) { Species = 823, Ability = A4, Moves = new[]{ 403, 442, 034, 681 } }, // Corviknight
+            new(40,05,3) { Species = 834, Ability = A4, Moves = new[]{ 157, 534, 317, 055 } }, // Drednaw
+            new(40,05,3) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 371, 247 } }, // Orbeetle
+            new(40,05,3) { Species = 851, Ability = A4, Moves = new[]{ 424, 404, 422, 044 } }, // Centiskorch
+            new(40,05,3) { Species = 832, Ability = A4, Moves = new[]{ 036, 024, 428, 086 } }, // Dubwool
+            new(50,08,4) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
+            new(50,08,4) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 034, 681 } }, // Corviknight
+            new(50,08,4) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 } }, // Drednaw
+            new(50,08,4) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 776, 247 } }, // Orbeetle
+            new(50,08,4) { Species = 851, Ability = A4, Moves = new[]{ 680, 404, 422, 044 } }, // Centiskorch
+            new(50,08,4) { Species = 832, Ability = A4, Moves = new[]{ 038, 024, 428, 086 } }, // Dubwool
+            new(60,10,5) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 } }, // Ditto
+            new(60,10,5) { Species = 823, Ability = A4, Moves = new[]{ 413, 442, 776, 372 } }, // Corviknight
+            new(60,10,5) { Species = 834, Ability = A4, Moves = new[]{ 157, 710, 317, 334 } }, // Drednaw
+            new(60,10,5) { Species = 826, Ability = A4, Moves = new[]{ 405, 277, 776, 412 } }, // Orbeetle
+            new(60,10,5) { Species = 851, Ability = A4, Moves = new[]{ 680, 679, 422, 044 } }, // Centiskorch
+            new(60,10,5) { Species = 832, Ability = A4, Moves = new[]{ 038, 776, 428, 086 } }, // Dubwool
         };
 
         internal static readonly EncounterStatic8ND[] Dist_SW =
