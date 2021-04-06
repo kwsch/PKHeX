@@ -95,13 +95,13 @@ namespace PKHeX.Core
         public override uint Money
         {
             get => BitConverter.ToUInt32(Large, 0x0290) ^ SecurityKey;
-            set => SetData(BitConverter.GetBytes(value ^ SecurityKey), 0x0290);
+            set => SetData(Large, BitConverter.GetBytes(value ^ SecurityKey), 0x0290);
         }
 
         public override uint Coin
         {
             get => (ushort)(BitConverter.ToUInt16(Large, 0x0294) ^ SecurityKey);
-            set => SetData(BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0294);
+            set => SetData(Large, BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0294);
         }
 
         private const int OFS_PCItem = 0x0298;
@@ -167,7 +167,7 @@ namespace PKHeX.Core
         public string RivalName
         {
             get => GetString(Large, 0x3A4C, 8);
-            set => SetData(SetString(value, 7), 0x3A4C);
+            set => SetData(Large, SetString(value, 7), 0x3A4C);
         }
 
         #endregion

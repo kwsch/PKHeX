@@ -105,13 +105,13 @@ namespace PKHeX.Core
         public override uint Money
         {
             get => BitConverter.ToUInt32(Large, 0x0490) ^ SecurityKey;
-            set => SetData(BitConverter.GetBytes(value ^ SecurityKey), 0x0490);
+            set => SetData(Large, BitConverter.GetBytes(value ^ SecurityKey), 0x0490);
         }
 
         public override uint Coin
         {
             get => (ushort)(BitConverter.ToUInt16(Large, 0x0494) ^ SecurityKey);
-            set => SetData(BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0494);
+            set => SetData(Large, BitConverter.GetBytes((ushort)(value ^ SecurityKey)), 0x0494);
         }
 
         private const int OFS_PCItem = 0x0498;
