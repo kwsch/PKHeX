@@ -1,7 +1,18 @@
 ﻿PKHeX - By Kaphotics
 http://projectpokemon.org/pkhex/
 
-21/04/01 - New Update:
+21/04/06 - New Update:
+ - Legality:
+ - - Added: New Egg Move order validation logic. Yay inheritance legality checking! Thanks @Lusamine!
+ - - Fixed: Ability Patched wild encounter slots no longer show as invalid if they have the curry mark. Thanks Irina!
+ - - Changed: Smeargle is no longer allowed to know Thousand Arrows/Thousand Waves in Gen6 (unreleased). Thanks @DaWoblefet!
+ - Added: Gen2 Legendary Beast event flag resets. Thanks @CanoeHope, and @brianard52 / @Lusamine for testing!
+ - Changed: The Event Flag editor logic for Gen2-7 has been rewritten, shouldn't notice any difference.
+ - Changed: Hovering over a slot now shows the summary for 30+ seconds rather than 5 seconds, or until you move your mouse away.
+ - Fixed: Gen3 saves no longer randomly corrupt when saving Misc Edits or Trainer Info. Thanks @Kermalis
+ - Fixed: Gen3 saves no longer cause errors when opening some editors, and now load correctly. Thanks @AlamosIT, Sockcos!
+
+21/04/01 - New Update: (15825) [3575487]
  - Legality:
  - - Added: Generation 8 Overworld RNG seed legality. The wandering encounters have detectable origins!
  - - Updated: Mystery Gift & GO Legality encounter data.
