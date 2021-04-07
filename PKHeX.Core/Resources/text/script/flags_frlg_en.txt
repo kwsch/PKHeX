@@ -106,7 +106,7 @@
 0x2D6	Rocket Warehouse Door Opened
 0x2DC	Received Sapphire
 0x2FD	Received Everstone (Oak's Aide, Rock Tunnel Pokemon Center)
-0x256	Received Itemfinder (Oak's Aide, Route 11)
+0x252	Received Itemfinder (Oak's Aide, Route 11)
 0x256	Received Exp. Share (Oak's Aide, Route 15)
 0x2FD	Received Amulet Coin (Oak's Aide, Route 16)
 0x25E	Received Old Amber

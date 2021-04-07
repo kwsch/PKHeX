@@ -874,6 +874,8 @@ namespace PKHeX.WinForms
                     var msg = string.Format(MsgFileLoadVersionDetect, $"3 ({s3.Version})");
                     using var dialog = new SAV_GameSelect(games, msg, MsgFileLoadSaveSelectVersion);
                     dialog.ShowDialog();
+                    if (dialog.Result is GameVersion.Invalid)
+                        return false;
 
                     var s = SaveUtil.GetG3SaveOverride(sav, dialog.Result);
                     var origin = s3.Metadata.FilePath;
