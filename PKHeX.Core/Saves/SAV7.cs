@@ -61,6 +61,7 @@ namespace PKHeX.Core
         public abstract ResortSave7 ResortSave { get; }
         public abstract FieldMenu7 FieldMenu { get; }
         public abstract FashionBlock7 Fashion { get; }
+        public abstract HallOfFame7 Fame { get; }
         #endregion
 
         // Configuration
@@ -101,8 +102,6 @@ namespace PKHeX.Core
             Debug.Assert(result != Data);
             return result;
         }
-
-        public int HoF { get; protected set; }
 
         public override GameVersion Version => Game switch
         {

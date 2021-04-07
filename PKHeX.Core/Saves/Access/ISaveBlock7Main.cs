@@ -25,5 +25,6 @@
         ResortSave7 ResortSave { get; }
         FieldMenu7 FieldMenu { get; }
         FashionBlock7 Fashion { get; }
+        HallOfFame7 Fame { get; }
     }
 }

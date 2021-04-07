@@ -23,7 +23,6 @@ namespace PKHeX.Core
             EventConst = Blocks.BlockInfo[05].Offset;
             PokeDex = Blocks.BlockInfo[06].Offset;
             EventFlag = EventConst + (EventConstMax * 2); // After Event Const (u16)*n
-            HoF = EventFlag + (EventFlagMax / 8); // After Event Flags (1b)*(1u8/8b)*n
 
             TeamSlots = Blocks.BoxLayout.TeamSlots;
             Box = Blocks.BlockInfo[14].Offset;
@@ -36,7 +35,7 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.USUM;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_USUM;
         protected override SaveFile CloneInternal() => new SAV7USUM((byte[])Data.Clone());
-        protected override int EventFlagMax => 4928;
+        protected override int EventFlagMax => 4960;
         public override int MaxMoveID => Legal.MaxMoveID_7_USUM;
         public override int MaxSpeciesID => Legal.MaxSpeciesID_7_USUM;
         public override int MaxItemID => Legal.MaxItemID_7_USUM;
@@ -66,6 +65,7 @@ namespace PKHeX.Core
         public override ResortSave7 ResortSave => Blocks.ResortSave;
         public override FieldMenu7 FieldMenu => Blocks.FieldMenu;
         public override FashionBlock7 Fashion => Blocks.Fashion;
+        public override HallOfFame7 Fame => Blocks.Fame;
         #endregion
     }
 }
