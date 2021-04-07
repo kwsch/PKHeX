@@ -107,20 +107,22 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
-        /// <remarks>Returns an empty array if it should not have any moves. Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly.</remarks>
+        /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
         public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterable enc, PKM pkm)
         {
-            if (enc.Generation < 6 || pkm is IBattleVersion { BattleVersion: not 0 })
+            if (ShouldNotHaveRelearnMoves(enc, pkm))
                 return Empty;
 
-            // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
-            return enc switch
-            {
-                IRelearn s when s.Relearn.Count > 0 => s.Relearn,
-                EncounterEgg or EncounterInvalid { EggEncounter: true } => MoveBreed.GetExpectedMoves(pkm.RelearnMoves, enc),
-                _ => Empty,
-            };
+            return GetSuggestedRelearnInternal(enc, pkm);
         }
+
+        // Invalid encounters won't be recognized as an EncounterEgg; check if it *should* be a bred egg.
+        private static IReadOnlyList<int> GetSuggestedRelearnInternal(this IEncounterTemplate enc, PKM pkm) => enc switch
+        {
+            IRelearn s when s.Relearn.Count > 0 => s.Relearn,
+            EncounterEgg or EncounterInvalid {EggEncounter: true} => MoveBreed.GetExpectedMoves(pkm.RelearnMoves, enc),
+            _ => Empty,
+        };
 
         private static readonly IReadOnlyList<int> Empty = new int[4];
 
@@ -130,7 +132,40 @@ namespace PKHeX.Core
         public static IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter(this LegalityAnalysis analysis)
         {
             var info = analysis.Info;
-            return info.Generation < 6 ? Empty : info.EncounterOriginal.GetSuggestedRelearn(analysis.pkm);
+            var enc = info.EncounterOriginal;
+            var pkm = analysis.pkm;
+
+            if (ShouldNotHaveRelearnMoves(enc, pkm))
+                return Empty;
+
+            if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
+                return GetEggRelearnMoves(enc, info, pkm);
+            return enc.GetSuggestedRelearnInternal(pkm);
         }
+
+        private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, LegalInfo info, PKM pkm)
+        {
+            int ctr = 0;
+            var moves = new int[4];
+            for (var i = 0; i < info.Moves.Length; i++)
+            {
+                var m = info.Moves[i];
+                if (!m.ShouldBeInRelearnMoves())
+                    continue;
+                moves[ctr++] = pkm.GetMove(i);
+            }
+
+            // Swap Volt Tackle to the end of the list.
+            int volt = Array.IndexOf(moves, Move.VoltTackle);
+            if (volt != -1)
+            {
+                var dest = ctr - 1;
+                moves[volt] = moves[dest];
+                moves[dest] = (int) Move.VoltTackle;
+            }
+            return MoveBreed.GetExpectedMoves(moves, enc);
+        }
+
+        private static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm is IBattleVersion {BattleVersion: not 0};
     }
 }
