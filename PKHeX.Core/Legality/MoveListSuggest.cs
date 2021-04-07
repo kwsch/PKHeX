@@ -139,17 +139,18 @@ namespace PKHeX.Core
                 return Empty;
 
             if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
-                return GetEggRelearnMoves(enc, info, pkm);
+                return enc.GetEggRelearnMoves(info.Moves, pkm);
             return enc.GetSuggestedRelearnInternal(pkm);
         }
 
-        private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, LegalInfo info, PKM pkm)
+        private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
         {
+            // Extract a list of the moves that should end up in the relearn move list.
             int ctr = 0;
             var moves = new int[4];
-            for (var i = 0; i < info.Moves.Length; i++)
+            for (var i = 0; i < parse.Count; i++)
             {
-                var m = info.Moves[i];
+                var m = parse[i];
                 if (!m.ShouldBeInRelearnMoves())
                     continue;
                 moves[ctr++] = pkm.GetMove(i);
