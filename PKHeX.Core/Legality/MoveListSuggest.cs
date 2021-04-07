@@ -157,7 +157,7 @@ namespace PKHeX.Core
             }
 
             // Swap Volt Tackle to the end of the list.
-            int volt = Array.IndexOf(moves, Move.VoltTackle);
+            int volt = Array.IndexOf(moves, (int) Move.VoltTackle, 0, ctr);
             if (volt != -1)
             {
                 var dest = ctr - 1;
