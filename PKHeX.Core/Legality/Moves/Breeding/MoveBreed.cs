@@ -84,7 +84,7 @@ namespace PKHeX.Core
                 if (m.Source == 0)
                     continue; // invalid
                 int move = m.Move;
-                if (baseMoves.IndexOf(move) != -1)
+                if (baseMoves.IndexOf(move) == -1)
                     notBase.Add(move);
             }
 
@@ -93,9 +93,9 @@ namespace PKHeX.Core
                 baseCount = baseMoves.Length;
             int ctr = 0;
             for (; ctr < baseCount; ctr++)
-                result[ctr] = baseMoves[baseMoves.Length - baseCount + ctr];
+                result[ctr++] = baseMoves[baseMoves.Length - baseCount + ctr];
             foreach (var m in notBase)
-                result[ctr] = m;
+                result[ctr++] = m;
 
             for (int i = ctr; i < result.Length; i++)
                 result[i] = 0;
