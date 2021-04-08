@@ -58,7 +58,7 @@ namespace PKHeX.Core
             }
         }
 
-        private static bool RecurseMovesForOrigin(BreedInfo<EggSource2> info, int start, EggSource2 type = Max)
+        private static bool RecurseMovesForOrigin(in BreedInfo<EggSource2> info, int start, EggSource2 type = Max)
         {
             int i = start;
             do
@@ -94,7 +94,7 @@ namespace PKHeX.Core
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool VerifyBaseMoves(BreedInfo<EggSource2> info)
+        private static bool VerifyBaseMoves(in BreedInfo<EggSource2> info)
         {
             var count = 0;
             foreach (var x in info.Actual)
@@ -142,7 +142,7 @@ namespace PKHeX.Core
             return true;
         }
 
-        private static void MarkMovesForOrigin(BreedInfo<EggSource2> value, ICollection<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
+        private static void MarkMovesForOrigin(in BreedInfo<EggSource2> value, ICollection<int> eggMoves, int count, bool inheritLevelUp, PersonalInfo info, GameVersion version)
         {
             var possible = value.Possible;
             var learn = value.Learnset;
