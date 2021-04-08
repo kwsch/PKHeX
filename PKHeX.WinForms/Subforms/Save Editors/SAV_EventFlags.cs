@@ -177,7 +177,9 @@ namespace PKHeX.WinForms
             if (editing)
                 return;
             editing = true;
-            if (FlagDict.TryGetValue((int)NUD_Flag.Value, out var chk))
+            var index = (int) NUD_Flag.Value;
+            Editor.Flags[index] = c_CustomFlag.Checked;
+            if (FlagDict.TryGetValue(index, out var chk))
                 chk.Checked = c_CustomFlag.Checked;
             editing = false;
         }
