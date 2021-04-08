@@ -93,7 +93,7 @@ namespace PKHeX.Core
                 baseCount = baseMoves.Length;
             int ctr = 0;
             for (; ctr < baseCount; ctr++)
-                result[ctr++] = baseMoves[baseMoves.Length - baseCount + ctr];
+                result[ctr] = baseMoves[baseMoves.Length - baseCount + ctr];
             foreach (var m in notBase)
                 result[ctr++] = m;
 
