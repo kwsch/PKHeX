@@ -37,14 +37,37 @@ namespace PKHeX.Core
             if (count == 0)
             {
                 valid = VerifyBaseMoves(value);
-                return value.Actual;
+            }
+            else
+            {
+                bool inherit = Breeding.GetCanInheritMoves(species);
+                MarkMovesForOrigin(value, egg, count, inherit, pi);
+                valid = RecurseMovesForOrigin(value, count - 1);
             }
 
-            bool inherit = Breeding.GetCanInheritMoves(species);
-            MarkMovesForOrigin(value, egg, count, inherit, pi);
-
-            valid = RecurseMovesForOrigin(value, count - 1);
+            if (!valid)
+                CleanResult(value.Actual, value.Possible);
             return value.Actual;
+        }
+
+        private static void CleanResult(EggSource5[] valueActual, byte[] valuePossible)
+        {
+            for (int i = 0; i < valueActual.Length; i++)
+            {
+                if (valueActual[i] != 0)
+                    continue;
+                var poss = valuePossible[i];
+                if (poss == 0)
+                    continue;
+
+                for (int j = 0; j < (int)Max; j++)
+                {
+                    if ((poss & (1 << j)) == 0)
+                        continue;
+                    valueActual[i] = (EggSource5)j;
+                    break;
+                }
+            }
         }
 
         private static bool RecurseMovesForOrigin(BreedInfo<EggSource5> info, int start, EggSource5 type = Max - 1)
