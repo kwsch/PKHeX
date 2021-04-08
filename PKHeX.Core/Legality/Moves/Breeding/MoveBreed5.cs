@@ -32,13 +32,12 @@ namespace PKHeX.Core
 
             var value = new BreedInfo<EggSource5>(count, learnset, moves, level);
             if (moves[count - 1] is (int)Move.VoltTackle)
+                value.Actual[--count] = VoltTackle;
+
+            if (count == 0)
             {
-                if (--count == 0)
-                {
-                    valid = false; // must have base moves; sanity check
-                    return Array.Empty<EggSource5>();
-                }
-                value.Actual[count] = VoltTackle;
+                valid = VerifyBaseMoves(value);
+                return value.Actual;
             }
 
             bool inherit = Breeding.GetCanInheritMoves(species);
