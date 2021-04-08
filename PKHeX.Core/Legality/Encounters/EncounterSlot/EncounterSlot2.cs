@@ -38,24 +38,24 @@ namespace PKHeX.Core
         private static readonly Dictionary<int, int> Trees = new()
         {
             { 02, 0x3FF_3FF }, // Route 29
-            { 04, 0x39D_3FF }, // Route 30
-            { 05, 0x13D_3FF }, // Route 31
-            { 08, 0x2FF_3FF }, // Route 32
-            { 11, 0x009_3FF }, // Route 33
-            { 12, 0x3DF_3FF }, // Azalea Town
+            { 04, 0x0FF_3FF }, // Route 30
+            { 05, 0x3FE_3FF }, // Route 31
+            { 08, 0x3EE_3FF }, // Route 32
+            { 11, 0x240_3FF }, // Route 33
+            { 12, 0x37F_3FF }, // Azalea Town
             { 14, 0x3FF_3FF }, // Ilex Forest
-            { 15, 0x100_2FF }, // Route 34
-            { 18, 0x099_3FF }, // Route 35
+            { 15, 0x001_3FE }, // Route 34
+            { 18, 0x261_3FF }, // Route 35
             { 20, 0x3FF_3FF }, // Route 36
-            { 21, 0x2F6_3FF }, // Route 37
+            { 21, 0x2B9_3FF }, // Route 37
             { 25, 0x3FF_3FF }, // Route 38
-            { 26, 0x188_3FF }, // Route 39
-            { 34, 0x3FE_3FF }, // Route 42
-            { 37, 0x3B7_3FF }, // Route 43
+            { 26, 0x184_3FF }, // Route 39
+            { 34, 0x3FF_3FF }, // Route 42
+            { 37, 0x3FF_3FF }, // Route 43
             { 38, 0x3FF_3FF }, // Lake of Rage
             { 39, 0x2FF_3FF }, // Route 44
-            { 91, 0x300_3FF }, // Route 26
-            { 92, 0x1FE_3FF }, // Route 27
+            { 91, 0x200_1FF }, // Route 26
+            { 92, 0x2BB_3FF }, // Route 27
         };
 
         internal bool IsTreeAvailable(int trainerID)
