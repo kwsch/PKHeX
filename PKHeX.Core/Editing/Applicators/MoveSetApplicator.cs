@@ -82,7 +82,7 @@ namespace PKHeX.Core
                 var moves = legal.Info.Moves;
                 for (int i = 0; i < moves.Length; i++)
                 {
-                    if (moves[i].Valid)
+                    if (moves[i].Valid && !moves[i].IsRelearn)
                         continue;
 
                     var move = legal.pkm.GetMove(i);
