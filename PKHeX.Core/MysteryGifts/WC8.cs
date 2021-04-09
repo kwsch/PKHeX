@@ -30,12 +30,7 @@ namespace PKHeX.Core
 
         // TODO: public byte RestrictVersion?
 
-        public bool CanBeReceivedByVersion(int v)
-        {
-            if (v < (int)GameVersion.SW || v > (int)GameVersion.SH)
-                return false;
-            return true;
-        }
+        public bool CanBeReceivedByVersion(int v) => v is (int) GameVersion.SW or (int) GameVersion.SH;
 
         // General Card Properties
         public override int CardID
@@ -488,13 +483,13 @@ namespace PKHeX.Core
             pk.Nature = (int)criteria.GetNature(Nature == -1 ? Core.Nature.Random : (Nature)Nature);
             pk.StatNature = pk.Nature;
             pk.Gender = criteria.GetGender(Gender, pi);
-            var av = GetAbilityIndex(criteria, pi);
+            var av = GetAbilityIndex(criteria);
             pk.RefreshAbility(av);
             SetPID(pk);
             SetIVs(pk);
         }
 
-        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi) => AbilityType switch
+        private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H

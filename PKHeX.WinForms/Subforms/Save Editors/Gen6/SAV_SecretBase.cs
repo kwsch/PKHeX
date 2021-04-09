@@ -70,8 +70,8 @@ namespace PKHeX.WinForms
         {
             LB_Favorite.Items.Clear();
 
-            int playeroff = SAV6AO.SecretBase + 0x326;
-            int favoff = SAV6AO.SecretBase + 0x63A;
+            const int playeroff = SAV6AO.SecretBase + 0x326;
+            const int favoff = SAV6AO.SecretBase + 0x63A;
             string OT = StringConverter.GetString6(SAV.Data, playeroff + 0x218, 0x1A);
             LB_Favorite.Items.Add($"* {OT}");
             for (int i = 0; i < 30; i++)
@@ -149,7 +149,7 @@ namespace PKHeX.WinForms
             return result;
         }
 
-        private int GetSecretBaseOffset(int index)
+        private static int GetSecretBaseOffset(int index)
         {
             // OR/AS: Secret base @ 0x23A00
             if (index == 0) // Self, 0x314 bytes? Doesn't store pokemon data
@@ -518,7 +518,7 @@ namespace PKHeX.WinForms
             if (LB_Favorite.SelectedIndex < 1) { WinFormsUtil.Alert("Cannot delete your Secret Base."); return; }
             int index = LB_Favorite.SelectedIndex - 1;
 
-            int favoff = SAV6AO.SecretBase + 0x63A;
+            const int favoff = SAV6AO.SecretBase + 0x63A;
             string BaseTrainer = StringConverter.GetString6(SAV.Data, favoff + (index * 0x3E0) + 0x218, 0x1A);
             if (string.IsNullOrEmpty(BaseTrainer))
                 BaseTrainer = "Empty";

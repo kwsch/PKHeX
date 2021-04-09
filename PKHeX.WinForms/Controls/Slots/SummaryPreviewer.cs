@@ -56,7 +56,8 @@ namespace PKHeX.WinForms.Controls
             // Won't work neatly for Mystery Gift types since those aren't record types.
             if (enc is not MysteryGift)
             {
-                var raw = enc.ToString();
+                // ReSharper disable once ConstantNullCoalescingCondition
+                var raw = enc.ToString() ?? throw new ArgumentNullException(nameof(enc));
                 lines.AddRange(raw.Split(',', '}', '{'));
             }
 #endif

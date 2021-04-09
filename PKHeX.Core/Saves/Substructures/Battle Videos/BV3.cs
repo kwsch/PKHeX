@@ -27,8 +27,6 @@ namespace PKHeX.Core
         public BV3(byte[] data) => Data = (byte[])data.Clone();
         public BV3() : this(new byte[SIZE]) { }
 
-        private static readonly int[] offsets = { 0, 6 * PokeCrypto.SIZE_3PARTY };
-
         public IReadOnlyList<PK3[]> PlayerTeams
         {
             get => new[]

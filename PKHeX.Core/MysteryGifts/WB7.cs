@@ -274,8 +274,6 @@ namespace PKHeX.Core
         public bool IsNicknamed => false;
         public int Language => 2;
 
-        public bool IsForcedNickname() => false;
-
         public int GetLanguage(int redeemLanguage)
         {
             var languageOffset = GetLanguageIndex(redeemLanguage);
@@ -407,13 +405,13 @@ namespace PKHeX.Core
             var pi = PersonalTable.GG.GetFormEntry(Species, Form);
             pk.Nature = (int)criteria.GetNature((Nature)Nature);
             pk.Gender = criteria.GetGender(Gender, pi);
-            var av = GetAbilityIndex(criteria, pi);
+            var av = GetAbilityIndex(criteria);
             pk.RefreshAbility(av);
             SetPID(pk);
             SetIVs(pk);
         }
 
-        private int GetAbilityIndex(EncounterCriteria criteria, PersonalInfo pi) => AbilityType switch
+        private int GetAbilityIndex(EncounterCriteria criteria) => AbilityType switch
         {
             00 or 01 or 02 => AbilityType, // Fixed 0/1/2
             03 or 04 => criteria.GetAbilityFromType(AbilityType), // 0/1 or 0/1/H

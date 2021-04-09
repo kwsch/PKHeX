@@ -14,7 +14,6 @@ namespace PKHeX.Core
         internal const int STRLEN_U = 11;
         public sealed override int OTLength => Japanese ? 5 : 7;
         public sealed override int NickLength => Japanese ? 5 : 10;
-        private int StringLength => Japanese ? STRLEN_J : STRLEN_U;
         public sealed override bool Japanese => otname.Length == STRLEN_J;
 
         internal readonly byte[] otname;

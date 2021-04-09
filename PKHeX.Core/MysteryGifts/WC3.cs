@@ -167,7 +167,7 @@ namespace PKHeX.Core
             pk.SetMaximumPPCurrent(Moves);
         }
 
-        private void SetPINGA(PK3 pk, EncounterCriteria criteria)
+        private void SetPINGA(PK3 pk, EncounterCriteria _)
         {
             var seed = Util.Rand32();
             seed = TID == 06930 ? MystryMew.GetSeed(seed, Method) : GetSaneSeed(seed);
