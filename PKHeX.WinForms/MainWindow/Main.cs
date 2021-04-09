@@ -438,7 +438,6 @@ namespace PKHeX.WinForms
             ParseSettings.AllowGen1Tradeback = settings.AllowGen1Tradeback;
             ParseSettings.Gen8TransferTrackerNotPresent = settings.FlagMissingTracker ? Severity.Invalid : Severity.Fishy;
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.HideSecretDetails;
-            SpriteUtil.UseLargeAlways = settings.UseLargeSprites;
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)

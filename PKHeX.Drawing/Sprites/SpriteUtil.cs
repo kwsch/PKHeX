@@ -7,7 +7,6 @@ namespace PKHeX.Drawing
 {
     public static class SpriteUtil
     {
-        public static readonly SpriteBuilder3040 SB17 = new();
         public static readonly SpriteBuilder5668 SB8 = new();
         public static SpriteBuilder Spriter { get; set; } = SB8;
 
@@ -65,7 +64,7 @@ namespace PKHeX.Drawing
         private static Image GetSprite(MysteryGift gift)
         {
             if (gift.Empty)
-                return Resources._0;
+                return Spriter.None;
 
             var img = GetBaseImage(gift);
             if (gift.GiftUsed)
@@ -76,7 +75,7 @@ namespace PKHeX.Drawing
         private static Image GetBaseImage(MysteryGift gift)
         {
             if (gift.IsEgg && gift.Species == (int)Species.Manaphy) // Manaphy Egg
-                return Resources._490_e;
+                return Resources.b_490_e;
             if (gift.IsPokémon)
                 return GetSprite(gift.Species, gift.Form, gift.Gender, 0, gift.HeldItem, gift.IsEgg, gift.IsShiny, gift.Generation);
             if (gift.IsItem)
@@ -86,7 +85,7 @@ namespace PKHeX.Drawing
                     item = value;
                 return (Image)(Resources.ResourceManager.GetObject($"item_{item}") ?? Resources.Bag_Key);
             }
-            return Resources.unknown;
+            return Resources.b_unknown;
         }
 
         private static Image GetSprite(PKM pk, bool isBoxBGRed = false)
@@ -128,11 +127,11 @@ namespace PKHeX.Drawing
         private static Image GetSprite(PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
         {
             if (!pk.Valid)
-                return Resources._0;
+                return Spriter.None;
 
             bool inBox = (uint)slot < MaxSlotCount;
             bool empty = pk.Species == 0;
-            var sprite = empty ? Resources._0 : pk.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box)));
+            var sprite = empty ? Spriter.None : pk.Sprite(isBoxBGRed: inBox && BoxWallpaper.IsWallpaperRed(sav.Version, sav.GetBoxWallpaper(box)));
 
             if (!empty && flagIllegal)
             {
@@ -217,25 +216,6 @@ namespace PKHeX.Drawing
         public static Image Sprite(this PKM pk, SaveFile sav, int box, int slot, bool flagIllegal = false)
             => GetSprite(pk, sav, box, slot, flagIllegal);
 
-        public static bool UseLargeAlways { get; set; } = true;
-
-        public static void Initialize(SaveFile sav)
-        {
-            var s = GetSpriter(sav);
-
-            // gen3 specific sprites
-            s.Initialize(sav);
-
-            Spriter = s;
-        }
-
-        private static SpriteBuilder GetSpriter(SaveFile sav)
-        {
-            if (UseLargeAlways)
-                return SB8;
-
-            var big = GameVersion.GG.Contains(sav.Version) || sav.Generation >= 8;
-            return big ? (SpriteBuilder) SB8 : SB17;
-        }
+        public static void Initialize(SaveFile sav) => Spriter.Initialize(sav);
     }
 }

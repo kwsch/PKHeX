@@ -24,16 +24,20 @@ namespace PKHeX.Drawing
         public abstract Bitmap Transparent { get; }
         public abstract Bitmap Drag { get; }
         public abstract Bitmap UnknownItem { get; }
+        public abstract Bitmap None { get; }
+        public abstract Bitmap ItemTM { get; }
+        public abstract Bitmap ItemTR { get; }
 
         private const double UnknownFormTransparency = 0.5;
         private const double ShinyTransparency = 0.7;
         private const double EggUnderLayerTransparency = 0.33;
 
-        protected virtual string GetSpriteStringSpeciesOnly(int species) => $"_{species}";
-        protected virtual string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation) => SpriteName.GetResourceStringSprite(species, form, gender, formarg, generation, shiny);
-        protected virtual string GetItemResourceName(int item) => $"item_{item}";
-        protected virtual Bitmap Unknown => Resources.unknown;
-        protected virtual Bitmap GetEggSprite(int species) => species == (int)Species.Manaphy ? Resources._490_e : Resources.egg;
+        protected abstract string GetSpriteStringSpeciesOnly(int species);
+
+        protected abstract string GetSpriteAll(int species, int form, int gender, uint formarg, bool shiny, int generation);
+        protected abstract string GetItemResourceName(int item);
+        protected abstract Bitmap Unknown { get; }
+        protected abstract Bitmap GetEggSprite(int species);
         public abstract Bitmap ShadowLugia { get; }
 
         public void Initialize(SaveFile sav)
@@ -59,7 +63,7 @@ namespace PKHeX.Drawing
         public Image GetSprite(int species, int form, int gender, uint formarg, int heldItem, bool isEgg, bool isShiny, int generation = -1, bool isBoxBGRed = false, bool isAltShiny = false)
         {
             if (species == 0)
-                return Resources._0;
+                return None;
 
             if (generation == 3 && species == (int)Species.Deoxys) // Deoxys, special consideration for Gen3 save files
                 form = GetDeoxysForm(Game);
@@ -122,8 +126,8 @@ namespace PKHeX.Drawing
         {
             Image itemimg = generation switch
             {
-                <= 4 when item is >=  328 and <=  419 => Resources.item_tm, // gen2/3/4 TM
-                >= 8 when item is >= 1130 and <= 1229 => Resources.bitem_tr, // Gen8 TR
+                <= 4 when item is >=  328 and <=  419 => ItemTM, // gen2/3/4 TM
+                >= 8 when item is >= 1130 and <= 1229 => ItemTR, // Gen8 TR
                 _ => (Image?)Resources.ResourceManager.GetObject(GetItemResourceName(item)) ?? UnknownItem,
             };
 
@@ -168,30 +172,6 @@ namespace PKHeX.Drawing
     }
 
     /// <summary>
-    /// 30 high, 40 wide sprite builder
-    /// </summary>
-    public sealed class SpriteBuilder3040 : SpriteBuilder
-    {
-        public override int Height => 30;
-        public override int Width => 40;
-
-        protected override int ItemShiftX => 22;
-        protected override int ItemShiftY => 15;
-        protected override int ItemMaxSize => 15;
-        protected override int EggItemShiftX => 9;
-        protected override int EggItemShiftY => 2;
-
-        public override Bitmap Hover => Resources.slotHover;
-        public override Bitmap View => Resources.slotView;
-        public override Bitmap Set => Resources.slotSet;
-        public override Bitmap Delete => Resources.slotDel;
-        public override Bitmap Transparent => Resources.slotTrans;
-        public override Bitmap Drag => Resources.slotDrag;
-        public override Bitmap UnknownItem => Resources.helditem;
-        public override Bitmap ShadowLugia => Resources._249x;
-    }
-
-    /// <summary>
     /// 56 high, 68 wide sprite builder
     /// </summary>
     public sealed class SpriteBuilder5668 : SpriteBuilder
@@ -218,6 +198,9 @@ namespace PKHeX.Drawing
         public override Bitmap Transparent => Resources.slotTrans68;
         public override Bitmap Drag => Resources.slotDrag68;
         public override Bitmap UnknownItem => Resources.bitem_unk;
+        public override Bitmap None => Resources.b_0;
+        public override Bitmap ItemTM => Resources.bitem_tm;
+        public override Bitmap ItemTR => Resources.bitem_tr;
         public override Bitmap ShadowLugia => Resources.b_249x;
     }
 }
