@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Drawing;
+using PKHeX.WinForms.Controls;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -14,6 +15,7 @@ namespace PKHeX.WinForms
     {
         private readonly SaveFile Origin;
         private readonly SaveFile SAV;
+        private readonly SummaryPreviewer Summary = new();
 
         public SAV_Wondercard(SaveFile sav, DataMysteryGift? g = null)
         {
@@ -28,13 +30,14 @@ namespace PKHeX.WinForms
                 5 or 6 or 7 => PopulateViewGiftsG567().ToArray(),
                 _ => throw new ArgumentException("Game not supported."),
             };
-            foreach (PictureBox pb in pba)
+            foreach (var pb in pba)
             {
                 pb.AllowDrop = true;
                 pb.DragDrop += BoxSlot_DragDrop;
                 pb.DragEnter += BoxSlot_DragEnter;
                 pb.MouseDown += BoxSlot_MouseDown;
                 pb.ContextMenuStrip = mnuVSD;
+                pb.MouseHover += (_, _) => Summary.Show(pb, mga.Gifts[pba.IndexOf(pb)]);
             }
 
             SetGiftBoxes();
@@ -584,8 +587,8 @@ namespace PKHeX.WinForms
         {
             return new()
             {
-                Width = 305,
-                Height = 34,
+                Width = 480,
+                Height = 60,
                 Padding = new Padding(0),
                 Margin = new Padding(0),
             };
@@ -595,7 +598,7 @@ namespace PKHeX.WinForms
         {
             return new()
             {
-                Size = new Size(40, 34),
+                Size = new Size(40, 60),
                 AutoSize = false,
                 TextAlign = ContentAlignment.MiddleRight,
                 Text = text,
@@ -608,7 +611,7 @@ namespace PKHeX.WinForms
         {
             return new()
             {
-                Size = new Size(42, 32),
+                Size = new Size(70, 58),
                 SizeMode = PictureBoxSizeMode.CenterImage,
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = Color.Transparent,
