@@ -23,7 +23,7 @@ namespace PKHeX.Core
             var meta = sav.Metadata;
             var dir = meta.FileFolder;
             const string notFound = "???";
-            var parent = dir == null ? notFound : paths.Find(z => dir.StartsWith(z.Path))?.DisplayText ?? notFound;
+            var parent = dir == null ? notFound : paths.Find(z => dir.StartsWith(z.Path))?.DisplayText ?? new DirectoryInfo(dir).Name;
 
             Save = sav;
             Folder = parent;
