@@ -215,7 +215,7 @@
             this.GB_Daycare.Controls.Add(this.DayCare_HasEgg);
             this.GB_Daycare.Location = new System.Drawing.Point(16, 4);
             this.GB_Daycare.Name = "GB_Daycare";
-            this.GB_Daycare.Size = new System.Drawing.Size(205, 170);
+            this.GB_Daycare.Size = new System.Drawing.Size(205, 191);
             this.GB_Daycare.TabIndex = 28;
             this.GB_Daycare.TabStop = false;
             this.GB_Daycare.Text = "Daycare";
@@ -223,7 +223,7 @@
             // L_XP2
             // 
             this.L_XP2.AutoSize = true;
-            this.L_XP2.Location = new System.Drawing.Point(74, 88);
+            this.L_XP2.Location = new System.Drawing.Point(84, 110);
             this.L_XP2.Name = "L_XP2";
             this.L_XP2.Size = new System.Drawing.Size(30, 13);
             this.L_XP2.TabIndex = 17;
@@ -232,7 +232,7 @@
             // L_XP1
             // 
             this.L_XP1.AutoSize = true;
-            this.L_XP1.Location = new System.Drawing.Point(74, 35);
+            this.L_XP1.Location = new System.Drawing.Point(84, 47);
             this.L_XP1.Name = "L_XP1";
             this.L_XP1.Size = new System.Drawing.Size(30, 13);
             this.L_XP1.TabIndex = 16;
@@ -240,7 +240,7 @@
             // 
             // TB_Daycare2XP
             // 
-            this.TB_Daycare2XP.Location = new System.Drawing.Point(108, 85);
+            this.TB_Daycare2XP.Location = new System.Drawing.Point(118, 107);
             this.TB_Daycare2XP.Name = "TB_Daycare2XP";
             this.TB_Daycare2XP.ReadOnly = true;
             this.TB_Daycare2XP.Size = new System.Drawing.Size(73, 20);
@@ -248,7 +248,7 @@
             // 
             // TB_Daycare1XP
             // 
-            this.TB_Daycare1XP.Location = new System.Drawing.Point(108, 32);
+            this.TB_Daycare1XP.Location = new System.Drawing.Point(118, 44);
             this.TB_Daycare1XP.Name = "TB_Daycare1XP";
             this.TB_Daycare1XP.ReadOnly = true;
             this.TB_Daycare1XP.Size = new System.Drawing.Size(73, 20);
@@ -257,7 +257,7 @@
             // L_DC2
             // 
             this.L_DC2.AutoSize = true;
-            this.L_DC2.Location = new System.Drawing.Point(74, 71);
+            this.L_DC2.Location = new System.Drawing.Point(84, 93);
             this.L_DC2.Name = "L_DC2";
             this.L_DC2.Size = new System.Drawing.Size(19, 13);
             this.L_DC2.TabIndex = 13;
@@ -266,7 +266,7 @@
             // L_DC1
             // 
             this.L_DC1.AutoSize = true;
-            this.L_DC1.Location = new System.Drawing.Point(74, 18);
+            this.L_DC1.Location = new System.Drawing.Point(84, 30);
             this.L_DC1.Name = "L_DC1";
             this.L_DC1.Size = new System.Drawing.Size(19, 13);
             this.L_DC1.TabIndex = 12;
@@ -275,7 +275,7 @@
             // L_DaycareSeed
             // 
             this.L_DaycareSeed.AutoSize = true;
-            this.L_DaycareSeed.Location = new System.Drawing.Point(23, 143);
+            this.L_DaycareSeed.Location = new System.Drawing.Point(23, 167);
             this.L_DaycareSeed.Name = "L_DaycareSeed";
             this.L_DaycareSeed.Size = new System.Drawing.Size(35, 13);
             this.L_DaycareSeed.TabIndex = 9;
@@ -284,7 +284,7 @@
             // TB_RNGSeed
             // 
             this.TB_RNGSeed.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TB_RNGSeed.Location = new System.Drawing.Point(61, 140);
+            this.TB_RNGSeed.Location = new System.Drawing.Point(61, 164);
             this.TB_RNGSeed.MaxLength = 16;
             this.TB_RNGSeed.Name = "TB_RNGSeed";
             this.TB_RNGSeed.Size = new System.Drawing.Size(120, 20);
@@ -295,9 +295,9 @@
             // dcpkx2
             // 
             this.dcpkx2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dcpkx2.Location = new System.Drawing.Point(26, 71);
+            this.dcpkx2.Location = new System.Drawing.Point(11, 81);
             this.dcpkx2.Name = "dcpkx2";
-            this.dcpkx2.Size = new System.Drawing.Size(42, 32);
+            this.dcpkx2.Size = new System.Drawing.Size(70, 58);
             this.dcpkx2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx2.TabIndex = 11;
             this.dcpkx2.TabStop = false;
@@ -305,9 +305,9 @@
             // dcpkx1
             // 
             this.dcpkx1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dcpkx1.Location = new System.Drawing.Point(26, 18);
+            this.dcpkx1.Location = new System.Drawing.Point(11, 19);
             this.dcpkx1.Name = "dcpkx1";
-            this.dcpkx1.Size = new System.Drawing.Size(42, 32);
+            this.dcpkx1.Size = new System.Drawing.Size(70, 58);
             this.dcpkx1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.dcpkx1.TabIndex = 10;
             this.dcpkx1.TabStop = false;
@@ -316,7 +316,7 @@
             // 
             this.DayCare_HasEgg.AutoSize = true;
             this.DayCare_HasEgg.Enabled = false;
-            this.DayCare_HasEgg.Location = new System.Drawing.Point(61, 123);
+            this.DayCare_HasEgg.Location = new System.Drawing.Point(61, 147);
             this.DayCare_HasEgg.Name = "DayCare_HasEgg";
             this.DayCare_HasEgg.Size = new System.Drawing.Size(91, 17);
             this.DayCare_HasEgg.TabIndex = 7;
@@ -326,7 +326,7 @@
             // L_ReadOnlyOther
             // 
             this.L_ReadOnlyOther.ForeColor = System.Drawing.Color.Red;
-            this.L_ReadOnlyOther.Location = new System.Drawing.Point(32, 179);
+            this.L_ReadOnlyOther.Location = new System.Drawing.Point(33, 198);
             this.L_ReadOnlyOther.Name = "L_ReadOnlyOther";
             this.L_ReadOnlyOther.Size = new System.Drawing.Size(170, 13);
             this.L_ReadOnlyOther.TabIndex = 29;
