@@ -15,7 +15,7 @@ namespace PKHeX.WinForms
         public BackupSettings Backup { get; set; } = new();
 
         // General
-        public LegalitySetting Legality { get; set; } = new();
+        public LegalitySettings Legality { get; set; } = new();
         public SetImportSettings Import { get; set; } = new();
         public SlotWriteSettings SlotWrite { get; set; } = new();
         public PrivacySettings Privacy { get; set; } = new();
@@ -81,16 +81,6 @@ namespace PKHeX.WinForms
                 Debug.WriteLine(x); // ???
             }
         }
-    }
-
-    [Serializable]
-    public sealed class LegalitySetting
-    {
-        [Description("Flag as Illegal if HOME Tracker is Missing")]
-        public bool FlagMissingTracker { get; set; }
-
-        [Description("GB: Allow Generation 2 tradeback learnsets")]
-        public bool AllowGen1Tradeback { get; set; } = true;
     }
 
     [Serializable]

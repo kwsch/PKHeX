@@ -427,8 +427,7 @@ namespace PKHeX.WinForms
             C_SAV.FlagIllegal = settings.Display.FlagIllegal;
             C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
             SpriteBuilder.ShowEggSpriteAsItem = settings.Display.ShowEggSpriteAsHeldItem;
-            ParseSettings.AllowGen1Tradeback = settings.Legality.AllowGen1Tradeback;
-            ParseSettings.Gen8TransferTrackerNotPresent = settings.Legality.FlagMissingTracker ? Severity.Invalid : Severity.Fishy;
+            ParseSettings.InitFromSettings(settings.Legality);
             PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         }
 
