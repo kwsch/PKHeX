@@ -111,6 +111,8 @@ namespace PKHeX.WinForms.Controls
         /// </summary>
         private GameVersion origintrack;
 
+        private int originFormat = -1;
+
         /// <summary>
         /// Action to perform when loading a PKM to the editor GUI.
         /// </summary>
@@ -1191,9 +1193,12 @@ namespace PKHeX.WinForms.Controls
         private void UpdateOriginGame(object sender, EventArgs e)
         {
             GameVersion version = (GameVersion)WinFormsUtil.GetIndex(CB_GameOrigin);
-            CheckMetLocationChange(version);
-            if (FieldsLoaded)
-                Entity.Version = (int)version;
+            if (version.IsValidSavedVersion())
+            {
+                CheckMetLocationChange(version, Entity.Format);
+                if (FieldsLoaded)
+                    Entity.Version = (int)version;
+            }
 
             // Visibility logic for Gen 4 encounter type; only show for Gen 4 Pokemon.
             if (Entity.Format >= 4)
@@ -1212,21 +1217,22 @@ namespace PKHeX.WinForms.Controls
             UpdateLegality();
         }
 
-        private void CheckMetLocationChange(GameVersion version)
+        private void CheckMetLocationChange(GameVersion version, int format)
         {
             // Does the list of locations need to be changed to another group?
             var group = GameUtil.GetMetLocationVersionGroup(version);
-            if (group != origintrack)
-                ReloadMetLocations(version);
+            if (group != origintrack || format != originFormat)
+                ReloadMetLocations(version, format);
             origintrack = group;
+            originFormat = format;
         }
 
-        private void ReloadMetLocations(GameVersion version)
+        private void ReloadMetLocations(GameVersion version, int format)
         {
-            var metList = GameInfo.GetLocationList(version, Entity.Format, egg: false);
+            var metList = GameInfo.GetLocationList(version, format, egg: false);
             CB_MetLocation.DataSource = new BindingSource(metList, null);
 
-            var eggList = GameInfo.GetLocationList(version, Entity.Format, egg: true);
+            var eggList = GameInfo.GetLocationList(version, format, egg: true);
             CB_EggLocation.DataSource = new BindingSource(eggList, null);
 
             if (FieldsLoaded)
@@ -1869,7 +1875,7 @@ namespace PKHeX.WinForms.Controls
 
             // pk2 save files do not have an Origin Game stored. Prompt the met location list to update.
             if (Entity.Format == 2)
-                UpdateOriginGame(this, EventArgs.Empty);
+                CheckMetLocationChange(GameVersion.C, Entity.Format);
             return TranslationRequired;
         }
 
@@ -1974,7 +1980,7 @@ namespace PKHeX.WinForms.Controls
                 var game = (GameVersion) sav.Game;
                 if (game <= 0)
                     game = GameUtil.GetVersion(sav.Generation);
-                CheckMetLocationChange(game);
+                CheckMetLocationChange(game, sav.Generation);
                 SetIfDifferentCount(source.Items, CB_HeldItem, force);
             }
 
