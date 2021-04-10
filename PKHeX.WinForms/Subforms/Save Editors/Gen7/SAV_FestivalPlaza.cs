@@ -290,21 +290,21 @@ namespace PKHeX.WinForms
             B_ImportParty.Visible = SAV.HasParty;
             CHK_Choosed.Checked = SAV.GetFlag(0x6C55E, 1);
             CHK_TrainerInvited.Checked = IsTrainerInvited();
-            ushort valus = BitConverter.ToUInt16(SAV.GetData(0x6C55C, 2), 0);
+            ushort valus = BitConverter.ToUInt16(SAV.Data, 0x6C55C);
             int grade = valus >> 6 & 0x3F;
             NUD_Grade.Value = grade;
             int max = (Math.Min(49, grade) / 10 * 3) + 2;
             int defeated = valus >> 12;
             NUD_Defeated.Value = defeated > max ? max : defeated;
             NUD_Defeated.Maximum = max;
-            NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.GetData(0x6C558, 2), 0);
+            NUD_DefeatMon.Value = BitConverter.ToUInt16(SAV.Data, 0x6C558);
             for (int i = 0; i < NUD_Trainers.Length; i++)
             {
                 int j = GetSavData16(0x6C56C + (0x14 * i));
                 var m = (int)NUD_Trainers[i].Maximum;
                 NUD_Trainers[i].Value = (uint)j > m ? m : j;
             }
-            B_AgentGlass.Enabled = (SAV.GetData(SAV.Fashion.Offset + 0xD0, 1)[0] & 1) == 0;
+            B_AgentGlass.Enabled = (SAV.Data[SAV.Fashion.Offset + 0xD0] & 1) == 0;
         }
 
         private void LoadPictureBox()
@@ -314,7 +314,7 @@ namespace PKHeX.WinForms
         }
 
         private readonly NumericUpDown[] NUD_Trainers = new NumericUpDown[3];
-        private ushort GetSavData16(int Offset) => BitConverter.ToUInt16(SAV.GetData(Offset, 2), 0);
+        private ushort GetSavData16(int Offset) => BitConverter.ToUInt16(SAV.Data, Offset);
         private const ushort InvitedValue = 0x7DFF;
         private readonly PKM[] p = new PKM[3];
         private readonly PictureBox[] PBs = new PictureBox[3];
