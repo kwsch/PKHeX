@@ -67,7 +67,7 @@ namespace PKHeX.WinForms
                 };
 
                 slot.ContextMenuStrip = mnu;
-                if (Settings.Default.HoverSlotShowText)
+                if (Main.Settings.Hover.HoverSlotShowText)
                     slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
@@ -319,8 +319,7 @@ namespace PKHeX.WinForms
         private void LoadDatabase()
         {
             var otherPaths = new List<string>{Main.BackupPath};
-            if (File.Exists(Main.SAVPaths))
-                otherPaths.AddRange(File.ReadLines(Main.SAVPaths).Where(Directory.Exists));
+            otherPaths.AddRange(Main.Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
 
             RawDB = LoadPKMSaves(DatabasePath, SAV, otherPaths);
 

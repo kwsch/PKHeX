@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -15,7 +14,6 @@ using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
 using PKHeX.WinForms.Controls;
-using PKHeX.WinForms.Properties;
 using static PKHeX.Core.MessageStrings;
 
 namespace PKHeX.WinForms
@@ -94,12 +92,14 @@ namespace PKHeX.WinForms
         public static readonly string WorkingDirectory = Application.StartupPath;
         public static readonly string DatabasePath = Path.Combine(WorkingDirectory, "pkmdb");
         public static readonly string MGDatabasePath = Path.Combine(WorkingDirectory, "mgdb");
+        public static readonly string ConfigPath = Path.Combine(WorkingDirectory, "cfg.json");
         public static readonly string BackupPath = Path.Combine(WorkingDirectory, "bak");
         public static readonly string CryPath = Path.Combine(WorkingDirectory, "sounds");
-        public static readonly string SAVPaths = Path.Combine(WorkingDirectory, "savpaths.txt");
         private static readonly string TemplatePath = Path.Combine(WorkingDirectory, "template");
         private static readonly string PluginPath = Path.Combine(WorkingDirectory, "plugins");
         private const string ThreadPath = "https://projectpokemon.org/pkhex/";
+
+        public static readonly PKHeXSettings Settings = PKHeXSettings.GetSettings(ConfigPath);
 
         #endregion
 
@@ -112,21 +112,8 @@ namespace PKHeX.WinForms
             HaX = args.Any(x => string.Equals(x.Trim('-'), nameof(HaX), StringComparison.CurrentCultureIgnoreCase))
                 || Path.GetFileNameWithoutExtension(Process.GetCurrentProcess().MainModule!.FileName!).EndsWith(nameof(HaX));
 
-            try
-            {
-                ConfigUtil.CheckConfig();
-                FormLoadConfig(out BAKprompt, out showChangelog);
-                HaX |= Settings.Default.ForceHaXOnLaunch;
-            }
-            catch (ConfigurationErrorsException e)
-            {
-                // Delete the settings if they exist
-                var settingsFilename = (e.InnerException as ConfigurationErrorsException)?.Filename;
-                if (settingsFilename != null && !string.IsNullOrEmpty(settingsFilename) && File.Exists(settingsFilename))
-                    DeleteConfig(settingsFilename);
-                else
-                    WinFormsUtil.Error(MsgSettingsLoadFail, e);
-            }
+            FormLoadConfig(out BAKprompt, out showChangelog);
+            HaX |= Settings.Startup.ForceHaXOnLaunch;
 
             var exts = Path.Combine(WorkingDirectory, "savexts.txt");
             if (File.Exists(exts))
@@ -136,8 +123,7 @@ namespace PKHeX.WinForms
         private static void FormLoadCustomBackupPaths()
         {
             SaveFinder.CustomBackupPaths.Clear();
-            if (File.Exists(SAVPaths)) // custom user paths
-                SaveFinder.CustomBackupPaths.AddRange(File.ReadAllLines(SAVPaths).Where(Directory.Exists));
+            SaveFinder.CustomBackupPaths.AddRange(Settings.Backup.OtherBackupPaths.Where(Directory.Exists));
         }
 
         private void FormLoadAddEvents()
@@ -186,10 +172,22 @@ namespace PKHeX.WinForms
                 {
                     string path = string.Empty;
                     SaveFile? sav = null;
-                    if (Settings.Default.DetectSaveOnStartup && !SaveFinder.DetectSaveFile(out path, out sav))
+                    if (Settings.Startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
                     {
-                        if (!string.IsNullOrWhiteSpace(path))
-                            WinFormsUtil.Error(path); // `path` contains the error message
+                        if (!SaveFinder.DetectSaveFile(out path, out sav))
+                        {
+                            if (!string.IsNullOrWhiteSpace(path))
+                                WinFormsUtil.Error(path); // `path` contains the error message
+                        }
+                    }
+                    else if (Settings.Startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
+                    {
+                        if (Settings.Startup.RecentlyLoaded.Count != 0)
+                        {
+                            path = Settings.Startup.RecentlyLoaded[0];
+                            if (File.Exists(path))
+                                sav = SaveUtil.GetVariantSAV(path);
+                        } 
                     }
 
                     bool savLoaded = false;
@@ -198,7 +196,7 @@ namespace PKHeX.WinForms
                         savLoaded = OpenSAV(sav, path);
                     }
                     if (!savLoaded)
-                        LoadBlankSaveFile(Settings.Default.DefaultSaveVersion);
+                        LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
                 }
                 #if !DEBUG
                 catch (Exception ex)
@@ -261,43 +259,37 @@ namespace PKHeX.WinForms
             BAKprompt = false;
             showChangelog = false;
 
-            var Settings = Properties.Settings.Default;
-
             // Version Check
-            if (Settings.Version.Length > 0) // already run on system
+            if (Settings.Startup.Version.Length > 0) // already run on system
             {
-                bool parsed = Version.TryParse(Settings.Version, out var lastrev);
+                bool parsed = Version.TryParse(Settings.Startup.Version, out var lastrev);
                 showChangelog = parsed && lastrev < CurrentProgramVersion;
-                if (showChangelog) // user just updated from a prior version
-                {
-                    Settings.Upgrade(); // copy previous version's settings, if available.
-                }
             }
-            Settings.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
+            Settings.Startup.Version = CurrentProgramVersion.ToString(); // set current ver so this doesn't happen until the user updates next time
 
             // BAK Prompt
-            if (!Settings.BAKPrompt)
-                BAKprompt = Settings.BAKPrompt = true;
+            if (!Settings.Backup.BAKPrompt)
+                BAKprompt = Settings.Backup.BAKPrompt = true;
         }
 
         public static DrawConfig Draw { get; private set; } = new();
 
         private void FormInitializeSecond()
         {
-            var settings = Settings.Default;
-            Draw = C_SAV.M.Hover.Draw = PKME_Tabs.Draw = DrawConfig.GetConfig(settings.Draw);
+            var settings = Settings;
+            Draw = C_SAV.M.Hover.Draw = PKME_Tabs.Draw = settings.Draw;
             ReloadProgramSettings(settings);
             CB_MainLanguage.Items.AddRange(main_langlist);
             PB_Legal.Visible = !HaX;
             PKMConverter.AllowIncompatibleConversion = C_SAV.HaX = PKME_Tabs.HaX = HaX;
-            WinFormsUtil.DetectSaveFileOnFileOpen = settings.DetectSaveOnStartup;
+            WinFormsUtil.DetectSaveFileOnFileOpen = settings.Startup.TryDetectRecentSave;
 
             #if DEBUG
             DevUtil.AddControl(Menu_Tools);
             #endif
 
             // Select Language
-            CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Language);
+            CB_MainLanguage.SelectedIndex = GameLanguage.GetLanguageIndex(settings.Startup.Language);
         }
 
         private void FormLoadPlugins()
@@ -400,19 +392,19 @@ namespace PKHeX.WinForms
 
         private void MainMenuSettings(object sender, EventArgs e)
         {
-            var settings = Settings.Default;
-            var ver = settings.DefaultSaveVersion; // check if it changes
-            using var form = new SettingsEditor(settings, nameof(settings.BAKPrompt), nameof(settings.ForceHaXOnLaunch));
+            var settings = Settings;
+            var ver = Settings.Startup.DefaultSaveVersion; // check if it changes
+            using var form = new SettingsEditor(settings);
             form.ShowDialog();
 
             // Reload text (if OT details hidden)
             Text = GetProgramTitle(C_SAV.SAV);
             // Update final settings
-            ReloadProgramSettings(Settings.Default);
+            ReloadProgramSettings(Settings);
 
-            if (ver != settings.DefaultSaveVersion) // changed by user
+            if (ver != Settings.Startup.DefaultSaveVersion) // changed by user
             {
-                LoadBlankSaveFile(settings.DefaultSaveVersion);
+                LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
                 return;
             }
 
@@ -421,23 +413,23 @@ namespace PKHeX.WinForms
                 C_SAV.ReloadSlots();
         }
 
-        private void ReloadProgramSettings(Settings settings)
+        private void ReloadProgramSettings(PKHeXSettings settings)
         {
             Draw.LoadBrushes();
-            PKME_Tabs.Unicode = Unicode = settings.Unicode;
+            PKME_Tabs.Unicode = Unicode = settings.Display.Unicode;
             PKME_Tabs.UpdateUnicode(GenderSymbols);
-            SpriteName.AllowShinySprite = settings.ShinySprites;
-            SaveFile.SetUpdateDex = settings.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
-            SaveFile.SetUpdatePKM = settings.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
-            C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SetUpdatePKM;
-            CommonEdits.ShowdownSetIVMarkings = settings.ApplyMarkings;
-            CommonEdits.ShowdownSetBehaviorNature = settings.ApplyNature;
-            C_SAV.FlagIllegal = settings.FlagIllegal;
-            C_SAV.M.Hover.GlowHover = settings.HoverSlotGlowEdges;
-            SpriteBuilder.ShowEggSpriteAsItem = settings.ShowEggSpriteAsHeldItem;
-            ParseSettings.AllowGen1Tradeback = settings.AllowGen1Tradeback;
-            ParseSettings.Gen8TransferTrackerNotPresent = settings.FlagMissingTracker ? Severity.Invalid : Severity.Fishy;
-            PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.HideSecretDetails;
+            SpriteName.AllowShinySprite = settings.Display.ShinySprites;
+            SaveFile.SetUpdateDex = settings.SlotWrite.SetUpdateDex ? PKMImportSetting.Update : PKMImportSetting.Skip;
+            SaveFile.SetUpdatePKM = settings.SlotWrite.SetUpdatePKM ? PKMImportSetting.Update : PKMImportSetting.Skip;
+            C_SAV.ModifyPKM = PKME_Tabs.ModifyPKM = settings.SlotWrite.SetUpdatePKM;
+            CommonEdits.ShowdownSetIVMarkings = settings.Import.ApplyMarkings;
+            CommonEdits.ShowdownSetBehaviorNature = settings.Import.ApplyNature;
+            C_SAV.FlagIllegal = settings.Display.FlagIllegal;
+            C_SAV.M.Hover.GlowHover = settings.Hover.HoverSlotGlowEdges;
+            SpriteBuilder.ShowEggSpriteAsItem = settings.Display.ShowEggSpriteAsHeldItem;
+            ParseSettings.AllowGen1Tradeback = settings.Legality.AllowGen1Tradeback;
+            ParseSettings.Gen8TransferTrackerNotPresent = settings.Legality.FlagMissingTracker ? Severity.Invalid : Severity.Fishy;
+            PKME_Tabs.HideSecretValues = C_SAV.HideSecretDetails = settings.Privacy.HideSecretDetails;
         }
 
         private void MainMenuBoxLoad(object sender, EventArgs e)
@@ -741,7 +733,7 @@ namespace PKHeX.WinForms
             if (!SanityCheckSAV(ref sav))
                 return true;
 
-            if (C_SAV.SAV.State.Edited && Settings.Default.ModifyUnset)
+            if (C_SAV.SAV.State.Edited && Settings.SlotWrite.ModifyUnset)
             {
                 var prompt = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgProgramCloseUnsaved, MsgProgramSaveFileConfirm);
                 if (prompt != DialogResult.Yes)
@@ -771,7 +763,8 @@ namespace PKHeX.WinForms
             Menu_ShowdownExportParty.Visible = sav.HasParty;
             Menu_ShowdownExportCurrentBox.Visible = sav.HasBox;
 
-            if (Settings.Default.PlaySoundSAVLoad)
+            Settings.Startup.LoadSaveFile(path);
+            if (Settings.Sounds.PlaySoundSAVLoad)
                 SystemSounds.Asterisk.Play();
             return true;
         }
@@ -836,7 +829,7 @@ namespace PKHeX.WinForms
             if (sav is ISaveFileRevision rev)
                 title = title.Insert(title.Length - 2, rev.SaveRevisionString);
             var ver = GameInfo.GetVersionName(sav.Version);
-            if (Settings.Default.HideSAVDetails)
+            if (Settings.Privacy.HideSAVDetails)
                 return title + $"[{ver}]";
             if (!sav.State.Exportable) // Blank save file
                 return title + $"{sav.Metadata.FileName} [{sav.OT} ({ver})]";
@@ -845,7 +838,7 @@ namespace PKHeX.WinForms
 
         private static bool TryBackupExportCheck(SaveFile sav, string path)
         {
-            if (string.IsNullOrWhiteSpace(path) || !Settings.Default.BAKEnabled) // not actual save
+            if (string.IsNullOrWhiteSpace(path) || !Settings.Backup.BAKEnabled) // not actual save
                 return false;
 
             // If backup folder exists, save a backup.
@@ -925,7 +918,7 @@ namespace PKHeX.WinForms
                 CurrentLanguage = GameLanguage.Language2Char(CB_MainLanguage.SelectedIndex);
 
             // Set the culture (makes it easy to pass language to other forms)
-            Settings.Default.Language = CurrentLanguage;
+            Settings.Startup.Language = CurrentLanguage;
             Thread.CurrentThread.CurrentCulture = new CultureInfo(CurrentLanguage.Substring(0, 2));
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
@@ -1045,14 +1038,14 @@ namespace PKHeX.WinForms
                 if (dr == DialogResult.Yes)
                     WinFormsUtil.SetClipboardText(report);
             }
-            else if (Settings.Default.IgnoreLegalPopup && la.Valid)
+            else if (Settings.Display.IgnoreLegalPopup && la.Valid)
             {
-                if (Settings.Default.PlaySoundLegalityCheck)
+                if (Settings.Sounds.PlaySoundLegalityCheck)
                     SystemSounds.Asterisk.Play();
             }
             else
             {
-                WinFormsUtil.Alert(Settings.Default.PlaySoundLegalityCheck, report);
+                WinFormsUtil.Alert(Settings.Sounds.PlaySoundLegalityCheck, report);
             }
         }
 
@@ -1186,24 +1179,7 @@ namespace PKHeX.WinForms
                 }
             }
 
-            SaveSettings();
-        }
-
-        private static void SaveSettings()
-        {
-            try
-            {
-                var settings = Settings.Default;
-                settings.Draw = Draw.ToString();
-                settings.Save();
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception x)
-            // Config might be corrupted, or their dotnet runtime is insufficient (<4.6?)
-#pragma warning restore CA1031 // Do not catch general exception types
-            {
-                File.WriteAllLines("config error.txt", new[] {x.ToString()});
-            }
+            PKHeXSettings.SaveSettings(ConfigPath, Settings);
         }
 
         #endregion

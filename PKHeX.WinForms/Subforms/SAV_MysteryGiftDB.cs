@@ -61,8 +61,7 @@ namespace PKHeX.WinForms
                 };
 
                 slot.ContextMenuStrip = mnu;
-                if (Settings.Default.HoverSlotShowText)
-                    slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
+                slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
             Counter = L_Count.Text;

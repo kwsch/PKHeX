@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Drawing;
 using PKHeX.Core;
-using Exception = System.Exception;
 
 namespace PKHeX.WinForms
 {
     /// <summary>
     /// Drawing Configuration for painting and updating controls
     /// </summary>
+    [Serializable]
     public sealed class DrawConfig : IDisposable
     {
         private const string PKM = "Pokémon Editor";
@@ -92,6 +91,7 @@ namespace PKHeX.WinForms
         public Color GetText(bool highlight) => highlight ? TextHighlighted : TextColor;
         public Color GetBackground(bool legal, bool highlight) => highlight ? BackHighlighted : (legal ? BackLegal : BackColor);
 
+        [NonSerialized]
         public readonly BrushSet Brushes = new();
 
         public void LoadBrushes()
@@ -119,50 +119,6 @@ namespace PKHeX.WinForms
                 lines.Add($"{name}\t{value}");
             }
             return string.Join("\n", lines);
-        }
-
-        public static DrawConfig GetConfig(string data)
-        {
-            var config = new DrawConfig();
-            if (string.IsNullOrWhiteSpace(data))
-                return config;
-
-            var lines = data.Split('\n');
-            foreach (var l in lines)
-                config.ApplyLine(l);
-
-            return config;
-        }
-
-        private void ApplyLine(string l)
-        {
-            var t = typeof(DrawConfig);
-            var split = l.Split('\t');
-            var name = split[0];
-            var value = split[1];
-
-            try
-            {
-                var pi = t.GetProperty(name);
-                if (pi == null)
-                    throw new ArgumentNullException(name);
-                if (pi.PropertyType == typeof(Color))
-                {
-                    var color = Color.FromArgb(int.Parse(value));
-                    pi.SetValue(this, color);
-                }
-                else
-                {
-                    pi.SetValue(this, value);
-                }
-            }
-#pragma warning disable CA1031 // Do not catch general exception types
-            catch (Exception e)
-#pragma warning restore CA1031 // Do not catch general exception types
-            {
-                Debug.WriteLine($"Failed to write {name} to {value}!");
-                Debug.WriteLine(e.Message);
-            }
         }
     }
 
