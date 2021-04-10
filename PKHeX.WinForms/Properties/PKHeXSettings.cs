@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
 
         public void LoadSaveFile(string path)
         {
-            if (RecentlyLoaded.Contains(path))
+            if (!RecentlyLoaded.Remove(path))
                 return;
             if (RecentlyLoaded.Count >= MaxRecentCount)
                 RecentlyLoaded.RemoveAt(RecentlyLoaded.Count - 1);
