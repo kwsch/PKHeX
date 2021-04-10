@@ -104,7 +104,7 @@ namespace PKHeX.Core
             var id = gift.Generation < 7 ? $"{gift.TID:D5}/{gift.SID:D5}" : $"[{gift.TrainerSID7:D4}]{gift.TrainerID7:D6}";
 
             var first =
-                $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem]}  --- "
+                $"{strings.Species[gift.Species]} @ {strings.Item[gift.HeldItem >= 0 ? gift.HeldItem : 0]}  --- "
                 + (gift.IsEgg ? strings.EggName : $"{gift.OT_Name} - {id}");
             result.Add(first);
             result.Add(string.Join(" / ", gift.Moves.Select(z => strings.Move[z])));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
 
@@ -60,7 +61,15 @@ namespace PKHeX.WinForms.Controls
             var EncounterName = $"{(enc is IEncounterable ie ? ie.LongName : "Special")} ({name})";
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));
             if (enc is MysteryGift mg)
-                lines.Add(mg.CardHeader);
+            {
+                lines.AddRange(mg.GetDescription());
+            }
+            else if (enc is IMoveset m)
+            {
+                var nonzero = m.Moves.Where(z => z != 0).ToList();
+                if (nonzero.Count != 0)
+                    lines.Add(string.Join(" / ", nonzero.Select(z => GameInfo.Strings.Move[z])));
+            }
 
             var el = enc as ILocation;
             var loc = el?.GetEncounterLocation(enc.Generation, (int) enc.Version);
