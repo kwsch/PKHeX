@@ -53,7 +53,7 @@
         public abstract bool RibbonChampionBattle { get; set; }
         public abstract bool RibbonChampionRegional { get; set; }
         public abstract bool RibbonChampionNational { get; set; }
-        public abstract bool RibbonChampionG3Hoenn { get; set; }
+        public abstract bool RibbonChampionG3 { get; set; }
         public abstract bool RibbonArtist { get; set; }
         public abstract bool RibbonEffort { get; set; }
         public abstract bool RibbonWinning { get; set; }
@@ -167,7 +167,7 @@
                 RibbonCountG3Cute = RibbonCountG3Cute,
                 RibbonCountG3Smart = RibbonCountG3Smart,
                 RibbonCountG3Tough = RibbonCountG3Tough,
-                RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
+                RibbonChampionG3 = RibbonChampionG3,
                 RibbonWinning = RibbonWinning,
                 RibbonVictory = RibbonVictory,
                 RibbonArtist = RibbonArtist,

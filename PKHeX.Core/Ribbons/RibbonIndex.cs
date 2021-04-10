@@ -6,7 +6,7 @@
     public enum RibbonIndex
     {
         ChampionKalos,
-        ChampionG3Hoenn,
+        ChampionG3,
         ChampionSinnoh,
         BestFriends,
         Training,

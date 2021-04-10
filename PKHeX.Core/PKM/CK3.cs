@@ -155,7 +155,7 @@ namespace PKHeX.Core
         public override byte CNT_Sheen { get => Data[0xBC]; set => Data[0xBC] = value; }
 
         // Ribbons
-        public override bool RibbonChampionG3Hoenn  { get => Data[0xBD] == 1; set => Data[0xBD] = value ? (byte)1 : (byte)0; }
+        public override bool RibbonChampionG3       { get => Data[0xBD] == 1; set => Data[0xBD] = value ? (byte)1 : (byte)0; }
         public override bool RibbonWinning          { get => Data[0xBE] == 1; set => Data[0xBE] = value ? (byte)1 : (byte)0; }
         public override bool RibbonVictory          { get => Data[0xBF] == 1; set => Data[0xBF] = value ? (byte)1 : (byte)0; }
         public override bool RibbonArtist           { get => Data[0xC0] == 1; set => Data[0xC0] = value ? (byte)1 : (byte)0; }

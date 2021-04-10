@@ -118,7 +118,7 @@
         public abstract bool RibbonG4ToughGreat { get; set; }
         public abstract bool RibbonG4ToughUltra { get; set; }
         public abstract bool RibbonG4ToughMaster { get; set; }
-        public abstract bool RibbonChampionG3Hoenn { get; set; }
+        public abstract bool RibbonChampionG3 { get; set; }
         public abstract bool RibbonArtist { get; set; }
         public abstract bool RibbonEffort { get; set; }
         public abstract bool RibbonChampionSinnoh { get; set; }
@@ -282,7 +282,7 @@
                 RibbonG3ToughSuper = RibbonG3ToughSuper,
                 RibbonG3ToughHyper = RibbonG3ToughHyper,
                 RibbonG3ToughMaster = RibbonG3ToughMaster,
-                RibbonChampionG3Hoenn = RibbonChampionG3Hoenn,
+                RibbonChampionG3 = RibbonChampionG3,
                 RibbonWinning = RibbonWinning,
                 RibbonVictory = RibbonVictory,
                 RibbonArtist = RibbonArtist,

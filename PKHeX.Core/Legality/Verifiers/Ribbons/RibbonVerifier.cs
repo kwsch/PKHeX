@@ -170,8 +170,8 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetCommon3 s3)
             {
-                if (s3.RibbonChampionG3Hoenn && gen != 3)
-                    yield return new RibbonResult(nameof(s3.RibbonChampionG3Hoenn)); // RSE HoF
+                if (s3.RibbonChampionG3 && gen != 3)
+                    yield return new RibbonResult(nameof(s3.RibbonChampionG3)); // RSE HoF
                 if (s3.RibbonArtist && gen != 3)
                     yield return new RibbonResult(nameof(s3.RibbonArtist)); // RSE Master Rank Portrait
                 if (s3.RibbonEffort && gen == 5 && pkm.Format == 5) // unobtainable in Gen 5

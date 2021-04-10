@@ -34293,9 +34293,9 @@ namespace PKHeX.Drawing.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap ribbonchampiong3hoenn {
+        public static System.Drawing.Bitmap ribbonchampiong3 {
             get {
-                object obj = ResourceManager.GetObject("ribbonchampiong3hoenn", resourceCulture);
+                object obj = ResourceManager.GetObject("ribbonchampiong3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

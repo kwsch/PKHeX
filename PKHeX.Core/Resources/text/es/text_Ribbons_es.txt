@@ -1,5 +1,5 @@
 ﻿RibbonChampionKalos	Campeón de Kalos
-RibbonChampionG3Hoenn	Campeón de Hoenn (RSE)
+RibbonChampionG3	Campeón (Gen3)
 RibbonChampionSinnoh	Campeón de Sinnoh
 RibbonBestFriends	Afecto
 RibbonTraining	Ejercicio

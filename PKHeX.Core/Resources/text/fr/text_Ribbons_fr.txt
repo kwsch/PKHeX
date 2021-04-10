@@ -1,5 +1,5 @@
 ﻿RibbonChampionKalos	Maître Kalos
-RibbonChampionG3Hoenn	Maître Hoenn (RSE)
+RibbonChampionG3	Maître (Gen3)
 RibbonChampionSinnoh	Maître Sinnoh
 RibbonBestFriends	Affection
 RibbonTraining	Perfectionnement

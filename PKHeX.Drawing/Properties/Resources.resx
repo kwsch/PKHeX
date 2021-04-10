@@ -1813,8 +1813,8 @@
   <data name="ribbonchampionbattle" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbonchampionbattle.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ribbonchampiong3hoenn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\img\ribbons\ribbonchampiong3hoenn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="ribbonchampiong3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\img\ribbons\ribbonchampiong3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ribbonchampiong6hoenn" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\img\ribbons\ribbonchampiong6hoenn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
