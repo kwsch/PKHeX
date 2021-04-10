@@ -69,11 +69,11 @@ namespace PKHeX.Core
         /// <returns><see cref="PKM.RelearnMoves"/> best suited for the current <see cref="PKM"/> data.</returns>
         public static IReadOnlyList<int> GetSuggestedRelearnMoves(this LegalityAnalysis legal, IEncounterable? enc = null)
         {
-            var m = legal.GetSuggestedRelearnMovesFromEncounter();
+            enc ??= legal.EncounterOriginal;
+            var m = legal.GetSuggestedRelearnMovesFromEncounter(enc);
             if (m.Any(z => z != 0))
                 return m;
 
-            enc ??= legal.EncounterMatch;
             if (enc is MysteryGift or EncounterEgg)
                 return m;
 

@@ -129,18 +129,41 @@ namespace PKHeX.Core
         /// <summary>
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
-        public static IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter(this LegalityAnalysis analysis)
+        public static IReadOnlyList<int> GetSuggestedRelearnMovesFromEncounter(this LegalityAnalysis analysis, IEncounterTemplate? enc = null)
         {
             var info = analysis.Info;
-            var enc = info.EncounterOriginal;
+            enc ??= info.EncounterOriginal;
             var pkm = analysis.pkm;
 
             if (ShouldNotHaveRelearnMoves(enc, pkm))
                 return Empty;
 
             if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
-                return enc.GetEggRelearnMoves(info.Moves, pkm);
+                return enc.GetSuggestedRelearnEgg(info.Moves, pkm);
             return enc.GetSuggestedRelearnInternal(pkm);
+        }
+
+        private static IReadOnlyList<int> GetSuggestedRelearnEgg(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
+        {
+            // Split-breed species like Budew & Roselia may be legal for one, and not the other.
+            // If we're not a split-breed or are already legal, return.
+            var result = enc.GetEggRelearnMoves(parse, pkm);
+            var split = Breeding.GetSplitBreedGeneration(enc.Generation);
+            if (!split.Contains(enc.Species) || enc.Generation <= 2)
+                return result;
+
+            var tmp = pkm.Clone();
+            tmp.SetRelearnMoves(result);
+            var la = new LegalityAnalysis(tmp);
+            if (la.Info.Moves.All(z => z.Valid))
+                return result;
+
+            // Try again with the other split-breed species if possible.
+            var incense = EncounterEggGenerator.GenerateEggs(tmp).FirstOrDefault();
+            if (incense is null || incense.Species == enc.Species)
+                return result;
+
+            return incense.GetSuggestedRelearnEgg(parse, tmp);
         }
 
         private static IReadOnlyList<int> GetEggRelearnMoves(this IEncounterTemplate enc, IReadOnlyList<CheckMoveResult> parse, PKM pkm)
