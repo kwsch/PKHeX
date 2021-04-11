@@ -170,9 +170,10 @@ namespace PKHeX.WinForms
                 try
                 #endif
                 {
+                    var startup = Settings.Startup;
                     string path = string.Empty;
                     SaveFile? sav = null;
-                    if (Settings.Startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
+                    if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.RecentBackup)
                     {
                         if (!SaveFinder.DetectSaveFile(out path, out sav))
                         {
@@ -180,14 +181,14 @@ namespace PKHeX.WinForms
                                 WinFormsUtil.Error(path); // `path` contains the error message
                         }
                     }
-                    else if (Settings.Startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
+                    else if (startup.AutoLoadSaveOnStartup == AutoLoadSetting.LastLoaded)
                     {
-                        if (Settings.Startup.RecentlyLoaded.Count != 0)
+                        if (startup.RecentlyLoaded.Count != 0)
                         {
-                            path = Settings.Startup.RecentlyLoaded[0];
+                            path = startup.RecentlyLoaded[0];
                             if (File.Exists(path))
                                 sav = SaveUtil.GetVariantSAV(path);
-                        } 
+                        }
                     }
 
                     bool savLoaded = false;
@@ -196,7 +197,7 @@ namespace PKHeX.WinForms
                         savLoaded = OpenSAV(sav, path);
                     }
                     if (!savLoaded)
-                        LoadBlankSaveFile(Settings.Startup.DefaultSaveVersion);
+                        LoadBlankSaveFile(startup.DefaultSaveVersion);
                 }
                 #if !DEBUG
                 catch (Exception ex)
@@ -301,17 +302,6 @@ namespace PKHeX.WinForms
             Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
             foreach (var p in Plugins.OrderBy(z => z.Priority))
                 p.Initialize(C_SAV, PKME_Tabs, menuStrip1, CurrentProgramVersion);
-        }
-
-        private static void DeleteConfig(string settingsFilename)
-        {
-            var dr = WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSettingsResetCorrupt, MsgSettingsResetPrompt);
-            if (dr == DialogResult.Yes)
-            {
-                File.Delete(settingsFilename);
-                WinFormsUtil.Alert(MsgSettingsResetSuccess, MsgProgramRestart);
-            }
-            Process.GetCurrentProcess().Kill();
         }
 
         // Main Menu Strip UI Functions
