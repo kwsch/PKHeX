@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -82,7 +80,7 @@ namespace PKHeX.Core
             return AllowGBCartEra = !vc; // physical cart selected
         }
 
-        public static void InitFromSettings(LegalitySettings settings)
+        public static void InitFromSettings(IParseSettings settings)
         {
             AllowGen1Tradeback = settings.AllowGen1Tradeback;
             NicknamedTrade = settings.NicknamedTrade;
@@ -95,31 +93,16 @@ namespace PKHeX.Core
         }
     }
 
-    [Serializable]
-    public sealed class LegalitySettings
+    public interface IParseSettings
     {
-        [Description("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
-        public bool AllowGen1Tradeback { get; set; } = true;
+        bool AllowGen1Tradeback { get; }
 
-        [Description("Severity to flag a Legality Check if it is a nicknamed In-Game Trade the player cannot normally nickname.")]
-        public Severity NicknamedTrade { get; set; } = Severity.Invalid;
-
-        [Description("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
-        public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
-
-        [Description("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match.")]
-        public Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
-
-        [Description("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
-        public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
-
-        [Description("Severity to flag a Legality Check if a Gen8 Location Memory text variable is present.")]
-        public Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
-
-        [Description("Severity to flag a Legality Check if the HOME Tracker is Missing")]
-        public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
-
-        [Description("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
-        public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
+        Severity NicknamedTrade { get; }
+        Severity NicknamedMysteryGift { get; }
+        Severity RNGFrameNotFound { get; }
+        Severity Gen7TransferStarPID { get; }
+        Severity Gen8MemoryLocationTextVariable { get; }
+        Severity Gen8TransferTrackerNotPresent { get; }
+        Severity NicknamedAnotherSpecies { get; }
     }
 }

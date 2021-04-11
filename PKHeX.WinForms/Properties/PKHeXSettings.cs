@@ -86,13 +86,13 @@ namespace PKHeX.WinForms
     [Serializable]
     public sealed class BackupSettings
     {
-        [Description("Automatic Backups of Save Files are copied to the backup folder when true.")]
+        [LocalizedDescription("Automatic Backups of Save Files are copied to the backup folder when true.")]
         public bool BAKEnabled { get; set; } = true;
 
-        [Description("Tracks if the \"Create Backup\" prompt has been issued to the user.")]
+        [LocalizedDescription("Tracks if the \"Create Backup\" prompt has been issued to the user.")]
         public bool BAKPrompt { get; set; }
 
-        [Description("List of extra locations to look for Save Files.")]
+        [LocalizedDescription("List of extra locations to look for Save Files.")]
 #pragma warning disable CA1819 // Properties should not return arrays
         public string[] OtherBackupPaths { get; set; } = Array.Empty<string>();
 #pragma warning restore CA1819 // Properties should not return arrays
@@ -102,16 +102,16 @@ namespace PKHeX.WinForms
     public sealed class StartupSettings
     {
         [Browsable(false)]
-        [Description("Last version that the program was run with.")]
+        [LocalizedDescription("Last version that the program was run with.")]
         public string Version { get; set; } = string.Empty;
 
-        [Description("Force HaX mode on Program Launch")]
+        [LocalizedDescription("Force HaX mode on Program Launch")]
         public bool ForceHaXOnLaunch { get; set; }
 
-        [Description("Automatically locates the most recently saved Save File when opening a new file.")]
+        [LocalizedDescription("Automatically locates the most recently saved Save File when opening a new file.")]
         public bool TryDetectRecentSave { get; set; } = true;
 
-        [Description("Automatically Detect Save File on Program Startup")]
+        [LocalizedDescription("Automatically Detect Save File on Program Startup")]
         public AutoLoadSetting AutoLoadSaveOnStartup { get; set; } = AutoLoadSetting.RecentBackup;
 
         public List<string> RecentlyLoaded = new(MaxRecentCount);
@@ -164,75 +164,103 @@ namespace PKHeX.WinForms
     }
 
     [Serializable]
+    public sealed class LegalitySettings : IParseSettings
+    {
+        [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
+        public bool AllowGen1Tradeback { get; set; } = true;
+
+        [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed In-Game Trade the player cannot normally nickname.")]
+        public Severity NicknamedTrade { get; set; } = Severity.Invalid;
+
+        [LocalizedDescription("Severity to flag a Legality Check if it is a nicknamed Mystery Gift the player cannot normally nickname.")]
+        public Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if the RNG Frame Checking logic does not find a match.")]
+        public Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if Pokémon from Gen1/2 has a Star Shiny PID.")]
+        public Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if a Gen8 Location Memory text variable is present.")]
+        public Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if the HOME Tracker is Missing")]
+        public Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
+
+        [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
+        public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
+    }
+
+    [Serializable]
     public sealed class HoverSettings
     {
-        [Description("Show PKM Slot ToolTip on Hover")]
+        [LocalizedDescription("Show PKM Slot ToolTip on Hover")]
         public bool HoverSlotShowText { get; set; } = true;
 
-        [Description("Play PKM Slot Cry on Hover")]
+        [LocalizedDescription("Play PKM Slot Cry on Hover")]
         public bool HoverSlotPlayCry { get; set; } = true;
 
-        [Description("Show a Glow effect around the PKM on Hover")]
+        [LocalizedDescription("Show a Glow effect around the PKM on Hover")]
         public bool HoverSlotGlowEdges { get; set; } = true;
     }
 
     [Serializable]
     public sealed class SoundSettings
     {
-        [Description("Play Sound when loading a new Save File")]
+        [LocalizedDescription("Play Sound when loading a new Save File")]
         public bool PlaySoundSAVLoad { get; set; } = true;
-        [Description("Play Sound when popping up Legality Report")]
+        [LocalizedDescription("Play Sound when popping up Legality Report")]
         public bool PlaySoundLegalityCheck { get; set; } = true;
     }
 
     [Serializable]
     public sealed class SetImportSettings
     {
-        [Description("Apply StatNature to Nature on Import")]
+        [LocalizedDescription("Apply StatNature to Nature on Import")]
         public bool ApplyNature { get; set; } = true;
-        [Description("Apply Markings on Import")]
+        [LocalizedDescription("Apply Markings on Import")]
         public bool ApplyMarkings { get; set; } = true;
     }
 
     [Serializable]
     public sealed class SlotWriteSettings
     {
-        [Description("Automatically modify the Save File's Pokédex when injecting a PKM.")]
+        [LocalizedDescription("Automatically modify the Save File's Pokédex when injecting a PKM.")]
         public bool SetUpdateDex { get; set; } = true;
 
-        [Description("Automatically adapt the PKM Info to the Save File (Handler, Format)")]
+        [LocalizedDescription("Automatically adapt the PKM Info to the Save File (Handler, Format)")]
         public bool SetUpdatePKM { get; set; } = true;
 
-        [Description("When enabled and closing/loading a save file, the program will alert if the current save file has been modified without saving.")]
+        [LocalizedDescription("When enabled and closing/loading a save file, the program will alert if the current save file has been modified without saving.")]
         public bool ModifyUnset { get; set; } = true;
     }
 
     [Serializable]
     public sealed class DisplaySettings
     {
-        [Description("Show Unicode gender symbol characters, or ASCII when disabled.")]
+        [LocalizedDescription("Show Unicode gender symbol characters, or ASCII when disabled.")]
         public bool Unicode { get; set; } = true;
 
-        [Description("Show fanmade shiny sprites when the PKM is shiny.")]
+        [LocalizedDescription("Show fanmade shiny sprites when the PKM is shiny.")]
         public bool ShinySprites { get; set; } = true;
 
-        [Description("Show an Egg Sprite As Held Item rather than hiding the PKM")]
+        [LocalizedDescription("Show an Egg Sprite As Held Item rather than hiding the PKM")]
         public bool ShowEggSpriteAsHeldItem { get; set; } = true;
 
-        [Description("Don't show the Legality popup if Legal!")]
+        [LocalizedDescription("Don't show the Legality popup if Legal!")]
         public bool IgnoreLegalPopup { get; set; } = true;
 
-        [Description("Flag Illegal Slots in Save File")]
+        [LocalizedDescription("Flag Illegal Slots in Save File")]
         public bool FlagIllegal { get; set; } = true;
     }
 
     [Serializable]
     public sealed class PrivacySettings
     {
-        [Description("Hide Save File Details in Program Title")]
+        [LocalizedDescription("Hide Save File Details in Program Title")]
         public bool HideSAVDetails { get; set; }
 
-        [Description("Hide Secret Details in Editors")]
+        [LocalizedDescription("Hide Secret Details in Editors")]
         public bool HideSecretDetails { get; set; }
     }
 }
