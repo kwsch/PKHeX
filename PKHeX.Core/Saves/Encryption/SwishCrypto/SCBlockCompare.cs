@@ -13,12 +13,12 @@ namespace PKHeX.Core
         private readonly Dictionary<uint, string> KeyNames;
         private string GetKeyName(uint key) => KeyNames.TryGetValue(key, out var val) ? val : $"{key:X8}";
 
-        public SCBlockCompare(SCBlockAccessor s1, SCBlockAccessor s2)
+        public SCBlockCompare(SCBlockAccessor s1, SCBlockAccessor s2, IEnumerable<string> extraKeyNames)
         {
             var b1 = s1.BlockInfo;
             var b2 = s2.BlockInfo;
             KeyNames = GetKeyNames(s1, b1, b2);
-            SCBlockMetadata.AddExtraKeyNames(KeyNames);
+            SCBlockMetadata.AddExtraKeyNames(KeyNames, extraKeyNames);
 
             var hs1 = new HashSet<uint>(b1.Select(z => z.Key));
             var hs2 = new HashSet<uint>(b2.Select(z => z.Key));

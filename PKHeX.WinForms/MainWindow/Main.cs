@@ -115,9 +115,7 @@ namespace PKHeX.WinForms
             FormLoadConfig(out BAKprompt, out showChangelog);
             HaX |= Settings.Startup.ForceHaXOnLaunch;
 
-            var exts = Path.Combine(WorkingDirectory, "savexts.txt");
-            if (File.Exists(exts))
-                WinFormsUtil.AddSaveFileExtensions(File.ReadLines(exts));
+            WinFormsUtil.AddSaveFileExtensions(Settings.Backup.OtherSaveFileExtensions);
         }
 
         private static void FormLoadCustomBackupPaths()

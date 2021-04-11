@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -19,13 +18,13 @@ namespace PKHeX.Core
         /// <summary>
         /// Creates a new instance of <see cref="SCBlockMetadata"/> by loading properties and constants declared via reflection.
         /// </summary>
-        public SCBlockMetadata(SCBlockAccessor accessor)
+        public SCBlockMetadata(SCBlockAccessor accessor, IEnumerable<string> extraKeyNames)
         {
             var aType = accessor.GetType();
 
             BlockList = aType.GetAllPropertiesOfType<SaveBlock>(accessor);
             ValueList = aType.GetAllConstantsOfType<uint>();
-            AddExtraKeyNames(ValueList);
+            AddExtraKeyNames(ValueList, extraKeyNames);
             Accessor = accessor;
         }
 
@@ -39,21 +38,6 @@ namespace PKHeX.Core
                 .OrderBy(z => !z.Text.StartsWith("*"))
                 .ThenBy(z => GetSortKey(z));
             return list;
-        }
-
-        /// <summary>
-        /// Loads names from an external file to the requested <see cref="names"/> list.
-        /// </summary>
-        /// <remarks>Tab separated text file expected.</remarks>
-        /// <param name="names">Currently loaded list of block names</param>
-        /// <param name="extra">Side-loaded list of block names to add to the <see cref="names"/> list.</param>
-        public static void AddExtraKeyNames(IDictionary<uint, string> names, string extra = "SCBlocks.txt")
-        {
-            if (!File.Exists(extra))
-                return;
-
-            var lines = File.ReadLines(extra);
-            AddExtraKeyNames(names, lines);
         }
 
         /// <summary>

@@ -24,7 +24,9 @@ namespace PKHeX.WinForms
 
             PG_BlockView.Size = RTB_Hex.Size;
 
-            Metadata = new SCBlockMetadata(SAV.Blocks);
+            // Get an external source of names if available.
+            var extra = GetExtraKeyNames();
+            Metadata = new SCBlockMetadata(SAV.Blocks, extra);
 
             CB_Key.InitializeBinding();
             CB_Key.DataSource = Metadata.GetSortedBlockKeyList().ToArray();
@@ -41,6 +43,12 @@ namespace PKHeX.WinForms
             CB_TypeToggle.SelectedIndexChanged += (o, args) => CB_TypeToggle_SelectedIndexChanged(CB_TypeToggle, args);
 
             CB_Key.SelectedIndex = 0;
+        }
+
+        private static IEnumerable<string> GetExtraKeyNames()
+        {
+            var extra = Main.Settings.Advanced.PathBlockKeyListSWSH;
+            return File.Exists(extra) ? File.ReadLines(extra) : Array.Empty<string>();
         }
 
         private void CB_Key_SelectedIndexChanged(object sender, EventArgs e)
@@ -206,7 +214,9 @@ namespace PKHeX.WinForms
             if (s2 is not SAV8SWSH w2)
                 return;
 
-            var compare = new SCBlockCompare(w1.Blocks, w2.Blocks);
+            // Get an external source of names if available.
+            var extra = GetExtraKeyNames();
+            var compare = new SCBlockCompare(w1.Blocks, w2.Blocks, extra);
             richTextBox1.Lines = compare.Summary().ToArray();
         }
 

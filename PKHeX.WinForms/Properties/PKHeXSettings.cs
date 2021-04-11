@@ -27,6 +27,7 @@ namespace PKHeX.WinForms
 
         // GUI Specific
         public DrawConfig Draw { get; set; } = new();
+        public AdvancedSettings Advanced { get; set; } = new();
 
         public static PKHeXSettings GetSettings(string configPath)
         {
@@ -92,9 +93,12 @@ namespace PKHeX.WinForms
         [LocalizedDescription("Tracks if the \"Create Backup\" prompt has been issued to the user.")]
         public bool BAKPrompt { get; set; }
 
-        [LocalizedDescription("List of extra locations to look for Save Files.")]
 #pragma warning disable CA1819 // Properties should not return arrays
+        [LocalizedDescription("List of extra locations to look for Save Files.")]
         public string[] OtherBackupPaths { get; set; } = Array.Empty<string>();
+
+        [LocalizedDescription("Save File file-extensions (no period) that the program should also recognize.")]
+        public string[] OtherSaveFileExtensions { get; set; } = Array.Empty<string>();
 #pragma warning restore CA1819 // Properties should not return arrays
     }
 
@@ -148,11 +152,12 @@ namespace PKHeX.WinForms
 
         public void LoadSaveFile(string path)
         {
-            if (!RecentlyLoaded.Remove(path))
+            var recent = RecentlyLoaded;
+            if (!recent.Remove(path))
                 return;
-            if (RecentlyLoaded.Count >= MaxRecentCount)
-                RecentlyLoaded.RemoveAt(RecentlyLoaded.Count - 1);
-            RecentlyLoaded.Insert(0, path);
+            if (recent.Count >= MaxRecentCount)
+                recent.RemoveAt(recent.Count - 1);
+            recent.Insert(0, path);
         }
     }
 
@@ -192,6 +197,13 @@ namespace PKHeX.WinForms
 
         [LocalizedDescription("Severity to flag a Legality Check if Pokémon has a Nickname matching another Species.")]
         public Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
+    }
+
+    [Serializable]
+    public class AdvancedSettings
+    {
+        [LocalizedDescription("Path to a dump of block hash-names. If file does not exist, only names defined within the program's code will be loaded.")]
+        public string PathBlockKeyListSWSH { get; set; } = "SCBlocks.txt";
     }
 
     [Serializable]
