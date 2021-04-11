@@ -16,6 +16,8 @@ namespace PKHeX.WinForms
         private static string GetTranslationFileNameInternal(string lang) => $"lang_{lang}";
         private static string GetTranslationFileNameExternal(string lang) => $"lang_{lang}.txt";
 
+        public static IReadOnlyDictionary<string, string> GetDictionary(string lang) => GetContext(lang).Lookup;
+
         private static TranslationContext GetContext(string lang)
         {
             if (Context.TryGetValue(lang, out var context))
@@ -209,6 +211,34 @@ namespace PKHeX.WinForms
                 File.WriteAllLines(fn, result);
             }
         }
+
+        public static void LoadSettings<T>(string defaultLanguage, bool add = true)
+        {
+            var context = (Dictionary<string, string>)Context[defaultLanguage].Lookup;
+            var props = typeof(T).GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+            foreach (var prop in props)
+            {
+                var p = prop.PropertyType.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
+                foreach (var x in p)
+                {
+                    var individual = (LocalizedDescriptionAttribute[])x.GetCustomAttributes(typeof(LocalizedDescriptionAttribute), false);
+                    foreach (var v in individual)
+                    {
+                        var hasKey = context.ContainsKey(v.Key);
+                        if (add)
+                        {
+                            if (!hasKey)
+                                context.Add(v.Key, v.Fallback);
+                        }
+                        else
+                        {
+                            if (hasKey)
+                                context.Remove(v.Key);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public sealed class TranslationContext
@@ -217,6 +247,7 @@ namespace PKHeX.WinForms
         public bool RemoveUsedKeys { private get; set; }
         public const char Separator = '=';
         private readonly Dictionary<string, string> Translation = new();
+        public IReadOnlyDictionary<string, string> Lookup => Translation;
 
         public TranslationContext(IEnumerable<string> content, char separator = Separator)
         {
