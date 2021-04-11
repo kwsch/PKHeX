@@ -554,10 +554,11 @@ namespace PKHeX.WinForms
             var search = SearchDatabase();
 
             bool legalSearch = Menu_SearchLegal.Checked ^ Menu_SearchIllegal.Checked;
-            if (legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
+            bool wordFilter = ParseSettings.CheckWordFilter;
+            if (wordFilter && legalSearch && WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgDBSearchLegalityWordfilter) == DialogResult.No)
                 ParseSettings.CheckWordFilter = false;
             var results = await Task.Run(() => search.ToList()).ConfigureAwait(true);
-            ParseSettings.CheckWordFilter = true;
+            ParseSettings.CheckWordFilter = wordFilter;
 
             if (results.Count == 0)
             {

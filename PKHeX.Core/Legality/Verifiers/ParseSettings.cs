@@ -15,6 +15,7 @@ namespace PKHeX.Core
         /// <summary>
         /// Setting to specify if an analysis should permit data sourced from the physical cartridge era of GameBoy games.
         /// </summary>
+        /// <remarks>If false, indicates to use Virtual Console rules (which are transferable to Gen7+)</remarks>
         public static bool AllowGBCartEra { get; set; }
 
         /// <summary>
@@ -22,13 +23,13 @@ namespace PKHeX.Core
         /// </summary>
         public static bool AllowGen1Tradeback { get; set; } = true;
 
-        public static Severity NicknamedTrade { get; set; } = Severity.Invalid;
-        public static Severity NicknamedMysteryGift { get; set; } = Severity.Fishy;
-        public static Severity RNGFrameNotFound { get; set; } = Severity.Fishy;
-        public static Severity Gen7TransferStarPID { get; set; } = Severity.Fishy;
-        public static Severity Gen8MemoryLocationTextVariable { get; set; } = Severity.Fishy;
-        public static Severity Gen8TransferTrackerNotPresent { get; set; } = Severity.Fishy;
-        public static Severity NicknamedAnotherSpecies { get; set; } = Severity.Fishy;
+        public static Severity NicknamedTrade { get; private set; } = Severity.Invalid;
+        public static Severity NicknamedMysteryGift { get; private set; } = Severity.Fishy;
+        public static Severity RNGFrameNotFound { get; private set; } = Severity.Fishy;
+        public static Severity Gen7TransferStarPID { get; private set; } = Severity.Fishy;
+        public static Severity Gen8MemoryLocationTextVariable { get; private set; } = Severity.Fishy;
+        public static Severity Gen8TransferTrackerNotPresent { get; private set; } = Severity.Fishy;
+        public static Severity NicknamedAnotherSpecies { get; private set; } = Severity.Fishy;
 
         public static IReadOnlyList<string> MoveStrings = Util.GetMovesList(GameLanguage.DefaultLanguage);
         public static IReadOnlyList<string> SpeciesStrings = Util.GetSpeciesList(GameLanguage.DefaultLanguage);
@@ -82,6 +83,7 @@ namespace PKHeX.Core
 
         public static void InitFromSettings(IParseSettings settings)
         {
+            CheckWordFilter = settings.CheckWordFilter;
             AllowGen1Tradeback = settings.AllowGen1Tradeback;
             NicknamedTrade = settings.NicknamedTrade;
             NicknamedMysteryGift = settings.NicknamedMysteryGift;
@@ -95,6 +97,7 @@ namespace PKHeX.Core
 
     public interface IParseSettings
     {
+        bool CheckWordFilter { get; }
         bool AllowGen1Tradeback { get; }
 
         Severity NicknamedTrade { get; }

@@ -166,6 +166,9 @@ namespace PKHeX.WinForms
     [Serializable]
     public sealed class LegalitySettings : IParseSettings
     {
+        [LocalizedDescription("Checks player given Nicknames and Trainer Names for profanity. Bad words will be flagged using the 3DS console's regex lists.")]
+        public bool CheckWordFilter { get; set; } = true;
+
         [LocalizedDescription("GB: Allow Generation 2 tradeback learnsets for PK1 formats. Disable when checking RBY Metagame rules.")]
         public bool AllowGen1Tradeback { get; set; } = true;
 
