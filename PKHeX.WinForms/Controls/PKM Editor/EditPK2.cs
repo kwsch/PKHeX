@@ -41,7 +41,13 @@ namespace PKHeX.WinForms.Controls
 
             sk2.SwapLanguage();
             la = new LegalityAnalysis(sk2);
-            if (!la.Valid) // fail
+            if (la.Valid)
+                return;
+
+            var lang = SpeciesName.GetSpeciesNameLanguage(sk2.Species, sk2.Nickname, 2);
+            if (lang >= 1 && (lang == 1 != sk2.Japanese)) // force match language
+                sk2.SwapLanguage();
+            else if (sk2.Japanese != (sav.Language == 1)) // force match save file
                 sk2.SwapLanguage();
         }
 

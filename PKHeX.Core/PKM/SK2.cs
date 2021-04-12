@@ -197,9 +197,9 @@ namespace PKHeX.Core
 
             for (int i = 6; i < 0xC; i++)
             {
-                if (data[0x24 + i] != 0 && data[0x24 + i] != StringConverter12.G1TerminatorCode)
+                if (data[0x24 + i] is not (0 or StringConverter12.G1TerminatorCode))
                     return false;
-                if (data[0x30 + i] != 0 && data[0x30 + i] != StringConverter12.G1TerminatorCode)
+                if (data[0x30 + i] is not (0 or StringConverter12.G1TerminatorCode))
                     return false;
             }
             return true;
