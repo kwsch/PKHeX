@@ -5,7 +5,7 @@ namespace PKHeX.Core
     /// <summary>
     /// Interface that exposes a Moveset for the object.
     /// </summary>
-    internal interface IMoveset
+    public interface IMoveset
     {
         IReadOnlyList<int> Moves { get; }
     }

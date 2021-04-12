@@ -3,7 +3,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using PKHeX.Core;
 using PKHeX.Drawing;
-using PKHeX.WinForms.Properties;
 
 namespace PKHeX.WinForms.Controls
 {
@@ -56,10 +55,7 @@ namespace PKHeX.WinForms.Controls
                 bg = ImageUtil.LayerImage(orig, bg, 0, 0);
             pb.BackgroundImage = LastSlot.CurrentBackground = bg;
 
-            if (Settings.Default.HoverSlotShowText)
-                Preview.Show(pb, pk);
-            if (Settings.Default.HoverSlotPlayCry)
-                CryPlayer.PlayCry(pk);
+            Preview.Show(pb, pk);
         }
 
         public void Stop()
@@ -74,7 +70,6 @@ namespace PKHeX.WinForms.Controls
                 LastSlot = null;
             }
             Preview.Clear();
-            CryPlayer.Stop();
         }
 
         public void Dispose()

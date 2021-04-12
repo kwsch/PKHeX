@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Core;
-using PKHeX.WinForms.Properties;
 
 using static PKHeX.Core.LegalityCheckStrings;
 
@@ -11,6 +11,7 @@ namespace PKHeX.WinForms.Controls
     public sealed class SummaryPreviewer
     {
         private readonly ToolTip ShowSet = new() { InitialDelay = 200, IsBalloon = false, AutoPopDelay = 32_767 };
+        private readonly CryPlayer Cry = new();
 
         public void Show(Control pb, PKM pk)
         {
@@ -19,11 +20,18 @@ namespace PKHeX.WinForms.Controls
                 Clear();
                 return;
             }
-            var text = ShowdownParsing.GetLocalizedPreviewText(pk, Settings.Default.Language);
-            var la = new LegalityAnalysis(pk);
-            var result = new List<string>{ text, string.Empty };
-            LegalityFormatting.AddEncounterInfo(la, result);
-            ShowSet.SetToolTip(pb, string.Join(Environment.NewLine, result));
+
+            if (Main.Settings.Hover.HoverSlotShowText)
+            {
+                var text = ShowdownParsing.GetLocalizedPreviewText(pk, Main.Settings.Startup.Language);
+                var la = new LegalityAnalysis(pk);
+                var result = new List<string> { text, string.Empty };
+                LegalityFormatting.AddEncounterInfo(la, result);
+                ShowSet.SetToolTip(pb, string.Join(Environment.NewLine, result));
+            }
+
+            if (Main.Settings.Hover.HoverSlotPlayCry)
+                Cry.PlayCry(pk, pk.Format);
         }
 
         public void Show(Control pb, IEncounterInfo enc)
@@ -34,16 +42,37 @@ namespace PKHeX.WinForms.Controls
                 return;
             }
 
+            if (Main.Settings.Hover.HoverSlotShowText)
+            {
+                var lines = GetTextLines(enc);
+                var text = string.Join(Environment.NewLine, lines);
+                ShowSet.SetToolTip(pb, text);
+            }
+
+            if (Main.Settings.Hover.HoverSlotPlayCry)
+                Cry.PlayCry(enc, enc.Generation);
+        }
+
+        private static IEnumerable<string> GetTextLines(IEncounterInfo enc)
+        {
             var lines = new List<string>();
             var str = GameInfo.Strings.Species;
-            var name = (uint)enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
+            var name = (uint) enc.Species < str.Count ? str[enc.Species] : enc.Species.ToString();
             var EncounterName = $"{(enc is IEncounterable ie ? ie.LongName : "Special")} ({name})";
             lines.Add(string.Format(L_FEncounterType_0, EncounterName));
             if (enc is MysteryGift mg)
-                lines.Add(mg.CardHeader);
+            {
+                lines.AddRange(mg.GetDescription());
+            }
+            else if (enc is IMoveset m)
+            {
+                var nonzero = m.Moves.Where(z => z != 0).ToList();
+                if (nonzero.Count != 0)
+                    lines.Add(string.Join(" / ", nonzero.Select(z => GameInfo.Strings.Move[z])));
+            }
 
             var el = enc as ILocation;
-            var loc = el?.GetEncounterLocation(enc.Generation, (int)enc.Version);
+            var loc = el?.GetEncounterLocation(enc.Generation, (int) enc.Version);
             if (!string.IsNullOrEmpty(loc))
                 lines.Add(string.Format(L_F0_1, "Location", loc));
             lines.Add(string.Format(L_F0_1, nameof(GameVersion), enc.Version));
@@ -61,11 +90,13 @@ namespace PKHeX.WinForms.Controls
                 lines.AddRange(raw.Split(',', '}', '{'));
             }
 #endif
-
-            var text = string.Join(Environment.NewLine, lines);
-            ShowSet.SetToolTip(pb, text);
+            return lines;
         }
 
-        public void Clear() => ShowSet.RemoveAll();
+        public void Clear()
+        {
+            ShowSet.RemoveAll();
+            Cry.Stop();
+        }
     }
 }

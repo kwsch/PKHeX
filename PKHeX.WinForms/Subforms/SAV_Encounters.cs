@@ -54,7 +54,7 @@ namespace PKHeX.WinForms
                         ClickView(sender, e);
                 };
                 slot.ContextMenuStrip = mnu;
-                if (Settings.Default.HoverSlotShowText)
+                if (Main.Settings.Hover.HoverSlotShowText)
                     slot.MouseEnter += (o, args) => ShowHoverTextForSlot(slot, args);
             }
 
