@@ -181,6 +181,9 @@ namespace PKHeX.Core
             'Ｖ', 'Ｗ', 'Ｘ', 'Ｙ', 'Ｚ', 'ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ', 'ｆ', 'ｇ', 'ｈ', 'ｉ', 'ｊ', 'ｋ', // D
             'ｌ', 'ｍ', 'ｎ', 'ｏ', 'ｐ', 'ｑ', 'ｒ', 'ｓ', 'ｔ', 'ｕ', 'ｖ', 'ｗ', 'ｘ', 'ｙ', 'ｚ', '0',  // E
             ':',  'Ä',  'Ö',  'Ü',  'ä',  'ö', 'ü',                                                      // F
+
+            // Make the total length 256 so that any byte access is always within the array
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
         };
     }
 }
