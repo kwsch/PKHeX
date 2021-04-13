@@ -120,8 +120,6 @@ namespace PKHeX.Core
         private static char GetG3Char(byte chr, bool jp)
         {
             var table = jp ? G3_JP : G3_EN;
-            if (chr >= table.Length)
-                return Terminator;
             return table[chr];
         }
 
@@ -160,6 +158,9 @@ namespace PKHeX.Core
             'V',  'W',  'X',  'Y', 'Z',  'a',  'b',  'c',  'd',  'e',  'f',  'g', 'h',  'i',  'j',  'k', // D
             'l',  'm',  'n',  'o', 'p',  'q',  'r',  's',  't',  'u',  'v',  'w', 'x',  'y',  'z',  '0', // E
             ':',  'Ä',  'Ö',  'Ü', 'ä',  'ö',  'ü',                                                      // F
+
+            // Make the total length 256 so that any byte access is always within the array
+            Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator, Terminator
         };
 
         private static readonly char[] G3_JP =
