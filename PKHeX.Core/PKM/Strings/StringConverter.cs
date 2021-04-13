@@ -277,7 +277,6 @@ namespace PKHeX.Core
         {
             if (s.Length == 0)
                 return;
-            s.Replace('’', '\''); // Farfetch'd
 
             // remap custom glyphs to unicode
             s.Replace('\uE08F', '♀'); // ♀ (gen6+)
@@ -294,7 +293,6 @@ namespace PKHeX.Core
         private static void UnSanitizeString7b(StringBuilder str)
         {
             // gender chars always full width
-            str.Replace('\'', '’'); // Farfetch'd
         }
 
         /// <summary>
@@ -305,9 +303,6 @@ namespace PKHeX.Core
         /// <returns></returns>
         internal static void UnSanitizeString(StringBuilder str, int generation)
         {
-            if (generation >= 6)
-                str.Replace('\'', '’'); // Farfetch'd
-
             if (generation <= 5)
             {
                 str.Replace('\u2640', '\u246E'); // ♀

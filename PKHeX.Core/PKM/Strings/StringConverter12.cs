@@ -529,7 +529,7 @@ namespace PKHeX.Core
             {'ó', 0xD4},
             {'ú', 0xD5},
 
-            {'\'', 0xE0}, // Alias ' to ’ for Farfetch'd
+            {'\'', 0xE0}, // Alias ' to ’ for Farfetch’d
             {'’', 0xE0},
             {'{', 0xE1}, /* Pk */
             {'}', 0xE2}, /* Mn */

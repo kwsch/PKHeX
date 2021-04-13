@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace PKHeX.Core
@@ -124,11 +123,6 @@ namespace PKHeX.Core
         /// <returns>True if it does not match any language name, False if not nicknamed</returns>
         public static bool IsNicknamedAnyLanguage(int species, string nickname, int generation = PKX.Generation)
         {
-            if (species == (int)Species.Farfetchd && string.Equals(nickname, "Farfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
-                return false;
-            if (species == (int)Species.Sirfetchd && string.Equals(nickname, "Sirfetch'd", StringComparison.OrdinalIgnoreCase)) // stupid ’
-                return false;
-
             var langs = Language.GetAvailableGameLanguages(generation);
             return langs.All(language => IsNicknamed(species, nickname, language, generation));
         }
@@ -195,7 +189,16 @@ namespace PKHeX.Core
         /// <remarks>Only use this for modern era name -> ID fetching.</remarks>
         public static int GetSpeciesID(string speciesName, int language = (int)LanguageID.English)
         {
-            return SpeciesDict[language].TryGetValue(speciesName, out var val) ? val : -1;
+            if (SpeciesDict[language].TryGetValue(speciesName, out var val))
+                return val;
+
+            // stupid ’, ignore language if we match these.
+            return speciesName switch
+            {
+                "Farfetch'd" => (int)Species.Farfetchd,
+                "Sirfetch'd" => (int)Species.Sirfetchd,
+                _ => -1
+            };
         }
     }
 }

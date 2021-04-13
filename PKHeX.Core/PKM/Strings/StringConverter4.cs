@@ -192,8 +192,6 @@ namespace PKHeX.Core
         /// <returns>Encoded value.</returns>
         private static ushort ConvertChar2ValueG4(ushort chr)
         {
-            if (chr == '\'') // apostrophe, used by Farfetch'd
-                return 0x1B3; // here rather than in static constructor to prevent byte[]->str outputting ’ instead of '
             return G4CharId.TryGetValue(chr, out int index)
                 ? G4Values[index] : ushort.MaxValue;
         }
