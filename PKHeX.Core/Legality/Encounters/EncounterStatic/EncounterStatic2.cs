@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -124,14 +123,11 @@ namespace PKHeX.Core
 
     public sealed record EncounterStatic2Roam : EncounterStatic2
     {
-        private static readonly int[] Roaming_MetLocation_GSC_Grass =
-        {
-            // Routes 29, 30-31, 33, 34, 35, 36-37, 38-39, 42, 43, 44, 45-46 can be encountered in grass
-            2, 4, 5, 8, 11, 15, 18, 20, 21,
-            25, 26, 34, 37, 39, 43, 45,
-        };
-
-        public override int Location => Roaming_MetLocation_GSC_Grass[0];
+        // Routes 29-46, except 40 & 41; total 16.
+        // 02, 04, 05, 08, 11, 15, 18, 20,
+        // 21, 25, 26, 34, 37, 39, 43, 45,
+        private const ulong RoamLocations = 0b_0110_0011_0100_1010_1001_1011_0100;
+        public override int Location => 2;
 
         public EncounterStatic2Roam(int species, int level, GameVersion ver) : base(species, level, ver) { }
 
@@ -139,7 +135,9 @@ namespace PKHeX.Core
         {
             if (!pkm.HasOriginalMetLocation)
                 return true;
-            return Roaming_MetLocation_GSC_Grass.Contains(Location);
+            // Gen2 met location is always u8
+            var loc = pkm.Met_Location;
+            return loc <= 45 && ((RoamLocations & (1UL << loc)) != 0);
         }
     }
 }
