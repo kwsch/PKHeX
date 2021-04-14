@@ -263,7 +263,7 @@ namespace PKHeX.WinForms
         public bool ShowEggSpriteAsHeldItem { get; set; } = true;
 
         [LocalizedDescription("Don't show the Legality popup if Legal!")]
-        public bool IgnoreLegalPopup { get; set; } = true;
+        public bool IgnoreLegalPopup { get; set; }
 
         [LocalizedDescription("Flag Illegal Slots in Save File")]
         public bool FlagIllegal { get; set; } = true;
