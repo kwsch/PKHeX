@@ -252,8 +252,10 @@ namespace PKHeX.Core
                     yield return new RibbonResult(rib);
             }
 
+            // Gen6 can get the memory on those who did not participate by being in the party with other participants.
+            // This includes those who cannot enter into the Maison; having memory and no ribbon.
             const int memChatelaine = 30;
-            bool hasChampMemory = pkm.Format <= 7 && pkm is ITrainerMemories m && (m.HT_Memory == memChatelaine || m.OT_Memory == memChatelaine);
+            bool hasChampMemory = enc.Generation == 7 && pkm.Format == 7 && pkm is ITrainerMemories m && (m.HT_Memory == memChatelaine || m.OT_Memory == memChatelaine);
             if (!IsAllowedBattleFrontier(pkm.Species))
             {
                 if (hasChampMemory || s6.RibbonBattlerSkillful) // having memory and not ribbon is too rare, just flag here.
