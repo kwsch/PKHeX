@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.LegalityCheckStrings;
+﻿using System;
+using static PKHeX.Core.LegalityCheckStrings;
 
 namespace PKHeX.Core
 {
@@ -52,18 +53,28 @@ namespace PKHeX.Core
         VoltTackle,
     }
 
-    public static class EggSourceExtensions
+    public static class EggSourceUtil
     {
 #pragma warning disable RCS1224 // Make method an extension method.
-        public static string GetSource(object parse, int index) => parse switch
+        public static string GetSource(object parse, int gen, int index)
 #pragma warning restore RCS1224 // Make method an extension method.
         {
-            EggSource2[] x when index < x.Length => x[index].GetSource(),
-           EggSource34[] x when index < x.Length => x[index].GetSource(),
-            EggSource5[] x when index < x.Length => x[index].GetSource(),
-            EggSource6[] x when index < x.Length => x[index].GetSource(),
-            _ => LMoveSourceEmpty,
-        };
+            static string GetLine<T>(T[] arr, Func<T, string> act, int i)
+            {
+                if (i >= arr.Length)
+                    return LMoveSourceEmpty;
+                return act(arr[i]);
+            }
+
+            return gen switch
+            {
+                2      => GetLine((EggSource2[]) parse, GetSource, index),
+                3 or 4 => GetLine((EggSource34[])parse, GetSource, index),
+                5      => GetLine((EggSource5[]) parse, GetSource, index),
+                >= 6   => GetLine((EggSource6[]) parse, GetSource, index),
+                _      => LMoveSourceEmpty,
+            };
+        }
 
         public static string GetSource(this EggSource2 source) => source switch
         {

@@ -76,7 +76,7 @@ namespace PKHeX.Core
             {
                 for (int i = 0; i < result.Length; i++)
                 {
-                    var msg = EggSourceExtensions.GetSource(origins, i);
+                    var msg = EggSourceUtil.GetSource(origins, e.Generation, i);
                     result[i] = new CheckMoveResult(MoveSource.EggMove, e.Generation, Severity.Valid, msg, type);
                 }
             }
@@ -85,7 +85,7 @@ namespace PKHeX.Core
                 var fix = MoveBreed.GetExpectedMoves(moves, e);
                 for (int i = 0; i < moves.Length; i++)
                 {
-                    var msg = EggSourceExtensions.GetSource(origins, i);
+                    var msg = EggSourceUtil.GetSource(origins, e.Generation, i);
                     if (moves[i] == fix[i])
                     {
                         result[i] = new CheckMoveResult(MoveSource.EggMove, e.Generation, Severity.Valid, msg, type);
