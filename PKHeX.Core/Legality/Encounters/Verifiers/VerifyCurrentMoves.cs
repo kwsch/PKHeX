@@ -264,13 +264,13 @@ namespace PKHeX.Core
             // Encapsulate arguments to simplify method calls
             var moveInfo = new LearnInfo(pkm, source);
             // Check moves going backwards, marking the move valid in the most current generation when it can be learned
-            int[] generations = GetGenMovesCheckOrder(pkm, info.EncounterOriginal.Generation);
+            int[] generations = GenerationTraversal.GetVisitedGenerationOrder(pkm, info.EncounterOriginal.Generation);
             if (pkm.Format <= 2)
                 generations = generations.Where(z => z < info.EncounterMoves.LevelUpMoves.Length).ToArray();
             if (reset != 0)
                 generations = generations.Where(z => z >= reset).ToArray();
 
-            int lastgen = generations.LastOrDefault();
+            int lastgen = generations.Length == 0 ? 0 : generations[generations.Length - 1];
             foreach (var gen in generations)
             {
                 ParseMovesByGeneration(pkm, res, gen, info, moveInfo, lastgen);
@@ -812,52 +812,6 @@ namespace PKHeX.Core
             if (lvlG2 == defaultLvlG2)
                 return;
             EncounterMoves.LevelUpMoves[2] = MoveList.GetValidMoves(pkm, info.EvoChainsAllGens[2], generation: 2, minLvLG2: defaultLvlG2, types: MoveSourceType.LevelUp).ToList();
-        }
-
-        /// <summary>
-        /// Gets the generation numbers in descending order for iterating over.
-        /// </summary>
-        public static int[] GetGenMovesCheckOrder(PKM pkm, int origin)
-        {
-            if (pkm.Format < 3)
-                return GetGenMovesCheckOrderGB(pkm, pkm.Format);
-            if (pkm.VC)
-                return GetGenMovesOrderVC(pkm);
-            return GetGenMovesOrder(pkm.Format, origin);
-        }
-
-        private static int[] GetGenMovesOrderVC(PKM pkm)
-        {
-            // VC case: check transfer games in reverse order (8, 7..) then past games.
-            int[] xfer = GetGenMovesOrder(pkm.Format, 7);
-            int[] past = GetGenMovesCheckOrderGB(pkm, pkm.Generation);
-            int end = xfer.Length;
-            Array.Resize(ref xfer, xfer.Length + past.Length);
-            past.CopyTo(xfer, end);
-            return xfer;
-        }
-
-        private static readonly int[] G2 = {2};
-        private static readonly int[] G12 = {1, 2};
-        private static readonly int[] G21 = {2, 1};
-
-        private static int[] GetGenMovesCheckOrderGB(PKM pkm, int originalGeneration)
-        {
-            if (originalGeneration == 2)
-                return pkm.Korean ? G2 : G21;
-            return G12; // RBY
-        }
-
-        private static int[] GetGenMovesOrder(int start, int end)
-        {
-            if (end < 0)
-                return Array.Empty<int>();
-            if (start <= end)
-                return new[] {start};
-            var order = new int[start - end + 1];
-            for (int i = 0; i < order.Length; i++)
-                order[i] = start - i;
-            return order;
         }
     }
 }

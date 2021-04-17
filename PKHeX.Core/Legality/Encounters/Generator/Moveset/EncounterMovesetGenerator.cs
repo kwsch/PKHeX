@@ -163,7 +163,7 @@ namespace PKHeX.Core
             if (vcBump)
                 pk.Version = (int)GameVersion.C;
 
-            var gens = VerifyCurrentMoves.GetGenMovesCheckOrder(pk, origin);
+            var gens = GenerationTraversal.GetVisitedGenerationOrder(pk, origin);
             var canlearn = gens.SelectMany(z => GetMovesForGeneration(pk, chain, z));
             var result = moves.Except(canlearn).Where(z => z != 0).ToArray();
 
