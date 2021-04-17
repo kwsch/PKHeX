@@ -157,7 +157,7 @@ namespace PKHeX.Core
             if (info.EncounterMatch is EncounterEgg e)
             {
                 return pkm.IsEgg
-                    ? VerifyPreRelearnEggBase(pkm, currentMoves, e)
+                    ? VerifyPreRelearnEggBase(currentMoves, e)
                     : ParseMovesWasEggPreRelearn(pkm, currentMoves, info, e);
             }
 
@@ -741,10 +741,10 @@ namespace PKHeX.Core
             }
         }
 
-        private static CheckMoveResult[] VerifyPreRelearnEggBase(PKM pkm, int[] currentMoves, EncounterEgg e)
+        private static CheckMoveResult[] VerifyPreRelearnEggBase(int[] currentMoves, EncounterEgg e)
         {
             CheckMoveResult[] result = new CheckMoveResult[4];
-            _ = VerifyRelearnMoves.VerifyEggMoveset(pkm, e, result, currentMoves, CurrentMove);
+            _ = VerifyRelearnMoves.VerifyEggMoveset(e, result, currentMoves, CurrentMove);
             return result;
         }
 

@@ -140,11 +140,11 @@ namespace PKHeX.Core
 
         public static string LEncInvalid { get; set; } = "Unable to match an encounter from origin game.";
 
-        public static string LEncTradeChangedNickname { get; set; } = "Ingame Trade Nickname has been altered.";
-        public static string LEncTradeChangedOT { get; set; } = "Ingame Trade OT has been altered.";
-        public static string LEncTradeIndexBad { get; set; } = "Ingame Trade invalid index?";
-        public static string LEncTradeMatch { get; set; } = "Valid ingame trade.";
-        public static string LEncTradeUnchanged { get; set; } = "Ingame Trade OT and Nickname have not been altered.";
+        public static string LEncTradeChangedNickname { get; set; } = "In-game Trade Nickname has been altered.";
+        public static string LEncTradeChangedOT { get; set; } = "In-game Trade OT has been altered.";
+        public static string LEncTradeIndexBad { get; set; } = "In-game Trade invalid index?";
+        public static string LEncTradeMatch { get; set; } = "Valid In-game trade.";
+        public static string LEncTradeUnchanged { get; set; } = "In-game Trade OT and Nickname have not been altered.";
 
         public static string LEncStaticMatch { get; set; } = "Valid gift/static encounter.";
         public static string LEncStaticPIDShiny { get; set; } = "Static Encounter shiny mismatch.";
@@ -158,9 +158,9 @@ namespace PKHeX.Core
         public static string LEncUnreleasedPtDarkrai { get; set; } = "Non Platinum Darkrai from Newmoon Island. Unreleased event.";
         public static string LEncUnreleasedPtShaymin { get; set; } = "Non Platinum Shaymin from Flower Paradise. Unreleased event.";
 
-        public static string LEReaderAmerica { get; set; } = "American E-Reader Berry in Japanese savegame.";
+        public static string LEReaderAmerica { get; set; } = "American E-Reader Berry in Japanese save file.";
         public static string LEReaderInvalid { get; set; } = "Invalid E-Reader Berry.";
-        public static string LEReaderJapan { get; set; } = "Japanese E-Reader Berry in international savegame.";
+        public static string LEReaderJapan { get; set; } = "Japanese E-Reader Berry in international save file.";
 
         public static string LEffort2Remaining { get; set; } = "2 EVs remaining.";
         public static string LEffortAbove252 { get; set; } = "EVs cannot go above 252.";
@@ -177,10 +177,10 @@ namespace PKHeX.Core
         public static string LEvoTradeReqOutsider { get; set; } = "Outsider {0} should have evolved into {1}.";
         public static string LEvoTradeRequired { get; set; } = "Version Specific evolution requires a trade to opposite version. A Handling Trainer is required.";
 
-        public static string LFateful { get; set; } = "Special ingame Fateful Encounter.";
+        public static string LFateful { get; set; } = "Special In-game Fateful Encounter.";
         public static string LFatefulGiftMissing { get; set; } = "Fateful Encounter with no matching Encounter. Has the Mystery Gift data been contributed?";
         public static string LFatefulInvalid { get; set; } = "Fateful Encounter should not be checked.";
-        public static string LFatefulMissing { get; set; } = "Special ingame Fateful Encounter flag missing.";
+        public static string LFatefulMissing { get; set; } = "Special In-game Fateful Encounter flag missing.";
         public static string LFatefulMystery { get; set; } = "Mystery Gift Fateful Encounter.";
         public static string LFatefulMysteryMissing { get; set; } = "Mystery Gift Fateful Encounter flag missing.";
 
@@ -237,7 +237,7 @@ namespace PKHeX.Core
         public static string LG2InvalidTilePark { get; set; } = "National Park fishing encounter. Unreachable Water tiles.";
         public static string LG2InvalidTileR14 { get; set; } = "Kanto Route 14 fishing encounter. Unreachable Water tiles.";
         public static string LG2InvalidTileSafari { get; set; } = "Generation 2 Safari Zone fishing encounter. Unreachable zone.";
-        public static string LG2InvalidTileTreeID { get; set; } = "Found an unreacheable tree for Crystal headbutt encounter that matches OTID.";
+        public static string LG2InvalidTileTreeID { get; set; } = "Found an unreachable tree for Crystal headbutt encounter that matches OTID.";
         public static string LG2InvalidTileTreeNotFound { get; set; } = "Could not find a tree for Crystal headbutt encounter that matches OTID.";
         public static string LG2TreeID { get; set; } = "Found a tree for Crystal headbutt encounter that matches OTID.";
         public static string LG2OTGender { get; set; } = "OT from Virtual Console games other than Crystal cannot be female.";
@@ -250,8 +250,8 @@ namespace PKHeX.Core
         public static string LG5OTGenderN { get; set; } = "N's Pokémon must have a male OT gender.";
         public static string LG5PIDShinyGrotto { get; set; } = "Hidden Grotto captures cannot be shiny.";
         public static string LG5PIDShinyN { get; set; } = "N's Pokémon cannot be shiny.";
-        public static string LG5SparkleInvalid { get; set; } = "Special ingame N's Sparkle flag should not be checked.";
-        public static string LG5SparkleRequired { get; set; } = "Special ingame N's Sparkle flag missing.";
+        public static string LG5SparkleInvalid { get; set; } = "Special In-game N's Sparkle flag should not be checked.";
+        public static string LG5SparkleRequired { get; set; } = "Special In-game N's Sparkle flag missing.";
 
         public static string LGenderInvalidNone { get; set; } = "Genderless Pokémon should not have a gender.";
         public static string LGeoBadOrder { get; set; } = "GeoLocation Memory: Gap/Blank present.";
@@ -352,7 +352,7 @@ namespace PKHeX.Core
         public static string LMoveRelearnDexNav { get; set; } = "Not an expected DexNav move.";
         public static string LMoveRelearnEgg { get; set; } = "Base Egg move.";
         public static string LMoveRelearnEggMissing { get; set; } = "Base Egg move missing.";
-        public static string LMoveRelearnFExpect_0 { get; set; } = "Expected the following Relearn Moves: {0}";
+        public static string LMoveRelearnFExpect_0 { get; set; } = "Expected the following Relearn Moves: {0} ({1}";
         public static string LMoveRelearnFMiss_0 { get; set; } = "Relearn Moves missing: {0}";
         public static string LMoveRelearnInvalid { get; set; } = "Not an expected Relearnable move.";
         public static string LMoveRelearnNone { get; set; } = "Expected no Relearn Move in slot.";
@@ -440,7 +440,7 @@ namespace PKHeX.Core
         public static string LTransferMoveG4HM { get; set; } = "Defog and Whirlpool. One of the two moves should have been removed before transferred to Generation 5.";
         public static string LTransferMoveHM { get; set; } = "Generation {0} HM. Should have been removed before transferred to Generation {1}.";
         public static string LTransferNature { get; set; } = "Invalid Nature for transfer Experience.";
-        public static string LTransferOriginFInvalid0_1 { get; set; } = "{0} origin cannot exist in the currently loaded ({1}) savegame.";
+        public static string LTransferOriginFInvalid0_1 { get; set; } = "{0} origin cannot exist in the currently loaded ({1}) save file.";
         public static string LTransferPIDECBitFlip { get; set; } = "PID should be equal to EC [with top bit flipped]!";
         public static string LTransferPIDECEquals { get; set; } = "PID should be equal to EC!";
         public static string LTransferPIDECXor { get; set; } = "Encryption Constant matches shinyxored PID.";

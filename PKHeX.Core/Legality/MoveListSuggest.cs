@@ -110,7 +110,7 @@ namespace PKHeX.Core
         /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
         public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterable enc, PKM pkm)
         {
-            if (ShouldNotHaveRelearnMoves(enc, pkm))
+            if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pkm))
                 return Empty;
 
             return GetSuggestedRelearnInternal(enc, pkm);
@@ -135,7 +135,7 @@ namespace PKHeX.Core
             enc ??= info.EncounterOriginal;
             var pkm = analysis.pkm;
 
-            if (ShouldNotHaveRelearnMoves(enc, pkm))
+            if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pkm))
                 return Empty;
 
             if (enc is EncounterEgg or EncounterInvalid {EggEncounter: true})
@@ -189,7 +189,5 @@ namespace PKHeX.Core
             }
             return MoveBreed.GetExpectedMoves(moves, enc);
         }
-
-        private static bool ShouldNotHaveRelearnMoves(IGeneration enc, PKM pkm) => enc.Generation < 6 || pkm is IBattleVersion {BattleVersion: not 0};
     }
 }
