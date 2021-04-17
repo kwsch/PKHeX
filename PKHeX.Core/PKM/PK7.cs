@@ -644,7 +644,7 @@ namespace PKHeX.Core
             };
 
             // Wipe Totem Forms
-            if (FormInfo.IsTotemForm(Species, Form, 7))
+            if (FormInfo.IsTotemForm(Species, Form))
                 pk8.Form = FormInfo.GetTotemBaseForm(Species, Form);
 
             // Fix PP and Stats

@@ -12,6 +12,8 @@ namespace PKHeX.Core
         public override int Generation => 7;
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
+        public bool IsTotem => FormInfo.IsTotemForm(Species, Form);
+
         public EncounterStatic7(GameVersion game) : base(game) { }
 
         protected override bool IsMatchLocation(PKM pkm)
@@ -26,7 +28,7 @@ namespace PKHeX.Core
             if (SkipFormCheck)
                 return true;
 
-            if (FormInfo.IsTotemForm(Species, Form, 7))
+            if (IsTotem)
             {
                 var expectForm = pkm.Format == 7 ? Form : FormInfo.GetTotemBaseForm(Species, Form);
                 return expectForm == evo.Form;

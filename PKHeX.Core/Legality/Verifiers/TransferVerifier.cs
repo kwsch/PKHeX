@@ -140,7 +140,7 @@ namespace PKHeX.Core
             }
             else if (enc.Generation < 8 && pkm.Format >= 8)
             {
-                if (enc is EncounterStatic7 s && FormInfo.IsTotemForm(s.Species, s.Form, 7))
+                if (enc is EncounterStatic7 {IsTotem: true} s)
                 {
                     if (Legal.Totem_NoTransfer.Contains(s.Species))
                         data.AddLine(GetInvalid(LTransferBad));

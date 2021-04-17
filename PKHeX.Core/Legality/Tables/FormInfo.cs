@@ -201,15 +201,21 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Chhecks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
+        /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
         /// </summary>
         /// <param name="species">Entity species</param>
         /// <param name="form">Entity form</param>
         /// <param name="format">Current generation format</param>
-        public static bool IsTotemForm(int species, int form, int format)
+        public static bool IsTotemForm(int species, int form, int format) => format == 7 && IsTotemForm(species, form);
+
+        /// <summary>
+        /// Checks if the <see cref="form"/> for the <see cref="species"/> is a Totem form.
+        /// </summary>
+        /// <remarks>Use <see cref="IsTotemForm(int,int,int)"/> if you aren't 100% sure the format is 7.</remarks>
+        /// <param name="species">Entity species</param>
+        /// <param name="form">Entity form</param>
+        public static bool IsTotemForm(int species, int form)
         {
-            if (format != 7)
-                return false;
             if (form == 0)
                 return false;
             if (!Legal.Totem_USUM.Contains(species))
