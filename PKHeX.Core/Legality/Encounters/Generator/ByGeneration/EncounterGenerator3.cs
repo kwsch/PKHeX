@@ -187,7 +187,7 @@ namespace PKHeX.Core
 
             if (pkm.Version != (int)GameVersion.CXD) // no eggs in C/XD
             {
-                foreach (var z in GenerateEggs(pkm))
+                foreach (var z in GenerateEggs(pkm, 3))
                     yield return z;
             }
 

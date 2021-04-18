@@ -51,7 +51,7 @@ namespace PKHeX.Core
             }
             if (pkm.WasBredEgg)
             {
-                foreach (var z in GenerateEggs(pkm))
+                foreach (var z in GenerateEggs(pkm, 4))
                     yield return z;
             }
             foreach (var z in GetValidEncounterTrades(pkm, chain))

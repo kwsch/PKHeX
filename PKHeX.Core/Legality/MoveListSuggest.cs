@@ -108,7 +108,7 @@ namespace PKHeX.Core
         /// Gets the current <see cref="PKM.RelearnMoves"/> array of four moves that might be legal.
         /// </summary>
         /// <remarks>Use <see cref="GetSuggestedRelearnMovesFromEncounter"/> instead of calling directly; this method just puts default values in without considering the final moveset.</remarks>
-        public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterable enc, PKM pkm)
+        public static IReadOnlyList<int> GetSuggestedRelearn(this IEncounterTemplate enc, PKM pkm)
         {
             if (VerifyRelearnMoves.ShouldNotHaveRelearnMoves(enc, pkm))
                 return Empty;
@@ -148,7 +148,8 @@ namespace PKHeX.Core
             // Split-breed species like Budew & Roselia may be legal for one, and not the other.
             // If we're not a split-breed or are already legal, return.
             var result = enc.GetEggRelearnMoves(parse, pkm);
-            var split = Breeding.GetSplitBreedGeneration(enc.Generation);
+            int generation = enc.Generation;
+            var split = Breeding.GetSplitBreedGeneration(generation);
             if (!split.Contains(enc.Species) || enc.Generation <= 2)
                 return result;
 
@@ -159,7 +160,7 @@ namespace PKHeX.Core
                 return result;
 
             // Try again with the other split-breed species if possible.
-            var incense = EncounterEggGenerator.GenerateEggs(tmp).FirstOrDefault();
+            var incense = EncounterEggGenerator.GenerateEggs(tmp, generation).FirstOrDefault();
             if (incense is null || incense.Species == enc.Species)
                 return result;
 

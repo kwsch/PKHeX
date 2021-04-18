@@ -230,7 +230,7 @@ namespace PKHeX.Core
                 yield break;
             var eggs = gen == 2
                 ? EncounterEggGenerator2.GenerateEggs(pk, chain, all: true)
-                : EncounterEggGenerator.GenerateEggs(pk, chain, all: true);
+                : EncounterEggGenerator.GenerateEggs(pk, chain, gen, all: true);
             foreach (var egg in eggs)
             {
                 if (needs.Count == 0)

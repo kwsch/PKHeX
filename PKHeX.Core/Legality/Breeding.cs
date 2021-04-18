@@ -91,12 +91,16 @@ namespace PKHeX.Core
         /// Checks if the <see cref="species"/> can be obtained from a daycare egg.
         /// </summary>
         /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        /// <param name="species">Current species</param>
         public static bool CanHatchAsEgg(int species) => !NoHatchFromEgg.Contains(species);
 
         /// <summary>
         /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="generation"/>.
         /// </summary>
         /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        /// <param name="species">Current species</param>
+        /// <param name="form">Current form</param>
+        /// <param name="generation">Generation of origin</param>
         public static bool CanHatchAsEgg(int species, int form, int generation)
         {
             if (form == 0)
@@ -116,6 +120,9 @@ namespace PKHeX.Core
         /// Checks if the <see cref="species"/>-<see cref="form"/> can exist as a hatched egg in the requested <see cref="game"/>.
         /// </summary>
         /// <remarks>Chained with the other 2 overloads for incremental checks with different parameters.</remarks>
+        /// <param name="species">Current species</param>
+        /// <param name="form">Current form</param>
+        /// <param name="game">Game of origin</param>
         public static bool CanHatchAsEgg(int species, int form, GameVersion game)
         {
             // Sanity check form for origin

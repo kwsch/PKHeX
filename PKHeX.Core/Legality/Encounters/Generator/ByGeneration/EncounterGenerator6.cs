@@ -48,7 +48,7 @@ namespace PKHeX.Core
 
             if (pkm.WasBredEgg)
             {
-                foreach (var z in GenerateEggs(pkm))
+                foreach (var z in GenerateEggs(pkm, 6))
                 { yield return z; ++ctr; }
                 if (ctr == 0) yield break;
             }
