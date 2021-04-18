@@ -34,7 +34,6 @@ namespace PKHeX.Core
         public int OTGender { get; init; } = -1;
 
         public IReadOnlyList<int> IVs { get; init; } = Array.Empty<int>();
-        public int FlawlessIVCount { get; init; }
 
         public bool EggEncounter => false;
         public int EggLocation { get; init; }

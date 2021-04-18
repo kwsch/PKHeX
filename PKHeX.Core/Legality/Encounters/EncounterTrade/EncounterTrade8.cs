@@ -8,6 +8,7 @@ namespace PKHeX.Core
         public override int Generation => 8;
 
         public byte DynamaxLevel { get; set; }
+        public int FlawlessIVCount { get; init; }
         public IReadOnlyList<int> Relearn { get; init; } = Array.Empty<int>();
 
         public int OT_Memory { get; set; }
