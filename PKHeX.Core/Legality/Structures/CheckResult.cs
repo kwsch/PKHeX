@@ -7,7 +7,7 @@
     {
         public Severity Judgement { get; }
         public CheckIdentifier Identifier { get; }
-        public string Comment { get; internal set; }
+        public string Comment { get; }
 
         public bool Valid => Judgement >= Severity.Fishy;
         public string Rating => Judgement.Description();
