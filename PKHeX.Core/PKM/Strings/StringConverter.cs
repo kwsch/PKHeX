@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
+using static PKHeX.Core.StringConverter7ZH;
 
 namespace PKHeX.Core
 {
@@ -36,7 +35,7 @@ namespace PKHeX.Core
                 5 => GetString5(data, offset, count),
                 6 => GetString6(data, offset, count),
                 7 => GetString7(data, offset, count),
-                _ => GetString7(data, offset, count),
+                _ => GetString7b(data, offset, count),
             };
         }
 
@@ -65,7 +64,7 @@ namespace PKHeX.Core
                 5 => SetString5(value, maxLength, padTo, padWith),
                 6 => SetString6(value, maxLength, padTo, padWith),
                 7 => SetString7(value, maxLength, language, padTo, padWith),
-                _ => SetString7b(value, maxLength, language, padTo, padWith),
+                _ => SetString7b(value, maxLength, padTo, padWith),
             };
         }
 
@@ -158,6 +157,21 @@ namespace PKHeX.Core
             return sb.ToString();
         }
 
+        /// <summary>Converts Generation 7-Beluga encoded data to decoded string.</summary>
+        /// <param name="data">Encoded data</param>
+        /// <param name="offset">Offset to read from</param>
+        /// <param name="count">Length of data to read.</param>
+        /// <returns>Decoded string.</returns>
+        public static string GetString7b(byte[] data, int offset, int count)
+        {
+            var raw = Encoding.Unicode.GetString(data, offset, count);
+            var sb = new StringBuilder(raw);
+            Util.TrimFromFirst(sb, TerminatorNull);
+            SanitizeString(sb);
+          //RemapChineseGlyphsBin2String(sb);
+            return sb.ToString();
+        }
+
         /// <summary>Gets the bytes for a Generation 7 string.</summary>
         /// <param name="value">Decoded string.</param>
         /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
@@ -185,25 +199,21 @@ namespace PKHeX.Core
             return Encoding.Unicode.GetBytes(sb.ToString());
         }
 
-        /// <summary>Gets the bytes for a Generation 7 string.</summary>
+        /// <summary>Gets the bytes for a Generation 7-Beluga string.</summary>
         /// <param name="value">Decoded string.</param>
         /// <param name="maxLength">Maximum length of the input <see cref="value"/></param>
-        /// <param name="language">Language specific conversion (Chinese)</param>
         /// <param name="padTo">Pad the input <see cref="value"/> to given length</param>
         /// <param name="padWith">Pad the input <see cref="value"/> with this character value</param>
-        /// <param name="chinese">Chinese string remapping should be attempted</param>
         /// <returns>Encoded data.</returns>
-        public static byte[] SetString7b(string value, int maxLength, int language, int padTo = 0, ushort padWith = 0, bool chinese = false)
+        public static byte[] SetString7b(string value, int maxLength, int padTo = 0, ushort padWith = 0)
         {
             var sb = new StringBuilder(value);
             var delta = sb.Length - maxLength;
             if (delta > 0)
                 sb.Remove(maxLength, delta);
-            if (chinese)
-                ConvertString2BinG7_zh(sb, language);
 
             // Replace Special Characters and add Terminator
-            UnSanitizeString7b(sb);
+            // No special characters!
             sb.Append(TerminatorNull);
             var d2 = padTo - sb.Length;
             if (d2 > 0)
@@ -211,62 +221,6 @@ namespace PKHeX.Core
 
             return Encoding.Unicode.GetBytes(sb.ToString());
         }
-
-        /// <summary>
-        /// Converts a Unicode string to Generation 7 in-game Chinese string.
-        /// </summary>
-        /// <param name="sb">Unicode string.</param>
-        /// <param name="lang">Detection of language for Traditional Chinese check</param>
-        /// <returns>In-game Chinese string.</returns>
-        private static void ConvertString2BinG7_zh(StringBuilder sb, int lang)
-        {
-            // A string cannot contain a mix of CHS and CHT characters.
-            var input = sb.ToString();
-            bool traditional = input.Any(chr => G7_CHT.ContainsKey(chr) && !G7_CHS.ContainsKey(chr))
-            || (lang == 10 && !input.Any(chr => G7_CHT.ContainsKey(chr) ^ G7_CHS.ContainsKey(chr))); // CHS and CHT have the same display name
-            var table = traditional ? G7_CHT : G7_CHS;
-
-            for (int i = 0; i < sb.Length; i++)
-            {
-                var chr = sb[i];
-                if (table.TryGetValue(chr, out var index))
-                    sb[i] = (char) (index + Gen7_ZH_Ofs);
-            }
-        }
-
-        /// <summary>
-        /// Converts a Generation 7 in-game Chinese string to Unicode string.
-        /// </summary>
-        /// <param name="input">In-game Chinese string.</param>
-        /// <returns>Unicode string.</returns>
-        private static void RemapChineseGlyphsBin2String(StringBuilder input)
-        {
-            for (int i = 0; i < input.Length; i++)
-            {
-                char val = input[i];
-                if (val < Gen7_ZH_Ofs || val >= Gen7_ZH_Ofs + Gen7_ZH.Length)
-                    continue;
-                input[i] = Gen7_ZH[val - Gen7_ZH_Ofs];
-            }
-        }
-
-        #region Gen 7 Chinese Character Tables
-        private static readonly char[] Gen7_ZH = Util.GetStringList("Char", "zh")[0].ToCharArray();
-        private const ushort Gen7_ZH_Ofs = 0xE800;
-        private const ushort SM_ZHCharTable_Size = 0x30F;
-        private const ushort USUM_CHS_Size = 0x4;
-        private static bool GetisG7CHSChar(int idx) => idx is < SM_ZHCharTable_Size or >= SM_ZHCharTable_Size * 2 and < (SM_ZHCharTable_Size * 2) + USUM_CHS_Size;
-
-        private static readonly Dictionary<char, int> G7_CHS = Gen7_ZH
-            .Select((value, index) => new { value, index })
-            .Where(pair => GetisG7CHSChar(pair.index))
-            .ToDictionary(pair => pair.value, pair => pair.index);
-
-        private static readonly Dictionary<char, int> G7_CHT = Gen7_ZH
-            .Select((value, index) => new { value, index })
-            .Where(pair => !GetisG7CHSChar(pair.index))
-            .ToDictionary(pair => pair.value, pair => pair.index);
-        #endregion
 
         /// <summary>
         /// Converts full width to single width
@@ -289,16 +243,6 @@ namespace PKHeX.Core
         /// Converts full width to half width when appropriate
         /// </summary>
         /// <param name="str">Input string to set.</param>
-        /// <returns></returns>
-        private static void UnSanitizeString7b(StringBuilder str)
-        {
-            // gender chars always full width
-        }
-
-        /// <summary>
-        /// Converts full width to half width when appropriate
-        /// </summary>
-        /// <param name="str">Input string to set.</param>
         /// <param name="generation">Generation specific context</param>
         /// <returns></returns>
         internal static void UnSanitizeString(StringBuilder str, int generation)
@@ -310,10 +254,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            var context = str.ToString().Except(FullToHalf);
-            bool fullwidth = context.Select(c => c >> 12) // select the group the char belongs to
-                .Any(c => c is not (0 or 0xE) /* Latin, Special Symbols */);
-
+            bool fullwidth = GetIsFullWidthString(str);
             if (fullwidth) // jp/ko/zh strings
                 return; // keep as full width
 
@@ -322,8 +263,28 @@ namespace PKHeX.Core
             str.Replace('\u2642', '\uE08E'); // ♂
         }
 
-        private static readonly char[] FullToHalf = {'\u2640', '\u2642'}; // ♀♂
+        private static bool GetIsFullWidthString(StringBuilder str)
+        {
+            for (int i = 0; i < str.Length; i++)
+            {
+                var c = str[i];
+                if (c >> 12 is (0 or 0xE))
+                    continue;
+                if (c is '\u2640' or '\u2642') // ♀♂
+                    continue;
+                return true;
+            }
+            return false;
+        }
 
-        public static bool HasEastAsianScriptCharacters(IEnumerable<char> str) => str.Any(c => c is >= '\u4E00' and <= '\u9FFF');
+        public static bool HasEastAsianScriptCharacters(string str)
+        {
+            foreach (var c in str)
+            {
+                if (c is >= '\u4E00' and <= '\u9FFF')
+                    return true;
+            }
+            return false;
+        }
     }
 }

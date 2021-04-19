@@ -41,8 +41,8 @@ namespace PKHeX.Core
 
         public override PKM Clone() => new PB7((byte[])Data.Clone()){Identifier = Identifier};
 
-        private string GetString(int Offset, int Count) => StringConverter.GetString7(Data, Offset, Count);
-        private byte[] SetString(string value, int maxLength, bool chinese = false) => StringConverter.SetString7b(value, maxLength, Language, chinese: chinese);
+        private string GetString(int Offset, int Count) => StringConverter.GetString7b(Data, Offset, Count);
+        private byte[] SetString(string value, int maxLength) => StringConverter.SetString7b(value, maxLength);
 
         // Structure
         #region Block A

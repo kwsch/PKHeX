@@ -85,7 +85,7 @@ namespace PKHeX.Core
 
         public override string OT_Name
         {
-            get => StringConverter.GetString7(Data, 0x120, 0x1A);
+            get => StringConverter.GetString7b(Data, 0x120, 0x1A);
             set => StringConverter.SetString7b(value, 12, 13).CopyTo(Data, 0x120 + 0xB6); // careful with length
         }
 
