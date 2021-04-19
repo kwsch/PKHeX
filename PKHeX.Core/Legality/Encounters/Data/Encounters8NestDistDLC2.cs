@@ -1,6 +1,4 @@
-﻿using static PKHeX.Core.GameVersion;
-
-namespace PKHeX.Core
+﻿namespace PKHeX.Core
 {
     // Distribution Nest Encounters (BCAT)
     internal static partial class Encounters8Nest

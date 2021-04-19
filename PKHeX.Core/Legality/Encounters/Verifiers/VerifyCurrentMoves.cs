@@ -495,17 +495,22 @@ namespace PKHeX.Core
             if (RegularEggMovesLearned.Count != 0 && learnInfo.EventEggMoves.Count != 0)
             {
                 // Moves that are egg moves or event egg moves but not both
-                var IncompatibleEggMoves = RegularEggMovesLearned.Except(learnInfo.EventEggMoves).Union(learnInfo.EventEggMoves.Except(RegularEggMovesLearned)).ToList();
-                if (IncompatibleEggMoves.Count == 0)
-                    return;
+                var IncompatibleEggMoves = RegularEggMovesLearned.Except(learnInfo.EventEggMoves).Union(learnInfo.EventEggMoves.Except(RegularEggMovesLearned));
                 foreach (int m in IncompatibleEggMoves)
                 {
-                    if (learnInfo.EventEggMoves.Contains(m) && !learnInfo.EggMovesLearned.Contains(m))
-                        res[m] = new CheckMoveResult(res[m], Invalid, LMoveEggIncompatibleEvent, CurrentMove);
-                    else if (!learnInfo.EventEggMoves.Contains(m) && learnInfo.EggMovesLearned.Contains(m))
-                        res[m] = new CheckMoveResult(res[m], Invalid, LMoveEggIncompatible, CurrentMove);
-                    else if (!learnInfo.EventEggMoves.Contains(m) && learnInfo.LevelUpEggMoves.Contains(m))
-                        res[m] = new CheckMoveResult(res[m], Invalid, LMoveEventEggLevelUp, CurrentMove);
+                    bool isEvent = learnInfo.EventEggMoves.Contains(m);
+                    if (isEvent)
+                    {
+                        if (!learnInfo.EggMovesLearned.Contains(m))
+                            res[m] = new CheckMoveResult(res[m], Invalid, LMoveEggIncompatibleEvent, CurrentMove);
+                    }
+                    else
+                    {
+                        if (learnInfo.EggMovesLearned.Contains(m))
+                            res[m] = new CheckMoveResult(res[m], Invalid, LMoveEggIncompatible, CurrentMove);
+                        else if (learnInfo.LevelUpEggMoves.Contains(m))
+                            res[m] = new CheckMoveResult(res[m], Invalid, LMoveEventEggLevelUp, CurrentMove);
+                    }
                 }
             }
             else if (enc is not EncounterEgg)
