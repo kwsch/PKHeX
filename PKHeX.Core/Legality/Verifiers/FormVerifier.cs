@@ -76,9 +76,10 @@ namespace PKHeX.Core
                         int arceus = GetArceusFormFromHeldItem(pkm.HeldItem, pkm.Format);
                         return arceus != form ? GetInvalid(LFormItemInvalid) : GetValid(LFormItem);
                     }
-                case Keldeo when pkm.Format < 8 && enc.Generation != 5:
+                case Keldeo when enc.Generation != 5 || pkm.Format >= 8:
                     // can mismatch in gen5 via BW tutor and transfer up
                     // can mismatch in gen8+ as the form activates in battle when knowing the move; outside of battle can be either state.
+                    // Generation 8 patched out the mismatch; always forced to match moves.
                     bool hasSword = pkm.HasMove((int) Move.SecretSword);
                     bool isSword = pkm.Form == 1;
                     if (isSword != hasSword)
