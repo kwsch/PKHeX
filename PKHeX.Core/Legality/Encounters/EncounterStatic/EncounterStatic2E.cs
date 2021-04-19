@@ -20,6 +20,8 @@ namespace PKHeX.Core
         /// <summary> Trainer ID for the event. </summary>
         public int TID { get; init; } = -1;
 
+        public bool IsGift => TID != -1;
+
         public int CurrentLevel { get; init; } = -1;
 
         public EncounterStatic2E(int species, int level, GameVersion ver) : base(species, level, ver)
@@ -86,6 +88,8 @@ namespace PKHeX.Core
 
             if (TID != -1)
                 pk.TID = TID;
+            if (IsGift)
+                pk.OT_Gender = 0;
 
             if (OT_Name.Length != 0)
                 pk.OT_Name = OT_Name;
