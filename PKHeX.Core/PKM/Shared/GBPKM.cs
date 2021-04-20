@@ -225,6 +225,8 @@ namespace PKHeX.Core
             return pp + (ppUpCount * Math.Min(7, pp / 5));
         }
 
+        public void MaxEVs() => EV_HP = EV_ATK = EV_DEF = EV_SPC = EV_SPE = MaxEV;
+
         /// <summary>
         /// Applies <see cref="PKM.IVs"/> to the <see cref="PKM"/> to make it shiny.
         /// </summary>

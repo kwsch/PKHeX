@@ -207,7 +207,7 @@ namespace PKHeX.Core
                 // In Generation 1/2 Format sets, when EVs are not specified at all, it implies maximum EVs instead!
                 // Under this scenario, just apply maximum EVs (65535).
                 if (Set.EVs.All(z => z == 0))
-                    gb.EV_HP = gb.EV_ATK = gb.EV_DEF = gb.EV_SPC = gb.EV_SPE = gb.MaxEV;
+                    gb.MaxEVs();
                 else
                     pk.EVs = Set.EVs;
             }
@@ -244,7 +244,7 @@ namespace PKHeX.Core
                 if (pk is PB7 b)
                 {
                     for (int i = 0; i < 6; i++)
-                        pk.SetEV(i, 0);
+                        b.SetEV(i, 0);
                     b.ResetCalculatedValues();
                 }
             }
