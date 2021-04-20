@@ -3,12 +3,12 @@ using System.Collections.Generic;
 namespace PKHeX.Core
 {
     /// <summary>
-    /// Information wrapper used for Bulk Editing to apply suggested values.
+    /// Information wrapper used for Batch Editing to apply suggested values.
     /// </summary>
-    internal sealed class PKMInfo
+    internal sealed class BatchInfo
     {
         internal PKM Entity { get; }
-        internal PKMInfo(PKM pk) { Entity = pk; }
+        internal BatchInfo(PKM pk) => Entity = pk;
 
         private LegalityAnalysis? la;
         internal LegalityAnalysis Legality => la ??= new LegalityAnalysis(Entity);

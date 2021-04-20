@@ -225,7 +225,7 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Tries to modify the <see cref="PKMInfo"/>.
+        /// Tries to modify the <see cref="BatchInfo"/>.
         /// </summary>
         /// <param name="pk">Command Filter</param>
         /// <param name="filters">Filters which must be satisfied prior to any modifications being made.</param>
@@ -236,7 +236,7 @@ namespace PKHeX.Core
             if (!pk.ChecksumValid || pk.Species == 0)
                 return ModifyResult.Invalid;
 
-            var info = new PKMInfo(pk);
+            var info = new BatchInfo(pk);
             var pi = Props[Array.IndexOf(Types, pk.GetType())];
             foreach (var cmd in filters)
             {
@@ -276,13 +276,13 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Sets the if the <see cref="PKMInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// Sets the if the <see cref="BatchInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
         /// </summary>
         /// <param name="cmd">Command Filter</param>
         /// <param name="info">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
         /// <returns>True if filtered, else false.</returns>
-        private static ModifyResult SetPKMProperty(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
+        private static ModifyResult SetPKMProperty(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             var pk = info.Entity;
             if (cmd.PropertyValue.StartsWith(CONST_BYTES))
@@ -308,13 +308,13 @@ namespace PKHeX.Core
         }
 
         /// <summary>
-        /// Checks if the <see cref="PKMInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
+        /// Checks if the <see cref="BatchInfo"/> should be filtered due to the <see cref="StringInstruction"/> provided.
         /// </summary>
         /// <param name="cmd">Command Filter</param>
         /// <param name="info">Pokémon to check.</param>
         /// <param name="props">PropertyInfo cache (optional)</param>
         /// <returns>True if filter matches, else false.</returns>
-        private static bool IsFilterMatch(StringInstruction cmd, PKMInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
+        private static bool IsFilterMatch(StringInstruction cmd, BatchInfo info, IReadOnlyDictionary<string, PropertyInfo> props)
         {
             if (IsLegalFiltered(cmd, () => info.Legal))
                 return true;
@@ -390,7 +390,7 @@ namespace PKHeX.Core
         /// <param name="name">Property to modify.</param>
         /// <param name="info">Cached info storing Legal data.</param>
         /// <param name="propValue">Suggestion string which starts with <see cref="CONST_SUGGEST"/></param>
-        private static ModifyResult SetSuggestedPKMProperty(string name, PKMInfo info, string propValue)
+        private static ModifyResult SetSuggestedPKMProperty(string name, BatchInfo info, string propValue)
         {
             static bool IsAll(string p) => p.EndsWith("All", true, CultureInfo.CurrentCulture);
             static bool IsNone(string p) => p.EndsWith("None", true, CultureInfo.CurrentCulture);
