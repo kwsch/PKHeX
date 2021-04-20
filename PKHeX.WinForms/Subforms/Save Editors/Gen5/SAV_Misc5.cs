@@ -615,7 +615,7 @@ namespace PKHeX.WinForms
             SetGenders(current);
             CB_Move.SelectedValue = current.Move;
             CB_Gender.SelectedValue = current.Gender;
-            CB_Form.SelectedIndex = current.Form;
+            CB_Form.SelectedIndex = CB_Form.Items.Count <= current.Form ? 0 : current.Form;
             CurrentSlot = current;
             SetSprite(current);
         }

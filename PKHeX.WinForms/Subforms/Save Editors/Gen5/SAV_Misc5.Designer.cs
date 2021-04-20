@@ -908,9 +908,9 @@ namespace PKHeX.WinForms
             // 
             this.PB_SlotPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.PB_SlotPreview.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PB_SlotPreview.Location = new System.Drawing.Point(206, 132);
+            this.PB_SlotPreview.Location = new System.Drawing.Point(206, 110);
             this.PB_SlotPreview.Name = "PB_SlotPreview";
-            this.PB_SlotPreview.Size = new System.Drawing.Size(42, 32);
+            this.PB_SlotPreview.Size = new System.Drawing.Size(70, 58);
             this.PB_SlotPreview.TabIndex = 13;
             this.PB_SlotPreview.TabStop = false;
             // 
