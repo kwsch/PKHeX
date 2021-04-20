@@ -444,7 +444,7 @@ namespace PKHeX.Core
             }
             for (int i = 8; i < 11; i++) // 3 PCD
             {
-                if (value[i] is PCD d && d.Gift.CardType != 0)
+                if (value[i] is PCD {Gift: {CardType: not 0}})
                     return true;
             }
             return false;

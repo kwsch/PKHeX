@@ -95,7 +95,7 @@ namespace PKHeX.Core
             }
 
             var encounter = EncounterSuggestion.GetSuggestedMetInfo(legal.pkm);
-            if (encounter is IRelearn r && r.Relearn.Count > 0)
+            if (encounter is IRelearn {Relearn: {Count: > 0}} r)
                 return r.Relearn;
 
             return m;

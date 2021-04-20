@@ -440,9 +440,10 @@ namespace PKHeX.Core
                 if (pkm.Version == 15 && enc is EncounterStaticShadow s)
                 {
                     // only require national ribbon if no longer on origin game
-                    eb[1] = s.Version == GameVersion.XD
-                        ? pkm is not XK3 x || x.RibbonNational
-                        : pkm is not CK3 c || c.RibbonNational;
+                    bool untraded = s.Version == GameVersion.XD
+                        ? pkm is XK3 {RibbonNational: false}
+                        : pkm is CK3 {RibbonNational: false};
+                    eb[1] = !untraded;
                 }
             }
 

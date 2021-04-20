@@ -76,12 +76,12 @@ namespace PKHeX.Core
             var pi8 = (PersonalInfoSWSH)pt8[species];
             if (pi8.IsPresentInGame)
             {
-                bool lgpe = (species <= 151 || species is 808 or 809) && (form == 0 || ptGG[species].HasForm(form));
+                bool lgpe = (species is (<= 151 or 808 or 809)) && (form == 0 || ptGG[species].HasForm(form));
                 return lgpe ? GameVersion.GG : GameVersion.SWSH;
             }
             if (species <= Legal.MaxSpeciesID_7_USUM)
             {
-                bool lgpe = species <= 151 && (form == 0 || ptGG[species].HasForm(form));
+                bool lgpe = species is <= 151 && (form == 0 || ptGG[species].HasForm(form));
                 return lgpe ? GameVersion.GG : GameVersion.USUM;
             }
 
