@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for modifying the <see cref="PKM.Markings"/>.
+    /// </summary>
     public static class MarkingApplicator
     {
         /// <summary>

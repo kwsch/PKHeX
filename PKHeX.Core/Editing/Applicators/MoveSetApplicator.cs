@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for getting valid movesets.
+    /// </summary>
     public static class MoveSetApplicator
     {
         /// <summary>

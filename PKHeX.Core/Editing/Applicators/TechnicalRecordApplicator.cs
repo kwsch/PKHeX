@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for modifying the Technical Record flags of a <see cref="PK8"/>.
+    /// </summary>
     public static class TechnicalRecordApplicator
     {
         /// <summary>

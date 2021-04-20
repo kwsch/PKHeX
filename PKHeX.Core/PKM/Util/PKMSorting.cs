@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace PKHeX.Core
 {
+    /// <summary>
+    /// Sorting methods for <see cref="IEnumerable{PKM}"></see> lists.
+    /// </summary>
     public static class PKMSorting
     {
         /// <summary>

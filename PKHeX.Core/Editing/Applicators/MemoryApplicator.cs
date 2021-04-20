@@ -1,5 +1,8 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Logic for modifying the Memory parameters of a <see cref="PKM"/>.
+    /// </summary>
     public static class MemoryApplicator
     {
         /// <summary>
