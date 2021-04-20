@@ -491,13 +491,14 @@ namespace PKHeX.Core
             get => 15 * HPBitValType / 63;
             set
             {
-                var dlb = HiddenPower.DefaultLowBits;
-                IV_HP =  (IV_HP  & ~1) + dlb[value, 0];
-                IV_ATK = (IV_ATK & ~1) + dlb[value, 1];
-                IV_DEF = (IV_DEF & ~1) + dlb[value, 2];
-                IV_SPE = (IV_SPE & ~1) + dlb[value, 3];
-                IV_SPA = (IV_SPA & ~1) + dlb[value, 4];
-                IV_SPD = (IV_SPD & ~1) + dlb[value, 5];
+                var arr = HiddenPower.DefaultLowBits;
+                var bits = (uint)value >= arr.Length ? 0 : arr[value];
+                IV_HP = (IV_HP & ~1)   + ((bits >> 0) & 1);
+                IV_ATK = (IV_ATK & ~1) + ((bits >> 1) & 1);
+                IV_DEF = (IV_DEF & ~1) + ((bits >> 2) & 1);
+                IV_SPE = (IV_SPE & ~1) + ((bits >> 3) & 1);
+                IV_SPA = (IV_SPA & ~1) + ((bits >> 4) & 1);
+                IV_SPD = (IV_SPD & ~1) + ((bits >> 5) & 1);
             }
         }
 

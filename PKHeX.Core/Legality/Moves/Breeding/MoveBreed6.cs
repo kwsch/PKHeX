@@ -11,6 +11,8 @@ namespace PKHeX.Core
     /// <remarks>Refer to <see cref="EggSource6"/> for inheritance ordering.</remarks>
     public static class MoveBreed6
     {
+        private const int level = 1;
+
         public static EggSource6[] Validate(int generation, int species, int form, GameVersion version, int[] moves, out bool valid)
         {
             var count = Array.IndexOf(moves, 0);
@@ -28,7 +30,7 @@ namespace PKHeX.Core
             var learnset = learn[index];
             var egg = MoveEgg.GetEggMoves(generation, species, form, version);
 
-            var value = new BreedInfo<EggSource6>(count, learnset, moves, 1);
+            var value = new BreedInfo<EggSource6>(count, learnset, moves, level);
             if (moves[count - 1] is (int)Move.VoltTackle)
                 value.Actual[--count] = VoltTackle;
 

@@ -10,7 +10,6 @@ namespace PKHeX.Core
         public List<int> EggMovesLearned { get; } = new();
         public List<int> LevelUpEggMoves { get; } = new();
         public List<int> EventEggMoves { get; } = new();
-        public List<int> IncenseMoves { get; } = new();
 
         public readonly MoveParseSource Source;
         public readonly bool IsGen2Pkm;

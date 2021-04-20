@@ -1,7 +1,13 @@
 ﻿namespace PKHeX.Core
 {
+    /// <summary>
+    /// Interface that exposes a <see cref="Version"/> to see which version the data originated in.
+    /// </summary>
     public interface IVersion
     {
+        /// <summary>
+        /// The version the data originated in.
+        /// </summary>
         GameVersion Version { get; }
     }
 

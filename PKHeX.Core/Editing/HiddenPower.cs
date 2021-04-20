@@ -157,8 +157,10 @@ namespace PKHeX.Core
                 ivs[2] = (ivs[2] & ~3) | (type & 3);
                 return ivs;
             }
+
+            var bits = DefaultLowBits[type];
             for (int i = 0; i < 6; i++)
-                ivs[i] = (ivs[i] & 0x1E) + DefaultLowBits[type, i];
+                ivs[i] = (ivs[i] & 0x1E) + ((bits >> i) & 1);
             return ivs;
         }
 
@@ -170,24 +172,24 @@ namespace PKHeX.Core
         /// These are just precomputed for fast modification.
         /// Individual Values (H/A/B/S/C/D)
         /// </remarks>
-        public static readonly byte[,] DefaultLowBits =
+        public static readonly byte[] DefaultLowBits =
         {
-            { 1, 1, 0, 0, 0, 0 }, // Fighting
-            { 0, 0, 0, 1, 0, 0 }, // Flying
-            { 1, 1, 0, 1, 0, 0 }, // Poison
-            { 1, 1, 1, 1, 0, 0 }, // Ground
-            { 1, 1, 0, 0, 1, 0 }, // Rock
-            { 1, 0, 0, 1, 1, 0 }, // Bug
-            { 1, 0, 1, 1, 1, 0 }, // Ghost
-            { 1, 1, 1, 1, 1, 0 }, // Steel
-            { 1, 0, 1, 0, 0, 1 }, // Fire
-            { 1, 0, 0, 1, 0, 1 }, // Water
-            { 1, 0, 1, 1, 0, 1 }, // Grass
-            { 1, 1, 1, 1, 0, 1 }, // Electric
-            { 1, 0, 1, 0, 1, 1 }, // Psychic
-            { 1, 0, 0, 1, 1, 1 }, // Ice
-            { 1, 0, 1, 1, 1, 1 }, // Dragon
-            { 1, 1, 1, 1, 1, 1 }, // Dark
+            0b000011, // Fighting
+            0b001000, // Flying
+            0b001011, // Poison
+            0b001111, // Ground
+            0b010011, // Rock
+            0b011001, // Bug
+            0b011101, // Ghost
+            0b011111, // Steel
+            0b100101, // Fire
+            0b101001, // Water
+            0b101101, // Grass
+            0b101111, // Electric
+            0b110101, // Psychic
+            0b111001, // Ice
+            0b111101, // Dragon
+            0b111111, // Dark
         };
     }
 }
