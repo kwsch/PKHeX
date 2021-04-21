@@ -14,6 +14,7 @@ namespace PKHeX.Core
 
         public override void Verify(LegalityAnalysis data)
         {
+            // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
             var enc = data.EncounterMatch;
             var pkm = data.pkm;
 
@@ -25,8 +26,7 @@ namespace PKHeX.Core
                 return;
             }
 
-            int gen = enc.Generation; // Flag VC (Gen1/2) ribbons using Gen7 origin rules.
-            var result = GetIncorrectRibbons(pkm, enc, gen);
+            var result = GetIncorrectRibbons(pkm, enc);
             if (result.Count != 0)
             {
                 var msg = string.Join(Environment.NewLine, result);
@@ -38,11 +38,11 @@ namespace PKHeX.Core
             }
         }
 
-        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterable enc, int gen)
+        private static List<string> GetIncorrectRibbons(PKM pkm, IEncounterable enc)
         {
             List<string> missingRibbons = new();
             List<string> invalidRibbons = new();
-            var ribs = GetRibbonResults(pkm, enc, gen);
+            var ribs = GetRibbonResults(pkm, enc);
             foreach (var bad in ribs)
                 (bad.Invalid ? invalidRibbons : missingRibbons).Add(bad.Name);
 
@@ -75,14 +75,14 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterable enc, int gen)
+        internal static IEnumerable<RibbonResult> GetRibbonResults(PKM pkm, IEncounterable enc)
         {
-            return GetInvalidRibbons(pkm, enc, gen)
+            return GetInvalidRibbons(pkm, enc)
                 .Concat(GetInvalidRibbonsEvent1(pkm, enc))
                 .Concat(GetInvalidRibbonsEvent2(pkm, enc));
         }
 
-        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc, int gen)
+        private static IEnumerable<RibbonResult> GetInvalidRibbons(PKM pkm, IEncounterable enc)
         {
             if (pkm is IRibbonSetOnly3 o3)
             {
@@ -91,7 +91,7 @@ namespace PKHeX.Core
             }
             if (pkm is IRibbonSetUnique3 u3)
             {
-                if (gen != 3)
+                if (enc.Generation != 3)
                 {
                     if (u3.RibbonWinning)
                         yield return new RibbonResult(nameof(u3.RibbonWinning));
@@ -107,6 +107,7 @@ namespace PKHeX.Core
                 }
             }
 
+            int gen = enc.Generation;
             if (pkm is IRibbonSetUnique4 u4)
             {
                 if (!IsAllowedBattleFrontier(pkm.Species, pkm.Form, 4) || gen > 4)

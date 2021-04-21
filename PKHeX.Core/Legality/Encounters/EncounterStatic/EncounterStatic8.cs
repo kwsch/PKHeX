@@ -84,6 +84,17 @@ namespace PKHeX.Core
                 return EncounterMatchRating.Deferred;
 
             // Only encounter slots can have these marks; defer for collisions.
+            if (pkm.Species == (int) Core.Species.Shedinja)
+            {
+                // Loses Mark on evolution to Shedinja, but not affixed ribbon value.
+                return pkm switch
+                {
+                    IRibbonSetMark8 {RibbonMarkCurry: true} => EncounterMatchRating.Deferred,
+                    PK8 {AffixedRibbon: (int) RibbonIndex.MarkCurry} => EncounterMatchRating.Deferred,
+                    _ => EncounterMatchRating.Match
+                };
+            }
+
             if (pkm is IRibbonSetMark8 m && (m.RibbonMarkCurry || m.RibbonMarkFishing))
                 return EncounterMatchRating.Deferred;
 

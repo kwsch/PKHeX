@@ -9,7 +9,7 @@ namespace PKHeX.Core
     public sealed record EncounterSlot8 : EncounterSlot, IOverworldCorrelation8
     {
         public readonly AreaWeather8 Weather;
-        public override string LongName => Weather == AreaWeather8.All ? wild : $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
+        public override string LongName => $"{wild} [{(((EncounterArea8)Area).PermitCrossover ? "Symbol" : "Hidden")}] - {Weather.ToString().Replace("_", string.Empty)}";
         public override int Generation => 8;
 
         public EncounterSlot8(EncounterArea8 area, int species, int form, int min, int max, AreaWeather8 weather) : base(area, species, form, min, max)
@@ -36,7 +36,7 @@ namespace PKHeX.Core
             if (((EncounterArea8)Area).PermitCrossover)
                 return MustHave; // symbol walking overworld
 
-            bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true};
+            bool curry = pk is IRibbonSetMark8 {RibbonMarkCurry: true} || pk.Species == (int)Core.Species.Shedinja && pk is PK8 {AffixedRibbon:(int)RibbonIndex.MarkCurry};
             if (curry)
                 return MustNotHave;
 
