@@ -186,10 +186,13 @@ namespace PKHeX.WinForms
             if (ModifierKeys == Keys.Shift)
             {
                 RibbonApplicator.RemoveAllValidRibbons(pkm);
+                if (pkm is PK8 pk8)
+                    pk8.AffixedRibbon = -1;
                 Close();
                 return;
             }
 
+            CB_Affixed.SelectedValue = -1;
             foreach (var c in TLP_Ribbons.Controls.OfType<CheckBox>())
                 c.Checked = false;
             foreach (var n in TLP_Ribbons.Controls.OfType<NumericUpDown>())
