@@ -145,14 +145,14 @@ namespace PKHeX.Core
             // Does not copy ribbons or marks, but retains the Affixed Ribbon value.
             // Try re-verifying to see if it could have had the Ribbon/Mark.
 
+            var enc = data.EncounterOriginal;
             if ((byte) affix >= (int) RibbonIndex.MarkLunchtime)
             {
-                if (!IsMarkAllowedAny(data.EncounterOriginal))
+                if (!IsMarkValid((RibbonIndex)affix, pk8, enc))
                     data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex) affix)));
                 return;
             }
 
-            var enc = data.EncounterOriginal;
             if (enc.Generation <= 4 && (pk8.Ball != (int)Ball.Poke || IsMoveSetEvolvedShedinja(pk8)))
             {
                 // Evolved in a prior generation.
@@ -163,7 +163,7 @@ namespace PKHeX.Core
             var clone = pk8.Clone();
             clone.Species = (int) Species.Nincada;
             ((IRibbonIndex) clone).SetRibbon(affix);
-            var parse = RibbonVerifier.GetRibbonResults(clone, data.EncounterOriginal);
+            var parse = RibbonVerifier.GetRibbonResults(clone, enc);
             var expect = $"Ribbon{(RibbonIndex) affix}";
             var name = RibbonStrings.GetName(expect);
             bool invalid = parse.FirstOrDefault(z => z.Name == name)?.Invalid == true;
@@ -173,6 +173,7 @@ namespace PKHeX.Core
 
         private static bool IsMoveSetEvolvedShedinja(PK8 pk8)
         {
+            // Check for gen3/4 exclusive moves that are Ninjask glitch only.
             if (pk8.HasMove((int) Move.Screech))
                 return true;
             if (pk8.HasMove((int) Move.SwordsDance))
@@ -181,10 +182,10 @@ namespace PKHeX.Core
                 return true;
             if (pk8.HasMove((int) Move.BatonPass))
                 return true;
-            return pk8.HasMove((int)Move.Agility) && !pk8.GetMoveRecordFlag(12);
+            return pk8.HasMove((int)Move.Agility) && !pk8.GetMoveRecordFlag(12); // TR12 (Agility)
         }
 
-        private void EnsureHasRibbon(LegalityAnalysis data, PK8 pk8, sbyte affix)
+        private void EnsureHasRibbon(LegalityAnalysis data, IRibbonIndex pk8, sbyte affix)
         {
             var hasRibbon = pk8.GetRibbonIndex((RibbonIndex) affix);
             if (!hasRibbon)
