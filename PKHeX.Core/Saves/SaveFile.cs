@@ -282,18 +282,24 @@ namespace PKHeX.Core
             return party.Count == party.Where(t => t.Species != 0).Where((t, i) => t.IsEgg || except.Contains(i)).Count();
         }
 
+        private const int MaxPartyCount = 6;
+
         public IList<PKM> PartyData
         {
             get
             {
-                PKM[] data = new PKM[PartyCount];
+                var count = PartyCount;
+                if (count > MaxPartyCount)
+                    count = MaxPartyCount;
+
+                PKM[] data = new PKM[count];
                 for (int i = 0; i < data.Length; i++)
                     data[i] = GetPartySlot(PartyBuffer, GetPartyOffset(i));
                 return data;
             }
             set
             {
-                if (value.Count is 0 or > 6)
+                if (value.Count is 0 or > MaxPartyCount)
                     throw new ArgumentException($"Expected 1-6, got {value.Count}");
 #if DEBUG
                 if (value[0].Species == 0)
