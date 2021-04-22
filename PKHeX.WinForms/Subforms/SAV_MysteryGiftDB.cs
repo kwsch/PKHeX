@@ -107,7 +107,10 @@ namespace PKHeX.WinForms
             var pk = Results[index].ConvertToPKM(SAV);
             pk = PKMConverter.ConvertToType(pk, SAV.PKMType, out var c);
             if (pk == null)
-                throw new FormatException(c); // shouldn't happen
+            {
+                WinFormsUtil.Error(c);
+                return;
+            }
             SAV.AdaptPKM(pk);
             PKME_Tabs.PopulateFields(pk, false);
             slotSelected = index;
