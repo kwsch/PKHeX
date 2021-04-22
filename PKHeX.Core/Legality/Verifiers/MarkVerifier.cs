@@ -147,7 +147,7 @@ namespace PKHeX.Core
 
             if ((byte) affix >= (int) RibbonIndex.MarkLunchtime)
             {
-                if (data.EncounterOriginal.Generation != 8)
+                if (!IsMarkAllowedAny(data.EncounterOriginal))
                     data.AddLine(GetInvalid(string.Format(LRibbonMarkingAffixedF_0, (RibbonIndex) affix)));
                 return;
             }
