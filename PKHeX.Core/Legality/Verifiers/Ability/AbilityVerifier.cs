@@ -69,8 +69,15 @@ namespace PKHeX.Core
 
             if (format >= 8) // Ability Patch
             {
-                if (pkm.AbilityNumber == 4 && CanAbilityPatch(format, abilities, pkm.Species))
-                    return GetValid(LAbilityPatchUsed);
+                if (pkm.AbilityNumber == 4)
+                {
+                    if (CanAbilityPatch(format, abilities, pkm.Species))
+                        return GetValid(LAbilityPatchUsed);
+
+                    var e = data.EncounterOriginal;
+                    if (e.Species != pkm.Species && CanAbilityPatch(format, PKX.Personal.GetFormEntry(e.Species, e.Form).Abilities, e.Species))
+                        return GetValid(LAbilityPatchUsed);
+                }
             }
 
             var enc = data.EncounterMatch;
@@ -118,7 +125,7 @@ namespace PKHeX.Core
                 5 => VerifyAbility5(data, enc, abilities),
                 6 => VerifyAbility6(data, enc),
                 7 => VerifyAbility7(data, enc),
-                8 => VerifyAbility8(data, enc),
+              >=8 => VALID,
                 _ => CheckMatch(data.pkm, abilities, gen, AbilityState.CanMismatch)
             };
         }
@@ -365,17 +372,6 @@ namespace PKHeX.Core
             }
             if (AbilityBreedLegality.BanHidden7.Contains(enc.Species | (enc.Form << 11)) && pkm.AbilityNumber == 4)
                 return GetInvalid(LAbilityHiddenUnavailable);
-
-            return VALID;
-        }
-
-        private CheckResult VerifyAbility8(LegalityAnalysis data, IEncounterable enc)
-        {
-            var pkm = data.pkm;
-            if (enc is EncounterSlot && pkm.AbilityNumber == 4)
-                return GetInvalid(LAbilityHiddenUnavailable);
-            //if (BreedLegality.Ban_NoHidden8.Contains(pkm.SpecForm) && pkm.AbilityNumber == 4)
-            //    return GetInvalid(LAbilityHiddenUnavailable);
 
             return VALID;
         }

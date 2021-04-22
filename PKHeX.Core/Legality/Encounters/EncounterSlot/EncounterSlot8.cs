@@ -77,6 +77,10 @@ namespace PKHeX.Core
             if (Location is 76 && ((EncounterArea8)Area).PermitCrossover)
                 return EncounterMatchRating.PartialMatch;
 
+            bool isHidden = pkm.AbilityNumber == 4;
+            if (isHidden && this.IsPartialMatchHidden(pkm.Species, Species))
+                return EncounterMatchRating.PartialMatch;
+
             if (pkm is IRibbonSetMark8 m)
             {
                 if (m.RibbonMarkCurry && (Weather & AreaWeather8.All) == 0)

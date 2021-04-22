@@ -46,13 +46,15 @@ namespace PKHeX.Core
         {
             if (Ability != -1) // Any
             {
+                bool CanBeHidden() => ((PersonalInfoSWSH) PersonalTable.SWSH.GetFormEntry(Species, Form)).HasHiddenAbility;
+
                 // HA-Only is a strict match. Ability Capsule and Patch can potentially change these.
                 if (Ability == 0 && pkm.AbilityNumber == 4)
-                    return true; // 0/1
+                    return !CanBeHidden(); // 0/1
                 if (Ability == 1 && pkm.AbilityNumber != 1)
-                    return true; // 0
+                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 0
                 if (Ability == 2 && pkm.AbilityNumber != 2)
-                    return true; // 1
+                    return pkm.AbilityNumber != 4 || !CanBeHidden(); // 1
             }
 
             return base.IsMatchDeferred(pkm);

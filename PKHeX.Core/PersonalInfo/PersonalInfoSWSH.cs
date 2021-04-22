@@ -135,5 +135,7 @@ namespace PKHeX.Core
         /// Checks if the entry shows up in any of the built-in Pokédex.
         /// </summary>
         public bool IsInDex => PokeDexIndex != 0 || ArmorDexIndex != 0 || CrownDexIndex != 0;
+
+        public bool HasHiddenAbility => AbilityH != Ability1;
     }
 }
