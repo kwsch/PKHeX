@@ -153,9 +153,8 @@ namespace PKHeX.WinForms
         public void LoadSaveFile(string path)
         {
             var recent = RecentlyLoaded;
-            if (!recent.Remove(path))
-                return;
-            if (recent.Count >= MaxRecentCount)
+            // Remove from list if already present.
+            if (!recent.Remove(path) && recent.Count >= MaxRecentCount)
                 recent.RemoveAt(recent.Count - 1);
             recent.Insert(0, path);
         }
