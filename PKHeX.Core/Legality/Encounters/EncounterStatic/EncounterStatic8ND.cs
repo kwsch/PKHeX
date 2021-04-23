@@ -1,4 +1,5 @@
-﻿using static PKHeX.Core.Encounters8Nest;
+﻿using System.Linq;
+using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {
@@ -34,6 +35,12 @@ namespace PKHeX.Core
 
             if (lvl % 5 != 0)
                 return false;
+
+            if (lvl <= 25) // 1 or 2 stars
+            {
+                if (InaccessibleRank12DistributionLocations.Contains(pkm.Met_Location))
+                    return false;
+            }
 
             // shared nests can be down-leveled to any
             if (pkm.Met_Location == SharedNest)

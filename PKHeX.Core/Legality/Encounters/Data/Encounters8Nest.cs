@@ -408,6 +408,46 @@ namespace PKHeX.Core
             new byte[] {214},                // 196 : Snowslide Slope 
         };
 
+        /// <summary>
+        /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
+        /// </summary>
+        internal static readonly HashSet<int> InaccessibleRank12DistributionLocations = new() {154,178,186,188,190,192,194,226,228,230,234}; // Areas that are entirely restricted to water
+
+        /// <summary>
+        /// Location IDs containing Dens that cannot be accessed without Rotom Bike's Water Mode.
+        /// </summary>
+        internal static readonly Dictionary<int, byte[]> InaccessibleRank12Nests = new()
+        {
+            {128, new byte[] {6,43}}, // East Lake Axewell
+            {130, new byte[] {6,41,43}}, // West Lake Axewell
+            {132, new byte[] {37,63}}, // Axew's Eye
+            {134, new byte[] {7,40,75,90}}, // South Lake Miloch
+            {138, new byte[] {40,75}}, // North Lake Miloch
+            {142, new byte[] {7,43}}, // Bridge Field
+            {146, new byte[] {8,74}}, // Dusty Bowl
+            {148, new byte[] {41,66}}, // Giant's Mirror
+            {154, new byte[] {7,17,24,33,43,55,73,76}}, // Lake of Outrage
+            {164, new byte[] {136,137}}, // Fields of Honor
+            {168, new byte[] {124,125,134,135,144,153}}, // Forest of Focus
+            {170, new byte[] {126,127}}, // Challenge Beach
+            {176, new byte[] {132,133}}, // Courageous Cavern
+            {178, new byte[] {106,107,112,113,130,136,137,150}}, // Loop Lagoon
+            {180, new byte[] {116,117}}, // Training Lowlands
+            {186, new byte[] {106,107,108,109,120,121,130,131,138,139,145,151,152,154}}, // Workout Sea
+            {188, new byte[] {98,99,102,103,106,107,116,117,118,119,126,127,128,129,138,139,145,154}}, // Stepping-Stone Sea
+            {190, new byte[] {98,99,110,111,124,125,136,138,139,146}}, // Insular Sea
+            {192, new byte[] {104,105,120,121,122,123,130,131,138,139}}, // Honeycalm Sea
+            {194, new byte[] {142,143}}, // Honeycalm Island
+            {210, new byte[] {169,170,183,184}}, // Giant's Bed
+            {222, new byte[] {181,182,185,186}}, // Giant's Foot
+            {226, new byte[] {161,162,163,164,167,168,169,170,171,172,173,174,175,176,181,182,183,184,185,186,187,188,189,190}}, // Frigid Sea
+            {228, new byte[] {163,164,183,184}}, // Three-Point Pass
+            {230, new byte[] {157,158,159,160,161,162,163,164,165,166,171,172,173,174,175,176,177,178,179,180,181,182,183,184,189,190,191,192,193,194}}, // Ballimere Lake
+            {234, new byte[] {175,176}}, // Dyna Tree Hill
+
+            {162, new byte[] {6,43,41,37,7,40,75,66,73,76,130,150,131,138,139,145,151,152,154,146,142,143,169,170,193,194}}, // Completely inaccessible
+        };
+
         // Abilities Allowed
         private const int A0 = 1; // 1 only
         private const int A1 = 2; // 2 only

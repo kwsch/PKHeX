@@ -47,6 +47,13 @@ namespace PKHeX.Core
                 return false;
             if (rank > MaxRank)
                 return false;
+
+            if (rank <= 1)
+            {
+                if (InaccessibleRank12Nests.TryGetValue(pkm.Met_Location, out var nests) && nests.Contains(NestID))
+                    return false;
+            }
+
             if (rank < MinRank) // down-leveled
                 return IsDownLeveled(pkm, metLevel, met);
 
