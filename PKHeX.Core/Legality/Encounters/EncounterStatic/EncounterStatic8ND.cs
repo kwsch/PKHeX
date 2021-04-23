@@ -24,6 +24,13 @@ namespace PKHeX.Core
         protected override bool IsMatchLevel(PKM pkm, DexLevel evo)
         {
             var lvl = pkm.Met_Level;
+
+            if (lvl <= 25) // 1 or 2 stars
+            {
+                if (InaccessibleRank12DistributionLocations.Contains(pkm.Met_Location))
+                    return false;
+            }
+
             if (lvl == Level)
                 return true;
 
@@ -35,12 +42,6 @@ namespace PKHeX.Core
 
             if (lvl % 5 != 0)
                 return false;
-
-            if (lvl <= 25) // 1 or 2 stars
-            {
-                if (InaccessibleRank12DistributionLocations.Contains(pkm.Met_Location))
-                    return false;
-            }
 
             // shared nests can be down-leveled to any
             if (pkm.Met_Location == SharedNest)
