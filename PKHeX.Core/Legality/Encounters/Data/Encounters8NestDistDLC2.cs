@@ -8,6 +8,13 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 875, Ability = A4, Moves = new[]{ 181, 362, 033, 311 }, Index = 65 }, // Eiscue
+            new(30,03,2) { Species = 875, Ability = A4, Moves = new[]{ 196, 362, 033, 029 }, Index = 65 }, // Eiscue
+            new(40,05,3) { Species = 875, Ability = A4, Moves = new[]{ 008, 057, 263, 029 }, Index = 65 }, // Eiscue
+            new(50,08,4) { Species = 875, Ability = A4, Moves = new[]{ 333, 057, 428, 029 }, Index = 65 }, // Eiscue
+            new(60,10,5) { Species = 875, Ability = A4, Moves = new[]{ 333, 710, 442, 029 }, Index = 65, Shiny = Shiny.Always }, // Eiscue
+            new(60,10,5) { Species = 875, Ability = A4, Moves = new[]{ 333, 710, 442, 029 }, Index = 65 }, // Eiscue
+
             new(17,01,1) { Species = 132, Ability = A4, Moves = new[]{ 144, 000, 000, 000 }, Index = 64 }, // Ditto
             new(17,01,1) { Species = 821, Ability = A4, Moves = new[]{ 403, 031, 043, 681 }, Index = 64 }, // Rookidee
             new(17,01,1) { Species = 833, Ability = A4, Moves = new[]{ 055, 033, 044, 240 }, Index = 64 }, // Chewtle
