@@ -74,6 +74,7 @@ namespace PKHeX.Core
         private const uint KZukan = 0x4716c404; // ZukanData_Pokemon
         private const uint KZukanR1 = 0x3F936BA9; // ZukanData_PokemonR1 (Armor)
         private const uint KZukanR2 = 0x3C9366F0; // ZukanData_PokemonR2 (Crown)
+        private const uint KPokedexRecommendation = 0xC3FB9E77; // Pokédex recommendations
         private const uint KCurryDex = 0x6EB72940; // Curry Dex
         private const uint KTrainerCard = 0x874da6fa; // Trainer Card
         private const uint KPlayTime = 0x8cbbfd90; // Time Played
@@ -128,6 +129,7 @@ namespace PKHeX.Core
         private const uint KBonusRewards = 0xEFCAE04E; // bonus_rewards
 
         private const uint KNormalEncountRigel1 = 0x0E615A8C; // normal_encount_rigel1
+        private const uint KNormalEncountRigel2 = 0x11615F45; // normal_encount_rigel2
 
         // Values
         public const uint KCurrentBox = 0x017C3CBB; // U32 Box Index
