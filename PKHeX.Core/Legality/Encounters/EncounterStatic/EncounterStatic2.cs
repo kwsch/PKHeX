@@ -126,7 +126,7 @@ namespace PKHeX.Core
         // Routes 29-46, except 40 & 41; total 16.
         // 02, 04, 05, 08, 11, 15, 18, 20,
         // 21, 25, 26, 34, 37, 39, 43, 45,
-        private const ulong RoamLocations = 0b_0110_0011_0100_1010_1001_1011_0100;
+        private const ulong RoamLocations = 0b10_1000_1010_0100_0000_0110_0011_0100_1000_1001_0011_0100;
         public override int Location => 2;
 
         public EncounterStatic2Roam(int species, int level, GameVersion ver) : base(species, level, ver) { }
