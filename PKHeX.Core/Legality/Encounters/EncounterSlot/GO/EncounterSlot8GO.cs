@@ -56,7 +56,7 @@ namespace PKHeX.Core
         {
             if (IsMatchPartial(pkm))
                 return EncounterMatchRating.PartialMatch;
-            return base.GetMatchRating(pkm);
+            return base.GetMatchRating(pkm) == EncounterMatchRating.PartialMatch ? EncounterMatchRating.PartialMatch : EncounterMatchRating.Match;
         }
 
         private bool IsMatchPartial(PKM pk)
