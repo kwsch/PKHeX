@@ -344,7 +344,7 @@ namespace PKHeX.Core
                     new InventoryPouch3GC(InventoryType.TMHMs, Legal.Pouch_TM_RS, 999, OFS_PouchTMHM, 64),
                     new InventoryPouch3GC(InventoryType.Berries, Legal.Pouch_Berries_RS, 999, OFS_PouchBerry, 46),
                     new InventoryPouch3GC(InventoryType.Medicine, Legal.Pouch_Cologne_XD, 999, OFS_PouchCologne, 3), // Cologne
-                    new InventoryPouch3GC(InventoryType.BattleItems, Legal.Pouch_Disc_XD, 999, OFS_PouchDisc, 60)
+                    new InventoryPouch3GC(InventoryType.BattleItems, Legal.Pouch_Disc_XD, 1, OFS_PouchDisc, 60)
                 };
                 return pouch.LoadAll(Data);
             }
