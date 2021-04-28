@@ -149,7 +149,7 @@ namespace PKHeX.Core
         protected override int GiftCountMax => 1;
         public override int OTLength => 10; // as evident by Mattle Ho-Oh
         public override int NickLength => 10;
-        public override int MaxMoney => 999999;
+        public override int MaxMoney => 9999999;
 
         public override int BoxCount => 3;
         public override bool IsPKMPresent(byte[] data, int offset) => PKX.IsPKMPresentGC(data, offset);
