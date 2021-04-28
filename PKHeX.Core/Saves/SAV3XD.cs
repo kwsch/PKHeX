@@ -173,7 +173,7 @@ namespace PKHeX.Core
         protected override int GiftCountMax => 1;
         public override int OTLength => 7;
         public override int NickLength => 10;
-        public override int MaxMoney => 999999;
+        public override int MaxMoney => 9999999;
 
         public override int BoxCount => 8;
 
