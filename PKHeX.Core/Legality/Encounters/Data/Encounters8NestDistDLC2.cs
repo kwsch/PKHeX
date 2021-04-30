@@ -8,6 +8,29 @@
         /// </summary>
         internal static readonly EncounterStatic8ND[] Dist_DLC2 =
         {
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
+            new(17,01,1) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 67 }, // Meowth
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
+            new(30,03,2) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 67 }, // Meowth
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
+            new(40,05,3) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 67 }, // Meowth
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
+            new(50,08,4) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 67 }, // Meowth
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2, Shiny = Shiny.Always }, // Meowth-2
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 232, 442, 583 }, Index = 67, Form = 2 }, // Meowth-2
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 196, 675 }, Index = 67, Form = 1 }, // Meowth-1
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 492, 402, 247 }, Index = 67 }, // Meowth
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 441, 087, 231 }, Index = 67 }, // Meowth
+            new(60,10,5) { Species = 052, Ability = A4, Moves = new[]{ 006, 583, 421, 034 }, Index = 67, CanGigantamax = true }, // Meowth
+
             new(17,01,1) { Species = 875, Ability = A4, Moves = new[]{ 181, 362, 033, 311 }, Index = 65 }, // Eiscue
             new(30,03,2) { Species = 875, Ability = A4, Moves = new[]{ 196, 362, 033, 029 }, Index = 65 }, // Eiscue
             new(40,05,3) { Species = 875, Ability = A4, Moves = new[]{ 008, 057, 263, 029 }, Index = 65 }, // Eiscue
