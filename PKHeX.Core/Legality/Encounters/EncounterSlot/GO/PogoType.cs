@@ -7,8 +7,13 @@ namespace PKHeX.Core
     {
         None, // Don't use this.
 
+        /// <summary> Wild encounter, no special requirements </summary>
         Wild,
+
+        /// <summary> Pokémon Egg, requires Lv. 1 and IV = 1 </summary>
         Egg,
+        /// <summary> Strange Egg, requires Lv. 8 and IV = 1 </summary>
+        EggS,
 
         /// <summary> Raid Boss, requires Lv. 20 and IV = 1 </summary>
         Raid = 10,
@@ -39,6 +44,7 @@ namespace PKHeX.Core
         /// <param name="encounterType">Descriptor indicating how the Pokémon was encountered in GO.</param>
         public static int GetMinLevel(this PogoType encounterType) => encounterType switch
         {
+            PogoType.EggS => 8,
             PogoType.Raid => 20,
             PogoType.RaidM => 20,
             PogoType.Research => 15,
@@ -87,6 +93,7 @@ namespace PKHeX.Core
         public static Ball GetValidBall(this PogoType encounterType) => encounterType switch
         {
             PogoType.Egg => Ball.Poke,
+            PogoType.EggS => Ball.Poke,
             PogoType.Raid => Ball.Premier,
             PogoType.RaidM => Ball.Premier,
             PogoType.ResearchP => Ball.Poke,
