@@ -297,7 +297,15 @@ namespace PKHeX.WinForms
             if (!Directory.Exists(PluginPath))
                 return;
             #endif
-            Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
+            try
+            {
+                Plugins.AddRange(PluginLoader.LoadPlugins<IPlugin>(PluginPath));
+            }
+            catch (InvalidCastException c)
+            {
+                WinFormsUtil.Error(MsgPluginFailLoad, c);
+                return;
+            }
             foreach (var p in Plugins.OrderBy(z => z.Priority))
                 p.Initialize(C_SAV, PKME_Tabs, menuStrip1, CurrentProgramVersion);
         }
