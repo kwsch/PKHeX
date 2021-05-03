@@ -90,13 +90,13 @@ namespace PKHeX.WinForms
                 .OrderByDescending(z => Directory.Exists(z.Path)).ToList();
         }
 
-        private const int ButtonHeight = 30;
+        private const int ButtonHeight = 40;
         private const int ButtonWidth = 130;
 
         private void AddButton(string name, string path)
         {
             Button button = GetCustomButton(name);
-            button.Enabled = new DirectoryInfo(path).Exists;
+            button.Enabled = Directory.Exists(path);
             button.Click += (s, e) =>
             {
                 if (!Directory.Exists(path))
@@ -125,10 +125,8 @@ namespace PKHeX.WinForms
 
         private static IEnumerable<CustomFolderPath> GetUserPaths()
         {
-            var lines = Main.Settings.Backup.OtherBackupPaths;
-            return lines.Select(z => z.Split('\t'))
-                .Where(a => a.Length == 2)
-                .Select(x => new CustomFolderPath(x, true));
+            var paths = Main.Settings.Backup.OtherBackupPaths;
+            return paths.Select(x => new CustomFolderPath(x, true));
         }
 
         private static IEnumerable<CustomFolderPath> GetConsolePaths(IEnumerable<string> drives)
@@ -171,13 +169,6 @@ namespace PKHeX.WinForms
 
                 Path = z;
                 DisplayText = folder;
-                Custom = custom;
-            }
-
-            public CustomFolderPath(IReadOnlyList<string> arr, bool custom = false)
-            {
-                Path = arr[1];
-                DisplayText = arr[0];
                 Custom = custom;
             }
 
