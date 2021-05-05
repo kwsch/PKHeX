@@ -103,8 +103,8 @@ namespace PKHeX.Core
             var ball = Area.Type.GetRequiredBallValueWild(Generation, Location);
             pk.Ball = (int)(ball == Ball.None ? Ball.Poke : ball);
             pk.Language = lang;
-            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
             pk.Form = GetWildForm(pk, Form, sav);
+            pk.OT_Friendship = pk.PersonalInfo.BaseFriendship;
 
             SetMetData(pk, level, Location);
             SetPINGA(pk, criteria);
