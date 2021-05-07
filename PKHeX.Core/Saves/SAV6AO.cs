@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -135,7 +134,8 @@ namespace PKHeX.Core
         public override string GetDaycareRNGSeed(int loc)
         {
             int ofs = loc == 0 ? DaycareOffset : Daycare2;
-            var data = Data.Skip(ofs + 0x1E8).Take(DaycareSeedSize / 2).Reverse().ToArray();
+            var data = Data.AsSpan(ofs + 0x1E8, DaycareSeedSize / 2).ToArray();
+            Array.Reverse(data);
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 

@@ -107,16 +107,24 @@ namespace PKHeX.Core
 
         private static int[]? GetSuggestedHiddenPowerIVs(int hpVal, int[] IVs)
         {
-            var flawless = IVs.Select((v, i) => v == 31 ? i : -1).Where(v => v != -1).ToArray();
-            var permutations = GetPermutations(flawless, flawless.Length);
-            int flawedCount = 0;
-            int[]? best = null;
+            const int max = 31;
+            var flawless = new int[IVs.Length]; // future: stackalloc
+            int flawlessCount = 0;
+            for (int i = 0; i < IVs.Length; i++)
+            {
+                if (IVs[i] == max)
+                    flawless[++flawlessCount] = i;
+            }
+
+            var permutations = GetPermutations(flawless, flawlessCount);
+            int flawedCount = 0; // result tracking
+            int[]? best = null; // result tracking
             int[] ivs = (int[])IVs.Clone();
             foreach (var permute in permutations)
             {
-                foreach (var item in permute)
+                foreach (var index in permute)
                 {
-                    ivs[item] ^= 1;
+                    ivs[index] ^= 1;
                     if (hpVal != GetType(ivs))
                         continue;
 
@@ -129,7 +137,7 @@ namespace PKHeX.Core
                     break; // any further flaws are always worse
                 }
                 // Restore IVs for another iteration
-                Array.Copy(IVs, 0, ivs, 0, ivs.Length);
+                Buffer.BlockCopy(IVs, 0, ivs, 0, ivs.Length);
             }
             return best;
         }

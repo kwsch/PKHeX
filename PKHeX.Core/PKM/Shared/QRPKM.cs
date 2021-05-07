@@ -49,7 +49,7 @@ namespace PKHeX.Core
             if (pkm.HeldItem > 0)
             {
                 var items = s.GetItemStrings(pkm.Format);
-                if ((uint)pkm.HeldItem < items.Count)
+                if ((uint)pkm.HeldItem < items.Length)
                     yield return $" @ {items[pkm.HeldItem]}";
             }
 

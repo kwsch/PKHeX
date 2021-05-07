@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.EncounterUtil;
+﻿using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
@@ -396,13 +395,15 @@ namespace PKHeX.Core
             new EncounterTrade4RanchSpecial(489, 01) { Moves = new[] {447,240,156,057}, TID = 1000, SID = 09248, OTGender = 1, Location = 3000, Ball = 0x10, Gender = 2, CurrentLevel = 50, EggLocation = 3000, }, // Phione
         };
 
-        internal static readonly EncounterTrade4[] TradeGift_DPPt = new EncounterTrade4PID[]
+        private static readonly EncounterTrade4PID[] TradeGift_DPPtIngame =
         {
             new(DPPt, 0x0000008E, 063, 01) { Ability = 1, TID = 25643, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {15,15,15,20,25,25} }, // Machop -> Abra
             new(DPPt, 0x00000867, 441, 01) { Ability = 2, TID = 44142, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,20,15,25,25,15}, Contest = 20 }, // Buizel -> Chatot
             new(DPPt, 0x00000088, 093, 35) { Ability = 1, TID = 19248, SID = 00000, OTGender = 1, Gender = 0, IVs = new[] {20,25,15,25,15,15} }, // Medicham (35 from Route 217) -> Haunter
             new(DPPt, 0x0000045C, 129, 01) { Ability = 1, TID = 53277, SID = 00000, OTGender = 0, Gender = 1, IVs = new[] {15,25,15,20,25,15} }, // Finneon -> Magikarp
-        }.Concat(RanchGifts).ToArray();
+        };
+
+        internal static readonly EncounterTrade4[] TradeGift_DPPt = ArrayUtil.ConcatAll(TradeGift_DPPtIngame, RanchGifts);
 
         internal static readonly EncounterTrade4PID[] TradeGift_HGSS =
         {

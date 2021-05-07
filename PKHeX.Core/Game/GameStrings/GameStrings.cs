@@ -384,18 +384,15 @@ namespace PKHeX.Core
             // metSWSH_30000[17] += " (-)"; // Pokémon HOME -- duplicate with 40000's entry
         }
 
-        public IReadOnlyList<string> GetItemStrings(int generation, GameVersion game = GameVersion.Any)
+        public string[] GetItemStrings(int generation, GameVersion game = GameVersion.Any) => generation switch
         {
-            return generation switch
-            {
-                0 => Array.Empty<string>(),
-                1 => g1items,
-                2 => g2items,
-                3 => GetItemStrings3(game),
-                4 => g4items, // mail names changed 4->5
-                _ => itemlist
-            };
-        }
+            0 => Array.Empty<string>(),
+            1 => g1items,
+            2 => g2items,
+            3 => GetItemStrings3(game),
+            4 => g4items, // mail names changed 4->5
+            _ => itemlist
+        };
 
         private string[] GetItemStrings3(GameVersion game)
         {

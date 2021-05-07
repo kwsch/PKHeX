@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace PKHeX.Core
@@ -25,7 +26,7 @@ namespace PKHeX.Core
         public string Move2 => Get(Strings.movelist, pkm.Move2);
         public string Move3 => Get(Strings.movelist, pkm.Move3);
         public string Move4 => Get(Strings.movelist, pkm.Move4);
-        public string HeldItem => Get(Strings.GetItemStrings(pkm.Format), pkm.HeldItem);
+        public string HeldItem => GetSpan(Strings.GetItemStrings(pkm.Format), pkm.HeldItem);
         public string HP => Stats[0].ToString();
         public string ATK => Stats[1].ToString();
         public string DEF => Stats[2].ToString();
@@ -121,5 +122,6 @@ namespace PKHeX.Core
         /// <param name="val">Index to fetch</param>
         /// <returns>Null if array is null</returns>
         private static string Get(IReadOnlyList<string> arr, int val) => (uint)val < arr.Count ? arr[val] : string.Empty;
+        private static string GetSpan(ReadOnlySpan<string> arr, int val) => (uint)val < arr.Length ? arr[val] : string.Empty;
     }
 }

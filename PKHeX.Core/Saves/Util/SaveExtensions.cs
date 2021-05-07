@@ -37,7 +37,7 @@ namespace PKHeX.Core
                 if (msg != null)
                 {
                     var itemstr = GameInfo.Strings.GetItemStrings(pkm.Format, (GameVersion)pkm.Version);
-                    errata.Add($"{msg} {(held >= itemstr.Count ? held.ToString() : itemstr[held])}");
+                    errata.Add($"{msg} {(held >= itemstr.Length ? held.ToString() : itemstr[held])}");
                 }
             }
 

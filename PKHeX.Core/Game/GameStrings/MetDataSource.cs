@@ -32,21 +32,23 @@ namespace PKHeX.Core
 
         private static List<ComboItem> CreateGen2(GameStrings s)
         {
-            var locations = Util.GetCBList(s.metGSC_00000, Enumerable.Range(0, 0x5F).ToArray());
-            Util.AddCBWithOffset(locations, s.metGSC_00000, 00000, 0x7E, 0x7F);
+            var locations = Util.GetCBList(s.metGSC_00000.AsSpan(0, 0x5F));
+            Util.AddCBWithOffset(locations, s.metGSC_00000.AsSpan(0x7E, 2), 0x7E);
             return locations;
         }
 
         private static List<ComboItem> CreateGen3(GameStrings s)
         {
-            var locations = Util.GetCBList(s.metRSEFRLG_00000, Enumerable.Range(0, 213).ToArray());
-            Util.AddCBWithOffset(locations, s.metRSEFRLG_00000, 00000, 253, 254, 255);
+            var locations = Util.GetCBList(s.metRSEFRLG_00000.AsSpan(0, 213));
+            Util.AddCBWithOffset(locations, s.metRSEFRLG_00000.AsSpan(253, 3), 253);
             return locations;
         }
 
         private static List<ComboItem> CreateGen3CXD(GameStrings s)
         {
-            return Util.GetCBList(s.metCXD_00000, Enumerable.Range(0, s.metCXD_00000.Length).ToArray()).Where(c => c.Text.Length > 0).ToList();
+            var list = Util.GetCBList(s.metCXD_00000);
+            list.RemoveAll(z => z.Text.Length == 0);
+            return list;
         }
 
         private static List<ComboItem> CreateGen4(GameStrings s)

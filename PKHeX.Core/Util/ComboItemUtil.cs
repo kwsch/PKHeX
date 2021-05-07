@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -43,10 +42,10 @@ namespace PKHeX.Core
             return arr;
         }
 
-        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings)
+        public static List<ComboItem> GetCBList(ReadOnlySpan<string> inStrings)
         {
-            var list = new List<ComboItem>(inStrings.Count);
-            for (int i = 0; i < inStrings.Count; i++)
+            var list = new List<ComboItem>(inStrings.Length);
+            for (int i = 0; i < inStrings.Length; i++)
                 list.Add(new ComboItem(inStrings[i], i));
             list.Sort(Comparer);
             return list;
@@ -82,12 +81,10 @@ namespace PKHeX.Core
             return list;
         }
 
-        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, params int[][] allowed)
+        public static List<ComboItem> GetCBList(IReadOnlyList<string> inStrings, int[] allowed)
         {
-            var count = allowed.Sum(z => z.Length);
-            var list = new List<ComboItem>(count);
-            foreach (var arr in allowed)
-                AddCB(list, inStrings, arr);
+            var list = new List<ComboItem>(allowed.Length);
+            AddCB(list, inStrings, allowed);
             return list;
         }
 
@@ -97,7 +94,7 @@ namespace PKHeX.Core
             list.Add(item);
         }
 
-        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, params int[] allowed)
+        public static void AddCBWithOffset(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int offset, int[] allowed)
         {
             int beginCount = cbList.Count;
             foreach (var index in allowed)
@@ -106,6 +103,18 @@ namespace PKHeX.Core
                 cbList.Add(item);
             }
             cbList.Sort(beginCount, allowed.Length, Comparer);
+        }
+
+        public static void AddCBWithOffset(List<ComboItem> cbList, Span<string> inStrings, int offset)
+        {
+            int beginCount = cbList.Count;
+            for (int i = 0; i < inStrings.Length; i++)
+            {
+                var x = inStrings[i];
+                var item = new ComboItem(x, i + offset);
+                cbList.Add(item);
+            }
+            cbList.Sort(beginCount, inStrings.Length, Comparer);
         }
 
         public static void AddCB(List<ComboItem> cbList, IReadOnlyList<string> inStrings, int[] allowed)

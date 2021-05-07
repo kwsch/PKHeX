@@ -273,7 +273,7 @@ namespace PKHeX.Core
             if (HeldItem > 0)
             {
                 var items = Strings.GetItemStrings(Format);
-                if ((uint)HeldItem < items.Count)
+                if ((uint)HeldItem < items.Length)
                     result += $" @ {items[HeldItem]}";
             }
             return result;
@@ -384,7 +384,7 @@ namespace PKHeX.Core
 
             bool TrySetItem(int format)
             {
-                var items = (string[])Strings.GetItemStrings(format); // IReadOnlyList<string>->string[] must be possible for the provided strings
+                var items = Strings.GetItemStrings(format);
                 int item = StringUtil.FindIndexIgnoreCase(items, itemName);
                 if (item < 0)
                     return false;

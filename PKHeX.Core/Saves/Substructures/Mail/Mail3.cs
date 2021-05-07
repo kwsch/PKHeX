@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -37,7 +36,8 @@ namespace PKHeX.Core
             {
                 if (value.Length == 0)
                 {
-                    Enumerable.Repeat<byte>(0xFF, 8).ToArray().CopyTo(Data, 0x12);
+                    for (int i = 0; i < 8; i++)
+                        Data[0x12 + i] = 0xFF;
                 }
                 else
                 {

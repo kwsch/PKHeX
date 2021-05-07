@@ -4,7 +4,6 @@ using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.AreaWeather8;
 
 using static PKHeX.Core.Encounters8Nest;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -790,7 +789,7 @@ namespace PKHeX.Core
             new(SWSH, 105,15,01,038,06,2) {              TID7 = 101141, FlawlessIVCount = 3, DynamaxLevel = 5, OTGender = 1, Shiny = Shiny.Random, IsNicknamed = false, Relearn = new[] {174,000,000,000}, Form = 1     }, // Marowak-1
         };
 
-        internal static readonly EncounterTrade8[] TradeGift_SWSH = TradeGift_Regular.Concat(TradeGift_R1).ToArray();
+        internal static readonly EncounterTrade8[] TradeGift_SWSH = ArrayUtil.ConcatAll(TradeGift_Regular, TradeGift_R1);
 
         internal static readonly EncounterStatic[] StaticSW = ArrayUtil.ConcatAll<EncounterStatic>(Nest_Common, Nest_SW, Nest_SH, Dist_DLC2, Dist_DLC1, Dist_Base, GetEncounters(Crystal_SWSH, SW), DynAdv_SWSH, GetEncounters(Encounter_SWSH, SW));
         internal static readonly EncounterStatic[] StaticSH = ArrayUtil.ConcatAll<EncounterStatic>(Nest_Common, Nest_SW, Nest_SH, Dist_DLC2, Dist_DLC1, Dist_Base, GetEncounters(Crystal_SWSH, SH), DynAdv_SWSH, GetEncounters(Encounter_SWSH, SH));

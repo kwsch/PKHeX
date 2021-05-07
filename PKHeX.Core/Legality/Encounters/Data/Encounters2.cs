@@ -1,4 +1,4 @@
-using System.Linq;
+using System;
 using static PKHeX.Core.EncounterUtil;
 using static PKHeX.Core.GameVersion;
 using static PKHeX.Core.EncounterGBLanguage;
@@ -103,9 +103,9 @@ namespace PKHeX.Core
             new EncounterStatic2Roam(245, 40, GS), // Suicune
         };
 
-        private static readonly EncounterStatic2[] Encounter_GS = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_GSC_Roam).ToArray();
-        private static readonly EncounterStatic2[] Encounter_C = Encounter_GSC_Common.Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam.Slice(0, 2)).ToArray();
-        private static readonly EncounterStatic2[] Encounter_GSC = Encounter_GSC_Common.Concat(Encounter_GS_Exclusive).Concat(Encounter_C_Exclusive).Concat(Encounter_GSC_Roam).ToArray();
+        private static readonly EncounterStatic2[] Encounter_GS = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_GS_Exclusive, Encounter_GSC_Roam);
+        private static readonly EncounterStatic2[] Encounter_C = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_C_Exclusive, Encounter_GSC_Roam.AsSpan(0, 2));
+        private static readonly EncounterStatic2[] Encounter_GSC = ArrayUtil.ConcatAll(Encounter_GSC_Common, Encounter_GS_Exclusive, Encounter_C_Exclusive, Encounter_GSC_Roam);
 
         internal static readonly EncounterTrade2[] TradeGift_GSC =
         {

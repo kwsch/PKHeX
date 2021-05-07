@@ -203,5 +203,15 @@ namespace PKHeX.Core
             arr3.CopyTo(result, arr1.Length + arr2.Length);
             return result;
         }
+
+        internal static T[] ConcatAll<T>(T[] arr1, T[] arr2, Span<T> arr3)
+        {
+            int len = arr1.Length + arr2.Length + arr3.Length;
+            var result = new T[len];
+            arr1.CopyTo(result, 0);
+            arr2.CopyTo(result, arr1.Length);
+            arr3.CopyTo(result.AsSpan(arr1.Length + arr2.Length));
+            return result;
+        }
     }
 }

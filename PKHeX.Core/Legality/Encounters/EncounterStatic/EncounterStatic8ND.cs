@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using static PKHeX.Core.Encounters8Nest;
+﻿using static PKHeX.Core.Encounters8Nest;
 
 namespace PKHeX.Core
 {

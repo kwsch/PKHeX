@@ -123,19 +123,9 @@ namespace PKHeX.Core
                 return Array.Empty<string>();
             var ew = ((SAV7b)S1).Blocks.EventWork;
 
-            var fOn = SetFlags.Select(z => new { Type = ew.GetFlagType(z, out var subIndex), Index = subIndex, Raw = z })
-                .Select(z => $"{z.Raw:0000}\t{true }\t{z.Index:0000}\t{z.Type}").ToArray();
-            var fOff = ClearedFlags.Select(z => new { Type = ew.GetFlagType(z, out var subIndex), Index = subIndex, Raw = z })
-                .Select(z => $"{z.Raw:0000}\t{false}\t{z.Index:0000}\t{z.Type}").ToArray();
-
-            var w = WorkChanged.Select((z, i) => new
-            {
-                Type = ew.GetWorkType(z, out var subIndex),
-                Index = subIndex,
-                Raw = z,
-                Text = WorkDiff[i]
-            }).ToArray();
-            var wt = w.Select(z => $"{z.Raw:000}\t{z.Text}\t{z.Index:000}\t{z.Type}").ToArray();
+            var fOn = SetFlags.Select(z => new FlagSummary(z, ew).ToString());
+            var fOff = ClearedFlags.Select(z => new FlagSummary(z, ew).ToString());
+            var wt = WorkChanged.Select((z, i) => new WorkSummary(z, ew, WorkDiff[i]).ToString());
 
             var list = new List<string> { "Flags: ON", "=========" };
             list.AddRange(fOn);
@@ -157,6 +147,40 @@ namespace PKHeX.Core
             list.AddRange(wt);
 
             return list;
+        }
+
+        private readonly struct FlagSummary
+        {
+            private EventVarType Type { get; }
+            private int Index { get; }
+            private int Raw { get; }
+
+            public override string ToString() => $"{Raw:0000}\t{false}\t{Index:0000}\t{Type}";
+
+            public FlagSummary(int rawIndex, EventWork7b ew)
+            {
+                Type = ew.GetFlagType(rawIndex, out var subIndex);
+                Index = subIndex;
+                Raw = rawIndex;
+            }
+        }
+
+        private readonly struct WorkSummary
+        {
+            private EventVarType Type { get; }
+            private int Index { get; }
+            private int Raw { get; }
+            private string Text { get; }
+
+            public override string ToString() => $"{Raw:000}\t{Text}\t{Index:000}\t{Type}";
+
+            public WorkSummary(int rawIndex, EventWork7b ew, string text)
+            {
+                Type = ew.GetFlagType(rawIndex, out var subIndex);
+                Index = subIndex;
+                Raw = rawIndex;
+                Text = text;
+            }
         }
     }
 }
