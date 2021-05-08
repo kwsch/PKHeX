@@ -41,7 +41,8 @@ namespace PKHeX.Core
         {
             get
             {
-                var data = Data.Skip(Offset + 0x10).Take(GameSyncIDSize / 2).Reverse().ToArray();
+                var data = Data.AsSpan(Offset + 0x10, GameSyncIDSize / 2).ToArray();
+                Array.Reverse(data);
                 return BitConverter.ToString(data).Replace("-", string.Empty);
             }
             set

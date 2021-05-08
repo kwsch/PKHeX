@@ -71,7 +71,7 @@ namespace PKHeX.Core
             var key = new MemeKey(keyIndex);
             output = (byte[])input.Clone();
 
-            var sigBuffer = key.RsaPublic(input.SliceEnd(input.Length - 0x60));
+            var sigBuffer = key.RsaPublic(input.AsSpan(input.Length - 0x60));
             using var sha1 = SHA1.Create();
             if (DecryptCompare(output, sigBuffer, key, sha1))
                 return true;
@@ -83,9 +83,9 @@ namespace PKHeX.Core
             return false;
         }
 
-        private static bool DecryptCompare(byte[] output, byte[] sigBuffer, MemeKey key, SHA1 sha1)
+        private static bool DecryptCompare(byte[] output, ReadOnlySpan<byte> sigBuffer, MemeKey key, SHA1 sha1)
         {
-            sigBuffer.CopyTo(output, output.Length - 0x60);
+            sigBuffer.CopyTo(output.AsSpan(output.Length - 0x60));
             key.AesDecrypt(output).CopyTo(output, 0);
             // Check for 8-byte equality.
             var hash = sha1.ComputeHash(output, 0, output.Length - 0x8);

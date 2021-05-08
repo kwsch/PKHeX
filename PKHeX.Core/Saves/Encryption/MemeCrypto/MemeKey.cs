@@ -208,10 +208,10 @@ namespace PKHeX.Core
         /// <summary>
         /// Perform Rsa Encryption
         /// </summary>
-        internal byte[] RsaPublic(byte[] data)
+        internal byte[] RsaPublic(ReadOnlySpan<byte> data)
         {
             var _M = new byte[data.Length + 1];
-            data.CopyTo(_M, 1);
+            data.CopyTo(_M.AsSpan(1));
             Array.Reverse(_M);
             var M = new BigInteger(_M);
 

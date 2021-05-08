@@ -49,7 +49,7 @@ namespace PKHeX.Core
 
         private PGT? _gift;
 
-        public byte[] GetMetadata() => Data.SliceEnd(PGT.Size);
+        public Span<byte> GetMetadata() => Data.AsSpan(PGT.Size);
         public void SetMetadata(byte[] data) => data.CopyTo(Data, Data.Length - PGT.Size);
 
         public override bool GiftUsed { get => Gift.GiftUsed; set => Gift.GiftUsed = value; }

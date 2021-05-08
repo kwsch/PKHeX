@@ -119,7 +119,7 @@ namespace PKHeX.Core
                 var matchingColors = BallColors[c];
                 var extra = allBalls.Except(matchingColors).ToArray();
                 Util.Shuffle(extra);
-                BallColors[c] = matchingColors.Concat(extra).Concat(end).ToArray();
+                BallColors[c] = ArrayUtil.ConcatAll(matchingColors, extra, end);
             }
         }
 

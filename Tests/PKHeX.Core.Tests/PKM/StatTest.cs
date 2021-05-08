@@ -38,4 +38,17 @@ namespace PKHeX.Tests.PKM
             pk.Move3_PP.Should().Be(61, "pp calc oddity");
         }
     }
+
+    public class BelugaTests
+    {
+        [Theory]
+        [InlineData(41, 25, 91)]
+        public void CalculateCP(int level, int statSum, int expect)
+        {
+            var result1 = (((level * 4.0f / 100.0f) + 2.0f) * (statSum & 0xFFFF));
+            var result2 = (int)result1;
+
+            result2.Should().Be(expect);
+        }
+    }
 }

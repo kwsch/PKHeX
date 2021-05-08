@@ -69,8 +69,8 @@ namespace PKHeX.Core
             return OFS_1 + (LEN_POKE * slot);
         }
 
-        public byte[] GetMetadataStart() => Data.Slice(OFS_META, LEN_META);
-        public byte[] GetMetadataEnd() => Data.SliceEnd(POST_META);
+        public Span<byte> GetMetadataStart() => Data.AsSpan(OFS_META, LEN_META);
+        public Span<byte> GetMetadataEnd() => Data.AsSpan(POST_META);
 
         public IEnumerable<PKM> Contents => GetTeam();
 

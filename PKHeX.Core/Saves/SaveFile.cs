@@ -668,8 +668,16 @@ namespace PKHeX.Core
 
             int len = BoxSlotCount * SIZE_BOXSLOT;
             byte[] boxdata = storage.Slice(GetBoxOffset(0), len * BoxCount); // get all boxes
-            string[] boxNames = new int[BoxCount].Select((_, i) => GetBoxName(i)).ToArray();
-            int[] boxWallpapers = new int[BoxCount].Select((_, i) => GetBoxWallpaper(i)).ToArray();
+            string[] boxNames = Get(GetBoxName, BoxCount);
+            int[] boxWallpapers = Get(GetBoxWallpaper, BoxCount);
+
+            static T[] Get<T>(Func<int, T> act, int count)
+            {
+                T[] result = new T[count];
+                for (int i = 0; i < result.Length; i++)
+                    result[i] = act(i);
+                return result;
+            }
 
             min /= BoxSlotCount;
             max /= BoxSlotCount;
