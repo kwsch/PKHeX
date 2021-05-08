@@ -104,6 +104,11 @@ namespace PKHeX.Core
                         break;
                     pk.Nature = Util.Rand.Next(25);
                 }
+
+                // Might be originally generated with a Neutral nature, then above logic changes to another.
+                // Realign the stat nature to Serious mint.
+                if (pk.Nature != pk.StatNature && ((Nature)pk.StatNature).IsNeutral())
+                    pk.StatNature = (int)Nature.Serious;
             }
         }
     }

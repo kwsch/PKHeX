@@ -43,5 +43,7 @@
         };
 
         public static bool IsFixed(this Nature value) => value is >= 0 and < Nature.Random;
+
+        public static bool IsNeutral(this Nature value) => value.IsFixed() && (byte)value % 6 == 0;
     }
 }
