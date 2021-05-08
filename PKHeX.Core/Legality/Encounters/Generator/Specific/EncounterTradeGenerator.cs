@@ -23,7 +23,7 @@ namespace PKHeX.Core
         private static IEnumerable<EncounterTrade> GetPossible(IReadOnlyList<DexLevel> chain, GameVersion game)
         {
             var table = GetTable(game);
-            return table.Where(e => chain.Any(c => c.Species == e.Species && c.Form == e.Form));
+            return table.Where(e => chain.Any(c => c.Species == e.Species));
         }
 
         public static IEnumerable<EncounterTradeGB> GetValidEncounterTradesVC(PKM pkm, IReadOnlyList<DexLevel> chain, GameVersion game)
