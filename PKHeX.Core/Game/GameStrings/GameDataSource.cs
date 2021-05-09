@@ -8,8 +8,28 @@ namespace PKHeX.Core
     /// </summary>
     public sealed class GameDataSource
     {
-        public static readonly IReadOnlyList<ComboItem> Regions = Util.GetCSVUnsortedCBList("regions3ds");
-        private static readonly List<ComboItem> LanguageList = Util.GetCSVUnsortedCBList("languages");
+        public static readonly IReadOnlyList<ComboItem> Regions = new List<ComboItem>
+        {
+            new ("Japan (日本)",      (int)RegionID.Japan),
+            new ("Americas (NA/SA)",  (int)RegionID.NorthAmerica),
+            new ("Europe (EU/AU)",    (int)RegionID.Europe),
+            new ("China (中国大陆)",   (int)RegionID.China),
+            new ("Korea (한국)",       (int)RegionID.Korea),
+            new ("Taiwan (香港/台灣)", (int)RegionID.Taiwan),
+        };
+
+        private static readonly List<ComboItem> LanguageList = new()
+        {
+            new ComboItem("JPN (日本語)",   (int)LanguageID.Japanese),
+            new ComboItem("ENG (English)",  (int)LanguageID.English),
+            new ComboItem("FRE (Français)", (int)LanguageID.French),
+            new ComboItem("ITA (Italiano)", (int)LanguageID.Italian),
+            new ComboItem("GER (Deutsch)",  (int)LanguageID.German),
+            new ComboItem("ESP (Español)",  (int)LanguageID.Spanish),
+            new ComboItem("KOR (한국어)",    (int)LanguageID.Korean),
+            new ComboItem("CHS (简体中文)",  (int)LanguageID.ChineseS),
+            new ComboItem("CHT (繁體中文)",  (int)LanguageID.ChineseT),
+        };
 
         // ignores Poke/Great/Ultra
         private static readonly ushort[] ball_nums = { 007, 576, 013, 492, 497, 014, 495, 493, 496, 494, 011, 498, 008, 006, 012, 015, 009, 005, 499, 010, 001, 016, 851 };

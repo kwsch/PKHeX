@@ -9,33 +9,19 @@ namespace PKHeX.Core
         {
             string[] inputCSV = GetStringList(textFile);
             int index = GeoLocation.GetLanguageIndex(lang);
-            return GetCBListCSVSorted(inputCSV, index);
-        }
-
-        private static List<ComboItem> GetCBListCSVSorted(string[] inputCSV, int index = 0)
-        {
-            var list = GetCBListFromCSV(inputCSV, index);
+            var list = GetCBListFromCSV(inputCSV, index + 1);
             list.Sort(Comparer);
             return list;
         }
 
-        public static List<ComboItem> GetCSVUnsortedCBList(string textFile)
-        {
-            string[] inputCSV = GetStringList(textFile);
-            return GetCBListFromCSV(inputCSV, 0);
-        }
-
         private static List<ComboItem> GetCBListFromCSV(IReadOnlyList<string> inputCSV, int index)
         {
-            var arr = new List<ComboItem>(inputCSV.Count - 1); // skip header
-            index++;
+            var arr = new List<ComboItem>(inputCSV.Count);
             for (int i = 1; i < inputCSV.Count; i++)
             {
                 var line = inputCSV[i];
-                var zeroth = line.IndexOf(',');
-
-                var val = line.Substring(0, zeroth);
-                var text = StringUtil.GetNthEntry(line, index, zeroth);
+                var val = line.Substring(0, 3);
+                var text = StringUtil.GetNthEntry(line, index, 4);
                 var item = new ComboItem(text, Convert.ToInt32(val));
                 arr.Add(item);
             }
