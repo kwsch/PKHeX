@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using PKHeX.Drawing;
 
@@ -56,15 +57,15 @@ namespace PKHeX.WinForms.Controls
                 {
                     var x = padEdge + (column * (colWidth + border));
                     var pb = GetControl(sizeW, sizeH);
-                    pb.SuspendLayout();
-                    Controls.Add(pb);
                     pb.Location = new Point(x, y);
                     Entries.Add(pb);
                 }
             }
 
-            Width = (2 * padEdge) + border + (width * (colWidth + border));
-            Height = (2 * padEdge) + border + (height * (rowHeight + border));
+            int w = (2 * padEdge) + border + (width * (colWidth + border));
+            int h = (2 * padEdge) + border + (height * (rowHeight + border));
+            Size = new Size(w, h);
+            Controls.AddRange(Entries.Cast<Control>().ToArray());
             Debug.WriteLine($"{Name} -- Width: {Width}, Height: {Height}");
             ResumeLayout();
         }
