@@ -17,26 +17,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Resources\byte\fashion_f_sm" />
-    <None Remove="Resources\byte\fashion_f_sm_illegal" />
-    <None Remove="Resources\byte\fashion_m_sm" />
-    <None Remove="Resources\byte\fashion_m_sm_illegal" />
-    <None Remove="Resources\byte\PGLDings-NormalRegular.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\byte\fashion_f_sm" />
-    <EmbeddedResource Include="Resources\byte\fashion_f_sm_illegal" />
-    <EmbeddedResource Include="Resources\byte\fashion_m_sm" />
-    <EmbeddedResource Include="Resources\byte\fashion_m_sm_illegal" />
-    <EmbeddedResource Include="Resources\byte\PGLDings-NormalRegular.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Resources\text\version.txt" />
-  </ItemGroup>
-
   <ItemGroup Condition="$(TargetFramework.StartsWith('net4')) AND '$(Configuration)' == 'Release'">
     <PackageReference Include="Costura.Fody" Version="4.1.0" />
     <PackageReference Include="Fody" Version="6.0.5">
@@ -73,12 +53,6 @@
     <EmbeddedResource Update="Subforms\Save Editors\SAV_Inventory.resx">
       <DependentUpon>SAV_Inventory.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net5.0-windows'">
-    <PackageReference Include="System.Text.Json">
-      <Version>5.0.2</Version>
-    </PackageReference>
   </ItemGroup>
 
 </Project>
