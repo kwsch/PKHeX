@@ -123,15 +123,20 @@ namespace PKHeX.Core
 
         public static byte[] GetBytesFromHexString(string seed)
         {
-            return Enumerable.Range(0, seed.Length)
-                .Where(x => x % 2 == 0)
-                .Select(x => Convert.ToByte(seed.Substring(x, 2), 16))
-                .Reverse().ToArray();
+            byte[] result = new byte[seed.Length / 2];
+            for (int i = 0; i < result.Length; i++)
+            {
+                var slice = seed.Substring(i * 2, 2);
+                result[i] = Convert.ToByte(slice, 16);
+            }
+            Array.Reverse(result);
+            return result;
         }
 
         public static string GetHexStringFromBytes(byte[] data, int offset, int length)
         {
-            data = data.Skip(offset).Take(length).Reverse().ToArray();
+            data = data.Slice(offset, length);
+            Array.Reverse(data);
             return BitConverter.ToString(data).Replace("-", string.Empty);
         }
 

@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Xunit;
 
 namespace PKHeX.Tests.Util
@@ -33,6 +34,15 @@ namespace PKHeX.Tests.Util
         {
             var convert = Core.Util.GetHexValue(v);
             convert.Should().Be(result);
+        }
+
+        [Theory]
+        [InlineData("01020304", 0x1020304)]
+        public void CheckConvertHexString(string v, uint result)
+        {
+            var convert = Core.Util.GetBytesFromHexString(v);
+            var u32 = BitConverter.ToUInt32(convert);
+            u32.Should().Be(result);
         }
     }
 }

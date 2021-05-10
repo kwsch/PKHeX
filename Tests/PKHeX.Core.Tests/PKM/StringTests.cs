@@ -49,12 +49,11 @@ namespace PKHeX.Tests.PKM
             CheckStringGetSet(nameof(pkm.Nickname), name_nidoran, pkm.Nickname, byte_nidoran, pkm.Nickname_Trash);
         }
 
-        private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata,
-            byte[] outdata)
+        private static void CheckStringGetSet(string check, string instr, string outstr, byte[] indata, byte[] outdata)
         {
             instr.Should().BeEquivalentTo(outstr);
 
-            outdata = outdata.Take(indata.Length).ToArray();
+            outdata = outdata[..indata.Length];
 
             indata.SequenceEqual(outdata).Should()
                 .BeTrue($"expected {check} to set properly, instead got {string.Join(", ", outdata.Select(z => $"{z:X2}"))}");
