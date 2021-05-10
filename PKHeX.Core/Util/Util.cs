@@ -136,8 +136,10 @@ namespace PKHeX.Core
         public static string GetHexStringFromBytes(byte[] data, int offset, int length)
         {
             data = data.Slice(offset, length);
-            Array.Reverse(data);
-            return BitConverter.ToString(data).Replace("-", string.Empty);
+            var sb = new StringBuilder(data.Length * 2);
+            for (int i = data.Length - 1; i >= 0; i--)
+                sb.AppendFormat("{0:x2}", data[i]);
+            return sb.ToString();
         }
 
         private static bool IsNum(char c) => (uint)(c - '0') <= 9;

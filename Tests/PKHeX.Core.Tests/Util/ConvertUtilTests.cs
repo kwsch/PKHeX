@@ -43,6 +43,9 @@ namespace PKHeX.Tests.Util
             var convert = Core.Util.GetBytesFromHexString(v);
             var u32 = BitConverter.ToUInt32(convert);
             u32.Should().Be(result);
+
+            var remake = Core.Util.GetHexStringFromBytes(convert, 0, convert.Length);
+            remake.Should().Be(v);
         }
     }
 }
