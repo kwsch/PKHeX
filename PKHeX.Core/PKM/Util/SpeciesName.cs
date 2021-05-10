@@ -59,60 +59,92 @@ namespace PKHeX.Core
         /// <returns>Generation specific default species name</returns>
         public static string GetSpeciesNameGeneration(int species, int language, int generation)
         {
-            if (generation >= 5)
-            {
-                // Species Names for Chinese (Simplified) were revised during Generation 8 Crown Tundra DLC (#2).
-                // For a Gen7 species name request, return the old species name (hardcoded... yay).
-                // In an updated Gen8 game, the species nickname will automatically reset to the correct localization (on save/load ?), fixing existing entries.
-                // We don't differentiate patch revisions, just generation; Gen8 will return the latest localization.
-                // Gen8 did revise CHT species names, but only for Barraskewda, Urshifu, and Zarude. These species are new (Gen8); we can just use the latest.
-                if (generation == 7 && language == (int) LanguageID.ChineseS)
-                {
-                    switch (species)
-                    {
-                        // Revised in DLC1 - Isle of Armor
-                        // https://cn.portal-pokemon.com/topics/event/200323190120_post_19.html
-                        case (int)Species.Porygon2: return "多边兽Ⅱ"; // Later changed to 多边兽２型
-                        case (int)Species.PorygonZ: return "多边兽Ｚ"; // Later changed to 多边兽乙型
-                        case (int)Species.Mimikyu: return "谜拟Ｑ"; // Later changed to 谜拟丘
+            if (generation < 5)
+                return GetSpeciesName1234(species, language, generation);
 
-                        // Revised in DLC2 - Crown Tundra
-                        //  https://cn.portal-pokemon.com/topics/event/201020170000_post_21.html
-                        case (int)Species.Cofagrigus: return "死神棺"; // Later changed to 迭失棺
-                        case (int)Species.Pangoro: return "流氓熊猫"; // Later changed to 霸道熊猫
-                        case (int)Species.Nickit: return "偷儿狐"; // Later changed to 狡小狐
-                        case (int)Species.Thievul: return "狐大盗"; // Later changed to 猾大狐
-                        case (int)Species.Toxel: return "毒电婴"; // Later changed to 电音婴
-                        case (int)Species.Runerigus: return "死神板"; // Later changed to 迭失板
-                    }
-                }
+            if (generation == 7 && language == (int) LanguageID.ChineseS)
+                return GetSpeciesName7ZH(species, language);
 
-                return GetSpeciesName(species, language);
-            }
+            return GetSpeciesName(species, language);
+        }
 
+        private static string GetSpeciesName1234(int species, int language, int generation)
+        {
             if (species == 0)
-            {
-                if (generation == 3)
-                    return "タマゴ"; // All Gen3 eggs are treated as JPN eggs.
-
-                if (language == (int)LanguageID.French)
-                    return "Oeuf"; // Gen2 & Gen4 don't use Œuf like in future games
-            }
+                return GetEggName1234(species, language, generation);
 
             string nick = GetSpeciesName(species, language);
-            if (generation == 2 && language == (int)LanguageID.Korean)
-                return StringConverter2KOR.LocalizeKOR2(nick);
-
-            if (generation != 4 || species != 0) // All caps GenIV and previous, except GenIV eggs.
+            switch (language)
             {
-                nick = nick.ToUpper();
-                if (language == (int)LanguageID.French)
-                    nick = StringConverter4.StripDiacriticsFR4(nick); // strips accents on E and I
+                case (int)LanguageID.Korean when generation == 2:
+                    return StringConverter2KOR.LocalizeKOR2(nick);
+                case (int)LanguageID.Korean:
+                case (int)LanguageID.Japanese:
+                    return nick; // No further processing
             }
+
+            // All names are uppercase.
+            var sb = new System.Text.StringBuilder(nick);
+            for (int i = 0; i < sb.Length; i++)
+                sb[i] = char.ToUpper(sb[i]);
+            if (language == (int)LanguageID.French)
+                StringConverter4.StripDiacriticsFR4(sb); // strips accents on E and I
+
+            // Gen1/2 species names do not have spaces.
             if (generation < 3)
-                nick = nick.Replace(" ", string.Empty);
-            return nick;
+                sb.Replace(" ", string.Empty);
+
+            return sb.ToString();
         }
+
+        private static string GetEggName1234(int species, int language, int generation)
+        {
+            if (generation == 3)
+                return "タマゴ"; // All Gen3 eggs are treated as JPN eggs.
+
+            // Gen2 & Gen4 don't use Œuf like in future games
+            if (language == (int)LanguageID.French)
+                return generation == 2 ? "OEUF" : "Oeuf";
+
+            var nick = GetSpeciesName(species, language);
+
+            // All Gen4 egg names are Title cased.
+            if (generation == 4)
+                return nick;
+
+            // Gen2: All Caps
+            return nick.ToUpper();
+        }
+
+        /// <summary>
+        /// Gets the Generation 7 species name for Chinese games.
+        /// </summary>
+        /// <remarks>
+        /// Species Names for Chinese (Simplified) were revised during Generation 8 Crown Tundra DLC (#2).
+        /// For a Gen7 species name request, return the old species name (hardcoded... yay).
+        /// In an updated Gen8 game, the species nickname will automatically reset to the correct localization (on save/load ?), fixing existing entries.
+        /// We don't differentiate patch revisions, just generation; Gen8 will return the latest localization.
+        /// Gen8 did revise CHT species names, but only for Barraskewda, Urshifu, and Zarude. These species are new (Gen8); we can just use the latest.
+        /// </remarks>
+        private static string GetSpeciesName7ZH(int species, int language) => species switch
+        {
+            // Revised in DLC1 - Isle of Armor
+            // https://cn.portal-pokemon.com/topics/event/200323190120_post_19.html
+            (int)Species.Porygon2 => "多边兽Ⅱ",  // Later changed to 多边兽２型
+            (int)Species.PorygonZ => "多边兽Ｚ", // Later changed to 多边兽乙型
+            (int)Species.Mimikyu => "谜拟Ｑ",    // Later changed to 谜拟丘
+
+            // Revised in DLC2 - Crown Tundra
+            // https://cn.portal-pokemon.com/topics/event/201020170000_post_21.html
+            (int)Species.Cofagrigus => "死神棺", // Later changed to 迭失棺
+            (int)Species.Pangoro => "流氓熊猫",  // Later changed to 霸道熊猫
+          //(int)Species.Nickit => "偷儿狐",     // Later changed to 狡小狐
+          //(int)Species.Thievul => "狐大盗",    // Later changed to 猾大狐
+          //(int)Species.Toxel => "毒电婴",      // Later changed to 电音婴
+          //(int)Species.Runerigus => "死神板",  // Later changed to 迭失板
+
+            _ => GetSpeciesName(species, language),
+        };
 
         /// <summary>
         /// Checks if the input <see cref="nickname"/> is not the species name for all languages.

@@ -202,12 +202,13 @@ namespace PKHeX.Core
         /// <param name="input">String to clean</param>
         /// <returns>Cleaned string</returns>
         /// <remarks>Only 4 characters are accented in gen1-4</remarks>
-        public static string StripDiacriticsFR4(string input)
+        public static void StripDiacriticsFR4(StringBuilder input)
         {
-            var result = new StringBuilder(input.Length);
-            foreach (var c in input)
-                result.Append(FrDiacritic.TryGetValue(c, out char o) ? o : c);
-            return result.ToString();
+            for (int i = 0; i < input.Length; i++)
+            {
+                if (FrDiacritic.TryGetValue(input[i], out var value))
+                    input[i] = value;
+            }
         }
 
         private static readonly Dictionary<char, char> FrDiacritic = new(4)
