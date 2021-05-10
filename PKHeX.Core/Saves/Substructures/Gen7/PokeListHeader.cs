@@ -29,13 +29,20 @@ namespace PKHeX.Core
         public PokeListHeader(SAV7b sav, int offset) : base(sav)
         {
             Offset = offset;
-            PokeListInfo = LoadPointerData();
+            var info = PokeListInfo = LoadPointerData();
             if (!sav.State.Exportable)
             {
                 for (int i = 0; i < COUNT; i++)
-                    PokeListInfo[i] = SLOT_EMPTY;
+                    info[i] = SLOT_EMPTY;
             }
-            PartyCount = PokeListInfo.Take(6).Count(z => z < MAX_SLOTS);
+            else
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    if (info[i] < MAX_SLOTS)
+                        ++_partyCount;
+                }
+            }
         }
 
         private int _partyCount;

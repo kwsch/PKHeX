@@ -43,13 +43,13 @@ namespace PKHeX.WinForms
             switch (SAV.Generation)
             {
                 case 3 when SAV is SAV3:
-                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
+                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
                     return true;
                 case 4 or 5 or 6:
                     CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames);
                     return true;
                 case 7:
-                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Take(16).ToArray());
+                    CB_BG.Items.AddRange(GameInfo.Strings.wallpapernames.Slice(0, 16));
                     return true;
                 case 8:
                     CB_BG.Items.AddRange(Enumerable.Range(1, 19).Select(z => $"Wallpaper {z}").ToArray());

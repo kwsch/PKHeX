@@ -552,7 +552,7 @@ namespace PKHeX.WinForms.Controls
         {
             ChangingFields = true;
             CB_HPType.InitializeBinding();
-            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.Skip(1).Take(16).ToArray());
+            CB_HPType.DataSource = Util.GetCBList(GameInfo.Strings.types.AsSpan(1, 16));
             ChangingFields = false;
         }
 

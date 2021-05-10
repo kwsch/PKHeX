@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PKHeX.Core
 {
@@ -198,8 +197,8 @@ namespace PKHeX.Core
                 int newHC = BigEndian.ToInt32(data, start + subOffsets[0] + 0x38);
                 bool header = newHC == oldHC;
 
-                var oldCHK = Data.Skip(0x10).Take(0x10);
-                var newCHK = data.Skip(0x10).Take(0x10);
+                var oldCHK = Data.AsSpan(0x10, 0x10);
+                var newCHK = data.AsSpan(0x10, 0x10);
                 bool body = newCHK.SequenceEqual(oldCHK);
                 return $"Header Checksum {(header ? "V" : "Inv")}alid, Body Checksum {(body ? "V" : "Inv")}alid.";
             }
@@ -221,13 +220,17 @@ namespace PKHeX.Core
             BigEndian.GetBytes(newHC).CopyTo(data, start + subOffset0 + 0x38);
 
             // Body Checksum
-            new byte[16].CopyTo(data, 0x10); // Clear old Checksum Data
+            data.AsSpan(0x10, 0x10).Fill(0); // Clear old Checksum Data
             uint[] checksum = new uint[4];
             int dt = 8;
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < checksum.Length; i++)
             {
-                for (int j = 0; j < 0x9FF4; j += 2, dt += 2)
-                    checksum[i] += BigEndian.ToUInt16(data, dt);
+                uint val = 0;
+                var end = dt + 0x9FF4;
+                for (int j = dt; j < end; j += 2)
+                    val += BigEndian.ToUInt16(data, j);
+                dt = end;
+                checksum[i] = val;
             }
 
             ushort[] newchks = new ushort[8];

@@ -419,7 +419,7 @@ namespace PKHeX.WinForms
                 return;
 
             int offset = LB_DataEntry.SelectedIndex * 0x1B4;
-            var nicktrash = data.Skip(offset + 0x18).Take(24).ToArray();
+            var nicktrash = data.Slice(offset + 0x18, 24);
             SAV.SetString(TB_Nickname.Text, 12).CopyTo(nicktrash, 0);
             var d = new TrashEditor(tb, nicktrash, SAV);
             d.ShowDialog();
