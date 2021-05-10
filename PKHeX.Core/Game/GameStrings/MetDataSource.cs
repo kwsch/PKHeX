@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using static PKHeX.Core.GameVersion;
 
 namespace PKHeX.Core
@@ -161,14 +160,35 @@ namespace PKHeX.Core
                 _ => GetLocationListModified(version, currentGen),
             };
 
-            static IReadOnlyList<ComboItem> Partition1(IEnumerable<ComboItem> list, Func<int, bool> criteria)
+            static IReadOnlyList<ComboItem> Partition1(IReadOnlyList<ComboItem> list, Func<int, bool> criteria)
             {
-                return list.OrderByDescending(loc => criteria(loc.Value)).ToList();
+                var result = new ComboItem[list.Count];
+                return GetOrderedList(list, result, criteria);
+            }
+
+            static IReadOnlyList<ComboItem> GetOrderedList(IReadOnlyList<ComboItem> list, ComboItem[] result, Func<int, bool> criteria, int start = 0)
+            {
+                // store values that match criteria at the next available position of the array
+                // store non-matches starting at the end. reverse before returning
+                int end = list.Count - 1;
+                foreach (var item in list)
+                {
+                    if (criteria(item.Value))
+                        result[start++] = item;
+                    else
+                        result[end--] = item;
+                }
+                // since the non-matches are reversed in order, we swap them back since we know where they end up at.
+                Array.Reverse(result, start, list.Count - start);
+                return result;
             }
 
             static IReadOnlyList<ComboItem> Partition2(IReadOnlyList<ComboItem> list, Func<int, bool> criteria, int keepFirst = 3)
             {
-                return list.Take(keepFirst).Concat(list.Skip(keepFirst).OrderByDescending(loc => criteria(loc.Value))).ToList();
+                var result = new ComboItem[list.Count];
+                for (int i = 0; i < keepFirst; i++)
+                    result[i] = list[i];
+                return GetOrderedList(list, result, criteria, keepFirst);
             }
         }
 
@@ -180,18 +200,24 @@ namespace PKHeX.Core
         /// <returns>Met location list</returns>
         private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, int currentGen)
         {
-            if (version <= CXD && currentGen == 4)
+            if (version <= CXD && currentGen == 4) // Pal Park to front
             {
-                return MetGen4.Where(loc => loc.Value == Locations.Transfer3) // Pal Park to front
-                    .Concat(MetGen4.Take(4))
-                    .Concat(MetGen4.Skip(4).Where(loc => loc.Value != Locations.Transfer3)).ToList();
+                var met = MetGen4.ToArray();
+                var index = Array.FindIndex(met, z => z.Value == Locations.Transfer3);
+                var pal = met[index];
+                Array.Copy(met, 0, met, 1, index);
+                met[0] = pal;
+                return met;
             }
 
             if (version < X && currentGen >= 5) // PokéTransfer to front
             {
-                return MetGen5.Where(loc => loc.Value == Locations.Transfer4)
-                    .Concat(MetGen5.Take(3))
-                    .Concat(MetGen5.Skip(3).Where(loc => loc.Value != Locations.Transfer4)).ToList();
+                var met = MetGen5.ToArray();
+                var index = Array.FindIndex(met, z => z.Value == Locations.Transfer4);
+                var xfr = met[index];
+                Array.Copy(met, 0, met, 1, index);
+                met[0] = xfr;
+                return met;
             }
 
             return Array.Empty<ComboItem>();
