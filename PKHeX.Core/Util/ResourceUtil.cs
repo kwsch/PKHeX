@@ -158,7 +158,7 @@ namespace PKHeX.Core
                     stringListCache.Add(file, raw);
             }
 
-            return (string[])raw.Clone();
+            return raw;
         }
 
         public static string[] GetStringList(string fileName, string lang2char, string type = "text") => GetStringList($"{type}_{fileName}_{lang2char}");

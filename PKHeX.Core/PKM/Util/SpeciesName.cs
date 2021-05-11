@@ -27,6 +27,25 @@ namespace PKHeX.Core
         };
 
         /// <summary>
+        /// Egg name list indexed by the <see cref="LanguageID"/> value.
+        /// </summary>
+        /// <remarks>Indexing matches <see cref="SpeciesLang"/>.</remarks>
+        private static readonly string[] EggNames =
+        {
+            "タマゴ",
+            "タマゴ",
+            "Egg",
+            "Œuf",
+            "Uovo",
+            "Ei",
+            "Huevo",
+            "Huevo",
+            "알",
+            "蛋",
+            "蛋",
+        };
+
+        /// <summary>
         /// <see cref="PKM.Nickname"/> to <see cref="Species"/> table for all <see cref="LanguageID"/> values.
         /// </summary>
         public static readonly IReadOnlyList<Dictionary<string, int>> SpeciesDict = Util.GetMultiDictionary(SpeciesLang);
@@ -42,6 +61,9 @@ namespace PKHeX.Core
         {
             if ((uint)language >= SpeciesLang.Count)
                 return string.Empty;
+
+            if (species == 0)
+                return EggNames[language];
 
             var arr = SpeciesLang[language];
             if ((uint)species >= arr.Count)
