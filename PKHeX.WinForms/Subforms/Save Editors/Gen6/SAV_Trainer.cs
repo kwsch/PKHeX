@@ -55,6 +55,7 @@ namespace PKHeX.WinForms
                 TC_Editor.TabPages.Remove(Tab_Maison);
             }
 
+            editing = true;
             GetComboBoxes();
             GetTextBoxes();
             editing = false;
