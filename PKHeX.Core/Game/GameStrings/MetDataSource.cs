@@ -171,8 +171,9 @@ namespace PKHeX.Core
                 // store values that match criteria at the next available position of the array
                 // store non-matches starting at the end. reverse before returning
                 int end = list.Count - 1;
-                foreach (var item in list)
+                for (var index = start; index < list.Count; index++)
                 {
+                    var item = list[index];
                     if (criteria(item.Value))
                         result[start++] = item;
                     else
