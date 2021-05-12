@@ -16,6 +16,9 @@ namespace PKHeX.Core
         private readonly List<ComboItem> MetGen7GG;
         private readonly List<ComboItem> MetGen8;
 
+        private IReadOnlyList<ComboItem>? MetGen4Transfer;
+        private IReadOnlyList<ComboItem>? MetGen5Transfer;
+
         public MetDataSource(GameStrings s)
         {
             MetGen2 = CreateGen2(s);
@@ -62,6 +65,17 @@ namespace PKHeX.Core
             return locations;
         }
 
+        private IReadOnlyList<ComboItem> CreateGen4Transfer()
+        {
+            // Pal Park to front
+            var met = MetGen4.ToArray();
+            var index = Array.FindIndex(met, z => z.Value == Locations.Transfer3);
+            var pal = met[index];
+            Array.Copy(met, 0, met, 1, index);
+            met[0] = pal;
+            return met;
+        }
+
         private static List<ComboItem> CreateGen5(GameStrings s)
         {
             var locations = Util.GetCBList(s.metBW2_00000, 0);
@@ -72,6 +86,17 @@ namespace PKHeX.Core
             Util.AddCBWithOffset(locations, s.metBW2_40000, 40001, Legal.Met_BW2_4);
             Util.AddCBWithOffset(locations, s.metBW2_60000, 60001, Legal.Met_BW2_6);
             return locations;
+        }
+
+        private IReadOnlyList<ComboItem> CreateGen5Transfer()
+        {
+            // PokéTransfer to front
+            var met = MetGen5.ToArray();
+            var index = Array.FindIndex(met, z => z.Value == Locations.Transfer4);
+            var xfr = met[index];
+            Array.Copy(met, 0, met, 1, index);
+            met[0] = xfr;
+            return met;
         }
 
         private static List<ComboItem> CreateGen6(GameStrings s)
@@ -199,29 +224,11 @@ namespace PKHeX.Core
         /// <param name="version">Origin version</param>
         /// <param name="currentGen">Current save file generation</param>
         /// <returns>Met location list</returns>
-        private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, int currentGen)
+        private IReadOnlyList<ComboItem> GetLocationListModified(GameVersion version, int currentGen) => version switch
         {
-            if (version <= CXD && currentGen == 4) // Pal Park to front
-            {
-                var met = MetGen4.ToArray();
-                var index = Array.FindIndex(met, z => z.Value == Locations.Transfer3);
-                var pal = met[index];
-                Array.Copy(met, 0, met, 1, index);
-                met[0] = pal;
-                return met;
-            }
-
-            if (version < X && currentGen >= 5) // PokéTransfer to front
-            {
-                var met = MetGen5.ToArray();
-                var index = Array.FindIndex(met, z => z.Value == Locations.Transfer4);
-                var xfr = met[index];
-                Array.Copy(met, 0, met, 1, index);
-                met[0] = xfr;
-                return met;
-            }
-
-            return Array.Empty<ComboItem>();
-        }
+            <= CXD when currentGen == 4 => MetGen4Transfer ??= CreateGen4Transfer(),
+            < X when currentGen >= 5 => MetGen5Transfer ??= CreateGen5Transfer(),
+            _ => Array.Empty<ComboItem>()
+        };
     }
 }
