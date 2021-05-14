@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Xunit;
 
@@ -46,6 +47,30 @@ namespace PKHeX.Tests.Util
 
             var remake = Core.Util.GetHexStringFromBytes(convert, 0, convert.Length);
             remake.Should().Be(v);
+        }
+
+        [Theory]
+        [InlineData(0x12345678, 12345678)]
+        public void CheckConvertBCD_Little(uint raw, int expect)
+        {
+            var data = BitConverter.GetBytes(raw);
+            var result = Core.BinaryCodedDecimal.ToInt32LE(data);
+            result.Should().Be(expect);
+
+            var newData = Core.BinaryCodedDecimal.GetBytesLE(result, 4);
+            data.SequenceEqual(newData).Should().BeTrue();
+        }
+
+        [Theory]
+        [InlineData(0x78563412, 12345678)]
+        public void CheckConvertBCD_Big(uint raw, int expect)
+        {
+            var data = BitConverter.GetBytes(raw);
+            var result = Core.BinaryCodedDecimal.ToInt32BE(data);
+            result.Should().Be(expect);
+
+            var newData = Core.BinaryCodedDecimal.GetBytesBE(result, 4);
+            data.SequenceEqual(newData).Should().BeTrue();
         }
     }
 }

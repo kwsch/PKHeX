@@ -267,8 +267,8 @@ namespace PKHeX.Core
 
         public int PikaBeachScore
         {
-            get => BigEndian.BCDToInt32_LE(Data, Offsets.PikaBeachScore, 2);
-            set => SetData(BigEndian.Int32ToBCD_LE(Math.Min(9999, value), 2), Offsets.PikaBeachScore);
+            get => BinaryCodedDecimal.ToInt32LE(Data, Offsets.PikaBeachScore, 2);
+            set => BinaryCodedDecimal.WriteBytesLE(Data.AsSpan(Offsets.PikaBeachScore, 2), Math.Min(9999, value));
         }
 
         public override string PlayTimeString => !PlayedMaximum ? base.PlayTimeString : $"{base.PlayTimeString} {Checksums.CRC16_CCITT(Data):X4}";
@@ -353,21 +353,21 @@ namespace PKHeX.Core
 
         public override uint Money
         {
-            get => (uint)BigEndian.BCDToInt32(Data, Offsets.Money, 3);
+            get => (uint)BinaryCodedDecimal.ToInt32BE(Data, Offsets.Money, 3);
             set
             {
                 value = (uint)Math.Min(value, MaxMoney);
-                BigEndian.Int32ToBCD((int)value, 3).CopyTo(Data, Offsets.Money);
+                BinaryCodedDecimal.WriteBytesBE(Data.AsSpan(Offsets.Money, 3), (int)value);
             }
         }
 
         public uint Coin
         {
-            get => (uint)BigEndian.BCDToInt32(Data, Offsets.Coin, 2);
+            get => (uint)BinaryCodedDecimal.ToInt32BE(Data, Offsets.Coin, 2);
             set
             {
                 value = (ushort)Math.Min(value, MaxCoins);
-                BigEndian.Int32ToBCD((int)value, 2).CopyTo(Data, Offsets.Coin);
+                BinaryCodedDecimal.WriteBytesBE(Data.AsSpan(Offsets.Coin, 2), (int)value);
             }
         }
 
