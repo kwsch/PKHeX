@@ -30,7 +30,7 @@
         /// Attempts to load a file using the plugin.
         /// </summary>
         /// <param name="filePath">Path to file to be loaded.</param>
-        /// <returns></returns>
+        /// <returns>True if the plugin has handled the file.</returns>
         bool TryLoadFile(string filePath);
 
         /// <summary>

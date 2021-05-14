@@ -145,9 +145,15 @@ namespace PKHeX.Core
             921, 922, 923, 924, 925, 926
         });
 
-        public static readonly Dictionary<int, int> ZCrystalDictionary = Pouch_ZCrystal_USUM
-            .Zip(Pouch_ZCrystalHeld_USUM, (k, v) => new KeyValuePair<int, int>(k, v))
-            .ToDictionary(x => x.Key, x => x.Value);
+        public static readonly Dictionary<int, int> ZCrystalDictionary = GetDictionary(Pouch_ZCrystal_USUM, Pouch_ZCrystalHeld_USUM);
+
+        private static Dictionary<int, int> GetDictionary(IReadOnlyList<ushort> key, IReadOnlyList<ushort> held)
+        {
+            var result = new Dictionary<int, int>(held.Count);
+            for (int i = 0; i < key.Count; i++)
+                result.Add(key[i], held[i]);
+            return result;
+        }
 
         internal static readonly ushort[] HeldItems_SM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_SM);
         internal static readonly ushort[] HeldItems_USUM = ArrayUtil.ConcatAll(Pouch_Items_SM, Pouch_Berries_SM, Pouch_Medicine_SM, Pouch_ZCrystalHeld_USUM, Pouch_Roto_USUM);
