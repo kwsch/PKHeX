@@ -4,6 +4,42 @@ namespace PKHeX.Core
 {
     public static class BigEndian
     {
+        public static uint ToUInt32(ReadOnlySpan<byte> data)
+        {
+            int val = 0;
+            val |= data[0] << 24;
+            val |= data[1] << 16;
+            val |= data[2] << 8;
+            val |= data[3];
+            return (uint)val;
+        }
+
+        public static ushort ToUInt16(ReadOnlySpan<byte> data)
+        {
+            int val = 0;
+            val |= data[0] << 8;
+            val |= data[1];
+            return (ushort)val;
+        }
+
+        public static int ToInt32(ReadOnlySpan<byte> data)
+        {
+            int val = 0;
+            val |= data[0] << 24;
+            val |= data[1] << 16;
+            val |= data[2] << 8;
+            val |= data[3];
+            return val;
+        }
+
+        public static short ToInt16(ReadOnlySpan<byte> data)
+        {
+            int val = 0;
+            val |= data[0] << 8;
+            val |= data[1];
+            return (short)val;
+        }
+
         public static uint ToUInt32(byte[] data, int offset)
         {
             int val = 0;
