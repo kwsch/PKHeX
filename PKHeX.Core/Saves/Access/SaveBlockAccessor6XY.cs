@@ -34,7 +34,7 @@ namespace PKHeX.Core
             new(boXY, 19, 0x14A00, 0x00504), // 19 EventWork
             new(boXY, 20, 0x15000, 0x006A0), // 20 ZukanData
             new(boXY, 21, 0x15800, 0x00644), // 21 hologram clips
-            new(boXY, 22, 0x16000, 0x00104), // 22 UnionPokemon
+            new(boXY, 22, 0x16000, 0x00104), // 22 UnionPokemon (Fused)
             new(boXY, 23, 0x16200, 0x00004), // 23 ConfigSave
             new(boXY, 24, 0x16400, 0x00420), // 24 Amie decoration stuff
             new(boXY, 25, 0x16A00, 0x00064), // 25 OPower
@@ -49,10 +49,10 @@ namespace PKHeX.Core
             new(boXY, 34, 0x18A00, 0x005C8), // 34 LiveMatchData/BattleSpotData
             new(boXY, 35, 0x19000, 0x002F8), // 35 MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
             new(boXY, 36, 0x19400, 0x01B40), // 36 Dendou (Hall of Fame)
-            new(boXY, 37, 0x1B000, 0x001F4), // 37 BattleInstSave (Maison)
+            new(boXY, 37, 0x1B000, 0x001F4), // 37 BattleHouse (Maison)
             new(boXY, 38, 0x1B200, 0x001F0), // 38 Sodateya (Daycare)
-            new(boXY, 39, 0x1B400, 0x00216), // 39 BattleInstSave
-            new(boXY, 40, 0x1B800, 0x00390), // 40
+            new(boXY, 39, 0x1B400, 0x00216), // 39 TrialHouse (Battle Institute)
+            new(boXY, 40, 0x1B800, 0x00390), // 40 BerryField
             new(boXY, 41, 0x1BC00, 0x01A90), // 41 MysteryGiftSave
             new(boXY, 42, 0x1D800, 0x00308), // 42 [SubE]vent Log
             new(boXY, 43, 0x1DC00, 0x00618), // 43 PokeDiarySave
@@ -64,7 +64,7 @@ namespace PKHeX.Core
             new(boXY, 49, 0x20C00, 0x00078), // 49 PSS usage info
             new(boXY, 50, 0x20E00, 0x00200), // 50 GameSyncSave
             new(boXY, 51, 0x21000, 0x00C84), // 51 PSS Icon (bool32 data present, 40x40 u16 pic, unused)
-            new(boXY, 52, 0x21E00, 0x00628), // 52 ValidationSave (updatabale Public Key for legal check api calls)
+            new(boXY, 52, 0x21E00, 0x00628), // 52 ValidationSave (updateable Public Key for legal check api calls)
             new(boXY, 53, 0x22600, 0x34AD0), // 53 Box
             new(boXY, 54, 0x57200, 0x0E058), // 54 JPEG
         };

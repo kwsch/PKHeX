@@ -34,7 +34,7 @@ namespace PKHeX.Core
             new(boAO, 19, 0x14A00, 0x00504), // 19 EventWork
             new(boAO, 20, 0x15000, 0x011CC), // 20 ZukanData
             new(boAO, 21, 0x16200, 0x00644), // 21 hologram clips
-            new(boAO, 22, 0x16A00, 0x00104), // 22 UnionPokemon
+            new(boAO, 22, 0x16A00, 0x00104), // 22 UnionPokemon (Fused)
             new(boAO, 23, 0x16C00, 0x00004), // 23 ConfigSave
             new(boAO, 24, 0x16E00, 0x00420), // 24 Amie decoration stuff
             new(boAO, 25, 0x17400, 0x00064), // 25 OPower
@@ -49,9 +49,9 @@ namespace PKHeX.Core
             new(boAO, 34, 0x19400, 0x005C8), // 34 LiveMatchData/BattleSpotData
             new(boAO, 35, 0x19A00, 0x002F8), // 35 MAC Address & Network Connection Logging (0x98 per entry, 5 entries)
             new(boAO, 36, 0x19E00, 0x01B40), // 36 Dendou (Hall of Fame)
-            new(boAO, 37, 0x1BA00, 0x001F4), // 37 BattleInstSave (Maison)
+            new(boAO, 37, 0x1BA00, 0x001F4), // 37 BattleHouse (Maison)
             new(boAO, 38, 0x1BC00, 0x003E0), // 38 Sodateya (Daycare)
-            new(boAO, 39, 0x1C000, 0x00216), // 39 BattleInstSave
+            new(boAO, 39, 0x1C000, 0x00216), // 39 TrialHouse (Battle Institute)
             new(boAO, 40, 0x1C400, 0x00640), // 40 BerryField
             new(boAO, 41, 0x1CC00, 0x01A90), // 41 MysteryGiftSave
             new(boAO, 42, 0x1E800, 0x00400), // 42 [SubE]vent Log
@@ -64,7 +64,7 @@ namespace PKHeX.Core
             new(boAO, 49, 0x21C00, 0x00078), // 49 PSS usage info
             new(boAO, 50, 0x21E00, 0x00200), // 50 GameSyncSave
             new(boAO, 51, 0x22000, 0x00C84), // 51 PSS Icon (bool32 data present, 40x40 u16 pic, unused)
-            new(boAO, 52, 0x22E00, 0x00628), // 52 ValidationSave (updatabale Public Key for legal check api calls)
+            new(boAO, 52, 0x22E00, 0x00628), // 52 ValidationSave (updateable Public Key for legal check api calls)
             new(boAO, 53, 0x23600, 0x00400), // 53 Contest
             new(boAO, 54, 0x23A00, 0x07AD0), // 54 SecretBase
             new(boAO, 55, 0x2B600, 0x078B0), // 55 EonTicket
