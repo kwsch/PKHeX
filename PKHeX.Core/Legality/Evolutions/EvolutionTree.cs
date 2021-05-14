@@ -351,12 +351,12 @@ namespace PKHeX.Core
             }
 
             // Remove future gen pre-evolutions; no Munchlax from a Gen3 Snorlax, no Pichu from a Gen1-only Raichu, etc
-            var last = dl[dl.Count - 1];
+            var last = dl[^1];
             if (last.Species > maxSpeciesOrigin && dl.Any(d => d.Species <= maxSpeciesOrigin))
                 dl.RemoveAt(dl.Count - 1);
 
             // Last species is the wild/hatched species, the minimum level is 1 because it has not evolved from previous species
-            last = dl[dl.Count - 1];
+            last = dl[^1];
             last.MinLevel = 1;
             last.RequiresLvlUp = false;
             return dl;
@@ -364,7 +364,7 @@ namespace PKHeX.Core
 
         private static void UpdateMinValues(IReadOnlyList<EvoCriteria> dl, EvolutionMethod evo)
         {
-            var last = dl[dl.Count - 1];
+            var last = dl[^1];
             if (!evo.RequiresLevelUp)
             {
                 // Evolutions like elemental stones, trade, etc

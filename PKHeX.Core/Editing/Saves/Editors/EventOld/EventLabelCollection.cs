@@ -91,7 +91,7 @@ namespace PKHeX.Core
         {
             if (!flag.StartsWith("0x"))
                 return Convert.ToInt16(flag);
-            flag = flag.Substring(2);
+            flag = flag[2..];
             return Convert.ToInt16(flag, 16);
         }
 
@@ -99,7 +99,7 @@ namespace PKHeX.Core
         {
             if (!c.StartsWith("0x40"))
                 return Convert.ToInt16(c);
-            c = c.Substring(4);
+            c = c[4..];
             return Convert.ToInt16(c, 16);
         }
     }

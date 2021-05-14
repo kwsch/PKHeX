@@ -97,7 +97,7 @@ namespace PKHeX.Core
         {
             var bakName = Util.CleanFileName(bak);
             var fn = Path.GetFileName(path);
-            return fn.EndsWith(bakName) ? fn.Substring(0, fn.Length - bakName.Length) : fn;
+            return fn.EndsWith(bakName) ? fn[..^bakName.Length] : fn;
         }
 
         private void SetAsBlank()

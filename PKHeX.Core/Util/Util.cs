@@ -127,9 +127,8 @@ namespace PKHeX.Core
             for (int i = 0; i < result.Length; i++)
             {
                 var slice = seed.Substring(i * 2, 2);
-                result[i] = Convert.ToByte(slice, 16);
+                result[^(i+1)] = Convert.ToByte(slice, 16);
             }
-            Array.Reverse(result);
             return result;
         }
 
@@ -146,7 +145,7 @@ namespace PKHeX.Core
         private static bool IsHexUpper(char c) => (uint)(c - 'A') <= 5;
         private static bool IsHexLower(char c) => (uint)(c - 'a') <= 5;
         private static bool IsHex(char c) => IsNum(c) || IsHexUpper(c) || IsHexLower(c);
-        private static string TitleCase(string word) => char.ToUpper(word[0]) + word.Substring(1, word.Length - 1).ToLower();
+        private static string TitleCase(string word) => char.ToUpper(word[0]) + word[1..].ToLower();
 
         /// <summary>
         /// Filters the string down to only valid hex characters, returning a new string.
@@ -171,7 +170,7 @@ namespace PKHeX.Core
         private static string TrimFromFirst(string input, char c)
         {
             int index = input.IndexOf(c);
-            return index < 0 ? input : input.Substring(0, index);
+            return index < 0 ? input : input[..index];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

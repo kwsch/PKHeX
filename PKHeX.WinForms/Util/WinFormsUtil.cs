@@ -301,7 +301,7 @@ namespace PKHeX.WinForms
             string pkx = pk.Extension;
             bool allowEncrypted = pk.Format >= 3 && pkx[0] == 'p';
             var genericFilter = $"Decrypted PKM File|*.{pkx}" +
-                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx.Substring(1)}" : string.Empty) +
+                         (allowEncrypted ? $"|Encrypted PKM File|*.e{pkx[1..]}" : string.Empty) +
                          "|Binary File|*.bin" +
                          "|All Files|*.*";
             using var sfd = new SaveFileDialog

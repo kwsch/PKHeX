@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         private static string[][] UnpackList(string[] input)
         {
-            var last = GetEntry(input[input.Length - 1], out var lastIndex);
+            var last = GetEntry(input[^1], out var lastIndex);
             var list = new string[lastIndex+1][];
             list[lastIndex] = last;
             for (int i = 1; i < input.Length - 1; i++)

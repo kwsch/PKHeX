@@ -183,7 +183,7 @@ namespace PKHeX.Core
         {
             // Fix Item Names (Duplicate entries)
             var HM06 = itemlist[425];
-            var HM0 = HM06.Substring(0, HM06.Length - 1); // language ambiguous!
+            var HM0 = HM06[..^1]; // language ambiguous!
             itemlist[426] = $"{HM0}7 (G4)";
             itemlist[427] = $"{HM0}8 (G4)";
             itemlist[456] += " (HG/SS)"; // S.S. Ticket

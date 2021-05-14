@@ -53,11 +53,11 @@ namespace PKHeX.Core
                 var split = line.IndexOf('\t');
                 if (split < 0)
                     continue;
-                var hex = line.Substring(0, split);
+                var hex = line[..split];
                 if (!ulong.TryParse(hex, NumberStyles.HexNumber, CultureInfo.CurrentCulture, out var value))
                     continue;
 
-                var name = line.Substring(split + 1);
+                var name = line[(split + 1)..];
                 if (!names.ContainsKey((uint) value))
                     names[(uint) value] = name;
             }
@@ -69,7 +69,7 @@ namespace PKHeX.Core
             if (text.StartsWith("*"))
                 return text;
             // key:X8, " - ", "####", " ", type
-            return text.Substring(8 + 3 + 4 + 1);
+            return text[(8 + 3 + 4 + 1)..];
         }
 
         private string GetBlockHint(SCBlock z, int i)

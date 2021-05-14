@@ -52,7 +52,7 @@ namespace PKHeX.Core
             if (value is not string input)
                 return base.ConvertFrom(context, culture, value);
             if (input.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                input = input.Substring(2);
+                input = input[2..];
             return ulong.TryParse(input, System.Globalization.NumberStyles.HexNumber, culture, out var result) ? result : 0ul;
         }
     }

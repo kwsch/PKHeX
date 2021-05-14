@@ -28,9 +28,9 @@ namespace PKHeX.Core
             // Gen2 was before split-breed species existed; try to ensure that the egg we try and match to can actually originate in the game.
             // Species must be < 251
             // Form must be 0 (Unown cannot breed).
-            var baseID = chain[chain.Count - 1];
+            var baseID = chain[^1];
             if ((baseID.Species >= Legal.MaxSpeciesID_2 || baseID.Form != 0) && chain.Count != 1)
-                baseID = chain[chain.Count - 2];
+                baseID = chain[^2];
             if (baseID.Form != 0)
                 yield break; // Forms don't exist in Gen2, besides Unown (which can't breed). Nothing can form-change.
 

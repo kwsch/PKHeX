@@ -28,7 +28,7 @@ namespace PKHeX.Core
                 return false;
             }
 
-            var indexString = l.Substring(1);
+            var indexString = l[1..];
             if (int.TryParse(indexString, out index))
                 return true;
 

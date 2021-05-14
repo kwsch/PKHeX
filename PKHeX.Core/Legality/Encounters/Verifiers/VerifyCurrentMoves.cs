@@ -270,7 +270,7 @@ namespace PKHeX.Core
             if (reset != 0)
                 generations = generations.Where(z => z >= reset).ToArray();
 
-            int lastgen = generations.Length == 0 ? 0 : generations[generations.Length - 1];
+            int lastgen = generations.Length == 0 ? 0 : generations[^1];
             foreach (var gen in generations)
             {
                 ParseMovesByGeneration(pkm, res, gen, info, moveInfo, lastgen);

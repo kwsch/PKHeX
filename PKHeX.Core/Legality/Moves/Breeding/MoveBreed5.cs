@@ -103,12 +103,12 @@ namespace PKHeX.Core
 
             var moves = info.Moves;
             if (count == -1)
-                return moves[moves.Length - 1] != 0;
+                return moves[^1] != 0;
 
             var baseMoves = info.Learnset.GetBaseEggMoves(info.Level);
             if (baseMoves.Length < count)
                 return false;
-            if (moves[moves.Length - 1] == 0 && count != baseMoves.Length)
+            if (moves[^1] == 0 && count != baseMoves.Length)
                 return false;
 
             for (int i = count - 1, b = baseMoves.Length - 1; i >= 0; i--, b--)

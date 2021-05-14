@@ -47,7 +47,7 @@ namespace PKHeX.Core
         public static byte[] SetString3(string value, int maxLength, bool jp, int padTo = 0, ushort padWith = 0)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+                value = value[..maxLength]; // Hard cap
             var data = new byte[value.Length + 1]; // +1 for Terminator
             for (int i = 0; i < value.Length; i++)
             {
@@ -61,7 +61,7 @@ namespace PKHeX.Core
                 data[i] = val;
             }
             if (data.Length > 0)
-                data[data.Length - 1] = TerminatorByte;
+                data[^1] = TerminatorByte;
             if (data.Length > maxLength && padTo <= maxLength)
             {
                 // Truncate
@@ -100,7 +100,7 @@ namespace PKHeX.Core
         public static byte[] SetBEString3(string value, int maxLength, int padTo = 0, ushort padWith = TerminatorBigEndian)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+                value = value[..maxLength]; // Hard cap
             var sb = new StringBuilder(value);
             StringConverter.SanitizeString(sb);
             sb.Append(TerminatorBigEndian);

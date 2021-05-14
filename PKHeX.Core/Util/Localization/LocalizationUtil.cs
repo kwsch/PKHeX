@@ -15,7 +15,12 @@ namespace PKHeX.Core
         /// <param name="input">Enumerable of translation definitions in the form "Property = Value".</param>
         private static string[] GetProperties(IEnumerable<string> input)
         {
-            return input.Select(l => l.Substring(0, l.IndexOf(TranslationSplitter, StringComparison.Ordinal))).ToArray();
+            static string AfterSplit(string l)
+            {
+                var split = l.IndexOf(TranslationSplitter, StringComparison.Ordinal);
+                return l[..split];
+            }
+            return input.Select(AfterSplit).ToArray();
         }
 
         private static IEnumerable<string> DumpStrings(Type t)
@@ -64,8 +69,8 @@ namespace PKHeX.Core
                 var index = line.IndexOf(TranslationSplitter, StringComparison.Ordinal);
                 if (index < 0)
                     continue;
-                var prop = line.Substring(0, index);
-                var value = line.Substring(index + TranslationSplitter.Length);
+                var prop = line[..index];
+                var value = line[(index + TranslationSplitter.Length)..];
 
                 try
                 {

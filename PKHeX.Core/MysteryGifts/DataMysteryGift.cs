@@ -36,6 +36,6 @@ namespace PKHeX.Core
             return result;
         }
 
-        public override bool Empty => Data.IsRangeAll((byte)0, 0, Data.Length);
+        public override bool Empty => new ReadOnlySpan<byte>(Data).IsRangeEmpty();
     }
 }

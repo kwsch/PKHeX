@@ -233,7 +233,7 @@ namespace PKHeX.Core
         {
             if (string.IsNullOrEmpty(ext))
                 return prefer;
-            return GetPKMFormatFromExtension(ext[ext.Length - 1], prefer);
+            return GetPKMFormatFromExtension(ext[^1], prefer);
         }
 
         /// <summary>

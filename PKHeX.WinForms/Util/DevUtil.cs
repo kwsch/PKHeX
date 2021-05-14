@@ -148,7 +148,7 @@ namespace PKHeX.WinForms
             var path = Application.StartupPath;
             const string projname = "PKHeX\\";
             var pos = path.LastIndexOf(projname, StringComparison.Ordinal);
-            var str = path.Substring(0, pos + projname.Length);
+            var str = path[..(pos + projname.Length)];
             var coreFolder = Path.Combine(str, "PKHeX.Core", "Resources", "text");
 
             return coreFolder;

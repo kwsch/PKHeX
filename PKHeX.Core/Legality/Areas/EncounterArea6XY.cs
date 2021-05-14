@@ -14,7 +14,7 @@ namespace PKHeX.Core
             var result = new EncounterArea6XY[input.Length + 1];
             for (int i = 0; i < input.Length; i++)
                 result[i] = new EncounterArea6XY(input[i], game);
-            result[result.Length - 1] = safari;
+            result[^1] = safari;
             return result;
         }
 

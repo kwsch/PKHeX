@@ -25,7 +25,7 @@ namespace PKHeX.WinForms
             foreach (var pair in pairs)
             {
                 var split = pair.Name.Split('_');
-                var specName = split[0].Substring(G1OverworldSpawner.FlagPropertyPrefix.Length);
+                var specName = split[0][G1OverworldSpawner.FlagPropertyPrefix.Length..];
 
                 // convert species name to current localization language
                 int species = SpeciesName.GetSpeciesID(specName);

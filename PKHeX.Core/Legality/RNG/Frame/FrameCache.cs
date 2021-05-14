@@ -42,7 +42,7 @@ namespace PKHeX.Core
             get
             {
                 while (index >= Seeds.Count)
-                    Add(Advance(Seeds[Seeds.Count - 1]));
+                    Add(Advance(Seeds[^1]));
                 return Values[index];
             }
         }
@@ -55,7 +55,7 @@ namespace PKHeX.Core
         public uint GetSeed(int index)
         {
             while (index >= Seeds.Count)
-                Add(Advance(Seeds[Seeds.Count - 1]));
+                Add(Advance(Seeds[^1]));
             return Seeds[index];
         }
     }

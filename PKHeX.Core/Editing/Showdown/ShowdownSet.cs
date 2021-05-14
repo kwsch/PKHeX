@@ -361,7 +361,7 @@ namespace PKHeX.Core
             if (first.Contains(" @ "))
             {
                 string[] pieces = first.Split(ItemSplit, StringSplitOptions.None);
-                string itemName = pieces[pieces.Length - 1].Trim();
+                string itemName = pieces[^1].Trim();
 
                 ParseItemName(itemName);
                 ParseFirstLineNoItem(pieces[0]);
@@ -399,8 +399,8 @@ namespace PKHeX.Core
             // Gender Detection
             if (line.EndsWith("(M)") || line.EndsWith("(F)"))
             {
-                Gender = line[line.Length - 2].ToString();
-                line = line.Substring(0, line.Length - 3);
+                Gender = line[^2].ToString();
+                line = line[0..^3];
             }
             else // Meowstic Edge Case with no gender provided
             {
@@ -424,7 +424,7 @@ namespace PKHeX.Core
             if (speciesLine.EndsWith(Gmax))
             {
                 CanGigantamax = true;
-                speciesLine = speciesLine.Substring(0, speciesLine.Length - Gmax.Length);
+                speciesLine = speciesLine[..^Gmax.Length];
             }
 
             if ((Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine)) >= 0) // success, nothing else!
@@ -435,8 +435,8 @@ namespace PKHeX.Core
             if (end < 0)
                 return false;
 
-            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine.Substring(0, end));
-            FormName = speciesLine.Substring(end + 1);
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+            FormName = speciesLine[(end + 1)..];
 
             if (Species >= 0)
                 return true;
@@ -448,7 +448,7 @@ namespace PKHeX.Core
                 if (!speciesLine.StartsWith(sn.Replace("♂", "-M").Replace("♀", "-F")))
                     continue;
                 Species = e;
-                FormName = speciesLine.Substring(sn.Length);
+                FormName = speciesLine[sn.Length..];
                 return true;
             }
 
@@ -456,8 +456,8 @@ namespace PKHeX.Core
             end = speciesLine.LastIndexOf('-', Math.Max(0, end - 1));
             if (end < 0)
                 return false;
-            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine.Substring(0, end));
-            FormName = speciesLine.Substring(end + 1);
+            Species = StringUtil.FindIndexIgnoreCase(Strings.specieslist, speciesLine[..end]);
+            FormName = speciesLine[(end + 1)..];
 
             return Species >= 0;
         }
@@ -468,15 +468,15 @@ namespace PKHeX.Core
             string n1, n2;
             if (index > 1) // correct format
             {
-                n1 = line.Substring(0, index).Trim();
-                n2 = line.Substring(index).Trim();
+                n1 = line[..index].Trim();
+                n2 = line[index..].Trim();
                 n2 = RemoveAll(n2, ParenJunk); // Trim out excess data
             }
             else // nickname first (manually created set, incorrect)
             {
                 int end = line.IndexOf(')');
                 n2 = line.Substring(index + 1, end - 1);
-                n1 = end < line.Length - 2 ? line.Substring(end + 2) : n2;
+                n1 = end < line.Length - 2 ? line[(end + 2)..] : n2;
             }
 
             if (ParseSpeciesForm(n2))
@@ -493,7 +493,7 @@ namespace PKHeX.Core
         private string ParseLineMove(string line)
         {
             const int hiddenPower = 237;
-            string moveString = line.Substring(line[1] == ' ' ? 2 : 1).Split('/')[0].Trim();
+            string moveString = line[(line[1] == ' ' ? 2 : 1)..].Split('/')[0].Trim();
             if (!moveString.StartsWith(Strings.Move[hiddenPower])) // Hidden Power
                 return moveString; // regular move
 
@@ -501,7 +501,7 @@ namespace PKHeX.Core
                 return Strings.Move[hiddenPower];
 
             // Defined Hidden Power
-            string type = moveString.Substring(13);
+            string type = moveString[13..];
             type = RemoveAll(type, ParenJunk); // Trim out excess data
             int hpVal = StringUtil.FindIndexIgnoreCase(Strings.types, type) - 1; // Get HP Type
 

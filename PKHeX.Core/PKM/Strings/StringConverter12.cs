@@ -104,7 +104,7 @@ namespace PKHeX.Core
                 return new[] { G1TradeOTCode, G1TerminatorCode };
 
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+                value = value[..maxLength]; // Hard cap
 
             var capacity = Math.Max(value.Length, padTo);
             var arr = new List<byte>(capacity);

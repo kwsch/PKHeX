@@ -57,7 +57,7 @@ namespace PKHeX.Core
             var p1 = new string[Types.Length + 2][];
             Array.Copy(p, 0, p1, 1, p.Length);
             p1[0] = any;
-            p1[p1.Length - 1] = all;
+            p1[^1] = all;
 
             return p1;
         }
@@ -513,7 +513,7 @@ namespace PKHeX.Core
                 default:
                     return ModifyResult.Error;
             }
-            static byte[] ConvertToBytes(string str) => str.Substring(CONST_BYTES.Length).Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
+            static byte[] ConvertToBytes(string str) => str[CONST_BYTES.Length..].Split(',').Select(z => Convert.ToByte(z.Trim(), 16)).ToArray();
         }
 
         /// <summary>

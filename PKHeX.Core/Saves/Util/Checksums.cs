@@ -121,7 +121,7 @@ namespace PKHeX.Core
             while ((data.Length & ~1) != 0)
             {
                 chk += BigEndian.ToUInt16(data);
-                data = data.Slice(2);
+                data = data[2..];
             }
             return (uint)(chk << 16 | (ushort)(0xF004u - chk));
         }

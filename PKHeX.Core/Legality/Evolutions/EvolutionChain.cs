@@ -212,7 +212,7 @@ namespace PKHeX.Core
         private static void CheckLastEncounterRemoval(IEncounterable enc, IReadOnlyList<EvoCriteria> chain)
         {
             // Last entry from chain is removed, turn next entry into the encountered Pokémon
-            var last = chain[chain.Count - 1];
+            var last = chain[^1];
             last.MinLevel = enc.LevelMin;
             last.RequiresLvlUp = false;
 

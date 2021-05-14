@@ -91,7 +91,7 @@ namespace PKHeX.Core
         public override byte[] SetString(string value, int maxLength, int PadToSize = 0, ushort PadWith = 0)
         {
             if (value.Length > maxLength)
-                value = value.Substring(0, maxLength); // Hard cap
+                value = value[..maxLength]; // Hard cap
             string temp = value
                 .PadRight(value.Length + 1, (char)0) // Null Terminator
                 .PadRight(PadToSize, (char)PadWith); // Padding

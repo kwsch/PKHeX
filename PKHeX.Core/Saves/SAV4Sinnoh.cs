@@ -49,7 +49,7 @@ namespace PKHeX.Core
         {
             const int maxlen = 8;
             if (value.Length > maxlen)
-                value = value.Substring(0, maxlen); // Hard cap
+                value = value[..maxlen]; // Hard cap
             int offset = GetBoxNameOffset(box);
             var str = SetString(value, maxlen);
             SetData(Storage, str, offset);

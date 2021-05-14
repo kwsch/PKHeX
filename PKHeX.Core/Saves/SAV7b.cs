@@ -11,7 +11,7 @@ namespace PKHeX.Core
     {
         protected internal override string ShortSummary => $"{OT} ({Version}) - {Blocks.Played.LastSavedTime}";
         public override string Extension => ".bin";
-        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[f.Length - 1] == '7').ToArray();
+        public override IReadOnlyList<string> PKMExtensions => PKM.Extensions.Where(f => f[1] == 'b' && f[^1] == '7').ToArray();
 
         public override Type PKMType => typeof(PB7);
         public override PKM BlankPKM => new PB7();

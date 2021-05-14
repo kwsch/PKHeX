@@ -44,8 +44,9 @@ namespace PKHeX.WinForms.Controls
 
             // don't grab sprite of pkm, no gender specific cries
             var res = SpriteName.GetResourceStringSprite(pk.Species, pk.Form, 0, 0, format);
-            return res.Replace('_', '-') // people like - instead of _ file names ;)
-                .Substring(1); // skip leading underscore
+
+            // people like - instead of _ file names ;)
+            return res.Replace('_', '-')[1..]; // skip leading underscore
         }
     }
 }

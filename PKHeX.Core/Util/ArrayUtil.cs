@@ -8,54 +8,21 @@ namespace PKHeX.Core
     /// </summary>
     public static class ArrayUtil
     {
-        public static bool IsRangeAll<T>(this T[] data, T value, int offset, int length) where T : IEquatable<T>
+        public static bool IsRangeEmpty(this ReadOnlySpan<byte> data, byte value = 0)
         {
-            int start = offset + length - 1;
-            int end = offset;
-            for (int i = start; i >= end; i--)
+            for (int i = data.Length - 1; i >= 0; i--)
             {
-                if (!data[i].Equals(value))
+                if (data[i] != value)
                     return false;
             }
-
             return true;
         }
 
-        public static byte[] Truncate(byte[] data, int newSize)
-        {
-            Array.Resize(ref data, newSize);
-            return data;
-        }
-
-        public static byte[] Slice(this byte[] src, int offset, int length)
-        {
-            byte[] data = new byte[length];
-            Buffer.BlockCopy(src, offset, data, 0, data.Length);
-            return data;
-        }
-
-        public static byte[] SliceEnd(this byte[] src, int offset)
-        {
-            int length = src.Length - offset;
-            byte[] data = new byte[length];
-            Buffer.BlockCopy(src, offset, data, 0, data.Length);
-            return data;
-        }
-
-        public static T[] Slice<T>(this T[] src, int offset, int length)
-        {
-            var data = new T[length];
-            Array.Copy(src, offset, data, 0, data.Length);
-            return data;
-        }
-
-        public static T[] SliceEnd<T>(this T[] src, int offset)
-        {
-            int length = src.Length - offset;
-            var data = new T[length];
-            Array.Copy(src, offset, data, 0, data.Length);
-            return data;
-        }
+        public static byte[] Truncate(byte[] data, int newSize) => data.AsSpan(0, newSize).ToArray();
+        public static byte[] Slice(this byte[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
+        public static byte[] SliceEnd(this byte[] src, int offset) => src.AsSpan(offset).ToArray();
+        public static T[] Slice<T>(this T[] src, int offset, int length) => src.AsSpan(offset, length).ToArray();
+        public static T[] SliceEnd<T>(this T[] src, int offset) => src.AsSpan(offset).ToArray();
 
         public static bool WithinRange(int value, int min, int max) => min <= value && value < max;
 

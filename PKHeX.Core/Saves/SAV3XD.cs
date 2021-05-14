@@ -265,7 +265,7 @@ namespace PKHeX.Core
         public override void SetBoxName(int box, string value)
         {
             if (value.Length > 8)
-                value = value.Substring(0, 8); // Hard cap
+                value = value[..8]; // Hard cap
             SetString(value, 8).CopyTo(Data, GetBoxInfoOffset(box));
         }
 

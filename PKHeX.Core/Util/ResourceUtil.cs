@@ -147,9 +147,8 @@ namespace PKHeX.Core
                 var line = raw[i];
                 if (line.Length == 0)
                     continue;
-                var last = line.Length - 1;
-                if (line[last] == '\r')
-                    raw[i] = line.Substring(0, last);
+                if (line[^1] == '\r')
+                    raw[i] = line[..^1];
             }
 
             lock (getStringListLoadLock) // Make sure only one thread can write to the cache

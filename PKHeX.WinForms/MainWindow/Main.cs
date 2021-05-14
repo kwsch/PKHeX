@@ -489,7 +489,7 @@ namespace PKHeX.WinForms
             { WinFormsUtil.Alert(MsgSimulatorFailClipboard); return; }
 
             if (Set.Nickname.Length > C_SAV.SAV.NickLength)
-                Set.Nickname = Set.Nickname.Substring(0, C_SAV.SAV.NickLength);
+                Set.Nickname = Set.Nickname[..C_SAV.SAV.NickLength];
 
             if (DialogResult.Yes != WinFormsUtil.Prompt(MessageBoxButtons.YesNo, MsgSimulatorLoad, Set.Text))
                 return;
@@ -914,7 +914,7 @@ namespace PKHeX.WinForms
 
             // Set the culture (makes it easy to pass language to other forms)
             Settings.Startup.Language = CurrentLanguage;
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(CurrentLanguage.Substring(0, 2));
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(CurrentLanguage[..2]);
             Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
 
             Menu_Options.DropDown.Close();

@@ -30,7 +30,7 @@ namespace PKHeX.Core
 
         protected void ReloadBattleTeams()
         {
-            var demo = this is SAV7SM && Data.IsRangeAll((byte)0, BoxLayout.Offset, 0x4C4); // up to Battle Box values
+            var demo = this is SAV7SM && new ReadOnlySpan<byte>(Data, BoxLayout.Offset, 0x4C4).IsRangeEmpty(); // up to Battle Box values
             if (demo || !State.Exportable)
             {
                 BoxLayout.ClearBattleTeams();

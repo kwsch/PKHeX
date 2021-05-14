@@ -20,7 +20,7 @@ namespace PKHeX.Core
             for (int i = 1; i < inputCSV.Count; i++)
             {
                 var line = inputCSV[i];
-                var val = line.Substring(0, 3);
+                var val = line[..3];
                 var text = StringUtil.GetNthEntry(line, index, 4);
                 var item = new ComboItem(text, Convert.ToInt32(val));
                 arr.Add(item);

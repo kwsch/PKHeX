@@ -83,8 +83,8 @@ namespace PKHeX.Core
 
                 // Trim off Value summary if present
                 var space = fn.IndexOf(' ');
-                if (space >= 0)
-                    fn = fn.Substring(0, space);
+                if (space != -1)
+                    fn = fn[..space];
 
                 var hex = Util.GetHexValue(fn);
                 try

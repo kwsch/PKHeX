@@ -62,7 +62,7 @@ namespace PKHeX.Core
             if (nth != 1)
                 start = line.IndexOfNth(separator, nth - 1, start + 1);
             var end = line.IndexOfNth(separator, 1, start + 1);
-            return end < 0 ? line.Substring(start + 1) : line.Substring(start + 1, end - start - 1);
+            return end == -1 ? line[(start + 1)..] : line[(start + 1)..end];
         }
 
         private static int IndexOfNth(this string s, char t, int n, int start)

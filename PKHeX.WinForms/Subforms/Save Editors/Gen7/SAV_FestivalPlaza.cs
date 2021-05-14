@@ -449,7 +449,7 @@ namespace PKHeX.WinForms
             int maxlen = sender == TB_FacilityID ? 12 << 1 : 4 << 1;
             if (t.Length > maxlen)
             {
-                t = t.Substring(0, maxlen);
+                t = t[..maxlen];
                 editing = true;
                 ((TextBox)sender).Text = t;
                 editing = false;

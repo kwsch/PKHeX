@@ -22,8 +22,8 @@ namespace PKHeX.Core
                 var index = line.IndexOf('\t');
                 if (index < 0)
                     continue;
-                var name = line.Substring(0, index);
-                var text = line.Substring(index + 1);
+                var name = line[..index];
+                var text = line[(index + 1)..];
                 RibbonNames[name] = text;
             }
         }
