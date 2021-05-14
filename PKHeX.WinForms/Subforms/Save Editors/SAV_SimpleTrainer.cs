@@ -153,11 +153,11 @@ namespace PKHeX.WinForms
                 cba[i].Checked = (badgeval & 1 << i) != 0;
             }
 
-            Util.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
+            DateUtil.GetDateTime2000(SAV.SecondsToStart, out var date, out var time);
             CAL_AdventureStartDate.Value = date;
             CAL_AdventureStartTime.Value = time;
 
-            Util.GetDateTime2000(SAV.SecondsToFame, out date, out time);
+            DateUtil.GetDateTime2000(SAV.SecondsToFame, out date, out time);
             CAL_HoFDate.Value = date;
             CAL_HoFTime.Value = time;
 
@@ -258,8 +258,8 @@ namespace PKHeX.WinForms
                 s.BattleSubway.BP = (ushort)Math.Min(Util.ToUInt32(MT_Coins.Text), SAV.MaxCoins);
             }
 
-            SAV.SecondsToStart = (uint)Util.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
-            SAV.SecondsToFame = (uint)Util.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
+            SAV.SecondsToStart = (uint)DateUtil.GetSecondsFrom2000(CAL_AdventureStartDate.Value, CAL_AdventureStartTime.Value);
+            SAV.SecondsToFame = (uint)DateUtil.GetSecondsFrom2000(CAL_HoFDate.Value, CAL_HoFTime.Value);
 
             Origin.CopyChangesFrom(SAV);
             Close();

@@ -106,7 +106,7 @@ namespace PKHeX.Core
             get
             {
                 // Check to see if date is valid
-                if (!Util.IsDateValid(Year, Month, Day))
+                if (!DateUtil.IsDateValid(Year, Month, Day))
                     return null;
 
                 return new DateTime(Year, Month, Day);

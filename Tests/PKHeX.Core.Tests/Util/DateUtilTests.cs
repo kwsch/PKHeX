@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using PKHeX.Core;
 using Xunit;
 
 namespace PKHeX.Tests.Util
@@ -10,7 +11,7 @@ namespace PKHeX.Tests.Util
         [InlineData(2001, 1, 31)]
         public void RecognizesCorrectDates(int year, int month, int day)
         {
-            Assert.True(Core.Util.IsDateValid(year, month, day), $"Failed to recognize {year}/{month}/{day}");
+            Assert.True(DateUtil.IsDateValid(year, month, day), $"Failed to recognize {year}/{month}/{day}");
         }
 
         [Theory]
@@ -28,13 +29,13 @@ namespace PKHeX.Tests.Util
         [InlineData(2016, 12, 31)]
         public void RecognizesValidMonthBoundaries(int year, int month, int day)
         {
-            Assert.True(Core.Util.IsDateValid(year, month, day), $"Incorrect month boundary for {year}/{month}/{day}");
+            Assert.True(DateUtil.IsDateValid(year, month, day), $"Incorrect month boundary for {year}/{month}/{day}");
         }
 
         [Fact]
         public void RecognizeCorrectLeapYear()
         {
-            Assert.True(Core.Util.IsDateValid(2004, 2, 29));
+            Assert.True(DateUtil.IsDateValid(2004, 2, 29));
         }
 
         [Theory]
@@ -50,7 +51,7 @@ namespace PKHeX.Tests.Util
         [InlineData(uint.MaxValue, uint.MaxValue, uint.MaxValue, false, "Failed with uint.MaxValue, negative")]
         public void CheckDate(uint year, uint month, uint day, bool cmp, string because)
         {
-            var result = Core.Util.IsDateValid(year, month, day);
+            var result = DateUtil.IsDateValid(year, month, day);
             result.Should().Be(cmp, because);
         }
     }

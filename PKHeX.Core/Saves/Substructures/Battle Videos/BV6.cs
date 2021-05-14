@@ -133,7 +133,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!Util.IsDateValid(MatchYear, MatchMonth, MatchDay))
+                if (!DateUtil.IsDateValid(MatchYear, MatchMonth, MatchDay))
                     return null;
                 return new DateTime(MatchYear, MatchMonth, MatchDay, MatchHour, MatchMinute, MatchSecond);
             }
@@ -159,7 +159,7 @@ namespace PKHeX.Core
         {
             get
             {
-                if (!Util.IsDateValid(UploadYear, UploadMonth, UploadDay))
+                if (!DateUtil.IsDateValid(UploadYear, UploadMonth, UploadDay))
                     return null;
                 return new DateTime(UploadYear, UploadMonth, UploadDay, UploadHour, UploadMinute, UploadSecond);
             }

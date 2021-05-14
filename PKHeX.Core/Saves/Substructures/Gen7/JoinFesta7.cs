@@ -59,7 +59,7 @@ namespace PKHeX.Core
 
         public DateTime? FestaDate
         {
-            get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && Util.IsDateValid(FestaYear, FestaMonth, FestaDay)
+            get => FestaYear >= 0 && FestaMonth > 0 && FestaDay > 0 && FestaHour >= 0 && FestaMinute >= 0 && FestaSecond >= 0 && DateUtil.IsDateValid(FestaYear, FestaMonth, FestaDay)
                 ? new DateTime(FestaYear, FestaMonth, FestaDay, FestaHour, FestaMinute, FestaSecond)
                 : (DateTime?)null;
             set
