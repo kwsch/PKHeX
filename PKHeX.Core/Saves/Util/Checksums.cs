@@ -9,28 +9,20 @@ namespace PKHeX.Core
     {
         /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Starting point for checksum</param>
-        /// <param name="length"></param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16_CCITT(byte[] data, int start, int length)
+        public static ushort CRC16_CCITT(ReadOnlySpan<byte> data)
         {
             byte top = 0xFF;
             byte bot = 0xFF;
-            int end = start + length;
-            for (int i = start; i < end; i++)
+            foreach (var b in data)
             {
-                var x = data[i] ^ top;
+                var x = b ^ top;
                 x ^= (x >> 4);
                 top = (byte)(bot ^ (x >> 3) ^ (x << 4));
                 bot = (byte)(x ^ (x << 5));
             }
             return (ushort)(top << 8 | bot);
         }
-
-        /// <summary>Calculates the CRC16-CCITT checksum over an input byte array.</summary>
-        /// <param name="data">Input byte array</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16_CCITT(byte[] data) => CRC16_CCITT(data, 0, data.Length);
 
         private static readonly ushort[] crc16 =
         {
@@ -70,31 +62,23 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length, ushort initial)
+        private static ushort CRC16(ReadOnlySpan<byte> data, ushort initial)
         {
             ushort chk = initial;
-            for (var i = start; i < start + length; i++)
-                chk = (ushort)(crc16[(data[i] ^ chk) & 0xFF] ^ chk >> 8);
+            foreach (var b in data)
+                chk = (ushort)(crc16[(b ^ chk) & 0xFF] ^ chk >> 8);
             return chk;
         }
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16(byte[] data, int start, int length) => (ushort)~CRC16(data, start, length, unchecked((ushort)~0));
+        public static ushort CRC16Invert(ReadOnlySpan<byte> data) => (ushort)~CRC16(data, unchecked((ushort)~0));
 
         /// <summary>Calculates the 16bit checksum over an input byte array.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
-        /// <returns>Checksum</returns>
-        public static ushort CRC16NoInvert(byte[] data, int start, int length) => CRC16(data, start, length, 0);
+        public static ushort CRC16NoInvert(ReadOnlySpan<byte> data) => CRC16(data, 0);
 
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GBA save files.</summary>
         /// <param name="data">Input byte array</param>
@@ -112,15 +96,13 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 16bit checksum over an input byte array. Used in N64 Stadium save files.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="length">Length of array to checksum</param>
         /// <param name="initial">Initial value for checksum</param>
         /// <returns>Checksum</returns>
-        public static ushort CheckSum16(byte[] data, int start, int length, ushort initial = 0)
+        public static ushort CheckSum16(ReadOnlySpan<byte> data, ushort initial = 0)
         {
             ushort acc = initial;
-            for (int i = 0; i < length; i++)
-                acc += data[start + i];
+            foreach (byte b in data)
+                acc += b;
             return acc;
         }
 
@@ -132,15 +114,16 @@ namespace PKHeX.Core
 
         /// <summary>Calculates the 32bit checksum over an input byte array. Used in GC R/S BOX.</summary>
         /// <param name="data">Input byte array</param>
-        /// <param name="start">Offset to start checksum at</param>
-        /// <param name="end">Exclusive end offset to finish the checksum at</param>
         /// <returns>Checksum</returns>
-        public static uint CheckSum16BigInvert(byte[] data, int start, int end)
+        public static uint CheckSum16BigInvert(ReadOnlySpan<byte> data)
         {
             ushort chk = 0; // initial value
-            for (int i = start; i < end; i += 2)
-                chk += BigEndian.ToUInt16(data, i);
-            return (uint)(chk << 16 | (ushort)(0xF004 - chk));
+            while ((data.Length & ~1) != 0)
+            {
+                chk += BigEndian.ToUInt16(data);
+                data = data.Slice(2);
+            }
+            return (uint)(chk << 16 | (ushort)(0xF004u - chk));
         }
     }
 }

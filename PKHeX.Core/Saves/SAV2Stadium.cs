@@ -73,7 +73,7 @@ namespace PKHeX.Core
         {
             var boxOfs = GetBoxOffset(i) - ListHeaderSizeBox;
             var size = BoxSize - 2;
-            var chk = Checksums.CheckSum16(Data, boxOfs, size);
+            var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
             var actual = BigEndian.ToUInt16(Data, boxOfs + size);
             return chk == actual;
         }
@@ -109,7 +109,7 @@ namespace PKHeX.Core
         {
             var boxOfs = GetBoxOffset(i) - ListHeaderSizeBox;
             var size = BoxSize - 2;
-            var chk = Checksums.CheckSum16(Data, boxOfs, size);
+            var chk = Checksums.CheckSum16(new ReadOnlySpan<byte>(Data, boxOfs, size));
             BigEndian.GetBytes(chk).CopyTo(Data, boxOfs + size);
         }
 

@@ -50,19 +50,19 @@ namespace PKHeX.Core
     public sealed class BlockInfo6 : BlockInfo3DS
     {
         public BlockInfo6(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(data, Offset, Length);
+        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, Offset, Length));
     }
 
     public sealed class BlockInfo7 : BlockInfo3DS
     {
         public BlockInfo7(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16(data, Offset, Length);
+        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16Invert(new ReadOnlySpan<byte>(data, Offset, Length));
     }
 
     public sealed class BlockInfo7b : BlockInfo3DS
     {
         public BlockInfo7b(int bo, uint id, int ofs, int len) : base(bo, id, ofs, len) { }
-        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16NoInvert(data, Offset, Length);
+        protected override ushort GetChecksum(byte[] data) => Checksums.CRC16NoInvert(new ReadOnlySpan<byte>(data, Offset, Length));
     }
 
     public static class BlockInfoBEEFUtil

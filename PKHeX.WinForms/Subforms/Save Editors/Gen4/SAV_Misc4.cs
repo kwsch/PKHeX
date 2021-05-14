@@ -472,13 +472,13 @@ namespace PKHeX.WinForms
                 bool f = false;
                 for (int i = 0; i < 2; i++, ofsHallStat += 0x14)
                 {
-                    var h = BitConverter.ToInt32(SAV.Data, ofsHallStat);
+                    var h = BitConverter.ToInt32(SAV.General, ofsHallStat);
                     if (h == -1) continue;
                     for (int j = 0; j < 0x20; j++)
                     {
                         for (int k = 0, a = j + 0x20 << 12; k < 2; k++, a += 0x40000)
                         {
-                            if (h != BitConverter.ToInt32(SAV.Data, a) || BitConverter.ToInt16(SAV.Data, a + 0xBA8) != 0xBA0)
+                            if (h != BitConverter.ToInt32(SAV.General, a) || BitConverter.ToInt16(SAV.General, a + 0xBA8) != 0xBA0)
                                 continue;
 
                             f = true;
@@ -507,7 +507,11 @@ namespace PKHeX.WinForms
 
             // Fill List
             CB_Species.InitializeBinding();
-            CB_Species.DataSource = new BindingSource(GameInfo.SpeciesDataSource.Skip(1).Where(id => id.Value <= SAV.MaxSpeciesID).ToList(), null);
+
+            var speciesList = GameInfo.SpeciesDataSource.ToList();
+            speciesList.RemoveAt(0);
+            speciesList.RemoveAll(z => z.Value > SAV.MaxSpeciesID);
+            CB_Species.DataSource = new BindingSource(speciesList, null);
 
             editing = false;
             CB_Stats1.SelectedIndex = 0;
@@ -525,7 +529,7 @@ namespace PKHeX.WinForms
             }
 
             if (HallStatUpdated)
-                BitConverter.GetBytes(Checksums.CRC16_CCITT(SAV.Data, ofsHallStat, 0xBAE)).CopyTo(SAV.Data, ofsHallStat + 0xBAE);
+                BitConverter.GetBytes(Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(SAV.General, ofsHallStat, 0xBAE))).CopyTo(SAV.General, ofsHallStat + 0xBAE);
         }
 
         private void SetPrints()
@@ -746,7 +750,7 @@ namespace PKHeX.WinForms
 
             if (ofsHallStat > 0)
             {
-                ushort v = BitConverter.ToUInt16(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+                ushort v = BitConverter.ToUInt16(SAV.General, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
                 NUD_HallStreaks.Value = v > 9999 ? 9999 : v;
             }
         }
@@ -774,7 +778,7 @@ namespace PKHeX.WinForms
         {
             if (editing || ofsHallStat < 0)
                 return;
-            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.Data, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
+            BitConverter.GetBytes((ushort)NUD_HallStreaks.Value).CopyTo(SAV.General, ofsHallStat + 4 + (0x3DE * CB_Stats2.SelectedIndex) + (species << 1));
             HallStatUpdated = true;
         }
         #endregion

@@ -22,7 +22,7 @@ namespace PKHeX.Core
             Checksum = GetCalculatedChecksum(); // [app,chk)
         }
 
-        private ushort GetCalculatedChecksum() => Checksums.CRC16_CCITT(Data, Offset + 0x200, 0xC48 - 4 - 0x200); // [app,chk)
+        private ushort GetCalculatedChecksum() => Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(Data, Offset + 0x200, 0xC48 - 4 - 0x200)); // [app,chk)
 
         private int GetChecksumOffset() => Offset + 0xC48 - 4;
 

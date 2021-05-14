@@ -318,7 +318,8 @@ namespace PKHeX.Core
 
             // Verify first checksum
             const int offset = 0x2000;
-            var chk = Checksums.CheckSum16BigInvert(data, offset + 4, offset + 0x1FFC);
+            var span = new ReadOnlySpan<byte>(data, offset + 4, 0x1FF8);
+            var chk = Checksums.CheckSum16BigInvert(span);
             var actual = BigEndian.ToUInt32(data, offset);
             return chk == actual ? RSBOX : Invalid;
         }
@@ -417,11 +418,11 @@ namespace PKHeX.Core
 
             // check the checksum block validity; nobody would normally modify this region
             ushort chk1 = BitConverter.ToUInt16(data, SIZE_G5BW - 0x100 + 0x8C + 0xE);
-            ushort actual1 = Checksums.CRC16_CCITT(data, SIZE_G5BW - 0x100, 0x8C);
+            ushort actual1 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5BW - 0x100, 0x8C));
             if (chk1 == actual1)
                 return BW;
             ushort chk2 = BitConverter.ToUInt16(data, SIZE_G5B2W2 - 0x100 + 0x94 + 0xE);
-            ushort actual2 = Checksums.CRC16_CCITT(data, SIZE_G5B2W2 - 0x100, 0x94);
+            ushort actual2 = Checksums.CRC16_CCITT(new ReadOnlySpan<byte>(data, SIZE_G5B2W2 - 0x100, 0x94));
             if (chk2 == actual2)
                 return B2W2;
             return Invalid;

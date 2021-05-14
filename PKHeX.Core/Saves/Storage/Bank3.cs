@@ -12,7 +12,7 @@ namespace PKHeX.Core
         public override PersonalTable Personal => PersonalTable.RS;
         public override IReadOnlyList<ushort> HeldItems => Legal.HeldItems_RS;
         protected override SaveFile CloneInternal() => new Bank3((byte[])Data.Clone());
-        public override string PlayTimeString => Checksums.CRC16(Data, 0, Data.Length).ToString("X4");
+        public override string PlayTimeString => Checksums.CRC16Invert(Data).ToString("X4");
         protected internal override string ShortSummary => PlayTimeString;
         public override string Extension => ".gst";
 
