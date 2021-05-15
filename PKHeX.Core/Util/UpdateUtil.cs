@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 
 namespace PKHeX.Core
 {
     public static class UpdateUtil
     {
-        private static readonly Regex LatestGitTagRegex = new("\\\"tag_name\"\\s*\\:\\s*\\\"([0-9]+\\.[0-9]+\\.[0-9]+)\\\""); // Match `"tag_name": "18.12.02"`. Group 1 is `18.12.02`
-
         /// <summary>
         /// Gets the latest version of PKHeX according to the Github API
         /// </summary>
@@ -18,12 +15,20 @@ namespace PKHeX.Core
             if (responseJson is null)
                 return null;
 
-            // Using a regex to get the tag to avoid importing an entire JSON parsing library
-            var tagMatch = LatestGitTagRegex.Match(responseJson);
-            if (!tagMatch.Success)
+            // Parse it manually; no need to parse the entire json to object.
+            const string tag = "tag_name";
+            var index = responseJson.IndexOf(tag, StringComparison.Ordinal);
+            if (index == -1)
                 return null;
 
-            var tagString = tagMatch.Groups[1].Value;
+            var first = responseJson.IndexOf('"', index + tag.Length + 1) + 1;
+            if (first == 0)
+                return null;
+            var second = responseJson.IndexOf('"', first);
+            if (second == -1)
+                return null;
+
+            var tagString = responseJson[first..second];
             return !Version.TryParse(tagString, out var latestVersion) ? null : latestVersion;
         }
     }
