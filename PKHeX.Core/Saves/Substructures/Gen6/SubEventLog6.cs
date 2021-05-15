@@ -141,7 +141,13 @@ namespace PKHeX.Core
         // u32 SUBE @ 0x2F4
 
         // 0x2F8
-        // u64[27]
+        // u64[27] Ending Scroll ec-specform data -- player pkm used & NPC used during storyline battles
+        //  u32 ec
+        //  u32 species:10
+        //  u32 form:5
+        //  u32 gender:2
+        //  u32 isShiny:1
+        //  u32 unused:14
         // u8[16]
         // u8[32] unused?
     }
